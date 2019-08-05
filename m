@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1EFD817A4
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 12:56:17 +0200 (CEST)
-Received: from localhost ([::1]:52636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68198817CA
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 13:03:41 +0200 (CEST)
+Received: from localhost ([::1]:52666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huaf2-0005T0-VT
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 06:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49958)
+	id 1huamC-0007ib-Lx
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 07:03:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51297)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tgolembi@redhat.com>) id 1huaeZ-0004xn-Rm
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 06:55:48 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hualX-0007K1-FZ
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 07:03:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tgolembi@redhat.com>) id 1huaeY-0007o6-Ny
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 06:55:47 -0400
-Received: from mail-wm1-f42.google.com ([209.85.128.42]:36150)
+ (envelope-from <peter.maydell@linaro.org>) id 1hualW-0004S3-HA
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 07:02:59 -0400
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:39385)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tgolembi@redhat.com>) id 1huaeY-0007nT-Gn
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 06:55:46 -0400
-Received: by mail-wm1-f42.google.com with SMTP id g67so68430799wme.1
- for <qemu-devel@nongnu.org>; Mon, 05 Aug 2019 03:55:45 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hualW-0004RY-CC
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 07:02:58 -0400
+Received: by mail-oi1-x234.google.com with SMTP id m202so61709552oig.6
+ for <qemu-devel@nongnu.org>; Mon, 05 Aug 2019 04:02:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=kiD5f4HESIE5SMZ1TAGkyNwLLJDhHZEdMm6vWOAewWs=;
+ b=zJjT0aL5nTqlebCUJHmMH7JQs8WeW/kpZ4yL/ufDdIbn9lUpOmIXJPsiwISEX1EYS1
+ kgTK9utUwp7oI/FNFUubsfHAJn8EWLekq9MI+XQExZCH5s2NhD9tCrjWa42wfuufQXqh
+ Plokf+FKEuj45L6m93W2GDnLDDOIUvJouex5BZSIjQeJudHAI2IcwpTR1hno4FmpXdE6
+ C0c+kp/pJunsf8v9u5reGNk9q/U+yu40F0Wfftw0VnaleqwBkQ3p80WCLOyv1/ij13zi
+ o38b2nl3YPzYz5/cM38JZIenVpc6sbqUnSr2rB4/quSiS1fbPuzjIdzLLLEFfVTKid+Y
+ XGfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=SH3sywiYGik9zV3wlOlcKPjnoZWf8+bGX1xawRu7wt4=;
- b=hH55lMDzIxeO7AFIa+Phl8AffJUXTEfORsx6Noqpgn6d2m2aRi6pU6ZGoU10QG9a4K
- bVpfL2FJbpID4Yohf5es+EfyMvqBrCyhfwchZOL/v/0fdWO8CehwmPZvokv43vpC3JAw
- +jD6zv2mOzNt5gyvTjEjVNP75O4hOlkiXHAeeNe6K97UwSq/1p4KYNSrCdQlWjLdPQpJ
- ykaXVLzbLxcEV+l+xB5ydzLv5jDp+vFyG7aZFjT+VH1+FBmESVIAgr5zpQ2lh+5L/nlk
- puoD4gVm0fx624sikRQA0wo7eygTEMKkjL0Qm4InEfpVs58vH6l9V/NL+q1Ap9ASfral
- 2w9Q==
-X-Gm-Message-State: APjAAAWDLwaWI0anNCe49DglWMTaR54NxZ0JjaxlsskvHs5W9Yl+ahGy
- OA+C+LYhdzv8e/ZCloh8RaZWxw==
-X-Google-Smtp-Source: APXvYqweUtA5LxokYc/MMOMzxqIBflM1jyQuMWus4Cggm3d9gPK2OZe1+WBu9HsjlLQ8M24HwZnWnA==
-X-Received: by 2002:a1c:b706:: with SMTP id h6mr17763793wmf.119.1565002544774; 
- Mon, 05 Aug 2019 03:55:44 -0700 (PDT)
-Received: from auriga.localdomain (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- n12sm87949611wmc.24.2019.08.05.03.55.43
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 05 Aug 2019 03:55:44 -0700 (PDT)
-Date: Mon, 5 Aug 2019 12:58:26 +0200
-From: =?utf-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Message-ID: <20190805105825.bjsz3wg76imjspeb@auriga.localdomain>
-References: <20190802131509.lplyvrbdwiwo2tve@auriga.localdomain>
- <CAMxuvawykqui1GA4ojF5gdPwzOF5ETWnaGMhxyC97FR=HmB7DQ@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kiD5f4HESIE5SMZ1TAGkyNwLLJDhHZEdMm6vWOAewWs=;
+ b=cJOWN6vmz0S6o9jf7yOL5KFjbN/QRLOTO3xaqKKZaJm5ljxhpkFnAzfStwHTjDNxFW
+ 1SsADmT8iFOvDuWriby5X/Pcrgva3KQusJ5WYBvMnOo22iOie4mD35L3h67edlzQl+qu
+ 0K4BE9w+GPBfbCUy8DH3YsGS9lWYDxl29OhMW9/1O+dueRwoxvP9hq+/ZSK7EfzPqkTu
+ 3G9d5vbQ45Cedu5F66nXjMJL3HrbO5X1tbBBbnpi5XuYr9mKXoT+AJfPxt71jIv/2s6P
+ 3WEvZfJSdaXJTsvcO0xdmM5zXjmdrU+syHAMwrKPjYCng+ZG1ekaq30CBFByuZn/x9D0
+ u5CA==
+X-Gm-Message-State: APjAAAXzfuE+Ey8VK2NK20Fl6cMCRjwhMlFX5VocGFPkV2xpmW7M2jUi
+ B4XdXLiDQJCROHrNJAF+p97zumnBTOy3tcIPiHUCfg==
+X-Google-Smtp-Source: APXvYqwLMwV1JZKI72WkzJTlOdCiyOIxCiPcpVMkAo3oc2TQfPoHaLXbgct5FDyWNWl/Z6odWRal5tj47anQ4/4sCOU=
+X-Received: by 2002:a05:6808:d4:: with SMTP id
+ t20mr11122582oic.170.1565002977219; 
+ Mon, 05 Aug 2019 04:02:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMxuvawykqui1GA4ojF5gdPwzOF5ETWnaGMhxyC97FR=HmB7DQ@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.42
-Subject: Re: [Qemu-devel] qemu-ga -- virtio driver version reporting
+References: <BN6PR2201MB1251F757F3129C433E540F9AC6DA0@BN6PR2201MB1251.namprd22.prod.outlook.com>
+In-Reply-To: <BN6PR2201MB1251F757F3129C433E540F9AC6DA0@BN6PR2201MB1251.namprd22.prod.outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 5 Aug 2019 12:02:46 +0100
+Message-ID: <CAFEAcA8NE=hy4a-WuDuKeysi3KOjy8=ybHbLKkvzPM=ELvXBnQ@mail.gmail.com>
+To: Aleksandar Markovic <amarkovic@wavecomp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::234
+Subject: Re: [Qemu-devel] [BUG] gcov support appears to be broken
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,119 +74,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gal Hammer <ghammer@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Aug 03, 2019 at 05:07:09PM +0400, Marc-André Lureau wrote:
-> Hi
-> 
-> On Fri, Aug 2, 2019 at 5:12 PM Tomáš Golembiovský <tgolembi@redhat.com> wrote:
-> >
-> > Hi,
-> >
-> > I would like to add version reporting of Windows virtio drivers to qemu-ga.
-> > Obviously this is specific to Windows as for POSIX systems it corelates with
-> > the version of kernel. I would appreciate your ideas on a few topics.
-> >
-> > Does it make sense to add this information as new (optonal) field to result of
-> > 'guest-get-osinfo'. Or would it be better to add whole new command? I expect
-> 
-> If the information is cheap to retrieve, I think it is fine as part of
-> get-osinfo.
+On Mon, 5 Aug 2019 at 11:39, Aleksandar Markovic <amarkovic@wavecomp.com> w=
+rote:
+>
+> Hello, according to out docs, here is the procedure that should produce c=
+overage report for execution of the complete "make check":
+>
+> #./configure --enable-gcov
+> #make
+> #make check
+> #make coverage-report
+>
+> It seems that first three commands execute as expected. (For example, the=
+re are plenty of files generated by "make check" that would've not been gen=
+erated if "enable-gcov" hadn't been chosen.) However, the last command comp=
+lains about some missing files related to FP support. If those files are ad=
+ded (for example, artificially, using "touch <missing-file"), that it start=
+s complaining about missing some decodetree-generated files. Other kinds of=
+ files are involved too.
+>
+> It would be nice to have coverage support working. Please somebody take a=
+ look, or explain if I make a mistake or misunderstood our gcov support.
 
-Hmm, good point. Actually fetching the list takes several seconds. A
-special command may be preferable.
+Cc'ing Alex who's probably the closest we have to a gcov expert.
 
-> 
-> > the result to look something like this:
-> >
-> >     "component-versions": [
-> >         {
-> >             "name": "VirtIO Balloon Driver",
-> >             "version": "03/10/2019,62.77.104.16900"
-> >         },
-> >         {
-> >             "name": "QEMU PVPanic Device",
-> >             "version": "06/11/2018,62.76.104.15400"
-> >         },
-> >         ...
-> >     ]
-> 
-> I am not a Windows expert, but I can imagine drivers have a more
-> uniquely identifiable ID than a human string.
+(make/make check of a --enable-gcov build is in the set of things our
+Travis CI setup runs, so we do defend that part against regressions.)
 
-I am not an expert either, but I don't see any unique identifier. Don't
-see anything like that in INF files nor in API.
-
-But another option would be to list the actual hardware and match it by
-vendor IDs. Then list the driver name and version that is assigned to
-the hardware. The up-side of this would be that one would also notice
-situation where there is unsuitable driver (e.g. generic display driver
-on QXL device).
-
-> 
-> >
-> > Alternatively we could report all available versions of the specific
-> > driver instead of just the latest. Note that this does not say much
-> > about which version is in use or if a device is available in the
-> > system.
-> 
-> What's the goal of this version reporting btw? to audit the VM? Isn't
-> there other mechanism to keep Windows systems up to date and alert
-> management layers? Perhaps that's Windows business/enterprise
-> solutions that are too expensive though, and we want something more
-> specific to qemu VMs.
-
-The goal is to notify admin when there is old driver in the guest so
-that he/she can update.
-
-The "enterprise" solution you speak of is called Windows Update. The
-problem is however two-fold. Virtio drivers are not yet available
-through Windows Update. While the topic has been on the table for many
-years it is still work-in-progress. But even when we get the drivers
-into Windows Update, there are administrators who have automatic updates
-disabled and prefer to do updates in a controlled manner. 
-
-
-> > I have checked the available drivers and the names quite vary. I guess we'll
-> > need to list and match the complete name and not just some substring (like
-> > "VirtIO"). See the following list:
-> >
-> >     QEMU FWCfg Device
-> >     QEMU PVPanic Device
-> >     QEMU Serial PCI Card
-> >     Red Hat Q35 SM Bus driver
-> >     Red Hat QXL controller
-> >     Red Hat VirtIO Ethernet Adapter
-> >     Red Hat VirtIO SCSI controller
-> >     Red Hat VirtIO SCSI controller
-> >     Red Hat VirtIO SCSI pass-through controller
-> >     VirtIO Balloon Driver
-> >     VirtIO Input Driver
-> >     VirtIO RNG Device
-> >     VirtIO Serial Driver
-> >     VirtIO-Serial Driver
-> >
-> > Is it OK to hardcode the list in qemu-ga source? Is there already any support
-> > for dealing with regexes or tries in qemu source tree?
-> 
-> glib has GRegexp.
-
-Ah, good!
-
-    Tomas
-
-> 
-> >
-> > Any other ideas, concerns?
-> >
-> >     Tomas
-> >
-> > --
-> > Tomáš Golembiovský <tgolembi@redhat.com>
-
--- 
-Tomáš Golembiovský <tgolembi@redhat.com>
+thanks
+-- PMM
 
