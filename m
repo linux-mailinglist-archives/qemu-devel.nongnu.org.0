@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A06817A0
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 12:55:20 +0200 (CEST)
-Received: from localhost ([::1]:52614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85EF1817B2
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 12:57:45 +0200 (CEST)
+Received: from localhost ([::1]:52646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huae7-0004C8-HI
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 06:55:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49655)
+	id 1huagS-0006SA-PQ
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 06:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50244)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1huadX-0003mN-GM
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 06:54:44 -0400
+ (envelope-from <linus.walleij@linaro.org>) id 1huafz-00062O-8Y
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 06:57:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1huadW-000718-H3
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 06:54:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:5829)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1huadW-00070a-Bm
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 06:54:42 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 43C6A7F769;
- Mon,  5 Aug 2019 10:54:41 +0000 (UTC)
-Received: from work-vm (ovpn-117-168.ams2.redhat.com [10.36.117.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 362AF60603;
- Mon,  5 Aug 2019 10:54:34 +0000 (UTC)
-Date: Mon, 5 Aug 2019 11:54:32 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Oleinik, Alexander" <alxndr@bu.edu>
-Message-ID: <20190805105432.GH13734@work-vm>
-References: <20190805071038.32146-1-alxndr@bu.edu>
- <20190805071038.32146-9-alxndr@bu.edu>
+ (envelope-from <linus.walleij@linaro.org>) id 1huafy-0000LP-21
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 06:57:15 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:44737)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <linus.walleij@linaro.org>)
+ id 1huafx-0000Gf-Ms
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 06:57:14 -0400
+Received: by mail-lj1-x242.google.com with SMTP id k18so78880868ljc.11
+ for <qemu-devel@nongnu.org>; Mon, 05 Aug 2019 03:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TzWdXtLAUrrMBEEWJP4I6zJKWMOnmN0iEzqlYudmigQ=;
+ b=g4W9SBDYNYE5i6F+dksQYRpRO4BX2DMuzPAdV16wK7x2aQ1wGkFgxbu8+Tm/ur7a3i
+ fmcqYRfAGMb3NMQvgoiabqFOLHynxWg53UaSlj7K/wrkcAU5FMjV3+Lcf/+sGDDxbnmw
+ k7SEsjCRBO7OjRk2s8QOVRy+yoD8ERWCA0PbeB81hAVC5DZkNBXrg3564rgc9pzeW07v
+ aHFrc4YuUeKwM2k5K/dv54tQ9x/2x06HRmePnl1L4VhnCeQ03Q8yZvab3XCChSThFnXx
+ m9AzVUheQtNyQnM/qz9047gQ6G40pShUOtDkiea2+tKcN0K9jmjGdGJsJWZheJGJaZLm
+ tKAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TzWdXtLAUrrMBEEWJP4I6zJKWMOnmN0iEzqlYudmigQ=;
+ b=ZTUqMV+pZfiLWQHDq8vKWTRmSSIj0Q77+AFdV+VYMdH91/iaoN5J0rrPdpblIUA3NX
+ 48SNSnG8nTxC61jEbPAPRv3JjiY3g1Z6V7KZGHZ/T5YR6J427qKhuPesxpjqch5wJWnd
+ KbAamOMOWELJJWUW/YDVl4jKK0G/xmyAVioPM/jkTLi3M+XleepFqheHG5bQJtTCOakM
+ oHReEjFQ8/Lb4sZF3Ree7eNwYoudAs2mDSk4C7Ed6ESmo+vek/58gzTNbofR1xtz1RTB
+ HIPYr9ok1g2hN1/p+YBWPLJ/PRYk8uK1c5ZMP/XaUCIht7O7m0F7LE5uE/8J+YtsvfJ6
+ SADA==
+X-Gm-Message-State: APjAAAXWMWfQcwPiQY5byTHMxxzomGhoqsrIZeMsnszq3THK/zn1JWuW
+ h4zvLGeIOZ8y0jc4ePQIkoZ672KcXZxYXjqJX+41jw==
+X-Google-Smtp-Source: APXvYqyXFtChkPbm6NCyp23ajAiI62OlDD+/hHiQbm7lI17gWZ6ZJDZrRUyF56jvAOxDqP7Qr/vCARhS5NqWxJ1VRII=
+X-Received: by 2002:a05:651c:28c:: with SMTP id
+ b12mr13843059ljo.69.1565002630201; 
+ Mon, 05 Aug 2019 03:57:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190805071038.32146-9-alxndr@bu.edu>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Mon, 05 Aug 2019 10:54:41 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH v2 08/17] fuzz: Export the
- qemu_savevm_live_state function
+References: <20190705160536.12047-1-geert+renesas@glider.be>
+ <CACRpkdY6qAUkQW4YHN9HskvZS2P-viWYTHSb28ECh1p+itU=4Q@mail.gmail.com>
+ <dc2016d4-b06c-aa8e-2644-90caa40fbd63@arm.com>
+In-Reply-To: <dc2016d4-b06c-aa8e-2644-90caa40fbd63@arm.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 5 Aug 2019 12:56:58 +0200
+Message-ID: <CACRpkdYeBPuR32+ZVXY0y9XrUyGuEPWEwGuF-r9D3yYa4ANJGw@mail.gmail.com>
+To: Marc Zyngier <marc.zyngier@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
+Subject: Re: [Qemu-devel] [PATCH RFC] gpio: Add Virtual Aggregator GPIO
+ Driver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,79 +75,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>, christoffer.dall@arm.com,
+ Alexander Graf <agraf@suse.de>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Oleinik, Alexander (alxndr@bu.edu) wrote:
-> Skip the header when saving device state, as the header isn't handled by
-> qemu_load_device_state
-> 
-> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
-> ---
->  migration/savevm.c | 9 +++++++--
->  migration/savevm.h | 2 ++
->  2 files changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 79ed44d475..5eac36e6ca 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1405,7 +1405,7 @@ void qemu_savevm_state_cleanup(void)
->      }
->  }
->  
-> -static int qemu_savevm_state(QEMUFile *f, Error **errp)
-> +int qemu_savevm_state(QEMUFile *f, Error **errp)
->  {
->      int ret;
->      MigrationState *ms = migrate_get_current();
-> @@ -1471,11 +1471,16 @@ void qemu_savevm_live_state(QEMUFile *f)
->  int qemu_save_device_state(QEMUFile *f)
->  {
->      SaveStateEntry *se;
-> -
-> +    /*
-> +     * qemu_load_device_state doesn't load the header. Either skip writing the
-> +     * header or seek forward in the file, prior to loading device state
-> +     */
-> +#ifndef CONFIG_FUZZ
->      if (!migration_in_colo_state()) {
->          qemu_put_be32(f, QEMU_VM_FILE_MAGIC);
->          qemu_put_be32(f, QEMU_VM_FILE_VERSION);
->      }
-> +#endif
+On Mon, Aug 5, 2019 at 12:21 PM Marc Zyngier <marc.zyngier@arm.com> wrote:
+> On 01/08/2019 09:41, Linus Walleij wrote:
 
-I'd prefer if you just added a ', bool save_header' to the parameters
-and then replace the '!migration_in_colo_state()' by 'save_header'
+> > I would even go so far as to call it "gpio-virtualization" or
+> > "gpio-virtualized" rather than "gpio-virtual" so it is clear what the
+> > intended usecase is. We have a bit of confusion in the kernel
+> > because people misuse the word "virtual" left and right, like for
+> > "virtual IRQ number" (Linux IRQ numbers) which are just some
+> > random number space, but not really "virtual", it's a semantic
+> > disease similar to the confusion of using the word "manual" in
+> > computer code.
+>
+> I'd drop the notion of "virtual" altogether. Nothing is virtual in this
+> thing at all (the GPIOs are very real, from what I gather). Instead (and
+> assuming I got it right, which is a long shot), what you have is a
+> "synthetic" GPIO controller, made from the GPIOs belonging to other
+> controllers. I'd call it "GPIO aggregator".
 
-It's only called from two places at the moment,
-'qmp_xen_save_devices_state' where I think it's always 'true'
-and 'colo_do_checkpoint_transaction' where I think it's always false.
++1 on this.
 
-Dave
+Next thing that will predictably follow is a userspace ABI to
+create those aggregators and have them go away if the
+process creating it dies. Something to think of...
 
->      cpu_synchronize_all_states();
->  
->      QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-> diff --git a/migration/savevm.h b/migration/savevm.h
-> index 51a4b9caa8..5405215cb4 100644
-> --- a/migration/savevm.h
-> +++ b/migration/savevm.h
-> @@ -64,4 +64,6 @@ void qemu_loadvm_state_cleanup(void);
->  int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
->  int qemu_load_device_state(QEMUFile *f);
->  
-> +int qemu_savevm_state(QEMUFile *f, Error **errp);
-> +
->  #endif
-> -- 
-> 2.20.1
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > If QEMU can deal in a simple and straight-forward way with this
+> > I see it quickly becoming a very useful tool for industrial automation
+> > where you want to run each control system in isolation and just
+> > respawn the virtual machine if something goes wrong.
+>
+> What the VMM (QEMU, kvmtool) would need to do is to present this as a
+> "standard" GPIO IP, and use the backend aggregator to emulate it.
+> Certainly doable. The nice part is that all the work is in userspace,
+> and thus completely off my plate! ;-)
+
+Yeah there is not really any "standard" GPIO, but if the user is running
+e.g. a Versatile Express model, that has a PL061 GPIO, and then
+a user would create an "aggregator GPIO" with say 8 lines and
+QEMU would pick that up as /dev/gpiochipN and bind it inside
+of QEMU to the lines of the virttualized PL061 GPIO controller,
+so the machine thinks it is using a PL061 but in reality it is
+just 8 GPIO lines on the host computer.
+
+> You also may want to look into not emulating a standard IP, but use
+> something virtio-based instead. The ACRN project seems to have something
+> like this in progress, but I know nothing about it.
+
+That sounds quite interesting as well.
+
+Then the virtualized machine can just pick this "virtio GPIO" and
+some command line switches or config file on the host can
+set up and route a GPIO aggregator.
+
+Yours,
+Linus Walleij
 
