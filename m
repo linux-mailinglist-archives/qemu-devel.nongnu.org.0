@@ -2,77 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1AFA8187A
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 13:53:56 +0200 (CEST)
-Received: from localhost ([::1]:52914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912F9818E0
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 14:09:22 +0200 (CEST)
+Received: from localhost ([::1]:53384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hubYp-0000KJ-TD
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 07:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38209)
+	id 1hubnl-0005XJ-Re
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 08:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42203)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hubY7-0008Gp-KH
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 07:53:13 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hubnH-00057N-CK
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 08:08:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hubY5-0001JE-Oq
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 07:53:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41416)
+ (envelope-from <dgibson@ozlabs.org>) id 1hubnF-00078W-SD
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 08:08:51 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:34195 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hubXz-0001Dj-6w; Mon, 05 Aug 2019 07:53:03 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7144D3082132;
- Mon,  5 Aug 2019 11:53:02 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4F6060F8C;
- Mon,  5 Aug 2019 11:52:58 +0000 (UTC)
-To: qemu-block@nongnu.org
-References: <20190805114923.23701-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <b2b73872-9412-8752-a7c4-8c2dd1c7bc4c@redhat.com>
-Date: Mon, 5 Aug 2019 13:52:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hubnE-00075N-JM; Mon, 05 Aug 2019 08:08:49 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 462Gl02LGzz9sN4; Mon,  5 Aug 2019 22:08:44 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1565006924;
+ bh=tyWOw+yVBFssrg8dQ0nZi2tg/LcAaoJe/+eV1JkgqoE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ihwPu9Gl8U8NiPlCWsWRydYttfsRKKaN7Kld++jJtD0t+pKfcLg/GAE9y2RrZ5flv
+ a2tb1jHARBAtRgEPuFdYNwoPxPoNnRUW/vGFPcPC5Bikq7+OddQngsfCBIXnf33ya+
+ W1nTKi/frPpTLpmIQdUMtEsyngTHlDXZqdxAlDKg=
+Date: Mon, 5 Aug 2019 20:46:28 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Message-ID: <20190805104628.GA14494@umbus.fritz.box>
+References: <20190731141233.1340-1-clg@kaod.org>
+ <20190731141233.1340-2-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20190805114923.23701-1-mreitz@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="HtO3eGviu7wjxFnYCJE7MyjHctlTujIHc"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Mon, 05 Aug 2019 11:53:02 +0000 (UTC)
+ protocol="application/pgp-signature"; boundary="liOOAslEiF7prFVr"
+Content-Disposition: inline
+In-Reply-To: <20190731141233.1340-2-clg@kaod.org>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] mirror: Only mirror granularity-aligned
- chunks
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v3 01/18] ppc/pnv: Introduce PowerNV
+ machines with fixed CPU models
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,127 +56,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---HtO3eGviu7wjxFnYCJE7MyjHctlTujIHc
-Content-Type: multipart/mixed; boundary="6hLWo0KeInaC5z9H05JQIn0WbPLlGTdcs";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <b2b73872-9412-8752-a7c4-8c2dd1c7bc4c@redhat.com>
-Subject: Re: [PATCH] mirror: Only mirror granularity-aligned chunks
-References: <20190805114923.23701-1-mreitz@redhat.com>
-In-Reply-To: <20190805114923.23701-1-mreitz@redhat.com>
 
---6hLWo0KeInaC5z9H05JQIn0WbPLlGTdcs
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--liOOAslEiF7prFVr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 05.08.19 13:49, Max Reitz wrote:
-> In write-blocking mode, all writes to the top node directly go to the
-> target.  We must only mirror chunks of data that are aligned to the
-> job's granularity, because that is how the dirty bitmap works.
-> Therefore, the request alignment for writes must be the job's
-> granularity (in write-blocking mode).
+On Wed, Jul 31, 2019 at 04:12:16PM +0200, C=E9dric Le Goater wrote:
+> Make the current "powernv" machine an abstract type and derive from it
+> new machines with specific CPU models: power8 and power9.
 >=20
-> Unfortunately, this forces all reads and writes to have the same
-> granularity (we only need this alignment for writes to the target, not
-> the source), but that is something to be fixed another time.
+> The "powernv" machine is now an alias on the "powernv9" machine.
 >=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+
+Applied to ppc-for-4.2.
+
 > ---
-> This is an alternative to Vladimir's "util/hbitmap: fix unaligned reset=
-"
-> patch.  I don't mind much either way, both of pros and cons.  Comparing=
-
-
-I don=E2=80=99t know why I can=E2=80=99t write (especially lately).  s/of=
-/have/, of course.
-
-Max
-
-> this patch to Vladimir's:
+>  hw/ppc/pnv.c | 70 ++++++++++++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 63 insertions(+), 7 deletions(-)
 >=20
-> + Makes copy-mode=3Dwrite-blocking really work (unless I'm mistaken)
-> - Lowers performance with copy-mode=3Dwrite-blocking unnecessarily
-> ---
->  block/mirror.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/block/mirror.c b/block/mirror.c
-> index 8cb75fb409..3f9c5a178a 100644
-> --- a/block/mirror.c
-> +++ b/block/mirror.c
-> @@ -1481,6 +1481,15 @@ static void bdrv_mirror_top_child_perm(BlockDriv=
-erState *bs, BdrvChild *c,
->      *nshared =3D BLK_PERM_ALL;
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 4570ce8afe6a..18602b9e9bcd 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -602,9 +602,20 @@ static void pnv_chip_power9_pic_print_info(PnvChip *=
+chip, Monitor *mon)
+>      pnv_psi_pic_print_info(&chip9->psi, mon);
 >  }
 > =20
-> +static void bdrv_mirror_top_refresh_limits(BlockDriverState *bs, Error=
- **errp)
+> +static bool pnv_match_cpu(const char *default_type, const char *cpu_type)
 > +{
-> +    MirrorBDSOpaque *s =3D bs->opaque;
+> +    PowerPCCPUClass *ppc_default =3D
+> +        POWERPC_CPU_CLASS(object_class_by_name(default_type));
+> +    PowerPCCPUClass *ppc =3D
+> +        POWERPC_CPU_CLASS(object_class_by_name(cpu_type));
 > +
-> +    if (s && s->job && s->job->copy_mode =3D=3D MIRROR_COPY_MODE_WRITE=
-_BLOCKING) {
-> +        bs->bl.request_alignment =3D s->job->granularity;
-> +    }
+> +    return ppc_default->pvr_match(ppc_default, ppc->pvr);
 > +}
 > +
->  /* Dummy node that provides consistent read to its users without requi=
-ring it
->   * from its backing file and that allows writes on the backing file ch=
-ain. */
->  static BlockDriver bdrv_mirror_top =3D {
-> @@ -1493,6 +1502,7 @@ static BlockDriver bdrv_mirror_top =3D {
->      .bdrv_co_block_status       =3D bdrv_co_block_status_from_backing,=
-
->      .bdrv_refresh_filename      =3D bdrv_mirror_top_refresh_filename,
->      .bdrv_child_perm            =3D bdrv_mirror_top_child_perm,
-> +    .bdrv_refresh_limits        =3D bdrv_mirror_top_refresh_limits,
->  };
+>  static void pnv_init(MachineState *machine)
+>  {
+>      PnvMachineState *pnv =3D PNV_MACHINE(machine);
+> +    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+>      MemoryRegion *ram;
+>      char *fw_filename;
+>      long fw_size;
+> @@ -664,13 +675,23 @@ static void pnv_init(MachineState *machine)
+>          }
+>      }
 > =20
->  static BlockJob *mirror_start_job(
-> @@ -1678,6 +1688,8 @@ static BlockJob *mirror_start_job(
-> =20
->      QTAILQ_INIT(&s->ops_in_flight);
-> =20
-> +    bdrv_refresh_limits(mirror_top_bs, &error_abort);
+> +    /*
+> +     * Check compatibility of the specified CPU with the machine
+> +     * default.
+> +     */
+> +    if (!pnv_match_cpu(mc->default_cpu_type, machine->cpu_type)) {
+> +        error_report("invalid CPU model '%s' for %s machine",
+> +                     machine->cpu_type, mc->name);
+> +        exit(1);
+> +    }
 > +
->      trace_mirror_start(bs, s, opaque);
->      job_start(&s->common.job);
+>      /* Create the processor chips */
+>      i =3D strlen(machine->cpu_type) - strlen(POWERPC_CPU_TYPE_SUFFIX);
+>      chip_typename =3D g_strdup_printf(PNV_CHIP_TYPE_NAME("%.*s"),
+>                                      i, machine->cpu_type);
+>      if (!object_class_by_name(chip_typename)) {
+> -        error_report("invalid CPU model '%.*s' for %s machine",
+> -                     i, machine->cpu_type, MACHINE_GET_CLASS(machine)->n=
+ame);
+> +        error_report("invalid chip model '%.*s' for %s machine",
+> +                     i, machine->cpu_type, mc->name);
+>          exit(1);
+>      }
 > =20
->=20
+> @@ -1348,25 +1369,43 @@ static void pnv_machine_class_props_init(ObjectCl=
+ass *oc)
+>                                NULL);
+>  }
+> =20
+> -static void pnv_machine_class_init(ObjectClass *oc, void *data)
+> +static void pnv_machine_power8_class_init(ObjectClass *oc, void *data)
+>  {
+>      MachineClass *mc =3D MACHINE_CLASS(oc);
+>      XICSFabricClass *xic =3D XICS_FABRIC_CLASS(oc);
+> +
+> +    mc->desc =3D "IBM PowerNV (Non-Virtualized) POWER8";
+> +    mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power8_v2.0");
+> +
+> +    xic->icp_get =3D pnv_icp_get;
+> +    xic->ics_get =3D pnv_ics_get;
+> +    xic->ics_resend =3D pnv_ics_resend;
+> +}
+> +
+> +static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
+> +{
+> +    MachineClass *mc =3D MACHINE_CLASS(oc);
+> +
+> +    mc->desc =3D "IBM PowerNV (Non-Virtualized) POWER9";
+> +    mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power9_v2.0");
+> +
+> +    mc->alias =3D "powernv";
+> +}
+> +
+> +static void pnv_machine_class_init(ObjectClass *oc, void *data)
+> +{
+> +    MachineClass *mc =3D MACHINE_CLASS(oc);
+>      InterruptStatsProviderClass *ispc =3D INTERRUPT_STATS_PROVIDER_CLASS=
+(oc);
+> =20
+>      mc->desc =3D "IBM PowerNV (Non-Virtualized)";
+>      mc->init =3D pnv_init;
+>      mc->reset =3D pnv_reset;
+>      mc->max_cpus =3D MAX_CPUS;
+> -    mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power8_v2.0");
+>      mc->block_default_type =3D IF_IDE; /* Pnv provides a AHCI device for
+>                                        * storage */
+>      mc->no_parallel =3D 1;
+>      mc->default_boot_order =3D NULL;
+>      mc->default_ram_size =3D 2 * GiB;
+> -    xic->icp_get =3D pnv_icp_get;
+> -    xic->ics_get =3D pnv_ics_get;
+> -    xic->ics_resend =3D pnv_ics_resend;
+>      ispc->print_info =3D pnv_pic_print_info;
+> =20
+>      pnv_machine_class_props_init(oc);
+> @@ -1386,10 +1425,27 @@ static void pnv_machine_class_init(ObjectClass *o=
+c, void *data)
+>          .parent        =3D TYPE_PNV9_CHIP,          \
+>      }
+> =20
+> +#define DEFINE_PNV_MACHINE_TYPE(cpu, class_initfn)      \
+> +    {                                                   \
+> +        .name          =3D MACHINE_TYPE_NAME(cpu),        \
+> +        .parent        =3D TYPE_PNV_MACHINE,              \
+> +        .instance_size =3D sizeof(PnvMachineState),       \
+> +        .instance_init =3D pnv_machine_instance_init,     \
+> +        .class_init    =3D class_initfn,                  \
+> +        .interfaces =3D (InterfaceInfo[]) {               \
+> +            { TYPE_XICS_FABRIC },                       \
+> +            { TYPE_INTERRUPT_STATS_PROVIDER },          \
+> +            { },                                        \
+> +        },                                              \
+> +    }
+> +
+>  static const TypeInfo types[] =3D {
+> +    DEFINE_PNV_MACHINE_TYPE("powernv8", pnv_machine_power8_class_init),
+> +    DEFINE_PNV_MACHINE_TYPE("powernv9", pnv_machine_power9_class_init),
+>      {
+>          .name          =3D TYPE_PNV_MACHINE,
+>          .parent        =3D TYPE_MACHINE,
+> +        .abstract       =3D true,
+>          .instance_size =3D sizeof(PnvMachineState),
+>          .instance_init =3D pnv_machine_instance_init,
+>          .class_init    =3D pnv_machine_class_init,
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-
---6hLWo0KeInaC5z9H05JQIn0WbPLlGTdcs--
-
---HtO3eGviu7wjxFnYCJE7MyjHctlTujIHc
+--liOOAslEiF7prFVr
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1IGJkACgkQ9AfbAGHV
-z0AbDQf9FwMXzYysP8ScNtCVxXctyQwKoZHzIHMIWd88EDGrfRzUJnkE/43qJnr0
-jNXg+gsSB9TgTevp2Y3QEaQ2Dym1KLeoDrKqFVihGo7rUWsadHOfuJF6xdY5hQWS
-rnFvo1v6fG3fGSbABw6NGnAhaqgD6qyU6i6NpbuZs1oAKWVv0J4Yip4whF2qodp3
-ZQJ6IMFtCCyj4Wes4EoEJyn9OlFZltmgcKlBs7BoKzzP9fMD3ca/dx1s9GkoVt5/
-64MjAbKveZkrBnMvlVR9vqsMrJLKoAnHMbL0FqqJflv8EmR6GPD0OmNTROq32x/r
-zjd4W4ZFqXgAzXklmivWNiyzYuIoAQ==
-=896s
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1ICQIACgkQbDjKyiDZ
+s5I91w/+Mqc9jfV8FmL8B19EupYrZf0v1MrmryjADsEQubDNtZA+9q8A7+a4tHNL
+o0L+9r1tNnqqaguagzkBMUXWV+UlrgS1eWKt/njSZ90H78wCr7Pss5L0vm1DDZ3z
+BQyXoZN26drnoa0tEUMO2Yjy3xfeumMY4D3BUYjzmoE0FoJypBr9PzcREVGQC7vl
+uLcwZXz9xT9p/YurzzCpZ+cHCCZFYB8/dhJrj9QGwFzhcMSao79sc1+0abAq5BFT
+hBmCNi2YxYVtqA8ynhiUWOi4WGLVaH72nibaFgJa/pARWgeh5WLQLNA9Rj0oSlt5
+z4NrIFFbXkXGltL6e5dcWU3gMhJulKpQd6zW90uU6mkiIgaTr2FrJ6IJoJkVHzTs
+WxT0AJnJG18mwMbvmNhBPlm3AYa/r4WDWWjCer7r8B1/Pqa8pSfuYWVnpOXewUQ+
+IhK8cKG0nlteJux+N5VGYSL35p01RNjlf0dmb05Bd8WiSUTDSvlYThET3zGYr1zZ
+/0drRYCwwHIt0Z5OQ6nfQlAWyZxvmQqt6uUeCZ3/mdTj2VwhqAME57xcFaLPC62J
+LVCIucwLy1JheILosbm3/+4hSB9q3Ki9tXhcUPq17hiKhmvul+JomBzaKyI55UeY
+Std1rqPiE01wFfeW3luUpBYuc/GVgrcgublpfrp96kS8kXFMCbw=
+=nUF6
 -----END PGP SIGNATURE-----
 
---HtO3eGviu7wjxFnYCJE7MyjHctlTujIHc--
+--liOOAslEiF7prFVr--
 
