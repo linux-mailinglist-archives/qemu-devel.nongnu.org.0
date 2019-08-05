@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5772E812C7
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:12:03 +0200 (CEST)
-Received: from localhost ([::1]:51256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897BC812D1
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:13:19 +0200 (CEST)
+Received: from localhost ([::1]:51284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huXA2-0004ia-9b
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:12:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37203)
+	id 1huXBG-0008Cv-Nm
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37210)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alxndr@bu.edu>) id 1huX98-00039y-Du
+ (envelope-from <alxndr@bu.edu>) id 1huX98-00039z-OD
  for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1huX97-0001rT-CX
+ (envelope-from <alxndr@bu.edu>) id 1huX97-0001rf-P8
  for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:06 -0400
 Received: from mail-eopbgr790111.outbound.protection.outlook.com
  ([40.107.79.111]:12064 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX97-0001qn-6z
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX97-0001qn-JK
  for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:05 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CmeVWoRyrTS5zHlFwdWoQELBFaSnnzVMQlwBrsaptIGe7KfFX5HZyht3PRcwAWfbaiCN8AyJq7kUVPC6CqHWsHx5URPh7ghw0j7keEwV/7RflAvoBGxpQHwc7WaRZH28jumi4DkbM03CN0DXHOOa1wRSTFU6mkgfuQCnwS/cwXEVznSvG5jlry6bZhVyw08Atos0jcjSqYvwKZZULzCmMT/zYlUGFwizFU3RUqsXcXC88AyCmxpwYQk9mNzTYcmzRt0ONs5Gijpa3h+clCZ3TvjtyyKm3lYZA/+br/nseHkcs9s2wPXuXNNE+jhL3PEZaLrW+oaYvutrgIvDavHreA==
+ b=YSzASds9dqhtay5brkMUvtwBCar1DoIRpLsuDLsrtttBycKluN+9k23w4ztNmDzUCxsjmSNHrgLu2JUpWBwE14UiSTQfYMRLZqP1mQWDVDucRlHemwOQm/OqWGVfj8+zBQp145AYqeVxMevekLKgM6Po3YjceU3A7xi8XQH/W5ShpTlzqdB4liPQ0j9zzAlDdvyQhFJA+UdEmaPH5TGxLlb1Vd5aHAf6gwDdZGiDgfeYQZfZRNBzaG6ii1996POfqqxdDHGlpBb09aMe+VdR2DKB7Zv+DRhQCsMU/Uz3csetnHl+7RIpGAlW+95zN+9vVte4sb1CYw5SDqvsxKGOgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8xc2Nz4P+llAvkrm00k9L/WRKVfsUvVyJ5b/Y143C/8=;
- b=B67/nqGX7WyPSwtHrhxmru4jLI1Qm1UOiEMoMfhEGvCqyem+t5Avk7QC6tETmG/svzJckDmPCIscfl4rwejNv8jqzGeqwmcBJKetMIKgseNHINAzO8L7HGzJQuqihhzgBoFlnzwsEMDEBUKhH5bhBarcX2a557ZbaXAY+l1vf+7bBRKTcJNAwAt5qLc8jb0E+TkVGfcPtqGA9DUFSG9R3PrlC3Ydq1Qx244O8zfIrgTIXKhYxa5H4RIb6cJsSf+Owx8N14lZTYyjXNPVxOP+7mTrLSZU+NUwVb/PSYLjwY+59UBb+UXVeY3K2TLVWn7IrtLS7MGJ30KOst8bTz4zGg==
+ bh=0jvbPeaPw6nCitq2oGc+/NppRWhZpntgqK/cnLaFGPk=;
+ b=VgIQ77xXNDS4TVjesIecCkFGXXTY+VyQc0EoH2Uf7uwmYO8O0Zt770p2P/kzDlO9z13cjoBF3VfXsOO2Do65+mMqMeexllPzFg/AEHd58agDihTD1Kto3rU68PcYaMT/B2/iEdGUOGT90DGLiS7fBDtIAFd6jMOqcnUhn31TBknBSg2WBWfdTdDuFLQzWgwyplVljE9T0evJM+ulnt6WRxL4leEgT7I0Rqo1zIL6j+EHGXImHq9JH/24w3Ca0fjB2PhN9pJuJUQRj3X4cPRVOCZCHhgHktBSeTX3LcQGFgwbvgCjAPEJRjsW6eMHMGm4KZqCicuzRnIbTGPYp0piow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=bu.edu;dmarc=pass action=none header.from=bu.edu;dkim=pass
  header.d=bu.edu;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8xc2Nz4P+llAvkrm00k9L/WRKVfsUvVyJ5b/Y143C/8=;
- b=EbZOk+bFBYowLEtE7xBWy3ue34T+eNWCYJAHGYiUByNE8vsZj301c/hfUZ3QAm662PSmqpz2Ch2ntVGDIcUn3KLU4TKX60Ym6tIy5ZVCKofldABMpbDFhwWP9VIJcuPT82A4MhrEr+KE0sfHWAjKPe3TEgHcVi0f+sf0p7SiTFQ=
+ bh=0jvbPeaPw6nCitq2oGc+/NppRWhZpntgqK/cnLaFGPk=;
+ b=KEEsUv67xKp98obi5dFtDXf7pFaCnIlx8idTKeTjDmXDgA8UDZ+zCn4yDUzF6jOdivGQHYRB0naDtuHprxA4wU9TTC6qknBs9DRPpYbWaMgUd+8isj9iruRd8OmCj5OgzO/awy9w0Vv0RxNaGqI6Opj50NZbNIoze9UdqWRgSAc=
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
  CY4PR03MB2646.namprd03.prod.outlook.com (10.173.43.142) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.16; Mon, 5 Aug 2019 07:11:03 +0000
+ 15.20.2136.16; Mon, 5 Aug 2019 07:11:04 +0000
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6cce:cc85:9e3:d33a]) by CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6cce:cc85:9e3:d33a%4]) with mapi id 15.20.2136.018; Mon, 5 Aug 2019
  07:11:03 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [RFC PATCH v2 01/17] fuzz: Move initialization from main to
- qemu_init
-Thread-Index: AQHVS1zwoeA2FT8J9UWtfdO35keS4Q==
-Date: Mon, 5 Aug 2019 07:11:02 +0000
-Message-ID: <20190805071038.32146-2-alxndr@bu.edu>
+Thread-Topic: [RFC PATCH v2 02/17] fuzz: Add fuzzer configure options
+Thread-Index: AQHVS1zx9SvDhiU2WUGEo5Mghzc1qg==
+Date: Mon, 5 Aug 2019 07:11:03 +0000
+Message-ID: <20190805071038.32146-3-alxndr@bu.edu>
 References: <20190805071038.32146-1-alxndr@bu.edu>
 In-Reply-To: <20190805071038.32146-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -65,13 +64,13 @@ x-clientproxiedby: BL0PR02CA0068.namprd02.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 27c5d9f2-1018-46ef-74c0-08d71974134f
+x-ms-office365-filtering-correlation-id: 13671440-06fd-41b2-fed0-08d7197413dc
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
  SRVR:CY4PR03MB2646; 
 x-ms-traffictypediagnostic: CY4PR03MB2646:
-x-microsoft-antispam-prvs: <CY4PR03MB2646E23395FF45FAB69C6CD9BADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1728;
+x-microsoft-antispam-prvs: <CY4PR03MB264647AFFC02A1FD1CA95171BADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-forefront-prvs: 01208B1E18
 x-forefront-antispam-report: SFV:NSPM;
  SFS:(10019020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(71200400001)(71190400001)(6916009)(186003)(2351001)(1076003)(76176011)(6436002)(53936002)(86362001)(5640700003)(52116002)(6512007)(26005)(5660300002)(102836004)(386003)(6506007)(2501003)(66066001)(75432002)(6486002)(66476007)(2906002)(88552002)(4326008)(8676002)(316002)(786003)(50226002)(54906003)(81166006)(14454004)(81156014)(68736007)(476003)(2616005)(11346002)(446003)(486006)(36756003)(66446008)(66946007)(256004)(64756008)(25786009)(99286004)(478600001)(6116002)(3846002)(7736002)(305945005)(66556008)(8936002)(42522002);
@@ -81,13 +80,13 @@ x-forefront-antispam-report: SFV:NSPM;
 received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: d4j2ZdRKUJbygTAKcMNh9bgPgVQgFKoWY4zPnCJZ7nx1SOHxejQE8AF0KcbHGQlCYv9/1omeXh5Cw2eRdNjKyFwF73hcYrsoxopjRIZX9MMa1NCM9XI5zmNFPVi3hr4HYkOP8elTzkbaQ9pz5eMXUEP7bK8DSTSf/r0nmi7PVKOqnLMi1Oc6xu3s5TabslGO12NCjkOtJvH7+QViXu5/cBDkGgoOowTFgbVlqAI8HiDNniwxvv2wINoN5ZCIKl3obY3Ia51JG+tBnlhMWGMbpAGnxro7hzCiFukB4JkvycvPRElZ0XEBi+3dTwKtv5Ifgk8UMuxkTQNSkvGGC4qYdcY3LB3VH2wUy1e9W76MGG2IBxdXzQkIOAdT/Z8vLhBgimKs0sYlIloXKqUOqqfCzjW6jVZWPKmaWoOq28/pR1w=
+x-microsoft-antispam-message-info: sa+jA6MGhD5z5+NNhQMSP0N3Og3I6TRVSKfx+IiywtyQhfpKb0owj15RrBnli4ojez92lyaxlBDd+s09KwpX63yl30pTW/oTMnW2IpFR2j2Sa0P2qBF8lcz7d0/VjNcum1fFbpWanNRp8NPK0nLYIPUIlmlgIafDHQe7Ro+9Dv9R8dr/Or31ro0kktbxjwRgwu8+sbbsT/r01Ohr1JQ76EroFzjx4pfAaBM09hW37sdRbNuOrjBpPDPKxFX6FIX/LkPiSBhfYsZZP8/DvYqjK+sl78xZrhf9daaonrX0lYdJPFbnJ6qE6it/jYKmafAdVNSIuBNK28bVZLjcZkmnayS2voP2fMwhtxECIUJmEaTQtt+TW94qkS7dw6jSmONwtYzYCVTtYrfis2F28kVb3HNG40QKrpHw/cS1cMAPV7o=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27c5d9f2-1018-46ef-74c0-08d71974134f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:03.0208 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13671440-06fd-41b2-fed0-08d7197413dc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:03.8554 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
@@ -95,8 +94,7 @@ X-MS-Exchange-CrossTenant-userprincipalname: alxndr@bu.edu
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2646
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.79.111
-Subject: [Qemu-devel] [RFC PATCH v2 01/17] fuzz: Move initialization from
- main to qemu_init
+Subject: [Qemu-devel] [RFC PATCH v2 02/17] fuzz: Add fuzzer configure options
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,95 +112,65 @@ Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using this, we avoid needing a special case to break out of main(),
-early, when initializing the fuzzer, as we can just call qemu_init.
-There is still a #define around main(), since it otherwise conflicts
-with the libfuzzer main().
+This adds sanitizer/fuzzer related cflags and adds tests/ to the include
+path. This include change is needed for qos to build, and is normally
+located in tests/Makefile.include, but currently the fuzzer builds from
+the i386-softmmu target, not anything in tests.
 
 Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
 ---
- include/sysemu/sysemu.h |  5 +++++
- vl.c                    | 25 +++++++++++++++++++++++--
- 2 files changed, 28 insertions(+), 2 deletions(-)
+ configure | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 984c439ac9..a63d5ccce3 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -184,6 +184,8 @@ QemuOpts *qemu_get_machine_opts(void);
+diff --git a/configure b/configure
+index 714e7fb6a1..69ef1e7c7d 100755
+--- a/configure
++++ b/configure
+@@ -499,6 +499,7 @@ docker=3D"no"
+ debug_mutex=3D"no"
+ libpmem=3D""
+ default_devices=3D"yes"
++fuzzing=3D"no"
 =20
- bool defaults_enabled(void);
+ # cross compilers defaults, can be overridden with --cross-cc-ARCH
+ cross_cc_aarch64=3D"aarch64-linux-gnu-gcc"
+@@ -1543,6 +1544,8 @@ for opt do
+   ;;
+   --disable-libpmem) libpmem=3Dno
+   ;;
++  --enable-fuzzing) fuzzing=3Dyes
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -6481,6 +6484,7 @@ echo "docker            $docker"
+ echo "libpmem support   $libpmem"
+ echo "libudev           $libudev"
+ echo "default devices   $default_devices"
++echo "fuzzing support   $fuzzing"
 =20
-+int qemu_init(int argc, char **argv, char **envp);
+ if test "$supported_cpu" =3D "no"; then
+     echo
+@@ -7306,6 +7310,17 @@ fi
+ if test "$sheepdog" =3D "yes" ; then
+   echo "CONFIG_SHEEPDOG=3Dy" >> $config_host_mak
+ fi
++if test "$fuzzing" =3D "yes" ; then
++  QEMU_CFLAGS=3D"$QEMU_CFLAGS -fsanitize=3Dfuzzer,address  -fprofile-instr=
+-generate"
++  QEMU_CFLAGS=3D"$QEMU_CFLAGS -fprofile-instr-generate -fcoverage-mapping"
++  QEMU_LDFLAGS=3D"$LDFLAGS -fsanitize=3Dfuzzer,address"
 +
- extern QemuOptsList qemu_legacy_drive_opts;
- extern QemuOptsList qemu_common_drive_opts;
- extern QemuOptsList qemu_drive_opts;
-@@ -197,4 +199,7 @@ extern QemuOptsList qemu_global_opts;
- extern QemuOptsList qemu_mon_opts;
- extern QemuOptsList qemu_semihosting_config_opts;
++  # Add tests/ to include path, since this is done in tests/Makefile.inclu=
+de,
++  # and required for QOS objects to build. This can be removed if/when the
++  # fuzzer is compiled using rules in tests/Makefile.include
++  QEMU_INCLUDES=3D"-iquote \$(SRC_PATH)/tests $QEMU_INCLUDES"
++  echo "CONFIG_FUZZ=3Dy" >> $config_host_mak
++fi
 =20
-+#ifdef CONFIG_FUZZ
-+int real_main(int argc, char **argv, char **envp);
-+#endif
- #endif
-diff --git a/vl.c b/vl.c
-index 130a389712..914bb9b2de 100644
---- a/vl.c
-+++ b/vl.c
-@@ -130,6 +130,10 @@ int main(int argc, char **argv)
- #include "sysemu/iothread.h"
- #include "qemu/guest-random.h"
-=20
-+#ifdef CONFIG_FUZZ
-+#include "tests/libqtest.h"
-+#endif
-+
- #define MAX_VIRTIO_CONSOLES 1
-=20
- static const char *data_dir[16];
-@@ -2854,7 +2858,7 @@ static void user_register_global_props(void)
-                       global_init_func, NULL, NULL);
- }
-=20
--int main(int argc, char **argv, char **envp)
-+int qemu_init(int argc, char **argv, char **envp)
- {
-     int i;
-     int snapshot, linux_boot;
-@@ -4453,7 +4457,7 @@ int main(int argc, char **argv, char **envp)
-     if (vmstate_dump_file) {
-         /* dump and exit */
-         dump_vmstate_json_to_file(vmstate_dump_file);
--        return 0;
-+        exit(0);
-     }
-=20
-     if (incoming) {
-@@ -4470,6 +4474,23 @@ int main(int argc, char **argv, char **envp)
-     accel_setup_post(current_machine);
-     os_setup_post();
-=20
-+    return 0;
-+}
-+#ifdef CONFIG_FUZZ
-+/*
-+ * Without this, the compiler complains about all of the unused
-+ * cleanup and shutdown() functions
-+ */
-+int real_main(int argc, char **argv, char **envp)
-+#else
-+int main(int argc, char **argv, char **envp)
-+#endif
-+{
-+    int ret =3D qemu_init(argc, argv, envp);
-+    if (ret !=3D 0) {
-+        return ret;
-+    }
-+
-     main_loop();
-=20
-     gdbserver_cleanup();
+ if test "$tcg_interpreter" =3D "yes"; then
+   QEMU_INCLUDES=3D"-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
 --=20
 2.20.1
 
