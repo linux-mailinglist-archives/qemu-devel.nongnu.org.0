@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58EEF82053
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:34:22 +0200 (CEST)
-Received: from localhost ([::1]:54978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C35C282049
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:32:55 +0200 (CEST)
+Received: from localhost ([::1]:54948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huf09-0007Gd-Ga
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52039)
+	id 1hueyk-0004FD-PP
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:32:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52109)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <david@redhat.com>) id 1huevy-0002Wa-Ek
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:30:03 -0400
+ (envelope-from <david@redhat.com>) id 1huewI-0002k5-FN
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:30:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1huevx-0000SW-Gu
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:30:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56078)
+ (envelope-from <david@redhat.com>) id 1huewH-0000hy-D5
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:30:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58578)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1huevx-0000SA-8k; Mon, 05 Aug 2019 11:30:01 -0400
+ id 1huewF-0000Wa-DY; Mon, 05 Aug 2019 11:30:21 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7B834308FBA0;
- Mon,  5 Aug 2019 15:30:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B52E281DF2;
+ Mon,  5 Aug 2019 15:30:05 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-48.ams2.redhat.com [10.36.117.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32CA160C83;
- Mon,  5 Aug 2019 15:29:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1D7E60F80;
+ Mon,  5 Aug 2019 15:30:00 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  5 Aug 2019 17:29:39 +0200
-Message-Id: <20190805152947.28536-2-david@redhat.com>
+Date: Mon,  5 Aug 2019 17:29:40 +0200
+Message-Id: <20190805152947.28536-3-david@redhat.com>
 In-Reply-To: <20190805152947.28536-1-david@redhat.com>
 References: <20190805152947.28536-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Mon, 05 Aug 2019 15:30:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Mon, 05 Aug 2019 15:30:05 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.2 v1 1/9] s390x/mmu: Better ASC selection
- in s390_cpu_get_phys_page_debug()
+Subject: [Qemu-devel] [PATCH-for-4.2 v1 2/9] s390x/tcg: Rework MMU selection
+ for instruction fetches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,41 +63,72 @@ Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's select the ASC before calling the function and use MMU_DATA_LOAD.
-This is a preparation to:
-- Remove the ASC magic depending on the access mode from mmu_translate
-- Implement IEP support, where we could run into access exceptions
-  trying to fetch instructions
+Instructions are always fetched from primary address space, except when
+in home address mode. Perform the selection directly in cpu_mmu_index().
+
+get_mem_index() is only used to perform data access, instructions are
+fetched via cpu_lduw_code(), which translates to cpu_mmu_index(env, true)=
+.
+
+We don't care about restricting the access permissions of the TLB
+entries anymore, as we no longer enter PRIMARY entries into the
+SECONDARY MMU.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/helper.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ target/s390x/cpu.h        |  7 +++++++
+ target/s390x/mmu_helper.c | 15 ++-------------
+ 2 files changed, 9 insertions(+), 13 deletions(-)
 
-diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-index 13ae9909ad..08166558a0 100644
---- a/target/s390x/helper.c
-+++ b/target/s390x/helper.c
-@@ -58,7 +58,15 @@ hwaddr s390_cpu_get_phys_page_debug(CPUState *cs, vadd=
-r vaddr)
-         vaddr &=3D 0x7fffffff;
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index a606547b4d..c34992bb2e 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -332,6 +332,13 @@ static inline int cpu_mmu_index(CPUS390XState *env, =
+bool ifetch)
+         return MMU_REAL_IDX;
      }
 =20
--    if (mmu_translate(env, vaddr, MMU_INST_FETCH, asc, &raddr, &prot, fa=
-lse)) {
-+    /*
-+     * We want to read the code, however, not run into access exceptions
-+     * (especially, IEP).
-+     */
-+    if (asc !=3D PSW_ASC_HOME) {
-+        asc =3D PSW_ASC_PRIMARY;
++    if (ifetch) {
++        if ((env->psw.mask & PSW_MASK_ASC) =3D=3D PSW_ASC_HOME) {
++            return MMU_HOME_IDX;
++        }
++        return MMU_PRIMARY_IDX;
 +    }
 +
-+    if (mmu_translate(env, vaddr, MMU_DATA_LOAD, asc, &raddr, &prot, fal=
-se)) {
-         return -1;
-     }
-     return raddr;
+     switch (env->psw.mask & PSW_MASK_ASC) {
+     case PSW_ASC_PRIMARY:
+         return MMU_PRIMARY_IDX;
+diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+index 6e9c4d6151..9c0d9b5c5f 100644
+--- a/target/s390x/mmu_helper.c
++++ b/target/s390x/mmu_helper.c
+@@ -397,19 +397,8 @@ int mmu_translate(CPUS390XState *env, target_ulong v=
+addr, int rw, uint64_t asc,
+         break;
+     case PSW_ASC_SECONDARY:
+         PTE_DPRINTF("%s: asc=3Dsecondary\n", __func__);
+-        /*
+-         * Instruction: Primary
+-         * Data: Secondary
+-         */
+-        if (rw =3D=3D MMU_INST_FETCH) {
+-            r =3D mmu_translate_asce(env, vaddr, PSW_ASC_PRIMARY, env->c=
+regs[1],
+-                                   raddr, flags, rw, exc);
+-            *flags &=3D ~(PAGE_READ | PAGE_WRITE);
+-        } else {
+-            r =3D mmu_translate_asce(env, vaddr, PSW_ASC_SECONDARY, env-=
+>cregs[7],
+-                                   raddr, flags, rw, exc);
+-            *flags &=3D ~(PAGE_EXEC);
+-        }
++        r =3D mmu_translate_asce(env, vaddr, PSW_ASC_SECONDARY, env->cre=
+gs[7],
++                               raddr, flags, rw, exc);
+         break;
+     case PSW_ASC_ACCREG:
+     default:
 --=20
 2.21.0
 
