@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D821582106
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 18:01:44 +0200 (CEST)
-Received: from localhost ([::1]:55352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D45E68213A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 18:06:39 +0200 (CEST)
+Received: from localhost ([::1]:55556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hufQd-0008CM-GL
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 12:01:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58054)
+	id 1hufVP-0001Ae-1h
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 12:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58187)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hufOp-000799-6S
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:59:52 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hufPT-0008Pc-B5
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 12:00:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hufOn-0002EW-Gt
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:59:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46914)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hufOl-0002DP-5B; Mon, 05 Aug 2019 11:59:47 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7B29C88305;
- Mon,  5 Aug 2019 15:59:46 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE4AF10016EA;
- Mon,  5 Aug 2019 15:59:42 +0000 (UTC)
-To: qemu-block@nongnu.org
-References: <20190805113526.20319-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <69aa0fe6-66d7-f486-ee40-fc8434c413fe@redhat.com>
-Date: Mon, 5 Aug 2019 17:59:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190805113526.20319-1-mreitz@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Eck2nqLS3DDTwCeEJsFdpkn41GKBrOEaC"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Mon, 05 Aug 2019 15:59:46 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] iotests: Test unaligned blocking mirror
- write
+ (envelope-from <bmeng.cn@gmail.com>) id 1hufPR-0002jI-MS
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 12:00:31 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:32805)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1hufPR-0002hB-E8; Mon, 05 Aug 2019 12:00:29 -0400
+Received: by mail-pl1-x641.google.com with SMTP id c14so36567129plo.0;
+ Mon, 05 Aug 2019 09:00:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id;
+ bh=TtE2TN8qJaX/qotNkH+V8ocOIPSa55Bf89V7FHWWfhI=;
+ b=k4V2ZquL2qc0YwVsFTEv6YpQDfnSDeIwRGh7Pj4+hh84JAM3sjSVv3ePFi28QHZu5O
+ fYUZaVC016UGcXEYW6EMEU7iAKOoSWB682NHALsZcINzHklMm2v2ZKxhKviMI4fKJqMs
+ 81taMcD2aZ1ca8IF9rtmViIivXcB4kATQs46xOC21kzC/YArFZRwcqSjkFTKvAqRp5nE
+ UAo6Tslma+HGEfu/d35293G/YLh9DKkwilgYSTRCBeObzBm3tDFDTkJ8dZZ47kUxVvLl
+ 4rl64wwj36DMMkPHNJWRwy05t0bEeK8CTSTpn6leIzbSiK4SGYayP6Dkijs/bAHCvkLE
+ OF7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id;
+ bh=TtE2TN8qJaX/qotNkH+V8ocOIPSa55Bf89V7FHWWfhI=;
+ b=ZqJL4jNGfGpPRT+Q9ealTR5koePwESfonS9nE43uspbdwJMi0i5XGMnEvGK6Co5XuJ
+ fJJBlUzepmbNk5qgmKKsAAi66jhj/QWlm5gnmjmpKvjTDvDEUz/z+egttc1y4xyEEqCJ
+ gZo6zAXP2yz1iwwoKjWo+jalOSoT8yGMBNWiPuGVYQVywviWNAC5ME1V/7A2naZocxtC
+ KHWoe5nUf0apTdWl7p8qNpDjvuWoLYNtD/GeG8EOmlgQEWlg5690LfVNliyGxKCsQufO
+ bSMST2oFBM/39in9C+Xw/kK9hPt9nJrUjJyPbPTwj7WTFVQkvU0sPV83nrCz36kY/PzJ
+ 084A==
+X-Gm-Message-State: APjAAAULS5zL9k6W9W1YNS7hbHH2F9T/EHhAxMWBnkvB9hQvuU8ik0e5
+ JkFChZYEEtZgSvN210RgOvs=
+X-Google-Smtp-Source: APXvYqwwO9HgWPwF32EwEltptxLV+cmPifY0jRovZ38asf/kjB6rIj6GJUbyihqylDtsVgUJBruiZg==
+X-Received: by 2002:a17:902:41:: with SMTP id
+ 59mr51438959pla.195.1565020828262; 
+ Mon, 05 Aug 2019 09:00:28 -0700 (PDT)
+Received: from localhost.localdomain (unknown-224-80.windriver.com.
+ [147.11.224.80])
+ by smtp.gmail.com with ESMTPSA id d18sm47728793pgi.40.2019.08.05.09.00.27
+ (version=TLS1 cipher=AES128-SHA bits=128/128);
+ Mon, 05 Aug 2019 09:00:27 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Date: Mon,  5 Aug 2019 08:59:55 -0700
+Message-Id: <1565020823-24223-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 1.7.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: [Qemu-devel] [PATCH 00/28] riscv: sifive_u: Improve the emulation
+ fidelity of sifive_u machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,68 +77,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Eck2nqLS3DDTwCeEJsFdpkn41GKBrOEaC
-Content-Type: multipart/mixed; boundary="cyiO8ApHjG8AzGKTmpdKPLnv91RMBPuj7";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <69aa0fe6-66d7-f486-ee40-fc8434c413fe@redhat.com>
-Subject: Re: [PATCH] iotests: Test unaligned blocking mirror write
-References: <20190805113526.20319-1-mreitz@redhat.com>
-In-Reply-To: <20190805113526.20319-1-mreitz@redhat.com>
+As of today, the QEMU 'sifive_u' machine is a special target that does
+not boot the upstream OpenSBI/U-Boot firmware images built for the real
+SiFive HiFive Unleashed board. Hence OpenSBI supports a special platform
+"qemu/sifive_u". For U-Boot, the sifive_fu540_defconfig is referenced
+in the OpenSBI doc as its payload, but that does not boot at all due
+to various issues in current QEMU 'sifive_u' machine codes.
 
---cyiO8ApHjG8AzGKTmpdKPLnv91RMBPuj7
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This series aims to improve the emulation fidelity of sifive_u machine,
+so that the upstream OpenSBI, U-Boot and kernel images built for the
+SiFive HiFive Unleashed board can be used out of the box without any
+special hack.
 
-On 05.08.19 13:35, Max Reitz wrote:
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
-> Hi, this is a test for the mirror bug Vladimir found.  Naturally, it
-> depends on some patch to fix it.
->=20
-> Based-on: <20190802185830.74648-1-vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/151     | 25 +++++++++++++++++++++++++
->  tests/qemu-iotests/151.out |  4 ++--
->  2 files changed, 27 insertions(+), 2 deletions(-)
+The major changes are:
+- Heterogeneous harts creation supported, so that we can create a CPU
+  that exactly mirrors the real hardware: 1 E51 + 4 U54.
+- Implemented a PRCI model for FU540
+- Implemented an OTP model for FU540, primarily used for storing serial
+  number of the board
+- Fixed GEM support that was seriously broken on sifive_u
+- Synced device tree with upstream Linux kernel on sifive_u
+- Adding initramfs loading support on sifive_u
 
-Thanks for the review, applied to my block branch:
+OpenSBI v0.4 image built for sifive/fu540 is included as the default
+bios image for 'sifive_u' machine.
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+The series is tested against OpenSBI v0.4 image for sifive/fu540
+paltform, U-Boot v2019.10-rc1 image for sifive_fu540_defconfig,
+and Linux kernel v5.3-rc3 image with the following patch:
 
-Max
+macb: Update compatibility string for SiFive FU540-C000
+https://patchwork.kernel.org/patch/11050003/
+
+OpenSBI + U-Boot, ping/tftpboot with U-Boot MACB driver works well.
+For Linux, only checked boot log of MACB probe success without error.
 
 
---cyiO8ApHjG8AzGKTmpdKPLnv91RMBPuj7--
+Bin Meng (28):
+  riscv: hw: Remove superfluous "linux,phandle" property
+  riscv: hw: Use qemu_fdt_setprop_cell() for property with only 1 cell
+  riscv: Add a sifive_cpu.h to include both E and U cpu type defines
+  riscv: hart: Extract hart realize to a separate routine
+  riscv: hart: Support heterogeneous harts population
+  riscv: sifive_u: Update hart configuration to reflect the real FU540
+    SoC
+  riscv: sifive_u: Set the minimum number of cpus to 2
+  riscv: sifive_u: Update PLIC hart topology configuration string
+  riscv: sifive_u: Update UART base addresses
+  riscv: sifive_u: Remove the unnecessary include of prci header
+  riscv: sifive: Rename sifive_prci.{c,h} to sifive_e_prci.{c,h}
+  riscv: sifive_e: prci: Fix a typo of hfxosccfg register programming
+  riscv: sifive_e: prci: Update the PRCI register block size
+  riscv: sifive: Implement PRCI model for FU540
+  riscv: sifive_u: Generate hfclk and rtcclk nodes
+  riscv: sifive_u: Add PRCI block to the SoC
+  riscv: sifive_u: Change UART node name in device tree
+  riscv: hw: Implement a model for SiFive FU540 OTP
+  riscv: sifive_u: Instantiate OTP memory with a serial number
+  riscv: roms: Update default bios for sifive_u machine
+  riscv: sifive_u: Update UART and ethernet node clock properties
+  riscv: sifive_u: Generate an aliases node in the device tree
+  riscv: sifive: Move sifive_mmio_emulate() to a common place
+  riscv: sifive_u: Fix broken GEM support
+  riscv: sifive_u: Support loading initramfs
+  riscv: hw: Update PLIC device tree
+  riscv: virt: Change create_fdt() to return void
+  riscv: sifive_u: Update model and compatible strings in device tree
 
---Eck2nqLS3DDTwCeEJsFdpkn41GKBrOEaC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+ hw/riscv/Makefile.objs                             |   4 +-
+ hw/riscv/riscv_hart.c                              |  75 ++++++--
+ hw/riscv/sifive_e.c                                |  12 +-
+ hw/riscv/{sifive_prci.c => sifive_e_prci.c}        |  16 +-
+ hw/riscv/sifive_u.c                                | 181 +++++++++++++------
+ hw/riscv/sifive_u_otp.c                            | 194 +++++++++++++++++++++
+ hw/riscv/sifive_u_prci.c                           | 163 +++++++++++++++++
+ hw/riscv/virt.c                                    |  42 ++---
+ include/hw/riscv/sifive_cpu.h                      |  39 +++++
+ include/hw/riscv/sifive_e.h                        |   7 +-
+ .../hw/riscv/{sifive_prci.h => sifive_e_prci.h}    |  16 +-
+ include/hw/riscv/sifive_u.h                        |  15 +-
+ include/hw/riscv/sifive_u_otp.h                    |  90 ++++++++++
+ include/hw/riscv/sifive_u_prci.h                   | 100 +++++++++++
+ pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin       | Bin 40968 -> 45064 bytes
+ roms/Makefile                                      |   4 +-
+ 16 files changed, 824 insertions(+), 134 deletions(-)
+ rename hw/riscv/{sifive_prci.c => sifive_e_prci.c} (88%)
+ create mode 100644 hw/riscv/sifive_u_otp.c
+ create mode 100644 hw/riscv/sifive_u_prci.c
+ create mode 100644 include/hw/riscv/sifive_cpu.h
+ rename include/hw/riscv/{sifive_prci.h => sifive_e_prci.h} (80%)
+ create mode 100644 include/hw/riscv/sifive_u_otp.h
+ create mode 100644 include/hw/riscv/sifive_u_prci.h
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.7.4
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1IUm0ACgkQ9AfbAGHV
-z0A5pwgAtfXz+s0Su6aZQzmOQgzMFmjZIOXGrw6ukAo4Xj54tug9Tj8EuKJvhal7
-uR/8pmqHxMEHkNGzCMZv+pnbCumXyKnu8FFyMTX/khx8zU1sQGOkgjNsFNuT7H3T
-9P1Vvj9QBaw40Q/L84np9GS2M0hEG7dNL7BRrlvHD9BvBUGONoJIvscrC/dQMbf0
-ozha3YimckaMaRv/mG3eR1m0PjwCywQ5n/chalMi8o0ruvGje0677TajnEZVw0m1
-6dXCSjWi+1hWQzDNrWlUva7DxHnCaw00f4OlUJAMZ/My0G5QugojhwOy8ZefPz55
-vqIkoTQlOKj9eBQr5oQpNzftB3C8EA==
-=ecvG
------END PGP SIGNATURE-----
-
---Eck2nqLS3DDTwCeEJsFdpkn41GKBrOEaC--
 
