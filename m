@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15BC8216D
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 18:14:08 +0200 (CEST)
-Received: from localhost ([::1]:55774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57EC982165
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 18:12:06 +0200 (CEST)
+Received: from localhost ([::1]:55714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hufce-0004pc-4g
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 12:14:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60144)
+	id 1hufaf-0008Gh-DM
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 12:12:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60853)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hufUj-0001Ov-G7
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 12:05:58 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hufYO-0003MF-F2
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 12:09:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hufUi-0005Uf-Ek
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 12:05:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59302)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hufUg-0005Sp-0K; Mon, 05 Aug 2019 12:05:54 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B7E17E8CC1;
- Mon,  5 Aug 2019 16:05:52 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB38D5C1D6;
- Mon,  5 Aug 2019 16:05:48 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20190730163251.755248-1-vsementsov@virtuozzo.com>
- <20190730163251.755248-3-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <16d76f79-3073-e6c3-1af3-8a581bc4e3fe@redhat.com>
-Date: Mon, 5 Aug 2019 18:05:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <bmeng.cn@gmail.com>) id 1hufYN-0007BH-5D
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 12:09:44 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:44347)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1hufYJ-00077Q-Cp; Mon, 05 Aug 2019 12:09:39 -0400
+Received: by mail-ed1-x542.google.com with SMTP id k8so79193750edr.11;
+ Mon, 05 Aug 2019 09:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xfqPt+uOeXJnvtJQ1eeLGHOCKPxOAyHacceChXWj/yc=;
+ b=I7kx4Guelsa7Wit9/p0ThVIjMCkOkuaT1AoWPu2bv4BqPq+v53buKJ9yDp8JYlCuMz
+ hK46mi7ILqJNmI0VF6IYoClV573NnfBObTXYQrTvgNwLZtZBj4HDs90maE1CBr3PTN2W
+ xccTdrLQYbPZZcGERp61YQqZY1XoKFSaFHj6RBvHYZ4VoxKro5u6mO5RcOfThqkJ2QzW
+ ldVoafbMQzrit5C1zIuajAb+2pHF3Os5e+TTFCd04Lt3bCnC97vt8/d8VCpJlCyyythB
+ mEWUFE97W/cQmKc+S1cu56nPPKm8e3Ft5Cf4xMd9f7mz9sYErb6g0pi3BfuMx8CuZmgr
+ /eBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xfqPt+uOeXJnvtJQ1eeLGHOCKPxOAyHacceChXWj/yc=;
+ b=TIGjeATqD/TJJZKaCXJ+gHx0ulxDyyHIW7hHvNUi55FBiAueJvHLDkuvEB1J4VgIAl
+ f5Nh+GWIq5Dz6R/qeRMsOLdwfS1RA8eKqXYm+HcdcuEdbGrGJxpXURc/Py3zlkdoF1vv
+ g0c/G+Qf2Lyk6UysdI0GzFOyRH/zuumgDqb7EfsvOLLZanng4GvtGkqXPSirjZZSXGg3
+ m2R3mfaUTtP9em6NamnmMtI+kUtddblrbdWt84zUloIW8UeAqNSatTwuyswxzHJtAIqy
+ MyiH4NdVu+gnDPRlSf37GXtjCDFc/KKU1hF2Zy1dCo58r/MWcPybTHlIVU5dZDjJHXlU
+ MgAg==
+X-Gm-Message-State: APjAAAXSCeZsYQApx3qKDjlmxFKjICVkUboeZ9am271gnn3tJ8oScf8g
+ DWIIb/v70ZAy2Pl/+ICacYz4FpHRL+/CBPOVXsg=
+X-Google-Smtp-Source: APXvYqyPn/B48yLfsfsWOkWUmiyWdHupakx8ZNCW0HxZoxIDHOeyIbYVmp8J4cx0NOr0OTfn0+3CYGoAgdLEJ9Ij0/M=
+X-Received: by 2002:a17:906:fcb8:: with SMTP id
+ qw24mr119308778ejb.239.1565021377947; 
+ Mon, 05 Aug 2019 09:09:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190730163251.755248-3-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="UB5mrYUYBQ2JP9Gfed1RDP8XqAz8eCtXA"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Mon, 05 Aug 2019 16:05:52 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/3] block/backup: disable copy_range for
- compressed backup
+References: <1558108285-19571-1-git-send-email-bmeng.cn@gmail.com>
+ <1558108285-19571-2-git-send-email-bmeng.cn@gmail.com>
+ <9338c7b4-6a05-2189-b93d-25cb2bd4dd54@adacore.com>
+ <CAEUhbmUtdvkYPm4DZL4MSeV5imaj82x2xtPkQ0yLKF599N=vXw@mail.gmail.com>
+ <CAKmqyKP1BcTOQJDJoFiEL4NhMwTHQHmSDn=ZPiq8eDMB_hVSkw@mail.gmail.com>
+In-Reply-To: <CAKmqyKP1BcTOQJDJoFiEL4NhMwTHQHmSDn=ZPiq8eDMB_hVSkw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 6 Aug 2019 00:09:27 +0800
+Message-ID: <CAEUhbmXcOMuQiSfSYD2-_vR+5HqTfou1XhoC_Vi7m9EGb1K1kw@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::542
+Subject: Re: [Qemu-devel] [Qemu-riscv] [PATCH 2/2] riscv: sifive_u: Update
+ the plic hart config to support multicore
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,68 +76,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Fabien Chouteau <chouteau@adacore.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---UB5mrYUYBQ2JP9Gfed1RDP8XqAz8eCtXA
-Content-Type: multipart/mixed; boundary="8SB1mLGYPQFSIDEj7tg4UhVdRBUxbieSM";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, kwolf@redhat.com,
- jsnow@redhat.com, den@openvz.org
-Message-ID: <16d76f79-3073-e6c3-1af3-8a581bc4e3fe@redhat.com>
-Subject: Re: [PATCH 2/3] block/backup: disable copy_range for compressed
- backup
-References: <20190730163251.755248-1-vsementsov@virtuozzo.com>
- <20190730163251.755248-3-vsementsov@virtuozzo.com>
-In-Reply-To: <20190730163251.755248-3-vsementsov@virtuozzo.com>
+Hi Alistair,
 
---8SB1mLGYPQFSIDEj7tg4UhVdRBUxbieSM
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jul 16, 2019 at 5:33 AM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Sat, Jul 13, 2019 at 8:23 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > Hi Fabien,
+> >
+> > On Tue, Jul 9, 2019 at 12:31 AM Fabien Chouteau <chouteau@adacore.com> wrote:
+> > >
+> > > Hi Bin,
+> > >
+> > > Thanks for this patch.
+> > >
+> > > I know I am very late to the game but I have a comment here.
+> > >
+> > > On 17/05/2019 17:51, Bin Meng wrote:
+> > > > +    /* create PLIC hart topology configuration string */
+> > > > +    plic_hart_config_len = (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1) * smp_cpus;
+> > > > +    plic_hart_config = g_malloc0(plic_hart_config_len);
+> > > > +    for (i = 0; i < smp_cpus; i++) {
+> > > > +        if (i != 0) {
+> > > > +            strncat(plic_hart_config, ",", plic_hart_config_len);
+> > > > +        }
+> > > > +        strncat(plic_hart_config, SIFIVE_U_PLIC_HART_CONFIG,
+> > > > +                plic_hart_config_len);
+> > > > +        plic_hart_config_len -= (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1);
+> > > > +    }
+> > > > +
+> > >
+> > > This will create up to 4 MS PLIC devices. However on the Unleashed FU540 the PLICs are M,MS,MS,MS,MS because of the monitor hart #0.
+> > >
+> > > This means a different memory layout than the real hardware.
+> > >
+> > > For instance address 0x0C00_2080 will be hart #0 S-Mode interrupt enables in QEMU, instead of #1 M-Mode interrupt enables for the real hardware.
+> >
+> > Thanks for the notes! I agree to better match the real hardware, it
+> > should be modeled like that. However I am not sure what the original
+> > intention was when creating the "sifive_u" machine. Both OpenSBI and
+> > U-Boot list sifive_u as a special target, instead of the real
+> > Unleashed board hence I assume this is a hypothetical target too, like
+> > the "virt", but was created to best match the real Unleashed board
+> > though.
+>
+> I thought (Palmer correct me if I'm wrong) that the sifive_u machine
+> *should* match the hardware. The problem is that QEMU doesn't support
+> everything that the HW supports which is why U-Boot and OpenSBI have
+> their own targets. The goal is to not require special QEMU targets, so
+> this is a step in the right direction.
+>
 
-On 30.07.19 18:32, Vladimir Sementsov-Ogievskiy wrote:
-> Enabled by default copy_range ignores compress option. It's definitely
-> unexpected for user.
->=20
-> It's broken since introduction of copy_range usage in backup in
-> 9ded4a011496.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/backup.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-Thanks, applied to my block branch:
+I've sent a series that improves the emulation fidelity of sifive_u
+machine, so that the upstream OpenSBI, U-Boot and kernel images built
+for the SiFive HiFive Unleashed board can be used out of the box
+without any special hack.
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+Please have a look.
+http://patchwork.ozlabs.org/project/qemu-devel/list/?series=123386
 
-Max
-
-
---8SB1mLGYPQFSIDEj7tg4UhVdRBUxbieSM--
-
---UB5mrYUYBQ2JP9Gfed1RDP8XqAz8eCtXA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1IU9oACgkQ9AfbAGHV
-z0APswf/RNb6J1XFFvZajfZtp+vS9TNVMzlRmZVmyBG9YypeIg0MjBU2T3nUqvNT
-ryspLNYJ4YO7X6e7tGi+++gFcikuBToJCQvODcQQFxYDzbTc8bwICtktv3aphZLp
-jAclAvbZeV0txXsoHp4r3hvQt3f/vYnSfHgq1wn91dyW7oS3UXOmJkWxcYlQqFFm
-WHX20zctY+V5dDCpk+zBRqhg7Waf8VHjmk0sgofh5smAzzVLCmdYcqzblp4T4S2L
-ks5zJW4xFUgtJ/EoMsluTj/zVVLhOh2lw+pdqJBW0eHUGNM5s392TTML03jANylm
-90E1mxqhF3RrA20Bs5RxYso7DBMdlw==
-=wshQ
------END PGP SIGNATURE-----
-
---UB5mrYUYBQ2JP9Gfed1RDP8XqAz8eCtXA--
+Regards,
+Bin
 
