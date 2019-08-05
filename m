@@ -2,82 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2128262E
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 22:42:46 +0200 (CEST)
-Received: from localhost ([::1]:56909 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DDE3826A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 23:14:30 +0200 (CEST)
+Received: from localhost ([::1]:56998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hujoc-0000Iv-3x
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 16:42:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58057)
+	id 1hukJJ-0008AB-BN
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 17:14:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37383)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bala24@linux.ibm.com>) id 1huhbr-00019Z-K1
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 14:21:28 -0400
+ (envelope-from <rth7680@gmail.com>) id 1hukIC-0007g2-Pa
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 17:13:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bala24@linux.ibm.com>) id 1huhbq-0008Uj-0s
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 14:21:27 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61722)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
- id 1huhbp-0008UJ-Le
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 14:21:25 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x75I3919039077
- for <qemu-devel@nongnu.org>; Mon, 5 Aug 2019 14:21:24 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2u6rkf2mtm-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 05 Aug 2019 14:21:23 -0400
-Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
- Mon, 5 Aug 2019 19:21:21 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 5 Aug 2019 19:21:18 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x75ILHuv60620842
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 5 Aug 2019 18:21:17 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CD5234C04E;
- Mon,  5 Aug 2019 18:21:17 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BF7164C044;
- Mon,  5 Aug 2019 18:21:16 +0000 (GMT)
-Received: from localhost.localdomain.com (unknown [9.85.74.191])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  5 Aug 2019 18:21:16 +0000 (GMT)
-From: Balamuruhan S <bala24@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Date: Mon,  5 Aug 2019 23:50:33 +0530
-X-Mailer: git-send-email 2.14.5
-In-Reply-To: <20190805182033.27578-1-bala24@linux.ibm.com>
-References: <20190805182033.27578-1-bala24@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 19080518-0028-0000-0000-0000038BEB8E
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19080518-0029-0000-0000-0000244C49F9
-Message-Id: <20190805182033.27578-4-bala24@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-08-05_09:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=4 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=908 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908050188
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-X-Mailman-Approved-At: Mon, 05 Aug 2019 16:41:38 -0400
-Subject: [Qemu-devel] [PATCH 3/3] tests/acceptance/migration: test to
- migrate will all machine types
+ (envelope-from <rth7680@gmail.com>) id 1hukIB-0004xi-Jk
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 17:13:20 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:33057)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <rth7680@gmail.com>) id 1hukIB-0004xF-D9
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 17:13:19 -0400
+Received: by mail-pg1-x542.google.com with SMTP id n190so5232648pgn.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Aug 2019 14:13:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:openpgp:autocrypt:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YGJwjfcIoUMQVqXZ28SsGMaPJIadDJUuWacndeukgrI=;
+ b=LDZra1vXFIIlA1gjBJADWE6PJGxl4hhDDu3Gp20wpUv4BPOoMLgQeerq85YVUXqSY7
+ hpy0ztrXUs4RvOth7z2YjHP/6f9ASA5mkz4FWwJMjKhxBYtOHjfk9rHt0FflUzTWWxqn
+ V0X2o1TZ+mgpqotI5ZfIVQa1aRp7uYfGkemsaZVCZRPOFvCvjxEY7yV0/EG0bD+Rj9fo
+ 3KAhrRBAVETgmTzweFJ7POdk1BfPjY4XAabdDIsF74TEBHMRWciv2YQAtEfdOeqAzLEP
+ IvuLN4o0UNUCkELRy4lU3mXKNq+5GuqFzD/ZlbEUs+PicN1iBcUPhw8oZyzxf9xBfGu6
+ 0+ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:openpgp
+ :autocrypt:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=YGJwjfcIoUMQVqXZ28SsGMaPJIadDJUuWacndeukgrI=;
+ b=n6pF1a4w55uc9HmvpBU4c8C68zWMYeBoToqz95E1n6GHr9r3KQjRuXh2/axfk/iltI
+ B2AfqGvsrF3Y/JbJt5SQqg5P/2dI3SpBvb915EI+svrDG99gUbvAhRmbZoPGGGn9nFi4
+ E/RUg3sW84JEjSyuXVSvcHoVbCnQMFY+BdusLSsRTJGA3Iwdvx3HTH+OVU8SRz8Hw1K+
+ 4TJO+OgX4m1Xww7haUJGS91vRlzl+3skm4G+6BD1nkaKWKH+qLlbD9wEvcaMGnnxzRvd
+ yXbAfZS1dOxMz6/pqvPJSLOmP2WSioyKJ+yTaB3Yrxp+z03vV8SUVF6AVsN/fpKXp++R
+ rdrQ==
+X-Gm-Message-State: APjAAAVVH3pVwHnOf52j8RL4R+lMIp/tBJOh8T/41LDyyYM9fr6DRQuY
+ T21YM3syDa10Kti+VlGXWb8=
+X-Google-Smtp-Source: APXvYqwkCGhfXLRPacoV10d2xX0299J6HcplYKuJFOfAoXlCALTTm+11h4DVCXk35nCx/9pOBEK68w==
+X-Received: by 2002:a63:ab08:: with SMTP id p8mr50251786pgf.340.1565039597313; 
+ Mon, 05 Aug 2019 14:13:17 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.googlemail.com with ESMTPSA id
+ 201sm102181901pfz.24.2019.08.05.14.13.15
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 05 Aug 2019 14:13:16 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20190805180332.10185-1-peter.maydell@linaro.org>
+From: Richard Henderson <rth@twiddle.net>
+Openpgp: preference=signencrypt
+Autocrypt: addr=rth@twiddle.net; prefer-encrypt=mutual; keydata=
+ mQENBFGuLC8BCADcAoWcnW9lTsDMzbO3MBU+KbiGaj5JPatEUscRDkQYM2fyNjJp2tIWDK5a
+ n4yngeXB3eX61WbYR3QraRK8mlYLGxyAdHMEQfPipbqf3TmN043fssT2bc82ApJcs1zvLYgI
+ rhMht7Dck7A0wNC1jo+ZjVVFig5gDTN7gOzaAdBtV8tVNUddwkLzzaGpfihhSD6U46NdqKOG
+ Wlnn6TrkMy0QGdQ5NaXHkRlUjnnUTSW/nKfoxD+EI+A9V4sYOd8mc/TL4aJh/i/AiU57eLbo
+ n17uQI6/VTWDUWl8USiz4x9c8vmqlywLx00tAFxxoRWqk4KVJlj+Sh0up/D/sJ+vPpgBABEB
+ AAG0I1JpY2hhcmQgSGVuZGVyc29uIDxydGhAdHdpZGRsZS5uZXQ+iQFBBBMBAgArAhsDBgsJ
+ CAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUJC7UHogUCWaDNVgIZAQAKCRCtEnDMTdAnm9N5CADO
+ cB8F/SudJ72IupxQf40hbJdBK176+gb3sHMsixyLtrU59lee+lIM1OZmlNjsnCYmiSnbA5ks
+ Q7p0HfO7DgdmfLzcK6xsHZukqSZy5LByw348Y913ZyjOrJZFdPP7kDg1MnqRqH4+3ZdzxV4y
+ eYBWFU9GYMIF06JbUubossOOO4ArNVZbnIPu8Vn2tDZVVqsCBqkoCSBMj519xrvyOu5z4mHS
+ LkCglXmVDOXMbqLuNAC3rfNXSnyM4hYkLUyfALJlAAy1Ro+jUqYhu7XUFV/MiwRuFMh5GbtY
+ Urkx7tqsWQXLT3GeDk/LqvpWJQwk4cHHckYjRih+70CHIenm81PVuQENBFGuLC8BCACyEx3x
+ 94HIkTX0CHu2sA0w75+h9wuoA8ggJ7+S4ri0y2YsijWad5TTt6z6MMiqxk9kSA5bppaj4HXh
+ 86hBF/dWCtMpNr3Rb8FNOKyeA/qkYHVD6HiAiw9c6D8Dr9hWmOk3/HSmGrNURxeUFOckDXsv
+ I+yGGKBNshj59j7QZr7ZiuIi2rWlBL8dFN/OWa/o3x7HKsE4k6K8ngwvCKP/QbDLwLLBOWH+
+ VEUtpyeyxTr3OJ47ECTxdYvXoAV2iJaKr+6doVQiiR5eVFiMYrUPUECJeolOCwqc/JlWE18L
+ +PCAFaW1H+/mpPVfSpN4wnkJ5cQiQVB41IaCM4p20iRzx7ZJABEBAAGJASUEGAECAA8CGwwF
+ AlmgzYEFCQu1CEoACgkQrRJwzE3QJ5s7rggAwABzDAGrZ6uWsMxg5PeiiAYPy6LBnCBJSpB5
+ Tfy5jH8QTmLfXW+u4Ib4sWXG7PYNR7sIrtqUHjRqXLVXrSnBX9ASGcYw/Xil45khW6LsRpO1
+ prHv9gkwQfa6fTiWXVfSfm2Nant6u02q+MaYtQpCVTiz/9ki4FfftUwUHFLU0MhIQogjd11y
+ /E08RJsqBwaHQdt14PwU1HphDOzSkhOXRXQLSd3ysyeGUXvL+gqQoXl5XYdvk8IId4PoJRo4
+ jcyJ4VbnldvXh5gdGhFA/f9JgkLk9tPW+C3wNtNWyRUq8azR9hF2fg2HJUf4IXQlIu8OOgh1
+ VcROBqvtH3ecaIL9iw==
+Message-ID: <d788f3ff-6814-117d-942d-7870b6201f30@twiddle.net>
+Date: Mon, 5 Aug 2019 14:13:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190805180332.10185-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: Re: [Qemu-devel] [PATCH] target/i386: Return 'indefinite integer
+ value' for invalid SSE fp->int conversions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,54 +108,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Balamuruhan S <bala24@linux.ibm.com>, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-add migration test to query machine types supported by qemu binary
-and migrate vm will all supported type.
+On 8/5/19 11:03 AM, Peter Maydell wrote:
+> The x86 architecture requires that all conversions from floating
+> point to integer which raise the 'invalid' exception (infinities of
+> both signs, NaN, and all values which don't fit in the destination
+> integer) return what the x86 spec calls the "indefinite integer
+> value", which is 0x8000_0000 for 32-bits or 0x8000_0000_0000_0000 for
+> 64-bits.  The softfloat functions return the more usual behaviour of
+> positive overflows returning the maximum value that fits in the
+> destination integer format and negative overflows returning the
+> minimum value that fits.
+> 
+> Wrap the softfloat functions in x86-specific versions which
+> detect the 'invalid' condition and return the indefinite integer.
+> 
+> Note that we don't use these wrappers for the 3DNow! pf2id and pf2iw
+> instructions, which do return the minimum value that fits in
+> an int32 if the input float is a large negative number.
+> 
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1815423
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> I've tested that this fixes the LP:1815423 test case. If anybody
+> has an x86 VM image to hand that has node.js installed it would
+> also be useful to test the operations in
+> https://bugs.launchpad.net/qemu/+bug/1832281
+> (I don't have such a VM.)
+> 
+> The other approach here would be to make the softfloat functions be
+> flexible enough to allow this behaviour -- from my reading of IEEE754
+> I think the exact returned result for 'invalid' inputs for float to
+> int conversions is not specified.
+> 
+>  target/i386/ops_sse.h | 88 +++++++++++++++++++++++++++++--------------
+>  1 file changed, 60 insertions(+), 28 deletions(-)
 
-Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
----
- tests/acceptance/migration.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+I guess this is exactly what we already do in fpu_helper.c.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-index 66941db3b3..a598b54718 100644
---- a/tests/acceptance/migration.py
-+++ b/tests/acceptance/migration.py
-@@ -50,3 +50,29 @@ class Migration(Test):
-         self.assertEqual(source_vm.command('query-migrate')['status'], 'completed')
-         self.assertEqual(dest_vm.command('query-status')['status'], 'running')
-         self.assertEqual(source_vm.command('query-status')['status'], 'postmigrate')
-+
-+
-+    def test_migration_with_machine_types(self):
-+        migration_port = self._get_free_port()
-+        for machine in self.get_machine_types():
-+            if 'pseries' in machine:
-+                print("migrating with machine type - {}".format(machine))
-+                source_vm = self.get_vm('-M', '{},cap-htm=off'.format(machine))
-+                dest_uri = 'tcp:localhost:%u' % migration_port
-+                dest_vm = self.get_vm('-M', '{},cap-htm=off'.format(machine),
-+                                      '-incoming', dest_uri)
-+                dest_vm.launch()
-+                source_vm.launch()
-+                source_vm.qmp('migrate', uri=dest_uri)
-+                wait.wait_for(
-+                    self.migration_finished,
-+                    timeout=self.timeout,
-+                    step=0.1,
-+                    args=(source_vm,)
-+                )
-+                self.assertEqual(source_vm.command('query-migrate')['status'],
-+                                                   'completed')
-+                self.assertEqual(dest_vm.command('query-status')['status'],
-+                                                 'running')
-+                self.assertEqual(source_vm.command('query-status')['status'],
-+                                                   'postmigrate')
--- 
-2.14.5
 
+r~
 
