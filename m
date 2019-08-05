@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D90682148
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 18:08:20 +0200 (CEST)
-Received: from localhost ([::1]:55606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9C982150
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 18:09:26 +0200 (CEST)
+Received: from localhost ([::1]:55632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hufX1-0006ZQ-Ft
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 12:08:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58466)
+	id 1hufY5-0001Yq-Dd
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 12:09:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58512)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bmeng.cn@gmail.com>) id 1hufPg-0000Wz-3J
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 12:00:45 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hufPi-0000e6-SM
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 12:00:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hufPf-0002vp-1M
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 12:00:44 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:42400)
+ (envelope-from <bmeng.cn@gmail.com>) id 1hufPh-0002x6-3I
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 12:00:46 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40381)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hufPe-0002vN-R7; Mon, 05 Aug 2019 12:00:42 -0400
-Received: by mail-pf1-x442.google.com with SMTP id q10so39857884pff.9;
- Mon, 05 Aug 2019 09:00:42 -0700 (PDT)
+ id 1hufPg-0002wj-TV; Mon, 05 Aug 2019 12:00:45 -0400
+Received: by mail-pf1-x442.google.com with SMTP id p184so39868808pfp.7;
+ Mon, 05 Aug 2019 09:00:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=2MH7twmDJfeZRj3jUDtzUjwhHh0CGkZ/MkdqWVYWSCk=;
- b=YkT290T2q3RvuBJ0Z7qI2GlKYk5/YpRjrDAZJh6xeEbrIktmwrwvR4Bw1tLeXXfhnQ
- SWmJ4I1pgxElDSBQqI90YBeuN3mGAwE2TFJh1X1Mc7/1ZPT8YtdD6h6Ej1KehgD+AkGe
- kKSQ5jlDOKh5Mr1Ft3b8RXwnYXYzkr5UUrlgRPXih22WFrEE3FAbxC7EPQcYaeuoLQnY
- gZHZ/qTiTeMB/VrMZ7gZqoqEU45lmTie6npo8+MOFn3TP2D+mDQyrXbb2o/R6Fyy7KZ/
- IOD59y3lXH9JxU3gM0viOhbSaD62yO2eXFFsvv4Lmt0vEgcxIi8FVEBllkmdkLii8pqy
- uwTw==
+ bh=5UkSZjk59XZ8i2OViDkORZ+nXtgp+G8SgwVVzb1iT5c=;
+ b=SdXLwo1BtpHsJjaTLBTeBYkvMNrG/L5eYALoARzOudPsiV+9jznlV3GjQDWUenu9Jj
+ lSUs+mj5MshXqOniJA8QQ2YU6EO8UWFJ4durOjU8uKrhCqPBy3/+VgvaMZIEsV3g6qhb
+ 4JUyR7mNkA5XxZUXz9Hk9oADBtmVEc90Xk8zSPEvWN14NzUNvszDStMdn2hBBKpfdWWX
+ 8VtmbSgJkXDUqhUh9yAEdZXWzrGGuVfNPK+3Jk1CE3zJ6fRxoJq5dq6g7nsiddYyGRwe
+ ZaRxbS7ErfxqxeCF3sr7dvAy/vDN/COWogPLTdYCi6i/ABMC/qhL2hst/6tncbysSOmv
+ 7s4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=2MH7twmDJfeZRj3jUDtzUjwhHh0CGkZ/MkdqWVYWSCk=;
- b=mJEaoE/v1QGNEPAz/aw0UPA0ZB4MVqADIkGQDUJrTpaShjtKUHqXaEGlE27lptH95K
- SwFbD/eVEBjTJ+7nmg2dV8htlDLRhRM1edsws30DlUbOXDz9Fhc+Bjv2nJv/3vR3fZTy
- zlytWWo+ov0sUZM23ZoPk9yGsum2mKRbuEDqMhV4fryMG5Jz7RgBgAZJbxx86Afx2uSK
- GVPBHN7nH8j0ilqPTLnmOZe6i724B7m9/sl7LyP/B7PN1NZYwtZEtpsS83QIE53D7AgI
- xD0eJWvekh9DKc42a76vH+AZBuEuG8FcA+YGoGY3fNQV4N7KI82o0aTXYVycz5CjDjTl
- ykJQ==
-X-Gm-Message-State: APjAAAW5J4Q0Uw/BWgtHqkgecTIVxYUINtYlhm/43wUmM2GBVNCMw707
- bBLCyk/YsjfJVAQ6Zjv8re4=
-X-Google-Smtp-Source: APXvYqzLAlbXmRq6+RKapxCcfKnpTpATB3orDKl8rPmPdXLfzjaBEGJRkfmpQYft+L7BQKbqsX83jg==
-X-Received: by 2002:a62:79c2:: with SMTP id
- u185mr74960737pfc.237.1565020841964; 
- Mon, 05 Aug 2019 09:00:41 -0700 (PDT)
+ bh=5UkSZjk59XZ8i2OViDkORZ+nXtgp+G8SgwVVzb1iT5c=;
+ b=RlCAwqNJntnxdwfGON6TDK4AJH+hw0WniBW3Po1x9p5Zatsaz5tZ5vDL0/ZbqWZLUg
+ WHgmvHdX8/k8XKIlNOuQM+8zkvESvhEhNlyJ2GzvsRUNSEebDUjfb5SQlsONQPFVIRpZ
+ Qcol9J4iCOP9aGm47718na9nsoL947vE/2uC6Q4t5yuE4gqG7nc0b5JcgyKTgvB0DDU6
+ nKNNvKCIUayVePGvdF5UmMTc174mFwZzorV7hpcDs+X+F1MYWkwg0f5Xth0/j7n1zxqJ
+ Zr0jtMhgxfkMFkNDNRwzqVQ4CxNbg5sEK0+DzWUnFarU6Wf7JQ5+ReQrg1WBh4hJyQr0
+ kofQ==
+X-Gm-Message-State: APjAAAWzjAOGp3pDIp3aAMtJsF5MBDEaJn63Iw9a24/zYCylDm/LjvFl
+ nCYOo9eLrDss+4ySNIKBLb8=
+X-Google-Smtp-Source: APXvYqw6/V5fdHZ/Z/Z2Dv3kQnxllhj5eJxU+RxkDGpqj7lD8qOye/M/kyAWSdG/Uzr8vooYSbZnSA==
+X-Received: by 2002:a62:2c8e:: with SMTP id s136mr74630621pfs.3.1565020844201; 
+ Mon, 05 Aug 2019 09:00:44 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id d18sm47728793pgi.40.2019.08.05.09.00.41
+ by smtp.gmail.com with ESMTPSA id d18sm47728793pgi.40.2019.08.05.09.00.43
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Mon, 05 Aug 2019 09:00:41 -0700 (PDT)
+ Mon, 05 Aug 2019 09:00:43 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Palmer Dabbelt <palmer@sifive.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Mon,  5 Aug 2019 09:00:08 -0700
-Message-Id: <1565020823-24223-14-git-send-email-bmeng.cn@gmail.com>
+Date: Mon,  5 Aug 2019 09:00:10 -0700
+Message-Id: <1565020823-24223-16-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1565020823-24223-1-git-send-email-bmeng.cn@gmail.com>
 References: <1565020823-24223-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH 13/28] riscv: sifive_e: prci: Update the PRCI
- register block size
+Subject: [Qemu-devel] [PATCH 15/28] riscv: sifive_u: Generate hfclk and
+ rtcclk nodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,42 +82,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the PRCI register block size is set to 0x8000, but in fact
-0x1000 is enough, which is also what the manual says.
+To keep in sync with Linux kernel device tree, generate hfclk and
+rtcclk nodes in the device tree, to be referenced by PRCI node.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 ---
 
- hw/riscv/sifive_e_prci.c         | 2 +-
- include/hw/riscv/sifive_e_prci.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ hw/riscv/sifive_u.c         | 23 +++++++++++++++++++++++
+ include/hw/riscv/sifive_u.h |  2 ++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/hw/riscv/sifive_e_prci.c b/hw/riscv/sifive_e_prci.c
-index c906f11..4cbce48 100644
---- a/hw/riscv/sifive_e_prci.c
-+++ b/hw/riscv/sifive_e_prci.c
-@@ -85,7 +85,7 @@ static void sifive_prci_init(Object *obj)
-     SiFivePRCIState *s = SIFIVE_E_PRCI(obj);
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index dfcb525..f619ca6 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -76,6 +76,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     char *nodename;
+     char ethclk_names[] = "pclk\0hclk\0tx_clk";
+     uint32_t plic_phandle, ethclk_phandle, phandle = 1;
++    uint32_t hfclk_phandle, rtcclk_phandle;
  
-     memory_region_init_io(&s->mmio, obj, &sifive_prci_ops, s,
--                          TYPE_SIFIVE_E_PRCI, 0x8000);
-+                          TYPE_SIFIVE_E_PRCI, SIFIVE_E_PRCI_REG_SIZE);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+     fdt = s->fdt = create_device_tree(&s->fdt_size);
+     if (!fdt) {
+@@ -94,6 +95,28 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     qemu_fdt_setprop_cell(fdt, "/soc", "#size-cells", 0x2);
+     qemu_fdt_setprop_cell(fdt, "/soc", "#address-cells", 0x2);
  
-     s->hfrosccfg = (SIFIVE_PRCI_HFROSCCFG_RDY | SIFIVE_PRCI_HFROSCCFG_EN);
-diff --git a/include/hw/riscv/sifive_e_prci.h b/include/hw/riscv/sifive_e_prci.h
-index 7932fe7..81e506b 100644
---- a/include/hw/riscv/sifive_e_prci.h
-+++ b/include/hw/riscv/sifive_e_prci.h
-@@ -47,6 +47,8 @@ enum {
-     SIFIVE_PRCI_PLLOUTDIV_DIV1  = (1 << 8)
++    hfclk_phandle = phandle++;
++    nodename = g_strdup_printf("/hfclk");
++    qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_cell(fdt, nodename, "phandle", hfclk_phandle);
++    qemu_fdt_setprop_string(fdt, nodename, "clock-output-names", "hfclk");
++    qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
++        SIFIVE_U_HFCLK_FREQ);
++    qemu_fdt_setprop_string(fdt, nodename, "compatible", "fixed-clock");
++    qemu_fdt_setprop_cell(fdt, nodename, "#clock-cells", 0x0);
++    g_free(nodename);
++
++    rtcclk_phandle = phandle++;
++    nodename = g_strdup_printf("/rtcclk");
++    qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_cell(fdt, nodename, "phandle", rtcclk_phandle);
++    qemu_fdt_setprop_string(fdt, nodename, "clock-output-names", "rtcclk");
++    qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
++        SIFIVE_U_RTCCLK_FREQ);
++    qemu_fdt_setprop_string(fdt, nodename, "compatible", "fixed-clock");
++    qemu_fdt_setprop_cell(fdt, nodename, "#clock-cells", 0x0);
++    g_free(nodename);
++
+     nodename = g_strdup_printf("/memory@%lx",
+         (long)memmap[SIFIVE_U_DRAM].base);
+     qemu_fdt_add_subnode(fdt, nodename);
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index 4abc621..bacd60f 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -65,6 +65,8 @@ enum {
+ 
+ enum {
+     SIFIVE_U_CLOCK_FREQ = 1000000000,
++    SIFIVE_U_HFCLK_FREQ = 33333333,
++    SIFIVE_U_RTCCLK_FREQ = 1000000,
+     SIFIVE_U_GEM_CLOCK_FREQ = 125000000
  };
  
-+#define SIFIVE_E_PRCI_REG_SIZE  0x1000
-+
- #define TYPE_SIFIVE_E_PRCI      "riscv.sifive.e.prci"
- 
- #define SIFIVE_E_PRCI(obj) \
 -- 
 2.7.4
 
