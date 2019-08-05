@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288D1812DC
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:15:11 +0200 (CEST)
-Received: from localhost ([::1]:51312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FA2812F4
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:18:53 +0200 (CEST)
+Received: from localhost ([::1]:51370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huXD4-0003KF-63
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:15:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37368)
+	id 1huXGe-0001Mb-GN
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:18:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37391)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alxndr@bu.edu>) id 1huX9J-0003b5-8h
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:18 -0400
+ (envelope-from <alxndr@bu.edu>) id 1huX9K-0003fv-Qb
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1huX9I-00022q-3b
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:17 -0400
-Received: from mail-eopbgr680101.outbound.protection.outlook.com
- ([40.107.68.101]:34519 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1huX9J-00023N-5f
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:18 -0400
+Received: from mail-eopbgr680111.outbound.protection.outlook.com
+ ([40.107.68.111]:35968 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX9H-00022H-Us
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:16 -0400
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX9I-000237-W5
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:17 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LZJPbC6ubhOYMV05sKdlI2bwQy8s4HkvAR0H5XJnFcRe8LEGSSAWGizfV2XtSRt6Pmx9VS8TsQCBFdnsReO/l3a28sOCblY+J7S6IwH/3Tf3V4IZUO6OgeJcm3XM+YwkOUrmtFdJq1TWwixU57fDqG7/a65j8tsf7r6yZIueMrV73bJT+BM8WgTNDwAKE3xw4i8qLQrtD6XbLchz1skEIbjH/Jqa3KhriKOYAISMoLSCJvM/gtBngmHjDracM6o7fOa/9THFU6bdg+Ff6ycOYMoRQiweIjGXWV9tvuf/VIAsO4hDR9xUdQieTdTiAIDmep8BgNFfF8CTZmIwS8Rhnw==
+ b=E2qSTbqTnKc4+j4qk/PAHFXcn/9ANg+9m8/oaYAK3Kb6Fe1+jBdA56SlYtbdE04T48ZbNaaIcYmXCdIJwla64BgV7Kmu5WN/U6EWsDTORHoryXKt/JPVaFTfMf5iGAq3Yqx6UYLWLjNeD+8DfK+dMH1lOF3tcEkjF21UzbWclOs+t0H4bqLCT8zYEsT7eTXQlTfeFbigGzF4COeBR45m9d9XznJL5lJ/5zHIvrf1fTQZH927VF+fXBo1wYLjFSjaOK8aF7/KQ/QI66+UgNn4SzUPxzBPO66CxY1T0QVGEJpmTdzUR3uJHP/ZBjfmtsO7Tv0gfm2LLjGbYhGeM06/pA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j64WcXAtrFzH8PuU4KljLiL2xd3ZBo7ZqZsYscC2wWg=;
- b=UY8rcte0OUhwN1QueCCnTJVxSqyJlFlj87TbE/WNOw1nDpHcTCAt8r3DKMYfKLX85wt7wFPxj/OaGRy5iINJ36DDP1xCFPDhkxMeyseyPsfUD/LROGYL84vGw8DcFyJ9rNjkkFnw2Hh/eyi8KZL6qLYHDFeGsLaPTEDLVdm78u3o0eWKqN8OMcVzqEiMEq6cQXyFKa1p50tc53xEDo5R7TqSTl3V4iMyVs6+zXfvrUQxQpLTpah9TEYc3ZSxL5Pjmf9hKSdk5AaY1wDJGy22GKeT4n/c2W6seGL+vQJkt3TyOfYqJEdc1PMwTU9LkwTVYTw9Y3UD6x4mmtqW2HheIg==
+ bh=6KCHVyzZSKjr2PTOKKS7t1UICzMJ9giXxQ5aY63arbw=;
+ b=NIwQILJbK1Ce0FKEJyLBndZCXV0ib8kLS/zSZFGR8kT1FwT1X8V/pnI0/e36S5cVrjkeEgMqfTPA+JhDmVRAWm39lbfRM7oOnUvCBEn7mJNT848nkI8GGfUWN2CbL9k7g7BQVS55v+/H3zVtVYjv53F1yfpwYZmTyv1mhTHlB0n3EvlDdiyKrSvQ1+jlW03j7HUA927QGi7s5/un4Yh01JB6aay8HZjTLuAsNJ/P9puhK1pU+tGh1H7kCKwJcILf3kHzZ+K0W7eHzUnHicYfSzSuEyxEaI/hzZrdjxIgJ1WcDsP7EIQMY8Y2sOjObPoTRIAUN4PnRY4c4SrpfcbHEA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=bu.edu;dmarc=pass action=none header.from=bu.edu;dkim=pass
  header.d=bu.edu;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j64WcXAtrFzH8PuU4KljLiL2xd3ZBo7ZqZsYscC2wWg=;
- b=kFhV9qFnbVudGmWdn7OD154HCbzLMZ8pI54HsDrtF00bdPWznxMoZvsFA9BQS8VPesu4I98hCLwArFKo/MF4GoIOGO4GbVkq2GkpMhDkA75FK6OtZJK1PIKoOAk/G7TJn5duZDr/fo3aUjYb2vT5Dvkbn0yDHxgc38vwRnPFl40=
+ bh=6KCHVyzZSKjr2PTOKKS7t1UICzMJ9giXxQ5aY63arbw=;
+ b=hfLqO8RVXmlBfyseeIrK6R1ubfANNmqb4SzDDb5QOm8InuY2OfGxSemzJnO+hZ8MZKKMRGyWH38IpuLSEp7+5lXxKOS5NUKM8fEGrndYQPArhWMTTdhjdSWbnCFUc3RuWbdyJccZFzLfqVxv4S8OqOhwslVbOWUGhAdUtLLqo4Y=
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
  CY4PR03MB2646.namprd03.prod.outlook.com (10.173.43.142) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.16; Mon, 5 Aug 2019 07:11:15 +0000
+ 15.20.2136.16; Mon, 5 Aug 2019 07:11:16 +0000
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6cce:cc85:9e3:d33a]) by CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6cce:cc85:9e3:d33a%4]) with mapi id 15.20.2136.018; Mon, 5 Aug 2019
  07:11:15 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [RFC PATCH v2 14/17] fuzz: Add forking support to the fuzzer
-Thread-Index: AQHVS1z4+DrgWQpDM0G8sJ7j+7r3GA==
+Thread-Topic: [RFC PATCH v2 15/17] fuzz: Add general qtest fuzz-target
+Thread-Index: AQHVS1z4y4A/MADulEqNBrNhzpAPuA==
 Date: Mon, 5 Aug 2019 07:11:15 +0000
-Message-ID: <20190805071038.32146-15-alxndr@bu.edu>
+Message-ID: <20190805071038.32146-16-alxndr@bu.edu>
 References: <20190805071038.32146-1-alxndr@bu.edu>
 In-Reply-To: <20190805071038.32146-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -64,39 +64,38 @@ x-clientproxiedby: BL0PR02CA0068.namprd02.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9bf4c8bd-43a0-47a7-5ca5-08d719741a94
+x-ms-office365-filtering-correlation-id: a36c1158-b428-4cac-1faf-08d719741b11
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
  SRVR:CY4PR03MB2646; 
 x-ms-traffictypediagnostic: CY4PR03MB2646:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-prvs: <CY4PR03MB264658DD83E4B36A30C8101EBADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3044;
+x-microsoft-antispam-prvs: <CY4PR03MB26464F53A2F731EAFF530D74BADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:321;
 x-forefront-prvs: 01208B1E18
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(71200400001)(71190400001)(6916009)(186003)(2351001)(1076003)(76176011)(6436002)(53936002)(86362001)(5640700003)(52116002)(6306002)(6512007)(26005)(5660300002)(102836004)(386003)(6506007)(2501003)(66066001)(75432002)(6486002)(66476007)(2906002)(88552002)(4326008)(8676002)(316002)(786003)(50226002)(54906003)(81166006)(14454004)(81156014)(68736007)(476003)(2616005)(11346002)(446003)(486006)(36756003)(966005)(66446008)(66946007)(256004)(64756008)(25786009)(99286004)(478600001)(6116002)(3846002)(7736002)(305945005)(66556008)(8936002)(14444005)(42522002);
+ SFS:(10019020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(71200400001)(71190400001)(6916009)(186003)(2351001)(1076003)(76176011)(6436002)(53936002)(86362001)(5640700003)(52116002)(6512007)(26005)(5660300002)(102836004)(386003)(6506007)(2501003)(66066001)(75432002)(6486002)(66476007)(2906002)(88552002)(4326008)(8676002)(316002)(786003)(50226002)(54906003)(81166006)(14454004)(81156014)(68736007)(476003)(2616005)(11346002)(446003)(486006)(36756003)(66446008)(66946007)(256004)(64756008)(25786009)(99286004)(478600001)(6116002)(3846002)(7736002)(305945005)(66556008)(8936002)(42522002);
  DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2646;
  H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: rJhK5zHmXDcXJ8DIfM7pIaa64qTrOrL9MKEV7mCXkCsLU3wW6npK4pa7EKYdJFNg5IBqT8H0fHHNX7g/Xbn47JPyzLCa3lmXYrKi9pYlvc65itFcrsys31HmqfFG7vjgOHz+HjksNklG/25CI3UCQI76S84yoK1sqf46QiaBqDjWHvxepF1lZ9Q7LYDT+unxgdLlaZQM0oY2s4eFtYn81+eQBxWT6SGyMO7v2/QvpKosZmNvcL+D8Cly1yA2qpWhTFw8YuulX4vRgjA6vRNemCPKKDeF2+Pzbb4D/FQwppmpNxBSY3B1JLPK6K8PNF6GM90/IhZoTM3GxqEADwk3Plk0ZqFdDK6hbv1qdf8Hj/Tz0qNO6u+ZCkZbL05wkIoxoKouZTgr+W5KTkQEudO/XitWwOAbXUS/NMHlOzk3iFo=
+x-microsoft-antispam-message-info: bMu1DKn9RyDynLN5qfmAi6jQ5U3QxKyCbQq0t7jpnUTr1Kgr4yeWwzlGyVGS3nNCm0x0ZXeUPYPkxzgU+PTNu8Kkj/1oum1+hr1n4QbJLx0zPv3tAtuBvcMGQsU33WNZYxBXO5lHo9i1D0w38YFyAc1fwbAYST2anGTA6zRYjFPW6mmLT1ZZfD9Z1ZTeeu9mvDsiX7dIjcrSGqTi3sCTWrnUyhI4Ge9+Gh+xc6wrJDgKtTVErFrVqkeV84b08Njr14qm+xy38YtWFYKFoaEKktp/ygjyx07eNjqUmE1jL159gEVCZkd2GUuRm5GjjpEMtTBCIxGapwCEcBypUJVuzEO+DP+msoRRaKXfKUxcPcqRJLgvyIC+9OHUweQF6D0Si4VuWiruFNMFBbuNrktYeUuwVXU+Fem68SQtM3ORACU=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bf4c8bd-43a0-47a7-5ca5-08d719741a94
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:15.0975 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a36c1158-b428-4cac-1faf-08d719741b11
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:15.9341 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: alxndr@bu.edu
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2646
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.68.101
-Subject: [Qemu-devel] [RFC PATCH v2 14/17] fuzz: Add forking support to the
- fuzzer
+X-Received-From: 40.107.68.111
+Subject: [Qemu-devel] [RFC PATCH v2 15/17] fuzz: Add general qtest
+ fuzz-target
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,116 +113,328 @@ Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Forking is a simple way of ensuring that state doesn't leak between
-runs. This patch depends on a modification to libfuzzer:
-https://reviews.llvm.org/D65672
-
 Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
 ---
- tests/fuzz/fuzzer_hooks.c | 62 +++++++++++++++++++++++++++++++++++++++
- tests/fuzz/fuzzer_hooks.h | 21 +++++++++++++
- 2 files changed, 83 insertions(+)
- create mode 100644 tests/fuzz/fuzzer_hooks.c
- create mode 100644 tests/fuzz/fuzzer_hooks.h
+ tests/fuzz/qtest_fuzz.c | 260 ++++++++++++++++++++++++++++++++++++++++
+ tests/fuzz/qtest_fuzz.h |  37 ++++++
+ 2 files changed, 297 insertions(+)
+ create mode 100644 tests/fuzz/qtest_fuzz.c
+ create mode 100644 tests/fuzz/qtest_fuzz.h
 
-diff --git a/tests/fuzz/fuzzer_hooks.c b/tests/fuzz/fuzzer_hooks.c
+diff --git a/tests/fuzz/qtest_fuzz.c b/tests/fuzz/qtest_fuzz.c
 new file mode 100644
-index 0000000000..87c94ef65f
+index 0000000000..a4560535e1
 --- /dev/null
-+++ b/tests/fuzz/fuzzer_hooks.c
-@@ -0,0 +1,62 @@
++++ b/tests/fuzz/qtest_fuzz.c
+@@ -0,0 +1,260 @@
 +#include "qemu/osdep.h"
 +#include "qemu/units.h"
 +#include "qapi/error.h"
 +#include "qemu-common.h"
++#include "exec/memory.h"
++#include "exec/address-spaces.h"
++#include "sysemu/sysemu.h"
++#include "qemu/main-loop.h"
++#include <wordexp.h>
++#include "qemu-common.h"
 +#include "fuzzer_hooks.h"
 +
-+#include <dlfcn.h>
-+#include <elf.h>
++
++#include "fuzz.h"
++#include "qtest_fuzz.h"
++#include "tests/libqtest.h"
++#include "fuzz/qos_fuzz.h"
 +
 +
-+
-+void *counter_shm;
-+size_t feature_shm_len;
-+uintptr_t feature_shm;
-+size_t offset;
-+
-+typedef struct CoverageRegion {
-+    uint8_t *start;
-+    size_t length;
-+    bool store; /* Set this if it needs to be copied to the forked process=
- */
-+} CoverageRegion;
-+
-+CoverageRegion regions[10];
-+int region_index;
-+
-+
-+void counter_shm_init(void)
++/* Make sure that the io_port is mapped to some device */
++static uint16_t normalize_io_port(uint64_t addr)
 +{
-+    LLVMFuzzerIterateFeatureRegions(&measure_shm_size);
-+    feature_shm =3D (uintptr_t)mmap(NULL, feature_shm_len,
-+            PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
++    return addr;
++    addr =3D addr % total_io_mem;
++    fuzz_memory_region *fmr =3D fuzz_memory_region_head;
++    while (addr !=3D 0) {
++        if (!fmr->io) {
++            fmr =3D fmr->next;
++            continue;
++        }
++        if (addr <=3D fmr->length) {
++            addr =3D fmr->start + addr;
++            break;
++        }
++        addr -=3D fmr->length + 1;
++        fmr =3D fmr->next;
++    }
++    /* Stuff that times out or hotplugs.. */
++    if (addr >=3D 0x5655 && addr <=3D 0x565b) {
++        return 0;
++    }
++    if (addr >=3D 0x510 && addr <=3D 0x518) {
++        return 0;
++    }
++    /* PCI Hotplug */
++    if (addr >=3D 0xae00 && addr <=3D 0xae13) {
++        return 0;
++    }
++    /* CPU Hotplug */
++    if (addr >=3D 0xaf00 && addr <=3D 0xaf1f) {
++        return 0;
++    }
++    return addr;
 +}
 +
-+void counter_shm_store(void)
++/* Make sure that the memory address is mapped to some interesting device =
+*/
++static uint16_t normalize_mem_addr(uint64_t addr)
 +{
-+    offset =3D 0;
-+    LLVMFuzzerIterateFeatureRegions(&feature_store);
++    return addr;
++    addr =3D addr % total_ram_mem;
++    fuzz_memory_region *fmr =3D fuzz_memory_region_head;
++    while (addr !=3D 0) {
++        if (fmr->io) {
++            fmr =3D fmr->next;
++            continue;
++        }
++        if (addr <=3D fmr->length) {
++            return fmr->start + addr;
++        }
++        addr -=3D fmr->length + 1;
++        fmr =3D fmr->next;
++    }
++    return addr;
 +}
 +
-+void counter_shm_load(void)
++static void qtest_fuzz(const unsigned char *Data, size_t Size)
 +{
-+    offset =3D 0;
-+    LLVMFuzzerIterateFeatureRegions(&feature_load);
++    const unsigned char *pos =3D Data;
++    const unsigned char *End =3D Data + Size;
++
++    qtest_cmd *cmd;
++
++    while (pos < Data + Size) {
++        /* Translate the fuzz input to a qtest command */
++        cmd =3D &commands[(*pos) % (sizeof(commands) / sizeof(qtest_cmd))]=
+;
++        pos++;
++
++        if (strcmp(cmd->name, "clock_step") =3D=3D 0) {
++            /* TODO: This times out */
++            /* qtest_clock_step_next(s); */
++        } else if (strcmp(cmd->name, "outb") =3D=3D 0) {
++            if (pos + sizeof(uint16_t) + sizeof(uint8_t) < End) {
++                uint16_t addr =3D *(int16_t *)(pos);
++                pos +=3D sizeof(uint16_t);
++                uint8_t val =3D *(uint16_t *)(pos);
++                pos +=3D sizeof(uint8_t);
++                addr =3D normalize_io_port(addr);
++                qtest_outb(s, addr, val);
++            }
++        } else if (strcmp(cmd->name, "outw") =3D=3D 0) {
++            if (pos + sizeof(uint16_t) + sizeof(uint16_t) < End) {
++                uint16_t addr =3D *(int16_t *)(pos);
++                pos +=3D sizeof(uint16_t);
++                uint16_t val =3D *(uint16_t *)(pos);
++                pos +=3D sizeof(uint16_t);
++                addr =3D normalize_io_port(addr);
++                qtest_outw(s, addr, val);
++            }
++        } else if (strcmp(cmd->name, "outl") =3D=3D 0) {
++            if (pos + sizeof(uint16_t) + sizeof(uint32_t) < End) {
++                uint16_t addr =3D *(int16_t *)(pos);
++                pos +=3D sizeof(uint16_t);
++                uint32_t val =3D *(uint32_t *)(pos);
++                pos +=3D sizeof(uint32_t);
++                addr =3D normalize_io_port(addr);
++                qtest_outl(s, addr, val);
++            }
++        } else if (strcmp(cmd->name, "inb") =3D=3D 0) {
++            if (pos + sizeof(uint16_t) < End) {
++                uint16_t addr =3D *(int16_t *)(pos);
++                pos +=3D sizeof(uint16_t);
++                addr =3D normalize_io_port(addr);
++                qtest_inb(s, addr);
++            }
++        } else if (strcmp(cmd->name, "inw") =3D=3D 0) {
++            if (pos + sizeof(uint16_t) < End) {
++                uint16_t addr =3D *(int16_t *)(pos);
++                pos +=3D sizeof(uint16_t);
++                addr =3D normalize_io_port(addr);
++                qtest_inw(s, addr);
++            }
++        } else if (strcmp(cmd->name, "inl") =3D=3D 0) {
++            if (pos + sizeof(uint16_t) < End) {
++                uint16_t addr =3D *(int16_t *)(pos);
++                pos +=3D sizeof(uint16_t);
++                addr =3D normalize_io_port(addr);
++                qtest_inl(s, addr);
++            }
++        } else if (strcmp(cmd->name, "writeb") =3D=3D 0) {
++            if (pos + sizeof(uint32_t) + sizeof(uint8_t) < End) {
++                uint32_t addr =3D *(int32_t *)(pos);
++                pos +=3D sizeof(uint32_t);
++                uint8_t val =3D *(uint8_t *)(pos);
++                pos +=3D sizeof(uint8_t);
++                addr =3D normalize_mem_addr(addr);
++                qtest_writeb(s, addr, val);
++            }
++        } else if (strcmp(cmd->name, "writew") =3D=3D 0) {
++            if (pos + sizeof(uint32_t) + sizeof(uint16_t) < End) {
++                uint32_t addr =3D *(int32_t *)(pos);
++                pos +=3D sizeof(uint32_t);
++                uint16_t val =3D *(uint16_t *)(pos);
++                pos +=3D sizeof(uint16_t);
++                addr =3D normalize_mem_addr(addr);
++                qtest_writew(s, addr, val);
++            }
++        } else if (strcmp(cmd->name, "writel") =3D=3D 0) {
++            if (pos + sizeof(uint32_t) + sizeof(uint32_t) < End) {
++                uint32_t addr =3D *(int32_t *)(pos);
++                pos +=3D sizeof(uint32_t);
++                uint32_t val =3D *(uint32_t *)(pos);
++                pos +=3D sizeof(uint32_t);
++                addr =3D normalize_mem_addr(addr);
++                qtest_writel(s, addr, val);
++            }
++        } else if (strcmp(cmd->name, "readb") =3D=3D 0) {
++            if (pos + sizeof(uint32_t) < End) {
++                uint32_t addr =3D *(int32_t *)(pos);
++                pos +=3D sizeof(uint32_t);
++                addr =3D normalize_mem_addr(addr);
++                qtest_readb(s, addr);
++            }
++        } else if (strcmp(cmd->name, "readw") =3D=3D 0) {
++            if (pos + sizeof(uint32_t) < End) {
++                uint32_t addr =3D *(int32_t *)(pos);
++                pos +=3D sizeof(uint32_t);
++                addr =3D normalize_mem_addr(addr);
++                qtest_readw(s, addr); }
++        } else if (strcmp(cmd->name, "readl") =3D=3D 0) {
++            if (pos + sizeof(uint32_t) < End) {
++                uint32_t addr =3D *(int32_t *)(pos);
++                pos +=3D sizeof(uint32_t);
++                addr =3D normalize_mem_addr(addr);
++                qtest_readl(s, addr);
++            }
++        } else if (strcmp(cmd->name, "write_dma") =3D=3D 0) {
++            if (pos + sizeof(uint32_t) + sizeof(uint16_t) < End) {
++                uint32_t addr =3D *(int32_t *)(pos);
++                pos +=3D sizeof(uint32_t);
++                uint32_t val =3D 0x100000;
++                addr =3D normalize_mem_addr(addr);
++                qtest_writel(s, addr, val);
++            }
++        } else if (strcmp(cmd->name, "out_dma") =3D=3D 0) {
++            if (pos + sizeof(uint16_t) + sizeof(uint16_t) < End) {
++                uint16_t addr  =3D  *(int16_t *)(pos);
++                pos +=3D sizeof(uint16_t);
++                uint32_t val =3D 0x100000;
++                addr =3D normalize_io_port(addr);
++                qtest_outl(s, addr, val);
++            }
++        }
++        /* main_loop_wait(false); */
++    }
 +}
 +
-+void feature_load(void *start, size_t len)
++static void *net_test_setup_nosocket(GString *cmd_line, void *arg)
 +{
-+    memcpy(start, (void *)(feature_shm + offset), len);
-+    offset +=3D len;
++    g_string_append(cmd_line, " -netdev hubport,hubid=3D0,id=3Dhs0 ");
++    return arg;
 +}
 +
-+void feature_store(void *start, size_t len)
++static void fuzz_fork(const unsigned char *Data, size_t Size)
 +{
-+    memcpy((void *)(feature_shm + offset), start, len);
-+    offset +=3D len;
++    if (fork() =3D=3D 0) {
++        qtest_fuzz(Data, Size);
++        counter_shm_store();
++        _Exit(0);
++    } else {
++        wait(NULL);
++        counter_shm_load();
++    }
 +}
 +
-+void measure_shm_size(void *start, size_t len)
++static void fork_pre_main(void)
 +{
-+    feature_shm_len +=3D len;
++    qos_setup();
++    counter_shm_init();
 +}
 +
-diff --git a/tests/fuzz/fuzzer_hooks.h b/tests/fuzz/fuzzer_hooks.h
++int qtest_argc;
++char **qtest_argv;
++static void register_qtest_fuzz_targets(void)
++{
++    QOSGraphTestOptions opts =3D {
++        .before =3D net_test_setup_nosocket,
++    };
++    FuzzTarget fuzz_opts =3D {
++        .pre_main =3D qos_setup,
++        .pre_save_state =3D qos_init_path,
++        .save_state =3D &save_vm_state,
++        .reset =3D &load_vm_state,
++        .pre_fuzz =3D NULL,
++        .fuzz =3D &qtest_fuzz,
++        .post_fuzz =3D NULL,
++    };
++    fuzz_add_qos_target("qtest-fuzz", "fuzz qtest commands and a dma buffe=
+r. \
++            Reset device state for each run", "e1000e", &opts, &fuzz_opts)=
+;
++
++    fuzz_opts.pre_main =3D &fork_pre_main;
++    fuzz_opts.pre_fuzz =3D NULL;
++    fuzz_opts.fuzz =3D &fuzz_fork;
++    fuzz_opts.reset =3D NULL;
++    fuzz_add_qos_target("qtest-fork-fuzz", "fuzz qtest commands and a dma =
+\
++            buffer. Use COW/forking to reset state", "e1000e", &opts,
++            &fuzz_opts);
++
++}
++
++fuzz_target_init(register_qtest_fuzz_targets);
+diff --git a/tests/fuzz/qtest_fuzz.h b/tests/fuzz/qtest_fuzz.h
 new file mode 100644
-index 0000000000..2f411193dd
+index 0000000000..c4cf08f5a2
 --- /dev/null
-+++ b/tests/fuzz/fuzzer_hooks.h
-@@ -0,0 +1,21 @@
-+#ifndef FUZZER_HOOKS_H
-+#define FUZZER_HOOKS_H
++++ b/tests/fuzz/qtest_fuzz.h
+@@ -0,0 +1,37 @@
++#ifndef _QTEST_FUZZ_H_
++#define _QTEST_FUZZ_H_
 +
++typedef struct qtest_cmd {
++    char name[32];
++    uint8_t size;
++} qtest_cmd;
 +
-+/* NOTE: Pending https://reviews.llvm.org/D65672
-+ * Alternatively, a similar functionality can be added fairly straightforw=
-ardly
-+ * with AFL deferred fork mode, albeit requiring a different fuzzer and co=
-mpiler
-+ * https://github.com/mirrorer/afl/blob/master/llvm_mode/README.llvm#L82
-+ */
-+extern void LLVMFuzzerIterateFeatureRegions(void (*CB)(void *, size_t));
++typedef uint32_t addr_type;
 +
-+void measure_shm_size(void *start, size_t len);
-+
-+void counter_shm_init(void);
-+void counter_shm_store(void);
-+void counter_shm_load(void);
-+void feature_load(void *start, size_t len);
-+void feature_store(void *start, size_t len);
-+
++static qtest_cmd commands[] =3D {
++    {"clock_step", 0},
++    {"clock_step", 0},
++    {"clock_set", 1},
++    {"outb", 2},
++    {"outw", 2},
++    {"outl", 2},
++    {"inb", 1},
++    {"inw", 1},
++    {"inl", 1},
++    {"writeb", 2},
++    {"writew", 2},
++    {"writel", 2},
++    {"writeq", 2},
++    {"readb", 1},
++    {"readw", 1},
++    {"readl", 1},
++    {"readq", 1},
++    {"read", 2},
++    {"write", 3},
++    {"b64read", 2},
++    {"b64write", 10},
++    {"memset", 3},
++    {"write_dma", 2},
++    {"out_dma", 2},
++};
 +#endif
-+
 --=20
 2.20.1
 
