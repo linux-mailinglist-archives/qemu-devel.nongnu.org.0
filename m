@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C336812DD
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:16:12 +0200 (CEST)
-Received: from localhost ([::1]:51320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60C8812ED
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:18:21 +0200 (CEST)
+Received: from localhost ([::1]:51344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huXE3-0004Wx-9o
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:16:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37323)
+	id 1huXG8-00082s-VC
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:18:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37337)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alxndr@bu.edu>) id 1huX9F-0003QG-Rh
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:14 -0400
+ (envelope-from <alxndr@bu.edu>) id 1huX9H-0003WG-Pa
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1huX9E-000219-Nj
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:13 -0400
-Received: from mail-eopbgr680135.outbound.protection.outlook.com
- ([40.107.68.135]:31792 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1huX9G-00021w-1F
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:15 -0400
+Received: from mail-eopbgr680093.outbound.protection.outlook.com
+ ([40.107.68.93]:54470 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX9E-0001z9-If
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:12 -0400
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX9F-00021Y-R4
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:13 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kaECqEmKZlvsrH9xNjTaLSlZSL8dhPY5DgorD92ng0Ku+YI00x87U9HV/gaza6/XxI9PHK3U/aGjqWAYnHPs7ISKKzVOOSHd6+N1t0WdEJ/4jqxCdu+LDEblsTsXOTRXhSKqvvv3mG3HSfUt0uE0Irvgoi9eTNLowOXltTsS0DVXV9SNpwQZUiQjRzSYdYgiQPzK8SoyIyG1IkKZiaEt+/1dTIsZOdVS1BL9b6dUBkSgen4Ojo/HM2i1hCLnJVsu5WyTHIOE/gBRVFgMDMOgUJjsFOm9Mzgb4A1h5yzVvfV5EW1FInKJPTGgM9JDkP42ylcNX/cVScuOV1WzJ+soMQ==
+ b=iIeMOk8x1Ks+MxZ708fMOYGdKlfuJaLQvk+ljScoXqq7mGmVTMDgrjtdALJfqpNqWiBQkDs3obALQ+T6bRPx/zh70I8uMyXAS9Q5/ZYCsgTEWOHbGCjf+H6aE+iTznj1NFAGSkTt00MvUD/xlVQHQDddck3go5J77OHRQ9GlARku/NMl5M0DMVJChpinSsQgOnL30vrH9G8wX5vZ/ntFFXFmwaVjC1SYbMa0agDQc+QJ7607ZZpYbFqMaQIn7QEGuIf++QwH+6WhwSAv3ClKiy+cchTAsWUs5pJT8vdvum7WsFduKrrmUWyoW6R9JMnwdDmVvb5MUSKybBkGlayBtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V7jLKLHckXmQgYF6EQNRxVAS8lfkJd9vH2NzKIr35sk=;
- b=IWQmrOnJkdqseax44xucwxiczq6qWxZJZSfnSeHyRyAeUTd0gtX+F0jUXqWCX2dg9+8k5Oe3zem4dfIgsU92/rnWcq+1b4KC4H+1fOLIaqo1XdywGm9nNNWO4c3DcC+/GmftkSjB+a6eeLhfrP7Ptcdr2R/yp2zBr9cPHaBK2UqiGNtC9OR37NDSRI4jftD+H7IpxCRX8JP1wH0326k1Of7+qPa01HTgrph3DtYsDjvJRjPrKV5f2O7AYOJ16OEWp1sUUL+ESy+1H9mre6dA4dtM+mC97OSEvyxOunCt1cAETmUkLPPlo882cRY8b8kizQhLTvPagHRv0Yxlv+r6gA==
+ bh=YwRJgavehGKXUt8uKVg0r+N07Q0H+kzWRsieiYbkis4=;
+ b=FkVvBMUFLauQKCkBi3Kvh1ssNK1yGJoodRIWL5YxjCsNGGEOLcnx8t8m51NKpDV4cfGPfWl6ebnLzT/kUWBA4RGeqCpY/x5j0ckwdvKS8qKwljDsr1qMBP5OrqDiezf6n6j22dQMiaH7bBYkmmRxiWdOBd6CVY2qEKOi8FIu9QG0pCA01I3szW/B90ARW0OcWjYQVb1nidxv82HQnjXXqYSO63gEX6Adt6EZH3utgFU86uaDtQIc6KA/FHy6c1yGQ1LtB0XWh62F8HGFmtzIwL0IITYQuW4p1Hiralmyv/MBF2llL17qHZuC1pOysAlUF0c5EL7tNMUAomFnyVgQJg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=bu.edu;dmarc=pass action=none header.from=bu.edu;dkim=pass
  header.d=bu.edu;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V7jLKLHckXmQgYF6EQNRxVAS8lfkJd9vH2NzKIr35sk=;
- b=M6gcTPfqi5U9EaoeF8Qt9X6hZWEz+0HtUNzzVexSFjrAAgnFYVhpMKjEhjiqMlLioZVtuDLO/mHT1EtbeIYpy6es3gEn0gK8e3hVj9AA7A25pExth3NKuMTZ+4YgMCqXE4OkdCc8dY/Uht0sstRPbbSl/ia5lkqJ1bjum3mk7mw=
+ bh=YwRJgavehGKXUt8uKVg0r+N07Q0H+kzWRsieiYbkis4=;
+ b=3fT1Cs1zYQq9r7hXx9H8r7nMT3gieQ9rM++MB4efUbGcyqx6/k7AqEDh6Hg6M+j0FN0eHbINyTnaz3mjgAjAihP4n0wGUxL3WWB6tfzSM/Ow1sgzJRI7YNzxsxFQFR23HsKbZsutIphlTO1XdOP4Bbw38mTHRcCM+iFMONoI9Xo=
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
  CY4PR03MB2646.namprd03.prod.outlook.com (10.173.43.142) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.16; Mon, 5 Aug 2019 07:11:11 +0000
+ 15.20.2136.16; Mon, 5 Aug 2019 07:11:12 +0000
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6cce:cc85:9e3:d33a]) by CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6cce:cc85:9e3:d33a%4]) with mapi id 15.20.2136.018; Mon, 5 Aug 2019
- 07:11:11 +0000
+ 07:11:12 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [RFC PATCH v2 10/17] fuzz: qtest client directly interacts with
- server
-Thread-Index: AQHVS1z26M08P07mFUi4Z4GHP3ay8A==
-Date: Mon, 5 Aug 2019 07:11:11 +0000
-Message-ID: <20190805071038.32146-11-alxndr@bu.edu>
+Thread-Topic: [RFC PATCH v2 11/17] fuzz: Move useful qos functions to separate
+ object
+Thread-Index: AQHVS1z24ZEN+4y54k+XnPyH7IyGRA==
+Date: Mon, 5 Aug 2019 07:11:12 +0000
+Message-ID: <20190805071038.32146-12-alxndr@bu.edu>
 References: <20190805071038.32146-1-alxndr@bu.edu>
 In-Reply-To: <20190805071038.32146-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -65,38 +65,38 @@ x-clientproxiedby: BL0PR02CA0068.namprd02.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c251b0f3-e476-4c82-9330-08d719741871
+x-ms-office365-filtering-correlation-id: 077aaf98-e1e0-49f3-920c-08d719741908
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
  SRVR:CY4PR03MB2646; 
 x-ms-traffictypediagnostic: CY4PR03MB2646:
-x-microsoft-antispam-prvs: <CY4PR03MB2646BEA1613E3A9812C1847FBADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:160;
+x-microsoft-antispam-prvs: <CY4PR03MB2646DC03A787538BED5EA65EBADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4502;
 x-forefront-prvs: 01208B1E18
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(71200400001)(71190400001)(6916009)(186003)(2351001)(1076003)(76176011)(6436002)(53936002)(86362001)(5640700003)(52116002)(6512007)(26005)(5660300002)(102836004)(386003)(6506007)(2501003)(66066001)(75432002)(6486002)(66476007)(2906002)(88552002)(4326008)(8676002)(316002)(786003)(50226002)(54906003)(81166006)(14454004)(81156014)(68736007)(476003)(2616005)(11346002)(446003)(486006)(36756003)(66446008)(66946007)(256004)(64756008)(25786009)(99286004)(478600001)(6116002)(3846002)(7736002)(305945005)(66556008)(8936002)(42522002);
+ SFS:(10019020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(71200400001)(71190400001)(6916009)(186003)(2351001)(1076003)(76176011)(6436002)(53936002)(86362001)(5640700003)(52116002)(6512007)(26005)(5660300002)(102836004)(386003)(6506007)(2501003)(66066001)(75432002)(6486002)(66476007)(2906002)(88552002)(4326008)(8676002)(316002)(786003)(50226002)(54906003)(81166006)(14454004)(81156014)(68736007)(476003)(2616005)(11346002)(446003)(486006)(36756003)(66446008)(66946007)(256004)(64756008)(25786009)(99286004)(478600001)(6116002)(3846002)(7736002)(305945005)(66556008)(8936002)(14444005)(42522002);
  DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2646;
  H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: OHTwzZ8dzsbq5jonIOlpXUPUw0tq70NBHQF9fso2qx3Y+/ozXs/ltGNkgEOcC08iOCv/WJXrbqlsygTtSp1+i+REd9ngvZwRQ3gnG5beg6+SjifH84qUNdGu+u3PXitTWU3VnUp5c/lvvMHY+2fmXqQXus17zV5qpR0Cf4bxxg0EwpzpOIvzBk5T/W6XFAd7j/1VDI89bOiW4A2AlnjZdrFjfepKQ6y8dm4RUl92M2nVnAVB0HIgXHCgwPxPS//VhLCdi/Q9E0rnbzNsEbMmn8uVeuJT50VVrK6O9Xu+9x2P1jP13ZeIWc23bMCn3Vnbx9SkO8YTs5ULuWB5LGgdLx+ibu3Vyybc9dgLl5r3LMYgoG+n/5yjNSifBCLe3jCY3UNky/v5qVaESAqWBBOIu2KVGnw2vE8XXPU2m6c43FU=
+x-microsoft-antispam-message-info: JrShOd2R0Z5FiWolVlbM07SZqx2EAIURhrlC63sBeimugMFD51G9dSv3UcVvsikhzqcGxuFcpoRddCaN8p1lBFcDBq4e8mDhdYm9HvT4nKFAbdVoBQvFSetdh6/vM7QSzsp7Zz/qUldCQQv+QI4KIOme8zgej6uR1DVX3OHZuU0N4x3uEi9eiQ0u9fX42v7yS5+72UQUgdakX2xCWoVgrJakPIvzQFkwVFwuiORxYepS5RoeUM0lqCt70Xl78jBMoj8S7AUOt3uXZYNb8GMy2hi7hua3oFV8bbes44hIne/ysbg77WbGUtYjc0DJCsqu6/ZGmj/xpXmH2tlRQjrHK4UigOihHa32eZ6iU257teB6Np9pDa/n4/kIdkwQaYwjD5LdF836GgYQabxJvLaIO8UIOhe6o23xLmXkAu0fW1I=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: c251b0f3-e476-4c82-9330-08d719741871
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:11.5520 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 077aaf98-e1e0-49f3-920c-08d719741908
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:12.5856 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: alxndr@bu.edu
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2646
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.68.135
-Subject: [Qemu-devel] [RFC PATCH v2 10/17] fuzz: qtest client directly
- interacts with server
+X-Received-From: 40.107.68.93
+Subject: [Qemu-devel] [RFC PATCH v2 11/17] fuzz: Move useful qos functions
+ to separate object
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,156 +115,355 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These functions are used by both qos-test.c, and the fuzzer.
+
 Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
 ---
- tests/libqtest.c | 61 ++++++++++++++++++++++++++++++++++++++++++++++--
- tests/libqtest.h |  6 +++++
- 2 files changed, 65 insertions(+), 2 deletions(-)
+ tests/libqos/qos_external.c | 149 ++++++++++++++++++++++++++++++++++++
+ tests/libqos/qos_external.h |   8 ++
+ tests/qos-test.c            | 132 +-------------------------------
+ 3 files changed, 158 insertions(+), 131 deletions(-)
+ create mode 100644 tests/libqos/qos_external.c
+ create mode 100644 tests/libqos/qos_external.h
 
-diff --git a/tests/libqtest.c b/tests/libqtest.c
-index 3c5c3f49d8..a9c1dc4fb6 100644
---- a/tests/libqtest.c
-+++ b/tests/libqtest.c
-@@ -30,12 +30,18 @@
- #include "qapi/qmp/qjson.h"
- #include "qapi/qmp/qlist.h"
- #include "qapi/qmp/qstring.h"
-+#ifdef CONFIG_FUZZ
-+#include "sysemu/qtest.h"
-+#endif
-=20
- #define MAX_IRQ 256
- #define SOCKET_TIMEOUT 50
- #define SOCKET_MAX_FDS 16
-=20
- QTestState *global_qtest;
-+#ifdef CONFIG_FUZZ
-+static GString *recv_str;
-+#endif
-=20
- struct QTestState
- {
-@@ -317,6 +323,21 @@ QTestState *qtest_initf(const char *fmt, ...)
-     return s;
- }
-=20
-+#ifdef CONFIG_FUZZ
-+QTestState *qtest_fuzz_init(const char *extra_args, int *sock_fd)
+diff --git a/tests/libqos/qos_external.c b/tests/libqos/qos_external.c
+new file mode 100644
+index 0000000000..987123b5cb
+--- /dev/null
++++ b/tests/libqos/qos_external.c
+@@ -0,0 +1,149 @@
++
++#include "qemu/osdep.h"
++#include <getopt.h>
++#include "libqtest.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qbool.h"
++#include "qapi/qmp/qstring.h"
++#include "qemu/module.h"
++#include "qapi/qmp/qlist.h"
++#include "libqos/malloc.h"
++#include "libqos/qgraph.h"
++#include "libqos/qgraph_internal.h"
++#include "libqos/qos_external.h"
++
++void apply_to_node(const char *name, bool is_machine, bool is_abstract)
 +{
-+    QTestState *qts;
-+    qts =3D g_new(QTestState, 1);
-+    qts->wstatus =3D 0;
-+    for (int i =3D 0; i < MAX_IRQ; i++) {
-+        qts->irq_level[i] =3D false;
++    char *machine_name =3D NULL;
++    if (is_machine) {
++        const char *arch =3D qtest_get_arch();
++        machine_name =3D g_strconcat(arch, "/", name, NULL);
++        name =3D machine_name;
 +    }
-+    qts->big_endian =3D qtest_query_target_endianness(qts);
-+
-+    return qts;
++    qos_graph_node_set_availability(name, true);
++    if (is_abstract) {
++        qos_delete_cmd_line(name);
++    }
++    g_free(machine_name);
 +}
-+#endif
 +
- QTestState *qtest_init_with_serial(const char *extra_args, int *sock_fd)
- {
-     int sock_fd_init;
-@@ -374,14 +395,25 @@ static void socket_send(int fd, const char *buf, size=
-_t size)
-         offset +=3D len;
-     }
- }
--
-+/*
-+ * TODO: Remove the ifdefs by adding a layer of indirection and separating=
- the
-+ * implemetation of sendf and init for the fuzzer and qtest client
++/**
++ * apply_to_qlist(): using QMP queries QEMU for a list of
++ * machines and devices available, and sets the respective node
++ * as true. If a node is found, also all its produced and contained
++ * child are marked available.
++ *
++ * See qos_graph_node_set_availability() for more info
 + */
- static void socket_sendf(int fd, const char *fmt, va_list ap)
- {
-     gchar *str =3D g_strdup_vprintf(fmt, ap);
-     size_t size =3D strlen(str);
-+#ifdef CONFIG_FUZZ
-+    /* Directly call qtest_process_inbuf in the qtest server */
-+    GString *gstr =3D g_string_new_len(str, size);
-+    qtest_server_recv(gstr);
-=20
-+    g_string_free(gstr, true);
-+    g_free(str);
-+#else
-     socket_send(fd, str, size);
-     g_free(str);
-+#endif
- }
-=20
- static void GCC_FMT_ATTR(2, 3) qtest_sendf(QTestState *s, const char *fmt,=
- ...)
-@@ -433,6 +465,13 @@ static GString *qtest_recv_line(QTestState *s)
-     size_t offset;
-     char *eol;
-=20
-+#ifdef CONFIG_FUZZ
-+    eol =3D strchr(recv_str->str, '\n');
-+    offset =3D eol - recv_str->str;
-+    line =3D g_string_new_len(recv_str->str, offset);
-+    g_string_erase(recv_str, 0, offset + 1);
-+    printf("<<< %s\n", line->str);
-+#else
-     while ((eol =3D strchr(s->rx->str, '\n')) =3D=3D NULL) {
-         ssize_t len;
-         char buffer[1024];
-@@ -453,7 +492,7 @@ static GString *qtest_recv_line(QTestState *s)
-     offset =3D eol - s->rx->str;
-     line =3D g_string_new_len(s->rx->str, offset);
-     g_string_erase(s->rx, 0, offset + 1);
--
-+#endif
-     return line;
- }
-=20
-@@ -797,6 +836,9 @@ char *qtest_hmp(QTestState *s, const char *fmt, ...)
-=20
- const char *qtest_get_arch(void)
- {
-+#ifdef CONFIG_FUZZ
-+    return TARGET_NAME;
-+#endif
-     const char *qemu =3D qtest_qemu_binary();
-     const char *end =3D strrchr(qemu, '/');
-=20
-@@ -1339,3 +1381,18 @@ void qmp_assert_error_class(QDict *rsp, const char *=
-class)
-=20
-     qobject_unref(rsp);
- }
-+#ifdef CONFIG_FUZZ
-+void qtest_clear_rxbuf(QTestState *s)
++void apply_to_qlist(QList *list, bool is_machine)
 +{
-+    g_string_set_size(recv_str, 0);
-+}
++    const QListEntry *p;
++    const char *name;
++    bool abstract;
++    QDict *minfo;
++    QObject *qobj;
++    QString *qstr;
++    QBool *qbool;
 +
-+void qtest_client_recv(const char *str, size_t len)
-+{
-+    if (!recv_str) {
-+        recv_str =3D g_string_new(NULL);
++    for (p =3D qlist_first(list); p; p =3D qlist_next(p)) {
++        minfo =3D qobject_to(QDict, qlist_entry_obj(p));
++        qobj =3D qdict_get(minfo, "name");
++        qstr =3D qobject_to(QString, qobj);
++        name =3D qstring_get_str(qstr);
++
++        qobj =3D qdict_get(minfo, "abstract");
++        if (qobj) {
++            qbool =3D qobject_to(QBool, qobj);
++            abstract =3D qbool_get_bool(qbool);
++        } else {
++            abstract =3D false;
++        }
++
++        apply_to_node(name, is_machine, abstract);
++        qobj =3D qdict_get(minfo, "alias");
++        if (qobj) {
++            qstr =3D qobject_to(QString, qobj);
++            name =3D qstring_get_str(qstr);
++            apply_to_node(name, is_machine, abstract);
++        }
 +    }
-+    g_string_append_len(recv_str, str, len);
-+    return;
 +}
-+#endif
-diff --git a/tests/libqtest.h b/tests/libqtest.h
-index cadf1d4a03..4e32f39be7 100644
---- a/tests/libqtest.h
-+++ b/tests/libqtest.h
-@@ -1001,4 +1001,10 @@ void qmp_assert_error_class(QDict *rsp, const char *=
-class);
-  */
- bool qtest_probe_child(QTestState *s);
-=20
-+#ifdef CONFIG_FUZZ
-+QTestState *qtest_fuzz_init(const char *extra_args, int *sock_fd);
-+void qtest_clear_rxbuf(QTestState *s);
-+void qtest_client_recv(const char *str, size_t len);
-+#endif
 +
- #endif
++QGuestAllocator *get_machine_allocator(QOSGraphObject *obj)
++{
++    return obj->get_driver(obj, "memory");
++}
++
++/**
++ * allocate_objects(): given an array of nodes @arg,
++ * walks the path invoking all constructors and
++ * passing the corresponding parameter in order to
++ * continue the objects allocation.
++ * Once the test is reached, return the object it consumes.
++ *
++ * Since the machine and QEDGE_CONSUMED_BY nodes allocate
++ * memory in the constructor, g_test_queue_destroy is used so
++ * that after execution they can be safely free'd.  (The test's
++ * ->before callback is also welcome to use g_test_queue_destroy).
++ *
++ * Note: as specified in walk_path() too, @arg is an array of
++ * char *, where arg[0] is a pointer to the command line
++ * string that will be used to properly start QEMU when executing
++ * the test, and the remaining elements represent the actual objects
++ * that will be allocated.
++ */
++void *allocate_objects(QTestState *qts, char **path, QGuestAllocator **p_a=
+lloc)
++{
++    int current =3D 0;
++    QGuestAllocator *alloc;
++    QOSGraphObject *parent =3D NULL;
++    QOSGraphEdge *edge;
++    QOSGraphNode *node;
++    void *edge_arg;
++    void *obj;
++
++    node =3D qos_graph_get_node(path[current]);
++    g_assert(node->type =3D=3D QNODE_MACHINE);
++
++    obj =3D qos_machine_new(node, qts);
++    qos_object_queue_destroy(obj);
++
++    alloc =3D get_machine_allocator(obj);
++    if (p_alloc) {
++        *p_alloc =3D alloc;
++    }
++
++    for (;;) {
++        if (node->type !=3D QNODE_INTERFACE) {
++            qos_object_start_hw(obj);
++            parent =3D obj;
++        }
++
++        /* follow edge and get object for next node constructor */
++        current++;
++        edge =3D qos_graph_get_edge(path[current - 1], path[current]);
++        node =3D qos_graph_get_node(path[current]);
++
++        if (node->type =3D=3D QNODE_TEST) {
++            g_assert(qos_graph_edge_get_type(edge) =3D=3D QEDGE_CONSUMED_B=
+Y);
++            return obj;
++        }
++
++        switch (qos_graph_edge_get_type(edge)) {
++        case QEDGE_PRODUCES:
++            obj =3D parent->get_driver(parent, path[current]);
++            break;
++
++        case QEDGE_CONSUMED_BY:
++            edge_arg =3D qos_graph_edge_get_arg(edge);
++            obj =3D qos_driver_new(node, obj, alloc, edge_arg);
++            qos_object_queue_destroy(obj);
++            break;
++
++        case QEDGE_CONTAINS:
++            obj =3D parent->get_device(parent, path[current]);
++            break;
++        }
++    }
++}
++
+diff --git a/tests/libqos/qos_external.h b/tests/libqos/qos_external.h
+new file mode 100644
+index 0000000000..bf3b308501
+--- /dev/null
++++ b/tests/libqos/qos_external.h
+@@ -0,0 +1,8 @@
++#ifndef QOS_EXTERNAL_H
++#define QOS_EXTERNAL_H
++
++void apply_to_node(const char *name, bool is_machine, bool is_abstract);
++void apply_to_qlist(QList *list, bool is_machine);
++QGuestAllocator *get_machine_allocator(QOSGraphObject *obj);
++void *allocate_objects(QTestState *qts, char **path, QGuestAllocator **p_a=
+lloc);
++#endif
+diff --git a/tests/qos-test.c b/tests/qos-test.c
+index 3c0071b3b7..c5fa7ff586 100644
+--- a/tests/qos-test.c
++++ b/tests/qos-test.c
+@@ -27,65 +27,11 @@
+ #include "libqos/malloc.h"
+ #include "libqos/qgraph.h"
+ #include "libqos/qgraph_internal.h"
++#include "libqos/qos_external.h"
+=20
+ static char *old_path;
+=20
+-static void apply_to_node(const char *name, bool is_machine, bool is_abstr=
+act)
+-{
+-    char *machine_name =3D NULL;
+-    if (is_machine) {
+-        const char *arch =3D qtest_get_arch();
+-        machine_name =3D g_strconcat(arch, "/", name, NULL);
+-        name =3D machine_name;
+-    }
+-    qos_graph_node_set_availability(name, true);
+-    if (is_abstract) {
+-        qos_delete_cmd_line(name);
+-    }
+-    g_free(machine_name);
+-}
+=20
+-/**
+- * apply_to_qlist(): using QMP queries QEMU for a list of
+- * machines and devices available, and sets the respective node
+- * as true. If a node is found, also all its produced and contained
+- * child are marked available.
+- *
+- * See qos_graph_node_set_availability() for more info
+- */
+-static void apply_to_qlist(QList *list, bool is_machine)
+-{
+-    const QListEntry *p;
+-    const char *name;
+-    bool abstract;
+-    QDict *minfo;
+-    QObject *qobj;
+-    QString *qstr;
+-    QBool *qbool;
+-
+-    for (p =3D qlist_first(list); p; p =3D qlist_next(p)) {
+-        minfo =3D qobject_to(QDict, qlist_entry_obj(p));
+-        qobj =3D qdict_get(minfo, "name");
+-        qstr =3D qobject_to(QString, qobj);
+-        name =3D qstring_get_str(qstr);
+-
+-        qobj =3D qdict_get(minfo, "abstract");
+-        if (qobj) {
+-            qbool =3D qobject_to(QBool, qobj);
+-            abstract =3D qbool_get_bool(qbool);
+-        } else {
+-            abstract =3D false;
+-        }
+-
+-        apply_to_node(name, is_machine, abstract);
+-        qobj =3D qdict_get(minfo, "alias");
+-        if (qobj) {
+-            qstr =3D qobject_to(QString, qobj);
+-            name =3D qstring_get_str(qstr);
+-            apply_to_node(name, is_machine, abstract);
+-        }
+-    }
+-}
+=20
+ /**
+  * qos_set_machines_devices_available(): sets availability of qgraph
+@@ -129,10 +75,6 @@ static void qos_set_machines_devices_available(void)
+     qobject_unref(response);
+ }
+=20
+-static QGuestAllocator *get_machine_allocator(QOSGraphObject *obj)
+-{
+-    return obj->get_driver(obj, "memory");
+-}
+=20
+ static void restart_qemu_or_continue(char *path)
+ {
+@@ -159,78 +101,6 @@ void qos_invalidate_command_line(void)
+     old_path =3D NULL;
+ }
+=20
+-/**
+- * allocate_objects(): given an array of nodes @arg,
+- * walks the path invoking all constructors and
+- * passing the corresponding parameter in order to
+- * continue the objects allocation.
+- * Once the test is reached, return the object it consumes.
+- *
+- * Since the machine and QEDGE_CONSUMED_BY nodes allocate
+- * memory in the constructor, g_test_queue_destroy is used so
+- * that after execution they can be safely free'd.  (The test's
+- * ->before callback is also welcome to use g_test_queue_destroy).
+- *
+- * Note: as specified in walk_path() too, @arg is an array of
+- * char *, where arg[0] is a pointer to the command line
+- * string that will be used to properly start QEMU when executing
+- * the test, and the remaining elements represent the actual objects
+- * that will be allocated.
+- */
+-static void *allocate_objects(QTestState *qts, char **path, QGuestAllocato=
+r **p_alloc)
+-{
+-    int current =3D 0;
+-    QGuestAllocator *alloc;
+-    QOSGraphObject *parent =3D NULL;
+-    QOSGraphEdge *edge;
+-    QOSGraphNode *node;
+-    void *edge_arg;
+-    void *obj;
+-
+-    node =3D qos_graph_get_node(path[current]);
+-    g_assert(node->type =3D=3D QNODE_MACHINE);
+-
+-    obj =3D qos_machine_new(node, qts);
+-    qos_object_queue_destroy(obj);
+-
+-    alloc =3D get_machine_allocator(obj);
+-    if (p_alloc) {
+-        *p_alloc =3D alloc;
+-    }
+-
+-    for (;;) {
+-        if (node->type !=3D QNODE_INTERFACE) {
+-            qos_object_start_hw(obj);
+-            parent =3D obj;
+-        }
+-
+-        /* follow edge and get object for next node constructor */
+-        current++;
+-        edge =3D qos_graph_get_edge(path[current - 1], path[current]);
+-        node =3D qos_graph_get_node(path[current]);
+-
+-        if (node->type =3D=3D QNODE_TEST) {
+-            g_assert(qos_graph_edge_get_type(edge) =3D=3D QEDGE_CONSUMED_B=
+Y);
+-            return obj;
+-        }
+-
+-        switch (qos_graph_edge_get_type(edge)) {
+-        case QEDGE_PRODUCES:
+-            obj =3D parent->get_driver(parent, path[current]);
+-            break;
+-
+-        case QEDGE_CONSUMED_BY:
+-            edge_arg =3D qos_graph_edge_get_arg(edge);
+-            obj =3D qos_driver_new(node, obj, alloc, edge_arg);
+-            qos_object_queue_destroy(obj);
+-            break;
+-
+-        case QEDGE_CONTAINS:
+-            obj =3D parent->get_device(parent, path[current]);
+-            break;
+-        }
+-    }
+-}
+=20
+ /* The argument to run_one_test, which is the test function that is regist=
+ered
+  * with GTest, is a vector of strings.  The first item is the initial comm=
+and
 --=20
 2.20.1
 
