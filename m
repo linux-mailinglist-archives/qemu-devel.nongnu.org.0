@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5952D82078
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:40:45 +0200 (CEST)
-Received: from localhost ([::1]:55114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6C582087
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:41:47 +0200 (CEST)
+Received: from localhost ([::1]:55128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huf6K-0002pJ-Iv
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:40:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54309)
+	id 1huf7K-0004Uf-Q6
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:41:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54436)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1huf5W-0001JK-Db
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:39:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1huf5w-0002JP-50
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:40:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1huf5V-0007gf-C1
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:39:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46935)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1huf5T-0007cy-02; Mon, 05 Aug 2019 11:39:51 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5441230675B0;
- Mon,  5 Aug 2019 15:39:50 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AC4160A97;
- Mon,  5 Aug 2019 15:39:44 +0000 (UTC)
-To: qemu-block@nongnu.org
-References: <20190805152840.32190-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <1973bdc5-571d-908c-c46a-a1683babcbe0@redhat.com>
-Date: Mon, 5 Aug 2019 17:39:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <peter.maydell@linaro.org>) id 1huf5v-000891-3n
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:40:20 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:47021)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1huf5u-00088C-U4
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:40:19 -0400
+Received: by mail-ot1-x343.google.com with SMTP id z23so57354023ote.13
+ for <qemu-devel@nongnu.org>; Mon, 05 Aug 2019 08:40:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9qbLq7WRTEmy+sTg4oGPeIHaZG61/h7NL2vAEF+G4bM=;
+ b=U8w3vzc203D49LV1z4536ztvut8mnfyupJ1/zuLdXdKFjflWXz0huDC+PTOAUkHQN2
+ cse1QzCzKl6HqP6aiedhFT/SLmbkVDqzz3AXbrsr+VrRF+TLhNt+VsazdyN50NbIVzi4
+ K/FNtsu6NcU1d9HVEdmuHn0JjUq7G8oyefZGgQLrklxUbukyP+5pAb8MCU/9OuzXG0Qo
+ UUbZ7i2eH0XwHDaOD9B3H/799y9VGX3LdrClVgRpZbpiE42vQeKM/U6x/vRR7i2xJuuH
+ tWLdPDNJY9qaUa+JcdHF43vqkFRhTWNlR6jn9gpqgr6dyhRfZu9PA9oHhPDiFVRqTyn3
+ g22w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9qbLq7WRTEmy+sTg4oGPeIHaZG61/h7NL2vAEF+G4bM=;
+ b=SBIv7VUWOsgbNNmcK6ensIDePB+ccYiuxV9oxSG5YoqC+CRMv96fi6rccy36GDWcBI
+ 9oCmcjEsGf+Z0TPU9kIVPXqhm4y3MLToRZnuSBtlFYngGL+6YJZfArmjJS5mjiF37L7y
+ dla6d7XXq+ubbR/diB/nE1lBys/wttsoQ3xEVDRvX4rTzGGNDquwtNtfIRVFNwqwshMK
+ XdEh+fVcZaSfic88MqMKrqMPJn8DkHM8fgfL+ZDIOznYnrEq5Sbh5KRaNOdcb94ye+lf
+ 52qzxB0hrbl9mIfhsJ7LvT0mIU9MVhzR/f4V88oxtqA91dhrRiPDXkZDICrYf7a9R/gN
+ jUCw==
+X-Gm-Message-State: APjAAAUw8kDXBrN4obwfH4wbDS1MHCpZNw8WBG7LAA0uYA/qxEBTCAcr
+ lh1vC/ghJR98Kmcb+XU3fwIFezCLE5H36oYTYefbuA==
+X-Google-Smtp-Source: APXvYqyKYizBzxBVZYpNq7b490RwvjKNKGraQXFedDARrVTsSXi8tlIn3kwYS7Ufv/HM1HJc02/5647lMxfPXOVD7X8=
+X-Received: by 2002:a05:6830:1653:: with SMTP id
+ h19mr11739738otr.232.1565019618017; 
+ Mon, 05 Aug 2019 08:40:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190805152840.32190-1-mreitz@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="NmXKP5DpJruvXLitQvtQBKMBZ5rh3p4EI"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Mon, 05 Aug 2019 15:39:50 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] iotests: Test incremental backup after
- truncation
+References: <20190726175032.6769-1-richard.henderson@linaro.org>
+ <20190726175032.6769-16-richard.henderson@linaro.org>
+In-Reply-To: <20190726175032.6769-16-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 5 Aug 2019 16:40:07 +0100
+Message-ID: <CAFEAcA9h83Xh0D7XjrLBiYB6c+CtP6=ONk8=2ME_4VZGpkhrLA@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 15/67] target/arm: Convert Saturating
+ addition and subtraction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,66 +74,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---NmXKP5DpJruvXLitQvtQBKMBZ5rh3p4EI
-Content-Type: multipart/mixed; boundary="MByY9av2idzrMMC8oGYdHV39NcyYsOAkS";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <1973bdc5-571d-908c-c46a-a1683babcbe0@redhat.com>
-Subject: Re: [PATCH] iotests: Test incremental backup after truncation
-References: <20190805152840.32190-1-mreitz@redhat.com>
-In-Reply-To: <20190805152840.32190-1-mreitz@redhat.com>
-
---MByY9av2idzrMMC8oGYdHV39NcyYsOAkS
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 05.08.19 17:28, Max Reitz wrote:
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+On Fri, 26 Jul 2019 at 18:50, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> Based-on: <20190805120120.23585-1-vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/124     | 38 ++++++++++++++++++++++++++++++++++----=
+>  target/arm/helper.h    |  1 -
+>  target/arm/op_helper.c | 15 ---------
+>  target/arm/translate.c | 74 +++++++++++++++++++++++++++---------------
+>  target/arm/a32.decode  | 10 ++++++
+>  target/arm/t32.decode  |  9 +++++
+>  5 files changed, 66 insertions(+), 43 deletions(-)
+>
+> +/*
+> + * Saturating addition and subtraction
+> + */
+> +
+> +static bool op_qaddsub(DisasContext *s, arg_rrr *a, bool add, bool doub)
+> +{
+> +    TCGv_i32 t0, t1;
+> +
+> +    if (s->thumb
+> +        ? !arm_dc_feature(s, ARM_FEATURE_THUMB_DSP)
+> +        : !ENABLE_ARCH_5TE) {
+> +        return false;
+> +    }
+> +
+> +    t0 = load_reg(s, a->rm);
+> +    t1 = load_reg(s, a->rn);
+> +    if (doub) {
+> +        gen_helper_add_saturate(t1, cpu_env, t1, t1);
+> +    }
+> +    if (add) {
+> +        gen_helper_add_saturate(t0, cpu_env, t0, t1);
+> +    } else {
+> +        gen_helper_sub_saturate(t0, cpu_env, t0, t1);
+> +    }
+> +    tcg_temp_free_i32(t1);
+> +    store_reg(s, a->rd, t0);
+> +    return true;
+> +}
+> +
 
->  tests/qemu-iotests/124.out |  4 ++--
->  2 files changed, 36 insertions(+), 6 deletions(-)
+> -        case 0x5: /* saturating add/subtract */
+> -            ARCH(5TE);
+> -            rd = (insn >> 12) & 0xf;
+> -            rn = (insn >> 16) & 0xf;
+> -            tmp = load_reg(s, rm);
+> -            tmp2 = load_reg(s, rn);
+> -            if (op1 & 2)
+> -                gen_helper_double_saturate(tmp2, cpu_env, tmp2);
+> -            if (op1 & 1)
+> -                gen_helper_sub_saturate(tmp, cpu_env, tmp, tmp2);
+> -            else
+> -                gen_helper_add_saturate(tmp, cpu_env, tmp, tmp2);
+> -            tcg_temp_free_i32(tmp2);
+> -            store_reg(s, rd, tmp);
+> -            break;
 
-I=E2=80=99ll take this now, protests welcome.  I=E2=80=99ll still need to=
- run all the
-tests anyway.  (And see what we do about the mirror bug.)
+This is changing the way we generate code in the middle
+of also doing the refactoring. Could you not do this,
+please (or where it really does make sense to do it then
+call it out in the commit message)? It makes it harder
+to review because now I have to read the patch for two
+different changes at once...
 
-Max
-
-
---MByY9av2idzrMMC8oGYdHV39NcyYsOAkS--
-
---NmXKP5DpJruvXLitQvtQBKMBZ5rh3p4EI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1ITb4ACgkQ9AfbAGHV
-z0BAvAgAo0HQih1wlI9foEFkh3cDazD4iM1nZzR72Ec8q5QlvHmr+Nz259BRYGs4
-85iMgozu8HKPsQzWc2H4CsvVceH+X6muAncgQhREyU0lfmTqtHcXT4t6gtwdK+7g
-tqCRaNbduAGIaihOZ9GOCacLHbsymuTXNuzUl8vjyNCR9CZv1LBt147vx+U0ZPBu
-V7OKDLj9oTAnTZNBF5elx5Yg8RZldHAGg3TaagbtrHKTBmGR1nVfyx1zXVFe8cFu
-1t9RAbveozCJNHQj7jXUTsSZDi+N4OjT+0PfAUDfCQHRWWitgrzzepnI6P7jW2/D
-XBNeDYwrVbUK9ubk8PGuHreCHl4HMg==
-=OkZC
------END PGP SIGNATURE-----
-
---NmXKP5DpJruvXLitQvtQBKMBZ5rh3p4EI--
+thanks
+-- PMM
 
