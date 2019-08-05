@@ -2,48 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C25A82059
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:35:31 +0200 (CEST)
-Received: from localhost ([::1]:54988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8AD38206B
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:37:45 +0200 (CEST)
+Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huf1G-0000YH-Ke
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:35:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52308)
+	id 1huf3R-0005nf-0h
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52627)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <david@redhat.com>) id 1huews-0003vP-Mo
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:31:01 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hueyj-0005Yf-Fk
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:32:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1huewn-0000zA-OP
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:30:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56096)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1huewn-0000yW-EW; Mon, 05 Aug 2019 11:30:53 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2F2DA2EF16A;
- Mon,  5 Aug 2019 15:30:52 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-117-48.ams2.redhat.com [10.36.117.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EE325C2E2;
- Mon,  5 Aug 2019 15:30:50 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon,  5 Aug 2019 17:29:47 +0200
-Message-Id: <20190805152947.28536-10-david@redhat.com>
-In-Reply-To: <20190805152947.28536-1-david@redhat.com>
-References: <20190805152947.28536-1-david@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hueyi-00026m-CK
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:32:53 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:36579)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hueyi-00024w-56
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:32:52 -0400
+Received: by mail-ot1-x344.google.com with SMTP id r6so85658584oti.3
+ for <qemu-devel@nongnu.org>; Mon, 05 Aug 2019 08:32:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=C47760llTQhFiFECzG/hHMnHdPDdskoYWYgyfiJ9SNM=;
+ b=ELodW9gFZU3d712pkkQwovv6skxckzqUERsy3MSAOaAJrbDYPfaxQWw9gCutEzdQp0
+ GuWFu5Nuj+Hr52U7blOubmIhP5LmlsGnLJZ8Qiw+HgQLTBvpksDKTFr73sFXY5fKtqSg
+ KhRasCfxXjvqe/xfjkdO45GKFxdlDPvFoy6Zd3/O6hA7PDzFgBt28M+qP98HxMVBdp44
+ MHaCmcf4ElqgOYe61hN9B16WImxxv0LK7z2j+U6nIxCHNefUtMTi/Fm+5J2bmUergS0L
+ e5FUhAb8geCIhJAJZB0GqJ9ttX/8po2YRZ6JI+VTIFjTQChMSlBTXeiYDVejN2TLaKB8
+ LEsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=C47760llTQhFiFECzG/hHMnHdPDdskoYWYgyfiJ9SNM=;
+ b=UWNSlcEiHtET11tQcQEMljdKWFfChm5KzhDEjeHzx1Xm1nnygvoKHuVU3MYJ2VgnLM
+ FUAbZpC23nQMWVVrLvK5jK7Z2DOBRnAFOK3oMVC3KGq9dhdBEEoYN7XL7OVST4Twwjg4
+ Z1gk2XQ1pBdBJBXq+KaKc8sEOvj1KPKi1A26SQD1fSdycbQ/R2ti5MeN3bdNDKvmuTup
+ slbXzjb8Krxcbb3RnVaSBbrHjpTT1yHNjx6GbfY5ugrgLztqdj1G79PkEVzu7Min/N0n
+ 2woG1zi3gR28VOaAsdKchCd9CBBheIu2Gtx/xJxRG6DdLTmIyyXuIZ7PX9fwcF1LVUYj
+ Qxsw==
+X-Gm-Message-State: APjAAAU1rM95T6+HZ+ue/laVfNHVyZ2PXC3GxcF2hS8MBEcDvq74mt9U
+ z1mvVjDJSvrkfd4wasrPEAfEArW1zHzw6Gm8lAsy8g==
+X-Google-Smtp-Source: APXvYqxpL3y8rk+3NLBRz1ZXsAHKP9hcAHXNkakja1PYpbiDeND35UT9w4AGe+7eJEf+qdnJSzG0R2eC83BfuIPvzac=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr55921980oti.91.1565019171245; 
+ Mon, 05 Aug 2019 08:32:51 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Mon, 05 Aug 2019 15:30:52 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.2 v1 9/9] s390x/cpumodel: Add new TCG
- features to QEMU cpu model
+References: <20190726175032.6769-1-richard.henderson@linaro.org>
+ <20190726175032.6769-15-richard.henderson@linaro.org>
+In-Reply-To: <20190726175032.6769-15-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 5 Aug 2019 16:32:40 +0100
+Message-ID: <CAFEAcA8OC+Rru_qHU+1gQqmzmTY_8F+gtqZ5TyWoQAf60gUD1g@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH 14/67] target/arm: Convert multiply and
+ multiply accumulate
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,74 +73,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We now implement a bunch of new facilities we can properly indicate.
+On Fri, 26 Jul 2019 at 18:50, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate.c | 214 ++++++++++++++++++++++++-----------------
+>  target/arm/a32.decode  |  17 ++++
+>  target/arm/t32.decode  |  19 ++++
+>  3 files changed, 163 insertions(+), 87 deletions(-)
+>
+> diff --git a/target/arm/translate.c b/target/arm/translate.c
+> index ee7d53dfa5..354a52d36c 100644
+> --- a/target/arm/translate.c
+> +++ b/target/arm/translate.c
+> @@ -7376,21 +7376,6 @@ static void gen_storeq_reg(DisasContext *s, int rlow, int rhigh, TCGv_i64 val)
+>      store_reg(s, rhigh, tmp);
+>  }
+>
+> -/* load a 32-bit value from a register and perform a 64-bit accumulate.  */
+> -static void gen_addq_lo(DisasContext *s, TCGv_i64 val, int rlow)
+> -{
+> -    TCGv_i64 tmp;
+> -    TCGv_i32 tmp2;
+> -
+> -    /* Load value and extend to 64 bits.  */
+> -    tmp = tcg_temp_new_i64();
+> -    tmp2 = load_reg(s, rlow);
+> -    tcg_gen_extu_i32_i64(tmp, tmp2);
+> -    tcg_temp_free_i32(tmp2);
+> -    tcg_gen_add_i64(val, val, tmp);
+> -    tcg_temp_free_i64(tmp);
+> -}
+> -
 
-ESOP-1/ESOP-2 handling is discussed in the PoP Chafter 3-15
-("Suppression on Protection"). The "Basic suppression-on-protection (SOP)
-facility" is a core part of z/Architecture without a facility
-indication. ESOP-2 is indicated by ESOP-1 + Side-effect facility
-("ESOP-2"). Besides ESOP-2, the side-effect facility is only relevant for
-the guarded-storage facility (we don't implement).
+> +static bool trans_UMAAL(DisasContext *s, arg_UMAAL *a)
+> +{
+> +    TCGv_i32 t0, t1, t2, zero;
+> +
+> +    if (s->thumb
+> +        ? !arm_dc_feature(s, ARM_FEATURE_THUMB_DSP)
+> +        : !ENABLE_ARCH_6) {
+> +        return false;
+> +    }
+> +
+> +    t0 = load_reg(s, a->rm);
+> +    t1 = load_reg(s, a->rn);
+> +    tcg_gen_mulu2_i32(t0, t1, t0, t1);
+> +    zero = tcg_const_i32(0);
+> +    t2 = load_reg(s, a->ra);
+> +    tcg_gen_add2_i32(t0, t1, t0, t1, t2, zero);
+> +    tcg_temp_free_i32(t2);
+> +    t2 = load_reg(s, a->rd);
+> +    tcg_gen_add2_i32(t0, t1, t0, t1, t2, zero);
+> +    tcg_temp_free_i32(t2);
+> +    tcg_temp_free_i32(zero);
+> +    store_reg(s, a->ra, t0);
+> +    store_reg(s, a->rd, t1);
+> +    return true;
+> +
 
-S390_ESOP:
-- We indicate DAT exeptions by setting bit 61 of the TEID (TEC) to 1 and
-  bit 60 to zero. We don't trigger ALCP exceptions yet. Also, we set
-  bit 0-51 and bit 62/63 to the right values.
-S390_ACCESS_EXCEPTION_FS_INDICATION:
-- The TEID (TEC) properly indicates in bit 52/53 on any access if it was
-  a fetch or a store
-S390_SIDE_EFFECT_ACCESS_ESOP2:
-- We have no side-effect accesses (esp., we don't implement the
-  guarded-storage faciliy), we correctly set bit 64 of the TEID (TEC) to
-  0 (no side-effect).
-- ESOP2: We properly set bit 56, 60, 61 in the TEID (TEC) to indicate the
-  type of protection. We don't trigger KCP/ALCP exceptions yet.
-S390_INSTRUCTION_EXEC_PROT:
-- The MMU properly detects and indicates the exception on instruction fet=
-ches
-- Protected TLB entries will never get PAGE_EXEC set.
+Is using mulu2/add2/add2 like this really generating better
+code than the mulu_i64_i32 and 2 64-bit adds that we had before?
+If we're going to change how we're generating code it would be
+nice to at least mention it in the commit message...
 
-There is no need to fake the abscence of any of the facilities - without
-the facilities, some bits of the TEID (TEC) are simply unpredictable.
 
-As IEP was added with z14 and we currently implement a z13, add it to
-the MAX model instead.
+> @@ -10292,13 +10337,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+>                      }
+>                  }
+>                  if (op & 4) {
+> -                    /* umaal */
+> -                    if (!arm_dc_feature(s, ARM_FEATURE_THUMB_DSP)) {
+> -                        tcg_temp_free_i64(tmp64);
+> -                        goto illegal_op;
+> -                    }
+> -                    gen_addq_lo(s, tmp64, rs);
+> -                    gen_addq_lo(s, tmp64, rd);
+> +                    /* umaal, in decodetree */
+> +                    goto illegal_op;
+>                  } else if (op & 0x40) {
+>                      /* 64-bit accumulate.  */
+>                      gen_addq(s, tmp64, rs, rd);
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/gen-features.c | 4 ++++
- 1 file changed, 4 insertions(+)
+This doesn't seem to remove all of the Thumb insns we implement
+in the decode tree from the legacy decoder.
 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 7e82f2f004..6e78d40d9a 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -704,12 +704,16 @@ static uint16_t qemu_V4_1[] =3D {
- };
-=20
- static uint16_t qemu_LATEST[] =3D {
-+    S390_FEAT_ACCESS_EXCEPTION_FS_INDICATION,
-+    S390_FEAT_SIDE_EFFECT_ACCESS_ESOP2,
-+    S390_FEAT_ESOP,
- };
-=20
- /* add all new definitions before this point */
- static uint16_t qemu_MAX[] =3D {
-     /* generates a dependency warning, leave it out for now */
-     S390_FEAT_MSA_EXT_5,
-+    S390_FEAT_INSTRUCTION_EXEC_PROT,
- };
-=20
- /****** END FEATURE DEFS ******/
---=20
-2.21.0
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
+-- PMM
 
