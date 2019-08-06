@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E947683949
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 21:03:55 +0200 (CEST)
-Received: from localhost ([::1]:35778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B8583953
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 21:05:08 +0200 (CEST)
+Received: from localhost ([::1]:35798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hv4kV-0001jB-63
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 15:03:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41390)
+	id 1hv4lg-0004F6-1Z
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 15:05:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41694)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hv4f6-0007tk-H6
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:58:21 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hv4hN-0006UU-AS
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 15:00:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hv4f5-0007gM-CF
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:58:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50303)
+ (envelope-from <dgilbert@redhat.com>) id 1hv4hM-00013h-6s
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 15:00:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59870)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hv4f5-0007fE-40
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:58:19 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hv4hM-00013E-1R
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 15:00:40 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D224A51EF4;
- Tue,  6 Aug 2019 18:58:17 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0460730BD1D4;
+ Tue,  6 Aug 2019 19:00:39 +0000 (UTC)
 Received: from work-vm (ovpn-117-206.ams2.redhat.com [10.36.117.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E8E860A9D;
- Tue,  6 Aug 2019 18:58:12 +0000 (UTC)
-Date: Tue, 6 Aug 2019 19:58:09 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B182145A7;
+ Tue,  6 Aug 2019 19:00:35 +0000 (UTC)
+Date: Tue, 6 Aug 2019 20:00:33 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <20190806185809.GA12301@work-vm>
-References: <20190801165409.20121-1-stefanha@redhat.com>
- <20190801165409.20121-4-stefanha@redhat.com>
- <20190805151708.GN13734@work-vm> <20190805185751.GB17658@work-vm>
+To: "Singh, Brijesh" <brijesh.singh@amd.com>
+Message-ID: <20190806190033.GM3066@work-vm>
+References: <20190806165429.19327-1-brijesh.singh@amd.com>
+ <20190806165429.19327-2-brijesh.singh@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190805185751.GB17658@work-vm>
+In-Reply-To: <20190806165429.19327-2-brijesh.singh@amd.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Tue, 06 Aug 2019 18:58:18 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Tue, 06 Aug 2019 19:00:39 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/4] virtiofsd: fix lo_destroy() resource
- leaks
+Subject: Re: [Qemu-devel] [PATCH v3 01/14] doc: update AMD SEV API spec web
+ link
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,117 +58,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Liu Bo <bo.liu@linux.alibaba.com>,
- qemu-devel@nongnu.org
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Lendacky,
+ Thomas" <Thomas.Lendacky@amd.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> > * Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> > > Now that lo_destroy() is serialized we can call unref_inode() so that
-> > > all inode resources are freed.
-> > > 
-> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > 
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > 
-> > > ---
-> > >  contrib/virtiofsd/passthrough_ll.c | 43 ++++++++++++++----------------
-> > >  1 file changed, 20 insertions(+), 23 deletions(-)
-> > > 
-> > > diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
-> > > index a81c01d0d1..02a5e97326 100644
-> > > --- a/contrib/virtiofsd/passthrough_ll.c
-> > > +++ b/contrib/virtiofsd/passthrough_ll.c
-> > > @@ -1340,28 +1340,6 @@ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64_t n)
-> > >  	}
-> > >  }
-> > >  
-> > > -static int unref_all_inodes_cb(gpointer key, gpointer value,
-> > > -			       gpointer user_data)
-> > > -{
-> > > -	struct lo_inode *inode  = value;
-> > > -	struct lo_data *lo = user_data;
-> > > -
-> > > -	inode->nlookup = 0;
-> > > -	lo_map_remove(&lo->ino_map, inode->fuse_ino);
-> > > -	close(inode->fd);
-> > > -	lo_inode_put(lo, &inode); /* Drop our refcount from lo_do_lookup() */
-> > > -
-> > > -	return TRUE;
-> > > -}
-> > > -
-> > > -static void unref_all_inodes(struct lo_data *lo)
-> > > -{
-> > > -	pthread_mutex_lock(&lo->mutex);
-> > > -	g_hash_table_foreach_remove(lo->inodes, unref_all_inodes_cb, lo);
-> > > -	pthread_mutex_unlock(&lo->mutex);
-> > > -
-> > > -}
-> > > -
-> > >  static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup)
-> > >  {
-> > >  	struct lo_data *lo = lo_data(req);
-> > > @@ -2462,6 +2440,18 @@ static void lo_removemapping(fuse_req_t req, struct fuse_session *se,
-> > >  	fuse_reply_err(req, ret);
-> > >  }
-> > >  
-> > > +static int destroy_inode_cb(gpointer key, gpointer value, gpointer user_data)
-> > > +{
-> > > +        struct lo_inode *inode = value;
-> > > +        struct lo_data *lo = user_data;
-> > > +
-> > > +        /* inode->nlookup is normally protected by lo->mutex but see the
-> > > +         * comment in lo_destroy().
-> > > +         */
-> > > +        unref_inode(lo, inode, inode->nlookup);
-> > > +        return TRUE;
-> > > +}
-> > > +
-> > >  static void lo_destroy(void *userdata, struct fuse_session *se)
-> > >  {
-> > >  	struct lo_data *lo = (struct lo_data*) userdata;
-> > > @@ -2475,7 +2465,14 @@ static void lo_destroy(void *userdata, struct fuse_session *se)
-> > >                          fuse_err("%s: unmap during destroy failed\n", __func__);
-> > >                  }
-> > >          }
-> > > -	unref_all_inodes(lo);
-> > > +
-> > > +        /* Normally lo->mutex must be taken when traversing lo->inodes but
-> > > +         * lo_destroy() is a serialized request so no races are possible here.
-> > > +         *
-> > > +         * In addition, we cannot acquire lo->mutex since destroy_inode_cb() takes it
-> > > +         * too and this would result in a recursive lock.
-> > > +         */
-> > > +        g_hash_table_foreach_remove(lo->inodes, destroy_inode_cb, lo);
+* Singh, Brijesh (brijesh.singh@amd.com) wrote:
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> ---
+>  docs/amd-memory-encryption.txt | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> I'm seeing a crash here if I ctrl-c the virtiofsd after it's got an
-> active mount:
-> 
-> (process:3219): GLib-CRITICAL **: 18:42:08.334: g_hash_table_foreach_remove_or_steal: assertion 'version == hash_table->version' failed
-> 
-> (I only get the debug if I give seccomp both getpeername and ioctl;
-> I think glib is trying to get to syslog and wants getpeername
-> and I'm guessing ioctl to do something funky with the terminal).
+> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
+> index 43bf3ee6a5..8822cadda1 100644
+> --- a/docs/amd-memory-encryption.txt
+> +++ b/docs/amd-memory-encryption.txt
+> @@ -67,8 +67,8 @@ expects.
+>  LAUNCH_FINISH command finalizes the guest launch and destroy's the cryptographic
+>  context.
+>  
+> -See SEV KM API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
+> -complete flow chart.
+> +See Secure Encrypted Virtualization Key Management API spec section
+> +'Launching a guest' usage flow  (Appendix A) for the complete flow chart.
+>  
+>  To launch a SEV guest
+>  
+> @@ -97,8 +97,8 @@ References
+>  AMD Memory Encryption whitepaper:
+>  http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
+>  
+> -Secure Encrypted Virtualization Key Management:
+> -[1] http://support.amd.com/TechDocs/55766_SEV-KM API_Specification.pdf
+> +Secure Encrypted Virtualization Key Management API Spec:
+> +[1] https://developer.amd.com/sev/ (Secure Encrypted Virtualization API)
 
-That's also the culprit for a crash on umount that only happens with
--o cache=auto  -  reverting this makes it go away.
+Yep, that's better; note the document name seems to have lost the words
+'key management' at some time; but:
 
-Dave
 
-> Dave
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+>  KVM Forum slides:
+>  http://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
+> -- 
+> 2.17.1
 > 
-> > >  }
-> > >  
-> > >  static struct fuse_lowlevel_ops lo_oper = {
-> > > -- 
-> > > 2.21.0
-> > > 
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 --
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
