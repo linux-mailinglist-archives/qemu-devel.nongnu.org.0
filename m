@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F7682C53
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 09:07:55 +0200 (CEST)
-Received: from localhost ([::1]:59334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D024182C54
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 09:07:57 +0200 (CEST)
+Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hutZa-0003sz-Qs
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 03:07:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39085)
+	id 1hutZd-0003xn-2i
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 03:07:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39101)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hutZ0-00036r-Ui
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:07:19 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hutZ2-00036y-Cx
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:07:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hutZ0-0008Ta-3K
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:07:18 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38107)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hutZ1-0008UF-Gt
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:07:20 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54099)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hutYz-0008TI-UM
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:07:18 -0400
-Received: by mail-wm1-x332.google.com with SMTP id s15so53940058wmj.3
- for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 00:07:17 -0700 (PDT)
+ id 1hutZ1-0008Ts-8D
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:07:19 -0400
+Received: by mail-wm1-x341.google.com with SMTP id x15so77032045wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 00:07:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id;
- bh=E2BWUDMogeaMnAzUGw7aqSKyoNamQEmEseoMEgY6Yho=;
- b=h1GP3fSy9DFsvyTMIN42PkMTzVSM79VpO7mt/x3CoCokalVm3tL3EyP8xDaKJZDc6t
- jB3aIdac8u40wSoIIFdGL30wLUFNyZDIfjBQv7xsCPGH9cLEKdBQFvfUMoFFMXzKxGLr
- XefI/VnABh14NUBuwg3tBeI0ezBnnqpOrBJyLcUQOUae9vfuXqh+FBxG1OXB9hEzMHni
- Ucej9VzlV3fMWLWaY5zGIZVwp7AOfNNfklJKdJ+KcMylH4DyfCJcFNCtr7DeNGjtNonb
- spfPeh5dWTUYPH86ur98pz4e63cQ2+yreyTekhu394QW0G/8wUHzSiN/NHmNv63f8w7J
- 9dJA==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=oqNyddmJ8F1AiMMSUZkMF5QKSdRh9MnwV5yqwAOZnYU=;
+ b=Lw/kKQf5eSbn4xX6IeL3LSttPESHipjI/17puzNU9RcamCbWSYdPzlZexscPxrP4Jr
+ 4h2qV2oTwZBe2gCdBLetT+IquUxEqaU10fiu6tMtJWM7C3vnICvLSMFyKHh+xFuTL7+H
+ BaSzd9c9+mL/KgLvavQFbtdeU4aARYEKvkYyOHqfbhQysRaO+hv7k/O7jooemHW5Zn1T
+ w04pqVCEaG6OUNrLAQmwIdQKk/NK5DKeqPVip1dTsQ1yxKmPO9GcSzEgHDJRyw48ppYT
+ /ZqLkeVDIxAHzx4edpOqu/+Zzf55DnqAzJwTn2ILFE5EHFAvKdULVF3GTKYBfZ6162mL
+ Wp8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id;
- bh=E2BWUDMogeaMnAzUGw7aqSKyoNamQEmEseoMEgY6Yho=;
- b=lXihgsC11TAFu7MynI8y+GLDIHBMEZ5t1XsZxpuI/egM58gu6koI0UbjTwCmEY4BnW
- 9SCvweN364UImrCqYhFuPomXfpIUn06M3Z0QqwQ3ttE0ZWIbiNWXI0RMNbnvvNtIX4cP
- 0wPuEFoAq9iDRMf+DV8HrihYwwzD2qevDvBpc5Tn6PGK22Hv7Uv47lwIWTJV5hXeibHi
- 9xhNN0REJZ8ZPsi9x7w7wX5C06E4smu6xJjT37Aa4bJL9OAq81X6gG3WW1yZxwbPjVv0
- AU2IBkxgfXXkQbDkqgy6rd26DbUc7DqquQB4LtrtY59Hi4Z9sc0g0kPTGjkGmxJ8lNY5
- ER6g==
-X-Gm-Message-State: APjAAAXhfmzIADhSd3KMkHXszIPGl1kUOAaf5M/OjC3324hU0cxmS4U5
- wDuyqe43Q1xDC46d4bBmtRA8fmU1
-X-Google-Smtp-Source: APXvYqwjIm0YTpr8+QPqiX098BFxMi5Rct9prDJfvNdvRgREWNKB4bdOPtLjmekWlIxI/iKSyACfaQ==
-X-Received: by 2002:a05:600c:20c1:: with SMTP id
- y1mr2907807wmm.10.1565075236169; 
- Tue, 06 Aug 2019 00:07:16 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references;
+ bh=oqNyddmJ8F1AiMMSUZkMF5QKSdRh9MnwV5yqwAOZnYU=;
+ b=AUiF65Cm88AunEu78BdpHKjjQFW1+kXESpW2Ra32/gdlgemW2URGTEgjiLBOxmmEsc
+ +C3aQqqH2SV3UQiFgjxlZaWVdSgXNVGlXr9fYYdWJVM3p+DU6ZDs+rDWsTNt29x5iopO
+ HTxse+kAXrHqbhn615Q/j1pLs9s2rGKIYoek7HlXCDGmSH3ysLy9uwkYcoP/5zyhzRD7
+ +oJQG98HRxEy7U3gcz/OTqtc6V/5i/SvrEzox0Lw81n+63pQ4Qu+f4MsGx/6eRL/7cpN
+ 15B1o8fu5T6sSY0fjWDqWogiwjl9ar0578Zm5k49ZHzlrUKEcOwRukgB6JEryGUGreBl
+ RB6A==
+X-Gm-Message-State: APjAAAVo0Pkr/TeRf6yLjZ25p1xSMLsSgHchol7TeUUMv48niLciWqQa
+ TVPX11Qs2zXqwfPU1UgCrqcaaDvF
+X-Google-Smtp-Source: APXvYqw0eoxdrj7p4QCqQDD7lRepjqi+sTpQO9bAgi34Ra9GS0zxydjHwTeQlyjrLM9tVQ0bdUmTcQ==
+X-Received: by 2002:a1c:c5c2:: with SMTP id v185mr2966258wmf.161.1565075237892; 
+ Tue, 06 Aug 2019 00:07:17 -0700 (PDT)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id t13sm103637009wrr.0.2019.08.06.00.07.15
+ by smtp.gmail.com with ESMTPSA id t13sm103637009wrr.0.2019.08.06.00.07.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 06 Aug 2019 00:07:15 -0700 (PDT)
+ Tue, 06 Aug 2019 00:07:16 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  6 Aug 2019 09:07:11 +0200
-Message-Id: <1565075233-10882-1-git-send-email-pbonzini@redhat.com>
+Date: Tue,  6 Aug 2019 09:07:12 +0200
+Message-Id: <1565075233-10882-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1565075233-10882-1-git-send-email-pbonzini@redhat.com>
+References: <1565075233-10882-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
-Subject: [Qemu-devel] [PATCH 0/2] build: clean up TOOLS definition and usage
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH 1/2] qemu-ga: clean up TOOLS variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,17 +78,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some more nasty things discovered during the Meson conversion project.
+qemu-ga is included in the TOOLS variable without the .exe suffix, and this is
+then worked around twice in the Makefile.  Do the right thing in configure
+instead.
 
-Paolo Bonzini (2):
-  qemu-ga: clean up TOOLS variable
-  configure: define CONFIG_TOOLS here
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ Makefile  | 4 ++--
+ configure | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
- Makefile  | 9 ++++-----
- configure | 5 ++++-
- 2 files changed, 8 insertions(+), 6 deletions(-)
-
+diff --git a/Makefile b/Makefile
+index cfb18f1..e532043 100644
+--- a/Makefile
++++ b/Makefile
+@@ -669,7 +669,7 @@ clean:
+ 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
+ 		-exec rm {} +
+ 	rm -f $(edk2-decompressed)
+-	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) qemu-ga$(EXESUF) TAGS cscope.* *.pod *~ */*~
++	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
+ 	rm -f fsdev/*.pod scsi/*.pod
+ 	rm -f qemu-img-cmds.h
+ 	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
+@@ -832,7 +832,7 @@ ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
+ install: all $(if $(BUILD_DOCS),install-doc) install-datadir install-localstatedir \
+ 	$(if $(INSTALL_BLOBS),$(edk2-decompressed))
+ ifneq ($(TOOLS),)
+-	$(call install-prog,$(subst qemu-ga,qemu-ga$(EXESUF),$(TOOLS)),$(DESTDIR)$(bindir))
++	$(call install-prog,$(TOOLS),$(DESTDIR)$(bindir))
+ endif
+ ifneq ($(CONFIG_MODULES),)
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_moddir)"
+diff --git a/configure b/configure
+index 5c79145..8e17f44 100755
+--- a/configure
++++ b/configure
+@@ -6118,7 +6118,7 @@ if [ "$guest_agent" != "no" ]; then
+   if [ "$softmmu" = no -a "$want_tools" = no ] ; then
+       guest_agent=no
+   elif [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" -o "$mingw32" = "yes" ] ; then
+-      tools="qemu-ga $tools"
++      tools="qemu-ga\$(EXESUF) $tools"
+       guest_agent=yes
+   elif [ "$guest_agent" != yes ]; then
+       guest_agent=no
 -- 
 1.8.3.1
+
 
 
