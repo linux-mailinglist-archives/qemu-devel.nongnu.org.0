@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E807B83952
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 21:05:06 +0200 (CEST)
-Received: from localhost ([::1]:35796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 892C183943
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 21:02:16 +0200 (CEST)
+Received: from localhost ([::1]:35752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hv4le-0004A4-5q
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 15:05:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41154)
+	id 1hv4it-0007Po-N8
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 15:02:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41167)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dy-0004Oj-Vw
+ (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dz-0004Op-4A
  for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dx-00075j-5E
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:10 -0400
-Received: from mga14.intel.com ([192.55.52.115]:31802)
+ (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dx-00076Q-NR
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:11 -0400
+Received: from mga14.intel.com ([192.55.52.115]:31803)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <sean.j.christopherson@intel.com>)
- id 1hv4dw-0006yc-Qq
+ id 1hv4dx-0006z4-DY
  for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:09 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
@@ -27,7 +27,7 @@ Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
  06 Aug 2019 11:57:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,353,1559545200"; d="scan'208";a="176715080"
+X-IronPort-AV: E=Sophos;i="5.64,353,1559545200"; d="scan'208";a="176715097"
 Received: from sjchrist-coffee.jf.intel.com ([10.54.74.41])
  by orsmga003.jf.intel.com with ESMTP; 06 Aug 2019 11:56:59 -0700
 From: Sean Christopherson <sean.j.christopherson@intel.com>
@@ -38,8 +38,8 @@ To: Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Marcelo Tosatti <mtosatti@redhat.com>
-Date: Tue,  6 Aug 2019 11:56:35 -0700
-Message-Id: <20190806185649.2476-7-sean.j.christopherson@intel.com>
+Date: Tue,  6 Aug 2019 11:56:40 -0700
+Message-Id: <20190806185649.2476-12-sean.j.christopherson@intel.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190806185649.2476-1-sean.j.christopherson@intel.com>
 References: <20190806185649.2476-1-sean.j.christopherson@intel.com>
@@ -48,8 +48,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 192.55.52.115
-Subject: [Qemu-devel] [RFC PATCH 06/20] i386: Add SGX CPUID leaf
- FEAT_SGX_12_1_EAX
+Subject: [Qemu-devel] [RFC PATCH 11/20] linux-headers: Add temporary
+ placeholder for KVM_CAP_SGX_ATTRIBUTE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,82 +65,27 @@ Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CPUID leaf 12_1_EAX is an Intel-defined feature bits leaf enumerating
-the platform's SGX capabilities that may be utilized by an enclave, e.g.
-whether or not an enclave can gain access to the provision key.
-Currently there are six capabilities:
-
-  - INIT: set when the enclave has has been initialized by EINIT.  Cannot
-          be set by software, i.e. forced to zero in CPUID.
-  - DEBUG: permits a debugger to read/write into the enclave.
-  - MODE64BIT: the enclave runs in 64-bit mode
-  - PROVISIONKEY: grants has access to the provision key
-  - EINITTOKENKEY: grants access to the EINIT token key, i.e. the
-                   enclave can generate EINIT tokens
-  - KSS: Key Separation and Sharing enabled for the enclave.
-
-Note that the entirety of CPUID.0x12.0x1, i.e. all registers, enumerates
-the allowed ATTRIBUTES (128 bits), but only bits 31:0 are directly
-exposed to the user (via FEAT_12_1_EAX).  Bits 63:32 are currently all
-reserved and bits 127:64 correspond to the allowed XSAVE Feature Request
-Mask, which is calculated based on other CPU features, e.g. XSAVE, MPX,
-AVX, etc... and is not exposed to the user.
+KVM_CAP_SGX_ATTRIBUTE is a proposed capability for Intel SGX that can be
+used by userspace to enable privileged attributes, e.g. access to the
+PROVISIONKEY.  The capability number is a placeholder defined well above
+existing capabilities so that it's stable during development.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 ---
- target/i386/cpu.c | 20 ++++++++++++++++++++
- target/i386/cpu.h |  1 +
- 2 files changed, 21 insertions(+)
+ linux-headers/linux/kvm.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index e954eca4dd..e3dd76d3ba 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -776,6 +776,7 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-           /* missing:
-           CPUID_XSAVE_XSAVEC, CPUID_XSAVE_XSAVES */
- #define TCG_SGX_12_0_EAX_FEATURES 0
-+#define TCG_SGX_12_1_EAX_FEATURES 0
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index c8423e760c..a88fba824c 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -993,6 +993,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_ARM_SVE 170
+ #define KVM_CAP_ARM_PTRAUTH_ADDRESS 171
+ #define KVM_CAP_ARM_PTRAUTH_GENERIC 172
++#define KVM_CAP_SGX_ATTRIBUTE 200
  
- typedef enum FeatureWordType {
-    CPUID_FEATURE_WORD,
-@@ -1244,6 +1245,25 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         },
-         .tcg_features = TCG_SGX_12_0_EAX_FEATURES,
-     },
-+    [FEAT_SGX_12_1_EAX] = {
-+        .type = CPUID_FEATURE_WORD,
-+        .feat_names = {
-+            NULL /* sgx-init */, "sgx-debug", "sgx-mode64", NULL,
-+            "sgx-provisionkey", "sgx-tokenkey", NULL, "sgx-kss",
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+        },
-+        .cpuid = {
-+            .eax = 0x12,
-+            .needs_ecx = true, .ecx = 1,
-+            .reg = R_EAX,
-+        },
-+        .tcg_features = TCG_SGX_12_1_EAX_FEATURES,
-+    },
- };
- 
- typedef struct X86RegisterInfo32 {
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 6803b1b41d..fe4660effa 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -507,6 +507,7 @@ typedef enum FeatureWord {
-     FEAT_ARCH_CAPABILITIES,
-     FEAT_CORE_CAPABILITY,
-     FEAT_SGX_12_0_EAX,  /* CPUID[EAX=0x12,ECX=0].EAX (SGX) */
-+    FEAT_SGX_12_1_EAX,  /* CPUID[EAX=0x12,ECX=1].EAX (SGX ATTRIBUTES[31:0]) */
-     FEATURE_WORDS,
- } FeatureWord;
+ #ifdef KVM_CAP_IRQ_ROUTING
  
 -- 
 2.22.0
