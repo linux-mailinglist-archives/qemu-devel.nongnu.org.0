@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5116582FDB
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 12:44:15 +0200 (CEST)
-Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C0283013
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 12:53:15 +0200 (CEST)
+Received: from localhost ([::1]:60234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huwww-0005TE-AI
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 06:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45179)
+	id 1hux5e-0007Mt-UF
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 06:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46242)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <nirsof@gmail.com>) id 1huwwD-0004y6-6d
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 06:43:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hux5C-0006wz-QQ
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 06:52:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nirsof@gmail.com>) id 1huwwC-00005W-5F
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 06:43:29 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:34620)
+ (envelope-from <peter.maydell@linaro.org>) id 1hux5B-0004Uh-NE
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 06:52:46 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:43513)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nirsof@gmail.com>)
- id 1huww9-0008Ts-O8; Tue, 06 Aug 2019 06:43:25 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id w9so8643681wmd.1;
- Tue, 06 Aug 2019 03:43:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=feX+OjGAd/Uoc4o5Rx9iSVvWGO9R185/t3wqxZsB3zM=;
- b=XKIkuFWcvyNAsbq3C6Hk8HiUJPE8KorMtsj05DXDAL2fykC6m0RC4/FRuVSgF7j7jJ
- pI6ZPAk9LHeiZ1KPmB/jVtzv/o41ItaWxAqvwX/QvEuKognitHRm/+fZbfgBvW7SrkUL
- MsARz0RfM+8mpn1nLJvg4zG2z7+JG/aikcChvX8+4/0hoyjw1Zshnt7iELpogI+7xZl3
- MH3ynU/q6vUydnugkiD1Do6P+TeVY/kok8KQyGVgnVGxI6sgYHDpDstZvm5lcM/62e30
- Y4RBjNmLhDUn/dIDP10CWhal226IYsjbEeMMnUDtqEn6HC2yAsY5n49m9CJrj2vPkLr9
- LehA==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hux5B-0004UQ-HA
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 06:52:45 -0400
+Received: by mail-ot1-x343.google.com with SMTP id j11so34010346otp.10
+ for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 03:52:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FD8taq4tAnUwC99L2ewlIKcfiNjCbbiaP85GeUPmOV0=;
+ b=HtidOAbQ3JaChNArv3ArAPQQtNiYhSaQkpEOOTlxRMzlqcbddp05HZMod9iLNPSJmE
+ lHVtQj1SgBgP5EU+Iwtn4yP528Y84YPKZxslBnSjcRhiQszqe9+Cyba25ph2gyq7PcwB
+ rTe6KLvixOshbMtdgXcDMSGTiVclB9ufy+iZHp10nslqfnLMYl9BB0+FzqnKPgAMAJbu
+ lq79E2zDHUefbrE1V9lw6rxgnYM0eADL44rXDMB0IPQDTPYllYl9u15jJxl6drQ99da1
+ Dw6M/NcuPRDn2YXdVvfXXsaNwuXxIyO+1r4Cg11L+vK0ATUInV8DH4Vz4HP0EHLjwsOM
+ iC2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=feX+OjGAd/Uoc4o5Rx9iSVvWGO9R185/t3wqxZsB3zM=;
- b=OMbWOKeC3PEz646s36EBNdI1Ekig4f26GAogrTa6DhTdPE7R8gty7bNn4Ah1b1RIWm
- 8KJBdH/uj+B4zeVeBnWq/+4ojqyx0GWDKlBEtOsfZ42QTbZnY/JSQakZBv8LfMa1M8yL
- rfWe86rxK5e5/ArquRegQd1dXWk+q8tsZsLtVJaiWxZFtejfL9oSKoE8sqSp/Bn491Ic
- NsQNZou/lb6y7jL4YyA2qh5VTiEgT46WBhQD3lug5HwYJrDhGV04nMsMrAPNdZ4getkf
- azHZd9z7HurnYS43R1X6Am7gfUaEdjMYUYIYYTrZz1Gc5qR7zBUsTkDp8EbDA7y0dClZ
- z57g==
-X-Gm-Message-State: APjAAAVSQRVrOMIubp4eZ4pXmntP3a7NnwD94f1m2CgGPEH1i+JDAOE1
- FIvqj7YdfnRTl0VtnmiZKSJRAxeLZ30=
-X-Google-Smtp-Source: APXvYqzZGJRqljYj2NqfMMSfGrRsusRKgtDJpUh2xwzja0g4x0CZJUJKIDhUioPyd6W/G3j9fOs3ng==
-X-Received: by 2002:a1c:f115:: with SMTP id p21mr3813277wmh.134.1565088203049; 
- Tue, 06 Aug 2019 03:43:23 -0700 (PDT)
-Received: from localhost.localdomain (109-186-222-214.bb.netvision.net.il.
- [109.186.222.214])
- by smtp.gmail.com with ESMTPSA id c78sm122121781wmd.16.2019.08.06.03.43.21
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 06 Aug 2019 03:43:22 -0700 (PDT)
-From: Nir Soffer <nirsof@gmail.com>
-X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
-To: qemu-block@nongnu.org
-Date: Tue,  6 Aug 2019 13:43:16 +0300
-Message-Id: <20190806104316.29328-1-nsoffer@redhat.com>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FD8taq4tAnUwC99L2ewlIKcfiNjCbbiaP85GeUPmOV0=;
+ b=V00FPVp6jgRxJiWnd1hfT7CMTpXzLUjgxsa/sr4AKLQHe78KD6DCB+Y4JDHSEC4mEH
+ MJv69KlWLhDamWZzqGSbx24Nk8PY0hZOnn0QRBGxFHlUsEDIFmYKya21mFZrkQ6CBkKn
+ 5W+uMfJVjutJv14oLKKLr974m1wEcj1PmL0NN9YM33yHSVAccS5qq+GnD0sIPM9+SzC4
+ uapLutPT1qLBPe96TH9dRDiEMb5mcUqGat1AZSvdMvtmB9jLXq5J0tSqXT2+sMs4xXSe
+ yBdnqb9W2DJqIpO6prTbCvkPdQ4RPV1lUFjyxc4NFIhz2jAkKNUILeKLoFHcrQqUBKyd
+ UPWA==
+X-Gm-Message-State: APjAAAVvIf226TsDiFfpXV0l2oMSXMmRDvuQ4mIvfDaNTFuUWbTXkWV6
+ BcPnIM+gAbyDDOSM7xsSJ3zkyu7LED5Ofkuco0TM/w==
+X-Google-Smtp-Source: APXvYqzfKEugcMn3hHn5yjXUd02+DI/iAXFDuHnUJa1hTdgZhluPlnpbipHaAqqmLvIrp2gw9OvR+9RsyT31IkgLz7c=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr2693245oti.91.1565088764688; 
+ Tue, 06 Aug 2019 03:52:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190805180332.10185-1-peter.maydell@linaro.org>
+ <d788f3ff-6814-117d-942d-7870b6201f30@twiddle.net>
+ <56162c59-9da9-d15a-a216-530c673b4592@redhat.com>
+In-Reply-To: <56162c59-9da9-d15a-a216-530c673b4592@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 6 Aug 2019 11:52:33 +0100
+Message-ID: <CAFEAcA9BxRuYE04i=unMH_MyWmpC17ohreRK5dQDDu45SDzcEw@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
-Subject: [Qemu-devel] [PATCH] block: file-posix: Fix alignment probing on
- glsuter
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH] target/i386: Return 'indefinite integer
+ value' for invalid SSE fp->int conversions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,49 +74,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Gluster storage with sector size of 4096 bytes, buf_align may be
-wrong; reading 4096 bytes into unaligned buffer succeeds. This probably
-happens because the actual read happens on the Gluster node with aligned
-buffer, and Gluster client does not enforce any alignment on the host.
+On Tue, 6 Aug 2019 at 00:16, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 05/08/19 23:13, Richard Henderson wrote:
+> > On 8/5/19 11:03 AM, Peter Maydell wrote:
+> >> The x86 architecture requires that all conversions from floating
+> >> point to integer which raise the 'invalid' exception (infinities of
+> >> both signs, NaN, and all values which don't fit in the destination
+> >> integer) return what the x86 spec calls the "indefinite integer
+> >> value", which is 0x8000_0000 for 32-bits or 0x8000_0000_0000_0000 for
+> >> 64-bits.  The softfloat functions return the more usual behaviour of
+> >> positive overflows returning the maximum value that fits in the
+> >> destination integer format and negative overflows returning the
+> >> minimum value that fits.
+> >>
+> >> Wrap the softfloat functions in x86-specific versions which
+> >> detect the 'invalid' condition and return the indefinite integer.
+> >>
+> >> Note that we don't use these wrappers for the 3DNow! pf2id and pf2iw
+> >> instructions, which do return the minimum value that fits in
+> >> an int32 if the input float is a large negative number.
+> >>
+> >> Fixes: https://bugs.launchpad.net/qemu/+bug/1815423
+> >> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> >> ---
+> >> I've tested that this fixes the LP:1815423 test case. If anybody
+> >> has an x86 VM image to hand that has node.js installed it would
+> >> also be useful to test the operations in
+> >> https://bugs.launchpad.net/qemu/+bug/1832281
+> >> (I don't have such a VM.)
+> >>
+> >> The other approach here would be to make the softfloat functions be
+> >> flexible enough to allow this behaviour -- from my reading of IEEE754
+> >> I think the exact returned result for 'invalid' inputs for float to
+> >> int conversions is not specified.
+> >>
+> >>  target/i386/ops_sse.h | 88 +++++++++++++++++++++++++++++--------------
+> >>  1 file changed, 60 insertions(+), 28 deletions(-)
+> >
+> > I guess this is exactly what we already do in fpu_helper.c.
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> >
+> >
+> > r~
+> >
+>
+> Queued, thanks.
 
-However request_alignment is always right, since the same size is use on
-the Gluster node to perform the actual I/O. Use the maximum value for
-setting min_mem_alignment.
+Would you like me to do a quick respin to fix the overlong lines
+that checkpatch noticed ?
 
-With this change we can provision a virtual machine with Gluster storage
-using VDO device and fuse mount.
-
-This is a partial fix for https://bugzilla.redhat.com/1737256. To make
-this work, the management system must ensure that the first block of the
-image is allocated, for example:
-
-    qemu-img create -f raw test.img 1g
-    dd if=/dev/zero bs=4096 count=1 of=test.img conv=nortunc
-
-Signed-off-by: Nir Soffer <nsoffer@redhat.com>
----
- block/file-posix.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 4479cc7ab4..d29b9e5229 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1122,7 +1122,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
-     }
- 
-     raw_probe_alignment(bs, s->fd, errp);
--    bs->bl.min_mem_alignment = s->buf_align;
-+    bs->bl.min_mem_alignment = MAX(s->buf_align, bs->bl.request_alignment);
-     bs->bl.opt_mem_alignment = MAX(s->buf_align, getpagesize());
- }
- 
--- 
-2.20.1
-
+thanks
+-- PMM
 
