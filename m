@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3B583955
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 21:06:00 +0200 (CEST)
-Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E947683949
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 21:03:55 +0200 (CEST)
+Received: from localhost ([::1]:35778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hv4mV-0006Lc-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 15:05:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41196)
+	id 1hv4kV-0001jB-63
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 15:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41390)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dz-0004PM-HB
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:12 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hv4f6-0007tk-H6
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:58:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dx-00076E-Jp
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:11 -0400
-Received: from mga11.intel.com ([192.55.52.93]:6407)
+ (envelope-from <dgilbert@redhat.com>) id 1hv4f5-0007gM-CF
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:58:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50303)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sean.j.christopherson@intel.com>)
- id 1hv4dx-000726-Bb
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:09 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 06 Aug 2019 11:57:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,353,1559545200"; d="scan'208";a="176715123"
-Received: from sjchrist-coffee.jf.intel.com ([10.54.74.41])
- by orsmga003.jf.intel.com with ESMTP; 06 Aug 2019 11:57:00 -0700
-From: Sean Christopherson <sean.j.christopherson@intel.com>
-To: Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Cornelia Huck <cohuck@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>
-Date: Tue,  6 Aug 2019 11:56:49 -0700
-Message-Id: <20190806185649.2476-21-sean.j.christopherson@intel.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190806185649.2476-1-sean.j.christopherson@intel.com>
-References: <20190806185649.2476-1-sean.j.christopherson@intel.com>
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hv4f5-0007fE-40
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:58:19 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D224A51EF4;
+ Tue,  6 Aug 2019 18:58:17 +0000 (UTC)
+Received: from work-vm (ovpn-117-206.ams2.redhat.com [10.36.117.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E8E860A9D;
+ Tue,  6 Aug 2019 18:58:12 +0000 (UTC)
+Date: Tue, 6 Aug 2019 19:58:09 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <20190806185809.GA12301@work-vm>
+References: <20190801165409.20121-1-stefanha@redhat.com>
+ <20190801165409.20121-4-stefanha@redhat.com>
+ <20190805151708.GN13734@work-vm> <20190805185751.GB17658@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.93
-Subject: [Qemu-devel] [RFC PATCH 20/20] i440fx: Add support for SGX EPC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190805185751.GB17658@work-vm>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Tue, 06 Aug 2019 18:58:18 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 3/4] virtiofsd: fix lo_destroy() resource
+ leaks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,32 +59,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: virtio-fs@redhat.com, Liu Bo <bo.liu@linux.alibaba.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGX EPC virtualization is currently only support by KVM.
+* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> > * Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> > > Now that lo_destroy() is serialized we can call unref_inode() so that
+> > > all inode resources are freed.
+> > > 
+> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > 
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > 
+> > > ---
+> > >  contrib/virtiofsd/passthrough_ll.c | 43 ++++++++++++++----------------
+> > >  1 file changed, 20 insertions(+), 23 deletions(-)
+> > > 
+> > > diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
+> > > index a81c01d0d1..02a5e97326 100644
+> > > --- a/contrib/virtiofsd/passthrough_ll.c
+> > > +++ b/contrib/virtiofsd/passthrough_ll.c
+> > > @@ -1340,28 +1340,6 @@ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64_t n)
+> > >  	}
+> > >  }
+> > >  
+> > > -static int unref_all_inodes_cb(gpointer key, gpointer value,
+> > > -			       gpointer user_data)
+> > > -{
+> > > -	struct lo_inode *inode  = value;
+> > > -	struct lo_data *lo = user_data;
+> > > -
+> > > -	inode->nlookup = 0;
+> > > -	lo_map_remove(&lo->ino_map, inode->fuse_ino);
+> > > -	close(inode->fd);
+> > > -	lo_inode_put(lo, &inode); /* Drop our refcount from lo_do_lookup() */
+> > > -
+> > > -	return TRUE;
+> > > -}
+> > > -
+> > > -static void unref_all_inodes(struct lo_data *lo)
+> > > -{
+> > > -	pthread_mutex_lock(&lo->mutex);
+> > > -	g_hash_table_foreach_remove(lo->inodes, unref_all_inodes_cb, lo);
+> > > -	pthread_mutex_unlock(&lo->mutex);
+> > > -
+> > > -}
+> > > -
+> > >  static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup)
+> > >  {
+> > >  	struct lo_data *lo = lo_data(req);
+> > > @@ -2462,6 +2440,18 @@ static void lo_removemapping(fuse_req_t req, struct fuse_session *se,
+> > >  	fuse_reply_err(req, ret);
+> > >  }
+> > >  
+> > > +static int destroy_inode_cb(gpointer key, gpointer value, gpointer user_data)
+> > > +{
+> > > +        struct lo_inode *inode = value;
+> > > +        struct lo_data *lo = user_data;
+> > > +
+> > > +        /* inode->nlookup is normally protected by lo->mutex but see the
+> > > +         * comment in lo_destroy().
+> > > +         */
+> > > +        unref_inode(lo, inode, inode->nlookup);
+> > > +        return TRUE;
+> > > +}
+> > > +
+> > >  static void lo_destroy(void *userdata, struct fuse_session *se)
+> > >  {
+> > >  	struct lo_data *lo = (struct lo_data*) userdata;
+> > > @@ -2475,7 +2465,14 @@ static void lo_destroy(void *userdata, struct fuse_session *se)
+> > >                          fuse_err("%s: unmap during destroy failed\n", __func__);
+> > >                  }
+> > >          }
+> > > -	unref_all_inodes(lo);
+> > > +
+> > > +        /* Normally lo->mutex must be taken when traversing lo->inodes but
+> > > +         * lo_destroy() is a serialized request so no races are possible here.
+> > > +         *
+> > > +         * In addition, we cannot acquire lo->mutex since destroy_inode_cb() takes it
+> > > +         * too and this would result in a recursive lock.
+> > > +         */
+> > > +        g_hash_table_foreach_remove(lo->inodes, destroy_inode_cb, lo);
+> 
+> I'm seeing a crash here if I ctrl-c the virtiofsd after it's got an
+> active mount:
+> 
+> (process:3219): GLib-CRITICAL **: 18:42:08.334: g_hash_table_foreach_remove_or_steal: assertion 'version == hash_table->version' failed
+> 
+> (I only get the debug if I give seccomp both getpeername and ioctl;
+> I think glib is trying to get to syslog and wants getpeername
+> and I'm guessing ioctl to do something funky with the terminal).
 
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
----
- hw/i386/pc_piix.c | 3 +++
- 1 file changed, 3 insertions(+)
+That's also the culprit for a crash on umount that only happens with
+-o cache=auto  -  reverting this makes it go away.
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index c2280c72ef..3e70c6e311 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -151,6 +151,9 @@ static void pc_init1(MachineState *machine,
-             pcms->above_4g_mem_size = 0;
-             pcms->below_4g_mem_size = machine->ram_size;
-         }
-+        if (pcmc->pci_enabled) {
-+            pc_machine_init_sgx_epc(pcms);
-+        }
-     }
- 
-     pc_cpus_init(pcms);
--- 
-2.22.0
+Dave
 
+> Dave
+> 
+> > >  }
+> > >  
+> > >  static struct fuse_lowlevel_ops lo_oper = {
+> > > -- 
+> > > 2.21.0
+> > > 
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
