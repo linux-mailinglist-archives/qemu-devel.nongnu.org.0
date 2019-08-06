@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80A082F3E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 12:01:25 +0200 (CEST)
-Received: from localhost ([::1]:60008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D095382F53
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 12:02:28 +0200 (CEST)
+Received: from localhost ([::1]:60032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huwHV-0002Lb-3C
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 06:01:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38627)
+	id 1huwIW-0003jT-2O
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 06:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38838)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1huwGS-0001Ic-41
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 06:00:26 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1huwHT-0002tK-Vc
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 06:01:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1huwGQ-00080R-1G
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 06:00:19 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35883)
+ (envelope-from <peter.maydell@linaro.org>) id 1huwHS-0008RB-Pt
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 06:01:23 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37142)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1huwGO-0007z2-00
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 06:00:16 -0400
-Received: by mail-oi1-x242.google.com with SMTP id c15so10300175oic.3
- for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 03:00:14 -0700 (PDT)
+ id 1huwHS-0008Qj-K4
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 06:01:22 -0400
+Received: by mail-ot1-x343.google.com with SMTP id s20so25525081otp.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 03:01:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xQ9rvOA4yllu34jtpdFTkP3+LnU6bZ5qPXS670owBSU=;
- b=A4bSsgDwGdLXvvBrIrUF8zO060rddgpaM5bUEW4IZuraj7dpvhtesrdZ+nV31JXpYY
- 9roDFpcintRFriFmq9zAtsQtyMjxG/Cpn9yW1+UXN1LSfOKdUTvNHiRyblSBSqdhUeGI
- bZi/sZEGXtANhbrNIum2mzG1nxXjd9NquOKWDvD5sSBjwsoVZPCTxYOqJJVt8KSho9gB
- Y7QlRSpPQKllkv8kNKAVrhjEfkN+YiiPAltBukPg+xgnofpExf1JEzCowpB47c/55TAL
- 1ra1fX/BqB1CIwt9AZKZnhy3HIT1N5Ao5GY7FPORl6JqLy/yyKDqCbM5jyuEa+ztDFf7
- Tp5w==
+ :cc; bh=OyCkWYd4rR9Q+Suj817p2WoAsuYr+I0FZ+hkdGRfV3c=;
+ b=Z4iZ23taEgEeTDYfZCBlLw1Ljp5ApuvHcd3EKiCGwFNd3iM9DjgXwO7BRFwiBLfTvr
+ +5gapkcyKfHHUlSO4ynABfo8wBMj87/niamQ5cAh51grf8Mgik5SCbRTpXMS7dTehmbF
+ gZ+XspEFhJc0AWRRt9IYnpCoCLac/zRXzoaKzhn/FH6TI0vCmfNMk4emrdZ68gV23rLa
+ SXqmXHBL0SRiB5hM57/pShLm7Dq6v09hOLL0+blaUa+nrEgq5imarQwc4OkkbKDQ5Dum
+ 6Ki0rrSN5boa7ELWJCgfb6sMwMA6VMz/opPzONMDoJ/c9PVqSqQcssK/wOf9AdFRevMX
+ FJuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xQ9rvOA4yllu34jtpdFTkP3+LnU6bZ5qPXS670owBSU=;
- b=rOsy6QZ9pkp76khiak2QeeM7puGtLIJZupQT8NHWhzaIfvr8R4kKAhIg3xZ/eQHJ9m
- 5z7nl/65mVtKZuDHG52ov7f2NRNTUVUdt9uAJqSYhQzfOW8TbNTstRSeFWKiW7IM0+sI
- AXcmVKIwkFcvWo+xCXmqVe6xWjIyTlZoqQRI2FO7Dyg8Br94TEMwQoTUNZv4oTLMcay3
- Wl1XxS+YBpjCOZe3Coxa7zKFtYKKL9m98THc7t7fSJwxGHFAfXU5mjOBGQAMTA0rqUKW
- ymHLzLE8QdeGW2C3rIwKvMHiTX6fM5YObu//RcUseGdRfVJaM4nOs0zFXd9CpZCCLtNs
- 7Dfg==
-X-Gm-Message-State: APjAAAUQtmNkTvTFKabf1c1Eb/EF1ZNjNfWObqwwEMnBFZfJvRzg6XOw
- PNxpRbu8lBdVgZXk+d9BiIyPlNTktuXsOWaraFHpyg==
-X-Google-Smtp-Source: APXvYqw+2Uxt4JSnPwPPQlJ202JF81PmBI8uuAXbbcBcCVVdTrSqzJoKv5AGSXJvH5pdGgDtpOi6Jt7dIRxCI4kig+o=
-X-Received: by 2002:aca:ac48:: with SMTP id v69mr1073152oie.48.1565085613691; 
- Tue, 06 Aug 2019 03:00:13 -0700 (PDT)
+ bh=OyCkWYd4rR9Q+Suj817p2WoAsuYr+I0FZ+hkdGRfV3c=;
+ b=I5fTZixjA+W4SfvzoKWBm62nuUKr3LJFgHDAy+5kaiTrA72C3+b5HsyfirxZahBsBr
+ 3JEJl2gagFaDYeNFVtDkh4li6cSXnGjYZVC8141qwpP0ovd9EvdrcTM7o9s52p35INOJ
+ 1Xr2FOgDSxTHRRAWsUBaIMXvMEljxXMwgGmp85FNMGPf+Z6/FC43BzJXAYX29S5eUgG0
+ b16y246AF5aWFQPjbY+GCUjdxTQ0Z3rjbK17yJUBxOyMqaj860U05Xb7FAJGqse0kClz
+ KOhEH+KPP1Dv5PaTvmxoESoDz38+Bij8LaPuP+YhDki53ZX6/U5ZyAe6ReSb9pFqLOu+
+ YIlQ==
+X-Gm-Message-State: APjAAAVyY1/cavfemVXnrl6a398fHev+7bdakZBrDvu2WA5IKtFfqsIm
+ w5TBO8/VMrUeiChzLpr7CzNNnDeof4QcdmXsWmga7KWJ
+X-Google-Smtp-Source: APXvYqwjgN0OJG4Xw+aMuYsKoc4K0duH+s8ErPXEkBAxpJq5g/0E1CNjkt14ma3vF5bvCmDbki44X3pW8JTIqOQLi3s=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr2498351oti.91.1565085682005; 
+ Tue, 06 Aug 2019 03:01:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190726175032.6769-1-richard.henderson@linaro.org>
- <20190726175032.6769-7-richard.henderson@linaro.org>
- <CAFEAcA_kmuX6bxR50eU_3nTdRcjON2nVTqVWiRamSRe6jui3ig@mail.gmail.com>
- <09b930e2-0a92-25a3-4e26-8bea1f437039@linaro.org>
-In-Reply-To: <09b930e2-0a92-25a3-4e26-8bea1f437039@linaro.org>
+ <CAFEAcA_JDfN+Njo8J0EhbtECWEW5_LcCVehbxmpY6AX3BLbOsA@mail.gmail.com>
+ <d2b6ae73-6f48-1808-fb95-631bc12834f0@linaro.org>
+In-Reply-To: <d2b6ae73-6f48-1808-fb95-631bc12834f0@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 6 Aug 2019 11:00:03 +0100
-Message-ID: <CAFEAcA9yQQSYnwEeSNbx4P94deuG5v5fKs7gW4VgG7LFzBX03w@mail.gmail.com>
+Date: Tue, 6 Aug 2019 11:01:11 +0100
+Message-ID: <CAFEAcA91b4FpbiUnZCVbs+nPvLo_q-iKwWkx94yxpXrZDnLhcg@mail.gmail.com>
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH 06/67] target/arm: Introduce pc_read
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 00/67] target/arm: Convert aa32 base isa to
+ decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,63 +80,33 @@ Cc: qemu-arm <qemu-arm@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Jul 2019 at 01:39, Richard Henderson
+On Mon, 5 Aug 2019 at 22:26, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> On 7/29/19 7:05 AM, Peter Maydell wrote:
+> On 8/5/19 8:44 AM, Peter Maydell wrote:
 > > On Fri, 26 Jul 2019 at 18:50, Richard Henderson
 > > <richard.henderson@linaro.org> wrote:
 > >>
-> >> We currently have 3 different ways of computing the architectural
-> >> value of "PC" as seen in the ARM ARM.
-> >>
-> >> The value of s->pc has been incremented past the current insn,
-> >> but that is all.  Thus for a32, PC = s->pc + 4; for t32, PC = s->pc;
-> >> for t16, PC = s->pc + 2.  These differing computations make it
-> >> impossible at present to unify the various code paths.
-> >>
-> >> Let s->pc_read hold the architectural value of PC for all cases.
-> >>
-> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> >> ---
-> >>  target/arm/translate.h | 10 ++++++++
-> >>  target/arm/translate.c | 53 ++++++++++++++++++------------------------
-> >>  2 files changed, 32 insertions(+), 31 deletions(-)
-> >>
-> >> diff --git a/target/arm/translate.h b/target/arm/translate.h
-> >> index a20f6e2056..2dfdd8ca66 100644
-> >> --- a/target/arm/translate.h
-> >> +++ b/target/arm/translate.h
-> >> @@ -9,7 +9,17 @@ typedef struct DisasContext {
-> >>      DisasContextBase base;
-> >>      const ARMISARegisters *isar;
-> >>
-> >> +    /*
-> >> +     * Summary of the various values for "PC":
-> >> +     * base.pc_next -- the start of the current insn
-> >> +     * pc           -- the start of the next insn
+> >> This unifies the implementation of the actual instructions
+> >> for a32, t32, and t16.  In order to make this happen, we
+> >> need several preliminary cleanups.  Most importantly to how
+> >> we handle the architectural representation of PC.
 > >
-> > These are confusingly named -- logically "pc_next" ought to
-> > be the PC of the next instruction and "pc" ought to be
-> > that of the current one...
+> > I'd be happy to take the preliminary-cleanups part (subject
+> > to the various review comments) without waiting for the
+> > rest of the series to get respun.
 >
-> Yes, well.  I don't quite remember why "pc_next" was chosen for this field.  It
-> is the "next" upon entry to tr_foo_disas_insn().  Often the target will
-> increment s->base.pc_next immediately, so it will also be the "next" insn
-> throughout translation.  Though that isn't currently the case for ARM.
+> I had an outstanding question re patch 4:
+> Message-ID: <c7a3ef78-d541-aa0a-21a5-8b4f48db1fd7@linaro.org>
+> https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg06520.html
 >
-> Once most of the uses of s->pc get moved to s->pc_read, it might be reasonable
-> to rename the remaining "s->base.pc_next" -> "s->pc_orig" and "s->pc" ->
-> "s->base.pc_next".  Perhaps that would be clearer, I'm not sure.
+> and another re patch 6:
+> Message-ID: <09b930e2-0a92-25a3-4e26-8bea1f437039@linaro.org>
+> https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg06508.html
 
-Renaming pc_next would be a cross-target change, so let's put that
-on the shelf for the moment. Maybe just put a TODO comment to the
-effect that we could consider renaming in future ?
-
-Or we could just copy s->base.pc_next into s->some_field_we_choose_the_name_of,
-eating 8 unnecessary bytes in the DisasContext struct but giving us a more
-uniform s->something for all of the different PC variants rather than
-having one of them be in s->base.something.
+I've followed up to 4, 6 and 7 giving some thoughts on those.
+Anywhere I've still not been very specific it's because I don't
+have a clear idea of the right thing, so use your own judgement :-)
 
 thanks
 -- PMM
