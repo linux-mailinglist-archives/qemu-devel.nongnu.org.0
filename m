@@ -2,67 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A848357E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 17:41:13 +0200 (CEST)
-Received: from localhost ([::1]:34500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C8583598
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 17:48:20 +0200 (CEST)
+Received: from localhost ([::1]:34540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hv1aJ-0005xN-R9
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 11:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37660)
+	id 1hv1hD-0007qI-LT
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 11:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38992)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hv1Zr-0005X5-Fj
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 11:40:44 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hv1gc-0007O4-O3
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 11:47:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hv1Zq-0005Zx-Fr
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 11:40:43 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:37081)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hv1Zq-0005Z5-7g
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 11:40:42 -0400
-Received: by mail-ot1-x342.google.com with SMTP id s20so28073469otp.4
- for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 08:40:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jfQOhy9tyjQodoao6X5BDljOC/gwr4xUFrZ1REAYnJg=;
- b=rCz5RPUgwlrvPpgXeqCVlrGMGyBwJdkBWyhk77k2kRx3nDzQwYsWoure2R5FIBFng7
- ktzaeTnLmU7UCB/JbGvILeldwmRkv2S2ejqG2TNQ1ryek6Pm28Lck8E2wRFr7H0wgY5z
- F7sAefP8xCFJ8URAR5EFpJ+JxOQkwKv5sYQhr4tQSyhjAxjS1TB4yMg1cBhTK0DXw2ke
- 8SXZiWbTIF2LzuOpQnTDqcIZYuWEqGHPcDA72mVHZD/ECXKMsBQO8eZ99hCIvsXQufqJ
- Ha+N/LQDVO6FPHL/hhgtqEHDHsJDQWHtpbcDLXQAEbuHqGp76wDfuleVUBVw71JX1i0q
- s57g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jfQOhy9tyjQodoao6X5BDljOC/gwr4xUFrZ1REAYnJg=;
- b=H3S0FywzlrWCT/yPT+X7iAT+ctv3FYpUoHmQNaidrKmsOpMORUs/4dBcU93CkqP8Xo
- zAZGk2kGUH8vNBC2QJ5Ygb2Y/0fxVOpeQ7om4xJyultlWcNt3E201KZbl/B4/Dyanqgj
- 9EHzwa/3BJBDT9uWAHpQZatybFtSL/9lY3pPoXLs8UB6Q3PgMKnEK8ga7gf+0DGmNx87
- cjq4YzKv2u9wFDVzVduL4ENEvpSRkFDkI1Bqul3wbpC4Ij1oMvAo+2lQy7hG36u6E0Lx
- V/wCM5z05n+zkTEJjTmOrOkUnr6IDahf6f7FE1ZwGW40XZYO/R7U5reNHzC/HF6Zksc2
- OUgA==
-X-Gm-Message-State: APjAAAVtyq/XUEbbuXbQr8q9GM3v2t3LFs8F33vtyKXJ3epKUyeLCr9u
- tnpgaTjsks5Wx2Op4TxpAwfAS4nXYXJRo7IQ4qzyig==
-X-Google-Smtp-Source: APXvYqwKl6/Mn1asS0ya6HjYK4RbmIl5gMdNU8Jyu2IWAHubuajnjUccpiokyi2KsV76m+D43sA7xDEsjDC256ga+qE=
-X-Received: by 2002:a9d:4d81:: with SMTP id u1mr3362733otk.221.1565106041045; 
- Tue, 06 Aug 2019 08:40:41 -0700 (PDT)
+ (envelope-from <dgilbert@redhat.com>) id 1hv1gb-0000oD-RQ
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 11:47:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38832)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hv1gb-0000nn-MY
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 11:47:41 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9F57A8EA22;
+ Tue,  6 Aug 2019 15:47:40 +0000 (UTC)
+Received: from work-vm (ovpn-117-206.ams2.redhat.com [10.36.117.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD8BD5D6D0;
+ Tue,  6 Aug 2019 15:47:39 +0000 (UTC)
+Date: Tue, 6 Aug 2019 16:47:37 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190806154737.GG3066@work-vm>
+References: <20190806004648.8659-1-richardw.yang@linux.intel.com>
+ <20190806004648.8659-3-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-References: <20190806115819.16026-1-cohuck@redhat.com>
- <20190806133952.vcgjaz6zx27b25u6@sirius.home.kraxel.org>
- <CAFEAcA-w0YEhnfu-eJuQx-Kb5s7ESwKkYqUs40+arnZxABoXQQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-w0YEhnfu-eJuQx-Kb5s7ESwKkYqUs40+arnZxABoXQQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 6 Aug 2019 16:40:30 +0100
-Message-ID: <CAFEAcA-s4XZ8QmDkA=FT6JMR_akXURtuPtbBijFogYM8z9xqpA@mail.gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH for-4.1?] compat: disable edid on
- virtio-gpu base device
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190806004648.8659-3-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Tue, 06 Aug 2019 15:47:40 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 2/2] migration/postcopy: use
+ QEMU_IS_ALIGNED to replace host_offset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,39 +58,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Cornelia Huck <cohuck@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Aug 2019 at 14:42, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 6 Aug 2019 at 14:40, Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >
-> > On Tue, Aug 06, 2019 at 01:58:19PM +0200, Cornelia Huck wrote:
-> > > 'edid' is a property of the virtio-gpu base device, so turning
-> > > it off on virtio-gpu-pci is not enough (it misses -ccw). Turn
-> > > it off on the base device instead.
-> > >
-> > > Fixes: 0a71966253c8 ("edid: flip the default to enabled")
-> > > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> >
-> > Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-> >
-> > > Only just noticed this... should we still shove this into 4.1?
-> > > Or do we need a compat 4.1.1 dance for this?
-> >
-> > I'd say 4.1, doing it in 4.1.1 becomes too messy.
-> >
-> > Peter, can you apply this directly, or do you want
-> > a single-patch-pull-req instead?
->
-> If you're happy for it to go in I'll just apply it directly.
+* Wei Yang (richardw.yang@linux.intel.com) wrote:
+> Use QEMU_IS_ALIGNED for the check, it would be more consistent with
+> other align calculations.
+> 
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 
-Applied, thanks.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
+> ---
+>  migration/ram.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index d86661a015..dfbf71c580 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2956,14 +2956,12 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, bool unsent_pass,
+>      }
+>  
+>      while (run_start < pages) {
+> -        unsigned long host_offset;
+>  
+>          /*
+>           * If the start of this run of pages is in the middle of a host
+>           * page, then we need to fixup this host page.
+>           */
+> -        host_offset = run_start % host_ratio;
+> -        if (!host_offset) {
+> +        if (QEMU_IS_ALIGNED(run_start, host_ratio)) {
+>              /* Find the end of this run */
+>              if (unsent_pass) {
+>                  run_start = find_next_bit(unsentmap, pages, run_start + 1);
+> @@ -2975,10 +2973,9 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, bool unsent_pass,
+>               * run doesn't finish at the end of a host page
+>               * and we need to discard.
+>               */
+> -            host_offset = run_start % host_ratio;
+>          }
+>  
+> -        if (host_offset) {
+> +        if (!QEMU_IS_ALIGNED(run_start, host_ratio)) {
+>              unsigned long page;
+>              unsigned long fixup_start_addr = QEMU_ALIGN_DOWN(run_start,
+>                                                               host_ratio);
+> -- 
+> 2.17.1
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
