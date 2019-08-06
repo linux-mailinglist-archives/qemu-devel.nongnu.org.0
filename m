@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8705E82C68
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 09:14:10 +0200 (CEST)
-Received: from localhost ([::1]:59390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3ADA82C66
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 09:13:18 +0200 (CEST)
+Received: from localhost ([::1]:59372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hutfd-0002Bt-PP
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 03:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39676)
+	id 1huteo-0000m7-09
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 03:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39692)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hutcn-0005vQ-II
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:11:14 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hutcr-00062n-4y
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:11:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hutcm-0002HZ-Au
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:11:13 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38261)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hutcq-0002Ja-9J
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:11:17 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50227)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hutcm-0002H8-4j
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:11:12 -0400
-Received: by mail-wm1-x342.google.com with SMTP id s15so53950763wmj.3
- for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 00:11:12 -0700 (PDT)
+ id 1hutcq-0002J8-3l
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 03:11:16 -0400
+Received: by mail-wm1-x341.google.com with SMTP id v15so77042500wml.0
+ for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 00:11:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Hun2Fzp3UC3+BE6p1OV7nB2Qd68PIPI16xM6ErbZLo8=;
- b=qjlrSxGa7ZoLF801q9Ps9e9lMQJ8ybDQeEPB0jWmHuMYGqkyfdA3nI6tVj0Kx47vKq
- XNycZK9xKmauJYC4lVhPltTUemEHIOLU1rD2y6svEccxsPg4aTPJcVIXePIDJFvlzeLc
- NYnL1J2k6fu0u3Vy3eE/hcTtDX9eOd0S8GbnEh9TOY1o/3I3xs/voZ44PHa08OBVjSty
- ib5LTNZ1bLBq2mMCib63kIZenmL3lMB+YQokA25z5UjIrnPfZKnEn6HH6b0E60cku1Gz
- KXy4Cr6j96udLBmVYHG4hurqW6kFJc9qDopMRJczj78dS+nuk3whr+pp+tibG1E110Q6
- PA0Q==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ISCXSuP/8F/E4NmvMxriKXqE9RtwYHC6S116zsIjPhM=;
+ b=XsMHLsYt2F1ev3t9MK2uSN55BkyjnPqwgSP43OK85wUxqDSWYa3VnQOJ5S3pbpl0uL
+ Ae+g4iDWzhjyoAOAdY+oZpopwD6fQpYmnf/Llg0m9NiEb8q+sr5DO8q4+cHJ13+hzHtA
+ UNmrdZBvJnRmVQO7Lu+FY6gb9xUrJcQvH4Ahy0dc/CBRVQROnVSSnDnqscTYGv/6dPE3
+ t/WmU2y2jkW/RW8rvjOLGnu5sBoUANR17Xnqt/WVMA79hTyVGwM9Gt6xCNsbxomWPtVS
+ 4coGBz7+d1DeRfvyiOvwgJwBO94GjTLRWlHy+bYsMBibQmntJrfG6kQ86Tn6/bFMzEZU
+ yj0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Hun2Fzp3UC3+BE6p1OV7nB2Qd68PIPI16xM6ErbZLo8=;
- b=benBLBYSGHzYPoMa1XrDDwWcowzTERvz7F8cqergRvmTkR2Q1Li/MWJfmDvVgkR/rx
- oCZIm1PhxxRbF6Kc8sguvXYR36dUmxFCBi210P6knK6V2mm+Obmcov2MfZTCQvAAespj
- /FE7epyU+3ZeoN8TtTJ2hwKCJ9XoJEHkb/h6OBxiXw8OrEv5NcYJKOOOF2uECzjDxwO5
- +yyw/9XUQYILbWIEOCHbIwa7xdyscXhKZIv1TxXCIkYjmzj3lkeQVSWHRm/ewCANTToZ
- usdQPZ7Y8z+O8ZF6j9p3HM+QhgSjeMYVqRBy7RAuMTXCylSd5CgcoVAwmWemWcaEUIrd
- oyEQ==
-X-Gm-Message-State: APjAAAVxUN9e9XPAxXAbCBd33t4LVxl9e88TomBBu7d8cagJGs9lAN+Q
- scYXQ1kPwx/k1G75Xelp2kkfiavU
-X-Google-Smtp-Source: APXvYqx+fxnkD/g0epwjzDOaljVdDDsih7qxXgMhnxDjkd3JxywPX6s7/NRP50N6NiAc2WcPifExKg==
-X-Received: by 2002:a7b:cd94:: with SMTP id y20mr2974331wmj.94.1565075470876; 
- Tue, 06 Aug 2019 00:11:10 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=ISCXSuP/8F/E4NmvMxriKXqE9RtwYHC6S116zsIjPhM=;
+ b=FRv3Wwn0lBKIreiUxFmotutKWBzdT9clLWzrb+YX010KgCRgwkoMSagMJas9Dgflxg
+ RZ4vTV6JzySGfIFpLFSdSU2WLgqJCMK6B4BIkhdECWkdMF8op+G39uNv0ZtR2X4867XH
+ V8RAn8ykHqfxQ0nfQ+lgMC256lE4PyQfJF3J8vm7aFgvfLk8cH3qs9TIYOdNJJpWo6+S
+ m6P4G4oP2bKHYYPEztEcqLSSxDOhry2yonVgYd106RZO5ex3NZq3YctKhpXeJsQlnrsR
+ QpcgjXfuYiM9/8fWTrckSGNj++R+i/V/wKKGrtkrRuKyDNT2tUqAsbAVD3HUO6REmDqK
+ QZWQ==
+X-Gm-Message-State: APjAAAXWqxNpWaRMnGc6/hepp7A2PcEuUplcZXV7ct2yuvEWaWaJOR1t
+ DNtQZu5UDdkYG8JB9YKoyR2LNHSJ
+X-Google-Smtp-Source: APXvYqxYxNagC+b/9k/9bUQV8HYUgwiHXy98qsB/ABz93AJoSPlapUsOFu1SnvR4c1o4N5bqnRvneQ==
+X-Received: by 2002:a05:600c:212:: with SMTP id
+ 18mr2751270wmi.88.1565075474950; 
+ Tue, 06 Aug 2019 00:11:14 -0700 (PDT)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id z6sm74944037wrw.2.2019.08.06.00.11.10
+ by smtp.gmail.com with ESMTPSA id l8sm167825586wrg.40.2019.08.06.00.11.14
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 06 Aug 2019 00:11:10 -0700 (PDT)
+ Tue, 06 Aug 2019 00:11:14 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  6 Aug 2019 09:11:06 +0200
-Message-Id: <1565075466-14943-4-git-send-email-pbonzini@redhat.com>
+Date: Tue,  6 Aug 2019 09:11:12 +0200
+Message-Id: <1565075472-15106-1-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1565075466-14943-1-git-send-email-pbonzini@redhat.com>
-References: <1565075466-14943-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH 3/3] tests: add module loading test
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH] configure: remove AUTOCONF_HOST
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,166 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- armbru@redhat.com
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This test will simply check that modules can be loaded, and no symbols
-are missing.
+This is a left-over from commit
+c12b6d70e384c769ca372e15ffd19b3e9f563662 ("pixman: drop submodule")
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qtest.c                |  9 +++++++
- tests/Makefile.include |  1 +
- tests/libqtest.c       |  6 +++++
- tests/libqtest.h       |  2 ++
- tests/modules-test.c   | 71 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 89 insertions(+)
- create mode 100644 tests/modules-test.c
+ configure | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/qtest.c b/qtest.c
-index 15e27e9..40c3609 100644
---- a/qtest.c
-+++ b/qtest.c
-@@ -661,6 +661,15 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
-         qtest_send_prefix(chr);
-         qtest_sendf(chr, "OK %"PRIi64"\n",
-                     (int64_t)qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
-+    } else if (strcmp(words[0], "module_load") == 0) {
-+        g_assert(words[1] && words[2]);
-+
-+        qtest_send_prefix(chr);
-+        if (module_load_one(words[1], words[2])) {
-+            qtest_sendf(chr, "OK\n");
-+        } else {
-+            qtest_sendf(chr, "FAIL\n");
-+        }
-     } else if (qtest_enabled() && strcmp(words[0], "clock_set") == 0) {
-         int64_t ns;
-         int ret;
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index db750dd..17dd439 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -147,6 +147,7 @@ check-block-$(CONFIG_POSIX) += tests/qemu-iotests-quick.sh
- 
- check-qtest-generic-y += tests/qmp-test$(EXESUF)
- check-qtest-generic-y += tests/qmp-cmd-test$(EXESUF)
-+check-qtest-generic-$(CONFIG_MODULES) += tests/modules-test$(EXESUF)
- 
- check-qtest-generic-y += tests/device-introspect-test$(EXESUF)
- check-qtest-generic-y += tests/cdrom-test$(EXESUF)
-diff --git a/tests/libqtest.c b/tests/libqtest.c
-index 3c5c3f4..e158e50 100644
---- a/tests/libqtest.c
-+++ b/tests/libqtest.c
-@@ -811,6 +811,12 @@ bool qtest_get_irq(QTestState *s, int num)
-     return s->irq_level[num];
- }
- 
-+void qtest_module_load(QTestState *s, const char *prefix, const char *libname)
-+{
-+    qtest_sendf(s, "module_load %s %s\n", prefix, libname);
-+    qtest_rsp(s, 0);
-+}
-+
- static int64_t qtest_clock_rsp(QTestState *s)
- {
-     gchar **words;
-diff --git a/tests/libqtest.h b/tests/libqtest.h
-index cadf1d4..2a09102 100644
---- a/tests/libqtest.h
-+++ b/tests/libqtest.h
-@@ -262,6 +262,8 @@ char *qtest_hmp(QTestState *s, const char *fmt, ...) GCC_FMT_ATTR(2, 3);
- char *qtest_vhmp(QTestState *s, const char *fmt, va_list ap)
-     GCC_FMT_ATTR(2, 0);
- 
-+void qtest_module_load(QTestState *s, const char *prefix, const char *libname);
-+
- /**
-  * qtest_get_irq:
-  * @s: #QTestState instance to operate on.
-diff --git a/tests/modules-test.c b/tests/modules-test.c
-new file mode 100644
-index 0000000..3aef0e5
---- /dev/null
-+++ b/tests/modules-test.c
-@@ -0,0 +1,71 @@
-+#include "qemu/osdep.h"
-+#include "libqtest.h"
-+
-+static void test_modules_load(const void *data)
-+{
-+    QTestState *qts;
-+    const char **args = data;
-+
-+    qts = qtest_init(NULL);
-+    qtest_module_load(qts, args[0], args[1]);
-+    qtest_quit(qts);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    const char *modules[] = {
-+#ifdef CONFIG_CURL
-+        "block-", "curl",
-+#endif
-+#ifdef CONFIG_GLUSTERFS
-+        "block-", "gluster",
-+#endif
-+#ifdef CONFIG_LIBISCSI
-+        "block-", "iscsi",
-+#endif
-+#ifdef CONFIG_LIBNFS
-+        "block-", "nfs",
-+#endif
-+#ifdef CONFIG_LIBSSH
-+        "block-", "ssh",
-+#endif
-+#ifdef CONFIG_RBD
-+        "block-", "rbd",
-+#endif
-+#ifdef CONFIG_AUDIO_ALSA
-+        "audio-", "alsa",
-+#endif
-+#ifdef CONFIG_AUDIO_OSS
-+        "audio-", "oss",
-+#endif
-+#ifdef CONFIG_AUDIO_PA
-+        "audio-", "pa",
-+#endif
-+#ifdef CONFIG_AUDIO_SDL
-+        "audio-", "sdl",
-+#endif
-+#ifdef CONFIG_CURSES
-+        "ui-", "curses",
-+#endif
-+#if defined(CONFIG_GTK) && defined(CONFIG_VTE)
-+        "ui-", "gtk",
-+#endif
-+#ifdef CONFIG_SDL
-+        "ui-", "sdl",
-+#endif
-+#if defined(CONFIG_SPICE) && defined(CONFIG_GIO)
-+        "ui-", "spice-app",
-+#endif
-+    };
-+    int i;
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    for (i = 0; i < G_N_ELEMENTS(modules); i += 2) {
-+        char *testname = g_strdup_printf("/module/load/%s", modules[i + 1]);
-+        qtest_add_data_func(testname, modules + i, test_modules_load);
-+        g_free(testname);
-+    }
-+
-+    return g_test_run();
-+}
+diff --git a/configure b/configure
+index c5a5b44..ae70780 100755
+--- a/configure
++++ b/configure
+@@ -7346,11 +7346,6 @@ if test "$sparse" = "yes" ; then
+   echo "HOST_CC      := REAL_CC=\"\$(HOST_CC)\" cgcc"  >> $config_host_mak
+   echo "QEMU_CFLAGS  += -Wbitwise -Wno-transparent-union -Wno-old-initializer -Wno-non-pointer-null" >> $config_host_mak
+ fi
+-if test "$cross_prefix" != ""; then
+-  echo "AUTOCONF_HOST := --host=${cross_prefix%-}"     >> $config_host_mak
+-else
+-  echo "AUTOCONF_HOST := "                             >> $config_host_mak
+-fi
+ echo "LDFLAGS=$LDFLAGS" >> $config_host_mak
+ echo "LDFLAGS_NOPIE=$LDFLAGS_NOPIE" >> $config_host_mak
+ echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
 -- 
 1.8.3.1
 
