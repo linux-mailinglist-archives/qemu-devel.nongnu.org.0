@@ -2,65 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A3D838A9
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 20:34:59 +0200 (CEST)
-Received: from localhost ([::1]:35590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB3F83933
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 20:59:10 +0200 (CEST)
+Received: from localhost ([::1]:35706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hv4IU-0008R7-5y
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 14:34:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37494)
+	id 1hv4ft-00014Z-J0
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 14:59:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41048)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hv4I0-00082O-SR
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:34:29 -0400
+ (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dx-0004OC-1b
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hv4Hz-00023f-Pr
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:34:28 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:38109)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hv4Hz-00022d-Gf
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:34:27 -0400
-Received: by mail-lj1-x241.google.com with SMTP id r9so83066463ljg.5
- for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 11:34:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qpgm09NJuAH3GeRzEWUCU09blZwr8Lpdek1YBsEHgPQ=;
- b=dTtsD/0VWsy54eVjJU0JInupNDhiur6L4jypmW37nJ/g0iwtTSxjc+ZjmoJxjeGweC
- y9JxSNwqMDGr/fKOuq2YUloIYQEDFao5XMaxhU9BwWAZYPVEGufCFAeuTaObsFc28pzw
- rss23A+75Kj7w9WuGle8W+o428zL5pjtPfk5IN+n0kvtJLUDgxC2kNTkGKmZjES+Ti9n
- xXKFgj0mi7R7DK24qtc/AgOQaaGM7MtAlSZJlacvVp/S1fa1qzII9r/MImXKwyO1Siyh
- wTG8tYhNLWBFqB30iFfWkhAijD5hfxWQQKQ3j+JFyH1K2zo9lHXOlICldxsjf6hBeGnl
- JQ2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qpgm09NJuAH3GeRzEWUCU09blZwr8Lpdek1YBsEHgPQ=;
- b=clzEKQ8YHynKCzkYhA3Iu4wIISX16BItUtDuy6gPb8HH9zddIm0A+UmmVMbieAUpXV
- LIQzzvE8SySsdDuMJIiNrAhZWZxw/11P8ni02KdhAoxtP10Ii/66xNckfIDG4WFnYZP9
- QHm9mVHR9pCOSjJECTAn5IAO23Sqrp+b7EWOR5wEp+XDaJ1gqyYbN9AtaVKtTurObmQK
- EI7uYAHP5bD44mlgsgQItpPbeTmzk5ma74sEzu1QzMf3k5sxBUkOaEZfFtjGIMOoDoO3
- UsVtw07S1OSZkrGr4TJtMPEoCjGSMzrIO6KDnw87C13wLqph4OWCqqmJ4YNvjb2HcdUx
- Ac7g==
-X-Gm-Message-State: APjAAAWFrU6jlr8Y/PQSzE6mkCKyaLGCbVrdi3DVlNeumy0BXvWJLkVB
- 2F0ECVAxo4xvtE1g6ZhrChCc3C/LberLoSrbbSk=
-X-Google-Smtp-Source: APXvYqxlHGRMAJdFxdLSnHkSPdNgO5FuO4LCmBdpcREhSkdgrjguyM9EQZAMmmdAUVlJPBNJzCr+DwgSU0g0KYppqF4=
-X-Received: by 2002:a2e:9188:: with SMTP id f8mr2546870ljg.33.1565116465403;
- Tue, 06 Aug 2019 11:34:25 -0700 (PDT)
+ (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dv-000722-Ev
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:08 -0400
+Received: from mga14.intel.com ([192.55.52.115]:31802)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sean.j.christopherson@intel.com>)
+ id 1hv4dv-0006yc-6O
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:07 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 06 Aug 2019 11:56:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,353,1559545200"; d="scan'208";a="176715062"
+Received: from sjchrist-coffee.jf.intel.com ([10.54.74.41])
+ by orsmga003.jf.intel.com with ESMTP; 06 Aug 2019 11:56:59 -0700
+From: Sean Christopherson <sean.j.christopherson@intel.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Cornelia Huck <cohuck@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>
+Date: Tue,  6 Aug 2019 11:56:29 -0700
+Message-Id: <20190806185649.2476-1-sean.j.christopherson@intel.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-References: <B6797C6C-483E-4D08-92C8-BC109B149E50@espressif.com>
-In-Reply-To: <B6797C6C-483E-4D08-92C8-BC109B149E50@espressif.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 6 Aug 2019 11:30:44 -0700
-Message-ID: <CAKmqyKMrWQ=4097AkAb1Dz7rM8FgrmBC527hNWk+uGomvfVTZQ@mail.gmail.com>
-To: Ivan Grokhotkov <ivan@espressif.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH v2] target/riscv: don't overwrite
- priv_version and resetvec when realizing
+X-Received-From: 192.55.52.115
+Subject: [Qemu-devel] [RFC PATCH 00/20] i386: Add support for Intel SGX
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,122 +58,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 5, 2019 at 5:14 AM Ivan Grokhotkov <ivan@espressif.com> wrote:
->
-> CPU-specific init functions (riscv_*_cpu_init) configure members of
-> CPURISCVState, such as priv_version and resetvec. However
-> riscv_cpu_realize unconditionally overwrites these members. The
-> result is that some CPUs (such as CPU_SIFIVE_U34) are getting created
-> with incorrect priv_version.
->
-> Only set priv_version in riscv_cpu_realize if priv_spec property was
-> set. Don't set resetvec in riscv_cpu_realize, rely on the init
-> function to set it. Set default priv_version and resetvec in init
-> functions where this was missing.
->
-> Signed-off-by: Ivan Grokhotkov <ivan@espressif.com>
+This series enables exposing Intel Software Guard Extensions (SGX) to KVM
+guests.  This series is firmly RFC due to SGX support not yet being
+accepted into the Linux kernel, let alone KVM.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+The primary goal of this RFC is to get feedback on the overall approach,
+especially with respect to Enclave Page Cache (EPC) handling, but any
+feedback whatsoever would be greatly appreciated.  Please don't hesitate
+to ask for more details and/or clarification.
 
-Alistair
+The code is based on 'https://github.com/ehabkost/qemu.git x86-next',
+which currently points at commit:
 
-> ---
-> target/riscv/cpu.c | 12 +++++++-----
-> target/riscv/cpu.h |  1 +
-> 2 files changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index f8d07bd20a..8f3cb0c6bf 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -110,7 +110,7 @@ static void riscv_any_cpu_init(Object *obj)
-> {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
->      set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-> -    set_priv_version(env, PRIV_VERSION_1_11_0);
-> +    set_priv_version(env, PRIV_VERSION_DEFAULT);
->      set_resetvec(env, DEFAULT_RSTVEC);
-> }
->
-> @@ -119,6 +119,8 @@ static void riscv_any_cpu_init(Object *obj)
-> static void riscv_base32_cpu_init(Object *obj)
-> {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    set_priv_version(env, PRIV_VERSION_DEFAULT);
-> +    set_resetvec(env, DEFAULT_RSTVEC);
->      /* We set this in the realise function */
->      set_misa(env, 0);
-> }
-> @@ -157,6 +159,8 @@ static void rv32imacu_nommu_cpu_init(Object *obj)
-> static void riscv_base64_cpu_init(Object *obj)
-> {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    set_priv_version(env, PRIV_VERSION_DEFAULT);
-> +    set_resetvec(env, DEFAULT_RSTVEC);
->      /* We set this in the realise function */
->      set_misa(env, 0);
-> }
-> @@ -316,7 +320,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->      RISCVCPU *cpu = RISCV_CPU(dev);
->      CPURISCVState *env = &cpu->env;
->      RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-> -    int priv_version = PRIV_VERSION_1_11_0;
-> +    int priv_version = PRIV_VERSION_DEFAULT;
->      target_ulong target_misa = 0;
->      Error *local_err = NULL;
->
-> @@ -339,11 +343,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->                         cpu->cfg.priv_spec);
->              return;
->          }
-> +        set_priv_version(env, priv_version);
->      }
->
-> -    set_priv_version(env, priv_version);
-> -    set_resetvec(env, DEFAULT_RSTVEC);
-> -
->      if (cpu->cfg.mmu) {
->          set_feature(env, RISCV_FEATURE_MMU);
->      }
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 0adb307f32..88a52a1c8c 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -81,6 +81,7 @@ enum {
-> #define PRIV_VERSION_1_09_1 0x00010901
-> #define PRIV_VERSION_1_10_0 0x00011000
-> #define PRIV_VERSION_1_11_0 0x00011100
-> +#define PRIV_VERSION_DEFAULT PRIV_VERSION_1_11_0
->
-> #define TRANSLATE_PMP_FAIL 2
-> #define TRANSLATE_FAIL 1
-> --
-> 2.20.1 (Apple Git-117)
->
->
->
-> Re-sending with corrected indentation.
+  ff656fcd33 ("i386: Fix Snowridge CPU model name and features")
 
-Just for future reference this should go below:
 
-Signed-off-by: Ivan Grokhotkov <ivan@espressif.com>
----
+Brief arch blurb (providing useful documentation in a cover letter is
+impractical due to scope of SGX):
 
-^ This line.
+  SGX is a set of instructions and mechanisms that enable ring 3
+  applications to set aside private regions of code and data for the
+  purpose of establishing and running enclaves.  An enclave is a secure
+  entity whose private memory can only be accessed by code running within
+  the enclave.  Accesses from outside the enclave, including software
+  running at a higher privilege level and other enclaves, are disallowed
+  by hardware.
 
-Alistair
+Overviews and details:
 
->
-> ---
-> Best regards,
-> Ivan Grokhotkov
->
->
->
+  SGX arch kernel doc - https://patchwork.kernel.org/patch/11043125/
+
+  SGX arch overview   - https://www.youtube.com/watch?v=mPT_vJrlHlg
+
+Gory details on SGX are also available in all recent versions of Intel's
+SDM, e.g. chapters 37-42 in Vol. 3 of the May 2019 version of the SDM.
+
+
+Linux kernel and KVM enabling:
+
+  SGX kernel enabling - https://lkml.kernel.org/r/20190713170804.2340-1-jarkko.sakkinen@linux.intel.com
+
+  SGX KVM enabling    - https://lkml.kernel.org/r/20190727055214.9282-1-sean.j.christopherson@intel.com
+
+
+QEMU points of interest:
+
+Basics - SGX is exposed the guest if and only if KVM is enabled and
+         supports virtualization of SGX, and the kernel provides access
+         to "raw" EPC.  Because SGX uses a hardware-based root of trust,
+         the attestation aspects of SGX cannot be emulated in software,
+         i.e. ultimately emulation will fail as software cannot generate
+         a valid quote/report.  The complexity of partially emulating SGX
+         in Qemu far outweighs the value added, e.g. an SGX specific
+         simulator for userspace applications can emulate SGX for
+         development and testing purposes.
+
+EPC - Because of its unique requirements, the kernel manages EPC separately
+      from normal memory.  Similar to memfd, the device /dev/sgx/virt_epc
+      can be opened to obtain a file descriptor which can in turn be used
+      to mmap() EPC memory.
+
+      The notable quirk with EPC from QEMU's perspective is that EPC is
+      enumerated via CPUID, which complicates realizing EPC as a normal
+      device due to vCPU creation depending on the location/size of EPC
+      sections.
+
+Migration - Physical EPC is encrypted with an ephemeral key that is
+            (re)generated at CPU reset, i.e. is platform specific.  Thus,
+            migrating EPC contents between physical platforms is
+            infeasible.  However, live migration is not blocked by SGX as
+            kernels and applications are conditioned to gracefully handle
+            EPC invalidation due to the EPC being zapped on power state
+            transitions that power down the CPU, e.g. S3.  I.e. from the
+            guest's perspective, live migration appears and is handled
+            like an unannounced suspend/resume cycle.
+
+NUMA - How EPC NUMA affinity will be enumerated to the kernel is not yet
+       defined (initial hardware support for SGX was limited to single
+       socket systems).
+
+Sean Christopherson (20):
+  hostmem: Add hostmem-epc as a backend for SGX EPC
+  i386: Add 'sgx-epc' device to expose EPC sections to guest
+  vl: Add "sgx-epc" option to expose SGX EPC sections to guest
+  i386: Add primary SGX CPUID and MSR defines
+  i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
+  i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
+  i386: Add SGX CPUID leaf FEAT_SGX_12_1_EBX
+  i386: Add get/set/migrate support for SGX LE public key hash MSRs
+  i386: Add feature control MSR dependency when SGX is enabled
+  i386: Update SGX CPUID info according to hardware/KVM/user input
+  linux-headers: Add temporary placeholder for KVM_CAP_SGX_ATTRIBUTE
+  i386: kvm: Add support for exposing PROVISIONKEY to guest
+  i386: Propagate SGX CPUID sub-leafs to KVM
+  i386: Adjust min CPUID level to 0x12 when SGX is enabled
+  hw/i386/pc: Set SGX bits in feature control fw_cfg accordingly
+  hw/i386/pc: Account for SGX EPC sections when calculating device
+    memory
+  i386/pc: Add e820 entry for SGX EPC section(s)
+  i386: acpi: Add SGX EPC entry to ACPI tables
+  q35: Add support for SGX EPC
+  i440fx: Add support for SGX EPC
+
+ backends/Makefile.objs    |   1 +
+ backends/hostmem-epc.c    |  91 ++++++++++++
+ hw/i386/Makefile.objs     |   1 +
+ hw/i386/acpi-build.c      |  22 +++
+ hw/i386/pc.c              |  23 ++-
+ hw/i386/pc_piix.c         |   3 +
+ hw/i386/pc_q35.c          |   2 +
+ hw/i386/sgx-epc.c         | 291 ++++++++++++++++++++++++++++++++++++++
+ include/hw/i386/pc.h      |   3 +
+ include/hw/i386/sgx-epc.h |  75 ++++++++++
+ linux-headers/linux/kvm.h |   1 +
+ qapi/misc.json            |  32 ++++-
+ qemu-options.hx           |  12 ++
+ target/i386/cpu.c         | 148 ++++++++++++++++++-
+ target/i386/cpu.h         |  14 ++
+ target/i386/kvm-stub.c    |   5 +
+ target/i386/kvm.c         |  70 +++++++++
+ target/i386/kvm_i386.h    |   3 +
+ target/i386/machine.c     |  20 +++
+ vl.c                      |   9 ++
+ 20 files changed, 820 insertions(+), 6 deletions(-)
+ create mode 100644 backends/hostmem-epc.c
+ create mode 100644 hw/i386/sgx-epc.c
+ create mode 100644 include/hw/i386/sgx-epc.h
+
+-- 
+2.22.0
+
 
