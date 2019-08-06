@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4088376E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 18:59:08 +0200 (CEST)
-Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC7383764
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 18:57:46 +0200 (CEST)
+Received: from localhost ([::1]:35078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hv2nj-0003og-Qv
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 12:59:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50965)
+	id 1hv2mP-0000ZU-JB
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 12:57:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50968)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <brijesh.singh@amd.com>) id 1hv2jh-00044p-Dn
+ (envelope-from <brijesh.singh@amd.com>) id 1hv2jh-00045k-PQ
  for qemu-devel@nongnu.org; Tue, 06 Aug 2019 12:54:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <brijesh.singh@amd.com>) id 1hv2jf-0003oG-Hh
+ (envelope-from <brijesh.singh@amd.com>) id 1hv2jg-0003oz-30
  for qemu-devel@nongnu.org; Tue, 06 Aug 2019 12:54:57 -0400
 Received: from mail-eopbgr710055.outbound.protection.outlook.com
  ([40.107.71.55]:41284 helo=NAM05-BY2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <brijesh.singh@amd.com>)
- id 1hv2jf-0003ei-AA
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 12:54:55 -0400
+ id 1hv2jf-0003ei-Qr
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 12:54:56 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=auP7pdnlBSQX0Mh/s5yoH658JSYrbJ+20u/BccIJeju3iUJLCddpp53vrPFOCFkI8bXdB8e5jh0tfYBhq6eWQG4iTVvuTm8SjjtfJwAQMpT9sg57Bp0fOtXm79o0tdvGpn+au+GQmOWTeX4TC1PSb5pnRSwJRg63y/pdzuWS3N71E5lWUfQBR/RH6ugX3TA2RZgNDNBBOjrzo0IF6gCQSpBTvLbhB/QOB5bNBCFZnlJrhcgnQR9pHL57v6kdvldfCMztGfnZSWqp359LhOnnyYjm4ZFhw3vZL4DdYGzSNG5mbe9f6OOH9lNZshCWyqqHJJVRgZbQJj9aH4v8yv0Dgg==
+ b=jjdVH0qubqWc80vM498BnCJFgwMqO32yp9lcLa+vvkAa18wtWN57fqoaczSNIIzhMatCmWdIiZYfSBLToB+m1WFgXe3HJzZJQ9RIfkk9FvY8ESSJ7LeLA+Ofw0TKR/oqajWPnOr2LCqua4BV+nkHgl6ZtWfasQZ5tPHkUMRxLkS80PG1Zind1pT7czBymUxE8JI1vWNBLRtcltZ1mU4x8ZlTS3p8LsdXmGprMhIrY1IHwFETauvc3Ln3eK4pD1emqsiVmnGPn/3Axu2/1yEDpeTJoN0kUw1szIMK4CFNDGPJQ+Q5g//uDzh5FddukMwOUi7Qo2fCE7FY0dglxkByzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4A6lImf7rAfGPsVC1yJhfOyQ4Pad0Dem3q6S3V93tek=;
- b=L/i3DvhzhwrFd+IEavJ85eguijFdiZcqT06lpKpxYh8v16XWwi++jDgsrZhJskibD2/qPLcTvzfbN8/UspLQoOwAVBiCJryq5YyXfqxpqzNTtSXHfpap1iXP4pOKoNNtJ+8LWm+GrklLwMM3t7VocLGjI7iA7imYuO7HWLex1+wTyNd7UIi9195zhjYzvd0384+bB6wd1fZZPd9qRPAsoyIxN+VUvgoKn2zty/parSqLovIxbOh7VUJPZpPnh3TEtR6oWGdqrdgilPYlrzlHTixT14/x566W1O+yoaBva/8UzQYNQ5YIg8YiOQ6jccKU8DcAyq7ASVWmJsQF5cE/bg==
+ bh=Hx9PpGjRU9HHoKEIUk8RlESJNI29I8Clvug+palw2lU=;
+ b=PokxLPeXDTFzpb8MEhXniTPpGlYQiU/+nNkVr0JbFPqwpnORNWyBSsf8a1BHkqqzxpsCYWTd1AUjtQn0uHRu3cqP6OOslzgzlcEm3CmpVMwCP8jbwi6Y5yagaeuxMoEpvgCwgyklPqgC0fykMMLgBt+1hqBvdG2i4NKLgFIBm+J/RlYKsqQPDH//Kd7W5XBBCddE0CK3v1VyrJ7/BC5+8vejz8vi0AcXJEI5s3/F67GVtaVKuYugE6uY9Z9oD2I0phDkhQb0cs4GTMqOgpcp0Njznz8+3lqX0dTDSM4fl+FJ4McmJEObRpgVf0UOjgotZaUTqPLJe9OFViT6UOO8fQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=amd.com;dmarc=pass action=none header.from=amd.com;dkim=pass
  header.d=amd.com;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4A6lImf7rAfGPsVC1yJhfOyQ4Pad0Dem3q6S3V93tek=;
- b=UQ8CyvxnBDJlE6JBbbkUZ3U1lODBl/5u+n07vu/LGBu5owmY/NTfqrwDuGu5VwDdpa1RLFethMj2VLo92EFlgc9ZSHZo55bWtojICJdztyW+7c2eQKjrUe5rXClh5x38yHrn0AWAJuYst8UzGcHy5HQEfIZCXO9AS/FKBrQWjSg=
+ bh=Hx9PpGjRU9HHoKEIUk8RlESJNI29I8Clvug+palw2lU=;
+ b=Q9Sjp6Ru7QDHprGNqYHUrArbSe50cH8eErfRMaSQi5pNovGy9S/5Pfl6WjKj+F/2DfitXGrYUnPQGTL0cibsQOt5922Da3z7vNcZ+kmfNuyoSeNqLbnn5t0gR8rYUW+wtTLZiB0/JBDkMspFQ0cbZBIHO5KWYzj9BmzNMcoG2Jk=
 Received: from DM6PR12MB2682.namprd12.prod.outlook.com (20.176.118.13) by
  DM6PR12MB4233.namprd12.prod.outlook.com (10.141.184.21) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.14; Tue, 6 Aug 2019 16:54:53 +0000
+ 15.20.2136.14; Tue, 6 Aug 2019 16:54:54 +0000
 Received: from DM6PR12MB2682.namprd12.prod.outlook.com
  ([fe80::7439:ea87:cc5d:71]) by DM6PR12MB2682.namprd12.prod.outlook.com
  ([fe80::7439:ea87:cc5d:71%7]) with mapi id 15.20.2136.018; Tue, 6 Aug 2019
- 16:54:53 +0000
+ 16:54:54 +0000
 From: "Singh, Brijesh" <brijesh.singh@amd.com>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v3 09/14] target/i386: sev: add support to encrypt the
- outgoing page
-Thread-Index: AQHVTHerf1yW7BLbT0K/ygBstlBEBA==
-Date: Tue, 6 Aug 2019 16:54:53 +0000
-Message-ID: <20190806165429.19327-10-brijesh.singh@amd.com>
+Thread-Topic: [PATCH v3 10/14] target/i386: sev: add support to load incoming
+ encrypted page
+Thread-Index: AQHVTHer33/SYHKbD0CO/5n13cENHA==
+Date: Tue, 6 Aug 2019 16:54:54 +0000
+Message-ID: <20190806165429.19327-11-brijesh.singh@amd.com>
 References: <20190806165429.19327-1-brijesh.singh@amd.com>
 In-Reply-To: <20190806165429.19327-1-brijesh.singh@amd.com>
 Accept-Language: en-US
@@ -67,14 +67,14 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.17.1
 x-originating-ip: [165.204.77.1]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1a7eba99-9c8b-47e5-be31-08d71a8ecdb5
+x-ms-office365-filtering-correlation-id: eb208243-9f56-4c54-acaa-08d71a8ece37
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
  SRVR:DM6PR12MB4233; 
 x-ms-traffictypediagnostic: DM6PR12MB4233:
-x-microsoft-antispam-prvs: <DM6PR12MB423398D68F1BD24833BB7790E5D50@DM6PR12MB4233.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:214;
+x-microsoft-antispam-prvs: <DM6PR12MB42338160E60B5EA0549E3460E5D50@DM6PR12MB4233.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1186;
 x-forefront-prvs: 0121F24F22
 x-forefront-antispam-report: SFV:NSPM;
  SFS:(10009020)(4636009)(39860400002)(396003)(136003)(346002)(366004)(376002)(199004)(189003)(2501003)(71200400001)(36756003)(81166006)(71190400001)(81156014)(54906003)(5660300002)(1076003)(25786009)(7736002)(6116002)(305945005)(8676002)(76176011)(6916009)(68736007)(3846002)(8936002)(2351001)(99286004)(478600001)(102836004)(64756008)(66946007)(66446008)(66476007)(386003)(6506007)(66556008)(26005)(4326008)(50226002)(2616005)(186003)(476003)(6512007)(6486002)(486006)(86362001)(5640700003)(53936002)(66066001)(316002)(14454004)(11346002)(2906002)(446003)(256004)(14444005)(6436002)(52116002);
@@ -84,13 +84,13 @@ x-forefront-antispam-report: SFV:NSPM;
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: vVFmLRx392ElD44OKelqSgFLofCPaYAvS0lJofamh1kgTxekgcL+epm+Lhx8j3Jz7mH0D3f9wDzqtt64Y6Pbvj/1Wn7kfzGSu+r/krLYENliVqfnXpzV0YTageQL+8vjMeZip+jRpfb7+NFNvAu3o6GlZZRKhJh5kFwK4CqKauipjRXv8AMdDG1RNYqF2hUUDWxt4OybGqvCdRlNCunETDfgFUKc4MnYKuJXXUovjRv/egY1gJ6WIbtXti16vszk1okwBtN7Qm1reosCnbtsKLC38CJyBuN3nRNxj+6sZ2PQmKc5h1iXyiiDX8Q8Ib03fL9XdnmmnzIJXcYSiOuldbuPhRUJevbXr4O6oT+2WknKfekUl6C6aG8Y42oKINfVgG8S+tp11wzknj2SQwcj0OjzCEtihvwX2fIk3BtlwiU=
+x-microsoft-antispam-message-info: i4YlR3HIlyxNXiME6LNdDYpcipKIIhRzWl7kB0BDN8cE2yqYZS+sGeiQGcTL0wD4u/gEwPP06eEqbULJKCKA4ux5tQQVSYPUyoFnMygWLoO932MxObB/ykI6aInK79KF0T6V+wSrZKUZTtw72A0GJwIlv/1HsOkV+5MQmCNt6592jUF3pGdLOQhhjfvWMp/yVh7w+cme8AUvzO0c3qyljcmDsEY/dFsegFhdWafzQ8Jci+/KEs+dQTfHieoisHfcWbT6Yfk63XZqwtN0/aKY2fT/fMrfID37IEK5AM2JGBPSh4+btl7p7LNSK3ZJOECBPQh2GFzglESbebcqBfGjL5j6yg9+p/1lcoGdk7eE4E8T5OFdzigJEtkgDsu6Dz3GrMC826FmEo1caX89s/YO2qP3G0YKB6X/l2xmC0hGbBQ=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a7eba99-9c8b-47e5-be31-08d71a8ecdb5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2019 16:54:53.8400 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb208243-9f56-4c54-acaa-08d71a8ece37
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2019 16:54:54.6006 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
@@ -98,8 +98,8 @@ X-MS-Exchange-CrossTenant-userprincipalname: sbrijesh@amd.com
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4233
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.71.55
-Subject: [Qemu-devel] [PATCH v3 09/14] target/i386: sev: add support to
- encrypt the outgoing page
+Subject: [Qemu-devel] [PATCH v3 10/14] target/i386: sev: add support to load
+ incoming encrypted page
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,360 +118,250 @@ Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Lendacky,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sev_save_outgoing_page() provide the implementation to encrypt the
-guest private pages during the transit. The routines uses the SEND_START
-command to create the outgoing encryption context on the first call then
-uses the SEND_UPDATE_DATA command to encrypt the data before writing it
-to the socket. While encrypting the data SEND_UPDATE_DATA produces some
-metadata (e.g MAC, IV). The metadata is also sent to the target machine.
-After migration is completed, we issue the SEND_FINISH command to transitio=
-n
-the SEV guest state from sending to unrunnable state.
+The sev_load_incoming_page() provide the implementation to read the
+incoming guest private pages from the socket and load it into the guest
+memory. The routines uses the RECEIVE_START command to create the
+incoming encryption context on the first call then uses the
+RECEIEVE_UPDATE_DATA command to load the encrypted pages into the guest
+memory. After migration is completed, we issue the RECEIVE_FINISH command
+to transition the SEV guest to the runnable state so that it can be
+executed.
 
 Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
 ---
- accel/kvm/kvm-all.c      |   9 ++
- accel/kvm/sev-stub.c     |   6 ++
- include/sysemu/sev.h     |   2 +
- target/i386/sev.c        | 216 +++++++++++++++++++++++++++++++++++++++
- target/i386/sev_i386.h   |   2 +
+ accel/kvm/kvm-all.c      |   6 ++
+ accel/kvm/sev-stub.c     |   5 ++
+ include/sysemu/sev.h     |   1 +
+ target/i386/sev.c        | 137 ++++++++++++++++++++++++++++++++++++++-
  target/i386/trace-events |   3 +
- 6 files changed, 238 insertions(+)
+ 5 files changed, 151 insertions(+), 1 deletion(-)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index d0304c6947..a5b0ae9363 100644
+index a5b0ae9363..ba0e7fa2be 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -172,8 +172,17 @@ static int kvm_memcrypt_save_setup(const char *pdh, co=
-nst char *plat_cert,
-                           plat_cert, amd_cert);
+@@ -180,9 +180,15 @@ static int kvm_memcrypt_save_outgoing_page(QEMUFile *f=
+, uint8_t *ptr,
+                                   bytes_sent);
  }
 =20
-+static int kvm_memcrypt_save_outgoing_page(QEMUFile *f, uint8_t *ptr,
-+                                           uint32_t size,
-+                                           uint64_t *bytes_sent)
++static int kvm_memcrypt_load_incoming_page(QEMUFile *f, uint8_t *ptr)
 +{
-+    return sev_save_outgoing_page(kvm_state->memcrypt_handle, f, ptr, size=
-,
-+                                  bytes_sent);
++    return sev_load_incoming_page(kvm_state->memcrypt_handle, f, ptr);
 +}
 +
  static struct MachineMemoryEncryptionOps sev_memory_encryption_ops =3D {
      .save_setup =3D kvm_memcrypt_save_setup,
-+    .save_outgoing_page =3D kvm_memcrypt_save_outgoing_page,
+     .save_outgoing_page =3D kvm_memcrypt_save_outgoing_page,
++    .load_incoming_page =3D kvm_memcrypt_load_incoming_page,
  };
 =20
  int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
 diff --git a/accel/kvm/sev-stub.c b/accel/kvm/sev-stub.c
-index 528f8cf7f1..51b17b8141 100644
+index 51b17b8141..1b6773ef72 100644
 --- a/accel/kvm/sev-stub.c
 +++ b/accel/kvm/sev-stub.c
-@@ -30,3 +30,9 @@ int sev_save_setup(void *handle, const char *pdh, const c=
-har *plat_cert,
+@@ -36,3 +36,8 @@ int sev_save_outgoing_page(void *handle, QEMUFile *f, uin=
+t8_t *ptr,
  {
      return 1;
  }
 +
-+int sev_save_outgoing_page(void *handle, QEMUFile *f, uint8_t *ptr,
-+                           uint32_t size, uint64_t *bytes_sent)
++int sev_load_incoming_page(void *handle, QEMUFile *f, uint8_t *ptr)
 +{
 +    return 1;
 +}
 diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
-index d5123d4fa3..f06fd203cd 100644
+index f06fd203cd..e9371bd2dd 100644
 --- a/include/sysemu/sev.h
 +++ b/include/sysemu/sev.h
-@@ -20,4 +20,6 @@ void *sev_guest_init(const char *id);
- int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len);
- int sev_save_setup(void *handle, const char *pdh, const char *plat_cert,
+@@ -22,4 +22,5 @@ int sev_save_setup(void *handle, const char *pdh, const c=
+har *plat_cert,
                     const char *amd_cert);
-+int sev_save_outgoing_page(void *handle, QEMUFile *f, uint8_t *ptr,
-+                           uint32_t size, uint64_t *bytes_sent);
+ int sev_save_outgoing_page(void *handle, QEMUFile *f, uint8_t *ptr,
+                            uint32_t size, uint64_t *bytes_sent);
++int sev_load_incoming_page(void *handle, QEMUFile *f, uint8_t *ptr);
  #endif
 diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 483d9bb0fa..1820c62a71 100644
+index 1820c62a71..a689011991 100644
 --- a/target/i386/sev.c
 +++ b/target/i386/sev.c
-@@ -28,6 +28,7 @@
- #include "trace.h"
- #include "migration/blocker.h"
- #include "migration/qemu-file.h"
-+#include "migration/misc.h"
-=20
- #define DEFAULT_GUEST_POLICY    0x1 /* disable debug */
- #define DEFAULT_SEV_DEVICE      "/dev/sev"
-@@ -774,6 +775,40 @@ error:
-     return 1;
- }
-=20
-+static void
-+sev_send_finish(void)
-+{
-+    int ret, error;
-+
-+    trace_kvm_sev_send_finish();
-+    ret =3D sev_ioctl(sev_state->sev_fd, KVM_SEV_SEND_FINISH, 0, &error);
-+    if (ret) {
-+        error_report("%s: SEND_FINISH ret=3D%d fw_error=3D%d '%s'",
-+                     __func__, ret, error, fw_error_to_str(error));
-+    }
-+
-+    g_free(sev_state->send_packet_hdr);
-+    sev_set_guest_state(SEV_STATE_RUNNING);
-+}
-+
-+static void
-+sev_migration_state_notifier(Notifier *notifier, void *data)
-+{
-+    MigrationState *s =3D data;
-+
-+    if (migration_has_finished(s) ||
-+        migration_in_postcopy_after_devices(s) ||
-+        migration_has_failed(s)) {
-+        if (sev_check_state(SEV_STATE_SEND_UPDATE)) {
-+            sev_send_finish();
-+        }
-+    }
-+}
-+
-+static Notifier sev_migration_state_notify =3D {
-+    .notify =3D sev_migration_state_notifier,
-+};
-+
- void *
- sev_guest_init(const char *id)
- {
-@@ -860,6 +895,7 @@ sev_guest_init(const char *id)
-     ram_block_notifier_add(&sev_ram_notifier);
-     qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
-     qemu_add_vm_change_state_handler(sev_vm_state_change, s);
-+    add_migration_state_change_notifier(&sev_migration_state_notify);
-=20
-     return s;
- err:
-@@ -881,6 +917,186 @@ sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t=
- len)
-     return 0;
+@@ -721,13 +721,34 @@ sev_launch_finish(SEVState *s)
+     }
  }
 =20
 +static int
-+sev_get_send_session_length(void)
++sev_receive_finish(SEVState *s)
 +{
-+    int ret, fw_err =3D 0;
-+    struct kvm_sev_send_start start =3D {};
++    int error, ret =3D 1;
 +
-+    ret =3D sev_ioctl(sev_state->sev_fd, KVM_SEV_SEND_START, &start, &fw_e=
-rr);
-+    if (fw_err !=3D SEV_RET_INVALID_LEN) {
-+        ret =3D -1;
-+        error_report("%s: failed to get session length ret=3D%d fw_error=
-=3D%d '%s'",
-+                     __func__, ret, fw_err, fw_error_to_str(fw_err));
++    trace_kvm_sev_receive_finish();
++    ret =3D sev_ioctl(s->sev_fd, KVM_SEV_RECEIVE_FINISH, 0, &error);
++    if (ret) {
++        error_report("%s: RECEIVE_FINISH ret=3D%d fw_error=3D%d '%s'",
++                __func__, ret, error, fw_error_to_str(error));
 +        goto err;
 +    }
 +
-+    ret =3D start.session_len;
++    sev_set_guest_state(SEV_STATE_RUNNING);
 +err:
 +    return ret;
 +}
 +
-+static int
-+sev_send_start(SEVState *s, QEMUFile *f, uint64_t *bytes_sent)
-+{
-+    gsize pdh_len =3D 0, plat_cert_len;
-+    int session_len, ret, fw_error;
-+    struct kvm_sev_send_start start =3D { };
-+    guchar *pdh =3D NULL, *plat_cert =3D NULL, *session =3D NULL;
 +
-+    if (!s->remote_pdh || !s->remote_plat_cert || !s->amd_cert_len) {
-+        error_report("%s: missing remote PDH or PLAT_CERT", __func__);
+ static void
+ sev_vm_state_change(void *opaque, int running, RunState state)
+ {
+     SEVState *s =3D opaque;
+=20
+     if (running) {
+-        if (!sev_check_state(SEV_STATE_RUNNING)) {
++        if (sev_check_state(SEV_STATE_RECEIVE_UPDATE)) {
++            sev_receive_finish(s);
++        } else if (!sev_check_state(SEV_STATE_RUNNING)) {
+             sev_launch_finish(s);
+         }
+     }
+@@ -1097,6 +1118,120 @@ int sev_save_outgoing_page(void *handle, QEMUFile *=
+f, uint8_t *ptr,
+     return sev_send_update_data(s, f, ptr, sz, bytes_sent);
+ }
+=20
++static int
++sev_receive_start(QSevGuestInfo *sev, QEMUFile *f)
++{
++    int ret =3D 1;
++    int fw_error;
++    struct kvm_sev_receive_start start =3D { };
++    gchar *session =3D NULL, *pdh_cert =3D NULL;
++
++    /* get SEV guest handle */
++    start.handle =3D object_property_get_int(OBJECT(sev), "handle",
++                                           &error_abort);
++
++    /* get the source policy */
++    start.policy =3D qemu_get_be32(f);
++
++    /* get source PDH key */
++    start.pdh_len =3D qemu_get_be32(f);
++    if (!check_blob_length(start.pdh_len)) {
 +        return 1;
 +    }
 +
-+    start.pdh_cert_uaddr =3D (uintptr_t) s->remote_pdh;
-+    start.pdh_cert_len =3D s->remote_pdh_len;
++    pdh_cert =3D g_new(gchar, start.pdh_len);
++    qemu_get_buffer(f, (uint8_t *)pdh_cert, start.pdh_len);
++    start.pdh_uaddr =3D (uintptr_t)pdh_cert;
 +
-+    start.plat_cert_uaddr =3D (uintptr_t)s->remote_plat_cert;
-+    start.plat_cert_len =3D s->remote_plat_cert_len;
-+
-+    start.amd_cert_uaddr =3D (uintptr_t)s->amd_cert;
-+    start.amd_cert_len =3D s->amd_cert_len;
-+
-+    /* get the session length */
-+    session_len =3D sev_get_send_session_length();
-+    if (session_len < 0) {
-+        ret =3D 1;
-+        goto err;
++    /* get source session data */
++    start.session_len =3D qemu_get_be32(f);
++    if (!check_blob_length(start.session_len)) {
++        return 1;
 +    }
++    session =3D g_new(gchar, start.session_len);
++    qemu_get_buffer(f, (uint8_t *)session, start.session_len);
++    start.session_uaddr =3D (uintptr_t)session;
 +
-+    session =3D g_new0(guchar, session_len);
-+    start.session_uaddr =3D (unsigned long)session;
-+    start.session_len =3D session_len;
++    trace_kvm_sev_receive_start(start.policy, session, pdh_cert);
 +
-+    /* Get our PDH certificate */
-+    ret =3D sev_get_pdh_info(s->sev_fd, &pdh, &pdh_len,
-+                           &plat_cert, &plat_cert_len);
-+    if (ret) {
-+        error_report("Failed to get our PDH cert");
-+        goto err;
-+    }
-+
-+    trace_kvm_sev_send_start(start.pdh_cert_uaddr, start.pdh_cert_len,
-+                             start.plat_cert_uaddr, start.plat_cert_len,
-+                             start.amd_cert_uaddr, start.amd_cert_len);
-+
-+    ret =3D sev_ioctl(s->sev_fd, KVM_SEV_SEND_START, &start, &fw_error);
++    ret =3D sev_ioctl(sev_state->sev_fd, KVM_SEV_RECEIVE_START,
++                    &start, &fw_error);
 +    if (ret < 0) {
-+        error_report("%s: SEND_START ret=3D%d fw_error=3D%d '%s'",
-+                __func__, ret, fw_error, fw_error_to_str(fw_error));
++        error_report("Error RECEIVE_START ret=3D%d fw_error=3D%d '%s'",
++                ret, fw_error, fw_error_to_str(fw_error));
 +        goto err;
 +    }
 +
-+    qemu_put_be32(f, start.policy);
-+    qemu_put_be32(f, pdh_len);
-+    qemu_put_buffer(f, (uint8_t *)pdh, pdh_len);
-+    qemu_put_be32(f, start.session_len);
-+    qemu_put_buffer(f, (uint8_t *)start.session_uaddr, start.session_len);
-+    *bytes_sent =3D 12 + pdh_len + start.session_len;
-+
-+    sev_set_guest_state(SEV_STATE_SEND_UPDATE);
-+
++    object_property_set_int(OBJECT(sev), start.handle, "handle", &error_ab=
+ort);
++    sev_set_guest_state(SEV_STATE_RECEIVE_UPDATE);
 +err:
-+    g_free(pdh);
-+    g_free(plat_cert);
++    g_free(session);
++    g_free(pdh_cert);
++
 +    return ret;
 +}
 +
-+static int
-+sev_send_get_packet_len(int *fw_err)
++static int sev_receive_update_data(QEMUFile *f, uint8_t *ptr)
 +{
-+    int ret;
-+    struct kvm_sev_send_update_data update =3D {};
++    int ret =3D 1, fw_error =3D 0;
++    gchar *hdr =3D NULL, *trans =3D NULL;
++    struct kvm_sev_receive_update_data update =3D {};
 +
-+    ret =3D sev_ioctl(sev_state->sev_fd, KVM_SEV_SEND_UPDATE_DATA,
-+                    &update, fw_err);
-+    if (*fw_err !=3D SEV_RET_INVALID_LEN) {
-+        ret =3D -1;
-+        error_report("%s: failed to get session length ret=3D%d fw_error=
-=3D%d '%s'",
-+                    __func__, ret, *fw_err, fw_error_to_str(*fw_err));
++    /* get packet header */
++    update.hdr_len =3D qemu_get_be32(f);
++    if (!check_blob_length(update.hdr_len)) {
++        return 1;
++    }
++
++    hdr =3D g_new(gchar, update.hdr_len);
++    qemu_get_buffer(f, (uint8_t *)hdr, update.hdr_len);
++    update.hdr_uaddr =3D (uintptr_t)hdr;
++
++    /* get transport buffer */
++    update.trans_len =3D qemu_get_be32(f);
++    if (!check_blob_length(update.trans_len)) {
 +        goto err;
 +    }
 +
-+    ret =3D update.hdr_len;
-+
-+err:
-+    return ret;
-+}
-+
-+static int
-+sev_send_update_data(SEVState *s, QEMUFile *f, uint8_t *ptr, uint32_t size=
-,
-+                     uint64_t *bytes_sent)
-+{
-+    int ret, fw_error;
-+    guchar *trans;
-+    struct kvm_sev_send_update_data update =3D { };
-+
-+    /*
-+     * If this is first call then query the packet header bytes and alloca=
-te
-+     * the packet buffer.
-+     */
-+    if (!s->send_packet_hdr) {
-+        s->send_packet_hdr_len =3D sev_send_get_packet_len(&fw_error);
-+        if (s->send_packet_hdr_len < 1) {
-+            error_report("%s: SEND_UPDATE fw_error=3D%d '%s'",
-+                    __func__, fw_error, fw_error_to_str(fw_error));
-+            return 1;
-+        }
-+
-+        s->send_packet_hdr =3D g_new(gchar, s->send_packet_hdr_len);
-+    }
-+
-+    /* allocate transport buffer */
-+    trans =3D g_new(guchar, size);
-+
-+    update.hdr_uaddr =3D (uintptr_t)s->send_packet_hdr;
-+    update.hdr_len =3D s->send_packet_hdr_len;
-+    update.guest_uaddr =3D (uintptr_t)ptr;
-+    update.guest_len =3D size;
++    trans =3D g_new(gchar, update.trans_len);
 +    update.trans_uaddr =3D (uintptr_t)trans;
-+    update.trans_len =3D size;
++    qemu_get_buffer(f, (uint8_t *)update.trans_uaddr, update.trans_len);
 +
-+    trace_kvm_sev_send_update_data(ptr, trans, size);
++    update.guest_uaddr =3D (uintptr_t) ptr;
++    update.guest_len =3D update.trans_len;
 +
-+    ret =3D sev_ioctl(s->sev_fd, KVM_SEV_SEND_UPDATE_DATA, &update, &fw_er=
-ror);
++    trace_kvm_sev_receive_update_data(trans, ptr, update.guest_len,
++            hdr, update.hdr_len);
++
++    ret =3D sev_ioctl(sev_state->sev_fd, KVM_SEV_RECEIVE_UPDATE_DATA,
++                    &update, &fw_error);
 +    if (ret) {
-+        error_report("%s: SEND_UPDATE_DATA ret=3D%d fw_error=3D%d '%s'",
-+                __func__, ret, fw_error, fw_error_to_str(fw_error));
++        error_report("Error RECEIVE_UPDATE_DATA ret=3D%d fw_error=3D%d '%s=
+'",
++                ret, fw_error, fw_error_to_str(fw_error));
 +        goto err;
 +    }
-+
-+    qemu_put_be32(f, update.hdr_len);
-+    qemu_put_buffer(f, (uint8_t *)update.hdr_uaddr, update.hdr_len);
-+    *bytes_sent =3D 4 + update.hdr_len;
-+
-+    qemu_put_be32(f, update.trans_len);
-+    qemu_put_buffer(f, (uint8_t *)update.trans_uaddr, update.trans_len);
-+    *bytes_sent +=3D (4 + update.trans_len);
-+
 +err:
 +    g_free(trans);
++    g_free(hdr);
 +    return ret;
 +}
 +
-+int sev_save_outgoing_page(void *handle, QEMUFile *f, uint8_t *ptr,
-+                           uint32_t sz, uint64_t *bytes_sent)
++int sev_load_incoming_page(void *handle, QEMUFile *f, uint8_t *ptr)
 +{
-+    SEVState *s =3D sev_state;
++    SEVState *s =3D (SEVState *)handle;
 +
 +    /*
-+     * If this is a first buffer then create outgoing encryption context
-+     * and write our PDH, policy and session data.
++     * If this is first buffer and SEV is not in recieiving state then
++     * use RECEIVE_START command to create a encryption context.
 +     */
-+    if (!sev_check_state(SEV_STATE_SEND_UPDATE) &&
-+        sev_send_start(s, f, bytes_sent)) {
-+        error_report("Failed to create outgoing context");
++    if (!sev_check_state(SEV_STATE_RECEIVE_UPDATE) &&
++        sev_receive_start(s->sev_info, f)) {
 +        return 1;
 +    }
 +
-+    return sev_send_update_data(s, f, ptr, sz, bytes_sent);
++    return sev_receive_update_data(f, ptr);
 +}
 +
  static void
  sev_register_types(void)
  {
-diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
-index 32906de998..e475304f5f 100644
---- a/target/i386/sev_i386.h
-+++ b/target/i386/sev_i386.h
-@@ -87,6 +87,8 @@ struct SEVState {
-     size_t remote_plat_cert_len;
-     guchar *amd_cert;
-     size_t amd_cert_len;
-+    gchar *send_packet_hdr;
-+    size_t send_packet_hdr_len;
- };
-=20
- typedef struct SEVState SEVState;
 diff --git a/target/i386/trace-events b/target/i386/trace-events
-index 789c700d4a..b41516cf9f 100644
+index b41516cf9f..609752cca7 100644
 --- a/target/i386/trace-events
 +++ b/target/i386/trace-events
-@@ -15,3 +15,6 @@ kvm_sev_launch_start(int policy, void *session, void *pdh=
-) "policy 0x%x session
- kvm_sev_launch_update_data(void *addr, uint64_t len) "addr %p len 0x%" PRI=
-u64
- kvm_sev_launch_measurement(const char *value) "data %s"
- kvm_sev_launch_finish(void) ""
-+kvm_sev_send_start(uint64_t pdh, int l1, uint64_t plat, int l2, uint64_t a=
+@@ -18,3 +18,6 @@ kvm_sev_launch_finish(void) ""
+ kvm_sev_send_start(uint64_t pdh, int l1, uint64_t plat, int l2, uint64_t a=
 md, int l3) "pdh 0x%" PRIx64 " len %d plat 0x%" PRIx64 " len %d amd 0x%" PR=
 Ix64 " len %d"
-+kvm_sev_send_update_data(void *src, void *dst, int len) "guest %p trans %p=
+ kvm_sev_send_update_data(void *src, void *dst, int len) "guest %p trans %p=
  len %d"
-+kvm_sev_send_finish(void) ""
+ kvm_sev_send_finish(void) ""
++kvm_sev_receive_start(int policy, void *session, void *pdh) "policy 0x%x s=
+ession %p pdh %p"
++kvm_sev_receive_update_data(void *src, void *dst, int len, void *hdr, int =
+hdr_len) "guest %p trans %p len %d hdr %p hdr_len %d"
++kvm_sev_receive_finish(void) ""
 --=20
 2.17.1
 
