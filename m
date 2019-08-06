@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0335F83932
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 20:59:10 +0200 (CEST)
-Received: from localhost ([::1]:35704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4414583930
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 20:59:07 +0200 (CEST)
+Received: from localhost ([::1]:35700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hv4ft-00011I-6N
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 14:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41093)
+	id 1hv4fq-0000sw-F6
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 14:59:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41103)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dx-0004OF-Vs
+ (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dy-0004OH-5g
  for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dw-00074A-Ei
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:09 -0400
-Received: from mga14.intel.com ([192.55.52.115]:31802)
+ (envelope-from <sean.j.christopherson@intel.com>) id 1hv4dw-00074P-Ii
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:10 -0400
+Received: from mga14.intel.com ([192.55.52.115]:31811)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <sean.j.christopherson@intel.com>)
- id 1hv4dw-0006yc-6J
+ id 1hv4dw-00072G-9y
  for qemu-devel@nongnu.org; Tue, 06 Aug 2019 14:57:08 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
@@ -27,7 +27,7 @@ Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
  06 Aug 2019 11:57:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,353,1559545200"; d="scan'208";a="176715072"
+X-IronPort-AV: E=Sophos;i="5.64,353,1559545200"; d="scan'208";a="176715076"
 Received: from sjchrist-coffee.jf.intel.com ([10.54.74.41])
  by orsmga003.jf.intel.com with ESMTP; 06 Aug 2019 11:56:59 -0700
 From: Sean Christopherson <sean.j.christopherson@intel.com>
@@ -38,8 +38,8 @@ To: Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Marcelo Tosatti <mtosatti@redhat.com>
-Date: Tue,  6 Aug 2019 11:56:33 -0700
-Message-Id: <20190806185649.2476-5-sean.j.christopherson@intel.com>
+Date: Tue,  6 Aug 2019 11:56:34 -0700
+Message-Id: <20190806185649.2476-6-sean.j.christopherson@intel.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190806185649.2476-1-sean.j.christopherson@intel.com>
 References: <20190806185649.2476-1-sean.j.christopherson@intel.com>
@@ -48,8 +48,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 192.55.52.115
-Subject: [Qemu-devel] [RFC PATCH 04/20] i386: Add primary SGX CPUID and MSR
- defines
+Subject: [Qemu-devel] [RFC PATCH 05/20] i386: Add SGX CPUID leaf
+ FEAT_SGX_12_0_EAX
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,78 +65,71 @@ Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add CPUID defines for SGX and SGX Launch Control (LC), as well as
-defines for their associated FEATURE_CONTROL MSR bits.  Define the
-Launch Enclave Public Key Hash MSRs (LE Hash MSRs), which exist
-when SGX LC is present (in CPUID), and are writable when SGX LC is
-enabled (in FEATURE_CONTROL).
+CPUID leaf 12_0_EAX is an Intel-defined feature bits leaf enumerating
+the CPU's SGX capabilities, e.g. supported SGX instruction sets.
+Currently there are four enumerated capabilities:
+
+  - SGX1 instruction set, i.e. "base" SGX
+  - SGX2 instruction set for dynamic EPC management
+  - ENCLV instruction set for VMM oversubscription of EPC
+  - ENCLS-C instruction set for thread safe variants of ENCLS
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 ---
- target/i386/cpu.c |  4 ++--
- target/i386/cpu.h | 10 ++++++++++
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ target/i386/cpu.c | 20 ++++++++++++++++++++
+ target/i386/cpu.h |  1 +
+ 2 files changed, 21 insertions(+)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 19751e37a7..f529fb0dc8 100644
+index f529fb0dc8..e954eca4dd 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -1041,7 +1041,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-     [FEAT_7_0_EBX] = {
-         .type = CPUID_FEATURE_WORD,
-         .feat_names = {
--            "fsgsbase", "tsc-adjust", NULL, "bmi1",
-+            "fsgsbase", "tsc-adjust", "sgx", "bmi1",
-             "hle", "avx2", NULL, "smep",
-             "bmi2", "erms", "invpcid", "rtm",
-             NULL, NULL, "mpx", NULL,
-@@ -1067,7 +1067,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "la57", NULL, NULL, NULL,
-             NULL, NULL, "rdpid", NULL,
-             NULL, "cldemote", NULL, "movdiri",
--            "movdir64b", NULL, NULL, NULL,
-+            "movdir64b", NULL, "sgxlc", NULL,
+@@ -775,6 +775,7 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+ #define TCG_XSAVE_FEATURES (CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XGETBV1)
+           /* missing:
+           CPUID_XSAVE_XSAVEC, CPUID_XSAVE_XSAVES */
++#define TCG_SGX_12_0_EAX_FEATURES 0
+ 
+ typedef enum FeatureWordType {
+    CPUID_FEATURE_WORD,
+@@ -1224,6 +1225,25 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             },
          },
-         .cpuid = {
-             .eax = 7,
+     },
++    [FEAT_SGX_12_0_EAX] = {
++        .type = CPUID_FEATURE_WORD,
++        .feat_names = {
++            "sgx1", "sgx2", NULL, NULL,
++            NULL, "sgx-enclv", "sgx-encls-c", NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++        },
++        .cpuid = {
++            .eax = 0x12,
++            .needs_ecx = true, .ecx = 0,
++            .reg = R_EAX,
++        },
++        .tcg_features = TCG_SGX_12_0_EAX_FEATURES,
++    },
+ };
+ 
+ typedef struct X86RegisterInfo32 {
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 8b3dc5533e..62adb2e0d0 100644
+index 62adb2e0d0..6803b1b41d 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -350,9 +350,17 @@ typedef enum X86Seg {
- #define MSR_IA32_TSCDEADLINE            0x6e0
+@@ -506,6 +506,7 @@ typedef enum FeatureWord {
+     FEAT_XSAVE_COMP_HI, /* CPUID[EAX=0xd,ECX=0].EDX */
+     FEAT_ARCH_CAPABILITIES,
+     FEAT_CORE_CAPABILITY,
++    FEAT_SGX_12_0_EAX,  /* CPUID[EAX=0x12,ECX=0].EAX (SGX) */
+     FEATURE_WORDS,
+ } FeatureWord;
  
- #define FEATURE_CONTROL_LOCKED                    (1<<0)
-+#define FEATURE_CONTROL_VMXON_ENABLED_INSIDE_SMX  (1<<1)
- #define FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_SMX (1<<2)
-+#define FEATURE_CONTROL_SGX_LC                    (1<<17)
-+#define FEATURE_CONTROL_SGX                       (1<<18)
- #define FEATURE_CONTROL_LMCE                      (1<<20)
- 
-+#define MSR_IA32_SGXLEPUBKEYHASH0       0x8c
-+#define MSR_IA32_SGXLEPUBKEYHASH1       0x8d
-+#define MSR_IA32_SGXLEPUBKEYHASH2       0x8e
-+#define MSR_IA32_SGXLEPUBKEYHASH3       0x8f
-+
- #define MSR_P6_PERFCTR0                 0xc1
- 
- #define MSR_IA32_SMBASE                 0x9e
-@@ -641,6 +649,7 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_SVM_PFTHRESHOLD  (1U << 12)
- 
- #define CPUID_7_0_EBX_FSGSBASE (1U << 0)
-+#define CPUID_7_0_EBX_SGX      (1U << 2)
- #define CPUID_7_0_EBX_BMI1     (1U << 3)
- #define CPUID_7_0_EBX_HLE      (1U << 4)
- #define CPUID_7_0_EBX_AVX2     (1U << 5)
-@@ -684,6 +693,7 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_ECX_CLDEMOTE (1U << 25)  /* CLDEMOTE Instruction */
- #define CPUID_7_0_ECX_MOVDIRI  (1U << 27)  /* MOVDIRI Instruction */
- #define CPUID_7_0_ECX_MOVDIR64B (1U << 28) /* MOVDIR64B Instruction */
-+#define CPUID_7_0_ECX_SGX_LC   (1U << 30)
- 
- #define CPUID_7_0_EDX_AVX512_4VNNIW (1U << 2) /* AVX512 Neural Network Instructions */
- #define CPUID_7_0_EDX_AVX512_4FMAPS (1U << 3) /* AVX512 Multiply Accumulation Single Precision */
 -- 
 2.22.0
 
