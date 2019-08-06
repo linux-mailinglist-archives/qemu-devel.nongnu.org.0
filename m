@@ -2,50 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22BE8287A
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 02:19:26 +0200 (CEST)
-Received: from localhost ([::1]:57662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953EA82874
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 02:16:10 +0200 (CEST)
+Received: from localhost ([::1]:57626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hunCI-0004jS-3G
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 20:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35039)
+	id 1hun97-00021P-Ll
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 20:16:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34690)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hunBM-0003TF-6m
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 20:18:29 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hun8K-0001T2-2Z
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 20:15:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hunBL-00030s-4C
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 20:18:28 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:57449)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hunBJ-0002vK-25; Mon, 05 Aug 2019 20:18:27 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 462Zwp4pDlz9sDB; Tue,  6 Aug 2019 10:18:18 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1565050698;
- bh=pL/BDGLbOEc3LhHUpAJJC0Xwn8WVetw38M94LO72pOs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=phlELFLrOmCZSfT2NiSngUUAQl5SrRpvwx6NcWuGu2HCalGlx3eXtaXXTWuay0D6R
- EsfHAqoGTcffwlHywctIpHRPMgV8nZXRKDZNLiV1Ito17GWh1BqyY+Ml6xrvWpcWjH
- +c8A8W2241+Ef+0Hszqhv35nnS4GyBWy4fEBJBjo=
-Date: Mon, 5 Aug 2019 22:30:37 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190805123037.GB14494@umbus.fritz.box>
-References: <20190731141233.1340-1-clg@kaod.org>
- <20190731141233.1340-3-clg@kaod.org>
+ (envelope-from <alistair23@gmail.com>) id 1hun8J-0002Em-10
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 20:15:20 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:44482)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hun8I-0002Ef-PX; Mon, 05 Aug 2019 20:15:18 -0400
+Received: by mail-lj1-x243.google.com with SMTP id k18so80702807ljc.11;
+ Mon, 05 Aug 2019 17:15:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gryw8rWwvINbLBq7JAV4m4tjiKca1RGo53G4pIS5XuQ=;
+ b=PVfvb8tXkE2+yLpq+02RwZNL2LB9jG+YBeeDk2jazjTSI43BPQUIurc5JAixBAZXlr
+ 3jpZTW+l9zN8BcuGgJGwPN1LIwnLQ3y8o+sUtT9/GB6gc2221AoIcY1PENCfoytEnhe/
+ sR7I2wU+4ExeNmGdI6tmj1sRHD31v3JH3MB0d1+NoU4yRS4v3Q5lSBehKsvTlaKq21FW
+ Q3FTZLkWNM2TFwRQ2jPNWCLQfdTWNrvGYIbhcA0VmsFZ3x0ppS5Das7Wk3DKlutf5G48
+ QFaqbyZ9WIuAbhtt8wEdRH1mENkLwKSdRcHFUy0Sf34WvISZHc/pSG9NHtYAtOEuQD/E
+ gdlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gryw8rWwvINbLBq7JAV4m4tjiKca1RGo53G4pIS5XuQ=;
+ b=M2ZmebWVpgB7yWymvfULeKzB/7rCr05RdFtbS5i43sFtEdL3oBluIVaoDASDhev5Na
+ skvlHx0VyORxSe1Vguq2YiSCqMCDnDfZNV5Itvtc8npeFl7rpn+St/ThVNy7cqgeMOHf
+ Zq3n6+GZ1j8MnFVaUVvlNK5Z6kGajJrLe1GulGtmBhjFVf4D0JoUdAs4iFcEXcrowwFt
+ kBt3FigXnNladS5mmFI/952NKz7nB52WGuCPb34U4KQmhHoSYMbDGhy455XTyzEDOvsM
+ +ykYVmpaxJiL9ku8toBurAl6MYEDmuubAwIHrFFsZKeSDBNoaCAC4+0y7gSnhsXhLBZ1
+ Z7kg==
+X-Gm-Message-State: APjAAAXXn1dPU/XK7R0NDHxPo+BgOCZtMU8GrObyzidd2clkdkU0fXaA
+ zKDZF0ssw3gp39uUeub1hLVJ0v2WS+aQmf0tAkA=
+X-Google-Smtp-Source: APXvYqy+AaCBocQGsnJoKBpntacH/KSwI47QxkMq+ScMBrhcsuJLme0hzoyLQk+KmfvTDG1B0CiCa1waWz6d2sCkspk=
+X-Received: by 2002:a2e:480a:: with SMTP id v10mr206190lja.94.1565050517075;
+ Mon, 05 Aug 2019 17:15:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bCsyhTFzCvuiizWE"
-Content-Disposition: inline
-In-Reply-To: <20190731141233.1340-3-clg@kaod.org>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+References: <1565020823-24223-1-git-send-email-bmeng.cn@gmail.com>
+ <1565020823-24223-2-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1565020823-24223-2-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 5 Aug 2019 17:11:37 -0700
+Message-ID: <CAKmqyKPHv8MxcnsK3RvP9X7q-pzgCRy-iQaADJ4zyqJrcE-w4A@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v3 02/18] tests/boot-serial-test: add
- support for all the PowerNV machines
+X-Received-From: 2a00:1450:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH 01/28] riscv: hw: Remove superfluous "linux,
+ phandle" property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,67 +72,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Aug 5, 2019 at 9:06 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> "linux,phandle" property is optional. Remove all instances in the
+> sifive_u and virt machine device tree.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
---bCsyhTFzCvuiizWE
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Wed, Jul 31, 2019 at 04:12:17PM +0200, C=E9dric Le Goater wrote:
-> Use the machine names specifiying the CPU type, POWER8 and POWER9.
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-
-Applied to ppc-for-4.2, thanks.
+Alistair
 
 > ---
->  tests/boot-serial-test.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/tests/boot-serial-test.c b/tests/boot-serial-test.c
-> index 24852d4c7d0b..a54d007298f7 100644
-> --- a/tests/boot-serial-test.c
-> +++ b/tests/boot-serial-test.c
-> @@ -103,7 +103,8 @@ static testdef_t tests[] =3D {
->      { "ppc64", "pseries",
->        "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken",
->        "Open Firmware" },
-> -    { "ppc64", "powernv", "-cpu POWER8", "OPAL" },
-> +    { "ppc64", "powernv8", "", "OPAL" },
-> +    { "ppc64", "powernv9", "", "OPAL" },
->      { "ppc64", "sam460ex", "-device e1000", "8086  100e" },
->      { "i386", "isapc", "-cpu qemu32 -device sga", "SGABIOS" },
->      { "i386", "pc", "-device sga", "SGABIOS" },
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---bCsyhTFzCvuiizWE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1IIWsACgkQbDjKyiDZ
-s5IvHA/8Cj8nAKIqytBbdoy50e9IcpTZXEzYrTKPEpjktxrIXDlcIhl0PrzREXlS
-dv2yony0BwAm2bZbc7XBfrt5Mp9L7fAngnjcd+bvEJpgITJiVsJRlUiz5IsOZuEa
-Nq51RFVESYFdLepI5/Kx3Y28amWB2S2IJqmElrZEoYRYKZY9baAsBS0XEuT8suoI
-KBRLq64FCMlO3NETw+4hiAi5fbGcBbkzlsKIUI9NcvUaR4SIO3rFv8YOR+I1O240
-3Bn/zZqsOl0JHQ8KrzM4yLPZtBzsFs9jlykLvsRTA2JOsm6zzvVuNiU04KOcb33N
-4+CkHfniAlTWdnxKUDgAacmfLe5xa+weHwf00/liREEV8Fk5cNjNq4B8NJvi0vtu
-RcjEc0IM5sbRnSvHWRgred5TbvWdrJB4fZYQYNAA3c5kmbIzN2Z4kJAagTRt2N0V
-JbYu+Vxpn/sTme96eofoR9xaCcw7i/JW/6mpl0SD1lpCXdbSTcjJWe3spkTTJ1Ns
-57QWVMPsXKCfsvGjjtW9ivDGEiRpKD3o9wNVPLO7Mfo5VWNpmPO/7+o4KKPbKOzM
-gKdHnMHfS1CkhHIPWNEMtv6l4yrZBCAkbYuQzSu6jjDnKCOxMTmkNqdNrnA57lfO
-L+9+KspJUtqZM8fstcf75GzysYDo8G3vQUkTYknp44h2fw3zCv0=
-=ikRq
------END PGP SIGNATURE-----
-
---bCsyhTFzCvuiizWE--
+>
+>  hw/riscv/sifive_u.c | 3 ---
+>  hw/riscv/virt.c     | 3 ---
+>  2 files changed, 6 deletions(-)
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 71b8083..ef36948 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -125,7 +125,6 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>          qemu_fdt_setprop_string(fdt, nodename, "device_type", "cpu");
+>          qemu_fdt_add_subnode(fdt, intc);
+>          qemu_fdt_setprop_cell(fdt, intc, "phandle", cpu_phandle);
+> -        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", cpu_phandle);
+>          qemu_fdt_setprop_string(fdt, intc, "compatible", "riscv,cpu-intc");
+>          qemu_fdt_setprop(fdt, intc, "interrupt-controller", NULL, 0);
+>          qemu_fdt_setprop_cell(fdt, intc, "#interrupt-cells", 1);
+> @@ -184,7 +183,6 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      qemu_fdt_setprop_cell(fdt, nodename, "riscv,max-priority", 7);
+>      qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev", 0x35);
+>      qemu_fdt_setprop_cells(fdt, nodename, "phandle", plic_phandle);
+> -    qemu_fdt_setprop_cells(fdt, nodename, "linux,phandle", plic_phandle);
+>      plic_phandle = qemu_fdt_get_phandle(fdt, nodename);
+>      g_free(cells);
+>      g_free(nodename);
+> @@ -197,7 +195,6 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
+>          SIFIVE_U_GEM_CLOCK_FREQ);
+>      qemu_fdt_setprop_cell(fdt, nodename, "phandle", ethclk_phandle);
+> -    qemu_fdt_setprop_cell(fdt, nodename, "linux,phandle", ethclk_phandle);
+>      ethclk_phandle = qemu_fdt_get_phandle(fdt, nodename);
+>      g_free(nodename);
+>
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 25faf3b..00be05a 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -170,11 +170,9 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+>          qemu_fdt_setprop_cell(fdt, nodename, "reg", cpu);
+>          qemu_fdt_setprop_string(fdt, nodename, "device_type", "cpu");
+>          qemu_fdt_setprop_cell(fdt, nodename, "phandle", cpu_phandle);
+> -        qemu_fdt_setprop_cell(fdt, nodename, "linux,phandle", cpu_phandle);
+>          intc_phandle = phandle++;
+>          qemu_fdt_add_subnode(fdt, intc);
+>          qemu_fdt_setprop_cell(fdt, intc, "phandle", intc_phandle);
+> -        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", intc_phandle);
+>          qemu_fdt_setprop_string(fdt, intc, "compatible", "riscv,cpu-intc");
+>          qemu_fdt_setprop(fdt, intc, "interrupt-controller", NULL, 0);
+>          qemu_fdt_setprop_cell(fdt, intc, "#interrupt-cells", 1);
+> @@ -250,7 +248,6 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+>      qemu_fdt_setprop_cell(fdt, nodename, "riscv,max-priority", 7);
+>      qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev", VIRTIO_NDEV);
+>      qemu_fdt_setprop_cells(fdt, nodename, "phandle", plic_phandle);
+> -    qemu_fdt_setprop_cells(fdt, nodename, "linux,phandle", plic_phandle);
+>      plic_phandle = qemu_fdt_get_phandle(fdt, nodename);
+>      g_free(cells);
+>      g_free(nodename);
+> --
+> 2.7.4
+>
+>
 
