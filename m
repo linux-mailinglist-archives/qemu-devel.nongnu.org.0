@@ -2,47 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AEB82F09
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 11:49:41 +0200 (CEST)
-Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F63D82F16
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 11:51:52 +0200 (CEST)
+Received: from localhost ([::1]:59961 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huw68-0004TG-8B
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 05:49:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36880)
+	id 1huw8F-0006w4-Mt
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 05:51:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37276)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1huw5H-0003Ma-TW
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 05:48:48 -0400
+ (envelope-from <kwolf@redhat.com>) id 1huw7f-0006S7-3t
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 05:51:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1huw5G-0002fa-Qh
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 05:48:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51042)
+ (envelope-from <kwolf@redhat.com>) id 1huw7e-0003ql-5x
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 05:51:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41172)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>)
- id 1huw5G-0002fK-LQ; Tue, 06 Aug 2019 05:48:46 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1huw7c-0003pe-0t; Tue, 06 Aug 2019 05:51:12 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F181B30FB8E9;
- Tue,  6 Aug 2019 09:48:45 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83DF85D9C5;
- Tue,  6 Aug 2019 09:48:44 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue,  6 Aug 2019 05:48:34 -0400
-Message-Id: <20190806094834.7691-3-imammedo@redhat.com>
-In-Reply-To: <20190806094834.7691-1-imammedo@redhat.com>
-References: <20190806094834.7691-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+ by mx1.redhat.com (Postfix) with ESMTPS id 558843082B15;
+ Tue,  6 Aug 2019 09:51:11 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-113.ams2.redhat.com
+ [10.36.117.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 49EA95D6D0;
+ Tue,  6 Aug 2019 09:51:07 +0000 (UTC)
+Date: Tue, 6 Aug 2019 11:51:06 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Message-ID: <20190806095106.GA5849@localhost.localdomain>
+References: <20190801151744.798-1-kwolf@redhat.com>
+ <20190801151744.798-3-kwolf@redhat.com>
+ <976a878d-0344-8cb6-aa4b-d8e540bb1eaf@redhat.com>
+ <20190802140727.GD6379@localhost.localdomain>
+ <730161d3-4ed9-d213-9801-9cf38ce47446@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <730161d3-4ed9-d213-9801-9cf38ce47446@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 06 Aug 2019 09:48:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Tue, 06 Aug 2019 09:51:11 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH for-4.2 v4 2/2] s390: do not call
- memory_region_allocate_system_memory() multiple times
+Subject: Re: [Qemu-devel] [PATCH 2/3] iotests: Enable -d for Python
+ non-unittest tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,83 +62,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s390 was trying to solve limited KVM memslot size issue by abusing
-memory_region_allocate_system_memory(), which breaks API contract
-where the function might be called only once.
+Am 06.08.2019 um 00:19 hat John Snow geschrieben:
+> 
+> 
+> On 8/2/19 10:07 AM, Kevin Wolf wrote:
+> > Am 01.08.2019 um 19:57 hat Max Reitz geschrieben:
+> >> On 01.08.19 17:17, Kevin Wolf wrote:
+> >>> The part of iotests.main() that is related to the implementation of the
+> >>> debug option -d and enables QEMU and QMP logging is not only useful in
+> >>> tests that use the Python unittest framework, but also in tests that
+> >>> work by comparing with a reference output.
+> >>>
+> >>> Factor these parts out into iotests.init() and call it from the test
+> >>> cases that currently lack support for debug output.
+> >>
+> >> How does this relate to
+> >> https://lists.nongnu.org/archive/html/qemu-block/2019-07/msg01212.html ?
+> > 
+> > Hm, no idea? :-)
+> > 
+> > Looks like John's patch depends on some other patches which would then
+> > conflict with mine, too, so maybe I'll just drop my patch and wait what
+> > happens?
+> > 
+> > John, any opinion?
+> > 
+> > Kevin
+> > 
+> 
+> My patches do roughly the same plus a little more. If you don't mind
+> waiting, I can take care of this for you when the tree reopens?
 
-Beside an invalid use of API, the approach also introduced migration
-issue, since RAM chunks for each KVM_SLOT_MAX_BYTES are transferred in
-migration stream as separate RAMBlocks.
+Okay, I'll drop my patch then.
 
-After discussion [1], it was agreed to break migration from older
-QEMU for guest with RAM >8Tb (as it was relatively new (since 2.12)
-and considered to be not actually used downstream).
-Migration should keep working for guests with less than 8TB and for
-more than 8TB with QEMU 4.2 and newer binary.
-In case user tries to migrate more than 8TB guest, between incompatible
-QEMU versions, migration should fail gracefully due to non-exiting
-RAMBlock ID or RAMBlock size mismatch.
-
-Taking in account above and that now KVM code is able to split too
-big MemorySection into several memslots, stop abusing
-  memory_region_allocate_system_memory()
-and use only one memory region for RAM.
-
-1) [PATCH RFC v2 4/4] s390: do not call  memory_region_allocate_system_memory() multiple times
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
----
-v3:
-  - drop migration compat code
-
-PS:
-I don't have access to a suitable system to test it.
----
- hw/s390x/s390-virtio-ccw.c | 21 +++------------------
- 1 file changed, 3 insertions(+), 18 deletions(-)
-
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 0c03ffb7c7..e30058df38 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -154,27 +154,12 @@ static void virtio_ccw_register_hcalls(void)
- static void s390_memory_init(ram_addr_t mem_size)
- {
-     MemoryRegion *sysmem = get_system_memory();
--    ram_addr_t chunk, offset = 0;
--    unsigned int number = 0;
-+    MemoryRegion *ram = g_new(MemoryRegion, 1);
-     Error *local_err = NULL;
--    gchar *name;
- 
-     /* allocate RAM for core */
--    name = g_strdup_printf("s390.ram");
--    while (mem_size) {
--        MemoryRegion *ram = g_new(MemoryRegion, 1);
--        uint64_t size = mem_size;
--
--        /* KVM does not allow memslots >= 8 TB */
--        chunk = MIN(size, KVM_SLOT_MAX_BYTES);
--        memory_region_allocate_system_memory(ram, NULL, name, chunk);
--        memory_region_add_subregion(sysmem, offset, ram);
--        mem_size -= chunk;
--        offset += chunk;
--        g_free(name);
--        name = g_strdup_printf("s390.ram.%u", ++number);
--    }
--    g_free(name);
-+    memory_region_allocate_system_memory(ram, NULL, "s390.ram", mem_size);
-+    memory_region_add_subregion(sysmem, 0, ram);
- 
-     /*
-      * Configure the maximum page size. As no memory devices were created
--- 
-2.18.1
-
+Kevin
 
