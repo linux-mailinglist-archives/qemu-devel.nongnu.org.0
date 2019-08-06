@@ -2,55 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779128379D
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 19:04:11 +0200 (CEST)
-Received: from localhost ([::1]:35164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B642837A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Aug 2019 19:05:51 +0200 (CEST)
+Received: from localhost ([::1]:35206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hv2sc-0001ii-LN
-	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 13:04:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51323)
+	id 1hv2uE-0005Bc-Pn
+	for lists+qemu-devel@lfdr.de; Tue, 06 Aug 2019 13:05:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52079)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hv2le-0000iQ-RA
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 12:57:01 -0400
+ (envelope-from <danielhb413@gmail.com>) id 1hv2qo-0008Q3-FX
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 13:02:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hv2ld-00059M-Ff
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 12:56:58 -0400
-Resent-Date: Tue, 06 Aug 2019 12:56:58 -0400
-Resent-Message-Id: <E1hv2ld-00059M-Ff@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21411)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hv2ld-00058V-9K
- for qemu-devel@nongnu.org; Tue, 06 Aug 2019 12:56:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1565110611; cv=none; d=zoho.com; s=zohoarc; 
- b=QNrXnyp2EsoWEDmyqY1BX6Tej2XndzXBGD8OJLeMe/sNHdjirZLaQO0SlCoUfaUFeSV9ud43hhShfKexjL2POBZBayxKgivdLXkYviQwqVERkr4c2bDqT8S+ytYjy6TrFvcdelSuTN5wzoV0AdKERdILlk5GAdkx+uXZD+M+7gw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1565110611;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=3jrgbnF7uUNDzKbUNkN6rVt5U5HncjFF5gxb/Ri7qOk=; 
- b=ThiONbP1g1kDO6RNcBwCWtDncOBDabL/dK94rZDICDCLKcDj61g/wjljtxsbwL32Hy1wm/MHaea6+60Uyu7ntDo0tunpCadcjHGmOvH+fQPnCUmnU8P18SRXwB9wBkrNBfojwhtBE5hSO2LxJmzrmy9YONnKzuG3LbmQs85tYB0=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 156511060978852.364458521500296;
- Tue, 6 Aug 2019 09:56:49 -0700 (PDT)
-In-Reply-To: <20190806151435.10740-1-armbru@redhat.com>
-Message-ID: <156511060852.1900.3869299503342383503@b08f24806b7e>
+ (envelope-from <danielhb413@gmail.com>) id 1hv2qn-00077O-7v
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 13:02:18 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:38226)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
+ id 1hv2qn-00076g-3D
+ for qemu-devel@nongnu.org; Tue, 06 Aug 2019 13:02:17 -0400
+Received: by mail-qt1-x842.google.com with SMTP id n11so85239068qtl.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 10:02:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=0TL3JL4VWytHn1tlsKbBLGaaRd1gh51yUZoQ45PT598=;
+ b=JJ9DjBgzlLywh5zuSErKXFfpiH1292B+oriRpzXay0QG3P8+OhszVrLZFyKkSsJi9F
+ snvR6b73DJjla4WbhClYF0caqxddWVhzfP/mtZjA/Kq9qBBz0WURmt2i0uW1YXcGYBmu
+ vdAznAYR25Z6S24eCKp9wEEKdOzvAMnwrWcy9x4ww6/S3NVOuE0sRKYjmlPkICQ1tmrK
+ elEW/oVBlEmgeti0MiuQZ+cM1z2wISwcFbf148wgNdeFBFHQbc0p0YhCF92pnET/K4j1
+ nq2CF7btUy8vPH9mC4pf9gp0oBB8ncXD505sdJaOyNIjFETLI90MQgPh7ynvbxbQbWE0
+ TuDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=0TL3JL4VWytHn1tlsKbBLGaaRd1gh51yUZoQ45PT598=;
+ b=ZPG/daHNhJXqSbceNlRGWOGYfaI10XoBi6Wwl3R/eBPLZLlWtf96lVz6F2GKAfa7qr
+ toLpl/UHPDeUVFn+yFLoVNF2eG/zaItVvhXBz/USGtGn0tWP8jzWxW1tc5NcpDR4loDE
+ tV+SHCQStC3euGX29I+YNoKvLwPitLjY/nz57ND69BfPSug0jZJfOADTu+Kgv4399caW
+ rUPAy5eec1RzRP43+Ie8SojBdlYzkNUYZmzoJ8BolKDm6alX8XOFdY3Uh23/4HcYyTxp
+ DSLTZBG7gUuFwAEj9dXKBxiFt/OLZSZ78N6vjt2JQnbX2BsWzCUHrQkDdaNCMC4bFgow
+ pyEA==
+X-Gm-Message-State: APjAAAWe+LlW6JtAo2nHz+jCD4nJRmdHD4WJTa4XGVhmfVp0ixVRXYrS
+ zljPmBQgrT98HacPmKP2iSk=
+X-Google-Smtp-Source: APXvYqzpr7+soC88RxPYkNyZYtMthvTIpSEK08fizHS2QFw+nyJ6oh2LedrJ0Q1T9/RiI7/tvHdC9w==
+X-Received: by 2002:a0c:98e9:: with SMTP id g38mr3959038qvd.187.1565110935641; 
+ Tue, 06 Aug 2019 10:02:15 -0700 (PDT)
+Received: from ?IPv6:2804:431:c7c7:5ef4:7266:b7a7:9def:f8fc?
+ ([2804:431:c7c7:5ef4:7266:b7a7:9def:f8fc])
+ by smtp.gmail.com with ESMTPSA id y194sm39653199qkb.111.2019.08.06.10.02.14
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 06 Aug 2019 10:02:15 -0700 (PDT)
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190628194512.21311-1-danielhb413@gmail.com>
+ <20190628194512.21311-2-danielhb413@gmail.com>
+ <20190802160731.GF6379@localhost.localdomain>
+ <92e47934-88e0-5734-fa35-56ecd700e1d7@gmail.com>
+ <20190806152112.GC5849@localhost.localdomain>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <4e9d7a8a-2ce1-d696-f57b-8e0effd09014@gmail.com>
+Date: Tue, 6 Aug 2019 14:02:11 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: armbru@redhat.com
-Date: Tue, 6 Aug 2019 09:56:49 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH v2 00/29] Tame a few "touch this,
- recompile the world" headers
+In-Reply-To: <20190806152112.GC5849@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::842
+Subject: Re: [Qemu-devel] [PATCH v4 1/4] block: introducing
+ 'bdrv_co_delete_file' interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,68 +87,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, pbonzini@redhat.com, imammedo@redhat.com
+Cc: jsnow@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDgwNjE1MTQzNS4xMDc0
-MC0xLWFybWJydUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCBidWlsZCB0
-ZXN0IG9uIHMzOTB4IGhvc3QuIFBsZWFzZSBmaW5kIHRoZSBkZXRhaWxzIGJlbG93LgoKPT09IFRF
-U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAojIFRlc3Rpbmcgc2NyaXB0IHdpbGwgYmUg
-aW52b2tlZCB1bmRlciB0aGUgZ2l0IGNoZWNrb3V0IHdpdGgKIyBIRUFEIHBvaW50aW5nIHRvIGEg
-Y29tbWl0IHRoYXQgaGFzIHRoZSBwYXRjaGVzIGFwcGxpZWQgb24gdG9wIG9mICJiYXNlIgojIGJy
-YW5jaApzZXQgLWUKCmVjaG8KZWNobyAiPT09IEVOViA9PT0iCmVudgoKZWNobwplY2hvICI9PT0g
-UEFDS0FHRVMgPT09IgpycG0gLXFhCgplY2hvCmVjaG8gIj09PSBVTkFNRSA9PT0iCnVuYW1lIC1h
-CgpDQz0kSE9NRS9iaW4vY2MKSU5TVEFMTD0kUFdEL2luc3RhbGwKQlVJTEQ9JFBXRC9idWlsZApt
-a2RpciAtcCAkQlVJTEQgJElOU1RBTEwKU1JDPSRQV0QKY2QgJEJVSUxECiRTUkMvY29uZmlndXJl
-IC0tY2M9JENDIC0tcHJlZml4PSRJTlNUQUxMCm1ha2UgLWo0CiMgWFhYOiB3ZSBuZWVkIHJlbGlh
-YmxlIGNsZWFuIHVwCiMgbWFrZSBjaGVjayAtajQgVj0xCm1ha2UgaW5zdGFsbAo9PT0gVEVTVCBT
-Q1JJUFQgRU5EID09PQoKICBDQyAgICAgIHJpc2N2NjQtc29mdG1tdS9ody9uZXQvdmlydGlvLW5l
-dC5vCiAgQ0MgICAgICBzMzkweC1zb2Z0bW11L2h3L2ludGMvczM5MF9mbGljX2t2bS5vCi92YXIv
-dG1wL3BhdGNoZXctdGVzdGVyLXRtcC1rdmwzejNqeS9zcmMvaHcvaW50Yy9zMzkwX2ZsaWNfa3Zt
-LmM6IEluIGZ1bmN0aW9uIOKAmGt2bV9mbGljX3NhdmXigJk6Ci92YXIvdG1wL3BhdGNoZXctdGVz
-dGVyLXRtcC1rdmwzejNqeS9zcmMvaHcvaW50Yy9zMzkwX2ZsaWNfa3ZtLmM6Mzk1Ojk6IGVycm9y
-OiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiDigJhxZW11X3B1dF9iZTY04oCZIFst
-V2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQogIDM5NSB8ICAgICAgICAgcWVt
-dV9wdXRfYmU2NChmLCBGTElDX0ZBSUxFRCk7CiAgICAgIHwgICAgICAgICBefn5+fn5+fn5+fn5+
-Ci92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1rdmwzejNqeS9zcmMvaHcvaW50Yy9zMzkwX2Zs
-aWNfa3ZtLmM6Mzk1Ojk6IGVycm9yOiBuZXN0ZWQgZXh0ZXJuIGRlY2xhcmF0aW9uIG9mIOKAmHFl
-bXVfcHV0X2JlNjTigJkgWy1XZXJyb3I9bmVzdGVkLWV4dGVybnNdCi92YXIvdG1wL3BhdGNoZXct
-dGVzdGVyLXRtcC1rdmwzejNqeS9zcmMvaHcvaW50Yy9zMzkwX2ZsaWNfa3ZtLmM6NDEwOjk6IGVy
-cm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiDigJhxZW11X3B1dF9idWZmZXLi
-gJkgWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dCiAgNDEwIHwgICAgICAg
-ICBxZW11X3B1dF9idWZmZXIoZiwgKHVpbnQ4X3QgKikgYnVmLAogICAgICB8ICAgICAgICAgXn5+
-fn5+fn5+fn5+fn5+Ci92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1rdmwzejNqeS9zcmMvaHcv
-aW50Yy9zMzkwX2ZsaWNfa3ZtLmM6NDEwOjk6IGVycm9yOiBuZXN0ZWQgZXh0ZXJuIGRlY2xhcmF0
-aW9uIG9mIOKAmHFlbXVfcHV0X2J1ZmZlcuKAmSBbLVdlcnJvcj1uZXN0ZWQtZXh0ZXJuc10KL3Zh
-ci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWt2bDN6M2p5L3NyYy9ody9pbnRjL3MzOTBfZmxpY19r
-dm0uYzogSW4gZnVuY3Rpb24g4oCYa3ZtX2ZsaWNfbG9hZOKAmToKL3Zhci90bXAvcGF0Y2hldy10
-ZXN0ZXItdG1wLWt2bDN6M2p5L3NyYy9ody9pbnRjL3MzOTBfZmxpY19rdm0uYzo0Mzg6MTM6IGVy
-cm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiDigJhxZW11X2dldF9iZTY04oCZ
-OyBkaWQgeW91IG1lYW4g4oCYcWVtdV9nZXRfbmlj4oCZPyBbLVdlcnJvcj1pbXBsaWNpdC1mdW5j
-dGlvbi1kZWNsYXJhdGlvbl0KICA0MzggfCAgICAgY291bnQgPSBxZW11X2dldF9iZTY0KGYpOwog
-ICAgICB8ICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn4KICAgICAgfCAgICAgICAgICAgICBxZW11
-X2dldF9uaWMKL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWt2bDN6M2p5L3NyYy9ody9pbnRj
-L3MzOTBfZmxpY19rdm0uYzo0Mzg6MTM6IGVycm9yOiBuZXN0ZWQgZXh0ZXJuIGRlY2xhcmF0aW9u
-IG9mIOKAmHFlbXVfZ2V0X2JlNjTigJkgWy1XZXJyb3I9bmVzdGVkLWV4dGVybnNdCi92YXIvdG1w
-L3BhdGNoZXctdGVzdGVyLXRtcC1rdmwzejNqeS9zcmMvaHcvaW50Yy9zMzkwX2ZsaWNfa3ZtLmM6
-NDU0Ojk6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiDigJhxZW11X2dl
-dF9idWZmZXLigJk7IGRpZCB5b3UgbWVhbiDigJhxZW11X2dldF9xdWV1ZeKAmT8gWy1XZXJyb3I9
-aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dCiAgNDU0IHwgICAgIGlmIChxZW11X2dldF9i
-dWZmZXIoZiwgKHVpbnQ4X3QgKikgYnVmLCBsZW4pICE9IGxlbikgewogICAgICB8ICAgICAgICAg
-Xn5+fn5+fn5+fn5+fn5+CiAgICAgIHwgICAgICAgICBxZW11X2dldF9xdWV1ZQovdmFyL3RtcC9w
-YXRjaGV3LXRlc3Rlci10bXAta3ZsM3ozankvc3JjL2h3L2ludGMvczM5MF9mbGljX2t2bS5jOjQ1
-NDo5OiBlcnJvcjogbmVzdGVkIGV4dGVybiBkZWNsYXJhdGlvbiBvZiDigJhxZW11X2dldF9idWZm
-ZXLigJkgWy1XZXJyb3I9bmVzdGVkLWV4dGVybnNdCmNjMTogYWxsIHdhcm5pbmdzIGJlaW5nIHRy
-ZWF0ZWQgYXMgZXJyb3JzCm1ha2VbMV06ICoqKiBbL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1w
-LWt2bDN6M2p5L3NyYy9ydWxlcy5tYWs6Njk6IGh3L2ludGMvczM5MF9mbGljX2t2bS5vXSBFcnJv
-ciAxCm1ha2U6ICoqKiBbTWFrZWZpbGU6NDcyOiBzMzkweC1zb2Z0bW11L2FsbF0gRXJyb3IgMgoK
-ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAx
-OTA4MDYxNTE0MzUuMTA3NDAtMS1hcm1icnVAcmVkaGF0LmNvbS90ZXN0aW5nLnMzOTB4Lz90eXBl
-PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
-dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
-dy1kZXZlbEByZWRoYXQuY29t
+
+
+On 8/6/19 12:21 PM, Kevin Wolf wrote:
+> Am 06.08.2019 um 15:27 hat Daniel Henrique Barboza geschrieben:
+>>>> diff --git a/block.c b/block.c
+>>>> index c139540f2b..6e2b0f528d 100644
+>>>> --- a/block.c
+>>>> +++ b/block.c
+>>>> @@ -621,6 +621,17 @@ int get_tmp_filename(char *filename, int size)
+>>>>    #endif
+>>>>    }
+>>>> +/**
+>>>> + * Helper that checks if a given string represents a regular
+>>>> + * local file.
+>>>> + */
+>>>> +bool bdrv_path_is_regular_file(const char *path)
+>>>> +{
+>>>> +    struct stat st;
+>>>> +
+>>>> +    return (stat(path, &st) == 0) && S_ISREG(st.st_mode);
+>>>> +}
+>>>> +
+>>>>    /*
+>>>>     * Detect host devices. By convention, /dev/cdrom[N] is always
+>>>>     * recognized as a host CDROM.
+>>> This hunk isn't generic, it belong in file-posix.c
+>> Patch 3 uses this function as part of the core logic of this fix (do not
+>> delete the file if the file already existed) inside block/cryptoc. This
+>> is the reason it is exposed here. I assumed that we do not want a
+>> public function inside file-posix.c (since there is none - everything
+>> is done using the BD interfaces).
+> Hm... This doesn't feel right. crypto can't assume that it's working on
+> a local file. It's working on some lower level BlockDriverState,
+> whatever that may be. Remember that you could pass all kind of URLs e.g.
+> for network protocols like NBD or gluster. You don't want to check
+> whether a local filename exists then.
+>
+> In fact, I'm not sure if having a special case for an already existing
+> file is even worth it: By the time we fail, we'll already have truncated
+> the file, so the old data is lost anyway. Deleting that empty or
+> half-initialised file doesn't seem much worse than leaving a broken file
+> behind.
+
+Makes sense. I'll use your argument to justify not handling this 'file
+already exists' scenario and simply delete the file in the fail scenario
+inside block_crypto_co_create_opts_luks. Then we can move this
+path_is_regular_file function inside file-posix.c as you suggested.
+
+
+>
+> Kevin
 
 
