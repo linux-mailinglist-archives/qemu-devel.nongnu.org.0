@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6236985283
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 19:57:54 +0200 (CEST)
-Received: from localhost ([::1]:44128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C75185290
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 20:01:34 +0200 (CEST)
+Received: from localhost ([::1]:44164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvQC9-0001ZM-Ku
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 13:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60449)
+	id 1hvQFh-0004J8-EO
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 14:01:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33114)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hvQBW-00019L-U4
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:57:15 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hvQEz-0003gd-O1
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:00:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hvQBV-00083A-WC
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:57:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43606)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hvQBV-00081F-Ql
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:57:13 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D0531C05AA61
- for <qemu-devel@nongnu.org>; Wed,  7 Aug 2019 17:57:12 +0000 (UTC)
-Received: from localhost (ovpn-121-66.rdu2.redhat.com [10.10.121.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5EDE05C21A;
- Wed,  7 Aug 2019 17:57:09 +0000 (UTC)
-Date: Wed, 7 Aug 2019 14:57:08 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190807175708.GE4669@habkost.net>
-References: <20190806151435.10740-1-armbru@redhat.com>
- <20190806151435.10740-23-armbru@redhat.com>
- <de7f547d-1c97-135f-654f-3856fa2eec2f@redhat.com>
+ (envelope-from <pbonzini@redhat.com>) id 1hvQEy-0007y6-JU
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:00:49 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:40623)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hvQEy-0007vP-C1
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:00:48 -0400
+Received: by mail-wr1-f68.google.com with SMTP id r1so92224684wrl.7
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 11:00:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RnNcTkcEY3ZbfGxsdEEUpb9QGclJr+HC6jfSpFEWpCc=;
+ b=qd7h4ZCKbyEp1DoA52rfq5IF4m390jx9dgt4OD5c948TO6sYyYKROXSCzPeZGxubWo
+ rEiO8MWxhZRll/cVAo5ZmUYKKM99bHwWzGKjQF2VnhDbxNlyVytqOCcUx/eAg+Y9lIQ9
+ 3v2vP2yL+VYi5vTG/JnrIAZBVJlgRA6mGlTiyfzErOwL9Cvvpyu/ScqhanPCctZX1gs9
+ Puql+Ux69W3vhWAgSnMr+KopH7b+oW23KMbEdqojtBiyrVqRzhobqHBWK+r6tlCTSIuG
+ oNbYM7UB+03XPgfT/O6Er9H9XaJLrC1TeeThEZwey9MjwccnwC/vAPbS4GI28xsCdb+8
+ hnKw==
+X-Gm-Message-State: APjAAAUJ/7GeqqZ/RsCwsDeqCiJ52gE4xx5tOSeZIpsto8MNz4NphG9g
+ rZqkt0CfL2wIGkp9ykWscgU79A==
+X-Google-Smtp-Source: APXvYqyYoV6gvukGjStjYXXYOxG2iT1OUTlYjsb5W/KdyagD9b54ohMavaSsDHFf998uWCLRMeYzRA==
+X-Received: by 2002:adf:8bd1:: with SMTP id w17mr12968197wra.50.1565200846958; 
+ Wed, 07 Aug 2019 11:00:46 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:dc26:ed70:9e4c:3810?
+ ([2001:b07:6468:f312:dc26:ed70:9e4c:3810])
+ by smtp.gmail.com with ESMTPSA id a19sm6155981wra.2.2019.08.07.11.00.42
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 07 Aug 2019 11:00:46 -0700 (PDT)
+To: Richard Henderson <richard.henderson@linaro.org>, tony.nguyen@bt.com,
+ qemu-devel@nongnu.org
+References: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>
+ <1565166794966.57397@bt.com>
+ <27c692bf-45af-afbe-27ba-1e8f7f936121@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <528a22e6-25a6-30c2-44e2-82df90bfa2da@redhat.com>
+Date: Wed, 7 Aug 2019 20:00:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <de7f547d-1c97-135f-654f-3856fa2eec2f@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Wed, 07 Aug 2019 17:57:12 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <27c692bf-45af-afbe-27ba-1e8f7f936121@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 22/29] Include hw/boards.h a bit less
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH v6 20/26] memory: Access MemoryRegion with
+ endianness
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,47 +76,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
+ dmitry.fleytman@gmail.com, imammedo@redhat.com, sagark@eecs.berkeley.edu,
+ david@redhat.com, jasowang@redhat.com, palmer@sifive.com,
+ mark.cave-ayland@ilande.co.uk, laurent@vivier.eu, keith.busch@intel.com,
+ jcmvbkbc@gmail.com, frederic.konrad@adacore.com, kraxel@redhat.com,
+ edgar.iglesias@gmail.com, gxt@mprc.pku.edu.cn, pburton@wavecomp.com,
+ marex@denx.de, robh@kernel.org, hare@suse.com, sstabellini@kernel.org,
+ berto@igalia.com, proljc@gmail.com, qemu-block@nongnu.org,
+ arikalo@wavecomp.com, jslaby@suse.cz, deller@gmx.de, mst@redhat.com,
+ magnus.damm@gmail.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ mreitz@redhat.com, hpoussin@reactos.org, joel@jms.id.au,
+ anthony.perard@citrix.com, xen-devel@lists.xenproject.org, rth@twiddle.net,
+ philmd@redhat.com, green@moxielogic.com, atar4qemu@gmail.com,
+ antonynpavlov@gmail.com, jiri@resnulli.us, ehabkost@redhat.com,
+ minyard@acm.org, sw@weilnetz.de, alistair@alistair23.me, chouteau@adacore.com,
+ b.galvani@gmail.com, eric.auger@redhat.com, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, peter.chubb@nicta.com.au, yuval.shaia@oracle.com,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, shorne@gmail.com,
+ sundeep.lkml@gmail.com, jsnow@redhat.com, david@gibson.dropbear.id.au,
+ kwolf@redhat.com, crwulff@gmail.com, qemu-riscv@nongnu.org,
+ xiaoguangrong.eric@gmail.com, i.mitsyanko@gmail.com, lersek@redhat.com,
+ cohuck@redhat.com, alex.williamson@redhat.com, Andrew.Baumann@microsoft.com,
+ jcd@tribudubois.net, andrew@aj.id.au, michael@walle.cc,
+ paul.durrant@citrix.com, qemu-ppc@nongnu.org, huth@tuxfamily.org,
+ amarkovic@wavecomp.com, kbastian@mail.uni-paderborn.de, jan.kiszka@web.de,
+ stefanb@linux.ibm.com, andrew.smirnov@gmail.com, aurelien@aurel32.net,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 07, 2019 at 07:26:56PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 8/6/19 5:14 PM, Markus Armbruster wrote:
-> > hw/boards.h pulls in almost 60 headers.  The less we include it into
-> > headers, the better.  As a first step, drop superfluous inclusions,
-> > and downgrade some more to what's actually needed.  Gets rid of just
-> > one inclusion into a header.
-> >=20
-> > Cc: Eduardo Habkost <ehabkost@redhat.com>
-> > Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> > ---
-[...]
-> > diff --git a/target/i386/hax-all.c b/target/i386/hax-all.c
-> > index bcacdd1d8f..34a9f6f7a9 100644
-> > --- a/target/i386/hax-all.c
-> > +++ b/target/i386/hax-all.c
-> > @@ -33,7 +33,6 @@
-> >  #include "sysemu/reset.h"
-> >  #include "sysemu/sysemu.h"
-> >  #include "qemu/main-loop.h"
-> > -#include "hw/boards.h"
-> > =20
-> >  #define DEBUG_HAX 0
->=20
-> include/sysemu/hax.h misses to include "hw/boards.h":
+On 07/08/19 19:49, Richard Henderson wrote:
+> On 8/7/19 1:33 AM, tony.nguyen@bt.com wrote:
+>> @@ -551,6 +551,7 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy, hwaddr addr,
+>>          /* As length is under guest control, handle illegal values. */
+>>          return;
+>>      }
+>> +    /* FIXME: memory_region_dispatch_write ignores MO_BSWAP.  */
+>>      memory_region_dispatch_write(mr, addr, val, size_memop(len),
+>>                                   MEMTXATTRS_UNSPECIFIED);
+>>  }
+> 
+> Here is an example of where Paolo is quite right -- you cannot simply add MO_TE
+> via size_memop().  In patch 22 we see
+> 
+>> @@ -542,16 +542,15 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy, hwaddr addr,
+>>          val = pci_get_byte(buf);
+>>          break;
+>>      case 2:
+>> -        val = cpu_to_le16(pci_get_word(buf));
+>> +        val = pci_get_word(buf);
+>>          break;
+>>      case 4:
+>> -        val = cpu_to_le32(pci_get_long(buf));
+>> +        val = pci_get_long(buf);
+>>          break;
+>>      default:
+>>          /* As length is under guest control, handle illegal values. */
+>>          return;
+>>      }
+>> -    /* FIXME: memory_region_dispatch_write ignores MO_BSWAP.  */
+>>      memory_region_dispatch_write(mr, addr, val, size_memop(len),
+>>                                   MEMTXATTRS_UNSPECIFIED);
+> 
+> This is a little-endian store -- MO_LE not MO_TE.
 
-I don't understand.  I don't see any reason for the sysemu/hax.h
-header to include hw/boards.h.
+Or leave the switch statement aside and request host endianness.  Either
+is fine.
 
->=20
-> target/i386/hax-all.c: In function 'hax_accel_init':
-> target/i386/hax-all.c:354:26: error: dereferencing pointer to incomplet=
-e
-> type 'MachineState {aka struct MachineState}'
->      int ret =3D hax_init(ms->ram_size);
->                           ^
-
---=20
-Eduardo
+Paolo
 
