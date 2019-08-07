@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF5E84EA0
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 16:22:25 +0200 (CEST)
-Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDCF884EA4
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 16:23:20 +0200 (CEST)
+Received: from localhost ([::1]:41790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvMpc-0007NX-FE
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 10:22:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39003)
+	id 1hvMqW-0001Hl-6C
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 10:23:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39018)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <danielhb413@gmail.com>) id 1hvMom-0005xO-2V
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:21:33 -0400
+ (envelope-from <danielhb413@gmail.com>) id 1hvMoo-00061r-O0
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:21:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1hvMol-0008Vo-19
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:21:32 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:40251)
+ (envelope-from <danielhb413@gmail.com>) id 1hvMon-00005D-6N
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:21:34 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:33998)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1hvMok-0008VS-Tc
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:21:30 -0400
-Received: by mail-qk1-x743.google.com with SMTP id s145so65919906qke.7
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 07:21:30 -0700 (PDT)
+ id 1hvMon-000054-2T
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:21:33 -0400
+Received: by mail-qk1-x741.google.com with SMTP id t8so65900057qkt.1
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 07:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kkvGcqaG6Hw21CZ6CMR4F3QU5tZjnOVQB5zjN4lycZY=;
- b=ND0QVaF0LBULJ/dWcaXXlRMEYtojW4/DZ1Q3fBgV86/PuowwVee2vxF88gl8kVp9yl
- s7ya5tw64Txcys4KX+0H80xtnEyJAMP+KYJ665DEJ88x2LjtNF3LGMIIvZLAD/2maxAM
- lC1uJ0zJrh3gr80EvIlMtj0fpiiCJJYGqduV1Fq1POL8xLn3Pmd3gCVBWuM1NDTRtnV+
- MQhI8i8FkybEpBj/g4lRmtRwjtMBWKAStPa2byQIIudspdv2cdNSoqipMnT+Sz3koQaf
- Ti7pTyOuZSbHQwuL66euQeZDuippdleAdTuHDaop7XiV3hg8pWzboNqf1Bkh7fPGtFXp
- VegQ==
+ bh=9epP7UsNCqbjxzCDIUUM8j75jBuiFJRy3qqtGTzHLVk=;
+ b=HX4HWE6/5/Ks2Ubcp/8NLOuMnwuvPC5rrmOv37ezmUJy4SF2Ezz3HVUhhkJJ3OLOsc
+ fFvXjZgp4qh3sKRaiqbRyHAqMn2sd5rM4LamrRjWuIUvGyEfGUkjbpa+Q8FWqvDl8pe2
+ fG4L/SAQoVRn7/gZ2mbogNjMd9ZqzB0Nbaa4SrYZ7TkzlTKu4F8yK5md3e+kXBRE2nLo
+ nxhOKVWjUQrqf+trTDvMyKNip2VeA1je1GbNOXDqMZuFHue3Gjs9d6cW+w+9v14EGDww
+ HmkE2MaYe7OsNu+NUuxJbCIUs7zYcQOxa/AAiuRAswozirzvoB5FvOr5hYypAQKPTVMZ
+ kl0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kkvGcqaG6Hw21CZ6CMR4F3QU5tZjnOVQB5zjN4lycZY=;
- b=bf0zXhrbSes/LawDyVlGKhtU+wslPm9AnayuhUiowvXW7+p10QmVaJxcsNnPt8Jmvt
- UzcojSo4mHLNB2BscXC/oz4o80Mii2zgX/UOMqmZFIJzS4ZzySh+dwGQTeQS+bYfbOCb
- Q+gAqNU+V3DmAtxDZAxr57zMYsGvCnoWEbc5l4s4dtZkxXUwwHrW6IF1f9ol7x3zBmQY
- A8iJVyjW/yxoxPQUKPxoZ4O2KrKn6PZmJw0lug7BMabptrCnZ5cZvHL2YC+k2JDvlRw3
- +Wc/h+/M4I/l/JGWGVpYVBqzpD6kNyR9p8vCVnFMnziwwIi+Skexn/sxvCu1T4M3DXkc
- 7F0w==
-X-Gm-Message-State: APjAAAUR1nK/rjKPdy9n48iUPPE70SAn7jjf4+j0wVilKmImNIcjzPJB
- r5mWghy6D9NkryWkYUmoQj0fx8MF
-X-Google-Smtp-Source: APXvYqxfcw8jp43y7sZ9T3yjPDk86xADVFye5tOvbVvlO1RgZqocvxm5yuzPLzG1Tl+L9yc1Wqv5SQ==
-X-Received: by 2002:a37:bc03:: with SMTP id m3mr8307018qkf.199.1565187690319; 
- Wed, 07 Aug 2019 07:21:30 -0700 (PDT)
+ bh=9epP7UsNCqbjxzCDIUUM8j75jBuiFJRy3qqtGTzHLVk=;
+ b=VkzgLWMuk8/Q1SZRtczS2VLu6r4ajRYx5yWG63kTGSqtmyLmNk+c0n9Lb4mGLbxIzG
+ ia8Srn3Y8jTiC0yd+YpDePAFQMyEwgsmHHYrDQ9GYWWVsovtDknTY3yUR/0PWgNq2sX1
+ z535MS+HFrCbWDko2sVuHtwSHnFvhcIRsxy5uUIq8x8MuQ/n/tPNcJQZd224+TtgNQ58
+ m+jXw4My/YVFZDC/qEguZZyKtJzUzukvkxEiF5LwTyiyIOmWO3RlhPQyGlM+CVRzl9aV
+ k5Qs76AzZ5T5hFC0Mgkf6OPvJ/LPv/F/pMj9vrkGKd2WkAMQ6Gcihbt00YullTcAD/vy
+ seTA==
+X-Gm-Message-State: APjAAAXpDrRndUWzkGKilJkWdaw1l9RDKyUOpTgUyVf7/XJJrK7iYGwM
+ vvJ9QeLpTGMIX9VsKDD36Z6S+An5
+X-Google-Smtp-Source: APXvYqznVeecbHpwuNVYJxe6IIPtNIigC44qNTn0/sb1tpUMlJrsuO7MV+ctZiPp+1ffC0KdCehwJw==
+X-Received: by 2002:a05:620a:10bc:: with SMTP id
+ h28mr8350840qkk.289.1565187692452; 
+ Wed, 07 Aug 2019 07:21:32 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:5ef4:7266:b7a7:9def:f8fc])
- by smtp.gmail.com with ESMTPSA id e18sm31472034qkm.49.2019.08.07.07.21.28
+ by smtp.gmail.com with ESMTPSA id e18sm31472034qkm.49.2019.08.07.07.21.30
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 07 Aug 2019 07:21:30 -0700 (PDT)
+ Wed, 07 Aug 2019 07:21:32 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed,  7 Aug 2019 11:21:11 -0300
-Message-Id: <20190807142114.17569-2-danielhb413@gmail.com>
+Date: Wed,  7 Aug 2019 11:21:12 -0300
+Message-Id: <20190807142114.17569-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190807142114.17569-1-danielhb413@gmail.com>
 References: <20190807142114.17569-1-danielhb413@gmail.com>
@@ -65,9 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::743
-Subject: [Qemu-devel] [PATCH v5 1/4] block: introducing
- 'bdrv_co_delete_file' interface
+X-Received-From: 2607:f8b0:4864:20::741
+Subject: [Qemu-devel] [PATCH v5 2/4] block.c: adding bdrv_delete_file
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,85 +85,122 @@ Cc: kwolf@redhat.com, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding to Block Drivers the capability of being able to clean up
-its created files can be useful in certain situations. For the
-LUKS driver, for instance, a failure in one of its authentication
-steps can leave files in the host that weren't there before.
+Using the new 'bdrv_co_delete_file' interface, bdrv_delete_file
+can be used in a way similar of the existing bdrv_create_file to
+to clean up a created file.
 
-This patch adds the 'bdrv_co_delete_file' interface to block
-drivers and add it to the 'file' driver in file-posix.c.The
-implementation is given by 'raw_co_delete_file'.
+The logic is also similar to what is already done in bdrv_create_file:
+a qemu_coroutine is created if needed, a specialized function
+bdrv_delete_co_entry is used to call the bdrv_co_delete_file
+co-routine of the driver, if the driver implements it.
 
 Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- block/file-posix.c        | 28 ++++++++++++++++++++++++++++
- include/block/block_int.h |  6 ++++++
- 2 files changed, 34 insertions(+)
+ block.c               | 77 +++++++++++++++++++++++++++++++++++++++++++
+ include/block/block.h |  1 +
+ 2 files changed, 78 insertions(+)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 4479cc7ab4..278952d5a2 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2376,6 +2376,33 @@ static int coroutine_fn raw_co_create_opts(const char *filename, QemuOpts *opts,
-     return raw_co_create(&options, errp);
+diff --git a/block.c b/block.c
+index cbd8da5f3b..1e20250627 100644
+--- a/block.c
++++ b/block.c
+@@ -547,6 +547,83 @@ int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
+     return ret;
  }
  
-+/**
-+ * Co-routine function that erases a regular file.
-+ */
-+static int coroutine_fn raw_co_delete_file(BlockDriverState *bs,
-+                                           Error **errp)
++typedef struct DeleteCo {
++    BlockDriver *drv;
++    BlockDriverState *bs;
++    int ret;
++    Error *err;
++} DeleteCo;
++
++static void coroutine_fn bdrv_delete_co_entry(void *opaque)
 +{
-+    struct stat st;
++    Error *local_err = NULL;
++    DeleteCo *dco = opaque;
++
++    assert(dco->bs);
++
++    dco->ret = dco->drv->bdrv_co_delete_file(dco->bs, &local_err);
++    error_propagate(&dco->err, local_err);
++}
++
++int bdrv_delete_file(const char *filename, Error **errp)
++{
++    BlockDriver *drv = bdrv_find_protocol(filename, true, NULL);
++    BlockDriverState *bs = bdrv_open(filename, NULL, NULL,
++                                     BDRV_O_RDWR | BDRV_O_PROTOCOL, NULL);
++    DeleteCo dco = {
++        .drv = drv,
++        .bs = bs,
++        .ret = NOT_DONE,
++        .err = NULL,
++    };
++    Coroutine *co;
 +    int ret;
 +
-+    if (!(stat(bs->filename, &st) == 0) || !S_ISREG(st.st_mode)) {
++    if (!drv) {
++        error_setg(errp, "File '%s' has unknown format", filename);
 +        ret = -ENOENT;
-+        error_setg_errno(errp, -ret, "%s is not a regular file",
-+                         bs->filename);
-+        goto done;
++        goto out;
 +    }
 +
-+    ret = unlink(bs->filename);
++    if (!drv->bdrv_co_delete_file) {
++        error_setg(errp, "Driver '%s' does not support image delete",
++                   drv->format_name);
++        ret = -ENOTSUP;
++        goto out;
++    }
++
++    if (!bs) {
++        error_setg(errp, "Could not open image '%s' for erasing",
++                   filename);
++        ret = 1;
++        goto out;
++    }
++
++    if (qemu_in_coroutine()) {
++        /* Fast-path if already in coroutine context */
++        bdrv_delete_co_entry(&dco);
++    } else {
++        co = qemu_coroutine_create(bdrv_delete_co_entry, &dco);
++        qemu_coroutine_enter(co);
++        while (dco.ret == NOT_DONE) {
++            aio_poll(qemu_get_aio_context(), true);
++        }
++    }
++
++    ret = dco.ret;
 +    if (ret < 0) {
-+        ret = -errno;
-+        error_setg_errno(errp, -ret, "Error when deleting file %s",
-+                         bs->filename);
++        if (dco.err) {
++            error_propagate(errp, dco.err);
++        } else {
++            error_setg_errno(errp, -ret, "Could not delete image");
++        }
 +    }
 +
-+done:
++out:
++    bdrv_unref(bs);
 +    return ret;
 +}
 +
- /*
-  * Find allocation range in @bs around offset @start.
-  * May change underlying file descriptor's file offset.
-@@ -2927,6 +2954,7 @@ BlockDriver bdrv_file = {
-     .bdrv_co_block_status = raw_co_block_status,
-     .bdrv_co_invalidate_cache = raw_co_invalidate_cache,
-     .bdrv_co_pwrite_zeroes = raw_co_pwrite_zeroes,
-+    .bdrv_co_delete_file = raw_co_delete_file,
+ /**
+  * Try to get @bs's logical and physical block size.
+  * On success, store them in @bsz struct and return 0.
+diff --git a/include/block/block.h b/include/block/block.h
+index 50a07c1c33..5e83532364 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -369,6 +369,7 @@ bool bdrv_is_backing_chain_frozen(BlockDriverState *bs, BlockDriverState *base,
+ int bdrv_freeze_backing_chain(BlockDriverState *bs, BlockDriverState *base,
+                               Error **errp);
+ void bdrv_unfreeze_backing_chain(BlockDriverState *bs, BlockDriverState *base);
++int bdrv_delete_file(const char *filename, Error **errp);
  
-     .bdrv_co_preadv         = raw_co_preadv,
-     .bdrv_co_pwritev        = raw_co_pwritev,
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 3aa1e832a8..4cb3232dc4 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -309,6 +309,12 @@ struct BlockDriver {
-      */
-     int coroutine_fn (*bdrv_co_flush)(BlockDriverState *bs);
  
-+    /*
-+     * Delete a local created file.
-+     */
-+    int coroutine_fn (*bdrv_co_delete_file)(BlockDriverState *bs,
-+                                            Error **errp);
-+
-     /*
-      * Flushes all data that was already written to the OS all the way down to
-      * the disk (for example file-posix.c calls fsync()).
+ typedef struct BdrvCheckResult {
 -- 
 2.21.0
 
