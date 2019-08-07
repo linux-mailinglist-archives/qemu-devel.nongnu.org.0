@@ -2,49 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1177A84F15
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 16:49:02 +0200 (CEST)
-Received: from localhost ([::1]:42022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D64384F24
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 16:51:19 +0200 (CEST)
+Received: from localhost ([::1]:42066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvNFN-000642-84
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 10:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44141)
+	id 1hvNHa-0001p3-Lu
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 10:51:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44516)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hvNDO-0004c2-Ds
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:47:01 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hvNEw-0006iX-Mf
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:48:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hvNDM-0005Xw-S3
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:46:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39124)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hvNDA-0005PH-UD; Wed, 07 Aug 2019 10:46:45 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 338328125C;
- Wed,  7 Aug 2019 14:46:44 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-117-121.ams2.redhat.com
- [10.36.117.121])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A5AD5D717;
- Wed,  7 Aug 2019 14:46:42 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Date: Wed,  7 Aug 2019 16:46:28 +0200
-Message-Id: <20190807144628.4988-4-kwolf@redhat.com>
-In-Reply-To: <20190807144628.4988-1-kwolf@redhat.com>
-References: <20190807144628.4988-1-kwolf@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hvNEv-0006Xp-4N
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:48:34 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45120)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hvNEu-0006U7-Rd
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:48:33 -0400
+Received: by mail-ot1-x344.google.com with SMTP id x21so12017572otq.12
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 07:48:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Xcs8eszuqoo75MPHipKVwOdBKi8vP3Ou/V7cEZfAmDM=;
+ b=s8KNTiLFjmIPG8oLZ/GxijanephAJui6nVR+rHZ7VPnbcvCyimWuBAoa8Qnqx8L63P
+ pCtDFz4392cPrAKnXAL9JJWEkUKqNkdqtQwz2IEdskBfCGwvvXkkVbTz5HBn4I5b7F/G
+ AFISfvOYY7fg7OrsbZNMG4cwKQOohplmr+yJQyaZvySAxPL9a47sAPxZKEd/P3VT/zp2
+ RrZrqlxg1Rdn7Kf3vy1i/DV0/R8X9wpkGGfht9pGalTp7VF+5OMTpGykhjSbERN3uB+c
+ NJhmxLQK9nEYsPVlC+E+R1lAU/whSR1Q+TjKlUMy2hMtKbIUP1ISNDvBb/mM3NqmQE8Q
+ kf4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Xcs8eszuqoo75MPHipKVwOdBKi8vP3Ou/V7cEZfAmDM=;
+ b=VT72uDiAndgO9J8Xs2hZvUSEOjH0qrhrXVsAEFwsMR0Br/FHtC/vAYGMpyJITrAshe
+ 9UyonvbBpNv96PhlBZzZIModr3+B5v1/+NqVw/vi/CrbnUBShhfW9VMgtMBviE/qsJwf
+ RAGqfWkKJGqD4GxF/AzgMhigyTZ4nlOtSeT0A4pnJL7BQ84H6OzBee5ATRG25lfR9+xF
+ By159cZUxj1UmD+GRoGVn+cBs4sbNLch8Y2igCCvr7ByROQHixrVz+wON11mEvquiyRK
+ ao5GsoWwCSFT6CaS8WZkXi/CLJQZbYf9uJVdTm3l3Z8mD14mLlFFhiBOyGhcMJ/QGYpe
+ bHLA==
+X-Gm-Message-State: APjAAAUvInEF8KzuNX+7zLy4mQQdxmGRQMQpfptCmOafBk0drFEdaHBm
+ y8ykSJHjDDbuf6W2/ThbWLjt75K+BHXwfkZzIhpD+A==
+X-Google-Smtp-Source: APXvYqz5d+EKLWKcvLMUz9rjZAkkB1Osu9CC/3cwO6fMJxQSa0GjSxmlmsJUIwKnaZspasmzrZ8doG0tUQ3mk9RXzWc=
+X-Received: by 2002:aca:ac48:: with SMTP id v69mr235392oie.48.1565189308794;
+ Wed, 07 Aug 2019 07:48:28 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Wed, 07 Aug 2019 14:46:44 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 3/3] block-backend: Queue requests while
- drained
+References: <20190729145654.14644-1-damien.hedde@greensocs.com>
+ <20190729145654.14644-6-damien.hedde@greensocs.com>
+In-Reply-To: <20190729145654.14644-6-damien.hedde@greensocs.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 7 Aug 2019 15:48:18 +0100
+Message-ID: <CAFEAcA9+ivkBKgZ83qVE8LKuyQvng6m_85oyj6G1kx0bu86NUQ@mail.gmail.com>
+To: Damien Hedde <damien.hedde@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v3 05/33] Switch to new api in qdev/bus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,285 +72,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, den@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, dplotnikov@virtuozzo.com
+Cc: Fam Zheng <fam@euphon.net>, Collin Walling <walling@linux.ibm.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Edgar Iglesias <edgar.iglesias@xilinx.com>, Hannes Reinecke <hare@suse.com>,
+ Qemu-block <qemu-block@nongnu.org>, David Hildenbrand <david@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-s390x <qemu-s390x@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Mark Burton <mark.burton@greensocs.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes devices like IDE that can still start new requests from I/O
-handlers in the CPU thread while the block backend is drained.
+On Mon, 29 Jul 2019 at 15:58, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>
+> Deprecate old reset apis and make them use the new one while they
+> are still used somewhere.
+>
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> ---
+>  hw/core/qdev.c         | 22 +++-------------------
+>  include/hw/qdev-core.h | 28 ++++++++++++++++++++++------
+>  2 files changed, 25 insertions(+), 25 deletions(-)
+>
+> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+> index 559ced070d..e9e5f2d5f9 100644
+> --- a/hw/core/qdev.c
+> +++ b/hw/core/qdev.c
+> @@ -312,25 +312,9 @@ static void device_foreach_reset_child(Object *obj, void (*func)(Object *))
+>      }
+>  }
+>
+> -static int qdev_reset_one(DeviceState *dev, void *opaque)
+> -{
+> -    device_legacy_reset(dev);
+> -
+> -    return 0;
+> -}
+> -
+> -static int qbus_reset_one(BusState *bus, void *opaque)
+> -{
+> -    BusClass *bc = BUS_GET_CLASS(bus);
+> -    if (bc->reset) {
+> -        bc->reset(bus);
+> -    }
+> -    return 0;
+> -}
+> -
+>  void qdev_reset_all(DeviceState *dev)
+>  {
+> -    qdev_walk_children(dev, NULL, NULL, qdev_reset_one, qbus_reset_one, NULL);
+> +    device_reset(dev, false);
+>  }
+>
+>  void qdev_reset_all_fn(void *opaque)
+> @@ -340,7 +324,7 @@ void qdev_reset_all_fn(void *opaque)
+>
+>  void qbus_reset_all(BusState *bus)
+>  {
+> -    qbus_walk_children(bus, NULL, NULL, qdev_reset_one, qbus_reset_one, NULL);
+> +    bus_reset(bus, false);
+>  }
+>
+>  void qbus_reset_all_fn(void *opaque)
+> @@ -922,7 +906,7 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+>              }
+>          }
+>          if (dev->hotplugged) {
+> -            device_legacy_reset(dev);
+> +            device_reset(dev, true);
+>          }
+>          dev->pending_deleted_event = false;
 
-The basic assumption is that in a drain section, no new requests should
-be allowed through a BlockBackend (blk_drained_begin/end don't exist,
-we get drain sections only on the node level). However, there are two
-special cases where requests should not be queued:
+The other changes here don't change the semantics, but this
+one does -- previously we were only resetting this specific
+device and now we're resetting both the device and its children.
+I think it belongs as its own patch in with the other
+"remove device_legacy_reset call" patches.
 
-1. Block jobs: We already make sure that block jobs are paused in a
-   drain section, so they won't start new requests. However, if the
-   drain_begin is called on the job's BlockBackend first, it can happen
-   that we deadlock because the job stays busy until it reaches a pause
-   point - which it can't if its requests aren't processed any more.
+>
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index eeb75611c8..1670ae41bb 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -109,6 +109,11 @@ typedef struct DeviceClass {
+>      bool hotpluggable;
+>
+>      /* callbacks */
+> +    /*
+> +     * Reset method here is deprecated and replaced by methods in the
+> +     * resettable class interface to implement a multi-phase reset.
+> +     * TODO: remove once every reset callback is unused
+> +     */
+>      DeviceReset reset;
+>      DeviceRealize realize;
+>      DeviceUnrealize unrealize;
+> @@ -455,19 +460,22 @@ bool bus_is_resetting(BusState *bus);
+>   */
+>  bool bus_is_reset_cold(BusState *bus);
+>
+> -void qdev_reset_all(DeviceState *dev);
+> -void qdev_reset_all_fn(void *opaque);
+> -
+>  /**
+> - * @qbus_reset_all:
+> - * @bus: Bus to be reset.
+> + * qbus/qdev_reset_all:
+> + * @bus/dev: Bus/Device to be reset.
+>   *
+> - * Reset @bus and perform a bus-level ("hard") reset of all devices connected
+> + * Reset @bus/dev and perform a bus-level reset of all devices/buses connected
+>   * to it, including recursive processing of all buses below @bus itself.  A
+>   * hard reset means that qbus_reset_all will reset all state of the device.
+>   * For PCI devices, for example, this will include the base address registers
+>   * or configuration space.
+> + *
+> + * Theses functions are deprecated, please use device/bus_reset or
 
-   The proper solution here would be to make all requests through the
-   job's filter node instead of using a BlockBackend. For now, just
-   disabling request queuing on the job BlockBackend is simpler.
+"these"
 
-2. In test cases where making requests through bdrv_* would be
-   cumbersome because we'd need a BdrvChild. As we already got the
-   functionality to disable request queuing from 1., use it in tests,
-   too, for convenience.
+> + * resettable_reset_* instead
+> + * TODO: remove them when all occurence are removed
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- include/sysemu/block-backend.h |  1 +
- block/backup.c                 |  1 +
- block/block-backend.c          | 53 ++++++++++++++++++++++++++++++++--
- block/commit.c                 |  2 ++
- block/mirror.c                 |  1 +
- blockjob.c                     |  3 ++
- tests/test-bdrv-drain.c        |  1 +
- 7 files changed, 59 insertions(+), 3 deletions(-)
+"occurrences" (two 'r's, plural with 's'), here and below
 
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backen=
-d.h
-index 7320b58467..368d53af77 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -104,6 +104,7 @@ void blk_get_perm(BlockBackend *blk, uint64_t *perm, =
-uint64_t *shared_perm);
-=20
- void blk_set_allow_write_beyond_eof(BlockBackend *blk, bool allow);
- void blk_set_allow_aio_context_change(BlockBackend *blk, bool allow);
-+void blk_set_disable_request_queuing(BlockBackend *blk, bool disable);
- void blk_iostatus_enable(BlockBackend *blk);
- bool blk_iostatus_is_enabled(const BlockBackend *blk);
- BlockDeviceIoStatus blk_iostatus(const BlockBackend *blk);
-diff --git a/block/backup.c b/block/backup.c
-index b26c22c4b8..4743c8f0bc 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -644,6 +644,7 @@ BlockJob *backup_job_create(const char *job_id, Block=
-DriverState *bs,
-     if (ret < 0) {
-         goto error;
-     }
-+    blk_set_disable_request_queuing(job->target, true);
-=20
-     job->on_source_error =3D on_source_error;
-     job->on_target_error =3D on_target_error;
-diff --git a/block/block-backend.c b/block/block-backend.c
-index fdd6b01ecf..c13c5c83b0 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -79,6 +79,9 @@ struct BlockBackend {
-     QLIST_HEAD(, BlockBackendAioNotifier) aio_notifiers;
-=20
-     int quiesce_counter;
-+    CoQueue queued_requests;
-+    bool disable_request_queuing;
-+
-     VMChangeStateEntry *vmsh;
-     bool force_allow_inactivate;
-=20
-@@ -339,6 +342,7 @@ BlockBackend *blk_new(AioContext *ctx, uint64_t perm,=
- uint64_t shared_perm)
-=20
-     block_acct_init(&blk->stats);
-=20
-+    qemu_co_queue_init(&blk->queued_requests);
-     notifier_list_init(&blk->remove_bs_notifiers);
-     notifier_list_init(&blk->insert_bs_notifiers);
-     QLIST_INIT(&blk->aio_notifiers);
-@@ -1096,6 +1100,11 @@ void blk_set_allow_aio_context_change(BlockBackend=
- *blk, bool allow)
-     blk->allow_aio_context_change =3D allow;
- }
-=20
-+void blk_set_disable_request_queuing(BlockBackend *blk, bool disable)
-+{
-+    blk->disable_request_queuing =3D disable;
-+}
-+
- static int blk_check_byte_request(BlockBackend *blk, int64_t offset,
-                                   size_t size)
- {
-@@ -1127,13 +1136,24 @@ static int blk_check_byte_request(BlockBackend *b=
-lk, int64_t offset,
-     return 0;
- }
-=20
-+static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
-+{
-+    if (blk->quiesce_counter && !blk->disable_request_queuing) {
-+        qemu_co_queue_wait(&blk->queued_requests, NULL);
-+    }
-+}
-+
- int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
-                                unsigned int bytes, QEMUIOVector *qiov,
-                                BdrvRequestFlags flags)
- {
-     int ret;
--    BlockDriverState *bs =3D blk_bs(blk);
-+    BlockDriverState *bs;
-=20
-+    blk_wait_while_drained(blk);
-+
-+    /* Call blk_bs() only after waiting, the graph may have changed */
-+    bs =3D blk_bs(blk);
-     trace_blk_co_preadv(blk, bs, offset, bytes, flags);
-=20
-     ret =3D blk_check_byte_request(blk, offset, bytes);
-@@ -1159,8 +1179,12 @@ int coroutine_fn blk_co_pwritev(BlockBackend *blk,=
- int64_t offset,
-                                 BdrvRequestFlags flags)
- {
-     int ret;
--    BlockDriverState *bs =3D blk_bs(blk);
-+    BlockDriverState *bs;
-=20
-+    blk_wait_while_drained(blk);
-+
-+    /* Call blk_bs() only after waiting, the graph may have changed */
-+    bs =3D blk_bs(blk);
-     trace_blk_co_pwritev(blk, bs, offset, bytes, flags);
-=20
-     ret =3D blk_check_byte_request(blk, offset, bytes);
-@@ -1349,6 +1373,12 @@ static void blk_aio_read_entry(void *opaque)
-     BlkRwCo *rwco =3D &acb->rwco;
-     QEMUIOVector *qiov =3D rwco->iobuf;
-=20
-+    if (rwco->blk->quiesce_counter) {
-+        blk_dec_in_flight(rwco->blk);
-+        blk_wait_while_drained(rwco->blk);
-+        blk_inc_in_flight(rwco->blk);
-+    }
-+
-     assert(qiov->size =3D=3D acb->bytes);
-     rwco->ret =3D blk_co_preadv(rwco->blk, rwco->offset, acb->bytes,
-                               qiov, rwco->flags);
-@@ -1361,6 +1391,12 @@ static void blk_aio_write_entry(void *opaque)
-     BlkRwCo *rwco =3D &acb->rwco;
-     QEMUIOVector *qiov =3D rwco->iobuf;
-=20
-+    if (rwco->blk->quiesce_counter) {
-+        blk_dec_in_flight(rwco->blk);
-+        blk_wait_while_drained(rwco->blk);
-+        blk_inc_in_flight(rwco->blk);
-+    }
-+
-     assert(!qiov || qiov->size =3D=3D acb->bytes);
-     rwco->ret =3D blk_co_pwritev(rwco->blk, rwco->offset, acb->bytes,
-                                qiov, rwco->flags);
-@@ -1482,6 +1518,8 @@ void blk_aio_cancel_async(BlockAIOCB *acb)
-=20
- int blk_co_ioctl(BlockBackend *blk, unsigned long int req, void *buf)
- {
-+    blk_wait_while_drained(blk);
-+
-     if (!blk_is_available(blk)) {
-         return -ENOMEDIUM;
-     }
-@@ -1522,7 +1560,11 @@ BlockAIOCB *blk_aio_ioctl(BlockBackend *blk, unsig=
-ned long int req, void *buf,
-=20
- int blk_co_pdiscard(BlockBackend *blk, int64_t offset, int bytes)
- {
--    int ret =3D blk_check_byte_request(blk, offset, bytes);
-+    int ret;
-+
-+    blk_wait_while_drained(blk);
-+
-+    ret =3D blk_check_byte_request(blk, offset, bytes);
-     if (ret < 0) {
-         return ret;
-     }
-@@ -1532,6 +1574,8 @@ int blk_co_pdiscard(BlockBackend *blk, int64_t offs=
-et, int bytes)
-=20
- int blk_co_flush(BlockBackend *blk)
- {
-+    blk_wait_while_drained(blk);
-+
-     if (!blk_is_available(blk)) {
-         return -ENOMEDIUM;
-     }
-@@ -2232,6 +2276,9 @@ static void blk_root_drained_end(BdrvChild *child, =
-int *drained_end_counter)
-         if (blk->dev_ops && blk->dev_ops->drained_end) {
-             blk->dev_ops->drained_end(blk->dev_opaque);
-         }
-+        while (qemu_co_enter_next(&blk->queued_requests, NULL)) {
-+            /* Resume all queued requests */
-+        }
-     }
- }
-=20
-diff --git a/block/commit.c b/block/commit.c
-index 2c5a6d4ebc..408ae15389 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -350,6 +350,7 @@ void commit_start(const char *job_id, BlockDriverStat=
-e *bs,
-     if (ret < 0) {
-         goto fail;
-     }
-+    blk_set_disable_request_queuing(s->base, true);
-     s->base_bs =3D base;
-=20
-     /* Required permissions are already taken with block_job_add_bdrv() =
-*/
-@@ -358,6 +359,7 @@ void commit_start(const char *job_id, BlockDriverStat=
-e *bs,
-     if (ret < 0) {
-         goto fail;
-     }
-+    blk_set_disable_request_queuing(s->top, true);
-=20
-     s->backing_file_str =3D g_strdup(backing_file_str);
-     s->on_error =3D on_error;
-diff --git a/block/mirror.c b/block/mirror.c
-index 642d6570cc..9b36391bb9 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1636,6 +1636,7 @@ static BlockJob *mirror_start_job(
-         blk_set_force_allow_inactivate(s->target);
-     }
-     blk_set_allow_aio_context_change(s->target, true);
-+    blk_set_disable_request_queuing(s->target, true);
-=20
-     s->replaces =3D g_strdup(replaces);
-     s->on_source_error =3D on_source_error;
-diff --git a/blockjob.c b/blockjob.c
-index 20b7f557da..73d9f1ba2b 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -445,6 +445,9 @@ void *block_job_create(const char *job_id, const Bloc=
-kJobDriver *driver,
-=20
-     bdrv_op_unblock(bs, BLOCK_OP_TYPE_DATAPLANE, job->blocker);
-=20
-+    /* Disable request queuing in the BlockBackend to avoid deadlocks on=
- drain:
-+     * The job reports that it's busy until it reaches a pause point. */
-+    blk_set_disable_request_queuing(blk, true);
-     blk_set_allow_aio_context_change(blk, true);
-=20
-     /* Only set speed when necessary to avoid NotSupported error */
-diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
-index 9dffd86c47..468bbcc9a1 100644
---- a/tests/test-bdrv-drain.c
-+++ b/tests/test-bdrv-drain.c
-@@ -686,6 +686,7 @@ static void test_iothread_common(enum drain_type drai=
-n_type, int drain_thread)
-                               &error_abort);
-     s =3D bs->opaque;
-     blk_insert_bs(blk, bs, &error_abort);
-+    blk_set_disable_request_queuing(blk, true);
-=20
-     blk_set_aio_context(blk, ctx_a, &error_abort);
-     aio_context_acquire(ctx_a);
---=20
-2.20.1
+>   */
 
+The comment here says that qbus_reset_all() does a "hard" reset,
+which presumably is equivalent to a 'cold' reset, but the
+code in our new implementation passes cold = false.
+
+> +void qdev_reset_all(DeviceState *dev);
+> +void qdev_reset_all_fn(void *opaque);
+>  void qbus_reset_all(BusState *bus);
+>  void qbus_reset_all_fn(void *opaque);
+>
+> @@ -489,9 +497,17 @@ void qdev_machine_init(void);
+>   * device_legacy_reset:
+>   *
+>   * Reset a single device (by calling the reset method).
+> + *
+> + * This function is deprecated, please use device_reset() instead.
+> + * TODO: remove the function when all occurences are removed.
+>   */
+>  void device_legacy_reset(DeviceState *dev);
+>
+> +/**
+> + * device_class_set_parent_reset:
+> + * TODO: remove the function when DeviceClass's reset method
+> + * is not used anymore.
+> + */
+>  void device_class_set_parent_reset(DeviceClass *dc,
+>                                     DeviceReset dev_reset,
+>                                     DeviceReset *parent_reset);
+> --
+> 2.22.0
+
+thanks
+-- PMM
 
