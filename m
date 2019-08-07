@@ -2,36 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3C984E5C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 16:14:56 +0200 (CEST)
-Received: from localhost ([::1]:41635 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D9584E62
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 16:16:04 +0200 (CEST)
+Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvMiN-0004hl-BX
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 10:14:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36609)
+	id 1hvMjT-0007Kh-Jy
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 10:16:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36666)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hvMg8-0007lN-1e
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:12:37 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hvMg9-0007q4-4w
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:12:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hvMg6-0003Jo-Nc
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:12:35 -0400
-Received: from relay.sw.ru ([185.231.240.75]:40654)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hvMg7-0003LB-Ra
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:12:37 -0400
+Received: from relay.sw.ru ([185.231.240.75]:40648)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hvMg4-0003D2-1Z; Wed, 07 Aug 2019 10:12:32 -0400
+ id 1hvMg4-0003Cw-Bk; Wed, 07 Aug 2019 10:12:32 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1hvMfz-0005oH-6E; Wed, 07 Aug 2019 17:12:27 +0300
+ id 1hvMfz-0005oH-B8; Wed, 07 Aug 2019 17:12:27 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Date: Wed,  7 Aug 2019 17:12:16 +0300
-Message-Id: <20190807141226.193501-1-vsementsov@virtuozzo.com>
+Date: Wed,  7 Aug 2019 17:12:17 +0300
+Message-Id: <20190807141226.193501-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20190807141226.193501-1-vsementsov@virtuozzo.com>
+References: <20190807141226.193501-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v4 00/10] qcow2-bitmaps: rewrite reopening logic
+Subject: [Qemu-devel] [PATCH v4 01/10] block: switch reopen queue from
+ QSIMPLEQ to QTAILQ
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,79 +51,129 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+We'll need reverse-foreach in the following commit, QTAILQ support it,
+so move to QTAILQ.
 
-Bitmaps reopening is buggy, reopening-rw just not working at all and
-reopening-ro may lead to producing broken incremental
-backup if we do temporary snapshot in a meantime.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ include/block/block.h |  2 +-
+ block.c               | 22 +++++++++++-----------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-v4: Drop complicated solution around reopening logic [Kevin], fix
-    the existing bug in a simplest way
-
-Structure:
-
-02: fix reopen to RW
-03: test reopen to RW
-
-07: fix reopen to RO
-08: test reopen to RO
-
-Others are less significant improvements and refactoring
-
-Changelog:
-
-01-03: new patches, to fix reopening bitmaps to RW and personal test for
-       this bug
-08: merged test from v3, it covers both bugs (reopen to RW and reopen to RO)
-10: instead of moving bitmap-reopening to prepare(as in 09 in v3) we now keep it
-    in commit, but in right place
-others: unchanged
-
-v3:
-02: John's events_wait already merged in, so my 02 from v2 is not needed.
-    Instead, add two simple logging wrappers here
-03: rebase on 02 - use new wrappers, move to 260
-05: add John's r-b
-06: improve function docs [John], add John's r-b
-
-v2:
-01: new
-02-03: test: splat into two patches, some wording
-       improvements and event_wait improved
-04: add John's r-b
-05: new
-06-09: fixes: changed, splat, use patch 01
-
-Vladimir Sementsov-Ogievskiy (10):
-  block: switch reopen queue from QSIMPLEQ to QTAILQ
-  block: reverse order for reopen commits
-  iotests: add test-case to 165 to test reopening qcow2 bitmaps to RW
-  iotests.py: add event_wait_log and events_wait_log helpers
-  block/qcow2-bitmap: get rid of bdrv_has_changed_persistent_bitmaps
-  block/qcow2-bitmap: drop qcow2_reopen_bitmaps_rw_hint()
-  block/qcow2-bitmap: do not remove bitmaps on reopen-ro
-  iotests: add test 260 to check bitmap life after snapshot + commit
-  block/qcow2-bitmap: fix and improve qcow2_reopen_bitmaps_rw
-  qcow2-bitmap: move bitmap reopen-rw code to qcow2_reopen_commit
-
- block/qcow2.h                 |   5 +-
- include/block/block.h         |   2 +-
- include/block/block_int.h     |   6 --
- include/block/dirty-bitmap.h  |   1 -
- block.c                       |  51 +++++-------
- block/dirty-bitmap.c          |  12 ---
- block/qcow2-bitmap.c          | 143 ++++++++++++++++++++--------------
- block/qcow2.c                 |  17 +++-
- tests/qemu-iotests/165        |  46 ++++++++++-
- tests/qemu-iotests/165.out    |   4 +-
- tests/qemu-iotests/260        |  87 +++++++++++++++++++++
- tests/qemu-iotests/260.out    |  52 +++++++++++++
- tests/qemu-iotests/group      |   1 +
- tests/qemu-iotests/iotests.py |  10 +++
- 14 files changed, 318 insertions(+), 119 deletions(-)
- create mode 100755 tests/qemu-iotests/260
- create mode 100644 tests/qemu-iotests/260.out
-
+diff --git a/include/block/block.h b/include/block/block.h
+index 50a07c1c33..3d84b2a2c9 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -192,7 +192,7 @@ typedef struct HDGeometry {
+ #define BDRV_BLOCK_RECURSE      0x40
+ #define BDRV_BLOCK_OFFSET_MASK  BDRV_SECTOR_MASK
+ 
+-typedef QSIMPLEQ_HEAD(BlockReopenQueue, BlockReopenQueueEntry) BlockReopenQueue;
++typedef QTAILQ_HEAD(BlockReopenQueue, BlockReopenQueueEntry) BlockReopenQueue;
+ 
+ typedef struct BDRVReopenState {
+     BlockDriverState *bs;
+diff --git a/block.c b/block.c
+index cbd8da5f3b..696162cd7a 100644
+--- a/block.c
++++ b/block.c
+@@ -1718,7 +1718,7 @@ typedef struct BlockReopenQueueEntry {
+      bool prepared;
+      bool perms_checked;
+      BDRVReopenState state;
+-     QSIMPLEQ_ENTRY(BlockReopenQueueEntry) entry;
++     QTAILQ_ENTRY(BlockReopenQueueEntry) entry;
+ } BlockReopenQueueEntry;
+ 
+ /*
+@@ -1731,7 +1731,7 @@ static int bdrv_reopen_get_flags(BlockReopenQueue *q, BlockDriverState *bs)
+     BlockReopenQueueEntry *entry;
+ 
+     if (q != NULL) {
+-        QSIMPLEQ_FOREACH(entry, q, entry) {
++        QTAILQ_FOREACH(entry, q, entry) {
+             if (entry->state.bs == bs) {
+                 return entry->state.flags;
+             }
+@@ -3280,7 +3280,7 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
+ 
+     if (bs_queue == NULL) {
+         bs_queue = g_new0(BlockReopenQueue, 1);
+-        QSIMPLEQ_INIT(bs_queue);
++        QTAILQ_INIT(bs_queue);
+     }
+ 
+     if (!options) {
+@@ -3288,7 +3288,7 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
+     }
+ 
+     /* Check if this BlockDriverState is already in the queue */
+-    QSIMPLEQ_FOREACH(bs_entry, bs_queue, entry) {
++    QTAILQ_FOREACH(bs_entry, bs_queue, entry) {
+         if (bs == bs_entry->state.bs) {
+             break;
+         }
+@@ -3344,7 +3344,7 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
+ 
+     if (!bs_entry) {
+         bs_entry = g_new0(BlockReopenQueueEntry, 1);
+-        QSIMPLEQ_INSERT_TAIL(bs_queue, bs_entry, entry);
++        QTAILQ_INSERT_TAIL(bs_queue, bs_entry, entry);
+     } else {
+         qobject_unref(bs_entry->state.options);
+         qobject_unref(bs_entry->state.explicit_options);
+@@ -3445,7 +3445,7 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+ 
+     assert(bs_queue != NULL);
+ 
+-    QSIMPLEQ_FOREACH(bs_entry, bs_queue, entry) {
++    QTAILQ_FOREACH(bs_entry, bs_queue, entry) {
+         assert(bs_entry->state.bs->quiesce_counter > 0);
+         if (bdrv_reopen_prepare(&bs_entry->state, bs_queue, errp)) {
+             goto cleanup;
+@@ -3453,7 +3453,7 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+         bs_entry->prepared = true;
+     }
+ 
+-    QSIMPLEQ_FOREACH(bs_entry, bs_queue, entry) {
++    QTAILQ_FOREACH(bs_entry, bs_queue, entry) {
+         BDRVReopenState *state = &bs_entry->state;
+         ret = bdrv_check_perm(state->bs, bs_queue, state->perm,
+                               state->shared_perm, NULL, NULL, errp);
+@@ -3479,13 +3479,13 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+     /* If we reach this point, we have success and just need to apply the
+      * changes
+      */
+-    QSIMPLEQ_FOREACH(bs_entry, bs_queue, entry) {
++    QTAILQ_FOREACH(bs_entry, bs_queue, entry) {
+         bdrv_reopen_commit(&bs_entry->state);
+     }
+ 
+     ret = 0;
+ cleanup_perm:
+-    QSIMPLEQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
++    QTAILQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
+         BDRVReopenState *state = &bs_entry->state;
+ 
+         if (!bs_entry->perms_checked) {
+@@ -3502,7 +3502,7 @@ cleanup_perm:
+         }
+     }
+ cleanup:
+-    QSIMPLEQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
++    QTAILQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
+         if (ret) {
+             if (bs_entry->prepared) {
+                 bdrv_reopen_abort(&bs_entry->state);
+@@ -3542,7 +3542,7 @@ static BlockReopenQueueEntry *find_parent_in_reopen_queue(BlockReopenQueue *q,
+ {
+     BlockReopenQueueEntry *entry;
+ 
+-    QSIMPLEQ_FOREACH(entry, q, entry) {
++    QTAILQ_FOREACH(entry, q, entry) {
+         BlockDriverState *bs = entry->state.bs;
+         BdrvChild *child;
+ 
 -- 
 2.18.0
 
