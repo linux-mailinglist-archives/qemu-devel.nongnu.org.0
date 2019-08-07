@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A66D848A2
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 11:30:25 +0200 (CEST)
-Received: from localhost ([::1]:39104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C735848AA
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 11:33:25 +0200 (CEST)
+Received: from localhost ([::1]:39118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvIH2-0000ml-DU
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 05:30:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56864)
+	id 1hvIJw-00027R-II
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 05:33:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57742)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hvIGX-0000Md-JJ
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 05:29:54 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hvIJ0-0001g6-7m
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 05:32:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hvIGW-0007eC-MQ
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 05:29:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49368)
+ (envelope-from <stefanha@redhat.com>) id 1hvIIz-0000oy-7B
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 05:32:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55266)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hvIGW-0007cr-Gf
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 05:29:52 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hvIIz-0000oS-1z
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 05:32:25 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D2D49135E2
- for <qemu-devel@nongnu.org>; Wed,  7 Aug 2019 09:29:51 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4E337307BCC4
+ for <qemu-devel@nongnu.org>; Wed,  7 Aug 2019 09:32:24 +0000 (UTC)
 Received: from localhost (ovpn-117-144.ams2.redhat.com [10.36.117.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E3F55DA60;
- Wed,  7 Aug 2019 09:29:49 +0000 (UTC)
-Date: Wed, 7 Aug 2019 10:29:48 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4C215D9E1;
+ Wed,  7 Aug 2019 09:32:23 +0000 (UTC)
+Date: Wed, 7 Aug 2019 10:32:22 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190807092948.GD13267@stefanha-x1.localdomain>
+Message-ID: <20190807093222.GE13267@stefanha-x1.localdomain>
 References: <20190806151435.10740-1-armbru@redhat.com>
- <20190806151435.10740-7-armbru@redhat.com>
+ <20190806151435.10740-8-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190806151435.10740-7-armbru@redhat.com>
+In-Reply-To: <20190806151435.10740-8-armbru@redhat.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Wed, 07 Aug 2019 09:29:51 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.49]); Wed, 07 Aug 2019 09:32:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 06/29] trace: Eliminate use of
- TARGET_FMT_plx
+Subject: Re: [Qemu-devel] [PATCH v2 07/29] trace: Do not include qom/cpu.h
+ into generated trace.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,29 +58,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 06, 2019 at 05:14:12PM +0200, Markus Armbruster wrote:
-> hw/tpm/trace-events uses TARGET_FMT_plx formats with uint64_t
-> arguments.  That's wrong, TARGET_FMT_plx takes hwaddr.  Since hwaddr
-> happens to be uint64_t, it works anyway.  Messed up in commit
-> ec427498da5, v2.12.0.  Clean up by replacing TARGET_FMT_plx with its
-> macro expansion.
->=20
-> scripts/tracetool/format/log_stap.py (commit 62dd1048c0b, v4.0.0) has
-> a special case for TARGET_FMT_plx.  Delete it.
->=20
+On Tue, Aug 06, 2019 at 05:14:13PM +0200, Markus Armbruster wrote:
+> docs/devel/tracing.txt explains "since many source files include
+> trace.h, [the generated trace.h use] a minimum of types and other
+> header files included to keep the namespace clean and compile times
+> and dependencies down."
+> 
+> Commit 4815185902 "trace: Add per-vCPU tracing states for events with
+> the 'vcpu' property" made them all include qom/cpu.h via
+> control-internal.h.  qom/cpu.h in turn includes about thirty headers.
+> Ouch.
+> 
+> Per-vCPU tracing is currently not supported in sub-directories'
+> trace-events.  In other words, qom/cpu.h can only be used in
+> trace-root.h, not in any trace.h.
+> 
+> Split trace/control-vcpu.h off trace/control.h and
+> trace/control-internal.h.  Have the generated trace.h include
+> trace/control.h (which no longer includes qom/cpu.h), and trace-root.h
+> include trace/control-vcpu.h (which includes it).
+> 
+> The resulting improvement is a bit disappointing: in my "build
+> everything" tree, some 1100 out of 6600 objects (not counting tests
+> and objects that don't depend on qemu/osdep.h) depend on a trace.h,
+> and about 600 of them no longer depend on qom/cpu.h.  But more than
+> 1300 others depend on trace-root.h.  More work is clearly needed.
+> Left for another day.
+> 
 > Cc: Stefan Hajnoczi <stefanha@redhat.com>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > ---
->  hw/tpm/trace-events                  | 4 ++--
->  scripts/tracetool/format/log_stap.py | 3 ---
->  2 files changed, 2 insertions(+), 5 deletions(-)
+>  block/block-backend.c         |  1 +
+>  qom/object.c                  |  1 +
+>  scripts/tracetool/format/c.py |  1 +
+>  scripts/tracetool/format/h.py |  7 +++-
+>  trace/control-internal.h      | 25 --------------
+>  trace/control-vcpu.h          | 63 +++++++++++++++++++++++++++++++++++
+>  trace/control.h               | 24 -------------
+>  trace/qmp.c                   |  2 +-
+>  ui/vnc.c                      |  1 +
+>  9 files changed, 74 insertions(+), 51 deletions(-)
+>  create mode 100644 trace/control-vcpu.h
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
