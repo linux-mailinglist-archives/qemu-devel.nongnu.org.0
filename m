@@ -2,51 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA27B84E27
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 16:06:36 +0200 (CEST)
-Received: from localhost ([::1]:41546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3C984E5C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 16:14:56 +0200 (CEST)
+Received: from localhost ([::1]:41635 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvMaJ-0006a2-Q9
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 10:06:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35343)
+	id 1hvMiN-0004hl-BX
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 10:14:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36609)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hvMZn-00066X-OJ
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:06:04 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hvMg8-0007lN-1e
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:12:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hvMZm-00009N-VE
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:06:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59136)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hvMg6-0003Jo-Nc
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 10:12:35 -0400
+Received: from relay.sw.ru ([185.231.240.75]:40654)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hvMZl-00007y-5P; Wed, 07 Aug 2019 10:06:01 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F092F7BDA7;
- Wed,  7 Aug 2019 14:05:59 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-121.ams2.redhat.com
- [10.36.117.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B95F5C231;
- Wed,  7 Aug 2019 14:05:58 +0000 (UTC)
-Date: Wed, 7 Aug 2019 16:05:57 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190807140557.GB19892@localhost.localdomain>
-References: <20190722133347.15122-1-mreitz@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190722133347.15122-1-mreitz@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Wed, 07 Aug 2019 14:06:00 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 0/5] block: Fixes for concurrent block
- jobs
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hvMg4-0003D2-1Z; Wed, 07 Aug 2019 10:12:32 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hvMfz-0005oH-6E; Wed, 07 Aug 2019 17:12:27 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Date: Wed,  7 Aug 2019 17:12:16 +0300
+Message-Id: <20190807141226.193501-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v4 00/10] qcow2-bitmaps: rewrite reopening logic
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,22 +43,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 22.07.2019 um 15:33 hat Max Reitz geschrieben:
-> I think the patches speak for themselves now.
-> 
-> (The title of this series alludes to what the iotest added in the final
-> patch tests.)
-> 
-> v3:
-> - Rebased on master
-> - Added two tests to test-bdrv-drain [Kevin]
-> - Removed new iotest from auto [Thomas]
+Hi all!
 
-Thanks, applied to block-next.
+Bitmaps reopening is buggy, reopening-rw just not working at all and
+reopening-ro may lead to producing broken incremental
+backup if we do temporary snapshot in a meantime.
 
-Kevin
+v4: Drop complicated solution around reopening logic [Kevin], fix
+    the existing bug in a simplest way
+
+Structure:
+
+02: fix reopen to RW
+03: test reopen to RW
+
+07: fix reopen to RO
+08: test reopen to RO
+
+Others are less significant improvements and refactoring
+
+Changelog:
+
+01-03: new patches, to fix reopening bitmaps to RW and personal test for
+       this bug
+08: merged test from v3, it covers both bugs (reopen to RW and reopen to RO)
+10: instead of moving bitmap-reopening to prepare(as in 09 in v3) we now keep it
+    in commit, but in right place
+others: unchanged
+
+v3:
+02: John's events_wait already merged in, so my 02 from v2 is not needed.
+    Instead, add two simple logging wrappers here
+03: rebase on 02 - use new wrappers, move to 260
+05: add John's r-b
+06: improve function docs [John], add John's r-b
+
+v2:
+01: new
+02-03: test: splat into two patches, some wording
+       improvements and event_wait improved
+04: add John's r-b
+05: new
+06-09: fixes: changed, splat, use patch 01
+
+Vladimir Sementsov-Ogievskiy (10):
+  block: switch reopen queue from QSIMPLEQ to QTAILQ
+  block: reverse order for reopen commits
+  iotests: add test-case to 165 to test reopening qcow2 bitmaps to RW
+  iotests.py: add event_wait_log and events_wait_log helpers
+  block/qcow2-bitmap: get rid of bdrv_has_changed_persistent_bitmaps
+  block/qcow2-bitmap: drop qcow2_reopen_bitmaps_rw_hint()
+  block/qcow2-bitmap: do not remove bitmaps on reopen-ro
+  iotests: add test 260 to check bitmap life after snapshot + commit
+  block/qcow2-bitmap: fix and improve qcow2_reopen_bitmaps_rw
+  qcow2-bitmap: move bitmap reopen-rw code to qcow2_reopen_commit
+
+ block/qcow2.h                 |   5 +-
+ include/block/block.h         |   2 +-
+ include/block/block_int.h     |   6 --
+ include/block/dirty-bitmap.h  |   1 -
+ block.c                       |  51 +++++-------
+ block/dirty-bitmap.c          |  12 ---
+ block/qcow2-bitmap.c          | 143 ++++++++++++++++++++--------------
+ block/qcow2.c                 |  17 +++-
+ tests/qemu-iotests/165        |  46 ++++++++++-
+ tests/qemu-iotests/165.out    |   4 +-
+ tests/qemu-iotests/260        |  87 +++++++++++++++++++++
+ tests/qemu-iotests/260.out    |  52 +++++++++++++
+ tests/qemu-iotests/group      |   1 +
+ tests/qemu-iotests/iotests.py |  10 +++
+ 14 files changed, 318 insertions(+), 119 deletions(-)
+ create mode 100755 tests/qemu-iotests/260
+ create mode 100644 tests/qemu-iotests/260.out
+
+-- 
+2.18.0
+
 
