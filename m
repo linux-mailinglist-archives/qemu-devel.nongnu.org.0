@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7CD84FF5
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 17:34:04 +0200 (CEST)
-Received: from localhost ([::1]:42662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5976A85010
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 17:38:19 +0200 (CEST)
+Received: from localhost ([::1]:42754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvNwx-0006wa-Ci
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 11:34:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54726)
+	id 1hvO14-0006Hp-Jj
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 11:38:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55250)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hvNu5-0004mF-U8
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 11:31:07 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hvNvr-0007E8-EJ
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 11:32:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hvNu0-0004rp-Iu
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 11:31:02 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42883)
+ (envelope-from <richard.henderson@linaro.org>) id 1hvNvq-0005ws-7V
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 11:32:55 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:43729)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hvNtu-0004lC-NM
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 11:30:55 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id ay6so41397883plb.9
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 08:30:51 -0700 (PDT)
+ id 1hvNvq-0005vo-0z
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 11:32:54 -0400
+Received: by mail-pl1-x632.google.com with SMTP id 4so34357964pld.10
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 08:32:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
@@ -39,22 +39,22 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=pCpCz+CvOCQ4pr1rksowSTze+rOo02yQPlaBVcHqATE=;
- b=VhRlV0ZcExfg40DtfqUjsjLGLjKQxLbzqZxRRmItPjeU+RNPdxwieUREmhRzGsVMSo
- ulCaG4iogzjzm24DT4AoG9xB7cBCRS4ESkmKJq4pJE059TPm+1WHXVVRb0s97yey1Rc4
- o4k2rVEDGTC977C6vMUv6e2jgf1u2k1qL5LJzodmu9GSH6j6eUDnpqsF8LJ8yLcONwOY
- zFnsBmPP+0YBt3SHwk95UhIE1ul/Yo3jpne9zXI+wg9bwAO+d1ZsPBpamtvhReUYC4HD
- aUScjSRuPTly6Gg/1S1cjsqLh4wD9MMIjoQkUJd/DoCVvpJmMC+iR+j38ORCO9Ja2nnp
- Peqw==
-X-Gm-Message-State: APjAAAVxg7dswXKVq9jioxXaOb8M735itFt2n6vUgOGTnyFmfAjNCCT8
- M40TV1R4fIgIj2BTU7+qiIwGbQ==
-X-Google-Smtp-Source: APXvYqyzEKXZhyWbZHS9mUCJhdYcCK08eh017J9JqBLo284jw3umKEd2sQYd69ZxwNR55VZOhXHr6A==
-X-Received: by 2002:a17:90a:d3d4:: with SMTP id
- d20mr533420pjw.28.1565191850899; 
- Wed, 07 Aug 2019 08:30:50 -0700 (PDT)
+ b=oIdXl0ghRgLNz43S2AHaCtRMq+faQ6iub4u8VpKO0/pLmjtuukw9hgj5FXEvcmRF34
+ nMwF9FFQax2nGevtMvDAmtLXuCs+PEjEBAE9qqksjpcSwFsj+WdWWt3OPp5Gnyvvbjse
+ IiiJdUQ3XKz29o1t6tElt5EgfxigFo/VvyKOfb0Qwf2I1ZRs7rsV/vJPRrG8InVts9Tu
+ fDptIPLQi2Vi7irStOMkeMmlax9zNpNbk0x+4g84jNIXOVV3glzM00tB93lVXAgoc0wM
+ y9SjJRrkfR/vMtbLdl4nScRA7gZbHQ68NDKQtghmZBdDTn8nxQJX2nJLYBD4tZSsDuip
+ vraA==
+X-Gm-Message-State: APjAAAWZffReGT73zPc2Vmdu8sUlp8CoaA8DhA5mkRbqTDd0SLGMQVY+
+ g5AocR7OcMZIP7xgt4RZBIomEA==
+X-Google-Smtp-Source: APXvYqzxPmrv2sRRp3ljgBVZHjVk29WCYNdGua8GbfQ9Y3kSWbTOEpwJru52ltHnTEV2FFY6gRcJTQ==
+X-Received: by 2002:a17:902:2b8a:: with SMTP id
+ l10mr8662880plb.283.1565191972790; 
+ Wed, 07 Aug 2019 08:32:52 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id r12sm75560234pgb.73.2019.08.07.08.30.46
+ by smtp.gmail.com with ESMTPSA id q1sm107981819pfg.84.2019.08.07.08.32.51
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Aug 2019 08:30:50 -0700 (PDT)
+ Wed, 07 Aug 2019 08:32:52 -0700 (PDT)
 To: tony.nguyen@bt.com, qemu-devel@nongnu.org
 References: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>
  <1565166407497.21726@bt.com>
@@ -71,7 +71,7 @@ Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62a
+X-Received-From: 2607:f8b0:4864:20::632
 Subject: Re: [Qemu-devel] [PATCH v6 03/26] memory: Introduce size_memop
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
