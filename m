@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84A3C84650
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 09:51:48 +0200 (CEST)
-Received: from localhost ([::1]:37826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D678464E
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 09:51:46 +0200 (CEST)
+Received: from localhost ([::1]:37824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvGjb-0004h5-OP
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 03:51:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36521)
+	id 1hvGjZ-0004fZ-Lh
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 03:51:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bmeng.cn@gmail.com>) id 1hvGdo-0000xj-Lt
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 03:45:50 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hvGdq-0000yz-MR
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 03:45:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hvGdm-000841-9f
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 03:45:48 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:46624)
+ (envelope-from <bmeng.cn@gmail.com>) id 1hvGdo-00085W-Hi
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 03:45:50 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:43740)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hvGdh-00081E-LY; Wed, 07 Aug 2019 03:45:44 -0400
-Received: by mail-pl1-x643.google.com with SMTP id c2so39457513plz.13;
- Wed, 07 Aug 2019 00:45:39 -0700 (PDT)
+ id 1hvGdm-00082B-DA; Wed, 07 Aug 2019 03:45:46 -0400
+Received: by mail-pl1-x642.google.com with SMTP id 4so32482884pld.10;
+ Wed, 07 Aug 2019 00:45:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=Wi1uWTJXrzaEQAGgBpmZ9b82tg3gieSlyDYiCRVFIX8=;
- b=hoGEkF4u64ZPEoACNDcZREc56ok/796NVXYm3nOQ6+EOvoAUQ3BFeKIlHZIvCOshaj
- OY0AN1e0Hc6dnG2fiqjjTIIrC4Hm+icPVLlAK4D5I6aJjZaajvxtgmWetdABtbPXSDCy
- RoPvKl+LuQat8Fyx0A/hCvjbDVxZsVp8H34xk1RI0Gh6h3iEpw/kzyXmySieMn33I0mj
- 9j8tDd9kxpLXf4r8DGrLh4/mpoXC6/Xn/ue3xVhTiMW9zEClh7EyhAidvVDj8n3rvIJw
- eOiWyMjODMH+EHM9uDiqXGg+munPGn/I2HUTCp6I/br4IXi+/+edveXKZricUBBv8wbI
- 51Hg==
+ bh=+kkIV9Pb3fWIlgocrgzv3WCYT64zAV7oz/qm/72ONo8=;
+ b=RyRxYnK2NdyVA4uMD2xs+wJlTgGMcWd289X2W1Q4vq8zoknUS5PWCWCis9nerNsWyf
+ gkqF4Kfev/uypEIifGnq0/HhunobnufFJokqkQQoJHPwJ8QqQtJSncBx46G5djOTh232
+ iQHhqAL4xcTRDbnh5OVBUdHDo0gdPcyp6yp7S6FvEab6VZt08ubGZnYoMa44BfeLJcrB
+ oVHt4Ipo5ZTMX/PgBkOyNWTtM9R7b88xkMCLFp1/xISfKPGFfNxIaSXFU4TAJcoVPZxz
+ p0PKpmHwkcZlGuRs7VZH++plkhiqBHUZJiNgVHzOJg+x0KmQCEptj9HSI4kivIA3cT26
+ +qcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=Wi1uWTJXrzaEQAGgBpmZ9b82tg3gieSlyDYiCRVFIX8=;
- b=hFZHpsEORIABS0m7wQmCtR/VYnyZxzRQe+7CgB9zfWtDv4owEuzDgoRcv5tTzWBaQ7
- x0qPKrer2J9LiFhM6PxpF/XEn6qtz6+XWjprbtXDbhLHR2Aah9wPcwoSwyMhREepLpnW
- QuBJwvvxWTXRdTXnAIkmr+XDgoQGqbD7FoGoeur5UtYsQQvpf4gJZ3k1Sum8ZAHNb+iq
- PKa0LXdX/jzhl35jnGF5M57Bj60UH9h2lWXeqKhNMZrGNm6fI4Dy4ZEGwCf8s8Dwy+/M
- XgZ4++UQaYSKcTsgcM3sKQ30E555TFyzpPTR5rw2CSqRIwGsMTIPZ8uIfF5ZeW1Hm+JC
- 06+Q==
-X-Gm-Message-State: APjAAAXoiWvLiizeJdwVjru4+QbLzbOKKwddG3iLH/AQmxwtzH2a7lw6
- 4Kk4n2j8ojHIe2wNSkF2fZA=
-X-Google-Smtp-Source: APXvYqxHEiOIhVpgpFEGYS8/ABYKXr4zkiwiZ4ehBzKOwiOkH65cVRfJSHY2hAfr4/I8rTJ2/8RcXg==
-X-Received: by 2002:a17:902:694a:: with SMTP id
- k10mr6861035plt.255.1565163939165; 
- Wed, 07 Aug 2019 00:45:39 -0700 (PDT)
+ bh=+kkIV9Pb3fWIlgocrgzv3WCYT64zAV7oz/qm/72ONo8=;
+ b=sNoYcVYhq09oIWgZepNflJidu6vffY8PdDnuGMFDiSDtROYycOlHiDlrcdohbrZwNj
+ 2BRNZlrev5D44mGTFuJEkhNABdoEmiH0SRo/0Xe2OZHIAIk8rnUjlITAqMpezjf+tEHf
+ b0OUWAyruk6/v8Sz6LfHb9FtjroVle5fwY6Q492OUZUKc5NUdKQZKoSOyl1neGduq2Md
+ EIpJqS/YrLeVTGei8t3VfW9a0kjU9j0inBQhjsoWr/7cPYuVpFdMktvy69TFhuq/VY1M
+ Z4O5j7iS4l8K6qifPng6+NYALyLzGFGFDS1pkowIj9vmArY+ai0cdEyX8gDB9ck9j3VN
+ zc+A==
+X-Gm-Message-State: APjAAAV5/+U64mld4cVxD72LhKpblhdc51geT4I3hECq50ezNlZ2ybeB
+ vVeKHO7Xg8qqXHM2Xt83lkw=
+X-Google-Smtp-Source: APXvYqwalnIBuczyjai0BeEtrANKbzrvAtIkD0pZT95K6jxsxwqKycJhG+BeMUITRNha95ojwH2TOQ==
+X-Received: by 2002:a17:90a:36a7:: with SMTP id
+ t36mr6990707pjb.34.1565163941418; 
+ Wed, 07 Aug 2019 00:45:41 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id l44sm20154449pje.29.2019.08.07.00.45.38
+ by smtp.gmail.com with ESMTPSA id l44sm20154449pje.29.2019.08.07.00.45.40
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Wed, 07 Aug 2019 00:45:38 -0700 (PDT)
+ Wed, 07 Aug 2019 00:45:40 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Palmer Dabbelt <palmer@sifive.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Wed,  7 Aug 2019 00:45:04 -0700
-Message-Id: <1565163924-18621-9-git-send-email-bmeng.cn@gmail.com>
+Date: Wed,  7 Aug 2019 00:45:06 -0700
+Message-Id: <1565163924-18621-11-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1565163924-18621-1-git-send-email-bmeng.cn@gmail.com>
 References: <1565163924-18621-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: [Qemu-devel] [PATCH v2 08/28] riscv: sifive_u: Update PLIC hart
- topology configuration string
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v2 10/28] riscv: sifive_u: Remove the
+ unnecessary include of prci header
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,38 +83,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With heterogeneous harts config, the PLIC hart topology configuration
-string are "M,MS,.." because of the monitor hart #0.
+sifive_u machine does not use PRCI as of today. Remove the prci
+header inclusion.
 
-Suggested-by: Fabien Chouteau <chouteau@adacore.com>
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
 Changes in v2: None
 
- hw/riscv/sifive_u.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/riscv/sifive_u.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 91f3c76..fe8dd3e 100644
+index ea45e77..7557026 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -373,10 +373,11 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     plic_hart_config = g_malloc0(plic_hart_config_len);
-     for (i = 0; i < ms->smp.cpus; i++) {
-         if (i != 0) {
--            strncat(plic_hart_config, ",", plic_hart_config_len);
-+            strncat(plic_hart_config, "," SIFIVE_U_PLIC_HART_CONFIG,
-+                    plic_hart_config_len);
-+        } else {
-+            strncat(plic_hart_config, "M", plic_hart_config_len);
-         }
--        strncat(plic_hart_config, SIFIVE_U_PLIC_HART_CONFIG,
--                plic_hart_config_len);
-         plic_hart_config_len -= (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1);
-     }
- 
+@@ -41,7 +41,6 @@
+ #include "hw/riscv/sifive_plic.h"
+ #include "hw/riscv/sifive_clint.h"
+ #include "hw/riscv/sifive_uart.h"
+-#include "hw/riscv/sifive_prci.h"
+ #include "hw/riscv/sifive_u.h"
+ #include "hw/riscv/boot.h"
+ #include "chardev/char.h"
 -- 
 2.7.4
 
