@@ -2,79 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8560852F3
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 20:27:06 +0200 (CEST)
-Received: from localhost ([::1]:44328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B6E85308
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 20:36:10 +0200 (CEST)
+Received: from localhost ([::1]:44380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvQeQ-0000yl-4A
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 14:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38824)
+	id 1hvQnB-0006Bm-HL
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 14:36:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41315)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hvQdS-0008WU-51
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:26:07 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hvQmi-0005dS-Ap
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:35:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hvQdR-0000ju-6E
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:26:06 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:39527)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hvQdQ-0000az-Ug
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:26:05 -0400
-Received: by mail-pl1-x644.google.com with SMTP id b7so42084355pls.6
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 11:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=O6ZVVVnFK8gMP42dZaFj7U87HAGu+ffS7XGWfusThcY=;
- b=kqHzF1HB/XqXehEyAGwHuWapyLBzqxoUwslq9VHFHjepNTexylmqXBrOrsDI0j8R+q
- MhDVlTqbMcNZMwOdM9cThzY1WIDKKbNDN/nDAoM75sUjnIEMhJMjrUeZLcok/qE4qzDs
- 5a746AGfupRavS08skbNZZxSwywYJnCg6MW3o1BO8RtSo8rxhYn1ozye3G1lLBErFdYo
- jPFxn0fMcK4r1Wl/RZQh/eH4a4nf7a0kJPkza1jNnLb1ZTqJt2S4ztABGqVnbfxIT8C1
- uEqHYGpvGg9fg7w+UVe4acEmbsGXyMBe/5z7WU4s/kPi44IOTtyrIvloef3RSr9K7JJg
- 0xzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=O6ZVVVnFK8gMP42dZaFj7U87HAGu+ffS7XGWfusThcY=;
- b=gN+266HEc3S45QFdr1MwU0bPsl4+En+l3s0AMMwH1mm7d32N4im0ZskoJ1Em3oO6lW
- ErLmDwTmKe0KBueEHgymLEyYfj0bWgT4/JVn+fgZfJBwaht0hFM/73H+Rlqd9YxfW4Fs
- RLp2YduB4pX9ovgx+IFQyJef0pXi8Zy2c7UOmXC52EmWb1r8+9SccG/3WC3Or6u6Th8d
- HzsF8QzJTgQjWFn6pZHmjRz6d6oYsP+NT5QEzsAxlwk6nj2x24X5mr3W9OZ3K/PjjK7r
- awgeM19ZbpRlSlnOQ3rBcWWjAW5IHItiMvdIwDOLtSxa+3xlZaMkkCLQKiL+9ROdKBAg
- A0KQ==
-X-Gm-Message-State: APjAAAWMrKa7UMDnqvBVEMnpfglLTgOhaSu8jk2ZphouiVm8el6ttAq3
- +pn7nF76vctbsqt4NnNlXCk+xw==
-X-Google-Smtp-Source: APXvYqyejmRMvJIKXeq/VCoXVFO/2uOzSeVPNLOfkOlZaQk2RRXhvA3MAQbShkrPuu6ScpNmd4VrYw==
-X-Received: by 2002:a63:4a04:: with SMTP id x4mr1628068pga.411.1565202361099; 
- Wed, 07 Aug 2019 11:26:01 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id b68sm113296790pfb.149.2019.08.07.11.26.00
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Aug 2019 11:26:00 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190807045335.1361-1-richard.henderson@linaro.org>
- <20190807045335.1361-4-richard.henderson@linaro.org>
- <CAFEAcA_MFg1_gpaT5+X71s8r5SYZFTizdXs2vQ_6mLooP7E+kg@mail.gmail.com>
- <061145be-4cd4-b8e6-ae5c-562a59e8088f@linaro.org>
- <CAFEAcA8fCL4VTJYdWGbDySzT9zkgmjcMGqBj0fo9gN4x4B-WcQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <5bcd1a92-d8a7-0dac-bc25-a0db23bb2eaf@linaro.org>
-Date: Wed, 7 Aug 2019 11:25:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <dgilbert@redhat.com>) id 1hvQmh-0007dj-Bl
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:35:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56808)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hvQmh-0007aq-6I
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:35:39 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1C8BFC065119;
+ Wed,  7 Aug 2019 18:35:38 +0000 (UTC)
+Received: from work-vm (ovpn-117-204.ams2.redhat.com [10.36.117.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F3355D70D;
+ Wed,  7 Aug 2019 18:35:37 +0000 (UTC)
+Date: Wed, 7 Aug 2019 19:35:34 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190807183534.GN27871@work-vm>
+References: <20190805053146.32326-1-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8fCL4VTJYdWGbDySzT9zkgmjcMGqBj0fo9gN4x4B-WcQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: Re: [Qemu-devel] [PATCH 03/11] target/arm: Introduce read_pc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190805053146.32326-1-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Wed, 07 Aug 2019 18:35:38 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3] migration/postcopy: use mis->bh instead
+ of allocating a QEMUBH
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,25 +57,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/7/19 11:16 AM, Peter Maydell wrote:
-> How about we add this to the commit message?
+* Wei Yang (richardw.yang@linux.intel.com) wrote:
+> For migration incoming side, it either quit in precopy or postcopy. It
+> is safe to use the mis->bh for both instead of allocating a dedicated
+> QEMUBH for postcopy.
 > 
-> This changes the behaviour for load_reg() and load_reg_var()
-> when called with reg==15 from a 32-bit Thumb instruction:
-> previously they would have returned the incorrect value
-> of pc_curr + 6, and now they will return the architecturally
-> correct value of PC, which is pc_curr + 4. This will not
-> affect well-behaved guest software, because all of the places
-> we call these functions from T32 code are instructions where
-> using r15 is UNPREDICTABLE. Using the architectural PC value
-> here is more consistent with the T16 and A32 behaviour.
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Looks good to me.
+Hi Wei,
+  Can you check this, the patchew tests came back with a failure which
+seems bh related; I've not tried it, but can you just see if you can
+reproduce it?
 
+Dave
 
-r~
+> ---
+> v3: rebase on latest upstream
+> v2: fix a typo in change log
+> ---
+>  migration/savevm.c | 17 ++++-------------
+>  1 file changed, 4 insertions(+), 13 deletions(-)
+> 
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 621b6c0465..9bf9d2e5fe 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -1867,16 +1867,10 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+>      return 0;
+>  }
+>  
+> -
+> -typedef struct {
+> -    QEMUBH *bh;
+> -} HandleRunBhData;
+> -
+>  static void loadvm_postcopy_handle_run_bh(void *opaque)
+>  {
+>      Error *local_err = NULL;
+> -    HandleRunBhData *data = opaque;
+> -    MigrationIncomingState *mis = migration_incoming_get_current();
+> +    MigrationIncomingState *mis = opaque;
+>  
+>      /* TODO we should move all of this lot into postcopy_ram.c or a shared code
+>       * in migration.c
+> @@ -1908,15 +1902,13 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
+>          runstate_set(RUN_STATE_PAUSED);
+>      }
+>  
+> -    qemu_bh_delete(data->bh);
+> -    g_free(data);
+> +    qemu_bh_delete(mis->bh);
+>  }
+>  
+>  /* After all discards we can start running and asking for pages */
+>  static int loadvm_postcopy_handle_run(MigrationIncomingState *mis)
+>  {
+>      PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_RUNNING);
+> -    HandleRunBhData *data;
+>  
+>      trace_loadvm_postcopy_handle_run();
+>      if (ps != POSTCOPY_INCOMING_LISTENING) {
+> @@ -1924,9 +1916,8 @@ static int loadvm_postcopy_handle_run(MigrationIncomingState *mis)
+>          return -1;
+>      }
+>  
+> -    data = g_new(HandleRunBhData, 1);
+> -    data->bh = qemu_bh_new(loadvm_postcopy_handle_run_bh, data);
+> -    qemu_bh_schedule(data->bh);
+> +    mis->bh = qemu_bh_new(loadvm_postcopy_handle_run_bh, mis);
+> +    qemu_bh_schedule(mis->bh);
+>  
+>      /* We need to finish reading the stream from the package
+>       * and also stop reading anything more from the stream that loaded the
+> -- 
+> 2.17.1
+> 
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
