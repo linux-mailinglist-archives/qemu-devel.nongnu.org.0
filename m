@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBE9852E9
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 20:24:33 +0200 (CEST)
-Received: from localhost ([::1]:44312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EF8852F5
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 20:27:16 +0200 (CEST)
+Received: from localhost ([::1]:44330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvQbw-0007rI-9W
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 14:24:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38142)
+	id 1hvQeZ-0001AR-Vw
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 14:27:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38851)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hvQbM-0006pw-3k
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:23:57 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hvQdV-00007E-I4
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:26:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hvQbK-0003tQ-UG
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:23:56 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41449)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hvQbK-0003qS-JY
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:23:54 -0400
-Received: by mail-pl1-x641.google.com with SMTP id m9so41870464pls.8
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 11:23:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1fcVkXbnMuANrk+Ur0WezzXveYqWqDlQYB2JE2gMdvY=;
- b=Sfk5+alwu1VCU0qrulKu6QmaIsYdKxIU7Gg69SUf6UnahW78yEvPIcfLCY4kSDNXMq
- f4WymZm+Doh+AICi8mIVzgHEDU0rk9qd7RKt04rG8f+IhrZsp8Bf49iJNYEBZ3PN1lu8
- WMZp7duBLer60rzUM5QJpc44UkEmKYH3GCppCxHQYJJFjopiEku84fRjo83FdwueRLYl
- IMxR4+iqzD0yqZSMsGwkNYKbg2rwyP6LSkwZRHkL3azdqJ0J5NePyNBVYiojjJM5pB2i
- Pk7TEOzV5+PlvYyiEd4k+Q2XlHH+0AqyvWllLRUz9wgva39L6j9er0haVzJ57gmopyCP
- puQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1fcVkXbnMuANrk+Ur0WezzXveYqWqDlQYB2JE2gMdvY=;
- b=KSqvqIx8v+X5N/Qrc8ANRe7gh2QcdP0WSkvycKpV1hiqS41mQngsZVcfVERnF5kZCb
- 15DuRYbZEAEdt0tuAY37NriaIUuNSwYxatCbq8KnTXQJuCX5jKmic4I3TkVef81L7yai
- YYC/Lq7SNXB6mUsasKkyKbWd/vSWUBIa49/TxgC9BHgzwTd9ytJqFIrSuphvs1hmsHtC
- kCCZ0hwKC6J6QMAh8SZvkDR4NhUwRNLbu8U97kHKZppCzzSpWzpU14HlelFm500FToAk
- wDylmkh8vNaKZjWAKA0RTAyOhZRmF57RolimFrhPM8Ny3GdGxG136+6isQoJBEVPONTC
- VyRQ==
-X-Gm-Message-State: APjAAAWv8i9ipFNdQVVpvFZv/ng7XEJ8hEbpMLoL09sWlzu7IuTTxbvx
- +l9X3Gq9G7cRQvmsZ16tGoMdGA==
-X-Google-Smtp-Source: APXvYqxDnUiT2rafpEFrD9HngKcg+IeotfqUm0tJV4yP2eo54JFJv3aC6EECEHSGCSIObNhiKzxfzA==
-X-Received: by 2002:a17:90a:a404:: with SMTP id
- y4mr1264188pjp.58.1565202233346; 
- Wed, 07 Aug 2019 11:23:53 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id h14sm121761477pfq.22.2019.08.07.11.23.50
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Aug 2019 11:23:52 -0700 (PDT)
-To: Paolo Bonzini <pbonzini@redhat.com>, tony.nguyen@bt.com,
- qemu-devel@nongnu.org
-References: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>
- <1565166794966.57397@bt.com>
- <27c692bf-45af-afbe-27ba-1e8f7f936121@linaro.org>
- <528a22e6-25a6-30c2-44e2-82df90bfa2da@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1hvQdU-0000tK-LE
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:26:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46326)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hvQdS-0000ik-04; Wed, 07 Aug 2019 14:26:06 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id CF6413082149;
+ Wed,  7 Aug 2019 18:26:04 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-24.brq.redhat.com
+ [10.40.204.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B76DF608A7;
+ Wed,  7 Aug 2019 18:25:56 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20190807080750.15950-1-vsementsov@virtuozzo.com>
+ <20190807080750.15950-7-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <92720e5e-5bb9-a4be-a652-39e710071db1@linaro.org>
-Date: Wed, 7 Aug 2019 11:23:49 -0700
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <3ca4a9e1-3889-dfba-71b9-22c828e59661@redhat.com>
+Date: Wed, 7 Aug 2019 20:25:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <528a22e6-25a6-30c2-44e2-82df90bfa2da@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: Re: [Qemu-devel] [PATCH v6 20/26] memory: Access MemoryRegion with
- endianness
+In-Reply-To: <20190807080750.15950-7-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="EHAahlV88l9mWLhR1uIRDvz7Lile3gNvh"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Wed, 07 Aug 2019 18:26:04 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 6/8] block/backup: teach
+ backup_cow_with_bounce_buffer to copy more at once
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,83 +87,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
- dmitry.fleytman@gmail.com, imammedo@redhat.com, sagark@eecs.berkeley.edu,
- david@redhat.com, jasowang@redhat.com, palmer@sifive.com,
- mark.cave-ayland@ilande.co.uk, laurent@vivier.eu, keith.busch@intel.com,
- jcmvbkbc@gmail.com, frederic.konrad@adacore.com, kraxel@redhat.com,
- edgar.iglesias@gmail.com, gxt@mprc.pku.edu.cn, pburton@wavecomp.com,
- marex@denx.de, robh@kernel.org, hare@suse.com, sstabellini@kernel.org,
- berto@igalia.com, proljc@gmail.com, qemu-block@nongnu.org,
- arikalo@wavecomp.com, jslaby@suse.cz, deller@gmx.de, mst@redhat.com,
- magnus.damm@gmail.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- mreitz@redhat.com, hpoussin@reactos.org, joel@jms.id.au,
- anthony.perard@citrix.com, xen-devel@lists.xenproject.org, rth@twiddle.net,
- philmd@redhat.com, green@moxielogic.com, atar4qemu@gmail.com,
- antonynpavlov@gmail.com, jiri@resnulli.us, ehabkost@redhat.com,
- minyard@acm.org, sw@weilnetz.de, alistair@alistair23.me, chouteau@adacore.com,
- b.galvani@gmail.com, eric.auger@redhat.com, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, peter.chubb@nicta.com.au, yuval.shaia@oracle.com,
- stefanha@redhat.com, marcandre.lureau@redhat.com, shorne@gmail.com,
- sundeep.lkml@gmail.com, jsnow@redhat.com, david@gibson.dropbear.id.au,
- kwolf@redhat.com, crwulff@gmail.com, qemu-riscv@nongnu.org,
- xiaoguangrong.eric@gmail.com, i.mitsyanko@gmail.com, lersek@redhat.com,
- cohuck@redhat.com, alex.williamson@redhat.com, Andrew.Baumann@microsoft.com,
- jcd@tribudubois.net, andrew@aj.id.au, michael@walle.cc,
- paul.durrant@citrix.com, qemu-ppc@nongnu.org, huth@tuxfamily.org,
- amarkovic@wavecomp.com, kbastian@mail.uni-paderborn.de, jan.kiszka@web.de,
- stefanb@linux.ibm.com, andrew.smirnov@gmail.com, aurelien@aurel32.net,
- clg@kaod.org
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/7/19 11:00 AM, Paolo Bonzini wrote:
-> On 07/08/19 19:49, Richard Henderson wrote:
->> On 8/7/19 1:33 AM, tony.nguyen@bt.com wrote:
->>> @@ -551,6 +551,7 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy, hwaddr addr,
->>>          /* As length is under guest control, handle illegal values. */
->>>          return;
->>>      }
->>> +    /* FIXME: memory_region_dispatch_write ignores MO_BSWAP.  */
->>>      memory_region_dispatch_write(mr, addr, val, size_memop(len),
->>>                                   MEMTXATTRS_UNSPECIFIED);
->>>  }
->>
->> Here is an example of where Paolo is quite right -- you cannot simply add MO_TE
->> via size_memop().  In patch 22 we see
->>
->>> @@ -542,16 +542,15 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy, hwaddr addr,
->>>          val = pci_get_byte(buf);
->>>          break;
->>>      case 2:
->>> -        val = cpu_to_le16(pci_get_word(buf));
->>> +        val = pci_get_word(buf);
->>>          break;
->>>      case 4:
->>> -        val = cpu_to_le32(pci_get_long(buf));
->>> +        val = pci_get_long(buf);
->>>          break;
->>>      default:
->>>          /* As length is under guest control, handle illegal values. */
->>>          return;
->>>      }
->>> -    /* FIXME: memory_region_dispatch_write ignores MO_BSWAP.  */
->>>      memory_region_dispatch_write(mr, addr, val, size_memop(len),
->>>                                   MEMTXATTRS_UNSPECIFIED);
->>
->> This is a little-endian store -- MO_LE not MO_TE.
-> 
-> Or leave the switch statement aside and request host endianness.  Either
-> is fine.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--EHAahlV88l9mWLhR1uIRDvz7Lile3gNvh
+Content-Type: multipart/mixed; boundary="15uiX06kbmhaXAjQjW4unooWfnWB3MNtA";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, fam@euphon.net,
+ stefanha@redhat.com, kwolf@redhat.com, jsnow@redhat.com, den@openvz.org
+Message-ID: <3ca4a9e1-3889-dfba-71b9-22c828e59661@redhat.com>
+Subject: Re: [PATCH 6/8] block/backup: teach backup_cow_with_bounce_buffer to
+ copy more at once
+References: <20190807080750.15950-1-vsementsov@virtuozzo.com>
+ <20190807080750.15950-7-vsementsov@virtuozzo.com>
+In-Reply-To: <20190807080750.15950-7-vsementsov@virtuozzo.com>
 
-The goal is to minimize the number of places and the number of times that
-bswaps happen.  That's why I think pushing the cpu_to_le16 into
-memory_region_dispatch_write is a good thing.
+--15uiX06kbmhaXAjQjW4unooWfnWB3MNtA
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-However, leaving a host-endian might be the easiest short-term solution for the
-more complicated cases.  It also seems like a way to split the patch further if
-we think that's desirable.
+On 07.08.19 10:07, Vladimir Sementsov-Ogievskiy wrote:
+> backup_cow_with_offload can transfer more than on cluster. Let
+> backup_cow_with_bounce_buffer behave similarly. It reduces number
+> of IO and there are no needs to copy cluster by cluster.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/backup.c | 30 +++++++++++++++---------------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/block/backup.c b/block/backup.c
+> index eb41e4af4f..c765c073ad 100644
+> --- a/block/backup.c
+> +++ b/block/backup.c
+> @@ -104,22 +104,24 @@ static int coroutine_fn backup_cow_with_bounce_bu=
+ffer(BackupBlockJob *job,
+>                                                        int64_t start,
+>                                                        int64_t end,
+>                                                        bool is_write_no=
+tifier,
+> -                                                      bool *error_is_r=
+ead,
+> -                                                      void **bounce_bu=
+ffer)
+> +                                                      bool *error_is_r=
+ead)
+>  {
+>      int ret;
+>      BlockBackend *blk =3D job->common.blk;
+>      int nbytes;
+>      int read_flags =3D is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0=
+;
+> +    void *bounce_buffer =3D blk_try_blockalign(blk, end);
+
+s/end/end - start/ (or probably rather s/end/nbytes/ after that has been
+set).
+
+Rest looks good.
+
+Max
+
+> =20
+> -    assert(QEMU_IS_ALIGNED(start, job->cluster_size));
+> -    bdrv_reset_dirty_bitmap(job->copy_bitmap, start, job->cluster_size=
+);
+> -    nbytes =3D MIN(job->cluster_size, job->len - start);
+> -    if (!*bounce_buffer) {
+> -        *bounce_buffer =3D blk_blockalign(blk, job->cluster_size);
+> +    if (!bounce_buffer) {
+> +        return -ENOMEM;
+>      }
 
 
-r~
+--15uiX06kbmhaXAjQjW4unooWfnWB3MNtA--
+
+--EHAahlV88l9mWLhR1uIRDvz7Lile3gNvh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1LF7MACgkQ9AfbAGHV
+z0BQGAgAnb67vLMrRP5iKY1vjHvLGtDRc/l367GQMFwJtvJCYQsJOpdduATBEX9m
+wk9KkDvkMz26HYmOBVHO8xVd4Ji82BnjDxeqlY6b7D/F8MElTWD0PTc2VGAHM8mU
+dq6z9C8Endqu3OrL1G4gb9GnMCWtXp4HFtlpt6V2P4dKwYH4TR9v+x7tJYZ26i3H
+g6ftNwcwygTEx3O92F6M17rgcjLeYKSHM0dS7sfdQG3DPzaA53VxA+5VlqoXpLuY
+dYTLVy7hqHbetu1hHfpgigJEVvByrH87CfyhAiDAgT9Lf7wZsdj2WmZvtn1Cjobt
+MY90LkPHHFLtHz2Q1yEkDgA60ZeUdA==
+=Sg1t
+-----END PGP SIGNATURE-----
+
+--EHAahlV88l9mWLhR1uIRDvz7Lile3gNvh--
 
