@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103EB849E3
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 12:42:57 +0200 (CEST)
-Received: from localhost ([::1]:39632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF09849D1
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 12:39:34 +0200 (CEST)
+Received: from localhost ([::1]:39608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvJPE-0008FY-9a
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 06:42:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46320)
+	id 1hvJLy-0005xv-2l
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 06:39:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45676)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hvJNi-0007V2-Kx
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:41:25 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hvJKW-00045f-6n
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:38:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hvJNh-0003N3-9L
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:41:22 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54706)
+ (envelope-from <peter.maydell@linaro.org>) id 1hvJKU-0001dl-Rh
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:38:04 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:36680)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hvJNh-0003Mr-3j
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:41:21 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hvJNf-0003K7-Sg
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 10:41:19 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CD2952E80D1
- for <qemu-devel@nongnu.org>; Wed,  7 Aug 2019 10:41:19 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hvJKU-0001cg-Mm
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:38:02 -0400
+Received: by mail-ot1-x343.google.com with SMTP id r6so102297181oti.3
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 03:38:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cCgd+I9d8IpQehwZ7OvjxnxlzdVf6lG4aTOJWZX8fHI=;
+ b=ek65IJ6nU8lmHoMFxQsyW/BlyBr01XeDIqg0JJKXhdFXiplOR898QgCC88xPCZtFoR
+ BEr6MrUyEzJ1Ha8M3cyi7lCsKnJAjrIQ9I/5GIgOStuQF+aCVlVSY43CBNwzz5kXxv7R
+ LGQ/1UHuidItRoquEdm5lNYFy8My3R36Ugn5QR/N3fyjj8DAWl96veRg5icCHBR0RpNX
+ +3d+ijoUnt8Zfdp99crqRgoMkDOverDCTHuxKYTUPPwQDJCrbFh2koZI7BoR1L1r7KF9
+ wn5xu7Vkrrg8dZ3DDjbTIwNleXBS9YLm8OdG5mxH355bvWOsh5uOkYhT3fj9rTHTgzlq
+ NDvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cCgd+I9d8IpQehwZ7OvjxnxlzdVf6lG4aTOJWZX8fHI=;
+ b=tC5DRNpUOVXHFGoGAtnnAQhhS10EDPGOMRm/sADUnj1bgPu5q2XXaScwcO0tC9cYss
+ d7UPu5AyJxo97E8neXn170i3Tkuv8cgyI82Fm2ggHb5yZMPFwmyZj5K5KM8czqUJK7TO
+ S1azKhPbY54zydf6ctJeu8kR4A92B3ZqtukkKspfJNWK9doXHXhUNLloj8++f0srhr2V
+ S/HOrkhMdYSwOVbyMrDhCg5XuMQsCgxKWbxQK0vuUSRvnUydP1n1G3nCa7bPwmKTqqA1
+ lC47Fr8A45ItZR8v7nD3NKMHXPJV8wOy2hlHYwXZDlFYCtrPL0ScocQAqoJafhRWnpBS
+ xtew==
+X-Gm-Message-State: APjAAAU+SBtxhCnzIrwbGGDiMGqMtcUDKcAdmroykcNeX+Kcfi796bvA
+ A0xEhB+NiZ3/kyWCm1M7njQhVq8KMaZjp+WmbnJhUg==
+X-Google-Smtp-Source: APXvYqxXDY1z84LcAzQQ9VeceLdQPEMWB0NR8McbRZUDMVokivQeCA48zGrslwEvFmuXbmA63GrKgQcFlcBhips7RP4=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr6619569otj.97.1565174281829; 
+ Wed, 07 Aug 2019 03:38:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Aug 2019 10:35:10 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1838569@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bjoern-teipel dgilbert-h
-X-Launchpad-Bug-Reporter: Bjoern Teipel (bjoern-teipel)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <156460681322.6584.3709701644111615718.malonedeb@soybean.canonical.com>
-Message-Id: <156517411102.26464.1302440989654328620.launchpad@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19015";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 2fc334a98f823a2af4b3193604d813f6dc8527d6
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1838569] Re: virtio-balloon change breaks post
- 4.0 upgrade
+References: <20190729145654.14644-1-damien.hedde@greensocs.com>
+ <20190729145654.14644-9-damien.hedde@greensocs.com>
+ <20190731061108.GF2032@umbus.fritz.box>
+In-Reply-To: <20190731061108.GF2032@umbus.fritz.box>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 7 Aug 2019 11:37:51 +0100
+Message-ID: <CAFEAcA-dSBpAVfjn7VnCRgnZabBP226ZVuSJYW1bwzEr5mNktw@mail.gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v3 08/33] Add function to control reset
+ with gpio inputs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,88 +74,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838569 <1838569@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Collin Walling <walling@linux.ibm.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Edgar Iglesias <edgar.iglesias@xilinx.com>, Hannes Reinecke <hare@suse.com>,
+ Qemu-block <qemu-block@nongnu.org>, David Hildenbrand <david@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-s390x <qemu-s390x@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Damien Hedde <damien.hedde@greensocs.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Mark Burton <mark.burton@greensocs.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Also affects: qemu (Ubuntu)
-   Importance: Undecided
-       Status: New
+On Wed, 31 Jul 2019 at 07:33, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> On Mon, Jul 29, 2019 at 04:56:29PM +0200, Damien Hedde wrote:
+> > It adds the possibility to add 2 gpios to control the warm and cold reset.
+> > With theses ios, the reset can be maintained during some time.
+> > Each io is associated with a state to detect level changes.
+> >
+> > Vmstate subsections are also added to the existsing device_reset
+> > subsection.
+>
+> This doesn't seem like a thing that should be present on every single
+> DeviceState.
 
--- =
+It's a facility that's going to be useful to multiple different
+subclasses of DeviceState, so it seems to me cleaner to
+have base class support for the common feature rather than
+to reimplement it entirely from scratch in every subclass
+that wants it.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838569
+(The patch as written breaks migration compatibility -- the
+new fields need to go in their own vmstate subsection
+with a suitable 'needed' function -- but that can be fixed.)
 
-Title:
-  virtio-balloon change breaks post 4.0 upgrade
-
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  New
-
-Bug description:
-  We upgraded the libvirt UCA packages from 3.6 to 4.0 and qemu 2.10 to 2.1=
-1  as part of a queens upgrade and noticed that
-  virtio-ballon is broken when instances live migrate (started with a prior=
- 3.6 version)  with:
-
-  2019-07-24T06:46:49.487109Z qemu-system-x86_64: warning: Unknown firmware=
- file in legacy mode: etc/msr_feature_control
-  2019-07-24T06:47:22.187749Z qemu-system-x86_64: VQ 2 size 0x80 < last_ava=
-il_idx 0xb57 - used_idx 0xb59
-  2019-07-24T06:47:22.187768Z qemu-system-x86_64: Failed to load virtio-bal=
-loon:virtio
-  2019-07-24T06:47:22.187771Z qemu-system-x86_64: error while loading state=
- for instance 0x0 of device '0000:00:05.0/virtio-balloon'
-  2019-07-24T06:47:22.188194Z qemu-system-x86_64: load of migration failed:=
- Operation not permitted
-  2019-07-24 06:47:22.430+0000: shutting down, reason=3Dfailed
-
-  This seem to be the exact problem as reported by
-  https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg02228.html
-
-  Listed the packages which changed:
-
-  Start-Date: 2019-07-06  06:40:55
-  Commandline: /usr/bin/apt-get -y -o Dpkg::Options::=3D--force-confdef -o =
-Dpkg::Options::=3D--force-confold install libvirt-bin python-libvirt qemu q=
-emu-utils qemu-system qemu-system-arm qemu-system-mips qemu-system-ppc qemu=
--system-sparc qemu-system-x86 qemu-system-misc qemu-block-extra qemu-utils =
-qemu-user qemu-kvm
-  Install: librdmacm1:amd64 (17.1-1ubuntu0.1~cloud0, automatic), libvirt-da=
-emon-driver-storage-rbd:amd64 (4.0.0-1ubuntu8.10~cloud0, automatic), ipxe-q=
-emu-256k-compat-efi-roms:amd64 (1.0.0+git-20150424.a25a16d-0ubuntu2~cloud0,=
- automatic)
-  Upgrade: qemu-system-mips:amd64 (1:2.10+dfsg-0ubuntu3.8~cloud1, 1:2.11+df=
-sg-1ubuntu7.13~cloud0), qemu-system-misc:amd64 (1:2.10+dfsg-0ubuntu3.8~clou=
-d1, 1:2.11+dfsg-1ubuntu7.13~cloud0), qemu-system-ppc:amd64 (1:2.10+dfsg-0ub=
-untu3.8~cloud1, 1:2.11+dfsg-1ubuntu7.13~cloud0), python-libvirt:amd64 (3.5.=
-0-1build1~cloud0, 4.0.0-1~cloud0), qemu-system-x86:amd64 (1:2.10+dfsg-0ubun=
-tu3.8~cloud1, 1:2.11+dfsg-1ubuntu7.13~cloud0), libvirt-clients:amd64 (3.6.0=
--1ubuntu6.8~cloud0, 4.0.0-1ubuntu8.10~cloud0), qemu-user:amd64 (1:2.10+dfsg=
--0ubuntu3.8~cloud1, 1:2.11+dfsg-1ubuntu7.13~cloud0), libvirt-bin:amd64 (3.6=
-.0-1ubuntu6.8~cloud0, 4.0.0-1ubuntu8.10~cloud0), qemu:amd64 (1:2.10+dfsg-0u=
-buntu3.8~cloud1, 1:2.11+dfsg-1ubuntu7.13~cloud0), qemu-utils:amd64 (1:2.10+=
-dfsg-0ubuntu3.8~cloud1, 1:2.11+dfsg-1ubuntu7.13~cloud0), libvirt-daemon-sys=
-tem:amd64 (3.6.0-1ubuntu6.8~cloud0, 4.0.0-1ubuntu8.10~cloud0), qemu-system-=
-sparc:amd64 (1:2.10+dfsg-0ubuntu3.8~cloud1, 1:2.11+dfsg-1ubuntu7.13~cloud0)=
-, qemu-user-binfmt:amd64 (1:2.10+dfsg-0ubuntu3.8~cloud1, 1:2.11+dfsg-1ubunt=
-u7.13~cloud0), qemu-kvm:amd64 (1:2.10+dfsg-0ubuntu3.8~cloud1, 1:2.11+dfsg-1=
-ubuntu7.13~cloud0), libvirt0:amd64 (3.6.0-1ubuntu6.8~cloud0, 4.0.0-1ubuntu8=
-.10~cloud0), qemu-system-arm:amd64 (1:2.10+dfsg-0ubuntu3.8~cloud1, 1:2.11+d=
-fsg-1ubuntu7.13~cloud0), qemu-block-extra:amd64 (1:2.10+dfsg-0ubuntu3.8~clo=
-ud1, 1:2.11+dfsg-1ubuntu7.13~cloud0), qemu-system-common:amd64 (1:2.10+dfsg=
--0ubuntu3.8~cloud1, 1:2.11+dfsg-1ubuntu7.13~cloud0), qemu-system:amd64 (1:2=
-.10+dfsg-0ubuntu3.8~cloud1, 1:2.11+dfsg-1ubuntu7.13~cloud0), libvirt-daemon=
-:amd64 (3.6.0-1ubuntu6.8~cloud0, 4.0.0-1ubuntu8.10~cloud0)
-  End-Date: 2019-07-06  06:41:08
-
-  At this point the instances would have to be hard rebooted or
-  stopped/started to fix the issue for future live migration attemps
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838569/+subscriptions
+thanks
+-- PMM
 
