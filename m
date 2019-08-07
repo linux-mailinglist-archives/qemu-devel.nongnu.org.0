@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205A284386
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 06:58:19 +0200 (CEST)
-Received: from localhost ([::1]:37276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AC9E84383
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 06:56:45 +0200 (CEST)
+Received: from localhost ([::1]:37240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvE1i-000205-Bq
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 00:58:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40737)
+	id 1hvE0C-0006j4-Cv
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 00:56:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40768)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hvDxU-0001Ol-5P
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:57 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hvDxV-0001Ry-7v
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hvDxS-0004t7-Tp
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:56 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:35430)
+ (envelope-from <richard.henderson@linaro.org>) id 1hvDxU-0004u1-53
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:57 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:42006)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hvDxS-0004ss-OV
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:54 -0400
-Received: by mail-pg1-x542.google.com with SMTP id n4so1063480pgv.2
- for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 21:53:54 -0700 (PDT)
+ id 1hvDxT-0004tP-Uc
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:56 -0400
+Received: by mail-pf1-x442.google.com with SMTP id q10so42748180pff.9
+ for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 21:53:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=wDovHb8+ljpi4sI8lS1gqNoa7uBRHGNbFn35mP5+duU=;
- b=OqT2BEgIEQuSd8ShFb3RaeD82r3Bh/yyMtSbdIegm7GtN/0mckol0Dk8e4CEQ9atBS
- 9r584wbilgkg7XYqXAxTZ/Uxjvr74kX+H+fcN5OLDoQrHPej+ca94YDPcy9ho4UFNHuq
- ZdnJQSASU/HJCbEY0RmnonneN3CaLWvi4c5YJMIdM3skY9kjrWlhOkzPq0h4FNTPtpF+
- NDGqmRGJC7P2Dbijt1aF5MRIQ7tXbvmWZVm5abW+IuVdH2qccZW43718n7Zu5MWaNhyt
- FDDbnnBNlT3Asfqqscp+nh/92mCtHE19TCW8vUIY4ssvYsDsTzK22aIE+Zk6/NvcrpXA
- fBLQ==
+ bh=UlqJA+9OtOIxQsXhtvfeB1bXxV7N+Aorv6VBupensFc=;
+ b=QAEn9u0Ym0ad5dh9yIMsWRcOVWzhx0B4Z1kznE3zTtN3t5ogG33OKegtSs1Rnb+wi0
+ rTUaWmKP/mDnNkhhYqDO4kJsoaeuj4MIyu9fnVRIgZW9Lguw+R6LBwd0z8DEtcxTHjJD
+ exxXpMx9mo6RtOITA2yqLj+6AEXwHa5iHl97IwlfSPfAtgLO1GwWGP+ghtHdhWtj4OHw
+ z8fogGbqZpskzAObq8DFtQdxQV8JjfGX1I9OLXi5jESbTPFwuzRJw9nwdAukzmpLkHlS
+ rJSBIWnSI8UDIoguqba/3nZdnoWmrpdG4xq6+F50m9O4kUAJceX9b0Wk8Y92aHRq/3G/
+ MGPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=wDovHb8+ljpi4sI8lS1gqNoa7uBRHGNbFn35mP5+duU=;
- b=FypQEuLpaaC74GX2Y3RjfuMPciLQ7KD6xF6ci6I4QtB+z8/b57lQyWd230LtiDoyFf
- L+l4ZX82zLs+8HE1BNjysZJ/eskHhdMdq/1YTECuNNfWSja/7wEI3+dc9Z3vDTr9TfR8
- yz6sqHg2BCfV6oNUUZr0oLdKjgHuBDNVLJ/7IubhLZQFvASjIRwBLd+A5/bVrzD+Xa+Y
- H/qWUrjjWj+7aIRLkJLAuTZH7dPg1OTVakvVGIWA0ZKKuTMecdyeMGgNQRfc6skCo/od
- XZ+rLURGl7GRczE3vJmLFL17a1FEtv5VxTM2OjeP+6ZNf6zvkQ+N86JKxIFWbafwKCc9
- X0+w==
-X-Gm-Message-State: APjAAAUDoc9c4fn+4coI2xjPyVgXELjxBZPBwHtW5s7MESGLLl2nCFxR
- jsqCSI4RnM7DwSW1NP7ke1iqu/9ZGh0=
-X-Google-Smtp-Source: APXvYqwF4b+4wAIQm78Yxq8+GdyAEojxYNT4zArU45A676At5fa82rQ9GY2S0xP5zRaYOJvVuyikrg==
-X-Received: by 2002:a17:90a:2385:: with SMTP id
- g5mr6788791pje.12.1565153633487; 
- Tue, 06 Aug 2019 21:53:53 -0700 (PDT)
+ bh=UlqJA+9OtOIxQsXhtvfeB1bXxV7N+Aorv6VBupensFc=;
+ b=Ps/N7xDo732IzS5wmZVgK1SMx1lL8oXYXK5ENTATDqrHKN0aPcGSY33JdGO3D5IU4X
+ fTokzb3SCXNt4JJQYAns5u+6DLhFzIzZxkfVvAx9FH20ZUf73kRwug793sxT3BwDI7+v
+ bKIBAKcrUgOEikUfzVOIe09dJKbMU0ZvXsr2AXjIo6LQXhyoNeGjyWE0QMIUfZBiTvhp
+ NfowGz2vky9Q87r6umdWDDckQZKAUMhQ0vLkW+5t4QisGYKL7hL3qenWB/S+ob9KOKGh
+ 4OJ/9zi4P21bxF+gyhfNuctHRBnsNYUvqS10NExbujX90nYtaYuurrCTS6BbF1KFhSzw
+ h0Tw==
+X-Gm-Message-State: APjAAAUYLFM11ob4XujRHeKxI3rWhP2F2w0QAF1oJSLGLeTMJE34/fbD
+ QREI8kVYSakFK9DYNH8zQzRJC/Lct+c=
+X-Google-Smtp-Source: APXvYqw9y/8Grgf3T3eqt2OFzDL/MgUU3XD75Y5we4DlEW+3ogWEgfnXYbIK7GZTEhtTkVGQTS6/LA==
+X-Received: by 2002:a62:1d11:: with SMTP id d17mr7453663pfd.249.1565153634726; 
+ Tue, 06 Aug 2019 21:53:54 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id t9sm24347921pji.18.2019.08.06.21.53.52
+ by smtp.gmail.com with ESMTPSA id t9sm24347921pji.18.2019.08.06.21.53.53
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 06 Aug 2019 21:53:52 -0700 (PDT)
+ Tue, 06 Aug 2019 21:53:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  6 Aug 2019 21:53:32 -0700
-Message-Id: <20190807045335.1361-9-richard.henderson@linaro.org>
+Date: Tue,  6 Aug 2019 21:53:33 -0700
+Message-Id: <20190807045335.1361-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190807045335.1361-1-richard.henderson@linaro.org>
 References: <20190807045335.1361-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH 08/11] target/arm: Replace offset with pc in
- gen_exception_internal_insn
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH 09/11] target/arm: Remove offset argument to
+ gen_exception_bkpt_insn
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,84 +80,80 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The offset is variable depending on the instruction set.
-Passing in the actual value is clearer in intent.
+Unlike the other more generic gen_exception{,_internal}_insn
+interfaces, breakpoints always refer to the current instruction.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c | 8 ++++----
+ target/arm/translate-a64.c | 7 +++----
  target/arm/translate.c     | 8 ++++----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 92aa6db12e..c8504d221a 100644
+index c8504d221a..d68bfc66d3 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -266,9 +266,9 @@ static void gen_exception(int excp, uint32_t syndrome, uint32_t target_el)
-     tcg_temp_free_i32(tcg_excp);
- }
- 
--static void gen_exception_internal_insn(DisasContext *s, int offset, int excp)
-+static void gen_exception_internal_insn(DisasContext *s, uint64_t pc, int excp)
- {
--    gen_a64_set_pc_im(s->base.pc_next - offset);
-+    gen_a64_set_pc_im(pc);
-     gen_exception_internal(excp);
+@@ -281,12 +281,11 @@ static void gen_exception_insn(DisasContext *s, uint64_t pc, int excp,
      s->base.is_jmp = DISAS_NORETURN;
  }
-@@ -1938,7 +1938,7 @@ static void disas_exc(DisasContext *s, uint32_t insn)
-                 break;
-             }
- #endif
--            gen_exception_internal_insn(s, 0, EXCP_SEMIHOST);
-+            gen_exception_internal_insn(s, s->base.pc_next, EXCP_SEMIHOST);
-         } else {
-             unsupported_encoding(s, insn);
+ 
+-static void gen_exception_bkpt_insn(DisasContext *s, int offset,
+-                                    uint32_t syndrome)
++static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syndrome)
+ {
+     TCGv_i32 tcg_syn;
+ 
+-    gen_a64_set_pc_im(s->base.pc_next - offset);
++    gen_a64_set_pc_im(s->pc_curr);
+     tcg_syn = tcg_const_i32(syndrome);
+     gen_helper_exception_bkpt_insn(cpu_env, tcg_syn);
+     tcg_temp_free_i32(tcg_syn);
+@@ -1914,7 +1913,7 @@ static void disas_exc(DisasContext *s, uint32_t insn)
+             break;
          }
-@@ -14234,7 +14234,7 @@ static bool aarch64_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
-         /* End the TB early; it likely won't be executed */
-         dc->base.is_jmp = DISAS_TOO_MANY;
-     } else {
--        gen_exception_internal_insn(dc, 0, EXCP_DEBUG);
-+        gen_exception_internal_insn(dc, dc->base.pc_next, EXCP_DEBUG);
-         /* The address covered by the breakpoint must be
-            included in [tb->pc, tb->pc + tb->size) in order
-            to for it to be properly cleared -- thus we
+         /* BRK */
+-        gen_exception_bkpt_insn(s, 4, syn_aa64_bkpt(imm16));
++        gen_exception_bkpt_insn(s, syn_aa64_bkpt(imm16));
+         break;
+     case 2:
+         if (op2_ll != 0) {
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 7a05ecae87..e6b18ecdaf 100644
+index e6b18ecdaf..d6b0ab7247 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1256,10 +1256,10 @@ static inline void gen_smc(DisasContext *s)
-     s->base.is_jmp = DISAS_SMC;
- }
- 
--static void gen_exception_internal_insn(DisasContext *s, int offset, int excp)
-+static void gen_exception_internal_insn(DisasContext *s, uint32_t pc, int excp)
- {
-     gen_set_condexec(s);
--    gen_set_pc_im(s, s->base.pc_next - offset);
-+    gen_set_pc_im(s, pc);
-     gen_exception_internal(excp);
+@@ -1273,12 +1273,12 @@ static void gen_exception_insn(DisasContext *s, uint32_t pc, int excp,
      s->base.is_jmp = DISAS_NORETURN;
  }
-@@ -1311,7 +1311,7 @@ static inline void gen_hlt(DisasContext *s, int imm)
-         s->current_el != 0 &&
- #endif
-         (imm == (s->thumb ? 0x3c : 0xf000))) {
--        gen_exception_internal_insn(s, 0, EXCP_SEMIHOST);
-+        gen_exception_internal_insn(s, s->base.pc_next, EXCP_SEMIHOST);
-         return;
-     }
  
-@@ -11953,7 +11953,7 @@ static bool arm_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
-         /* End the TB early; it's likely not going to be executed */
-         dc->base.is_jmp = DISAS_TOO_MANY;
-     } else {
--        gen_exception_internal_insn(dc, 0, EXCP_DEBUG);
-+        gen_exception_internal_insn(dc, dc->base.pc_next, EXCP_DEBUG);
-         /* The address covered by the breakpoint must be
-            included in [tb->pc, tb->pc + tb->size) in order
-            to for it to be properly cleared -- thus we
+-static void gen_exception_bkpt_insn(DisasContext *s, int offset, uint32_t syn)
++static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syn)
+ {
+     TCGv_i32 tcg_syn;
+ 
+     gen_set_condexec(s);
+-    gen_set_pc_im(s, s->base.pc_next - offset);
++    gen_set_pc_im(s, s->pc_curr);
+     tcg_syn = tcg_const_i32(syn);
+     gen_helper_exception_bkpt_insn(cpu_env, tcg_syn);
+     tcg_temp_free_i32(tcg_syn);
+@@ -8155,7 +8155,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+             case 1:
+                 /* bkpt */
+                 ARCH(5);
+-                gen_exception_bkpt_insn(s, 4, syn_aa32_bkpt(imm16, false));
++                gen_exception_bkpt_insn(s, syn_aa32_bkpt(imm16, false));
+                 break;
+             case 2:
+                 /* Hypervisor call (v7) */
+@@ -11581,7 +11581,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+         {
+             int imm8 = extract32(insn, 0, 8);
+             ARCH(5);
+-            gen_exception_bkpt_insn(s, 2, syn_aa32_bkpt(imm8, true));
++            gen_exception_bkpt_insn(s, syn_aa32_bkpt(imm8, true));
+             break;
+         }
+ 
 -- 
 2.17.1
 
