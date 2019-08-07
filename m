@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E3284766
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 10:30:50 +0200 (CEST)
-Received: from localhost ([::1]:38364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 099838476F
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 10:32:47 +0200 (CEST)
+Received: from localhost ([::1]:38456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvHLN-0004Ji-Jy
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 04:30:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43869)
+	id 1hvHNG-0000l0-5J
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 04:32:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44004)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tony.nguyen@bt.com>) id 1hvHJG-00027T-Qf
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:28:40 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hvHJk-0002YE-Ut
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:29:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hvHJE-0000ON-Q2
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:28:38 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.72]:47040)
+ (envelope-from <tony.nguyen@bt.com>) id 1hvHJi-0000eZ-63
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:29:08 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.74]:54526)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hvHIw-0000FU-Gd; Wed, 07 Aug 2019 04:28:18 -0400
-Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
- BWP09926077.bt.com (10.36.82.108) with Microsoft SMTP Server (version=TLS1_2, 
+ id 1hvHJL-0000Q3-8m; Wed, 07 Aug 2019 04:28:43 -0400
+Received: from tpw09926dag18f.domain1.systemhost.net (10.9.212.26) by
+ BWP09926079.bt.com (10.36.82.110) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Wed, 7 Aug
- 2019 09:27:55 +0100
+ 2019 09:28:33 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Wed, 7 Aug 2019 09:28:16 +0100
+ tpw09926dag18f.domain1.systemhost.net (10.9.212.26) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Wed, 7 Aug 2019 09:28:40 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Wed, 7 Aug 2019
- 09:28:16 +0100
+ 09:28:40 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v6 07/26] hw/virtio: Access MemoryRegion
- with MemOp
-Thread-Index: AQHVTPoPeg6DwrIkBEWe8eU+OaDygw==
-Date: Wed, 7 Aug 2019 08:28:16 +0000
-Message-ID: <1565166496048.47265@bt.com>
+Thread-Topic: [Qemu-devel] [PATCH v6 08/26] hw/vfio: Access MemoryRegion with
+ MemOp
+Thread-Index: AQHVTPodpOirbSsH2ke9flAJiOEFxA==
+Date: Wed, 7 Aug 2019 08:28:40 +0000
+Message-ID: <1565166520130.61317@bt.com>
 References: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -48,11 +48,11 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.44]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.72
+X-Received-From: 213.121.35.74
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v6 07/26] hw/virtio: Access MemoryRegion with
+Subject: [Qemu-devel] [PATCH v6 08/26] hw/vfio: Access MemoryRegion with
  MemOp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,45 +109,44 @@ As size_memop is a no-op, this patch does not change any behaviour.
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/virtio/virtio-pci.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ hw/vfio/pci-quirks.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index f6d2223..25875c8 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -17,6 +17,7 @@
+diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+index b35a640..fb3cc33 100644
+--- a/hw/vfio/pci-quirks.c
++++ b/hw/vfio/pci-quirks.c
+@@ -11,6 +11,7 @@
+  */
 
  #include "qemu/osdep.h"
-
 +#include "exec/memop.h"
- #include "standard-headers/linux/virtio_pci.h"
- #include "hw/virtio/virtio.h"
- #include "hw/pci/pci.h"
-@@ -550,7 +551,8 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy, =
-hwaddr addr,
-         /* As length is under guest control, handle illegal values. */
-         return;
+ #include "qemu/units.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+@@ -1071,7 +1072,7 @@ static void vfio_rtl8168_quirk_address_write(void *op=
+aque, hwaddr addr,
+
+                 /* Write to the proper guest MSI-X table instead */
+                 memory_region_dispatch_write(&vdev->pdev.msix_table_mmio,
+-                                             offset, val, size,
++                                             offset, val, size_memop(size)=
+,
+                                              MEMTXATTRS_UNSPECIFIED);
+             }
+             return; /* Do not write guest MSI-X data to hardware */
+@@ -1102,7 +1103,8 @@ static uint64_t vfio_rtl8168_quirk_data_read(void *op=
+aque,
+     if (rtl->enabled && (vdev->pdev.cap_present & QEMU_PCI_CAP_MSIX)) {
+         hwaddr offset =3D rtl->addr & 0xfff;
+         memory_region_dispatch_read(&vdev->pdev.msix_table_mmio, offset,
+-                                    &data, size, MEMTXATTRS_UNSPECIFIED);
++                                    &data, size_memop(size),
++                                    MEMTXATTRS_UNSPECIFIED);
+         trace_vfio_quirk_rtl8168_msix_read(vdev->vbasedev.name, offset, da=
+ta);
      }
--    memory_region_dispatch_write(mr, addr, val, len, MEMTXATTRS_UNSPECIFIE=
-D);
-+    memory_region_dispatch_write(mr, addr, val, size_memop(len),
-+                                 MEMTXATTRS_UNSPECIFIED);
- }
 
- static void
-@@ -573,7 +575,8 @@ virtio_address_space_read(VirtIOPCIProxy *proxy, hwaddr=
- addr,
-     /* Make sure caller aligned buf properly */
-     assert(!(((uintptr_t)buf) & (len - 1)));
-
--    memory_region_dispatch_read(mr, addr, &val, len, MEMTXATTRS_UNSPECIFIE=
-D);
-+    memory_region_dispatch_read(mr, addr, &val, size_memop(len),
-+                                MEMTXATTRS_UNSPECIFIED);
-     switch (len) {
-     case 1:
-         pci_set_byte(buf, val);
 --
 1.8.3.1
 
