@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D917884C6F
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 15:08:33 +0200 (CEST)
-Received: from localhost ([::1]:41074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6068684C7F
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 15:10:59 +0200 (CEST)
+Received: from localhost ([::1]:41182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvLg9-0001qT-2d
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 09:08:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53390)
+	id 1hvLiU-0006BA-Ir
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 09:10:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54163)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hvLeA-0007fL-5X
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 09:06:31 -0400
+ (envelope-from <dalt74@gmail.com>) id 1hvLhX-00058e-BT
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 09:10:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hvLe8-0008Ud-RD
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 09:06:30 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:51990)
+ (envelope-from <dalt74@gmail.com>) id 1hvLhV-0002eT-Oa
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 09:09:59 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:44179)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hvLe8-0008UM-L7
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 09:06:28 -0400
-Received: by mail-wm1-f66.google.com with SMTP id 207so81773363wma.1
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 06:06:28 -0700 (PDT)
+ (Exim 4.71) (envelope-from <dalt74@gmail.com>) id 1hvLhV-0002dW-Ct
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 09:09:57 -0400
+Received: by mail-lj1-x243.google.com with SMTP id k18so85395399ljc.11
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 06:09:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=to:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding:content-language;
+ bh=+P7OjgSwDilwWjxEQ46/PWZVe6W4coBIKIK8cvqXiNE=;
+ b=WAp/pZ5WyBVYBbC54HBOoV7o0mO2nV0NwXNzYjLZdCBAPL6WI6LeuTxt/pZj9SdKvW
+ W7ufJWGmYEcduiyOVq0fBm6L8htWNhIbzQk8IXqYdZEBXEJXvyVt14m/7WTRIUMAL9xU
+ vCBS4cHS/AqQWN0uuX421YYgRmdoNyVHzYNA5yaqueYMD6GvLTwQ4dXRemjYlDYl6apP
+ QhrtLyR5bNpiTD1qu8a+YBEfyufqIPGInNwy8xpbkroFezami8ExEfFo35cf2qkgDgAY
+ fpf2i8NXI49d2YgYGMpq6Nwd2q0QeAMjGfPyHp2rLsSCGO0x3qyfgyRYZgnBu4PWFDei
+ NcOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1wDs2caTSZ3qZnHCDzAjpJeMd08mUWXzM7/MdJj2lCw=;
- b=Sd8jCVH75WylWuRNgf9QNKbOI81nxjNIEb9aYERRr4dgDlLOiDlukr92LgEAIk0DJc
- 0Gllzo5xyN2jhwTqDqh6khlVRFWcNmv+N6zBTGgZIovLZDT9TU1GIfwLSOB8lrF6tY2k
- AfpDjrfOu2BjBedlXgszFTemMMifh/SRXgi5oT1IuDqcMTSArSCXgX+w1X7IxpUfFpOB
- cHWu0ivpVB3oKc5f2Mq1pNY38ZAuJQEktm2/u0BcScAgQ4/v3C3tG7M3RLv5XbEj1u8a
- apWve5ZZV0dPAEb7YiPiMwsDZOHq9hvHCWu36hwsVlk3LcsjJVNCrNCzP+//IBmAjir2
- Ps8Q==
-X-Gm-Message-State: APjAAAWkbkh0E7qXQOv0pfaX9wq5ZvV0AsXvhQdDYEeK0W4Woi4C1xnW
- wVK+d/Mm/veMship0jrZUh63tURXKpM=
-X-Google-Smtp-Source: APXvYqzQUw7e2PXUlNhazjqMkgOx5JWvO0UVDPEmdblxS7D+6az7p4CiXOvbhN1sRTGzLYdKyExvpA==
-X-Received: by 2002:a1c:107:: with SMTP id 7mr10993116wmb.84.1565183187392;
- Wed, 07 Aug 2019 06:06:27 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:dc26:ed70:9e4c:3810?
- ([2001:b07:6468:f312:dc26:ed70:9e4c:3810])
- by smtp.gmail.com with ESMTPSA id c78sm128178392wmd.16.2019.08.07.06.06.26
+ h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+ :mime-version:content-transfer-encoding:content-language;
+ bh=+P7OjgSwDilwWjxEQ46/PWZVe6W4coBIKIK8cvqXiNE=;
+ b=DBAYkDbLh25k8oI4BPwj1suOqHuyKzSpvS0+tcAdFud8YGo0MtBdEgyYktXcZVbWwo
+ Rc6v2hEYCxMgVle3gfOYJNDVRgySq+J8xd7MLY5d9xa8M/gJMHTI4FzoKeKB/zofLe8x
+ hxMtZPHB3F4NC8o7ndqrBPAE6sGa2sfgo52ZvCfkna78H8QaeU//shMalxocrywHb6LO
+ yaLUzgGM3nRmvZQTL/YlO4AXFbw6C+dyQxvQY42q3VYEKAEQPZ1nb4UNqQ2uMEcwrZG1
+ 8jhcW7MamEqgiHIeWDgPpMp+14M0XhsW50FO8ZCR7acfQ+STekefhFI2q7FL8YOOMBYC
+ t22w==
+X-Gm-Message-State: APjAAAXpaJ7hDb/xJxx1q4pzfwhyqFMCODuoaNqQKL5VLHnHzVUH8q7t
+ 9DAnD7gAqw3jAbXGyaPd/O064U9D
+X-Google-Smtp-Source: APXvYqyd4jrKZm2hby6M1qDwQMYoYjNTy4XsiFHqDk7N1BhiZU3dAMtbWwC+8s+kVx+PMPFgBj7aPg==
+X-Received: by 2002:a2e:3008:: with SMTP id w8mr4938119ljw.13.1565183395506;
+ Wed, 07 Aug 2019 06:09:55 -0700 (PDT)
+Received: from ?IPv6:2a00:1148:b0ba:2116:1c73:a34:e53c:9718?
+ ([2a00:1148:b0ba:2116:1c73:a34:e53c:9718])
+ by smtp.gmail.com with ESMTPSA id c1sm16306495lfh.13.2019.08.07.06.09.54
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Aug 2019 06:06:26 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20190730123759.21723-1-pbonzini@redhat.com>
- <87r25xi1y7.fsf@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <3bcecd49-bf0e-8503-12d7-ac9dfeb444cb@redhat.com>
-Date: Wed, 7 Aug 2019 15:06:26 +0200
+ Wed, 07 Aug 2019 06:09:54 -0700 (PDT)
+To: qemu-devel@nongnu.org
+From: Artemy Kapitula <dalt74@gmail.com>
+Message-ID: <2c685097-1647-e2d3-8b8a-21f76551ce3c@gmail.com>
+Date: Wed, 7 Aug 2019 16:09:54 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <87r25xi1y7.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH 0/3] tests/tcg: disentangle makefiles
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::243
+Subject: [Qemu-devel] [PATCH v0] Implement new cache mode "target"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,108 +79,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/08/19 14:40, Alex Bennée wrote:
-> 
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
->> The tests/tcg rely a lot on per-target informations from
->> the QEMU makefiles, but most of the definitions in there
->> aren't really relevant to TCG tests.
->>
->> This series is just a cleanup, but it could also be
->> a useful start in making it possible to compile tests/tcg
->> out of QEMU's tree, and/or making it a submodule, and/or
->> unifying the system emulation tests with kvm-unit-tests.
-> 
-> Hmm something is throwing off configure and making it use my login shell
-> instead of /bin/sh:
-> 
->   libpmem support   no
->   libudev           yes
->   default devices   yes
->   ~/lsrc/qemu.git/tests/tcg/configure.sh (line 63): 'case' builtin not inside of switch block
->     case $arch in
->     ^
->   <W> fish: Error while reading file /home/alex/lsrc/qemu.git/tests/tcg/configure.sh
+There is an issue with databases in VM that perform too slow
+on generic SAN storages. The key point is fdatasync that flushes
+disk on SCSI target.
 
-It's the ${SHELL} you found in patch 3.  The disadvantage of relying on
-#! is that some people have bash in /usr/bin/bash rather than /bin/bash.
- But we already assume /bin/bash elsewhere so I can drop it.
+The QEMU blockdev "target" cache mode intended to be used with
+SAN storages and is a mix of "none" by using direct I/O and
+"unsafe" that omit device flush.
 
-Paolo
+Such storages has its own data integrity protection and can
+be operated with direct I/O without additional fdatasyc().
 
->>
->> Paolo
->>
->> Paolo Bonzini (3):
->>   tests/tcg: use EXTRA_CFLAGS everywhere
->>   tests/tcg: cleanup Makefile inclusions
->>   tests/tcg: move configuration to a sub-shell script
->>
->>  Makefile                                  |   1 +
->>  Makefile.target                           |   3 -
->>  configure                                 | 155 ++------------------
->>  tests/Makefile.include                    |  25 ++--
->>  tests/tcg/Makefile.include                |  88 ------------
->>  tests/tcg/Makefile.prereqs                |  18 +++
->>  tests/tcg/Makefile.probe                  |  31 ----
->>  tests/tcg/Makefile.qemu                   |  95 +++++++++++++
->>  tests/tcg/{Makefile => Makefile.target}   |  15 +-
->>  tests/tcg/aarch64/Makefile.include        |   8 --
->>  tests/tcg/aarch64/Makefile.softmmu-target |   4 +-
->>  tests/tcg/aarch64/Makefile.target         |  12 +-
->>  tests/tcg/alpha/Makefile.include          |   2 -
->>  tests/tcg/alpha/Makefile.softmmu-target   |   4 +-
->>  tests/tcg/arm/Makefile.include            |   8 --
->>  tests/tcg/arm/Makefile.softmmu-target     |   6 +-
->>  tests/tcg/configure.sh                    | 228 ++++++++++++++++++++++++++++++
->>  tests/tcg/cris/Makefile.include           |   6 -
->>  tests/tcg/hppa/Makefile.include           |   2 -
->>  tests/tcg/i386/Makefile.include           |   9 --
->>  tests/tcg/i386/Makefile.softmmu-target    |  12 +-
->>  tests/tcg/i386/Makefile.target            |  13 +-
->>  tests/tcg/m68k/Makefile.include           |   2 -
->>  tests/tcg/minilib/Makefile.target         |   2 +-
->>  tests/tcg/mips/Makefile.include           |  20 ---
->>  tests/tcg/ppc/Makefile.include            |  10 --
->>  tests/tcg/riscv/Makefile.include          |  10 --
->>  tests/tcg/s390x/Makefile.include          |   2 -
->>  tests/tcg/sh4/Makefile.include            |   4 -
->>  tests/tcg/sparc64/Makefile.include        |   2 -
->>  tests/tcg/x86_64/Makefile.softmmu-target  |  36 +++++
->>  tests/tcg/x86_64/Makefile.target          |   7 +-
->>  tests/tcg/xtensa/Makefile.include         |  11 --
->>  tests/tcg/xtensa/Makefile.softmmu-target  |   4 +-
->>  34 files changed, 435 insertions(+), 420 deletions(-)
->>  delete mode 100644 tests/tcg/Makefile.include
->>  create mode 100644 tests/tcg/Makefile.prereqs
->>  delete mode 100644 tests/tcg/Makefile.probe
->>  create mode 100644 tests/tcg/Makefile.qemu
->>  rename tests/tcg/{Makefile => Makefile.target} (90%)
->>  delete mode 100644 tests/tcg/aarch64/Makefile.include
->>  delete mode 100644 tests/tcg/alpha/Makefile.include
->>  delete mode 100644 tests/tcg/arm/Makefile.include
->>  create mode 100644 tests/tcg/configure.sh
->>  delete mode 100644 tests/tcg/cris/Makefile.include
->>  delete mode 100644 tests/tcg/hppa/Makefile.include
->>  delete mode 100644 tests/tcg/i386/Makefile.include
->>  delete mode 100644 tests/tcg/m68k/Makefile.include
->>  delete mode 100644 tests/tcg/mips/Makefile.include
->>  delete mode 100644 tests/tcg/ppc/Makefile.include
->>  delete mode 100644 tests/tcg/riscv/Makefile.include
->>  delete mode 100644 tests/tcg/s390x/Makefile.include
->>  delete mode 100644 tests/tcg/sh4/Makefile.include
->>  delete mode 100644 tests/tcg/sparc64/Makefile.include
->>  create mode 100644 tests/tcg/x86_64/Makefile.softmmu-target
->>  delete mode 100644 tests/tcg/xtensa/Makefile.include
-> 
-> 
-> --
-> Alex Bennée
-> 
+With generic SCSI targets like LIO or SCST it boost performance
+up to 100% on some profiles like database with transaction journal
+(postrgesql/mssql/oracle etc) or virtualized SDS (ceph/rook inside
+VMs) which performs block device cache flush on journal record.
+
+Signed-off-by: Artemy Kapitula <dalt74@gmail.com>
+---
+  block.c                | 4 ++++
+  qemu-options.hx        | 3 ++-
+  tests/qemu-iotests/026 | 2 +-
+  tests/qemu-iotests/091 | 2 +-
+  4 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/block.c b/block.c
+index cbd8da5f3b..60919d82ff 100644
+--- a/block.c
++++ b/block.c
+@@ -884,6 +884,10 @@ int bdrv_parse_cache_mode(const char *mode, int *flags, bool *writethrough)
+      } else if (!strcmp(mode, "unsafe")) {
+          *writethrough = false;
+          *flags |= BDRV_O_NO_FLUSH;
++    } else if (!strcmp(mode, "target")) {
++        *writethrough = false;
++        *flags |= BDRV_O_NOCACHE;
++        *flags |= BDRV_O_NO_FLUSH;
+      } else if (!strcmp(mode, "writethrough")) {
+          *writethrough = true;
+      } else {
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 9621e934c0..01f1f4ad34 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1065,7 +1065,7 @@ This option defines the type of the media: disk or cdrom.
+  @var{snapshot} is "on" or "off" and controls snapshot mode for the given drive
+  (see @option{-snapshot}).
+  @item cache=@var{cache}
+-@var{cache} is "none", "writeback", "unsafe", "directsync" or "writethrough"
++@var{cache} is "none", "writeback", "unsafe", "target", "directsync" or "writethrough"
+  and controls how the host cache is used to access block data. This is a
+  shortcut that sets the @option{cache.direct} and @option{cache.no-flush}
+  options (as in @option{-blockdev}), and additionally @option{cache.writeback},
+@@ -1084,6 +1084,7 @@ none         │ on                on             off
+  writethrough │ off               off            off
+  directsync   │ off               on             off
+  unsafe       │ on                off            on
++target       │ on                on             on
+  @end example
+  
+  The default mode is @option{cache=writeback}.
+diff --git a/tests/qemu-iotests/026 b/tests/qemu-iotests/026
+index e30243608b..e7179b0de4 100755
+--- a/tests/qemu-iotests/026
++++ b/tests/qemu-iotests/026
+@@ -42,7 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+  _supported_fmt qcow2
+  _supported_proto file
+  _default_cache_mode "writethrough"
+-_supported_cache_modes "writethrough" "none"
++_supported_cache_modes "writethrough" "none" "target"
+  # The refcount table tests expect a certain minimum width for refcount entries
+  # (so that the refcount table actually needs to grow); that minimum is 16 bits,
+  # being the default refcount entry width.
+diff --git a/tests/qemu-iotests/091 b/tests/qemu-iotests/091
+index d62ef18a02..2eaf258c8a 100755
+--- a/tests/qemu-iotests/091
++++ b/tests/qemu-iotests/091
+@@ -47,7 +47,7 @@ _supported_fmt qcow2
+  _supported_proto file
+  _supported_os Linux
+  _default_cache_mode "none"
+-_supported_cache_modes "writethrough" "none" "writeback"
++_supported_cache_modes "writethrough" "none" "writeback" "target"
+  
+  size=1G
+  
+-- 
+2.21.0
+
 
 
