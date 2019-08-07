@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAA284C6E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 15:08:29 +0200 (CEST)
-Received: from localhost ([::1]:41072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1905684C70
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 15:08:42 +0200 (CEST)
+Received: from localhost ([::1]:41078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvLg4-0001dD-Nh
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 09:08:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54284)
+	id 1hvLgH-0002Gh-8y
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 09:08:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52660)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hvI7k-000582-O6
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 05:20:49 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hvLc6-0003nh-H1
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 09:04:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hvI7i-0000j3-ET
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 05:20:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36270)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hvI7g-0000fC-Rk
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 05:20:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hvI7b-0000P9-U0
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 09:20:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D50442E80C8
- for <qemu-devel@nongnu.org>; Wed,  7 Aug 2019 09:20:39 +0000 (UTC)
+ (envelope-from <tony.nguyen@bt.com>) id 1hvLc5-0006c0-Gv
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 09:04:22 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.79]:17060)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
+ id 1hvLbr-0006Tn-1S; Wed, 07 Aug 2019 09:04:07 -0400
+Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
+ BWP09926084.bt.com (10.36.82.115) with Microsoft SMTP Server (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Wed, 7 Aug
+ 2019 14:03:57 +0100
+Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
+ tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Wed, 7 Aug 2019 14:04:04 +0100
+Received: from tpw09926dag18e.domain1.systemhost.net
+ ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
+ ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Wed, 7 Aug 2019
+ 14:04:04 +0100
+From: <tony.nguyen@bt.com>
+To: <qemu-devel@nongnu.org>
+Thread-Topic: [Qemu-devel] [PATCH v6 26/26] target/sparc: sun4u Invert Endian
+ TTE bit
+Thread-Index: AQHVTPt/lR9qsEqZQEWEZcnZpv0Fyabvpuwu
+Date: Wed, 7 Aug 2019 13:04:04 +0000
+Message-ID: <1565183043809.33207@bt.com>
+References: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>,
+ <1565166941186.41868@bt.com>
+In-Reply-To: <1565166941186.41868@bt.com>
+Accept-Language: en-AU, en-GB, en-US
+Content-Language: en-AU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.187.101.44]
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 213.121.35.79
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Aug 2019 09:09:29 -0000
-From: Koganinja89 <baw.mls@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: baw-mls
-X-Launchpad-Bug-Reporter: Koganinja89 (baw-mls)
-X-Launchpad-Bug-Modifier: Koganinja89 (baw-mls)
-Message-Id: <156516896995.16228.929773034443965895.malonedeb@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19015";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 78f22ddf1b7516bc00fbf74891d45b98d0fee995
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Wed, 07 Aug 2019 09:05:12 -0400
-Subject: [Qemu-devel] [Bug 1839294] [NEW] Latest Installer
- (qemu-w64-setup-20190807.exe) for windows immediately deletes installed
- files at the very end of the installation
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v6 26/26] target/sparc: sun4u Invert Endian
+ TTE bit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,84 +66,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1839294 <1839294@bugs.launchpad.net>
+Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
+ dmitry.fleytman@gmail.com, imammedo@redhat.com, sagark@eecs.berkeley.edu,
+ david@redhat.com, jasowang@redhat.com, palmer@sifive.com,
+ mark.cave-ayland@ilande.co.uk, laurent@vivier.eu, keith.busch@intel.com,
+ jcmvbkbc@gmail.com, frederic.konrad@adacore.com, pbonzini@redhat.com,
+ kraxel@redhat.com, edgar.iglesias@gmail.com, gxt@mprc.pku.edu.cn,
+ pburton@wavecomp.com, marex@denx.de, robh@kernel.org, hare@suse.com,
+ sstabellini@kernel.org, berto@igalia.com, proljc@gmail.com,
+ qemu-block@nongnu.org, arikalo@wavecomp.com, jslaby@suse.cz, deller@gmx.de,
+ mst@redhat.com, magnus.damm@gmail.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, mreitz@redhat.com, hpoussin@reactos.org,
+ joel@jms.id.au, anthony.perard@citrix.com, xen-devel@lists.xenproject.org,
+ rth@twiddle.net, philmd@redhat.com, green@moxielogic.com, atar4qemu@gmail.com,
+ antonynpavlov@gmail.com, jiri@resnulli.us, ehabkost@redhat.com,
+ minyard@acm.org, sw@weilnetz.de, alistair@alistair23.me, chouteau@adacore.com,
+ b.galvani@gmail.com, eric.auger@redhat.com, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, peter.chubb@nicta.com.au, yuval.shaia@oracle.com,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, shorne@gmail.com,
+ sundeep.lkml@gmail.com, jsnow@redhat.com, david@gibson.dropbear.id.au,
+ kwolf@redhat.com, crwulff@gmail.com, qemu-riscv@nongnu.org,
+ xiaoguangrong.eric@gmail.com, i.mitsyanko@gmail.com, lersek@redhat.com,
+ cohuck@redhat.com, alex.williamson@redhat.com, Andrew.Baumann@microsoft.com,
+ jcd@tribudubois.net, andrew@aj.id.au, michael@walle.cc,
+ paul.durrant@citrix.com, qemu-ppc@nongnu.org, huth@tuxfamily.org,
+ amarkovic@wavecomp.com, kbastian@mail.uni-paderborn.de, jan.kiszka@web.de,
+ stefanb@linux.ibm.com, andrew.smirnov@gmail.com, aurelien@aurel32.net,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-This happens on Windows 10 with the latest installer for 64 bit Windows:
-qemu-w64-setup-20190807.exe
-
-On install it will create the files and go through all the typical
-functions of installing the software, at the very end step it will then
-delete all files the installer created.
-
-I looked for logs to see when was going on so I ran the installation in
-Sandboxie and was able to retain all the installed files but I couldn't
-find a log for the installer.
-
-Here is a screenshot of it deleting all the files at the end of the
-process.
-
-https://imgur.com/BWiTA38
-
-If goes too fast for me to see what is written in the text console
-otherwise I would post more information but this is all I have. It does
-not give any error or any other information at completion.
-
-This error does not occur in the earlier release:
-qemu-w64-setup-20190731.exe
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Sorry, I missed a tag.?
 
 
-** Tags: windows
-
-** Attachment added: "Screenshot of it deleting the files at the end of the=
- installation"
-   https://bugs.launchpad.net/bugs/1839294/+attachment/5281367/+files/2019-=
-08-07.png
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1839294
-
-Title:
-  Latest Installer (qemu-w64-setup-20190807.exe) for windows immediately
-  deletes installed files at the very end of the installation
-
-Status in QEMU:
-  New
-
-Bug description:
-  This happens on Windows 10 with the latest installer for 64 bit
-  Windows: qemu-w64-setup-20190807.exe
-
-  On install it will create the files and go through all the typical
-  functions of installing the software, at the very end step it will
-  then delete all files the installer created.
-
-  I looked for logs to see when was going on so I ran the installation
-  in Sandboxie and was able to retain all the installed files but I
-  couldn't find a log for the installer.
-
-  Here is a screenshot of it deleting all the files at the end of the
-  process.
-
-  https://imgur.com/BWiTA38
-
-  If goes too fast for me to see what is written in the text console
-  otherwise I would post more information but this is all I have. It
-  does not give any error or any other information at completion.
-
-  This error does not occur in the earlier release:
-  qemu-w64-setup-20190731.exe
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1839294/+subscriptions
-
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
