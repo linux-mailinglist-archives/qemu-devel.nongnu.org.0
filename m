@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573EC849E5
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 12:43:37 +0200 (CEST)
-Received: from localhost ([::1]:39645 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C4884A11
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 12:51:15 +0200 (CEST)
+Received: from localhost ([::1]:39678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvJPs-0000oT-Jh
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 06:43:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46469)
+	id 1hvJXH-0003r3-1C
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 06:51:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47764)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hvJOt-000855-0G
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:42:36 -0400
+ (envelope-from <bounces@canonical.com>) id 1hvJWg-00037y-6o
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:50:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hvJOr-0003vs-24
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:42:34 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:39546)
+ (envelope-from <bounces@canonical.com>) id 1hvJWe-0000Nf-W2
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:50:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56772)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hvJOp-0003mz-4t
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:42:31 -0400
-Received: by mail-wm1-f66.google.com with SMTP id u25so69138134wmc.4
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 03:42:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RK6l3NcbPdkNrqzfgxFAPB3AcnYTmuMm/yEayizkoGM=;
- b=LEKSuMDEMq2rwSIwzRW11NESvyu1NG+xb068ZxXT4BXA1whZAznvxv5eRJWYYYI+JU
- g8d1ZHrOu5Je2TiBpvxI6PCW1FCtNiT21JzSGtFl/zT8C8rYjcFzPh+AWXOWulgd9f7+
- mUlCW/H/3lhSQsi93vsnaFDnlC5U7nK+X8GZ67N6Mk16oj25Oj72RYd+bTCLZOqRXWxi
- j9rtLORbZ9FtVz3rpfZaT9ZdbXL+umeYve2a3B33A82goQGmNcyDacZYCU9mNv8OAYUh
- VK3JV0COTvFHwXX5KQ97Re8fVzHcLMJ/gAobq9fXehdWlD+RnSEt86ZEoYH58GgMuCHm
- d+ig==
-X-Gm-Message-State: APjAAAW1IUyS/j3mZdfc78khd+bJ1hi79FbMxH8AL9oJwtn0hiY354PR
- KKuAfMscAxb+XMfCHUTN+gPDIw==
-X-Google-Smtp-Source: APXvYqy9hj4IVv4iNb7hdS8YWvrZpBE1Hrpzca1t19wjkLc7WPMgYH2QNsu2RpzXYBzClduT/WHecQ==
-X-Received: by 2002:a7b:c215:: with SMTP id x21mr10171537wmi.38.1565174542531; 
- Wed, 07 Aug 2019 03:42:22 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:dc26:ed70:9e4c:3810?
- ([2001:b07:6468:f312:dc26:ed70:9e4c:3810])
- by smtp.gmail.com with ESMTPSA id c3sm92411304wrx.19.2019.08.07.03.42.19
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Aug 2019 03:42:21 -0700 (PDT)
-To: tony.nguyen@bt.com, qemu-devel@nongnu.org
-References: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>
- <1565166668830.25608@bt.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <962f4d91-c1c4-7e97-5297-11c546d823f0@redhat.com>
-Date: Wed, 7 Aug 2019 12:42:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hvJWe-0000N4-Ow
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:50:36 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hvJWd-0004Vd-Na
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 10:50:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 983512E80CC
+ for <qemu-devel@nongnu.org>; Wed,  7 Aug 2019 10:50:35 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1565166668830.25608@bt.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 07 Aug 2019 10:42:58 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm tcg testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: elouan-appere pmaydell
+X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
+ =?utf-8?q?e=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <156496429682.24531.17468125820972523019.malonedeb@soybean.canonical.com>
+Message-Id: <156517457850.871.16387214714104043658.launchpad@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19015";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 989695997bb60490e269319d9c05bf1befb8c794
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH v6 15/26] build: Correct non-common
- common-obj-* to obj-*
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838913] Re: Single-step exceptions incorrectly
+ routed to EL1 when ELD is EL2 (TDE = 1) (qemu version 3.1)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,49 +67,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
- cohuck@redhat.com, sagark@eecs.berkeley.edu, david@redhat.com,
- jasowang@redhat.com, palmer@sifive.com, mark.cave-ayland@ilande.co.uk,
- i.mitsyanko@gmail.com, keith.busch@intel.com, jcmvbkbc@gmail.com,
- frederic.konrad@adacore.com, dmitry.fleytman@gmail.com, kraxel@redhat.com,
- edgar.iglesias@gmail.com, gxt@mprc.pku.edu.cn, pburton@wavecomp.com,
- xiaoguangrong.eric@gmail.com, peter.chubb@nicta.com.au, philmd@redhat.com,
- robh@kernel.org, hare@suse.com, sstabellini@kernel.org, berto@igalia.com,
- chouteau@adacore.com, qemu-block@nongnu.org, arikalo@wavecomp.com,
- jslaby@suse.cz, deller@gmx.de, mst@redhat.com, magnus.damm@gmail.com,
- jcd@tribudubois.net, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- mreitz@redhat.com, hpoussin@reactos.org, joel@jms.id.au,
- anthony.perard@citrix.com, xen-devel@lists.xenproject.org,
- david@gibson.dropbear.id.au, lersek@redhat.com, green@moxielogic.com,
- atar4qemu@gmail.com, antonynpavlov@gmail.com, marex@denx.de, jiri@resnulli.us,
- ehabkost@redhat.com, minyard@acm.org, qemu-s390x@nongnu.org, sw@weilnetz.de,
- alistair@alistair23.me, yuval.shaia@oracle.com, b.galvani@gmail.com,
- eric.auger@redhat.com, alex.williamson@redhat.com, qemu-arm@nongnu.org,
- jan.kiszka@web.de, clg@kaod.org, stefanha@redhat.com,
- marcandre.lureau@redhat.com, shorne@gmail.com, jsnow@redhat.com,
- rth@twiddle.net, kwolf@redhat.com, qemu-riscv@nongnu.org, proljc@gmail.com,
- andrew@aj.id.au, kbastian@mail.uni-paderborn.de, crwulff@gmail.com,
- laurent@vivier.eu, Andrew.Baumann@microsoft.com, sundeep.lkml@gmail.com,
- andrew.smirnov@gmail.com, michael@walle.cc, paul.durrant@citrix.com,
- qemu-ppc@nongnu.org, huth@tuxfamily.org, amarkovic@wavecomp.com,
- imammedo@redhat.com, aurelien@aurel32.net, stefanb@linux.ibm.com
+Reply-To: Bug 1838913 <1838913@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/08/19 10:31, tony.nguyen@bt.com wrote:
-> Preparation for replacing device_endian with MemOp.
-> 
-> Device realizing code with MemorRegionOps endianness as
-> DEVICE_NATIVE_ENDIAN is not common code.
-> 
-> Corrected devices were identified by making the declaration of
-> DEVICE_NATIVE_ENDIAN conditional upon NEED_CPU_H and then listing
-> what failed to compile.
-> 
-> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
+** Tags added: arm tcg testcase
 
-The general approach makes sense.  However, most of these should not be
-DEVICE_NATIVE_ENDIAN.  I can help with some of them.
+-- =
 
-Paolo
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838913
+
+Title:
+  Single-step exceptions incorrectly routed to EL1 when ELD is EL2 (TDE
+  =3D 1) (qemu version 3.1)
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  Hi,
+
+  I've been encountering issues with QEMU 3.1 when trying to single-step
+  EL1 code, with ELD =3D EL2 (MDCR_EL2.TDE =3D 1). I could test with latest
+  commit in a few hours, if you want.
+
+  EL1 is Aarch64.
+
+  This happens as soon as MDSCR_EL1.SS is set to 1 and ERET is executed:
+
+  - Single-step exceptions are routed to EL1
+
+  Exception return from AArch64 EL2 to AArch64 EL1 PC 0x4000005c
+  Taking exception 1 [Undefined Instruction]
+  ...from EL1 to EL1
+  ...with ESR 0x32/0xca000022
+  ...with ELR 0x4000005c
+  ...to EL1 PC 0x200 PSTATE 0x3c5
+
+  EC 0x32 (0b110010) is Exception_SoftwareStepLowerEl.
+
+  You can find enclosed minimal code (and resulting .elf) for
+  reproduction.
+
+  qemu-system-aarch64 -nographic -machine virt,virtualization=3Don -d
+  unimp,int -cpu cortex-a57 -kernel test_hyp.elf
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838913/+subscriptions
 
