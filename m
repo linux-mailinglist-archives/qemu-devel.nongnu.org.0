@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23A284768
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 10:31:16 +0200 (CEST)
-Received: from localhost ([::1]:38374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7154B84764
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 10:30:25 +0200 (CEST)
+Received: from localhost ([::1]:38342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvHLn-0005YN-E1
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 04:31:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43879)
+	id 1hvHKy-0003Wq-L0
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 04:30:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43766)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tony.nguyen@bt.com>) id 1hvHJJ-0002Cr-6i
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:28:43 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hvHJ3-0001Vv-Uu
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:28:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hvHJG-0000PB-Pl
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:28:41 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.75]:5534)
+ (envelope-from <tony.nguyen@bt.com>) id 1hvHJ1-0000Hm-32
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:28:25 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.77]:28190)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hvHIw-0000EX-5h; Wed, 07 Aug 2019 04:28:18 -0400
-Received: from tpw09926dag18g.domain1.systemhost.net (10.9.212.34) by
- BWP09926080.bt.com (10.36.82.111) with Microsoft SMTP Server (version=TLS1_2, 
+ id 1hvHId-00006u-Ed; Wed, 07 Aug 2019 04:27:59 -0400
+Received: from tpw09926dag18f.domain1.systemhost.net (10.9.212.26) by
+ BWP09926082.bt.com (10.36.82.113) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Wed, 7 Aug
- 2019 09:27:23 +0100
+ 2019 09:27:43 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18g.domain1.systemhost.net (10.9.212.34) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Wed, 7 Aug 2019 09:27:35 +0100
+ tpw09926dag18f.domain1.systemhost.net (10.9.212.26) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Wed, 7 Aug 2019 09:27:57 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Wed, 7 Aug 2019
- 09:27:35 +0100
+ 09:27:57 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v6 05/26] hw/s390x: Access MemoryRegion with
- MemOp
-Thread-Index: AQHVTPn2pBvCxiLKIke2xdwZYbeoVw==
-Date: Wed, 7 Aug 2019 08:27:35 +0000
-Message-ID: <1565166454836.5266@bt.com>
+Thread-Topic: [Qemu-devel] [PATCH v6 06/26] hw/intc/armv7m_nic: Access
+ MemoryRegion with MemOp
+Thread-Index: AQHVTPoEhAACGcI7vEmAJW6vjexb7g==
+Date: Wed, 7 Aug 2019 08:27:57 +0000
+Message-ID: <1565166476779.68828@bt.com>
 References: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -48,12 +48,12 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.44]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.75
+X-Received-From: 213.121.35.77
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v6 05/26] hw/s390x: Access MemoryRegion with
- MemOp
+Subject: [Qemu-devel] [PATCH v6 06/26] hw/intc/armv7m_nic: Access
+ MemoryRegion with MemOp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,52 +109,71 @@ As size_memop is a no-op, this patch does not change any behaviour.
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/s390x/s390-pci-inst.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/intc/armv7m_nvic.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index 0023514..0c958fc 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -15,6 +15,7 @@
- #include "cpu.h"
- #include "s390-pci-inst.h"
- #include "s390-pci-bus.h"
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index 9f8f0d3..237ccef 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -18,6 +18,7 @@
+ #include "hw/intc/armv7m_nvic.h"
+ #include "target/arm/cpu.h"
+ #include "exec/exec-all.h"
 +#include "exec/memop.h"
- #include "exec/memory-internal.h"
- #include "qemu/error-report.h"
- #include "sysemu/hw_accel.h"
-@@ -372,7 +373,7 @@ static MemTxResult zpci_read_bar(S390PCIBusDevice *pbde=
-v, uint8_t pcias,
-     mr =3D pbdev->pdev->io_regions[pcias].memory;
-     mr =3D s390_get_subregion(mr, offset, len);
-     offset -=3D mr->addr;
--    return memory_region_dispatch_read(mr, offset, data, len,
-+    return memory_region_dispatch_read(mr, offset, data, size_memop(len),
-                                        MEMTXATTRS_UNSPECIFIED);
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "trace.h"
+@@ -2345,7 +2346,8 @@ static MemTxResult nvic_sysreg_ns_write(void *opaque,=
+ hwaddr addr,
+     if (attrs.secure) {
+         /* S accesses to the alias act like NS accesses to the real region=
+ */
+         attrs.secure =3D 0;
+-        return memory_region_dispatch_write(mr, addr, value, size, attrs);
++        return memory_region_dispatch_write(mr, addr, value, size_memop(si=
+ze),
++                                            attrs);
+     } else {
+         /* NS attrs are RAZ/WI for privileged, and BusFault for user */
+         if (attrs.user) {
+@@ -2364,7 +2366,8 @@ static MemTxResult nvic_sysreg_ns_read(void *opaque, =
+hwaddr addr,
+     if (attrs.secure) {
+         /* S accesses to the alias act like NS accesses to the real region=
+ */
+         attrs.secure =3D 0;
+-        return memory_region_dispatch_read(mr, addr, data, size, attrs);
++        return memory_region_dispatch_read(mr, addr, data, size_memop(size=
+),
++                                           attrs);
+     } else {
+         /* NS attrs are RAZ/WI for privileged, and BusFault for user */
+         if (attrs.user) {
+@@ -2390,7 +2393,8 @@ static MemTxResult nvic_systick_write(void *opaque, h=
+waddr addr,
+
+     /* Direct the access to the correct systick */
+     mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systick[attrs.secure]=
+), 0);
+-    return memory_region_dispatch_write(mr, addr, value, size, attrs);
++    return memory_region_dispatch_write(mr, addr, value, size_memop(size),
++                                        attrs);
  }
 
-@@ -471,7 +472,7 @@ static MemTxResult zpci_write_bar(S390PCIBusDevice *pbd=
-ev, uint8_t pcias,
-     mr =3D pbdev->pdev->io_regions[pcias].memory;
-     mr =3D s390_get_subregion(mr, offset, len);
-     offset -=3D mr->addr;
--    return memory_region_dispatch_write(mr, offset, data, len,
-+    return memory_region_dispatch_write(mr, offset, data, size_memop(len),
-                                         MEMTXATTRS_UNSPECIFIED);
+ static MemTxResult nvic_systick_read(void *opaque, hwaddr addr,
+@@ -2402,7 +2406,7 @@ static MemTxResult nvic_systick_read(void *opaque, hw=
+addr addr,
+
+     /* Direct the access to the correct systick */
+     mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systick[attrs.secure]=
+), 0);
+-    return memory_region_dispatch_read(mr, addr, data, size, attrs);
++    return memory_region_dispatch_read(mr, addr, data, size_memop(size), a=
+ttrs);
  }
 
-@@ -780,7 +781,8 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8=
-_t r3, uint64_t gaddr,
-
-     for (i =3D 0; i < len / 8; i++) {
-         result =3D memory_region_dispatch_write(mr, offset + i * 8,
--                                              ldq_p(buffer + i * 8), 8,
-+                                              ldq_p(buffer + i * 8),
-+                                              size_memop(8),
-                                               MEMTXATTRS_UNSPECIFIED);
-         if (result !=3D MEMTX_OK) {
-             s390_program_interrupt(env, PGM_OPERAND, 6, ra);
+ static const MemoryRegionOps nvic_systick_ops =3D {
 --
 1.8.3.1
 
