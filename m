@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1D584628
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 09:49:08 +0200 (CEST)
-Received: from localhost ([::1]:37758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BC78462B
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 09:49:10 +0200 (CEST)
+Received: from localhost ([::1]:37764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvGh1-0006Et-AJ
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 03:49:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36467)
+	id 1hvGh3-0006LM-MY
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 03:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36516)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bmeng.cn@gmail.com>) id 1hvGdm-0000vp-70
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 03:45:48 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hvGdo-0000xd-Le
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 03:45:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hvGdh-00082G-Lt
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 03:45:44 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:45768)
+ (envelope-from <bmeng.cn@gmail.com>) id 1hvGdm-000849-AL
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 03:45:48 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:34039)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hvGdg-00080J-Kk; Wed, 07 Aug 2019 03:45:41 -0400
-Received: by mail-pl1-x642.google.com with SMTP id y8so39496546plr.12;
- Wed, 07 Aug 2019 00:45:36 -0700 (PDT)
+ id 1hvGdk-00081S-8N; Wed, 07 Aug 2019 03:45:46 -0400
+Received: by mail-pl1-x643.google.com with SMTP id i2so39504631plt.1;
+ Wed, 07 Aug 2019 00:45:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=w8z+Z4JIG+PWumqx562TA113JQMp/d8qY1uXo2FuR58=;
- b=Qp6ocBe+A0yFSeaPRyk8LBxHpK8z53/LlVBWJlWy3hNSHNDKoaVIPqwF4XH+tZV8wW
- OPv3wqCgD8QOHddsQuhFkB4LAf20XRogfWQBW8OW/CrTiOKd6whax4M2wMZw6phNVLQL
- LzQqu9XwWZWoVvv5HKGqa1RdMk5Yl9BTvVkPErTzKNU638BtovYeEnpD9nmw3rAL9+Qf
- MJGkqTUJWQGe5SEZ674Fj50Q9F3XvdG0FIqW1Rua3nBQlVreBOEvtbBIm2N3oIIiUTuB
- 7Tawy1ospEW1GgIGg8Yks/WQY5bMmrA5ry+nbJLWOl0nTVWXv+wqIOdunmy4UGofokpY
- pwxQ==
+ bh=GVXXIEJLxuexj6x8Bo13FQpkNePBMHrwRpuPxXgKVL8=;
+ b=ZiEnnFg1aRBARd4kOvaJ509yBILbWWDizd927b5JSxGEW5a22TKJ9zcVyR2c6LCUR8
+ jkUe42aJEMUJ7yjDAsdUJvQl7z8iZDl+4WL2++5msFBE2AQXow5O1IXUEEGBBOF+cu9W
+ c8FGQaPL3QpYvTVWLSxe//DCH8bKzoMDH9gwpfTxT2foHjvFYIriPw9ksq9K8++09dD1
+ y96PlfwjhQH/Sa3FOlUt4RD8TbqfyIhXL/ShcCkJCv0C+veie+DXmud7cZE3/Drpko4P
+ MBLzbD5+sMcRtu11G2LV+YGJBH18GIO1lNSjmzYGa4AOCX7KTt8wHW4Miy94fYx+fl1w
+ 7CXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=w8z+Z4JIG+PWumqx562TA113JQMp/d8qY1uXo2FuR58=;
- b=lWquDoj9T7NFYkQq9C3bu3Vxk/bhmAP0qTJUxheLybt6iVIcwofaEiP7zdAvjKS8ZV
- 72gSK/d0l30usWOSCTwgpYV8/QGkw0OjCjyuwc6U8A3GQyy/wIFNBN/dFp3b0KKwemqC
- OZyKCLxpIHRSoi4d3jfx/u8ZdfQLSwckw2DXeS/uZ36qR8zlJ1usndRf1zCHhoghuLSE
- 38y/4FcNIElZ0WmzpvM+GjYKJH9ngb3jvOMd9NK0oo2vXfgXOuOIhh0NB4Jo2C7uv5Dy
- MNlD9f0BnZ8zz5pLAToUd598wyXwPhmYpkL0Ndxs+/Y1puhbjRV2NPDHCNXfJprMPbKu
- RyBQ==
-X-Gm-Message-State: APjAAAXa2ovA1ZFcxuD2A0ug4Z2b5DpRuk6+sc1zNgFq+1BVyoV0F2DO
- 2swaO/vgn9ltgppopG64UVk=
-X-Google-Smtp-Source: APXvYqyI7/yTkpFbY00iRzjYj7OM5NbhxAL2qed5+OVOQA4LT2SCRmsJ0iSqvVINH00Uxx8Okg7cbQ==
-X-Received: by 2002:a17:902:8649:: with SMTP id
- y9mr6869661plt.289.1565163935911; 
- Wed, 07 Aug 2019 00:45:35 -0700 (PDT)
+ bh=GVXXIEJLxuexj6x8Bo13FQpkNePBMHrwRpuPxXgKVL8=;
+ b=Fl2AcxizCBNkG6wHTr81vgGTmfr6TJmX6p1Kk52ukxYBpJ361QZUGR0n0icpL+YS9j
+ 1MOv8fvmZqrvG6uad2O6lUSTYK6zh7OCdub9eiyIrcM5sul+0JzMX7qDrRjl7ZSvzoXS
+ Cao3NikK/PKEafg2FvRykqKx9iXSVrr8+DVpvAcIsvcIzCM0odw+0Q6PyUmf1zx2P9Mm
+ eFtL+wrUocOW+b6peWhWoLMT1qWiRwqf5vAr4+LGHKhM57mDjudCyX+s4MxXsrUB65gn
+ wTyYECj820bkc6JTIQvtsRmgyJN+ZobF3cm8PRu/eXsrVISKBBaGk7r7Af/DyQWe2UTr
+ lhCQ==
+X-Gm-Message-State: APjAAAWXjc5ihTFT0OvNkEWw563sfNTsXVvQLX1c3Q3xM9flWczzUu+D
+ KihtlqNDd3b+io2AhYoAT/E=
+X-Google-Smtp-Source: APXvYqzgTqd02lTb442Yp18DMKONZrCGD0PdSm27yBJOlqtvB+2miRGt/Jfz52UBUn+OBaTGeCvPQw==
+X-Received: by 2002:a63:2148:: with SMTP id s8mr6453028pgm.336.1565163940243; 
+ Wed, 07 Aug 2019 00:45:40 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id l44sm20154449pje.29.2019.08.07.00.45.34
+ by smtp.gmail.com with ESMTPSA id l44sm20154449pje.29.2019.08.07.00.45.39
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Wed, 07 Aug 2019 00:45:35 -0700 (PDT)
+ Wed, 07 Aug 2019 00:45:39 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Palmer Dabbelt <palmer@sifive.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Wed,  7 Aug 2019 00:45:01 -0700
-Message-Id: <1565163924-18621-6-git-send-email-bmeng.cn@gmail.com>
+Date: Wed,  7 Aug 2019 00:45:05 -0700
+Message-Id: <1565163924-18621-10-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1565163924-18621-1-git-send-email-bmeng.cn@gmail.com>
 References: <1565163924-18621-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: [Qemu-devel] [PATCH v2 05/28] riscv: hart: Support heterogeneous
- harts population
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: [Qemu-devel] [PATCH v2 09/28] riscv: sifive_u: Update UART base
+ addresses
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,88 +82,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At present we only allow symmetric harts to be created. In order to
-support heterogeneous harts like SiFive FU540, update hart array's
-"cpu-type" property to allow cpu type to be set per hart, separated
-by delimiter ",". The frist cpu type before the delimiter is assigned
-to hart 0, and the second cpu type before delimiter is assigned to
-hart 1, and so on.
-
-If the total number of cpu types supplied in "cpu-type" property is
-less than number of maximum harts, the last cpu type in the property
-will be used to populate remaining harts.
+This updates the UART base address to match the hardware.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Jonathan Behrens <fintelia@gmail.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
 Changes in v2: None
 
- hw/riscv/riscv_hart.c | 48 +++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 45 insertions(+), 3 deletions(-)
+ hw/riscv/sifive_u.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-index 3dd1c6a..27093e0 100644
---- a/hw/riscv/riscv_hart.c
-+++ b/hw/riscv/riscv_hart.c
-@@ -58,13 +58,55 @@ static void riscv_hart_realize(RISCVHartArrayState *s, int hart,
- static void riscv_harts_realize(DeviceState *dev, Error **errp)
- {
-     RISCVHartArrayState *s = RISCV_HART_ARRAY(dev);
--    int n;
-+    char *cpu_types;
-+    char *first_type, *last_type, *tmp_type;
-+    int n = 0;
- 
-     s->harts = g_new0(RISCVCPU, s->num_harts);
- 
--    for (n = 0; n < s->num_harts; n++) {
--        riscv_hart_realize(s, n, s->cpu_type, errp);
-+    /* we should not touch the original s->cpu_type */
-+    cpu_types = g_strdup(s->cpu_type);
-+
-+    /*
-+     * Expect s->cpu_type property was initialized this way:
-+     *
-+     * "cpu-type-a": symmetric harts
-+     * "cpu-type-a,cpu-type-b,cpu-type-c": heterogeneous harts
-+     *
-+     * For heterogeneous harts, hart cpu types are separated by delimiter ",".
-+     * The frist cpu type before the delimiter is assigned to hart 0, and the
-+     * second cpu type before delimiter is assigned to hart 1, and so on.
-+     *
-+     * If the total number of cpu types is less than s->num_harts, the last
-+     * cpu type in s->cpu_type will be used to populate remaining harts.
-+     */
-+
-+    first_type = strtok(cpu_types, ",");
-+    riscv_hart_realize(s, n++, first_type, errp);
-+    tmp_type = strtok(NULL, ",");
-+    if (!tmp_type) {
-+        /* symmetric harts */
-+        for (; n < s->num_harts; n++) {
-+            riscv_hart_realize(s, n, first_type, errp);
-+       }
-+    } else {
-+        /* heterogeneous harts */
-+        while (tmp_type) {
-+            if (n >= s->num_harts) {
-+                break;
-+            }
-+            riscv_hart_realize(s, n++, tmp_type, errp);
-+            last_type = tmp_type;
-+            tmp_type = strtok(NULL, ",");
-+        }
-+
-+        /* populate remaining harts using the last cpu type in s->cpu_type */
-+        for (; n < s->num_harts; n++) {
-+            riscv_hart_realize(s, n, last_type, errp);
-+        }
-     }
-+
-+    g_free(cpu_types);
- }
- 
- static void riscv_harts_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index fe8dd3e..ea45e77 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -61,8 +61,8 @@ static const struct MemmapEntry {
+     [SIFIVE_U_MROM] =     {     0x1000,    0x11000 },
+     [SIFIVE_U_CLINT] =    {  0x2000000,    0x10000 },
+     [SIFIVE_U_PLIC] =     {  0xc000000,  0x4000000 },
+-    [SIFIVE_U_UART0] =    { 0x10013000,     0x1000 },
+-    [SIFIVE_U_UART1] =    { 0x10023000,     0x1000 },
++    [SIFIVE_U_UART0] =    { 0x10010000,     0x1000 },
++    [SIFIVE_U_UART1] =    { 0x10011000,     0x1000 },
+     [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
+     [SIFIVE_U_GEM] =      { 0x100900FC,     0x2000 },
+ };
 -- 
 2.7.4
 
