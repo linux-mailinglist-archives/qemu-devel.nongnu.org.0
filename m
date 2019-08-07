@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0722884ABD
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 13:36:07 +0200 (CEST)
-Received: from localhost ([::1]:39998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 878FE84AF4
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 13:46:06 +0200 (CEST)
+Received: from localhost ([::1]:40036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvKEg-0002Fg-1G
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 07:36:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55845)
+	id 1hvKOL-0006V8-I4
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 07:46:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57466)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jusual@mail.ru>) id 1hvKDx-0001gR-3N
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 07:35:22 -0400
+ (envelope-from <jusual@mail.ru>) id 1hvKNV-0005vy-8b
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 07:45:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jusual@mail.ru>) id 1hvKDv-0003YW-Vk
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 07:35:21 -0400
-Received: from smtp63.i.mail.ru ([217.69.128.43]:40016)
+ (envelope-from <jusual@mail.ru>) id 1hvKNU-0000cU-B1
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 07:45:13 -0400
+Received: from smtp51.i.mail.ru ([94.100.177.111]:49676)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jusual@mail.ru>) id 1hvKDv-0003X6-DW
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 07:35:19 -0400
+ (Exim 4.71) (envelope-from <jusual@mail.ru>) id 1hvKNT-0000Xn-OY
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 07:45:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
  s=mail2; 
  h=Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version;
- bh=ZaOPz/DGlZqjgKsjLjlZvpdQ69iTYd9HLkVHCfSFsxI=; 
- b=WnpDwzNhHk/P/4raHsgfwdSRk8oyPqrxDdA06DRPMOKPECVNXTIhWR7k7vBY0ccN6xqOnTU4pbwAueF+5tGvznm1xEYXR/XSnAEJm/5aS9wqUaze+dfEZ2cPuRppI85gWeZzxO2gus+so8SehZAJeKPdU5FsgqylO9D17W7PRD4=;
-Received: by smtp63.i.mail.ru with esmtpa (envelope-from <jusual@mail.ru>)
- id 1hvKDs-0006Yk-1p
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:35:16 +0300
-Received: by mail-lj1-f169.google.com with SMTP id m8so51548638lji.7
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 04:35:15 -0700 (PDT)
-X-Gm-Message-State: APjAAAUOHRfPFP9eGvDPcN4d9y0Wf9eiY1hNJO0N4nnAE7fRV3hkXV6C
- vubtj1fF7Nqrne7EbCFc2qa8x6ZJPWIooUxK88Ig4g==
-X-Google-Smtp-Source: APXvYqynoJaDrJF2ou8kgKFrNRCYCd7OfKlzsxqho1OG1aR1Ow8eJ1WthaHicfBsHRc/a3ORYN1eouF+uHf2yLrPdkY=
-X-Received: by 2002:a2e:b60c:: with SMTP id r12mr4454470ljn.124.1565177715654; 
- Wed, 07 Aug 2019 04:35:15 -0700 (PDT)
+ bh=kX8C3GH1PdhT2nVPrFliyqVkR1ASHQIYry2PLXgg3ug=; 
+ b=Vji1oZHUWYxQEV1SSddBbVYzjoAu/pmYrffQqNHLT0NLNXAXek2/SyoqhozrApuT7JoaHYJs5Tq7MRfLyFHtWkk8Gy5B19xO9WuUZA4Tc0mjH4rkuV2YS7I868mj+PhIYFDWrqZLM0PodRbhJ1uDFU2gK2FJvfVTbDmHBtwvGCo=;
+Received: by smtp51.i.mail.ru with esmtpa (envelope-from <jusual@mail.ru>)
+ id 1hvKNQ-0007kL-Tx
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:45:09 +0300
+Received: by mail-lf1-f42.google.com with SMTP id z15so59520474lfh.13
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 04:45:08 -0700 (PDT)
+X-Gm-Message-State: APjAAAWLQUMcefmenWTTFC0AyR7n8f5CajG1vyyM8/KuE3M4DJxIsxf6
+ ue+KbZrtvcojUznp6JIqjVcgWO+YhCXnFQeCswtlTQ==
+X-Google-Smtp-Source: APXvYqwnyj8jQvs/XVxRq5fw5VqFaZcKuksbPXCu2+8ECTM59nUdOeYgkLGIyA5YxKg5Hw08vvM1L7IynF4PEdavtwI=
+X-Received: by 2002:ac2:5976:: with SMTP id h22mr5598158lfp.79.1565178308390; 
+ Wed, 07 Aug 2019 04:45:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190801234031.29561-1-mehta.aaru20@gmail.com>
- <20190801234031.29561-5-mehta.aaru20@gmail.com>
-In-Reply-To: <20190801234031.29561-5-mehta.aaru20@gmail.com>
-Date: Wed, 7 Aug 2019 13:35:04 +0200
-X-Gmail-Original-Message-ID: <CAMDeoFV225HaRL0CexmDEzqWK7mS1=fomJvY5Mo7E=k0LtYY9g@mail.gmail.com>
-Message-ID: <CAMDeoFV225HaRL0CexmDEzqWK7mS1=fomJvY5Mo7E=k0LtYY9g@mail.gmail.com>
+ <20190801234031.29561-8-mehta.aaru20@gmail.com>
+In-Reply-To: <20190801234031.29561-8-mehta.aaru20@gmail.com>
+Date: Wed, 7 Aug 2019 13:44:57 +0200
+X-Gmail-Original-Message-ID: <CAMDeoFUMSupka-F+TCHSq+1UMd_UbNXFyPwzdC738BSmNWXi2w@mail.gmail.com>
+Message-ID: <CAMDeoFUMSupka-F+TCHSq+1UMd_UbNXFyPwzdC738BSmNWXi2w@mail.gmail.com>
 To: Aarushi Mehta <mehta.aaru20@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Authentication-Results: smtp63.i.mail.ru; auth=pass smtp.auth=jusual@mail.ru
+Authentication-Results: smtp51.i.mail.ru; auth=pass smtp.auth=jusual@mail.ru
  smtp.mailfrom=jusual@mail.ru
-X-77F55803: 689590B63E0A4B015A78504BD2AC29411A843C288C57C5026D30E1CE72670D02D9F6B2704949CFF94EBA3AB22F47EEB5
-X-7FA49CB5: 0D63561A33F958A5AD1C3B6ED727A91AD0C748C0BB59584F6880CB131C0C3F5B8941B15DA834481FA18204E546F3947CEDCF5861DED71B2F389733CBF5DBD5E9C8A9BA7A39EFB7666BA297DBC24807EA117882F44604297287769387670735209ECD01F8117BC8BEA471835C12D1D977C4224003CC8364767815B9869FA544D8D32BA5DBAC0009BE9E8FC8737B5C2249A50BD5087FBFCDAA3AA81AA40904B5D9CF19DD082D7633A093541453170D46FCD81D268191BDAD3D78DA827A17800CE713722DCDE94E7D67EC76A7562686271EF5D81C698A659EA775ECD9A6C639B01B78DA827A17800CE737F87A5E8E3D9C6F555751999830EE5675ECD9A6C639B01B4E70A05D1297E1BBC6867C52282FAC85084A3168D6E26DF927F269C8F02392CD5571747095F342E88FB05168BE4CE3AF
-X-Mailru-Sender: 4C235FE2E5D2D890DB26952483C990AC7E1798A64BE4D96767465BE9156F21320C3146F132CC074C342D7E53901C55FD6F53C80213D1719C4487B406A59785443329DBF425CF03A167EA787935ED9F1B
+X-77F55803: 2D1AD755E866B1545A78504BD2AC29411A843C288C57C502945223B1EF45B75B2D2FACE3D783569086D590F1EF289684
+X-7FA49CB5: 0D63561A33F958A553EDCB14759842D563BAE15F96CE8CAB7DBDD558EBD32B618941B15DA834481FA18204E546F3947C1D471462564A2E19F6B57BC7E64490618DEB871D839B7333395957E7521B51C2545D4CF71C94A83E9FA2833FD35BB23D27C277FBC8AE2E8B2EE5AD8F952D28FBA471835C12D1D977C4224003CC8364767815B9869FA544D8D32BA5DBAC0009BE9E8FC8737B5C22494A2C4B6BA9DFC5103AA81AA40904B5D9CF19DD082D7633A093541453170D46FCD81D268191BDAD3D78DA827A17800CE76937630EBE596648EC76A7562686271EF5D81C698A659EA775ECD9A6C639B01B78DA827A17800CE792A88657AE5FD006FDEC9B8CFE8D2E8875ECD9A6C639B01B4E70A05D1297E1BBC6867C52282FAC85D9B7C4F32B44FF57DE7CCDD3542A186E00306258E7E6ABB4E4A6367B16DE6309
+X-Mailru-Sender: 4C235FE2E5D2D8903B37EB98D235FFC4EBE13A2A73873263C1977FD234168AD92269EB2C477A7CFBBCD5BA2C93075E1EC77752E0C033A69E882C431543FD75E20226C39053983FF03453F38A29522196
 X-Mras: OK
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 217.69.128.43
-Subject: Re: [Qemu-devel] [PATCH v9 04/17] block/io_uring: implements
- interfaces for io_uring
+X-Received-From: 94.100.177.111
+Subject: Re: [Qemu-devel] [PATCH v9 07/17] blockdev: adds bdrv_parse_aio to
+ use io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,83 +78,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Aug 2, 2019 at 1:41 AM Aarushi Mehta <mehta.aaru20@gmail.com> wrote:
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d6de200453..be688fcd5e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2530,6 +2530,13 @@ F: block/file-posix.c
->  F: block/file-win32.c
->  F: block/win32-aio.c
->
-> +Linux io_uring
-> +M: Aarushi Mehta <mehta.aaru20@gmail.com>
-> +R: Stefan Hajnoczi <stefan@redhat.com>
-
-s/stefan@redhat.com/stefanha@redhat.com
-
-> diff --git a/block/io_uring.c b/block/io_uring.c
-> new file mode 100644
-> index 0000000000..902b106954
-> --- /dev/null
-> +++ b/block/io_uring.c
-> @@ -0,0 +1,409 @@
-> +/*
-> + * Linux io_uring support.
-> + *
-> + * Copyright (C) 2009 IBM, Corp.
-> + * Copyright (C) 2009 Red Hat, Inc.
-> + * Copyright (C) 2019 Aarushi Mehta
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +#include "qemu/osdep.h"
-> +#include <liburing.h>
-> +#include "qemu-common.h"
-> +#include "block/aio.h"
-> +#include "qemu/queue.h"
-> +#include "block/block.h"
-> +#include "block/raw-aio.h"
-> +#include "qemu/coroutine.h"
-> +#include "qapi/error.h"
-> +
-> +#define MAX_EVENTS 128
-
-This is called 'entries' in the liburing documentation, so MAX_ENTRIES
-will be a better choice.
-
-> +typedef struct LuringState {
-> +    AioContext *aio_context;
-> +
-> +    struct io_uring ring;
-> +
-> +    /* io queue for submit at batch.  Protected by AioContext lock. */
-> +    LuringQueue io_q;
-> +
-> +    /* I/O completion processing.  Only runs in I/O thread.  */
-> +    QEMUBH *completion_bh;
-> +} LuringState;
-> +
-> +/**
-> + * ioq_submit:
-> + * @s: AIO state
-> + *
-> + * Queues pending sqes and submits them
-> + *
-> + */
-> +static int ioq_submit(LuringState *s);
-
-Now you can remove this declaration by moving the function before
-luring_process_completions_and_submit()
-
-> +LuringState *luring_init(Error **errp)
+> +int bdrv_parse_aio(const char *mode, int *flags)
 > +{
-> +    int rc;
-> +    LuringState *s;
-> +    s = g_new0(LuringState, 1);
-> +    struct io_uring *ring = &s->ring;
+> +    if (!strcmp(mode, "threads")) {
+> +        /* do nothing, default */
+> +    } else if (!strcmp(mode, "native")) {
+> +        *flags |= BDRV_O_NATIVE_AIO;
 
-Please rewrite it with declarations at the beginning of the block.
+This 'if' should be covered with CONFIG_LINUX_AIO.
 
 Best regards, Julia Suvorova.
+
+> +#ifdef CONFIG_LINUX_IO_URING
+> +    } else if (!strcmp(mode, "io_uring")) {
+> +        *flags |= BDRV_O_IO_URING;
+> +#endif
+> +    } else {
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
 
