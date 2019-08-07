@@ -2,52 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AAAD85252
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 19:47:11 +0200 (CEST)
-Received: from localhost ([::1]:43948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF538527A
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 19:56:22 +0200 (CEST)
+Received: from localhost ([::1]:44122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvQ1m-00009Q-7B
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 13:47:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58051)
+	id 1hvQAf-0000e0-GL
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 13:56:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60200)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hvQ0v-0008AH-B9
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:46:18 -0400
+ (envelope-from <bounces@canonical.com>) id 1hvQA1-0008Lb-OM
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:55:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hvQ0u-0000qC-9F
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:46:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53244)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hvQ0u-0000o4-1Q
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:46:16 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EDFA33C92D;
- Wed,  7 Aug 2019 17:46:14 +0000 (UTC)
-Received: from work-vm (ovpn-117-204.ams2.redhat.com [10.36.117.204])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE2CE600C6;
- Wed,  7 Aug 2019 17:46:11 +0000 (UTC)
-Date: Wed, 7 Aug 2019 18:46:09 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Message-ID: <20190807174609.GJ27871@work-vm>
-References: <20190718012547.16373-1-richardw.yang@linux.intel.com>
+ (envelope-from <bounces@canonical.com>) id 1hvQA0-0004iq-7f
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:55:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38222)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hvQA0-0004ga-28
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:55:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hvQ9y-0002kF-Je
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 17:55:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 935BC2E80C7
+ for <qemu-devel@nongnu.org>; Wed,  7 Aug 2019 17:55:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190718012547.16373-1-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Wed, 07 Aug 2019 17:46:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 07 Aug 2019 17:46:27 -0000
+From: Aaron Hill <1839367@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: techsavvy8989
+X-Launchpad-Bug-Reporter: Aaron Hill (techsavvy8989)
+X-Launchpad-Bug-Modifier: Aaron Hill (techsavvy8989)
+Message-Id: <156519998798.13922.14288436816599615545.malonedeb@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19015";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 9a5259a8635c426e2c5e8b3b1eb8b3b79a38f793
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] migration: just pass RAMBlock is enough
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1839367] [NEW] Wrong interrupts generated for
+ I.MX6 FEC controller
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,63 +63,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, quintela@redhat.com
+Reply-To: Bug 1839367 <1839367@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> RAMBlock->used_length is always passed to migration_bitmap_sync_range(),
-> which could be retrieved from RAMBlock.
-> 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Public bug reported:
 
-Queued
+The imx_eth_update function in hw/net/imx_fec.c has the following
+comment
+(https://github.com/qemu/qemu/blob/864ab314f1d924129d06ac7b571f105a2b76a4b2=
+/hw/net/imx_fec.c#L421-L445):
 
-> ---
->  migration/ram.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 908517fc2b..0a6070d787 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -1669,11 +1669,10 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
->      return ret;
->  }
->  
-> -static void migration_bitmap_sync_range(RAMState *rs, RAMBlock *rb,
-> -                                        ram_addr_t length)
-> +static void migration_bitmap_sync_range(RAMState *rs, RAMBlock *rb)
->  {
->      rs->migration_dirty_pages +=
-> -        cpu_physical_memory_sync_dirty_bitmap(rb, 0, length,
-> +        cpu_physical_memory_sync_dirty_bitmap(rb, 0, rb->used_length,
->                                                &rs->num_dirty_pages_period);
->  }
->  
-> @@ -1762,7 +1761,7 @@ static void migration_bitmap_sync(RAMState *rs)
->      qemu_mutex_lock(&rs->bitmap_mutex);
->      rcu_read_lock();
->      RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-> -        migration_bitmap_sync_range(rs, block, block->used_length);
-> +        migration_bitmap_sync_range(rs, block);
->      }
->      ram_counters.remaining = ram_bytes_remaining();
->      rcu_read_unlock();
-> @@ -4193,7 +4192,7 @@ static void colo_flush_ram_cache(void)
->      memory_global_dirty_log_sync();
->      rcu_read_lock();
->      RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-> -        migration_bitmap_sync_range(ram_state, block, block->used_length);
-> +        migration_bitmap_sync_range(ram_state, block);
->      }
->      rcu_read_unlock();
->  
-> -- 
-> 2.17.1
-> 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+    /*
+     * Previous versions of qemu had the ENET_INT_MAC and ENET_INT_MAC
+     * interrupts swapped. This worked with older versions of Linux (4.14
+     * and older) since Linux associated both interrupt lines with Ethernet
+     * MAC interrupts. Specifically,
+     * - Linux 4.15 and later have separate interrupt handlers for the MAC =
+and
+     *   timer interrupts. Those versions of Linux fail with versions of QE=
+MU
+     *   with swapped interrupt assignments.
+     * - In linux 4.14, both interrupt lines were registered with the Ether=
+net
+     *   MAC interrupt handler. As a result, all versions of qemu happen to
+     *   work, though that is accidental.
+     * - In Linux 4.9 and older, the timer interrupt was registered directly
+     *   with the Ethernet MAC interrupt handler. The MAC interrupt was
+     *   redirected to a GPIO interrupt to work around erratum ERR006687.
+     *   This was implemented using the SOC's IOMUX block. In qemu, this GP=
+IO
+     *   interrupt never fired since IOMUX is currently not supported in qe=
+mu.
+     *   Linux instead received MAC interrupts on the timer interrupt.
+     *   As a result, qemu versions with the swapped interrupt assignment w=
+ork,
+     *   albeit accidentally, but qemu versions with the correct interrupt
+     *   assignment fail.
+     *
+     * To ensure that all versions of Linux work, generate ENET_INT_MAC
+     * interrrupts on both interrupt lines. This should be changed if and w=
+hen
+     * qemu supports IOMUX.
+     */
+
+Unfortunately, this behavior causes the QNX Sabrelite BSP
+(http://blackberry.qnx.com/en/developers/bsp) to hang on ethernet
+initialization. This is caused by the fact that QEMU is firing the
+ENET_INT_TS_TIMER timer interrupt unexpectedly (when the ENET_INT_MAC
+flag is set). The BSP functions correctly on the actual hardware, but it
+is unable to handle the deliberately incorrect interrupt firing by QEMU.
+
+>From reading the comment, it appears that this behavior is necessary to
+support certain versions of Linux. However, it would be very useful to
+be able to restore the correct interrupt behavior (possibly via a
+command-line flag).
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1839367
+
+Title:
+  Wrong interrupts generated for I.MX6 FEC controller
+
+Status in QEMU:
+  New
+
+Bug description:
+  The imx_eth_update function in hw/net/imx_fec.c has the following
+  comment
+  (https://github.com/qemu/qemu/blob/864ab314f1d924129d06ac7b571f105a2b76a4=
+b2/hw/net/imx_fec.c#L421-L445):
+
+      /*
+       * Previous versions of qemu had the ENET_INT_MAC and ENET_INT_MAC
+       * interrupts swapped. This worked with older versions of Linux (4.14
+       * and older) since Linux associated both interrupt lines with Ethern=
+et
+       * MAC interrupts. Specifically,
+       * - Linux 4.15 and later have separate interrupt handlers for the MA=
+C and
+       *   timer interrupts. Those versions of Linux fail with versions of =
+QEMU
+       *   with swapped interrupt assignments.
+       * - In linux 4.14, both interrupt lines were registered with the Eth=
+ernet
+       *   MAC interrupt handler. As a result, all versions of qemu happen =
+to
+       *   work, though that is accidental.
+       * - In Linux 4.9 and older, the timer interrupt was registered direc=
+tly
+       *   with the Ethernet MAC interrupt handler. The MAC interrupt was
+       *   redirected to a GPIO interrupt to work around erratum ERR006687.
+       *   This was implemented using the SOC's IOMUX block. In qemu, this =
+GPIO
+       *   interrupt never fired since IOMUX is currently not supported in =
+qemu.
+       *   Linux instead received MAC interrupts on the timer interrupt.
+       *   As a result, qemu versions with the swapped interrupt assignment=
+ work,
+       *   albeit accidentally, but qemu versions with the correct interrupt
+       *   assignment fail.
+       *
+       * To ensure that all versions of Linux work, generate ENET_INT_MAC
+       * interrrupts on both interrupt lines. This should be changed if and=
+ when
+       * qemu supports IOMUX.
+       */
+
+  Unfortunately, this behavior causes the QNX Sabrelite BSP
+  (http://blackberry.qnx.com/en/developers/bsp) to hang on ethernet
+  initialization. This is caused by the fact that QEMU is firing the
+  ENET_INT_TS_TIMER timer interrupt unexpectedly (when the ENET_INT_MAC
+  flag is set). The BSP functions correctly on the actual hardware, but
+  it is unable to handle the deliberately incorrect interrupt firing by
+  QEMU.
+
+  From reading the comment, it appears that this behavior is necessary
+  to support certain versions of Linux. However, it would be very useful
+  to be able to restore the correct interrupt behavior (possibly via a
+  command-line flag).
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1839367/+subscriptions
 
