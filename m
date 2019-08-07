@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE6785137
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 18:39:09 +0200 (CEST)
-Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 461BA8516A
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 18:49:21 +0200 (CEST)
+Received: from localhost ([::1]:43532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvOxw-000218-KU
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 12:39:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44621)
+	id 1hvP7o-0005xw-9H
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 12:49:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47394)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hvOxT-0001bF-F5
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 12:38:40 -0400
+ (envelope-from <sebastien.boeuf@intel.com>) id 1hvP76-0005Ws-40
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 12:48:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hvOxS-0007Lb-Fm
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 12:38:39 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38889)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hvOxS-0007Ju-8M
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 12:38:38 -0400
-Received: by mail-wm1-x341.google.com with SMTP id s15so682576wmj.3
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 09:38:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=0eWoHiI5e16i1RIANBnuJsstvSpJxKygN16rdMiKubk=;
- b=Gz0v4lc0DXo0I0m6IEjgMQUoSdR7/S/+e3Tasbo/ET4Wy1XJzZst18h/5IviHtw/M+
- iguk+NpBoBocWkMaD49m5JOKH/XyVXzesiUhk+oRoqXMfYZLFeNMGZNGPv5kvyugtd6R
- nMiGBZcFRGrylVtnVu7rKWxDBMP/tCTuf6MtuhBIJivtoseMfll12U/LV+8Y6faSTpkn
- PsdDKXFcXpgXd9XrauQzjtpRCUv1No2meORUDw8fNUYAZ2TOOT0RLZ3hWj3w1qkIDXO/
- g4EzQm101pJf6fzGyLArCStS9Sky3aaXN+dxjibM7ve6nKbBSiAS3FDC7tIOae1c4vH6
- /JRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=0eWoHiI5e16i1RIANBnuJsstvSpJxKygN16rdMiKubk=;
- b=FJ0d/H2W4iiWEXYWXJkFVwUobsyX4CV4tewnJm3WaIXo9CjV6Ms3BMOKQrOixG6rYT
- IBLMGgw3evP4YAeiIqLDxpGEFP32vGN1dyxjbYcDoLHcGeAdam/MKYyaLYfi5F4N/wT4
- zTbglPWwVWTAY5JozWLlr0ay4H0RUhJ3XONTf5/ioBxXxmchOd/37nnb2mPvwbRKDMTg
- diF3i7C4FsF8kMVDiuPf0YTqGu3HDY+k+SukwiLpbBUKoDzxdYn5TdiAJsBAysBMOFkS
- ibMAf9RZTO/mrs6DEn/5Haqx9t1rvJzZatzmV5Y1Ib7ai270Jz1UtAhNXBM47+GtaVpH
- uwew==
-X-Gm-Message-State: APjAAAXLinM3JLjiwELgEVyYEzvavaLOKTiSQDo0lauttyM4WR6Tt4C/
- dTF46Lu0m20A2WAoxFYW2KE+TGYjm1U=
-X-Google-Smtp-Source: APXvYqwNU6tW10pDLejC4EPRO5uzqT1W1yvN7YLY3vpcjXu+ZanjKPC6/sJsv2b3lJgKEFo3MuPYPQ==
-X-Received: by 2002:a7b:c4c1:: with SMTP id g1mr851842wmk.14.1565195916337;
- Wed, 07 Aug 2019 09:38:36 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id o126sm656194wmo.1.2019.08.07.09.38.35
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 07 Aug 2019 09:38:35 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 431AA1FF87;
- Wed,  7 Aug 2019 17:38:35 +0100 (BST)
-References: <20190730123759.21723-1-pbonzini@redhat.com>
- <87r25xi1y7.fsf@linaro.org>
- <3bcecd49-bf0e-8503-12d7-ac9dfeb444cb@redhat.com>
- <35301c4b-8743-1e29-0f6e-968afec5faa7@redhat.com>
- <5882e101-19cb-8092-5248-1762625fdcb3@redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-In-reply-to: <5882e101-19cb-8092-5248-1762625fdcb3@redhat.com>
-Date: Wed, 07 Aug 2019 17:38:35 +0100
-Message-ID: <87a7clhqwk.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <sebastien.boeuf@intel.com>) id 1hvP74-0007MQ-Rg
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 12:48:36 -0400
+Received: from mga02.intel.com ([134.134.136.20]:20860)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sebastien.boeuf@intel.com>)
+ id 1hvP74-0007GO-JK
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 12:48:34 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2019 09:35:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,357,1559545200"; 
+ d="scan'208,223";a="203250319"
+Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
+ by fmsmga002.fm.intel.com with ESMTP; 07 Aug 2019 09:35:45 -0700
+Received: from orsmsx162.amr.corp.intel.com (10.22.240.85) by
+ ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 7 Aug 2019 09:35:45 -0700
+Received: from orsmsx115.amr.corp.intel.com ([169.254.4.6]) by
+ ORSMSX162.amr.corp.intel.com ([169.254.3.137]) with mapi id 14.03.0439.000;
+ Wed, 7 Aug 2019 09:35:45 -0700
+From: "Boeuf, Sebastien" <sebastien.boeuf@intel.com>
+To: "dgilbert@redhat.com" <dgilbert@redhat.com>
+Thread-Topic: libvhost-user: Fix the VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD check
+Thread-Index: AQHVTSw+I7kmgADAmUOtvYF7P6PObabwT+2AgAAETwD//42QwQ==
+Date: Wed, 7 Aug 2019 16:35:44 +0000
+Message-ID: <1E91073893EF8F498411079ED374F912460D54E7@ORSMSX115.amr.corp.intel.com>
+References: <8df105774471bc72bca1397b4058ecc66d963848.camel@intel.com>
+ <20190807160917.GI2867@work-vm>,
+ <e99d520edca6deca1ff6b838fd43f1bde00761ee.camel@intel.com>
+In-Reply-To: <e99d520edca6deca1ff6b838fd43f1bde00761ee.camel@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.138]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH 0/3] tests/tcg: disentangle makefiles
+X-Received-From: 134.134.136.20
+Subject: Re: [Qemu-devel] libvhost-user: Fix the
+ VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD check
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,93 +71,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> On 07/08/19 15:33, Eric Blake wrote:
->> On 8/7/19 8:06 AM, Paolo Bonzini wrote:
->>> On 07/08/19 14:40, Alex Benn=C3=A9e wrote:
->>>>
->>>> Paolo Bonzini <pbonzini@redhat.com> writes:
->>>>
->>>>> The tests/tcg rely a lot on per-target informations from
->>>>> the QEMU makefiles, but most of the definitions in there
->>>>> aren't really relevant to TCG tests.
->>>>>
->>>>> This series is just a cleanup, but it could also be
->>>>> a useful start in making it possible to compile tests/tcg
->>>>> out of QEMU's tree, and/or making it a submodule, and/or
->>>>> unifying the system emulation tests with kvm-unit-tests.
->>>>
->>>> Hmm something is throwing off configure and making it use my login she=
-ll
->>>> instead of /bin/sh:
->>>>
->>>>   libpmem support   no
->>>>   libudev           yes
->>>>   default devices   yes
->>>>   ~/lsrc/qemu.git/tests/tcg/configure.sh (line 63): 'case' builtin not=
- inside of switch block
->>>>     case $arch in
->>>>     ^
->>>>   <W> fish: Error while reading file /home/alex/lsrc/qemu.git/tests/tc=
-g/configure.sh
->>>
->>> It's the ${SHELL} you found in patch 3.  The disadvantage of relying on
->>> #! is that some people have bash in /usr/bin/bash rather than /bin/bash.
->>>  But we already assume /bin/bash elsewhere so I can drop it.
->>
->> Rather, we use '#!/usr/bin/env bash' to find bash anywhere.
->
-> Nevermind - this script is pure Bourne shell.  The only fix needed
-> should be
-
-I thought we wanted to use pure POSIX shell and not rely on bash-ism's
-creeping in?
-
->
-> diff --git a/configure b/configure
-> index eeeda8760a..f216f3f9d9 100755
-> --- a/configure
-> +++ b/configure
-> @@ -6468,12 +6468,6 @@ if ! $python -c 'import sys; sys.exit(sys.version_=
-info < (3,0))'; then
->    echo "warning: Python 3 will be required for building future versions =
-of QEMU" >&2
->  fi
->
-> -(for i in $cross_cc_vars; do
-> -  export $i
-> -done
-> -export target_list source_path
-> -${SHELL-/bin/sh} $source_path/tests/tcg/configure.sh)
-> -
->  config_host_mak=3D"config-host.mak"
->
->  echo "# Automatically generated by configure - do not modify" >config-al=
-l-disas.mak
-> @@ -7844,6 +7838,12 @@ for f in $LINKS ; do
->      fi
->  done
->
-> +(for i in $cross_cc_vars; do
-> +  export $i
-> +done
-> +export target_list source_path
-> +$source_path/tests/tcg/configure.sh)
-> +
-
-I also had chmod +x the script.
-
->  # temporary config to build submodules
->  for rom in seabios vgabios ; do
->      config_mak=3Droms/$rom/config.mak
-
-
---
-Alex Benn=C3=A9e
+From 950c62dd450c8f6c3fc04269bbefa3a368bb39b6 Mon Sep 17 00:00:00 2001=0A=
+From: Sebastien Boeuf <sebastien.boeuf@intel.com>=0A=
+Date: Wed, 7 Aug 2019 07:15:32 -0700=0A=
+Subject: [PATCH] libvhost-user: Fix the VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD=
+=0A=
+ check=0A=
+=0A=
+Vhost user protocol features are set as a bitmask. And the following=0A=
+constant VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD value is 10 because the bit=0A=
+10 indicates if the features is set or not.=0A=
+=0A=
+The proper way to check for the presence or absence of this feature is=0A=
+to shift 1 by the value of this constant and then mask it with the=0A=
+actual bitmask representing the supported protocol features.=0A=
+=0A=
+This patch aims to fix the current code as it was not doing the=0A=
+shifting, but instead it was masking directly with the value of the=0A=
+constant itself.=0A=
+=0A=
+Signed-off-by: Sebastien Boeuf <sebastien.boeuf@intel.com>=0A=
+---=0A=
+ contrib/libvhost-user/libvhost-user.c | 8 +++++---=0A=
+ 1 file changed, 5 insertions(+), 3 deletions(-)=0A=
+=0A=
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/=
+libvhost-user.c=0A=
+index fb61142bcc..8ff387deff 100644=0A=
+--- a/contrib/libvhost-user/libvhost-user.c=0A=
++++ b/contrib/libvhost-user/libvhost-user.c=0A=
+@@ -71,7 +71,7 @@=0A=
+=0A=
+ /* The version of the protocol we support */=0A=
+ #define VHOST_USER_VERSION 1=0A=
+-#define LIBVHOST_USER_DEBUG 0=0A=
++#define LIBVHOST_USER_DEBUG 1=0A=
+=0A=
+ #define DPRINT(...)                             \=0A=
+     do {                                        \=0A=
+@@ -1112,7 +1112,8 @@ bool vu_set_queue_host_notifier(VuDev *dev, VuVirtq *=
+vq, int fd,=0A=
+=0A=
+     vmsg.fd_num =3D fd_num;=0A=
+=0A=
+-    if ((dev->protocol_features & VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD) =3D=
+=3D 0) {=0A=
++    if ((dev->protocol_features &=0A=
++        (1ULL << VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD)) =3D=3D 0) {=0A=
+         return false;=0A=
+     }=0A=
+=0A=
+@@ -2537,7 +2538,8 @@ int64_t vu_fs_cache_request(VuDev *dev, VhostUserSlav=
+eRequest req, int fd,=0A=
+=0A=
+     vmsg.fd_num =3D fd_num;=0A=
+=0A=
+-    if ((dev->protocol_features & VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD) =3D=
+=3D 0) {=0A=
++    if ((dev->protocol_features &=0A=
++        (1ULL << VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD)) =3D=3D 0) {=0A=
+         return -EINVAL;=0A=
+     }=0A=
+=0A=
+--=0A=
+2.17.1=0A=
+=0A=
+________________________________________=0A=
+From: Boeuf, Sebastien=0A=
+Sent: Wednesday, August 07, 2019 9:24 AM=0A=
+To: dgilbert@redhat.com=0A=
+Cc: marcandre.lureau@redhat.com; qemu-devel@nongnu.org=0A=
+Subject: Re: libvhost-user: Fix the VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD che=
+ck=0A=
+=0A=
+On Wed, 2019-08-07 at 17:09 +0100, Dr. David Alan Gilbert wrote:=0A=
+> * Boeuf, Sebastien (sebastien.boeuf@intel.com) wrote:=0A=
+> > From 0a53a81db6dd069f9b7bcdcd386845bceb3a2ac6 Mon Sep 17 00:00:00=0A=
+> > 2001=0A=
+> > From: Sebastien Boeuf <sebastien.boeuf@intel.com>=0A=
+> > Date: Wed, 7 Aug 2019 07:15:32 -0700=0A=
+> > Subject: [PATCH] libvhost-user: Fix the=0A=
+> > VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD=0A=
+> >  check=0A=
+> >=0A=
+> > Vhost user protocol features are set as a bitmask. And the=0A=
+> > following=0A=
+> > constant VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD value is 10 because=0A=
+> > the=0A=
+> > bit=0A=
+> > 10 indicates if the features is set or not.=0A=
+> >=0A=
+> > The proper way to check for the presence or absence of this feature=0A=
+> > is=0A=
+> > to shift 1 by the value of this constant and then mask it with the=0A=
+> > actual bitmask representing the supported protocol features.=0A=
+> >=0A=
+> > This patch aims to fix the current code as it was not doing the=0A=
+> > shifting, but instead it was masking directly with the value of the=0A=
+> > constant itself.=0A=
+> >=0A=
+> > Signed-off-by: Sebastien Boeuf <sebastien.boeuf@intel.com>=0A=
+>=0A=
+> Nicely spotted.=0A=
+>=0A=
+> Two things;=0A=
+>   a) I think your mail client has wrapped the lines at some point.=0A=
+>   b) I think this is why the has_feature() functione exists, so does=0A=
+>      that become=0A=
+>=0A=
+>       if (!has_feature(dev->protocol_features,=0A=
+> VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD))=0A=
+=0A=
+Ah yes but that's because I forgot to check the patch format first :(=0A=
+=0A=
+I'm going to update the patch.=0A=
+=0A=
+Thanks,=0A=
+Sebastien=0A=
+>=0A=
+> Dave=0A=
+>=0A=
+> > ---=0A=
+> >  contrib/libvhost-user/libvhost-user.c | 4 ++--=0A=
+> >  1 file changed, 2 insertions(+), 2 deletions(-)=0A=
+> >=0A=
+> > diff --git a/contrib/libvhost-user/libvhost-user.c=0A=
+> > b/contrib/libvhost-=0A=
+> > user/libvhost-user.c=0A=
+> > index fb61142bcc..11909fb7c1 100644=0A=
+> > --- a/contrib/libvhost-user/libvhost-user.c=0A=
+> > +++ b/contrib/libvhost-user/libvhost-user.c=0A=
+> > @@ -1112,7 +1112,7 @@ bool vu_set_queue_host_notifier(VuDev *dev,=0A=
+> > VuVirtq *vq, int fd,=0A=
+> >=0A=
+> >      vmsg.fd_num =3D fd_num;=0A=
+> >=0A=
+> > -    if ((dev->protocol_features &=0A=
+> > VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD)=0A=
+> > =3D=3D 0) {=0A=
+> > +    if ((dev->protocol_features & (1ULL <<=0A=
+> > VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD)) =3D=3D 0) {=0A=
+> >          return false;=0A=
+> >      }=0A=
+> >=0A=
+> > @@ -2537,7 +2537,7 @@ int64_t vu_fs_cache_request(VuDev *dev,=0A=
+> > VhostUserSlaveRequest req, int fd,=0A=
+> >=0A=
+> >      vmsg.fd_num =3D fd_num;=0A=
+> >=0A=
+> > -    if ((dev->protocol_features &=0A=
+> > VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD)=0A=
+> > =3D=3D 0) {=0A=
+> > +    if ((dev->protocol_features & (1ULL <<=0A=
+> > VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD)) =3D=3D 0) {=0A=
+> >          return -EINVAL;=0A=
+> >      }=0A=
+> >=0A=
+> > --=0A=
+> > 2.17.1=0A=
+>=0A=
+> --=0A=
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK=0A=
 
