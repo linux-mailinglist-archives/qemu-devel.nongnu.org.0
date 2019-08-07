@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D2E8437E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 06:55:13 +0200 (CEST)
-Received: from localhost ([::1]:37206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24DF384385
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 06:57:35 +0200 (CEST)
+Received: from localhost ([::1]:37258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvDyj-0003Oi-1E
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 00:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40618)
+	id 1hvE10-0000LR-Cy
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 00:57:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40659)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hvDxO-00016a-ON
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:52 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hvDxQ-0001Cs-B1
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hvDxN-0004nR-7e
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:50 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:45717)
+ (envelope-from <richard.henderson@linaro.org>) id 1hvDxO-0004od-HO
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:52 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:45837)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hvDxN-0004le-22
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:49 -0400
-Received: by mail-pg1-x541.google.com with SMTP id o13so42775669pgp.12
- for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 21:53:48 -0700 (PDT)
+ id 1hvDxO-0004o1-9b
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 00:53:50 -0400
+Received: by mail-pl1-x641.google.com with SMTP id y8so38795990plr.12
+ for <qemu-devel@nongnu.org>; Tue, 06 Aug 2019 21:53:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=1zzimgpgSpr/kyzutrALdKavhpYiAUiw3e1Jv+/dxZI=;
- b=Eu3OOrlOz2UgnxrLF/PsCxjK42U+FsE/Kh/qrZ0XKPdKP4J+7ys7ZOP3i4bf3Xd9qH
- U5LWOu3WIM+w3goJBqnBafHzPhXZcQCIEpLGII/a83mwGu39xWUipdf5ajmGuLqxGfbx
- Geb2PHAkOgrMzUwONpUhspbccujgjnCWtavPO2tL2AZuRZ8L8sMuTv6s6F3kPMdjtFnG
- MQjQeDvDhQP+m7jS7A4zaaxZjkYmV/XcGGrKwO3n9+VX/2xRrU+FkuznHhLJRvVPypNj
- nzJn3wQoYBlig13plZoFjpC0KLdSWBjTV37tcoQH6ELktpsu4R1XTa6thcPXfjOwrcNR
- yQQQ==
+ bh=1+ZCh0ppqRckFKlk6UR/b/e9Pyhyh5ijaXz+rNnMkc4=;
+ b=p+gGLAe/m+zU0edleywRdT2G7HCx7Bu+nzK9e4ItOJ497cRaMWZC91wayPIMM5t2EW
+ Xfsd8LrA9hiFEzRuP2UUHMWwG2NdsGiNrn/NZKl/njB8x9dQ2kiURzxjGtaUFvqw/5kj
+ KNWc+Ji3ddsVuLOJO47gOkjQFWlLF7s2e9CR52Z/sFwAkpIJygD9T0JxniFPODtJ/NpC
+ oe8SS/5r9NBm16AM7lqSda5kBojf+uQK8pjXlKzNJB1ZxG5EtC4iDmnJ4ieNagAj5luO
+ 1Nk4vpc6D1BagxgoA3q8vUtKN1blMyOD9nWvBmHURIllizd43qZ/zJbGQXFmPwVhnB2/
+ 1P0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=1zzimgpgSpr/kyzutrALdKavhpYiAUiw3e1Jv+/dxZI=;
- b=PFGEkvfsT1wQiStihuCXZGsPzJH1naoil8p0oGjthHX63HYDVS4rcmzdSImoY6sfWi
- AbxRusbmY3QlNuHC7eVV3NYWJaSXuf7kJnD6GNTLbLMYITESoDnpkVkyQ8IZ6ZjiWx2V
- LmmZmEgjQBV3p9RDXad6n1IAX+7C6xAiEKotszNdXz3s9+Rr3bJbeo/BlPdGhXPMDkns
- C1Fkzh5LjMKJ/JF/qY/EAs6B5Nwx9J596XFLjBgZjZLnjZsGIiTPkj31jMUS7L1bsPVz
- 3E3hAMTH/IRKljyvV0L925WOVHllgMVXFkbGA2F/N2S9/inlDUGrv+ur70iPUzNHW0WX
- kSzQ==
-X-Gm-Message-State: APjAAAXEWPeOGSZHvHyLrszfCnzC+B5lPADE2J0Cmr2jeQeA7u9wXdpA
- e34SLJoxHHX/L4PXWGQVNKjxkG13/lI=
-X-Google-Smtp-Source: APXvYqwOaU4nlvS2gVRJfO6b6IwNvcfm5er6WWbRf0ZVoufB+NF23mkG5VZsCW/PJMNzlj0OjrmPUA==
-X-Received: by 2002:a65:5342:: with SMTP id w2mr5999727pgr.261.1565153627374; 
- Tue, 06 Aug 2019 21:53:47 -0700 (PDT)
+ bh=1+ZCh0ppqRckFKlk6UR/b/e9Pyhyh5ijaXz+rNnMkc4=;
+ b=DiiRJCKXoaGda12ml6EpSagezRGb2ERArtniLIerCDmAnJr8z7hZ8mFCHhuw5lqCYJ
+ xnnSsI0Q3oY1YRDJX0a9bhkzCaoJtFT33xc89QiwLj8+YMcWfKbUWgHQT4omvUhg4Prz
+ umcNeY4m0aZwZRfNBQ6T4/OakciIdxH3SoHe2auYDfJ6kZ4jBP8I4JM9ygBcRUqrad6q
+ /icDW2EAQZs02eC9NwvGa2Sd6zQVLtLGHxJm5IsR20T7M5wKeXtwODjvDKNo+q8MnsiK
+ 7sYKPecMmJ1rpDj1kgY/g3YkeJdIC1IdbDOtVKTLZ07Vye1TuHXTxYtwNqacPR/qVpt7
+ 4WIg==
+X-Gm-Message-State: APjAAAVkqyth2xUjUWBT2ryhHw/glOK8fQP6vMiJiyEDBkbeDDZdhu4/
+ Ovo6p2WrdeAoW5gQwoIwiAc3s01V+Ks=
+X-Google-Smtp-Source: APXvYqwNgGysT41mUAwtIcZMclukwFb71MFLmZeo6U0+X9BOMazGaCj/5efppNfu+Uf3ThzuxaZEDQ==
+X-Received: by 2002:a17:902:2ae8:: with SMTP id
+ j95mr5932957plb.276.1565153628891; 
+ Tue, 06 Aug 2019 21:53:48 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id t9sm24347921pji.18.2019.08.06.21.53.46
+ by smtp.gmail.com with ESMTPSA id t9sm24347921pji.18.2019.08.06.21.53.47
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 06 Aug 2019 21:53:46 -0700 (PDT)
+ Tue, 06 Aug 2019 21:53:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  6 Aug 2019 21:53:27 -0700
-Message-Id: <20190807045335.1361-4-richard.henderson@linaro.org>
+Date: Tue,  6 Aug 2019 21:53:28 -0700
+Message-Id: <20190807045335.1361-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190807045335.1361-1-richard.henderson@linaro.org>
 References: <20190807045335.1361-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH 03/11] target/arm: Introduce read_pc
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: [Qemu-devel] [PATCH 04/11] target/arm: Introduce add_reg_for_lit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,200 +80,309 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently have 3 different ways of computing the architectural
-value of "PC" as seen in the ARM ARM.
-
-The value of s->pc has been incremented past the current insn,
-but that is all.  Thus for a32, PC = s->pc + 4; for t32, PC = s->pc;
-for t16, PC = s->pc + 2.  These differing computations make it
-impossible at present to unify the various code paths.
-
-With the newly introduced s->pc_curr, we can compute the correct
-value for all cases, using the formula given in the ARM ARM.
+Provide a common routine for the places that require ALIGN(PC, 4)
+as the base address as opposed to plain PC.  The two are always
+the same for A32, but the difference is meaningful for thumb mode.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 59 ++++++++++++++++--------------------------
- 1 file changed, 23 insertions(+), 36 deletions(-)
+Note: This patch is easier to read with -b, as there are several
+large-ish indentation changes as the if statements fold together.
+---
+ target/arm/translate-vfp.inc.c |  38 ++------
+ target/arm/translate.c         | 166 +++++++++++++++------------------
+ 2 files changed, 82 insertions(+), 122 deletions(-)
 
+diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
+index 092eb5ec53..262d4177e5 100644
+--- a/target/arm/translate-vfp.inc.c
++++ b/target/arm/translate-vfp.inc.c
+@@ -941,14 +941,8 @@ static bool trans_VLDR_VSTR_sp(DisasContext *s, arg_VLDR_VSTR_sp *a)
+         offset = -offset;
+     }
+ 
+-    if (s->thumb && a->rn == 15) {
+-        /* This is actually UNPREDICTABLE */
+-        addr = tcg_temp_new_i32();
+-        tcg_gen_movi_i32(addr, s->pc & ~2);
+-    } else {
+-        addr = load_reg(s, a->rn);
+-    }
+-    tcg_gen_addi_i32(addr, addr, offset);
++    /* For thumb, use of PC is UNPREDICTABLE.  */
++    addr = add_reg_for_lit(s, a->rn, offset);
+     tmp = tcg_temp_new_i32();
+     if (a->l) {
+         gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
+@@ -983,14 +977,8 @@ static bool trans_VLDR_VSTR_dp(DisasContext *s, arg_VLDR_VSTR_dp *a)
+         offset = -offset;
+     }
+ 
+-    if (s->thumb && a->rn == 15) {
+-        /* This is actually UNPREDICTABLE */
+-        addr = tcg_temp_new_i32();
+-        tcg_gen_movi_i32(addr, s->pc & ~2);
+-    } else {
+-        addr = load_reg(s, a->rn);
+-    }
+-    tcg_gen_addi_i32(addr, addr, offset);
++    /* For thumb, use of PC is UNPREDICTABLE.  */
++    addr = add_reg_for_lit(s, a->rn, offset);
+     tmp = tcg_temp_new_i64();
+     if (a->l) {
+         gen_aa32_ld64(s, tmp, addr, get_mem_index(s));
+@@ -1029,13 +1017,8 @@ static bool trans_VLDM_VSTM_sp(DisasContext *s, arg_VLDM_VSTM_sp *a)
+         return true;
+     }
+ 
+-    if (s->thumb && a->rn == 15) {
+-        /* This is actually UNPREDICTABLE */
+-        addr = tcg_temp_new_i32();
+-        tcg_gen_movi_i32(addr, s->pc & ~2);
+-    } else {
+-        addr = load_reg(s, a->rn);
+-    }
++    /* For thumb, use of PC is UNPREDICTABLE.  */
++    addr = add_reg_for_lit(s, a->rn, 0);
+     if (a->p) {
+         /* pre-decrement */
+         tcg_gen_addi_i32(addr, addr, -(a->imm << 2));
+@@ -1112,13 +1095,8 @@ static bool trans_VLDM_VSTM_dp(DisasContext *s, arg_VLDM_VSTM_dp *a)
+         return true;
+     }
+ 
+-    if (s->thumb && a->rn == 15) {
+-        /* This is actually UNPREDICTABLE */
+-        addr = tcg_temp_new_i32();
+-        tcg_gen_movi_i32(addr, s->pc & ~2);
+-    } else {
+-        addr = load_reg(s, a->rn);
+-    }
++    /* For thumb, use of PC is UNPREDICTABLE.  */
++    addr = add_reg_for_lit(s, a->rn, 0);
+     if (a->p) {
+         /* pre-decrement */
+         tcg_gen_addi_i32(addr, addr, -(a->imm << 2));
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 59e35aafbf..61933865d5 100644
+index 61933865d5..71d94c053b 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -196,17 +196,17 @@ static inline void store_cpu_offset(TCGv_i32 var, int offset)
- #define store_cpu_field(var, name) \
-     store_cpu_offset(var, offsetof(CPUARMState, name))
+@@ -220,6 +220,23 @@ static inline TCGv_i32 load_reg(DisasContext *s, int reg)
+     return tmp;
+ }
  
-+/* The architectural value of PC.  */
-+static uint32_t read_pc(DisasContext *s)
++/*
++ * Create a new temp, REG + OFS, except PC is ALIGN(PC, 4).
++ * This is used for load/store for which use of PC implies (literal),
++ * or ADD that implies ADR.
++ */
++static TCGv_i32 add_reg_for_lit(DisasContext *s, int reg, int ofs)
 +{
-+    return s->pc_curr + (s->thumb ? 4 : 8);
++    TCGv_i32 tmp = tcg_temp_new_i32();
++
++    if (reg == 15) {
++        tcg_gen_movi_i32(tmp, (read_pc(s) & ~3) + ofs);
++    } else {
++        tcg_gen_addi_i32(tmp, cpu_R[reg], ofs);
++    }
++    return tmp;
 +}
 +
- /* Set a variable to the value of a CPU register.  */
- static void load_reg_var(DisasContext *s, TCGv_i32 var, int reg)
- {
-     if (reg == 15) {
--        uint32_t addr;
--        /* normally, since we updated PC, we need only to add one insn */
--        if (s->thumb)
--            addr = (long)s->pc + 2;
--        else
--            addr = (long)s->pc + 4;
--        tcg_gen_movi_i32(var, addr);
-+        tcg_gen_movi_i32(var, read_pc(s));
-     } else {
-         tcg_gen_mov_i32(var, cpu_R[reg]);
-     }
-@@ -7868,16 +7868,14 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             /* branch link and change to thumb (blx <offset>) */
-             int32_t offset;
+ /* Set a CPU register.  The source must be a temporary and will be
+    marked as dead.  */
+ static void store_reg(DisasContext *s, int reg, TCGv_i32 var)
+@@ -9472,16 +9489,12 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                  */
+                 bool wback = extract32(insn, 21, 1);
  
--            val = (uint32_t)s->pc;
-             tmp = tcg_temp_new_i32();
--            tcg_gen_movi_i32(tmp, val);
-+            tcg_gen_movi_i32(tmp, s->pc);
-             store_reg(s, 14, tmp);
-             /* Sign-extend the 24-bit offset */
-             offset = (((int32_t)insn) << 8) >> 8;
-+            val = read_pc(s);
-             /* offset * 4 + bit24 * 2 + (thumb bit) */
-             val += (offset << 2) | ((insn >> 23) & 2) | 1;
--            /* pipeline offset */
--            val += 4;
-             /* protected by ARCH(5); above, near the start of uncond block */
-             gen_bx_im(s, val);
-             return;
-@@ -9153,10 +9151,8 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-                         } else {
-                             /* store */
-                             if (i == 15) {
--                                /* special case: r15 = PC + 8 */
--                                val = (long)s->pc + 4;
-                                 tmp = tcg_temp_new_i32();
--                                tcg_gen_movi_i32(tmp, val);
-+                                tcg_gen_movi_i32(tmp, read_pc(s));
-                             } else if (user) {
-                                 tmp = tcg_temp_new_i32();
-                                 tmp2 = tcg_const_i32(i);
-@@ -9222,15 +9218,13 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-                 int32_t offset;
- 
-                 /* branch (and link) */
--                val = (int32_t)s->pc;
-                 if (insn & (1 << 24)) {
-                     tmp = tcg_temp_new_i32();
--                    tcg_gen_movi_i32(tmp, val);
-+                    tcg_gen_movi_i32(tmp, s->pc);
-                     store_reg(s, 14, tmp);
-                 }
-                 offset = sextract32(insn << 2, 0, 26);
--                val += offset + 4;
--                gen_jmp(s, val);
-+                gen_jmp(s, read_pc(s) + offset);
-             }
-             break;
-         case 0xc:
-@@ -9588,12 +9582,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                 tcg_temp_free_i32(addr);
-             } else if ((insn & (7 << 5)) == 0) {
-                 /* Table Branch.  */
 -                if (rn == 15) {
+-                    if (insn & (1 << 21)) {
+-                        /* UNPREDICTABLE */
+-                        goto illegal_op;
+-                    }
 -                    addr = tcg_temp_new_i32();
--                    tcg_gen_movi_i32(addr, s->pc);
+-                    tcg_gen_movi_i32(addr, s->pc & ~3);
 -                } else {
 -                    addr = load_reg(s, rn);
--                }
-+                addr = load_reg(s, rn);
-                 tmp = load_reg(s, rm);
-                 tcg_gen_add_i32(addr, addr, tmp);
-                 if (insn & (1 << 4)) {
-@@ -9609,7 +9598,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
++                if (rn == 15 && (insn & (1 << 21))) {
++                    /* UNPREDICTABLE */
++                    goto illegal_op;
                  }
-                 tcg_temp_free_i32(addr);
-                 tcg_gen_shli_i32(tmp, tmp, 1);
--                tcg_gen_addi_i32(tmp, tmp, s->pc);
-+                tcg_gen_addi_i32(tmp, tmp, read_pc(s));
-                 store_reg(s, 15, tmp);
-             } else {
-                 bool is_lasr = false;
-@@ -10342,7 +10331,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                     tcg_gen_movi_i32(cpu_R[14], s->pc | 1);
++
++                addr = add_reg_for_lit(s, rn, 0);
+                 offset = (insn & 0xff) * 4;
+                 if ((insn & (1 << 23)) == 0) {
+                     offset = -offset;
+@@ -10682,27 +10695,15 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                         store_reg(s, rd, tmp);
+                     } else {
+                         /* Add/sub 12-bit immediate.  */
+-                        if (rn == 15) {
+-                            offset = s->pc & ~(uint32_t)3;
+-                            if (insn & (1 << 23))
+-                                offset -= imm;
+-                            else
+-                                offset += imm;
+-                            tmp = tcg_temp_new_i32();
+-                            tcg_gen_movi_i32(tmp, offset);
+-                            store_reg(s, rd, tmp);
++                        if (insn & (1 << 23)) {
++                            imm = -imm;
++                        }
++                        tmp = add_reg_for_lit(s, rn, imm);
++                        if (rn == 13 && rd == 13) {
++                            /* ADD SP, SP, imm or SUB SP, SP, imm */
++                            store_sp_checked(s, tmp);
+                         } else {
+-                            tmp = load_reg(s, rn);
+-                            if (insn & (1 << 23))
+-                                tcg_gen_subi_i32(tmp, tmp, imm);
+-                            else
+-                                tcg_gen_addi_i32(tmp, tmp, imm);
+-                            if (rn == 13 && rd == 13) {
+-                                /* ADD SP, SP, imm or SUB SP, SP, imm */
+-                                store_sp_checked(s, tmp);
+-                            } else {
+-                                store_reg(s, rd, tmp);
+-                            }
++                            store_reg(s, rd, tmp);
+                         }
+                     }
                  }
- 
--                offset += s->pc;
-+                offset += read_pc(s);
-                 if (insn & (1 << 12)) {
-                     /* b/bl */
-                     gen_jmp(s, offset);
-@@ -10583,7 +10572,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                 offset |= (insn & (1 << 11)) << 8;
- 
-                 /* jump to the offset */
--                gen_jmp(s, s->pc + offset);
-+                gen_jmp(s, read_pc(s) + offset);
+@@ -10816,61 +10817,53 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
              }
+         }
+         memidx = get_mem_index(s);
+-        if (rn == 15) {
+-            addr = tcg_temp_new_i32();
+-            /* PC relative.  */
+-            /* s->pc has already been incremented by 4.  */
+-            imm = s->pc & 0xfffffffc;
+-            if (insn & (1 << 23))
+-                imm += insn & 0xfff;
+-            else
+-                imm -= insn & 0xfff;
+-            tcg_gen_movi_i32(addr, imm);
++        imm = insn & 0xfff;
++        if (insn & (1 << 23)) {
++            /* PC relative or Positive offset.  */
++            addr = add_reg_for_lit(s, rn, imm);
++        } else if (rn == 15) {
++            /* PC relative with negative offset.  */
++            addr = add_reg_for_lit(s, rn, -imm);
          } else {
-             /*
-@@ -11077,7 +11066,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+             addr = load_reg(s, rn);
+-            if (insn & (1 << 23)) {
+-                /* Positive offset.  */
+-                imm = insn & 0xfff;
+-                tcg_gen_addi_i32(addr, addr, imm);
+-            } else {
+-                imm = insn & 0xff;
+-                switch ((insn >> 8) & 0xf) {
+-                case 0x0: /* Shifted Register.  */
+-                    shift = (insn >> 4) & 0xf;
+-                    if (shift > 3) {
+-                        tcg_temp_free_i32(addr);
+-                        goto illegal_op;
+-                    }
+-                    tmp = load_reg(s, rm);
+-                    if (shift)
+-                        tcg_gen_shli_i32(tmp, tmp, shift);
+-                    tcg_gen_add_i32(addr, addr, tmp);
+-                    tcg_temp_free_i32(tmp);
+-                    break;
+-                case 0xc: /* Negative offset.  */
+-                    tcg_gen_addi_i32(addr, addr, -imm);
+-                    break;
+-                case 0xe: /* User privilege.  */
+-                    tcg_gen_addi_i32(addr, addr, imm);
+-                    memidx = get_a32_user_mem_index(s);
+-                    break;
+-                case 0x9: /* Post-decrement.  */
+-                    imm = -imm;
+-                    /* Fall through.  */
+-                case 0xb: /* Post-increment.  */
+-                    postinc = 1;
+-                    writeback = 1;
+-                    break;
+-                case 0xd: /* Pre-decrement.  */
+-                    imm = -imm;
+-                    /* Fall through.  */
+-                case 0xf: /* Pre-increment.  */
+-                    writeback = 1;
+-                    break;
+-                default:
++            imm = insn & 0xff;
++            switch ((insn >> 8) & 0xf) {
++            case 0x0: /* Shifted Register.  */
++                shift = (insn >> 4) & 0xf;
++                if (shift > 3) {
+                     tcg_temp_free_i32(addr);
+                     goto illegal_op;
+                 }
++                tmp = load_reg(s, rm);
++                if (shift) {
++                    tcg_gen_shli_i32(tmp, tmp, shift);
++                }
++                tcg_gen_add_i32(addr, addr, tmp);
++                tcg_temp_free_i32(tmp);
++                break;
++            case 0xc: /* Negative offset.  */
++                tcg_gen_addi_i32(addr, addr, -imm);
++                break;
++            case 0xe: /* User privilege.  */
++                tcg_gen_addi_i32(addr, addr, imm);
++                memidx = get_a32_user_mem_index(s);
++                break;
++            case 0x9: /* Post-decrement.  */
++                imm = -imm;
++                /* Fall through.  */
++            case 0xb: /* Post-increment.  */
++                postinc = 1;
++                writeback = 1;
++                break;
++            case 0xd: /* Pre-decrement.  */
++                imm = -imm;
++                /* Fall through.  */
++            case 0xf: /* Pre-increment.  */
++                writeback = 1;
++                break;
++            default:
++                tcg_temp_free_i32(addr);
++                goto illegal_op;
+             }
+         }
+ 
+@@ -11066,10 +11059,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
          if (insn & (1 << 11)) {
              rd = (insn >> 8) & 7;
              /* load pc-relative.  Bit 1 of PC is ignored.  */
--            val = s->pc + 2 + ((insn & 0xff) * 4);
-+            val = read_pc(s) + ((insn & 0xff) * 4);
-             val &= ~(uint32_t)2;
-             addr = tcg_temp_new_i32();
-             tcg_gen_movi_i32(addr, val);
-@@ -11464,7 +11453,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-         } else {
-             /* PC. bit 1 is ignored.  */
+-            val = read_pc(s) + ((insn & 0xff) * 4);
+-            val &= ~(uint32_t)2;
+-            addr = tcg_temp_new_i32();
+-            tcg_gen_movi_i32(addr, val);
++            addr = add_reg_for_lit(s, 15, (insn & 0xff) * 4);
              tmp = tcg_temp_new_i32();
--            tcg_gen_movi_i32(tmp, (s->pc + 2) & ~(uint32_t)2);
-+            tcg_gen_movi_i32(tmp, read_pc(s) & ~(uint32_t)2);
-         }
+             gen_aa32_ld32u_iss(s, tmp, addr, get_mem_index(s),
+                                rd | ISSIs16Bit);
+@@ -11447,16 +11437,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+          *  - Add PC/SP (immediate)
+          */
+         rd = (insn >> 8) & 7;
+-        if (insn & (1 << 11)) {
+-            /* SP */
+-            tmp = load_reg(s, 13);
+-        } else {
+-            /* PC. bit 1 is ignored.  */
+-            tmp = tcg_temp_new_i32();
+-            tcg_gen_movi_i32(tmp, read_pc(s) & ~(uint32_t)2);
+-        }
          val = (insn & 0xff) * 4;
-         tcg_gen_addi_i32(tmp, tmp, val);
-@@ -11584,9 +11573,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-                 tcg_gen_brcondi_i32(TCG_COND_NE, tmp, 0, s->condlabel);
-             tcg_temp_free_i32(tmp);
-             offset = ((insn & 0xf8) >> 2) | (insn & 0x200) >> 3;
--            val = (uint32_t)s->pc + 2;
--            val += offset;
--            gen_jmp(s, val);
-+            gen_jmp(s, read_pc(s) + offset);
-             break;
- 
-         case 15: /* IT, nop-hint.  */
-@@ -11750,7 +11737,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-         arm_skip_unless(s, cond);
- 
-         /* jump to the offset */
--        val = (uint32_t)s->pc + 2;
-+        val = read_pc(s);
-         offset = ((int32_t)insn << 24) >> 24;
-         val += offset << 1;
-         gen_jmp(s, val);
-@@ -11776,9 +11763,9 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-             break;
-         }
-         /* unconditional branch */
--        val = (uint32_t)s->pc;
-+        val = read_pc(s);
-         offset = ((int32_t)insn << 21) >> 21;
--        val += (offset << 1) + 2;
-+        val += offset << 1;
-         gen_jmp(s, val);
+-        tcg_gen_addi_i32(tmp, tmp, val);
++        tmp = add_reg_for_lit(s, insn & (1 << 11) ? 13 : 15, val);
+         store_reg(s, rd, tmp);
          break;
  
-@@ -11802,7 +11789,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-             /* 0b1111_0xxx_xxxx_xxxx : BL/BLX prefix */
-             uint32_t uoffset = ((int32_t)insn << 21) >> 9;
- 
--            tcg_gen_movi_i32(cpu_R[14], s->pc + 2 + uoffset);
-+            tcg_gen_movi_i32(cpu_R[14], read_pc(s) + uoffset);
-         }
-         break;
-     }
 -- 
 2.17.1
 
