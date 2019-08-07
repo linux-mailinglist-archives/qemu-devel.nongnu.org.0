@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4889B8513C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 18:42:17 +0200 (CEST)
-Received: from localhost ([::1]:43512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5802B8517D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 18:54:06 +0200 (CEST)
+Received: from localhost ([::1]:43548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvP0y-0003Sf-Gw
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 12:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45095)
+	id 1hvPCP-0000Fu-2y
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 12:54:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48810)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hvP0E-0002gI-JO
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 12:41:31 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hvPBg-0008BD-0H
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 12:53:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hvP0D-0002np-BQ
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 12:41:30 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34811)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hvP0D-0002mf-6C
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 12:41:29 -0400
-Received: by mail-ot1-x342.google.com with SMTP id n5so106934631otk.1
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 09:41:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=seT5bS1XVLLNb234RRSJDRVSlZw3nYUA98fmigb9IeA=;
- b=X5aRxbpOI1CEgnp9V7XoYAyrqmlXGLr9qvqvG6zIwSxqKFngaL5UGpDW0YRSXx8/Qg
- bkC/oimF+AwUpmyIw5BfAnDpIYtGJ7y9DlhBRMwfh6ZSjXZE3AZjrme3hgHcrpDUpEnt
- pWuYmLkqjKKF8OOq3kX7DvgYhrOZub+qqyUnw4RLTqYy4nWSEzyZbMNXQkt9NXanAmlz
- kb2Oh7YnKPBEOxtxFCToY9ryvhTdutZC8XaSbyH6rTW0Z6Vr6eE0vDXjPQGTbpp7qtj1
- 43yuQTIk/+6KZjWvLcUYyF2B3hTek5QVBkIjzgXTetQ81Rb4qaQsnqGlP6aZ8gHDRXxD
- ZBdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=seT5bS1XVLLNb234RRSJDRVSlZw3nYUA98fmigb9IeA=;
- b=Yx8oMoES8tCg6LS2vsYK27x+9MfVBDBlQHDqKITPiyBMcLoQEu0LEYUCVe1H92bXjE
- 2XHR1SmWFXBhn9YruZpc+ea1JU8E612fXMqbLvqcCkAMF8vc5grK/I68aEptsoG0ohYU
- PnQKUIqlPFb8ndegcTEE0D/TP4+RndzAVU5VJJ/rCtlhR98odA16MiVIKDN5q3YqV8xi
- g9YMbsZo/oagNSpo7YB+WsEsZ84ao4sh1WVLTdj/pTqXiD6uVkCs/HQrPtEb/wFXggr9
- wlgdr5KHGz2Z4+jwBtql6L8tylX0G1/BS/71J/UguFF75t5XMW7wevDdKTCkRr+tbKe1
- dYFg==
-X-Gm-Message-State: APjAAAViG+aPkkQ4n5hcKqeUniMm0wxPiwAsEGuDvOeu8ViwKS6Fn7OO
- 6ZIZPrEuCFWg7YXpmwCk1slgwlKZxiFXMT2LyInrqA==
-X-Google-Smtp-Source: APXvYqz4LKkOHxUDFoAR1p3J08VwHbg6lRm5W27B5Qoy4cqWxWr3fMx4cFyddNkEEJ6sok/ke2h1vQEE5yXzWTp61w0=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr9084343oti.91.1565196088343; 
- Wed, 07 Aug 2019 09:41:28 -0700 (PDT)
+ (envelope-from <mreitz@redhat.com>) id 1hvPBf-000733-5x
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 12:53:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56184)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hvPBd-0006wK-6o; Wed, 07 Aug 2019 12:53:17 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DC7DFC0092D1;
+ Wed,  7 Aug 2019 16:53:14 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-24.brq.redhat.com
+ [10.40.204.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 021345D71C;
+ Wed,  7 Aug 2019 16:53:07 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20190807080750.15950-1-vsementsov@virtuozzo.com>
+ <20190807080750.15950-3-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <7c2f4838-637e-b59c-45fa-9893a9788151@redhat.com>
+Date: Wed, 7 Aug 2019 18:53:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190807145939.1281-1-palmer@sifive.com>
-In-Reply-To: <20190807145939.1281-1-palmer@sifive.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 7 Aug 2019 17:41:17 +0100
-Message-ID: <CAFEAcA9YeuvQPnvG1+Cdb+-JbsbKaRpa0Frv5zz+Vb3q0prAeQ@mail.gmail.com>
-To: Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH for 4.1] RISC-V: Ignore the S and U
- extensions when formatting ISA strings
+In-Reply-To: <20190807080750.15950-3-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="HquIMIWw0FpnxjpcRyW4g09z35j8iKn0N"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Wed, 07 Aug 2019 16:53:15 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 2/8] block/backup: refactor write_flags
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,60 +86,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Atish Patra <Atish.Patra@wdc.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 7 Aug 2019 at 16:02, Palmer Dabbelt <palmer@sifive.com> wrote:
->
-> The ISA strings we're providing from QEMU aren't actually legal RISC-V
-> ISA strings, as both the S and U extensions cannot exist as
-> single-letter extensions and must instead be multi-letter strings.
-> We're still using the ISA strings inside QEMU to track the availiable
-> extensions, so this patch just strips out the S and U extensions when
-> formatting ISA strings.
->
-> This boots Linux on top of 4.1-rc3, which no longer has the U extension
-> in /proc/cpuinfo.
->
-> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
-> ---
-> This is another late one, but I'd like to target it for 4.1 as we're
-> providing illegal ISA strings and I don't want to bake that into a bunch
-> of other code.
-> ---
->  target/riscv/cpu.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index f8d07bd20ad7..4df14433d789 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -501,7 +501,22 @@ char *riscv_isa_string(RISCVCPU *cpu)
->      char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
->      for (i = 0; i < sizeof(riscv_exts); i++) {
->          if (cpu->env.misa & RV(riscv_exts[i])) {
-> -            *p++ = qemu_tolower(riscv_exts[i]);
-> +            char lower = qemu_tolower(riscv_exts[i]);
-> +            switch (lower) {
-> +            case 's':
-> +            case 'u':
-> +                /*
-> +                 * The 's' and 'u' extensions shouldn't be passed in the device
-> +                 * tree, but we still use them internally to track extension
-> +                 * sets.  Here we just explicitly remove them when formatting
-> +                 * an ISA string.
-> +                 */
-> +                break;
-> +
-> +            default:
-> +                *p++ = qemu_tolower(riscv_exts[i]);
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--HquIMIWw0FpnxjpcRyW4g09z35j8iKn0N
+Content-Type: multipart/mixed; boundary="uVIulT5FE93YHaFaiKSxdKYSwMIy7Ue1M";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, fam@euphon.net,
+ stefanha@redhat.com, kwolf@redhat.com, jsnow@redhat.com, den@openvz.org
+Message-ID: <7c2f4838-637e-b59c-45fa-9893a9788151@redhat.com>
+Subject: Re: [PATCH 2/8] block/backup: refactor write_flags
+References: <20190807080750.15950-1-vsementsov@virtuozzo.com>
+ <20190807080750.15950-3-vsementsov@virtuozzo.com>
+In-Reply-To: <20190807080750.15950-3-vsementsov@virtuozzo.com>
 
- *p++ = lower;  ?
+--uVIulT5FE93YHaFaiKSxdKYSwMIy7Ue1M
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-thanks
--- PMM
+On 07.08.19 10:07, Vladimir Sementsov-Ogievskiy wrote:
+> write flags are constant, let's store it in BackupBlockJob instead of
+> recalculating. It also makes two boolean fields to be unused, so,
+> drop them.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: John Snow <jsnow@redhat.com>
+> ---
+>  block/backup.c | 24 ++++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--uVIulT5FE93YHaFaiKSxdKYSwMIy7Ue1M--
+
+--HquIMIWw0FpnxjpcRyW4g09z35j8iKn0N
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1LAfEACgkQ9AfbAGHV
+z0Ds+gf/Tj1/GwuElvJR7ehYiE3Dx19v23h3aDtiFNFB8W+F98ZlaFptqHZhHgZR
+8K+AzobTrus5CvozdRjSxdeF70XMu3NOySJ0vd7yX5TeafoFoNq8RXQVA4SYpymn
+7BJDBji1JswUGj9+j7EeVM2WmVRJ9aLWjqEGbms5mlWgd6i850HRxVc0IgNH++kw
+ybyD5LqNk2h50VreSSmVxvuF6uG8Ykgi5goh9bA6vL3ljhE56w6xg0GUKLS2ut7L
+gkDp9Dhr1SmdTiFecJd04oKrYclE92MmaKZN4Z3pvo1Vc4/YD+mIDx43daFU6IKi
+UTbCcExx5An3awMuQJyP38A0hcFxVQ==
+=CQvS
+-----END PGP SIGNATURE-----
+
+--HquIMIWw0FpnxjpcRyW4g09z35j8iKn0N--
 
