@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA4C84C14
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 14:52:10 +0200 (CEST)
-Received: from localhost ([::1]:40718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C6A84BF6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 14:47:13 +0200 (CEST)
+Received: from localhost ([::1]:40646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvLQH-0005H4-JM
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 08:52:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49725)
+	id 1hvLLU-0008Fv-1s
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 08:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48082)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hvLOq-0003Jf-5A
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 08:50:41 -0400
+ (envelope-from <lersek@redhat.com>) id 1hvLKA-00078V-EH
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 08:45:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hvLOp-0007NZ-3G
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 08:50:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55336)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hvLOo-0007N4-UJ
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 08:50:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hvLOn-0003it-9h
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 12:50:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 46B152E80CD
- for <qemu-devel@nongnu.org>; Wed,  7 Aug 2019 12:50:37 +0000 (UTC)
+ (envelope-from <lersek@redhat.com>) id 1hvLK9-0003gS-6r
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 08:45:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36248)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hvLK8-0003dT-U3
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 08:45:49 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3CE018FAB4;
+ Wed,  7 Aug 2019 12:45:47 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.36.118.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC71C5D9CD;
+ Wed,  7 Aug 2019 12:45:43 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20190803082517.15035-1-philmd@redhat.com>
+ <CAFEAcA_cPDdwXkSra_8vxE8c9M2y91s5FvpB7sZh12xF-LPUWA@mail.gmail.com>
+ <a4158e8a-d67f-52b5-c082-681d21ac2599@redhat.com>
+ <19158743-5f00-f89c-d9af-5b991a581b6c@redhat.com>
+ <CAFEAcA9zm-JXkzG05oHAfXQpEnW4x+Bi13TA7Hr1KQtEXSHWvg@mail.gmail.com>
+ <9625d2b7-e61f-ead6-78ef-e2ca7b88b878@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <c4221994-f66d-8d51-ea9b-444b98857c70@redhat.com>
+Date: Wed, 7 Aug 2019 14:45:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <9625d2b7-e61f-ead6-78ef-e2ca7b88b878@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Wed, 07 Aug 2019 12:45:47 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Aug 2019 12:45:09 -0000
-From: "Laszlo Ersek \(Red Hat\)" <lersek@redhat.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gschafer lersek philmd
-X-Launchpad-Bug-Reporter: Toolybird (gschafer)
-X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
-References: <156469612119.27436.5161465617131751094.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156518190999.26464.12054151842935232176.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19015";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 832eccee2bb212557669584a74cf836d6ab1da7b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1838703] Re: Makefile BUG in edk2 firmware
- install 4.1.0-rc3
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 0/1] EDK2 firmware patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,43 +64,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838703 <1838703@bugs.launchpad.net>
+Cc: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed in commit 177cd674d620 ("Makefile: remove DESTDIR from firmware
-file content", 2019-08-03), part of v4.1.0-rc4.
+On 08/05/19 16:29, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 8/5/19 4:14 PM, Peter Maydell wrote:
+>> On Mon, 5 Aug 2019 at 15:11, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
+t.com> wrote:
+>>>
+>>> Hi Peter,
+>>>
+>>> On 8/5/19 3:13 PM, Michal Pr=C3=ADvozn=C3=ADk wrote:
+>>>> On 8/3/19 12:22 PM, Peter Maydell wrote:
+>>>>> On Sat, 3 Aug 2019 at 09:26, Philippe Mathieu-Daud=C3=A9 <philmd@re=
+dhat.com> wrote:
+>>>>>>
+>>>>>> The following changes since commit 9bcf2dfa163f67b0fec6ee0fe88ad5d=
+c5d69dc59:
+>>>>>>
+>>>>>>   Merge remote-tracking branch 'remotes/elmarco/tags/slirp-CVE-201=
+9-14378-pull-request' into staging (2019-08-02 13:06:03 +0100)
+>>>>>>
+>>>>>> are available in the Git repository at:
+>>>>>>
+>>>>>>   https://gitlab.com/philmd/qemu.git tags/edk2-next-20190803
+>>>>>>
+>>>>>> for you to fetch changes up to 177cd674d6203d3c1a98e170ea56c5a904a=
+c4ce8:
+>>>>>>
+>>>>>>   Makefile: remove DESTDIR from firmware file content (2019-08-03 =
+09:52:32 +0200)
+>>>>>>
+>>>>>> ----------------------------------------------------------------
+>>>>>> A harmless build-sys patch that fixes a regression affecting Linux
+>>>>>> distributions packaging QEMU.
+>>>>>>
+>>>>>> ----------------------------------------------------------------
+>>>>>>
+>>>>>> Olaf Hering (1):
+>>>>>>   Makefile: remove DESTDIR from firmware file content
+>>>>>
+>>>>> Is this pullreq intended for 4.1 ?
+>>>
+>>> Sorry, I was not sure how to comment on the pullreq cover (everything
+>>> between the '---' lines get include in the merge commit description).
+>>
+>> Depends on your workflow. For me my pull-request-creation
+>> script creates a bunch of files which will be the emails
+>> to be sent out, and I can manually edit the 'cover letter'
+>> email before sending everything.
+>=20
+> OK (I don't want to give you extra manual work).
+>=20
+>>> This fix a regression introduced during the current development cycle=
+.
+>>> Already 3 different distributions hit this issue and complained (Suse=
+,
+>>> ArchLinux and Fedora).
+>>> This is not a critical/security issue and distributions can easily
+>>> backport this patch, but since there is a RC4 planned, it would be ni=
+ce
+>>> regarding distributors to fix this if possible.
+>>
+>> OK, sounds good -- I just wanted to check. I've pushed the
+>> pullreq to master.
+>=20
+> Thank you!
+>=20
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+Thank you all, I've updated <https://bugs.launchpad.net/qemu/+bug/1838703=
+>.
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838703
-
-Title:
-  Makefile BUG in edk2 firmware install 4.1.0-rc3
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  DESTDIR installs end up with wrong paths in JSON files installed to
-  $prefix/share/qemu/firmware. For example, the file:
-
-    50-edk2-x86_64-secure.json
-
-  ends up incorrectly with:
-
-    "filename": "/build/qemu/pkg/qemu/usr/share/qemu/edk2-x86_64-secure-
-  code.fd",
-
-  instead of the correct:
-
-    "filename": "/usr/share/qemu/edk2-x86_64-secure-code.fd",
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838703/+subscriptions
+Laszlo
 
