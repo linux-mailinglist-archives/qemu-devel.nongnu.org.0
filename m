@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3557F8497C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 12:31:11 +0200 (CEST)
-Received: from localhost ([::1]:39538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42672849AD
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 12:35:35 +0200 (CEST)
+Received: from localhost ([::1]:39574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvJDq-0000k9-Da
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 06:31:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44544)
+	id 1hvJI6-0003Nb-Gv
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 06:35:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45024)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hvJD0-0000Ew-Rm
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:30:19 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hvJHT-0002hS-DB
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:34:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hvJCz-0006Tp-QY
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:30:18 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:40592)
+ (envelope-from <peter.maydell@linaro.org>) id 1hvJHR-00006T-Nv
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:34:55 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38155)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hvJCz-0006TU-Km
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:30:17 -0400
-Received: by mail-wr1-f66.google.com with SMTP id r1so90771838wrl.7
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 03:30:17 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hvJHR-00005U-Hd
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 06:34:53 -0400
+Received: by mail-ot1-x344.google.com with SMTP id d17so102380499oth.5
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 03:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GHi1f+voEbXN8hKlRxap0utKOX1Tjporwl0c9C0XDl4=;
+ b=cpDKUiw1I/jyIsGTm+dDejVGNs94pPIqMuqaOXCMaBHSDS9cchAV+uye19rqEnDQpe
+ VHk2UVwa2JadUGiFnUQgMNzlafT+8BTb7mhNUepAHiSQGz0KmM3cB60SdYp6DwBA97LR
+ mZPX73Cl3/ZLthzBFgX7tEkMx5ibJVZiKQWPmrlJhx6DhT4T0F2uxefQtlCxhyU2sLQn
+ StUMCgnHaygIDZjGAK0RkVvlZOXqUPa5pDbUPbz5jOavbRgABH8HTsp58Hf/aohI63V5
+ 49T7/cC69N1HjLFABicgvPhgNsCVQNSOy4NuyjISiQEqpaOZZaejL4OmVtsJx61QvRhZ
+ 0H2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UM5YvCew+HQNPMQHOpJg9h3QnMPIpS38TT8+gIz4DCg=;
- b=rwmR8sXsVaF1klIJatuqKw4Xm8wrkAq6F4lPL3mPqweo4age6adnUeAGHFd7owPfFp
- lxAMmM25qziEyXT4VmelWsw1abl24LWMbKD0DbwqMKqVBMk7EEwYHD0+yXDCczZBC3u7
- Z5xpk7i2IPox3hm/E1bgwwXyqW0hapYeExr9lbKCxOKuc98BUpvYHxUZDyg3I/QMjpmA
- PkZrIJ32KcvmURyxegLnkKVJZg88wMCM7bGYTH75mMJF0b/peKuWWf/iqIhXANsYh9Ph
- U06EKhI7U3RyM6ikV+aSe5Vyv7lLoVKSkuDIkSd/jthsxo78jglbDe64JyO1qmSAKm5m
- /47g==
-X-Gm-Message-State: APjAAAUzya/cZ77RN7vG+qtwUHWnzaq1QLuMkYDZwJHbtIHFWPHh0j6O
- bMGlw6DfWRifKt84gv7QCpiAeJDZEyQ=
-X-Google-Smtp-Source: APXvYqyUPkkIsEuOcD+mN4yZxUWTskeczD4JB2gKkmcO6boKgj6vqlrswrVOaaC65OkYzN/rqKyKfg==
-X-Received: by 2002:adf:eb4e:: with SMTP id u14mr9922394wrn.168.1565173816417; 
- Wed, 07 Aug 2019 03:30:16 -0700 (PDT)
-Received: from [192.168.1.39] (214.red-83-51-160.dynamicip.rima-tde.net.
- [83.51.160.214])
- by smtp.gmail.com with ESMTPSA id u6sm87439734wml.9.2019.08.07.03.30.15
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Aug 2019 03:30:15 -0700 (PDT)
-To: Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20190806151435.10740-1-armbru@redhat.com>
- <20190806151435.10740-8-armbru@redhat.com>
- <20190807093222.GE13267@stefanha-x1.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <e9cf5ea6-8699-d527-cb52-8d497706c299@redhat.com>
-Date: Wed, 7 Aug 2019 12:30:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GHi1f+voEbXN8hKlRxap0utKOX1Tjporwl0c9C0XDl4=;
+ b=G8dJwiBGZptZqA0CoHGfor7Qi/0gzD6j32hJ9idvrX12tAENe/IHJ88NriKZy0qNNW
+ YsxjMOuBtWJOfP4xZOIWQqp3hw6dgV2DqkVO6O4QsVN16ArHFGP8QRuFghqbXWEn+Bkh
+ 12HOn5huUSm825Nb3f12iVSYQdyVh3f3a8blTGN3+o/D2km3wVKn1W5J7GiQ/lwRiaCa
+ P4wgYTrUQaSKs+Nb9YJmdmoBJhsgrb1pF/dCZIhhnjCW+JmOfEfLC1Py15Q84LHxzC28
+ scTxDIpSyunFBDq2l/TfQtJ4beMCmjmW9a5pNQ2eebvpLn7Aax+HcwkOzWsWvWZooxnn
+ jc4w==
+X-Gm-Message-State: APjAAAU15UtDdLUkbB7KryCADSFbuuvtT7ymVFYAk+wNbwWw6JZcLjG6
+ xFEe04U/2mICkxGeqAA8/iJASuG7gh3MpaeFt1I90A==
+X-Google-Smtp-Source: APXvYqzgKBVaFc7+ZzBSemdPEhqcLzr3H63/JJXF+IJf02F1bSlSaDJac0QtDR6QrRQipjBcIDNpCJp/E0Pekyc/d/0=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr6609741otj.97.1565174092162; 
+ Wed, 07 Aug 2019 03:34:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190807093222.GE13267@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH v2 07/29] trace: Do not include qom/cpu.h
- into generated trace.h
+References: <20190729145654.14644-1-damien.hedde@greensocs.com>
+ <20190729145654.14644-10-damien.hedde@greensocs.com>
+ <20190731063044.GG2032@umbus.fritz.box>
+In-Reply-To: <20190731063044.GG2032@umbus.fritz.box>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 7 Aug 2019 11:34:41 +0100
+Message-ID: <CAFEAcA-=rMgKuhtq4AT+QohRXf71biNFDRQaxMctrro7mTV4kQ@mail.gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v3 09/33] add doc about Resettable interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,56 +73,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Collin Walling <walling@linux.ibm.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Edgar Iglesias <edgar.iglesias@xilinx.com>, Hannes Reinecke <hare@suse.com>,
+ Qemu-block <qemu-block@nongnu.org>, David Hildenbrand <david@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-s390x <qemu-s390x@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Damien Hedde <damien.hedde@greensocs.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Mark Burton <mark.burton@greensocs.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/7/19 11:32 AM, Stefan Hajnoczi wrote:
-> On Tue, Aug 06, 2019 at 05:14:13PM +0200, Markus Armbruster wrote:
->> docs/devel/tracing.txt explains "since many source files include
->> trace.h, [the generated trace.h use] a minimum of types and other
->> header files included to keep the namespace clean and compile times
->> and dependencies down."
->>
->> Commit 4815185902 "trace: Add per-vCPU tracing states for events with
->> the 'vcpu' property" made them all include qom/cpu.h via
->> control-internal.h.  qom/cpu.h in turn includes about thirty headers.
->> Ouch.
->>
->> Per-vCPU tracing is currently not supported in sub-directories'
->> trace-events.  In other words, qom/cpu.h can only be used in
->> trace-root.h, not in any trace.h.
->>
->> Split trace/control-vcpu.h off trace/control.h and
->> trace/control-internal.h.  Have the generated trace.h include
->> trace/control.h (which no longer includes qom/cpu.h), and trace-root.h
->> include trace/control-vcpu.h (which includes it).
->>
->> The resulting improvement is a bit disappointing: in my "build
->> everything" tree, some 1100 out of 6600 objects (not counting tests
->> and objects that don't depend on qemu/osdep.h) depend on a trace.h,
->> and about 600 of them no longer depend on qom/cpu.h.  But more than
->> 1300 others depend on trace-root.h.  More work is clearly needed.
->> Left for another day.
->>
->> Cc: Stefan Hajnoczi <stefanha@redhat.com>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  block/block-backend.c         |  1 +
->>  qom/object.c                  |  1 +
->>  scripts/tracetool/format/c.py |  1 +
->>  scripts/tracetool/format/h.py |  7 +++-
->>  trace/control-internal.h      | 25 --------------
->>  trace/control-vcpu.h          | 63 +++++++++++++++++++++++++++++++++++
->>  trace/control.h               | 24 -------------
->>  trace/qmp.c                   |  2 +-
->>  ui/vnc.c                      |  1 +
->>  9 files changed, 74 insertions(+), 51 deletions(-)
->>  create mode 100644 trace/control-vcpu.h
-> 
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+On Wed, 31 Jul 2019 at 07:33, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> On Mon, Jul 29, 2019 at 04:56:30PM +0200, Damien Hedde wrote:
+> > +The function *resettable_reset* is used to trigger a reset on a given
+> > +object.
+> > +void resettable_reset(Object *obj, bool cold)
+> > +
+> > +The parameter *obj* must implement the Resettable interface.
+>
+> And what happens if it doesn't?  This function has no way to report an
+> error.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Trying to reset an object that isn't actually resettable would
+be a programming error -- I think asserting is a reasonable
+response to that.
 
+thanks
+-- PMM
 
