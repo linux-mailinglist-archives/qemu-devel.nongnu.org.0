@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48614852A4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 20:06:32 +0200 (CEST)
-Received: from localhost ([::1]:44242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6B7852D2
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 20:17:23 +0200 (CEST)
+Received: from localhost ([::1]:44278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvQKV-0000Zd-GT
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 14:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34159)
+	id 1hvQV0-0004Yv-CH
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 14:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36121)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hvQJt-0008Jn-RN
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:05:54 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hvQUI-00042b-AA
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:16:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hvQJs-0002Z5-Tg
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:05:53 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44369)
+ (envelope-from <peter.maydell@linaro.org>) id 1hvQUD-0002Jy-Gj
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:16:35 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34928)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hvQJs-0002XF-NV
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:05:52 -0400
-Received: by mail-wr1-f67.google.com with SMTP id p17so92261140wrf.11
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 11:05:52 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hvQUD-0002Ha-7k
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 14:16:33 -0400
+Received: by mail-ot1-x342.google.com with SMTP id j19so31357799otq.2
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 11:16:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1NHsKJO7D2MJzWRTGF95uuoJZ5g7HBLubckVRHO3rys=;
+ b=eiFitDSzHjsHRQY+BIhi64E4z8aP94vvImqhcEo8wox+h5Vfo+yW9FmxsSwNH/sdMH
+ PzbFzz7owk/Q/qLLJrgFOAyQ2o+G8MIienLSbaqkXDtEiKi+G4jYbaiNn4o0+G9G9VOd
+ Cmlt2GbVn1YgmtFSS55UKxkPb/EXXe9PlUo+PAuMsFPcwBvqCAxxzI+VKrAnMehRMK50
+ vem32PxqKrsICec3Axay+d++8ZhETcnlerX1oyZABypT/GZyDOAUWESNZT8AF4r8nXYQ
+ tuTZT1+iBRkxDBqzTKaERqmvJ6R3UNM5PXXzL36UjefIeqxwA/zZWplS9j9Sr4We7kju
+ 4Fog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Vi8wC7X/GDwqvPqza7CDmHXpjr8HhwAnG+jiaCgia9Q=;
- b=tNVhmwXdAaFV0POjNF0xO4N0F0fe5AYkA0ot3EwUCS7sMP8gNNC6+aIib3LverdqDN
- Ad8KLZHgXeXl/c5S+KEHkyDKqciTFL4IFD9bAchetKHczzYElVGFqeb4/LXzXB8YqTB4
- /yf3HfzUjTEYciO6XQkSM2eFT26FWJT2lIf5VJhdvvqZVuMICNkE81d6wNZ+jXePmAqy
- K5UNxxJf5Gq8B5fthBqQKqFho4ysVXqzfu/l2BiCe5BN5wjhOTVfO06dP3NjRup2V7Rq
- 7VByRqeFYIbgYsgRJIG6IQcsPcpVWun3yyTzwTdUgpHBRPJ2TMfCWqZ7WUK3Sl2Ajq12
- g8aA==
-X-Gm-Message-State: APjAAAUdDWyNpGFyJm//klBCpSppJW9cTCq2WKhiDR3euysFyYy6eZLS
- 74Dno5fRq+s3xaLwG2zAy2331FOrpfs=
-X-Google-Smtp-Source: APXvYqyKoZXJa47M0Sc5GdZON4ru8ps67WCUIQJzqtt0Ri/koUR1wW0WFb8fV3g9XcfOTqmST4uovQ==
-X-Received: by 2002:adf:de8b:: with SMTP id w11mr12242158wrl.134.1565201151530; 
- Wed, 07 Aug 2019 11:05:51 -0700 (PDT)
-Received: from [192.168.1.115] (214.red-83-51-160.dynamicip.rima-tde.net.
- [83.51.160.214])
- by smtp.gmail.com with ESMTPSA id t63sm1128306wmf.24.2019.08.07.11.05.50
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Aug 2019 11:05:51 -0700 (PDT)
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20190806151435.10740-1-armbru@redhat.com>
- <20190806151435.10740-23-armbru@redhat.com>
- <de7f547d-1c97-135f-654f-3856fa2eec2f@redhat.com>
- <20190807175708.GE4669@habkost.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <647e2542-2042-26de-d768-cdf13afa0ec4@redhat.com>
-Date: Wed, 7 Aug 2019 20:05:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1NHsKJO7D2MJzWRTGF95uuoJZ5g7HBLubckVRHO3rys=;
+ b=h3OSxmflWJwoB9FaYBAHMzYlo97verjGPS+LcxCs+RuXp2pR9umjPnDm0J8N2yO+w8
+ gUMdVlA6bp0E7OcV3/39xrviIs9nnc9HR4cM7W570ZRBFTiDwqC04cT+mi5V4zikI4R6
+ xYwWLjUkRprNr5E0YVsez3jRUiio8WVOPpm7seNbOEVwLQx+8XbrikIQQLGFDdXZwDoj
+ 8RER5SCJZ595XhJcIRMidO8mlH+c60A6hY92wVI5dVLyRfPO1hyLZjvDVXkXrRl1pSqI
+ aKJPcoERBxbFpTRQUfJhlu4B2xQVXxZTUal2ua2RB3XFGU5RgtBsBhC8JHl24Fb3TMrf
+ ydJQ==
+X-Gm-Message-State: APjAAAUOKvybdm7Hw+bqUzSCBRYeknsNt0DHe95CNfLjiXX98yE/Rh1u
+ ZSkHUXJeV0jXX3gmBw5Br2lV0RppIBJuNTPG+4KEUQ==
+X-Google-Smtp-Source: APXvYqxviOrvGJCJUJfdRmeEGS2UvXQtugkELP3MsDEsv8aZ6UvO+EAsc7N63vvEwZbGNdfblTO/+D1zCrl5I+hL5U4=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr8299729otj.97.1565201792249; 
+ Wed, 07 Aug 2019 11:16:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190807175708.GE4669@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH v2 22/29] Include hw/boards.h a bit less
+References: <20190807045335.1361-1-richard.henderson@linaro.org>
+ <20190807045335.1361-4-richard.henderson@linaro.org>
+ <CAFEAcA_MFg1_gpaT5+X71s8r5SYZFTizdXs2vQ_6mLooP7E+kg@mail.gmail.com>
+ <061145be-4cd4-b8e6-ae5c-562a59e8088f@linaro.org>
+In-Reply-To: <061145be-4cd4-b8e6-ae5c-562a59e8088f@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 7 Aug 2019 19:16:21 +0100
+Message-ID: <CAFEAcA8fCL4VTJYdWGbDySzT9zkgmjcMGqBj0fo9gN4x4B-WcQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH 03/11] target/arm: Introduce read_pc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,59 +74,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/7/19 7:57 PM, Eduardo Habkost wrote:
-> On Wed, Aug 07, 2019 at 07:26:56PM +0200, Philippe Mathieu-Daudé wrote:
->> On 8/6/19 5:14 PM, Markus Armbruster wrote:
->>> hw/boards.h pulls in almost 60 headers.  The less we include it into
->>> headers, the better.  As a first step, drop superfluous inclusions,
->>> and downgrade some more to what's actually needed.  Gets rid of just
->>> one inclusion into a header.
->>>
->>> Cc: Eduardo Habkost <ehabkost@redhat.com>
->>> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> ---
-> [...]
->>> diff --git a/target/i386/hax-all.c b/target/i386/hax-all.c
->>> index bcacdd1d8f..34a9f6f7a9 100644
->>> --- a/target/i386/hax-all.c
->>> +++ b/target/i386/hax-all.c
->>> @@ -33,7 +33,6 @@
->>>  #include "sysemu/reset.h"
->>>  #include "sysemu/sysemu.h"
->>>  #include "qemu/main-loop.h"
->>> -#include "hw/boards.h"
->>>  
->>>  #define DEBUG_HAX 0
->>
->> include/sysemu/hax.h misses to include "hw/boards.h":
-> 
-> I don't understand.  I don't see any reason for the sysemu/hax.h
-> header to include hw/boards.h.
+On Wed, 7 Aug 2019 at 19:04, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 8/7/19 10:27 AM, Peter Maydell wrote:
+> >> +/* The architectural value of PC.  */
+> >> +static uint32_t read_pc(DisasContext *s)
+> >> +{
+> >> +    return s->pc_curr + (s->thumb ? 4 : 8);
+> >> +}
+> >> +
+> >>  /* Set a variable to the value of a CPU register.  */
+> >>  static void load_reg_var(DisasContext *s, TCGv_i32 var, int reg)
+> >>  {
+> >>      if (reg == 15) {
+> >> -        uint32_t addr;
+> >> -        /* normally, since we updated PC, we need only to add one insn */
+> >> -        if (s->thumb)
+> >> -            addr = (long)s->pc + 2;
+> >> -        else
+> >> -            addr = (long)s->pc + 4;
+> >> -        tcg_gen_movi_i32(var, addr);
+> >> +        tcg_gen_movi_i32(var, read_pc(s));
+> >
+> > So previously:
+> >  * for A32 we would return s->pc + 4, which is the same as s->pc_curr + 8
+> >  * for T16 we would return s->pc + 2, which is the same as s->pc_curr + 4
+> >  * for T32 we would return s->pc + 2 -- but that's not the same as
+> >    s->pc_curr + 4, it's s->pc_curr + 6...
+> >
+> > Since s->pc_curr + 4 is the right architectural answer, are we
+> > fixing a bug here? Or are all the places where T32 code calls
+> > this function UNPREDICTABLE for the reg == 15 case ?
+>
+> I believe that this is UNPREDICTABLE.
+>
+> The T32 cases that reference the PC that are not UNPREDICTABLE, literal memory
+> references and adr, are all of the form (s->pc & ~3) and do not come through
+> load_reg_var().  Those will be unified by add_reg_for_lit() in the next patch.
 
-Ah, you are right, the AccelClass is defined in include/sysemu/accel.h:
+Yeah, that was my assumption -- at some previous point rather
+than making load_reg/load_reg_var do the right thing for 32-bit
+Thumb insns we just fixed up all the callsites to specialcase 15...
 
-typedef struct AccelClass {
-    /*< private >*/
-    ObjectClass parent_class;
-    /*< public >*/
+How about we add this to the commit message?
 
-    const char *name;
-    int (*init_machine)(MachineState *ms);
-    ...
+This changes the behaviour for load_reg() and load_reg_var()
+when called with reg==15 from a 32-bit Thumb instruction:
+previously they would have returned the incorrect value
+of pc_curr + 6, and now they will return the architecturally
+correct value of PC, which is pc_curr + 4. This will not
+affect well-behaved guest software, because all of the places
+we call these functions from T32 code are instructions where
+using r15 is UNPREDICTABLE. Using the architectural PC value
+here is more consistent with the T16 and A32 behaviour.
 
-So this is where "hw/boards.h" has to be included (it is where
-MachineState is defined).
-
->>
->> target/i386/hax-all.c: In function 'hax_accel_init':
->> target/i386/hax-all.c:354:26: error: dereferencing pointer to incomplete
->> type 'MachineState {aka struct MachineState}'
->>      int ret = hax_init(ms->ram_size);
->>                           ^
-> 
+thanks
+-- PMM
 
