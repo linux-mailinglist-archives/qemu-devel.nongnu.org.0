@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4438476A
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 10:31:37 +0200 (CEST)
-Received: from localhost ([::1]:38389 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 128F58476E
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 10:32:32 +0200 (CEST)
+Received: from localhost ([::1]:38444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvHM8-00063k-Pv
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 04:31:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44351)
+	id 1hvHN1-0000DJ-8c
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 04:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44469)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tony.nguyen@bt.com>) id 1hvHKk-0004AT-KX
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:30:14 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hvHKy-0004cl-OG
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:30:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hvHKh-0001CY-8s
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:30:10 -0400
-Received: from smtpe1.intersmtp.com ([62.239.224.236]:13320)
+ (envelope-from <tony.nguyen@bt.com>) id 1hvHKx-0001W2-0r
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 04:30:24 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.80]:10548)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hvHKR-00011O-Iy; Wed, 07 Aug 2019 04:29:52 -0400
-Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
- RDW083A009ED65.bt.com (10.187.98.35) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Wed, 7 Aug 2019 09:25:53 +0100
+ id 1hvHKg-0001CG-V7; Wed, 07 Aug 2019 04:30:07 -0400
+Received: from tpw09926dag18f.domain1.systemhost.net (10.9.212.26) by
+ BWP09926085.bt.com (10.36.82.116) with Microsoft SMTP Server (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Wed, 7 Aug
+ 2019 09:29:44 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Wed, 7 Aug 2019 09:29:48 +0100
+ tpw09926dag18f.domain1.systemhost.net (10.9.212.26) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Wed, 7 Aug 2019 09:30:05 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Wed, 7 Aug 2019
- 09:29:47 +0100
+ 09:30:04 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v6 11/26] memory: Access MemoryRegion with
- MemOp
-Thread-Index: AQHVTPpFjUE/j/BhfEuAUN0KOEZJqg==
-Date: Wed, 7 Aug 2019 08:29:47 +0000
-Message-ID: <1565166587275.42474@bt.com>
+Thread-Topic: [Qemu-devel] [PATCH v6 12/26] hw/s390x: Hard code size with
+ MO_{8|16|32|64}
+Thread-Index: AQHVTPpQM7LT8hhvO0OR23cGISCqIg==
+Date: Wed, 7 Aug 2019 08:30:04 +0000
+Message-ID: <1565166604452.72353@bt.com>
 References: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -46,13 +47,13 @@ X-MS-TNEF-Correlator:
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.44]
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 62.239.224.236
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 213.121.35.80
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v6 11/26] memory: Access MemoryRegion with MemOp
+Subject: [Qemu-devel] [PATCH v6 12/26] hw/s390x: Hard code size with
+ MO_{8|16|32|64}
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,133 +95,34 @@ Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert memory_region_dispatch_{read|write} operand "unsigned size"
-into a "MemOp op".
+Temporarily no-op size_memop was introduced to aid the conversion of
+memory_region_dispatch_{read|write} operand "unsigned size" into
+"MemOp op".
+
+Now size_memop is implemented, again hard coded size but with
+MO_{8|16|32|64}. This is more expressive and avoid size_memop calls.
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- include/exec/memop.h  | 18 +++++++++++++-----
- include/exec/memory.h |  9 +++++----
- memory.c              |  7 +++++--
- 3 files changed, 23 insertions(+), 11 deletions(-)
+ hw/s390x/s390-pci-inst.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/exec/memop.h b/include/exec/memop.h
-index 5c5769e..4a4212d 100644
---- a/include/exec/memop.h
-+++ b/include/exec/memop.h
-@@ -12,6 +12,8 @@
- #ifndef MEMOP_H
- #define MEMOP_H
-
-+#include "qemu/host-utils.h"
-+
- typedef enum MemOp {
-     MO_8     =3D 0,
-     MO_16    =3D 1,
-@@ -107,14 +109,20 @@ typedef enum MemOp {
-     MO_SSIZE =3D MO_SIZE | MO_SIGN,
- } MemOp;
-
-+/* MemOp to size in bytes.  */
-+static inline unsigned memop_size(MemOp op)
-+{
-+    return 1 << ((op) & MO_SIZE);
-+}
-+
- /* Size in bytes to MemOp.  */
- static inline MemOp size_memop(unsigned size)
- {
--    /*
--     * FIXME: No-op to aid conversion of memory_region_dispatch_{read|writ=
-e}
--     * "unsigned size" operand into a "MemOp op".
--     */
--    return size;
-+#ifdef CONFIG_DEBUG_TCG
-+    /* Power of 2 up to 8.  */
-+    assert((size & (size - 1)) =3D=3D 0 && size >=3D 1 && size <=3D 8);
-+#endif
-+    return ctz32(size);
- }
-
- #endif
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index bb0961d..975b86a 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -19,6 +19,7 @@
- #include "exec/cpu-common.h"
- #include "exec/hwaddr.h"
- #include "exec/memattrs.h"
-+#include "exec/memop.h"
- #include "exec/ramlist.h"
- #include "qemu/queue.h"
- #include "qemu/int128.h"
-@@ -1731,13 +1732,13 @@ void mtree_info(bool flatview, bool dispatch_tree, =
-bool owner);
-  * @mr: #MemoryRegion to access
-  * @addr: address within that region
-  * @pval: pointer to uint64_t which the data is written to
-- * @size: size of the access in bytes
-+ * @op: size, sign, and endianness of the memory operation
-  * @attrs: memory transaction attributes to use for the access
-  */
- MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
-                                         hwaddr addr,
-                                         uint64_t *pval,
--                                        unsigned size,
-+                                        MemOp op,
-                                         MemTxAttrs attrs);
- /**
-  * memory_region_dispatch_write: perform a write directly to the specified
-@@ -1746,13 +1747,13 @@ MemTxResult memory_region_dispatch_read(MemoryRegio=
-n *mr,
-  * @mr: #MemoryRegion to access
-  * @addr: address within that region
-  * @data: data to write
-- * @size: size of the access in bytes
-+ * @op: size, sign, and endianness of the memory operation
-  * @attrs: memory transaction attributes to use for the access
-  */
- MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
-                                          hwaddr addr,
-                                          uint64_t data,
--                                         unsigned size,
-+                                         MemOp op,
-                                          MemTxAttrs attrs);
-
- /**
-diff --git a/memory.c b/memory.c
-index 5d8c9a9..89ea4fb 100644
---- a/memory.c
-+++ b/memory.c
-@@ -1439,9 +1439,10 @@ static MemTxResult memory_region_dispatch_read1(Memo=
-ryRegion *mr,
- MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
-                                         hwaddr addr,
-                                         uint64_t *pval,
--                                        unsigned size,
-+                                        MemOp op,
-                                         MemTxAttrs attrs)
- {
-+    unsigned size =3D memop_size(op);
-     MemTxResult r;
-
-     if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
-@@ -1483,9 +1484,11 @@ static bool memory_region_dispatch_write_eventfds(Me=
-moryRegion *mr,
- MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
-                                          hwaddr addr,
-                                          uint64_t data,
--                                         unsigned size,
-+                                         MemOp op,
-                                          MemTxAttrs attrs)
- {
-+    unsigned size =3D memop_size(op);
-+
-     if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
-         unassigned_mem_write(mr, addr, data, size);
-         return MEMTX_DECODE_ERROR;
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index 0c958fc..0e92a37 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -782,8 +782,7 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8=
+_t r3, uint64_t gaddr,
+     for (i =3D 0; i < len / 8; i++) {
+         result =3D memory_region_dispatch_write(mr, offset + i * 8,
+                                               ldq_p(buffer + i * 8),
+-                                              size_memop(8),
+-                                              MEMTXATTRS_UNSPECIFIED);
++                                              MO_64, MEMTXATTRS_UNSPECIFIE=
+D);
+         if (result !=3D MEMTX_OK) {
+             s390_program_interrupt(env, PGM_OPERAND, 6, ra);
+             return 0;
 --
 1.8.3.1
 
