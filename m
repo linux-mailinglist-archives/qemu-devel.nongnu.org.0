@@ -2,59 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF538527A
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 19:56:22 +0200 (CEST)
-Received: from localhost ([::1]:44122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC2B85259
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Aug 2019 19:50:28 +0200 (CEST)
+Received: from localhost ([::1]:44068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvQAf-0000e0-GL
-	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 13:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60200)
+	id 1hvQ4y-00020t-4X
+	for lists+qemu-devel@lfdr.de; Wed, 07 Aug 2019 13:50:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59051)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hvQA1-0008Lb-OM
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:55:43 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hvQ48-0001BJ-BB
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:49:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hvQA0-0004iq-7f
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:55:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38222)
+ (envelope-from <richard.henderson@linaro.org>) id 1hvQ47-00085Y-2r
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:49:36 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:38073)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hvQA0-0004ga-28
- for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:55:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hvQ9y-0002kF-Je
- for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 17:55:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 935BC2E80C7
- for <qemu-devel@nongnu.org>; Wed,  7 Aug 2019 17:55:38 +0000 (UTC)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hvQ46-000830-N4
+ for qemu-devel@nongnu.org; Wed, 07 Aug 2019 13:49:35 -0400
+Received: by mail-pl1-x641.google.com with SMTP id m12so3278434plt.5
+ for <qemu-devel@nongnu.org>; Wed, 07 Aug 2019 10:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=rwTIbhxoEl+9L5Abc76IchYk4TetqSvunhUmVSOtMWo=;
+ b=YSd01dq4KtF6aeZkw5hkDHENoAmzJOdch2P9Xl6k7iJhJOozBH08Xd6X8MdTgN8uFL
+ dayMMbNyz7ZSR+VFJ605dDSnaIApm2E3utOwDPHFZ38Ww0Yq2hW49lnxsZfbp4yn6FDL
+ WbwqPP7yVik0d0cAAsPPdv9U+Jm1KuDYmSkVnREqiqvjtBwIcUnH5Xc/gl9O6lnkIiYk
+ VhL9l6TrN+DQt2wAGnIhc0ENdijp3rUv/YraMyGDu6wMe9x+ZMo7AjxGpCB5GwWDzR8S
+ 4mEFZrxsfoOHb2BNG7md9SL+3ARxa9EvmllUIzDfD4ZcsqQgw4KkThE7J5q6hLkKOjqW
+ ercg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rwTIbhxoEl+9L5Abc76IchYk4TetqSvunhUmVSOtMWo=;
+ b=X1oUIzRH8U6kzJ3mP9VEBjqtIUqRA9nrBrgPnW69GWqqj7nJN93RI/9eGwXsHidR9t
+ tCvFCh02WraJIlbHeC5mEH5QZvpif7OVoUofTTMNJuaHyPpi3rJtfk7kFijBy4W09Exy
+ h4CX2k5gFeaAa+XyRap/XmcbzTK+wr9G5ASygHPYCDcodi8k67xtvak/kualHfwja+vO
+ hluitq07UEx8pYsMh/yx/kfvNC7VvWmV2wB39XD8YGqONPTOJYrwZujPMv63PnbNp1po
+ prPM5hW44NcfDKkXX2NeicwzO+uZfDwnz69J7S17JKSqqNkrkpqGsSwLoE7zfqKAUCNV
+ iO9A==
+X-Gm-Message-State: APjAAAVj5ytz1PwaAapFiVeDiF+VzcAvfwj3UTxBpHPgOLB3NuBakiqn
+ nmC1xwnXxvqbQHYJPhWvBDS7gQ==
+X-Google-Smtp-Source: APXvYqxt9kYRUX4/TWB3mOIj77BhJmpABYE2zE095tt7JwCrrSgoc6T05CxabiOshYqLLsydsy93lQ==
+X-Received: by 2002:a17:902:6b02:: with SMTP id
+ o2mr8483559plk.99.1565200173396; 
+ Wed, 07 Aug 2019 10:49:33 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id w1sm489442pjt.30.2019.08.07.10.49.31
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 07 Aug 2019 10:49:32 -0700 (PDT)
+To: tony.nguyen@bt.com, qemu-devel@nongnu.org
+References: <45ec4924e0b34a3d9124e2db06af75b4@tpw09926dag18e.domain1.systemhost.net>
+ <1565166794966.57397@bt.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <27c692bf-45af-afbe-27ba-1e8f7f936121@linaro.org>
+Date: Wed, 7 Aug 2019 10:49:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Aug 2019 17:46:27 -0000
-From: Aaron Hill <1839367@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: techsavvy8989
-X-Launchpad-Bug-Reporter: Aaron Hill (techsavvy8989)
-X-Launchpad-Bug-Modifier: Aaron Hill (techsavvy8989)
-Message-Id: <156519998798.13922.14288436816599615545.malonedeb@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19015";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 9a5259a8635c426e2c5e8b3b1eb8b3b79a38f793
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1839367] [NEW] Wrong interrupts generated for
- I.MX6 FEC controller
+In-Reply-To: <1565166794966.57397@bt.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: Re: [Qemu-devel] [PATCH v6 20/26] memory: Access MemoryRegion with
+ endianness
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,133 +85,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1839367 <1839367@bugs.launchpad.net>
+Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
+ dmitry.fleytman@gmail.com, imammedo@redhat.com, sagark@eecs.berkeley.edu,
+ david@redhat.com, jasowang@redhat.com, palmer@sifive.com,
+ mark.cave-ayland@ilande.co.uk, laurent@vivier.eu, keith.busch@intel.com,
+ jcmvbkbc@gmail.com, frederic.konrad@adacore.com, pbonzini@redhat.com,
+ kraxel@redhat.com, edgar.iglesias@gmail.com, gxt@mprc.pku.edu.cn,
+ pburton@wavecomp.com, marex@denx.de, robh@kernel.org, hare@suse.com,
+ sstabellini@kernel.org, berto@igalia.com, proljc@gmail.com,
+ qemu-block@nongnu.org, arikalo@wavecomp.com, jslaby@suse.cz, deller@gmx.de,
+ mst@redhat.com, magnus.damm@gmail.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, mreitz@redhat.com, hpoussin@reactos.org,
+ joel@jms.id.au, anthony.perard@citrix.com, xen-devel@lists.xenproject.org,
+ rth@twiddle.net, philmd@redhat.com, green@moxielogic.com, atar4qemu@gmail.com,
+ antonynpavlov@gmail.com, jiri@resnulli.us, ehabkost@redhat.com,
+ minyard@acm.org, sw@weilnetz.de, alistair@alistair23.me, chouteau@adacore.com,
+ b.galvani@gmail.com, eric.auger@redhat.com, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, peter.chubb@nicta.com.au, yuval.shaia@oracle.com,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, shorne@gmail.com,
+ sundeep.lkml@gmail.com, jsnow@redhat.com, david@gibson.dropbear.id.au,
+ kwolf@redhat.com, crwulff@gmail.com, qemu-riscv@nongnu.org,
+ xiaoguangrong.eric@gmail.com, i.mitsyanko@gmail.com, lersek@redhat.com,
+ cohuck@redhat.com, alex.williamson@redhat.com, Andrew.Baumann@microsoft.com,
+ jcd@tribudubois.net, andrew@aj.id.au, michael@walle.cc,
+ paul.durrant@citrix.com, qemu-ppc@nongnu.org, huth@tuxfamily.org,
+ amarkovic@wavecomp.com, kbastian@mail.uni-paderborn.de, jan.kiszka@web.de,
+ stefanb@linux.ibm.com, andrew.smirnov@gmail.com, aurelien@aurel32.net,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 8/7/19 1:33 AM, tony.nguyen@bt.com wrote:
+> @@ -551,6 +551,7 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy, hwaddr addr,
+>          /* As length is under guest control, handle illegal values. */
+>          return;
+>      }
+> +    /* FIXME: memory_region_dispatch_write ignores MO_BSWAP.  */
+>      memory_region_dispatch_write(mr, addr, val, size_memop(len),
+>                                   MEMTXATTRS_UNSPECIFIED);
+>  }
 
-The imx_eth_update function in hw/net/imx_fec.c has the following
-comment
-(https://github.com/qemu/qemu/blob/864ab314f1d924129d06ac7b571f105a2b76a4b2=
-/hw/net/imx_fec.c#L421-L445):
+Here is an example of where Paolo is quite right -- you cannot simply add MO_TE
+via size_memop().  In patch 22 we see
 
-    /*
-     * Previous versions of qemu had the ENET_INT_MAC and ENET_INT_MAC
-     * interrupts swapped. This worked with older versions of Linux (4.14
-     * and older) since Linux associated both interrupt lines with Ethernet
-     * MAC interrupts. Specifically,
-     * - Linux 4.15 and later have separate interrupt handlers for the MAC =
-and
-     *   timer interrupts. Those versions of Linux fail with versions of QE=
-MU
-     *   with swapped interrupt assignments.
-     * - In linux 4.14, both interrupt lines were registered with the Ether=
-net
-     *   MAC interrupt handler. As a result, all versions of qemu happen to
-     *   work, though that is accidental.
-     * - In Linux 4.9 and older, the timer interrupt was registered directly
-     *   with the Ethernet MAC interrupt handler. The MAC interrupt was
-     *   redirected to a GPIO interrupt to work around erratum ERR006687.
-     *   This was implemented using the SOC's IOMUX block. In qemu, this GP=
-IO
-     *   interrupt never fired since IOMUX is currently not supported in qe=
-mu.
-     *   Linux instead received MAC interrupts on the timer interrupt.
-     *   As a result, qemu versions with the swapped interrupt assignment w=
-ork,
-     *   albeit accidentally, but qemu versions with the correct interrupt
-     *   assignment fail.
-     *
-     * To ensure that all versions of Linux work, generate ENET_INT_MAC
-     * interrrupts on both interrupt lines. This should be changed if and w=
-hen
-     * qemu supports IOMUX.
-     */
+> @@ -542,16 +542,15 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy, hwaddr addr,
+>          val = pci_get_byte(buf);
+>          break;
+>      case 2:
+> -        val = cpu_to_le16(pci_get_word(buf));
+> +        val = pci_get_word(buf);
+>          break;
+>      case 4:
+> -        val = cpu_to_le32(pci_get_long(buf));
+> +        val = pci_get_long(buf);
+>          break;
+>      default:
+>          /* As length is under guest control, handle illegal values. */
+>          return;
+>      }
+> -    /* FIXME: memory_region_dispatch_write ignores MO_BSWAP.  */
+>      memory_region_dispatch_write(mr, addr, val, size_memop(len),
+>                                   MEMTXATTRS_UNSPECIFIED);
 
-Unfortunately, this behavior causes the QNX Sabrelite BSP
-(http://blackberry.qnx.com/en/developers/bsp) to hang on ethernet
-initialization. This is caused by the fact that QEMU is firing the
-ENET_INT_TS_TIMER timer interrupt unexpectedly (when the ENET_INT_MAC
-flag is set). The BSP functions correctly on the actual hardware, but it
-is unable to handle the deliberately incorrect interrupt firing by QEMU.
+This is a little-endian store -- MO_LE not MO_TE.
 
->From reading the comment, it appears that this behavior is necessary to
-support certain versions of Linux. However, it would be very useful to
-be able to restore the correct interrupt behavior (possibly via a
-command-line flag).
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1839367
-
-Title:
-  Wrong interrupts generated for I.MX6 FEC controller
-
-Status in QEMU:
-  New
-
-Bug description:
-  The imx_eth_update function in hw/net/imx_fec.c has the following
-  comment
-  (https://github.com/qemu/qemu/blob/864ab314f1d924129d06ac7b571f105a2b76a4=
-b2/hw/net/imx_fec.c#L421-L445):
-
-      /*
-       * Previous versions of qemu had the ENET_INT_MAC and ENET_INT_MAC
-       * interrupts swapped. This worked with older versions of Linux (4.14
-       * and older) since Linux associated both interrupt lines with Ethern=
-et
-       * MAC interrupts. Specifically,
-       * - Linux 4.15 and later have separate interrupt handlers for the MA=
-C and
-       *   timer interrupts. Those versions of Linux fail with versions of =
-QEMU
-       *   with swapped interrupt assignments.
-       * - In linux 4.14, both interrupt lines were registered with the Eth=
-ernet
-       *   MAC interrupt handler. As a result, all versions of qemu happen =
-to
-       *   work, though that is accidental.
-       * - In Linux 4.9 and older, the timer interrupt was registered direc=
-tly
-       *   with the Ethernet MAC interrupt handler. The MAC interrupt was
-       *   redirected to a GPIO interrupt to work around erratum ERR006687.
-       *   This was implemented using the SOC's IOMUX block. In qemu, this =
-GPIO
-       *   interrupt never fired since IOMUX is currently not supported in =
-qemu.
-       *   Linux instead received MAC interrupts on the timer interrupt.
-       *   As a result, qemu versions with the swapped interrupt assignment=
- work,
-       *   albeit accidentally, but qemu versions with the correct interrupt
-       *   assignment fail.
-       *
-       * To ensure that all versions of Linux work, generate ENET_INT_MAC
-       * interrrupts on both interrupt lines. This should be changed if and=
- when
-       * qemu supports IOMUX.
-       */
-
-  Unfortunately, this behavior causes the QNX Sabrelite BSP
-  (http://blackberry.qnx.com/en/developers/bsp) to hang on ethernet
-  initialization. This is caused by the fact that QEMU is firing the
-  ENET_INT_TS_TIMER timer interrupt unexpectedly (when the ENET_INT_MAC
-  flag is set). The BSP functions correctly on the actual hardware, but
-  it is unable to handle the deliberately incorrect interrupt firing by
-  QEMU.
-
-  From reading the comment, it appears that this behavior is necessary
-  to support certain versions of Linux. However, it would be very useful
-  to be able to restore the correct interrupt behavior (possibly via a
-  command-line flag).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1839367/+subscriptions
+r~
 
