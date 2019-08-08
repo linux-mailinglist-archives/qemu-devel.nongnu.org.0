@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E286586B7E
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 22:27:31 +0200 (CEST)
-Received: from localhost ([::1]:54956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02FE86B84
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 22:29:30 +0200 (CEST)
+Received: from localhost ([::1]:55007 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvp0V-0000Wr-36
-	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 16:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59877)
+	id 1hvp2Q-0005eC-0U
+	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 16:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59906)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hvozT-00078q-Gv
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:28 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hvozV-0007GR-HP
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hvozS-0001Ju-KW
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:27 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:37152)
+ (envelope-from <richard.henderson@linaro.org>) id 1hvozU-0001Kr-AB
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:29 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:42727)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hvozS-0001JR-Dp
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:26 -0400
-Received: by mail-pg1-x543.google.com with SMTP id d1so11820218pgp.4
- for <qemu-devel@nongnu.org>; Thu, 08 Aug 2019 13:26:26 -0700 (PDT)
+ id 1hvozU-0001KX-4z
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:28 -0400
+Received: by mail-pf1-x443.google.com with SMTP id q10so44710127pff.9
+ for <qemu-devel@nongnu.org>; Thu, 08 Aug 2019 13:26:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=RskjHA12b+UCLX2htP8k3zX7fIXUBDlXhLLJAVERdC0=;
- b=AI5BNglKzJ2nl0bwk9cg0D/RBrxrCsZPjYtJwwhMbI6xLE29xO9oKjooujma6sBJDH
- x2TUbnqhBThgU9jAt4HatoRJLmXHeXgo5yIkfDaPdIm1Vsq7X7zMIunrC2IIgbBR93Fr
- wOilkONR8MFHcXpVSAGnr4kaG2RBJbv+DQMQeh79a66RbhJZG5UrT0LX//EMqTqlXAwD
- fbkfNYZd8LKN5OlCz1UJzA8gX+uF0PyEG06FvnJJRaLm25VVk73Y70SR0bYd6LjBTr2k
- nu9JHSO92ppTRl3J5IT74hgWQR1bcMKiX5V+FP/7jwhtSD3BEsAZ3i9l7uQa8KL1FQ8B
- SKbQ==
+ bh=Vnbne/W2wov3KpmwjXJZkwuhxAhaLlZZtxHbTHDmpe4=;
+ b=RIwwXkslgVIYPkHoDmBsybWghAJcH0UDGklI/tuE4EYGEe5a5mATL1CjdAja0LuDGd
+ RuWX3hOAs7y5acmb8fY2Er2k2rGGq28CRuLqiTXpGgV//3/O+hhoH1CeQRcm300yyKR6
+ 4bnxb2DSv+MbAaUs3yoeD4UTuuPpaJS9XvSy4cT7uQXLvago1N7nSZd5gyjR7TeaLg1i
+ f8qyU1EAOXWx6JUHbDmkwYTQ5f1X/jO7zeMstI8s29JOEljzeex9V6uLfcRmzmuBTS+m
+ +H3be5ziHW0Oip2CsTZnVU7ATkJEXl2T65LTxCe9fxs5Hf3UWWdbHaHPtaKojJa5qgpJ
+ +pNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=RskjHA12b+UCLX2htP8k3zX7fIXUBDlXhLLJAVERdC0=;
- b=GvrjGOMiwmXHfs+6dHXhZjJGT0er3Dw1vzLYR/hVGffPfOf0jqNMjWoNMbvU/OHunI
- clDnmD8ULjylD7BbmuKCl0AEbxjllx34JusHG8iIsqsh998vilVjV1Bm1kclCcM3ExBK
- lbAN3prS3T1SoXjopHr+S22GTqTlV4kpu+1IxOL8VwoBCDpcREbKqX7zDkdzaqOgi/8b
- de3qFZRnht+2XFV1PiAUoT0BYlItmacQWrLY/DDwAqoqS8YeFgf2OD5ruOkkWMkT57GO
- SqjFubg/5scBmBS3zZ1OYg+DQpbljSJOeoBueyH+1l+HseLGdPp+8aLMFFtXrWON+Wy3
- 4Vpw==
-X-Gm-Message-State: APjAAAV6/bXTzeE6S7SHjYaoauf5eSTLjZP342i5T6edmUx8WK99HNi5
- xsGLDHQ/IaDYZ925PYjRWmY93GXUTQA=
-X-Google-Smtp-Source: APXvYqx3IbAmTAUljRT3n2vxLgD+LJf7v1V+KLJeb9XaYVru7wLRBwWXMuzN9B5pdU089+acRCaAJg==
-X-Received: by 2002:a17:90a:9bc5:: with SMTP id
- b5mr5853080pjw.109.1565295985125; 
- Thu, 08 Aug 2019 13:26:25 -0700 (PDT)
+ bh=Vnbne/W2wov3KpmwjXJZkwuhxAhaLlZZtxHbTHDmpe4=;
+ b=X8lKjd1dUc9mpTV6p/gXprvB6vYfNf8qB4NFx+nIaYP8yg01jX6QgYCKotkZg67O5M
+ kRZi/KKWJzbTy5V9J63h1ttAHBzd/ddPnQCTTXh65+t/OyUgYXqPxHs4HoP3D/lG1H1i
+ X8zdIMC8rehyn6by9iiuZmAzdf4z3vmrcLNEwt1FjWuVrQgt1Pgn7sZJdXBMPzLyI3aJ
+ KpmWJ+anZBc0FUmVJfQH38EPcuo5o3Ffpyl/6xJnGIZ/FyOtSi1KB4NTc3Y5qSePYtxy
+ 8sBep6llf+B1vyuPjqmFy+yLTCG5TaSk2vxJkXr4iX4TVWk3pwTfw3B5ADgT3VLlCazR
+ VD8g==
+X-Gm-Message-State: APjAAAWhbdWYMOtrxerKBBOA/056UakeWnhTWHg+7ASVs1fum2vivZBK
+ dS0xcsTAlBpTDYiqe9NXMJgS3qG8ZwU=
+X-Google-Smtp-Source: APXvYqweMZWhgG5RUAQ3DWddb6tRHcBzimB3t2gBAGpO/hDWx4+vHrT0+xw3DoBjlwTRuAZHneNHCQ==
+X-Received: by 2002:aa7:9118:: with SMTP id 24mr16838473pfh.56.1565295986728; 
+ Thu, 08 Aug 2019 13:26:26 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id v12sm2850146pjk.13.2019.08.08.13.26.23
+ by smtp.gmail.com with ESMTPSA id v12sm2850146pjk.13.2019.08.08.13.26.25
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 08 Aug 2019 13:26:24 -0700 (PDT)
+ Thu, 08 Aug 2019 13:26:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  8 Aug 2019 13:26:14 -0700
-Message-Id: <20190808202616.13782-6-richard.henderson@linaro.org>
+Date: Thu,  8 Aug 2019 13:26:15 -0700
+Message-Id: <20190808202616.13782-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190808202616.13782-1-richard.henderson@linaro.org>
 References: <20190808202616.13782-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: [Qemu-devel] [PATCH 5/7] target/arm: Use tcg_gen_rotri_i32 for
- gen_swap_half
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH 6/7] target/arm: Simplify SMMLA, SMMLAR, SMMLS,
+ SMMLSR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,31 +80,127 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rotate is the more compact and obvious way to swap 16-bit
-elements of a 32-bit word.
+All of the inputs to these instructions are 32-bits.  Rather than
+extend each input to 64-bits and then extract the high 32-bits of
+the output, use tcg_gen_muls2_i32 and other 32-bit generator functions.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ target/arm/translate.c | 72 +++++++++++++++---------------------------
+ 1 file changed, 26 insertions(+), 46 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index b40f163bab..ddc54e77e4 100644
+index ddc54e77e4..77154be743 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -459,11 +459,7 @@ static TCGv_i64 gen_muls_i64_i32(TCGv_i32 a, TCGv_i32 b)
- /* Swap low and high halfwords.  */
- static void gen_swap_half(TCGv_i32 var)
- {
--    TCGv_i32 tmp = tcg_temp_new_i32();
--    tcg_gen_shri_i32(tmp, var, 16);
--    tcg_gen_shli_i32(var, var, 16);
--    tcg_gen_or_i32(var, var, tmp);
--    tcg_temp_free_i32(tmp);
-+    tcg_gen_rotri_i32(var, var, 16);
+@@ -391,34 +391,6 @@ static void gen_revsh(TCGv_i32 var)
+     tcg_gen_ext16s_i32(var, var);
  }
  
- /* Dual 16-bit add.  Result placed in t0 and t1 is marked as dead.
+-/* Return (b << 32) + a. Mark inputs as dead */
+-static TCGv_i64 gen_addq_msw(TCGv_i64 a, TCGv_i32 b)
+-{
+-    TCGv_i64 tmp64 = tcg_temp_new_i64();
+-
+-    tcg_gen_extu_i32_i64(tmp64, b);
+-    tcg_temp_free_i32(b);
+-    tcg_gen_shli_i64(tmp64, tmp64, 32);
+-    tcg_gen_add_i64(a, tmp64, a);
+-
+-    tcg_temp_free_i64(tmp64);
+-    return a;
+-}
+-
+-/* Return (b << 32) - a. Mark inputs as dead. */
+-static TCGv_i64 gen_subq_msw(TCGv_i64 a, TCGv_i32 b)
+-{
+-    TCGv_i64 tmp64 = tcg_temp_new_i64();
+-
+-    tcg_gen_extu_i32_i64(tmp64, b);
+-    tcg_temp_free_i32(b);
+-    tcg_gen_shli_i64(tmp64, tmp64, 32);
+-    tcg_gen_sub_i64(a, tmp64, a);
+-
+-    tcg_temp_free_i64(tmp64);
+-    return a;
+-}
+-
+ /* 32x32->64 multiply.  Marks inputs as dead.  */
+ static TCGv_i64 gen_mulu_i64_i32(TCGv_i32 a, TCGv_i32 b)
+ {
+@@ -8872,23 +8844,27 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                            (SMMUL, SMMLA, SMMLS) */
+                         tmp = load_reg(s, rm);
+                         tmp2 = load_reg(s, rs);
+-                        tmp64 = gen_muls_i64_i32(tmp, tmp2);
++                        tcg_gen_muls2_i32(tmp2, tmp, tmp, tmp2);
+ 
+                         if (rd != 15) {
+-                            tmp = load_reg(s, rd);
++                            tmp3 = load_reg(s, rd);
+                             if (insn & (1 << 6)) {
+-                                tmp64 = gen_subq_msw(tmp64, tmp);
++                                tcg_gen_sub_i32(tmp, tmp, tmp3);
+                             } else {
+-                                tmp64 = gen_addq_msw(tmp64, tmp);
++                                tcg_gen_add_i32(tmp, tmp, tmp3);
+                             }
++                            tcg_temp_free_i32(tmp3);
+                         }
+                         if (insn & (1 << 5)) {
+-                            tcg_gen_addi_i64(tmp64, tmp64, 0x80000000u);
++                            /*
++                             * Adding 0x80000000 to the 64-bit quantity
++                             * means that we have carry in to the high
++                             * word when the low word has the high bit set.
++                             */
++                            tcg_gen_shri_i32(tmp2, tmp2, 31);
++                            tcg_gen_add_i32(tmp, tmp, tmp2);
+                         }
+-                        tcg_gen_shri_i64(tmp64, tmp64, 32);
+-                        tmp = tcg_temp_new_i32();
+-                        tcg_gen_extrl_i64_i32(tmp, tmp64);
+-                        tcg_temp_free_i64(tmp64);
++                        tcg_temp_free_i32(tmp2);
+                         store_reg(s, rn, tmp);
+                         break;
+                     case 0:
+@@ -10114,22 +10090,26 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                   }
+                 break;
+             case 5: case 6: /* 32 * 32 -> 32msb (SMMUL, SMMLA, SMMLS) */
+-                tmp64 = gen_muls_i64_i32(tmp, tmp2);
++                tcg_gen_muls2_i32(tmp2, tmp, tmp, tmp2);
+                 if (rs != 15) {
+-                    tmp = load_reg(s, rs);
++                    tmp3 = load_reg(s, rs);
+                     if (insn & (1 << 20)) {
+-                        tmp64 = gen_addq_msw(tmp64, tmp);
++                        tcg_gen_add_i32(tmp, tmp, tmp3);
+                     } else {
+-                        tmp64 = gen_subq_msw(tmp64, tmp);
++                        tcg_gen_sub_i32(tmp, tmp, tmp3);
+                     }
++                    tcg_temp_free_i32(tmp3);
+                 }
+                 if (insn & (1 << 4)) {
+-                    tcg_gen_addi_i64(tmp64, tmp64, 0x80000000u);
++                    /*
++                     * Adding 0x80000000 to the 64-bit quantity
++                     * means that we have carry in to the high
++                     * word when the low word has the high bit set.
++                     */
++                    tcg_gen_shri_i32(tmp2, tmp2, 31);
++                    tcg_gen_add_i32(tmp, tmp, tmp2);
+                 }
+-                tcg_gen_shri_i64(tmp64, tmp64, 32);
+-                tmp = tcg_temp_new_i32();
+-                tcg_gen_extrl_i64_i32(tmp, tmp64);
+-                tcg_temp_free_i64(tmp64);
++                tcg_temp_free_i32(tmp2);
+                 break;
+             case 7: /* Unsigned sum of absolute differences.  */
+                 gen_helper_usad8(tmp, tmp, tmp2);
 -- 
 2.17.1
 
