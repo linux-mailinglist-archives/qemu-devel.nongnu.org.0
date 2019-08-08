@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1786F85CBE
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 10:26:12 +0200 (CEST)
-Received: from localhost ([::1]:47558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE0285CAE
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 10:20:47 +0200 (CEST)
+Received: from localhost ([::1]:47532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvdkR-0006dF-B8
-	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 04:26:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37907)
+	id 1hvdfD-0004qi-11
+	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 04:20:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36327)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hvdjx-0006D6-Vl
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 04:25:43 -0400
+ (envelope-from <sgarzare@redhat.com>) id 1hvdef-0004H5-0K
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 04:20:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hvdjw-00008Q-Sd
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 04:25:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35852)
+ (envelope-from <sgarzare@redhat.com>) id 1hvded-00058c-W1
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 04:20:12 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:52694)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hvdjw-00007m-Mi
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 04:25:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hvdjv-0002YM-FZ
- for <qemu-devel@nongnu.org>; Thu, 08 Aug 2019 08:25:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3D2F02E80CC
- for <qemu-devel@nongnu.org>; Thu,  8 Aug 2019 08:25:39 +0000 (UTC)
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hvded-00057H-OD
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 04:20:11 -0400
+Received: by mail-wm1-f68.google.com with SMTP id s3so1473656wms.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Aug 2019 01:20:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=CHBfq1enqWUV77BcPH2c4BSPbTXijNa2UI+Wxd3j9bE=;
+ b=RLzkaqbpAFRQ4/3pgxC+9ckU1DAImOyHKH3h3Z6ePqRM5kLCenR8wBVA7eej1Hlg2e
+ ywtC/mE54HgB2o+uTTJVAPVCYxB1uG5gASq0aAw8oEKDcaQkwO7L+9a8KzRnGf1a5qXr
+ PcU01ob6VvT1mYkt1v2zr97p/cycYV8UNrM27yUTTv/5T3FfLiGS/7OzRxE/jIk+nN/Y
+ hdwI+87RGdK8fxBIHTG7j5b5v+Zpl4spajORJf7Ehzj+DMpQDe6hiRHl65hW4hj1lfz5
+ wnqVxgUqJCsFpL8OjYx14JhVrFM1miYJhJ63vi3LmR+xAPtoF3WPpsgwncZaiIr4tO7B
+ rGBA==
+X-Gm-Message-State: APjAAAWYRB7vXYr1Y2f8RdTAgdP7RSBcalaLa6rXt/LU606Aah7QvvMK
+ XrmNtEW8CXzaNPznh++kB1xpwg==
+X-Google-Smtp-Source: APXvYqwKy1PM7swkW4if9wkPhtQJhnBEjDt4wyNsZqyoIIsWf+WFuIrRnsh9slhXJnRk56lIFyyspg==
+X-Received: by 2002:a1c:e710:: with SMTP id e16mr2979336wmh.38.1565252410365; 
+ Thu, 08 Aug 2019 01:20:10 -0700 (PDT)
+Received: from steredhat (host122-201-dynamic.13-79-r.retail.telecomitalia.it.
+ [79.13.201.122])
+ by smtp.gmail.com with ESMTPSA id i66sm3186397wmi.11.2019.08.08.01.20.09
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 08 Aug 2019 01:20:09 -0700 (PDT)
+Date: Thu, 8 Aug 2019 10:20:07 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: P J P <ppandit@redhat.com>
+Message-ID: <20190808082007.qkgkeyajxb3bere2@steredhat>
+References: <20190808063340.23833-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 08 Aug 2019 08:11:05 -0000
-From: Philipp Oppermann <1839294@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: baw-mls phil-opp
-X-Launchpad-Bug-Reporter: Koganinja89 (baw-mls)
-X-Launchpad-Bug-Modifier: Philipp Oppermann (phil-opp)
-References: <156516896995.16228.929773034443965895.malonedeb@soybean.canonical.com>
-Message-Id: <156525186580.14072.13193868788541043705.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19015";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 1c87dfb1fb81e9daa6d71e512a0f7d2d1a466d31
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190808063340.23833-1-ppandit@redhat.com>
+User-Agent: NeoMutt/20180716
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1839294] Re: Latest Installer
- (qemu-w64-setup-20190807.exe) for windows immediately deletes installed
- files at the very end of the installation
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH] scsi: lsi: exit infinite loop while
+ executing script (CVE-2019-12068)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,52 +69,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1839294 <1839294@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Bugs SysSec <bugs-syssec@rub.de>, QEMU Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I hit the same error in my azure pipelines script that uses `choco
-install qemu`. While it worked with qemu-w64-setup-20190731.exe, the
-`C:\Program Files\qemu` directory is empty with
-qemu-w64-setup-20190807.exe.
+On Thu, Aug 08, 2019 at 12:03:40PM +0530, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+> 
+> When executing script in lsi_execute_script(), the LSI scsi
+> adapter emulator advances 's->dsp' index to read next opcode.
+> This can lead to an infinite loop if the next opcode is empty.
+> Exit such loop after reading 10k empty opcodes.
+> 
+> Reported-by: Bugs SysSec <bugs-syssec@rub.de>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+> ---
+>  hw/scsi/lsi53c895a.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
+> index 10468c1ec1..c23a40525e 100644
+> --- a/hw/scsi/lsi53c895a.c
+> +++ b/hw/scsi/lsi53c895a.c
+> @@ -1132,7 +1132,10 @@ static void lsi_execute_script(LSIState *s)
+>  
+>      s->istat1 |= LSI_ISTAT1_SRUN;
+>  again:
+> -    insn_processed++;
+> +    if (++insn_processed > 10000) {
+                              ^
+Since we are using this "magic" number in several lines,
+should we define a macro?
 
--- =
+Thanks,
+Stefano
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1839294
+> +        s->waiting = LSI_NOWAIT;
+> +        goto exitloop;
+> +    }
+>      insn = read_dword(s, s->dsp);
+>      if (!insn) {
+>          /* If we receive an empty opcode increment the DSP by 4 bytes
+> @@ -1569,6 +1572,7 @@ again:
+>              }
+>          }
+>      }
+> +exitloop:
+>      if (insn_processed > 10000 && s->waiting == LSI_NOWAIT) {
+>          /* Some windows drivers make the device spin waiting for a memory
+>             location to change.  If we have been executed a lot of code then
+> -- 
+> 2.21.0
+> 
+> 
 
-Title:
-  Latest Installer (qemu-w64-setup-20190807.exe) for windows immediately
-  deletes installed files at the very end of the installation
-
-Status in QEMU:
-  New
-
-Bug description:
-  This happens on Windows 10 with the latest installer for 64 bit
-  Windows: qemu-w64-setup-20190807.exe
-
-  On install it will create the files and go through all the typical
-  functions of installing the software, at the very end step it will
-  then delete all files the installer created.
-
-  I looked for logs to see when was going on so I ran the installation
-  in Sandboxie and was able to retain all the installed files but I
-  couldn't find a log for the installer.
-
-  Here is a screenshot of it deleting all the files at the end of the
-  process.
-
-  https://imgur.com/BWiTA38
-
-  If goes too fast for me to see what is written in the text console
-  otherwise I would post more information but this is all I have. It
-  does not give any error or any other information at completion.
-
-  This error does not occur in the earlier release:
-  qemu-w64-setup-20190731.exe
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1839294/+subscriptions
+-- 
 
