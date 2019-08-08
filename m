@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49F286B7C
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 22:27:27 +0200 (CEST)
-Received: from localhost ([::1]:54952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40B186B82
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 22:28:32 +0200 (CEST)
+Received: from localhost ([::1]:54984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvp0R-0000Hl-1W
-	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 16:27:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59793)
+	id 1hvp1U-0003Km-5Y
+	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 16:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59817)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hvozQ-0006yi-0c
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:24 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hvozR-00071Z-0g
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hvozO-0001FS-V4
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:23 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40800)
+ (envelope-from <richard.henderson@linaro.org>) id 1hvozQ-0001Ho-0F
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:24 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44742)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hvozO-0001F0-Pp
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:22 -0400
-Received: by mail-pf1-x442.google.com with SMTP id p184so44721210pfp.7
- for <qemu-devel@nongnu.org>; Thu, 08 Aug 2019 13:26:22 -0700 (PDT)
+ id 1hvozP-0001G4-Qy
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:23 -0400
+Received: by mail-pf1-x444.google.com with SMTP id t16so44696427pfe.11
+ for <qemu-devel@nongnu.org>; Thu, 08 Aug 2019 13:26:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=h5Yd6DdTtsmby24hx/qMc8uUeIQaxSevj10drk1jtIY=;
- b=li+g5mWavems3tksgkMZq3hJ9EOkVKYmGHT+B/KsA1qEQ6FcVD/xNWJpaH/BKO7q/V
- 4ze8IUbDi4v+DBlMLcNBT0I6s1P1F0DPMSGVKYujQaj+2spoJ8yApsRUfwTNtdFOisnW
- N+o5T8oXhAN9j2xKJ+2cz1Um3LlNkyWxkRrmeM4Smlx2iC2x/PKoGxUhXRV1Hi6lCS2J
- otjdKO8jyxQZjaYkPNwJqRCAFr6VRWn74uFVSHrE9v+8SeGwMQ3Mcwn1zNSRPTOLFGMR
- i+aVWsTAt9WlGVYsNuoKNVGeXACrhZcKUSvIFunRUR99CLl6UMag9uBcCg4x8lApj3Yf
- F1cQ==
+ bh=KppSBSLgqldeUIFCtJ9vyMILLmhpVP0HjXn8WOkkAA4=;
+ b=WnwvmjTrnJNDu8FpkcTfajv3YXkp1HDXgKJRDnJsh4LeprPE+rotaDg4ArlBy1pUqi
+ MZLBz7rc+F9xOy/MNt81VkGgqzO4Jdw8I394H1auRIe6ugilnMZs6WQBakXrAZebVnOp
+ smUm8YPLbU5Vi9kD5cFR3zfwYvniUefvxMMqshlui48xAy59hVauPkjscWOFwMRyl1ZY
+ YT1bQp7hM+l0T6qpOP7uH9oGv81z0mAKikO87668goWxo3r6FHp8MtDg6aUy1Rk9KOr/
+ ++9updJ2Yp6+tALpTW8JV1s47nUe0LrhWt9jmdUvdrSLGVm4ce9DYHCu+PSvZoKu5QSy
+ mCBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=h5Yd6DdTtsmby24hx/qMc8uUeIQaxSevj10drk1jtIY=;
- b=GyWUMlE023zautPAiTLN3d+e22EypFaEiZQrN1QrjtRcHjTo0rE43O49/IEgccO8hb
- lR9TG0+sUcmmYy0ptyktUC6ZNP41C43jz2ROjlRGOlO0k72aBAjFrzLOuUN+Tf3wiI91
- jqGn+JH7jgGpezW5Tj1anRbHUPnu+GeeUpjW4VZltoG35WPBkGSSoNPIjidOtSPvodqi
- nNK1Q3JaoHt4fztk69eqkV3MB6XuBkUvzxGNZVK2zS0FDncVlivP8v5D/XtgZ86Ptvp9
- 2p1N0LeOohPNtLGeWrqS0CsHU4Qo3gVUwSJZ1bLzccmTI+4wqX7lXLwI66IVlA9Fsb8i
- RMHQ==
-X-Gm-Message-State: APjAAAXIpYwIkaPI345abLcw/iObTf96hJAYVSzP5ddCzZJQV+uMzN5q
- c1b7E184RpUAYqQyNKdaSvOsivD8oa4=
-X-Google-Smtp-Source: APXvYqx0Te5xyAo4s/HA/bKsAxaN+WGhZmXvollxyn7Rr9UzhUyJ6DA9XARQKmuCe+qlJS1Zl8+b5g==
-X-Received: by 2002:a62:cd45:: with SMTP id o66mr17681624pfg.112.1565295981490; 
- Thu, 08 Aug 2019 13:26:21 -0700 (PDT)
+ bh=KppSBSLgqldeUIFCtJ9vyMILLmhpVP0HjXn8WOkkAA4=;
+ b=snEYsuxS1X9GW5PtwQB2N67POEddrc9JEAnHbJGtJVx2SSOjeL0MEaSMRrXm/3tbZB
+ isqZuoBOTbi2WeBBPvb4mb87qXuVAqftvsAJE7QoexBsZFiqVw9JRtyE4NX0iRhQUbFp
+ Rb5HeWwhFH0183LZMnLlAmbW999tP0b5cJsDPv3I9hsUW8XPU/tdmZRbsSiarmPJhIqb
+ 3YjtlLA7PyW3EgfO7hVzMENEjWehywmZevlVL/XVBjNGPWgN+sBosOpCU6mkByDNEHq+
+ hnf1hIUcyR2jO/G7hiB9VrRiMEuvHZjWQoS/hWqgD99F4rK3mszfUUSPsGilrYdX8X/c
+ R/TA==
+X-Gm-Message-State: APjAAAXUbhxnVsX4s4PnQWKkRk8yUzNuGjQbXxOiDHHy38OQheT6CKvB
+ ghW5SPKQbZQvjHZi+S+ynqHFOdFzQLA=
+X-Google-Smtp-Source: APXvYqyRqEzzbb30wen7bTbdUzD/fS5VaTAp+LTO/o6EPXhMrHB7vKvkSGhFZOBNiYUp+Bld5dhnjQ==
+X-Received: by 2002:a17:90a:2305:: with SMTP id
+ f5mr6123614pje.128.1565295982598; 
+ Thu, 08 Aug 2019 13:26:22 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id v12sm2850146pjk.13.2019.08.08.13.26.20
+ by smtp.gmail.com with ESMTPSA id v12sm2850146pjk.13.2019.08.08.13.26.21
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 08 Aug 2019 13:26:20 -0700 (PDT)
+ Thu, 08 Aug 2019 13:26:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  8 Aug 2019 13:26:11 -0700
-Message-Id: <20190808202616.13782-3-richard.henderson@linaro.org>
+Date: Thu,  8 Aug 2019 13:26:12 -0700
+Message-Id: <20190808202616.13782-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190808202616.13782-1-richard.henderson@linaro.org>
 References: <20190808202616.13782-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH 2/7] target/arm: Use tcg_gen_deposit_i32 for
- PKHBT, PKHTB
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH 3/7] target/arm: Remove redundant shift tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,68 +80,65 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use deposit as the composit operation to merge the
-bits from the two inputs.
+The immediate shift generator functions already test for,
+and eliminate, the case of a shift by zero.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 26 ++++++++++----------------
- 1 file changed, 10 insertions(+), 16 deletions(-)
+ target/arm/translate.c | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 43e005d191..94170af134 100644
+index 94170af134..3ddc404b3b 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8769,19 +8769,16 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-                         shift = (insn >> 7) & 0x1f;
-                         if (insn & (1 << 6)) {
-                             /* pkhtb */
--                            if (shift == 0)
-+                            if (shift == 0) {
-                                 shift = 31;
-+                            }
-                             tcg_gen_sari_i32(tmp2, tmp2, shift);
--                            tcg_gen_andi_i32(tmp, tmp, 0xffff0000);
--                            tcg_gen_ext16u_i32(tmp2, tmp2);
-+                            tcg_gen_deposit_i32(tmp, tmp, tmp2, 0, 16);
-                         } else {
-                             /* pkhbt */
--                            if (shift)
--                                tcg_gen_shli_i32(tmp2, tmp2, shift);
--                            tcg_gen_ext16u_i32(tmp, tmp);
--                            tcg_gen_andi_i32(tmp2, tmp2, 0xffff0000);
-+                            tcg_gen_shli_i32(tmp2, tmp2, shift);
-+                            tcg_gen_deposit_i32(tmp, tmp2, tmp, 0, 16);
+@@ -8826,8 +8826,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                         shift = (insn >> 10) & 3;
+                         /* ??? In many cases it's not necessary to do a
+                            rotate, a shift is sufficient.  */
+-                        if (shift != 0)
+-                            tcg_gen_rotri_i32(tmp, tmp, shift * 8);
++                        tcg_gen_rotri_i32(tmp, tmp, shift * 8);
+                         op1 = (insn >> 20) & 7;
+                         switch (op1) {
+                         case 0: gen_sxtb16(tmp);  break;
+@@ -9904,8 +9903,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+             shift = (insn >> 4) & 3;
+             /* ??? In many cases it's not necessary to do a
+                rotate, a shift is sufficient.  */
+-            if (shift != 0)
+-                tcg_gen_rotri_i32(tmp, tmp, shift * 8);
++            tcg_gen_rotri_i32(tmp, tmp, shift * 8);
+             op = (insn >> 20) & 7;
+             switch (op) {
+             case 0: gen_sxth(tmp);   break;
+@@ -10632,11 +10630,10 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                     case 7:
+                         goto illegal_op;
+                     default: /* Saturate.  */
+-                        if (shift) {
+-                            if (op & 1)
+-                                tcg_gen_sari_i32(tmp, tmp, shift);
+-                            else
+-                                tcg_gen_shli_i32(tmp, tmp, shift);
++                        if (op & 1) {
++                            tcg_gen_sari_i32(tmp, tmp, shift);
++                        } else {
++                            tcg_gen_shli_i32(tmp, tmp, shift);
                          }
--                        tcg_gen_or_i32(tmp, tmp, tmp2);
-                         tcg_temp_free_i32(tmp2);
-                         store_reg(s, rd, tmp);
-                     } else if ((insn & 0x00200020) == 0x00200000) {
-@@ -9817,19 +9814,16 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-             shift = ((insn >> 10) & 0x1c) | ((insn >> 6) & 0x3);
-             if (insn & (1 << 5)) {
-                 /* pkhtb */
--                if (shift == 0)
-+                if (shift == 0) {
-                     shift = 31;
-+                }
-                 tcg_gen_sari_i32(tmp2, tmp2, shift);
--                tcg_gen_andi_i32(tmp, tmp, 0xffff0000);
--                tcg_gen_ext16u_i32(tmp2, tmp2);
-+                tcg_gen_deposit_i32(tmp, tmp, tmp2, 0, 16);
-             } else {
-                 /* pkhbt */
--                if (shift)
--                    tcg_gen_shli_i32(tmp2, tmp2, shift);
--                tcg_gen_ext16u_i32(tmp, tmp);
--                tcg_gen_andi_i32(tmp2, tmp2, 0xffff0000);
-+                tcg_gen_shli_i32(tmp2, tmp2, shift);
-+                tcg_gen_deposit_i32(tmp, tmp2, tmp, 0, 16);
-             }
--            tcg_gen_or_i32(tmp, tmp, tmp2);
-             tcg_temp_free_i32(tmp2);
-             store_reg(s, rd, tmp);
-         } else {
+                         tmp2 = tcg_const_i32(imm);
+                         if (op & 4) {
+@@ -10827,9 +10824,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                     goto illegal_op;
+                 }
+                 tmp = load_reg(s, rm);
+-                if (shift) {
+-                    tcg_gen_shli_i32(tmp, tmp, shift);
+-                }
++                tcg_gen_shli_i32(tmp, tmp, shift);
+                 tcg_gen_add_i32(addr, addr, tmp);
+                 tcg_temp_free_i32(tmp);
+                 break;
 -- 
 2.17.1
 
