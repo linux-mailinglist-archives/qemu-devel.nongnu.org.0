@@ -2,50 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEFED85D3A
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 10:48:12 +0200 (CEST)
-Received: from localhost ([::1]:47650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B719A85D47
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 10:51:00 +0200 (CEST)
+Received: from localhost ([::1]:47684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hve5j-0006wM-MQ
-	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 04:48:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41640)
+	id 1hve8R-0001bX-W8
+	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 04:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42375)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hve4w-00061y-Te
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 04:47:24 -0400
+ (envelope-from <drjones@redhat.com>) id 1hve7s-0000hC-1s
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 04:50:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hve4v-00025Q-HE
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 04:47:22 -0400
-Received: from mga11.intel.com ([192.55.52.93]:44212)
+ (envelope-from <drjones@redhat.com>) id 1hve7r-0003DC-1h
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 04:50:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45706)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1hve4v-00023w-8V
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 04:47:21 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2019 01:47:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,360,1559545200"; d="scan'208";a="174786818"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga008.fm.intel.com with ESMTP; 08 Aug 2019 01:47:15 -0700
-Date: Thu, 8 Aug 2019 16:46:53 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Message-ID: <20190808084653.GB32524@richard>
-References: <20190808020723.GB26938@richard> <20190808080229.GA2534@redhat.com>
+ (Exim 4.71) (envelope-from <drjones@redhat.com>)
+ id 1hve7o-0003CD-MU; Thu, 08 Aug 2019 04:50:20 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id B0DD0C00A168;
+ Thu,  8 Aug 2019 08:50:18 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 826365C226;
+ Thu,  8 Aug 2019 08:50:14 +0000 (UTC)
+Date: Thu, 8 Aug 2019 10:50:12 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190808085012.23aokly34zo4wxbk@kamzik.brq.redhat.com>
+References: <20190802122540.26385-1-drjones@redhat.com>
+ <20190802122540.26385-4-drjones@redhat.com>
+ <d0983bd5-c1a5-adf6-324d-2b199ca0e23c@linaro.org>
+ <ec44ddad-c33c-918b-e94b-a534a2519a9e@linaro.org>
+ <20190806122144.bb3klk7aaaqdhgwi@kamzik.brq.redhat.com>
+ <39a4d205-d291-8962-2693-6bbcce89c332@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190808080229.GA2534@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.93
-Subject: Re: [Qemu-devel] [Fail] tests/test-util-filemonitor fails
+In-Reply-To: <39a4d205-d291-8962-2693-6bbcce89c332@linaro.org>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Thu, 08 Aug 2019 08:50:18 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 03/15] target/arm/monitor: Introduce
+ qmp_query_cpu_model_expansion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,37 +62,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: marcandre.lureau@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
- dgilbert@redhat.com, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, imammedo@redhat.com,
+ alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 08, 2019 at 09:02:29AM +0100, Daniel P. Berrangé wrote:
->On Thu, Aug 08, 2019 at 10:07:23AM +0800, Wei Yang wrote:
->> Current qemu fails tests/test-util-filemonitor.
+On Wed, Aug 07, 2019 at 08:22:07AM -0700, Richard Henderson wrote:
+> On 8/6/19 5:21 AM, Andrew Jones wrote:
+> > That's a reasonable suggestion. I do like having self-contained
+> > validation, self-contained, but when cross-dependencies arise, then
+> > it does make sense to have a master validation function, rather
+> > than interconnecting too much. That said, for this series we only
+> > enable the qmp query for aarch64, pmu, and sve* properties. aarch64
+> > and pmu are independent, and thus self-contained...
+> 
+> Agreed.
+> 
+> > and I consider
+> > all sve* properties one big entity, so their validation is also
+> > self-contained. If we add vfp and neon, then indeed I was wrong
+> > with my suggestion in the commit message. They would need a later
+> > validation check. Should we just cross that bridge when we get there
+> > though? Or would you like me to see how that would work within this
+> > series?
+> 
+> While the sve* properties are handled by one function, they are not handled as
+> "one big entity".  You examine then apply or diagnose the effects of sve384=on
+> before you separately examine the effects of sve512=on.
+> 
+> I think it would be easiest to merely record facts while processing sve<N> and
+> sve-max-vq, with no side effects.  Then in the common validation function see
+> the required side effects and diagnose errors all at once.
 >
->You'll need to provide more info. The test works for me and passes in all
->the QEMU CI environments.
->
 
-The error message from my side is:
+I'm not sure. Of course I'd need to experiment with it to be sure, but
+I'm reluctant to go through that exercise, because I believe that a
+deferred validation will result in less specific errors messages. For
+example, how would the validator know in which order the sve<N> properties
+were provided? Which is necessary to complain that one length is not
+allowed when another has already been disabled, or vice versa.
 
-/util/filemonitor: Expected watch id 200000000 but got 100000000
-**
-ERROR:tests/test-util-filemonitor.c:665:test_file_monitor_events: assertion failed: (err == 0)
+Also with deferred validation I think I'd need more vq states, at least
+for when KVM is enabled. For example, if 384-bit vector lengths are not
+supported on the KVM host, but the user does sve384=on, and all we do
+is record that, then we've lost the KVM unsupported information and won't
+find out until we attempt to enable it later at kvm vcpu init time. We'd
+need a kvm-unsupported-user-enabled state to track that, which also means
+we're not blindly recording user input in cpu_arm_set_sve_vq() anymore,
+but are instead applying logic to decide which state we transition to.
 
-What else you'd prefer to have?
-
->
->Regards,
->Daniel
->-- 
->|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
->|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
->|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
--- 
-Wei Yang
-Help you, Help me
+Thanks,
+drew
 
