@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E7886EB2
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 02:12:01 +0200 (CEST)
-Received: from localhost ([::1]:55718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D85F386EB5
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 02:13:17 +0200 (CEST)
+Received: from localhost ([::1]:55736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvsVk-0007Bj-Di
-	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 20:12:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56589)
+	id 1hvsWz-0001kq-4a
+	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 20:13:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56596)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hvsUj-0005UX-Eg
+ (envelope-from <dgibson@ozlabs.org>) id 1hvsUj-0005W7-Vz
  for qemu-devel@nongnu.org; Thu, 08 Aug 2019 20:10:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hvsUi-0004os-Ku
+ (envelope-from <dgibson@ozlabs.org>) id 1hvsUj-0004p9-5t
  for qemu-devel@nongnu.org; Thu, 08 Aug 2019 20:10:57 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46525 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:53875 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hvsUe-0004kC-D3; Thu, 08 Aug 2019 20:10:53 -0400
+ id 1hvsUe-0004kF-8Z; Thu, 08 Aug 2019 20:10:53 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 464Qck63dtz9sBF; Fri,  9 Aug 2019 10:10:46 +1000 (AEST)
+ id 464Qcl0YNtz9sND; Fri,  9 Aug 2019 10:10:46 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1565309446;
- bh=AN94QMwsieMhIsnCFXfNJtGDm7IVYYOGo4Ng0rCno5g=;
+ d=gibson.dropbear.id.au; s=201602; t=1565309447;
+ bh=KtXmz4IYJ3+XqNaZdl9jHL1w1VOiuY+sMi9L/IYw0PE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EbHsC4RQSES79jjCvDvd+K5j/MyZfLaBHkJEUVz3/yvNcDtVlJPPo2u/9UPlgqNlB
- WmG4gp8pFUUJaSSZ3iqtCOI3V0JWZqoRgrSEYjFSyx5fS0TFu14HpKwTlOnfdPWjCt
- QaeIYX14rK1ZLzP4h924b4laNmah7QEJO/YJwVWA=
-Date: Thu, 8 Aug 2019 16:47:12 +1000
+ b=Nd1getESQFGwndwJBCcNnM0nCtOeR2lc9G3RcZlS8Pa1Cc+xgu3eQ6JMro+2MbYRr
+ UYy8aITePj4A76R7fcAKw9E9RGupxJmWXnBl3wauDkBCJTCmyGplY3CW/B8X01spGc
+ N2fvCa5qKoSZHEu+n6wWtF1a1fD1bSmTQVqzBM9w=
+Date: Thu, 8 Aug 2019 16:48:10 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190808064712.GD5465@umbus.fritz.box>
+To: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <20190808064810.GE5465@umbus.fritz.box>
 References: <20190729145654.14644-1-damien.hedde@greensocs.com>
  <20190729145654.14644-6-damien.hedde@greensocs.com>
  <20190731060533.GD2032@umbus.fritz.box>
  <51aa7e6d-3568-8485-4b67-a598a24a1f3d@greensocs.com>
- <e7b05c24-ecd1-a437-7d97-07d69ab759ec@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KdquIMZPjGJQvRdI"
+ protocol="application/pgp-signature"; boundary="ZInfyf7laFu/Kiw7"
 Content-Disposition: inline
-In-Reply-To: <e7b05c24-ecd1-a437-7d97-07d69ab759ec@redhat.com>
+In-Reply-To: <51aa7e6d-3568-8485-4b67-a598a24a1f3d@greensocs.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
 Subject: Re: [Qemu-devel] [PATCH v3 05/33] Switch to new api in qdev/bus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,109 +64,105 @@ Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
  borntraeger@de.ibm.com, marcandre.lureau@redhat.com, thuth@redhat.com,
  ehabkost@redhat.com, alistair@alistair23.me, qemu-s390x@nongnu.org,
  qemu-arm@nongnu.org, clg@kaod.org, jsnow@redhat.com, rth@twiddle.net,
- Damien Hedde <damien.hedde@greensocs.com>, berrange@redhat.com,
- cohuck@redhat.com, mark.burton@greensocs.com, qemu-ppc@nongnu.org,
- pbonzini@redhat.com
+ berrange@redhat.com, cohuck@redhat.com, mark.burton@greensocs.com,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---KdquIMZPjGJQvRdI
-Content-Type: text/plain; charset=iso-8859-1
+--ZInfyf7laFu/Kiw7
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 31, 2019 at 01:31:28PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 7/31/19 11:29 AM, Damien Hedde wrote:
-> > On 7/31/19 8:05 AM, David Gibson wrote:
-> >> On Mon, Jul 29, 2019 at 04:56:26PM +0200, Damien Hedde wrote:
-> >>> Deprecate old reset apis and make them use the new one while they
-> >>> are still used somewhere.
-> >>>
-> >>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> >>> ---
-> >>>  hw/core/qdev.c         | 22 +++-------------------
-> >>>  include/hw/qdev-core.h | 28 ++++++++++++++++++++++------
-> >>>  2 files changed, 25 insertions(+), 25 deletions(-)
-> >>>
-> >>> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> >>> index 559ced070d..e9e5f2d5f9 100644
-> >>> --- a/hw/core/qdev.c
-> >>> +++ b/hw/core/qdev.c
-> >>> @@ -312,25 +312,9 @@ static void device_foreach_reset_child(Object *o=
-bj, void (*func)(Object *))
-> >>>      }
-> >>>  }
-> >>> =20
-> >>> -static int qdev_reset_one(DeviceState *dev, void *opaque)
-> >>> -{
-> >>> -    device_legacy_reset(dev);
-> >>> -
-> >>> -    return 0;
-> >>> -}
-> >>> -
-> >>> -static int qbus_reset_one(BusState *bus, void *opaque)
-> >>> -{
-> >>> -    BusClass *bc =3D BUS_GET_CLASS(bus);
-> >>> -    if (bc->reset) {
-> >>> -        bc->reset(bus);
-> >>> -    }
-> >>> -    return 0;
-> >>> -}
-> >>> -
-> >>>  void qdev_reset_all(DeviceState *dev)
-> >>>  {
-> >>> -    qdev_walk_children(dev, NULL, NULL, qdev_reset_one, qbus_reset_o=
-ne, NULL);
-> >>> +    device_reset(dev, false);
-> >>>  }
-> >>> =20
-> >>>  void qdev_reset_all_fn(void *opaque)
-> >>> @@ -340,7 +324,7 @@ void qdev_reset_all_fn(void *opaque)
-> >>> =20
-> >>>  void qbus_reset_all(BusState *bus)
-> >>>  {
-> >>> -    qbus_walk_children(bus, NULL, NULL, qdev_reset_one, qbus_reset_o=
-ne, NULL);
-> >>> +    bus_reset(bus, false);
-> >>>  }
-> >>> =20
-> >>>  void qbus_reset_all_fn(void *opaque)
-> >>> @@ -922,7 +906,7 @@ static void device_set_realized(Object *obj, bool=
- value, Error **errp)
-> >>>              }
-> >>>          }
-> >>>          if (dev->hotplugged) {
-> >>> -            device_legacy_reset(dev);
-> >>> +            device_reset(dev, true);
+On Wed, Jul 31, 2019 at 11:29:36AM +0200, Damien Hedde wrote:
+>=20
+>=20
+> On 7/31/19 8:05 AM, David Gibson wrote:
+> > On Mon, Jul 29, 2019 at 04:56:26PM +0200, Damien Hedde wrote:
+> >> Deprecate old reset apis and make them use the new one while they
+> >> are still used somewhere.
 > >>
-> >> So.. is this change in the device_reset() signature really necessary?
-> >> Even if there are compelling reasons to handle warm reset in the new
-> >> API, that doesn't been you need to change device_reset() itself from
-> >> its established meaning of a cold (i.e. as per power cycle) reset.
-> >> Warm resets are generally called in rather more specific circumstances
-> >> (often under guest software direction) so it seems likely that users
-> >> would want to engage with the new reset API directly.  Or we could
-> >> just create a device_warm_reset() wrapper.  That would also avoid the
-> >> bare boolean parameter, which is not great for readability (you have
-> >> to look up the signature to have any idea what it means).
->=20
-> If the boolean is not meaningful, we can use an enum...
-
-That's certainly better, but I'm not seeing a compelling reason not to
-have separate function names.  It's just as clear and means less churn.
-
->=20
-> > I've added device_reset_cold/warm wrapper functions to avoid having to
-> > pass the boolean parameter. it seems I forgot to use them in qdev.c
-> > I suppose, like you said, we could live with
-> > + no function with the boolean parameter
-> > + device_reset doing cold reset
-> > + device_reset_warm (or device_warm_reset) for the warm version
+> >> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> >> ---
+> >>  hw/core/qdev.c         | 22 +++-------------------
+> >>  include/hw/qdev-core.h | 28 ++++++++++++++++++++++------
+> >>  2 files changed, 25 insertions(+), 25 deletions(-)
+> >>
+> >> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+> >> index 559ced070d..e9e5f2d5f9 100644
+> >> --- a/hw/core/qdev.c
+> >> +++ b/hw/core/qdev.c
+> >> @@ -312,25 +312,9 @@ static void device_foreach_reset_child(Object *ob=
+j, void (*func)(Object *))
+> >>      }
+> >>  }
+> >> =20
+> >> -static int qdev_reset_one(DeviceState *dev, void *opaque)
+> >> -{
+> >> -    device_legacy_reset(dev);
+> >> -
+> >> -    return 0;
+> >> -}
+> >> -
+> >> -static int qbus_reset_one(BusState *bus, void *opaque)
+> >> -{
+> >> -    BusClass *bc =3D BUS_GET_CLASS(bus);
+> >> -    if (bc->reset) {
+> >> -        bc->reset(bus);
+> >> -    }
+> >> -    return 0;
+> >> -}
+> >> -
+> >>  void qdev_reset_all(DeviceState *dev)
+> >>  {
+> >> -    qdev_walk_children(dev, NULL, NULL, qdev_reset_one, qbus_reset_on=
+e, NULL);
+> >> +    device_reset(dev, false);
+> >>  }
+> >> =20
+> >>  void qdev_reset_all_fn(void *opaque)
+> >> @@ -340,7 +324,7 @@ void qdev_reset_all_fn(void *opaque)
+> >> =20
+> >>  void qbus_reset_all(BusState *bus)
+> >>  {
+> >> -    qbus_walk_children(bus, NULL, NULL, qdev_reset_one, qbus_reset_on=
+e, NULL);
+> >> +    bus_reset(bus, false);
+> >>  }
+> >> =20
+> >>  void qbus_reset_all_fn(void *opaque)
+> >> @@ -922,7 +906,7 @@ static void device_set_realized(Object *obj, bool =
+value, Error **errp)
+> >>              }
+> >>          }
+> >>          if (dev->hotplugged) {
+> >> -            device_legacy_reset(dev);
+> >> +            device_reset(dev, true);
 > >=20
-> > Damien
-> >=20
+> > So.. is this change in the device_reset() signature really necessary?
+> > Even if there are compelling reasons to handle warm reset in the new
+> > API, that doesn't been you need to change device_reset() itself from
+> > its established meaning of a cold (i.e. as per power cycle) reset.
+> > Warm resets are generally called in rather more specific circumstances
+> > (often under guest software direction) so it seems likely that users
+> > would want to engage with the new reset API directly.  Or we could
+> > just create a device_warm_reset() wrapper.  That would also avoid the
+> > bare boolean parameter, which is not great for readability (you have
+> > to look up the signature to have any idea what it means).
 >=20
+> I've added device_reset_cold/warm wrapper functions to avoid having to
+> pass the boolean parameter. it seems I forgot to use them in qdev.c
+> I suppose, like you said, we could live with
+> + no function with the boolean parameter
+> + device_reset doing cold reset
+> + device_reset_warm (or device_warm_reset) for the warm version
+
+Ok, good.
+
+I'm afraid the whole series still makes me pretty uncomfortable,
+though, since the whole "warm reset" concept still seems way to vague
+to me.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -176,25 +170,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---KdquIMZPjGJQvRdI
+--ZInfyf7laFu/Kiw7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1LxW0ACgkQbDjKyiDZ
-s5Jxfw//WtrJvoUNYAdiXZaOZxpcyKgroiTlPM+S9ursS8mv4OIeIl1MkJiNfw7F
-ODFJENo9pbSsq9mDKvowt6O1kmuzRBIsaM3vo0ClFDMl49bYEWkP3W6m+YUDnteD
-FLJmJeIXyOAlYmURmvslDWB4fXB1JWDCPKGYU/qjrWe/kP3PKMbsyrSML4GtWyZg
-rk9sx/7evi8xTmQpjBqy/Kkbr5eKvSZrd+2gNJpmK9/pBbKxBXeZubIs2yGC9TU0
-6e+VxkZYq2TOHoPgWHktU8aj/71oyc0W/IWSKfMqeLdekB1zVW47qEnqz9l4Hg9w
-Cz/y6S94habmB/Xi4RERzw4VgYQhNZksyjqgAV5XYTODeDxoELk/hXJMqwtKE/FS
-lxU1eyvaU2KPhf5lKmTd2ZaZb8AXYY1wiTvOO5xK7Pq0afISIWzCT3IXutV3HRaZ
-pi6dggaAgORM7CbcgB4AAI+woHr8gQXhJn2cnv6fivIK/BrGJ7mPfbHi0r7C9AM3
-kdLXDoOQ2hl4vuM49ywREtxCywxzIPt4cht+yVUF+rVkvZIv1RmaFkxJLxtIcsmC
-f6cH0Vqdp0JvFmTZ0RVUzjEkK9j53Kd1FUDtWrqNHMAGpXG/ePQqAGgifprm1aE1
-Eqw7sTaca+/3n8arKRo+x62y7knpAv/7pzRVKzj+WVS0kUyW6yA=
-=wzJJ
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1LxaoACgkQbDjKyiDZ
+s5LvXxAAwXnl73bl68b4Lmgt0Bw16kNIKHsIAv/Lp6RnpjIV1j4qDW/8hky3adKM
+uqFMCAZJshIXddlkab6Ga/qZt05ymPbJK/JUQHCXbg5sTn9LX0ae5QkOlFcCg5FY
+Pr47tAsAXfVOMyA04kre7gnS9ocgYhtCd3tVanbP+Guc8mBc2tfr/FdpyFwC2y0N
+JNZRqjEP9Aa5aER7GHw5sRlc1FcfrLBYJp9lo2QAWLld+glmOkjQ6U7gDpDDauAc
+ofFH7uAhvhnBYwqqnfEAXAQrQqDljwvVICuDMF2vFApuaXhCQga6tLIhV4We4XHY
+KDnum0Vbp6707x5nilF2CL1fcRWeEJeeyuGuOwjrFabRnVIhY9dUfAPadlRx9GgF
+rcOo5Tf4LXY/C43BlkVg6NvOC9EF4/E19UQkWJYfQLvvBGfpD3KtZuxcmL74ogLz
+eb0m+DKg9uWxynux43YGVIyg7Gjk5dtSimHTXLCidqBwMP+G3IrulFbjtgrgOg6N
+x6KXqqfa+1wYD9sg6kKIq90U5K+Zd/BEHkh367VIHY8usSuXFp5DExVSr2GijpT1
+H8do/Dkeflov6uxD3CkkOKgMDNOZQVtLXLmpK17AM9SjNzRMFvBKYdrNx3VhSkJD
+SC7cpFOCC/GEbtDE7RPto6KfMJW2uZaBMdq5OffPcN5fp1cTFY4=
+=mxkY
 -----END PGP SIGNATURE-----
 
---KdquIMZPjGJQvRdI--
+--ZInfyf7laFu/Kiw7--
 
