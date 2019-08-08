@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40B186B82
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 22:28:32 +0200 (CEST)
-Received: from localhost ([::1]:54984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B4F86B7D
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 22:27:30 +0200 (CEST)
+Received: from localhost ([::1]:54954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvp1U-0003Km-5Y
-	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 16:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59817)
+	id 1hvp0T-0000QA-90
+	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 16:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59852)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hvozR-00071Z-0g
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:25 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hvozS-00075E-At
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hvozQ-0001Ho-0F
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:24 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44742)
+ (envelope-from <richard.henderson@linaro.org>) id 1hvozR-0001Iv-BP
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:26 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:34206)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hvozP-0001G4-Qy
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:23 -0400
-Received: by mail-pf1-x444.google.com with SMTP id t16so44696427pfe.11
- for <qemu-devel@nongnu.org>; Thu, 08 Aug 2019 13:26:23 -0700 (PDT)
+ id 1hvozR-0001IE-6H
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 16:26:25 -0400
+Received: by mail-pf1-x443.google.com with SMTP id b13so44724458pfo.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Aug 2019 13:26:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=KppSBSLgqldeUIFCtJ9vyMILLmhpVP0HjXn8WOkkAA4=;
- b=WnwvmjTrnJNDu8FpkcTfajv3YXkp1HDXgKJRDnJsh4LeprPE+rotaDg4ArlBy1pUqi
- MZLBz7rc+F9xOy/MNt81VkGgqzO4Jdw8I394H1auRIe6ugilnMZs6WQBakXrAZebVnOp
- smUm8YPLbU5Vi9kD5cFR3zfwYvniUefvxMMqshlui48xAy59hVauPkjscWOFwMRyl1ZY
- YT1bQp7hM+l0T6qpOP7uH9oGv81z0mAKikO87668goWxo3r6FHp8MtDg6aUy1Rk9KOr/
- ++9updJ2Yp6+tALpTW8JV1s47nUe0LrhWt9jmdUvdrSLGVm4ce9DYHCu+PSvZoKu5QSy
- mCBQ==
+ bh=nqzQU642U0COih1CmgjWbkQy5lirJcAcLB93HWWBZtw=;
+ b=f4x3IifJ5NF4+rRGiMDD/6mffiSedpgiTboNBBfCNIUABOKv4uEyTedewTSTZGif2G
+ OK3b6LiDTatS2yds7cbMJsul3xUL73d5M/A221BuTd/xCE+bP/c4q3rYpsCE9/s//biT
+ y3byX0n20EyREj7D6Qp9/o0kFA1E8M/qHp1mvSQzn+ITbz8Bxx8rSqiQV2T/7oRqUtFg
+ evltcs0K+vibzQ3Af5AO9WH23zdK1+TCgXzmBrvQFmQt/bMha1dgxJgCJD3//k0qgjN0
+ /9KvgZIFtlhXRpQfSOzIU+ZqpLVBqC/X1Hs/ZqgVnoJMnWF2LVTceAtBb5jCLyZpX976
+ InIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=KppSBSLgqldeUIFCtJ9vyMILLmhpVP0HjXn8WOkkAA4=;
- b=snEYsuxS1X9GW5PtwQB2N67POEddrc9JEAnHbJGtJVx2SSOjeL0MEaSMRrXm/3tbZB
- isqZuoBOTbi2WeBBPvb4mb87qXuVAqftvsAJE7QoexBsZFiqVw9JRtyE4NX0iRhQUbFp
- Rb5HeWwhFH0183LZMnLlAmbW999tP0b5cJsDPv3I9hsUW8XPU/tdmZRbsSiarmPJhIqb
- 3YjtlLA7PyW3EgfO7hVzMENEjWehywmZevlVL/XVBjNGPWgN+sBosOpCU6mkByDNEHq+
- hnf1hIUcyR2jO/G7hiB9VrRiMEuvHZjWQoS/hWqgD99F4rK3mszfUUSPsGilrYdX8X/c
- R/TA==
-X-Gm-Message-State: APjAAAXUbhxnVsX4s4PnQWKkRk8yUzNuGjQbXxOiDHHy38OQheT6CKvB
- ghW5SPKQbZQvjHZi+S+ynqHFOdFzQLA=
-X-Google-Smtp-Source: APXvYqyRqEzzbb30wen7bTbdUzD/fS5VaTAp+LTO/o6EPXhMrHB7vKvkSGhFZOBNiYUp+Bld5dhnjQ==
-X-Received: by 2002:a17:90a:2305:: with SMTP id
- f5mr6123614pje.128.1565295982598; 
- Thu, 08 Aug 2019 13:26:22 -0700 (PDT)
+ bh=nqzQU642U0COih1CmgjWbkQy5lirJcAcLB93HWWBZtw=;
+ b=ZCjm+lht42sn1y3f5hvrBU1wkCvYvjbvCPFTA8xwnPUC9TXXzlUH6d8t8Ef/cl6m0m
+ hqfOw1XipMbSvnIfqx6nRoOJDMozf8MURAWyvPbQn5KS+iMNy37f8WfLau7VjFD7LEUG
+ sdeRttFRS8JSnYw7xYJRd/isUOFxDj376h+HsbFs19AtBVXC8u17O9KPPpkawuSUW1Ck
+ gkcpNz/1X5+w9rlnUgDxqvuzB/JH41F8g5us3G/VC9ei6qqX5b/64RLMLIIl/xmCvlvd
+ S2uRx8Q3oWC1VYcLhXJF8jyR4V/h4MlnzjCNokyTOZ8eSF8Ergw9H3csgpig2Cd2rVZz
+ oOeQ==
+X-Gm-Message-State: APjAAAW7z9ZT3NSoNmRlJQR1dWJun6QK7X4cXAKnsEcccD1dUPHF9aw3
+ 2C0FZ5TK8TyUCRJBdPIIYcTdY/jD7eY=
+X-Google-Smtp-Source: APXvYqxBoha2CfxdKMixIZb3G2CsT6uFGiBuX1rzJKdj/9McrVOkHD9PY8588KeXAtZLb8f1sRXRlg==
+X-Received: by 2002:a17:90a:3aed:: with SMTP id
+ b100mr5814407pjc.63.1565295983855; 
+ Thu, 08 Aug 2019 13:26:23 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id v12sm2850146pjk.13.2019.08.08.13.26.21
+ by smtp.gmail.com with ESMTPSA id v12sm2850146pjk.13.2019.08.08.13.26.22
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 08 Aug 2019 13:26:21 -0700 (PDT)
+ Thu, 08 Aug 2019 13:26:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  8 Aug 2019 13:26:12 -0700
-Message-Id: <20190808202616.13782-4-richard.henderson@linaro.org>
+Date: Thu,  8 Aug 2019 13:26:13 -0700
+Message-Id: <20190808202616.13782-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190808202616.13782-1-richard.henderson@linaro.org>
 References: <20190808202616.13782-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH 3/7] target/arm: Remove redundant shift tests
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH 4/7] target/arm: Use ror32 instead of
+ open-coding the operation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,65 +81,39 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The immediate shift generator functions already test for,
-and eliminate, the case of a shift by zero.
+The helper function is more documentary, and also already
+handles the case of rotate by zero.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ target/arm/translate.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 94170af134..3ddc404b3b 100644
+index 3ddc404b3b..b40f163bab 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8826,8 +8826,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-                         shift = (insn >> 10) & 3;
-                         /* ??? In many cases it's not necessary to do a
-                            rotate, a shift is sufficient.  */
--                        if (shift != 0)
--                            tcg_gen_rotri_i32(tmp, tmp, shift * 8);
-+                        tcg_gen_rotri_i32(tmp, tmp, shift * 8);
-                         op1 = (insn >> 20) & 7;
-                         switch (op1) {
-                         case 0: gen_sxtb16(tmp);  break;
-@@ -9904,8 +9903,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-             shift = (insn >> 4) & 3;
-             /* ??? In many cases it's not necessary to do a
-                rotate, a shift is sufficient.  */
--            if (shift != 0)
--                tcg_gen_rotri_i32(tmp, tmp, shift * 8);
-+            tcg_gen_rotri_i32(tmp, tmp, shift * 8);
-             op = (insn >> 20) & 7;
-             switch (op) {
-             case 0: gen_sxth(tmp);   break;
-@@ -10632,11 +10630,10 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                     case 7:
-                         goto illegal_op;
-                     default: /* Saturate.  */
--                        if (shift) {
--                            if (op & 1)
--                                tcg_gen_sari_i32(tmp, tmp, shift);
--                            else
--                                tcg_gen_shli_i32(tmp, tmp, shift);
-+                        if (op & 1) {
-+                            tcg_gen_sari_i32(tmp, tmp, shift);
-+                        } else {
-+                            tcg_gen_shli_i32(tmp, tmp, shift);
-                         }
-                         tmp2 = tcg_const_i32(imm);
-                         if (op & 4) {
-@@ -10827,9 +10824,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                     goto illegal_op;
-                 }
-                 tmp = load_reg(s, rm);
--                if (shift) {
--                    tcg_gen_shli_i32(tmp, tmp, shift);
--                }
-+                tcg_gen_shli_i32(tmp, tmp, shift);
-                 tcg_gen_add_i32(addr, addr, tmp);
-                 tcg_temp_free_i32(tmp);
-                 break;
+@@ -7979,8 +7979,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                 /* CPSR = immediate */
+                 val = insn & 0xff;
+                 shift = ((insn >> 8) & 0xf) * 2;
+-                if (shift)
+-                    val = (val >> shift) | (val << (32 - shift));
++                val = ror32(val, shift);
+                 i = ((insn & (1 << 22)) != 0);
+                 if (gen_set_psr_im(s, msr_mask(s, (insn >> 16) & 0xf, i),
+                                    i, val)) {
+@@ -8243,9 +8242,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+             /* immediate operand */
+             val = insn & 0xff;
+             shift = ((insn >> 8) & 0xf) * 2;
+-            if (shift) {
+-                val = (val >> shift) | (val << (32 - shift));
+-            }
++            val = ror32(val, shift);
+             tmp2 = tcg_temp_new_i32();
+             tcg_gen_movi_i32(tmp2, val);
+             if (logic_cc && shift) {
 -- 
 2.17.1
 
