@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC20386478
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 16:37:43 +0200 (CEST)
-Received: from localhost ([::1]:52330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D5258647D
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Aug 2019 16:38:27 +0200 (CEST)
+Received: from localhost ([::1]:52352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvjXz-0003iQ-6V
-	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 10:37:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57146)
+	id 1hvjYg-0006Ao-C1
+	for lists+qemu-devel@lfdr.de; Thu, 08 Aug 2019 10:38:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57201)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hvjX8-0001zB-Fx
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 10:36:51 -0400
+ (envelope-from <philmd@redhat.com>) id 1hvjXL-0002lK-W0
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 10:37:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hvjX7-00062t-9Q
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 10:36:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42208)
+ (envelope-from <philmd@redhat.com>) id 1hvjXK-0006FK-Se
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 10:37:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57820)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hvjX5-00061v-Ax
- for qemu-devel@nongnu.org; Thu, 08 Aug 2019 10:36:47 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hvjXK-0006EB-Na
+ for qemu-devel@nongnu.org; Thu, 08 Aug 2019 10:37:02 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 68E0330A00DC;
- Thu,  8 Aug 2019 14:36:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 03A5B6404E;
+ Thu,  8 Aug 2019 14:37:02 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F31E51001956;
- Thu,  8 Aug 2019 14:36:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 010661001955;
+ Thu,  8 Aug 2019 14:36:46 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  8 Aug 2019 16:34:55 +0200
-Message-Id: <20190808143457.14111-5-philmd@redhat.com>
+Date: Thu,  8 Aug 2019 16:34:56 +0200
+Message-Id: <20190808143457.14111-6-philmd@redhat.com>
 In-Reply-To: <20190808143457.14111-1-philmd@redhat.com>
 References: <20190808143457.14111-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Thu, 08 Aug 2019 14:36:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Thu, 08 Aug 2019 14:37:02 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC PATCH 4/6] hw/net/vmxnet3: Use the tcp_header
+Subject: [Qemu-devel] [PATCH 5/6] net/eth: Remove the unused tcp_hdr
  structure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,75 +63,78 @@ Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tcp_header structure comes convenient macros to avoid
-manipulating the TCP header flags/offset bits manually.
-Replace the tcp_hdr structure by the tcp_header equivalent,
-and use the macros.
+Commit 75020a70215 introduced 2 very similar structures:
+tcp_header and tcp_hdr.
 
-Since we will remove the duplicated TCP_FLAG_ACK definition
-in the next commit, replace its use now.
+We replaced the uses of struct tcp_hdr with the equivalent
+struct tcp_header. Remove the unused one.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-RFC: Verify th_off endianess
+I prefer the TCP_FLAG_XXX name, but there is only one single use of
+TCP_FLAG_ACK vs many use of the other set, so I'm keeping the set.
 
- hw/net/net_rx_pkt.c | 2 +-
- hw/net/net_tx_pkt.c | 7 ++++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ include/net/eth.h | 40 ++++++++--------------------------------
+ 1 file changed, 8 insertions(+), 32 deletions(-)
 
-diff --git a/hw/net/net_rx_pkt.c b/hw/net/net_rx_pkt.c
-index 98a5030ace..7558f0646a 100644
---- a/hw/net/net_rx_pkt.c
-+++ b/hw/net/net_rx_pkt.c
-@@ -376,7 +376,7 @@ bool net_rx_pkt_is_tcp_ack(struct NetRxPkt *pkt)
-     assert(pkt);
+diff --git a/include/net/eth.h b/include/net/eth.h
+index 7f45c678e7..0b2584328a 100644
+--- a/include/net/eth.h
++++ b/include/net/eth.h
+@@ -72,7 +72,14 @@ typedef struct tcp_header {
+ #define TCP_HEADER_FLAGS(tcp) \
+     TCP_FLAGS_ONLY(be16_to_cpu((tcp)->th_offset_flags))
 =20
-     if (pkt->istcp) {
--        return TCP_HEADER_FLAGS(&pkt->l4hdr_info.hdr.tcp) & TCP_FLAG_ACK=
-;
-+        return TCP_HEADER_FLAGS(&pkt->l4hdr_info.hdr.tcp) & TH_ACK;
-     }
+-#define TCP_FLAG_ACK  0x10
++#define TH_FIN  0x01
++#define TH_SYN  0x02
++#define TH_RST  0x04
++#define TH_PUSH 0x08
++#define TH_ACK  0x10
++#define TH_URG  0x20
++#define TH_ECE  0x40
++#define TH_CWR  0x80
 =20
-     return false;
-diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-index 162f802dd7..fc4514416c 100644
---- a/hw/net/net_tx_pkt.c
-+++ b/hw/net/net_tx_pkt.c
-@@ -307,7 +307,7 @@ func_exit:
- void net_tx_pkt_build_vheader(struct NetTxPkt *pkt, bool tso_enable,
-     bool csum_enable, uint32_t gso_size)
- {
--    struct tcp_hdr l4hdr;
-+    struct tcp_header l4hdr;
-     assert(pkt);
+ #define TCP_HEADER_DATA_OFFSET(tcp) \
+     (((be16_to_cpu((tcp)->th_offset_flags) >> 12) & 0xf) << 2)
+@@ -153,37 +160,6 @@ struct udp_hdr {
+   uint16_t uh_sum;             /* udp checksum */
+ };
 =20
-     /* csum has to be enabled if tso is. */
-@@ -330,7 +330,8 @@ void net_tx_pkt_build_vheader(struct NetTxPkt *pkt, b=
-ool tso_enable,
-     case VIRTIO_NET_HDR_GSO_TCPV6:
-         iov_to_buf(&pkt->vec[NET_TX_PKT_PL_START_FRAG], pkt->payload_fra=
-gs,
-                    0, &l4hdr, sizeof(l4hdr));
--        pkt->virt_hdr.hdr_len =3D pkt->hdr_len + l4hdr.th_off * sizeof(u=
-int32_t);
-+        pkt->virt_hdr.hdr_len =3D pkt->hdr_len
-+                            + TCP_HEADER_DATA_OFFSET(&l4hdr) * sizeof(ui=
-nt32_t);
-         pkt->virt_hdr.gso_size =3D gso_size;
-         break;
+-struct tcp_hdr {
+-    u_short     th_sport;   /* source port */
+-    u_short     th_dport;   /* destination port */
+-    uint32_t    th_seq;     /* sequence number */
+-    uint32_t    th_ack;     /* acknowledgment number */
+-#ifdef HOST_WORDS_BIGENDIAN
+-    u_char  th_off : 4,     /* data offset */
+-        th_x2:4;            /* (unused) */
+-#else
+-    u_char  th_x2 : 4,      /* (unused) */
+-        th_off:4;           /* data offset */
+-#endif
+-
+-#define TH_ELN  0x1 /* explicit loss notification */
+-#define TH_ECN  0x2 /* explicit congestion notification */
+-#define TH_FS   0x4 /* fast start */
+-
+-    u_char  th_flags;
+-#define TH_FIN  0x01
+-#define TH_SYN  0x02
+-#define TH_RST  0x04
+-#define TH_PUSH 0x08
+-#define TH_ACK  0x10
+-#define TH_URG  0x20
+-#define TH_ECE  0x40
+-#define TH_CWR  0x80
+-    u_short th_win;      /* window */
+-    u_short th_sum;      /* checksum */
+-    u_short th_urp;      /* urgent pointer */
+-};
+-
+ #define ip6_nxt      ip6_ctlun.ip6_un1.ip6_un1_nxt
+ #define ip6_ecn_acc  ip6_ctlun.ip6_un3.ip6_un3_ecn
 =20
-@@ -343,7 +344,7 @@ void net_tx_pkt_build_vheader(struct NetTxPkt *pkt, b=
-ool tso_enable,
-         case IP_PROTO_TCP:
-             pkt->virt_hdr.flags =3D VIRTIO_NET_HDR_F_NEEDS_CSUM;
-             pkt->virt_hdr.csum_start =3D pkt->hdr_len;
--            pkt->virt_hdr.csum_offset =3D offsetof(struct tcp_hdr, th_su=
-m);
-+            pkt->virt_hdr.csum_offset =3D offsetof(struct tcp_header, th=
-_sum);
-             break;
-         case IP_PROTO_UDP:
-             pkt->virt_hdr.flags =3D VIRTIO_NET_HDR_F_NEEDS_CSUM;
 --=20
 2.20.1
 
