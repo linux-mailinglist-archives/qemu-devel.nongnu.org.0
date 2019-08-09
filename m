@@ -2,54 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38CB28711F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 06:53:37 +0200 (CEST)
-Received: from localhost ([::1]:56394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B1F87124
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 06:57:22 +0200 (CEST)
+Received: from localhost ([::1]:56424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvwuG-0004P6-FH
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 00:53:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
+	id 1hvwxt-0006uo-OL
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 00:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59417)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hvwt7-0003CQ-VL
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 00:52:27 -0400
+ (envelope-from <andrew@aj.id.au>) id 1hvwxM-0006O5-BE
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 00:56:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hvwt6-0002IA-MB
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 00:52:25 -0400
-Resent-Date: Fri, 09 Aug 2019 00:52:25 -0400
-Resent-Message-Id: <E1hvwt6-0002IA-MB@eggs.gnu.org>
-Received: from sender-of-o53.zoho.com ([135.84.80.218]:21897)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hvwt6-0002H2-Ec; Fri, 09 Aug 2019 00:52:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1565326336; cv=none; d=zoho.com; s=zohoarc; 
- b=E87/PysUjd4KlHtRnqXcmGwd+lG0gGH+exfGxyicFtdI0aEazVvFfgs3e6pMA9fnMsMLoEBnJ6dYZ/lp/NenMMtbqbXeCZFoubJZrJxqOIrczOIibU/9tEQVbPglY9uORBYZyerE0+qbGidItdG6dMBATxnyEwdo6XG9pxjomrk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1565326336;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=cyCaOyeYAAKyIiohxyN4foswcRbCGOq0h57FAmazftw=; 
- b=Hdz6hDizK4nbv92QRKEqw0qLSoMMBFMySwQ8Z9ayzN8Vh1J8IUa1I3JV98JAJWEwT2wyDQcZljlqJrGOn+MmD0WGe5bm+emobJqxFoPNwIE9Ge/UOSs0XLKiqokolxm3Ah03uZGqCiUp/MbJh643qGACv4Ban+wEaE1Oiwccbs4=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1565326334093260.07771065423503;
- Thu, 8 Aug 2019 21:52:14 -0700 (PDT)
-In-Reply-To: <20190809041952.57302-1-rebecca@bsdio.com>
-Message-ID: <156532633286.12874.928655968593675018@b08f24806b7e>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: rebecca@bsdio.com
-Date: Thu, 8 Aug 2019 21:52:14 -0700 (PDT)
-X-ZohoMailClient: External
+ (envelope-from <andrew@aj.id.au>) id 1hvwxL-0005pC-7U
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 00:56:48 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:41337)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrew@aj.id.au>)
+ id 1hvwxI-0005jk-0s; Fri, 09 Aug 2019 00:56:44 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6432B21C28;
+ Fri,  9 Aug 2019 00:56:43 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Fri, 09 Aug 2019 00:56:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type:content-transfer-encoding; s=fm3; bh=97PQ0
+ ONohDjicXDGQPseSUNahm4RV3a90jPYWmyNsdc=; b=gNMW0dWmsCtlaR/ImTvKA
+ BeunRlQ6XMdUKquvDBKgYhG82g+REdHoBrIqmC6zgMaXN956pEVpcquCrcCo8+K4
+ YT5RA2JPZOQcpiU5PPznC3rfLu5FwH0+8v5xQeBTS4IH9NQzvpphoh7rtZc3PP2j
+ Il4fjNxl88dLXowJrKq+NQw9TYo71ak+nAGrOa9HJ5Adet9CKqJpuP5ANu7L2ZdZ
+ 2se7mngxc37sEym8qsMhe9kk9WT6N7SESSWuCc+uHHwV6nws+TBoVoba49GxK45p
+ t4iaCPIzDlkS4j+RVRuTRjirwEz3dvBLN34ByflhuYSvZ78pkXX8CA/62NarmZE8
+ w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=97PQ0ONohDjicXDGQPseSUNahm4RV3a90jPYWmyNs
+ dc=; b=ldUL5X2a1QLBtQ+5Ljq60oTsQdwjdwD4IT8DSHpbVFUOBRFhVDaqMG5mA
+ JZP00w96Wu1sxgp1nieJRDfQGG/9p5pCfcX+0JzUwOpG//cIQlIeZDnqAlad3Obo
+ /sX17O8CRM7gUlrotNvNqAJV24AFxGbTsSIlsAkegoem5m4UO1Wd7URUWE4znpbU
+ Bc8X2ObY/XxdP3L5BSg8xW/pPDjhtmZ6qfEpQFOYFItoR4mfHZ7v97oWuO28HAP4
+ TY+rJ/LiH1gwiY/BgZ7wRsV6FHTkfPw9QGdf2VfoJjAklRmh5qviVQDToywU4LTW
+ usB70qxqWCJawRkKZeBRIoJ9KhePg==
+X-ME-Sender: <xms:Cv1MXTycp7nLz1hw6Cqbr_ocCfNmRuWbz7Fl70T61X-YMc9Nhs9hbg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudduiedgkeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucffoh
+ hmrghinhepphgrthgthhgvfidrohhrghenucfrrghrrghmpehmrghilhhfrhhomheprghn
+ ughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:Cv1MXcjh4F21OcBwKRHttFh974mPCH47rsxcS8_PPepOCK9G6pvb_g>
+ <xmx:Cv1MXaYvDDOZNuj0XjBNmBwlQFK3Kc043tuRfb9qUAndeKpm10EvVg>
+ <xmx:Cv1MXQhwK2Ne2nj0Ia_kEghXVa_mqNo_zJ1YQ3I6mA1Lep-LlBfhVA>
+ <xmx:C_1MXQHzffGMWLHazCFVnO9CYNhdH6xlgrNO2yURjx5LV1Wtb0zeUA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 0A079E00A2; Fri,  9 Aug 2019 00:56:42 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-808-g930a1a1-fmstable-20190805v2
+Mime-Version: 1.0
+Message-Id: <84d76bb7-b5b5-488b-ac14-db0e1c009f7d@www.fastmail.com>
+In-Reply-To: <156532351253.12874.1201096794967354035@b08f24806b7e>
+References: <156532351253.12874.1201096794967354035@b08f24806b7e>
+Date: Fri, 09 Aug 2019 14:27:08 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: no-reply@patchew.org, qemu-devel@nongnu.org
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.218
-Subject: Re: [Qemu-devel] [PATCH] Update the avx2 configure test to be
- compatible with clang
+X-Received-From: 66.111.4.26
+Subject: Re: [Qemu-devel] 
+ =?utf-8?q?=5BPATCH=5D_target-arm=3A_Make_the_counte?=
+ =?utf-8?q?r_tick_relative_to_cntfrq?=
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,48 +87,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, rebecca@bsdio.com, mjt@tls.msk.ru,
- qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDgwOTA0MTk1Mi41NzMw
-Mi0xLXJlYmVjY2FAYnNkaW8uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgYXNh
-biBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIg
-b3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2Jh
-Ymx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9i
-aW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2Ug
-ZG9ja2VyLXRlc3QtZGVidWdAZmVkb3JhIFRBUkdFVF9MSVNUPXg4Nl82NC1zb2Z0bW11IEo9MTQg
-TkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgdXRpbC9xZW11LXNv
-Y2tldHMubwogIENDICAgICAgdXRpbC91cmkubwogIENDICAgICAgdXRpbC9ub3RpZnkubwovdG1w
-L3FlbXUtdGVzdC9zcmMvdXRpbC9idWZmZXJpc3plcm8uYzo3MToxMzogZXJyb3I6IHVua25vd24g
-cHJhZ21hIGlnbm9yZWQgWy1XZXJyb3IsLVd1bmtub3duLXByYWdtYXNdCiNwcmFnbWEgR0NDIHB1
-c2hfb3B0aW9ucwogICAgICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy91dGlsL2J1ZmZlcmlz
-emVyby5jOjcyOjEzOiBlcnJvcjogdW5rbm93biBwcmFnbWEgaWdub3JlZCBbLVdlcnJvciwtV3Vu
-a25vd24tcHJhZ21hc10KI3ByYWdtYSBHQ0MgdGFyZ2V0KCJzc2UyIikKICAgICAgICAgICAgXgov
-dG1wL3FlbXUtdGVzdC9zcmMvdXRpbC9idWZmZXJpc3plcm8uYzoxMDg6MTM6IGVycm9yOiB1bmtu
-b3duIHByYWdtYSBpZ25vcmVkIFstV2Vycm9yLC1XdW5rbm93bi1wcmFnbWFzXQojcHJhZ21hIEdD
-QyBwb3Bfb3B0aW9ucwogICAgICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy91dGlsL2J1ZmZl
-cmlzemVyby5jOjExNjoxMzogZXJyb3I6IHVua25vd24gcHJhZ21hIGlnbm9yZWQgWy1XZXJyb3Is
-LVd1bmtub3duLXByYWdtYXNdCiNwcmFnbWEgR0NDIHB1c2hfb3B0aW9ucwogICAgICAgICAgICBe
-Ci90bXAvcWVtdS10ZXN0L3NyYy91dGlsL2J1ZmZlcmlzemVyby5jOjExNzoxMzogZXJyb3I6IHVu
-a25vd24gcHJhZ21hIGlnbm9yZWQgWy1XZXJyb3IsLVd1bmtub3duLXByYWdtYXNdCiNwcmFnbWEg
-R0NDIHRhcmdldCgic3NlNCIpCiAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL3V0aWwv
-YnVmZmVyaXN6ZXJvLmM6MTQ4OjEzOiBlcnJvcjogdW5rbm93biBwcmFnbWEgaWdub3JlZCBbLVdl
-cnJvciwtV3Vua25vd24tcHJhZ21hc10KI3ByYWdtYSBHQ0MgcG9wX29wdGlvbnMKICAgICAgICAg
-ICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvdXRpbC9idWZmZXJpc3plcm8uYzoxNDk6MTM6IGVycm9y
-OiB1bmtub3duIHByYWdtYSBpZ25vcmVkIFstV2Vycm9yLC1XdW5rbm93bi1wcmFnbWFzXQojcHJh
-Z21hIEdDQyBwdXNoX29wdGlvbnMKICAgICAgICAgICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvdXRp
-bC9idWZmZXJpc3plcm8uYzoxNTA6MTM6IGVycm9yOiB1bmtub3duIHByYWdtYSBpZ25vcmVkIFst
-V2Vycm9yLC1XdW5rbm93bi1wcmFnbWFzXQojcHJhZ21hIEdDQyB0YXJnZXQoImF2eDIiKQogICAg
-ICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy91dGlsL2J1ZmZlcmlzemVyby5jOjE4NzoxMzog
-ZXJyb3I6IHVua25vd24gcHJhZ21hIGlnbm9yZWQgWy1XZXJyb3IsLVd1bmtub3duLXByYWdtYXNd
-CiNwcmFnbWEgR0NDIHBvcF9vcHRpb25zCiAgICAgICAgICAgIF4KOSBlcnJvcnMgZ2VuZXJhdGVk
-LgoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
-MjAxOTA4MDkwNDE5NTIuNTczMDItMS1yZWJlY2NhQGJzZGlvLmNvbS90ZXN0aW5nLmFzYW4vP3R5
-cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
-W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
-aGV3LWRldmVsQHJlZGhhdC5jb20=
 
+
+On Fri, 9 Aug 2019, at 13:36, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20190809031321.14760-1-andrew@aj=
+.id.au/
+>=20
+>=20
+>=20
+> Hi,
+>=20
+> This series failed build test on s390x host. Please find the details b=
+elow.
+>=20
+> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+> #!/bin/bash
+> # Testing script will be invoked under the git checkout with
+> # HEAD pointing to a commit that has the patches applied on top of "ba=
+se"
+> # branch
+> set -e
+>=20
+> echo
+> echo "=3D=3D=3D ENV =3D=3D=3D"
+> env
+>=20
+> echo
+> echo "=3D=3D=3D PACKAGES =3D=3D=3D"
+> rpm -qa
+>=20
+> echo
+> echo "=3D=3D=3D UNAME =3D=3D=3D"
+> uname -a
+>=20
+> CC=3D$HOME/bin/cc
+> INSTALL=3D$PWD/install
+> BUILD=3D$PWD/build
+> mkdir -p $BUILD $INSTALL
+> SRC=3D$PWD
+> cd $BUILD
+> $SRC/configure --cc=3D$CC --prefix=3D$INSTALL
+> make -j4
+> # XXX: we need reliable clean up
+> # make check -j4 V=3D1
+> make install
+> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
+>=20
+>   CC      aarch64_be-linux-user/target/arm/arm-semi.o
+>   CC      aarch64_be-linux-user/target/arm/helper.o
+> /var/tmp/patchew-tester-tmp-hkd7ua1n/src/target/arm/helper.c: In=20
+> function =E2=80=98gt_virt_cnt_read=E2=80=99:
+> /var/tmp/patchew-tester-tmp-hkd7ua1n/src/target/arm/helper.c:2921:12:=20=
+
+> error: implicit declaration of function =E2=80=98gt_calc_tick=E2=80=99=
+=20
+> [-Werror=3Dimplicit-function-declaration]
+>  2921 |     return gt_calc_tick(env, cpu_get_clock());
+>       |            ^~~~~~~~~~~~
+> /var/tmp/patchew-tester-tmp-hkd7ua1n/src/target/arm/helper.c:2921:12:=20=
+
+> error: nested extern declaration of =E2=80=98gt_calc_tick=E2=80=99=20
+> [-Werror=3Dnested-externs]
+> cc1: all warnings being treated as errors
+> make[1]: *** [/var/tmp/patchew-tester-tmp-hkd7ua1n/src/rules.mak:69:=20=
+
+> target/arm/helper.o] Error 1
+> make: *** [Makefile:472: aarch64_be-linux-user/all] Error 2
+>=20
+
+Ah, I missed that I put the implementation inside the
+#ifndef CONFIG_USER_ONLY` block. Maybe we can just not do the scaling
+for userspace anyway?
+
+Andrew
 
