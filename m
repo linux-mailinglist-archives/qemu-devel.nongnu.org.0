@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BCBE87C45
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 16:06:24 +0200 (CEST)
-Received: from localhost ([::1]:59678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7A687C5F
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 16:11:46 +0200 (CEST)
+Received: from localhost ([::1]:59692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw5XD-0000uD-1r
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 10:06:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36912)
+	id 1hw5cP-0003Ew-FX
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 10:11:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37571)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hw5Wg-0000T5-Fk
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 10:05:52 -0400
+ (envelope-from <bounces@canonical.com>) id 1hw5bl-0002ix-2W
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 10:11:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hw5We-0003gf-RW
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 10:05:50 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38801)
+ (envelope-from <bounces@canonical.com>) id 1hw5bj-0006aS-Sm
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 10:11:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48844)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1hw5We-0003fp-ER
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 10:05:48 -0400
-Received: by mail-ot1-x344.google.com with SMTP id d17so133117818oth.5
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 07:05:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PK07rtoRd29iBm3MDbBdD8LwU4USbY876PkGkfX4+lY=;
- b=AA7NbbDnl8Xek31fcJhgAsi2YsgIBs/ENdrJHL9ENRERqS0HdGHr+owh7/Q8v5+vnt
- vZG6IaocfHO3et95gRzCrNNrMJOr1mh5nYG2PMAZJ1JNjn171KFQ0JYI59y4cCGz3XjZ
- B5iTLC3SSsQXOMcx8oCKmtvQ/xoamTLJOg00/xGdTDBk6g/Le2tPsdrfJg0eHqUNdb/R
- rDDFXMVW1rG98297f+V9JEsyfYQwlrFq2f9Hn/2OVNZ0ndiPJjas9Cu9WTv0sWRiFCF/
- SWqvilqIHpvc7sdCOlllGQE/u3n/VS8KQ3OFG2VejyacXaZZO6aRrR+g9a2E3/StgSnE
- QRRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PK07rtoRd29iBm3MDbBdD8LwU4USbY876PkGkfX4+lY=;
- b=sZtzVahLhWgrn8unkDnAVxP0lrhbn+f0VYRq4Io1hRUYPbsJM1PgUrXt3UtA+fTFBk
- f+5zFzeTJ8eYI2LHmaPqf6BDLDUBmzORArxpV/YmLWcXeFeJ/ibtgcqVuwvojGNEwYAK
- k3Tcwvr7I62Q/mBBkul4rLgOeXvsLhwk08TNa0oVWm16QhYHvtwYfl3ouVXOurqhDgwb
- ex1k6DZGqgX8p/N05s67FT3PydBNOdDFP29IWl/fqZPZ5Ok5XUbyFwX43Ec9johXvT4F
- rrQg8uA2X10Zb1ReXn/K7RbAw4OOkLM3PZLu+DWXW84eEH7BtWa2h7370x0yeRCu3pfM
- 5Wcw==
-X-Gm-Message-State: APjAAAXwC26tLeWAUQ8cmWmE0faIRDLhFiEYZHmq1YTD3JA8o7tiw573
- YJ4+K5A74td3q5L9rDTbTINZzYRL12BYCgrhUvo=
-X-Google-Smtp-Source: APXvYqyx19/dAKIrQvtaqYDyZs8u/tALAL2APcaXoeghH0GJtdQAu9a+/3epYTx6hJktKE1zK1iC0NdWv6y1I4Q/e2Y=
-X-Received: by 2002:aca:b254:: with SMTP id b81mr6805877oif.53.1565359547609; 
- Fri, 09 Aug 2019 07:05:47 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hw5bj-0006Zz-NB
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 10:11:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hw5bh-0005dh-Vt
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 14:11:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CF6BC2E80CC
+ for <qemu-devel@nongnu.org>; Fri,  9 Aug 2019 14:11:01 +0000 (UTC)
 MIME-Version: 1.0
-References: <87r25vd5y1.fsf@dusky.pond.sub.org>
- <CAFEAcA-3X0s-mxaD27HWQa7ysiEb6Uo-BD+Yxo0QhBV_yb9WLA@mail.gmail.com>
- <CAFEAcA-e2aW33GeuganVSnu9epuqt57rnZ_KgEHwDNqrWrTHuA@mail.gmail.com>
- <20190809133514.GF13660@redhat.com>
-In-Reply-To: <20190809133514.GF13660@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 9 Aug 2019 16:05:36 +0200
-Message-ID: <CAL1e-=g6LPH318p2ocUtrt+0P32nnyg8q1+Ko-KYHmrxuEVsxg@mail.gmail.com>
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] Does i386-linux-user build on an i686 host?
+Date: Fri, 09 Aug 2019 14:00:14 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user sh4
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: glaubitz pmaydell
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <153886120838.22456.12836438866392888832.malonedeb@gac.canonical.com>
+Message-Id: <156535921480.17466.15071595569494931155.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19021";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 2d4ef01b543f3f3c3cca83d713fb4e554028e3f8
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1796520] Re: autogen crashes on qemu-sh4-user
+ after 61dedf2af7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,108 +66,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <Laurent@vivier.eu>, Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1796520 <1796520@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 9, 2019 at 3:35 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
->
-wrote:
+I can reproduce this bug, but I'm not sure what QEMU is doing wrong.
+Looking at the "SH4 Software Manual", it definitely says that if the
+FPSCR.PR bit is 0 then the 'frchg' and 'fschg' instructions should both
+trap.
 
-> On Fri, Aug 09, 2019 at 01:49:07PM +0100, Peter Maydell wrote:
-> > On Fri, 9 Aug 2019 at 13:22, Peter Maydell <peter.maydell@linaro.org>
-> wrote:
-> > >
-> > > On Thu, 8 Aug 2019 at 16:37, Markus Armbruster <armbru@redhat.com>
-> wrote:
-> > > >
-> > > > Fails for me, but perhaps I'm doing it wrong:
-> > >
-> > >
-> > > > NOTE: cross-compilers enabled:  'cc'
-> > > > $ make
-> > > >   CC      i386-linux-user/linux-user/syscall.o
-> > > > /home/armbru/qemu/linux-user/ioctls.h:306:9: error:
-> =E2=80=98SNDCTL_DSP_MAPINBUF=E2=80=99 undeclared here (not in a function)
-> > > >    IOCTL(SNDCTL_DSP_MAPINBUF, IOC_R,
-> MK_PTR(MK_STRUCT(STRUCT_buffmem_desc)))
-> > > >          ^
-> > > > /home/armbru/qemu/linux-user/syscall.c:5023:23: note: in definition
-> of macro =E2=80=98IOCTL=E2=80=99
-> > > >      { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
-> > > >                        ^
-> > > > /home/armbru/qemu/linux-user/ioctls.h:307:9: error:
-> =E2=80=98SNDCTL_DSP_MAPOUTBUF=E2=80=99 undeclared here (not in a function=
-)
-> > > >    IOCTL(SNDCTL_DSP_MAPOUTBUF, IOC_R,
-> MK_PTR(MK_STRUCT(STRUCT_buffmem_desc)))
-> > > >          ^
-> > > > /home/armbru/qemu/linux-user/syscall.c:5023:23: note: in definition
-> of macro =E2=80=98IOCTL=E2=80=99
-> > > >      { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
-> > > >                        ^
-> > > > /home/armbru/qemu/linux-user/ioctls.h:362:9: error:
-> =E2=80=98SOUND_MIXER_ACCESS=E2=80=99 undeclared here (not in a function)
-> > > >    IOCTL(SOUND_MIXER_ACCESS, 0, TYPE_PTRVOID)
-> > > >          ^
-> > > > /home/armbru/qemu/linux-user/syscall.c:5023:23: note: in definition
-> of macro =E2=80=98IOCTL=E2=80=99
-> > > >      { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
-> > > >                        ^
-> > >
-> > > We expect these to be provided by the system's "linux/soundcard.h".
-> > > For my Debian system that's provided by the linux-libc-dev package,
-> > > but I imagine you have that installed or you wouldn't have got
-> > > this far in the configure/compile process...
-> >
-> > Further investigation shows that this is because the system has
-> > the 'oss4-dev' package installed, which diverts
-> /usr/include/linux/soundcard.h
-> > and installs its own version which doesn't provide all the symbols
-> > that the kernel one does.
-> >
-> > Easy fix: uninstall oss4-dev.
->
-> Perhaps also make 'configure' exit with an error if it detects the
-> broken soundcard.h ?
->
->
-Daniel, it looks to me that this is too drastic. Only applicable ioctl
-support
-could be removed for such case, QEMU is otherwise fine.
+The 'frchg' that autogen is hitting is the one in glibc's "getcontext" impl=
+ementation:
+https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dsysdeps/unix/sysv/li=
+nux/sh/sh4/getcontext.S;hb=3Db6d2c4475d5abc05dd009575b90556bdd3c78ad0#l70
 
-Yours,
-Aleksandar
+QEMU linux-user mode runs with FPSCR=3D0x000800000, which is "FPSCR.PR =3D=
+=3D
+1", ie "double precision". This seems to match what the kernel has for
+its FPSCR_INIT value.
 
+Are you in a position to test what the actual hardware/real Linux kernel
+using for its FPSCR value when running sh4 userspace binaries ?
 
+-- =
 
-> > Better fix: patch QEMU to provide its own versions of these constants
-> > if the system headers don't.
-> >
-> > Utopian fix: I've wondered occasionally whether for cases like this
-> > where the constant is known to be the same for the host and the guest
-> > we should have some sort of approach which lets us use the QEMU
-> > copies of the linux kernel headers rather than having to rely on
-> > the host system, which might have an older version that restricts
-> > us unnecessarily on what we could support...
-> >
-> > Issue previously reported in 2016:
-> > https://lists.gnu.org/archive/html/qemu-devel/2016-12/msg01421.html
-> >
-> > thanks
-> > -- PMM
-> >
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1796520
+
+Title:
+  autogen crashes on qemu-sh4-user after 61dedf2af7
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Running "autogen --help" crashes on qemu-sh4-user with:
+
+  (sid-sh4-sbuild)root@nofan:/# autogen --help
+  Unhandled trap: 0x180
+  pc=3D0xf64dd2de sr=3D0x00000000 pr=3D0xf63b9c74 fpscr=3D0x00080000
+  spc=3D0x00000000 ssr=3D0x00000000 gbr=3D0xf61102a8 vbr=3D0x00000000
+  sgr=3D0x00000000 dbr=3D0x00000000 delayed_pc=3D0xf64dd2a0 fpul=3D0x000000=
+03
+  r0=3D0xf6fc1320 r1=3D0x00000000 r2=3D0xffff5dc4 r3=3D0xf67bfb50
+  r4=3D0xf6fc1230 r5=3D0xf6fc141c r6=3D0x000003ff r7=3D0x00000000
+  r8=3D0x00000004 r9=3D0xf63e20bc r10=3D0xf6fc141c r11=3D0xf63e28f0
+  r12=3D0xf63e2258 r13=3D0xf63eae1c r14=3D0x00000804 r15=3D0xf6fc1220
+  r16=3D0x00000000 r17=3D0x00000000 r18=3D0x00000000 r19=3D0x00000000
+  r20=3D0x00000000 r21=3D0x00000000 r22=3D0x00000000 r23=3D0x00000000
+  (sid-sh4-sbuild)root@nofan:/#
+
+  Bi-secting found this commit to be the culprit:
+
+  61dedf2af79fb5866dc7a0f972093682f2185e17 is the first bad commit
+  commit 61dedf2af79fb5866dc7a0f972093682f2185e17
+  Author: Richard Henderson <rth@twiddle.net>
+  Date:   Tue Jul 18 10:02:50 2017 -1000
+
+      target/sh4: Add missing FPSCR.PR =3D=3D 0 checks
+      =
+
+      Both frchg and fschg require PR =3D=3D 0, otherwise undefined_operati=
+on.
+      =
+
+      Reviewed-by: Aurelien Jarno <aurelien@aurel32.net>
+      Signed-off-by: Richard Henderson <rth@twiddle.net>
+      Message-Id: <20170718200255.31647-26-rth@twiddle.net>
+      Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
+
+  :040000 040000 980d79b69ae712f23a1e4c56983e97a843153b4a
+  1024c109f506c7ad57367c63bc8bbbc8a7a36cd7 M      target
+
+  Reverting 61dedf2af79fb5866dc7a0f972093682f2185e17 fixes the problem
+  for me.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1796520/+subscriptions
+
