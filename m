@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A54875C1
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:20:32 +0200 (CEST)
-Received: from localhost ([::1]:57546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E25875D2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:22:31 +0200 (CEST)
+Received: from localhost ([::1]:57596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw14Z-0007VS-Gx
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48007)
+	id 1hw16U-0003ug-J5
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:22:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48038)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13o-0005x7-OO
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:45 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13q-0005xQ-H9
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13n-0007YG-QM
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:44 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43219)
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13o-0007ZT-NW
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:46 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35961)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hw13n-0007XG-GB
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:43 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p13so22980724wru.10
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 02:19:43 -0700 (PDT)
+ id 1hw13o-0007YZ-GE
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:44 -0400
+Received: by mail-wm1-x343.google.com with SMTP id g67so4978981wme.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 02:19:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ds83hJyVy3euPF2S1v2mM17n4r45qbvhIwoyu2sO0lg=;
- b=wG5LdLv/jeloLlOka4BHFlK3tP7KftKjcNXc5AHuL983nTS26nFSgTpbaTl/nVdS99
- UW6XB5KGwiQhCjsgTf+sEyl8mXlaZ5S2lGxqibMPnq3pWYZAuZoQeflFKlDYMhZ2mKoy
- fWS92ljiaPD+m7df9gsdpC19A35xtL1Yre6GyPfd3Nxa0BTTZGhaxCFkiAhdTWSandM+
- 30SLb1R/wcc9n05n3cIXa6dBUUwHWArAvZTjf7T/JjPvfnNW8d6HR10oJ3uslSrxgPxy
- phSG6eU+RIGqcXlxC5qdJ6PSEHenvOZjJtnTlsCExTccAybXfglJ+pEG1AvUajY8n4NY
- x2OA==
+ bh=eEMHgW3CEtVoVhBt+Bh6CcPxxVC+F3D05JqH8hwh+u8=;
+ b=cmSW7tlXM+73QMGnVfDLSah8HW6ICyaZ1pinWS9BasGbEScKDipDYS/W1VkSqjNoSZ
+ ZcCfX/yQTC83OAFlxzXabGcC8r6uT24v1boiuuNUduar6/W9gpRzE999kMoRyt8+TpzU
+ SLof7R6wakknvLMJNeTPbMDLlkN4+Atcv+D72m43hq2dtxgibK6lSnUjcVr7pWQECzbp
+ C4vaCbapAw6xczzmjIq5qGxzrxwmId/18jI0oyhzbNxoQyzIoVAXz4fYvZYI3RC0YNlj
+ ijMMxCBagCBnHDSVvJCA+qq+z6FM0MYQvUjumXtOpOYrT5iCnhnKhe5yPyY9kA/mtcKf
+ cwAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ds83hJyVy3euPF2S1v2mM17n4r45qbvhIwoyu2sO0lg=;
- b=So3Np9xMdBkgDxjjbnUoHZpwBe+vfIlg19t4URAstWJV58974s2aTL6UzpO++lEyXM
- +Jk2/LJ6R9ghFaQRviFrFya2yn2iJdmt2Cs/VlaxVsaVgj90mtYZ5OeUl6ceCfkDXGPi
- BiPPoU5yk1PECSK1Zr8ZpqL6OBochN3K7KMSIUppk1LkT5f+ytmAeZMgZfabFjYtMeZt
- J+5QqqIZphAz5WYMcH256nn3YEZVQR9TacbS9Fu4nKiKNud/NOfe+joH3o4JrMfMc0Qk
- qpIxjbVVZEoATHYk61UVjFI2Vy0U4ysUBJ8YhhT4lDCZ8kKCV3ZEKJjtSOllHmwbiEiR
- AABw==
-X-Gm-Message-State: APjAAAUylddaxyhHM2agqqzJ6C1btfCyD2UMFfVtctcvxD7t/5aNWQjF
- U72+VVFrbeKijsPet9miZsP82w==
-X-Google-Smtp-Source: APXvYqxfLcyoWlk+N9ZwcNoHVEgUdPMOgPc4D1kCGH4naHVuxtCnDn+PvvqfLpCxH9afeYsk0BniSg==
-X-Received: by 2002:a5d:4b41:: with SMTP id w1mr2997397wrs.23.1565342382417;
- Fri, 09 Aug 2019 02:19:42 -0700 (PDT)
+ bh=eEMHgW3CEtVoVhBt+Bh6CcPxxVC+F3D05JqH8hwh+u8=;
+ b=oJ0YXiEqqEYD22vCoSFEpKPpCsW5A4q4JvEd6Wijb5E+pa2upfHQtJ0aCLsPQFRyv9
+ IDNGwSR8opxg1R5I71SOVswb4zC9+Ji2YWy6B9UAvGCehDOz412ZmhcsuEzcYnbCEYQN
+ oWIo8robFPy5g9Y/lBiLMnu/z7gBbL4Uyhqe5kB4+U/pceeq1MpdknYKzol1MxbXaukM
+ a2oVhEPdXYoS064uyfRc3TDScs+0Kva38BcZlQJ1swVMQHXuTjMOOPJEeiCVciWxElmO
+ jFVBHp5hxcO1MTxidDVAoXMZAlxm/1pbqxnhSYfBwN4rEMvv/URSh+yS3Rxz676x24vl
+ usQw==
+X-Gm-Message-State: APjAAAWX1ysiVWTZivx2h3ldMEEQUCiqaEB/mebPqpvwPC0cS/a+zvQX
+ f2gNin7wOl9c9NAuOG0Q4RnKt+GUCRY=
+X-Google-Smtp-Source: APXvYqwawdB1tStf9Fqh4rGLSR5zBHoz3pYsL79hR/n0AC7C4vkDMAnwOPOvQ2RX3uldQT9C2CjsqQ==
+X-Received: by 2002:a05:600c:296:: with SMTP id
+ 22mr2697363wmk.148.1565342383302; 
+ Fri, 09 Aug 2019 02:19:43 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id n12sm8239608wrw.25.2019.08.09.02.19.41
+ by smtp.gmail.com with ESMTPSA id a26sm8572727wmg.45.2019.08.09.02.19.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 09 Aug 2019 02:19:41 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 005341FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 15B761FF8F;
  Fri,  9 Aug 2019 10:19:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri,  9 Aug 2019 10:19:34 +0100
-Message-Id: <20190809091940.1223-2-alex.bennee@linaro.org>
+Date: Fri,  9 Aug 2019 10:19:35 +0100
+Message-Id: <20190809091940.1223-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190809091940.1223-1-alex.bennee@linaro.org>
 References: <20190809091940.1223-1-alex.bennee@linaro.org>
@@ -68,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v2 1/7] fpu: move LIT64 helper to
- softfloat-types
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH v2 2/7] fpu: move inline helpers into a
+ separate header
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,42 +90,235 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This simple pasting helper can be used by those who don't need the
-entire softfloat api. Move it to the smaller types header.
+There are a bunch of users of the inline helpers who do not need
+access to the entire softfloat API. Move those inline helpers into a
+new header file which can be included without bringing in the rest of
+the world.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/fpu/softfloat-types.h | 2 ++
- include/fpu/softfloat.h       | 2 --
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.h
-index 2aae6a89b19..7e88152dfc4 100644
---- a/include/fpu/softfloat-types.h
-+++ b/include/fpu/softfloat-types.h
-@@ -80,6 +80,8 @@ this code that are retained.
- #ifndef SOFTFLOAT_TYPES_H
- #define SOFTFLOAT_TYPES_H
- 
-+#define LIT64( a ) a##LL
+---
+v2
+  - don't squash up quite so much
+---
+ include/fpu/softfloat-helpers.h | 132 ++++++++++++++++++++++++++++++++
+ include/fpu/softfloat.h         |  63 +--------------
+ 2 files changed, 133 insertions(+), 62 deletions(-)
+ create mode 100644 include/fpu/softfloat-helpers.h
+
+diff --git a/include/fpu/softfloat-helpers.h b/include/fpu/softfloat-helpers.h
+new file mode 100644
+index 00000000000..e0baf24c8f5
+--- /dev/null
++++ b/include/fpu/softfloat-helpers.h
+@@ -0,0 +1,132 @@
++/*
++ * QEMU float support - standalone helpers
++ *
++ * This is provided for files that don't need the access to the full
++ * set of softfloat functions. Typically this is cpu initialisation
++ * code which wants to set default rounding and exceptions modes.
++ *
++ * The code in this source file is derived from release 2a of the SoftFloat
++ * IEC/IEEE Floating-point Arithmetic Package. Those parts of the code (and
++ * some later contributions) are provided under that license, as detailed below.
++ * It has subsequently been modified by contributors to the QEMU Project,
++ * so some portions are provided under:
++ *  the SoftFloat-2a license
++ *  the BSD license
++ *  GPL-v2-or-later
++ *
++ * Any future contributions to this file after December 1st 2014 will be
++ * taken to be licensed under the Softfloat-2a license unless specifically
++ * indicated otherwise.
++ */
 +
- /* This 'flag' type must be able to hold at least 0 and 1. It should
-  * probably be replaced with 'bool' but the uses would need to be audited
-  * to check that they weren't accidentally relying on it being a larger type.
++/*
++===============================================================================
++This C header file is part of the SoftFloat IEC/IEEE Floating-point
++Arithmetic Package, Release 2a.
++
++Written by John R. Hauser.  This work was made possible in part by the
++International Computer Science Institute, located at Suite 600, 1947 Center
++Street, Berkeley, California 94704.  Funding was partially provided by the
++National Science Foundation under grant MIP-9311980.  The original version
++of this code was written as part of a project to build a fixed-point vector
++processor in collaboration with the University of California at Berkeley,
++overseen by Profs. Nelson Morgan and John Wawrzynek.  More information
++is available through the Web page `http://HTTP.CS.Berkeley.EDU/~jhauser/
++arithmetic/SoftFloat.html'.
++
++THIS SOFTWARE IS DISTRIBUTED AS IS, FOR FREE.  Although reasonable effort
++has been made to avoid it, THIS SOFTWARE MAY CONTAIN FAULTS THAT WILL AT
++TIMES RESULT IN INCORRECT BEHAVIOR.  USE OF THIS SOFTWARE IS RESTRICTED TO
++PERSONS AND ORGANIZATIONS WHO CAN AND WILL TAKE FULL RESPONSIBILITY FOR ANY
++AND ALL LOSSES, COSTS, OR OTHER PROBLEMS ARISING FROM ITS USE.
++
++Derivative works are acceptable, even for commercial purposes, so long as
++(1) they include prominent notice that the work is derivative, and (2) they
++include prominent notice akin to these four paragraphs for those parts of
++this code that are retained.
++
++===============================================================================
++*/
++
++#ifndef _SOFTFLOAT_HELPERS_H_
++#define _SOFTFLOAT_HELPERS_H_
++
++#include "fpu/softfloat-types.h"
++
++static inline void set_float_detect_tininess(int val, float_status *status)
++{
++    status->float_detect_tininess = val;
++}
++
++static inline void set_float_rounding_mode(int val, float_status *status)
++{
++    status->float_rounding_mode = val;
++}
++
++static inline void set_float_exception_flags(int val, float_status *status)
++{
++    status->float_exception_flags = val;
++}
++
++static inline void set_floatx80_rounding_precision(int val,
++                                                   float_status *status)
++{
++    status->floatx80_rounding_precision = val;
++}
++
++static inline void set_flush_to_zero(flag val, float_status *status)
++{
++    status->flush_to_zero = val;
++}
++
++static inline void set_flush_inputs_to_zero(flag val, float_status *status)
++{
++    status->flush_inputs_to_zero = val;
++}
++
++static inline void set_default_nan_mode(flag val, float_status *status)
++{
++    status->default_nan_mode = val;
++}
++
++static inline void set_snan_bit_is_one(flag val, float_status *status)
++{
++    status->snan_bit_is_one = val;
++}
++
++static inline int get_float_detect_tininess(float_status *status)
++{
++    return status->float_detect_tininess;
++}
++
++static inline int get_float_rounding_mode(float_status *status)
++{
++    return status->float_rounding_mode;
++}
++
++static inline int get_float_exception_flags(float_status *status)
++{
++    return status->float_exception_flags;
++}
++
++static inline int get_floatx80_rounding_precision(float_status *status)
++{
++    return status->floatx80_rounding_precision;
++}
++
++static inline flag get_flush_to_zero(float_status *status)
++{
++    return status->flush_to_zero;
++}
++
++static inline flag get_flush_inputs_to_zero(float_status *status)
++{
++    return status->flush_inputs_to_zero;
++}
++
++static inline flag get_default_nan_mode(float_status *status)
++{
++    return status->default_nan_mode;
++}
++
++#endif /* _SOFTFLOAT_HELPERS_H_ */
 diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 3ff3fa52245..d9333eb65b8 100644
+index d9333eb65b8..ecb8ba01149 100644
 --- a/include/fpu/softfloat.h
 +++ b/include/fpu/softfloat.h
-@@ -82,8 +82,6 @@ this code that are retained.
- #ifndef SOFTFLOAT_H
- #define SOFTFLOAT_H
+@@ -93,68 +93,7 @@ enum {
+ };
  
--#define LIT64( a ) a##LL
+ #include "fpu/softfloat-types.h"
 -
+-static inline void set_float_detect_tininess(int val, float_status *status)
+-{
+-    status->float_detect_tininess = val;
+-}
+-static inline void set_float_rounding_mode(int val, float_status *status)
+-{
+-    status->float_rounding_mode = val;
+-}
+-static inline void set_float_exception_flags(int val, float_status *status)
+-{
+-    status->float_exception_flags = val;
+-}
+-static inline void set_floatx80_rounding_precision(int val,
+-                                                   float_status *status)
+-{
+-    status->floatx80_rounding_precision = val;
+-}
+-static inline void set_flush_to_zero(flag val, float_status *status)
+-{
+-    status->flush_to_zero = val;
+-}
+-static inline void set_flush_inputs_to_zero(flag val, float_status *status)
+-{
+-    status->flush_inputs_to_zero = val;
+-}
+-static inline void set_default_nan_mode(flag val, float_status *status)
+-{
+-    status->default_nan_mode = val;
+-}
+-static inline void set_snan_bit_is_one(flag val, float_status *status)
+-{
+-    status->snan_bit_is_one = val;
+-}
+-static inline int get_float_detect_tininess(float_status *status)
+-{
+-    return status->float_detect_tininess;
+-}
+-static inline int get_float_rounding_mode(float_status *status)
+-{
+-    return status->float_rounding_mode;
+-}
+-static inline int get_float_exception_flags(float_status *status)
+-{
+-    return status->float_exception_flags;
+-}
+-static inline int get_floatx80_rounding_precision(float_status *status)
+-{
+-    return status->floatx80_rounding_precision;
+-}
+-static inline flag get_flush_to_zero(float_status *status)
+-{
+-    return status->flush_to_zero;
+-}
+-static inline flag get_flush_inputs_to_zero(float_status *status)
+-{
+-    return status->flush_inputs_to_zero;
+-}
+-static inline flag get_default_nan_mode(float_status *status)
+-{
+-    return status->default_nan_mode;
+-}
++#include "fpu/softfloat-helpers.h"
+ 
  /*----------------------------------------------------------------------------
- | Software IEC/IEEE floating-point ordering relations
- *----------------------------------------------------------------------------*/
+ | Routine to raise any or all of the software IEC/IEEE floating-point
 -- 
 2.20.1
 
