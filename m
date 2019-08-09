@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5A6875D4
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:23:15 +0200 (CEST)
-Received: from localhost ([::1]:57604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF49875C4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:20:40 +0200 (CEST)
+Received: from localhost ([::1]:57550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw17C-0004mq-HJ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:23:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48074)
+	id 1hw14h-0007wL-ET
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:20:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48107)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13s-0005zo-19
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:48 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13t-00063F-PX
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13r-0007e1-10
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:47 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42068)
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13s-0007gX-O2
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:49 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43220)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hw13q-0007cv-Q7
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:46 -0400
-Received: by mail-wr1-x443.google.com with SMTP id b16so864691wrq.9
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 02:19:46 -0700 (PDT)
+ id 1hw13s-0007fL-Gv
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:48 -0400
+Received: by mail-wr1-x441.google.com with SMTP id p13so22980931wru.10
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 02:19:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ECv7P3HJHBY/e1Rr1VXbOKCzKrV4OGAXQsEe8ka+MiU=;
- b=POyAZCZo37L7qmzJ2UiFAtXuV52U+/+i4UscFsPLALzPiWP9jFiCZO3Z415eD8TNgN
- egZ9HD9uJUJzs/lBfi7+PHYOpKqOm8toJ90fSrkPlbTNYxPU0UUGNkFVXzMVehUuSYUj
- KaTOYp/nN6S9NuEozulvRnjJOUFSkKGtGOv5J1MqPZfm4ekfp+ZDOyObGnHem3Lz7D6p
- DpIjSsFaJw8ee3zcLbGU0BwjGQZyz3DGjPr8tNWEh6v1EBQOLtEYOeGPFtNzcemRFLMP
- LpKlIc9a7RyESKZEQWPtFSi+EWvc/3+Vd/QO4j/I+ytSLNC68xEt3NqYmLaf0LlZ2K3Y
- NHyw==
+ bh=jg/eQC5u9xh3QI/xnJki4J/dDhPvHCNndIskUdzw8E8=;
+ b=F6knsPHgbPXLBvUFks8QHXu9m4XQHH2xVA5M6n4ENY46YQBWlTQPO7xHYzYUQnwiTT
+ 8Npc1+Oio0opINc8Xw81bXd5bjizSms8+RjBm1N+tqmUXT3nxDhYMcC5Mj7z2VHh3n+K
+ GnwDFeGzXnWDb5ClSADwvcL5EvxQ/lV1DHm18KqaaybsQD8k0YTnqCZX+nMJSkdTUqiQ
+ yNMxRWzpImSVCU7BjR/XP+dgMEuhQwhfgZeeGAhaKjRNqfosd9xXMEvTN53XbckRthxr
+ XVuCXJCIrMNivpyZtIGdGskK7GcL+OQ8TBhk3Ujos7PXqRypo5+FK/ShJCpooS7kwoF3
+ WE2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ECv7P3HJHBY/e1Rr1VXbOKCzKrV4OGAXQsEe8ka+MiU=;
- b=NFvMQjDLchY+ittPwH5cyL00rQru6Osij+zj8QLYDv+gWV7+FJ0WrkEH8MQtKY3O01
- liN6FEU8nYX9loVA+ZivgRRt38y3wH9S4+XdrMMbsZSZQaeDZL+J30gPMo7XczOxipBK
- F2d2F0Yyk+NNeMJmqXRIAoHX/w6QYc1eLAV3Be7Bzh/PDXuHTUeiZmkH5pH5uPKRGSNW
- tGh+pi2Hh+m7kstY+vz9poaisp6AnBzlhCizguAsggQ6SghgF+ISYDnNOOdbNXOHiyqZ
- iUzA+MSO8s2ltZK7xC60hxn7SLGSzddk5kLZu7iWSLYlvjMyqshaoyxqV37QevOju8Y1
- oYWg==
-X-Gm-Message-State: APjAAAV4LYkDuiG5e/Je0M+AGpANk+LeJNgWZAUKhj0QqS4rD3QyDgV6
- HFA5ab0FzaCwqjfK+Xst6yLAr5qWkLo=
-X-Google-Smtp-Source: APXvYqwhVWDecAFxQcrBYFm0lfO3vwJQhv27lTk4b+5Vsi3ylJv7VFX+Pv5lsAWnAr38LSHPgMQl8A==
-X-Received: by 2002:adf:eb49:: with SMTP id u9mr23604502wrn.215.1565342385660; 
- Fri, 09 Aug 2019 02:19:45 -0700 (PDT)
+ bh=jg/eQC5u9xh3QI/xnJki4J/dDhPvHCNndIskUdzw8E8=;
+ b=uc2r1zrGWgBgkSbVweEdYo5Q+Aa33yHSoZ6HOO78i3wm3oxDHV6AcapFHJzBzrmSiO
+ 5NmhTeEkOEt6S4KlhiR0QDfaBx4k12o8wQ9cyQswBNF9ujETP/TutRQfEAqBb1BE73Xw
+ QsveAAbvpNcHPvGLb8hKEQAfhx7h6xy2xjSs0N2+z7c+venpvqcN0gejmpdDkcNzsi2u
+ mIth3uRwoNPWsKJZpywVYdBQgvfqdOImDrlL43xXBhnZJzCVNaEvbeypaeemeCAyQWc3
+ eRjwBGZyp55+aGsgZFmGgIGLDNcX8wa5A5lLlrLlIFdQ+PY2YQTJ29WX4SQu/mopQerm
+ 8N1g==
+X-Gm-Message-State: APjAAAXk+pwIOmfQDheZTZYczfSDCWDIDO9U4ZXmsi+QZrSBZhbIgYxv
+ 5TmHyTDz7CCSTQvi2YhlN8UuYyY8M7E=
+X-Google-Smtp-Source: APXvYqy9cIYZAjGACCUC65d+paJni9COdNQ1xy+YZz/nfebrWTJqL4BcTfBnhLYQZ25sogmyZAp+dw==
+X-Received: by 2002:adf:e710:: with SMTP id c16mr13188156wrm.292.1565342387409; 
+ Fri, 09 Aug 2019 02:19:47 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id q18sm121726388wrw.36.2019.08.09.02.19.42
+ by smtp.gmail.com with ESMTPSA id r4sm63281255wrq.82.2019.08.09.02.19.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Aug 2019 02:19:43 -0700 (PDT)
+ Fri, 09 Aug 2019 02:19:44 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 70F571FF93;
+ by zen.linaroharston (Postfix) with ESMTP id 8D86C1FF96;
  Fri,  9 Aug 2019 10:19:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri,  9 Aug 2019 10:19:39 +0100
-Message-Id: <20190809091940.1223-7-alex.bennee@linaro.org>
+Date: Fri,  9 Aug 2019 10:19:40 +0100
+Message-Id: <20190809091940.1223-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190809091940.1223-1-alex.bennee@linaro.org>
 References: <20190809091940.1223-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH v2 6/7] target/riscv: rationalise softfloat
- includes
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH v2 7/7] targets (various): use
+ softfloat-helpers.h where we can
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,65 +82,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
+Cc: David Hildenbrand <david@redhat.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
+ Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, armbru@redhat.com,
- Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should avoid including the whole of softfloat headers in cpu.h and
-explicitly include it only where we will be calling softfloat
-functions. We can use the -types.h and -helpers.h in cpu.h for the few
-bits that are global.
+Generally the cpu and non-FP helper files just want to manipulate the
+softfloat flags. For this they can just use the -helpers.h include
+which brings in a minimal number of inline helpers.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu.c        | 1 +
- target/riscv/cpu.h        | 2 +-
- target/riscv/fpu_helper.c | 1 +
- 3 files changed, 3 insertions(+), 1 deletion(-)
+ target/alpha/helper.c   | 2 +-
+ target/microblaze/cpu.c | 2 +-
+ target/s390x/cpu.c      | 2 +-
+ target/sh4/cpu.c        | 3 +--
+ target/tricore/helper.c | 2 +-
+ target/unicore32/cpu.c  | 1 -
+ 6 files changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index f8d07bd20ad..6d52f97d7c3 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -27,6 +27,7 @@
- #include "qemu/error-report.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-+#include "fpu/softfloat-helpers.h"
+diff --git a/target/alpha/helper.c b/target/alpha/helper.c
+index 93b8e788b18..c6998348df4 100644
+--- a/target/alpha/helper.c
++++ b/target/alpha/helper.c
+@@ -21,7 +21,7 @@
  
- /* RISC-V CPU definitions */
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0adb307f329..240b31e2ebb 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -22,7 +22,7 @@
- 
- #include "qom/cpu.h"
- #include "exec/cpu-defs.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
 -#include "fpu/softfloat.h"
 +#include "fpu/softfloat-types.h"
- 
- #define TCG_GUEST_DEFAULT_MO 0
- 
-diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-index b4f818a6465..0b79562a690 100644
---- a/target/riscv/fpu_helper.c
-+++ b/target/riscv/fpu_helper.c
-@@ -21,6 +21,7 @@
- #include "qemu/host-utils.h"
- #include "exec/exec-all.h"
  #include "exec/helper-proto.h"
-+#include "fpu/softfloat.h"
+ #include "qemu/qemu-print.h"
  
- target_ulong riscv_cpu_get_fflags(CPURISCVState *env)
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index 0bec54b2f8a..9cfd7445e7d 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -28,7 +28,7 @@
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "exec/exec-all.h"
+-#include "fpu/softfloat.h"
++#include "fpu/softfloat-helpers.h"
+ 
+ static const struct {
+     const char *name;
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 736a7903e22..5db016672bb 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -42,7 +42,7 @@
+ #include "sysemu/sysemu.h"
+ #include "sysemu/tcg.h"
+ #endif
+-#include "fpu/softfloat.h"
++#include "fpu/softfloat-helpers.h"
+ 
+ #define CR0_RESET       0xE0UL
+ #define CR14_RESET      0xC2000000UL;
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index 816d6d7f311..d0a7707991f 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -25,8 +25,7 @@
+ #include "cpu.h"
+ #include "migration/vmstate.h"
+ #include "exec/exec-all.h"
+-#include "fpu/softfloat.h"
+-
++#include "fpu/softfloat-helpers.h"
+ 
+ static void superh_cpu_set_pc(CPUState *cs, vaddr value)
+ {
+diff --git a/target/tricore/helper.c b/target/tricore/helper.c
+index a6803368506..d5db7b2c03f 100644
+--- a/target/tricore/helper.c
++++ b/target/tricore/helper.c
+@@ -19,7 +19,7 @@
+ 
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+-#include "fpu/softfloat.h"
++#include "fpu/softfloat-helpers.h"
+ #include "qemu/qemu-print.h"
+ 
+ enum {
+diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
+index 802e2f1eba5..b27fb9689ff 100644
+--- a/target/unicore32/cpu.c
++++ b/target/unicore32/cpu.c
+@@ -17,7 +17,6 @@
+ #include "cpu.h"
+ #include "migration/vmstate.h"
+ #include "exec/exec-all.h"
+-#include "fpu/softfloat.h"
+ 
+ static void uc32_cpu_set_pc(CPUState *cs, vaddr value)
  {
 -- 
 2.20.1
