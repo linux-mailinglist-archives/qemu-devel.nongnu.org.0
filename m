@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B28E872B5
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 09:09:10 +0200 (CEST)
-Received: from localhost ([::1]:56974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0553D872EB
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 09:26:28 +0200 (CEST)
+Received: from localhost ([::1]:57070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvz1R-0006pL-Qu
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 03:09:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50944)
+	id 1hvzIA-0006IA-O6
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 03:26:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54883)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tao3.xu@intel.com>) id 1hvyqh-000491-53
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 02:58:04 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hvzHd-0005ld-8B
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 03:25:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1hvyqg-0008Bk-0O
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 02:58:03 -0400
-Received: from mga05.intel.com ([192.55.52.43]:16871)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hvyqf-0007xE-Oh
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 02:58:01 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2019 23:58:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,364,1559545200"; d="scan'208";a="326549066"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.37])
- by orsmga004.jf.intel.com with ESMTP; 08 Aug 2019 23:57:59 -0700
-From: Tao <tao3.xu@intel.com>
-To: imammedo@redhat.com,
-	eblake@redhat.com,
-	ehabkost@redhat.com
-Date: Fri,  9 Aug 2019 14:57:31 +0800
-Message-Id: <20190809065731.9097-12-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190809065731.9097-1-tao3.xu@intel.com>
-References: <20190809065731.9097-1-tao3.xu@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ (envelope-from <bmeng.cn@gmail.com>) id 1hvzHc-0004pC-80
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 03:25:53 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42201)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1hvzHc-0004nN-01; Fri, 09 Aug 2019 03:25:52 -0400
+Received: by mail-pg1-x544.google.com with SMTP id t132so45411970pgb.9;
+ Fri, 09 Aug 2019 00:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id;
+ bh=5/4YpSmtyH6BPG/1zxeAbgDZu4GjwrumofWYP4xdKQY=;
+ b=VH/KPdqi0FaG48FRDSK+vM5KAXQS8jE+xWiReCSwkZ7nXaY0y0CCpQOO4lDxzd0+z3
+ oKMrQB8sfkKqAu3bUAtm/VLY++MxMrdKBp29rplxndBW3agiRrIXf1pMwgw7fujOni3d
+ xh6V2Mfhn3AvA51XJ2W3IHpnjO1H1MN8P51gHosPUUgQdgm4twFK/OqxHPTFf8aMQByj
+ zxmO8o2VWAbVuBFA3MZmfNKqd+dS8ZEy2vQWgQLYEIXjN2oE6JaKLB4/qQ/hR0oSDTCw
+ scvTY6BexA2AXmgIGun/xI9YYDxh8y1bDF7MpQAcx1DRYR8fV6KB7560emBDLGIE0h/Z
+ C3Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id;
+ bh=5/4YpSmtyH6BPG/1zxeAbgDZu4GjwrumofWYP4xdKQY=;
+ b=hADxK/mzo06JTm9knmuS07Cj2PTSew2V4LHgti2C4kjZPkcv500NDq7s+TMW/2+NCf
+ 3/lXAGQd0yifyKr0dgM7QsHHFfrvWHcgDfWULThXZ7LJeb2xOHDgYP41hxF0eqNpnr+l
+ RBQlH7Ka68zaThJ1ZhFR0ggmp+sxA0ZypxFFvu97sghTfINlJZEIMZkF2qSPrROftEm5
+ Opj+SRrH+TMN1fckVUbuFmjvNQkWLicARoiqPcTsoZ6IzrlcmL4/A9fjXcYLCTjgg6Nu
+ PcRi/lTYnoK1aQp9S6waTxEy5OWFExMTWO2574HePsiymvLQraHBwJx7TlAiHcjXTy+I
+ S2Qg==
+X-Gm-Message-State: APjAAAXhVjYd/urK/ZpxSxwMwP3j8zfJ12rn02co6pOFrL7UU+/+63o5
+ Yfmn5+r7uMpPbnD94q10Q60=
+X-Google-Smtp-Source: APXvYqw/2N3A/YjPSUfQZs1kILgv//whaWVj3XLYITZ3ngnwhPEGSf0Y5e3SlobJ8vyGoma8WT4SXA==
+X-Received: by 2002:a62:be0c:: with SMTP id l12mr20039945pff.224.1565335550279; 
+ Fri, 09 Aug 2019 00:25:50 -0700 (PDT)
+Received: from localhost.localdomain (unknown-224-80.windriver.com.
+ [147.11.224.80])
+ by smtp.gmail.com with ESMTPSA id 23sm100737693pfn.176.2019.08.09.00.25.49
+ (version=TLS1 cipher=AES128-SHA bits=128/128);
+ Fri, 09 Aug 2019 00:25:49 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Date: Fri,  9 Aug 2019 00:25:44 -0700
+Message-Id: <1565335544-23584-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 1.7.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.43
-Subject: [Qemu-devel] [PATCH v9 11/11] tests/bios-tables-test: add test
- cases for ACPI HMAT
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH v3] hw: net: cadence_gem: Fix build errors in
+ DB_PRINT()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,98 +77,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <Jingqi.liu@intel.com>, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, daniel@linux.ibm.com, jonathan.cameron@huawei.com,
- dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tao Xu <tao3.xu@intel.com>
+When CADENCE_GEM_ERR_DEBUG is turned on, there are several
+compilation errors in DB_PRINT(). Fix them.
 
-ACPI table HMAT has been introduced, QEMU now builds HMAT tables for
-Heterogeneous Memory with boot option '-numa node'.
+While we are here, update to use appropriate modifiers in
+the same DB_PRINT() call.
 
-Add test cases on PC and Q35 machines with 2 numa nodes.
-Because HMAT is generated when system enable numa, the
-following tables need to be added for this test:
-  tests/acpi-test-data/pc/*.acpihmat
-  tests/acpi-test-data/pc/HMAT.*
-  tests/acpi-test-data/q35/*.acpihmat
-  tests/acpi-test-data/q35/HMAT.*
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-Reviewed-by: Jingqi Liu <Jingqi.liu@intel.com>
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
 
-Changes in v9:
-    - update the test case
----
- tests/bios-tables-test.c | 43 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+Changes in v3:
+- use PRIx64 as rx_desc_get_buffer() returns uint64_t
+- use %u for unsigned
+- remove unnecessary cast in DB_PRINT()
 
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index a356ac3489..294f097e52 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -871,6 +871,47 @@ static void test_acpi_piix4_tcg_dimm_pxm(void)
-     test_acpi_tcg_dimm_pxm(MACHINE_PC);
- }
+Changes in v2:
+- use HWADDR_PRIx instead of TARGET_FMT_plx for consistency
+- use 'z' modifier to print sizeof(..)
+
+ hw/net/cadence_gem.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+index d412085..e26ff98 100644
+--- a/hw/net/cadence_gem.c
++++ b/hw/net/cadence_gem.c
+@@ -983,8 +983,9 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+             return -1;
+         }
  
-+static void test_acpi_tcg_acpi_hmat(const char *machine)
-+{
-+    test_data data;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine = machine;
-+    data.variant = ".acpihmat";
-+    test_acpi_one(" -smp 2,sockets=2"
-+                  " -m 128M,slots=2,maxmem=1G"
-+                  " -object memory-backend-ram,size=64M,id=m0"
-+                  " -object memory-backend-ram,size=64M,id=m1"
-+                  " -numa node,nodeid=0,memdev=m0"
-+                  " -numa node,nodeid=1,memdev=m1,initiator=0"
-+                  " -numa cpu,node-id=0,socket-id=0"
-+                  " -numa cpu,node-id=0,socket-id=1"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-latency,latency=5ns"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=500M"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-latency,latency=10ns"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=100M"
-+                  " -numa hmat-cache,node-id=0,size=0x20000,total=1,level=1"
-+                  ",assoc=direct,policy=write-back,line=8"
-+                  " -numa hmat-cache,node-id=1,size=0x20000,total=1,level=1"
-+                  ",assoc=direct,policy=write-back,line=8",
-+                  &data);
-+    free_test_data(&data);
-+}
-+
-+static void test_acpi_q35_tcg_acpi_hmat(void)
-+{
-+    test_acpi_tcg_acpi_hmat(MACHINE_Q35);
-+}
-+
-+static void test_acpi_piix4_tcg_acpi_hmat(void)
-+{
-+    test_acpi_tcg_acpi_hmat(MACHINE_PC);
-+}
-+
- static void test_acpi_virt_tcg(void)
- {
-     test_data data = {
-@@ -915,6 +956,8 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
-         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-+        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-+        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
-     } else if (strcmp(arch, "aarch64") == 0) {
-         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-     }
+-        DB_PRINT("copy %d bytes to 0x%x\n", MIN(bytes_to_copy, rxbufsize),
+-                rx_desc_get_buffer(s->rx_desc[q]));
++        DB_PRINT("copy %u bytes to 0x%" PRIx64 "\n",
++                 MIN(bytes_to_copy, rxbufsize),
++                 rx_desc_get_buffer(s, s->rx_desc[q]));
+ 
+         /* Copy packet data to emulated DMA buffer */
+         address_space_write(&s->dma_as, rx_desc_get_buffer(s, s->rx_desc[q]) +
+@@ -1156,9 +1157,9 @@ static void gem_transmit(CadenceGEMState *s)
+ 
+             if (tx_desc_get_length(desc) > sizeof(tx_packet) -
+                                                (p - tx_packet)) {
+-                DB_PRINT("TX descriptor @ 0x%x too large: size 0x%x space " \
+-                         "0x%x\n", (unsigned)packet_desc_addr,
+-                         (unsigned)tx_desc_get_length(desc),
++                DB_PRINT("TX descriptor @ 0x%" HWADDR_PRIx \
++                         " too large: size 0x%x space 0x%zx\n",
++                         packet_desc_addr, tx_desc_get_length(desc),
+                          sizeof(tx_packet) - (p - tx_packet));
+                 break;
+             }
 -- 
-2.20.1
+2.7.4
 
 
