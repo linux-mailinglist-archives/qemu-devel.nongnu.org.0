@@ -2,57 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641AC87ACD
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 15:03:44 +0200 (CEST)
-Received: from localhost ([::1]:59296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDEE787AFD
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 15:19:00 +0200 (CEST)
+Received: from localhost ([::1]:59390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw4YZ-0005nE-Ja
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 09:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55373)
+	id 1hw4nL-0005Iz-Ie
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 09:18:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57936)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hw4Xu-00055o-UJ
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 09:03:03 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hw4mq-0004sZ-4W
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 09:18:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hw4Xt-0002A8-SS
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 09:03:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47824)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>)
- id 1hw4Xn-00026h-KS; Fri, 09 Aug 2019 09:02:55 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A82E13003C55;
- Fri,  9 Aug 2019 13:02:54 +0000 (UTC)
-Received: from redhat.com (ovpn-116-49.ams2.redhat.com [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 14C1960610;
- Fri,  9 Aug 2019 13:02:39 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <69a53af1-7007-7b80-8e6c-62ebabba8a62@greensocs.com> (Damien
- Hedde's message of "Fri, 9 Aug 2019 12:46:12 +0200")
-References: <20190729145654.14644-1-damien.hedde@greensocs.com>
- <20190729145654.14644-8-damien.hedde@greensocs.com>
- <CAFEAcA-W0SaaGbUnGZ0b61ngxKY8R9xjwGXeN+=MaUi4bMDgNg@mail.gmail.com>
- <20190808154219.GK2852@work-vm>
- <CAFEAcA8L2YVMCu3Gb+eQTDfCpgVwA_WwVPrqPLV2iQ9rZ4HuTA@mail.gmail.com>
- <f400248f-7a3b-83e9-3355-77de359e3f43@greensocs.com>
- <CAFEAcA-YjLA25wPBgWOB_c2fV2o7C8n=1-uUVe6xgiP=j5+Fgw@mail.gmail.com>
- <69a53af1-7007-7b80-8e6c-62ebabba8a62@greensocs.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-Date: Fri, 09 Aug 2019 15:02:35 +0200
-Message-ID: <87ef1u3310.fsf@trasno.org>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hw4mp-0000hP-6o
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 09:18:28 -0400
+Received: from mail-eopbgr150121.outbound.protection.outlook.com
+ ([40.107.15.121]:35909 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hw4mo-0000gK-Mx; Fri, 09 Aug 2019 09:18:27 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=El7UBxo3DXomz27OHCtaEvwm+6J162+dIyX85ebPG2+frujRziAG6qWkIA64b1U7zWrqoSqNJHkUCSQqsWyAAvTpMhXJCCe+QNIVQidXo0N5ehQEC3kDqIOo7De2CkbmzmPNvbKBEeTNM+3Ssc6vwCxknl46887KrpC9rndd0ILp29bjK20VaNAAFvV7Mye6SbV1MO4+6lrG35Y5q/4j3gGDYDZChyEAcQ+ZiIE9by/T3aQ/0nVtRlJkWtVo61J1ET6F/UvTtZDiZbyC/sT8hSoBr7FGyNzIsg+SaC7nuzTKMaIpPIagcBXepcE261WrXF+sRTvGNQQmuYT9IaKT6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vtpRmdSLji0JVzVyBC9OGGNS5HuMJFs8Qt813Ev7bkM=;
+ b=YqZv5d2VfB/Sd5eFP0Q+Wkh5Rr+fnhMnD3/awNcDhFW2kDxm2btj0r6Vr3zjKt1aR96/1WLLQXRfhN1noyUjUd4BpfipZP6WCX/2qREmmiSggpHYLoZ+qV90PPc4ppgVvjQsxDy47VbzcgTE1/uch8RZwHn4YNjS7EHxrgAaog3g5selaXhIt9oukGcXV1QaS1nf9/dX0lQ+obUwBTy67yy2exPprGnqmbx8+Ka5yRlRV/20qcdr3PmGsi+FyAkLfCF8FrlgfqiyaCAtnO9MMww8qN65sJFvXRRW7KXR0Gp0uFv8d6nqrK3iDbXhid+icx2o3KkRZn3jUHkuQ+X63A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vtpRmdSLji0JVzVyBC9OGGNS5HuMJFs8Qt813Ev7bkM=;
+ b=KR//Ww7qf9nd29VyENzC8CHyim6hVhHf38mAg6pFrTXSuGmSTX99tuNiZUL/HLgrTyq5ZbTCLWj4Q+vtpfWP2lOgkOO+mHJTNPY8/43s6TP2fp6ZsBneEpeEicR9iNDiy1C2Sh9wjF9doDaUxZgQzz/hJqHIrIkQkxsVLC+4gWU=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB4939.eurprd08.prod.outlook.com (10.255.4.27) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2157.16; Fri, 9 Aug 2019 13:18:23 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::617b:d2c2:11e9:4604]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::617b:d2c2:11e9:4604%3]) with mapi id 15.20.2157.015; Fri, 9 Aug 2019
+ 13:18:23 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>, John Snow
+ <jsnow@redhat.com>
+Thread-Topic: backup bug or question
+Thread-Index: AQHVTrTrc8JESPxQGUmDMebwH05otA==
+Date: Fri, 9 Aug 2019 13:18:23 +0000
+Message-ID: <6826e3c2-bc6e-b2a2-1bf1-3ed31079f0ee@virtuozzo.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0301CA0005.eurprd03.prod.outlook.com
+ (2603:10a6:3:76::15) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b213423a-015b-47ab-db31-08d71ccc0e63
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DB8PR08MB4939; 
+x-ms-traffictypediagnostic: DB8PR08MB4939:
+x-microsoft-antispam-prvs: <DB8PR08MB493971BFD8B46975955D1EEBC1D60@DB8PR08MB4939.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 01244308DF
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(346002)(376002)(39850400004)(136003)(366004)(189003)(199004)(6116002)(8676002)(66066001)(14444005)(4744005)(7736002)(476003)(3480700005)(305945005)(256004)(2616005)(3846002)(6512007)(478600001)(53936002)(386003)(66476007)(66556008)(64756008)(66446008)(186003)(66946007)(81166006)(26005)(81156014)(99286004)(71200400001)(71190400001)(110136005)(25786009)(6436002)(52116002)(31686004)(5660300002)(86362001)(31696002)(486006)(102836004)(14454004)(316002)(6506007)(36756003)(6486002)(8936002)(2906002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB4939;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: UyfrYazVqNHrQvE2v5zcKoTurd3DvMYYljvyv4gsiKkBAo+AntU9Ygmf2RBWicRDesuF2DeVbBkBSwNVPJW+vNF8WZatnwIm6ELoU+WVQHODJfd5OLsnm+oulPfnC0o/9wWKJnv9DGb+ax0fijb0FRIIDtpHHEd9TIYP+KsinLnK9CAlizlLgAFEtUwaZ5CWxiVYR2M7oxr7/76pf4i5YFj+bviB0qS3uwgEKfeV/HNPkO9yIODlJXhlxuwJ0Vhc10RsekQAPVpmf8HBWEYfcQEGdGzG1MURZEolACDHlYxvbN92HV0dmo9reLz8igd9uU537ozghpfE2+u/IOj/bUnSnp04D825Ptkgb4e8EWTZR1ykl793S8Mzqw43lxQG4l18nM8rZTc7QNHNT86j3QhjKFhikKfBDdU6zEAWz3s=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <00FFE2FCBB8D62489A0D8139610ABD5C@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 09 Aug 2019 13:02:54 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 07/33] automatically add vmstate for
- reset support in devices
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b213423a-015b-47ab-db31-08d71ccc0e63
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2019 13:18:23.8147 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QKB+paPq2CzIhc/cfyCS2aoGcH598mtBKunx+WwrE0kpUt+eS6b4maAEV9Ut2nuKnFFw6ceiUvwDwqAIhkpefQBtVpWUqrBYOJs2wjghLXc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4939
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.15.121
+Subject: [Qemu-devel] backup bug or question
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,48 +108,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Collin Walling <walling@linux.ibm.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, "Michael S.
- Tsirkin" <mst@redhat.com>, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Edgar Iglesias <edgar.iglesias@xilinx.com>, Hannes Reinecke <hare@suse.com>,
- Qemu-block <qemu-block@nongnu.org>, David Hildenbrand <david@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Mark Burton <mark.burton@greensocs.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Damien Hedde <damien.hedde@greensocs.com> wrote:
-> On 8/9/19 12:32 PM, Peter Maydell wrote:
->> On Fri, 9 Aug 2019 at 11:29, Damien Hedde <damien.hedde@greensocs.com> wrote:
->>>
->>> One way to keep the feature without copy-pasting vmsd would be to add
->>> a new vmstate_register with an additional argument to pass the base
->>> class vmsd section and handle the whole thing there.
->> 
->> If we have a vmstate section which contains no actual data,
->> only subsections with 'needed' functions, is it migration
->> compatible with previous versions in the same way that
->> tacking a subsection onto an existing function is?
->
-> I don't think so because of the naming schema. I had to forge the
-> correct name for the reset subsection for every device.
-> Each subsection must be named after its parent section plus '/something'.
-
-That bit is easy.  You jsut named it: "parent_name/subsection_name", no?
-
-Later, Juan.
+SGkhDQoNCkhtbSwgaGFja2luZyBhcm91bmQgYmFja3VwIEkgaGF2ZSBhIHF1ZXN0aW9uOg0KDQpX
+aGF0IHByZXZlbnRzIGd1ZXN0IHdyaXRlIHJlcXVlc3QgYWZ0ZXIgam9iX3N0YXJ0IGJ1dCBiZWZv
+cmUgc2V0dGluZw0Kd3JpdGUgbm90aWZpZXI/DQoNCmNvZGUgcGF0aDoNCg0KcW1wX2RyaXZlX2Jh
+Y2t1cCBvciB0cmFuc2FjdGlvbiB3aXRoIGJhY2t1cA0KDQogICAgam9iX3N0YXJ0DQogICAgICAg
+YWlvX2NvX2VudGVyKGpvYl9jb19lbnRyeSkgLyogbWF5IG9ubHkgc2NoZWR1bGUgZXhlY3V0aW9u
+LCBpc24ndCBpdCA/ICovDQoNCi4uLi4NCg0Kam9iX2NvX2VudHJ5DQogICAgam9iX3BhdXNlX3Bv
+aW50KCkgLyogaXQgZGVmaW5pdGVseSB5aWVsZHMsIGlzbid0IGl0IGJhZD8gKi8NCiAgICBqb2It
+PmRyaXZlci0+cnVuKCkgLyogYmFja3VwX3J1biAqLw0KDQotLS0tDQoNCmJhY2t1cF9ydW4oKQ0K
+ICAgIGJkcnZfYWRkX2JlZm9yZV93cml0ZV9ub3RpZmllcigpDQoNCi4uLg0KDQpBbmQgd2hhdCBn
+dWFyYW50ZWVzIHdlIGdpdmUgdG8gdGhlIHVzZXI/IElzIGl0IGd1YXJhbnRlZWQgdGhhdCB3cml0
+ZSBub3RpZmllciBpcw0Kc2V0IHdoZW4gcW1wIGNvbW1hbmQgcmV0dXJucz8NCg0KQW5kIEkgZ3Vl
+c3MsIGlmIHdlIHN0YXJ0IHNldmVyYWwgYmFja3VwcyBpbiBhIHRyYW5zYWN0aW9uIGl0IHNob3Vs
+ZCBiZSBndWFyYW50ZWVkDQp0aGF0IHRoZSBzZXQgb2YgYmFja3VwcyBpcyBjb25zaXN0ZW50IGFu
+ZCBjb3JyZXNwb25kIHRvIG9uZSBwb2ludCBpbiB0aW1lLi4uDQoNCi0tIA0KQmVzdCByZWdhcmRz
+LA0KVmxhZGltaXINCg==
 
