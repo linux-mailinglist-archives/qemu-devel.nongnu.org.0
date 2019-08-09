@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6531A87FAA
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:20:40 +0200 (CEST)
-Received: from localhost ([::1]:60896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A59A87FB7
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:22:10 +0200 (CEST)
+Received: from localhost ([::1]:60934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw7d9-00064u-Kb
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:20:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57187)
+	id 1hw7eb-000197-Gs
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57219)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hw7XY-0001jX-1b
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:52 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hw7Xa-0001uG-Rg
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hw7XX-0004DT-4o
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58740)
+ (envelope-from <mreitz@redhat.com>) id 1hw7XZ-0004Ek-Om
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38048)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hw7XV-0004CM-1E; Fri, 09 Aug 2019 12:14:49 -0400
+ id 1hw7XX-0004DN-97; Fri, 09 Aug 2019 12:14:51 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 59FD4757C2;
- Fri,  9 Aug 2019 16:14:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9820D88309;
+ Fri,  9 Aug 2019 16:14:50 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA76D5C578;
- Fri,  9 Aug 2019 16:14:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 352035C29A;
+ Fri,  9 Aug 2019 16:14:50 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri,  9 Aug 2019 18:13:42 +0200
-Message-Id: <20190809161407.11920-18-mreitz@redhat.com>
+Date: Fri,  9 Aug 2019 18:13:43 +0200
+Message-Id: <20190809161407.11920-19-mreitz@redhat.com>
 In-Reply-To: <20190809161407.11920-1-mreitz@redhat.com>
 References: <20190809161407.11920-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Fri, 09 Aug 2019 16:14:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Fri, 09 Aug 2019 16:14:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 17/42] block: Use CAFs in
- bdrv_refresh_limits()
+Subject: [Qemu-devel] [PATCH v6 18/42] block: Use CAFs in
+ bdrv_refresh_filename()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,62 +61,104 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/io.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+bdrv_refresh_filename() and the kind of related bdrv_dirname() should
+look to the primary child when they wish to copy the underlying file's
+filename.
 
-diff --git a/block/io.c b/block/io.c
-index bcc770d336..dca4689b2f 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -135,6 +135,8 @@ static void bdrv_merge_limits(BlockLimits *dst, const=
- BlockLimits *src)
- void bdrv_refresh_limits(BlockDriverState *bs, Error **errp)
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block.c | 29 +++++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 8 deletions(-)
+
+diff --git a/block.c b/block.c
+index 064cc99857..a467b175c6 100644
+--- a/block.c
++++ b/block.c
+@@ -6432,6 +6432,7 @@ void bdrv_refresh_filename(BlockDriverState *bs)
  {
      BlockDriver *drv =3D bs->drv;
-+    BlockDriverState *storage_bs =3D bdrv_storage_bs(bs);
-+    BlockDriverState *cow_bs =3D bdrv_filtered_cow_bs(bs);
-     Error *local_err =3D NULL;
+     BdrvChild *child;
++    BlockDriverState *primary_child_bs;
+     QDict *opts;
+     bool backing_overridden;
+     bool generate_json_filename; /* Whether our default implementation s=
+hould
+@@ -6500,20 +6501,30 @@ void bdrv_refresh_filename(BlockDriverState *bs)
+     qobject_unref(bs->full_open_options);
+     bs->full_open_options =3D opts;
 =20
-     memset(&bs->bl, 0, sizeof(bs->bl));
-@@ -148,13 +150,13 @@ void bdrv_refresh_limits(BlockDriverState *bs, Erro=
-r **errp)
-                                 drv->bdrv_aio_preadv) ? 1 : 512;
++    primary_child_bs =3D bdrv_primary_bs(bs);
++
+     if (drv->bdrv_refresh_filename) {
+         /* Obsolete information is of no use here, so drop the old file =
+name
+          * information before refreshing it */
+         bs->exact_filename[0] =3D '\0';
 =20
-     /* Take some limits from the children as a default */
+         drv->bdrv_refresh_filename(bs);
+-    } else if (bs->file) {
+-        /* Try to reconstruct valid information from the underlying file=
+ */
++    } else if (primary_child_bs) {
++        /*
++         * Try to reconstruct valid information from the underlying
++         * file -- this only works for format nodes (filter nodes
++         * cannot be probed and as such must be selected by the user
++         * either through an options dict, or through a special
++         * filename which the filter driver must construct in its
++         * .bdrv_refresh_filename() implementation).
++         */
+=20
+         bs->exact_filename[0] =3D '\0';
+=20
+         /*
+          * We can use the underlying file's filename if:
+          * - it has a filename,
++         * - the current BDS is not a filter,
+          * - the file is a protocol BDS, and
+          * - opening that file (as this BDS's format) will automatically=
+ create
+          *   the BDS tree we have right now, that is:
+@@ -6522,11 +6533,11 @@ void bdrv_refresh_filename(BlockDriverState *bs)
+          *   - no non-file child of this BDS has been overridden by the =
+user
+          *   Both of these conditions are represented by generate_json_f=
+ilename.
+          */
+-        if (bs->file->bs->exact_filename[0] &&
+-            bs->file->bs->drv->bdrv_file_open &&
+-            !generate_json_filename)
++        if (primary_child_bs->exact_filename[0] &&
++            primary_child_bs->drv->bdrv_file_open &&
++            !drv->is_filter && !generate_json_filename)
+         {
+-            strcpy(bs->exact_filename, bs->file->bs->exact_filename);
++            strcpy(bs->exact_filename, primary_child_bs->exact_filename)=
+;
+         }
+     }
+=20
+@@ -6543,6 +6554,7 @@ void bdrv_refresh_filename(BlockDriverState *bs)
+ char *bdrv_dirname(BlockDriverState *bs, Error **errp)
+ {
+     BlockDriver *drv =3D bs->drv;
++    BlockDriverState *child_bs;
+=20
+     if (!drv) {
+         error_setg(errp, "Node '%s' is ejected", bs->node_name);
+@@ -6553,8 +6565,9 @@ char *bdrv_dirname(BlockDriverState *bs, Error **er=
+rp)
+         return drv->bdrv_dirname(bs, errp);
+     }
+=20
 -    if (bs->file) {
--        bdrv_refresh_limits(bs->file->bs, &local_err);
-+    if (storage_bs) {
-+        bdrv_refresh_limits(storage_bs, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             return;
-         }
--        bdrv_merge_limits(&bs->bl, &bs->file->bs->bl);
-+        bdrv_merge_limits(&bs->bl, &storage_bs->bl);
-     } else {
-         bs->bl.min_mem_alignment =3D 512;
-         bs->bl.opt_mem_alignment =3D getpagesize();
-@@ -163,13 +165,13 @@ void bdrv_refresh_limits(BlockDriverState *bs, Erro=
-r **errp)
-         bs->bl.max_iov =3D IOV_MAX;
+-        return bdrv_dirname(bs->file->bs, errp);
++    child_bs =3D bdrv_primary_bs(bs);
++    if (child_bs) {
++        return bdrv_dirname(child_bs, errp);
      }
 =20
--    if (bs->backing) {
--        bdrv_refresh_limits(bs->backing->bs, &local_err);
-+    if (cow_bs) {
-+        bdrv_refresh_limits(cow_bs, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             return;
-         }
--        bdrv_merge_limits(&bs->bl, &bs->backing->bs->bl);
-+        bdrv_merge_limits(&bs->bl, &cow_bs->bl);
-     }
-=20
-     /* Then let the driver override it */
+     bdrv_refresh_filename(bs);
 --=20
 2.21.0
 
