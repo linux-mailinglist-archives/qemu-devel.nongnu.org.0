@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3575187295
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 09:00:53 +0200 (CEST)
-Received: from localhost ([::1]:56858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA988872B6
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 09:09:10 +0200 (CEST)
+Received: from localhost ([::1]:56972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvytQ-0008E1-Bf
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 03:00:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50849)
+	id 1hvz1S-0006no-13
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 03:09:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50863)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tao3.xu@intel.com>) id 1hvyqS-0003PQ-8L
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 02:57:49 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1hvyqU-0003Vs-75
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 02:57:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1hvyqQ-00080a-Cb
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 02:57:48 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1hvyqS-00081e-Lt
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 02:57:50 -0400
 Received: from mga05.intel.com ([192.55.52.43]:16871)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hvyqP-0007xE-Tp
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 02:57:46 -0400
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hvyqS-0007xE-Bi
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 02:57:48 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2019 23:57:45 -0700
+ 08 Aug 2019 23:57:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,364,1559545200"; d="scan'208";a="326549023"
+X-IronPort-AV: E=Sophos;i="5.64,364,1559545200"; d="scan'208";a="326549029"
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.37])
- by orsmga004.jf.intel.com with ESMTP; 08 Aug 2019 23:57:43 -0700
+ by orsmga004.jf.intel.com with ESMTP; 08 Aug 2019 23:57:45 -0700
 From: Tao <tao3.xu@intel.com>
 To: imammedo@redhat.com,
 	eblake@redhat.com,
 	ehabkost@redhat.com
-Date: Fri,  9 Aug 2019 14:57:24 +0800
-Message-Id: <20190809065731.9097-5-tao3.xu@intel.com>
+Date: Fri,  9 Aug 2019 14:57:25 +0800
+Message-Id: <20190809065731.9097-6-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190809065731.9097-1-tao3.xu@intel.com>
 References: <20190809065731.9097-1-tao3.xu@intel.com>
@@ -43,8 +43,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 192.55.52.43
-Subject: [Qemu-devel] [PATCH v9 04/11] numa: move numa global variable
- numa_info into MachineState
+Subject: [Qemu-devel] [PATCH v9 05/11] numa: Extend CLI to provide initiator
+ information for numa nodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,7 +56,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
+Cc: Jingqi Liu <Jingqi.liu@intel.com>, tao3.xu@intel.com, fan.du@intel.com,
  qemu-devel@nongnu.org, daniel@linux.ibm.com, jonathan.cameron@huawei.com,
  dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -64,306 +64,198 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tao Xu <tao3.xu@intel.com>
 
-Move existing numa global numa_info (renamed as "nodes") into NumaState.
+In ACPI 6.3 chapter 5.2.27 Heterogeneous Memory Attribute Table (HMAT),
+The initiator represents processor which access to memory. And in 5.2.27.3
+Memory Proximity Domain Attributes Structure, the attached initiator is
+defined as where the memory controller responsible for a memory proximity
+domain. With attached initiator information, the topology of heterogeneous
+memory can be described.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Extend CLI of "-numa node" option to indicate the initiator numa node-id.
+In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
+the platform's HMAT tables.
+
+Reviewed-by: Jingqi Liu <Jingqi.liu@intel.com>
+Suggested-by: Dan Williams <dan.j.williams@intel.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
 
 No changes in v9
 ---
- exec.c                   |  2 +-
- hw/acpi/aml-build.c      |  6 ++++--
- hw/arm/boot.c            |  2 +-
- hw/arm/sbsa-ref.c        |  3 ++-
- hw/arm/virt-acpi-build.c |  7 ++++---
- hw/arm/virt.c            |  3 ++-
- hw/core/numa.c           | 15 +++++++++------
- hw/i386/pc.c             |  4 ++--
- hw/ppc/spapr.c           | 10 +++++-----
- hw/ppc/spapr_pci.c       |  4 +++-
- include/sysemu/numa.h    |  5 +++--
- 11 files changed, 36 insertions(+), 25 deletions(-)
+ hw/core/machine.c     | 24 ++++++++++++++++++++++++
+ hw/core/numa.c        | 13 +++++++++++++
+ include/sysemu/numa.h |  3 +++
+ qapi/machine.json     |  6 +++++-
+ qemu-options.hx       | 27 +++++++++++++++++++++++----
+ 5 files changed, 68 insertions(+), 5 deletions(-)
 
-diff --git a/exec.c b/exec.c
-index 4fd6ec2bd0..de87d3548b 100644
---- a/exec.c
-+++ b/exec.c
-@@ -1779,7 +1779,7 @@ long qemu_minrampagesize(void)
-     if (hpsize > mainrampagesize &&
-         (ms->numa_state == NULL ||
-          ms->numa_state->num_nodes == 0 ||
--         numa_info[0].node_memdev == NULL)) {
-+         ms->numa_state->nodes[0].node_memdev == NULL)) {
-         static bool warned;
-         if (!warned) {
-             error_report("Huge page support disabled (n/a for main memory).");
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 63c1cae8c9..26ccc1a3e2 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1737,8 +1737,10 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms)
-     build_append_int_noprefix(table_data, nb_numa_nodes, 8);
-     for (i = 0; i < nb_numa_nodes; i++) {
-         for (j = 0; j < nb_numa_nodes; j++) {
--            assert(numa_info[i].distance[j]);
--            build_append_int_noprefix(table_data, numa_info[i].distance[j], 1);
-+            assert(ms->numa_state->nodes[i].distance[j]);
-+            build_append_int_noprefix(table_data,
-+                                      ms->numa_state->nodes[i].distance[j],
-+                                      1);
-         }
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 3c55470103..113184a9df 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -640,6 +640,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
+                                const CpuInstanceProperties *props, Error **errp)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
++    NodeInfo *numa_info = machine->numa_state->nodes;
+     bool match = false;
+     int i;
+ 
+@@ -709,6 +710,16 @@ void machine_set_cpu_numa_node(MachineState *machine,
+         match = true;
+         slot->props.node_id = props->node_id;
+         slot->props.has_node_id = props->has_node_id;
++
++        if (numa_info[props->node_id].initiator_valid &&
++            (props->node_id != numa_info[props->node_id].initiator)) {
++            error_setg(errp, "The initiator of CPU NUMA node %" PRId64
++                       " should be itself.", props->node_id);
++            return;
++        }
++        numa_info[props->node_id].initiator_valid = true;
++        numa_info[props->node_id].has_cpu = true;
++        numa_info[props->node_id].initiator = props->node_id;
      }
  
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index d02d2dae85..6472aa441e 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -601,7 +601,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-     if (ms->numa_state != NULL && ms->numa_state->num_nodes > 0) {
-         mem_base = binfo->loader_start;
-         for (i = 0; i < ms->numa_state->num_nodes; i++) {
--            mem_len = numa_info[i].node_mem;
-+            mem_len = ms->numa_state->nodes[i].node_mem;
-             rc = fdt_add_memory_node(fdt, acells, mem_base,
-                                      scells, mem_len, i);
-             if (rc < 0) {
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 7e4c471717..3a243e6a53 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -168,7 +168,8 @@ static void create_fdt(SBSAMachineState *sms)
-                 idx = (i * nb_numa_nodes + j) * 3;
-                 matrix[idx + 0] = cpu_to_be32(i);
-                 matrix[idx + 1] = cpu_to_be32(j);
--                matrix[idx + 2] = cpu_to_be32(numa_info[i].distance[j]);
-+                matrix[idx + 2] =
-+                    cpu_to_be32(ms->numa_state->nodes[i].distance[j]);
-             }
-         }
+     if (!match) {
+@@ -1050,6 +1061,7 @@ static void machine_numa_finish_cpu_init(MachineState *machine)
+     GString *s = g_string_new(NULL);
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     const CPUArchIdList *possible_cpus = mc->possible_cpu_arch_ids(machine);
++    NodeInfo *numa_info = machine->numa_state->nodes;
  
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 461a44b5b0..89899ec4c1 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -534,11 +534,12 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
- 
-     mem_base = vms->memmap[VIRT_MEM].base;
-     for (i = 0; i < ms->numa_state->num_nodes; ++i) {
--        if (numa_info[i].node_mem > 0) {
-+        if (ms->numa_state->nodes[i].node_mem > 0) {
-             numamem = acpi_data_push(table_data, sizeof(*numamem));
--            build_srat_memory(numamem, mem_base, numa_info[i].node_mem, i,
-+            build_srat_memory(numamem, mem_base,
-+                              ms->numa_state->nodes[i].node_mem, i,
-                               MEM_AFFINITY_ENABLED);
--            mem_base += numa_info[i].node_mem;
-+            mem_base += ms->numa_state->nodes[i].node_mem;
+     assert(machine->numa_state->num_nodes);
+     for (i = 0; i < possible_cpus->len; i++) {
+@@ -1083,6 +1095,18 @@ static void machine_numa_finish_cpu_init(MachineState *machine)
+             machine_set_cpu_numa_node(machine, &props, &error_fatal);
          }
      }
- 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 6f0170cf1d..46f39e20bc 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -242,7 +242,8 @@ static void create_fdt(VirtMachineState *vms)
-                 idx = (i * nb_numa_nodes + j) * 3;
-                 matrix[idx + 0] = cpu_to_be32(i);
-                 matrix[idx + 1] = cpu_to_be32(j);
--                matrix[idx + 2] = cpu_to_be32(numa_info[i].distance[j]);
-+                matrix[idx + 2] =
-+                    cpu_to_be32(ms->numa_state->nodes[i].distance[j]);
-             }
-         }
- 
++
++    for (i = 0; i < machine->numa_state->num_nodes; i++) {
++        if (numa_info[i].initiator_valid &&
++            !numa_info[numa_info[i].initiator].has_cpu) {
++            error_report("The initiator-id %"PRIu16 " of NUMA node %d"
++                         " does not exist.", numa_info[i].initiator, i);
++            error_printf("\n");
++
++            exit(1);
++        }
++    }
++
+     if (s->len && !qtest_enabled()) {
+         warn_report("CPU(s) not present in any NUMA nodes: %s",
+                     s->str);
 diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 2142ec29e8..8fcbba05d6 100644
+index 8fcbba05d6..cfb6339810 100644
 --- a/hw/core/numa.c
 +++ b/hw/core/numa.c
-@@ -50,8 +50,6 @@ static int have_mem;
- static int max_numa_nodeid; /* Highest specified NUMA node ID, plus one.
-                              * For all nodes, nodeid < max_numa_nodeid
-                              */
--NodeInfo numa_info[MAX_NODES];
--
- 
- static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
-                             Error **errp)
-@@ -61,6 +59,7 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
-     uint16List *cpus = NULL;
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-     unsigned int max_cpus = ms->smp.max_cpus;
-+    NodeInfo *numa_info = ms->numa_state->nodes;
- 
-     if (node->has_nodeid) {
-         nodenr = node->nodeid;
-@@ -140,6 +139,7 @@ void parse_numa_distance(MachineState *ms, NumaDistOptions *dist, Error **errp)
-     uint16_t src = dist->src;
-     uint16_t dst = dist->dst;
-     uint8_t val = dist->val;
-+    NodeInfo *numa_info = ms->numa_state->nodes;
- 
-     if (src >= MAX_NODES || dst >= MAX_NODES) {
-         error_setg(errp, "Parameter '%s' expects an integer between 0 and %d",
-@@ -198,7 +198,7 @@ void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
-             error_setg(&err, "Missing mandatory node-id property");
-             goto end;
-         }
--        if (!numa_info[object->u.cpu.node_id].present) {
-+        if (!ms->numa_state->nodes[object->u.cpu.node_id].present) {
-             error_setg(&err, "Invalid node-id=%" PRId64 ", NUMA node must be "
-                 "defined with -numa node,nodeid=ID before it's used with "
-                 "-numa cpu,node-id=ID", object->u.cpu.node_id);
-@@ -258,6 +258,7 @@ static void validate_numa_distance(MachineState *ms)
-     int src, dst;
-     bool is_asymmetrical = false;
-     int nb_numa_nodes = ms->numa_state->num_nodes;
-+    NodeInfo *numa_info = ms->numa_state->nodes;
- 
-     for (src = 0; src < nb_numa_nodes; src++) {
-         for (dst = src; dst < nb_numa_nodes; dst++) {
-@@ -298,6 +299,7 @@ static void validate_numa_distance(MachineState *ms)
- static void complete_init_numa_distance(MachineState *ms)
- {
-     int src, dst;
-+    NodeInfo *numa_info = ms->numa_state->nodes;
- 
-     /* Fixup NUMA distance by symmetric policy because if it is an
-      * asymmetric distance table, it should be a complete table and
-@@ -357,6 +359,7 @@ void numa_complete_configuration(MachineState *ms)
- {
-     int i;
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-+    NodeInfo *numa_info = ms->numa_state->nodes;
- 
-     /*
-      * If memory hotplug is enabled (slots > 0) but without '-numa'
-@@ -522,8 +525,8 @@ void memory_region_allocate_system_memory(MemoryRegion *mr, Object *owner,
- 
-     memory_region_init(mr, owner, name, ram_size);
-     for (i = 0; i < ms->numa_state->num_nodes; i++) {
--        uint64_t size = numa_info[i].node_mem;
--        HostMemoryBackend *backend = numa_info[i].node_memdev;
-+        uint64_t size = ms->numa_state->nodes[i].node_mem;
-+        HostMemoryBackend *backend = ms->numa_state->nodes[i].node_memdev;
-         if (!backend) {
-             continue;
-         }
-@@ -589,7 +592,7 @@ void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms)
- 
-     numa_stat_memory_devices(node_mem);
-     for (i = 0; i < ms->numa_state->num_nodes; i++) {
--        node_mem[i].node_mem += numa_info[i].node_mem;
-+        node_mem[i].node_mem += ms->numa_state->nodes[i].node_mem;
+@@ -128,6 +128,19 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+         numa_info[nodenr].node_mem = object_property_get_uint(o, "size", NULL);
+         numa_info[nodenr].node_memdev = MEMORY_BACKEND(o);
      }
- }
- 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index b2cc618fbf..c3f5a70a56 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1040,7 +1040,7 @@ static FWCfgState *bochs_bios_init(AddressSpace *as, PCMachineState *pcms)
-     }
-     for (i = 0; i < nb_numa_nodes; i++) {
-         numa_fw_cfg[pcms->apic_id_limit + 1 + i] =
--            cpu_to_le64(numa_info[i].node_mem);
-+            cpu_to_le64(ms->numa_state->nodes[i].node_mem);
-     }
-     fw_cfg_add_bytes(fw_cfg, FW_CFG_NUMA, numa_fw_cfg,
-                      (1 + pcms->apic_id_limit + nb_numa_nodes) *
-@@ -1768,7 +1768,7 @@ void pc_guest_info_init(PCMachineState *pcms)
-     pcms->node_mem = g_malloc0(pcms->numa_nodes *
-                                     sizeof *pcms->node_mem);
-     for (i = 0; i < ms->numa_state->num_nodes; i++) {
--        pcms->node_mem[i] = numa_info[i].node_mem;
-+        pcms->node_mem[i] = ms->numa_state->nodes[i].node_mem;
-     }
- 
-     pcms->machine_done.notify = pc_machine_done;
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 358d670485..f607ca567b 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -354,8 +354,8 @@ static hwaddr spapr_node0_size(MachineState *machine)
-     if (machine->numa_state->num_nodes) {
-         int i;
-         for (i = 0; i < machine->numa_state->num_nodes; ++i) {
--            if (numa_info[i].node_mem) {
--                return MIN(pow2floor(numa_info[i].node_mem),
-+            if (machine->numa_state->nodes[i].node_mem) {
-+                return MIN(pow2floor(machine->numa_state->nodes[i].node_mem),
-                            machine->ram_size);
-             }
-         }
-@@ -399,7 +399,7 @@ static int spapr_populate_memory(SpaprMachineState *spapr, void *fdt)
-     MachineState *machine = MACHINE(spapr);
-     hwaddr mem_start, node_size;
-     int i, nb_nodes = machine->numa_state->num_nodes;
--    NodeInfo *nodes = numa_info;
-+    NodeInfo *nodes = machine->numa_state->nodes;
-     NodeInfo ramnode;
- 
-     /* No NUMA nodes, assume there is just one node with whole RAM */
-@@ -2539,11 +2539,11 @@ static void spapr_validate_node_memory(MachineState *machine, Error **errp)
-     }
- 
-     for (i = 0; i < machine->numa_state->num_nodes; i++) {
--        if (numa_info[i].node_mem % SPAPR_MEMORY_BLOCK_SIZE) {
-+        if (machine->numa_state->nodes[i].node_mem % SPAPR_MEMORY_BLOCK_SIZE) {
-             error_setg(errp,
-                        "Node %d memory size 0x%" PRIx64
-                        " is not aligned to %" PRIu64 " MiB",
--                       i, numa_info[i].node_mem,
-+                       i, machine->numa_state->nodes[i].node_mem,
-                        SPAPR_MEMORY_BLOCK_SIZE / MiB);
-             return;
-         }
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 9003fe9010..f05d82eee7 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1818,6 +1818,7 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
-     SysBusDevice *s = SYS_BUS_DEVICE(dev);
-     SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(s);
-     PCIHostState *phb = PCI_HOST_BRIDGE(s);
-+    MachineState *ms = MACHINE(spapr);
-     char *namebuf;
-     int i;
-     PCIBus *bus;
-@@ -1870,7 +1871,8 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
-     }
- 
-     if (sphb->numa_node != -1 &&
--        (sphb->numa_node >= MAX_NODES || !numa_info[sphb->numa_node].present)) {
-+        (sphb->numa_node >= MAX_NODES ||
-+         !ms->numa_state->nodes[sphb->numa_node].present)) {
-         error_setg(errp, "Invalid NUMA node ID for PCI host bridge");
-         return;
-     }
++
++    if (node->has_initiator) {
++        if (numa_info[nodenr].initiator_valid &&
++            (node->initiator != numa_info[nodenr].initiator)) {
++            error_setg(errp, "The initiator of NUMA node %" PRIu16 " has been "
++                       "set to node %" PRIu16, nodenr,
++                       numa_info[nodenr].initiator);
++            return;
++        }
++
++        numa_info[nodenr].initiator_valid = true;
++        numa_info[nodenr].initiator = node->initiator;
++    }
+     numa_info[nodenr].present = true;
+     max_numa_nodeid = MAX(max_numa_nodeid, nodenr + 1);
+     ms->numa_state->num_nodes++;
 diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-index 2e5e998adb..76da3016db 100644
+index 76da3016db..46ad06e000 100644
 --- a/include/sysemu/numa.h
 +++ b/include/sysemu/numa.h
-@@ -18,14 +18,15 @@ struct NumaNodeMem {
-     uint64_t node_plugged_mem;
+@@ -10,6 +10,9 @@ struct NodeInfo {
+     uint64_t node_mem;
+     struct HostMemoryBackend *node_memdev;
+     bool present;
++    bool has_cpu;
++    bool initiator_valid;
++    uint16_t initiator;
+     uint8_t distance[MAX_NODES];
  };
  
--extern NodeInfo numa_info[MAX_NODES];
--
- struct NumaState {
-     /* Number of NUMA nodes */
-     int num_nodes;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 6db8a7e2ec..05e367d26a 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -414,6 +414,9 @@
+ # @memdev: memory backend object.  If specified for one node,
+ #          it must be specified for all nodes.
+ #
++# @initiator: the initiator numa nodeid that is closest (as in directly
++#             attached) to this numa node (since 4.2)
++#
+ # Since: 2.1
+ ##
+ { 'struct': 'NumaNodeOptions',
+@@ -421,7 +424,8 @@
+    '*nodeid': 'uint16',
+    '*cpus':   ['uint16'],
+    '*mem':    'size',
+-   '*memdev': 'str' }}
++   '*memdev': 'str',
++   '*initiator': 'uint16' }}
  
-     /* Allow setting NUMA distance for different NUMA nodes */
-     bool have_numa_distance;
+ ##
+ # @NumaDistOptions:
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 9621e934c0..c480781992 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -161,14 +161,14 @@ If any on the three values is given, the total number of CPUs @var{n} can be omi
+ ETEXI
+ 
+ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
+-    "-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node]\n"
+-    "-numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node]\n"
++    "-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=node]\n"
++    "-numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=node]\n"
+     "-numa dist,src=source,dst=destination,val=distance\n"
+     "-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]\n",
+     QEMU_ARCH_ALL)
+ STEXI
+-@item -numa node[,mem=@var{size}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}]
+-@itemx -numa node[,memdev=@var{id}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}]
++@item -numa node[,mem=@var{size}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}][,initiator=@var{initiator}]
++@itemx -numa node[,memdev=@var{id}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}][,initiator=@var{initiator}]
+ @itemx -numa dist,src=@var{source},dst=@var{destination},val=@var{distance}
+ @itemx -numa cpu,node-id=@var{node}[,socket-id=@var{x}][,core-id=@var{y}][,thread-id=@var{z}]
+ @findex -numa
+@@ -215,6 +215,25 @@ split equally between them.
+ @samp{mem} and @samp{memdev} are mutually exclusive. Furthermore,
+ if one node uses @samp{memdev}, all of them have to use it.
+ 
++@samp{initiator} indicate the initiator NUMA @var{initiator} that is
++closest (as in directly attached) to this NUMA @var{node}.
 +
-+    /* NUMA nodes information */
-+    NodeInfo nodes[MAX_NODES];
- };
- typedef struct NumaState NumaState;
- 
++For example, the following option assigns 2 NUMA nodes, node 0 has CPU.
++node 1 has only memory, and its' initiator is node 0. Note that because
++node 0 has CPU, by default the initiator of node 0 is itself and must be
++itself.
++@example
++-M pc \
++-m 2G,slots=2,maxmem=4G \
++-object memory-backend-ram,size=1G,id=m0 \
++-object memory-backend-ram,size=1G,id=m1 \
++-numa node,nodeid=0,memdev=m0 \
++-numa node,nodeid=1,memdev=m1,initiator=0 \
++-smp 2,sockets=2,maxcpus=2  \
++-numa cpu,node-id=0,socket-id=0 \
++-numa cpu,node-id=0,socket-id=1 \
++@end example
++
+ @var{source} and @var{destination} are NUMA node IDs.
+ @var{distance} is the NUMA distance from @var{source} to @var{destination}.
+ The distance from a node to itself is always 10. If any pair of nodes is
 -- 
 2.20.1
 
