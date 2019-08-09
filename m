@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F2B87F80
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:18:47 +0200 (CEST)
-Received: from localhost ([::1]:60862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324AA87F75
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:17:24 +0200 (CEST)
+Received: from localhost ([::1]:60838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw7bK-0001vt-Ho
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56819)
+	id 1hw7Zz-0007J3-C8
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:17:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57023)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hw7XB-0000e9-D3
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:31 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hw7XN-00018O-JS
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hw7XA-0003zR-CS
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53644)
+ (envelope-from <mreitz@redhat.com>) id 1hw7XM-00047A-I5
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60080)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hw7X8-0003xz-7o; Fri, 09 Aug 2019 12:14:26 -0400
+ id 1hw7XJ-00043G-Lw; Fri, 09 Aug 2019 12:14:37 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 87E2C30FB8F1;
- Fri,  9 Aug 2019 16:14:25 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0A1E630BA06F;
+ Fri,  9 Aug 2019 16:14:37 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2563A10013A1;
- Fri,  9 Aug 2019 16:14:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A73D10013A1;
+ Fri,  9 Aug 2019 16:14:36 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri,  9 Aug 2019 18:13:32 +0200
-Message-Id: <20190809161407.11920-8-mreitz@redhat.com>
+Date: Fri,  9 Aug 2019 18:13:37 +0200
+Message-Id: <20190809161407.11920-13-mreitz@redhat.com>
 In-Reply-To: <20190809161407.11920-1-mreitz@redhat.com>
 References: <20190809161407.11920-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 09 Aug 2019 16:14:25 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Fri, 09 Aug 2019 16:14:37 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 07/42] block: *filtered_cow_child() for
- *has_zero_init()
+Subject: [Qemu-devel] [PATCH v6 12/42] block: Use bdrv_filtered_rw* where
+ obvious
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,39 +61,116 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_has_zero_init() and the related bdrv_unallocated_blocks_are_zero()
-should use bdrv_filtered_cow_child() if they want to check whether the
-given BDS has a COW backing file.
+Places that use patterns like
+
+    if (bs->drv->is_filter && bs->file) {
+        ... something about bs->file->bs ...
+    }
+
+should be
+
+    BlockDriverState *filtered =3D bdrv_filtered_rw_bs(bs);
+    if (filtered) {
+        ... something about @filtered ...
+    }
+
+instead.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ block.c    | 23 +++++++++++++++--------
+ block/io.c |  5 +++--
+ 2 files changed, 18 insertions(+), 10 deletions(-)
 
 diff --git a/block.c b/block.c
-index bfa5e27850..486c75d847 100644
+index 029c809a8e..86b84bea21 100644
 --- a/block.c
 +++ b/block.c
-@@ -5063,7 +5063,7 @@ int bdrv_has_zero_init(BlockDriverState *bs)
+@@ -556,11 +556,12 @@ int bdrv_create_file(const char *filename, QemuOpts=
+ *opts, Error **errp)
+ int bdrv_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
+ {
+     BlockDriver *drv =3D bs->drv;
++    BlockDriverState *filtered =3D bdrv_filtered_rw_bs(bs);
 =20
-     /* If BS is a copy on write image, it is initialized to
-        the contents of the base image, which may not be zeroes.  */
--    if (bs->backing) {
-+    if (bdrv_filtered_cow_child(bs)) {
+     if (drv && drv->bdrv_probe_blocksizes) {
+         return drv->bdrv_probe_blocksizes(bs, bsz);
+-    } else if (drv && drv->is_filter && bs->file) {
+-        return bdrv_probe_blocksizes(bs->file->bs, bsz);
++    } else if (filtered) {
++        return bdrv_probe_blocksizes(filtered, bsz);
+     }
+=20
+     return -ENOTSUP;
+@@ -575,11 +576,12 @@ int bdrv_probe_blocksizes(BlockDriverState *bs, Blo=
+ckSizes *bsz)
+ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
+ {
+     BlockDriver *drv =3D bs->drv;
++    BlockDriverState *filtered =3D bdrv_filtered_rw_bs(bs);
+=20
+     if (drv && drv->bdrv_probe_geometry) {
+         return drv->bdrv_probe_geometry(bs, geo);
+-    } else if (drv && drv->is_filter && bs->file) {
+-        return bdrv_probe_geometry(bs->file->bs, geo);
++    } else if (filtered) {
++        return bdrv_probe_geometry(filtered, geo);
+     }
+=20
+     return -ENOTSUP;
+@@ -5084,6 +5086,8 @@ int bdrv_has_zero_init_1(BlockDriverState *bs)
+=20
+ int bdrv_has_zero_init(BlockDriverState *bs)
+ {
++    BlockDriverState *filtered;
++
+     if (!bs->drv) {
          return 0;
      }
+@@ -5096,8 +5100,10 @@ int bdrv_has_zero_init(BlockDriverState *bs)
      if (bs->drv->bdrv_has_zero_init) {
-@@ -5081,7 +5081,7 @@ bool bdrv_unallocated_blocks_are_zero(BlockDriverSt=
-ate *bs)
- {
-     BlockDriverInfo bdi;
-=20
--    if (bs->backing) {
-+    if (bdrv_filtered_cow_child(bs)) {
-         return false;
+         return bs->drv->bdrv_has_zero_init(bs);
+     }
+-    if (bs->file && bs->drv->is_filter) {
+-        return bdrv_has_zero_init(bs->file->bs);
++
++    filtered =3D bdrv_filtered_rw_bs(bs);
++    if (filtered) {
++        return bdrv_has_zero_init(filtered);
      }
 =20
+     /* safe default */
+@@ -5142,8 +5148,9 @@ int bdrv_get_info(BlockDriverState *bs, BlockDriver=
+Info *bdi)
+         return -ENOMEDIUM;
+     }
+     if (!drv->bdrv_get_info) {
+-        if (bs->file && drv->is_filter) {
+-            return bdrv_get_info(bs->file->bs, bdi);
++        BlockDriverState *filtered =3D bdrv_filtered_rw_bs(bs);
++        if (filtered) {
++            return bdrv_get_info(filtered, bdi);
+         }
+         return -ENOTSUP;
+     }
+diff --git a/block/io.c b/block/io.c
+index 06305c6ea6..4d6cf4b3c2 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3186,8 +3186,9 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child,=
+ int64_t offset,
+     }
+=20
+     if (!drv->bdrv_co_truncate) {
+-        if (bs->file && drv->is_filter) {
+-            ret =3D bdrv_co_truncate(bs->file, offset, prealloc, errp);
++        BdrvChild *filtered =3D bdrv_filtered_rw_child(bs);
++        if (filtered) {
++            ret =3D bdrv_co_truncate(filtered, offset, prealloc, errp);
+             goto out;
+         }
+         error_setg(errp, "Image format driver does not support resize");
 --=20
 2.21.0
 
