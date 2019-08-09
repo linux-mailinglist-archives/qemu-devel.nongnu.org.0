@@ -2,108 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6529887A70
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:47:57 +0200 (CEST)
-Received: from localhost ([::1]:59012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E698E87AA7
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:56:58 +0200 (CEST)
+Received: from localhost ([::1]:59128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw4JI-0000nO-7O
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:47:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52640)
+	id 1hw4S1-00014F-Q3
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:56:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53094)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hw4IX-0000Ir-IZ
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:47:10 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4KJ-0002Ts-T9
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:49:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hw4IW-0000bN-G3
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:47:09 -0400
-Received: from mail-eopbgr80093.outbound.protection.outlook.com
- ([40.107.8.93]:50242 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hw4IV-0000ZX-OS; Fri, 09 Aug 2019 08:47:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dwKrAWLUQJpH4oMUWRBBfSpBEi/CdMb3ek4t2/IZXdNG9T149Wcpd/z87vJ69g1yto3DibFvQ1x1VxZe5dncBbYxXD4mPdd7f6Blj/gfVrbCb6kqT+I6/w4s3etaA3X87ZGc+AzSbyDqKTEIgNAEfiuettIspVfICxFyz6Q2EVZL5beZZmHzlGb01zM4m4QmuXDNrt94mJ64I30RURF/gbGogsonulOJAxLlqAocugdZtCCogUEJvbtLU4ipCgMzy2aaJUEUt1c2pxk79TysRrG3xs5RbF4IYBf/Owx+eiiZ+6PigMiMb3Q5MhdlGhYLcWNBkeCcpFFxSPuKPzb93w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p/RZbRtzRxr43Hc+i3wdRkWkXXIWN88pzDLSZBe+t0Y=;
- b=Ulf8WZPCdq4Iln+oDPieUJ4FVhRZ0+q0nldawA8GUlf5eTc0yadpHcL1TdnVxs1P2SbMOjXc4EQGHmdHXOmfBPPPNFR7wDlfnCPmDRx8PDBdeSERRG3oYlxmPkiOKUYK/cp6qooGPLrx31RmfkQjgUsPwf/Ce6AhKFbFQ4InqK/pZPG8OXrsD1SNlabGsAWyJu/JOctm+6mpB0znsOiEaxO/QIQsuzrdgOikgQ11Rb4ufE7A7X0Br4cW1Xa/doHMTptCq57cy50E/h0/6lzpHse7crbVdN+twzKR4HCnJYQOb7LXJbmihsJZvclnKSEFTG7sht23hSqtBtMWC6Fv/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p/RZbRtzRxr43Hc+i3wdRkWkXXIWN88pzDLSZBe+t0Y=;
- b=Pvdenhu5b1XtOnA8+lR9pUsxEXQPKNIC4JrDUbXTvfkdVnKfTda+Jd82OsoJRRkzI2dqetaAhTJWOY+YIjDYNRUf1hA/il1MOaBohf9iu8VoFVfDGtHc8C7npycztvFUVXZViQzTTWG+mO+Wr6veevF7d6m6iUwRR/GQ27xcysU=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5388.eurprd08.prod.outlook.com (52.133.241.10) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2157.16; Fri, 9 Aug 2019 12:47:00 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::617b:d2c2:11e9:4604]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::617b:d2c2:11e9:4604%3]) with mapi id 15.20.2157.015; Fri, 9 Aug 2019
- 12:47:00 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH 4/8] block/backup: improve unallocated clusters skipping
-Thread-Index: AQHVTPc5s/npQfEhfkGoVKrBP/0JC6bv+juAgAKsOgCAABq8gIAABe+A
-Date: Fri, 9 Aug 2019 12:47:00 +0000
-Message-ID: <7783cb6f-4e71-c789-3105-4a6dc3b1533d@virtuozzo.com>
-References: <20190807080750.15950-1-vsementsov@virtuozzo.com>
- <20190807080750.15950-5-vsementsov@virtuozzo.com>
- <23fd227d-9074-3a9e-b6c7-09f4abadc021@redhat.com>
- <ba8ea007-06dd-03fb-9f9c-6e31a4764156@virtuozzo.com>
- <b3b788fc-cf2d-8fe4-df35-a3fd8f18995f@redhat.com>
-In-Reply-To: <b3b788fc-cf2d-8fe4-df35-a3fd8f18995f@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR07CA0017.eurprd07.prod.outlook.com
- (2603:10a6:7:67::27) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190809154657898
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cfc26463-a2df-40eb-6428-08d71cc7abc1
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB5388; 
-x-ms-traffictypediagnostic: DB8PR08MB5388:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR08MB53880C068758AD9B7FB94D4BC1D60@DB8PR08MB5388.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 01244308DF
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(346002)(376002)(136003)(396003)(366004)(52314003)(189003)(199004)(25786009)(53546011)(102836004)(14454004)(14444005)(86362001)(31696002)(53936002)(256004)(36756003)(186003)(2906002)(6512007)(6506007)(76176011)(26005)(4326008)(6436002)(6246003)(6486002)(54906003)(5660300002)(81166006)(81156014)(107886003)(110136005)(52116002)(386003)(8936002)(99286004)(66446008)(64756008)(229853002)(316002)(31686004)(478600001)(305945005)(3846002)(66066001)(486006)(66476007)(8676002)(66556008)(66946007)(2501003)(71190400001)(11346002)(6116002)(2616005)(7736002)(446003)(476003)(71200400001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5388;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: MNzAjDmwoQcyndgQX0eC/a+Gt3umU8TL0G0y8pQK26XLZogBRPbNdwwnLR9NprcroGKddV/TtdbXhl0tRWNKPHBE2gauX4lycFMd4fd0itA9bKPMzO2kSuKIT4u2/Ut/wBw+5LHuAzPWymn886fYteDvEK6ac5UecdYUwNjQmJDDEBSO2ZkUc1ZBKSfQiO+oW1a3lqQeWfKsOEe35jNsBC1rTiesx76IXswHXKtFkh4PFExqdTUCgrM/Qc4fSV6w3/tSfvKJmqwwaXb8sVDbL7JAylKLoWJOZ8SxkjZ+W8af9dxP9TiZBzt3bRdUnpstosnoexHBDoeA6FCplUwGw6LmEezz7My3cYvysbLIWzaf4LCD2wF4Agq9t8rbUvXLv83ftl4698AnXM9uEjH3FsB3u1Vmvsz3d548MFIPH7c=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9DB34310EAF9784EA08545C524D1CBDD@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cfc26463-a2df-40eb-6428-08d71cc7abc1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2019 12:47:00.2852 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KUqhpAs+Pb7XwFwumNXE4d71Rf0HX1DHcWOuJNYLcvMz8hgfbezcL/gDk6i0OoIOtsy8vj4/rxPXoRqjWZBJOYTtkUF9X4sFmKN7buSJp6E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5388
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.8.93
-Subject: Re: [Qemu-devel] [PATCH 4/8] block/backup: improve unallocated
- clusters skipping
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4KH-0001Nb-Mg
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:59 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:46057 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hw4KH-0000v0-CA
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:57 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id CB0F11A2142;
+ Fri,  9 Aug 2019 14:47:52 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id A9B321A2128;
+ Fri,  9 Aug 2019 14:47:52 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  9 Aug 2019 14:46:34 +0200
+Message-Id: <1565354819-1495-2-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1565354819-1495-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1565354819-1495-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH for 4.2 v7 01/26] target/mips: Add support for
+ DSPRAM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,37 +51,472 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>
+Cc: arikalo@wavecomp.com, Yongbok Kim <yongbok.kim@mips.com>, philmd@redhat.com,
+ amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDkuMDguMjAxOSAxNToyNSwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAwOS4wOC4xOSAwOTo1MCwg
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IDA3LjA4LjIwMTkgMjE6MDEs
-IE1heCBSZWl0eiB3cm90ZToNCj4+PiBPbiAwNy4wOC4xOSAxMDowNywgVmxhZGltaXIgU2VtZW50
-c292LU9naWV2c2tpeSB3cm90ZToNCj4+Pj4gTGltaXQgYmxvY2tfc3RhdHVzIHF1ZXJ5aW5nIHRv
-IHJlcXVlc3QgYm91bmRzIG9uIHdyaXRlIG5vdGlmaWVyIHRvDQo+Pj4+IGF2b2lkIGV4dHJhIHNl
-ZWtpbmcuDQo+Pj4NCj4+PiBJIGRvbuKAmXQgdW5kZXJzdGFuZCB0aGlzIHJlYXNvbmluZy4gIENo
-ZWNraW5nIHdoZXRoZXIgc29tZXRoaW5nIGlzDQo+Pj4gYWxsb2NhdGVkIGZvciBxY293MiBzaG91
-bGQganVzdCBtZWFuIGFuIEwyIGNhY2hlIGxvb2t1cC4gIFdoaWNoIHdlIGhhdmUNCj4+PiB0byBk
-byBhbnl3YXkgd2hlbiB3ZSB0cnkgdG8gY29weSBkYXRhIG9mZiB0aGUgc291cmNlLg0KPj4NCj4+
-IEJ1dCBmb3IgcmF3IGl0J3Mgc2Vla2luZy4NCj4gDQo+ICgxKSBUaGF04oCZcyBhIGJ1ZyBpbiBi
-bG9ja19zdGF0dXMgdGhlbiwgaXNu4oCZdCBpdD8NCj4gDQo+IGZpbGUtcG9zaXggY2Fubm90IGRl
-dGVybWluZSB0aGUgYWxsb2NhdGlvbiBzdGF0dXMsIG9yIHJhdGhlciwgZXZlcnl0aGluZw0KPiBp
-cyBhbGxvY2F0ZWQuICBiZHJ2X2NvX2Jsb2NrX3N0YXR1cygpIHNob3VsZCBwcm9iYWJseSBwYXNz
-IEB3YW50X3plcm8gb24NCj4gdG8gdGhlIGRyaXZlcuKAmXMgaW1wbGVtZW50YXRpb24sIGFuZCBm
-aWxlLXBvc2l4IHNob3VsZCBqdXN0DQo+IHVuY29uZGl0aW9uYWxseSByZXR1cm4gREFUQSBpZiBp
-dOKAmXMgZmFsc2UuDQo+IA0KPiAoMikgV2h5IHdvdWxkIHlvdSBldmVuIHVzZSBzeW5jPXRvcCBm
-b3IgcmF3IG5vZGVzPw0KPiANCg0KQXMgSSBkZXNjcmliZWQgaW4gcGFyYWxsZWwgbGV0dGVycywg
-cmF3IHdhcyBiYWQgZXhhbXBsZS4gTkJEIGlzIGdvb2QuDQpBbnl3YXksIG5vdyBJJ20gcmVmYWN0
-b3JpbmcgY2x1c3RlciBza2lwcGluZyBtb3JlIGRlZXBseSBmb3IgdjIuDQoNCkFib3V0IHRvcC1t
-b2RlOiBmaW5hbGx5IGJsb2NrLXN0YXR1cyBzaG91bGQgYmUgdXNlZCB0byBpbXByb3ZlIG90aGVy
-DQptb2RlcyB0b28uIEluIHZpcnR1b3p6byB3ZSBza2lwIHVuYWxsb2NhdGVkIGZvciBmdWxsIG1v
-ZGUgdG9vLCBmb3IgZXhhbXBsZS4NClVuZm9ydHVuYXRlbHksIGJhY2t1cCBpcyBtb3N0IGxvbmct
-dGVybSB0aGluZyB0byB1cHN0cmVhbSBmb3IgbWUuLg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZs
-YWRpbWlyDQo=
+From: Yongbok Kim <yongbok.kim@mips.com>
+
+The optional Data Scratch Pad RAM (DSPRAM) block provides a general scratch pad RAM
+used for temporary storage of data. The DSPRAM provides a connection to on-chip
+memory or memory-mapped registers, which are accessed in parallel with the L1 data
+cache to minimize access latency
+
+Signed-off-by: Yongbok Kim <yongbok.kim@mips.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+---
+ hw/mips/cps.c                    |  29 +++++++-
+ hw/misc/Makefile.objs            |   1 +
+ hw/misc/mips_dspram.c            | 153 +++++++++++++++++++++++++++++++++++++++
+ include/hw/mips/cps.h            |   2 +
+ include/hw/misc/mips_dspram.h    |  46 ++++++++++++
+ target/mips/cpu.h                |   9 ++-
+ target/mips/internal.h           |   3 +-
+ target/mips/op_helper.c          |  18 +++++
+ target/mips/translate.c          |   8 ++
+ target/mips/translate_init.inc.c |   2 +
+ 10 files changed, 266 insertions(+), 5 deletions(-)
+ create mode 100644 hw/misc/mips_dspram.c
+ create mode 100644 include/hw/misc/mips_dspram.h
+
+diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+index 0d459c4..c84bc64 100644
+--- a/hw/mips/cps.c
++++ b/hw/mips/cps.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+ #include "hw/mips/cps.h"
+@@ -91,7 +92,8 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+ 
+     cpu = MIPS_CPU(first_cpu);
+     env = &cpu->env;
+-    saar_present = (bool)env->saarp;
++    saar_present = env->saarp;
++    bool dspram_present = env->dspramp;
+ 
+     /* Inter-Thread Communication Unit */
+     if (itu_present) {
+@@ -102,7 +104,8 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+         object_property_set_bool(OBJECT(&s->itu), saar_present, "saar-present",
+                                  &err);
+         if (saar_present) {
+-            qdev_prop_set_ptr(DEVICE(&s->itu), "saar", (void *)&env->CP0_SAAR);
++            qdev_prop_set_ptr(DEVICE(&s->itu), "saar",
++                              (void *) &env->CP0_SAAR[0]);
+         }
+         object_property_set_bool(OBJECT(&s->itu), true, "realized", &err);
+         if (err != NULL) {
+@@ -113,6 +116,28 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+         memory_region_add_subregion(&s->container, 0,
+                            sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->itu), 0));
+     }
++    env->dspram = g_new0(MIPSDSPRAMState, 1);
++
++    /* Data Scratch Pad RAM */
++    if (dspram_present) {
++        if (!saar_present) {
++            error_report("%s: DSPRAM requires SAAR registers", __func__);
++            return;
++        }
++        object_initialize(&s->dspram, sizeof(MIPSDSPRAMState),
++                          TYPE_MIPS_DSPRAM);
++        qdev_set_parent_bus(DEVICE(&s->dspram), sysbus_get_default());
++        qdev_prop_set_ptr(DEVICE(&s->dspram), "saar",
++                          &env->CP0_SAAR[1]);
++        object_property_set_bool(OBJECT(&s->dspram), true, "realized", &err);
++        if (err != NULL) {
++            error_report("%s: DSPRAM initialisation failed", __func__);
++            error_propagate(errp, err);
++            return;
++        }
++        memory_region_add_subregion(&s->container, 0,
++                    sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dspram), 0));
++    }
+ 
+     /* Cluster Power Controller */
+     sysbus_init_child_obj(OBJECT(dev), "cpc", &s->cpc, sizeof(s->cpc),
+diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+index e9aab51..5fcb4db 100644
+--- a/hw/misc/Makefile.objs
++++ b/hw/misc/Makefile.objs
+@@ -60,6 +60,7 @@ obj-$(CONFIG_STM32F2XX_SYSCFG) += stm32f2xx_syscfg.o
+ obj-$(CONFIG_MIPS_CPS) += mips_cmgcr.o
+ obj-$(CONFIG_MIPS_CPS) += mips_cpc.o
+ obj-$(CONFIG_MIPS_ITU) += mips_itu.o
++obj-$(CONFIG_MIPS_DSPRAM) += mips_dspram.o
+ obj-$(CONFIG_MPS2_FPGAIO) += mps2-fpgaio.o
+ obj-$(CONFIG_MPS2_SCC) += mps2-scc.o
+ 
+diff --git a/hw/misc/mips_dspram.c b/hw/misc/mips_dspram.c
+new file mode 100644
+index 0000000..9bc155b
+--- /dev/null
++++ b/hw/misc/mips_dspram.c
+@@ -0,0 +1,153 @@
++/*
++ * Data Scratch Pad RAM
++ *
++ * Copyright (c) 2017 Imagination Technologies
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "cpu.h"
++#include "qemu/log.h"
++#include "exec/exec-all.h"
++#include "hw/hw.h"
++#include "hw/sysbus.h"
++#include "sysemu/sysemu.h"
++#include "hw/misc/mips_dspram.h"
++
++static void raise_exception(int excp)
++{
++    current_cpu->exception_index = excp;
++    cpu_loop_exit(current_cpu);
++}
++
++static uint64_t dspram_read(void *opaque, hwaddr addr, unsigned size)
++{
++    MIPSDSPRAMState *s = (MIPSDSPRAMState *)opaque;
++
++    switch (size) {
++    case 1:
++    case 2:
++        raise_exception(EXCP_AdEL);
++        return 0;
++    case 4:
++        return *(uint32_t *) &s->ramblock[addr % (1 << s->size)];
++    case 8:
++        return *(uint64_t *) &s->ramblock[addr % (1 << s->size)];
++    }
++    return 0;
++}
++
++static void dspram_write(void *opaque, hwaddr addr, uint64_t data,
++                         unsigned size)
++{
++    MIPSDSPRAMState *s = (MIPSDSPRAMState *)opaque;
++
++    switch (size) {
++    case 1:
++    case 2:
++        raise_exception(EXCP_AdES);
++        return;
++    case 4:
++        *(uint32_t *) &s->ramblock[addr % (1 << s->size)] = (uint32_t) data;
++        break;
++    case 8:
++        *(uint64_t *) &s->ramblock[addr % (1 << s->size)] = data;
++        break;
++    }
++}
++
++void dspram_reconfigure(struct MIPSDSPRAMState *dspram)
++{
++    MemoryRegion *mr = &dspram->mr;
++    hwaddr address;
++    bool is_enabled;
++
++    address = ((*(uint64_t *) dspram->saar) & 0xFFFFFFFE000ULL) << 4;
++    is_enabled = *(uint64_t *) dspram->saar & 1;
++
++    memory_region_transaction_begin();
++    memory_region_set_size(mr, (1 << dspram->size));
++    memory_region_set_address(mr, address);
++    memory_region_set_enabled(mr, is_enabled);
++    memory_region_transaction_commit();
++}
++
++static const MemoryRegionOps dspram_ops = {
++    .read = dspram_read,
++    .write = dspram_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid = {
++        .unaligned = false,
++    }
++};
++
++static void mips_dspram_init(Object *obj)
++{
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    MIPSDSPRAMState *s = MIPS_DSPRAM(obj);
++
++    memory_region_init_io(&s->mr, OBJECT(s), &dspram_ops, s,
++                          "mips-dspram", (1 << s->size));
++    sysbus_init_mmio(sbd, &s->mr);
++}
++
++static void mips_dspram_realize(DeviceState *dev, Error **errp)
++{
++    MIPSDSPRAMState *s = MIPS_DSPRAM(dev);
++
++    /* some error handling here */
++
++    s->ramblock = g_malloc0(1 << s->size);
++}
++
++static void mips_dspram_reset(DeviceState *dev)
++{
++    MIPSDSPRAMState *s = MIPS_DSPRAM(dev);
++
++    *(uint64_t *) s->saar = s->size << 1;
++    memset(s->ramblock, 0, (1 << s->size));
++}
++
++static Property mips_dspram_properties[] = {
++    DEFINE_PROP_PTR("saar", MIPSDSPRAMState, saar),
++    /* default DSPRAM size is 64 KB */
++    DEFINE_PROP_SIZE("size", MIPSDSPRAMState, size, 0x10),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void mips_dspram_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->props = mips_dspram_properties;
++    dc->realize = mips_dspram_realize;
++    dc->reset = mips_dspram_reset;
++}
++
++static const TypeInfo mips_dspram_info = {
++    .name          = TYPE_MIPS_DSPRAM,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(MIPSDSPRAMState),
++    .instance_init = mips_dspram_init,
++    .class_init    = mips_dspram_class_init,
++};
++
++static void mips_dspram_register_types(void)
++{
++    type_register_static(&mips_dspram_info);
++}
++
++type_init(mips_dspram_register_types);
+diff --git a/include/hw/mips/cps.h b/include/hw/mips/cps.h
+index aab1af9..a637036 100644
+--- a/include/hw/mips/cps.h
++++ b/include/hw/mips/cps.h
+@@ -25,6 +25,7 @@
+ #include "hw/intc/mips_gic.h"
+ #include "hw/misc/mips_cpc.h"
+ #include "hw/misc/mips_itu.h"
++#include "hw/misc/mips_dspram.h"
+ 
+ #define TYPE_MIPS_CPS "mips-cps"
+ #define MIPS_CPS(obj) OBJECT_CHECK(MIPSCPSState, (obj), TYPE_MIPS_CPS)
+@@ -41,6 +42,7 @@ typedef struct MIPSCPSState {
+     MIPSGICState gic;
+     MIPSCPCState cpc;
+     MIPSITUState itu;
++    MIPSDSPRAMState dspram;
+ } MIPSCPSState;
+ 
+ qemu_irq get_cps_irq(MIPSCPSState *cps, int pin_number);
+diff --git a/include/hw/misc/mips_dspram.h b/include/hw/misc/mips_dspram.h
+new file mode 100644
+index 0000000..ee99e17
+--- /dev/null
++++ b/include/hw/misc/mips_dspram.h
+@@ -0,0 +1,46 @@
++/*
++ * Data Scratch Pad RAM
++ *
++ * Copyright (c) 2017 Imagination Technologies
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef MIPS_DSPRAM_H
++#define MIPS_DSPRAM_H
++
++#include "hw/sysbus.h"
++
++#define TYPE_MIPS_DSPRAM "mips-dspram"
++#define MIPS_DSPRAM(obj) OBJECT_CHECK(MIPSDSPRAMState, (obj), TYPE_MIPS_DSPRAM)
++
++typedef struct MIPSDSPRAMState {
++    /*< private >*/
++    SysBusDevice parent_obj;
++    /*< public >*/
++
++    /* 2 ^ SIZE */
++    uint64_t size;
++
++    MemoryRegion mr;
++
++    /* SAAR */
++    bool saar_present;
++    void *saar;
++
++    /* ramblock */
++    uint8_t *ramblock;
++} MIPSDSPRAMState;
++
++#endif /* MIPS_DSPRAM_H */
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 21c0615..90a2ed8 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -453,6 +453,7 @@ struct TCState {
+ 
+ };
+ 
++struct MIPSDSPRAMState;
+ struct MIPSITUState;
+ typedef struct CPUMIPSState CPUMIPSState;
+ struct CPUMIPSState {
+@@ -1035,8 +1036,8 @@ struct CPUMIPSState {
+     uint32_t CP0_Status_rw_bitmask; /* Read/write bits in CP0_Status */
+     uint32_t CP0_TCStatus_rw_bitmask; /* Read/write bits in CP0_TCStatus */
+     uint64_t insn_flags; /* Supported instruction set */
+-    int saarp;
+-
++    bool saarp;
++    bool dspramp;
+     /* Fields up to this point are cleared by a CPU reset */
+     struct {} end_reset_fields;
+ 
+@@ -1051,6 +1052,7 @@ struct CPUMIPSState {
+     QEMUTimer *timer; /* Internal timer */
+     struct MIPSITUState *itu;
+     MemoryRegion *itc_tag; /* ITC Configuration Tags */
++    struct MIPSDSPRAMState *dspram;
+     target_ulong exception_base; /* ExceptionBase input to the core */
+ };
+ 
+@@ -1192,6 +1194,9 @@ void cpu_mips_soft_irq(CPUMIPSState *env, int irq, int level);
+ /* mips_itu.c */
+ void itc_reconfigure(struct MIPSITUState *tag);
+ 
++/* mips_dspram.c */
++void dspram_reconfigure(struct MIPSDSPRAMState *dspram);
++
+ /* helper.c */
+ target_ulong exception_resume_pc(CPUMIPSState *env);
+ 
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index b2b41a5..f6d0d7a 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -61,7 +61,8 @@ struct mips_def_t {
+     target_ulong CP0_EBaseWG_rw_bitmask;
+     uint64_t insn_flags;
+     enum mips_mmu_types mmu_type;
+-    int32_t SAARP;
++    bool SAARP;
++    bool DSPRAMP;
+ };
+ 
+ extern const struct mips_def_t mips_defs[];
+diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+index 9e2e02f..628da45 100644
+--- a/target/mips/op_helper.c
++++ b/target/mips/op_helper.c
+@@ -1614,7 +1614,16 @@ void helper_mtc0_saar(CPUMIPSState *env, target_ulong arg1)
+                 itc_reconfigure(env->itu);
+             }
+             break;
++#if defined(CONFIG_MIPS_DSPRAM)
++        case 1:
++            if (env->dspram) {
++                dspram_reconfigure(env->dspram);
++            }
++            break;
++#endif
+         }
++    } else {
++        helper_raise_exception(env, EXCP_RI);
+     }
+ }
+ 
+@@ -1631,7 +1640,16 @@ void helper_mthc0_saar(CPUMIPSState *env, target_ulong arg1)
+                 itc_reconfigure(env->itu);
+             }
+             break;
++#if defined(CONFIG_MIPS_DSPRAM)
++        case 1:
++            if (env->dspram) {
++                dspram_reconfigure(env->dspram);
++            }
++            break;
++#endif
+         }
++    } else {
++        helper_raise_exception(env, EXCP_RI);
+     }
+ }
+ 
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index ca62800..4ebeabe 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -30368,6 +30368,8 @@ void cpu_state_reset(CPUMIPSState *env)
+     env->active_fpu.fcr31 = env->cpu_model->CP1_fcr31;
+     env->msair = env->cpu_model->MSAIR;
+     env->insn_flags = env->cpu_model->insn_flags;
++    env->saarp = env->cpu_model->SAARP;
++    env->dspramp = env->cpu_model->DSPRAMP;
+ 
+ #if defined(CONFIG_USER_ONLY)
+     env->CP0_Status = (MIPS_HFLAG_UM << CP0St_KSU);
+@@ -30528,6 +30530,12 @@ void cpu_state_reset(CPUMIPSState *env)
+         msa_reset(env);
+     }
+ 
++    /* DSPRAM */
++    if (env->dspramp) {
++        /* Fixed DSPRAM size with Default Value */
++        env->CP0_SAAR[1] = 0x10 << 1;
++    }
++
+     compute_hflags(env);
+     restore_fp_status(env);
+     restore_pamask(env);
+diff --git a/target/mips/translate_init.inc.c b/target/mips/translate_init.inc.c
+index 6d145a9..1df0901 100644
+--- a/target/mips/translate_init.inc.c
++++ b/target/mips/translate_init.inc.c
+@@ -760,6 +760,8 @@ const mips_def_t mips_defs[] =
+         .PABITS = 48,
+         .insn_flags = CPU_MIPS64R6 | ASE_MSA,
+         .mmu_type = MMU_TYPE_R4000,
++        .SAARP = 1,
++        .DSPRAMP = 1,
+     },
+     {
+         .name = "Loongson-2E",
+-- 
+2.7.4
+
 
