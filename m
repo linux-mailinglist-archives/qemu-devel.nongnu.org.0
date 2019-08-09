@@ -2,67 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0397A87F21
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:13:09 +0200 (CEST)
-Received: from localhost ([::1]:60756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01BCA87F3E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:15:31 +0200 (CEST)
+Received: from localhost ([::1]:60794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw7Vs-0008C0-8P
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:13:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56359)
+	id 1hw7YA-0002Y0-4k
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:15:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56642)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hw7VK-0007m4-Pg
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:12:35 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hw7X0-0000ID-G0
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hw7VJ-0003FB-FK
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:12:34 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35891)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hw7VJ-0003Ep-8y
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:12:33 -0400
-Received: by mail-wm1-f66.google.com with SMTP id g67so6110603wme.1
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 09:12:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=esLdl4eFpkrf0X3EA9zdlUD/pVBRsE2RAYYeRr2puh0=;
- b=CVvi2A0RMtKvNS11+/ap6vIcS8VNR6RSBu960DVNibGKKm7E0Ao46VB9k0YTxE+UVz
- VqGSFakPSzrEzCZSycYnS2oGz5mNLk2c8ag0mq61u6qzHdas7Y+iNDl1ezk7DDaVpvuo
- 2xA5iZr8FJE2AgjRnk7Q8zsB0zi0b5y5NM9Jw7H89jNcWuE1/0kdXgITpAV44ZTczKgE
- kcpRer7tNGCUcqZZ3DNOpCbSlrE/rJP1I6kd/3hswnxynp52C6Ce/mOaqrkwfG7CwvMm
- TeunVbE5GgLMxqouecA+eLdUvVu6W3o6q6WUuGOLuu/7jaMg2kWbr0EblqpUGoPZfKsJ
- xo4w==
-X-Gm-Message-State: APjAAAX70lSa24l4RD9m+4EfKuifJLTLpcT4zTXnO9z3QsIuJee9441S
- MVyqFHsNAky+ebSMuLM1RYK6SQ==
-X-Google-Smtp-Source: APXvYqwN+Yia6RcSEGHnn9RVoM6IoLOigmhaednD+MLomJutlyqz3+T4bAdhSgayfZPnz3ivNQzF4w==
-X-Received: by 2002:a1c:721a:: with SMTP id n26mr3214649wmc.88.1565367152161; 
- Fri, 09 Aug 2019 09:12:32 -0700 (PDT)
-Received: from [192.168.1.39] (214.red-83-51-160.dynamicip.rima-tde.net.
- [83.51.160.214])
- by smtp.gmail.com with ESMTPSA id c1sm7133020wmc.40.2019.08.09.09.12.31
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 09 Aug 2019 09:12:31 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190809064645.22656-1-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <c3c62a6a-2471-fbd5-0deb-21968799dd42@redhat.com>
-Date: Fri, 9 Aug 2019 18:12:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <mreitz@redhat.com>) id 1hw7Wx-0003qQ-Q1
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53362)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hw7Ws-0003nL-ND; Fri, 09 Aug 2019 12:14:10 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 92FB23082B1F;
+ Fri,  9 Aug 2019 16:14:09 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F0B86600CC;
+ Fri,  9 Aug 2019 16:14:08 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Fri,  9 Aug 2019 18:13:25 +0200
+Message-Id: <20190809161407.11920-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190809064645.22656-1-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Fri, 09 Aug 2019 16:14:09 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH v3 00/29] Tame a few "touch this,
- recompile the world" headers
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v6 00/42] block: Deal with filters
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,148 +53,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus,
+Hi,
 
-On 8/9/19 8:46 AM, Markus Armbruster wrote:
-> We have quite a few "touch this, recompile the world" headers.  My
-> "build everything" tree has some 6600 objects (not counting tests and
-> objects that don't depend on qemu/osdep.h).  Touching any of 54
-> headers triggers a recompile of more than half of them.
-> 
-> This series reduces them to 46.
-> 
-> Six of the 54 are included always by design, via qemu/osdep.h.  These
-> are
-> 
->     bld/config-host.h
->     include/glib-compat.h
->     include/qemu/compiler.h
->     include/qemu/osdep.h
->     include/qemu/typedefs.h
->     include/sysemu/os-posix.h
-> 
-> Additionally, osdep.h includes either include/exec/poison.h or
-> bld/TARGET_DIR/config-target.h.
-> 
-> The seven headers this series improves to my satisfaction (for now)
-> are
-> 
->     bld/qapi/qapi-types-common.h
->     include/block/aio.h
->     include/hw/irq.h
->     include/qemu/event_notifier.h
->     include/qemu/main-loop.h
->     include/qemu/uuid.h
->     include/sysemu/sysemu.h
-> 
-> Of these, block/aio.h, qemu/main-loop.h and sysemu/sysemu.h are
-> particular significant, as they in turn include numerous other
-> headers.
-> 
-> The series makes real progress on a few more, but they're still bad:
-> 
->     bld/qapi/qapi-types-run-state.h
->     include/qemu/timer.h
->     include/qom/cpu.h
->     include/disas/dis-asm.h
->     include/qemu/notify.h
->     include/qemu/atomic.h
-> 
-> Minor improvements:
-> 
->     bld/qapi/qapi-builtin-types.h
->     bld/qapi/qapi-types-sockets.h
->     include/exec/cpu-common.h
->     include/exec/hwaddr.h
->     include/exec/memattrs.h
->     include/exec/memory.h
->     include/exec/memory_ldst.inc.h
->     include/exec/memory_ldst_cached.inc.h
->     include/exec/memory_ldst_phys.inc.h
->     include/exec/ramlist.h
->     include/fpu/softfloat-types.h
->     include/hw/hotplug.h
->     include/hw/qdev-core.h
->     include/qapi/util.h
->     include/qemu/bitmap.h
->     include/qemu/bitops.h
->     include/qemu/bswap.h
->     include/qemu/coroutine.h
->     include/qemu/host-utils.h
->     include/qemu/int128.h
->     include/qemu/lockable.h
->     include/qemu/module.h
->     include/qemu/processor.h
->     include/qemu/qsp.h
->     include/qemu/queue.h
->     include/qemu/rcu.h
->     include/qemu/rcu_queue.h
->     include/qemu/sys_membarrier.h
->     include/qemu/thread-posix.h
->     include/qemu/thread.h
->     include/qom/object.h
-> 
-> Untouched:
-> 
->     include/exec/cpu-all.h
->     include/exec/cpu-defs.h
->     tcg/i386/tcg-target.h
->     tcg/tcg-mo.h
-> 
-> Further improvement is certainly possible.  exec/cpu-all.h,
-> exec/cpu-defs.h, exec/memory.h, hw/qdev-core.h, qemu/coroutine.h,
-> qemu/lockable.h, and qom/cpu.h each pull in more than ten other
-> headers, which makes them particularly wortwhile targets.
-> 
-> Observed patterns of #include misuse:
-> 
-> * Copy pasta
-> 
->   I found and deleted quite a few #include that were almost certainly
->   never needed.  The most likely explanation is lazy copying from a
->   "similar" file.  My deletions produced only minor improvements,
->   though.
-> 
-> * "Convenience" headers
-> 
->   We sometimes have a header include a bunch of other headers the
->   header itself doesn't need, so the header's users don't have to.  An
->   extreme case is hw/hw.h: it pulls in more than 40 other headers,
->   then declares just hw_error().  Most of its users need only a
->   fraction of it.  PATCH 08-09,12-18 fix that, trading the very
->   occasional convenience of not having to type a few #include
->   directives for build speed.
-> 
-> * "Fat" headers
-> 
->   Some headers provide many things to many customers.  Bad when the
->   customers generally need only parts.  Worse when such a "fat" header
->   pulls in loads more.  This series grapples with three instances:
->   qapi/qapi-types-common.h (PATCH 03), hw/boards.h, which pulls in
->   almost 70 headers (PATCH 19-23), and sysemu/sysemu.h, which pulls in
->   more than 20 (PATCH 23-28).
-> 
-> * Design erosion
-> 
->   Off-the-cuff additions to headers can erode design.  For instance,
->   the generated trace.h were carefully designed for minimal
->   dependencies.  We let them balloon when we added the per-vCPU
->   tracing feature a few years later.  PATCH 07 grapples with that.
+When we introduced filters, we did it a bit casually.  Sure, we talked a
+lot about them before, but that was mostly discussion about where
+implicit filters should be added to the graph (note that we currently
+only have two implicit filters, those being mirror and commit).  But in
+the end, we really just designated some drivers filters (Quorum,
+blkdebug, etc.) and added some specifically (throttle, COR), without
+really looking through the block layer to see where issues might occur.
 
-What can prevent us from these misuse patterns?
+It turns out vast areas of the block layer just don=E2=80=99t know about =
+filters
+and cannot really handle them.  Many cases will work in practice, in
+others, well, too bad, you cannot use some feature because some part
+deep inside the block layer looks at your filters and thinks they are
+format nodes.
 
-Will you redo this analysis/series after each releases?
+This is one reason why this series is needed.  Over time (since v1), a
+second reason has made its way in:
 
-How to automate misuse checks?
+bs->file is not necessarily the place where a node=E2=80=99s data is stor=
+ed.
+qcow2 now has external data files, and currently there is no way for the
+general block layer to know that the data is not stored in bs->file.
+Right now, I do not think that has any real consequences (all functions
+that need access to the actual data storage file should only do so as a
+fallback if the driver does not provide some functionality, but qcow2
+should provide it all), but it still shows that we need some way to let
+the general block layer know about such data files.  (Also, I will need
+this for v1 of my =E2=80=9CInquire images=E2=80=99 rotational info=E2=80=9D=
+ series.)
 
-Can we report some metrics and warn if there a considerable discrepancy?
+I won=E2=80=99t go on and on about this series now, I think the patches p=
+retty
+much speak for themselves now.  If the cover letter gets too long,
+nobody reads it anyway (see previous versions).
+
+
+*** I=E2=80=99ve based this series on John=E2=80=99s bitmap branch, which=
+ I=E2=80=99ve rebased
+    on my block-next branch. ***
+
+I=E2=80=99ve pushed the patches here:
+
+  https://git.xanclic.moe/XanClic/qemu child-access-functions-v6
+  https://github.com/XanClic/qemu child-access-functions-v6
+
+I=E2=80=99ve also pushed the base branch to each of those repos, it=E2=80=
+=99s
+=E2=80=9Cchild-access-functions-base=E2=80=9D.
+
+
+v6:
+- Patch 9: Rename *freeze_backing_chain (etc.) to *freeze_chain (etc.)
+- Patch 10: Drop bdrv_is_encrypted() instead of fixing it the wrong way
+- Patch 15: Add a comment on why this works
+- Patch 16: Just flush all children instead of one
+- Patch 20: We have to snapshot all non-backing children, so both
+            metadata and storage children; for simplification, just
+            disallow the fallback path if there is more than one such
+            child
+- Patch 22: bdrv_get_allocated_file_size() should report all children=E2=80=
+=99s
+            sizes, not just the primary or storage child=E2=80=99s
+- Patch 24: Make query-blockstats too report any filtered child under
+            =E2=80=9Cbacking=E2=80=9D
+- Patch 25:
+  - bdrv_is_allocated_above()=E2=80=99s new @include_base parameter makes=
+ things
+    a bit simpler
+  - Forbid mirroring to a filter on top of the base
+- Patch 27: bdrv_is_allocated_above()=E2=80=99s new @include_base paramet=
+er
+            makes things a bit simpler
+- Patch 28: Requires a few changes to keep stream independent of the
+            base node
+- Patch 30:
+  - Sprinkle in a few bdrv_skip_implicit_filters()s
+  - Conflicts with the convert --salvage patches
+
+
+git backport-diff against v5:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+
+001/42:[----] [-C] 'block: Mark commit and mirror as filter drivers'
+002/42:[----] [--] 'copy-on-read: Support compressed writes'
+003/42:[----] [--] 'throttle: Support compressed writes'
+004/42:[----] [--] 'block: Add child access functions'
+005/42:[----] [--] 'block: Add chain helper functions'
+006/42:[----] [--] 'qcow2: Implement .bdrv_storage_child()'
+007/42:[----] [--] 'block: *filtered_cow_child() for *has_zero_init()'
+008/42:[----] [--] 'block: bdrv_set_backing_hd() is about bs->backing'
+009/42:[0078] [FC] 'block: Include filters when freezing backing chain'
+010/42:[down] 'block: Drop bdrv_is_encrypted()'
+011/42:[----] [-C] 'block: Add bdrv_supports_compressed_writes()'
+012/42:[----] [--] 'block: Use bdrv_filtered_rw* where obvious'
+013/42:[----] [-C] 'block: Use CAFs in block status functions'
+014/42:[----] [--] 'block: Use CAFs when working with backing chains'
+015/42:[0017] [FC] 'block: Re-evaluate backing file handling in reopen'
+016/42:[down] 'block: Flush all children in generic code'
+017/42:[----] [--] 'block: Use CAFs in bdrv_refresh_limits()'
+018/42:[----] [--] 'block: Use CAFs in bdrv_refresh_filename()'
+019/42:[----] [--] 'block: Use CAF in bdrv_co_rw_vmstate()'
+020/42:[down] 'block/snapshot: Fix fallback'
+021/42:[----] [--] 'block: Use CAFs for debug breakpoints'
+022/42:[down] 'block: Fix bdrv_get_allocated_file_size's fallback'
+023/42:[----] [--] 'blockdev: Use CAF in external_snapshot_prepare()'
+024/42:[0012] [FC] 'block: Use child access functions for QAPI queries'
+025/42:[0019] [FC] 'mirror: Deal with filters'
+026/42:[----] [--] 'backup: Deal with filters'
+027/42:[0025] [FC] 'commit: Deal with filters'
+028/42:[0048] [FC] 'stream: Deal with filters'
+029/42:[----] [--] 'nbd: Use CAF when looking for dirty bitmap'
+030/42:[0035] [FC] 'qemu-img: Use child access functions'
+031/42:[----] [--] 'block: Drop backing_bs()'
+032/42:[----] [-C] 'block: Make bdrv_get_cumulative_perm() public'
+033/42:[----] [--] 'blockdev: Fix active commit choice'
+034/42:[----] [-C] 'block: Inline bdrv_co_block_status_from_*()'
+035/42:[----] [--] 'block: Fix check_to_replace_node()'
+036/42:[----] [--] 'iotests: Add tests for mirror @replaces loops'
+037/42:[----] [-C] 'block: Leave BDS.backing_file constant'
+038/42:[----] [--] 'iotests: Let complete_and_wait() work with commit'
+039/42:[----] [--] 'iotests: Add filter commit test cases'
+040/42:[----] [--] 'iotests: Add filter mirror test cases'
+041/42:[----] [--] 'iotests: Add test for commit in sub directory'
+042/42:[----] [--] 'iotests: Test committing to overridden backing'
+
+
+Max Reitz (42):
+  block: Mark commit and mirror as filter drivers
+  copy-on-read: Support compressed writes
+  throttle: Support compressed writes
+  block: Add child access functions
+  block: Add chain helper functions
+  qcow2: Implement .bdrv_storage_child()
+  block: *filtered_cow_child() for *has_zero_init()
+  block: bdrv_set_backing_hd() is about bs->backing
+  block: Include filters when freezing backing chain
+  block: Drop bdrv_is_encrypted()
+  block: Add bdrv_supports_compressed_writes()
+  block: Use bdrv_filtered_rw* where obvious
+  block: Use CAFs in block status functions
+  block: Use CAFs when working with backing chains
+  block: Re-evaluate backing file handling in reopen
+  block: Flush all children in generic code
+  block: Use CAFs in bdrv_refresh_limits()
+  block: Use CAFs in bdrv_refresh_filename()
+  block: Use CAF in bdrv_co_rw_vmstate()
+  block/snapshot: Fix fallback
+  block: Use CAFs for debug breakpoints
+  block: Fix bdrv_get_allocated_file_size's fallback
+  blockdev: Use CAF in external_snapshot_prepare()
+  block: Use child access functions for QAPI queries
+  mirror: Deal with filters
+  backup: Deal with filters
+  commit: Deal with filters
+  stream: Deal with filters
+  nbd: Use CAF when looking for dirty bitmap
+  qemu-img: Use child access functions
+  block: Drop backing_bs()
+  block: Make bdrv_get_cumulative_perm() public
+  blockdev: Fix active commit choice
+  block: Inline bdrv_co_block_status_from_*()
+  block: Fix check_to_replace_node()
+  iotests: Add tests for mirror @replaces loops
+  block: Leave BDS.backing_file constant
+  iotests: Let complete_and_wait() work with commit
+  iotests: Add filter commit test cases
+  iotests: Add filter mirror test cases
+  iotests: Add test for commit in sub directory
+  iotests: Test committing to overridden backing
+
+ qapi/block-core.json          |   4 +
+ include/block/block.h         |  13 +-
+ include/block/block_int.h     | 109 ++++---
+ block.c                       | 552 ++++++++++++++++++++++++++++------
+ block/backup.c                |   9 +-
+ block/blkdebug.c              |   7 +-
+ block/blklogwrites.c          |   1 -
+ block/block-backend.c         |  16 +-
+ block/commit.c                | 107 +++++--
+ block/copy-on-read.c          |  13 +-
+ block/io.c                    | 117 ++++---
+ block/mirror.c                | 124 ++++++--
+ block/qapi.c                  |  48 +--
+ block/qcow2.c                 |   9 +
+ block/snapshot.c              | 100 ++++--
+ block/stream.c                |  52 ++--
+ block/throttle.c              |  11 +-
+ blockdev.c                    | 139 +++++++--
+ nbd/server.c                  |   6 +-
+ qemu-img.c                    |  33 +-
+ tests/qemu-iotests/020        |  36 +++
+ tests/qemu-iotests/020.out    |  10 +
+ tests/qemu-iotests/040        | 238 +++++++++++++++
+ tests/qemu-iotests/040.out    |   4 +-
+ tests/qemu-iotests/041        | 270 ++++++++++++++++-
+ tests/qemu-iotests/041.out    |   4 +-
+ tests/qemu-iotests/184.out    |   7 +-
+ tests/qemu-iotests/191.out    |   1 -
+ tests/qemu-iotests/204.out    |   1 +
+ tests/qemu-iotests/228        |   6 +-
+ tests/qemu-iotests/228.out    |   6 +-
+ tests/qemu-iotests/245        |   4 +-
+ tests/qemu-iotests/iotests.py |  10 +-
+ 33 files changed, 1682 insertions(+), 385 deletions(-)
+
+--=20
+2.21.0
+
 
