@@ -2,69 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87783879FC
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:31:30 +0200 (CEST)
-Received: from localhost ([::1]:58960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6020E87A77
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:49:50 +0200 (CEST)
+Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw43N-0002n9-Pi
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:31:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50602)
+	id 1hw4L7-0003KW-Go
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52796)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hw41t-0001wI-8Q
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:29:58 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4Jn-0001io-2t
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hw41r-0001Zc-Lp
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:29:57 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:45555)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hw41r-0001ZE-GK
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:29:55 -0400
-Received: by mail-wr1-f68.google.com with SMTP id q12so7824356wrj.12
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 05:29:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=q5UDIRiTFxDc9YkqxxODV1AsczyvH0Jm+9jsJd0woEw=;
- b=t1vJFT0gNY5RlSUqN5JdOLAnevcRJgUIdqrqQqH60QDr+W0li1FbyhmRkDnjwEzZX8
- PK+iQvD6UISLRHMok7VvirrATUrpp9FPjUi2y1zS7Gq/51aBXjuWJv3Tp88BwMrnp39G
- PZ9pM3vBu799THr2i3EjX81Huq6z9TQq1tqcCY9UqfETNyM3BBjzgjr+E0zLKvFtettp
- QyRBJZxwmJho2xTJT68Og1dHUIduH9ur9XT11cJkVm+wGYIb2Xspvr5qoMrKzFoQKjDe
- aTUBfgwxnWGAgTlksT0RWBncXRsAXO3uvIfYa94gZcq4rwjRyKbSLpzNAtjOLqJhCXmZ
- QtlA==
-X-Gm-Message-State: APjAAAVXbdEh094Kc68V0w5Riv82NUHGpzljI7r04g4DVmADcMeOqdGc
- TzB4q/jc0fQdJEZIwUa+iBUkzsEvVbc=
-X-Google-Smtp-Source: APXvYqwKBXbo6WkrDCaUn5Kl8+CzUrIQ4GoFRrn299zTfHMKeAmcluyejJ2185U5DEl6WthKERPGxQ==
-X-Received: by 2002:adf:ea89:: with SMTP id s9mr4637395wrm.76.1565353794248;
- Fri, 09 Aug 2019 05:29:54 -0700 (PDT)
-Received: from [192.168.1.39] (214.red-83-51-160.dynamicip.rima-tde.net.
- [83.51.160.214])
- by smtp.gmail.com with ESMTPSA id r16sm7016490wrc.81.2019.08.09.05.29.53
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 09 Aug 2019 05:29:53 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20190809064645.22656-1-armbru@redhat.com>
- <20190809064645.22656-21-armbru@redhat.com>
- <c76aaebc-d4bf-cb25-fe27-7a9c9ba644c9@redhat.com>
- <87k1bmpn7y.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <47ecba06-e9ad-e1aa-063e-be25a610400f@redhat.com>
-Date: Fri, 9 Aug 2019 14:29:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <87k1bmpn7y.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v3 20/29] Include qemu/main-loop.h less
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4Jl-00017l-Sr
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:27 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:39155 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hw4Jl-0000gg-JC
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:25 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 332281A1E5E;
+ Fri,  9 Aug 2019 14:47:19 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 9E37B1A1E43;
+ Fri,  9 Aug 2019 14:47:18 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  9 Aug 2019 14:46:33 +0200
+Message-Id: <1565354819-1495-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH for 4.2 v7 00/26] target/mips: Misc patches for
+ 4.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,67 +49,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: arikalo@wavecomp.com, philmd@redhat.com, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/9/19 1:55 PM, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
->> On 8/9/19 8:46 AM, Markus Armbruster wrote:
->>> In my "build everything" tree, changing qemu/main-loop.h triggers a
->>> recompile of some 5600 out of 6600 objects (not counting tests and
->>> objects that don't depend on qemu/osdep.h).  It includes block/aio.h,
->>> which in turn includes qemu/event_notifier.h, qemu/notify.h,
->>> qemu/processor.h, qemu/qsp.h, qemu/queue.h, qemu/thread-posix.h,
->>> qemu/thread.h, qemu/timer.h, and a few more.
->>>
->>> Include qemu/main-loop.h only where it's needed.  Touching it now
->>> recompiles only some 1700 objects.  For block/aio.h and
->>> qemu/event_notifier.h, these numbers drop from 5600 to 2800.  For the
->>> others, they shrink only slightly.
->>>
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> ---
->> [...]
->>> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
->>> index 77f5df59b0..ac18a1184a 100644
->>> --- a/include/sysemu/sysemu.h
->>> +++ b/include/sysemu/sysemu.h
->>> @@ -5,7 +5,6 @@
->>>  #include "qapi/qapi-types-run-state.h"
->>>  #include "qemu/timer.h"
->>>  #include "qemu/notify.h"
->>> -#include "qemu/main-loop.h"
->>>  #include "qemu/bitmap.h"
->>>  #include "qemu/uuid.h"
->>>  #include "qom/object.h"
->>
->> netmap failing again :S
->>
->> $ make docker-image-debian-amd64 V=1 DEBUG=1
->> [...]
->>   CC      net/netmap.o
->> net/netmap.c: In function 'netmap_update_fd_handler':
->> net/netmap.c:109:5: error: implicit declaration of function
->> 'qemu_set_fd_handler' [-Werror=implicit-function-declaration]
->>      qemu_set_fd_handler(s->nmd->fd,
->>      ^~~~~~~~~~~~~~~~~~~
->> net/netmap.c:109:5: error: nested extern declaration of
->> 'qemu_set_fd_handler' [-Werror=nested-externs]
-> 
-> I managed to lose the fix somehow.
-> 
-> I admit I ran "make docker-test-build", realized docker needs root, and
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Another cheap way is to register to Shippable and enable it to a public
-repository from https://www.shippable.com/integrations.html, then you
-simply pushing your work to your repository will trigger a good set of
-Docker cross-builds.
+This series includes misc MIPS patches intended to be integrated after
+4.1 release.
 
-See https://app.shippable.com/github/qemu/qemu/dashboard/history
-Less than 2h to build the various targets.
+v6->v7:
 
-> went "sod it, cross fingers & send out the patches".  My need to get out
-> the changes accumulated since v2 won over the prudence to run all
-> available tests first.  Not my finest hour.
+  - added four more patches on CP0 cleanup
+  - other minor improvements
+
+v5->v6:
+
+  - added five more patches on style improvements
+  - added five patches on CP0 cleanup
+  - other minor improvements
+
+v4->v5:
+
+  - fixed more build errors
+  - added five patches on style improvements
+  - added a patch on updating vmstate
+  - other minor improvements
+
+v3->v4:
+
+  - fixed build error
+
+v2->v3:
+
+  - corrected the patch on WatchHi to include "mi" field
+  - corrected the patch on WatchHi to bump VMStateDescription version
+
+v1->v2:
+
+  - fixed checkpatch warnings
+  - added four new patches on various topics
+
+Aleksandar Markovic (21):
+  target/mips: Style improvements in cp0_timer.c
+  target/mips: Style improvements in cpu.c
+  target/mips: Style improvements in helper.c
+  target/mips: Style improvements in internal.h
+  target/mips: Style improvements in machine.c
+  target/mips: Style improvements in cps.c
+  target/mips: Style improvements in mips_fulong2e.c
+  target/mips: Style improvements in mips_int.c
+  target/mips: Style improvements in mips_malta.c
+  target/mips: Style improvements in mips_mipssim.c
+  target/mips: Clean up handling of CP0 register 0
+  target/mips: Clean up handling of CP0 register 1
+  target/mips: Clean up handling of CP0 register 2
+  target/mips: Clean up handling of CP0 register 5
+  target/mips: Clean up handling of CP0 register 20
+  target/mips: Clean up handling of CP0 register 24
+  target/mips: Clean up handling of CP0 register 26
+  target/mips: Clean up handling of CP0 register 30
+  target/mips: Clean up handling of CP0 register 31
+  target/mips: tests/tcg: Add optional printing of more detailed failure
+    info
+  target/mips: tests/tcg: Fix target configurations for MSA tests
+
+Yongbok Kim (5):
+  target/mips: Add support for DSPRAM
+  target/mips: Amend CP0 WatchHi register implementation
+  target/mips: Amend CP0 MemoryMapID register implementation
+  target/mips: Add support for emulation of GINVT instruction
+  target/mips: Add support for emulation of CRC32 group of instructions
+
+ disas/mips.c                                       |  10 +
+ hw/mips/cps.c                                      |  35 +-
+ hw/mips/mips_fulong2e.c                            |  96 ++-
+ hw/mips/mips_int.c                                 |   3 +-
+ hw/mips/mips_malta.c                               | 216 +++--
+ hw/mips/mips_mipssim.c                             |  19 +-
+ hw/misc/Makefile.objs                              |   1 +
+ hw/misc/mips_dspram.c                              | 153 ++++
+ include/hw/mips/cps.h                              |   2 +
+ include/hw/misc/mips_dspram.h                      |  46 ++
+ target/mips/cp0_timer.c                            |  42 +-
+ target/mips/cpu.c                                  |  17 +-
+ target/mips/cpu.h                                  |  41 +-
+ target/mips/helper.c                               | 122 ++-
+ target/mips/helper.h                               |   7 +
+ target/mips/internal.h                             |  61 +-
+ target/mips/machine.c                              |  17 +-
+ target/mips/op_helper.c                            | 185 ++++-
+ target/mips/translate.c                            | 459 +++++++----
+ target/mips/translate_init.inc.c                   |   2 +
+ tests/tcg/mips/include/test_utils_128.h            |  23 +-
+ .../mips/user/ase/msa/test_msa_compile_32r5eb.sh   | 917 +++++++++++++++++++++
+ .../mips/user/ase/msa/test_msa_compile_32r5el.sh   | 917 +++++++++++++++++++++
+ .../mips/user/ase/msa/test_msa_compile_32r6eb.sh   | 643 ---------------
+ .../mips/user/ase/msa/test_msa_compile_32r6el.sh   | 643 ---------------
+ tests/tcg/mips/user/ase/msa/test_msa_run_32r5eb.sh | 371 +++++++++
+ tests/tcg/mips/user/ase/msa/test_msa_run_32r5el.sh | 371 +++++++++
+ tests/tcg/mips/user/ase/msa/test_msa_run_32r6eb.sh | 371 ---------
+ tests/tcg/mips/user/ase/msa/test_msa_run_32r6el.sh | 371 ---------
+ 29 files changed, 3710 insertions(+), 2451 deletions(-)
+ create mode 100644 hw/misc/mips_dspram.c
+ create mode 100644 include/hw/misc/mips_dspram.h
+ create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_compile_32r5eb.sh
+ create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_compile_32r5el.sh
+ delete mode 100755 tests/tcg/mips/user/ase/msa/test_msa_compile_32r6eb.sh
+ delete mode 100755 tests/tcg/mips/user/ase/msa/test_msa_compile_32r6el.sh
+ create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_run_32r5eb.sh
+ create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_run_32r5el.sh
+ delete mode 100644 tests/tcg/mips/user/ase/msa/test_msa_run_32r6eb.sh
+ delete mode 100755 tests/tcg/mips/user/ase/msa/test_msa_run_32r6el.sh
+
+-- 
+2.7.4
+
 
