@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B0E87FE9
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:27:27 +0200 (CEST)
-Received: from localhost ([::1]:32802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C607B87FE4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:26:35 +0200 (CEST)
+Received: from localhost ([::1]:32778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw7ji-0004Tw-LX
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57705)
+	id 1hw7is-0001Ye-W1
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:26:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57807)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hw7YN-0003zm-UG
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:45 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hw7YV-0004G2-9E
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hw7YM-0004ho-0o
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54140)
+ (envelope-from <mreitz@redhat.com>) id 1hw7YT-0004ll-QU
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50266)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hw7YC-0004e3-2j; Fri, 09 Aug 2019 12:15:32 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1hw7YQ-0004j8-8s; Fri, 09 Aug 2019 12:15:46 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6694C99BAC;
- Fri,  9 Aug 2019 16:15:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8AE44308FFB1;
+ Fri,  9 Aug 2019 16:15:45 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C64D65D6A9;
- Fri,  9 Aug 2019 16:15:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA94610013A1;
+ Fri,  9 Aug 2019 16:15:44 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri,  9 Aug 2019 18:13:59 +0200
-Message-Id: <20190809161407.11920-35-mreitz@redhat.com>
+Date: Fri,  9 Aug 2019 18:14:04 +0200
+Message-Id: <20190809161407.11920-40-mreitz@redhat.com>
 In-Reply-To: <20190809161407.11920-1-mreitz@redhat.com>
 References: <20190809161407.11920-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 09 Aug 2019 16:15:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Fri, 09 Aug 2019 16:15:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 34/42] block: Inline
- bdrv_co_block_status_from_*()
+Subject: [Qemu-devel] [PATCH v6 39/42] iotests: Add filter commit test cases
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,238 +60,222 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With bdrv_filtered_rw_bs(), we can easily handle this default filter
-behavior in bdrv_co_block_status().
+This patch adds some tests on how commit copes with filter nodes.
 
-blkdebug wants to have an additional assertion, so it keeps its own
-implementation, except bdrv_co_block_status_from_file() needs to be
-inlined there.
-
-Suggested-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block_int.h | 22 -----------------
- block/blkdebug.c          |  7 ++++--
- block/blklogwrites.c      |  1 -
- block/commit.c            |  1 -
- block/copy-on-read.c      |  2 --
- block/io.c                | 51 +++++++++++++--------------------------
- block/mirror.c            |  1 -
- block/throttle.c          |  1 -
- 8 files changed, 22 insertions(+), 64 deletions(-)
+ tests/qemu-iotests/040     | 177 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/040.out |   4 +-
+ 2 files changed, 179 insertions(+), 2 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index c17df3808a..42ee2fcf7f 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1227,28 +1227,6 @@ void bdrv_format_default_perms(BlockDriverState *b=
-s, BdrvChild *c,
-                                uint64_t perm, uint64_t shared,
-                                uint64_t *nperm, uint64_t *nshared);
+diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
+index 6db9abf8e6..a0a0db8889 100755
+--- a/tests/qemu-iotests/040
++++ b/tests/qemu-iotests/040
+@@ -428,5 +428,182 @@ class TestReopenOverlay(ImageCommitTestCase):
+     def test_reopen_overlay(self):
+         self.run_commit_test(self.img1, self.img0)
 =20
--/*
-- * Default implementation for drivers to pass bdrv_co_block_status() to
-- * their file.
-- */
--int coroutine_fn bdrv_co_block_status_from_file(BlockDriverState *bs,
--                                                bool want_zero,
--                                                int64_t offset,
--                                                int64_t bytes,
--                                                int64_t *pnum,
--                                                int64_t *map,
--                                                BlockDriverState **file)=
-;
--/*
-- * Default implementation for drivers to pass bdrv_co_block_status() to
-- * their backing file.
-- */
--int coroutine_fn bdrv_co_block_status_from_backing(BlockDriverState *bs,
--                                                   bool want_zero,
--                                                   int64_t offset,
--                                                   int64_t bytes,
--                                                   int64_t *pnum,
--                                                   int64_t *map,
--                                                   BlockDriverState **fi=
-le);
- const char *bdrv_get_parent_name(const BlockDriverState *bs);
- void blk_dev_change_media_cb(BlockBackend *blk, bool load, Error **errp)=
-;
- bool blk_dev_has_removable_media(BlockBackend *blk);
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index 5ae96c52b0..0011e068ce 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -679,8 +679,11 @@ static int coroutine_fn blkdebug_co_block_status(Blo=
-ckDriverState *bs,
-         return err;
-     }
-=20
--    return bdrv_co_block_status_from_file(bs, want_zero, offset, bytes,
--                                          pnum, map, file);
-+    assert(bs->file && bs->file->bs);
-+    *pnum =3D bytes;
-+    *map =3D offset;
-+    *file =3D bs->file->bs;
-+    return BDRV_BLOCK_RAW | BDRV_BLOCK_OFFSET_VALID;
- }
-=20
- static void blkdebug_close(BlockDriverState *bs)
-diff --git a/block/blklogwrites.c b/block/blklogwrites.c
-index 04d8b33607..8982fd15c4 100644
---- a/block/blklogwrites.c
-+++ b/block/blklogwrites.c
-@@ -519,7 +519,6 @@ static BlockDriver bdrv_blk_log_writes =3D {
-     .bdrv_co_pwrite_zeroes  =3D blk_log_writes_co_pwrite_zeroes,
-     .bdrv_co_flush_to_disk  =3D blk_log_writes_co_flush_to_disk,
-     .bdrv_co_pdiscard       =3D blk_log_writes_co_pdiscard,
--    .bdrv_co_block_status   =3D bdrv_co_block_status_from_file,
-=20
-     .is_filter              =3D true,
-     .strong_runtime_opts    =3D blk_log_writes_strong_runtime_opts,
-diff --git a/block/commit.c b/block/commit.c
-index 40d1c8eeac..c94678bea3 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -252,7 +252,6 @@ static void bdrv_commit_top_child_perm(BlockDriverSta=
-te *bs, BdrvChild *c,
- static BlockDriver bdrv_commit_top =3D {
-     .format_name                =3D "commit_top",
-     .bdrv_co_preadv             =3D bdrv_commit_top_preadv,
--    .bdrv_co_block_status       =3D bdrv_co_block_status_from_backing,
-     .bdrv_refresh_filename      =3D bdrv_commit_top_refresh_filename,
-     .bdrv_child_perm            =3D bdrv_commit_top_child_perm,
-=20
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 16bdf630b6..ad6577d078 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -160,8 +160,6 @@ static BlockDriver bdrv_copy_on_read =3D {
-     .bdrv_eject                         =3D cor_eject,
-     .bdrv_lock_medium                   =3D cor_lock_medium,
-=20
--    .bdrv_co_block_status               =3D bdrv_co_block_status_from_fi=
-le,
--
-     .bdrv_recurse_is_first_non_filter   =3D cor_recurse_is_first_non_fil=
-ter,
-=20
-     .has_variable_length                =3D true,
-diff --git a/block/io.c b/block/io.c
-index e222d91893..d7d9757f46 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2028,36 +2028,6 @@ typedef struct BdrvCoBlockStatusData {
-     bool done;
- } BdrvCoBlockStatusData;
-=20
--int coroutine_fn bdrv_co_block_status_from_file(BlockDriverState *bs,
--                                                bool want_zero,
--                                                int64_t offset,
--                                                int64_t bytes,
--                                                int64_t *pnum,
--                                                int64_t *map,
--                                                BlockDriverState **file)
--{
--    assert(bs->file && bs->file->bs);
--    *pnum =3D bytes;
--    *map =3D offset;
--    *file =3D bs->file->bs;
--    return BDRV_BLOCK_RAW | BDRV_BLOCK_OFFSET_VALID;
--}
--
--int coroutine_fn bdrv_co_block_status_from_backing(BlockDriverState *bs,
--                                                   bool want_zero,
--                                                   int64_t offset,
--                                                   int64_t bytes,
--                                                   int64_t *pnum,
--                                                   int64_t *map,
--                                                   BlockDriverState **fi=
-le)
--{
--    assert(bs->backing && bs->backing->bs);
--    *pnum =3D bytes;
--    *map =3D offset;
--    *file =3D bs->backing->bs;
--    return BDRV_BLOCK_RAW | BDRV_BLOCK_OFFSET_VALID;
--}
--
- /*
-  * Returns the allocation status of the specified sectors.
-  * Drivers not implementing the functionality are assumed to not support
-@@ -2098,6 +2068,7 @@ static int coroutine_fn bdrv_co_block_status(BlockD=
-riverState *bs,
-     BlockDriverState *local_file =3D NULL;
-     int64_t aligned_offset, aligned_bytes;
-     uint32_t align;
-+    bool has_filtered_child;
-=20
-     assert(pnum);
-     *pnum =3D 0;
-@@ -2123,7 +2094,8 @@ static int coroutine_fn bdrv_co_block_status(BlockD=
-riverState *bs,
-=20
-     /* Must be non-NULL or bdrv_getlength() would have failed */
-     assert(bs->drv);
--    if (!bs->drv->bdrv_co_block_status) {
-+    has_filtered_child =3D bs->drv->is_filter && bdrv_filtered_rw_child(=
-bs);
-+    if (!bs->drv->bdrv_co_block_status && !has_filtered_child) {
-         *pnum =3D bytes;
-         ret =3D BDRV_BLOCK_DATA | BDRV_BLOCK_ALLOCATED;
-         if (offset + bytes =3D=3D total_size) {
-@@ -2144,9 +2116,20 @@ static int coroutine_fn bdrv_co_block_status(Block=
-DriverState *bs,
-     aligned_offset =3D QEMU_ALIGN_DOWN(offset, align);
-     aligned_bytes =3D ROUND_UP(offset + bytes, align) - aligned_offset;
-=20
--    ret =3D bs->drv->bdrv_co_block_status(bs, want_zero, aligned_offset,
--                                        aligned_bytes, pnum, &local_map,
--                                        &local_file);
-+    if (bs->drv->bdrv_co_block_status) {
-+        ret =3D bs->drv->bdrv_co_block_status(bs, want_zero, aligned_off=
-set,
-+                                            aligned_bytes, pnum, &local_=
-map,
-+                                            &local_file);
-+    } else {
-+        /* Default code for filters */
++class TestCommitWithFilters(iotests.QMPTestCase):
++    img0 =3D os.path.join(iotests.test_dir, '0.img')
++    img1 =3D os.path.join(iotests.test_dir, '1.img')
++    img2 =3D os.path.join(iotests.test_dir, '2.img')
++    img3 =3D os.path.join(iotests.test_dir, '3.img')
 +
-+        local_file =3D bdrv_filtered_rw_bs(bs);
-+        assert(local_file);
++    def setUp(self):
++        qemu_img('create', '-f', iotests.imgfmt, self.img0, '64M')
++        qemu_img('create', '-f', iotests.imgfmt, self.img1, '64M')
++        qemu_img('create', '-f', iotests.imgfmt, self.img2, '64M')
++        qemu_img('create', '-f', iotests.imgfmt, self.img3, '64M')
 +
-+        *pnum =3D aligned_bytes;
-+        local_map =3D aligned_offset;
-+        ret =3D BDRV_BLOCK_RAW | BDRV_BLOCK_OFFSET_VALID;
-+    }
-     if (ret < 0) {
-         *pnum =3D 0;
-         goto out;
-diff --git a/block/mirror.c b/block/mirror.c
-index 6ddbfb9708..88155faaec 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1508,7 +1508,6 @@ static BlockDriver bdrv_mirror_top =3D {
-     .bdrv_co_pwrite_zeroes      =3D bdrv_mirror_top_pwrite_zeroes,
-     .bdrv_co_pdiscard           =3D bdrv_mirror_top_pdiscard,
-     .bdrv_co_flush              =3D bdrv_mirror_top_flush,
--    .bdrv_co_block_status       =3D bdrv_co_block_status_from_backing,
-     .bdrv_refresh_filename      =3D bdrv_mirror_top_refresh_filename,
-     .bdrv_child_perm            =3D bdrv_mirror_top_child_perm,
-     .bdrv_refresh_limits        =3D bdrv_mirror_top_refresh_limits,
-diff --git a/block/throttle.c b/block/throttle.c
-index 958a2bcfa6..d0436f875b 100644
---- a/block/throttle.c
-+++ b/block/throttle.c
-@@ -270,7 +270,6 @@ static BlockDriver bdrv_throttle =3D {
-     .bdrv_reopen_prepare                =3D   throttle_reopen_prepare,
-     .bdrv_reopen_commit                 =3D   throttle_reopen_commit,
-     .bdrv_reopen_abort                  =3D   throttle_reopen_abort,
--    .bdrv_co_block_status               =3D   bdrv_co_block_status_from_=
-file,
++        qemu_io('-f', iotests.imgfmt, '-c', 'write -P 1 0M 1M', self.img=
+0)
++        qemu_io('-f', iotests.imgfmt, '-c', 'write -P 2 1M 1M', self.img=
+1)
++        qemu_io('-f', iotests.imgfmt, '-c', 'write -P 3 2M 1M', self.img=
+2)
++        qemu_io('-f', iotests.imgfmt, '-c', 'write -P 4 3M 1M', self.img=
+3)
++
++        # Distributions of the patterns in the files; this is checked
++        # by tearDown() and should be changed by the test cases as is
++        # necessary
++        self.pattern_files =3D [self.img0, self.img1, self.img2, self.im=
+g3]
++
++        self.vm =3D iotests.VM()
++        self.vm.launch()
++        self.has_quit =3D False
++
++        result =3D self.vm.qmp('object-add', qom_type=3D'throttle-group'=
+, id=3D'tg')
++        self.assert_qmp(result, 'return', {})
++
++        result =3D self.vm.qmp('blockdev-add', **{
++                'node-name': 'top-filter',
++                'driver': 'throttle',
++                'throttle-group': 'tg',
++                'file': {
++                    'node-name': 'cow-3',
++                    'driver': iotests.imgfmt,
++                    'file': {
++                        'driver': 'file',
++                        'filename': self.img3
++                    },
++                    'backing': {
++                        'node-name': 'cow-2',
++                        'driver': iotests.imgfmt,
++                        'file': {
++                            'driver': 'file',
++                            'filename': self.img2
++                        },
++                        'backing': {
++                            'node-name': 'cow-1',
++                            'driver': iotests.imgfmt,
++                            'file': {
++                                'driver': 'file',
++                                'filename': self.img1
++                            },
++                            'backing': {
++                                'node-name': 'bottom-filter',
++                                'driver': 'throttle',
++                                'throttle-group': 'tg',
++                                'file': {
++                                    'node-name': 'cow-0',
++                                    'driver': iotests.imgfmt,
++                                    'file': {
++                                        'driver': 'file',
++                                        'filename': self.img0
++                                    }
++                                }
++                            }
++                        }
++                    }
++                }
++            })
++        self.assert_qmp(result, 'return', {})
++
++    def tearDown(self):
++        self.vm.shutdown(has_quit=3Dself.has_quit)
++
++        for index in range(len(self.pattern_files)):
++            result =3D qemu_io('-f', iotests.imgfmt,
++                             '-c', 'read -P %i %iM 1M' % (index + 1, ind=
+ex),
++                             self.pattern_files[index])
++            self.assertFalse('Pattern verification failed' in result)
++
++        os.remove(self.img3)
++        os.remove(self.img2)
++        os.remove(self.img1)
++        os.remove(self.img0)
++
++    # Filters make for funny filenames, so we cannot just use
++    # self.imgX to get them
++    def get_filename(self, node):
++        return self.vm.node_info(node)['image']['filename']
++
++    def test_filterless_commit(self):
++        self.assert_no_active_block_jobs()
++        result =3D self.vm.qmp('block-commit',
++                             job_id=3D'commit',
++                             device=3D'top-filter',
++                             top_node=3D'cow-2',
++                             base_node=3D'cow-1')
++        self.assert_qmp(result, 'return', {})
++        self.wait_until_completed(drive=3D'commit')
++
++        self.assertIsNotNone(self.vm.node_info('cow-3'))
++        self.assertIsNone(self.vm.node_info('cow-2'))
++        self.assertIsNotNone(self.vm.node_info('cow-1'))
++
++        # 2 has been comitted into 1
++        self.pattern_files[2] =3D self.img1
++
++    def test_commit_through_filter(self):
++        self.assert_no_active_block_jobs()
++        result =3D self.vm.qmp('block-commit',
++                             job_id=3D'commit',
++                             device=3D'top-filter',
++                             top_node=3D'cow-1',
++                             base_node=3D'cow-0')
++        self.assert_qmp(result, 'return', {})
++        self.wait_until_completed(drive=3D'commit')
++
++        self.assertIsNotNone(self.vm.node_info('cow-2'))
++        self.assertIsNone(self.vm.node_info('cow-1'))
++        self.assertIsNone(self.vm.node_info('bottom-filter'))
++        self.assertIsNotNone(self.vm.node_info('cow-0'))
++
++        # 1 has been comitted into 0
++        self.pattern_files[1] =3D self.img0
++
++    def test_filtered_active_commit_with_filter(self):
++        # Add a device, so the commit job finds a parent it can change
++        # to point to the base node (so we can test that top-filter is
++        # dropped from the graph)
++        result =3D self.vm.qmp('device_add', id=3D'drv0', driver=3D'virt=
+io-blk',
++                             drive=3D'top-filter')
++        self.assert_qmp(result, 'return', {})
++
++        # Try to release our reference to top-filter; that should not
++        # work because drv0 uses it
++        result =3D self.vm.qmp('blockdev-del', node_name=3D'top-filter')
++        self.assert_qmp(result, 'error/class', 'GenericError')
++        self.assert_qmp(result, 'error/desc', 'Node top-filter is in use=
+')
++
++        self.assert_no_active_block_jobs()
++        result =3D self.vm.qmp('block-commit',
++                             job_id=3D'commit',
++                             device=3D'top-filter',
++                             base_node=3D'cow-2')
++        self.assert_qmp(result, 'return', {})
++        self.complete_and_wait(drive=3D'commit')
++
++        # Try to release our reference to top-filter again
++        result =3D self.vm.qmp('blockdev-del', node_name=3D'top-filter')
++        self.assert_qmp(result, 'return', {})
++
++        self.assertIsNone(self.vm.node_info('top-filter'))
++        self.assertIsNone(self.vm.node_info('cow-3'))
++        self.assertIsNotNone(self.vm.node_info('cow-2'))
++
++        # 3 has been comitted into 2
++        self.pattern_files[3] =3D self.img2
++
++    def test_filtered_active_commit_without_filter(self):
++        self.assert_no_active_block_jobs()
++        result =3D self.vm.qmp('block-commit',
++                             job_id=3D'commit',
++                             device=3D'top-filter',
++                             top_node=3D'cow-3',
++                             base_node=3D'cow-2')
++        self.assert_qmp(result, 'return', {})
++        self.complete_and_wait(drive=3D'commit')
++
++        self.assertIsNotNone(self.vm.node_info('top-filter'))
++        self.assertIsNone(self.vm.node_info('cow-3'))
++        self.assertIsNotNone(self.vm.node_info('cow-2'))
++
++        # 3 has been comitted into 2
++        self.pattern_files[3] =3D self.img2
++
+ if __name__ =3D=3D '__main__':
+     iotests.main(supported_fmts=3D['qcow2', 'qed'])
+diff --git a/tests/qemu-iotests/040.out b/tests/qemu-iotests/040.out
+index 220a5fa82c..fe58934d7a 100644
+--- a/tests/qemu-iotests/040.out
++++ b/tests/qemu-iotests/040.out
+@@ -1,5 +1,5 @@
+-...............................................
++...................................................
+ ----------------------------------------------------------------------
+-Ran 47 tests
++Ran 51 tests
 =20
-     .bdrv_co_drain_begin                =3D   throttle_co_drain_begin,
-     .bdrv_co_drain_end                  =3D   throttle_co_drain_end,
+ OK
 --=20
 2.21.0
 
