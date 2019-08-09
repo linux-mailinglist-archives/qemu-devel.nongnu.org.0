@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3E9875CD
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:21:46 +0200 (CEST)
-Received: from localhost ([::1]:57574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D756875D7
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:24:05 +0200 (CEST)
+Received: from localhost ([::1]:57610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw15l-0001yy-If
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48049)
+	id 1hw180-0005eW-DE
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:24:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48094)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13r-0005xe-1Z
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:48 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13s-000617-Vd
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13q-0007cm-2X
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:46 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36135)
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13r-0007f9-RK
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:48 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52109)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hw13p-0007aY-Sq
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:46 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r3so3826497wrt.3
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 02:19:45 -0700 (PDT)
+ id 1hw13r-0007e9-Ki
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:47 -0400
+Received: by mail-wm1-x344.google.com with SMTP id 207so4988819wma.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 02:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xDB7zhPlulJY0AZfd2YO/hnOBkqPwNAEQbIkpxXlrNI=;
- b=PgHYLKRd3nAf1LBHchr63z30M9y4JzRXgcaggAR1vJ+ykYgUNY6kl95pvYeT0xYZvu
- qqwmbzsyU62rfy5SNDgrthNKYZSb549XcEQ8OW7IVhjKEPYjnYQ34JV+9m8RhEcEAbOp
- qe2VDi+MLKePWJUYHJd0gzTo/ovSE2hZQNup0ZZ/3xZ9y3C/xPaD306EX/3lA0iuTENs
- +dk2juSyx2JEvA8OUBpkRo+dgqeZOsXLD9oU3S3zYdz8M2yCqMn+oqPF/2nms/NMNvXa
- URnCSBBYK35JXFm1aKN+MyYCXcQXYU3Q/aIBI/C9vZHiGz5RvjkzTN21W1o4R7EeVvl0
- AkVQ==
+ bh=pH6yorJSkceA3ksBNVomDICRxgnjhzqlXkTAbU0+vbc=;
+ b=x/BNiUQzc0YrqGXyzZG3EF3SNKeDkn9sPFKWkj0CqUHXxg12JF2xdeGcFCmOlFgzbD
+ P8NpEYutEUxYMi6tw3p5BdVsunTJPK6VVbkNB1CIxlr7Ge0c3PZiB0nCbaR5i9ymnq9o
+ Vgr6tlkn13fs69Rm8a/nOKospOI6s3lnie5BE8qlAK6HseIg33ZkT7NI3teAH+q+qyOS
+ FZ57kcKuWcDcuOpc1JE3dsKnXfPF17z4s13RYcbFnSHeuBDeKCn9qmxERQwklU7ByyYW
+ smChdcp1b7Re2GxHKZiEZVzDxWaL4sMi3zAExFNlLRY1OmJepBCoTAlTkpj+DoxBs1qD
+ sxEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xDB7zhPlulJY0AZfd2YO/hnOBkqPwNAEQbIkpxXlrNI=;
- b=ejSgwWCFMwv0YtWVI9gq9EGmZR2FG9oz6mLACDstJwZczOZmc7xWs7LFb4sAPwgTes
- 9ZFGygs8Ay06z1KdPQX4kvUJCCg9EEb69nGwsWLTOqYuCUEZtq44InNR+Ig9ev/1JV9C
- dLPqeTBinkdKGwtmgxM1iS2Q1EsdpUGMDOTZ2bmpTncuOYmYNFwJOCdEusWfJSO7vJq7
- fxoPIOk6Oh9zNxZXq5WZjsgJkxS7Z5k4+H8THxWxbXgd16eMmRXEgE/5fDilwx8KhJf3
- 7FR2lP8avubMP1iCghBrjqIDYARgu28DkWpgIngzyEjwe6IlVsiNzUuI24CQ8G+jnN2E
- KHWw==
-X-Gm-Message-State: APjAAAXzzSgY1/0lbQKc/7c81LFBsaEBfnYoIQiXxULhlcSIzGgYMIEY
- WLhqwkeUkGrhW4pfIyI1xoirkw==
-X-Google-Smtp-Source: APXvYqwcZCq5atKMtmSg8VgHiLr803Gu11CfRsdc9RHFn19NEGrgzTU2S9DRyocND4G+WpH5LEFs0g==
-X-Received: by 2002:a5d:4b91:: with SMTP id b17mr2599543wrt.57.1565342384773; 
- Fri, 09 Aug 2019 02:19:44 -0700 (PDT)
+ bh=pH6yorJSkceA3ksBNVomDICRxgnjhzqlXkTAbU0+vbc=;
+ b=ouCCfl6jYeKiDTDSGvxLq2rKhoNS6Ene/+JMe/gHNQswUSxt65NsenmGHbQFO7bvML
+ oXIwDVPix1fiX5KyyOpz7BA7LHWtL6QQSJifI0pBZ8dyGAc4DDO6E//gDedpIzgcfipC
+ FlefA7ctQvVSh6h9XUaa209kqHUHlSwelZA/twEHOcYhU5bRz1x+qdKxBI0ggzr3G74L
+ LUb8TVm6PD0YCjAetURNmcDZmqxL6lA60VxWNOqEKDwjk2Ayvn/LICe8QjkeBiG1MTg2
+ 50PKIMJ5h6zmnpNI+zDJmmwsokleO2bFcmsnp/NWxKKtEKw4mFQifxznbWw2nQM6vYoU
+ pSow==
+X-Gm-Message-State: APjAAAX9k5mVXwco3JrAOd3s//Dh0zYLJAdTO509G15BeXwD/C3dOinP
+ pnBD+/iWUbJqaGSGw8G+WACRcw==
+X-Google-Smtp-Source: APXvYqxiF+dCi8jtuMIR2xz/Hm5iWrUNkxqDStJkMFlfyMCNtnllEIjhM6AR5QH9v4AqL45yUXNO6A==
+X-Received: by 2002:a1c:721a:: with SMTP id n26mr1142246wmc.88.1565342386500; 
+ Fri, 09 Aug 2019 02:19:46 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id o4sm3846959wmh.35.2019.08.09.02.19.41
+ by smtp.gmail.com with ESMTPSA id c1sm5763943wmc.40.2019.08.09.02.19.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Aug 2019 02:19:42 -0700 (PDT)
+ Fri, 09 Aug 2019 02:19:43 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3F8271FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 57FBA1FF92;
  Fri,  9 Aug 2019 10:19:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri,  9 Aug 2019 10:19:37 +0100
-Message-Id: <20190809091940.1223-5-alex.bennee@linaro.org>
+Date: Fri,  9 Aug 2019 10:19:38 +0100
+Message-Id: <20190809091940.1223-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190809091940.1223-1-alex.bennee@linaro.org>
 References: <20190809091940.1223-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH v2 4/7] fpu: rename softfloat-specialize.h ->
- .inc.c
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH v2 5/7] target/mips: rationalise softfloat
+ includes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,43 +82,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, armbru@redhat.com,
- Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
+ armbru@redhat.com, Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is not a normal header and should only be included in the main
-softfloat.c file to bring in the various target specific
-specialisations. Indeed as it contains non-inlined C functions it is
-not even a legal header. Rename it to match our included C convention.
+We should avoid including the whole of softfloat headers in cpu.h and
+explicitly include it only where we will be calling softfloat
+functions. We can use the -types.h in cpu.h for the few bits that are
+global. We also move the restore_snan_bit_mode into internal.h and
+include -helpers.h there.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- fpu/{softfloat-specialize.h => softfloat-specialize.inc.c} | 0
- fpu/softfloat.c                                            | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename fpu/{softfloat-specialize.h => softfloat-specialize.inc.c} (100%)
 
-diff --git a/fpu/softfloat-specialize.h b/fpu/softfloat-specialize.inc.c
-similarity index 100%
-rename from fpu/softfloat-specialize.h
-rename to fpu/softfloat-specialize.inc.c
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 2ba36ec3703..80a16458304 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -652,7 +652,7 @@ static inline float64 float64_pack_raw(FloatParts p)
- | are propagated from function inputs to output.  These details are target-
- | specific.
- *----------------------------------------------------------------------------*/
--#include "softfloat-specialize.h"
-+#include "softfloat-specialize.inc.c"
+---
+v2
+  - move restore_snan_bit_mode to internal.h
+---
+ linux-user/mips/cpu_loop.c | 1 +
+ target/mips/cpu.h          | 8 +-------
+ target/mips/internal.h     | 7 +++++++
+ target/mips/msa_helper.c   | 1 +
+ target/mips/op_helper.c    | 1 +
+ 5 files changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index 0ba894fa7aa..39915b3fde2 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -22,6 +22,7 @@
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ #include "elf.h"
++#include "internal.h"
  
- /* Canonicalize EXP and FRAC, setting CLS.  */
- static FloatParts sf_canonicalize(FloatParts part, const FloatFmt *parm,
+ # ifdef TARGET_ABI_MIPSO32
+ #  define MIPS_SYS(name, args) args,
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 21c0615e020..d235117dab3 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -5,7 +5,7 @@
+ 
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+-#include "fpu/softfloat.h"
++#include "fpu/softfloat-types.h"
+ #include "mips-defs.h"
+ 
+ #define TCG_GUEST_DEFAULT_MO (0)
+@@ -1195,12 +1195,6 @@ void itc_reconfigure(struct MIPSITUState *tag);
+ /* helper.c */
+ target_ulong exception_resume_pc(CPUMIPSState *env);
+ 
+-static inline void restore_snan_bit_mode(CPUMIPSState *env)
+-{
+-    set_snan_bit_is_one((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) == 0,
+-                        &env->active_fpu.fp_status);
+-}
+-
+ static inline void cpu_get_tb_cpu_state(CPUMIPSState *env, target_ulong *pc,
+                                         target_ulong *cs_base, uint32_t *flags)
+ {
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index b2b41a51ab4..49a7a7d8f56 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -7,6 +7,7 @@
+ #ifndef MIPS_INTERNAL_H
+ #define MIPS_INTERNAL_H
+ 
++#include "fpu/softfloat-helpers.h"
+ 
+ /* MMU types, the first four entries have the same layout as the
+    CP0C0_MT field.  */
+@@ -226,6 +227,12 @@ static inline void restore_flush_mode(CPUMIPSState *env)
+                       &env->active_fpu.fp_status);
+ }
+ 
++static inline void restore_snan_bit_mode(CPUMIPSState *env)
++{
++    set_snan_bit_is_one((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) == 0,
++                        &env->active_fpu.fp_status);
++}
++
+ static inline void restore_fp_status(CPUMIPSState *env)
+ {
+     restore_rounding_mode(env);
+diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
+index a5a86572b4a..f24061e2af7 100644
+--- a/target/mips/msa_helper.c
++++ b/target/mips/msa_helper.c
+@@ -22,6 +22,7 @@
+ #include "internal.h"
+ #include "exec/exec-all.h"
+ #include "exec/helper-proto.h"
++#include "fpu/softfloat.h"
+ 
+ /* Data format min and max values */
+ #define DF_BITS(df) (1 << ((df) + 3))
+diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+index 9e2e02f8586..f88a3ab9043 100644
+--- a/target/mips/op_helper.c
++++ b/target/mips/op_helper.c
+@@ -25,6 +25,7 @@
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+ #include "sysemu/kvm.h"
++#include "fpu/softfloat.h"
+ 
+ /*****************************************************************************/
+ /* Exceptions processing helpers */
 -- 
 2.20.1
 
