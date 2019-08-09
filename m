@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AEB8711D
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 06:52:39 +0200 (CEST)
-Received: from localhost ([::1]:56382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2162387110
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 06:50:55 +0200 (CEST)
+Received: from localhost ([::1]:56364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hvwtK-0002sy-TD
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 00:52:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58459)
+	id 1hvwre-0000Bn-Al
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 00:50:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58502)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hvwqP-00079J-4U
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 00:49:38 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hvwqR-00079k-Ax
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 00:49:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hvwqN-0008R9-NK
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 00:49:37 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:33177)
+ (envelope-from <dgibson@ozlabs.org>) id 1hvwqQ-0008TQ-6Z
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 00:49:39 -0400
+Received: from ozlabs.org ([203.11.71.1]:51543)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hvwqM-0008PH-HV
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 00:49:35 -0400
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hvwqP-0008RH-Ji
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 00:49:38 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 464XpL6R04z9sNF; Fri,  9 Aug 2019 14:49:30 +1000 (AEST)
+ id 464XpM16NHz9sP7; Fri,  9 Aug 2019 14:49:30 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1565326170;
- bh=Dtz5KawBEAgx1Pz9ZToQAf2TCj278tu4WlSEOOUUG2U=;
+ d=gibson.dropbear.id.au; s=201602; t=1565326171;
+ bh=+Oo/PMZD5d0Dc5cDKsr+eks31wIKAhVkiGMYOdupUDk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pnihszFnuR+DqpZoS29uYqbOpboeGF4HFIXw9LF4UMnY6tkqSFng5Ir/1poQ1M0xa
- YU9/NhEH7oaKAKvjjv8L5TN2z9sN2G2zD5fDx38fb+4Llw0NgRQlsDmQnLaUCVQb0E
- oVM17NC7loHYCOEYLSE8E+MePWkXFHodgVxo3Hdc=
-Date: Fri, 9 Aug 2019 14:45:23 +1000
+ b=doDEDbtmOLdoTHYtyKdPC68rO9V4IiMTEfTuVs0JKZnhc9BAyviiF7SBl0sFy7q8J
+ Zg3vLGNUPscOzyDJ1+lQ9/AQiPsxaQjQ5Cjx+frn4yfQGtjRioWt5+hCo8q63eQTQ8
+ CxK2qhei1yxPFofRr68O2Qe9uT5ZL6YNxMmM9gLc=
+Date: Fri, 9 Aug 2019 14:45:40 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Balamuruhan S <bala24@linux.ibm.com>
-Message-ID: <20190809044523.GL5465@umbus.fritz.box>
+Message-ID: <20190809044540.GM5465@umbus.fritz.box>
 References: <20190807071445.4109-1-bala24@linux.ibm.com>
- <20190807071445.4109-5-bala24@linux.ibm.com>
+ <20190807071445.4109-6-bala24@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AQNmCumFClRcGgHG"
+ protocol="application/pgp-signature"; boundary="vdqwC0msT4ilQ2it"
 Content-Disposition: inline
-In-Reply-To: <20190807071445.4109-5-bala24@linux.ibm.com>
+In-Reply-To: <20190807071445.4109-6-bala24@linux.ibm.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [RFC PATCH 4/6] hw/ppc/pnv: initialize and realize
- homer/occ common area
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [RFC PATCH 5/6] hw/ppc/pnv_xscom: retrieve
+ homer/occ base address from PBA BARs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,139 +62,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---AQNmCumFClRcGgHG
+--vdqwC0msT4ilQ2it
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 07, 2019 at 12:44:43PM +0530, Balamuruhan S wrote:
-> homer and occ common area region base address are initialized
-> to create device tree and realized to map the address with
-> mmio callbacks during `pnv_chip_realize()`.
->=20
-> `SysBusNum` enum is introduced to set sysbus for XSCOM, ICP,
-> HOMER and OCC appropriately and chip_num to initialize and
-> retrieve base address + size contiguously on a PowerNV with
-> multichip boot.
-
-Same comments here as on the previous patch - I don't think this
-belongs in the series with the scripting extensions.
-
+On Wed, Aug 07, 2019 at 12:44:44PM +0530, Balamuruhan S wrote:
+> During PowerNV boot skiboot populates the device tree by retrieving
+> base address of homer/occ common area from PBA BARs and prd ipoll
+> mask by accessing xscom read/write accesses.
 >=20
 > Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
+
+Again seems unrelatedto the scripting.
+
 > ---
->  hw/ppc/pnv.c         | 49 +++++++++++++++++++++++++++++++++++++++++++++-=
----
->  include/hw/ppc/pnv.h |  1 +
->  2 files changed, 46 insertions(+), 4 deletions(-)
+>  hw/ppc/pnv_xscom.c | 27 +++++++++++++++++++++++----
+>  1 file changed, 23 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index bd4531c822..f6e56e915d 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -675,6 +675,7 @@ static void pnv_init(MachineState *machine)
->          Object *chip =3D object_new(chip_typename);
+> diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
+> index 5d5b5e9884..18a780bcdf 100644
+> --- a/hw/ppc/pnv_xscom.c
+> +++ b/hw/ppc/pnv_xscom.c
+> @@ -77,6 +77,29 @@ static uint64_t xscom_read_default(PnvChip *chip, uint=
+32_t pcba)
+>      case 0x18002:       /* ECID2 */
+>          return 0;
 > =20
->          pnv->chips[i] =3D PNV_CHIP(chip);
-> +        PNV_CHIP(chip)->chip_num =3D i;
-> =20
->          /* TODO: put all the memory in one node on chip 0 until we find a
->           * way to specify different ranges for each chip
-> @@ -824,18 +825,20 @@ static void pnv_chip_icp_realize(Pnv8Chip *chip8, E=
-rror **errp)
->   {
->      PnvChip *chip =3D PNV_CHIP(chip8);
->      PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
-> +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(chip);
->      const char *typename =3D pnv_chip_core_typename(chip);
->      size_t typesize =3D object_type_get_instance_size(typename);
->      int i, j;
->      char *name;
->      XICSFabric *xi =3D XICS_FABRIC(qdev_get_machine());
-> =20
-> +    sbd->num_mmio =3D PNV_ICP_SYSBUS;
->      name =3D g_strdup_printf("icp-%x", chip->chip_id);
->      memory_region_init(&chip8->icp_mmio, OBJECT(chip), name, PNV_ICP_SIZ=
-E);
-> -    sysbus_init_mmio(SYS_BUS_DEVICE(chip), &chip8->icp_mmio);
-> +    sysbus_init_mmio(sbd, &chip8->icp_mmio);
->      g_free(name);
-> =20
-> -    sysbus_mmio_map(SYS_BUS_DEVICE(chip), 1, PNV_ICP_BASE(chip));
-> +    sysbus_mmio_map(sbd, PNV_ICP_SYSBUS, PNV_ICP_BASE(chip));
-> =20
->      /* Map the ICP registers for each thread */
->      for (i =3D 0; i < chip->nr_cores; i++) {
-> @@ -866,7 +869,26 @@ static void pnv_chip_power8_realize(DeviceState *dev=
-, Error **errp)
->          error_propagate(errp, local_err);
->          return;
->      }
-> -    sysbus_mmio_map(SYS_BUS_DEVICE(chip), 0, PNV_XSCOM_BASE(chip));
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(chip), PNV_XSCOM_SYSBUS,
-> +                                   PNV_XSCOM_BASE(chip));
+> +    /* PBA BAR0 */
+> +    case 0x5012b00: /* P9 homer base address */
+> +        return PNV9_HOMER_BASE(chip);
+> +    case 0x2013f00: /* P8 homer base address */
+> +        return PNV_HOMER_BASE(chip);
 > +
-> +    /* homer */
-> +    pnv_homer_realize(chip, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(chip), PNV_HOMER_SYSBUS,
-> +                    PNV_HOMER_BASE(chip));
+> +    /* PBA BARMASK0 */
+> +    case 0x5012b04: /* P9 homer region size */
+> +    case 0x2013f04: /* P8 homer region size */
+> +        return PNV_HOMER_SIZE;
 > +
-> +    /* occ common area */
-> +    pnv_occ_common_area_realize(chip, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(chip), PNV_OCC_COMMON_AREA_SYSBUS,
-> +                    PNV_OCC_COMMON_AREA(chip));
-> =20
->      pcc->parent_realize(dev, &local_err);
->      if (local_err) {
-> @@ -1035,7 +1057,26 @@ static void pnv_chip_power9_realize(DeviceState *d=
-ev, Error **errp)
->          error_propagate(errp, local_err);
->          return;
->      }
-> -    sysbus_mmio_map(SYS_BUS_DEVICE(chip), 0, PNV9_XSCOM_BASE(chip));
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(chip), PNV_XSCOM_SYSBUS,
-> +                    PNV9_XSCOM_BASE(chip));
+> +    /* PBA BAR2 */
+> +    case 0x5012b02: /* P9 occ common area */
+> +        return PNV9_OCC_COMMON_AREA(chip);
+> +    case 0x2013f02: /* P8 occ common area */
+> +        return PNV_OCC_COMMON_AREA(chip);
 > +
-> +    /* homer */
-> +    pnv_homer_realize(chip, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(chip), PNV_HOMER_SYSBUS,
-> +                    PNV9_HOMER_BASE(chip));
+> +    /* PBA BARMASK2 */
+> +    case 0x5012b06: /* P9 occ common area size */
+> +    case 0x2013f06: /* P8 occ common area size */
+> +        return PNV_OCC_COMMON_AREA_SIZE;
 > +
-> +    /* occ common area */
-> +    pnv_occ_common_area_realize(chip, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(chip), PNV_OCC_COMMON_AREA_SYSBUS,
-> +                    PNV9_OCC_COMMON_AREA(chip));
+> +
+>      case 0x1010c00:     /* PIBAM FIR */
+>      case 0x1010c03:     /* PIBAM FIR MASK */
 > =20
->      pcc->parent_realize(dev, &local_err);
->      if (local_err) {
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 6464e32892..dea6772988 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -57,6 +57,7 @@ typedef struct PnvChip {
-> =20
->      /*< public >*/
->      uint32_t     chip_id;
-> +    uint32_t     chip_num;
->      uint64_t     ram_start;
->      uint64_t     ram_size;
-> =20
+> @@ -96,13 +119,9 @@ static uint64_t xscom_read_default(PnvChip *chip, uin=
+t32_t pcba)
+>      case 0x2020009:     /* ADU stuff, error register */
+>      case 0x202000f:     /* ADU stuff, receive status register*/
+>          return 0;
+> -    case 0x2013f00:     /* PBA stuff */
+>      case 0x2013f01:     /* PBA stuff */
+> -    case 0x2013f02:     /* PBA stuff */
+>      case 0x2013f03:     /* PBA stuff */
+> -    case 0x2013f04:     /* PBA stuff */
+>      case 0x2013f05:     /* PBA stuff */
+> -    case 0x2013f06:     /* PBA stuff */
+>      case 0x2013f07:     /* PBA stuff */
+>          return 0;
+>      case 0x2013028:     /* CAPP stuff */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -203,25 +137,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---AQNmCumFClRcGgHG
+--vdqwC0msT4ilQ2it
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1M+mMACgkQbDjKyiDZ
-s5KNjhAAv1CpsYwCRhTh3WxvslQYTDhlKx/1PgOOXJsNYkfsv+Ek+zKewKo4pql9
-VTIsqYiFoXjhYreJV8TzaYSEDWT9oL4hdIyJg/sj0HSAvYU5PZfjokuuH3vee1Hc
-f4wExN+kCyx8ONnQLzkur7Iu1CQxvWogXe/Kc4qCT6JO2waZxaLwhcrrPjVS7UNc
-mp9QKQmNRelz66wbNrz+LWzT/4Uk3Qd0xescaPtRPAgpgSZE52KdTCXnJWMFuxuv
-mrjjTz63o4rkurazRqq0mjizQEY1YOzYTRmd9TbZ7sIgkoC+VCRStlmRSoFKBAV4
-nffWLGUwtygV3Kwtc49qgWhyZvkX3cHiYhQP42/k/loSpbiWKNpnFLaV4OcDZ82T
-6haIG6ig22CwAQh3jwAQBdw6HmCxJ5P5PZO2APZAUXNXhHCX54+JMjvy+RyCFOsk
-Y59v5zSfsjv2GYKEvMA6XbLPrNyy9u/luXuRRDKp9Ln1ybbHNbbWwl9Qi2FoyGiY
-yDJk1jZ1hbrmwJ+rCMXwW4N4FN2Y7pyuz51LG3oChYZvuhJYNc6Q3DgF9nB/2sKS
-hV3dVCP1ljOaYIA0iidJAvecFSHQIuT3SwRu3gfpYTpH/9guwMHPzoto8UkV5MH6
-buoVCjxxsFgfTPHrr8P8CkxPvPN4f+Ke4f7YQm/qLTUyP+YXpb0=
-=TJ3j
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1M+nQACgkQbDjKyiDZ
+s5LOdg/9EHkOGgSlestn44+WA+4RmtzPZnFhJbqgqhamdFJlItc9p88lVm2DQhTY
+43pp2xdRct3Lnfu9dM4uJ+UopUcy2bUUdzhhAaYshRm4rugNXP52PQwGVi/9F7WD
+ksIrcBBB/Ov3b7/TEIGEBWjWQHxZWTrXftvtaTvtLFNkb9AfQQTguv8sXYr5RXca
+D+oZA3YnND6r74121A21tcF4ZjMuepaxi16EGlzY8gEwkQJZWEkL21LHGTLRgdcr
+FGjjYcCdxuAdAoRf4x7z8mU3myYkT7P5mAY9PHDttEJFqOgvXGxg/a1mCoGhcbdz
+zdC6jEZ37VQDirHHDvPUaT+aGAU+V7WcjV9PdwefrUWfak+sDHb19Fhepzs3S9j5
+kOLoA4hY+8iACuU1hLF9NXyxSVmhF1S52ie1Vff8LWtCducfGA9Mg8m5YxpqJGPC
+83rhyygyEH5FVLnGBz316VVStWhXskdYl6NFidPn6z1DiR7uQ1vwc/8VLYYzkJOY
+GzrP3m3KPSRCReehjxuWxABF7Y2uO0ho4MskXbOIQn8MHj6Gj/eoKc+iNvm5So7x
+DQUMKKTYjiagNdoqMyo5cqTCXVXnl28OMepHBpI0/Hm8FyqXSX8kUGZV7ovWybOZ
+4o4ZhctRBXQuV3R5ij0GZ4q9Ydl6uZijdeoCT3ViC6+KWlwbAgk=
+=u5Ws
 -----END PGP SIGNATURE-----
 
---AQNmCumFClRcGgHG--
+--vdqwC0msT4ilQ2it--
 
