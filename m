@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B3987FB9
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:22:20 +0200 (CEST)
-Received: from localhost ([::1]:60940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6B287FE2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:26:01 +0200 (CEST)
+Received: from localhost ([::1]:60998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw7el-0001jO-Tf
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57483)
+	id 1hw7iK-00008E-UX
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:26:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57523)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hw7Y1-0003LR-1O
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:22 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hw7Y3-0003ST-7c
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hw7Xz-0004VW-EX
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59190)
+ (envelope-from <mreitz@redhat.com>) id 1hw7Y1-0004Xt-LE
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36373)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hw7Xv-0004TP-RY; Fri, 09 Aug 2019 12:15:16 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1hw7Xy-0004Ue-8c; Fri, 09 Aug 2019 12:15:18 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1F08030A00AB;
- Fri,  9 Aug 2019 16:15:15 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 91805796ED;
+ Fri,  9 Aug 2019 16:15:17 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D296600CC;
- Fri,  9 Aug 2019 16:15:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6F445DC1E;
+ Fri,  9 Aug 2019 16:15:16 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri,  9 Aug 2019 18:13:52 +0200
-Message-Id: <20190809161407.11920-28-mreitz@redhat.com>
+Date: Fri,  9 Aug 2019 18:13:53 +0200
+Message-Id: <20190809161407.11920-29-mreitz@redhat.com>
 In-Reply-To: <20190809161407.11920-1-mreitz@redhat.com>
 References: <20190809161407.11920-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 09 Aug 2019 16:15:15 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Fri, 09 Aug 2019 16:15:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 27/42] commit: Deal with filters
+Subject: [Qemu-devel] [PATCH v6 28/42] stream: Deal with filters
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,281 +60,207 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes some permission limiting (for example, we only need to
-take the RESIZE permission if the base is smaller than the top).
+Because of the recent changes that make the stream job independent of
+the base node and instead track the node above it, we have to split that
+"bottom" node into two cases: The bottom COW node, and the node directly
+above the base node (which may be an R/W filter or the bottom COW node).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/block-backend.c | 16 +++++---
- block/commit.c        | 96 +++++++++++++++++++++++++++++++------------
- blockdev.c            |  6 ++-
- 3 files changed, 85 insertions(+), 33 deletions(-)
+ qapi/block-core.json |  4 ++++
+ block/stream.c       | 52 ++++++++++++++++++++++++++++----------------
+ blockdev.c           |  2 +-
+ 3 files changed, 38 insertions(+), 20 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index c13c5c83b0..0bc592d023 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2180,11 +2180,17 @@ int blk_commit_all(void)
-         AioContext *aio_context =3D blk_get_aio_context(blk);
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 38c4dbd7c3..3c54717870 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2516,6 +2516,10 @@
+ # On successful completion the image file is updated to drop the backing=
+ file
+ # and the BLOCK_JOB_COMPLETED event is emitted.
+ #
++# In case @device is a filter node, block-stream modifies the first non-=
+filter
++# overlay node below it to point to base's backing node (or NULL if @bas=
+e was
++# not specified) instead of modifying @device itself.
++#
+ # @job-id: identifier for the newly-created block job. If
+ #          omitted, the device name will be used. (Since 2.7)
+ #
+diff --git a/block/stream.c b/block/stream.c
+index 4c8b89884a..bd4a351dae 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -31,7 +31,8 @@ enum {
 =20
-         aio_context_acquire(aio_context);
--        if (blk_is_inserted(blk) && blk->root->bs->backing) {
--            int ret =3D bdrv_commit(blk->root->bs);
--            if (ret < 0) {
--                aio_context_release(aio_context);
--                return ret;
-+        if (blk_is_inserted(blk)) {
-+            BlockDriverState *non_filter;
-+
-+            /* Legacy function, so skip implicit filters */
-+            non_filter =3D bdrv_skip_implicit_filters(blk->root->bs);
-+            if (bdrv_filtered_cow_child(non_filter)) {
-+                int ret =3D bdrv_commit(non_filter);
-+                if (ret < 0) {
-+                    aio_context_release(aio_context);
-+                    return ret;
-+                }
-             }
-         }
-         aio_context_release(aio_context);
-diff --git a/block/commit.c b/block/commit.c
-index 5a7672c7c7..40d1c8eeac 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -37,6 +37,7 @@ typedef struct CommitBlockJob {
-     BlockBackend *top;
-     BlockBackend *base;
-     BlockDriverState *base_bs;
+ typedef struct StreamBlockJob {
+     BlockJob common;
+-    BlockDriverState *bottom;
++    BlockDriverState *bottom_cow_node;
 +    BlockDriverState *above_base;
      BlockdevOnError on_error;
-     bool base_read_only;
-     bool chain_frozen;
-@@ -110,7 +111,7 @@ static void commit_abort(Job *job)
-      * XXX Can (or should) we somehow keep 'consistent read' blocked eve=
-n
-      * after the failed/cancelled commit job is gone? If we already wrot=
-e
-      * something to base, the intermediate images aren't valid any more.=
- */
--    bdrv_replace_node(s->commit_top_bs, backing_bs(s->commit_top_bs),
-+    bdrv_replace_node(s->commit_top_bs, s->commit_top_bs->backing->bs,
-                       &error_abort);
+     char *backing_file_str;
+     bool bs_read_only;
+@@ -54,7 +55,7 @@ static void stream_abort(Job *job)
 =20
-     bdrv_unref(s->commit_top_bs);
-@@ -174,7 +175,7 @@ static int coroutine_fn commit_run(Job *job, Error **=
-errp)
-             break;
-         }
-         /* Copy if allocated above the base */
--        ret =3D bdrv_is_allocated_above(blk_bs(s->top), blk_bs(s->base),=
- false,
-+        ret =3D bdrv_is_allocated_above(blk_bs(s->top), s->above_base, t=
-rue,
-                                       offset, COMMIT_BUFFER_SIZE, &n);
-         copy =3D (ret =3D=3D 1);
-         trace_commit_one_iteration(s, offset, n, ret);
-@@ -267,15 +268,35 @@ void commit_start(const char *job_id, BlockDriverSt=
-ate *bs,
-     CommitBlockJob *s;
-     BlockDriverState *iter;
-     BlockDriverState *commit_top_bs =3D NULL;
-+    BlockDriverState *filtered_base;
+     if (s->chain_frozen) {
+         BlockJob *bjob =3D &s->common;
+-        bdrv_unfreeze_chain(blk_bs(bjob->blk), s->bottom);
++        bdrv_unfreeze_chain(blk_bs(bjob->blk), s->above_base);
+     }
+ }
+=20
+@@ -63,14 +64,15 @@ static int stream_prepare(Job *job)
+     StreamBlockJob *s =3D container_of(job, StreamBlockJob, common.job);
+     BlockJob *bjob =3D &s->common;
+     BlockDriverState *bs =3D blk_bs(bjob->blk);
+-    BlockDriverState *base =3D backing_bs(s->bottom);
++    BlockDriverState *unfiltered_bs =3D bdrv_skip_rw_filters(bs);
++    BlockDriverState *base =3D bdrv_filtered_bs(s->above_base);
      Error *local_err =3D NULL;
-+    int64_t base_size, top_size;
-+    uint64_t perms, iter_shared_perms;
-     int ret;
+     int ret =3D 0;
 =20
-     assert(top !=3D bs);
--    if (top =3D=3D base) {
-+    if (bdrv_skip_rw_filters(top) =3D=3D bdrv_skip_rw_filters(base)) {
-         error_setg(errp, "Invalid files for merge: top and base are the =
-same");
+-    bdrv_unfreeze_chain(bs, s->bottom);
++    bdrv_unfreeze_chain(bs, s->above_base);
+     s->chain_frozen =3D false;
+=20
+-    if (bs->backing) {
++    if (bdrv_filtered_cow_child(unfiltered_bs)) {
+         const char *base_id =3D NULL, *base_fmt =3D NULL;
+         if (base) {
+             base_id =3D s->backing_file_str;
+@@ -78,8 +80,8 @@ static int stream_prepare(Job *job)
+                 base_fmt =3D base->drv->format_name;
+             }
+         }
+-        bdrv_set_backing_hd(bs, base, &local_err);
+-        ret =3D bdrv_change_backing_file(bs, base_id, base_fmt);
++        bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
++        ret =3D bdrv_change_backing_file(unfiltered_bs, base_id, base_fm=
+t);
+         if (local_err) {
+             error_report_err(local_err);
+             return -EPERM;
+@@ -110,7 +112,8 @@ static int coroutine_fn stream_run(Job *job, Error **=
+errp)
+     StreamBlockJob *s =3D container_of(job, StreamBlockJob, common.job);
+     BlockBackend *blk =3D s->common.blk;
+     BlockDriverState *bs =3D blk_bs(blk);
+-    bool enable_cor =3D !backing_bs(s->bottom);
++    BlockDriverState *unfiltered_bs =3D bdrv_skip_rw_filters(bs);
++    bool enable_cor =3D !bdrv_filtered_bs(s->above_base);
+     int64_t len;
+     int64_t offset =3D 0;
+     uint64_t delay_ns =3D 0;
+@@ -119,7 +122,7 @@ static int coroutine_fn stream_run(Job *job, Error **=
+errp)
+     int64_t n =3D 0; /* bytes */
+     void *buf;
+=20
+-    if (bs =3D=3D s->bottom) {
++    if (unfiltered_bs =3D=3D s->bottom_cow_node) {
+         /* Nothing to stream */
+         return 0;
+     }
+@@ -154,13 +157,14 @@ static int coroutine_fn stream_run(Job *job, Error =
+**errp)
+=20
+         copy =3D false;
+=20
+-        ret =3D bdrv_is_allocated(bs, offset, STREAM_BUFFER_SIZE, &n);
++        ret =3D bdrv_is_allocated(unfiltered_bs, offset, STREAM_BUFFER_S=
+IZE, &n);
+         if (ret =3D=3D 1) {
+             /* Allocated in the top, no need to copy.  */
+         } else if (ret >=3D 0) {
+             /* Copy if allocated in the intermediate images.  Limit to t=
+he
+              * known-unallocated area [offset, offset+n*BDRV_SECTOR_SIZE=
+).  */
+-            ret =3D bdrv_is_allocated_above(backing_bs(bs), s->bottom, t=
+rue,
++            ret =3D bdrv_is_allocated_above(bdrv_filtered_cow_bs(unfilte=
+red_bs),
++                                          s->bottom_cow_node, true,
+                                           offset, n, &n);
+             /* Finish early if end of backing file has been reached */
+             if (ret =3D=3D 0 && n =3D=3D 0) {
+@@ -231,9 +235,16 @@ void stream_start(const char *job_id, BlockDriverSta=
+te *bs,
+     BlockDriverState *iter;
+     bool bs_read_only;
+     int basic_flags =3D BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHAN=
+GED;
+-    BlockDriverState *bottom =3D bdrv_find_overlay(bs, base);
++    BlockDriverState *bottom_cow_node =3D bdrv_find_overlay(bs, base);
++    BlockDriverState *above_base;
+=20
+-    if (bdrv_freeze_chain(bs, bottom, errp) < 0) {
++    /* Find the node directly above @base */
++    for (above_base =3D bottom_cow_node;
++         bdrv_filtered_bs(above_base) !=3D base;
++         above_base =3D bdrv_filtered_bs(above_base))
++    {}
++
++    if (bdrv_freeze_chain(bs, above_base, errp) < 0) {
          return;
      }
 =20
-+    base_size =3D bdrv_getlength(base);
-+    if (base_size < 0) {
-+        error_setg_errno(errp, -base_size, "Could not inquire base image=
- size");
-+        return;
-+    }
-+
-+    top_size =3D bdrv_getlength(top);
-+    if (top_size < 0) {
-+        error_setg_errno(errp, -top_size, "Could not inquire top image s=
-ize");
-+        return;
-+    }
-+
-+    perms =3D BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE;
-+    if (base_size < top_size) {
-+        perms |=3D BLK_PERM_RESIZE;
-+    }
-+
-     s =3D block_job_create(job_id, &commit_job_driver, NULL, bs, 0, BLK_=
-PERM_ALL,
-                          speed, creation_flags, NULL, NULL, errp);
-     if (!s) {
-@@ -315,17 +336,43 @@ void commit_start(const char *job_id, BlockDriverSt=
+@@ -261,16 +272,19 @@ void stream_start(const char *job_id, BlockDriverSt=
 ate *bs,
-=20
-     s->commit_top_bs =3D commit_top_bs;
-=20
--    /* Block all nodes between top and base, because they will
--     * disappear from the chain after this operation. */
--    assert(bdrv_chain_contains(top, base));
--    for (iter =3D top; iter !=3D base; iter =3D backing_bs(iter)) {
--        /* XXX BLK_PERM_WRITE needs to be allowed so we don't block ours=
-elves
--         * at s->base (if writes are blocked for a node, they are also b=
-locked
--         * for its backing file). The other options would be a second fi=
-lter
--         * driver above s->base. */
-+    /*
-+     * Block all nodes between top and base, because they will
-+     * disappear from the chain after this operation.
-+     * Note that this assumes that the user is fine with removing all
-+     * nodes (including R/W filters) between top and base.  Assuring
-+     * this is the responsibility of the interface (i.e. whoever calls
-+     * commit_start()).
-+     */
-+    s->above_base =3D bdrv_find_overlay(top, base);
-+    assert(s->above_base);
-+
-+    /*
-+     * The topmost node with
-+     * bdrv_skip_rw_filters(filtered_base) =3D=3D bdrv_skip_rw_filters(b=
-ase)
-+     */
-+    filtered_base =3D bdrv_filtered_cow_bs(s->above_base);
-+    assert(bdrv_skip_rw_filters(filtered_base) =3D=3D bdrv_skip_rw_filte=
-rs(base));
-+
-+    /*
-+     * XXX BLK_PERM_WRITE needs to be allowed so we don't block ourselve=
-s
-+     * at s->base (if writes are blocked for a node, they are also block=
-ed
-+     * for its backing file). The other options would be a second filter
-+     * driver above s->base.
-+     */
-+    iter_shared_perms =3D BLK_PERM_WRITE_UNCHANGED | BLK_PERM_WRITE;
-+
-+    for (iter =3D top; iter !=3D base; iter =3D bdrv_filtered_bs(iter)) =
-{
-+        if (iter =3D=3D filtered_base) {
-+            /*
-+             * From here on, all nodes are filters on the base.  This
-+             * allows us to share BLK_PERM_CONSISTENT_READ.
-+             */
-+            iter_shared_perms |=3D BLK_PERM_CONSISTENT_READ;
-+        }
-+
-         ret =3D block_job_add_bdrv(&s->common, "intermediate node", iter=
-, 0,
--                                 BLK_PERM_WRITE_UNCHANGED | BLK_PERM_WRI=
-TE,
--                                 errp);
-+                                 iter_shared_perms, errp);
-         if (ret < 0) {
-             goto fail;
-         }
-@@ -342,9 +389,7 @@ void commit_start(const char *job_id, BlockDriverStat=
-e *bs,
-     }
-=20
-     s->base =3D blk_new(s->common.job.aio_context,
--                      BLK_PERM_CONSISTENT_READ
--                      | BLK_PERM_WRITE
--                      | BLK_PERM_RESIZE,
-+                      perms,
-                       BLK_PERM_CONSISTENT_READ
-                       | BLK_PERM_GRAPH_MOD
-                       | BLK_PERM_WRITE_UNCHANGED);
-@@ -412,19 +457,22 @@ int bdrv_commit(BlockDriverState *bs)
-     if (!drv)
-         return -ENOMEDIUM;
-=20
--    if (!bs->backing) {
-+    backing_file_bs =3D bdrv_filtered_cow_bs(bs);
-+
-+    if (!backing_file_bs) {
-         return -ENOTSUP;
-     }
-=20
-     if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_COMMIT_SOURCE, NULL) ||
--        bdrv_op_is_blocked(bs->backing->bs, BLOCK_OP_TYPE_COMMIT_TARGET,=
- NULL)) {
-+        bdrv_op_is_blocked(backing_file_bs, BLOCK_OP_TYPE_COMMIT_TARGET,=
- NULL))
-+    {
-         return -EBUSY;
-     }
-=20
--    ro =3D bs->backing->bs->read_only;
-+    ro =3D backing_file_bs->read_only;
-=20
-     if (ro) {
--        if (bdrv_reopen_set_read_only(bs->backing->bs, false, NULL)) {
-+        if (bdrv_reopen_set_read_only(backing_file_bs, false, NULL)) {
-             return -EACCES;
-         }
-     }
-@@ -440,8 +488,6 @@ int bdrv_commit(BlockDriverState *bs)
-     }
-=20
-     /* Insert commit_top block node above backing, so we can write to it=
- */
--    backing_file_bs =3D backing_bs(bs);
--
-     commit_top_bs =3D bdrv_new_open_driver(&bdrv_commit_top, NULL, BDRV_=
-O_RDWR,
-                                          &local_err);
-     if (commit_top_bs =3D=3D NULL) {
-@@ -526,15 +572,13 @@ ro_cleanup:
-     qemu_vfree(buf);
-=20
-     blk_unref(backing);
--    if (backing_file_bs) {
--        bdrv_set_backing_hd(bs, backing_file_bs, &error_abort);
--    }
-+    bdrv_set_backing_hd(bs, backing_file_bs, &error_abort);
-     bdrv_unref(commit_top_bs);
-     blk_unref(src);
-=20
-     if (ro) {
-         /* ignoring error return here */
--        bdrv_reopen_set_read_only(bs->backing->bs, true, NULL);
-+        bdrv_reopen_set_read_only(backing_file_bs, true, NULL);
-     }
-=20
-     return ret;
-diff --git a/blockdev.c b/blockdev.c
-index c6f79b4e0e..7bef41c0b0 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1094,7 +1094,7 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
-             return;
-         }
-=20
--        bs =3D blk_bs(blk);
-+        bs =3D bdrv_skip_implicit_filters(blk_bs(blk));
-         aio_context =3D bdrv_get_aio_context(bs);
-         aio_context_acquire(aio_context);
-=20
-@@ -3454,7 +3454,9 @@ void qmp_block_commit(bool has_job_id, const char *=
-job_id, const char *device,
-=20
-     assert(bdrv_get_aio_context(base_bs) =3D=3D aio_context);
-=20
--    for (iter =3D top_bs; iter !=3D backing_bs(base_bs); iter =3D backin=
-g_bs(iter)) {
-+    for (iter =3D top_bs; iter !=3D bdrv_filtered_bs(base_bs);
+      * disappear from the chain after this operation. The streaming job =
+reads
+      * every block only once, assuming that it doesn't change, so forbid=
+ writes
+      * and resizes. Reassign the base node pointer because the backing B=
+S of the
+-     * bottom node might change after the call to bdrv_reopen_set_read_o=
+nly()
+-     * due to parallel block jobs running.
++     * above_base node might change after the call to
++     * bdrv_reopen_set_read_only() due to parallel block jobs running.
+      */
+-    base =3D backing_bs(bottom);
+-    for (iter =3D backing_bs(bs); iter && iter !=3D base; iter =3D backi=
+ng_bs(iter)) {
++    base =3D bdrv_filtered_bs(above_base);
++    for (iter =3D bdrv_filtered_bs(bs); iter && iter !=3D base;
 +         iter =3D bdrv_filtered_bs(iter))
 +    {
-         if (bdrv_op_is_blocked(iter, BLOCK_OP_TYPE_COMMIT_TARGET, errp))=
- {
+         block_job_add_bdrv(&s->common, "intermediate node", iter, 0,
+                            basic_flags, &error_abort);
+     }
+=20
+-    s->bottom =3D bottom;
++    s->bottom_cow_node =3D bottom_cow_node;
++    s->above_base =3D above_base;
+     s->backing_file_str =3D g_strdup(backing_file_str);
+     s->bs_read_only =3D bs_read_only;
+     s->chain_frozen =3D true;
+@@ -284,5 +298,5 @@ fail:
+     if (bs_read_only) {
+         bdrv_reopen_set_read_only(bs, true, NULL);
+     }
+-    bdrv_unfreeze_chain(bs, bottom);
++    bdrv_unfreeze_chain(bs, above_base);
+ }
+diff --git a/blockdev.c b/blockdev.c
+index 7bef41c0b0..ee8b951154 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -3297,7 +3297,7 @@ void qmp_block_stream(bool has_job_id, const char *=
+job_id, const char *device,
+     }
+=20
+     /* Check for op blockers in the whole chain between bs and base */
+-    for (iter =3D bs; iter && iter !=3D base_bs; iter =3D backing_bs(ite=
+r)) {
++    for (iter =3D bs; iter && iter !=3D base_bs; iter =3D bdrv_filtered_=
+bs(iter)) {
+         if (bdrv_op_is_blocked(iter, BLOCK_OP_TYPE_STREAM, errp)) {
              goto out;
          }
 --=20
