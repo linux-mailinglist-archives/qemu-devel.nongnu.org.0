@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF49875C4
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:20:40 +0200 (CEST)
-Received: from localhost ([::1]:57550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E786875CE
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:21:59 +0200 (CEST)
+Received: from localhost ([::1]:57576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw14h-0007wL-ET
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:20:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48107)
+	id 1hw15y-0002bV-KB
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:21:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48307)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13t-00063F-PX
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:50 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hw14v-000155-R1
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:20:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13s-0007gX-O2
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:49 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43220)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hw13s-0007fL-Gv
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:48 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p13so22980931wru.10
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 02:19:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jg/eQC5u9xh3QI/xnJki4J/dDhPvHCNndIskUdzw8E8=;
- b=F6knsPHgbPXLBvUFks8QHXu9m4XQHH2xVA5M6n4ENY46YQBWlTQPO7xHYzYUQnwiTT
- 8Npc1+Oio0opINc8Xw81bXd5bjizSms8+RjBm1N+tqmUXT3nxDhYMcC5Mj7z2VHh3n+K
- GnwDFeGzXnWDb5ClSADwvcL5EvxQ/lV1DHm18KqaaybsQD8k0YTnqCZX+nMJSkdTUqiQ
- yNMxRWzpImSVCU7BjR/XP+dgMEuhQwhfgZeeGAhaKjRNqfosd9xXMEvTN53XbckRthxr
- XVuCXJCIrMNivpyZtIGdGskK7GcL+OQ8TBhk3Ujos7PXqRypo5+FK/ShJCpooS7kwoF3
- WE2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jg/eQC5u9xh3QI/xnJki4J/dDhPvHCNndIskUdzw8E8=;
- b=uc2r1zrGWgBgkSbVweEdYo5Q+Aa33yHSoZ6HOO78i3wm3oxDHV6AcapFHJzBzrmSiO
- 5NmhTeEkOEt6S4KlhiR0QDfaBx4k12o8wQ9cyQswBNF9ujETP/TutRQfEAqBb1BE73Xw
- QsveAAbvpNcHPvGLb8hKEQAfhx7h6xy2xjSs0N2+z7c+venpvqcN0gejmpdDkcNzsi2u
- mIth3uRwoNPWsKJZpywVYdBQgvfqdOImDrlL43xXBhnZJzCVNaEvbeypaeemeCAyQWc3
- eRjwBGZyp55+aGsgZFmGgIGLDNcX8wa5A5lLlrLlIFdQ+PY2YQTJ29WX4SQu/mopQerm
- 8N1g==
-X-Gm-Message-State: APjAAAXk+pwIOmfQDheZTZYczfSDCWDIDO9U4ZXmsi+QZrSBZhbIgYxv
- 5TmHyTDz7CCSTQvi2YhlN8UuYyY8M7E=
-X-Google-Smtp-Source: APXvYqy9cIYZAjGACCUC65d+paJni9COdNQ1xy+YZz/nfebrWTJqL4BcTfBnhLYQZ25sogmyZAp+dw==
-X-Received: by 2002:adf:e710:: with SMTP id c16mr13188156wrm.292.1565342387409; 
- Fri, 09 Aug 2019 02:19:47 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id r4sm63281255wrq.82.2019.08.09.02.19.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Aug 2019 02:19:44 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8D86C1FF96;
- Fri,  9 Aug 2019 10:19:41 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Fri,  9 Aug 2019 10:19:40 +0100
-Message-Id: <20190809091940.1223-8-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190809091940.1223-1-alex.bennee@linaro.org>
-References: <20190809091940.1223-1-alex.bennee@linaro.org>
+ (envelope-from <damien.hedde@greensocs.com>) id 1hw14u-0000dn-Qc
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:20:53 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:49316)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1hw14p-0000Xi-P5; Fri, 09 Aug 2019 05:20:48 -0400
+Received: from [172.16.11.117] (unknown [172.16.11.117])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id BBAE896F50;
+ Fri,  9 Aug 2019 09:20:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1565342446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I6RC9WtmbZhhCHopOjtYEaLOC3+Z0AX+8u6YSjXVUks=;
+ b=x5PP0XNebUzuh6czPgO9LSIVbY1JApCkPF3OblOZo5dbF74ePcsaTVrCmD2/8nsGJN0EKb
+ 9NthaO8G4w3bD/08vrBhbPpJ1B9R+y4txd4PfqnUzp8hVC5J1EwD6NKRJ1pQgHMkuX6taM
+ wkoiQxVO4p/Gul2O584BNPKPamvyDFw=
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190729145654.14644-1-damien.hedde@greensocs.com>
+ <20190729145654.14644-3-damien.hedde@greensocs.com>
+ <CAFEAcA9puHxUvxbSBsFrEQ6QN=fq3GJH4SgzcpQWQB60PTVR=g@mail.gmail.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <b5d20c72-2254-7055-a93b-252ca3887f85@greensocs.com>
+Date: Fri, 9 Aug 2019 11:20:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v2 7/7] targets (various): use
- softfloat-helpers.h where we can
+In-Reply-To: <CAFEAcA9puHxUvxbSBsFrEQ6QN=fq3GJH4SgzcpQWQB60PTVR=g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1565342446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I6RC9WtmbZhhCHopOjtYEaLOC3+Z0AX+8u6YSjXVUks=;
+ b=C46GEBXeX/5vzjiq0r5e3hG2LnjQeCWxh/hBG3lKx6hjwieY1ZwLvXNnLhX/VddcvDadrm
+ Pxap8lmGyiJHdxqGbvHI456jmvsfQU2CxGQX5kITCAGbB7Y+HA996A6aeaMndBS2Va78iR
+ SCDa56+dqwSeXSBsUbZ/8BwkdqasWl0=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1565342446; a=rsa-sha256; cv=none;
+ b=I+y2CakCVbr4TjFgW4TvXKA9Ljebkm3ljBgMqF9lyMf0aDvcShpt/awXVjlp8mK1FaWGqK
+ 9qUzawMndsZQ2WOvXxnK335FAh/MGe6qpO3Obt2rG2U1FBZAt0Qzrtx3KEl7a3sCJx9wrW
+ Twgve5G2+a28NYudGElWotWrAGvfBWI=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 5.135.226.135
+Subject: Re: [Qemu-devel] [PATCH v3 02/33] add temporary device_legacy_reset
+ function to replace device_reset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,112 +78,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, armbru@redhat.com,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, Collin Walling <walling@linux.ibm.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Edgar Iglesias <edgar.iglesias@xilinx.com>, Hannes Reinecke <hare@suse.com>,
+ Qemu-block <qemu-block@nongnu.org>, David Hildenbrand <david@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-s390x <qemu-s390x@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Mark Burton <mark.burton@greensocs.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generally the cpu and non-FP helper files just want to manipulate the
-softfloat flags. For this they can just use the -helpers.h include
-which brings in a minimal number of inline helpers.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/alpha/helper.c   | 2 +-
- target/microblaze/cpu.c | 2 +-
- target/s390x/cpu.c      | 2 +-
- target/sh4/cpu.c        | 3 +--
- target/tricore/helper.c | 2 +-
- target/unicore32/cpu.c  | 1 -
- 6 files changed, 5 insertions(+), 7 deletions(-)
+On 8/7/19 4:27 PM, Peter Maydell wrote:
+> On Mon, 29 Jul 2019 at 15:58, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>>
+>> Provide a temporary function doing what device_reset does to do the
+>> transition with Resettable API which will trigger a prototype change
+>> of device_reset.
+> 
+> The other point here is that device_legacy_reset() resets
+> only that device, not any of its qbus children, right?
+> So the new function which we eventually replace the callsites
+> with also has different semantics, which is why we do the
+> changes one by one in patches 10-28.
 
-diff --git a/target/alpha/helper.c b/target/alpha/helper.c
-index 93b8e788b18..c6998348df4 100644
---- a/target/alpha/helper.c
-+++ b/target/alpha/helper.c
-@@ -21,7 +21,7 @@
- 
- #include "cpu.h"
- #include "exec/exec-all.h"
--#include "fpu/softfloat.h"
-+#include "fpu/softfloat-types.h"
- #include "exec/helper-proto.h"
- #include "qemu/qemu-print.h"
- 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 0bec54b2f8a..9cfd7445e7d 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -28,7 +28,7 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "exec/exec-all.h"
--#include "fpu/softfloat.h"
-+#include "fpu/softfloat-helpers.h"
- 
- static const struct {
-     const char *name;
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 736a7903e22..5db016672bb 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -42,7 +42,7 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/tcg.h"
- #endif
--#include "fpu/softfloat.h"
-+#include "fpu/softfloat-helpers.h"
- 
- #define CR0_RESET       0xE0UL
- #define CR14_RESET      0xC2000000UL;
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 816d6d7f311..d0a7707991f 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -25,8 +25,7 @@
- #include "cpu.h"
- #include "migration/vmstate.h"
- #include "exec/exec-all.h"
--#include "fpu/softfloat.h"
--
-+#include "fpu/softfloat-helpers.h"
- 
- static void superh_cpu_set_pc(CPUState *cs, vaddr value)
- {
-diff --git a/target/tricore/helper.c b/target/tricore/helper.c
-index a6803368506..d5db7b2c03f 100644
---- a/target/tricore/helper.c
-+++ b/target/tricore/helper.c
-@@ -19,7 +19,7 @@
- 
- #include "cpu.h"
- #include "exec/exec-all.h"
--#include "fpu/softfloat.h"
-+#include "fpu/softfloat-helpers.h"
- #include "qemu/qemu-print.h"
- 
- enum {
-diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
-index 802e2f1eba5..b27fb9689ff 100644
---- a/target/unicore32/cpu.c
-+++ b/target/unicore32/cpu.c
-@@ -17,7 +17,6 @@
- #include "cpu.h"
- #include "migration/vmstate.h"
- #include "exec/exec-all.h"
--#include "fpu/softfloat.h"
- 
- static void uc32_cpu_set_pc(CPUState *cs, vaddr value)
- {
--- 
-2.20.1
+Yes, for device_reset there is a change of scope.
 
+> 
+> So you could add:
+> 
+> The new resettable API function also has different semantics
+> (resetting child buses as well as the specified device).
+> Subsequent commits will make the changeover for each callsite
+> individually; once that is complete device_legacy_reset() will be
+> removed.
+
+sure
+
+> 
+>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> 
+> I agree with David that patch 3 could be squashed into this one.
+
+ok
+
+> 
+> If you do that and tweak the commit message you can have
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> thanks
+> -- PMM
+> 
 
