@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEE787FC6
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:24:05 +0200 (CEST)
-Received: from localhost ([::1]:60968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D2B87FF9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:29:06 +0200 (CEST)
+Received: from localhost ([::1]:32844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw7gS-00058s-HE
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:24:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57599)
+	id 1hw7lK-0001jJ-7b
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:29:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57627)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hw7Y8-0003lC-35
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:29 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hw7YB-0003up-20
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hw7Y7-0004bq-62
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60493)
+ (envelope-from <mreitz@redhat.com>) id 1hw7Y9-0004dD-P7
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:15:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45734)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hw7Y5-0004af-3O; Fri, 09 Aug 2019 12:15:25 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hw7Y7-0004bc-DP; Fri, 09 Aug 2019 12:15:27 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6E27F3081CFE;
- Fri,  9 Aug 2019 16:15:24 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AA08665F7B;
+ Fri,  9 Aug 2019 16:15:26 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 092637E4E;
- Fri,  9 Aug 2019 16:15:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 472CA5C8BA;
+ Fri,  9 Aug 2019 16:15:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri,  9 Aug 2019 18:13:56 +0200
-Message-Id: <20190809161407.11920-32-mreitz@redhat.com>
+Date: Fri,  9 Aug 2019 18:13:57 +0200
+Message-Id: <20190809161407.11920-33-mreitz@redhat.com>
 In-Reply-To: <20190809161407.11920-1-mreitz@redhat.com>
 References: <20190809161407.11920-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 09 Aug 2019 16:15:24 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Fri, 09 Aug 2019 16:15:26 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 31/42] block: Drop backing_bs()
+Subject: [Qemu-devel] [PATCH v6 32/42] block: Make
+ bdrv_get_cumulative_perm() public
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,33 +61,64 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to make it explicit where bs->backing is used, and we have done
-so.  The old role of backing_bs() is now effectively taken by
-bdrv_filtered_cow_bs().
+This is useful in other files like blockdev.c to determine for example
+whether a node can be written to or not.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block_int.h | 5 -----
- 1 file changed, 5 deletions(-)
+ include/block/block_int.h | 3 +++
+ block.c                   | 6 ++----
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 5bec3361fd..786801c32f 100644
+index 786801c32f..c17df3808a 100644
 --- a/include/block/block_int.h
 +++ b/include/block/block_int.h
-@@ -932,11 +932,6 @@ typedef enum BlockMirrorBackingMode {
-     MIRROR_LEAVE_BACKING_CHAIN,
- } BlockMirrorBackingMode;
+@@ -1205,6 +1205,9 @@ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t =
+perm, uint64_t shared,
+  */
+ int bdrv_child_refresh_perms(BlockDriverState *bs, BdrvChild *c, Error *=
+*errp);
 =20
--static inline BlockDriverState *backing_bs(BlockDriverState *bs)
--{
--    return bs->backing ? bs->backing->bs : NULL;
--}
--
++void bdrv_get_cumulative_perm(BlockDriverState *bs,
++                              uint64_t *perm, uint64_t *shared_perm);
++
+ /* Default implementation for BlockDriver.bdrv_child_perm() that can be =
+used by
+  * block filters: Forward CONSISTENT_READ, WRITE, WRITE_UNCHANGED and RE=
+SIZE to
+  * all children */
+diff --git a/block.c b/block.c
+index 6e1ddab056..915b80153c 100644
+--- a/block.c
++++ b/block.c
+@@ -1713,8 +1713,6 @@ static int bdrv_child_check_perm(BdrvChild *c, Bloc=
+kReopenQueue *q,
+                                  bool *tighten_restrictions, Error **err=
+p);
+ static void bdrv_child_abort_perm_update(BdrvChild *c);
+ static void bdrv_child_set_perm(BdrvChild *c, uint64_t perm, uint64_t sh=
+ared);
+-static void bdrv_get_cumulative_perm(BlockDriverState *bs, uint64_t *per=
+m,
+-                                     uint64_t *shared_perm);
 =20
- /* Essential block drivers which must always be statically linked into q=
-emu, and
-  * which therefore can be accessed without using bdrv_find_format() */
+ typedef struct BlockReopenQueueEntry {
+      bool prepared;
+@@ -1938,8 +1936,8 @@ static void bdrv_set_perm(BlockDriverState *bs, uin=
+t64_t cumulative_perms,
+     }
+ }
+=20
+-static void bdrv_get_cumulative_perm(BlockDriverState *bs, uint64_t *per=
+m,
+-                                     uint64_t *shared_perm)
++void bdrv_get_cumulative_perm(BlockDriverState *bs,
++                              uint64_t *perm, uint64_t *shared_perm)
+ {
+     BdrvChild *c;
+     uint64_t cumulative_perms =3D 0;
 --=20
 2.21.0
 
