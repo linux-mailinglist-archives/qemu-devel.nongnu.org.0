@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD3887A7F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:51:46 +0200 (CEST)
-Received: from localhost ([::1]:59050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB4587A7D
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:51:36 +0200 (CEST)
+Received: from localhost ([::1]:59048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw4Mz-000738-Dx
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52820)
+	id 1hw4Mq-0006rp-6u
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:51:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52835)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4Jo-0001k9-H2
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4Jp-0001kC-48
  for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4Jn-00018U-5p
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:28 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:52466 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4Jn-00018v-Kr
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:29 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:52478 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hw4Jm-00017w-RF
+ id 1hw4Jn-00017y-Ay
  for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:27 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id A24E31A2113;
+ by mail.rt-rk.com (Postfix) with ESMTP id DDB781A20D8;
  Fri,  9 Aug 2019 14:48:24 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 8679F1A2087;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 90B101A206F;
  Fri,  9 Aug 2019 14:48:24 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  9 Aug 2019 14:46:38 +0200
-Message-Id: <1565354819-1495-6-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Fri,  9 Aug 2019 14:46:39 +0200
+Message-Id: <1565354819-1495-7-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1565354819-1495-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1565354819-1495-1-git-send-email-aleksandar.markovic@rt-rk.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.2 v7 05/26] target/mips: Add support for
- emulation of CRC32 group of instructions
+Subject: [Qemu-devel] [PATCH for 4.2 v7 06/26] target/mips: Style
+ improvements in cp0_timer.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,180 +54,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, Yongbok Kim <yongbok.kim@mips.com>, philmd@redhat.com,
- amarkovic@wavecomp.com
+Cc: arikalo@wavecomp.com, philmd@redhat.com, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yongbok Kim <yongbok.kim@mips.com>
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Add emulation of MIPS' CRC32 (Cyclic Redundancy Check) instructions.
-Reuse zlib crc32() and Linux crc32c(). Note that, at the time being,
-there is no MIPS CPU that supports CRC32 instructions (they are an
-optional part of MIPS64/32 R6 anf nanoMIPS ISAs).
+Fixes mostly errors and warnings reported by 'checkpatch.pl -f'.
 
-Signed-off-by: Yongbok Kim <yongbok.kim@mips.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- disas/mips.c            |  8 ++++++++
- target/mips/helper.h    |  2 ++
- target/mips/op_helper.c | 22 ++++++++++++++++++++++
- target/mips/translate.c | 41 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 73 insertions(+)
+ target/mips/cp0_timer.c | 42 +++++++++++++++++++++++-------------------
+ 1 file changed, 23 insertions(+), 19 deletions(-)
 
-diff --git a/disas/mips.c b/disas/mips.c
-index c3a3059..b9a5204 100644
---- a/disas/mips.c
-+++ b/disas/mips.c
-@@ -1411,6 +1411,14 @@ const struct mips_opcode mips_builtin_opcodes[] =
- {"evp",        "t",     0x41600004, 0xffe0ffff, TRAP|WR_t,            0, I32R6},
- {"ginvi",      "v",     0x7c00003d, 0xfc1ffcff, TRAP | INSN_TLB,      0, I32R6},
- {"ginvt",      "v",     0x7c0000bd, 0xfc1ffcff, TRAP | INSN_TLB,      0, I32R6},
-+{"crc32b",     "t,v,t", 0x7c00000f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32h",     "t,v,t", 0x7c00004f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32w",     "t,v,t", 0x7c00008f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32d",     "t,v,t", 0x7c0000cf, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I64R6},
-+{"crc32cb",    "t,v,t", 0x7c00010f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32ch",    "t,v,t", 0x7c00014f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32cw",    "t,v,t", 0x7c00018f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32cd",    "t,v,t", 0x7c0001cf, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I64R6},
- 
- /* MSA */
- {"sll.b",   "+d,+e,+f", 0x7800000d, 0xffe0003f, WR_VD|RD_VS|RD_VT,  0, MSA},
-diff --git a/target/mips/helper.h b/target/mips/helper.h
-index c7d35bd..0e61043 100644
---- a/target/mips/helper.h
-+++ b/target/mips/helper.h
-@@ -40,6 +40,8 @@ DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
- DEF_HELPER_FLAGS_1(dbitswap, TCG_CALL_NO_RWG_SE, tl, tl)
- #endif
- 
-+DEF_HELPER_3(crc32, tl, tl, tl, i32)
-+DEF_HELPER_3(crc32c, tl, tl, tl, i32)
- DEF_HELPER_FLAGS_4(rotx, TCG_CALL_NO_RWG_SE, tl, tl, i32, i32, i32)
- 
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index 3104904..5874029 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -25,6 +25,8 @@
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
- #include "sysemu/kvm.h"
-+#include "qemu/crc32c.h"
-+#include <zlib.h>
- 
- /*****************************************************************************/
- /* Exceptions processing helpers */
-@@ -343,6 +345,26 @@ target_ulong helper_rotx(target_ulong rs, uint32_t shift, uint32_t shiftx,
-     return (int64_t)(int32_t)(uint32_t)tmp5;
+diff --git a/target/mips/cp0_timer.c b/target/mips/cp0_timer.c
+index f471639..b5f3560 100644
+--- a/target/mips/cp0_timer.c
++++ b/target/mips/cp0_timer.c
+@@ -29,7 +29,7 @@
+ #define TIMER_PERIOD 10 /* 10 ns period for 100 Mhz frequency */
+=20
+ /* XXX: do not use a global */
+-uint32_t cpu_mips_get_random (CPUMIPSState *env)
++uint32_t cpu_mips_get_random(CPUMIPSState *env)
+ {
+     static uint32_t seed =3D 1;
+     static uint32_t prev_idx =3D 0;
+@@ -42,8 +42,10 @@ uint32_t cpu_mips_get_random (CPUMIPSState *env)
+=20
+     /* Don't return same value twice, so get another value */
+     do {
+-        /* Use a simple algorithm of Linear Congruential Generator
+-         * from ISO/IEC 9899 standard. */
++        /*
++         * Use a simple algorithm of Linear Congruential Generator
++         * from ISO/IEC 9899 standard.
++         */
+         seed =3D 1103515245 * seed + 12345;
+         idx =3D (seed >> 16) % nb_rand_tlb + env->CP0_Wired;
+     } while (idx =3D=3D prev_idx);
+@@ -73,7 +75,7 @@ static void cpu_mips_timer_expire(CPUMIPSState *env)
+     qemu_irq_raise(env->irq[(env->CP0_IntCtl >> CP0IntCtl_IPTI) & 0x7]);
  }
- 
-+/* these crc32 functions are based on target/arm/helper-a64.c */
-+target_ulong helper_crc32(target_ulong val, target_ulong m, uint32_t sz)
-+{
-+    uint8_t buf[8];
-+    target_ulong mask = ((sz * 8) == 64) ? -1ULL : ((1ULL << (sz * 8)) - 1);
-+
-+    m &= mask;
-+    stq_le_p(buf, m);
-+    return (int32_t) (crc32(val ^ 0xffffffff, buf, sz) ^ 0xffffffff);
-+}
-+
-+target_ulong helper_crc32c(target_ulong val, target_ulong m, uint32_t sz)
-+{
-+    uint8_t buf[8];
-+    target_ulong mask = ((sz * 8) == 64) ? -1ULL : ((1ULL << (sz * 8)) - 1);
-+    m &= mask;
-+    stq_le_p(buf, m);
-+    return (int32_t) (crc32c(val, buf, sz) ^ 0xffffffff);
-+}
-+
- #ifndef CONFIG_USER_ONLY
- 
- static inline hwaddr do_translate_address(CPUMIPSState *env,
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 3f73be0..3f9f113 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -452,6 +452,7 @@ enum {
-     OPC_LWE            = 0x2F | OPC_SPECIAL3,
- 
-     /* R6 */
-+    OPC_CRC32          = 0x0F | OPC_SPECIAL3,
-     R6_OPC_PREF        = 0x35 | OPC_SPECIAL3,
-     R6_OPC_CACHE       = 0x25 | OPC_SPECIAL3,
-     R6_OPC_LL          = 0x36 | OPC_SPECIAL3,
-@@ -2550,6 +2551,7 @@ typedef struct DisasContext {
-     bool saar;
-     bool mi;
-     int gi;
-+    bool crcp;
- } DisasContext;
- 
- #define DISAS_STOP       DISAS_TARGET_0
-@@ -27041,6 +27043,33 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
+=20
+-uint32_t cpu_mips_get_count (CPUMIPSState *env)
++uint32_t cpu_mips_get_count(CPUMIPSState *env)
+ {
+     if (env->CP0_Cause & (1 << CP0Ca_DC)) {
+         return env->CP0_Count;
+@@ -91,16 +93,16 @@ uint32_t cpu_mips_get_count (CPUMIPSState *env)
      }
  }
- 
-+static void gen_crc32(DisasContext *ctx, int rd, int rs, int rt, int sz,
-+                      int crc32c)
-+{
-+    TCGv t0;
-+    TCGv t1;
-+    TCGv_i32 tsz = tcg_const_i32(1 << sz);
-+    if (rd == 0) {
-+        /* Treat as NOP. */
-+        return;
-+    }
-+    t0 = tcg_temp_new();
-+    t1 = tcg_temp_new();
-+
-+    gen_load_gpr(t0, rt);
-+    gen_load_gpr(t1, rs);
-+
-+    if (crc32c) {
-+        gen_helper_crc32c(cpu_gpr[rd], t0, t1, tsz);
-+    } else {
-+        gen_helper_crc32(cpu_gpr[rd], t0, t1, tsz);
-+    }
-+
-+    tcg_temp_free(t0);
-+    tcg_temp_free(t1);
-+    tcg_temp_free_i32(tsz);
-+}
-+
- static void decode_opc_special3_r6(CPUMIPSState *env, DisasContext *ctx)
+=20
+-void cpu_mips_store_count (CPUMIPSState *env, uint32_t count)
++void cpu_mips_store_count(CPUMIPSState *env, uint32_t count)
  {
-     int rs, rt, rd, sa;
-@@ -27055,6 +27084,17 @@ static void decode_opc_special3_r6(CPUMIPSState *env, DisasContext *ctx)
- 
-     op1 = MASK_SPECIAL3(ctx->opcode);
-     switch (op1) {
-+    case OPC_CRC32:
-+        if (unlikely(!ctx->crcp) ||
-+            unlikely((extract32(ctx->opcode, 6, 2) == 3) &&
-+                     (!(ctx->hflags & MIPS_HFLAG_64))) ||
-+            unlikely((extract32(ctx->opcode, 8, 3) >= 2))) {
-+            generate_exception_end(ctx, EXCP_RI);
-+        }
-+        gen_crc32(ctx, rt, rs, rt,
-+                  extract32(ctx->opcode, 6, 2),
-+                  extract32(ctx->opcode, 8, 3));
-+        break;
-     case R6_OPC_PREF:
-         if (rt >= 24) {
-             /* hint codes 24-31 are reserved and signal RI */
-@@ -30049,6 +30089,7 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->abs2008 = (env->active_fpu.fcr31 >> FCR31_ABS2008) & 1;
-     ctx->mi = (env->CP0_Config5 >> CP0C5_MI) & 1;
-     ctx->gi = (env->CP0_Config5 >> CP0C5_GI) & 3;
-+    ctx->crcp = (env->CP0_Config5 >> CP0C5_CRCP) & 1;
-     restore_cpu_state(env, ctx);
- #ifdef CONFIG_USER_ONLY
-         ctx->mem_idx = MIPS_HFLAG_UM;
--- 
+     /*
+      * This gets called from cpu_state_reset(), potentially before timer=
+ init.
+      * So env->timer may be NULL, which is also the case with KVM enable=
+d so
+      * treat timer as disabled in that case.
+      */
+-    if (env->CP0_Cause & (1 << CP0Ca_DC) || !env->timer)
++    if (env->CP0_Cause & (1 << CP0Ca_DC) || !env->timer) {
+         env->CP0_Count =3D count;
+-    else {
++    } else {
+         /* Store new count register */
+         env->CP0_Count =3D count -
+                (uint32_t)(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / TIMER_=
+PERIOD);
+@@ -109,13 +111,15 @@ void cpu_mips_store_count (CPUMIPSState *env, uint3=
+2_t count)
+     }
+ }
+=20
+-void cpu_mips_store_compare (CPUMIPSState *env, uint32_t value)
++void cpu_mips_store_compare(CPUMIPSState *env, uint32_t value)
+ {
+     env->CP0_Compare =3D value;
+-    if (!(env->CP0_Cause & (1 << CP0Ca_DC)))
++    if (!(env->CP0_Cause & (1 << CP0Ca_DC))) {
+         cpu_mips_timer_update(env);
+-    if (env->insn_flags & ISA_MIPS32R2)
++    }
++    if (env->insn_flags & ISA_MIPS32R2) {
+         env->CP0_Cause &=3D ~(1 << CP0Ca_TI);
++    }
+     qemu_irq_lower(env->irq[(env->CP0_IntCtl >> CP0IntCtl_IPTI) & 0x7]);
+ }
+=20
+@@ -131,27 +135,27 @@ void cpu_mips_stop_count(CPUMIPSState *env)
+                                  TIMER_PERIOD);
+ }
+=20
+-static void mips_timer_cb (void *opaque)
++static void mips_timer_cb(void *opaque)
+ {
+     CPUMIPSState *env;
+=20
+     env =3D opaque;
+-#if 0
+-    qemu_log("%s\n", __func__);
+-#endif
+=20
+-    if (env->CP0_Cause & (1 << CP0Ca_DC))
++    if (env->CP0_Cause & (1 << CP0Ca_DC)) {
+         return;
++    }
+=20
+-    /* ??? This callback should occur when the counter is exactly equal =
+to
+-       the comparator value.  Offset the count by one to avoid immediate=
+ly
+-       retriggering the callback before any virtual time has passed.  */
++    /*
++     * ??? This callback should occur when the counter is exactly equal =
+to
++     * the comparator value.  Offset the count by one to avoid immediate=
+ly
++     * retriggering the callback before any virtual time has passed.
++     */
+     env->CP0_Count++;
+     cpu_mips_timer_expire(env);
+     env->CP0_Count--;
+ }
+=20
+-void cpu_mips_clock_init (MIPSCPU *cpu)
++void cpu_mips_clock_init(MIPSCPU *cpu)
+ {
+     CPUMIPSState *env =3D &cpu->env;
+=20
+--=20
 2.7.4
 
 
