@@ -2,44 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660DF87A99
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:54:56 +0200 (CEST)
-Received: from localhost ([::1]:59100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2512087AB3
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:58:55 +0200 (CEST)
+Received: from localhost ([::1]:59154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw4Q3-0005zI-KW
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53079)
+	id 1hw4Tu-000557-BF
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53145)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4KH-0002Kh-Dd
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:58 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hw4Ke-0003eb-HP
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:49:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4KF-0001Ms-Gn
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:57 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:55584 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hw4KC-0001EK-NP
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:53 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 0F8981A21C0;
- Fri,  9 Aug 2019 14:48:26 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id DE7AA1A21D3;
- Fri,  9 Aug 2019 14:48:25 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Fri,  9 Aug 2019 14:46:58 +0200
-Message-Id: <1565354819-1495-26-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1565354819-1495-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1565354819-1495-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.2 v7 25/26] target/mips: tests/tcg: Add
- optional printing of more detailed failure info
+ (envelope-from <peter.maydell@linaro.org>) id 1hw4Kd-0001a2-Aw
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:49:20 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40989)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hw4Kd-0001Zn-4R
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:49:19 -0400
+Received: by mail-ot1-x344.google.com with SMTP id o101so132088902ota.8
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 05:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3JkgBNG2hX162hwRUL/oEhlM1Da/oaM7v+n5q+VX+0I=;
+ b=sPK/PY10+d0Xu33ayPdl/GTq3C8AEjpmmlJ2pQ1Xj/x1fyRainxsqf0J4B6cGHDmU8
+ InP9yu9LD89pJGNaswJxXlK11m1+XXvwhaS8rwUqjo8EXkgYlOoMHWSDaipBIa7jfyZX
+ f+Tv3xSu5tzo6VbN2M2ksEHbA6U6nILKBpINuK/IrH/zXmQ2sb/F+G2D4T9PErb4jdDy
+ sW7w0XN5Z7Is7zxzq5U0DVZnuatwSbFoZtFtbNA6GMybGc/3hAMorMgCSfOLJR/WjrUP
+ fi6kdXfMWv11TeBRHEafKpxoNtmRm6y3Ciap4o6h1dEm9Bnz0WABWPbfC1vxbMXmGCuM
+ 2i7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3JkgBNG2hX162hwRUL/oEhlM1Da/oaM7v+n5q+VX+0I=;
+ b=nDS5hY/FCUBCJuWC70P0p60Q3nhTz1Q4k4miQzmL1VyYEVQ74QZeqHc/6gk/7cyHXw
+ 3yt1LKHWu24BOL64k90aG4WfXzWIeMh/1vFzItq90FlYSC36b285VUEa/cIMBQORtRhg
+ oDh3622LHZXPPZQLY9pOJFd67XBHyF6hwfVHOhLr8J4OYgRhRGR/NsC6UORdrXjt1Duw
+ B9cOOOMwq0LL3EdnTJMHZLaT3+pWGIrsFX3RcXLvRe/kJsddT4BXO0WYVXpdpWb3prIQ
+ SoE42pmKweByJAYjkipA82JEwFTBwx83PtWPqbWPHr19EWR8ZfRLMtF3abcpmQoKy89M
+ BgGw==
+X-Gm-Message-State: APjAAAUVPol2Gs/Ae1BOrxYG37sYzeifkNq1hRTb9zUyQxwMSF5BvSyS
+ b+YACoYKVlAlH04CdLsSRT32hcyexHMzdc58v5pG1A==
+X-Google-Smtp-Source: APXvYqx9d8eW/1/dj3G94b5CduqhAPICPw/NbQYQx0cq+KMWd9rV7o2haDo7YrKwrMSqbQW/AXKJvKhE+wZ4O9QEezE=
+X-Received: by 2002:a9d:6a0f:: with SMTP id g15mr18268282otn.135.1565354958122; 
+ Fri, 09 Aug 2019 05:49:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <87r25vd5y1.fsf@dusky.pond.sub.org>
+ <CAFEAcA-3X0s-mxaD27HWQa7ysiEb6Uo-BD+Yxo0QhBV_yb9WLA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-3X0s-mxaD27HWQa7ysiEb6Uo-BD+Yxo0QhBV_yb9WLA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Aug 2019 13:49:07 +0100
+Message-ID: <CAFEAcA-e2aW33GeuganVSnu9epuqt57rnZ_KgEHwDNqrWrTHuA@mail.gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] Does i386-linux-user build on an i686 host?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,64 +74,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, philmd@redhat.com, amarkovic@wavecomp.com
+Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <Laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On Fri, 9 Aug 2019 at 13:22, Peter Maydell <peter.maydell@linaro.org> wrote=
+:
+>
+> On Thu, 8 Aug 2019 at 16:37, Markus Armbruster <armbru@redhat.com> wrote:
+> >
+> > Fails for me, but perhaps I'm doing it wrong:
+>
+>
+> > NOTE: cross-compilers enabled:  'cc'
+> > $ make
+> >   CC      i386-linux-user/linux-user/syscall.o
+> > /home/armbru/qemu/linux-user/ioctls.h:306:9: error: =E2=80=98SNDCTL_DSP=
+_MAPINBUF=E2=80=99 undeclared here (not in a function)
+> >    IOCTL(SNDCTL_DSP_MAPINBUF, IOC_R, MK_PTR(MK_STRUCT(STRUCT_buffmem_de=
+sc)))
+> >          ^
+> > /home/armbru/qemu/linux-user/syscall.c:5023:23: note: in definition of =
+macro =E2=80=98IOCTL=E2=80=99
+> >      { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
+> >                        ^
+> > /home/armbru/qemu/linux-user/ioctls.h:307:9: error: =E2=80=98SNDCTL_DSP=
+_MAPOUTBUF=E2=80=99 undeclared here (not in a function)
+> >    IOCTL(SNDCTL_DSP_MAPOUTBUF, IOC_R, MK_PTR(MK_STRUCT(STRUCT_buffmem_d=
+esc)))
+> >          ^
+> > /home/armbru/qemu/linux-user/syscall.c:5023:23: note: in definition of =
+macro =E2=80=98IOCTL=E2=80=99
+> >      { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
+> >                        ^
+> > /home/armbru/qemu/linux-user/ioctls.h:362:9: error: =E2=80=98SOUND_MIXE=
+R_ACCESS=E2=80=99 undeclared here (not in a function)
+> >    IOCTL(SOUND_MIXER_ACCESS, 0, TYPE_PTRVOID)
+> >          ^
+> > /home/armbru/qemu/linux-user/syscall.c:5023:23: note: in definition of =
+macro =E2=80=98IOCTL=E2=80=99
+> >      { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
+> >                        ^
+>
+> We expect these to be provided by the system's "linux/soundcard.h".
+> For my Debian system that's provided by the linux-libc-dev package,
+> but I imagine you have that installed or you wouldn't have got
+> this far in the configure/compile process...
 
-There is a need for printing input and output data for failure cases,
-for debugging purpose. This is achieved by this patch, and only if a
-preprocessor constant is manually set to 1. (Assumption is that the
-need for such printout is relatively rare.)
+Further investigation shows that this is because the system has
+the 'oss4-dev' package installed, which diverts /usr/include/linux/soundcar=
+d.h
+and installs its own version which doesn't provide all the symbols
+that the kernel one does.
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- tests/tcg/mips/include/test_utils_128.h | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+Easy fix: uninstall oss4-dev.
 
-diff --git a/tests/tcg/mips/include/test_utils_128.h b/tests/tcg/mips/include/test_utils_128.h
-index 2fea610..0dd3868 100644
---- a/tests/tcg/mips/include/test_utils_128.h
-+++ b/tests/tcg/mips/include/test_utils_128.h
-@@ -27,7 +27,8 @@
- #include <inttypes.h>
- #include <string.h>
- 
--#define PRINT_RESULTS 0
-+#define PRINT_RESULTS    0
-+#define PRINT_FAILURES   0
- 
- 
- static inline int32_t check_results_128(const char *isa_ase_name,
-@@ -65,6 +66,26 @@ static inline int32_t check_results_128(const char *isa_ase_name,
-             (b128_result[2 * i + 1] == b128_expect[2 * i + 1])) {
-             pass_count++;
-         } else {
-+#if PRINT_FAILURES
-+            uint32_t ii;
-+            uint64_t a, b;
-+
-+            printf("\n");
-+
-+            printf("FAILURE for test case %d!\n", i);
-+
-+            memcpy(&a, (b128_expect + 2 * i), 8);
-+            memcpy(&b, (b128_expect + 2 * i + 1), 8);
-+            printf("Expected result : { 0x%016llxULL, 0x%016llxULL, },\n",
-+                   a, b);
-+
-+            memcpy(&a, (b128_result + 2 * i), 8);
-+            memcpy(&b, (b128_result + 2 * i + 1), 8);
-+            printf("Actual result   : { 0x%016llxULL, 0x%016llxULL, },\n",
-+                   a, b);
-+
-+            printf("\n");
-+#endif
-             fail_count++;
-         }
-     }
--- 
-2.7.4
+Better fix: patch QEMU to provide its own versions of these constants
+if the system headers don't.
 
+Utopian fix: I've wondered occasionally whether for cases like this
+where the constant is known to be the same for the host and the guest
+we should have some sort of approach which lets us use the QEMU
+copies of the linux kernel headers rather than having to rely on
+the host system, which might have an older version that restricts
+us unnecessarily on what we could support...
+
+Issue previously reported in 2016:
+https://lists.gnu.org/archive/html/qemu-devel/2016-12/msg01421.html
+
+thanks
+-- PMM
 
