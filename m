@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D756875D7
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:24:05 +0200 (CEST)
-Received: from localhost ([::1]:57610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5A6875D4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:23:15 +0200 (CEST)
+Received: from localhost ([::1]:57604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw180-0005eW-DE
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:24:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48094)
+	id 1hw17C-0004mq-HJ
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:23:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48074)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13s-000617-Vd
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:50 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13r-0007f9-RK
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13s-0005zo-19
  for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:48 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52109)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13r-0007e1-10
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:47 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42068)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hw13r-0007e9-Ki
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:47 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 207so4988819wma.1
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 02:19:47 -0700 (PDT)
+ id 1hw13q-0007cv-Q7
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:46 -0400
+Received: by mail-wr1-x443.google.com with SMTP id b16so864691wrq.9
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 02:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pH6yorJSkceA3ksBNVomDICRxgnjhzqlXkTAbU0+vbc=;
- b=x/BNiUQzc0YrqGXyzZG3EF3SNKeDkn9sPFKWkj0CqUHXxg12JF2xdeGcFCmOlFgzbD
- P8NpEYutEUxYMi6tw3p5BdVsunTJPK6VVbkNB1CIxlr7Ge0c3PZiB0nCbaR5i9ymnq9o
- Vgr6tlkn13fs69Rm8a/nOKospOI6s3lnie5BE8qlAK6HseIg33ZkT7NI3teAH+q+qyOS
- FZ57kcKuWcDcuOpc1JE3dsKnXfPF17z4s13RYcbFnSHeuBDeKCn9qmxERQwklU7ByyYW
- smChdcp1b7Re2GxHKZiEZVzDxWaL4sMi3zAExFNlLRY1OmJepBCoTAlTkpj+DoxBs1qD
- sxEQ==
+ bh=ECv7P3HJHBY/e1Rr1VXbOKCzKrV4OGAXQsEe8ka+MiU=;
+ b=POyAZCZo37L7qmzJ2UiFAtXuV52U+/+i4UscFsPLALzPiWP9jFiCZO3Z415eD8TNgN
+ egZ9HD9uJUJzs/lBfi7+PHYOpKqOm8toJ90fSrkPlbTNYxPU0UUGNkFVXzMVehUuSYUj
+ KaTOYp/nN6S9NuEozulvRnjJOUFSkKGtGOv5J1MqPZfm4ekfp+ZDOyObGnHem3Lz7D6p
+ DpIjSsFaJw8ee3zcLbGU0BwjGQZyz3DGjPr8tNWEh6v1EBQOLtEYOeGPFtNzcemRFLMP
+ LpKlIc9a7RyESKZEQWPtFSi+EWvc/3+Vd/QO4j/I+ytSLNC68xEt3NqYmLaf0LlZ2K3Y
+ NHyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pH6yorJSkceA3ksBNVomDICRxgnjhzqlXkTAbU0+vbc=;
- b=ouCCfl6jYeKiDTDSGvxLq2rKhoNS6Ene/+JMe/gHNQswUSxt65NsenmGHbQFO7bvML
- oXIwDVPix1fiX5KyyOpz7BA7LHWtL6QQSJifI0pBZ8dyGAc4DDO6E//gDedpIzgcfipC
- FlefA7ctQvVSh6h9XUaa209kqHUHlSwelZA/twEHOcYhU5bRz1x+qdKxBI0ggzr3G74L
- LUb8TVm6PD0YCjAetURNmcDZmqxL6lA60VxWNOqEKDwjk2Ayvn/LICe8QjkeBiG1MTg2
- 50PKIMJ5h6zmnpNI+zDJmmwsokleO2bFcmsnp/NWxKKtEKw4mFQifxznbWw2nQM6vYoU
- pSow==
-X-Gm-Message-State: APjAAAX9k5mVXwco3JrAOd3s//Dh0zYLJAdTO509G15BeXwD/C3dOinP
- pnBD+/iWUbJqaGSGw8G+WACRcw==
-X-Google-Smtp-Source: APXvYqxiF+dCi8jtuMIR2xz/Hm5iWrUNkxqDStJkMFlfyMCNtnllEIjhM6AR5QH9v4AqL45yUXNO6A==
-X-Received: by 2002:a1c:721a:: with SMTP id n26mr1142246wmc.88.1565342386500; 
- Fri, 09 Aug 2019 02:19:46 -0700 (PDT)
+ bh=ECv7P3HJHBY/e1Rr1VXbOKCzKrV4OGAXQsEe8ka+MiU=;
+ b=NFvMQjDLchY+ittPwH5cyL00rQru6Osij+zj8QLYDv+gWV7+FJ0WrkEH8MQtKY3O01
+ liN6FEU8nYX9loVA+ZivgRRt38y3wH9S4+XdrMMbsZSZQaeDZL+J30gPMo7XczOxipBK
+ F2d2F0Yyk+NNeMJmqXRIAoHX/w6QYc1eLAV3Be7Bzh/PDXuHTUeiZmkH5pH5uPKRGSNW
+ tGh+pi2Hh+m7kstY+vz9poaisp6AnBzlhCizguAsggQ6SghgF+ISYDnNOOdbNXOHiyqZ
+ iUzA+MSO8s2ltZK7xC60hxn7SLGSzddk5kLZu7iWSLYlvjMyqshaoyxqV37QevOju8Y1
+ oYWg==
+X-Gm-Message-State: APjAAAV4LYkDuiG5e/Je0M+AGpANk+LeJNgWZAUKhj0QqS4rD3QyDgV6
+ HFA5ab0FzaCwqjfK+Xst6yLAr5qWkLo=
+X-Google-Smtp-Source: APXvYqwhVWDecAFxQcrBYFm0lfO3vwJQhv27lTk4b+5Vsi3ylJv7VFX+Pv5lsAWnAr38LSHPgMQl8A==
+X-Received: by 2002:adf:eb49:: with SMTP id u9mr23604502wrn.215.1565342385660; 
+ Fri, 09 Aug 2019 02:19:45 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id c1sm5763943wmc.40.2019.08.09.02.19.42
+ by smtp.gmail.com with ESMTPSA id q18sm121726388wrw.36.2019.08.09.02.19.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 09 Aug 2019 02:19:43 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 57FBA1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 70F571FF93;
  Fri,  9 Aug 2019 10:19:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri,  9 Aug 2019 10:19:38 +0100
-Message-Id: <20190809091940.1223-6-alex.bennee@linaro.org>
+Date: Fri,  9 Aug 2019 10:19:39 +0100
+Message-Id: <20190809091940.1223-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190809091940.1223-1-alex.bennee@linaro.org>
 References: <20190809091940.1223-1-alex.bennee@linaro.org>
@@ -68,8 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v2 5/7] target/mips: rationalise softfloat
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH v2 6/7] target/riscv: rationalise softfloat
  includes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,120 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
- armbru@redhat.com, Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Richard Henderson <richard.henderson@linaro.org>, armbru@redhat.com,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 We should avoid including the whole of softfloat headers in cpu.h and
 explicitly include it only where we will be calling softfloat
-functions. We can use the -types.h in cpu.h for the few bits that are
-global. We also move the restore_snan_bit_mode into internal.h and
-include -helpers.h there.
+functions. We can use the -types.h and -helpers.h in cpu.h for the few
+bits that are global.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2
-  - move restore_snan_bit_mode to internal.h
----
- linux-user/mips/cpu_loop.c | 1 +
- target/mips/cpu.h          | 8 +-------
- target/mips/internal.h     | 7 +++++++
- target/mips/msa_helper.c   | 1 +
- target/mips/op_helper.c    | 1 +
- 5 files changed, 11 insertions(+), 7 deletions(-)
+ target/riscv/cpu.c        | 1 +
+ target/riscv/cpu.h        | 2 +-
+ target/riscv/fpu_helper.c | 1 +
+ 3 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index 0ba894fa7aa..39915b3fde2 100644
---- a/linux-user/mips/cpu_loop.c
-+++ b/linux-user/mips/cpu_loop.c
-@@ -22,6 +22,7 @@
- #include "qemu.h"
- #include "cpu_loop-common.h"
- #include "elf.h"
-+#include "internal.h"
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index f8d07bd20ad..6d52f97d7c3 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -27,6 +27,7 @@
+ #include "qemu/error-report.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
++#include "fpu/softfloat-helpers.h"
  
- # ifdef TARGET_ABI_MIPSO32
- #  define MIPS_SYS(name, args) args,
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 21c0615e020..d235117dab3 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -5,7 +5,7 @@
+ /* RISC-V CPU definitions */
  
- #include "cpu-qom.h"
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 0adb307f329..240b31e2ebb 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -22,7 +22,7 @@
+ 
+ #include "qom/cpu.h"
  #include "exec/cpu-defs.h"
 -#include "fpu/softfloat.h"
 +#include "fpu/softfloat-types.h"
- #include "mips-defs.h"
  
- #define TCG_GUEST_DEFAULT_MO (0)
-@@ -1195,12 +1195,6 @@ void itc_reconfigure(struct MIPSITUState *tag);
- /* helper.c */
- target_ulong exception_resume_pc(CPUMIPSState *env);
+ #define TCG_GUEST_DEFAULT_MO 0
  
--static inline void restore_snan_bit_mode(CPUMIPSState *env)
--{
--    set_snan_bit_is_one((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) == 0,
--                        &env->active_fpu.fp_status);
--}
--
- static inline void cpu_get_tb_cpu_state(CPUMIPSState *env, target_ulong *pc,
-                                         target_ulong *cs_base, uint32_t *flags)
- {
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index b2b41a51ab4..49a7a7d8f56 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -7,6 +7,7 @@
- #ifndef MIPS_INTERNAL_H
- #define MIPS_INTERNAL_H
- 
-+#include "fpu/softfloat-helpers.h"
- 
- /* MMU types, the first four entries have the same layout as the
-    CP0C0_MT field.  */
-@@ -226,6 +227,12 @@ static inline void restore_flush_mode(CPUMIPSState *env)
-                       &env->active_fpu.fp_status);
- }
- 
-+static inline void restore_snan_bit_mode(CPUMIPSState *env)
-+{
-+    set_snan_bit_is_one((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) == 0,
-+                        &env->active_fpu.fp_status);
-+}
-+
- static inline void restore_fp_status(CPUMIPSState *env)
- {
-     restore_rounding_mode(env);
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index a5a86572b4a..f24061e2af7 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -22,6 +22,7 @@
- #include "internal.h"
+diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
+index b4f818a6465..0b79562a690 100644
+--- a/target/riscv/fpu_helper.c
++++ b/target/riscv/fpu_helper.c
+@@ -21,6 +21,7 @@
+ #include "qemu/host-utils.h"
  #include "exec/exec-all.h"
  #include "exec/helper-proto.h"
 +#include "fpu/softfloat.h"
  
- /* Data format min and max values */
- #define DF_BITS(df) (1 << ((df) + 3))
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index 9e2e02f8586..f88a3ab9043 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -25,6 +25,7 @@
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
- #include "sysemu/kvm.h"
-+#include "fpu/softfloat.h"
- 
- /*****************************************************************************/
- /* Exceptions processing helpers */
+ target_ulong riscv_cpu_get_fflags(CPURISCVState *env)
+ {
 -- 
 2.20.1
 
