@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A449D87A8E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:53:42 +0200 (CEST)
-Received: from localhost ([::1]:59078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 308FD87A8C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:53:40 +0200 (CEST)
+Received: from localhost ([::1]:59074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw4Or-0002jI-ST
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:53:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52940)
+	id 1hw4Op-0002aV-DH
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52942)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4K0-0002Fs-5G
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:44 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4K0-0002Ft-6F
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4Jy-0001EA-LA
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4Jz-0001EX-7i
  for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:40 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:52520 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:52524 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hw4Jy-00018r-Az
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:38 -0400
+ id 1hw4Jy-000193-ST
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:39 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 3B7B11A206F;
+ by mail.rt-rk.com (Postfix) with ESMTP id 3C5FF1A2087;
  Fri,  9 Aug 2019 14:48:25 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id F36931A20C6;
- Fri,  9 Aug 2019 14:48:24 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 09C8C1A1E5E;
+ Fri,  9 Aug 2019 14:48:25 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  9 Aug 2019 14:46:45 +0200
-Message-Id: <1565354819-1495-13-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Fri,  9 Aug 2019 14:46:46 +0200
+Message-Id: <1565354819-1495-14-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1565354819-1495-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1565354819-1495-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.2 v7 12/26] target/mips: Style
- improvements in mips_fulong2e.c
+Subject: [Qemu-devel] [PATCH for 4.2 v7 13/26] target/mips: Style
+ improvements in mips_int.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,198 +61,24 @@ Fixes mostly errors and warnings reported by 'checkpatch.pl -f'.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- hw/mips/mips_fulong2e.c | 96 +++++++++++++++++++++++++++++--------------------
- 1 file changed, 58 insertions(+), 38 deletions(-)
+ hw/mips/mips_int.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index 5dbaa3b..0c3d947 100644
---- a/hw/mips/mips_fulong2e.c
-+++ b/hw/mips/mips_fulong2e.c
-@@ -48,13 +48,13 @@
+diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
+index f899f6c..4c731ab 100644
+--- a/hw/mips/mips_int.c
++++ b/hw/mips/mips_int.c
+@@ -35,8 +35,9 @@ static void cpu_mips_irq_request(void *opaque, int irq, int level)
+     CPUState *cs = CPU(cpu);
+     bool locked = false;
  
- #define DEBUG_FULONG2E_INIT
- 
--#define ENVP_ADDR       0x80002000l
--#define ENVP_NB_ENTRIES	 	16
--#define ENVP_ENTRY_SIZE	 	256
-+#define ENVP_ADDR               0x80002000l
-+#define ENVP_NB_ENTRIES         16
-+#define ENVP_ENTRY_SIZE         256
- 
- /* fulong 2e has a 512k flash: Winbond W39L040AP70Z */
--#define BIOS_SIZE (512 * KiB)
--#define MAX_IDE_BUS 2
-+#define BIOS_SIZE               (512 * KiB)
-+#define MAX_IDE_BUS             2
- 
- /*
-  * PMON is not part of qemu and released with BSD license, anyone
-@@ -83,14 +83,15 @@ static struct _loaderparams {
-     const char *initrd_filename;
- } loaderparams;
- 
--static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t* prom_buf, int index,
-+static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t *prom_buf, int index,
-                                         const char *string, ...)
- {
-     va_list ap;
-     int32_t table_addr;
- 
--    if (index >= ENVP_NB_ENTRIES)
-+    if (index >= ENVP_NB_ENTRIES) {
+-    if (irq < 0 || irq > 7)
++    if (irq < 0 || irq > 7) {
          return;
 +    }
  
-     if (string == NULL) {
-         prom_buf[index] = 0;
-@@ -105,7 +106,7 @@ static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t* prom_buf, int index,
-     va_end(ap);
- }
- 
--static int64_t load_kernel (CPUMIPSState *env)
-+static int64_t load_kernel(CPUMIPSState *env)
- {
-     int64_t kernel_entry, kernel_low, kernel_high, initrd_size;
-     int index = 0;
-@@ -130,16 +131,18 @@ static int64_t load_kernel (CPUMIPSState *env)
-     initrd_size = 0;
-     initrd_offset = 0;
-     if (loaderparams.initrd_filename) {
--        initrd_size = get_image_size (loaderparams.initrd_filename);
-+        initrd_size = get_image_size(loaderparams.initrd_filename);
-         if (initrd_size > 0) {
--            initrd_offset = (kernel_high + ~INITRD_PAGE_MASK) & INITRD_PAGE_MASK;
-+            initrd_offset = (kernel_high + ~INITRD_PAGE_MASK) &
-+                            INITRD_PAGE_MASK;
-             if (initrd_offset + initrd_size > ram_size) {
-                 error_report("memory too small for initial ram disk '%s'",
-                              loaderparams.initrd_filename);
-                 exit(1);
-             }
-             initrd_size = load_image_targphys(loaderparams.initrd_filename,
--                                     initrd_offset, ram_size - initrd_offset);
-+                                              initrd_offset,
-+                                              ram_size - initrd_offset);
-         }
-         if (initrd_size == (target_ulong) -1) {
-             error_report("could not load initial ram disk '%s'",
-@@ -154,9 +157,10 @@ static int64_t load_kernel (CPUMIPSState *env)
- 
-     prom_set(prom_buf, index++, "%s", loaderparams.kernel_filename);
-     if (initrd_size > 0) {
--        prom_set(prom_buf, index++, "rd_start=0x%" PRIx64 " rd_size=%" PRId64 " %s",
--                 cpu_mips_phys_to_kseg0(NULL, initrd_offset), initrd_size,
--                 loaderparams.kernel_cmdline);
-+        prom_set(prom_buf, index++,
-+                 "rd_start=0x%" PRIx64 " rd_size=%" PRId64 " %s",
-+                 cpu_mips_phys_to_kseg0(NULL, initrd_offset),
-+                 initrd_size, loaderparams.kernel_cmdline);
-     } else {
-         prom_set(prom_buf, index++, "%s", loaderparams.kernel_cmdline);
-     }
-@@ -175,34 +179,48 @@ static int64_t load_kernel (CPUMIPSState *env)
-     return kernel_entry;
- }
- 
--static void write_bootloader (CPUMIPSState *env, uint8_t *base, int64_t kernel_addr)
-+static void write_bootloader(CPUMIPSState *env, uint8_t *base,
-+                             int64_t kernel_addr)
- {
-     uint32_t *p;
- 
-     /* Small bootloader */
--    p = (uint32_t *) base;
-+    p = (uint32_t *)base;
- 
--    stl_p(p++, 0x0bf00010);                                      /* j 0x1fc00040 */
--    stl_p(p++, 0x00000000);                                      /* nop */
-+    /* j 0x1fc00040 */
-+    stl_p(p++, 0x0bf00010);
-+    /* nop */
-+    stl_p(p++, 0x00000000);
- 
-     /* Second part of the bootloader */
--    p = (uint32_t *) (base + 0x040);
--
--    stl_p(p++, 0x3c040000);                                      /* lui a0, 0 */
--    stl_p(p++, 0x34840002);                                      /* ori a0, a0, 2 */
--    stl_p(p++, 0x3c050000 | ((ENVP_ADDR >> 16) & 0xffff));       /* lui a1, high(ENVP_ADDR) */
--    stl_p(p++, 0x34a50000 | (ENVP_ADDR & 0xffff));               /* ori a1, a0, low(ENVP_ADDR) */
--    stl_p(p++, 0x3c060000 | (((ENVP_ADDR + 8) >> 16) & 0xffff)); /* lui a2, high(ENVP_ADDR + 8) */
--    stl_p(p++, 0x34c60000 | ((ENVP_ADDR + 8) & 0xffff));         /* ori a2, a2, low(ENVP_ADDR + 8) */
--    stl_p(p++, 0x3c070000 | (loaderparams.ram_size >> 16));      /* lui a3, high(env->ram_size) */
--    stl_p(p++, 0x34e70000 | (loaderparams.ram_size & 0xffff));   /* ori a3, a3, low(env->ram_size) */
--    stl_p(p++, 0x3c1f0000 | ((kernel_addr >> 16) & 0xffff));     /* lui ra, high(kernel_addr) */;
--    stl_p(p++, 0x37ff0000 | (kernel_addr & 0xffff));             /* ori ra, ra, low(kernel_addr) */
--    stl_p(p++, 0x03e00008);                                      /* jr ra */
--    stl_p(p++, 0x00000000);                                      /* nop */
-+    p = (uint32_t *)(base + 0x040);
-+
-+    /* lui a0, 0 */
-+    stl_p(p++, 0x3c040000);
-+    /* ori a0, a0, 2 */
-+    stl_p(p++, 0x34840002);
-+    /* lui a1, high(ENVP_ADDR) */
-+    stl_p(p++, 0x3c050000 | ((ENVP_ADDR >> 16) & 0xffff));
-+    /* ori a1, a0, low(ENVP_ADDR) */
-+    stl_p(p++, 0x34a50000 | (ENVP_ADDR & 0xffff));
-+    /* lui a2, high(ENVP_ADDR + 8) */
-+    stl_p(p++, 0x3c060000 | (((ENVP_ADDR + 8) >> 16) & 0xffff));
-+    /* ori a2, a2, low(ENVP_ADDR + 8) */
-+    stl_p(p++, 0x34c60000 | ((ENVP_ADDR + 8) & 0xffff));
-+    /* lui a3, high(env->ram_size) */
-+    stl_p(p++, 0x3c070000 | (loaderparams.ram_size >> 16));
-+    /* ori a3, a3, low(env->ram_size) */
-+    stl_p(p++, 0x34e70000 | (loaderparams.ram_size & 0xffff));
-+    /* lui ra, high(kernel_addr) */
-+    stl_p(p++, 0x3c1f0000 | ((kernel_addr >> 16) & 0xffff));
-+    /* ori ra, ra, low(kernel_addr) */
-+    stl_p(p++, 0x37ff0000 | (kernel_addr & 0xffff));
-+    /* jr ra */
-+    stl_p(p++, 0x03e00008);
-+    /* nop */
-+    stl_p(p++, 0x00000000);
- }
- 
--
- static void main_cpu_reset(void *opaque)
- {
-     MIPSCPU *cpu = opaque;
-@@ -252,11 +270,11 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
- }
- 
- /* Network support */
--static void network_init (PCIBus *pci_bus)
-+static void network_init(PCIBus *pci_bus)
- {
-     int i;
- 
--    for(i = 0; i < nb_nics; i++) {
-+    for (i = 0; i < nb_nics; i++) {
-         NICInfo *nd = &nd_table[i];
-         const char *default_devaddr = NULL;
- 
-@@ -308,15 +326,17 @@ static void mips_fulong2e_init(MachineState *machine)
-     memory_region_add_subregion(address_space_mem, 0, ram);
-     memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
- 
--    /* We do not support flash operation, just loading pmon.bin as raw BIOS.
--     * Please use -L to set the BIOS path and -bios to set bios name. */
-+    /*
-+     * We do not support flash operation, just loading pmon.bin as raw BIOS.
-+     * Please use -L to set the BIOS path and -bios to set bios name.
-+     */
- 
-     if (kernel_filename) {
-         loaderparams.ram_size = ram_size;
-         loaderparams.kernel_filename = kernel_filename;
-         loaderparams.kernel_cmdline = kernel_cmdline;
-         loaderparams.initrd_filename = initrd_filename;
--        kernel_entry = load_kernel (env);
-+        kernel_entry = load_kernel(env);
-         write_bootloader(env, memory_region_get_ram_ptr(bios), kernel_entry);
-     } else {
-         if (bios_name == NULL) {
+     /* Make sure locking works even if BQL is already held by the caller */
+     if (!qemu_mutex_iothread_locked()) {
 -- 
 2.7.4
 
