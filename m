@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D1887AB5
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:59:44 +0200 (CEST)
-Received: from localhost ([::1]:59180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660DF87A99
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 14:54:56 +0200 (CEST)
+Received: from localhost ([::1]:59100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw4Uh-0007gf-Pw
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:59:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53016)
+	id 1hw4Q3-0005zI-KW
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 08:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53079)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4K3-0002Ge-9M
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:49 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4KH-0002Kh-Dd
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4K0-0001GX-CP
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:42 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:52669 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hw4KF-0001Ms-Gn
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:57 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:55584 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hw4K0-0001AH-0S
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:40 -0400
+ id 1hw4KC-0001EK-NP
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 08:48:53 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 0BBB81A21BB;
+ by mail.rt-rk.com (Postfix) with ESMTP id 0F8981A21C0;
  Fri,  9 Aug 2019 14:48:26 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id D59C31A21BF;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id DE7AA1A21D3;
  Fri,  9 Aug 2019 14:48:25 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  9 Aug 2019 14:46:57 +0200
-Message-Id: <1565354819-1495-25-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Fri,  9 Aug 2019 14:46:58 +0200
+Message-Id: <1565354819-1495-26-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1565354819-1495-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1565354819-1495-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.2 v7 24/26] target/mips: Clean up
- handling of CP0 register 31
+Subject: [Qemu-devel] [PATCH for 4.2 v7 25/26] target/mips: tests/tcg: Add
+ optional printing of more detailed failure info
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,138 +57,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Clean up handling of CP0 register 31.
+There is a need for printing input and output data for failure cases,
+for debugging purpose. This is achieved by this patch, and only if a
+preprocessor constant is manually set to 1. (Assumption is that the
+need for such printout is relatively rare.)
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- target/mips/cpu.h       |  2 +-
- target/mips/translate.c | 56 ++++++++++++++++++++++++-------------------------
- 2 files changed, 29 insertions(+), 29 deletions(-)
+ tests/tcg/mips/include/test_utils_128.h | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 9036611..49bedac 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -573,7 +573,6 @@ struct CPUMIPSState {
-  * CP0 Register 4
-  */
-     target_ulong CP0_Context;
--    target_ulong CP0_KScratch[MIPS_KSCRATCH_NUM];
-     int32_t CP0_MemoryMapID;
- /*
-  * CP0 Register 5
-@@ -984,6 +983,7 @@ struct CPUMIPSState {
-  * CP0 Register 31
-  */
-     int32_t CP0_DESAVE;
-+    target_ulong CP0_KScratch[MIPS_KSCRATCH_NUM];
+diff --git a/tests/tcg/mips/include/test_utils_128.h b/tests/tcg/mips/include/test_utils_128.h
+index 2fea610..0dd3868 100644
+--- a/tests/tcg/mips/include/test_utils_128.h
++++ b/tests/tcg/mips/include/test_utils_128.h
+@@ -27,7 +27,8 @@
+ #include <inttypes.h>
+ #include <string.h>
  
-     /* We waste some space so we can handle shadow registers like TCs. */
-     TCState tcs[MIPS_SHADOW_SET_MAX];
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index b6378ae..9468229 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -7573,17 +7573,17 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_31:
-         switch (sel) {
--        case 0:
-+        case CP0_REG31__DESAVE:
-             /* EJTAG support */
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_DESAVE));
-             register_name = "DESAVE";
-             break;
--        case 2:
--        case 3:
--        case 4:
--        case 5:
--        case 6:
--        case 7:
-+        case CP0_REG31__KSCRATCH1:
-+        case CP0_REG31__KSCRATCH2:
-+        case CP0_REG31__KSCRATCH3:
-+        case CP0_REG31__KSCRATCH4:
-+        case CP0_REG31__KSCRATCH5:
-+        case CP0_REG31__KSCRATCH6:
-             CP0_CHECK(ctx->kscrexist & (1 << sel));
-             tcg_gen_ld_tl(arg, cpu_env,
-                           offsetof(CPUMIPSState, CP0_KScratch[sel-2]));
-@@ -8319,17 +8319,17 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_31:
-         switch (sel) {
--        case 0:
-+        case CP0_REG31__DESAVE:
-             /* EJTAG support */
-             gen_mtc0_store32(arg, offsetof(CPUMIPSState, CP0_DESAVE));
-             register_name = "DESAVE";
-             break;
--        case 2:
--        case 3:
--        case 4:
--        case 5:
--        case 6:
--        case 7:
-+        case CP0_REG31__KSCRATCH1:
-+        case CP0_REG31__KSCRATCH2:
-+        case CP0_REG31__KSCRATCH3:
-+        case CP0_REG31__KSCRATCH4:
-+        case CP0_REG31__KSCRATCH5:
-+        case CP0_REG31__KSCRATCH6:
-             CP0_CHECK(ctx->kscrexist & (1 << sel));
-             tcg_gen_st_tl(arg, cpu_env,
-                           offsetof(CPUMIPSState, CP0_KScratch[sel-2]));
-@@ -9048,17 +9048,17 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_31:
-         switch (sel) {
--        case 0:
-+        case CP0_REG31__DESAVE:
-             /* EJTAG support */
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_DESAVE));
-             register_name = "DESAVE";
-             break;
--        case 2:
--        case 3:
--        case 4:
--        case 5:
--        case 6:
--        case 7:
-+        case CP0_REG31__KSCRATCH1:
-+        case CP0_REG31__KSCRATCH2:
-+        case CP0_REG31__KSCRATCH3:
-+        case CP0_REG31__KSCRATCH4:
-+        case CP0_REG31__KSCRATCH5:
-+        case CP0_REG31__KSCRATCH6:
-             CP0_CHECK(ctx->kscrexist & (1 << sel));
-             tcg_gen_ld_tl(arg, cpu_env,
-                           offsetof(CPUMIPSState, CP0_KScratch[sel-2]));
-@@ -9781,17 +9781,17 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_31:
-         switch (sel) {
--        case 0:
-+        case CP0_REG31__DESAVE:
-             /* EJTAG support */
-             gen_mtc0_store32(arg, offsetof(CPUMIPSState, CP0_DESAVE));
-             register_name = "DESAVE";
-             break;
--        case 2:
--        case 3:
--        case 4:
--        case 5:
--        case 6:
--        case 7:
-+        case CP0_REG31__KSCRATCH1:
-+        case CP0_REG31__KSCRATCH2:
-+        case CP0_REG31__KSCRATCH3:
-+        case CP0_REG31__KSCRATCH4:
-+        case CP0_REG31__KSCRATCH5:
-+        case CP0_REG31__KSCRATCH6:
-             CP0_CHECK(ctx->kscrexist & (1 << sel));
-             tcg_gen_st_tl(arg, cpu_env,
-                           offsetof(CPUMIPSState, CP0_KScratch[sel-2]));
+-#define PRINT_RESULTS 0
++#define PRINT_RESULTS    0
++#define PRINT_FAILURES   0
+ 
+ 
+ static inline int32_t check_results_128(const char *isa_ase_name,
+@@ -65,6 +66,26 @@ static inline int32_t check_results_128(const char *isa_ase_name,
+             (b128_result[2 * i + 1] == b128_expect[2 * i + 1])) {
+             pass_count++;
+         } else {
++#if PRINT_FAILURES
++            uint32_t ii;
++            uint64_t a, b;
++
++            printf("\n");
++
++            printf("FAILURE for test case %d!\n", i);
++
++            memcpy(&a, (b128_expect + 2 * i), 8);
++            memcpy(&b, (b128_expect + 2 * i + 1), 8);
++            printf("Expected result : { 0x%016llxULL, 0x%016llxULL, },\n",
++                   a, b);
++
++            memcpy(&a, (b128_result + 2 * i), 8);
++            memcpy(&b, (b128_result + 2 * i + 1), 8);
++            printf("Actual result   : { 0x%016llxULL, 0x%016llxULL, },\n",
++                   a, b);
++
++            printf("\n");
++#endif
+             fail_count++;
+         }
+     }
 -- 
 2.7.4
 
