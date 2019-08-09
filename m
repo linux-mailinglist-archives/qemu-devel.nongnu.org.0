@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D46B87F74
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:17:16 +0200 (CEST)
-Received: from localhost ([::1]:60836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D96887F4D
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 18:15:50 +0200 (CEST)
+Received: from localhost ([::1]:60796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw7Zr-0006rb-AT
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:17:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56774)
+	id 1hw7YT-0002n4-Js
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 12:15:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56788)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hw7X8-0000Xs-Ha
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:27 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hw7X9-0000ZB-4z
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hw7X7-0003xi-Eu
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58156)
+ (envelope-from <mreitz@redhat.com>) id 1hw7X8-0003yC-6k
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 12:14:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58392)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hw7X4-0003tH-HV; Fri, 09 Aug 2019 12:14:23 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hw7X5-0003vu-VK; Fri, 09 Aug 2019 12:14:24 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0B0B18E90E;
- Fri,  9 Aug 2019 16:14:21 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4C4A43078A2E;
+ Fri,  9 Aug 2019 16:14:23 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BD7919C70;
- Fri,  9 Aug 2019 16:14:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D99B25D9C3;
+ Fri,  9 Aug 2019 16:14:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri,  9 Aug 2019 18:13:30 +0200
-Message-Id: <20190809161407.11920-6-mreitz@redhat.com>
+Date: Fri,  9 Aug 2019 18:13:31 +0200
+Message-Id: <20190809161407.11920-7-mreitz@redhat.com>
 In-Reply-To: <20190809161407.11920-1-mreitz@redhat.com>
 References: <20190809161407.11920-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Fri, 09 Aug 2019 16:14:21 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Fri, 09 Aug 2019 16:14:23 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 05/42] block: Add chain helper functions
+Subject: [Qemu-devel] [PATCH v6 06/42] qcow2: Implement .bdrv_storage_child()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,96 +60,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add some helper functions for skipping filters in a chain of block
-nodes.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block_int.h |  3 +++
- block.c                   | 55 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
+ block/qcow2.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 6c60abc4c3..5bec3361fd 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1291,6 +1291,9 @@ BdrvChild *bdrv_filtered_child(BlockDriverState *bs=
-);
- BdrvChild *bdrv_metadata_child(BlockDriverState *bs);
- BdrvChild *bdrv_storage_child(BlockDriverState *bs);
- BdrvChild *bdrv_primary_child(BlockDriverState *bs);
-+BlockDriverState *bdrv_skip_implicit_filters(BlockDriverState *bs);
-+BlockDriverState *bdrv_skip_rw_filters(BlockDriverState *bs);
-+BlockDriverState *bdrv_backing_chain_next(BlockDriverState *bs);
-=20
- static inline BlockDriverState *child_bs(BdrvChild *child)
- {
-diff --git a/block.c b/block.c
-index f6c5f8c3eb..bfa5e27850 100644
---- a/block.c
-+++ b/block.c
-@@ -6655,3 +6655,58 @@ BdrvChild *bdrv_primary_child(BlockDriverState *bs=
-)
- {
-     return bdrv_filtered_rw_child(bs) ?: bs->file;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 039bdc2f7e..f8570d6210 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -5086,6 +5086,13 @@ void qcow2_signal_corruption(BlockDriverState *bs,=
+ bool fatal, int64_t offset,
+     s->signaled_corruption =3D true;
  }
-+
-+static BlockDriverState *bdrv_skip_filters(BlockDriverState *bs,
-+                                           bool stop_on_explicit_filter)
+=20
++static BdrvChild *qcow2_storage_child(BlockDriverState *bs)
 +{
-+    BdrvChild *filtered;
++    BDRVQcow2State *s =3D bs->opaque;
 +
-+    if (!bs) {
-+        return NULL;
-+    }
-+
-+    while (!(stop_on_explicit_filter && !bs->implicit)) {
-+        filtered =3D bdrv_filtered_rw_child(bs);
-+        if (!filtered) {
-+            break;
-+        }
-+        bs =3D filtered->bs;
-+    }
-+    /*
-+     * Note that this treats nodes with bs->drv =3D=3D NULL as not being
-+     * R/W filters (bs->drv =3D=3D NULL should be replaced by something
-+     * else anyway).
-+     * The advantage of this behavior is that this function will thus
-+     * always return a non-NULL value (given a non-NULL @bs).
-+     */
-+
-+    return bs;
++    return s->data_file;
 +}
 +
-+/*
-+ * Return the first BDS that has not been added implicitly or that
-+ * does not have an RW-filtered child down the chain starting from @bs
-+ * (including @bs itself).
-+ */
-+BlockDriverState *bdrv_skip_implicit_filters(BlockDriverState *bs)
-+{
-+    return bdrv_skip_filters(bs, true);
-+}
+ static QemuOptsList qcow2_create_opts =3D {
+     .name =3D "qcow2-create-opts",
+     .head =3D QTAILQ_HEAD_INITIALIZER(qcow2_create_opts.head),
+@@ -5232,6 +5239,8 @@ BlockDriver bdrv_qcow2 =3D {
+     .bdrv_reopen_bitmaps_rw =3D qcow2_reopen_bitmaps_rw,
+     .bdrv_can_store_new_dirty_bitmap =3D qcow2_can_store_new_dirty_bitma=
+p,
+     .bdrv_remove_persistent_dirty_bitmap =3D qcow2_remove_persistent_dir=
+ty_bitmap,
 +
-+/*
-+ * Return the first BDS that does not have an RW-filtered child down
-+ * the chain starting from @bs (including @bs itself).
-+ */
-+BlockDriverState *bdrv_skip_rw_filters(BlockDriverState *bs)
-+{
-+    return bdrv_skip_filters(bs, false);
-+}
-+
-+/*
-+ * For a backing chain, return the first non-filter backing image of
-+ * the first non-filter image.
-+ */
-+BlockDriverState *bdrv_backing_chain_next(BlockDriverState *bs)
-+{
-+    return bdrv_skip_rw_filters(bdrv_filtered_cow_bs(bdrv_skip_rw_filter=
-s(bs)));
-+}
++    .bdrv_storage_child =3D qcow2_storage_child,
+ };
+=20
+ static void bdrv_qcow2_init(void)
 --=20
 2.21.0
 
