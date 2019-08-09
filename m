@@ -2,52 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E27874EF
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:13:15 +0200 (CEST)
-Received: from localhost ([::1]:57502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED806875CC
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:21:42 +0200 (CEST)
+Received: from localhost ([::1]:57572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw0xW-00044F-LL
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:13:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45610)
+	id 1hw15i-0001ox-6Q
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:21:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48010)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hw0wl-0003E4-Ga
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:12:28 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13o-0005x8-SB
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hw0wk-0006wD-Br
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:12:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36392)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hw0wk-0006uh-5k
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:12:26 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BF61D30A541A;
- Fri,  9 Aug 2019 09:12:24 +0000 (UTC)
-Received: from redhat.com (ovpn-112-57.ams2.redhat.com [10.36.112.57])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C8A965D9D6;
- Fri,  9 Aug 2019 09:12:17 +0000 (UTC)
-Date: Fri, 9 Aug 2019 10:12:14 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Message-ID: <20190809091214.GD13660@redhat.com>
-References: <20190808020723.GB26938@richard> <20190808080229.GA2534@redhat.com>
- <20190808084653.GB32524@richard> <20190808092213.GB2534@redhat.com>
- <20190809000609.GA4201@richard>
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13n-0007YF-QI
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:44 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37078)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hw13n-0007Wr-GT
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:43 -0400
+Received: by mail-wm1-x341.google.com with SMTP id z23so4968170wmf.2
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 02:19:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Eh67ZN+wSqNIEm1UhPEvUSAm2SqaYFM25aW3NNCzhgg=;
+ b=bAoBCUIN9HoMrBqO6yu6WcJKfRSyMJVYp8id7TP6ybU2pFyciaQ2NwZXDfiQ48mIKR
+ 1ZRwtGilXxSwTJ0l60dsMKGxGfLDme6DHSa8TvYJlW9LnoqLaKyQhowZQVe7KUzCmszX
+ BzHJhZ9VHmSTVfpHCQsoX7v9FFQMiA+qVOQEvnAzeyeXGM8/fvXWZsVkCkCVHOVHdRNa
+ Xo1cqwhS+Zmny6b9b0E9t6/uh5YwkNqNJj2SjzLGM2Wh3k7sSPIYKPSWaqXWfb8HWOcZ
+ tbDYGgb6xMkiP4KHMHUbPMI22drFnScJ4KZRA2lePJZTUxu2ucFcAkmCSgJGnjRvxTpl
+ QKCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Eh67ZN+wSqNIEm1UhPEvUSAm2SqaYFM25aW3NNCzhgg=;
+ b=jgzWDeCccOnJDr5hGRmL/pgu7mCLfMQ++7FCC9nWaphmbwoAXIp1ps/klCxkB+FLGY
+ toeF0xXlJSWqrehdvkBBVjon1v3K3NAVSTufLpK8oMolcYT0dzhyedmThSF9iHU1Raav
+ LG63AXnck5GhR6okcQ385xGaLZIGh4emuLIBMw2BFbmSTZhQh5M89YbYSxSepeRnni9z
+ nBXwyFWszkKctESUPdhpLVylMWeIpXh4V8tWOcgjKBv333LJ5gmz+rmKJBaCrVyt7OOv
+ HaXiGSgTTVmhrhj5Al+c+/Dl4k2gOHHBZSEwjMTHhAqDTwyLItvtI0JKt1i0yUYkZeYV
+ /jVQ==
+X-Gm-Message-State: APjAAAWzT9nNofJ3hd8jWoJzarJ65TQgR3FRVZq1Qtw8oBry0/V3y1IL
+ QuyVPB/IY1nqWumiKVuqPoctLw==
+X-Google-Smtp-Source: APXvYqzPcjxZ6stdGd+cA3QMhGLNIdHioTUM3wmLN4+tr/vK+u9Kk3WZGdGeA6GYWrryEIg3+rY4Pg==
+X-Received: by 2002:a7b:cd8e:: with SMTP id y14mr9660599wmj.155.1565342381928; 
+ Fri, 09 Aug 2019 02:19:41 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id x8sm3771593wmc.5.2019.08.09.02.19.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Aug 2019 02:19:41 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E05981FF87;
+ Fri,  9 Aug 2019 10:19:40 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Fri,  9 Aug 2019 10:19:33 +0100
+Message-Id: <20190809091940.1223-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190809000609.GA4201@richard>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 09 Aug 2019 09:12:24 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Fail] tests/test-util-filemonitor fails
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH  v2 0/7] softfloat includes cleanup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,71 +79,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 09, 2019 at 08:06:09AM +0800, Wei Yang wrote:
-> On Thu, Aug 08, 2019 at 10:22:13AM +0100, Daniel P. Berrang=C3=A9 wrote=
-:
-> >On Thu, Aug 08, 2019 at 04:46:53PM +0800, Wei Yang wrote:
-> >> On Thu, Aug 08, 2019 at 09:02:29AM +0100, Daniel P. Berrang=C3=A9 wr=
-ote:
-> >> >On Thu, Aug 08, 2019 at 10:07:23AM +0800, Wei Yang wrote:
-> >> >> Current qemu fails tests/test-util-filemonitor.
-> >> >
-> >> >You'll need to provide more info. The test works for me and passes =
-in all
-> >> >the QEMU CI environments.
-> >> >
-> >>=20
-> >> The error message from my side is:
-> >>=20
-> >> /util/filemonitor: Expected watch id 200000000 but got 100000000
-> >> **
-> >> ERROR:tests/test-util-filemonitor.c:665:test_file_monitor_events: as=
-sertion failed: (err =3D=3D 0)
-> >>=20
-> >> What else you'd prefer to have?
-> >
-> >Can you set the  "FILEMONITOR_DEBUG=3D1" env variable before running
-> >the test - it will print out lots more info
-> >
->=20
-> Here is the output with more info.
->=20
->     $ FILEMONITOR_DEBUG=3D1 QTEST_QEMU_BINARY=3Dx86_64-softmmu/qemu-sys=
-tem-x86_64 tests/test-util-filemonitor
+Hi Markus,
 
->     Rmdir /tmp/test-util-filemonitor-151B6Z/fish
->     Event id=3D200000000 event=3D4 file=3D
->     Expected watch id 200000000 but got 100000000
->     **
+Here is v2 of the softfloat headers cleanup which addresses Richards
+comments from yesterday.
 
-Ok, so the kernel is sending the events in an unexpected order
+The following patches need review
+   01 - fpu move LIT64 helper to softfloat types (1 ack)
+   03 - fpu make softfloat macros self contained (1 ack)
+   05 - target mips rationalise softfloat includes
 
->     ERROR:tests/test-util-filemonitor.c:665:test_file_monitor_events: a=
-ssertion failed: (err =3D=3D 0)
->     Aborted (core dumped)
->=20
->=20
-> >Also what operating system are you using, and what kernel version
-> >
->=20
-> OS: Ubuntu 18.04.2 LTS
-> Kernel: I built the kernel whose last commit is bed38c3e2dca.
+Alex Bennée (7):
+  fpu: move LIT64 helper to softfloat-types
+  fpu: move inline helpers into a separate header
+  fpu: make softfloat-macros "self-contained"
+  fpu: rename softfloat-specialize.h -> .inc.c
+  target/mips: rationalise softfloat includes
+  target/riscv: rationalise softfloat includes
+  targets (various): use softfloat-helpers.h where we can
 
-Does it work if you use the normal LTS kernel package instead.
+ ...pecialize.h => softfloat-specialize.inc.c} |   0
+ fpu/softfloat.c                               |   2 +-
+ include/fpu/softfloat-helpers.h               | 132 ++++++++++++++++++
+ include/fpu/softfloat-macros.h                |   2 +
+ include/fpu/softfloat-types.h                 |   2 +
+ include/fpu/softfloat.h                       |  65 +--------
+ linux-user/mips/cpu_loop.c                    |   1 +
+ target/alpha/helper.c                         |   2 +-
+ target/microblaze/cpu.c                       |   2 +-
+ target/mips/cpu.h                             |   8 +-
+ target/mips/internal.h                        |   7 +
+ target/mips/msa_helper.c                      |   1 +
+ target/mips/op_helper.c                       |   1 +
+ target/riscv/cpu.c                            |   1 +
+ target/riscv/cpu.h                            |   2 +-
+ target/riscv/fpu_helper.c                     |   1 +
+ target/s390x/cpu.c                            |   2 +-
+ target/sh4/cpu.c                              |   3 +-
+ target/tricore/helper.c                       |   2 +-
+ target/unicore32/cpu.c                        |   1 -
+ 20 files changed, 157 insertions(+), 80 deletions(-)
+ rename fpu/{softfloat-specialize.h => softfloat-specialize.inc.c} (100%)
+ create mode 100644 include/fpu/softfloat-helpers.h
 
+-- 
+2.20.1
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
 
