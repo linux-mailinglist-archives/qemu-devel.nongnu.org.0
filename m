@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2618487E18
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 17:35:33 +0200 (CEST)
-Received: from localhost ([::1]:60168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C01E87E29
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 17:37:25 +0200 (CEST)
+Received: from localhost ([::1]:60194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw6vU-0008IM-BG
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 11:35:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49089)
+	id 1hw6xI-0003S4-94
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 11:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49127)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hw6sN-00041o-Ih
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 11:32:21 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hw6sR-000431-Am
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 11:32:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hw6sL-0002pS-5o
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 11:32:19 -0400
-Received: from relay.sw.ru ([185.231.240.75]:57612)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hw6sN-0002qz-Gn
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 11:32:21 -0400
+Received: from relay.sw.ru ([185.231.240.75]:57614)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hw6sI-0002ih-1Z; Fri, 09 Aug 2019 11:32:14 -0400
+ id 1hw6sI-0002ii-1a; Fri, 09 Aug 2019 11:32:14 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1hw6sD-0004Cp-Hj; Fri, 09 Aug 2019 18:32:09 +0300
+ id 1hw6sD-0004Cp-To; Fri, 09 Aug 2019 18:32:10 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Date: Fri,  9 Aug 2019 18:32:06 +0300
-Message-Id: <20190809153207.49288-7-vsementsov@virtuozzo.com>
+Date: Fri,  9 Aug 2019 18:32:07 +0300
+Message-Id: <20190809153207.49288-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190809153207.49288-1-vsementsov@virtuozzo.com>
 References: <20190809153207.49288-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v2 6/7] block/backup: teach
- backup_cow_with_bounce_buffer to copy more at once
+Subject: [Qemu-devel] [PATCH v2 7/7] block/backup: merge duplicated logic
+ into backup_do_cow
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,102 +52,181 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-backup_cow_with_offload can transfer more than on cluster. Let
-backup_cow_with_bounce_buffer behave similarly. It reduces number
-of IO and there are no needs to copy cluster by cluster.
+backup_cow_with_offload and backup_cow_with_bounce_buffer contains a
+lot of duplicated logic. Move it into backup_do_cow.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/backup.c | 29 +++++++++++++++--------------
- 1 file changed, 15 insertions(+), 14 deletions(-)
+ block/backup.c | 84 +++++++++++++++++++-------------------------------
+ 1 file changed, 31 insertions(+), 53 deletions(-)
 
 diff --git a/block/backup.c b/block/backup.c
-index d482d93458..155e21d0a3 100644
+index 155e21d0a3..ae780e1260 100644
 --- a/block/backup.c
 +++ b/block/backup.c
-@@ -104,22 +104,25 @@ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
-                                                       int64_t start,
-                                                       int64_t end,
-                                                       bool is_write_notifier,
--                                                      bool *error_is_read,
--                                                      void **bounce_buffer)
-+                                                      bool *error_is_read)
+@@ -100,85 +100,60 @@ static void cow_request_end(CowRequest *req)
+ 
+ /* Copy range to target with a bounce buffer and return the bytes copied. If
+  * error occurred, return a negative error number */
+-static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
+-                                                      int64_t start,
+-                                                      int64_t end,
+-                                                      bool is_write_notifier,
+-                                                      bool *error_is_read)
++static int coroutine_fn backup_cow_with_bounce_buffer(
++        BackupBlockJob *job, int64_t offset, int64_t bytes,
++        BdrvRequestFlags read_flags, bool *error_is_read)
  {
-     int ret;
+-    int ret;
++    int ret = 0;
      BlockBackend *blk = job->common.blk;
-     int nbytes;
-     int read_flags = is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
-+    void *bounce_buffer;
+-    int nbytes;
+-    int read_flags = is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
+-    void *bounce_buffer;
+-
+-    assert(QEMU_IS_ALIGNED(start, job->cluster_size));
++    void *bounce_buffer = blk_try_blockalign(blk, bytes);
  
-     assert(QEMU_IS_ALIGNED(start, job->cluster_size));
--    bdrv_reset_dirty_bitmap(job->copy_bitmap, start, job->cluster_size);
--    nbytes = MIN(job->cluster_size, job->len - start);
--    if (!*bounce_buffer) {
--        *bounce_buffer = blk_blockalign(blk, job->cluster_size);
-+
-+    nbytes = MIN(end - start, job->len - start);
-+    bounce_buffer = blk_try_blockalign(blk, nbytes);
-+    if (!bounce_buffer) {
-+        return -ENOMEM;
+-    nbytes = MIN(end - start, job->len - start);
+-    bounce_buffer = blk_try_blockalign(blk, nbytes);
+     if (!bounce_buffer) {
+         return -ENOMEM;
      }
  
--    ret = blk_co_pread(blk, start, nbytes, *bounce_buffer, read_flags);
-+    bdrv_reset_dirty_bitmap(job->copy_bitmap, start, end - start);
-+
-+    ret = blk_co_pread(blk, start, nbytes, bounce_buffer, read_flags);
+-    bdrv_reset_dirty_bitmap(job->copy_bitmap, start, end - start);
+-
+-    ret = blk_co_pread(blk, start, nbytes, bounce_buffer, read_flags);
++    ret = blk_co_pread(blk, offset, bytes, bounce_buffer, read_flags);
      if (ret < 0) {
-         trace_backup_do_cow_read_fail(job, start, ret);
+-        trace_backup_do_cow_read_fail(job, start, ret);
++        trace_backup_do_cow_read_fail(job, offset, ret);
          if (error_is_read) {
-@@ -128,7 +131,7 @@ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
-         goto fail;
+             *error_is_read = true;
+         }
+-        goto fail;
++        goto out;
      }
  
--    ret = blk_co_pwrite(job->target, start, nbytes, *bounce_buffer,
-+    ret = blk_co_pwrite(job->target, start, nbytes, bounce_buffer,
+-    ret = blk_co_pwrite(job->target, start, nbytes, bounce_buffer,
++    ret = blk_co_pwrite(job->target, offset, bytes, bounce_buffer,
                          job->write_flags);
      if (ret < 0) {
-         trace_backup_do_cow_write_fail(job, start, ret);
-@@ -138,9 +141,12 @@ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
-         goto fail;
+-        trace_backup_do_cow_write_fail(job, start, ret);
++        trace_backup_do_cow_write_fail(job, offset, ret);
+         if (error_is_read) {
+             *error_is_read = false;
+         }
+-        goto fail;
++        goto out;
      }
  
-+    qemu_vfree(bounce_buffer);
-     return nbytes;
-+
- fail:
-     bdrv_set_dirty_bitmap(job->copy_bitmap, start, job->cluster_size);
-+    qemu_vfree(bounce_buffer);
-     return ret;
++out:
+     qemu_vfree(bounce_buffer);
+-    return nbytes;
  
+-fail:
+-    bdrv_set_dirty_bitmap(job->copy_bitmap, start, job->cluster_size);
+-    qemu_vfree(bounce_buffer);
+     return ret;
+-
  }
-@@ -254,7 +260,6 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-     CowRequest cow_request;
+ 
+ /* Copy range to target and return the bytes copied. If error occurred, return a
+  * negative error number. */
+ static int coroutine_fn backup_cow_with_offload(BackupBlockJob *job,
+-                                                int64_t start,
+-                                                int64_t end,
+-                                                bool is_write_notifier)
++                                                int64_t offset,
++                                                int64_t bytes,
++                                                BdrvRequestFlags read_flags)
+ {
+     int ret;
+-    int nr_clusters;
+     BlockBackend *blk = job->common.blk;
+-    int nbytes = MIN(end - start, job->len - start);
+-    int read_flags = is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
+-
+-    assert(end - start < INT_MAX);
+-    assert(QEMU_IS_ALIGNED(start, job->cluster_size));
+-    nr_clusters = DIV_ROUND_UP(nbytes, job->cluster_size);
+-    bdrv_reset_dirty_bitmap(job->copy_bitmap, start,
+-                            job->cluster_size * nr_clusters);
+-    ret = blk_co_copy_range(blk, start, job->target, start, nbytes,
++
++    ret = blk_co_copy_range(blk, offset, job->target, offset, bytes,
+                             read_flags, job->write_flags);
+     if (ret < 0) {
+-        trace_backup_do_cow_copy_range_fail(job, start, ret);
+-        bdrv_set_dirty_bitmap(job->copy_bitmap, start,
+-                              job->cluster_size * nr_clusters);
+-        return ret;
++        trace_backup_do_cow_copy_range_fail(job, offset, ret);
+     }
+ 
+-    return nbytes;
++    return ret;
+ }
+ 
+ /*
+@@ -261,6 +236,8 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
      int ret = 0;
      int64_t start, end; /* bytes */
--    void *bounce_buffer = NULL;
      int64_t skip_bytes;
++    BdrvRequestFlags read_flags =
++            is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
  
      qemu_co_rwlock_rdlock(&job->flush_rwlock);
-@@ -303,7 +308,7 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
+ 
+@@ -274,6 +251,7 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
+ 
+     while (start < end) {
+         int64_t dirty_end;
++        int64_t cur_bytes;
+ 
+         if (!bdrv_dirty_bitmap_get(job->copy_bitmap, start)) {
+             trace_backup_do_cow_skip(job, start);
+@@ -297,30 +275,30 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
+         }
+ 
+         trace_backup_do_cow_process(job, start);
++        cur_bytes = MIN(dirty_end - start, job->len - start);
++        bdrv_reset_dirty_bitmap(job->copy_bitmap, start, dirty_end - start);
+ 
+         if (job->use_copy_range) {
+-            ret = backup_cow_with_offload(job, start, dirty_end,
+-                                          is_write_notifier);
++            ret = backup_cow_with_offload(job, start, cur_bytes, read_flags);
+             if (ret < 0) {
+                 job->use_copy_range = false;
+             }
+         }
          if (!job->use_copy_range) {
-             ret = backup_cow_with_bounce_buffer(job, start, dirty_end,
-                                                 is_write_notifier,
--                                                error_is_read, &bounce_buffer);
-+                                                error_is_read);
+-            ret = backup_cow_with_bounce_buffer(job, start, dirty_end,
+-                                                is_write_notifier,
+-                                                error_is_read);
++            ret = backup_cow_with_bounce_buffer(job, start, cur_bytes,
++                                                read_flags, error_is_read);
          }
          if (ret < 0) {
++            bdrv_set_dirty_bitmap(job->copy_bitmap, start, dirty_end - start);
              break;
-@@ -318,10 +323,6 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-         ret = 0;
+         }
+ 
+         /* Publish progress, guest I/O counts as progress too.  Note that the
+          * offset field is an opaque progress value, it is not a disk offset.
+          */
+-        start += ret;
+-        job->bytes_read += ret;
+-        job_progress_update(&job->common.job, ret);
+-        ret = 0;
++        start += cur_bytes;
++        job->bytes_read += cur_bytes;
++        job_progress_update(&job->common.job, cur_bytes);
      }
  
--    if (bounce_buffer) {
--        qemu_vfree(bounce_buffer);
--    }
--
      cow_request_end(&cow_request);
- 
-     trace_backup_do_cow_return(job, offset, bytes, ret);
 -- 
 2.18.0
 
