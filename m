@@ -2,102 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539CB87DD8
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 17:18:41 +0200 (CEST)
-Received: from localhost ([::1]:60014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF6287E0B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 17:32:13 +0200 (CEST)
+Received: from localhost ([::1]:60112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw6fA-0005Zn-J1
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 11:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46750)
+	id 1hw6sG-000302-14
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 11:32:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48739)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <rebecca@bsdio.com>) id 1hw6eT-00052q-O8
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 11:17:58 -0400
+ (envelope-from <bounces@canonical.com>) id 1hw6qn-0001nV-NV
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 11:30:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rebecca@bsdio.com>) id 1hw6eS-0007fP-TA
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 11:17:57 -0400
-Received: from muon.bsdio.com ([65.103.231.193]:55648)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rebecca@bsdio.com>)
- id 1hw6eS-0007eN-Jy; Fri, 09 Aug 2019 11:17:56 -0400
-Received: from muon.bsdio.com (localhost [127.0.0.1])
- by muon.bsdio.com (Postfix) with ESMTP id DEBAF8286F;
- Fri,  9 Aug 2019 09:17:55 -0600 (MDT)
-Received: from muon.bsdio.com ([127.0.0.1])
- by muon.bsdio.com (muon.bsdio.com [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id Errg4ILl3tyV; Fri,  9 Aug 2019 09:17:55 -0600 (MDT)
-Received: from photon.int.bluestop.org (unknown [10.0.10.120])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by muon.bsdio.com (Postfix) with ESMTPSA;
- Fri,  9 Aug 2019 09:17:54 -0600 (MDT)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- qemu-trivial@nongnu.org
-References: <20190809041952.57302-1-rebecca@bsdio.com>
- <57083e0b-2853-7f5b-16ec-83bc22f237fa@linaro.org>
-From: Rebecca Cran <rebecca@bsdio.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=rebecca@bsdio.com; keydata=
- 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 DtU=
-Message-ID: <71dd9613-491f-bad3-c31e-231bf51df115@bsdio.com>
-Date: Fri, 9 Aug 2019 09:17:54 -0600
-User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <bounces@canonical.com>) id 1hw6qm-0008Ub-Ie
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 11:30:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37768)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hw6qm-0008PE-CT
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 11:30:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hw6ql-0007N4-6o
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 15:30:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 145A22E80C7
+ for <qemu-devel@nongnu.org>; Fri,  9 Aug 2019 15:30:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <57083e0b-2853-7f5b-16ec-83bc22f237fa@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 65.103.231.193
-Subject: Re: [Qemu-devel] [PATCH] Update the avx2 configure test to be
- compatible with clang
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 09 Aug 2019 15:21:28 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: glaubitz pmaydell
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <156518306048.32528.10373743991208371347.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156536408863.17199.13601722900620267805.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19021";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: e240afbf6e7b0d4442b0b21bf3a88b972d9e58de
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1839325] Re: Go programs crash on qemu-sh4 due to
+ issues with atomics
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -106,27 +64,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1839325 <1839325@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2019-08-08 23:22, Richard Henderson wrote:
->
-> No, this means we're not testing what we need:
->
-> We need to compile exactly one function using avx2.
->
-> The other functions should be compiled with sse4 and sse2, respectively, and we
-> choose between them by testing cpuid bits at startup.  If you supply -mavx2 to
-> the entire compilation, then the routine that is supposed to use only sse2 will
-> in fact use avx2, and then the runtime selection is moot.
+The immediate cause of the crash here is that the runtime invokes the
+Load64() function on a pointer that isn't 8-aligned, which triggers a
+hand-coded check-and-panic in the libgo code. I haven't yet tracked down
+where that pointer came from.
 
+-- =
 
-Oh, sorry, I hadn't fully realized there's runtime selection. Fixing
-this would require significant rework in that case, so I'll just build
-with GCC instead for now!
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1839325
 
+Title:
+  Go programs crash on qemu-sh4 due to issues with atomics
 
--- 
-Rebecca Cran
+Status in QEMU:
+  New
 
+Bug description:
+  After #1738545 [1] was fixed, Go applications work fine on qemu-arm
+  but still crash on qemu-sh4. From the backtrace, it looks like an
+  issue with the atomics in qemu-sh4:
+
+  (sid-sh4-sbuild)root@epyc:/# cat hello.go
+  package main
+
+  import "fmt"
+
+  func main() {
+        fmt.Println("hello world")
+  }
+
+  (sid-sh4-sbuild)root@epyc:/# gccgo-9 hello.go -o hello
+  (sid-sh4-sbuild)root@epyc:/# ./hello =
+
+  panic: (        runtime runtime.errorString) (0x7f74527c,0x80a038)
+  fatal error: panic on system stack
+  panic: (        runtime runtime.errorString) (0x7f74527c,0x80a038)
+  fatal error: panic on system stack
+
+  runtime stack:
+  runtime..z2finternal..z2fatomic.Load64
+          ../../../src/libgo/go/runtime/internal/atomic/atomic.c:37
+  runtime_mstart
+          ../../../src/libgo/runtime/proc.c:596
+
+  goroutine 1 [running]:
+          goroutine running on other thread; stack unavailable
+
+  runtime stack:
+  runtime..z2finternal..z2fatomic.Load64
+          ../../../src/libgo/go/runtime/internal/atomic/atomic.c:37
+  runtime_mstart
+          ../../../src/libgo/runtime/proc.c:596
+  (sid-sh4-sbuild)root@epyc:/#
+
+  The same sample Go program runs fine on my SH7785LCR SH4 evaluation
+  board:
+
+  root@tirpitz:~> uname -a
+  Linux tirpitz 3.16.7-ckt7 #8 PREEMPT Fri Oct 21 18:47:41 CEST 2016 sh4a G=
+NU/Linux
+  root@tirpitz:~> cat hello.go
+  package main
+
+  import "fmt"
+
+  func main() {
+        fmt.Println("hello world")
+  }
+
+  root@tirpitz:~> gccgo-9 hello.go -o hello
+  root@tirpitz:~> ./hello =
+
+  hello world
+  root@tirpitz:~>
+
+  Please note: In order to be able to reproduce this, one also needs to
+  revert commit 61dedf2af7 [2], otherwise the Go application crashes
+  differently:
+
+  (sid-sh4-sbuild)root@epyc:/# ./hello        =
+
+  Unhandled trap: 0x180
+  pc=3D0x7e5f7f9e sr=3D0x00000000 pr=3D0x7ee3d582 fpscr=3D0x00080004
+  spc=3D0x00000000 ssr=3D0x00000000 gbr=3D0x7e590480 vbr=3D0x00000000
+  sgr=3D0x00000000 dbr=3D0x00000000 delayed_pc=3D0x7e5f7f60 fpul=3D0x00034f=
+3b
+  r0=3D0x008007d4 r1=3D0x00000000 r2=3D0xfffe0b2a r3=3D0x00000002
+  r4=3D0x008006e4 r5=3D0x00872000 r6=3D0x00200000 r7=3D0x00000000
+  r8=3D0x7f7bca7c r9=3D0x7fffebd4 r10=3D0x00800480 r11=3D0x7f7bc0f0
+  r12=3D0x7f7a3fa4 r13=3D0x008004c0 r14=3D0x7f7b2238 r15=3D0x7fffebd0
+  r16=3D0x00000000 r17=3D0x00000000 r18=3D0x00000000 r19=3D0x00000000
+  r20=3D0x00000000 r21=3D0x00000000 r22=3D0x00000000 r23=3D0x00000000
+  (sid-sh4-sbuild)root@epyc:/#
+
+  > [1] https://bugs.launchpad.net/bugs/1738545
+  > [2] https://bugs.launchpad.net/bugs/1796520
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1839325/+subscriptions
 
