@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260DE875C3
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:20:36 +0200 (CEST)
-Received: from localhost ([::1]:57548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C3E9875CD
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Aug 2019 11:21:46 +0200 (CEST)
+Received: from localhost ([::1]:57574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hw14d-0007kw-Bl
-	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:20:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48035)
+	id 1hw15l-0001yy-If
+	for lists+qemu-devel@lfdr.de; Fri, 09 Aug 2019 05:21:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48049)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13q-0005xP-EZ
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:47 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13r-0005xe-1Z
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hw13p-0007aq-HI
+ (envelope-from <alex.bennee@linaro.org>) id 1hw13q-0007cm-2X
  for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:46 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35690)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36135)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hw13p-0007ZS-BF
- for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:45 -0400
-Received: by mail-wm1-x342.google.com with SMTP id l2so4980249wmg.0
+ id 1hw13p-0007aY-Sq
+ for qemu-devel@nongnu.org; Fri, 09 Aug 2019 05:19:46 -0400
+Received: by mail-wr1-x444.google.com with SMTP id r3so3826497wrt.3
  for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 02:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/m2fkWm2cNUYmNUkZdHYoujbGrC7KdFbzlNmstGf9Cc=;
- b=mnOiNaDGcKQXTGeDlpJf092E2OLQRl4RhAqf9J6gVDI/wcFc7cFFv3xDcX6Det6/F2
- s6AKOPp2R07sOLo0zfdoaJvzXnflBsUzlwDgSSpAnDWWOkTa9sAiT1odCJxYcf68HDa1
- lUwuBqnqwkGo/6YZD5vQWbTFxjclNJwMNPGKMUJI5V7IygD3kk/rUlAejt9EOnm2LcB8
- +kCkWS4BsCkwaHfFRpMVMYlO8SkvkoA1XNSgGUMU0zfRCN6RySudc747DAhN1GpIVN2H
- tGTQiI2+cfk8rvHEkFTY7gFwPmgobu7a9Zgjamc670mrrK3rfB7RPuLjr6+UkHGsFhK2
- 9nIw==
+ bh=xDB7zhPlulJY0AZfd2YO/hnOBkqPwNAEQbIkpxXlrNI=;
+ b=PgHYLKRd3nAf1LBHchr63z30M9y4JzRXgcaggAR1vJ+ykYgUNY6kl95pvYeT0xYZvu
+ qqwmbzsyU62rfy5SNDgrthNKYZSb549XcEQ8OW7IVhjKEPYjnYQ34JV+9m8RhEcEAbOp
+ qe2VDi+MLKePWJUYHJd0gzTo/ovSE2hZQNup0ZZ/3xZ9y3C/xPaD306EX/3lA0iuTENs
+ +dk2juSyx2JEvA8OUBpkRo+dgqeZOsXLD9oU3S3zYdz8M2yCqMn+oqPF/2nms/NMNvXa
+ URnCSBBYK35JXFm1aKN+MyYCXcQXYU3Q/aIBI/C9vZHiGz5RvjkzTN21W1o4R7EeVvl0
+ AkVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/m2fkWm2cNUYmNUkZdHYoujbGrC7KdFbzlNmstGf9Cc=;
- b=c+JuOkMCgtDPxnX39a+inx58D0zxeSsAxGxAyrNUHYZnSq7bmUTcKagM5MIOmdTaA5
- za6oupmWWky4lL2ll1QMN6WIJWaf+9RU0ECFGjcx2CKJSVscXzbf0qOVGvjVSJHx4Ocv
- Y7KpXpUwofHDVxB3OCDWJVmoFradXjIVxH0gBqa7xxJ4kWwLrgDDIdYRxyF3oIPgi3oa
- /QNI2GpUXe1yE2vIfWwrdLA1u6n5wzE+oYvpUhIMuN6X2DCjJFSMzlp5jVxrsIl1+uKv
- PIIe8SVCfaRQj3bKJ2NfgbCodtGZr69ObtWCaPe2mfWSxzct3HfGdoR8BdsdZ15FRMN9
- /e0Q==
-X-Gm-Message-State: APjAAAVr636o5ahxaIAjMgr+UAH/OIZEA7FxIFNI7yXsA2s69RwW5SJm
- /9DDfEXPgEGD0lAqBf+V/iBDtA==
-X-Google-Smtp-Source: APXvYqyVLzfmuM3J5s8XmdVVDAS3PsidKf7ILbEg55gfyzXhDLaPC8+8vKH4YIvstd4bXGkIo024wQ==
-X-Received: by 2002:a1c:a615:: with SMTP id p21mr3744930wme.121.1565342384202; 
+ bh=xDB7zhPlulJY0AZfd2YO/hnOBkqPwNAEQbIkpxXlrNI=;
+ b=ejSgwWCFMwv0YtWVI9gq9EGmZR2FG9oz6mLACDstJwZczOZmc7xWs7LFb4sAPwgTes
+ 9ZFGygs8Ay06z1KdPQX4kvUJCCg9EEb69nGwsWLTOqYuCUEZtq44InNR+Ig9ev/1JV9C
+ dLPqeTBinkdKGwtmgxM1iS2Q1EsdpUGMDOTZ2bmpTncuOYmYNFwJOCdEusWfJSO7vJq7
+ fxoPIOk6Oh9zNxZXq5WZjsgJkxS7Z5k4+H8THxWxbXgd16eMmRXEgE/5fDilwx8KhJf3
+ 7FR2lP8avubMP1iCghBrjqIDYARgu28DkWpgIngzyEjwe6IlVsiNzUuI24CQ8G+jnN2E
+ KHWw==
+X-Gm-Message-State: APjAAAXzzSgY1/0lbQKc/7c81LFBsaEBfnYoIQiXxULhlcSIzGgYMIEY
+ WLhqwkeUkGrhW4pfIyI1xoirkw==
+X-Google-Smtp-Source: APXvYqwcZCq5atKMtmSg8VgHiLr803Gu11CfRsdc9RHFn19NEGrgzTU2S9DRyocND4G+WpH5LEFs0g==
+X-Received: by 2002:a5d:4b91:: with SMTP id b17mr2599543wrt.57.1565342384773; 
  Fri, 09 Aug 2019 02:19:44 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id b186sm3939441wmb.3.2019.08.09.02.19.41
+ by smtp.gmail.com with ESMTPSA id o4sm3846959wmh.35.2019.08.09.02.19.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 09 Aug 2019 02:19:42 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 295301FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 3F8271FF91;
  Fri,  9 Aug 2019 10:19:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri,  9 Aug 2019 10:19:36 +0100
-Message-Id: <20190809091940.1223-4-alex.bennee@linaro.org>
+Date: Fri,  9 Aug 2019 10:19:37 +0100
+Message-Id: <20190809091940.1223-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190809091940.1223-1-alex.bennee@linaro.org>
 References: <20190809091940.1223-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH v2 3/7] fpu: make softfloat-macros
- "self-contained"
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH v2 4/7] fpu: rename softfloat-specialize.h ->
+ .inc.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,30 +89,36 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The macros use the "flags" type and to be consistent if anyone just
-needs the macros we should bring in the header we need. There is an
-outstanding TODO to audit the use of "flags" and replace with bool at
-which point this include could be dropped.
+This is not a normal header and should only be included in the main
+softfloat.c file to bring in the various target specific
+specialisations. Indeed as it contains non-inlined C functions it is
+not even a legal header. Rename it to match our included C convention.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/fpu/softfloat-macros.h | 2 ++
- 1 file changed, 2 insertions(+)
+ fpu/{softfloat-specialize.h => softfloat-specialize.inc.c} | 0
+ fpu/softfloat.c                                            | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename fpu/{softfloat-specialize.h => softfloat-specialize.inc.c} (100%)
 
-diff --git a/include/fpu/softfloat-macros.h b/include/fpu/softfloat-macros.h
-index c55aa6d1742..e698bca4e1d 100644
---- a/include/fpu/softfloat-macros.h
-+++ b/include/fpu/softfloat-macros.h
-@@ -82,6 +82,8 @@ this code that are retained.
- #ifndef FPU_SOFTFLOAT_MACROS_H
- #define FPU_SOFTFLOAT_MACROS_H
+diff --git a/fpu/softfloat-specialize.h b/fpu/softfloat-specialize.inc.c
+similarity index 100%
+rename from fpu/softfloat-specialize.h
+rename to fpu/softfloat-specialize.inc.c
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 2ba36ec3703..80a16458304 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -652,7 +652,7 @@ static inline float64 float64_pack_raw(FloatParts p)
+ | are propagated from function inputs to output.  These details are target-
+ | specific.
+ *----------------------------------------------------------------------------*/
+-#include "softfloat-specialize.h"
++#include "softfloat-specialize.inc.c"
  
-+#include "fpu/softfloat-types.h"
-+
- /*----------------------------------------------------------------------------
- | Shifts `a' right by the number of bits given in `count'.  If any nonzero
- | bits are shifted off, they are ``jammed'' into the least significant bit of
+ /* Canonicalize EXP and FRAC, setting CLS.  */
+ static FloatParts sf_canonicalize(FloatParts part, const FloatFmt *parm,
 -- 
 2.20.1
 
