@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B49188CFA
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 21:33:23 +0200 (CEST)
-Received: from localhost ([::1]:37858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F5988CFE
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 21:34:55 +0200 (CEST)
+Received: from localhost ([::1]:37882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwX7C-0002LG-LZ
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 15:33:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44010)
+	id 1hwX8h-0005Ua-0w
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 15:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44035)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hwX5y-0000Hw-ME
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 15:32:07 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hwX5z-0000Jn-9p
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 15:32:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hwX5x-0007Bs-PX
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 15:32:06 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48782)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hwX5x-0007CC-RV
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 15:32:07 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48776)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hwX5s-000771-FC; Sat, 10 Aug 2019 15:32:01 -0400
+ id 1hwX5s-00076z-FR; Sat, 10 Aug 2019 15:32:01 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1hwX5p-0000nK-B5; Sat, 10 Aug 2019 22:31:57 +0300
+ id 1hwX5p-0000nK-Ho; Sat, 10 Aug 2019 22:31:57 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Date: Sat, 10 Aug 2019 22:31:53 +0300
-Message-Id: <20190810193155.58637-6-vsementsov@virtuozzo.com>
+Date: Sat, 10 Aug 2019 22:31:54 +0300
+Message-Id: <20190810193155.58637-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190810193155.58637-1-vsementsov@virtuozzo.com>
 References: <20190810193155.58637-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v3 5/7] block/backup: fix
- backup_cow_with_offload for last cluster
+Subject: [Qemu-devel] [PATCH v3 6/7] block/backup: teach
+ backup_cow_with_bounce_buffer to copy more at once
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,27 +52,131 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We shouldn't try to copy bytes beyond EOF. Fix it.
+backup_cow_with_offload can transfer more than one cluster. Let
+backup_cow_with_bounce_buffer behave similarly. It reduces the number
+of IO requests, since there is no need to copy cluster by cluster.
+
+Logic around bounce_buffer allocation changed: we can't just allocate
+one-cluster-sized buffer to share for all iterations. We can't also
+allocate buffer of full-request length it may be too large, so
+BACKUP_MAX_BOUNCE_BUFFER is introduced. And finally, allocation logic
+is to allocate a buffer sufficient to handle all remaining iterations
+at the point where we need the buffer for the first time.
+
+Bonus: get rid of pointer-to-pointer.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/backup.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/backup.c | 65 +++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 41 insertions(+), 24 deletions(-)
 
 diff --git a/block/backup.c b/block/backup.c
-index 228ba9423c..d482d93458 100644
+index d482d93458..65f7212c85 100644
 --- a/block/backup.c
 +++ b/block/backup.c
-@@ -155,7 +155,7 @@ static int coroutine_fn backup_cow_with_offload(BackupBlockJob *job,
+@@ -27,6 +27,7 @@
+ #include "qemu/error-report.h"
+ 
+ #define BACKUP_CLUSTER_SIZE_DEFAULT (1 << 16)
++#define BACKUP_MAX_BOUNCE_BUFFER (64 * 1024 * 1024)
+ 
+ typedef struct CowRequest {
+     int64_t start_byte;
+@@ -98,44 +99,55 @@ static void cow_request_end(CowRequest *req)
+     qemu_co_queue_restart_all(&req->wait_queue);
+ }
+ 
+-/* Copy range to target with a bounce buffer and return the bytes copied. If
+- * error occurred, return a negative error number */
++/*
++ * Copy range to target with a bounce buffer and return the bytes copied. If
++ * error occurred, return a negative error number
++ *
++ * @bounce_buffer is assumed to enough to store
++ * MIN(BACKUP_MAX_BOUNCE_BUFFER, @end - @start) bytes
++ */
+ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
+                                                       int64_t start,
+                                                       int64_t end,
+                                                       bool is_write_notifier,
+                                                       bool *error_is_read,
+-                                                      void **bounce_buffer)
++                                                      void *bounce_buffer)
+ {
      int ret;
-     int nr_clusters;
      BlockBackend *blk = job->common.blk;
--    int nbytes = end - start;
-+    int nbytes = MIN(end - start, job->len - start);
+-    int nbytes;
++    int nbytes, remaining_bytes;
      int read_flags = is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
  
-     assert(end - start < INT_MAX);
+     assert(QEMU_IS_ALIGNED(start, job->cluster_size));
+-    bdrv_reset_dirty_bitmap(job->copy_bitmap, start, job->cluster_size);
+-    nbytes = MIN(job->cluster_size, job->len - start);
+-    if (!*bounce_buffer) {
+-        *bounce_buffer = blk_blockalign(blk, job->cluster_size);
+-    }
++    bdrv_reset_dirty_bitmap(job->copy_bitmap, start, end - start);
++    nbytes = MIN(end - start, job->len - start);
+ 
+-    ret = blk_co_pread(blk, start, nbytes, *bounce_buffer, read_flags);
+-    if (ret < 0) {
+-        trace_backup_do_cow_read_fail(job, start, ret);
+-        if (error_is_read) {
+-            *error_is_read = true;
++
++    remaining_bytes = nbytes;
++    while (remaining_bytes) {
++        int chunk = MIN(BACKUP_MAX_BOUNCE_BUFFER, remaining_bytes);
++
++        ret = blk_co_pread(blk, start, chunk, bounce_buffer, read_flags);
++        if (ret < 0) {
++            trace_backup_do_cow_read_fail(job, start, ret);
++            if (error_is_read) {
++                *error_is_read = true;
++            }
++            goto fail;
+         }
+-        goto fail;
+-    }
+ 
+-    ret = blk_co_pwrite(job->target, start, nbytes, *bounce_buffer,
+-                        job->write_flags);
+-    if (ret < 0) {
+-        trace_backup_do_cow_write_fail(job, start, ret);
+-        if (error_is_read) {
+-            *error_is_read = false;
++        ret = blk_co_pwrite(job->target, start, chunk, bounce_buffer,
++                            job->write_flags);
++        if (ret < 0) {
++            trace_backup_do_cow_write_fail(job, start, ret);
++            if (error_is_read) {
++                *error_is_read = false;
++            }
++            goto fail;
+         }
+-        goto fail;
++
++        start += chunk;
++        remaining_bytes -= chunk;
+     }
+ 
+     return nbytes;
+@@ -301,9 +313,14 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
+             }
+         }
+         if (!job->use_copy_range) {
++            if (!bounce_buffer) {
++                size_t len = MIN(BACKUP_MAX_BOUNCE_BUFFER,
++                                 MAX(dirty_end - start, end - dirty_end));
++                bounce_buffer = blk_try_blockalign(job->common.blk, len);
++            }
+             ret = backup_cow_with_bounce_buffer(job, start, dirty_end,
+                                                 is_write_notifier,
+-                                                error_is_read, &bounce_buffer);
++                                                error_is_read, bounce_buffer);
+         }
+         if (ret < 0) {
+             break;
 -- 
 2.18.0
 
