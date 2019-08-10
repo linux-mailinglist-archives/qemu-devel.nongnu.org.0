@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82890887F7
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:24:41 +0200 (CEST)
-Received: from localhost ([::1]:34950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABC0887F2
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:22:43 +0200 (CEST)
+Received: from localhost ([::1]:34922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwIvo-0006ss-Ob
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:24:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34914)
+	id 1hwItu-0002kn-D9
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:22:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34927)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIl6-0006Np-L3
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:37 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIl7-0006RM-MT
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIl5-0004UN-HH
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:36 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33384)
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIl6-0004Uy-MP
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:37 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39414)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIl5-0004TO-CT
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:35 -0400
-Received: by mail-ot1-x341.google.com with SMTP id q20so140362397otl.0
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:35 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIl6-0004Ug-I3
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:36 -0400
+Received: by mail-ot1-x344.google.com with SMTP id r21so134537806otq.6
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DbrkzDutmrfs4okVyFu2tN+4UZ2g6EPa+UzGILusqVI=;
- b=GtjTjbxW2yqhUhv/aEGer1DGfWbJBqq2IyQqiDpYj6Q/+oZWxGc6cCxGKk3FjJHbXL
- 1NypyHX55VFw3W91i20CBHGvAMH4wd3C+ojTPqW9JRgjYNuO+TNe8Ah6tRds3JnCZJ2e
- PsxADAfz/rKQpgpFqYQwPC7Y5ChHVYXtCJlVli61X7hbVi+HcnU+A7ek9vMNJB8tQ33B
- SUM+ikFKRq8XjqBr4/7JheTy+vK1NsR7jAWTyKSqDhC7290Nwe+Ltfg6HzXja9VtXbhr
- eujNn6CBm7UM7PUWhsuhdDFcXVq8ipLqLmoFDL/F2oqVP+pLXT7QBvOsuLicxr+mlUpl
- WKpw==
+ bh=q6DnEc89TW6Qa3yBPyPdGyYM9ThqGiR5er7hiKTRvYk=;
+ b=plFeN00E7BakXWolWbIbmFul1Y1cUzH3nLVldl4Gv0GC7IuTBExcxA+rkUXuK0BQU/
+ Q2R/n0EZ1J7NvicGbAid0tZWAM3gSku0OJ8ich3L+ULRUquZAS6ZXv7A/xPIXErkAI1v
+ 8vFWZ9IbG7PCP54WBpw8807b5gixtV292IwKggMHSpV4H8o0uKJB8m9dw6L1vfMl1UIV
+ 5yMojFhjbCSkZsVe/v6cDqFLRrgdnWjQqKWKnInMLRsQXvcxKOGBKBO5c9s39ZwJQjzl
+ sI4Pq6YaKEvEhk899YiXjGR7eEuSJTj288qx3opuho9TG/9oSKlZQnGr+VLhWbIOCHsL
+ 32Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DbrkzDutmrfs4okVyFu2tN+4UZ2g6EPa+UzGILusqVI=;
- b=Ytu/WbJO9azT7Vc7d06sfyRmp9lO8z9qMhK39Ve6B1YC3Ek+ar1eI4l0Icqe4irnfj
- eXIuWMr2N6ENOScM8WH7C7xd15F0LDVEWGfpO8GzNqv20N8Qj5xksa+nVHi2hmAhzce+
- tOZctyhYIY+eServGmKG6/v0pKgilymFo7ccugot/QbW/Rva008E4H2aj5QObJQuvj3f
- fB2zDnvAcIIFqjL74NcELebJJA7bKeNtzmUCFLDWtjIaCACTo4OlcHXh601xvwpJjW/d
- NLeidMiNcuC8AbsxuxzFfLvtgZ1n+hA4FiAFCMRWb4DUDef05sdr0+OSLIEQRqvoqPd5
- Q1Sw==
-X-Gm-Message-State: APjAAAXlxafTlJie30GdfS4Ts5Mu+xA7u/+R3NvUi6kz88Z9uU7j4O0A
- 1FUGiQ+s21ionob9qvS1N6U2BbV2
-X-Google-Smtp-Source: APXvYqx208iXeiIncB/eWHiUinL3yo4oqlq4NI64+auF1uozo47xCmgUhMgY8N9rDEY+Dabg4vM5IA==
-X-Received: by 2002:a54:4f09:: with SMTP id e9mr8499793oiy.89.1565410414527;
- Fri, 09 Aug 2019 21:13:34 -0700 (PDT)
+ bh=q6DnEc89TW6Qa3yBPyPdGyYM9ThqGiR5er7hiKTRvYk=;
+ b=qPX5rzqHASbolvGJw1J2rrt+6oZ6r1Qef+GBSCN6QiKgPToo1S8GZGML++IuBCF6aL
+ bTe0ULqu7w9EiqSJIoNc79b/+GX9ti4QiefaktDkzXLaB6oECaHFK1aqHTq/hc+bcG3y
+ oY80ff6UQVCGuYpyLdHYGxXSydoO8AnWneObIo0isCUDGJYmhBBUAnP9EOTrN1jVSu6d
+ 8L6/nNcGlhuuTI70u0bZno3MunrnU0jq7kyM86fQRQAaIWqAO7ojODMeKev+erpmPgdG
+ /+ZskyeZCSRAtchYpa6FaI7QdgIGhUWcoHrJlS0/RWEnIbmW0NtCWm382vbxVI7Bhnfi
+ H46A==
+X-Gm-Message-State: APjAAAVjcJu5zhF9yVOjOBhiiYf0HsUbjPsQUNavONHUUdeSQCu92sCO
+ 1GB7wpefvBuBdnHNM/I7OkjkIz67
+X-Google-Smtp-Source: APXvYqyhIVoyEwW7HIbJu7Tv+YhEtve77qAsqPI+JK3qhNMPlrsQKiHKkz3JTi/ISyLnm9OIYSz/tQ==
+X-Received: by 2002:aca:420b:: with SMTP id p11mr7863554oia.124.1565410415791; 
+ Fri, 09 Aug 2019 21:13:35 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.33
+ by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.35
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 09 Aug 2019 21:13:34 -0700 (PDT)
+ Fri, 09 Aug 2019 21:13:35 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 10 Aug 2019 00:12:44 -0400
-Message-Id: <20190810041255.6820-29-jan.bobek@gmail.com>
+Date: Sat, 10 Aug 2019 00:12:45 -0400
+Message-Id: <20190810041255.6820-30-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190810041255.6820-1-jan.bobek@gmail.com>
 References: <20190810041255.6820-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: [Qemu-devel] [RFC PATCH v2 28/39] target/i386: introduce P*, N*,
- Q* (MMX) operands
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: [Qemu-devel] [RFC PATCH v2 29/39] target/i386: introduce
+ helper-based code generator macros
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,63 +84,50 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These address the MMX-technology register file; the corresponding
-cpu_env offset is passed as the operand value. Notably, offset of the
-entire register is pased at all times, regardless of the operand-size
-suffix.
+Code generators defined using these macros rely on a helper function
+(as emitted by gen_helper_*).
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ target/i386/translate.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 9896f1c99e..19b92d61f6 100644
+index 19b92d61f6..d721bb5142 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4801,6 +4801,43 @@ INSNOP_LDST(RqMq, Rq, Mq, NULL,
- INSNOP_LDST_UNIFY(Ed, Rd, RdMd)
- INSNOP_LDST_UNIFY(Eq, Rq, RqMq)
+@@ -4856,6 +4856,32 @@ INSNOP_LDST_UNIFY(Qq, Nq, NqMq)
+ #define gen_insn_wrrr(mnem, opW1, opR1, opR2, opR3)     \
+     gen_ ## mnem ## _ ## opW1 ## opR1 ## opR2 ## opR3
  
-+/*
-+ * MMX registers
-+ */
-+#define INSNOP_INIT_MM(mmid_fp)                                         \
-+    do {                                                                \
-+        const int mmid = mmid_fp(env, s, modrm);                        \
-+        INSNOP_INIT_OK(offsetof(CPUX86State, fpregs[mmid].mmx));        \
-+    } while (0)
-+
-+#define INSNOP_MM(opT, init_stmt)      \
-+    INSNOP(opT, uint32_t,              \
-+           init_stmt,                  \
-+           INSNOP_PREPARE_NOOP,        \
-+           INSNOP_FINALIZE_NOOP)
-+
-+INSNOP_MM(P, INSNOP_INIT_MM(decode_modrm_reg_norexr))
-+INSNOP_ALIAS(Pd, P)
-+INSNOP_ALIAS(Pq, P)
-+
-+INSNOP_MM(N, INSNOP_INIT_DIRECT_ONLY(INSNOP_INIT_MM(decode_modrm_rm_norexb)))
-+INSNOP_ALIAS(Nd, N)
-+INSNOP_ALIAS(Nq, N)
-+
-+INSNOP_LDST(NdMd, Nd, Md, offsetof(CPUX86State, mmx_t0),
-+            (assert(ptr == s->A0),
-+             gen_ldd_env_A0(s, reg + offsetof(MMXReg, MMX_L(0)))),
-+            (assert(ptr == s->A0),
-+             gen_std_env_A0(s, reg + offsetof(MMXReg, MMX_L(0)))))
-+INSNOP_LDST(NqMq, Nq, Mq, offsetof(CPUX86State, mmx_t0),
-+            (assert(ptr == s->A0),
-+             gen_ldq_env_A0(s, reg + offsetof(MMXReg, MMX_Q(0)))),
-+            (assert(ptr == s->A0),
-+             gen_stq_env_A0(s, reg + offsetof(MMXReg, MMX_Q(0)))))
-+
-+INSNOP_LDST_UNIFY(Qd, Nd, NdMd)
-+INSNOP_LDST_UNIFY(Qq, Nq, NqMq)
++#define GEN_INSN_HELPER(mnem, helper)           \
++    static void gen_insn(mnem)(                 \
++        CPUX86State *env, DisasContext *s)      \
++    {                                           \
++        gen_helper_ ## helper(cpu_env);         \
++    }
++#define GEN_INSN_WR_HELPER(mnem, helper, opW1, opR1)            \
++    static void gen_insn_wr(mnem, opW1, opR1)(                  \
++        CPUX86State *env, DisasContext *s, insnop_t(opW1) ret,  \
++        insnop_t(opR1) arg1)                                    \
++    {                                                           \
++        tcg_gen_addi_ptr(s->ptr0, cpu_env, ret);                \
++        tcg_gen_addi_ptr(s->ptr1, cpu_env, arg1);               \
++        gen_helper_ ## helper(cpu_env, s->ptr0, s->ptr1);       \
++    }
++#define GEN_INSN_WRR_HELPER(mnem, helper, opW1, opR1, opR2)     \
++    static void gen_insn_wrr(mnem, opW1, opR1, opR2)(           \
++        CPUX86State *env, DisasContext *s, insnop_t(opW1) ret,  \
++        insnop_t(opR1) arg1, insnop_t(opR2) arg2)               \
++    {                                                           \
++        assert(ret == arg1);                                    \
++        tcg_gen_addi_ptr(s->ptr0, cpu_env, ret);                \
++        tcg_gen_addi_ptr(s->ptr1, cpu_env, arg2);               \
++        gen_helper_ ## helper(cpu_env, s->ptr0, s->ptr1);       \
++    }
 +
  /*
-  * Code generators
+  * Instruction translators
   */
 -- 
 2.20.1
