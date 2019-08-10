@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9B78882A
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:29:34 +0200 (CEST)
-Received: from localhost ([::1]:34998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCE7887EF
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:21:51 +0200 (CEST)
+Received: from localhost ([::1]:34901 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwJ0Y-0006KS-2k
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34877)
+	id 1hwIt4-0008QH-Er
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:21:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34892)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIl3-0006DT-IN
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:34 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIl4-0006GS-Fk
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIl2-0004SO-I0
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:33 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41271)
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIl3-0004Sq-EA
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:34 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:44997)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIl2-0004Rq-Cm
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:32 -0400
-Received: by mail-ot1-x343.google.com with SMTP id o101so5584537ota.8
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:32 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIl3-0004Sh-9f
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:33 -0400
+Received: by mail-ot1-x341.google.com with SMTP id b7so90234805otl.11
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2dEeYOdO8k86iFOdeCG1Qzb5tXqRbL2ElGcxu6RqHdc=;
- b=jDivdAqrqL1DVKKaLjvcYB31mue+KhN+kOzHfewLqwg/aYjcvEYQ68/FfpHHLBhmg4
- Bl4vgo5NZspCuAXD2hwK4QcOsvj3onncWuv6YPVCx423dxH4CGsHangSDvrOHOL4norE
- /vZTOoyCSR8hiXnC6KzdQXgBjnvBvIuwomoz9MgVpPlVhhRyszkhyyEOkzqeDc4xPMVV
- f0zLW82bCNb0CkIcMNl2INir9qKXvB7ZXnJYov1uBmgWvOpyprwHKGJ3AjYwSmJISV9/
- JjtDxpb5t+NGy7p2RTJj/ZhcelIhVTinnUFQvc0nTMW/6zzxh74eSwnUCfgYu+WJbxJE
- x7UA==
+ bh=ZzNqi122k+7Jd9BKz3dezcAE/xj5VfNz4Zoq5N5DAcM=;
+ b=Vg6/+3s2vhIMRi5WeVr7xkzHVwLxNkBt25TILLQwR23tsVixPRxuLv14k3OX+OOkR9
+ cHGj/2ugNC/vfOglccb1JWwNDLU23BQncctmN1hPIjoggZWB1lOTIJ6qjhvK98l6ouAV
+ 0x7fLA5geECuCizVWZYwer1ImTnk7sy660tG0FLzaABmDPtOfcjdkz2GNFwPS+NtoLTX
+ 8moJR9g9DE689/nMiV61mQiF1KsyckKojxYcvtmY/iK3uU1h8gBRR7I5gYD5kLkIHbvb
+ L0/4W1u3FvjeQO+OttzVrqeW6Ikysyy8yp6q0jm6DsL7XiTcjMeU34JYDGrO2QvTjlZ9
+ F7mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2dEeYOdO8k86iFOdeCG1Qzb5tXqRbL2ElGcxu6RqHdc=;
- b=oDlIW/RfPqwF78xmgnavqvSoYp1m2rn5IpOhsnKwNoy0qy2EDzkw46nGDcypvdEeV7
- Ot++pSOyL1AClX3v+Vaiu5izOe90+ISdrz2UWBXgeCmusknVPA4kAW4MqsYvcmsow7Ut
- u6uzpMweZLzR2g6CS6c65zSat4eDWMFjeja7PMWFL9DnpD1BjjlHh/j3dpzlBFAJCk0l
- LnGOGmE4CRuRSo/18kwP9fPi8YD6+BxdDdGMMMlHgwWQxD3hgVzYwrMH7W13uZpRpl7X
- wJl4x0zzgdCu8LIkh9LWNYFC9eI2VwE29IVhl7j2tRjhFYZHeQ85RmQ1PqRgv/TzPac9
- UWgg==
-X-Gm-Message-State: APjAAAW9SbH0IMXrEwwucBPaPbVNpEMAMdQgoNPJ4GBbz8xiuYyaF3KM
- pXklSGs3JJyyEk6mkEp8t2LP+zbv
-X-Google-Smtp-Source: APXvYqwOwCFwXc7MSoxKVEVNxIerOai2LPKKv/Rh9qpUW4b9BJu0afEs97UM12Tiozwv5fFLuyk9sg==
-X-Received: by 2002:a9d:5c11:: with SMTP id o17mr19460742otk.107.1565410411740; 
- Fri, 09 Aug 2019 21:13:31 -0700 (PDT)
+ bh=ZzNqi122k+7Jd9BKz3dezcAE/xj5VfNz4Zoq5N5DAcM=;
+ b=To0VcdO7l7RU4Ar0jd2fUO0xaioQW4ffwV9LvNvI7gcJ+ueYlPk4ipDONgcYVug6sA
+ WpSI1FNWkqtDShgYzzEUyckgHgZ85CL9b8HomjIIO2keQvFyy1n1KQ8kEEzeTvmlc7Q4
+ sEc31b9s+bsmQMsRUYWaEGH7OZzx+17U6vogfW5JazUDehJqp/KtgkqzlDyR3aWBXiKU
+ iRfiWqgan3U1V+WfTuGOrhHpd3Hf0bRKeYMWb589e6YAqURXjqajpsrz4luSd4Z8uo0K
+ lW1ozsdxB1+MbTEbJV6nKnhP0ahSRcTzOmJmu8tVkvrXV5iMR1GhGcpiGB0YHQQCojg/
+ KRsw==
+X-Gm-Message-State: APjAAAV7yRmNl5K5ghdsBuCHKGky2qUk4eFdjFIRxayZk/YbikL55oYB
+ povihtJzuhqtKWzCVPWWvOjYxsiE
+X-Google-Smtp-Source: APXvYqzEESjl+Oxl6Rr2UqB7fjwlTJr1AQcQQJ76CX5Tqcle5suHxuuU3LO5wMYNfljmnOKTIFMx1w==
+X-Received: by 2002:aca:4256:: with SMTP id p83mr8914903oia.125.1565410412505; 
+ Fri, 09 Aug 2019 21:13:32 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
  by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.31
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 09 Aug 2019 21:13:31 -0700 (PDT)
+ Fri, 09 Aug 2019 21:13:32 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 10 Aug 2019 00:12:41 -0400
-Message-Id: <20190810041255.6820-26-jan.bobek@gmail.com>
+Date: Sat, 10 Aug 2019 00:12:42 -0400
+Message-Id: <20190810041255.6820-27-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190810041255.6820-1-jan.bobek@gmail.com>
 References: <20190810041255.6820-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: [Qemu-devel] [RFC PATCH v2 25/39] target/i386: introduce M*
- (memptr) operands
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: [Qemu-devel] [RFC PATCH v2 26/39] target/i386: introduce G*, R*,
+ E* (general register) operands
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,53 +84,86 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The memory-pointer operand decodes the indirect form of ModR/M byte,
-loads the effective address into a register and passes that register
-as the operand.
-
-Note: This operand has a known flaw: if an instruction is writing to
-memory (rather than reading), this operand cannot and will not load
-the effective address into the register (as it should). The current
-workaround is to declare the memory operand as read (rather than
-write); this flaw will be addressed in the next iteration.
+These address the general-purpose register file. The corresponding
+32-bit or 64-bit register is passed as the operand value.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ target/i386/translate.c | 65 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index b8e6eaebb4..301dc4eddf 100644
+index 301dc4eddf..0e57d5f049 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4705,6 +4705,31 @@ INSNOP(Ib, int8_t,                              \
-        (*op = x86_ldub_code(env, s)),           \
-        INSNOP_FINALIZE_INVALID)
+@@ -4730,6 +4730,71 @@ INSNOP_ALIAS(Md, M)
+ INSNOP_ALIAS(Mdq, M)
+ INSNOP_ALIAS(Mqq, M)
  
 +/*
-+ * Memory-pointer operand
++ * General registers
 + */
-+INSNOP(
-+    M, TCGv,
-+    do {
-+        if (decode_modrm_mod(env, s, modrm) == 3) {
-+            INSNOP_INIT_FAIL;
-+        } else {
-+            INSNOP_INIT_OK(s->A0);
-+        }
-+    } while (0),
-+    do {
-+        assert(*op == s->A0);
-+        gen_lea_modrm(env, s, modrm);
-+    } while (0),
-+    INSNOP_FINALIZE_NOOP)
++#define INSNOP_R32(opT, regid_fp, init_stmt)                    \
++    INSNOP(                                                     \
++        opT, TCGv_i32, init_stmt,                               \
++        do {                                                    \
++            const int regid = regid_fp(env, s, modrm);          \
++            tcg_gen_trunc_tl_i32(*op, cpu_regs[regid]);         \
++        } while (0),                                            \
++        do {                                                    \
++            const int regid = regid_fp(env, s, modrm);          \
++            tcg_gen_extu_i32_tl(cpu_regs[regid], *op);          \
++        } while (0))
 +
-+INSNOP_ALIAS(Mb, M)
-+INSNOP_ALIAS(Mw, M)
-+INSNOP_ALIAS(Mq, M)
-+INSNOP_ALIAS(Md, M)
-+INSNOP_ALIAS(Mdq, M)
-+INSNOP_ALIAS(Mqq, M)
++#define INSNOP_R64(opT, regid_fp, init_stmt)                    \
++    INSNOP(                                                     \
++        opT, TCGv_i64, init_stmt,                               \
++        do {                                                    \
++            const int regid = regid_fp(env, s, modrm);          \
++            tcg_gen_mov_i64(*op, cpu_regs[regid]);              \
++        } while (0),                                            \
++        do {                                                    \
++            const int regid = regid_fp(env, s, modrm);          \
++            tcg_gen_mov_i64(cpu_regs[regid], *op);              \
++        } while (0))
++
++#ifdef TARGET_X86_64
++INSNOP_R32(Gd, decode_modrm_reg_rexr, INSNOP_INIT_OK(s->tmp2_i32))
++INSNOP_R64(Gq, decode_modrm_reg_rexr, INSNOP_INIT_OK(s->T1))
++
++INSNOP_R32(Rd, decode_modrm_rm_rexb,
++           INSNOP_INIT_DIRECT_ONLY(INSNOP_INIT_OK(s->tmp3_i32)))
++INSNOP_R64(Rq, decode_modrm_rm_rexb,
++           INSNOP_INIT_DIRECT_ONLY(INSNOP_INIT_OK(s->T0)))
++#else /* !TARGET_X86_64 */
++INSNOP_R32(Gd, decode_modrm_reg_rexr, INSNOP_INIT_OK(s->T1))
++INSNOP(Gq, TCGv_i64, INSNOP_INIT_FAIL,
++       INSNOP_PREPARE_INVALID, INSNOP_FINALIZE_INVALID)
++
++INSNOP_R32(Rd, decode_modrm_rm_rexb,
++           INSNOP_INIT_DIRECT_ONLY(INSNOP_INIT_OK(s->T0)))
++INSNOP(Rq, TCGv_i64, INSNOP_INIT_FAIL,
++       INSNOP_PREPARE_INVALID, INSNOP_FINALIZE_INVALID)
++#endif /* !TARGET_X86_64 */
++
++#ifdef TARGET_X86_64
++INSNOP_LDST(RdMd, Rd, Md, s->tmp3_i32,
++            tcg_gen_qemu_ld_i32(reg, ptr, s->mem_index, MO_LEUL),
++            tcg_gen_qemu_st_i32(reg, ptr, s->mem_index, MO_LEUL))
++INSNOP_LDST(RqMq, Rq, Mq, s->T0,
++            tcg_gen_qemu_ld_i64(reg, ptr, s->mem_index, MO_LEQ),
++            tcg_gen_qemu_st_i64(reg, ptr, s->mem_index, MO_LEQ))
++#else /* !TARGET_X86_64 */
++INSNOP_LDST(RdMd, Rd, Md, s->T0,
++            tcg_gen_qemu_ld_i32(reg, ptr, s->mem_index, MO_LEUL),
++            tcg_gen_qemu_st_i32(reg, ptr, s->mem_index, MO_LEUL))
++INSNOP_LDST(RqMq, Rq, Mq, NULL,
++            INSNOP_PREPARE_INVALID,
++            INSNOP_FINALIZE_INVALID)
++#endif /* !TARGET_X86_64 */
++
++INSNOP_LDST_UNIFY(Ed, Rd, RdMd)
++INSNOP_LDST_UNIFY(Eq, Rq, RqMq)
 +
  /*
   * Code generators
