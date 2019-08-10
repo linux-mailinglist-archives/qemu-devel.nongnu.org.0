@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0477D887ED
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:21:40 +0200 (CEST)
-Received: from localhost ([::1]:34898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7769B887F8
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:24:45 +0200 (CEST)
+Received: from localhost ([::1]:34952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwIst-0007jJ-7J
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34835)
+	id 1hwIvs-00079f-MP
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34846)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIkz-0005zX-Fk
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:30 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIl0-000638-IW
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIky-0004O5-C1
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:29 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:36311)
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIkz-0004Pl-JF
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:30 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:40796)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIky-0004Nr-7g
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:28 -0400
-Received: by mail-ot1-x343.google.com with SMTP id k18so8368442otr.3
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:28 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIkz-0004OS-F6
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:29 -0400
+Received: by mail-ot1-x341.google.com with SMTP id c34so481495otb.7
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1WE3bBdYSXJrRK7mJcEb6kzPO19OfCWH98w1USfvuLI=;
- b=Z41coFLcit1TJUSm2DITt/S3umZupphV9koQnYcZ4kOY0OS6t1u68v+l3DOntlcC9J
- kFFRh+eUS/zxIkbKs5ccfoeJghLo8Pn+YhcD3JkKvYgUypCtzwMhf03p0Di0iwCza9kw
- yLrsluK489hQqjpMUQ52ZSHixaaaCbDIgshn5WIMDKgpd5yTMkajEf7TorWQqtSeeKY0
- xWB17Kec37RdkXClw9TSNuHlZoE7T+f7wSJzhXvEEtXl5qacGR5SGPj+JSaMKfa2GZD/
- zpiLXhWRwslBauXnxRoADj/18T0ZHa3cnvxu+FCoHtukCdOFjy0eHebkCyDGZyHyiYbO
- t4fQ==
+ bh=N+dtPNIK3VoSsjKgKbGhkBhajKi+jxRCrJYpAZtiaR8=;
+ b=UEz8ZQHJxZToygOlIqeBcI8w+wKgEi5UUshjl0YJpOuEr1yrYa6ZDGPpgyGfDfLTZH
+ 7d8zFaKqJs226N4R1niBy1hfaLZ3ZZmA3aPeXG4AO5ttiDzvwaj7q1gi3CWVijK7lrDh
+ NaCD3/YRU3D6+/URArrGhQhDuhVyv5svGcJjD2Cl6XtzjU69nhelxDZBjEoLOV4ths8B
+ 9la5g2QPIOf8cVZTnsDV68PXT4adc1Ey+G4dAOTpBilv+6Gkgl28IYU+/aFuIKkgSfFK
+ CfaO2Xb5zftxYTUJAhGJ3FpYYe9+JEiiZ5SaeH4YlI/ie8d/seFzZKMmYNuRdgM21DYt
+ VKMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1WE3bBdYSXJrRK7mJcEb6kzPO19OfCWH98w1USfvuLI=;
- b=WKVrv80jS61AFITuWw7qb77AKm7Ok3FJc4zeAcPlRNpiZ37ft9u+BT55jzedtb2vCM
- XDSBJDmWPfYfj3VyuBvQ7qG0a26N1Q5rrZqKtysi9611nAYBHMND9JyvWMW3NRQLTtYi
- lk58YRwSY2wPvpV1SUitD0xIMXQ64eiphNZtm9Ezoc4K0YNqXoxfB27zxuR2HHndbn/L
- Bw5iRShDbzapiROO+4s+UsY9JbcEx/OvSuSpLDYyjJ5GeEpqy7JF0in+j6LBQmkvrAUX
- ZHTFf361xn2ZbEQVqlNi1jy9BbMFZHEm9CdmbvDFW5490v40sMxxcUPqZW8fFrULRTX9
- A10g==
-X-Gm-Message-State: APjAAAXXao56FG+pLddkRV6V1I3d6Qhxx5egswEJUUV2Xn7aPeDOfxrk
- GPv23fICVbBENeVs8FjP0JIDU2SA
-X-Google-Smtp-Source: APXvYqzpr1e8qc8IBucNc3quEye7PTiX0XPsfjbQbsi4oEA4q+PPqGqEktcdMgdB3C2/SKk8J3CcxA==
-X-Received: by 2002:a05:6830:200e:: with SMTP id
- e14mr19227814otp.245.1565410407564; 
- Fri, 09 Aug 2019 21:13:27 -0700 (PDT)
+ bh=N+dtPNIK3VoSsjKgKbGhkBhajKi+jxRCrJYpAZtiaR8=;
+ b=W+40yM9iiNzMr4uyIhqk5CDxO/MngD6HqNKNRwULmkAFxP1d4XM2x8MBMAm7MUeCXh
+ BTIzNbb6g0kOnQE4SkaQpeOfCsqdtzWAWdE+/xQ2cM6QaHvzNd3QKH06u32UT88cGTii
+ mOhKZBLccvTp9ncvVGKsGuQdQSM9jieeNWm8DnmPtPfu5UKoSHj7tyduiKzjAxbPjLSx
+ 0/aVftIoMAx2zFKTMvo4H92OW0r+7mZqieKUjW51y/F66qzYVj4sSUsaru2mZgHY88iC
+ QB3eUUL6njBscneJufmfB71PoIGuXWw823kD5uXi4v3zlR+SBTa5nft/XbJJsGHH3WZv
+ f8Jg==
+X-Gm-Message-State: APjAAAWMtN2PJwCBzISwDy/KxkeaTaoYICxZx00Qex3C9X7JZ1u/59kq
+ IChBB+aj177NFZk//jCnp7eioeFA
+X-Google-Smtp-Source: APXvYqz0HHESLuDiG3PXy3OWFVlFrU04AspNx7/rRrJ3Acmz8CLBI4VXX9BBKfYI/H0Buntw2fZDgA==
+X-Received: by 2002:a9d:5911:: with SMTP id t17mr19533422oth.159.1565410408794; 
+ Fri, 09 Aug 2019 21:13:28 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.26
+ by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.28
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 09 Aug 2019 21:13:27 -0700 (PDT)
+ Fri, 09 Aug 2019 21:13:28 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 10 Aug 2019 00:12:37 -0400
-Message-Id: <20190810041255.6820-22-jan.bobek@gmail.com>
+Date: Sat, 10 Aug 2019 00:12:38 -0400
+Message-Id: <20190810041255.6820-23-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190810041255.6820-1-jan.bobek@gmail.com>
 References: <20190810041255.6820-1-jan.bobek@gmail.com>
@@ -65,8 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: [Qemu-devel] [RFC PATCH v2 21/39] target/i386: introduce insn.h
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: [Qemu-devel] [RFC PATCH v2 22/39] target/i386: introduce code
+ generators
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,110 +84,45 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This header is intended to eventually list all supported instructions
-along with some useful details (e.g. mnemonics, opcode, operands etc.)
-It shall be used (along with some preprocessor magic) anytime we need
-to automatically generate code for every instruction.
+In this context, "code generators" are functions that receive decoded
+instruction operands and emit TCG ops implementing the correct
+instruction functionality. Introduce the naming macros first, actual
+generator macros will be added later.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/insn.h | 87 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 87 insertions(+)
- create mode 100644 target/i386/insn.h
+ target/i386/translate.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/target/i386/insn.h b/target/i386/insn.h
-new file mode 100644
-index 0000000000..4b48c0c0e1
---- /dev/null
-+++ b/target/i386/insn.h
-@@ -0,0 +1,87 @@
-+#ifndef INSN
-+#   define INSN(mnem, prefix, opcode, feat)
-+#endif /* INSN */
+diff --git a/target/i386/translate.c b/target/i386/translate.c
+index ebb68fef0b..30180d1c25 100644
+--- a/target/i386/translate.c
++++ b/target/i386/translate.c
+@@ -4697,6 +4697,24 @@ static int ck_cpuid(CPUX86State *env, DisasContext *s, int ck_cpuid_feat)
+             insnop_finalize(opTrm)(env, s, modrm, &rm);                 \
+         } while (0))
+ 
++/*
++ * Code generators
++ */
++#define gen_insn(mnem)                          \
++    gen_ ## mnem
++#define gen_insn_r(mnem, opR1)                  \
++    gen_ ## mnem ## _ ## opR1
++#define gen_insn_rr(mnem, opR1, opR2)           \
++    gen_ ## mnem ## _ ## opR1 ## opR2
++#define gen_insn_w(mnem, opW1)                  \
++    gen_ ## mnem ## _ ## opW1
++#define gen_insn_wr(mnem, opW1, opR1)           \
++    gen_ ## mnem ## _ ## opW1 ## opR1
++#define gen_insn_wrr(mnem, opW1, opR1, opR2)    \
++    gen_ ## mnem ## _ ## opW1 ## opR1 ## opR2
++#define gen_insn_wrrr(mnem, opW1, opR1, opR2, opR3)     \
++    gen_ ## mnem ## _ ## opW1 ## opR1 ## opR2 ## opR3
 +
-+#ifndef INSN_R
-+#   define INSN_R(mnem, prefix, opcode, feat, opR1)
-+#endif /* INSN_R */
-+
-+#ifndef INSN_RR
-+#   define INSN_RR(mnem, prefix, opcode, feat, opR1, opR2)
-+#endif /* INSN_RR */
-+
-+#ifndef INSN_W
-+#   define INSN_W(mnem, prefix, opcode, feat, opW1)
-+#endif /* INSN_W */
-+
-+#ifndef INSN_WR
-+#   define INSN_WR(mnem, prefix, opcode, feat, opW1, opR1)
-+#endif /* INSN_WR */
-+
-+#ifndef INSN_WRR
-+#   define INSN_WRR(mnem, prefix, opcode, feat, opW1, opR1, opR2)
-+#endif /* INSN_WRR */
-+
-+#ifndef INSN_WRRR
-+#   define INSN_WRRR(mnem, prefix, opcode, feat, opW1, opR1, opR2, opR3)
-+#endif /* INSN_WRRR */
-+
-+#ifndef INSN_GRP
-+#   define INSN_GRP(grpname, prefix, opcode)
-+#endif /* INSN_GRP */
-+
-+#ifndef INSN_GRP_BEGIN
-+#   define INSN_GRP_BEGIN(grpname)
-+#endif /* INSN_GRP_BEGIN */
-+
-+#ifndef INSN_GRPMEMB
-+#   define INSN_GRPMEMB(grpname, mnem, opcode, feat)
-+#endif /* INSN_GRPMEMB */
-+
-+#ifndef INSN_GRPMEMB_R
-+#   define INSN_GRPMEMB_R(grpname, mnem, opcode, feat, opR1)
-+#endif /* INSN_GRPMEMB_R */
-+
-+#ifndef INSN_GRPMEMB_RR
-+#   define INSN_GRPMEMB_RR(grpname, mnem, opcode, feat, opR1, opR2)
-+#endif /* INSN_GRPMEMB_RR */
-+
-+#ifndef INSN_GRPMEMB_W
-+#   define INSN_GRPMEMB_W(grpname, mnem, opcode, feat, opW1)
-+#endif /* INSN_GRPMEMB_W */
-+
-+#ifndef INSN_GRPMEMB_WR
-+#   define INSN_GRPMEMB_WR(grpname, mnem, opcode, feat, opW1, opR1)
-+#endif /* INSN_GRPMEMB_WR */
-+
-+#ifndef INSN_GRPMEMB_WRR
-+#   define INSN_GRPMEMB_WRR(grpname, mnem, opcode, feat, opW1, opR1, opR2)
-+#endif /* INSN_GRPMEMB_WRR */
-+
-+#ifndef INSN_GRPMEMB_WRRR
-+#   define INSN_GRPMEMB_WRRR(grpname, mnem, opcode, feat, opW1, opR1, opR2, opR3)
-+#endif /* INSN_GRPMEMB_WRRR */
-+
-+#ifndef INSN_GRP_END
-+#   define INSN_GRP_END(grpname)
-+#endif /* INSN_GRP_END */
-+
-+#undef LEG
-+#undef VEX
-+#undef INSN
-+#undef INSN_R
-+#undef INSN_RR
-+#undef INSN_W
-+#undef INSN_WR
-+#undef INSN_WRR
-+#undef INSN_WRRR
-+#undef INSN_GRP
-+#undef INSN_GRP_BEGIN
-+#undef INSN_GRPMEMB
-+#undef INSN_GRPMEMB_R
-+#undef INSN_GRPMEMB_RR
-+#undef INSN_GRPMEMB_W
-+#undef INSN_GRPMEMB_WR
-+#undef INSN_GRPMEMB_WRR
-+#undef INSN_GRPMEMB_WRRR
-+#undef INSN_GRP_END
+ static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
+ {
+     enum {
 -- 
 2.20.1
 
