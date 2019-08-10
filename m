@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A898887D6
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:15:08 +0200 (CEST)
-Received: from localhost ([::1]:34794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 566F2887E1
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:17:59 +0200 (CEST)
+Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwImZ-00026t-Ny
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:15:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34718)
+	id 1hwIpK-0007Uk-Gx
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:17:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34731)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIkq-0005Tt-9Z
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIkq-0005Vl-Ve
  for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIkp-0004IH-8j
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIkq-0004J9-1l
  for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:20 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:44991)
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:36306)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIkp-0004Gr-49
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIkp-0004J0-Tq
  for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:19 -0400
-Received: by mail-ot1-x341.google.com with SMTP id b7so90233506otl.11
+Received: by mail-ot1-x344.google.com with SMTP id k18so8367625otr.3
  for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=asidY1pQnxUGRio46lMssjxV36QIyDmNgONa9nVKDss=;
- b=LCl5bVEMtE0B6Y4Gj0jw/s274sdfq64UcjGjnsDjO40okufyYjWHZVzbqJwMsYcHAa
- XRF4dybGY3zObfca68KGMXrioGBW+60BqGB2szmmfutlxPjwwsl5ANLQZVszu/eFjYYw
- LJwf4kXj5MpOR7anwtVoVmp4p4cIdXGelP7S/SI2Chv87gT6MxLsAXJFgX70fbqr5gdD
- iDlHHFmbcXBY6YFy3STg7DrPYPqTcqMCXyPXeYezmnySPmxCwYGv5zOoP2+jCHmhRjJy
- 7s3lBzCj4CF1EiDcmfF9uX+YcsRSw8SPEL8nuinzB5mKIQl/y1ujZq2E8TP+GnHcbxyx
- RhiA==
+ bh=7KP+U6MpoVPbGr0lDO3rePNLzDgSsxV/T5vodj8pKVs=;
+ b=hG1G+ZzdU5JOeuKiPAfnfR6qrufrlRgFqZ3gHPGgDsGlojX1nelB07yaXJJXEq3WfQ
+ QYmj4tYHzDDu6nk4WAnNyL3aGDxePvFkQbXUvWG8vXJ7o0+SZzzYJ+9FRjq9gEThsXlx
+ JUNI2gsNUof0cW2BvUl8HqPz0zNZrbg+918PvHJ0LnW2NeT53Q4thCper267PQzidf3n
+ nHIE1WptfCPCeH0FxoCNCVbTEzTVIIHO8JCLASjNS3aJnbZ1c0qmhIa/cJoPAZ27Qokg
+ CtEr0vqtoLYZAzsz3N5kN8v2Ygy5rmmXh7r98pKpxL6uvX0fwSiJWMWZDXFPaYbK/9lX
+ s70A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=asidY1pQnxUGRio46lMssjxV36QIyDmNgONa9nVKDss=;
- b=oAhweOf4AgRuXtY55O9VmmTTlpwN0IBsagcbldcxnMflhD1w0bwX7WStiSQujuxvJi
- i/rkkRWOctvrALiChsq+EIYE3tzqMDB2pb5Aw4mB5E6uprThnpLMTwccUEDB6G1Vsu2H
- GtFK+NlKzOlzQx8Y2kF8hPHU+kTGDLTW+WjfO343jzt1gMpB4FBYPiOT1Lc0UK/Z/F7x
- 0LHg+6razQ0fovX3WMwJ9VKOOgzID27Lwo1xDqAy+mAWhNPep3hBvzkB1boFhR03uaxh
- wmszVwki5fyRPAHh0yKWh/FbFQGsD7gj1dovICm/U+/JFXZhRBOwy10oiISwLkVjBzd9
- KBUQ==
-X-Gm-Message-State: APjAAAXdu3NnW0UAJGU23TolybMn3by6NnwoH3N9iLa2/pAwiBbkKQBb
- Z6A83mIbjsJzYmD+mf8PlLUR2vJW
-X-Google-Smtp-Source: APXvYqwCPo5vFBQ405GNA++InLa/OZHMU/gtpPzpqnDxZQebCRz2pccCVcT2gAw9QNaqdQZSUIyl1g==
-X-Received: by 2002:aca:3158:: with SMTP id x85mr7686618oix.93.1565410398398; 
- Fri, 09 Aug 2019 21:13:18 -0700 (PDT)
+ bh=7KP+U6MpoVPbGr0lDO3rePNLzDgSsxV/T5vodj8pKVs=;
+ b=hUbiXazEp+u5+VJCxD8RP3f1HjFaOdf7JUj7SQQahKbdpIA3RPt91YnEHimbX4PUYy
+ 26ZO7DvkkYcukrsxEQbNzYebmaKiOnxAr/LpqTIg/aVgXva0U9WtA4PNPk9nqfbnIyTt
+ kSafz7MZAJZ8xpqbJGPki3V5ViV/FLlvF99ZdIFeSaK1nXNjYmx83LqM818xxvbwaokk
+ Gpwyb9r3NG2RA0qqGLKGi2Zx0lw1trA5Ko0fbcKfkRPSrbK//4tUsZ5kNgQDvulvcWI+
+ ti85TEBk6zLMmlBciRaovCi4MoVacJfjvfCcPDsyg++Ds7Lohxo7f4ROoCmVzKrG3V5S
+ sMLw==
+X-Gm-Message-State: APjAAAVjtCkZCTCqY6KQScfyRkMxRS2HbJHJx08SmH4W7x7t5Fqf3kuh
+ dSUyiQyUETdxjAXIQAoENSYIFl0/
+X-Google-Smtp-Source: APXvYqxS5EDZRsd7t779oAGRBel2Hp694oiadWDBPAMaTcrkAwheXxL0z6J3OOh91+Lw9JkXAkdj8A==
+X-Received: by 2002:aca:df08:: with SMTP id w8mr8216049oig.84.1565410399174;
+ Fri, 09 Aug 2019 21:13:19 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.17
+ by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.18
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Fri, 09 Aug 2019 21:13:18 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 10 Aug 2019 00:12:27 -0400
-Message-Id: <20190810041255.6820-12-jan.bobek@gmail.com>
+Date: Sat, 10 Aug 2019 00:12:28 -0400
+Message-Id: <20190810041255.6820-13-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190810041255.6820-1-jan.bobek@gmail.com>
 References: <20190810041255.6820-1-jan.bobek@gmail.com>
@@ -64,9 +64,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: [Qemu-devel] [RFC PATCH v2 11/39] target/i386: introduce gen_(ld,
- st)d_env_A0
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: [Qemu-devel] [RFC PATCH v2 12/39] target/i386: introduce gen_sse_ng
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,37 +83,63 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar in spirit to the already present gen_(ld,st)(q,o)_env_A0, it
-will prove useful in later commits for smaller-sized vector loads.
+This function serves as the point-of-intercept for all newly
+implemented instructions. If no new implementation exists, fall back
+to gen_sse.
+
+Note: This changeset is intended for development only and shall not be
+included in the final patch series.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ target/i386/translate.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index c5ec309fe2..258351fce3 100644
+index 258351fce3..fbf10b57a2 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -2652,6 +2652,18 @@ static void gen_jmp(DisasContext *s, target_ulong eip)
-     gen_jmp_tb(s, eip, 0);
+@@ -4489,6 +4489,31 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+     }
  }
  
-+static inline void gen_ldd_env_A0(DisasContext *s, int offset)
++static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
 +{
-+    tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0, s->mem_index, MO_LEUL);
-+    tcg_gen_st_i32(s->tmp2_i32, cpu_env, offset);
++    enum {
++        P_66 = 1 << (0 + 8),
++        P_F3 = 1 << (1 + 8),
++        P_F2 = 1 << (2 + 8),
++        W_0  = 0 << (3 + 8),
++        W_1  = 1 << (3 + 8),
++        M_0F = 1 << (4 + 8),
++    };
++
++    switch (b | M_0F
++            | (s->prefix & PREFIX_DATA ? P_66 : 0)
++            | (s->prefix & PREFIX_REPZ ? P_F3 : 0)
++            | (s->prefix & PREFIX_REPNZ ? P_F2 : 0)
++            | (REX_W(s) > 0 ? W_1 : W_0)) {
++
++    default:
++        gen_sse(env, s, b);
++        return;
++    }
++
++    g_assert_not_reached();
 +}
 +
-+static inline void gen_std_env_A0(DisasContext *s, int offset)
-+{
-+    tcg_gen_ld_i32(s->tmp2_i32, cpu_env, offset);
-+    tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0, s->mem_index, MO_LEUL);
-+}
-+
- static inline void gen_ldq_env_A0(DisasContext *s, int offset)
- {
-     tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, s->mem_index, MO_LEQ);
+ /* convert one instruction. s->base.is_jmp is set if the translation must
+    be stopped. Return the next pc value */
+ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+@@ -8379,7 +8404,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x1c2:
+     case 0x1c4 ... 0x1c6:
+     case 0x1d0 ... 0x1fe:
+-        gen_sse(env, s, b);
++        gen_sse_ng(env, s, b);
+         break;
+     default:
+         goto unknown_op;
 -- 
 2.20.1
 
