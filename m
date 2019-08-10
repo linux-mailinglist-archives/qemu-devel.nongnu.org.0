@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7B8887F0
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:21:55 +0200 (CEST)
-Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01A27887E7
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:20:31 +0200 (CEST)
+Received: from localhost ([::1]:34876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwIt8-0000Dj-U3
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34780)
+	id 1hwIrm-0004Tf-62
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:20:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34814)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIku-0005iE-LW
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:25 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIkx-0005sX-Fd
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIkt-0004M8-Ik
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:24 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34631)
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIkw-0004NJ-F9
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:27 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41266)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIkt-0004M1-Dn
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:23 -0400
-Received: by mail-ot1-x341.google.com with SMTP id n5so140564862otk.1
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:23 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIkw-0004N3-A7
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:26 -0400
+Received: by mail-ot1-x342.google.com with SMTP id o101so5583985ota.8
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D3geIlGl84SmXsN7QLZGdQ5xDPB0CYHN009O2rh5GH0=;
- b=g8o5cMtwLH/3rlUo8P0+TXPoJMsUmbiNrTLPhapYZKgJ9YLvLE/krKeaimB9bxNRud
- 7qyfG6ZUadnCZFUzG/9zl/nasFliH9J3XKCRTZ1U/PdN53+5u7zgz7mP37XWb7XLKQBc
- PE2hM4tXyYncpdPzYznvAjVz8anHu+i43d5/Q1ZNLK+uD+MVwlpS5sVZkFDrh9Gzi7lX
- KV6GFOQfN68xYdtOpsU/yfyVVymYT4aWwdFuxNzh9JcUounXIIQSh0Uax6B6SP+ABLRq
- p4J/nOaPVDkr22G1J28QLEDEtxceb2Axru8G6iIvUgIFWbBuX317o6rc0Cyc3zPrUkpd
- YW/g==
+ bh=WxPwpX1GW/1SZtW0nrtEipcgu8BrO/U7byXPZhHTfV8=;
+ b=vY70WQCnXdrUCSy2On0pGeSJz+Ng37MhHQPxpHhYRUMmYjcViehElx/Tps9tLGR732
+ 5fd7dv2MC3YJY0LwphdXcBJIKm4T45DDCAvKeN9yGyampb7ZENodFvp0WURBuvUWybP1
+ Zhmg0EwtaAXA54yKsKN9tCvSpnrZrWdvt6OOPiBzcBzt63yV4N95yHqcSCfDwf01+XLD
+ UUmqFNQJHf68IZxuFP9nmvmKIwcL+4zm2cKS7BLONTXNftLtaEjfeUF2jOUTSLnnsWo7
+ Oyh8rUEg8Ai1o/h+d9f96sulU54eOdLp+PsZpMD41xL60gaVbn9iyFrJ52KKDnxqNKP7
+ C2bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=D3geIlGl84SmXsN7QLZGdQ5xDPB0CYHN009O2rh5GH0=;
- b=rkHSNF2W+EvP4khV4IhJSyd1QkHoOOTIDROv77Gv1Ob9dJpzTBJF0FmSnVs/ZWDiXN
- anbJlKLS2QN6oDhIZGgW0VhjBtSX1ZnYqUq9MxXalj6J9HXy9Csi0SE6FqHvSBo63DRv
- HaAxr1BXE0CRChk1q2JLGXJSwDgJEZYtamfRnIbT3Q0lif3DKADzI6XZFuzbOEY+BYfu
- WjAzO7qgf1oe72xnrd4satTmpd0VR0ekU1mNrfaMdPv5c0ZbaRl99HiUdfLhsms2ycPr
- gZVvvJvoaLmgZAJAL6LZeX1P8jvt1h8JYjsAVeh7gTyTULhdtnVK1s6mREbwkC5PFf1i
- 1HuA==
-X-Gm-Message-State: APjAAAXtocdKeQ96A4Vr9tcnzl0em9ph19SnB6hdSww1NzXuDOLz2Xej
- g6aKIdNY5rA4s5hXgvPxNmVe2Yxo
-X-Google-Smtp-Source: APXvYqzScN9WhUzRUZVxpJv+A+dva6x4oQEDJ5m46Z6y3Od7aRZ5I6cYiApdcyI27ne1MxFaijcMBQ==
-X-Received: by 2002:a9d:77d5:: with SMTP id w21mr18680189otl.330.1565410402661; 
- Fri, 09 Aug 2019 21:13:22 -0700 (PDT)
+ bh=WxPwpX1GW/1SZtW0nrtEipcgu8BrO/U7byXPZhHTfV8=;
+ b=YnL3mEYpHnbQcifvEHH5A2+ubRAlursT5x5Chr+E6QjV/6e63jeJr2xDpPGPAoXtcE
+ LhodDq8Q35q2Rv//PMz4gWSvSyc67jmbSLdtBnPjHmuA9aqRjvp58k314oMGDIHb+TCB
+ X3N8goaJf0eymWnQuWxEgSQWKxbdYt2UAA3xv9zPstAzGLyY1JRGnuOFLPygdT/WXdw5
+ JNfFQYm+mp55p84NddtDPFNT0xS0hH0B600YOHsQ4hSbC232jy2cWDvR6vJ0uRSqXGx7
+ 91Nsfj7D/h2QcQZEMaTP+1ilu5yCESMCaQP8nMDtb2PgPTr92fEbmy5x+MdUT87hrhMl
+ +qwA==
+X-Gm-Message-State: APjAAAU3l0vHoX3dhJgYiKtpMEV48kjfMNWdw57fxQ4YatqSFFOEqnYd
+ rppUps17Qzfjl1sIQGwk8JDd8Zu2
+X-Google-Smtp-Source: APXvYqz6TZXIK1CPRwIVU22Ov/jnQuT0z8KvMyY8WpAMUaSxCNCTX0gm8mLVolzslrYjTrfB0OKHpQ==
+X-Received: by 2002:a9d:3e4e:: with SMTP id h14mr19830202otg.182.1565410405653; 
+ Fri, 09 Aug 2019 21:13:25 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.21
+ by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.25
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 09 Aug 2019 21:13:22 -0700 (PDT)
+ Fri, 09 Aug 2019 21:13:25 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 10 Aug 2019 00:12:32 -0400
-Message-Id: <20190810041255.6820-17-jan.bobek@gmail.com>
+Date: Sat, 10 Aug 2019 00:12:35 -0400
+Message-Id: <20190810041255.6820-20-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190810041255.6820-1-jan.bobek@gmail.com>
 References: <20190810041255.6820-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: [Qemu-devel] [RFC PATCH v2 16/39] target/i386: introduce
- instruction operand infrastructure
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: [Qemu-devel] [RFC PATCH v2 19/39] target/i386: introduce generic
+ operand alias
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,64 +84,30 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-insnop_t and the init, prepare and finalize functions form the basis
-of instruction operand decoding. Introduce macros for defining a
-generic instruction operand; use cases for operand decoding will be
-introduced later with instruction translators.
+It turns out it is useful to be able to declare operand name
+aliases. Introduce a macro to capture this functionality.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ target/i386/translate.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 508d584584..109e4922eb 100644
+index 0bee7288e6..cd2467e6a5 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4545,6 +4545,47 @@ static int ck_cpuid(CPUX86State *env, DisasContext *s, int ck_cpuid_feat)
-     }
- }
+@@ -4610,6 +4610,15 @@ static int ck_cpuid(CPUX86State *env, DisasContext *s, int ck_cpuid_feat)
+         }                                               \
+     } while (0)
  
 +/*
-+ * Core instruction operand infrastructure
++ * "Alias" operand helper
 + */
-+#define insnop_t(opT)        insnop_ ## opT ## _t
-+#define insnop_init(opT)     insnop_ ## opT ## _init
-+#define insnop_prepare(opT)  insnop_ ## opT ## _prepare
-+#define insnop_finalize(opT) insnop_ ## opT ## _finalize
-+
-+#define TYPEDEF_INSNOP_T(opT, type)             \
-+    typedef type insnop_t(opT);
-+#define INSNOP_INIT(opT, init_stmt)                                \
-+    static int insnop_init(opT)(CPUX86State *env, DisasContext *s, \
-+                                int modrm, insnop_t(opT) *op)      \
-+    {                                                              \
-+        init_stmt;                                                 \
-+    }
-+#define INSNOP_PREPARE(opT, prepare_stmt)                               \
-+    static void insnop_prepare(opT)(CPUX86State *env, DisasContext *s,  \
-+                                    int modrm, insnop_t(opT) *op)       \
-+    {                                                                   \
-+        prepare_stmt;                                                   \
-+    }
-+#define INSNOP_FINALIZE(opT, finalize_stmt)                             \
-+    static void insnop_finalize(opT)(CPUX86State *env, DisasContext *s, \
-+                                     int modrm, insnop_t(opT) *op)      \
-+    {                                                                   \
-+        finalize_stmt;                                                  \
-+    }
-+#define INSNOP(opT, type, init_stmt, prepare_stmt, finalize_stmt)       \
-+    TYPEDEF_INSNOP_T(opT, type)                                         \
-+    INSNOP_INIT(opT, init_stmt)                                         \
-+    INSNOP_PREPARE(opT, prepare_stmt)                                   \
-+    INSNOP_FINALIZE(opT, finalize_stmt)
-+
-+#define INSNOP_INIT_FAIL        return 1
-+#define INSNOP_INIT_OK(x)       return ((*(op) = (x)), 0)
-+#define INSNOP_PREPARE_NOOP     /* no-op */
-+#define INSNOP_PREPARE_INVALID  g_assert_not_reached()
-+#define INSNOP_FINALIZE_NOOP    /* no-op */
-+#define INSNOP_FINALIZE_INVALID g_assert_not_reached()
++#define INSNOP_ALIAS(opT, opT2)                               \
++    INSNOP(opT, insnop_t(opT2),                               \
++           return insnop_init(opT2)(env, s, modrm, op),       \
++           insnop_prepare(opT2)(env, s, modrm, op),           \
++           insnop_finalize(opT2)(env, s, modrm, op))
 +
  static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
  {
