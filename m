@@ -2,39 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7445C88CFF
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 21:35:03 +0200 (CEST)
-Received: from localhost ([::1]:37884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13E488D01
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 21:36:39 +0200 (CEST)
+Received: from localhost ([::1]:37910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwX8o-0005ns-DH
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 15:35:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44040)
+	id 1hwXAM-00015w-WC
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 15:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44633)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hwX5z-0000Jw-Bh
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 15:32:08 -0400
+ (envelope-from <armbru@redhat.com>) id 1hwX8O-0005an-9y
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 15:34:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hwX5x-0007CM-TX
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 15:32:07 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48766)
+ (envelope-from <armbru@redhat.com>) id 1hwX8M-000055-GV
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 15:34:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59608)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hwX5s-000770-FH; Sat, 10 Aug 2019 15:32:01 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1hwX5p-0000nK-RP; Sat, 10 Aug 2019 22:31:57 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Date: Sat, 10 Aug 2019 22:31:55 +0300
-Message-Id: <20190810193155.58637-8-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190810193155.58637-1-vsementsov@virtuozzo.com>
-References: <20190810193155.58637-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v3 7/7] block/backup: merge duplicated logic
- into backup_do_cow
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hwX8M-0008WJ-8i
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 15:34:34 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id EFA65301302E;
+ Sat, 10 Aug 2019 19:34:32 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F12C417570;
+ Sat, 10 Aug 2019 19:34:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6AB9D12A7A81; Sat, 10 Aug 2019 21:34:17 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+References: <20190809064645.22656-1-armbru@redhat.com>
+ <20190809064645.22656-21-armbru@redhat.com>
+ <c76aaebc-d4bf-cb25-fe27-7a9c9ba644c9@redhat.com>
+ <87k1bmpn7y.fsf@dusky.pond.sub.org> <87zhkigwhd.fsf@linaro.org>
+Date: Sat, 10 Aug 2019 21:34:17 +0200
+In-Reply-To: <87zhkigwhd.fsf@linaro.org> ("Alex =?utf-8?Q?Benn=C3=A9e=22's?=
+ message of "Fri, 09 Aug 2019 17:00:14 +0100")
+Message-ID: <87r25ske6e.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Sat, 10 Aug 2019 19:34:33 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 20/29] Include qemu/main-loop.h less
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,202 +63,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- armbru@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-backup_cow_with_offload and backup_cow_with_bounce_buffer contains a
-lot of duplicated logic. Move it into backup_do_cow.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
----
- block/backup.c | 97 ++++++++++++++++++++------------------------------
- 1 file changed, 38 insertions(+), 59 deletions(-)
+> Markus Armbruster <armbru@redhat.com> writes:
+>
+>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>>
+>>> On 8/9/19 8:46 AM, Markus Armbruster wrote:
+>>>> In my "build everything" tree, changing qemu/main-loop.h triggers a
+>>>> recompile of some 5600 out of 6600 objects (not counting tests and
+>>>> objects that don't depend on qemu/osdep.h).  It includes block/aio.h,
+>>>> which in turn includes qemu/event_notifier.h, qemu/notify.h,
+>>>> qemu/processor.h, qemu/qsp.h, qemu/queue.h, qemu/thread-posix.h,
+>>>> qemu/thread.h, qemu/timer.h, and a few more.
+>>>>
+>>>> Include qemu/main-loop.h only where it's needed.  Touching it now
+>>>> recompiles only some 1700 objects.  For block/aio.h and
+>>>> qemu/event_notifier.h, these numbers drop from 5600 to 2800.  For the
+>>>> others, they shrink only slightly.
+>>>>
+>>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>>> ---
+>>> [...]
+>>>> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+>>>> index 77f5df59b0..ac18a1184a 100644
+>>>> --- a/include/sysemu/sysemu.h
+>>>> +++ b/include/sysemu/sysemu.h
+>>>> @@ -5,7 +5,6 @@
+>>>>  #include "qapi/qapi-types-run-state.h"
+>>>>  #include "qemu/timer.h"
+>>>>  #include "qemu/notify.h"
+>>>> -#include "qemu/main-loop.h"
+>>>>  #include "qemu/bitmap.h"
+>>>>  #include "qemu/uuid.h"
+>>>>  #include "qom/object.h"
+>>>
+>>> netmap failing again :S
+>>>
+>>> $ make docker-image-debian-amd64 V=3D1 DEBUG=3D1
+>>> [...]
+>>>   CC      net/netmap.o
+>>> net/netmap.c: In function 'netmap_update_fd_handler':
+>>> net/netmap.c:109:5: error: implicit declaration of function
+>>> 'qemu_set_fd_handler' [-Werror=3Dimplicit-function-declaration]
+>>>      qemu_set_fd_handler(s->nmd->fd,
+>>>      ^~~~~~~~~~~~~~~~~~~
+>>> net/netmap.c:109:5: error: nested extern declaration of
+>>> 'qemu_set_fd_handler' [-Werror=3Dnested-externs]
+>>
+>> I managed to lose the fix somehow.
+>>
+>> I admit I ran "make docker-test-build", realized docker needs root, and
+>> went "sod it, cross fingers & send out the patches".
+>
+> I've sent some patches to make docker-test-build more closely resemble
+> what shippable exercises.
+>
+> As for root you can setup a docker group and do it that way (see the
+> docs in docs/devel/testing.rst). It's not recommended for production
+> machines as it makes escalation fairly trivial (the daemon itself still
+> runs as root).
 
-diff --git a/block/backup.c b/block/backup.c
-index 65f7212c85..0ac31c2760 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -104,87 +104,61 @@ static void cow_request_end(CowRequest *req)
-  * error occurred, return a negative error number
-  *
-  * @bounce_buffer is assumed to enough to store
-- * MIN(BACKUP_MAX_BOUNCE_BUFFER, @end - @start) bytes
-+ * MIN(BACKUP_MAX_BOUNCE_BUFFER, @bytes) bytes
-  */
--static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
--                                                      int64_t start,
--                                                      int64_t end,
--                                                      bool is_write_notifier,
--                                                      bool *error_is_read,
--                                                      void *bounce_buffer)
-+static int coroutine_fn backup_cow_with_bounce_buffer(
-+        BackupBlockJob *job, int64_t offset, int64_t bytes,
-+        BdrvRequestFlags read_flags, bool *error_is_read, void *bounce_buffer)
- {
--    int ret;
-     BlockBackend *blk = job->common.blk;
--    int nbytes, remaining_bytes;
--    int read_flags = is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
--
--    assert(QEMU_IS_ALIGNED(start, job->cluster_size));
--    bdrv_reset_dirty_bitmap(job->copy_bitmap, start, end - start);
--    nbytes = MIN(end - start, job->len - start);
--
- 
--    remaining_bytes = nbytes;
--    while (remaining_bytes) {
--        int chunk = MIN(BACKUP_MAX_BOUNCE_BUFFER, remaining_bytes);
-+    while (bytes) {
-+        int ret;
-+        int chunk = MIN(BACKUP_MAX_BOUNCE_BUFFER, bytes);
- 
--        ret = blk_co_pread(blk, start, chunk, bounce_buffer, read_flags);
-+        ret = blk_co_pread(blk, offset, chunk, bounce_buffer, read_flags);
-         if (ret < 0) {
--            trace_backup_do_cow_read_fail(job, start, ret);
-+            trace_backup_do_cow_read_fail(job, offset, ret);
-             if (error_is_read) {
-                 *error_is_read = true;
-             }
--            goto fail;
-+            return ret;
-         }
- 
--        ret = blk_co_pwrite(job->target, start, chunk, bounce_buffer,
-+        ret = blk_co_pwrite(job->target, offset, chunk, bounce_buffer,
-                             job->write_flags);
-         if (ret < 0) {
--            trace_backup_do_cow_write_fail(job, start, ret);
-+            trace_backup_do_cow_write_fail(job, offset, ret);
-             if (error_is_read) {
-                 *error_is_read = false;
-             }
--            goto fail;
-+            return ret;
-         }
- 
--        start += chunk;
--        remaining_bytes -= chunk;
-+        offset += chunk;
-+        bytes -= chunk;
-     }
- 
--    return nbytes;
--fail:
--    bdrv_set_dirty_bitmap(job->copy_bitmap, start, job->cluster_size);
--    return ret;
--
-+    return 0;
- }
- 
- /* Copy range to target and return the bytes copied. If error occurred, return a
-  * negative error number. */
- static int coroutine_fn backup_cow_with_offload(BackupBlockJob *job,
--                                                int64_t start,
--                                                int64_t end,
--                                                bool is_write_notifier)
-+                                                int64_t offset,
-+                                                int64_t bytes,
-+                                                BdrvRequestFlags read_flags)
- {
-     int ret;
--    int nr_clusters;
-     BlockBackend *blk = job->common.blk;
--    int nbytes = MIN(end - start, job->len - start);
--    int read_flags = is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
--
--    assert(end - start < INT_MAX);
--    assert(QEMU_IS_ALIGNED(start, job->cluster_size));
--    nr_clusters = DIV_ROUND_UP(nbytes, job->cluster_size);
--    bdrv_reset_dirty_bitmap(job->copy_bitmap, start,
--                            job->cluster_size * nr_clusters);
--    ret = blk_co_copy_range(blk, start, job->target, start, nbytes,
-+
-+    ret = blk_co_copy_range(blk, offset, job->target, offset, bytes,
-                             read_flags, job->write_flags);
-     if (ret < 0) {
--        trace_backup_do_cow_copy_range_fail(job, start, ret);
--        bdrv_set_dirty_bitmap(job->copy_bitmap, start,
--                              job->cluster_size * nr_clusters);
--        return ret;
-+        trace_backup_do_cow_copy_range_fail(job, offset, ret);
-     }
- 
--    return nbytes;
-+    return ret;
- }
- 
- /*
-@@ -268,6 +242,8 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-     int64_t start, end; /* bytes */
-     void *bounce_buffer = NULL;
-     int64_t skip_bytes;
-+    BdrvRequestFlags read_flags =
-+            is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
- 
-     qemu_co_rwlock_rdlock(&job->flush_rwlock);
- 
-@@ -281,6 +257,7 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
- 
-     while (start < end) {
-         int64_t dirty_end;
-+        int64_t cur_bytes;
- 
-         if (!bdrv_dirty_bitmap_get(job->copy_bitmap, start)) {
-             trace_backup_do_cow_skip(job, start);
-@@ -304,10 +281,11 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-         }
- 
-         trace_backup_do_cow_process(job, start);
-+        cur_bytes = MIN(dirty_end - start, job->len - start);
-+        bdrv_reset_dirty_bitmap(job->copy_bitmap, start, dirty_end - start);
- 
-         if (job->use_copy_range) {
--            ret = backup_cow_with_offload(job, start, dirty_end,
--                                          is_write_notifier);
-+            ret = backup_cow_with_offload(job, start, cur_bytes, read_flags);
-             if (ret < 0) {
-                 job->use_copy_range = false;
-             }
-@@ -315,24 +293,25 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-         if (!job->use_copy_range) {
-             if (!bounce_buffer) {
-                 size_t len = MIN(BACKUP_MAX_BOUNCE_BUFFER,
--                                 MAX(dirty_end - start, end - dirty_end));
-+                                 MAX(cur_bytes,
-+                                     end - start - cur_bytes));
-                 bounce_buffer = blk_try_blockalign(job->common.blk, len);
-             }
--            ret = backup_cow_with_bounce_buffer(job, start, dirty_end,
--                                                is_write_notifier,
--                                                error_is_read, bounce_buffer);
-+            ret = backup_cow_with_bounce_buffer(job, start, cur_bytes,
-+                                                read_flags, error_is_read,
-+                                                bounce_buffer);
-         }
-         if (ret < 0) {
-+            bdrv_set_dirty_bitmap(job->copy_bitmap, start, dirty_end - start);
-             break;
-         }
- 
-         /* Publish progress, guest I/O counts as progress too.  Note that the
-          * offset field is an opaque progress value, it is not a disk offset.
-          */
--        start += ret;
--        job->bytes_read += ret;
--        job_progress_update(&job->common.job, ret);
--        ret = 0;
-+        start += cur_bytes;
-+        job->bytes_read += cur_bytes;
-+        job_progress_update(&job->common.job, cur_bytes);
-     }
- 
-     if (bounce_buffer) {
--- 
-2.18.0
+As Dan Walsh explained in a blog post[*], access to the docker socket is
+equivalent to root.  Might be okay on a throwaway or special-purpose
+box, but definitely not on my desktop.
 
+The solution the blog post recommends for now is sudo with password,
+which I consider only marginally better: instead of leaving the safe
+door open, we install a security camera to log access to the safe,
+*then* leave the safe door open.  Just in case whoever helps himself to
+the contents of the safe is too lazy to help himself to the logs, too.
+
+In the great tradition of throwing security under the bus to get work
+done, I set up sudo.  Avoiding NOPASSWD: turns out to be impractical.
+
+Running "make docker-test-build" fails for me on master (v4.1.0-rc4),
+details appended.
+
+>                Hopefully Marc's podman support:
+>
+>   Subject: [PATCH v2 0/5] tests/docker: add podman support
+>   Date: Tue,  9 Jul 2019 23:43:25 +0400
+>   Message-Id: <20190709194330.837-1-marcandre.lureau@redhat.com>
+>
+> will make these requirements a little less onerous.
+
+Sounds like a much needed upgrade to me.
+
+[...]
+
+[*] https://www.projectatomic.io/blog/2015/08/why-we-dont-let-non-root-user=
+s-run-docker-in-centos-fedora-or-rhel/
+
+
+My failure:
+
+$ make -C bld docker-test-build
+make: Entering directory '/work/armbru/qemu/bld'
+  BUILD   centos7
+make[1]: Entering directory '/work/armbru/qemu/bld'
+  GEN     /work/armbru/qemu/bld/docker-src.2019-08-10-07.29.32.8915/qemu.tar
+  COPY    RUNNER
+    RUN test-build in qemu:centos7
+[...]
+make[1]: Leaving directory '/work/armbru/qemu/bld'
+  BUILD   debian9
+  BUILD   debian-amd64
+make[1]: Entering directory '/work/armbru/qemu/bld'
+  GEN     /work/armbru/qemu/bld/docker-src.2019-08-10-07.30.18.17180/qemu.t=
+ar
+  COPY    RUNNER
+    RUN test-build in qemu:debian-amd64
+[...]
+install -c -m 0644 /tmp/qemu-test/build/trace-events-all "/tmp/qemu-test/bu=
+ild/=3Ddestdir/tmp/qemu-test/install/share/qemu/trace-events-all"
+Error in atexit._run_exitfuncs:
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/atexit.py", line 24, in _run_exitfuncs
+    func(*targs, **kargs)
+  File "/work/armbru/qemu/tests/docker/docker.py", line 234, in _kill_insta=
+nces
+    return self._do_kill_instances(True)
+  File "/work/armbru/qemu/tests/docker/docker.py", line 213, in _do_kill_in=
+stances
+    for i in self._output(cmd).split():
+  File "/work/armbru/qemu/tests/docker/docker.py", line 239, in _output
+    **kwargs)
+  File "/usr/lib64/python2.7/subprocess.py", line 223, in check_output
+    raise CalledProcessError(retcode, cmd, output=3Doutput)
+CalledProcessError: Command '['sudo', 'docker', 'ps', '-q']' returned non-z=
+ero exit status 1
+Error in sys.exitfunc:
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/atexit.py", line 24, in _run_exitfuncs
+    func(*targs, **kargs)
+  File "/work/armbru/qemu/tests/docker/docker.py", line 234, in _kill_insta=
+nces
+    return self._do_kill_instances(True)
+  File "/work/armbru/qemu/tests/docker/docker.py", line 213, in _do_kill_in=
+stances
+    for i in self._output(cmd).split():
+  File "/work/armbru/qemu/tests/docker/docker.py", line 239, in _output
+    **kwargs)
+  File "/usr/lib64/python2.7/subprocess.py", line 223, in check_output
+    raise CalledProcessError(retcode, cmd, output=3Doutput)
+subprocess.CalledProcessError: Command '['sudo', 'docker', 'ps', '-q']' ret=
+urned non-zero exit status 1
+    CLEANUP /work/armbru/qemu/bld/docker-src.2019-08-10-07.30.18.17180=20
+make[1]: Leaving directory '/work/armbru/qemu/bld'
+  BUILD   debian-arm64-cross
+Traceback (most recent call last):
+  File "/work/armbru/qemu/tests/docker/docker.py", line 615, in <module>
+    sys.exit(main())
+  File "/work/armbru/qemu/tests/docker/docker.py", line 611, in main
+    return args.cmdobj.run(args, argv)
+  File "/work/armbru/qemu/tests/docker/docker.py", line 366, in run
+    dkr =3D Docker()
+  File "/work/armbru/qemu/tests/docker/docker.py", line 193, in __init__
+    self._command =3D _guess_docker_command()
+  File "/work/armbru/qemu/tests/docker/docker.py", line 65, in _guess_docke=
+r_command
+    commands_txt)
+Exception: Cannot find working docker command. Tried:
+  docker
+  sudo docker
+make: *** [/work/armbru/qemu/tests/docker/Makefile.include:53: docker-image=
+-debian-arm64-cross] Error 1
+make: Leaving directory '/work/armbru/qemu/bld'
+
+There are a few SELinux gripes in my logs, like this one:
+
+type=3DAVC msg=3Daudit(1565418107.93:125036): avc:  denied  { module_reques=
+t } for  pid=3D19599 comm=3D"configure" kmod=3D"binfmt-464c" scontext=3Dsys=
+tem_u:system_r:container_t:s0:c611,c653 tcontext=3Dsystem_u:system_r:kernel=
+_t:s0 tclass=3Dsystem permissive=3D0
 
