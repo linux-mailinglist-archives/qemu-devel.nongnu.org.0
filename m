@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40BD88825
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:26:23 +0200 (CEST)
-Received: from localhost ([::1]:34970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9B78882A
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:29:34 +0200 (CEST)
+Received: from localhost ([::1]:34998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwIxS-0001JS-R4
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34863)
+	id 1hwJ0Y-0006KS-2k
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34877)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIl2-0006A6-Me
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:33 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIl3-0006DT-IN
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIl1-0004RC-O5
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:32 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41269)
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIl2-0004SO-I0
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:33 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41271)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIl1-0004R3-Ju
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:31 -0400
-Received: by mail-ot1-x341.google.com with SMTP id o101so5584481ota.8
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:31 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIl2-0004Rq-Cm
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:32 -0400
+Received: by mail-ot1-x343.google.com with SMTP id o101so5584537ota.8
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=z9grixh37d7b2RJWqW6FqjUKRalgRN8iH6PjGzbqJZ8=;
- b=O3av3WtZWKp+sWQTo1aDD+J4wlsCVOSLg1rClKA7oPLhO9AS4cAIMjAz3Oi1xwGBK9
- yIriHvnCLH9BZ4KOniam793Mu8xodztRmPwAhXd6P2pb2aipwb+0YCmdiHuKPzYSJkaA
- xFH+bhoxz8RWRNL6fIpN7W25Bh+kwCxbZs6vViTQ6sigy44e3Gzhn6OHq66ZpvYQJ+wl
- cmraHbSrYFTW+mtxBygVNrpL4M8yKB+hdPHQ3RRXOb+Ox+XyEYMI5L/LGme73+lkBlYz
- SybUzczUlEQuQQPaDZ7OCXUqZ23sYA/48xAxMBGhkMvo+iboir4VKP2z3Kcy5/XGOhr1
- SnNA==
+ bh=2dEeYOdO8k86iFOdeCG1Qzb5tXqRbL2ElGcxu6RqHdc=;
+ b=jDivdAqrqL1DVKKaLjvcYB31mue+KhN+kOzHfewLqwg/aYjcvEYQ68/FfpHHLBhmg4
+ Bl4vgo5NZspCuAXD2hwK4QcOsvj3onncWuv6YPVCx423dxH4CGsHangSDvrOHOL4norE
+ /vZTOoyCSR8hiXnC6KzdQXgBjnvBvIuwomoz9MgVpPlVhhRyszkhyyEOkzqeDc4xPMVV
+ f0zLW82bCNb0CkIcMNl2INir9qKXvB7ZXnJYov1uBmgWvOpyprwHKGJ3AjYwSmJISV9/
+ JjtDxpb5t+NGy7p2RTJj/ZhcelIhVTinnUFQvc0nTMW/6zzxh74eSwnUCfgYu+WJbxJE
+ x7UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z9grixh37d7b2RJWqW6FqjUKRalgRN8iH6PjGzbqJZ8=;
- b=uPT3NR9ujRpmZxOunEErNlEwZ7WgK6yokewGMjrzbfGdP7xbbAolwJ2bKKKiaIduZc
- F1rgfk80yKXFa2VHzIfu0L4kiHVvtMM0PqEc5zP2+Vxy/cFGjMFKGOooup+3Q9ZcYgLv
- KCRvy1n670txrsAEQh29l6Xtna/Ct0jwrVvXzSIqY0BLUdKEkhFwbrrZZsOgsASo4C/d
- INvx7nLlfcTlIv/xIgfRk/VqNZP2b2ubZsPGz4b878QbzX0HGsiNC7qYDxZSLjAfSeS5
- vDFJqc5+LUBDMd7nEI3s4dpP5xXQ/pAbKVQNXBorT6RGAC3/Kexf7LSyY9G0ci2vg6+O
- VB1w==
-X-Gm-Message-State: APjAAAVe8IIk35IEPVlGuTEiAP3weQx2qGt4mZgKYxj/4+Z+hoAiluzb
- x6V+aYrxk2jydxQw2bVmjE2HFPp+
-X-Google-Smtp-Source: APXvYqyTbnv8vzaw3FESp6gtza+8bPSlv+VGNDhH9ePUZy7KSxNwRrKRfkhWyaN14fSshgzjUx3B5A==
-X-Received: by 2002:aca:5e06:: with SMTP id s6mr8573717oib.171.1565410410911; 
- Fri, 09 Aug 2019 21:13:30 -0700 (PDT)
+ bh=2dEeYOdO8k86iFOdeCG1Qzb5tXqRbL2ElGcxu6RqHdc=;
+ b=oDlIW/RfPqwF78xmgnavqvSoYp1m2rn5IpOhsnKwNoy0qy2EDzkw46nGDcypvdEeV7
+ Ot++pSOyL1AClX3v+Vaiu5izOe90+ISdrz2UWBXgeCmusknVPA4kAW4MqsYvcmsow7Ut
+ u6uzpMweZLzR2g6CS6c65zSat4eDWMFjeja7PMWFL9DnpD1BjjlHh/j3dpzlBFAJCk0l
+ LnGOGmE4CRuRSo/18kwP9fPi8YD6+BxdDdGMMMlHgwWQxD3hgVzYwrMH7W13uZpRpl7X
+ wJl4x0zzgdCu8LIkh9LWNYFC9eI2VwE29IVhl7j2tRjhFYZHeQ85RmQ1PqRgv/TzPac9
+ UWgg==
+X-Gm-Message-State: APjAAAW9SbH0IMXrEwwucBPaPbVNpEMAMdQgoNPJ4GBbz8xiuYyaF3KM
+ pXklSGs3JJyyEk6mkEp8t2LP+zbv
+X-Google-Smtp-Source: APXvYqwOwCFwXc7MSoxKVEVNxIerOai2LPKKv/Rh9qpUW4b9BJu0afEs97UM12Tiozwv5fFLuyk9sg==
+X-Received: by 2002:a9d:5c11:: with SMTP id o17mr19460742otk.107.1565410411740; 
+ Fri, 09 Aug 2019 21:13:31 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.30
+ by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.31
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 09 Aug 2019 21:13:30 -0700 (PDT)
+ Fri, 09 Aug 2019 21:13:31 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 10 Aug 2019 00:12:40 -0400
-Message-Id: <20190810041255.6820-25-jan.bobek@gmail.com>
+Date: Sat, 10 Aug 2019 00:12:41 -0400
+Message-Id: <20190810041255.6820-26-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190810041255.6820-1-jan.bobek@gmail.com>
 References: <20190810041255.6820-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: [Qemu-devel] [RFC PATCH v2 24/39] target/i386: introduce Ib
- (immediate) operand
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: [Qemu-devel] [RFC PATCH v2 25/39] target/i386: introduce M*
+ (memptr) operands
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +84,53 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the immediate-byte operand, which loads a byte from the
-instruction stream and passes its value as the operand.
+The memory-pointer operand decodes the indirect form of ModR/M byte,
+loads the effective address into a register and passes that register
+as the operand.
+
+Note: This operand has a known flaw: if an instruction is writing to
+memory (rather than reading), this operand cannot and will not load
+the effective address into the register (as it should). The current
+workaround is to declare the memory operand as read (rather than
+write); this flaw will be addressed in the next iteration.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/i386/translate.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 0da064d5fd..b8e6eaebb4 100644
+index b8e6eaebb4..301dc4eddf 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4697,6 +4697,14 @@ static int ck_cpuid(CPUX86State *env, DisasContext *s, int ck_cpuid_feat)
-             insnop_finalize(opTrm)(env, s, modrm, &rm);                 \
-         } while (0))
+@@ -4705,6 +4705,31 @@ INSNOP(Ib, int8_t,                              \
+        (*op = x86_ldub_code(env, s)),           \
+        INSNOP_FINALIZE_INVALID)
  
 +/*
-+ * Immediate operand
++ * Memory-pointer operand
 + */
-+INSNOP(Ib, int8_t,                              \
-+       INSNOP_INIT_OK(*op),                     \
-+       (*op = x86_ldub_code(env, s)),           \
-+       INSNOP_FINALIZE_INVALID)
++INSNOP(
++    M, TCGv,
++    do {
++        if (decode_modrm_mod(env, s, modrm) == 3) {
++            INSNOP_INIT_FAIL;
++        } else {
++            INSNOP_INIT_OK(s->A0);
++        }
++    } while (0),
++    do {
++        assert(*op == s->A0);
++        gen_lea_modrm(env, s, modrm);
++    } while (0),
++    INSNOP_FINALIZE_NOOP)
++
++INSNOP_ALIAS(Mb, M)
++INSNOP_ALIAS(Mw, M)
++INSNOP_ALIAS(Mq, M)
++INSNOP_ALIAS(Md, M)
++INSNOP_ALIAS(Mdq, M)
++INSNOP_ALIAS(Mqq, M)
 +
  /*
   * Code generators
