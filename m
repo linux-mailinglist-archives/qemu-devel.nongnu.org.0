@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1060887E5
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:19:43 +0200 (CEST)
-Received: from localhost ([::1]:34858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1806F887DD
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:16:38 +0200 (CEST)
+Received: from localhost ([::1]:34828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwIr0-0002Rm-UY
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34768)
+	id 1hwIo1-0005at-9X
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34788)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIkt-0005eZ-Jb
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:24 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIkv-0005kQ-87
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIks-0004Lq-Fd
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:23 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42320)
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIku-0004MR-BO
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:25 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42323)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIks-0004La-Ao
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:22 -0400
-Received: by mail-ot1-x341.google.com with SMTP id l15so140514210otn.9
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:22 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIku-0004MI-7G
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:24 -0400
+Received: by mail-ot1-x342.google.com with SMTP id l15so140514396otn.9
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZHK0e9XvID8Cei/Jt59+/qv7qtS8MQ3X4OU+8rhkUPE=;
- b=ahsESW22KAjIWNotNXHxKR0VkHaaRXzx8cLpmbMyXWLQIULdRN2W3hVpU1soGVw7sO
- 7OjyfxH7ACbUBzopeND900CMDvTlsE24JzoEi5PBDhhTa6N/Pxt8M8gwntUMG25SA9lL
- 8xI8Y5OAbY56kvovR1cZgg8v6ZfnlA56w/VEAuRRVyWKeEubohR+0kxhfaABBuncogz/
- cAG8TtDZwJ/C8hJ5vrWYnqZQO4DfiKtOGw6j26r5+XHe1+wpYrCua2cTbCVt7mSxVUVl
- 7l/1VD/1qAyvdf/VHqMBD9aIxrP8/N8XQKo60DLenskp7Q8TKO2gxckuHGyeu0t8A1YC
- jZyw==
+ bh=n4ayeLooNp0fm7Wh5HpoXhexlt7VndsDJ81PF2rUFA0=;
+ b=DVplSbDCgX7onjD5puxpTGLnxluQ0jX+43UGtWkzo3STsfRWvDI4tvUMJ0yKtpHrED
+ PRapDVmeoH98/k2wifF+7Fh3KxYm62PrCfWFJet0RG+xXU/fBip7ZStBBBvZl9S8VKvm
+ cKtHqDbKW0fPvFjIVYLzy0zB+WRpkggKcldD1mMZz/YHfFHrwYkofEH8bkxIUbVbtk9P
+ KIKo+wMAX3fqZbSk3cAh3lNrlV774oZuKVOFbq9QjgP9do9bjTcoWHMnyOxtvqGjMDA1
+ RYooEPchLLy4mmtdpff9fR3qhjO5AtATL4wu31QXfIIy8yzpXR1PtgK+C12DD0s97zfv
+ aJpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZHK0e9XvID8Cei/Jt59+/qv7qtS8MQ3X4OU+8rhkUPE=;
- b=NiULbeEiDaiIDMr1p3mrlmAPLU4cRImpKlHieJD96b5yek3w9W9vAGYnafuStE9Ais
- SJ0G3vSdcjhGCN1ZKlswC8ytJIA67wn03caYQI4Fba8LNgOe8S7BUbT/M9s93zxQJDqk
- 06mcwDAU30GyFeLIj81Hjsrfby3GjewRTQjDvF6gkGQ6f8Ziquxa8CbHw9v4ZThrcpR8
- ePULVLhwZgo/1c2KMAWilhDSb5iiNU3dW9L6Gw+ZF/+ext/r4ZSFad0ozsLfOBxmVe9d
- dYlbtkpgRjgZOPWEGsBjug5zqUPMlV4vP2HgkPFoa9w66F284hACh8j9LOGxv69BEJEN
- JAQA==
-X-Gm-Message-State: APjAAAUR3oz+TubZ8sVqp8vwMYp604VuKfQzDUwYF2iVxQSHBYJwZcUK
- dn1IAieJeGQs52iZ9x5fRYBGmN8O
-X-Google-Smtp-Source: APXvYqz2dsZGnx97vx1eckCs3GgLSgcOiFAq2evuyXwn8di1MQJf3G4X1N6hxIE3+JeB4rLtKxdSgw==
-X-Received: by 2002:a9d:17e6:: with SMTP id j93mr21134723otj.275.1565410401658; 
- Fri, 09 Aug 2019 21:13:21 -0700 (PDT)
+ bh=n4ayeLooNp0fm7Wh5HpoXhexlt7VndsDJ81PF2rUFA0=;
+ b=QNz2AEOlkVno57vQU47RRtOiDI9iUSFUc6s/jbk1/XtaUYPldiHwbxPGYKuxpOqYRJ
+ C7//R2YeEjnAHvIQwQ9cuk+azffRKxH50/xx4qdkbucHHmDilJ3YIiRZyOQhBUz42MI3
+ F3SRmm34SowG6V7hGXrvLAgnuZlHwbF5x18iGknSvmMw7nhXtJRoF+GKVnRMT+DgWLUS
+ ZpJCTyFZBflk8d3/hdVF9bTtb3K3wQLu81MjdSWT0AdE+4mzD8VZcg3lJ78RUXy9eaPG
+ edTdlcpfI5vieCj47J12M/gqRPXdxGyIb9z21FjII8i+e/3gQOg61xxamrFZG/52gAxY
+ +jrw==
+X-Gm-Message-State: APjAAAUyZOV0ky5FVMoEQqaDgKTGGdYtTUE0LRgHPMSaPJqemetGwkee
+ suukHPjd+NEEqsxYyG7u/LixRgAT
+X-Google-Smtp-Source: APXvYqzMJ7XmCqdQnhh6kKPYbuRkepa1HG9DtTu/UEZb315ATUEtYxpMK5ufmGoTtGcmhw1TgiD90w==
+X-Received: by 2002:a9d:6a95:: with SMTP id l21mr3725154otq.192.1565410403539; 
+ Fri, 09 Aug 2019 21:13:23 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.21
+ by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.22
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 09 Aug 2019 21:13:21 -0700 (PDT)
+ Fri, 09 Aug 2019 21:13:23 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 10 Aug 2019 00:12:31 -0400
-Message-Id: <20190810041255.6820-16-jan.bobek@gmail.com>
+Date: Sat, 10 Aug 2019 00:12:33 -0400
+Message-Id: <20190810041255.6820-18-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190810041255.6820-1-jan.bobek@gmail.com>
 References: <20190810041255.6820-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: [Qemu-devel] [RFC PATCH v2 15/39] target/i386: introduce function
- ck_cpuid
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: [Qemu-devel] [RFC PATCH v2 17/39] target/i386: introduce helpers
+ for decoding modrm fields
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,69 +84,41 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a helper function to take care of instruction CPUID checks.
+The old code uses bitshifts and bitwise-and all over the place for
+decoding ModR/M fields. Avoid doing that by introducing proper
+decoding macros.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 45 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ target/i386/translate.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 03b49411e5..508d584584 100644
+index 109e4922eb..4a2dae6238 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4500,6 +4500,51 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+@@ -4500,6 +4500,21 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
  #define tcg_gen_gvec_cmpgt(vece, dofs, aofs, bofs, oprsz, maxsz)        \
      tcg_gen_gvec_cmp(TCG_COND_GT, vece, dofs, aofs, bofs, oprsz, maxsz)
  
-+enum {
-+    CK_CPUID_MMX = 1,
-+    CK_CPUID_3DNOW,
-+    CK_CPUID_SSE,
-+    CK_CPUID_SSE2,
-+    CK_CPUID_SSE3,
-+    CK_CPUID_SSSE3,
-+    CK_CPUID_SSE4_1,
-+    CK_CPUID_SSE4_2,
-+    CK_CPUID_SSE4A,
-+    CK_CPUID_AVX,
-+    CK_CPUID_AVX2,
-+};
++#define decode_modrm_mod(env, s, modrm)         \
++    (((modrm) >> 6) & 3)
 +
-+static int ck_cpuid(CPUX86State *env, DisasContext *s, int ck_cpuid_feat)
-+{
-+    switch (ck_cpuid_feat) {
-+    case CK_CPUID_MMX:
-+        return !(s->cpuid_features & CPUID_MMX)
-+            || !(s->cpuid_ext2_features & CPUID_EXT2_MMX);
-+    case CK_CPUID_3DNOW:
-+        return !(s->cpuid_ext2_features & CPUID_EXT2_3DNOW);
-+    case CK_CPUID_SSE:
-+        return !(s->cpuid_features & CPUID_SSE);
-+    case CK_CPUID_SSE2:
-+        return !(s->cpuid_features & CPUID_SSE2);
-+    case CK_CPUID_SSE3:
-+        return !(s->cpuid_ext_features & CPUID_EXT_SSE3);
-+    case CK_CPUID_SSSE3:
-+        return !(s->cpuid_ext_features & CPUID_EXT_SSSE3);
-+    case CK_CPUID_SSE4_1:
-+        return !(s->cpuid_ext_features & CPUID_EXT_SSE41);
-+    case CK_CPUID_SSE4_2:
-+        return !(s->cpuid_ext_features & CPUID_EXT_SSE42);
-+    case CK_CPUID_SSE4A:
-+        return !(s->cpuid_ext3_features & CPUID_EXT3_SSE4A);
-+    case CK_CPUID_AVX:
-+        return !(s->cpuid_ext_features & CPUID_EXT_AVX);
-+    case CK_CPUID_AVX2:
-+        return !(s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_AVX2);
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
++#define decode_modrm_reg_norexr(env, s, modrm)  \
++    (((modrm) >> 3) & 7)
++#define decode_modrm_reg_rexr(env, s, modrm)    \
++    (decode_modrm_reg_norexr(env, s, modrm)     \
++     | REX_R(s))
 +
- static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
- {
-     enum {
++#define decode_modrm_rm_norexb(env, s, modrm)   \
++    ((modrm) & 7)
++#define decode_modrm_rm_rexb(env, s, modrm)     \
++    (decode_modrm_rm_norexb(env, s, modrm)      \
++     | REX_B(s))
++
+ enum {
+     CK_CPUID_MMX = 1,
+     CK_CPUID_3DNOW,
 -- 
 2.20.1
 
