@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F488887F4
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:23:28 +0200 (CEST)
-Received: from localhost ([::1]:34926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0477D887ED
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:21:40 +0200 (CEST)
+Received: from localhost ([::1]:34898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwIud-0003Y3-Iw
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:23:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34825)
+	id 1hwIst-0007jJ-7J
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34835)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIky-0005vn-FN
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:29 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIkz-0005zX-Fk
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIkx-0004Nf-Cf
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:28 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42325)
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIky-0004O5-C1
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:29 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:36311)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIkx-0004NU-7v
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:27 -0400
-Received: by mail-ot1-x343.google.com with SMTP id l15so140514689otn.9
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:27 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIky-0004Nr-7g
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:28 -0400
+Received: by mail-ot1-x343.google.com with SMTP id k18so8368442otr.3
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Uta9ArntGI4TyKGIhn9+xSKs0zFnFU+lVjX12nvNzmE=;
- b=MtvzrO5m//97TpKLwJ8WbiaNGE2Gvl99knQ59BLDZ4TsvRkCOjbxXhq8CsAIfgfjCa
- y82rxFSKpKOdyNSQob5mH0e0gV+0tTC32iuIqDSFTYAb6VLBP3A2L2lpp29XaBnYydAh
- AXUB175pCcEUkAUTvo5l53cg3H3nBo2oC+4WYm7i8i2JjKcUHTkL9uK3lzxeqXqe9r6E
- vANn8q1bInaQ+hPpos0gOwQHYHPpODC57ae0H0E7QhT8BflYYFWFJo0ENLQ+w39Ora/T
- q9jKRACRyGw3O/9adR3G87m2+RBSrGI40un7WoGejxLqSk7+HLOmaaxJSrbyY4roi7VA
- mpvg==
+ bh=1WE3bBdYSXJrRK7mJcEb6kzPO19OfCWH98w1USfvuLI=;
+ b=Z41coFLcit1TJUSm2DITt/S3umZupphV9koQnYcZ4kOY0OS6t1u68v+l3DOntlcC9J
+ kFFRh+eUS/zxIkbKs5ccfoeJghLo8Pn+YhcD3JkKvYgUypCtzwMhf03p0Di0iwCza9kw
+ yLrsluK489hQqjpMUQ52ZSHixaaaCbDIgshn5WIMDKgpd5yTMkajEf7TorWQqtSeeKY0
+ xWB17Kec37RdkXClw9TSNuHlZoE7T+f7wSJzhXvEEtXl5qacGR5SGPj+JSaMKfa2GZD/
+ zpiLXhWRwslBauXnxRoADj/18T0ZHa3cnvxu+FCoHtukCdOFjy0eHebkCyDGZyHyiYbO
+ t4fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Uta9ArntGI4TyKGIhn9+xSKs0zFnFU+lVjX12nvNzmE=;
- b=LqXfgcRpG7pkl0ulnsQBuJuEpePoGWXoIAbOa22W71hQJtYvbsslBLIrK/JCzWfw4a
- oxTj5PMdBuTiriHGzYaXlyzpjXTBkNYYbUDE6RoNtAO0pw1d5eCWRhgZMMhUYLE0j5Zw
- e2i7Ea3POgfu8L+drn8cN331AvmVgzAc4sjGp9Hez0wW5XRXiWPb9l8tkMyquZhA3j1W
- GlGxUxpEupYspNowUi2eYeUc6EjZDJmR0qacvW0oZ5YuKTUUZOnxgPJixRWPl5Bo4f7n
- czoO6J8XIe1np85DajY3EJUAHuVb4E/I8VFQkzjs4AG4dMfpnfKfhDrhEKyeH8Mto/zi
- u3VQ==
-X-Gm-Message-State: APjAAAUIeYM9xyGE1BOl6sr0QXE12dpIV1d7JA8VJdKpzCzZpoDjRcfs
- In4Js39hERhlwiZ4vujXFJFchL7V
-X-Google-Smtp-Source: APXvYqyUdkZSbEp1tbpwmXREPxct8h0ydApSHG4PjJI2SECNU5Z5Bz49MEu9KmK9zgIqsvEtiIzm1g==
-X-Received: by 2002:a05:6830:11d7:: with SMTP id
- v23mr10443218otq.58.1565410406542; 
- Fri, 09 Aug 2019 21:13:26 -0700 (PDT)
+ bh=1WE3bBdYSXJrRK7mJcEb6kzPO19OfCWH98w1USfvuLI=;
+ b=WKVrv80jS61AFITuWw7qb77AKm7Ok3FJc4zeAcPlRNpiZ37ft9u+BT55jzedtb2vCM
+ XDSBJDmWPfYfj3VyuBvQ7qG0a26N1Q5rrZqKtysi9611nAYBHMND9JyvWMW3NRQLTtYi
+ lk58YRwSY2wPvpV1SUitD0xIMXQ64eiphNZtm9Ezoc4K0YNqXoxfB27zxuR2HHndbn/L
+ Bw5iRShDbzapiROO+4s+UsY9JbcEx/OvSuSpLDYyjJ5GeEpqy7JF0in+j6LBQmkvrAUX
+ ZHTFf361xn2ZbEQVqlNi1jy9BbMFZHEm9CdmbvDFW5490v40sMxxcUPqZW8fFrULRTX9
+ A10g==
+X-Gm-Message-State: APjAAAXXao56FG+pLddkRV6V1I3d6Qhxx5egswEJUUV2Xn7aPeDOfxrk
+ GPv23fICVbBENeVs8FjP0JIDU2SA
+X-Google-Smtp-Source: APXvYqzpr1e8qc8IBucNc3quEye7PTiX0XPsfjbQbsi4oEA4q+PPqGqEktcdMgdB3C2/SKk8J3CcxA==
+X-Received: by 2002:a05:6830:200e:: with SMTP id
+ e14mr19227814otp.245.1565410407564; 
+ Fri, 09 Aug 2019 21:13:27 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.25
+ by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.26
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 09 Aug 2019 21:13:26 -0700 (PDT)
+ Fri, 09 Aug 2019 21:13:27 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 10 Aug 2019 00:12:36 -0400
-Message-Id: <20190810041255.6820-21-jan.bobek@gmail.com>
+Date: Sat, 10 Aug 2019 00:12:37 -0400
+Message-Id: <20190810041255.6820-22-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190810041255.6820-1-jan.bobek@gmail.com>
 References: <20190810041255.6820-1-jan.bobek@gmail.com>
@@ -66,8 +66,7 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::343
-Subject: [Qemu-devel] [RFC PATCH v2 20/39] target/i386: introduce generic
- load-store operand
+Subject: [Qemu-devel] [RFC PATCH v2 21/39] target/i386: introduce insn.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,105 +84,110 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This operand attempts to capture the "indirect" or "memory" operand in
-a generic way. It significatly reduces the amount code that needs to
-be written in order to read operands from memory to temporary storage
-and write them back.
+This header is intended to eventually list all supported instructions
+along with some useful details (e.g. mnemonics, opcode, operands etc.)
+It shall be used (along with some preprocessor magic) anytime we need
+to automatically generate code for every instruction.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 78 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
+ target/i386/insn.h | 87 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 87 insertions(+)
+ create mode 100644 target/i386/insn.h
 
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index cd2467e6a5..ebb68fef0b 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -4619,6 +4619,84 @@ static int ck_cpuid(CPUX86State *env, DisasContext *s, int ck_cpuid_feat)
-            insnop_prepare(opT2)(env, s, modrm, op),           \
-            insnop_finalize(opT2)(env, s, modrm, op))
- 
-+/*
-+ * "Load-store" operand helper
-+ */
-+#define INSNOP_LDST(opT, opTr, opTm, scratch_op, ld_stmt, st_stmt)      \
-+    INSNOP(                                                             \
-+        opT,                                                            \
-+        struct {                                                        \
-+            bool is_mem;                                                \
-+            insnop_t(opTr) op_reg;                                      \
-+        },                                                              \
-+        do {                                                            \
-+            insnop_t(opTr) reg;                                         \
-+            insnop_t(opTm) ptr;                                         \
-+            if (!insnop_init(opTr)(env, s, modrm, &reg)) {              \
-+                op->is_mem = 0;                                         \
-+                op->op_reg = reg;                                       \
-+                INSNOP_INIT_OK(*op);                                    \
-+            } else if (!insnop_init(opTm)(env, s, modrm, &ptr)) {       \
-+                op->is_mem = 1;                                         \
-+                op->op_reg = (scratch_op);                              \
-+                INSNOP_INIT_OK(*op);                                    \
-+            }                                                           \
-+            INSNOP_INIT_FAIL;                                           \
-+        } while (0),                                                    \
-+        do {                                                            \
-+            insnop_t(opTr) reg = op->op_reg;                            \
-+            if (op->is_mem) {                                           \
-+                insnop_t(opTm) ptr;                                     \
-+                const int ret = insnop_init(opTm)(env, s, modrm, &ptr); \
-+                assert(!ret);                                           \
-+                                                                        \
-+                insnop_prepare(opTm)(env, s, modrm, &ptr);              \
-+                ld_stmt;                                                \
-+            } else {                                                    \
-+                insnop_prepare(opTr)(env, s, modrm, &reg);              \
-+            }                                                           \
-+        } while (0),                                                    \
-+        do {                                                            \
-+            insnop_t(opTr) reg = op->op_reg;                            \
-+            if (op->is_mem) {                                           \
-+                insnop_t(opTm) ptr;                                     \
-+                const int ret = insnop_init(opTm)(env, s, modrm, &ptr); \
-+                assert(!ret);                                           \
-+                                                                        \
-+                insnop_prepare(opTm)(env, s, modrm, &ptr);              \
-+                st_stmt;                                                \
-+            } else {                                                    \
-+                insnop_finalize(opTr)(env, s, modrm, &reg);             \
-+            }                                                           \
-+        } while (0))
+diff --git a/target/i386/insn.h b/target/i386/insn.h
+new file mode 100644
+index 0000000000..4b48c0c0e1
+--- /dev/null
++++ b/target/i386/insn.h
+@@ -0,0 +1,87 @@
++#ifndef INSN
++#   define INSN(mnem, prefix, opcode, feat)
++#endif /* INSN */
 +
-+#define INSNOP_LDST_UNIFY(opT, opTr, opTrm)                             \
-+    INSNOP(                                                             \
-+        opT, insnop_t(opTr),                                            \
-+        do {                                                            \
-+            insnop_t(opTrm) rm;                                         \
-+            if (!insnop_init(opTrm)(env, s, modrm, &rm)) {              \
-+                INSNOP_INIT_OK(rm.op_reg);                              \
-+            }                                                           \
-+            INSNOP_INIT_FAIL;                                           \
-+        } while (0),                                                    \
-+        do {                                                            \
-+            insnop_t(opTrm) rm;                                         \
-+            const int ret = insnop_init(opTrm)(env, s, modrm, &rm);     \
-+            assert(!ret);                                               \
-+                                                                        \
-+            rm.op_reg = *op;                                            \
-+            insnop_prepare(opTrm)(env, s, modrm, &rm);                  \
-+        } while (0),                                                    \
-+        do {                                                            \
-+            insnop_t(opTrm) rm;                                         \
-+            const int ret = insnop_init(opTrm)(env, s, modrm, &rm);     \
-+            assert(!ret);                                               \
-+                                                                        \
-+            rm.op_reg = *op;                                            \
-+            insnop_finalize(opTrm)(env, s, modrm, &rm);                 \
-+        } while (0))
++#ifndef INSN_R
++#   define INSN_R(mnem, prefix, opcode, feat, opR1)
++#endif /* INSN_R */
 +
- static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
- {
-     enum {
++#ifndef INSN_RR
++#   define INSN_RR(mnem, prefix, opcode, feat, opR1, opR2)
++#endif /* INSN_RR */
++
++#ifndef INSN_W
++#   define INSN_W(mnem, prefix, opcode, feat, opW1)
++#endif /* INSN_W */
++
++#ifndef INSN_WR
++#   define INSN_WR(mnem, prefix, opcode, feat, opW1, opR1)
++#endif /* INSN_WR */
++
++#ifndef INSN_WRR
++#   define INSN_WRR(mnem, prefix, opcode, feat, opW1, opR1, opR2)
++#endif /* INSN_WRR */
++
++#ifndef INSN_WRRR
++#   define INSN_WRRR(mnem, prefix, opcode, feat, opW1, opR1, opR2, opR3)
++#endif /* INSN_WRRR */
++
++#ifndef INSN_GRP
++#   define INSN_GRP(grpname, prefix, opcode)
++#endif /* INSN_GRP */
++
++#ifndef INSN_GRP_BEGIN
++#   define INSN_GRP_BEGIN(grpname)
++#endif /* INSN_GRP_BEGIN */
++
++#ifndef INSN_GRPMEMB
++#   define INSN_GRPMEMB(grpname, mnem, opcode, feat)
++#endif /* INSN_GRPMEMB */
++
++#ifndef INSN_GRPMEMB_R
++#   define INSN_GRPMEMB_R(grpname, mnem, opcode, feat, opR1)
++#endif /* INSN_GRPMEMB_R */
++
++#ifndef INSN_GRPMEMB_RR
++#   define INSN_GRPMEMB_RR(grpname, mnem, opcode, feat, opR1, opR2)
++#endif /* INSN_GRPMEMB_RR */
++
++#ifndef INSN_GRPMEMB_W
++#   define INSN_GRPMEMB_W(grpname, mnem, opcode, feat, opW1)
++#endif /* INSN_GRPMEMB_W */
++
++#ifndef INSN_GRPMEMB_WR
++#   define INSN_GRPMEMB_WR(grpname, mnem, opcode, feat, opW1, opR1)
++#endif /* INSN_GRPMEMB_WR */
++
++#ifndef INSN_GRPMEMB_WRR
++#   define INSN_GRPMEMB_WRR(grpname, mnem, opcode, feat, opW1, opR1, opR2)
++#endif /* INSN_GRPMEMB_WRR */
++
++#ifndef INSN_GRPMEMB_WRRR
++#   define INSN_GRPMEMB_WRRR(grpname, mnem, opcode, feat, opW1, opR1, opR2, opR3)
++#endif /* INSN_GRPMEMB_WRRR */
++
++#ifndef INSN_GRP_END
++#   define INSN_GRP_END(grpname)
++#endif /* INSN_GRP_END */
++
++#undef LEG
++#undef VEX
++#undef INSN
++#undef INSN_R
++#undef INSN_RR
++#undef INSN_W
++#undef INSN_WR
++#undef INSN_WRR
++#undef INSN_WRRR
++#undef INSN_GRP
++#undef INSN_GRP_BEGIN
++#undef INSN_GRPMEMB
++#undef INSN_GRPMEMB_R
++#undef INSN_GRPMEMB_RR
++#undef INSN_GRPMEMB_W
++#undef INSN_GRPMEMB_WR
++#undef INSN_GRPMEMB_WRR
++#undef INSN_GRPMEMB_WRRR
++#undef INSN_GRP_END
 -- 
 2.20.1
 
