@@ -2,36 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E77A88CF9
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 21:33:22 +0200 (CEST)
-Received: from localhost ([::1]:37856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A68D088CFB
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 21:33:36 +0200 (CEST)
+Received: from localhost ([::1]:37862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwX7B-0002Df-0S
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 15:33:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44026)
+	id 1hwX7P-0002la-TA
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 15:33:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44022)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hwX5y-0000Ip-VQ
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hwX5y-0000Ii-U4
  for qemu-devel@nongnu.org; Sat, 10 Aug 2019 15:32:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hwX5x-0007C7-QC
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hwX5x-0007By-Q2
  for qemu-devel@nongnu.org; Sat, 10 Aug 2019 15:32:06 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48788)
+Received: from relay.sw.ru ([185.231.240.75]:48794)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hwX5s-000775-Gh; Sat, 10 Aug 2019 15:32:01 -0400
+ id 1hwX5s-000773-FE; Sat, 10 Aug 2019 15:32:01 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1hwX5o-0000nK-JC; Sat, 10 Aug 2019 22:31:56 +0300
+ id 1hwX5o-0000nK-QL; Sat, 10 Aug 2019 22:31:56 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Date: Sat, 10 Aug 2019 22:31:48 +0300
-Message-Id: <20190810193155.58637-1-vsementsov@virtuozzo.com>
+Date: Sat, 10 Aug 2019 22:31:49 +0300
+Message-Id: <20190810193155.58637-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20190810193155.58637-1-vsementsov@virtuozzo.com>
+References: <20190810193155.58637-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v3 0/7] backup improvements
+Subject: [Qemu-devel] [PATCH v3 1/7] block/backup: deal with zero detection
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,51 +51,78 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+We have detect_zeroes option, so at least for blockdev-backup user
+should define it if zero-detection is needed. For drive-backup leave
+detection enabled by default but do it through existing option instead
+of open-coding.
 
-There are some fixes and refactorings I need on my way to resend
-my backup-top series. It's obvious now that I need to share copying
-code between backup and backup-top, as backup copying code becomes
-smarter and more complicated. So the goal of the series is to make copying
-code more share-able.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+---
+ block/backup.c | 15 ++++++---------
+ blockdev.c     |  8 ++++----
+ 2 files changed, 10 insertions(+), 13 deletions(-)
 
-Based-on: https://github.com/jnsnow/qemu bitmaps 
-
-v3:
-03: Ha, fix real bug, we shouldn't touch src before handling write-zero,
-    as src may be NULL. So, replace align and max_transfer calculation
-    together with max_transfer == 0 check. Drop comment, as there is no
-    special place for it now..
-04: add Max's r-b:
-06-07: rewrite to keep bounce_buffer sharing between iterations and to
-       limit allocation [Eric]
-
-v2 (by Max's comments):
-
-02: Add Max's r-b
-03: - split out backup changes to 03
-   - handle common max_transfer = 0 case
-04: splat out from 02
-06: fix allocation size
-07: - rebase on 06 changes
-   - add Max's r-b
-
-two patches are dropped or postponed for the next step
-
-Vladimir Sementsov-Ogievskiy (7):
-  block/backup: deal with zero detection
-  block/backup: refactor write_flags
-  block/io: handle alignment and max_transfer for copy_range
-  block/backup: drop handling of max_transfer for copy_range
-  block/backup: fix backup_cow_with_offload for last cluster
-  block/backup: teach backup_cow_with_bounce_buffer to copy more at once
-  block/backup: merge duplicated logic into backup_do_cow
-
- block/backup.c | 154 ++++++++++++++++++++++---------------------------
- block/io.c     |  44 +++++++++++---
- blockdev.c     |   8 +--
- 3 files changed, 110 insertions(+), 96 deletions(-)
-
+diff --git a/block/backup.c b/block/backup.c
+index adc4d44244..d815436455 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -113,7 +113,10 @@ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
+     BlockBackend *blk = job->common.blk;
+     int nbytes;
+     int read_flags = is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
+-    int write_flags = job->serialize_target_writes ? BDRV_REQ_SERIALISING : 0;
++    int write_flags =
++            (job->serialize_target_writes ? BDRV_REQ_SERIALISING : 0) |
++            (job->compress ? BDRV_REQ_WRITE_COMPRESSED : 0);
++
+ 
+     assert(QEMU_IS_ALIGNED(start, job->cluster_size));
+     bdrv_reset_dirty_bitmap(job->copy_bitmap, start, job->cluster_size);
+@@ -131,14 +134,8 @@ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
+         goto fail;
+     }
+ 
+-    if (buffer_is_zero(*bounce_buffer, nbytes)) {
+-        ret = blk_co_pwrite_zeroes(job->target, start,
+-                                   nbytes, write_flags | BDRV_REQ_MAY_UNMAP);
+-    } else {
+-        ret = blk_co_pwrite(job->target, start,
+-                            nbytes, *bounce_buffer, write_flags |
+-                            (job->compress ? BDRV_REQ_WRITE_COMPRESSED : 0));
+-    }
++    ret = blk_co_pwrite(job->target, start, nbytes, *bounce_buffer,
++                        write_flags);
+     if (ret < 0) {
+         trace_backup_do_cow_write_fail(job, start, ret);
+         if (error_is_read) {
+diff --git a/blockdev.c b/blockdev.c
+index 29c6c6044a..2d7e7be538 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -3613,7 +3613,7 @@ static BlockJob *do_drive_backup(DriveBackup *backup, JobTxn *txn,
+     BlockDriverState *source = NULL;
+     BlockJob *job = NULL;
+     AioContext *aio_context;
+-    QDict *options = NULL;
++    QDict *options;
+     Error *local_err = NULL;
+     int flags;
+     int64_t size;
+@@ -3686,10 +3686,10 @@ static BlockJob *do_drive_backup(DriveBackup *backup, JobTxn *txn,
+         goto out;
+     }
+ 
++    options = qdict_new();
++    qdict_put_str(options, "discard", "unmap");
++    qdict_put_str(options, "detect-zeroes", "unmap");
+     if (backup->format) {
+-        if (!options) {
+-            options = qdict_new();
+-        }
+         qdict_put_str(options, "driver", backup->format);
+     }
+ 
 -- 
 2.18.0
 
