@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99AA88830
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:31:41 +0200 (CEST)
-Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD328882D
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:30:35 +0200 (CEST)
+Received: from localhost ([::1]:35014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwJ2a-0001Dz-Ty
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:31:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35030)
+	id 1hwJ1W-0007u1-Ct
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:30:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35044)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIlH-0006yG-TZ
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIlI-000706-Dr
  for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIlF-0004i9-NE
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:47 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43542)
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIlG-0004m7-Kz
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:48 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34835)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIlF-0004f9-H2
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:45 -0400
-Received: by mail-ot1-x341.google.com with SMTP id j11so40047706otp.10
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:45 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIlG-0004jw-Fw
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:46 -0400
+Received: by mail-ot1-x341.google.com with SMTP id j19so63826242otq.2
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DxPrrGEHPmPl3Q+LidZQAcbTVrchg9uhnKuWrY0vGLs=;
- b=FNLcXvN7MeBjyRWmK74zvoEkpUB0hJ5DBmLZQ5DIv3TtJDIqqqEiVKx1kc/6VHP2To
- LWaJ6asXZggT8qvfJi3Vu8Zgqlw6AMsGRb1aFNyRgFMiy5tsiHVxhLLuIZ1HcDOVvacQ
- 0tHZ0jkXLIT4Djq1+q+dOcNjoPb40DOz5xTf/xpsj1JqMQXXwp59RBtWlLW3AReveyhR
- yjaEwyAZKDoAdi0pOMOb1Szq3Vn316M0J8FhYJ55CfLKysJ2aLoyNuOr07K5HscKtyIM
- C2eABBCk5dvSMBypb7DeEwXHJq+F+HTKja89huuRo7XSNOfPvHu8fpxSwCtCajOhMbTq
- v2HQ==
+ bh=qd9Vak9zDrp9Soub8eUxv/gAK9kgKTJPLZEknV6Ahqs=;
+ b=J8CqZX5wLKL543QDg/uE2qDl2h3yDJvxO/FGC4XisrABg8CaWHaCJDUYQJt01/OfOo
+ Oc7cqCX2wbOP1kEf6YLmqBIOjl8UlLFBqIy2SIFWz8xeCjq1WioTjECo6hFStMUk4qmA
+ R1Z71cRU6l/aPjCrweO1SqhpdUL5Ed2q4FdFnRcNXuc3uA/D9fmkciWuDDiihPi/PXth
+ +TR9yceYEgPvllzcR1+bYzMOvTbggqMRkaU7jpdVyynusm53yIAO/HcsNXSuKAXFTdqU
+ 4WBK8urDDnMHkRp2QJMNatiERWbudQ9K21Z4bmHz879ptntPLc5dRdWsBkulKnDzSrdq
+ yJMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DxPrrGEHPmPl3Q+LidZQAcbTVrchg9uhnKuWrY0vGLs=;
- b=mjZjLOXc6yzS7Iobt+qa1r4DeIrpCkPuSsYImpDKo8UeSdi1iO7Ns12mHehx0iCQ5q
- ksVhjYlzSkWGdwhTZwBbtUfNn8CIuY4lkFv3ctVfUONyZvdL3U71agvUzVqCgpai3Xop
- 15+IedP+dQcnEffhIx1NYqcfvW0ZYzJKTG6gk3VejcYc/RMK6Jh5qMuUrw8x8Be12oYO
- B0/pnRPPlgvUZUBX0xSTZC9fWKe8K0F60dPyunh7Zn9/VT9XYNCrOmrJS9LnyjLyk8+h
- 3ZCkvH7N42yATLie8nCjxveIQ599Btf+DjO6L9CB1VZbOlvDD3C08Ld5wNW/hqoA4v8U
- qlow==
-X-Gm-Message-State: APjAAAVOUJJB+UTYRNPh8BmolpczcaZ70YYs3QrAwd7zUmYPfDLg+0wP
- IalB05TdrqpDwniXxNmBShykXqiP
-X-Google-Smtp-Source: APXvYqzN0/F9nao9MUwG1Q642yRYsU9gWVUOfWjrufApjLgPQjs8apSsTXl7Hu4yxhuFTNOuXpNg4A==
-X-Received: by 2002:a05:6808:313:: with SMTP id
- i19mr8700292oie.30.1565410424571; 
- Fri, 09 Aug 2019 21:13:44 -0700 (PDT)
+ bh=qd9Vak9zDrp9Soub8eUxv/gAK9kgKTJPLZEknV6Ahqs=;
+ b=ZKPVYzrTJ0uT0hwa6ll1a2tf2PNj3IXVL/d4aahm/38+GOlwSxbWi5L5lqpibAUbNC
+ gjI2BET1oxuSPGqwrmHVvvavc+I8q+NyfBa6RHk98vLUY1B6vcmde39y55KW6f4zJXso
+ BvdrR92d3UaSEr80Ri80Py593fvkAKl9J82pKx0ZLYbg40b9rlaiQOXkPacLeRbK4moA
+ k4rXXEDu+XwKTIcZmr1SWYGtHzhs0sqhr/hb7DBrEZKS8MeJ0HvaIyG16ga0NRI/eOlc
+ JPx8LGRqhqUXxk5DhASdBMm7D5KrRkujALR3fQq4WDVLmeySokFuJ21dDX3IWNE5v6/U
+ xRAg==
+X-Gm-Message-State: APjAAAWTbpf8nlx++8Tif6ycRk8hQ/3xxUOh1C8UICoVZZmtT1fLo7Mb
+ NtKe8llfNPQWfAfT6eQQEiduV8uq
+X-Google-Smtp-Source: APXvYqxg3/PUaNL08CDBV3arjkvr2BniPe9XYEKVP61qujh2BFp8ZQl1l2auivWJRkqH4QwQIxMfsQ==
+X-Received: by 2002:a05:6830:2119:: with SMTP id
+ i25mr22124032otc.282.1565410425544; 
+ Fri, 09 Aug 2019 21:13:45 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.44
+ by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.45
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 09 Aug 2019 21:13:44 -0700 (PDT)
+ Fri, 09 Aug 2019 21:13:45 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 10 Aug 2019 00:12:53 -0400
-Message-Id: <20190810041255.6820-38-jan.bobek@gmail.com>
+Date: Sat, 10 Aug 2019 00:12:54 -0400
+Message-Id: <20190810041255.6820-39-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190810041255.6820-1-jan.bobek@gmail.com>
 References: <20190810041255.6820-1-jan.bobek@gmail.com>
@@ -66,8 +66,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::341
-Subject: [Qemu-devel] [RFC PATCH v2 37/39] target/i386: introduce SSE code
- generators
+Subject: [Qemu-devel] [RFC PATCH v2 38/39] target/i386: introduce SSE
+ instructions to insn.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,517 +85,231 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce code generators required by SSE instructions.
+Add all the SSE instruction entries to insn.h.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 440 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 440 insertions(+)
+ target/i386/insn.h | 158 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 158 insertions(+)
 
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 12d2ac2eb5..681fa1aee2 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -4943,6 +4943,9 @@ INSNOP_LDST_UNIFY(Wdq, Udq, UdqMdq)
- #define GEN_INSN_WR_GVEC_MM(mnem, gvec, opW1, opR1, vece)       \
-     GEN_INSN_WR_GVEC(mnem, gvec, opW1, opR1, vece,              \
-                      sizeof(MMXReg), sizeof(MMXReg))
-+#define GEN_INSN_WR_GVEC_XMM(mnem, gvec, opW1, opR1, vece)      \
-+    GEN_INSN_WR_GVEC(mnem, gvec, opW1, opR1, vece,              \
-+                     sizeof(XMMReg), sizeof(XMMReg))
+diff --git a/target/i386/insn.h b/target/i386/insn.h
+index 6506ff3137..6e0c75b9f7 100644
+--- a/target/i386/insn.h
++++ b/target/i386/insn.h
+@@ -78,6 +78,36 @@ INSN_WR(movq, LEG(NP, 0F, 1), 0x7e, MMX, Eq, Pq)
+ INSN_WR(movq, LEG(NP, 0F, 0), 0x6f, MMX, Pq, Qq)
+ /* NP 0F 7F /r: MOVQ mm/m64, mm */
+ INSN_WR(movq, LEG(NP, 0F, 0), 0x7f, MMX, Qq, Pq)
++/* NP 0F 28 /r: MOVAPS xmm1, xmm2/m128 */
++INSN_WR(movaps, LEG(NP, 0F, 0), 0x28, SSE, Vdq, Wdq)
++/* NP 0F 29 /r: MOVAPS xmm2/m128, xmm1 */
++INSN_WR(movaps, LEG(NP, 0F, 0), 0x29, SSE, Wdq, Vdq)
++/* NP 0F 10 /r: MOVUPS xmm1, xmm2/m128 */
++INSN_WR(movups, LEG(NP, 0F, 0), 0x10, SSE, Vdq, Wdq)
++/* NP 0F 11 /r: MOVUPS xmm2/m128, xmm1 */
++INSN_WR(movups, LEG(NP, 0F, 0), 0x11, SSE, Wdq, Vdq)
++/* F3 0F 10 /r: MOVSS xmm1, xmm2/m32 */
++INSN_WRR(movss, LEG(F3, 0F, 0), 0x10, SSE, Vdq, Vdq, UdMd)
++/* F3 0F 11 /r: MOVSS xmm2/m32, xmm1 */
++INSN_WR(movss, LEG(F3, 0F, 0), 0x11, SSE, Wd, Vd)
++/* NP 0F 12 /r: MOVHLPS xmm1, xmm2 */
++/* NP 0F 12 /r: MOVLPS xmm1, m64 */
++INSN_WR(movhlps, LEG(NP, 0F, 0), 0x12, SSE, Vq, UdqMq)
++/* 0F 13 /r: MOVLPS m64, xmm1 */
++INSN_WR(movlps, LEG(NP, 0F, 0), 0x13, SSE, Mq, Vq)
++/* NP 0F 16 /r: MOVLHPS xmm1, xmm2 */
++/* NP 0F 16 /r: MOVHPS xmm1, m64 */
++INSN_WRR(movlhps, LEG(NP, 0F, 0), 0x16, SSE, Vdq, Vq, UqMq)
++/* NP 0F 17 /r: MOVHPS m64, xmm1 */
++INSN_WR(movhps, LEG(NP, 0F, 0), 0x17, SSE, Mq, Vdq)
++/* NP 0F D7 /r: PMOVMSKB r32, mm */
++INSN_WR(pmovmskb, LEG(NP, 0F, 0), 0xd7, SSE, Gd, Nq)
++/* NP REX.W 0F D7 /r: PMOVMSKB r64, mm */
++INSN_WR(pmovmskb, LEG(NP, 0F, 1), 0xd7, SSE, Gq, Nq)
++/* NP 0F 50 /r: MOVMSKPS r32, xmm */
++INSN_WR(movmskps, LEG(NP, 0F, 0), 0x50, SSE, Gd, Udq)
++/* NP REX.W 0F 50 /r: MOVMSKPS r64, xmm */
++INSN_WR(movmskps, LEG(NP, 0F, 1), 0x50, SSE, Gq, Udq)
+ /* NP 0F FC /r: PADDB mm, mm/m64 */
+ INSN_WRR(paddb, LEG(NP, 0F, 0), 0xfc, MMX, Pq, Pq, Qq)
+ /* NP 0F FD /r: PADDW mm, mm/m64 */
+@@ -92,6 +122,10 @@ INSN_WRR(paddsw, LEG(NP, 0F, 0), 0xed, MMX, Pq, Pq, Qq)
+ INSN_WRR(paddusb, LEG(NP, 0F, 0), 0xdc, MMX, Pq, Pq, Qq)
+ /* NP 0F DD /r: PADDUSW mm,mm/m64 */
+ INSN_WRR(paddusw, LEG(NP, 0F, 0), 0xdd, MMX, Pq, Pq, Qq)
++/* NP 0F 58 /r: ADDPS xmm1, xmm2/m128 */
++INSN_WRR(addps, LEG(NP, 0F, 0), 0x58, SSE, Vdq, Vdq, Wdq)
++/* F3 0F 58 /r: ADDSS xmm1, xmm2/m32 */
++INSN_WRR(addss, LEG(F3, 0F, 0), 0x58, SSE, Vd, Vd, Wd)
+ /* NP 0F F8 /r: PSUBB mm, mm/m64 */
+ INSN_WRR(psubb, LEG(NP, 0F, 0), 0xf8, MMX, Pq, Pq, Qq)
+ /* NP 0F F9 /r: PSUBW mm, mm/m64 */
+@@ -106,12 +140,60 @@ INSN_WRR(psubsw, LEG(NP, 0F, 0), 0xe9, MMX, Pq, Pq, Qq)
+ INSN_WRR(psubusb, LEG(NP, 0F, 0), 0xd8, MMX, Pq, Pq, Qq)
+ /* NP 0F D9 /r: PSUBUSW mm, mm/m64 */
+ INSN_WRR(psubusw, LEG(NP, 0F, 0), 0xd9, MMX, Pq, Pq, Qq)
++/* NP 0F 5C /r: SUBPS xmm1, xmm2/m128 */
++INSN_WRR(subps, LEG(NP, 0F, 0), 0x5c, SSE, Vdq, Vdq, Wdq)
++/* F3 0F 5C /r: SUBSS xmm1, xmm2/m32 */
++INSN_WRR(subss, LEG(F3, 0F, 0), 0x5c, SSE, Vd, Vd, Wd)
+ /* NP 0F D5 /r: PMULLW mm, mm/m64 */
+ INSN_WRR(pmullw, LEG(NP, 0F, 0), 0xd5, MMX, Pq, Pq, Qq)
+ /* NP 0F E5 /r: PMULHW mm, mm/m64 */
+ INSN_WRR(pmulhw, LEG(NP, 0F, 0), 0xe5, MMX, Pq, Pq, Qq)
++/* NP 0F E4 /r: PMULHUW mm1, mm2/m64 */
++INSN_WRR(pmulhuw, LEG(NP, 0F, 0), 0xe4, SSE, Pq, Pq, Qq)
++/* NP 0F 59 /r: MULPS xmm1, xmm2/m128 */
++INSN_WRR(mulps, LEG(NP, 0F, 0), 0x59, SSE, Vdq, Vdq, Wdq)
++/* F3 0F 59 /r: MULSS xmm1,xmm2/m32 */
++INSN_WRR(mulss, LEG(F3, 0F, 0), 0x59, SSE, Vd, Vd, Wd)
+ /* NP 0F F5 /r: PMADDWD mm, mm/m64 */
+ INSN_WRR(pmaddwd, LEG(NP, 0F, 0), 0xf5, MMX, Pq, Pq, Qq)
++/* NP 0F 5E /r: DIVPS xmm1, xmm2/m128 */
++INSN_WRR(divps, LEG(NP, 0F, 0), 0x5e, SSE, Vdq, Vdq, Wdq)
++/* F3 0F 5E /r: DIVSS xmm1, xmm2/m32 */
++INSN_WRR(divss, LEG(F3, 0F, 0), 0x5e, SSE, Vd, Vd, Wd)
++/* NP 0F 53 /r: RCPPS xmm1, xmm2/m128 */
++INSN_WR(rcpps, LEG(NP, 0F, 0), 0x53, SSE, Vdq, Wdq)
++/* F3 0F 53 /r: RCPSS xmm1, xmm2/m32 */
++INSN_WR(rcpss, LEG(F3, 0F, 0), 0x53, SSE, Vd, Wd)
++/* NP 0F 51 /r: SQRTPS xmm1, xmm2/m128 */
++INSN_WR(sqrtps, LEG(NP, 0F, 0), 0x51, SSE, Vdq, Wdq)
++/* F3 0F 51 /r: SQRTSS xmm1, xmm2/m32 */
++INSN_WR(sqrtss, LEG(F3, 0F, 0), 0x51, SSE, Vd, Wd)
++/* NP 0F 52 /r: RSQRTPS xmm1, xmm2/m128 */
++INSN_WR(rsqrtps, LEG(NP, 0F, 0), 0x52, SSE, Vdq, Wdq)
++/* F3 0F 52 /r: RSQRTSS xmm1, xmm2/m32 */
++INSN_WR(rsqrtss, LEG(F3, 0F, 0), 0x52, SSE, Vd, Wd)
++/* NP 0F DA /r: PMINUB mm1, mm2/m64 */
++INSN_WRR(pminub, LEG(NP, 0F, 0), 0xda, SSE, Pq, Pq, Qq)
++/* NP 0F EA /r: PMINSW mm1, mm2/m64 */
++INSN_WRR(pminsw, LEG(NP, 0F, 0), 0xea, SSE, Pq, Pq, Qq)
++/* NP 0F 5D /r: MINPS xmm1, xmm2/m128 */
++INSN_WRR(minps, LEG(NP, 0F, 0), 0x5d, SSE, Vdq, Vdq, Wdq)
++/* F3 0F 5D /r: MINSS xmm1,xmm2/m32 */
++INSN_WRR(minss, LEG(F3, 0F, 0), 0x5d, SSE, Vd, Vd, Wd)
++/* NP 0F DE /r: PMAXUB mm1, mm2/m64 */
++INSN_WRR(pmaxub, LEG(NP, 0F, 0), 0xde, SSE, Pq, Pq, Qq)
++/* NP 0F EE /r: PMAXSW mm1, mm2/m64 */
++INSN_WRR(pmaxsw, LEG(NP, 0F, 0), 0xee, SSE, Pq, Pq, Qq)
++/* NP 0F 5F /r: MAXPS xmm1, xmm2/m128 */
++INSN_WRR(maxps, LEG(NP, 0F, 0), 0x5f, SSE, Vdq, Vdq, Wdq)
++/* F3 0F 5F /r: MAXSS xmm1, xmm2/m32 */
++INSN_WRR(maxss, LEG(F3, 0F, 0), 0x5f, SSE, Vd, Vd, Wd)
++/* NP 0F E0 /r: PAVGB mm1, mm2/m64 */
++INSN_WRR(pavgb, LEG(NP, 0F, 0), 0xe0, SSE, Pq, Pq, Qq)
++/* NP 0F E3 /r: PAVGW mm1, mm2/m64 */
++INSN_WRR(pavgw, LEG(NP, 0F, 0), 0xe3, SSE, Pq, Pq, Qq)
++/* NP 0F F6 /r: PSADBW mm1, mm2/m64 */
++INSN_WRR(psadbw, LEG(NP, 0F, 0), 0xf6, SSE, Pq, Pq, Qq)
+ /* NP 0F 74 /r: PCMPEQB mm,mm/m64 */
+ INSN_WRR(pcmpeqb, LEG(NP, 0F, 0), 0x74, MMX, Pq, Pq, Qq)
+ /* NP 0F 75 /r: PCMPEQW mm,mm/m64 */
+@@ -124,14 +206,30 @@ INSN_WRR(pcmpgtb, LEG(NP, 0F, 0), 0x64, MMX, Pq, Pq, Qq)
+ INSN_WRR(pcmpgtw, LEG(NP, 0F, 0), 0x65, MMX, Pq, Pq, Qq)
+ /* NP 0F 66 /r: PCMPGTD mm,mm/m64 */
+ INSN_WRR(pcmpgtd, LEG(NP, 0F, 0), 0x66, MMX, Pq, Pq, Qq)
++/* NP 0F C2 /r ib: CMPPS xmm1, xmm2/m128, imm8 */
++INSN_WRRR(cmpps, LEG(NP, 0F, 0), 0xc2, SSE, Vdq, Vdq, Wdq, Ib)
++/* F3 0F C2 /r ib: CMPSS xmm1, xmm2/m32, imm8 */
++INSN_WRRR(cmpss, LEG(F3, 0F, 0), 0xc2, SSE, Vd, Vd, Wd, Ib)
++/* NP 0F 2E /r: UCOMISS xmm1, xmm2/m32 */
++INSN_RR(ucomiss, LEG(NP, 0F, 0), 0x2e, SSE, Vd, Wd)
++/* NP 0F 2F /r: COMISS xmm1, xmm2/m32 */
++INSN_RR(comiss, LEG(NP, 0F, 0), 0x2f, SSE, Vd, Wd)
+ /* NP 0F DB /r: PAND mm, mm/m64 */
+ INSN_WRR(pand, LEG(NP, 0F, 0), 0xdb, MMX, Pq, Pq, Qq)
++/* NP 0F 54 /r: ANDPS xmm1, xmm2/m128 */
++INSN_WRR(andps, LEG(NP, 0F, 0), 0x54, SSE, Vdq, Vdq, Wdq)
+ /* NP 0F DF /r: PANDN mm, mm/m64 */
+ INSN_WRR(pandn, LEG(NP, 0F, 0), 0xdf, MMX, Pq, Pq, Qq)
++/* NP 0F 55 /r: ANDNPS xmm1, xmm2/m128 */
++INSN_WRR(andnps, LEG(NP, 0F, 0), 0x55, SSE, Vdq, Vdq, Wdq)
+ /* NP 0F EB /r: POR mm, mm/m64 */
+ INSN_WRR(por, LEG(NP, 0F, 0), 0xeb, MMX, Pq, Pq, Qq)
++/* NP 0F 56 /r: ORPS xmm1, xmm2/m128 */
++INSN_WRR(orps, LEG(NP, 0F, 0), 0x56, SSE, Vdq, Vdq, Wdq)
+ /* NP 0F EF /r: PXOR mm, mm/m64 */
+ INSN_WRR(pxor, LEG(NP, 0F, 0), 0xef, MMX, Pq, Pq, Qq)
++/* NP 0F 57 /r: XORPS xmm1, xmm2/m128 */
++INSN_WRR(xorps, LEG(NP, 0F, 0), 0x57, SSE, Vdq, Vdq, Wdq)
+ /* NP 0F F1 /r: PSLLW mm, mm/m64 */
+ INSN_WRR(psllw, LEG(NP, 0F, 0), 0xf1, MMX, Pq, Pq, Qq)
+ /* NP 0F F2 /r: PSLLD mm, mm/m64 */
+@@ -166,6 +264,44 @@ INSN_WRR(punpcklbw, LEG(NP, 0F, 0), 0x60, MMX, Pq, Pq, Qd)
+ INSN_WRR(punpcklwd, LEG(NP, 0F, 0), 0x61, MMX, Pq, Pq, Qd)
+ /* NP 0F 62 /r: PUNPCKLDQ mm, mm/m32 */
+ INSN_WRR(punpckldq, LEG(NP, 0F, 0), 0x62, MMX, Pq, Pq, Qd)
++/* NP 0F 14 /r: UNPCKLPS xmm1, xmm2/m128 */
++INSN_WRR(unpcklps, LEG(NP, 0F, 0), 0x14, SSE, Vdq, Vdq, Wdq)
++/* NP 0F 15 /r: UNPCKHPS xmm1, xmm2/m128 */
++INSN_WRR(unpckhps, LEG(NP, 0F, 0), 0x15, SSE, Vdq, Vdq, Wdq)
++/* NP 0F 70 /r ib: PSHUFW mm1, mm2/m64, imm8 */
++INSN_WRR(pshufw, LEG(NP, 0F, 0), 0x70, SSE, Pq, Qq, Ib)
++/* NP 0F C6 /r ib: SHUFPS xmm1, xmm3/m128, imm8 */
++INSN_WRRR(shufps, LEG(NP, 0F, 0), 0xc6, SSE, Vdq, Vdq, Wdq, Ib)
++/* NP 0F C4 /r ib: PINSRW mm, r32/m16, imm8 */
++INSN_WRRR(pinsrw, LEG(NP, 0F, 0), 0xc4, SSE, Pq, Pq, RdMw, Ib)
++/* NP 0F C5 /r ib: PEXTRW r32, mm, imm8 */
++INSN_WRR(pextrw, LEG(NP, 0F, 0), 0xc5, SSE, Gd, Nq, Ib)
++/* NP REX.W 0F C5 /r ib: PEXTRW r64, mm, imm8 */
++INSN_WRR(pextrw, LEG(NP, 0F, 1), 0xc5, SSE, Gq, Nq, Ib)
++/* NP 0F 2A /r: CVTPI2PS xmm, mm/m64 */
++INSN_WR(cvtpi2ps, LEG(NP, 0F, 0), 0x2a, SSE, Vdq, Qq)
++/* F3 0F 2A /r: CVTSI2SS xmm1,r/m32 */
++INSN_WR(cvtsi2ss, LEG(F3, 0F, 0), 0x2a, SSE, Vd, Ed)
++/* F3 REX.W 0F 2A /r: CVTSI2SS xmm1,r/m64 */
++INSN_WR(cvtsi2ss, LEG(F3, 0F, 1), 0x2a, SSE, Vd, Eq)
++/* NP 0F 2D /r: CVTPS2PI mm, xmm/m64 */
++INSN_WR(cvtps2pi, LEG(NP, 0F, 0), 0x2d, SSE, Pq, Wq)
++/* F3 0F 2D /r: CVTSS2SI r32,xmm1/m32 */
++INSN_WR(cvtss2si, LEG(F3, 0F, 0), 0x2d, SSE, Gd, Wd)
++/* F3 REX.W 0F 2D /r: CVTSS2SI r64,xmm1/m32 */
++INSN_WR(cvtss2si, LEG(F3, 0F, 1), 0x2d, SSE, Gq, Wd)
++/* NP 0F 2C /r: CVTTPS2PI mm, xmm/m64 */
++INSN_WR(cvttps2pi, LEG(NP, 0F, 0), 0x2c, SSE, Pq, Wq)
++/* F3 0F 2C /r: CVTTSS2SI r32,xmm1/m32 */
++INSN_WR(cvttss2si, LEG(F3, 0F, 0), 0x2c, SSE, Gd, Wd)
++/* F3 REX.W 0F 2C /r: CVTTSS2SI r64,xmm1/m32 */
++INSN_WR(cvttss2si, LEG(F3, 0F, 1), 0x2c, SSE, Gq, Wd)
++/* NP 0F F7 /r: MASKMOVQ mm1, mm2 */
++INSN_RR(maskmovq, LEG(NP, 0F, 0), 0xf7, SSE, Pq, Nq)
++/* NP 0F 2B /r: MOVNTPS m128, xmm1 */
++INSN_WR(movntps, LEG(NP, 0F, 0), 0x2b, SSE, Mdq, Vdq)
++/* NP 0F E7 /r: MOVNTQ m64, mm */
++INSN_WR(movntq, LEG(NP, 0F, 0), 0xe7, SSE, Mq, Pq)
+ /* NP 0F 77: EMMS */
+ INSN(emms, LEG(NP, 0F, 0), 0x77, MMX)
  
- #define GEN_INSN_WRR_GVEC(mnem, gvec, opW1, opR1, opR2, vece, oprsz, maxsz) \
-     static void gen_insn_wrr(mnem, opW1, opR1, opR2)(                   \
-@@ -4954,6 +4957,9 @@ INSNOP_LDST_UNIFY(Wdq, Udq, UdqMdq)
- #define GEN_INSN_WRR_GVEC_MM(mnem, gvec, opW1, opR1, opR2, vece)    \
-     GEN_INSN_WRR_GVEC(mnem, gvec, opW1, opR1, opR2, vece,           \
-                       sizeof(MMXReg), sizeof(MMXReg))
-+#define GEN_INSN_WRR_GVEC_XMM(mnem, gvec, opW1, opR1, opR2, vece)   \
-+    GEN_INSN_WRR_GVEC(mnem, gvec, opW1, opR1, opR2, vece,           \
-+                      sizeof(XMMReg), sizeof(XMMReg))
+@@ -197,6 +333,28 @@ INSN_GRP_BEGIN(grp14_LEG_NP)
+     INSN_GRPMEMB_WRR(grp14_LEG_NP, psrlq, 2, MMX, Nq, Nq, Ib)
+ INSN_GRP_END(grp14_LEG_NP)
  
- static void gen_insn_wr(movq, Eq, Pq)(CPUX86State *env, DisasContext *s,
-                                       insnop_t(Eq) ret, insnop_t(Pq) arg1)
-@@ -4986,6 +4992,101 @@ static void gen_insn_wr(movd, Pq, Ed)(CPUX86State *env, DisasContext *s,
- 
- GEN_INSN_WR_GVEC_MM(movq, mov, Pq, Qq, MO_64)
- GEN_INSN_WR_GVEC_MM(movq, mov, Qq, Pq, MO_64)
-+GEN_INSN_WR_GVEC_XMM(movaps, mov, Vdq, Wdq, MO_64)
-+GEN_INSN_WR_GVEC_XMM(movaps, mov, Wdq, Vdq, MO_64)
-+GEN_INSN_WR_GVEC_XMM(movups, mov, Vdq, Wdq, MO_64)
-+GEN_INSN_WR_GVEC_XMM(movups, mov, Wdq, Vdq, MO_64)
++INSN_GRP(grp15_LEG_NP, LEG(NP, 0F, 0), 0xae)
++INSN_GRP_BEGIN(grp15_LEG_NP)
++    /* NP 0F AE /7: SFENCE */
++    INSN_GRPMEMB(grp15_LEG_NP, sfence, 7, SSE)
++    /* NP 0F AE /2: LDMXCSR m32 */
++    INSN_GRPMEMB_R(grp15_LEG_NP, ldmxcsr, 2, SSE, Md)
++    /* NP 0F AE /3: STMXCSR m32 */
++    INSN_GRPMEMB_W(grp15_LEG_NP, stmxcsr, 3, SSE, Md)
++INSN_GRP_END(grp15_LEG_NP)
 +
-+static void gen_insn_wr(movss, Wd, Vd)(CPUX86State *env, DisasContext *s,
-+                                       insnop_t(Wd) ret, insnop_t(Vd) arg1)
-+{
-+    const size_t ofs = offsetof(ZMMReg, ZMM_L(0));
-+    gen_op_movl(s, ret + ofs, arg1 + ofs);
-+}
++INSN_GRP(grp16_LEG_NP, LEG(NP, 0F, 0), 0x18)
++INSN_GRP_BEGIN(grp16_LEG_NP)
++    /* 0F 18 /1: PREFETCHT0 m8 */
++    INSN_GRPMEMB_R(grp16_LEG_NP, prefetcht0, 1, SSE, Mb)
++    /* 0F 18 /2: PREFETCHT1 m8 */
++    INSN_GRPMEMB_R(grp16_LEG_NP, prefetcht1, 2, SSE, Mb)
++    /* 0F 18 /3: PREFETCHT2 m8 */
++    INSN_GRPMEMB_R(grp16_LEG_NP, prefetcht2, 3, SSE, Mb)
++    /* 0F 18 /0: PREFETCHNTA m8 */
++    INSN_GRPMEMB_R(grp16_LEG_NP, prefetchnta, 0, SSE, Mb)
++INSN_GRP_END(grp16_LEG_NP)
 +
-+static void gen_insn_wrr(movss, Vdq, Vdq, UdMd)(CPUX86State *env,
-+                                                DisasContext *s,
-+                                                insnop_t(Vdq) ret,
-+                                                insnop_t(Vdq) arg1,
-+                                                insnop_t(UdMd) arg2)
-+{
-+    assert(ret == arg1);
-+
-+    if (arg2.is_mem) {
-+        const size_t ofs0 = offsetof(ZMMReg, ZMM_Q(0));
-+        const size_t ofs1 = offsetof(ZMMReg, ZMM_Q(1));
-+
-+        tcg_gen_movi_i64(s->tmp1_i64, 0);
-+        tcg_gen_st_i64(s->tmp1_i64, cpu_env, ret + ofs0);
-+        tcg_gen_st_i64(s->tmp1_i64, cpu_env, ret + ofs1);
-+    }
-+    gen_insn_wr(movss, Wd, Vd)(env, s, ret, arg2.op_reg);
-+}
-+
-+static void gen_insn_wr(movlps, Mq, Vq)(CPUX86State *env, DisasContext *s,
-+                                        insnop_t(Mq) ret, insnop_t(Vq) arg1)
-+{
-+    assert(ret == s->A0);
-+    gen_stq_env_A0(s, arg1 + offsetof(ZMMReg, ZMM_Q(0)));
-+}
-+
-+static void gen_insn_wr(movhlps, Vq, UdqMq)(CPUX86State *env,
-+                                            DisasContext *s,
-+                                            insnop_t(Vq) ret,
-+                                            insnop_t(UdqMq) arg1)
-+{
-+    const size_t dofs = offsetof(ZMMReg, ZMM_Q(0));
-+    const size_t aofs = offsetof(ZMMReg, ZMM_Q(arg1.is_mem ? 0 : 1));
-+    gen_op_movq(s, ret + dofs, arg1.op_reg + aofs);
-+}
-+
-+static void gen_insn_wr(movhps, Mq, Vdq)(CPUX86State *env, DisasContext *s,
-+                                         insnop_t(Mq) ret, insnop_t(Vdq) arg1)
-+{
-+    assert(ret == s->A0);
-+    gen_stq_env_A0(s, arg1 + offsetof(ZMMReg, ZMM_Q(1)));
-+}
-+
-+static void gen_insn_wrr(movlhps, Vdq, Vq, UqMq)(CPUX86State *env,
-+                                                 DisasContext *s,
-+                                                 insnop_t(Vdq) ret,
-+                                                 insnop_t(Vq) arg1,
-+                                                 insnop_t(UqMq) arg2)
-+{
-+    assert(ret == arg1);
-+
-+    const size_t dofs = offsetof(ZMMReg, ZMM_Q(1));
-+    const size_t aofs = offsetof(ZMMReg, ZMM_Q(0));
-+    gen_op_movq(s, ret + dofs, arg2.op_reg + aofs);
-+}
-+
-+static void gen_insn_wr(pmovmskb, Gd, Nq)(CPUX86State *env, DisasContext *s,
-+                                          insnop_t(Gd) ret, insnop_t(Nq) arg1)
-+{
-+    tcg_gen_addi_ptr(s->ptr0, cpu_env, arg1);
-+    gen_helper_pmovmskb_mmx(ret, cpu_env, s->ptr0);
-+}
-+
-+static void gen_insn_wr(pmovmskb, Gq, Nq)(CPUX86State *env, DisasContext *s,
-+                                          insnop_t(Gq) ret, insnop_t(Nq) arg1)
-+{
-+    gen_insn_wr(pmovmskb, Gd, Nq)(env, s, s->tmp2_i32, arg1);
-+    tcg_gen_extu_i32_i64(ret, s->tmp2_i32);
-+}
-+
-+static void gen_insn_wr(movmskps, Gd, Udq)(CPUX86State *env, DisasContext *s,
-+                                           insnop_t(Gd) ret, insnop_t(Udq) arg1)
-+{
-+    tcg_gen_addi_ptr(s->ptr0, cpu_env, arg1);
-+    gen_helper_movmskps(ret, cpu_env, s->ptr0);
-+}
-+
-+static void gen_insn_wr(movmskps, Gq, Udq)(CPUX86State *env, DisasContext *s,
-+                                           insnop_t(Gq) ret, insnop_t(Udq) arg1)
-+{
-+    gen_insn_wr(movmskps, Gd, Udq)(env, s, s->tmp2_i32, arg1);
-+    tcg_gen_extu_i32_i64(ret, s->tmp2_i32);
-+}
- 
- GEN_INSN_WRR_GVEC_MM(paddb, add, Pq, Pq, Qq, MO_8)
- GEN_INSN_WRR_GVEC_MM(paddw, add, Pq, Pq, Qq, MO_16)
-@@ -4994,6 +5095,8 @@ GEN_INSN_WRR_GVEC_MM(paddsb, ssadd, Pq, Pq, Qq, MO_8)
- GEN_INSN_WRR_GVEC_MM(paddsw, ssadd, Pq, Pq, Qq, MO_16)
- GEN_INSN_WRR_GVEC_MM(paddusb, usadd, Pq, Pq, Qq, MO_8)
- GEN_INSN_WRR_GVEC_MM(paddusw, usadd, Pq, Pq, Qq, MO_16)
-+GEN_INSN_WRR_HELPER(addps, addps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(addss, addss, Vd, Vd, Wd)
- 
- GEN_INSN_WRR_GVEC_MM(psubb, sub, Pq, Pq, Qq, MO_8)
- GEN_INSN_WRR_GVEC_MM(psubw, sub, Pq, Pq, Qq, MO_16)
-@@ -5002,11 +5105,39 @@ GEN_INSN_WRR_GVEC_MM(psubsb, sssub, Pq, Pq, Qq, MO_8)
- GEN_INSN_WRR_GVEC_MM(psubsw, sssub, Pq, Pq, Qq, MO_16)
- GEN_INSN_WRR_GVEC_MM(psubusb, ussub, Pq, Pq, Qq, MO_8)
- GEN_INSN_WRR_GVEC_MM(psubusw, ussub, Pq, Pq, Qq, MO_16)
-+GEN_INSN_WRR_HELPER(subps, subps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(subss, subss, Vd, Vd, Wd)
- 
- GEN_INSN_WRR_HELPER(pmulhw, pmulhw_mmx, Pq, Pq, Qq)
- GEN_INSN_WRR_HELPER(pmullw, pmullw_mmx, Pq, Pq, Qq)
-+GEN_INSN_WRR_HELPER(pmulhuw, pmulhuw_mmx, Pq, Pq, Qq)
-+GEN_INSN_WRR_HELPER(mulps, mulps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(mulss, mulss, Vd, Vd, Wd)
-+
- GEN_INSN_WRR_HELPER(pmaddwd, pmaddwd_mmx, Pq, Pq, Qq)
- 
-+GEN_INSN_WRR_HELPER(divps, divps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(divss, divss, Vd, Vd, Wd)
-+
-+GEN_INSN_WR_HELPER(rcpps, rcpps, Vdq, Wdq)
-+GEN_INSN_WR_HELPER(rcpss, rcpss, Vd, Wd)
-+GEN_INSN_WR_HELPER(sqrtps, sqrtps, Vdq, Wdq)
-+GEN_INSN_WR_HELPER(sqrtss, sqrtss, Vd, Wd)
-+GEN_INSN_WR_HELPER(rsqrtps, rsqrtps, Vdq, Wdq)
-+GEN_INSN_WR_HELPER(rsqrtss, rsqrtss, Vd, Wd)
-+
-+GEN_INSN_WRR_GVEC_MM(pminub, umin, Pq, Pq, Qq, MO_8)
-+GEN_INSN_WRR_GVEC_MM(pminsw, smin, Pq, Pq, Qq, MO_16)
-+GEN_INSN_WRR_HELPER(minps, minps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(minss, minss, Vd, Vd, Wd)
-+GEN_INSN_WRR_GVEC_MM(pmaxub, umax, Pq, Pq, Qq, MO_8)
-+GEN_INSN_WRR_GVEC_MM(pmaxsw, smax, Pq, Pq, Qq, MO_16)
-+GEN_INSN_WRR_HELPER(maxps, maxps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(maxss, maxss, Vd, Vd, Wd)
-+GEN_INSN_WRR_HELPER(pavgb, pavgb_mmx, Pq, Pq, Qq)
-+GEN_INSN_WRR_HELPER(pavgw, pavgw_mmx, Pq, Pq, Qq)
-+GEN_INSN_WRR_HELPER(psadbw, psadbw_mmx, Pq, Pq, Qq)
-+
- GEN_INSN_WRR_GVEC_MM(pcmpeqb, cmpeq, Pq, Pq, Qq, MO_8)
- GEN_INSN_WRR_GVEC_MM(pcmpeqw, cmpeq, Pq, Pq, Qq, MO_16)
- GEN_INSN_WRR_GVEC_MM(pcmpeqd, cmpeq, Pq, Pq, Qq, MO_32)
-@@ -5014,10 +5145,108 @@ GEN_INSN_WRR_GVEC_MM(pcmpgtb, cmpgt, Pq, Pq, Qq, MO_8)
- GEN_INSN_WRR_GVEC_MM(pcmpgtw, cmpgt, Pq, Pq, Qq, MO_16)
- GEN_INSN_WRR_GVEC_MM(pcmpgtd, cmpgt, Pq, Pq, Qq, MO_32)
- 
-+GEN_INSN_WRR_HELPER(cmpeqps, cmpeqps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(cmpeqss, cmpeqss, Vd, Vd, Wd)
-+GEN_INSN_WRR_HELPER(cmpltps, cmpltps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(cmpltss, cmpltss, Vd, Vd, Wd)
-+GEN_INSN_WRR_HELPER(cmpleps, cmpleps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(cmpless, cmpless, Vd, Vd, Wd)
-+GEN_INSN_WRR_HELPER(cmpunordps, cmpunordps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(cmpunordss, cmpunordss, Vd, Vd, Wd)
-+GEN_INSN_WRR_HELPER(cmpneqps, cmpneqps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(cmpneqss, cmpneqss, Vd, Vd, Wd)
-+GEN_INSN_WRR_HELPER(cmpnltps, cmpnltps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(cmpnltss, cmpnltss, Vd, Vd, Wd)
-+GEN_INSN_WRR_HELPER(cmpnleps, cmpnleps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(cmpnless, cmpnless, Vd, Vd, Wd)
-+GEN_INSN_WRR_HELPER(cmpordps, cmpordps, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(cmpordss, cmpordss, Vd, Vd, Wd)
-+
-+static void gen_insn_wrrr(cmpps, Vdq, Vdq, Wdq, Ib)(CPUX86State *env,
-+                                                    DisasContext *s,
-+                                                    insnop_t(Vdq) ret,
-+                                                    insnop_t(Vdq) arg1,
-+                                                    insnop_t(Wdq) arg2,
-+                                                    insnop_t(Ib) arg3)
-+{
-+    switch (arg3 & 7) {
-+    case 0:
-+        gen_insn_wrr(cmpeqps, Vdq, Vdq, Wdq)(env, s, ret, arg1, arg2);
-+        return;
-+    case 1:
-+        gen_insn_wrr(cmpltps, Vdq, Vdq, Wdq)(env, s, ret, arg1, arg2);
-+        return;
-+    case 2:
-+        gen_insn_wrr(cmpleps, Vdq, Vdq, Wdq)(env, s, ret, arg1, arg2);
-+        return;
-+    case 3:
-+        gen_insn_wrr(cmpunordps, Vdq, Vdq, Wdq)(env, s, ret, arg1, arg2);
-+        return;
-+    case 4:
-+        gen_insn_wrr(cmpneqps, Vdq, Vdq, Wdq)(env, s, ret, arg1, arg2);
-+        return;
-+    case 5:
-+        gen_insn_wrr(cmpnltps, Vdq, Vdq, Wdq)(env, s, ret, arg1, arg2);
-+        return;
-+    case 6:
-+        gen_insn_wrr(cmpnleps, Vdq, Vdq, Wdq)(env, s, ret, arg1, arg2);
-+        return;
-+    case 7:
-+        gen_insn_wrr(cmpordps, Vdq, Vdq, Wdq)(env, s, ret, arg1, arg2);
-+        return;
-+    }
-+
-+    g_assert_not_reached();
-+}
-+
-+static void gen_insn_wrrr(cmpss, Vd, Vd, Wd, Ib)(CPUX86State *env,
-+                                                 DisasContext *s,
-+                                                 insnop_t(Vd) ret,
-+                                                 insnop_t(Vd) arg1,
-+                                                 insnop_t(Wd) arg2,
-+                                                 insnop_t(Ib) arg3)
-+{
-+    switch (arg3 & 7) {
-+    case 0:
-+        gen_insn_wrr(cmpeqss, Vd, Vd, Wd)(env, s, ret, arg1, arg2);
-+        return;
-+    case 1:
-+        gen_insn_wrr(cmpltss, Vd, Vd, Wd)(env, s, ret, arg1, arg2);
-+        return;
-+    case 2:
-+        gen_insn_wrr(cmpless, Vd, Vd, Wd)(env, s, ret, arg1, arg2);
-+        return;
-+    case 3:
-+        gen_insn_wrr(cmpunordss, Vd, Vd, Wd)(env, s, ret, arg1, arg2);
-+        return;
-+    case 4:
-+        gen_insn_wrr(cmpneqss, Vd, Vd, Wd)(env, s, ret, arg1, arg2);
-+        return;
-+    case 5:
-+        gen_insn_wrr(cmpnltss, Vd, Vd, Wd)(env, s, ret, arg1, arg2);
-+        return;
-+    case 6:
-+        gen_insn_wrr(cmpnless, Vd, Vd, Wd)(env, s, ret, arg1, arg2);
-+        return;
-+    case 7:
-+        gen_insn_wrr(cmpordss, Vd, Vd, Wd)(env, s, ret, arg1, arg2);
-+        return;
-+    }
-+
-+    g_assert_not_reached();
-+}
-+
-+GEN_INSN_WR_HELPER(comiss, comiss, Vd, Wd)
-+GEN_INSN_WR_HELPER(ucomiss, ucomiss, Vd, Wd)
-+
- GEN_INSN_WRR_GVEC_MM(pand, and, Pq, Pq, Qq, MO_64)
-+GEN_INSN_WRR_GVEC_XMM(andps, and, Vdq, Vdq, Wdq, MO_64)
- GEN_INSN_WRR_GVEC_MM(pandn, andn, Pq, Pq, Qq, MO_64)
-+GEN_INSN_WRR_GVEC_XMM(andnps, andn, Vdq, Vdq, Wdq, MO_64)
- GEN_INSN_WRR_GVEC_MM(por, or, Pq, Pq, Qq, MO_64)
-+GEN_INSN_WRR_GVEC_XMM(orps, or, Vdq, Vdq, Wdq, MO_64)
- GEN_INSN_WRR_GVEC_MM(pxor, xor, Pq, Pq, Qq, MO_64)
-+GEN_INSN_WRR_GVEC_XMM(xorps, xor, Vdq, Vdq, Wdq, MO_64)
- 
- GEN_INSN_WRR_HELPER(psllw, psllw_mmx, Pq, Pq, Qq)
- GEN_INSN_WRR_HELPER(pslld, pslld_mmx, Pq, Pq, Qq)
-@@ -5061,8 +5290,219 @@ GEN_INSN_WRR_HELPER(punpckhbw, punpckhbw_mmx, Pq, Pq, Qq)
- GEN_INSN_WRR_HELPER(punpckhwd, punpckhwd_mmx, Pq, Pq, Qq)
- GEN_INSN_WRR_HELPER(punpckhdq, punpckhdq_mmx, Pq, Pq, Qq)
- 
-+GEN_INSN_WRR_HELPER(unpcklps, punpckldq_xmm, Vdq, Vdq, Wdq)
-+GEN_INSN_WRR_HELPER(unpckhps, punpckhdq_xmm, Vdq, Vdq, Wdq)
-+
- GEN_INSN_HELPER(emms, emms)
- 
-+static void gen_insn_wrr(pshufw, Pq, Qq, Ib)(CPUX86State *env,
-+                                             DisasContext *s,
-+                                             insnop_t(Pq) ret,
-+                                             insnop_t(Qq) arg1,
-+                                             insnop_t(Ib) arg2)
-+{
-+    tcg_gen_addi_ptr(s->ptr0, cpu_env, ret);
-+    tcg_gen_addi_ptr(s->ptr1, cpu_env, arg1);
-+    tcg_gen_movi_i32(s->tmp2_i32, arg2);
-+    gen_helper_pshufw_mmx(s->ptr0, s->ptr1, s->tmp2_i32);
-+}
-+
-+static void gen_insn_wrrr(shufps, Vdq, Vdq, Wdq, Ib)(CPUX86State *env,
-+                                                     DisasContext *s,
-+                                                     insnop_t(Vdq) ret,
-+                                                     insnop_t(Vdq) arg1,
-+                                                     insnop_t(Wdq) arg2,
-+                                                     insnop_t(Ib) arg3)
-+{
-+    assert(ret == arg1);
-+
-+    tcg_gen_addi_ptr(s->ptr0, cpu_env, ret);
-+    tcg_gen_addi_ptr(s->ptr1, cpu_env, arg2);
-+    tcg_gen_movi_i32(s->tmp2_i32, arg3);
-+    gen_helper_shufps(s->ptr0, s->ptr1, s->tmp2_i32);
-+}
-+
-+static void gen_insn_wrrr(pinsrw, Pq, Pq, RdMw, Ib)(CPUX86State *env,
-+                                                    DisasContext *s,
-+                                                    insnop_t(Pq) ret,
-+                                                    insnop_t(Pq) arg1,
-+                                                    insnop_t(RdMw) arg2,
-+                                                    insnop_t(Ib) arg3)
-+{
-+    assert(ret == arg1);
-+
-+    const size_t ofs = offsetof(MMXReg, MMX_W(arg3 & 3));
-+    tcg_gen_st16_i32(arg2.op_reg, cpu_env, ret + ofs);
-+}
-+
-+static void gen_insn_wrr(pextrw, Gd, Nq, Ib)(CPUX86State *env,
-+                                             DisasContext *s,
-+                                             insnop_t(Gd) ret,
-+                                             insnop_t(Nq) arg1,
-+                                             insnop_t(Ib) arg2)
-+{
-+    const size_t ofs = offsetof(MMXReg, MMX_W(arg2 & 3));
-+    tcg_gen_ld16u_i32(ret, cpu_env, arg1 + ofs);
-+}
-+
-+static void gen_insn_wrr(pextrw, Gq, Nq, Ib)(CPUX86State *env,
-+                                             DisasContext *s,
-+                                             insnop_t(Gq) ret,
-+                                             insnop_t(Nq) arg1,
-+                                             insnop_t(Ib) arg2)
-+{
-+    const size_t ofs = offsetof(MMXReg, MMX_W(arg2 & 3));
-+    tcg_gen_ld16u_i64(ret, cpu_env, arg1 + ofs);
-+}
-+
-+GEN_INSN_WR_HELPER(cvtpi2ps, cvtpi2ps, Vdq, Qq)
-+
-+static void gen_insn_wr(cvtsi2ss, Vd, Ed)(CPUX86State *env, DisasContext *s,
-+                                          insnop_t(Vd) ret, insnop_t(Ed) arg1)
-+{
-+    tcg_gen_addi_ptr(s->ptr0, cpu_env, ret);
-+    gen_helper_cvtsi2ss(cpu_env, s->ptr0, arg1);
-+}
-+
-+static void gen_insn_wr(cvtsi2ss, Vd, Eq)(CPUX86State *env, DisasContext *s,
-+                                          insnop_t(Vd) ret, insnop_t(Eq) arg1)
-+{
-+#ifdef TARGET_X86_64
-+    tcg_gen_addi_ptr(s->ptr0, cpu_env, ret);
-+    gen_helper_cvtsq2ss(cpu_env, s->ptr0, arg1);
-+#else /* TARGET_X86_64 */
-+    g_assert_not_reached();
-+#endif /* TARGET_X86_64 */
-+}
-+
-+GEN_INSN_WR_HELPER(cvtps2pi, cvtps2pi, Pq, Wq)
-+
-+static void gen_insn_wr(cvtss2si, Gd, Wd)(CPUX86State *env, DisasContext *s,
-+                                          insnop_t(Gd) ret, insnop_t(Wd) arg1)
-+{
-+    tcg_gen_addi_ptr(s->ptr0, cpu_env, arg1);
-+    gen_helper_cvtss2si(ret, cpu_env, s->ptr0);
-+}
-+
-+static void gen_insn_wr(cvtss2si, Gq, Wd)(CPUX86State *env, DisasContext *s,
-+                                          insnop_t(Gq) ret, insnop_t(Wd) arg1)
-+{
-+#ifdef TARGET_X86_64
-+    tcg_gen_addi_ptr(s->ptr0, cpu_env, arg1);
-+    gen_helper_cvtss2sq(ret, cpu_env, s->ptr0);
-+#else /* TARGET_X86_64 */
-+    g_assert_not_reached();
-+#endif /* TARGET_X86_64 */
-+}
-+
-+GEN_INSN_WR_HELPER(cvttps2pi, cvttps2pi, Pq, Wq)
-+
-+static void gen_insn_wr(cvttss2si, Gd, Wd)(CPUX86State *env, DisasContext *s,
-+                                           insnop_t(Gd) ret, insnop_t(Wd) arg1)
-+{
-+    tcg_gen_addi_ptr(s->ptr0, cpu_env, arg1);
-+    gen_helper_cvttss2si(ret, cpu_env, s->ptr0);
-+}
-+
-+static void gen_insn_wr(cvttss2si, Gq, Wd)(CPUX86State *env, DisasContext *s,
-+                                           insnop_t(Gq) ret, insnop_t(Wd) arg1)
-+{
-+#ifdef TARGET_X86_64
-+    tcg_gen_addi_ptr(s->ptr0, cpu_env, arg1);
-+    gen_helper_cvttss2sq(ret, cpu_env, s->ptr0);
-+#else /* TARGET_X86_64 */
-+    g_assert_not_reached();
-+#endif /* TARGET_X86_64 */
-+}
-+
-+static void gen_insn_wr(maskmovq, Pq, Nq)(CPUX86State *env, DisasContext *s,
-+                                          insnop_t(Pq) ret, insnop_t(Nq) arg1)
-+{
-+    tcg_gen_mov_tl(s->A0, cpu_regs[R_EDI]);
-+    gen_extu(s->aflag, s->A0);
-+    gen_add_A0_ds_seg(s);
-+
-+    tcg_gen_addi_ptr(s->ptr0, cpu_env, ret);
-+    tcg_gen_addi_ptr(s->ptr1, cpu_env, arg1);
-+    gen_helper_maskmov_mmx(cpu_env, s->ptr0, s->ptr1, s->A0);
-+}
-+
-+static void gen_insn_wr(movntq, Mq, Pq)(CPUX86State *env, DisasContext *s,
-+                                        insnop_t(Mq) ret, insnop_t(Pq) arg1)
-+{
-+    assert(ret == s->A0);
-+    gen_stq_env_A0(s, arg1);
-+}
-+
-+static void gen_insn_wr(movntps, Mdq, Vdq)(CPUX86State *env,
-+                                           DisasContext *s,
-+                                           insnop_t(Mdq) ret,
-+                                           insnop_t(Vdq) arg1)
-+{
-+    assert(ret == s->A0);
-+    gen_sto_env_A0(s, arg1);
-+}
-+
-+static void gen_insn(sfence)(CPUX86State *env, DisasContext *s)
-+{
-+    if (s->prefix & PREFIX_LOCK) {
-+        gen_illegal_opcode(s);
-+    } else {
-+        tcg_gen_mb(TCG_MO_ST_ST | TCG_BAR_SC);
-+    }
-+}
-+
-+static void gen_insn_r(ldmxcsr, Md)(CPUX86State *env, DisasContext *s,
-+                                    insnop_t(Md) arg1)
-+{
-+    if ((s->flags & HF_EM_MASK) || !(s->flags & HF_OSFXSR_MASK)) {
-+        gen_illegal_opcode(s);
-+    } else if (s->flags & HF_TS_MASK) {
-+        gen_exception(s, EXCP07_PREX);
-+    } else {
-+        tcg_gen_qemu_ld_i32(s->tmp2_i32, arg1, s->mem_index, MO_LEUL);
-+        gen_helper_ldmxcsr(cpu_env, s->tmp2_i32);
-+    }
-+}
-+
-+static void gen_insn_w(stmxcsr, Md)(CPUX86State *env, DisasContext *s,
-+                                    insnop_t(Md) ret)
-+{
-+    if ((s->flags & HF_EM_MASK) || !(s->flags & HF_OSFXSR_MASK)) {
-+        gen_illegal_opcode(s);
-+    } else if (s->flags & HF_TS_MASK) {
-+        gen_exception(s, EXCP07_PREX);
-+    } else {
-+        const size_t ofs = offsetof(CPUX86State, mxcsr);
-+        tcg_gen_ld_i32(s->tmp2_i32, cpu_env, ofs);
-+        tcg_gen_qemu_st_i32(s->tmp2_i32, ret, s->mem_index, MO_LEUL);
-+    }
-+}
-+
-+static void gen_insn_r(prefetcht0, Mb)(CPUX86State *env, DisasContext *s,
-+                                       insnop_t(Mb) arg1)
-+{
-+    /* no-op */
-+}
-+
-+static void gen_insn_r(prefetcht1, Mb)(CPUX86State *env, DisasContext *s,
-+                                       insnop_t(Mb) arg1)
-+{
-+    /* no-op */
-+}
-+
-+static void gen_insn_r(prefetcht2, Mb)(CPUX86State *env, DisasContext *s,
-+                                       insnop_t(Mb) arg1)
-+{
-+    /* no-op */
-+}
-+
-+static void gen_insn_r(prefetchnta, Mb)(CPUX86State *env, DisasContext *s,
-+                                        insnop_t(Mb) arg1)
-+{
-+    /* no-op */
-+}
-+
- /*
-  * Instruction translators
-  */
+ #undef LEG
+ #undef VEX
+ #undef INSN
 -- 
 2.20.1
 
