@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72AE88823
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:25:56 +0200 (CEST)
-Received: from localhost ([::1]:34966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FAC88829
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Aug 2019 06:29:30 +0200 (CEST)
+Received: from localhost ([::1]:34996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwIx2-0000dw-4f
-	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:25:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35007)
+	id 1hwJ0T-00069s-7Z
+	for lists+qemu-devel@lfdr.de; Sat, 10 Aug 2019 00:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35047)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIlE-0006ly-Dz
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:45 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIlI-00070M-FK
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hwIlD-0004bl-EB
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:44 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:36318)
+ (envelope-from <jan.bobek@gmail.com>) id 1hwIlH-0004mq-Cy
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:48 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42337)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIlD-0004bV-8l
- for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:43 -0400
-Received: by mail-ot1-x344.google.com with SMTP id k18so8369897otr.3
- for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:43 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hwIlH-0004mR-8k
+ for qemu-devel@nongnu.org; Sat, 10 Aug 2019 00:13:47 -0400
+Received: by mail-ot1-x342.google.com with SMTP id l15so140516469otn.9
+ for <qemu-devel@nongnu.org>; Fri, 09 Aug 2019 21:13:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7IZOAFbdDxZqCQx0nxTk3ibCkcO074bt+QDT97kh5I8=;
- b=kq8V/2+0BKi26WiCXAEnFSuo3D8x+x0zWi8J5eeYDdzZxz4/BI5gn32GzfFY5Dpugn
- gdUVZTd8ZAf5x/PKT1Qn1jBI7kTzCEGEllLCyCUW+CYmxm8i1mys8925+khTzziJTyuS
- LSG6OX3Z6QZOgjsMduOooJf2reKtuHzjQZGRqOB/OoFw2YCw8/QDTpghGX0zSD9rk+yb
- 4u2hw3Wk7symSWr3cPxUhaWGv0Wo4WJngMdMUtVeA8usAymE6A2N142W/ru3FCt2ShwA
- PbsMV1dva/lUS3cc1ElN7FTpO3xiuLuTdNEJjU2NYo3EWDS6egCBgwmadFY7euOD5kGX
- svMA==
+ bh=ORYsNUP5X43haVcteZ8oI+Qz8mSDMdaq3Ei5edtuVYc=;
+ b=fGpsfdaT1g3KyZeMeRpQetLL0l6QOz7CIyvX2laGsVcrebhBfVo3uzfqgTnt8t89Sp
+ rpI9YRqOY9daKcm5qsZDA/11+ZuxRNsrjb/Uxxyxv5L6Bw5/nrpk3SgjCnn2/c0izLny
+ nsx4Fm9TEHPvzrLH2O8JuTeYXuXcDd3ZnSn9L1zibemPZR8l7dIHhfgEE/y+kacmz338
+ nFUYOv48u+luG+GGA/LWj5Qmy+cX655LBXgDpH1+OuqkFcIYKSZt9IA4eJr08MthlJzP
+ sJaIV63sl1vN0CXDdVFb486xIMBGwEZtDEauiu1se4hEETM+XxMynWVTTWC0rKuDZdLM
+ 4C2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7IZOAFbdDxZqCQx0nxTk3ibCkcO074bt+QDT97kh5I8=;
- b=PKjmpAPfmqGbO44M9QKGlnw2El6wHzbuw4/SlRkzOL3lC17gTwdiQVUxWphntbgX4N
- UXUVnF6EUHTXpt3mEUFNQ6vO2bpF7DdWTGTRVeN4C+/CAXJrlpKLdXTYSXPG75YZRkP2
- TMfihs992ybWtjX3V8nXdyEjdYGZyTsnbZCnci9fnc0RLekUuGMUdAfP2uepuj3jZtbC
- m+z40p3I2qIjxKMo9Jxr7NYN3KZlgTdLaM/OuIuVuxluksuA1K4TfBMHZl2mZtCxJdjL
- l+QkeFqORMqqWOwcxNBhqpB9TfndEBozJ6qbrBzxEdSPhxWspmWzJOmevLyKqaLR5pEo
- RlNA==
-X-Gm-Message-State: APjAAAUMe1y8iBh1ueNwfxV0cDWtp3Gr+E2uQbl/aLyIBsv/gTRkDtF6
- pF6mE0Jl9osRWWHCW9qyFV872QrP
-X-Google-Smtp-Source: APXvYqwTHF1z7AOF8/2Ysua6m9+QEXoYrS/qtZVwyv8hTfIbKEdtjKamfeGjpCQeJ11wAGxdTinl+Q==
-X-Received: by 2002:a05:6830:4b:: with SMTP id
- d11mr7534813otp.106.1565410422554; 
- Fri, 09 Aug 2019 21:13:42 -0700 (PDT)
+ bh=ORYsNUP5X43haVcteZ8oI+Qz8mSDMdaq3Ei5edtuVYc=;
+ b=dSlAvPesS3aulBF0eGkAFkdVxIKkGybtFxlBlbtB2YxBHkCCQNMDRQvoGYppQRTas4
+ hWtcGUmZqOQnc3eI9X1Zh2LLKabPQmcaNM3AfN4yxZthSQwA51z32Xz//A8ydlCdEeyT
+ KmYxQx6hXb6YMeRjjbZfpnGDp7VgVO4sFv/8XdXrNB/oNefVG8ECbqD9OV0PItenQuLK
+ mkhMHrimw26VD6Z1gMS5M7U1kukBalFlHusKLvpwJxKSRtFYA1kCI3GSlg6J+pbq79Vl
+ Anvwuvf6He6LB1wZRYM9YOfgtBfiz+ogvHxZ/Y5g2IAtbbbLgulXpeeOoqja7ixeoEmE
+ eo/Q==
+X-Gm-Message-State: APjAAAV3l3NwBwfnC8tbrHzsEYYS4PmNDUSjIS+YtCnYOL3cYSEzX3iC
+ x1GK1RY9aaKIO+y8LmSGGFXI8x7O
+X-Google-Smtp-Source: APXvYqwFERvERI/w9s8gv5shlP8dL9u5BRd7WsJO0yTVozHqvubZtGAu2P++XRHR/0KP2sOmFYm4UA==
+X-Received: by 2002:a9d:7741:: with SMTP id t1mr10594402otl.178.1565410426557; 
+ Fri, 09 Aug 2019 21:13:46 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.41
+ by smtp.gmail.com with ESMTPSA id f84sm33383540oig.43.2019.08.09.21.13.46
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 09 Aug 2019 21:13:42 -0700 (PDT)
+ Fri, 09 Aug 2019 21:13:46 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 10 Aug 2019 00:12:52 -0400
-Message-Id: <20190810041255.6820-37-jan.bobek@gmail.com>
+Date: Sat, 10 Aug 2019 00:12:55 -0400
+Message-Id: <20190810041255.6820-40-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190810041255.6820-1-jan.bobek@gmail.com>
 References: <20190810041255.6820-1-jan.bobek@gmail.com>
@@ -65,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: [Qemu-devel] [RFC PATCH v2 36/39] target/i386: introduce SSE
- translators
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: [Qemu-devel] [RFC PATCH v2 39/39] target/i386: introduce
+ memory-pointer operand read/write workarounds
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,86 +84,63 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the translator macros to define translators required by SSE
-instructions.
+The memory-pointer operand has a known limitation (see the commit
+introducing M* operands for details); the workaround involves
+declaring write-memory operands as read-memory instead.
+
+Note: This changeset is intended for development only and shall not be
+included in the final patch series.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ target/i386/insn.h | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 5802b324f0..12d2ac2eb5 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -5110,6 +5110,9 @@ static void translate_insn(
-         (*gen_insn_fp)(env, s, arg1);                                   \
-     }
+diff --git a/target/i386/insn.h b/target/i386/insn.h
+index 6e0c75b9f7..b61a4182f6 100644
+--- a/target/i386/insn.h
++++ b/target/i386/insn.h
+@@ -94,12 +94,14 @@ INSN_WR(movss, LEG(F3, 0F, 0), 0x11, SSE, Wd, Vd)
+ /* NP 0F 12 /r: MOVLPS xmm1, m64 */
+ INSN_WR(movhlps, LEG(NP, 0F, 0), 0x12, SSE, Vq, UdqMq)
+ /* 0F 13 /r: MOVLPS m64, xmm1 */
+-INSN_WR(movlps, LEG(NP, 0F, 0), 0x13, SSE, Mq, Vq)
++/* FIXME this is hacked, should be INSN_WR */
++INSN_RR(movlps, LEG(NP, 0F, 0), 0x13, SSE, Mq, Vq)
+ /* NP 0F 16 /r: MOVLHPS xmm1, xmm2 */
+ /* NP 0F 16 /r: MOVHPS xmm1, m64 */
+ INSN_WRR(movlhps, LEG(NP, 0F, 0), 0x16, SSE, Vdq, Vq, UqMq)
+ /* NP 0F 17 /r: MOVHPS m64, xmm1 */
+-INSN_WR(movhps, LEG(NP, 0F, 0), 0x17, SSE, Mq, Vdq)
++/* FIXME this is hacked, should be INSN_WR */
++INSN_RR(movhps, LEG(NP, 0F, 0), 0x17, SSE, Mq, Vdq)
+ /* NP 0F D7 /r: PMOVMSKB r32, mm */
+ INSN_WR(pmovmskb, LEG(NP, 0F, 0), 0xd7, SSE, Gd, Nq)
+ /* NP REX.W 0F D7 /r: PMOVMSKB r64, mm */
+@@ -299,9 +301,11 @@ INSN_WR(cvttss2si, LEG(F3, 0F, 1), 0x2c, SSE, Gq, Wd)
+ /* NP 0F F7 /r: MASKMOVQ mm1, mm2 */
+ INSN_RR(maskmovq, LEG(NP, 0F, 0), 0xf7, SSE, Pq, Nq)
+ /* NP 0F 2B /r: MOVNTPS m128, xmm1 */
+-INSN_WR(movntps, LEG(NP, 0F, 0), 0x2b, SSE, Mdq, Vdq)
++/* FIXME this is hacked, should be INSN_WR */
++INSN_RR(movntps, LEG(NP, 0F, 0), 0x2b, SSE, Mdq, Vdq)
+ /* NP 0F E7 /r: MOVNTQ m64, mm */
+-INSN_WR(movntq, LEG(NP, 0F, 0), 0xe7, SSE, Mq, Pq)
++/* FIXME this is hacked, should be INSN_WR */
++INSN_RR(movntq, LEG(NP, 0F, 0), 0xe7, SSE, Mq, Pq)
+ /* NP 0F 77: EMMS */
+ INSN(emms, LEG(NP, 0F, 0), 0x77, MMX)
  
-+TRANSLATE_INSN_R(Mb)
-+TRANSLATE_INSN_R(Md)
-+
- #define TRANSLATE_INSN_RR(opR1, opR2)                                   \
-     static void translate_insn_rr(opR1, opR2)(                          \
-         CPUX86State *env, DisasContext *s, int modrm, int ck_cpuid_feat, \
-@@ -5131,6 +5134,13 @@ static void translate_insn(
-         (*gen_insn_fp)(env, s, arg1, arg2);                             \
-     }
+@@ -340,7 +344,8 @@ INSN_GRP_BEGIN(grp15_LEG_NP)
+     /* NP 0F AE /2: LDMXCSR m32 */
+     INSN_GRPMEMB_R(grp15_LEG_NP, ldmxcsr, 2, SSE, Md)
+     /* NP 0F AE /3: STMXCSR m32 */
+-    INSN_GRPMEMB_W(grp15_LEG_NP, stmxcsr, 3, SSE, Md)
++    /* FIXME this is hacked, should be INSN_GRPMEMB_W */
++    INSN_GRPMEMB_R(grp15_LEG_NP, stmxcsr, 3, SSE, Md)
+ INSN_GRP_END(grp15_LEG_NP)
  
-+TRANSLATE_INSN_RR(Pq, Nq)
-+TRANSLATE_INSN_RR(Mq, Pq)
-+TRANSLATE_INSN_RR(Vd, Wd)
-+TRANSLATE_INSN_RR(Mq, Vq)
-+TRANSLATE_INSN_RR(Mq, Vdq)
-+TRANSLATE_INSN_RR(Mdq, Vdq)
-+
- #define TRANSLATE_INSN_W(opW1)                                          \
-     static void translate_insn_w(opW1)(                                 \
-         CPUX86State *env, DisasContext *s, int modrm, int ck_cpuid_feat, \
-@@ -5178,6 +5188,20 @@ TRANSLATE_INSN_WR(Qq, Pq)
- TRANSLATE_INSN_WR(Gd, Nq)
- TRANSLATE_INSN_WR(Gq, Nq)
- 
-+TRANSLATE_INSN_WR(Vd, Wd)
-+TRANSLATE_INSN_WR(Vdq, Wdq)
-+TRANSLATE_INSN_WR(Vq, UdqMq)
-+TRANSLATE_INSN_WR(Wd, Vd)
-+TRANSLATE_INSN_WR(Wdq, Vdq)
-+TRANSLATE_INSN_WR(Gd, Udq)
-+TRANSLATE_INSN_WR(Gq, Udq)
-+TRANSLATE_INSN_WR(Vdq, Qq)
-+TRANSLATE_INSN_WR(Vd, Ed)
-+TRANSLATE_INSN_WR(Vd, Eq)
-+TRANSLATE_INSN_WR(Pq, Wq)
-+TRANSLATE_INSN_WR(Gd, Wd)
-+TRANSLATE_INSN_WR(Gq, Wd)
-+
- #define TRANSLATE_INSN_WRR(opW1, opR1, opR2)                            \
-     static void translate_insn_wrr(opW1, opR1, opR2)(                   \
-         CPUX86State *env, DisasContext *s, int modrm, int ck_cpuid_feat, \
-@@ -5209,6 +5233,11 @@ TRANSLATE_INSN_WRR(Gd, Nq, Ib)
- TRANSLATE_INSN_WRR(Gq, Nq, Ib)
- TRANSLATE_INSN_WRR(Nq, Nq, Ib)
- 
-+TRANSLATE_INSN_WRR(Vd, Vd, Wd)
-+TRANSLATE_INSN_WRR(Vdq, Vdq, Wdq)
-+TRANSLATE_INSN_WRR(Vdq, Vq, UqMq)
-+TRANSLATE_INSN_WRR(Vdq, Vdq, UdMd)
-+
- #define TRANSLATE_INSN_WRRR(opW1, opR1, opR2, opR3)                     \
-     static void translate_insn_wrrr(opW1, opR1, opR2, opR3)(            \
-         CPUX86State *env, DisasContext *s, int modrm, int ck_cpuid_feat, \
-@@ -5236,6 +5265,10 @@ TRANSLATE_INSN_WRR(Nq, Nq, Ib)
-         insnop_finalize(opW1)(env, s, modrm, &ret);                     \
-     }
- 
-+TRANSLATE_INSN_WRRR(Vd, Vd, Wd, Ib)
-+TRANSLATE_INSN_WRRR(Vdq, Vdq, Wdq, Ib)
-+TRANSLATE_INSN_WRRR(Pq, Pq, RdMw, Ib)
-+
- #define INSN_GRP_BEGIN(grpname)                                 \
-     static void translate_group(grpname)(                       \
-         CPUX86State *env, DisasContext *s, int modrm)           \
+ INSN_GRP(grp16_LEG_NP, LEG(NP, 0F, 0), 0x18)
 -- 
 2.20.1
 
