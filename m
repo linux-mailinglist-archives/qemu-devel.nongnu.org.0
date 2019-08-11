@@ -2,32 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3564D89472
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Aug 2019 23:36:33 +0200 (CEST)
-Received: from localhost ([::1]:41886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229448946C
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Aug 2019 23:34:42 +0200 (CEST)
+Received: from localhost ([::1]:41850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hwvVw-0007hm-F4
-	for lists+qemu-devel@lfdr.de; Sun, 11 Aug 2019 17:36:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58180)
+	id 1hwvU8-0003YS-SO
+	for lists+qemu-devel@lfdr.de; Sun, 11 Aug 2019 17:34:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58155)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <balaton@eik.bme.hu>) id 1hwvSy-00020B-R7
+ (envelope-from <balaton@eik.bme.hu>) id 1hwvSy-000207-1z
  for qemu-devel@nongnu.org; Sun, 11 Aug 2019 17:33:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1hwvSw-00045q-Ux
- for qemu-devel@nongnu.org; Sun, 11 Aug 2019 17:33:28 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:55464)
+ (envelope-from <balaton@eik.bme.hu>) id 1hwvSw-00045v-V4
+ for qemu-devel@nongnu.org; Sun, 11 Aug 2019 17:33:27 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:55462)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hwvSw-0003yS-NW
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hwvSw-0003yR-NU
  for qemu-devel@nongnu.org; Sun, 11 Aug 2019 17:33:26 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 89BB974CC7E;
+ by localhost (Postfix) with SMTP id 679AA74C707;
  Sun, 11 Aug 2019 23:33:12 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E718B74B841; Sun, 11 Aug 2019 23:33:11 +0200 (CEST)
-Message-Id: <e6acb1fa3ca980dc948045443e5986e2aa79bf7c.1565558093.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1565558093.git.balaton@eik.bme.hu>
-References: <cover.1565558093.git.balaton@eik.bme.hu>
+ id CBA497456CB; Sun, 11 Aug 2019 23:33:11 +0200 (CEST)
+Message-Id: <cover.1565558093.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
 Date: Sun, 11 Aug 2019 23:14:53 +0200
 MIME-Version: 1.0
@@ -36,7 +34,7 @@ To: qemu-devel@nongnu.org
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
 X-Received-From: 152.66.115.2
-Subject: [Qemu-devel] [PATCH 5/7] ati-vga: Fix hardware cursor image offset
+Subject: [Qemu-devel] [PATCH 0/7] Resend of all outstanding ati-vga patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,45 +50,40 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The crtc_offset is not needed, cur_offset is relative to the start of
-vram not the start of displayed area. This fixes broken pointer image
-with MacOS that uses non-0 crtc_offset.
+Hello,
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/display/ati.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+This is the latest version of all outstanding ati-vga patches
+collected in one series. Some of these or previous versions of them
+were sent individually before but these are now superceding all
+previous patches that are not yet in master and this series is all
+that should be needed.
 
-diff --git a/hw/display/ati.c b/hw/display/ati.c
-index b849f5d510..bbcdd6bc83 100644
---- a/hw/display/ati.c
-+++ b/hw/display/ati.c
-@@ -132,9 +132,8 @@ static void ati_cursor_define(ATIVGAState *s)
-         return; /* Do not update cursor if locked or rendered by guest *=
-/
-     }
-     /* FIXME handle cur_hv_offs correctly */
--    src =3D s->vga.vram_ptr + (s->regs.crtc_offset & 0x07ffffff) +
--          s->regs.cur_offset - (s->regs.cur_hv_offs >> 16) -
--          (s->regs.cur_hv_offs & 0xffff) * 16;
-+    src =3D s->vga.vram_ptr + s->regs.cur_offset -
-+          (s->regs.cur_hv_offs >> 16) - (s->regs.cur_hv_offs & 0xffff) *=
- 16;
-     for (i =3D 0; i < 64; i++) {
-         for (j =3D 0; j < 8; j++, idx++) {
-             data[idx] =3D src[i * 16 + j];
-@@ -190,8 +189,7 @@ static void ati_cursor_draw_line(VGACommonState *vga,=
- uint8_t *d, int scr_y)
-         return;
-     }
-     /* FIXME handle cur_hv_offs correctly */
--    src =3D s->vga.vram_ptr + (s->regs.crtc_offset & 0x07ffffff) +
--          s->cursor_offset + (scr_y - vga->hw_cursor_y) * 16;
-+    src =3D s->vga.vram_ptr + s->cursor_offset + (scr_y - vga->hw_cursor=
-_y) * 16;
-     dp =3D &dp[vga->hw_cursor_x];
-     h =3D ((s->regs.crtc_h_total_disp >> 16) + 1) * 8;
-     for (i =3D 0; i < 8; i++) {
+This should fix color problems due to endianness with most drivers (if
+such problems remain with some Linux drivers those should be cross
+checked with real hardware), fixes running FCode ROM with appropriate
+OpenBIOS patches for mac99 and includes fixes that will be needed to
+get picture with MacOS 9 but that may also need VBlank interrupts
+emulated so it won't boot yet.
+
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (7):
+  ati-vga: Add registers for getting apertures
+  ati-vga: Add some register definitions for debugging
+  ati-vga: Fix GPIO_MONID register write
+  ati-vga: Fix cursor color with guest_hwcursor=3Dtrue
+  ati-vga: Fix hardware cursor image offset
+  ati-vga: Attempt to handle CRTC offset not exact multiple of stride
+  ati-vga: Add limited support for big endian frame buffer aperture
+
+ hw/display/ati.c      | 68 +++++++++++++++++++++++++++++++++++++--------=
+------
+ hw/display/ati_dbg.c  |  9 +++++++
+ hw/display/ati_int.h  |  1 +
+ hw/display/ati_regs.h | 11 +++++++++
+ 4 files changed, 71 insertions(+), 18 deletions(-)
+
 --=20
 2.13.7
 
