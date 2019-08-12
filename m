@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379288A02B
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 15:56:01 +0200 (CEST)
-Received: from localhost ([::1]:45738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40AAE8A03A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 15:57:32 +0200 (CEST)
+Received: from localhost ([::1]:45792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxAno-00083l-DH
-	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 09:56:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57696)
+	id 1hxApH-00040k-GW
+	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 09:57:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57832)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hxAmJ-0006MN-IY
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 09:54:28 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hxAmP-0006Ul-GX
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 09:54:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hxAmI-0008Q7-Dd
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 09:54:27 -0400
-Received: from ozlabs.org ([203.11.71.1]:59551)
+ (envelope-from <dgibson@ozlabs.org>) id 1hxAmO-0008Ue-8N
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 09:54:33 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:53173 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hxAmH-0008N5-5Z; Mon, 12 Aug 2019 09:54:26 -0400
+ id 1hxAmH-0008N6-5y; Mon, 12 Aug 2019 09:54:26 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 466clc71hNz9sN6; Mon, 12 Aug 2019 23:54:20 +1000 (AEST)
+ id 466cld39L0z9sP8; Mon, 12 Aug 2019 23:54:20 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1565618060;
- bh=pu/J2jW5GwT4LudRWrfBUop3dQdp+HqCl+PQgRZ8k2w=;
+ d=gibson.dropbear.id.au; s=201602; t=1565618061;
+ bh=p0zKZ0oqRCQOxt10uMnafHngiiXzV6qoJ9pUWo6KwL0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QWg8+FfvZ2gDHF52pyrA5EyYaFR7xUnbn9Cc4BpCEHiRxJQNVH0jWGYzi2ZOMceCz
- o4x7EVCUGK6bLIe+exgDU5a2gPnosP39igMjUcStrJjke8Hku/tvzVNqqPs2u7lKtT
- TVsBFq84AlTPNKatVQ7mw9R6tiUZWr3xTaOwgDf0=
-Date: Mon, 12 Aug 2019 20:08:49 +1000
+ b=QdvOCA9UkgWMuQl7qg0T4BAxuQbhEt6XJkqwY76EeygqAlMZK8XFA/gt4MGR5J197
+ +KdP5z1J7aRCyjzXRhMe+xjCI4JkCdStGN4Ret8YC9JUeZ+3q8li07sTWrAM5jaKeT
+ hTsaSmVBYBQoZDOP6FMALlTjkvm4h0In0r3kHXI8=
+Date: Mon, 12 Aug 2019 20:15:12 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190812100849.GF3947@umbus.fritz.box>
-References: <20190719024555.18845-1-aik@ozlabs.ru>
- <ae3e5bd1-c7dd-d893-5c0e-803f4e4f2325@linux.vnet.ibm.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190812101512.GG3947@umbus.fritz.box>
+References: <20190729145654.14644-1-damien.hedde@greensocs.com>
+ <20190729145654.14644-10-damien.hedde@greensocs.com>
+ <20190731063044.GG2032@umbus.fritz.box>
+ <CAFEAcA97PbDP3XrtHCXuiwZorC7B8hY_EGL+iRLsJeC=L=kekw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/QKKmeG/X/bPShih"
+ protocol="application/pgp-signature"; boundary="/Zw+/jwnNHcBRYYu"
 Content-Disposition: inline
-In-Reply-To: <ae3e5bd1-c7dd-d893-5c0e-803f4e4f2325@linux.vnet.ibm.com>
+In-Reply-To: <CAFEAcA97PbDP3XrtHCXuiwZorC7B8hY_EGL+iRLsJeC=L=kekw@mail.gmail.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [Qemu-ppc] [GIT PULL for qemu-pseries REPOST]
- pseries: Update SLOF firmware image
+Subject: Re: [Qemu-devel] [PATCH v3 09/33] add doc about Resettable interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,69 +57,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Collin Walling <walling@linux.ibm.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Edgar Iglesias <edgar.iglesias@xilinx.com>, Hannes Reinecke <hare@suse.com>,
+ Qemu-block <qemu-block@nongnu.org>, David Hildenbrand <david@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-s390x <qemu-s390x@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Mark Burton <mark.burton@greensocs.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---/QKKmeG/X/bPShih
+--/Zw+/jwnNHcBRYYu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 05, 2019 at 02:14:39PM +0530, Aravinda Prasad wrote:
-> Alexey/David,
+On Wed, Aug 07, 2019 at 05:01:42PM +0100, Peter Maydell wrote:
+> On Wed, 31 Jul 2019 at 07:33, David Gibson <david@gibson.dropbear.id.au> =
+wrote:
+> >
+> > On Mon, Jul 29, 2019 at 04:56:30PM +0200, Damien Hedde wrote:
+> > > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> > > +For Devices and Buses there is also the corresponding helpers:
+> > > +void device_reset(Device *dev, bool cold)
+> > > +void bus_reset(Device *dev, bool cold)
+> >
+> > What's the semantic difference between resetting a bus and resetting
+> > the bridge device which owns it?
 >=20
-> With the SLOF changes, QEMU cannot resize the RTAS blob. Resizing is
-> required for FWNMI support which extends the RTAS blob to include an
-> error log upon a machine check.
+> We should definitely explain this in the documentation, but
+> consider for instance a SCSI controller. Resetting the
+> SCSI controller puts all its registers back into whatever
+> the reset state is for the device, as well as resetting
+> everything on the SCSI bus. Resetting just the SCSI bus
+> resets the disks and so on on the bus, but doesn't change
+> the state of the controller itself, which remains programmed
+> with whatever state the guest has set up.
 >=20
-> The check to valid RTAS buffer fails in the guest because the rtas-size
-> updated in QEMU is not reflecting in the guest.
+> PCI has a similar distinction between resetting the controller
+> and resetting the bus.
 >=20
-> Any workaround for this?
+> Note that we have this distinction in the current APIs too:
+> qbus_reset_all() vs qdev_reset_all().
 
-Well, we should still be able to do it, it just means fwnmi would need
-a SLOF change.  It's an inconvenience, but not really a big deal.
-
-> The following FWNMI work which is under review modifies the rtas-size to
-> accommodate the error log:
-> https://lists.nongnu.org/archive/html/qemu-ppc/2019-06/msg00142.html
->=20
->=20
-> Regards,
-> Aravinda
->=20
-> On Friday 19 July 2019 08:15 AM, Alexey Kardashevskiy wrote:
-> > I messed up with my local git so reposting.
-> >=20
-> > The following changes since commit 216965b20b04fbf74e0ce3a3175a9171dba2=
-10de:
-> >=20
-> >   ppc/pnv: update skiboot to v6.4 (2019-07-18 16:49:57 +1000)
-> >=20
-> > are available in the Git repository at:
-> >=20
-> >   git@github.com:aik/qemu.git tags/qemu-slof-20190719
-> >=20
-> > for you to fetch changes up to 300118db53cc454b049d64418c7b2588165a1c35:
-> >=20
-> >   pseries: Update SLOF firmware image (2019-07-19 12:43:27 +1000)
-> >=20
-> > ----------------------------------------------------------------
-> > Alexey Kardashevskiy (1):
-> >       pseries: Update SLOF firmware image
-> >=20
-> >  pc-bios/README   |   2 +-
-> >  pc-bios/slof.bin | Bin 926432 -> 926784 bytes
-> >  roms/SLOF        |   2 +-
-> >  3 files changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> >=20
-> > *** Note: this is not for master, this is for pseries
-> >=20
->=20
+Yeah, sorry, I didn't express my concern very well... and now I've
+kind of forgotten the details of it.  I think the oddities you also
+pointed out with the state saving made me think the two were
+sorta equivalent in this patchset, but the interface suggested otherwise.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -126,25 +124,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---/QKKmeG/X/bPShih
+--/Zw+/jwnNHcBRYYu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1ROrEACgkQbDjKyiDZ
-s5Ipjw//ZgbyJ0Q4+je5W30Slnf2Nh6/pyQiwYYHV+v/+abANGHm14XYaeac3XE2
-/y8O03klVB6D4XMwmGVXe86cU+A0l4aaLS7/604NHThLvyWL7ROUmNBZL623UH13
-95O25qu+4F16hWlIh45lDskmzjGd/3RjIqFdM/dqodu/eXnWh5W6gcf3N9XWuNUF
-8UOpWMwjPaHbhgyT05cd5zNETnERFLebeiPrzGj0LRHCkV70gTqcxHpHK7afE/i0
-sG0Mlt9Vj0bN2JzymK11O2W6uTGrEM30KzrvTevvVAvnmYaWUweSFUMM536A27Zt
-UExagN73oxwMEzlctFQldwKHHCaYr1dCxYpQBVj+YTE7k3Kh/nUNQzVHK5/ZQaFO
-FPClaDXiJRFCK3wxZwkbBAGnQseFybKTNS9xyoI/dIaUvj21rKmkE0xkevSNbGM7
-qavPcRkqkKEj6LH7oCOUxAVi0a1tiL8+V1yu+z/BPsPkn9/Uve7y3xsV2e9ifwB+
-CVxroABzun85++wSxttpq3erUQJmp03Uuz6hGw9cIuZYCwf8483Daelz7HumpfQS
-pwBUpXivoJA3N37JMGbN67BAjWSpxA4YO/9Uci3mi7Sf+J9nK7QfpIiO9+q+fIcN
-kGudAM+VVfflEbXoc3VvH0xgqeLQ280xCg2hPLm3MlUx6mR7DC8=
-=gWMl
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1RPDAACgkQbDjKyiDZ
+s5KNphAAt7gS5uzipD+JYovvdN+zvCpyBahjgREC+PpQfUg67snMTvJh1KNRlYA4
+muZlHe/paQDCEMWDp+XbfpAr0mKbyQvwPVZXoll2a4Zh6wFnhP8glulq+s7nB9bo
+e716vPs+vrhZPWfpcrqd4+1wb3VJr8TUvEZf7g568ll9b+5v67BTDLdibSGbq5OU
+iIHmL4seY4DiaitPPqaCW4ahFeK5qAwsYGPiPrNE5jT8huLPNZl/zkU2VBNtzPgh
+COdUOaa8sSsu3/ocxnQ1IPBodAvvqTtI6WJvwQJIoqenwyq0pyy6zURMUlJHCxhy
+FlMDmhGLBuw7lyv8utegH/VoSuglkmlYOdIoyXKQkXm50kJJoo8KOyAi5olIAiLD
+B9EI+lpcU2VPshWBHsFETdEoSsg5VHEJsY3h7TAO7zyHzfp1/avL2MnAjijx5WWJ
+/iHwh4G/zTVxB2Nxiw+aieVTB2LQKZAPKOeUH93BAeWLmyBRsmlXZLnqGOAOtqTx
+e8JJvhlLTsTa2CZlZv/lgbNys2R0xPp8WtLiZ6sujO8AKIlyXvXFdSjNjlpD3XdZ
+RKG0V8dvZlvJP12gK2tj9Wc6xDeIRTnjNZYk2yCz2IQ9z7aY4avMb9nMsFthgU37
+v4Y/5aoeejZzA81K4ZPjk8JsT/YpWwQysQtIgfOGefuGl8W74+M=
+=pC2r
 -----END PGP SIGNATURE-----
 
---/QKKmeG/X/bPShih--
+--/Zw+/jwnNHcBRYYu--
 
