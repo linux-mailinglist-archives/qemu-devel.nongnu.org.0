@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AF989DCD
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 14:15:36 +0200 (CEST)
-Received: from localhost ([::1]:45020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93EB89E9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 14:39:51 +0200 (CEST)
+Received: from localhost ([::1]:45114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hx9Ed-0001yF-Nk
-	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 08:15:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40754)
+	id 1hx9c7-0008C4-1h
+	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 08:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43919)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hx9DM-0000GG-0M
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:14:17 -0400
+ (envelope-from <randrianasulu@gmail.com>) id 1hx9bN-0007m7-AC
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:39:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hx9DL-0000zf-1E
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:14:15 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51605)
+ (envelope-from <randrianasulu@gmail.com>) id 1hx9bM-0004rY-2D
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:39:05 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:43618)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hx9DK-0000zQ-RS
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:14:14 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 207so11951876wma.1
- for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 05:14:14 -0700 (PDT)
+ (Exim 4.71) (envelope-from <randrianasulu@gmail.com>)
+ id 1hx9bL-0004qj-MX
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:39:04 -0400
+Received: by mail-lf1-x143.google.com with SMTP id c19so74120168lfm.10
+ for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 05:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:user-agent:cc:references:in-reply-to
+ :mime-version:content-transfer-encoding:content-disposition
+ :message-id; bh=T3UFkfZVOYvpMwdINYQTXRqex/OJ9MIESAtVURuyhJg=;
+ b=sMzY0DIF94W+0EAIuKWQy0L/6izfFMKiSQKkci9pEeIDnNKKXDqVMdnKzmbJ9+K/AE
+ TwUf5mKCG2KbzYJJGFtbBO2kvJ7tnQqQLGac1OOvT90LQq57UQgKrVXsgrcsbUhWbG2W
+ kIB8ff6eVQLLtN48V5vYaFl/QgzibUFRM73JZN5lm4pFNjUY18QgXGnAD4WM1r/d2GVC
+ xkPtYYRZRW0f4ltAUPnpMWqhB/DFiJhRt1+ilR7q5uCFlWAmD0vruUK4RWQ+q9QoEHoG
+ oOx0KLsn+NeXWGabc31HC/PXvoqCWfIi1B/kWF2FVGY4fq5uwRLA5EM7mRggBAlVLaVd
+ WftA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IBLr+u7Omhe4cYbWFp9NEZ+Iwp7fVpbeVHlbGLeo4+Y=;
- b=SFrfXrZR6UIBldAXiqg922jamiwFn2PAYPqfgEWETtiFM5alVQP/wUSSRXb5e6XgzI
- dNPg6guj/dz8+demBgrOlm876bxPRIj9EEbSeNKIU2+K8dKjvOZ2SPYzyygctU1B79+7
- JveSpQMZ7onFy81VQv3RjORMXyPa1Qx+uXVVi13iYoQnuMcm7Yldmafc0nIPFYA+lZtw
- J3y17lUcBYsujZD+IOlDx1f+gqcSvWZLaBwMQTl5elfD7s+bTtR4goRQTBk69s3fQYMu
- B5sQ5etOaB6W2Zkwe5cdSS5MGSlVotXrhw0syBbC2atvHs6rbg2z7MZUiGVlK9GAko4h
- claQ==
-X-Gm-Message-State: APjAAAUSxtATTiyzb2JuIJieFD0r4yzc8Ymrbj7Lt45Oej2nOILQP4wc
- iAyEoS8OzMKaL6puuZjiFhM+Yg==
-X-Google-Smtp-Source: APXvYqyr9jzIu7DyUbQgpS66itT5u2EGncDwNJ6uUgp1SDnDV2h5xDvn/nzVt84XpS8zAuOwZd7cdw==
-X-Received: by 2002:a1c:2582:: with SMTP id
- l124mr29082968wml.153.1565612053827; 
- Mon, 12 Aug 2019 05:14:13 -0700 (PDT)
-Received: from [192.168.1.37] (225.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.225])
- by smtp.gmail.com with ESMTPSA id j16sm60733178wrp.62.2019.08.12.05.14.12
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 12 Aug 2019 05:14:12 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190701123108.12493-1-philmd@redhat.com>
- <20190701123108.12493-4-philmd@redhat.com>
- <CAFEAcA_m3LiLQqL8y6rT=HGeoa7B5XAQH9Wuo=Hg-94PaV3Zsg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <b2a83b98-3e20-4f62-d442-6ab6e26ab60b@redhat.com>
-Date: Mon, 12 Aug 2019 14:14:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:from:to:subject:date:user-agent:cc:references
+ :in-reply-to:mime-version:content-transfer-encoding
+ :content-disposition:message-id;
+ bh=T3UFkfZVOYvpMwdINYQTXRqex/OJ9MIESAtVURuyhJg=;
+ b=h0dsM2fmOihnWceklJg5sNih1SR3u7IxVy4mIoRZJNSI6fP+8s8/d7jMab84okRFOG
+ OvBg8NizEgq2/Ibiks8v3RDqQE98RnIWnZGbZDGC2Pxj3NJmINttlI7fylAmOM5MNfWy
+ s0KtFxOV4D8irGde523bMdI6uMTRn0QjY2FyUjpCuJP11CrbqwP7XHIi3ux0m7oO6/4G
+ atUu7CL9rS326k785EERSoInNHNgQVt66U7+FVdiTq5bs/E5elo4WIj5mW/7x5pT5qDo
+ 940YEJro9c/gU6CEJO4I/nEJh6K60Xa706typVtbMa5y+F+Ld+BeQKX6IKZA5HMarFgZ
+ ifQg==
+X-Gm-Message-State: APjAAAUkweGMSl0F/nXqucKKIsCalS7dhowENHPsbjmPRTRFwj5/F1gw
+ cumozwtvLK+lsSW52m23DJ4=
+X-Google-Smtp-Source: APXvYqwDLuy0F7O8fmGL6M3gXnyCwito+vwyKBxHjW+Ycq8t/kXSTXivfK25yc+2PVBYrkCHR7T8XQ==
+X-Received: by 2002:a05:6512:244:: with SMTP id
+ b4mr20843505lfo.114.1565613541229; 
+ Mon, 12 Aug 2019 05:39:01 -0700 (PDT)
+Received: from [192.168.1.100] ([176.116.252.109])
+ by smtp.gmail.com with ESMTPSA id x13sm582273ljm.7.2019.08.12.05.38.59
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 12 Aug 2019 05:38:59 -0700 (PDT)
+From: Andrew Randrianasulu <randrianasulu@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Date: Mon, 12 Aug 2019 15:27:55 +0300
+User-Agent: KMail/1.9.10
+References: <cover.1565558093.git.balaton@eik.bme.hu>
+ <8942e49f-493f-70c4-b2a1-10b97f2a7c6d@redhat.com>
+ <alpine.BSF.2.21.9999.1908121239520.68551@zero.eik.bme.hu>
+In-Reply-To: <alpine.BSF.2.21.9999.1908121239520.68551@zero.eik.bme.hu>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_m3LiLQqL8y6rT=HGeoa7B5XAQH9Wuo=Hg-94PaV3Zsg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH 3/6] hw/arm: Use sysbus_init_child_obj for
- correct reference counting
+Content-Type: text/plain;
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Message-Id: <201908121527.55871.randrianasulu@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::143
+Subject: Re: [Qemu-devel] [PATCH 4/7] ati-vga: Fix cursor color with
+ guest_hwcursor=true
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,55 +85,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/19 3:03 PM, Peter Maydell wrote:
-> On Mon, 1 Jul 2019 at 13:31, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> As explained in commit aff39be0ed97:
->>
->>   Both functions, object_initialize() and object_property_add_child()
->>   increase the reference counter of the new object, so one of the
->>   references has to be dropped afterwards to get the reference
->>   counting right. Otherwise the child object will not be properly
->>   cleaned up when the parent gets destroyed.
->>   Thus let's use now object_initialize_child() instead to get the
->>   reference counting here right.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  hw/arm/exynos4_boards.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/arm/exynos4_boards.c b/hw/arm/exynos4_boards.c
->> index ac0b0dc2a9..5dd53d2a23 100644
->> --- a/hw/arm/exynos4_boards.c
->> +++ b/hw/arm/exynos4_boards.c
->> @@ -129,8 +129,8 @@ exynos4_boards_init_common(MachineState *machine,
->>      exynos4_boards_init_ram(s, get_system_memory(),
->>                              exynos4_board_ram_size[board_type]);
->>
->> -    object_initialize(&s->soc, sizeof(s->soc), TYPE_EXYNOS4210_SOC);
->> -    qdev_set_parent_bus(DEVICE(&s->soc), sysbus_get_default());
->> +    sysbus_init_child_obj(OBJECT(machine), "soc",
->> +                          &s->soc, sizeof(s->soc), TYPE_EXYNOS4210_SOC);
->>      object_property_set_bool(OBJECT(&s->soc), true, "realized",
->>                               &error_fatal);
-> 
-> I suspect the code change here is correct but it doesn't seem
-> to match the commit message -- the old code is not calling
-> object_property_add_child() at all, and the new code does not
-> call object_initialize_child()...
+=D0=92 =D1=81=D0=BE=D0=BE=D0=B1=D1=89=D0=B5=D0=BD=D0=B8=D0=B8 =D0=BE=D1=82 =
+Monday 12 August 2019 13:55:45 BALATON Zoltan =D0=BD=D0=B0=D0=BF=D0=B8=D1=
+=81=D0=B0=D0=BB(=D0=B0):
+> On Mon, 12 Aug 2019, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 8/12/19 12:28 PM, BALATON Zoltan wrote:
+> >> On Mon, 12 Aug 2019, Philippe Mathieu-Daud=C3=A9 wrote:
+> >>> On 8/11/19 11:14 PM, BALATON Zoltan wrote:
+> >>>> Fixes: a38127414bd007c5b6ae64c664d9e8839393277e
+> >>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> >>>> ---
+> >>>> ?hw/display/ati.c | 2 +-
+> >>>> ?1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/hw/display/ati.c b/hw/display/ati.c
+> >>>> index 699f38223b..b849f5d510 100644
+> >>>> --- a/hw/display/ati.c
+> >>>> +++ b/hw/display/ati.c
+> >>>> @@ -207,7 +207,7 @@ static void ati_cursor_draw_line(VGACommonState
+> >>>> *vga, uint8_t *d, int scr_y)
+> >>>> ???????????????? }
+> >>>> ???????????? } else {
+> >>>> ???????????????? color =3D (xbits & BIT(7) ? s->regs.cur_color1 :
+> >>>> -????????????????????????????????????????? s->regs.cur_color0) << 8 |
+> >>>> 0xff;
+> >>>> +????????????????????????????????????????? s->regs.cur_color0) |
+> >>>> 0xff000000;
+> >>>> ???????????? }
+> >>>> ???????????? if (vga->hw_cursor_x + i * 8 + j >=3D h) {
+> >>>> ???????????????? return; /* end of screen, don't span to next line */
+> >>>>
+> >>>
+> >>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >>
+> >> Thanks. I've noticed that cursor color may still be wrong with MacOS
+> >> that uses big endian frame buffer so maybe this will also need to take
+> >> frame buffer endianness into account somehow but this patch corrects a
+> >> difference between guest_hwcursor true and false values, reproducible
+> >> with some Linux versions (as far as I remember). While the wrong cursor
+> >> color with MacOS is now consistent after this patch with both
+> >> guest_hwcursor true or false so that likely needs a different fix that
+> >> should be applied both to this place and to ati_cursor_define. (MacOS
+> >> does not yet boot fully, it needs patches to OpenBIOS to be able to run
+> >> an FCode ROM and will probably need the VBlank interrupt implemented in
+> >> ati-vga without which it displays a desktop but freezes there).
+> >
+> > If you remember which Linux version had this problem, or you can link to
+> > roms that behave incorrectly, please share, so we can add display
+> > regression tests.
+>=20
+> Unfortunately I don't. I think it was Andrew who found this so maybe he=20
+> can remember.
 
-OK, will improve, thanks!
+Blue cursor was seen on specific dvd (x86) image I did for myself,=20
+because it was  using plain X cursor (arrow or X-shaped), not colored=20
+versions used by default in many distributions.
+
+may be 'startx -- -retro" will show it briefly too?
+
+from man Xserver (1.19.7):
+
+=2Dretro  starts  the  server  with  the  classic stipple and cursor visibl=
+e.  The default is to start with a black root window, and to suppress displ=
+ay of the cursor until the
+               first time an application calls XDefineCursor().=20
+
+
+https://yadi.sk/d/F8cbINWzWJ-DkA
+
+users: root and guest
+passwords: toor and guest
+
+You need to boot it to syslinux and type 'slax' there, because default will=
+ boot x86-64 kernel without aty128fb .... (my fault)
+Unfortunately, i don't have fresh qemu compiled (previous tests were done f=
+rom tmpfs copy of qemu source tree),
+ will recompile from git and re-test. from memory, loading aty128fb and
+setting config fragment in /etc/X11/xorg.conf.d for EXA AccelMethod and "Op=
+tion "UseFBDev" "1" ' allowed device (ati-vga) to work.
+
+
+
+>=20
+> (You may also need latest vgabios-ati.bin from Gerd's repo to get Linux=20
+> drivers load and for rage128p that has to be in pc-bios dir because PCI=20
+> IDs are only patched in that way.)
+>=20
+> Regards,
+> BALATON Zoltan
+
+
 
