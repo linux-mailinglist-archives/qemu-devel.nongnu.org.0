@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23058A03F
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 15:58:24 +0200 (CEST)
-Received: from localhost ([::1]:45814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53AEA8A044
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 15:59:09 +0200 (CEST)
+Received: from localhost ([::1]:45832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxAq8-000620-2v
-	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 09:58:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58107)
+	id 1hxAqq-0007IX-II
+	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 09:59:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58631)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hxAmr-00075l-5V
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 09:55:02 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hxAq9-0006hz-Uy
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 09:58:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hxAmq-0000JS-6O
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 09:55:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47802)
+ (envelope-from <cohuck@redhat.com>) id 1hxAq8-000236-QT
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 09:58:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57466)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hxAmq-0000IY-1M
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 09:55:00 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hxAq8-00021w-Gv; Mon, 12 Aug 2019 09:58:24 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 23EAD81DF7;
- Mon, 12 Aug 2019 13:54:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E610219C70;
- Mon, 12 Aug 2019 13:54:56 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 641BC1136444; Mon, 12 Aug 2019 15:54:54 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-References: <20190812052359.30071-1-armbru@redhat.com>
- <20190812052359.30071-29-armbru@redhat.com>
- <87h86mofw3.fsf@linaro.org>
-Date: Mon, 12 Aug 2019 15:54:54 +0200
-In-Reply-To: <87h86mofw3.fsf@linaro.org> ("Alex =?utf-8?Q?Benn=C3=A9e=22's?=
- message of "Mon, 12 Aug 2019 11:08:12 +0100")
-Message-ID: <87o90utro1.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 95DBEC075BD2;
+ Mon, 12 Aug 2019 13:58:23 +0000 (UTC)
+Received: from gondolin (dhcp-192-181.str.redhat.com [10.33.192.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D2057D489;
+ Mon, 12 Aug 2019 13:58:19 +0000 (UTC)
+Date: Mon, 12 Aug 2019 15:58:17 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Message-ID: <20190812155817.2edb133c.cohuck@redhat.com>
+In-Reply-To: <94fc262e-b8d7-df09-1461-f10a9874d954@redhat.com>
+References: <20190805152947.28536-1-david@redhat.com>
+ <20190805152947.28536-2-david@redhat.com>
+ <e68f8298-8946-37f1-2e65-afa73a45604e@redhat.com>
+ <bbf905b3-6f32-c478-4e6e-81c341f5601a@redhat.com>
+ <20190812154045.10393873.cohuck@redhat.com>
+ <94fc262e-b8d7-df09-1461-f10a9874d954@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Mon, 12 Aug 2019 13:54:58 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Mon, 12 Aug 2019 13:58:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 28/29] sysemu: Move the
- VMChangeStateEntry typedef to qemu/typedefs.h
+Subject: Re: [Qemu-devel] [PATCH-for-4.2 v1 1/9] s390x/mmu: Better ASC
+ selection in s390_cpu_get_phys_page_debug()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,31 +62,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+On Mon, 12 Aug 2019 15:45:25 +0200
+David Hildenbrand <david@redhat.com> wrote:
 
-> Markus Armbruster <armbru@redhat.com> writes:
->
->> In my "build everything" tree, changing sysemu/sysemu.h triggers a
->> recompile of some 1800 out of 6600 objects (not counting tests and
->> objects that don't depend on qemu/osdep.h, down from 5400 due to the
->> previous commit).
->>
->> Several headers include sysemu/sysemu.h just to get typedef
->> VMChangeStateEntry.  Move it from sysemu/sysemu.h to qemu/typedefs.h.
->> Spell its structure tag the same while there.  Drop the now
->> superfluous includes of sysemu/sysemu.h from headers.
->
-> You should probably mention you also fix the struct definition to meet
-> our coding style. Otherwise:
+> On 12.08.19 15:40, Cornelia Huck wrote:
+> > On Mon, 12 Aug 2019 09:52:56 +0200
+> > David Hildenbrand <david@redhat.com> wrote:
+> >   
+> >> On 12.08.19 09:12, Thomas Huth wrote:  
+> >>> On 8/5/19 5:29 PM, David Hildenbrand wrote:    
+> >>>> Let's select the ASC before calling the function and use MMU_DATA_LOAD.
+> >>>> This is a preparation to:
+> >>>> - Remove the ASC magic depending on the access mode from mmu_translate
+> >>>> - Implement IEP support, where we could run into access exceptions
+> >>>>   trying to fetch instructions
+> >>>>
+> >>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+> >>>> ---
+> >>>>  target/s390x/helper.c | 10 +++++++++-
+> >>>>  1 file changed, 9 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/target/s390x/helper.c b/target/s390x/helper.c
+> >>>> index 13ae9909ad..08166558a0 100644
+> >>>> --- a/target/s390x/helper.c
+> >>>> +++ b/target/s390x/helper.c
+> >>>> @@ -58,7 +58,15 @@ hwaddr s390_cpu_get_phys_page_debug(CPUState *cs, vaddr vaddr)
+> >>>>          vaddr &= 0x7fffffff;
+> >>>>      }
+> >>>>  
+> >>>> -    if (mmu_translate(env, vaddr, MMU_INST_FETCH, asc, &raddr, &prot, false)) {
+> >>>> +    /*
+> >>>> +     * We want to read the code, however, not run into access exceptions    
+> >>>
+> >>> Is this really a safe assumption here that we always use this to
+> >>> translate code addresses and not data addresses? ... I don't think so.
+> >>> For example with the "gva2gpa" HMP command, I'd rather expect that it
+> >>> also works with the secondary space mode...?    
+> >>
+> >> Well, it's what current code does. I am not changing that behavior.  
+> > 
+> > Agreed, that is not actively breaking something.
+> >   
+> >>
+> >> While it is in general broken to have a single interface to debug
+> >> code+data (which is only a problem on s390x), it makes a lot of sense if
+> >> you think about single-stepping through disassembled code using the
+> >> gdbstub. Or dumping code where you crashed.  
+> > 
+> > What about the memsave interface?  
+> 
+> I guess the same problem:
+> 
+> "save to disk virtual memory dump starting at @var{addr} of size
+> @var{size}" -  which virtual memory (code vs. data)? These old interface
+> are really x86 specific (meaning: it made sense this way for x86)
 
-I did: "Spell its structure tag the same while there."  Would you like
-to suggest a better wording?
+So, the general verdict is "gnarly interface, but at least not broken
+for Linux guests", I guess.
 
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> 
+> I'd like to note that if our KVM guest is in AR mode, we would now no
+> longer be able to crash it :) (well, a nice side-effect of instruction
+> fetches not going via AR mode).
 
-Thanks!
+Heh :)
+
+Q: What do we need to consider beyond Linux guests? Probably not much,
+given that they would be broken already...
 
