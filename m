@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F675896C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 07:26:17 +0200 (CEST)
-Received: from localhost ([::1]:42958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5A7896CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 07:28:38 +0200 (CEST)
+Received: from localhost ([::1]:43008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hx2qW-0005Rr-K7
-	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 01:26:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57134)
+	id 1hx2sn-0003ju-Rb
+	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 01:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57153)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hx2oT-0008WS-Qd
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 01:24:11 -0400
+ (envelope-from <armbru@redhat.com>) id 1hx2oU-00005l-CX
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 01:24:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hx2oS-00066N-Bq
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 01:24:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48946)
+ (envelope-from <armbru@redhat.com>) id 1hx2oS-00066Y-E4
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 01:24:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50574)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hx2oS-00065K-46
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hx2oS-00065M-5w
  for qemu-devel@nongnu.org; Mon, 12 Aug 2019 01:24:08 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 721853086E23
- for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 05:24:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 79D9F793E5;
+ Mon, 12 Aug 2019 05:24:07 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 16EF363B89;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B53710002B9;
  Mon, 12 Aug 2019 05:24:07 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EB2331136425; Mon, 12 Aug 2019 07:23:59 +0200 (CEST)
+ id EEAEB1136426; Mon, 12 Aug 2019 07:23:59 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 12 Aug 2019 07:23:43 +0200
-Message-Id: <20190812052359.30071-14-armbru@redhat.com>
+Date: Mon, 12 Aug 2019 07:23:44 +0200
+Message-Id: <20190812052359.30071-15-armbru@redhat.com>
 In-Reply-To: <20190812052359.30071-1-armbru@redhat.com>
 References: <20190812052359.30071-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Mon, 12 Aug 2019 05:24:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Mon, 12 Aug 2019 05:24:07 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 13/29] Clean up inclusion of
- exec/cpu-common.h
+Subject: [Qemu-devel] [PATCH v4 14/29] migration: Move the
+ VMStateDescription typedef to typedefs.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,231 +59,284 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-migration/qemu-file.h neglects to include it even though it needs
-ram_addr_t.  Fix that.  Drop a few superfluous inclusions elsewhere.
+We declare incomplete struct VMStateDescription in a couple of places
+so we don't have to include migration/vmstate.h for the typedef.
+That's fine with me.  However, the next commit will drop
+migration/vmstate.h from a massive number of compiles.  Move the
+typedef to qemu/typedefs.h now, so I don't have to insert struct in
+front of VMStateDescription all over the place then.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/hw/hw.h                 | 1 -
- include/hw/ppc/ppc4xx.h         | 1 -
- include/migration/misc.h        | 1 -
- include/sysemu/kvm_int.h        | 1 -
- include/sysemu/memory_mapping.h | 1 -
- migration/migration.h           | 1 -
- migration/qemu-file.h           | 1 +
- accel/stubs/tcg-stub.c          | 1 -
- balloon.c                       | 1 -
- hw/smbios/smbios.c              | 1 -
- migration/qemu-file-channel.c   | 1 -
- migration/vmstate-types.c       | 1 -
- qom/cpu.c                       | 1 -
- tcg/optimize.c                  | 1 -
- tcg/tcg-common.c                | 1 -
- tcg/tcg.c                       | 1 -
- 16 files changed, 1 insertion(+), 15 deletions(-)
+ include/hw/qdev-core.h      | 6 ++----
+ include/migration/vmstate.h | 1 -
+ include/qemu/typedefs.h     | 1 +
+ include/qom/cpu.h           | 4 ++--
+ target/alpha/cpu.h          | 2 +-
+ target/arm/cpu.h            | 2 +-
+ target/cris/cpu.h           | 2 +-
+ target/hppa/cpu.h           | 2 +-
+ target/i386/cpu.h           | 2 +-
+ target/lm32/cpu.h           | 2 +-
+ target/mips/internal.h      | 2 +-
+ target/openrisc/cpu.h       | 2 +-
+ target/ppc/cpu-qom.h        | 2 +-
+ target/ppc/cpu.h            | 2 +-
+ target/s390x/cpu.h          | 2 +-
+ target/sparc/cpu.h          | 2 +-
+ 16 files changed, 17 insertions(+), 19 deletions(-)
 
-diff --git a/include/hw/hw.h b/include/hw/hw.h
-index 38d2fb1f40..86ff26b712 100644
---- a/include/hw/hw.h
-+++ b/include/hw/hw.h
-@@ -6,7 +6,6 @@
- #error Cannot include hw/hw.h from user emulation
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index b870c8ceeb..e5b62dd2fc 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -35,8 +35,6 @@ typedef void (*DeviceReset)(DeviceState *dev);
+ typedef void (*BusRealize)(BusState *bus, Error **errp);
+ typedef void (*BusUnrealize)(BusState *bus, Error **errp);
+=20
+-struct VMStateDescription;
+-
+ /**
+  * DeviceClass:
+  * @props: Properties accessing state fields.
+@@ -112,7 +110,7 @@ typedef struct DeviceClass {
+     DeviceUnrealize unrealize;
+=20
+     /* device state */
+-    const struct VMStateDescription *vmsd;
++    const VMStateDescription *vmsd;
+=20
+     /* Private to qdev / bus.  */
+     const char *bus_type;
+@@ -425,7 +423,7 @@ void device_class_set_parent_unrealize(DeviceClass *d=
+c,
+                                        DeviceUnrealize dev_unrealize,
+                                        DeviceUnrealize *parent_unrealize=
+);
+=20
+-const struct VMStateDescription *qdev_get_vmsd(DeviceState *dev);
++const VMStateDescription *qdev_get_vmsd(DeviceState *dev);
+=20
+ const char *qdev_fw_name(DeviceState *dev);
+=20
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index c2bfa7a7f0..1fbfd099dd 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -28,7 +28,6 @@
+ #define QEMU_VMSTATE_H
+=20
+ typedef struct VMStateInfo VMStateInfo;
+-typedef struct VMStateDescription VMStateDescription;
+ typedef struct VMStateField VMStateField;
+=20
+ /* VMStateInfo allows customized migration of objects that don't fit in
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index c32efb5b18..9e1283aacf 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -101,6 +101,7 @@ typedef struct SHPCDevice SHPCDevice;
+ typedef struct SSIBus SSIBus;
+ typedef struct VirtIODevice VirtIODevice;
+ typedef struct Visitor Visitor;
++typedef struct VMStateDescription VMStateDescription;
+=20
+ /*
+  * Pointer types
+diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+index 5ee0046b62..ddb91bbaff 100644
+--- a/include/qom/cpu.h
++++ b/include/qom/cpu.h
+@@ -215,7 +215,7 @@ typedef struct CPUClass {
+     int (*write_elf32_qemunote)(WriteCoreDumpFunction f, CPUState *cpu,
+                                 void *opaque);
+=20
+-    const struct VMStateDescription *vmsd;
++    const VMStateDescription *vmsd;
+     const char *gdb_core_xml_file;
+     gchar * (*gdb_arch_name)(CPUState *cpu);
+     const char * (*gdb_get_dynamic_xml)(CPUState *cpu, const char *xmlna=
+me);
+@@ -1108,7 +1108,7 @@ bool target_words_bigendian(void);
+ #ifdef NEED_CPU_H
+=20
+ #ifdef CONFIG_SOFTMMU
+-extern const struct VMStateDescription vmstate_cpu_common;
++extern const VMStateDescription vmstate_cpu_common;
+ #else
+ #define vmstate_cpu_common vmstate_dummy
+ #endif
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index b3e8a823e1..4619530660 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
+@@ -277,7 +277,7 @@ struct AlphaCPU {
+=20
+=20
+ #ifndef CONFIG_USER_ONLY
+-extern const struct VMStateDescription vmstate_alpha_cpu;
++extern const VMStateDescription vmstate_alpha_cpu;
  #endif
 =20
--#include "exec/cpu-common.h"
- #include "qom/object.h"
- #include "exec/memory.h"
- #include "migration/vmstate.h"
-diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-index 90f8866138..7d82259051 100644
---- a/include/hw/ppc/ppc4xx.h
-+++ b/include/hw/ppc/ppc4xx.h
-@@ -26,7 +26,6 @@
- #define PPC4XX_H
+ void alpha_cpu_do_interrupt(CPUState *cpu);
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 94c990cddb..2cdde6c4bc 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -922,7 +922,7 @@ void arm_cpu_post_init(Object *obj);
+ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz);
 =20
- #include "hw/ppc/ppc.h"
--#include "exec/cpu-common.h"
- #include "exec/memory.h"
+ #ifndef CONFIG_USER_ONLY
+-extern const struct VMStateDescription vmstate_arm_cpu;
++extern const VMStateDescription vmstate_arm_cpu;
+ #endif
 =20
- /* PowerPC 4xx core initialization */
-diff --git a/include/migration/misc.h b/include/migration/misc.h
-index 5cdbabd094..b9d8e787af 100644
---- a/include/migration/misc.h
-+++ b/include/migration/misc.h
-@@ -14,7 +14,6 @@
- #ifndef MIGRATION_MISC_H
- #define MIGRATION_MISC_H
+ void arm_cpu_do_interrupt(CPUState *cpu);
+diff --git a/target/cris/cpu.h b/target/cris/cpu.h
+index fb14ad51f1..aba0a66474 100644
+--- a/target/cris/cpu.h
++++ b/target/cris/cpu.h
+@@ -183,7 +183,7 @@ struct CRISCPU {
 =20
--#include "exec/cpu-common.h"
- #include "qemu/notify.h"
- #include "qapi/qapi-types-net.h"
 =20
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 787dbc7770..5d341cc29b 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -9,7 +9,6 @@
- #ifndef QEMU_KVM_INT_H
- #define QEMU_KVM_INT_H
+ #ifndef CONFIG_USER_ONLY
+-extern const struct VMStateDescription vmstate_cris_cpu;
++extern const VMStateDescription vmstate_cris_cpu;
+ #endif
 =20
--#include "exec/cpu-common.h"
- #include "exec/memory.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/accel.h"
-diff --git a/include/sysemu/memory_mapping.h b/include/sysemu/memory_mapp=
-ing.h
-index 1b440df486..4b20f1a639 100644
---- a/include/sysemu/memory_mapping.h
-+++ b/include/sysemu/memory_mapping.h
-@@ -15,7 +15,6 @@
- #define MEMORY_MAPPING_H
+ void cris_cpu_do_interrupt(CPUState *cpu);
+diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+index e9fba96be9..4b816cc13a 100644
+--- a/target/hppa/cpu.h
++++ b/target/hppa/cpu.h
+@@ -334,7 +334,7 @@ bool hppa_cpu_tlb_fill(CPUState *cs, vaddr address, i=
+nt size,
+ int hppa_get_physical_address(CPUHPPAState *env, vaddr addr, int mmu_idx=
+,
+                               int type, hwaddr *pphys, int *pprot);
+ extern const MemoryRegionOps hppa_io_eir_ops;
+-extern const struct VMStateDescription vmstate_hppa_cpu;
++extern const VMStateDescription vmstate_hppa_cpu;
+ void hppa_cpu_alarm_timer(void *);
+ int hppa_artype_for_page(CPUHPPAState *env, target_ulong vaddr);
+ #endif
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 8b3dc5533e..ecd0ec0899 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1516,7 +1516,7 @@ struct X86CPU {
 =20
- #include "qemu/queue.h"
--#include "exec/cpu-common.h"
- #include "exec/cpu-defs.h"
- #include "exec/memory.h"
 =20
-diff --git a/migration/migration.h b/migration/migration.h
-index 1fdd7b21fd..26f01d00f6 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -16,7 +16,6 @@
+ #ifndef CONFIG_USER_ONLY
+-extern struct VMStateDescription vmstate_x86_cpu;
++extern VMStateDescription vmstate_x86_cpu;
+ #endif
 =20
- #include "qapi/qapi-types-migration.h"
- #include "qemu/thread.h"
--#include "exec/cpu-common.h"
- #include "qemu/coroutine_int.h"
- #include "hw/qdev.h"
- #include "io/channel.h"
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index 13baf896bd..21f3ae4be2 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -26,6 +26,7 @@
- #define MIGRATION_QEMU_FILE_H
+ /**
+diff --git a/target/lm32/cpu.h b/target/lm32/cpu.h
+index c2bbfa2780..064c6b1267 100644
+--- a/target/lm32/cpu.h
++++ b/target/lm32/cpu.h
+@@ -195,7 +195,7 @@ struct LM32CPU {
 =20
- #include <zlib.h>
-+#include "exec/cpu-common.h"
 =20
- /* Read a chunk of data from a file at the given position.  The pos argu=
-ment
-  * can be ignored if the file is only be used for streaming.  The number=
- of
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index 76ae461749..e2d23edafe 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -14,7 +14,6 @@
- #include "qemu-common.h"
- #include "cpu.h"
- #include "tcg/tcg.h"
--#include "exec/cpu-common.h"
- #include "exec/exec-all.h"
+ #ifndef CONFIG_USER_ONLY
+-extern const struct VMStateDescription vmstate_lm32_cpu;
++extern const VMStateDescription vmstate_lm32_cpu;
+ #endif
 =20
- void tb_flush(CPUState *cpu)
-diff --git a/balloon.c b/balloon.c
-index 914b3662db..f104b42961 100644
---- a/balloon.c
-+++ b/balloon.c
-@@ -26,7 +26,6 @@
+ void lm32_cpu_do_interrupt(CPUState *cpu);
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index b2b41a51ab..d5aa5490d3 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -148,7 +148,7 @@ hwaddr cpu_mips_translate_address(CPUMIPSState *env, =
+target_ulong address,
+ #define cpu_signal_handler cpu_mips_signal_handler
 =20
- #include "qemu/osdep.h"
- #include "qemu/atomic.h"
--#include "exec/cpu-common.h"
- #include "sysemu/kvm.h"
- #include "sysemu/balloon.h"
- #include "trace-root.h"
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 7bcd67b098..11d476c4a2 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -28,7 +28,6 @@
- #include "hw/firmware/smbios.h"
- #include "hw/loader.h"
- #include "hw/boards.h"
--#include "exec/cpu-common.h"
- #include "smbios_build.h"
+ #ifndef CONFIG_USER_ONLY
+-extern const struct VMStateDescription vmstate_mips_cpu;
++extern const VMStateDescription vmstate_mips_cpu;
+ #endif
 =20
- /* legacy structures and constants for <=3D 2.0 machines */
-diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.=
-c
-index 8e639eb496..78ef248820 100644
---- a/migration/qemu-file-channel.c
-+++ b/migration/qemu-file-channel.c
-@@ -24,7 +24,6 @@
+ static inline bool cpu_mips_hw_interrupts_enabled(CPUMIPSState *env)
+diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+index f23b25262d..61ade1d4f0 100644
+--- a/target/openrisc/cpu.h
++++ b/target/openrisc/cpu.h
+@@ -333,7 +333,7 @@ int print_insn_or1k(bfd_vma addr, disassemble_info *i=
+nfo);
+ #define cpu_signal_handler cpu_openrisc_signal_handler
 =20
- #include "qemu/osdep.h"
- #include "qemu-file-channel.h"
--#include "exec/cpu-common.h"
- #include "qemu-file.h"
- #include "io/channel-socket.h"
- #include "qemu/iov.h"
-diff --git a/migration/vmstate-types.c b/migration/vmstate-types.c
-index 845f4649ee..bee658a1b2 100644
---- a/migration/vmstate-types.c
-+++ b/migration/vmstate-types.c
-@@ -11,7 +11,6 @@
-  */
+ #ifndef CONFIG_USER_ONLY
+-extern const struct VMStateDescription vmstate_openrisc_cpu;
++extern const VMStateDescription vmstate_openrisc_cpu;
 =20
- #include "qemu/osdep.h"
--#include "exec/cpu-common.h"
- #include "qemu-file.h"
- #include "migration.h"
- #include "migration/vmstate.h"
-diff --git a/qom/cpu.c b/qom/cpu.c
-index f376f782d8..fdc1af8f40 100644
---- a/qom/cpu.c
-+++ b/qom/cpu.c
-@@ -25,7 +25,6 @@
- #include "qemu/notify.h"
- #include "qemu/log.h"
- #include "exec/log.h"
--#include "exec/cpu-common.h"
- #include "qemu/error-report.h"
- #include "qemu/qemu-print.h"
- #include "sysemu/sysemu.h"
-diff --git a/tcg/optimize.c b/tcg/optimize.c
-index d2424de4af..cee2a36a60 100644
---- a/tcg/optimize.c
-+++ b/tcg/optimize.c
-@@ -24,7 +24,6 @@
-  */
+ /* hw/openrisc_pic.c */
+ void cpu_openrisc_pic_init(OpenRISCCPU *cpu);
+diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+index be9b4c30c3..a2f202f021 100644
+--- a/target/ppc/cpu-qom.h
++++ b/target/ppc/cpu-qom.h
+@@ -203,7 +203,7 @@ typedef struct PPCTimebase {
+     int64_t time_of_the_day_ns;
+ } PPCTimebase;
 =20
- #include "qemu/osdep.h"
--#include "exec/cpu-common.h"
- #include "tcg-op.h"
+-extern const struct VMStateDescription vmstate_ppc_timebase;
++extern const VMStateDescription vmstate_ppc_timebase;
 =20
- #define CASE_OP_32_64(x)                        \
-diff --git a/tcg/tcg-common.c b/tcg/tcg-common.c
-index 907d58d0f0..97305a3efc 100644
---- a/tcg/tcg-common.c
-+++ b/tcg/tcg-common.c
-@@ -23,7 +23,6 @@
-  */
+ #define VMSTATE_PPC_TIMEBASE_V(_field, _state, _version) {            \
+     .name       =3D (stringify(_field)),                                =
+\
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index c9beba2a5c..4ea33cf696 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1255,7 +1255,7 @@ int ppc32_cpu_write_elf32_note(WriteCoreDumpFunctio=
+n f, CPUState *cs,
+                                int cpuid, void *opaque);
+ #ifndef CONFIG_USER_ONLY
+ void ppc_cpu_do_system_reset(CPUState *cs);
+-extern const struct VMStateDescription vmstate_ppc_cpu;
++extern const VMStateDescription vmstate_ppc_cpu;
+ #endif
 =20
- #include "qemu/osdep.h"
--#include "exec/cpu-common.h"
- #include "tcg/tcg.h"
+ /***********************************************************************=
+******/
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index a606547b4d..3d9de25f7c 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -163,7 +163,7 @@ struct S390CPU {
 =20
- #if defined(CONFIG_TCG_INTERPRETER)
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index be2c33c400..2db83ce2e8 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -42,7 +42,6 @@
- #define NO_CPU_IO_DEFS
- #include "cpu.h"
 =20
--#include "exec/cpu-common.h"
- #include "exec/exec-all.h"
+ #ifndef CONFIG_USER_ONLY
+-extern const struct VMStateDescription vmstate_s390_cpu;
++extern const VMStateDescription vmstate_s390_cpu;
+ #endif
 =20
- #if !defined(CONFIG_USER_ONLY)
+ /* distinguish between 24 bit and 31 bit addressing */
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index 8ed2250cd0..0d5b01efe5 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -532,7 +532,7 @@ struct SPARCCPU {
+=20
+=20
+ #ifndef CONFIG_USER_ONLY
+-extern const struct VMStateDescription vmstate_sparc_cpu;
++extern const VMStateDescription vmstate_sparc_cpu;
+ #endif
+=20
+ void sparc_cpu_do_interrupt(CPUState *cpu);
 --=20
 2.21.0
 
