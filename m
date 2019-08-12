@@ -2,67 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17198A2D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 18:04:29 +0200 (CEST)
-Received: from localhost ([::1]:47004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4C98A2E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 18:05:23 +0200 (CEST)
+Received: from localhost ([::1]:47070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxCo9-0006Dq-6U
-	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 12:04:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50293)
+	id 1hxCp1-0000n5-2s
+	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 12:05:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50679)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hxCmi-0004OX-BP
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 12:03:01 -0400
+ (envelope-from <thuth@redhat.com>) id 1hxCoH-0007uP-KF
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 12:04:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hxCmh-0001X5-99
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 12:03:00 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:55341)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hxCmh-0001Wv-29
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 12:02:59 -0400
-Received: by mail-wm1-f65.google.com with SMTP id f72so33746wmf.5
- for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 09:02:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BsYxBgaegzfBPq4bAX5l9R5jyvQmAastNPfVth29MXw=;
- b=axtvjYsMuZPEs5mHNKk0iC8+JVgVPe7VLTRhT6KoBLdT/Xww3sv4Zxtf8NZ57/cDiv
- EVvPyl46a6FvYKbrJeWqrV2q67hzBtRvN4OTRnOGvt5ILw3/mCxXiXAUGppEpg/9EX10
- eHU8PFaYG7cr+TELmNJpSrFdGJeXHtU/hhQ5otuTtTplBKugGen9fUYAv1DRYnl6LWaI
- hulj1WELi1SIuhAC2IK7otXNRZSCcwt2ZdwN9+sa3ZhDmaM9Dkjumd9XykP2gbiySv08
- QTxlCW2MSSqD9J8tRl8wbx0EPg9TxisibeOJnOi03AJXVWEtn4ja1Ddk1WIbkjhj/X3C
- 0GZw==
-X-Gm-Message-State: APjAAAUy67j0soN5oJY1sfhIJY4yivSUlRuVMeiGhjSSrVQDqUz7+nNM
- yNz4O022vVs4tPbt0SguVmWQNA==
-X-Google-Smtp-Source: APXvYqzkoGD0+fOAsGz5FMChBR5Vs9kMxtGN9jDGBhNDdyYLkpkbdxxl88GKiXs2r0gtsb7a8KYKlw==
-X-Received: by 2002:a1c:760b:: with SMTP id r11mr1208wmc.41.1565625778074;
- Mon, 12 Aug 2019 09:02:58 -0700 (PDT)
-Received: from [192.168.1.34] (59.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.59])
- by smtp.gmail.com with ESMTPSA id a64sm413006wmf.1.2019.08.12.09.02.57
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 12 Aug 2019 09:02:57 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190812052359.30071-1-armbru@redhat.com>
- <20190812052359.30071-23-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <d2f77b14-2123-dd77-0d90-f2a99248a68f@redhat.com>
-Date: Mon, 12 Aug 2019 18:02:56 +0200
+ (envelope-from <thuth@redhat.com>) id 1hxCoG-0001ya-JW
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 12:04:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40850)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1hxCoG-0001xy-Bu; Mon, 12 Aug 2019 12:04:36 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3DB4B3C937;
+ Mon, 12 Aug 2019 16:04:35 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E4D86F944;
+ Mon, 12 Aug 2019 16:04:31 +0000 (UTC)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190812112737.6652-1-david@redhat.com>
+ <20190812112737.6652-2-david@redhat.com>
+ <158cb382-f685-a60b-821b-f82ba424feb4@redhat.com>
+ <c7fb18fd-8a47-b49b-765d-b48988e9e83a@redhat.com>
+ <ff31e969-528a-4f64-a8fd-af32d878f9fa@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <b71d542e-2447-a6f2-4318-b649c6624a42@redhat.com>
+Date: Mon, 12 Aug 2019 18:04:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190812052359.30071-23-armbru@redhat.com>
+In-Reply-To: <ff31e969-528a-4f64-a8fd-af32d878f9fa@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Mon, 12 Aug 2019 16:04:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH v4 22/29] Include hw/boards.h a bit less
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH-for-4.2 v1 1/6] s390x/mmu: ASC
+ selection in s390_cpu_get_phys_page_debug()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,69 +107,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/12/19 7:23 AM, Markus Armbruster wrote:
-> hw/boards.h pulls in almost 60 headers.  The less we include it into
-> headers, the better.  As a first step, drop superfluous inclusions,
-> and downgrade some more to what's actually needed.  Gets rid of just
-> one inclusion into a header.
+On 8/12/19 5:39 PM, David Hildenbrand wrote:
+> On 12.08.19 17:28, David Hildenbrand wrote:
+>> On 12.08.19 17:18, Thomas Huth wrote:
+>>> On 8/12/19 1:27 PM, David Hildenbrand wrote:
+>>>> Let's select the ASC before calling the function. This is a prepararion
+>>>> to remove the ASC magic depending on the access mode from mmu_translate.
+>>>>
+>>>> There is currently no way to distinguish if we have code or data access.
+>>>> For now, we were using code access, because especially when debugging with
+>>>> the gdbstub, we want to read and disassemble what we single-step.
+>>>
+>>> IMHO we should add a "instruction" bit to MemTxAttrs and then use the
+>>> ...page_attrs_debug() interface instead. But ok, that's likely really
+>>> something for a separate clean-up, so for the time being:
+>>>
+>>
+>> That sounds like a good idea, and then switching over to
+>> cc->get_phys_page_attrs()
 > 
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> But looking at get_phys_page_attrs_debug() again, "MemTxAttrs *attrs" is
+> an output value not an input value. So there wouldn't be a way to
+> specify "what you want" from the caller. At least unless I am missing
+> something :)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Oops, you're right. Too bad :-(
 
-> ---
->  include/hw/mem/pc-dimm.h        | 1 -
->  backends/cryptodev-builtin.c    | 1 -
->  backends/cryptodev-vhost-user.c | 1 -
->  backends/cryptodev.c            | 1 -
->  hw/acpi/ich9.c                  | 1 +
->  hw/alpha/dp264.c                | 1 -
->  hw/alpha/typhoon.c              | 1 +
->  hw/arm/boot.c                   | 1 -
->  hw/arm/exynos4210.c             | 2 +-
->  hw/arm/fsl-imx25.c              | 1 -
->  hw/arm/fsl-imx31.c              | 1 -
->  hw/arm/msf2-soc.c               | 1 -
->  hw/arm/nrf51_soc.c              | 1 -
->  hw/arm/omap1.c                  | 1 +
->  hw/arm/omap2.c                  | 1 +
->  hw/arm/smmuv3.c                 | 1 -
->  hw/arm/virt.c                   | 1 +
->  hw/core/numa.c                  | 2 ++
->  hw/i386/pc_piix.c               | 1 -
->  hw/i386/pc_q35.c                | 1 -
->  hw/i386/pc_sysfw.c              | 1 -
->  hw/ppc/e500plat.c               | 1 -
->  hw/ppc/mpc8544ds.c              | 1 -
->  hw/ppc/pnv.c                    | 1 +
->  hw/ppc/ppc405_uc.c              | 1 -
->  hw/ppc/spapr_cpu_core.c         | 1 -
->  hw/ppc/spapr_vio.c              | 1 -
->  hw/riscv/boot.c                 | 2 +-
->  hw/s390x/s390-stattrib.c        | 1 -
->  hw/xtensa/xtensa_memory.c       | 1 -
->  monitor/qmp-cmds.c              | 1 -
->  target/alpha/machine.c          | 1 -
->  target/arm/machine.c            | 1 -
->  target/arm/monitor.c            | 1 -
->  target/hppa/machine.c           | 1 -
->  target/i386/hvf/hvf.c           | 1 -
->  target/i386/hvf/x86_task.c      | 1 -
->  target/i386/machine.c           | 1 -
->  target/i386/whpx-all.c          | 1 -
->  target/lm32/machine.c           | 1 -
->  target/moxie/machine.c          | 1 -
->  target/openrisc/machine.c       | 1 -
->  target/ppc/machine.c            | 1 -
->  target/sparc/machine.c          | 1 -
->  44 files changed, 10 insertions(+), 37 deletions(-)
+So never mind that idea ... your patch is certainly the best you can do
+here right now.
+
+ Thomas
+
 
