@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F25896CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 07:27:31 +0200 (CEST)
-Received: from localhost ([::1]:42982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8BD896C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 07:26:12 +0200 (CEST)
+Received: from localhost ([::1]:42956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hx2ri-0000Bc-PU
-	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 01:27:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57143)
+	id 1hx2qS-0005D0-4f
+	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 01:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57181)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hx2oU-0008WT-1g
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 01:24:13 -0400
+ (envelope-from <armbru@redhat.com>) id 1hx2oW-0000CL-1G
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 01:24:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hx2oR-00065e-U6
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 01:24:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48944)
+ (envelope-from <armbru@redhat.com>) id 1hx2oU-000697-76
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 01:24:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48958)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hx2oR-00064n-Lw
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 01:24:07 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hx2oT-00067j-W1
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 01:24:10 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 06FEC307F5E4
- for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 05:24:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4EF5C30622EA
+ for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 05:24:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A2B3646B4
- for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 05:24:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 85CA36F938;
+ Mon, 12 Aug 2019 05:24:05 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DC2051136421; Mon, 12 Aug 2019 07:23:59 +0200 (CEST)
+ id E12381136422; Mon, 12 Aug 2019 07:23:59 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 12 Aug 2019 07:23:39 +0200
-Message-Id: <20190812052359.30071-10-armbru@redhat.com>
+Date: Mon, 12 Aug 2019 07:23:40 +0200
+Message-Id: <20190812052359.30071-11-armbru@redhat.com>
 In-Reply-To: <20190812052359.30071-1-armbru@redhat.com>
 References: <20190812052359.30071-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Mon, 12 Aug 2019 05:24:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Mon, 12 Aug 2019 05:24:09 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 09/29] Include migration/qemu-file-types.h a
- lot less
+Subject: [Qemu-devel] [PATCH v4 10/29] ide: Include hw/ide/internal a bit
+ less outside hw/ide/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,428 +59,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In my "build everything" tree, changing migration/qemu-file-types.h
-triggers a recompile of some 2600 out of 6600 objects (not counting
-tests and objects that don't depend on qemu/osdep.h).
+According to hw/ide/internal's file comment, only files in hw/ide/ are
+supposed to include it.  Drag reality slightly closer to supposition.
 
-The culprit is again hw/hw.h, which supposedly includes it for
-convenience.
+Three includes outside hw/ide remain: hw/arm/sbsa-ref.c,
+include/hw/ide/pci.h, and include/hw/misc/macio/macio.h.  Turns out
+board code needs ide-internal.h to wire up IDE stuff.  More cleanup is
+needed.  Left for another day.
 
-Include migration/qemu-file-types.h only where it's needed.  Touching
-it now recompiles less than 200 objects.
-
+Cc: John Snow <jsnow@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/hw/hw.h             | 1 -
- include/migration/cpu.h     | 1 +
- hw/acpi/piix4.c             | 1 +
- hw/block/virtio-blk.c       | 1 +
- hw/char/virtio-serial-bus.c | 1 +
- hw/display/virtio-gpu.c     | 1 +
- hw/intc/apic_common.c       | 1 +
- hw/intc/s390_flic_kvm.c     | 1 +
- hw/nvram/eeprom93xx.c       | 1 +
- hw/nvram/fw_cfg.c           | 1 +
- hw/pci-host/piix.c          | 1 +
- hw/pci/msix.c               | 1 +
- hw/pci/pci.c                | 1 +
- hw/pci/shpc.c               | 1 +
- hw/ppc/spapr.c              | 1 +
- hw/s390x/s390-skeys.c       | 1 +
- hw/s390x/tod.c              | 1 +
- hw/s390x/virtio-ccw.c       | 1 +
- hw/scsi/mptsas.c            | 1 +
- hw/scsi/scsi-bus.c          | 1 +
- hw/scsi/scsi-disk.c         | 1 +
- hw/scsi/scsi-generic.c      | 1 +
- hw/scsi/virtio-scsi.c       | 1 +
- hw/timer/i8254_common.c     | 1 +
- hw/timer/twl92230.c         | 1 +
- hw/usb/redirect.c           | 1 +
- hw/virtio/vhost.c           | 1 +
- hw/virtio/virtio-mmio.c     | 1 +
- hw/virtio/virtio-pci.c      | 1 +
- hw/virtio/virtio.c          | 1 +
- target/ppc/kvm.c            | 1 +
- 31 files changed, 30 insertions(+), 1 deletion(-)
+ hw/ide/ahci_internal.h         | 1 +
+ hw/ppc/mac.h                   | 1 -
+ include/hw/arm/allwinner-a10.h | 1 -
+ include/hw/arm/xlnx-zynqmp.h   | 1 -
+ include/hw/misc/mos6522.h      | 1 -
+ hw/arm/allwinner-a10.c         | 1 +
+ hw/arm/cubieboard.c            | 1 +
+ hw/arm/xlnx-zynqmp.c           | 1 +
+ 8 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/hw.h b/include/hw/hw.h
-index a4fb2390e8..b399627cbe 100644
---- a/include/hw/hw.h
-+++ b/include/hw/hw.h
-@@ -11,7 +11,6 @@
- #include "exec/memory.h"
- #include "hw/irq.h"
- #include "migration/vmstate.h"
--#include "migration/qemu-file-types.h"
-=20
- void QEMU_NORETURN hw_error(const char *fmt, ...) GCC_FMT_ATTR(1, 2);
-=20
-diff --git a/include/migration/cpu.h b/include/migration/cpu.h
-index da1618d620..2a22470d0d 100644
---- a/include/migration/cpu.h
-+++ b/include/migration/cpu.h
-@@ -4,6 +4,7 @@
- #define MIGRATION_CPU_H
-=20
- #include "exec/cpu-defs.h"
-+#include "migration/qemu-file-types.h"
-=20
- #if TARGET_LONG_BITS =3D=3D 64
- #define qemu_put_betl qemu_put_be64
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index a59e58d937..0d8c821f37 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -40,6 +40,7 @@
- #include "hw/acpi/memory_hotplug.h"
- #include "hw/acpi/acpi_dev_interface.h"
- #include "hw/xen/xen.h"
-+#include "migration/qemu-file-types.h"
- #include "qom/cpu.h"
- #include "trace.h"
-=20
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index cbb3729158..1f40834d27 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -26,6 +26,7 @@
- # include <scsi/sg.h>
- #endif
- #include "hw/virtio/virtio-bus.h"
-+#include "migration/qemu-file-types.h"
- #include "hw/virtio/virtio-access.h"
-=20
- /* Config size before the discard support (hide associated config fields=
-) */
-diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
-index f7a54f261b..b868e54d72 100644
---- a/hw/char/virtio-serial-bus.c
-+++ b/hw/char/virtio-serial-bus.c
-@@ -22,6 +22,7 @@
- #include "qapi/error.h"
- #include "qemu/iov.h"
- #include "qemu/module.h"
-+#include "migration/qemu-file-types.h"
- #include "monitor/monitor.h"
- #include "qemu/error-report.h"
- #include "qemu/queue.h"
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 25d9e327fc..ed92071963 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -18,6 +18,7 @@
- #include "trace.h"
- #include "sysemu/dma.h"
- #include "hw/virtio/virtio.h"
-+#include "migration/qemu-file-types.h"
- #include "hw/virtio/virtio-gpu.h"
- #include "hw/virtio/virtio-gpu-bswap.h"
- #include "hw/virtio/virtio-gpu-pixman.h"
-diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
-index e764a2bb03..7045761281 100644
---- a/hw/intc/apic_common.c
-+++ b/hw/intc/apic_common.c
-@@ -31,6 +31,7 @@
- #include "sysemu/kvm.h"
- #include "hw/qdev.h"
- #include "hw/sysbus.h"
-+#include "migration/qemu-file-types.h"
-=20
- static int apic_irq_delivered;
- bool apic_report_tpr_access;
-diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-index ff45b4ab0b..819aa5e198 100644
---- a/hw/intc/s390_flic_kvm.c
-+++ b/hw/intc/s390_flic_kvm.c
-@@ -22,6 +22,7 @@
- #include "hw/s390x/s390_flic.h"
- #include "hw/s390x/adapter.h"
- #include "hw/s390x/css.h"
-+#include "migration/qemu-file-types.h"
- #include "trace.h"
-=20
- #define FLIC_SAVE_INITIAL_SIZE getpagesize()
-diff --git a/hw/nvram/eeprom93xx.c b/hw/nvram/eeprom93xx.c
-index 2db3d7cce6..5fc23df1d4 100644
---- a/hw/nvram/eeprom93xx.c
-+++ b/hw/nvram/eeprom93xx.c
-@@ -38,6 +38,7 @@
- #include "qemu/osdep.h"
- #include "hw/hw.h"
- #include "hw/nvram/eeprom93xx.h"
-+#include "migration/qemu-file-types.h"
-=20
- /* Debug EEPROM emulation. */
- //~ #define DEBUG_EEPROM
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 3032f1c65f..8db0297d59 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -31,6 +31,7 @@
- #include "hw/boards.h"
- #include "hw/nvram/fw_cfg.h"
- #include "hw/sysbus.h"
-+#include "migration/qemu-file-types.h"
- #include "trace.h"
- #include "qemu/error-report.h"
- #include "qemu/option.h"
-diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c
-index f3671d28b7..e5955457ab 100644
---- a/hw/pci-host/piix.c
-+++ b/hw/pci-host/piix.c
-@@ -32,6 +32,7 @@
- #include "qapi/error.h"
- #include "qemu/range.h"
- #include "hw/xen/xen.h"
-+#include "migration/qemu-file-types.h"
- #include "hw/pci-host/pam.h"
- #include "sysemu/reset.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-index d39dcf32e8..ebe804b473 100644
---- a/hw/pci/msix.c
-+++ b/hw/pci/msix.c
-@@ -20,6 +20,7 @@
- #include "hw/pci/msix.h"
- #include "hw/pci/pci.h"
- #include "hw/xen/xen.h"
-+#include "migration/qemu-file-types.h"
- #include "qemu/range.h"
- #include "qapi/error.h"
- #include "trace.h"
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 8076a80ab3..43a3cac138 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -29,6 +29,7 @@
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_bus.h"
- #include "hw/pci/pci_host.h"
-+#include "migration/qemu-file-types.h"
- #include "monitor/monitor.h"
- #include "net/net.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-index 5a10c6e9a5..7f0aa28e44 100644
---- a/hw/pci/shpc.c
-+++ b/hw/pci/shpc.c
-@@ -4,6 +4,7 @@
- #include "qemu/range.h"
- #include "qemu/error-report.h"
- #include "hw/pci/shpc.h"
-+#include "migration/qemu-file-types.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
- #include "hw/pci/msi.h"
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 5cade1a374..76e815ceee 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -42,6 +42,7 @@
- #include "sysemu/hw_accel.h"
- #include "kvm_ppc.h"
- #include "migration/misc.h"
-+#include "migration/qemu-file-types.h"
- #include "migration/global_state.h"
- #include "migration/register.h"
- #include "mmu-hash64.h"
-diff --git a/hw/s390x/s390-skeys.c b/hw/s390x/s390-skeys.c
-index e5bd92c0c7..d4807f7777 100644
---- a/hw/s390x/s390-skeys.c
-+++ b/hw/s390x/s390-skeys.c
-@@ -18,6 +18,7 @@
- #include "qapi/qmp/qdict.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
-+#include "migration/qemu-file-types.h"
- #include "migration/register.h"
-=20
- #define S390_SKEYS_BUFFER_SIZE (128 * KiB)  /* Room for 128k storage key=
-s */
-diff --git a/hw/s390x/tod.c b/hw/s390x/tod.c
-index a9fca8eb0b..1bf0875afa 100644
---- a/hw/s390x/tod.c
-+++ b/hw/s390x/tod.c
-@@ -14,6 +14,7 @@
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "sysemu/kvm.h"
-+#include "migration/qemu-file-types.h"
- #include "migration/register.h"
-=20
- void s390_init_tod(void)
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 43d3a1b029..fa537bfba3 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -17,6 +17,7 @@
- #include "sysemu/kvm.h"
- #include "net/net.h"
- #include "hw/virtio/virtio.h"
-+#include "migration/qemu-file-types.h"
- #include "hw/virtio/virtio-net.h"
- #include "hw/sysbus.h"
- #include "qemu/bitops.h"
-diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-index 3f94d5ab55..6d2c15a2bc 100644
---- a/hw/scsi/mptsas.c
-+++ b/hw/scsi/mptsas.c
-@@ -34,6 +34,7 @@
- #include "trace.h"
- #include "qapi/error.h"
- #include "mptsas.h"
-+#include "migration/qemu-file-types.h"
- #include "mpi.h"
-=20
- #define NAA_LOCALLY_ASSIGNED_ID 0x3ULL
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index fdc3a0e4e0..81fe7c3301 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -5,6 +5,7 @@
- #include "qemu/module.h"
- #include "qemu/option.h"
- #include "hw/scsi/scsi.h"
-+#include "migration/qemu-file-types.h"
- #include "scsi/constants.h"
- #include "hw/qdev.h"
- #include "sysemu/block-backend.h"
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index af3e622dc5..558fa11511 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
+diff --git a/hw/ide/ahci_internal.h b/hw/ide/ahci_internal.h
+index 95ecddcd3c..73424516da 100644
+--- a/hw/ide/ahci_internal.h
++++ b/hw/ide/ahci_internal.h
 @@ -25,6 +25,7 @@
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "hw/scsi/scsi.h"
-+#include "migration/qemu-file-types.h"
- #include "hw/scsi/emulation.h"
- #include "scsi/constants.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index c11a0c9a84..44430b6ea6 100644
---- a/hw/scsi/scsi-generic.c
-+++ b/hw/scsi/scsi-generic.c
-@@ -17,6 +17,7 @@
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "hw/scsi/scsi.h"
-+#include "migration/qemu-file-types.h"
- #include "hw/scsi/emulation.h"
- #include "sysemu/block-backend.h"
- #include "trace.h"
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 8b9e5e2b49..a6d61aacdb 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -17,6 +17,7 @@
- #include "qapi/error.h"
- #include "standard-headers/linux/virtio_ids.h"
- #include "hw/virtio/virtio-scsi.h"
-+#include "migration/qemu-file-types.h"
- #include "qemu/error-report.h"
- #include "qemu/iov.h"
- #include "qemu/module.h"
-diff --git a/hw/timer/i8254_common.c b/hw/timer/i8254_common.c
-index 76ca6ec444..3e980f2dee 100644
---- a/hw/timer/i8254_common.c
-+++ b/hw/timer/i8254_common.c
-@@ -30,6 +30,7 @@
- #include "qemu/timer.h"
- #include "hw/timer/i8254.h"
- #include "hw/timer/i8254_internal.h"
-+#include "migration/qemu-file-types.h"
+ #define HW_IDE_AHCI_INTERNAL_H
 =20
- /* val must be 0 or 1 */
- void pit_set_gate(ISADevice *dev, int channel, int val)
-diff --git a/hw/timer/twl92230.c b/hw/timer/twl92230.c
-index 0ef4fc1fc1..91ae7bf203 100644
---- a/hw/timer/twl92230.c
-+++ b/hw/timer/twl92230.c
-@@ -24,6 +24,7 @@
- #include "hw/hw.h"
- #include "qemu/timer.h"
- #include "hw/i2c/i2c.h"
-+#include "migration/qemu-file-types.h"
- #include "sysemu/sysemu.h"
- #include "ui/console.h"
- #include "qemu/bcd.h"
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 998fc6e4b0..846e60f3bb 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -41,6 +41,7 @@
- #include <usbredirfilter.h>
-=20
- #include "hw/usb.h"
-+#include "migration/qemu-file-types.h"
-=20
- /* ERROR is defined below. Remove any previous definition. */
- #undef ERROR
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index bc899fc60e..ba1006ad96 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -26,6 +26,7 @@
- #include "hw/virtio/virtio-bus.h"
- #include "hw/virtio/virtio-access.h"
- #include "migration/blocker.h"
-+#include "migration/qemu-file-types.h"
- #include "sysemu/dma.h"
- #include "trace.h"
-=20
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 97b7f35496..d4c0997074 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -23,6 +23,7 @@
- #include "standard-headers/linux/virtio_mmio.h"
+ #include "hw/ide/ahci.h"
++#include "hw/ide/internal.h"
  #include "hw/sysbus.h"
- #include "hw/virtio/virtio.h"
-+#include "migration/qemu-file-types.h"
- #include "qemu/host-utils.h"
- #include "qemu/module.h"
- #include "sysemu/kvm.h"
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index f6d2223e78..1117f2347b 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -19,6 +19,7 @@
 =20
- #include "standard-headers/linux/virtio_pci.h"
- #include "hw/virtio/virtio.h"
-+#include "migration/qemu-file-types.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
+ #define AHCI_MEM_BAR_SIZE         0x1000
+diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+index a741300ac9..6af87d1fa0 100644
+--- a/hw/ppc/mac.h
++++ b/hw/ppc/mac.h
+@@ -30,7 +30,6 @@
+ #include "exec/memory.h"
+ #include "hw/boards.h"
+ #include "hw/sysbus.h"
+-#include "hw/ide/internal.h"
+ #include "hw/input/adb.h"
+ #include "hw/misc/mos6522.h"
+ #include "hw/pci/pci_host.h"
+diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a1=
+0.h
+index 7182ce5c4b..101b72a71d 100644
+--- a/include/hw/arm/allwinner-a10.h
++++ b/include/hw/arm/allwinner-a10.h
+@@ -7,7 +7,6 @@
+ #include "hw/timer/allwinner-a10-pit.h"
+ #include "hw/intc/allwinner-a10-pic.h"
+ #include "hw/net/allwinner_emac.h"
+-#include "hw/ide/pci.h"
+ #include "hw/ide/ahci.h"
+=20
+ #include "sysemu/sysemu.h"
+diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+index 6cb65e7537..d7483c3b42 100644
+--- a/include/hw/arm/xlnx-zynqmp.h
++++ b/include/hw/arm/xlnx-zynqmp.h
+@@ -22,7 +22,6 @@
+ #include "hw/intc/arm_gic.h"
+ #include "hw/net/cadence_gem.h"
+ #include "hw/char/cadence_uart.h"
+-#include "hw/ide/pci.h"
+ #include "hw/ide/ahci.h"
+ #include "hw/sd/sdhci.h"
+ #include "hw/ssi/xilinx_spips.h"
+diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
+index 03d9f0c059..493c907537 100644
+--- a/include/hw/misc/mos6522.h
++++ b/include/hw/misc/mos6522.h
+@@ -29,7 +29,6 @@
+=20
+ #include "exec/memory.h"
+ #include "hw/sysbus.h"
+-#include "hw/ide/internal.h"
+ #include "hw/input/adb.h"
+=20
+ /* Bits in ACR */
+diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+index 35e906ca54..3b0d3eccdd 100644
+--- a/hw/arm/allwinner-a10.c
++++ b/hw/arm/allwinner-a10.c
+@@ -16,6 +16,7 @@
+  */
+=20
+ #include "qemu/osdep.h"
++#include "exec/address-spaces.h"
  #include "qapi/error.h"
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index a94ea18a9c..79c7a910cc 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -19,6 +19,7 @@
- #include "qemu/error-report.h"
  #include "qemu/module.h"
- #include "hw/virtio/virtio.h"
-+#include "migration/qemu-file-types.h"
- #include "qemu/atomic.h"
- #include "hw/virtio/virtio-bus.h"
- #include "hw/virtio/virtio-access.h"
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 8a06d3171e..4bd95be9cd 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -38,6 +38,7 @@
- #include "hw/ppc/spapr.h"
- #include "hw/ppc/spapr_cpu_core.h"
- #include "hw/ppc/ppc.h"
-+#include "migration/qemu-file-types.h"
- #include "sysemu/watchdog.h"
- #include "trace.h"
- #include "exec/gdbstub.h"
+ #include "cpu.h"
+diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
+index f7c8a5985a..38e0ca0f53 100644
+--- a/hw/arm/cubieboard.c
++++ b/hw/arm/cubieboard.c
+@@ -16,6 +16,7 @@
+  */
+=20
+ #include "qemu/osdep.h"
++#include "exec/address-spaces.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index a60830d37a..0f587e63d3 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -24,6 +24,7 @@
+ #include "hw/boards.h"
+ #include "exec/address-spaces.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/sysemu.h"
+ #include "kvm_arm.h"
+=20
+ #define GIC_NUM_SPI_INTR 160
 --=20
 2.21.0
 
