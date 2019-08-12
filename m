@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E8C89818
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 09:46:39 +0200 (CEST)
-Received: from localhost ([::1]:43503 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6508982A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 09:47:36 +0200 (CEST)
+Received: from localhost ([::1]:43518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hx52M-0005e9-St
-	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 03:46:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51252)
+	id 1hx53I-0007rJ-1I
+	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 03:47:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51249)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peterx@redhat.com>) id 1hx51R-00043f-Aq
+ (envelope-from <peterx@redhat.com>) id 1hx51R-00043e-3Y
  for qemu-devel@nongnu.org; Mon, 12 Aug 2019 03:45:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1hx51P-0007di-Nw
+ (envelope-from <peterx@redhat.com>) id 1hx51P-0007dl-Nz
  for qemu-devel@nongnu.org; Mon, 12 Aug 2019 03:45:41 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:41942)
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:45040)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hx51P-0007cV-EZ
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hx51P-0007cx-Es
  for qemu-devel@nongnu.org; Mon, 12 Aug 2019 03:45:39 -0400
-Received: by mail-wr1-f65.google.com with SMTP id j16so1437014wrr.8
- for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 00:45:37 -0700 (PDT)
+Received: by mail-wr1-f68.google.com with SMTP id p17so103686393wrf.11
+ for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 00:45:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/RddpD4U/uvkTQBHUlrj6JKlm4EFO0cmLwADivRnN0c=;
- b=ZyJ3d+f+zT5fgxbQQkn4IhL3HlSW7xL8lCBddhQePTsK8bWucSvTXPGGbu4gSpzvKO
- pk85BAXocuffnEpWmuddPlm/lXzFO46+0qSdv5l35u8v7IYw/AEYNEeFhC+N08NZbXbm
- O3Em7LoI+0gBFPDYyMb5i+0diUPeX5m39xbKsGdXatK9tU/AQ3jaWLi4ns6B/Is7KJqj
- xaHqXupNiO/nkjHr/pE9QNEOO2He7rs88Q5MammVqIfqZRbMpq0f/UR8+X8yrhMgae/7
- iZThAJ4wSwfaWp1Yjz5XXcKzryOtf0V1+0IagsqRoJ5Ehfw8dSnQxKqDpP6U8y1baByT
- Stzg==
-X-Gm-Message-State: APjAAAUXdW0qgZ71bGhgFSjPV1mxJh+rSDfq9H5Virkty8mMmMszbBiu
- HAGeKLmT4QqUThVRac0KzjumBhtZzRKbhw==
-X-Google-Smtp-Source: APXvYqxqr+2cK6s8/wrE80i/+84bisxo6p5MkWyjenzgG22xS3d3EbTL2jQMpSS3UYSKsscoc7mvMQ==
-X-Received: by 2002:adf:cd08:: with SMTP id w8mr2854034wrm.147.1565595936665; 
- Mon, 12 Aug 2019 00:45:36 -0700 (PDT)
+ bh=lTmpuaaCdK+p1SsvLRVZxUAT9brrOBbHnhL4uMZgKJs=;
+ b=TNXcNOPwC6V64YDLj+Gi8N2nhqX5a2W68O8EI3Ckk9ujg16mX/CHqttGfLoJpKGUAK
+ ZwwmkVa/wsGSPcfZSffi7M2JVdNZ8QSQAI85GPynjnGw5E9ECnrZXfIrz8QRpfDlzhBQ
+ 1YbNZ44TMZhWvTDDaz+XnaGj6jkc8JatgKLCKos4GtghDc03MCC7nvh/bJ1mv4H92wZX
+ XuBNgB1MtTgA3pIY8Cqa3LMLjNISSelIkOC55N6ICI+VVrC5CQK+HKJ9Rgfp5FjZQSMu
+ +GCmWBSQqm5qfc1P/gWDWN9rz4utQoyNk7bm7BaV/CiebBZXSVngLAbBPT4lbLyh07q8
+ 8H/Q==
+X-Gm-Message-State: APjAAAUFk0bby0vA7lYrH/GCOMm4oQemKL3sz3PkhPJqv8cltxq0xQjp
+ dcvfLT7+b9rvxkDH5tqCmIZ4X2vKEBk38A==
+X-Google-Smtp-Source: APXvYqwYyrYt3CyKED8drAxVo2rPv72ZkhD4VNuZOp69dfJgrsJ9LAOLsSSfzFeTG+OWMJmo/DsdJQ==
+X-Received: by 2002:a5d:5348:: with SMTP id t8mr37981882wrv.159.1565595937867; 
+ Mon, 12 Aug 2019 00:45:37 -0700 (PDT)
 Received: from xz-x1.redhat.com (net77-43-52-122.mclink.it. [77.43.52.122])
- by smtp.gmail.com with ESMTPSA id a84sm15909450wmf.29.2019.08.12.00.45.35
+ by smtp.gmail.com with ESMTPSA id a84sm15909450wmf.29.2019.08.12.00.45.36
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 12 Aug 2019 00:45:36 -0700 (PDT)
+ Mon, 12 Aug 2019 00:45:37 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 12 Aug 2019 09:45:28 +0200
-Message-Id: <20190812074531.28970-2-peterx@redhat.com>
+Date: Mon, 12 Aug 2019 09:45:29 +0200
+Message-Id: <20190812074531.28970-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190812074531.28970-1-peterx@redhat.com>
 References: <20190812074531.28970-1-peterx@redhat.com>
@@ -53,9 +53,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: [Qemu-devel] [PATCH RFC 1/4] intel_iommu: Sanity check vfio-pci
- config on machine init done
+X-Received-From: 209.85.221.68
+Subject: [Qemu-devel] [PATCH RFC 2/4] qdev/machine: Introduce
+ hotplug_allowed hook
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,104 +76,105 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This check was previously only happened when the IOMMU is enabled in
-the guest.  It was always too late because the enabling of IOMMU
-normally only happens during the boot of guest OS.  It means that we
-can bail out and exit directly during the guest OS boots if the
-configuration of devices are not supported.  Or, if the guest didn't
-enable vIOMMU at all, then the user can use the guest normally but as
-long as it reconfigure the guest OS to enable the vIOMMU then reboot,
-the user will see the panic right after the reset when the next boot
-starts.
-
-Let's make this failure even earlier so that we force the user to use
-caching-mode for vfio-pci devices when with the vIOMMU.  So the user
-won't get surprise at least during execution of the guest, which seems
-a bit nicer.
-
-This will affect some user who didn't enable vIOMMU in the guest OS
-but was using vfio-pci and the vtd device in the past.  However I hope
-it's not a majority because not enabling vIOMMU with the device
-attached is actually meaningless.
-
-We still keep the old assertion for safety so far because the hotplug
-path could still reach it, so far.
+Introduce this new per-machine hook to give any machine class a chance
+to do a sanity check on the to-be-hotplugged device as a sanity test.
+This will be used for x86 to try to detect some illegal configuration
+of devices, e.g., possible conflictions between vfio-pci and x86
+vIOMMU.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- hw/i386/intel_iommu.c | 38 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 35 insertions(+), 3 deletions(-)
+ hw/core/qdev.c         | 17 +++++++++++++++++
+ include/hw/boards.h    |  9 +++++++++
+ include/hw/qdev-core.h |  1 +
+ qdev-monitor.c         |  7 +++++++
+ 4 files changed, 34 insertions(+)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index de86f53b4e..642dd595ed 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -61,6 +61,13 @@
- static void vtd_address_space_refresh_all(IntelIOMMUState *s);
- static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n);
- 
-+static void vtd_panic_require_caching_mode(void)
-+{
-+    error_report("We need to set caching-mode=on for intel-iommu to enable "
-+                 "device assignment with IOMMU protection.");
-+    exit(1);
-+}
-+
- static void vtd_define_quad(IntelIOMMUState *s, hwaddr addr, uint64_t val,
-                             uint64_t wmask, uint64_t w1cmask)
- {
-@@ -2926,9 +2933,7 @@ static void vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
-     IntelIOMMUState *s = vtd_as->iommu_state;
- 
-     if (!s->caching_mode && new & IOMMU_NOTIFIER_MAP) {
--        error_report("We need to set caching-mode=on for intel-iommu to enable "
--                     "device assignment with IOMMU protection.");
--        exit(1);
-+        vtd_panic_require_caching_mode();
-     }
- 
-     /* Update per-address-space notifier flags */
-@@ -3696,6 +3701,32 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
-     return true;
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 94ebc0a4a1..d792b43c37 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -236,6 +236,23 @@ HotplugHandler *qdev_get_machine_hotplug_handler(DeviceState *dev)
+     return NULL;
  }
  
-+static int vtd_machine_done_notify_one(Object *child, void *unused)
++bool qdev_hotplug_allowed(DeviceState *dev, Error **errp)
 +{
-+    IntelIOMMUState *iommu = INTEL_IOMMU_DEVICE(x86_iommu_get_default());
++    MachineState *machine;
++    MachineClass *mc;
++    Object *m_obj = qdev_get_machine();
 +
-+    /*
-+     * We hard-coded here because vfio-pci is the only special case
-+     * here.  Let's be more elegant in the future when we can, but so
-+     * far there seems to be no better way.
-+     */
-+    if (object_dynamic_cast(child, "vfio-pci") && !iommu->caching_mode) {
-+        vtd_panic_require_caching_mode();
++    if (object_dynamic_cast(m_obj, TYPE_MACHINE)) {
++        machine = MACHINE(m_obj);
++        mc = MACHINE_GET_CLASS(machine);
++        if (mc->hotplug_allowed) {
++            return mc->hotplug_allowed(machine, dev, errp);
++        }
 +    }
 +
-+    return 0;
++    return true;
 +}
 +
-+static void vtd_machine_done_hook(Notifier *notifier, void *unused)
-+{
-+    object_child_foreach_recursive(object_get_root(),
-+                                   vtd_machine_done_notify_one, NULL);
-+}
-+
-+static Notifier vtd_machine_done_notify = {
-+    .notify = vtd_machine_done_hook,
-+};
-+
- static void vtd_realize(DeviceState *dev, Error **errp)
+ HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev)
  {
-     MachineState *ms = MACHINE(qdev_get_machine());
-@@ -3741,6 +3772,7 @@ static void vtd_realize(DeviceState *dev, Error **errp)
-     pci_setup_iommu(bus, vtd_host_dma_iommu, dev);
-     /* Pseudo address space under root PCI bus. */
-     pcms->ioapic_as = vtd_host_dma_iommu(bus, s, Q35_PSEUDO_DEVFN_IOAPIC);
-+    qemu_add_machine_init_done_notifier(&vtd_machine_done_notify);
- }
+     if (dev->parent_bus) {
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index a71d1a53a5..1cf63be45d 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -166,6 +166,13 @@ typedef struct {
+  *    The function pointer to hook different machine specific functions for
+  *    parsing "smp-opts" from QemuOpts to MachineState::CpuTopology and more
+  *    machine specific topology fields, such as smp_dies for PCMachine.
++ * @hotplug_allowed:
++ *    If the hook is provided, then it'll be called for each device
++ *    hotplug to check whether the device hotplug is allowed.  Return
++ *    true to grant allowance or false to reject the hotplug.  When
++ *    false is returned, an error must be set to show the reason of
++ *    the rejection.  If the hook is not provided, all hotplug will be
++ *    allowed.
+  */
+ struct MachineClass {
+     /*< private >*/
+@@ -223,6 +230,8 @@ struct MachineClass {
  
- static void vtd_class_init(ObjectClass *klass, void *data)
+     HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
+                                            DeviceState *dev);
++    bool (*hotplug_allowed)(MachineState *state, DeviceState *dev,
++                            Error **errp);
+     CpuInstanceProperties (*cpu_index_to_instance_props)(MachineState *machine,
+                                                          unsigned cpu_index);
+     const CPUArchIdList *(*possible_cpu_arch_ids)(MachineState *machine);
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 136df7774c..88e7ec4b60 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -284,6 +284,7 @@ void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
+                                  int required_for_version);
+ HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev);
+ HotplugHandler *qdev_get_machine_hotplug_handler(DeviceState *dev);
++bool qdev_hotplug_allowed(DeviceState *dev, Error **errp);
+ /**
+  * qdev_get_hotplug_handler: Get handler responsible for device wiring
+  *
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 58222c2211..6c80602771 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -614,6 +614,13 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+     /* create device */
+     dev = DEVICE(object_new(driver));
+ 
++    /* Check whether the hotplug is allowed by the machine */
++    if (qdev_hotplug && !qdev_hotplug_allowed(dev, &err)) {
++        /* Error must be set in the machine hook */
++        assert(err);
++        goto err_del_dev;
++    }
++
+     if (bus) {
+         qdev_set_parent_bus(dev, bus);
+     } else if (qdev_hotplug && !qdev_get_machine_hotplug_handler(dev)) {
 -- 
 2.21.0
 
