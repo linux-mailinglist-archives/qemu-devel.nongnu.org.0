@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C93EB89E9A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 14:39:51 +0200 (CEST)
-Received: from localhost ([::1]:45114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E7F89E79
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 14:33:58 +0200 (CEST)
+Received: from localhost ([::1]:45092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hx9c7-0008C4-1h
-	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 08:39:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43919)
+	id 1hx9WO-0005IY-Ow
+	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 08:33:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43037)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <randrianasulu@gmail.com>) id 1hx9bN-0007m7-AC
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:39:06 -0400
+ (envelope-from <philmd@redhat.com>) id 1hx9VU-0004rb-Sw
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:33:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <randrianasulu@gmail.com>) id 1hx9bM-0004rY-2D
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:39:05 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:43618)
+ (envelope-from <philmd@redhat.com>) id 1hx9VT-0000oQ-OM
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:33:00 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:40797)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <randrianasulu@gmail.com>)
- id 1hx9bL-0004qj-MX
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:39:04 -0400
-Received: by mail-lf1-x143.google.com with SMTP id c19so74120168lfm.10
- for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 05:39:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:user-agent:cc:references:in-reply-to
- :mime-version:content-transfer-encoding:content-disposition
- :message-id; bh=T3UFkfZVOYvpMwdINYQTXRqex/OJ9MIESAtVURuyhJg=;
- b=sMzY0DIF94W+0EAIuKWQy0L/6izfFMKiSQKkci9pEeIDnNKKXDqVMdnKzmbJ9+K/AE
- TwUf5mKCG2KbzYJJGFtbBO2kvJ7tnQqQLGac1OOvT90LQq57UQgKrVXsgrcsbUhWbG2W
- kIB8ff6eVQLLtN48V5vYaFl/QgzibUFRM73JZN5lm4pFNjUY18QgXGnAD4WM1r/d2GVC
- xkPtYYRZRW0f4ltAUPnpMWqhB/DFiJhRt1+ilR7q5uCFlWAmD0vruUK4RWQ+q9QoEHoG
- oOx0KLsn+NeXWGabc31HC/PXvoqCWfIi1B/kWF2FVGY4fq5uwRLA5EM7mRggBAlVLaVd
- WftA==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hx9VT-0000nx-IK
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 08:32:59 -0400
+Received: by mail-wr1-f66.google.com with SMTP id r1so5311457wrl.7
+ for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 05:32:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:user-agent:cc:references
- :in-reply-to:mime-version:content-transfer-encoding
- :content-disposition:message-id;
- bh=T3UFkfZVOYvpMwdINYQTXRqex/OJ9MIESAtVURuyhJg=;
- b=h0dsM2fmOihnWceklJg5sNih1SR3u7IxVy4mIoRZJNSI6fP+8s8/d7jMab84okRFOG
- OvBg8NizEgq2/Ibiks8v3RDqQE98RnIWnZGbZDGC2Pxj3NJmINttlI7fylAmOM5MNfWy
- s0KtFxOV4D8irGde523bMdI6uMTRn0QjY2FyUjpCuJP11CrbqwP7XHIi3ux0m7oO6/4G
- atUu7CL9rS326k785EERSoInNHNgQVt66U7+FVdiTq5bs/E5elo4WIj5mW/7x5pT5qDo
- 940YEJro9c/gU6CEJO4I/nEJh6K60Xa706typVtbMa5y+F+Ld+BeQKX6IKZA5HMarFgZ
- ifQg==
-X-Gm-Message-State: APjAAAUkweGMSl0F/nXqucKKIsCalS7dhowENHPsbjmPRTRFwj5/F1gw
- cumozwtvLK+lsSW52m23DJ4=
-X-Google-Smtp-Source: APXvYqwDLuy0F7O8fmGL6M3gXnyCwito+vwyKBxHjW+Ycq8t/kXSTXivfK25yc+2PVBYrkCHR7T8XQ==
-X-Received: by 2002:a05:6512:244:: with SMTP id
- b4mr20843505lfo.114.1565613541229; 
- Mon, 12 Aug 2019 05:39:01 -0700 (PDT)
-Received: from [192.168.1.100] ([176.116.252.109])
- by smtp.gmail.com with ESMTPSA id x13sm582273ljm.7.2019.08.12.05.38.59
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 12 Aug 2019 05:38:59 -0700 (PDT)
-From: Andrew Randrianasulu <randrianasulu@gmail.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Date: Mon, 12 Aug 2019 15:27:55 +0300
-User-Agent: KMail/1.9.10
-References: <cover.1565558093.git.balaton@eik.bme.hu>
- <8942e49f-493f-70c4-b2a1-10b97f2a7c6d@redhat.com>
- <alpine.BSF.2.21.9999.1908121239520.68551@zero.eik.bme.hu>
-In-Reply-To: <alpine.BSF.2.21.9999.1908121239520.68551@zero.eik.bme.hu>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=p8PxqbzG3e7C9Em19vRh/KyV6CjJIfxp9nJ/JsPCgro=;
+ b=X0g1sxPstD2BUJcBtncBz8M6sqUuP7OBid/nXBW7H9lsFo+5fzQg6OCxRovRlR6I1i
+ aJN4u9/CLszqEnBp5d1EbbfELTrno8bE2KEzN7P8yY/aOzmttsd4J2FLUpGbQtvjnhVN
+ hD5T4i/qn2flz4ZgyZZ/Zb+KX8pS+SS8DAzow+XsSis3iut0kyQU7FZjl/b4T4dBN9/9
+ v1xSU4mo567ptbnNW7utU6YZmSOahC4v60T3b71ELl6h9CAgk0aNPctUabLm62oR6V/t
+ zGLttRJQFvsTtzYcZk/m/I8XFuTMRKN/P5Y0rDo2E9W2/gPP8Qp/8yk5lGZOFo84sFqk
+ UkjA==
+X-Gm-Message-State: APjAAAVxULV1Mm3a9iloss6PCVup5mEsR/alciGa5fQhScAJKAHEJadQ
+ kUxthEQwvRqc+owfY9byEYD+ig==
+X-Google-Smtp-Source: APXvYqyGMaPYmCL3h5dIF4tPjovM5TY0QIMPfY/Uh1DbPMM3kPpqmruRCNHahiWlYFpuKYY72AoiaA==
+X-Received: by 2002:a5d:4f91:: with SMTP id d17mr26749922wru.74.1565613178344; 
+ Mon, 12 Aug 2019 05:32:58 -0700 (PDT)
+Received: from [192.168.1.37] (225.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.225])
+ by smtp.gmail.com with ESMTPSA id i66sm29795771wmi.11.2019.08.12.05.32.57
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 12 Aug 2019 05:32:57 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>,
+ Giuseppe Lettieri <giuseppe.lettieri@unipi.it>
+References: <20190806151435.10740-1-armbru@redhat.com>
+ <20190806151435.10740-28-armbru@redhat.com>
+ <8c2a6fad-6ac1-21b1-c17c-e1bd5ac41c9f@redhat.com>
+ <87a7ckrat7.fsf@dusky.pond.sub.org>
+ <ee3709c9-f351-081a-3aeb-53b7b6036b0a@redhat.com>
+ <87imr8l0ti.fsf_-_@dusky.pond.sub.org>
+ <695325d7-a0c3-73c1-97ab-f62fb345c622@unipi.it>
+ <87blwzho1y.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <2fb98b77-efab-6092-dd5a-fa50c3c4b3f9@redhat.com>
+Date: Mon, 12 Aug 2019 14:32:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-  charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Message-Id: <201908121527.55871.randrianasulu@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::143
-Subject: Re: [Qemu-devel] [PATCH 4/7] ati-vga: Fix cursor color with
- guest_hwcursor=true
+In-Reply-To: <87blwzho1y.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] Is network backend netmap worth keeping?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,99 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Vincenzo Maffione <v.maffione@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D0=92 =D1=81=D0=BE=D0=BE=D0=B1=D1=89=D0=B5=D0=BD=D0=B8=D0=B8 =D0=BE=D1=82 =
-Monday 12 August 2019 13:55:45 BALATON Zoltan =D0=BD=D0=B0=D0=BF=D0=B8=D1=
-=81=D0=B0=D0=BB(=D0=B0):
-> On Mon, 12 Aug 2019, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 8/12/19 12:28 PM, BALATON Zoltan wrote:
-> >> On Mon, 12 Aug 2019, Philippe Mathieu-Daud=C3=A9 wrote:
-> >>> On 8/11/19 11:14 PM, BALATON Zoltan wrote:
-> >>>> Fixes: a38127414bd007c5b6ae64c664d9e8839393277e
-> >>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> >>>> ---
-> >>>> ?hw/display/ati.c | 2 +-
-> >>>> ?1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/hw/display/ati.c b/hw/display/ati.c
-> >>>> index 699f38223b..b849f5d510 100644
-> >>>> --- a/hw/display/ati.c
-> >>>> +++ b/hw/display/ati.c
-> >>>> @@ -207,7 +207,7 @@ static void ati_cursor_draw_line(VGACommonState
-> >>>> *vga, uint8_t *d, int scr_y)
-> >>>> ???????????????? }
-> >>>> ???????????? } else {
-> >>>> ???????????????? color =3D (xbits & BIT(7) ? s->regs.cur_color1 :
-> >>>> -????????????????????????????????????????? s->regs.cur_color0) << 8 |
-> >>>> 0xff;
-> >>>> +????????????????????????????????????????? s->regs.cur_color0) |
-> >>>> 0xff000000;
-> >>>> ???????????? }
-> >>>> ???????????? if (vga->hw_cursor_x + i * 8 + j >=3D h) {
-> >>>> ???????????????? return; /* end of screen, don't span to next line */
-> >>>>
-> >>>
-> >>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> >>
-> >> Thanks. I've noticed that cursor color may still be wrong with MacOS
-> >> that uses big endian frame buffer so maybe this will also need to take
-> >> frame buffer endianness into account somehow but this patch corrects a
-> >> difference between guest_hwcursor true and false values, reproducible
-> >> with some Linux versions (as far as I remember). While the wrong cursor
-> >> color with MacOS is now consistent after this patch with both
-> >> guest_hwcursor true or false so that likely needs a different fix that
-> >> should be applied both to this place and to ati_cursor_define. (MacOS
-> >> does not yet boot fully, it needs patches to OpenBIOS to be able to run
-> >> an FCode ROM and will probably need the VBlank interrupt implemented in
-> >> ati-vga without which it displays a desktop but freezes there).
-> >
-> > If you remember which Linux version had this problem, or you can link to
-> > roms that behave incorrectly, please share, so we can add display
-> > regression tests.
->=20
-> Unfortunately I don't. I think it was Andrew who found this so maybe he=20
-> can remember.
+On 8/8/19 1:52 PM, Markus Armbruster wrote:
+> Giuseppe Lettieri <giuseppe.lettieri@unipi.it> writes:
+> 
+>> Dear Markus,
+>>
+>> the netmap project is alive and well, if a bit understuffed. We have
+>> moved to github:
+>>
+>> https://github.com/luigirizzo/netmap
+>>
+>> We have users from FreeBSD, where it is part of the official kernel,
+>> and Linux, both from Academia and industry.
+>>
+>> But you asked about the netmap backend in QEMU, in particular. When it
+>> was merged, the decision was made to disable it by default because it
+>> was not supported upstream in Linux. As Jason Wang says, this support
+>> is even more unlikely now than it was then.
+>>
+>> The fact the the backend has to be explicitly enabled and built from
+>> the sources has obviously cut down the number of potential
+>> users. However, we still think it is useful and we have pending
+>> updates for it. If it's causing problems in the workflow, I am willing
+>> to help as much as I can.
+> 
+> Could we make it a submodule, simililar to slirp and capstone?
 
-Blue cursor was seen on specific dvd (x86) image I did for myself,=20
-because it was  using plain X cursor (arrow or X-shaped), not colored=20
-versions used by default in many distributions.
+Good idea, this would extend the coverage. Netmap users/developers are
+probably best suited to do this.
 
-may be 'startx -- -retro" will show it briefly too?
+> 
+>     --enable-netmap=system      use the system's netmap
+>     --enable-netmap=git         use the git submodule
+>     --enable-netmap             use system's, else git, else fail
+>     --disable-netmap            disable netmap
+>     default                     use system's, else git, else disable
+> 
+> A fresh clone of https://github.com/luigirizzo/netmap clocks in at
+> 14MiB, which is between libslirp's 1.5MiB and capstone's 72MiB.
 
-from man Xserver (1.19.7):
+In which directory should we clone it? As /netmap directly?
 
-=2Dretro  starts  the  server  with  the  classic stipple and cursor visibl=
-e.  The default is to start with a black root window, and to suppress displ=
-ay of the cursor until the
-               first time an application calls XDefineCursor().=20
+Should we start using a 3rd-party/ subdirectory?
 
+Similarly, what about the virglrenderer component?
 
-https://yadi.sk/d/F8cbINWzWJ-DkA
-
-users: root and guest
-passwords: toor and guest
-
-You need to boot it to syslinux and type 'slax' there, because default will=
- boot x86-64 kernel without aty128fb .... (my fault)
-Unfortunately, i don't have fresh qemu compiled (previous tests were done f=
-rom tmpfs copy of qemu source tree),
- will recompile from git and re-test. from memory, loading aty128fb and
-setting config fragment in /etc/X11/xorg.conf.d for EXA AccelMethod and "Op=
-tion "UseFBDev" "1" ' allowed device (ati-vga) to work.
-
-
-
->=20
-> (You may also need latest vgabios-ati.bin from Gerd's repo to get Linux=20
-> drivers load and for rage128p that has to be in pc-bios dir because PCI=20
-> IDs are only patched in that way.)
->=20
-> Regards,
-> BALATON Zoltan
-
-
+Its repository is: https://anongit.freedesktop.org/git/virglrenderer.git
 
