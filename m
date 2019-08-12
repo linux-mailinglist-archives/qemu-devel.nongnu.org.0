@@ -2,40 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F028A2C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 17:59:31 +0200 (CEST)
-Received: from localhost ([::1]:46780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 274CA8A2CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 18:01:45 +0200 (CEST)
+Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxCjK-0006u2-GR
-	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 11:59:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49453)
+	id 1hxClU-0000ZQ-3C
+	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 12:01:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49526)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hxCic-0005j9-Ns
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 11:58:47 -0400
+ (envelope-from <philmd@redhat.com>) id 1hxCiq-0006L9-US
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 11:59:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hxCib-0007ty-4R
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 11:58:46 -0400
-Received: from relay.sw.ru ([185.231.240.75]:46402)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hxCia-0007sj-SX
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 11:58:45 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hxCiW-0001HP-8n; Mon, 12 Aug 2019 18:58:40 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 12 Aug 2019 18:58:29 +0300
-Message-Id: <1565625509-404969-3-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1565625509-404969-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1565625509-404969-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v4 2/2] char-socket: Lock tcp_chr_disconnect()
- and socket_reconnect_timeout()
+ (envelope-from <philmd@redhat.com>) id 1hxCip-00082b-Az
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 11:59:00 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:34707)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hxCip-00082L-4o
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 11:58:59 -0400
+Received: by mail-wm1-f65.google.com with SMTP id e8so305618wme.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Aug 2019 08:58:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ojHzSKmUtq2wwJbOKVnCV6R33CUS+m9GuyHudd1LmW8=;
+ b=X3VHxKM9pQBVgE/Q4wUt9rRb84v+0GHZaX8+Ghz1PZzifVOHnHfr2L8m1bFZ2tvDpn
+ AIkWa3/EF8DLMoOJns40PqGzWViGA0IUUcGUsSPBaBMeGVL6v8meYQniIy7jjDf55wng
+ S/RzvlL81M4wzC/mbotPCJwlXZ/Ml6Kqu9nfqyP0Suvl0XtThNr5wUKrOy0twzVSp6UQ
+ qdDwOTVvT0TM4Jc1AVJUC7WildjRbkvqNMAMQvonTEz4OsMRuYQbx2xOOl5NQaC8VQEY
+ hBI1JTWcD8fca5aG7iAiwQv0HYv3qmxfv/DCClUPWG16/f0iF5QGDa3eVa30uiTzEfUw
+ I2MA==
+X-Gm-Message-State: APjAAAXMYfvSx0RtZhSPY2ElkFWsuk2djJjt+O5Mx6X3b7CATanLsbWw
+ UuskHU6Tkes2Z9tdpkYofnOJ4g==
+X-Google-Smtp-Source: APXvYqzuUi4+iYtSh2Oik6wNEXmm1fn82ac8mo+HOeo79+xYhhC4KMlnID4UpId03WEYn7ltYZFDjA==
+X-Received: by 2002:a7b:c76d:: with SMTP id x13mr6527wmk.110.1565625538056;
+ Mon, 12 Aug 2019 08:58:58 -0700 (PDT)
+Received: from [192.168.1.34] (59.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.59])
+ by smtp.gmail.com with ESMTPSA id f17sm8895625wmj.27.2019.08.12.08.58.57
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 12 Aug 2019 08:58:57 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190812052359.30071-1-armbru@redhat.com>
+ <20190812052359.30071-2-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <30d9a77b-2197-71ca-30ea-d2eb87d0b601@redhat.com>
+Date: Mon, 12 Aug 2019 17:58:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190812052359.30071-2-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH v4 01/29] include: Make headers more
+ self-contained
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,107 +75,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, berrange@redhat.com, berto@igalia.com,
- marcandre.lureau@redhat.com, andrey.shinkevich@virtuozzo.com,
- pbonzini@redhat.com, den@openvz.org
+Cc: Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+On 8/12/19 7:23 AM, Markus Armbruster wrote:
+> Back in 2016, we discussed[1] rules for headers, and these were
+> generally liked:
+> 
+> 1. Have a carefully curated header that's included everywhere first.  We
+>    got that already thanks to Peter: osdep.h.
+> 
+> 2. Headers should normally include everything they need beyond osdep.h.
+>    If exceptions are needed for some reason, they must be documented in
+>    the header.  If all that's needed from a header is typedefs, put
+>    those into qemu/typedefs.h instead of including the header.
+> 
+> 3. Cyclic inclusion is forbidden.
+> 
+> This patch gets include/ closer to obeying 2.
+> 
+> It's actually extracted from my "[RFC] Baby steps towards saner
+> headers" series[2], which demonstrates a possible path towards
+> checking 2 automatically.  It passes the RFC test there.
+> 
+> [1] Message-ID: <87h9g8j57d.fsf@blackfin.pond.sub.org>
+>     https://lists.nongnu.org/archive/html/qemu-devel/2016-03/msg03345.html
+> [2] Message-Id: <20190711122827.18970-1-armbru@redhat.com>
+>     https://lists.nongnu.org/archive/html/qemu-devel/2019-07/msg02715.html
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-There's a race condition in which the tcp_chr_read() ioc handler can
-close a connection that is being written to from another thread.
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Running iotest 136 in a loop triggers this problem and crashes QEMU.
-
- (gdb) bt
- #0  0x00005558b842902d in object_get_class (obj=0x0) at qom/object.c:860
- #1  0x00005558b84f92db in qio_channel_writev_full (ioc=0x0, iov=0x7ffc355decf0, niov=1, fds=0x0, nfds=0, errp=0x0) at io/channel.c:76
- #2  0x00005558b84e0e9e in io_channel_send_full (ioc=0x0, buf=0x5558baf5beb0, len=138, fds=0x0, nfds=0) at chardev/char-io.c:123
- #3  0x00005558b84e4a69 in tcp_chr_write (chr=0x5558ba460380, buf=0x5558baf5beb0 "...", len=138) at chardev/char-socket.c:135
- #4  0x00005558b84dca55 in qemu_chr_write_buffer (s=0x5558ba460380, buf=0x5558baf5beb0 "...", len=138, offset=0x7ffc355dedd0, write_all=false) at chardev/char.c:112
- #5  0x00005558b84dcbc2 in qemu_chr_write (s=0x5558ba460380, buf=0x5558baf5beb0 "...", len=138, write_all=false) at chardev/char.c:147
- #6  0x00005558b84dfb26 in qemu_chr_fe_write (be=0x5558ba476610, buf=0x5558baf5beb0 "...", len=138) at chardev/char-fe.c:42
- #7  0x00005558b8088c86 in monitor_flush_locked (mon=0x5558ba476610) at monitor.c:406
- #8  0x00005558b8088e8c in monitor_puts (mon=0x5558ba476610, str=0x5558ba921e49 "") at monitor.c:449
- #9  0x00005558b8089178 in qmp_send_response (mon=0x5558ba476610, rsp=0x5558bb161600) at monitor.c:498
- #10 0x00005558b808920c in monitor_qapi_event_emit (event=QAPI_EVENT_SHUTDOWN, qdict=0x5558bb161600) at monitor.c:526
- #11 0x00005558b8089307 in monitor_qapi_event_queue_no_reenter (event=QAPI_EVENT_SHUTDOWN, qdict=0x5558bb161600) at monitor.c:551
- #12 0x00005558b80896c0 in qapi_event_emit (event=QAPI_EVENT_SHUTDOWN, qdict=0x5558bb161600) at monitor.c:626
- #13 0x00005558b855f23b in qapi_event_send_shutdown (guest=false, reason=SHUTDOWN_CAUSE_HOST_QMP_QUIT) at qapi/qapi-events-run-state.c:43
- #14 0x00005558b81911ef in qemu_system_shutdown (cause=SHUTDOWN_CAUSE_HOST_QMP_QUIT) at vl.c:1837
- #15 0x00005558b8191308 in main_loop_should_exit () at vl.c:1885
- #16 0x00005558b819140d in main_loop () at vl.c:1924
- #17 0x00005558b8198c84 in main (argc=18, argv=0x7ffc355df3f8, envp=0x7ffc355df490) at vl.c:4665
-
-This patch adds a lock to protect tcp_chr_disconnect() and
-socket_reconnect_timeout()
-
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- chardev/char-socket.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 7ca5d97..03f0340 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -150,7 +150,7 @@ static void tcp_chr_accept(QIONetListener *listener,
-                            void *opaque);
- 
- static int tcp_chr_read_poll(void *opaque);
--static void tcp_chr_disconnect(Chardev *chr);
-+static void tcp_chr_disconnect_locked(Chardev *chr);
- 
- /* Called with chr_write_lock held.  */
- static int tcp_chr_write(Chardev *chr, const uint8_t *buf, int len)
-@@ -174,7 +174,7 @@ static int tcp_chr_write(Chardev *chr, const uint8_t *buf, int len)
- 
-         if (ret < 0 && errno != EAGAIN) {
-             if (tcp_chr_read_poll(chr) <= 0) {
--                tcp_chr_disconnect(chr);
-+                tcp_chr_disconnect_locked(chr);
-                 return len;
-             } /* else let the read handler finish it properly */
-         }
-@@ -469,8 +469,9 @@ static void update_disconnected_filename(SocketChardev *s)
- /* NB may be called even if tcp_chr_connect has not been
-  * reached, due to TLS or telnet initialization failure,
-  * so can *not* assume s->state == TCP_CHARDEV_STATE_CONNECTED
-+ * This must be called with chr->chr_write_lock held.
-  */
--static void tcp_chr_disconnect(Chardev *chr)
-+static void tcp_chr_disconnect_locked(Chardev *chr)
- {
-     SocketChardev *s = SOCKET_CHARDEV(chr);
-     bool emit_close = s->state == TCP_CHARDEV_STATE_CONNECTED;
-@@ -490,6 +491,13 @@ static void tcp_chr_disconnect(Chardev *chr)
-     }
- }
- 
-+static void tcp_chr_disconnect(Chardev *chr)
-+{
-+    qemu_mutex_lock(&chr->chr_write_lock);
-+    tcp_chr_disconnect_locked(chr);
-+    qemu_mutex_unlock(&chr->chr_write_lock);
-+}
-+
- static gboolean tcp_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
- {
-     Chardev *chr = CHARDEV(opaque);
-@@ -1131,8 +1139,10 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
-     Chardev *chr = CHARDEV(opaque);
-     SocketChardev *s = SOCKET_CHARDEV(opaque);
- 
-+    qemu_mutex_lock(&chr->chr_write_lock);
-     g_source_unref(s->reconnect_timer);
-     s->reconnect_timer = NULL;
-+    qemu_mutex_unlock(&chr->chr_write_lock);
- 
-     if (chr->be_open) {
-         return false;
--- 
-1.8.3.1
-
+> ---
+>  include/block/raw-aio.h               | 2 ++
+>  include/block/write-threshold.h       | 2 ++
+>  include/disas/disas.h                 | 1 +
+>  include/exec/cputlb.h                 | 3 +++
+>  include/exec/exec-all.h               | 1 +
+>  include/exec/ioport.h                 | 2 ++
+>  include/exec/memory-internal.h        | 2 ++
+>  include/exec/ram_addr.h               | 1 +
+>  include/exec/softmmu-semi.h           | 2 ++
+>  include/exec/tb-hash.h                | 2 ++
+>  include/exec/user/thunk.h             | 2 ++
+>  include/fpu/softfloat-macros.h        | 2 ++
+>  include/hw/acpi/pci.h                 | 3 +++
+>  include/hw/acpi/tco.h                 | 3 +++
+>  include/hw/adc/stm32f2xx_adc.h        | 2 ++
+>  include/hw/arm/allwinner-a10.h        | 1 +
+>  include/hw/arm/aspeed_soc.h           | 1 +
+>  include/hw/arm/bcm2836.h              | 1 +
+>  include/hw/arm/exynos4210.h           | 3 +--
+>  include/hw/arm/fsl-imx25.h            | 1 +
+>  include/hw/arm/fsl-imx31.h            | 1 +
+>  include/hw/arm/sharpsl.h              | 3 +++
+>  include/hw/arm/xlnx-zynqmp.h          | 1 +
+>  include/hw/block/fdc.h                | 2 ++
+>  include/hw/block/flash.h              | 1 +
+>  include/hw/char/escc.h                | 1 +
+>  include/hw/char/xilinx_uartlite.h     | 2 ++
+>  include/hw/core/generic-loader.h      | 1 +
+>  include/hw/cris/etraxfs.h             | 1 +
+>  include/hw/cris/etraxfs_dma.h         | 3 +++
+>  include/hw/display/i2c-ddc.h          | 1 +
+>  include/hw/empty_slot.h               | 2 ++
+>  include/hw/gpio/bcm2835_gpio.h        | 1 +
+>  include/hw/i2c/aspeed_i2c.h           | 2 ++
+>  include/hw/i386/apic_internal.h       | 1 +
+>  include/hw/i386/ioapic_internal.h     | 1 +
+>  include/hw/intc/allwinner-a10-pic.h   | 2 ++
+>  include/hw/intc/heathrow_pic.h        | 2 ++
+>  include/hw/intc/mips_gic.h            | 1 +
+>  include/hw/isa/vt82c686.h             | 2 ++
+>  include/hw/mips/cps.h                 | 1 +
+>  include/hw/misc/macio/cuda.h          | 2 ++
+>  include/hw/misc/macio/gpio.h          | 3 +++
+>  include/hw/misc/macio/macio.h         | 2 ++
+>  include/hw/misc/macio/pmu.h           | 3 +++
+>  include/hw/misc/mips_cmgcr.h          | 2 ++
+>  include/hw/misc/mips_cpc.h            | 2 ++
+>  include/hw/misc/pvpanic.h             | 3 +++
+>  include/hw/net/allwinner_emac.h       | 1 +
+>  include/hw/net/lance.h                | 1 +
+>  include/hw/nvram/chrp_nvram.h         | 2 ++
+>  include/hw/pci-host/sabre.h           | 2 ++
+>  include/hw/pci-host/uninorth.h        | 2 +-
+>  include/hw/pci/pcie_aer.h             | 1 +
+>  include/hw/ppc/pnv_core.h             | 1 +
+>  include/hw/ppc/ppc4xx.h               | 4 ++++
+>  include/hw/ppc/spapr_irq.h            | 3 +++
+>  include/hw/ppc/spapr_vio.h            | 1 +
+>  include/hw/ppc/spapr_xive.h           | 2 ++
+>  include/hw/ppc/xive_regs.h            | 3 +++
+>  include/hw/riscv/boot.h               | 2 ++
+>  include/hw/riscv/riscv_hart.h         | 3 +++
+>  include/hw/riscv/sifive_clint.h       | 2 ++
+>  include/hw/riscv/sifive_e.h           | 1 +
+>  include/hw/riscv/sifive_plic.h        | 2 +-
+>  include/hw/riscv/sifive_prci.h        | 2 ++
+>  include/hw/riscv/sifive_test.h        | 2 ++
+>  include/hw/riscv/sifive_u.h           | 1 +
+>  include/hw/riscv/sifive_uart.h        | 3 +++
+>  include/hw/riscv/spike.h              | 3 +++
+>  include/hw/riscv/virt.h               | 3 +++
+>  include/hw/s390x/ap-device.h          | 3 +++
+>  include/hw/s390x/css-bridge.h         | 3 ++-
+>  include/hw/s390x/css.h                | 1 +
+>  include/hw/s390x/tod.h                | 2 +-
+>  include/hw/semihosting/console.h      | 2 ++
+>  include/hw/sh4/sh_intc.h              | 1 +
+>  include/hw/sparc/sparc64.h            | 2 ++
+>  include/hw/ssi/aspeed_smc.h           | 1 +
+>  include/hw/ssi/xilinx_spips.h         | 1 +
+>  include/hw/timer/allwinner-a10-pit.h  | 1 +
+>  include/hw/timer/i8254_internal.h     | 1 +
+>  include/hw/timer/m48t59.h             | 2 ++
+>  include/hw/timer/mc146818rtc_regs.h   | 2 ++
+>  include/hw/timer/xlnx-zynqmp-rtc.h    | 1 +
+>  include/hw/virtio/virtio-access.h     | 1 +
+>  include/hw/virtio/virtio-gpu-bswap.h  | 1 +
+>  include/hw/virtio/virtio-rng.h        | 1 +
+>  include/hw/watchdog/wdt_aspeed.h      | 1 +
+>  include/libdecnumber/decNumberLocal.h | 1 +
+>  include/migration/cpu.h               | 3 +++
+>  include/monitor/hmp-target.h          | 2 ++
+>  include/qemu/atomic128.h              | 2 ++
+>  include/qemu/ratelimit.h              | 2 ++
+>  include/qemu/thread-win32.h           | 2 +-
+>  include/sysemu/balloon.h              | 1 +
+>  include/sysemu/cryptodev-vhost-user.h | 3 +++
+>  include/sysemu/hvf.h                  | 1 +
+>  include/sysemu/iothread.h             | 1 +
+>  include/sysemu/kvm_int.h              | 2 ++
+>  include/sysemu/memory_mapping.h       | 2 ++
+>  include/sysemu/xen-mapcache.h         | 2 ++
+>  include/ui/egl-helpers.h              | 3 +++
+>  include/ui/input.h                    | 1 +
+>  include/ui/spice-display.h            | 1 +
+>  target/hppa/cpu.h                     | 2 +-
+>  106 files changed, 183 insertions(+), 8 deletions(-)
 
