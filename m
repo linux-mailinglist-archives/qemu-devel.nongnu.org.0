@@ -2,36 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A6E8A570
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 20:12:26 +0200 (CEST)
-Received: from localhost ([::1]:47596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37968A571
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Aug 2019 20:13:16 +0200 (CEST)
+Received: from localhost ([::1]:47604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxEnx-00009J-Kd
-	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 14:12:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40984)
+	id 1hxEom-00011J-8J
+	for lists+qemu-devel@lfdr.de; Mon, 12 Aug 2019 14:13:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40986)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hxEnS-0007sA-WF
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 14:11:55 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hxEnT-0007sG-6C
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 14:11:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hxEnS-0004dz-6L
- for qemu-devel@nongnu.org; Mon, 12 Aug 2019 14:11:54 -0400
-Received: from relay.sw.ru ([185.231.240.75]:50636)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hxEnS-0004e7-AI
+ for qemu-devel@nongnu.org; Mon, 12 Aug 2019 14:11:55 -0400
+Received: from relay.sw.ru ([185.231.240.75]:50634)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hxEnQ-0004cI-90; Mon, 12 Aug 2019 14:11:52 -0400
+ id 1hxEnQ-0004cK-94; Mon, 12 Aug 2019 14:11:52 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1hxEnM-0001oT-FD; Mon, 12 Aug 2019 21:11:48 +0300
+ id 1hxEnM-0001oT-O7; Mon, 12 Aug 2019 21:11:48 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Date: Mon, 12 Aug 2019 21:11:44 +0300
-Message-Id: <20190812181146.26121-1-vsementsov@virtuozzo.com>
+Date: Mon, 12 Aug 2019 21:11:45 +0300
+Message-Id: <20190812181146.26121-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20190812181146.26121-1-vsementsov@virtuozzo.com>
+References: <20190812181146.26121-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 0/2] deal with BDRV_BLOCK_RAW
+Subject: [Qemu-devel] [PATCH 1/2] block/raw-format: switch to
+ BDRV_BLOCK_DATA with BDRV_BLOCK_RECURSE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,25 +51,34 @@ Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+BDRV_BLOCK_RAW makes generic bdrv_co_block_status to fallthrough to
+returned file. But is it correct behavior at all? If returned file
+itself has a backing file, we may report as totally unallocated and
+area which actually has data in bottom backing file.
 
-I'm not sure, is it a bug or a feature, but using qcow2 under raw is
-broken. It should be either fixed like I propose (by Max's suggestion)
-or somehow forbidden (just forbid backing-file supporting node to be
-file child of raw-format node).
+So, mirroring of qcow2 under raw-format is broken. Which is illustrated
+by following commit with a test. Let's make raw-format behave more
+correctly returning BDRV_BLOCK_DATA.
 
-Vladimir Sementsov-Ogievskiy (2):
-  block/raw-format: switch to BDRV_BLOCK_DATA with BDRV_BLOCK_RECURSE
-  iotests: test mirroring qcow2 under raw format
+Suggested-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/raw-format.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- block/raw-format.c         |  2 +-
- tests/qemu-iotests/263     | 46 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/263.out | 12 ++++++++++
- tests/qemu-iotests/group   |  1 +
- 4 files changed, 60 insertions(+), 1 deletion(-)
- create mode 100755 tests/qemu-iotests/263
- create mode 100644 tests/qemu-iotests/263.out
-
+diff --git a/block/raw-format.c b/block/raw-format.c
+index bffd424dd0..a273ee2387 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -275,7 +275,7 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
+     *pnum = bytes;
+     *file = bs->file->bs;
+     *map = offset + s->offset;
+-    return BDRV_BLOCK_RAW | BDRV_BLOCK_OFFSET_VALID;
++    return BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID | BDRV_BLOCK_RECURSE;
+ }
+ 
+ static int coroutine_fn raw_co_pwrite_zeroes(BlockDriverState *bs,
 -- 
 2.18.0
 
