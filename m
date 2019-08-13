@@ -2,64 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5DE8B40A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 11:25:02 +0200 (CEST)
-Received: from localhost ([::1]:50538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D154D8B428
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 11:32:40 +0200 (CEST)
+Received: from localhost ([::1]:50568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxT37-0004m2-HP
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 05:25:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52308)
+	id 1hxTAW-0007pc-2Y
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 05:32:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53360)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hxT2K-0003dN-2r
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 05:24:13 -0400
+ (envelope-from <thuth@redhat.com>) id 1hxT8z-0006FB-6X
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 05:31:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hxT2I-0001C6-Pc
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 05:24:12 -0400
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:37522)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hxT2I-0001AX-Jg
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 05:24:10 -0400
-Received: by mail-ot1-x32d.google.com with SMTP id f17so34531319otq.4
- for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 02:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vLdoO4EAZfJ7x5Oz59KFzZylv7OwHHtS+v4png2bMy0=;
- b=J9JjoYRKCVwxBAdmpT+iFEbT/0jV8tnAz8n268tIiCz7Xw768HxS4On1oY6kNU94On
- awXWzcP/UhD1TizgPubN/hTH2Le1GC5B9rqDA+Tdz22qLDqfg9C1N5mTfZiTQaKaneIY
- AakZDKSkrmKVPEfdF/pnYxxd1bm5dYHhnZd71iTlejcgDO9oILwdxC2fMNDETcNLPDJr
- UuuHBY1xxCoLaOeAFObZJ88RJzZ9jvrBob0c+L7jTCqMa000GwPQGnoof+bbdEN5MhE7
- JVHPYEnlMW4Ew09RU43tRVIcSzur6UK+svtz5sjYMM0GtVifHFWBP0onmd423jM110Tv
- 1Dmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vLdoO4EAZfJ7x5Oz59KFzZylv7OwHHtS+v4png2bMy0=;
- b=F4k42OHZf91m1cBEOoEh23WtlA1/j0OAiY14fwmkNSjyS+KQle3hwVJWUffnYHyioh
- nSImAHJo7TqTb7A3qlrP1GzeXO/+0Ow3/mdCly4tYKggb6cr4WCHfysO2pqHim9f3fw1
- o6jcJMgDXJrZpn4ovqcZ1vtPz3LRpAHqBELmCsQ5bf44f/5iR55Hz9AxJxWaL/pOr8gn
- yRsPQfsvifs0EZmjYAGJjOTazPmk2IsWTzlhuPQ8EN3mqTOr1FJOXDsaKI3llCxllJRR
- hGtFZeN1MdtnPPVRUbwBkBVSZevAxQbUlLHrEPN0OvbupS3l8kfPNNCWMHv7+PbrKlaA
- MdBA==
-X-Gm-Message-State: APjAAAWa+Q5+OOYlKpDLhD24C7pwSIaE2rxy2go5X5A1nHA4sjEQFaE5
- 1ydYZbAA1cnYByT+RM15tTaKOCvvUTGRIu0Rs8rXKA==
-X-Google-Smtp-Source: APXvYqwP/u/YtmSbQCyluu4FHv5kVIQ/+geHFee7nTbDywjCmq52VwBDFs44EUYnvnszMtkvkq2ttuk3zFzyOeq+7eY=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr34974548oti.91.1565688248697; 
- Tue, 13 Aug 2019 02:24:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190813065920.23203-1-david@gibson.dropbear.id.au>
-In-Reply-To: <20190813065920.23203-1-david@gibson.dropbear.id.au>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Aug 2019 10:23:57 +0100
-Message-ID: <CAFEAcA9-oo-LCrhUdCzV7MZvwyTeT6sxQFt9B0JEaT7FE4tidA@mail.gmail.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32d
-Subject: Re: [Qemu-devel] [PULL 0/2] ppc-for-4.1 queue 20190813
+ (envelope-from <thuth@redhat.com>) id 1hxT8y-00054c-6b
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 05:31:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48924)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1hxT8w-000539-04; Tue, 13 Aug 2019 05:31:02 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BFF0B81F10;
+ Tue, 13 Aug 2019 09:31:00 +0000 (UTC)
+Received: from thuth.com (ovpn-116-154.ams2.redhat.com [10.36.116.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B78F82AF4D;
+ Tue, 13 Aug 2019 09:30:50 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 13 Aug 2019 11:30:41 +0200
+Message-Id: <20190813093047.27948-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Tue, 13 Aug 2019 09:31:00 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/6] First batch of global_qtest-removement
+ patches for QEMU 4.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,50 +51,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Amit Shah <amit@kernel.org>, John Snow <jsnow@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Aug 2019 at 07:59, David Gibson <david@gibson.dropbear.id.au> wrote:
->
-> The following changes since commit 5e7bcdcfe69ce0fad66012b2cfb2035003c37eef:
->
->   display/bochs: fix pcie support (2019-08-12 16:36:41 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/dgibson/qemu.git tags/ppc-for-4.1-20190813
->
-> for you to fetch changes up to 310cda5b5e9df642b19a0e9c504368ffba3b3ab9:
->
->   spapr/xive: Fix migration of hot-plugged CPUs (2019-08-13 16:50:30 +1000)
->
-> ----------------------------------------------------------------
-> ppc patch queue 2019-08-13 (last minute qemu-4.1 fixes)
->
-> Here's a very, very last minute pull request for qemu-4.1.  This fixes
-> two nasty bugs with the XIVE interrupt controller in "dual" mode
-> (where the guest decides which interrupt controller it wants to use).
-> One occurs when resetting the guest while I/O is active, and the other
-> with migration of hotplugged CPUs.
->
-> The timing here is very unfortunate.  Alas, we only spotted these bugs
-> very late, and I was sick last week, delaying analysis and fix even
-> further.
->
-> This series hasn't had nearly as much testing as I'd really like, but
-> I'd still like to squeeze it into qemu-4.1 if possible, since
-> definitely fixing two bad bugs seems like an acceptable tradeoff for
-> the risk of introducing different bugs.
+While global_qtest and its wrapper functions work fine for tests that only
+run one instance of QEMU, using the global_qtest variable in our qtests is
+very problematic for tests that use multiple test states (e.g. migration
+tests). Thus the core libqtest and libqos library functions should not
+depend on global_qtest or functions that rely on this variable.
 
-Are these regressions? Are they security issues?
+This patch series gets rid of these dependencies in most of the libqtest
+and libqos code.
 
-We are going to have an rc5 today, but my intention was to only put in
-the security-fix bug in the bochs display device, and then have
-a final release Thursday.
+Thomas Huth (6):
+  tests/libqos: Make generic virtio code independent from global_qtest
+  tests/libqos: Make virtio-pci code independent from global_qtest
+  tests/libqtest: Remove unused function hmp()
+  tests/libqtest: Clean up qtest_cb_for_every_machine() wrt global_qtest
+  tests/libqtest: Make qtest_qmp_device_add/del independent from
+    global_qtest
+  tests/libqtest: Make qmp_assert_success() independent from
+    global_qtest
 
-thanks
--- PMM
+ tests/cpu-plug-test.c      |  15 ++--
+ tests/e1000e-test.c        |   2 +-
+ tests/ivshmem-test.c       |   2 +-
+ tests/libqos/usb.c         |   6 +-
+ tests/libqos/usb.h         |   2 +-
+ tests/libqos/virtio-pci.c  |   8 +-
+ tests/libqos/virtio.c      |  74 +++++++++---------
+ tests/libqos/virtio.h      |  27 ++++---
+ tests/libqtest.c           |  37 ++++-----
+ tests/libqtest.h           |  24 +++---
+ tests/usb-hcd-ohci-test.c  |   2 +-
+ tests/usb-hcd-uhci-test.c  |   8 +-
+ tests/usb-hcd-xhci-test.c  |  22 +++---
+ tests/virtio-9p-test.c     |  16 ++--
+ tests/virtio-blk-test.c    | 153 +++++++++++++++++++------------------
+ tests/virtio-ccw-test.c    |  18 +++--
+ tests/virtio-net-test.c    |  35 +++++----
+ tests/virtio-rng-test.c    |   2 +-
+ tests/virtio-scsi-test.c   |  22 +++---
+ tests/virtio-serial-test.c |   4 +-
+ 20 files changed, 251 insertions(+), 228 deletions(-)
+
+-- 
+2.18.1
+
 
