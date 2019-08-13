@@ -2,46 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 907F48B065
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 09:01:23 +0200 (CEST)
-Received: from localhost ([::1]:49802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E9A8B06A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 09:02:50 +0200 (CEST)
+Received: from localhost ([::1]:49832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxQo6-0006UZ-N1
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 03:01:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57977)
+	id 1hxQpV-0001Hi-NK
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 03:02:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58441)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hxQmH-0004yv-LS
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 02:59:30 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hxQoc-00009h-GS
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 03:01:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hxQmG-0003Lk-Gf
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 02:59:29 -0400
-Received: from ozlabs.org ([203.11.71.1]:41121)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hxQmF-0003JA-79; Tue, 13 Aug 2019 02:59:28 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4673VN02RGz9sNy; Tue, 13 Aug 2019 16:59:23 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1565679564;
- bh=emrIgzu+XTunHT9T/aAO9YQzehEDIDPRz+sDuCSkRv0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gBo+s5apgl0rcWHCsC+SZWw6CnnolcfEcWweMB1VrIvP+KGXU4iGx+cd7lnMopWZu
- FcWxCvbJTB/coFyx2pZMHGyW3F3offAYHAUge6G2ONqa8Tl6vej82HL65UZLtpEfQa
- iD9M7W8Sru3z/RyJme0rRrTHa4+WURGAc3DNXiTU=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Date: Tue, 13 Aug 2019 16:59:20 +1000
-Message-Id: <20190813065920.23203-3-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190813065920.23203-1-david@gibson.dropbear.id.au>
-References: <20190813065920.23203-1-david@gibson.dropbear.id.au>
+ (envelope-from <no-reply@patchew.org>) id 1hxQoa-0004tA-OY
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 03:01:54 -0400
+Resent-Date: Tue, 13 Aug 2019 03:01:54 -0400
+Resent-Message-Id: <E1hxQoa-0004tA-OY@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21524)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hxQoW-0004oU-Ho; Tue, 13 Aug 2019 03:01:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1565679688; cv=none; d=zoho.com; s=zohoarc; 
+ b=i2w7YX3voJO1FfPOIpTYLQOgwjwIYtbacMXMQTC7gwZzprmXe9W5+Ve7SVaXP75JpocqAl9JMGyZy/qTRt5eDj2NldXwhN9ABU/Y6v5yLYumlo7aRRABJgCykYChpZyO/uM0gZJXLV9uEyZLogyROLRDxAqyT2nH/6w27n2WauU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1565679688;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=KmuUb29QKpsCrRwnFA83gu+rFnuB5+hvJyYqTVzAqYo=; 
+ b=nwZVJedIVPiOp24QpSO9EcpQRBG5y1KEH2VA+XjQrJub6Nz78o8BdPA8m3dM/FO4U4rTprEriYRELyhBguRaKVHW6i++px0A48j+4fZuoWXba5A7+t6G3VP3K6aOoL6/8xaftE8yK0Ir3OR2DJkHNp1wTPD++WW9upf512UAy5I=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1565679685579835.6976502356379;
+ Tue, 13 Aug 2019 00:01:25 -0700 (PDT)
+In-Reply-To: <20190813064853.29310-1-clg@kaod.org>
+Message-ID: <156567968422.1483.14886752616666164211@5dec9699b7de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: clg@kaod.org
+Date: Tue, 13 Aug 2019 00:01:25 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 2/2] spapr/xive: Fix migration of hot-plugged
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH] spapr/xive: Fix migration of hot-plugged
  CPUs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,124 +61,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
-
-The migration sequence of a guest using the XIVE exploitation mode
-relies on the fact that the states of all devices are restored before
-the machine is. This is not true for hot-plug devices such as CPUs
-which state come after the machine. This breaks migration because the
-thread interrupt context registers are not correctly set.
-
-Fix migration of hotplugged CPUs by restoring their context in the
-'post_load' handler of the XiveTCTX model.
-
-Fixes: 277dd3d7712a ("spapr/xive: add migration support for KVM")
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190813064853.29310-1-clg@kaod.org>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/intc/spapr_xive_kvm.c | 19 +++++++++++++++++--
- hw/intc/xive.c           | 21 ++++++++++++++++++++-
- include/hw/ppc/xive.h    |  1 +
- 3 files changed, 38 insertions(+), 3 deletions(-)
-
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 3bf8e7a20e..8898615c69 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -72,11 +72,17 @@ static void kvm_cpu_disable_all(void)
-  * XIVE Thread Interrupt Management context (KVM)
-  */
-=20
--static void kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error **errp)
-+void kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error **errp)
- {
-+    SpaprXive *xive =3D SPAPR_MACHINE(qdev_get_machine())->xive;
-     uint64_t state[2];
-     int ret;
-=20
-+    /* The KVM XIVE device is not in use yet */
-+    if (xive->fd =3D=3D -1) {
-+        return;
-+    }
-+
-     /* word0 and word1 of the OS ring. */
-     state[0] =3D *((uint64_t *) &tctx->regs[TM_QW1_OS]);
-=20
-@@ -655,7 +661,16 @@ int kvmppc_xive_post_load(SpaprXive *xive, int versi=
-on_id)
-         }
-     }
-=20
--    /* Restore the thread interrupt contexts */
-+    /*
-+     * Restore the thread interrupt contexts of initial CPUs.
-+     *
-+     * The context of hotplugged CPUs is restored later, by the
-+     * 'post_load' handler of the XiveTCTX model because they are not
-+     * available at the time the SpaprXive 'post_load' method is
-+     * called. We can not restore the context of all CPUs in the
-+     * 'post_load' handler of XiveTCTX because the machine is not
-+     * necessarily connected to the KVM device at that time.
-+     */
-     CPU_FOREACH(cs) {
-         PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-=20
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index cf77bdb7d3..da148e9f6f 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -615,12 +615,31 @@ static int vmstate_xive_tctx_pre_save(void *opaque)
-     return 0;
- }
-=20
-+static int vmstate_xive_tctx_post_load(void *opaque, int version_id)
-+{
-+    Error *local_err =3D NULL;
-+
-+    if (kvm_irqchip_in_kernel()) {
-+        /*
-+         * Required for hotplugged CPU, for which the state comes
-+         * after all states of the machine.
-+         */
-+        kvmppc_xive_cpu_set_state(XIVE_TCTX(opaque), &local_err);
-+        if (local_err) {
-+            error_report_err(local_err);
-+            return -1;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
- static const VMStateDescription vmstate_xive_tctx =3D {
-     .name =3D TYPE_XIVE_TCTX,
-     .version_id =3D 1,
-     .minimum_version_id =3D 1,
-     .pre_save =3D vmstate_xive_tctx_pre_save,
--    .post_load =3D NULL, /* handled by the sPAPRxive model */
-+    .post_load =3D vmstate_xive_tctx_post_load,
-     .fields =3D (VMStateField[]) {
-         VMSTATE_BUFFER(regs, XiveTCTX),
-         VMSTATE_END_OF_LIST()
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 55c53c7417..736335174a 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -438,5 +438,6 @@ void kvmppc_xive_source_set_irq(void *opaque, int src=
-no, int val);
- void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp);
- void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
- void kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error **errp);
-+void kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error **errp);
-=20
- #endif /* PPC_XIVE_H */
---=20
-2.21.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDgxMzA2NDg1My4yOTMx
+MC0xLWNsZ0BrYW9kLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNvbWUg
+Y29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9ybWF0
+aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSF0gc3BhcHIveGl2ZTogRml4IG1pZ3Jh
+dGlvbiBvZiBob3QtcGx1Z2dlZCBDUFVzCk1lc3NhZ2UtaWQ6IDIwMTkwODEzMDY0ODUzLjI5MzEw
+LTEtY2xnQGthb2Qub3JnClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQoj
+IS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBj
+b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+cmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0K
+Li9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBU
+IEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMz
+ODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1
+cGRhdGVdICAgICAgcGF0Y2hldy8yMDE5MDgxMjIzNDYzMC4yMjgxNC0xLWVoYWJrb3N0QHJlZGhh
+dC5jb20gLT4gcGF0Y2hldy8yMDE5MDgxMjIzNDYzMC4yMjgxNC0xLWVoYWJrb3N0QHJlZGhhdC5j
+b20KICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDE5MDgxMzA2NDg1My4yOTMxMC0xLWNs
+Z0BrYW9kLm9yZyAtPiBwYXRjaGV3LzIwMTkwODEzMDY0ODUzLjI5MzEwLTEtY2xnQGthb2Qub3Jn
+ClN1Ym1vZHVsZSAnY2Fwc3RvbmUnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvY2Fwc3RvbmUu
+Z2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdjYXBzdG9uZScKU3VibW9kdWxlICdkdGMnIChodHRw
+czovL2dpdC5xZW11Lm9yZy9naXQvZHRjLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAnZHRjJwpT
+dWJtb2R1bGUgJ3JvbXMvUWVtdU1hY0RyaXZlcnMnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQv
+UWVtdU1hY0RyaXZlcnMuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL1FlbXVNYWNEcml2
+ZXJzJwpTdWJtb2R1bGUgJ3JvbXMvU0xPRicgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9TTE9G
+LmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9TTE9GJwpTdWJtb2R1bGUgJ3JvbXMvZWRr
+MicgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9lZGsyLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0
+aCAncm9tcy9lZGsyJwpTdWJtb2R1bGUgJ3JvbXMvaXB4ZScgKGh0dHBzOi8vZ2l0LnFlbXUub3Jn
+L2dpdC9pcHhlLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9pcHhlJwpTdWJtb2R1bGUg
+J3JvbXMvb3BlbmJpb3MnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvb3BlbmJpb3MuZ2l0KSBy
+ZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL29wZW5iaW9zJwpTdWJtb2R1bGUgJ3JvbXMvb3Blbmhh
+Y2t3YXJlJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L29wZW5oYWNrd2FyZS5naXQpIHJlZ2lz
+dGVyZWQgZm9yIHBhdGggJ3JvbXMvb3BlbmhhY2t3YXJlJwpTdWJtb2R1bGUgJ3JvbXMvb3BlbnNi
+aScgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9vcGVuc2JpLmdpdCkgcmVnaXN0ZXJlZCBmb3Ig
+cGF0aCAncm9tcy9vcGVuc2JpJwpTdWJtb2R1bGUgJ3JvbXMvcWVtdS1wYWxjb2RlJyAoaHR0cHM6
+Ly9naXQucWVtdS5vcmcvZ2l0L3FlbXUtcGFsY29kZS5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGgg
+J3JvbXMvcWVtdS1wYWxjb2RlJwpTdWJtb2R1bGUgJ3JvbXMvc2VhYmlvcycgKGh0dHBzOi8vZ2l0
+LnFlbXUub3JnL2dpdC9zZWFiaW9zLmdpdC8pIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvc2Vh
+YmlvcycKU3VibW9kdWxlICdyb21zL3NlYWJpb3MtaHBwYScgKGh0dHBzOi8vZ2l0LnFlbXUub3Jn
+L2dpdC9zZWFiaW9zLWhwcGEuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL3NlYWJpb3Mt
+aHBwYScKU3VibW9kdWxlICdyb21zL3NnYWJpb3MnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQv
+c2dhYmlvcy5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvc2dhYmlvcycKU3VibW9kdWxl
+ICdyb21zL3NraWJvb3QnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvc2tpYm9vdC5naXQpIHJl
+Z2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvc2tpYm9vdCcKU3VibW9kdWxlICdyb21zL3UtYm9vdCcg
+KGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC91LWJvb3QuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRo
+ICdyb21zL3UtYm9vdCcKU3VibW9kdWxlICdyb21zL3UtYm9vdC1zYW00NjBleCcgKGh0dHBzOi8v
+Z2l0LnFlbXUub3JnL2dpdC91LWJvb3Qtc2FtNDYwZXguZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRo
+ICdyb21zL3UtYm9vdC1zYW00NjBleCcKU3VibW9kdWxlICdzbGlycCcgKGh0dHBzOi8vZ2l0LnFl
+bXUub3JnL2dpdC9saWJzbGlycC5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3NsaXJwJwpTdWJt
+b2R1bGUgJ3Rlc3RzL2ZwL2JlcmtlbGV5LXNvZnRmbG9hdC0zJyAoaHR0cHM6Ly9naXQucWVtdS5v
+cmcvZ2l0L2JlcmtlbGV5LXNvZnRmbG9hdC0zLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAndGVz
+dHMvZnAvYmVya2VsZXktc29mdGZsb2F0LTMnClN1Ym1vZHVsZSAndGVzdHMvZnAvYmVya2VsZXkt
+dGVzdGZsb2F0LTMnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvYmVya2VsZXktdGVzdGZsb2F0
+LTMuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICd0ZXN0cy9mcC9iZXJrZWxleS10ZXN0ZmxvYXQt
+MycKU3VibW9kdWxlICd1aS9rZXljb2RlbWFwZGInIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQv
+a2V5Y29kZW1hcGRiLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAndWkva2V5Y29kZW1hcGRiJwpD
+bG9uaW5nIGludG8gJ2NhcHN0b25lJy4uLgpTdWJtb2R1bGUgcGF0aCAnY2Fwc3RvbmUnOiBjaGVj
+a2VkIG91dCAnMjJlYWQzZTBiZmRiODc1MTY2NTY0NTMzMzYxNjBlMGEzN2IwNjZiZicKQ2xvbmlu
+ZyBpbnRvICdkdGMnLi4uClN1Ym1vZHVsZSBwYXRoICdkdGMnOiBjaGVja2VkIG91dCAnODhmMTg5
+MDlkYjczMWE2Mjc0NTZmMjZkNzc5NDQ1Zjg0ZTQ0OTUzNicKQ2xvbmluZyBpbnRvICdyb21zL1Fl
+bXVNYWNEcml2ZXJzJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9RZW11TWFjRHJpdmVycyc6IGNo
+ZWNrZWQgb3V0ICc5MGM0ODhkNWY0YTQwNzM0MjI0N2I5ZWE4NjlkZjFjMmQ5YzhlMjY2JwpDbG9u
+aW5nIGludG8gJ3JvbXMvU0xPRicuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvU0xPRic6IGNoZWNr
+ZWQgb3V0ICdiYTFhYjM2MGVlYmU2MzM4YmI4ZDdkODNhOTIyMGNjZjdlMjEzYWYzJwpDbG9uaW5n
+IGludG8gJ3JvbXMvZWRrMicuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvZWRrMic6IGNoZWNrZWQg
+b3V0ICcyMGQyZTVhMTI1ZTM0ZmM4NTAxMDI2NjEzYTcxNTQ5YjJhMWEzZTU0JwpTdWJtb2R1bGUg
+J1NvZnRGbG9hdCcgKGh0dHBzOi8vZ2l0aHViLmNvbS91Y2ItYmFyL2JlcmtlbGV5LXNvZnRmbG9h
+dC0zLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAnQXJtUGtnL0xpYnJhcnkvQXJtU29mdEZsb2F0
+TGliL2JlcmtlbGV5LXNvZnRmbG9hdC0zJwpTdWJtb2R1bGUgJ0NyeXB0b1BrZy9MaWJyYXJ5L09w
+ZW5zc2xMaWIvb3BlbnNzbCcgKGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wpIHJl
+Z2lzdGVyZWQgZm9yIHBhdGggJ0NyeXB0b1BrZy9MaWJyYXJ5L09wZW5zc2xMaWIvb3BlbnNzbCcK
+Q2xvbmluZyBpbnRvICdBcm1Qa2cvTGlicmFyeS9Bcm1Tb2Z0RmxvYXRMaWIvYmVya2VsZXktc29m
+dGZsb2F0LTMnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL2VkazIvQXJtUGtnL0xpYnJhcnkvQXJt
+U29mdEZsb2F0TGliL2JlcmtlbGV5LXNvZnRmbG9hdC0zJzogY2hlY2tlZCBvdXQgJ2I2NGFmNDFj
+MzI3NmY5N2YwZTE4MTkyMDQwMGVlMDU2YjljODgwMzcnCkNsb25pbmcgaW50byAnQ3J5cHRvUGtn
+L0xpYnJhcnkvT3BlbnNzbExpYi9vcGVuc3NsJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9lZGsy
+L0NyeXB0b1BrZy9MaWJyYXJ5L09wZW5zc2xMaWIvb3BlbnNzbCc6IGNoZWNrZWQgb3V0ICc1MGVh
+YWM5ZjMzMzc2NjcyNTlkZTcyNTQ1MWYyMDFlNzg0NTk5Njg3JwpTdWJtb2R1bGUgJ2JvcmluZ3Nz
+bCcgKGh0dHBzOi8vYm9yaW5nc3NsLmdvb2dsZXNvdXJjZS5jb20vYm9yaW5nc3NsKSByZWdpc3Rl
+cmVkIGZvciBwYXRoICdib3Jpbmdzc2wnClN1Ym1vZHVsZSAna3JiNScgKGh0dHBzOi8vZ2l0aHVi
+LmNvbS9rcmI1L2tyYjUpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ2tyYjUnClN1Ym1vZHVsZSAncHlj
+YS5jcnlwdG9ncmFwaHknIChodHRwczovL2dpdGh1Yi5jb20vcHljYS9jcnlwdG9ncmFwaHkuZ2l0
+KSByZWdpc3RlcmVkIGZvciBwYXRoICdweWNhLWNyeXB0b2dyYXBoeScKQ2xvbmluZyBpbnRvICdi
+b3Jpbmdzc2wnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL2VkazIvQ3J5cHRvUGtnL0xpYnJhcnkv
+T3BlbnNzbExpYi9vcGVuc3NsL2JvcmluZ3NzbCc6IGNoZWNrZWQgb3V0ICcyMDcwZjhhZDkxNTFk
+YzhmM2E3M2JmZmFhMTQ2YjVlNjkzN2E1ODNmJwpDbG9uaW5nIGludG8gJ2tyYjUnLi4uCmZhdGFs
+OiB1bmFibGUgdG8gYWNjZXNzICdodHRwczovL2dpdGh1Yi5jb20va3JiNS9rcmI1Lyc6IFRoZSBy
+ZXF1ZXN0ZWQgVVJMIHJldHVybmVkIGVycm9yOiA1MDMKQ2xvbmUgb2YgJ2h0dHBzOi8vZ2l0aHVi
+LmNvbS9rcmI1L2tyYjUnIGludG8gc3VibW9kdWxlIHBhdGggJ2tyYjUnIGZhaWxlZApGYWlsZWQg
+dG8gcmVjdXJzZSBpbnRvIHN1Ym1vZHVsZSBwYXRoICdyb21zL2VkazIvQ3J5cHRvUGtnL0xpYnJh
+cnkvT3BlbnNzbExpYi9vcGVuc3NsJwpDbG9uaW5nIGludG8gJ3JvbXMvaXB4ZScuLi4KU3VibW9k
+dWxlIHBhdGggJ3JvbXMvaXB4ZSc6IGNoZWNrZWQgb3V0ICdkZTQ1NjVjYmU3NmVhOWY3OTEzYTAx
+ZjMzMWJlM2VlOTAxYmI2ZTE3JwpDbG9uaW5nIGludG8gJ3JvbXMvb3BlbmJpb3MnLi4uClN1Ym1v
+ZHVsZSBwYXRoICdyb21zL29wZW5iaW9zJzogY2hlY2tlZCBvdXQgJ2M3OWUwZWNiODRmNGYxZWUz
+ZjczZjUyMTYyMmUyNjRlZGQxYmYxNzQnCkNsb25pbmcgaW50byAncm9tcy9vcGVuaGFja3dhcmUn
+Li4uClN1Ym1vZHVsZSBwYXRoICdyb21zL29wZW5oYWNrd2FyZSc6IGNoZWNrZWQgb3V0ICdjNTU5
+ZGE3YzhlZWM1ZTQ1ZWYxZjY3OTc4ODI3YWY2ZjBiOTU0NmY1JwpDbG9uaW5nIGludG8gJ3JvbXMv
+b3BlbnNiaScuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvb3BlbnNiaSc6IGNoZWNrZWQgb3V0ICdj
+ZTIyOGVlMDkxOWRlYjk5NTcxOTJkNzIzZWVjYzhhYWFlMjY5N2M2JwpDbG9uaW5nIGludG8gJ3Jv
+bXMvcWVtdS1wYWxjb2RlJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9xZW11LXBhbGNvZGUnOiBj
+aGVja2VkIG91dCAnYmYwZTEzNjk4ODcyNDUwMTY0ZmE3MDQwZGEzNmE5NWQyZDRiMzI2ZicKQ2xv
+bmluZyBpbnRvICdyb21zL3NlYWJpb3MnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL3NlYWJpb3Mn
+OiBjaGVja2VkIG91dCAnYTVjYWI1OGU5YTNmYjZlMTY4YWJhOTE5YzU2NjliZWE0MDY1NzNiNCcK
+Q2xvbmluZyBpbnRvICdyb21zL3NlYWJpb3MtaHBwYScuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMv
+c2VhYmlvcy1ocHBhJzogY2hlY2tlZCBvdXQgJzBmNGZlODQ2NTgxNjVlOTZjZTM1ODcwZmQxOWZj
+NjM0ZTE4MmU3N2InCkNsb25pbmcgaW50byAncm9tcy9zZ2FiaW9zJy4uLgpTdWJtb2R1bGUgcGF0
+aCAncm9tcy9zZ2FiaW9zJzogY2hlY2tlZCBvdXQgJ2NiYWVlNTIyODdlNWYzMjM3MzE4MWNmZjUw
+YTAwYjZjNGFjOTAxNWEnCkNsb25pbmcgaW50byAncm9tcy9za2lib290Jy4uLgpTdWJtb2R1bGUg
+cGF0aCAncm9tcy9za2lib290JzogY2hlY2tlZCBvdXQgJzI2MWNhOGU3NzllNTEzODg2OWE0NWYx
+NzRjYWE0OWJlNmEyNzQ1MDEnCkNsb25pbmcgaW50byAncm9tcy91LWJvb3QnLi4uClN1Ym1vZHVs
+ZSBwYXRoICdyb21zL3UtYm9vdCc6IGNoZWNrZWQgb3V0ICdkMzY4OTI2N2Y5MmM1OTU2ZTA5Y2M3
+ZDFiYWE0NzAwMTQxNjYyYmZmJwpDbG9uaW5nIGludG8gJ3JvbXMvdS1ib290LXNhbTQ2MGV4Jy4u
+LgpTdWJtb2R1bGUgcGF0aCAncm9tcy91LWJvb3Qtc2FtNDYwZXgnOiBjaGVja2VkIG91dCAnNjBi
+MzkxNmYzM2U2MTdhODE1OTczYzVhNmRmNzcwNTViMmUzYTU4OCcKQ2xvbmluZyBpbnRvICdzbGly
+cCcuLi4KU3VibW9kdWxlIHBhdGggJ3NsaXJwJzogY2hlY2tlZCBvdXQgJzEyNmMwNGFjYmFiZDdh
+ZDMyYzJiMDE4ZmUxMGRmYWMyYTNiYzEyMTAnCkNsb25pbmcgaW50byAndGVzdHMvZnAvYmVya2Vs
+ZXktc29mdGZsb2F0LTMnLi4uClN1Ym1vZHVsZSBwYXRoICd0ZXN0cy9mcC9iZXJrZWxleS1zb2Z0
+ZmxvYXQtMyc6IGNoZWNrZWQgb3V0ICdiNjRhZjQxYzMyNzZmOTdmMGUxODE5MjA0MDBlZTA1NmI5
+Yzg4MDM3JwpDbG9uaW5nIGludG8gJ3Rlc3RzL2ZwL2JlcmtlbGV5LXRlc3RmbG9hdC0zJy4uLgpT
+dWJtb2R1bGUgcGF0aCAndGVzdHMvZnAvYmVya2VsZXktdGVzdGZsb2F0LTMnOiBjaGVja2VkIG91
+dCAnNWE1OWRjZWMxOTMyNzM5NmEwMTFhMTdmZDkyNGFlZDRmZWM0MTZiMycKQ2xvbmluZyBpbnRv
+ICd1aS9rZXljb2RlbWFwZGInLi4uClN1Ym1vZHVsZSBwYXRoICd1aS9rZXljb2RlbWFwZGInOiBj
+aGVja2VkIG91dCAnNmIzZDcxNmUyYjY0NzJlYjcxODlkMzIyMDU1MjI4MGVmM2Q4MzJjZScKRmFp
+bGVkIHRvIHJlY3Vyc2UgaW50byBzdWJtb2R1bGUgcGF0aCAncm9tcy9lZGsyJwpUcmFjZWJhY2sg
+KG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CiAgRmlsZSAiLi9wYXRjaGV3LWNsaSIsIGxpbmUgNTA0
+LCBpbiB0ZXN0X29uZQogICAgZ2l0X2Nsb25lX3JlcG8oY2xvbmUsIHJbInJlcG8iXSwgclsiaGVh
+ZCJdLCBsb2dmKQogIEZpbGUgIi4vcGF0Y2hldy1jbGkiLCBsaW5lIDUwLCBpbiBnaXRfY2xvbmVf
+cmVwbwogICAgc3RkZXJyPWxvZ2YsIHN0ZG91dD1sb2dmKQogIEZpbGUgIi91c3IvbGliNjQvcHl0
+aG9uMy40L3N1YnByb2Nlc3MucHkiLCBsaW5lIDU1OCwgaW4gY2hlY2tfY2FsbAogICAgcmFpc2Ug
+Q2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNz
+RXJyb3I6IENvbW1hbmQgJ1snZ2l0JywgJ2Nsb25lJywgJy1xJywgJy0tcmVjdXJzaXZlJywgJy9o
+b21lL3BhdGNoZXcvLmNhY2hlL3BhdGNoZXctZ2l0LWNhY2hlL2h0dHBzZ2l0aHViY29tcGF0Y2hl
+d3Byb2plY3RxZW11LTNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQnLCAn
+L3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLW4zNDdpb3NzL3NyYyddJyByZXR1cm5lZCBub24t
+emVybyBleGl0IHN0YXR1cyAxCgoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDov
+L3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA4MTMwNjQ4NTMuMjkzMTAtMS1jbGdAa2FvZC5vcmcvdGVz
+dGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21h
+dGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlv
+dXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
