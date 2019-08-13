@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AE48B958
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 15:01:15 +0200 (CEST)
-Received: from localhost ([::1]:52134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF208B967
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 15:02:48 +0200 (CEST)
+Received: from localhost ([::1]:52216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxWQN-0001sg-4p
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 09:01:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55412)
+	id 1hxWRr-0005zh-Q4
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 09:02:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55482)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hxWOE-0000ee-CN
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:59:03 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hxWOM-0000sl-EX
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:59:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hxWOA-0007qm-Vw
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:59:00 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44999)
+ (envelope-from <richard.henderson@linaro.org>) id 1hxWOL-0008Fr-Ha
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:59:10 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42484)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hxWO9-0007kg-0y
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:58:58 -0400
-Received: by mail-wr1-f67.google.com with SMTP id p17so107648688wrf.11
- for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 05:58:55 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hxWOL-0008Cw-Ai
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:59:09 -0400
+Received: by mail-wr1-x441.google.com with SMTP id b16so10953679wrq.9
+ for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 05:59:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XMyDqrGNzUMHL5j9hv2v7mYSZ75L907+avfKtjvVjic=;
+ b=Z8e3dSVzp5VPnB3W93BxbfMRe5hMza6KS5nANNkVQYkLBm9agczWEWtmVC3rOtlC3U
+ SfvYz/xSmSstmSNNAH0l2R64PDL1Wnmd6c6DWivXshEERsV/XA/8+KDLHFmopVIbvIJo
+ YZOoD6kvOYVjCer77CHo9FNbYSOPygyTR+HLmYoee0EUR2uwHmU2Dx8wHF+LY9utFNkQ
+ P0t3S0pQo8S4YQp6U8V3eLJka6UyZaJVgyuFBzLYKi4x/MXylPYtPJCgY6W++R0K57eD
+ S0RjIpEFXxl5QCmHhYDuJE7G/j5BCEzBuzS189/ProyVh0HIYUwBhsgEWZ/K0oKxlUSH
+ YUyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=fSDobMtrpv7uqqhpc8Qfk8Z5RIRCnX2/FhJvlis3IsY=;
- b=t/NJAZai+KArghiY4bvO3wdyW7taZf8aiDhDQ+uPwB/c/93S8JRp1bOSLgpBCH6XJ7
- bJ5+iV5qwkghvP9NsfiSknOS/Tz/UArsqjbs60zL+8De57qXeIXG14vtML8zXF/fkLV2
- gjBs6Bm35qtbDde2eR+uBNkgssfdi3R2PiGvPCozOmjam2g2eHT273vARoW9kLjf4ALx
- m+oJHKX8KgZUj4+2fHeJXVh1h9pPGYr4Uf8Yc9vufKsCGDbthINj0OzRqkwZd23nRbzY
- jwL9XON4tOq+Gx8Ohvn6hjw7gJ9aN3JwJmMaPJstWHA+WGl5euKd3Ze1K+CywbSYjhaZ
- iUhQ==
-X-Gm-Message-State: APjAAAU+nL00Y3YjGyum0BqexNOT6Jn8VuSzY0+ehyrNNtRTU5PcjzBn
- bop7lJzZBPjn6P3IGLwCRGBC9g==
-X-Google-Smtp-Source: APXvYqypUCRbAXcXrdc7OfF17O5O/lHk5Qybk5vl+i1dLZ9Q6OLjoNvcFEnMHYJzB8cvRcQ5WtnltA==
-X-Received: by 2002:a5d:5701:: with SMTP id a1mr24505610wrv.95.1565701135069; 
- Tue, 13 Aug 2019 05:58:55 -0700 (PDT)
-Received: from [192.168.1.35] (251.red-88-10-102.dynamicip.rima-tde.net.
- [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id o11sm9337864wrw.19.2019.08.13.05.58.54
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 13 Aug 2019 05:58:54 -0700 (PDT)
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, pbonzini@redhat.com, mst@redhat.com
-References: <20190813102936.32195-1-dgilbert@redhat.com>
- <20190813102936.32195-2-dgilbert@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <f87ef58d-a549-54cf-4a3a-8e4712c699e1@redhat.com>
-Date: Tue, 13 Aug 2019 14:58:53 +0200
+ bh=XMyDqrGNzUMHL5j9hv2v7mYSZ75L907+avfKtjvVjic=;
+ b=TVYKFAI/GNrrUJ5JnqMIu7vgh+L4DUogJtofSS1D7tjT+yzETrqcnmiRezxw+gAa3Z
+ qAZf3XrepNXLNveQp+DxVLg9K/rBjfo3V0NEIm9crSzg4jtEVLw/bWCUHaPEJisZsfGL
+ i2ndZNNLyqrn58TcStbSW80/xc3NooQPxnuduazKuYcxMaUiWrHicLDSAqmtjM4VOPYL
+ ziRAqC07YG5AF1Ul6QHRKxeRf52wZ5Gif9RKnNxkQwbD6g1kGvNxZTYXZ+JvziRD8E4F
+ a0EuFWptFdZlpBjnexrktz683zcI5kdxBGLxNoWFhDRzY/dsxuy551TbyiETWy9bfqYd
+ SdrA==
+X-Gm-Message-State: APjAAAXGi73rbbqNP32zBdAsyBO17R165mIxyomdB5nWNIBqETw96EFL
+ kDzfeR6MzMprhKtP9iaq035nVg==
+X-Google-Smtp-Source: APXvYqxTVehFUO/yI/PhcJvvyPPBHr0sRRw/jssL51qjD4pNaTs182aYnr23qSKL4kPq2boJsfFheQ==
+X-Received: by 2002:a5d:54ce:: with SMTP id x14mr20959177wrv.237.1565701148060; 
+ Tue, 13 Aug 2019 05:59:08 -0700 (PDT)
+Received: from ?IPv6:2a02:c7f:a69:1700:8897:9507:94c2:b98d?
+ ([2a02:c7f:a69:1700:8897:9507:94c2:b98d])
+ by smtp.gmail.com with ESMTPSA id 4sm251817467wro.78.2019.08.13.05.59.07
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 13 Aug 2019 05:59:07 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190813124946.25322-1-alex.bennee@linaro.org>
+ <20190813124946.25322-2-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <4886db3e-7869-3d69-70b6-257590a5c679@linaro.org>
+Date: Tue, 13 Aug 2019 13:59:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190813102936.32195-2-dgilbert@redhat.com>
+In-Reply-To: <20190813124946.25322-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH 1/2] memory: Align and add helper for
- comparing MemoryRegionSections
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH v3 01/13] fpu: replace LIT64 usage with
+ UINT64_C for specialize constants
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,71 +86,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, armbru@redhat.com,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
-
-On 8/13/19 12:29 PM, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On 8/13/19 1:49 PM, Alex Bennée wrote:
+> We have a wrapper that does the right thing from stdint.h so lets use
+> it for our constants in softfloat-specialize.h
 > 
-> MemoryRegionSection includes an Int128 'size' field;
-> on some platforms the compiler causes an alignment of this to
-> a 128bit boundary, leaving 8 bytes of dead space.
-> This deadspace can be filled with junk.
-> 
-> Move the size field to the top avoiding unnecsssary alignment
-
-"unnecessary"
-
-This is enough change to be in its own commit.
-
----
-
-> and provide an 'eq' routine to safely compare MRS's.
-
-This is another change, and should be squashed in the next patch IMO.
-Doesn't Clang warn about unused 'static inline' btw?
-
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  include/exec/memory.h | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 606250172a..ce62e847bd 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -487,15 +487,27 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
->   * @nonvolatile: this section is non-volatile
->   */
->  struct MemoryRegionSection {
-> +    Int128 size;
->      MemoryRegion *mr;
->      FlatView *fv;
->      hwaddr offset_within_region;
-> -    Int128 size;
->      hwaddr offset_within_address_space;
->      bool readonly;
->      bool nonvolatile;
->  };
->  
-> +static inline bool MemoryRegionSection_eq(MemoryRegionSection *a,
-> +                                          MemoryRegionSection *b)
-> +{
-> +    return a->mr == b->mr &&
-> +           a->fv == b->fv &&
-> +           a->offset_within_region == b->offset_within_region &&
-> +           a->offset_within_address_space == b->offset_within_address_space &&
-> +           int128_eq(a->size, b->size) &&
-> +           a->readonly == b->readonly &&
-> +           a->nonvolatile == b->nonvolatile;
-> +}
-> +
->  /**
->   * memory_region_init: Initialize a memory region
->   *
-> 
+>  fpu/softfloat-specialize.h | 26 +++++++++++++-------------
+>  1 file changed, 13 insertions(+), 13 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
