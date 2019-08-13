@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353F38B95C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 15:01:48 +0200 (CEST)
-Received: from localhost ([::1]:52146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBB78B955
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 15:00:40 +0200 (CEST)
+Received: from localhost ([::1]:52120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxWQt-00039e-D5
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 09:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54995)
+	id 1hxWPn-0001Ly-OE
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 09:00:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54172)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hxWMK-0005bc-Fo
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:57:06 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hxWIe-0000fY-0U
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:53:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hxWMI-0006NA-HU
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:57:04 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34673)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hxWMH-0006Lm-Rr
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:57:01 -0400
-Received: by mail-wm1-x344.google.com with SMTP id e8so1022654wme.1
- for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 05:57:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NhU5Jn6aRhUkVeAxdLRNRjvBS88J8AMxyLyTZHIDgUs=;
- b=y34tfAgMEXrAcjHKNjsPdgKQTfH4+EMkXrl+0P4gcDAmKfiXmOEcpIcehyAwQiPxp/
- WuWKU7QdLHUMGPAPruPWDyjNcmkDFubxKNhV3Tfug6SccpAEgZ2Cub3lCkKagPkTkBDE
- Oak67/25MeG626YoiU5eV93gat2u6JVg6RsyShIAHxSTQYIs72BRdRQ5zMH59SQyFVKA
- Y2U1gLfUW1KAhZYFBxrVR+l3EFUSk9mKGRBuNP5YV8K7i4wD8Xs185hCQ3lpgNwfQ48C
- D7js1P9qjLGmwyEUD3h/t/TAdPlRuVnfIcM4szBqjCBC/wwe1+B/QAbfnF6N5991mxER
- 2g9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NhU5Jn6aRhUkVeAxdLRNRjvBS88J8AMxyLyTZHIDgUs=;
- b=H8i6G4nFBjOODn7ezSuJYRyzp6iWD4ytLgA5tSJpBUPWaO6FhxhBZmxm5GeyEntqGH
- HaSoniplv4sELDWc+n68WwtoMU+e1ttUvcTR1CSKp1OlE2CgceCTg3a9GooXR4xeqUGb
- 3nAXKnq0ZrMjDJbe63oTJoUQWRCM8UpTYYh03U7BHTST5SfhxHfM1UTu2In2zO2rdqvQ
- Rn2AsWv7tLJmdulDcv1AtqnT4RNT19LwkUq3FiKQMxrBOKN3j3CXj5TH3bfHSI4nHtc0
- xyMXIz06GQByalO4lHjXNQvHCxJDGHLzRhE674XZR9yeuR0T8NrH19NDJAKhkF3je6Z6
- Zmvg==
-X-Gm-Message-State: APjAAAWRjtyr8KPuUrVzmtR6eIHMdJcc+z67hClSV74hKq2t2XcXr0lx
- tg9bR3vhlVdB5f9hXaf7xsgC8Q==
-X-Google-Smtp-Source: APXvYqwmAf6c6Jqe1j2TM6xrZp3G0tCkAl3u7jBxvAlDJcddN0VIeRSucCSg7gcV+RhflhVmEgLOiw==
-X-Received: by 2002:a05:600c:207:: with SMTP id
- 7mr2950991wmi.146.1565701019569; 
- Tue, 13 Aug 2019 05:56:59 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id j15sm8296188wrn.70.2019.08.13.05.56.58
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 13 Aug 2019 05:56:59 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 067901FF9B;
- Tue, 13 Aug 2019 13:49:48 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue, 13 Aug 2019 13:49:45 +0100
-Message-Id: <20190813124946.25322-13-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190813124946.25322-1-alex.bennee@linaro.org>
-References: <20190813124946.25322-1-alex.bennee@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1hxWId-0003SN-0z
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:53:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51380)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hxWIa-0003QR-C1; Tue, 13 Aug 2019 08:53:12 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id B1C01315C031;
+ Tue, 13 Aug 2019 12:53:11 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.136])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F113D3468F;
+ Tue, 13 Aug 2019 12:53:07 +0000 (UTC)
+To: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>
+References: <c293e99d-331a-f3aa-eecb-d562554350f9@redhat.com>
+ <ac5a6d46-99ee-ef1f-9fa0-8ebeab0f4485@redhat.com>
+ <fdb15508-4cb8-4295-af34-63d402e58ccd@redhat.com>
+ <56e13788-f253-ec71-52b6-ad6eb5afe739@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <124da2be-b865-f78b-164f-9555bd967aaf@redhat.com>
+Date: Tue, 13 Aug 2019 14:53:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v3 12/13] target/riscv: rationalise softfloat
- includes
+In-Reply-To: <56e13788-f253-ec71-52b6-ad6eb5afe739@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="UHD6YulBAe6h7DVPS9NKCLl903mOxkBhZ"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Tue, 13 Aug 2019 12:53:11 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Qemu-block] qemu-iotest 059 fails with vmdk
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,68 +87,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- Richard Henderson <richard.henderson@linaro.org>, armbru@redhat.com,
- Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Sam Eiderman <shmuel.eiderman@oracle.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should avoid including the whole of softfloat headers in cpu.h and
-explicitly include it only where we will be calling softfloat
-functions. We can use the -types.h and -helpers.h in cpu.h for the few
-bits that are global.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--UHD6YulBAe6h7DVPS9NKCLl903mOxkBhZ
+Content-Type: multipart/mixed; boundary="gLgMXLlMAcAXC5UpfpADugxVAB0rCPCT5";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Sam Eiderman <shmuel.eiderman@oracle.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Message-ID: <124da2be-b865-f78b-164f-9555bd967aaf@redhat.com>
+Subject: Re: [Qemu-block] qemu-iotest 059 fails with vmdk
+References: <c293e99d-331a-f3aa-eecb-d562554350f9@redhat.com>
+ <ac5a6d46-99ee-ef1f-9fa0-8ebeab0f4485@redhat.com>
+ <fdb15508-4cb8-4295-af34-63d402e58ccd@redhat.com>
+ <56e13788-f253-ec71-52b6-ad6eb5afe739@redhat.com>
+In-Reply-To: <56e13788-f253-ec71-52b6-ad6eb5afe739@redhat.com>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c        | 1 +
- target/riscv/cpu.h        | 2 +-
- target/riscv/fpu_helper.c | 1 +
- 3 files changed, 3 insertions(+), 1 deletion(-)
+--gLgMXLlMAcAXC5UpfpADugxVAB0rCPCT5
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index f8d07bd20ad..6d52f97d7c3 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -27,6 +27,7 @@
- #include "qemu/error-report.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-+#include "fpu/softfloat-helpers.h"
- 
- /* RISC-V CPU definitions */
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0adb307f329..240b31e2ebb 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -22,7 +22,7 @@
- 
- #include "qom/cpu.h"
- #include "exec/cpu-defs.h"
--#include "fpu/softfloat.h"
-+#include "fpu/softfloat-types.h"
- 
- #define TCG_GUEST_DEFAULT_MO 0
- 
-diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-index b4f818a6465..0b79562a690 100644
---- a/target/riscv/fpu_helper.c
-+++ b/target/riscv/fpu_helper.c
-@@ -21,6 +21,7 @@
- #include "qemu/host-utils.h"
- #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
-+#include "fpu/softfloat.h"
- 
- target_ulong riscv_cpu_get_fflags(CPURISCVState *env)
- {
--- 
-2.20.1
+On 13.08.19 08:54, Thomas Huth wrote:
+> On 8/12/19 9:20 PM, Max Reitz wrote:
+>> On 12.08.19 21:14, John Snow wrote:
+>>>
+>>>
+>>> On 7/22/19 8:58 AM, Thomas Huth wrote:
+>>>> Not sure if it has been reported before, but test 059 currently fail=
+s:
+>>>>
+>>>> 059      fail       [14:55:21] [14:55:26]                    output
+>>>> mismatch (see 059.out.bad)
+>>>> --- /home/thuth/devel/qemu/tests/qemu-iotests/059.out	2019-07-19
+>>>> 10:19:18.000000000 +0200
+>>>> +++ /home/thuth/tmp/qemu-build/tests/qemu-iotests/059.out.bad	2019-0=
+7-22
+>>>> 14:55:26.000000000 +0200
+>>>> @@ -27,7 +27,7 @@
+>>>>  image: TEST_DIR/t.vmdk
+>>>>  file format: vmdk
+>>>>  virtual size: 0.977 TiB (1073741824000 bytes)
+>>>> -disk size: 16 KiB
+>>>> +disk size: 517 KiB
+>>>>  Format specific information:
+>>>>      cid: XXXXXXXX
+>>>>      parent cid: XXXXXXXX
+>>>> Failures: 059
+>>>> Failed 1 of 1 tests
+>>>>
+>>>> ... I think this was working fine for me a couple of weeks ago, so I=
 
+>>>> assume this is a rather new bug?
+>>>>
+>>>>  Thomas
+>>>>
+>>>
+>>> I know this is a pretty late response, but "worksforme" -- did someon=
+e
+>>> address this in the meantime? I don't see any commits to 059 in some
+>>> time. (Not since March.)
+>>
+>> I didn=E2=80=99t because I could never reproduce this failure.  (XFS/t=
+mpfs here.)
+>>
+>> I have =E2=80=9Cvmdk: Misc fixes=E2=80=9D on list which came from runn=
+ing the iotests
+>> with all possible subformats (which broke many things, but not 059 in
+>> this way).
+>=20
+> FWIW, I now updated my system from RHEL7 to RHEL8 and I can now also no=
+t
+> reproduce the issue anymore. Must have been some other oddity with the
+> ext4 filesystem of my RHEL7 system, or maybe it has been fixed by
+> another patch in the meantime...?
+
+OK, great. :-)
+
+Max
+
+
+--gLgMXLlMAcAXC5UpfpADugxVAB0rCPCT5--
+
+--UHD6YulBAe6h7DVPS9NKCLl903mOxkBhZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1SsrEACgkQ9AfbAGHV
+z0A9CAgAoZSnwJmLIygZmwnwIcGT/KU9jSf2t0kwIa5+B2ifN7YFvsb9ghXsMWa6
++JGjB/9BZNNfjfWXimODjHJFMuoX4e/y70TkJiBpRqPAdgbtS29das4Z0fAsIx/E
+Wb46GBZo0HlHUHnSg7QNARQL0f8TOyVaWONJGeGvFjCUSl/FvlYpctip/xfT5xqB
+OcXFzwUX+4KJjSLjELWEni2HVmb0cXUvoYDoHmrhy8VelJiBHjrQiWG+8/mEDgM7
+Qv7wv8AUU35oYKAt6zK5mTfXpBtUCpgylzY2mwwtwxtPj4cugNMvrJP+ZY4R1TjL
+/NWsbW9tKnHkxpJy5co11ZIOK0QpgA==
+=bh13
+-----END PGP SIGNATURE-----
+
+--UHD6YulBAe6h7DVPS9NKCLl903mOxkBhZ--
 
