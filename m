@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE988B965
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 15:02:44 +0200 (CEST)
-Received: from localhost ([::1]:52214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8AE48B958
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 15:01:15 +0200 (CEST)
+Received: from localhost ([::1]:52134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxWRn-0005nn-8W
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 09:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55334)
+	id 1hxWQN-0001sg-4p
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 09:01:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55412)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hxWNw-0000XL-KA
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:58:46 -0400
+ (envelope-from <philmd@redhat.com>) id 1hxWOE-0000ee-CN
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:59:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hxWNu-0007Zs-TW
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:58:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60364)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hxWNr-0007Wd-ID; Tue, 13 Aug 2019 08:58:39 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F2F0F314D66C;
- Tue, 13 Aug 2019 12:58:37 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.136])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AFD37F624;
- Tue, 13 Aug 2019 12:58:35 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
-References: <20190725155735.11872-1-mreitz@redhat.com>
- <20190725155735.11872-5-mreitz@redhat.com>
- <04db2aa5-f850-c6fa-0101-3e9cb8d34a6a@redhat.com>
- <9be593c8-332e-5f5b-899c-53737f05f878@redhat.com>
- <b4a780dc-4fc7-3f29-c634-627ab51e45b4@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <da3cee67-c0ac-37c2-c630-377c6ab9ac9a@redhat.com>
-Date: Tue, 13 Aug 2019 14:58:33 +0200
+ (envelope-from <philmd@redhat.com>) id 1hxWOA-0007qm-Vw
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:59:00 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:44999)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hxWO9-0007kg-0y
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:58:58 -0400
+Received: by mail-wr1-f67.google.com with SMTP id p17so107648688wrf.11
+ for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 05:58:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fSDobMtrpv7uqqhpc8Qfk8Z5RIRCnX2/FhJvlis3IsY=;
+ b=t/NJAZai+KArghiY4bvO3wdyW7taZf8aiDhDQ+uPwB/c/93S8JRp1bOSLgpBCH6XJ7
+ bJ5+iV5qwkghvP9NsfiSknOS/Tz/UArsqjbs60zL+8De57qXeIXG14vtML8zXF/fkLV2
+ gjBs6Bm35qtbDde2eR+uBNkgssfdi3R2PiGvPCozOmjam2g2eHT273vARoW9kLjf4ALx
+ m+oJHKX8KgZUj4+2fHeJXVh1h9pPGYr4Uf8Yc9vufKsCGDbthINj0OzRqkwZd23nRbzY
+ jwL9XON4tOq+Gx8Ohvn6hjw7gJ9aN3JwJmMaPJstWHA+WGl5euKd3Ze1K+CywbSYjhaZ
+ iUhQ==
+X-Gm-Message-State: APjAAAU+nL00Y3YjGyum0BqexNOT6Jn8VuSzY0+ehyrNNtRTU5PcjzBn
+ bop7lJzZBPjn6P3IGLwCRGBC9g==
+X-Google-Smtp-Source: APXvYqypUCRbAXcXrdc7OfF17O5O/lHk5Qybk5vl+i1dLZ9Q6OLjoNvcFEnMHYJzB8cvRcQ5WtnltA==
+X-Received: by 2002:a5d:5701:: with SMTP id a1mr24505610wrv.95.1565701135069; 
+ Tue, 13 Aug 2019 05:58:55 -0700 (PDT)
+Received: from [192.168.1.35] (251.red-88-10-102.dynamicip.rima-tde.net.
+ [88.10.102.251])
+ by smtp.gmail.com with ESMTPSA id o11sm9337864wrw.19.2019.08.13.05.58.54
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 13 Aug 2019 05:58:54 -0700 (PDT)
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, mst@redhat.com
+References: <20190813102936.32195-1-dgilbert@redhat.com>
+ <20190813102936.32195-2-dgilbert@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <f87ef58d-a549-54cf-4a3a-8e4712c699e1@redhat.com>
+Date: Tue, 13 Aug 2019 14:58:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <b4a780dc-4fc7-3f29-c634-627ab51e45b4@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="cLKqEc6qPi0AMKrXvXKcAsARamp9hryDX"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 13 Aug 2019 12:58:38 +0000 (UTC)
+In-Reply-To: <20190813102936.32195-2-dgilbert@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 4/7] vmdk: Reject invalid
- compressed writes
+ [fuzzy]
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH 1/2] memory: Align and add helper for
+ comparing MemoryRegionSections
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,207 +76,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---cLKqEc6qPi0AMKrXvXKcAsARamp9hryDX
-Content-Type: multipart/mixed; boundary="jVywyVPQAOq9Doxbdqq32bC7TaYSPqJGG";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-Message-ID: <da3cee67-c0ac-37c2-c630-377c6ab9ac9a@redhat.com>
-Subject: Re: [Qemu-block] [PATCH 4/7] vmdk: Reject invalid compressed writes
-References: <20190725155735.11872-1-mreitz@redhat.com>
- <20190725155735.11872-5-mreitz@redhat.com>
- <04db2aa5-f850-c6fa-0101-3e9cb8d34a6a@redhat.com>
- <9be593c8-332e-5f5b-899c-53737f05f878@redhat.com>
- <b4a780dc-4fc7-3f29-c634-627ab51e45b4@redhat.com>
-In-Reply-To: <b4a780dc-4fc7-3f29-c634-627ab51e45b4@redhat.com>
+Hi David,
 
---jVywyVPQAOq9Doxbdqq32bC7TaYSPqJGG
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On 8/13/19 12:29 PM, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> MemoryRegionSection includes an Int128 'size' field;
+> on some platforms the compiler causes an alignment of this to
+> a 128bit boundary, leaving 8 bytes of dead space.
+> This deadspace can be filled with junk.
+> 
+> Move the size field to the top avoiding unnecsssary alignment
 
-On 12.08.19 23:16, John Snow wrote:
->=20
->=20
-> On 8/12/19 5:03 PM, Max Reitz wrote:
->> On 12.08.19 22:26, John Snow wrote:
->>>
->>>
->>> On 7/25/19 11:57 AM, Max Reitz wrote:
->>>> Compressed writes generally have to write full clusters, not just in=
+"unnecessary"
 
->>>> theory but also in practice when it comes to vmdk's streamOptimized
->>>> subformat.  It currently is just silently broken for writes with
->>>> non-zero in-cluster offsets:
->>>>
->>>> $ qemu-img create -f vmdk -o subformat=3DstreamOptimized foo.vmdk 1M=
+This is enough change to be in its own commit.
 
->>>> $ qemu-io -c 'write 4k 4k' -c 'read 4k 4k' foo.vmdk
->>>> wrote 4096/4096 bytes at offset 4096
->>>> 4 KiB, 1 ops; 00.01 sec (443.724 KiB/sec and 110.9309 ops/sec)
->>>> read failed: Invalid argument
->>>>
->>>> (The technical reason is that vmdk_write_extent() just writes the
->>>> incomplete compressed data actually to offset 4k.  When reading the
->>>> data, vmdk_read_extent() looks at offset 0 and finds the compressed =
-data
->>>> size to be 0, because that is what it reads from there.  This yields=
- an
->>>> error.)
->>>>
->>>> For incomplete writes with zero in-cluster offsets, the error path w=
-hen
->>>> reading the rest of the cluster is a bit different, but the result i=
-s
->>>> the same:
->>>>
->>>> $ qemu-img create -f vmdk -o subformat=3DstreamOptimized foo.vmdk 1M=
+---
 
->>>> $ qemu-io -c 'write 0k 4k' -c 'read 4k 4k' foo.vmdk
->>>> wrote 4096/4096 bytes at offset 0
->>>> 4 KiB, 1 ops; 00.01 sec (362.641 KiB/sec and 90.6603 ops/sec)
->>>> read failed: Invalid argument
->>>>
->>>> (Here, vmdk_read_extent() finds the data and then sees that the
->>>> uncompressed data is short.)
->>>>
->>>> It is better to reject invalid writes than to make the user believe =
-they
->>>> might have succeeded and then fail when trying to read it back.
->>>>
->>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>> ---
->>>>  block/vmdk.c | 10 ++++++++++
->>>>  1 file changed, 10 insertions(+)
->>>>
->>>> diff --git a/block/vmdk.c b/block/vmdk.c
->>>> index db6acfc31e..641acacfe0 100644
->>>> --- a/block/vmdk.c
->>>> +++ b/block/vmdk.c
->>>> @@ -1731,6 +1731,16 @@ static int vmdk_write_extent(VmdkExtent *exte=
-nt, int64_t cluster_offset,
->>>>      if (extent->compressed) {
->>>>          void *compressed_data;
->>>> =20
->>>> +        /* Only whole clusters */
->>>> +        if (offset_in_cluster ||
->>>> +            n_bytes > (extent->cluster_sectors * SECTOR_SIZE) ||
->>>> +            (n_bytes < (extent->cluster_sectors * SECTOR_SIZE) &&
->>>> +             offset + n_bytes !=3D extent->end_sector * SECTOR_SIZE=
-))
->>>> +        {
->>>> +            ret =3D -EINVAL;
->>>> +            goto out;
->>>> +        }
->>>> +
->>>>          if (!extent->has_marker) {
->>>>              ret =3D -EINVAL;
->>>>              goto out;
->>>>
->>>
->>> What does this look like from a guest's perspective? Is there somethi=
-ng
->>> that enforces the alignment in the graph for us?
->>>
->>> Or is it the case that indeed guests (or users via qemu-io) can reque=
-st
->>> invalid writes and we will halt the VM in those cases (in preference =
-to
->>> corrupting the disk)?
->>
->> Have you ever tried using a streamOptimized VMDK disk with a guest?
->>
->=20
-> Nope! It's why I'm asking. I have no idea what the whole picture before=
+> and provide an 'eq' routine to safely compare MRS's.
 
-> and after is.
->=20
->> I haven=E2=80=99t, but I know that it won=E2=80=99t work. O:-)  If you=
- try to write to
->> an already allocated cluster, you=E2=80=99ll get an EIO and an error m=
-essage via
->> error_report() (=E2=80=9CCould not write to allocated cluster for
->> streamOptimized=E2=80=9D).  So really, the only use of streamOptimized=
- is as a
->> qemu-img convert source/target, or as a backup/mirror target.  (Just
->> like compressed clusters in qcow2 images.)
->>
->=20
-> OK, makes sense. Someone's going to try to use it in cases where it
-> doesn't make sense though, for sure.
->=20
->> I suppose if I introduced streamOptimized support today, I wouldn=E2=80=
-=99t just
->> forward vmdk_co_pwritev_compressed() to vmdk_co_pwritev(), but instead=
+This is another change, and should be squashed in the next patch IMO.
+Doesn't Clang warn about unused 'static inline' btw?
 
->> make vmdk_co_pwritev_compressed() only work on streamOptimized images,=
-
->> and vmdk_co_pwritev() only on everything else.  Then it would be more =
-clear.
->>
->> Hm.  In fact, that=E2=80=99s a bug, isn=E2=80=99t it?  vmdk will accep=
-t compressed
->> writes for any subformat, even if it doesn=E2=80=99t support compressi=
-on.  So if
->> you use -c and convert to vmdk, it will succeed, but the result won=E2=
-=80=99t be
->> compressed,
->>
->> It=E2=80=99s also a bit weird to accept normal writes for streamOptimi=
-zed, but
->> I=E2=80=99m not sure whether that=E2=80=99s really a bug?  In any case=
-, changing this
->> behavior would not be backwards-compatible...  Should we deprecate
->> normal writes to streamOptimized?
->>
->=20
-> If it's supposed to be the case that streamOptimized *only* gets
-> compressed, aligned writes -- it probably is a bug to do normal,
-> uncompressed writes, isn't it? Does that produce a usable image?
-
-Well, all writes are silently done as compressed writes.  (With the
-alignment requirements added in this patch.)  The image is useful, as
-long as you only full clusters, and you may only write to each cluster
-once...
-
->> Max
->>
->=20
-> Anyway, I'm fine with this patch because things aren't any worse, and
-> our support for non-native formats has always been kind of best-attempt=
-=2E
->=20
-> Reviewed-by: John Snow <jsnow@redhat.com>
-
-Thanks. :-)
-
-Max
-
-
---jVywyVPQAOq9Doxbdqq32bC7TaYSPqJGG--
-
---cLKqEc6qPi0AMKrXvXKcAsARamp9hryDX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1Ss/kACgkQ9AfbAGHV
-z0Cz3AgAk5hrmgWS/mLLjFbVMSsRoQwgFhsqZFJVgTb3/0HcHFtrQSaH+1SUPzAg
-RsGvc7NneeMWesY8srKSG/Dflki4kB41UJX/TEXgjapZAg19I/q0xzhwzeIvpvfr
-a6POX0Ol6WhBy8eD+UICKEGf8S8IUcQrYT2Ss96e18sgsRLy4wiVRHB5n1u/qm50
-HDmMhG2dGfenCCvNfXQW+eVlIM3VuIAgLVOjOnFB9qpZtQFDOivdgjFv4RFpvfla
-/zO5dopXDWPEzAA9v6TzDYUj0AnnsJmJqkA6Kpxo91NI/1Oe8KcHZRlOp0QLoDVY
-D27JhTHlIT/NgZRvDcHN7aU1p6eBQQ==
-=eKj8
------END PGP SIGNATURE-----
-
---cLKqEc6qPi0AMKrXvXKcAsARamp9hryDX--
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  include/exec/memory.h | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 606250172a..ce62e847bd 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -487,15 +487,27 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
+>   * @nonvolatile: this section is non-volatile
+>   */
+>  struct MemoryRegionSection {
+> +    Int128 size;
+>      MemoryRegion *mr;
+>      FlatView *fv;
+>      hwaddr offset_within_region;
+> -    Int128 size;
+>      hwaddr offset_within_address_space;
+>      bool readonly;
+>      bool nonvolatile;
+>  };
+>  
+> +static inline bool MemoryRegionSection_eq(MemoryRegionSection *a,
+> +                                          MemoryRegionSection *b)
+> +{
+> +    return a->mr == b->mr &&
+> +           a->fv == b->fv &&
+> +           a->offset_within_region == b->offset_within_region &&
+> +           a->offset_within_address_space == b->offset_within_address_space &&
+> +           int128_eq(a->size, b->size) &&
+> +           a->readonly == b->readonly &&
+> +           a->nonvolatile == b->nonvolatile;
+> +}
+> +
+>  /**
+>   * memory_region_init: Initialize a memory region
+>   *
+> 
 
