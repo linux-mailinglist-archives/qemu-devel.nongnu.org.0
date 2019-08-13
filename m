@@ -2,110 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76F78BBEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 16:47:38 +0200 (CEST)
-Received: from localhost ([::1]:53012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251DF8BBFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 16:49:25 +0200 (CEST)
+Received: from localhost ([::1]:53048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxY5K-0007LG-3w
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 10:47:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42389)
+	id 1hxY72-0002KE-AP
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 10:49:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42768)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hxY4d-0006dl-4a
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 10:46:56 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hxY6U-0001ay-2s
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 10:48:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hxY4c-0006dX-2m
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 10:46:55 -0400
-Received: from mail-eopbgr50118.outbound.protection.outlook.com
- ([40.107.5.118]:21862 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hxY4b-0006cy-Ra; Tue, 13 Aug 2019 10:46:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FfjCZWM8Rg/sv8pCoryrUfI+YE5nv2x/pk7nRvpKM40qzmhsSs0hOXyEicT91RwKsg7RW4uAEyJmzofvS8sKZauGmZIKQXzjwqSIj92RerMVd8TVrj3hvhhwcio9RYZQ3ZNGou29dEVxV1OJUILP/n3JLlUcQAsTNhqOtgV7W+f6sSSp4jP4f4aHqw+LX9epjyZ+eu5ktbZWAwoDNwmIhv94SuPOpZI+OQcF4MJw9/cYdX0s7XUVOupBvoBwyAMslhWV1V+u7+uuk2ZP7WF/Nou/83XJCr0Dkogqpom7XmHlYk7VQXREczqG7BVAYA/0MuMEj02+fiIO2psYkEsFRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rFiI85EbPzvGZZd6AfCF9VkJLEEfJuzx7+N9VcgNTbU=;
- b=adpYN1e9VLTRVx3dp49sKIP7pfbS/7+kTccDj6ETs1dt0nmMsoKmsfDLki/6p5UEumbF2rHAOix1SX201m8s19HfmEUYdwvX0/GFjATts/pmMKL5PGzsH77XO3bUehtSETeZuxwUOwmh+x5iB8tye9XwhU0HeOdgQGN/CsYdBVrF21r7LFWsQqMmggI/sy/9gugbyWCWgWYDoMzT9ermHtyBBE4IcQ30DoPlssspRD3+kV9uivzGp8yodaVYBjvxCMzb4EU9oJCIG1+kGNEI8M8K32fCVSs9R6duh1N4VUTwwjE6+4vslPR5lS6VZer2l7yf2YwdX9fA1on1LfEIpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rFiI85EbPzvGZZd6AfCF9VkJLEEfJuzx7+N9VcgNTbU=;
- b=qnmX/ocRyK0keUKvhvZOPHycby/eLzA9C5VFqolh4Cu10XV+NtRFrZY86HAuZ1lZG99kWkRwZf12uYP6DzYL1t9BbJ0f47z+1MN0DVOHZPCI+2tit0VzkRwu//V6vLGBrikDU4wZOk3xeLteiR5Ww9EBGzc4u+NIfxLxGvtCYq8=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB4938.eurprd08.prod.outlook.com (10.255.16.24) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2157.16; Tue, 13 Aug 2019 14:46:50 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::617b:d2c2:11e9:4604]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::617b:d2c2:11e9:4604%3]) with mapi id 15.20.2157.022; Tue, 13 Aug 2019
- 14:46:50 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Thread-Topic: [PATCH 0/2] deal with BDRV_BLOCK_RAW
-Thread-Index: AQHVUTlscGMEUismPEagfLbq4nW+tab36tGAgAABHQCAANb8gIAABheAgAAIyICAAE6FgP//2BGAgAAsr4CAAARdAA==
-Date: Tue, 13 Aug 2019 14:46:50 +0000
-Message-ID: <48fa03d6-259d-9ded-dacb-a4975f8d24e4@virtuozzo.com>
-References: <20190812181146.26121-1-vsementsov@virtuozzo.com>
- <35b23140-25d5-627e-7a86-4b50fbc5be52@redhat.com>
- <e53a0399-f051-52bd-49e8-4ac4dbf2596f@redhat.com>
- <3d5fcc5b-cdb0-f028-1ea2-af85850db20e@virtuozzo.com>
- <15cf7372-826a-0684-d6ad-90deea36959e@virtuozzo.com>
- <43fb7754-6f94-00f6-6172-70cbb53e787c@virtuozzo.com>
- <94ccf129-cc7e-2778-7688-fd718f8df249@virtuozzo.com>
- <20190813115115.GG4663@localhost.localdomain>
- <b0c32bfc-f4cf-0d46-beb8-ba4cf79b76c5@redhat.com>
-In-Reply-To: <b0c32bfc-f4cf-0d46-beb8-ba4cf79b76c5@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0156.eurprd05.prod.outlook.com
- (2603:10a6:7:28::43) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190813174648643
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ab8d41d4-3bdb-44be-4486-08d71ffd1343
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:DB8PR08MB4938; 
-x-ms-traffictypediagnostic: DB8PR08MB4938:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR08MB49382192DA431D1C5497D64AC1D20@DB8PR08MB4938.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 01283822F8
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(346002)(136003)(376002)(366004)(39840400004)(396003)(189003)(199004)(486006)(446003)(305945005)(76176011)(26005)(53546011)(6506007)(102836004)(7736002)(99286004)(66066001)(81166006)(81156014)(6486002)(229853002)(2616005)(8936002)(386003)(52116002)(36756003)(6436002)(107886003)(2906002)(6512007)(11346002)(476003)(71200400001)(4326008)(71190400001)(25786009)(53936002)(86362001)(6246003)(256004)(64756008)(66556008)(66946007)(66476007)(66446008)(31686004)(4744005)(5660300002)(14454004)(478600001)(6116002)(3846002)(8676002)(186003)(110136005)(54906003)(316002)(31696002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB4938;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: QSYOZnN+BU5PGfGrj1D8olpyTWUvXnx0pYK8hqbsr0H7dK12DYpQ6BD9BMj/ANNJuIlWiZ2x6S96YGnciWVLSzSxlNIADiKWGDk8n6HWwJbLedxB63vXzpSTwVnT2Hv2lPLb0IQXBbKspsx93N0QRM44lmWb9PlZo0s/BCOw25lLoiddy16t+dk45FSxssLdcDH5shiecF+vL9jFLqRKvROY6Obs2Ehfa+XYFF1Ge+fEKxX7C3JNIEeg7GX+Xm0c9tLeqpOQ85Va5W5DocMHDzqo22P7LcXRPK9WyVuTIiprpCPfMzc3xUW5lioRU+DYRLsvS1MHF7thB3p1E21J1s50q4j8Y2WL9RenbeiQoDWB4l8doC5cEKX087hCmuQU7P4wnFV2hKTt608TKcLsNR0IyznlNOx2l+Sc0Q4LFLo=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C6C44B3D67DD0948A413A2CB07140DD9@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <mreitz@redhat.com>) id 1hxY6S-0007Lc-UO
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 10:48:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53274)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hxY6Q-0007K6-AW; Tue, 13 Aug 2019 10:48:46 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A1BE77BDA5;
+ Tue, 13 Aug 2019 14:48:45 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.136])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 518243468D;
+ Tue, 13 Aug 2019 14:48:38 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+References: <20190725155512.9827-1-mreitz@redhat.com>
+ <125926bf-4c5a-939a-2cc7-01e11a1a2511@redhat.com>
+ <e6bc8a2d-4541-60a3-64a7-294c4dee0c32@redhat.com>
+ <62114b6e-803d-5eec-df7e-e77708f065c6@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <cb8a761c-48bb-52b8-8079-b8220a32bc63@redhat.com>
+Date: Tue, 13 Aug 2019 16:48:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab8d41d4-3bdb-44be-4486-08d71ffd1343
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Aug 2019 14:46:50.7637 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +qHiz6vTV/mkya/iZVGXoMqJA81bGFYqVShz19B7xATk0ylRtoQqUeLsEod81p29nTF+pJ1hrrEBBxls/UwcFLVbSikS25ta8Ey523MwsSc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4938
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.5.118
-Subject: Re: [Qemu-devel] [PATCH 0/2] deal with BDRV_BLOCK_RAW
+In-Reply-To: <62114b6e-803d-5eec-df7e-e77708f065c6@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Pyb5g1nu7qW8i35c5uEIq2NYm1ZI0WI4E"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Tue, 13 Aug 2019 14:48:45 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 0/3] block: Make various
+ formats' block_status recurse again
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -117,26 +87,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Denis Lunev <den@virtuozzo.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTMuMDguMjAxOSAxNzozMSwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAxMy4wOC4xOSAxMzo1MSwg
-S2V2aW4gV29sZiB3cm90ZToNCj4gDQo+IFsuLi5dDQo+IA0KPj4gSG0uLi4gVGhpcyBpcyBhIG1l
-c3MuIDotKQ0KPiANCj4gSnVzdCBvdXQgb2YgY3VyaW9zaXR5OiBXaHk/DQo+IA0KPiBBcmVu4oCZ
-dCB0aGVyZSBvbmx5IHR3byB0aGluZ3Mgd2UgcmVhbGx5IG5lZWQgZnJvbSB0aGUgYmxvY2tfc3Rh
-dHVzDQo+IGluZnJhc3RydWN0dXJlPw0KPiANCj4gKDEpIFdoZXRoZXIgc29tZXRoaW5nIGlzIGFs
-bG9jYXRlZCBpbiB0aGUgZ2l2ZW4gbGF5ZXIgb2YgdGhlIGJhY2tpbmcgY2hhaW4sDQo+IA0KPiAo
-MikgV2hldGhlciB3ZSBrbm93IHRoYXQgYSBnaXZlbiByYW5nZSByZWFkcyBhcyB6ZXJvZXMuDQo+
-IA0KPiBEbyB3ZSByZWFsbHkgbmVlZCBhbnl0aGluZyBlbHNlPw0KPiANCg0KcWVtdS1pbWcgbWFw
-Pw0KDQoNCjEuIFdlIG5lZWQgdG8gZml4IHRoZSBidWcgc29tZWhvdw0KMi4gV2UgbmVlZCB0byBm
-aXggY29tbWVudCBhYm91dCBkaWZmZXJlbnQgYmxvY2stc3RhdHVzIGZsYWdzLCBhcyBpdCByZWFs
-bHkNCmxhY2tzIGluZm9ybWF0aW9uIG9mIHdoYXQgYWN0dWFsbHkgIkRBVEEiIG1lYW5zICh0b2dl
-dGhlciB3aXRoICpmaWxlKS4NCkFuZCB3aGF0IGZpbmFsbHkgbWVhbnMgImFsbG9jYXRlZCIsIGNh
-biB5b3UgZGVmaW5lIGl0IHByZWNpc2VseT8NCjMuIEZpeCBuYmQtc2VydmVyIHRvIGJlIGNsb3Nl
-ciB0byBOQkQgc3BlYyBhYm91dCBibG9jay1zdGF0dXMNCg0KSSBtYWRlIHNldmVyYWwgdHJpZXMg
-dG8gaW1hZ2luZSBbMV0gYW5kIFsyXSBidXQgbmV2ZXIgc3VjY2VlZGVkLi4NCg0KDQotLSANCkJl
-c3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Pyb5g1nu7qW8i35c5uEIq2NYm1ZI0WI4E
+Content-Type: multipart/mixed; boundary="pEmicKXCEGBQ1GENELn2WWyzoAD5DZrpN";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+Message-ID: <cb8a761c-48bb-52b8-8079-b8220a32bc63@redhat.com>
+Subject: Re: [Qemu-block] [PATCH 0/3] block: Make various formats'
+ block_status recurse again
+References: <20190725155512.9827-1-mreitz@redhat.com>
+ <125926bf-4c5a-939a-2cc7-01e11a1a2511@redhat.com>
+ <e6bc8a2d-4541-60a3-64a7-294c4dee0c32@redhat.com>
+ <62114b6e-803d-5eec-df7e-e77708f065c6@redhat.com>
+In-Reply-To: <62114b6e-803d-5eec-df7e-e77708f065c6@redhat.com>
+
+--pEmicKXCEGBQ1GENELn2WWyzoAD5DZrpN
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 12.08.19 23:45, John Snow wrote:
+>=20
+>=20
+> On 8/12/19 3:11 PM, Max Reitz wrote:
+>> On 12.08.19 20:39, John Snow wrote:
+>>>
+>>>
+>>> On 7/25/19 11:55 AM, Max Reitz wrote:
+>>>> Hi,
+>>>>
+>>>> 69f47505ee66afaa513305de0c1895a224e52c45 changed block_status so tha=
+t it
+>>>> would only go down to the protocol layer if the format layer returne=
+d
+>>>> BDRV_BLOCK_RECURSE, thus indicating that it has no sufficient
+>>>> information whether a given range in the image is zero or not.
+>>>> Generally, this is because the image is preallocated and thus all ra=
+nges
+>>>> appear as zeroes.
+>>>>
+>>>> However, it only implemented this preallocation detection for qcow2.=
+
+>>>> There are more formats that support preallocation, though: vdi, vhdx=
+,
+>>>> vmdk, vpc.  (Funny how they all start with =E2=80=9Cv=E2=80=9D.)
+>>>>
+>>>> For vdi, vmdk, and vpc, the fix is rather simple, because they reall=
+y
+>>>> have different subformats depending on whether an image is prealloca=
+ted
+>>>> or not.  This makes the check very simple.
+>>>>
+>>>> vhdx is more like qcow2, where after the image has been created, it
+>>>> isn=E2=80=99t clear whether it=E2=80=99s been preallocated or everyt=
+hing is allocated
+>>>> because everything was already written to.  69f47505ee added a heuri=
+stic
+>>>> to qcow2 to get around this, but I think that=E2=80=99s too much for=
+ vhdx.  I
+>>>> just left it unfixed, because I don=E2=80=99t care that much, honest=
+ly (and I
+>>>> don=E2=80=99t think anyone else does).
+>>>>
+>>>
+>>> What's the practical outcome of that, and is the limitation documente=
+d
+>>> somewhere?
+>>
+>> The outcome is that it if you preallocate a vhdx image
+>> (subformat=3Dfixed), you=E2=80=99ll see that all sectors contain data,=
+ even if
+>> they may be zero sectors on the filesystem level.
+>>
+>> I don=E2=80=99t think it=E2=80=99s user-visible whatsoever.
+>>
+>=20
+> But it might mean that doing things with sync=3Dtop might over-allocate=
+
+> data depending on the destination, wouldn't it?
+>=20
+> That's not crucial, but it's possibly visible, no?
+
+I don=E2=80=99t think it has anything to do with sync=3Dtop because wheth=
+er a
+block is zero on the protocol level has nothing to do with whether it is
+allocated on the format level.
+
+It may make a difference for convert which uses block_status to inquire
+the zero status.  However, it also does zero-detection, so...
+
+>>> (I'm fine with not fixing it, I just want it documented somehow.)
+>>
+>> I am really not inclined to start any documentation on the
+>> particularities with which qemu handles vhdx images.
+>>
+>> (Especially so considering we don=E2=80=99t even have any documentatio=
+n on the
+>> qcow2 case.  The stress in my paragraph was =E2=80=9Cheuristic=E2=80=9D=
+=2E  If you
+>> preallocate a qcow2 image, but then discard enough sectors that the
+>> heuristic thinks you didn=E2=80=99t, you=E2=80=99ll have the same effe=
+ct.  Or if you
+>> grow a preallocated image without preallocating the new area.)
+>>
+>> Max
+>>
+>=20
+> "But our qcow2 docs are also bad" is the kind of argument I can't
+> *really* disagree with, but...
+
+My main argument is that nobody would read the vhdx docs anyway.
+
+Max
+
+> (I wish we did have a documentation manual per-format that mentioned
+> some gotchas and general info about each format, but I can't really ask=
+
+> you to do that now: I just worry when I see patches like this that the
+> knowledge or memory that there ever was a quirk will vanish immediately=
+=2E)
+>=20
+> --js
+>=20
+
+
+
+--pEmicKXCEGBQ1GENELn2WWyzoAD5DZrpN--
+
+--Pyb5g1nu7qW8i35c5uEIq2NYm1ZI0WI4E
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1SzcQACgkQ9AfbAGHV
+z0D0xwf/agyxksAcp0J5I73Zzh1LfIxJMg/AlcimBdosn6U87Y1oftu5K3erBvjr
+c9kWHdJD0dudIaFsjgPQDTNI/0iNpUh59aOQZaNCuuzliAk750LrrLwTKAEsIcBE
+5jHegGKr2a/j4cT4j50M8vN4+3tpMIvx1mOFfKuvZGcaO83FnKiWWq3I7stt6m/Q
+Z0qGhOfNDKZyZvY3wPJKCq/xWjv2X/2JVCNjDHdy9RshCzYO2GMEDJmusf34YXZp
+73zCM/m0m7YSREy5is2pxOO7ForuyANd+DENWeQ1NdVE4rfL6VSqrjigsTWrZjlA
+iE8o5GaFXGgXV1L+dRlsgrfoNhgYAQ==
+=cNuT
+-----END PGP SIGNATURE-----
+
+--Pyb5g1nu7qW8i35c5uEIq2NYm1ZI0WI4E--
 
