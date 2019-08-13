@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0590F8BDCF
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 17:56:21 +0200 (CEST)
-Received: from localhost ([::1]:53690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662DF8BDD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 17:57:40 +0200 (CEST)
+Received: from localhost ([::1]:53718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxZ9o-0006KR-7j
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 11:56:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52598)
+	id 1hxZB5-00015L-Io
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 11:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52533)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hxZ1Q-0004kC-Mz
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 11:47:42 -0400
+ (envelope-from <armbru@redhat.com>) id 1hxZ1G-0004W5-C5
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 11:47:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hxZ1O-0002ke-Cj
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 11:47:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:16743)
+ (envelope-from <armbru@redhat.com>) id 1hxZ1E-0002dl-5s
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 11:47:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:23930)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hxZ1O-0002jh-7l
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 11:47:38 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hxZ1D-0002dQ-U0
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 11:47:28 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9143783F45;
- Tue, 13 Aug 2019 15:47:37 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 443F2309BDA3
+ for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 15:47:27 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C76A18E35;
- Tue, 13 Aug 2019 15:47:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 403C834693;
+ Tue, 13 Aug 2019 15:47:23 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E7B22113645E; Tue, 13 Aug 2019 17:46:53 +0200 (CEST)
+ id EB587113645F; Tue, 13 Aug 2019 17:46:53 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 13 Aug 2019 17:46:47 +0200
-Message-Id: <20190813154653.20568-24-armbru@redhat.com>
+Date: Tue, 13 Aug 2019 17:46:48 +0200
+Message-Id: <20190813154653.20568-25-armbru@redhat.com>
 In-Reply-To: <20190813154653.20568-1-armbru@redhat.com>
 References: <20190813154653.20568-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Tue, 13 Aug 2019 15:47:37 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Tue, 13 Aug 2019 15:47:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 23/29] numa: Don't include hw/boards.h into
- sysemu/numa.h
+Subject: [Qemu-devel] [PULL 24/29] Include sysemu/hostmem.h less
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,86 +58,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-sysemu/numa.h includes hw/boards.h just for the CPUArchId typedef, at
-the cost of pulling in more than two dozen extra headers indirectly.
-
-I could move the typedef from hw/boards.h to qemu/typedefs.h.  But
-it's used in just two headers: boards.h and numa.h.
-
-I could move it to another header both its users include.
-exec/cpu-common.h seems to be the least bad fit.
-
-But I'm keeping this simple & stupid: declare the struct tag in
-numa.h.
+Move the HostMemoryBackend typedef from sysemu/hostmem.h to
+qemu/typedefs.h.  This renders a few inclusions of sysemu/hostmem.h
+superfluous; drop them.
 
 Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190812052359.30071-24-armbru@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20190812052359.30071-25-armbru@redhat.com>
 ---
- include/hw/boards.h   | 2 +-
- include/sysemu/numa.h | 9 +++++++--
- hw/mem/pc-dimm.c      | 1 +
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ include/hw/mem/pc-dimm.h        | 1 -
+ include/hw/virtio/virtio-pmem.h | 1 -
+ include/qemu/typedefs.h         | 1 +
+ include/sysemu/hostmem.h        | 1 -
+ hw/mem/nvdimm.c                 | 1 +
+ hw/virtio/virtio-pmem.c         | 1 +
+ 6 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 67e551636a..739d109fe1 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -86,7 +86,7 @@ void machine_class_allow_dynamic_sysbus_dev(MachineClas=
-s *mc, const char *type);
-  * @props - CPU object properties, initialized by board
-  * #vcpus_count - number of threads provided by @cpu object
-  */
--typedef struct {
-+typedef struct CPUArchId {
-     uint64_t arch_id;
-     int64_t vcpus_count;
-     CpuInstanceProperties props;
-diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-index 01a263eba2..4c4c1dee9b 100644
---- a/include/sysemu/numa.h
-+++ b/include/sysemu/numa.h
-@@ -4,7 +4,10 @@
- #include "qemu/bitmap.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/hostmem.h"
--#include "hw/boards.h"
-+#include "qapi/qapi-types-machine.h"
-+#include "exec/cpu-common.h"
-+
-+struct CPUArchId;
+diff --git a/include/hw/mem/pc-dimm.h b/include/hw/mem/pc-dimm.h
+index 47b246f95c..289edc0f3d 100644
+--- a/include/hw/mem/pc-dimm.h
++++ b/include/hw/mem/pc-dimm.h
+@@ -17,7 +17,6 @@
+ #define QEMU_PC_DIMM_H
 =20
- extern int nb_numa_nodes;   /* Number of NUMA nodes */
- extern bool have_numa_distance;
-@@ -32,5 +35,7 @@ void numa_legacy_auto_assign_ram(MachineClass *mc, Node=
-Info *nodes,
-                                  int nb_nodes, ram_addr_t size);
- void numa_default_auto_assign_ram(MachineClass *mc, NodeInfo *nodes,
-                                   int nb_nodes, ram_addr_t size);
--void numa_cpu_pre_plug(const CPUArchId *slot, DeviceState *dev, Error **=
-errp);
-+void numa_cpu_pre_plug(const struct CPUArchId *slot, DeviceState *dev,
-+                       Error **errp);
-+
- #endif
-diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index 1f3e676066..dea48f9163 100644
---- a/hw/mem/pc-dimm.c
-+++ b/hw/mem/pc-dimm.c
-@@ -19,6 +19,7 @@
-  */
+ #include "exec/memory.h"
+-#include "sysemu/hostmem.h"
+ #include "hw/qdev-core.h"
 =20
- #include "qemu/osdep.h"
-+#include "hw/boards.h"
- #include "hw/mem/pc-dimm.h"
+ #define TYPE_PC_DIMM "pc-dimm"
+diff --git a/include/hw/virtio/virtio-pmem.h b/include/hw/virtio/virtio-p=
+mem.h
+index 8bf2ae780f..33f1999320 100644
+--- a/include/hw/virtio/virtio-pmem.h
++++ b/include/hw/virtio/virtio-pmem.h
+@@ -16,7 +16,6 @@
+=20
+ #include "hw/virtio/virtio.h"
+ #include "qapi/qapi-types-misc.h"
+-#include "sysemu/hostmem.h"
+=20
+ #define TYPE_VIRTIO_PMEM "virtio-pmem"
+=20
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index 9e1283aacf..f569f5f270 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -33,6 +33,7 @@ typedef struct FWCfgEntry FWCfgEntry;
+ typedef struct FWCfgIoState FWCfgIoState;
+ typedef struct FWCfgMemState FWCfgMemState;
+ typedef struct FWCfgState FWCfgState;
++typedef struct HostMemoryBackend HostMemoryBackend;
+ typedef struct HVFX86EmulatorState HVFX86EmulatorState;
+ typedef struct I2CBus I2CBus;
+ typedef struct I2SCodec I2SCodec;
+diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
+index 92fa0e458c..afeb5db1b1 100644
+--- a/include/sysemu/hostmem.h
++++ b/include/sysemu/hostmem.h
+@@ -27,7 +27,6 @@
+ #define MEMORY_BACKEND_CLASS(klass) \
+     OBJECT_CLASS_CHECK(HostMemoryBackendClass, (klass), TYPE_MEMORY_BACK=
+END)
+=20
+-typedef struct HostMemoryBackend HostMemoryBackend;
+ typedef struct HostMemoryBackendClass HostMemoryBackendClass;
+=20
+ /**
+diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+index 6fefd65092..375f9a588a 100644
+--- a/hw/mem/nvdimm.c
++++ b/hw/mem/nvdimm.c
+@@ -30,6 +30,7 @@
+ #include "hw/mem/nvdimm.h"
  #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
+ #include "hw/mem/memory-device.h"
++#include "sysemu/hostmem.h"
+=20
+ static void nvdimm_get_label_size(Object *obj, Visitor *v, const char *n=
+ame,
+                                   void *opaque, Error **errp)
+diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
+index ff1a2ddb36..c0c9395e55 100644
+--- a/hw/virtio/virtio-pmem.c
++++ b/hw/virtio/virtio-pmem.c
+@@ -21,6 +21,7 @@
+ #include "hw/virtio/virtio-access.h"
+ #include "standard-headers/linux/virtio_ids.h"
+ #include "standard-headers/linux/virtio_pmem.h"
++#include "sysemu/hostmem.h"
+ #include "block/aio.h"
+ #include "block/thread-pool.h"
+=20
 --=20
 2.21.0
 
