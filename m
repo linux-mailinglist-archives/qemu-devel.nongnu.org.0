@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF4BF8B923
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 14:51:07 +0200 (CEST)
-Received: from localhost ([::1]:51990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0827D8B925
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 14:51:11 +0200 (CEST)
+Received: from localhost ([::1]:51994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxWGZ-0003yf-5p
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 08:51:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53530)
+	id 1hxWGc-00046g-3A
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 08:51:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53552)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hxWFK-0002Gd-SL
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:49:52 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hxWFL-0002Gf-Ru
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:49:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hxWFJ-0000cd-OV
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:49:50 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36754)
+ (envelope-from <alex.bennee@linaro.org>) id 1hxWFK-0000dn-Ih
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:49:51 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35039)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hxWFJ-0000bg-H1
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:49:49 -0400
-Received: by mail-wm1-x344.google.com with SMTP id g67so1349200wme.1
- for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 05:49:49 -0700 (PDT)
+ id 1hxWFK-0000ci-CI
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:49:50 -0400
+Received: by mail-wm1-x342.google.com with SMTP id l2so1348443wmg.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 05:49:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ki6/qS5/kkWXkqIOjzkIPrV1IVbRhLJ3aywqEzrIZU8=;
- b=uND/gZqXPc8xqzhQS4i+6ajDn5604DAUVmHBkL3UoOSYpG7qAxHGmMLLR7s6l9jh3A
- JLMfrrs4O0UJOLlcujvkyTyNaJvK2zztvAzpZ3vYwG+/Zr7GiXWlJv1pUddXNgI4EuKS
- r0yd3jL8rWmy4g7WTrq0LN4xJLGOJbHFPFEiIdP3pbLrOCt0CNiqw2ty9POnpyyBKWcw
- nHSj/8q3H5DFSzv9nRDcTRxL6DFWaVt0Pg+6pU6/1pyKJpH2qkCV4MQYGzt1KdcD6ZHC
- +56LqCQ8f3x7O14y6UD4M/t8RLZM17g2KTrpWBctO6Rbom7R5IgvsNw0y8sRXQKFZ8YG
- tfmA==
+ bh=XEpGqIEUvdb5555PJIVv1BtkiLX36JbwzRPDngAmByI=;
+ b=KTkXDOfvvzmzwEWGNlnD/FCJwALfDoET6FmIW3cUt4zj7aLXANfRtM0zGEqIHgusoL
+ +MTUG5hXLFxVr2fFzb64aT/EPPxVN0dRVJO5Y+8nkf0WnZBGxK+lUEowJnM75gUPycoj
+ G8xyBuXjUyAsNGXxA61tZ5ubc4lXSjNSo0JK4UXekBuqRqMr2175Jlxjby8okhSa0pun
+ eotqhlOsFNyJWekhqmEhmnxsJ9OfTr89C59cjCou8pPxN0w5LFGXG/+3Dp3yE+lsfxpZ
+ tSOJ5ZWAX9eOxQzTZWqcJhYOGrLyUWewYVskT4iZQ4OTZeh2z9Pf88+4GlUwXoYELc/U
+ mGZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ki6/qS5/kkWXkqIOjzkIPrV1IVbRhLJ3aywqEzrIZU8=;
- b=gxJklrWhwNzL2feqZLxVdx4sLb/1RUldvCfYIvEmtTk+ejpcKCgCmeizK6IfylbCu5
- 2fYUrO62FWPUpLbug+x7lOCEt4MJT6V7pgiyoyvyVdoZo2dMp5RmUp0MC8v4ZqbAYIUV
- GrTjfZ4qRsOPojevVTZ7MOEn5jZ/oaQJo5NfZAhpdMNtmy9bCWf/PstfY7FBxRPQY9Qt
- x5mG9L6ci+MeU7/UTGEiYSqmnkRT7v8HCwuSbwDuV9aqiNchh+FeTkfaegi9KyxPKdhA
- ICz0OYDSwkQIPoSkAK4/6OeKAUUzIvZvS0F2UvhoJeog2xQ6Gx9FbF0D3I37DWLJbOMf
- +GGA==
-X-Gm-Message-State: APjAAAVJX81UAw4zSzqm7OCHhnFi2FpjveEmYAaO+gNSE9cA/Y1tDyNa
- x7A1E/JaEXrjPR/pktyh1ah3rw==
-X-Google-Smtp-Source: APXvYqyIvbTKcWw635qxSG8C4efec+JQ2EMGKssr4Bf82IKIb0WuTIe0gH3tU9AqrOIiVaGz0JB6RA==
-X-Received: by 2002:a05:600c:224c:: with SMTP id
- a12mr3016123wmm.12.1565700588351; 
- Tue, 13 Aug 2019 05:49:48 -0700 (PDT)
+ bh=XEpGqIEUvdb5555PJIVv1BtkiLX36JbwzRPDngAmByI=;
+ b=sj/dc+UqSLBIFAsTfczoUCfJWVW2P5h6M0uwmzUNVBuiE7cbHzatotSme/X69hJSjM
+ f0AmaFaTEbDTL/Hqm1Sbl1eFl9/msl98c1ShiVIM+MdBK3nKjsZHzfKguU8PlqRxKXYq
+ pKc6Dl/lkTafTTY91vTgwCatJtAmHbMM2imQioXh6EJLq6S0+mDQQPZywgqK2PD6gIiN
+ 2eoNaBRMKULRq7GdWUJ0/TGTxl3Ed6oN+UACkH250lNPxj5WkbU/5lmgO9IDe1ZcBbfV
+ hb/X1LyfL6bxAf1KIzVLEgxYBEYinE+4sFKd+uHKHzo12sJC53Nh1Zex/2AU0yo+mMEO
+ wkBg==
+X-Gm-Message-State: APjAAAVbM8EWgqJKtk8nolaaWQd15dfQyn67MEonWszlI14OFpHBTyos
+ ycAd1LpCdujE9YpsnP7grm4vCw==
+X-Google-Smtp-Source: APXvYqxWfDk+MNBMYqnGnnw0A7mkyqGBff/Yk05bLC0SIOJteQ+850DgoCOJmpmKYspwugY+fGQuXQ==
+X-Received: by 2002:a7b:c649:: with SMTP id q9mr2916718wmk.108.1565700589199; 
+ Tue, 13 Aug 2019 05:49:49 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id c8sm4349416wrn.50.2019.08.13.05.49.47
+ by smtp.gmail.com with ESMTPSA id 16sm1977052wmx.45.2019.08.13.05.49.47
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Tue, 13 Aug 2019 05:49:47 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 044C91FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 1A2241FF8F;
  Tue, 13 Aug 2019 13:49:47 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 13 Aug 2019 13:49:34 +0100
-Message-Id: <20190813124946.25322-2-alex.bennee@linaro.org>
+Date: Tue, 13 Aug 2019 13:49:35 +0100
+Message-Id: <20190813124946.25322-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190813124946.25322-1-alex.bennee@linaro.org>
 References: <20190813124946.25322-1-alex.bennee@linaro.org>
@@ -69,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v3 01/13] fpu: replace LIT64 usage with
- UINT64_C for specialize constants
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH v3 02/13] fpu: convert
+ float[16/32/64]_squash_denormal to new modern style
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,125 +88,162 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have a wrapper that does the right thing from stdint.h so lets use
-it for our constants in softfloat-specialize.h
+This also allows us to remove the extractFloat16exp/frac helpers.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- fpu/softfloat-specialize.h | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ fpu/softfloat.c | 110 +++++++++++++++++++++---------------------------
+ 1 file changed, 47 insertions(+), 63 deletions(-)
 
-diff --git a/fpu/softfloat-specialize.h b/fpu/softfloat-specialize.h
-index 7b8895726c5..5ab2fa19415 100644
---- a/fpu/softfloat-specialize.h
-+++ b/fpu/softfloat-specialize.h
-@@ -196,11 +196,11 @@ floatx80 floatx80_default_nan(float_status *status)
-     /* None of the targets that have snan_bit_is_one use floatx80.  */
-     assert(!snan_bit_is_one(status));
- #if defined(TARGET_M68K)
--    r.low = LIT64(0xFFFFFFFFFFFFFFFF);
-+    r.low = UINT64_C(0xFFFFFFFFFFFFFFFF);
-     r.high = 0x7FFF;
- #else
-     /* X86 */
--    r.low = LIT64(0xC000000000000000);
-+    r.low = UINT64_C(0xC000000000000000);
-     r.high = 0xFFFF;
- #endif
-     return r;
-@@ -212,9 +212,9 @@ floatx80 floatx80_default_nan(float_status *status)
- 
- #define floatx80_infinity_high 0x7FFF
- #if defined(TARGET_M68K)
--#define floatx80_infinity_low  LIT64(0x0000000000000000)
-+#define floatx80_infinity_low  UINT64_C(0x0000000000000000)
- #else
--#define floatx80_infinity_low  LIT64(0x8000000000000000)
-+#define floatx80_infinity_low  UINT64_C(0x8000000000000000)
- #endif
- 
- const floatx80 floatx80_infinity
-@@ -667,7 +667,7 @@ int float64_is_signaling_nan(float64 a_, float_status *status)
-         return ((a << 1) >= 0xFFF0000000000000ULL);
-     } else {
-         return (((a >> 51) & 0xFFF) == 0xFFE)
--            && (a & LIT64(0x0007FFFFFFFFFFFF));
-+            && (a & UINT64_C(0x0007FFFFFFFFFFFF));
-     }
- #endif
- }
-@@ -707,7 +707,7 @@ static float64 commonNaNToFloat64(commonNaNT a, float_status *status)
-     if (mantissa) {
-         return make_float64(
-               (((uint64_t) a.sign) << 63)
--            | LIT64(0x7FF0000000000000)
-+            | UINT64_C(0x7FF0000000000000)
-             | (a.high >> 12));
-     } else {
-         return float64_default_nan(status);
-@@ -790,7 +790,7 @@ int floatx80_is_quiet_nan(floatx80 a, float_status *status)
-             && (a.low == aLow);
-     } else {
-         return ((a.high & 0x7FFF) == 0x7FFF)
--            && (LIT64(0x8000000000000000) <= ((uint64_t)(a.low << 1)));
-+            && (UINT64_C(0x8000000000000000) <= ((uint64_t)(a.low << 1)));
-     }
- #endif
- }
-@@ -812,7 +812,7 @@ int floatx80_is_signaling_nan(floatx80 a, float_status *status)
-     } else {
-         uint64_t aLow;
- 
--        aLow = a.low & ~LIT64(0x4000000000000000);
-+        aLow = a.low & ~UINT64_C(0x4000000000000000);
-         return ((a.high & 0x7FFF) == 0x7FFF)
-             && (uint64_t)(aLow << 1)
-             && (a.low == aLow);
-@@ -829,7 +829,7 @@ floatx80 floatx80_silence_nan(floatx80 a, float_status *status)
- {
-     /* None of the targets that have snan_bit_is_one use floatx80.  */
-     assert(!snan_bit_is_one(status));
--    a.low |= LIT64(0xC000000000000000);
-+    a.low |= UINT64_C(0xC000000000000000);
-     return a;
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 2ba36ec3703..0a434555cd8 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -414,24 +414,6 @@ float64_gen2(float64 xa, float64 xb, float_status *s,
+     return soft(ua.s, ub.s, s);
  }
  
-@@ -874,7 +874,7 @@ static floatx80 commonNaNToFloatx80(commonNaNT a, float_status *status)
-     }
- 
-     if (a.high >> 1) {
--        z.low = LIT64(0x8000000000000000) | a.high >> 1;
-+        z.low = UINT64_C(0x8000000000000000) | a.high >> 1;
-         z.high = (((uint16_t)a.sign) << 15) | 0x7FFF;
-     } else {
-         z = floatx80_default_nan(status);
-@@ -969,7 +969,7 @@ int float128_is_signaling_nan(float128 a, float_status *status)
-             && (a.low || (a.high & 0x0000FFFFFFFFFFFFULL));
-     } else {
-         return (((a.high >> 47) & 0xFFFF) == 0xFFFE)
--            && (a.low || (a.high & LIT64(0x00007FFFFFFFFFFF)));
-+            && (a.low || (a.high & UINT64_C(0x00007FFFFFFFFFFF)));
-     }
- #endif
- }
-@@ -987,7 +987,7 @@ float128 float128_silence_nan(float128 a, float_status *status)
-     if (snan_bit_is_one(status)) {
-         return float128_default_nan(status);
-     } else {
--        a.high |= LIT64(0x0000800000000000);
-+        a.high |= UINT64_C(0x0000800000000000);
-         return a;
-     }
- #endif
-@@ -1025,7 +1025,7 @@ static float128 commonNaNToFloat128(commonNaNT a, float_status *status)
-     }
- 
-     shift128Right(a.high, a.low, 16, &z.high, &z.low);
--    z.high |= (((uint64_t)a.sign) << 63) | LIT64(0x7FFF000000000000);
-+    z.high |= (((uint64_t)a.sign) << 63) | UINT64_C(0x7FFF000000000000);
-     return z;
+-/*----------------------------------------------------------------------------
+-| Returns the fraction bits of the half-precision floating-point value `a'.
+-*----------------------------------------------------------------------------*/
+-
+-static inline uint32_t extractFloat16Frac(float16 a)
+-{
+-    return float16_val(a) & 0x3ff;
+-}
+-
+-/*----------------------------------------------------------------------------
+-| Returns the exponent bits of the half-precision floating-point value `a'.
+-*----------------------------------------------------------------------------*/
+-
+-static inline int extractFloat16Exp(float16 a)
+-{
+-    return (float16_val(a) >> 10) & 0x1f;
+-}
+-
+ /*----------------------------------------------------------------------------
+ | Returns the fraction bits of the single-precision floating-point value `a'.
+ *----------------------------------------------------------------------------*/
+@@ -3306,6 +3288,53 @@ float64 float64_silence_nan(float64 a, float_status *status)
+     return float64_pack_raw(p);
  }
  
++
++/*----------------------------------------------------------------------------
++| If `a' is denormal and we are in flush-to-zero mode then set the
++| input-denormal exception and return zero. Otherwise just return the value.
++*----------------------------------------------------------------------------*/
++
++static FloatParts parts_squash_denormal(FloatParts p, float_status *status)
++{
++    if (p.exp == 0 && p.frac != 0) {
++        float_raise(float_flag_input_denormal, status);
++        p.frac = 0;
++        p.cls = float_class_zero;
++    }
++
++    return p;
++}
++
++float16 float16_squash_input_denormal(float16 a, float_status *status)
++{
++    if (status->flush_inputs_to_zero) {
++        FloatParts p = float16_unpack_raw(a);
++        p = parts_squash_denormal(p, status);
++        return float16_pack_raw(p);
++    }
++    return a;
++}
++
++float32 float32_squash_input_denormal(float32 a, float_status *status)
++{
++    if (status->flush_inputs_to_zero) {
++        FloatParts p = float32_unpack_raw(a);
++        p = parts_squash_denormal(p, status);
++        return float32_pack_raw(p);
++    }
++    return a;
++}
++
++float64 float64_squash_input_denormal(float64 a, float_status *status)
++{
++    if (status->flush_inputs_to_zero) {
++        FloatParts p = float64_unpack_raw(a);
++        p = parts_squash_denormal(p, status);
++        return float64_pack_raw(p);
++    }
++    return a;
++}
++
+ /*----------------------------------------------------------------------------
+ | Takes a 64-bit fixed-point value `absZ' with binary point between bits 6
+ | and 7, and returns the properly rounded 32-bit integer corresponding to the
+@@ -3482,21 +3511,6 @@ static int64_t roundAndPackUint64(flag zSign, uint64_t absZ0,
+     return absZ0;
+ }
+ 
+-/*----------------------------------------------------------------------------
+-| If `a' is denormal and we are in flush-to-zero mode then set the
+-| input-denormal exception and return zero. Otherwise just return the value.
+-*----------------------------------------------------------------------------*/
+-float32 float32_squash_input_denormal(float32 a, float_status *status)
+-{
+-    if (status->flush_inputs_to_zero) {
+-        if (extractFloat32Exp(a) == 0 && extractFloat32Frac(a) != 0) {
+-            float_raise(float_flag_input_denormal, status);
+-            return make_float32(float32_val(a) & 0x80000000);
+-        }
+-    }
+-    return a;
+-}
+-
+ /*----------------------------------------------------------------------------
+ | Normalizes the subnormal single-precision floating-point value represented
+ | by the denormalized significand `aSig'.  The normalized exponent and
+@@ -3635,21 +3649,6 @@ static float32
+ 
+ }
+ 
+-/*----------------------------------------------------------------------------
+-| If `a' is denormal and we are in flush-to-zero mode then set the
+-| input-denormal exception and return zero. Otherwise just return the value.
+-*----------------------------------------------------------------------------*/
+-float64 float64_squash_input_denormal(float64 a, float_status *status)
+-{
+-    if (status->flush_inputs_to_zero) {
+-        if (extractFloat64Exp(a) == 0 && extractFloat64Frac(a) != 0) {
+-            float_raise(float_flag_input_denormal, status);
+-            return make_float64(float64_val(a) & (1ULL << 63));
+-        }
+-    }
+-    return a;
+-}
+-
+ /*----------------------------------------------------------------------------
+ | Normalizes the subnormal double-precision floating-point value represented
+ | by the denormalized significand `aSig'.  The normalized exponent and
+@@ -4981,21 +4980,6 @@ int float32_unordered_quiet(float32 a, float32 b, float_status *status)
+     return 0;
+ }
+ 
+-/*----------------------------------------------------------------------------
+-| If `a' is denormal and we are in flush-to-zero mode then set the
+-| input-denormal exception and return zero. Otherwise just return the value.
+-*----------------------------------------------------------------------------*/
+-float16 float16_squash_input_denormal(float16 a, float_status *status)
+-{
+-    if (status->flush_inputs_to_zero) {
+-        if (extractFloat16Exp(a) == 0 && extractFloat16Frac(a) != 0) {
+-            float_raise(float_flag_input_denormal, status);
+-            return make_float16(float16_val(a) & 0x8000);
+-        }
+-    }
+-    return a;
+-}
+-
+ /*----------------------------------------------------------------------------
+ | Returns the result of converting the double-precision floating-point value
+ | `a' to the extended double-precision floating-point format.  The conversion
 -- 
 2.20.1
 
