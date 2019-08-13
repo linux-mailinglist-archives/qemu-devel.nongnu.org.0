@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1948B9D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 15:17:33 +0200 (CEST)
-Received: from localhost ([::1]:52372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F68F8B9D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 15:17:48 +0200 (CEST)
+Received: from localhost ([::1]:52374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxWg8-0002CZ-PH
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 09:17:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58052)
+	id 1hxWgN-0002O8-NK
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 09:17:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58101)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hxWeP-0000P3-Cn
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 09:15:46 -0400
+ (envelope-from <philmd@redhat.com>) id 1hxWeh-0000a9-OL
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 09:16:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hxWeO-0003DX-Ez
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 09:15:45 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42653)
+ (envelope-from <philmd@redhat.com>) id 1hxWeg-0003Rw-FV
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 09:16:03 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:44241)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hxWeO-0003Cg-42
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 09:15:44 -0400
-Received: by mail-wr1-x442.google.com with SMTP id b16so11010337wrq.9
- for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 06:15:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FYYeO8b4lS8sQ4b+4lHlFWjcUBq9refOmokKXuJKbqU=;
- b=ZkG/J5o/bSfSdR3C8R036aQZm8xKCkBUxDFZZ9VU4xljViXVKSIfT2d/jumzSDLLOI
- zisCc2SrA5JyUpXJpcpw4ATGkeFRugWFxzIdBxu3XiIPoiGilHYDoj1qoZX2Vrz/MrFA
- juLfXdMqZcqDwKpGK3czuXhoHlP8C9mbOihDfTQzC3WEHB+ZnsZy1kfUuj9ZSFLVsWrW
- 6Hq4Csv0pxEiS8o4TFFMwyeK6E9gzdE1No7E7m+useaPy/sg/PSWKl/5pmdjUqtaj0Wd
- 69yYs82cNsVpM+oVYbTansPTgMa/ErfUwRoPE8gjmy39cjZaofBgRcJu+ohFy25qkll4
- 8IFg==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hxWeg-0003Qm-3A
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 09:16:02 -0400
+Received: by mail-wr1-f68.google.com with SMTP id p17so107705744wrf.11
+ for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 06:16:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FYYeO8b4lS8sQ4b+4lHlFWjcUBq9refOmokKXuJKbqU=;
- b=Z5s9GnHmEq0QH5u+jQaAP4UrupZ+VaYl9DmwNhi3X7ehxKQbjQVE+dmBU0sp5RFdn1
- +cgAzoaiQQ8NFvuwKSrZWAiQuzwHHCGJ9SCinNSQ6mLiYaEQMBwCNUryZ/eGT7Dl/e6i
- 0QMvuM8/IocjQF2CRikYKkSLSGBvstEWDTDqvPlZhvKuw8ZQ0O9GqS6bSTtz/x35Iqgm
- MUOToFMntPkL7joESrxZUhCS1u6VZXTfenvGWSugi7ZewugOfzJifpgRwf2lKT/VMY3Y
- pO3SFyPldXtm6bkiromtcit+klRH2E2Myz9o/PMnuzsx4/NjAp2D1h4Z7jH0uj6bhIz2
- dteg==
-X-Gm-Message-State: APjAAAUMgZft3cKYYtRtA6QjZBV5Jb9njMG3yKs4JlagqCmxAiix0fVH
- 5SfmfaI0hRmqWLZwZHh7Pbbyig==
-X-Google-Smtp-Source: APXvYqz59FrOoDE72kItKh+UNoGwRr5De4UDv1QyBLlAPP15E9OUM/DtLLnwYjvgLTk9iRYOt8aO2g==
-X-Received: by 2002:a5d:424a:: with SMTP id s10mr16298766wrr.55.1565702143045; 
- Tue, 13 Aug 2019 06:15:43 -0700 (PDT)
-Received: from ?IPv6:2a02:c7f:a69:1700:8897:9507:94c2:b98d?
- ([2a02:c7f:a69:1700:8897:9507:94c2:b98d])
- by smtp.gmail.com with ESMTPSA id c65sm2204144wma.44.2019.08.13.06.15.42
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 13 Aug 2019 06:15:42 -0700 (PDT)
+ bh=4S14T60NDwHCvYsNCw9lNVLA3zrprDkhHzAZ5IgVw5o=;
+ b=K+01ZQDqMN8eDA3yUdp3VimRUmRqCvwMYCFUcIDcXcawBcU/9J6a4qcQlS9V1GQYjG
+ 2OfdpxasLYP0TdH++mSQV3wt73fRdDMbZFGWr7UZPR6T+HODz+OsCJLjNvmKh6awhalN
+ TlXsrpQwpHpPjtwCaC2Gv2yuwWdbnHn/bzRIBN7xIiz3/sxHkGDZ+YcIruRl5VqcVeTC
+ M3b3cZIHOXMfYL6KI8eprIsxoDVmbLmkUoj1o23EZoos6Yl8pjNywrD3yUXFibwRBbPK
+ 7CQRziyavJM+jnYfpl2G9ziw9sAtkVKPsNb3rT1jy8/rDt9KJj4ULx/eyLKTTYU9jUTM
+ Dpqw==
+X-Gm-Message-State: APjAAAUzxQ1M+wBOowmU/XHJzjEva/dCwzlx2XpIQpz5nr5GCOsgAozt
+ 4r55Z5LvM2/yTqes+s7CdGZKRw==
+X-Google-Smtp-Source: APXvYqx0o5kSeiyU28PtSoeBZE+qEna9TFIFDyhUs0oSdErkbGkvAfcDVVb3VvvYMKQfkkWHMGI8Cw==
+X-Received: by 2002:adf:f28d:: with SMTP id k13mr28083959wro.19.1565702160531; 
+ Tue, 13 Aug 2019 06:16:00 -0700 (PDT)
+Received: from [192.168.1.35] (251.red-88-10-102.dynamicip.rima-tde.net.
+ [88.10.102.251])
+ by smtp.gmail.com with ESMTPSA id x20sm236909203wrg.10.2019.08.13.06.15.59
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 13 Aug 2019 06:15:59 -0700 (PDT)
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20190813124946.25322-1-alex.bennee@linaro.org>
- <20190813124946.25322-8-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <c8079562-f999-2a7e-1aca-fae2456274ae@linaro.org>
-Date: Tue, 13 Aug 2019 14:15:40 +0100
+ <20190813124946.25322-14-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <9a39d301-e0c9-bcee-606f-e379461cd7f8@redhat.com>
+Date: Tue, 13 Aug 2019 15:15:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190813124946.25322-8-alex.bennee@linaro.org>
+In-Reply-To: <20190813124946.25322-14-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [PATCH v3 07/13] fpu: remove the LIT64 macro
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH v3 13/13] targets (various): use
+ softfloat-helpers.h where we can
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,22 +76,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, armbru@redhat.com,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: David Hildenbrand <david@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, armbru@redhat.com,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/13/19 1:49 PM, Alex Bennée wrote:
-> Now the rest of the code has been cleaned up we can remove this.
+On 8/13/19 2:49 PM, Alex Bennée wrote:
+> Generally the cpu and non-FP helper files just want to manipulate the
+> softfloat flags. For this they can just use the -helpers.h include
+> which brings in a minimal number of inline helpers.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
 > ---
->  include/fpu/softfloat.h | 2 --
->  1 file changed, 2 deletions(-)
+>  target/alpha/helper.c   | 2 +-
+>  target/microblaze/cpu.c | 2 +-
+>  target/s390x/cpu.c      | 2 +-
+>  target/sh4/cpu.c        | 3 +--
+>  target/tricore/helper.c | 2 +-
+>  target/unicore32/cpu.c  | 1 -
+>  6 files changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/target/alpha/helper.c b/target/alpha/helper.c
+> index 93b8e788b18..c6998348df4 100644
+> --- a/target/alpha/helper.c
+> +++ b/target/alpha/helper.c
+> @@ -21,7 +21,7 @@
+>  
+>  #include "cpu.h"
+>  #include "exec/exec-all.h"
+> -#include "fpu/softfloat.h"
+> +#include "fpu/softfloat-types.h"
+>  #include "exec/helper-proto.h"
+>  #include "qemu/qemu-print.h"
+>  
+> diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+> index 0bec54b2f8a..9cfd7445e7d 100644
+> --- a/target/microblaze/cpu.c
+> +++ b/target/microblaze/cpu.c
+> @@ -28,7 +28,7 @@
+>  #include "hw/qdev-properties.h"
+>  #include "migration/vmstate.h"
+>  #include "exec/exec-all.h"
+> -#include "fpu/softfloat.h"
+> +#include "fpu/softfloat-helpers.h"
+>  
+>  static const struct {
+>      const char *name;
+> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> index 736a7903e22..5db016672bb 100644
+> --- a/target/s390x/cpu.c
+> +++ b/target/s390x/cpu.c
+> @@ -42,7 +42,7 @@
+>  #include "sysemu/sysemu.h"
+>  #include "sysemu/tcg.h"
+>  #endif
+> -#include "fpu/softfloat.h"
+> +#include "fpu/softfloat-helpers.h"
+>  
+>  #define CR0_RESET       0xE0UL
+>  #define CR14_RESET      0xC2000000UL;
+> diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+> index 816d6d7f311..d0a7707991f 100644
+> --- a/target/sh4/cpu.c
+> +++ b/target/sh4/cpu.c
+> @@ -25,8 +25,7 @@
+>  #include "cpu.h"
+>  #include "migration/vmstate.h"
+>  #include "exec/exec-all.h"
+> -#include "fpu/softfloat.h"
+> -
+> +#include "fpu/softfloat-helpers.h"
+>  
+>  static void superh_cpu_set_pc(CPUState *cs, vaddr value)
+>  {
+> diff --git a/target/tricore/helper.c b/target/tricore/helper.c
+> index a6803368506..d5db7b2c03f 100644
+> --- a/target/tricore/helper.c
+> +++ b/target/tricore/helper.c
+> @@ -19,7 +19,7 @@
+>  
+>  #include "cpu.h"
+>  #include "exec/exec-all.h"
+> -#include "fpu/softfloat.h"
+> +#include "fpu/softfloat-helpers.h"
+>  #include "qemu/qemu-print.h"
+>  
+>  enum {
+> diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
+> index 802e2f1eba5..b27fb9689ff 100644
+> --- a/target/unicore32/cpu.c
+> +++ b/target/unicore32/cpu.c
+> @@ -17,7 +17,6 @@
+>  #include "cpu.h"
+>  #include "migration/vmstate.h"
+>  #include "exec/exec-all.h"
+> -#include "fpu/softfloat.h"
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+target/unicore32/cpu.h has to include "fpu/softfloat-types.h" (use of
+float_status).
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-r~
-
+>  
+>  static void uc32_cpu_set_pc(CPUState *cs, vaddr value)
+>  {
+> 
 
