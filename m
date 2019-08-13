@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F408BCB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 17:12:11 +0200 (CEST)
-Received: from localhost ([::1]:53260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4028BCE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 17:19:33 +0200 (CEST)
+Received: from localhost ([::1]:53296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxYT5-0002qh-2f
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 11:12:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46781)
+	id 1hxYaC-00056D-DF
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 11:19:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47550)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hxYSZ-0002Ow-02
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 11:11:40 -0400
+ (envelope-from <eblake@redhat.com>) id 1hxYZF-00047t-M9
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 11:18:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hxYSX-00034L-Hz
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 11:11:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48477)
+ (envelope-from <eblake@redhat.com>) id 1hxYZD-0007eY-OM
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 11:18:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49880)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hxYSX-00033u-9Q
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 11:11:37 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hxYZ9-0007Zx-Pc; Tue, 13 Aug 2019 11:18:27 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 74A6630EBE7B;
- Tue, 13 Aug 2019 15:11:36 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id F0060C034E71;
+ Tue, 13 Aug 2019 15:18:25 +0000 (UTC)
 Received: from [10.3.117.22] (ovpn-117-22.phx2.redhat.com [10.3.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 24B2E10013A1;
- Tue, 13 Aug 2019 15:11:35 +0000 (UTC)
-To: Tao <tao3.xu@intel.com>, imammedo@redhat.com, ehabkost@redhat.com
-References: <20190809065731.9097-1-tao3.xu@intel.com>
- <20190809065731.9097-10-tao3.xu@intel.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 59B2110013A1;
+ Tue, 13 Aug 2019 15:18:17 +0000 (UTC)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20190813093047.27948-1-thuth@redhat.com>
+ <20190813093047.27948-2-thuth@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,22 +58,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <be305a8a-f1f4-7084-4bb7-4174d530483d@redhat.com>
-Date: Tue, 13 Aug 2019 10:11:32 -0500
+Message-ID: <04a21d67-7a8b-20bf-2d8c-56d714ebb07d@redhat.com>
+Date: Tue, 13 Aug 2019 10:18:16 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190809065731.9097-10-tao3.xu@intel.com>
+In-Reply-To: <20190813093047.27948-2-thuth@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="Qg8aNq8QcDZ1H9if7a8Whcr9WOrgJHI5R"
+ boundary="cQqwl0UnpkIGQ1udLXRHD2KQ6Z2x3l7yb"
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Tue, 13 Aug 2019 15:11:36 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Tue, 13 Aug 2019 15:18:26 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v9 09/11] numa: Extend the CLI to provide
- memory latency and bandwidth information
+Subject: Re: [Qemu-devel] [PATCH 1/6] tests/libqos: Make generic virtio code
+ independent from global_qtest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,250 +85,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, fan.du@intel.com, qemu-devel@nongnu.org,
- daniel@linux.ibm.com, Markus Armbruster <armbru@redhat.com>,
- jonathan.cameron@huawei.com, dan.j.williams@intel.com
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, Amit Shah <amit@kernel.org>,
+ Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Qg8aNq8QcDZ1H9if7a8Whcr9WOrgJHI5R
-Content-Type: multipart/mixed; boundary="U048lAAeGXzlrI5vdCoJ7DClS1dpiyx0S";
+--cQqwl0UnpkIGQ1udLXRHD2KQ6Z2x3l7yb
+Content-Type: multipart/mixed; boundary="7MnpAFX2nFGj8AZzltoL8zo5O24YuFyIu";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
-To: Tao <tao3.xu@intel.com>, imammedo@redhat.com, ehabkost@redhat.com
-Cc: jingqi.liu@intel.com, dan.j.williams@intel.com,
- jonathan.cameron@huawei.com, daniel@linux.ibm.com, fan.du@intel.com,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-Message-ID: <be305a8a-f1f4-7084-4bb7-4174d530483d@redhat.com>
-Subject: Re: [PATCH v9 09/11] numa: Extend the CLI to provide memory latency
- and bandwidth information
-References: <20190809065731.9097-1-tao3.xu@intel.com>
- <20190809065731.9097-10-tao3.xu@intel.com>
-In-Reply-To: <20190809065731.9097-10-tao3.xu@intel.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Amit Shah <amit@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Greg Kurz <groug@kaod.org>
+Message-ID: <04a21d67-7a8b-20bf-2d8c-56d714ebb07d@redhat.com>
+Subject: Re: [PATCH 1/6] tests/libqos: Make generic virtio code independent
+ from global_qtest
+References: <20190813093047.27948-1-thuth@redhat.com>
+ <20190813093047.27948-2-thuth@redhat.com>
+In-Reply-To: <20190813093047.27948-2-thuth@redhat.com>
 
---U048lAAeGXzlrI5vdCoJ7DClS1dpiyx0S
+--7MnpAFX2nFGj8AZzltoL8zo5O24YuFyIu
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 8/9/19 1:57 AM, Tao wrote:
-> From: Liu Jingqi <jingqi.liu@intel.com>
+On 8/13/19 4:30 AM, Thomas Huth wrote:
+> The libqos library functions should never depend on global_qtest,
+> since these functions might be used in tests that track multiple
+> test states. Pass around a pointer to the QTestState instead.
+
+Thanks for picking up on my initial RFC along these lines a couple years
+ago now; it's taking us a while, but these cleanups are worthwhile.
+
 >=20
-> Add -numa hmat-lb option to provide System Locality Latency and
-> Bandwidth Information. These memory attributes help to build
-> System Locality Latency and Bandwidth Information Structure(s)
-> in ACPI Heterogeneous Memory Attribute Table (HMAT).
->=20
-> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
-> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->=20
-> Changes in v9:
->     - change the CLI input way, make it more user firendly (Daniel Blac=
-k)
->     use latency=3DNUM[p|n|u]s and bandwidth=3DNUM[M|G|P](B/s) as input =
-and drop
->     the base-lat and base-bw input.
 
-Why are you hand-rolling yet another scaling parser instead of reusing
-one that's already in-tree?
-
-> +++ b/hw/core/numa.c
-
-> +void parse_numa_hmat_lb(MachineState *ms, NumaHmatLBOptions *node,
-> +                        Error **errp)
-> +{
-
-> +    if (node->has_latency) {
-> +        hmat_lb =3D ms->numa_state->hmat_lb[node->hierarchy][node->dat=
-a_type];
-> +
-> +        if (!hmat_lb) {
-> +            hmat_lb =3D g_malloc0(sizeof(*hmat_lb));
-> +            ms->numa_state->hmat_lb[node->hierarchy][node->data_type] =
-=3D hmat_lb;
-> +        } else if (hmat_lb->latency[node->initiator][node->target]) {
-> +            error_setg(errp, "Duplicate configuration of the latency f=
-or "
-> +                       "initiator=3D%" PRIu16 " and target=3D%" PRIu16=
- ".",
-> +                       node->initiator, node->target);
-> +            return;
-> +        }
-> +
-> +        ret =3D qemu_strtoui(node->latency, &endptr, 10, &latency);
-> +        if (ret < 0) {
-> +            error_setg(errp, "Invalid latency %s", node->latency);
-> +            return;
-> +        }
-> +
-> +        if (*endptr =3D=3D '\0') {
-> +            base_lat =3D 1;
-> +        } else if (*(endptr + 1) =3D=3D 's') {
-> +            switch (*endptr) {
-> +            case 'p':
-> +                base_lat =3D 1;
-> +                break;
-> +            case 'n':
-> +                base_lat =3D PICO_PER_NSEC;
-> +                break;
-> +            case 'u':
-> +                base_lat =3D PICO_PER_USEC;
-> +                break;
-
-Hmm - this is a different scaling than any of our existing parsers
-(which assume multiples k/M/G..., not subdivisions u/n/s)
-
-
-> +    if (node->has_bandwidth) {
-> +        hmat_lb =3D ms->numa_state->hmat_lb[node->hierarchy][node->dat=
-a_type];
-> +
-> +        if (!hmat_lb) {
-> +            hmat_lb =3D g_malloc0(sizeof(*hmat_lb));
-> +            ms->numa_state->hmat_lb[node->hierarchy][node->data_type] =
-=3D hmat_lb;
-> +        } else if (hmat_lb->bandwidth[node->initiator][node->target]) =
-{
-> +            error_setg(errp, "Duplicate configuration of the bandwidth=
- for "
-> +                       "initiator=3D%" PRIu16 " and target=3D%" PRIu16=
- ".",
-> +                       node->initiator, node->target);
-> +            return;
-> +        }
-> +
-> +        ret =3D qemu_strtoui(node->bandwidth, &endptr, 10, &bandwidth)=
-;
-> +        if (ret < 0) {
-> +            error_setg(errp, "Invalid bandwidth %s", node->bandwidth);=
-
-> +            return;
-> +        }
-> +
-> +        switch (toupper(*endptr)) {
-> +        case '\0':
-> +        case 'M':
-> +            base_bw =3D 1;
-> +            break;
-> +        case 'G':
-> +            base_bw =3D UINT64_C(1) << 10;
-> +            break;
-> +        case 'P':
-> +            base_bw =3D UINT64_C(1) << 20;
-> +            break;
-
-But this one, in addition to being wrong (P is 1<<30, not 1<<20), should
-definitely be reusing qemu_strtosz_metric() or similar (look in
-util/cutils.c).
-
-
-> +++ b/qapi/machine.json
-> @@ -377,10 +377,12 @@
->  #
->  # @cpu: property based CPU(s) to node mapping (Since: 2.10)
->  #
-> +# @hmat-lb: memory latency and bandwidth information (Since: 4.2)
-> +#
->  # Since: 2.1
->  ##
->  { 'enum': 'NumaOptionsType',
-> -  'data': [ 'node', 'dist', 'cpu' ] }
-> +  'data': [ 'node', 'dist', 'cpu', 'hmat-lb' ] }
+> @@ -193,7 +193,7 @@ void qvring_init(QTestState *qts, const QGuestAlloc=
+ator *alloc, QVirtQueue *vq,
+>                   0);
+>  }
 > =20
+> -QVRingIndirectDesc *qvring_indirect_desc_setup(QVirtioDevice *d,
+> +QVRingIndirectDesc *qvring_indirect_desc_setup(QTestState *qs, QVirtio=
+Device *d,
+>                                          QGuestAllocator *alloc, uint16=
+_t elem)
+>  {
 
-> +##
-> +# @HmatLBDataType:
-> +#
-> +# Data type in the System Locality Latency
-> +# and Bandwidth Information Structure of HMAT (Heterogeneous
-> +# Memory Attribute Table)
-> +#
-> +# For more information of @HmatLBDataType see
-> +# the chapter 5.2.27.4: Table 5-142:  Field "Data Type" of ACPI 6.3 sp=
-ec.
-> +#
-> +# @access-latency: access latency (picoseconds)
-> +#
-> +# @read-latency: read latency (picoseconds)
-> +#
-> +# @write-latency: write latency (picoseconds)
-> +#
-> +# @access-bandwidth: access bandwidth (MB/s)
-> +#
-> +# @read-bandwidth: read bandwidth (MB/s)
-> +#
-> +# @write-bandwidth: write bandwidth (MB/s)
-
-Are these really the best scales?
+Pre-existing, but indentation is off; maybe you want to fix that while he=
+re.
 
 
-> +
-> +##
-> +# @NumaHmatLBOptions:
-> +#
-> +# Set the system locality latency and bandwidth information
-> +# between Initiator and Target proximity Domains.
-> +#
-> +# For more information of @NumaHmatLBOptions see
-> +# the chapter 5.2.27.4: Table 5-142 of ACPI 6.3 spec.
-> +#
-> +# @initiator: the Initiator Proximity Domain.
-> +#
-> +# @target: the Target Proximity Domain.
-> +#
-> +# @hierarchy: the Memory Hierarchy. Indicates the performance
-> +#             of memory or side cache.
-> +#
-> +# @data-type: presents the type of data, access/read/write
-> +#             latency or hit latency.
-> +#
-> +# @latency: the value of latency from @initiator to @target proximity =
-domain,
-> +#           the latency units are "ps(picosecond)", "ns(nanosecond)" o=
-r
-> +#           "us(microsecond)".
-> +#
-> +# @bandwidth: the value of bandwidth between @initiator and @target pr=
-oximity
-> +#             domain, the bandwidth units are "MB(/s)","GB(/s)" or "PB=
-(/s)".
-> +#
-> +# Since: 4.2
-> +##
-> +{ 'struct': 'NumaHmatLBOptions',
-> +    'data': {
-> +    'initiator': 'uint16',
-> +    'target': 'uint16',
-> +    'hierarchy': 'HmatLBMemoryHierarchy',
-> +    'data-type': 'HmatLBDataType',
-> +    '*latency': 'str',
-> +    '*bandwidth': 'str' }}
+> -void qvirtqueue_kick(QVirtioDevice *d, QVirtQueue *vq, uint32_t free_h=
+ead)
+> +void qvirtqueue_kick(QTestState *qts, QVirtioDevice *d, QVirtQueue *vq=
+,
+> +                     uint32_t free_head)
+>  {
+>      /* vq->avail->idx */
+> -    uint16_t idx =3D readw(vq->avail + 2);
+> +    uint16_t idx =3D qtest_readw(qts, vq->avail + 2);
+>      /* vq->used->flags */
+>      uint16_t flags;
+>      /* vq->used->avail_event */
+>      uint16_t avail_event;
+> =20
+>      /* vq->avail->ring[idx % vq->size] */
+> -    writew(vq->avail + 4 + (2 * (idx % vq->size)), free_head);
+> +    qtest_writew(qts, vq->avail + 4 + (2 * (idx % vq->size)), free_hea=
+d);
+>      /* vq->avail->idx */
+> -    writew(vq->avail + 2, idx + 1);
+> +    qtest_writew(qts, vq->avail + 2, idx + 1);
+> =20
+>      /* Must read after idx is updated */
+> -    flags =3D readw(vq->avail);
+> -    avail_event =3D readw(vq->used + 4 +
+> +    flags =3D qtest_readw(qts, vq->avail);
+> +    avail_event =3D qtest_readw(qts, vq->used + 4 +
+>                                  sizeof(struct vring_used_elem) * vq->s=
+ize);
 
-=2E..and then parsing strings instead of taking raw integers?  Parsing
-strings is okay for HMP, but for QMP, our goal should be a single
-representation with no additional sugar on top.  Latency and bandwidth
-should be int in a single scale.
+Here as well.
+
+> @@ -333,23 +337,25 @@ bool qvirtqueue_get_buf(QVirtQueue *vq, uint32_t =
+*desc_idx, uint32_t *len)
+>          sizeof(struct vring_used_elem);
+> =20
+>      if (desc_idx) {
+> -        *desc_idx =3D readl(elem_addr + offsetof(struct vring_used_ele=
+m, id));
+> +        *desc_idx =3D qtest_readl(qts, elem_addr +
+> +                                     offsetof(struct vring_used_elem, =
+id));
+
+This one works as-is, although it gives me a double-take when the
+indentation is not right after a ( in the line above.  I probably would
+have written either:
+
+        *desc_idx =3D qtest_readl(qts,
+                                elem_addr + offsetof(struct
+vring_used_elem, id));
+
+or
+
+        *desc_idx =3D qtest_readl(qts, (elem_addr +
+                                      offsetof(struct vring_used_elem,
+id)));
+
+or even introduce a temp variable to bring down the line length.
 
 
-> +++ b/qemu-options.hx
-> @@ -164,16 +164,19 @@ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
->      "-numa node[,mem=3Dsize][,cpus=3Dfirstcpu[-lastcpu]][,nodeid=3Dnod=
-e][,initiator=3Dnode]\n"
->      "-numa node[,memdev=3Did][,cpus=3Dfirstcpu[-lastcpu]][,nodeid=3Dno=
-de][,initiator=3Dnode]\n"
->      "-numa dist,src=3Dsource,dst=3Ddestination,val=3Ddistance\n"
-> -    "-numa cpu,node-id=3Dnode[,socket-id=3Dx][,core-id=3Dy][,thread-id=
-=3Dz]\n",
-> +    "-numa cpu,node-id=3Dnode[,socket-id=3Dx][,core-id=3Dy][,thread-id=
-=3Dz]\n"
-> +    "-numa hmat-lb,initiator=3Dnode,target=3Dnode,hierarchy=3Dmemory|f=
-irst-level|second-level|third-level,data-type=3Daccess-latency|read-laten=
-cy|write-latency[,latency=3Dlat][,bandwidth=3Dbw]\n",
+> @@ -131,17 +131,20 @@ void qvirtqueue_cleanup(const QVirtioBus *bus, QV=
+irtQueue *vq,
+> =20
+>  void qvring_init(QTestState *qts, const QGuestAllocator *alloc, QVirtQ=
+ueue *vq,
+>                   uint64_t addr);
+> -QVRingIndirectDesc *qvring_indirect_desc_setup(QVirtioDevice *d,
+> +QVRingIndirectDesc *qvring_indirect_desc_setup(QTestState *qs, QVirtio=
+Device *d,
+>                                          QGuestAllocator *alloc, uint16=
+_t elem);
 
-Command-line parsing can then take human-written scaled numbers, and
-pre-convert them into the single scale accepted by the QMP interface.
+Another pre-existing odd indentation (here, it looks like line length
+was the reason).
+
+Indentation is minor, so:
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -336,24 +232,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---U048lAAeGXzlrI5vdCoJ7DClS1dpiyx0S--
+--7MnpAFX2nFGj8AZzltoL8zo5O24YuFyIu--
 
---Qg8aNq8QcDZ1H9if7a8Whcr9WOrgJHI5R
+--cQqwl0UnpkIGQ1udLXRHD2KQ6Z2x3l7yb
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1S0yQACgkQp6FrSiUn
-Q2riXQf+KBwZj0aAoYAvX1Cz6r2s8cVmUtkHYI4zmnlFxcZ6tJKCR52PN1ujAMM+
-5PdeMw1si7TnglNbiE3qpBcUHJ4g+FN7urETwPOascCRHSZjHJC5TaHXvn1+GfqU
-LYhfKDaL9JXPUJz+lqo+ZBYrrnhL4ps0iqZVDjxPhh5oV7OuSnnM5YJ/WtSxTFJ1
-eM2vtv/ZG2AMZwGYRaGQCpnSqk5tbFsN57D8I/OnL7SXbk6Iv3EzrGfZt6CgSmqd
-7+VS0Z0dhJ0vhZtxzFSS+8sJOBHEDrxulkrHnZcQsIdTJCqgF9kBJIX+uL5q/J/d
-xU5QfPepgjcF0P4aSaIBpDcPl1D4gQ==
-=jsol
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1S1LgACgkQp6FrSiUn
+Q2pIiwf9G1QH1USeXKAiL+2sbSdY5dyWcFnE6ng++4MzFg+M4shKaeegqb4okOTj
+BnSYm7cdjJfidfraaMKb7e3Mv317VQIVYfzH2qS3BrN3K4ukSzpaOUtzEKfWWAYo
+lSH7TEZjLTApOnNkrH7beLzEArZYF7B50VoP/PQieePIKh/Lqz0YcBjPu2kSmhG6
++k9l6CcrlBXHfMY64/hOshqFj26VrfQcw3u9qWjMGiHYFXU1VS5MO02xoYS+NWxX
+zheFGvg6xUw/0VPkmPqsCASmrkWqP8knhoWL/w02urEfQADOgjwTk23mGcduln39
+C+XU8khjyy81disVndw5COM5xB6ADQ==
+=AySs
 -----END PGP SIGNATURE-----
 
---Qg8aNq8QcDZ1H9if7a8Whcr9WOrgJHI5R--
+--cQqwl0UnpkIGQ1udLXRHD2KQ6Z2x3l7yb--
 
