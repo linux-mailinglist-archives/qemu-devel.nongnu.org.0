@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B529B8C364
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 23:14:36 +0200 (CEST)
-Received: from localhost ([::1]:55578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0EA8C359
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 23:12:27 +0200 (CEST)
+Received: from localhost ([::1]:55510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxe7n-0008O4-TO
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 17:14:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41898)
+	id 1hxe5d-0002Iy-3E
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 17:12:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41899)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1hxe1J-00053B-Ix
+ id 1hxe1J-00053C-JA
  for qemu-devel@nongnu.org; Tue, 13 Aug 2019 17:07:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1hxe1I-0001YA-FX
+ id 1hxe1I-0001YF-Fh
  for qemu-devel@nongnu.org; Tue, 13 Aug 2019 17:07:53 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:60828 helo=huawei.com)
+Received: from szxga06-in.huawei.com ([45.249.212.32]:33788 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1hxe1A-0001H0-K9; Tue, 13 Aug 2019 17:07:45 -0400
+ id 1hxe1A-0001LH-Kq; Tue, 13 Aug 2019 17:07:44 -0400
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id BEB44CF41561ABA8969A;
- Wed, 14 Aug 2019 05:07:36 +0800 (CST)
+ by Forcepoint Email with ESMTP id CF7AED25FCFDA0750D96;
+ Wed, 14 Aug 2019 05:07:41 +0800 (CST)
 Received: from S00345302A-PC.china.huawei.com (10.47.94.0) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 14 Aug 2019 05:07:28 +0800
+ 14.3.439.0; Wed, 14 Aug 2019 05:07:32 +0800
 From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <imammedo@redhat.com>
-Date: Tue, 13 Aug 2019 22:05:34 +0100
-Message-ID: <20190813210539.31164-8-shameerali.kolothum.thodi@huawei.com>
+Date: Tue, 13 Aug 2019 22:05:35 +0100
+Message-ID: <20190813210539.31164-9-shameerali.kolothum.thodi@huawei.com>
 X-Mailer: git-send-email 2.12.0.windows.1
 In-Reply-To: <20190813210539.31164-1-shameerali.kolothum.thodi@huawei.com>
 References: <20190813210539.31164-1-shameerali.kolothum.thodi@huawei.com>
@@ -41,9 +41,9 @@ Content-Type: text/plain
 X-Originating-IP: [10.47.94.0]
 X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.35
-Subject: [Qemu-devel] [PATCH-for-4.2 v9 07/12] hw/arm/virt-acpi-build: Add
- PC-DIMM in SRAT
+X-Received-From: 45.249.212.32
+Subject: [Qemu-devel] [PATCH-for-4.2 v9 08/12] hw/arm: Factor out powerdown
+ notifier from GPIO
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,74 +61,65 @@ Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generate Memory Affinity Structures for PC-DIMM ranges.
-
-Also, Linux and Windows need ACPI SRAT table to make memory hotplug
-work properly, however currently QEMU doesn't create SRAT table if
-numa options aren't present on CLI. Hence add support(>=4.2) to
-create numa node automatically (auto_enable_numa_with_memhp) when
-QEMU is started with memory hotplug enabled but without '-numa'
-options on CLI.
+This is in preparation of using GED device for
+system_powerdown event. Make the powerdown notifier
+registration independent of create_gpio() fn.
 
 Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
-v8 --> v9
- - Added auto_enable_numa_with_memhp support.
+ hw/arm/virt.c         | 12 ++++--------
+ include/hw/arm/virt.h |  1 +
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
----
- hw/arm/virt-acpi-build.c | 9 +++++++++
- hw/arm/virt.c            | 2 ++
- 2 files changed, 11 insertions(+)
-
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 63fa845076..6d697af2df 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -518,6 +518,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     int i, srat_start;
-     uint64_t mem_base;
-     MachineClass *mc = MACHINE_GET_CLASS(vms);
-+    MachineState *ms = MACHINE(vms);
-     const CPUArchIdList *cpu_list = mc->possible_cpu_arch_ids(MACHINE(vms));
- 
-     srat_start = table_data->len;
-@@ -543,6 +544,14 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-         }
-     }
- 
-+    if (ms->device_memory) {
-+        numamem = acpi_data_push(table_data, sizeof *numamem);
-+        build_srat_memory(numamem, ms->device_memory->base,
-+                          memory_region_size(&ms->device_memory->mr),
-+                          nb_numa_nodes - 1,
-+                          MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
-+    }
-+
-     build_header(linker, table_data, (void *)(table_data->data + srat_start),
-                  "SRAT", table_data->len - srat_start, 3, NULL, NULL);
- }
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 0949a227a9..56d64fc0a9 100644
+index 56d64fc0a9..0e75213b44 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -2049,6 +2049,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     hc->plug = virt_machine_device_plug_cb;
-     hc->unplug_request = virt_machine_device_unplug_request_cb;
-     mc->numa_mem_supported = true;
-+    mc->auto_enable_numa_with_memhp = true;
+@@ -787,10 +787,6 @@ static void virt_powerdown_req(Notifier *n, void *opaque)
+     qemu_set_irq(qdev_get_gpio_in(gpio_key_dev, 0), 1);
  }
  
- static void virt_instance_init(Object *obj)
-@@ -2154,6 +2155,7 @@ static void virt_machine_4_1_options(MachineClass *mc)
-     virt_machine_4_2_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_len);
-     vmc->no_ged = true;
-+    mc->auto_enable_numa_with_memhp = false;
+-static Notifier virt_system_powerdown_notifier = {
+-    .notify = virt_powerdown_req
+-};
+-
+ static void create_gpio(const VirtMachineState *vms, qemu_irq *pic)
+ {
+     char *nodename;
+@@ -831,10 +827,6 @@ static void create_gpio(const VirtMachineState *vms, qemu_irq *pic)
+                           KEY_POWER);
+     qemu_fdt_setprop_cells(vms->fdt, "/gpio-keys/poweroff",
+                            "gpios", phandle, 3, 0);
+-
+-    /* connect powerdown request */
+-    qemu_register_powerdown_notifier(&virt_system_powerdown_notifier);
+-
+     g_free(nodename);
  }
- DEFINE_VIRT_MACHINE(4, 1)
  
+@@ -1726,6 +1718,10 @@ static void machvirt_init(MachineState *machine)
+         vms->acpi_dev = create_acpi_ged(vms, pic);
+     }
+ 
++     /* connect powerdown request */
++     vms->powerdown_notifier.notify = virt_powerdown_req;
++     qemu_register_powerdown_notifier(&vms->powerdown_notifier);
++
+     /* Create mmio transports, so the user can create virtio backends
+      * (which will be automatically plugged in to the transports). If
+      * no backend is created the transport will just sit harmlessly idle.
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 577ee49b4b..0b41083e9d 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -137,6 +137,7 @@ typedef struct {
+     int psci_conduit;
+     hwaddr highest_gpa;
+     DeviceState *acpi_dev;
++    Notifier powerdown_notifier;
+ } VirtMachineState;
+ 
+ #define VIRT_ECAM_ID(high) (high ? VIRT_HIGH_PCIE_ECAM : VIRT_PCIE_ECAM)
 -- 
 2.17.1
 
