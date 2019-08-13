@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102D18B442
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 11:35:41 +0200 (CEST)
-Received: from localhost ([::1]:50632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D98858B44A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 11:36:47 +0200 (CEST)
+Received: from localhost ([::1]:50656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxTDQ-0005UI-9j
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 05:35:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54185)
+	id 1hxTEV-0007gr-4A
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 05:36:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54382)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hxTCT-0003ha-H1
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 05:34:42 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hxTDq-0006tS-T8
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 05:36:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hxTCS-0006sE-Gy
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 05:34:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45944)
+ (envelope-from <cohuck@redhat.com>) id 1hxTDp-0007Wp-Sn
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 05:36:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37514)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hxTCQ-0006qp-1u; Tue, 13 Aug 2019 05:34:38 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1hxTDp-0007WZ-MS
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 05:36:05 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 37B94308A98C;
- Tue, 13 Aug 2019 09:34:37 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-18.ams2.redhat.com
- [10.36.117.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E9EE91001DC2;
- Tue, 13 Aug 2019 09:34:35 +0000 (UTC)
-Date: Tue, 13 Aug 2019 11:34:34 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190813093434.GB4663@localhost.localdomain>
-References: <20190812181146.26121-1-vsementsov@virtuozzo.com>
- <35b23140-25d5-627e-7a86-4b50fbc5be52@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id F3A72C0578FA
+ for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 09:36:04 +0000 (UTC)
+Received: from gondolin (dhcp-192-232.str.redhat.com [10.33.192.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 823E05D71C;
+ Tue, 13 Aug 2019 09:35:52 +0000 (UTC)
+Date: Tue, 13 Aug 2019 11:35:50 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
+Message-ID: <20190813113550.3a782910.cohuck@redhat.com>
+In-Reply-To: <20190813064549.hpcdpwjg57obdsyr@jenstp.localdomain>
+References: <20190802150605.5880-1-jfreimann@redhat.com>
+ <20190802150605.5880-4-jfreimann@redhat.com>
+ <20190812171854.1c47ddfa.cohuck@redhat.com>
+ <20190812152252.2578e60c@x1.home>
+ <20190813064549.hpcdpwjg57obdsyr@jenstp.localdomain>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="XsQoSWH+UP9D9v3l"
-Content-Disposition: inline
-In-Reply-To: <35b23140-25d5-627e-7a86-4b50fbc5be52@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 13 Aug 2019 09:34:37 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Tue, 13 Aug 2019 09:36:05 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/2] deal with BDRV_BLOCK_RAW
+Subject: Re: [Qemu-devel] [PATCH 3/9] vfio: unplug failover primary device
+ before migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,85 +61,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>, laine@redhat.com,
+ ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 13 Aug 2019 08:45:49 +0200
+Jens Freimann <jfreimann@redhat.com> wrote:
 
---XsQoSWH+UP9D9v3l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Mon, Aug 12, 2019 at 03:22:52PM -0600, Alex Williamson wrote:
+> >On Mon, 12 Aug 2019 17:18:54 +0200
+> >Cornelia Huck <cohuck@redhat.com> wrote:
+> >  
+> >> On Fri,  2 Aug 2019 17:05:59 +0200
+> >> Jens Freimann <jfreimann@redhat.com> wrote:
+> >>  
+> >> > As usual block all vfio-pci devices from being migrated, but make an
+> >> > exception for failover primary devices. This is achieved by setting
+> >> > unmigratable to 0 but also add a migration blocker for all vfio-pci
+> >> > devices except failover primary devices. These will be unplugged before
+> >> > migration happens by the migration handler of the corresponding
+> >> > virtio-net standby device.
+> >> >
+> >> > Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+> >> > ---
+> >> >  hw/vfio/pci.c | 24 +++++++++++++++++++++++-
+> >> >  hw/vfio/pci.h |  1 +
+> >> >  2 files changed, 24 insertions(+), 1 deletion(-)
 
-Am 12.08.2019 um 21:46 hat Max Reitz geschrieben:
-> On 12.08.19 20:11, Vladimir Sementsov-Ogievskiy wrote:
-> > Hi all!
-> >=20
-> > I'm not sure, is it a bug or a feature, but using qcow2 under raw is
-> > broken. It should be either fixed like I propose (by Max's suggestion)
-> > or somehow forbidden (just forbid backing-file supporting node to be
-> > file child of raw-format node).
->=20
-> I agree, I think only filters should return BDRV_BLOCK_RAW.
+> >> This patch interacts with support for vfio migration (last posted in
+> >> <1562665760-26158-1-git-send-email-kwankhede@nvidia.com>, I've not seen
+> >> a later version yet.)
+> >>
+> >> With that, we'd have three cases to consider:
+> >> 1) device is a failover primary
+> >> 2) device has a migration region
+> >> 3) none of the above
+> >>
+> >> Can 1) and 2) happen simultaneously? If yes, what should take
+> >> precedence?  
+> >
+> >Great questions.  I would assume that a user specifying this option
+> >intends the behavior here regardless of the device's support for
+> >migration, which could be made more clear and easier to test by adding
+> >this option to other, otherwise migratable, QEMU NICs.  
+> 
+> I agree and think it makes sense that if a user intentionally marks a
+> device as a primary device of a failover pair then it should override
+> the use of an existing migration region of the device.
 
-If BDRV_BLOCK_RAW isn't suitable for raw, something went wrong. :-)
-
-But anyway, raw is essentially a filter, at least if you don't use
-the offset option. And BDRV_BLOCK_RAW shouldn't even depend on an
-unchanged offset because the .bdrv_co_block_status implementation
-returns the right offset.
-
-And indeed, you can replace raw with blkdebug and it still fails (the
-testcase from patch 2 fails, too, but it's obvious enough this way):
-
-    $ ./qemu-img map --output=3Djson --image-opts driver=3Dqcow2,file.drive=
-r=3Dfile,file.filename=3D/tmp/test.qcow2=20
-    [{ "start": 0, "length": 1048576, "depth": 1, "zero": true, "data": fal=
-se},
-    { "start": 1048576, "length": 1048576, "depth": 1, "zero": false, "data=
-": true, "offset": 327680},
-    { "start": 2097152, "length": 65011712, "depth": 1, "zero": true, "data=
-": false}]
-
-    $ ./qemu-img map --output=3Djson --image-opts driver=3Draw,file.driver=
-=3Dqcow2,file.file.driver=3Dfile,file.file.filename=3D/tmp/test.qcow2=20
-    [{ "start": 0, "length": 67108864, "depth": 0, "zero": false, "data": f=
-alse}]
-
-    $ ./qemu-img map --output=3Djson --image-opts driver=3Dblkdebug,image.d=
-river=3Dqcow2,image.file.driver=3Dfile,image.file.filename=3D/tmp/test.qcow=
-2=20
-    [{ "start": 0, "length": 67108864, "depth": 0, "zero": false, "data": f=
-alse}]
-
-After applying your "deal with filters" series, blkdebug actually prints
-the expected result and passes the iotests case, but raw still doesn't.
-So you must have fixed something for filters that declare themselves
-filters, even though that semantics should probably be coupled to
-BDRV_BLOCK_RAW instead so that the raw format can benefit from it, too.
-
-Kevin
-
---XsQoSWH+UP9D9v3l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBAgAGBQJdUoQqAAoJEH8JsnLIjy/Wch8QAK+EftRmrkLEQOmXcwFlEAyy
-LweBLdhSKmYSg043rrFfQJq/1pShz1EVRFKMCvoa6TDpPt4z2h1sK8knw1MAviKG
-8ClP9+z5h3nvotBwU8aWtOTyRhPuXJFX4BUhOZdlZkCrhVLJbcYL5whlX0088Sy/
-DDoN04N+sQLjJ/WOQunyvCd7v1e2f5FL67IpawskSUx5QOUSu/kB5+JVtxm0yvAu
-+DWHABNgyxbxkdnEiMyAb8vG+9IA0cS5JaKMsMoRPZpibstTaE9nwDgVljWWDBXm
-RydwnTj962xUOzJTbV2wvSxsZyfw4CAv+Kw1CjsAXvJSfFmYxEeVskK1M9QmgDQB
-QKRrJnRgkEr1wYpHMsc6FoePVScfsQqai7hH1OcMTv1GiySKRYu11YLtF4hGsNIZ
-9bIAtm/TtFWFZC+5/iTxBdJ/kOd3gOnhPvMmVtpir64ct0gL21VydiE4xErgnSZV
-sx6cFT6LGNPuZNNk9EMj/zHXezcEiScEyX9BDrsINxzApEl+33mAUK200ZEhhSAl
-tqct8OkEkCbzdNWYc6WS46KevUaicmetav82xejyXIeTrUd/iAELR+OtTgVTP1dL
-lMoJ8CABFzx8k7hdWJX/+zBmEiCimFGkfwDI0SK+soIuMzGtSVWOfleVNv7Pvwk4
-rdqp91y2Ncasgp5jUl6c
-=qiRo
------END PGP SIGNATURE-----
-
---XsQoSWH+UP9D9v3l--
+Yes, that makes sense to me as well.
 
