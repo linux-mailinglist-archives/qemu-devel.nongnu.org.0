@@ -2,44 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9468B064
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 09:01:19 +0200 (CEST)
-Received: from localhost ([::1]:49800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBF08B066
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 09:01:30 +0200 (CEST)
+Received: from localhost ([::1]:49804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxQo3-0006OH-2n
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 03:01:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57975)
+	id 1hxQoD-0006tb-7p
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 03:01:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57996)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hxQmH-0004yu-Ho
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 02:59:30 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hxQmI-0004z1-QY
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 02:59:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hxQmG-0003Lq-HG
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 02:59:29 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:38159 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hxQmH-0003M7-Cx
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 02:59:30 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:60877)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hxQmF-0003JE-8w; Tue, 13 Aug 2019 02:59:28 -0400
+ id 1hxQmG-0003JG-KT; Tue, 13 Aug 2019 02:59:29 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4673VM5jyVz9sNm; Tue, 13 Aug 2019 16:59:23 +1000 (AEST)
+ id 4673VM6VF1z9sNk; Tue, 13 Aug 2019 16:59:23 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1565679563;
- bh=paputZaqccUW+iVp8WnLv1n+G/bFHNi0dohCddlcj3g=;
- h=From:To:Cc:Subject:Date:From;
- b=pYnZ0lLQZj90IXYpFHES4iSsypQWx8ZJFcrFtlPelwEDMcmISa4i9eBfcF1B2jHlc
- LfqziF/ah+iN48gVdrShn5czaXGg3U9+ei7nulVnqNWySwvf5jPkrDLoiX3i38NmW5
- 9byeD8EG3kjBBII4VkuDDrgKRXgVQL5b2+z4tovM=
+ bh=9y0WaK5rfiuDHqIDJtUaKVJD71EgDPNCe5GIyMLdzw4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=YI2O5IDDIXiVlXrwPPwCqPPMZMRHOHUjaCzswojpcIPDJQb9AExkaNkv/0NG6ZZgg
+ ahpsH+w8uPqSXbrAB7i65RD/e2r3bEpG5eEeiPfCCUY/9aAWpAJ/O0Ds2cGEnZe4fT
+ 080WLAzu5vPND77fPLzBhOiJiAzX8wxxCNt7EibI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue, 13 Aug 2019 16:59:18 +1000
-Message-Id: <20190813065920.23203-1-david@gibson.dropbear.id.au>
+Date: Tue, 13 Aug 2019 16:59:19 +1000
+Message-Id: <20190813065920.23203-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190813065920.23203-1-david@gibson.dropbear.id.au>
+References: <20190813065920.23203-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 0/2] ppc-for-4.1 queue 20190813
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PULL 1/2] spapr: Reset CAS & IRQ subsystem after
+ devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,48 +60,112 @@ Cc: clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 5e7bcdcfe69ce0fad66012b2cfb2035003c37e=
-ef:
+This fixes a nasty regression in qemu-4.1 for the 'pseries' machine,
+caused by the new "dual" interrupt controller model.  Specifically,
+qemu can crash when used with KVM if a 'system_reset' is requested
+while there's active I/O in the guest.
 
-  display/bochs: fix pcie support (2019-08-12 16:36:41 +0100)
+The problem is that in spapr_machine_reset() we:
 
-are available in the Git repository at:
+1. Reset the CAS vector state
+	spapr_ovec_cleanup(spapr->ov5_cas);
 
-  git://github.com/dgibson/qemu.git tags/ppc-for-4.1-20190813
+2. Reset all devices
+	qemu_devices_reset()
 
-for you to fetch changes up to 310cda5b5e9df642b19a0e9c504368ffba3b3ab9:
+3. Reset the irq subsystem
+	spapr_irq_reset();
 
-  spapr/xive: Fix migration of hot-plugged CPUs (2019-08-13 16:50:30 +100=
-0)
+However (1) implicitly changes the interrupt delivery mode, because
+whether we're using XICS or XIVE depends on the CAS state.  We don't
+properly initialize the new irq mode until (3) though - in particular
+setting up the KVM devices.
 
-----------------------------------------------------------------
-ppc patch queue 2019-08-13 (last minute qemu-4.1 fixes)
+During (2), we can temporarily drop the BQL allowing some irqs to be
+delivered which will go to an irq system that's not properly set up.
 
-Here's a very, very last minute pull request for qemu-4.1.  This fixes
-two nasty bugs with the XIVE interrupt controller in "dual" mode
-(where the guest decides which interrupt controller it wants to use).
-One occurs when resetting the guest while I/O is active, and the other
-with migration of hotplugged CPUs.
+Specifically, if the previous guest was in (KVM) XIVE mode, the CAS
+reset will put us back in XICS mode.  kvm_kernel_irqchip() still
+returns true, because XIVE was using KVM, however XICs doesn't have
+its KVM components intialized and kernel_xics_fd =3D=3D -1.  When the irq
+is delivered it goes via ics_kvm_set_irq() which assert()s that
+kernel_xics_fd !=3D -1.
 
-The timing here is very unfortunate.  Alas, we only spotted these bugs
-very late, and I was sick last week, delaying analysis and fix even
-further.
+This change addresses the problem by delaying the CAS reset until
+after the devices reset.  The device reset should quiesce all the
+devices so we won't get irqs delivered while we mess around with the
+IRQ.  The CAS reset and irq re-initialize should also now be under the
+same BQL critical section so nothing else should be able to interrupt
+it either.
 
-This series hasn't had nearly as much testing as I'd really like, but
-I'd still like to squeeze it into qemu-4.1 if possible, since
-definitely fixing two bad bugs seems like an acceptable tradeoff for
-the risk of introducing different bugs.
+We also move the spapr_irq_msi_reset() used in one of the legacy irq
+modes, since it logically makes sense at the same point as the
+spapr_irq_reset() (it's essentially an equivalent operation for older
+machine types).  Since we don't need to switch between different
+interrupt controllers for those old machine types it shouldn't
+actually be broken in those cases though.
 
-----------------------------------------------------------------
-C=C3=A9dric Le Goater (1):
-      spapr/xive: Fix migration of hot-plugged CPUs
+Cc: C=C3=A9dric Le Goater <clg@kaod.org>
 
-David Gibson (1):
-      spapr: Reset CAS & IRQ subsystem after devices
+Fixes: b2e22477 "spapr: add a 'reset' method to the sPAPR IRQ backend"
+Fixes: 13db0cd9 "spapr: introduce a new sPAPR IRQ backend supporting
+                 XIVE and XICS"
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/ppc/spapr.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
- hw/intc/spapr_xive_kvm.c | 19 +++++++++++++++++--
- hw/intc/xive.c           | 21 ++++++++++++++++++++-
- hw/ppc/spapr.c           | 24 ++++++++++++------------
- include/hw/ppc/xive.h    |  1 +
- 4 files changed, 50 insertions(+), 15 deletions(-)
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 821f0d4a49..12ed4b065c 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1726,6 +1726,18 @@ static void spapr_machine_reset(MachineState *mach=
+ine)
+         spapr_setup_hpt_and_vrma(spapr);
+     }
+=20
++    /*
++     * NVLink2-connected GPU RAM needs to be placed on a separate NUMA n=
+ode.
++     * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() whic=
+h is
++     * called from vPHB reset handler so we initialize the counter here.
++     * If no NUMA is configured from the QEMU side, we start from 1 as G=
+PU RAM
++     * must be equally distant from any other node.
++     * The final value of spapr->gpu_numa_id is going to be written to
++     * max-associativity-domains in spapr_build_fdt().
++     */
++    spapr->gpu_numa_id =3D MAX(1, nb_numa_nodes);
++    qemu_devices_reset();
++
+     /*
+      * If this reset wasn't generated by CAS, we should reset our
+      * negotiated options and start from scratch
+@@ -1741,18 +1753,6 @@ static void spapr_machine_reset(MachineState *mach=
+ine)
+         spapr_irq_msi_reset(spapr);
+     }
+=20
+-    /*
+-     * NVLink2-connected GPU RAM needs to be placed on a separate NUMA n=
+ode.
+-     * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() whic=
+h is
+-     * called from vPHB reset handler so we initialize the counter here.
+-     * If no NUMA is configured from the QEMU side, we start from 1 as G=
+PU RAM
+-     * must be equally distant from any other node.
+-     * The final value of spapr->gpu_numa_id is going to be written to
+-     * max-associativity-domains in spapr_build_fdt().
+-     */
+-    spapr->gpu_numa_id =3D MAX(1, nb_numa_nodes);
+-    qemu_devices_reset();
+-
+     /*
+      * This is fixing some of the default configuration of the XIVE
+      * devices. To be called after the reset of the machine devices.
+--=20
+2.21.0
+
 
