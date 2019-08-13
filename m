@@ -2,100 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695938B93F
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 14:57:40 +0200 (CEST)
-Received: from localhost ([::1]:52070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353F38B95C
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Aug 2019 15:01:48 +0200 (CEST)
+Received: from localhost ([::1]:52146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxWMt-0005Ld-Jt
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 08:57:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54242)
+	id 1hxWQt-00039e-D5
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 09:01:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54995)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <david@redhat.com>) id 1hxWJ2-0001Av-B1
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:53:41 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hxWMK-0005bc-Fo
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:57:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1hxWJ1-0003m0-19
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:53:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38386)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1hxWJ0-0003jV-Pl; Tue, 13 Aug 2019 08:53:38 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 64E5930860C9;
- Tue, 13 Aug 2019 12:53:35 +0000 (UTC)
-Received: from [10.36.117.226] (ovpn-117-226.ams2.redhat.com [10.36.117.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 422267FB8A;
- Tue, 13 Aug 2019 12:53:29 +0000 (UTC)
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20190812112737.6652-1-david@redhat.com>
- <20190812112737.6652-3-david@redhat.com>
- <10b59926-4834-7cc6-a01e-7d6c43749057@redhat.com>
- <20190813145237.58e83eeb.cohuck@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <63dc4322-03f5-aff3-e9eb-db494ad04711@redhat.com>
-Date: Tue, 13 Aug 2019 14:53:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <alex.bennee@linaro.org>) id 1hxWMI-0006NA-HU
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:57:04 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34673)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hxWMH-0006Lm-Rr
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 08:57:01 -0400
+Received: by mail-wm1-x344.google.com with SMTP id e8so1022654wme.1
+ for <qemu-devel@nongnu.org>; Tue, 13 Aug 2019 05:57:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NhU5Jn6aRhUkVeAxdLRNRjvBS88J8AMxyLyTZHIDgUs=;
+ b=y34tfAgMEXrAcjHKNjsPdgKQTfH4+EMkXrl+0P4gcDAmKfiXmOEcpIcehyAwQiPxp/
+ WuWKU7QdLHUMGPAPruPWDyjNcmkDFubxKNhV3Tfug6SccpAEgZ2Cub3lCkKagPkTkBDE
+ Oak67/25MeG626YoiU5eV93gat2u6JVg6RsyShIAHxSTQYIs72BRdRQ5zMH59SQyFVKA
+ Y2U1gLfUW1KAhZYFBxrVR+l3EFUSk9mKGRBuNP5YV8K7i4wD8Xs185hCQ3lpgNwfQ48C
+ D7js1P9qjLGmwyEUD3h/t/TAdPlRuVnfIcM4szBqjCBC/wwe1+B/QAbfnF6N5991mxER
+ 2g9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NhU5Jn6aRhUkVeAxdLRNRjvBS88J8AMxyLyTZHIDgUs=;
+ b=H8i6G4nFBjOODn7ezSuJYRyzp6iWD4ytLgA5tSJpBUPWaO6FhxhBZmxm5GeyEntqGH
+ HaSoniplv4sELDWc+n68WwtoMU+e1ttUvcTR1CSKp1OlE2CgceCTg3a9GooXR4xeqUGb
+ 3nAXKnq0ZrMjDJbe63oTJoUQWRCM8UpTYYh03U7BHTST5SfhxHfM1UTu2In2zO2rdqvQ
+ Rn2AsWv7tLJmdulDcv1AtqnT4RNT19LwkUq3FiKQMxrBOKN3j3CXj5TH3bfHSI4nHtc0
+ xyMXIz06GQByalO4lHjXNQvHCxJDGHLzRhE674XZR9yeuR0T8NrH19NDJAKhkF3je6Z6
+ Zmvg==
+X-Gm-Message-State: APjAAAWRjtyr8KPuUrVzmtR6eIHMdJcc+z67hClSV74hKq2t2XcXr0lx
+ tg9bR3vhlVdB5f9hXaf7xsgC8Q==
+X-Google-Smtp-Source: APXvYqwmAf6c6Jqe1j2TM6xrZp3G0tCkAl3u7jBxvAlDJcddN0VIeRSucCSg7gcV+RhflhVmEgLOiw==
+X-Received: by 2002:a05:600c:207:: with SMTP id
+ 7mr2950991wmi.146.1565701019569; 
+ Tue, 13 Aug 2019 05:56:59 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id j15sm8296188wrn.70.2019.08.13.05.56.58
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 13 Aug 2019 05:56:59 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 067901FF9B;
+ Tue, 13 Aug 2019 13:49:48 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Tue, 13 Aug 2019 13:49:45 +0100
+Message-Id: <20190813124946.25322-13-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190813124946.25322-1-alex.bennee@linaro.org>
+References: <20190813124946.25322-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190813145237.58e83eeb.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 13 Aug 2019 12:53:35 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH-for-4.2 v1 2/6] s390x/tcg: Rework MMU
- selection for instruction fetches
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH v3 12/13] target/riscv: rationalise softfloat
+ includes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,88 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Richard Henderson <richard.henderson@linaro.org>, armbru@redhat.com,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13.08.19 14:52, Cornelia Huck wrote:
-> On Mon, 12 Aug 2019 15:37:39 +0200
-> David Hildenbrand <david@redhat.com> wrote:
-> 
->> On 12.08.19 13:27, David Hildenbrand wrote:
->>> Instructions are always fetched from primary address space, except when
->>> in home address mode. Perform the selection directly in cpu_mmu_index().
->>>
->>> get_mem_index() is only used to perform data access, instructions are
->>> fetched via cpu_lduw_code(), which translates to cpu_mmu_index(env, true).
->>>
->>> We don't care about restricting the access permissions of the TLB
->>> entries anymore, as we no longer enter PRIMARY entries into the
->>> SECONDARY MMU. Cleanup related code a bit.
->>>
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>> ---
->>>  target/s390x/cpu.h        |  7 +++++++
->>>  target/s390x/mmu_helper.c | 35 ++++++++++++++---------------------
->>>  2 files changed, 21 insertions(+), 21 deletions(-)
->>>
->>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->>> index a606547b4d..c34992bb2e 100644
->>> --- a/target/s390x/cpu.h
->>> +++ b/target/s390x/cpu.h
->>> @@ -332,6 +332,13 @@ static inline int cpu_mmu_index(CPUS390XState *env, bool ifetch)
->>>          return MMU_REAL_IDX;
->>>      }
->>>  
->>> +    if (ifetch) {
->>> +        if ((env->psw.mask & PSW_MASK_ASC) == PSW_ASC_HOME) {
->>> +            return MMU_HOME_IDX;
->>> +        }
->>> +        return MMU_PRIMARY_IDX;
->>> +    }
->>> +
->>>      switch (env->psw.mask & PSW_MASK_ASC) {
->>>      case PSW_ASC_PRIMARY:
->>>          return MMU_PRIMARY_IDX;
->>> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
->>> index 6e9c4d6151..2c9bb3acc0 100644
->>> --- a/target/s390x/mmu_helper.c
->>> +++ b/target/s390x/mmu_helper.c
->>> @@ -349,6 +349,7 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
->>>  {
->>>      static S390SKeysState *ss;
->>>      static S390SKeysClass *skeyclass;
->>> +    uint64_t asce;
->>>      int r = -1;  
->>
->> I can now stop initializing r.
->>
->>>      uint8_t key;
->>>  
->>> @@ -381,35 +382,21 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
->>>      if (!(env->psw.mask & PSW_MASK_DAT)) {
->>>          *raddr = vaddr;
->>>          r = 0;  
->>
->> and this can go as well.
->>
->>> -        goto out;
->>> +        goto nodat;
->>>      }
->>>    
->>
->>
-> 
-> So, there will be a v2?
+We should avoid including the whole of softfloat headers in cpu.h and
+explicitly include it only where we will be calling softfloat
+functions. We can use the -types.h and -helpers.h in cpu.h for the few
+bits that are global.
 
-Yes, but waiting for more feedback.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu.c        | 1 +
+ target/riscv/cpu.h        | 2 +-
+ target/riscv/fpu_helper.c | 1 +
+ 3 files changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index f8d07bd20ad..6d52f97d7c3 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -27,6 +27,7 @@
+ #include "qemu/error-report.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
++#include "fpu/softfloat-helpers.h"
+ 
+ /* RISC-V CPU definitions */
+ 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 0adb307f329..240b31e2ebb 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -22,7 +22,7 @@
+ 
+ #include "qom/cpu.h"
+ #include "exec/cpu-defs.h"
+-#include "fpu/softfloat.h"
++#include "fpu/softfloat-types.h"
+ 
+ #define TCG_GUEST_DEFAULT_MO 0
+ 
+diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
+index b4f818a6465..0b79562a690 100644
+--- a/target/riscv/fpu_helper.c
++++ b/target/riscv/fpu_helper.c
+@@ -21,6 +21,7 @@
+ #include "qemu/host-utils.h"
+ #include "exec/exec-all.h"
+ #include "exec/helper-proto.h"
++#include "fpu/softfloat.h"
+ 
+ target_ulong riscv_cpu_get_fflags(CPURISCVState *env)
+ {
 -- 
+2.20.1
 
-Thanks,
-
-David / dhildenb
 
