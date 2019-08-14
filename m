@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559048C5D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 04:06:39 +0200 (CEST)
-Received: from localhost ([::1]:56611 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6987A8C78F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 04:25:14 +0200 (CEST)
+Received: from localhost ([::1]:56766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxigP-0005Xy-SF
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 22:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51038)
+	id 1hxiyP-0002Zw-8a
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 22:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53413)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1hxicd-0001MV-HJ
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:02:44 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1hxixQ-00029d-3a
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:24:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hxicb-0005Ko-LA
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:02:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52632)
+ (envelope-from <tao3.xu@intel.com>) id 1hxixN-0002tj-QB
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:24:11 -0400
+Received: from mga03.intel.com ([134.134.136.65]:16685)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hxicb-0005KE-7X
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:02:41 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 89A0085360
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 02:02:39 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-78.ams2.redhat.com
- [10.36.117.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5A1C7AB49;
- Wed, 14 Aug 2019 02:02:36 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 04:02:18 +0200
-Message-Id: <20190814020218.1868-7-quintela@redhat.com>
-In-Reply-To: <20190814020218.1868-1-quintela@redhat.com>
-References: <20190814020218.1868-1-quintela@redhat.com>
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hxixN-0002sy-HQ
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:24:09 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2019 19:24:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,382,1559545200"; d="scan'208";a="167243568"
+Received: from unknown (HELO [10.239.196.241]) ([10.239.196.241])
+ by orsmga007.jf.intel.com with ESMTP; 13 Aug 2019 19:24:03 -0700
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20190809065731.9097-1-tao3.xu@intel.com>
+ <20190809065731.9097-6-tao3.xu@intel.com>
+ <20190813170027.0617b129@redhat.com>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <24976688-d8f1-4de0-870d-73b96c20c300@intel.com>
+Date: Wed, 14 Aug 2019 10:24:03 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Wed, 14 Aug 2019 02:02:39 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 6/6] RFH: We lost "connect" events
+In-Reply-To: <20190813170027.0617b129@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.65
+Subject: Re: [Qemu-devel] [PATCH v9 05/11] numa: Extend CLI to provide
+ initiator information for numa nodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,135 +59,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: ehabkost@redhat.com, jingqi.liu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, daniel@linux.ibm.com, jonathan.cameron@huawei.com,
+ dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we have lots of channels, sometimes multifd migration fails
-with the following error:
+On 8/13/2019 11:00 PM, Igor Mammedov wrote:
+> On Fri,  9 Aug 2019 14:57:25 +0800
+> Tao <tao3.xu@intel.com> wrote:
+> 
+>> From: Tao Xu <tao3.xu@intel.com>
+>>
+>> In ACPI 6.3 chapter 5.2.27 Heterogeneous Memory Attribute Table (HMAT),
+>> The initiator represents processor which access to memory. And in 5.2.27.3
+>> Memory Proximity Domain Attributes Structure, the attached initiator is
+>> defined as where the memory controller responsible for a memory proximity
+>> domain. With attached initiator information, the topology of heterogeneous
+>> memory can be described.
+>>
+>> Extend CLI of "-numa node" option to indicate the initiator numa node-id.
+>> In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
+>> the platform's HMAT tables.
+>>
+>> Reviewed-by: Jingqi Liu <Jingqi.liu@intel.com>
+>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+>> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+>> ---
+>>
+>> No changes in v9
+>> ---
+[...]
+>> +
+>> +    for (i = 0; i < machine->numa_state->num_nodes; i++) {
+>> +        if (numa_info[i].initiator_valid &&
+>> +            !numa_info[numa_info[i].initiator].has_cpu) {
+>                            ^^^^^^^^^^^^^^^^^^^^^^ possible out of bounds read, see bellow
+> 
+I will add a error "if (numa_info[i].initiator >= MAX_NODES)" when input.
+>> +            error_report("The initiator-id %"PRIu16 " of NUMA node %d"
+>> +                         " does not exist.", numa_info[i].initiator, i);
+>> +            error_printf("\n");
+>> +
+>> +            exit(1);
+>> +        }
+> it takes care only about nodes that have cpus or memory-only ones that have
+> initiator explicitly provided on CLI. And leaves possibility to have
+> memory-only nodes without initiator mixed with nodes that have initiator.
+> Is it valid to have mixed configuration?
+> Should we forbid it?
+> 
+Mixed configuration may indeed trigger bug in the future. Because in 
+this patches we default generate HMAT. But mixed configuration situation 
+or without initiator setting will let mem-only node "Flags" field 0, 
+then the Proximity Domain for the Attached Initiator field is not
+valid.
 
-(qemu) migrate -d tcp:0:4444
-(qemu) qemu-system-x86_64: multifd_send_pages: channel 17 has already qui=
-t!
-qemu-system-x86_64: multifd_send_pages: channel 17 has already quit!
-qemu-system-x86_64: multifd_send_sync_main: multifd_send_pages fail
-qemu-system-x86_64: Unable to write to socket: Connection reset by peer
-info migrate
-globals:
-store-global-state: on
-only-migratable: off
-send-configuration: on
-send-section-footer: on
-decompress-error-check: on
-clear-bitmap-shift: 18
-capabilities: xbzrle: off rdma-pin-all: off auto-converge: off zero-block=
-s: off compress: off events: off postcopy-ram: off x-colo: off release-ra=
-m: off block: off return-path: off pause-before-switchover: off multifd: =
-on dirty-bitmaps: off postcopy-blocktime: off late-block-activate: off x-=
-ignore-shared: off
-Migration status: failed (Unable to write to socket: Connection reset by =
-peer)
-total time: 0 milliseconds
+List are three situations:
 
-On this particular example I am using 100 channels.  The bigger the
-number of channels, the easier that it is to reproduce.  That don't
-mean that it is a good idea to use so many channels.
+1) full configuration, just like
+-object memory-backend-ram,size=1G,id=m0 \
+-object memory-backend-ram,size=1G,id=m1 \
+-object memory-backend-ram,size=1G,id=m2 \
+-numa node,nodeid=0,memdev=m0 \
+-numa node,nodeid=1,memdev=m1,initiator=0 \
+-numa node,nodeid=2,memdev=m2,initiator=0
 
-With the previous patches on this series, I can run "reliabely" on my
-hardware with until 10 channels.  Most of the time.  Until it fails.
-With 100 channels, it fails almost always.
+2) mixed configuration, just like
+-object memory-backend-ram,size=1G,id=m0 \
+-object memory-backend-ram,size=1G,id=m1 \
+-object memory-backend-ram,size=1G,id=m2 \
+-numa node,nodeid=0,memdev=m0 \
+-numa node,nodeid=1,memdev=m1,initiator=0 \
+-numa node,nodeid=2,memdev=m2
 
-I thought that the problem was on the send side, so I tried to debug
-there.  As you can see for the delay, if you put any
-printf()/error_report/trace, you can get that the error goes away, it
-is very timing sensitive.  With a delay of 10000 microseconds, it only
-works sometimes.
+3) no configuration, just like
+-object memory-backend-ram,size=1G,id=m0 \
+-object memory-backend-ram,size=1G,id=m1 \
+-object memory-backend-ram,size=1G,id=m2 \
+-numa node,nodeid=0,memdev=m0 \
+-numa node,nodeid=1,memdev=m1 \
+-numa node,nodeid=2,memdev=m2
 
-What have I discovered so far:
+I have 3 ideas:
 
-- send side calls qemu_socket() on all the channels.  So it appears
-  that it gets created correctly.
-- on the destination side, it appears that "somehowe" some of the
-  connections are lost by the listener.  This error happens when the
-  destination side socket hasn't been "accepted", and it is not
-  properly created.  As far as I can see, we have several options:
+1. HMAT option. Add a machine option like "-machine,hmat=yes", then qemu 
+can have HMAT.
 
-  1- I don't know how to use properly qio asynchronously
-     (this is one big posiblity).
+2. Default setting. The numa without initiator default set numa node 
+which has cpu 0 as initiator.
 
-  2- glib has one error in this case?  or how qio listener is
-     implemented on top of glib.  I put lots of printf() and other
-     instrumentation, and it appears that the listener io_func is not
-     called at all for the connections that are missing.
+3. Auto setting. intelligent auto configuration like 
+numa_default_auto_assign_ram, auto set initiator of the memory-only 
+nodes averagely.
 
-  3- it is always possible that we are missing some g_main_loop_run()
-     somewhere.  Notice how test/test-io-channel-socket.c calls it
-     "creatively".
+Therefore, there are 2 different solution:
 
-  4- It is enterely possible that I should be using the sockets as
-     blocking instead of non-blocking.  But I am not sure about that
-     one yet.
+1) HMAT option + Default setting
 
-- on the sending side, what happens is:
+2) HMAT option + Auto setting
 
-  eventually it call socket_connect() after all the async dance with
-  thread creation, etc, etc. Source side creates all the channels, it
-  is the destination side which is missing some of them.
-
-  sending side sends the first packet by that channel, it "sucheeds"
-  and didn't give any error.
-
-  after some time, sending side decides to send another packet through
-  that channel, and it is now when we get the above error.
-
-Any good ideas?
-
-Later, Juan.
-
-PD: Command line used is attached:
-
-Imortant bits:
-- multifd is set
-- multifd_channels is set to 100
-
-/scratch/qemu/fail/x64/x86_64-softmmu/qemu-system-x86_64 -M
-pc-i440fx-3.1,accel=3Dkvm,usb=3Doff,vmport=3Doff,nvdimm -L
-/mnt/code/qemu/check/pc-bios/ -smp 2 -name t1,debug-threads=3Don -m 3G
--uuid 113100f9-6c99-4a7a-9b78-eb1c088d1087 -monitor stdio -boot
-strict=3Don -drive
-file=3D/mnt/images/test.img,format=3Dqcow2,if=3Dnone,id=3Ddisk0 -device
-virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x7,drive=3Ddisk0,id=3Dvirti=
-o-disk0,bootindex=3D1
--netdev tap,id=3Dhostnet0,script=3D/etc/kvm-ifup,downscript=3D -device
-virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:9d:10:51,bus=3D=
-pci.0,addr=3D0x3
--serial pty -parallel none -usb -device usb-tablet -k es -vga cirrus
---global migration.x-multifd=3Don --global
-migration.multifd-channels=3D100 -trace events=3D/home/quintela/tmp/event=
-s
-
-CC: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/ram.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/migration/ram.c b/migration/ram.c
-index 25a211c3fb..50586304a0 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1248,6 +1248,7 @@ int multifd_save_setup(void)
-         p->packet =3D g_malloc0(p->packet_len);
-         p->name =3D g_strdup_printf("multifdsend_%d", i);
-         socket_send_channel_create(multifd_new_send_channel_async, p);
-+        usleep(100000);
-     }
-     return 0;
- }
---=20
-2.21.0
+>> +    }
+>> +
+>>       if (s->len && !qtest_enabled()) {
+>>           warn_report("CPU(s) not present in any NUMA nodes: %s",
+>>                       s->str);
+>> diff --git a/hw/core/numa.c b/hw/core/numa.c
+>> index 8fcbba05d6..cfb6339810 100644
+>> --- a/hw/core/numa.c
+>> +++ b/hw/core/numa.c
+>> @@ -128,6 +128,19 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+>>           numa_info[nodenr].node_mem = object_property_get_uint(o, "size", NULL);
+>>           numa_info[nodenr].node_memdev = MEMORY_BACKEND(o);
+>>       }
+>> +
+>> +    if (node->has_initiator) {
+>> +        if (numa_info[nodenr].initiator_valid &&
+>> +            (node->initiator != numa_info[nodenr].initiator)) {
+>> +            error_setg(errp, "The initiator of NUMA node %" PRIu16 " has been "
+>> +                       "set to node %" PRIu16, nodenr,
+>> +                       numa_info[nodenr].initiator);
+>> +            return;
+>> +        }
+>> +
+>> +        numa_info[nodenr].initiator_valid = true;
+>> +        numa_info[nodenr].initiator = node->initiator;
+>                                               ^^^
+> not validated  user input? (which could lead to read beyond numa_info[] boundaries
+> in previous hunk).
+> 
+>> +    }
+>>       numa_info[nodenr].present = true;
+>>       max_numa_nodeid = MAX(max_numa_nodeid, nodenr + 1);
+>>       ms->numa_state->num_nodes++;
+>> diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
+>> index 76da3016db..46ad06e000 100644
+>> --- a/include/sysemu/numa.h
+>> +++ b/include/sysemu/numa.h
+>> @@ -10,6 +10,9 @@ struct NodeInfo {
+>>       uint64_t node_mem;
+>>       struct HostMemoryBackend *node_memdev;
+>>       bool present;
+>> +    bool has_cpu;
+>> +    bool initiator_valid;
+>> +    uint16_t initiator;
+>>       uint8_t distance[MAX_NODES];
+>>   };
+>>   
+>> diff --git a/qapi/machine.json b/qapi/machine.json
+>> index 6db8a7e2ec..05e367d26a 100644
+>> --- a/qapi/machine.json
+>> +++ b/qapi/machine.json
+>> @@ -414,6 +414,9 @@
+>>   # @memdev: memory backend object.  If specified for one node,
+>>   #          it must be specified for all nodes.
+>>   #
+>> +# @initiator: the initiator numa nodeid that is closest (as in directly
+>> +#             attached) to this numa node (since 4.2)
+> well, it's pretty unclear what doc comment means (unless reader knows well
+> specific part of ACPI spec)
+> 
+> suggest to rephrase to something more understandable for unaware
+> readers (+ possible reference to spec for those who is interested
+> in spec definition since this doc is meant for developers).
+> 
+>> +#
+>>   # Since: 2.1
+>>   ##
+>>   { 'struct': 'NumaNodeOptions',
+>> @@ -421,7 +424,8 @@
+>>      '*nodeid': 'uint16',
+>>      '*cpus':   ['uint16'],
+>>      '*mem':    'size',
+>> -   '*memdev': 'str' }}
+>> +   '*memdev': 'str',
+>> +   '*initiator': 'uint16' }}
+>>   
+>>   ##
+>>   # @NumaDistOptions:
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index 9621e934c0..c480781992 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -161,14 +161,14 @@ If any on the three values is given, the total number of CPUs @var{n} can be omi
+>>   ETEXI
+>>   
+>>   DEF("numa", HAS_ARG, QEMU_OPTION_numa,
+>> -    "-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node]\n"
+>> -    "-numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node]\n"
+>> +    "-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=node]\n"
+>> +    "-numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=node]\n"
+>>       "-numa dist,src=source,dst=destination,val=distance\n"
+>>       "-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]\n",
+>>       QEMU_ARCH_ALL)
+>>   STEXI
+>> -@item -numa node[,mem=@var{size}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}]
+>> -@itemx -numa node[,memdev=@var{id}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}]
+>> +@item -numa node[,mem=@var{size}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}][,initiator=@var{initiator}]
+>> +@itemx -numa node[,memdev=@var{id}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}][,initiator=@var{initiator}]
+>>   @itemx -numa dist,src=@var{source},dst=@var{destination},val=@var{distance}
+>>   @itemx -numa cpu,node-id=@var{node}[,socket-id=@var{x}][,core-id=@var{y}][,thread-id=@var{z}]
+>>   @findex -numa
+>> @@ -215,6 +215,25 @@ split equally between them.
+>>   @samp{mem} and @samp{memdev} are mutually exclusive. Furthermore,
+>>   if one node uses @samp{memdev}, all of them have to use it.
+>>   
+>> +@samp{initiator} indicate the initiator NUMA @var{initiator} that is
+>                                    ^^^^^^^       ^^^^^^^^^^^^^^
+> above will result in "initiator NUMA initiator", was it your intention?
+> 
+>> +closest (as in directly attached) to this NUMA @var{node}.
+> Again suggest replace spec language with something more user friendly
+> (this time without spec reference as it's geared for end user)
+> 
+>> +For example, the following option assigns 2 NUMA nodes, node 0 has CPU.
+> Following example creates a machine with 2 NUMA ...
+> 
+>> +node 1 has only memory, and its' initiator is node 0. Note that because
+>> +node 0 has CPU, by default the initiator of node 0 is itself and must be
+>> +itself.
+>> +@example
+>> +-M pc \
+>> +-m 2G,slots=2,maxmem=4G \
+>> +-object memory-backend-ram,size=1G,id=m0 \
+>> +-object memory-backend-ram,size=1G,id=m1 \
+>> +-numa node,nodeid=0,memdev=m0 \
+>> +-numa node,nodeid=1,memdev=m1,initiator=0 \
+>> +-smp 2,sockets=2,maxcpus=2  \
+>> +-numa cpu,node-id=0,socket-id=0 \
+>> +-numa cpu,node-id=0,socket-id=1 \
+>> +@end example
+>> +
+>>   @var{source} and @var{destination} are NUMA node IDs.
+>>   @var{distance} is the NUMA distance from @var{source} to @var{destination}.
+>>   The distance from a node to itself is always 10. If any pair of nodes is
+> 
 
 
