@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1398DC7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 19:57:33 +0200 (CEST)
-Received: from localhost ([::1]:34728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8398DC85
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 19:58:41 +0200 (CEST)
+Received: from localhost ([::1]:34740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxxWf-0000qI-0t
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 13:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38386)
+	id 1hxxXk-0002Jk-Ux
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 13:58:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38397)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1hxxV0-0007sx-5n
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 13:55:51 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hxxV1-0007uY-Dr
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 13:55:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hxxUz-0005A5-1h
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 13:55:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48358)
+ (envelope-from <dgilbert@redhat.com>) id 1hxxV0-0005Al-Es
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 13:55:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:6615)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hxxUy-00059i-Sx
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 13:55:49 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hxxV0-0005AS-AE
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 13:55:50 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 00EF730A00DC;
- Wed, 14 Aug 2019 17:55:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A16DB11A0F;
+ Wed, 14 Aug 2019 17:55:49 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-212.ams2.redhat.com
  [10.36.117.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 80173909F8;
- Wed, 14 Aug 2019 17:55:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B164909EE;
+ Wed, 14 Aug 2019 17:55:48 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	pbonzini@redhat.com,
 	mst@redhat.com
-Date: Wed, 14 Aug 2019 18:55:32 +0100
-Message-Id: <20190814175535.2023-1-dgilbert@redhat.com>
+Date: Wed, 14 Aug 2019 18:55:33 +0100
+Message-Id: <20190814175535.2023-2-dgilbert@redhat.com>
+In-Reply-To: <20190814175535.2023-1-dgilbert@redhat.com>
+References: <20190814175535.2023-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Wed, 14 Aug 2019 17:55:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Wed, 14 Aug 2019 17:55:49 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 0/3] Fix MemoryRegionSection alignment and
- comparison
+Subject: [Qemu-devel] [PATCH v2 1/3] memory: Align MemoryRegionSections
+ fields
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,28 +66,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-This fixes a symptom I've seen on vhost-user on aarch64 where the
-daemon would be falsely notified of memory region changes that didn't
-exist.
-The underlying problem was me memcmp'ing MemoryRegionSections even
-though they had padding in.
+MemoryRegionSection includes an Int128 'size' field;
+on some platforms the compiler causes an alignment of this to
+a 128bit boundary, leaving 8 bytes of dead space.
+This deadspace can be filled with junk.
 
-(Discovered while getting virtiofs working on aarch)
+Move the size field to the top avoiding unnecessary alignment.
 
-Dave
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ include/exec/memory.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v2
-  Split 1st patch and fix spelling [Philippe's review]
-
-Dr. David Alan Gilbert (3):
-  memory: Align MemoryRegionSections fields
-  memory: Provide an equality function for MemoryRegionSections
-  vhost: Fix memory region section comparison
-
- hw/virtio/vhost.c     |  9 +++++++--
- include/exec/memory.h | 14 +++++++++++++-
- 2 files changed, 20 insertions(+), 3 deletions(-)
-
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 606250172a..a74a58c289 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -487,10 +487,10 @@ static inline FlatView *address_space_to_flatview(A=
+ddressSpace *as)
+  * @nonvolatile: this section is non-volatile
+  */
+ struct MemoryRegionSection {
++    Int128 size;
+     MemoryRegion *mr;
+     FlatView *fv;
+     hwaddr offset_within_region;
+-    Int128 size;
+     hwaddr offset_within_address_space;
+     bool readonly;
+     bool nonvolatile;
 --=20
 2.21.0
 
