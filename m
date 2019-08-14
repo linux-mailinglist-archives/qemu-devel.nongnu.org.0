@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D658C5D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 04:06:39 +0200 (CEST)
-Received: from localhost ([::1]:56614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2159A8C5D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 04:07:51 +0200 (CEST)
+Received: from localhost ([::1]:56648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxigQ-0005Ya-He
-	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 22:06:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51008)
+	id 1hxiha-0007oV-9N
+	for lists+qemu-devel@lfdr.de; Tue, 13 Aug 2019 22:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1hxicV-0001K0-Nw
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:02:37 -0400
+ (envelope-from <quintela@redhat.com>) id 1hxicZ-0001L3-NS
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:02:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hxicU-0005J3-ML
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:02:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54430)
+ (envelope-from <quintela@redhat.com>) id 1hxicY-0005K1-3J
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:02:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35806)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hxicU-0005Id-Ec
- for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:02:34 -0400
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hxicX-0005Jo-QK
+ for qemu-devel@nongnu.org; Tue, 13 Aug 2019 22:02:38 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BF9ED3082E0F
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 02:02:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 921463175292
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 02:02:36 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-117-78.ams2.redhat.com
  [10.36.117.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 188FD7AB44;
- Wed, 14 Aug 2019 02:02:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1ECD17AB44;
+ Wed, 14 Aug 2019 02:02:33 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 04:02:16 +0200
-Message-Id: <20190814020218.1868-5-quintela@redhat.com>
+Date: Wed, 14 Aug 2019 04:02:17 +0200
+Message-Id: <20190814020218.1868-6-quintela@redhat.com>
 In-Reply-To: <20190814020218.1868-1-quintela@redhat.com>
 References: <20190814020218.1868-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Wed, 14 Aug 2019 02:02:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Wed, 14 Aug 2019 02:02:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/6] migration: Make multifd threads wait until
- all have been created
+Subject: [Qemu-devel] [PATCH 5/6] migration: add some multifd traces
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,104 +60,73 @@ Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes it clear that no thread handles any incoming message until
-all threads have been created.
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c        | 24 ++++++++++++++++++++++--
- migration/trace-events |  1 +
- 2 files changed, 23 insertions(+), 2 deletions(-)
+ migration/ram.c        | 3 +++
+ migration/trace-events | 4 ++++
+ 2 files changed, 7 insertions(+)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 4a6ae677a9..f1aec95f83 100644
+index f1aec95f83..25a211c3fb 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -702,6 +702,8 @@ typedef struct {
-     uint64_t num_pages;
-     /* syncs main thread and channels */
-     QemuSemaphore sem_sync;
-+    /* thread can continue */
-+    QemuSemaphore can_start;
- } MultiFDRecvParams;
+@@ -1173,6 +1173,7 @@ static void *multifd_send_thread(void *opaque)
 =20
- static int multifd_send_initial_packet(MultiFDSendParams *p, Error **err=
-p)
-@@ -1313,6 +1315,7 @@ int multifd_load_cleanup(Error **errp)
-         p->c =3D NULL;
-         qemu_mutex_destroy(&p->mutex);
-         qemu_sem_destroy(&p->sem_sync);
-+        qemu_sem_destroy(&p->can_start);
-         g_free(p->name);
-         p->name =3D NULL;
-         multifd_pages_clear(p->pages);
-@@ -1366,6 +1369,9 @@ static void *multifd_recv_thread(void *opaque)
-     trace_multifd_recv_thread_start(p->id);
-     rcu_register_thread();
+ out:
+     if (local_err) {
++        trace_multifd_send_error(p->id);
+         multifd_send_terminate_threads(local_err);
+     }
 =20
-+    qemu_sem_wait(&p->can_start);
-+    trace_multifd_recv_thread_can_start(p->id);
-+
-     while (true) {
-         uint32_t used;
-         uint32_t flags;
-@@ -1445,6 +1451,7 @@ int multifd_load_setup(void)
-=20
-         qemu_mutex_init(&p->mutex);
-         qemu_sem_init(&p->sem_sync, 0);
-+        qemu_sem_init(&p->can_start, 0);
-         p->quit =3D false;
-         p->id =3D i;
-         p->pages =3D multifd_pages_init(page_count);
-@@ -1477,6 +1484,7 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Erro=
-r **errp)
- {
-     MultiFDRecvParams *p;
+@@ -1203,6 +1204,7 @@ static void multifd_new_send_channel_async(QIOTask =
+*task, gpointer opaque)
+     QIOChannel *sioc =3D QIO_CHANNEL(qio_task_get_source(task));
      Error *local_err =3D NULL;
-+    bool last_one;
-     int id;
 =20
-     id =3D multifd_recv_initial_packet(ioc, &local_err);
-@@ -1506,8 +1514,20 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Err=
-or **errp)
-     qemu_thread_create(&p->thread, p->name, multifd_recv_thread, p,
-                        QEMU_THREAD_JOINABLE);
-     atomic_inc(&multifd_recv_state->count);
--    return atomic_read(&multifd_recv_state->count) =3D=3D
--           migrate_multifd_channels();
-+
-+    last_one =3D  atomic_read(&multifd_recv_state->count)
-+        =3D=3D migrate_multifd_channels();
-+
-+    if (last_one) {
-+        int i;
-+
-+        for (i =3D 0; i < migrate_multifd_channels(); i++) {
-+            MultiFDRecvParams *p =3D &multifd_recv_state->params[i];
-+
-+            qemu_sem_post(&p->can_start);
-+        }
-+    }
-+    return last_one;
- }
++    trace_multifd_new_send_channel_async(p->id);
+     if (qio_task_propagate_error(task, &local_err)) {
+         migrate_set_error(migrate_get_current(), local_err);
+         multifd_save_cleanup();
+@@ -1496,6 +1498,7 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Erro=
+r **errp)
+                                 atomic_read(&multifd_recv_state->count))=
+;
+         return false;
+     }
++    trace_multifd_recv_new_channel(id);
 =20
- /**
+     p =3D &multifd_recv_state->params[id];
+     if (p->c !=3D NULL) {
 diff --git a/migration/trace-events b/migration/trace-events
-index dd13a5c4b1..9fbef614ab 100644
+index 9fbef614ab..5d85f8bf83 100644
 --- a/migration/trace-events
 +++ b/migration/trace-events
-@@ -86,6 +86,7 @@ multifd_recv_sync_main(long packet_num) "packet num %ld=
-"
+@@ -81,7 +81,9 @@ migration_bitmap_sync_start(void) ""
+ migration_bitmap_sync_end(uint64_t dirty_pages) "dirty_pages %" PRIu64
+ migration_bitmap_clear_dirty(char *str, uint64_t start, uint64_t size, u=
+nsigned long page) "rb %s start 0x%"PRIx64" size 0x%"PRIx64" page 0x%lx"
+ migration_throttle(void) ""
++multifd_new_send_channel_async(uint8_t id) "channel %d"
+ multifd_recv(uint8_t id, uint64_t packet_num, uint32_t used, uint32_t fl=
+ags, uint32_t next_packet_size) "channel %d packet_num %" PRIu64 " pages =
+%d flags 0x%x next packet size %d"
++multifd_recv_new_channel(uint8_t id) "channel %d"
+ multifd_recv_sync_main(long packet_num) "packet num %ld"
  multifd_recv_sync_main_signal(uint8_t id) "channel %d"
  multifd_recv_sync_main_wait(uint8_t id) "channel %d"
- multifd_recv_terminate_threads(bool error) "error %d"
-+multifd_recv_thread_can_start(uint8_t id) "channel %d"
+@@ -89,7 +91,9 @@ multifd_recv_terminate_threads(bool error) "error %d"
+ multifd_recv_thread_can_start(uint8_t id) "channel %d"
  multifd_recv_thread_end(uint8_t id, uint64_t packets, uint64_t pages) "c=
 hannel %d packets %" PRIu64 " pages %" PRIu64
  multifd_recv_thread_start(uint8_t id) "%d"
++multifd_save_setup_wait(uint8_t id) "%d"
  multifd_send(uint8_t id, uint64_t packet_num, uint32_t used, uint32_t fl=
 ags, uint32_t next_packet_size) "channel %d packet_num %" PRIu64 " pages =
 %d flags 0x%x next packet size %d"
++multifd_send_error(uint8_t id) "channel %d"
+ multifd_send_sync_main(long packet_num) "packet num %ld"
+ multifd_send_sync_main_signal(uint8_t id) "channel %d"
+ multifd_send_sync_main_wait(uint8_t id) "channel %d"
 --=20
 2.21.0
 
