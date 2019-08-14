@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE8C8DECE
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 22:29:36 +0200 (CEST)
-Received: from localhost ([::1]:35730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4214C8DEB9
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 22:26:24 +0200 (CEST)
+Received: from localhost ([::1]:35704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxztn-0001X4-Fs
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 16:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33171)
+	id 1hxzqh-0006Pa-0m
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 16:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1hxznL-00047k-8C
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 16:22:56 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1hxznS-0004AL-S9
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 16:23:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1hxznI-00040d-Oe
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 16:22:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48672)
+ (envelope-from <mlevitsk@redhat.com>) id 1hxznQ-00045g-My
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 16:23:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37244)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1hxzn7-0003sq-67; Wed, 14 Aug 2019 16:22:41 -0400
+ id 1hxznJ-0003y4-2V; Wed, 14 Aug 2019 16:22:54 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B38F5317464A;
- Wed, 14 Aug 2019 20:22:39 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D5EB6302C07B;
+ Wed, 14 Aug 2019 20:22:47 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 515541000321;
- Wed, 14 Aug 2019 20:22:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E046910016EB;
+ Wed, 14 Aug 2019 20:22:42 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 23:22:10 +0300
-Message-Id: <20190814202219.1870-5-mlevitsk@redhat.com>
+Date: Wed, 14 Aug 2019 23:22:12 +0300
+Message-Id: <20190814202219.1870-7-mlevitsk@redhat.com>
 In-Reply-To: <20190814202219.1870-1-mlevitsk@redhat.com>
 References: <20190814202219.1870-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Wed, 14 Aug 2019 20:22:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Wed, 14 Aug 2019 20:22:47 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 04/13] qcrypto-luks: refactoring: simplify the
- math used for keyslot locations
+Subject: [Qemu-devel] [PATCH 06/13] qcrypto-luks: implement more rigorous
+ header checking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,110 +61,76 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Check that keyslots don't overlap with the data,
+and check that keyslots don't overlap with each other.
+(this is done using naive O(n^2) nested loops,
+but since there are just 8 keyslots, this doens't really matter.
+
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- crypto/block-luks.c | 64 +++++++++++++++++++++++++++------------------
- 1 file changed, 38 insertions(+), 26 deletions(-)
+ crypto/block-luks.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
 diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-index 6bb369f3b4..e1a4df94b7 100644
+index 336e633df4..1997e92fe1 100644
 --- a/crypto/block-luks.c
 +++ b/crypto/block-luks.c
-@@ -417,6 +417,33 @@ static int masterkeylen(QCryptoBlockLUKS *luks)
- }
+@@ -551,6 +551,8 @@ static int
+ qcrypto_block_luks_check_header(QCryptoBlockLUKS *luks, Error **errp)
+ {
+     int ret;
++    int i, j;
++
  
- 
-+/*
-+ * Returns number of sectors needed to store the key material
-+ * given number of anti forensic stripes
-+ */
-+static int splitkeylen_sectors(QCryptoBlockLUKS *luks, int stripes)
-+
-+{
-+    /*
-+     * This calculation doesn't match that shown in the spec,
-+     * but instead follows the cryptsetup implementation.
-+     */
-+
-+    size_t header_sectors = QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
-+                     QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
-+
-+    size_t splitkeylen = masterkeylen(luks) * stripes;
-+
-+    /* First align the key material size to block size*/
-+    size_t splitkeylen_sectors =
-+            DIV_ROUND_UP(splitkeylen, QCRYPTO_BLOCK_LUKS_SECTOR_SIZE);
-+
-+    /* Then also align the key material size to the size of the header */
-+    return ROUND_UP(splitkeylen_sectors, header_sectors);
-+}
-+
-+
-+
- /*
-  * Stores the main LUKS header, taking care of endianess
-  */
-@@ -1169,7 +1196,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
-     QCryptoBlockCreateOptionsLUKS luks_opts;
-     Error *local_err = NULL;
-     uint8_t *masterkey = NULL;
--    size_t splitkeylen = 0;
-+    size_t next_sector;
-     size_t i;
-     char *password;
-     const char *cipher_alg;
-@@ -1388,23 +1415,16 @@ qcrypto_block_luks_create(QCryptoBlock *block,
-         goto error;
+     if (memcmp(luks->header.magic, qcrypto_block_luks_magic,
+                QCRYPTO_BLOCK_LUKS_MAGIC_LEN) != 0) {
+@@ -566,6 +568,46 @@ qcrypto_block_luks_check_header(QCryptoBlockLUKS *luks, Error **errp)
+         goto fail;
      }
  
-+    /* start with the sector that follows the header*/
-+    next_sector = QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
-+                  QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
- 
--    /* Although LUKS has multiple key slots, we're just going
--     * to use the first key slot */
--    splitkeylen = luks->header.key_bytes * QCRYPTO_BLOCK_LUKS_STRIPES;
-     for (i = 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
--        luks->header.key_slots[i].active = QCRYPTO_BLOCK_LUKS_KEY_SLOT_DISABLED;
--        luks->header.key_slots[i].stripes = QCRYPTO_BLOCK_LUKS_STRIPES;
--
--        /* This calculation doesn't match that shown in the spec,
--         * but instead follows the cryptsetup implementation.
--         */
--        luks->header.key_slots[i].key_offset =
--            (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
--             QCRYPTO_BLOCK_LUKS_SECTOR_SIZE) +
--            (ROUND_UP(DIV_ROUND_UP(splitkeylen, QCRYPTO_BLOCK_LUKS_SECTOR_SIZE),
--                      (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
--                       QCRYPTO_BLOCK_LUKS_SECTOR_SIZE)) * i);
-+        QCryptoBlockLUKSKeySlot *slot = &luks->header.key_slots[i];
-+        slot->active = QCRYPTO_BLOCK_LUKS_KEY_SLOT_DISABLED;
-+        slot->key_offset = next_sector;
-+        slot->stripes = QCRYPTO_BLOCK_LUKS_STRIPES;
-+        next_sector += splitkeylen_sectors(luks, QCRYPTO_BLOCK_LUKS_STRIPES);
-     }
- 
- 
-@@ -1412,17 +1432,9 @@ qcrypto_block_luks_create(QCryptoBlock *block,
-      * slot headers, rounded up to the nearest sector, combined with
-      * the size of each master key material region, also rounded up
-      * to the nearest sector */
--    luks->header.payload_offset =
--        (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
--         QCRYPTO_BLOCK_LUKS_SECTOR_SIZE) +
--        (ROUND_UP(DIV_ROUND_UP(splitkeylen, QCRYPTO_BLOCK_LUKS_SECTOR_SIZE),
--                  (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
--                   QCRYPTO_BLOCK_LUKS_SECTOR_SIZE)) *
--         QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS);
--
-+    luks->header.payload_offset = next_sector;
-     block->sector_size = QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
--    block->payload_offset = luks->header.payload_offset *
--        block->sector_size;
-+    block->payload_offset = luks->header.payload_offset * block->sector_size;
- 
-     /* Reserve header space to match payload offset */
-     initfunc(block, block->payload_offset, opaque, &local_err);
++    /* Check all keyslots for corruption  */
++    for (i = 0 ; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; i++) {
++
++        QCryptoBlockLUKSKeySlot *slot1 = &luks->header.key_slots[i];
++        uint start1 = slot1->key_offset;
++        uint len1 = splitkeylen_sectors(luks, slot1->stripes);
++
++        if (slot1->stripes == 0 ||
++                (slot1->active != QCRYPTO_BLOCK_LUKS_KEY_SLOT_DISABLED &&
++                slot1->active != QCRYPTO_BLOCK_LUKS_KEY_SLOT_ENABLED)) {
++
++            error_setg(errp, "Keyslot %i is corrupted", i);
++            ret = -EINVAL;
++            goto fail;
++        }
++
++        if (start1 + len1 > luks->header.payload_offset) {
++            error_setg(errp,
++                       "Keyslot %i is overlapping with the encrypted payload",
++                       i);
++            ret = -EINVAL;
++            goto fail;
++        }
++
++        for (j = i + 1 ; j < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; j++) {
++
++            QCryptoBlockLUKSKeySlot *slot2 = &luks->header.key_slots[j];
++            uint start2 = slot2->key_offset;
++            uint len2 = splitkeylen_sectors(luks, slot2->stripes);
++
++            if (start1 + len1 > start2 && start2 + len2 > start1) {
++                error_setg(errp,
++                           "Keyslots %i and %i are overlapping in the header",
++                           i, j);
++                ret = -EINVAL;
++                goto fail;
++            }
++        }
++
++    }
+     return 0;
+ fail:
+     return ret;
 -- 
 2.17.2
 
