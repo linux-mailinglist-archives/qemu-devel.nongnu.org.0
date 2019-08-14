@@ -2,77 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6548D66D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 16:42:09 +0200 (CEST)
-Received: from localhost ([::1]:32934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3698D688
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 16:49:10 +0200 (CEST)
+Received: from localhost ([::1]:33034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxuTX-0003Tm-Ti
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 10:42:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33525)
+	id 1hxuaL-00087I-66
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 10:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34161)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1hxuSh-00033k-5Y
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 10:41:16 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hxuUo-00043o-SR
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 10:43:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1hxuSf-0001Fb-QK
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 10:41:15 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:34787)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>) id 1hxuSf-0001EX-Jn
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 10:41:13 -0400
-Received: by mail-pg1-x544.google.com with SMTP id n9so46972508pgc.1
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 07:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=N9cOcv1BVXJcJQ7QJfM1M9xy2CTQ5s9kJ2wj+tITcQY=;
- b=kE/90/DVSr4GlkuljAx2MaO6Pi/RYDAjNQ0iKr8rbw3Xg+gC7K1qbDReU5kCYDKulk
- S6b0yEag53nARBXxwMFV1b6Zb50WPCQYu/+nc2kk6flm12WSU8FhjxLjbNMj0yDke7Kz
- 58mSrG5OmAiMCYGo5BgzjePW+ZFM1IHGJrVLW5y2EBXBW6812l67yxlrLmrt+Qdv1ovR
- AoLDvyY62u22USnzGfA9KVwKw+m4UsfGfdtI5oCRw7mTD2sLZ+qgj21fnDmbztQJ3TtT
- 5SDi2BK64mJ0R0cuj89qm8I24Gu02mCEAbuNdkHghytSM4TEROpP1wcMA98lG3eG87tj
- dVzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=N9cOcv1BVXJcJQ7QJfM1M9xy2CTQ5s9kJ2wj+tITcQY=;
- b=O0I4CJsGD21mhQbPhGsKlcQdBnUiYo3z0aOvDxqDDzKQfQJDzMUaz5iCC8bJwmVkpJ
- z7Qw0DIJQk4u7uhvpxY99ddxCFzAS1M+ZBX5INSPr8oppC8E3F5hOkgpnnHNWKaUg3dN
- CARr563MG4ZaQDvhI6usJbRNSZJyzCbpA3dx86NHLR+ZHcbnD7SX77KHUm5DHvJbI/qn
- vZqizSi6wRfM3peHVhIAwnXo3YN1WdPodCWfgKVgWeWpreKjiUdEbQJzhNuLGA35TdrG
- QRgTojNgmbexcgLJ0WMvfnfawm8BQkGgLKHxXSryyS7ujRclq1/92zxbXj4oQyvh8l/c
- RUdA==
-X-Gm-Message-State: APjAAAW6YnNf+9rHcAlqT5IOnSr9/HrD4e05GwAix4c3BVZtclq+oL6g
- NzhNJj4ZH9opM2mw+4JaUDg=
-X-Google-Smtp-Source: APXvYqw52HXvRcV7lVxfWExg8QeH604PX2EYFypNyJLTjNdh4FrI+ouX4pWPcoLEbtJzzjQ8/JR+Fw==
-X-Received: by 2002:a63:ee08:: with SMTP id e8mr39807927pgi.70.1565793668875; 
- Wed, 14 Aug 2019 07:41:08 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id t6sm37231362pgu.23.2019.08.14.07.41.08
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 14 Aug 2019 07:41:08 -0700 (PDT)
-Date: Wed, 14 Aug 2019 07:41:07 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Message-ID: <20190814144107.GB30613@roeck-us.net>
-References: <1564508710-22909-1-git-send-email-linux@roeck-us.net>
- <160cda6c-63b3-4d52-018e-d282514be2a3@redhat.com>
- <20190802141149.dj7zv5p5wscftvnr@sirius.home.kraxel.org>
- <14dfe5ce-d74c-dccd-a62b-753b2efa924b@roeck-us.net>
- <20190813114203.z62dgyyneqcp3mru@sirius.home.kraxel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190813114203.z62dgyyneqcp3mru@sirius.home.kraxel.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: Re: [Qemu-devel] [PATCH] ehci: Ensure that device is not NULL
- before calling usb_ep_get
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hxuUn-0002DV-LA
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 10:43:26 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49618)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hxuUi-0002AI-Qm; Wed, 14 Aug 2019 10:43:22 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hxuUd-0007hk-RL; Wed, 14 Aug 2019 17:43:16 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Date: Wed, 14 Aug 2019 17:43:11 +0300
+Message-Id: <20190814144315.89729-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH 0/4] backup: fix skipping unallocated clusters
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,102 +43,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 13, 2019 at 01:42:03PM +0200, Gerd Hoffmann wrote:
-> On Tue, Aug 06, 2019 at 06:23:38AM -0700, Guenter Roeck wrote:
-> > On 8/2/19 7:11 AM, Gerd Hoffmann wrote:
-> > > On Wed, Jul 31, 2019 at 01:08:50PM +0200, Philippe Mathieu-Daudé wrote:
-> > > > On 7/30/19 7:45 PM, Guenter Roeck wrote:
-> > > > > The following assert is seen once in a while while resetting the
-> > > > > Linux kernel.
-> > > > > 
-> > > > > qemu-system-x86_64: hw/usb/core.c:734: usb_ep_get:
-> > > > > 	Assertion `dev != NULL' failed.
-> > > > > 
-> > > > > The call to usb_ep_get() originates from ehci_execute().
-> > > > > Analysis and debugging shows that p->queue->dev can indeed be NULL
-> > > > > in this function. Add check for this condition and return an error
-> > > > > if it is seen.
-> > > > 
-> > > > Your patch is not wrong as it corrects your case, but I wonder why we
-> > > > get there. This assert seems to have catched a bug.
-> > > 
-> > > https://bugzilla.redhat.com//show_bug.cgi?id=1715801 maybe.
-> > > 
-> > > > Gerd, shouldn't we call usb_packet_cleanup() in ehci_reset() rather than
-> > > > ehci_finalize()? Then we shouldn't need this patch.
-> > > 
-> > > The two ehci_queues_rip_all() calls in ehci_reset() should clean up everything
-> > > properly.
-> > > 
-> > > Can you try the patch below to see whenever a ehci_find_device failure is the
-> > > root cause?
-> > > 
-> > > thanks,
-> > >    Gerd
-> > > 
-> > > diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-> > > index 62dab0592fa2..2b0a57772ed5 100644
-> > > --- a/hw/usb/hcd-ehci.c
-> > > +++ b/hw/usb/hcd-ehci.c
-> > > @@ -1644,6 +1644,10 @@ static EHCIQueue *ehci_state_fetchqh(EHCIState *ehci, int async)
-> > >           q->dev = ehci_find_device(q->ehci,
-> > >                                     get_field(q->qh.epchar, QH_EPCHAR_DEVADDR));
-> > >       }
-> > > +    if (q->dev == NULL) {
-> > > +        fprintf(stderr, "%s: device %d not found\n", __func__,
-> > > +                get_field(q->qh.epchar, QH_EPCHAR_DEVADDR));
-> > > +    }
-> > Turns out I end up seeing that message hundreds of times early on each boot,
-> > no matter which architecture. It is quite obviously a normal operating condition.
-> 
-> Yep, as long as the queue is not active this is completely harmless.
-> So we need to check a bit later.  In execute() looks a bit too late
-> though, we don't have a good backup plan then.
-> 
-> Does the patch below solve the problem without bad side effects?
-> 
-I reverted my patch and applied the patch below to my builds of qemu, for both
-v4.0 and v4.1, and installed it in my test bed. I'll let you know how it goes.
+Hi all!
 
-Thanks,
-Guenter
+There is a bug in not yet merged patch
+"block/backup: teach TOP to never copy unallocated regions"
+in https://github.com/jnsnow/qemu bitmaps. 04 fixes it. So, I propose
+to put 01-03 somewhere before
+"block/backup: teach TOP to never copy unallocated regions"
+and squash 04 into "block/backup: teach TOP to never copy unallocated regions"
 
-> thanks,
->   Gerd
-> 
-> From 5980eaad23f675a2d509d0c55e288793619761bc Mon Sep 17 00:00:00 2001
-> From: Gerd Hoffmann <kraxel@redhat.com>
-> Date: Tue, 13 Aug 2019 13:37:09 +0200
-> Subject: [PATCH] ehci: try fix queue->dev null ptr dereference
-> 
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/usb/hcd-ehci.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-> index 62dab0592fa2..5f089f30054b 100644
-> --- a/hw/usb/hcd-ehci.c
-> +++ b/hw/usb/hcd-ehci.c
-> @@ -1834,6 +1834,9 @@ static int ehci_state_fetchqtd(EHCIQueue *q)
->              ehci_set_state(q->ehci, q->async, EST_EXECUTING);
->              break;
->          }
-> +    } else if (q->dev == NULL) {
-> +        ehci_trace_guest_bug(q->ehci, "no device attached to queue");
-> +        ehci_set_state(q->ehci, q->async, EST_HORIZONTALQH);
->      } else {
->          p = ehci_alloc_packet(q);
->          p->qtdaddr = q->qtdaddr;
-> -- 
-> 2.18.1
-> 
+Based-on: https://github.com/jnsnow/qemu bitmaps
+
+Vladimir Sementsov-Ogievskiy (4):
+  block/dirty-bitmap: switch _next_dirty_area and _next_zero to int64_t
+  block/dirty-bitmap: add _next_dirty API
+  block/backup: use bdrv_dirty_bitmap_next_dirty
+  block/backup: fix and improve skipping unallocated in backup_do_cow
+
+ include/block/dirty-bitmap.h |  8 ++--
+ include/qemu/hbitmap.h       | 18 +++++++--
+ block/backup.c               | 33 ++++++++++-------
+ block/dirty-bitmap.c         | 12 ++++--
+ block/mirror.c               |  4 +-
+ tests/test-hbitmap.c         | 32 ++++++++--------
+ util/hbitmap.c               | 72 ++++++++++++++++++++----------------
+ block/trace-events           |  1 -
+ 8 files changed, 107 insertions(+), 73 deletions(-)
+
+-- 
+2.18.0
+
 
