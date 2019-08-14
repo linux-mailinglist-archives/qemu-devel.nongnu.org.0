@@ -2,76 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F2FA8D057
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 12:08:19 +0200 (CEST)
-Received: from localhost ([::1]:58846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453CB8D05E
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Aug 2019 12:09:14 +0200 (CEST)
+Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hxqCX-0006IU-KZ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 06:08:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54087)
+	id 1hxqDR-0007pX-BM
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 06:09:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54245)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1hxqBH-0005WJ-Cr
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 06:07:00 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hxqBy-0006I1-SC
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 06:07:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hxqBG-000719-1q
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 06:06:59 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34319)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hxqBF-00070i-Q5
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 06:06:57 -0400
-Received: by mail-wr1-x444.google.com with SMTP id 31so110559569wrm.1
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 03:06:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=md3rpQXbTuAOv0p/UbpuLpcqckT8i/0EbGVxOrmwMJE=;
- b=BjGA4MXXi46Mi/Q/kv9HVvdabMh3ljoCiEtccRO71IUS+QAkkX8+IfJYEZVGzQdfOE
- AnWvQ64ahkWhkX9kOztrG9mmA1ss7onXt88vNLGxscg4xSgU0fsjkkpuL6SJuxPpfun8
- dDHpAIVeS2kqA9Ki8+INE4J1tILY7xUspaWj5C9Fr/39BFsUNwTZ1nR9EDaZI9dlqs35
- MKizj5bC4NTmcrwszYccuWpm/Jm2iTolEQ3SQfxgZjc80nmcduLaTgnpR0U/i4sZI1q+
- UdaugicJfVE4BLeYyhFB6LxFIcgKK7e74gB0VVt+L2THAA0Cqx4R8a7GRmi1iQoIGPZP
- gRbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=md3rpQXbTuAOv0p/UbpuLpcqckT8i/0EbGVxOrmwMJE=;
- b=LgCd57AOregXj/nxNowxekOX0s3GfuSNvbhYS4/53CvZaJAuiudEW0qja7zb0qwb+2
- 3tT0LSCM953lebXYiUCfxX+YveREoYtLp6C0J7Y66JP5fp0Mv9RYGscQx4RGemy0SAPI
- OwKTkv8cV2G9xvRvaLKDaSCqZwocF96CbwSNC/BeB1uiHoLmDb70RwqnNsIrOLto8erL
- iEpp6fdnhVoVYjDjROQruvzXNiBthH3xFpDKdmgtOsi9SF060TXtq0uzQgqYcu0rV0CT
- DPyCmC4PdAIiSZdYMAYAqViWEqZN9jroH6FEgHsZIPzBEN07lT3aGOYhzKkzQLLK/GBi
- SC/w==
-X-Gm-Message-State: APjAAAVc5CR9C4RV3a05QMVgwIlTh60Y4g2EuJJZ8nFd2uAc/rUE6r5C
- fFCRtQEHJjIkUHlD2Y1ny/TIZg==
-X-Google-Smtp-Source: APXvYqyZXjvRLCktd+rzbx8Kj7ox3JyaMbnDAeJdeFeIALzU1xwMKNg5zpw55bpdPlfHrqwgcMZMDg==
-X-Received: by 2002:a5d:4b05:: with SMTP id v5mr26521746wrq.208.1565777216290; 
- Wed, 14 Aug 2019 03:06:56 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id p10sm4291943wma.8.2019.08.14.03.06.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Aug 2019 03:06:55 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 272251FF87;
- Wed, 14 Aug 2019 11:06:55 +0100 (BST)
-References: <20190814072355.15333-1-david@redhat.com>
- <20190814072355.15333-4-david@redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190814072355.15333-4-david@redhat.com>
-Date: Wed, 14 Aug 2019 11:06:55 +0100
-Message-ID: <87wofgm56o.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH-for-4.2 v2 3/6] s390x/tcg: Flush the TLB of
- all CPUs on SSKE and RRBE
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hxqBx-0007Qn-V7
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 06:07:42 -0400
+Received: from relay.sw.ru ([185.231.240.75]:39974)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hxqBv-0007Nx-MN; Wed, 14 Aug 2019 06:07:39 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hxqBs-00066c-Oa; Wed, 14 Aug 2019 13:07:36 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Date: Wed, 14 Aug 2019 13:07:33 +0300
+Message-Id: <20190814100735.24234-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH 0/2] Deprecate implicit filters
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,67 +43,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, libvir-list@redhat.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com, jsnow@redhat.com,
+ den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi all!
 
-David Hildenbrand <david@redhat.com> writes:
+Max's series to fix some problems around filters consists of 42 patches.
+I'm sure that we didn't find all bugs around filters, and that filters
+would be a constant source of bugs in future, as during developing new
+feature nobody will consider all possible cases of dealing with filters
+(OK, somebody will, but it's hard).
 
-> Whenever we modify a storage key, we shuld flush the TLBs of all CPUs,
-> so the MMU fault handling code can properly consider the changed storage
-> key (to e.g., properly set the reference and change bit on the next
-> accesses).
->
-> These functions are barely used in modern Linux guests, so the performance
-> implications are neglectable for now.
->
-> This is a preparation for better reference and change bit handling for
-> TCG, which will require more MMU changes.
->
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/mem_helper.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-> index 29d9eaa5b7..ed54265e03 100644
-> --- a/target/s390x/mem_helper.c
-> +++ b/target/s390x/mem_helper.c
-> @@ -1815,6 +1815,8 @@ void HELPER(sske)(CPUS390XState *env, uint64_t r1, =
-uint64_t r2)
->
->      key =3D (uint8_t) r1;
->      skeyclass->set_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
-> +    /* TODO: Flush only entries with this target address */
-> +    tlb_flush_all_cpus_synced(env_cpu(env));
+So, I'm thinking about starting some deprecations which will help us to
+simplify all the picture at least in not far future. So, I'd really want
+to deprecate implicit filters, ->file child based filters (move all
+filters to use backing child), filename based interfaces (use node-names).
 
-Doesn't:
+Most simple thing is implicit filters, so let's start from them.
+drive-mirror don't support filter-node-name, so I propose to deprecate
+it at all, together with drive-backup, instead of adding support of
+filter-node-name, what do you think?
 
-  tlb_flush_page_all_cpus_synced(env_cpu(env), addr & TARGET_PAGE_MASK);
+Vladimir Sementsov-Ogievskiy (2):
+  qapi: deprecate drive-mirror and drive-backup
+  qapi: deprecate implicit filters
 
-do what you want here?
+ qemu-deprecated.texi      | 11 +++++++++++
+ qapi/block-core.json      | 10 ++++++++--
+ qapi/transaction.json     |  2 +-
+ include/block/block_int.h | 10 +++++++++-
+ blockdev.c                | 20 ++++++++++++++++++++
+ 5 files changed, 49 insertions(+), 4 deletions(-)
 
->  }
->
->  /* reset reference bit extended */
-> @@ -1843,6 +1845,8 @@ uint32_t HELPER(rrbe)(CPUS390XState *env, uint64_t =
-r2)
->      if (skeyclass->set_skeys(ss, r2 / TARGET_PAGE_SIZE, 1, &key)) {
->          return 0;
->      }
-> +    /* TODO: Flush only entries with this target address */
-> +    tlb_flush_all_cpus_synced(env_cpu(env));
->
->      /*
->       * cc
+-- 
+2.18.0
 
-
---
-Alex Benn=C3=A9e
 
