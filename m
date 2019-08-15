@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D698E2A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:18:32 +0200 (CEST)
-Received: from localhost ([::1]:37412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2A18E2A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:18:33 +0200 (CEST)
+Received: from localhost ([::1]:37414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy5LS-0006fG-RA
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46752)
+	id 1hy5LT-0006gY-QA
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:18:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46865)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5DO-000641-8Z
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:12 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DX-0006Ba-Aj
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5DM-0008LQ-F1
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:10 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:38759)
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DV-0008Vg-8U
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:19 -0400
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:45961)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5DM-0008L2-7E
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:08 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id f187so297266ywa.5
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:08 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5DV-0008S5-4F
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:17 -0400
+Received: by mail-yb1-xb42.google.com with SMTP id u32so388382ybi.12
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kaNCwyHpMkNqwSgvSmZLjSKWRlicmlM9lWRJ1+7uU/s=;
- b=i18PKs9kAB+aesQk/ykKmHNkcijYR0HggrGlzPjb+F8SlNkNb3uie4EjTh604BFd/H
- zaAYJhD25d+Byz8LbivmmDWVn4bx3IulpsXLiJLt8xKvr+X90P0aRPzzXqLtRcQq4Gnt
- Ki4VmkCNOJCLh12qw3ySoW6Anm/oHybfwP2Rh2YX+GGHPoxmv1XkAMunpkukY3zv0NFR
- tmAISwofY0AhA6yYBsxIIeo4nU9dRkzddc+q5OeG6VKSGjn5ECn7QbhQc39hbm3yZnTv
- gS0j5tEAB6MKccHH61678NfUohbw6sPMrSEeZKoCQHG51h2D17ke4w5xJKRxRE6RGbnk
- Ug+A==
+ bh=aji6f42Pqo1laNwakKXwsr+VmwLnCcurcKsMvdCVjcw=;
+ b=ZkuDXAAqe9iGdX+lqbUGSqoU6JpHSBfNxV8J8llQJHt7/UD9CduwzV4ITo9iCImT7M
+ gdwnL7mHSag65jlGZ5rLSj3l5MGeXQv6yatdK7Bth/kkXZ93HBT1p72lXYsRE/h3SmRp
+ hI93KcOHzxvFA4l9GgeTywWRUz6jjr6RGuQXgRytodmbrtrgv7ZndFc24VgWmy4kZQbw
+ NoEidRUyXFRP84/uEEEL7QaiKOIyGsHDgWgBGeSQfVa4fFZRKqiResNrzdA1OcoZnIj3
+ 87mQaI0LRMfY/Wx7/4gmiJiTdY9RWIwGP6h8BrJ+7FUIQrX3GbBqbMIx9d5lYL89Gn1k
+ 3c9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kaNCwyHpMkNqwSgvSmZLjSKWRlicmlM9lWRJ1+7uU/s=;
- b=UAVH0oMY5PRYSO8XPi1EMGH0jYcJpDGpNRdfALrew73ZzX7jWHumUKGJpcygheGEsM
- V1h8k89i28kAyt3o6tXnRDdrRYAIQtoucy7OMOTXdBA2m8Y5EgP7CyA2zzTuW3vKLzxx
- NFIBkhbKPAQpb2LrytcQLrGtjQ+pRd+NJb6ayVHvKRpwoPirgQGc6yYIk2xdeN3hohge
- TiE8+m3Wzwo/dLl1iJgWW+ie1PpKStQVjTQDlfdm987QvDsnfIzrlGdvrXNifX3JRl2r
- EbrG+GN7yEz5tKdE9s/PM7Whx7plPRzRQJ9eqa4XrQFmhsyI4/p4JNcCuljheVXzKczv
- SlFw==
-X-Gm-Message-State: APjAAAVfbAstsNkKxpke9GJXH4YcSCjWBY2kZ0gY1CbYYZ7pbAE/LD/6
- 6zPKtQ2NaxULhjkssW97qTThNelJ
-X-Google-Smtp-Source: APXvYqxlPh6VMLgXUn/k7xDuIJIEz9lLTjXo+8PRoBCHryw5NjVgH8u64+y0m4JIRaqRFVOLlsQOIg==
-X-Received: by 2002:a81:7dc3:: with SMTP id y186mr1557771ywc.223.1565835007594; 
- Wed, 14 Aug 2019 19:10:07 -0700 (PDT)
+ bh=aji6f42Pqo1laNwakKXwsr+VmwLnCcurcKsMvdCVjcw=;
+ b=IzQc6AS30Tw0LkjPBCzeXYk4ezNG7KhNdF1gW9OZkMUQUOCT7nsNoTrPsxRLP8ux6X
+ +8m7eXEcO0x0jdI40+DKvvqwpOW6/cXuNDi021RKi61cWSY31U+Azpq3FgIO+mTxxs66
+ RKYnbRVT3GaD/VyTZJ4IqzMqZOHeEjN0itr833JcqPrRysch+Sc4HInJZpBHoALLBKtk
+ LhwiBMNYVjeuBe1+ASy6GrCrlySPmaU+rQ44IfujDTrLQ8hyl0tT3EE2uxdVQ2TPKdpI
+ krLPafZ/DiysvQ6qIvU9ez95ABGtd70Dhi1ML+CYY2pawdWAJeLAQAvuI5RYDIkIfSwy
+ nfFw==
+X-Gm-Message-State: APjAAAXK6WkhAN8Ztd6NWevgeX4EQZXiUyuOfojxPZ48oANt4JgVLBYB
+ NRduXC3U31teVCGJQAs7iJ9eoDW4
+X-Google-Smtp-Source: APXvYqzBy5nDIj0GpEbjrj9z6rx6ql0Xew8ZwlXsw3Rn3HBj/1nQzgoas+xDtK/vF6c6c9iGnUDCLQ==
+X-Received: by 2002:a5b:e87:: with SMTP id z7mr1918014ybr.5.1565835015043;
+ Wed, 14 Aug 2019 19:10:15 -0700 (PDT)
 Received: from dionysus.attlocal.net ([2601:c0:c67f:e390:8a9a:e33f:caf8:f018])
  by smtp.gmail.com with ESMTPSA id
- j3sm374882ywk.21.2019.08.14.19.10.06
+ j3sm374882ywk.21.2019.08.14.19.10.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Aug 2019 19:10:06 -0700 (PDT)
+ Wed, 14 Aug 2019 19:10:14 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 22:08:56 -0400
-Message-Id: <20190815020928.9679-15-jan.bobek@gmail.com>
+Date: Wed, 14 Aug 2019 22:09:04 -0400
+Message-Id: <20190815020928.9679-23-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190815020928.9679-1-jan.bobek@gmail.com>
 References: <20190815020928.9679-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c41
-Subject: [Qemu-devel] [RFC PATCH v3 14/46] target/i386: introduce mnemonic
- aliases for several gvec operations
+X-Received-From: 2607:f8b0:4864:20::b42
+Subject: [Qemu-devel] [RFC PATCH v3 22/46] target/i386: introduce operands
+ for decoding modrm fields
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,30 +84,84 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is helpful to introduce aliases for some general gvec operations as
-it makes a couple of instruction code generators simpler (added
-later).
+The old code uses bitshifts and bitwise-and all over the place for
+decoding ModR/M fields. Avoid doing that by introducing proper
+decoding operands.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ target/i386/translate.c | 62 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index e9741cd7f7..6296a02991 100644
+index 25c25a30fb..e4515e81df 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4493,6 +4493,13 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
- #pragma GCC diagnostic push
- #pragma GCC diagnostic ignored "-Wunused-function"
+@@ -4760,6 +4760,68 @@ INSNOP_FINALIZE(modrm)
+ {
+ }
  
-+#define tcg_gen_gvec_andn(vece, dofs, aofs, bofs, oprsz, maxsz) \
-+    tcg_gen_gvec_andc(vece, dofs, bofs, aofs, oprsz, maxsz)
-+#define tcg_gen_gvec_cmpeq(vece, dofs, aofs, bofs, oprsz, maxsz)        \
-+    tcg_gen_gvec_cmp(TCG_COND_EQ, vece, dofs, aofs, bofs, oprsz, maxsz)
-+#define tcg_gen_gvec_cmpgt(vece, dofs, aofs, bofs, oprsz, maxsz)        \
-+    tcg_gen_gvec_cmp(TCG_COND_GT, vece, dofs, aofs, bofs, oprsz, maxsz)
++/*
++ * modrm_mod
++ *
++ * Operand whose value is the MOD field of the ModR/M byte.
++ */
++typedef int insnop_arg_t(modrm_mod);
++typedef struct {} insnop_ctxt_t(modrm_mod);
++
++INSNOP_INIT(modrm_mod)
++{
++    return 0;
++}
++INSNOP_PREPARE(modrm_mod)
++{
++    return (modrm >> 6) & 3;
++}
++INSNOP_FINALIZE(modrm_mod)
++{
++}
++
++/*
++ * modrm_reg
++ *
++ * Operand whose value is the REG field of the ModR/M byte, extended
++ * with the REX.R bit if REX prefix is present.
++ */
++typedef int insnop_arg_t(modrm_reg);
++typedef struct {} insnop_ctxt_t(modrm_reg);
++
++INSNOP_INIT(modrm_reg)
++{
++    return 0;
++}
++INSNOP_PREPARE(modrm_reg)
++{
++    return ((modrm >> 3) & 7) | REX_R(s);
++}
++INSNOP_FINALIZE(modrm_reg)
++{
++}
++
++/*
++ * modrm_rm
++ *
++ * Operand whose value is the RM field of the ModR/M byte, extended
++ * with the REX.B bit if REX prefix is present.
++ */
++typedef int insnop_arg_t(modrm_rm);
++typedef struct {} insnop_ctxt_t(modrm_rm);
++
++INSNOP_INIT(modrm_rm)
++{
++    return 0;
++}
++INSNOP_PREPARE(modrm_rm)
++{
++    return (modrm & 7) | REX_B(s);
++}
++INSNOP_FINALIZE(modrm_rm)
++{
++}
 +
  static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
  {
