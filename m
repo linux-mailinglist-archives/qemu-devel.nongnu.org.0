@@ -2,77 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1228EB91
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 14:33:03 +0200 (CEST)
-Received: from localhost ([::1]:41470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255C78EBBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 14:42:23 +0200 (CEST)
+Received: from localhost ([::1]:41556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyEwA-0004HP-BJ
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 08:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39469)
+	id 1hyF5C-000874-7j
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 08:42:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40788)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1hyEur-0003lQ-Et
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 08:31:42 -0400
+ (envelope-from <darren.kenny@oracle.com>) id 1hyF4J-0007gs-PM
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 08:41:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hyEup-0002EW-Sj
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 08:31:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44698)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hyEul-00024m-99; Thu, 15 Aug 2019 08:31:35 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EB72E3003715;
- Thu, 15 Aug 2019 12:31:33 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF2C08388D;
- Thu, 15 Aug 2019 12:31:23 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20190815110623.13646-1-kwolf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <e87c2ff7-edf9-7b1f-331f-a9fcf9e5efbe@redhat.com>
-Date: Thu, 15 Aug 2019 14:31:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <darren.kenny@oracle.com>) id 1hyF4I-0007fo-6i
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 08:41:27 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:54272)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <darren.kenny@oracle.com>)
+ id 1hyF4H-0007ej-R5
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 08:41:26 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7FCcQBJ019203;
+ Thu, 15 Aug 2019 12:41:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=42vjv25Rum8vkMZqpLR+rf75kLIb6iSn/c/I2RoD7MA=;
+ b=IBcoW5cplI3Gw7gRvYiVCUlZrAhNtfbs+A2AjDu9WNKI+E9xkp9n+7YlXJijkPtjCrUx
+ bBQPQGubeCJMYebOMac6cSRJn3szsb/Q32ASVY6KC11cp1kPR2F8A8HKZEytTlBC0iVe
+ BIwGjeLwtFeA2QBVLyYOCPloPl/ILvm3OMJFegOgjml3cVFSBgruyx6mIAOv24EbhNlD
+ 5AZt/vscfd93zYWJWABLerxlC+zZj1YQ6rz7U4897A1V9ckRD5t3AUiqKMbsjQbWXrXz
+ VZRcvAHosPyTmHMPLevUnhxyurP7tteJhEOqc0avsHk37lHBWWEOOTxDJch4krZkLKst bg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2u9nvpjmpd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 15 Aug 2019 12:41:21 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7FCcOvo149194;
+ Thu, 15 Aug 2019 12:41:20 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 2ucmwjmufx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 15 Aug 2019 12:41:20 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x7FCfJGa008418;
+ Thu, 15 Aug 2019 12:41:19 GMT
+Received: from starbug-lenovo.ie.oracle.com (/10.169.104.251)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 15 Aug 2019 05:41:18 -0700
+Date: Thu, 15 Aug 2019 13:41:14 +0100
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190815124114.du6huaca56jp6heb@starbug-lenovo.ie.oracle.com>
+Mail-Followup-To: Paolo Bonzini <pbonzini@redhat.com>,
+ "Oleinik, Alexander" <alxndr@bu.edu>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "bsd@redhat.com" <bsd@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
+References: <20190805071038.32146-1-alxndr@bu.edu>
+ <20190805071038.32146-2-alxndr@bu.edu>
+ <7d90f16e-d77f-077e-5291-ae4d5ee3d668@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190815110623.13646-1-kwolf@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="gjwMI3x4C4eQ1cFmSJX9ckUMCMHo9Kc1E"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Thu, 15 Aug 2019 12:31:33 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2] qemu-img convert: Deprecate using -n
- and -o together
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <7d90f16e-d77f-077e-5291-ae4d5ee3d668@redhat.com>
+User-Agent: NeoMutt/20180716
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9349
+ signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908150134
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9349
+ signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908150134
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.78
+Subject: Re: [Qemu-devel] [RFC PATCH v2 01/17] fuzz: Move initialization
+ from main to qemu_init
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,72 +98,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: "Oleinik, Alexander" <alxndr@bu.edu>, "bsd@redhat.com" <bsd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---gjwMI3x4C4eQ1cFmSJX9ckUMCMHo9Kc1E
-Content-Type: multipart/mixed; boundary="GHwwgrB3qQKnxAQuQsdnUl5JceD4OIQvS";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: eblake@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
-Message-ID: <e87c2ff7-edf9-7b1f-331f-a9fcf9e5efbe@redhat.com>
-Subject: Re: [PATCH v2] qemu-img convert: Deprecate using -n and -o together
-References: <20190815110623.13646-1-kwolf@redhat.com>
-In-Reply-To: <20190815110623.13646-1-kwolf@redhat.com>
+On Mon, Aug 05, 2019 at 09:43:06AM +0200, Paolo Bonzini wrote:
+>On 05/08/19 09:11, Oleinik, Alexander wrote:
+>> Using this, we avoid needing a special case to break out of main(),
+>> early, when initializing the fuzzer, as we can just call qemu_init.
+>> There is still a #define around main(), since it otherwise conflicts
+>> with the libfuzzer main().
+>>
+>> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
+>> ---
+>>  include/sysemu/sysemu.h |  5 +++++
+>>  vl.c                    | 25 +++++++++++++++++++++++--
+>>  2 files changed, 28 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+>> index 984c439ac9..a63d5ccce3 100644
+>> --- a/include/sysemu/sysemu.h
+>> +++ b/include/sysemu/sysemu.h
+>> @@ -184,6 +184,8 @@ QemuOpts *qemu_get_machine_opts(void);
+>>
+>>  bool defaults_enabled(void);
+>>
+>> +int qemu_init(int argc, char **argv, char **envp);
+>> +
+>>  extern QemuOptsList qemu_legacy_drive_opts;
+>>  extern QemuOptsList qemu_common_drive_opts;
+>>  extern QemuOptsList qemu_drive_opts;
+>> @@ -197,4 +199,7 @@ extern QemuOptsList qemu_global_opts;
+>>  extern QemuOptsList qemu_mon_opts;
+>>  extern QemuOptsList qemu_semihosting_config_opts;
+>>
+>> +#ifdef CONFIG_FUZZ
+>> +int real_main(int argc, char **argv, char **envp);
+>> +#endif
+>>  #endif
+>> diff --git a/vl.c b/vl.c
+>> index 130a389712..914bb9b2de 100644
+>> --- a/vl.c
+>> +++ b/vl.c
+>> @@ -130,6 +130,10 @@ int main(int argc, char **argv)
+>>  #include "sysemu/iothread.h"
+>>  #include "qemu/guest-random.h"
+>>
+>> +#ifdef CONFIG_FUZZ
+>> +#include "tests/libqtest.h"
+>> +#endif
+>
+>Why is this #include needed?
+>
+>If you leave out the changes to introduce real_main, the patch can be
+>committed independent of the rest.  Those can be introduced in patch 2
+>or even 12 ("Add fuzzer skeleton").
 
---GHwwgrB3qQKnxAQuQsdnUl5JceD4OIQvS
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+The build actually fails for me due to this include, because it has it's own
+and different declaration of qtest_init:
 
-On 15.08.19 13:06, Kevin Wolf wrote:
-> bdrv_create options specified with -o have no effect when skipping imag=
-e
-> creation with -n, so this doesn't make sense. Warn against the misuse
-> and deprecate the combination so we can make it a hard error later.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->=20
-> - Hopefully removed the "finger-wagging" that John saw, without stating=
+  In file included from vl.c:134:
+  .../qemu-upstream-libfuzz/./tests/libqtest.h:57:13: error: conflicting types for 'qtest_init'
+  QTestState *qtest_init(const char *extra_args);
+              ^
+  .../qemu-upstream-libfuzz/include/sysemu/qtest.h:27:6: note: previous declaration is here
+  void qtest_init(const char *qtest_chrdev, const char *qtest_log, Error **errp);
+       ^
+  In file included from vl.c:134:
+  .../qemu-upstream-libfuzz/./tests/libqtest.h:640:35: error: too few arguments to function call, expected 3, have 1
+      global_qtest = qtest_init(args);
+                     ~~~~~~~~~~     ^
+  .../qemu-upstream-libfuzz/include/sysemu/qtest.h:27:1: note: 'qtest_init' declared here
+  void qtest_init(const char *qtest_chrdev, const char *qtest_log, Error **errp);
+  ^
+  2 errors generated.
 
->   that the combination doesn't have a well-defined behaviour (because
->   skipping image creation and therefore ignoring -o is well-defined
->   behaviour).
+(It's probably a separate issue as to why there are 2 functions with
+the same name, are not static and have different signatures in the
+first place)
 
-The problem is that e.g. the man page never says that -o gives creation
-options.  It says that =E2=80=9Coptions is a [...] list of format specifi=
-c
-options=E2=80=9D, nothing more.
+Thanks,
 
->  qemu-img.c           | 5 +++++
->  qemu-deprecated.texi | 7 +++++++
->  2 files changed, 12 insertions(+)
+Darren.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-
---GHwwgrB3qQKnxAQuQsdnUl5JceD4OIQvS--
-
---gjwMI3x4C4eQ1cFmSJX9ckUMCMHo9Kc1E
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1VUJkACgkQ9AfbAGHV
-z0AKSAf/Y26CQpQ+ZEtk9ViFSTz7c/eiFfJ6IbZfw7YHgD+eqXsVnbU1ptT4eEE6
-IZFY/TTA83rkzAKnIooo8zbjjbld9huwxwSKjWidmxafrmolAF3+4U2TyyZPupct
-e+yfWfPzZQ9uOi5ohgzcnbZh0LEhhM8MEt0mVB2VTLgkuEHCvlDmbVgFJldwr8Kf
-PtKcnziuSXYn+/6IZedaryaqVs1GZnMAn4Xh8Tvo6XhJ2zXmob1NWSjxICUW//VK
-gnYOt/Np6L6Tdn+aSp4vdwXfZ+c2ZeIfWcrFF+zmnAZcqNvYzLrtKRw9IJyKycAC
-eg0ohfdAZHwCuTS4bnXyuOWQi8Fwag==
-=4Osv
------END PGP SIGNATURE-----
-
---gjwMI3x4C4eQ1cFmSJX9ckUMCMHo9Kc1E--
 
