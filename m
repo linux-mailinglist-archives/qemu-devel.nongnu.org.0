@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546F78F3D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:45:37 +0200 (CEST)
-Received: from localhost ([::1]:46224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F278F3CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:44:27 +0200 (CEST)
+Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyKki-0008D8-De
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:45:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38426)
+	id 1hyKja-0006vh-Gi
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38442)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1hyKde-0000p5-03
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:20 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hyKdj-0000yr-CF
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hyKdb-0000gY-L5
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57070)
+ (envelope-from <ehabkost@redhat.com>) id 1hyKdg-0000kW-Dy
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45664)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hyKdb-0000g0-G9
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:15 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hyKdg-0000jN-6a
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:20 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C935A8535C;
- Thu, 15 Aug 2019 18:38:14 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8089E307D90D;
+ Thu, 15 Aug 2019 18:38:19 +0000 (UTC)
 Received: from localhost (ovpn-116-32.gru2.redhat.com [10.97.116.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45CEB600CD;
- Thu, 15 Aug 2019 18:38:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9AE8A6266B;
+ Thu, 15 Aug 2019 18:38:16 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 15:38:02 -0300
-Message-Id: <20190815183803.13346-3-ehabkost@redhat.com>
+Date: Thu, 15 Aug 2019 15:38:03 -0300
+Message-Id: <20190815183803.13346-4-ehabkost@redhat.com>
 In-Reply-To: <20190815183803.13346-1-ehabkost@redhat.com>
 References: <20190815183803.13346-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Thu, 15 Aug 2019 18:38:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Thu, 15 Aug 2019 18:38:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/3] pc: Improve error message when die-id is
- omitted
+Subject: [Qemu-devel] [PATCH 3/3] pc: Don't make CPU properties mandatory
+ unless necessary
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,43 +62,134 @@ Cc: Peter Krempa <pkrempa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The error message when die-id is omitted doesn't make sense:
+We have this issue reported when using libvirt to hotplug CPUs:
+https://bugzilla.redhat.com/show_bug.cgi?id=3D1741451
 
-  $ qemu-system-x86_64 -smp 1,sockets=3D6,maxcpus=3D6 \
-    -device qemu64-x86_64-cpu,socket-id=3D1,core-id=3D0,thread-id=3D0
-  qemu-system-x86_64: -device qemu64-x86_64-cpu,socket-id=3D1,core-id=3D0=
-,thread-id=3D0: \
-    Invalid CPU die-id: 4294967295 must be in range 0:0
+Basically, libvirt is not copying die-id from
+query-hotpluggable-cpus, but die-id is now mandatory.
 
-Fix it, so it will now read:
+We could blame libvirt and say it is not following the documented
+interface, because we have this buried in the QAPI schema
+documentation:
 
-  qemu-system-x86_64: -device qemu64-x86_64-cpu,socket-id=3D1,core-id=3D0=
-,thread-id=3D0: \
-    CPU die-id is not set
+> Note: currently there are 5 properties that could be present
+> but management should be prepared to pass through other
+> properties with device_add command to allow for future
+> interface extension. This also requires the filed names to be kept in
+> sync with the properties passed to -device/device_add.
 
+But I don't think this would be reasonable from us.  We can just
+make QEMU more flexible and let CPU properties to be omitted when
+there's no ambiguity.  This will allow us to keep compatibility
+with existing libvirt versions.
+
+Test case included to ensure we don't break this again.
+
+Cc: Peter Krempa <pkrempa@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/i386/pc.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/i386/pc.c                             | 17 +++++++
+ tests/acceptance/pc_cpu_hotplug_props.py | 59 ++++++++++++++++++++++++
+ 2 files changed, 76 insertions(+)
+ create mode 100644 tests/acceptance/pc_cpu_hotplug_props.py
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 24b03bb49c..fb4ac5ca90 100644
+index fb4ac5ca90..4d773c862d 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -2410,6 +2410,10 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplu=
+@@ -2403,6 +2403,23 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplu=
 g_dev,
-             error_setg(errp, "Invalid CPU socket-id: %u must be in range=
- 0:%u",
-                        cpu->socket_id, max_socket);
-             return;
+         int max_socket =3D (ms->smp.max_cpus - 1) /
+                                 smp_threads / smp_cores / pcms->smp_dies=
+;
+=20
++        /*
++         * If there's only one possible value for a topology property,
++         * allow it to be omitted.
++         */
++        if (cpu->socket_id < 0 && max_socket =3D=3D 0) {
++            cpu->socket_id =3D 0;
 +        }
-+        if (cpu->die_id < 0) {
-+            error_setg(errp, "CPU die-id is not set");
-+            return;
-         } else if (cpu->die_id > pcms->smp_dies - 1) {
-             error_setg(errp, "Invalid CPU die-id: %u must be in range 0:=
-%u",
-                        cpu->die_id, pcms->smp_dies - 1);
++        if (cpu->die_id < 0 && pcms->smp_dies =3D=3D 1) {
++            cpu->die_id =3D 0;
++        }
++        if (cpu->core_id < 0 && smp_cores =3D=3D 1) {
++            cpu->core_id =3D 0;
++        }
++        if (cpu->thread_id < 0 && smp_threads =3D=3D 1) {
++            cpu->thread_id =3D 0;
++        }
++
+         if (cpu->socket_id < 0) {
+             error_setg(errp, "CPU socket-id is not set");
+             return;
+diff --git a/tests/acceptance/pc_cpu_hotplug_props.py b/tests/acceptance/=
+pc_cpu_hotplug_props.py
+new file mode 100644
+index 0000000000..2c36926214
+--- /dev/null
++++ b/tests/acceptance/pc_cpu_hotplug_props.py
+@@ -0,0 +1,59 @@
++#
++# Ensure CPU topology parameters may be omitted on -device
++#
++#  Copyright (c) 2019 Red Hat Inc
++#
++# Author:
++#  Eduardo Habkost <ehabkost@redhat.com>
++#
++# This library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2 of the License, or (at your option) any later version.
++#
++# This library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with this library; if not, see <http://www.gnu.org/licen=
+ses/>.
++#
++
++from avocado_qemu import Test
++
++class OmittedCPUProps(Test):
++    """
++    :avocado: tags=3Darch:x86_64
++    """
++    def test_only_socket(self):
++        self.vm.add_args('-nodefaults', '-S')
++        self.vm.add_args('-smp', '1,sockets=3D2,maxcpus=3D2')
++        self.vm.add_args('-cpu', 'qemu64')
++        self.vm.add_args('-device', 'qemu64-x86_64-cpu,socket-id=3D1')
++        self.vm.launch()
++        self.assertEquals(len(self.vm.command('query-cpus')), 2)
++
++    def test_only_die(self):
++        self.vm.add_args('-nodefaults', '-S')
++        self.vm.add_args('-smp', '1,dies=3D2,maxcpus=3D2')
++        self.vm.add_args('-cpu', 'qemu64')
++        self.vm.add_args('-device', 'qemu64-x86_64-cpu,die-id=3D1')
++        self.vm.launch()
++        self.assertEquals(len(self.vm.command('query-cpus')), 2)
++
++    def test_only_core(self):
++        self.vm.add_args('-nodefaults', '-S')
++        self.vm.add_args('-smp', '1,cores=3D2,maxcpus=3D2')
++        self.vm.add_args('-cpu', 'qemu64')
++        self.vm.add_args('-device', 'qemu64-x86_64-cpu,core-id=3D1')
++        self.vm.launch()
++        self.assertEquals(len(self.vm.command('query-cpus')), 2)
++
++    def test_only_thread(self):
++        self.vm.add_args('-nodefaults', '-S')
++        self.vm.add_args('-smp', '1,threads=3D2,maxcpus=3D2')
++        self.vm.add_args('-cpu', 'qemu64')
++        self.vm.add_args('-device', 'qemu64-x86_64-cpu,thread-id=3D1')
++        self.vm.launch()
++        self.assertEquals(len(self.vm.command('query-cpus')), 2)
 --=20
 2.21.0
 
