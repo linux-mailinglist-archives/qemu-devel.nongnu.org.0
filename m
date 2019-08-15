@@ -2,53 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C21C8F153
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:58:05 +0200 (CEST)
-Received: from localhost ([::1]:44548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F388F190
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 19:06:26 +0200 (CEST)
+Received: from localhost ([::1]:44690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyJ4e-00030x-GP
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:58:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49057)
+	id 1hyJCh-0002u1-St
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 13:06:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49408)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1hyIvg-0000HI-IE
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:48:54 -0400
+ (envelope-from <david@redhat.com>) id 1hyIyy-0005Bm-Hl
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:52:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hyIva-0000m3-8G
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:48:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45266)
+ (envelope-from <david@redhat.com>) id 1hyIys-0001oq-Oe
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:52:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42140)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hyIvO-0000hl-Gt; Thu, 15 Aug 2019 12:48:30 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1hyIys-0001oM-Gy; Thu, 15 Aug 2019 12:52:06 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7D568316D8D0;
- Thu, 15 Aug 2019 16:48:29 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-12.ams2.redhat.com [10.36.117.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 24BDE17AAA;
- Thu, 15 Aug 2019 16:48:22 +0000 (UTC)
-Date: Thu, 15 Aug 2019 18:48:21 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Message-ID: <20190815164821.GE7415@linux.fritz.box>
-References: <20190814100735.24234-1-vsementsov@virtuozzo.com>
- <20190814100735.24234-3-vsementsov@virtuozzo.com>
- <3eded188-0161-d494-194c-9d67da644eb1@redhat.com>
- <20190815104928.GC7415@linux.fritz.box>
- <9c290e4e-1d3b-bc6e-c6e6-28a0414b866e@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 113F9309BF1C;
+ Thu, 15 Aug 2019 16:52:05 +0000 (UTC)
+Received: from [10.36.116.70] (ovpn-116-70.ams2.redhat.com [10.36.116.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD69345D1;
+ Thu, 15 Aug 2019 16:52:00 +0000 (UTC)
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20190814072355.15333-1-david@redhat.com>
+ <20190814072355.15333-3-david@redhat.com>
+ <20190815174330.3d66bd2c.cohuck@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <a5041477-68a1-e5cb-97aa-fa65f2b5c9c8@redhat.com>
+Date: Thu, 15 Aug 2019 18:52:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9c290e4e-1d3b-bc6e-c6e6-28a0414b866e@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20190815174330.3d66bd2c.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 15 Aug 2019 16:48:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Thu, 15 Aug 2019 16:52:05 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/2] qapi: deprecate implicit filters
+Subject: Re: [Qemu-devel] [PATCH-for-4.2 v2 2/6] s390x/tcg: Rework MMU
+ selection for instruction fetches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,198 +106,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- libvir-list@redhat.com, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 15.08.2019 um 18:07 hat John Snow geschrieben:
+On 15.08.19 17:43, Cornelia Huck wrote:
+> On Wed, 14 Aug 2019 09:23:51 +0200
+> David Hildenbrand <david@redhat.com> wrote:
 > 
+>> Instructions are always fetched from primary address space, except when
+>> in home address mode. Perform the selection directly in cpu_mmu_index().
+>>
+>> get_mem_index() is only used to perform data access, instructions are
+>> fetched via cpu_lduw_code(), which translates to cpu_mmu_index(env, true).
+>>
+>> We don't care about restricting the access permissions of the TLB
+>> entries anymore, as we no longer enter PRIMARY entries into the
+>> SECONDARY MMU. Cleanup related code a bit.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>  target/s390x/cpu.h        |  7 +++++++
+>>  target/s390x/mmu_helper.c | 38 +++++++++++++++-----------------------
+>>  2 files changed, 22 insertions(+), 23 deletions(-)
+>>
 > 
-> On 8/15/19 6:49 AM, Kevin Wolf wrote:
-> > Am 14.08.2019 um 21:27 hat John Snow geschrieben:
-> >>
-> >>
-> >> On 8/14/19 6:07 AM, Vladimir Sementsov-Ogievskiy wrote:
-> >>> To get rid of implicit filters related workarounds in future let's
-> >>> deprecate them now.
-> >>>
-> >>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> >>> ---
-> >>>  qemu-deprecated.texi      |  7 +++++++
-> >>>  qapi/block-core.json      |  6 ++++--
-> >>>  include/block/block_int.h | 10 +++++++++-
-> >>>  blockdev.c                | 10 ++++++++++
-> >>>  4 files changed, 30 insertions(+), 3 deletions(-)
-> >>>
-> >>> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-> >>> index 2753fafd0b..8222440148 100644
-> >>> --- a/qemu-deprecated.texi
-> >>> +++ b/qemu-deprecated.texi
-> >>> @@ -183,6 +183,13 @@ the 'wait' field, which is only applicable to sockets in server mode
-> >>>  
-> >>>  Use blockdev-mirror and blockdev-backup instead.
-> >>>  
-> >>> +@subsection implicit filters (since 4.2)
-> >>> +
-> >>> +Mirror and commit jobs inserts filters, which becomes implicit if user
-> >>> +omitted filter-node-name parameter. So omitting it is deprecated, set it
-> >>> +always. Note, that drive-mirror don't have this parameter, so it will
-> >>> +create implicit filter anyway, but drive-mirror is deprecated itself too.
-> >>> +
-> >>>  @section Human Monitor Protocol (HMP) commands
-> >>>  
-> >>>  @subsection The hub_id parameter of 'hostfwd_add' / 'hostfwd_remove' (since 3.1)
-> >>> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> >>> index 4e35526634..0505ac9d8b 100644
-> >>> --- a/qapi/block-core.json
-> >>> +++ b/qapi/block-core.json
-> >>> @@ -1596,7 +1596,8 @@
-> >>>  # @filter-node-name: the node name that should be assigned to the
-> >>>  #                    filter driver that the commit job inserts into the graph
-> >>>  #                    above @top. If this option is not given, a node name is
-> >>> -#                    autogenerated. (Since: 2.9)
-> >>> +#                    autogenerated. Omitting this option is deprecated, it will
-> >>> +#                    be required in future. (Since: 2.9)
-> >>>  #
-> >>>  # @auto-finalize: When false, this job will wait in a PENDING state after it has
-> >>>  #                 finished its work, waiting for @block-job-finalize before
-> >>> @@ -2249,7 +2250,8 @@
-> >>>  # @filter-node-name: the node name that should be assigned to the
-> >>>  #                    filter driver that the mirror job inserts into the graph
-> >>>  #                    above @device. If this option is not given, a node name is
-> >>> -#                    autogenerated. (Since: 2.9)
-> >>> +#                    autogenerated. Omitting this option is deprecated, it will
-> >>> +#                    be required in future. (Since: 2.9)
-> >>>  #
-> >>>  # @copy-mode: when to copy data to the destination; defaults to 'background'
-> >>>  #             (Since: 3.0)
-> >>> diff --git a/include/block/block_int.h b/include/block/block_int.h
-> >>> index 3aa1e832a8..624da0b4a2 100644
-> >>> --- a/include/block/block_int.h
-> >>> +++ b/include/block/block_int.h
-> >>> @@ -762,7 +762,15 @@ struct BlockDriverState {
-> >>>      bool sg;        /* if true, the device is a /dev/sg* */
-> >>>      bool probed;    /* if true, format was probed rather than specified */
-> >>>      bool force_share; /* if true, always allow all shared permissions */
-> >>> -    bool implicit;  /* if true, this filter node was automatically inserted */
-> >>> +
-> >>> +    /*
-> >>> +     * @implicit field is deprecated, don't set it to true for new filters.
-> >>> +     * If true, this filter node was automatically inserted and user don't
-> >>> +     * know about it and unprepared for any effects of it. So, implicit
-> >>> +     * filters are workarounded and skipped in many places of the block
-> >>> +     * layer code.
-> >>> +     */
-> >>> +    bool implicit;
-> >>>  
-> >>>      BlockDriver *drv; /* NULL means no media */
-> >>>      void *opaque;
-> >>> diff --git a/blockdev.c b/blockdev.c
-> >>> index 36e9368e01..b3cfaccce1 100644
-> >>> --- a/blockdev.c
-> >>> +++ b/blockdev.c
-> >>> @@ -3292,6 +3292,11 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
-> >>>      BlockdevOnError on_error = BLOCKDEV_ON_ERROR_REPORT;
-> >>>      int job_flags = JOB_DEFAULT;
-> >>>  
-> >>> +    if (!has_filter_node_name) {
-> >>> +        warn_report("Omitting filter-node-name parameter is deprecated, it "
-> >>> +                    "will be required in future");
-> >>> +    }
-> >>> +
-> >>>      if (!has_speed) {
-> >>>          speed = 0;
-> >>>      }
-> >>> @@ -3990,6 +3995,11 @@ void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
-> >>>      Error *local_err = NULL;
-> >>>      int ret;
-> >>>  
-> >>> +    if (!has_filter_node_name) {
-> >>> +        warn_report("Omitting filter-node-name parameter is deprecated, it "
-> >>> +                    "will be required in future");
-> >>> +    }
-> >>> +
-> >>>      bs = qmp_get_root_bs(device, errp);
-> >>>      if (!bs) {
-> >>>          return;
-> >>>
-> >>
-> >> This might be OK to do right away, though.
-> >>
-> >> I asked Markus this not too long ago; do we want to amend the QAPI
-> >> schema specification to allow commands to return with "Warning" strings,
-> >> or "Deprecated" stings to allow in-band deprecation notices for cases
-> >> like these?
-> >>
-> >> example:
-> >>
-> >> { "return": {},
-> >>   "deprecated": True,
-> >>   "warning": "Omitting filter-node-name parameter is deprecated, it will
-> >> be required in the future"
-> >> }
-> >>
-> >> There's no "error" key, so this should be recognized as success by
-> >> compatible clients, but they'll definitely see the extra information.
-> >>
-> >> Part of my motivation is to facilitate a more aggressive deprecation of
-> >> legacy features by ensuring that we are able to rigorously notify users
-> >> through any means that they need to adjust their scripts.
-> > 
-> > Who would read this, though? In the best case it ends up deep in a
-> > libvirt log that nobody will look at because there was no error. In the
-> > more common case, the debug level is configured so that QMP traffic
-> > isn't even logged.
-> > 
-> > Kevin
-> > 
+> (...)
 > 
-> I believe you are right, but I also can't shake the feeling that this
-> attitude ensures that we'll never find a way to expose this information
-> to the end-user. Is this not too defeatist?
-
-I think the discussed approach that seemed most likely to me to succeed
-was adding a command line option that makes QEMU just crash if you use a
-deprecated feature, and enable that in libvirt test cases (or possibly
-even any non-release builds, though maybe it's a bit harsh there).
-
-> I think deprecation notices in the QMP stream has two benefits:
+>> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+>> index 6e9c4d6151..c34e8d2021 100644
+>> --- a/target/s390x/mmu_helper.c
+>> +++ b/target/s390x/mmu_helper.c
+>> @@ -349,8 +349,9 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
+>>  {
+>>      static S390SKeysState *ss;
+>>      static S390SKeysClass *skeyclass;
+>> -    int r = -1;
+>> +    uint64_t asce;
+>>      uint8_t key;
+>> +    int r;
+>>  
+>>      if (unlikely(!ss)) {
+>>          ss = s390_get_skeys_device();
+>> @@ -380,36 +381,21 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
+>>  
+>>      if (!(env->psw.mask & PSW_MASK_DAT)) {
+>>          *raddr = vaddr;
+>> -        r = 0;
+>> -        goto out;
+>> +        goto nodat;
+>>      }
+>>  
+>>      switch (asc) {
+>>      case PSW_ASC_PRIMARY:
+>>          PTE_DPRINTF("%s: asc=primary\n", __func__);
+>> -        r = mmu_translate_asce(env, vaddr, asc, env->cregs[1], raddr, flags,
+>> -                               rw, exc);
+>> +        asce = env->cregs[1];
+>>          break;
+>>      case PSW_ASC_HOME:
+>>          PTE_DPRINTF("%s: asc=home\n", __func__);
+>> -        r = mmu_translate_asce(env, vaddr, asc, env->cregs[13], raddr, flags,
+>> -                               rw, exc);
+>> +        asce = env->cregs[13];
+>>          break;
+>>      case PSW_ASC_SECONDARY:
+>>          PTE_DPRINTF("%s: asc=secondary\n", __func__);
+>> -        /*
+>> -         * Instruction: Primary
+>> -         * Data: Secondary
+>> -         */
+>> -        if (rw == MMU_INST_FETCH) {
+>> -            r = mmu_translate_asce(env, vaddr, PSW_ASC_PRIMARY, env->cregs[1],
+>> -                                   raddr, flags, rw, exc);
+>> -            *flags &= ~(PAGE_READ | PAGE_WRITE);
+>> -        } else {
+>> -            r = mmu_translate_asce(env, vaddr, PSW_ASC_SECONDARY, env->cregs[7],
+>> -                                   raddr, flags, rw, exc);
+>> -            *flags &= ~(PAGE_EXEC);
+>> -        }
+>> +        asce = env->cregs[7];
+>>          break;
+>>      case PSW_ASC_ACCREG:
+>>      default:
+>> @@ -417,11 +403,17 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
+>>          break;
+>>      }
+>>  
+>> - out:
+>> +    /* perform the DAT translation */
+>> +    r = mmu_translate_asce(env, vaddr, asc, asce, raddr, flags, rw, exc);
+>> +    if (r) {
+>> +        return r;
+>> +    }
+>> +
+>> +nodat:
+>>      /* Convert real address -> absolute address */
+>>      *raddr = mmu_real2abs(env, *raddr);
+>>  
+>> -    if (r == 0 && *raddr < ram_size) {
+>> +    if (*raddr < ram_size) {
+>>          if (skeyclass->get_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &key)) {
+>>              trace_get_skeys_nonzero(r);
 > 
-> 1) Any direct usages via qmp-shell or manual JSON connection are likely
-> to see this message in development or testing. I feel the usage of QEMU
-> directly is more likely to increase with time as other stacks seek to
-> work around libvirt.
-> 
-> [Whether or not they should is another question, but I believe the
-> current reality to be that people are trying to.]
+> I think you might up here with an uninitialized r before patch 4?
 
-I don't know about other people, but as a human user, I don't care about
-deprecation notices. As long as something works, I use it, and once I
-get an error message back, I'll use something else.
+Right, will reshuffle. Thanks!
 
-If I manually enter drive_mirror and get a warning back, that doesn't
-tell me that libvirt still does the same thing and needs to be fixed. It
-just tells me that in the future I might need to change the commands
-that I use manually.
+-- 
 
-I guess this would still prevent adding new libvirt features that build
-on deprecated QEMU features because some manual testing will be involved
-there. But was this ever a problem?
+Thanks,
 
-> 2) Programmatic deprecation notices can't be presented to a user at all
-> if we don't send them; at least this way it becomes libvirt's problem
-> over what to do with them. Perhaps even just in testing and regression
-> suites libvirt can assert that it sees no deprecation warnings (or
-> whitelist certain ones it knows about.)
-> 
-> In the case of libvirt, it's not even necessarily about making sure the
-> end user sees it, because it isn't even necessarily the user's fault --
-> it's libvirt's. This is a sure-fire programmatic way to communicate
-> compatibility changes to libvirt.
-
-If libvirt uses this to make test cases fail, it could work.
-
-Kevin
+David / dhildenb
 
