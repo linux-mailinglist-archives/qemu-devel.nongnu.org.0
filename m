@@ -2,49 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5881E8F389
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:35:25 +0200 (CEST)
-Received: from localhost ([::1]:46064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293CC8F3A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:38:58 +0200 (CEST)
+Received: from localhost ([::1]:46132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyKap-0004vL-F2
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:35:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37333)
+	id 1hyKeH-0000pC-1v
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:38:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37566)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1hyKWW-0002m8-TI
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:30:59 -0400
+ (envelope-from <eblake@redhat.com>) id 1hyKXC-00030o-HO
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:31:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hyKWU-0001JJ-Ak
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:30:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35056)
+ (envelope-from <eblake@redhat.com>) id 1hyKX6-0001s3-9t
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:31:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35732)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hyKWU-0001I8-1a
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:30:54 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hyKWz-0001db-Cp; Thu, 15 Aug 2019 14:31:26 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 63A1AC08E2BD;
- Thu, 15 Aug 2019 18:30:53 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9497DC0BAA0D;
+ Thu, 15 Aug 2019 18:31:21 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-117-22.phx2.redhat.com [10.3.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21BFE8388F;
- Thu, 15 Aug 2019 18:30:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CF5E8388F;
+ Thu, 15 Aug 2019 18:30:53 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 13:30:31 -0500
-Message-Id: <20190815183039.4264-2-eblake@redhat.com>
+Date: Thu, 15 Aug 2019 13:30:32 -0500
+Message-Id: <20190815183039.4264-3-eblake@redhat.com>
 In-Reply-To: <20190815183039.4264-1-eblake@redhat.com>
 References: <20190815183039.4264-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Thu, 15 Aug 2019 18:30:53 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Thu, 15 Aug 2019 18:31:21 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 1/9] qapi: Add InetSocketAddress member
- keep-alive
+Subject: [Qemu-devel] [PULL 2/9] block: implement BDRV_REQ_PREFETCH
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,111 +54,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block I/O path" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-It's needed to provide keepalive for nbd client to track server
-availability.
+Do effective copy-on-read request when we don't need data actually. It
+will be used for block-stream and NBD_CMD_CACHE.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20190725094937.32454-1-vsementsov@virtuozzo.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-[eblake: Fix error message typo]
+Message-Id: <20190725100550.33801-2-vsementsov@virtuozzo.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+[eblake: comment grammar fix]
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/sockets.json   |  6 +++++-
- util/qemu-sockets.c | 28 ++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 1 deletion(-)
+ include/block/block.h |  8 +++++++-
+ block/io.c            | 18 ++++++++++++------
+ 2 files changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/qapi/sockets.json b/qapi/sockets.json
-index fc81d8d5e8b9..32375f3a361e 100644
---- a/qapi/sockets.json
-+++ b/qapi/sockets.json
-@@ -53,6 +53,9 @@
- #
- # @ipv6: whether to accept IPv6 addresses, default try both IPv4 and IPv=
-6
- #
-+# @keep-alive: enable keep-alive when connecting to this socket. Not sup=
-ported
-+#              for passive sockets. (Since 4.2)
-+#
- # Since: 1.3
- ##
- { 'struct': 'InetSocketAddress',
-@@ -61,7 +64,8 @@
-     '*numeric':  'bool',
-     '*to': 'uint16',
-     '*ipv4': 'bool',
--    '*ipv6': 'bool' } }
-+    '*ipv6': 'bool',
-+    '*keep-alive': 'bool' } }
+diff --git a/include/block/block.h b/include/block/block.h
+index 50a07c1c3385..a9df34ff94b6 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -88,8 +88,14 @@ typedef enum {
+      * fallback. */
+     BDRV_REQ_NO_FALLBACK        =3D 0x100,
 
- ##
- # @UnixSocketAddress:
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index a5092dbd12e7..e3a1666578d9 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -219,6 +219,12 @@ static int inet_listen_saddr(InetSocketAddress *sadd=
-r,
-     bool socket_created =3D false;
-     Error *err =3D NULL;
++    /*
++     * BDRV_REQ_PREFETCH may be used only together with BDRV_REQ_COPY_ON=
+_READ
++     * on read request and means that caller doesn't really need data to=
+ be
++     * written to qiov parameter which may be NULL.
++     */
++    BDRV_REQ_PREFETCH  =3D 0x200,
+     /* Mask of valid flags */
+-    BDRV_REQ_MASK               =3D 0x1ff,
++    BDRV_REQ_MASK               =3D 0x3ff,
+ } BdrvRequestFlags;
 
-+    if (saddr->keep_alive) {
-+        error_setg(errp, "keep-alive option is not supported for passive=
- "
-+                   "sockets");
-+        return -1;
-+    }
-+
-     memset(&ai,0, sizeof(ai));
-     ai.ai_flags =3D AI_PASSIVE;
-     if (saddr->has_numeric && saddr->numeric) {
-@@ -458,6 +464,19 @@ int inet_connect_saddr(InetSocketAddress *saddr, Err=
-or **errp)
-     }
-
-     freeaddrinfo(res);
-+
-+    if (saddr->keep_alive) {
-+        int val =3D 1;
-+        int ret =3D qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
-+                                  &val, sizeof(val));
-+
-+        if (ret < 0) {
-+            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
-+            close(sock);
-+            return -1;
-+        }
-+    }
-+
-     return sock;
+ typedef struct BlockSizes {
+diff --git a/block/io.c b/block/io.c
+index 06305c6ea62e..9d99858b554b 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -1167,7 +1167,8 @@ bdrv_driver_pwritev_compressed(BlockDriverState *bs=
+, uint64_t offset,
  }
 
-@@ -653,6 +672,15 @@ int inet_parse(InetSocketAddress *addr, const char *=
-str, Error **errp)
+ static int coroutine_fn bdrv_co_do_copy_on_readv(BdrvChild *child,
+-        int64_t offset, unsigned int bytes, QEMUIOVector *qiov)
++        int64_t offset, unsigned int bytes, QEMUIOVector *qiov,
++        int flags)
+ {
+     BlockDriverState *bs =3D child->bs;
+
+@@ -1278,9 +1279,11 @@ static int coroutine_fn bdrv_co_do_copy_on_readv(B=
+drvChild *child,
+                 goto err;
+             }
+
+-            qemu_iovec_from_buf(qiov, progress, bounce_buffer + skip_byt=
+es,
+-                                pnum - skip_bytes);
+-        } else {
++            if (!(flags & BDRV_REQ_PREFETCH)) {
++                qemu_iovec_from_buf(qiov, progress, bounce_buffer + skip=
+_bytes,
++                                    pnum - skip_bytes);
++            }
++        } else if (!(flags & BDRV_REQ_PREFETCH)) {
+             /* Read directly into the destination */
+             qemu_iovec_init(&local_qiov, qiov->niov);
+             qemu_iovec_concat(&local_qiov, qiov, progress, pnum - skip_b=
+ytes);
+@@ -1331,7 +1334,8 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChi=
+ld *child,
+      * potential fallback support, if we ever implement any read flags
+      * to pass through to drivers.  For now, there aren't any
+      * passthrough flags.  */
+-    assert(!(flags & ~(BDRV_REQ_NO_SERIALISING | BDRV_REQ_COPY_ON_READ))=
+);
++    assert(!(flags & ~(BDRV_REQ_NO_SERIALISING | BDRV_REQ_COPY_ON_READ |
++                       BDRV_REQ_PREFETCH)));
+
+     /* Handle Copy on Read and associated serialisation */
+     if (flags & BDRV_REQ_COPY_ON_READ) {
+@@ -1359,7 +1363,9 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChi=
+ld *child,
          }
-         addr->has_ipv6 =3D true;
-     }
-+    begin =3D strstr(optstr, ",keep-alive");
-+    if (begin) {
-+        if (inet_parse_flag("keep-alive", begin + strlen(",keep-alive"),
-+                            &addr->keep_alive, errp) < 0)
-+        {
-+            return -1;
-+        }
-+        addr->has_keep_alive =3D true;
-+    }
-     return 0;
- }
 
+         if (!ret || pnum !=3D bytes) {
+-            ret =3D bdrv_co_do_copy_on_readv(child, offset, bytes, qiov)=
+;
++            ret =3D bdrv_co_do_copy_on_readv(child, offset, bytes, qiov,=
+ flags);
++            goto out;
++        } else if (flags & BDRV_REQ_PREFETCH) {
+             goto out;
+         }
+     }
 --=20
 2.20.1
 
