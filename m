@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A3D8E2B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:28:45 +0200 (CEST)
-Received: from localhost ([::1]:37508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5308E2AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:24:41 +0200 (CEST)
+Received: from localhost ([::1]:37471 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy5VL-0002Lr-PW
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:28:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46805)
+	id 1hy5RP-0005bh-Uo
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:24:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46831)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5DS-00067y-Qb
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:16 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DU-00069f-T5
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5DQ-0008P0-V4
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:14 -0400
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:32933)
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DS-0008R4-Rc
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:16 -0400
+Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:44675)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5DQ-0008O1-Qz
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:12 -0400
-Received: by mail-yb1-xb41.google.com with SMTP id b16so413811ybq.0
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:11 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5DS-0008PW-NQ
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:14 -0400
+Received: by mail-yb1-xb44.google.com with SMTP id y21so391113ybi.11
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zP6GTQGfujsY6bqhJL3wQyBHXL9hxwznzMfUQ8cbGjY=;
- b=PciCaGFt/gJiUY2imck1zro8OnscZvJKLk91e3A64pwV1Q1yubSY+jzy8w/s1165Kc
- 6AvsKsPjX/li71KCf3dniDYKv+dJRczk7jfPJ90ybPpCD/IAEo7iR6Q6TR777JtSrjil
- Qu7F7/FcBTEvGrQYfHe1FuBuhAmaDcmo2h2bR2F5z6czdpe2BNF/LTFEODj+PEmx0RXA
- 1+HepDOiKMEKOiHHI8NGu2G8E9/7xKqCRStY6xE8NC+WHJ17tbBtdrZxObCgK4f8WDvt
- wJVmMGgjEi/zcI/eaESkFlXZaEGfuHya8sPq642aFm6vYq7ot7A+LkMz9l/P9j4DslU5
- IlvQ==
+ bh=hfIo3JgpILVtL9GqBEDfiaysShRSn0Njr8MBfKy2z7w=;
+ b=gQ/PILdy4WOD/YPAieUzLawGhkZR1vtSlT4smA3HFjM+mqLOoUO3ocICp2ToyI0Hk9
+ 19hphV4eoxKtIPyW1Sgj8qDnlCGdOCkmUATumtMKgkYF/MwhWc/9uKeeFiJKjS+AS6hf
+ aRShwduWLiRRsk0f5S9PsYJwO6gO9awYSzZSyB3iYxzfeVGy8EkYwBRlFdYf6P8TCi4V
+ sIgjM/kmwulzurJV4G1Hy4ANsZIa30ffhEB/bipH556gJA4lu9/VCYYxTggl88Hjti4X
+ Hs6d+G5kzYMSQzn+8+065+QgouHKUNL2m1XOo4NMJQDhgvUlqp+rSOUtLv9h72k+1PPv
+ 9brg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zP6GTQGfujsY6bqhJL3wQyBHXL9hxwznzMfUQ8cbGjY=;
- b=eoHaf/T8nDew14hkd1CJS0/wNP7V36qA1NJj99skwwJjIKJUQ6FFASexiI0lSG+8YF
- hhlkWAPcsHtQZYPxIUhjfLEUvcG3BKxUU+8DrGY5io0D+xlSFt3YaeEKyvBZ0bMO4D2Z
- RZyVvjPzIENIhT7rCzfRDCCkeJXK79iiKEDmBTimj/6ktUPhoPf3S40dEdUU48QdgBad
- 2chYYeT7BCbEFPuWgc26YBdsGdw3ril43dOPch9sga0MYrxhKnGdaa7n2wLXxhoWtUgq
- qa4z0wUWgk+XQXTsowQ1spdFhj19B1F2f/ZNlNFmMCFnMi4hClfiySGAdUH696vepg6q
- zNrA==
-X-Gm-Message-State: APjAAAXsAeI/Q5ciE2xzwVfsXKqFMymibVw/3MRHhrjb+tS6j6XRF0dS
- V/ZtK4DcOT/E7dSeqSbulOdCs/6u
-X-Google-Smtp-Source: APXvYqxD5c1SlOM35fhS4ZgPTcnqDdXn8BqzUeJaDHdpUV2rDR7otHR7A0Yk6cELEyfY2U+kh4ecEA==
-X-Received: by 2002:a25:c3:: with SMTP id 186mr2085522yba.417.1565835011295;
- Wed, 14 Aug 2019 19:10:11 -0700 (PDT)
+ bh=hfIo3JgpILVtL9GqBEDfiaysShRSn0Njr8MBfKy2z7w=;
+ b=IUY3qpzgYGxLEyqVAFhVzgnYubVi2IsDsGZmilaewb+Xou5sebS0ceoeFkUQkiv17+
+ 8rEErlCHCTNVM+eYcWiPZ8CPDd1d8S0iRNJwPQAMWJ27ZOj/G3ULFltCQXTgBMyowXd7
+ u6qExEhUwds+5FLWiwip24QtB1B46ymNVCBys9E1w84C+VVrnCFgbLQGxs7cRjkNUkeI
+ hUvC0e/f7JSbrvAp4CDQB0KuOFhALVIJVtdJka+h2Rs6NDkDjcur+7wKWPwabZ0DSUWo
+ BbAQkxQ9f2qjd9eDYkQ78g/HMqf7jo4spZL4UYd7eg3o3DCpnX9YQDkqyQsxWkaPydAr
+ 7U8Q==
+X-Gm-Message-State: APjAAAXzXUgmzUF48u1bCEPM7v/fZqZn68cRkzeElFAkAjE7Ea56mz/Q
+ lql/eoMAw8JgM+VRyJjtW+gt97Wx
+X-Google-Smtp-Source: APXvYqx03VZyp5nFdegY7i3oV+8OGVu/Pb7M8dRb7xTm3BgB0nzeG/LBo4yqoG2lETntduMm8DSMKQ==
+X-Received: by 2002:a25:5e55:: with SMTP id s82mr1914416ybb.343.1565835013106; 
+ Wed, 14 Aug 2019 19:10:13 -0700 (PDT)
 Received: from dionysus.attlocal.net ([2601:c0:c67f:e390:8a9a:e33f:caf8:f018])
  by smtp.gmail.com with ESMTPSA id
- j3sm374882ywk.21.2019.08.14.19.10.10
+ j3sm374882ywk.21.2019.08.14.19.10.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Aug 2019 19:10:10 -0700 (PDT)
+ Wed, 14 Aug 2019 19:10:12 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 22:09:00 -0400
-Message-Id: <20190815020928.9679-19-jan.bobek@gmail.com>
+Date: Wed, 14 Aug 2019 22:09:02 -0400
+Message-Id: <20190815020928.9679-21-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190815020928.9679-1-jan.bobek@gmail.com>
 References: <20190815020928.9679-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b41
-Subject: [Qemu-devel] [RFC PATCH v3 18/46] target/i386: introduce generic
- either-or operand
+X-Received-From: 2607:f8b0:4864:20::b44
+Subject: [Qemu-devel] [RFC PATCH v3 20/46] target/i386: introduce tcg_temp
+ operands
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,69 +84,65 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The either-or operand attempts to decode one operand, and if it fails,
-it falls back to a second operand. It is unifying, meaning that
-insnop_arg_t of the second operand must be implicitly castable to
-insnop_arg_t of the first operand.
+TCG temporary operands allocate a 32-bit or 64-bit TCG temporary, and
+later automatically free it.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 46 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ target/i386/translate.c | 44 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 8989e6504c..a0b883c680 100644
+index 99f46be34e..7fc5149d29 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4596,6 +4596,52 @@ static int ck_cpuid(CPUX86State *env, DisasContext *s, CkCpuidFeat feat)
-         insnop_finalize(opT2)(ctxt, env, s, modrm, is_write, arg);      \
+@@ -4696,6 +4696,50 @@ static int ck_cpuid(CPUX86State *env, DisasContext *s, CkCpuidFeat feat)
+         insnop_finalize(opTarg)(&ctxt->arg, env, s, modrm, is_write, arg); \
      }
  
 +/*
-+ * Generic unifying either-or operand
++ * tcg_temp_i32
++ *
++ * Operand which allocates a 32-bit TCG temporary and frees it
++ * automatically after use.
 + */
-+#define DEF_INSNOP_EITHER(opT, opT1, opT2)                              \
-+    typedef insnop_arg_t(opT1) insnop_arg_t(opT);                       \
-+    typedef struct {                                                    \
-+        bool is_ ## opT1;                                               \
-+        union {                                                         \
-+            insnop_ctxt_t(opT1) ctxt_ ## opT1;                          \
-+            insnop_ctxt_t(opT2) ctxt_ ## opT2;                          \
-+        };                                                              \
-+    } insnop_ctxt_t(opT);                                               \
-+                                                                        \
-+    INSNOP_INIT(opT)                                                    \
-+    {                                                                   \
-+        int ret = insnop_init(opT1)(&ctxt->ctxt_ ## opT1,               \
-+                                    env, s, modrm, is_write);           \
-+        if (!ret) {                                                     \
-+            ctxt->is_ ## opT1 = 1;                                      \
-+            return 0;                                                   \
-+        }                                                               \
-+        ret = insnop_init(opT2)(&ctxt->ctxt_ ## opT2,                   \
-+                                env, s, modrm, is_write);               \
-+        if (!ret) {                                                     \
-+            ctxt->is_ ## opT1 = 0;                                      \
-+            return 0;                                                   \
-+        }                                                               \
-+        return ret;                                                     \
-+    }                                                                   \
-+    INSNOP_PREPARE(opT)                                                 \
-+    {                                                                   \
-+        return (ctxt->is_ ## opT1                                       \
-+                ? insnop_prepare(opT1)(&ctxt->ctxt_ ## opT1,            \
-+                                       env, s, modrm, is_write)         \
-+                : insnop_prepare(opT2)(&ctxt->ctxt_ ## opT2,            \
-+                                       env, s, modrm, is_write));       \
-+    }                                                                   \
-+    INSNOP_FINALIZE(opT)                                                \
-+    {                                                                   \
-+        (ctxt->is_ ## opT1                                              \
-+         ? insnop_finalize(opT1)(&ctxt->ctxt_ ## opT1,                  \
-+                                 env, s, modrm, is_write, arg)          \
-+         : insnop_finalize(opT2)(&ctxt->ctxt_ ## opT2,                  \
-+                                 env, s, modrm, is_write, arg));        \
-+    }
++typedef TCGv_i32 insnop_arg_t(tcg_temp_i32);
++typedef struct {} insnop_ctxt_t(tcg_temp_i32);
++
++INSNOP_INIT(tcg_temp_i32)
++{
++    return 0;
++}
++INSNOP_PREPARE(tcg_temp_i32)
++{
++    return tcg_temp_new_i32();
++}
++INSNOP_FINALIZE(tcg_temp_i32)
++{
++    tcg_temp_free_i32(arg);
++}
++
++/*
++ * tcg_temp_i64
++ *
++ * Operand which allocates a 64-bit TCG temporary and frees it
++ * automatically after use.
++ */
++typedef TCGv_i64 insnop_arg_t(tcg_temp_i64);
++typedef struct {} insnop_ctxt_t(tcg_temp_i64);
++
++INSNOP_INIT(tcg_temp_i64)
++{
++    return 0;
++}
++INSNOP_PREPARE(tcg_temp_i64)
++{
++    return tcg_temp_new_i64();
++}
++INSNOP_FINALIZE(tcg_temp_i64)
++{
++    tcg_temp_free_i64(arg);
++}
 +
  static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
  {
