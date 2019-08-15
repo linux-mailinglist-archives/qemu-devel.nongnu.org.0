@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD148F67C
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 23:34:42 +0200 (CEST)
-Received: from localhost ([::1]:47198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 827AC8F685
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 23:41:31 +0200 (CEST)
+Received: from localhost ([::1]:47324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyNOL-0001nN-6w
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 17:34:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59749)
+	id 1hyNUw-0004m6-AM
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 17:41:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60264)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hyNNM-0001Kz-Mt
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 17:33:41 -0400
+ (envelope-from <prvs=1236ab962=alistair.francis@wdc.com>)
+ id 1hyNRu-0002vV-Gl
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 17:38:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hyNNK-0004FR-Qy
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 17:33:39 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15964
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hyNNK-0004CK-Me
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 17:33:38 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x7FLNM4i139799; Thu, 15 Aug 2019 17:33:32 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2udeaead1c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Aug 2019 17:33:31 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7FLKwqF012312;
- Thu, 15 Aug 2019 21:33:31 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma04wdc.us.ibm.com with ESMTP id 2u9nj6djb6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Aug 2019 21:33:31 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x7FLXUAt40960416
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 15 Aug 2019 21:33:30 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AF1FC28058;
- Thu, 15 Aug 2019 21:33:30 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 935FA28059;
- Thu, 15 Aug 2019 21:33:30 +0000 (GMT)
-Received: from localhost (unknown [9.53.179.212])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 15 Aug 2019 21:33:30 +0000 (GMT)
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <prvs=1236ab962=alistair.francis@wdc.com>)
+ id 1hyNRt-0006BL-3U
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 17:38:22 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:19186)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=1236ab962=alistair.francis@wdc.com>)
+ id 1hyNRs-00069s-B1; Thu, 15 Aug 2019 17:38:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1565905100; x=1597441100;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=RK0xad4YSJuplKznItFV5mkv8dj5FjWn8Q3Ybznq0ss=;
+ b=SGzf66IyLLrAV8n83/8UZ4QGhZyjT27ePmqqWcdP307wKgmrhy8v9kOy
+ Ln6M8Cjz+JYf43/Ra0oUa0nw5x3BrpPkIdAm60DdCZNUgoo/97AhXZuFr
+ ruduBDkZVCRbORr5afGVUl0sc0CxOzjhbhYCA0EjkcsYAxmOntitg0NfV
+ DhdjkDYOlHzxmC9MZrlnOyHsY8Y9PkqES24/j9kTyb8nGLVrD5Evz8RHv
+ tnQ3eAG4O3EvUX47sfqUUqcAVUPIiRWPwfpKqmK4lGZZxMvO1u1nzCBeC
+ KioSj1iZr7FmnGfd5v4jwrpcZnwTNtbebOMhnDDIJbto8OJh4t8zmZMSe Q==;
+IronPort-SDR: TN58v31DFQaXKaaTNkoUqBSb7GrV1taZyA95xc2x7qgRPikvHAAo6G01CQjK0fkX1Cplv2XXC/
+ CG1i72mWQz8IxOnOFNa1FJRFjeh1FrHqlsvbbTduVx7wqLEztV0Z/YKXopcczEjz/0MKDlhGsf
+ zhAUq0aredOY5ubkDWeHQsLeitT/CmKDpjohH1Oal6eJ+wjhFQDOlb8St+OE9/WXliW7Qpiv/M
+ wKCN8hKhOzbqrkML3izN7eCRl9cmBsQERwY8RUJF9lsqFM1UJxdwqKvuL9V4kpTRaC0gTNGVBK
+ vl4=
+X-IronPort-AV: E=Sophos;i="5.64,389,1559491200"; d="scan'208";a="222470284"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 16 Aug 2019 05:38:13 +0800
+IronPort-SDR: FlPCuhsolrNFB2prOCK56OrBxqVJzunlDtsuX/6bshyX5tVzwdcRPbtqFbQ/ALfbw5XNimaGy0
+ gzmpXMClEa2mefliQ9eQNtQzyO6N+kmWj1xmqkySpYdaVKShG6Q8l3wUFywibXXpuxeM/uWCNH
+ D9heMvk6w4WT0vHkJWXdl9GoiOX9NihTx3jM6EHQJzIdDSeeFQ9ErNFkbPJEIW2COvjABBbiuP
+ ju8LvStoJdzD+EGZYVI9DawJk7jgELtin03qW4s9H1MgMGn10pXyM+p32tI6iMFxq/YClVGbrz
+ GbNbRIBdvnhcWjUrgfeRj+Ri
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2019 14:35:44 -0700
+IronPort-SDR: 991yTsAxfYCSb5YkG8gZlCGoJ+wWfEN3ha6n6bgffXmAtguOWPOHdirrwGKnIlWTCZ6oMR26r+
+ kr6qcEkqrUDNOvbzAw4D0feyAp25BPy/Jf20au5/iEC/84GGur887XMWfJKjF+f3Vskk7kDmL6
+ 3s/6DDfK5WLhnKP1klZiNpB5GbN5IOqFpUh1EFQWqEyI1OkGHPtOt6tF0O5BFR1yH4w91mJ3zb
+ YdbGVjMfIaP5vlu9Z8aGBu8kZ/Is80dBKuy6rFP7z3qCKi1L2aqwbfIIJtTArMubJ1KSiMc71C
+ k1A=
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.157.58])
+ by uls-op-cesaip02.wdc.com with ESMTP; 15 Aug 2019 14:38:14 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Date: Thu, 15 Aug 2019 14:34:45 -0700
+Message-Id: <cover.1565904855.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-User-Agent: alot/0.7
-To: qemu-devel@nongnu.org
-Message-ID: <156590479404.16788.7606937810094161612@sif>
-Date: Thu, 15 Aug 2019 16:33:14 -0500
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-08-15_09:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=867 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908150202
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [ANNOUNCE] QEMU 4.1.0 is now available
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 68.232.141.245
+Subject: [Qemu-devel] [PATCH v3 0/7]  RISC-V: Hypervisor prep work part 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,75 +82,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
 
-On behalf of the QEMU Team, I'd like to announce the availability of
-the QEMU 4.1.0 release. This release contains 2000+ commits from 176
-authors.
+The first three patches are ones that I have pulled out of my original
+Hypervisor series at an attempt to reduce the number of patches in the
+series.
 
-You can grab the tarball from our download page here:
+These three patches all make sense without the Hypervisor series so can
+be merged seperatley and will reduce the review burden of the next
+version of the patches.
 
-  https://www.qemu.org/download/#source
+The fource patch is a prep patch for the new v0.4 Hypervisor spec.
 
-The full list of changes are available at:
+The fifth patch is unreleated to Hypervisor that I'm just slipping in
+here because it seems easier then sending it by itself.
 
-  https://wiki.qemu.org/ChangeLog/4.1
+The final two patches are issues I discovered while adding the v0.4
+Hypervisor extension.
 
-Highlights include:
+v3:
+ - Change names of all GP registers
+ - Add two more patches
+v2:
+ - Small corrections based on feedback
+ - Remove the CSR permission check patch
 
- * ARM: FPU emulation support for Cortex-M CPUs, FPU fixes for Cortex-R5F
- * ARM: ARMv8.5-RNG extension support for CPU-generated random numbers
- * ARM: board build options now configurable via new Kconfig-based system
- * ARM: Exynos4210 SoC model now supports PL330 DMA controllers
- * MIPS: improved emulation performance of numerous MSA instructions,
-         mostly integer and data permuting operations
- * MIPS: improved support for MSA ASE instructions on big-endian hosts,
-         handling for 'division by zero' cases now matches reference
-         hardware
- * PowerPC: pseries: support for NVIDIA V100 GPU/NVLink2 passthrough via
-            VFIO
- * PowerPC: pseries: in-kernel acceleration for XIVE interrupt controller
- * PowerPC: pseries: supporting for hot-plugging PCI host bridges
- * PowerPC: emulation optimizations for vector (Altivec/VSX) instructions
- * RISC-V: support for new "spike" machine model
- * RISC-V: ISA 1.11.0 support for privileged architectures
- * RISC-V: improvements for 32-bit syscall ABI, illegal instruction
-           handling, and built-in debugger
- * RISC-V: support for CPU topology in device trees
- * s390: bios support for booting from ECKD DASD assigned to guest via
-         vfio-ccw
- * s390: emulation support for all "Vector Facility" instructions
- * s390: additional facilities and support for gen15 machines, including
-         support for AP Queue Interruption Facility for using interrupts
-         for vfio-ap devices
- * SPARC: sun4m: sun4u: fixes when running with -vga none (OpenBIOS)
- * x86: emulation support for new Hygon Dhyana and Intel SnowRidge CPU
-        models
- * x86: emulation support for RDRAND extension
- * x86: md-clear/mds-no feature flags, for detection/mitigation of MDS
-        vulnerabilities (CVE-2018-12126, CVE-2018-12127, CVE-2018-12130,
-        CVE-2019-11091)
- * x86: CPU die topology now configurable using -smp ...,dies=3D
- * Xtensa: support for memory protection unit (MPU) option
- * Xtensa: support for Exclusive Access option
 
- * GUI: virtio-gpu 2D/3D rendering may now be offloaded to an external
-        vhost-user process, such as QEMU vhost-user-gpu
- * GUI: semihosting output can now be redirected to a chardev backend with
-        -semihosting-config enable=3Don,target=3Dnative,chardev=3D[ID]
- * qemu-img: added a --salvage option to qemu-img convert, which prevents
-             the conversion process from aborting on I/O errors (can be
-             used for example to salvage partially corrupted qcow2 files)
- * qemu-img: qemu-img rebase works now even when the input file doesn't
-             have a backing file yet
- * VMDK block driver now has read-only support for the seSparse subformat
- * GPIO: support for SiFive GPIO controller
 
- * and lots more...
+Alistair Francis (6):
+  target/riscv: Don't set write permissions on dirty PTEs
+  riscv: plic: Remove unused interrupt functions
+  target/riscv: Create function to test if FP is enabled
+  target/riscv: Update the Hypervisor CSRs to v0.4
+  target/riscv: Fix mstatus dirty mask
+  target/riscv: Convert mip to target_ulong
 
-Thank you to everyone involved!
+Atish Patra (1):
+  target/riscv: Use both register name and ABI name
+
+ hw/riscv/sifive_plic.c         | 12 ------------
+ include/hw/riscv/sifive_plic.h |  3 ---
+ target/riscv/cpu.c             | 19 ++++++++++--------
+ target/riscv/cpu.h             |  8 ++++++--
+ target/riscv/cpu_bits.h        | 35 +++++++++++++++++-----------------
+ target/riscv/cpu_helper.c      | 16 ++++++++++++----
+ target/riscv/csr.c             | 22 +++++++++++----------
+ 7 files changed, 59 insertions(+), 56 deletions(-)
+
+-- 
+2.22.0
+
 
