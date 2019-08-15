@@ -2,36 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98F88E1D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 02:28:36 +0200 (CEST)
-Received: from localhost ([::1]:36804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A078E232
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 02:54:11 +0200 (CEST)
+Received: from localhost ([::1]:36866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy3d5-0000ej-C0
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 20:28:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34941)
+	id 1hy41q-0005rs-9x
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 20:54:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37699)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1hy3bc-0008Of-KB
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 20:27:05 -0400
+ (envelope-from <BROGERS@suse.com>) id 1hy40m-0005Rq-Js
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 20:53:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1hy3ba-0003fP-N6
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 20:27:03 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:37557)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hy3ba-0003aV-Di
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 20:27:02 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id ACB5674581E;
- Thu, 15 Aug 2019 02:26:52 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 79FDE7456E2; Thu, 15 Aug 2019 02:26:52 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Date: Thu, 15 Aug 2019 02:25:07 +0200
-To: qemu-devel@nongnu.org
-Message-Id: <20190815002652.79FDE7456E2@zero.eik.bme.hu>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
-Subject: [Qemu-devel] [RFC PATCH] ati-vga: Implement dummy VBlank IRQ
+ (envelope-from <BROGERS@suse.com>) id 1hy40j-0002oi-IC
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 20:53:02 -0400
+Received: from m4a0039g.houston.softwaregrp.com ([15.124.2.85]:57882)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <BROGERS@suse.com>) id 1hy40h-0002mB-BE
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 20:52:59 -0400
+Received: FROM m4a0039g.houston.softwaregrp.com (15.120.17.147) BY
+ m4a0039g.houston.softwaregrp.com WITH ESMTP; 
+ Thu, 15 Aug 2019 00:52:43 +0000
+Received: from M9W0067.microfocus.com (2002:f79:be::f79:be) by
+ M4W0335.microfocus.com (2002:f78:1193::f78:1193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1591.10; Thu, 15 Aug 2019 00:50:00 +0000
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (15.124.72.11) by
+ M9W0067.microfocus.com (15.121.0.190) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1591.10 via Frontend Transport; Thu, 15 Aug 2019 00:50:00 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Pa8779bqitgZVRhORCSmp0zZiF3dO77swTrtl4iWLYm4vNt6ALwD5J6ZrC5svb85Dh7OPbsmoTTJh4lPDEsWmU1kDmaykqScj72JwklbYKXil15LGFXlcAK/q2fUkHgfUhlHU9Od7Uy5OatPla9pcyMKB/rE7T6P7Tw4K8aA1z1kmg4Xt3aCH/1+o/MPUgKIvFviFJSAZL4AFTJJE3VdeglqlOvuyrwg0puMHni0vPQF3QEXoc56iI2US5nrrMjE6j4l8xIH1pOK8Nk4HhUv5aBH0Wg4u4OGclG61xTI8TYJJO7uCDMm7rwOJvfsm4A0nqOZwLXzlfqcuZe1GLy4aA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WTWzyvGyN/065mN23dhwAxHshB6OQVeepSwFNZu1K1E=;
+ b=KcekBdg83qW/+tuwJ38pVZaEmlWao3bzlwoXHBv9VjBt4rq+Mf5ZZvmJKqVaYuck+og9fNCM121iZDf4HPxfqrhkkUQf/JxYEPLQ8fZwVfPozLAjm+kkKfghkvQeZ2OjANQEhPCKX8hY7tTjJhmWRpy2/maL/q1JksmjJ2KigzbtQeudrLPlfxHfp143cDxd4pDfnQng/XJRIoNVLhw45FyJo/u+S9SpG9zunq6OL6SumBvhWPAv2czIab1cyLafMyqbknqcZP+J6wIIGcr6GlQqs51STSw4Z8oeYktZu1YVhBIDrV47ciZ4SM6VbA/dYVuOvvUAvL+Gd1FJj0M81w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Received: from CH2PR18MB3096.namprd18.prod.outlook.com (10.255.155.222) by
+ CH2PR18MB3287.namprd18.prod.outlook.com (52.132.247.84) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2157.18; Thu, 15 Aug 2019 00:49:58 +0000
+Received: from CH2PR18MB3096.namprd18.prod.outlook.com
+ ([fe80::54ad:4562:f961:5610]) by CH2PR18MB3096.namprd18.prod.outlook.com
+ ([fe80::54ad:4562:f961:5610%3]) with mapi id 15.20.2157.022; Thu, 15 Aug 2019
+ 00:49:58 +0000
+From: Bruce Rogers <BROGERS@suse.com>
+To: "ehabkost@redhat.com" <ehabkost@redhat.com>, "marcel.apfelbaum@gmail.com"
+ <marcel.apfelbaum@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Thread-Topic: current QEMU can't start pc-q35-2.12  SEV guest
+Thread-Index: AQHVUwNccBcqwdRS4UOs8Xi34penKg==
+Date: Thu, 15 Aug 2019 00:49:58 +0000
+Message-ID: <89368c9df9e960ead712227ac8dd3e1793c164b0.camel@suse.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=BROGERS@suse.com; 
+x-originating-ip: [63.248.144.38]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5ee1f55d-5cd8-435a-2729-08d7211a7f84
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:CH2PR18MB3287; 
+x-ms-traffictypediagnostic: CH2PR18MB3287:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CH2PR18MB3287B9360CFD776ED096303FD9AC0@CH2PR18MB3287.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 01304918F3
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(366004)(376002)(396003)(136003)(346002)(39860400002)(199004)(189003)(14454004)(5660300002)(478600001)(3846002)(2501003)(6116002)(99286004)(53936002)(6436002)(4326008)(36756003)(86362001)(110136005)(2201001)(91956017)(71200400001)(64756008)(66066001)(6486002)(476003)(66446008)(8936002)(76116006)(25786009)(118296001)(66946007)(486006)(2906002)(66556008)(316002)(66476007)(71190400001)(6512007)(6506007)(8676002)(7736002)(81166006)(186003)(26005)(305945005)(102836004)(107886003)(81156014)(2616005)(256004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CH2PR18MB3287;
+ H:CH2PR18MB3096.namprd18.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: suse.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 6AHbairO8yotJA9EF1Dazr6mjRs/Y2jyCMxrhCb5jPucEtyFCQR/Pha1FXO8u9/oblX3FLxrrpARVJzvcF3PiDWc+W++C3DIcWR6/+jvtEE6pzmk/g5BPYL+2638l7u1hx12bUuFQKkg/0NqXitFxy/7vZ3tbQyO5tLmkZuyOyNxCGOT5LYK+lE69i5m3qQHmkAf4WY8qPxaHR6pesJZGoLmE3EFNQFZ+PQqsrh+nSqBLzIlUADFnJHK1VEph3ViknTsOc0B1pVLkHlLwtNirOaZewZq2p7MKey2IcdT2fR5+yGL2RYQ18xf50qIrQbb5zKUxJsSppt2nhie0eqWwvJ9NpQg5n33UEC4imdjLyA75Lkp0Wjeqf4+2neSJcxVLWyoVBBI+621AHcWhWongGXvi2OYUhhgC2ybkT7G570=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <74EFDA7D16439E4B802BB1B05E469DE9@namprd18.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ee1f55d-5cd8-435a-2729-08d7211a7f84
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2019 00:49:58.7008 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 856b813c-16e5-49a5-85ec-6f081e13b527
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: R4Wl/AHRh7KH5x+1cHIOdkb8+hsbbcBotVMwdU7VuMD5znX+oz1kRamqgn/sVG+629Mt+yXyj4SO3YBCoRBuSw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR18MB3287
+X-OriginatorOrg: suse.com
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 15.124.2.85
+Subject: [Qemu-devel] current QEMU can't start pc-q35-2.12  SEV guest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,170 +109,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Liang Yan <LYan@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MacOS driver exits if the card does not have an interrupt. If we
-set PCI_INTERRUPT_PIN to 1 then it enables VBlank interrupts and it
-boots but the mouse poniter can not be moved. This patch implements a
-dummy VBlank interrupt by a timer triggered at 60 Hz to test if it
-helps. Unfortunately it doesn't: MacOS with this patch hangs during
-boot just polling interrupts and acknowledging them so maybe it needs
-something else or there may be some other problem with this
-implementation.
-
-This is posted for comments and to let others experiment with it but
-probably should not be committed upstream yet.
-
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/display/ati.c      | 41 +++++++++++++++++++++++++++++++++++++++++
- hw/display/ati_dbg.c  |  1 +
- hw/display/ati_int.h  |  4 ++++
- hw/display/ati_regs.h |  1 +
- 4 files changed, 47 insertions(+)
-
-diff --git a/hw/display/ati.c b/hw/display/ati.c
-index a365e2455d..e06cbf3e91 100644
---- a/hw/display/ati.c
-+++ b/hw/display/ati.c
-@@ -243,6 +243,21 @@ static uint64_t ati_i2c(bitbang_i2c_interface *i2c, uint64_t data, int base)
-     return data;
- }
- 
-+static void ati_vga_update_irq(ATIVGAState *s)
-+{
-+    pci_set_irq(&s->dev, s->regs.gen_int_status & 1);
-+}
-+
-+static void ati_vga_vblank_irq(void *opaque)
-+{
-+    ATIVGAState *s = opaque;
-+
-+    timer_mod(&s->vblank_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-+              NANOSECONDS_PER_SECOND / 60);
-+    s->regs.gen_int_status |= 1;
-+    ati_vga_update_irq(s);
-+}
-+
- static inline uint64_t ati_reg_read_offs(uint32_t reg, int offs,
-                                          unsigned int size)
- {
-@@ -283,6 +298,12 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
-                                 addr - (BIOS_0_SCRATCH + i * 4), size);
-         break;
-     }
-+    case GEN_INT_CNTL:
-+        val = s->regs.gen_int_cntl;
-+        break;
-+    case GEN_INT_STATUS:
-+        val = s->regs.gen_int_status;
-+        break;
-     case CRTC_GEN_CNTL ... CRTC_GEN_CNTL + 3:
-         val = ati_reg_read_offs(s->regs.crtc_gen_cntl,
-                                 addr - CRTC_GEN_CNTL, size);
-@@ -512,6 +533,19 @@ static void ati_mm_write(void *opaque, hwaddr addr,
-                            addr - (BIOS_0_SCRATCH + i * 4), data, size);
-         break;
-     }
-+    case GEN_INT_CNTL:
-+        s->regs.gen_int_cntl = data;
-+        if (data & 1) {
-+            ati_vga_vblank_irq(s);
-+        } else {
-+            timer_del(&s->vblank_timer);
-+        }
-+        break;
-+    case GEN_INT_STATUS:
-+        data &= (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF ?
-+                 0x000f040fUL : 0xfc080effUL);
-+        s->regs.gen_int_status &= ~data;
-+        break;
-     case CRTC_GEN_CNTL ... CRTC_GEN_CNTL + 3:
-     {
-         uint32_t val = s->regs.crtc_gen_cntl;
-@@ -902,12 +936,18 @@ static void ati_vga_realize(PCIDevice *dev, Error **errp)
-     pci_register_bar(dev, 0, PCI_BASE_ADDRESS_MEM_PREFETCH, &vga->vram);
-     pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &s->io);
-     pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->mm);
-+
-+    /* most interrupts are not yet emulated but MacOS needs at least VBlank */
-+    dev->config[PCI_INTERRUPT_PIN] = 1;
-+    timer_init_ns(&s->vblank_timer, QEMU_CLOCK_VIRTUAL, ati_vga_vblank_irq, s);
- }
- 
- static void ati_vga_reset(DeviceState *dev)
- {
-     ATIVGAState *s = ATI_VGA(dev);
- 
-+    timer_del(&s->vblank_timer);
-+
-     /* reset vga */
-     vga_common_reset(&s->vga);
-     s->mode = VGA_MODE;
-@@ -917,6 +957,7 @@ static void ati_vga_exit(PCIDevice *dev)
- {
-     ATIVGAState *s = ATI_VGA(dev);
- 
-+    timer_del(&s->vblank_timer);
-     graphic_console_close(s->vga.con);
- }
- 
-diff --git a/hw/display/ati_dbg.c b/hw/display/ati_dbg.c
-index 7e59c41ac2..0ebbd36f14 100644
---- a/hw/display/ati_dbg.c
-+++ b/hw/display/ati_dbg.c
-@@ -16,6 +16,7 @@ static struct ati_regdesc ati_reg_names[] = {
-     {"BUS_CNTL", 0x0030},
-     {"BUS_CNTL1", 0x0034},
-     {"GEN_INT_CNTL", 0x0040},
-+    {"GEN_INT_STATUS", 0x0044},
-     {"CRTC_GEN_CNTL", 0x0050},
-     {"CRTC_EXT_CNTL", 0x0054},
-     {"DAC_CNTL", 0x0058},
-diff --git a/hw/display/ati_int.h b/hw/display/ati_int.h
-index 5b4d3be1e6..2a16708e4f 100644
---- a/hw/display/ati_int.h
-+++ b/hw/display/ati_int.h
-@@ -9,6 +9,7 @@
- #ifndef ATI_INT_H
- #define ATI_INT_H
- 
-+#include "qemu/timer.h"
- #include "hw/pci/pci.h"
- #include "hw/i2c/bitbang_i2c.h"
- #include "vga_int.h"
-@@ -33,6 +34,8 @@
- typedef struct ATIVGARegs {
-     uint32_t mm_index;
-     uint32_t bios_scratch[8];
-+    uint32_t gen_int_cntl;
-+    uint32_t gen_int_status;
-     uint32_t crtc_gen_cntl;
-     uint32_t crtc_ext_cntl;
-     uint32_t dac_cntl;
-@@ -89,6 +92,7 @@ typedef struct ATIVGAState {
-     uint16_t cursor_size;
-     uint32_t cursor_offset;
-     QEMUCursor *cursor;
-+    QEMUTimer vblank_timer;
-     bitbang_i2c_interface bbi2c;
-     MemoryRegion io;
-     MemoryRegion mm;
-diff --git a/hw/display/ati_regs.h b/hw/display/ati_regs.h
-index 02046e97c2..2b6f949bd4 100644
---- a/hw/display/ati_regs.h
-+++ b/hw/display/ati_regs.h
-@@ -34,6 +34,7 @@
- #define BUS_CNTL                                0x0030
- #define BUS_CNTL1                               0x0034
- #define GEN_INT_CNTL                            0x0040
-+#define GEN_INT_STATUS                          0x0044
- #define CRTC_GEN_CNTL                           0x0050
- #define CRTC_EXT_CNTL                           0x0054
- #define DAC_CNTL                                0x0058
--- 
-2.13.7
-
+SGksDQoNCkkgcmFuIGludG8gYSBjYXNlIHdoZXJlIGEgZ3Vlc3Qgb24gYSBTRVYgY2FwYWJsZSBo
+b3N0LCB3aGljaCB3YXMNCmVuYWJsZWQgdG8gdXNlIFNFViBhbmQgdXNpbmcgYW4gb2xkZXIgbWFj
+aGluZSB0eXBlIHdhcyBubyBsb25nZXIgYWJsZQ0KdG8gcnVuIHdoZW4gdGhlIFFFTVUgdmVyc2lv
+biBoYWQgYmVlbiB1cGRhdGVkLg0KDQpTcGVjaWZpY2FsbHksIHdoZW4gdGhlIGd1ZXN0IHdhcyBp
+bnN0YWxsZWQgYW5kIHJ1bm5pbmcgdW5kZXIgYSB2Mi4xMg0KUUVNVSwgc2V0IHVwIGZvciBTRVYg
+KG9rIGl0IHdhcyB2Mi4xMSB3aXRoIFNFViBzdXBwb3J0IGJhY2twb3J0ZWQsIGJ1dA0KdGhlIGRl
+dGFpbHMgc3RpbGwgYXBwbHkpLCB1c2luZyBhIGNvbW1hbmQgbGluZSBzdWNoIGFzIGZvbGxvd3M6
+DQoNCnFlbXUtc3lzdGVtLXg4Nl82NCAtY3B1IEVQWUMtSUJSUyBcDQotbWFjaGluZSBwYy1xMzUt
+Mi4xMixhY2NlbD1rdm0sbWVtb3J5LWVuY3J5cHRpb249c2V2MCBcDQotb2JqZWN0IHNldi1ndWVz
+dCxpZD1zZXYwLC4uLg0KDQpUaGUgZ3Vlc3QgcmFuIGZpbmUsIHVzaW5nIFNFViBtZW1vcnkgZW5y
+eXB0aW9uLg0KDQpMYXRlciB0aGUgdmVyc2lvbiBvZiBRRU1VIHdhcyB1cGRhdGVkIHRvIHYzLjEu
+MCwgYW5kIHRoZSBzYW1lIGd1ZXN0IG5vdw0KaHVuZyBhdCBib290LCB3aGVuIHVzaW5nIHRoZSBl
+eGFjdCBzYW1lIGNvbW1hbmQgbGluZS4gKEN1cnJlbnQgUUVNVQ0Kc3RpbGwgaGFzIHRoZSBzYW1l
+IHByb2JsZW0uKQ0KDQpVcG9uIGludmVzdGlnYXRpb24sIEkgZmluZCB0aGF0IHRoZSBoYW5kbGlu
+ZyBvZiB4bGV2ZWwgaW4NCnRhcmdldC9pMzg2L2NwdS5jIHJlbGllcyBpbmNsdWRlcyBhbiBleHBs
+aWNpdCBkZXRlY3Rpb24gb2YgU0VWIGJlaW5nDQplbmFibGVkIGFuZCBzZXRzIHRoZSBjcHVpZF9t
+aW5feGxldmVsIGluIHRoZSBDUFVYODZTdGF0ZSBzdHJ1Y3R1cmUgdG8NCjB4ODAwMDAwMUYgYXMg
+dGhlIHJlcXVpcmVkIG1pbmltdW0gZm9yIFNFViBzdXBwb3J0LiBUaGlzIG5vcm1hbGx5IGlzDQp1
+c2VkIHRvIHNldCB0aGUgeGxldmVsIHRoZSBndWVzdCBzZWVzLCBhbGxvd2luZyBpdCB0byB1c2Ug
+U0VWLg0KDQpUaGUgY29tcGF0IHNldHRpbmdzIGZvciB0aGUgdjIuMTIgbWFjaGluZSB0eXBlIGlu
+Y2x1ZGUgYW4geGxldmVsIHZhbHVlDQphc3NvY2lhdGVkIHdpdGggaXQgKDB4ODAwMDAwMEEpLiBV
+bmZvcnR1bmF0ZWx5IHRoZSBwcm9jZXNzaW5nIG9mIHRoZQ0KY29tcGF0IHNldHRpbmdzIGdldHMg
+Y29uZmxhdGVkIHdpdGggdGhlIGxvZ2ljIG9mIGhhbmRsaW5nIGEgdXNlcg0KZXhwbGljaXRseSBz
+cGVjaWZ5aW5nIGFuIHhsZXZlbCBvbiB0aGUgY29tbWFuZCBsaW5lLCB3aGljaCBpcyB0cmVhdGVk
+DQphcyBhbiAib3ZlcnJpZGUiIGNvbmRpdGlvbiwgb3ZlcnJpZGluZyB0aGUgb3RoZXIgeGxldmVs
+IHNlbGVjdGlvbnMNCndoaWNoIHdvdWxkIG90aGVyd2lzZSBiZSBkb25lIGluIHRoZSBRRU1VIGNw
+dSBjb2RlLg0KDQpTbywgaW4gdGhlIHNjZW5hcmlvIEkgZGVzY3JpYmUgYWJvdmUsIHRoZSBvcmln
+aW5hbCwgd29ya2luZyBjYXNlIHdvdWxkDQpwcm92aWRlIGFuIGNwdWlkIHhsZXZlbCB2YWx1ZSBv
+ZiAweDgwMDAwMDFGIHRvIHRoZSBndWVzdCAoY29ycmVjdCksIGFuZA0KdGhlIGZhaWxpbmcgY2Fz
+ZSBlbmRzIHVwIHByb3ZpZGluZyB0aGUgdmFsdWUgMHg4MDAwMDAwQSAoaW5jb3JyZWN0KS4NCg0K
+SXQgc2VlbXMgdG8gbWUgdGhhdCB0aGUgaGFuZGxpbmcgb2YgdGhlIGNvbXBhdCBzZXR0aW5ncyBh
+bmQgdGhlDQpleHBsaWNpdCB4bGV2ZWwgc2V0dGluZyBieSB0aGUgdXNlciBzaG91bGQgYmUgcHJv
+Y2Vzc2VkIHNlcGFyYXRlbHksIGJ1dA0KSSBkb24ndCBzZWUgaG93IHRvIGRvIHRoYXQgZWFzaWx5
+Lg0KDQpIb3cgc2hvdWxkIHRoaXMgcHJvYmxlbSBiZSByZXNvbHZlZD8NCg0KSW4gbXkgY2FzZSwg
+SSd2ZSBhZGRlZCB0byB0aGUgY29kZSB3aGljaCBpcyBmb3IgY2hlY2tpbmcgYSB1c2VyDQpwcm92
+aWRlZCB4bGV2ZWwgdmFsdWUsIHRoZSBjaGVjayBhZ2FpbiBmb3Igc2V2X2VuYWJsZWQoKSwgYW5k
+IGlmIHRoYXQncw0KdGhlIGNhc2UsIEkgc3RpbGwgYXBwbHkgdGhlIGNwdWlkX21pbl94bGV2ZWwg
+dmFsdWUuIFRoaXMgd29ya3MgZm9yIHRoZQ0KdGltZSBiZWluZywgYnV0IGRvZXNuJ3Qgc2VlbSB0
+byBiZSB0aGUgcmlnaHQgc29sdXRpb24uDQoNCkxvb2tpbmcgZm9yd2FyZCB0byB5b3VyIGhlbHAg
+d2l0aCB0aGlzIGlzc3VlLg0KDQpUaGFua3MsDQoNCkJydWNlDQo=
 
