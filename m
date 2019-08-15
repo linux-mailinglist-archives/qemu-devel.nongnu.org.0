@@ -2,80 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E97D8E8AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 11:57:50 +0200 (CEST)
-Received: from localhost ([::1]:40112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C338E899
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 11:51:34 +0200 (CEST)
+Received: from localhost ([::1]:40052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyCVx-0008SW-H0
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 05:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48615)
+	id 1hyCPs-0005G8-Qh
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 05:51:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47961)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hyCTi-0006JG-2S
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 05:55:30 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hyCP3-0004pC-LX
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 05:50:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hyCTh-0001qW-3M
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 05:55:29 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37189)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hyCTg-0001n4-SQ
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 05:55:29 -0400
-Received: by mail-wm1-x343.google.com with SMTP id z23so792061wmf.2
- for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 02:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZW2T1vmf8XKEUsqHbxNytDwjB69u6YNytrlyj5m+Qng=;
- b=RR16TQZEYotiWj2F6/n7eq7LrINLpFKtUNgRzsO5SLxlq/h3TwK83RaS9AZYMcezGA
- 9Hj4cYPWZ2aMnEABSdMC3l7TfGjn4IwcIvNBjRwZyDEJW6vR6iCzuwK/VVVTpCG+Ia7t
- aboxYtqgxtefui/3AWMtYQ6cyWds+6OjMMga0+m5sCfJ6Z8hgTWCMtVX6rzURALWoTQd
- Qc6PCf1usicG5n3/NLr8NZuxuXK1Wuayx4OsmQxNoYNmy9GCxbVgZZTmC6XxmCHma15H
- SDcLi/YXHMarrRfiOuSmipusuW1s0kMO7ATYviGjfmRILSNaF44lzKD8He/4KMx/nW4J
- 77ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZW2T1vmf8XKEUsqHbxNytDwjB69u6YNytrlyj5m+Qng=;
- b=BU59FFN8v34jIHkj3ySmWjDl31kLrJR8XIMuY6d947vUNfsSdtSOMUX29wB77i/SfN
- uWqESBbSJOwd8chBPWu+o1qYXzoziejwybmEIhihgtpaXpLVPLNzWXwssKKNFrq/hbrb
- PeDifqsgzgKd8ri00pFzP2nlIFU7i++UolWaq/XVwAiFapDuIfpP7/4iqdc0yb+Ojzbe
- 8j0dSBPBLV3adSHhBlyBLvnQ0vSPb3AWRZMzEDgkFMP1O+eu2K6U/iGiYCThunY8vNUU
- l+mpQaXx9oWk7XOuchNlKLo5iJZjsFN5dZX5AvgbwVTNyQ52w9aOf25x0xEqn38eYkPS
- OJhg==
-X-Gm-Message-State: APjAAAXFjwVpycotQiyupV67Sz+k746kYRoQ/+wnWU9dy2HZP5GzuUzs
- bM1I3uMHssjSNFj4MCzlNEu+5XTpl3xjTQ==
-X-Google-Smtp-Source: APXvYqzalFxOhkywKIPbY74hFJ4eyr1uLQ5LYCukDNneeOtdeUsdoYbPImYezNmpdK3uGdLiiJmjBQ==
-X-Received: by 2002:a1c:c584:: with SMTP id v126mr1964980wmf.27.1565862926426; 
- Thu, 15 Aug 2019 02:55:26 -0700 (PDT)
-Received: from ?IPv6:2a02:c7f:a69:1700:8897:9507:94c2:b98d?
- ([2a02:c7f:a69:1700:8897:9507:94c2:b98d])
- by smtp.gmail.com with ESMTPSA id 6sm1007886wmf.23.2019.08.15.02.55.25
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 15 Aug 2019 02:55:25 -0700 (PDT)
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Jan Bobek <jan.bobek@gmail.com>
-References: <20190815020928.9679-1-jan.bobek@gmail.com>
- <20190815020928.9679-47-jan.bobek@gmail.com>
- <CAL1e-=gZF1+=Gduqm4TwS0p-G6rvb4q+rw+hL9nzAz3P-r3+BQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <9240f24b-3f3c-531c-5c7d-06f359c26fd1@linaro.org>
-Date: Thu, 15 Aug 2019 10:49:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <kraxel@redhat.com>) id 1hyCP1-00008h-Vj
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 05:50:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50968)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hyCP1-00007w-QQ
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 05:50:39 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 804973082E42;
+ Thu, 15 Aug 2019 09:50:38 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-144.ams2.redhat.com
+ [10.36.116.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1615927C34;
+ Thu, 15 Aug 2019 09:50:38 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id E434916E32; Thu, 15 Aug 2019 11:50:36 +0200 (CEST)
+Date: Thu, 15 Aug 2019 11:50:36 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Message-ID: <20190815095036.lon6sw6cft2agdzw@sirius.home.kraxel.org>
+References: <20190815002652.79FDE7456E2@zero.eik.bme.hu>
+ <20190815062313.ve26cevmbyuewlo5@sirius.home.kraxel.org>
+ <alpine.BSF.2.21.9999.1908151051570.23526@zero.eik.bme.hu>
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=gZF1+=Gduqm4TwS0p-G6rvb4q+rw+hL9nzAz3P-r3+BQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [RFC PATCH v3 46/46] target/i386: introduce SSE3
- instructions to sse-opcode.inc.h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.BSF.2.21.9999.1908151051570.23526@zero.eik.bme.hu>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Thu, 15 Aug 2019 09:50:38 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC PATCH] ati-vga: Implement dummy VBlank IRQ
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,18 +61,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/15/19 8:02 AM, Aleksandar Markovic wrote:
-> A question for you: What about FISTTP, MONITOR, MWAIT, that belong to SSE3, but
-> are not mentioned in this patch?
+  Hi,
+
+> > > +static void ati_vga_update_irq(ATIVGAState *s)
+> > > +{
+> > > +    pci_set_irq(&s->dev, s->regs.gen_int_status & 1);
+> > 
+> > This should be "s->regs.gen_int_status & s->regs.gen_int_cntl" I guess?
 > 
+> Probably, but we only try to emulate VBlank yet so to avoid any problems due
+> to raising irq for unknown bits I restricted it for that now.
 
-They are also not vector instructions, which is the subject of this patch set.
+Well, qemu doesn't set unknown status bits, only vblank.  The guest
+can't set them either due to status register having write-one-to-clear
+semantics.  So, that should not happen.  If you want an extra check to
+catch programming errors I'd suggest to add an assert() for that.
 
+> > > +        s->regs.gen_int_status &= ~data;
+> > 
+> > ati_vga_update_irq() needed here too.
+> 
+> Thanks. Indeed I forgot this. With that it works a bit better, mouse now can
+> be moved but only vertically... No idea why, I'll have to check,
 
-r~
+Still progress.  One step at a time ;)
+
+cheers,
+  Gerd
+
 
