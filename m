@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F278F3CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:44:27 +0200 (CEST)
-Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 074368F3E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:47:35 +0200 (CEST)
+Received: from localhost ([::1]:46256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyKja-0006vh-Gi
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:44:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38442)
+	id 1hyKmc-00026c-1F
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:47:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39162)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1hyKdj-0000yr-CF
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:26 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hyKjC-0007fD-1w
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:44:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hyKdg-0000kW-Dy
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45664)
+ (envelope-from <ehabkost@redhat.com>) id 1hyKj5-0000Tf-Gb
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:44:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46066)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hyKdg-0000jN-6a
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:20 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hyKj5-0000NS-7M
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:43:55 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8089E307D90D;
- Thu, 15 Aug 2019 18:38:19 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 081233001D30;
+ Thu, 15 Aug 2019 18:43:54 +0000 (UTC)
 Received: from localhost (ovpn-116-32.gru2.redhat.com [10.97.116.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9AE8A6266B;
- Thu, 15 Aug 2019 18:38:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B3E917CFB;
+ Thu, 15 Aug 2019 18:43:53 +0000 (UTC)
+Date: Thu, 15 Aug 2019 15:43:51 -0300
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 15:38:03 -0300
-Message-Id: <20190815183803.13346-4-ehabkost@redhat.com>
-In-Reply-To: <20190815183803.13346-1-ehabkost@redhat.com>
-References: <20190815183803.13346-1-ehabkost@redhat.com>
+To: Bruce Rogers <BROGERS@suse.com>
+Message-ID: <20190815184351.GX3908@habkost.net>
+References: <89368c9df9e960ead712227ac8dd3e1793c164b0.camel@suse.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <89368c9df9e960ead712227ac8dd3e1793c164b0.camel@suse.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 15 Aug 2019 18:38:19 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.42]); Thu, 15 Aug 2019 18:43:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/3] pc: Don't make CPU properties mandatory
- unless necessary
+Subject: Re: [Qemu-devel] current QEMU can't start pc-q35-2.12  SEV guest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,142 +55,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Like Xu <like.xu@linux.intel.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Liang Yan <LYan@suse.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have this issue reported when using libvirt to hotplug CPUs:
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1741451
+On Thu, Aug 15, 2019 at 12:49:58AM +0000, Bruce Rogers wrote:
+> Hi,
+> 
+> I ran into a case where a guest on a SEV capable host, which was
+> enabled to use SEV and using an older machine type was no longer able
+> to run when the QEMU version had been updated.
+> 
+> Specifically, when the guest was installed and running under a v2.12
+> QEMU, set up for SEV (ok it was v2.11 with SEV support backported, but
+> the details still apply), using a command line such as follows:
+> 
+> qemu-system-x86_64 -cpu EPYC-IBRS \
+> -machine pc-q35-2.12,accel=kvm,memory-encryption=sev0 \
+> -object sev-guest,id=sev0,...
+> 
+> The guest ran fine, using SEV memory enryption.
+> 
+> Later the version of QEMU was updated to v3.1.0, and the same guest now
+> hung at boot, when using the exact same command line. (Current QEMU
+> still has the same problem.)
+> 
+> Upon investigation, I find that the handling of xlevel in
+> target/i386/cpu.c relies includes an explicit detection of SEV being
+> enabled and sets the cpuid_min_xlevel in the CPUX86State structure to
+> 0x8000001F as the required minimum for SEV support. This normally is
+> used to set the xlevel the guest sees, allowing it to use SEV.
+> 
+> The compat settings for the v2.12 machine type include an xlevel value
+> associated with it (0x8000000A). Unfortunately the processing of the
+> compat settings gets conflated with the logic of handling a user
+> explicitly specifying an xlevel on the command line, which is treated
+> as an "override" condition, overriding the other xlevel selections
+> which would otherwise be done in the QEMU cpu code.
+> 
+> So, in the scenario I describe above, the original, working case would
+> provide an cpuid xlevel value of 0x8000001F to the guest (correct), and
+> the failing case ends up providing the value 0x8000000A (incorrect).
+> 
+> It seems to me that the handling of the compat settings and the
+> explicit xlevel setting by the user should be processed separately, but
+> I don't see how to do that easily.
+> 
+> How should this problem be resolved?
+> 
+> In my case, I've added to the code which is for checking a user
+> provided xlevel value, the check again for sev_enabled(), and if that's
+> the case, I still apply the cpuid_min_xlevel value. This works for the
+> time being, but doesn't seem to be the right solution.
+> 
 
-Basically, libvirt is not copying die-id from
-query-hotpluggable-cpus, but die-id is now mandatory.
+I believe this is my fault.  On commit e00516475c27 ("i386:
+Enable TOPOEXT feature on AMD EPYC CPU"), I had added
+xlevel=0x8000000A compat entries, but they were supposed to be
+min-xlevel=0x8000000A.
 
-We could blame libvirt and say it is not following the documented
-interface, because we have this buried in the QAPI schema
-documentation:
+Does this patch solve the problem?
 
-> Note: currently there are 5 properties that could be present
-> but management should be prepared to pass through other
-> properties with device_add command to allow for future
-> interface extension. This also requires the filed names to be kept in
-> sync with the properties passed to -device/device_add.
-
-But I don't think this would be reasonable from us.  We can just
-make QEMU more flexible and let CPU properties to be omitted when
-there's no ambiguity.  This will allow us to keep compatibility
-with existing libvirt versions.
-
-Test case included to ensure we don't break this again.
-
-Cc: Peter Krempa <pkrempa@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/i386/pc.c                             | 17 +++++++
- tests/acceptance/pc_cpu_hotplug_props.py | 59 ++++++++++++++++++++++++
- 2 files changed, 76 insertions(+)
- create mode 100644 tests/acceptance/pc_cpu_hotplug_props.py
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index fb4ac5ca90..4d773c862d 100644
+index 549c437050..11d5a3cd3a 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -2403,6 +2403,23 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplu=
-g_dev,
-         int max_socket =3D (ms->smp.max_cpus - 1) /
-                                 smp_threads / smp_cores / pcms->smp_dies=
-;
-=20
-+        /*
-+         * If there's only one possible value for a topology property,
-+         * allow it to be omitted.
-+         */
-+        if (cpu->socket_id < 0 && max_socket =3D=3D 0) {
-+            cpu->socket_id =3D 0;
-+        }
-+        if (cpu->die_id < 0 && pcms->smp_dies =3D=3D 1) {
-+            cpu->die_id =3D 0;
-+        }
-+        if (cpu->core_id < 0 && smp_cores =3D=3D 1) {
-+            cpu->core_id =3D 0;
-+        }
-+        if (cpu->thread_id < 0 && smp_threads =3D=3D 1) {
-+            cpu->thread_id =3D 0;
-+        }
-+
-         if (cpu->socket_id < 0) {
-             error_setg(errp, "CPU socket-id is not set");
-             return;
-diff --git a/tests/acceptance/pc_cpu_hotplug_props.py b/tests/acceptance/=
-pc_cpu_hotplug_props.py
-new file mode 100644
-index 0000000000..2c36926214
---- /dev/null
-+++ b/tests/acceptance/pc_cpu_hotplug_props.py
-@@ -0,0 +1,59 @@
-+#
-+# Ensure CPU topology parameters may be omitted on -device
-+#
-+#  Copyright (c) 2019 Red Hat Inc
-+#
-+# Author:
-+#  Eduardo Habkost <ehabkost@redhat.com>
-+#
-+# This library is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU Lesser General Public
-+# License as published by the Free Software Foundation; either
-+# version 2 of the License, or (at your option) any later version.
-+#
-+# This library is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# Lesser General Public License for more details.
-+#
-+# You should have received a copy of the GNU Lesser General Public
-+# License along with this library; if not, see <http://www.gnu.org/licen=
-ses/>.
-+#
-+
-+from avocado_qemu import Test
-+
-+class OmittedCPUProps(Test):
-+    """
-+    :avocado: tags=3Darch:x86_64
-+    """
-+    def test_only_socket(self):
-+        self.vm.add_args('-nodefaults', '-S')
-+        self.vm.add_args('-smp', '1,sockets=3D2,maxcpus=3D2')
-+        self.vm.add_args('-cpu', 'qemu64')
-+        self.vm.add_args('-device', 'qemu64-x86_64-cpu,socket-id=3D1')
-+        self.vm.launch()
-+        self.assertEquals(len(self.vm.command('query-cpus')), 2)
-+
-+    def test_only_die(self):
-+        self.vm.add_args('-nodefaults', '-S')
-+        self.vm.add_args('-smp', '1,dies=3D2,maxcpus=3D2')
-+        self.vm.add_args('-cpu', 'qemu64')
-+        self.vm.add_args('-device', 'qemu64-x86_64-cpu,die-id=3D1')
-+        self.vm.launch()
-+        self.assertEquals(len(self.vm.command('query-cpus')), 2)
-+
-+    def test_only_core(self):
-+        self.vm.add_args('-nodefaults', '-S')
-+        self.vm.add_args('-smp', '1,cores=3D2,maxcpus=3D2')
-+        self.vm.add_args('-cpu', 'qemu64')
-+        self.vm.add_args('-device', 'qemu64-x86_64-cpu,core-id=3D1')
-+        self.vm.launch()
-+        self.assertEquals(len(self.vm.command('query-cpus')), 2)
-+
-+    def test_only_thread(self):
-+        self.vm.add_args('-nodefaults', '-S')
-+        self.vm.add_args('-smp', '1,threads=3D2,maxcpus=3D2')
-+        self.vm.add_args('-cpu', 'qemu64')
-+        self.vm.add_args('-device', 'qemu64-x86_64-cpu,thread-id=3D1')
-+        self.vm.launch()
-+        self.assertEquals(len(self.vm.command('query-cpus')), 2)
---=20
-2.21.0
+@@ -154,8 +154,8 @@ const size_t pc_compat_3_0_len = G_N_ELEMENTS(pc_compat_3_0);
+ GlobalProperty pc_compat_2_12[] = {
+     { TYPE_X86_CPU, "legacy-cache", "on" },
+     { TYPE_X86_CPU, "topoext", "off" },
+-    { "EPYC-" TYPE_X86_CPU, "xlevel", "0x8000000a" },
+-    { "EPYC-IBPB-" TYPE_X86_CPU, "xlevel", "0x8000000a" },
++    { "EPYC-" TYPE_X86_CPU, "min-xlevel", "0x8000000a" },
++    { "EPYC-IBPB-" TYPE_X86_CPU, "min-xlevel", "0x8000000a" },
+ };
+ const size_t pc_compat_2_12_len = G_N_ELEMENTS(pc_compat_2_12);
+ 
 
+-- 
+Eduardo
 
