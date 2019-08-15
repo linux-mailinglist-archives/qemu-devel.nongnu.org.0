@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A2A8EDBB
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 16:09:28 +0200 (CEST)
-Received: from localhost ([::1]:42256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0F58EDC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 16:10:24 +0200 (CEST)
+Received: from localhost ([::1]:42290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyGRU-0006Ft-1C
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 10:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52009)
+	id 1hyGSN-0007KH-4U
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 10:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52251)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1hyGPv-0004wO-4z
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:07:53 -0400
+ (envelope-from <stefanha@gmail.com>) id 1hyGRD-0006LX-Fq
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:09:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1hyGPs-0005qQ-Fj
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:07:50 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40550)
+ (envelope-from <stefanha@gmail.com>) id 1hyGR9-0006Zd-W3
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:09:11 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35410)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hyGPs-0005pe-6I
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:07:48 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v19so1358107wmj.5
- for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 07:07:48 -0700 (PDT)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hyGR9-0006ZJ-Ow
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:09:07 -0400
+Received: by mail-wm1-x342.google.com with SMTP id l2so1371397wmg.0
+ for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 07:09:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=qTYr+CPp7+bY2GVHu46fm3QuQtJqQLMQiV0hhdpazAY=;
- b=PVonPP2uJhtRVPlyO5PB/v8C8ocfx2ZHCHg0q7j9UPI5NKQeJU+JugCkzTQJzf1Hdk
- 9Gz/g4UP4EFL+onYB1Sj0yrmQ7c22sRRyR658yA7Hfvup6DN+/+WOF9gWzOsaqz+HRU2
- ol3Jx27b5/tley1wonZcSAGxnOgWaKAHHEJ1BC7x73Xxhz0eJWd7wedEjzXDQv4QaTZY
- XBpiuRXsIBlzAgR9YQsEnzbk2IB+OLK1MdWvaqWhpy+x+bgGKbEyP8GdxtrqRTtWzgRh
- aa9TCIY1ujBNig70BF/gK4fjKpvjhmMRFf6mn4X3Y63dtXqmx+C9P09VTuiJ3PqFkFkd
- wvpQ==
+ bh=OLB5A5wHOJlR64f5SBrWhDf8RUtqyHFS9eLIH1A2V7g=;
+ b=jv/zc/Al3Tniia2JujYGtyWywnmAm4BsnThrtyyBdSPK6kSZuMUY1zcnKla+6+lN4h
+ 9riM+AXNekFDyBLExSX2+S6J5p+axXBiO4yyeAPyZj6e0piDhZIazJs2LOBMa4IbSR1B
+ 527t2y6INPvQMvBf+azniTaJ/Qa0x+bPam3/eL51XKV2dgV7CkhNVWAvp1UlTgDCJC3F
+ ot/dDYVtvPYdtr01OOxcQv0MFC9VEPhR/gc25BWtisBLExNTbtMi3Xbf9rWC/1m0J4kX
+ SZGCZfPJH0oNhZHrsyGWbkWWsIF/w1+QNA1juk1CDeOA8wV9g81F14Rvw/AAPrMm+BtG
+ ptgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=qTYr+CPp7+bY2GVHu46fm3QuQtJqQLMQiV0hhdpazAY=;
- b=eKocl2oWnpCjywFLAuiDgkcRiuiAps7iegGgL01akSCwSPMhBTge5tX+Szipe5LyAj
- oRJpY4KV3VM5wlrmBH5mqdK97SeCbkcVjOQZ/MW6BpJBPbx9Af0fQaB+NHu7vB+jvZh/
- wf1UsgI5qDfAEGdRcc5+1KR3vYKGlPyDq/KH74OrGW7J1adXHCoObQhSuLcRfGYFnT09
- 4zAO2qPgUOyAou0MD6s7ogoq43Vx4vlCA3w14ftYjYSAsZYgTOzRnvEnNeAt37mtnc4N
- abVmsbmxRm7hOwwQKdfiZlv5ZyT4F/vOIaI3DV1XN14k5l0r6hFa2Og2XNdKN/twTIWg
- xMcQ==
-X-Gm-Message-State: APjAAAXqltB3zbdIHYVXS6mRJcGEZ2jIPMItNsMM06T/H4/QABxG0p+u
- g0SpXATROL8uou8DWKnk5xg=
-X-Google-Smtp-Source: APXvYqzptyaVYcH66XSi3vMPQYeWJZoVkQ3xUACEnufYXq4qkYibBaNNOJOk9mOQSeYxJFve6ePWpw==
-X-Received: by 2002:a7b:c246:: with SMTP id b6mr3070528wmj.13.1565878066784;
- Thu, 15 Aug 2019 07:07:46 -0700 (PDT)
+ bh=OLB5A5wHOJlR64f5SBrWhDf8RUtqyHFS9eLIH1A2V7g=;
+ b=eipgO2c+1tlxyN9TZz2Rwur0f9+o9usgZ9tTOaHyOWHWFHsaemeHWOq4Ew6EXYtqCO
+ SmH2OpyAOVjn9rQgzGjOlFlhPbUrBSwTG8ZTHKJ9DDktxaMIg30pipTerOhEFiR050iW
+ 8iQaDte7Otq05qecl+vy6Wfp/LP/2AGzlgz9lptg/iXDzbAcdBtQ3Ysyzgc2TlHRY7WX
+ rwwMzImC/l1nQM56N+2Bcz7PF8IekrPh2cEpywqX+qs6nxUZGZ5vcVn81qLiGR8iZ83R
+ ug2dKY3o+3F2l4ioyd0sVI2/27VILtdoQLIn/QHeZShwKlwevRdhGDfc+M4l9oJweQU3
+ Xl6A==
+X-Gm-Message-State: APjAAAVd+qexkNUKvGC0wDzYZPqoQl1fon6mUmnsEpkb/9Nmk/vbze+Z
+ ttlRL0NhnlrqnwleXuinM50Ytpu8/zA=
+X-Google-Smtp-Source: APXvYqz2wDjNmRwMOTo1sCrAN86VvJjwwbBrR8JUD7WbBTFVAXuWuIWug299M+wNSAtSmtvlDhJ8bw==
+X-Received: by 2002:a1c:1d4f:: with SMTP id d76mr3096343wmd.127.1565878146593; 
+ Thu, 15 Aug 2019 07:09:06 -0700 (PDT)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id f134sm2077469wmg.20.2019.08.15.07.07.45
+ by smtp.gmail.com with ESMTPSA id v124sm1482239wmf.23.2019.08.15.07.09.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Aug 2019 07:07:45 -0700 (PDT)
-Date: Thu, 15 Aug 2019 15:07:44 +0100
+ Thu, 15 Aug 2019 07:09:05 -0700 (PDT)
+Date: Thu, 15 Aug 2019 15:09:04 +0100
 From: Stefan Hajnoczi <stefanha@gmail.com>
-To: William Tu <u9012063@gmail.com>
-Message-ID: <20190815140744.GE10996@stefanha-x1.localdomain>
-References: <CALDO+SbRvSSW3OQimwVe59HcHqv0PPLwoAW6yGg_UOnzounPtQ@mail.gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Message-ID: <20190815140904.GF10996@stefanha-x1.localdomain>
+References: <20190813133042.11683-1-stefanha@redhat.com>
+ <39b21ab6-bf1b-69c1-bbea-fb6f1b637132@redhat.com>
+ <20190814132306.GF23970@stefanha-x1.localdomain>
+ <20190815061340.gryxnfwaaoswqqi7@sirius.home.kraxel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RpqchZ26BWispMcB"
+ protocol="application/pgp-signature"; boundary="UBnjLfzoMQYIXCvq"
 Content-Disposition: inline
-In-Reply-To: <CALDO+SbRvSSW3OQimwVe59HcHqv0PPLwoAW6yGg_UOnzounPtQ@mail.gmail.com>
+In-Reply-To: <20190815061340.gryxnfwaaoswqqi7@sirius.home.kraxel.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] Question about libvhost-user and
- vhost-user-bridge.c
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH] usb: reword -usb command-line option and
+ mention xHCI
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,76 +82,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---RpqchZ26BWispMcB
+--UBnjLfzoMQYIXCvq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 14, 2019 at 10:54:34AM -0700, William Tu wrote:
-> Hi,
+On Thu, Aug 15, 2019 at 08:13:40AM +0200, Gerd Hoffmann wrote:
+>   Hi,
 >=20
-> I'm using libvhost-user.a to write a vhost backend, in order to receive a=
-nd
-> send packets from/to VMs from OVS. I started by reading the vhost-user-br=
-idge.c.
-> I can now pass the initialization stage, seeing .queue_set_started get in=
-voked.
+> > > > -Enable the USB driver (if it is not used by default yet).
+> > > > +Enable USB emulation on machine types with an on-board USB host co=
+ntroller (if
+> > > > +not enabled by default).  Note that on-board USB host controllers =
+may not
+> > > > +support USB 3.0.  In this case -device nec-usb-xhci can be used in=
+stead on
+> > >=20
+> > > Should we maybe rather recommend qemu-xhci instead?
+> >=20
+> > I think nec-usb-xhci is preferred because there are Windows drivers.
+> > IIRC qemu-xhci works under Linux but not under Windows (just because the
+> > PCI Vendor/Device ID aren't covered by any driver).
+> >=20
+> > Gerd: Can you confirm this?
 >=20
-> However, I am stuck at receiving the packet from VM.
-> So is it correct to do:
-> 1) check vu_queue_empty, started, and aval_bytes, if OK, then
+> That applies to windows 7 only, which is EOL next year.
+>=20
+> win7 doesn't ship with xhci drivers, but you can download and use
+> nec/renesas drivers which require nec-usb-xhci.
+>=20
+> win8+ ships with generic xhci drivers which works with all xhci
+> hardware, including qemu-xhci.
+>=20
+> So it indeed makes sense to refer to qemu-xhci.
 
-This step can be skipped because vu_queue_pop() returns NULL if there
-are no virtqueue elements available.
-
-> 2) elem =3D vu_queue_pop(&dev->vudev, vq, sizeof(VuVirtqElement));
-> 3) the packet payload should be at elem->in_sg->iov_base + hdrlen? or
-> at elem->out_sg?
-
-The driver->device buffers are elem->out_sg and the device->driver
-buffers are elem->in_sg.
-
-Device implementations must not make assumptions about the layout of
-out_sg and in_sg (e.g. you cannot assume that in_sg[0]->iov_len =3D=3D
-sizeof(struct virtio_net_hdr) and you must handle the case where
-in_sg[0]->iov_len =3D=3D 1).
-
-> I tried to hex dump the iov_base, but the content doesn't look like
-> having a ethernet header. I saw in vubr_backend_recv_cb at vhost-user-bri=
-dge.c,
-> we're creating another iovec and recvmsg(vubr->backend_udp_sock, &msg, 0);
-> I don't think I have to create backend UDP sock, am I correct?
-
-Please see the VIRTIO specification for details of the virtio-net rx/tx
-virtqueue formats:
-https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#x=
-1-2050006
-
-I think you may need to handle the struct virtio_net_hdr that comes
-before the Ethernet header.
+Thanks, will fix in v2!
 
 Stefan
 
---RpqchZ26BWispMcB
+--UBnjLfzoMQYIXCvq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1VZzAACgkQnKSrs4Gr
-c8izSwf+LDxMPKUh+yBj0rExv3O1+ZYzd9GgcM2QoU55pJQUx+kd3vK0+wvXcZql
-+gCZNUYFmf0rNoVHMnMuDqdBB7Nj53ZVyMceyEA+mEoBci6ldKTw4UfnSIZRgU1r
-mtIP8ItRaTIaPLxajZ24dhTER1uljy/0r6FQFxTeXEsUqc267puqRx45Ee4ib4ZA
-BqtS2iINn23shzSlwVfmqUsH45xa9Ocia3d+ifBuEpVvD2fVGiNJ0D8wuppgfn2g
-c+5V3TVkWlTC+KlhPTZnyy2zZ1sN1KwzG9pQjESOqJ0FLvGcECag/1F6R7SeH31F
-V317vR0QeHDH7oxkB4QjQzg7KSG+1g==
-=NQpZ
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1VZ4AACgkQnKSrs4Gr
+c8jgvQgAwZUSWIOGfWWlLNwOI1IhJhy8MG7bFhJv1FT+szmc40/oEkW3t8MmCvtt
+Zyk1I3aI3ckpgcrlkye3fM5A9ZN7n3HNd3OC5W24RJHQnG4bkxR9zl2jyH4qbICw
+3dTmA1uC/U42XZNEDXTewVJjZfCy5li6uCRvVcMBXq4h2ge05U8p5aP10UfQI4Q9
+H2QzGDXdQl02Mvat0wK68dNGX7LmQubXyCNjgjN8EiT1WRJ2VJhUtZy9Z+QD3kYy
+6v9OQYaNgOeV7LoQ+ipWdLYPUSFt5S9RnTIElaKTciMPG0XZet80AQJOLJ1qvTXU
+FxBHMo3MC9xedNHmiGCcboYeg5ZiEw==
+=GeZZ
 -----END PGP SIGNATURE-----
 
---RpqchZ26BWispMcB--
+--UBnjLfzoMQYIXCvq--
 
