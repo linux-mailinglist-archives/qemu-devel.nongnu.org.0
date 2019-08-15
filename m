@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176A18EC85
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 15:14:47 +0200 (CEST)
-Received: from localhost ([::1]:41792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F1E8EC8E
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 15:18:21 +0200 (CEST)
+Received: from localhost ([::1]:41826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyFaX-0000c3-Mo
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 09:14:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45177)
+	id 1hyFe0-0002JV-Br
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 09:18:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45395)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1hyFZg-0000Ae-FR
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 09:13:55 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hyFbm-0001M4-TX
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 09:16:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hyFZc-0004kY-Vt
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 09:13:52 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46185)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hyFZc-0004hu-NJ
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 09:13:48 -0400
-Received: by mail-wr1-x443.google.com with SMTP id z1so2147724wru.13
- for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 06:13:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=bqo/E3aXy3HVojhqROx6gpmqoWroIDST5KgP5oiSkmI=;
- b=igAZNbLoipcEL4/5jqbDgN3Wer+IIJAvVOZlw4kJKwkAkHiiMWizhPAtCWKLDFU4cN
- Ggfv8q9rEb7XjwbHo5TFVofdKNkBVk1jr5mVbNcm6eE+YUNP+D49LWRaRf4Hv1EQb/zM
- rBIdocxQHCzBA1QzvvMdriOJiWoS4dYppFfmxgz9nw0s5kL4qFuEcs2l8ajpAfF5dG92
- lwPrwsxPMdYURJUH4JzKJf0WUJz6t1XS9Oo+nqsGF0767hnYHPtJB3FJlUfidfQbfFlp
- ALtu0HztyG6SwhWVT2FA2TFiXzGjTpV0sFi39fSNvCsgJjaF7fGG28x/YELeP3FDKyAi
- ecLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=bqo/E3aXy3HVojhqROx6gpmqoWroIDST5KgP5oiSkmI=;
- b=mleqJ1PNL/Vx8hbGDsKpkg+ROcMH1nWHVAw8BhaN4h+yw1o4yns8fvNrBzG8aC8sK7
- XS67gjFoEsL3kB+ugGNA6ouS9ZjHEA4s84bT25E3e6p9rwjTDHap1NdrsGkj4HWUc8u/
- K5QiEnlfPkQAH9uYBowoIa4jpd8p1WEQrWpgAwSHyh5OjxDfcHGq2pB+adCCPbpXL57z
- bgrKDMC+WFv0WRi+eI8IXpLDI1o6srQSlUo/yUH42aHApg67vKM+yDVjnwn7wdSOlWNa
- 0zsbx73m2FFp8Lzs0pxVmKiG+VKnu0lPZN6SlRWaUJRGeaEYF88h4Gq23t2X93sk7ZJM
- 0SUQ==
-X-Gm-Message-State: APjAAAUyNJQg9W4Fc5USwvsG+HggadxCKlviUbM7HCKEd9SZqfs8EUVr
- wUUYw4+QD32a52c9dmocPYnlE/TkCC4=
-X-Google-Smtp-Source: APXvYqzs1rClt+QWCubTi34P61iX3VaqIaH7JQ4ODN/b2Ku+4vMN9ZvkJW0dgySoCxXPrYusWkW/YA==
-X-Received: by 2002:adf:de8e:: with SMTP id w14mr5385643wrl.79.1565874826516; 
- Thu, 15 Aug 2019 06:13:46 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id j16sm2699630wrp.62.2019.08.15.06.13.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Aug 2019 06:13:45 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D35FC1FF87;
- Thu, 15 Aug 2019 14:13:44 +0100 (BST)
-References: <20190815021857.19526-1-vandersonmr2@gmail.com>
- <20190815021857.19526-2-vandersonmr2@gmail.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190815021857.19526-2-vandersonmr2@gmail.com>
-Date: Thu, 15 Aug 2019 14:13:44 +0100
-Message-ID: <87sgq2mv07.fsf@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1hyFbj-0007gZ-IH
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 09:16:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42932)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hyFbd-0007dD-6K; Thu, 15 Aug 2019 09:15:53 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 48311796E0;
+ Thu, 15 Aug 2019 13:15:52 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A0FC841C7;
+ Thu, 15 Aug 2019 13:15:48 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20190802095239.31975-1-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <d2a58313-6ae8-4310-8121-03eb6692b598@redhat.com>
+Date: Thu, 15 Aug 2019 15:15:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH v5 01/10] accel: introducing TBStatistics
- structure
+In-Reply-To: <20190802095239.31975-1-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="0hdZ9YHsZcTNtLrhnJlaWL7lWnSmzinTS"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Thu, 15 Aug 2019 13:15:52 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4] blockjob: drain all job nodes in
+ block_job_drain
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,351 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--0hdZ9YHsZcTNtLrhnJlaWL7lWnSmzinTS
+Content-Type: multipart/mixed; boundary="RLck9abnJk7fPfKnSyEw1G1Y8rFutxsp3";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, jsnow@redhat.com, den@openvz.org
+Message-ID: <d2a58313-6ae8-4310-8121-03eb6692b598@redhat.com>
+Subject: Re: [PATCH v4] blockjob: drain all job nodes in block_job_drain
+References: <20190802095239.31975-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20190802095239.31975-1-vsementsov@virtuozzo.com>
 
-vandersonmr <vandersonmr2@gmail.com> writes:
+--RLck9abnJk7fPfKnSyEw1G1Y8rFutxsp3
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> To store statistics for each TB, we created a TBStatistics structure
-> which is linked with the TBs. TBStatistics can stay alive after
-> tb_flush and be relinked to a regenerated TB. So the statistics can
-> be accumulated even through flushes.
->
-> The goal is to have all present and future qemu/tcg statistics and
-> meta-data stored in this new structure.
->
-> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
+On 02.08.19 11:52, Vladimir Sementsov-Ogievskiy wrote:
+> Instead of draining additional nodes in each job code, let's do it in
+> common block_job_drain, draining just all job's children.
+> BlockJobDriver.drain becomes unused, so, drop it at all.
+>=20
+> It's also a first step to finally get rid of blockjob->blk.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  accel/tcg/Makefile.objs      |  2 +-
->  accel/tcg/perf/Makefile.objs |  1 +
->  accel/tcg/tb-stats.c         | 39 ++++++++++++++++++++++++
->  accel/tcg/translate-all.c    | 57 ++++++++++++++++++++++++++++++++++++
->  include/exec/exec-all.h      | 15 +++-------
->  include/exec/tb-context.h    | 12 ++++++++
->  include/exec/tb-hash.h       |  7 +++++
->  include/exec/tb-stats.h      | 43 +++++++++++++++++++++++++++
->  util/log.c                   |  2 ++
->  9 files changed, 166 insertions(+), 12 deletions(-)
->  create mode 100644 accel/tcg/perf/Makefile.objs
->  create mode 100644 accel/tcg/tb-stats.c
->  create mode 100644 include/exec/tb-stats.h
->
-> diff --git a/accel/tcg/Makefile.objs b/accel/tcg/Makefile.objs
-> index d381a02f34..49ffe81b5d 100644
-> --- a/accel/tcg/Makefile.objs
-> +++ b/accel/tcg/Makefile.objs
-> @@ -2,7 +2,7 @@ obj-$(CONFIG_SOFTMMU) +=3D tcg-all.o
->  obj-$(CONFIG_SOFTMMU) +=3D cputlb.o
->  obj-y +=3D tcg-runtime.o tcg-runtime-gvec.o
->  obj-y +=3D cpu-exec.o cpu-exec-common.o translate-all.o
-> -obj-y +=3D translator.o
-> +obj-y +=3D translator.o tb-stats.o
->
->  obj-$(CONFIG_USER_ONLY) +=3D user-exec.o
->  obj-$(call lnot,$(CONFIG_SOFTMMU)) +=3D user-exec-stub.o
-> diff --git a/accel/tcg/perf/Makefile.objs b/accel/tcg/perf/Makefile.objs
-> new file mode 100644
-> index 0000000000..f82fba35e5
-> --- /dev/null
-> +++ b/accel/tcg/perf/Makefile.objs
-> @@ -0,0 +1 @@
-> +obj-y +=3D jitdump.o
-> diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
-> new file mode 100644
-> index 0000000000..02844717cb
-> --- /dev/null
-> +++ b/accel/tcg/tb-stats.c
-> @@ -0,0 +1,39 @@
-> +#include "qemu/osdep.h"
-> +
-> +#include "disas/disas.h"
-> +
-> +#include "exec/tb-stats.h"
-> +
-> +void init_tb_stats_htable_if_not(void)
-> +{
-> +    if (tb_stats_collection_enabled() && !tb_ctx.tb_stats.map) {
-> +        qht_init(&tb_ctx.tb_stats, tb_stats_cmp,
-> +                CODE_GEN_HTABLE_SIZE, QHT_MODE_AUTO_RESIZE);
-> +    }
-> +}
-> +
-> +void enable_collect_tb_stats(void)
-> +{
-> +    init_tb_stats_htable_if_not();
-> +    tcg_collect_tb_stats =3D TB_STATS_RUNNING;
-> +}
-> +
-> +void disable_collect_tb_stats(void)
-> +{
-> +    tcg_collect_tb_stats =3D TB_STATS_PAUSED;
-> +}
-> +
-> +void pause_collect_tb_stats(void)
-> +{
-> +    tcg_collect_tb_stats =3D TB_STATS_STOPPED;
-> +}
-> +
-> +bool tb_stats_collection_enabled(void)
-> +{
-> +    return tcg_collect_tb_stats =3D=3D TB_STATS_RUNNING;
-> +}
-> +
-> +bool tb_stats_collection_paused(void)
-> +{
-> +    return tcg_collect_tb_stats =3D=3D TB_STATS_PAUSED;
-> +}
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index 5d1e08b169..b7bccacd3b 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -1118,6 +1118,23 @@ static inline void code_gen_alloc(size_t tb_size)
->      }
->  }
->
-> +/*
-> + * This is the more or less the same compare as tb_cmp(), but the
-> + * data persists over tb_flush. We also aggregate the various
-> + * variations of cflags under one record and ignore the details of
-> + * page overlap (although we can count it).
-> + */
-> +bool tb_stats_cmp(const void *ap, const void *bp)
-> +{
-> +    const TBStatistics *a =3D ap;
-> +    const TBStatistics *b =3D bp;
-> +
-> +    return a->phys_pc =3D=3D b->phys_pc &&
-> +        a->pc =3D=3D b->pc &&
-> +        a->cs_base =3D=3D b->cs_base &&
-> +        a->flags =3D=3D b->flags;
-> +}
-> +
->  static bool tb_cmp(const void *ap, const void *bp)
->  {
->      const TranslationBlock *a =3D ap;
-> @@ -1137,6 +1154,7 @@ static void tb_htable_init(void)
->      unsigned int mode =3D QHT_MODE_AUTO_RESIZE;
->
->      qht_init(&tb_ctx.htable, tb_cmp, CODE_GEN_HTABLE_SIZE, mode);
-> +    init_tb_stats_htable_if_not();
->  }
->
->  /* Must be called before using the QEMU cpus. 'tb_size' is the size
-> @@ -1666,6 +1684,34 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t =
-phys_pc,
->      return tb;
->  }
->
-> +static TBStatistics *tb_get_stats(tb_page_addr_t phys_pc, target_ulong p=
-c,
-> +                                  target_ulong cs_base, uint32_t flags,
-> +                                  TranslationBlock *current_tb)
-> +{
-> +    TBStatistics *new_stats =3D g_new0(TBStatistics, 1);
-> +    uint32_t hash =3D tb_stats_hash_func(phys_pc, pc, flags);
-> +    void *existing_stats =3D NULL;
-> +    new_stats->phys_pc =3D phys_pc;
-> +    new_stats->pc =3D pc;
-> +    new_stats->cs_base =3D cs_base;
-> +    new_stats->flags =3D flags;
-> +    new_stats->tb =3D current_tb;
-> +
-> +    qht_insert(&tb_ctx.tb_stats, new_stats, hash, &existing_stats);
-> +
-> +    if (unlikely(existing_stats)) {
-> +        /*
-> +         * If there is already a TBStatistic for this TB from a previous=
- flush
-> +         * then just make the new TB point to the older TBStatistic
-> +         */
-> +        g_free(new_stats);
-> +        return existing_stats;
-> +    } else {
-> +        return new_stats;
-> +    }
-> +}
-> +
-> +
->  /* Called with mmap_lock held for user mode emulation.  */
->  TranslationBlock *tb_gen_code(CPUState *cpu,
->                                target_ulong pc, target_ulong cs_base,
-> @@ -1732,6 +1778,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->      ti =3D profile_getclock();
->  #endif
->
-> +    /*
-> +     * We want to fetch the stats structure before we start code
-> +     * generation so we can count interesting things about this
-> +     * generation.
-> +     */
-> +    if (tb_stats_collection_enabled()) {
-> +        tb->tb_stats =3D tb_get_stats(phys_pc, pc, cs_base, flags, tb);
-> +    } else {
-> +        tb->tb_stats =3D NULL;
-> +    }
-> +
->      tcg_func_start(tcg_ctx);
->
->      tcg_ctx->cpu =3D env_cpu(env);
-> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> index 16034ee651..24bd6a0a0c 100644
-> --- a/include/exec/exec-all.h
-> +++ b/include/exec/exec-all.h
-> @@ -22,21 +22,11 @@
->
->  #include "exec/tb-context.h"
->  #include "sysemu/cpus.h"
-> +#include "exec/tb-stats.h"
->
->  /* allow to see translation results - the slowdown should be negligible,=
- so we leave it */
->  #define DEBUG_DISAS
->
-> -/* Page tracking code uses ram addresses in system mode, and virtual
-> -   addresses in userspace mode.  Define tb_page_addr_t to be an appropri=
-ate
-> -   type.  */
-> -#if defined(CONFIG_USER_ONLY)
-> -typedef abi_ulong tb_page_addr_t;
-> -#define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
-> -#else
-> -typedef ram_addr_t tb_page_addr_t;
-> -#define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
-> -#endif
-> -
->  #include "qemu/log.h"
->
->  void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_=
-insns);
-> @@ -403,6 +393,9 @@ struct TranslationBlock {
->      uintptr_t jmp_list_head;
->      uintptr_t jmp_list_next[2];
->      uintptr_t jmp_dest[2];
-> +
-> +    /* Pointer to a struct where statistics from the TB is stored */
-> +    TBStatistics *tb_stats;
->  };
->
->  extern bool parallel_cpus;
-> diff --git a/include/exec/tb-context.h b/include/exec/tb-context.h
-> index feb585e0a7..3cfb62a338 100644
-> --- a/include/exec/tb-context.h
-> +++ b/include/exec/tb-context.h
-> @@ -23,6 +23,17 @@
->  #include "qemu/thread.h"
->  #include "qemu/qht.h"
->
-> +/* Page tracking code uses ram addresses in system mode, and virtual
-> +   addresses in userspace mode.  Define tb_page_addr_t to be an appropri=
-ate
-> +   type.  */
-> +#if defined(CONFIG_USER_ONLY)
-> +typedef abi_ulong tb_page_addr_t;
-> +#define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
-> +#else
-> +typedef ram_addr_t tb_page_addr_t;
-> +#define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
-> +#endif
-> +
->  #define CODE_GEN_HTABLE_BITS     15
->  #define CODE_GEN_HTABLE_SIZE     (1 << CODE_GEN_HTABLE_BITS)
->
-> @@ -35,6 +46,7 @@ struct TBContext {
->
->      /* statistics */
->      unsigned tb_flush_count;
-> +    struct qht tb_stats;
->  };
->
->  extern TBContext tb_ctx;
-> diff --git a/include/exec/tb-hash.h b/include/exec/tb-hash.h
-> index 4f3a37d927..54c477fe79 100644
-> --- a/include/exec/tb-hash.h
-> +++ b/include/exec/tb-hash.h
-> @@ -64,4 +64,11 @@ uint32_t tb_hash_func(tb_page_addr_t phys_pc, target_u=
-long pc, uint32_t flags,
->      return qemu_xxhash7(phys_pc, pc, flags, cf_mask, trace_vcpu_dstate);
->  }
->
-> +static inline
-> +uint32_t tb_stats_hash_func(tb_page_addr_t phys_pc, target_ulong pc,
-> +                            uint32_t flags)
-> +{
-> +    return qemu_xxhash5(phys_pc, pc, flags);
-> +}
-> +
->  #endif
-> diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
-> new file mode 100644
-> index 0000000000..cc8f8a6ce6
-> --- /dev/null
-> +++ b/include/exec/tb-stats.h
-> @@ -0,0 +1,43 @@
-> +#ifndef TB_STATS_H
-> +
-> +#define TB_STATS_H
-> +
-> +#include "exec/cpu-common.h"
-> +#include "exec/tb-context.h"
-> +#include "tcg.h"
-> +
-> +typedef struct TBStatistics TBStatistics;
-> +
-> +/*
-> + * This struct stores statistics such as execution count of the
-> + * TranslationBlocks. Each sets of TBs for a given phys_pc/pc/flags
-> + * has its own TBStatistics which will persist over tb_flush.
-> + *
-> + * We include additional counters to track number of translations as
-> + * well as variants for compile flags.
-> + */
-> +struct TBStatistics {
-> +    tb_page_addr_t phys_pc;
-> +    target_ulong pc;
-> +    uint32_t     flags;
-> +    /* cs_base isn't included in the hash but we do check for matches */
-> +    target_ulong cs_base;
-> +    /* current TB linked to this TBStatistics */
-> +    TranslationBlock *tb;
-> +};
-> +
-> +bool tb_stats_cmp(const void *ap, const void *bp);
-> +
-> +void init_tb_stats_htable_if_not(void);
-> +
-> +/* TBStatistic collection controls */
-> +enum TBStatsStatus { TB_STATS_RUNNING, TB_STATS_PAUSED, TB_STATS_STOPPED=
- };
-> +extern int tcg_collect_tb_stats;
-> +
-> +void enable_collect_tb_stats(void);
-> +void disable_collect_tb_stats(void);
-> +void pause_collect_tb_stats(void);
-> +bool tb_stats_collection_enabled(void);
-> +bool tb_stats_collection_paused(void);
-> +
-> +#endif
-> diff --git a/util/log.c b/util/log.c
-> index 1d1b33f7d9..393a17115b 100644
-> --- a/util/log.c
-> +++ b/util/log.c
-> @@ -31,6 +31,8 @@ int qemu_loglevel;
->  static int log_append =3D 0;
->  static GArray *debug_regions;
->
-> +int tcg_collect_tb_stats;
-> +
->  /* Return the number of characters emitted.  */
->  int qemu_log(const char *fmt, ...)
->  {
+
+What do you think of Kevin=E2=80=99s comment that draining the block node=
+s may
+actually be entirely unnecessary?
+
+Max
 
 
---
-Alex Benn=C3=A9e
+--RLck9abnJk7fPfKnSyEw1G1Y8rFutxsp3--
+
+--0hdZ9YHsZcTNtLrhnJlaWL7lWnSmzinTS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1VWwMACgkQ9AfbAGHV
+z0A5sAgAreAj1AwJJn0WlAfBYCbyMrINPXxASrNqaxb7B9mjjhbuRsnbhqBFbfkG
+Hg9h+htcCOqz9JiQ5AsiklPqVF61MlgeEVQQC2mghLqEBLQG6zfHZbwEmGpdmUul
+85CMVc4ViZ+RRCpUgHDXinQtXZ3DQInwMclGQAWLJt8S7KZ5zIxH21dZlHWb8CE5
+5t7AQp3yGrtSVnVNK8zv0aoJf0KREf855DuGmf0+kw0mygIaid5vNrDCoqjHVeg7
+pibAgVWgvowF0no3WWOFaXL5dV6FN5HJz5biaQ7q/BA4qQN3gPAtIpSr2rHd56ap
+uP0gLxc20JgaAyd2wVUnhWYC/IuA/A==
+=UBPf
+-----END PGP SIGNATURE-----
+
+--0hdZ9YHsZcTNtLrhnJlaWL7lWnSmzinTS--
 
