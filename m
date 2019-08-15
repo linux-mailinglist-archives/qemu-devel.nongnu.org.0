@@ -2,56 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A47B8EF03
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 17:03:04 +0200 (CEST)
-Received: from localhost ([::1]:42832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E207A8EF05
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 17:03:53 +0200 (CEST)
+Received: from localhost ([::1]:42842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyHHL-0007Km-7Z
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 11:03:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33822)
+	id 1hyHI9-0000An-1e
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 11:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34029)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1hyHEp-00069T-53
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:00:33 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hyHFz-00070S-7P
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:01:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1hyHEk-00082V-Dx
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:00:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:15405)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hyHEk-00081b-6N
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:00:22 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1FBA73C92D;
- Thu, 15 Aug 2019 15:00:20 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-57.ams2.redhat.com
- [10.36.117.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7DFD917CDD;
- Thu, 15 Aug 2019 15:00:17 +0000 (UTC)
-To: devel@edk2.groups.io, pbonzini@redhat.com,
- "Yao, Jiewen" <jiewen.yao@intel.com>
-References: <8091f6e8-b1ec-f017-1430-00b0255729f4@redhat.com>
- <effa5e32-be1e-4703-4419-8866b7754e2d@redhat.com>
- <74D8A39837DF1E4DA445A8C0B3885C503F75B680@shsmsx102.ccr.corp.intel.com>
- <047801f8-624a-2300-3cf7-1daa1395ce59@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <99219f81-33a3-f447-95f8-f10341d70084@redhat.com>
-Date: Thu, 15 Aug 2019 17:00:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hyHFv-00008L-8H
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:01:39 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43891)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1hyHFv-00007i-38
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:01:35 -0400
+Received: by mail-ot1-x342.google.com with SMTP id e12so6451451otp.10
+ for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 08:01:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=YGsvfCjzbJxPrhZMIVpEtAlRXOnZ4RxeD9tcTlBNJkY=;
+ b=bKIBhgtQUx71IJ+eOxaxQlCfCawqybrRPIcFGfmYZK7utbxV6Qd3ph+0tmdx+D7oOh
+ XYqc/Hm6lDKTdqXh/I5c9g2Eoy7SHeaaUMWSKqlgO9ylX4ET3H/DZK1eCDvOsc5GjvrE
+ 67vnSMZByi6trTLLo6TGXT0UPxFm7OzueMqbJDV1Xmghz/IPUugUnKxn5yNSy917wRew
+ GaHB5rUdM47v8iyFTfYGmM9vqER+U4y0Bg13auDW3T4nU98BHXBkUEBaw4PJ+d3W5MGu
+ /awGoyzUATg0+OiIpBiWmaGYfwJfwSk9h7TUAn2ew+EzMvdFTmeD+aQ0kb/AryGy1rvs
+ 91xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=YGsvfCjzbJxPrhZMIVpEtAlRXOnZ4RxeD9tcTlBNJkY=;
+ b=H19MjDCxtsSDwJMS4j1t3GDrvtlmlS+d8XZuFSMyjyOu81WOr1t/Gx4dvVXL10GdbJ
+ Ktw6TFCruWVo3ZY4Q8jmGYPCua+7K+yjjL2LQzfLGXseVZvPLQ4RuE1/s27a80mooNEg
+ LNc1bQhveJ1RuPJPz8rm3ZFHNipClWXG7DOlM3E2s4Pa0CUqzCvVA0LDKMz9+eY/Fia6
+ 0/vycSpDq2QjwVDY1Z9JJ0dTIRCMvqv0kimIBGFGGDbHEXrlXjn0wt3OvjEnb9XjKBxl
+ 5zwWi1U+N2Ju0mgj0CSFopN0ZmmRON4MXUjsDJEbqOaA+7fNdzOUXtwIowKVk5dV4jP4
+ Ry2Q==
+X-Gm-Message-State: APjAAAXRSFCtrXYRbvoGRWiw6/CkC4MFuWWqCPaSeOtHsYQckULbKoFe
+ rQHLxoViceRmvj901aNPGZd4l3QBp/8cJSD9jR8=
+X-Google-Smtp-Source: APXvYqxj6iGQr3Z+I9iRGO98Ga6kP6n1IUQ+vGvPyOYvxVnFjCM00VsLo+tV3C1Y/tbMsxQQdNtnKLIgzw3aIZEwNTY=
+X-Received: by 2002:a9d:851:: with SMTP id 75mr4046027oty.341.1565881294175;
+ Thu, 15 Aug 2019 08:01:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <047801f8-624a-2300-3cf7-1daa1395ce59@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 15 Aug 2019 15:00:20 +0000 (UTC)
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Thu, 15 Aug 2019 08:01:33
+ -0700 (PDT)
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Thu, 15 Aug 2019 08:01:33
+ -0700 (PDT)
+In-Reply-To: <20190815020928.9679-16-jan.bobek@gmail.com>
+References: <20190815020928.9679-1-jan.bobek@gmail.com>
+ <20190815020928.9679-16-jan.bobek@gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 15 Aug 2019 17:01:33 +0200
+Message-ID: <CAL1e-=jNu8w-9wgkz5Ug-uZKWreEY=6EqD_cYN_KY_qXfn2TPQ@mail.gmail.com>
+To: Jan Bobek <jan.bobek@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [edk2-devel] CPU hotplug using SMM with QEMU+OVMF
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [RFC PATCH v3 15/46] target/i386: introduce
+ function ck_cpuid
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,219 +79,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Chen, Yingwen" <yingwen.chen@intel.com>,
- Phillip Goerl <phillip.goerl@oracle.com>,
- qemu devel list <qemu-devel@nongnu.org>, "Nakajima,
- Jun" <jun.nakajima@intel.com>, Igor Mammedov <imammedo@redhat.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- edk2-rfc-groups-io <rfc@edk2.groups.io>,
- Joao Marcal Lemos Martins <joao.m.martins@oracle.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/14/19 16:04, Paolo Bonzini wrote:
-> On 14/08/19 15:20, Yao, Jiewen wrote:
->>> - Does this part require a new branch somewhere in the OVMF SEC code?
->>>   How do we determine whether the CPU executing SEC is BSP or
->>>   hot-plugged AP?
->> [Jiewen] I think this is blocked from hardware perspective, since the =
-first instruction.
->> There are some hardware specific registers can be used to determine if=
- the CPU is new added.
->> I don=E2=80=99t think this must be same as the real hardware.
->> You are free to invent some registers in device model to be used in OV=
-MF hot plug driver.
->=20
-> Yes, this would be a new operation mode for QEMU, that only applies to
-> hot-plugged CPUs.  In this mode the AP doesn't reply to INIT or SMI, in
-> fact it doesn't reply to anything at all.
->=20
->>> - How do we tell the hot-plugged AP where to start execution? (I.e. t=
-hat
->>>   it should execute code at a particular pflash location.)
->> [Jiewen] Same real mode reset vector at FFFF:FFF0.
->=20
-> You do not need a reset vector or INIT/SIPI/SIPI sequence at all in
-> QEMU.  The AP does not start execution at all when it is unplugged, so
-> no cache-as-RAM etc.
->=20
-> We only need to modify QEMU so that hot-plugged APIs do not reply to
-> INIT/SIPI/SMI.
->=20
->> I don=E2=80=99t think there is problem for real hardware, who always h=
-as CAR.
->> Can QEMU provide some CPU specific space, such as MMIO region?
->=20
-> Why is a CPU-specific region needed if every other processor is in SMM
-> and thus trusted.
+15.08.2019. 04.23, "Jan Bobek" <jan.bobek@gmail.com> =D1=98=D0=B5 =D0=BD=D0=
+=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> Introduce a helper function to take care of instruction CPUID checks.
+>
+> Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
+> ---
 
-I was going through the steps Jiewen and Yingwen recommended.
+Jan, what is the origin of "CK"? If it is a QEMU internal thing, perhaps
+use "CHECK".
 
-In step (02), the new CPU is expected to set up RAM access. In step
-(03), the new CPU, executing code from flash, is expected to "send board
-message to tell host CPU (GPIO->SCI) -- I am waiting for hot-add
-message." For that action, the new CPU may need a stack (minimally if we
-want to use C function calls).
+The function should be called check_cpuid(), imho. I know, Richard would
+like c_ci(), or simpler cc(), better.
 
-Until step (03), there had been no word about any other (=3D pre-plugged)
-CPUs (more precisely, Jiewen even confirmed "No impact to other
-processors"), so I didn't assume that other CPUs had entered SMM.
+Aleksandar
 
-Paolo, I've attempted to read Jiewen's response, and yours, as carefully
-as I can. I'm still very confused. If you have a better understanding,
-could you please write up the 15-step process from the thread starter
-again, with all QEMU customizations applied? Such as, unnecessary steps
-removed, and platform specifics filled in.
-
-One more comment below:
-
->=20
->>>   Does CPU hotplug apply only at the socket level? If the CPU is
->>>   multi-core, what is responsible for hot-plugging all cores present =
-in
->>>   the socket?
->=20
-> I can answer this: the SMM handler would interact with the hotplug
-> controller in the same way that ACPI DSDT does normally.  This supports
-> multiple hotplugs already.
->=20
-> Writes to the hotplug controller from outside SMM would be ignored.
->=20
->>>> (03) New CPU: (Flash) send board message to tell host CPU (GPIO->SCI=
-)
->>>>      -- I am waiting for hot-add message.
->>>
->>> Maybe we can simplify this in QEMU by broadcasting an SMI to existent
->>> processors immediately upon plugging the new CPU.
->=20
-> The QEMU DSDT could be modified (when secure boot is in effect) to OUT
-> to 0xB2 when hotplug happens.  It could write a well-known value to
-> 0xB2, to be read by an SMI handler in edk2.
-
-(My comment below is general, and may not apply to this particular
-situation. I'm too confused to figure that out myself, sorry!)
-
-I dislike involving QEMU's generated DSDT in anything SMM (even
-injecting the SMI), because the AML interpreter runs in the OS.
-
-If a malicious OS kernel is a bit too enlightened about the DSDT, it
-could willfully diverge from the process that we design. If QEMU
-broadcast the SMI internally, the guest OS could not interfere with that.
-
-If the purpose of the SMI is specifically to force all CPUs into SMM
-(and thereby force them into trusted state), then the OS would be
-explicitly counter-interested in carrying out the AML operations from
-QEMU's DSDT.
-
-I'd be OK with an SMM / SMI involvement in QEMU's DSDT if, by diverging
-from that DSDT, the OS kernel could only mess with its own state, and
-not with the firmware's.
-
-Thanks
-Laszlo
-
->=20
->=20
->>>
->>>>                                        (NOTE: Host CPU can only
->>> send
->>>>      instruction in SMM mode. -- The register is SMM only)
->>>
->>> Sorry, I don't follow -- what register are we talking about here, and
->>> why is the BSP needed to send anything at all? What "instruction" do =
-you
->>> have in mind?
->> [Jiewen] The new CPU does not enable SMI at reset.
->> At some point of time later, the CPU need enable SMI, right?
->> The "instruction" here means, the host CPUs need tell to CPU to enable=
- SMI.
->=20
-> Right, this would be a write to the CPU hotplug controller
->=20
->>>> (04) Host CPU: (OS) get message from board that a new CPU is added.
->>>>      (GPIO -> SCI)
->>>>
->>>> (05) Host CPU: (OS) All CPUs enter SMM (SCI->SWSMI) (NOTE: New CPU
->>>>      will not enter CPU because SMI is disabled)
->>>
->>> I don't understand the OS involvement here. But, again, perhaps QEMU =
-can
->>> force all existent CPUs into SMM immediately upon adding the new CPU.
->> [Jiewen] OS here means the Host CPU running code in OS environment, no=
-t in SMM environment.
->=20
-> See above.
->=20
->>>> (06) Host CPU: (SMM) Save 38000, Update 38000 -- fill simple SMM
->>>>      rebase code.
->>>>
->>>> (07) Host CPU: (SMM) Send message to New CPU to Enable SMI.
->>>
->>> Aha, so this is the SMM-only register you mention in step (03). Is th=
-e
->>> register specified in the Intel SDM?
->> [Jiewen] Right. That is the register to let host CPU tell new CPU to e=
-nable SMI.
->> It is platform specific register. Not defined in SDM.
->> You may invent one in device model.
->=20
-> See above.
->=20
->>>> (10) New CPU: (SMM) Response first SMI at 38000, and rebase SMBASE t=
-o
->>>>      TSEG.
->>>
->>> What code does the new CPU execute after it completes step (10)? Does=
- it
->>> halt?
->>
->> [Jiewen] The new CPU exits SMM and return to original place - where it=
- is
->> interrupted to enter SMM - running code on the flash.
->=20
-> So in our case we'd need an INIT/SIPI/SIPI sequence between (06) and (0=
-7).
->=20
->>>> (11) Host CPU: (SMM) Restore 38000.
->>>
->>> These steps (i.e., (06) through (11)) don't appear RAS-specific. The
->>> only platform-specific feature seems to be SMI masking register, whic=
-h
->>> could be extracted into a new SmmCpuFeaturesLib API.
->>>
->>> Thus, would you please consider open sourcing firmware code for steps
->>> (06) through (11)?
->>>
->>> Alternatively -- and in particular because the stack for step (01)
->>> concerns me --, we could approach this from a high-level, functional
->>> perspective. The states that really matter are the relocated SMBASE f=
-or
->>> the new CPU, and the state of the full system, right at the end of st=
-ep
->>> (11).
->>>
->>> When the SMM setup quiesces during normal firmware boot, OVMF could
->>> use
->>> existent (finalized) SMBASE infomation to *pre-program* some virtual
->>> QEMU hardware, with such state that would be expected, as "final" sta=
-te,
->>> of any new hotplugged CPU. Afterwards, if / when the hotplug actually
->>> happens, QEMU could blanket-apply this state to the new CPU, and
->>> broadcast a hardware SMI to all CPUs except the new one.
->=20
-> I'd rather avoid this and stay as close as possible to real hardware.
->=20
-> Paolo
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Groups.io Links: You receive all messages sent to this group.
->=20
-> View/Reply Online (#45608): https://edk2.groups.io/g/devel/message/4560=
-8
-> Mute This Topic: https://groups.io/mt/32852911/1721875
-> Group Owner: devel+owner@edk2.groups.io
-> Unsubscribe: https://edk2.groups.io/g/devel/unsub  [lersek@redhat.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
-
+>  target/i386/translate.c | 48 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+>
+> diff --git a/target/i386/translate.c b/target/i386/translate.c
+> index 6296a02991..0cffa2226b 100644
+> --- a/target/i386/translate.c
+> +++ b/target/i386/translate.c
+> @@ -4500,6 +4500,54 @@ static void gen_sse(CPUX86State *env, DisasContext
+*s, int b)
+>  #define tcg_gen_gvec_cmpgt(vece, dofs, aofs, bofs, oprsz, maxsz)        =
+\
+>      tcg_gen_gvec_cmp(TCG_COND_GT, vece, dofs, aofs, bofs, oprsz, maxsz)
+>
+> +typedef enum {
+> +    CK_CPUID_MMX =3D 1,
+> +    CK_CPUID_3DNOW,
+> +    CK_CPUID_SSE,
+> +    CK_CPUID_SSE2,
+> +    CK_CPUID_CLFLUSH,
+> +    CK_CPUID_SSE3,
+> +    CK_CPUID_SSSE3,
+> +    CK_CPUID_SSE4_1,
+> +    CK_CPUID_SSE4_2,
+> +    CK_CPUID_SSE4A,
+> +    CK_CPUID_AVX,
+> +    CK_CPUID_AVX2,
+> +} CkCpuidFeat;
+> +
+> +static int ck_cpuid(CPUX86State *env, DisasContext *s, CkCpuidFeat feat)
+> +{
+> +    switch (feat) {
+> +    case CK_CPUID_MMX:
+> +        return !(s->cpuid_features & CPUID_MMX)
+> +            || !(s->cpuid_ext2_features & CPUID_EXT2_MMX);
+> +    case CK_CPUID_3DNOW:
+> +        return !(s->cpuid_ext2_features & CPUID_EXT2_3DNOW);
+> +    case CK_CPUID_SSE:
+> +        return !(s->cpuid_features & CPUID_SSE);
+> +    case CK_CPUID_SSE2:
+> +        return !(s->cpuid_features & CPUID_SSE2);
+> +    case CK_CPUID_CLFLUSH:
+> +        return !(s->cpuid_features & CPUID_CLFLUSH);
+> +    case CK_CPUID_SSE3:
+> +        return !(s->cpuid_ext_features & CPUID_EXT_SSE3);
+> +    case CK_CPUID_SSSE3:
+> +        return !(s->cpuid_ext_features & CPUID_EXT_SSSE3);
+> +    case CK_CPUID_SSE4_1:
+> +        return !(s->cpuid_ext_features & CPUID_EXT_SSE41);
+> +    case CK_CPUID_SSE4_2:
+> +        return !(s->cpuid_ext_features & CPUID_EXT_SSE42);
+> +    case CK_CPUID_SSE4A:
+> +        return !(s->cpuid_ext3_features & CPUID_EXT3_SSE4A);
+> +    case CK_CPUID_AVX:
+> +        return !(s->cpuid_ext_features & CPUID_EXT_AVX);
+> +    case CK_CPUID_AVX2:
+> +        return !(s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_AVX2);
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +}
+> +
+>  static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
+>  {
+>      enum {
+> --
+> 2.20.1
+>
+>
