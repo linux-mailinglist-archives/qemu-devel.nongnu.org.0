@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA968E2BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:33:39 +0200 (CEST)
-Received: from localhost ([::1]:37578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604628E2B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:30:22 +0200 (CEST)
+Received: from localhost ([::1]:37538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy5a5-0007xN-IW
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:33:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46833)
+	id 1hy5Wu-0004NA-Ty
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:30:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46867)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5DU-00069h-UK
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:19 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DX-0006Bd-Bn
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5DS-0008Qa-Lq
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:16 -0400
-Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:44238)
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DV-0008Vm-9C
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:19 -0400
+Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:37211)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5DR-0008Ob-1S
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:13 -0400
-Received: by mail-yw1-xc44.google.com with SMTP id l79so286292ywe.11
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:12 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5DV-0008U1-57
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:17 -0400
+Received: by mail-yw1-xc43.google.com with SMTP id u141so299548ywe.4
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Dl8bYnb0udmn0qx43U7Smy53dg0Al6b+NL/33M408sA=;
- b=dha9cR2TPgyGZWAykDdhOIz2SBCbV+XqlGBsd6MJw0FwFjQICs2htrVPhrnT4AGvj/
- CflOKsE67JiCmhHWNsgjj9r9kesr+S4EdiM6m/c+d2pJ9mMM3c5ZXr9bC5HkaQi4gi1C
- +ow9e+bk1GSITSm6Lbz7n3FB0FTEaNoqVyndv4ip2HTFhe9ZakqNvQwftxpGHqG9Zukx
- P+cDLru/ydFhEVyggTgyLTXkrDkQjcediBdKfM1x7IQLOBm7BjPC9fTAjgaIiVYuYk8F
- TMiF9OY79SUBxd6xFtN7L2YicO+x7vmgmezttS0+hNVtYw/SXJbLmS6UoatEacARgeAo
- IWqA==
+ bh=tLijPMcyDKCXtSPHRwSPvNlWAMP/Ey57t/uYlG4MOwo=;
+ b=dvrtecTta0z8RAk/Zg8eJJ8ifb2gIy8mYuCupOf2gyGCIaoJ0awt5m+IfRJvXNWkgF
+ 8kiSHid+ZOJp8yZJQh3iLivoFllWx4c4EyTGqmSru6Ek7ie8ZOav8EOh0WuMsirSm96P
+ oW7L6JFi8shDoMceVNmG+PXVa1rhuBducKzmpzfWCrY05dyzaSHWzJ+y3gman1PHb9w6
+ 5YnM8UbdLCGGhoAZa51VWNfwDIiyv/0QsZF8bbmrkaAANfhC4EfZa7aWNuhLrGlki7O3
+ TEz94M7Qg1BtUkQSNNuR+wYHPJRHRwkN4ltfxfxkRye2GHpe+QttMng0xILWZOh9doL8
+ 2slw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Dl8bYnb0udmn0qx43U7Smy53dg0Al6b+NL/33M408sA=;
- b=VIeCFLM/9+2y0icdXzfzCdUzkHJR8rk8gkJKfu/NOl9J+jXl07Do0/Jra05lIbXoW7
- n78QFhC1dw3mnYFGszB66gTxbVSuKkqYCgF7Wrw3WIWTHeE1y8dvqCd7sgSN8rkmkXGe
- /n8mzkqt0xdpda+sNMzJFRlKVq9FvzW0401X06WNUe0aYeU42ygvNXoVffLLspjetGIj
- OBSzTG60AonWyrGq/nmXKemF/Xwqi5fy0xq0QfKBDHN5kXAIoWtJrvZ7gcoWj1sTtF3x
- CxlB+GXPYkMljlRXGltfaM0JiGIwj/6OBXDMc4UaB7tZWV0xjFLVq/rJ66NFqoirTYtV
- tqcA==
-X-Gm-Message-State: APjAAAUK6FVWj9IMlQ3LH541R2Vv6xWzPFvjhYR3nzN6wIi+7IyS0ep5
- 1ALCrdSQ3Va58vO57vgIBIkbaSyO
-X-Google-Smtp-Source: APXvYqyh58TKjwViBS5L+7g+o/wt0EAnCTT5KvrNoaHtJ+lblJxOjnZ8buTQdDYWY3z1anv6Dk10CQ==
-X-Received: by 2002:a81:9889:: with SMTP id p131mr1559360ywg.127.1565835012370; 
- Wed, 14 Aug 2019 19:10:12 -0700 (PDT)
+ bh=tLijPMcyDKCXtSPHRwSPvNlWAMP/Ey57t/uYlG4MOwo=;
+ b=EUE76LDyOuKJtRWtqDntoCi8vijo4MV6afQQdUx+Lwly5dKFo0ESGGepaGt6mehRsV
+ aLUVbxyQjz7OP9TaMprzVOs7VBDnWpgPetBAJuh7VpblwRBKL7JjAoMI3fC+LFSu6S/K
+ E7n83kI3NMNeVIM3ihpyDa1q4tlFa9D4eDtijqQspovGXzhq75MAUhQZpo4eItJDVJXr
+ Ju1iwS8My31KD9URypnm0Uj3LHGhb0aO09biSe0kQErt7ikbuzwvrMV9be0ixCQzM9qq
+ tSzdlqUZ0EC3FBqAlgYKgDMBz4ZhzYGwgrWoTkqmGK+9BAYdQ/svR/PJXJxdxbvBrnr+
+ vakA==
+X-Gm-Message-State: APjAAAVYUoK9eeboNDmJycof2BQkHH6tmuxwVRDc60i1y2wN8kf3E245
+ W8jfA255IJRA0cKnSrmzBy9CSsbJ
+X-Google-Smtp-Source: APXvYqw5hCsJn0Ixs9REUtc9WkQKfsZDzq9kAN7507w90OC/wS6NLzkJn19++gHjlNPOcqSU/R7kLw==
+X-Received: by 2002:a81:2948:: with SMTP id p69mr1731436ywp.264.1565835015997; 
+ Wed, 14 Aug 2019 19:10:15 -0700 (PDT)
 Received: from dionysus.attlocal.net ([2601:c0:c67f:e390:8a9a:e33f:caf8:f018])
  by smtp.gmail.com with ESMTPSA id
- j3sm374882ywk.21.2019.08.14.19.10.11
+ j3sm374882ywk.21.2019.08.14.19.10.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Aug 2019 19:10:11 -0700 (PDT)
+ Wed, 14 Aug 2019 19:10:15 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 22:09:01 -0400
-Message-Id: <20190815020928.9679-20-jan.bobek@gmail.com>
+Date: Wed, 14 Aug 2019 22:09:05 -0400
+Message-Id: <20190815020928.9679-24-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190815020928.9679-1-jan.bobek@gmail.com>
 References: <20190815020928.9679-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c44
-Subject: [Qemu-devel] [RFC PATCH v3 19/46] target/i386: introduce generic
- load-store operand
+X-Received-From: 2607:f8b0:4864:20::c43
+Subject: [Qemu-devel] [RFC PATCH v3 23/46] target/i386: introduce operand
+ for direct-only r/m field
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,77 +84,59 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This operand attempts to capture the "indirect" or "memory" operand in
-a generic way. It significatly reduces the amount code that needs to
-be written in order to read operands from memory to temporary storage
-and write them back.
+Many operands can only decode successfully if the ModR/M byte has the
+direct form (i.e. MOD=3). Capture this common aspect by introducing a
+special direct-only r/m field operand.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 54 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ target/i386/translate.c | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index a0b883c680..99f46be34e 100644
+index e4515e81df..c918065b96 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4642,6 +4642,60 @@ static int ck_cpuid(CPUX86State *env, DisasContext *s, CkCpuidFeat feat)
-                                  env, s, modrm, is_write, arg));        \
-     }
+@@ -4822,6 +4822,43 @@ INSNOP_FINALIZE(modrm_rm)
+ {
+ }
  
 +/*
-+ * Generic load-store operand
++ * modrm_rm_direct
++ *
++ * Equivalent of modrm_rm, but only decodes successfully if
++ * the ModR/M byte has the direct form (i.e. MOD=3).
 + */
-+#define insnop_ldst(opTarg, opTptr)             \
-+    insnop_ldst_ ## opTarg ## opTptr
++typedef insnop_arg_t(modrm_rm) insnop_arg_t(modrm_rm_direct);
++typedef struct {
++    insnop_ctxt_t(modrm_rm) rm;
++} insnop_ctxt_t(modrm_rm_direct);
 +
-+#define INSNOP_LDST(opTarg, opTptr)                                     \
-+    static void insnop_ldst(opTarg, opTptr)(CPUX86State *env,           \
-+                                            DisasContext *s,            \
-+                                            int modrm, bool is_write,   \
-+                                            insnop_arg_t(opTarg) arg,   \
-+                                            insnop_arg_t(opTptr) ptr)
++INSNOP_INIT(modrm_rm_direct)
++{
++    int ret;
++    insnop_ctxt_t(modrm_mod) modctxt;
 +
-+#define DEF_INSNOP_LDST(opT, opTarg, opTptr)                            \
-+    typedef insnop_arg_t(opTarg) insnop_arg_t(opT);                     \
-+    typedef struct {                                                    \
-+        insnop_ctxt_t(opTarg) arg;                                      \
-+        insnop_ctxt_t(opTptr) ptr;                                      \
-+    } insnop_ctxt_t(opT);                                               \
-+                                                                        \
-+    /* forward declaration */                                           \
-+    INSNOP_LDST(opTarg, opTptr);                                        \
-+                                                                        \
-+    INSNOP_INIT(opT)                                                    \
-+    {                                                                   \
-+        int ret = insnop_init(opTarg)(&ctxt->arg, env, s, modrm, is_write); \
-+        if (!ret) {                                                     \
-+            ret = insnop_init(opTptr)(&ctxt->ptr, env, s, modrm, is_write); \
-+        }                                                               \
-+        return ret;                                                     \
-+    }                                                                   \
-+    INSNOP_PREPARE(opT)                                                 \
-+    {                                                                   \
-+        const insnop_arg_t(opTarg) arg =                                \
-+            insnop_prepare(opTarg)(&ctxt->arg, env, s, modrm, is_write); \
-+        if (!is_write) {                                                \
-+            const insnop_arg_t(opTptr) ptr =                            \
-+                insnop_prepare(opTptr)(&ctxt->ptr, env, s, modrm, is_write); \
-+            insnop_ldst(opTarg, opTptr)(env, s, modrm, is_write, arg, ptr); \
-+            insnop_finalize(opTptr)(&ctxt->ptr, env, s, modrm, is_write, ptr); \
-+        }                                                               \
-+        return arg;                                                     \
-+    }                                                                   \
-+    INSNOP_FINALIZE(opT)                                                \
-+    {                                                                   \
-+        if (is_write) {                                                 \
-+            const insnop_arg_t(opTptr) ptr =                            \
-+                insnop_prepare(opTptr)(&ctxt->ptr, env, s, modrm, is_write); \
-+            insnop_ldst(opTarg, opTptr)(env, s, modrm, is_write, arg, ptr); \
-+            insnop_finalize(opTptr)(&ctxt->ptr, env, s, modrm, is_write, ptr); \
-+        }                                                               \
-+        insnop_finalize(opTarg)(&ctxt->arg, env, s, modrm, is_write, arg); \
++    ret = insnop_init(modrm_mod)(&modctxt, env, s, modrm, 0);
++    if (!ret) {
++        const int mod = insnop_prepare(modrm_mod)(&modctxt, env, s, modrm, 0);
++        if (mod == 3) {
++            ret = insnop_init(modrm_rm)(&ctxt->rm, env, s, modrm, is_write);
++        } else {
++            ret = 1;
++        }
++        insnop_finalize(modrm_mod)(&modctxt, env, s, modrm, 0, mod);
 +    }
++    return ret;
++}
++INSNOP_PREPARE(modrm_rm_direct)
++{
++    return insnop_prepare(modrm_rm)(&ctxt->rm, env, s, modrm, is_write);
++}
++INSNOP_FINALIZE(modrm_rm_direct)
++{
++    insnop_finalize(modrm_rm)(&ctxt->rm, env, s, modrm, is_write, arg);
++}
 +
  static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
  {
