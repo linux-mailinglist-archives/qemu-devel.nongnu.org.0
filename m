@@ -2,56 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EAEE8EA98
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 13:47:41 +0200 (CEST)
-Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0E58EAC7
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 13:57:47 +0200 (CEST)
+Received: from localhost ([::1]:40772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyEEG-00044c-1W
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 07:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33848)
+	id 1hyEO2-0006Ij-KT
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 07:57:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35049)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pkrempa@redhat.com>) id 1hyECn-0003RF-3x
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 07:46:10 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hyENC-0005fH-Eh
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 07:56:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pkrempa@redhat.com>) id 1hyECm-0001Py-12
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 07:46:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47250)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pkrempa@redhat.com>)
- id 1hyECi-0001Mc-VG; Thu, 15 Aug 2019 07:46:05 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E5732309DEE5;
- Thu, 15 Aug 2019 11:46:03 +0000 (UTC)
-Received: from andariel.pipo.sk (ovpn-204-173.brq.redhat.com [10.40.204.173])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 96219600CD;
- Thu, 15 Aug 2019 11:45:56 +0000 (UTC)
-Date: Thu, 15 Aug 2019 13:45:53 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190815114553.GQ300@andariel.pipo.sk>
-References: <20190814100735.24234-1-vsementsov@virtuozzo.com>
- <20190814100735.24234-3-vsementsov@virtuozzo.com>
- <3eded188-0161-d494-194c-9d67da644eb1@redhat.com>
- <20190815104928.GC7415@linux.fritz.box>
+ (envelope-from <richard.henderson@linaro.org>) id 1hyENB-0000s9-47
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 07:56:54 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41543)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hyENA-0000r1-Re
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 07:56:53 -0400
+Received: by mail-wr1-x443.google.com with SMTP id j16so1979484wrr.8
+ for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 04:56:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:user-agent:in-reply-to:references:mime-version
+ :content-transfer-encoding:subject:to:cc:from:message-id;
+ bh=J6Tl5qEzr4pz5FhhA8LUi0f7TGWDfUA4Or4PSk6e47c=;
+ b=LZloRwVhKJ/PEgwn3v6U44mZxCj3RSYWPKnQzJkt5PjHsvN3tznaaG22MfZ97yCzSQ
+ icKUYx1yQgmCvULEkUkw7Q9nOkpLhYUgJy7i65G+LuHT1J7ipL/XS09LrHK8mr3q+SXu
+ 0Pn+SXFH8hHO37/Ae6a0Y+dY0bZuSz9reUbtaekVqwDx/dsBTxS/6sUWDwiQhDwLSvmt
+ GWb49QxxCTrPvD8Osz5kzj6cZVLY3i6zFPSlHPJFxRlDqi47yfiz94H2XWUiHkkNkZve
+ KToVAMjtdtbdMf+8WXkyTCEvVBzLY4s4YgR1sAfibuNQtttNdf9Zzm/gFYbjISc7oPcx
+ /5Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:user-agent:in-reply-to:references
+ :mime-version:content-transfer-encoding:subject:to:cc:from
+ :message-id;
+ bh=J6Tl5qEzr4pz5FhhA8LUi0f7TGWDfUA4Or4PSk6e47c=;
+ b=MAs6tSMUg2fatmqzUc7y6AtvNP6J4NZMmVbQEPn8bA49Azd4UR2Jto0xPxCeBkfYYP
+ IxR6HX52BlbkI6BUA8/teNbc/dq0Sq9ou60sBPFae1yR4zB+Kz+wlwLNNFyhdj1NLvTW
+ nqTQpKlxWGjHGQ+8/UbvC4AqSOsARsxIIJYzbOkzXHfodL8bpFRkS9x5S/jb4VSwZh7O
+ FNn7MZ4jFm3Vm1H77iaTCvVuwRKGE53KiH3vfi/zuLQbx3SWUGIlgPz1a1iTutComcT2
+ uGysvujmk7QqVpolERdwVHPVJ7iw3f0fw1/WgMW8kpLJfHEdtYLJMW5nfj1SC6UulqE5
+ OC2A==
+X-Gm-Message-State: APjAAAVjoJ4bhK65eUWi1zI6x6iYVEBY+6EXHYBZkr6oTV1qWukmfDDL
+ 7TTEYf/dtUyhM2gHxbQ+n/K+Hw==
+X-Google-Smtp-Source: APXvYqxZZKLXqySVYOgSXAthFNcLbHrUISvLrCvpvIv6BobxpJkkJx6kB4v4ujl27VJiCYQrONk8cg==
+X-Received: by 2002:a05:6000:152:: with SMTP id
+ r18mr5352965wrx.41.1565870211465; 
+ Thu, 15 Aug 2019 04:56:51 -0700 (PDT)
+Received: from [10.254.112.49] ([94.119.64.7])
+ by smtp.gmail.com with ESMTPSA id q18sm3462926wrw.36.2019.08.15.04.56.50
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 15 Aug 2019 04:56:50 -0700 (PDT)
+Date: Thu, 15 Aug 2019 12:56:45 +0100
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAFEAcA8exvd3khkNhw2JnJWHdkFH5O=ut7LvN9Tz5H0ZTg95Sw@mail.gmail.com>
+References: <20190808202616.13782-1-richard.henderson@linaro.org>
+ <20190808202616.13782-8-richard.henderson@linaro.org>
+ <CAFEAcA8exvd3khkNhw2JnJWHdkFH5O=ut7LvN9Tz5H0ZTg95Sw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2D20dG0OqTzqkNh7"
-Content-Disposition: inline
-In-Reply-To: <20190815104928.GC7415@linux.fritz.box>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Thu, 15 Aug 2019 11:46:03 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [libvirt] [PATCH 2/2] qapi: deprecate implicit
- filters
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+To: Peter Maydell <peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0F6CB102-2C02-4A7B-84FF-52CC3E6593FE@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH 7/7] target/arm: Use tcg_gen_extrh_i64_i32
+ to extract the high word
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,77 +84,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, John Snow <jsnow@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---2D20dG0OqTzqkNh7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 15, 2019 at 12:49:28 +0200, Kevin Wolf wrote:
-> Am 14.08.2019 um 21:27 hat John Snow geschrieben:
 
-[...]
+>
+>This patch is fine, but I noticed while reviewing it that tcg/README
+>labels both the extrl_i64_i32 and extrh_i64_i32 operations as
+>"for 64-bit hosts only"=2E Presumably that's a documentation error,
+>since we're not guarding the existing uses of the extrl_i64_i32
+>here with any kind of ifdeffery to restrict them to 64-bit hosts ?
+>
 
-> > example:
-> >=20
-> > { "return": {},
-> >   "deprecated": True,
-> >   "warning": "Omitting filter-node-name parameter is deprecated, it will
-> > be required in the future"
-> > }
-> >=20
-> > There's no "error" key, so this should be recognized as success by
-> > compatible clients, but they'll definitely see the extra information.
-> >=20
-> > Part of my motivation is to facilitate a more aggressive deprecation of
-> > legacy features by ensuring that we are able to rigorously notify users
-> > through any means that they need to adjust their scripts.
->=20
-> Who would read this, though? In the best case it ends up deep in a
-> libvirt log that nobody will look at because there was no error. In the
-> more common case, the debug level is configured so that QMP traffic
-> isn't even logged.
 
-The best we could do here is to log a warning. Thankfully we have one
-central function which always checks the returned JSON from qemu so we
-could do that universally.
+A documentation unclarity in that the opcodes are for 64-bit hosts=2E The =
+tcg_gen_* functions are always available, and expand to INDEX_op_mov_i32 on=
+ 32-bit hosts=2E
 
-The would end up in the system log and alternatively also in the VM
-log file. I agree with Kevin that the possibility of it being noticed
-is rather small.
 
-=46rom my experience users report non-fatal messages mostly only if it is
-spamming the system log. One of instances are very unlikely to be
-noticed.
-
-In my experience it's better to notify us in libvirt of such change and
-we will try our best to fix it.
-
---2D20dG0OqTzqkNh7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEUn7DGLvflazX+2GwHGwCByjY1GoFAl1VRe4ACgkQHGwCByjY
-1GqnyhAAv77jwqoJDz2xalb+zsEchufyUnWda/dDCL5jXgULz7VDw6GyAHwQZ9Tu
-D0ikCptTJ5SEQhnqvNBVQihnfL1bfwCNFmCOvYULy1aLm7iKSCa10lBh4HZeGUie
-rJYTFCLoEcHnE09+fAkwGTSqSc2jAxB6l3UjDdkqMPC3MGk5cEYEB28VHz8X4pRO
-ig16pta4cIyk7BnUuPCMYizAUGklKCC5Y5SiE35PrdsW1JK8Hfo4hyoSgJJP2BWR
-ZbVNG6ivD19HKaCGUfzyoVyuCNx0Ar4/7MtyDwfDjlGr0xor4feqkRQJ5PNBEQWY
-CARpz0dO/v8KGt4OcvZfIowSH6IOZG2Hzz+4Wau68bO3lR3F7/rzhstoeHYGH6vY
-SU54EilmcbrLHaM9v8NzARPkulE0b25nGb2TjVtJYtsmYXK4rjy0SS1q00ExSExU
-7dpUU38uel0vKVFVw4Rr67mkTD6s9Lc9G9I7WdehZi+ULkZ5OvuMsK85O1tJI3px
-prQG7UB0kwA8XtkSn81vTgkU37O9T+KRL7VVYLoC4kkf01beMc4585PLZsXADq8u
-YBNVvdnbrJjrcce+bx2sAN0Or7tOyfDQJYEWF6Rq3V57KEWSDgnHGCJDkHzFo3NB
-b/QdA3BV+oPJcRAplx2xIf3hu7KrXNF4By1OvUffQuJAxswg798=
-=Lzk8
------END PGP SIGNATURE-----
-
---2D20dG0OqTzqkNh7--
+r~
 
