@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72FED8E8A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 11:56:34 +0200 (CEST)
-Received: from localhost ([::1]:40098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117178E8C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 12:08:35 +0200 (CEST)
+Received: from localhost ([::1]:40184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyCUj-0007Cp-IH
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 05:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48647)
+	id 1hyCgL-0002YS-TC
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 06:08:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50110)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hyCTj-0006Kg-8v
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 05:55:32 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hyCfW-00027y-OO
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 06:07:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hyCTi-0001rk-5i
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 05:55:31 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40567)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hyCfV-000057-O3
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 06:07:42 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:35257)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hyCTh-0001qc-VD
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 05:55:30 -0400
-Received: by mail-wm1-x344.google.com with SMTP id v19so784327wmj.5
- for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 02:55:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GTCBA1nemiW0D/ETX2R5+GasjrENeLfDdirLiRnqDMk=;
- b=aqkdqm6JH9UJ+w7Uuz33NecPhjxvukQjJ5O4b/M5mSUM6zIWCIC42X/T7scj9DJ8U0
- 15zCYtAgnpgca/RcmcCHK8VGRBbsR7P81m17WXdBFXUiJhfP7A3LanycFfcOh/DPoP/7
- FSBE/ERG3Ohe0PXtfR93xdZpe5/PYLCMZeyGaVBX0Cdq2OBivvDjzufdLnecwFr7zgyN
- 7ba/otVRrlJdm244nD4k3+oIQ5ou5lUkXkvsAVQfmvdaCfJ2mS3gWtfx5os7RhgCMnIM
- ADxnPCn0Too5NdMEkzcc/IIilw0wJDfASgp4Zc7YVtqha2lcr8oe44cuOs1IQK5IaChw
- jN0A==
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1hyCfV-0008WV-J6
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 06:07:41 -0400
+Received: by mail-ot1-x342.google.com with SMTP id g17so3917281otl.2
+ for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 03:07:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=8soe89XEknHJKTwe5ivdGcOcgmYp/kGew91S/WhCp8I=;
+ b=MQZ1GzqJmtwOdd9QUju6BR3LImZRoPBhUV6PfyCHptaD0oiEqULUjFDzUaEMzB1Roq
+ QV/lLwsUiW8UWvMkXMiKsMpjqC5PuqOYXE0XbV74vD0EuEHFZ+UoDLuZeSUp/9fvyI1p
+ plvPIti0TXzZLPsPLwNc27HxnAGTLPmpM8UbbLh1da7dodKJWcaFzKUyz/F8ruF4+7kn
+ 2JLajFThB+pSaAZ10Mfhcp7ZWuWBybxHwCMExumRmDjl5ent2nJ9MVRm8InwOzd2L/LA
+ rLbQrVxZUT7R4j4B8oEG3LsRJC6Xqx1Qfm2Tg+F9dKGtlQTXP7ZbAn9gTc5XWrpW52El
+ clhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GTCBA1nemiW0D/ETX2R5+GasjrENeLfDdirLiRnqDMk=;
- b=Xk8w/mTcw/4TgA+DGs+JdQVbFDzf0pQzO0eL6gNPcvhfi8sq+3xvMsN1CC+k6Quata
- /OnVLrV77tFbMrqc0q3RfgfgqjkFczWNrgNQPCDkVq1UOAo4yf5DXWRqlM5homtmrYJB
- rUJ5yY7QnFNCgRwzywpCq8Ka89Cyft94yvqK5nKsxMLSdLsFi+pS0sqUoHouKXNV2qJh
- nxMW2rCOEPzR4Ro/ZyuHE+g6ERA2Hx12EVWHCeual9bTjnW27IG5FLk4y8PQnwPJXtGz
- 6oNUw7s9ViRGIcAbOFzQjg3XVIqgvgLoeQLtyqb8Gd9c1qW8xlP2+YZvObz6dXy+7Drp
- BURA==
-X-Gm-Message-State: APjAAAVtMlbiDGVoJAOaaIz8xNwIsIysgejZ0kaX/L1PFL1POG/Ujv2A
- 7FoIgr7qanAE3ST9wx7EsOcR2+BYw7kjKA==
-X-Google-Smtp-Source: APXvYqxhUXFG3n/EoY2kmU4SjpPOSfjrJxEyBSoaBHQ3VzuzdC4J1tdgSM0p6avks132SPq2XTvhAA==
-X-Received: by 2002:a1c:7611:: with SMTP id r17mr1908038wmc.117.1565862928766; 
- Thu, 15 Aug 2019 02:55:28 -0700 (PDT)
-Received: from ?IPv6:2a02:c7f:a69:1700:8897:9507:94c2:b98d?
- ([2a02:c7f:a69:1700:8897:9507:94c2:b98d])
- by smtp.gmail.com with ESMTPSA id b3sm3394360wrm.72.2019.08.15.02.55.27
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 15 Aug 2019 02:55:28 -0700 (PDT)
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Jan Bobek <jan.bobek@gmail.com>
-References: <20190815020928.9679-1-jan.bobek@gmail.com>
- <20190815020928.9679-3-jan.bobek@gmail.com>
- <CAL1e-=j9eDuFSspcUx3oac3UFvY7-N4rYOwVvQ2eSvc9DnbC=A@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <8a3988c7-5cca-d6b9-2be9-84cfe4b59f9f@linaro.org>
-Date: Thu, 15 Aug 2019 10:55:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=8soe89XEknHJKTwe5ivdGcOcgmYp/kGew91S/WhCp8I=;
+ b=JWU4HT6uvLKn2WAU8RXh4uIEETN7SwhXTtmANI+JauByGp6HCBi8hfv6802+BNfEzD
+ mld5lXz4AkD9cZMUmgWQiehRKXrYxf4byjXWGblDWlUh0fDfJ0EjBvDyOJYAvl9vQSg2
+ pbv4rnh0tp09ZxcL+lDryqlA//dZhdmagneavLj1f88x5TuXiwJFqt6djlD98ca5p6UJ
+ g93tTaDUjuUcRTEY84xvEzEe0kE7R9fqaqw6LtA2qOiIbPthKaBixzttY5g3UUBN8x8L
+ vy36jLZk35OwlI/q9Ioeo5SpAw7+zQzo27Tc62R+F93AlqMsftaE7pcRSbh0hava0m0r
+ FN6Q==
+X-Gm-Message-State: APjAAAXokajEZDEkJdtoJyjCIEazOmhcSGDZsh/310KzoNDuB9mY978N
+ zHI5xqmFSO+Rx13m0wRjnPru8pMWD6LHIJBQkBw=
+X-Google-Smtp-Source: APXvYqxDNTaAh/Gy+8zfifjrYPeREY3ZnJzAKP8+W9k+Km7smCbYBNxztD0ubdlmNMqhYRwncHgsDIEsl9TsICeiF24=
+X-Received: by 2002:a05:6830:1d75:: with SMTP id
+ l21mr2580088oti.121.1565863660658; 
+ Thu, 15 Aug 2019 03:07:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=j9eDuFSspcUx3oac3UFvY7-N4rYOwVvQ2eSvc9DnbC=A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Thu, 15 Aug 2019 03:07:40
+ -0700 (PDT)
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Thu, 15 Aug 2019 03:07:40
+ -0700 (PDT)
+In-Reply-To: <9240f24b-3f3c-531c-5c7d-06f359c26fd1@linaro.org>
+References: <20190815020928.9679-1-jan.bobek@gmail.com>
+ <20190815020928.9679-47-jan.bobek@gmail.com>
+ <CAL1e-=gZF1+=Gduqm4TwS0p-G6rvb4q+rw+hL9nzAz3P-r3+BQ@mail.gmail.com>
+ <9240f24b-3f3c-531c-5c7d-06f359c26fd1@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 15 Aug 2019 12:07:40 +0200
+Message-ID: <CAL1e-=g8X+BOJfj=pwc3MbrfL_b1QbJ4uha8CikKs=z4wegchA@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [RFC PATCH v3 02/46] target/i386: Push rex_w into
- DisasContext
+X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [RFC PATCH v3 46/46] target/i386: introduce SSE3
+ instructions to sse-opcode.inc.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,64 +82,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Jan Bobek <jan.bobek@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/15/19 8:30 AM, Aleksandar Markovic wrote:
-> 
-> 15.08.2019. 04.13, "Jan Bobek" <jan.bobek@gmail.com
-> <mailto:jan.bobek@gmail.com>> је написао/ла:
->>
->> From: Richard Henderson <rth@twiddle.net <mailto:rth@twiddle.net>>
->>
->> Treat this the same as we already do for other rex bits.
->>
->> Signed-off-by: Richard Henderson <rth@twiddle.net <mailto:rth@twiddle.net>>
->> ---
->>  target/i386/translate.c | 19 +++++++++++--------
->>  1 file changed, 11 insertions(+), 8 deletions(-)
->>
->> diff --git a/target/i386/translate.c b/target/i386/translate.c
->> index d74dbfd585..c0866c2797 100644
->> --- a/target/i386/translate.c
->> +++ b/target/i386/translate.c
->> @@ -44,11 +44,13 @@
->>  #define REX_X(s) ((s)->rex_x)
->>  #define REX_B(s) ((s)->rex_b)
->>  #define REX_R(s) ((s)->rex_r)
->> +#define REX_W(s) ((s)->rex_w)
->>  #else
->>  #define CODE64(s) 0
->>  #define REX_X(s) 0
->>  #define REX_B(s) 0
->>  #define REX_R(s) 0
->> +#define REX_W(s) -1
-> 
-> The commit message says "treat rex_w the same as other rex bits". Why is then
-> REX_W() treated differently here?
+15.08.2019. 11.55, "Richard Henderson" <richard.henderson@linaro.org> =D1=
+=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> On 8/15/19 8:02 AM, Aleksandar Markovic wrote:
+> > A question for you: What about FISTTP, MONITOR, MWAIT, that belong to
+SSE3, but
+> > are not mentioned in this patch?
+> >
+>
+> They are also not vector instructions, which is the subject of this patch
+set.
+>
 
-"Treated the same" in terms of being referenced by a macro instead of a local
-variable.  As for the -1, if you look at the rest of the patch you can clearly
-see it preserves existing behaviour.
+The subject of the patch and the patch set says "SSE3", not "vector", read
+it again.
 
->> @@ -4503,6 +4504,7 @@ static target_ulong disas_insn(DisasContext *s,
-> CPUState *cpu)
->>      s->rex_x = 0;
->>      s->rex_b = 0;
->>      s->rex_r = 0;
->> +    s->rex_w = -1;
->>      s->x86_64_hregs = false;
->>  #endif
->>      s->rip_offset = 0; /* for relative ip address */
->> @@ -4514,7 +4516,6 @@ static target_ulong disas_insn(DisasContext *s,
-> CPUState *cpu)
->>      }
->>
->>      prefixes = 0;
->> -    rex_w = -1;
-
-
-r~
-
+>
+> r~
