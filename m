@@ -2,51 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD698EB5B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 14:17:16 +0200 (CEST)
-Received: from localhost ([::1]:41358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8568EBA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 14:37:52 +0200 (CEST)
+Received: from localhost ([::1]:41488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyEgt-0008CQ-Ka
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 08:17:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37316)
+	id 1hyF0q-0006g3-0t
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 08:37:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39844)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steve@sk2.org>) id 1hyEcg-0005Ou-Qo
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 08:12:55 -0400
+ (envelope-from <bounces@canonical.com>) id 1hyEyZ-0005Aa-HR
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 08:35:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <steve@sk2.org>) id 1hyEcf-0004Vu-JU
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 08:12:54 -0400
-Received: from 5.mo7.mail-out.ovh.net ([178.32.120.239]:37555)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <steve@sk2.org>) id 1hyEcf-0004Rj-DV
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 08:12:53 -0400
-Received: from player715.ha.ovh.net (unknown [10.109.159.132])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 87CDC12E30D
- for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 14:12:43 +0200 (CEST)
-Received: from sk2.org (gw.sk2.org [88.186.243.14])
- (Authenticated sender: steve@sk2.org)
- by player715.ha.ovh.net (Postfix) with ESMTPSA id D2F9F8B217CF;
- Thu, 15 Aug 2019 12:12:36 +0000 (UTC)
-Date: Thu, 15 Aug 2019 14:12:44 +0200
-From: Stephen Kitt <steve@sk2.org>
-To: Yuval Shaia <yuval.shaia@oracle.com>
-Message-ID: <20190815141244.25a93a3a@heffalump.sk2.org>
-In-Reply-To: <20190815105704.GA3018@lap1>
-References: <20190811194247.9861-1-steve@sk2.org> <20190815105704.GA3018@lap1>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ (envelope-from <bounces@canonical.com>) id 1hyEyY-0004b3-F8
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 08:35:31 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41568)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hyEyY-0004YA-9h
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 08:35:30 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hyEyX-0000aa-3l
+ for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 12:35:29 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 19AF62E80C7
+ for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 12:35:29 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_//NcwAh8bRXZ0zut8ALq4QSY"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 5492984171748478376
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudefuddggeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 15 Aug 2019 12:25:42 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1840249@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: docker
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <156587194288.26490.13000707858275373489.malonedeb@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19022";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 74e7a0bd89c5466ad9befc1bef9386aef7e8d5c9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.120.239
-Subject: Re: [Qemu-devel] [PATCH] Fix hw/rdma/vmw/pvrdma_cmd.c build
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1840249] [NEW] Cancelling 'make
+ docker-test-build' does not cancel running containers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,67 +66,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1840249 <1840249@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_//NcwAh8bRXZ0zut8ALq4QSY
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Public bug reported:
 
-On Thu, 15 Aug 2019 13:57:05 +0300, Yuval Shaia <yuval.shaia@oracle.com>
-wrote:
+version: v4.1.0-rc5
 
-> On Sun, Aug 11, 2019 at 09:42:47PM +0200, Stephen Kitt wrote:
-> > This was broken by the cherry-pick in 41dd30f. Fix by handling errors
-> > as in the rest of the function: "goto out" instead of "return rc".
-> >=20
-> > Signed-off-by: Stephen Kitt <steve@sk2.org>
-> > ---
-> >  hw/rdma/vmw/pvrdma_cmd.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
-> > index bb9a9f1cd1..a3a86d7c8e 100644
-> > --- a/hw/rdma/vmw/pvrdma_cmd.c
-> > +++ b/hw/rdma/vmw/pvrdma_cmd.c
-> > @@ -514,7 +514,7 @@ static int create_qp(PVRDMADev *dev, union
-> > pvrdma_cmd_req *req, cmd->recv_cq_handle, rings, &resp->qpn);
-> >      if (resp->hdr.err) {
-> >          destroy_qp_rings(rings);
-> > -        return rc;
-> > +        goto out; =20
->=20
-> This label was removed, can you please check master branch?
+Run 'make -k docker-test-build', wait a few, cancel with ^C:
 
-Sorry, it wasn=E2=80=99t clear from my message =E2=80=94 my patch is agains=
-t the stable-3.1
-branch.
+$ make -k docker-test-build 2>&1 > /dev/null
+^C
 
-Regards,
+$ docker ps
+CONTAINER ID        IMAGE                            COMMAND               =
+   CREATED             STATUS
+62264a2d777a        qemu:debian-mips-cross           "/var/tmp/qemu/run t=
+=E2=80=A6"   10 minutes ago      Up 10 minutes
+80807c47d0df        qemu:debian-armel-cross          "/var/tmp/qemu/run t=
+=E2=80=A6"   10 minutes ago      Up 10 minutes
+06027b5dfd4a        qemu:debian-amd64                "/var/tmp/qemu/run t=
+=E2=80=A6"   10 minutes ago      Up 10 minutes
 
-Stephen
+The docker containers are still up building QEMU.
 
---Sig_//NcwAh8bRXZ0zut8ALq4QSY
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAl1VTDwACgkQgNMC9Yht
-g5xT6hAAnwZOx2Asj4wSXNHjc80ZoHPBmrIw0t0HKMjZrzC0tet54MXa8GE8/0wl
-m0wJr5MrAlnCDkmb7h/X3+DoJncJgNetwgRBgrKpu5adhrhFRI831Z3TnldFhAUX
-xG39zl1cu7wsrn30xwvOT0iLB1kXcBzXhlmYGCQouTajYFNpjQj8ZhYn258Bn4eV
-XQNWfssks679rTMrOhbPNj97oXB5lnvWxBiVzhdmVUbbGTzG4UkT7/PU7611t9kX
-CTmHRy0GN5bF1F5z5TFNp9jGqfD7hljgc+eqUWNPHUlYkJpVJbA/4FKHilpKHz5Y
-Lkr/rSW6z/7CmOsmdkVSCiBnPeSNlC5N6kbzmDjED4jw+hlYaxsVeb/RmoGcU1nk
-CL9pvaZDQ4e8oBWoalOZsgw2L6HRZ2lR07Jp/C3o1+FnKP8LcUS/KxCL/GFDjMwD
-VHgBLrJrmc1PfgaOSz1H/cLFaAz6JpHSpz1mVSz7hmH8N/UQVi4BYBU7QUisG/U6
-VuA/r4GoL/WR/oPEy9ghiXOnficGSDOQ4TeT5Gx+SFf1SqvlzcZLwyA7QOYMJ9cu
-1sJXVnLp9nlu+NpDB2Z7m6sCmWCl2h5eLRKj6Vq7Z09n5StKrCErykHvzQgEVKVJ
-euCKG6yjPTmUDhNXJcNk+FlsKNJtSjsg7yC+VTkFYYxvlO9AVME=
-=aAm9
------END PGP SIGNATURE-----
+** Tags: docker
 
---Sig_//NcwAh8bRXZ0zut8ALq4QSY--
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1840249
+
+Title:
+  Cancelling 'make docker-test-build' does not cancel running containers
+
+Status in QEMU:
+  New
+
+Bug description:
+  version: v4.1.0-rc5
+
+  Run 'make -k docker-test-build', wait a few, cancel with ^C:
+
+  $ make -k docker-test-build 2>&1 > /dev/null
+  ^C
+
+  $ docker ps
+  CONTAINER ID        IMAGE                            COMMAND             =
+     CREATED             STATUS
+  62264a2d777a        qemu:debian-mips-cross           "/var/tmp/qemu/run t=
+=E2=80=A6"   10 minutes ago      Up 10 minutes
+  80807c47d0df        qemu:debian-armel-cross          "/var/tmp/qemu/run t=
+=E2=80=A6"   10 minutes ago      Up 10 minutes
+  06027b5dfd4a        qemu:debian-amd64                "/var/tmp/qemu/run t=
+=E2=80=A6"   10 minutes ago      Up 10 minutes
+
+  The docker containers are still up building QEMU.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1840249/+subscriptions
 
