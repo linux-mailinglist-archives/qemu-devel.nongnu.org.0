@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88ADC8E2DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:45:00 +0200 (CEST)
-Received: from localhost ([::1]:37710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611198E2DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:47:51 +0200 (CEST)
+Received: from localhost ([::1]:37760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy5l5-0006Sn-6a
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:44:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48592)
+	id 1hy5nq-0001Nv-50
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:47:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vandersonmr2@gmail.com>) id 1hy5MP-0000a5-W4
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:31 -0400
+ (envelope-from <vandersonmr2@gmail.com>) id 1hy5Ma-0000qZ-Ig
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vandersonmr2@gmail.com>) id 1hy5MO-0001bV-75
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:29 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:35415)
+ (envelope-from <vandersonmr2@gmail.com>) id 1hy5MZ-0001me-0X
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:40 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:44450)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
- id 1hy5MO-0001b8-2F
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:28 -0400
-Received: by mail-qt1-x843.google.com with SMTP id u34so950783qte.2
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:19:28 -0700 (PDT)
+ id 1hy5MY-0001mP-T3
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:38 -0400
+Received: by mail-qt1-x844.google.com with SMTP id 44so889662qtg.11
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:19:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vErop0rGwk60sa3Qa4x2OiK1fh1r4aRc9p7r0AqR3oI=;
- b=Ph8XWJkK+6L+jNeXmHhkWiUCXrKNQYGI/LDLm5spgCRQW7kHFusJs/qpisw7IUmnM4
- LZu91l43c8MTepbeJTSq99ZQT3FdwxJp52kR3MiYKx8NKwtFHqo5pl5ipD2YwzmRflGK
- 1lDjMc6XiNRZsbMhppebY2BPyW4hkh3RgHPwxX2Xj2PM0f2xOisePOTBn+BmLhgL1wiy
- f9anGDcAJaTrStzC1rTQPD6jRetQGf7YxIohFeES6F1XAcGin+wIZ+IBs3TFDz6XI8wW
- Z25AbPWE6a+kwkFiAEHcVicyN8zcaqBkqevAFXFBUsYhn2e4e+aDhRZKXF902yeYjfqR
- wR+A==
+ bh=Wb4KcoWnaCnYbF72DRr9dR9BuvxlxCZEPYlHe1HxHes=;
+ b=PDY8tVWtz9ZEd2wVc6ThuiHPtaDV73Z27I5in8d5oLUVv7BJ6/PCP/tLHqFIbf6nGM
+ xoCOeEacn007gPZ+NZOb8lmCWb5pYyJk1MHAB2QE2Vl89kJF7pEwiR2dUev29BUNC6j5
+ F8jw1BDoViQSdKuj9ejWgaSMCk4wQyIlAnyn8Rc3IyOX2VIGhvoiXw8Jyc6XOrWpqZy7
+ Fo+bKY+tgrILJgqOU0jVGP2V8w838fZov2gBr8DQay98445YqxYdG6cJtbGS4CWtmEwS
+ v+XF3j6J13fVORh2i4X81k+9a6He/T3+jfVEEPfzvCRYmKfFuubrYhLe9pm9bH3P0SzN
+ 2C8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vErop0rGwk60sa3Qa4x2OiK1fh1r4aRc9p7r0AqR3oI=;
- b=Mm3djhYIQNHad/BPv05i+pM+lWKMw1JSJsgvFbiZ4mVu+VzBLOEu0HG7rcAFTgm0pO
- LX+s7W+yovWvQAZLnNUhKGToD3L61i4221PY9PyKu/7oU1hBFyoUJNWZzRPBIwNTDSxX
- Tk7kIXGijNkfGfwOpcICrBCY9i65KMkRyYyV2Jy2NSvOP5MLy0jVAJYOvr8ex2ukDUp7
- fl/rfXGvaUzBiUnE3C7LyYifw0fOlnVTwAhC7YaQcNAbo5fyh1ewAd1kKSMkVR1p+gFi
- u76IX8WQkxvC2EQ+0TJqcyqLWdOo6ggxt3q367l9egqpNbmJkLyXoLKGsYx9knMwUaGM
- DGlw==
-X-Gm-Message-State: APjAAAXXqbRVghzrzhrHhDJLiWc0XDFYw8yTZYlkucb2QhIZPN+eGArM
- GXIYRHncqQC21YDBU30a74V2gGCZne0=
-X-Google-Smtp-Source: APXvYqxQhm32tXzVXJOo13OJKMd53oCQN4XSQOThEopKA2oS+nKUmkhvIO1oG+AAAaG/NiBw57whng==
-X-Received: by 2002:ac8:764f:: with SMTP id i15mr2039555qtr.194.1565835567208; 
- Wed, 14 Aug 2019 19:19:27 -0700 (PDT)
+ bh=Wb4KcoWnaCnYbF72DRr9dR9BuvxlxCZEPYlHe1HxHes=;
+ b=bSc6NLjUD2W+C4Y8mgr7y5ojRkWMWAAzOfzsMk3GnTRMaZv4oV/jNAFj3GYHYDbS/h
+ 7ABuBHlF7Rsc0/YrWx4kqtDtKddPD5VgZ+8bxM0vzCH2/7RX/OSEwnvTap3g/+ieibMl
+ QnNV99HbKyVhp9LGOWzYRTZ+coWF3uk/OTKMQUowZmxbPh/89oJTywHRuMs95spE6u+b
+ Scko+Kp36kMWnvAIhtJAzhFtdYdBBWj/nbb2XH0rQgM/00BZ1Ms5nQvpO0EiaV658Rqk
+ B5gz2FdTha8TpwQXUZHT6e/DhoHGoAq7cf2BqHlTRbzzQ2spInHAVtbB9mPnhyAks+Vl
+ 2HzQ==
+X-Gm-Message-State: APjAAAWfdm0ac2nPCit9SnE+uf8DUH6MZYK1N1yftAUkCW5n6fVCImRD
+ z6qWv6YQvcxTFNtiQH7IP+rs+v4RyCs=
+X-Google-Smtp-Source: APXvYqwVZijoYBGnZMtpa/+zotDo0Nus1YjM4Vt+ugKHwyGvVSssLW6cGvJXGm+3NkDrTfrIVLe+Mw==
+X-Received: by 2002:a0c:96a8:: with SMTP id a37mr1881222qvd.132.1565835578028; 
+ Wed, 14 Aug 2019 19:19:38 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14c:482:121::1])
- by smtp.googlemail.com with ESMTPSA id o5sm757943qkf.10.2019.08.14.19.19.25
+ by smtp.googlemail.com with ESMTPSA id o5sm757943qkf.10.2019.08.14.19.19.36
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 14 Aug 2019 19:19:26 -0700 (PDT)
+ Wed, 14 Aug 2019 19:19:37 -0700 (PDT)
 From: vandersonmr <vandersonmr2@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 23:18:48 -0300
-Message-Id: <20190815021857.19526-2-vandersonmr2@gmail.com>
+Date: Wed, 14 Aug 2019 23:18:53 -0300
+Message-Id: <20190815021857.19526-7-vandersonmr2@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190815021857.19526-1-vandersonmr2@gmail.com>
 References: <20190815021857.19526-1-vandersonmr2@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::843
-Subject: [Qemu-devel] [PATCH v5 01/10] accel: introducing TBStatistics
- structure
+X-Received-From: 2607:f8b0:4864:20::844
+Subject: [Qemu-devel] [PATCH v5 06/10] log: adding -d tb_stats to control
+ tbstats
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,329 +83,214 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To store statistics for each TB, we created a TBStatistics structure
-which is linked with the TBs. TBStatistics can stay alive after
-tb_flush and be relinked to a regenerated TB. So the statistics can
-be accumulated even through flushes.
+Adding -d tb_stats to control TBStatistics collection:
 
-The goal is to have all present and future qemu/tcg statistics and
-meta-data stored in this new structure.
+ -d tb_stats[[,level=(+all+jit+exec+time)][,dump_limit=<number>]]
+
+"dump_limit" is used to limit the number of dumped TBStats in
+linux-user mode.
+
+[all+jit+exec+time] control the profilling level used
+by the TBStats. Can be used as follow:
+
+-d tb_stats
+-d tb_stats,level=jit+time
+-d tb_stats,dump_limit=15
+...
 
 Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
 ---
- accel/tcg/Makefile.objs      |  2 +-
- accel/tcg/perf/Makefile.objs |  1 +
- accel/tcg/tb-stats.c         | 39 ++++++++++++++++++++++++
- accel/tcg/translate-all.c    | 57 ++++++++++++++++++++++++++++++++++++
- include/exec/exec-all.h      | 15 +++-------
- include/exec/tb-context.h    | 12 ++++++++
- include/exec/tb-hash.h       |  7 +++++
- include/exec/tb-stats.h      | 43 +++++++++++++++++++++++++++
- util/log.c                   |  2 ++
- 9 files changed, 166 insertions(+), 12 deletions(-)
- create mode 100644 accel/tcg/perf/Makefile.objs
- create mode 100644 accel/tcg/tb-stats.c
- create mode 100644 include/exec/tb-stats.h
+ accel/tcg/tb-stats.c      |  1 +
+ accel/tcg/translator.c    |  1 +
+ include/exec/gen-icount.h |  1 +
+ include/exec/tb-stats.h   | 15 ---------------
+ include/qemu-common.h     | 15 +++++++++++++++
+ include/qemu/log.h        |  1 +
+ tcg/tcg.c                 |  1 +
+ util/log.c                | 35 +++++++++++++++++++++++++++++++++++
+ 8 files changed, 55 insertions(+), 15 deletions(-)
 
-diff --git a/accel/tcg/Makefile.objs b/accel/tcg/Makefile.objs
-index d381a02f34..49ffe81b5d 100644
---- a/accel/tcg/Makefile.objs
-+++ b/accel/tcg/Makefile.objs
-@@ -2,7 +2,7 @@ obj-$(CONFIG_SOFTMMU) += tcg-all.o
- obj-$(CONFIG_SOFTMMU) += cputlb.o
- obj-y += tcg-runtime.o tcg-runtime-gvec.o
- obj-y += cpu-exec.o cpu-exec-common.o translate-all.o
--obj-y += translator.o
-+obj-y += translator.o tb-stats.o
- 
- obj-$(CONFIG_USER_ONLY) += user-exec.o
- obj-$(call lnot,$(CONFIG_SOFTMMU)) += user-exec-stub.o
-diff --git a/accel/tcg/perf/Makefile.objs b/accel/tcg/perf/Makefile.objs
-new file mode 100644
-index 0000000000..f82fba35e5
---- /dev/null
-+++ b/accel/tcg/perf/Makefile.objs
-@@ -0,0 +1 @@
-+obj-y += jitdump.o
 diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
-new file mode 100644
-index 0000000000..02844717cb
---- /dev/null
+index 2bb1fde837..dddb9d4537 100644
+--- a/accel/tcg/tb-stats.c
 +++ b/accel/tcg/tb-stats.c
-@@ -0,0 +1,39 @@
-+#include "qemu/osdep.h"
-+
-+#include "disas/disas.h"
-+
-+#include "exec/tb-stats.h"
-+
-+void init_tb_stats_htable_if_not(void)
-+{
-+    if (tb_stats_collection_enabled() && !tb_ctx.tb_stats.map) {
-+        qht_init(&tb_ctx.tb_stats, tb_stats_cmp,
-+                CODE_GEN_HTABLE_SIZE, QHT_MODE_AUTO_RESIZE);
-+    }
-+}
-+
-+void enable_collect_tb_stats(void)
-+{
-+    init_tb_stats_htable_if_not();
-+    tcg_collect_tb_stats = TB_STATS_RUNNING;
-+}
-+
-+void disable_collect_tb_stats(void)
-+{
-+    tcg_collect_tb_stats = TB_STATS_PAUSED;
-+}
-+
-+void pause_collect_tb_stats(void)
-+{
-+    tcg_collect_tb_stats = TB_STATS_STOPPED;
-+}
-+
-+bool tb_stats_collection_enabled(void)
-+{
-+    return tcg_collect_tb_stats == TB_STATS_RUNNING;
-+}
-+
-+bool tb_stats_collection_paused(void)
-+{
-+    return tcg_collect_tb_stats == TB_STATS_PAUSED;
-+}
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 5d1e08b169..b7bccacd3b 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1118,6 +1118,23 @@ static inline void code_gen_alloc(size_t tb_size)
-     }
- }
+@@ -3,6 +3,7 @@
+ #include "disas/disas.h"
+ #include "exec/exec-all.h"
+ #include "tcg.h"
++#include "qemu-common.h"
  
-+/*
-+ * This is the more or less the same compare as tb_cmp(), but the
-+ * data persists over tb_flush. We also aggregate the various
-+ * variations of cflags under one record and ignore the details of
-+ * page overlap (although we can count it).
-+ */
-+bool tb_stats_cmp(const void *ap, const void *bp)
-+{
-+    const TBStatistics *a = ap;
-+    const TBStatistics *b = bp;
-+
-+    return a->phys_pc == b->phys_pc &&
-+        a->pc == b->pc &&
-+        a->cs_base == b->cs_base &&
-+        a->flags == b->flags;
-+}
-+
- static bool tb_cmp(const void *ap, const void *bp)
- {
-     const TranslationBlock *a = ap;
-@@ -1137,6 +1154,7 @@ static void tb_htable_init(void)
-     unsigned int mode = QHT_MODE_AUTO_RESIZE;
+ #include "qemu/qemu-print.h"
  
-     qht_init(&tb_ctx.htable, tb_cmp, CODE_GEN_HTABLE_SIZE, mode);
-+    init_tb_stats_htable_if_not();
- }
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index 834265d5be..ea7c3a9f77 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -16,6 +16,7 @@
+ #include "exec/gen-icount.h"
+ #include "exec/log.h"
+ #include "exec/translator.h"
++#include "qemu-common.h"
  
- /* Must be called before using the QEMU cpus. 'tb_size' is the size
-@@ -1666,6 +1684,34 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
-     return tb;
- }
+ /* Pairs with tcg_clear_temp_count.
+    To be called by #TranslatorOps.{translate_insn,tb_stop} if
+diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
+index b3efe41894..6f54586dd6 100644
+--- a/include/exec/gen-icount.h
++++ b/include/exec/gen-icount.h
+@@ -2,6 +2,7 @@
+ #define GEN_ICOUNT_H
  
-+static TBStatistics *tb_get_stats(tb_page_addr_t phys_pc, target_ulong pc,
-+                                  target_ulong cs_base, uint32_t flags,
-+                                  TranslationBlock *current_tb)
-+{
-+    TBStatistics *new_stats = g_new0(TBStatistics, 1);
-+    uint32_t hash = tb_stats_hash_func(phys_pc, pc, flags);
-+    void *existing_stats = NULL;
-+    new_stats->phys_pc = phys_pc;
-+    new_stats->pc = pc;
-+    new_stats->cs_base = cs_base;
-+    new_stats->flags = flags;
-+    new_stats->tb = current_tb;
-+
-+    qht_insert(&tb_ctx.tb_stats, new_stats, hash, &existing_stats);
-+
-+    if (unlikely(existing_stats)) {
-+        /*
-+         * If there is already a TBStatistic for this TB from a previous flush
-+         * then just make the new TB point to the older TBStatistic
-+         */
-+        g_free(new_stats);
-+        return existing_stats;
-+    } else {
-+        return new_stats;
-+    }
-+}
-+
-+
- /* Called with mmap_lock held for user mode emulation.  */
- TranslationBlock *tb_gen_code(CPUState *cpu,
-                               target_ulong pc, target_ulong cs_base,
-@@ -1732,6 +1778,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     ti = profile_getclock();
- #endif
+ #include "qemu/timer.h"
++#include "qemu-common.h"
  
-+    /*
-+     * We want to fetch the stats structure before we start code
-+     * generation so we can count interesting things about this
-+     * generation.
-+     */
-+    if (tb_stats_collection_enabled()) {
-+        tb->tb_stats = tb_get_stats(phys_pc, pc, cs_base, flags, tb);
-+    } else {
-+        tb->tb_stats = NULL;
-+    }
-+
-     tcg_func_start(tcg_ctx);
+ /* Helpers for instruction counting code generation.  */
  
-     tcg_ctx->cpu = env_cpu(env);
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 16034ee651..24bd6a0a0c 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -22,21 +22,11 @@
- 
- #include "exec/tb-context.h"
- #include "sysemu/cpus.h"
-+#include "exec/tb-stats.h"
- 
- /* allow to see translation results - the slowdown should be negligible, so we leave it */
- #define DEBUG_DISAS
- 
--/* Page tracking code uses ram addresses in system mode, and virtual
--   addresses in userspace mode.  Define tb_page_addr_t to be an appropriate
--   type.  */
--#if defined(CONFIG_USER_ONLY)
--typedef abi_ulong tb_page_addr_t;
--#define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
--#else
--typedef ram_addr_t tb_page_addr_t;
--#define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
--#endif
--
- #include "qemu/log.h"
- 
- void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_insns);
-@@ -403,6 +393,9 @@ struct TranslationBlock {
-     uintptr_t jmp_list_head;
-     uintptr_t jmp_list_next[2];
-     uintptr_t jmp_dest[2];
-+
-+    /* Pointer to a struct where statistics from the TB is stored */
-+    TBStatistics *tb_stats;
- };
- 
- extern bool parallel_cpus;
-diff --git a/include/exec/tb-context.h b/include/exec/tb-context.h
-index feb585e0a7..3cfb62a338 100644
---- a/include/exec/tb-context.h
-+++ b/include/exec/tb-context.h
-@@ -23,6 +23,17 @@
- #include "qemu/thread.h"
- #include "qemu/qht.h"
- 
-+/* Page tracking code uses ram addresses in system mode, and virtual
-+   addresses in userspace mode.  Define tb_page_addr_t to be an appropriate
-+   type.  */
-+#if defined(CONFIG_USER_ONLY)
-+typedef abi_ulong tb_page_addr_t;
-+#define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
-+#else
-+typedef ram_addr_t tb_page_addr_t;
-+#define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
-+#endif
-+
- #define CODE_GEN_HTABLE_BITS     15
- #define CODE_GEN_HTABLE_SIZE     (1 << CODE_GEN_HTABLE_BITS)
- 
-@@ -35,6 +46,7 @@ struct TBContext {
- 
-     /* statistics */
-     unsigned tb_flush_count;
-+    struct qht tb_stats;
- };
- 
- extern TBContext tb_ctx;
-diff --git a/include/exec/tb-hash.h b/include/exec/tb-hash.h
-index 4f3a37d927..54c477fe79 100644
---- a/include/exec/tb-hash.h
-+++ b/include/exec/tb-hash.h
-@@ -64,4 +64,11 @@ uint32_t tb_hash_func(tb_page_addr_t phys_pc, target_ulong pc, uint32_t flags,
-     return qemu_xxhash7(phys_pc, pc, flags, cf_mask, trace_vcpu_dstate);
- }
- 
-+static inline
-+uint32_t tb_stats_hash_func(tb_page_addr_t phys_pc, target_ulong pc,
-+                            uint32_t flags)
-+{
-+    return qemu_xxhash5(phys_pc, pc, flags);
-+}
-+
- #endif
 diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
-new file mode 100644
-index 0000000000..cc8f8a6ce6
---- /dev/null
+index 1dcfcdf9e8..c0948e606a 100644
+--- a/include/exec/tb-stats.h
 +++ b/include/exec/tb-stats.h
-@@ -0,0 +1,43 @@
-+#ifndef TB_STATS_H
-+
-+#define TB_STATS_H
-+
-+#include "exec/cpu-common.h"
-+#include "exec/tb-context.h"
-+#include "tcg.h"
-+
-+typedef struct TBStatistics TBStatistics;
-+
-+/*
-+ * This struct stores statistics such as execution count of the
-+ * TranslationBlocks. Each sets of TBs for a given phys_pc/pc/flags
-+ * has its own TBStatistics which will persist over tb_flush.
-+ *
-+ * We include additional counters to track number of translations as
-+ * well as variants for compile flags.
-+ */
-+struct TBStatistics {
-+    tb_page_addr_t phys_pc;
-+    target_ulong pc;
-+    uint32_t     flags;
-+    /* cs_base isn't included in the hash but we do check for matches */
-+    target_ulong cs_base;
-+    /* current TB linked to this TBStatistics */
-+    TranslationBlock *tb;
+@@ -79,21 +79,6 @@ void init_tb_stats_htable_if_not(void);
+ void dump_jit_profile_info(TCGProfile *s);
+ 
+ /* TBStatistic collection controls */
+-enum TBStatsStatus {
+-    TB_STATS_DISABLED = 0,
+-    TB_STATS_RUNNING,
+-    TB_STATS_PAUSED,
+-    TB_STATS_STOPPED
+-};
+-
+-#define TB_NOTHING    0
+-#define TB_EXEC_STATS 1
+-#define TB_JIT_STATS  2
+-#define TB_JIT_TIME   4
+-
+-extern int tcg_collect_tb_stats;
+-extern uint32_t default_tbstats_flag;
+-
+ void enable_collect_tb_stats(void);
+ void disable_collect_tb_stats(void);
+ void pause_collect_tb_stats(void);
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index 0235cd3b91..362e48c445 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -130,4 +130,19 @@ void page_size_init(void);
+  * returned. */
+ bool dump_in_progress(void);
+ 
++enum TBStatsStatus {
++    TB_STATS_DISABLED = 0,
++    TB_STATS_RUNNING,
++    TB_STATS_PAUSED,
++    TB_STATS_STOPPED
 +};
 +
-+bool tb_stats_cmp(const void *ap, const void *bp);
++#define TB_NOTHING    0
++#define TB_EXEC_STATS 1
++#define TB_JIT_STATS  2
++#define TB_JIT_TIME   4
 +
-+void init_tb_stats_htable_if_not(void);
-+
-+/* TBStatistic collection controls */
-+enum TBStatsStatus { TB_STATS_RUNNING, TB_STATS_PAUSED, TB_STATS_STOPPED };
 +extern int tcg_collect_tb_stats;
++extern uint32_t default_tbstats_flag;
 +
-+void enable_collect_tb_stats(void);
-+void disable_collect_tb_stats(void);
-+void pause_collect_tb_stats(void);
-+bool tb_stats_collection_enabled(void);
-+bool tb_stats_collection_paused(void);
-+
-+#endif
+ #endif
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index b097a6cae1..a8d1997cde 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -45,6 +45,7 @@ static inline bool qemu_log_separate(void)
+ /* LOG_TRACE (1 << 15) is defined in log-for-trace.h */
+ #define CPU_LOG_TB_OP_IND  (1 << 16)
+ #define CPU_LOG_TB_FPU     (1 << 17)
++#define CPU_LOG_TB_STATS   (1 << 18)
+ 
+ /* Lock output for a series of related logs.  Since this is not needed
+  * for a single qemu_log / qemu_log_mask / qemu_log_mask_and_addr, we
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 1cd07c6c47..c6c9c938dc 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -35,6 +35,7 @@
+ #include "qemu/host-utils.h"
+ #include "qemu/qemu-print.h"
+ #include "qemu/timer.h"
++#include "qemu-common.h"
+ 
+ /* Note: the long term plan is to reduce the dependencies on the QEMU
+    CPU definitions. Currently they are used for qemu_ld/st
 diff --git a/util/log.c b/util/log.c
-index 1d1b33f7d9..393a17115b 100644
+index 29021a4584..09cfb13b45 100644
 --- a/util/log.c
 +++ b/util/log.c
-@@ -31,6 +31,8 @@ int qemu_loglevel;
+@@ -19,17 +19,20 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
++#include "qemu/qemu-print.h"
+ #include "qemu/range.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "qemu/cutils.h"
+ #include "trace/control.h"
++#include "qemu-common.h"
+ 
+ static char *logfilename;
+ FILE *qemu_logfile;
+ int qemu_loglevel;
  static int log_append = 0;
  static GArray *debug_regions;
++int32_t max_num_hot_tbs_to_dump;
  
-+int tcg_collect_tb_stats;
+ int tcg_collect_tb_stats;
+ uint32_t default_tbstats_flag;
+@@ -276,6 +279,9 @@ const QEMULogItem qemu_log_items[] = {
+     { CPU_LOG_TB_NOCHAIN, "nochain",
+       "do not chain compiled TBs so that \"exec\" and \"cpu\" show\n"
+       "complete traces" },
++    { CPU_LOG_TB_STATS, "tb_stats[[,level=(+all+jit+exec+time)][,dump_limit=<number>]]",
++      "enable collection of TBs statistics"
++      "(and dump until given a limit if in user mode).\n" },
+     { 0, NULL, NULL },
+ };
+ 
+@@ -297,6 +303,35 @@ int qemu_str_to_log_mask(const char *str)
+             trace_enable_events((*tmp) + 6);
+             mask |= LOG_TRACE;
+ #endif
++        } else if (g_str_has_prefix(*tmp, "tb_stats")) {
++            mask |= CPU_LOG_TB_STATS;
++            default_tbstats_flag = TB_JIT_STATS | TB_EXEC_STATS | TB_JIT_TIME;
++            tcg_collect_tb_stats = TB_STATS_RUNNING;
++        } else if (tcg_collect_tb_stats == TB_STATS_RUNNING &&
++                g_str_has_prefix(*tmp, "dump_limit=")) {
 +
- /* Return the number of characters emitted.  */
- int qemu_log(const char *fmt, ...)
- {
++            max_num_hot_tbs_to_dump = atoi((*tmp) + 11);
++        } else if (tcg_collect_tb_stats == TB_STATS_RUNNING &&
++                g_str_has_prefix(*tmp, "level=")) {
++
++            default_tbstats_flag = 0;
++            char **level_parts = g_strsplit(*tmp + 6, "+", 0);
++            char **level_tmp;
++            for (level_tmp = level_parts; level_tmp && *level_tmp; level_tmp++) {
++                if (g_str_equal(*level_tmp, "jit")) {
++                    default_tbstats_flag |= TB_JIT_STATS;
++                } else if (g_str_equal(*level_tmp, "exec")) {
++                    default_tbstats_flag |= TB_EXEC_STATS;
++                } else if (g_str_equal(*level_tmp, "time")) {
++                    default_tbstats_flag |= TB_JIT_TIME;
++                } else if (g_str_equal(*level_tmp, "all")) {
++                    default_tbstats_flag |= TB_JIT_STATS | TB_EXEC_STATS | TB_JIT_TIME;
++                } else {
++                    fprintf(stderr, "no option level=%s, valid options are:"
++                            "all, jit, exec or/and time\n", *level_tmp);
++                    exit(1);
++                }
++            }
+         } else {
+             for (item = qemu_log_items; item->mask != 0; item++) {
+                 if (g_str_equal(*tmp, item->name)) {
 -- 
 2.22.0
 
