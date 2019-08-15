@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DCB8F0B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:37:24 +0200 (CEST)
-Received: from localhost ([::1]:44222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4AE8F0C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:39:52 +0200 (CEST)
+Received: from localhost ([::1]:44328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyIkc-0002sf-WB
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47116)
+	id 1hyIn0-0006Tl-PT
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47132)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1hyIig-0001Iw-ET
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:35:27 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hyIii-0001L7-Pj
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:35:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hyIic-000262-5z
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:35:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44012)
+ (envelope-from <dgilbert@redhat.com>) id 1hyIid-00026u-Qd
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:35:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51066)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIib-00025q-Ue
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:35:18 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIid-00026W-Ge
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:35:19 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0779A300163C;
- Thu, 15 Aug 2019 16:35:17 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C8D448E37A;
+ Thu, 15 Aug 2019 16:35:18 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-19.ams2.redhat.com
  [10.36.117.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FA3160F8C;
- Thu, 15 Aug 2019 16:35:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 50B5A60F8C;
+ Thu, 15 Aug 2019 16:35:17 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 17:34:33 +0100
-Message-Id: <20190815163504.18937-3-dgilbert@redhat.com>
+Date: Thu, 15 Aug 2019 17:34:34 +0100
+Message-Id: <20190815163504.18937-4-dgilbert@redhat.com>
 In-Reply-To: <20190815163504.18937-1-dgilbert@redhat.com>
 References: <20190815163504.18937-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 15 Aug 2019 16:35:17 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Thu, 15 Aug 2019 16:35:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 02/33] hw/net: fix vmxnet3 live migration
+Subject: [Qemu-devel] [PULL 03/33] migration: consolidate time info into
+ populate_time_info
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,143 +62,87 @@ Cc: quintela@redhat.com, yury-kotov@yandex-team.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-At some point vmxnet3 live migration stopped working and git-bisect
-didn't help finding a working version.
-The issue is the PCI configuration space is not being migrated
-successfully and MSIX remains masked at destination.
+Consolidate time information fill up into its function for better
+readability.
 
-Remove the migration differentiation between PCI and PCIe since
-the logic resides now inside VMSTATE_PCI_DEVICE.
-Remove also the VMXNET3_COMPAT_FLAG_DISABLE_PCIE based differentiation
-since at 'realize' time is decided if the device is PCI or PCIe,
-then the above macro is enough.
-
-Use the opportunity to move to the standard VMSTATE_MSIX
-instead of the deprecated SaveVMHandlers.
-
-Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-Id: <20190705010711.23277-1-marcel.apfelbaum@gmail.com>
-Tested-by: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
-Reviewed-by: Dmitry Fleytman <dmitry.fleytman@gmail.com>
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Message-Id: <20190716005411.4156-1-richardw.yang@linux.intel.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/net/vmxnet3.c | 52 ++----------------------------------------------
- 1 file changed, 2 insertions(+), 50 deletions(-)
+ migration/migration.c | 40 ++++++++++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 18 deletions(-)
 
-diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-index 10d01d0058..8b17548b02 100644
---- a/hw/net/vmxnet3.c
-+++ b/hw/net/vmxnet3.c
-@@ -2141,21 +2141,6 @@ vmxnet3_cleanup_msi(VMXNET3State *s)
-     msi_uninit(d);
+diff --git a/migration/migration.c b/migration/migration.c
+index 28342969ea..7c66da3a83 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -823,6 +823,25 @@ bool migration_is_setup_or_active(int state)
+     }
  }
 =20
--static void
--vmxnet3_msix_save(QEMUFile *f, void *opaque)
--{
--    PCIDevice *d =3D PCI_DEVICE(opaque);
--    msix_save(d, f);
--}
--
--static int
--vmxnet3_msix_load(QEMUFile *f, void *opaque, int version_id)
--{
--    PCIDevice *d =3D PCI_DEVICE(opaque);
--    msix_load(d, f);
--    return 0;
--}
--
- static const MemoryRegionOps b0_ops =3D {
-     .read =3D vmxnet3_io_bar0_read,
-     .write =3D vmxnet3_io_bar0_write,
-@@ -2176,11 +2161,6 @@ static const MemoryRegionOps b1_ops =3D {
-     },
- };
-=20
--static SaveVMHandlers savevm_vmxnet3_msix =3D {
--    .save_state =3D vmxnet3_msix_save,
--    .load_state =3D vmxnet3_msix_load,
--};
--
- static uint64_t vmxnet3_device_serial_num(VMXNET3State *s)
++static void populate_time_info(MigrationInfo *info, MigrationState *s)
++{
++    info->has_status =3D true;
++    info->has_setup_time =3D true;
++    info->setup_time =3D s->setup_time;
++    if (s->state =3D=3D MIGRATION_STATUS_COMPLETED) {
++        info->has_total_time =3D true;
++        info->total_time =3D s->total_time;
++        info->has_downtime =3D true;
++        info->downtime =3D s->downtime;
++    } else {
++        info->has_total_time =3D true;
++        info->total_time =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME) -
++                           s->start_time;
++        info->has_expected_downtime =3D true;
++        info->expected_downtime =3D s->expected_downtime;
++    }
++}
++
+ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
  {
-     uint64_t dsn_payload;
-@@ -2203,7 +2183,6 @@ static uint64_t vmxnet3_device_serial_num(VMXNET3St=
-ate *s)
-=20
- static void vmxnet3_pci_realize(PCIDevice *pci_dev, Error **errp)
- {
--    DeviceState *dev =3D DEVICE(pci_dev);
-     VMXNET3State *s =3D VMXNET3(pci_dev);
-     int ret;
-=20
-@@ -2249,8 +2228,6 @@ static void vmxnet3_pci_realize(PCIDevice *pci_dev,=
- Error **errp)
-         pcie_dev_ser_num_init(pci_dev, VMXNET3_DSN_OFFSET,
-                               vmxnet3_device_serial_num(s));
-     }
+     info->has_ram =3D true;
+@@ -908,16 +927,8 @@ static void fill_source_migration_info(MigrationInfo=
+ *info)
+     case MIGRATION_STATUS_DEVICE:
+     case MIGRATION_STATUS_POSTCOPY_PAUSED:
+     case MIGRATION_STATUS_POSTCOPY_RECOVER:
+-         /* TODO add some postcopy stats */
+-        info->has_status =3D true;
+-        info->has_total_time =3D true;
+-        info->total_time =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME)
+-            - s->start_time;
+-        info->has_expected_downtime =3D true;
+-        info->expected_downtime =3D s->expected_downtime;
+-        info->has_setup_time =3D true;
+-        info->setup_time =3D s->setup_time;
 -
--    register_savevm_live(dev, "vmxnet3-msix", -1, 1, &savevm_vmxnet3_msi=
-x, s);
- }
-=20
- static void vmxnet3_instance_init(Object *obj)
-@@ -2440,29 +2417,6 @@ static const VMStateDescription vmstate_vmxnet3_in=
-t_state =3D {
-     }
- };
-=20
--static bool vmxnet3_vmstate_need_pcie_device(void *opaque)
--{
--    VMXNET3State *s =3D VMXNET3(opaque);
++        /* TODO add some postcopy stats */
++        populate_time_info(info, s);
+         populate_ram_info(info, s);
+         populate_disk_info(info);
+         break;
+@@ -926,14 +937,7 @@ static void fill_source_migration_info(MigrationInfo=
+ *info)
+         /* TODO: display COLO specific information (checkpoint info etc.=
+) */
+         break;
+     case MIGRATION_STATUS_COMPLETED:
+-        info->has_status =3D true;
+-        info->has_total_time =3D true;
+-        info->total_time =3D s->total_time;
+-        info->has_downtime =3D true;
+-        info->downtime =3D s->downtime;
+-        info->has_setup_time =3D true;
+-        info->setup_time =3D s->setup_time;
 -
--    return !(s->compat_flags & VMXNET3_COMPAT_FLAG_DISABLE_PCIE);
--}
--
--static bool vmxnet3_vmstate_test_pci_device(void *opaque, int version_id=
-)
--{
--    return !vmxnet3_vmstate_need_pcie_device(opaque);
--}
--
--static const VMStateDescription vmstate_vmxnet3_pcie_device =3D {
--    .name =3D "vmxnet3/pcie",
--    .version_id =3D 1,
--    .minimum_version_id =3D 1,
--    .needed =3D vmxnet3_vmstate_need_pcie_device,
--    .fields =3D (VMStateField[]) {
--        VMSTATE_PCI_DEVICE(parent_obj, VMXNET3State),
--        VMSTATE_END_OF_LIST()
--    }
--};
--
- static const VMStateDescription vmstate_vmxnet3 =3D {
-     .name =3D "vmxnet3",
-     .version_id =3D 1,
-@@ -2470,9 +2424,8 @@ static const VMStateDescription vmstate_vmxnet3 =3D=
- {
-     .pre_save =3D vmxnet3_pre_save,
-     .post_load =3D vmxnet3_post_load,
-     .fields =3D (VMStateField[]) {
--            VMSTATE_STRUCT_TEST(parent_obj, VMXNET3State,
--                                vmxnet3_vmstate_test_pci_device, 0,
--                                vmstate_pci_device, PCIDevice),
-+            VMSTATE_PCI_DEVICE(parent_obj, VMXNET3State),
-+            VMSTATE_MSIX(parent_obj, VMXNET3State),
-             VMSTATE_BOOL(rx_packets_compound, VMXNET3State),
-             VMSTATE_BOOL(rx_vlan_stripping, VMXNET3State),
-             VMSTATE_BOOL(lro_supported, VMXNET3State),
-@@ -2508,7 +2461,6 @@ static const VMStateDescription vmstate_vmxnet3 =3D=
- {
-     },
-     .subsections =3D (const VMStateDescription*[]) {
-         &vmxstate_vmxnet3_mcast_list,
--        &vmstate_vmxnet3_pcie_device,
-         NULL
-     }
- };
++        populate_time_info(info, s);
+         populate_ram_info(info, s);
+         break;
+     case MIGRATION_STATUS_FAILED:
 --=20
 2.21.0
 
