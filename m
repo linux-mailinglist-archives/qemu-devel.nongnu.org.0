@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB0F28F150
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:55:32 +0200 (CEST)
-Received: from localhost ([::1]:44514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DE78F182
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 19:03:53 +0200 (CEST)
+Received: from localhost ([::1]:44644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyJ2B-0000Pm-Qz
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:55:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47538)
+	id 1hyJAG-0000iy-34
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 13:03:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47534)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1hyIk9-0003Ke-7u
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:58 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hyIk8-0003K7-TO
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hyIk3-0003XS-JF
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40566)
+ (envelope-from <dgilbert@redhat.com>) id 1hyIk5-0003YF-Cs
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41021)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIk3-0003X3-EQ
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:47 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIk5-0003Xs-7w
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:49 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BB7E54FCCE;
- Thu, 15 Aug 2019 16:36:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8C0FC307D985;
+ Thu, 15 Aug 2019 16:36:48 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-19.ams2.redhat.com
  [10.36.117.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3EE31BAAC;
- Thu, 15 Aug 2019 16:36:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F4EF3737;
+ Thu, 15 Aug 2019 16:36:46 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 17:35:00 +0100
-Message-Id: <20190815163504.18937-30-dgilbert@redhat.com>
+Date: Thu, 15 Aug 2019 17:35:01 +0100
+Message-Id: <20190815163504.18937-31-dgilbert@redhat.com>
 In-Reply-To: <20190815163504.18937-1-dgilbert@redhat.com>
 References: <20190815163504.18937-1-dgilbert@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Thu, 15 Aug 2019 16:36:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Thu, 15 Aug 2019 16:36:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 29/33] migration/postcopy: use mis->bh instead
- of allocating a QEMUBH
+Subject: [Qemu-devel] [PULL 30/33] qemu-file: move qemu_{get,
+ put}_counted_string() declarations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,77 +63,58 @@ Cc: quintela@redhat.com, yury-kotov@yandex-team.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-For migration incoming side, it either quit in precopy or postcopy. It
-is safe to use the mis->bh for both instead of allocating a dedicated
-QEMUBH for postcopy.
+Move migration helpers for strings under include/, so they can be used
+outside of migration/
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-Message-Id: <20190805053146.32326-1-richardw.yang@linux.intel.com>
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <20190808150325.21939-2-marcandre.lureau@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/savevm.c | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ include/migration/qemu-file-types.h | 4 ++++
+ migration/qemu-file.h               | 4 ----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 1ac15301ad..6369a4ff7a 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1866,16 +1866,10 @@ static int loadvm_postcopy_handle_listen(Migratio=
-nIncomingState *mis)
-     return 0;
+diff --git a/include/migration/qemu-file-types.h b/include/migration/qemu=
+-file-types.h
+index c0a1988155..2867e3da84 100644
+--- a/include/migration/qemu-file-types.h
++++ b/include/migration/qemu-file-types.h
+@@ -161,6 +161,10 @@ static inline void qemu_get_sbe64s(QEMUFile *f, int6=
+4_t *pv)
+     qemu_get_be64s(f, (uint64_t *)pv);
  }
 =20
++size_t qemu_get_counted_string(QEMUFile *f, char buf[256]);
++
++void qemu_put_counted_string(QEMUFile *f, const char *name);
++
+ int qemu_file_rate_limit(QEMUFile *f);
+=20
+ #endif
+diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+index d064940b8c..b6303dbeef 100644
+--- a/migration/qemu-file.h
++++ b/migration/qemu-file.h
+@@ -161,8 +161,6 @@ QEMUFile *qemu_file_get_return_path(QEMUFile *f);
+ void qemu_fflush(QEMUFile *f);
+ void qemu_file_set_blocking(QEMUFile *f, bool block);
+=20
+-size_t qemu_get_counted_string(QEMUFile *f, char buf[256]);
 -
--typedef struct {
--    QEMUBH *bh;
--} HandleRunBhData;
+ void ram_control_before_iterate(QEMUFile *f, uint64_t flags);
+ void ram_control_after_iterate(QEMUFile *f, uint64_t flags);
+ void ram_control_load_hook(QEMUFile *f, uint64_t flags, void *data);
+@@ -181,6 +179,4 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t =
+block_offset,
+                              ram_addr_t offset, size_t size,
+                              uint64_t *bytes_sent);
+=20
+-void qemu_put_counted_string(QEMUFile *f, const char *name);
 -
- static void loadvm_postcopy_handle_run_bh(void *opaque)
- {
-     Error *local_err =3D NULL;
--    HandleRunBhData *data =3D opaque;
--    MigrationIncomingState *mis =3D migration_incoming_get_current();
-+    MigrationIncomingState *mis =3D opaque;
-=20
-     /* TODO we should move all of this lot into postcopy_ram.c or a shar=
-ed code
-      * in migration.c
-@@ -1907,15 +1901,13 @@ static void loadvm_postcopy_handle_run_bh(void *o=
-paque)
-         runstate_set(RUN_STATE_PAUSED);
-     }
-=20
--    qemu_bh_delete(data->bh);
--    g_free(data);
-+    qemu_bh_delete(mis->bh);
- }
-=20
- /* After all discards we can start running and asking for pages */
- static int loadvm_postcopy_handle_run(MigrationIncomingState *mis)
- {
-     PostcopyState ps =3D postcopy_state_set(POSTCOPY_INCOMING_RUNNING);
--    HandleRunBhData *data;
-=20
-     trace_loadvm_postcopy_handle_run();
-     if (ps !=3D POSTCOPY_INCOMING_LISTENING) {
-@@ -1923,9 +1915,8 @@ static int loadvm_postcopy_handle_run(MigrationInco=
-mingState *mis)
-         return -1;
-     }
-=20
--    data =3D g_new(HandleRunBhData, 1);
--    data->bh =3D qemu_bh_new(loadvm_postcopy_handle_run_bh, data);
--    qemu_bh_schedule(data->bh);
-+    mis->bh =3D qemu_bh_new(loadvm_postcopy_handle_run_bh, mis);
-+    qemu_bh_schedule(mis->bh);
-=20
-     /* We need to finish reading the stream from the package
-      * and also stop reading anything more from the stream that loaded t=
-he
+ #endif
 --=20
 2.21.0
 
