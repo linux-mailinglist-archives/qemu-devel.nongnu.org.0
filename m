@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DE78F182
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 19:03:53 +0200 (CEST)
-Received: from localhost ([::1]:44644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8E28F18A
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 19:04:59 +0200 (CEST)
+Received: from localhost ([::1]:44658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyJAG-0000iy-34
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 13:03:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47534)
+	id 1hyJBK-0001cb-Tl
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 13:04:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47548)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1hyIk8-0003K7-TO
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:56 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hyIkA-0003Ms-RX
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hyIk5-0003YF-Cs
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41021)
+ (envelope-from <dgilbert@redhat.com>) id 1hyIk7-0003ZE-6m
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48632)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIk5-0003Xs-7w
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:49 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIk7-0003Yk-1w
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:51 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8C0FC307D985;
- Thu, 15 Aug 2019 16:36:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5B0283084242;
+ Thu, 15 Aug 2019 16:36:50 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-19.ams2.redhat.com
  [10.36.117.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F4EF3737;
- Thu, 15 Aug 2019 16:36:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4EA83737;
+ Thu, 15 Aug 2019 16:36:48 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 17:35:01 +0100
-Message-Id: <20190815163504.18937-31-dgilbert@redhat.com>
+Date: Thu, 15 Aug 2019 17:35:02 +0100
+Message-Id: <20190815163504.18937-32-dgilbert@redhat.com>
 In-Reply-To: <20190815163504.18937-1-dgilbert@redhat.com>
 References: <20190815163504.18937-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 15 Aug 2019 16:36:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Thu, 15 Aug 2019 16:36:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 30/33] qemu-file: move qemu_{get,
- put}_counted_string() declarations
+Subject: [Qemu-devel] [PULL 31/33] migration: Add traces for multifd
+ terminate threads
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,58 +62,66 @@ Cc: quintela@redhat.com, yury-kotov@yandex-team.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+From: Juan Quintela <quintela@redhat.com>
 
-Move migration helpers for strings under include/, so they can be used
-outside of migration/
-
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20190808150325.21939-2-marcandre.lureau@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <20190814020218.1868-2-quintela@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- include/migration/qemu-file-types.h | 4 ++++
- migration/qemu-file.h               | 4 ----
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ migration/ram.c        | 4 ++++
+ migration/trace-events | 2 ++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/include/migration/qemu-file-types.h b/include/migration/qemu=
--file-types.h
-index c0a1988155..2867e3da84 100644
---- a/include/migration/qemu-file-types.h
-+++ b/include/migration/qemu-file-types.h
-@@ -161,6 +161,10 @@ static inline void qemu_get_sbe64s(QEMUFile *f, int6=
-4_t *pv)
-     qemu_get_be64s(f, (uint64_t *)pv);
- }
+diff --git a/migration/ram.c b/migration/ram.c
+index 9e6cc1e685..b542929a7c 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -997,6 +997,8 @@ static void multifd_send_terminate_threads(Error *err=
+)
+ {
+     int i;
 =20
-+size_t qemu_get_counted_string(QEMUFile *f, char buf[256]);
++    trace_multifd_send_terminate_threads(err !=3D NULL);
 +
-+void qemu_put_counted_string(QEMUFile *f, const char *name);
+     if (err) {
+         MigrationState *s =3D migrate_get_current();
+         migrate_set_error(s, err);
+@@ -1258,6 +1260,8 @@ static void multifd_recv_terminate_threads(Error *e=
+rr)
+ {
+     int i;
+=20
++    trace_multifd_recv_terminate_threads(err !=3D NULL);
 +
- int qemu_file_rate_limit(QEMUFile *f);
-=20
- #endif
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index d064940b8c..b6303dbeef 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -161,8 +161,6 @@ QEMUFile *qemu_file_get_return_path(QEMUFile *f);
- void qemu_fflush(QEMUFile *f);
- void qemu_file_set_blocking(QEMUFile *f, bool block);
-=20
--size_t qemu_get_counted_string(QEMUFile *f, char buf[256]);
--
- void ram_control_before_iterate(QEMUFile *f, uint64_t flags);
- void ram_control_after_iterate(QEMUFile *f, uint64_t flags);
- void ram_control_load_hook(QEMUFile *f, uint64_t flags, void *data);
-@@ -181,6 +179,4 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t =
-block_offset,
-                              ram_addr_t offset, size_t size,
-                              uint64_t *bytes_sent);
-=20
--void qemu_put_counted_string(QEMUFile *f, const char *name);
--
- #endif
+     if (err) {
+         MigrationState *s =3D migrate_get_current();
+         migrate_set_error(s, err);
+diff --git a/migration/trace-events b/migration/trace-events
+index d8e54c367a..886ce70ca0 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -85,12 +85,14 @@ multifd_recv(uint8_t id, uint64_t packet_num, uint32_=
+t used, uint32_t flags, uin
+ multifd_recv_sync_main(long packet_num) "packet num %ld"
+ multifd_recv_sync_main_signal(uint8_t id) "channel %d"
+ multifd_recv_sync_main_wait(uint8_t id) "channel %d"
++multifd_recv_terminate_threads(bool error) "error %d"
+ multifd_recv_thread_end(uint8_t id, uint64_t packets, uint64_t pages) "c=
+hannel %d packets %" PRIu64 " pages %" PRIu64
+ multifd_recv_thread_start(uint8_t id) "%d"
+ multifd_send(uint8_t id, uint64_t packet_num, uint32_t used, uint32_t fl=
+ags, uint32_t next_packet_size) "channel %d packet_num %" PRIu64 " pages =
+%d flags 0x%x next packet size %d"
+ multifd_send_sync_main(long packet_num) "packet num %ld"
+ multifd_send_sync_main_signal(uint8_t id) "channel %d"
+ multifd_send_sync_main_wait(uint8_t id) "channel %d"
++multifd_send_terminate_threads(bool error) "error %d"
+ multifd_send_thread_end(uint8_t id, uint64_t packets, uint64_t pages) "c=
+hannel %d packets %" PRIu64 " pages %"  PRIu64
+ multifd_send_thread_start(uint8_t id) "%d"
+ ram_discard_range(const char *rbname, uint64_t start, size_t len) "%s: s=
+tart: %" PRIx64 " %zx"
 --=20
 2.21.0
 
