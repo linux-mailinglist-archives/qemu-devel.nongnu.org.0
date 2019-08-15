@@ -2,105 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D418EF7D
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 17:37:22 +0200 (CEST)
-Received: from localhost ([::1]:43078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 812C08EF88
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 17:39:39 +0200 (CEST)
+Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyHoW-0004Xc-OI
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 11:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38545)
+	id 1hyHqk-0007Fy-Cv
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 11:39:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38718)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hyHnH-0003lh-8a
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:36:07 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hyHoA-0004kx-3Z
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:37:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hyHnB-00008g-QR
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:36:02 -0400
-Received: from mail-eopbgr00111.outbound.protection.outlook.com
- ([40.107.0.111]:64069 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hyHnB-00008P-8Z; Thu, 15 Aug 2019 11:35:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LKv4TrYrhBrGnvmal2WQ2h3KBH7zv+IgjcEcMu2wnSS9cPZLUkyfEtc+Wu4+DS0ZT3ZGkU7zDiPje//6n0SmiJNsU9zMmkbV/ExhzE3LHGe+3r4pzouTYG61imAK3v5wRY3EnNo0hqkio2aC3wF/Y7DoI+aJi+LB4icCtNiRaBdIHbjSi4XkjRSLr4Uv8ckPc4dDVh8GlwDgLgyBT8blVJ+n3ohtFzaRSrse1v4uImy9uQAU7jhtYjqYAkUbQW3JRvN97oSyY8G3FMULwdqJnHrncYX2wtbBFVdQUlZXubeQUvlSx9fwIRxyZMhs4wpWQiMizVi+JrscPHe9UCwP5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ThxxnQUKnUmszLOp0rcz8q7QcrpOMRrrwjHS29vGV5I=;
- b=LIn2Bu80cWjgNmYyPtGkbHcvt9kheKCCoPqUe3oTs8BuPhRnYyMOp4vVjrNSbDHUHlk6yGszczIqOKKsGnM7yTMYwKpQ5X2vGDc1ztzb20UxlwcQ629XQFCl0HAF5xtzz8wvLke9lUrvFBxcHm1tF/Wrip2wwjTwk9+birvFvcFf2K4Vqwf527eV5QzkaSQ+UFsLPdHMeuS06bfRYeL0IO2MZrkoh78DnYFnELzAi+SL1LgSXuHP7iUSIO/QSjaYdrklmlYCspircZhzW66ZC5+omjbOKv6Ojy+c5uAXL+7PsWb4LZJHx2ITXt6L96aEAdzWuo5VG4abvLXdOtSpjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ThxxnQUKnUmszLOp0rcz8q7QcrpOMRrrwjHS29vGV5I=;
- b=Dh05mRyf2ejkyT2QGw+thx48uLzeZ88u7aevXCfH9NjUjoi1dmQT5afkv5CNR2vWhRoYp9iFiA7d/HDeoqQz7qtxhe++JAG4PTVll61LlCJ5+1iCcbauh4bIhxxi+t7l7a63zwNFKrCrbbHevUriG6JgAoXysJwHkXiRZsLA2DI=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5387.eurprd08.prod.outlook.com (52.133.241.9) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2157.18; Thu, 15 Aug 2019 15:35:54 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::617b:d2c2:11e9:4604]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::617b:d2c2:11e9:4604%3]) with mapi id 15.20.2157.022; Thu, 15 Aug 2019
- 15:35:54 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v3 0/4] qcow2: async handling of fragmented io
-Thread-Index: AQHVU2J5fEq8y0bXA0+IlUQwrVWabKb8McuAgAAlrIA=
-Date: Thu, 15 Aug 2019 15:35:54 +0000
-Message-ID: <974c5f8d-fac6-9972-70db-70675a38ae57@virtuozzo.com>
-References: <20190815121042.121309-1-vsementsov@virtuozzo.com>
- <86631ca8-2d5b-3e28-91a4-26aec499593f@redhat.com>
-In-Reply-To: <86631ca8-2d5b-3e28-91a4-26aec499593f@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0802CA0021.eurprd08.prod.outlook.com
- (2603:10a6:3:bd::31) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190815183551780
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3c7b6cc1-5e8c-42fb-9b55-08d721964260
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB5387; 
-x-ms-traffictypediagnostic: DB8PR08MB5387:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR08MB538742F8AB69B138D5E27E30C1AC0@DB8PR08MB5387.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
-x-forefront-prvs: 01304918F3
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(396003)(346002)(136003)(366004)(376002)(199004)(189003)(486006)(6436002)(31686004)(446003)(31696002)(4744005)(11346002)(2501003)(5660300002)(36756003)(316002)(186003)(229853002)(71190400001)(476003)(71200400001)(6486002)(2616005)(66066001)(26005)(8936002)(66446008)(64756008)(8676002)(102836004)(7736002)(256004)(76176011)(52116002)(81166006)(66476007)(305945005)(6506007)(54906003)(81156014)(2906002)(53936002)(25786009)(66946007)(4326008)(6246003)(6116002)(53546011)(478600001)(99286004)(110136005)(86362001)(3846002)(6512007)(14454004)(386003)(66556008);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5387;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: UO8DNCdSACOVpV/Pulnt2O/OZZuIc4dLIfikOnwHcFy6fxBqUElXPPKxIYbyS710RZ2z2AkSUyjNPe7HegDMANUcbHZfDvWTdAjN0DMAKYKQNbMfswG0t9M8tLj4LbV5y9YWHfbtPwYOzGSmpkVKWld6/ztzbbM1Nd0FPk7trMvSTMDT6T3Daym6I0fxRhGdsxq26lJ14VySDE35Nh6jqOkfBY8pt62iKi1Hl1QpAL6UNCP71CIZzoNI+f18fq7Sx532D8ApP+dE4mJ32qckiFZ7Bz8Ezk/wq8dCWIDpjWEOnvnn/gt4PXsFZp1zlpzJfgrGBZpQR5mRRwekm9tUcndu+cSbZl2VUUN9tN0juAl4fTNB2UwoZgA5ey0ywKx0ngRtClttTzMTv0x8IzWpTuvbsBWGGcwjJbshTI4TADI=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9C96400605ED8241BD23A8AA41E4472A@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <mreitz@redhat.com>) id 1hyHo6-0000Ni-TR
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:36:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42896)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hyHnw-0000Ke-K3; Thu, 15 Aug 2019 11:36:44 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1652A2A09DA;
+ Thu, 15 Aug 2019 15:36:43 +0000 (UTC)
+Received: from localhost (ovpn-204-81.brq.redhat.com [10.40.204.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 11CBD69CAC;
+ Thu, 15 Aug 2019 15:36:39 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Thu, 15 Aug 2019 17:36:31 +0200
+Message-Id: <20190815153638.4600-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c7b6cc1-5e8c-42fb-9b55-08d721964260
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2019 15:35:54.0154 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mNf5W1MiRNnbB2lIAQyKG6LfFgQwItBG5Htq6S4Hyjm2YK82ng6hZZktBVmHfs1Y+XEcQrJpVHcDMpW1KM8B/LQpvMS8ElEaiZTQ2UsJHYk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5387
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.0.111
-Subject: Re: [Qemu-devel] [PATCH v3 0/4] qcow2: async handling of fragmented
- io
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Thu, 15 Aug 2019 15:36:43 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 0/7] vmdk: Misc fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,19 +53,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTUuMDguMjAxOSAxNjoyMSwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAxNS4wOC4xOSAxNDoxMCwg
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IDAxOiAtIHVzZSBjb3JvdXRp
-bmVfZm4gd2hlcmUgYXBwcm9wcmlhdGUgISEhISEhISEhISEhISEhISEhISEhISENCj4gDQo+IDot
-KQ0KPiANCg0KDQpBaGFoYWhhLCBJJ2xsIGV4cGxhaW46DQoNCldoZW4gY29tcGFyaW5nIHYyIHZz
-IHYzIGFuZCB3cml0aW5nIHRoaXMgZGlmZmVyZW5jZSBzY3JpcHQgSSBub3RpY2VkDQp0aGF0IEkg
-YWRkZWQgY29yb3V0aW5lX2ZuIG1hcmtzIG9ubHkgdG8gLmggYW5kIG5vdCB0byAuYy4gU28gSSBh
-ZGRlZA0Kc29tZSBvZiAiISEhIiB0byBub3QgZm9yZWdldCB0byBmaXggaXQuDQoNCg0KLS0gDQpC
-ZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+I made the mistake of trying to run the iotests with all non-default
+subformats our vmdk driver has to offer:
+- monolithicFlat
+- twoGbMaxExtentSparse
+- twoGbMaxExtentFlat
+- streamOptimized
+
+Many things broke, so this series fixes what I found.  It=E2=80=99s mostl=
+y just
+iotest fixes, but there are actually two real fixes in here.
+
+
+v2:
+- Patch 2: Don=E2=80=99t treat extent filenames with protocol prefixes as
+  absolute filenames =E2=80=93 this may be the right thing to do, but:
+  (1) path_combine() doesn=E2=80=99t (it just ignores whether the suppose=
+d
+      relative filename has a potential protocol prefix), so this is how
+      we handled it so far,
+  (2) It would break other cases (when a filename contains a colon for
+      no particular reason), as seen in iotest 126.
+  That means you cannot have an extent file e.g. on an http server while
+  the descriptor is on a local filesystem, but I hope nobody would ever
+  want to do that.
+
+- Patch 3: Fix paste-o [John]
+
+- Patch 7: twoGbMaxExtentSparse works now with the change to patch 2, so
+  we no longer have to mark it unsupported [Thanks for the insistent
+  inquiry, John :-)]
+
+
+git-backport-diff against v1:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+
+001/7:[----] [--] 'iotests: Fix _filter_img_create()'
+002/7:[0002] [FC] 'vmdk: Use bdrv_dirname() for relative extent paths'
+003/7:[0002] [FC] 'iotests: Keep testing broken relative extent paths'
+004/7:[----] [--] 'vmdk: Reject invalid compressed writes'
+005/7:[----] [--] 'iotests: Disable broken streamOptimized tests'
+006/7:[----] [--] 'iotests: Disable 110 for vmdk.twoGbMaxExtentSparse'
+007/7:[0006] [FC] 'iotests: Disable 126 for some vmdk subformats'
+
+
+Max Reitz (7):
+  iotests: Fix _filter_img_create()
+  vmdk: Use bdrv_dirname() for relative extent paths
+  iotests: Keep testing broken relative extent paths
+  vmdk: Reject invalid compressed writes
+  iotests: Disable broken streamOptimized tests
+  iotests: Disable 110 for vmdk.twoGbMaxExtentSparse
+  iotests: Disable 126 for flat vmdk subformats
+
+ block/vmdk.c                     | 64 ++++++++++++++++++++++----------
+ tests/qemu-iotests/002           |  1 +
+ tests/qemu-iotests/003           |  1 +
+ tests/qemu-iotests/005           |  3 +-
+ tests/qemu-iotests/009           |  1 +
+ tests/qemu-iotests/010           |  1 +
+ tests/qemu-iotests/011           |  1 +
+ tests/qemu-iotests/017           |  3 +-
+ tests/qemu-iotests/018           |  3 +-
+ tests/qemu-iotests/019           |  3 +-
+ tests/qemu-iotests/020           |  3 +-
+ tests/qemu-iotests/027           |  1 +
+ tests/qemu-iotests/032           |  1 +
+ tests/qemu-iotests/033           |  1 +
+ tests/qemu-iotests/034           |  3 +-
+ tests/qemu-iotests/037           |  3 +-
+ tests/qemu-iotests/059           | 34 ++++++++++++++++-
+ tests/qemu-iotests/059.out       | 24 +++++++-----
+ tests/qemu-iotests/063           |  3 +-
+ tests/qemu-iotests/072           |  1 +
+ tests/qemu-iotests/105           |  3 +-
+ tests/qemu-iotests/110           |  3 +-
+ tests/qemu-iotests/126           |  2 +
+ tests/qemu-iotests/197           |  1 +
+ tests/qemu-iotests/215           |  1 +
+ tests/qemu-iotests/251           |  1 +
+ tests/qemu-iotests/common.filter |  4 +-
+ 27 files changed, 127 insertions(+), 43 deletions(-)
+
+--=20
+2.21.0
+
 
