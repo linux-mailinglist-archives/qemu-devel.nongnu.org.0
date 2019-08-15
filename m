@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C5798F152
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:57:31 +0200 (CEST)
-Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0888F13D
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:51:02 +0200 (CEST)
+Received: from localhost ([::1]:44444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyJ46-0002T3-HC
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:57:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47368)
+	id 1hyIxo-0001uO-Rh
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47387)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1hyIjZ-0002Oi-6O
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:22 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hyIjc-0002Tv-Dx
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hyIjV-00039o-JO
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51968)
+ (envelope-from <dgilbert@redhat.com>) id 1hyIjY-0003DL-NN
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48266)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIjV-000370-EH
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:13 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIjY-0003Cy-Fv
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:16 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B311130860DF;
- Thu, 15 Aug 2019 16:36:12 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C2612307C820;
+ Thu, 15 Aug 2019 16:36:15 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-19.ams2.redhat.com
  [10.36.117.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 356573737;
- Thu, 15 Aug 2019 16:36:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 094A43737;
+ Thu, 15 Aug 2019 16:36:12 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 17:34:48 +0100
-Message-Id: <20190815163504.18937-18-dgilbert@redhat.com>
+Date: Thu, 15 Aug 2019 17:34:49 +0100
+Message-Id: <20190815163504.18937-19-dgilbert@redhat.com>
 In-Reply-To: <20190815163504.18937-1-dgilbert@redhat.com>
 References: <20190815163504.18937-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 15 Aug 2019 16:36:12 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Thu, 15 Aug 2019 16:36:15 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 17/33] migration: return -EINVAL directly when
- version_id mismatch
+Subject: [Qemu-devel] [PULL 18/33] migration: extract ram_load_precopy
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,30 +63,126 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wei Yang <richardw.yang@linux.intel.com>
 
-It is not reasonable to continue when version_id mismatch.
+After cleanup, it would be clear to audience there are two cases
+ram_load:
+
+  * precopy
+  * postcopy
+
+And it is not necessary to check postcopy_running on each iteration for
+precopy.
 
 Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <20190722075339.25121-2-richardw.yang@linux.intel.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+Message-Id: <20190725002023.2335-3-richardw.yang@linux.intel.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/ram.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ migration/ram.c | 73 +++++++++++++++++++++++++++++++------------------
+ 1 file changed, 46 insertions(+), 27 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 97f241d6d9..6a75aedc91 100644
+index 6a75aedc91..a44e9c0abc 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -4334,7 +4334,7 @@ static int ram_load(QEMUFile *f, void *opaque, int =
-version_id)
-     seq_iter++;
+@@ -4318,40 +4318,26 @@ static void colo_flush_ram_cache(void)
+     trace_colo_flush_ram_cache_end();
+ }
 =20
-     if (version_id !=3D 4) {
--        ret =3D -EINVAL;
-+        return -EINVAL;
+-static int ram_load(QEMUFile *f, void *opaque, int version_id)
++/**
++ * ram_load_precopy: load pages in precopy case
++ *
++ * Returns 0 for success or -errno in case of error
++ *
++ * Called in precopy mode by ram_load().
++ * rcu_read_lock is taken prior to this being called.
++ *
++ * @f: QEMUFile where to send the data
++ */
++static int ram_load_precopy(QEMUFile *f)
+ {
+-    int flags =3D 0, ret =3D 0, invalid_flags =3D 0;
+-    static uint64_t seq_iter;
+-    int len =3D 0;
+-    /*
+-     * If system is running in postcopy mode, page inserts to host memor=
+y must
+-     * be atomic
+-     */
+-    bool postcopy_running =3D postcopy_is_running();
++    int flags =3D 0, ret =3D 0, invalid_flags =3D 0, len =3D 0;
+     /* ADVISE is earlier, it shows the source has the postcopy capabilit=
+y on */
+     bool postcopy_advised =3D postcopy_is_advised();
+-
+-    seq_iter++;
+-
+-    if (version_id !=3D 4) {
+-        return -EINVAL;
+-    }
+-
+     if (!migrate_use_compression()) {
+         invalid_flags |=3D RAM_SAVE_FLAG_COMPRESS_PAGE;
+     }
+-    /* This RCU critical section can be very long running.
+-     * When RCU reclaims in the code start to become numerous,
+-     * it will be necessary to reduce the granularity of this
+-     * critical section.
+-     */
+-    rcu_read_lock();
+-
+-    if (postcopy_running) {
+-        ret =3D ram_load_postcopy(f);
+-    }
+=20
+-    while (!postcopy_running && !ret && !(flags & RAM_SAVE_FLAG_EOS)) {
++    while (!ret && !(flags & RAM_SAVE_FLAG_EOS)) {
+         ram_addr_t addr, total_ram_bytes;
+         void *host =3D NULL;
+         uint8_t ch;
+@@ -4502,6 +4488,39 @@ static int ram_load(QEMUFile *f, void *opaque, int=
+ version_id)
+         }
      }
 =20
-     if (!migrate_use_compression()) {
++    return ret;
++}
++
++static int ram_load(QEMUFile *f, void *opaque, int version_id)
++{
++    int ret =3D 0;
++    static uint64_t seq_iter;
++    /*
++     * If system is running in postcopy mode, page inserts to host memor=
+y must
++     * be atomic
++     */
++    bool postcopy_running =3D postcopy_is_running();
++
++    seq_iter++;
++
++    if (version_id !=3D 4) {
++        return -EINVAL;
++    }
++
++    /*
++     * This RCU critical section can be very long running.
++     * When RCU reclaims in the code start to become numerous,
++     * it will be necessary to reduce the granularity of this
++     * critical section.
++     */
++    rcu_read_lock();
++
++    if (postcopy_running) {
++        ret =3D ram_load_postcopy(f);
++    } else {
++        ret =3D ram_load_precopy(f);
++    }
++
+     ret |=3D wait_for_decompress_done();
+     rcu_read_unlock();
+     trace_ram_load_complete(ret, seq_iter);
 --=20
 2.21.0
 
