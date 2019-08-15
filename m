@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 305788EFCD
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 17:51:15 +0200 (CEST)
-Received: from localhost ([::1]:43424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085558F00B
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:03:45 +0200 (CEST)
+Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyI1y-0003dA-8f
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 11:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40978)
+	id 1hyIE3-0006kx-H3
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41981)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1hyI0W-0002ic-5k
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:49:47 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hyI9V-0005SZ-Le
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:59:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hyI0S-0005ed-Rw
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:49:43 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37000)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hyI0S-0005eP-Iw
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:49:40 -0400
-Received: by mail-wm1-x342.google.com with SMTP id z23so1655329wmf.2
- for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 08:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=kAcsRGp19GHmWwtwmf9lkSCYRgJI/U1CoUufy6uOgYk=;
- b=fewraTodSNckaSSFddi+V1++sD/uN6zLi63Yb4qav4V4XbG/CZLKNRc3oxLzKTP0Ak
- qjPoO+/zL48orM5rrU/tqjIhTIDkXSeOg1rF7zGBd/RR6GW1exdHlqrzE1QbpuyyPZtq
- 9htopwSXWkPOndiobBAfC1b7aI+Ewha9IcIob2xFyc2WWkm0y/EPH9t9pJgwk4S0MzSx
- VBMZBdKMIYKlrIL51XM7U52lkwB4ZvBtmnc2LVWTjp9FObF103jcCcwqInewRQ0P5YYL
- 93ft7dRj59RHnk6wEZgTO1Tgq8E7T765lmQXSFmYiBhIYQvnkt/EaUFK2DBC6U5NtTA8
- 9n5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=kAcsRGp19GHmWwtwmf9lkSCYRgJI/U1CoUufy6uOgYk=;
- b=Ql9PdVb2S601iqMJxKYh5KumydGUcvz1ffqZ02vETfRU5tdEf7hpHt4bY0fek89lqe
- 8MC9Rj2p60kD3Xh04rSgV2pX6qFsZi+LIR1F0lmkvIQ9t77G0ITpUf0AaU7+/+UKHnLq
- 5trjzeYWVpT4o1izsDSgUfCwr4PtokwBPgux5hR4TVMj0Irxya6fO7jeguiPUCC9XM4a
- B5SOPXd7/FTwmbpI7Jp5xza73nyWqmV1TSJY+fHFq2w7TEtYns88I4aV4WKUfkUbWvaC
- aVJfoiS/DGmq9HHjSSWvGC9pXlrXYyOb8Dd3BmbjXOL8h4cQCkD+RJxgPvEC00jvLDGA
- csow==
-X-Gm-Message-State: APjAAAXGLq5syIa3KDa45w8Q/JlwwQJ8gTek0GnABcPtw/jyXxWUCip9
- XeKRnqw2pFNKGre5Kj9CmTvdRg==
-X-Google-Smtp-Source: APXvYqzl1UHJ5+QjPyIcbxEGjhoMHXEb0KxaungiZ9jRTvxWTZq5oCg3C4bE20bXhCqFVl6gS9ItOA==
-X-Received: by 2002:a7b:c453:: with SMTP id l19mr3320711wmi.106.1565884179136; 
- Thu, 15 Aug 2019 08:49:39 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id q18sm4420246wrw.36.2019.08.15.08.49.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Aug 2019 08:49:38 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CA91F1FF87;
- Thu, 15 Aug 2019 16:49:37 +0100 (BST)
-References: <20190813124946.25322-1-alex.bennee@linaro.org>
- <20190813124946.25322-5-alex.bennee@linaro.org>
- <CAL1e-=g4Cxd74r3NyShEPpFEqx2JoT2x75zLeUXejgVgtVjSHA@mail.gmail.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-In-reply-to: <CAL1e-=g4Cxd74r3NyShEPpFEqx2JoT2x75zLeUXejgVgtVjSHA@mail.gmail.com>
-Date: Thu, 15 Aug 2019 16:49:37 +0100
-Message-ID: <87mugamnse.fsf@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1hyI9S-0001Bl-8W
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:59:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47548)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hyI9J-00017V-G3; Thu, 15 Aug 2019 11:58:49 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id B98DF3175286;
+ Thu, 15 Aug 2019 15:58:48 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-81.brq.redhat.com
+ [10.40.204.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F36C100194E;
+ Thu, 15 Aug 2019 15:58:47 +0000 (UTC)
+To: qemu-block@nongnu.org
+References: <20190809185253.17535-1-mreitz@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <389220c3-8374-8293-f520-f9fe5da25e4c@redhat.com>
+Date: Thu, 15 Aug 2019 17:58:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v3 04/13] fpu: use min/max values from
- stdint.h for integral overflow
+In-Reply-To: <20190809185253.17535-1-mreitz@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="SYGmMQgznZFN4hyaE3gmEyZcGKT4HVozE"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 15 Aug 2019 15:58:48 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] iotests: Fix 141 when run with qed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,169 +84,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, armbru@redhat.com,
- Aurelien Jarno <aurelien@aurel32.net>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--SYGmMQgznZFN4hyaE3gmEyZcGKT4HVozE
+Content-Type: multipart/mixed; boundary="psa9cHDBHcvccWGFHLuYf5X8pnrA8xd9A";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Message-ID: <389220c3-8374-8293-f520-f9fe5da25e4c@redhat.com>
+Subject: Re: [PATCH] iotests: Fix 141 when run with qed
+References: <20190809185253.17535-1-mreitz@redhat.com>
+In-Reply-To: <20190809185253.17535-1-mreitz@redhat.com>
 
-Aleksandar Markovic <aleksandar.m.mail@gmail.com> writes:
+--psa9cHDBHcvccWGFHLuYf5X8pnrA8xd9A
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> 13.08.2019. 14.52, "Alex Benn=C3=A9e" <alex.bennee@linaro.org> =D1=98=D0=
-=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->>
->> Remove some more use of LIT64 while making the meaning more clear. We
->> also avoid the need of casts as the results by definition fit into the
->> return type.
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  fpu/softfloat.c | 30 ++++++++++++++----------------
->>  1 file changed, 14 insertions(+), 16 deletions(-)
->>
->> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
->> index 9e57b7b5933..a1e1e9a8559 100644
->> --- a/fpu/softfloat.c
->> +++ b/fpu/softfloat.c
->> @@ -3444,9 +3444,7 @@ static int64_t roundAndPackInt64(flag zSign,
-> uint64_t absZ0, uint64_t absZ1,
->>      if ( z && ( ( z < 0 ) ^ zSign ) ) {
->>   overflow:
->>          float_raise(float_flag_invalid, status);
->> -        return
->> -              zSign ? (int64_t) LIT64( 0x8000000000000000 )
->> -            : LIT64( 0x7FFFFFFFFFFFFFFF );
->> +        return zSign ? INT64_MIN : INT64_MAX;
->>      }
->
-> In function roundAndPavkInt32 tgere is a following segment:
->
->     if ( ( absZ>>32 ) || ( z && ( ( z < 0 ) ^ zSign ) ) ) {
->         float_raise(float_flag_invalid, status);
->         return zSign ? (int32_t) 0x80000000 : 0x7FFFFFFF;
->     }
->
-> Perhaps replace these constants with INT32_MIN, INT32_MAX, for similar
-> reasons, in the same or a separate patch?
+On 09.08.19 20:52, Max Reitz wrote:
+> 69f47505ee has changed qcow2 in such a way that the commit job run in
+> test 141 (and 144[1]) returns before it emits the READY event.  However=
+,
+> 141 also runs with qed, where the order is still the other way around.
+> Just filter out the {"return": {}} so the test passes for qed again.
+>=20
+> [1] 144 only runs with qcow2, so it is fine as it is.
+>=20
+> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Fixes: 69f47505ee66afaa513305de0c1895a224e52c45
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/141           | 9 +++++++--
+>  tests/qemu-iotests/141.out       | 5 -----
+>  tests/qemu-iotests/common.filter | 5 +++++
+>  3 files changed, 12 insertions(+), 7 deletions(-)
 
-Yeah that was missed seeing as I picked up one of the INT32 cases later on.
+Thanks for the reviews, applied to my block-next branch.
 
->
-> Aleksandar
->
->
->>      if (absZ1) {
->>          status->float_exception_flags |=3D float_flag_inexact;
->> @@ -3497,7 +3495,7 @@ static int64_t roundAndPackUint64(flag zSign,
-> uint64_t absZ0,
->>          ++absZ0;
->>          if (absZ0 =3D=3D 0) {
->>              float_raise(float_flag_invalid, status);
->> -            return LIT64(0xFFFFFFFFFFFFFFFF);
->> +            return UINT64_MAX;
->>          }
->>          absZ0 &=3D ~(((uint64_t)(absZ1<<1) =3D=3D 0) & roundNearestEven=
-);
->>      }
->> @@ -5518,9 +5516,9 @@ int64_t floatx80_to_int64(floatx80 a, float_status
-> *status)
->>          if ( shiftCount ) {
->>              float_raise(float_flag_invalid, status);
->>              if (!aSign || floatx80_is_any_nan(a)) {
->> -                return LIT64( 0x7FFFFFFFFFFFFFFF );
->> +                return INT64_MAX;
->>              }
->> -            return (int64_t) LIT64( 0x8000000000000000 );
->> +            return INT64_MIN;
->>          }
->>          aSigExtra =3D 0;
->>      }
->> @@ -5561,10 +5559,10 @@ int64_t floatx80_to_int64_round_to_zero(floatx80
-> a, float_status *status)
->>          if ( ( a.high !=3D 0xC03E ) || aSig ) {
->>              float_raise(float_flag_invalid, status);
->>              if ( ! aSign || ( ( aExp =3D=3D 0x7FFF ) && aSig ) ) {
->> -                return LIT64( 0x7FFFFFFFFFFFFFFF );
->> +                return INT64_MAX;
->>              }
->>          }
->> -        return (int64_t) LIT64( 0x8000000000000000 );
->> +        return INT64_MIN;
->>      }
->>      else if ( aExp < 0x3FFF ) {
->>          if (aExp | aSig) {
->> @@ -6623,7 +6621,7 @@ int32_t float128_to_int32_round_to_zero(float128 a,
-> float_status *status)
->>      if ( ( z < 0 ) ^ aSign ) {
->>   invalid:
->>          float_raise(float_flag_invalid, status);
->> -        return aSign ? (int32_t) 0x80000000 : 0x7FFFFFFF;
->> +        return aSign ? INT32_MIN : INT32_MAX;
->>      }
->>      if ( ( aSig0<<shiftCount ) !=3D savedASig ) {
->>          status->float_exception_flags |=3D float_flag_inexact;
->> @@ -6662,9 +6660,9 @@ int64_t float128_to_int64(float128 a, float_status
-> *status)
->>                        && ( aSig1 || ( aSig0 !=3D LIT64( 0x0001000000000=
-000
-> ) ) )
->>                      )
->>                 ) {
->> -                return LIT64( 0x7FFFFFFFFFFFFFFF );
->> +                return INT64_MAX;
->>              }
->> -            return (int64_t) LIT64( 0x8000000000000000 );
->> +            return INT64_MIN;
->>          }
->>          shortShift128Left( aSig0, aSig1, - shiftCount, &aSig0, &aSig1 );
->>      }
->> @@ -6710,10 +6708,10 @@ int64_t float128_to_int64_round_to_zero(float128
-> a, float_status *status)
->>              else {
->>                  float_raise(float_flag_invalid, status);
->>                  if ( ! aSign || ( ( aExp =3D=3D 0x7FFF ) && ( aSig0 | a=
-Sig1
-> ) ) ) {
->> -                    return LIT64( 0x7FFFFFFFFFFFFFFF );
->> +                    return INT64_MAX;
->>                  }
->>              }
->> -            return (int64_t) LIT64( 0x8000000000000000 );
->> +            return INT64_MIN;
->>          }
->>          z =3D ( aSig0<<shiftCount ) | ( aSig1>>( ( - shiftCount ) & 63 =
-) );
->>          if ( (uint64_t) ( aSig1<<shiftCount ) ) {
->> @@ -6764,19 +6762,19 @@ uint64_t float128_to_uint64(float128 a,
-> float_status *status)
->>      if (aSign && (aExp > 0x3FFE)) {
->>          float_raise(float_flag_invalid, status);
->>          if (float128_is_any_nan(a)) {
->> -            return LIT64(0xFFFFFFFFFFFFFFFF);
->> +            return UINT64_MAX;
->>          } else {
->>              return 0;
->>          }
->>      }
->>      if (aExp) {
->> -        aSig0 |=3D LIT64(0x0001000000000000);
->> +        aSig0 |=3D UINT64_C(0x0001000000000000);
->>      }
->>      shiftCount =3D 0x402F - aExp;
->>      if (shiftCount <=3D 0) {
->>          if (0x403E < aExp) {
->>              float_raise(float_flag_invalid, status);
->> -            return LIT64(0xFFFFFFFFFFFFFFFF);
->> +            return UINT64_MAX;
->>          }
->>          shortShift128Left(aSig0, aSig1, -shiftCount, &aSig0, &aSig1);
->>      } else {
->> --
->> 2.20.1
->>
->>
+Max
 
 
---
-Alex Benn=C3=A9e
+--psa9cHDBHcvccWGFHLuYf5X8pnrA8xd9A--
+
+--SYGmMQgznZFN4hyaE3gmEyZcGKT4HVozE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1VgTYACgkQ9AfbAGHV
+z0CRSAf/X7X5IJ/p8lkXPlcBGeyZMzZHra0eBbXTm3S7Qxv+WDi/H3hSYMFiWpXl
+sL6c6UJk8mZ3dI09v2lFMizOtGH8sEq8YhGoRGwoPTU9YjiccI96muKbEwjKLGj5
+JQPRRX32PbsgHIVJRQkh1MvRRpnsmnoCgL3hnC1+5iXwTzq5PfDzyzxcHAMZUJsl
+2cHuHuMHs3Iqvlij+ptM1xZ7Kc0WKGcxZ1sT7Nq9NHwnDofnN4tjf1+VAFOUBh5N
+oi5Qi2i+gYUe+acEqqUssKyH9R9eUHo6hnPFkLK5LC63vi6drD3edmraPgzXliZP
+6yn7SwVM+c6EGaK/gZXe7K3EJb9g7w==
+=i4PL
+-----END PGP SIGNATURE-----
+
+--SYGmMQgznZFN4hyaE3gmEyZcGKT4HVozE--
 
