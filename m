@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 237D28E2D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:41:37 +0200 (CEST)
-Received: from localhost ([::1]:37672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0238E2DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:44:24 +0200 (CEST)
+Received: from localhost ([::1]:37706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy5hn-0001tn-VB
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:41:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46980)
+	id 1hy5kV-0005eq-Gl
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5De-0006Js-Cy
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5De-0006JB-41
  for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5Dd-0000Eo-0E
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:26 -0400
-Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:34555)
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5Dd-0000F2-2z
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:25 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:45962)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5Db-0000Cj-Oy
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:24 -0400
-Received: by mail-yw1-xc44.google.com with SMTP id n126so305419ywf.1
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:23 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5Dc-0000Dn-VA
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:25 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id u32so388462ybi.12
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZlioH6hGMavN5lo40XNXN+rXqiQDdeuysLOdHqsy6o8=;
- b=KB6CSEk4KP/brjj/dgygHAM2Z3Uu8qhIK4Mbh0chqEYG396fFw4Mox3hK5C5lDXlDK
- 6dBvxnK9d/0A7cH1tCemixy27gT8gMBRLeqzujCOo1SS/so9YsA2HiSP3ank/dq7LFD2
- PJc9YQl0gmFxItfkR+R7kDjyWUxgvyErrgbhT0sCr6VoUdbAGuZ143chP+NcX2MRGwLu
- 9g33yH8qI/rBYFK1oahspUP5K1P6Ze6v1TcNbVWgmOEifY3llV/gxRuZK9wdhGYJjtEv
- /rNLB/RiofiuMLwuRNC+1PqrUC2C8L6GYk2gPDplpPtUA6ST39uocW2ZpbOgENBK2ZsF
- n2KA==
+ bh=ChWMIPl+dab6o+BediH5d8eY5VFridF7PbVi1UCCf4c=;
+ b=GCzTHbuKq1+/cvJUsDndSXsF3DN/oieM/iQMqcOYe6zJ0vg82U8rKh73x9RCwVEe5a
+ g6/s9NMO5m0XP83sVn/GucTZjWTfxCSKgoYM/cq9zj3kqLMr67fxOlF3rexX9Svtll8j
+ 4wVGMKbL/ApADJtx+BmtK/W64gmNmw5v1HhydwWtKvnh7nN7MrEpP+wktemKt8Muk0cw
+ EKG/InFa6CZUhIGYCTbZmYpyWQKh8ijRMoZCQ4x7kcnPF+/XKaKY4W0e3xYCng1/TaTC
+ H1BP+6Hixyf8ALXQFf3PgS8H1CRkSWJWiT7AwJVYD6bCXmnwJ0dxDlgGXq6LmXDxG0u2
+ WZmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZlioH6hGMavN5lo40XNXN+rXqiQDdeuysLOdHqsy6o8=;
- b=FbJjQyWwQ1wxCq9ju7qRSWfJoqiDsD341iKFzTSTcf7xObBvqmyeLGFRnlVmDOQQo3
- IhuOT9Yj0q2OjmTHjtuqg4IKSVlxYPqkycNx4oNIsQlA9y59ar6fERcjUBGuKGLCnDJi
- dHk1PF4076nl0JwTXryJXH7e3GU5fcKCX4+XXSusc3jcbl1QTdB2L5bc0pfTyCMOO9Nc
- f7+iMnBfj2xxlGopGcVj8xAjOKLjsyGw3r7h8waVVnq9Amc5a6oQpqBRemunMJrWg6YW
- 8Dak/dUyvoDlWdEHcfi4/DDHa+PNHN1OVidHY2PUEcTseqDofJBJ4/2r8giJfO2v015x
- yO2A==
-X-Gm-Message-State: APjAAAUvsauB4zBmcf9RJMn0BC14QVtrPEaTtq6d3spURI6nZwi7SDfs
- 4eIxDhH6dduYHajiw0rvwbh3Wav1
-X-Google-Smtp-Source: APXvYqy8sMIvMllomffAb1Y8laIpYFpzj/uqzdU/DgMb4m1zGDtQbQUpsV9wCw5R/Gc8q/t88mr2yw==
-X-Received: by 2002:a0d:d596:: with SMTP id x144mr1546696ywd.69.1565835023095; 
+ bh=ChWMIPl+dab6o+BediH5d8eY5VFridF7PbVi1UCCf4c=;
+ b=YhwLLdri6onUUmIz7/Um0eIq2p3gVObIR5/+RqlbluF5djIUHaGgQHClFQbsHl0ySH
+ ZfXE4lHdOXZ4ayH9q8SwZzBlBFKgFTvJ1IcmGZTD9cmigq9x9O8S+XxdETv9rRZaM/vC
+ 3SIdiDJmh2HxfqbH7bnLFqJFrPvzfHvszOvnc6Ei1cH/1poNX/I3LU60mL6oMh1aVc87
+ a80wS5ag/XyjeCisNVcu61mKOtOt9tzg/XTUOzhs1KiM2uoAPSIjp/GCBL4KdRxgw4LH
+ mL+c+0Mudk4GVr/rt8dDW+naMUWEjHHd4+dxuhnlIfpqv91or2DzlFroPwO/1L/i32o+
+ RjUQ==
+X-Gm-Message-State: APjAAAWu6QDawEnf/N79Vckao+25d/A4qT6zPbzKg9aNlIfqDduS8xnf
+ GO1pr11JH9tOiwX966ZIuGpaPvWP
+X-Google-Smtp-Source: APXvYqxcijV8iwBOtSQjefYwFM2icUCZISZhudJLROLl40sksa8//EinJQXSeFDlkWuC6FiOk6CxDQ==
+X-Received: by 2002:a25:2f42:: with SMTP id v63mr1956098ybv.228.1565835023859; 
  Wed, 14 Aug 2019 19:10:23 -0700 (PDT)
 Received: from dionysus.attlocal.net ([2601:c0:c67f:e390:8a9a:e33f:caf8:f018])
  by smtp.gmail.com with ESMTPSA id
- j3sm374882ywk.21.2019.08.14.19.10.22
+ j3sm374882ywk.21.2019.08.14.19.10.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Aug 2019 19:10:22 -0700 (PDT)
+ Wed, 14 Aug 2019 19:10:23 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 22:09:13 -0400
-Message-Id: <20190815020928.9679-32-jan.bobek@gmail.com>
+Date: Wed, 14 Aug 2019 22:09:14 -0400
+Message-Id: <20190815020928.9679-33-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190815020928.9679-1-jan.bobek@gmail.com>
 References: <20190815020928.9679-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c44
-Subject: [Qemu-devel] [RFC PATCH v3 31/46] target/i386: introduce
- helper-based code generator macros
+X-Received-From: 2607:f8b0:4864:20::b41
+Subject: [Qemu-devel] [RFC PATCH v3 32/46] target/i386: introduce gvec-based
+ code generator macros
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,126 +84,40 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Code generators defined using these macros rely on a helper function
-(as emitted by gen_helper_*).
+Code generators defined using these macros rely on a gvec operation
+(i.e. tcg_gen_gvec_*).
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 106 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 106 insertions(+)
+ target/i386/translate.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index b5f609e147..b28d651b82 100644
+index b28d651b82..75652afb45 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -5245,6 +5245,112 @@ INSNOP_LDST(xmm_t0, Mhq)
-         insnop_arg_t(opT1) arg1, insnop_arg_t(opT2) arg2,       \
-         insnop_arg_t(opT3) arg3, insnop_arg_t(opT4) arg4)
+@@ -23,6 +23,7 @@
+ #include "disas/disas.h"
+ #include "exec/exec-all.h"
+ #include "tcg-op.h"
++#include "tcg-op-gvec.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/translator.h"
  
-+#define DEF_GEN_INSN0_HELPER(mnem, helper)      \
-+    GEN_INSN0(mnem)                             \
-+    {                                           \
-+        gen_helper_ ## helper(cpu_env);         \
+@@ -5351,6 +5352,18 @@ INSNOP_LDST(xmm_t0, Mhq)
+         tcg_temp_free_i32(arg4_r32);                                    \
+     }
+ 
++#define DEF_GEN_INSN2_GVEC(mnem, gvec, opT1, opT2, vece, oprsz, maxsz)  \
++    GEN_INSN2(mnem, opT1, opT2)                                         \
++    {                                                                   \
++        tcg_gen_gvec_ ## gvec(vece, arg1, arg2, oprsz, maxsz);          \
 +    }
 +
-+#define DEF_GEN_INSN2_HELPER_EPD(mnem, helper, opT1, opT2)      \
-+    GEN_INSN2(mnem, opT1, opT2)                                 \
-+    {                                                           \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();           \
-+                                                                \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);              \
-+        gen_helper_ ## helper(cpu_env, arg1_ptr, arg2);         \
-+                                                                \
-+        tcg_temp_free_ptr(arg1_ptr);                            \
-+    }
-+#define DEF_GEN_INSN2_HELPER_DEP(mnem, helper, opT1, opT2)      \
-+    GEN_INSN2(mnem, opT1, opT2)                                 \
-+    {                                                           \
-+        const TCGv_ptr arg2_ptr = tcg_temp_new_ptr();           \
-+                                                                \
-+        tcg_gen_addi_ptr(arg2_ptr, cpu_env, arg2);              \
-+        gen_helper_ ## helper(arg1, cpu_env, arg2_ptr);         \
-+                                                                \
-+        tcg_temp_free_ptr(arg2_ptr);                            \
-+    }
-+#ifdef TARGET_X86_64
-+#define DEF_GEN_INSN2_HELPER_EPQ(mnem, helper, opT1, opT2)      \
-+    DEF_GEN_INSN2_HELPER_EPD(mnem, helper, opT1, opT2)
-+#define DEF_GEN_INSN2_HELPER_QEP(mnem, helper, opT1, opT2)      \
-+    DEF_GEN_INSN2_HELPER_DEP(mnem, helper, opT1, opT2)
-+#else /* !TARGET_X86_64 */
-+#define DEF_GEN_INSN2_HELPER_EPQ(mnem, helper, opT1, opT2)      \
-+    GEN_INSN2(mnem, opT1, opT2)                                 \
-+    {                                                           \
-+        g_assert_not_reached();                                 \
-+    }
-+#define DEF_GEN_INSN2_HELPER_QEP(mnem, helper, opT1, opT2)      \
-+    GEN_INSN2(mnem, opT1, opT2)                                 \
-+    {                                                           \
-+        g_assert_not_reached();                                 \
-+    }
-+#endif /* !TARGET_X86_64 */
-+#define DEF_GEN_INSN2_HELPER_EPP(mnem, helper, opT1, opT2)      \
-+    GEN_INSN2(mnem, opT1, opT2)                                 \
-+    {                                                           \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();           \
-+        const TCGv_ptr arg2_ptr = tcg_temp_new_ptr();           \
-+                                                                \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);              \
-+        tcg_gen_addi_ptr(arg2_ptr, cpu_env, arg2);              \
-+        gen_helper_ ## helper(cpu_env, arg1_ptr, arg2_ptr);     \
-+                                                                \
-+        tcg_temp_free_ptr(arg1_ptr);                            \
-+        tcg_temp_free_ptr(arg2_ptr);                            \
-+    }
-+
-+#define DEF_GEN_INSN3_HELPER_EPP(mnem, helper, opT1, opT2, opT3)        \
++#define DEF_GEN_INSN3_GVEC(mnem, gvec, opT1, opT2, opT3, vece, oprsz, maxsz) \
 +    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
 +    {                                                                   \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_ptr arg3_ptr = tcg_temp_new_ptr();                   \
-+                                                                        \
-+        assert(arg1 == arg2);                                           \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
-+        tcg_gen_addi_ptr(arg3_ptr, cpu_env, arg3);                      \
-+        gen_helper_ ## helper(cpu_env, arg1_ptr, arg3_ptr);             \
-+                                                                        \
-+        tcg_temp_free_ptr(arg1_ptr);                                    \
-+        tcg_temp_free_ptr(arg3_ptr);                                    \
-+    }
-+#define DEF_GEN_INSN3_HELPER_PPI(mnem, helper, opT1, opT2, opT3)        \
-+    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
-+    {                                                                   \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_ptr arg2_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_i32 arg3_r32 = tcg_temp_new_i32();                   \
-+                                                                        \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
-+        tcg_gen_addi_ptr(arg2_ptr, cpu_env, arg2);                      \
-+        tcg_gen_movi_i32(arg3_r32, arg3);                               \
-+        gen_helper_ ## helper(arg1_ptr, arg2_ptr, arg3_r32);            \
-+                                                                        \
-+        tcg_temp_free_ptr(arg1_ptr);                                    \
-+        tcg_temp_free_ptr(arg2_ptr);                                    \
-+        tcg_temp_free_i32(arg3_r32);                                    \
-+    }
-+
-+#define DEF_GEN_INSN4_HELPER_PPI(mnem, helper, opT1, opT2, opT3, opT4)  \
-+    GEN_INSN4(mnem, opT1, opT2, opT3, opT4)                             \
-+    {                                                                   \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_ptr arg3_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_i32 arg4_r32 = tcg_temp_new_i32();                   \
-+                                                                        \
-+        assert(arg1 == arg2);                                           \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
-+        tcg_gen_addi_ptr(arg3_ptr, cpu_env, arg3);                      \
-+        tcg_gen_movi_i32(arg4_r32, arg4);                               \
-+        gen_helper_ ## helper(arg1_ptr, arg3_ptr, arg4_r32);            \
-+                                                                        \
-+        tcg_temp_free_ptr(arg1_ptr);                                    \
-+        tcg_temp_free_ptr(arg3_ptr);                                    \
-+        tcg_temp_free_i32(arg4_r32);                                    \
++        tcg_gen_gvec_ ## gvec(vece, arg1, arg2, arg3, oprsz, maxsz);    \
 +    }
 +
  static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
