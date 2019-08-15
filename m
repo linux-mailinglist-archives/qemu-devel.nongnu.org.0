@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84EA08E2EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:54:23 +0200 (CEST)
-Received: from localhost ([::1]:37886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD9C8E2E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:52:57 +0200 (CEST)
+Received: from localhost ([::1]:37838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy5uA-0002HG-Hk
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48576)
+	id 1hy5sm-0000IP-R2
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vandersonmr2@gmail.com>) id 1hy5MI-0000NM-2r
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:23 -0400
+ (envelope-from <vandersonmr2@gmail.com>) id 1hy5MR-0000cg-M7
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vandersonmr2@gmail.com>) id 1hy5MG-0001Wj-Oo
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:21 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:40203)
+ (envelope-from <vandersonmr2@gmail.com>) id 1hy5MQ-0001ct-4r
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:31 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:43950)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
- id 1hy5MG-0001Vo-FM
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:20 -0400
-Received: by mail-qk1-x744.google.com with SMTP id s145so756908qke.7
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:19:19 -0700 (PDT)
+ id 1hy5MQ-0001cW-0s
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:30 -0400
+Received: by mail-qt1-x842.google.com with SMTP id b11so896310qtp.10
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:19:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=q5IwxFI6U3eIeJIU6dOTm2X8gX2OECsbQj5QIEGwyS8=;
- b=e/QmptFW+8drXwGm++NLduq7qm6VQzPIqG9wxCvYREj5QUTCG+PX4TWskvoQ1QiJd7
- 1bn1KQFB+4tIzGzXk8lGCKI0pDf6aG3ZEKF1BTNvQIOU6yPBn2XrDorsQ4/0iGfNEdO7
- hzngrDhXvT+Ox9x8xf1FoKA5b5mVzD9ZgW9UeXXRspL/UQF2jXiZkDhuf3X+AhZsRquw
- IhIAF/aYyxMeRqkoBPeGaXyPEsE8z9R9KOT3COnq3wFh/q9g67FDnjVit2uP4ZTZLy7v
- F7EmZA0sTGe5oYfPTttWVgrcUzz5OTQv2FDBWP4vDOsbhvELxXQDMr91CQovzFIuq7yz
- 1VMQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=J+5X1vqIJ+CD8k9SeFSpb++0TRf0wiFY3wllBJkAPIA=;
+ b=Zt6yOYhX/JUQTU0CZIygrs8nebTthCFg2PCVCrQXGP9dB4E6ewDN+MhPefNB2iczO+
+ VW04FHGkHkiHh/3sZk0wFjXHjSsESmdCLRfebhyg/KoU/l7afMXX7JWZC79xk7Mun7qi
+ 1ZD2DS9xUh5YhSpgVFzwqj4I/4yymA0xPWrlH/rC1Vlm+2yy+kbs8B5rxcnXH5c6p//l
+ 2Ceiu9vHt/kTl4kjlZVv49nSuaDt88CyviXzTE7VDvhykC1bAteS1hydRDszUQu47qgB
+ /pnbbt3h6Vi/vJZKRMr3PP2HTXTbGnjAI+3Kmn4v3P6Q8zRN27a3en3/JVnBw7U59n78
+ 0M3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=q5IwxFI6U3eIeJIU6dOTm2X8gX2OECsbQj5QIEGwyS8=;
- b=C4B/1LXUjn0FQ6ymMKU9MzpyiEYucFOB1JHHs5RHsnjE8CKjohQdKSWHomtEdGbK6V
- d0J+ak7yMulessBo6LGp07JFBblsC/6jiHlXyvvfeWAZRwhlV5pBUFlqY/xY3Dm+oK9U
- 0d5YT0FqBIUePFsZNKpC4BYSh9a2gO+il6WHODjELYEyiGh/QGY6wEe4U+4y6dBWymWH
- Cd3IlXdOB/e/n04ttQXDXiWTc/5A/iQVazQjq5j+fdDWEzDUEGFHy7gDNOhTVomgkU8H
- mzcrvHb12NAyc0WEe5QaXbc8jG8oSY4dCXFcgTAtsTqF3diLv4BH+o65XrIv6ZaMJTRV
- Hcjw==
-X-Gm-Message-State: APjAAAXN8fhXquhbrYhzGW4x/1K5dRTS/UqGAnVXT4/fYH5jp4TO3Gj3
- 4M0q/KSJ38ENfmJyHdjppX0fp51y++g=
-X-Google-Smtp-Source: APXvYqycX5VO8PN6CslgtjHJjUZPmQDKmaJ1LfoY1UW1+zmWBRB7yI62zWyH1DsIgjQwC4Z+Y+lu5w==
-X-Received: by 2002:a37:dc45:: with SMTP id v66mr2126808qki.24.1565835558682; 
- Wed, 14 Aug 2019 19:19:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=J+5X1vqIJ+CD8k9SeFSpb++0TRf0wiFY3wllBJkAPIA=;
+ b=s3/6oqJ77OogV77TC8rPahvs6qpRBmXAfW08sTGasCiv0+j7aWunhtTqf045MgyElM
+ c/b0e7hbkz46fbAcYmKmGkhrbqT2/dnwzoo2m7G5v0/+nRtmkg5T6mmcJwDKH90HNYGj
+ OQUn02rOJrE+uWK8wMsGi4T9txNdRhyrQpZuJyol7cnvg5d7Lj2WVHQ/i5Tq15xVtd1c
+ NXe4sOzQKQu+4HybSjxixV9wEdCt+RqY7xa0YosNUqXqSz3A5a0ckRnt/LPge42jAPnr
+ PB1lNW9Btopi0v9bx5lLyNcnyAsb/rV1Ld7qeY/V2AcGk37ncOFTYY4oCzk06m7lQ4kr
+ rkKw==
+X-Gm-Message-State: APjAAAWFEMfw1zuBwBHDA1ypXgZQBhlqrA3RGiYn3dl1OFUFXWWXzOkk
+ SMD1UQOGamJtHISQoRt5TLw+wk8K70Y=
+X-Google-Smtp-Source: APXvYqww0qGRNdCUI99I5TpSjb8KaWtrtTPDaEOCm8iC+0LstSU6t/Fp7mq5P95zdAZIaBWtIt1AgQ==
+X-Received: by 2002:ac8:5354:: with SMTP id d20mr1996415qto.119.1565835569197; 
+ Wed, 14 Aug 2019 19:19:29 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14c:482:121::1])
- by smtp.googlemail.com with ESMTPSA id o5sm757943qkf.10.2019.08.14.19.19.17
+ by smtp.googlemail.com with ESMTPSA id o5sm757943qkf.10.2019.08.14.19.19.27
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 14 Aug 2019 19:19:18 -0700 (PDT)
+ Wed, 14 Aug 2019 19:19:28 -0700 (PDT)
 From: vandersonmr <vandersonmr2@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 23:18:47 -0300
-Message-Id: <20190815021857.19526-1-vandersonmr2@gmail.com>
+Date: Wed, 14 Aug 2019 23:18:49 -0300
+Message-Id: <20190815021857.19526-3-vandersonmr2@gmail.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190815021857.19526-1-vandersonmr2@gmail.com>
+References: <20190815021857.19526-1-vandersonmr2@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::744
-Subject: [Qemu-devel] [PATCH v5 00/10] Measure Tiny Code Generation Quality
+X-Received-From: 2607:f8b0:4864:20::842
+Subject: [Qemu-devel] [PATCH v5 02/10] accel: collecting TB execution count
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,81 +77,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vandersonmr <vandersonmr2@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch is part of Google Summer of Code (GSoC) 2019.
-More about the project can be found in:
-https://wiki.qemu.org/Internships/ProjectIdeas/TCGCodeQuality
+If a TB has a TBS (TBStatistics) with the TB_EXEC_STATS
+enabled, then we instrument the start code of this TB
+to atomically count the number of times it is executed.
+We count both the number of "normal" executions and atomic
+executions of a TB.
 
-The goal of this patch is to add infrastructure to collect
-execution and JIT statistics during the emulation with accel/TCG.
-The statistics are stored in TBStatistic structures (TBStats)
-with each TB having its respective TBStats.
+The execution count of the TB is stored in its respective
+TBS.
 
-We added -d tb_stats and HMP tb_stats commands to allow the control
-of this statistics collection. And info tb, tbs, and coverset commands
-were also added to allow dumping and exploring all this information
-while emulating.
+All TBStatistics are created by default with the flags from
+default_tbstats_flag.
 
-Collecting these statistics and information is useful to understand
-qemu performance and to help to add the support for traces to QEMU. 
+Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+---
+ accel/tcg/cpu-exec.c      |  4 ++++
+ accel/tcg/tb-stats.c      |  5 +++++
+ accel/tcg/tcg-runtime.c   |  7 +++++++
+ accel/tcg/tcg-runtime.h   |  2 ++
+ accel/tcg/translate-all.c |  7 +++++++
+ accel/tcg/translator.c    |  1 +
+ include/exec/gen-icount.h |  9 +++++++++
+ include/exec/tb-stats.h   | 19 +++++++++++++++++++
+ util/log.c                |  1 +
+ 9 files changed, 55 insertions(+)
 
-v5:
- - full replacement of CONFIG_PROFILER
- - several fixes
- - adds "info cfg"
- - adds TB's targets to dump
-
-vandersonmr (10):
-  accel: introducing TBStatistics structure
-  accel: collecting TB execution count
-  accel: collecting JIT statistics
-  accel: replacing part of CONFIG_PROFILER with TBStats
-  accel: adding TB_JIT_TIME and full replacing CONFIG_PROFILER
-  log: adding -d tb_stats to control tbstats
-  monitor: adding tb_stats hmp command
-  Adding info [tbs|tb|coverset] commands to HMP. These commands allow
-    the exploration of TBs generated by the TCG. Understand which one
-    hotter, with more guest/host instructions... and examine their
-    guest, host and IR code.
-  monitor: adding new info cfg command
-  linux-user: dumping hot TBs at the end of the execution
-
- accel/tcg/Makefile.objs      |   2 +-
- accel/tcg/cpu-exec.c         |   4 +
- accel/tcg/perf/Makefile.objs |   1 +
- accel/tcg/tb-stats.c         | 865 +++++++++++++++++++++++++++++++++++
- accel/tcg/tcg-runtime.c      |   7 +
- accel/tcg/tcg-runtime.h      |   2 +
- accel/tcg/translate-all.c    | 133 ++++--
- accel/tcg/translator.c       |   6 +
- configure                    |   3 -
- cpus.c                       |  14 +-
- disas.c                      |  31 +-
- hmp-commands-info.hx         |  31 ++
- hmp-commands.hx              |  17 +
- include/exec/exec-all.h      |  15 +-
- include/exec/gen-icount.h    |  10 +
- include/exec/tb-context.h    |  12 +
- include/exec/tb-hash.h       |   7 +
- include/exec/tb-stats.h      | 142 ++++++
- include/qemu-common.h        |  16 +
- include/qemu/log-for-trace.h |   4 +
- include/qemu/log.h           |   3 +
- include/qemu/timer.h         |   5 +-
- linux-user/exit.c            |   4 +
- monitor/misc.c               | 171 ++++++-
- tcg/tcg.c                    | 231 +++-------
- tcg/tcg.h                    |  22 +-
- util/log.c                   |  90 +++-
- vl.c                         |   8 +-
- 28 files changed, 1572 insertions(+), 284 deletions(-)
- create mode 100644 accel/tcg/perf/Makefile.objs
- create mode 100644 accel/tcg/tb-stats.c
- create mode 100644 include/exec/tb-stats.h
-
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 6c85c3ee1e..e54be69499 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -252,6 +252,10 @@ void cpu_exec_step_atomic(CPUState *cpu)
+ 
+         start_exclusive();
+ 
++        if (tb_stats_enabled(tb, TB_EXEC_STATS)) {
++            tb->tb_stats->executions.atomic++;
++        }
++
+         /* Since we got here, we know that parallel_cpus must be true.  */
+         parallel_cpus = false;
+         in_exclusive_region = true;
+diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
+index 02844717cb..3489133e9e 100644
+--- a/accel/tcg/tb-stats.c
++++ b/accel/tcg/tb-stats.c
+@@ -37,3 +37,8 @@ bool tb_stats_collection_paused(void)
+ {
+     return tcg_collect_tb_stats == TB_STATS_PAUSED;
+ }
++
++uint32_t get_default_tbstats_flag(void)
++{
++    return default_tbstats_flag;
++}
+diff --git a/accel/tcg/tcg-runtime.c b/accel/tcg/tcg-runtime.c
+index 8a1e408e31..6f4aafba11 100644
+--- a/accel/tcg/tcg-runtime.c
++++ b/accel/tcg/tcg-runtime.c
+@@ -167,3 +167,10 @@ void HELPER(exit_atomic)(CPUArchState *env)
+ {
+     cpu_loop_exit_atomic(env_cpu(env), GETPC());
+ }
++
++void HELPER(inc_exec_freq)(void *ptr)
++{
++    TBStatistics *stats = (TBStatistics *) ptr;
++    g_assert(stats);
++    atomic_inc(&stats->executions.normal);
++}
+diff --git a/accel/tcg/tcg-runtime.h b/accel/tcg/tcg-runtime.h
+index 4fa61b49b4..bf0b75dbe8 100644
+--- a/accel/tcg/tcg-runtime.h
++++ b/accel/tcg/tcg-runtime.h
+@@ -28,6 +28,8 @@ DEF_HELPER_FLAGS_1(lookup_tb_ptr, TCG_CALL_NO_WG_SE, ptr, env)
+ 
+ DEF_HELPER_FLAGS_1(exit_atomic, TCG_CALL_NO_WG, noreturn, env)
+ 
++DEF_HELPER_FLAGS_1(inc_exec_freq, TCG_CALL_NO_RWG, void, ptr)
++
+ #ifdef CONFIG_SOFTMMU
+ 
+ DEF_HELPER_FLAGS_5(atomic_cmpxchgb, TCG_CALL_NO_WG,
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index b7bccacd3b..df08d183df 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1785,6 +1785,13 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+      */
+     if (tb_stats_collection_enabled()) {
+         tb->tb_stats = tb_get_stats(phys_pc, pc, cs_base, flags, tb);
++        uint32_t flag = get_default_tbstats_flag();
++
++        if (qemu_log_in_addr_range(tb->pc)) {
++            if (flag & TB_EXEC_STATS) {
++                tb->tb_stats->stats_enabled |= TB_EXEC_STATS;
++            }
++        }
+     } else {
+         tb->tb_stats = NULL;
+     }
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index 9226a348a3..396a11e828 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -46,6 +46,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+ 
+     ops->init_disas_context(db, cpu);
+     tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
++    gen_tb_exec_count(tb);
+ 
+     /* Reset the temp count so that we can identify leaks */
+     tcg_clear_temp_count();
+diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
+index f7669b6841..b3efe41894 100644
+--- a/include/exec/gen-icount.h
++++ b/include/exec/gen-icount.h
+@@ -7,6 +7,15 @@
+ 
+ static TCGOp *icount_start_insn;
+ 
++static inline void gen_tb_exec_count(TranslationBlock *tb)
++{
++    if (tb_stats_enabled(tb, TB_EXEC_STATS)) {
++        TCGv_ptr ptr = tcg_const_ptr(tb->tb_stats);
++        gen_helper_inc_exec_freq(ptr);
++        tcg_temp_free_ptr(ptr);
++    }
++}
++
+ static inline void gen_tb_start(TranslationBlock *tb)
+ {
+     TCGv_i32 count, imm;
+diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
+index cc8f8a6ce6..0265050b79 100644
+--- a/include/exec/tb-stats.h
++++ b/include/exec/tb-stats.h
+@@ -6,6 +6,9 @@
+ #include "exec/tb-context.h"
+ #include "tcg.h"
+ 
++#define tb_stats_enabled(tb, JIT_STATS) \
++    (tb && tb->tb_stats && (tb->tb_stats->stats_enabled & JIT_STATS))
++
+ typedef struct TBStatistics TBStatistics;
+ 
+ /*
+@@ -22,6 +25,15 @@ struct TBStatistics {
+     uint32_t     flags;
+     /* cs_base isn't included in the hash but we do check for matches */
+     target_ulong cs_base;
++
++    uint32_t stats_enabled;
++
++    /* Execution stats */
++    struct {
++        unsigned long normal;
++        unsigned long atomic;
++    } executions;
++
+     /* current TB linked to this TBStatistics */
+     TranslationBlock *tb;
+ };
+@@ -32,7 +44,12 @@ void init_tb_stats_htable_if_not(void);
+ 
+ /* TBStatistic collection controls */
+ enum TBStatsStatus { TB_STATS_RUNNING, TB_STATS_PAUSED, TB_STATS_STOPPED };
++
++#define TB_NOTHING    0
++#define TB_EXEC_STATS 1
++
+ extern int tcg_collect_tb_stats;
++extern uint32_t default_tbstats_flag;
+ 
+ void enable_collect_tb_stats(void);
+ void disable_collect_tb_stats(void);
+@@ -40,4 +57,6 @@ void pause_collect_tb_stats(void);
+ bool tb_stats_collection_enabled(void);
+ bool tb_stats_collection_paused(void);
+ 
++uint32_t get_default_tbstats_flag(void);
++
+ #endif
+diff --git a/util/log.c b/util/log.c
+index 393a17115b..29021a4584 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -32,6 +32,7 @@ static int log_append = 0;
+ static GArray *debug_regions;
+ 
+ int tcg_collect_tb_stats;
++uint32_t default_tbstats_flag;
+ 
+ /* Return the number of characters emitted.  */
+ int qemu_log(const char *fmt, ...)
 -- 
 2.22.0
 
