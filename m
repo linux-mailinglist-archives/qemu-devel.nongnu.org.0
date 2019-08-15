@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0888F13D
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:51:02 +0200 (CEST)
-Received: from localhost ([::1]:44444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12648F10D
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:41:27 +0200 (CEST)
+Received: from localhost ([::1]:44332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyIxo-0001uO-Rh
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47387)
+	id 1hyIoX-0007YS-TJ
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47407)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1hyIjc-0002Tv-Dx
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:23 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hyIji-0002eG-Hg
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hyIjY-0003DL-NN
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48266)
+ (envelope-from <dgilbert@redhat.com>) id 1hyIjb-0003Ef-JY
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44620)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIjY-0003Cy-Fv
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:16 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIjb-0003EM-CD
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:19 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C2612307C820;
- Thu, 15 Aug 2019 16:36:15 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AACE02A09A2;
+ Thu, 15 Aug 2019 16:36:18 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-19.ams2.redhat.com
  [10.36.117.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 094A43737;
- Thu, 15 Aug 2019 16:36:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18EC73737;
+ Thu, 15 Aug 2019 16:36:15 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 17:34:49 +0100
-Message-Id: <20190815163504.18937-19-dgilbert@redhat.com>
+Date: Thu, 15 Aug 2019 17:34:50 +0100
+Message-Id: <20190815163504.18937-20-dgilbert@redhat.com>
 In-Reply-To: <20190815163504.18937-1-dgilbert@redhat.com>
 References: <20190815163504.18937-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 15 Aug 2019 16:36:15 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Thu, 15 Aug 2019 16:36:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 18/33] migration: extract ram_load_precopy
+Subject: [Qemu-devel] [PULL 19/33] migration/postcopy: make
+ PostcopyDiscardState a static variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,126 +64,306 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wei Yang <richardw.yang@linux.intel.com>
 
-After cleanup, it would be clear to audience there are two cases
-ram_load:
+In postcopy-ram.c, we provide three functions to discard certain
+RAMBlock range:
 
-  * precopy
-  * postcopy
+  * postcopy_discard_send_init()
+  * postcopy_discard_send_range()
+  * postcopy_discard_send_finish()
 
-And it is not necessary to check postcopy_running on each iteration for
-precopy.
+Currently, we allocate/deallocate PostcopyDiscardState for each RAMBlock
+on sending discard information to destination. This is not necessary and
+the same data area could be reused for each RAMBlock.
+
+This patch defines PostcopyDiscardState a static variable. By doing so:
+
+  1) avoid memory allocation and deallocation to the system
+  2) avoid potential failure of memory allocation
+  3) hide some details for their users
 
 Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Message-Id: <20190725002023.2335-3-richardw.yang@linux.intel.com>
+Message-Id: <20190724010721.2146-1-richardw.yang@linux.intel.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/ram.c | 73 +++++++++++++++++++++++++++++++------------------
- 1 file changed, 46 insertions(+), 27 deletions(-)
+ migration/postcopy-ram.c | 70 +++++++++++++++++-----------------------
+ migration/postcopy-ram.h | 13 +++-----
+ migration/ram.c          | 30 +++++++----------
+ 3 files changed, 46 insertions(+), 67 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 6a75aedc91..a44e9c0abc 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -4318,40 +4318,26 @@ static void colo_flush_ram_cache(void)
-     trace_colo_flush_ram_cache_end();
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index 9faacacc9e..2cb1a69752 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -1377,22 +1377,16 @@ void postcopy_fault_thread_notify(MigrationIncomi=
+ngState *mis)
+  *   asking to discard individual ranges.
+  *
+  * @ms: The current migration state.
+- * @offset: the bitmap offset of the named RAMBlock in the migration
+- *   bitmap.
++ * @offset: the bitmap offset of the named RAMBlock in the migration bit=
+map.
+  * @name: RAMBlock that discards will operate on.
+- *
+- * returns: a new PDS.
+  */
+-PostcopyDiscardState *postcopy_discard_send_init(MigrationState *ms,
+-                                                 const char *name)
++static PostcopyDiscardState pds =3D {0};
++void postcopy_discard_send_init(MigrationState *ms, const char *name)
+ {
+-    PostcopyDiscardState *res =3D g_malloc0(sizeof(PostcopyDiscardState)=
+);
+-
+-    if (res) {
+-        res->ramblock_name =3D name;
+-    }
+-
+-    return res;
++    pds.ramblock_name =3D name;
++    pds.cur_entry =3D 0;
++    pds.nsentwords =3D 0;
++    pds.nsentcmds =3D 0;
  }
 =20
--static int ram_load(QEMUFile *f, void *opaque, int version_id)
-+/**
-+ * ram_load_precopy: load pages in precopy case
-+ *
-+ * Returns 0 for success or -errno in case of error
-+ *
-+ * Called in precopy mode by ram_load().
-+ * rcu_read_lock is taken prior to this being called.
-+ *
-+ * @f: QEMUFile where to send the data
-+ */
-+static int ram_load_precopy(QEMUFile *f)
+ /**
+@@ -1401,30 +1395,29 @@ PostcopyDiscardState *postcopy_discard_send_init(=
+MigrationState *ms,
+  *   be sent later.
+  *
+  * @ms: Current migration state.
+- * @pds: Structure initialised by postcopy_discard_send_init().
+  * @start,@length: a range of pages in the migration bitmap in the
+  *   RAM block passed to postcopy_discard_send_init() (length=3D1 is one=
+ page)
+  */
+-void postcopy_discard_send_range(MigrationState *ms, PostcopyDiscardStat=
+e *pds,
+-                                unsigned long start, unsigned long lengt=
+h)
++void postcopy_discard_send_range(MigrationState *ms, unsigned long start=
+,
++                                 unsigned long length)
  {
--    int flags =3D 0, ret =3D 0, invalid_flags =3D 0;
--    static uint64_t seq_iter;
--    int len =3D 0;
--    /*
--     * If system is running in postcopy mode, page inserts to host memor=
-y must
--     * be atomic
--     */
--    bool postcopy_running =3D postcopy_is_running();
-+    int flags =3D 0, ret =3D 0, invalid_flags =3D 0, len =3D 0;
-     /* ADVISE is earlier, it shows the source has the postcopy capabilit=
-y on */
-     bool postcopy_advised =3D postcopy_is_advised();
--
--    seq_iter++;
--
--    if (version_id !=3D 4) {
--        return -EINVAL;
--    }
--
-     if (!migrate_use_compression()) {
-         invalid_flags |=3D RAM_SAVE_FLAG_COMPRESS_PAGE;
-     }
--    /* This RCU critical section can be very long running.
--     * When RCU reclaims in the code start to become numerous,
--     * it will be necessary to reduce the granularity of this
--     * critical section.
--     */
--    rcu_read_lock();
--
--    if (postcopy_running) {
--        ret =3D ram_load_postcopy(f);
--    }
+     size_t tp_size =3D qemu_target_page_size();
+     /* Convert to byte offsets within the RAM block */
+-    pds->start_list[pds->cur_entry] =3D start  * tp_size;
+-    pds->length_list[pds->cur_entry] =3D length * tp_size;
+-    trace_postcopy_discard_send_range(pds->ramblock_name, start, length)=
+;
+-    pds->cur_entry++;
+-    pds->nsentwords++;
++    pds.start_list[pds.cur_entry] =3D start  * tp_size;
++    pds.length_list[pds.cur_entry] =3D length * tp_size;
++    trace_postcopy_discard_send_range(pds.ramblock_name, start, length);
++    pds.cur_entry++;
++    pds.nsentwords++;
 =20
--    while (!postcopy_running && !ret && !(flags & RAM_SAVE_FLAG_EOS)) {
-+    while (!ret && !(flags & RAM_SAVE_FLAG_EOS)) {
-         ram_addr_t addr, total_ram_bytes;
-         void *host =3D NULL;
-         uint8_t ch;
-@@ -4502,6 +4488,39 @@ static int ram_load(QEMUFile *f, void *opaque, int=
- version_id)
+-    if (pds->cur_entry =3D=3D MAX_DISCARDS_PER_COMMAND) {
++    if (pds.cur_entry =3D=3D MAX_DISCARDS_PER_COMMAND) {
+         /* Full set, ship it! */
+         qemu_savevm_send_postcopy_ram_discard(ms->to_dst_file,
+-                                              pds->ramblock_name,
+-                                              pds->cur_entry,
+-                                              pds->start_list,
+-                                              pds->length_list);
+-        pds->nsentcmds++;
+-        pds->cur_entry =3D 0;
++                                              pds.ramblock_name,
++                                              pds.cur_entry,
++                                              pds.start_list,
++                                              pds.length_list);
++        pds.nsentcmds++;
++        pds.cur_entry =3D 0;
+     }
+ }
+=20
+@@ -1433,24 +1426,21 @@ void postcopy_discard_send_range(MigrationState *=
+ms, PostcopyDiscardState *pds,
+  * bitmap code. Sends any outstanding discard messages, frees the PDS
+  *
+  * @ms: Current migration state.
+- * @pds: Structure initialised by postcopy_discard_send_init().
+  */
+-void postcopy_discard_send_finish(MigrationState *ms, PostcopyDiscardSta=
+te *pds)
++void postcopy_discard_send_finish(MigrationState *ms)
+ {
+     /* Anything unsent? */
+-    if (pds->cur_entry) {
++    if (pds.cur_entry) {
+         qemu_savevm_send_postcopy_ram_discard(ms->to_dst_file,
+-                                              pds->ramblock_name,
+-                                              pds->cur_entry,
+-                                              pds->start_list,
+-                                              pds->length_list);
+-        pds->nsentcmds++;
++                                              pds.ramblock_name,
++                                              pds.cur_entry,
++                                              pds.start_list,
++                                              pds.length_list);
++        pds.nsentcmds++;
+     }
+=20
+-    trace_postcopy_discard_send_finish(pds->ramblock_name, pds->nsentwor=
+ds,
+-                                       pds->nsentcmds);
+-
+-    g_free(pds);
++    trace_postcopy_discard_send_finish(pds.ramblock_name, pds.nsentwords=
+,
++                                       pds.nsentcmds);
+ }
+=20
+ /*
+diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
+index 9d55536fd1..9c8bd2bae0 100644
+--- a/migration/postcopy-ram.h
++++ b/migration/postcopy-ram.h
+@@ -43,10 +43,8 @@ int postcopy_ram_prepare_discard(MigrationIncomingStat=
+e *mis);
+=20
+ /*
+  * Called at the start of each RAMBlock by the bitmap code.
+- * Returns a new PDS
+  */
+-PostcopyDiscardState *postcopy_discard_send_init(MigrationState *ms,
+-                                                 const char *name);
++void postcopy_discard_send_init(MigrationState *ms, const char *name);
+=20
+ /*
+  * Called by the bitmap code for each chunk to discard.
+@@ -55,15 +53,14 @@ PostcopyDiscardState *postcopy_discard_send_init(Migr=
+ationState *ms,
+  * @start,@length: a range of pages in the migration bitmap in the
+  *  RAM block passed to postcopy_discard_send_init() (length=3D1 is one =
+page)
+  */
+-void postcopy_discard_send_range(MigrationState *ms, PostcopyDiscardStat=
+e *pds,
+-                                 unsigned long start, unsigned long leng=
+th);
++void postcopy_discard_send_range(MigrationState *ms, unsigned long start=
+,
++                                 unsigned long length);
+=20
+ /*
+  * Called at the end of each RAMBlock by the bitmap code.
+- * Sends any outstanding discard messages, frees the PDS.
++ * Sends any outstanding discard messages.
+  */
+-void postcopy_discard_send_finish(MigrationState *ms,
+-                                  PostcopyDiscardState *pds);
++void postcopy_discard_send_finish(MigrationState *ms);
+=20
+ /*
+  * Place a page (from) at (host) efficiently
+diff --git a/migration/ram.c b/migration/ram.c
+index a44e9c0abc..f428639af5 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2850,12 +2850,9 @@ void ram_postcopy_migrated_memory_release(Migratio=
+nState *ms)
+  *       with the dirtymap; so a '1' means it's either dirty or unsent.
+  *
+  * @ms: current migration state
+- * @pds: state for postcopy
+  * @block: RAMBlock to discard
+  */
+-static int postcopy_send_discard_bm_ram(MigrationState *ms,
+-                                        PostcopyDiscardState *pds,
+-                                        RAMBlock *block)
++static int postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *bl=
+ock)
+ {
+     unsigned long end =3D block->used_length >> TARGET_PAGE_BITS;
+     unsigned long current;
+@@ -2876,7 +2873,7 @@ static int postcopy_send_discard_bm_ram(MigrationSt=
+ate *ms,
+         } else {
+             discard_length =3D zero - one;
          }
+-        postcopy_discard_send_range(ms, pds, one, discard_length);
++        postcopy_discard_send_range(ms, one, discard_length);
+         current =3D one + discard_length;
      }
 =20
-+    return ret;
-+}
-+
-+static int ram_load(QEMUFile *f, void *opaque, int version_id)
-+{
-+    int ret =3D 0;
-+    static uint64_t seq_iter;
-+    /*
-+     * If system is running in postcopy mode, page inserts to host memor=
-y must
-+     * be atomic
-+     */
-+    bool postcopy_running =3D postcopy_is_running();
-+
-+    seq_iter++;
-+
-+    if (version_id !=3D 4) {
-+        return -EINVAL;
-+    }
-+
-+    /*
-+     * This RCU critical section can be very long running.
-+     * When RCU reclaims in the code start to become numerous,
-+     * it will be necessary to reduce the granularity of this
-+     * critical section.
-+     */
-+    rcu_read_lock();
-+
-+    if (postcopy_running) {
-+        ret =3D ram_load_postcopy(f);
-+    } else {
-+        ret =3D ram_load_precopy(f);
-+    }
-+
-     ret |=3D wait_for_decompress_done();
-     rcu_read_unlock();
-     trace_ram_load_complete(ret, seq_iter);
+@@ -2902,16 +2899,15 @@ static int postcopy_each_ram_send_discard(Migrati=
+onState *ms)
+     int ret;
+=20
+     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+-        PostcopyDiscardState *pds =3D
+-            postcopy_discard_send_init(ms, block->idstr);
++        postcopy_discard_send_init(ms, block->idstr);
+=20
+         /*
+          * Postcopy sends chunks of bitmap over the wire, but it
+          * just needs indexes at this point, avoids it having
+          * target page specific code.
+          */
+-        ret =3D postcopy_send_discard_bm_ram(ms, pds, block);
+-        postcopy_discard_send_finish(ms, pds);
++        ret =3D postcopy_send_discard_bm_ram(ms, block);
++        postcopy_discard_send_finish(ms);
+         if (ret) {
+             return ret;
+         }
+@@ -2934,11 +2930,9 @@ static int postcopy_each_ram_send_discard(Migratio=
+nState *ms)
+  * @unsent_pass: if true we need to canonicalize partially unsent host p=
+ages
+  *               otherwise we need to canonicalize partially dirty host =
+pages
+  * @block: block that contains the page we want to canonicalize
+- * @pds: state for postcopy
+  */
+ static void postcopy_chunk_hostpages_pass(MigrationState *ms, bool unsen=
+t_pass,
+-                                          RAMBlock *block,
+-                                          PostcopyDiscardState *pds)
++                                          RAMBlock *block)
+ {
+     RAMState *rs =3D ram_state;
+     unsigned long *bitmap =3D block->bmap;
+@@ -3018,8 +3012,7 @@ static void postcopy_chunk_hostpages_pass(Migration=
+State *ms, bool unsent_pass,
+                  *     (any partially sent pages were already discarded
+                  *     by the previous unsent_pass)
+                  */
+-                postcopy_discard_send_range(ms, pds, fixup_start_addr,
+-                                            host_ratio);
++                postcopy_discard_send_range(ms, fixup_start_addr, host_r=
+atio);
+             }
+=20
+             /* Clean up the bitmap */
+@@ -3062,18 +3055,17 @@ static void postcopy_chunk_hostpages_pass(Migrati=
+onState *ms, bool unsent_pass,
+  */
+ static int postcopy_chunk_hostpages(MigrationState *ms, RAMBlock *block)
+ {
+-    PostcopyDiscardState *pds =3D
+-        postcopy_discard_send_init(ms, block->idstr);
++    postcopy_discard_send_init(ms, block->idstr);
+=20
+     /* First pass: Discard all partially sent host pages */
+-    postcopy_chunk_hostpages_pass(ms, true, block, pds);
++    postcopy_chunk_hostpages_pass(ms, true, block);
+     /*
+      * Second pass: Ensure that all partially dirty host pages are made
+      * fully dirty.
+      */
+-    postcopy_chunk_hostpages_pass(ms, false, block, pds);
++    postcopy_chunk_hostpages_pass(ms, false, block);
+=20
+-    postcopy_discard_send_finish(ms, pds);
++    postcopy_discard_send_finish(ms);
+     return 0;
+ }
+=20
 --=20
 2.21.0
 
