@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A549B8F3AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:39:23 +0200 (CEST)
-Received: from localhost ([::1]:46144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2FD8F3D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:44:48 +0200 (CEST)
+Received: from localhost ([::1]:46216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyKeg-0001T1-Hc
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:39:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37530)
+	id 1hyKjv-0007VH-0e
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37578)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1hyKXA-0002zi-AR
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:31:39 -0400
+ (envelope-from <eblake@redhat.com>) id 1hyKXD-000310-Pr
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:31:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hyKX7-0001wz-Ta
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:31:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50638)
+ (envelope-from <eblake@redhat.com>) id 1hyKXA-00020s-AQ
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:31:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37296)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hyKX1-0001iB-I1; Thu, 15 Aug 2019 14:31:27 -0400
+ id 1hyKX1-0001id-PR; Thu, 15 Aug 2019 14:31:28 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BA2DC300442C;
- Thu, 15 Aug 2019 18:31:25 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5FE6B317556D;
+ Thu, 15 Aug 2019 18:31:26 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-117-22.phx2.redhat.com [10.3.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39970600CD;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E3143600CD;
  Thu, 15 Aug 2019 18:31:25 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 13:30:38 -0500
-Message-Id: <20190815183039.4264-9-eblake@redhat.com>
+Date: Thu, 15 Aug 2019 13:30:39 -0500
+Message-Id: <20190815183039.4264-10-eblake@redhat.com>
 In-Reply-To: <20190815183039.4264-1-eblake@redhat.com>
 References: <20190815183039.4264-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 15 Aug 2019 18:31:25 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 15 Aug 2019 18:31:26 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 8/9] block/nbd: add cmdline and qapi parameter
- reconnect-delay
+Subject: [Qemu-devel] [PULL 9/9] block/nbd: refactor nbd connection
+ parameters
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,7 +57,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Markus Armbruster <armbru@redhat.com>,
  "open list:Network Block Dev..." <qemu-block@nongnu.org>,
  Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -65,102 +64,258 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Reconnect will be implemented in the following commit, so for now,
-in semantics below, disconnect itself is a "serious error".
+We'll need some connection parameters to be available all the time to
+implement nbd reconnect. So, let's refactor them: define additional
+parameters in BDRVNBDState, drop them from function parameters, drop
+nbd_client_init and separate options parsing instead from nbd_open.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20190618114328.55249-6-vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190618114328.55249-5-vsementsov@virtuozzo.com>
-[eblake: slipped from 4.1 to 4.2]
+[eblake: Drop useless 'if' before object_unref]
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/block-core.json | 11 ++++++++++-
- block/nbd.c          | 16 +++++++++++++++-
- 2 files changed, 25 insertions(+), 2 deletions(-)
+ block/nbd.c | 121 ++++++++++++++++++++++++++--------------------------
+ 1 file changed, 60 insertions(+), 61 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 0d43d4f37c1a..f1e7701fbea9 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3860,13 +3860,22 @@
- #                  traditional "base:allocation" block status (see
- #                  NBD_OPT_LIST_META_CONTEXT in the NBD protocol) (since=
- 3.0)
- #
-+# @reconnect-delay: On an unexpected disconnect, the nbd client tries to
-+#                   connect again until succeeding or encountering a ser=
-ious
-+#                   error.  During the first @reconnect-delay seconds, a=
-ll
-+#                   requests are paused and will be rerun on a successfu=
-l
-+#                   reconnect. After that time, any delayed requests and=
- all
-+#                   future requests before a successful reconnect will
-+#                   immediately fail. Default 0 (Since 4.2)
-+#
- # Since: 2.9
- ##
- { 'struct': 'BlockdevOptionsNbd',
-   'data': { 'server': 'SocketAddress',
-             '*export': 'str',
-             '*tls-creds': 'str',
--            '*x-dirty-bitmap': 'str' } }
-+            '*x-dirty-bitmap': 'str',
-+            '*reconnect-delay': 'uint32' } }
-
- ##
- # @BlockdevOptionsRaw:
 diff --git a/block/nbd.c b/block/nbd.c
-index d03b00fc30b0..de2a26097bf9 100644
+index de2a26097bf9..00b8d86783d9 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -1275,6 +1275,7 @@ static int nbd_client_init(BlockDriverState *bs,
-                            QCryptoTLSCreds *tlscreds,
-                            const char *hostname,
-                            const char *x_dirty_bitmap,
-+                           uint32_t reconnect_delay,
-                            Error **errp)
+@@ -73,9 +73,13 @@ typedef struct BDRVNBDState {
+     NBDReply reply;
+     BlockDriverState *bs;
+
+-    /* For nbd_refresh_filename() */
++    /* Connection parameters */
++    uint32_t reconnect_delay;
+     SocketAddress *saddr;
+     char *export, *tlscredsid;
++    QCryptoTLSCreds *tlscreds;
++    const char *hostname;
++    char *x_dirty_bitmap;
+ } BDRVNBDState;
+
+ /* @ret will be used for reconnect in future */
+@@ -1182,13 +1186,7 @@ static QIOChannelSocket *nbd_establish_connection(=
+SocketAddress *saddr,
+     return sioc;
+ }
+
+-static int nbd_client_connect(BlockDriverState *bs,
+-                              SocketAddress *saddr,
+-                              const char *export,
+-                              QCryptoTLSCreds *tlscreds,
+-                              const char *hostname,
+-                              const char *x_dirty_bitmap,
+-                              Error **errp)
++static int nbd_client_connect(BlockDriverState *bs, Error **errp)
  {
-     int ret;
-@@ -1600,6 +1601,17 @@ static QemuOptsList nbd_runtime_opts =3D {
-             .help =3D "experimental: expose named dirty bitmap in place =
-of "
-                     "block status",
-         },
-+        {
-+            .name =3D "reconnect-delay",
-+            .type =3D QEMU_OPT_NUMBER,
-+            .help =3D "On an unexpected disconnect, the nbd client tries=
- to "
-+                    "connect again until succeeding or encountering a se=
-rious "
-+                    "error.  During the first @reconnect-delay seconds, =
-all "
-+                    "requests are paused and will be rerun on a successf=
-ul "
-+                    "reconnect. After that time, any delayed requests an=
-d all "
-+                    "future requests before a successful reconnect will =
-"
-+                    "immediately fail. Default 0",
-+        },
-         { /* end of list */ }
-     },
- };
-@@ -1651,7 +1663,9 @@ static int nbd_open(BlockDriverState *bs, QDict *op=
-tions, int flags,
+     BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
+     AioContext *aio_context =3D bdrv_get_aio_context(bs);
+@@ -1198,33 +1196,33 @@ static int nbd_client_connect(BlockDriverState *b=
+s,
+      * establish TCP connection, return error if it fails
+      * TODO: Configurable retry-until-timeout behaviour.
+      */
+-    QIOChannelSocket *sioc =3D nbd_establish_connection(saddr, errp);
++    QIOChannelSocket *sioc =3D nbd_establish_connection(s->saddr, errp);
+
+     if (!sioc) {
+         return -ECONNREFUSED;
+     }
 
      /* NBD handshake */
-     ret =3D nbd_client_init(bs, s->saddr, s->export, tlscreds, hostname,
--                          qemu_opt_get(opts, "x-dirty-bitmap"), errp);
-+                          qemu_opt_get(opts, "x-dirty-bitmap"),
-+                          qemu_opt_get_number(opts, "reconnect-delay", 0=
+-    trace_nbd_client_connect(export);
++    trace_nbd_client_connect(s->export);
+     qio_channel_set_blocking(QIO_CHANNEL(sioc), false, NULL);
+     qio_channel_attach_aio_context(QIO_CHANNEL(sioc), aio_context);
+
+     s->info.request_sizes =3D true;
+     s->info.structured_reply =3D true;
+     s->info.base_allocation =3D true;
+-    s->info.x_dirty_bitmap =3D g_strdup(x_dirty_bitmap);
+-    s->info.name =3D g_strdup(export ?: "");
+-    ret =3D nbd_receive_negotiate(aio_context, QIO_CHANNEL(sioc), tlscre=
+ds,
+-                                hostname, &s->ioc, &s->info, errp);
++    s->info.x_dirty_bitmap =3D g_strdup(s->x_dirty_bitmap);
++    s->info.name =3D g_strdup(s->export ?: "");
++    ret =3D nbd_receive_negotiate(aio_context, QIO_CHANNEL(sioc), s->tls=
+creds,
++                                s->hostname, &s->ioc, &s->info, errp);
+     g_free(s->info.x_dirty_bitmap);
+     g_free(s->info.name);
+     if (ret < 0) {
+         object_unref(OBJECT(sioc));
+         return ret;
+     }
+-    if (x_dirty_bitmap && !s->info.base_allocation) {
++    if (s->x_dirty_bitmap && !s->info.base_allocation) {
+         error_setg(errp, "requested x-dirty-bitmap %s not found",
+-                   x_dirty_bitmap);
++                   s->x_dirty_bitmap);
+         ret =3D -EINVAL;
+         goto fail;
+     }
+@@ -1249,7 +1247,7 @@ static int nbd_client_connect(BlockDriverState *bs,
+         object_ref(OBJECT(s->ioc));
+     }
+
+-    trace_nbd_client_connect_success(export);
++    trace_nbd_client_connect_success(s->export);
+
+     return 0;
+
+@@ -1269,34 +1267,9 @@ static int nbd_client_connect(BlockDriverState *bs=
+,
+     }
+ }
+
+-static int nbd_client_init(BlockDriverState *bs,
+-                           SocketAddress *saddr,
+-                           const char *export,
+-                           QCryptoTLSCreds *tlscreds,
+-                           const char *hostname,
+-                           const char *x_dirty_bitmap,
+-                           uint32_t reconnect_delay,
+-                           Error **errp)
+-{
+-    int ret;
+-    BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
+-
+-    s->bs =3D bs;
+-    qemu_co_mutex_init(&s->send_mutex);
+-    qemu_co_queue_init(&s->free_sema);
+-
+-    ret =3D nbd_client_connect(bs, saddr, export, tlscreds, hostname,
+-                             x_dirty_bitmap, errp);
+-    if (ret < 0) {
+-        return ret;
+-    }
+-
+-    s->connection_co =3D qemu_coroutine_create(nbd_connection_entry, s);
+-    bdrv_inc_in_flight(bs);
+-    aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
+-
+-    return 0;
+-}
++/*
++ * Parse nbd_open options
++ */
+
+ static int nbd_parse_uri(const char *filename, QDict *options)
+ {
+@@ -1616,14 +1589,12 @@ static QemuOptsList nbd_runtime_opts =3D {
+     },
+ };
+
+-static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
+-                    Error **errp)
++static int nbd_process_options(BlockDriverState *bs, QDict *options,
++                               Error **errp)
+ {
+     BDRVNBDState *s =3D bs->opaque;
+-    QemuOpts *opts =3D NULL;
++    QemuOpts *opts;
+     Error *local_err =3D NULL;
+-    QCryptoTLSCreds *tlscreds =3D NULL;
+-    const char *hostname =3D NULL;
+     int ret =3D -EINVAL;
+
+     opts =3D qemu_opts_create(&nbd_runtime_opts, NULL, 0, &error_abort);
+@@ -1648,8 +1619,8 @@ static int nbd_open(BlockDriverState *bs, QDict *op=
+tions, int flags,
+
+     s->tlscredsid =3D g_strdup(qemu_opt_get(opts, "tls-creds"));
+     if (s->tlscredsid) {
+-        tlscreds =3D nbd_get_tls_creds(s->tlscredsid, errp);
+-        if (!tlscreds) {
++        s->tlscreds =3D nbd_get_tls_creds(s->tlscredsid, errp);
++        if (!s->tlscreds) {
+             goto error;
+         }
+
+@@ -1658,20 +1629,17 @@ static int nbd_open(BlockDriverState *bs, QDict *=
+options, int flags,
+             error_setg(errp, "TLS only supported over IP sockets");
+             goto error;
+         }
+-        hostname =3D s->saddr->u.inet.host;
++        s->hostname =3D s->saddr->u.inet.host;
+     }
+
+-    /* NBD handshake */
+-    ret =3D nbd_client_init(bs, s->saddr, s->export, tlscreds, hostname,
+-                          qemu_opt_get(opts, "x-dirty-bitmap"),
+-                          qemu_opt_get_number(opts, "reconnect-delay", 0=
 ),
-+                          errp);
+-                          errp);
++    s->x_dirty_bitmap =3D g_strdup(qemu_opt_get(opts, "x-dirty-bitmap"))=
+;
++    s->reconnect_delay =3D qemu_opt_get_number(opts, "reconnect-delay", =
+0);
++
++    ret =3D 0;
 
   error:
-     if (tlscreds) {
+-    if (tlscreds) {
+-        object_unref(OBJECT(tlscreds));
+-    }
+     if (ret < 0) {
++        object_unref(OBJECT(s->tlscreds));
+         qapi_free_SocketAddress(s->saddr);
+         g_free(s->export);
+         g_free(s->tlscredsid);
+@@ -1680,6 +1648,35 @@ static int nbd_open(BlockDriverState *bs, QDict *o=
+ptions, int flags,
+     return ret;
+ }
+
++static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
++                    Error **errp)
++{
++    int ret;
++    BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
++
++    ret =3D nbd_process_options(bs, options, errp);
++    if (ret < 0) {
++        return ret;
++    }
++
++    s->bs =3D bs;
++    qemu_co_mutex_init(&s->send_mutex);
++    qemu_co_queue_init(&s->free_sema);
++
++    ret =3D nbd_client_connect(bs, errp);
++    if (ret < 0) {
++        return ret;
++    }
++    /* successfully connected */
++    s->state =3D NBD_CLIENT_CONNECTED;
++
++    s->connection_co =3D qemu_coroutine_create(nbd_connection_entry, s);
++    bdrv_inc_in_flight(bs);
++    aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
++
++    return 0;
++}
++
+ static int nbd_co_flush(BlockDriverState *bs)
+ {
+     return nbd_client_co_flush(bs);
+@@ -1725,9 +1722,11 @@ static void nbd_close(BlockDriverState *bs)
+
+     nbd_client_close(bs);
+
++    object_unref(OBJECT(s->tlscreds));
+     qapi_free_SocketAddress(s->saddr);
+     g_free(s->export);
+     g_free(s->tlscredsid);
++    g_free(s->x_dirty_bitmap);
+ }
+
+ static int64_t nbd_getlength(BlockDriverState *bs)
 --=20
 2.20.1
 
