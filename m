@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A253D8E2B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:27:01 +0200 (CEST)
-Received: from localhost ([::1]:37494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67388E2B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:30:17 +0200 (CEST)
+Received: from localhost ([::1]:37530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy5Tg-0000gq-F1
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:27:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47149)
+	id 1hy5Wq-0004E8-BV
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:30:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46782)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5Dp-0006bh-Q4
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:38 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DQ-00066k-TO
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5Do-0000a2-Js
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:37 -0400
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:36582)
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DP-0008NP-0M
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:12 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:45960)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5Do-0000Za-Fd
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:36 -0400
-Received: by mail-yb1-xb42.google.com with SMTP id m9so407196ybm.3
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:36 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5DO-0008MY-SC
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:10 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id u32so388321ybi.12
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gKZDBNbs0Rv4p03odiZWPA215sxOPuT/ZV9NL1iqxbM=;
- b=nJBUBkolxuvyTsrjC0TjPZ1Bu1lObbPiC+rYzufGIxXui2HG2haMglAFbRX78fOF3U
- X5mfS1lf6Xs3pZ4cdgJhZnmfUEZabkwj3+90mEOILkHJ6IR6+dFGCYh7ZhXxUdssqu8d
- OYyyObHEElUVSn3E8aGzbqFuweb65+KjGbWlTBNn7bwAtYMX8TseQIkuwsnga+ax2C1p
- ZE5/xUb0/L4tr3ZO7m93mQqqa5kchCMvPe111MrPxfrU/zX9lYKMO1ooi2jeNw2/J1nl
- YHtivYcgPsokDhzhBJPR1qhYGlYLNVYJ5JqnqI7O99B+wTZGm6DkpwNNW0TgM+znHVrL
- ZX2A==
+ bh=8wDdpNnOpBiBo+lSxDp9N9yHcPIqinmnQJDNUxxNJsk=;
+ b=B+LR7gzXiDcLruANd0sQMWx7C+AHdIynhqxVGnwz45WhMbi2dNlNga2mB0SAqpswDw
+ P/vFZEKj/ctDH0MwwNpYzfWGOt3cDqnQAUWgYLkoKU40HqQuws2oRQ54+s1Gd3lTaniB
+ 6DR+EGPqz/9vtu33MdUqT5Vc3h3POiLQooNLBcoIyz2rzLjlivWUfzJ/5F+KI1N6tmOL
+ Hq0Ovy3kt26ADJ1OxqFG2DeB1ZFyjsv5Q6X6WKZOZJQ117RiIJDHPMJGwfjgQIusHBsL
+ NNQlWZV0Lwzb6OOtx54pO5YLvwAAsXWjgny4p7V3B79OnoJg6LqgfXOvwF1rUWk6Iy/+
+ 3bfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gKZDBNbs0Rv4p03odiZWPA215sxOPuT/ZV9NL1iqxbM=;
- b=FEZgNczgVEOvejpv/eqzVf8/mLZt/1ESR/DIUBWjm3z75OHGgE5MFD/1zVDkpF46hh
- E52ylGO2M7mX+ekE/OA8Yi7qNdzOUf6Nuu7Yk4xFk9eWb5BvF5tf+5Wh9/Y0kH+TpVbB
- ALGmrQQoovn5sbqiRz0riOpd+oJjjK8S/wzESWTniqgd19RtDf61G54GPEPVKv3WL7Uc
- Bcpo0nLpOsIiAT17RDrb7rWCwkyvigj+sO/Xk79TRtAwtvTRlnWySFc+rowPREvlTkan
- RFsQpZVbn19cHzUuUg4pwr4yKgJhdM5SEbTqlx6RhMQb2omYbtsFejlvv4dNbJU9+3Cy
- TCyg==
-X-Gm-Message-State: APjAAAU5wvx6eWz7zxst/B5MK6Mn9luuzEh9PjGLyMvjsQKNi/THJJzH
- +bTq5MCIU1+7Kqcffn+iuvMZ0+ne
-X-Google-Smtp-Source: APXvYqxVMjkdKoKZdrUpal11xyw7QN2lUAfxC1hAMZHpVm/onk5XhLGyO02/f6vQj4dc6kSlR8gmjw==
-X-Received: by 2002:a25:d7d0:: with SMTP id o199mr1961431ybg.162.1565835035878; 
- Wed, 14 Aug 2019 19:10:35 -0700 (PDT)
+ bh=8wDdpNnOpBiBo+lSxDp9N9yHcPIqinmnQJDNUxxNJsk=;
+ b=Z6xsn4+8knUzGhfziEdYXCPALPMNs8rLNoinOMe0cEIbWYCHqQ29lWs4t9r7oRjorg
+ pUph1t7qPmPV36pK3RIm59SyoVCXgnJC+P9iviUu2tgvQXlzHMngwho3MX2NYxIDxjLF
+ URkh+2COOrRp6i9OLCU8xQJFOl/0xskLrEs+2AXiH6daf5ynDHw7d4mK76v3js3n6APj
+ OJURxz+OAr64dY+uTvzc3OyoLohdws7xgV+WAeG/RGNZk1dKQ6/WLbVhKVjgzSd0SvRn
+ 2d9mnI+k5nJ7LLKl3rElyZ9UPJcZJcG2GWEDz5M8qppPeap45MySWHKN3lv0zH85l7HP
+ 7OMw==
+X-Gm-Message-State: APjAAAULlDV8AOQmPAb2239k+a8w/T3K68dWGbBEfi4ZPvvr83mKmh83
+ fYiF5gE1swG8VIwsPpt4uFn4pJkK
+X-Google-Smtp-Source: APXvYqx2nvM/xyHQHg/604RIs6tMoS2D/H/SxQ0eFAfhCCV4UaarB2WvfL1RRnQMqeq9eS1iFIuG7A==
+X-Received: by 2002:a25:9012:: with SMTP id s18mr1959286ybl.474.1565835009305; 
+ Wed, 14 Aug 2019 19:10:09 -0700 (PDT)
 Received: from dionysus.attlocal.net ([2601:c0:c67f:e390:8a9a:e33f:caf8:f018])
  by smtp.gmail.com with ESMTPSA id
- j3sm374882ywk.21.2019.08.14.19.10.35
+ j3sm374882ywk.21.2019.08.14.19.10.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Aug 2019 19:10:35 -0700 (PDT)
+ Wed, 14 Aug 2019 19:10:08 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 22:09:28 -0400
-Message-Id: <20190815020928.9679-47-jan.bobek@gmail.com>
+Date: Wed, 14 Aug 2019 22:08:58 -0400
+Message-Id: <20190815020928.9679-17-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190815020928.9679-1-jan.bobek@gmail.com>
 References: <20190815020928.9679-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b42
-Subject: [Qemu-devel] [RFC PATCH v3 46/46] target/i386: introduce SSE3
- instructions to sse-opcode.inc.h
+X-Received-From: 2607:f8b0:4864:20::b41
+Subject: [Qemu-devel] [RFC PATCH v3 16/46] target/i386: introduce
+ instruction operand infrastructure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,58 +84,55 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add all the SSE3 instruction entries to sse-opcode.inc.h.
+insnop_arg_t, insnop_ctxt_t and init, prepare and finalize functions
+form the basis of instruction operand decoding. Introduce macros for
+defining a generic instruction operand; use cases for operand decoding
+will be introduced later.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/sse-opcode.inc.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ target/i386/translate.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/target/i386/sse-opcode.inc.h b/target/i386/sse-opcode.inc.h
-index efa67b7ce2..0cfe6fbe31 100644
---- a/target/i386/sse-opcode.inc.h
-+++ b/target/i386/sse-opcode.inc.h
-@@ -133,6 +133,14 @@ OPCODE(movmskps, LEG(NP, 0F, 1, 0x50), SSE, WR, Gq, Udq)
- OPCODE(movmskpd, LEG(66, 0F, 0, 0x50), SSE2, WR, Gd, Udq)
- /* 66 REX.W 0F 50 /r: MOVMSKPD r64, xmm */
- OPCODE(movmskpd, LEG(66, 0F, 1, 0x50), SSE2, WR, Gq, Udq)
-+/* F2 0F F0 /r: LDDQU xmm1, m128 */
-+OPCODE(lddqu, LEG(F2, 0F, 0, 0xf0), SSE3, WR, Vdq, Mdq)
-+/* F3 0F 16 /r: MOVSHDUP xmm1, xmm2/m128 */
-+OPCODE(movshdup, LEG(F3, 0F, 0, 0x16), SSE3, WR, Vdq, Wdq)
-+/* F3 0F 12 /r: MOVSLDUP xmm1, xmm2/m128 */
-+OPCODE(movsldup, LEG(F3, 0F, 0, 0x12), SSE3, WR, Vdq, Wdq)
-+/* F2 0F 12 /r: MOVDDUP xmm1, xmm2/m64 */
-+OPCODE(movddup, LEG(F2, 0F, 0, 0x12), SSE3, WR, Vdq, Wq)
- /* NP 0F FC /r: PADDB mm, mm/m64 */
- OPCODE(paddb, LEG(NP, 0F, 0, 0xfc), MMX, WRR, Pq, Pq, Qq)
- /* 66 0F FC /r: PADDB xmm1, xmm2/m128 */
-@@ -173,6 +181,10 @@ OPCODE(addpd, LEG(66, 0F, 0, 0x58), SSE2, WRR, Vdq, Vdq, Wdq)
- OPCODE(addss, LEG(F3, 0F, 0, 0x58), SSE, WRR, Vd, Vd, Wd)
- /* F2 0F 58 /r: ADDSD xmm1, xmm2/m64 */
- OPCODE(addsd, LEG(F2, 0F, 0, 0x58), SSE2, WRR, Vq, Vq, Wq)
-+/* F2 0F 7C /r: HADDPS xmm1, xmm2/m128 */
-+OPCODE(haddps, LEG(F2, 0F, 0, 0x7c), SSE3, WRR, Vdq, Vdq, Wdq)
-+/* 66 0F 7C /r: HADDPD xmm1, xmm2/m128 */
-+OPCODE(haddpd, LEG(66, 0F, 0, 0x7c), SSE3, WRR, Vdq, Vdq, Wdq)
- /* NP 0F F8 /r: PSUBB mm, mm/m64 */
- OPCODE(psubb, LEG(NP, 0F, 0, 0xf8), MMX, WRR, Pq, Pq, Qq)
- /* 66 0F F8 /r: PSUBB xmm1, xmm2/m128 */
-@@ -213,6 +225,14 @@ OPCODE(subpd, LEG(66, 0F, 0, 0x5c), SSE2, WRR, Vdq, Vdq, Wdq)
- OPCODE(subss, LEG(F3, 0F, 0, 0x5c), SSE, WRR, Vd, Vd, Wd)
- /* F2 0F 5C /r: SUBSD xmm1, xmm2/m64 */
- OPCODE(subsd, LEG(F2, 0F, 0, 0x5c), SSE2, WRR, Vq, Vq, Wq)
-+/* F2 0F 7D /r: HSUBPS xmm1, xmm2/m128 */
-+OPCODE(hsubps, LEG(F2, 0F, 0, 0x7d), SSE3, WRR, Vdq, Vdq, Wdq)
-+/* 66 0F 7D /r: HSUBPD xmm1, xmm2/m128 */
-+OPCODE(hsubpd, LEG(66, 0F, 0, 0x7d), SSE3, WRR, Vdq, Vdq, Wdq)
-+/* F2 0F D0 /r: ADDSUBPS xmm1, xmm2/m128 */
-+OPCODE(addsubps, LEG(F2, 0F, 0, 0xd0), SSE3, WRR, Vdq, Vdq, Wdq)
-+/* 66 0F D0 /r: ADDSUBPD xmm1, xmm2/m128 */
-+OPCODE(addsubpd, LEG(66, 0F, 0, 0xd0), SSE3, WRR, Vdq, Vdq, Wdq)
- /* NP 0F D5 /r: PMULLW mm, mm/m64 */
- OPCODE(pmullw, LEG(NP, 0F, 0, 0xd5), MMX, WRR, Pq, Pq, Qq)
- /* 66 0F D5 /r: PMULLW xmm1, xmm2/m128 */
+diff --git a/target/i386/translate.c b/target/i386/translate.c
+index 0cffa2226b..9d00b36406 100644
+--- a/target/i386/translate.c
++++ b/target/i386/translate.c
+@@ -4548,6 +4548,34 @@ static int ck_cpuid(CPUX86State *env, DisasContext *s, CkCpuidFeat feat)
+     }
+ }
+ 
++/*
++ * Instruction operand
++ */
++#define insnop_arg_t(opT)    insnop_ ## opT ## _arg_t
++#define insnop_ctxt_t(opT)   insnop_ ## opT ## _ctxt_t
++#define insnop_init(opT)     insnop_ ## opT ## _init
++#define insnop_prepare(opT)  insnop_ ## opT ## _prepare
++#define insnop_finalize(opT) insnop_ ## opT ## _finalize
++
++#define INSNOP_INIT(opT)                                        \
++    static int insnop_init(opT)(insnop_ctxt_t(opT) *ctxt,       \
++                                CPUX86State *env,               \
++                                DisasContext *s,                \
++                                int modrm, bool is_write)
++
++#define INSNOP_PREPARE(opT)                                             \
++    static insnop_arg_t(opT) insnop_prepare(opT)(insnop_ctxt_t(opT) *ctxt, \
++                                                 CPUX86State *env,      \
++                                                 DisasContext *s,       \
++                                                 int modrm, bool is_write)
++
++#define INSNOP_FINALIZE(opT)                                    \
++    static void insnop_finalize(opT)(insnop_ctxt_t(opT) *ctxt,  \
++                                     CPUX86State *env,          \
++                                     DisasContext *s,           \
++                                     int modrm, bool is_write,  \
++                                     insnop_arg_t(opT) arg)
++
+ static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
+ {
+     enum {
 -- 
 2.20.1
 
