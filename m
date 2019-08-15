@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F6F8F145
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:53:03 +0200 (CEST)
-Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A01298F158
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:59:42 +0200 (CEST)
+Received: from localhost ([::1]:44562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyIzl-0005IY-IQ
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47470)
+	id 1hyJ6D-000518-Mt
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47474)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1hyIjv-0002yb-SA
+ (envelope-from <dgilbert@redhat.com>) id 1hyIjw-0002z2-4w
  for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hyIjq-0003Ls-84
+ (envelope-from <dgilbert@redhat.com>) id 1hyIjs-0003Oj-4U
  for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36422)
+Received: from mx1.redhat.com ([209.132.183.28]:39416)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIjq-0003KI-2U
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:34 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIjr-0003NN-TP
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:36 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 60F02309BF09;
- Thu, 15 Aug 2019 16:36:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 31F0F3001D30;
+ Thu, 15 Aug 2019 16:36:35 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-19.ams2.redhat.com
  [10.36.117.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD4523737;
- Thu, 15 Aug 2019 16:36:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC9A6BAAC;
+ Thu, 15 Aug 2019 16:36:33 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 17:34:54 +0100
-Message-Id: <20190815163504.18937-24-dgilbert@redhat.com>
+Date: Thu, 15 Aug 2019 17:34:55 +0100
+Message-Id: <20190815163504.18937-25-dgilbert@redhat.com>
 In-Reply-To: <20190815163504.18937-1-dgilbert@redhat.com>
 References: <20190815163504.18937-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Thu, 15 Aug 2019 16:36:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Thu, 15 Aug 2019 16:36:35 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 23/33] migration: remove unused field bytes_xfer
+Subject: [Qemu-devel] [PULL 24/33] migration: always initialise ram_counters
+ for a new migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,45 +62,136 @@ Cc: quintela@redhat.com, yury-kotov@yandex-team.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+From: Ivan Ren <ivanren@tencent.com>
 
-MigrationState->bytes_xfer is only set to 0 in migrate_init().
+This patch fix a multifd migration bug in migration speed calculation, th=
+is
+problem can be reproduced as follows:
+1. start a vm and give a heavy memory write stress to prevent the vm be
+   successfully migrated to destination
+2. begin a migration with multifd
+3. migrate for a long time [actually, this can be measured by transferred=
+ bytes]
+4. migrate cancel
+5. begin a new migration with multifd, the migration will directly run in=
+to
+   migration_completion phase
 
-Remove this unnecessary field.
+Reason as follows:
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <20190402003106.17614-1-richardw.yang@linux.intel.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Migration update bandwidth and s->threshold_size in function
+migration_update_counters after BUFFER_DELAY time:
+
+    current_bytes =3D migration_total_bytes(s);
+    transferred =3D current_bytes - s->iteration_initial_bytes;
+    time_spent =3D current_time - s->iteration_start_time;
+    bandwidth =3D (double)transferred / time_spent;
+    s->threshold_size =3D bandwidth * s->parameters.downtime_limit;
+
+In multifd migration, migration_total_bytes function return
+qemu_ftell(s->to_dst_file) + ram_counters.multifd_bytes.
+s->iteration_initial_bytes will be initialized to 0 at every new migratio=
+n,
+but ram_counters is a global variable, and history migration data will be
+accumulated. So if the ram_counters.multifd_bytes is big enough, it may l=
+ead
+pending_size >=3D s->threshold_size become false in migration_iteration_r=
+un
+after the first migration_update_counters.
+
+Signed-off-by: Ivan Ren <ivanren@tencent.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
+Suggested-by: Wei Yang <richardw.yang@linux.intel.com>
+Message-Id: <1564741121-1840-1-git-send-email-ivanren@tencent.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 1 -
- migration/migration.h | 1 -
- 2 files changed, 2 deletions(-)
+ migration/migration.c | 25 +++++++++++++++++++------
+ migration/savevm.c    |  1 +
+ 2 files changed, 20 insertions(+), 6 deletions(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index 8331e62831..12b8e5dbe5 100644
+index 12b8e5dbe5..c49e9dc035 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -1699,7 +1699,6 @@ void migrate_init(MigrationState *s)
-      * parameters/capabilities that the user set, and
-      * locks.
-      */
--    s->bytes_xfer =3D 0;
-     s->cleanup_bh =3D 0;
-     s->to_dst_file =3D NULL;
-     s->state =3D MIGRATION_STATUS_NONE;
-diff --git a/migration/migration.h b/migration/migration.h
-index 1fdd7b21fd..5bc60709db 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -132,7 +132,6 @@ struct MigrationState
-     DeviceState parent_obj;
+@@ -1911,6 +1911,11 @@ static bool migrate_prepare(MigrationState *s, boo=
+l blk, bool blk_inc,
+     }
 =20
-     /*< public >*/
--    size_t bytes_xfer;
-     QemuThread thread;
-     QEMUBH *cleanup_bh;
-     QEMUFile *to_dst_file;
+     migrate_init(s);
++    /*
++     * set ram_counters memory to zero for a
++     * new migration
++     */
++    memset(&ram_counters, 0, sizeof(ram_counters));
+=20
+     return true;
+ }
+@@ -3034,6 +3039,17 @@ static void migration_calculate_complete(Migration=
+State *s)
+     }
+ }
+=20
++static void update_iteration_initial_status(MigrationState *s)
++{
++    /*
++     * Update these three fields at the same time to avoid mismatch info=
+ lead
++     * wrong speed calculation.
++     */
++    s->iteration_start_time =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++    s->iteration_initial_bytes =3D migration_total_bytes(s);
++    s->iteration_initial_pages =3D ram_get_total_transferred_pages();
++}
++
+ static void migration_update_counters(MigrationState *s,
+                                       int64_t current_time)
+ {
+@@ -3069,9 +3085,7 @@ static void migration_update_counters(MigrationStat=
+e *s,
+=20
+     qemu_file_reset_rate_limit(s->to_dst_file);
+=20
+-    s->iteration_start_time =3D current_time;
+-    s->iteration_initial_bytes =3D current_bytes;
+-    s->iteration_initial_pages =3D ram_get_total_transferred_pages();
++    update_iteration_initial_status(s);
+=20
+     trace_migrate_transferred(transferred, time_spent,
+                               bandwidth, s->threshold_size);
+@@ -3194,7 +3208,7 @@ static void *migration_thread(void *opaque)
+     rcu_register_thread();
+=20
+     object_ref(OBJECT(s));
+-    s->iteration_start_time =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++    update_iteration_initial_status(s);
+=20
+     qemu_savevm_state_header(s->to_dst_file);
+=20
+@@ -3259,8 +3273,7 @@ static void *migration_thread(void *opaque)
+              * the local variables. This is important to avoid
+              * breaking transferred_bytes and bandwidth calculation
+              */
+-            s->iteration_start_time =3D qemu_clock_get_ms(QEMU_CLOCK_REA=
+LTIME);
+-            s->iteration_initial_bytes =3D 0;
++            update_iteration_initial_status(s);
+         }
+=20
+         current_time =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 412768216c..1ac15301ad 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1456,6 +1456,7 @@ static int qemu_savevm_state(QEMUFile *f, Error **e=
+rrp)
+     }
+=20
+     migrate_init(ms);
++    memset(&ram_counters, 0, sizeof(ram_counters));
+     ms->to_dst_file =3D f;
+=20
+     qemu_mutex_unlock_iothread();
 --=20
 2.21.0
 
