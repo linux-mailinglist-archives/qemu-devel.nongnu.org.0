@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF0F8F146
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:53:20 +0200 (CEST)
-Received: from localhost ([::1]:44480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397078F140
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 18:52:16 +0200 (CEST)
+Received: from localhost ([::1]:44462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyJ03-0005eo-3o
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:53:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47482)
+	id 1hyIz1-0003zv-3s
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 12:52:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47496)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1hyIjx-000310-Gf
+ (envelope-from <dgilbert@redhat.com>) id 1hyIjz-00034H-G2
  for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hyIjt-0003St-Qa
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36138)
+ (envelope-from <dgilbert@redhat.com>) id 1hyIjv-0003Tj-PD
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36162)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIjt-0003Rh-Le
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:37 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyIjv-0003TG-Ga
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 12:36:39 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 011C1307CDEA;
- Thu, 15 Aug 2019 16:36:37 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C74B1307CDD1;
+ Thu, 15 Aug 2019 16:36:38 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-19.ams2.redhat.com
  [10.36.117.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7BB7A3737;
- Thu, 15 Aug 2019 16:36:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D4723737;
+ Thu, 15 Aug 2019 16:36:37 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 17:34:56 +0100
-Message-Id: <20190815163504.18937-26-dgilbert@redhat.com>
+Date: Thu, 15 Aug 2019 17:34:57 +0100
+Message-Id: <20190815163504.18937-27-dgilbert@redhat.com>
 In-Reply-To: <20190815163504.18937-1-dgilbert@redhat.com>
 References: <20190815163504.18937-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 15 Aug 2019 16:36:37 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Thu, 15 Aug 2019 16:36:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 25/33] migration: add qemu_file_update_transfer
- interface
+Subject: [Qemu-devel] [PULL 26/33] migration: add speed limit for multifd
+ migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,48 +64,132 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ivan Ren <ivanren@tencent.com>
 
-Add qemu_file_update_transfer for just update bytes_xfer for speed
-limitation. This will be used for further migration feature such as
-multifd migration.
+Limit the speed of multifd migration through common speed limitation
+qemu file.
 
 Signed-off-by: Ivan Ren <ivanren@tencent.com>
+Message-Id: <1564464816-21804-3-git-send-email-ivanren@tencent.com>
 Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <1564464816-21804-2-git-send-email-ivanren@tencent.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/qemu-file.c | 5 +++++
- migration/qemu-file.h | 1 +
- 2 files changed, 6 insertions(+)
+ migration/ram.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index c04a7a891b..e33c46764f 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -654,6 +654,11 @@ void qemu_file_reset_rate_limit(QEMUFile *f)
-     f->bytes_xfer =3D 0;
+diff --git a/migration/ram.c b/migration/ram.c
+index eee68a7991..1179519345 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -922,7 +922,7 @@ struct {
+  * false.
+  */
+=20
+-static int multifd_send_pages(void)
++static int multifd_send_pages(RAMState *rs)
+ {
+     int i;
+     static int next_channel;
+@@ -954,6 +954,7 @@ static int multifd_send_pages(void)
+     multifd_send_state->pages =3D p->pages;
+     p->pages =3D pages;
+     transferred =3D ((uint64_t) pages->used) * TARGET_PAGE_SIZE + p->pac=
+ket_len;
++    qemu_file_update_transfer(rs->f, transferred);
+     ram_counters.multifd_bytes +=3D transferred;
+     ram_counters.transferred +=3D transferred;;
+     qemu_mutex_unlock(&p->mutex);
+@@ -962,7 +963,7 @@ static int multifd_send_pages(void)
+     return 1;
  }
 =20
-+void qemu_file_update_transfer(QEMUFile *f, int64_t len)
-+{
-+    f->bytes_xfer +=3D len;
-+}
-+
- void qemu_put_be16(QEMUFile *f, unsigned int v)
+-static int multifd_queue_page(RAMBlock *block, ram_addr_t offset)
++static int multifd_queue_page(RAMState *rs, RAMBlock *block, ram_addr_t =
+offset)
  {
-     qemu_put_byte(f, v >> 8);
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index eb886db65f..d064940b8c 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -150,6 +150,7 @@ int qemu_peek_byte(QEMUFile *f, int offset);
- void qemu_file_skip(QEMUFile *f, int size);
- void qemu_update_position(QEMUFile *f, size_t size);
- void qemu_file_reset_rate_limit(QEMUFile *f);
-+void qemu_file_update_transfer(QEMUFile *f, int64_t len);
- void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
- int64_t qemu_file_get_rate_limit(QEMUFile *f);
- int qemu_file_get_error_obj(QEMUFile *f, Error **errp);
+     MultiFDPages_t *pages =3D multifd_send_state->pages;
+=20
+@@ -981,12 +982,12 @@ static int multifd_queue_page(RAMBlock *block, ram_=
+addr_t offset)
+         }
+     }
+=20
+-    if (multifd_send_pages() < 0) {
++    if (multifd_send_pages(rs) < 0) {
+         return -1;
+     }
+=20
+     if (pages->block !=3D block) {
+-        return  multifd_queue_page(block, offset);
++        return  multifd_queue_page(rs, block, offset);
+     }
+=20
+     return 1;
+@@ -1054,7 +1055,7 @@ void multifd_save_cleanup(void)
+     multifd_send_state =3D NULL;
+ }
+=20
+-static void multifd_send_sync_main(void)
++static void multifd_send_sync_main(RAMState *rs)
+ {
+     int i;
+=20
+@@ -1062,7 +1063,7 @@ static void multifd_send_sync_main(void)
+         return;
+     }
+     if (multifd_send_state->pages->used) {
+-        if (multifd_send_pages() < 0) {
++        if (multifd_send_pages(rs) < 0) {
+             error_report("%s: multifd_send_pages fail", __func__);
+             return;
+         }
+@@ -1083,6 +1084,7 @@ static void multifd_send_sync_main(void)
+         p->packet_num =3D multifd_send_state->packet_num++;
+         p->flags |=3D MULTIFD_FLAG_SYNC;
+         p->pending_job++;
++        qemu_file_update_transfer(rs->f, p->packet_len);
+         qemu_mutex_unlock(&p->mutex);
+         qemu_sem_post(&p->sem);
+     }
+@@ -2078,7 +2080,7 @@ static int ram_save_page(RAMState *rs, PageSearchSt=
+atus *pss, bool last_stage)
+ static int ram_save_multifd_page(RAMState *rs, RAMBlock *block,
+                                  ram_addr_t offset)
+ {
+-    if (multifd_queue_page(block, offset) < 0) {
++    if (multifd_queue_page(rs, block, offset) < 0) {
+         return -1;
+     }
+     ram_counters.normal++;
+@@ -3447,7 +3449,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque=
+)
+     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
+     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+=20
+-    multifd_send_sync_main();
++    multifd_send_sync_main(*rsp);
+     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+     qemu_fflush(f);
+=20
+@@ -3535,7 +3537,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaq=
+ue)
+     ram_control_after_iterate(f, RAM_CONTROL_ROUND);
+=20
+ out:
+-    multifd_send_sync_main();
++    multifd_send_sync_main(rs);
+     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+     qemu_fflush(f);
+     ram_counters.transferred +=3D 8;
+@@ -3594,7 +3596,7 @@ static int ram_save_complete(QEMUFile *f, void *opa=
+que)
+=20
+     rcu_read_unlock();
+=20
+-    multifd_send_sync_main();
++    multifd_send_sync_main(rs);
+     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+     qemu_fflush(f);
+=20
 --=20
 2.21.0
 
