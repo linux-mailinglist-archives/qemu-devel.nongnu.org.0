@@ -2,35 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46738EEC6
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 16:57:07 +0200 (CEST)
-Received: from localhost ([::1]:42752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CBA8EF04
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 17:03:28 +0200 (CEST)
+Received: from localhost ([::1]:42838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyHBa-0004e8-S1
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 10:57:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32863)
+	id 1hyHHj-0007nH-9e
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 11:03:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33893)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1hyHAj-0004Bg-Pl
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:56:18 -0400
+ (envelope-from <eblake@redhat.com>) id 1hyHFJ-0006LN-Dk
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:01:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hyHAg-0005yF-9I
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:56:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52150)
+ (envelope-from <eblake@redhat.com>) id 1hyHFD-0008Io-NG
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 11:00:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39350)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hyHAY-0005tI-3d; Thu, 15 Aug 2019 10:56:02 -0400
+ id 1hyHEu-00088B-EY; Thu, 15 Aug 2019 11:00:32 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2E97211A06;
- Thu, 15 Aug 2019 14:56:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2F461315C020;
+ Thu, 15 Aug 2019 15:00:31 +0000 (UTC)
 Received: from [10.3.117.22] (ovpn-117-22.phx2.redhat.com [10.3.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 547A55D6A5;
- Thu, 15 Aug 2019 14:55:58 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20190815110623.13646-1-kwolf@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F0388424B;
+ Thu, 15 Aug 2019 15:00:16 +0000 (UTC)
+To: Maxim Levitsky <mlevitsk@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+References: <20190814202219.1870-1-mlevitsk@redhat.com>
+ <d0635a23-7f99-9cf7-500c-af668e8ca370@redhat.com>
+ <20190815091039.GA7415@linux.fritz.box> <87y2zuy0k7.fsf@dusky.pond.sub.org>
+ <2561ace5297c93cee597c776230dcb8f457a8561.camel@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -57,22 +61,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <6c1dc748-e5fc-f6f4-a59a-895bb6a0c929@redhat.com>
-Date: Thu, 15 Aug 2019 09:55:57 -0500
+Message-ID: <414e8dab-b19b-fd47-52eb-db43ae75ec07@redhat.com>
+Date: Thu, 15 Aug 2019 10:00:15 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190815110623.13646-1-kwolf@redhat.com>
+In-Reply-To: <2561ace5297c93cee597c776230dcb8f457a8561.camel@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="jwLWjDSrP4ejOCk9mWWXfe1H3gKfIUhcR"
+ boundary="q3VMePz5O2NohIaRozoJ8nCwYNnEkUhBX"
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Thu, 15 Aug 2019 14:56:01 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 15 Aug 2019 15:00:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2] qemu-img convert: Deprecate using -n
- and -o together
+Subject: Re: [Qemu-devel] [PATCH 00/13] RFC: luks/encrypted qcow2 key
+ management
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,37 +88,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jwLWjDSrP4ejOCk9mWWXfe1H3gKfIUhcR
-Content-Type: multipart/mixed; boundary="DZFhqSpfuR19sMBzm0kCBNIW6nC9APbty";
+--q3VMePz5O2NohIaRozoJ8nCwYNnEkUhBX
+Content-Type: multipart/mixed; boundary="s1W0VZbtAVFMh4ZNmI4jOfDEL1ku0jgGu";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: mreitz@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
-Message-ID: <6c1dc748-e5fc-f6f4-a59a-895bb6a0c929@redhat.com>
-Subject: Re: [PATCH v2] qemu-img convert: Deprecate using -n and -o together
-References: <20190815110623.13646-1-kwolf@redhat.com>
-In-Reply-To: <20190815110623.13646-1-kwolf@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?=
+ <berrange@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <414e8dab-b19b-fd47-52eb-db43ae75ec07@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH 00/13] RFC: luks/encrypted qcow2 key
+ management
+References: <20190814202219.1870-1-mlevitsk@redhat.com>
+ <d0635a23-7f99-9cf7-500c-af668e8ca370@redhat.com>
+ <20190815091039.GA7415@linux.fritz.box> <87y2zuy0k7.fsf@dusky.pond.sub.org>
+ <2561ace5297c93cee597c776230dcb8f457a8561.camel@redhat.com>
+In-Reply-To: <2561ace5297c93cee597c776230dcb8f457a8561.camel@redhat.com>
 
---DZFhqSpfuR19sMBzm0kCBNIW6nC9APbty
+--s1W0VZbtAVFMh4ZNmI4jOfDEL1ku0jgGu
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 8/15/19 6:06 AM, Kevin Wolf wrote:
-> bdrv_create options specified with -o have no effect when skipping imag=
-e
-> creation with -n, so this doesn't make sense. Warn against the misuse
-> and deprecate the combination so we can make it a hard error later.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
+On 8/15/19 9:44 AM, Maxim Levitsky wrote:
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+>>>> Does the idea of a union type with a default value for the discrimin=
+ator
+>>>> help?  Maybe we have a discriminator which defaults to 'auto', and a=
+dd a
+>>>> union branch 'auto':'any'.  During creation, if the "driver":"auto"
+>>>> branch is selected (usually implicitly by omitting "driver", but als=
+o
+>>>> possible explicitly), the creation attempt is rejected as invalid
+>>>> regardless of the contents of the remaining 'any'.  But during amend=
+
+>>>> usage, if the 'auto' branch is selected, we then add in the proper
+>>>> "driver":"xyz" and reparse the QAPI object to determine if the remai=
+ning
+>>>> fields in 'any' still meet the specification for the required driver=
+ branch.
+>>>>
+>>>> This idea may still require some tweaks to the QAPI generator, but i=
+t's
+>>>> the best I can come up with for a way to parse an arbitrary JSON obj=
+ect
+>>>> with unknown validation, then reparse it again after adding more
+>>>> information that would constrain the parse differently.
+>>>
+>>> Feels like this would be a lot of code just to allow the client to om=
+it
+>>> passing a value that it knows anyway. If this were a human interface,=
+ I
+>>> could understand the desire to make commands less verbose, but for QM=
+P I
+>>> honestly don't see the point when it's not trivial.
+>>
+>> Seconded.
+>=20
+>=20
+> But what about my suggestion of adding something like:
+>=20
+> { 'union': 'BlockdevAmendOptions',
+>=20
+>   'base': {
+>       'node-name':         'str' },
+>=20
+>   'discriminator': { 'get_block_driver(node-name)' } ,
+
+Not worth it. It makes the QAPI generator more complex (to invoke
+arbitrary code instead of a fixed name) just to avoid a little bit of
+complexity in the caller (which is assumed to be a computer, and thus
+shouldn't have a hard time providing a sane 'driver' unconditionally).
+An HMP wrapper around the QMP command can do whatever magic it needs to
+omit driver, but making driver mandatory for QMP is just fine.
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -122,24 +177,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---DZFhqSpfuR19sMBzm0kCBNIW6nC9APbty--
+--s1W0VZbtAVFMh4ZNmI4jOfDEL1ku0jgGu--
 
---jwLWjDSrP4ejOCk9mWWXfe1H3gKfIUhcR
+--q3VMePz5O2NohIaRozoJ8nCwYNnEkUhBX
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1Vcn0ACgkQp6FrSiUn
-Q2oFcQf/UnPUCDTcoF7enMzelZw8qwP9ORYjLk9hMhlbPOR7fLvjzY/0yiUGp4SL
-Ofjn2RXQem5u4kfaiwU5hLQkH3mwP+sSnI/G+mjTO6GjzoYroOU+/7BwyWWB7CDD
-UfolI+NcJtipsasxlknZ+Ch1cOhY5QyMFD+eKNsUpcWbPYvy4YFpaxU/hqjYPzH1
-t6oI1Fna+qDtJ+xy6X1n2A5N4F5xCQOGGLqp6q4DGotSiKNChc4WTaqJT/pSpi0f
-s2YYKx0UuRI7H7wiBfxssHX+GuZsfNcB7JiyMBFT0eiceB18lqCd0azKy8NZT8w7
-vaR/3Sg+eALdz2isYxaNMUGwWkLHkQ==
-=tbg5
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1Vc38ACgkQp6FrSiUn
+Q2rCMgf/Z3IdCIkB2hWwkbNCh5GD/RSJ5DgLD4xZINb07+r2Uai6DfnORYbBjjbq
+Bh5LYn6Y/dC744fA7Q5A+98ShQDBwl8KzrTyBmZWsxaG4AWPeAgcSNBgvYGy1sIq
+CAv1em6DATzNi+x4p1OT6ftChVqgmjRy/yeK+GkF8OYaUI9esHT+VXQ1v8rtmVam
+biU8rfFVm8i61qiPkzO7TUY8F/LEohtNWQYoZioTtKBtR5a+r55BEGQm3oPMlL6R
+F8BqXh2GV1aZuqo7gblhJGnRcygdmrTqkX+X1Q/AsR0ImVMJp5eR+ZSjluyRH1/U
+B4H9mqWWPI6f2AU4M0WzLt1lqafqLA==
+=mv3e
 -----END PGP SIGNATURE-----
 
---jwLWjDSrP4ejOCk9mWWXfe1H3gKfIUhcR--
+--q3VMePz5O2NohIaRozoJ8nCwYNnEkUhBX--
 
