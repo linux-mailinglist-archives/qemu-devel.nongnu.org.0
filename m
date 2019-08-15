@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0238E2DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:44:24 +0200 (CEST)
-Received: from localhost ([::1]:37706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6468E2D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:43:19 +0200 (CEST)
+Received: from localhost ([::1]:37682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy5kV-0005eq-Gl
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46970)
+	id 1hy5jR-0003mL-Q5
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:43:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47033)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5De-0006JB-41
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:27 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5Dh-0006On-E4
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5Dd-0000F2-2z
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:25 -0400
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:45962)
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5Df-0000JW-Vr
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:29 -0400
+Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:35390)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5Dc-0000Dn-VA
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:25 -0400
-Received: by mail-yb1-xb41.google.com with SMTP id u32so388462ybi.12
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:24 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5Df-0000Is-OS
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:27 -0400
+Received: by mail-yw1-xc43.google.com with SMTP id g19so303346ywe.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ChWMIPl+dab6o+BediH5d8eY5VFridF7PbVi1UCCf4c=;
- b=GCzTHbuKq1+/cvJUsDndSXsF3DN/oieM/iQMqcOYe6zJ0vg82U8rKh73x9RCwVEe5a
- g6/s9NMO5m0XP83sVn/GucTZjWTfxCSKgoYM/cq9zj3kqLMr67fxOlF3rexX9Svtll8j
- 4wVGMKbL/ApADJtx+BmtK/W64gmNmw5v1HhydwWtKvnh7nN7MrEpP+wktemKt8Muk0cw
- EKG/InFa6CZUhIGYCTbZmYpyWQKh8ijRMoZCQ4x7kcnPF+/XKaKY4W0e3xYCng1/TaTC
- H1BP+6Hixyf8ALXQFf3PgS8H1CRkSWJWiT7AwJVYD6bCXmnwJ0dxDlgGXq6LmXDxG0u2
- WZmw==
+ bh=Oa5aZEs83L472CM0YZbfZrmUS/bt8pTnh7Q8gJGZz9w=;
+ b=Ixz3l+hQ66tm6CAXUOzoGjlXs/GoTQEQX/Nn+U/pAZvkm/fFNvr5TP5xe+0oJVht5M
+ 1Y/st4M1lDJrRyRhBzDqf+/pRDiul//iC/akQSFhlA7ypvoYs5f7nvp91x1ZKh7u8feo
+ MXQQLsk39GKlpe/y2/FPm+92Junn6epSLkpTTawmPbQ6F5iQlqOvxU1m9+Atv8kfPIwn
+ g6b527qta73zvsl78COtxA7zF4qVxDo4KtKfbbTWGt9H/jWNVfVZ56Siw8eUdmf4r9I0
+ V610rCJJGtiu6hHgLY7Y12eksV07VnSHK1kihxIqjBSqacjfeaPwW60W5TMN3L8cutqu
+ Qmkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ChWMIPl+dab6o+BediH5d8eY5VFridF7PbVi1UCCf4c=;
- b=YhwLLdri6onUUmIz7/Um0eIq2p3gVObIR5/+RqlbluF5djIUHaGgQHClFQbsHl0ySH
- ZfXE4lHdOXZ4ayH9q8SwZzBlBFKgFTvJ1IcmGZTD9cmigq9x9O8S+XxdETv9rRZaM/vC
- 3SIdiDJmh2HxfqbH7bnLFqJFrPvzfHvszOvnc6Ei1cH/1poNX/I3LU60mL6oMh1aVc87
- a80wS5ag/XyjeCisNVcu61mKOtOt9tzg/XTUOzhs1KiM2uoAPSIjp/GCBL4KdRxgw4LH
- mL+c+0Mudk4GVr/rt8dDW+naMUWEjHHd4+dxuhnlIfpqv91or2DzlFroPwO/1L/i32o+
- RjUQ==
-X-Gm-Message-State: APjAAAWu6QDawEnf/N79Vckao+25d/A4qT6zPbzKg9aNlIfqDduS8xnf
- GO1pr11JH9tOiwX966ZIuGpaPvWP
-X-Google-Smtp-Source: APXvYqxcijV8iwBOtSQjefYwFM2icUCZISZhudJLROLl40sksa8//EinJQXSeFDlkWuC6FiOk6CxDQ==
-X-Received: by 2002:a25:2f42:: with SMTP id v63mr1956098ybv.228.1565835023859; 
- Wed, 14 Aug 2019 19:10:23 -0700 (PDT)
+ bh=Oa5aZEs83L472CM0YZbfZrmUS/bt8pTnh7Q8gJGZz9w=;
+ b=XoQ/kTxdPHC2AJSfRvUV4k6tqwxgKNwIxllDKW6C9uF/p/Gfr0bYmvW622sLuoSgD8
+ Dh3TS7mnPoVCddO4kMdc023dcU4G9kMjcMfMYszWoaq6sAUNLUXdtwsKyuI4a0Etg7mq
+ 86nhFXKk9MPLqHI+ouiwpOstmRDgxGkdKhxyNGpzlwJmkwOT+k96mCIU5qkikU68KgjA
+ e0viyPnW9yCp4Kk6JeZ9TAheMaipPOcmlkBHpW469sRhctaSBcVfADOQknXwLtfQybQU
+ wdgEgWz7ge6FHLQwnc79cjJU/c1kfbH/dt8/kIJ6A5BYyTsePp8efbTzJBQCtCQ149MV
+ vbjg==
+X-Gm-Message-State: APjAAAX5BVLQGKPqZELaV0aPP34ULZN6SYqVHpw/hbmd0KHdM27YWQ6l
+ XqVFsGgVgzOoGIV5e/rHSfl+tUt0
+X-Google-Smtp-Source: APXvYqzJqIjXyThj9CBBPRByG9eh0pyygxiwsdVZXPmXu6eqZ0CwXRdW3oTbSoI4fx1sAQPQIUJREA==
+X-Received: by 2002:a0d:c841:: with SMTP id k62mr1513667ywd.95.1565835027092; 
+ Wed, 14 Aug 2019 19:10:27 -0700 (PDT)
 Received: from dionysus.attlocal.net ([2601:c0:c67f:e390:8a9a:e33f:caf8:f018])
  by smtp.gmail.com with ESMTPSA id
- j3sm374882ywk.21.2019.08.14.19.10.23
+ j3sm374882ywk.21.2019.08.14.19.10.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Aug 2019 19:10:23 -0700 (PDT)
+ Wed, 14 Aug 2019 19:10:26 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 22:09:14 -0400
-Message-Id: <20190815020928.9679-33-jan.bobek@gmail.com>
+Date: Wed, 14 Aug 2019 22:09:18 -0400
+Message-Id: <20190815020928.9679-37-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190815020928.9679-1-jan.bobek@gmail.com>
 References: <20190815020928.9679-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b41
-Subject: [Qemu-devel] [RFC PATCH v3 32/46] target/i386: introduce gvec-based
- code generator macros
+X-Received-From: 2607:f8b0:4864:20::c43
+Subject: [Qemu-devel] [RFC PATCH v3 36/46] target/i386: introduce MMX code
+ generators
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,45 +84,141 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Code generators defined using these macros rely on a gvec operation
-(i.e. tcg_gen_gvec_*).
+Define code generators required for MMX instructions.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ target/i386/translate.c | 111 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 111 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index b28d651b82..75652afb45 100644
+index 4fecb0d240..a02e9cd0d2 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -23,6 +23,7 @@
- #include "disas/disas.h"
- #include "exec/exec-all.h"
- #include "tcg-op.h"
-+#include "tcg-op-gvec.h"
- #include "exec/cpu_ldst.h"
- #include "exec/translator.h"
- 
-@@ -5351,6 +5352,18 @@ INSNOP_LDST(xmm_t0, Mhq)
-         tcg_temp_free_i32(arg4_r32);                                    \
+@@ -5357,12 +5357,123 @@ INSNOP_LDST(xmm_t0, Mhq)
+     {                                                                   \
+         tcg_gen_gvec_ ## gvec(vece, arg1, arg2, oprsz, maxsz);          \
      }
++#define DEF_GEN_INSN2_GVEC_MM(mnem, gvec, opT1, opT2, vece)       \
++    DEF_GEN_INSN2_GVEC(mnem, gvec, opT1, opT2, vece,              \
++                       sizeof(MMXReg), sizeof(MMXReg))
  
-+#define DEF_GEN_INSN2_GVEC(mnem, gvec, opT1, opT2, vece, oprsz, maxsz)  \
-+    GEN_INSN2(mnem, opT1, opT2)                                         \
+ #define DEF_GEN_INSN3_GVEC(mnem, gvec, opT1, opT2, opT3, vece, oprsz, maxsz) \
+     GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
+     {                                                                   \
+         tcg_gen_gvec_ ## gvec(vece, arg1, arg2, arg3, oprsz, maxsz);    \
+     }
++#define DEF_GEN_INSN3_GVEC_MM(mnem, gvec, opT1, opT2, opT3, vece)   \
++    DEF_GEN_INSN3_GVEC(mnem, gvec, opT1, opT2, opT3, vece,          \
++                       sizeof(MMXReg), sizeof(MMXReg))
++
++GEN_INSN2(movq, Pq, Eq);        /* forward declaration */
++GEN_INSN2(movd, Pq, Ed)
++{
++    const insnop_arg_t(Eq) arg2_r64 = tcg_temp_new_i64();
++    tcg_gen_extu_i32_i64(arg2_r64, arg2);
++    gen_insn2(movq, Pq, Eq)(env, s, arg1, arg2_r64);
++    tcg_temp_free_i64(arg2_r64);
++}
++
++GEN_INSN2(movd, Ed, Pq)
++{
++    const insnop_arg_t(Pq) ofs = offsetof(MMXReg, MMX_L(0));
++    tcg_gen_ld_i32(arg1, cpu_env, arg2 + ofs);
++}
++
++GEN_INSN2(movq, Pq, Eq)
++{
++    const insnop_arg_t(Pq) ofs = offsetof(MMXReg, MMX_Q(0));
++    tcg_gen_st_i64(arg2, cpu_env, arg1 + ofs);
++}
++
++GEN_INSN2(movq, Eq, Pq)
++{
++    const insnop_arg_t(Pq) ofs = offsetof(MMXReg, MMX_Q(0));
++    tcg_gen_ld_i64(arg1, cpu_env, arg2 + ofs);
++}
++
++DEF_GEN_INSN2_GVEC_MM(movq, mov, Pq, Qq, MO_64)
++DEF_GEN_INSN2_GVEC_MM(movq, mov, Qq, Pq, MO_64)
++
++DEF_GEN_INSN3_GVEC_MM(paddb, add, Pq, Pq, Qq, MO_8)
++DEF_GEN_INSN3_GVEC_MM(paddw, add, Pq, Pq, Qq, MO_16)
++DEF_GEN_INSN3_GVEC_MM(paddd, add, Pq, Pq, Qq, MO_32)
++DEF_GEN_INSN3_GVEC_MM(paddsb, ssadd, Pq, Pq, Qq, MO_8)
++DEF_GEN_INSN3_GVEC_MM(paddsw, ssadd, Pq, Pq, Qq, MO_16)
++DEF_GEN_INSN3_GVEC_MM(paddusb, usadd, Pq, Pq, Qq, MO_8)
++DEF_GEN_INSN3_GVEC_MM(paddusw, usadd, Pq, Pq, Qq, MO_16)
++
++DEF_GEN_INSN3_GVEC_MM(psubb, sub, Pq, Pq, Qq, MO_8)
++DEF_GEN_INSN3_GVEC_MM(psubw, sub, Pq, Pq, Qq, MO_16)
++DEF_GEN_INSN3_GVEC_MM(psubd, sub, Pq, Pq, Qq, MO_32)
++DEF_GEN_INSN3_GVEC_MM(psubsb, sssub, Pq, Pq, Qq, MO_8)
++DEF_GEN_INSN3_GVEC_MM(psubsw, sssub, Pq, Pq, Qq, MO_16)
++DEF_GEN_INSN3_GVEC_MM(psubusb, ussub, Pq, Pq, Qq, MO_8)
++DEF_GEN_INSN3_GVEC_MM(psubusw, ussub, Pq, Pq, Qq, MO_16)
++
++DEF_GEN_INSN3_HELPER_EPP(pmullw, pmullw_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(pmulhw, pmulhw_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(pmaddwd, pmaddwd_mmx, Pq, Pq, Qq)
++
++DEF_GEN_INSN3_GVEC_MM(pcmpeqb, cmpeq, Pq, Pq, Qq, MO_8)
++DEF_GEN_INSN3_GVEC_MM(pcmpeqw, cmpeq, Pq, Pq, Qq, MO_16)
++DEF_GEN_INSN3_GVEC_MM(pcmpeqd, cmpeq, Pq, Pq, Qq, MO_32)
++DEF_GEN_INSN3_GVEC_MM(pcmpgtb, cmpgt, Pq, Pq, Qq, MO_8)
++DEF_GEN_INSN3_GVEC_MM(pcmpgtw, cmpgt, Pq, Pq, Qq, MO_16)
++DEF_GEN_INSN3_GVEC_MM(pcmpgtd, cmpgt, Pq, Pq, Qq, MO_32)
++
++DEF_GEN_INSN3_GVEC_MM(pand, and, Pq, Pq, Qq, MO_64)
++DEF_GEN_INSN3_GVEC_MM(pandn, andn, Pq, Pq, Qq, MO_64)
++DEF_GEN_INSN3_GVEC_MM(por, or, Pq, Pq, Qq, MO_64)
++DEF_GEN_INSN3_GVEC_MM(pxor, xor, Pq, Pq, Qq, MO_64)
++
++DEF_GEN_INSN3_HELPER_EPP(psllw, psllw_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(pslld, pslld_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(psllq, psllq_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(psrlw, psrlw_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(psrld, psrld_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(psrlq, psrlq_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(psraw, psraw_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(psrad, psrad_mmx, Pq, Pq, Qq)
++
++#define DEF_GEN_PSHIFT_IMM_MM(mnem, opT1, opT2)                         \
++    GEN_INSN3(mnem, opT1, opT2, Ib)                                     \
 +    {                                                                   \
-+        tcg_gen_gvec_ ## gvec(vece, arg1, arg2, oprsz, maxsz);          \
++        const uint64_t arg3_ui64 = (uint8_t)arg3;                       \
++        const insnop_arg_t(Eq) arg3_r64 = s->tmp1_i64;                  \
++        const insnop_arg_t(Qq) arg3_mm =                                \
++            offsetof(CPUX86State, mmx_t0.MMX_Q(0));                     \
++                                                                        \
++        tcg_gen_movi_i64(arg3_r64, arg3_ui64);                          \
++        gen_insn2(movq, Pq, Eq)(env, s, arg3_mm, arg3_r64);             \
++        gen_insn3(mnem, Pq, Pq, Qq)(env, s, arg1, arg2, arg3_mm);       \
 +    }
 +
-+#define DEF_GEN_INSN3_GVEC(mnem, gvec, opT1, opT2, opT3, vece, oprsz, maxsz) \
-+    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
-+    {                                                                   \
-+        tcg_gen_gvec_ ## gvec(vece, arg1, arg2, arg3, oprsz, maxsz);    \
-+    }
++DEF_GEN_PSHIFT_IMM_MM(psllw, Nq, Nq)
++DEF_GEN_PSHIFT_IMM_MM(pslld, Nq, Nq)
++DEF_GEN_PSHIFT_IMM_MM(psllq, Nq, Nq)
++DEF_GEN_PSHIFT_IMM_MM(psrlw, Nq, Nq)
++DEF_GEN_PSHIFT_IMM_MM(psrld, Nq, Nq)
++DEF_GEN_PSHIFT_IMM_MM(psrlq, Nq, Nq)
++DEF_GEN_PSHIFT_IMM_MM(psraw, Nq, Nq)
++DEF_GEN_PSHIFT_IMM_MM(psrad, Nq, Nq)
 +
- static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
- {
-     enum {
++DEF_GEN_INSN3_HELPER_EPP(packsswb, packsswb_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(packssdw, packssdw_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(packuswb, packuswb_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(punpcklbw, punpcklbw_mmx, Pq, Pq, Qd)
++DEF_GEN_INSN3_HELPER_EPP(punpcklwd, punpcklwd_mmx, Pq, Pq, Qd)
++DEF_GEN_INSN3_HELPER_EPP(punpckldq, punpckldq_mmx, Pq, Pq, Qd)
++DEF_GEN_INSN3_HELPER_EPP(punpckhbw, punpckhbw_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(punpckhwd, punpckhwd_mmx, Pq, Pq, Qq)
++DEF_GEN_INSN3_HELPER_EPP(punpckhdq, punpckhdq_mmx, Pq, Pq, Qq)
++
++DEF_GEN_INSN0_HELPER(emms, emms)
+ 
+ /*
+  * Instruction translators
 -- 
 2.20.1
 
