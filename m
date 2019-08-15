@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53948F3BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:41:45 +0200 (CEST)
-Received: from localhost ([::1]:46174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7E68F3E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:48:25 +0200 (CEST)
+Received: from localhost ([::1]:46270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyKgy-0003qP-LC
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:41:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38391)
+	id 1hyKnQ-0003EG-FX
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:48:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1hyKdX-0000f4-Cm
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:13 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hyKdb-0000lQ-Lb
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hyKdU-0000a2-Qq
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37122)
+ (envelope-from <ehabkost@redhat.com>) id 1hyKdZ-0000ei-C3
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41630)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hyKdU-0000Yz-Kv
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:08 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hyKdZ-0000eF-6t
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:38:13 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D729D3C917;
- Thu, 15 Aug 2019 18:38:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 73EED315C013;
+ Thu, 15 Aug 2019 18:38:12 +0000 (UTC)
 Received: from localhost (ovpn-116-32.gru2.redhat.com [10.97.116.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDC8510016EB;
- Thu, 15 Aug 2019 18:38:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 91EE0600CD;
+ Thu, 15 Aug 2019 18:38:09 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 15:38:00 -0300
-Message-Id: <20190815183803.13346-1-ehabkost@redhat.com>
+Date: Thu, 15 Aug 2019 15:38:01 -0300
+Message-Id: <20190815183803.13346-2-ehabkost@redhat.com>
+In-Reply-To: <20190815183803.13346-1-ehabkost@redhat.com>
+References: <20190815183803.13346-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 15 Aug 2019 18:38:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 15 Aug 2019 18:38:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 0/3] pc: Fix die-id validation and
- compatibility with libvirt
+Subject: [Qemu-devel] [PATCH 1/3] pc: Fix error message on die-id validation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,45 +61,39 @@ Cc: Peter Krempa <pkrempa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, if die-id is omitted on -device for CPUs, we get a
-very confusing error message:
+The error message for die-id range validation is incorrect.  Example:
 
   $ qemu-system-x86_64 -smp 1,sockets=3D6,maxcpus=3D6 \
-    -device qemu64-x86_64-cpu,socket-id=3D1,core-id=3D0,thread-id=3D0
-  qemu-system-x86_64: -device qemu64-x86_64-cpu,socket-id=3D1,core-id=3D0=
-,thread-id=3D0: \
-    Invalid CPU die-id: 4294967295 must be in range 0:5
+    -device qemu64-x86_64-cpu,socket-id=3D1,die-id=3D1,core-id=3D0,thread=
+-id=3D0
+  qemu-system-x86_64: -device qemu64-x86_64-cpu,socket-id=3D1,die-id=3D1,=
+core-id=3D0,thread-id=3D0: \
+    Invalid CPU die-id: 1 must be in range 0:5
 
-This has 3 problems
+The actual range for die-id in this example is 0:0.
 
-1) The actual range for die-id is 0:0.
-   This is fixed by patch 1/3.
-2) The user didn't specify die-id=3D4294967295.
-   This is fixed by patch 2/3.
-3) It breaks compatibility with libvirt because die-id was not
-   mandatory before.
-   This is addressed by patch 3/3.
+Fix the error message to use smp_dies and print the correct range.
 
-Issues #1 and #2 were reported at:
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1741151
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ hw/i386/pc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Issue #3 was reported at:
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1741451
-
-Cc: Like Xu <like.xu@linux.intel.com>
-Cc: Peter Krempa <pkrempa@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-
-Eduardo Habkost (3):
-  pc: Fix error message on die-id validation
-  pc: Improve error message when die-id is omitted
-  pc: Don't make CPU properties mandatory unless necessary
-
- hw/i386/pc.c                             | 23 ++++++++-
- tests/acceptance/pc_cpu_hotplug_props.py | 59 ++++++++++++++++++++++++
- 2 files changed, 81 insertions(+), 1 deletion(-)
- create mode 100644 tests/acceptance/pc_cpu_hotplug_props.py
-
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 549c437050..24b03bb49c 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -2412,7 +2412,7 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug=
+_dev,
+             return;
+         } else if (cpu->die_id > pcms->smp_dies - 1) {
+             error_setg(errp, "Invalid CPU die-id: %u must be in range 0:=
+%u",
+-                       cpu->die_id, max_socket);
++                       cpu->die_id, pcms->smp_dies - 1);
+             return;
+         }
+         if (cpu->core_id < 0) {
 --=20
 2.21.0
 
