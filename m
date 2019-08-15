@@ -2,46 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD888F3F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:51:37 +0200 (CEST)
-Received: from localhost ([::1]:46328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1762B8F408
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 21:00:21 +0200 (CEST)
+Received: from localhost ([::1]:46428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyKqW-0005o7-5c
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40207)
+	id 1hyKyx-0005EH-E5
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 15:00:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40365)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1hyKpa-00052K-Dm
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:50:41 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hyKqN-000683-DV
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:51:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hyKpX-0008D0-KP
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:50:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34112)
+ (envelope-from <dgilbert@redhat.com>) id 1hyKqK-0000Tp-V2
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:51:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32848)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hyKpR-00081M-N6; Thu, 15 Aug 2019 14:50:29 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hyKqK-0000Sa-N3
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:51:24 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 009A081F31;
- Thu, 15 Aug 2019 18:50:29 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-117-22.phx2.redhat.com [10.3.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44C795C1D6;
- Thu, 15 Aug 2019 18:50:26 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 15 Aug 2019 13:50:24 -0500
-Message-Id: <20190815185024.7010-1-eblake@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 56D4811A12;
+ Thu, 15 Aug 2019 18:51:23 +0000 (UTC)
+Received: from work-vm (ovpn-117-19.ams2.redhat.com [10.36.117.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A33101001B12;
+ Thu, 15 Aug 2019 18:51:20 +0000 (UTC)
+Date: Thu, 15 Aug 2019 19:51:18 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Lukas Straub <lukasstraub2@web.de>, kwolf@redhat.com, mreitz@redhat.com
+Message-ID: <20190815185118.GB2883@work-vm>
+References: <cover.1565892399.git.lukasstraub2@web.de>
+ <20190815200823.3de1bd14@luklap>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190815200823.3de1bd14@luklap>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Thu, 15 Aug 2019 18:50:29 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.28]); Thu, 15 Aug 2019 18:51:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] nbd: Advertise multi-conn for shared read-only
- connections
+Subject: Re: [Qemu-devel] [PATCH v2 1/3] Replication: Ignore requests after
+ failover
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,121 +58,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, rjones@redhat.com,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wen Congyang <wencongyang2@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The NBD specification defines NBD_FLAG_CAN_MULTI_CONN, which can be
-advertised when the server promises cache consistency between
-simultaneous clients (basically, rules that determine what FUA and
-flush from one client are able to guarantee for reads from another
-client).  When we don't permit simultaneous clients (such as qemu-nbd
-without -e), the bit makes no sense; and for writable images, we
-probably have a lot more work before we can declare that actions from
-one client are cache-consistent with actions from another.  But for
-read-only images, where flush isn't changing any data, we might as
-well advertise multi-conn support.  What's more, advertisement of the
-bit makes it easier for clients to determine if 'qemu-nbd -e' was in
-use, where a second connection will succeed rather than hang until the
-first client goes away.
+* Lukas Straub (lukasstraub2@web.de) wrote:
+> After failover the Secondary side of replication shouldn't change state, because
+> it now functions as our primary disk.
+> 
+> In replication_start, replication_do_checkpoint, replication_stop, ignore
+> the request if current state is BLOCK_REPLICATION_DONE (sucessful failover) or
+> BLOCK_REPLICATION_FAILOVER (failover in progres i.e. currently merging active
+> and hidden images into the base image).
+> 
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 
-This patch affects qemu as server in advertising the bit.  We may want
-to consider patches to qemu as client to attempt parallel connections
-for higher throughput by spreading the load over those connections
-when a server advertises multi-conn, but for now sticking to one
-connection per nbd:// BDS is okay.
+We should add some block people to this one to review it; cc'ing in
+Kevin and Max.
 
-See also: https://bugzilla.redhat.com/1708300
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- docs/interop/nbd.txt | 1 +
- include/block/nbd.h  | 2 +-
- blockdev-nbd.c       | 2 +-
- nbd/server.c         | 4 +++-
- qemu-nbd.c           | 2 +-
- 5 files changed, 7 insertions(+), 4 deletions(-)
+Dave
 
-diff --git a/docs/interop/nbd.txt b/docs/interop/nbd.txt
-index fc64473e02b2..6dfec7f47647 100644
---- a/docs/interop/nbd.txt
-+++ b/docs/interop/nbd.txt
-@@ -53,3 +53,4 @@ the operation of that feature.
- * 2.12: NBD_CMD_BLOCK_STATUS for "base:allocation"
- * 3.0: NBD_OPT_STARTTLS with TLS Pre-Shared Keys (PSK),
- NBD_CMD_BLOCK_STATUS for "qemu:dirty-bitmap:", NBD_CMD_CACHE
-+* 4.2: NBD_FLAG_CAN_MULTI_CONN for sharable read-only exports
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 7b36d672f046..991fd52a5134 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -326,7 +326,7 @@ typedef struct NBDClient NBDClient;
-
- NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
-                           uint64_t size, const char *name, const char *d=
-esc,
--                          const char *bitmap, uint16_t nbdflags,
-+                          const char *bitmap, uint16_t nbdflags, bool sh=
-ared,
-                           void (*close)(NBDExport *), bool writethrough,
-                           BlockBackend *on_eject_blk, Error **errp);
- void nbd_export_close(NBDExport *exp);
-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index 66eebab31875..e5d228771292 100644
---- a/blockdev-nbd.c
-+++ b/blockdev-nbd.c
-@@ -189,7 +189,7 @@ void qmp_nbd_server_add(const char *device, bool has_=
-name, const char *name,
-     }
-
-     exp =3D nbd_export_new(bs, 0, len, name, NULL, bitmap,
--                         writable ? 0 : NBD_FLAG_READ_ONLY,
-+                         writable ? 0 : NBD_FLAG_READ_ONLY, true,
-                          NULL, false, on_eject_blk, errp);
-     if (!exp) {
-         return;
-diff --git a/nbd/server.c b/nbd/server.c
-index a2cf085f7635..a602d85070ff 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1460,7 +1460,7 @@ static void nbd_eject_notifier(Notifier *n, void *d=
-ata)
-
- NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
-                           uint64_t size, const char *name, const char *d=
-esc,
--                          const char *bitmap, uint16_t nbdflags,
-+                          const char *bitmap, uint16_t nbdflags, bool sh=
-ared,
-                           void (*close)(NBDExport *), bool writethrough,
-                           BlockBackend *on_eject_blk, Error **errp)
- {
-@@ -1486,6 +1486,8 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uin=
-t64_t dev_offset,
-     perm =3D BLK_PERM_CONSISTENT_READ;
-     if ((nbdflags & NBD_FLAG_READ_ONLY) =3D=3D 0) {
-         perm |=3D BLK_PERM_WRITE;
-+    } else if (shared) {
-+        nbdflags |=3D NBD_FLAG_CAN_MULTI_CONN;
-     }
-     blk =3D blk_new(bdrv_get_aio_context(bs), perm,
-                   BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 049645491dab..55f5ceaf5c92 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -1173,7 +1173,7 @@ int main(int argc, char **argv)
-     }
-
-     export =3D nbd_export_new(bs, dev_offset, fd_size, export_name,
--                            export_description, bitmap, nbdflags,
-+                            export_description, bitmap, nbdflags, shared=
- > 1,
-                             nbd_export_closed, writethrough, NULL,
-                             &error_fatal);
-
---=20
-2.20.1
-
+> ---
+>  block/replication.c | 38 +++++++++++++++++++++++++++++++++++---
+>  1 file changed, 35 insertions(+), 3 deletions(-)
+> 
+> diff --git a/block/replication.c b/block/replication.c
+> index 3d4dedddfc..97cc65c0cf 100644
+> --- a/block/replication.c
+> +++ b/block/replication.c
+> @@ -454,6 +454,17 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+>      aio_context_acquire(aio_context);
+>      s = bs->opaque;
+> 
+> +    if (s->stage == BLOCK_REPLICATION_DONE ||
+> +        s->stage == BLOCK_REPLICATION_FAILOVER) {
+> +        /*
+> +         * This case happens when a secondary is promoted to primary.
+> +         * Ignore the request because the secondary side of replication
+> +         * doesn't have to do anything anymore.
+> +         */
+> +        aio_context_release(aio_context);
+> +        return;
+> +    }
+> +
+>      if (s->stage != BLOCK_REPLICATION_NONE) {
+>          error_setg(errp, "Block replication is running or done");
+>          aio_context_release(aio_context);
+> @@ -529,8 +540,7 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+>                     "Block device is in use by internal backup job");
+> 
+>          top_bs = bdrv_lookup_bs(s->top_id, s->top_id, NULL);
+> -        if (!top_bs || !bdrv_is_root_node(top_bs) ||
+> -            !check_top_bs(top_bs, bs)) {
+> +        if (!top_bs || !check_top_bs(top_bs, bs)) {
+>              error_setg(errp, "No top_bs or it is invalid");
+>              reopen_backing_file(bs, false, NULL);
+>              aio_context_release(aio_context);
+> @@ -577,6 +587,17 @@ static void replication_do_checkpoint(ReplicationState *rs, Error **errp)
+>      aio_context_acquire(aio_context);
+>      s = bs->opaque;
+> 
+> +    if (s->stage == BLOCK_REPLICATION_DONE ||
+> +        s->stage == BLOCK_REPLICATION_FAILOVER) {
+> +        /*
+> +         * This case happens when a secondary was promoted to primary.
+> +         * Ignore the request because the secondary side of replication
+> +         * doesn't have to do anything anymore.
+> +         */
+> +        aio_context_release(aio_context);
+> +        return;
+> +    }
+> +
+>      if (s->mode == REPLICATION_MODE_SECONDARY) {
+>          secondary_do_checkpoint(s, errp);
+>      }
+> @@ -593,7 +614,7 @@ static void replication_get_error(ReplicationState *rs, Error **errp)
+>      aio_context_acquire(aio_context);
+>      s = bs->opaque;
+> 
+> -    if (s->stage != BLOCK_REPLICATION_RUNNING) {
+> +    if (s->stage == BLOCK_REPLICATION_NONE) {
+>          error_setg(errp, "Block replication is not running");
+>          aio_context_release(aio_context);
+>          return;
+> @@ -635,6 +656,17 @@ static void replication_stop(ReplicationState *rs, bool failover, Error **errp)
+>      aio_context_acquire(aio_context);
+>      s = bs->opaque;
+> 
+> +    if (s->stage == BLOCK_REPLICATION_DONE ||
+> +        s->stage == BLOCK_REPLICATION_FAILOVER) {
+> +        /*
+> +         * This case happens when a secondary was promoted to primary.
+> +         * Ignore the request because the secondary side of replication
+> +         * doesn't have to do anything anymore.
+> +         */
+> +        aio_context_release(aio_context);
+> +        return;
+> +    }
+> +
+>      if (s->stage != BLOCK_REPLICATION_RUNNING) {
+>          error_setg(errp, "Block replication is not running");
+>          aio_context_release(aio_context);
+> --
+> 2.20.1
+> 
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
