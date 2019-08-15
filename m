@@ -2,73 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE2A8EE7A
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 16:41:44 +0200 (CEST)
-Received: from localhost ([::1]:42604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86538EE98
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 16:45:25 +0200 (CEST)
+Received: from localhost ([::1]:42646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyGwg-00051i-Ou
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 10:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57553)
+	id 1hyH0G-0006tI-Ol
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 10:45:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1hyGvj-0004Yq-Te
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:40:46 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1hyGzI-0006Qd-1Q
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:44:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1hyGvg-0000JS-Gl
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:40:43 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36610)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hyGvg-0000GQ-9J
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:40:40 -0400
-Received: by mail-wr1-x441.google.com with SMTP id r3so2445382wrt.3
- for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 07:40:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=LUrjubN1G5MJi5k8S6ggI5Bp3QK9HWaT8QIkjRMSK9g=;
- b=Ptu68Wl6mRI/Yx32kvLrQEVR9lrqpriRgGHnOslNhA/DQgNp3Z9WiQx6ptrZZYAZLp
- zYXYPZOacIpLV1EXfNgkNvtIEmbVP4h3ehCF5QNnSHqY/ulWfXqg1tytF8H9HOlBJtx1
- CsVf+BVw5IXlNFZwiJM8ZZ7aNQIEfOXLCR3OGrWpMfM/LxxVcJRMDfXf7Vz5dANnQCq6
- EChHwdcXYHulKyBaU8EsXgqrZnpK1zZSkyyRLUZTLQdqqpKYlfB41dcphakqFQ5kTok7
- 9HehMdfaW58ecM8PCNpxPXPpcCT72BRiPfnxWtC2L2hhqf/M7KSa351X7B7JjZDff/BV
- scMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=LUrjubN1G5MJi5k8S6ggI5Bp3QK9HWaT8QIkjRMSK9g=;
- b=miF2LilI1LHE94jX190tXZaNZjxCaLguy2beeI/W9uLugfLiMEpVJM26UoDp2weyYC
- WkPXEDMNndP8nExd/eEl2cuJMprGsWQDIjiFNyKJQxVKeTIRHHhTh8znhIw18GurwuP+
- 7zKFKi3hbTDJL2ZwBOPfZSXkxw5ZmW90PyII4XhCsIeQsP7xvBdMh5CTip5iMHQwiaZT
- /SYX2HPbchDh8qf2tJ8Ftnb/KZjuLQ2DuQ9Fe/+k/Nu/4PYGPXOy/T3UuGtIOMCSBXN0
- nnHA5alAY87TzwUU40RmfaE5hDPeqFYPxLQnpHgrvslJvhNDwRjO7JbC4sxcJMrAcRAg
- wkIw==
-X-Gm-Message-State: APjAAAUG1dPKaeg9zk8/akIXpsr18gk+FXe/fZ8DVljP3HhM4y/weF+5
- ZHQeAgi02UThAPE/HW6Bxq4=
-X-Google-Smtp-Source: APXvYqyNlR0xoEOu31CXmHFypXm4X1hiHX3NE9FXSjTLE4AkNkMpfPvEeEqVTHJliZGcy2ODgHPRGg==
-X-Received: by 2002:adf:dd88:: with SMTP id x8mr6159495wrl.331.1565880038690; 
- Thu, 15 Aug 2019 07:40:38 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id t24sm1448637wmj.14.2019.08.15.07.40.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Aug 2019 07:40:38 -0700 (PDT)
-Date: Thu, 15 Aug 2019 15:40:36 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: vandersonmr <vandersonmr2@gmail.com>
-Message-ID: <20190815144036.GG10996@stefanha-x1.localdomain>
-References: <20190815023725.2659-1-vandersonmr2@gmail.com>
- <20190815023725.2659-2-vandersonmr2@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UKNXkkdQCYZ6W5l3"
-Content-Disposition: inline
-In-Reply-To: <20190815023725.2659-2-vandersonmr2@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v1 1/2] accel/tcg: adding integration with
- linux perf
+ (envelope-from <mlevitsk@redhat.com>) id 1hyGzF-0004vt-Mj
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 10:44:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57326)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1hyGz9-0004p6-R9; Thu, 15 Aug 2019 10:44:16 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E08A93086272;
+ Thu, 15 Aug 2019 14:44:14 +0000 (UTC)
+Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1EC2C95A50;
+ Thu, 15 Aug 2019 14:44:09 +0000 (UTC)
+Message-ID: <2561ace5297c93cee597c776230dcb8f457a8561.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Date: Thu, 15 Aug 2019 17:44:09 +0300
+In-Reply-To: <87y2zuy0k7.fsf@dusky.pond.sub.org>
+References: <20190814202219.1870-1-mlevitsk@redhat.com>
+ <d0635a23-7f99-9cf7-500c-af668e8ca370@redhat.com>
+ <20190815091039.GA7415@linux.fritz.box> <87y2zuy0k7.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 15 Aug 2019 14:44:14 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 00/13] RFC: luks/encrypted qcow2 key
+ management
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,171 +58,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Fam Zheng <fam@euphon.net>,
+ Daniel =?ISO-8859-1?Q?P=2EBerrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 2019-08-15 at 16:18 +0200, Markus Armbruster wrote:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Am 14.08.2019 um 23:08 hat Eric Blake geschrieben:
+> > > On 8/14/19 3:22 PM, Maxim Levitsky wrote:
+> > > 
+> > > > This is an issue that was raised today on IRC with Kevin Wolf. Really thanks
+> > > > for the idea!
+> > > > 
+> > > > We agreed that this new qmp interface should take the same options as
+> > > > blockdev-create does, however since we want to be able to edit the encryption
+> > > > slots separately, this implies that we sort of need to allow this on creation
+> > > > time as well.
+> > > > 
+> > > > Also the BlockdevCreateOptions is a union, which is specialized by the driver name
+> > > > which is great for creation, but for update, the driver name is already known,
+> > > > and thus the user should not be forced to pass it again.
+> > > > However qmp doesn't seem to support union type guessing based on actual fields
+> > > > given (this might not be desired either), which complicates this somewhat.
+> > > 
+> > > Does the idea of a union type with a default value for the discriminator
+> > > help?  Maybe we have a discriminator which defaults to 'auto', and add a
+> > > union branch 'auto':'any'.  During creation, if the "driver":"auto"
+> > > branch is selected (usually implicitly by omitting "driver", but also
+> > > possible explicitly), the creation attempt is rejected as invalid
+> > > regardless of the contents of the remaining 'any'.  But during amend
+> > > usage, if the 'auto' branch is selected, we then add in the proper
+> > > "driver":"xyz" and reparse the QAPI object to determine if the remaining
+> > > fields in 'any' still meet the specification for the required driver branch.
+> > > 
+> > > This idea may still require some tweaks to the QAPI generator, but it's
+> > > the best I can come up with for a way to parse an arbitrary JSON object
+> > > with unknown validation, then reparse it again after adding more
+> > > information that would constrain the parse differently.
+> > 
+> > Feels like this would be a lot of code just to allow the client to omit
+> > passing a value that it knows anyway. If this were a human interface, I
+> > could understand the desire to make commands less verbose, but for QMP I
+> > honestly don't see the point when it's not trivial.
+> 
+> Seconded.
 
---UKNXkkdQCYZ6W5l3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 14, 2019 at 11:37:24PM -0300, vandersonmr wrote:
-> This commit adds support to Linux Perf in order
-> to be able to analyze qemu jitted code and
-> also to able to see the TBs PC in it.
+But what about my suggestion of adding something like:
 
-Is there any reference to the file format?  Please include it in a code
-comment, if such a thing exists.
+{ 'union': 'BlockdevAmendOptions',
 
-> diff --git a/accel/tcg/perf/jitdump.c b/accel/tcg/perf/jitdump.c
-> new file mode 100644
-> index 0000000000..6f4c0911c2
-> --- /dev/null
-> +++ b/accel/tcg/perf/jitdump.c
-> @@ -0,0 +1,180 @@
+  'base': {
+      'node-name':         'str' },
 
-License header?
+  'discriminator': { 'get_block_driver(node-name)' } ,
 
-> +#ifdef __linux__
+  'data': {
+      'file':           'BlockdevCreateOptionsFile',
+      'gluster':        'BlockdevCreateOptionsGluster',
+      'luks':           'BlockdevCreateOptionsLUKS',
+      'nfs':            'BlockdevCreateOptionsNfs',
+      'parallels':      'BlockdevCreateOptionsParallels',
+      'qcow':           'BlockdevCreateOptionsQcow',
+      'qcow2':          'BlockdevCreateOptionsQcow2',
+      'qed':            'BlockdevCreateOptionsQed',
+      'rbd':            'BlockdevCreateOptionsRbd',
+      'sheepdog':       'BlockdevCreateOptionsSheepdog',
+      'ssh':            'BlockdevCreateOptionsSsh',
+      'vdi':            'BlockdevCreateOptionsVdi',
+      'vhdx':           'BlockdevCreateOptionsVhdx',
+      'vmdk':           'BlockdevCreateOptionsVmdk',
+      'vpc':            'BlockdevCreateOptionsVpc'
+  } }
 
-If the entire source file is #ifdef __linux__ then Makefile.objs should
-probably contain obj-$(CONFIG_LINUX) +=3D jitdump.o instead.  Letting the
-build system decide what to compile is cleaner than ifdeffing large
-amounts of code.
 
-> +
-> +#include <stdint.h>
-> +
-> +#include <stdio.h>
-> +#include <unistd.h>
-> +#include <time.h>
-> +#include <sys/syscall.h>
-> +#include <elf.h>
-> +
-> +#include "jitdump.h"
-> +#include "qemu-common.h"
+This shouldn't be hard to do IMHO.
 
-Please follow QEMU's header ordering conventions.  See ./HACKING "1.2.
-Include directives".
+Best regards,
+	Maxim Levitsky
 
-> +void start_jitdump_file(void)
-> +{
-> +    GString *dumpfile_name =3D g_string_new(NULL);;
-> +    g_string_printf(dumpfile_name, "./jit-%d.dump", getpid());
-
-Simpler:
-
-  gchar *dumpfile_name =3D g_strdup_printf("./jit-%d.dump", getpid());
-  ...
-  g_free(dumpfile_name);
-
-> +    dumpfile =3D fopen(dumpfile_name->str, "w+");
-
-getpid() and the global dumpfile variable make me wonder what happens
-with multi-threaded TCG?
-
-> +
-> +    perf_marker =3D mmap(NULL, sysconf(_SC_PAGESIZE),
-
-Please mention the point of this mmap in a comment.  My best guess is
-that perf stores the /proc/$PID/maps and this is how it finds the
-jitdump file?
-
-> +                          PROT_READ | PROT_EXEC,
-> +                          MAP_PRIVATE,
-> +                          fileno(dumpfile), 0);
-> +
-> +    if (perf_marker =3D=3D MAP_FAILED) {
-> +        printf("Failed to create mmap marker file for perf %d\n", fileno=
-(dumpfile));
-> +        fclose(dumpfile);
-> +        return;
-> +    }
-> +
-> +    g_string_free(dumpfile_name, TRUE);
-> +
-> +    struct jitheader *header =3D g_new0(struct jitheader, 1);
-
-Why g_new this struct?  It's small and can be declared on the stack.
-
-Please use g_free() with g_malloc/new/etc().  It's not safe to mismatch
-glib and libc memory allocation functions.
-
-> +    header->magic =3D 0x4A695444;
-> +    header->version =3D 1;
-> +    header->elf_mach =3D get_e_machine();
-> +    header->total_size =3D sizeof(struct jitheader);
-> +    header->pid =3D getpid();
-> +    header->timestamp =3D get_timestamp();
-> +
-> +    fwrite(header, header->total_size, 1, dumpfile);
-> +
-> +    free(header);
-> +    fflush(dumpfile);
-> +}
-> +
-> +void append_load_in_jitdump_file(TranslationBlock *tb)
-> +{
-> +    GString *func_name =3D g_string_new(NULL);
-> +    g_string_printf(func_name, "TB virt:0x"TARGET_FMT_lx"%c", tb->pc, '\=
-0');
-
-The explicit NUL character looks strange to me.  I think the idea is to
-avoid func_name->len + 1?  Adding NUL characters to C strings can be a
-source of bugs, I would stick to convention and do len + 1 instead of
-putting NUL characters into the GString.  This is a question of style
-though.
-
-> +
-> +    struct jr_code_load *load_event =3D g_new0(struct jr_code_load, 1);
-
-No need to allocate load_event on the heap.
-
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 9621e934c0..1c26eeeb9c 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -4147,6 +4147,18 @@ STEXI
->  Enable FIPS 140-2 compliance mode.
->  ETEXI
-> =20
-> +#ifdef __linux__
-> +DEF("perf", 0, QEMU_OPTION_perf,
-> +    "-perf    dump jitdump files to help linux perf JIT code visualizati=
-on\n",
-> +    QEMU_ARCH_ALL)
-> +#endif
-> +STEXI
-> +@item -perf
-> +@findex -perf
-> +Dumps jitdump files to help linux perf JIT code visualization
-
-Suggestions on expanding the documentation:
-
-Where are the jitdump files dumped?  The current working directory?
-
-Anything to say about the naming scheme for these files?
-
-Can you include an example of how to load them into perf(1)?
-
---UKNXkkdQCYZ6W5l3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEyBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1VbuQACgkQnKSrs4Gr
-c8hKdAf3X2YbRC+vFntjIhFPpE2g/BM6fbrk4GnbApLxXGjRW6c0pATQ+zQ3ce17
-KlRiYlSkozSgWO6QRaH8WiWj0MXaROiGL/qdxJVUMwDdCuwWKoXxivJtq5sQhjt2
-duUjXoiA9qEAuN1ylbPEFBqMKFfws+bvtb+g9eZtsGO2YbqCdXnEfV+WOh9beBhy
-CopsohgzbbulO4/4ZqWhtJex0W0DtsvY1ZkPTU5w84AYJamTpwxhS2RW5tZIImM8
-Izc8h8qSJFcws6xM75MpDZ6MGb4eNLmVr8qs8liJ6MDxISJkKiFSxWO7cFnrr9k3
-TYz/fApW+IygauWIYDMOjz2JzCkI
-=ZDuQ
------END PGP SIGNATURE-----
-
---UKNXkkdQCYZ6W5l3--
 
