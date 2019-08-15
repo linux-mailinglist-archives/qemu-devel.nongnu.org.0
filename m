@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604628E2B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:30:22 +0200 (CEST)
-Received: from localhost ([::1]:37538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 358A18E2BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:32:12 +0200 (CEST)
+Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy5Wu-0004NA-Ty
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:30:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46867)
+	id 1hy5Yg-00064Z-MK
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:32:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46888)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5DX-0006Bd-Bn
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:21 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DZ-0006Fn-Do
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5DV-0008Vm-9C
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:19 -0400
-Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:37211)
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DX-00007p-B0
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:21 -0400
+Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:44237)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5DV-0008U1-57
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:17 -0400
-Received: by mail-yw1-xc43.google.com with SMTP id u141so299548ywe.4
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:16 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5DX-0008VY-5u
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:19 -0400
+Received: by mail-yw1-xc42.google.com with SMTP id l79so286360ywe.11
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tLijPMcyDKCXtSPHRwSPvNlWAMP/Ey57t/uYlG4MOwo=;
- b=dvrtecTta0z8RAk/Zg8eJJ8ifb2gIy8mYuCupOf2gyGCIaoJ0awt5m+IfRJvXNWkgF
- 8kiSHid+ZOJp8yZJQh3iLivoFllWx4c4EyTGqmSru6Ek7ie8ZOav8EOh0WuMsirSm96P
- oW7L6JFi8shDoMceVNmG+PXVa1rhuBducKzmpzfWCrY05dyzaSHWzJ+y3gman1PHb9w6
- 5YnM8UbdLCGGhoAZa51VWNfwDIiyv/0QsZF8bbmrkaAANfhC4EfZa7aWNuhLrGlki7O3
- TEz94M7Qg1BtUkQSNNuR+wYHPJRHRwkN4ltfxfxkRye2GHpe+QttMng0xILWZOh9doL8
- 2slw==
+ bh=48lyFWBj0n/nrnlkJTcKCrCMcCKDd/O/WUATIxnd1g8=;
+ b=l/QAwii/y6cdjQiOeT/luoMnLgIh3nie71xIUpMXlSRzgjR5909r7TSHK3GxhPHh+5
+ P2dIg17/VYN+2mH/cvypV9BqAgATzdCumuzvzUlhZEMG3UCGLhzXoUraUey8oYug3ntN
+ IykxcGVI8H/I6umHEhD6468Bpl3df0/mshl9rD2tJRi0TbLbrzY/gCfE4oY+VXG2gUbS
+ TRg8P1kw7TfDruUAfRMhyzxTm8/ao+t5pMHVK0yydDLd93UX4gfNW02JBUQU3uJtiVZK
+ JEyKc5ReUypn5f1IYBcM0vHjGP3X3jmGH40IoBy1k/P7OaOsJKMMgzEoV94nv51oS4Ip
+ Y/kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tLijPMcyDKCXtSPHRwSPvNlWAMP/Ey57t/uYlG4MOwo=;
- b=EUE76LDyOuKJtRWtqDntoCi8vijo4MV6afQQdUx+Lwly5dKFo0ESGGepaGt6mehRsV
- aLUVbxyQjz7OP9TaMprzVOs7VBDnWpgPetBAJuh7VpblwRBKL7JjAoMI3fC+LFSu6S/K
- E7n83kI3NMNeVIM3ihpyDa1q4tlFa9D4eDtijqQspovGXzhq75MAUhQZpo4eItJDVJXr
- Ju1iwS8My31KD9URypnm0Uj3LHGhb0aO09biSe0kQErt7ikbuzwvrMV9be0ixCQzM9qq
- tSzdlqUZ0EC3FBqAlgYKgDMBz4ZhzYGwgrWoTkqmGK+9BAYdQ/svR/PJXJxdxbvBrnr+
- vakA==
-X-Gm-Message-State: APjAAAVYUoK9eeboNDmJycof2BQkHH6tmuxwVRDc60i1y2wN8kf3E245
- W8jfA255IJRA0cKnSrmzBy9CSsbJ
-X-Google-Smtp-Source: APXvYqw5hCsJn0Ixs9REUtc9WkQKfsZDzq9kAN7507w90OC/wS6NLzkJn19++gHjlNPOcqSU/R7kLw==
-X-Received: by 2002:a81:2948:: with SMTP id p69mr1731436ywp.264.1565835015997; 
- Wed, 14 Aug 2019 19:10:15 -0700 (PDT)
+ bh=48lyFWBj0n/nrnlkJTcKCrCMcCKDd/O/WUATIxnd1g8=;
+ b=S1ea6ssxR4JdB/skZXq8uz8GkF8NVzfoyROq85I809nPm8IMRADVGxuK42YYkf2mcQ
+ TlDjHGaU8WvA0ooLiJeo45MRK2g/rhBcmmJNHERuc9HkM/QqKIP6iiuieWjK1F3odANj
+ OGKcwjj5YjbCRFVxUDEbLnNehNg/tVYBoivQAFBU/1ixe3CADzbfvHCoa4m2teo58kc6
+ MLiH6KjobGhJTMFFWvPEUIe6J1rTaEcENRWCH0CLDObjM+mEeK9Hok0moEZDWclAO+FK
+ EeZO6nEL5WnfOJoS5JENYSHD6w6eVWTPn7Xs1dHpsXVlbm/zPdkgJSV5uMjE4ri9rHKY
+ sz8A==
+X-Gm-Message-State: APjAAAUXcjK9p17EiocniLw/NCY4I096lV6NSFghkRYw+MZDV05BYr1b
+ /kH4uk5t3kfTTC+yTnz9COhg45Rv
+X-Google-Smtp-Source: APXvYqw0iYU+mEN8TVWhYWs6Q7LI4ym0aqr98KcdZ2Bv+8rV5BNz0wfXVakdmfhauPW6U34xJCrRwA==
+X-Received: by 2002:a81:99d2:: with SMTP id q201mr1541318ywg.461.1565835016829; 
+ Wed, 14 Aug 2019 19:10:16 -0700 (PDT)
 Received: from dionysus.attlocal.net ([2601:c0:c67f:e390:8a9a:e33f:caf8:f018])
  by smtp.gmail.com with ESMTPSA id
- j3sm374882ywk.21.2019.08.14.19.10.15
+ j3sm374882ywk.21.2019.08.14.19.10.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Aug 2019 19:10:15 -0700 (PDT)
+ Wed, 14 Aug 2019 19:10:16 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 22:09:05 -0400
-Message-Id: <20190815020928.9679-24-jan.bobek@gmail.com>
+Date: Wed, 14 Aug 2019 22:09:06 -0400
+Message-Id: <20190815020928.9679-25-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190815020928.9679-1-jan.bobek@gmail.com>
 References: <20190815020928.9679-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c43
-Subject: [Qemu-devel] [RFC PATCH v3 23/46] target/i386: introduce operand
- for direct-only r/m field
+X-Received-From: 2607:f8b0:4864:20::c42
+Subject: [Qemu-devel] [RFC PATCH v3 24/46] target/i386: introduce operand
+ vex_v
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,58 +84,39 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Many operands can only decode successfully if the ModR/M byte has the
-direct form (i.e. MOD=3). Capture this common aspect by introducing a
-special direct-only r/m field operand.
+This operand yields value of the VEX.vvvv field.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ target/i386/translate.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index e4515e81df..c918065b96 100644
+index c918065b96..4562a097fa 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4822,6 +4822,43 @@ INSNOP_FINALIZE(modrm_rm)
- {
+@@ -4859,6 +4859,26 @@ INSNOP_FINALIZE(modrm_rm_direct)
+     insnop_finalize(modrm_rm)(&ctxt->rm, env, s, modrm, is_write, arg);
  }
  
 +/*
-+ * modrm_rm_direct
++ * vex_v
 + *
-+ * Equivalent of modrm_rm, but only decodes successfully if
-+ * the ModR/M byte has the direct form (i.e. MOD=3).
++ * Operand whose value is the VVVV field of the VEX prefix.
 + */
-+typedef insnop_arg_t(modrm_rm) insnop_arg_t(modrm_rm_direct);
-+typedef struct {
-+    insnop_ctxt_t(modrm_rm) rm;
-+} insnop_ctxt_t(modrm_rm_direct);
++typedef int insnop_arg_t(vex_v);
++typedef struct {} insnop_ctxt_t(vex_v);
 +
-+INSNOP_INIT(modrm_rm_direct)
++INSNOP_INIT(vex_v)
 +{
-+    int ret;
-+    insnop_ctxt_t(modrm_mod) modctxt;
-+
-+    ret = insnop_init(modrm_mod)(&modctxt, env, s, modrm, 0);
-+    if (!ret) {
-+        const int mod = insnop_prepare(modrm_mod)(&modctxt, env, s, modrm, 0);
-+        if (mod == 3) {
-+            ret = insnop_init(modrm_rm)(&ctxt->rm, env, s, modrm, is_write);
-+        } else {
-+            ret = 1;
-+        }
-+        insnop_finalize(modrm_mod)(&modctxt, env, s, modrm, 0, mod);
-+    }
-+    return ret;
++    return !(s->prefix & PREFIX_VEX);
 +}
-+INSNOP_PREPARE(modrm_rm_direct)
++INSNOP_PREPARE(vex_v)
 +{
-+    return insnop_prepare(modrm_rm)(&ctxt->rm, env, s, modrm, is_write);
++    return s->vex_v;
 +}
-+INSNOP_FINALIZE(modrm_rm_direct)
++INSNOP_FINALIZE(vex_v)
 +{
-+    insnop_finalize(modrm_rm)(&ctxt->rm, env, s, modrm, is_write, arg);
 +}
 +
  static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
