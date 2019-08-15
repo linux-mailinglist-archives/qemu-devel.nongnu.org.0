@@ -2,51 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074368F3E4
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:47:35 +0200 (CEST)
-Received: from localhost ([::1]:46256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 571128F3FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 20:55:12 +0200 (CEST)
+Received: from localhost ([::1]:46380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyKmc-00026c-1F
-	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:47:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39162)
+	id 1hyKtz-00010F-ET
+	for lists+qemu-devel@lfdr.de; Thu, 15 Aug 2019 14:55:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40226)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1hyKjC-0007fD-1w
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:44:05 -0400
+ (envelope-from <bounces@canonical.com>) id 1hyKpf-00058o-KF
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:50:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hyKj5-0000Tf-Gb
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:44:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46066)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hyKj5-0000NS-7M
- for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:43:55 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 081233001D30;
- Thu, 15 Aug 2019 18:43:54 +0000 (UTC)
-Received: from localhost (ovpn-116-32.gru2.redhat.com [10.97.116.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B3E917CFB;
- Thu, 15 Aug 2019 18:43:53 +0000 (UTC)
-Date: Thu, 15 Aug 2019 15:43:51 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Bruce Rogers <BROGERS@suse.com>
-Message-ID: <20190815184351.GX3908@habkost.net>
-References: <89368c9df9e960ead712227ac8dd3e1793c164b0.camel@suse.com>
+ (envelope-from <bounces@canonical.com>) id 1hyKpb-0008Hc-UU
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:50:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50822)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hyKpb-0008GY-P4
+ for qemu-devel@nongnu.org; Thu, 15 Aug 2019 14:50:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hyKpa-0004k4-AK
+ for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 18:50:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1F47A2E80D7
+ for <qemu-devel@nongnu.org>; Thu, 15 Aug 2019 18:50:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <89368c9df9e960ead712227ac8dd3e1793c164b0.camel@suse.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Thu, 15 Aug 2019 18:43:54 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 15 Aug 2019 18:43:53 -0000
+From: Thomas Huth <1828272@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange metzengerstein th-huth
+X-Launchpad-Bug-Reporter: Frederick Metzengerstein (metzengerstein)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <155733764243.16739.6026352756192984678.malonedeb@gac.canonical.com>
+Message-Id: <156589463327.22921.14694202034985043.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19022";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 7233cb1b6171577e951c1a9c4d0556a49e3aaf52
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] current QEMU can't start pc-q35-2.12  SEV guest
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1828272] Re: 4.0 breaks keyboard autorepeat in
+ guests with xserver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,85 +65,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liang Yan <LYan@suse.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Bug 1828272 <1828272@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 15, 2019 at 12:49:58AM +0000, Bruce Rogers wrote:
-> Hi,
-> 
-> I ran into a case where a guest on a SEV capable host, which was
-> enabled to use SEV and using an older machine type was no longer able
-> to run when the QEMU version had been updated.
-> 
-> Specifically, when the guest was installed and running under a v2.12
-> QEMU, set up for SEV (ok it was v2.11 with SEV support backported, but
-> the details still apply), using a command line such as follows:
-> 
-> qemu-system-x86_64 -cpu EPYC-IBRS \
-> -machine pc-q35-2.12,accel=kvm,memory-encryption=sev0 \
-> -object sev-guest,id=sev0,...
-> 
-> The guest ran fine, using SEV memory enryption.
-> 
-> Later the version of QEMU was updated to v3.1.0, and the same guest now
-> hung at boot, when using the exact same command line. (Current QEMU
-> still has the same problem.)
-> 
-> Upon investigation, I find that the handling of xlevel in
-> target/i386/cpu.c relies includes an explicit detection of SEV being
-> enabled and sets the cpuid_min_xlevel in the CPUX86State structure to
-> 0x8000001F as the required minimum for SEV support. This normally is
-> used to set the xlevel the guest sees, allowing it to use SEV.
-> 
-> The compat settings for the v2.12 machine type include an xlevel value
-> associated with it (0x8000000A). Unfortunately the processing of the
-> compat settings gets conflated with the logic of handling a user
-> explicitly specifying an xlevel on the command line, which is treated
-> as an "override" condition, overriding the other xlevel selections
-> which would otherwise be done in the QEMU cpu code.
-> 
-> So, in the scenario I describe above, the original, working case would
-> provide an cpuid xlevel value of 0x8000001F to the guest (correct), and
-> the failing case ends up providing the value 0x8000000A (incorrect).
-> 
-> It seems to me that the handling of the compat settings and the
-> explicit xlevel setting by the user should be processed separately, but
-> I don't see how to do that easily.
-> 
-> How should this problem be resolved?
-> 
-> In my case, I've added to the code which is for checking a user
-> provided xlevel value, the check again for sev_enabled(), and if that's
-> the case, I still apply the cpuid_min_xlevel value. This works for the
-> time being, but doesn't seem to be the right solution.
-> 
+Fix has been included here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D5fff13f245cddd3bc26
 
-I believe this is my fault.  On commit e00516475c27 ("i386:
-Enable TOPOEXT feature on AMD EPYC CPU"), I had added
-xlevel=0x8000000A compat entries, but they were supposed to be
-min-xlevel=0x8000000A.
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
-Does this patch solve the problem?
+-- =
 
----
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1828272
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 549c437050..11d5a3cd3a 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -154,8 +154,8 @@ const size_t pc_compat_3_0_len = G_N_ELEMENTS(pc_compat_3_0);
- GlobalProperty pc_compat_2_12[] = {
-     { TYPE_X86_CPU, "legacy-cache", "on" },
-     { TYPE_X86_CPU, "topoext", "off" },
--    { "EPYC-" TYPE_X86_CPU, "xlevel", "0x8000000a" },
--    { "EPYC-IBPB-" TYPE_X86_CPU, "xlevel", "0x8000000a" },
-+    { "EPYC-" TYPE_X86_CPU, "min-xlevel", "0x8000000a" },
-+    { "EPYC-IBPB-" TYPE_X86_CPU, "min-xlevel", "0x8000000a" },
- };
- const size_t pc_compat_2_12_len = G_N_ELEMENTS(pc_compat_2_12);
- 
+Title:
+  4.0 breaks keyboard autorepeat in guests with xserver
 
--- 
-Eduardo
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  Description:
+  In a linux/bsd guest within X, pressing and holding a key for a short tim=
+e causes an endless repeat of that key in the guest. The release of the key=
+ gets ignored.
+  Example 1: pressing and holding 'a' for a few seconds results in typing o=
+f 'aaaaaaaaaaaa...' endlessly.
+  Example 2: pressing and holding 'Backspace' for a few seconds results in =
+deleting all your previously typed text.
+
+  It doesn't happen within a VT in the guest. It also doesn't happen
+  with guests that run windows, reactos or haiku for example.
+
+  The problem goes away when disabling xorgs autorepeat function via "xset =
+-r" in the host.
+  Normally, this setting should not have any effect on the guest, since it =
+has it's own autorepeat setting. So there is some conflict here.
+
+  Steps to reproduce:
+  Start any linux/bsd guest system with xserver, open a terminal, press and=
+ hold a key for a short time: Look how it gets typed endlessly (Try a few t=
+imes if it doesn't happen immediately).
+  The easiest way is to run a linux live cd, like this (Link to example iso=
+ :http://download.grml.org/grml64-full_2018.12.iso)
+  $ qemu-system-x86_64 -enable-kvm -m 512 -net none -boot d -cdrom grml64-f=
+ull_2018.12.iso
+
+  Qemu version info:
+  QEMU emulator version 4.0.0
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+
+  System info:
+  Linux **** 5.0.13-arch1-1-ARCH #1 SMP PREEMPT Sun May 5 18:05:41 UTC 2019=
+ x86_64 GNU/Linux
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1828272/+subscriptions
 
