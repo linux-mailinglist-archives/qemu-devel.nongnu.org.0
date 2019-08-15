@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38CF8E2CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:38:37 +0200 (CEST)
-Received: from localhost ([::1]:37641 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62ED48E2BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:31:29 +0200 (CEST)
+Received: from localhost ([::1]:37548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy5eu-0006rY-F4
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:38:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47019)
+	id 1hy5Xz-0005Kz-9W
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:31:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48617)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5Dg-0006NE-EL
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:30 -0400
+ (envelope-from <vandersonmr2@gmail.com>) id 1hy5MT-0000gK-VU
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5De-0000Hf-Jy
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:28 -0400
-Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:36577)
+ (envelope-from <vandersonmr2@gmail.com>) id 1hy5MS-0001fG-Ia
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:33 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:34434)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5De-0000H1-EA
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:26 -0400
-Received: by mail-yw1-xc42.google.com with SMTP id m11so301867ywh.3
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:26 -0700 (PDT)
+ (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
+ id 1hy5MS-0001f2-E8
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:19:32 -0400
+Received: by mail-qt1-x844.google.com with SMTP id q4so961697qtp.1
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qFqxp1mdJWiFIlgrVcvkkZuxlJcRYoAmYu88MoR1zMw=;
- b=qII2byqFNdtUZ1SkdNM29p8J8eb1r/tyDggTZV9XfdR6AtxO7Vl1PQ3Q4YW5umwH+r
- dtrYPqk+iMzF8wtjuMBbmRPVNN9tzgeu2GnnvoWRnd87LZqV1iQA68bQKNlt03bKhqME
- sr3bX75MJQTNILJQdVM2nFYNb6aO3mrXNYFKsTEbSAVDFo10espAoxKvb3rJ36TpQP0d
- 0YA/saXKwn5JHFBPBfDTo0JqeHaDdJTC1MhXSQ/ACy+lEpD/d+xg4YHExn5YK6/ZbLBU
- WfO4A1PqBZIzovB5YOg/M0H+KNZE6VLM5N9qrFTiFM934njgZcsYN0Z0ziSDjt/icUPj
- APWg==
+ bh=pMPv8x3diYkvzJObvdKKYdrD97zC94XRrQ1bguEiCd4=;
+ b=gsvkq52UuLBj0Cuc6zE0h+odY9SdwPikaLeTKJpopDjce70xx67aUJzUkx1i9y7e5t
+ dmK5/PIQ+bBPPtGq8g5xqNQZksxFPLq/9q10YZ95W8fjX0pgbMywUCyPrFbGfRI1h8dl
+ Uu1SdXhPuurMEB5wa9mrsjmaibMpzU6STKwYw/GT58aXUHjhB2fG61kABvizL39V9LVO
+ AZkXjaFkJ8oZh/Ups4nBCzGPia1Q7llGCEkiZOi+aLVhbBz5ULT7gmbJKf6NPBTT0vsZ
+ y7zkZGQ6dP3h5RaU/JKEqdmDybr3cPNfHQ1E6RLrg23V5YgnHuA8rHBU1ZCYcy0qrmh2
+ 8JcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qFqxp1mdJWiFIlgrVcvkkZuxlJcRYoAmYu88MoR1zMw=;
- b=hC03VBNuDD5ML3ewrha4ARbmTES6GtoElnxrlPRETD/BSviNIpIRnVftfwwX4NYyhx
- 45kKDQZm26IfoclnnPzmWE0mTzKkKCus0v6uQn1zyljwBNVwfzGdvtNBGMkSvX0nufpC
- 9+jwecXaZod+lrsyl7HOSOjOOGibSlG1zg8cwsvhy8eJzXugQ3uEJVzLodE40bv3QlKr
- ImmGUQQk52e5BUQei089Udjnwc3rKXseMwKU5eBGPDzSsoQnEGwx7M6o88qpNRhJWWWs
- xG1Ai5y0C4iz7Vp/FxRa/JatB93ETpuWY0C+zXBiG8JQuHGn8TxAIQXBnxyXahpK/Tn1
- /gUg==
-X-Gm-Message-State: APjAAAXx5/g8Pq83JFaV7Eg+V2zDedFIbL+xQAFfnpHbogOo/xUZmZ+x
- +eoWZFt3goIm6nnZXbsgwNiEHbnV
-X-Google-Smtp-Source: APXvYqz4aSLAjGdSb6DNQ2tcYTkUnv6QlI7KdIkwWqqpG5TXVfroDzt2WopvPVKRSwF2p7vvRtdjIQ==
-X-Received: by 2002:a81:50a:: with SMTP id 10mr1586981ywf.129.1565835025604;
- Wed, 14 Aug 2019 19:10:25 -0700 (PDT)
-Received: from dionysus.attlocal.net ([2601:c0:c67f:e390:8a9a:e33f:caf8:f018])
- by smtp.gmail.com with ESMTPSA id
- j3sm374882ywk.21.2019.08.14.19.10.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Aug 2019 19:10:24 -0700 (PDT)
-From: Jan Bobek <jan.bobek@gmail.com>
+ bh=pMPv8x3diYkvzJObvdKKYdrD97zC94XRrQ1bguEiCd4=;
+ b=o7bGKoLsWfIg9GbIP7qjA0eDqE361QwkJaWU1Yw7RjmbPr9qzRiQpQmlGmR1JOIOUF
+ hFDaobt0XmjjC6hIk9lttaufdxx/bMLTug98lJiG5IUkgVwmwfOel6xi5IKCPDnds/dE
+ XmhwXhT0Lgz78AqEwj8yp8deGvT7DcCnZKBp6d0KIfJNGAwuUIiGYgl0RogNUNZR9HWq
+ wWl4SbOnBe5nlW+BDCe2LMeumDlhCWp8IcDPw3Hi9FJdT+GRp92AOojSMzU/83ytDg88
+ 8v2cRA33q+Sf2GRPGxpJ8ifcitxs6zi7/gNSXmSebF5U3p8+tOCn0vVpOP4BvcMjQ2Ks
+ gMSg==
+X-Gm-Message-State: APjAAAWFIm+XPgCLtHXlzaPbAm7KP7uBPZvsspBbgTdKg2FiY9WICxlw
+ LQJdQ8vIRlTqULdZSsTyU0F69hsrntk=
+X-Google-Smtp-Source: APXvYqwvRiamSquzaj5Wmg9WV2rSG2mbnF5Q/7iQnpxzYwCccn7RlnIga5fSqNqh1Tr7JAZaZ2E06Q==
+X-Received: by 2002:ac8:7182:: with SMTP id w2mr2042878qto.156.1565835571500; 
+ Wed, 14 Aug 2019 19:19:31 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:121::1])
+ by smtp.googlemail.com with ESMTPSA id o5sm757943qkf.10.2019.08.14.19.19.29
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 14 Aug 2019 19:19:30 -0700 (PDT)
+From: vandersonmr <vandersonmr2@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 22:09:16 -0400
-Message-Id: <20190815020928.9679-35-jan.bobek@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190815020928.9679-1-jan.bobek@gmail.com>
-References: <20190815020928.9679-1-jan.bobek@gmail.com>
+Date: Wed, 14 Aug 2019 23:18:50 -0300
+Message-Id: <20190815021857.19526-4-vandersonmr2@gmail.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190815021857.19526-1-vandersonmr2@gmail.com>
+References: <20190815021857.19526-1-vandersonmr2@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c42
-Subject: [Qemu-devel] [RFC PATCH v3 34/46] target/i386: introduce
- instruction translator macros
+X-Received-From: 2607:f8b0:4864:20::844
+Subject: [Qemu-devel] [PATCH v5 03/10] accel: collecting JIT statistics
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,278 +77,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jan Bobek <jan.bobek@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instruction "translators" are responsible for decoding and loading
-instruction operands, calling the passed-in code generator, and
-storing the operands back (if applicable). Once a translator returns,
-the instruction has been translated to TCG ops, hence the name.
+If a TB has a TBS (TBStatistics) with the TB_JIT_STATS
+enabled then we collect statistics of its translation
+processes and code translation.
 
-Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
+Collecting the number of host instructions seems to be
+not simple as it would imply in having to modify several
+target source files. So, for now, we are only collecting
+the size of the host gen code.
+
+Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
 ---
- target/i386/translate.c | 237 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 237 insertions(+)
+ accel/tcg/translate-all.c | 14 ++++++++++++++
+ accel/tcg/translator.c    |  4 ++++
+ include/exec/tb-stats.h   | 15 +++++++++++++++
+ tcg/tcg.c                 | 23 +++++++++++++++++++++++
+ tcg/tcg.h                 |  2 ++
+ 5 files changed, 58 insertions(+)
 
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 75652afb45..76c27d0380 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -5364,6 +5364,228 @@ INSNOP_LDST(xmm_t0, Mhq)
-         tcg_gen_gvec_ ## gvec(vece, arg1, arg2, arg3, oprsz, maxsz);    \
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index df08d183df..85c6b7b409 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1696,6 +1696,7 @@ static TBStatistics *tb_get_stats(tb_page_addr_t phys_pc, target_ulong pc,
+     new_stats->cs_base = cs_base;
+     new_stats->flags = flags;
+     new_stats->tb = current_tb;
++    new_stats->translations.total = 1;
+ 
+     qht_insert(&tb_ctx.tb_stats, new_stats, hash, &existing_stats);
+ 
+@@ -1705,6 +1706,7 @@ static TBStatistics *tb_get_stats(tb_page_addr_t phys_pc, target_ulong pc,
+          * then just make the new TB point to the older TBStatistic
+          */
+         g_free(new_stats);
++        ((TBStatistics *) existing_stats)->tb = current_tb;
+         return existing_stats;
+     } else {
+         return new_stats;
+@@ -1792,6 +1794,11 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+                 tb->tb_stats->stats_enabled |= TB_EXEC_STATS;
+             }
+         }
++
++        if (flag & TB_JIT_STATS) {
++            tb->tb_stats->stats_enabled |= TB_JIT_STATS;
++            atomic_inc(&tb->tb_stats->translations.total);
++        }
+     } else {
+         tb->tb_stats = NULL;
      }
+@@ -1869,6 +1876,10 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     atomic_set(&prof->search_out_len, prof->search_out_len + search_size);
+ #endif
  
-+/*
-+ * Instruction translators
-+ */
-+#define translate_insn(argc, ...)               \
-+    glue(translate_insn, argc)(__VA_ARGS__)
-+#define translate_insn0()                       \
-+    translate_insn_0
-+#define translate_insn1(opT1)                   \
-+    translate_insn_1 ## opT1
-+#define translate_insn2(opT1, opT2)             \
-+    translate_insn_2 ## opT1 ## opT2
-+#define translate_insn3(opT1, opT2, opT3)       \
-+    translate_insn_3 ## opT1 ## opT2 ## opT3
-+#define translate_insn4(opT1, opT2, opT3, opT4)         \
-+    translate_insn_4 ## opT1 ## opT2 ## opT3 ## opT4
-+#define translate_group(grpname)                \
-+    translate_group_ ## grpname
-+
-+static void translate_insn0()(
-+    CPUX86State *env, DisasContext *s, int modrm,
-+    int ck_cpuid_feat, unsigned int argc_wr,
-+    void (*gen_insn_fp)(CPUX86State *, DisasContext *))
-+{
-+    if (ck_cpuid(env, s, ck_cpuid_feat)) {
-+        gen_illegal_opcode(s);
-+        return;
++    if (tb_stats_enabled(tb, TB_JIT_STATS)) {
++        atomic_add(&tb->tb_stats->code.out_len, gen_code_size);
 +    }
 +
-+    (*gen_insn_fp)(env, s);
-+}
-+
-+#define DEF_TRANSLATE_INSN1(opT1)                                       \
-+    static void translate_insn1(opT1)(                                  \
-+        CPUX86State *env, DisasContext *s, int modrm,                   \
-+        int ck_cpuid_feat, unsigned int argc_wr,                        \
-+        void (*gen_insn1_fp)(CPUX86State *, DisasContext *,             \
-+                             insnop_arg_t(opT1)))                       \
-+    {                                                                   \
-+        insnop_ctxt_t(opT1) ctxt1;                                      \
-+                                                                        \
-+        const bool is_write1 = (1 <= argc_wr);                          \
-+                                                                        \
-+        int ret = ck_cpuid(env, s, ck_cpuid_feat);                      \
-+        if (!ret) {                                                     \
-+            ret = insnop_init(opT1)(&ctxt1, env, s, modrm, is_write1);  \
-+        }                                                               \
-+        if (!ret) {                                                     \
-+            const insnop_arg_t(opT1) arg1 =                             \
-+                insnop_prepare(opT1)(&ctxt1, env, s, modrm, is_write1); \
-+                                                                        \
-+            (*gen_insn1_fp)(env, s, arg1);                              \
-+                                                                        \
-+            insnop_finalize(opT1)(&ctxt1, env, s, modrm, is_write1, arg1); \
-+        } else {                                                        \
-+            gen_illegal_opcode(s);                                      \
-+        }                                                               \
-+    }
-+
-+#define DEF_TRANSLATE_INSN2(opT1, opT2)                                 \
-+    static void translate_insn2(opT1, opT2)(                            \
-+        CPUX86State *env, DisasContext *s, int modrm,                   \
-+        int ck_cpuid_feat, unsigned int argc_wr,                        \
-+        void (*gen_insn2_fp)(CPUX86State *, DisasContext *,             \
-+                             insnop_arg_t(opT1), insnop_arg_t(opT2)))   \
-+    {                                                                   \
-+        insnop_ctxt_t(opT1) ctxt1;                                      \
-+        insnop_ctxt_t(opT2) ctxt2;                                      \
-+                                                                        \
-+        const bool is_write1 = (1 <= argc_wr);                          \
-+        const bool is_write2 = (2 <= argc_wr);                          \
-+                                                                        \
-+        int ret = ck_cpuid(env, s, ck_cpuid_feat);                      \
-+        if (!ret) {                                                     \
-+            ret = insnop_init(opT1)(&ctxt1, env, s, modrm, is_write1);  \
-+        }                                                               \
-+        if (!ret) {                                                     \
-+            ret = insnop_init(opT2)(&ctxt2, env, s, modrm, is_write2);  \
-+        }                                                               \
-+        if (!ret) {                                                     \
-+            const insnop_arg_t(opT1) arg1 =                             \
-+                insnop_prepare(opT1)(&ctxt1, env, s, modrm, is_write1); \
-+            const insnop_arg_t(opT2) arg2 =                             \
-+                insnop_prepare(opT2)(&ctxt2, env, s, modrm, is_write2); \
-+                                                                        \
-+            (*gen_insn2_fp)(env, s, arg1, arg2);                        \
-+                                                                        \
-+            insnop_finalize(opT1)(&ctxt1, env, s, modrm, is_write1, arg1); \
-+            insnop_finalize(opT2)(&ctxt2, env, s, modrm, is_write2, arg2); \
-+        } else {                                                        \
-+            gen_illegal_opcode(s);                                      \
-+        }                                                               \
-+    }
-+
-+#define DEF_TRANSLATE_INSN3(opT1, opT2, opT3)                           \
-+    static void translate_insn3(opT1, opT2, opT3)(                      \
-+        CPUX86State *env, DisasContext *s, int modrm,                   \
-+        int ck_cpuid_feat, unsigned int argc_wr,                        \
-+        void (*gen_insn3_fp)(CPUX86State *, DisasContext *,             \
-+                             insnop_arg_t(opT1), insnop_arg_t(opT2),    \
-+                             insnop_arg_t(opT3)))                       \
-+    {                                                                   \
-+        insnop_ctxt_t(opT1) ctxt1;                                      \
-+        insnop_ctxt_t(opT2) ctxt2;                                      \
-+        insnop_ctxt_t(opT3) ctxt3;                                      \
-+                                                                        \
-+        const bool is_write1 = (1 <= argc_wr);                          \
-+        const bool is_write2 = (2 <= argc_wr);                          \
-+        const bool is_write3 = (3 <= argc_wr);                          \
-+                                                                        \
-+        int ret = ck_cpuid(env, s, ck_cpuid_feat);                      \
-+        if (!ret) {                                                     \
-+            ret = insnop_init(opT1)(&ctxt1, env, s, modrm, is_write1);  \
-+        }                                                               \
-+        if (!ret) {                                                     \
-+            ret = insnop_init(opT2)(&ctxt2, env, s, modrm, is_write2);  \
-+        }                                                               \
-+        if (!ret) {                                                     \
-+            ret = insnop_init(opT3)(&ctxt3, env, s, modrm, is_write3);  \
-+        }                                                               \
-+        if (!ret) {                                                     \
-+            const insnop_arg_t(opT1) arg1 =                             \
-+                insnop_prepare(opT1)(&ctxt1, env, s, modrm, is_write1); \
-+            const insnop_arg_t(opT2) arg2 =                             \
-+                insnop_prepare(opT2)(&ctxt2, env, s, modrm, is_write2); \
-+            const insnop_arg_t(opT3) arg3 =                             \
-+                insnop_prepare(opT3)(&ctxt3, env, s, modrm, is_write3); \
-+                                                                        \
-+            (*gen_insn3_fp)(env, s, arg1, arg2, arg3);                  \
-+                                                                        \
-+            insnop_finalize(opT1)(&ctxt1, env, s, modrm, is_write1, arg1); \
-+            insnop_finalize(opT2)(&ctxt2, env, s, modrm, is_write2, arg2); \
-+            insnop_finalize(opT3)(&ctxt3, env, s, modrm, is_write3, arg3); \
-+        } else {                                                        \
-+            gen_illegal_opcode(s);                                      \
-+        }                                                               \
-+    }
-+
-+#define DEF_TRANSLATE_INSN4(opT1, opT2, opT3, opT4)                     \
-+    static void translate_insn4(opT1, opT2, opT3, opT4)(                \
-+        CPUX86State *env, DisasContext *s, int modrm,                   \
-+        int ck_cpuid_feat, unsigned int argc_wr,                        \
-+        void (*gen_insn4_fp)(CPUX86State *, DisasContext *,             \
-+                             insnop_arg_t(opT1), insnop_arg_t(opT2),    \
-+                             insnop_arg_t(opT3), insnop_arg_t(opT4)))   \
-+    {                                                                   \
-+        insnop_ctxt_t(opT1) ctxt1;                                      \
-+        insnop_ctxt_t(opT2) ctxt2;                                      \
-+        insnop_ctxt_t(opT3) ctxt3;                                      \
-+        insnop_ctxt_t(opT4) ctxt4;                                      \
-+                                                                        \
-+        const bool is_write1 = (1 <= argc_wr);                          \
-+        const bool is_write2 = (2 <= argc_wr);                          \
-+        const bool is_write3 = (3 <= argc_wr);                          \
-+        const bool is_write4 = (4 <= argc_wr);                          \
-+                                                                        \
-+        int ret = ck_cpuid(env, s, ck_cpuid_feat);                      \
-+        if (!ret) {                                                     \
-+            ret = insnop_init(opT1)(&ctxt1, env, s, modrm, is_write1);  \
-+        }                                                               \
-+        if (!ret) {                                                     \
-+            ret = insnop_init(opT2)(&ctxt2, env, s, modrm, is_write2);  \
-+        }                                                               \
-+        if (!ret) {                                                     \
-+            ret = insnop_init(opT3)(&ctxt3, env, s, modrm, is_write3);  \
-+        }                                                               \
-+        if (!ret) {                                                     \
-+            ret = insnop_init(opT4)(&ctxt4, env, s, modrm, is_write4);  \
-+        }                                                               \
-+        if (!ret) {                                                     \
-+            const insnop_arg_t(opT1) arg1 =                             \
-+                insnop_prepare(opT1)(&ctxt1, env, s, modrm, is_write1); \
-+            const insnop_arg_t(opT2) arg2 =                             \
-+                insnop_prepare(opT2)(&ctxt2, env, s, modrm, is_write2); \
-+            const insnop_arg_t(opT3) arg3 =                             \
-+                insnop_prepare(opT3)(&ctxt3, env, s, modrm, is_write3); \
-+            const insnop_arg_t(opT4) arg4 =                             \
-+                insnop_prepare(opT4)(&ctxt4, env, s, modrm, is_write4); \
-+                                                                        \
-+            (*gen_insn4_fp)(env, s, arg1, arg2, arg3, arg4);            \
-+                                                                        \
-+            insnop_finalize(opT1)(&ctxt1, env, s, modrm, is_write1, arg1); \
-+            insnop_finalize(opT2)(&ctxt2, env, s, modrm, is_write2, arg2); \
-+            insnop_finalize(opT3)(&ctxt3, env, s, modrm, is_write3, arg3); \
-+            insnop_finalize(opT4)(&ctxt4, env, s, modrm, is_write4, arg4); \
-+        } else {                                                        \
-+            gen_illegal_opcode(s);                                      \
-+        }                                                               \
-+    }
-+
-+#define OPCODE_GRP_BEGIN(grpname)                                       \
-+    static void translate_group(grpname)(                               \
-+        CPUX86State *env, DisasContext *s, int modrm)                   \
-+    {                                                                   \
-+        insnop_ctxt_t(modrm_reg) regctxt;                               \
-+                                                                        \
-+        int ret = insnop_init(modrm_reg)(&regctxt, env, s, modrm, 0);   \
-+        if (!ret) {                                                     \
-+            const insnop_arg_t(modrm_reg) reg =                         \
-+                insnop_prepare(modrm_reg)(&regctxt, env, s, modrm, 0);  \
-+                                                                        \
-+            switch (reg & 7) {
-+#define OPCODE_GRPMEMB(grpname, mnem, opcode, feat, fmt, ...)           \
-+            case opcode:                                                \
-+                translate_insn(FMT_ARGC(fmt), ## __VA_ARGS__)(          \
-+                    env, s, modrm, CK_CPUID_ ## feat, FMT_ARGC_WR(fmt), \
-+                    gen_insn(mnem, FMT_ARGC(fmt), ## __VA_ARGS__));     \
-+                break;
-+#define OPCODE_GRP_END(grpname)                                         \
-+            default:                                                    \
-+                ret = 1;                                                \
-+                break;                                                  \
-+            }                                                           \
-+                                                                        \
-+            insnop_finalize(modrm_reg)(&regctxt, env, s, modrm, 0, reg); \
-+        }                                                               \
-+                                                                        \
-+        if (ret) {                                                      \
-+            gen_illegal_opcode(s);                                      \
-+        }                                                               \
-+    }
-+#include "sse-opcode.inc.h"
-+
- static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
- {
-     enum {
-@@ -5383,6 +5605,21 @@ static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
-             | (s->prefix & PREFIX_REPNZ ? P_F2 : 0)
-             | (REX_W(s) > 0 ? W_1 : W_0)) {
+ #ifdef DEBUG_DISAS
+     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM) &&
+         qemu_log_in_addr_range(tb->pc)) {
+@@ -1926,6 +1937,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     phys_page2 = -1;
+     if ((pc & TARGET_PAGE_MASK) != virt_page2) {
+         phys_page2 = get_page_addr_code(env, virt_page2);
++        if (tb_stats_enabled(tb, TB_JIT_STATS)) {
++            atomic_inc(&tb->tb_stats->translations.spanning);
++        }
+     }
+     /*
+      * No explicit memory barrier is required -- tb_link_page() makes the
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index 396a11e828..834265d5be 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -117,6 +117,10 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+     db->tb->size = db->pc_next - db->pc_first;
+     db->tb->icount = db->num_insns;
  
-+#define LEG(p, m, w, opcode)                    \
-+    case opcode | M_ ## m | P_ ## p | W_ ## w:
-+#define OPCODE(mnem, cases, feat, fmt, ...)                             \
-+    cases {                                                             \
-+        const int modrm = 0 < FMT_ARGC(fmt) ? x86_ldub_code(env, s) : -1; \
-+        translate_insn(FMT_ARGC(fmt), ## __VA_ARGS__)(                  \
-+            env, s, modrm, CK_CPUID_ ## feat, FMT_ARGC_WR(fmt),         \
-+            gen_insn(mnem, FMT_ARGC(fmt), ## __VA_ARGS__));             \
-+    } return;
-+#define OPCODE_GRP(grpname, cases)                  \
-+    cases {                                         \
-+        const int modrm = x86_ldub_code(env, s);    \
-+        translate_group(grpname)(env, s, modrm);    \
-+    } return;
-+#include "sse-opcode.inc.h"
-     default:
-         gen_sse(env, s, b);
-         return;
++    if (tb_stats_enabled(tb, TB_JIT_STATS)) {
++        atomic_add(&db->tb->tb_stats->code.num_guest_inst, db->num_insns);
++    }
++
+ #ifdef DEBUG_DISAS
+     if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
+         && qemu_log_in_addr_range(db->pc_first)) {
+diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
+index 0265050b79..3c219123c2 100644
+--- a/include/exec/tb-stats.h
++++ b/include/exec/tb-stats.h
+@@ -34,6 +34,20 @@ struct TBStatistics {
+         unsigned long atomic;
+     } executions;
+ 
++    struct {
++        unsigned num_guest_inst;
++        unsigned num_tcg_ops;
++        unsigned num_tcg_ops_opt;
++        unsigned spills;
++        unsigned out_len;
++    } code;
++
++    struct {
++        unsigned long total;
++        unsigned long uncached;
++        unsigned long spanning;
++    } translations;
++
+     /* current TB linked to this TBStatistics */
+     TranslationBlock *tb;
+ };
+@@ -47,6 +61,7 @@ enum TBStatsStatus { TB_STATS_RUNNING, TB_STATS_PAUSED, TB_STATS_STOPPED };
+ 
+ #define TB_NOTHING    0
+ #define TB_EXEC_STATS 1
++#define TB_JIT_STATS  (1 << 2)
+ 
+ extern int tcg_collect_tb_stats;
+ extern uint32_t default_tbstats_flag;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index be2c33c400..446e3d1708 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -3126,6 +3126,11 @@ static void temp_sync(TCGContext *s, TCGTemp *ts, TCGRegSet allocated_regs,
+         case TEMP_VAL_REG:
+             tcg_out_st(s, ts->type, ts->reg,
+                        ts->mem_base->reg, ts->mem_offset);
++
++            /* Count number of spills */
++            if (tb_stats_enabled(s->current_tb, TB_JIT_STATS)) {
++                atomic_inc(&s->current_tb->tb_stats->code.spills);
++            }
+             break;
+ 
+         case TEMP_VAL_MEM:
+@@ -3997,6 +4002,8 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
+     int i, num_insns;
+     TCGOp *op;
+ 
++    s->current_tb = tb;
++
+ #ifdef CONFIG_PROFILER
+     {
+         int n = 0;
+@@ -4028,6 +4035,14 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
+     }
+ #endif
+ 
++    if (tb_stats_enabled(tb, TB_JIT_STATS)) {
++        int n = 0;
++        QTAILQ_FOREACH(op, &s->ops, link) {
++            n++;
++        }
++        atomic_add(&tb->tb_stats->code.num_tcg_ops, n);
++    }
++
+ #ifdef CONFIG_DEBUG_TCG
+     /* Ensure all labels referenced have been emitted.  */
+     {
+@@ -4094,6 +4109,14 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
+     }
+ #endif
+ 
++    if (tb_stats_enabled(tb, TB_JIT_STATS)) {
++        int n = 0;
++        QTAILQ_FOREACH(op, &s->ops, link) {
++            n++;
++        }
++        atomic_add(&tb->tb_stats->code.num_tcg_ops_opt, n);
++    }
++
+     tcg_reg_alloc_start(s);
+ 
+     s->code_buf = tb->tc.ptr;
+diff --git a/tcg/tcg.h b/tcg/tcg.h
+index b411e17a28..bf6f3bcba3 100644
+--- a/tcg/tcg.h
++++ b/tcg/tcg.h
+@@ -738,6 +738,8 @@ struct TCGContext {
+ 
+     uint16_t gen_insn_end_off[TCG_MAX_INSNS];
+     target_ulong gen_insn_data[TCG_MAX_INSNS][TARGET_INSN_START_WORDS];
++
++    TranslationBlock *current_tb;
+ };
+ 
+ extern TCGContext tcg_init_ctx;
 -- 
-2.20.1
+2.22.0
 
 
