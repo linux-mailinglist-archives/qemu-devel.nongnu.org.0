@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67498E29E
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:14:47 +0200 (CEST)
-Received: from localhost ([::1]:37376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D698E2A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Aug 2019 04:18:32 +0200 (CEST)
+Received: from localhost ([::1]:37412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hy5Hq-000310-F7
-	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:14:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46730)
+	id 1hy5LS-0006fG-RA
+	for lists+qemu-devel@lfdr.de; Wed, 14 Aug 2019 22:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46752)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5DM-00063g-5T
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:10 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DO-000641-8Z
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hy5DK-0008KH-Sl
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:08 -0400
-Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:38761)
+ (envelope-from <jan.bobek@gmail.com>) id 1hy5DM-0008LQ-F1
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:10 -0400
+Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:38759)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5DK-0008K1-Ns
- for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:06 -0400
-Received: by mail-yw1-xc44.google.com with SMTP id f187so297256ywa.5
- for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:06 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hy5DM-0008L2-7E
+ for qemu-devel@nongnu.org; Wed, 14 Aug 2019 22:10:08 -0400
+Received: by mail-yw1-xc41.google.com with SMTP id f187so297266ywa.5
+ for <qemu-devel@nongnu.org>; Wed, 14 Aug 2019 19:10:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8aF01SLckOj3fHneThtSLSdq9Zx3ryEqfOh/qRUz9m0=;
- b=pCI/xOyBw0y12tr9rayCmTWHyfGtVlLnSTrbXRfUugmFqPDIqCF+5FYmuQNJ3uQFIh
- KarA4XYljcOKXs0wLhuqC4N4CKM119r797NG6T3vYxHu9TnRqjLqduD1EvUx9syNp9Wv
- gxa7RrrxA6V1UdI3hq+NtvoP01+3xjpzdleqVhHcS02Dh2dRE78AAELAMkWgode4+lAm
- /b/7+mplKA7X2bD2vRLdtH9aLMbQYKL3SZY+lUaWYrGzl+KUv77sHfZSxjTAbpzLLjxI
- K9DNDvpqW8iudhv6TrCYk3GWGQYmuXwodYOryN8hqbPtnuOUS0Y2dh/4AjT+3YasSKv8
- 2jFQ==
+ bh=kaNCwyHpMkNqwSgvSmZLjSKWRlicmlM9lWRJ1+7uU/s=;
+ b=i18PKs9kAB+aesQk/ykKmHNkcijYR0HggrGlzPjb+F8SlNkNb3uie4EjTh604BFd/H
+ zaAYJhD25d+Byz8LbivmmDWVn4bx3IulpsXLiJLt8xKvr+X90P0aRPzzXqLtRcQq4Gnt
+ Ki4VmkCNOJCLh12qw3ySoW6Anm/oHybfwP2Rh2YX+GGHPoxmv1XkAMunpkukY3zv0NFR
+ tmAISwofY0AhA6yYBsxIIeo4nU9dRkzddc+q5OeG6VKSGjn5ECn7QbhQc39hbm3yZnTv
+ gS0j5tEAB6MKccHH61678NfUohbw6sPMrSEeZKoCQHG51h2D17ke4w5xJKRxRE6RGbnk
+ Ug+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8aF01SLckOj3fHneThtSLSdq9Zx3ryEqfOh/qRUz9m0=;
- b=jh2JhPLmqQaikY+ORUR++eXWES/TbcuPfwkRVhGM0HUL4/XggQRf3mJ8Ft2328YV2x
- P+tB8pXQnjqY0SfKFffpbkn46KH+Wf1Upc8FXJUnGqUpJMnjpDZQr7MaPX2fD24T8d7H
- LyIx8yQrsheqdUUBTWSfrnO69GYMpnfYPrfDd2ElmvWjsbEupOb+1SvtWaDCbVf3fzxy
- 9ONRrl8W1rO5Ufp7cyFNL7JVeSseqyiahs1SJUrXVHEJvT+CU+ah8/ufshw4CTBSiIPG
- 6lZfQdJemLcAqGPvCXrFByD1xHAYpsURmZrqQtRlwnObDU3UqubkNxfmK733cEpAnzjp
- eKxQ==
-X-Gm-Message-State: APjAAAXd1kpAke85vcBEpvgSOPxulnLsqb1m989etsAnbx7b7pAxvB9F
- QfS3+QB9eWjM9J2DSV1UlIODtF1X
-X-Google-Smtp-Source: APXvYqw/iPIWFdaClbSyGhf2E0JAvbexZE/yH2JcEONGUKWPKQuRZN/d+Ay52BQG3xDa/f/xGg5CFw==
-X-Received: by 2002:a0d:c044:: with SMTP id b65mr1559992ywd.273.1565835006114; 
- Wed, 14 Aug 2019 19:10:06 -0700 (PDT)
+ bh=kaNCwyHpMkNqwSgvSmZLjSKWRlicmlM9lWRJ1+7uU/s=;
+ b=UAVH0oMY5PRYSO8XPi1EMGH0jYcJpDGpNRdfALrew73ZzX7jWHumUKGJpcygheGEsM
+ V1h8k89i28kAyt3o6tXnRDdrRYAIQtoucy7OMOTXdBA2m8Y5EgP7CyA2zzTuW3vKLzxx
+ NFIBkhbKPAQpb2LrytcQLrGtjQ+pRd+NJb6ayVHvKRpwoPirgQGc6yYIk2xdeN3hohge
+ TiE8+m3Wzwo/dLl1iJgWW+ie1PpKStQVjTQDlfdm987QvDsnfIzrlGdvrXNifX3JRl2r
+ EbrG+GN7yEz5tKdE9s/PM7Whx7plPRzRQJ9eqa4XrQFmhsyI4/p4JNcCuljheVXzKczv
+ SlFw==
+X-Gm-Message-State: APjAAAVfbAstsNkKxpke9GJXH4YcSCjWBY2kZ0gY1CbYYZ7pbAE/LD/6
+ 6zPKtQ2NaxULhjkssW97qTThNelJ
+X-Google-Smtp-Source: APXvYqxlPh6VMLgXUn/k7xDuIJIEz9lLTjXo+8PRoBCHryw5NjVgH8u64+y0m4JIRaqRFVOLlsQOIg==
+X-Received: by 2002:a81:7dc3:: with SMTP id y186mr1557771ywc.223.1565835007594; 
+ Wed, 14 Aug 2019 19:10:07 -0700 (PDT)
 Received: from dionysus.attlocal.net ([2601:c0:c67f:e390:8a9a:e33f:caf8:f018])
  by smtp.gmail.com with ESMTPSA id
- j3sm374882ywk.21.2019.08.14.19.10.05
+ j3sm374882ywk.21.2019.08.14.19.10.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Aug 2019 19:10:05 -0700 (PDT)
+ Wed, 14 Aug 2019 19:10:06 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 14 Aug 2019 22:08:55 -0400
-Message-Id: <20190815020928.9679-14-jan.bobek@gmail.com>
+Date: Wed, 14 Aug 2019 22:08:56 -0400
+Message-Id: <20190815020928.9679-15-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190815020928.9679-1-jan.bobek@gmail.com>
 References: <20190815020928.9679-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c44
-Subject: [Qemu-devel] [RFC PATCH v3 13/46] target/i386: disable unused
- function warning temporarily
+X-Received-From: 2607:f8b0:4864:20::c41
+Subject: [Qemu-devel] [RFC PATCH v3 14/46] target/i386: introduce mnemonic
+ aliases for several gvec operations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,42 +84,34 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some functions added later are generated by preprocessor macros and
-end up being unused (e.g. not all operands can serve as a destination
-operand). Disable unused function warnings for the new code until I
-figure out how I want to solve this particular issue.
+It is helpful to introduce aliases for some general gvec operations as
+it makes a couple of instruction code generators simpler (added
+later).
 
-Note: This changeset is intended for development only and shall not be
-included in the final patch series.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/i386/translate.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index fdc7cb0054..e9741cd7f7 100644
+index e9741cd7f7..6296a02991 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4489,6 +4489,10 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
-     }
- }
+@@ -4493,6 +4493,13 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+ #pragma GCC diagnostic push
+ #pragma GCC diagnostic ignored "-Wunused-function"
  
-+/* XXX TODO get rid of this eventually */
-+#pragma GCC diagnostic push
-+#pragma GCC diagnostic ignored "-Wunused-function"
++#define tcg_gen_gvec_andn(vece, dofs, aofs, bofs, oprsz, maxsz) \
++    tcg_gen_gvec_andc(vece, dofs, bofs, aofs, oprsz, maxsz)
++#define tcg_gen_gvec_cmpeq(vece, dofs, aofs, bofs, oprsz, maxsz)        \
++    tcg_gen_gvec_cmp(TCG_COND_EQ, vece, dofs, aofs, bofs, oprsz, maxsz)
++#define tcg_gen_gvec_cmpgt(vece, dofs, aofs, bofs, oprsz, maxsz)        \
++    tcg_gen_gvec_cmp(TCG_COND_GT, vece, dofs, aofs, bofs, oprsz, maxsz)
 +
  static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
  {
      enum {
-@@ -4515,6 +4519,7 @@ static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
- 
-     g_assert_not_reached();
- }
-+#pragma GCC diagnostic pop
- 
- /* convert one instruction. s->base.is_jmp is set if the translation must
-    be stopped. Return the next pc value */
 -- 
 2.20.1
 
