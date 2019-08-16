@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1348FCD8
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 09:55:59 +0200 (CEST)
-Received: from localhost ([::1]:51034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1E58FCE2
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 09:59:36 +0200 (CEST)
+Received: from localhost ([::1]:51108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyX5a-0007cZ-OH
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 03:55:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39556)
+	id 1hyX94-0004lo-Vt
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 03:59:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39687)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWkw-0007pr-Lw
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:34:40 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWlF-0008GG-Mt
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:34:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWku-0000xk-KB
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:34:38 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.78]:29587)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWlD-0001A2-Oz
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:34:57 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.75]:6582)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWkO-0000fn-Tv; Fri, 16 Aug 2019 03:34:06 -0400
+ id 1hyWkq-0000ud-5V; Fri, 16 Aug 2019 03:34:34 -0400
 Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
- BWP09926083.bt.com (10.36.82.114) with Microsoft SMTP Server (version=TLS1_2, 
+ BWP09926080.bt.com (10.36.82.111) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
- Aug 2019 08:33:38 +0100
+ Aug 2019 08:34:04 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
  tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:33:59 +0100
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:34:30 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:33:59 +0100
+ 2019 08:34:30 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 22/42] hw/input: Declare device little or
+Thread-Topic: [Qemu-devel] [PATCH v7 24/42] hw/isa: Declare device little or
  big endian
-Thread-Index: AQHVVAT3dIr9xIN0QUq45loPBzQgwQ==
-Date: Fri, 16 Aug 2019 07:33:59 +0000
-Message-ID: <1565940838275.26432@bt.com>
+Thread-Index: AQHVVAUKvxR35Q4eC0+jb+MFw4pCDg==
+Date: Fri, 16 Aug 2019 07:34:30 +0000
+Message-ID: <1565940869312.41180@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -49,12 +49,12 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.78
+X-Received-From: 213.121.35.75
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 22/42] hw/input: Declare device little or
- big endian
+Subject: [Qemu-devel] [PATCH v7 24/42] hw/isa: Declare device little or big
+ endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,22 +113,23 @@ better =3D)
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- hw/input/pl050.c | 2 +-
+ hw/isa/vt82c686.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/input/pl050.c b/hw/input/pl050.c
-index b79bf16..4c0fe0b 100644
---- a/hw/input/pl050.c
-+++ b/hw/input/pl050.c
-@@ -137,7 +137,7 @@ static void pl050_write(void *opaque, hwaddr offset,
- static const MemoryRegionOps pl050_ops =3D {
-     .read =3D pl050_read,
-     .write =3D pl050_write,
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 12c460590..adf65d3 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -108,7 +108,7 @@ static uint64_t superio_ioport_readb(void *opaque, hwad=
+dr addr, unsigned size)
+ static const MemoryRegionOps superio_ops =3D {
+     .read =3D superio_ioport_readb,
+     .write =3D superio_ioport_writeb,
 -    .endianness =3D DEVICE_NATIVE_ENDIAN,
 +    .endianness =3D DEVICE_LITTLE_ENDIAN,
- };
-
- static void pl050_realize(DeviceState *dev, Error **errp)
+     .impl =3D {
+         .min_access_size =3D 1,
+         .max_access_size =3D 1,
 --
 1.8.3.1
 
