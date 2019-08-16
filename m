@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E785890B55
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:19:53 +0200 (CEST)
-Received: from localhost ([::1]:33120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910B590B4E
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:16:19 +0200 (CEST)
+Received: from localhost ([::1]:33038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hylVg-0004Bl-QO
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:19:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46054)
+	id 1hylSD-0000Mu-NA
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:16:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1hylPY-0006BZ-RM
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:34 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hylPY-0006AX-4v
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hylPX-0005hJ-47
+ (envelope-from <jsnow@redhat.com>) id 1hylPW-0005gp-Mi
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40896)
+Received: from mx1.redhat.com ([209.132.183.28]:37208)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hylPR-0005bN-Gj; Fri, 16 Aug 2019 19:13:26 -0400
+ id 1hylPT-0005bv-Ej; Fri, 16 Aug 2019 19:13:27 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9C0AE3082A6C;
- Fri, 16 Aug 2019 23:13:23 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4BBA9190C01D;
+ Fri, 16 Aug 2019 23:13:25 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-187.bos.redhat.com [10.18.17.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D4F6C19C6A;
- Fri, 16 Aug 2019 23:13:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9518A19C6A;
+ Fri, 16 Aug 2019 23:13:24 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 19:12:43 -0400
-Message-Id: <20190816231318.8650-2-jsnow@redhat.com>
+Date: Fri, 16 Aug 2019 19:12:45 -0400
+Message-Id: <20190816231318.8650-4-jsnow@redhat.com>
 In-Reply-To: <20190816231318.8650-1-jsnow@redhat.com>
 References: <20190816231318.8650-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 16 Aug 2019 23:13:23 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Fri, 16 Aug 2019 23:13:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 01/36] qapi/block-core: Introduce BackupCommon
+Subject: [Qemu-devel] [PULL 03/36] blockdev-backup: utilize do_backup_common
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,195 +54,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-stable@nongnu.org,
- Max Reitz <mreitz@redhat.com>, jsnow@redhat.com
+Cc: peter.maydell@linaro.org, jsnow@redhat.com, qemu-stable@nongnu.org,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-drive-backup and blockdev-backup have an awful lot of things in common
-that are the same. Let's fix that.
-
-I don't deduplicate 'target', because the semantics actually did change
-between each structure. Leave that one alone so it can be documented
-separately.
-
-Where documentation was not identical, use the most up-to-date version.
-For "speed", use Blockdev-Backup's version. For "sync", use
-Drive-Backup's version.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-[Maintainer edit: modified commit message. --js]
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-id: 20190709232550.10724-2-jsnow@redhat.com
+Message-id: 20190709232550.10724-4-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/block-core.json | 103 ++++++++++++++-----------------------------
- 1 file changed, 33 insertions(+), 70 deletions(-)
+ blockdev.c | 65 +++++-------------------------------------------------
+ 1 file changed, 6 insertions(+), 59 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index f1e7701fbea..8ca12004ae9 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1315,32 +1315,23 @@
-   'data': { 'node': 'str', 'overlay': 'str' } }
+diff --git a/blockdev.c b/blockdev.c
+index d822b19b4b0..8e4f70a8d66 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -3626,78 +3626,25 @@ BlockJob *do_blockdev_backup(BlockdevBackup *back=
+up, JobTxn *txn,
+ {
+     BlockDriverState *bs;
+     BlockDriverState *target_bs;
+-    Error *local_err =3D NULL;
+-    BdrvDirtyBitmap *bmap =3D NULL;
+     AioContext *aio_context;
+-    BlockJob *job =3D NULL;
+-    int job_flags =3D JOB_DEFAULT;
+-    int ret;
+-
+-    if (!backup->has_speed) {
+-        backup->speed =3D 0;
+-    }
+-    if (!backup->has_on_source_error) {
+-        backup->on_source_error =3D BLOCKDEV_ON_ERROR_REPORT;
+-    }
+-    if (!backup->has_on_target_error) {
+-        backup->on_target_error =3D BLOCKDEV_ON_ERROR_REPORT;
+-    }
+-    if (!backup->has_job_id) {
+-        backup->job_id =3D NULL;
+-    }
+-    if (!backup->has_auto_finalize) {
+-        backup->auto_finalize =3D true;
+-    }
+-    if (!backup->has_auto_dismiss) {
+-        backup->auto_dismiss =3D true;
+-    }
+-    if (!backup->has_compress) {
+-        backup->compress =3D false;
+-    }
++    BlockJob *job;
 =20
- ##
--# @DriveBackup:
-+# @BackupCommon:
- #
- # @job-id: identifier for the newly-created block job. If
- #          omitted, the device name will be used. (Since 2.7)
- #
- # @device: the device name or node-name of a root node which should be c=
-opied.
- #
--# @target: the target of the new image. If the file exists, or if it
--#          is a device, the existing file/device will be used as the new
--#          destination.  If it does not exist, a new file will be create=
-d.
--#
--# @format: the format of the new destination, default is to
--#          probe if @mode is 'existing', else the format of the source
--#
- # @sync: what parts of the disk image should be copied to the destinatio=
-n
- #        (all the disk, only the sectors allocated in the topmost image,=
- from a
- #        dirty bitmap, or only new I/O).
- #
--# @mode: whether and how QEMU should create a new image, default is
--#        'absolute-paths'.
--#
--# @speed: the maximum speed, in bytes per second
-+# @speed: the maximum speed, in bytes per second. The default is 0,
-+#         for unlimited.
- #
- # @bitmap: the name of dirty bitmap if sync is "incremental".
- #          Must be present if sync is "incremental", must NOT be present
--#          otherwise. (Since 2.4)
-+#          otherwise. (Since 2.4 (drive-backup), 3.1 (blockdev-backup))
- #
- # @compress: true to compress data, if the target format supports it.
- #            (default: false) (since 2.8)
-@@ -1370,75 +1361,47 @@
- # I/O.  If an error occurs during a guest write request, the device's
- # rerror/werror actions will be used.
- #
-+# Since: 4.2
-+##
-+{ 'struct': 'BackupCommon',
-+  'data': { '*job-id': 'str', 'device': 'str',
-+            'sync': 'MirrorSyncMode', '*speed': 'int',
-+            '*bitmap': 'str', '*compress': 'bool',
-+            '*on-source-error': 'BlockdevOnError',
-+            '*on-target-error': 'BlockdevOnError',
-+            '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
-+
-+##
-+# @DriveBackup:
-+#
-+# @target: the target of the new image. If the file exists, or if it
-+#          is a device, the existing file/device will be used as the new
-+#          destination.  If it does not exist, a new file will be create=
-d.
-+#
-+# @format: the format of the new destination, default is to
-+#          probe if @mode is 'existing', else the format of the source
-+#
-+# @mode: whether and how QEMU should create a new image, default is
-+#        'absolute-paths'.
-+#
- # Since: 1.6
- ##
- { 'struct': 'DriveBackup',
--  'data': { '*job-id': 'str', 'device': 'str', 'target': 'str',
--            '*format': 'str', 'sync': 'MirrorSyncMode',
--            '*mode': 'NewImageMode', '*speed': 'int',
--            '*bitmap': 'str', '*compress': 'bool',
--            '*on-source-error': 'BlockdevOnError',
--            '*on-target-error': 'BlockdevOnError',
--            '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
-+  'base': 'BackupCommon',
-+  'data': { 'target': 'str',
-+            '*format': 'str',
-+            '*mode': 'NewImageMode' } }
+     bs =3D bdrv_lookup_bs(backup->device, backup->device, errp);
+     if (!bs) {
+         return NULL;
+     }
 =20
- ##
- # @BlockdevBackup:
- #
--# @job-id: identifier for the newly-created block job. If
--#          omitted, the device name will be used. (Since 2.7)
--#
--# @device: the device name or node-name of a root node which should be c=
-opied.
--#
- # @target: the device name or node-name of the backup target node.
- #
--# @sync: what parts of the disk image should be copied to the destinatio=
-n
--#        (all the disk, only the sectors allocated in the topmost image,=
- or
--#        only new I/O).
--#
--# @speed: the maximum speed, in bytes per second. The default is 0,
--#         for unlimited.
--#
--# @bitmap: the name of dirty bitmap if sync is "incremental".
--#          Must be present if sync is "incremental", must NOT be present
--#          otherwise. (Since 3.1)
--#
--# @compress: true to compress data, if the target format supports it.
--#            (default: false) (since 2.8)
--#
--# @on-source-error: the action to take on an error on the source,
--#                   default 'report'.  'stop' and 'enospc' can only be u=
-sed
--#                   if the block device supports io-status (see BlockInf=
-o).
--#
--# @on-target-error: the action to take on an error on the target,
--#                   default 'report' (no limitations, since this applies=
- to
--#                   a different block device than @device).
--#
--# @auto-finalize: When false, this job will wait in a PENDING state afte=
-r it has
--#                 finished its work, waiting for @block-job-finalize bef=
-ore
--#                 making any block graph changes.
--#                 When true, this job will automatically
--#                 perform its abort or commit actions.
--#                 Defaults to true. (Since 2.12)
--#
--# @auto-dismiss: When false, this job will wait in a CONCLUDED state aft=
-er it
--#                has completely ceased all work, and awaits @block-job-d=
-ismiss.
--#                When true, this job will automatically disappear from t=
-he query
--#                list without user intervention.
--#                Defaults to true. (Since 2.12)
--#
--# Note: @on-source-error and @on-target-error only affect background
--# I/O.  If an error occurs during a guest write request, the device's
--# rerror/werror actions will be used.
--#
- # Since: 2.3
- ##
- { 'struct': 'BlockdevBackup',
--  'data': { '*job-id': 'str', 'device': 'str', 'target': 'str',
--            'sync': 'MirrorSyncMode', '*speed': 'int',
--            '*bitmap': 'str', '*compress': 'bool',
--            '*on-source-error': 'BlockdevOnError',
--            '*on-target-error': 'BlockdevOnError',
--            '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
-+  'base': 'BackupCommon',
-+  'data': { 'target': 'str' } }
+-    aio_context =3D bdrv_get_aio_context(bs);
+-    aio_context_acquire(aio_context);
+-
+     target_bs =3D bdrv_lookup_bs(backup->target, backup->target, errp);
+     if (!target_bs) {
+-        goto out;
++        return NULL;
+     }
 =20
- ##
- # @blockdev-snapshot-sync:
+-    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
+-    if (ret < 0) {
+-        goto out;
+-    }
++    aio_context =3D bdrv_get_aio_context(bs);
++    aio_context_acquire(aio_context);
+=20
+-    if (backup->has_bitmap) {
+-        bmap =3D bdrv_find_dirty_bitmap(bs, backup->bitmap);
+-        if (!bmap) {
+-            error_setg(errp, "Bitmap '%s' could not be found", backup->b=
+itmap);
+-            goto out;
+-        }
+-        if (bdrv_dirty_bitmap_check(bmap, BDRV_BITMAP_DEFAULT, errp)) {
+-            goto out;
+-        }
+-    }
++    job =3D do_backup_common(qapi_BlockdevBackup_base(backup),
++                           bs, target_bs, aio_context, txn, errp);
+=20
+-    if (!backup->auto_finalize) {
+-        job_flags |=3D JOB_MANUAL_FINALIZE;
+-    }
+-    if (!backup->auto_dismiss) {
+-        job_flags |=3D JOB_MANUAL_DISMISS;
+-    }
+-    job =3D backup_job_create(backup->job_id, bs, target_bs, backup->spe=
+ed,
+-                            backup->sync, bmap, backup->compress,
+-                            backup->on_source_error, backup->on_target_e=
+rror,
+-                            job_flags, NULL, NULL, txn, &local_err);
+-    if (local_err !=3D NULL) {
+-        error_propagate(errp, local_err);
+-    }
+-out:
+     aio_context_release(aio_context);
+     return job;
+ }
 --=20
 2.21.0
 
