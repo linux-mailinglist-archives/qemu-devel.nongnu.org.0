@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B938FCBF
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 09:50:38 +0200 (CEST)
-Received: from localhost ([::1]:50892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 290E38FCC6
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 09:52:19 +0200 (CEST)
+Received: from localhost ([::1]:50962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyX0P-0007wb-SY
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 03:50:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38419)
+	id 1hyX21-0002OQ-RP
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 03:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38759)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWi3-0005Pn-TH
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:31:41 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWj4-00063X-Oj
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:32:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWi2-000810-3x
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:31:39 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.78]:56993)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWj0-0008P0-Ge
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:32:41 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.72]:48486)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWhi-0007s0-M8; Fri, 16 Aug 2019 03:31:18 -0400
-Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- BWP09926083.bt.com (10.36.82.114) with Microsoft SMTP Server (version=TLS1_2, 
+ id 1hyWiI-00083v-Gh; Fri, 16 Aug 2019 03:31:54 -0400
+Received: from tpw09926dag18g.domain1.systemhost.net (10.9.212.34) by
+ BWP09926077.bt.com (10.36.82.108) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
- Aug 2019 08:30:54 +0100
+ Aug 2019 08:31:17 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18e.domain1.systemhost.net (10.9.212.18) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:31:15 +0100
+ tpw09926dag18g.domain1.systemhost.net (10.9.212.34) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:31:47 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:31:15 +0100
+ 2019 08:31:47 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 13/42] target/mips: Hard code size with
- MO_{8|16|32|64}
-Thread-Index: AQHVVASW7yW/JFl6hE6MSIwbdt7sSw==
-Date: Fri, 16 Aug 2019 07:31:15 +0000
-Message-ID: <1565940674558.163@bt.com>
+Thread-Topic: [Qemu-devel] [PATCH v7 15/42] hw/audio: Declare device little or
+ big endian
+Thread-Index: AQHVVASpX7Ub23JAUk+KsfVm4+Lt6g==
+Date: Fri, 16 Aug 2019 07:31:47 +0000
+Message-ID: <1565940706731.95978@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -49,12 +49,12 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.78
+X-Received-From: 213.121.35.72
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 13/42] target/mips: Hard code size with
- MO_{8|16|32|64}
+Subject: [Qemu-devel] [PATCH v7 15/42] hw/audio: Declare device little or
+ big endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,40 +96,81 @@ Cc: frederic.konrad@adacore.com, berto@igalia.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Temporarily no-op size_memop was introduced to aid the conversion of
-memory_region_dispatch_{read|write} operand "unsigned size" into
-"MemOp op".
+For each device declared with DEVICE_NATIVE_ENDIAN, find the set of
+targets from the set of target/hw/*/device.o.
 
-Now size_memop is implemented, again hard coded size but with
-MO_{8|16|32|64}. This is more expressive and avoids size_memop calls.
+If the set of targets are all little or all big endian, re-declare
+the device endianness as DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN
+respectively.
+
+This *naive* deduction may result in genuinely native endian devices
+being incorrectly declared as little or big endian, but should not
+introduce regressions for current targets.
+
+These devices should be re-declared as DEVICE_NATIVE_ENDIAN if 1) it
+has a new target with an opposite endian or 2) someone informed knows
+better =3D)
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/mips/op_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/audio/cs4231.c          | 2 +-
+ hw/audio/marvell_88w8618.c | 2 +-
+ hw/audio/milkymist-ac97.c  | 2 +-
+ hw/audio/pl041.c           | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index 1c72a00..e79f99d 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -4741,11 +4741,11 @@ void helper_cache(CPUMIPSState *env, target_ulong a=
-ddr, uint32_t op)
-     if (op =3D=3D 9) {
-         /* Index Store Tag */
-         memory_region_dispatch_write(env->itc_tag, index, env->CP0_TagLo,
--                                     size_memop(8), MEMTXATTRS_UNSPECIFIED=
-);
-+                                     MO_64, MEMTXATTRS_UNSPECIFIED);
-     } else if (op =3D=3D 5) {
-         /* Index Load Tag */
-         memory_region_dispatch_read(env->itc_tag, index, &env->CP0_TagLo,
--                                    size_memop(8), MEMTXATTRS_UNSPECIFIED)=
-;
-+                                    MO_64, MEMTXATTRS_UNSPECIFIED);
-     }
- #endif
- }
+diff --git a/hw/audio/cs4231.c b/hw/audio/cs4231.c
+index 8372299..8946648 100644
+--- a/hw/audio/cs4231.c
++++ b/hw/audio/cs4231.c
+@@ -132,7 +132,7 @@ static void cs_mem_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps cs_mem_ops =3D {
+     .read =3D cs_mem_read,
+     .write =3D cs_mem_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_BIG_ENDIAN,
+ };
+
+ static const VMStateDescription vmstate_cs4231 =3D {
+diff --git a/hw/audio/marvell_88w8618.c b/hw/audio/marvell_88w8618.c
+index ff1a0d0..a79e0b1 100644
+--- a/hw/audio/marvell_88w8618.c
++++ b/hw/audio/marvell_88w8618.c
+@@ -240,7 +240,7 @@ static void mv88w8618_audio_reset(DeviceState *d)
+ static const MemoryRegionOps mv88w8618_audio_ops =3D {
+     .read =3D mv88w8618_audio_read,
+     .write =3D mv88w8618_audio_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
+
+ static void mv88w8618_audio_init(Object *obj)
+diff --git a/hw/audio/milkymist-ac97.c b/hw/audio/milkymist-ac97.c
+index bf6a5a6..56feca2 100644
+--- a/hw/audio/milkymist-ac97.c
++++ b/hw/audio/milkymist-ac97.c
+@@ -176,7 +176,7 @@ static const MemoryRegionOps ac97_mmio_ops =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_BIG_ENDIAN,
+ };
+
+ static void ac97_in_cb(void *opaque, int avail_b)
+diff --git a/hw/audio/pl041.c b/hw/audio/pl041.c
+index 59c6ce1..b59a4f8 100644
+--- a/hw/audio/pl041.c
++++ b/hw/audio/pl041.c
+@@ -519,7 +519,7 @@ static void pl041_device_reset(DeviceState *d)
+ static const MemoryRegionOps pl041_ops =3D {
+     .read =3D pl041_read,
+     .write =3D pl041_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
+
+ static void pl041_init(Object *obj)
 --
 1.8.3.1
 
