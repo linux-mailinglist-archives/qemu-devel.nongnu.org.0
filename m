@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2F890B50
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:16:48 +0200 (CEST)
-Received: from localhost ([::1]:33042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E785890B55
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:19:53 +0200 (CEST)
+Received: from localhost ([::1]:33120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hylSh-0000ce-Do
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:16:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46048)
+	id 1hylVg-0004Bl-QO
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:19:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46054)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1hylPY-0006BA-JQ
+ (envelope-from <jsnow@redhat.com>) id 1hylPY-0006BZ-RM
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hylPX-0005hA-2g
+ (envelope-from <jsnow@redhat.com>) id 1hylPX-0005hJ-47
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53678)
+Received: from mx1.redhat.com ([209.132.183.28]:40896)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hylPT-0005bo-DG; Fri, 16 Aug 2019 19:13:27 -0400
+ id 1hylPR-0005bN-Gj; Fri, 16 Aug 2019 19:13:26 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AFFEA800DE1;
- Fri, 16 Aug 2019 23:13:22 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9C0AE3082A6C;
+ Fri, 16 Aug 2019 23:13:23 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-187.bos.redhat.com [10.18.17.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AAE0C19C6A;
- Fri, 16 Aug 2019 23:13:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4F6C19C6A;
+ Fri, 16 Aug 2019 23:13:22 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 19:12:42 -0400
-Message-Id: <20190816231318.8650-1-jsnow@redhat.com>
+Date: Fri, 16 Aug 2019 19:12:43 -0400
+Message-Id: <20190816231318.8650-2-jsnow@redhat.com>
+In-Reply-To: <20190816231318.8650-1-jsnow@redhat.com>
+References: <20190816231318.8650-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Fri, 16 Aug 2019 23:13:22 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Fri, 16 Aug 2019 23:13:23 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 00/36] Bitmaps patches
+Subject: [Qemu-devel] [PULL 01/36] qapi/block-core: Introduce BackupCommon
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,120 +54,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jsnow@redhat.com, qemu-stable@nongnu.org,
- qemu-block@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-stable@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit afd760539308a5524accf964107cdb1d54a059=
-e3:
+drive-backup and blockdev-backup have an awful lot of things in common
+that are the same. Let's fix that.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-201=
-90816' into staging (2019-08-16 17:21:40 +0100)
+I don't deduplicate 'target', because the semantics actually did change
+between each structure. Leave that one alone so it can be documented
+separately.
 
-are available in the Git repository at:
+Where documentation was not identical, use the most up-to-date version.
+For "speed", use Blockdev-Backup's version. For "sync", use
+Drive-Backup's version.
 
-  https://github.com/jnsnow/qemu.git tags/bitmaps-pull-request
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+[Maintainer edit: modified commit message. --js]
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-id: 20190709232550.10724-2-jsnow@redhat.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ qapi/block-core.json | 103 ++++++++++++++-----------------------------
+ 1 file changed, 33 insertions(+), 70 deletions(-)
 
-for you to fetch changes up to a5f8a60b3eafd5563af48546d5d126d448e62ac5:
-
-  tests/test-hbitmap: test next_zero and _next_dirty_area after truncate =
-(2019-08-16 18:29:43 -0400)
-
-----------------------------------------------------------------
-Pull request
-
-Rebase notes:
-
-011/36:[0003] [FC] 'block/backup: upgrade copy_bitmap to BdrvDirtyBitmap'
-016/36:[----] [-C] 'iotests: Add virtio-scsi device helper'
-017/36:[0002] [FC] 'iotests: add test 257 for bitmap-mode backups'
-030/36:[0011] [FC] 'block/backup: teach TOP to never copy unallocated reg=
-ions'
-032/36:[0018] [FC] 'iotests/257: test traditional sync modes'
-
-11: A new hbitmap call was added late in 4.1, changed to
-    bdrv_dirty_bitmap_next_zero.
-16: Context-only (self.has_quit is new context in 040)
-17: Removed 'auto' to follow upstream trends in iotest fashion
-30: Handled explicitly on-list with R-B from Max.
-32: Fix capitalization in test, as mentioned on-list.
-
-----------------------------------------------------------------
-
-John Snow (30):
-  qapi/block-core: Introduce BackupCommon
-  drive-backup: create do_backup_common
-  blockdev-backup: utilize do_backup_common
-  qapi: add BitmapSyncMode enum
-  block/backup: Add mirror sync mode 'bitmap'
-  block/backup: add 'never' policy to bitmap sync mode
-  hbitmap: Fix merge when b is empty, and result is not an alias of a
-  hbitmap: enable merging across granularities
-  block/dirty-bitmap: add bdrv_dirty_bitmap_merge_internal
-  block/dirty-bitmap: add bdrv_dirty_bitmap_get
-  block/backup: upgrade copy_bitmap to BdrvDirtyBitmap
-  block/backup: add 'always' bitmap sync policy
-  iotests: add testing shim for script-style python tests
-  iotests: teach run_job to cancel pending jobs
-  iotests: teach FilePath to produce multiple paths
-  iotests: Add virtio-scsi device helper
-  iotests: add test 257 for bitmap-mode backups
-  block/backup: loosen restriction on readonly bitmaps
-  qapi: implement block-dirty-bitmap-remove transaction action
-  iotests/257: add Pattern class
-  iotests/257: add EmulatedBitmap class
-  iotests/257: Refactor backup helpers
-  block/backup: hoist bitmap check into QMP interface
-  iotests/257: test API failures
-  block/backup: improve sync=3Dbitmap work estimates
-  block/backup: centralize copy_bitmap initialization
-  block/backup: add backup_is_cluster_allocated
-  block/backup: teach TOP to never copy unallocated regions
-  block/backup: support bitmap sync modes for non-bitmap backups
-  iotests/257: test traditional sync modes
-
-Vladimir Sementsov-Ogievskiy (6):
-  blockdev: reduce aio_context locked sections in bitmap add/remove
-  iotests: test bitmap moving inside 254
-  qapi: add dirty-bitmaps to query-named-block-nodes result
-  block/backup: deal with zero detection
-  block/backup: refactor write_flags
-  tests/test-hbitmap: test next_zero and _next_dirty_area after truncate
-
- block.c                        |    2 +-
- block/backup.c                 |  312 +-
- block/dirty-bitmap.c           |   88 +-
- block/mirror.c                 |    8 +-
- block/qapi.c                   |    5 +
- block/replication.c            |    2 +-
- block/trace-events             |    1 +
- blockdev.c                     |  353 ++-
- include/block/block_int.h      |    7 +-
- include/block/dirty-bitmap.h   |    6 +-
- migration/block-dirty-bitmap.c |    2 +-
- migration/block.c              |    5 +-
- nbd/server.c                   |    2 +-
- qapi/block-core.json           |  146 +-
- qapi/transaction.json          |    2 +
- qemu-deprecated.texi           |   12 +
- tests/qemu-iotests/040         |    6 +-
- tests/qemu-iotests/093         |    6 +-
- tests/qemu-iotests/139         |    7 +-
- tests/qemu-iotests/238         |    5 +-
- tests/qemu-iotests/254         |   30 +-
- tests/qemu-iotests/254.out     |   82 +
- tests/qemu-iotests/256.out     |    4 +-
- tests/qemu-iotests/257         |  560 ++++
- tests/qemu-iotests/257.out     | 5421 ++++++++++++++++++++++++++++++++
- tests/qemu-iotests/group       |    1 +
- tests/qemu-iotests/iotests.py  |  102 +-
- tests/test-hbitmap.c           |   22 +
- util/hbitmap.c                 |   49 +-
- 29 files changed, 6843 insertions(+), 405 deletions(-)
- create mode 100755 tests/qemu-iotests/257
- create mode 100644 tests/qemu-iotests/257.out
-
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index f1e7701fbea..8ca12004ae9 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1315,32 +1315,23 @@
+   'data': { 'node': 'str', 'overlay': 'str' } }
+=20
+ ##
+-# @DriveBackup:
++# @BackupCommon:
+ #
+ # @job-id: identifier for the newly-created block job. If
+ #          omitted, the device name will be used. (Since 2.7)
+ #
+ # @device: the device name or node-name of a root node which should be c=
+opied.
+ #
+-# @target: the target of the new image. If the file exists, or if it
+-#          is a device, the existing file/device will be used as the new
+-#          destination.  If it does not exist, a new file will be create=
+d.
+-#
+-# @format: the format of the new destination, default is to
+-#          probe if @mode is 'existing', else the format of the source
+-#
+ # @sync: what parts of the disk image should be copied to the destinatio=
+n
+ #        (all the disk, only the sectors allocated in the topmost image,=
+ from a
+ #        dirty bitmap, or only new I/O).
+ #
+-# @mode: whether and how QEMU should create a new image, default is
+-#        'absolute-paths'.
+-#
+-# @speed: the maximum speed, in bytes per second
++# @speed: the maximum speed, in bytes per second. The default is 0,
++#         for unlimited.
+ #
+ # @bitmap: the name of dirty bitmap if sync is "incremental".
+ #          Must be present if sync is "incremental", must NOT be present
+-#          otherwise. (Since 2.4)
++#          otherwise. (Since 2.4 (drive-backup), 3.1 (blockdev-backup))
+ #
+ # @compress: true to compress data, if the target format supports it.
+ #            (default: false) (since 2.8)
+@@ -1370,75 +1361,47 @@
+ # I/O.  If an error occurs during a guest write request, the device's
+ # rerror/werror actions will be used.
+ #
++# Since: 4.2
++##
++{ 'struct': 'BackupCommon',
++  'data': { '*job-id': 'str', 'device': 'str',
++            'sync': 'MirrorSyncMode', '*speed': 'int',
++            '*bitmap': 'str', '*compress': 'bool',
++            '*on-source-error': 'BlockdevOnError',
++            '*on-target-error': 'BlockdevOnError',
++            '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
++
++##
++# @DriveBackup:
++#
++# @target: the target of the new image. If the file exists, or if it
++#          is a device, the existing file/device will be used as the new
++#          destination.  If it does not exist, a new file will be create=
+d.
++#
++# @format: the format of the new destination, default is to
++#          probe if @mode is 'existing', else the format of the source
++#
++# @mode: whether and how QEMU should create a new image, default is
++#        'absolute-paths'.
++#
+ # Since: 1.6
+ ##
+ { 'struct': 'DriveBackup',
+-  'data': { '*job-id': 'str', 'device': 'str', 'target': 'str',
+-            '*format': 'str', 'sync': 'MirrorSyncMode',
+-            '*mode': 'NewImageMode', '*speed': 'int',
+-            '*bitmap': 'str', '*compress': 'bool',
+-            '*on-source-error': 'BlockdevOnError',
+-            '*on-target-error': 'BlockdevOnError',
+-            '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
++  'base': 'BackupCommon',
++  'data': { 'target': 'str',
++            '*format': 'str',
++            '*mode': 'NewImageMode' } }
+=20
+ ##
+ # @BlockdevBackup:
+ #
+-# @job-id: identifier for the newly-created block job. If
+-#          omitted, the device name will be used. (Since 2.7)
+-#
+-# @device: the device name or node-name of a root node which should be c=
+opied.
+-#
+ # @target: the device name or node-name of the backup target node.
+ #
+-# @sync: what parts of the disk image should be copied to the destinatio=
+n
+-#        (all the disk, only the sectors allocated in the topmost image,=
+ or
+-#        only new I/O).
+-#
+-# @speed: the maximum speed, in bytes per second. The default is 0,
+-#         for unlimited.
+-#
+-# @bitmap: the name of dirty bitmap if sync is "incremental".
+-#          Must be present if sync is "incremental", must NOT be present
+-#          otherwise. (Since 3.1)
+-#
+-# @compress: true to compress data, if the target format supports it.
+-#            (default: false) (since 2.8)
+-#
+-# @on-source-error: the action to take on an error on the source,
+-#                   default 'report'.  'stop' and 'enospc' can only be u=
+sed
+-#                   if the block device supports io-status (see BlockInf=
+o).
+-#
+-# @on-target-error: the action to take on an error on the target,
+-#                   default 'report' (no limitations, since this applies=
+ to
+-#                   a different block device than @device).
+-#
+-# @auto-finalize: When false, this job will wait in a PENDING state afte=
+r it has
+-#                 finished its work, waiting for @block-job-finalize bef=
+ore
+-#                 making any block graph changes.
+-#                 When true, this job will automatically
+-#                 perform its abort or commit actions.
+-#                 Defaults to true. (Since 2.12)
+-#
+-# @auto-dismiss: When false, this job will wait in a CONCLUDED state aft=
+er it
+-#                has completely ceased all work, and awaits @block-job-d=
+ismiss.
+-#                When true, this job will automatically disappear from t=
+he query
+-#                list without user intervention.
+-#                Defaults to true. (Since 2.12)
+-#
+-# Note: @on-source-error and @on-target-error only affect background
+-# I/O.  If an error occurs during a guest write request, the device's
+-# rerror/werror actions will be used.
+-#
+ # Since: 2.3
+ ##
+ { 'struct': 'BlockdevBackup',
+-  'data': { '*job-id': 'str', 'device': 'str', 'target': 'str',
+-            'sync': 'MirrorSyncMode', '*speed': 'int',
+-            '*bitmap': 'str', '*compress': 'bool',
+-            '*on-source-error': 'BlockdevOnError',
+-            '*on-target-error': 'BlockdevOnError',
+-            '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
++  'base': 'BackupCommon',
++  'data': { 'target': 'str' } }
+=20
+ ##
+ # @blockdev-snapshot-sync:
 --=20
 2.21.0
 
