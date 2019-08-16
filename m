@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E922990358
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:44:19 +0200 (CEST)
-Received: from localhost ([::1]:56351 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92AFC90348
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:42:10 +0200 (CEST)
+Received: from localhost ([::1]:56324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycWh-0000Kp-11
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:44:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35679)
+	id 1hycUb-0006s0-Kz
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35449)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1hyc8u-0005N2-9x
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:19:45 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc75-0003Zv-75
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hyc8s-0007B8-Ki
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:19:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40504)
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc71-0005jz-E6
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:51 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55968)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hyc8s-00079w-4m
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:19:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hyc8q-0001Ks-4r
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 13:19:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1C0A92E80CB
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 13:19:40 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Aug 2019 13:08:31 -0000
-From: Arno Wagner <645662@bugs.launchpad.net>
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hyc71-0005is-6n
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:47 -0400
+Received: by mail-wm1-x343.google.com with SMTP id f72so4029065wmf.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=yjLAbXFtKXx0083Aeg8KkwSsF2x8QfSQiu65gSb3dms=;
+ b=Tb+48BBkeKNpA4jC1CP3l/bsYhg9SniWNyq4KfjU70vF2DkKbMH+KgKX/CpIEf523h
+ lZqAePHsnXTSSco8Kia1l1pTcQ8Ta/hB+XlXJo8u6n5Q05zAaLkw6Yg20My2fRbuyr+V
+ VQgLFd3GPGXoFH7VXjv5Q/xBCCmrg9lpaij3evLa4g4fCiQDc3LD2F2CptEzaVoN98dS
+ aW7cC5xHw2EzxJeh8eIsRkyq8xOBXRkJ5XsqN12kkGMEF6wkXcetAvH99ctZH/eetEHX
+ lQNTOf+ugyxVixj1zPMvswebOKE7RhBO4aV9H7t7x+A6y3T/i3TZOgCcX6PwB7DH3gCJ
+ vAWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=yjLAbXFtKXx0083Aeg8KkwSsF2x8QfSQiu65gSb3dms=;
+ b=FxFh+XaaeU9TaCQuwpbB7k0WzmZEUO0SrSXqqq6ASFYGwEnKElDNssfKtFdpvqdY86
+ ELYTypJfQ0D9zWwiI2eDSRl2xWP2ZA9CPHtZjyOipwvqWbDU3POqGA7rsWlzMc3PaVYi
+ K4Usb9wBrEaFR/IcHXPxWo3PT8zj/gODvcLijThcjc5GsPCP+9cSu9VKSdM1E656FvNe
+ qJ6bjEJAlFz8aOtD21lWRPZvzwFUO6Dd5yxAR3ejw/cQ5kVLeO+uglquOfW5vnAdfNVe
+ AoVEZD+ohVUcgjcfnHykZZWILRdqNC7oU6GntR1NxiEr7+lkWY/JVoHfX6iAD2sQrJmc
+ O9ug==
+X-Gm-Message-State: APjAAAXOMsek9Kv3dEXaeW+LqbkOGp15V2ZYeMeW4XkJSud015yEyAMi
+ I1D6+E/h/Px59cGu7UVCWfNq0wdXb7flcw==
+X-Google-Smtp-Source: APXvYqyOMXIO+3LcpMzHDTJwXFaiI1wf2etTQvnwW17OcFCCjFt8TEVzmG2HoHM01C8LxyVfB020XQ==
+X-Received: by 2002:a1c:411:: with SMTP id 17mr2463791wme.34.1565961465584;
+ Fri, 16 Aug 2019 06:17:45 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.44
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Aug 2019 06:17:45 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: arno-wagner pmaydell th-huth wagner-tansi
-X-Launchpad-Bug-Reporter: Arno Wagner (wagner-tansi)
-X-Launchpad-Bug-Modifier: Arno Wagner (arno-wagner)
-References: <20100923002702.20683.97345.malonedeb@soybean.canonical.com>
- <156593447969.26869.7966821370180321814.malone@gac.canonical.com>
-Message-Id: <20190816130831.GA1342@tansi.org>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19022";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 3327046be17bce49f5c5ead8653c6cc2fb8a42d7
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: Re: [Qemu-devel] [Bug 645662] Re: QEMU x87 emulation of trig and
- other complex ops is only at 64-bit precision, not 80-bit
+Date: Fri, 16 Aug 2019 14:17:12 +0100
+Message-Id: <20190816131719.28244-23-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190816131719.28244-1-peter.maydell@linaro.org>
+References: <20190816131719.28244-1-peter.maydell@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PULL 22/29] target/arm/kvm64: Move the get/put of
+ fpsimd registers out
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,178 +79,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 645662 <645662@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be sure, you can also run my original C test code from
-2010. If that produces a bit-identtical result, then this
-has indeed been fixed. If there are deviations in the last
-digits, then the fingerprinting issues is still there, but
-at least Python has stopped complaining.
+From: Andrew Jones <drjones@redhat.com>
 
-Regards,
-Arno
+Move the getting/putting of the fpsimd registers out of
+kvm_arch_get/put_registers() into their own helper functions
+to prepare for alternatively getting/putting SVE registers.
 
-On Fri, Aug 16, 2019 at 07:47:59 CEST, Thomas Huth wrote:
-> The test code from comment #1 now prints out the correct value with QEMU
-> v4.1, so I think this has been fixed with the softfloat work that has
-> been done within the last year.
-> =
+No functional change.
 
-> ** Changed in: qemu
->        Status: Confirmed =3D> Fix Released
-> =
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/kvm64.c | 148 +++++++++++++++++++++++++++------------------
+ 1 file changed, 88 insertions(+), 60 deletions(-)
 
-> -- =
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index ddde6268b9d..0b004d5d305 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -719,13 +719,53 @@ int kvm_arm_cpreg_level(uint64_t regidx)
+ #define AARCH64_SIMD_CTRL_REG(x)   (KVM_REG_ARM64 | KVM_REG_SIZE_U32 | \
+                  KVM_REG_ARM_CORE | KVM_REG_ARM_CORE_REG(x))
+ 
++static int kvm_arch_put_fpsimd(CPUState *cs)
++{
++    ARMCPU *cpu = ARM_CPU(cs);
++    CPUARMState *env = &cpu->env;
++    struct kvm_one_reg reg;
++    uint32_t fpr;
++    int i, ret;
++
++    for (i = 0; i < 32; i++) {
++        uint64_t *q = aa64_vfp_qreg(env, i);
++#ifdef HOST_WORDS_BIGENDIAN
++        uint64_t fp_val[2] = { q[1], q[0] };
++        reg.addr = (uintptr_t)fp_val;
++#else
++        reg.addr = (uintptr_t)q;
++#endif
++        reg.id = AARCH64_SIMD_CORE_REG(fp_regs.vregs[i]);
++        ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
++        if (ret) {
++            return ret;
++        }
++    }
++
++    reg.addr = (uintptr_t)(&fpr);
++    fpr = vfp_get_fpsr(env);
++    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
++    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
++    if (ret) {
++        return ret;
++    }
++
++    reg.addr = (uintptr_t)(&fpr);
++    fpr = vfp_get_fpcr(env);
++    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
++    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
++    if (ret) {
++        return ret;
++    }
++
++    return 0;
++}
++
+ int kvm_arch_put_registers(CPUState *cs, int level)
+ {
+     struct kvm_one_reg reg;
+-    uint32_t fpr;
+     uint64_t val;
+-    int i;
+-    int ret;
++    int i, ret;
+     unsigned int el;
+ 
+     ARMCPU *cpu = ARM_CPU(cs);
+@@ -815,33 +855,7 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+         }
+     }
+ 
+-    /* Advanced SIMD and FP registers. */
+-    for (i = 0; i < 32; i++) {
+-        uint64_t *q = aa64_vfp_qreg(env, i);
+-#ifdef HOST_WORDS_BIGENDIAN
+-        uint64_t fp_val[2] = { q[1], q[0] };
+-        reg.addr = (uintptr_t)fp_val;
+-#else
+-        reg.addr = (uintptr_t)q;
+-#endif
+-        reg.id = AARCH64_SIMD_CORE_REG(fp_regs.vregs[i]);
+-        ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+-        if (ret) {
+-            return ret;
+-        }
+-    }
+-
+-    reg.addr = (uintptr_t)(&fpr);
+-    fpr = vfp_get_fpsr(env);
+-    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
+-    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+-    if (ret) {
+-        return ret;
+-    }
+-
+-    fpr = vfp_get_fpcr(env);
+-    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
+-    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
++    ret = kvm_arch_put_fpsimd(cs);
+     if (ret) {
+         return ret;
+     }
+@@ -862,14 +876,54 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+     return ret;
+ }
+ 
++static int kvm_arch_get_fpsimd(CPUState *cs)
++{
++    ARMCPU *cpu = ARM_CPU(cs);
++    CPUARMState *env = &cpu->env;
++    struct kvm_one_reg reg;
++    uint32_t fpr;
++    int i, ret;
++
++    for (i = 0; i < 32; i++) {
++        uint64_t *q = aa64_vfp_qreg(env, i);
++        reg.id = AARCH64_SIMD_CORE_REG(fp_regs.vregs[i]);
++        reg.addr = (uintptr_t)q;
++        ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
++        if (ret) {
++            return ret;
++        } else {
++#ifdef HOST_WORDS_BIGENDIAN
++            uint64_t t;
++            t = q[0], q[0] = q[1], q[1] = t;
++#endif
++        }
++    }
++
++    reg.addr = (uintptr_t)(&fpr);
++    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
++    ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
++    if (ret) {
++        return ret;
++    }
++    vfp_set_fpsr(env, fpr);
++
++    reg.addr = (uintptr_t)(&fpr);
++    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
++    ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
++    if (ret) {
++        return ret;
++    }
++    vfp_set_fpcr(env, fpr);
++
++    return 0;
++}
++
+ int kvm_arch_get_registers(CPUState *cs)
+ {
+     struct kvm_one_reg reg;
+     uint64_t val;
+-    uint32_t fpr;
+     unsigned int el;
+-    int i;
+-    int ret;
++    int i, ret;
+ 
+     ARMCPU *cpu = ARM_CPU(cs);
+     CPUARMState *env = &cpu->env;
+@@ -958,36 +1012,10 @@ int kvm_arch_get_registers(CPUState *cs)
+         env->spsr = env->banked_spsr[i];
+     }
+ 
+-    /* Advanced SIMD and FP registers */
+-    for (i = 0; i < 32; i++) {
+-        uint64_t *q = aa64_vfp_qreg(env, i);
+-        reg.id = AARCH64_SIMD_CORE_REG(fp_regs.vregs[i]);
+-        reg.addr = (uintptr_t)q;
+-        ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+-        if (ret) {
+-            return ret;
+-        } else {
+-#ifdef HOST_WORDS_BIGENDIAN
+-            uint64_t t;
+-            t = q[0], q[0] = q[1], q[1] = t;
+-#endif
+-        }
+-    }
+-
+-    reg.addr = (uintptr_t)(&fpr);
+-    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
+-    ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
++    ret = kvm_arch_get_fpsimd(cs);
+     if (ret) {
+         return ret;
+     }
+-    vfp_set_fpsr(env, fpr);
+-
+-    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
+-    ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+-    if (ret) {
+-        return ret;
+-    }
+-    vfp_set_fpcr(env, fpr);
+ 
+     ret = kvm_get_vcpu_events(cpu);
+     if (ret) {
+-- 
+2.20.1
 
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/645662
-> =
-
-> Title:
->   QEMU x87 emulation of trig and other complex ops is only at 64-bit
->   precision, not 80-bit
-> =
-
-> Status in QEMU:
->   Fix Released
-> =
-
-> Bug description:
->   When doing the regression tests for Python 3.1.2 with Qemu 0.12.5, (Lin=
-ux version 2.6.26-2-686 (Debian 2.6.26-25lenny1)),
->   gcc (Debian 4.3.2-1.1) 4.3.2, Python compiled from sources within qemu,
->   3 math tests fail, apparently because the floating point unit is buggy.=
- Qmeu was compiled from original sources
->   on Debian Lenny with kernel  2.6.34.6 from kernel.org, gcc  (Debian 4.3=
-.2-1.1) 4.3. =
-
-> =
-
->   Regression testing errors:
-> =
-
->   test_cmath
->   test test_cmath failed -- Traceback (most recent call last):
->     File "/root/tools/python3/Python-3.1.2/Lib/test/test_cmath.py", line =
-364, in
->       self.fail(error_message)
->   AssertionError: acos0034: acos(complex(-1.0000000000000002, 0.0))
->   Expected: complex(3.141592653589793, -2.1073424255447014e-08)
->   Received: complex(3.141592653589793, -2.1073424338879928e-08)
->   Received value insufficiently close to expected value.
-> =
-
->   =
-
->   test_float
->   test test_float failed -- Traceback (most recent call last):
->     File "/root/tools/python3/Python-3.1.2/Lib/test/test_float.py", line =
-479, in
->       self.assertEqual(s, repr(float(s)))
->   AssertionError: '8.72293771110361e+25' !=3D '8.722937711103609e+25'
-> =
-
->   =
-
->   test_math
->   test test_math failed -- multiple errors occurred; run in verbose mode =
-for deta
-> =
-
->   =3D>
-> =
-
->   runtests.sh -v test_math
-> =
-
->   le01:~/tools/python3/Python-3.1.2# ./runtests.sh -v test_math
->   test_math BAD
->    1 BAD
->    0 GOOD
->    0 SKIPPED
->    1 total
->   le01:~/tools/python3/Python-3.1.2#
-> =
-
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/645662/+subscriptions
-
--- =
-
-Arno Wagner,     Dr. sc. techn., Dipl. Inform.,    Email: arno@wagner.name
-GnuPG: ID: CB5D9718  FP: 12D6 C03B 1B30 33BB 13CF  B774 E35C 5FA1 CB5D 9718
-----
-A good decision is based on knowledge and not on numbers. -- Plato
-
-If it's in the news, don't worry about it.  The very definition of =
-
-"news" is "something that hardly ever happens." -- Bruce Schneier
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/645662
-
-Title:
-  QEMU x87 emulation of trig and other complex ops is only at 64-bit
-  precision, not 80-bit
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  When doing the regression tests for Python 3.1.2 with Qemu 0.12.5, (Linux=
- version 2.6.26-2-686 (Debian 2.6.26-25lenny1)),
-  gcc (Debian 4.3.2-1.1) 4.3.2, Python compiled from sources within qemu,
-  3 math tests fail, apparently because the floating point unit is buggy. Q=
-meu was compiled from original sources
-  on Debian Lenny with kernel  2.6.34.6 from kernel.org, gcc  (Debian 4.3.2=
--1.1) 4.3. =
-
-
-  Regression testing errors:
-
-  test_cmath
-  test test_cmath failed -- Traceback (most recent call last):
-    File "/root/tools/python3/Python-3.1.2/Lib/test/test_cmath.py", line 36=
-4, in
-      self.fail(error_message)
-  AssertionError: acos0034: acos(complex(-1.0000000000000002, 0.0))
-  Expected: complex(3.141592653589793, -2.1073424255447014e-08)
-  Received: complex(3.141592653589793, -2.1073424338879928e-08)
-  Received value insufficiently close to expected value.
-
-  =
-
-  test_float
-  test test_float failed -- Traceback (most recent call last):
-    File "/root/tools/python3/Python-3.1.2/Lib/test/test_float.py", line 47=
-9, in
-      self.assertEqual(s, repr(float(s)))
-  AssertionError: '8.72293771110361e+25' !=3D '8.722937711103609e+25'
-
-  =
-
-  test_math
-  test test_math failed -- multiple errors occurred; run in verbose mode fo=
-r deta
-
-  =3D>
-
-  runtests.sh -v test_math
-
-  le01:~/tools/python3/Python-3.1.2# ./runtests.sh -v test_math
-  test_math BAD
-   1 BAD
-   0 GOOD
-   0 SKIPPED
-   1 total
-  le01:~/tools/python3/Python-3.1.2#
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/645662/+subscriptions
 
