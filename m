@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE988FCF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:05:11 +0200 (CEST)
-Received: from localhost ([::1]:51228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2400F8FCEA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:02:37 +0200 (CEST)
+Received: from localhost ([::1]:51186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyXET-0003uv-RI
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:05:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39317)
+	id 1hyXBz-0000Ez-Va
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:02:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39778)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWkK-0007QZ-KY
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:34:04 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWlR-00006J-MV
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:35:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWkG-0000eW-Jb
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:34:00 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.78]:56457)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWlN-0001I3-Cp
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:35:09 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.74]:54791)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWjY-0000Av-HM; Fri, 16 Aug 2019 03:33:14 -0400
+ id 1hyWka-0000nh-Du; Fri, 16 Aug 2019 03:34:18 -0400
 Received: from tpw09926dag18f.domain1.systemhost.net (10.9.212.26) by
- BWP09926083.bt.com (10.36.82.114) with Microsoft SMTP Server (version=TLS1_2, 
+ BWP09926079.bt.com (10.36.82.110) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
- Aug 2019 08:32:44 +0100
+ Aug 2019 08:33:51 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
  tpw09926dag18f.domain1.systemhost.net (10.9.212.26) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:33:05 +0100
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:34:13 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:33:05 +0100
+ 2019 08:34:13 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 19/42] hw/dma: Declare device little or
+Thread-Topic: [Qemu-devel] [PATCH v7 23/42] hw/intc: Declare device little or
  big endian
-Thread-Index: AQHVVATXv2y4d28XbEKe3xKBzbpwgA==
-Date: Fri, 16 Aug 2019 07:33:05 +0000
-Message-ID: <1565940784105.45471@bt.com>
+Thread-Index: AQHVVAUArrlrR1Zn3E+pnWujKo/uiQ==
+Date: Fri, 16 Aug 2019 07:34:13 +0000
+Message-ID: <1565940852602.49352@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -49,11 +49,11 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.78
+X-Received-From: 213.121.35.74
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 19/42] hw/dma: Declare device little or big
+Subject: [Qemu-devel] [PATCH v7 23/42] hw/intc: Declare device little or big
  endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,82 +113,140 @@ better =3D)
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- hw/dma/bcm2835_dma.c | 4 ++--
- hw/dma/etraxfs_dma.c | 2 +-
- hw/dma/pl080.c       | 2 +-
- hw/dma/pl330.c       | 2 +-
- hw/dma/puv3_dma.c    | 2 +-
- hw/dma/sparc32_dma.c | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
+ hw/intc/arm_gic.c     | 12 ++++++------
+ hw/intc/arm_gicv3.c   |  4 ++--
+ hw/intc/etraxfs_pic.c |  2 +-
+ hw/intc/imx_avic.c    |  2 +-
+ hw/intc/imx_gpcv2.c   |  2 +-
+ hw/intc/pl190.c       |  2 +-
+ hw/intc/puv3_intc.c   |  2 +-
+ 7 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
-index a39e8f4..907d25c 100644
---- a/hw/dma/bcm2835_dma.c
-+++ b/hw/dma/bcm2835_dma.c
-@@ -288,7 +288,7 @@ static void bcm2835_dma15_write(void *opaque, hwaddr of=
-fset, uint64_t value,
- static const MemoryRegionOps bcm2835_dma0_ops =3D {
-     .read =3D bcm2835_dma0_read,
-     .write =3D bcm2835_dma0_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
-     .valid.min_access_size =3D 4,
-     .valid.max_access_size =3D 4,
+diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
+index 77427a4..283a63a 100644
+--- a/hw/intc/arm_gic.c
++++ b/hw/intc/arm_gic.c
+@@ -1999,38 +1999,38 @@ static const MemoryRegionOps gic_ops[2] =3D {
+     {
+         .read_with_attrs =3D gic_dist_read,
+         .write_with_attrs =3D gic_dist_write,
+-        .endianness =3D DEVICE_NATIVE_ENDIAN,
++        .endianness =3D DEVICE_LITTLE_ENDIAN,
+     },
+     {
+         .read_with_attrs =3D gic_thiscpu_read,
+         .write_with_attrs =3D gic_thiscpu_write,
+-        .endianness =3D DEVICE_NATIVE_ENDIAN,
++        .endianness =3D DEVICE_LITTLE_ENDIAN,
+     }
  };
-@@ -296,7 +296,7 @@ static const MemoryRegionOps bcm2835_dma0_ops =3D {
- static const MemoryRegionOps bcm2835_dma15_ops =3D {
-     .read =3D bcm2835_dma15_read,
-     .write =3D bcm2835_dma15_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
-     .valid.min_access_size =3D 4,
-     .valid.max_access_size =3D 4,
- };
-diff --git a/hw/dma/etraxfs_dma.c b/hw/dma/etraxfs_dma.c
-index 85783eb..df3ba09 100644
---- a/hw/dma/etraxfs_dma.c
-+++ b/hw/dma/etraxfs_dma.c
-@@ -697,7 +697,7 @@ dma_write(void *opaque, hwaddr addr,
- static const MemoryRegionOps dma_ops =3D {
-  .read =3D dma_read,
-  .write =3D dma_write,
-- .endianness =3D DEVICE_NATIVE_ENDIAN,
-+ .endianness =3D DEVICE_LITTLE_ENDIAN,
-  .valid =3D {
-  .min_access_size =3D 1,
-  .max_access_size =3D 4
-diff --git a/hw/dma/pl080.c b/hw/dma/pl080.c
-index 7e57624..644eadb 100644
---- a/hw/dma/pl080.c
-+++ b/hw/dma/pl080.c
-@@ -346,7 +346,7 @@ static void pl080_write(void *opaque, hwaddr offset,
- static const MemoryRegionOps pl080_ops =3D {
-     .read =3D pl080_read,
-     .write =3D pl080_write,
+
+ static const MemoryRegionOps gic_cpu_ops =3D {
+     .read_with_attrs =3D gic_do_cpu_read,
+     .write_with_attrs =3D gic_do_cpu_write,
 -    .endianness =3D DEVICE_NATIVE_ENDIAN,
 +    .endianness =3D DEVICE_LITTLE_ENDIAN,
  };
 
- static void pl080_reset(DeviceState *dev)
-diff --git a/hw/dma/pl330.c b/hw/dma/pl330.c
-index a56a3e7..4c51f2d 100644
---- a/hw/dma/pl330.c
-+++ b/hw/dma/pl330.c
-@@ -1493,7 +1493,7 @@ static uint64_t pl330_iomem_read(void *opaque, hwaddr=
- offset,
- static const MemoryRegionOps pl330_ops =3D {
-     .read =3D pl330_iomem_read,
-     .write =3D pl330_iomem_write,
+ static const MemoryRegionOps gic_virt_ops[2] =3D {
+     {
+         .read_with_attrs =3D gic_thiscpu_hyp_read,
+         .write_with_attrs =3D gic_thiscpu_hyp_write,
+-        .endianness =3D DEVICE_NATIVE_ENDIAN,
++        .endianness =3D DEVICE_LITTLE_ENDIAN,
+     },
+     {
+         .read_with_attrs =3D gic_thisvcpu_read,
+         .write_with_attrs =3D gic_thisvcpu_write,
+-        .endianness =3D DEVICE_NATIVE_ENDIAN,
++        .endianness =3D DEVICE_LITTLE_ENDIAN,
+     }
+ };
+
+ static const MemoryRegionOps gic_viface_ops =3D {
+     .read_with_attrs =3D gic_do_hyp_read,
+     .write_with_attrs =3D gic_do_hyp_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
+
+ static void arm_gic_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/intc/arm_gicv3.c b/hw/intc/arm_gicv3.c
+index 66eaa97..9b4d5ba 100644
+--- a/hw/intc/arm_gicv3.c
++++ b/hw/intc/arm_gicv3.c
+@@ -352,12 +352,12 @@ static const MemoryRegionOps gic_ops[] =3D {
+     {
+         .read_with_attrs =3D gicv3_dist_read,
+         .write_with_attrs =3D gicv3_dist_write,
+-        .endianness =3D DEVICE_NATIVE_ENDIAN,
++        .endianness =3D DEVICE_LITTLE_ENDIAN,
+     },
+     {
+         .read_with_attrs =3D gicv3_redist_read,
+         .write_with_attrs =3D gicv3_redist_write,
+-        .endianness =3D DEVICE_NATIVE_ENDIAN,
++        .endianness =3D DEVICE_LITTLE_ENDIAN,
+     }
+ };
+
+diff --git a/hw/intc/etraxfs_pic.c b/hw/intc/etraxfs_pic.c
+index 20e1391..d4a27d1 100644
+--- a/hw/intc/etraxfs_pic.c
++++ b/hw/intc/etraxfs_pic.c
+@@ -111,7 +111,7 @@ static void pic_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps pic_ops =3D {
+     .read =3D pic_read,
+     .write =3D pic_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+     .valid =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4
+diff --git a/hw/intc/imx_avic.c b/hw/intc/imx_avic.c
+index 83a4101..4bef842 100644
+--- a/hw/intc/imx_avic.c
++++ b/hw/intc/imx_avic.c
+@@ -308,7 +308,7 @@ static void imx_avic_write(void *opaque, hwaddr offset,
+ static const MemoryRegionOps imx_avic_ops =3D {
+     .read =3D imx_avic_read,
+     .write =3D imx_avic_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
+
+ static void imx_avic_reset(DeviceState *dev)
+diff --git a/hw/intc/imx_gpcv2.c b/hw/intc/imx_gpcv2.c
+index a83333b..f37e6b5 100644
+--- a/hw/intc/imx_gpcv2.c
++++ b/hw/intc/imx_gpcv2.c
+@@ -64,7 +64,7 @@ static void imx_gpcv2_write(void *opaque, hwaddr offset,
+ static const struct MemoryRegionOps imx_gpcv2_ops =3D {
+     .read =3D imx_gpcv2_read,
+     .write =3D imx_gpcv2_write,
 -    .endianness =3D DEVICE_NATIVE_ENDIAN,
 +    .endianness =3D DEVICE_LITTLE_ENDIAN,
      .impl =3D {
-         .min_access_size =3D 4,
-         .max_access_size =3D 4,
-diff --git a/hw/dma/puv3_dma.c b/hw/dma/puv3_dma.c
-index 122f87a..7002373 100644
---- a/hw/dma/puv3_dma.c
-+++ b/hw/dma/puv3_dma.c
-@@ -75,7 +75,7 @@ static const MemoryRegionOps puv3_dma_ops =3D {
+         /*
+          * Our device would not work correctly if the guest was doing
+diff --git a/hw/intc/pl190.c b/hw/intc/pl190.c
+index b4f31ef..e6eab1e 100644
+--- a/hw/intc/pl190.c
++++ b/hw/intc/pl190.c
+@@ -220,7 +220,7 @@ static void pl190_write(void *opaque, hwaddr offset,
+ static const MemoryRegionOps pl190_ops =3D {
+     .read =3D pl190_read,
+     .write =3D pl190_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
+
+ static void pl190_reset(DeviceState *d)
+diff --git a/hw/intc/puv3_intc.c b/hw/intc/puv3_intc.c
+index e2f6d98..97999cc 100644
+--- a/hw/intc/puv3_intc.c
++++ b/hw/intc/puv3_intc.c
+@@ -100,7 +100,7 @@ static const MemoryRegionOps puv3_intc_ops =3D {
          .min_access_size =3D 4,
          .max_access_size =3D 4,
      },
@@ -196,20 +254,7 @@ index 122f87a..7002373 100644
 +    .endianness =3D DEVICE_LITTLE_ENDIAN,
  };
 
- static void puv3_dma_realize(DeviceState *dev, Error **errp)
-diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
-index 88765d0..6b32372 100644
---- a/hw/dma/sparc32_dma.c
-+++ b/hw/dma/sparc32_dma.c
-@@ -224,7 +224,7 @@ static void dma_mem_write(void *opaque, hwaddr addr,
- static const MemoryRegionOps dma_mem_ops =3D {
-     .read =3D dma_mem_read,
-     .write =3D dma_mem_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_BIG_ENDIAN,
-     .valid =3D {
-         .min_access_size =3D 4,
-         .max_access_size =3D 4,
+ static void puv3_intc_realize(DeviceState *dev, Error **errp)
 --
 1.8.3.1
 
