@@ -2,48 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAAC98FE89
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:51:33 +0200 (CEST)
-Received: from localhost ([::1]:51930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F138FE9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:59:05 +0200 (CEST)
+Received: from localhost ([::1]:52059 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyXxM-0003ra-Rm
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:51:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52153)
+	id 1hyY4e-0006pa-9J
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:59:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54298)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1hyXtV-0007H8-3p
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:47:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hyY3O-00067p-QY
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:57:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1hyXtT-00045z-19
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:47:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54046)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1hyXtR-00043S-2f; Fri, 16 Aug 2019 04:47:30 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9643D3083392;
- Fri, 16 Aug 2019 08:47:27 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-116-249.ams2.redhat.com [10.36.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B28443FEF;
- Fri, 16 Aug 2019 08:47:25 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 10:47:08 +0200
-Message-Id: <20190816084708.602-7-david@redhat.com>
-In-Reply-To: <20190816084708.602-1-david@redhat.com>
-References: <20190816084708.602-1-david@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hyY3N-0002WP-Ab
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:57:46 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38276)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hyY3M-0002VA-4m
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:57:44 -0400
+Received: by mail-oi1-x244.google.com with SMTP id p124so4302992oig.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 01:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=F/VignfD644W9m9MuiKKhm5HFSHse80KdACdxMIyICk=;
+ b=w9Dyt7HiWFNGV7ag9WBn7uv0Bwk6AlpijxSoiJbtViKFv101pAdAUY42UQTMmSQUVu
+ 8x9Vk7yiCD07FLHoD6Hoq1ZkM8cwPOfawipAPy7Ddhdrh37ChuwcwVrqAT4BLm+zVzwb
+ bCZmduOvDHGsh40MzqqUqN7J1jqP6cI2fV+sqpSstKPeJ7QuMCPAx3u163AGiVo5XuQJ
+ 08me0mdd99iJ1AW9i9iYumJGFRDcuX0faQja3U/1qIaJ983q65M312df+j5sapjHK2d0
+ mEF8wZGF4xG1OHrsu2vKVCBb7kEYS/EyVpSlg41aktj/EFHQ7RG7jgFIRaKcnadyQNyb
+ G7Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=F/VignfD644W9m9MuiKKhm5HFSHse80KdACdxMIyICk=;
+ b=SHOUF/kbYCyTS3oDgyo2ZGEhRaFZxLEr9Wp6QI/ihjWtMfxC0vDnuHD3VtqvOTAdia
+ JgS9UQVSeyQx0LvXpo4YDnq0xxZGSep+DFRMLxxa3byZ9bemg++3Py3YS1rEO01oh/Tu
+ hLvkts5Z+LlOVINgGKwJWeri21MbXXJuFsOIexaN70HnXYR1kOZkpD7DRa6JNZ0oKFNw
+ UxRdNZXY/+jWjuz3Js97AKLxBgLTPaZASZuv64efTtewdoY/7uZVTCOMOJB6Q3qsJpFo
+ 7ekoWRhJJMeqxRCJBNlSBr42+TY438cutEr729btHOxjjwMwfcRTAysrZGQ1gd5uyi9L
+ dw4Q==
+X-Gm-Message-State: APjAAAUdE+CzT2qpvNgFoaBCl1zT58OIjTjJtd+o2yimQ9q9qhYqQgIQ
+ ihS2xxZO3Ktw5quFJtTlZGzITQrmuvIKphBIWJg3mw==
+X-Google-Smtp-Source: APXvYqzyPfv/xecnWNFmgiV366iAdVLiDuHA+bTghxUmEyBN5dbrMCtBN/czALmovteMSXgRldjOu2lnyXKLEdDwr74=
+X-Received: by 2002:aca:50cb:: with SMTP id e194mr3994816oib.48.1565945862801; 
+ Fri, 16 Aug 2019 01:57:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 16 Aug 2019 08:47:27 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 6/6] s390x/mmu: Factor out storage key
- handling
+References: <CAKmqyKMyv8gt8Gb6y0DMktnWnSKBw4ePwOXBzWkEpw5GVmyG0A@mail.gmail.com>
+ <mhng-f7096b78-f11e-425e-8ade-d20c77ee1de6@palmer-si-x1e>
+In-Reply-To: <mhng-f7096b78-f11e-425e-8ade-d20c77ee1de6@palmer-si-x1e>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 16 Aug 2019 09:57:31 +0100
+Message-ID: <CAFEAcA_gpS3odPN_1sxCjV+0bRrNn+=xmS=5JgUFvz2A332LEw@mail.gmail.com>
+To: Palmer Dabbelt <palmer@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
+Subject: Re: [Qemu-devel] [PULL 04/32] target/riscv: Implement
+ riscv_cpu_unassigned_access
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,194 +73,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Alistair Francis <alistair23@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Factor it out, add a comment how it all works, and also use it in the
-REAL MMU.
+On Thu, 15 Aug 2019 at 23:17, Palmer Dabbelt <palmer@sifive.com> wrote:
+> You're more than welcome to take them over.  I've got something that boots
+> Linux on my unassigned_access branch (github.com/palmer-dabbelt/qemu), but I
+> haven't sanitized the whole port for physical accesses and I haven't convinced
+> myself that my hook implementation is correct.
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/mmu_helper.c | 115 +++++++++++++++++++++++---------------
- 1 file changed, 71 insertions(+), 44 deletions(-)
+Rather than doing
+   if (retaddr) {
+       cpu_restore_state(cs, retaddr, true);
+   }
 
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 6cc81a29b6..e9db31faf8 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -334,6 +334,75 @@ static int mmu_translate_asce(CPUS390XState *env, ta=
-rget_ulong vaddr,
-     return r;
- }
-=20
-+static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
-+{
-+    static S390SKeysClass *skeyclass;
-+    static S390SKeysState *ss;
-+    uint8_t key;
-+    int rc;
-+
-+    if (unlikely(addr >=3D ram_size)) {
-+        return;
-+    }
-+
-+    if (unlikely(!ss)) {
-+        ss =3D s390_get_skeys_device();
-+        skeyclass =3D S390_SKEYS_GET_CLASS(ss);
-+    }
-+
-+    /*
-+     * Whenever we create a new TLB entry, we set the storage key refere=
-nce
-+     * bit. In case we allow write accesses, we set the storage key chan=
-ge
-+     * bit. Whenever the guest changes the storage key, we have to flush=
- the
-+     * TLBs of all CPUs (the whole TLB or all affected entries), so that=
- the
-+     * next reference/change will result in an MMU fault and make us pro=
-perly
-+     * update the storage key here.
-+     *
-+     * Note 1: "record of references ... is not necessarily accurate",
-+     *         "change bit may be set in case no storing has occurred".
-+     *         -> We can set reference/change bits even on exceptions.
-+     * Note 2: certain accesses seem to ignore storage keys. For example=
-,
-+     *         DAT translation does not set reference bits for table acc=
-esses.
-+     *
-+     * TODO: key-controlled protection. Only CPU accesses make use of th=
-e
-+     *       PSW key. CSS accesses are different - we have to pass in th=
-e key.
-+     *
-+     * TODO: we have races between getting and setting the key.
-+     */
-+    rc =3D skeyclass->get_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
-+    if (rc) {
-+        trace_get_skeys_nonzero(rc);
-+        return;
-+    }
-+
-+    switch (rw) {
-+    case MMU_DATA_LOAD:
-+    case MMU_INST_FETCH:
-+        /*
-+         * The TLB entry has to remain write-protected on read-faults if
-+         * the storage key does not indicate a change already. Otherwise
-+         * we might miss setting the change bit on write accesses.
-+         */
-+        if (!(key & SK_C)) {
-+            *flags &=3D ~PAGE_WRITE;
-+        }
-+        break;
-+    case MMU_DATA_STORE:
-+        key |=3D SK_C;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    /* Any store/fetch sets the reference bit */
-+    key |=3D SK_R;
-+
-+    rc =3D skeyclass->set_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
-+    if (rc) {
-+        trace_set_skeys_nonzero(rc);
-+    }
-+}
-+
- /**
-  * Translate a virtual (logical) address into a physical (absolute) addr=
-ess.
-  * @param vaddr  the virtual address
-@@ -347,16 +416,9 @@ static int mmu_translate_asce(CPUS390XState *env, ta=
-rget_ulong vaddr,
- int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64=
-_t asc,
-                   target_ulong *raddr, int *flags, bool exc)
- {
--    static S390SKeysState *ss;
--    static S390SKeysClass *skeyclass;
-     uint64_t asce;
--    uint8_t key;
-     int r;
-=20
--    if (unlikely(!ss)) {
--        ss =3D s390_get_skeys_device();
--        skeyclass =3D S390_SKEYS_GET_CLASS(ss);
--    }
-=20
-     *flags =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-     if (is_low_address(vaddr & TARGET_PAGE_MASK) && lowprot_enabled(env,=
- asc)) {
-@@ -413,42 +475,7 @@ nodat:
-     /* Convert real address -> absolute address */
-     *raddr =3D mmu_real2abs(env, *raddr);
-=20
--    if (*raddr < ram_size) {
--        r =3D skeyclass->get_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &ke=
-y);
--        if (r) {
--            trace_get_skeys_nonzero(r);
--            return 0;
--        }
--
--        switch (rw) {
--        case MMU_DATA_LOAD:
--        case MMU_INST_FETCH:
--            /*
--             * The TLB entry has to remain write-protected on read-fault=
-s if
--             * the storage key does not indicate a change already. Other=
-wise
--             * we might miss setting the change bit on write accesses.
--             */
--            if (!(key & SK_C)) {
--                *flags &=3D ~PAGE_WRITE;
--            }
--            break;
--        case MMU_DATA_STORE:
--            key |=3D SK_C;
--            break;
--        default:
--            g_assert_not_reached();
--        }
--
--        /* Any store/fetch sets the reference bit */
--        key |=3D SK_R;
--
--        r =3D skeyclass->set_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &ke=
-y);
--        if (r) {
--            trace_set_skeys_nonzero(r);
--            return 0;
--        }
--    }
--
-+    mmu_handle_skey(*raddr, rw, flags);
-     return 0;
- }
-=20
-@@ -566,6 +593,6 @@ int mmu_translate_real(CPUS390XState *env, target_ulo=
-ng raddr, int rw,
-=20
-     *addr =3D mmu_real2abs(env, raddr & TARGET_PAGE_MASK);
-=20
--    /* TODO: storage key handling */
-+    mmu_handle_skey(*addr, rw, flags);
-     return 0;
- }
---=20
-2.21.0
+at the start of the hook I think you just want to pass 'retaddr'
+as the final argument to riscv_raise_exception() instead of
+using GETPC(). Other than that I think the hook itself is right.
 
+The 'git grep' regexes in docs/devel/loads-stores.rst are handy
+for finding the places where the target code is doing physical
+accesses. IIRC the only ones I found with a quick scan were the
+PTE loads in get_physical_address() via ldl_phys/ldq_phys, which will
+now return 0 and run into the 'invalid PTE' code path. I don't
+know whether your architecture requires some different behaviour
+for bus errors on page table walk than that (you might want to
+specifically code the error path anyway or comment it even if the
+behaviour is right, to be a bit more explicit that it can happen).
+
+thanks
+-- PMM
 
