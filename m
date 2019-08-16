@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B5D8FCB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 09:49:23 +0200 (CEST)
-Received: from localhost ([::1]:50881 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828FA8FCAC
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 09:45:19 +0200 (CEST)
+Received: from localhost ([::1]:50794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyWzC-0006S0-EN
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 03:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38315)
+	id 1hyWvF-00023b-RU
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 03:45:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWhm-00052u-GL
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:31:24 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWiz-00061S-Iw
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:32:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWhk-0007tW-Gj
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:31:22 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.77]:34134)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWin-0008Ij-RC
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:32:31 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.74]:57203)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWhO-0007ix-0g; Fri, 16 Aug 2019 03:30:58 -0400
-Received: from tpw09926dag18g.domain1.systemhost.net (10.9.212.34) by
- BWP09926082.bt.com (10.36.82.113) with Microsoft SMTP Server (version=TLS1_2, 
+ id 1hyWhy-0007xg-50; Fri, 16 Aug 2019 03:31:34 -0400
+Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
+ BWP09926079.bt.com (10.36.82.110) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
- Aug 2019 08:30:32 +0100
+ Aug 2019 08:31:09 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18g.domain1.systemhost.net (10.9.212.34) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:30:52 +0100
+ tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:31:31 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:30:53 +0100
+ 2019 08:31:31 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 12/42] hw/s390x: Hard code size with
+Thread-Topic: [Qemu-devel] [PATCH v7 14/42] exec: Hard code size with
  MO_{8|16|32|64}
-Thread-Index: AQHVVASIHvIgAu/PqkGPDWK31G+Lhw==
-Date: Fri, 16 Aug 2019 07:30:52 +0000
-Message-ID: <1565940651997.54048@bt.com>
+Thread-Index: AQHVVASf4LvM5FNQUUCqAafwFfyIRQ==
+Date: Fri, 16 Aug 2019 07:31:31 +0000
+Message-ID: <1565940690590.52845@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -49,11 +49,11 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.77
+X-Received-From: 213.121.35.74
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 12/42] hw/s390x: Hard code size with
+Subject: [Qemu-devel] [PATCH v7 14/42] exec: Hard code size with
  MO_{8|16|32|64}
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,27 +105,111 @@ MO_{8|16|32|64}. This is more expressive and avoids size_memop calls.
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/s390x/s390-pci-inst.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ memory_ldst.inc.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index 0c958fc..0e92a37 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -782,8 +782,7 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8=
-_t r3, uint64_t gaddr,
-     for (i =3D 0; i < len / 8; i++) {
-         result =3D memory_region_dispatch_write(mr, offset + i * 8,
-                                               ldq_p(buffer + i * 8),
--                                              size_memop(8),
--                                              MEMTXATTRS_UNSPECIFIED);
-+                                              MO_64, MEMTXATTRS_UNSPECIFIE=
-D);
-         if (result !=3D MEMTX_OK) {
-             s390_program_interrupt(env, PGM_OPERAND, 6, ra);
-             return 0;
+diff --git a/memory_ldst.inc.c b/memory_ldst.inc.c
+index 1e8a2fc..de658c4 100644
+--- a/memory_ldst.inc.c
++++ b/memory_ldst.inc.c
+@@ -38,7 +38,7 @@ static inline uint32_t glue(address_space_ldl_internal, S=
+UFFIX)(ARG1_DECL,
+         release_lock |=3D prepare_mmio_access(mr);
+
+         /* I/O case */
+-        r =3D memory_region_dispatch_read(mr, addr1, &val, size_memop(4), =
+attrs);
++        r =3D memory_region_dispatch_read(mr, addr1, &val, MO_32, attrs);
+ #if defined(TARGET_WORDS_BIGENDIAN)
+         if (endian =3D=3D DEVICE_LITTLE_ENDIAN) {
+             val =3D bswap32(val);
+@@ -114,7 +114,7 @@ static inline uint64_t glue(address_space_ldq_internal,=
+ SUFFIX)(ARG1_DECL,
+         release_lock |=3D prepare_mmio_access(mr);
+
+         /* I/O case */
+-        r =3D memory_region_dispatch_read(mr, addr1, &val, size_memop(8), =
+attrs);
++        r =3D memory_region_dispatch_read(mr, addr1, &val, MO_64, attrs);
+ #if defined(TARGET_WORDS_BIGENDIAN)
+         if (endian =3D=3D DEVICE_LITTLE_ENDIAN) {
+             val =3D bswap64(val);
+@@ -188,7 +188,7 @@ uint32_t glue(address_space_ldub, SUFFIX)(ARG1_DECL,
+         release_lock |=3D prepare_mmio_access(mr);
+
+         /* I/O case */
+-        r =3D memory_region_dispatch_read(mr, addr1, &val, size_memop(1), =
+attrs);
++        r =3D memory_region_dispatch_read(mr, addr1, &val, MO_8, attrs);
+     } else {
+         /* RAM case */
+         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
+@@ -224,7 +224,7 @@ static inline uint32_t glue(address_space_lduw_internal=
+, SUFFIX)(ARG1_DECL,
+         release_lock |=3D prepare_mmio_access(mr);
+
+         /* I/O case */
+-        r =3D memory_region_dispatch_read(mr, addr1, &val, size_memop(2), =
+attrs);
++        r =3D memory_region_dispatch_read(mr, addr1, &val, MO_16, attrs);
+ #if defined(TARGET_WORDS_BIGENDIAN)
+         if (endian =3D=3D DEVICE_LITTLE_ENDIAN) {
+             val =3D bswap16(val);
+@@ -300,7 +300,7 @@ void glue(address_space_stl_notdirty, SUFFIX)(ARG1_DECL=
+,
+     if (l < 4 || !memory_access_is_direct(mr, true)) {
+         release_lock |=3D prepare_mmio_access(mr);
+
+-        r =3D memory_region_dispatch_write(mr, addr1, val, size_memop(4), =
+attrs);
++        r =3D memory_region_dispatch_write(mr, addr1, val, MO_32, attrs);
+     } else {
+         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
+         stl_p(ptr, val);
+@@ -346,7 +346,7 @@ static inline void glue(address_space_stl_internal, SUF=
+FIX)(ARG1_DECL,
+             val =3D bswap32(val);
+         }
+ #endif
+-        r =3D memory_region_dispatch_write(mr, addr1, val, size_memop(4), =
+attrs);
++        r =3D memory_region_dispatch_write(mr, addr1, val, MO_32, attrs);
+     } else {
+         /* RAM case */
+         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
+@@ -408,7 +408,7 @@ void glue(address_space_stb, SUFFIX)(ARG1_DECL,
+     mr =3D TRANSLATE(addr, &addr1, &l, true, attrs);
+     if (!memory_access_is_direct(mr, true)) {
+         release_lock |=3D prepare_mmio_access(mr);
+-        r =3D memory_region_dispatch_write(mr, addr1, val, size_memop(1), =
+attrs);
++        r =3D memory_region_dispatch_write(mr, addr1, val, MO_8, attrs);
+     } else {
+         /* RAM case */
+         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
+@@ -451,7 +451,7 @@ static inline void glue(address_space_stw_internal, SUF=
+FIX)(ARG1_DECL,
+             val =3D bswap16(val);
+         }
+ #endif
+-        r =3D memory_region_dispatch_write(mr, addr1, val, size_memop(2), =
+attrs);
++        r =3D memory_region_dispatch_write(mr, addr1, val, MO_16, attrs);
+     } else {
+         /* RAM case */
+         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
+@@ -524,7 +524,7 @@ static void glue(address_space_stq_internal, SUFFIX)(AR=
+G1_DECL,
+             val =3D bswap64(val);
+         }
+ #endif
+-        r =3D memory_region_dispatch_write(mr, addr1, val, size_memop(8), =
+attrs);
++        r =3D memory_region_dispatch_write(mr, addr1, val, MO_64, attrs);
+     } else {
+         /* RAM case */
+         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
 --
 1.8.3.1
 
