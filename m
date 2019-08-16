@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7539037A
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:54:51 +0200 (CEST)
-Received: from localhost ([::1]:56530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1EA9039E
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 16:05:32 +0200 (CEST)
+Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycgs-00080O-H9
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:54:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40961)
+	id 1hycrD-0006tP-Vo
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 10:05:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41679)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hycfb-0007CG-V7
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:53:32 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hyclF-0003Up-7w
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:59:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hycfa-0007kF-Lx
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:53:31 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:35189)
+ (envelope-from <bmeng.cn@gmail.com>) id 1hyclC-0003cN-MF
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:59:21 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:42877)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hycfa-0007hz-GU
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:53:30 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id a127so4863483oii.2
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:53:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1hyclC-0003bN-GX; Fri, 16 Aug 2019 09:59:18 -0400
+Received: by mail-ed1-x541.google.com with SMTP id m44so5187573edd.9;
+ Fri, 16 Aug 2019 06:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b97a/l5R0P073YS/8iDaHzKb8gNPjMZ2bo+5zLRXa9k=;
- b=IjX2tPdn8pzyg6UDKyUR11fInbcdhZnw/o8sQtunkblOFcgUrw7aHwLB8MoDPvUqxv
- 4Ab9zbiOEd67Z9/rjxYnksJ+is9rV2gkhCW5EbI9oXm/JWRQbTKaKxnTaS+SF1Oofe6X
- nnMszSmld9/cxYgkHv6tZz0ZUOFPEtVLJezAwa+ARx51GTfD0MpCUrz4MHeV/Zo5P7UX
- APUz0ght38zEYGduCc5OpI31vLa+Ncz8i41CFih+3HMvdVaC70U0PfUWnOEO6ffqSX8h
- XyT5naW9PJ++24uMPSzPvPhIt3jajhy8eSMZYe+70My0r5qDZA9P07Oeivmu1CFWtW53
- RAyw==
+ :cc; bh=VsEqMwtvUOPRshmNKS1IPrYSvQe9ypQylshpeYg0tp0=;
+ b=lVbsLB1y9M5GkmjPwhh94vcGhBRA2XkUuWaF1JGoZouWznISqyiMOQJBAcP1I/wujs
+ H+RqtmZrm+J3jnxnM5RiuGxzXfJM+gpanbeQh3oM2VB5XLv4G/fygLDxPL5NInx9wLI7
+ vFuuPoBbqTTSpNLtmaZe5iXoX9qNr5PINxfUSBOBEhx8J6e6IretdyNViG2AoYHzBuV6
+ p5X6XkgBcmcIsWhCmGAjDJ+yI1Y9Zxj8Br9AQ1g1KxxvIVmYeoc26uB1FKCJTp1d9+zu
+ j9qOn1ephRwZq5V0H2wdphdMNilT9jaj6C3JwdhaWaOp3OxLkdeDJ+MNOLzvLtz98r4I
+ IRgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=b97a/l5R0P073YS/8iDaHzKb8gNPjMZ2bo+5zLRXa9k=;
- b=ON4XV0XwkrafUK4N7qP4ik+zBfq9VSM49ic0kYxqNH6+CpJl+ENmf50BRrOH+fAAa+
- /Vb2qfDNwiCGaffwUBG/ri7HnlQ6m8X08BPW4tcmF4WN0sBkktaEYLpzuAAHFxZi7+xq
- enM2Kzq7SFQeF5MoSE4Pb4BS7xxgBjjbcXibaZpSC7F+ISJKhGcMa0QPeVU7U8B8P3ht
- QCnwnDex6AQ9bNOQAMmfuFx4THP43SiZElRdCEUgoIhzaAYrmLPgKzY4r542LiEry2Zw
- vVCgqcCey/7ykW/F/n8sVzni4jWgFL2gZuZV7HrIh4NISCLK5KWLetAp9wSwl2DpfSeR
- dLRg==
-X-Gm-Message-State: APjAAAVUeXkEkB32MsmbQ3OyTWw/ZfVcD6e+Fo1G6pBIj+RoaIXa8dIR
- YP9grJrZCsRPQ1+loOqNzg32AmbI6dR9O9RNKzkjZQ==
-X-Google-Smtp-Source: APXvYqxrkMqla6eEszw0fTANMp/XlFU5EivKb8sARA3fJ8lhtVeVMq6WA+wyKYyk76CC+As+Z6d4EigKODT2vgSPyIM=
-X-Received: by 2002:aca:6185:: with SMTP id v127mr5193375oib.163.1565963609104; 
- Fri, 16 Aug 2019 06:53:29 -0700 (PDT)
+ bh=VsEqMwtvUOPRshmNKS1IPrYSvQe9ypQylshpeYg0tp0=;
+ b=NNSUPaOlyQF/dK194QuADN8GXOibj3hqh6qbFPzSeUdgX6SP4dWPeAWReB2LDuCQXk
+ MDnbsF1BTQ/tu8XcJsHchFi7Eu8pgPHzZrsBGrHJiy4uxNiNH6gqLP4AzgrUnKqpoLU+
+ s27zl4NiqVOHdKI7BWIeEwMLr/zfOESYkX9+Vy6xFlBP9izOUC9Rn4qKMtWP31DkJfOy
+ D/5xsGtqUzNWY21zbQTgu5l7cleqd/SM8hazVbfBNHYzGYgwCrgqjrVcmYS8an62MpQV
+ mI3IG6CcUAO3CBzZZsF0hxuG0awwwuE+P5n1/zaBV8lLxDqolg3FYgKM3Q+axi7nZ+92
+ MaJg==
+X-Gm-Message-State: APjAAAVgVSKTNP2tNc0naybDoUmdm9sxZdbhCUw4YxzefCqb6YS1bAyy
+ e4BxplBxIqLilEIv8ThnejrPz/yd4tl00pPTjaI=
+X-Google-Smtp-Source: APXvYqz6lruVCkME6EKl+khqPSELpHog5sXZlrI6jxubp9FJ6c1IQkgtVxgMERJMrSO/pH1Z46XLdXHZcoev1GGoNBk=
+X-Received: by 2002:a50:8687:: with SMTP id r7mr11014496eda.137.1565963957055; 
+ Fri, 16 Aug 2019 06:59:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190815175922.3475-1-thuth@redhat.com>
-In-Reply-To: <20190815175922.3475-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 16 Aug 2019 14:53:17 +0100
-Message-ID: <CAFEAcA_JPw0AvG5GtL0yYc-JY_fBoCwBYLtivRKg+d9hAqPcfw@mail.gmail.com>
-To: Thomas Huth <thuth@redhat.com>
+References: <cover.1565904855.git.alistair.francis@wdc.com>
+ <1a5abeb9acb758a24daddc5ca8ecd56229a73cf1.1565904855.git.alistair.francis@wdc.com>
+In-Reply-To: <1a5abeb9acb758a24daddc5ca8ecd56229a73cf1.1565904855.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 16 Aug 2019 21:59:04 +0800
+Message-ID: <CAEUhbmXVPsfbEhX5JHqm8JjffG=2MWvf-j562q=SJ++y6Hb2fQ@mail.gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22f
-Subject: Re: [Qemu-devel] [PULL 0/9] qtest patches
+X-Received-From: 2a00:1450:4864:20::541
+Subject: Re: [Qemu-devel] [PATCH v3 1/7] target/riscv: Don't set write
+ permissions on dirty PTEs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,38 +72,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 15 Aug 2019 at 18:59, Thomas Huth <thuth@redhat.com> wrote:
+On Fri, Aug 16, 2019 at 5:41 AM Alistair Francis
+<alistair.francis@wdc.com> wrote:
 >
->  Hi Peter,
+> Setting write permission on dirty PTEs results in userspace inside a
+> Hypervisor guest (VU) becoming corrupted. This appears to be because it
+> ends up with write permission in the second stage translation in cases
+> where we aren't doing a store.
 >
-> the following changes since commit 9e06029aea3b2eca1d5261352e695edc1e7d7b8b:
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/cpu_helper.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 >
->   Update version for v4.1.0 release (2019-08-15 13:03:37 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/huth/qemu.git tags/pull-request-2019-08-15
->
-> for you to fetch changes up to 6fc9f3d347aee337421f8afc4d0984294f8ea6c3:
->
->   tests/libqtest: Make qmp_assert_success() independent from global_qtest (2019-08-15 19:24:10 +0200)
->
-> ----------------------------------------------------------------
-> - Fix for ctrl queue in the virtio-net QOS driver
-> - Improve Valgrind reports in the tests that use the null-co driver
-> - Get rid of global_qtest related code in libqtest and libqos
-> ----------------------------------------------------------------
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
