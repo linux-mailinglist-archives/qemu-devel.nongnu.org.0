@@ -2,69 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1641F90A3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 23:22:51 +0200 (CEST)
-Received: from localhost ([::1]:60030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D0290A70
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 23:48:00 +0200 (CEST)
+Received: from localhost ([::1]:60158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyjgP-0000VC-LW
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 17:22:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60948)
+	id 1hyk4l-0008Ni-Ak
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 17:47:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35677)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nirsof@gmail.com>) id 1hyjfU-0008PW-G5
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:21:54 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hyk34-0007pm-HU
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:46:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nirsof@gmail.com>) id 1hyjfS-0002hg-O4
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:21:52 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34230)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nirsof@gmail.com>)
- id 1hyjfO-0002ft-MK; Fri, 16 Aug 2019 17:21:46 -0400
-Received: by mail-wr1-x443.google.com with SMTP id s18so2802408wrn.1;
- Fri, 16 Aug 2019 14:21:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4lqSZ1m0WK/OEYPPjSPDg39E2UZXOnB9G/Y7GfNf7as=;
- b=fCwxJvFkQivFoB3GcztjkFF43KEX2I8wFcnmMHRjB9JHS/GRmF6ldqrodwzyVVjhf9
- RU5rNyfvHHoyVb8PF5hZ8+g0bYoTxPC6Z6KDCcbMrECH0tg5OQ+elAwWqRQPuRcdJvGf
- TdmgoAmyLNUL0YwPkRNumaaL/5w+zCAX4wF5GhVPlJAwZKy7tZXdlVvQjdldJlh2woc5
- xH6OQd7XMgkW2JqSw1NZpNSm7CM/FdlZJlSXu02Pqh2DzSkX9JIiKGap2H9BCfyeNHmo
- 7hnmnHl4xYUT+YJoGpr6xm8CyaU5ljSjI9FzDrYme4MqU3XYxZrVwKp7agTP/7vp/UbI
- KJ0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4lqSZ1m0WK/OEYPPjSPDg39E2UZXOnB9G/Y7GfNf7as=;
- b=Oa3gccWCAoVXpFxJ35p5JaS2iKse7pt8obxpAITX2zZKGxryl8979Jtclge0WctCuQ
- 2Z23ssDlppdSy+fKIQ0ir32B9DduE4bpPkLkIbFeh/dLWmUWEfLP/h/dBd5NkZb8Q3iY
- 8YYFqQrEWGy+5i55VJ9fkc59avpY7KTuCJbFge2IgZmOqgCXq+GDy8ZCdcsijr4epW0C
- JE5KBfM1YX7lTZjZaMXTRBjKEmPZ/qhoUxv1bnu80hfAC0DOMQ8Ww2mue2gEEjw9fOkM
- SbQ0KZl9zEqdMa9JMH+p0NxzZV5APdbt2riIk0sgd5kcYmRkhjNdALXt9XkJH4+dL1Qa
- 54uQ==
-X-Gm-Message-State: APjAAAVzrbs8WqBEmDTOkot6alyXudmC/0GYXLTblF5LM1VhwgWIx25q
- NO+7sC26tTRLQbDNMVLLBZb1lSpfIjg=
-X-Google-Smtp-Source: APXvYqz4zf1ZXbSaEER6fx+xjtpXLrEZIJ8wbylUZlKgTIxSAy/AHEzyz6491Gvp9yvSEx2o7T/zrA==
-X-Received: by 2002:a5d:4c87:: with SMTP id z7mr12492007wrs.10.1565990504657; 
- Fri, 16 Aug 2019 14:21:44 -0700 (PDT)
-Received: from localhost.localdomain (93-173-46-43.bb.netvision.net.il.
- [93.173.46.43])
- by smtp.gmail.com with ESMTPSA id s64sm11474524wmf.16.2019.08.16.14.21.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 14:21:43 -0700 (PDT)
-From: Nir Soffer <nirsof@gmail.com>
-X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
-To: qemu-block@nongnu.org
-Date: Sat, 17 Aug 2019 00:21:22 +0300
-Message-Id: <20190816212122.8816-1-nsoffer@redhat.com>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <no-reply@patchew.org>) id 1hyk32-0004Xu-H4
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:46:14 -0400
+Resent-Date: Fri, 16 Aug 2019 17:46:14 -0400
+Resent-Message-Id: <E1hyk32-0004Xu-H4@eggs.gnu.org>
+Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21988)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hyk32-0004XK-9J
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:46:12 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1565991934; cv=none; d=zoho.com; s=zohoarc; 
+ b=abLPARoHUpxnlNZB3m8tHRROVrvsWnlAkfsBfDFeTdyUwGps252wi1LH5gS10VTdSjtY+UoMM32xQXfoYj2udUQlj+7sdEYNyoD6CtAI4KBNdySPp3XO9Am8KUBYsj5ja1KHSCAXYBBtnOwt7qGRkiXXfMOXNkVtAMrqybXITc0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1565991934;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=UMqsHKB49LFywvu8C4UjPIuK+keSX/+44GAlzZfu+SE=; 
+ b=N1Rn4IG/YcorbHp1JY2J6bcCu/qIN3mwYHSUubV9nd94WfPblbtiHi5o+SrUlG1Cs9jUcz6gG9T1rBfut1nag64X10xmPcZOY+hmUgKSUNryTzdvjKPo9/pXEwtW4Q0S1PtlkSy9k2ii/58CLUg6+NoYyKGBgD+ieQxZ2rWMTfk=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1565991932001359.3994043906098;
+ Fri, 16 Aug 2019 14:45:32 -0700 (PDT)
+In-Reply-To: <20190816211356.59244-1-scw@google.com>
+Message-ID: <156599193082.21161.16613045333882837387@5dec9699b7de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH] block: posix: Always allocate the first block
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: qemu-devel@nongnu.org
+Date: Fri, 16 Aug 2019 14:45:32 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.59
+Subject: Re: [Qemu-devel] [PATCH] Add support for ethtool via
+ TARGET_SIOCETHTOOL ioctls.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,277 +62,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: arunkaly@google.com, scw@google.com, riku.voipio@iki.fi, laurent@vivier.eu,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When creating an image with preallocation "off" or "falloc", the first
-block of the image is typically not allocated. When using Gluster
-storage backed by XFS filesystem, reading this block using direct I/O
-succeeds regardless of request length, fooling alignment detection.
-
-In this case we fallback to a safe value (4096) instead of the optimal
-value (512), which may lead to unneeded data copying when aligning
-requests.  Allocating the first block avoids the fallback.
-
-When using preallocation=off, we always allocate at least one filesystem
-block:
-
-    $ ./qemu-img create -f raw test.raw 1g
-    Formatting 'test.raw', fmt=raw size=1073741824
-
-    $ ls -lhs test.raw
-    4.0K -rw-r--r--. 1 nsoffer nsoffer 1.0G Aug 16 23:48 test.raw
-
-I did quick performance tests for these flows:
-- Provisioning a VM with a new raw image.
-- Copying disks with qemu-img convert to new raw target image
-
-I installed Fedora 29 server on raw sparse image, measuring the time
-from clicking "Begin installation" until the "Reboot" button appears:
-
-Before(s)  After(s)     Diff(%)
--------------------------------
-     356        389        +8.4
-
-I ran this only once, so we cannot tell much from these results.
-
-The second test was cloning the installation image with qemu-img
-convert, doing 10 runs:
-
-    for i in $(seq 10); do
-        rm -f dst.raw
-        sleep 10
-        time ./qemu-img convert -f raw -O raw -t none -T none src.raw dst.raw
-    done
-
-Here is a table comparing the total time spent:
-
-Type    Before(s)   After(s)    Diff(%)
----------------------------------------
-real      530.028    469.123      -11.4
-user       17.204     10.768      -37.4
-sys        17.881      7.011      -60.7
-
-Here we see very clear improvement in CPU usage.
-
-Signed-off-by: Nir Soffer <nsoffer@redhat.com>
----
- block/file-posix.c         | 25 +++++++++++++++++++++++++
- tests/qemu-iotests/150.out |  1 +
- tests/qemu-iotests/160     |  4 ++++
- tests/qemu-iotests/175     | 19 +++++++++++++------
- tests/qemu-iotests/175.out |  8 ++++----
- tests/qemu-iotests/221.out | 12 ++++++++----
- tests/qemu-iotests/253.out | 12 ++++++++----
- 7 files changed, 63 insertions(+), 18 deletions(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b9c33c8f6c..3964dd2021 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1755,6 +1755,27 @@ static int handle_aiocb_discard(void *opaque)
-     return ret;
- }
- 
-+/*
-+ * Help alignment detection by allocating the first block.
-+ *
-+ * When reading with direct I/O from unallocated area on Gluster backed by XFS,
-+ * reading succeeds regardless of request length. In this case we fallback to
-+ * safe aligment which is not optimal. Allocating the first block avoids this
-+ * fallback.
-+ *
-+ * Returns: 0 on success, -errno on failure.
-+ */
-+static int allocate_first_block(int fd)
-+{
-+    ssize_t n;
-+
-+    do {
-+        n = pwrite(fd, "\0", 1, 0);
-+    } while (n == -1 && errno == EINTR);
-+
-+    return (n == -1) ? -errno : 0;
-+}
-+
- static int handle_aiocb_truncate(void *opaque)
- {
-     RawPosixAIOData *aiocb = opaque;
-@@ -1794,6 +1815,8 @@ static int handle_aiocb_truncate(void *opaque)
-                 /* posix_fallocate() doesn't set errno. */
-                 error_setg_errno(errp, -result,
-                                  "Could not preallocate new data");
-+            } else if (current_length == 0) {
-+                allocate_first_block(fd);
-             }
-         } else {
-             result = 0;
-@@ -1855,6 +1878,8 @@ static int handle_aiocb_truncate(void *opaque)
-         if (ftruncate(fd, offset) != 0) {
-             result = -errno;
-             error_setg_errno(errp, -result, "Could not resize file");
-+        } else if (current_length == 0 && offset > current_length) {
-+            allocate_first_block(fd);
-         }
-         return result;
-     default:
-diff --git a/tests/qemu-iotests/150.out b/tests/qemu-iotests/150.out
-index 2a54e8dcfa..3cdc7727a5 100644
---- a/tests/qemu-iotests/150.out
-+++ b/tests/qemu-iotests/150.out
-@@ -3,6 +3,7 @@ QA output created by 150
- === Mapping sparse conversion ===
- 
- Offset          Length          File
-+0               0x1000          TEST_DIR/t.IMGFMT
- 
- === Mapping non-sparse conversion ===
- 
-diff --git a/tests/qemu-iotests/160 b/tests/qemu-iotests/160
-index df89d3864b..ad2d054a47 100755
---- a/tests/qemu-iotests/160
-+++ b/tests/qemu-iotests/160
-@@ -57,6 +57,10 @@ for skip in $TEST_SKIP_BLOCKS; do
-     $QEMU_IMG dd if="$TEST_IMG" of="$TEST_IMG.out" skip="$skip" -O "$IMGFMT" \
-         2> /dev/null
-     TEST_IMG="$TEST_IMG.out" _check_test_img
-+
-+    # We always write the first byte of an image.
-+    printf "\0" > "$TEST_IMG.out.dd"
-+
-     dd if="$TEST_IMG" of="$TEST_IMG.out.dd" skip="$skip" status=none
- 
-     echo
-diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
-index 51e62c8276..c6a3a7bb1e 100755
---- a/tests/qemu-iotests/175
-+++ b/tests/qemu-iotests/175
-@@ -37,14 +37,16 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- # the file size.  This function hides the resulting difference in the
- # stat -c '%b' output.
- # Parameter 1: Number of blocks an empty file occupies
--# Parameter 2: Image size in bytes
-+# Parameter 2: Minimal number of blocks in an image
-+# Parameter 3: Image size in bytes
- _filter_blocks()
- {
-     extra_blocks=$1
--    img_size=$2
-+    min_blocks=$2
-+    img_size=$3
- 
--    sed -e "s/blocks=$extra_blocks\\(\$\\|[^0-9]\\)/nothing allocated/" \
--        -e "s/blocks=$((extra_blocks + img_size / 512))\\(\$\\|[^0-9]\\)/everything allocated/"
-+    sed -e "s/blocks=$((extra_blocks + min_blocks))\\(\$\\|[^0-9]\\)/min allocation/" \
-+        -e "s/blocks=$((extra_blocks + img_size / 512))\\(\$\\|[^0-9]\\)/max allocation/"
- }
- 
- # get standard environment, filters and checks
-@@ -60,16 +62,21 @@ size=$((1 * 1024 * 1024))
- touch "$TEST_DIR/empty"
- extra_blocks=$(stat -c '%b' "$TEST_DIR/empty")
- 
-+# We always write the first byte; check how many blocks this filesystem
-+# allocates to match empty image alloation.
-+printf "\0" > "$TEST_DIR/empty"
-+min_blocks=$(stat -c '%b' "$TEST_DIR/empty")
-+
- echo
- echo "== creating image with default preallocation =="
- _make_test_img $size | _filter_imgfmt
--stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks $size
-+stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks $min_blocks $size
- 
- for mode in off full falloc; do
-     echo
-     echo "== creating image with preallocation $mode =="
-     IMGOPTS=preallocation=$mode _make_test_img $size | _filter_imgfmt
--    stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks $size
-+    stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks $min_blocks $size
- done
- 
- # success, all done
-diff --git a/tests/qemu-iotests/175.out b/tests/qemu-iotests/175.out
-index 6d9a5ed84e..263e521262 100644
---- a/tests/qemu-iotests/175.out
-+++ b/tests/qemu-iotests/175.out
-@@ -2,17 +2,17 @@ QA output created by 175
- 
- == creating image with default preallocation ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
--size=1048576, nothing allocated
-+size=1048576, min allocation
- 
- == creating image with preallocation off ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 preallocation=off
--size=1048576, nothing allocated
-+size=1048576, min allocation
- 
- == creating image with preallocation full ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 preallocation=full
--size=1048576, everything allocated
-+size=1048576, max allocation
- 
- == creating image with preallocation falloc ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 preallocation=falloc
--size=1048576, everything allocated
-+size=1048576, max allocation
-  *** done
-diff --git a/tests/qemu-iotests/221.out b/tests/qemu-iotests/221.out
-index 9f9dd52bb0..dca024a0c3 100644
---- a/tests/qemu-iotests/221.out
-+++ b/tests/qemu-iotests/221.out
-@@ -3,14 +3,18 @@ QA output created by 221
- === Check mapping of unaligned raw image ===
- 
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=65537
--[{ "start": 0, "length": 66048, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
--[{ "start": 0, "length": 66048, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 4096, "length": 61952, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 4096, "length": 61952, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
- wrote 1/1 bytes at offset 65536
- 1 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 4096, "length": 61440, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
- { "start": 65536, "length": 1, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 65537, "length": 511, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
--[{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 4096, "length": 61440, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
- { "start": 65536, "length": 1, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 65537, "length": 511, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
- *** done
-diff --git a/tests/qemu-iotests/253.out b/tests/qemu-iotests/253.out
-index 607c0baa0b..3d08b305d7 100644
---- a/tests/qemu-iotests/253.out
-+++ b/tests/qemu-iotests/253.out
-@@ -3,12 +3,16 @@ QA output created by 253
- === Check mapping of unaligned raw image ===
- 
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048575
--[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
--[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 4096, "length": 1044480, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 4096, "length": 1044480, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
- wrote 65535/65535 bytes at offset 983040
- 63.999 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 983040, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 4096, "length": 978944, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
- { "start": 983040, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
--[{ "start": 0, "length": 983040, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 4096, "length": 978944, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
- { "start": 983040, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- *** done
--- 
-2.20.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDgxNjIxMTM1Ni41OTI0
+NC0xLXNjd0Bnb29nbGUuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
+ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
+YXRpb246CgpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSF0gQWRkIHN1
+cHBvcnQgZm9yIGV0aHRvb2wgdmlhIFRBUkdFVF9TSU9DRVRIVE9PTCBpb2N0bHMuCk1lc3NhZ2Ut
+aWQ6IDIwMTkwODE2MjExMzU2LjU5MjQ0LTEtc2N3QGdvb2dsZS5jb20KCj09PSBURVNUIFNDUklQ
+VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8
+IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcg
+LS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0
+aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09
+PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVm
+N2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9x
+ZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAxOTA4MTYyMTEzNTYuNTkyNDQtMS1z
+Y3dAZ29vZ2xlLmNvbSAtPiBwYXRjaGV3LzIwMTkwODE2MjExMzU2LjU5MjQ0LTEtc2N3QGdvb2ds
+ZS5jb20KU3VibW9kdWxlICdjYXBzdG9uZScgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9jYXBz
+dG9uZS5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ2NhcHN0b25lJwpTdWJtb2R1bGUgJ2R0Yycg
+KGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9kdGMuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdk
+dGMnClN1Ym1vZHVsZSAncm9tcy9RZW11TWFjRHJpdmVycycgKGh0dHBzOi8vZ2l0LnFlbXUub3Jn
+L2dpdC9RZW11TWFjRHJpdmVycy5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvUWVtdU1h
+Y0RyaXZlcnMnClN1Ym1vZHVsZSAncm9tcy9TTE9GJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0
+L1NMT0YuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL1NMT0YnClN1Ym1vZHVsZSAncm9t
+cy9lZGsyJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2VkazIuZ2l0KSByZWdpc3RlcmVkIGZv
+ciBwYXRoICdyb21zL2VkazInClN1Ym1vZHVsZSAncm9tcy9pcHhlJyAoaHR0cHM6Ly9naXQucWVt
+dS5vcmcvZ2l0L2lweGUuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL2lweGUnClN1Ym1v
+ZHVsZSAncm9tcy9vcGVuYmlvcycgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9vcGVuYmlvcy5n
+aXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvb3BlbmJpb3MnClN1Ym1vZHVsZSAncm9tcy9v
+cGVuaGFja3dhcmUnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvb3BlbmhhY2t3YXJlLmdpdCkg
+cmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9vcGVuaGFja3dhcmUnClN1Ym1vZHVsZSAncm9tcy9v
+cGVuc2JpJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L29wZW5zYmkuZ2l0KSByZWdpc3RlcmVk
+IGZvciBwYXRoICdyb21zL29wZW5zYmknClN1Ym1vZHVsZSAncm9tcy9xZW11LXBhbGNvZGUnICho
+dHRwczovL2dpdC5xZW11Lm9yZy9naXQvcWVtdS1wYWxjb2RlLmdpdCkgcmVnaXN0ZXJlZCBmb3Ig
+cGF0aCAncm9tcy9xZW11LXBhbGNvZGUnClN1Ym1vZHVsZSAncm9tcy9zZWFiaW9zJyAoaHR0cHM6
+Ly9naXQucWVtdS5vcmcvZ2l0L3NlYWJpb3MuZ2l0LykgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9t
+cy9zZWFiaW9zJwpTdWJtb2R1bGUgJ3JvbXMvc2VhYmlvcy1ocHBhJyAoaHR0cHM6Ly9naXQucWVt
+dS5vcmcvZ2l0L3NlYWJpb3MtaHBwYS5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvc2Vh
+Ymlvcy1ocHBhJwpTdWJtb2R1bGUgJ3JvbXMvc2dhYmlvcycgKGh0dHBzOi8vZ2l0LnFlbXUub3Jn
+L2dpdC9zZ2FiaW9zLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9zZ2FiaW9zJwpTdWJt
+b2R1bGUgJ3JvbXMvc2tpYm9vdCcgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9za2lib290Lmdp
+dCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9za2lib290JwpTdWJtb2R1bGUgJ3JvbXMvdS1i
+b290JyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L3UtYm9vdC5naXQpIHJlZ2lzdGVyZWQgZm9y
+IHBhdGggJ3JvbXMvdS1ib290JwpTdWJtb2R1bGUgJ3JvbXMvdS1ib290LXNhbTQ2MGV4JyAoaHR0
+cHM6Ly9naXQucWVtdS5vcmcvZ2l0L3UtYm9vdC1zYW00NjBleC5naXQpIHJlZ2lzdGVyZWQgZm9y
+IHBhdGggJ3JvbXMvdS1ib290LXNhbTQ2MGV4JwpTdWJtb2R1bGUgJ3NsaXJwJyAoaHR0cHM6Ly9n
+aXQucWVtdS5vcmcvZ2l0L2xpYnNsaXJwLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAnc2xpcnAn
+ClN1Ym1vZHVsZSAndGVzdHMvZnAvYmVya2VsZXktc29mdGZsb2F0LTMnIChodHRwczovL2dpdC5x
+ZW11Lm9yZy9naXQvYmVya2VsZXktc29mdGZsb2F0LTMuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRo
+ICd0ZXN0cy9mcC9iZXJrZWxleS1zb2Z0ZmxvYXQtMycKU3VibW9kdWxlICd0ZXN0cy9mcC9iZXJr
+ZWxleS10ZXN0ZmxvYXQtMycgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9iZXJrZWxleS10ZXN0
+ZmxvYXQtMy5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3Rlc3RzL2ZwL2JlcmtlbGV5LXRlc3Rm
+bG9hdC0zJwpTdWJtb2R1bGUgJ3VpL2tleWNvZGVtYXBkYicgKGh0dHBzOi8vZ2l0LnFlbXUub3Jn
+L2dpdC9rZXljb2RlbWFwZGIuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICd1aS9rZXljb2RlbWFw
+ZGInCkNsb25pbmcgaW50byAnY2Fwc3RvbmUnLi4uClN1Ym1vZHVsZSBwYXRoICdjYXBzdG9uZSc6
+IGNoZWNrZWQgb3V0ICcyMmVhZDNlMGJmZGI4NzUxNjY1NjQ1MzMzNjE2MGUwYTM3YjA2NmJmJwpD
+bG9uaW5nIGludG8gJ2R0YycuLi4KU3VibW9kdWxlIHBhdGggJ2R0Yyc6IGNoZWNrZWQgb3V0ICc4
+OGYxODkwOWRiNzMxYTYyNzQ1NmYyNmQ3Nzk0NDVmODRlNDQ5NTM2JwpDbG9uaW5nIGludG8gJ3Jv
+bXMvUWVtdU1hY0RyaXZlcnMnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL1FlbXVNYWNEcml2ZXJz
+JzogY2hlY2tlZCBvdXQgJzkwYzQ4OGQ1ZjRhNDA3MzQyMjQ3YjllYTg2OWRmMWMyZDljOGUyNjYn
+CkNsb25pbmcgaW50byAncm9tcy9TTE9GJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9TTE9GJzog
+Y2hlY2tlZCBvdXQgJ2JhMWFiMzYwZWViZTYzMzhiYjhkN2Q4M2E5MjIwY2NmN2UyMTNhZjMnCkNs
+b25pbmcgaW50byAncm9tcy9lZGsyJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9lZGsyJzogY2hl
+Y2tlZCBvdXQgJzIwZDJlNWExMjVlMzRmYzg1MDEwMjY2MTNhNzE1NDliMmExYTNlNTQnClN1Ym1v
+ZHVsZSAnU29mdEZsb2F0JyAoaHR0cHM6Ly9naXRodWIuY29tL3VjYi1iYXIvYmVya2VsZXktc29m
+dGZsb2F0LTMuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdBcm1Qa2cvTGlicmFyeS9Bcm1Tb2Z0
+RmxvYXRMaWIvYmVya2VsZXktc29mdGZsb2F0LTMnClN1Ym1vZHVsZSAnQ3J5cHRvUGtnL0xpYnJh
+cnkvT3BlbnNzbExpYi9vcGVuc3NsJyAoaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNz
+bCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAnQ3J5cHRvUGtnL0xpYnJhcnkvT3BlbnNzbExpYi9vcGVu
+c3NsJwpDbG9uaW5nIGludG8gJ0FybVBrZy9MaWJyYXJ5L0FybVNvZnRGbG9hdExpYi9iZXJrZWxl
+eS1zb2Z0ZmxvYXQtMycuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvZWRrMi9Bcm1Qa2cvTGlicmFy
+eS9Bcm1Tb2Z0RmxvYXRMaWIvYmVya2VsZXktc29mdGZsb2F0LTMnOiBjaGVja2VkIG91dCAnYjY0
+YWY0MWMzMjc2Zjk3ZjBlMTgxOTIwNDAwZWUwNTZiOWM4ODAzNycKQ2xvbmluZyBpbnRvICdDcnlw
+dG9Qa2cvTGlicmFyeS9PcGVuc3NsTGliL29wZW5zc2wnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21z
+L2VkazIvQ3J5cHRvUGtnL0xpYnJhcnkvT3BlbnNzbExpYi9vcGVuc3NsJzogY2hlY2tlZCBvdXQg
+JzUwZWFhYzlmMzMzNzY2NzI1OWRlNzI1NDUxZjIwMWU3ODQ1OTk2ODcnClN1Ym1vZHVsZSAnYm9y
+aW5nc3NsJyAoaHR0cHM6Ly9ib3Jpbmdzc2wuZ29vZ2xlc291cmNlLmNvbS9ib3Jpbmdzc2wpIHJl
+Z2lzdGVyZWQgZm9yIHBhdGggJ2JvcmluZ3NzbCcKU3VibW9kdWxlICdrcmI1JyAoaHR0cHM6Ly9n
+aXRodWIuY29tL2tyYjUva3JiNSkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAna3JiNScKU3VibW9kdWxl
+ICdweWNhLmNyeXB0b2dyYXBoeScgKGh0dHBzOi8vZ2l0aHViLmNvbS9weWNhL2NyeXB0b2dyYXBo
+eS5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3B5Y2EtY3J5cHRvZ3JhcGh5JwpDbG9uaW5nIGlu
+dG8gJ2JvcmluZ3NzbCcuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvZWRrMi9DcnlwdG9Qa2cvTGli
+cmFyeS9PcGVuc3NsTGliL29wZW5zc2wvYm9yaW5nc3NsJzogY2hlY2tlZCBvdXQgJzIwNzBmOGFk
+OTE1MWRjOGYzYTczYmZmYWExNDZiNWU2OTM3YTU4M2YnCkNsb25pbmcgaW50byAna3JiNScuLi4K
+U3VibW9kdWxlIHBhdGggJ3JvbXMvZWRrMi9DcnlwdG9Qa2cvTGlicmFyeS9PcGVuc3NsTGliL29w
+ZW5zc2wva3JiNSc6IGNoZWNrZWQgb3V0ICdiOWFkNmM0OTUwNWM5NmEwODgzMjZiNjJhNTI1Njhl
+MzQ4NGYyMTY4JwpDbG9uaW5nIGludG8gJ3B5Y2EtY3J5cHRvZ3JhcGh5Jy4uLgpTdWJtb2R1bGUg
+cGF0aCAncm9tcy9lZGsyL0NyeXB0b1BrZy9MaWJyYXJ5L09wZW5zc2xMaWIvb3BlbnNzbC9weWNh
+LWNyeXB0b2dyYXBoeSc6IGNoZWNrZWQgb3V0ICcwOTQwMzEwMGRlMmY2ZjFjZGQwZDQ4NGRjYjhl
+NjIwZjFjMzM1YzhmJwpDbG9uaW5nIGludG8gJ3JvbXMvaXB4ZScuLi4KU3VibW9kdWxlIHBhdGgg
+J3JvbXMvaXB4ZSc6IGNoZWNrZWQgb3V0ICdkZTQ1NjVjYmU3NmVhOWY3OTEzYTAxZjMzMWJlM2Vl
+OTAxYmI2ZTE3JwpDbG9uaW5nIGludG8gJ3JvbXMvb3BlbmJpb3MnLi4uClN1Ym1vZHVsZSBwYXRo
+ICdyb21zL29wZW5iaW9zJzogY2hlY2tlZCBvdXQgJ2M3OWUwZWNiODRmNGYxZWUzZjczZjUyMTYy
+MmUyNjRlZGQxYmYxNzQnCkNsb25pbmcgaW50byAncm9tcy9vcGVuaGFja3dhcmUnLi4uClN1Ym1v
+ZHVsZSBwYXRoICdyb21zL29wZW5oYWNrd2FyZSc6IGNoZWNrZWQgb3V0ICdjNTU5ZGE3YzhlZWM1
+ZTQ1ZWYxZjY3OTc4ODI3YWY2ZjBiOTU0NmY1JwpDbG9uaW5nIGludG8gJ3JvbXMvb3BlbnNiaScu
+Li4KU3VibW9kdWxlIHBhdGggJ3JvbXMvb3BlbnNiaSc6IGNoZWNrZWQgb3V0ICdjZTIyOGVlMDkx
+OWRlYjk5NTcxOTJkNzIzZWVjYzhhYWFlMjY5N2M2JwpDbG9uaW5nIGludG8gJ3JvbXMvcWVtdS1w
+YWxjb2RlJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9xZW11LXBhbGNvZGUnOiBjaGVja2VkIG91
+dCAnYmYwZTEzNjk4ODcyNDUwMTY0ZmE3MDQwZGEzNmE5NWQyZDRiMzI2ZicKQ2xvbmluZyBpbnRv
+ICdyb21zL3NlYWJpb3MnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL3NlYWJpb3MnOiBjaGVja2Vk
+IG91dCAnYTVjYWI1OGU5YTNmYjZlMTY4YWJhOTE5YzU2NjliZWE0MDY1NzNiNCcKQ2xvbmluZyBp
+bnRvICdyb21zL3NlYWJpb3MtaHBwYScuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvc2VhYmlvcy1o
+cHBhJzogY2hlY2tlZCBvdXQgJzBmNGZlODQ2NTgxNjVlOTZjZTM1ODcwZmQxOWZjNjM0ZTE4MmU3
+N2InCkNsb25pbmcgaW50byAncm9tcy9zZ2FiaW9zJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9z
+Z2FiaW9zJzogY2hlY2tlZCBvdXQgJ2NiYWVlNTIyODdlNWYzMjM3MzE4MWNmZjUwYTAwYjZjNGFj
+OTAxNWEnCkNsb25pbmcgaW50byAncm9tcy9za2lib290Jy4uLgpTdWJtb2R1bGUgcGF0aCAncm9t
+cy9za2lib290JzogY2hlY2tlZCBvdXQgJzI2MWNhOGU3NzllNTEzODg2OWE0NWYxNzRjYWE0OWJl
+NmEyNzQ1MDEnCkNsb25pbmcgaW50byAncm9tcy91LWJvb3QnLi4uClN1Ym1vZHVsZSBwYXRoICdy
+b21zL3UtYm9vdCc6IGNoZWNrZWQgb3V0ICdkMzY4OTI2N2Y5MmM1OTU2ZTA5Y2M3ZDFiYWE0NzAw
+MTQxNjYyYmZmJwpDbG9uaW5nIGludG8gJ3JvbXMvdS1ib290LXNhbTQ2MGV4Jy4uLgpTdWJtb2R1
+bGUgcGF0aCAncm9tcy91LWJvb3Qtc2FtNDYwZXgnOiBjaGVja2VkIG91dCAnNjBiMzkxNmYzM2U2
+MTdhODE1OTczYzVhNmRmNzcwNTViMmUzYTU4OCcKQ2xvbmluZyBpbnRvICdzbGlycCcuLi4KU3Vi
+bW9kdWxlIHBhdGggJ3NsaXJwJzogY2hlY2tlZCBvdXQgJzEyNmMwNGFjYmFiZDdhZDMyYzJiMDE4
+ZmUxMGRmYWMyYTNiYzEyMTAnCkNsb25pbmcgaW50byAndGVzdHMvZnAvYmVya2VsZXktc29mdGZs
+b2F0LTMnLi4uClN1Ym1vZHVsZSBwYXRoICd0ZXN0cy9mcC9iZXJrZWxleS1zb2Z0ZmxvYXQtMyc6
+IGNoZWNrZWQgb3V0ICdiNjRhZjQxYzMyNzZmOTdmMGUxODE5MjA0MDBlZTA1NmI5Yzg4MDM3JwpD
+bG9uaW5nIGludG8gJ3Rlc3RzL2ZwL2JlcmtlbGV5LXRlc3RmbG9hdC0zJy4uLgpTdWJtb2R1bGUg
+cGF0aCAndGVzdHMvZnAvYmVya2VsZXktdGVzdGZsb2F0LTMnOiBjaGVja2VkIG91dCAnNWE1OWRj
+ZWMxOTMyNzM5NmEwMTFhMTdmZDkyNGFlZDRmZWM0MTZiMycKQ2xvbmluZyBpbnRvICd1aS9rZXlj
+b2RlbWFwZGInLi4uClN1Ym1vZHVsZSBwYXRoICd1aS9rZXljb2RlbWFwZGInOiBjaGVja2VkIG91
+dCAnNmIzZDcxNmUyYjY0NzJlYjcxODlkMzIyMDU1MjI4MGVmM2Q4MzJjZScKU3dpdGNoZWQgdG8g
+YSBuZXcgYnJhbmNoICd0ZXN0JwpkMzIwZGRmIEFkZCBzdXBwb3J0IGZvciBldGh0b29sIHZpYSBU
+QVJHRVRfU0lPQ0VUSFRPT0wgaW9jdGxzLgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IEF1
+dGhvciBlbWFpbCBhZGRyZXNzIGlzIG1hbmdsZWQgYnkgdGhlIG1haWxpbmcgbGlzdAojMjogCkF1
+dGhvcjogU2h1LUNodW4gV2VuZyB2aWEgUWVtdS1kZXZlbCA8cWVtdS1kZXZlbEBub25nbnUub3Jn
+PgoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQwOiBGSUxFOiBsaW51eC11c2Vy
+L3N5c2NhbGxfZGVmcy5oOjgyMjoKKyNkZWZpbmUgVEFSR0VUX1NJT0NFVEhUT09MICAgICAweDg5
+NDYgICAgICAgICAgLyogRXRodG9vbCBpbnRlcmZhY2UgICAgICAgICAgICAqLwoKdG90YWw6IDEg
+ZXJyb3JzLCAxIHdhcm5pbmdzLCAxNSBsaW5lcyBjaGVja2VkCgpDb21taXQgZDMyMGRkZjk0MDJi
+IChBZGQgc3VwcG9ydCBmb3IgZXRodG9vbCB2aWEgVEFSR0VUX1NJT0NFVEhUT09MIGlvY3Rscy4p
+IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
+cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
+CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21t
+YW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
+dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwODE2MjExMzU2LjU5MjQ0LTEtc2N3QGdvb2dsZS5j
+b20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQg
+YXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBz
+ZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
