@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754089033A
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:38:27 +0200 (CEST)
-Received: from localhost ([::1]:56258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2795D90326
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:35:39 +0200 (CEST)
+Received: from localhost ([::1]:56200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycR0-0001cn-8j
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:38:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35479)
+	id 1hycOH-0006BM-JQ
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:35:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35491)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc77-0003cn-Cc
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:54 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc78-0003eS-Bb
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc76-0005pv-4r
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:53 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42691)
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc77-0005rW-8o
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:54 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44444)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hyc75-0005p5-VA
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:52 -0400
-Received: by mail-wr1-x441.google.com with SMTP id b16so1514273wrq.9
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:51 -0700 (PDT)
+ id 1hyc77-0005qS-2U
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:53 -0400
+Received: by mail-wr1-x429.google.com with SMTP id p17so1513477wrf.11
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iOrN1oDy4mtnFyYdncXyASGVOIbsAR/8nt+jgVKFbKw=;
- b=Ks9nZFBi4Pzda7C5dxarSAxaW3oQKC9CVh7PMdE05oT94hB58T1gW70bHy0neEq266
- rNpcp4IUWEI6j1/66eRjdbm28/I0+LDVpa0FEBBYqd7QT2z/WO4d6CY0ZEO+gWfKLHx2
- ZmTIEoiYSGBzu2rdv7ce2rb0v5WDYLpt9PO88dlWm9+uBDpdHxv31v/B8UdwT7K4teAS
- swq25/B47vp2qSDox/34Knc1JLe2NuQ97bYQ+xzJ7+jICig1wPt/it/N+l/+K9nFjkcK
- O1LemtFmAW2dgBW4dM2tzYyP9J1gLnKRGDeKsnH5L6TVB28n+hN08pnKNhK1WRYDT9ze
- p7tg==
+ bh=YHhjNjwiuTlgJOKTQ/7AOJdELYDLE8lxn/VDkIb25Mo=;
+ b=DhqT884dKMwlY57TG8JWuxdJ6/LNehvNpY8gGSqzVD2TQri67uVzmAt7k02ejJ9Vqy
+ X4OaLclfVoUpCGCBGB9pC9KioyBaDi/rhJgpPhmVjp5T+32Vfqiai9JUXsYrsLGoVwv6
+ j1oqg6CA2OPZmtYd7RjAR2o399hmNaanpeuOmXinQzrt8NXMn7qMWpymW/6QFIuOSnIt
+ qUSrY9lGb4NW9d1R+EkEsQ4DK1WVIuqYm8KjPAX0iRBiOSQlg0quFk7Mu7DHc3FWt2n0
+ xGeTg6HmAilgSJLDIW+Hkn0oGg2ZHzvV4EwUCXbFJlGT+8A7rdrryeuHa1g5NIkSbOpu
+ 5wcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iOrN1oDy4mtnFyYdncXyASGVOIbsAR/8nt+jgVKFbKw=;
- b=ELTN25wcVn4dRCfK2GkCJ6wtgYaRot6cMGjIEqrix8q4sSaj8rDG71c3ZWA3ruh62h
- v5Nzo2zGeClEE14kSoCjwXM4WfFyXef3XgrY2yOsi/4Am6uY7+F5HgMxpJbizRFCVUeJ
- 8pT1Y9oBB+ISv+CG91DaCxlUxvuFNFAfmptPIjcN3dMuoNqwWcbZfl1pYRoh6wweKYP4
- vqR1lpeSoF/BXzuTFIXk8M+DNKTdyqmoLZN5O1t5QmDDmIvfj2fRJse2qpoG6kN88Koa
- rIN5RsiaV6kYVo0gaim5jiCdQJ6DXyPtXq54PQDMbLnRJUz78+Z10uskrXsC3dMvb23n
- Jt0A==
-X-Gm-Message-State: APjAAAX/EprMv4pDPDeYfb8idA8AMU0gIVj50ntA6r2mqFf2sqouEJYp
- xM53332BT7pPi82eAB2LeshzrdYO4kP4LQ==
-X-Google-Smtp-Source: APXvYqwY9fBuYLnm99fyZGBMu0VRwjFhE1BM4/vTV+frtNMtmPaj//glN+ZiP/e7C5iVJW6X1rAGaQ==
-X-Received: by 2002:adf:f088:: with SMTP id n8mr11033293wro.58.1565961470893; 
- Fri, 16 Aug 2019 06:17:50 -0700 (PDT)
+ bh=YHhjNjwiuTlgJOKTQ/7AOJdELYDLE8lxn/VDkIb25Mo=;
+ b=GEpSG71l5UmJRI5XdzLZ5mXEviqvuVTFwd3sDc26Au/IjIkRsudKF/fyxU/XkQZAm8
+ QW9PnDp15rcoL+eI375Jm7WeYD/3qUVYQSd/uUuXRdvftoMWrgI7jNV2RPQ6i757dxhe
+ 7N/hkL2TyJs5Q9HFFPLfuv6qTDCarbqaYR992FJZsI4Kmd7MA0YUNWjck23e5HJ7e/Al
+ 1My1nsoOqP07va89bXgULJZkvqiNBZTplNxTORgyUnIH8O/Aet8mzhu6LVyAM4KXP47L
+ LR9CC7Kmp9D5w1Sb9oZ6lH+i4sFIq2Xf8Ksqsak1guiwSd7Ud2XDcIrzntYAKpSyzmdt
+ ibGQ==
+X-Gm-Message-State: APjAAAW9M0PMgs0WhYVJk+8jodjd8Vk+M46SX4Ggq3uY6/IZ/H3lfhL0
+ +ipLvgWX3S2ababDrd6BkGnzRtMDmTNRmw==
+X-Google-Smtp-Source: APXvYqxRCKxCjQ7PM2ZqXsKpAmGeHCPZBJStU1vWVwVnfKXqREj7TIvqK5nqirNkSuyABGTDAYppMA==
+X-Received: by 2002:adf:d1b4:: with SMTP id w20mr11084969wrc.301.1565961471798; 
+ Fri, 16 Aug 2019 06:17:51 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 06:17:50 -0700 (PDT)
+ Fri, 16 Aug 2019 06:17:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 14:17:16 +0100
-Message-Id: <20190816131719.28244-27-peter.maydell@linaro.org>
+Date: Fri, 16 Aug 2019 14:17:17 +0100
+Message-Id: <20190816131719.28244-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190816131719.28244-1-peter.maydell@linaro.org>
 References: <20190816131719.28244-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PULL 26/29] target/arm: Use ror32 instead of
- open-coding the operation
+X-Received-From: 2a00:1450:4864:20::429
+Subject: [Qemu-devel] [PULL 27/29] target/arm: Use tcg_gen_rotri_i32 for
+ gen_swap_half
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,42 +84,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The helper function is more documentary, and also already
-handles the case of rotate by zero.
+Rotate is the more compact and obvious way to swap 16-bit
+elements of a 32-bit word.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190808202616.13782-5-richard.henderson@linaro.org
+Message-id: 20190808202616.13782-6-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ target/arm/translate.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index ebc7c67f025..02ce8d44fa1 100644
+index 02ce8d44fa1..2e160646206 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -7964,8 +7964,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-                 /* CPSR = immediate */
-                 val = insn & 0xff;
-                 shift = ((insn >> 8) & 0xf) * 2;
--                if (shift)
--                    val = (val >> shift) | (val << (32 - shift));
-+                val = ror32(val, shift);
-                 i = ((insn & (1 << 22)) != 0);
-                 if (gen_set_psr_im(s, msr_mask(s, (insn >> 16) & 0xf, i),
-                                    i, val)) {
-@@ -8228,9 +8227,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             /* immediate operand */
-             val = insn & 0xff;
-             shift = ((insn >> 8) & 0xf) * 2;
--            if (shift) {
--                val = (val >> shift) | (val << (32 - shift));
--            }
-+            val = ror32(val, shift);
-             tmp2 = tcg_temp_new_i32();
-             tcg_gen_movi_i32(tmp2, val);
-             if (logic_cc && shift) {
+@@ -444,11 +444,7 @@ static TCGv_i64 gen_muls_i64_i32(TCGv_i32 a, TCGv_i32 b)
+ /* Swap low and high halfwords.  */
+ static void gen_swap_half(TCGv_i32 var)
+ {
+-    TCGv_i32 tmp = tcg_temp_new_i32();
+-    tcg_gen_shri_i32(tmp, var, 16);
+-    tcg_gen_shli_i32(var, var, 16);
+-    tcg_gen_or_i32(var, var, tmp);
+-    tcg_temp_free_i32(tmp);
++    tcg_gen_rotri_i32(var, var, 16);
+ }
+ 
+ /* Dual 16-bit add.  Result placed in t0 and t1 is marked as dead.
 -- 
 2.20.1
 
