@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E9D8FF3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 11:44:24 +0200 (CEST)
-Received: from localhost ([::1]:52558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D328FF68
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 11:48:32 +0200 (CEST)
+Received: from localhost ([::1]:52628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyYmV-0001Ve-Hx
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 05:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59627)
+	id 1hyYqV-0006Kz-Uk
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 05:48:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59612)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1hyYdU-00008b-Aa
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:06 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hyYdS-0003pf-EB
+ (envelope-from <kwolf@redhat.com>) id 1hyYdT-000079-BL
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55872)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <kwolf@redhat.com>) id 1hyYdS-0003p1-0w
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46806)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hyYdO-0003gH-7T; Fri, 16 Aug 2019 05:34:58 -0400
+ id 1hyYdP-0003iF-95; Fri, 16 Aug 2019 05:34:59 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 916BBC049E36;
- Fri, 16 Aug 2019 09:34:57 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 98D7A302C061;
+ Fri, 16 Aug 2019 09:34:58 +0000 (UTC)
 Received: from localhost.localdomain.com (dhcp-200-226.str.redhat.com
  [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC0925C1B2;
- Fri, 16 Aug 2019 09:34:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D57D55C1B2;
+ Fri, 16 Aug 2019 09:34:57 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 16 Aug 2019 11:34:34 +0200
-Message-Id: <20190816093439.14262-12-kwolf@redhat.com>
+Date: Fri, 16 Aug 2019 11:34:35 +0200
+Message-Id: <20190816093439.14262-13-kwolf@redhat.com>
 In-Reply-To: <20190816093439.14262-1-kwolf@redhat.com>
 References: <20190816093439.14262-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Fri, 16 Aug 2019 09:34:57 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Fri, 16 Aug 2019 09:34:58 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 11/16] iotests: Add test for concurrent
- stream/commit
+Subject: [Qemu-devel] [PULL 12/16] block: Remove blk_pread_unthrottled()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,291 +59,98 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+The functionality offered by blk_pread_unthrottled() goes back to commit
+498e386c584. Then, we couldn't perform I/O throttling with synchronous
+requests because timers wouldn't be executed in polling loops. So the
+commit automatically disabled I/O throttling as soon as a synchronous
+request was issued.
 
-We already have 030 for that in general, but this tests very specific
-cases of both jobs finishing concurrently.
+However, for geometry detection during disk initialisation, we always
+used (and still use) synchronous requests even if guest requests use AIO
+later. Geometry detection was not wanted to disable I/O throttling, so
+bdrv_pread_unthrottled() was introduced which disabled throttling only
+temporarily.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+All of this isn't necessary any more because we do run timers in polling
+loop and even synchronous requests are now using coroutine
+infrastructure internally. For this reason, commit 90c78624f already
+removed the automatic disabling of I/O throttling.
+
+It's time to get rid of the workaround for the removed code, and its
+abuse of blk_root_drained_begin()/end(), as well.
+
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/258     | 163 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/258.out |  33 ++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 197 insertions(+)
- create mode 100755 tests/qemu-iotests/258
- create mode 100644 tests/qemu-iotests/258.out
+ include/sysemu/block-backend.h |  2 --
+ block/block-backend.c          | 16 ----------------
+ hw/block/hd-geometry.c         |  7 +------
+ 3 files changed, 1 insertion(+), 24 deletions(-)
 
-diff --git a/tests/qemu-iotests/258 b/tests/qemu-iotests/258
-new file mode 100755
-index 0000000000..b84cf02254
---- /dev/null
-+++ b/tests/qemu-iotests/258
-@@ -0,0 +1,163 @@
-+#!/usr/bin/env python
-+#
-+# Very specific tests for adjacent commit/stream block jobs
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+# Creator/Owner: Max Reitz <mreitz@redhat.com>
-+
-+import iotests
-+from iotests import log, qemu_img, qemu_io_silent, \
-+        filter_qmp_testfiles, filter_qmp_imgfmt
-+
-+# Need backing file and change-backing-file support
-+iotests.verify_image_format(supported_fmts=3D['qcow2', 'qed'])
-+iotests.verify_platform(['linux'])
-+
-+
-+# Returns a node for blockdev-add
-+def node(node_name, path, backing=3DNone, fmt=3DNone, throttle=3DNone):
-+    if fmt is None:
-+        fmt =3D iotests.imgfmt
-+
-+    res =3D {
-+        'node-name': node_name,
-+        'driver': fmt,
-+        'file': {
-+            'driver': 'file',
-+            'filename': path
-+        }
-+    }
-+
-+    if backing is not None:
-+        res['backing'] =3D backing
-+
-+    if throttle:
-+        res['file'] =3D {
-+            'driver': 'throttle',
-+            'throttle-group': throttle,
-+            'file': res['file']
-+        }
-+
-+    return res
-+
-+# Finds a node in the debug block graph
-+def find_graph_node(graph, node_id):
-+    return next(node for node in graph['nodes'] if node['id'] =3D=3D nod=
-e_id)
-+
-+
-+def test_concurrent_finish(write_to_stream_node):
-+    log('')
-+    log('=3D=3D=3D Commit and stream finish concurrently (letting %s wri=
-te) =3D=3D=3D' % \
-+        ('stream' if write_to_stream_node else 'commit'))
-+    log('')
-+
-+    # All chosen in such a way that when the commit job wants to
-+    # finish, it polls and thus makes stream finish concurrently --
-+    # and the other way around, depending on whether the commit job
-+    # is finalized before stream completes or not.
-+
-+    with iotests.FilePath('node4.img') as node4_path, \
-+         iotests.FilePath('node3.img') as node3_path, \
-+         iotests.FilePath('node2.img') as node2_path, \
-+         iotests.FilePath('node1.img') as node1_path, \
-+         iotests.FilePath('node0.img') as node0_path, \
-+         iotests.VM() as vm:
-+
-+        # It is important to use raw for the base layer (so that
-+        # permissions are just handed through to the protocol layer)
-+        assert qemu_img('create', '-f', 'raw', node0_path, '64M') =3D=3D=
- 0
-+
-+        stream_throttle=3DNone
-+        commit_throttle=3DNone
-+
-+        for path in [node1_path, node2_path, node3_path, node4_path]:
-+            assert qemu_img('create', '-f', iotests.imgfmt, path, '64M')=
- =3D=3D 0
-+
-+        if write_to_stream_node:
-+            # This is what (most of the time) makes commit finish
-+            # earlier and then pull in stream
-+            assert qemu_io_silent(node2_path,
-+                                  '-c', 'write %iK 64K' % (65536 - 192),
-+                                  '-c', 'write %iK 64K' % (65536 -  64))=
- =3D=3D 0
-+
-+            stream_throttle=3D'tg'
-+        else:
-+            # And this makes stream finish earlier
-+            assert qemu_io_silent(node1_path,
-+                                  '-c', 'write %iK 64K' % (65536 - 64)) =
-=3D=3D 0
-+
-+            commit_throttle=3D'tg'
-+
-+        vm.launch()
-+
-+        vm.qmp_log('object-add',
-+                   qom_type=3D'throttle-group',
-+                   id=3D'tg',
-+                   props=3D{
-+                       'x-iops-write': 1,
-+                       'x-iops-write-max': 1
-+                   })
-+
-+        vm.qmp_log('blockdev-add',
-+                   filters=3D[filter_qmp_testfiles, filter_qmp_imgfmt],
-+                   **node('node4', node4_path, throttle=3Dstream_throttl=
-e,
-+                     backing=3Dnode('node3', node3_path,
-+                     backing=3Dnode('node2', node2_path,
-+                     backing=3Dnode('node1', node1_path,
-+                     backing=3Dnode('node0', node0_path, throttle=3Dcomm=
-it_throttle,
-+                                  fmt=3D'raw'))))))
-+
-+        vm.qmp_log('block-commit',
-+                   job_id=3D'commit',
-+                   device=3D'node4',
-+                   filter_node_name=3D'commit-filter',
-+                   top_node=3D'node1',
-+                   base_node=3D'node0',
-+                   auto_finalize=3DFalse)
-+
-+        vm.qmp_log('block-stream',
-+                   job_id=3D'stream',
-+                   device=3D'node3',
-+                   base_node=3D'commit-filter')
-+
-+        if write_to_stream_node:
-+            vm.run_job('commit', auto_finalize=3DFalse, auto_dismiss=3DT=
-rue)
-+            vm.run_job('stream', auto_finalize=3DTrue, auto_dismiss=3DTr=
-ue)
-+        else:
-+            # No, the jobs do not really finish concurrently here,
-+            # the stream job does complete strictly before commit.
-+            # But still, this is close enough for what we want to
-+            # test.
-+            vm.run_job('stream', auto_finalize=3DTrue, auto_dismiss=3DTr=
-ue)
-+            vm.run_job('commit', auto_finalize=3DFalse, auto_dismiss=3DT=
-rue)
-+
-+        # Assert that the backing node of node3 is node 0 now
-+        graph =3D vm.qmp('x-debug-query-block-graph')['return']
-+        for edge in graph['edges']:
-+            if edge['name'] =3D=3D 'backing' and \
-+               find_graph_node(graph, edge['parent'])['name'] =3D=3D 'no=
-de3':
-+                assert find_graph_node(graph, edge['child'])['name'] =3D=
-=3D 'node0'
-+                break
-+
-+
-+def main():
-+    log('Running tests:')
-+    test_concurrent_finish(True)
-+    test_concurrent_finish(False)
-+
-+if __name__ =3D=3D '__main__':
-+    main()
-diff --git a/tests/qemu-iotests/258.out b/tests/qemu-iotests/258.out
-new file mode 100644
-index 0000000000..ce6e9ba3e5
---- /dev/null
-+++ b/tests/qemu-iotests/258.out
-@@ -0,0 +1,33 @@
-+Running tests:
-+
-+=3D=3D=3D Commit and stream finish concurrently (letting stream write) =3D=
-=3D=3D
-+
-+{"execute": "object-add", "arguments": {"id": "tg", "props": {"x-iops-wr=
-ite": 1, "x-iops-write-max": 1}, "qom-type": "throttle-group"}}
-+{"return": {}}
-+{"execute": "blockdev-add", "arguments": {"backing": {"backing": {"backi=
-ng": {"backing": {"driver": "raw", "file": {"driver": "file", "filename":=
- "TEST_DIR/PID-node0.img"}, "node-name": "node0"}, "driver": "IMGFMT", "f=
-ile": {"driver": "file", "filename": "TEST_DIR/PID-node1.img"}, "node-nam=
-e": "node1"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": =
-"TEST_DIR/PID-node2.img"}, "node-name": "node2"}, "driver": "IMGFMT", "fi=
-le": {"driver": "file", "filename": "TEST_DIR/PID-node3.img"}, "node-name=
-": "node3"}, "driver": "IMGFMT", "file": {"driver": "throttle", "file": {=
-"driver": "file", "filename": "TEST_DIR/PID-node4.img"}, "throttle-group"=
-: "tg"}, "node-name": "node4"}}
-+{"return": {}}
-+{"execute": "block-commit", "arguments": {"auto-finalize": false, "base-=
-node": "node0", "device": "node4", "filter-node-name": "commit-filter", "=
-job-id": "commit", "top-node": "node1"}}
-+{"return": {}}
-+{"execute": "block-stream", "arguments": {"base-node": "commit-filter", =
-"device": "node3", "job-id": "stream"}}
-+{"return": {}}
-+{"execute": "job-finalize", "arguments": {"id": "commit"}}
-+{"return": {}}
-+{"data": {"id": "commit", "type": "commit"}, "event": "BLOCK_JOB_PENDING=
-", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "commit", "len": 67108864, "offset": 67108864, "spee=
-d": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"=
-microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "stream", "len": 67108864, "offset": 67108864, "spee=
-d": 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"=
-microseconds": "USECS", "seconds": "SECS"}}
-+
-+=3D=3D=3D Commit and stream finish concurrently (letting commit write) =3D=
-=3D=3D
-+
-+{"execute": "object-add", "arguments": {"id": "tg", "props": {"x-iops-wr=
-ite": 1, "x-iops-write-max": 1}, "qom-type": "throttle-group"}}
-+{"return": {}}
-+{"execute": "blockdev-add", "arguments": {"backing": {"backing": {"backi=
-ng": {"backing": {"driver": "raw", "file": {"driver": "throttle", "file":=
- {"driver": "file", "filename": "TEST_DIR/PID-node0.img"}, "throttle-grou=
-p": "tg"}, "node-name": "node0"}, "driver": "IMGFMT", "file": {"driver": =
-"file", "filename": "TEST_DIR/PID-node1.img"}, "node-name": "node1"}, "dr=
-iver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-nod=
-e2.img"}, "node-name": "node2"}, "driver": "IMGFMT", "file": {"driver": "=
-file", "filename": "TEST_DIR/PID-node3.img"}, "node-name": "node3"}, "dri=
-ver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node=
-4.img"}, "node-name": "node4"}}
-+{"return": {}}
-+{"execute": "block-commit", "arguments": {"auto-finalize": false, "base-=
-node": "node0", "device": "node4", "filter-node-name": "commit-filter", "=
-job-id": "commit", "top-node": "node1"}}
-+{"return": {}}
-+{"execute": "block-stream", "arguments": {"base-node": "commit-filter", =
-"device": "node3", "job-id": "stream"}}
-+{"return": {}}
-+{"data": {"device": "stream", "len": 67108864, "offset": 67108864, "spee=
-d": 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"=
-microseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "job-finalize", "arguments": {"id": "commit"}}
-+{"return": {}}
-+{"data": {"id": "commit", "type": "commit"}, "event": "BLOCK_JOB_PENDING=
-", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "commit", "len": 67108864, "offset": 67108864, "spee=
-d": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"=
-microseconds": "USECS", "seconds": "SECS"}}
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 71ba3c05dc..5a37839e35 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -271,4 +271,5 @@
- 254 rw backing quick
- 255 rw quick
- 256 rw quick
-+258 rw quick
- 262 rw quick migration
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backen=
+d.h
+index 733c4957eb..7320b58467 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -117,8 +117,6 @@ char *blk_get_attached_dev_id(BlockBackend *blk);
+ BlockBackend *blk_by_dev(void *dev);
+ BlockBackend *blk_by_qdev_id(const char *id, Error **errp);
+ void blk_set_dev_ops(BlockBackend *blk, const BlockDevOps *ops, void *op=
+aque);
+-int blk_pread_unthrottled(BlockBackend *blk, int64_t offset, uint8_t *bu=
+f,
+-                          int bytes);
+ int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
+                                unsigned int bytes, QEMUIOVector *qiov,
+                                BdrvRequestFlags flags);
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 0056b526b8..fdd6b01ecf 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1237,22 +1237,6 @@ static int blk_prw(BlockBackend *blk, int64_t offs=
+et, uint8_t *buf,
+     return rwco.ret;
+ }
+=20
+-int blk_pread_unthrottled(BlockBackend *blk, int64_t offset, uint8_t *bu=
+f,
+-                          int count)
+-{
+-    int ret;
+-
+-    ret =3D blk_check_byte_request(blk, offset, count);
+-    if (ret < 0) {
+-        return ret;
+-    }
+-
+-    blk_root_drained_begin(blk->root);
+-    ret =3D blk_pread(blk, offset, buf, count);
+-    blk_root_drained_end(blk->root, NULL);
+-    return ret;
+-}
+-
+ int blk_pwrite_zeroes(BlockBackend *blk, int64_t offset,
+                       int bytes, BdrvRequestFlags flags)
+ {
+diff --git a/hw/block/hd-geometry.c b/hw/block/hd-geometry.c
+index 79384a2b0a..dcbccee294 100644
+--- a/hw/block/hd-geometry.c
++++ b/hw/block/hd-geometry.c
+@@ -63,12 +63,7 @@ static int guess_disk_lchs(BlockBackend *blk,
+=20
+     blk_get_geometry(blk, &nb_sectors);
+=20
+-    /**
+-     * The function will be invoked during startup not only in sync I/O =
+mode,
+-     * but also in async I/O mode. So the I/O throttling function has to
+-     * be disabled temporarily here, not permanently.
+-     */
+-    if (blk_pread_unthrottled(blk, 0, buf, BDRV_SECTOR_SIZE) < 0) {
++    if (blk_pread(blk, 0, buf, BDRV_SECTOR_SIZE) < 0) {
+         return -1;
+     }
+     /* test msdos magic */
 --=20
 2.20.1
 
