@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D33B90386
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:59:47 +0200 (CEST)
-Received: from localhost ([::1]:56571 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C63F90388
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:59:58 +0200 (CEST)
+Received: from localhost ([::1]:56580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycle-0002jg-2L
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45932)
+	id 1hyclp-00031o-FF
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:59:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59762)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyXFL-0005e2-9c
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:06:13 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyYdg-0000TL-Rl
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyXFA-0001tC-Da
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:06:03 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.77]:1144)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyYdW-0003t3-Dx
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:16 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.73]:27588)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyXDH-0000Dx-HI; Fri, 16 Aug 2019 04:03:57 -0400
-Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- BWP09926082.bt.com (10.36.82.113) with Microsoft SMTP Server (version=TLS1_2, 
+ id 1hyYbg-0001xN-8I; Fri, 16 Aug 2019 05:33:14 -0400
+Received: from tpw09926dag18g.domain1.systemhost.net (10.9.212.34) by
+ BWP09926078.bt.com (10.36.82.109) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
- Aug 2019 09:03:27 +0100
+ Aug 2019 10:32:26 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18e.domain1.systemhost.net (10.9.212.18) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 09:03:50 +0100
+ tpw09926dag18g.domain1.systemhost.net (10.9.212.34) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 10:33:05 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 09:03:50 +0100
+ 2019 10:33:04 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
 Thread-Topic: [Qemu-devel] [PATCH v7 33/42] exec: Replace device_endian with
  MemOp
-Thread-Index: AQHVVAkjZtKLBgYtKUOwPfTO3b+n3w==
-Date: Fri, 16 Aug 2019 08:03:50 +0000
-Message-ID: <1565942626361.65540@bt.com>
+Thread-Index: AQHVVBWaFVF+f9qANUCvvyD/694zuw==
+Date: Fri, 16 Aug 2019 09:33:04 +0000
+Message-ID: <1565947981050.26795@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -49,7 +49,7 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.77
+X-Received-From: 213.121.35.73
 X-Mailman-Approved-At: Fri, 16 Aug 2019 09:56:42 -0400
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
@@ -198,7 +198,7 @@ Acked-by: David Gibson <david@gibson.dropbear.id.au>
  hw/display/vmware_vga.c             |   2 +-
  hw/display/xlnx_dp.c                |   8 +--
  hw/dma/bcm2835_dma.c                |   4 +-
- hw/dma/etraxfs_dma.c                |   2 +-
+ hw/dma/etraxfs_dma.c                |   8 +--
  hw/dma/i8257.c                      |   4 +-
  hw/dma/omap_dma.c                   |   4 +-
  hw/dma/pl080.c                      |   2 +-
@@ -346,7 +346,7 @@ Acked-by: David Gibson <david@gibson.dropbear.id.au>
  hw/misc/mps2-fpgaio.c               |   2 +-
  hw/misc/mps2-scc.c                  |   2 +-
  hw/misc/msf2-sysreg.c               |   2 +-
- hw/misc/mst_fpga.c                  |   2 +-
+ hw/misc/mst_fpga.c                  |   6 +--
  hw/misc/nrf51_rng.c                 |   2 +-
  hw/misc/omap_gpmc.c                 |   6 +--
  hw/misc/omap_l4.c                   |   2 +-
@@ -531,7 +531,7 @@ Acked-by: David Gibson <david@gibson.dropbear.id.au>
  memory.c                            |  10 ++--
  memory_ldst.inc.c                   | 103 +++++++++++++++++---------------=
 ----
- 426 files changed, 768 insertions(+), 771 deletions(-)
+ 426 files changed, 773 insertions(+), 776 deletions(-)
 
 diff --git a/exec.c b/exec.c
 index 9f69197..303f9a7 100644
@@ -2710,18 +2710,24 @@ fset, uint64_t value,
      .valid.max_access_size =3D 4,
  };
 diff --git a/hw/dma/etraxfs_dma.c b/hw/dma/etraxfs_dma.c
-index df3ba09..b36a7df 100644
+index df3ba09..61f7200 100644
 --- a/hw/dma/etraxfs_dma.c
 +++ b/hw/dma/etraxfs_dma.c
-@@ -697,7 +697,7 @@ dma_write(void *opaque, hwaddr addr,
+@@ -695,10 +695,10 @@ dma_write(void *opaque, hwaddr addr,
+ }
+
  static const MemoryRegionOps dma_ops =3D {
-  .read =3D dma_read,
-  .write =3D dma_write,
+- .read =3D dma_read,
+- .write =3D dma_write,
 - .endianness =3D DEVICE_LITTLE_ENDIAN,
-+ .endianness =3D MO_LE,
-  .valid =3D {
+- .valid =3D {
++    .read =3D dma_read,
++    .write =3D dma_write,
++    .endianness =3D MO_LE,
++    .valid =3D {
   .min_access_size =3D 1,
   .max_access_size =3D 4
+  }
 diff --git a/hw/dma/i8257.c b/hw/dma/i8257.c
 index 30a3442..cf71c47 100644
 --- a/hw/dma/i8257.c
@@ -5354,16 +5360,20 @@ index 21a2863..33282dc 100644
 
  static void msf2_sysreg_init(Object *obj)
 diff --git a/hw/misc/mst_fpga.c b/hw/misc/mst_fpga.c
-index fd18303..43ff7a5 100644
+index fd18303..d339380 100644
 --- a/hw/misc/mst_fpga.c
 +++ b/hw/misc/mst_fpga.c
-@@ -191,7 +191,7 @@ mst_fpga_writeb(void *opaque, hwaddr addr, uint64_t val=
+@@ -189,9 +189,9 @@ mst_fpga_writeb(void *opaque, hwaddr addr, uint64_t val=
 ue,
+ }
+
  static const MemoryRegionOps mst_fpga_ops =3D {
-  .read =3D mst_fpga_readb,
-  .write =3D mst_fpga_writeb,
+- .read =3D mst_fpga_readb,
+- .write =3D mst_fpga_writeb,
 - .endianness =3D DEVICE_NATIVE_ENDIAN,
-+ .endianness =3D MO_TE,
++    .read =3D mst_fpga_readb,
++    .write =3D mst_fpga_writeb,
++    .endianness =3D MO_TE,
  };
 
  static int mst_fpga_post_load(void *opaque, int version_id)
