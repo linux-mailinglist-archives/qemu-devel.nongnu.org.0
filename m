@@ -2,74 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDBB78FD7E
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:16:04 +0200 (CEST)
-Received: from localhost ([::1]:51532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 960798FDAA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:21:36 +0200 (CEST)
+Received: from localhost ([::1]:51644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyXP1-0001wt-UV
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:16:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43049)
+	id 1hyXUN-0008Kh-N7
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:21:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48229)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jiewen.yao@intel.com>) id 1hyWzd-000872-0M
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:49:50 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hyXTM-0007SW-Ln
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:20:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jiewen.yao@intel.com>) id 1hyWza-0007np-Hm
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:49:48 -0400
-Received: from mga01.intel.com ([192.55.52.88]:39809)
+ (envelope-from <kwolf@redhat.com>) id 1hyXTK-0001yu-MW
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:20:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60560)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jiewen.yao@intel.com>)
- id 1hyWza-0007mv-7E
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:49:46 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2019 00:49:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,391,1559545200"; d="scan'208";a="376639939"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
- by fmsmga005.fm.intel.com with ESMTP; 16 Aug 2019 00:49:40 -0700
-Received: from fmsmsx121.amr.corp.intel.com (10.18.125.36) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Fri, 16 Aug 2019 00:49:40 -0700
-Received: from shsmsx103.ccr.corp.intel.com (10.239.4.69) by
- fmsmsx121.amr.corp.intel.com (10.18.125.36) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Fri, 16 Aug 2019 00:49:40 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.19]) by
- SHSMSX103.ccr.corp.intel.com ([169.254.4.139]) with mapi id 14.03.0439.000;
- Fri, 16 Aug 2019 15:49:37 +0800
-From: "Yao, Jiewen" <jiewen.yao@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- "devel@edk2.groups.io" <devel@edk2.groups.io>
-Thread-Topic: [edk2-devel] CPU hotplug using SMM with QEMU+OVMF
-Thread-Index: AQHVUfF5lMVYZhTq/0GuokGqDPas2Kb6jzUA//+ZRQCAAaHSAIAAFq8AgAEuZqD//8zIAIAAiChA
-Date: Fri, 16 Aug 2019 07:49:36 +0000
-Message-ID: <74D8A39837DF1E4DA445A8C0B3885C503F7600B9@shsmsx102.ccr.corp.intel.com>
-References: <8091f6e8-b1ec-f017-1430-00b0255729f4@redhat.com>
- <effa5e32-be1e-4703-4419-8866b7754e2d@redhat.com>
- <74D8A39837DF1E4DA445A8C0B3885C503F75B680@shsmsx102.ccr.corp.intel.com>
- <047801f8-624a-2300-3cf7-1daa1395ce59@redhat.com>
- <99219f81-33a3-f447-95f8-f10341d70084@redhat.com>
- <6f8b9507-58d0-5fbd-b827-c7194b3b2948@redhat.com>
- <74D8A39837DF1E4DA445A8C0B3885C503F75FAD3@shsmsx102.ccr.corp.intel.com>
- <7cb458ea-956e-c1df-33f7-025e4f0f22df@redhat.com>
-In-Reply-To: <7cb458ea-956e-c1df-33f7-025e4f0f22df@redhat.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hyXTD-0001qT-BY; Fri, 16 Aug 2019 04:20:24 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2F38BC051673;
+ Fri, 16 Aug 2019 08:20:22 +0000 (UTC)
+Received: from localhost.localdomain (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 31CC05D9DC;
+ Fri, 16 Aug 2019 08:20:15 +0000 (UTC)
+Date: Fri, 16 Aug 2019 10:20:13 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190816082013.GB5014@localhost.localdomain>
+References: <20190814100735.24234-1-vsementsov@virtuozzo.com>
+ <20190814100735.24234-3-vsementsov@virtuozzo.com>
+ <3eded188-0161-d494-194c-9d67da644eb1@redhat.com>
+ <20190815104928.GC7415@linux.fritz.box>
+ <9c290e4e-1d3b-bc6e-c6e6-28a0414b866e@redhat.com>
+ <20190815164821.GE7415@linux.fritz.box>
+ <87a7caut8t.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.88
-Subject: Re: [Qemu-devel] [edk2-devel] CPU hotplug using SMM with QEMU+OVMF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87a7caut8t.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Fri, 16 Aug 2019 08:20:22 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 2/2] qapi: deprecate implicit filters
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,167 +63,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Chen, Yingwen" <yingwen.chen@intel.com>,
- Phillip Goerl <phillip.goerl@oracle.com>,
- qemu devel list <qemu-devel@nongnu.org>, "Nakajima,
- Jun" <jun.nakajima@intel.com>, Igor Mammedov <imammedo@redhat.com>, Boris
- Ostrovsky <boris.ostrovsky@oracle.com>, edk2-rfc-groups-io <rfc@edk2.groups.io>,
- Joao Marcal Lemos Martins <joao.m.martins@oracle.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-YmVsb3cNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQYW9sbyBCb256
-aW5pIFttYWlsdG86cGJvbnppbmlAcmVkaGF0LmNvbV0NCj4gU2VudDogRnJpZGF5LCBBdWd1c3Qg
-MTYsIDIwMTkgMzoyMCBQTQ0KPiBUbzogWWFvLCBKaWV3ZW4gPGppZXdlbi55YW9AaW50ZWwuY29t
-PjsgTGFzemxvIEVyc2VrDQo+IDxsZXJzZWtAcmVkaGF0LmNvbT47IGRldmVsQGVkazIuZ3JvdXBz
-LmlvDQo+IENjOiBlZGsyLXJmYy1ncm91cHMtaW8gPHJmY0BlZGsyLmdyb3Vwcy5pbz47IHFlbXUg
-ZGV2ZWwgbGlzdA0KPiA8cWVtdS1kZXZlbEBub25nbnUub3JnPjsgSWdvciBNYW1tZWRvdiA8aW1h
-bW1lZG9AcmVkaGF0LmNvbT47DQo+IENoZW4sIFlpbmd3ZW4gPHlpbmd3ZW4uY2hlbkBpbnRlbC5j
-b20+OyBOYWthamltYSwgSnVuDQo+IDxqdW4ubmFrYWppbWFAaW50ZWwuY29tPjsgQm9yaXMgT3N0
-cm92c2t5IDxib3Jpcy5vc3Ryb3Zza3lAb3JhY2xlLmNvbT47DQo+IEpvYW8gTWFyY2FsIExlbW9z
-IE1hcnRpbnMgPGpvYW8ubS5tYXJ0aW5zQG9yYWNsZS5jb20+OyBQaGlsbGlwIEdvZXJsDQo+IDxw
-aGlsbGlwLmdvZXJsQG9yYWNsZS5jb20+DQo+IFN1YmplY3Q6IFJlOiBbZWRrMi1kZXZlbF0gQ1BV
-IGhvdHBsdWcgdXNpbmcgU01NIHdpdGggUUVNVStPVk1GDQo+IA0KPiBPbiAxNi8wOC8xOSAwNDo0
-NiwgWWFvLCBKaWV3ZW4gd3JvdGU6DQo+ID4gQ29tbWVudCBiZWxvdzoNCj4gPg0KPiA+DQo+ID4+
-IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206IFBhb2xvIEJvbnppbmkgW21h
-aWx0bzpwYm9uemluaUByZWRoYXQuY29tXQ0KPiA+PiBTZW50OiBGcmlkYXksIEF1Z3VzdCAxNiwg
-MjAxOSAxMjoyMSBBTQ0KPiA+PiBUbzogTGFzemxvIEVyc2VrIDxsZXJzZWtAcmVkaGF0LmNvbT47
-IGRldmVsQGVkazIuZ3JvdXBzLmlvOyBZYW8sDQo+IEppZXdlbg0KPiA+PiA8amlld2VuLnlhb0Bp
-bnRlbC5jb20+DQo+ID4+IENjOiBlZGsyLXJmYy1ncm91cHMtaW8gPHJmY0BlZGsyLmdyb3Vwcy5p
-bz47IHFlbXUgZGV2ZWwgbGlzdA0KPiA+PiA8cWVtdS1kZXZlbEBub25nbnUub3JnPjsgSWdvciBN
-YW1tZWRvdg0KPiA8aW1hbW1lZG9AcmVkaGF0LmNvbT47DQo+ID4+IENoZW4sIFlpbmd3ZW4gPHlp
-bmd3ZW4uY2hlbkBpbnRlbC5jb20+OyBOYWthamltYSwgSnVuDQo+ID4+IDxqdW4ubmFrYWppbWFA
-aW50ZWwuY29tPjsgQm9yaXMgT3N0cm92c2t5DQo+IDxib3Jpcy5vc3Ryb3Zza3lAb3JhY2xlLmNv
-bT47DQo+ID4+IEpvYW8gTWFyY2FsIExlbW9zIE1hcnRpbnMgPGpvYW8ubS5tYXJ0aW5zQG9yYWNs
-ZS5jb20+OyBQaGlsbGlwIEdvZXJsDQo+ID4+IDxwaGlsbGlwLmdvZXJsQG9yYWNsZS5jb20+DQo+
-ID4+IFN1YmplY3Q6IFJlOiBbZWRrMi1kZXZlbF0gQ1BVIGhvdHBsdWcgdXNpbmcgU01NIHdpdGgg
-UUVNVStPVk1GDQo+ID4+DQo+ID4+IE9uIDE1LzA4LzE5IDE3OjAwLCBMYXN6bG8gRXJzZWsgd3Jv
-dGU6DQo+ID4+PiBPbiAwOC8xNC8xOSAxNjowNCwgUGFvbG8gQm9uemluaSB3cm90ZToNCj4gPj4+
-PiBPbiAxNC8wOC8xOSAxNToyMCwgWWFvLCBKaWV3ZW4gd3JvdGU6DQo+ID4+Pj4+PiAtIERvZXMg
-dGhpcyBwYXJ0IHJlcXVpcmUgYSBuZXcgYnJhbmNoIHNvbWV3aGVyZSBpbiB0aGUgT1ZNRiBTRUMN
-Cj4gPj4gY29kZT8NCj4gPj4+Pj4+ICAgSG93IGRvIHdlIGRldGVybWluZSB3aGV0aGVyIHRoZSBD
-UFUgZXhlY3V0aW5nIFNFQyBpcyBCU1Agb3INCj4gPj4+Pj4+ICAgaG90LXBsdWdnZWQgQVA/DQo+
-ID4+Pj4+IFtKaWV3ZW5dIEkgdGhpbmsgdGhpcyBpcyBibG9ja2VkIGZyb20gaGFyZHdhcmUgcGVy
-c3BlY3RpdmUsIHNpbmNlIHRoZQ0KPiBmaXJzdA0KPiA+PiBpbnN0cnVjdGlvbi4NCj4gPj4+Pj4g
-VGhlcmUgYXJlIHNvbWUgaGFyZHdhcmUgc3BlY2lmaWMgcmVnaXN0ZXJzIGNhbiBiZSB1c2VkIHRv
-IGRldGVybWluZQ0KPiBpZg0KPiA+PiB0aGUgQ1BVIGlzIG5ldyBhZGRlZC4NCj4gPj4+Pj4gSSBk
-b27igJl0IHRoaW5rIHRoaXMgbXVzdCBiZSBzYW1lIGFzIHRoZSByZWFsIGhhcmR3YXJlLg0KPiA+
-Pj4+PiBZb3UgYXJlIGZyZWUgdG8gaW52ZW50IHNvbWUgcmVnaXN0ZXJzIGluIGRldmljZSBtb2Rl
-bCB0byBiZSB1c2VkIGluDQo+ID4+IE9WTUYgaG90IHBsdWcgZHJpdmVyLg0KPiA+Pj4+DQo+ID4+
-Pj4gWWVzLCB0aGlzIHdvdWxkIGJlIGEgbmV3IG9wZXJhdGlvbiBtb2RlIGZvciBRRU1VLCB0aGF0
-IG9ubHkgYXBwbGllcw0KPiB0bw0KPiA+Pj4+IGhvdC1wbHVnZ2VkIENQVXMuICBJbiB0aGlzIG1v
-ZGUgdGhlIEFQIGRvZXNuJ3QgcmVwbHkgdG8gSU5JVCBvciBTTUksDQo+IGluDQo+ID4+Pj4gZmFj
-dCBpdCBkb2Vzbid0IHJlcGx5IHRvIGFueXRoaW5nIGF0IGFsbC4NCj4gPj4+Pg0KPiA+Pj4+Pj4g
-LSBIb3cgZG8gd2UgdGVsbCB0aGUgaG90LXBsdWdnZWQgQVAgd2hlcmUgdG8gc3RhcnQgZXhlY3V0
-aW9uPyAoSS5lLg0KPiA+PiB0aGF0DQo+ID4+Pj4+PiAgIGl0IHNob3VsZCBleGVjdXRlIGNvZGUg
-YXQgYSBwYXJ0aWN1bGFyIHBmbGFzaCBsb2NhdGlvbi4pDQo+ID4+Pj4+IFtKaWV3ZW5dIFNhbWUg
-cmVhbCBtb2RlIHJlc2V0IHZlY3RvciBhdCBGRkZGOkZGRjAuDQo+ID4+Pj4NCj4gPj4+PiBZb3Ug
-ZG8gbm90IG5lZWQgYSByZXNldCB2ZWN0b3Igb3IgSU5JVC9TSVBJL1NJUEkgc2VxdWVuY2UgYXQg
-YWxsIGluDQo+ID4+Pj4gUUVNVS4gIFRoZSBBUCBkb2VzIG5vdCBzdGFydCBleGVjdXRpb24gYXQg
-YWxsIHdoZW4gaXQgaXMgdW5wbHVnZ2VkLA0KPiBzbw0KPiA+Pj4+IG5vIGNhY2hlLWFzLVJBTSBl
-dGMuDQo+ID4+Pj4NCj4gPj4+PiBXZSBvbmx5IG5lZWQgdG8gbW9kaWZ5IFFFTVUgc28gdGhhdCBo
-b3QtcGx1Z2dlZCBBUElzIGRvIG5vdCByZXBseQ0KPiB0bw0KPiA+Pj4+IElOSVQvU0lQSS9TTUku
-DQo+ID4+Pj4NCj4gPj4+Pj4gSSBkb27igJl0IHRoaW5rIHRoZXJlIGlzIHByb2JsZW0gZm9yIHJl
-YWwgaGFyZHdhcmUsIHdobyBhbHdheXMgaGFzIENBUi4NCj4gPj4+Pj4gQ2FuIFFFTVUgcHJvdmlk
-ZSBzb21lIENQVSBzcGVjaWZpYyBzcGFjZSwgc3VjaCBhcyBNTUlPIHJlZ2lvbj8NCj4gPj4+Pg0K
-PiA+Pj4+IFdoeSBpcyBhIENQVS1zcGVjaWZpYyByZWdpb24gbmVlZGVkIGlmIGV2ZXJ5IG90aGVy
-IHByb2Nlc3NvciBpcyBpbiBTTU0NCj4gPj4+PiBhbmQgdGh1cyB0cnVzdGVkLg0KPiA+Pj4NCj4g
-Pj4+IEkgd2FzIGdvaW5nIHRocm91Z2ggdGhlIHN0ZXBzIEppZXdlbiBhbmQgWWluZ3dlbiByZWNv
-bW1lbmRlZC4NCj4gPj4+DQo+ID4+PiBJbiBzdGVwICgwMiksIHRoZSBuZXcgQ1BVIGlzIGV4cGVj
-dGVkIHRvIHNldCB1cCBSQU0gYWNjZXNzLiBJbiBzdGVwDQo+ID4+PiAoMDMpLCB0aGUgbmV3IENQ
-VSwgZXhlY3V0aW5nIGNvZGUgZnJvbSBmbGFzaCwgaXMgZXhwZWN0ZWQgdG8gInNlbmQNCj4gYm9h
-cmQNCj4gPj4+IG1lc3NhZ2UgdG8gdGVsbCBob3N0IENQVSAoR1BJTy0+U0NJKSAtLSBJIGFtIHdh
-aXRpbmcgZm9yIGhvdC1hZGQNCj4gPj4+IG1lc3NhZ2UuIiBGb3IgdGhhdCBhY3Rpb24sIHRoZSBu
-ZXcgQ1BVIG1heSBuZWVkIGEgc3RhY2sgKG1pbmltYWxseSBpZg0KPiB3ZQ0KPiA+Pj4gd2FudCB0
-byB1c2UgQyBmdW5jdGlvbiBjYWxscykuDQo+ID4+Pg0KPiA+Pj4gVW50aWwgc3RlcCAoMDMpLCB0
-aGVyZSBoYWQgYmVlbiBubyB3b3JkIGFib3V0IGFueSBvdGhlciAoPSBwcmUtcGx1Z2dlZCkNCj4g
-Pj4+IENQVXMgKG1vcmUgcHJlY2lzZWx5LCBKaWV3ZW4gZXZlbiBjb25maXJtZWQgIk5vIGltcGFj
-dCB0byBvdGhlcg0KPiA+Pj4gcHJvY2Vzc29ycyIpLCBzbyBJIGRpZG4ndCBhc3N1bWUgdGhhdCBv
-dGhlciBDUFVzIGhhZCBlbnRlcmVkIFNNTS4NCj4gPj4+DQo+ID4+PiBQYW9sbywgSSd2ZSBhdHRl
-bXB0ZWQgdG8gcmVhZCBKaWV3ZW4ncyByZXNwb25zZSwgYW5kIHlvdXJzLCBhcyBjYXJlZnVsbHkN
-Cj4gPj4+IGFzIEkgY2FuLiBJJ20gc3RpbGwgdmVyeSBjb25mdXNlZC4gSWYgeW91IGhhdmUgYSBi
-ZXR0ZXIgdW5kZXJzdGFuZGluZywNCj4gPj4+IGNvdWxkIHlvdSBwbGVhc2Ugd3JpdGUgdXAgdGhl
-IDE1LXN0ZXAgcHJvY2VzcyBmcm9tIHRoZSB0aHJlYWQgc3RhcnRlcg0KPiA+Pj4gYWdhaW4sIHdp
-dGggYWxsIFFFTVUgY3VzdG9taXphdGlvbnMgYXBwbGllZD8gU3VjaCBhcywgdW5uZWNlc3NhcnkN
-Cj4gc3RlcHMNCj4gPj4+IHJlbW92ZWQsIGFuZCBwbGF0Zm9ybSBzcGVjaWZpY3MgZmlsbGVkIGlu
-Lg0KPiA+Pg0KPiA+PiBTdXJlLg0KPiA+Pg0KPiA+PiAoMDFhKSBRRU1VOiBjcmVhdGUgbmV3IENQ
-VS4gIFRoZSBDUFUgYWxyZWFkeSBleGlzdHMsIGJ1dCBpdCBkb2VzIG5vdA0KPiA+PiAgICAgIHN0
-YXJ0IHJ1bm5pbmcgY29kZSB1bnRpbCB1bnBhcmtlZCBieSB0aGUgQ1BVIGhvdHBsdWcgY29udHJv
-bGxlci4NCj4gPj4NCj4gPj4gKDAxYikgUUVNVTogdHJpZ2dlciBTQ0kNCj4gPj4NCj4gPj4gKDAy
-LTAzKSBubyBlcXVpdmFsZW50DQo+ID4+DQo+ID4+ICgwNCkgSG9zdCBDUFU6IChPUykgZXhlY3V0
-ZSBHUEUgaGFuZGxlciBmcm9tIERTRFQNCj4gPj4NCj4gPj4gKDA1KSBIb3N0IENQVTogKE9TKSBQ
-b3J0IDB4QjIgd3JpdGUsIGFsbCBDUFVzIGVudGVyIFNNTSAoTk9URTogTmV3IENQVQ0KPiA+PiAg
-ICAgIHdpbGwgbm90IGVudGVyIENQVSBiZWNhdXNlIFNNSSBpcyBkaXNhYmxlZCkNCj4gPj4NCj4g
-Pj4gKDA2KSBIb3N0IENQVTogKFNNTSkgU2F2ZSAzODAwMCwgVXBkYXRlIDM4MDAwIC0tIGZpbGwg
-c2ltcGxlIFNNTQ0KPiA+PiAgICAgIHJlYmFzZSBjb2RlLg0KPiA+Pg0KPiA+PiAoMDdhKSBIb3N0
-IENQVTogKFNNTSkgV3JpdGUgdG8gQ1BVIGhvdHBsdWcgY29udHJvbGxlciB0byBlbmFibGUNCj4g
-Pj4gICAgICBuZXcgQ1BVDQo+ID4+DQo+ID4+ICgwN2IpIEhvc3QgQ1BVOiAoU01NKSBTZW5kIElO
-SVQvU0lQSS9TSVBJIHRvIG5ldyBDUFUuDQo+ID4gW0ppZXdlbl0gTk9URTogSU5JVC9TSVBJL1NJ
-UEkgY2FuIGJlIHNlbnQgYnkgYSBtYWxpY2lvdXMgQ1BVLiBUaGVyZSBpcyBubw0KPiA+IHJlc3Ry
-aWN0aW9uIHRoYXQgSU5JVC9TSVBJL1NJUEkgY2FuIG9ubHkgYmUgc2VudCBpbiBTTU0uDQo+IA0K
-PiBBbGwgb2YgdGhlIENQVXMgYXJlIG5vdyBpbiBTTU0sIGFuZCBJTklUL1NJUEkvU0lQSSB3aWxs
-IGJlIGRpc2NhcmRlZA0KPiBiZWZvcmUgMDdhLCBzbyB0aGlzIGlzIG9rYXkuDQpbSmlld2VuXSBN
-YXkgSSBrbm93IHdoeSBJTklUL1NJUEkvU0lQSSBpcyBkaXNjYXJkZWQgYmVmb3JlIDA3YSBidXQg
-aXMgZGVsaXZlcmVkIGF0IDA3YT8NCkkgZG9u4oCZdCBzZWUgYW55IGV4dHJhIHN0ZXAgYmV0d2Vl
-biAwNiBhbmQgMDdhLg0KV2hhdCBpcyB0aGUgbWFnaWMgaGVyZT8NCg0KDQoNCj4gSG93ZXZlciBJ
-IGRvIHNlZSBhIHByb2JsZW0sIGJlY2F1c2UgYSBQQ0kgZGV2aWNlJ3MgRE1BIGNvdWxkIG92ZXJ3
-cml0ZQ0KPiAweDM4MDAwIGJldHdlZW4gKDA2KSBhbmQgKDEwKSBhbmQgaGlqYWNrIHRoZSBjb2Rl
-IHRoYXQgaXMgZXhlY3V0ZWQgaW4NCj4gU01NLiAgSG93IGlzIHRoaXMgYXZvaWRlZCBvbiByZWFs
-IGhhcmR3YXJlPyAgQnkgdGhlIHRpbWUgdGhlIG5ldyBDUFUNCj4gZW50ZXJzIFNNTSwgaXQgZG9l
-c24ndCBydW4gb2ZmIGNhY2hlLWFzLVJBTSBhbnltb3JlLg0KW0ppZXdlbl0gSW50ZXJlc3Rpbmcg
-cXVlc3Rpb24uDQpJIGRvbuKAmXQgdGhpbmsgdGhlIERNQSBhdHRhY2sgaXMgY29uc2lkZXJlZCBp
-biB0aHJlYXQgbW9kZWwgZm9yIHRoZSB2aXJ0dWFsIGVudmlyb25tZW50LiBXZSBvbmx5IGxpc3Qg
-YWR2ZXJzYXJ5IGJlbG93Og0KLS0gQWR2ZXJzYXJ5OiBTeXN0ZW0gU29mdHdhcmUgQXR0YWNrZXIs
-IHdobyBjYW4gY29udHJvbCBhbnkgT1MgbWVtb3J5IG9yIHNpbGljb24gcmVnaXN0ZXIgZnJvbSBP
-UyBsZXZlbCwgb3IgcmVhZCB3cml0ZSBCSU9TIGRhdGEuDQotLSBBZHZlcnNhcnk6IFNpbXBsZSBo
-YXJkd2FyZSBhdHRhY2tlciwgd2hvIGNhbiBob3QgYWRkIG9yIGhvdCByZW1vdmUgYSBDUFUuDQoN
-CkkgYWdyZWUgaXQgaXMgYSB0aHJlYXQgZnJvbSByZWFsIGhhcmR3YXJlIHBlcnNwZWN0aXZlLiBT
-TU0gbWF5IGNoZWNrIFZUZCB0byBtYWtlIHN1cmUgdGhlIDM4MDAwIGlzIGJsb2NrZWQuDQpJIGRv
-dWJ0IGlmIGl0IGlzIGEgdGhyZWF0IGluIHZpcnR1YWwgZW52aXJvbm1lbnQuIERvIHdlIGhhdmUg
-YSB3YXkgdG8gYmxvY2sgRE1BIGluIHZpcnR1YWwgZW52aXJvbm1lbnQ/DQoNCg0KDQo+IFBhb2xv
-DQo+IA0KPiA+PiAoMDhhKSBOZXcgQ1BVOiAoTG93IFJBTSkgRW50ZXIgcHJvdGVjdGVkIG1vZGUu
-DQo+ID4NCj4gPiBbSmlld2VuXSBOT1RFOiBUaGUgbmV3IENQVSBzdGlsbCBjYW5ub3QgdXNlIGFu
-eSBwaHlzaWNhbCBtZW1vcnksDQo+IGJlY2F1c2UNCj4gPiB0aGUgSU5JVC9TSVBJL1NJUEkgbWF5
-IGJlIHNlbnQgYnkgbWFsaWNpb3VzIENQVSBpbiBub24tU01NIGVudmlyb25tZW50Lg0KPiA+DQo+
-ID4+ICgwOGIpIE5ldyBDUFU6IChGbGFzaCkgU2lnbmFscyBob3N0IENQVSB0byBwcm9jZWVkIGFu
-ZCBlbnRlciBjbGk7aGx0IGxvb3AuDQo+ID4+DQo+ID4+ICgwOSkgSG9zdCBDUFU6IChTTU0pIFNl
-bmQgU01JIHRvIHRoZSBuZXcgQ1BVIG9ubHkuDQo+ID4+DQo+ID4+ICgxMCkgTmV3IENQVTogKFNN
-TSkgUnVuIFNNTSBjb2RlIGF0IDM4MDAwLCBhbmQgcmViYXNlIFNNQkFTRSB0bw0KPiA+PiAgICAg
-IFRTRUcuDQo+ID4+DQo+ID4+ICgxMSkgSG9zdCBDUFU6IChTTU0pIFJlc3RvcmUgMzgwMDAuDQo+
-ID4+DQo+ID4+ICgxMikgSG9zdCBDUFU6IChTTU0pIFVwZGF0ZSBsb2NhdGVkIGRhdGEgc3RydWN0
-dXJlIHRvIGFkZCB0aGUgbmV3IENQVQ0KPiA+PiAgICAgIGluZm9ybWF0aW9uLiAoVGhpcyBzdGVw
-IHdpbGwgaW52b2x2ZSBDUFVfU0VSVklDRSBwcm90b2NvbCkNCj4gPj4NCj4gPj4gKDEzKSBOZXcg
-Q1BVOiAoRmxhc2gpIGRvIHdoYXRldmVyIG90aGVyIGluaXRpYWxpemF0aW9uIGlzIG5lZWRlZA0K
-PiA+Pg0KPiA+PiAoMTQpIE5ldyBDUFU6IChGbGFzaCkgRGVhZGxvb3AsIGFuZCB3YWl0IGZvciBJ
-TklULVNJUEktU0lQSS4NCj4gPj4NCj4gPj4gKDE1KSBIb3N0IENQVTogKE9TKSBTZW5kIElOSVQt
-U0lQSS1TSVBJIHRvIHB1bGwgbmV3IENQVSBpbi4uDQo+ID4+DQo+ID4+DQo+ID4+IEluIG90aGVy
-IHdvcmRzLCB0aGUgY2FjaGUtYXMtUkFNIHBoYXNlIG9mIDAyLTAzIGlzIHJlcGxhY2VkIGJ5IHRo
-ZQ0KPiA+PiBJTklULVNJUEktU0lQSSBzZXF1ZW5jZSBvZiAwN2ItMDhhLTA4Yi4NCj4gPiBbSmll
-d2VuXSBJIGFtIE9LIHdpdGggdGhpcyBwcm9wb3NhbC4NCj4gPiBJIHRoaW5rIHRoZSBydWxlIGlz
-IHNhbWUgLSB0aGUgbmV3IENQVSBDQU5OT1QgdG91Y2ggYW55IHN5c3RlbSBtZW1vcnksDQo+ID4g
-bm8gbWF0dGVyIGl0IGlzIGZyb20gcmVzZXQtdmVjdG9yIG9yIGZyb20gSU5JVC9TSVBJL1NJUEku
-DQo+ID4gT3IgSSB3b3VsZCBzYXk6IGlmIHRoZSBuZXcgQ1BVIHdhbnQgdG8gdG91Y2ggc29tZSBt
-ZW1vcnkgYmVmb3JlIGZpcnN0DQo+IFNNSSwgdGhlIG1lbW9yeSBzaG91bGQgYmUNCj4gPiBDUFUg
-c3BlY2lmaWMgb3Igb24gdGhlIGZsYXNoLg0KPiA+DQo+ID4NCj4gPg0KPiA+Pj4+IFRoZSBRRU1V
-IERTRFQgY291bGQgYmUgbW9kaWZpZWQgKHdoZW4gc2VjdXJlIGJvb3QgaXMgaW4gZWZmZWN0KSB0
-bw0KPiBPVVQNCj4gPj4+PiB0byAweEIyIHdoZW4gaG90cGx1ZyBoYXBwZW5zLiAgSXQgY291bGQg
-d3JpdGUgYSB3ZWxsLWtub3duIHZhbHVlIHRvDQo+ID4+Pj4gMHhCMiwgdG8gYmUgcmVhZCBieSBh
-biBTTUkgaGFuZGxlciBpbiBlZGsyLg0KPiA+Pj4NCj4gPj4+IEkgZGlzbGlrZSBpbnZvbHZpbmcg
-UUVNVSdzIGdlbmVyYXRlZCBEU0RUIGluIGFueXRoaW5nIFNNTSAoZXZlbg0KPiA+Pj4gaW5qZWN0
-aW5nIHRoZSBTTUkpLCBiZWNhdXNlIHRoZSBBTUwgaW50ZXJwcmV0ZXIgcnVucyBpbiB0aGUgT1Mu
-DQo+ID4+Pg0KPiA+Pj4gSWYgYSBtYWxpY2lvdXMgT1Mga2VybmVsIGlzIGEgYml0IHRvbyBlbmxp
-Z2h0ZW5lZCBhYm91dCB0aGUgRFNEVCwgaXQNCj4gPj4+IGNvdWxkIHdpbGxmdWxseSBkaXZlcmdl
-IGZyb20gdGhlIHByb2Nlc3MgdGhhdCB3ZSBkZXNpZ24uIElmIFFFTVUNCj4gPj4+IGJyb2FkY2Fz
-dCB0aGUgU01JIGludGVybmFsbHksIHRoZSBndWVzdCBPUyBjb3VsZCBub3QgaW50ZXJmZXJlIHdp
-dGggdGhhdC4NCj4gPj4+DQo+ID4+PiBJZiB0aGUgcHVycG9zZSBvZiB0aGUgU01JIGlzIHNwZWNp
-ZmljYWxseSB0byBmb3JjZSBhbGwgQ1BVcyBpbnRvIFNNTQ0KPiA+Pj4gKGFuZCB0aGVyZWJ5IGZv
-cmNlIHRoZW0gaW50byB0cnVzdGVkIHN0YXRlKSwgdGhlbiB0aGUgT1Mgd291bGQgYmUNCj4gPj4+
-IGV4cGxpY2l0bHkgY291bnRlci1pbnRlcmVzdGVkIGluIGNhcnJ5aW5nIG91dCB0aGUgQU1MIG9w
-ZXJhdGlvbnMgZnJvbQ0KPiA+Pj4gUUVNVSdzIERTRFQuDQo+ID4+DQo+ID4+IEJ1dCBzaW5jZSB0
-aGUgaG90cGx1ZyBjb250cm9sbGVyIHdvdWxkIG9ubHkgYmUgYWNjZXNzaWJsZSBmcm9tIFNNTSwN
-Cj4gPj4gdGhlcmUgd291bGQgYmUgbm8gb3RoZXIgd2F5IHRvIGludm9rZSBpdCB0aGFuIHRvIGZv
-bGxvdyB0aGUgRFNEVCdzDQo+ID4+IGluc3RydWN0aW9uIGFuZCB3cml0ZSB0byAweEIyLiAgRldJ
-VywgcmVhbCBoYXJkd2FyZSBhbHNvIGhhcyBwbGVudHkgb2YNCj4gPj4gMHhCMiB3cml0ZXMgaW4g
-dGhlIERTRFQgb3IgaW4gQVBFSSB0YWJsZXMgKGUuZy4gZm9yIHBlcnNpc3RlbnQgc3RvcmUNCj4g
-Pj4gYWNjZXNzKS4NCj4gPj4NCj4gPj4gUGFvbG8NCg0K
+Am 15.08.2019 um 21:24 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Am 15.08.2019 um 18:07 hat John Snow geschrieben:
+> >> 
+> >> 
+> >> On 8/15/19 6:49 AM, Kevin Wolf wrote:
+> >> > Am 14.08.2019 um 21:27 hat John Snow geschrieben:
+> >> >>
+> >> >>
+> >> >> On 8/14/19 6:07 AM, Vladimir Sementsov-Ogievskiy wrote:
+> >> >>> To get rid of implicit filters related workarounds in future let's
+> >> >>> deprecate them now.
+> >> >>>
+> >> >>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >> >>> ---
+> >> >>>  qemu-deprecated.texi      |  7 +++++++
+> >> >>>  qapi/block-core.json      |  6 ++++--
+> >> >>>  include/block/block_int.h | 10 +++++++++-
+> >> >>>  blockdev.c                | 10 ++++++++++
+> >> >>>  4 files changed, 30 insertions(+), 3 deletions(-)
+> >> >>>
+> >> >>> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+> >> >>> index 2753fafd0b..8222440148 100644
+> >> >>> --- a/qemu-deprecated.texi
+> >> >>> +++ b/qemu-deprecated.texi
+> >> >>> @@ -183,6 +183,13 @@ the 'wait' field, which is only applicable to sockets in server mode
+> >> >>>  
+> >> >>>  Use blockdev-mirror and blockdev-backup instead.
+> >> >>>  
+> >> >>> +@subsection implicit filters (since 4.2)
+> >> >>> +
+> >> >>> +Mirror and commit jobs inserts filters, which becomes implicit if user
+> >> >>> +omitted filter-node-name parameter. So omitting it is deprecated, set it
+> >> >>> +always. Note, that drive-mirror don't have this parameter, so it will
+> >> >>> +create implicit filter anyway, but drive-mirror is deprecated itself too.
+> >> >>> +
+> >> >>>  @section Human Monitor Protocol (HMP) commands
+> >> >>>  
+> >> >>>  @subsection The hub_id parameter of 'hostfwd_add' / 'hostfwd_remove' (since 3.1)
+> >> >>> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> >> >>> index 4e35526634..0505ac9d8b 100644
+> >> >>> --- a/qapi/block-core.json
+> >> >>> +++ b/qapi/block-core.json
+> >> >>> @@ -1596,7 +1596,8 @@
+> >> >>>  # @filter-node-name: the node name that should be assigned to the
+> >> >>>  #                    filter driver that the commit job inserts into the graph
+> >> >>>  #                    above @top. If this option is not given, a node name is
+> >> >>> -#                    autogenerated. (Since: 2.9)
+> >> >>> +#                    autogenerated. Omitting this option is deprecated, it will
+> >> >>> +#                    be required in future. (Since: 2.9)
+> >> >>>  #
+> >> >>>  # @auto-finalize: When false, this job will wait in a PENDING state after it has
+> >> >>>  #                 finished its work, waiting for @block-job-finalize before
+> >> >>> @@ -2249,7 +2250,8 @@
+> >> >>>  # @filter-node-name: the node name that should be assigned to the
+> >> >>>  #                    filter driver that the mirror job inserts into the graph
+> >> >>>  #                    above @device. If this option is not given, a node name is
+> >> >>> -#                    autogenerated. (Since: 2.9)
+> >> >>> +#                    autogenerated. Omitting this option is deprecated, it will
+> >> >>> +#                    be required in future. (Since: 2.9)
+> >> >>>  #
+> >> >>>  # @copy-mode: when to copy data to the destination; defaults to 'background'
+> >> >>>  #             (Since: 3.0)
+> >> >>> diff --git a/include/block/block_int.h b/include/block/block_int.h
+> >> >>> index 3aa1e832a8..624da0b4a2 100644
+> >> >>> --- a/include/block/block_int.h
+> >> >>> +++ b/include/block/block_int.h
+> >> >>> @@ -762,7 +762,15 @@ struct BlockDriverState {
+> >> >>>      bool sg;        /* if true, the device is a /dev/sg* */
+> >> >>>      bool probed;    /* if true, format was probed rather than specified */
+> >> >>>      bool force_share; /* if true, always allow all shared permissions */
+> >> >>> -    bool implicit;  /* if true, this filter node was automatically inserted */
+> >> >>> +
+> >> >>> +    /*
+> >> >>> +     * @implicit field is deprecated, don't set it to true for new filters.
+> >> >>> +     * If true, this filter node was automatically inserted and user don't
+> >> >>> +     * know about it and unprepared for any effects of it. So, implicit
+> >> >>> +     * filters are workarounded and skipped in many places of the block
+> >> >>> +     * layer code.
+> >> >>> +     */
+> >> >>> +    bool implicit;
+> >> >>>  
+> >> >>>      BlockDriver *drv; /* NULL means no media */
+> >> >>>      void *opaque;
+> >> >>> diff --git a/blockdev.c b/blockdev.c
+> >> >>> index 36e9368e01..b3cfaccce1 100644
+> >> >>> --- a/blockdev.c
+> >> >>> +++ b/blockdev.c
+> >> >>> @@ -3292,6 +3292,11 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+> >> >>>      BlockdevOnError on_error = BLOCKDEV_ON_ERROR_REPORT;
+> >> >>>      int job_flags = JOB_DEFAULT;
+> >> >>>  
+> >> >>> +    if (!has_filter_node_name) {
+> >> >>> +        warn_report("Omitting filter-node-name parameter is deprecated, it "
+> >> >>> +                    "will be required in future");
+> >> >>> +    }
+> >> >>> +
+> >> >>>      if (!has_speed) {
+> >> >>>          speed = 0;
+> >> >>>      }
+> >> >>> @@ -3990,6 +3995,11 @@ void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
+> >> >>>      Error *local_err = NULL;
+> >> >>>      int ret;
+> >> >>>  
+> >> >>> +    if (!has_filter_node_name) {
+> >> >>> +        warn_report("Omitting filter-node-name parameter is deprecated, it "
+> >> >>> +                    "will be required in future");
+> >> >>> +    }
+> >> >>> +
+> >> >>>      bs = qmp_get_root_bs(device, errp);
+> >> >>>      if (!bs) {
+> >> >>>          return;
+> >> >>>
+> >> >>
+> >> >> This might be OK to do right away, though.
+> >> >>
+> >> >> I asked Markus this not too long ago; do we want to amend the QAPI
+> >> >> schema specification to allow commands to return with "Warning" strings,
+> >> >> or "Deprecated" stings to allow in-band deprecation notices for cases
+> >> >> like these?
+> >> >>
+> >> >> example:
+> >> >>
+> >> >> { "return": {},
+> >> >>   "deprecated": True,
+> >> >>   "warning": "Omitting filter-node-name parameter is deprecated, it will
+> >> >> be required in the future"
+> >> >> }
+> >> >>
+> >> >> There's no "error" key, so this should be recognized as success by
+> >> >> compatible clients, but they'll definitely see the extra information.
+> >> >>
+> >> >> Part of my motivation is to facilitate a more aggressive deprecation of
+> >> >> legacy features by ensuring that we are able to rigorously notify users
+> >> >> through any means that they need to adjust their scripts.
+> >> > 
+> >> > Who would read this, though? In the best case it ends up deep in a
+> >> > libvirt log that nobody will look at because there was no error. In the
+> >> > more common case, the debug level is configured so that QMP traffic
+> >> > isn't even logged.
+> >> > 
+> >> > Kevin
+> >> > 
+> >> 
+> >> I believe you are right, but I also can't shake the feeling that this
+> >> attitude ensures that we'll never find a way to expose this information
+> >> to the end-user. Is this not too defeatist?
+> >
+> > I think the discussed approach that seemed most likely to me to succeed
+> > was adding a command line option that makes QEMU just crash if you use a
+> > deprecated feature, and enable that in libvirt test cases (or possibly
+> > even any non-release builds, though maybe it's a bit harsh there).
+> 
+> Yup.  BoF minutes: "The one way to get people read log files is crashing
+> their application."
+> 
+> >> I think deprecation notices in the QMP stream has two benefits:
+> >> 
+> >> 1) Any direct usages via qmp-shell or manual JSON connection are likely
+> >> to see this message in development or testing. I feel the usage of QEMU
+> >> directly is more likely to increase with time as other stacks seek to
+> >> work around libvirt.
+> >> 
+> >> [Whether or not they should is another question, but I believe the
+> >> current reality to be that people are trying to.]
+> >
+> > I don't know about other people, but as a human user, I don't care about
+> > deprecation notices. As long as something works, I use it, and once I
+> > get an error message back, I'll use something else.
+> >
+> > If I manually enter drive_mirror and get a warning back, that doesn't
+> > tell me that libvirt still does the same thing and needs to be fixed. It
+> > just tells me that in the future I might need to change the commands
+> > that I use manually.
+> >
+> > I guess this would still prevent adding new libvirt features that build
+> > on deprecated QEMU features because some manual testing will be involved
+> > there. But was this ever a problem?
+> 
+> You're right in that relying on *humans* to read the machine-readable
+> deprecation notice probaly won't work for old client code trying to use
+> newly deprecated QMP.  It should work for new client code trying to use
+> already deprecated QMP.
+> 
+> >> 2) Programmatic deprecation notices can't be presented to a user at all
+> >> if we don't send them; at least this way it becomes libvirt's problem
+> >> over what to do with them. Perhaps even just in testing and regression
+> >> suites libvirt can assert that it sees no deprecation warnings (or
+> >> whitelist certain ones it knows about.)
+> >> 
+> >> In the case of libvirt, it's not even necessarily about making sure the
+> >> end user sees it, because it isn't even necessarily the user's fault --
+> >> it's libvirt's. This is a sure-fire programmatic way to communicate
+> >> compatibility changes to libvirt.
+> >
+> > If libvirt uses this to make test cases fail, it could work.
+> 
+> Yes.
+> 
+> However, ensuring tests fail whenever libvirt receives a deprecation
+> notice via QMP seems harder than having them pass --future to QEMU to
+> make it crash instead of sending such a notice.
+> 
+> Let's assume all libvirt ever does with deprecation notices is logging
+> them.  Would that solve the problem of reliably alerting libvirt
+> developers to deprecation issues?  Nope.  But it could help
+> occasionally.
+
+I'm not saying that deprecation notices would hurt, just that they
+probably won't solve problem alone.
+
+Crashing if --future is given and logging otherwise seems reasonable
+enough to me. Whether we need to wire up a new deprecation mechanism in
+QMP for the logging or if we can just keep printing to stderr is
+debatable. stderr already ends up in a log file, a QMP extension would
+require new libvirt code. If libvirt would log deprecation notices more
+prominently, or use the information for tainting or any other kind of
+processing, a dedicated QMP mechanism could be justified.
+
+Kevin
 
