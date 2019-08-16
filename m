@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE818FF37
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 11:42:18 +0200 (CEST)
-Received: from localhost ([::1]:52522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E9D8FF3C
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 11:44:24 +0200 (CEST)
+Received: from localhost ([::1]:52558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyYkT-0006Sq-43
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 05:42:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59573)
+	id 1hyYmV-0001Ve-Hx
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 05:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59627)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1hyYdQ-0008Ug-PL
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:02 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hyYdU-00008b-Aa
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hyYdP-0003iR-1x
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56292)
+ (envelope-from <kwolf@redhat.com>) id 1hyYdS-0003pf-EB
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55872)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hyYdL-0003c7-5c; Fri, 16 Aug 2019 05:34:55 -0400
+ id 1hyYdO-0003gH-7T; Fri, 16 Aug 2019 05:34:58 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 79961306046D;
- Fri, 16 Aug 2019 09:34:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 916BBC049E36;
+ Fri, 16 Aug 2019 09:34:57 +0000 (UTC)
 Received: from localhost.localdomain.com (dhcp-200-226.str.redhat.com
  [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3BAC5C205;
- Fri, 16 Aug 2019 09:34:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC0925C1B2;
+ Fri, 16 Aug 2019 09:34:54 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 16 Aug 2019 11:34:33 +0200
-Message-Id: <20190816093439.14262-11-kwolf@redhat.com>
+Date: Fri, 16 Aug 2019 11:34:34 +0200
+Message-Id: <20190816093439.14262-12-kwolf@redhat.com>
 In-Reply-To: <20190816093439.14262-1-kwolf@redhat.com>
 References: <20190816093439.14262-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Fri, 16 Aug 2019 09:34:54 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Fri, 16 Aug 2019 09:34:57 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 10/16] tests: Test mid-drain
- bdrv_replace_child_noperm()
+Subject: [Qemu-devel] [PULL 11/16] iotests: Add test for concurrent
+ stream/commit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,357 +62,289 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Add a test for what happens when you call bdrv_replace_child_noperm()
-for various drain situations ({old,new} child {drained,not drained}).
-
-Most importantly, if both the old and the new child are drained, the
-parent must not be undrained at any point.
+We already have 030 for that in general, but this tests very specific
+cases of both jobs finishing concurrently.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/test-bdrv-drain.c | 308 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 308 insertions(+)
+ tests/qemu-iotests/258     | 163 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/258.out |  33 ++++++++
+ tests/qemu-iotests/group   |   1 +
+ 3 files changed, 197 insertions(+)
+ create mode 100755 tests/qemu-iotests/258
+ create mode 100644 tests/qemu-iotests/258.out
 
-diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
-index 1600d41e9a..9dffd86c47 100644
---- a/tests/test-bdrv-drain.c
-+++ b/tests/test-bdrv-drain.c
-@@ -1835,6 +1835,311 @@ static void test_drop_intermediate_poll(void)
-     bdrv_unref(chain[2]);
- }
-=20
+diff --git a/tests/qemu-iotests/258 b/tests/qemu-iotests/258
+new file mode 100755
+index 0000000000..b84cf02254
+--- /dev/null
++++ b/tests/qemu-iotests/258
+@@ -0,0 +1,163 @@
++#!/usr/bin/env python
++#
++# Very specific tests for adjacent commit/stream block jobs
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++# Creator/Owner: Max Reitz <mreitz@redhat.com>
 +
-+typedef struct BDRVReplaceTestState {
-+    bool was_drained;
-+    bool was_undrained;
-+    bool has_read;
++import iotests
++from iotests import log, qemu_img, qemu_io_silent, \
++        filter_qmp_testfiles, filter_qmp_imgfmt
 +
-+    int drain_count;
++# Need backing file and change-backing-file support
++iotests.verify_image_format(supported_fmts=3D['qcow2', 'qed'])
++iotests.verify_platform(['linux'])
 +
-+    bool yield_before_read;
-+    Coroutine *io_co;
-+    Coroutine *drain_co;
-+} BDRVReplaceTestState;
 +
-+static void bdrv_replace_test_close(BlockDriverState *bs)
-+{
-+}
++# Returns a node for blockdev-add
++def node(node_name, path, backing=3DNone, fmt=3DNone, throttle=3DNone):
++    if fmt is None:
++        fmt =3D iotests.imgfmt
 +
-+/**
-+ * If @bs has a backing file:
-+ *   Yield if .yield_before_read is true (and wait for drain_begin to
-+ *   wake us up).
-+ *   Forward the read to bs->backing.  Set .has_read to true.
-+ *   If drain_begin has woken us, wake it in turn.
-+ *
-+ * Otherwise:
-+ *   Set .has_read to true and return success.
-+ */
-+static int coroutine_fn bdrv_replace_test_co_preadv(BlockDriverState *bs=
-,
-+                                                    uint64_t offset,
-+                                                    uint64_t bytes,
-+                                                    QEMUIOVector *qiov,
-+                                                    int flags)
-+{
-+    BDRVReplaceTestState *s =3D bs->opaque;
-+
-+    if (bs->backing) {
-+        int ret;
-+
-+        g_assert(!s->drain_count);
-+
-+        s->io_co =3D qemu_coroutine_self();
-+        if (s->yield_before_read) {
-+            s->yield_before_read =3D false;
-+            qemu_coroutine_yield();
-+        }
-+        s->io_co =3D NULL;
-+
-+        ret =3D bdrv_preadv(bs->backing, offset, qiov);
-+        s->has_read =3D true;
-+
-+        /* Wake up drain_co if it runs */
-+        if (s->drain_co) {
-+            aio_co_wake(s->drain_co);
-+        }
-+
-+        return ret;
-+    }
-+
-+    s->has_read =3D true;
-+    return 0;
-+}
-+
-+/**
-+ * If .drain_count is 0, wake up .io_co if there is one; and set
-+ * .was_drained.
-+ * Increment .drain_count.
-+ */
-+static void coroutine_fn bdrv_replace_test_co_drain_begin(BlockDriverSta=
-te *bs)
-+{
-+    BDRVReplaceTestState *s =3D bs->opaque;
-+
-+    if (!s->drain_count) {
-+        /* Keep waking io_co up until it is done */
-+        s->drain_co =3D qemu_coroutine_self();
-+        while (s->io_co) {
-+            aio_co_wake(s->io_co);
-+            s->io_co =3D NULL;
-+            qemu_coroutine_yield();
-+        }
-+        s->drain_co =3D NULL;
-+
-+        s->was_drained =3D true;
-+    }
-+    s->drain_count++;
-+}
-+
-+/**
-+ * Reduce .drain_count, set .was_undrained once it reaches 0.
-+ * If .drain_count reaches 0 and the node has a backing file, issue a
-+ * read request.
-+ */
-+static void coroutine_fn bdrv_replace_test_co_drain_end(BlockDriverState=
- *bs)
-+{
-+    BDRVReplaceTestState *s =3D bs->opaque;
-+
-+    g_assert(s->drain_count > 0);
-+    if (!--s->drain_count) {
-+        int ret;
-+
-+        s->was_undrained =3D true;
-+
-+        if (bs->backing) {
-+            char data;
-+            QEMUIOVector qiov =3D QEMU_IOVEC_INIT_BUF(qiov, &data, 1);
-+
-+            /* Queue a read request post-drain */
-+            ret =3D bdrv_replace_test_co_preadv(bs, 0, 1, &qiov, 0);
-+            g_assert(ret >=3D 0);
++    res =3D {
++        'node-name': node_name,
++        'driver': fmt,
++        'file': {
++            'driver': 'file',
++            'filename': path
 +        }
 +    }
-+}
 +
-+static BlockDriver bdrv_replace_test =3D {
-+    .format_name            =3D "replace_test",
-+    .instance_size          =3D sizeof(BDRVReplaceTestState),
++    if backing is not None:
++        res['backing'] =3D backing
 +
-+    .bdrv_close             =3D bdrv_replace_test_close,
-+    .bdrv_co_preadv         =3D bdrv_replace_test_co_preadv,
++    if throttle:
++        res['file'] =3D {
++            'driver': 'throttle',
++            'throttle-group': throttle,
++            'file': res['file']
++        }
 +
-+    .bdrv_co_drain_begin    =3D bdrv_replace_test_co_drain_begin,
-+    .bdrv_co_drain_end      =3D bdrv_replace_test_co_drain_end,
++    return res
 +
-+    .bdrv_child_perm        =3D bdrv_format_default_perms,
-+};
++# Finds a node in the debug block graph
++def find_graph_node(graph, node_id):
++    return next(node for node in graph['nodes'] if node['id'] =3D=3D nod=
+e_id)
 +
-+static void coroutine_fn test_replace_child_mid_drain_read_co(void *opaq=
++
++def test_concurrent_finish(write_to_stream_node):
++    log('')
++    log('=3D=3D=3D Commit and stream finish concurrently (letting %s wri=
+te) =3D=3D=3D' % \
++        ('stream' if write_to_stream_node else 'commit'))
++    log('')
++
++    # All chosen in such a way that when the commit job wants to
++    # finish, it polls and thus makes stream finish concurrently --
++    # and the other way around, depending on whether the commit job
++    # is finalized before stream completes or not.
++
++    with iotests.FilePath('node4.img') as node4_path, \
++         iotests.FilePath('node3.img') as node3_path, \
++         iotests.FilePath('node2.img') as node2_path, \
++         iotests.FilePath('node1.img') as node1_path, \
++         iotests.FilePath('node0.img') as node0_path, \
++         iotests.VM() as vm:
++
++        # It is important to use raw for the base layer (so that
++        # permissions are just handed through to the protocol layer)
++        assert qemu_img('create', '-f', 'raw', node0_path, '64M') =3D=3D=
+ 0
++
++        stream_throttle=3DNone
++        commit_throttle=3DNone
++
++        for path in [node1_path, node2_path, node3_path, node4_path]:
++            assert qemu_img('create', '-f', iotests.imgfmt, path, '64M')=
+ =3D=3D 0
++
++        if write_to_stream_node:
++            # This is what (most of the time) makes commit finish
++            # earlier and then pull in stream
++            assert qemu_io_silent(node2_path,
++                                  '-c', 'write %iK 64K' % (65536 - 192),
++                                  '-c', 'write %iK 64K' % (65536 -  64))=
+ =3D=3D 0
++
++            stream_throttle=3D'tg'
++        else:
++            # And this makes stream finish earlier
++            assert qemu_io_silent(node1_path,
++                                  '-c', 'write %iK 64K' % (65536 - 64)) =
+=3D=3D 0
++
++            commit_throttle=3D'tg'
++
++        vm.launch()
++
++        vm.qmp_log('object-add',
++                   qom_type=3D'throttle-group',
++                   id=3D'tg',
++                   props=3D{
++                       'x-iops-write': 1,
++                       'x-iops-write-max': 1
++                   })
++
++        vm.qmp_log('blockdev-add',
++                   filters=3D[filter_qmp_testfiles, filter_qmp_imgfmt],
++                   **node('node4', node4_path, throttle=3Dstream_throttl=
+e,
++                     backing=3Dnode('node3', node3_path,
++                     backing=3Dnode('node2', node2_path,
++                     backing=3Dnode('node1', node1_path,
++                     backing=3Dnode('node0', node0_path, throttle=3Dcomm=
+it_throttle,
++                                  fmt=3D'raw'))))))
++
++        vm.qmp_log('block-commit',
++                   job_id=3D'commit',
++                   device=3D'node4',
++                   filter_node_name=3D'commit-filter',
++                   top_node=3D'node1',
++                   base_node=3D'node0',
++                   auto_finalize=3DFalse)
++
++        vm.qmp_log('block-stream',
++                   job_id=3D'stream',
++                   device=3D'node3',
++                   base_node=3D'commit-filter')
++
++        if write_to_stream_node:
++            vm.run_job('commit', auto_finalize=3DFalse, auto_dismiss=3DT=
+rue)
++            vm.run_job('stream', auto_finalize=3DTrue, auto_dismiss=3DTr=
 ue)
-+{
-+    int ret;
-+    char data;
++        else:
++            # No, the jobs do not really finish concurrently here,
++            # the stream job does complete strictly before commit.
++            # But still, this is close enough for what we want to
++            # test.
++            vm.run_job('stream', auto_finalize=3DTrue, auto_dismiss=3DTr=
+ue)
++            vm.run_job('commit', auto_finalize=3DFalse, auto_dismiss=3DT=
+rue)
 +
-+    ret =3D blk_co_pread(opaque, 0, 1, &data, 0);
-+    g_assert(ret >=3D 0);
-+}
++        # Assert that the backing node of node3 is node 0 now
++        graph =3D vm.qmp('x-debug-query-block-graph')['return']
++        for edge in graph['edges']:
++            if edge['name'] =3D=3D 'backing' and \
++               find_graph_node(graph, edge['parent'])['name'] =3D=3D 'no=
+de3':
++                assert find_graph_node(graph, edge['child'])['name'] =3D=
+=3D 'node0'
++                break
 +
-+/**
-+ * We test two things:
-+ * (1) bdrv_replace_child_noperm() must not undrain the parent if both
-+ *     children are drained.
-+ * (2) bdrv_replace_child_noperm() must never flush I/O requests to a
-+ *     drained child.  If the old child is drained, it must flush I/O
-+ *     requests after the new one has been attached.  If the new child
-+ *     is drained, it must flush I/O requests before the old one is
-+ *     detached.
-+ *
-+ * To do so, we create one parent node and two child nodes; then
-+ * attach one of the children (old_child_bs) to the parent, then
-+ * drain both old_child_bs and new_child_bs according to
-+ * old_drain_count and new_drain_count, respectively, and finally
-+ * we invoke bdrv_replace_node() to replace old_child_bs by
-+ * new_child_bs.
-+ *
-+ * The test block driver we use here (bdrv_replace_test) has a read
-+ * function that:
-+ * - For the parent node, can optionally yield, and then forwards the
-+ *   read to bdrv_preadv(),
-+ * - For the child node, just returns immediately.
-+ *
-+ * If the read yields, the drain_begin function will wake it up.
-+ *
-+ * The drain_end function issues a read on the parent once it is fully
-+ * undrained (which simulates requests starting to come in again).
-+ */
-+static void do_test_replace_child_mid_drain(int old_drain_count,
-+                                            int new_drain_count)
-+{
-+    BlockBackend *parent_blk;
-+    BlockDriverState *parent_bs;
-+    BlockDriverState *old_child_bs, *new_child_bs;
-+    BDRVReplaceTestState *parent_s;
-+    BDRVReplaceTestState *old_child_s, *new_child_s;
-+    Coroutine *io_co;
-+    int i;
 +
-+    parent_bs =3D bdrv_new_open_driver(&bdrv_replace_test, "parent", 0,
-+                                     &error_abort);
-+    parent_s =3D parent_bs->opaque;
++def main():
++    log('Running tests:')
++    test_concurrent_finish(True)
++    test_concurrent_finish(False)
 +
-+    parent_blk =3D blk_new(qemu_get_aio_context(),
-+                         BLK_PERM_CONSISTENT_READ, BLK_PERM_ALL);
-+    blk_insert_bs(parent_blk, parent_bs, &error_abort);
++if __name__ =3D=3D '__main__':
++    main()
+diff --git a/tests/qemu-iotests/258.out b/tests/qemu-iotests/258.out
+new file mode 100644
+index 0000000000..ce6e9ba3e5
+--- /dev/null
++++ b/tests/qemu-iotests/258.out
+@@ -0,0 +1,33 @@
++Running tests:
 +
-+    old_child_bs =3D bdrv_new_open_driver(&bdrv_replace_test, "old-child=
-", 0,
-+                                        &error_abort);
-+    new_child_bs =3D bdrv_new_open_driver(&bdrv_replace_test, "new-child=
-", 0,
-+                                        &error_abort);
-+    old_child_s =3D old_child_bs->opaque;
-+    new_child_s =3D new_child_bs->opaque;
++=3D=3D=3D Commit and stream finish concurrently (letting stream write) =3D=
+=3D=3D
 +
-+    /* So that we can read something */
-+    parent_bs->total_sectors =3D 1;
-+    old_child_bs->total_sectors =3D 1;
-+    new_child_bs->total_sectors =3D 1;
++{"execute": "object-add", "arguments": {"id": "tg", "props": {"x-iops-wr=
+ite": 1, "x-iops-write-max": 1}, "qom-type": "throttle-group"}}
++{"return": {}}
++{"execute": "blockdev-add", "arguments": {"backing": {"backing": {"backi=
+ng": {"backing": {"driver": "raw", "file": {"driver": "file", "filename":=
+ "TEST_DIR/PID-node0.img"}, "node-name": "node0"}, "driver": "IMGFMT", "f=
+ile": {"driver": "file", "filename": "TEST_DIR/PID-node1.img"}, "node-nam=
+e": "node1"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": =
+"TEST_DIR/PID-node2.img"}, "node-name": "node2"}, "driver": "IMGFMT", "fi=
+le": {"driver": "file", "filename": "TEST_DIR/PID-node3.img"}, "node-name=
+": "node3"}, "driver": "IMGFMT", "file": {"driver": "throttle", "file": {=
+"driver": "file", "filename": "TEST_DIR/PID-node4.img"}, "throttle-group"=
+: "tg"}, "node-name": "node4"}}
++{"return": {}}
++{"execute": "block-commit", "arguments": {"auto-finalize": false, "base-=
+node": "node0", "device": "node4", "filter-node-name": "commit-filter", "=
+job-id": "commit", "top-node": "node1"}}
++{"return": {}}
++{"execute": "block-stream", "arguments": {"base-node": "commit-filter", =
+"device": "node3", "job-id": "stream"}}
++{"return": {}}
++{"execute": "job-finalize", "arguments": {"id": "commit"}}
++{"return": {}}
++{"data": {"id": "commit", "type": "commit"}, "event": "BLOCK_JOB_PENDING=
+", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++{"data": {"device": "commit", "len": 67108864, "offset": 67108864, "spee=
+d": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"=
+microseconds": "USECS", "seconds": "SECS"}}
++{"data": {"device": "stream", "len": 67108864, "offset": 67108864, "spee=
+d": 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"=
+microseconds": "USECS", "seconds": "SECS"}}
 +
-+    bdrv_ref(old_child_bs);
-+    parent_bs->backing =3D bdrv_attach_child(parent_bs, old_child_bs, "c=
-hild",
-+                                           &child_backing, &error_abort)=
-;
++=3D=3D=3D Commit and stream finish concurrently (letting commit write) =3D=
+=3D=3D
 +
-+    for (i =3D 0; i < old_drain_count; i++) {
-+        bdrv_drained_begin(old_child_bs);
-+    }
-+    for (i =3D 0; i < new_drain_count; i++) {
-+        bdrv_drained_begin(new_child_bs);
-+    }
-+
-+    if (!old_drain_count) {
-+        /*
-+         * Start a read operation that will yield, so it will not
-+         * complete before the node is drained.
-+         */
-+        parent_s->yield_before_read =3D true;
-+        io_co =3D qemu_coroutine_create(test_replace_child_mid_drain_rea=
-d_co,
-+                                      parent_blk);
-+        qemu_coroutine_enter(io_co);
-+    }
-+
-+    /* If we have started a read operation, it should have yielded */
-+    g_assert(!parent_s->has_read);
-+
-+    /* Reset drained status so we can see what bdrv_replace_node() does =
-*/
-+    parent_s->was_drained =3D false;
-+    parent_s->was_undrained =3D false;
-+
-+    g_assert(parent_bs->quiesce_counter =3D=3D old_drain_count);
-+    bdrv_replace_node(old_child_bs, new_child_bs, &error_abort);
-+    g_assert(parent_bs->quiesce_counter =3D=3D new_drain_count);
-+
-+    if (!old_drain_count && !new_drain_count) {
-+        /*
-+         * From undrained to undrained drains and undrains the parent,
-+         * because bdrv_replace_node() contains a drained section for
-+         * @old_child_bs.
-+         */
-+        g_assert(parent_s->was_drained && parent_s->was_undrained);
-+    } else if (!old_drain_count && new_drain_count) {
-+        /*
-+         * From undrained to drained should drain the parent and keep
-+         * it that way.
-+         */
-+        g_assert(parent_s->was_drained && !parent_s->was_undrained);
-+    } else if (old_drain_count && !new_drain_count) {
-+        /*
-+         * From drained to undrained should undrain the parent and
-+         * keep it that way.
-+         */
-+        g_assert(!parent_s->was_drained && parent_s->was_undrained);
-+    } else /* if (old_drain_count && new_drain_count) */ {
-+        /*
-+         * From drained to drained must not undrain the parent at any
-+         * point
-+         */
-+        g_assert(!parent_s->was_drained && !parent_s->was_undrained);
-+    }
-+
-+    if (!old_drain_count || !new_drain_count) {
-+        /*
-+         * If !old_drain_count, we have started a read request before
-+         * bdrv_replace_node().  If !new_drain_count, the parent must
-+         * have been undrained at some point, and
-+         * bdrv_replace_test_co_drain_end() starts a read request
-+         * then.
-+         */
-+        g_assert(parent_s->has_read);
-+    } else {
-+        /*
-+         * If the parent was never undrained, there is no way to start
-+         * a read request.
-+         */
-+        g_assert(!parent_s->has_read);
-+    }
-+
-+    /* A drained child must have not received any request */
-+    g_assert(!(old_drain_count && old_child_s->has_read));
-+    g_assert(!(new_drain_count && new_child_s->has_read));
-+
-+    for (i =3D 0; i < new_drain_count; i++) {
-+        bdrv_drained_end(new_child_bs);
-+    }
-+    for (i =3D 0; i < old_drain_count; i++) {
-+        bdrv_drained_end(old_child_bs);
-+    }
-+
-+    /*
-+     * By now, bdrv_replace_test_co_drain_end() must have been called
-+     * at some point while the new child was attached to the parent.
-+     */
-+    g_assert(parent_s->has_read);
-+    g_assert(new_child_s->has_read);
-+
-+    blk_unref(parent_blk);
-+    bdrv_unref(parent_bs);
-+    bdrv_unref(old_child_bs);
-+    bdrv_unref(new_child_bs);
-+}
-+
-+static void test_replace_child_mid_drain(void)
-+{
-+    int old_drain_count, new_drain_count;
-+
-+    for (old_drain_count =3D 0; old_drain_count < 2; old_drain_count++) =
-{
-+        for (new_drain_count =3D 0; new_drain_count < 2; new_drain_count=
-++) {
-+            do_test_replace_child_mid_drain(old_drain_count, new_drain_c=
-ount);
-+        }
-+    }
-+}
-+
- int main(int argc, char **argv)
- {
-     int ret;
-@@ -1924,6 +2229,9 @@ int main(int argc, char **argv)
-     g_test_add_func("/bdrv-drain/bdrv_drop_intermediate/poll",
-                     test_drop_intermediate_poll);
-=20
-+    g_test_add_func("/bdrv-drain/replace_child/mid-drain",
-+                    test_replace_child_mid_drain);
-+
-     ret =3D g_test_run();
-     qemu_event_destroy(&done_event);
-     return ret;
++{"execute": "object-add", "arguments": {"id": "tg", "props": {"x-iops-wr=
+ite": 1, "x-iops-write-max": 1}, "qom-type": "throttle-group"}}
++{"return": {}}
++{"execute": "blockdev-add", "arguments": {"backing": {"backing": {"backi=
+ng": {"backing": {"driver": "raw", "file": {"driver": "throttle", "file":=
+ {"driver": "file", "filename": "TEST_DIR/PID-node0.img"}, "throttle-grou=
+p": "tg"}, "node-name": "node0"}, "driver": "IMGFMT", "file": {"driver": =
+"file", "filename": "TEST_DIR/PID-node1.img"}, "node-name": "node1"}, "dr=
+iver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-nod=
+e2.img"}, "node-name": "node2"}, "driver": "IMGFMT", "file": {"driver": "=
+file", "filename": "TEST_DIR/PID-node3.img"}, "node-name": "node3"}, "dri=
+ver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node=
+4.img"}, "node-name": "node4"}}
++{"return": {}}
++{"execute": "block-commit", "arguments": {"auto-finalize": false, "base-=
+node": "node0", "device": "node4", "filter-node-name": "commit-filter", "=
+job-id": "commit", "top-node": "node1"}}
++{"return": {}}
++{"execute": "block-stream", "arguments": {"base-node": "commit-filter", =
+"device": "node3", "job-id": "stream"}}
++{"return": {}}
++{"data": {"device": "stream", "len": 67108864, "offset": 67108864, "spee=
+d": 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"=
+microseconds": "USECS", "seconds": "SECS"}}
++{"execute": "job-finalize", "arguments": {"id": "commit"}}
++{"return": {}}
++{"data": {"id": "commit", "type": "commit"}, "event": "BLOCK_JOB_PENDING=
+", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++{"data": {"device": "commit", "len": 67108864, "offset": 67108864, "spee=
+d": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"=
+microseconds": "USECS", "seconds": "SECS"}}
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 71ba3c05dc..5a37839e35 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -271,4 +271,5 @@
+ 254 rw backing quick
+ 255 rw quick
+ 256 rw quick
++258 rw quick
+ 262 rw quick migration
 --=20
 2.20.1
 
