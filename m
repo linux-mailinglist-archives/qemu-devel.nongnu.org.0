@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FEC68FD8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:17:31 +0200 (CEST)
-Received: from localhost ([::1]:51552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 999798FD5B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:13:20 +0200 (CEST)
+Received: from localhost ([::1]:51464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyXQQ-0004HJ-8x
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:17:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41468)
+	id 1hyXMN-0006ac-MF
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:13:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWqI-0005eu-Ba
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:40:13 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWqg-0006If-Fa
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:40:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWqF-00048p-Lh
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:40:10 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.79]:36421)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWqc-0004Kv-IK
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:40:34 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.71]:11218)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWph-0003qH-3W; Fri, 16 Aug 2019 03:39:34 -0400
-Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
- BWP09926084.bt.com (10.36.82.115) with Microsoft SMTP Server (version=TLS1_2, 
+ id 1hyWq6-00045I-V1; Fri, 16 Aug 2019 03:39:59 -0400
+Received: from tpw09926dag18g.domain1.systemhost.net (10.9.212.34) by
+ BWP09926076.bt.com (10.36.82.107) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
- Aug 2019 08:39:02 +0100
+ Aug 2019 08:39:33 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:39:23 +0100
+ tpw09926dag18g.domain1.systemhost.net (10.9.212.34) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:39:56 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:39:23 +0100
+ 2019 08:39:57 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 40/42] cputlb: Byte swap memory
- transaction attribute
-Thread-Index: AQHVVAW5pu5EejPFoUWEW5e4cLePWw==
-Date: Fri, 16 Aug 2019 07:39:23 +0000
-Message-ID: <1565941162664.30993@bt.com>
+Thread-Topic: [Qemu-devel] [PATCH v7 42/42] target/sparc: sun4u Invert Endian
+ TTE bit
+Thread-Index: AQHVVAXNVmglh/lbAUq8ZFx4atJssA==
+Date: Fri, 16 Aug 2019 07:39:56 +0000
+Message-ID: <1565941195999.79315@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -49,12 +49,12 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.79
+X-Received-From: 213.121.35.71
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 40/42] cputlb: Byte swap memory transaction
- attribute
+Subject: [Qemu-devel] [PATCH v7 42/42] target/sparc: sun4u Invert Endian TTE
+ bit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,75 +96,78 @@ Cc: frederic.konrad@adacore.com, berto@igalia.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Notice new attribute, byte swap, and force the transaction through the
-memory slow path.
+This bit configures endianness of PCI MMIO devices. It is used by
+Solaris and OpenBSD sunhme drivers.
 
-Required by architectures that can invert endianness of memory
-transaction, e.g. SPARC64 has the Invert Endian TTE bit.
+Tested working on OpenBSD.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Unfortunately Solaris 10 had a unrelated keyboard issue blocking
+testing... another inch towards Solaris 10 on SPARC64 =3D)
+
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- accel/tcg/cputlb.c      | 11 +++++++++++
- include/exec/memattrs.h |  2 ++
- 2 files changed, 13 insertions(+)
+ target/sparc/cpu.h        | 2 ++
+ target/sparc/mmu_helper.c | 8 +++++++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index bb2f55d..adfa4f2 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -738,6 +738,9 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulon=
-g vaddr,
-          */
-         address |=3D TLB_RECHECK;
-     }
-+    if (attrs.byte_swap) {
-+        address |=3D TLB_FORCE_SLOW;
-+    }
-     if (!memory_region_is_ram(section->mr) &&
-         !memory_region_is_romd(section->mr)) {
-         /* IO memory case */
-@@ -891,6 +894,10 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEn=
-try *iotlbentry,
-     bool locked =3D false;
-     MemTxResult r;
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index 1406f0b..c6bafa8 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -275,6 +275,7 @@ enum {
 
-+    if (iotlbentry->attrs.byte_swap) {
-+        op ^=3D MO_BSWAP;
-+    }
+ #define TTE_VALID_BIT       (1ULL << 63)
+ #define TTE_NFO_BIT         (1ULL << 60)
++#define TTE_IE_BIT          (1ULL << 59)
+ #define TTE_USED_BIT        (1ULL << 41)
+ #define TTE_LOCKED_BIT      (1ULL <<  6)
+ #define TTE_SIDEEFFECT_BIT  (1ULL <<  3)
+@@ -291,6 +292,7 @@ enum {
+
+ #define TTE_IS_VALID(tte)   ((tte) & TTE_VALID_BIT)
+ #define TTE_IS_NFO(tte)     ((tte) & TTE_NFO_BIT)
++#define TTE_IS_IE(tte)      ((tte) & TTE_IE_BIT)
+ #define TTE_IS_USED(tte)    ((tte) & TTE_USED_BIT)
+ #define TTE_IS_LOCKED(tte)  ((tte) & TTE_LOCKED_BIT)
+ #define TTE_IS_SIDEEFFECT(tte) ((tte) & TTE_SIDEEFFECT_BIT)
+diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
+index 826e14b..77dc86a 100644
+--- a/target/sparc/mmu_helper.c
++++ b/target/sparc/mmu_helper.c
+@@ -537,6 +537,10 @@ static int get_physical_address_data(CPUSPARCState *en=
+v, hwaddr *physical,
+         if (ultrasparc_tag_match(&env->dtlb[i], address, context, physical=
+)) {
+             int do_fault =3D 0;
+
++            if (TTE_IS_IE(env->dtlb[i].tte)) {
++                attrs->byte_swap =3D true;
++            }
 +
-     section =3D iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attrs)=
-;
-     mr =3D section->mr;
-     mr_offset =3D (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-@@ -933,6 +940,10 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry=
- *iotlbentry,
-     bool locked =3D false;
-     MemTxResult r;
-
-+    if (iotlbentry->attrs.byte_swap) {
-+        op ^=3D MO_BSWAP;
-+    }
-+
-     section =3D iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attrs)=
-;
-     mr =3D section->mr;
-     mr_offset =3D (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
-index d4a3477..95f2d20 100644
---- a/include/exec/memattrs.h
-+++ b/include/exec/memattrs.h
-@@ -37,6 +37,8 @@ typedef struct MemTxAttrs {
-     unsigned int user:1;
-     /* Requester ID (for MSI for example) */
-     unsigned int requester_id:16;
-+    /* Invert endianness for this page */
-+    unsigned int byte_swap:1;
-     /*
-      * The following are target-specific page-table bits.  These are not
-      * related to actual memory transactions at all.  However, this struct=
-ure
+             /* access ok? */
+             /* multiple bits in SFSR.FT may be set on TT_DFAULT */
+             if (TTE_IS_PRIV(env->dtlb[i].tte) && is_user) {
+@@ -792,7 +796,7 @@ void dump_mmu(CPUSPARCState *env)
+             }
+             if (TTE_IS_VALID(env->dtlb[i].tte)) {
+                 qemu_printf("[%02u] VA: %" PRIx64 ", PA: %llx"
+-                            ", %s, %s, %s, %s, ctx %" PRId64 " %s\n",
++                            ", %s, %s, %s, %s, ie %s, ctx %" PRId64 " %s\n=
+",
+                             i,
+                             env->dtlb[i].tag & (uint64_t)~0x1fffULL,
+                             TTE_PA(env->dtlb[i].tte),
+@@ -801,6 +805,8 @@ void dump_mmu(CPUSPARCState *env)
+                             TTE_IS_W_OK(env->dtlb[i].tte) ? "RW" : "RO",
+                             TTE_IS_LOCKED(env->dtlb[i].tte) ?
+                             "locked" : "unlocked",
++                            TTE_IS_IE(env->dtlb[i].tte) ?
++                            "yes" : "no",
+                             env->dtlb[i].tag & (uint64_t)0x1fffULL,
+                             TTE_IS_GLOBAL(env->dtlb[i].tte) ?
+                             "global" : "local");
 --
 1.8.3.1
 
