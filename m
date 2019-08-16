@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4355F8FD40
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:10:14 +0200 (CEST)
-Received: from localhost ([::1]:51400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75BB98FD6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:13:55 +0200 (CEST)
+Received: from localhost ([::1]:51474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyXJM-0002Su-K2
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:10:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40565)
+	id 1hyXMw-0007Ub-Id
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:13:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40729)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWnZ-0002Xi-1n
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:37:23 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWo2-0003TO-Kn
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:37:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWnW-0002sr-5t
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:37:20 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.75]:31104)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWo1-000387-3Q
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:37:50 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.74]:25481)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWn4-0002ip-PD; Fri, 16 Aug 2019 03:36:51 -0400
-Received: from tpw09926dag18f.domain1.systemhost.net (10.9.212.26) by
- BWP09926080.bt.com (10.36.82.111) with Microsoft SMTP Server (version=TLS1_2, 
+ id 1hyWnl-0002y2-5L; Fri, 16 Aug 2019 03:37:33 -0400
+Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
+ BWP09926079.bt.com (10.36.82.110) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
- Aug 2019 08:36:23 +0100
+ Aug 2019 08:37:08 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18f.domain1.systemhost.net (10.9.212.26) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:36:49 +0100
+ tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:37:31 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:36:49 +0100
+ 2019 08:37:31 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 32/42] exec: Map device_endian onto MemOp
-Thread-Index: AQHVVAVcj7v8OSMGTEisQqFe4KBohg==
-Date: Fri, 16 Aug 2019 07:36:48 +0000
-Message-ID: <1565941007979.10549@bt.com>
+Thread-Topic: [Qemu-devel] [PATCH v7 34/42] exec: Delete device_endian
+Thread-Index: AQHVVAV23bjkeyMUpEO6mGcxTLNfZg==
+Date: Fri, 16 Aug 2019 07:37:31 +0000
+Message-ID: <1565941050197.81674@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -48,11 +48,11 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.75
+X-Received-From: 213.121.35.74
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel]  [PATCH v7 32/42] exec: Map device_endian onto MemOp
+Subject: [Qemu-devel]  [PATCH v7 34/42] exec: Delete device_endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,90 +94,33 @@ Cc: frederic.konrad@adacore.com, berto@igalia.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Preparation to replace device_endian with MemOp.
-
-Mapping device_endian onto MemOp limits behaviour changes to this
-relatively smaller patch.
-
-The next patch will replace all device_endian usages with the
-equivalent MemOp. That patch will be large but have no behaviour
-changes.
-
-A subsequent patch will then delete unused device_endian.
+device_endian has been made redundant by MemOp.
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/char/serial.c          | 18 ++++++------------
- include/exec/cpu-common.h | 10 +++++++---
- 2 files changed, 13 insertions(+), 15 deletions(-)
+ include/exec/cpu-common.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 7c42a2a..521c76b 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -1012,22 +1012,15 @@ static void serial_mm_write(void *opaque, hwaddr ad=
-dr,
-     serial_ioport_write(s, addr >> s->it_shift, value, 1);
- }
-
--static const MemoryRegionOps serial_mm_ops[3] =3D {
--    [DEVICE_NATIVE_ENDIAN] =3D {
--        .read =3D serial_mm_read,
--        .write =3D serial_mm_write,
--        .endianness =3D DEVICE_NATIVE_ENDIAN,
--        .valid.max_access_size =3D 8,
--        .impl.max_access_size =3D 8,
--    },
--    [DEVICE_LITTLE_ENDIAN] =3D {
-+static const MemoryRegionOps serial_mm_ops[2] =3D {
-+    [0] =3D {
-         .read =3D serial_mm_read,
-         .write =3D serial_mm_write,
-         .endianness =3D DEVICE_LITTLE_ENDIAN,
-         .valid.max_access_size =3D 8,
-         .impl.max_access_size =3D 8,
-     },
--    [DEVICE_BIG_ENDIAN] =3D {
-+    [1] =3D {
-         .read =3D serial_mm_read,
-         .write =3D serial_mm_write,
-         .endianness =3D DEVICE_BIG_ENDIAN,
-@@ -1053,8 +1046,9 @@ SerialState *serial_mm_init(MemoryRegion *address_spa=
-ce,
-     serial_realize_core(s, &error_fatal);
-     vmstate_register(NULL, base, &vmstate_serial, s);
-
--    memory_region_init_io(&s->io, NULL, &serial_mm_ops[end], s,
--                          "serial", 8 << it_shift);
-+    memory_region_init_io(&s->io, NULL,
-+                          &serial_mm_ops[end =3D=3D DEVICE_BIG_ENDIAN],
-+                          s, "serial", 8 << it_shift);
-     memory_region_add_subregion(address_space, base, &s->io);
-     return s;
- }
 diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index f7dbe75..c388453 100644
+index 01a29ba..7eeb78c 100644
 --- a/include/exec/cpu-common.h
 +++ b/include/exec/cpu-common.h
-@@ -16,10 +16,14 @@ void tcg_flush_softmmu_tlb(CPUState *cs);
+@@ -18,14 +18,6 @@ void tcg_flush_softmmu_tlb(CPUState *cs);
 
- #if !defined(CONFIG_USER_ONLY)
+ #include "exec/memop.h"
 
-+#include "exec/memop.h"
-+
- enum device_endian {
--    DEVICE_NATIVE_ENDIAN,
--    DEVICE_BIG_ENDIAN,
--    DEVICE_LITTLE_ENDIAN,
-+#ifdef NEED_CPU_H
-+    DEVICE_NATIVE_ENDIAN =3D MO_TE,
-+#endif
-+    DEVICE_BIG_ENDIAN =3D MO_BE,
-+    DEVICE_LITTLE_ENDIAN =3D MO_LE,
- };
-
+-enum device_endian {
+-#ifdef NEED_CPU_H
+-    DEVICE_NATIVE_ENDIAN =3D MO_TE,
+-#endif
+-    DEVICE_BIG_ENDIAN =3D MO_BE,
+-    DEVICE_LITTLE_ENDIAN =3D MO_LE,
+-};
+-
  #if defined(HOST_WORDS_BIGENDIAN)
+ #define DEVICE_HOST_ENDIAN MO_BE
+ #else
 --
 1.8.3.1
 
