@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0D8902C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:20:23 +0200 (CEST)
-Received: from localhost ([::1]:55910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB227902D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:22:34 +0200 (CEST)
+Received: from localhost ([::1]:55964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyc9W-00058A-D8
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:20:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35121)
+	id 1hycBd-00009m-G1
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:22:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc6i-0003Jn-Hq
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc6k-0003K5-FE
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc6g-0005LI-Oo
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:28 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39642)
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc6i-0005Mk-Fu
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:30 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42461)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hyc6g-0005Jz-Hy
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:26 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id i63so4044228wmg.4
+ id 1hyc6h-0005Kd-2d
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:27 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id b16so1513065wrq.9
  for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=t9Ek+ekeSYweoP2VH/IkoFx1+ZoWgv5D/JzyljNNHF0=;
- b=LBklE436q0nOX4scy4tN92qPN/wW0js02g+90adt6XqcWsEajlIFBHmGq3LnT6o5zZ
- 0fd8uNJcKOjMVXXgoak5CjqIrljXywhcR71ECXKn+SnYKbK3k6HrW1yJnrtVV5L1rmzB
- 0VngVLAOmRudE7mRye7eL0HvKDCU0XlM147VUPGCBRt8ooyFur1F64JfX+qnZOoKn9Th
- 4g/gqxAFfBcmVlj3SRzna5N5mGMMEviRpUVgqN7rBbZuGhpGjtE58VdvGAeCxCFZMemU
- 721PA6znL7kfkjpsksUaMp914aBuOzZrDoXTdPy8v5E9XiwRY4tVbXRQFU2uvdJ8Kfi9
- BFvw==
+ bh=tFLJu0RLA65KkfF6V+67H4j4yUsOojJ5LomME9mNzd4=;
+ b=WvA5T8K62NxxvOTjJieO7dadeWdv207vdtt+JA/1oCAPBvYpBgSGc1huJkt0o8EFqd
+ t4Ulde8EK3lq3WM2+Z5nOrjdJykSGRzio8e+fHXx4XjRK5lbsgAcuzTbYbRyiRRSbD7G
+ ZSlnd/5okLGA+zoRM03sImM+6mmnzw6v5Kq51RMkx9RkIZ8E5ep7vcnDWiCIb8CVf3IP
+ Zah+g2sCiZs/PDTqTf8p43efNfAuFmGdLrepSACla7EhGQbP0kSTJh8m30mJ+/emkU/P
+ zKpaw+1brjTDgOuKIuybYB3ik+B8zscjNaxUhJcJvoceH2g9nh28NYUwUQHNjlFiHs03
+ 5X8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t9Ek+ekeSYweoP2VH/IkoFx1+ZoWgv5D/JzyljNNHF0=;
- b=Rz8neocuCUO6OIlJ9YgNXsnPDaaYr/vPsg0XWXQr3fdwnbrzoPiYgrS/+0H045tSj1
- xN0ByXHr2Kj9Cnk/TQM2Sx/hMUWqZ9fXS3RQlGZetH7i+lpO5cskGv0GDUT2H5MacQNG
- k+XdeS8x4pvWSlGGa6M5rTkVOEv3XFzuGachtmQH2wmg0q0enfC44k9tE/ChTYCYulM/
- 61MkjCOOfiCy6AS++q5Mf4OQ9kOF5Gk3LOisopvD6FCf23EG9AQwZSu8yVYaMep7elOe
- okqVJOZpzPHPR31Rz3+mBS/umhYp3CcxL1Cj2sVpcjbb6JnNA4xfo4/BbqICOZtMzM8e
- /8Vg==
-X-Gm-Message-State: APjAAAUx8VwY5FqTRm6w0/xymDur5D4iKInai//QMxCSHF6ed9V02NR4
- U47uB9/ohFkc/+zDwRrH/OECETQM1ROiRA==
-X-Google-Smtp-Source: APXvYqz9n6dBO/GDyLXcQisapigYTBBmAQjTTU6EdGUIDwiM/ZoJ8BGSYLucwdr5/vXrmTqjVfeZXA==
-X-Received: by 2002:a05:600c:2111:: with SMTP id
- u17mr7816768wml.64.1565961444882; 
- Fri, 16 Aug 2019 06:17:24 -0700 (PDT)
+ bh=tFLJu0RLA65KkfF6V+67H4j4yUsOojJ5LomME9mNzd4=;
+ b=QGeL85MFuY9zDoaDZhaAlWsTG6S/NNRWjnE8SUi7xjRuMkqS+2gHzrCwnVluAaWcqo
+ v3jo5xePHPaUhlnoKZQZNMySwMRNciOMpA1UBbvk6lj9WXGJmC85dD5FTVuTqi33L7yW
+ iYwTJM2+lwpclYHqVV0kkKe+I+mJuc7S23rC2p4OdRAvz4wzZreSL7Nc0cRvy436uyEF
+ FmY163H1Q1KgKYYk45i8SgsObSv/F5/T0UDabJJfajnmZeDqsG9brdaFbq2VPDO9VUE+
+ AAZwaUuzjhXA8pB3/vRY25kjCD245cPQMeu/xmDAqew1O2VGibpBUUO6siFxKBNWpmSO
+ z79g==
+X-Gm-Message-State: APjAAAX/ScHG52i3zHEAjyLr0MG62vLfOSxUaqfsmM9mXo4JR5OiaiF/
+ PUJDTwyvh90CDGlieCfFgKvt6bnSwJg4mA==
+X-Google-Smtp-Source: APXvYqwc68GIl8wPWQNIFNkx3Uvw0XgRLgWbIyX+ym0D6wY6+TH6bZP80Ax86HTS13opAi7fCv5mpA==
+X-Received: by 2002:adf:90e7:: with SMTP id i94mr10340421wri.224.1565961445789; 
+ Fri, 16 Aug 2019 06:17:25 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 06:17:24 -0700 (PDT)
+ Fri, 16 Aug 2019 06:17:25 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 14:16:53 +0100
-Message-Id: <20190816131719.28244-4-peter.maydell@linaro.org>
+Date: Fri, 16 Aug 2019 14:16:54 +0100
+Message-Id: <20190816131719.28244-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190816131719.28244-1-peter.maydell@linaro.org>
 References: <20190816131719.28244-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
-Subject: [Qemu-devel] [PULL 03/29] Set ENET_BD_BDU in I.MX FEC controller
+X-Received-From: 2a00:1450:4864:20::42f
+Subject: [Qemu-devel] [PULL 04/29] target/arm: Factor out 'generate
+ singlestep exception' function
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,67 +83,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aaron Hill <aa1ronham@gmail.com>
+Factor out code to 'generate a singlestep exception', which is
+currently repeated in four places.
 
-This commit properly sets the ENET_BD_BDU flag once the emulated FEC controller
-has finished processing the last descriptor. This is done for both transmit
-and receive descriptors.
+To do this we need to also pull the identical copies of the
+gen-exception() function out of translate-a64.c and translate.c
+into translate.h.
 
-This allows the QNX 7.0.0 BSP for the Sabrelite board (which can be
-found at http://blackberry.qnx.com/en/developers/bsp) to properly
-control the FEC. Without this patch, the BSP ethernet driver will never
-re-use FEC descriptors, as the unset ENET_BD_BDU flag will cause
-it to believe that the descriptors are still in use by the NIC.
+(There is a bug in the code: we're taking the exception to the wrong
+target EL.  This will be simpler to fix if there's only one place to
+do it.)
 
-Note that Linux does not appear to use this field at all, and is
-unaffected by this patch.
-
-Without this patch, QNX will think that the NIC is still processing its
-transaction descriptors, and won't send any more data over the network.
-
-For reference:
-
-On page 1192 of the I.MX 6DQ reference manual revision (Rev. 5, 06/2018),
-which can be found at https://www.nxp.com/products/processors-and-microcontrollers/arm-based-processors-and-mcus/i.mx-applications-processors/i.mx-6-processors/i.mx-6quad-processors-high-performance-3d-graphics-hd-video-arm-cortex-a9-core:i.MX6Q?&tab=Documentation_Tab&linkline=Application-Note
-
-the 'BDU' field is described as follows for the 'Enhanced transmit
-buffer descriptor':
-
-'Last buffer descriptor update done. Indicates that the last BD data has been updated by
-uDMA. This field is written by the user (=0) and uDMA (=1).'
-
-The same description is used for the receive buffer descriptor.
-
-Signed-off-by: Aaron Hill <aa1ronham@gmail.com>
-Message-id: 20190805142417.10433-1-aaron.hill@alertinnovation.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-id: 20190805130952.4415-2-peter.maydell@linaro.org
 ---
- hw/net/imx_fec.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/arm/translate.h     | 23 +++++++++++++++++++++++
+ target/arm/translate-a64.c | 19 ++-----------------
+ target/arm/translate.c     | 20 ++------------------
+ 3 files changed, 27 insertions(+), 35 deletions(-)
 
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index 404154ebbf7..4693bfb2464 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -590,6 +590,8 @@ static void imx_enet_do_tx(IMXFECState *s, uint32_t index)
-             if (bd.option & ENET_BD_TX_INT) {
-                 s->regs[ENET_EIR] |= int_txf;
-             }
-+            /* Indicate that we've updated the last buffer descriptor. */
-+            bd.last_buffer = ENET_BD_BDU;
-         }
-         if (bd.option & ENET_BD_TX_INT) {
-             s->regs[ENET_EIR] |= int_txb;
-@@ -1239,6 +1241,8 @@ static ssize_t imx_enet_receive(NetClientState *nc, const uint8_t *buf,
-             /* Last buffer in frame.  */
-             bd.flags |= flags | ENET_BD_L;
-             FEC_PRINTF("rx frame flags %04x\n", bd.flags);
-+            /* Indicate that we've updated the last buffer descriptor. */
-+            bd.last_buffer = ENET_BD_BDU;
-             if (bd.option & ENET_BD_RX_INT) {
-                 s->regs[ENET_EIR] |= ENET_INT_RXF;
-             }
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index a20f6e20568..45053190baa 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -2,6 +2,7 @@
+ #define TARGET_ARM_TRANSLATE_H
+ 
+ #include "exec/translator.h"
++#include "internals.h"
+ 
+ 
+ /* internal defines */
+@@ -232,6 +233,28 @@ static inline void gen_ss_advance(DisasContext *s)
+     }
+ }
+ 
++static inline void gen_exception(int excp, uint32_t syndrome,
++                                 uint32_t target_el)
++{
++    TCGv_i32 tcg_excp = tcg_const_i32(excp);
++    TCGv_i32 tcg_syn = tcg_const_i32(syndrome);
++    TCGv_i32 tcg_el = tcg_const_i32(target_el);
++
++    gen_helper_exception_with_syndrome(cpu_env, tcg_excp,
++                                       tcg_syn, tcg_el);
++
++    tcg_temp_free_i32(tcg_el);
++    tcg_temp_free_i32(tcg_syn);
++    tcg_temp_free_i32(tcg_excp);
++}
++
++/* Generate an architectural singlestep exception */
++static inline void gen_swstep_exception(DisasContext *s, int isv, int ex)
++{
++    gen_exception(EXCP_UDEF, syn_swstep(s->ss_same_el, isv, ex),
++                  default_exception_el(s));
++}
++
+ /*
+  * Given a VFP floating point constant encoded into an 8 bit immediate in an
+  * instruction, expand it to the actual constant value of the specified
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index d3231477a27..f6729b96fd0 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -253,19 +253,6 @@ static void gen_exception_internal(int excp)
+     tcg_temp_free_i32(tcg_excp);
+ }
+ 
+-static void gen_exception(int excp, uint32_t syndrome, uint32_t target_el)
+-{
+-    TCGv_i32 tcg_excp = tcg_const_i32(excp);
+-    TCGv_i32 tcg_syn = tcg_const_i32(syndrome);
+-    TCGv_i32 tcg_el = tcg_const_i32(target_el);
+-
+-    gen_helper_exception_with_syndrome(cpu_env, tcg_excp,
+-                                       tcg_syn, tcg_el);
+-    tcg_temp_free_i32(tcg_el);
+-    tcg_temp_free_i32(tcg_syn);
+-    tcg_temp_free_i32(tcg_excp);
+-}
+-
+ static void gen_exception_internal_insn(DisasContext *s, int offset, int excp)
+ {
+     gen_a64_set_pc_im(s->pc - offset);
+@@ -305,8 +292,7 @@ static void gen_step_complete_exception(DisasContext *s)
+      * of the exception, and our syndrome information is always correct.
+      */
+     gen_ss_advance(s);
+-    gen_exception(EXCP_UDEF, syn_swstep(s->ss_same_el, 1, s->is_ldex),
+-                  default_exception_el(s));
++    gen_swstep_exception(s, 1, s->is_ldex);
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+@@ -14261,8 +14247,7 @@ static void aarch64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+          * bits should be zero.
+          */
+         assert(dc->base.num_insns == 1);
+-        gen_exception(EXCP_UDEF, syn_swstep(dc->ss_same_el, 0, 0),
+-                      default_exception_el(dc));
++        gen_swstep_exception(dc, 0, 0);
+         dc->base.is_jmp = DISAS_NORETURN;
+     } else {
+         disas_a64_insn(env, dc);
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 7853462b21b..19b9d8f2725 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -282,20 +282,6 @@ static void gen_exception_internal(int excp)
+     tcg_temp_free_i32(tcg_excp);
+ }
+ 
+-static void gen_exception(int excp, uint32_t syndrome, uint32_t target_el)
+-{
+-    TCGv_i32 tcg_excp = tcg_const_i32(excp);
+-    TCGv_i32 tcg_syn = tcg_const_i32(syndrome);
+-    TCGv_i32 tcg_el = tcg_const_i32(target_el);
+-
+-    gen_helper_exception_with_syndrome(cpu_env, tcg_excp,
+-                                       tcg_syn, tcg_el);
+-
+-    tcg_temp_free_i32(tcg_el);
+-    tcg_temp_free_i32(tcg_syn);
+-    tcg_temp_free_i32(tcg_excp);
+-}
+-
+ static void gen_step_complete_exception(DisasContext *s)
+ {
+     /* We just completed step of an insn. Move from Active-not-pending
+@@ -308,8 +294,7 @@ static void gen_step_complete_exception(DisasContext *s)
+      * of the exception, and our syndrome information is always correct.
+      */
+     gen_ss_advance(s);
+-    gen_exception(EXCP_UDEF, syn_swstep(s->ss_same_el, 1, s->is_ldex),
+-                  default_exception_el(s));
++    gen_swstep_exception(s, 1, s->is_ldex);
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+@@ -12024,8 +12009,7 @@ static bool arm_pre_translate_insn(DisasContext *dc)
+          * bits should be zero.
+          */
+         assert(dc->base.num_insns == 1);
+-        gen_exception(EXCP_UDEF, syn_swstep(dc->ss_same_el, 0, 0),
+-                      default_exception_el(dc));
++        gen_swstep_exception(dc, 0, 0);
+         dc->base.is_jmp = DISAS_NORETURN;
+         return true;
+     }
 -- 
 2.20.1
 
