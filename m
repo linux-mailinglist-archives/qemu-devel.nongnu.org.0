@@ -2,56 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC8C903AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 16:10:58 +0200 (CEST)
-Received: from localhost ([::1]:56762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D34903E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 16:20:54 +0200 (CEST)
+Received: from localhost ([::1]:56946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycwT-0005cp-OQ
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 10:10:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43214)
+	id 1hyd65-0002bz-9G
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 10:20:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45297)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1hycu2-0002xi-3t
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 10:08:27 -0400
+ (envelope-from <bounces@canonical.com>) id 1hyd4t-0001tI-Pe
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 10:19:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hycu0-0002KY-Q3
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 10:08:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40330)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hycty-0002IT-FB; Fri, 16 Aug 2019 10:08:22 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C3A6725CCB;
- Fri, 16 Aug 2019 14:08:21 +0000 (UTC)
-Received: from localhost.localdomain (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E1418F6DB;
- Fri, 16 Aug 2019 14:08:20 +0000 (UTC)
-Date: Fri, 16 Aug 2019 16:08:19 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Message-ID: <20190816140819.GD5014@localhost.localdomain>
-References: <20190816121742.29607-1-berto@igalia.com>
- <20190816125921.GC5014@localhost.localdomain>
- <w51lfvti6fs.fsf@maestria.local.igalia.com>
+ (envelope-from <bounces@canonical.com>) id 1hyd4s-00030D-Bf
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 10:19:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50152)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hyd4s-0002zV-6A
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 10:19:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hyd4q-0007jV-L9
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 14:19:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 92B0B2E80D2
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 14:19:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <w51lfvti6fs.fsf@maestria.local.igalia.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 16 Aug 2019 14:08:21 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 16 Aug 2019 14:06:29 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: arno-wagner pmaydell th-huth wagner-tansi
+X-Launchpad-Bug-Reporter: Arno Wagner (wagner-tansi)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <20100923002702.20683.97345.malonedeb@soybean.canonical.com>
+Message-Id: <156596438916.26483.10355280680334978106.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19022";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: a3cece0559892f08897d8476fd61fe1a7b6d005b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] qcow2: Fix the calculation of the maximum
- L2 cache size
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 645662] Re: QEMU x87 emulation of trig and other
+ complex ops is only at 64-bit precision, not 80-bit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,58 +65,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonid Bloch <lbloch@janustech.com>, Max Reitz <mreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-stable@nongnu.org
+Reply-To: Bug 645662 <645662@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 16.08.2019 um 15:30 hat Alberto Garcia geschrieben:
-> On Fri 16 Aug 2019 02:59:21 PM CEST, Kevin Wolf wrote:
-> > The requirement so that this bug doesn't affect the user seems to be
-> > that the image size is a multiple of 64k * 8k = 512 MB. Which means
-> > that users are probably often lucky enough in practice.
-> 
-> Or rather: cluster_size^2 / 8, which, if my numbers are right:
-> 
-> |--------------+-------------|
-> | Cluster size | Multiple of |
-> |--------------+-------------|
-> |         4 KB |        2 MB |
-> |         8 KB |        8 MB |
-> |        16 KB |       32 MB |
-> |        32 KB |      128 MB |
-> |        64 KB |      512 MB |
-> |       128 KB |        2 GB |
-> |       256 KB |        8 GB |
-> |       512 KB |       32 GB |
-> |      1024 KB |      128 GB |
-> |      2048 KB |      512 GB |
-> |--------------+-------------|
-> 
-> It get trickier with larger clusters, but if you have a larger cluster
-> size you probably have a very large image anyway, so yes I also think
-> that users are probably lucky enough in practice.
+Looking at our code we're still implementing the x87 insns FSIN, FCOS,
+FSINCOS, FPTAN, FPATAN, F2XM1, FYL2X, FYL2XP1 by "convert the floatx80
+to a host double and use the host C library functions", so I think this
+bug is still unfixed. If the C program in comment 1 and/or the Python
+code has stopped reporting failures it's probably just because the guest
+C library routines have stopped using the x87 80-bit FPU instructions
+internally.
 
-Yes, I assumed 64k clusters.
 
-The other somewhat popular cluster size is probably 2 MB, where I think
-images sizes that are not a multiple of 512 GB are rather likely...
+** Changed in: qemu
+       Status: Fix Released =3D> Confirmed
 
-> (also, the number of cache tables is always >= 2, so if the image size
-> is less than twice those numbers then it's also safe)
+-- =
 
-Right. I already corrected my statement to include > 1024 MB in the Red
-Hat Bugzilla (but still didn't consider other cluster sizes).
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/645662
 
-> And yes, the odd value on the 512KB row on that we discussed last month
-> is due to this same bug:
-> 
-> https://lists.gnu.org/archive/html/qemu-block/2019-07/msg00496.html
+Title:
+  QEMU x87 emulation of trig and other complex ops is only at 64-bit
+  precision, not 80-bit
 
-Hm... And suddently it makes sense. :-)
+Status in QEMU:
+  Confirmed
 
-So I assume all of 512k/1024k/2048k actually perform better? Or is the
-effect neglegible for 1024k/2048k?
+Bug description:
+  When doing the regression tests for Python 3.1.2 with Qemu 0.12.5, (Linux=
+ version 2.6.26-2-686 (Debian 2.6.26-25lenny1)),
+  gcc (Debian 4.3.2-1.1) 4.3.2, Python compiled from sources within qemu,
+  3 math tests fail, apparently because the floating point unit is buggy. Q=
+meu was compiled from original sources
+  on Debian Lenny with kernel  2.6.34.6 from kernel.org, gcc  (Debian 4.3.2=
+-1.1) 4.3. =
 
-Kevin
+
+  Regression testing errors:
+
+  test_cmath
+  test test_cmath failed -- Traceback (most recent call last):
+    File "/root/tools/python3/Python-3.1.2/Lib/test/test_cmath.py", line 36=
+4, in
+      self.fail(error_message)
+  AssertionError: acos0034: acos(complex(-1.0000000000000002, 0.0))
+  Expected: complex(3.141592653589793, -2.1073424255447014e-08)
+  Received: complex(3.141592653589793, -2.1073424338879928e-08)
+  Received value insufficiently close to expected value.
+
+  =
+
+  test_float
+  test test_float failed -- Traceback (most recent call last):
+    File "/root/tools/python3/Python-3.1.2/Lib/test/test_float.py", line 47=
+9, in
+      self.assertEqual(s, repr(float(s)))
+  AssertionError: '8.72293771110361e+25' !=3D '8.722937711103609e+25'
+
+  =
+
+  test_math
+  test test_math failed -- multiple errors occurred; run in verbose mode fo=
+r deta
+
+  =3D>
+
+  runtests.sh -v test_math
+
+  le01:~/tools/python3/Python-3.1.2# ./runtests.sh -v test_math
+  test_math BAD
+   1 BAD
+   0 GOOD
+   0 SKIPPED
+   1 total
+  le01:~/tools/python3/Python-3.1.2#
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/645662/+subscriptions
 
