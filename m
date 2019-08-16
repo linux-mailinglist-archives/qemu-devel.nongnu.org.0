@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E17990B7F
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:42:41 +0200 (CEST)
-Received: from localhost ([::1]:33450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23BAA90B85
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:47:34 +0200 (CEST)
+Received: from localhost ([::1]:33526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hylrk-00018r-2a
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:42:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47610)
+	id 1hylwT-0007bB-5F
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:47:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47620)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1hylSB-0001aX-2W
+ (envelope-from <jsnow@redhat.com>) id 1hylSB-0001bO-Nt
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:16:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hylS9-0007q8-Rd
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:16:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51846)
+ (envelope-from <jsnow@redhat.com>) id 1hylSA-0007qi-Jn
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:16:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55404)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hylS9-0007pf-MN; Fri, 16 Aug 2019 19:16:13 -0400
+ id 1hylSA-0007qF-Ei; Fri, 16 Aug 2019 19:16:14 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 07BCD306F4A9;
+ by mx1.redhat.com (Postfix) with ESMTPS id BDDEF30A5686;
  Fri, 16 Aug 2019 23:16:13 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-187.bos.redhat.com [10.18.17.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5FBF417BB9;
- Fri, 16 Aug 2019 23:16:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26ED917BB9;
+ Fri, 16 Aug 2019 23:16:13 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 19:16:07 -0400
-Message-Id: <20190816231609.9521-2-jsnow@redhat.com>
+Date: Fri, 16 Aug 2019 19:16:08 -0400
+Message-Id: <20190816231609.9521-3-jsnow@redhat.com>
 In-Reply-To: <20190816231609.9521-1-jsnow@redhat.com>
 References: <20190816231609.9521-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 16 Aug 2019 23:16:13 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Fri, 16 Aug 2019 23:16:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 1/3] dma-helpers: ensure AIO callback is invoked
- after cancellation
+Subject: [Qemu-devel] [PULL 2/3] Revert "ide/ahci: Check for -ECANCELED in
+ aio callbacks"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,82 +55,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jsnow@redhat.com, qemu-stable@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, Shaju Abraham <shaju.abraham@nutanix.com>,
+ jsnow@redhat.com, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+This reverts commit 0d910cfeaf2076b116b4517166d5deb0fea76394.
 
-dma_aio_cancel unschedules the BH if there is one, which corresponds
-to the reschedule_dma case of dma_blk_cb.  This can stall the DMA
-permanently, because dma_complete will never get invoked and therefore
-nobody will ever invoke the original AIO callback in dbs->common.cb.
+It's not correct to just ignore an error code in a callback; we need to
+handle that error and possible report failure to the guest so that they
+don't wait indefinitely for an operation that will now never finish.
 
-Fix this by invoking the callback (which is ensured to happen after
-a bdrv_aio_cancel_async, or done manually in the dbs->bh case), and
-add assertions to check that the DMA state machine is indeed waiting
-for dma_complete or reschedule_dma, but never both.
+This ought to help cases reported by Nutanix where iSCSI returns a
+legitimate -ECANCELED for certain operations which should be propagated
+normally.
 
-Reported-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-id: 20190729213416.1972-1-pbonzini@redhat.com
+Reported-by: Shaju Abraham <shaju.abraham@nutanix.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-id: 20190729223605.7163-1-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- dma-helpers.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ hw/ide/ahci.c |  3 ---
+ hw/ide/core.c | 14 --------------
+ 2 files changed, 17 deletions(-)
 
-diff --git a/dma-helpers.c b/dma-helpers.c
-index 2d7e02d35e5..d3871dc61ea 100644
---- a/dma-helpers.c
-+++ b/dma-helpers.c
-@@ -90,6 +90,7 @@ static void reschedule_dma(void *opaque)
- {
-     DMAAIOCB *dbs =3D (DMAAIOCB *)opaque;
+diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+index d72da85605a..d45393c019d 100644
+--- a/hw/ide/ahci.c
++++ b/hw/ide/ahci.c
+@@ -1025,9 +1025,6 @@ static void ncq_cb(void *opaque, int ret)
+     IDEState *ide_state =3D &ncq_tfs->drive->port.ifs[0];
 =20
-+    assert(!dbs->acb && dbs->bh);
-     qemu_bh_delete(dbs->bh);
-     dbs->bh =3D NULL;
-     dma_blk_cb(dbs, 0);
-@@ -111,15 +112,12 @@ static void dma_complete(DMAAIOCB *dbs, int ret)
- {
-     trace_dma_complete(dbs, ret, dbs->common.cb);
-=20
-+    assert(!dbs->acb && !dbs->bh);
-     dma_blk_unmap(dbs);
-     if (dbs->common.cb) {
-         dbs->common.cb(dbs->common.opaque, ret);
-     }
-     qemu_iovec_destroy(&dbs->iov);
--    if (dbs->bh) {
--        qemu_bh_delete(dbs->bh);
--        dbs->bh =3D NULL;
+     ncq_tfs->aiocb =3D NULL;
+-    if (ret =3D=3D -ECANCELED) {
+-        return;
 -    }
-     qemu_aio_unref(dbs);
- }
 =20
-@@ -179,14 +177,21 @@ static void dma_aio_cancel(BlockAIOCB *acb)
+     if (ret < 0) {
+         bool is_read =3D ncq_tfs->cmd =3D=3D READ_FPDMA_QUEUED;
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index 38b6cdac87b..e6e54c6c9a2 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -723,9 +723,6 @@ static void ide_sector_read_cb(void *opaque, int ret)
+     s->pio_aiocb =3D NULL;
+     s->status &=3D ~BUSY_STAT;
 =20
-     trace_dma_aio_cancel(dbs);
+-    if (ret =3D=3D -ECANCELED) {
+-        return;
+-    }
+     if (ret !=3D 0) {
+         if (ide_handle_rw_error(s, -ret, IDE_RETRY_PIO |
+                                 IDE_RETRY_READ)) {
+@@ -841,10 +838,6 @@ static void ide_dma_cb(void *opaque, int ret)
+     uint64_t offset;
+     bool stay_active =3D false;
 =20
-+    assert(!(dbs->acb && dbs->bh));
-     if (dbs->acb) {
-+        /* This will invoke dma_blk_cb.  */
-         blk_aio_cancel_async(dbs->acb);
-+        return;
-     }
-+
-     if (dbs->bh) {
-         cpu_unregister_map_client(dbs->bh);
-         qemu_bh_delete(dbs->bh);
-         dbs->bh =3D NULL;
-     }
-+    if (dbs->common.cb) {
-+        dbs->common.cb(dbs->common.opaque, -ECANCELED);
-+    }
- }
+-    if (ret =3D=3D -ECANCELED) {
+-        return;
+-    }
+-
+     if (ret =3D=3D -EINVAL) {
+         ide_dma_error(s);
+         return;
+@@ -976,10 +969,6 @@ static void ide_sector_write_cb(void *opaque, int re=
+t)
+     IDEState *s =3D opaque;
+     int n;
 =20
- static AioContext *dma_get_aio_context(BlockAIOCB *acb)
+-    if (ret =3D=3D -ECANCELED) {
+-        return;
+-    }
+-
+     s->pio_aiocb =3D NULL;
+     s->status &=3D ~BUSY_STAT;
+=20
+@@ -1059,9 +1048,6 @@ static void ide_flush_cb(void *opaque, int ret)
+=20
+     s->pio_aiocb =3D NULL;
+=20
+-    if (ret =3D=3D -ECANCELED) {
+-        return;
+-    }
+     if (ret < 0) {
+         /* XXX: What sector number to set here? */
+         if (ide_handle_rw_error(s, -ret, IDE_RETRY_FLUSH)) {
 --=20
 2.21.0
 
