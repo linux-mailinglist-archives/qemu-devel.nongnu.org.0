@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98E490B78
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:36:24 +0200 (CEST)
-Received: from localhost ([::1]:33370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF9A90B70
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:31:32 +0200 (CEST)
+Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyllf-00024c-Dx
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:36:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46844)
+	id 1hylgx-00039W-DS
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:31:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46824)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1hylPs-0006lC-Bf
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:54 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hylPr-0006k6-TO
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hylPq-00069j-Mt
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56398)
+ (envelope-from <jsnow@redhat.com>) id 1hylPq-00069f-NA
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60198)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hylPn-00060e-7B; Fri, 16 Aug 2019 19:13:47 -0400
+ id 1hylPo-00065o-8E; Fri, 16 Aug 2019 19:13:48 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D13517FDE9;
- Fri, 16 Aug 2019 23:13:44 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7E7A12A41;
+ Fri, 16 Aug 2019 23:13:46 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-187.bos.redhat.com [10.18.17.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27C1D19C6A;
- Fri, 16 Aug 2019 23:13:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA8A719C6A;
+ Fri, 16 Aug 2019 23:13:45 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 19:13:05 -0400
-Message-Id: <20190816231318.8650-24-jsnow@redhat.com>
+Date: Fri, 16 Aug 2019 19:13:07 -0400
+Message-Id: <20190816231318.8650-26-jsnow@redhat.com>
 In-Reply-To: <20190816231318.8650-1-jsnow@redhat.com>
 References: <20190816231318.8650-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 16 Aug 2019 23:13:44 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Fri, 16 Aug 2019 23:13:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 23/36] iotests/257: add EmulatedBitmap class
+Subject: [Qemu-devel] [PULL 25/36] block/backup: hoist bitmap check into QMP
+ interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,210 +60,78 @@ Cc: peter.maydell@linaro.org, jsnow@redhat.com, qemu-stable@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Represent a bitmap with an object that we can mark and clear bits in.
-This makes it easier to manage partial writes when we don't write a
-full group's worth of patterns before an error.
+This is nicer to do in the unified QMP interface that we have now,
+because it lets us use the right terminology back at the user.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190716000117.25219-3-jsnow@redhat.com
+Message-id: 20190716000117.25219-5-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/257 | 124 +++++++++++++++++++++++++----------------
- 1 file changed, 75 insertions(+), 49 deletions(-)
+ block/backup.c | 13 ++++---------
+ blockdev.c     | 10 ++++++++++
+ 2 files changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
-index 02f9ae06490..bc66ea03b24 100755
---- a/tests/qemu-iotests/257
-+++ b/tests/qemu-iotests/257
-@@ -85,6 +85,59 @@ GROUPS =3D [
-         Pattern('0xdd', 0x3fc0000)]), # New; leaving a gap to the right
- ]
+diff --git a/block/backup.c b/block/backup.c
+index f8309be01b3..f704c83a98f 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -576,6 +576,10 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
+kDriverState *bs,
+     assert(bs);
+     assert(target);
 =20
++    /* QMP interface protects us from these cases */
++    assert(sync_mode !=3D MIRROR_SYNC_MODE_INCREMENTAL);
++    assert(sync_bitmap || sync_mode !=3D MIRROR_SYNC_MODE_BITMAP);
 +
-+class EmulatedBitmap:
-+    def __init__(self, granularity=3DGRANULARITY):
-+        self._bits =3D set()
-+        self.granularity =3D granularity
-+
-+    def dirty_bits(self, bits):
-+        self._bits |=3D set(bits)
-+
-+    def dirty_group(self, n):
-+        self.dirty_bits(GROUPS[n].bits(self.granularity))
-+
-+    def clear(self):
-+        self._bits =3D set()
-+
-+    def clear_bits(self, bits):
-+        self._bits -=3D set(bits)
-+
-+    def clear_bit(self, bit):
-+        self.clear_bits({bit})
-+
-+    def clear_group(self, n):
-+        self.clear_bits(GROUPS[n].bits(self.granularity))
-+
-+    @property
-+    def first_bit(self):
-+        return sorted(self.bits)[0]
-+
-+    @property
-+    def bits(self):
-+        return self._bits
-+
-+    @property
-+    def count(self):
-+        return len(self.bits)
-+
-+    def compare(self, qmp_bitmap):
-+        """
-+        Print a nice human-readable message checking that a bitmap as re=
-ported
-+        by the QMP interface has as many bits set as we expect it to.
-+        """
-+
-+        name =3D qmp_bitmap.get('name', '(anonymous)')
-+        log("=3D Checking Bitmap {:s} =3D".format(name))
-+
-+        want =3D self.count
-+        have =3D qmp_bitmap['count'] // qmp_bitmap['granularity']
-+
-+        log("expecting {:d} dirty sectors; have {:d}. {:s}".format(
-+            want, have, "OK!" if want =3D=3D have else "ERROR!"))
-+        log('')
-+
-+
- class Drive:
-     """Represents, vaguely, a drive attached to a VM.
-     Includes format, graph, and device information."""
-@@ -195,27 +248,6 @@ def perform_writes(drive, n):
-     log('')
-     return bitmaps
+     if (bs =3D=3D target) {
+         error_setg(errp, "Source and target cannot be the same");
+         return NULL;
+@@ -607,16 +611,7 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
+kDriverState *bs,
+         return NULL;
+     }
 =20
--def calculate_bits(groups=3DNone):
--    """Calculate how many bits we expect to see dirtied."""
--    if groups:
--        bits =3D set.union(*(GROUPS[group].bits(GRANULARITY) for group i=
-n groups))
--        return len(bits)
--    return 0
+-    /* QMP interface should have handled translating this to bitmap mode=
+ */
+-    assert(sync_mode !=3D MIRROR_SYNC_MODE_INCREMENTAL);
 -
--def bitmap_comparison(bitmap, groups=3DNone, want=3D0):
--    """
--    Print a nice human-readable message checking that this bitmap has as
--    many bits set as we expect it to.
--    """
--    log("=3D Checking Bitmap {:s} =3D".format(bitmap.get('name', '(anony=
-mous)')))
+     if (sync_mode =3D=3D MIRROR_SYNC_MODE_BITMAP) {
+-        if (!sync_bitmap) {
+-            error_setg(errp, "must provide a valid bitmap name for "
+-                       "'%s' sync mode", MirrorSyncMode_str(sync_mode));
+-            return NULL;
+-        }
 -
--    if groups:
--        want =3D calculate_bits(groups)
--    have =3D bitmap['count'] // bitmap['granularity']
--
--    log("expecting {:d} dirty sectors; have {:d}. {:s}".format(
--        want, have, "OK!" if want =3D=3D have else "ERROR!"))
--    log('')
+         /* If we need to write to this bitmap, check that we can: */
+         if (bitmap_mode !=3D BITMAP_SYNC_MODE_NEVER &&
+             bdrv_dirty_bitmap_check(sync_bitmap, BDRV_BITMAP_DEFAULT, er=
+rp)) {
+diff --git a/blockdev.c b/blockdev.c
+index 210226d8290..f889da0b427 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -3529,6 +3529,16 @@ static BlockJob *do_backup_common(BackupCommon *ba=
+ckup,
+         return NULL;
+     }
 =20
- def compare_images(image, reference, baseimg=3DNone, expected_match=3DTr=
-ue):
-     """
-@@ -321,12 +353,13 @@ def test_bitmap_sync(bsync_mode, failure=3DNone):
-         vm.qmp_log("block-dirty-bitmap-add", node=3Ddrive0.name,
-                    name=3D"bitmap0", granularity=3DGRANULARITY)
-         log('')
-+        ebitmap =3D EmulatedBitmap()
-=20
-         # 1 - Writes and Reference Backup
-         bitmaps =3D perform_writes(drive0, 1)
--        dirty_groups =3D {1}
-+        ebitmap.dirty_group(1)
-         bitmap =3D get_bitmap(bitmaps, drive0.device, 'bitmap0')
--        bitmap_comparison(bitmap, groups=3Ddirty_groups)
-+        ebitmap.compare(bitmap)
-         reference_backup(drive0, 1, fbackup1)
-=20
-         # 1 - Bitmap Backup (Optional induced failure)
-@@ -342,54 +375,47 @@ def test_bitmap_sync(bsync_mode, failure=3DNone):
-             log('')
-             bitmaps =3D perform_writes(drive0, 2)
-             # Named bitmap (static, should be unchanged)
--            bitmap_comparison(get_bitmap(bitmaps, drive0.device, 'bitmap=
-0'),
--                              groups=3Ddirty_groups)
-+            ebitmap.compare(get_bitmap(bitmaps, drive0.device, 'bitmap0'=
-))
-             # Anonymous bitmap (dynamic, shows new writes)
--            bitmap_comparison(get_bitmap(bitmaps, drive0.device, '',
--                                         recording=3DTrue), groups=3D{2}=
-)
--            dirty_groups.add(2)
-+            anonymous =3D EmulatedBitmap()
-+            anonymous.dirty_group(2)
-+            anonymous.compare(get_bitmap(bitmaps, drive0.device, '',
-+                                         recording=3DTrue))
++    if ((backup->sync =3D=3D MIRROR_SYNC_MODE_BITMAP) ||
++        (backup->sync =3D=3D MIRROR_SYNC_MODE_INCREMENTAL)) {
++        /* done before desugaring 'incremental' to print the right messa=
+ge */
++        if (!backup->has_bitmap) {
++            error_setg(errp, "must provide a valid bitmap name for "
++                       "'%s' sync mode", MirrorSyncMode_str(backup->sync=
+));
++            return NULL;
++        }
++    }
 +
-+            # Simulate the order in which this will happen:
-+            # group 1 gets cleared first, then group two gets written.
-+            if ((bsync_mode =3D=3D 'on-success' and not failure) or
-+                (bsync_mode =3D=3D 'always')):
-+                ebitmap.clear_group(1)
-+            ebitmap.dirty_group(2)
-=20
-         vm.run_job(job, auto_dismiss=3DTrue, auto_finalize=3DFalse,
-                    pre_finalize=3D_callback,
-                    cancel=3D(failure =3D=3D 'simulated'))
-         bitmaps =3D query_bitmaps(vm)
--        bitmap =3D get_bitmap(bitmaps, drive0.device, 'bitmap0')
-         log(bitmaps, indent=3D2)
-         log('')
-=20
--        if ((bsync_mode =3D=3D 'on-success' and not failure) or
--                (bsync_mode =3D=3D 'always' and failure !=3D 'intermedia=
-te')):
--            dirty_groups.remove(1)
--
-         if bsync_mode =3D=3D 'always' and failure =3D=3D 'intermediate':
-             # We manage to copy one sector (one bit) before the error.
--            bitmap_comparison(bitmap,
--                              want=3Dcalculate_bits(groups=3Ddirty_group=
-s) - 1)
--        else:
--            bitmap_comparison(bitmap, groups=3Ddirty_groups)
-+            ebitmap.clear_bit(ebitmap.first_bit)
-+        ebitmap.compare(get_bitmap(bitmaps, drive0.device, 'bitmap0'))
-=20
-         # 2 - Writes and Reference Backup
-         bitmaps =3D perform_writes(drive0, 3)
--        dirty_groups.add(3)
--        bitmap =3D get_bitmap(bitmaps, drive0.device, 'bitmap0')
--        if bsync_mode =3D=3D 'always' and failure =3D=3D 'intermediate':
--            # We're one bit short, still.
--            bitmap_comparison(bitmap,
--                              want=3Dcalculate_bits(groups=3Ddirty_group=
-s) - 1)
--        else:
--            bitmap_comparison(bitmap, groups=3Ddirty_groups)
-+        ebitmap.dirty_group(3)
-+        ebitmap.compare(get_bitmap(bitmaps, drive0.device, 'bitmap0'))
-         reference_backup(drive0, 2, fbackup2)
-=20
-         # 2 - Bitmap Backup (In failure modes, this is a recovery.)
-         job =3D bitmap_backup(drive0, 2, bsync2, "bitmap0", bsync_mode)
-         vm.run_job(job, auto_dismiss=3DTrue, auto_finalize=3DFalse)
-         bitmaps =3D query_bitmaps(vm)
--        bitmap =3D get_bitmap(bitmaps, drive0.device, 'bitmap0')
-         log(bitmaps, indent=3D2)
-         log('')
--        bitmap_comparison(bitmap, groups=3D{}
--                          if bsync_mode !=3D 'never'
--                          else dirty_groups)
-+        if bsync_mode !=3D 'never':
-+            ebitmap.clear()
-+        ebitmap.compare(get_bitmap(bitmaps, drive0.device, 'bitmap0'))
-=20
-         log('--- Cleanup ---\n')
-         vm.qmp_log("block-dirty-bitmap-remove",
+     if (backup->sync =3D=3D MIRROR_SYNC_MODE_INCREMENTAL) {
+         if (backup->has_bitmap_mode &&
+             backup->bitmap_mode !=3D BITMAP_SYNC_MODE_ON_SUCCESS) {
 --=20
 2.21.0
 
