@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3617C90B81
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:44:01 +0200 (CEST)
-Received: from localhost ([::1]:33474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E17990B7F
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:42:41 +0200 (CEST)
+Received: from localhost ([::1]:33450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hylt2-0003MM-8q
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:44:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47240)
+	id 1hylrk-00018r-2a
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:42:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1hylQ4-00078l-Jx
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:14:05 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hylSB-0001aX-2W
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:16:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hylQ2-0006OP-OC
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:14:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60216)
+ (envelope-from <jsnow@redhat.com>) id 1hylS9-0007q8-Rd
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:16:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51846)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hylPz-0006J4-5h; Fri, 16 Aug 2019 19:13:59 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hylS9-0007pf-MN; Fri, 16 Aug 2019 19:16:13 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D6C57CA1FE;
- Fri, 16 Aug 2019 23:13:55 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 07BCD306F4A9;
+ Fri, 16 Aug 2019 23:16:13 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-187.bos.redhat.com [10.18.17.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 311CB19C6A;
- Fri, 16 Aug 2019 23:13:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FBF417BB9;
+ Fri, 16 Aug 2019 23:16:12 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 19:13:18 -0400
-Message-Id: <20190816231318.8650-37-jsnow@redhat.com>
-In-Reply-To: <20190816231318.8650-1-jsnow@redhat.com>
-References: <20190816231318.8650-1-jsnow@redhat.com>
+Date: Fri, 16 Aug 2019 19:16:07 -0400
+Message-Id: <20190816231609.9521-2-jsnow@redhat.com>
+In-Reply-To: <20190816231609.9521-1-jsnow@redhat.com>
+References: <20190816231609.9521-1-jsnow@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 16 Aug 2019 23:13:55 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Fri, 16 Aug 2019 23:16:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 36/36] tests/test-hbitmap: test next_zero and
- _next_dirty_area after truncate
+Subject: [Qemu-devel] [PULL 1/3] dma-helpers: ensure AIO callback is invoked
+ after cancellation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,85 +55,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, jsnow@redhat.com,
- qemu-stable@nongnu.org, qemu-block@nongnu.org
+Cc: peter.maydell@linaro.org, jsnow@redhat.com, qemu-stable@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Test that hbitmap_next_zero and hbitmap_next_dirty_area can find things
-after old bitmap end.
+dma_aio_cancel unschedules the BH if there is one, which corresponds
+to the reschedule_dma case of dma_blk_cb.  This can stall the DMA
+permanently, because dma_complete will never get invoked and therefore
+nobody will ever invoke the original AIO callback in dbs->common.cb.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190805164652.42409-1-vsementsov@virtuozzo.com
-Tested-by: John Snow <jsnow@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
+Fix this by invoking the callback (which is ensured to happen after
+a bdrv_aio_cancel_async, or done manually in the dbs->bh case), and
+add assertions to check that the DMA state machine is indeed waiting
+for dma_complete or reschedule_dma, but never both.
+
+Reported-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-id: 20190729213416.1972-1-pbonzini@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/test-hbitmap.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ dma-helpers.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/tests/test-hbitmap.c b/tests/test-hbitmap.c
-index 592d8219db2..eed5d288cbc 100644
---- a/tests/test-hbitmap.c
-+++ b/tests/test-hbitmap.c
-@@ -1004,6 +1004,15 @@ static void test_hbitmap_next_zero_4(TestHBitmapDa=
-ta *data, const void *unused)
-     test_hbitmap_next_zero_do(data, 4);
- }
-=20
-+static void test_hbitmap_next_zero_after_truncate(TestHBitmapData *data,
-+                                                  const void *unused)
-+{
-+    hbitmap_test_init(data, L1, 0);
-+    hbitmap_test_truncate_impl(data, L1 * 2);
-+    hbitmap_set(data->hb, 0, L1);
-+    test_hbitmap_next_zero_check(data, 0);
-+}
-+
- static void test_hbitmap_next_dirty_area_check(TestHBitmapData *data,
-                                                uint64_t offset,
-                                                uint64_t count)
-@@ -1104,6 +1113,15 @@ static void test_hbitmap_next_dirty_area_4(TestHBi=
-tmapData *data,
-     test_hbitmap_next_dirty_area_do(data, 4);
- }
-=20
-+static void test_hbitmap_next_dirty_area_after_truncate(TestHBitmapData =
-*data,
-+                                                        const void *unus=
-ed)
-+{
-+    hbitmap_test_init(data, L1, 0);
-+    hbitmap_test_truncate_impl(data, L1 * 2);
-+    hbitmap_set(data->hb, L1 + 1, 1);
-+    test_hbitmap_next_dirty_area_check(data, 0, UINT64_MAX);
-+}
-+
- int main(int argc, char **argv)
+diff --git a/dma-helpers.c b/dma-helpers.c
+index 2d7e02d35e5..d3871dc61ea 100644
+--- a/dma-helpers.c
++++ b/dma-helpers.c
+@@ -90,6 +90,7 @@ static void reschedule_dma(void *opaque)
  {
-     g_test_init(&argc, &argv, NULL);
-@@ -1169,6 +1187,8 @@ int main(int argc, char **argv)
-                      test_hbitmap_next_zero_0);
-     hbitmap_test_add("/hbitmap/next_zero/next_zero_4",
-                      test_hbitmap_next_zero_4);
-+    hbitmap_test_add("/hbitmap/next_zero/next_zero_after_truncate",
-+                     test_hbitmap_next_zero_after_truncate);
+     DMAAIOCB *dbs =3D (DMAAIOCB *)opaque;
 =20
-     hbitmap_test_add("/hbitmap/next_dirty_area/next_dirty_area_0",
-                      test_hbitmap_next_dirty_area_0);
-@@ -1176,6 +1196,8 @@ int main(int argc, char **argv)
-                      test_hbitmap_next_dirty_area_1);
-     hbitmap_test_add("/hbitmap/next_dirty_area/next_dirty_area_4",
-                      test_hbitmap_next_dirty_area_4);
-+    hbitmap_test_add("/hbitmap/next_dirty_area/next_dirty_area_after_tru=
-ncate",
-+                     test_hbitmap_next_dirty_area_after_truncate);
++    assert(!dbs->acb && dbs->bh);
+     qemu_bh_delete(dbs->bh);
+     dbs->bh =3D NULL;
+     dma_blk_cb(dbs, 0);
+@@ -111,15 +112,12 @@ static void dma_complete(DMAAIOCB *dbs, int ret)
+ {
+     trace_dma_complete(dbs, ret, dbs->common.cb);
 =20
-     g_test_run();
++    assert(!dbs->acb && !dbs->bh);
+     dma_blk_unmap(dbs);
+     if (dbs->common.cb) {
+         dbs->common.cb(dbs->common.opaque, ret);
+     }
+     qemu_iovec_destroy(&dbs->iov);
+-    if (dbs->bh) {
+-        qemu_bh_delete(dbs->bh);
+-        dbs->bh =3D NULL;
+-    }
+     qemu_aio_unref(dbs);
+ }
 =20
+@@ -179,14 +177,21 @@ static void dma_aio_cancel(BlockAIOCB *acb)
+=20
+     trace_dma_aio_cancel(dbs);
+=20
++    assert(!(dbs->acb && dbs->bh));
+     if (dbs->acb) {
++        /* This will invoke dma_blk_cb.  */
+         blk_aio_cancel_async(dbs->acb);
++        return;
+     }
++
+     if (dbs->bh) {
+         cpu_unregister_map_client(dbs->bh);
+         qemu_bh_delete(dbs->bh);
+         dbs->bh =3D NULL;
+     }
++    if (dbs->common.cb) {
++        dbs->common.cb(dbs->common.opaque, -ECANCELED);
++    }
+ }
+=20
+ static AioContext *dma_get_aio_context(BlockAIOCB *acb)
 --=20
 2.21.0
 
