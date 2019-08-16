@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57E38FCCC
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 09:53:24 +0200 (CEST)
-Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925858FCDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 09:58:45 +0200 (CEST)
+Received: from localhost ([::1]:51102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyX35-0003rp-CG
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 03:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38754)
+	id 1hyX8G-0003Yg-18
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 03:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38965)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWj4-00062c-03
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:32:43 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWjj-0006dS-38
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:33:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWj0-0008Oy-Ge
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:32:41 -0400
-Received: from smtpe1.intersmtp.com ([62.239.224.235]:24536)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWjc-0000Ey-CL
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:33:20 -0400
+Received: from smtpe1.intersmtp.com ([62.239.224.236]:40679)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWiY-0008D9-3X; Fri, 16 Aug 2019 03:32:10 -0400
-Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
- RDW083A011ED67.bt.com (10.187.98.37) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Fri, 16 Aug 2019 08:38:04 +0100
+ id 1hyWio-0008Is-Ny; Fri, 16 Aug 2019 03:32:27 -0400
+Received: from tpw09926dag18f.domain1.systemhost.net (10.9.212.26) by
+ RDW083A009ED65.bt.com (10.187.98.35) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Fri, 16 Aug 2019 08:28:31 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:32:08 +0100
+ tpw09926dag18f.domain1.systemhost.net (10.9.212.26) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:32:24 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:32:07 +0100
+ 2019 08:32:24 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 16/42] hw/block: Declare device little or
+Thread-Topic: [Qemu-devel] [PATCH v7 17/42] hw/char: Declare device little or
  big endian
-Thread-Index: AQHVVAS1mlCetuz0Fk22qyLvVwHGDQ==
-Date: Fri, 16 Aug 2019 07:32:07 +0000
-Message-ID: <1565940726874.70853@bt.com>
+Thread-Index: AQHVVAS/MEVTyvOxxkaaWGWKyfz7nA==
+Date: Fri, 16 Aug 2019 07:32:24 +0000
+Message-ID: <1565940743566.34044@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -49,12 +49,12 @@ x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 62.239.224.235
+X-Received-From: 62.239.224.236
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 16/42] hw/block: Declare device little or
- big endian
+Subject: [Qemu-devel] [PATCH v7 17/42] hw/char: Declare device little or big
+ endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,22 +113,122 @@ better =3D)
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- hw/block/onenand.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/char/cadence_uart.c   | 2 +-
+ hw/char/escc.c           | 2 +-
+ hw/char/etraxfs_ser.c    | 2 +-
+ hw/char/grlib_apbuart.c  | 2 +-
+ hw/char/imx_serial.c     | 2 +-
+ hw/char/lm32_uart.c      | 2 +-
+ hw/char/milkymist-uart.c | 2 +-
+ hw/char/pl011.c          | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/block/onenand.c b/hw/block/onenand.c
-index b3644f7..66152e7 100644
---- a/hw/block/onenand.c
-+++ b/hw/block/onenand.c
-@@ -769,7 +769,7 @@ static void onenand_write(void *opaque, hwaddr addr,
- static const MemoryRegionOps onenand_ops =3D {
-     .read =3D onenand_read,
-     .write =3D onenand_write,
+diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+index fa25fe2..6c7b904 100644
+--- a/hw/char/cadence_uart.c
++++ b/hw/char/cadence_uart.c
+@@ -457,7 +457,7 @@ static uint64_t uart_read(void *opaque, hwaddr offset,
+ static const MemoryRegionOps uart_ops =3D {
+     .read =3D uart_read,
+     .write =3D uart_write,
 -    .endianness =3D DEVICE_NATIVE_ENDIAN,
 +    .endianness =3D DEVICE_LITTLE_ENDIAN,
  };
 
- static void onenand_realize(DeviceState *dev, Error **errp)
+ static void cadence_uart_reset(DeviceState *dev)
+diff --git a/hw/char/escc.c b/hw/char/escc.c
+index 8ddbb4b..36182d9 100644
+--- a/hw/char/escc.c
++++ b/hw/char/escc.c
+@@ -574,7 +574,7 @@ static uint64_t escc_mem_read(void *opaque, hwaddr addr=
+,
+ static const MemoryRegionOps escc_mem_ops =3D {
+     .read =3D escc_mem_read,
+     .write =3D escc_mem_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_BIG_ENDIAN,
+     .valid =3D {
+         .min_access_size =3D 1,
+         .max_access_size =3D 1,
+diff --git a/hw/char/etraxfs_ser.c b/hw/char/etraxfs_ser.c
+index 9745bca..cda687b 100644
+--- a/hw/char/etraxfs_ser.c
++++ b/hw/char/etraxfs_ser.c
+@@ -155,7 +155,7 @@ ser_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps ser_ops =3D {
+     .read =3D ser_read,
+     .write =3D ser_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+     .valid =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4
+diff --git a/hw/char/grlib_apbuart.c b/hw/char/grlib_apbuart.c
+index c2bb3ac..119fc84 100644
+--- a/hw/char/grlib_apbuart.c
++++ b/hw/char/grlib_apbuart.c
+@@ -237,7 +237,7 @@ static void grlib_apbuart_write(void *opaque, hwaddr ad=
+dr,
+ static const MemoryRegionOps grlib_apbuart_ops =3D {
+     .write      =3D grlib_apbuart_write,
+     .read       =3D grlib_apbuart_read,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_BIG_ENDIAN,
+ };
+
+ static void grlib_apbuart_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/char/imx_serial.c b/hw/char/imx_serial.c
+index 0655a95..7c66551 100644
+--- a/hw/char/imx_serial.c
++++ b/hw/char/imx_serial.c
+@@ -332,7 +332,7 @@ static void imx_event(void *opaque, int event)
+ static const struct MemoryRegionOps imx_serial_ops =3D {
+     .read =3D imx_serial_read,
+     .write =3D imx_serial_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
+
+ static void imx_serial_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/char/lm32_uart.c b/hw/char/lm32_uart.c
+index d047a44..2fe5f60 100644
+--- a/hw/char/lm32_uart.c
++++ b/hw/char/lm32_uart.c
+@@ -205,7 +205,7 @@ static void uart_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps uart_ops =3D {
+     .read =3D uart_read,
+     .write =3D uart_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_BIG_ENDIAN,
+     .valid =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+diff --git a/hw/char/milkymist-uart.c b/hw/char/milkymist-uart.c
+index 8a78fcc..bdb8282 100644
+--- a/hw/char/milkymist-uart.c
++++ b/hw/char/milkymist-uart.c
+@@ -156,7 +156,7 @@ static const MemoryRegionOps uart_mmio_ops =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_BIG_ENDIAN,
+ };
+
+ static void uart_rx(void *opaque, const uint8_t *buf, int size)
+diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+index c1ae2f3..5fb95d2 100644
+--- a/hw/char/pl011.c
++++ b/hw/char/pl011.c
+@@ -287,7 +287,7 @@ static void pl011_event(void *opaque, int event)
+ static const MemoryRegionOps pl011_ops =3D {
+     .read =3D pl011_read,
+     .write =3D pl011_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
+
+ static const VMStateDescription vmstate_pl011 =3D {
 --
 1.8.3.1
 
