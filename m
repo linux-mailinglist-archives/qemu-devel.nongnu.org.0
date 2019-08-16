@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DFF8FA32
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 07:07:48 +0200 (CEST)
-Received: from localhost ([::1]:49324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5135E8FA35
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 07:07:54 +0200 (CEST)
+Received: from localhost ([::1]:49330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyUSp-0002EL-Fy
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 01:07:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48294)
+	id 1hyUSv-0002Mr-0x
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 01:07:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48414)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1hyUQ7-0008U7-Ba
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:05:00 -0400
+ (envelope-from <bounces@canonical.com>) id 1hyUQu-0000dv-0y
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:05:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hyUQ6-0004Ox-DP
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:04:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52098)
+ (envelope-from <bounces@canonical.com>) id 1hyUQs-00054y-PO
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:05:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52670)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hyUQ6-0004OP-8G
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:04:58 -0400
+ id 1hyUQs-00054E-Jx
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:05:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hyUQ5-0003Ve-HK
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:04:57 +0000
+ id 1hyUQr-0003fN-B7
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:05:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7E9D52E80C7
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:04:57 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 524BB2E80CC
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:05:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Aug 2019 04:53:41 -0000
-From: Thomas Huth <1574327@bugs.launchpad.net>
+Date: Fri, 16 Aug 2019 04:55:53 -0000
+From: Thomas Huth <1826422@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
+ assignee=alex.l.williamson@gmail.com; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth v-launchpad-manuelbaesler
-X-Launchpad-Bug-Reporter: Manuel Baesler (v-launchpad-manuelbaesler)
+X-Launchpad-Bug-Commenters: alex-l-williamson saveriomiroddi th-huth
+X-Launchpad-Bug-Reporter: Saverio Miroddi (saveriomiroddi)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160424164231.5758.64337.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156593122241.22565.17101085550197487911.launchpad@chaenomeles.canonical.com>
+References: <155620554968.6380.13610580395862407350.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156593135329.22489.17924984318547873573.malone@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19022";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: be6dbe9bb31f52e3c9219a48f9e3132f5ffe87d5
+X-Launchpad-Hash: 5db2adea9f61c7603218157dd64b3cc37c863cc8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1574327] Re: qemu-system-x86_64 -net nic,
- model=help outputs to stderr instead of std
+Subject: [Qemu-devel] [Bug 1826422] Re: Regression: QEMU 4.0 hangs the host
+ (*bisect included*)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -65,45 +65,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1574327 <1574327@bugs.launchpad.net>
+Reply-To: Bug 1826422 <1826422@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fix has been included here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dc87759ce876a7a0b17c2b
+
 ** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+       Status: In Progress =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1574327
+https://bugs.launchpad.net/bugs/1826422
 
 Title:
-  qemu-system-x86_64 -net nic,model=3Dhelp outputs to stderr instead of
-  std
+  Regression: QEMU 4.0 hangs the host (*bisect included*)
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  qemu-system-x86_64 -net nic,model=3Dhelp
+  The commit b2fc91db84470a78f8e93f5b5f913c17188792c8 seemingly
+  introduced a regression on my system.
 
-  output comes to stderr instead of std
+  When I start QEMU, the guest and the host hang (I need a hard reset to
+  get back to a working system), before anything shows on the guest.
 
-  =
+  I use QEMU with GPU passthrough (which worked perfectly until the
+  commit above). This is the command I use:
 
-  qemu-system-x86_64 -net nic,model=3Dhelp  -> stdout
-  qemu-system-x86_64 -machine help -> stdout
-  qemu-system-x86_64 -cpu help -> stdout
+  ```
+  /path/to/qemu-system-x86_64
+    -drive if=3Dpflash,format=3Draw,readonly,file=3D/path/to/OVMF_CODE.fd
+    -drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd.tmp
+    -enable-kvm
+    -machine q35,accel=3Dkvm,mem-merge=3Doff
+    -cpu host,kvm=3Doff,hv_vendor_id=3Dvgaptrocks,hv_relaxed,hv_spinlocks=
+=3D0x1fff,hv_vapic,hv_time
+    -smp 4,cores=3D4,sockets=3D1,threads=3D1
+    -m 10240
+    -vga none
+    -rtc base=3Dlocaltime
+    -serial none
+    -parallel none
+    -usb
+    -device usb-tablet
+    -device vfio-pci,host=3D01:00.0,multifunction=3Don
+    -device vfio-pci,host=3D01:00.1
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device virtio-scsi-pci,id=3Dscsi
+    -drive file=3D/path/to/guest.img,id=3Dhdd1,format=3Dqcow2,if=3Dnone,cac=
+he=3Dwriteback
+    -device scsi-hd,drive=3Dhdd1
+    -net nic,model=3Dvirtio
+    -net user,smb=3D/path/to/shared
+  ```
 
-  as of
-  https://github.com/qemu/qemu/blob/044d65525f6ac2093042ae18dbf8c1300b5c1c1=
-8/net/net.c#L831
+  If I run QEMU without GPU passthrough, it runs fine.
 
-  I run qemu 2.5 on x86_64
+  Some details about my system:
 
-  kind regards
+  - O/S: Mint 19.1 x86-64 (it's based on Ubuntu 18.04)
+  - Kernel: 4.15
+  - `configure` options: `--target-list=3Dx86_64-softmmu --enable-gtk --ena=
+ble-spice --audio-drv-list=3Dpa`
+  - EDK2 version: 1a734ed85fda71630c795832e6d24ea560caf739 (20/Apr/2019)
+  - CPU: i7-6700k
+  - Motherboard: ASRock Z170 Gaming-ITX/ac
+  - VGA: Gigabyte GTX 960 Mini-ITX
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1574327/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1826422/+subscriptions
 
