@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C0490328
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:35:44 +0200 (CEST)
-Received: from localhost ([::1]:56208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B038B9030A
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:31:06 +0200 (CEST)
+Received: from localhost ([::1]:56124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycON-0006I2-H5
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:35:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35431)
+	id 1hycJt-0002NC-BX
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:31:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35443)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc73-0003Xt-Ob
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:50 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc74-0003ZQ-Tq
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc72-0005lK-Pk
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:49 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:37991)
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc73-0005mF-Mk
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:50 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38456)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hyc72-0005kV-Jy
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:48 -0400
-Received: by mail-wm1-x334.google.com with SMTP id m125so4047403wmm.3
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:48 -0700 (PDT)
+ id 1hyc73-0005lT-Gz
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:49 -0400
+Received: by mail-wr1-x441.google.com with SMTP id g17so1529124wrr.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2z9eRXxGkGDLfMKepMdpB0DZoxXwzKF1DXZHdT7+7v4=;
- b=JcGt2eOV0a+xUTT7te5LNFg+sF0Hbmz1RatopA65YqiCjcPARH5xKEaQV+uh+be/vt
- suRNg6IoEabN4Ct8zZh2FQCBE2RGAJwvlsy9qYcYvD3JEjR1N4GcSWCYscL2oIPuXUWZ
- +orwrP6ygI0WlzCL95hXT7K297rsEU8xcbJW9DbjvpKf+0NAqBvTKJAfxnUjf62bND2o
- T9gk+g6xVNO5LX3sTVm1WjTYSOLW0pyLxmNKfvGk/SJcGJDYJHbQJuWBJjtctZsCvyLu
- 0s03Y3euldlfJRcByfKuhgGjnyBgNYTvQ8zbTjhQ5feNBbQCqrJS4Db6+5L70G9WIyAW
- n0Xg==
+ bh=6sDytIs50Z7JPLgJ0D8n+pKl2x0yeciEYsQAfCreOnQ=;
+ b=JJuNxZkWMeOnhvPKAR8W/4qS8Uk4TM+ib8ZouH+2H4uZPRWz6P7O7LmQvyRPpTM3X8
+ 9X4aj3mNxvjNqBzMvPgP7t1V+0QWVkHlIHy5HNzsI9ehBTD4ayRQDtOn8Yzkk13zAgvK
+ g/enkVF/jICbsfr53UaevREngdWDUzOMZ8NwyyVSKzZNFGf88a+Z0G56hYcUIKR65kln
+ x2BskM/EdJF0p05ajwdQFr5lF5O0pN9cD8HylG05EFf4sHlpUYU8ghAuNIbWcUjqMx0Z
+ uOWNbh8IbiMa+VZ3WKp3DNO3UMxme7OOzQwy3o4UCIwYjDeacmNb0wkDc3+1VMVaFR/x
+ 2f7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2z9eRXxGkGDLfMKepMdpB0DZoxXwzKF1DXZHdT7+7v4=;
- b=Cn/9bppDZtuPZQip0bI4XOg6iEovjA0HzGAjpbBx1Revpo6eOipLUGKTnDkhIRj07S
- NecO9FHaSSkSRejldzPrpCsLyZknwYaIHVRwhBu5Aj/1vMZxMZNSVTgdYF0hYdGtd2xM
- p6H/hvi6JnWhW8JqkO4UYJA8OlK8ZKLZ/bhUcNyXys0eg9qP6a4Fjoim7Gwbf6cbfM6M
- E4akzn78TFcYCM8K+5uueH1rvBO2rwIq4tsjAMIZ7uRk9+anplOwYUG7h4Dj6L9BqL+k
- E/FY6Sji7R76XcPTrZi8Lwn5o9GASh8lK1/vWoXVGfsHJn/vzGwbuq3pCE7Zr04roHkY
- UdLg==
-X-Gm-Message-State: APjAAAVDly7suwGxcjFEP+85iuihma5Ag9rVRaYui7Pmg1rQBtVwDEn0
- cNfWA4klVC/lp0YbcIda0/sMYkGgMyjMAw==
-X-Google-Smtp-Source: APXvYqz0uzCnfQ105gpJZOEg9x3b9P+zA3WpKeJ3Y1PIlaxjV4Qr+0XEnQaCY0mWttKXif/9+UVSSA==
-X-Received: by 2002:a1c:2302:: with SMTP id j2mr7184869wmj.174.1565961467468; 
- Fri, 16 Aug 2019 06:17:47 -0700 (PDT)
+ bh=6sDytIs50Z7JPLgJ0D8n+pKl2x0yeciEYsQAfCreOnQ=;
+ b=kEUOV1y5W/jUK98znevBjKs3i9SKkcl1pjzfQnZe4h+7FrlzafdAIPKrGTPBjdYbXB
+ xJDofGSuJx21Vyx1xkfvPCSb9HMrVXUVsVW5MDed3ILx3Tm17Ov0/1AbYgRtBPJAYVWG
+ z+58TNMFC+m2XWkPvDt9YMEMTxiEIIgt0O3uVCw3Q/gp38mvnQbcXIgzOIwH73oFFOVc
+ oeYEKzznuVlgS4HcxTZ+UugYG6Xbl7UhpMx/8l0fqYhdxqxdF8j0NNyAjdOrylmG8Ve8
+ KwNA3C4g8lM25yZxV9BOZjWCnFdKCnRsmRBzppARTOMC4vj0kS5rQv5381RWD7dEUnLh
+ sThA==
+X-Gm-Message-State: APjAAAUiHK9CCSgRxI4nJLkHGgKDtIb8iGN9kubfrK0mn1QfK6TePkr3
+ tB/aySaE5y9QL2u0ACcDMZ18r4/Vq/Fwig==
+X-Google-Smtp-Source: APXvYqzuFVjXJiBZfbW1l+O5vhiU2ip77ER8Z4dvgXL79QQa4OHM42LqbJAbDB/Ri5JSEc9HTuBZiQ==
+X-Received: by 2002:a5d:6981:: with SMTP id g1mr10775771wru.193.1565961468453; 
+ Fri, 16 Aug 2019 06:17:48 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.46
+ by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 06:17:47 -0700 (PDT)
+ Fri, 16 Aug 2019 06:17:48 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 14:17:13 +0100
-Message-Id: <20190816131719.28244-24-peter.maydell@linaro.org>
+Date: Fri, 16 Aug 2019 14:17:14 +0100
+Message-Id: <20190816131719.28244-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190816131719.28244-1-peter.maydell@linaro.org>
 References: <20190816131719.28244-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
-Subject: [Qemu-devel] [PULL 23/29] target/arm: Use tcg_gen_extract_i32 for
- shifter_out_im
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PULL 24/29] target/arm: Use tcg_gen_deposit_i32 for
+ PKHBT, PKHTB
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,36 +84,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Extract is a compact combination of shift + and.
+Use deposit as the composit operation to merge the
+bits from the two inputs.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190808202616.13782-2-richard.henderson@linaro.org
+Message-id: 20190808202616.13782-3-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ target/arm/translate.c | 26 ++++++++++----------------
+ 1 file changed, 10 insertions(+), 16 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 34e65cd80c0..14d6b6d4d28 100644
+index 14d6b6d4d28..9c3323509e1 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -605,14 +605,7 @@ static void gen_sar(TCGv_i32 dest, TCGv_i32 t0, TCGv_i32 t1)
- 
- static void shifter_out_im(TCGv_i32 var, int shift)
- {
--    if (shift == 0) {
--        tcg_gen_andi_i32(cpu_CF, var, 1);
--    } else {
--        tcg_gen_shri_i32(cpu_CF, var, shift);
--        if (shift != 31) {
--            tcg_gen_andi_i32(cpu_CF, cpu_CF, 1);
--        }
--    }
-+    tcg_gen_extract_i32(cpu_CF, var, shift, 1);
- }
- 
- /* Shift by immediate.  Includes special handling for shift == 0.  */
+@@ -8754,19 +8754,16 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                         shift = (insn >> 7) & 0x1f;
+                         if (insn & (1 << 6)) {
+                             /* pkhtb */
+-                            if (shift == 0)
++                            if (shift == 0) {
+                                 shift = 31;
++                            }
+                             tcg_gen_sari_i32(tmp2, tmp2, shift);
+-                            tcg_gen_andi_i32(tmp, tmp, 0xffff0000);
+-                            tcg_gen_ext16u_i32(tmp2, tmp2);
++                            tcg_gen_deposit_i32(tmp, tmp, tmp2, 0, 16);
+                         } else {
+                             /* pkhbt */
+-                            if (shift)
+-                                tcg_gen_shli_i32(tmp2, tmp2, shift);
+-                            tcg_gen_ext16u_i32(tmp, tmp);
+-                            tcg_gen_andi_i32(tmp2, tmp2, 0xffff0000);
++                            tcg_gen_shli_i32(tmp2, tmp2, shift);
++                            tcg_gen_deposit_i32(tmp, tmp2, tmp, 0, 16);
+                         }
+-                        tcg_gen_or_i32(tmp, tmp, tmp2);
+                         tcg_temp_free_i32(tmp2);
+                         store_reg(s, rd, tmp);
+                     } else if ((insn & 0x00200020) == 0x00200000) {
+@@ -9802,19 +9799,16 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+             shift = ((insn >> 10) & 0x1c) | ((insn >> 6) & 0x3);
+             if (insn & (1 << 5)) {
+                 /* pkhtb */
+-                if (shift == 0)
++                if (shift == 0) {
+                     shift = 31;
++                }
+                 tcg_gen_sari_i32(tmp2, tmp2, shift);
+-                tcg_gen_andi_i32(tmp, tmp, 0xffff0000);
+-                tcg_gen_ext16u_i32(tmp2, tmp2);
++                tcg_gen_deposit_i32(tmp, tmp, tmp2, 0, 16);
+             } else {
+                 /* pkhbt */
+-                if (shift)
+-                    tcg_gen_shli_i32(tmp2, tmp2, shift);
+-                tcg_gen_ext16u_i32(tmp, tmp);
+-                tcg_gen_andi_i32(tmp2, tmp2, 0xffff0000);
++                tcg_gen_shli_i32(tmp2, tmp2, shift);
++                tcg_gen_deposit_i32(tmp, tmp2, tmp, 0, 16);
+             }
+-            tcg_gen_or_i32(tmp, tmp, tmp2);
+             tcg_temp_free_i32(tmp2);
+             store_reg(s, rd, tmp);
+         } else {
 -- 
 2.20.1
 
