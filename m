@@ -2,72 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2795D90326
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:35:39 +0200 (CEST)
-Received: from localhost ([::1]:56200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CEC90335
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:38:16 +0200 (CEST)
+Received: from localhost ([::1]:56252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycOH-0006BM-JQ
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:35:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35491)
+	id 1hycQo-0001MJ-Ri
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36358)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc78-0003eS-Bb
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:55 -0400
+ (envelope-from <armbru@redhat.com>) id 1hycEF-0005Dn-1u
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:25:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc77-0005rW-8o
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:54 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44444)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hyc77-0005qS-2U
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:53 -0400
-Received: by mail-wr1-x429.google.com with SMTP id p17so1513477wrf.11
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=YHhjNjwiuTlgJOKTQ/7AOJdELYDLE8lxn/VDkIb25Mo=;
- b=DhqT884dKMwlY57TG8JWuxdJ6/LNehvNpY8gGSqzVD2TQri67uVzmAt7k02ejJ9Vqy
- X4OaLclfVoUpCGCBGB9pC9KioyBaDi/rhJgpPhmVjp5T+32Vfqiai9JUXsYrsLGoVwv6
- j1oqg6CA2OPZmtYd7RjAR2o399hmNaanpeuOmXinQzrt8NXMn7qMWpymW/6QFIuOSnIt
- qUSrY9lGb4NW9d1R+EkEsQ4DK1WVIuqYm8KjPAX0iRBiOSQlg0quFk7Mu7DHc3FWt2n0
- xGeTg6HmAilgSJLDIW+Hkn0oGg2ZHzvV4EwUCXbFJlGT+8A7rdrryeuHa1g5NIkSbOpu
- 5wcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YHhjNjwiuTlgJOKTQ/7AOJdELYDLE8lxn/VDkIb25Mo=;
- b=GEpSG71l5UmJRI5XdzLZ5mXEviqvuVTFwd3sDc26Au/IjIkRsudKF/fyxU/XkQZAm8
- QW9PnDp15rcoL+eI375Jm7WeYD/3qUVYQSd/uUuXRdvftoMWrgI7jNV2RPQ6i757dxhe
- 7N/hkL2TyJs5Q9HFFPLfuv6qTDCarbqaYR992FJZsI4Kmd7MA0YUNWjck23e5HJ7e/Al
- 1My1nsoOqP07va89bXgULJZkvqiNBZTplNxTORgyUnIH8O/Aet8mzhu6LVyAM4KXP47L
- LR9CC7Kmp9D5w1Sb9oZ6lH+i4sFIq2Xf8Ksqsak1guiwSd7Ud2XDcIrzntYAKpSyzmdt
- ibGQ==
-X-Gm-Message-State: APjAAAW9M0PMgs0WhYVJk+8jodjd8Vk+M46SX4Ggq3uY6/IZ/H3lfhL0
- +ipLvgWX3S2ababDrd6BkGnzRtMDmTNRmw==
-X-Google-Smtp-Source: APXvYqxRCKxCjQ7PM2ZqXsKpAmGeHCPZBJStU1vWVwVnfKXqREj7TIvqK5nqirNkSuyABGTDAYppMA==
-X-Received: by 2002:adf:d1b4:: with SMTP id w20mr11084969wrc.301.1565961471798; 
- Fri, 16 Aug 2019 06:17:51 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.50
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 06:17:51 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 14:17:17 +0100
-Message-Id: <20190816131719.28244-28-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190816131719.28244-1-peter.maydell@linaro.org>
-References: <20190816131719.28244-1-peter.maydell@linaro.org>
+ (envelope-from <armbru@redhat.com>) id 1hycED-0002NS-N4
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:25:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34780)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hycED-0002Md-BV
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:25:13 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9D27C2A09CF;
+ Fri, 16 Aug 2019 13:25:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 98E817EBA6;
+ Fri, 16 Aug 2019 13:24:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1570610E6CCA; Fri, 16 Aug 2019 15:24:45 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+References: <20190813154653.20568-1-armbru@redhat.com>
+ <CAFEAcA9L1yA==UV__H_bkC+HBKNB1vMtAXidQsbNwDGSt6Yokw@mail.gmail.com>
+ <7d6c5482-183e-5373-03ac-18aac5055572@redhat.com>
+ <80ed7df8-2dfc-4bb0-b3e4-3e58df9d0957@redhat.com>
+Date: Fri, 16 Aug 2019 15:24:45 +0200
+In-Reply-To: <80ed7df8-2dfc-4bb0-b3e4-3e58df9d0957@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 16 Aug 2019 14:39:06
+ +0200")
+Message-ID: <87v9uxmeea.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::429
-Subject: [Qemu-devel] [PULL 27/29] target/arm: Use tcg_gen_rotri_i32 for
- gen_swap_half
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Fri, 16 Aug 2019 13:25:12 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 00/29] Header cleanup patches for 2019-08-13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,40 +64,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Rotate is the more compact and obvious way to swap 16-bit
-elements of a 32-bit word.
+> On 8/16/19 1:23 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 8/16/19 12:59 PM, Peter Maydell wrote:
+>>> On Tue, 13 Aug 2019 at 16:54, Markus Armbruster <armbru@redhat.com> wro=
+te:
+>>>>
+>>>> The following changes since commit 864ab314f1d924129d06ac7b571f105a2b7=
+6a4b2:
+>>>>
+>>>>   Update version for v4.1.0-rc4 release (2019-08-06 17:05:21 +0100)
+>>>>
+>>>> are available in the Git repository at:
+>>>>
+>>>>   git://repo.or.cz/qemu/armbru.git tags/pull-include-2019-08-13
+>>>>
+>>>> for you to fetch changes up to 8d111fd683b678d3826e192bc07ffcc349a118b=
+5:
+>>>>
+>>>>   sysemu: Split sysemu/runstate.h off sysemu/sysemu.h (2019-08-13 13:1=
+6:20 +0200)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> Header cleanup patches for 2019-08-13
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> These patches are rather bothersome to rebase, so I'd like to get them
+>>>> into 4.2 early.
+>>>>
+>>>
+>>> Fails to build on OSX I'm afraid:
+>>> /Users/pm215/src/qemu-for-merges/ui/cocoa.m:1166:5: error: implicit
+>>> declaration of function 'qemu_system_shutdown_request' is invalid in
+>>> C99 [-Werror,-Wimplicit-function-declaration]
+>>>     qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_UI);
+>>>     ^
+>>=20
+>> Ah I reported this one while reviewing v2:
+>> https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg01150.html
+>>=20
+>> Then didn't take the time to test OSX on v4 :(
+>>=20
+>> BTW Travis should find this.
+>
+> Actually I did try v4 on Travis and it succeeded:
+> https://travis-ci.org/philmd/qemu/builds/570743079
+>
+> But Travis seems to have updated smth on their OSX images (or brew is
+> down?), now I get:
+>
+>   ERROR: glib-2.40 gthread-2.0 is required to compile QEMU
+>
+> Anyway, the culprit is:
+>
+> commit 8d111fd683b678d3826e192bc07ffcc349a118b5 (tag:
+> pull-include-2019-08-13)
+> Author: Markus Armbruster <armbru@redhat.com>
+> Date:   Mon Aug 12 07:23:59 2019 +0200
+>
+>     sysemu: Split sysemu/runstate.h off sysemu/sysemu.h
+>
+>     sysemu/sysemu.h is a rather unfocused dumping ground for stuff related
+>     to the system-emulator.  Evidence:
+>
+>     * It's included widely: in my "build everything" tree, changing
+>       sysemu/sysemu.h still triggers a recompile of some 1100 out of 6600
+>       objects (not counting tests and objects that don't depend on
+>       qemu/osdep.h, down from 5400 due to the previous two commits).
+>
+>     * It pulls in more than a dozen additional headers.
+>
+> ui/cocoa.m now needs to include "sysemu/runstate.h".
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190808202616.13782-6-richard.henderson@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/translate.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 02ce8d44fa1..2e160646206 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -444,11 +444,7 @@ static TCGv_i64 gen_muls_i64_i32(TCGv_i32 a, TCGv_i32 b)
- /* Swap low and high halfwords.  */
- static void gen_swap_half(TCGv_i32 var)
- {
--    TCGv_i32 tmp = tcg_temp_new_i32();
--    tcg_gen_shri_i32(tmp, var, 16);
--    tcg_gen_shli_i32(var, var, 16);
--    tcg_gen_or_i32(var, var, tmp);
--    tcg_temp_free_i32(tmp);
-+    tcg_gen_rotri_i32(var, var, 16);
- }
- 
- /* Dual 16-bit add.  Result placed in t0 and t1 is marked as dead.
--- 
-2.20.1
-
+v2 sent.  Thanks!
 
