@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7252690B7E
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:40:26 +0200 (CEST)
-Received: from localhost ([::1]:33414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1AC90B80
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:43:13 +0200 (CEST)
+Received: from localhost ([::1]:33458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hylpY-00074O-UN
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:40:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47192)
+	id 1hylsG-0001rL-6q
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:43:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47197)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1hylQ3-000764-1V
+ (envelope-from <jsnow@redhat.com>) id 1hylQ2-00076M-VW
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:14:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hylQ1-0006MQ-6m
+ (envelope-from <jsnow@redhat.com>) id 1hylQ1-0006MX-9n
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:14:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40500)
+Received: from mx1.redhat.com ([209.132.183.28]:54840)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hylPx-0006Hy-Tg; Fri, 16 Aug 2019 19:13:58 -0400
+ id 1hylPy-0006I8-5K; Fri, 16 Aug 2019 19:13:58 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 246813090FEE;
- Fri, 16 Aug 2019 23:13:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0D29E1E1E6F;
+ Fri, 16 Aug 2019 23:13:55 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-187.bos.redhat.com [10.18.17.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C9C710512;
- Fri, 16 Aug 2019 23:13:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46F9D19C6A;
+ Fri, 16 Aug 2019 23:13:54 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 19:13:16 -0400
-Message-Id: <20190816231318.8650-35-jsnow@redhat.com>
+Date: Fri, 16 Aug 2019 19:13:17 -0400
+Message-Id: <20190816231318.8650-36-jsnow@redhat.com>
 In-Reply-To: <20190816231318.8650-1-jsnow@redhat.com>
 References: <20190816231318.8650-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 16 Aug 2019 23:13:54 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Fri, 16 Aug 2019 23:13:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 34/36] block/backup: deal with zero detection
+Subject: [Qemu-devel] [PULL 35/36] block/backup: refactor write_flags
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,88 +62,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We have detect_zeroes option, so at least for blockdev-backup user
-should define it if zero-detection is needed. For drive-backup leave
-detection enabled by default but do it through existing option instead
-of open-coding.
+write flags are constant, let's store it in BackupBlockJob instead of
+recalculating. It also makes two boolean fields to be unused, so,
+drop them.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190730163251.755248-2-vsementsov@virtuozzo.com
+Message-id: 20190730163251.755248-4-vsementsov@virtuozzo.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- block/backup.c | 15 ++++++---------
- blockdev.c     |  8 ++++----
- 2 files changed, 10 insertions(+), 13 deletions(-)
+ block/backup.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/block/backup.c b/block/backup.c
-index a9be07258c1..083fc189af9 100644
+index 083fc189af9..2baf7bed65a 100644
 --- a/block/backup.c
 +++ b/block/backup.c
-@@ -113,7 +113,10 @@ static int coroutine_fn backup_cow_with_bounce_buffe=
+@@ -50,14 +50,13 @@ typedef struct BackupBlockJob {
+     uint64_t len;
+     uint64_t bytes_read;
+     int64_t cluster_size;
+-    bool compress;
+     NotifierWithReturn before_write;
+     QLIST_HEAD(, CowRequest) inflight_reqs;
+=20
+     bool use_copy_range;
+     int64_t copy_range_size;
+=20
+-    bool serialize_target_writes;
++    BdrvRequestFlags write_flags;
+     bool initializing_bitmap;
+ } BackupBlockJob;
+=20
+@@ -113,10 +112,6 @@ static int coroutine_fn backup_cow_with_bounce_buffe=
 r(BackupBlockJob *job,
+     BlockBackend *blk =3D job->common.blk;
+     int nbytes;
+     int read_flags =3D is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
+-    int write_flags =3D
+-            (job->serialize_target_writes ? BDRV_REQ_SERIALISING : 0) |
+-            (job->compress ? BDRV_REQ_WRITE_COMPRESSED : 0);
+-
+=20
+     assert(QEMU_IS_ALIGNED(start, job->cluster_size));
+     bdrv_reset_dirty_bitmap(job->copy_bitmap, start, job->cluster_size);
+@@ -135,7 +130,7 @@ static int coroutine_fn backup_cow_with_bounce_buffer=
+(BackupBlockJob *job,
+     }
+=20
+     ret =3D blk_co_pwrite(job->target, start, nbytes, *bounce_buffer,
+-                        write_flags);
++                        job->write_flags);
+     if (ret < 0) {
+         trace_backup_do_cow_write_fail(job, start, ret);
+         if (error_is_read) {
+@@ -163,7 +158,6 @@ static int coroutine_fn backup_cow_with_offload(Backu=
+pBlockJob *job,
      BlockBackend *blk =3D job->common.blk;
      int nbytes;
      int read_flags =3D is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
 -    int write_flags =3D job->serialize_target_writes ? BDRV_REQ_SERIALIS=
 ING : 0;
-+    int write_flags =3D
-+            (job->serialize_target_writes ? BDRV_REQ_SERIALISING : 0) |
-+            (job->compress ? BDRV_REQ_WRITE_COMPRESSED : 0);
-+
 =20
+     assert(QEMU_IS_ALIGNED(job->copy_range_size, job->cluster_size));
      assert(QEMU_IS_ALIGNED(start, job->cluster_size));
-     bdrv_reset_dirty_bitmap(job->copy_bitmap, start, job->cluster_size);
-@@ -131,14 +134,8 @@ static int coroutine_fn backup_cow_with_bounce_buffe=
-r(BackupBlockJob *job,
-         goto fail;
-     }
-=20
--    if (buffer_is_zero(*bounce_buffer, nbytes)) {
--        ret =3D blk_co_pwrite_zeroes(job->target, start,
--                                   nbytes, write_flags | BDRV_REQ_MAY_UN=
-MAP);
--    } else {
--        ret =3D blk_co_pwrite(job->target, start,
--                            nbytes, *bounce_buffer, write_flags |
--                            (job->compress ? BDRV_REQ_WRITE_COMPRESSED :=
- 0));
--    }
-+    ret =3D blk_co_pwrite(job->target, start, nbytes, *bounce_buffer,
-+                        write_flags);
+@@ -172,7 +166,7 @@ static int coroutine_fn backup_cow_with_offload(Backu=
+pBlockJob *job,
+     bdrv_reset_dirty_bitmap(job->copy_bitmap, start,
+                             job->cluster_size * nr_clusters);
+     ret =3D blk_co_copy_range(blk, start, job->target, start, nbytes,
+-                            read_flags, write_flags);
++                            read_flags, job->write_flags);
      if (ret < 0) {
-         trace_backup_do_cow_write_fail(job, start, ret);
-         if (error_is_read) {
-diff --git a/blockdev.c b/blockdev.c
-index 64d06d1f672..2e536dde3e9 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3615,7 +3615,7 @@ static BlockJob *do_drive_backup(DriveBackup *backu=
-p, JobTxn *txn,
-     BlockDriverState *source =3D NULL;
-     BlockJob *job =3D NULL;
-     AioContext *aio_context;
--    QDict *options =3D NULL;
-+    QDict *options;
-     Error *local_err =3D NULL;
-     int flags;
-     int64_t size;
-@@ -3688,10 +3688,10 @@ static BlockJob *do_drive_backup(DriveBackup *bac=
-kup, JobTxn *txn,
-         goto out;
-     }
+         trace_backup_do_cow_copy_range_fail(job, start, ret);
+         bdrv_set_dirty_bitmap(job->copy_bitmap, start,
+@@ -751,10 +745,16 @@ BlockJob *backup_job_create(const char *job_id, Blo=
+ckDriverState *bs,
+     job->sync_mode =3D sync_mode;
+     job->sync_bitmap =3D sync_bitmap;
+     job->bitmap_mode =3D bitmap_mode;
+-    job->compress =3D compress;
 =20
-+    options =3D qdict_new();
-+    qdict_put_str(options, "discard", "unmap");
-+    qdict_put_str(options, "detect-zeroes", "unmap");
-     if (backup->format) {
--        if (!options) {
--            options =3D qdict_new();
--        }
-         qdict_put_str(options, "driver", backup->format);
-     }
-=20
+-    /* Detect image-fleecing (and similar) schemes */
+-    job->serialize_target_writes =3D bdrv_chain_contains(target, bs);
++    /*
++     * Set write flags:
++     * 1. Detect image-fleecing (and similar) schemes
++     * 2. Handle compression
++     */
++    job->write_flags =3D
++        (bdrv_chain_contains(target, bs) ? BDRV_REQ_SERIALISING : 0) |
++        (compress ? BDRV_REQ_WRITE_COMPRESSED : 0);
++
+     job->cluster_size =3D cluster_size;
+     job->copy_bitmap =3D copy_bitmap;
+     copy_bitmap =3D NULL;
 --=20
 2.21.0
 
