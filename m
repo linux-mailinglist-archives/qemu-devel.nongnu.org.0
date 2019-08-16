@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6635C90B64
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:24:58 +0200 (CEST)
-Received: from localhost ([::1]:33204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ACBC90B66
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 01:26:19 +0200 (CEST)
+Received: from localhost ([::1]:33220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hylab-0003oD-5c
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:24:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46302)
+	id 1hylbu-0005ZR-8r
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 19:26:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46405)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1hylPe-0006Ky-7h
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:40 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hylPh-0006R4-Qr
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hylPb-0005nI-En
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:13630)
+ (envelope-from <jsnow@redhat.com>) id 1hylPe-0005sQ-DJ
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:13:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47772)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hylPX-0005hX-Ud; Fri, 16 Aug 2019 19:13:32 -0400
+ id 1hylPY-0005iV-QL; Fri, 16 Aug 2019 19:13:33 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2E9F9859FB;
- Fri, 16 Aug 2019 23:13:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 03B16308FE8D;
+ Fri, 16 Aug 2019 23:13:32 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-187.bos.redhat.com [10.18.17.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78A03165D8;
- Fri, 16 Aug 2019 23:13:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FAEB10512;
+ Fri, 16 Aug 2019 23:13:31 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 19:12:52 -0400
-Message-Id: <20190816231318.8650-11-jsnow@redhat.com>
+Date: Fri, 16 Aug 2019 19:12:53 -0400
+Message-Id: <20190816231318.8650-12-jsnow@redhat.com>
 In-Reply-To: <20190816231318.8650-1-jsnow@redhat.com>
 References: <20190816231318.8650-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Fri, 16 Aug 2019 23:13:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Fri, 16 Aug 2019 23:13:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 10/36] block/dirty-bitmap: add
- bdrv_dirty_bitmap_get
+Subject: [Qemu-devel] [PULL 11/36] block/backup: upgrade copy_bitmap to
+ BdrvDirtyBitmap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,137 +60,259 @@ Cc: peter.maydell@linaro.org, jsnow@redhat.com, qemu-stable@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a public interface for get. While we're at it,
-rename "bdrv_get_dirty_bitmap_locked" to "bdrv_dirty_bitmap_get_locked".
-
-(There are more functions to rename to the bdrv_dirty_bitmap_VERB form,
-but they will wait until the conclusion of this series.)
+This simplifies some interface matters; namely the initialization and
+(later) merging the manifest back into the sync_bitmap if it was
+provided.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190709232550.10724-11-jsnow@redhat.com
+Message-id: 20190709232550.10724-12-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- block/dirty-bitmap.c         | 19 ++++++++++++-------
- block/mirror.c               |  2 +-
- include/block/dirty-bitmap.h |  4 ++--
- migration/block.c            |  5 ++---
- nbd/server.c                 |  2 +-
- 5 files changed, 18 insertions(+), 14 deletions(-)
+ block/backup.c | 84 ++++++++++++++++++++++++++------------------------
+ 1 file changed, 44 insertions(+), 40 deletions(-)
 
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 7881fea684b..75a5daf116f 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -509,14 +509,19 @@ BlockDirtyInfoList *bdrv_query_dirty_bitmaps(BlockD=
-riverState *bs)
+diff --git a/block/backup.c b/block/backup.c
+index d07b838930f..474f8eeae29 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -38,7 +38,10 @@ typedef struct CowRequest {
+ typedef struct BackupBlockJob {
+     BlockJob common;
+     BlockBackend *target;
++
+     BdrvDirtyBitmap *sync_bitmap;
++    BdrvDirtyBitmap *copy_bitmap;
++
+     MirrorSyncMode sync_mode;
+     BitmapSyncMode bitmap_mode;
+     BlockdevOnError on_source_error;
+@@ -51,7 +54,6 @@ typedef struct BackupBlockJob {
+     NotifierWithReturn before_write;
+     QLIST_HEAD(, CowRequest) inflight_reqs;
+=20
+-    HBitmap *copy_bitmap;
+     bool use_copy_range;
+     int64_t copy_range_size;
+=20
+@@ -113,7 +115,7 @@ static int coroutine_fn backup_cow_with_bounce_buffer=
+(BackupBlockJob *job,
+     int write_flags =3D job->serialize_target_writes ? BDRV_REQ_SERIALIS=
+ING : 0;
+=20
+     assert(QEMU_IS_ALIGNED(start, job->cluster_size));
+-    hbitmap_reset(job->copy_bitmap, start, job->cluster_size);
++    bdrv_reset_dirty_bitmap(job->copy_bitmap, start, job->cluster_size);
+     nbytes =3D MIN(job->cluster_size, job->len - start);
+     if (!*bounce_buffer) {
+         *bounce_buffer =3D blk_blockalign(blk, job->cluster_size);
+@@ -146,7 +148,7 @@ static int coroutine_fn backup_cow_with_bounce_buffer=
+(BackupBlockJob *job,
+=20
+     return nbytes;
+ fail:
+-    hbitmap_set(job->copy_bitmap, start, job->cluster_size);
++    bdrv_set_dirty_bitmap(job->copy_bitmap, start, job->cluster_size);
+     return ret;
+=20
+ }
+@@ -169,12 +171,14 @@ static int coroutine_fn backup_cow_with_offload(Bac=
+kupBlockJob *job,
+     assert(QEMU_IS_ALIGNED(start, job->cluster_size));
+     nbytes =3D MIN(job->copy_range_size, end - start);
+     nr_clusters =3D DIV_ROUND_UP(nbytes, job->cluster_size);
+-    hbitmap_reset(job->copy_bitmap, start, job->cluster_size * nr_cluste=
+rs);
++    bdrv_reset_dirty_bitmap(job->copy_bitmap, start,
++                            job->cluster_size * nr_clusters);
+     ret =3D blk_co_copy_range(blk, start, job->target, start, nbytes,
+                             read_flags, write_flags);
+     if (ret < 0) {
+         trace_backup_do_cow_copy_range_fail(job, start, ret);
+-        hbitmap_set(job->copy_bitmap, start, job->cluster_size * nr_clus=
+ters);
++        bdrv_set_dirty_bitmap(job->copy_bitmap, start,
++                              job->cluster_size * nr_clusters);
+         return ret;
+     }
+=20
+@@ -204,13 +208,14 @@ static int coroutine_fn backup_do_cow(BackupBlockJo=
+b *job,
+     while (start < end) {
+         int64_t dirty_end;
+=20
+-        if (!hbitmap_get(job->copy_bitmap, start)) {
++        if (!bdrv_dirty_bitmap_get(job->copy_bitmap, start)) {
+             trace_backup_do_cow_skip(job, start);
+             start +=3D job->cluster_size;
+             continue; /* already copied */
+         }
+=20
+-        dirty_end =3D hbitmap_next_zero(job->copy_bitmap, start, (end - =
+start));
++        dirty_end =3D bdrv_dirty_bitmap_next_zero(job->copy_bitmap, star=
+t,
++                                                (end - start));
+         if (dirty_end < 0) {
+             dirty_end =3D end;
+         }
+@@ -307,14 +312,16 @@ static void backup_abort(Job *job)
+ static void backup_clean(Job *job)
+ {
+     BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.job);
++    BlockDriverState *bs =3D blk_bs(s->common.blk);
++
++    if (s->copy_bitmap) {
++        bdrv_release_dirty_bitmap(bs, s->copy_bitmap);
++        s->copy_bitmap =3D NULL;
++    }
++
+     assert(s->target);
+     blk_unref(s->target);
+     s->target =3D NULL;
+-
+-    if (s->copy_bitmap) {
+-        hbitmap_free(s->copy_bitmap);
+-        s->copy_bitmap =3D NULL;
+-    }
  }
 =20
- /* Called within bdrv_dirty_bitmap_lock..unlock */
--bool bdrv_get_dirty_locked(BlockDriverState *bs, BdrvDirtyBitmap *bitmap=
-,
--                           int64_t offset)
-+bool bdrv_dirty_bitmap_get_locked(BdrvDirtyBitmap *bitmap, int64_t offse=
-t)
+ void backup_do_checkpoint(BlockJob *job, Error **errp)
+@@ -329,7 +336,7 @@ void backup_do_checkpoint(BlockJob *job, Error **errp=
+)
+         return;
+     }
+=20
+-    hbitmap_set(backup_job->copy_bitmap, 0, backup_job->len);
++    bdrv_set_dirty_bitmap(backup_job->copy_bitmap, 0, backup_job->len);
+ }
+=20
+ static void backup_drain(BlockJob *job)
+@@ -398,59 +405,52 @@ static bool bdrv_is_unallocated_range(BlockDriverSt=
+ate *bs,
+=20
+ static int coroutine_fn backup_loop(BackupBlockJob *job)
  {
--    if (bitmap) {
--        return hbitmap_get(bitmap->bitmap, offset);
--    } else {
--        return false;
--    }
-+    return hbitmap_get(bitmap->bitmap, offset);
-+}
-+
-+bool bdrv_dirty_bitmap_get(BdrvDirtyBitmap *bitmap, int64_t offset)
-+{
-+    bool ret;
-+    bdrv_dirty_bitmap_lock(bitmap);
-+    ret =3D bdrv_dirty_bitmap_get_locked(bitmap, offset);
-+    bdrv_dirty_bitmap_unlock(bitmap);
-+
+-    int ret;
+     bool error_is_read;
+     int64_t offset;
+-    HBitmapIter hbi;
++    BdrvDirtyBitmapIter *bdbi;
+     BlockDriverState *bs =3D blk_bs(job->common.blk);
++    int ret =3D 0;
+=20
+-    hbitmap_iter_init(&hbi, job->copy_bitmap, 0);
+-    while ((offset =3D hbitmap_iter_next(&hbi)) !=3D -1) {
++    bdbi =3D bdrv_dirty_iter_new(job->copy_bitmap);
++    while ((offset =3D bdrv_dirty_iter_next(bdbi)) !=3D -1) {
+         if (job->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP &&
+             bdrv_is_unallocated_range(bs, offset, job->cluster_size))
+         {
+-            hbitmap_reset(job->copy_bitmap, offset, job->cluster_size);
++            bdrv_reset_dirty_bitmap(job->copy_bitmap, offset,
++                                    job->cluster_size);
+             continue;
+         }
+=20
+         do {
+             if (yield_and_check(job)) {
+-                return 0;
++                goto out;
+             }
+             ret =3D backup_do_cow(job, offset,
+                                 job->cluster_size, &error_is_read, false=
+);
+             if (ret < 0 && backup_error_action(job, error_is_read, -ret)=
+ =3D=3D
+                            BLOCK_ERROR_ACTION_REPORT)
+             {
+-                return ret;
++                goto out;
+             }
+         } while (ret < 0);
+     }
+=20
+-    return 0;
++ out:
++    bdrv_dirty_iter_free(bdbi);
 +    return ret;
  }
 =20
- /**
-diff --git a/block/mirror.c b/block/mirror.c
-index 70f24d9ef63..2b870683f14 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -476,7 +476,7 @@ static uint64_t coroutine_fn mirror_iteration(MirrorB=
-lockJob *s)
-         int64_t next_offset =3D offset + nb_chunks * s->granularity;
-         int64_t next_chunk =3D next_offset / s->granularity;
-         if (next_offset >=3D s->bdev_length ||
--            !bdrv_get_dirty_locked(source, s->dirty_bitmap, next_offset)=
-) {
-+            !bdrv_dirty_bitmap_get_locked(s->dirty_bitmap, next_offset))=
+ /* init copy_bitmap from sync_bitmap */
+ static void backup_incremental_init_copy_bitmap(BackupBlockJob *job)
  {
-             break;
-         }
-         if (test_bit(next_chunk, s->in_flight_bitmap)) {
-diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-index 62682eb865f..0120ef3f05a 100644
---- a/include/block/dirty-bitmap.h
-+++ b/include/block/dirty-bitmap.h
-@@ -84,12 +84,12 @@ void bdrv_dirty_bitmap_set_busy(BdrvDirtyBitmap *bitm=
-ap, bool busy);
- void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitma=
-p *src,
-                              HBitmap **backup, Error **errp);
- void bdrv_dirty_bitmap_set_migration(BdrvDirtyBitmap *bitmap, bool migra=
-tion);
-+bool bdrv_dirty_bitmap_get(BdrvDirtyBitmap *bitmap, int64_t offset);
+-    uint64_t offset =3D 0;
+-    uint64_t bytes =3D job->len;
+-
+-    while (bdrv_dirty_bitmap_next_dirty_area(job->sync_bitmap,
+-                                             &offset, &bytes))
+-    {
+-        hbitmap_set(job->copy_bitmap, offset, bytes);
+-
+-        offset +=3D bytes;
+-        if (offset >=3D job->len) {
+-            break;
+-        }
+-        bytes =3D job->len - offset;
+-    }
++    bool ret =3D bdrv_dirty_bitmap_merge_internal(job->copy_bitmap,
++                                                job->sync_bitmap,
++                                                NULL, true);
++    assert(ret);
 =20
- /* Functions that require manual locking.  */
- void bdrv_dirty_bitmap_lock(BdrvDirtyBitmap *bitmap);
- void bdrv_dirty_bitmap_unlock(BdrvDirtyBitmap *bitmap);
--bool bdrv_get_dirty_locked(BlockDriverState *bs, BdrvDirtyBitmap *bitmap=
-,
--                           int64_t offset);
-+bool bdrv_dirty_bitmap_get_locked(BdrvDirtyBitmap *bitmap, int64_t offse=
-t);
- void bdrv_set_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap,
-                                   int64_t offset, int64_t bytes);
- void bdrv_reset_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap,
-diff --git a/migration/block.c b/migration/block.c
-index e81fd7e14fa..aa747b55fa8 100644
---- a/migration/block.c
-+++ b/migration/block.c
-@@ -521,7 +521,6 @@ static int mig_save_device_dirty(QEMUFile *f, BlkMigD=
-evState *bmds,
-                                  int is_async)
- {
-     BlkMigBlock *blk;
--    BlockDriverState *bs =3D blk_bs(bmds->blk);
-     int64_t total_sectors =3D bmds->total_sectors;
-     int64_t sector;
-     int nr_sectors;
-@@ -536,8 +535,8 @@ static int mig_save_device_dirty(QEMUFile *f, BlkMigD=
-evState *bmds,
-             blk_mig_unlock();
-         }
-         bdrv_dirty_bitmap_lock(bmds->dirty_bitmap);
--        if (bdrv_get_dirty_locked(bs, bmds->dirty_bitmap,
--                                  sector * BDRV_SECTOR_SIZE)) {
-+        if (bdrv_dirty_bitmap_get_locked(bmds->dirty_bitmap,
-+                                         sector * BDRV_SECTOR_SIZE)) {
-             if (total_sectors - sector < BDRV_SECTORS_PER_DIRTY_CHUNK) {
-                 nr_sectors =3D total_sectors - sector;
-             } else {
-diff --git a/nbd/server.c b/nbd/server.c
-index 3eacb898757..f55ccf8edfd 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -2004,7 +2004,7 @@ static unsigned int bitmap_to_extents(BdrvDirtyBitm=
-ap *bitmap, uint64_t offset,
-     bdrv_dirty_bitmap_lock(bitmap);
+     /* TODO job_progress_set_remaining() would make more sense */
+     job_progress_update(&job->common.job,
+-        job->len - hbitmap_count(job->copy_bitmap));
++                        job->len - bdrv_get_dirty_count(job->copy_bitmap=
+));
+ }
 =20
-     it =3D bdrv_dirty_iter_new(bitmap);
--    dirty =3D bdrv_get_dirty_locked(NULL, bitmap, offset);
-+    dirty =3D bdrv_dirty_bitmap_get_locked(bitmap, offset);
+ static int coroutine_fn backup_run(Job *job, Error **errp)
+@@ -467,7 +467,7 @@ static int coroutine_fn backup_run(Job *job, Error **=
+errp)
+     if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_BITMAP) {
+         backup_incremental_init_copy_bitmap(s);
+     } else {
+-        hbitmap_set(s->copy_bitmap, 0, s->len);
++        bdrv_set_dirty_bitmap(s->copy_bitmap, 0, s->len);
+     }
 =20
-     assert(begin < overall_end && nb_extents);
-     while (begin < overall_end && i < nb_extents) {
+     s->before_write.notify =3D backup_before_write_notify;
+@@ -560,7 +560,7 @@ BlockJob *backup_job_create(const char *job_id, Block=
+DriverState *bs,
+     BackupBlockJob *job =3D NULL;
+     int ret;
+     int64_t cluster_size;
+-    HBitmap *copy_bitmap =3D NULL;
++    BdrvDirtyBitmap *copy_bitmap =3D NULL;
+=20
+     assert(bs);
+     assert(target);
+@@ -630,7 +630,11 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
+kDriverState *bs,
+         goto error;
+     }
+=20
+-    copy_bitmap =3D hbitmap_alloc(len, ctz32(cluster_size));
++    copy_bitmap =3D bdrv_create_dirty_bitmap(bs, cluster_size, NULL, err=
+p);
++    if (!copy_bitmap) {
++        goto error;
++    }
++    bdrv_disable_dirty_bitmap(copy_bitmap);
+=20
+     /* job->len is fixed, so we can't allow resize */
+     job =3D block_job_create(job_id, &backup_job_driver, txn, bs,
+@@ -682,7 +686,7 @@ BlockJob *backup_job_create(const char *job_id, Block=
+DriverState *bs,
+  error:
+     if (copy_bitmap) {
+         assert(!job || !job->copy_bitmap);
+-        hbitmap_free(copy_bitmap);
++        bdrv_release_dirty_bitmap(bs, copy_bitmap);
+     }
+     if (sync_bitmap) {
+         bdrv_reclaim_dirty_bitmap(bs, sync_bitmap, NULL);
 --=20
 2.21.0
 
