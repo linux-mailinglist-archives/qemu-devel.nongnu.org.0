@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9DA8FCEC
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:04:23 +0200 (CEST)
-Received: from localhost ([::1]:51208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 648F38FD2B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:07:53 +0200 (CEST)
+Received: from localhost ([::1]:51330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyXDi-0002n1-JU
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:04:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39912)
+	id 1hyXH6-0007jS-94
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:07:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40116)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWlq-0000TX-83
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:35:38 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWmD-0000sV-1V
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:35:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWlm-0001Xx-Hw
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:35:34 -0400
-Received: from smtpe1.intersmtp.com ([62.239.224.235]:51437)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWmB-0002Dh-52
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:35:56 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.74]:18152)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWlL-0001Ek-QA; Fri, 16 Aug 2019 03:35:04 -0400
+ id 1hyWlp-0001aL-Sc; Fri, 16 Aug 2019 03:35:34 -0400
+Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
+ BWP09926079.bt.com (10.36.82.110) with Microsoft SMTP Server (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
+ Aug 2019 08:35:09 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- RDW083A011ED67.bt.com (10.187.98.37) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Fri, 16 Aug 2019 08:40:57 +0100
-Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18e.domain1.systemhost.net (10.9.212.18) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:35:00 +0100
+ tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:35:32 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:35:00 +0100
+ 2019 08:35:32 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 26/42] hw/net: Declare device little or
+Thread-Topic: [Qemu-devel] [PATCH v7 28/42] hw/sd: Declare device little or
  big endian
-Thread-Index: AQHVVAUcPICP1n2ya0Cx6fWxt6l8Gg==
-Date: Fri, 16 Aug 2019 07:35:00 +0000
-Message-ID: <1565940899704.36138@bt.com>
+Thread-Index: AQHVVAUvP5PxM0NZ6Eazlk4TnnbK6w==
+Date: Fri, 16 Aug 2019 07:35:32 +0000
+Message-ID: <1565940931091.42373@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -47,13 +48,12 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 62.239.224.235
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 213.121.35.74
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 26/42] hw/net: Declare device little or big
+Subject: [Qemu-devel] [PATCH v7 28/42] hw/sd: Declare device little or big
  endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,101 +113,22 @@ better =3D)
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- hw/net/allwinner_emac.c | 2 +-
- hw/net/imx_fec.c        | 2 +-
- hw/net/lan9118.c        | 4 ++--
- hw/net/lance.c          | 2 +-
- hw/net/smc91c111.c      | 2 +-
- hw/net/stellaris_enet.c | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
+ hw/sd/pl181.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/allwinner_emac.c b/hw/net/allwinner_emac.c
-index eecda52..97e22e7 100644
---- a/hw/net/allwinner_emac.c
-+++ b/hw/net/allwinner_emac.c
-@@ -418,7 +418,7 @@ static void aw_emac_set_link(NetClientState *nc)
- static const MemoryRegionOps aw_emac_mem_ops =3D {
-     .read =3D aw_emac_read,
-     .write =3D aw_emac_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
-     .valid =3D {
-         .min_access_size =3D 4,
-         .max_access_size =3D 4,
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index 404154e..76d42c8 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -1278,7 +1278,7 @@ static const MemoryRegionOps imx_eth_ops =3D {
-     .write                 =3D imx_eth_write,
-     .valid.min_access_size =3D 4,
-     .valid.max_access_size =3D 4,
--    .endianness            =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness            =3D DEVICE_LITTLE_ENDIAN,
- };
-
- static void imx_eth_cleanup(NetClientState *nc)
-diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
-index f6120be..bb1bbb3 100644
---- a/hw/net/lan9118.c
-+++ b/hw/net/lan9118.c
-@@ -1304,13 +1304,13 @@ static uint64_t lan9118_16bit_mode_read(void *opaqu=
-e, hwaddr offset,
- static const MemoryRegionOps lan9118_mem_ops =3D {
-     .read =3D lan9118_readl,
-     .write =3D lan9118_writel,
+diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
+index 81b406d..f2027aa 100644
+--- a/hw/sd/pl181.c
++++ b/hw/sd/pl181.c
+@@ -449,7 +449,7 @@ static void pl181_write(void *opaque, hwaddr offset,
+ static const MemoryRegionOps pl181_ops =3D {
+     .read =3D pl181_read,
+     .write =3D pl181_write,
 -    .endianness =3D DEVICE_NATIVE_ENDIAN,
 +    .endianness =3D DEVICE_LITTLE_ENDIAN,
  };
 
- static const MemoryRegionOps lan9118_16bit_mem_ops =3D {
-     .read =3D lan9118_16bit_mode_read,
-     .write =3D lan9118_16bit_mode_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
- };
-
- static NetClientInfo net_lan9118_info =3D {
-diff --git a/hw/net/lance.c b/hw/net/lance.c
-index 2978c01..d95f170 100644
---- a/hw/net/lance.c
-+++ b/hw/net/lance.c
-@@ -74,7 +74,7 @@ static uint64_t lance_mem_read(void *opaque, hwaddr addr,
- static const MemoryRegionOps lance_mem_ops =3D {
-     .read =3D lance_mem_read,
-     .write =3D lance_mem_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_BIG_ENDIAN,
-     .valid =3D {
-         .min_access_size =3D 2,
-         .max_access_size =3D 2,
-diff --git a/hw/net/smc91c111.c b/hw/net/smc91c111.c
-index 4a612ee..49e4bf5 100644
---- a/hw/net/smc91c111.c
-+++ b/hw/net/smc91c111.c
-@@ -757,7 +757,7 @@ static const MemoryRegionOps smc91c111_mem_ops =3D {
-     .write =3D smc91c111_writefn,
-     .valid.min_access_size =3D 1,
-     .valid.max_access_size =3D 4,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
- };
-
- static NetClientInfo net_smc91c111_info =3D {
-diff --git a/hw/net/stellaris_enet.c b/hw/net/stellaris_enet.c
-index 2f645bf..15ec227 100644
---- a/hw/net/stellaris_enet.c
-+++ b/hw/net/stellaris_enet.c
-@@ -456,7 +456,7 @@ static void stellaris_enet_write(void *opaque, hwaddr o=
-ffset,
- static const MemoryRegionOps stellaris_enet_ops =3D {
-     .read =3D stellaris_enet_read,
-     .write =3D stellaris_enet_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
- };
-
- static void stellaris_enet_reset(DeviceState *dev)
+ static void pl181_reset(DeviceState *d)
 --
 1.8.3.1
 
