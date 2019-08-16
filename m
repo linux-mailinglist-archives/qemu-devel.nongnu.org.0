@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4AF890234
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:00:50 +0200 (CEST)
-Received: from localhost ([::1]:55426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2339026B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:04:35 +0200 (CEST)
+Received: from localhost ([::1]:55518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hybqZ-0007Tm-QA
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:00:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60910)
+	id 1hybuE-0002XF-Uw
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:04:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60918)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hybo0-0005yI-MA
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 08:58:09 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hybo0-0005yK-Oj
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 08:58:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hybnz-0000LQ-Ez
+ (envelope-from <peter.maydell@linaro.org>) id 1hybnz-0000LW-FH
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 08:58:08 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50619)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44591)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hybnz-0000K5-6C
+ id 1hybnz-0000Km-8J
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 08:58:07 -0400
-Received: by mail-wm1-x343.google.com with SMTP id v15so3976493wml.0
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:58:06 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id p17so1453201wrf.11
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:58:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0TNU1qcTPKOb8ebj7Oqy+tAPM4gs6EGYteC/gAYplT4=;
- b=RpSPBOlaO06ZNuwYCGTQ8rB2RaIOBhTaTNxoY1UY3UWOx1D9PGVCjjTY36mA2pfwid
- duINFA7JTRVIAr1Qhi8/dJgnQBnhcg/SlGXPn2q+2mPILoentEFRshlvoed2V4MtHSTp
- i8y7z0MNhUcPvkzAH3Lza+MN1tM0X2mmmaYPGwptLP8lEzz6SswQa4dmGxsnOLckV6pN
- O4/1qkcPDrLoeeUlgHk1ND7jprs53Wbq3Mu69O+KmxtnChr9ICChwHRHtvSHQtMBaArC
- EphmvNHmjffbye269A0a0jQxVTO9kQLQU88YJPWrAZZji1dkGORAUz9/xBFKCEftruGz
- tB9A==
+ bh=kiHYxixAH+hnIg9DQ+VKLaTdfWcHEjePhgVIqnM4T2g=;
+ b=cK6JxAMPmhtLCGGXFI5/HleR0DoMx/pe8kfq3ZVwcrXmxKpJjFW7FnoRoqDIgbCd7D
+ 0R3o/IkUbIrhdxmE4qzXHdgnYKxPyp6hueC23cAVx+dr+lDUbUbxEsF8wc6Cd+tiaH+5
+ tsWTqGkRjk4Go9rG3NH6RhDnrG1AKGSDADHZAm31NYAMQLcov/Qviof6jZdwrUF6ZKYv
+ YWQQE8mhyoZDKCkXNs/IuqN3+D4AS/rw1QXupeBbESymC9zLbi8NkY1EvhYzwJZa04EO
+ WpXHAenQv60qr2GsHEbnM6Mw3feR71C1AEjnbMfYSucao5YxBfFAmVsmX9WqujOBj1yf
+ 670g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0TNU1qcTPKOb8ebj7Oqy+tAPM4gs6EGYteC/gAYplT4=;
- b=uFOKFoMg1pLgxUZEozVDaPALN89eA2rPzfhWXtmjUr1rZ64G7LdyF0kz1mkQKvPEIU
- Df5Iws7PRNoC0E1jdP681nGpVq0Pbgv3W1kxEb3Knwxv6Kzaz6DN5pixbjPCg0/kLqFp
- NrQxhAbvE3wEj0zI5NqCqqaTy89t35SNtKykGp+RBLIJnKL0CfKQ1+pkP37h8BVPImaZ
- 2hV2dMr4PdQPOk8trc2Q9Ob0MO1YK3EzzOk1ELoCa9FDXcMZM+opZNxo/eprDd1atLaD
- ZrU0D649jAyvEt4iw+5DNuOxFG90w7gJGAZpu50BmzprD4Mj1PT0jcazSWkahF4TlEaQ
- rvGA==
-X-Gm-Message-State: APjAAAWIBNM9PqnKdohUSkkO06zBt5s2gaRNGSCALGU6U15h1endV1jN
- CStyypYjg67POvTGiYPCk9T6cQ==
-X-Google-Smtp-Source: APXvYqyLv6ebGydAN6U1vMK6N91/lHxq1RWw9zoHLEci2ot8tlohDW5oZvNVZZJbJnflPBbFselAQg==
-X-Received: by 2002:a05:600c:204:: with SMTP id
- 4mr7733968wmi.167.1565960285180; 
- Fri, 16 Aug 2019 05:58:05 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kiHYxixAH+hnIg9DQ+VKLaTdfWcHEjePhgVIqnM4T2g=;
+ b=hFatmNmsIO3XCqn4RvCzTLRxrqEk96Wsy9+nvrpAc8DTbhwcuPBbubugaiHn5IMBkg
+ /ATAWtcDw7vfCplKxHC46js1ezLVYNTQHfl39wYR1BTnnnyGS1Rj7h5WLNykzeY0JSeo
+ cGBA800CVglGx5obGDrUoUDXVQy3tT6K6ABAJh/q6puf3M7NmvOGZLhk1JP65qWXepze
+ McP66GQRVUQ1sLzpaknNOTFeOMhn8nNS1eC4CQ1Hr5j4jbnGSJvfmPidLcgzFrlY/Wa0
+ Rpc90eK/HlUm2Sam1Rjdal/y9ktMe/z0nzmqWETTk3suQLAO1RtAvY43e7rrcik/ylgr
+ ZIxA==
+X-Gm-Message-State: APjAAAVvnOwraF4eoUYaOWL4/NqAI0dil37dEgT+3BGgIj5r2KIFOeB9
+ Gdv5tgVBgkLoHa/Z0LIqiSXYww==
+X-Google-Smtp-Source: APXvYqxRILS4aPmLazZtvajfaheRIqUBExgLxEYBqQDGF1meVIPfh4OD9y1MC8n9BxJYs92XjGWKOw==
+X-Received: by 2002:adf:e708:: with SMTP id c8mr11046060wrm.25.1565960286137; 
+ Fri, 16 Aug 2019 05:58:06 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a19sm17594348wra.2.2019.08.16.05.58.04
+ by smtp.gmail.com with ESMTPSA id a19sm17594348wra.2.2019.08.16.05.58.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 05:58:04 -0700 (PDT)
+ Fri, 16 Aug 2019 05:58:05 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 13:58:00 +0100
-Message-Id: <20190816125802.25877-1-peter.maydell@linaro.org>
+Date: Fri, 16 Aug 2019 13:58:01 +0100
+Message-Id: <20190816125802.25877-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190816125802.25877-1-peter.maydell@linaro.org>
+References: <20190816125802.25877-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH 0/2] target/arm: Take exceptions on ATS
- instructions
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH 1/2] target/arm: Allow ARMCPRegInfo read/write
+ functions to throw exceptions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,46 +82,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The translation table walk for an ATS instruction can result in
-various faults.  In general these are just reported back via the
-PAR_EL1 fault status fields, but in some cases the architecture
-requires that the fault is turned into an exception:
- * synchronous stage 2 faults of any kind during AT S1E0* and
-   AT S1E1* instructions executed from NS EL1 fault to EL2 or EL3
- * synchronous external aborts are taken as Data Abort exceptions
-    
-(This is documented in the v8A Arm ARM DDI0487A.e D5.2.11 and G5.13.4.)
+Currently the only part of an ARMCPRegInfo which is allowed to cause
+a CPU exception is the access function, which returns a value indicating
+that some flavour of UNDEF should be generated.
 
-I noticed this by code inspection back last year sometime when
-I was investigating a guest boot failure that turned out to be
-due to an entirely different cause. I got about halfway through
-trying to code up a fix before I realised it was irrelevant to
-that bug. This patchset is just tidying up and completing that
-work so it doesn't get lost.
+For the ATS system instructions, we would like to conditionally
+generate exceptions as part of the writefn, because some faults
+during the page table walk (like external aborts) should cause
+an exception to be raised rather than returning a value.
 
-Use of ATS insns in the cases where they might actually fault
-is quite rare (obviously nobody sets up page tables where there's
-no memory and they'll take external aborts, and even for the
-"take a hyp trap for a stage 2 fault" case you need a setup
-with a hypervisor and a guest that uses ATS insns, and Linux as
-a guest doesn't use ATS at all. So my testing of this patchset
-has been more "check it doesn't break things" rather than
-actively finding and testing a use of the throw-an-exception path...
+There are several ways we could do this:
+ * plumb the GETPC() value from the top level set_cp_reg/get_cp_reg
+   helper functions through into the readfn and writefn hooks
+ * add extra readfn_with_ra/writefn_with_ra hooks that take the GETPC()
+   value
+ * require the ATS instructions to provide a dummy accessfn,
+   which serves no purpose except to cause the code generation
+   to emit TCG ops to sync the CPU state
+ * add an ARM_CP_ flag to mark the ARMCPRegInfo as possibly
+   throwing an exception in its read/write hooks, and make the
+   codegen sync the CPU state before calling the hooks if the
+   flag is set
 
-thanks
--- PMM
+This patch opts for the last of these, as it is fairly simple
+to implement and doesn't require invasive changes like updating
+the readfn/writefn hook function prototype signature.
 
-Peter Maydell (2):
-  target/arm: Allow ARMCPRegInfo read/write functions to throw
-    exceptions
-  target/arm: Take exceptions on ATS instructions when needed
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/cpu.h           | 6 +++++-
+ target/arm/translate-a64.c | 6 ++++++
+ target/arm/translate.c     | 7 +++++++
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
- target/arm/cpu.h           |   6 ++-
- target/arm/helper.c        | 107 +++++++++++++++++++++++++++++++------
- target/arm/translate-a64.c |   6 +++
- target/arm/translate.c     |   7 +++
- 4 files changed, 110 insertions(+), 16 deletions(-)
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 94c990cddbd..021b552334b 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2206,6 +2206,9 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
+  * IO indicates that this register does I/O and therefore its accesses
+  * need to be surrounded by gen_io_start()/gen_io_end(). In particular,
+  * registers which implement clocks or timers require this.
++ * RAISES_EXC is for when the read or write hook might raise an exception;
++ * the generated code will synchronize the CPU state before calling the hook
++ * so that it is safe for the hook to call raise_exception().
+  */
+ #define ARM_CP_SPECIAL           0x0001
+ #define ARM_CP_CONST             0x0002
+@@ -2224,10 +2227,11 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
+ #define ARM_CP_FPU               0x1000
+ #define ARM_CP_SVE               0x2000
+ #define ARM_CP_NO_GDB            0x4000
++#define ARM_CP_RAISES_EXC        0x8000
+ /* Used only as a terminator for ARMCPRegInfo lists */
+ #define ARM_CP_SENTINEL          0xffff
+ /* Mask of only the flag bits in a type field */
+-#define ARM_CP_FLAG_MASK         0x70ff
++#define ARM_CP_FLAG_MASK         0xf0ff
+ 
+ /* Valid values for ARMCPRegInfo state field, indicating which of
+  * the AArch32 and AArch64 execution states this register is visible in.
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index d3231477a27..908a186bfec 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1729,6 +1729,12 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+         tcg_temp_free_ptr(tmpptr);
+         tcg_temp_free_i32(tcg_syn);
+         tcg_temp_free_i32(tcg_isread);
++    } else if (ri->type & ARM_CP_RAISES_EXC) {
++        /*
++         * The readfn or writefn might raise an exception;
++         * synchronize the CPU state in case it does.
++         */
++        gen_a64_set_pc_im(s->pc - 4);
+     }
+ 
+     /* Handle special cases first */
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 7853462b21b..da38e15be8d 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -7228,6 +7228,13 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
+             tcg_temp_free_ptr(tmpptr);
+             tcg_temp_free_i32(tcg_syn);
+             tcg_temp_free_i32(tcg_isread);
++        } else if (ri->type & ARM_CP_RAISES_EXC) {
++            /*
++             * The readfn or writefn might raise an exception;
++             * synchronize the CPU state in case it does.
++             */
++            gen_set_condexec(s);
++            gen_set_pc_im(s, s->pc - 4);
+         }
+ 
+         /* Handle special cases first */
 -- 
 2.20.1
+
 
