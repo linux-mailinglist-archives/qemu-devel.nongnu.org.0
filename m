@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA3B903A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 16:07:01 +0200 (CEST)
-Received: from localhost ([::1]:56672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC56A903A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 16:08:59 +0200 (CEST)
+Received: from localhost ([::1]:56704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycse-0008UF-7R
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 10:07:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41862)
+	id 1hycuY-0002c6-K9
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 10:08:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42510)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1hyclX-0003ls-Pb
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:59:40 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hycq9-0006jt-N8
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 10:04:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hyclW-0003tr-R0
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:59:39 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:46869)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hyclW-0003tJ-KT; Fri, 16 Aug 2019 09:59:38 -0400
-Received: by mail-ed1-x542.google.com with SMTP id z51so5175100edz.13;
- Fri, 16 Aug 2019 06:59:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AZjf4PlAGOeVzKxNgv+ofsLzu+5Szi8gd8NA52sIoZQ=;
- b=dZQzQXpwu3uhDQzNHk2vyUrdhv8Nf+PvIUBLY7tMdor+k5LORnh4Kregwe5xrWobLQ
- RHJzbETpIyh9qh+tgBeWid17qoeUu+D3fEWwVLggL19UCyYoEORkFnTTp8GZ1t2G3XYl
- ikqcNu68ly8Lz2F5U6IJD7bDmfWz543UiRdqH3u0UzoDwU+q/sQpHMolZ1qvlaMGAoAP
- 0XiWR536PyuADrF/4FUJZilDhOdbwSD4Y0+eZ3fH6sVpsi1T7mP7O2bo82eiZVLAmnk3
- 1NVFNT1SMYCjq6JGwdRT+rRUq//UAI9yBVBX9EDJbRxp6vCQzH6yNTMC/EUIMHr+cyY0
- 7gpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AZjf4PlAGOeVzKxNgv+ofsLzu+5Szi8gd8NA52sIoZQ=;
- b=dxTP9fG6akjYUXHN0PZ7FNZOjHGTDrt+wXHGLdsm///+UscnRdhQS3ocgGUZVKvDoE
- dH1aAUjqv1WkRhfd4q+PPcWcMwxoEok6lGt4FPhmflV4GWXbet1qo6hoKy8U5JZdF884
- Z51ze5ipRZ3Zu0CUUxnvEzOwLI9HvUrU28eAeyRJtjaSXW7rYsRAmebUskJe4FXLdiWj
- zTRLOMwNJtuZ5T/tzrXHTs9T7QDjxAdj3XGIUJG0iGhS9BQ1J4iegpLffanfh3ha+/9r
- vI8bV4QNbYQBT8F1O87vs8Dfd0DMjiLde11Ma/jh20yykbNsQbjW520bmGiLPEtt4E4L
- 5aaw==
-X-Gm-Message-State: APjAAAV1vWbXAfdMNIpDdEQF9lSouLXBotEy4306ob7mAOhi5DX93gpY
- ixACzdj1YAfU5+ogf+7Az/JPyr3il9dzIBQSx4E=
-X-Google-Smtp-Source: APXvYqxEhakauWrOuWbK1qlQekaya7JkdX+W1jZHntUTn2f4Nhz9ZbeswTVtOr0Wm0FUP7bGIJi23auP1gN+R9EgIw4=
-X-Received: by 2002:a05:6402:14d6:: with SMTP id
- f22mr10785077edx.180.1565963977843; 
- Fri, 16 Aug 2019 06:59:37 -0700 (PDT)
+ (envelope-from <imammedo@redhat.com>) id 1hycq8-0007bb-6t
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 10:04:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47312)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hycq7-0007aZ-UN
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 10:04:24 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 958E2C08E2BD;
+ Fri, 16 Aug 2019 14:04:22 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C91938F6D7;
+ Fri, 16 Aug 2019 14:04:18 +0000 (UTC)
+Date: Fri, 16 Aug 2019 16:04:17 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20190816160417.0d77f168@redhat.com>
+In-Reply-To: <20190815183803.13346-2-ehabkost@redhat.com>
+References: <20190815183803.13346-1-ehabkost@redhat.com>
+ <20190815183803.13346-2-ehabkost@redhat.com>
 MIME-Version: 1.0
-References: <cover.1565904855.git.alistair.francis@wdc.com>
- <7e476df36a8c2ba53162e9a5f62e9fa171da00ad.1565904855.git.alistair.francis@wdc.com>
-In-Reply-To: <7e476df36a8c2ba53162e9a5f62e9fa171da00ad.1565904855.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 16 Aug 2019 21:59:25 +0800
-Message-ID: <CAEUhbmVfgZPGgimuke=2S2TOyUN2FXsrKc4AwJ-nd0VhNu-vvg@mail.gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::542
-Subject: Re: [Qemu-devel] [PATCH v3 7/7] target/riscv: Convert mip to
- target_ulong
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Fri, 16 Aug 2019 14:04:22 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/3] pc: Fix error message on die-id
+ validation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,23 +57,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Peter Krempa <pkrempa@redhat.com>, Like Xu <like.xu@linux.intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 16, 2019 at 5:44 AM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> The mip register is an MXLEN-bit long register. Convert it to a
-> target_ulong type instead of uint32_t.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/cpu.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+On Thu, 15 Aug 2019 15:38:01 -0300
+Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> The error message for die-id range validation is incorrect.  Example:
+> 
+>   $ qemu-system-x86_64 -smp 1,sockets=6,maxcpus=6 \
+>     -device qemu64-x86_64-cpu,socket-id=1,die-id=1,core-id=0,thread-id=0
+>   qemu-system-x86_64: -device qemu64-x86_64-cpu,socket-id=1,die-id=1,core-id=0,thread-id=0: \
+>     Invalid CPU die-id: 1 must be in range 0:5
+> 
+> The actual range for die-id in this example is 0:0.
+> 
+> Fix the error message to use smp_dies and print the correct range.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+PS:
+there is another unrelated bug, QEMU crashes if run like this:
+   qemu-system-x86_64 -smp 1,sockets=6,dies=0,maxcpus=6
+
+> ---
+>  hw/i386/pc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 549c437050..24b03bb49c 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -2412,7 +2412,7 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+>              return;
+>          } else if (cpu->die_id > pcms->smp_dies - 1) {
+>              error_setg(errp, "Invalid CPU die-id: %u must be in range 0:%u",
+> -                       cpu->die_id, max_socket);
+> +                       cpu->die_id, pcms->smp_dies - 1);
+>              return;
+>          }
+>          if (cpu->core_id < 0) {
+
 
