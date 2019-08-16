@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A65902F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:28:09 +0200 (CEST)
-Received: from localhost ([::1]:56080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45E4902D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:22:35 +0200 (CEST)
+Received: from localhost ([::1]:55968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycH2-0007RJ-F1
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:28:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35296)
+	id 1hycBe-0000C6-K2
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:22:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35327)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc6u-0003Q3-0e
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:41 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc6v-0003Rr-8E
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc6s-0005Y0-TW
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:39 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50783)
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc6u-0005a1-4Z
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:41 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37991)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hyc6s-0005Vz-NK
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:38 -0400
-Received: by mail-wm1-x342.google.com with SMTP id v15so4027865wml.0
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:37 -0700 (PDT)
+ id 1hyc6t-0005Yc-Uu
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:40 -0400
+Received: by mail-wm1-x335.google.com with SMTP id m125so4047090wmm.3
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=JW+EAPalvU8sJOK/3AzigF90RPDipGFjQ/LE5CWN+3s=;
- b=KNu8Nx1wV+pwCGj4tkAS1H9yphYyfAMZHlL2Kpkea38Zq1iXTQUdZMHmP87m8sjZjw
- XN7/v1EQh48Do6ZQsh+yGVp8CAHmoToQIgU+Pcipmi7zFNc8/nQ1GgQMqIMi3jsJRpVD
- qSDE2heNVecCDkYbUd4jcd4gnLL+MoZS9WOfYa0FRYznvqyMLkMqIx5e9nF8/5lLupaJ
- DIBP1r1Oahiq3DcwFogODX03o/m6Bp3EhWF6V6OsIpyUEqs7rXv6iqVOImNTt5mllBm7
- 6jYK8bqwmZWe6jAC0i6QRBfiTI8QNmzLvaxxrHezUdd7EXMWNl1IAXy/3RiG1nhcqcBG
- i+RQ==
+ bh=KlCSG2yQBk84HQMtc2AZ6n1YsIT4tj03PHTJtQ4LM54=;
+ b=zA1uALVpF5JXlWkh6Fd6AB4nk/AuIU4k1hQqXPj4NXtWTUVmut1yLUoyPSGIzudXyf
+ 3iBwZdpM3gM61ywWvCRSpEhtVUVbpwcQcUhNfwb19bxmhUXLXOIjQ5T98eR8UIpqpsg1
+ koNlfNjv7Lu8HojR9PTB3p4og4byMbQGzD0jyPVYyOOshRkAbjeFoJKFf0fBcu+JPjQN
+ cMcHm0xePW5oAk/MjUEtWsfWamevymu5XmCGofiglUe1TjehZclWofqBjnoQ+Y5YzRsm
+ PoOsxjsJgUUNznsrTwTPBMyfWzU/SyY7p3VI0SmpQVvuLpjGWGAY6D0P4RHrUeASXlW4
+ qbOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JW+EAPalvU8sJOK/3AzigF90RPDipGFjQ/LE5CWN+3s=;
- b=fd+Cw5qk4g3GXJuUfGIFVzDZAyeF4tUmWflouWoGH9dwoHpftLjB+ZE2DMzvlGWMpj
- m99jXdqkd7edMsE5+ZwUBtqz2xRJLxU7TXokOLyrR2CYRr0G/C/+YOqrViTURVmfoyDL
- qUevSjYOnRCsLDnwWxA1iwmc8ndF1aLwdGU4HxeMsaYtP58/nA6/Mz2uH3k+5TRl5IDz
- 0KZ5spbDQ2UpnRekUNoRQ8UzkiFAJu+s5tSt2euWwGqzTskJ0WrnTk9CuSv+tQOt0WkL
- NdAHrj7JHS+qxbCpHUVMoQuoIYrad9G0vQ6gqTaZbDSvbT92XhAjViC3U4zSHuRIMQcd
- QFVg==
-X-Gm-Message-State: APjAAAUXID3lMotT0hlEYkzcBMkXw+QTrfsvcE3JstvvYcc198RSsz2S
- BSPh0CgMmhka5Pd1OYX5Ke1HD6OuD5w47A==
-X-Google-Smtp-Source: APXvYqxILMxTCEFSjzQrhnkCAV+DoLs3RQ43wUev9ZsWt9hEHqCvk5oQb+LA0y+JI5PCVUfzdSVp0A==
-X-Received: by 2002:a05:600c:ce:: with SMTP id u14mr7366248wmm.5.1565961456004; 
- Fri, 16 Aug 2019 06:17:36 -0700 (PDT)
+ bh=KlCSG2yQBk84HQMtc2AZ6n1YsIT4tj03PHTJtQ4LM54=;
+ b=Ks12M3BI8axFampZeqyElj8yk9zR0BjqUCFJyXHDQqTf37oS/mejYiUzNCD2OKOo1O
+ qZohp4eL2fSMT0AMGqwFTRD7q52OrFXZ3S0zNLIF2cdFHQsvReLKMH4tlmRjjSgHvhe4
+ xW1GKctUA7OXF0Y8UpHGfI6uCuNS9zHjksG+xN66Er2tdQ7iuCXVIeno60JApQM8EoS3
+ R+xU3oT19HO8kH3smWjDOOh+mQA6alKSAxojSdxS6hq64dvZnICSNJ1CPS3JIgmM+DAE
+ McnWhFDrUsgQuw/sj7agR0qlDkIm27uT2oq18SkzwU/DVOSLQrGrR3P4weOa60H5f0uc
+ vYkw==
+X-Gm-Message-State: APjAAAV0c58AxbO9uZNrBiqsU9dQs2+1w1we8sHlvsQHctsTkZEuYDX+
+ 3NJJwM3jCjA/auOBhK+kLJBjhYzH8dPUQg==
+X-Google-Smtp-Source: APXvYqwYpja+sK5Ty1gYsV9skjhvqJzdoUbXKOI/VlbIwFZBXKIFWh6HH4hzYWqZdgLHR6SrBFR3uQ==
+X-Received: by 2002:a05:600c:2245:: with SMTP id
+ a5mr7462261wmm.121.1565961458786; 
+ Fri, 16 Aug 2019 06:17:38 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.35
+ by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 06:17:35 -0700 (PDT)
+ Fri, 16 Aug 2019 06:17:38 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 14:17:04 +0100
-Message-Id: <20190816131719.28244-15-peter.maydell@linaro.org>
+Date: Fri, 16 Aug 2019 14:17:06 +0100
+Message-Id: <20190816131719.28244-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190816131719.28244-1-peter.maydell@linaro.org>
 References: <20190816131719.28244-1-peter.maydell@linaro.org>
@@ -66,9 +67,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PULL 14/29] target/arm: Remove offset argument to
- gen_exception_bkpt_insn
+X-Received-From: 2a00:1450:4864:20::335
+Subject: [Qemu-devel] [PULL 16/29] target/arm: Remove helper_double_saturate
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,84 +85,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Unlike the other more generic gen_exception{,_internal}_insn
-interfaces, breakpoints always refer to the current instruction.
+Replace x = double_saturate(y) with x = add_saturate(y, y).
+There is no need for a separate more specialized helper.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190807045335.1361-10-richard.henderson@linaro.org
+Message-id: 20190807045335.1361-12-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-a64.c | 7 +++----
- target/arm/translate.c     | 8 ++++----
- 2 files changed, 7 insertions(+), 8 deletions(-)
+ target/arm/helper.h    |  1 -
+ target/arm/op_helper.c | 15 ---------------
+ target/arm/translate.c |  4 ++--
+ 3 files changed, 2 insertions(+), 18 deletions(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 2f8eea02e3b..55324333dab 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -268,12 +268,11 @@ static void gen_exception_insn(DisasContext *s, uint64_t pc, int excp,
-     s->base.is_jmp = DISAS_NORETURN;
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index 132aa1682e8..1fb2cb5a777 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -6,7 +6,6 @@ DEF_HELPER_3(add_saturate, i32, env, i32, i32)
+ DEF_HELPER_3(sub_saturate, i32, env, i32, i32)
+ DEF_HELPER_3(add_usaturate, i32, env, i32, i32)
+ DEF_HELPER_3(sub_usaturate, i32, env, i32, i32)
+-DEF_HELPER_2(double_saturate, i32, env, s32)
+ DEF_HELPER_FLAGS_2(sdiv, TCG_CALL_NO_RWG_SE, s32, s32, s32)
+ DEF_HELPER_FLAGS_2(udiv, TCG_CALL_NO_RWG_SE, i32, i32, i32)
+ DEF_HELPER_FLAGS_1(rbit, TCG_CALL_NO_RWG_SE, i32, i32)
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index 5e1625a1c8a..0fd4bd02385 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -135,21 +135,6 @@ uint32_t HELPER(sub_saturate)(CPUARMState *env, uint32_t a, uint32_t b)
+     return res;
  }
  
--static void gen_exception_bkpt_insn(DisasContext *s, int offset,
--                                    uint32_t syndrome)
-+static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syndrome)
+-uint32_t HELPER(double_saturate)(CPUARMState *env, int32_t val)
+-{
+-    uint32_t res;
+-    if (val >= 0x40000000) {
+-        res = ~SIGNBIT;
+-        env->QF = 1;
+-    } else if (val <= (int32_t)0xc0000000) {
+-        res = SIGNBIT;
+-        env->QF = 1;
+-    } else {
+-        res = val << 1;
+-    }
+-    return res;
+-}
+-
+ uint32_t HELPER(add_usaturate)(CPUARMState *env, uint32_t a, uint32_t b)
  {
-     TCGv_i32 tcg_syn;
- 
--    gen_a64_set_pc_im(s->base.pc_next - offset);
-+    gen_a64_set_pc_im(s->pc_curr);
-     tcg_syn = tcg_const_i32(syndrome);
-     gen_helper_exception_bkpt_insn(cpu_env, tcg_syn);
-     tcg_temp_free_i32(tcg_syn);
-@@ -1900,7 +1899,7 @@ static void disas_exc(DisasContext *s, uint32_t insn)
-             break;
-         }
-         /* BRK */
--        gen_exception_bkpt_insn(s, 4, syn_aa64_bkpt(imm16));
-+        gen_exception_bkpt_insn(s, syn_aa64_bkpt(imm16));
-         break;
-     case 2:
-         if (op2_ll != 0) {
+     uint32_t res = a + b;
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index c26d3376b3c..8bae0c39933 100644
+index cc7d37b787e..34e65cd80c0 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1258,12 +1258,12 @@ static void gen_exception_insn(DisasContext *s, uint32_t pc, int excp,
-     s->base.is_jmp = DISAS_NORETURN;
- }
- 
--static void gen_exception_bkpt_insn(DisasContext *s, int offset, uint32_t syn)
-+static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syn)
- {
-     TCGv_i32 tcg_syn;
- 
-     gen_set_condexec(s);
--    gen_set_pc_im(s, s->base.pc_next - offset);
-+    gen_set_pc_im(s, s->pc_curr);
-     tcg_syn = tcg_const_i32(syn);
-     gen_helper_exception_bkpt_insn(cpu_env, tcg_syn);
-     tcg_temp_free_i32(tcg_syn);
-@@ -8140,7 +8140,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             case 1:
-                 /* bkpt */
-                 ARCH(5);
--                gen_exception_bkpt_insn(s, 4, syn_aa32_bkpt(imm16, false));
-+                gen_exception_bkpt_insn(s, syn_aa32_bkpt(imm16, false));
-                 break;
-             case 2:
-                 /* Hypervisor call (v7) */
-@@ -11566,7 +11566,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-         {
-             int imm8 = extract32(insn, 0, 8);
-             ARCH(5);
--            gen_exception_bkpt_insn(s, 2, syn_aa32_bkpt(imm8, true));
-+            gen_exception_bkpt_insn(s, syn_aa32_bkpt(imm8, true));
-             break;
-         }
- 
+@@ -8107,7 +8107,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+             tmp = load_reg(s, rm);
+             tmp2 = load_reg(s, rn);
+             if (op1 & 2)
+-                gen_helper_double_saturate(tmp2, cpu_env, tmp2);
++                gen_helper_add_saturate(tmp2, cpu_env, tmp2, tmp2);
+             if (op1 & 1)
+                 gen_helper_sub_saturate(tmp, cpu_env, tmp, tmp2);
+             else
+@@ -9950,7 +9950,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                 tmp = load_reg(s, rn);
+                 tmp2 = load_reg(s, rm);
+                 if (op & 1)
+-                    gen_helper_double_saturate(tmp, cpu_env, tmp);
++                    gen_helper_add_saturate(tmp, cpu_env, tmp, tmp);
+                 if (op & 2)
+                     gen_helper_sub_saturate(tmp, cpu_env, tmp2, tmp);
+                 else
 -- 
 2.20.1
 
