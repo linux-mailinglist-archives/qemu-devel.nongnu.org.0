@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617488FF3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 11:44:35 +0200 (CEST)
-Received: from localhost ([::1]:52562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6798FF6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 11:49:44 +0200 (CEST)
+Received: from localhost ([::1]:52634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyYmg-0001u1-De
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 05:44:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59643)
+	id 1hyYrf-0007EZ-Qq
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 05:49:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59688)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1hyYdV-0000BK-TU
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:06 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hyYda-0000Ix-5D
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hyYdU-0003rn-MN
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56350)
+ (envelope-from <kwolf@redhat.com>) id 1hyYdY-0003vB-Tt
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:18513)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hyYdS-0003og-DK; Fri, 16 Aug 2019 05:35:02 -0400
+ id 1hyYdW-0003sl-HN; Fri, 16 Aug 2019 05:35:06 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AFCA2306046D;
- Fri, 16 Aug 2019 09:35:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D6692308A958;
+ Fri, 16 Aug 2019 09:35:05 +0000 (UTC)
 Received: from localhost.localdomain.com (dhcp-200-226.str.redhat.com
  [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC63B5C1D6;
- Fri, 16 Aug 2019 09:34:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D2FD7DA4B;
+ Fri, 16 Aug 2019 09:35:04 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 16 Aug 2019 11:34:36 +0200
-Message-Id: <20190816093439.14262-14-kwolf@redhat.com>
+Date: Fri, 16 Aug 2019 11:34:38 +0200
+Message-Id: <20190816093439.14262-16-kwolf@redhat.com>
 In-Reply-To: <20190816093439.14262-1-kwolf@redhat.com>
 References: <20190816093439.14262-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Fri, 16 Aug 2019 09:35:01 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Fri, 16 Aug 2019 09:35:05 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 13/16] mirror: Keep mirror_top_bs drained after
- dropping permissions
+Subject: [Qemu-devel] [PULL 15/16] qemu-img convert: Deprecate using -n and
+ -o together
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,51 +60,55 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mirror_top_bs is currently implicitly drained through its connection to
-the source or the target node. However, the drain section for target_bs
-ends early after moving mirror_top_bs from src to target_bs, so that
-requests can already be restarted while mirror_top_bs is still present
-in the chain, but has dropped all permissions and therefore runs into an
-assertion failure like this:
+bdrv_create options specified with -o have no effect when skipping image
+creation with -n, so this doesn't make sense. Warn against the misuse
+and deprecate the combination so we can make it a hard error later.
 
-    qemu-system-x86_64: block/io.c:1634: bdrv_co_write_req_prepare:
-    Assertion `child->perm & BLK_PERM_WRITE' failed.
-
-Keep mirror_top_bs drained until all graph changes have completed.
-
-Cc: qemu-stable@nongnu.org
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/mirror.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ qemu-img.c           | 5 +++++
+ qemu-deprecated.texi | 7 +++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 9f5c59ece1..642d6570cc 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -656,7 +656,10 @@ static int mirror_exit_common(Job *job)
-     s->target =3D NULL;
+diff --git a/qemu-img.c b/qemu-img.c
+index 79983772de..d9321f6418 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2231,6 +2231,11 @@ static int img_convert(int argc, char **argv)
+         goto fail_getopt;
+     }
 =20
-     /* We don't access the source any more. Dropping any WRITE/RESIZE is
--     * required before it could become a backing file of target_bs. */
-+     * required before it could become a backing file of target_bs. Not =
-having
-+     * these permissions any more means that we can't allow any new requ=
-ests on
-+     * mirror_top_bs from now on, so keep it drained. */
-+    bdrv_drained_begin(mirror_top_bs);
-     bs_opaque->stop =3D true;
-     bdrv_child_refresh_perms(mirror_top_bs, mirror_top_bs->backing,
-                              &error_abort);
-@@ -724,6 +727,7 @@ static int mirror_exit_common(Job *job)
-     bs_opaque->job =3D NULL;
++    if (skip_create && options) {
++        warn_report("-o has no effect when skipping image creation");
++        warn_report("This will become an error in future QEMU versions."=
+);
++    }
++
+     s.src_num =3D argc - optind - 1;
+     out_filename =3D s.src_num >=3D 1 ? argv[argc - 1] : NULL;
 =20
-     bdrv_drained_end(src);
-+    bdrv_drained_end(mirror_top_bs);
-     s->in_drain =3D false;
-     bdrv_unref(mirror_top_bs);
-     bdrv_unref(src);
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index fff07bb2a3..f7680c08e1 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -305,6 +305,13 @@ to just export the entire image and then mount only =
+/dev/nbd0p1 than
+ it is to reinvoke @command{qemu-nbd -c /dev/nbd0} limited to just a
+ subset of the image.
+=20
++@subsection qemu-img convert -n -o (since 4.2.0)
++
++All options specified in @option{-o} are image creation options, so
++they have no effect when used with @option{-n} to skip image creation.
++Silently ignored options can be confusing, so this combination of
++options will be made an error in future versions.
++
+ @section Build system
+=20
+ @subsection Python 2 support (since 4.1.0)
 --=20
 2.20.1
 
