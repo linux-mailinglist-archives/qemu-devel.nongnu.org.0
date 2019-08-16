@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7284D8FE83
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:49:45 +0200 (CEST)
-Received: from localhost ([::1]:51900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319128FE88
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:51:27 +0200 (CEST)
+Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyXvc-0000TE-7S
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:49:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52089)
+	id 1hyXxG-0003gS-3E
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52004)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1hyXtN-0007CE-H2
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:47:26 -0400
+ (envelope-from <david@redhat.com>) id 1hyXtG-00071U-A3
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:47:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1hyXtL-0003za-U4
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:47:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39930)
+ (envelope-from <david@redhat.com>) id 1hyXtF-0003tx-68
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:47:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43386)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1hyXtL-0003yk-Or; Fri, 16 Aug 2019 04:47:23 -0400
+ id 1hyXtF-0003tR-0s; Fri, 16 Aug 2019 04:47:17 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0BE34308A9BE;
- Fri, 16 Aug 2019 08:47:23 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 387C3369D3;
+ Fri, 16 Aug 2019 08:47:16 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-116-249.ams2.redhat.com [10.36.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1306E43FE2;
- Fri, 16 Aug 2019 08:47:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E621F6DF;
+ Fri, 16 Aug 2019 08:47:14 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 10:47:06 +0200
-Message-Id: <20190816084708.602-5-david@redhat.com>
+Date: Fri, 16 Aug 2019 10:47:03 +0200
+Message-Id: <20190816084708.602-2-david@redhat.com>
 In-Reply-To: <20190816084708.602-1-david@redhat.com>
 References: <20190816084708.602-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Fri, 16 Aug 2019 08:47:23 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Fri, 16 Aug 2019 08:47:16 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 4/6] s390x/tcg: Flush the TLB of all CPUs on
- SSKE and RRBE
+Subject: [Qemu-devel] [PATCH v3 1/6] s390x/mmu: Trace the right value if
+ setting/getting the storage key fails
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,54 +64,46 @@ Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Whenever we modify a storage key, we should flush the TLBs of all CPUs,
-so the MMU fault handling code can properly consider the changed storage
-key (to e.g., properly set the reference and change bit on the next
-accesses).
+We want to trace the actual return value, not "0".
 
-These functions are barely used in modern Linux guests, so the performanc=
-e
-implications are neglectable for now.
-
-This is a preparation for better reference and change bit handling for
-TCG, which will require more MMU changes.
-
+Fixes: 0f5f669147b5 (s390x: Enable new s390-storage-keys device)
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mem_helper.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ target/s390x/mmu_helper.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 29d9eaa5b7..91ba2e03d9 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -1815,6 +1815,11 @@ void HELPER(sske)(CPUS390XState *env, uint64_t r1,=
- uint64_t r2)
+diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+index 6e9c4d6151..b236196802 100644
+--- a/target/s390x/mmu_helper.c
++++ b/target/s390x/mmu_helper.c
+@@ -422,7 +422,8 @@ int mmu_translate(CPUS390XState *env, target_ulong va=
+ddr, int rw, uint64_t asc,
+     *raddr =3D mmu_real2abs(env, *raddr);
 =20
-     key =3D (uint8_t) r1;
-     skeyclass->set_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
-+   /*
-+    * As we can only flush by virtual address and not all the entries
-+    * that point to a physical address we have to flush the whole TLB.
-+    */
-+    tlb_flush_all_cpus_synced(env_cpu(env));
- }
+     if (r =3D=3D 0 && *raddr < ram_size) {
+-        if (skeyclass->get_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &key)=
+) {
++        r =3D skeyclass->get_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &ke=
+y);
++        if (r) {
+             trace_get_skeys_nonzero(r);
+             return 0;
+         }
+@@ -435,7 +436,8 @@ int mmu_translate(CPUS390XState *env, target_ulong va=
+ddr, int rw, uint64_t asc,
+             key |=3D SK_C;
+         }
 =20
- /* reset reference bit extended */
-@@ -1843,6 +1848,11 @@ uint32_t HELPER(rrbe)(CPUS390XState *env, uint64_t=
- r2)
-     if (skeyclass->set_skeys(ss, r2 / TARGET_PAGE_SIZE, 1, &key)) {
-         return 0;
-     }
-+   /*
-+    * As we can only flush by virtual address and not all the entries
-+    * that point to a physical address we have to flush the whole TLB.
-+    */
-+    tlb_flush_all_cpus_synced(env_cpu(env));
-=20
-     /*
-      * cc
+-        if (skeyclass->set_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &key)=
+) {
++        r =3D skeyclass->set_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &ke=
+y);
++        if (r) {
+             trace_set_skeys_nonzero(r);
+             return 0;
+         }
 --=20
 2.21.0
 
