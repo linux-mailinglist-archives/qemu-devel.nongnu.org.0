@@ -2,59 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F23F8FCDB
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 09:57:57 +0200 (CEST)
-Received: from localhost ([::1]:51084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EABC38FCE9
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:02:36 +0200 (CEST)
+Received: from localhost ([::1]:51184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyX7U-00026E-5H
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 03:57:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41600)
+	id 1hyXBz-0000BQ-Ty
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:02:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWqY-00069W-Pb
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:40:31 -0400
+ (envelope-from <rashmica.g@gmail.com>) id 1hyWkC-0007GA-6i
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:33:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWqU-0004I0-Qm
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:40:26 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.79]:36484)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWpo-0003xR-FG; Fri, 16 Aug 2019 03:39:40 -0400
-Received: from tpw09926dag18f.domain1.systemhost.net (10.9.212.26) by
- BWP09926084.bt.com (10.36.82.115) with Microsoft SMTP Server (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
- Aug 2019 08:39:17 +0100
-Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18f.domain1.systemhost.net (10.9.212.26) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:39:38 +0100
-Received: from tpw09926dag18e.domain1.systemhost.net
- ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
- ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:39:38 +0100
-From: <tony.nguyen@bt.com>
-To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 41/42] target/sparc: Add TLB entry with
- attributes
-Thread-Index: AQHVVAXCWvmw8IlXtEyhXVZLY/cOBA==
-Date: Fri, 16 Aug 2019 07:39:38 +0000
-Message-ID: <1565941177600.7672@bt.com>
-References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
-In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
-Accept-Language: en-AU, en-GB, en-US
-Content-Language: en-AU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.187.101.40]
+ (envelope-from <rashmica.g@gmail.com>) id 1hyWkA-0000cL-Kq
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:33:52 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:39309)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <rashmica.g@gmail.com>)
+ id 1hyWk6-0000WC-Ky; Fri, 16 Aug 2019 03:33:46 -0400
+Received: by mail-pg1-x542.google.com with SMTP id u17so2519250pgi.6;
+ Fri, 16 Aug 2019 00:33:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YqZpHm5NeehX+S2H/qilEl8bdvwxq3GaiopzNC2K4vA=;
+ b=XTIEHpyTY9ImSiXc5kfUbxdb7ZLN3uU+zvWctEz3deJZzkLt8ocF48gAozo9jSKr5Y
+ 6obRCpBPzckmf5PHvLuHXIviVmy/FeudxuxDQ3mkFiDFSgUiMY5T4E10LWP1VJDJrkYC
+ Cza0owTMWq3buuV32ekcV5SFst/fi+Bp+H3rwujMraa+anZPkA2HBMdLCykefJJr0ise
+ Uzx/MZ2gjw1R6JgEvzY9LR20ymZNn3P0mb4P4ghcf3ijGYgqCKpWRYRjjwQ9+nQ+46Jc
+ 66nD2+4h4kX8w9rRBJ8SjCF1nDyIjH4MSlkM/UZFrmp/lzfml76n9y8Al4FvZNbWxGUL
+ KabA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YqZpHm5NeehX+S2H/qilEl8bdvwxq3GaiopzNC2K4vA=;
+ b=b6JD5G8yZVtK88z5PH4NLasvgx3aoyrMoLA+lZYVzmIwPlpkNBgoovjGOUnWi1nw+D
+ t9p1Z5SIRSmD9ki3heTnSv2VFC4U31WAcKP7uQrNdKiX4N7Y6/a8eR15s5QTe6XO67sC
+ 8zKCOXQd2IFmPI6psKWKSYMaE9luGDD/cbuwUCBg9z9xbT3rpWyYBWBA3uSqfVb7+8EL
+ R1A3kK5U8HI8oqUm+idaibwlBDSpy61J2G0k/ZL5ZNra009/wU2LX1bzF9QCxG9EQmTz
+ XqOYRj80Q/7cWsye/38M9DgvjqE6kEBx7U2S66hdcYTSF8VXTQxfJdLfdr75B5Fshcrn
+ IXZg==
+X-Gm-Message-State: APjAAAUNDJORFl0oZju7nyQkDpdW/VHNen2hwkdjHdIevhK/aBKgkGrw
+ +xjSLIgQ8BhS96F/GJatuKE=
+X-Google-Smtp-Source: APXvYqxdKvPsbtZj0J01FalUDccP1I2mwIZjZw0kpVUHQjIYWTXin0fZMDumnXsER2ztAVUP+tzSbw==
+X-Received: by 2002:a62:fb18:: with SMTP id x24mr9195953pfm.231.1565940825637; 
+ Fri, 16 Aug 2019 00:33:45 -0700 (PDT)
+Received: from rashmica.ozlabs.ibm.com ([122.99.82.10])
+ by smtp.gmail.com with ESMTPSA id w129sm5638589pfd.89.2019.08.16.00.33.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Aug 2019 00:33:45 -0700 (PDT)
+From: Rashmica Gupta <rashmica.g@gmail.com>
+To: peter.maydell@linaro.org,
+	qemu-arm@nongnu.org
+Date: Fri, 16 Aug 2019 17:32:29 +1000
+Message-Id: <20190816073229.22787-4-rashmica.g@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190816073229.22787-1-rashmica.g@gmail.com>
+References: <20190816073229.22787-1-rashmica.g@gmail.com>
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.79
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 41/42] target/sparc: Add TLB entry with
- attributes
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH v5 3/3] hw/gpio: Add in AST2600 specific
+ implementation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,176 +78,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: frederic.konrad@adacore.com, berto@igalia.com, qemu-block@nongnu.org,
- arikalo@wavecomp.com, pasic@linux.ibm.com, hpoussin@reactos.org,
- anthony.perard@citrix.com, xen-devel@lists.xenproject.org, lersek@redhat.com,
- jasowang@redhat.com, jiri@resnulli.us, ehabkost@redhat.com,
- b.galvani@gmail.com, eric.auger@redhat.com, alex.williamson@redhat.com,
- stefanha@redhat.com, jsnow@redhat.com, rth@twiddle.net, kwolf@redhat.com,
- andrew@aj.id.au, claudio.fontana@suse.com, crwulff@gmail.com,
- laurent@vivier.eu, sundeep.lkml@gmail.com, michael@walle.cc,
- qemu-ppc@nongnu.org, kbastian@mail.uni-paderborn.de, imammedo@redhat.com,
- fam@euphon.net, peter.maydell@linaro.org, david@redhat.com, palmer@sifive.com,
- keith.busch@intel.com, jcmvbkbc@gmail.com, hare@suse.com,
- sstabellini@kernel.org, andrew.smirnov@gmail.com, deller@gmx.de,
- magnus.damm@gmail.com, atar4qemu@gmail.com, minyard@acm.org, sw@weilnetz.de,
- yuval.shaia@oracle.com, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- jan.kiszka@web.de, clg@kaod.org, shorne@gmail.com, qemu-riscv@nongnu.org,
- i.mitsyanko@gmail.com, cohuck@redhat.com, philmd@redhat.com,
- amarkovic@wavecomp.com, peter.chubb@nicta.com.au, aurelien@aurel32.net,
- pburton@wavecomp.com, sagark@eecs.berkeley.edu, green@moxielogic.com,
- kraxel@redhat.com, edgar.iglesias@gmail.com, gxt@mprc.pku.edu.cn,
- robh@kernel.org, borntraeger@de.ibm.com, joel@jms.id.au,
- antonynpavlov@gmail.com, chouteau@adacore.com, Andrew.Baumann@microsoft.com,
- mreitz@redhat.com, walling@linux.ibm.com, dmitry.fleytman@gmail.com,
- mst@redhat.com, mark.cave-ayland@ilande.co.uk, jslaby@suse.cz, marex@denx.de,
- proljc@gmail.com, marcandre.lureau@redhat.com, alistair@alistair23.me,
- paul.durrant@citrix.com, david@gibson.dropbear.id.au,
- xiaoguangrong.eric@gmail.com, huth@tuxfamily.org, jcd@tribudubois.net,
- pbonzini@redhat.com, stefanb@linux.ibm.com
+Cc: andrew@aj.id.au, qemu-devel@nongnu.org, aik@ozlabs.ru, joel@jms.id.au,
+ Rashmica Gupta <rashmica.g@gmail.com>, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Append MemTxAttrs to interfaces so we can pass along up coming Invert
-Endian TTE bit on SPARC64.
+The AST2600 has the same sets of 3.6v gpios as the AST2400 plus an
+addtional two sets of 1.8V gpios.
 
-Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Rashmica Gupta <rashmica.g@gmail.com>
 ---
- target/sparc/mmu_helper.c | 32 ++++++++++++++++++--------------
- 1 file changed, 18 insertions(+), 14 deletions(-)
+ hw/gpio/aspeed_gpio.c | 142 ++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 137 insertions(+), 5 deletions(-)
 
-diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index cbd1e91..826e14b 100644
---- a/target/sparc/mmu_helper.c
-+++ b/target/sparc/mmu_helper.c
-@@ -88,7 +88,7 @@ static const int perm_table[2][8] =3D {
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index d6a4c0c757..a3306a8f32 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -167,6 +167,48 @@
+ #define GPIO_3_6V_MEM_SIZE         0x1F0
+ #define GPIO_3_6V_REG_ARRAY_SIZE   (GPIO_3_6V_MEM_SIZE >> 2)
+ 
++/* AST2600 only - 1.8V gpios */
++/*
++ * The AST2600 has same 3.6V gpios as the AST2400 (memory offsets 0x0-0x198)
++ * and addtional 1.8V gpios (memory offsets 0x800-0x9D4).
++ */
++#define GPIO_1_8V_REG_OFFSET          0x800
++#define GPIO_1_8V_ABCD_DATA_VALUE     ((0x800 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_DIRECTION      ((0x804 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_INT_ENABLE     ((0x808 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_INT_SENS_0     ((0x80C - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_INT_SENS_1     ((0x810 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_INT_SENS_2     ((0x814 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_INT_STATUS     ((0x818 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_RESET_TOLERANT ((0x81C - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_DATA_VALUE        ((0x820 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_DIRECTION         ((0x824 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_INT_ENABLE        ((0x828 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_INT_SENS_0        ((0x82C - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_INT_SENS_1        ((0x830 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_INT_SENS_2        ((0x834 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_INT_STATUS        ((0x838 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_RESET_TOLERANT    ((0x83C - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_DEBOUNCE_1     ((0x840 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_DEBOUNCE_2     ((0x844 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_DEBOUNCE_1        ((0x848 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_DEBOUNCE_2        ((0x84C - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_DEBOUNCE_TIME_1     ((0x850 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_DEBOUNCE_TIME_2     ((0x854 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_DEBOUNCE_TIME_3     ((0x858 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_COMMAND_SRC_0  ((0x860 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_COMMAND_SRC_1  ((0x864 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_COMMAND_SRC_0     ((0x868 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_COMMAND_SRC_1     ((0x86C - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_DATA_READ      ((0x8C0 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_DATA_READ         ((0x8C4 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_ABCD_INPUT_MASK     ((0x9D0 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_E_INPUT_MASK        ((0x9D4 - GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_1_8V_MEM_SIZE            0x9D8
++#define GPIO_1_8V_REG_ARRAY_SIZE      ((GPIO_1_8V_MEM_SIZE - \
++                                      GPIO_1_8V_REG_OFFSET) >> 2)
++#define GPIO_MAX_MEM_SIZE           MAX(GPIO_3_6V_MEM_SIZE, GPIO_1_8V_MEM_SIZE)
++
+ static int aspeed_evaluate_irq(GPIOSets *regs, int gpio_prev_high, int gpio)
+ {
+     uint32_t falling_edge = 0, rising_edge = 0;
+@@ -461,6 +503,39 @@ static const AspeedGPIOReg aspeed_3_6v_gpios[GPIO_3_6V_REG_ARRAY_SIZE] = {
+     [GPIO_AC_INPUT_MASK] =         { 7, gpio_reg_input_mask },
  };
-
- static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
--                                int *prot, int *access_index,
-+                                int *prot, int *access_index, MemTxAttrs *=
-attrs,
-                                 target_ulong address, int rw, int mmu_idx,
-                                 target_ulong *page_size)
+ 
++static const AspeedGPIOReg aspeed_1_8v_gpios[GPIO_1_8V_REG_ARRAY_SIZE] = {
++    /* 1.8V Set ABCD */
++    [GPIO_1_8V_ABCD_DATA_VALUE] =     {0, gpio_reg_data_value},
++    [GPIO_1_8V_ABCD_DIRECTION] =      {0, gpio_reg_direction},
++    [GPIO_1_8V_ABCD_INT_ENABLE] =     {0, gpio_reg_int_enable},
++    [GPIO_1_8V_ABCD_INT_SENS_0] =     {0, gpio_reg_int_sens_0},
++    [GPIO_1_8V_ABCD_INT_SENS_1] =     {0, gpio_reg_int_sens_1},
++    [GPIO_1_8V_ABCD_INT_SENS_2] =     {0, gpio_reg_int_sens_2},
++    [GPIO_1_8V_ABCD_INT_STATUS] =     {0, gpio_reg_int_status},
++    [GPIO_1_8V_ABCD_RESET_TOLERANT] = {0, gpio_reg_reset_tolerant},
++    [GPIO_1_8V_ABCD_DEBOUNCE_1] =     {0, gpio_reg_debounce_1},
++    [GPIO_1_8V_ABCD_DEBOUNCE_2] =     {0, gpio_reg_debounce_2},
++    [GPIO_1_8V_ABCD_COMMAND_SRC_0] =  {0, gpio_reg_cmd_source_0},
++    [GPIO_1_8V_ABCD_COMMAND_SRC_1] =  {0, gpio_reg_cmd_source_1},
++    [GPIO_1_8V_ABCD_DATA_READ] =      {0, gpio_reg_data_read},
++    [GPIO_1_8V_ABCD_INPUT_MASK] =     {0, gpio_reg_input_mask},
++    /* 1.8V Set E */
++    [GPIO_1_8V_E_DATA_VALUE] =     {1, gpio_reg_data_value},
++    [GPIO_1_8V_E_DIRECTION] =      {1, gpio_reg_direction},
++    [GPIO_1_8V_E_INT_ENABLE] =     {1, gpio_reg_int_enable},
++    [GPIO_1_8V_E_INT_SENS_0] =     {1, gpio_reg_int_sens_0},
++    [GPIO_1_8V_E_INT_SENS_1] =     {1, gpio_reg_int_sens_1},
++    [GPIO_1_8V_E_INT_SENS_2] =     {1, gpio_reg_int_sens_2},
++    [GPIO_1_8V_E_INT_STATUS] =     {1, gpio_reg_int_status},
++    [GPIO_1_8V_E_RESET_TOLERANT] = {1, gpio_reg_reset_tolerant},
++    [GPIO_1_8V_E_DEBOUNCE_1] =     {1, gpio_reg_debounce_1},
++    [GPIO_1_8V_E_DEBOUNCE_2] =     {1, gpio_reg_debounce_2},
++    [GPIO_1_8V_E_COMMAND_SRC_0] =  {1, gpio_reg_cmd_source_0},
++    [GPIO_1_8V_E_COMMAND_SRC_1] =  {1, gpio_reg_cmd_source_1},
++    [GPIO_1_8V_E_DATA_READ] =      {1, gpio_reg_data_read},
++    [GPIO_1_8V_E_INPUT_MASK] =     {1, gpio_reg_input_mask},
++};
++
+ static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
  {
-@@ -219,6 +219,7 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, in=
-t size,
-     target_ulong vaddr;
-     target_ulong page_size;
-     int error_code =3D 0, prot, access_index;
-+    MemTxAttrs attrs =3D {};
-
-     /*
-      * TODO: If we ever need tlb_vaddr_to_host for this target,
-@@ -229,7 +230,7 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, in=
-t size,
-     assert(!probe);
-
-     address &=3D TARGET_PAGE_MASK;
--    error_code =3D get_physical_address(env, &paddr, &prot, &access_index,
-+    error_code =3D get_physical_address(env, &paddr, &prot, &access_index,=
- &attrs,
-                                       address, access_type,
-                                       mmu_idx, &page_size);
-     vaddr =3D address;
-@@ -490,8 +491,8 @@ static inline int ultrasparc_tag_match(SparcTLBEntry *t=
-lb,
-     return 0;
- }
-
--static int get_physical_address_data(CPUSPARCState *env,
--                                     hwaddr *physical, int *prot,
-+static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
-+                                     int *prot, MemTxAttrs *attrs,
-                                      target_ulong address, int rw, int mmu=
-_idx)
- {
-     CPUState *cs =3D env_cpu(env);
-@@ -608,8 +609,8 @@ static int get_physical_address_data(CPUSPARCState *env=
-,
-     return 1;
- }
-
--static int get_physical_address_code(CPUSPARCState *env,
--                                     hwaddr *physical, int *prot,
-+static int get_physical_address_code(CPUSPARCState *env, hwaddr *physical,
-+                                     int *prot, MemTxAttrs *attrs,
-                                      target_ulong address, int mmu_idx)
- {
-     CPUState *cs =3D env_cpu(env);
-@@ -686,7 +687,7 @@ static int get_physical_address_code(CPUSPARCState *env=
-,
- }
-
- static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
--                                int *prot, int *access_index,
-+                                int *prot, int *access_index, MemTxAttrs *=
-attrs,
-                                 target_ulong address, int rw, int mmu_idx,
-                                 target_ulong *page_size)
- {
-@@ -716,11 +717,11 @@ static int get_physical_address(CPUSPARCState *env, h=
-waddr *physical,
+     AspeedGPIOState *s = ASPEED_GPIO(opaque);
+@@ -659,8 +734,11 @@ static void aspeed_gpio_get_pin(Object *obj, Visitor *v, const char *name,
+     int set_idx, group_idx = 0;
+ 
+     if (sscanf(name, "gpio%2[A-Z]%1d", group, &pin) != 2) {
+-        error_setg(errp, "%s: error reading %s", __func__, name);
+-        return;
++        /* 1.8V gpio */
++        if (sscanf(name, "gpio%3s%1d", group, &pin) != 2) {
++            error_setg(errp, "%s: error reading %s", __func__, name);
++            return;
++        }
      }
-
-     if (rw =3D=3D 2) {
--        return get_physical_address_code(env, physical, prot, address,
-+        return get_physical_address_code(env, physical, prot, attrs, addre=
-ss,
-                                          mmu_idx);
-     } else {
--        return get_physical_address_data(env, physical, prot, address, rw,
--                                         mmu_idx);
-+        return get_physical_address_data(env, physical, prot, attrs, addre=
-ss,
-+                                         rw, mmu_idx);
+     set_idx = get_set_idx(s, group, &group_idx);
+     if (set_idx == -1) {
+@@ -683,8 +761,11 @@ static void aspeed_gpio_set_pin(Object *obj, Visitor *v, const char *name,
+ 
+     visit_type_bool(v, name, &level, &local_err);
+     if (sscanf(name, "gpio%2[A-Z]%1d", group, &pin) != 2) {
+-        error_setg(errp, "%s: error reading %s", __func__, name);
+-        return;
++        /* 1.8V gpio */
++        if (sscanf(name, "gpio%3s%1d", group, &pin) != 2) {
++            error_setg(errp, "%s: error reading %s", __func__, name);
++            return;
++        }
      }
+     set_idx = get_set_idx(s, group, &group_idx);
+     if (set_idx == -1) {
+@@ -716,6 +797,21 @@ static const GPIOSetProperties ast2500_set_props[] = {
+     [7] = {0x000000ff,  0x000000ff,  {"AC"} },
+ };
+ 
++static GPIOSetProperties ast2600_3_6v_set_props[] = {
++    [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
++    [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
++    [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
++    [3] = {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
++    [4] = {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
++    [5] = {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
++    [6] = {0xffff0000,  0x0fff0000,  {"Y", "Z", "", ""} },
++};
++
++static GPIOSetProperties ast2600_1_8v_set_props[] = {
++    [0] = {0xffffffff,  0xffffffff,  {"18A", "18B", "18C", "18D"} },
++    [1] = {0x0000000f,  0x0000000f,  {"18E"} },
++};
++
+ static const MemoryRegionOps aspeed_gpio_ops = {
+     .read       = aspeed_gpio_read,
+     .write      = aspeed_gpio_write,
+@@ -748,7 +844,7 @@ static void aspeed_gpio_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_gpio_ops, s,
+-            TYPE_ASPEED_GPIO, GPIO_3_6V_MEM_SIZE);
++            TYPE_ASPEED_GPIO, GPIO_MAX_MEM_SIZE);
+ 
+     sysbus_init_mmio(sbd, &s->iomem);
  }
-
-@@ -734,10 +735,11 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, =
-int size,
-     target_ulong vaddr;
-     hwaddr paddr;
-     target_ulong page_size;
-+    MemTxAttrs attrs =3D {};
-     int error_code =3D 0, prot, access_index;
-
-     address &=3D TARGET_PAGE_MASK;
--    error_code =3D get_physical_address(env, &paddr, &prot, &access_index,
-+    error_code =3D get_physical_address(env, &paddr, &prot, &access_index,=
- &attrs,
-                                       address, access_type,
-                                       mmu_idx, &page_size);
-     if (likely(error_code =3D=3D 0)) {
-@@ -747,7 +749,8 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, in=
-t size,
-                                    env->dmmu.mmu_primary_context,
-                                    env->dmmu.mmu_secondary_context);
-
--        tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, page_size);
-+        tlb_set_page_with_attrs(cs, vaddr, paddr, attrs, prot, mmu_idx,
-+                                page_size);
-         return true;
-     }
-     if (probe) {
-@@ -849,9 +852,10 @@ static int cpu_sparc_get_phys_page(CPUSPARCState *env,=
- hwaddr *phys,
+@@ -841,6 +937,26 @@ static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
+     agc->reg_table = aspeed_3_6v_gpios;
+ }
+ 
++static void aspeed_gpio_ast2600_3_6v_class_init(ObjectClass *klass, void *data)
++{
++    AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
++
++    agc->props = ast2600_3_6v_set_props;
++    agc->nr_gpio_pins = 208;
++    agc->nr_gpio_sets = 7;
++    agc->reg_table = aspeed_3_6v_gpios;
++}
++
++static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void *data)
++{
++    AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
++
++    agc->props = ast2600_1_8v_set_props;
++    agc->nr_gpio_pins = 36;
++    agc->nr_gpio_sets = 2;
++    agc->reg_table = aspeed_1_8v_gpios;
++}
++
+ static const TypeInfo aspeed_gpio_info = {
+     .name           = TYPE_ASPEED_GPIO,
+     .parent         = TYPE_SYS_BUS_DEVICE,
+@@ -864,11 +980,27 @@ static const TypeInfo aspeed_gpio_ast2500_info = {
+     .instance_init  = aspeed_gpio_init,
+ };
+ 
++static const TypeInfo aspeed_gpio_ast2600_3_6v_info = {
++    .name           = TYPE_ASPEED_GPIO "0-ast2600",
++    .parent         = TYPE_ASPEED_GPIO,
++    .class_init     = aspeed_gpio_ast2600_3_6v_class_init,
++    .instance_init  = aspeed_gpio_init,
++};
++
++static const TypeInfo aspeed_gpio_ast2600_1_8v_info = {
++    .name           = TYPE_ASPEED_GPIO "1-ast2600",
++    .parent         = TYPE_ASPEED_GPIO,
++    .class_init     = aspeed_gpio_ast2600_1_8v_class_init,
++    .instance_init  = aspeed_gpio_init,
++};
++
+ static void aspeed_gpio_register_types(void)
  {
-     target_ulong page_size;
-     int prot, access_index;
-+    MemTxAttrs attrs =3D {};
-
--    return get_physical_address(env, phys, &prot, &access_index, addr, rw,
--                                mmu_idx, &page_size);
-+    return get_physical_address(env, phys, &prot, &access_index, &attrs, a=
-ddr,
-+                                rw, mmu_idx, &page_size);
+     type_register_static(&aspeed_gpio_info);
+     type_register_static(&aspeed_gpio_ast2400_info);
+     type_register_static(&aspeed_gpio_ast2500_info);
++    type_register_static(&aspeed_gpio_ast2600_3_6v_info);
++    type_register_static(&aspeed_gpio_ast2600_1_8v_info);
  }
+ 
+ type_init(aspeed_gpio_register_types);
+-- 
+2.20.1
 
- #if defined(TARGET_SPARC64)
---
-1.8.3.1
-
-?
 
