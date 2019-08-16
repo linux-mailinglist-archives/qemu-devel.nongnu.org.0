@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8701B90A47
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 23:29:06 +0200 (CEST)
-Received: from localhost ([::1]:60052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA0C90A46
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 23:29:05 +0200 (CEST)
+Received: from localhost ([::1]:60050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyjmT-0002Sj-JQ
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 17:29:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59709)
+	id 1hyjmS-0002RH-A1
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 17:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60088)
  by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
- <35xtXXQMKCmwcMgQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--scw.bounces.google.com>)
- id 1hyjV5-0005o2-AI
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:11:08 -0400
+ <3lxxXXQMKCh4M6QAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--scw.bounces.google.com>)
+ id 1hyjXx-0007QG-7c
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:14:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from
- <35xtXXQMKCmwcMgQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--scw.bounces.google.com>)
- id 1hyjV3-00078G-Vc
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:11:07 -0400
-Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a]:40422)
+ <3lxxXXQMKCh4M6QAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--scw.bounces.google.com>)
+ id 1hyjXv-0007xL-0s
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:14:05 -0400
+Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a]:46049)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from
- <35xtXXQMKCmwcMgQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--scw.bounces.google.com>)
- id 1hyjV3-00077T-MX
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:11:05 -0400
-Received: by mail-pf1-x44a.google.com with SMTP id e18so4584989pfj.7
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 14:11:04 -0700 (PDT)
+ <3lxxXXQMKCh4M6QAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--scw.bounces.google.com>)
+ id 1hyjXu-0007ue-8r
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:14:02 -0400
+Received: by mail-pf1-x44a.google.com with SMTP id w16so4585261pfn.12
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 14:14:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:message-id:mime-version:subject:from:to:cc;
- bh=7RKduOP1Zy0Z6W4TdqYEUSnkCMOqjh++D/cBNOzwUMM=;
- b=E14VmCMelPACin5pYsdxyavF+TZgoebRS/MoiQuBgF1vCHIDpl6pr806CETDsQ1ODd
- GwylspVfdPZNJBgSxCERVhCo9yF5yI0dBYRol8QbH/vYmfVV0S2wO4FFYoWfE6tdnk4B
- y6F7Hx9xNC5KC2s6pK6AbgXj32dcL9iCvdVQ7eO2mJHRn4AM0PmC26AfG1txmZrfewtF
- fkA1W7xsrbnxsfO/Hpp8+hepv0T6G/7D3OeqdfXtv+trba2oHTXrXrKG+ohp8T4r9Dvv
- w7BE48ZDkW4fTNpNKpe/rIJsfPLZ7N8bujD36BMhMJSaYO6csIGpr6FbEuZnhmgfH3Ll
- VJgw==
+ bh=kaoIQwDyK8bEoWe907lgLsxXKF/yKmR/QpCyb0YecPA=;
+ b=FpkKZLw26t97kT1DqJV3wFVQC1ne4Z0vTB9JHFNdpDvaKSxbY6DKvXMlvgwnQhKn18
+ jsq5JRNcm+iqaaXMpeH7MPBupeb8CkZyHAhaRCbrj0sS5awt8Ttge1knv6rgQO+rgINw
+ C7bkZjdCmcbL3p5J1pxnTDz696OgvX+uoG5WetWr7yhCrc3UOinN4iBNbdhf1jCeGTNY
+ fhw0ah3eSTWEA4dpEIS61S/fQc6EiL8cgT2nzPBK14xqEaldPO+A2BI7ORmyjnkTqo2+
+ 6QaDT4b/pW7NLLaNeoP1fSkAD0DQASgHNDTTdg2vkp0twmYLkUt/zWKafka4DqAF+sUI
+ qp5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=7RKduOP1Zy0Z6W4TdqYEUSnkCMOqjh++D/cBNOzwUMM=;
- b=uQcqn22d8KPUQY/Hfk+MGmHgceGz7kz2PC3t+K6rAbaL7R3m+OqrGjrc6jdN8gNoa+
- 8XjY9Fz9XPLHruQHXU6a8pKyDmDQ6bI5GHKJmyvqb0t7Y1oZRrvzRp+07VFp8wavwRPF
- 7p7ILpz+yoYyeY34u2AUDN97jet2ES6/JTRLpnx0K++ribjYV96lzWY80Pc+u04eiE6W
- oDz4wo/DPHzguZLQzvdNx5//PPH3+8X1ifWu2QLO8babEBx/Tx/0WbgrQEhqIfOp9AX1
- nHdVQb3UNGA3F9juzjPJPwjKvfDsm255jhNSN7iPpNNGjRGDSy61jmwj8rhqepOJbWUB
- B5NA==
-X-Gm-Message-State: APjAAAWa/YgHo1fnaC8zw29D6UEF60xNZbAByIzWP9Bjc1tR3/gnXOTm
- ahuLDOL0JH/it6/GGM9cH/yagHM=
-X-Google-Smtp-Source: APXvYqyiz5JFayocTTc20e52TkykeIu92Wv2wZUAHa0JnTdCZ9jeE89j2zND1hbg4dsHsU/bfwZ/rIA=
-X-Received: by 2002:a63:506:: with SMTP id 6mr9350751pgf.434.1565989863105;
- Fri, 16 Aug 2019 14:11:03 -0700 (PDT)
-Date: Fri, 16 Aug 2019 14:10:49 -0700
-Message-Id: <20190816211049.57317-1-scw@google.com>
+ bh=kaoIQwDyK8bEoWe907lgLsxXKF/yKmR/QpCyb0YecPA=;
+ b=nntsT3a8gRD0HTdW/sSX3qZJz6Wn9MkkpUgKVh/cJzz7Q9+z31/dpLs7pMTp0z6HXK
+ TK+e8PPYmmJLatb8MJWRLYuGDj5nfYrTYevFgXmbPpONhgoGVmQaXicoGdZBpAqBfXKw
+ GFTJ3+E8ti5FF6Z7+7cxOjK4Ephi9e+9Qu2dz6BByGGiYL8eIdrpIeQMuuIhdRelOoOA
+ tKAnmavnd/UHUOIH9jswDvuImFSzNEc21DCpDAooitqFgWH6g1qv0/7aatGUPBNiwR6e
+ KEjkYVAUEgZsN2T3srUp1RbFzLWtM/++5fKzi0osS8TAW/IsCjnEKgDAFEWjtUnYfN62
+ 9QEQ==
+X-Gm-Message-State: APjAAAU23ax/pK2uOeWU8q5jWceYfBQUBkYbjFVQYCS4TJzpTXqcJwvG
+ 1RX0CAzL6jreREYK32NQst6nRRo=
+X-Google-Smtp-Source: APXvYqyF8tNT/uphND43ZKM+1/9v9e7K+M2fGVvadLy7zfzIcjJzFUkey9oWT/RwKDbj/1kcSQS8eBg=
+X-Received: by 2002:a63:ee08:: with SMTP id e8mr9606242pgi.70.1565990039302;
+ Fri, 16 Aug 2019 14:13:59 -0700 (PDT)
+Date: Fri, 16 Aug 2019 14:13:56 -0700
+Message-Id: <20190816211356.59244-1-scw@google.com>
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
 To: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
@@ -61,7 +61,8 @@ X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::44a
 X-Mailman-Approved-At: Fri, 16 Aug 2019 17:27:49 -0400
-Subject: [Qemu-devel] [PATCH] linux-user: add memfd_create
+Subject: [Qemu-devel] [PATCH] Add support for ethtool via TARGET_SIOCETHTOOL
+ ioctls.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,74 +80,47 @@ Cc: arunkaly@google.com, qemu-devel@nongnu.org, Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for the memfd_create syscall. If the host does not have the
-libc wrapper, translate to a direct syscall with NC-macro.
+The ioctl numeric values are platform-independent and determined by
+the file include/uapi/linux/sockios.h in Linux kernel source code:
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1734792
+  #define SIOCETHTOOL   0x8946
+
+These ioctls get (or set) the field ifr_data of type char* in the
+structure ifreq. Such functionality is achieved in QEMU by using
+MK_STRUCT() and MK_PTR() macros with an appropriate argument, as
+it was done for existing similar cases.
+
 Signed-off-by: Shu-Chun Weng <scw@google.com>
 ---
- include/qemu/memfd.h |  4 ++++
- linux-user/syscall.c | 11 +++++++++++
- util/memfd.c         |  2 +-
- 3 files changed, 16 insertions(+), 1 deletion(-)
+ linux-user/ioctls.h       | 1 +
+ linux-user/syscall_defs.h | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/include/qemu/memfd.h b/include/qemu/memfd.h
-index d551c28b68..975b6bdb77 100644
---- a/include/qemu/memfd.h
-+++ b/include/qemu/memfd.h
-@@ -32,6 +32,10 @@
- #define MFD_HUGE_SHIFT 26
- #endif
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 3281c97ca2..9d231df665 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -208,6 +208,7 @@
+   IOCTL(SIOCGIFINDEX, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_int_ifreq)))
+   IOCTL(SIOCSIFPFLAGS, IOC_W, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
+   IOCTL(SIOCGIFPFLAGS, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
++  IOCTL(SIOCETHTOOL, IOC_R | IOC_W, MK_PTR(MK_STRUCT(STRUCT_ptr_ifreq)))
+   IOCTL(SIOCSIFLINK, 0, TYPE_NULL)
+   IOCTL_SPECIAL(SIOCGIFCONF, IOC_W | IOC_R, do_ioctl_ifconf,
+                 MK_PTR(MK_STRUCT(STRUCT_ifconf)))
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 0662270300..276f96039f 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -819,6 +819,8 @@ struct target_pollfd {
+ #define TARGET_SIOCGIFTXQLEN   0x8942          /* Get the tx queue length      */
+ #define TARGET_SIOCSIFTXQLEN   0x8943          /* Set the tx queue length      */
  
-+#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
-+int memfd_create(const char *name, unsigned int flags);
-+#endif
++#define TARGET_SIOCETHTOOL     0x8946          /* Ethtool interface            */
 +
- int qemu_memfd_create(const char *name, size_t size, bool hugetlb,
-                       uint64_t hugetlbsize, unsigned int seals, Error **errp);
- bool qemu_memfd_alloc_check(void);
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8367cb138d..b506c1f40e 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
- #include "qemu/path.h"
-+#include "qemu/memfd.h"
- #include <elf.h>
- #include <endian.h>
- #include <grp.h>
-@@ -11938,6 +11939,16 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         /* PowerPC specific.  */
-         return do_swapcontext(cpu_env, arg1, arg2, arg3);
- #endif
-+#ifdef TARGET_NR_memfd_create
-+    case TARGET_NR_memfd_create:
-+        p = lock_user_string(arg1);
-+        if (!p) {
-+            return -TARGET_EFAULT;
-+        }
-+        ret = get_errno(memfd_create(p, arg2));
-+        unlock_user(p, arg1, 0);
-+        return ret;
-+#endif
- 
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
-diff --git a/util/memfd.c b/util/memfd.c
-index 00334e5b21..4a3c07e0be 100644
---- a/util/memfd.c
-+++ b/util/memfd.c
-@@ -35,7 +35,7 @@
- #include <sys/syscall.h>
- #include <asm/unistd.h>
- 
--static int memfd_create(const char *name, unsigned int flags)
-+int memfd_create(const char *name, unsigned int flags)
- {
- #ifdef __NR_memfd_create
-     return syscall(__NR_memfd_create, name, flags);
+ /* ARP cache control calls. */
+ #define TARGET_OLD_SIOCDARP    0x8950          /* old delete ARP table entry   */
+ #define TARGET_OLD_SIOCGARP    0x8951          /* old get ARP table entry      */
 -- 
 2.23.0.rc1.153.gdeed80330f-goog
 
