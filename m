@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2811909FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 23:08:17 +0200 (CEST)
-Received: from localhost ([::1]:59962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8701B90A47
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 23:29:06 +0200 (CEST)
+Received: from localhost ([::1]:60052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyjSK-0004vj-Gs
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 17:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59203)
- by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ymankad@redhat.com>) id 1hyjRO-0004U9-AA
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:07:19 -0400
+	id 1hyjmT-0002Sj-JQ
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 17:29:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59709)
+ by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
+ <35xtXXQMKCmwcMgQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--scw.bounces.google.com>)
+ id 1hyjV5-0005o2-AI
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:11:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ymankad@redhat.com>) id 1hyjRM-0005H1-H3
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:07:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49490)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ymankad@redhat.com>) id 1hyjRM-0005Fo-8o
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:07:16 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 569D8309DEF3;
- Fri, 16 Aug 2019 21:07:14 +0000 (UTC)
-Received: from apollo.usersys.redhat.com (unused-10-15-17-159.yyz.redhat.com
- [10.15.17.159])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C83175D9DC;
- Fri, 16 Aug 2019 21:07:10 +0000 (UTC)
-To: Eduardo Habkost <ehabkost@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20190815183803.13346-1-ehabkost@redhat.com>
- <20190815183803.13346-4-ehabkost@redhat.com>
- <87pnl5sks3.fsf@dusky.pond.sub.org>
- <20190816074932.GK13569@beluga.usersys.redhat.com>
- <87h86hpae5.fsf@dusky.pond.sub.org> <20190816174241.GE3908@habkost.net>
-From: Yash Mankad <ymankad@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=ymankad@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFecwEYBCAC7QUnuTKRrz39gLumVG+KNB8XmHqHKypYPMkdJNLx33LAhmDVEeBEB6Zyn
- ryVtNClL4GVrmDOROp53kIkJh4uSAeu71w3/RJLrrHIs/NlFZ1cH3hEAwShLKYkXoVfqBN3m
- zhbqyndmPy8fviOIDcyzEBEIDbgsLgMebJTAto/ihLgEeG9dMF4qUuCcb3sWIao/WHSr9XHB
- OtZnvVUGueIM3DqEC2g5BN8025riOOL3UGRmIctJR+2dM+j0aCIbARGv1B66o300gJfjxm24
- /CbD/I6Wt2PHrNv/d4nXjfNElaBCiVw9513m2maFJeFaSPJpAGZjyDN/niNcpvxg6XaLABEB
- AAG0P1lhc2ggTWFua2FkIChTb2Z0d2FyZSBFbmdpbmVlciBhdCBSZWQgSGF0KSA8eW1hbmth
- ZEByZWRoYXQuY29tPokBNwQTAQgAIQUCV5zARgIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIX
- gAAKCRBjP1s2LzTrMJhfB/9mRNS3eMAy17wRSjnR1/AtNZ2qwBbyjnor0+Q7UfYUXKvFBNJo
- LnX6zphFJ/fZMqIM5BrE7T90Mm5Qy3qoK1c0QibN97OECrPn9epGPKiiI+1WZrIX9S3crCui
- hyIS4IuOOmgtVJx+akWCbfYPaybNsTPLBFJZ0+aATSe9Nbeb4XUS3RAqlRUEdejNGxxtKLtZ
- xgXsmL/il6Fp4EX53H1+d83Rk4V+S2KvMfrFEB+mxF7JFUv0E071br42po/EDnYj2wLM/STh
- Fgp5LO4qTPrwD8mllibLSF6ZCrjNYW1EctJF7oYbfFXwPUh9LWh0opKwzo8ne5ZN/4hzexHU
- 4MnquQENBFecwEYBCACnrkQgxRis8b1DRRIWu+Gxxp4Xv85c19A3IyNudvihSNSSV8mSZ+ei
- 9Xev80IhgExf+1MeTPvuWmD1FogqC5Pi6bEs29ZZvSde+DH1BeVoKVn4zY+rCSqyrlRfx8Zd
- xJXIICfOgfDRjDf0nKPiI14ujdT0zMOPJHQ8wf267kMWmS32eQPTLJmemhl9WhEett+i1WLq
- 84DjbEhtkTO6FdboEcTN1fMSpkXz+jgfvgCCZIfJJ+AI/V/VjBBn264VdDdOE/AFfc6B1QYf
- 6X3npdUmXjlE5QIadoaOHf6e+qMSEchKfMa9ban0dH1THVAm2Z8Ji+l0tNYJ/e3mndXcVJv7
- ABEBAAGJAR8EGAEIAAkFAlecwEYCGwwACgkQYz9bNi806zAlVwgAj0auI5iVWxdCEnxGDAFC
- 7uuZeBfiRGUwnaeRLcs2N6zLdN7Y9aoLv0RMrQhTP1DiIOi2xuCiUeGAY533fIpQOtE+AHgY
- fFqUG9gwK9Web5Tec+SNOBXeULRd8flo3RIkKMUR6RBynHkvEt2WbGRfr4gP6RuYzwBL1EWv
- nigkhVXsLA+hyut5C8OMXcxG61vbat2duyBgqROV0UbMau9Nr+t5w2isusgHe3fia1h5uwsh
- 3UDO4xAD/Il16hZqcPbgKW3+S7uR3V2LKwCqX0S/9gYwaIfiBgvEt7EAbj2YZfYvcWjbBwDu
- stjeTrSRCejEli4lN7PsSM6/NaLsIPKMgQ==
-Message-ID: <75655410-9af9-e463-9471-675299929bde@redhat.com>
-Date: Fri, 16 Aug 2019 17:07:10 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190816174241.GE3908@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 16 Aug 2019 21:07:14 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/3] pc: Don't make CPU properties
- mandatory unless necessary
+ (envelope-from
+ <35xtXXQMKCmwcMgQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--scw.bounces.google.com>)
+ id 1hyjV3-00078G-Vc
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:11:07 -0400
+Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a]:40422)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from
+ <35xtXXQMKCmwcMgQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--scw.bounces.google.com>)
+ id 1hyjV3-00077T-MX
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 17:11:05 -0400
+Received: by mail-pf1-x44a.google.com with SMTP id e18so4584989pfj.7
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 14:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=7RKduOP1Zy0Z6W4TdqYEUSnkCMOqjh++D/cBNOzwUMM=;
+ b=E14VmCMelPACin5pYsdxyavF+TZgoebRS/MoiQuBgF1vCHIDpl6pr806CETDsQ1ODd
+ GwylspVfdPZNJBgSxCERVhCo9yF5yI0dBYRol8QbH/vYmfVV0S2wO4FFYoWfE6tdnk4B
+ y6F7Hx9xNC5KC2s6pK6AbgXj32dcL9iCvdVQ7eO2mJHRn4AM0PmC26AfG1txmZrfewtF
+ fkA1W7xsrbnxsfO/Hpp8+hepv0T6G/7D3OeqdfXtv+trba2oHTXrXrKG+ohp8T4r9Dvv
+ w7BE48ZDkW4fTNpNKpe/rIJsfPLZ7N8bujD36BMhMJSaYO6csIGpr6FbEuZnhmgfH3Ll
+ VJgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=7RKduOP1Zy0Z6W4TdqYEUSnkCMOqjh++D/cBNOzwUMM=;
+ b=uQcqn22d8KPUQY/Hfk+MGmHgceGz7kz2PC3t+K6rAbaL7R3m+OqrGjrc6jdN8gNoa+
+ 8XjY9Fz9XPLHruQHXU6a8pKyDmDQ6bI5GHKJmyvqb0t7Y1oZRrvzRp+07VFp8wavwRPF
+ 7p7ILpz+yoYyeY34u2AUDN97jet2ES6/JTRLpnx0K++ribjYV96lzWY80Pc+u04eiE6W
+ oDz4wo/DPHzguZLQzvdNx5//PPH3+8X1ifWu2QLO8babEBx/Tx/0WbgrQEhqIfOp9AX1
+ nHdVQb3UNGA3F9juzjPJPwjKvfDsm255jhNSN7iPpNNGjRGDSy61jmwj8rhqepOJbWUB
+ B5NA==
+X-Gm-Message-State: APjAAAWa/YgHo1fnaC8zw29D6UEF60xNZbAByIzWP9Bjc1tR3/gnXOTm
+ ahuLDOL0JH/it6/GGM9cH/yagHM=
+X-Google-Smtp-Source: APXvYqyiz5JFayocTTc20e52TkykeIu92Wv2wZUAHa0JnTdCZ9jeE89j2zND1hbg4dsHsU/bfwZ/rIA=
+X-Received: by 2002:a63:506:: with SMTP id 6mr9350751pgf.434.1565989863105;
+ Fri, 16 Aug 2019 14:11:03 -0700 (PDT)
+Date: Fri, 16 Aug 2019 14:10:49 -0700
+Message-Id: <20190816211049.57317-1-scw@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
+To: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::44a
+X-Mailman-Approved-At: Fri, 16 Aug 2019 17:27:49 -0400
+Subject: [Qemu-devel] [PATCH] linux-user: add memfd_create
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,95 +73,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>, Like Xu <like.xu@linux.intel.com>,
- Erik Skultety <eskultet@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
- "Danilo C. L. de Paula" <ddepaula@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+From: Shu-Chun Weng via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Shu-Chun Weng <scw@google.com>
+Cc: arunkaly@google.com, qemu-devel@nongnu.org, Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add support for the memfd_create syscall. If the host does not have the
+libc wrapper, translate to a direct syscall with NC-macro.
 
+Buglink: https://bugs.launchpad.net/qemu/+bug/1734792
+Signed-off-by: Shu-Chun Weng <scw@google.com>
+---
+ include/qemu/memfd.h |  4 ++++
+ linux-user/syscall.c | 11 +++++++++++
+ util/memfd.c         |  2 +-
+ 3 files changed, 16 insertions(+), 1 deletion(-)
 
-On 8/16/19 1:42 PM, Eduardo Habkost wrote:
-> On Fri, Aug 16, 2019 at 02:22:58PM +0200, Markus Armbruster wrote:
->> Erik Skultety <eskultet@redhat.com> writes:
->>
->>> On Fri, Aug 16, 2019 at 08:10:20AM +0200, Markus Armbruster wrote:
->>>> Eduardo Habkost <ehabkost@redhat.com> writes:
->>>>
->>>>> We have this issue reported when using libvirt to hotplug CPUs:
->>>>> https://bugzilla.redhat.com/show_bug.cgi?id=3D1741451
->>>>>
->>>>> Basically, libvirt is not copying die-id from
->>>>> query-hotpluggable-cpus, but die-id is now mandatory.
->>>> Uh-oh, "is now mandatory": making an optional property mandatory is =
-an
->>>> incompatible change.  When did we do that?  Commit hash, please.
->>>>
->>>> [...]
->>>>
->>> I don't even see it as being optional ever - the property wasn't even=
-
->>> recognized before commit 176d2cda0de introduced it as mandatory.
->> Compatibility break.
->>
->> Commit 176d2cda0de is in v4.1.0.  If I had learned about it a bit
->> earlier, I would've argued for a last minute fix or a revert.  Now we
->> have a regression in the release.
->>
->> Eduardo, I think this fix should go into v4.1.1.  Please add cc:
->> qemu-stable.
-> I did it in v2.
->
->> How can we best avoid such compatibility breaks to slip in undetected?=
-
->>
->> A static checker would be nice.  For vmstate, we have
->> scripts/vmstate-static-checker.py.  Not sure it's used.
-> I don't think this specific bug would be detected with a static
-> checker.  "die-id is mandatory" is not something that can be
-> extracted by looking at QOM data structures.  The new rule was
-> being enforced by the hotplug handler callbacks, and the hotplug
-> handler call tree is a bit complex (too complex for my taste, but
-> I digress).
->
-> We could have detected this with a simple CPU hotplug automated
-> test case, though.  Or with a very simple -device test case like
-> the one I have submitted with this patch.
->
-> This was detected by libvirt automated test cases.  It would be
-> nice if this was run during the -rc stage and not only after the
-> 4.1.0 release, though.
->
-> I don't know details of the test job.  Danilo, Mirek, Yash: do
-> you know how this bug was detected, and what we could do to run
-> the same test jobs in upstream QEMU release candidates?
-
-This bug was caught by our internal gating tests.
-
-The libvirt gating tests for the virt module include the
-following Avocado-VT test case:
-
-libvirt_vcpu_plug_unplug.positive_test.vcpu_set.live.vm_operate.save
-
-This job failed with the error that you can see in the description
-of the BZ#1741451 [0].
-
-If you think that this would have been caught by a simple hotplug
-case, I'd recommend adding a test for hotplug to avocado_qemu.
-Otherwise, if you want, I can look into adding this particular
-libvirt test case to our QEMU CI efforts.
-
-Thanks,
-Yash
-
-[0] https://bugzilla.redhat.com/show_bug.cgi?id=3D1741451#c0
-
-
-
->
-
+diff --git a/include/qemu/memfd.h b/include/qemu/memfd.h
+index d551c28b68..975b6bdb77 100644
+--- a/include/qemu/memfd.h
++++ b/include/qemu/memfd.h
+@@ -32,6 +32,10 @@
+ #define MFD_HUGE_SHIFT 26
+ #endif
+ 
++#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
++int memfd_create(const char *name, unsigned int flags);
++#endif
++
+ int qemu_memfd_create(const char *name, size_t size, bool hugetlb,
+                       uint64_t hugetlbsize, unsigned int seals, Error **errp);
+ bool qemu_memfd_alloc_check(void);
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 8367cb138d..b506c1f40e 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/cutils.h"
+ #include "qemu/path.h"
++#include "qemu/memfd.h"
+ #include <elf.h>
+ #include <endian.h>
+ #include <grp.h>
+@@ -11938,6 +11939,16 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         /* PowerPC specific.  */
+         return do_swapcontext(cpu_env, arg1, arg2, arg3);
+ #endif
++#ifdef TARGET_NR_memfd_create
++    case TARGET_NR_memfd_create:
++        p = lock_user_string(arg1);
++        if (!p) {
++            return -TARGET_EFAULT;
++        }
++        ret = get_errno(memfd_create(p, arg2));
++        unlock_user(p, arg1, 0);
++        return ret;
++#endif
+ 
+     default:
+         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+diff --git a/util/memfd.c b/util/memfd.c
+index 00334e5b21..4a3c07e0be 100644
+--- a/util/memfd.c
++++ b/util/memfd.c
+@@ -35,7 +35,7 @@
+ #include <sys/syscall.h>
+ #include <asm/unistd.h>
+ 
+-static int memfd_create(const char *name, unsigned int flags)
++int memfd_create(const char *name, unsigned int flags)
+ {
+ #ifdef __NR_memfd_create
+     return syscall(__NR_memfd_create, name, flags);
+-- 
+2.23.0.rc1.153.gdeed80330f-goog
 
 
