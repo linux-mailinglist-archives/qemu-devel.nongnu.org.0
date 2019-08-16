@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFC7C8FA1C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 06:58:55 +0200 (CEST)
-Received: from localhost ([::1]:49252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1B38FA18
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 06:57:27 +0200 (CEST)
+Received: from localhost ([::1]:49228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyUKE-00026F-T7
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 00:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47168)
+	id 1hyUIo-0007zD-0m
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 00:57:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47102)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1hyUH8-0006nn-L7
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 00:55:43 -0400
+ (envelope-from <bounces@canonical.com>) id 1hyUH1-0006ll-Rw
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 00:55:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hyUH7-0006wf-Fx
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 00:55:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51058)
+ (envelope-from <bounces@canonical.com>) id 1hyUH0-0006rY-Js
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 00:55:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50816)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hyUH7-0006vn-9e
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 00:55:41 -0400
+ id 1hyUH0-0006qE-Di
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 00:55:34 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hyUH6-0002cJ-4J
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 04:55:40 +0000
+ id 1hyUGz-0002We-O2
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 04:55:33 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1F25D2E80C8
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 04:55:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B14502E80C8
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 04:55:33 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Aug 2019 04:48:47 -0000
-From: Thomas Huth <1821884@bugs.launchpad.net>
+Date: Fri, 16 Aug 2019 04:50:06 -0000
+From: Thomas Huth <1838475@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=lersek@redhat.com; 
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm mprofile tcg testcase
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: imammedo lersek
-X-Launchpad-Bug-Reporter: Igor (imammedo)
+X-Launchpad-Bug-Commenters: buckfobb pmaydell th-huth
+X-Launchpad-Bug-Reporter: KD (buckfobb)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <155368089372.19244.12131435230778764037.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156593092946.26669.12299350990831669557.launchpad@soybean.canonical.com>
+References: <156452233283.15483.3370838341008169030.malonedeb@wampee.canonical.com>
+Message-Id: <156593100621.26145.9553538068978042347.malone@soybean.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19022";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 4cf8c5d0d9a23d6959897786a2436ca043773dcf
+X-Launchpad-Hash: a258b60ea8448fb2d5a32d2d69bbbe7af785d9a0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1821884] Re: Extend uefi-test-tools to report
- SMBIOS location
+Subject: [Qemu-devel] [Bug 1838475] Re: qemu-system-arm exits when cortex-m4
+ floating point used and irq occurs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -65,9 +66,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1821884 <1821884@bugs.launchpad.net>
+Reply-To: Bug 1838475 <1838475@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D02ac2f7f613b47f6a5b3
 
 ** Changed in: qemu
        Status: Fix Committed =3D> Fix Released
@@ -76,23 +79,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1821884
+https://bugs.launchpad.net/bugs/1838475
 
 Title:
-  Extend uefi-test-tools to report SMBIOS location
+  qemu-system-arm exits when cortex-m4 floating point used and irq
+  occurs
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  UEFI helper app exposes the pointer to RSDP ACPI table that firmware allo=
-cates in guest's RAM
-  but it doesn't do so for SMBIOS tables. Hence bios table test would skip =
-testing SMBIOS tables
-  to workaround shortcoming. This bug is a request to expose two new entry =
-point fields (one for SMBIOS 2 and another for SMBIOS 3) so test could chec=
-k SMBIOS tables when guest is started a with  UEFI firmware.
+  qemu-system-arm exits with
+
+  "...Secure UsageFault with CFSR.NOCP because NSACR.CP10 prevents stacking=
+ FP regs
+  ...taking pending nonsecure exception 3
+  Taking exception 7 [Breakpoint]
+  qemu: fatal: Lockup: can't escalate 3 to HardFault (current priority -1)" =
+
+
+  when emulating Cortex-m4, executing at least 1 floating point
+  instruction, and then an irq (e.g. sys tick) occurring.
+
+  CPACR.CP10 and CPACR.CP11 are set to 0x3 respectively prior to
+  executing the fp instructions.
+
+  NOTE: NSACR does not appear to be a cortex m4 register.
+
+  Attached is a simplified elf to repro the issue.
+
+  The qemu command line is: "qemu-system-arm --gdb tcp::1234 -cpu
+  cortex-m4 -machine lm3s6965evb -nographic -semihosting-config
+  enable=3Don,target=3Dnative -kernel QemuExitWhenUsingFPAndIRQOccurs.elf -d
+  int"
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1821884/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1838475/+subscriptions
 
