@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F078FCEB
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:03:25 +0200 (CEST)
-Received: from localhost ([::1]:51192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F62F8FD16
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:06:57 +0200 (CEST)
+Received: from localhost ([::1]:51300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyXCm-0001MM-1f
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:03:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
+	id 1hyXGC-00066w-6O
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:06:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWmy-0001QI-Rn
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:36:48 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWoQ-0003mi-IN
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:38:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWmv-0002g1-UM
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:36:44 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.74]:10012)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWoL-0003MM-DL
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:38:11 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.73]:29778)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWmE-0002En-Gm; Fri, 16 Aug 2019 03:35:58 -0400
-Received: from tpw09926dag18g.domain1.systemhost.net (10.9.212.34) by
- BWP09926079.bt.com (10.36.82.110) with Microsoft SMTP Server (version=TLS1_2, 
+ id 1hyWo0-00036w-SN; Fri, 16 Aug 2019 03:37:49 -0400
+Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
+ BWP09926078.bt.com (10.36.82.109) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
- Aug 2019 08:35:34 +0100
+ Aug 2019 08:37:07 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18g.domain1.systemhost.net (10.9.212.34) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:35:56 +0100
+ tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:37:47 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:35:56 +0100
+ 2019 08:37:47 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 29/42] hw/ssi: Declare device little or
- big endian
-Thread-Index: AQHVVAU9wbn561zm7k64tZGTYvMONA==
-Date: Fri, 16 Aug 2019 07:35:56 +0000
-Message-ID: <1565940955631.8939@bt.com>
+Thread-Topic: [Qemu-devel] [PATCH v7 35/42] exec: Delete DEVICE_HOST_ENDIAN
+Thread-Index: AQHVVAV/22SpmDs0VU2aZZpQIyY/gw==
+Date: Fri, 16 Aug 2019 07:37:46 +0000
+Message-ID: <1565941066081.69203@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -49,12 +48,11 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.74
+X-Received-From: 213.121.35.73
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 29/42] hw/ssi: Declare device little or big
- endian
+Subject: [Qemu-devel]  [PATCH v7 35/42] exec: Delete DEVICE_HOST_ENDIAN
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,83 +94,50 @@ Cc: frederic.konrad@adacore.com, berto@igalia.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For each device declared with DEVICE_NATIVE_ENDIAN, find the set of
-targets from the set of target/hw/*/device.o.
+DEVICE_HOST_ENDIAN is conditional upon HOST_WORDS_BIGENDIAN.
 
-If the set of targets are all little or all big endian, re-declare
-the device endianness as DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN
-respectively.
-
-This *naive* deduction may result in genuinely native endian devices
-being incorrectly declared as little or big endian, but should not
-introduce regressions for current targets.
-
-These devices should be re-declared as DEVICE_NATIVE_ENDIAN if 1) it
-has a new target with an opposite endian or 2) someone informed knows
-better =3D)
+Code is cleaner if the single use of DEVICE_HOST_ENDIAN is instead
+directly conditional upon HOST_WORDS_BIGENDIAN.
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- hw/ssi/mss-spi.c       | 2 +-
- hw/ssi/pl022.c         | 2 +-
- hw/ssi/stm32f2xx_spi.c | 2 +-
- hw/ssi/xilinx_spips.c  | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ include/exec/cpu-common.h | 8 --------
+ memory.c                  | 2 +-
+ 2 files changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/hw/ssi/mss-spi.c b/hw/ssi/mss-spi.c
-index 4c9da5d..71fd138 100644
---- a/hw/ssi/mss-spi.c
-+++ b/hw/ssi/mss-spi.c
-@@ -359,7 +359,7 @@ static void spi_write(void *opaque, hwaddr addr,
- static const MemoryRegionOps spi_ops =3D {
-     .read =3D spi_read,
-     .write =3D spi_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index 7eeb78c..b33dc0c 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -16,14 +16,6 @@ void tcg_flush_softmmu_tlb(CPUState *cs);
+
+ #if !defined(CONFIG_USER_ONLY)
+
+-#include "exec/memop.h"
+-
+-#if defined(HOST_WORDS_BIGENDIAN)
+-#define DEVICE_HOST_ENDIAN MO_BE
+-#else
+-#define DEVICE_HOST_ENDIAN MO_LE
+-#endif
+-
+ /* address in the RAM (different from a physical address) */
+ #if defined(CONFIG_XEN_BACKEND)
+ typedef uint64_t ram_addr_t;
+diff --git a/memory.c b/memory.c
+index 3cabb52..689390f 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1362,7 +1362,7 @@ static void memory_region_ram_device_write(void *opaq=
+ue, hwaddr addr,
+ static const MemoryRegionOps ram_device_mem_ops =3D {
+     .read =3D memory_region_ram_device_read,
+     .write =3D memory_region_ram_device_write,
+-    .endianness =3D DEVICE_HOST_ENDIAN,
++    .endianness =3D 0, /* Host endianness */
      .valid =3D {
          .min_access_size =3D 1,
-         .max_access_size =3D 4
-diff --git a/hw/ssi/pl022.c b/hw/ssi/pl022.c
-index fec73ca..10d1995 100644
---- a/hw/ssi/pl022.c
-+++ b/hw/ssi/pl022.c
-@@ -226,7 +226,7 @@ static void pl022_reset(DeviceState *dev)
- static const MemoryRegionOps pl022_ops =3D {
-     .read =3D pl022_read,
-     .write =3D pl022_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
- };
-
- static int pl022_post_load(void *opaque, int version_id)
-diff --git a/hw/ssi/stm32f2xx_spi.c b/hw/ssi/stm32f2xx_spi.c
-index 4249101..e1e5ab5 100644
---- a/hw/ssi/stm32f2xx_spi.c
-+++ b/hw/ssi/stm32f2xx_spi.c
-@@ -166,7 +166,7 @@ static void stm32f2xx_spi_write(void *opaque, hwaddr ad=
-dr,
- static const MemoryRegionOps stm32f2xx_spi_ops =3D {
-     .read =3D stm32f2xx_spi_read,
-     .write =3D stm32f2xx_spi_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
- };
-
- static const VMStateDescription vmstate_stm32f2xx_spi =3D {
-diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-index b29e0a4..8cadc4e 100644
---- a/hw/ssi/xilinx_spips.c
-+++ b/hw/ssi/xilinx_spips.c
-@@ -1238,7 +1238,7 @@ static MemTxResult lqspi_write(void *opaque, hwaddr o=
-ffset, uint64_t value,
- static const MemoryRegionOps lqspi_ops =3D {
-     .read_with_attrs =3D lqspi_read,
-     .write_with_attrs =3D lqspi_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
-     .impl =3D {
-         .min_access_size =3D 4,
-         .max_access_size =3D 4,
+         .max_access_size =3D 8,
 --
 1.8.3.1
 
