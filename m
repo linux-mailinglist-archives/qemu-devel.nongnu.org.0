@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648F38FD2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:07:53 +0200 (CEST)
-Received: from localhost ([::1]:51330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F078FCEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:03:25 +0200 (CEST)
+Received: from localhost ([::1]:51192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyXH6-0007jS-94
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:07:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40116)
+	id 1hyXCm-0001MM-1f
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWmD-0000sV-1V
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:35:58 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWmy-0001QI-Rn
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:36:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWmB-0002Dh-52
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:35:56 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.74]:18152)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWmv-0002g1-UM
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:36:44 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.74]:10012)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWlp-0001aL-Sc; Fri, 16 Aug 2019 03:35:34 -0400
-Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
+ id 1hyWmE-0002En-Gm; Fri, 16 Aug 2019 03:35:58 -0400
+Received: from tpw09926dag18g.domain1.systemhost.net (10.9.212.34) by
  BWP09926079.bt.com (10.36.82.110) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
- Aug 2019 08:35:09 +0100
+ Aug 2019 08:35:34 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:35:32 +0100
+ tpw09926dag18g.domain1.systemhost.net (10.9.212.34) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:35:56 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:35:32 +0100
+ 2019 08:35:56 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 28/42] hw/sd: Declare device little or
+Thread-Topic: [Qemu-devel] [PATCH v7 29/42] hw/ssi: Declare device little or
  big endian
-Thread-Index: AQHVVAUvP5PxM0NZ6Eazlk4TnnbK6w==
-Date: Fri, 16 Aug 2019 07:35:32 +0000
-Message-ID: <1565940931091.42373@bt.com>
+Thread-Index: AQHVVAU9wbn561zm7k64tZGTYvMONA==
+Date: Fri, 16 Aug 2019 07:35:56 +0000
+Message-ID: <1565940955631.8939@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -53,7 +53,7 @@ X-Received-From: 213.121.35.74
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 28/42] hw/sd: Declare device little or big
+Subject: [Qemu-devel] [PATCH v7 29/42] hw/ssi: Declare device little or big
  endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,22 +113,66 @@ better =3D)
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- hw/sd/pl181.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ssi/mss-spi.c       | 2 +-
+ hw/ssi/pl022.c         | 2 +-
+ hw/ssi/stm32f2xx_spi.c | 2 +-
+ hw/ssi/xilinx_spips.c  | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
-index 81b406d..f2027aa 100644
---- a/hw/sd/pl181.c
-+++ b/hw/sd/pl181.c
-@@ -449,7 +449,7 @@ static void pl181_write(void *opaque, hwaddr offset,
- static const MemoryRegionOps pl181_ops =3D {
-     .read =3D pl181_read,
-     .write =3D pl181_write,
+diff --git a/hw/ssi/mss-spi.c b/hw/ssi/mss-spi.c
+index 4c9da5d..71fd138 100644
+--- a/hw/ssi/mss-spi.c
++++ b/hw/ssi/mss-spi.c
+@@ -359,7 +359,7 @@ static void spi_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps spi_ops =3D {
+     .read =3D spi_read,
+     .write =3D spi_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+     .valid =3D {
+         .min_access_size =3D 1,
+         .max_access_size =3D 4
+diff --git a/hw/ssi/pl022.c b/hw/ssi/pl022.c
+index fec73ca..10d1995 100644
+--- a/hw/ssi/pl022.c
++++ b/hw/ssi/pl022.c
+@@ -226,7 +226,7 @@ static void pl022_reset(DeviceState *dev)
+ static const MemoryRegionOps pl022_ops =3D {
+     .read =3D pl022_read,
+     .write =3D pl022_write,
 -    .endianness =3D DEVICE_NATIVE_ENDIAN,
 +    .endianness =3D DEVICE_LITTLE_ENDIAN,
  };
 
- static void pl181_reset(DeviceState *d)
+ static int pl022_post_load(void *opaque, int version_id)
+diff --git a/hw/ssi/stm32f2xx_spi.c b/hw/ssi/stm32f2xx_spi.c
+index 4249101..e1e5ab5 100644
+--- a/hw/ssi/stm32f2xx_spi.c
++++ b/hw/ssi/stm32f2xx_spi.c
+@@ -166,7 +166,7 @@ static void stm32f2xx_spi_write(void *opaque, hwaddr ad=
+dr,
+ static const MemoryRegionOps stm32f2xx_spi_ops =3D {
+     .read =3D stm32f2xx_spi_read,
+     .write =3D stm32f2xx_spi_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
+
+ static const VMStateDescription vmstate_stm32f2xx_spi =3D {
+diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
+index b29e0a4..8cadc4e 100644
+--- a/hw/ssi/xilinx_spips.c
++++ b/hw/ssi/xilinx_spips.c
+@@ -1238,7 +1238,7 @@ static MemTxResult lqspi_write(void *opaque, hwaddr o=
+ffset, uint64_t value,
+ static const MemoryRegionOps lqspi_ops =3D {
+     .read_with_attrs =3D lqspi_read,
+     .write_with_attrs =3D lqspi_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+     .impl =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
 --
 1.8.3.1
 
