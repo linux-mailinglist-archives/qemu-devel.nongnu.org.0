@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D148FF54
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 11:46:09 +0200 (CEST)
-Received: from localhost ([::1]:52606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712038FF74
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 11:51:12 +0200 (CEST)
+Received: from localhost ([::1]:52640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyYoC-0004EX-W6
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 05:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59742)
+	id 1hyYt5-0008KM-Jf
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 05:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1hyYde-0000PE-6r
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:15 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hyYdb-0000Ki-8j
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hyYdc-00042n-L7
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:25870)
+ (envelope-from <kwolf@redhat.com>) id 1hyYdZ-0003x4-E3
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 05:35:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60842)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hyYdZ-0003uS-08; Fri, 16 Aug 2019 05:35:09 -0400
+ id 1hyYdV-0003rx-G8; Fri, 16 Aug 2019 05:35:05 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 587FC308A9BE;
- Fri, 16 Aug 2019 09:35:08 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CFABD308212D;
+ Fri, 16 Aug 2019 09:35:04 +0000 (UTC)
 Received: from localhost.localdomain.com (dhcp-200-226.str.redhat.com
  [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 24ED55C1D6;
- Fri, 16 Aug 2019 09:35:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F0D465C1B2;
+ Fri, 16 Aug 2019 09:35:01 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 16 Aug 2019 11:34:39 +0200
-Message-Id: <20190816093439.14262-17-kwolf@redhat.com>
+Date: Fri, 16 Aug 2019 11:34:37 +0200
+Message-Id: <20190816093439.14262-15-kwolf@redhat.com>
 In-Reply-To: <20190816093439.14262-1-kwolf@redhat.com>
 References: <20190816093439.14262-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Fri, 16 Aug 2019 09:35:08 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Fri, 16 Aug 2019 09:35:04 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 16/16] file-posix: Handle undetectable alignment
+Subject: [Qemu-devel] [PULL 14/16] block-backend: Queue requests while
+ drained
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,166 +60,280 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nir Soffer <nirsof@gmail.com>
+This fixes devices like IDE that can still start new requests from I/O
+handlers in the CPU thread while the block backend is drained.
 
-In some cases buf_align or request_alignment cannot be detected:
+The basic assumption is that in a drain section, no new requests should
+be allowed through a BlockBackend (blk_drained_begin/end don't exist,
+we get drain sections only on the node level). However, there are two
+special cases where requests should not be queued:
 
-1. With Gluster, buf_align cannot be detected since the actual I/O is
-   done on Gluster server, and qemu buffer alignment does not matter.
-   Since we don't have alignment requirement, buf_align=3D1 is the best
-   value.
+1. Block jobs: We already make sure that block jobs are paused in a
+   drain section, so they won't start new requests. However, if the
+   drain_begin is called on the job's BlockBackend first, it can happen
+   that we deadlock because the job stays busy until it reaches a pause
+   point - which it can't if its requests aren't processed any more.
 
-2. With local XFS filesystem, buf_align cannot be detected if reading
-   from unallocated area. In this we must align the buffer, but we don't
-   know what is the correct size. Using the wrong alignment results in
-   I/O error.
+   The proper solution here would be to make all requests through the
+   job's filter node instead of using a BlockBackend. For now, just
+   disabling request queuing on the job BlockBackend is simpler.
 
-3. With Gluster backed by XFS, request_alignment cannot be detected if
-   reading from unallocated area. In this case we need to use the
-   correct alignment, and failing to do so results in I/O errors.
+2. In test cases where making requests through bdrv_* would be
+   cumbersome because we'd need a BdrvChild. As we already got the
+   functionality to disable request queuing from 1., use it in tests,
+   too, for convenience.
 
-4. With NFS, the server does not use direct I/O, so both buf_align cannot
-   be detected. In this case we don't need any alignment so we can use
-   buf_align=3D1 and request_alignment=3D1.
-
-These cases seems to work when storage sector size is 512 bytes, because
-the current code starts checking align=3D512. If the check succeeds
-because alignment cannot be detected we use 512. But this does not work
-for storage with 4k sector size.
-
-To determine if we can detect the alignment, we probe first with
-align=3D1. If probing succeeds, maybe there are no alignment requirement
-(cases 1, 4) or we are probing unallocated area (cases 2, 3). Since we
-don't have any way to tell, we treat this as undetectable alignment. If
-probing with align=3D1 fails with EINVAL, but probing with one of the
-expected alignments succeeds, we know that we found a working alignment.
-
-Practically the alignment requirements are the same for buffer
-alignment, buffer length, and offset in file. So in case we cannot
-detect buf_align, we can use request alignment. If we cannot detect
-request alignment, we can fallback to a safe value. To use this logic,
-we probe first request alignment instead of buf_align.
-
-Here is a table showing the behaviour with current code (the value in
-parenthesis is the optimal value).
-
-Case    Sector    buf_align (opt)   request_alignment (opt)     result
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-1       512       512   (1)          512   (512)                 OK
-1       4096      512   (1)          4096  (4096)                FAIL
-----------------------------------------------------------------------
-2       512       512   (512)        512   (512)                 OK
-2       4096      512   (4096)       4096  (4096)                FAIL
-----------------------------------------------------------------------
-3       512       512   (1)          512   (512)                 OK
-3       4096      512   (1)          512   (4096)                FAIL
-----------------------------------------------------------------------
-4       512       512   (1)          512   (1)                   OK
-4       4096      512   (1)          512   (1)                   OK
-
-Same cases with this change:
-
-Case    Sector    buf_align (opt)   request_alignment (opt)     result
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-1       512       512   (1)          512   (512)                 OK
-1       4096      4096  (1)          4096  (4096)                OK
-----------------------------------------------------------------------
-2       512       512   (512)        512   (512)                 OK
-2       4096      4096  (4096)       4096  (4096)                OK
-----------------------------------------------------------------------
-3       512       4096  (1)          4096  (512)                 OK
-3       4096      4096  (1)          4096  (4096)                OK
-----------------------------------------------------------------------
-4       512       4096  (1)          4096  (1)                   OK
-4       4096      4096  (1)          4096  (1)                   OK
-
-I tested that provisioning VMs and copying disks on local XFS and
-Gluster with 4k bytes sector size work now, resolving bugs [1],[2].
-I tested also on XFS, NFS, Gluster with 512 bytes sector size.
-
-[1] https://bugzilla.redhat.com/1737256
-[2] https://bugzilla.redhat.com/1738657
-
-Signed-off-by: Nir Soffer <nsoffer@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/file-posix.c | 36 +++++++++++++++++++++++++-----------
- 1 file changed, 25 insertions(+), 11 deletions(-)
+ include/sysemu/block-backend.h |  1 +
+ block/backup.c                 |  1 +
+ block/block-backend.c          | 53 ++++++++++++++++++++++++++++++++--
+ block/commit.c                 |  2 ++
+ block/mirror.c                 |  1 +
+ blockjob.c                     |  3 ++
+ tests/test-bdrv-drain.c        |  1 +
+ 7 files changed, 59 insertions(+), 3 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 4479cc7ab4..b8b4dad553 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -323,6 +323,7 @@ static void raw_probe_alignment(BlockDriverState *bs,=
- int fd, Error **errp)
-     BDRVRawState *s =3D bs->opaque;
-     char *buf;
-     size_t max_align =3D MAX(MAX_BLOCKSIZE, getpagesize());
-+    size_t alignments[] =3D {1, 512, 1024, 2048, 4096};
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backen=
+d.h
+index 7320b58467..368d53af77 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -104,6 +104,7 @@ void blk_get_perm(BlockBackend *blk, uint64_t *perm, =
+uint64_t *shared_perm);
 =20
-     /* For SCSI generic devices the alignment is not really used.
-        With buffered I/O, we don't have any restrictions. */
-@@ -349,25 +350,38 @@ static void raw_probe_alignment(BlockDriverState *b=
-s, int fd, Error **errp)
+ void blk_set_allow_write_beyond_eof(BlockBackend *blk, bool allow);
+ void blk_set_allow_aio_context_change(BlockBackend *blk, bool allow);
++void blk_set_disable_request_queuing(BlockBackend *blk, bool disable);
+ void blk_iostatus_enable(BlockBackend *blk);
+ bool blk_iostatus_is_enabled(const BlockBackend *blk);
+ BlockDeviceIoStatus blk_iostatus(const BlockBackend *blk);
+diff --git a/block/backup.c b/block/backup.c
+index b26c22c4b8..4743c8f0bc 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -644,6 +644,7 @@ BlockJob *backup_job_create(const char *job_id, Block=
+DriverState *bs,
+     if (ret < 0) {
+         goto error;
      }
- #endif
++    blk_set_disable_request_queuing(job->target, true);
 =20
--    /* If we could not get the sizes so far, we can only guess them */
--    if (!s->buf_align) {
-+    /*
-+     * If we could not get the sizes so far, we can only guess them. Fir=
-st try
-+     * to detect request alignment, since it is more likely to succeed. =
-Then
-+     * try to detect buf_align, which cannot be detected in some cases (=
-e.g.
-+     * Gluster). If buf_align cannot be detected, we fallback to the val=
-ue of
-+     * request_alignment.
-+     */
+     job->on_source_error =3D on_source_error;
+     job->on_target_error =3D on_target_error;
+diff --git a/block/block-backend.c b/block/block-backend.c
+index fdd6b01ecf..c13c5c83b0 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -79,6 +79,9 @@ struct BlockBackend {
+     QLIST_HEAD(, BlockBackendAioNotifier) aio_notifiers;
+=20
+     int quiesce_counter;
++    CoQueue queued_requests;
++    bool disable_request_queuing;
 +
-+    if (!bs->bl.request_alignment) {
-+        int i;
-         size_t align;
--        buf =3D qemu_memalign(max_align, 2 * max_align);
--        for (align =3D 512; align <=3D max_align; align <<=3D 1) {
--            if (raw_is_io_aligned(fd, buf + align, max_align)) {
--                s->buf_align =3D align;
-+        buf =3D qemu_memalign(max_align, max_align);
-+        for (i =3D 0; i < ARRAY_SIZE(alignments); i++) {
-+            align =3D alignments[i];
-+            if (raw_is_io_aligned(fd, buf, align)) {
-+                /* Fallback to safe value. */
-+                bs->bl.request_alignment =3D (align !=3D 1) ? align : ma=
-x_align;
-                 break;
-             }
-         }
-         qemu_vfree(buf);
-     }
+     VMChangeStateEntry *vmsh;
+     bool force_allow_inactivate;
 =20
--    if (!bs->bl.request_alignment) {
-+    if (!s->buf_align) {
-+        int i;
-         size_t align;
--        buf =3D qemu_memalign(s->buf_align, max_align);
--        for (align =3D 512; align <=3D max_align; align <<=3D 1) {
--            if (raw_is_io_aligned(fd, buf, align)) {
--                bs->bl.request_alignment =3D align;
-+        buf =3D qemu_memalign(max_align, 2 * max_align);
-+        for (i =3D 0; i < ARRAY_SIZE(alignments); i++) {
-+            align =3D alignments[i];
-+            if (raw_is_io_aligned(fd, buf + align, max_align)) {
-+                /* Fallback to request_aligment. */
-+                s->buf_align =3D (align !=3D 1) ? align : bs->bl.request=
-_alignment;
-                 break;
-             }
+@@ -339,6 +342,7 @@ BlockBackend *blk_new(AioContext *ctx, uint64_t perm,=
+ uint64_t shared_perm)
+=20
+     block_acct_init(&blk->stats);
+=20
++    qemu_co_queue_init(&blk->queued_requests);
+     notifier_list_init(&blk->remove_bs_notifiers);
+     notifier_list_init(&blk->insert_bs_notifiers);
+     QLIST_INIT(&blk->aio_notifiers);
+@@ -1096,6 +1100,11 @@ void blk_set_allow_aio_context_change(BlockBackend=
+ *blk, bool allow)
+     blk->allow_aio_context_change =3D allow;
+ }
+=20
++void blk_set_disable_request_queuing(BlockBackend *blk, bool disable)
++{
++    blk->disable_request_queuing =3D disable;
++}
++
+ static int blk_check_byte_request(BlockBackend *blk, int64_t offset,
+                                   size_t size)
+ {
+@@ -1127,13 +1136,24 @@ static int blk_check_byte_request(BlockBackend *b=
+lk, int64_t offset,
+     return 0;
+ }
+=20
++static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
++{
++    if (blk->quiesce_counter && !blk->disable_request_queuing) {
++        qemu_co_queue_wait(&blk->queued_requests, NULL);
++    }
++}
++
+ int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
+                                unsigned int bytes, QEMUIOVector *qiov,
+                                BdrvRequestFlags flags)
+ {
+     int ret;
+-    BlockDriverState *bs =3D blk_bs(blk);
++    BlockDriverState *bs;
+=20
++    blk_wait_while_drained(blk);
++
++    /* Call blk_bs() only after waiting, the graph may have changed */
++    bs =3D blk_bs(blk);
+     trace_blk_co_preadv(blk, bs, offset, bytes, flags);
+=20
+     ret =3D blk_check_byte_request(blk, offset, bytes);
+@@ -1159,8 +1179,12 @@ int coroutine_fn blk_co_pwritev(BlockBackend *blk,=
+ int64_t offset,
+                                 BdrvRequestFlags flags)
+ {
+     int ret;
+-    BlockDriverState *bs =3D blk_bs(blk);
++    BlockDriverState *bs;
+=20
++    blk_wait_while_drained(blk);
++
++    /* Call blk_bs() only after waiting, the graph may have changed */
++    bs =3D blk_bs(blk);
+     trace_blk_co_pwritev(blk, bs, offset, bytes, flags);
+=20
+     ret =3D blk_check_byte_request(blk, offset, bytes);
+@@ -1349,6 +1373,12 @@ static void blk_aio_read_entry(void *opaque)
+     BlkRwCo *rwco =3D &acb->rwco;
+     QEMUIOVector *qiov =3D rwco->iobuf;
+=20
++    if (rwco->blk->quiesce_counter) {
++        blk_dec_in_flight(rwco->blk);
++        blk_wait_while_drained(rwco->blk);
++        blk_inc_in_flight(rwco->blk);
++    }
++
+     assert(qiov->size =3D=3D acb->bytes);
+     rwco->ret =3D blk_co_preadv(rwco->blk, rwco->offset, acb->bytes,
+                               qiov, rwco->flags);
+@@ -1361,6 +1391,12 @@ static void blk_aio_write_entry(void *opaque)
+     BlkRwCo *rwco =3D &acb->rwco;
+     QEMUIOVector *qiov =3D rwco->iobuf;
+=20
++    if (rwco->blk->quiesce_counter) {
++        blk_dec_in_flight(rwco->blk);
++        blk_wait_while_drained(rwco->blk);
++        blk_inc_in_flight(rwco->blk);
++    }
++
+     assert(!qiov || qiov->size =3D=3D acb->bytes);
+     rwco->ret =3D blk_co_pwritev(rwco->blk, rwco->offset, acb->bytes,
+                                qiov, rwco->flags);
+@@ -1482,6 +1518,8 @@ void blk_aio_cancel_async(BlockAIOCB *acb)
+=20
+ int blk_co_ioctl(BlockBackend *blk, unsigned long int req, void *buf)
+ {
++    blk_wait_while_drained(blk);
++
+     if (!blk_is_available(blk)) {
+         return -ENOMEDIUM;
+     }
+@@ -1522,7 +1560,11 @@ BlockAIOCB *blk_aio_ioctl(BlockBackend *blk, unsig=
+ned long int req, void *buf,
+=20
+ int blk_co_pdiscard(BlockBackend *blk, int64_t offset, int bytes)
+ {
+-    int ret =3D blk_check_byte_request(blk, offset, bytes);
++    int ret;
++
++    blk_wait_while_drained(blk);
++
++    ret =3D blk_check_byte_request(blk, offset, bytes);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -1532,6 +1574,8 @@ int blk_co_pdiscard(BlockBackend *blk, int64_t offs=
+et, int bytes)
+=20
+ int blk_co_flush(BlockBackend *blk)
+ {
++    blk_wait_while_drained(blk);
++
+     if (!blk_is_available(blk)) {
+         return -ENOMEDIUM;
+     }
+@@ -2232,6 +2276,9 @@ static void blk_root_drained_end(BdrvChild *child, =
+int *drained_end_counter)
+         if (blk->dev_ops && blk->dev_ops->drained_end) {
+             blk->dev_ops->drained_end(blk->dev_opaque);
          }
++        while (qemu_co_enter_next(&blk->queued_requests, NULL)) {
++            /* Resume all queued requests */
++        }
+     }
+ }
+=20
+diff --git a/block/commit.c b/block/commit.c
+index 2c5a6d4ebc..408ae15389 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -350,6 +350,7 @@ void commit_start(const char *job_id, BlockDriverStat=
+e *bs,
+     if (ret < 0) {
+         goto fail;
+     }
++    blk_set_disable_request_queuing(s->base, true);
+     s->base_bs =3D base;
+=20
+     /* Required permissions are already taken with block_job_add_bdrv() =
+*/
+@@ -358,6 +359,7 @@ void commit_start(const char *job_id, BlockDriverStat=
+e *bs,
+     if (ret < 0) {
+         goto fail;
+     }
++    blk_set_disable_request_queuing(s->top, true);
+=20
+     s->backing_file_str =3D g_strdup(backing_file_str);
+     s->on_error =3D on_error;
+diff --git a/block/mirror.c b/block/mirror.c
+index 642d6570cc..9b36391bb9 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1636,6 +1636,7 @@ static BlockJob *mirror_start_job(
+         blk_set_force_allow_inactivate(s->target);
+     }
+     blk_set_allow_aio_context_change(s->target, true);
++    blk_set_disable_request_queuing(s->target, true);
+=20
+     s->replaces =3D g_strdup(replaces);
+     s->on_source_error =3D on_source_error;
+diff --git a/blockjob.c b/blockjob.c
+index 20b7f557da..73d9f1ba2b 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -445,6 +445,9 @@ void *block_job_create(const char *job_id, const Bloc=
+kJobDriver *driver,
+=20
+     bdrv_op_unblock(bs, BLOCK_OP_TYPE_DATAPLANE, job->blocker);
+=20
++    /* Disable request queuing in the BlockBackend to avoid deadlocks on=
+ drain:
++     * The job reports that it's busy until it reaches a pause point. */
++    blk_set_disable_request_queuing(blk, true);
+     blk_set_allow_aio_context_change(blk, true);
+=20
+     /* Only set speed when necessary to avoid NotSupported error */
+diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
+index 9dffd86c47..468bbcc9a1 100644
+--- a/tests/test-bdrv-drain.c
++++ b/tests/test-bdrv-drain.c
+@@ -686,6 +686,7 @@ static void test_iothread_common(enum drain_type drai=
+n_type, int drain_thread)
+                               &error_abort);
+     s =3D bs->opaque;
+     blk_insert_bs(blk, bs, &error_abort);
++    blk_set_disable_request_queuing(blk, true);
+=20
+     blk_set_aio_context(blk, ctx_a, &error_abort);
+     aio_context_acquire(ctx_a);
 --=20
 2.20.1
 
