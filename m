@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150938FA30
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 07:05:38 +0200 (CEST)
-Received: from localhost ([::1]:49312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80218FA29
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 07:03:00 +0200 (CEST)
+Received: from localhost ([::1]:49284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyUQj-0008FC-60
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 01:05:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47883)
+	id 1hyUOB-000680-Dd
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 01:02:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47850)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1hyUMI-0004uz-EX
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:01:03 -0400
+ (envelope-from <bounces@canonical.com>) id 1hyUM6-0004bV-BF
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:00:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hyUMG-0001RI-O3
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:01:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51898)
+ (envelope-from <bounces@canonical.com>) id 1hyUM5-0001Hx-2A
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:00:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51404)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hyUMG-0001QH-Gq
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:01:00 -0400
+ id 1hyUM4-0001HO-Si
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:00:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hyUMD-0003BI-Rd
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:00:58 +0000
+ id 1hyUM3-00036L-Jh
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:00:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C23252E80DA
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:00:57 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 92C722E8070
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:00:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Aug 2019 04:52:32 -0000
-From: Thomas Huth <1701835@bugs.launchpad.net>
+Date: Fri, 16 Aug 2019 04:53:04 -0000
+From: Thomas Huth <1824853@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Tags: testcase
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bruno-clisp rth stefanrin th-huth
-X-Launchpad-Bug-Reporter: Bruno Haible (bruno-clisp)
+X-Launchpad-Bug-Commenters: pmaydell rth zhroma
+X-Launchpad-Bug-Reporter: Roman Zhuykov (zhroma)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <149893001258.15852.11258418521313176097.malonedeb@wampee.canonical.com>
-Message-Id: <156593115302.26718.10972532832747241735.malone@gac.canonical.com>
+References: <155534806981.13632.6401186723464432088.malonedeb@gac.canonical.com>
+Message-Id: <156593118513.26450.10601516946064632710.launchpad@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19022";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 93ba7009b09a7f4000ec1c7be1daea22db57b5be
+X-Launchpad-Hash: f8f133a1bec00b3368a754a7af04327c23569441
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1701835] Re: floating-point operation bugs in
- qemu-alpha
+Subject: [Qemu-devel] [Bug 1824853] Re: 4.0.0-rc3 crashes with
+ tcg/tcg.c:3952: tcg_gen_code: Assertion `s->gen_insn_end_off[num_insns] ==
+ off' failed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -65,11 +67,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1701835 <1701835@bugs.launchpad.net>
+Reply-To: Bug 1824853 <1824853@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D21ba856499f9c0ccdc
 
 ** Changed in: qemu
        Status: Fix Committed =3D> Fix Released
@@ -78,207 +78,83 @@ https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D21ba856499f9c0ccdc
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1701835
+https://bugs.launchpad.net/bugs/1824853
 
 Title:
-  floating-point operation bugs in qemu-alpha
+  4.0.0-rc3 crashes with tcg/tcg.c:3952: tcg_gen_code: Assertion
+  `s->gen_insn_end_off[num_insns] =3D=3D off' failed
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  When running the gnulib testsuite, I'm seeing test failures in the tests =
-for libm functions
-    cbrt
-    cbrtf
-    ceil
-    ceilf
-    coshf
-    exp2
-    exp2f
-    floor
-    floorf
-    fma
-    fmaf
-    fmal
-    frexp
-    frexpf
-    hypot
-    hypotf
-    hypotl
-    ilogb
-    ilogbf
-    isfinite
-    isinf
-    isnan
-    isnand
-    isnanf
-    ldexp
-    ldexpf
-    ldexpl
-    log1p
-    log1pf
-    log2
-    log2f
-    logb
-    logbf
-    logbl
-    rint
-    rintf
-    rintl
-    signbit
-    sqrt
-    sqrtf
-    strtod
-  that I don't see when running the same (statically linked) executables in=
- a VM, through qemu-system-alpha.
+  I tried to bootstrap and regtested gcc trunk (gcc svn rev 270278,
+  datestamp 20190411) inside my arm64-gentoo installation under qemu-
+  system-aarch64.
 
-  How to reproduce:
-  - Using gnulib, run ./gnulib-tool --create-testdir --dir=3D../testdir-mat=
-h --single-configure cbrt cbrtf ceil ceilf coshf exp2 exp2f float floor flo=
-orf fma fmaf fmal frexp frexpf hypot hypotf hypotl ilogb ilogbf isfinite is=
-inf isnan isnand isnanf ldexp ldexpf ldexpl log1p log1pf log2 log2f logb lo=
-gbf logbl math printf-frexp rint rintf rintl round roundf signbit sqrt sqrt=
-f strtod trunc truncf
-  - Copy the resulting directory to a VM running Linux 2.6.26 with qemu-sys=
-tem-alpha.
-  - There, configure and build the package:
-    mkdir build-native-static; cd build-native-static; ../configure CPPFLAG=
-S=3D"-Wall" LDFLAGS=3D"-static"; make; make check
-    Only 4 tests fail.
-  - Copy the resulting binaries back to the original x86_64 machine.
-  - Set environment variables for using qemu-alpha.
-  - Here, 50 tests fail that did not fail originally:
+  Qemu version was 4.0.0-rc3 and -cpu cortex-a57. Qemu configured with
+  only --target-list=3Daarch64-softmmu,aarch64-linux-user and compiled
+  using gcc "version 5.5.0 20171010 (Ubuntu 5.5.0-12ubuntu1~16.04)".
 
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-cbrt
-  ../../gltests/test-cbrt.h:39: assertion 'err > - L_(4.0) * L_(16.0) / TWO=
-_MANT_DIG && err < L_(4.0) * L_(16.0) / TWO_MANT_DIG' failed
-  Aborted (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-ceil1
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-ceil2
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-ceilf1
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-ceilf2
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-coshf =
+  Executable created from gcc/testsuite/gcc.target/aarch64/advsimd-
+  intrinsics/vldX.c compiled with -O2 crashed the whole qemu-system.
 
-  ../../gltests/test-coshf.c:37: assertion 'y >=3D 1.1854652f && y <=3D 1.1=
-854653f' failed
-  Aborted (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-float
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-floor1
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-floor2
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-floorf1
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-floorf2
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-fma1   =
+  To investigate a bit I also manually run
+  ~/gcc/inst/trunk/bin/gcc ~/gcc/src/trunk/gcc/testsuite/gcc.target/aarch64=
+/advsimd-intrinsics/vldX.c
+  with different options like:
+  -O0 -lm -o d0.exe
+  -O1 -lm -o d1.exe
+  -O2 -lm -o d2.exe
+  -O0 -static -lm -o s0.exe
+  -O1 -static -lm -o s1.exe
+  -O2 -static -lm -o s2.exe
 
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-fma2
-  ../../gltests/test-fma2.h:116: assertion 'result =3D=3D expected' failed
-  Aborted (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-fmaf1
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-fmaf2
-  ../../gltests/test-fma2.h:116: assertion 'result =3D=3D expected' failed
-  Aborted (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-fmal2
-  ../../gltests/test-fma2.h:116: assertion 'result =3D=3D expected' failed
-  Aborted (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-frexp
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-frexpf
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-hypot =
+  So, now I have 6 different arm64 executables created with different optim=
+ization levels. O0 and O1 versions run ok.
+  Three sN.exe static executables I've also tried in qemu user mode (with s=
+ame -cpu), no issue in user mode.
 
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-hypotf
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-hypotl
-  ../../gltests/test-hypot.h:41: assertion 'z =3D=3D HUGEVAL' failed
-  Aborted (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-ilogb =
+  And inside qemu-system I can see that
+  running "d2.exe" (attached) gives:
+  tcg/tcg.c:3952: tcg_gen_code: Assertion `s->gen_insn_end_off[num_insns] =
+=3D=3D off' failed.
 
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-ilogbf
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-isfinite
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-isinf   =
+  And running "s2.exe" gives:
+  tcg/tcg.c:320: set_jmp_reset_offset: Assertion `s->tb_jmp_reset_offset[wh=
+ich] =3D=3D off' failed.
 
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-isnan
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-isnand-nolibm
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-isnand       =
+  It seems like this test is an counter-example for logic that
+  "tcg_ctx->nb_ops < 4000" implies tcg will fit into 16-bit signed size
+  (see tcg_op_buf_full comments).
 
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-isnanf-nolibm
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-isnanf       =
+  Richard's changes in abebf92597186 and 9f754620651d were not enough, tran=
+slation block must be smaller, or we have to find some proper way to bail o=
+ut when buffer overflows.
+  I don't know why this situation is not caught by code_gen_highwater logic=
+ in tcg.c
 
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-ldexp =
+  I've also tried this "bail out" patch
 
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-ldexpf
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-ldexpl
-  ../../gltests/test-ldexp.h:99: assertion 'y =3D=3D expected' failed
-  Aborted (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-log1p =
+  diff --git a/tcg/tcg.c b/tcg/tcg.c
+  --- a/tcg/tcg.c
+  +++ b/tcg/tcg.c
+  @@ -3949,7 +3949,8 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *t=
+b)
+                   size_t off =3D tcg_current_code_size(s);
+                   s->gen_insn_end_off[num_insns] =3D off;
+                   /* Assert that we do not overflow our stored offset.  */
+  -                assert(s->gen_insn_end_off[num_insns] =3D=3D off);
+  +                if (s->gen_insn_end_off[num_insns] !=3D off)
+  +                  return -1;
+               }
+               num_insns++;
+               for (i =3D 0; i < TARGET_INSN_START_WORDS; ++i) {
 
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-log1pf
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-log2  =
-
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-log2f
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-logb =
-
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-logbf
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-math =
-
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-printf-frexp
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-rint        =
-
-  ../../gltests/test-rint.c:63: assertion 'rint (0.7) =3D=3D 1.0' failed
-  Aborted (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-rintf
-  ../../gltests/test-rintf.c:63: assertion 'rintf (0.7f) =3D=3D 1.0f' failed
-  Aborted (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-rintl
-  ../../gltests/test-rintl.c:68: assertion 'rintl (0.7L) =3D=3D 1.0L' failed
-  Aborted (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-round1
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-roundf1
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-signbit
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-sqrt   =
-
-  ../../gltests/test-sqrt.h:40: assertion 'err > - L_(16.0) / TWO_MANT_DIG =
-&& err < L_(16.0) / TWO_MANT_DIG' failed
-  Aborted (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-trunc1
-  Floating point exception (core dumped)
-  $ ~/inst-qemu/2.9.0/bin/qemu-alpha test-truncf1
-  Floating point exception (core dumped)
+  But then running "d2.exe" just hangs the whole qemu-system. It seems
+  that when tcg_gen_code return -1 (like in highwater logic mentioned
+  before), we just re-call it again and again.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1701835/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1824853/+subscriptions
 
