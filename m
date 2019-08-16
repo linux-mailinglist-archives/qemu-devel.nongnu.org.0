@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07BBB902F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:28:05 +0200 (CEST)
-Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A6F902EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:25:05 +0200 (CEST)
+Received: from localhost ([::1]:56022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycGx-0007L8-OJ
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:28:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35370)
+	id 1hycE3-0003mA-PU
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:25:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35371)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc6z-0003T0-BX
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc6z-0003T1-CO
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc6x-0005ea-4X
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:44 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36654)
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc6y-0005gB-CQ
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:45 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36957)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hyc6v-0005bK-Ka
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:42 -0400
-Received: by mail-wm1-x341.google.com with SMTP id g67so4054798wme.1
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:41 -0700 (PDT)
+ id 1hyc6x-0005cp-55
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:43 -0400
+Received: by mail-wm1-x329.google.com with SMTP id z23so4058154wmf.2
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=gOG9eP09SX1I4DbWjnDpdxCQC9UZs4XVu+2nUeoKx4w=;
- b=rqi493ckM5eAigzBVOVylWvnd22Z/Rl9aW4cRy9OULGGKUGKAHowCPJZUpeDPwuxk/
- 9lhylEhRMlDv+k4FevUHesXRAIbYIKuZuHYpyDo2njsUJHa/B0n6RhkwkYBn9cOV9l4Q
- L8twz7hr98oOUR0kb3HBq6Kh7+EDTzQ845nfRO+6ks4uz5AWs2wfkEe9IfgNxYgr3gQp
- HP+CoVzTl0Ptu2a1hx7gj/F+QGwxQ8+mKMy4ha98CBKGy8nC3/xX8ZUAqbhKXlILvBEH
- rT1Se+jqcXfpfEXMsMYCiU2nxNOjzww9nw5pRiWozGz67BQCi0ekAjIso2mnX/IADDrl
- 7HvA==
+ bh=a4P1+EnRZyW9kd5p9YYGOpI9oI6W9VDq86e7pkr27ak=;
+ b=G2Nw5zeFoIzsnJttWJHaYUHYl1tpxAzkyML5SeLEL/OwkAqpBcSnTXSA/+Urpx9Lo9
+ 0mrHt1hbvXP4VKYITFqZzX2Y2XKndJLKNwGssGBq65ls4by+gcW2nNTAjn/4pP4Ou2kM
+ iwuIhNgwQDiz33DaqTdKlItkJ0HBd/nro1p7VzTj25xWpdcIKYMj6CD6T1vtfYxub1Gb
+ axn7NZlTNa7RNSqP3wtxkZCuOyvDqQ2j0fBP0Uq+gVRJxMy5Y15VRcoIyR28TO+OXpTV
+ kuGCybIUK0pElDyUkj+03NaqHu6YPNyFUd8LYKJklV+iXZlXwQymltQPAvSzaZv4NA3D
+ I5KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gOG9eP09SX1I4DbWjnDpdxCQC9UZs4XVu+2nUeoKx4w=;
- b=TUI6o8fGpCy/iVaGtDMrMwWKbTaGcrLmwdHsrrF5Lh67TTrmW2UbIXTphCJls3i9sh
- 0LrlFEpsSeU40aH5RXmC+F5N2uv/1rF6+8KLwG71mnYXMl6fn/VVCg81LJlf/9HmLB6e
- SABj2jz5oWKOVwoDTdQeH7eK0sox+EDXpZTqkynLCiGCulAuZsoGJBc1vDuIFHK+u0xX
- o9NSakliV3CIMcOFXDwj8UMXsnQqBTze7p6/gMX6y9Oom454HZrKwNMhemTYxT6ME7IO
- nYuxJu03fS/eg5PUQR+/n9+hMXy0ANgqHAMffW41QwgnVy3nMJDcU7p8fOSoOXOaz80Z
- vdew==
-X-Gm-Message-State: APjAAAXApTmTUxsx0Qjgx2mNM1NHvOoAHPu52UcFGjKdtuKg3h1YRhEp
- +irNrw4uPiBIt5tNHnUBF+NazRoLse7kcQ==
-X-Google-Smtp-Source: APXvYqwMbUoonxU9jngoQ+SoONtSF/n2jMZt1fCLQrYj2aiJ3K9T1XUCalzHvgQf+xv3CdghyPIKWA==
-X-Received: by 2002:a1c:5402:: with SMTP id i2mr7353020wmb.41.1565961460479;
- Fri, 16 Aug 2019 06:17:40 -0700 (PDT)
+ bh=a4P1+EnRZyW9kd5p9YYGOpI9oI6W9VDq86e7pkr27ak=;
+ b=J7x/rE97Dl/9jow2/ShAQ/0ECZ1FnCg3JIyMF46QWo8aEdQhvK13MiiSR9CQ+NKUL/
+ oAPipw3M0jC9UCkd4MqdB6tOqWKQ0WNzDSgvHMrC5TQSiPI7umoMNOKaO+nTG0Eduz5/
+ FgrV3Es0bZMVr55sV2Al4HfzZBMARjhRNKK1ZOXqFrWphBy2GvOPhDKtUPo6vYrO86kO
+ uMv7A9zqeZ+5jy+Auc7ilmgcLoZ/y05z3VCllGCRc7LsaaCY05y/YqxXScXI5BUTt1cC
+ KRCbYBrbx/mfToizDH1cdSz8tSRrVNN2qcz/CCYYM35q/urYQxszfew74JH47P4lb4/U
+ hj9w==
+X-Gm-Message-State: APjAAAViJG7PPfvfDyN3AN9kxjqWNnj7ZllzD9WzG2rznpy/WrHoJuUq
+ 3vTT76CowUXngX12IgmXT9H+tfi4kTznvw==
+X-Google-Smtp-Source: APXvYqwyW2syss7CoBhVEv+TTcp+Qn/DScUgr2npA+VnVnvKdc7VrhxJV9wucUWrxYA2gpOurjjXvQ==
+X-Received: by 2002:a1c:a446:: with SMTP id n67mr7171016wme.56.1565961461599; 
+ Fri, 16 Aug 2019 06:17:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.39
+ by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 16 Aug 2019 06:17:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 14:17:08 +0100
-Message-Id: <20190816131719.28244-19-peter.maydell@linaro.org>
+Date: Fri, 16 Aug 2019 14:17:09 +0100
+Message-Id: <20190816131719.28244-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190816131719.28244-1-peter.maydell@linaro.org>
 References: <20190816131719.28244-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PULL 18/29] target/arm/cpu: Ensure we can use the pmu
- with kvm
+X-Received-From: 2a00:1450:4864:20::329
+Subject: [Qemu-devel] [PULL 19/29] target/arm/helper: zcr: Add build bug
+ next to value range assumption
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,126 +84,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew Jones <drjones@redhat.com>
 
-We first convert the pmu property from a static property to one with
-its own accessors. Then we use the set accessor to check if the PMU is
-supported when using KVM. Indeed a 32-bit KVM host does not support
-the PMU, so this check will catch an attempt to use it at property-set
-time.
+The current implementation of ZCR_ELx matches the architecture, only
+implementing the lower four bits, with the rest RAZ/WI. This puts
+a strict limit on ARM_MAX_VQ of 16. Make sure we don't let ARM_MAX_VQ
+grow without a corresponding update here.
 
+Suggested-by: Dave Martin <Dave.Martin@arm.com>
 Signed-off-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/kvm_arm.h | 14 ++++++++++++++
- target/arm/cpu.c     | 30 +++++++++++++++++++++++++-----
- target/arm/kvm.c     |  7 +++++++
- 3 files changed, 46 insertions(+), 5 deletions(-)
+ target/arm/helper.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index 98af1050a75..b3106c8600a 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -216,6 +216,15 @@ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu);
-  */
- bool kvm_arm_aarch32_supported(CPUState *cs);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 24806c16ca2..2fd504ea7a1 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -5300,6 +5300,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     int new_len;
  
-+/**
-+ * bool kvm_arm_pmu_supported:
-+ * @cs: CPUState
-+ *
-+ * Returns: true if the KVM VCPU can enable its PMU
-+ * and false otherwise.
-+ */
-+bool kvm_arm_pmu_supported(CPUState *cs);
-+
- /**
-  * kvm_arm_get_max_vm_ipa_size - Returns the number of bits in the
-  * IPA address space supported by KVM
-@@ -261,6 +270,11 @@ static inline bool kvm_arm_aarch32_supported(CPUState *cs)
-     return false;
- }
+     /* Bits other than [3:0] are RAZ/WI.  */
++    QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
+     raw_write(env, ri, value & 0xf);
  
-+static inline bool kvm_arm_pmu_supported(CPUState *cs)
-+{
-+    return false;
-+}
-+
- static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
- {
-     return -ENOENT;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index ec2ab95dbeb..2399c144718 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -994,10 +994,6 @@ static Property arm_cpu_has_el3_property =
- static Property arm_cpu_cfgend_property =
-             DEFINE_PROP_BOOL("cfgend", ARMCPU, cfgend, false);
- 
--/* use property name "pmu" to match other archs and virt tools */
--static Property arm_cpu_has_pmu_property =
--            DEFINE_PROP_BOOL("pmu", ARMCPU, has_pmu, true);
--
- static Property arm_cpu_has_vfp_property =
-             DEFINE_PROP_BOOL("vfp", ARMCPU, has_vfp, true);
- 
-@@ -1020,6 +1016,29 @@ static Property arm_cpu_pmsav7_dregion_property =
-                                            pmsav7_dregion,
-                                            qdev_prop_uint32, uint32_t);
- 
-+static bool arm_get_pmu(Object *obj, Error **errp)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    return cpu->has_pmu;
-+}
-+
-+static void arm_set_pmu(Object *obj, bool value, Error **errp)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    if (value) {
-+        if (kvm_enabled() && !kvm_arm_pmu_supported(CPU(cpu))) {
-+            error_setg(errp, "'pmu' feature not supported by KVM on this host");
-+            return;
-+        }
-+        set_feature(&cpu->env, ARM_FEATURE_PMU);
-+    } else {
-+        unset_feature(&cpu->env, ARM_FEATURE_PMU);
-+    }
-+    cpu->has_pmu = value;
-+}
-+
- static void arm_get_init_svtor(Object *obj, Visitor *v, const char *name,
-                                void *opaque, Error **errp)
- {
-@@ -1094,7 +1113,8 @@ void arm_cpu_post_init(Object *obj)
-     }
- 
-     if (arm_feature(&cpu->env, ARM_FEATURE_PMU)) {
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_pmu_property,
-+        cpu->has_pmu = true;
-+        object_property_add_bool(obj, "pmu", arm_get_pmu, arm_set_pmu,
-                                  &error_abort);
-     }
- 
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index fe4f461d4ef..bfe3d445e19 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -162,6 +162,13 @@ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
-     env->features = arm_host_cpu_features.features;
- }
- 
-+bool kvm_arm_pmu_supported(CPUState *cpu)
-+{
-+    KVMState *s = KVM_STATE(current_machine->accelerator);
-+
-+    return kvm_check_extension(s, KVM_CAP_ARM_PMU_V3);
-+}
-+
- int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
- {
-     KVMState *s = KVM_STATE(ms->accelerator);
+     /*
 -- 
 2.20.1
 
