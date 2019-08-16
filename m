@@ -2,26 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B11F8FFE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 12:20:26 +0200 (CEST)
-Received: from localhost ([::1]:53418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFA58FFF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 12:24:05 +0200 (CEST)
+Received: from localhost ([::1]:53558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyZLL-0005hV-DF
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 06:20:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37507)
+	id 1hyZOt-0007WT-N7
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 06:24:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46992)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1hyZIE-0004X7-Tu
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 06:17:12 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hyZLp-0006dF-Ow
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 06:20:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hyZIC-0001m5-NM
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 06:17:10 -0400
-Resent-Date: Fri, 16 Aug 2019 06:17:10 -0400
-Resent-Message-Id: <E1hyZIC-0001m5-NM@eggs.gnu.org>
-Received: from sender-of-o53.zoho.com ([135.84.80.218]:21813)
+ (envelope-from <no-reply@patchew.org>) id 1hyZLl-00049R-7s
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 06:20:52 -0400
+Resent-Date: Fri, 16 Aug 2019 06:20:50 -0400
+Resent-Message-Id: <E1hyZLl-00049R-7s@eggs.gnu.org>
+Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21996)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hyZG9-0008IE-RM; Fri, 16 Aug 2019 06:17:02 -0400
+ id 1hyZK8-00030q-IP
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 06:20:45 -0400
 ARC-Seal: i=1; a=rsa-sha256; t=1565950480; cv=none; d=zoho.com; s=zohoarc; 
  b=F7Xs7BWsNUUvPyvUlGl50sOd17MAKcLEY/N5+uWywynQVnWpMQmVXRJrRxKO7s1IYE7eHOtdBynNTPYidPOGqmjwnHrUb1v7uwU6/rZzGvxT+01++Y1AIR24lM00qvUbXngzmPraUs0iaFqrMr5rZzs78Fd2NpqPh0ci+sCt9vk=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
@@ -47,7 +48,7 @@ To: kwolf@redhat.com
 Date: Fri, 16 Aug 2019 03:14:37 -0700 (PDT)
 X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.218
+X-Received-From: 136.143.188.59
 Subject: Re: [Qemu-devel] [PULL 00/16] Block layer patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
