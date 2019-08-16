@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD269030B
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:31:07 +0200 (CEST)
-Received: from localhost ([::1]:56128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC83E90327
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:35:41 +0200 (CEST)
+Received: from localhost ([::1]:56204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycJt-0002PB-Th
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:31:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35407)
+	id 1hycOK-0006GM-PK
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:35:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35413)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc72-0003Ve-5p
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc72-0003W4-KT
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc71-0005jY-7F
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc71-0005js-DE
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:48 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40450)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46152)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hyc6y-0005eJ-Qq
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:45 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id v19so4058206wmj.5
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:43 -0700 (PDT)
+ id 1hyc71-0005hb-72
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:47 -0400
+Received: by mail-wr1-x441.google.com with SMTP id z1so1504909wru.13
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9JJ/qi1KooqArepu9cu8DTevmHirJk1gOv6Hyhc2xNE=;
- b=egHZSJvmVgHj99KtTQXsGVeci0ggETKR+qx/BUM/0Fxtd5lRgpn7p09nx8wjZb39r6
- KtlJ64kIHshsGNph7PhjeIvBz/1OHNnnRsSuylJZ788H4aeKXjF9lUPDGGtB25/k+hmh
- IVQCjvYj3KAzbg5HydlRfTts4Ov2p4N3fTI8TahXLtio3X4MoioSW/PVDkR69WFG8ut2
- oDA7Wa/0F/XZIbtq8p90BTP+ASucK8f1ydmFR+wdloPBzZDaz3JtOxRdzjvHE0Hilr+i
- 8hixCqGEzxs50MlYx+P+LO6fTts+OJFwbDbb3XXkm2nVCKWY7OK0TckHpFRFdQZaLhxx
- sZfA==
+ bh=dgkcpwUGH477Gg/fNptnjN0QOcMB45au6RquMB/K4P4=;
+ b=nuVVS+1gnm9rroRAt+Od79+qa3sWRm+YkTgVO99ESs/L4Uuf/0TVn7vEmroNv7QIPt
+ F10yq0RTNFlNt7X6rqpiebOcHcbiYl991I/+8zkLPmuUUj7juLGJyYY1/QSUfoi0XLEK
+ G2TGi7sIKNUtSXN9txuv4cwVxxEQgCAsYdJ4bhjpYN0XS0ihgyVuVdgsYyl4onFu1nu8
+ ouCV6P4A3NPVxUVZpUuYQhnrcGA4Wb+2OqZAxt5z668yJnYaJNjsRsnBfvdtVAYFWLEc
+ 3ktlS3OuARVBxnZiEZZFZ2EKIpJ9ks2DnwrP/9l09r/q9DgDVD3RpnThfkUY2+EM2OsQ
+ K7MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9JJ/qi1KooqArepu9cu8DTevmHirJk1gOv6Hyhc2xNE=;
- b=YvSAYzvP753sP5ANMj3IqyOGs0ZJ3wV7txsUAdWXoj/bqRXEtxSh3nAbcqe2+oxezK
- fGkicLcYg9dPfNFMc8D8S6nIz0yYXK6OgspzpD1pwNX65Loa24dtvjv1/Nr4gvQDR/ZI
- xDFjFWa4bYF6OJhG0WRVTy+YWQHL+J3NViQ4YpcIdq/+BhK7llX2g7QuuKPSHLj/BTxl
- 5u2DeMdZ/iwVlfpZr/8mHNeQnq4y6VYviARZYKGbq4l+wJHK9fXMtQZgZ2ib/OHjuD9X
- JRiyMLYlGz+3667MQQt8sTp2bFd9JNJSQnZbX/3fBTVaqk+0NLjkKJqsWTrXvoAS14q7
- yE4A==
-X-Gm-Message-State: APjAAAXbGXQaCA4VIygDxBlJJJfHaJB7la3XCPBX+PciaFT29PI9g4rm
- H0ge+qKXwVajJSbBM/wwNmz5VUGmG24mtA==
-X-Google-Smtp-Source: APXvYqzFhM9wH3guM+Em5pcHSe9S20Q0XA68LMWV3YhOhJZc2cor8OSGCxDVZPgH/C3le9b6HA61dg==
-X-Received: by 2002:a05:600c:d9:: with SMTP id
- u25mr7583365wmm.26.1565961462424; 
- Fri, 16 Aug 2019 06:17:42 -0700 (PDT)
+ bh=dgkcpwUGH477Gg/fNptnjN0QOcMB45au6RquMB/K4P4=;
+ b=iZG7a86NIYXr2QbS3xMCH8XUw+YysuLGvsE9ANZ1XQHvRZ673Sdh/82Tj7vqAxnNxn
+ rKRpyVDIa42YWGOXbzo5uj/A1WlABF7M8tkZ/BkYyz887kCSBOHhHadzwKVWwrtveUAW
+ nrNic24Bi+fn7OZQu5MjqFdRn+YTtIxUwn2nLJFT4g3LbxEpMvwJOWBQtQfGN+Lpr0T8
+ T/A9Z1t5ZcEjH+C4u+QJp+DFKINTD+uBFnEYvhU+s/HbLVl6WLsDQzxEuoLzgq+qEPAH
+ MSccXjPLIjZfQvSKlMejN7btw5QvBh85RUrkiE4XPaF13R9CWlxHfP/p8cAKWeM6xK7w
+ +zBw==
+X-Gm-Message-State: APjAAAXkJ8ttXqiY+XX4DyFerKH/tYBVGS48TJWveXzRMRFslR0t0aGB
+ pAjXIJzNLB1+qiBYoQLT9YUlt9s62zt7vg==
+X-Google-Smtp-Source: APXvYqxsX/Q+29MNF5iLNV4Vj5iBoCQzzNJS0aG38BBHcgyxBeYjAChMlzBa4B8yGzmH0sH2NmC9/Q==
+X-Received: by 2002:adf:ecc7:: with SMTP id s7mr11449675wro.215.1565961464199; 
+ Fri, 16 Aug 2019 06:17:44 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.41
+ by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 06:17:41 -0700 (PDT)
+ Fri, 16 Aug 2019 06:17:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 14:17:10 +0100
-Message-Id: <20190816131719.28244-21-peter.maydell@linaro.org>
+Date: Fri, 16 Aug 2019 14:17:11 +0100
+Message-Id: <20190816131719.28244-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190816131719.28244-1-peter.maydell@linaro.org>
 References: <20190816131719.28244-1-peter.maydell@linaro.org>
@@ -66,9 +65,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
-Subject: [Qemu-devel] [PULL 20/29] target/arm/cpu: Use div-round-up to
- determine predicate register array size
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PULL 21/29] target/arm/kvm64: Fix error returns
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,30 +83,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew Jones <drjones@redhat.com>
 
-Unless we're guaranteed to always increase ARM_MAX_VQ by a multiple of
-four, then we should use DIV_ROUND_UP to ensure we get an appropriate
-array size.
+A couple return -EINVAL's forgot their '-'s.
 
 Signed-off-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/kvm64.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index d12c7460859..ab5d58a9d41 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -195,7 +195,7 @@ typedef struct ARMVectorReg {
- #ifdef TARGET_AARCH64
- /* In AArch32 mode, predicate registers do not exist at all.  */
- typedef struct ARMPredicateReg {
--    uint64_t p[2 * ARM_MAX_VQ / 8] QEMU_ALIGNED(16);
-+    uint64_t p[DIV_ROUND_UP(2 * ARM_MAX_VQ, 8)] QEMU_ALIGNED(16);
- } ARMPredicateReg;
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 3d91846beb8..ddde6268b9d 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -854,7 +854,7 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+     write_cpustate_to_list(cpu, true);
  
- /* In AArch32 mode, PAC keys do not exist at all.  */
+     if (!write_list_to_kvmstate(cpu, level)) {
+-        return EINVAL;
++        return -EINVAL;
+     }
+ 
+     kvm_arm_sync_mpstate_to_kvm(cpu);
+@@ -995,7 +995,7 @@ int kvm_arch_get_registers(CPUState *cs)
+     }
+ 
+     if (!write_kvmstate_to_list(cpu)) {
+-        return EINVAL;
++        return -EINVAL;
+     }
+     /* Note that it's OK to have registers which aren't in CPUState,
+      * so we can ignore a failure return here.
 -- 
 2.20.1
 
