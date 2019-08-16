@@ -2,58 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D279B900DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 13:39:05 +0200 (CEST)
-Received: from localhost ([::1]:54146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760AE90115
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 14:06:11 +0200 (CEST)
+Received: from localhost ([::1]:54976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyaZU-00055b-Nm
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 07:39:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50403)
+	id 1hyazi-0005Gi-KT
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 08:06:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54249)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyaYD-0004Vk-71
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 07:37:46 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hyayd-0004Se-5d
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 08:05:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyaYB-00042T-S1
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 07:37:45 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.79]:23919)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyaXx-0003IB-Ir; Fri, 16 Aug 2019 07:37:29 -0400
-Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- BWP09926084.bt.com (10.36.82.115) with Microsoft SMTP Server (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
- Aug 2019 12:37:05 +0100
-Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18e.domain1.systemhost.net (10.9.212.18) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 12:37:26 +0100
-Received: from tpw09926dag18e.domain1.systemhost.net
- ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
- ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 12:37:26 +0100
-From: <tony.nguyen@bt.com>
-To: <philmd@redhat.com>, <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 00/42] Invert Endian bit in SPARCv9 MMU
- TTE
-Thread-Index: AQHVU/vc8DdfhK3ulkmWv148s0Uozqb9eXeAgAAr/BQ=
-Date: Fri, 16 Aug 2019 11:37:26 +0000
-Message-ID: <1565955445398.83897@bt.com>
-References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>,
+ (envelope-from <dgibson@ozlabs.org>) id 1hyayc-0004dJ-2Q
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 08:05:03 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45421 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hyayV-0004XL-9N; Fri, 16 Aug 2019 08:04:56 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46927M0thdz9sML; Fri, 16 Aug 2019 22:04:47 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1565957087;
+ bh=1OQXK0o9OvoNPapWpbimPbhqPrE5Qa0PGQHKlRYcMkI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Wekzw6zxxq4IvC7+Zbnwqdia1xVqewDn7eX7Ht9Y83gQasjzBhjYu5PoAd/WiLpW0
+ 0PKntAaqTZcpID4Z8EVVQ0BYFf4MjOJ+3toNPAxMyQTRRcgQcAbv4eU/EBfCSgFmWB
+ Crykn4dJVY56dnF3V1Dz6Ofl/uRZ25H6HxZL3I/0=
+Date: Fri, 16 Aug 2019 21:43:05 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190816114305.GB2259@umbus.fritz.box>
+References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
  <a7d6eede-b152-4c06-8945-9607c663b99c@redhat.com>
-In-Reply-To: <a7d6eede-b152-4c06-8945-9607c663b99c@redhat.com>
-Accept-Language: en-AU, en-GB, en-US
-Content-Language: en-AU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.79
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DKU6Jbt7q3WqK7+M"
+Content-Disposition: inline
+In-Reply-To: <a7d6eede-b152-4c06-8945-9607c663b99c@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 Subject: Re: [Qemu-devel] [PATCH v7 00/42] Invert Endian bit in SPARCv9 MMU
  TTE
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,79 +71,89 @@ Cc: frederic.konrad@adacore.com, berto@igalia.com, qemu-block@nongnu.org,
  sstabellini@kernel.org, andrew.smirnov@gmail.com, deller@gmx.de,
  magnus.damm@gmail.com, atar4qemu@gmail.com, minyard@acm.org, sw@weilnetz.de,
  yuval.shaia@oracle.com, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- jan.kiszka@web.de, clg@kaod.org, shorne@gmail.com, qemu-riscv@nongnu.org,
- i.mitsyanko@gmail.com, cohuck@redhat.com, amarkovic@wavecomp.com,
- peter.chubb@nicta.com.au, aurelien@aurel32.net, pburton@wavecomp.com,
- sagark@eecs.berkeley.edu, green@moxielogic.com, kraxel@redhat.com,
- edgar.iglesias@gmail.com, gxt@mprc.pku.edu.cn, robh@kernel.org,
- borntraeger@de.ibm.com, joel@jms.id.au, antonynpavlov@gmail.com,
- chouteau@adacore.com, lersek@redhat.com, Andrew.Baumann@microsoft.com,
- mreitz@redhat.com, walling@linux.ibm.com, dmitry.fleytman@gmail.com,
- mst@redhat.com, mark.cave-ayland@ilande.co.uk, jslaby@suse.cz, marex@denx.de,
- proljc@gmail.com, marcandre.lureau@redhat.com, alistair@alistair23.me,
- paul.durrant@citrix.com, david@gibson.dropbear.id.au,
- xiaoguangrong.eric@gmail.com, huth@tuxfamily.org, jcd@tribudubois.net,
- pbonzini@redhat.com, stefanb@linux.ibm.com
+ peter.chubb@nicta.com.au, clg@kaod.org, shorne@gmail.com,
+ qemu-riscv@nongnu.org, i.mitsyanko@gmail.com, cohuck@redhat.com,
+ amarkovic@wavecomp.com, jan.kiszka@web.de, aurelien@aurel32.net,
+ pburton@wavecomp.com, sagark@eecs.berkeley.edu, green@moxielogic.com,
+ kraxel@redhat.com, edgar.iglesias@gmail.com, gxt@mprc.pku.edu.cn,
+ robh@kernel.org, borntraeger@de.ibm.com, joel@jms.id.au,
+ antonynpavlov@gmail.com, chouteau@adacore.com, lersek@redhat.com,
+ Andrew.Baumann@microsoft.com, mreitz@redhat.com, walling@linux.ibm.com,
+ dmitry.fleytman@gmail.com, mst@redhat.com, mark.cave-ayland@ilande.co.uk,
+ qemu-devel@nongnu.org, jslaby@suse.cz, marex@denx.de, proljc@gmail.com,
+ marcandre.lureau@redhat.com, alistair@alistair23.me, paul.durrant@citrix.com,
+ tony.nguyen@bt.com, xiaoguangrong.eric@gmail.com, huth@tuxfamily.org,
+ jcd@tribudubois.net, pbonzini@redhat.com, stefanb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Phillippe,
 
-On 8/16/19 7:58 PM, Philippe Mathieu-Daud=E9 wrote:
->On 8/16/19 8:28 AM, tony.nguyen@bt.com wrote:
->> This patchset implements the IE (Invert Endian) bit in SPARCv9 MMU TTE.
->>
->> v7:
->[...]
->> - Re-declared many native endian devices as little or big endian. This i=
-s why
->>   v7 has +16 patches.
->
->Why are you doing that? What is the rational?
+--DKU6Jbt7q3WqK7+M
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-While collapsing the byte swaps, it was suggested in patch #11 of v5 that
-consistent use of MemOp simplified endian comparisons. This lead to the
-deprecation of enum device_endian by MemOp.
+On Fri, Aug 16, 2019 at 11:58:05AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Hi Tony,
+>=20
+> On 8/16/19 8:28 AM, tony.nguyen@bt.com wrote:
+> > This patchset implements the IE (Invert Endian) bit in SPARCv9 MMU TTE.
+> >=20
+> > v7:
+> [...]
+> > - Re-declared many native endian devices as little or big endian. This =
+is why
+> >   v7 has +16 patches.
+>=20
+> Why are you doing that? What is the rational?
+>=20
+> Anyhow if this not required by your series, you should split it out of
+> it, and send it on your principal changes are merged.
+> I'm worried because this these new patches involve many subsystems (thus
+> maintainers) and reviewing them will now take a fair amount of time.
+>=20
+> > For each device declared with DEVICE_NATIVE_ENDIAN, find the set of
+> > targets from the set of target/hw/*/device.o.
+> >
+> > If the set of targets are all little or all big endian, re-declare
+> > the device endianness as DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN
+> > respectively.
+>=20
+> If only little endian targets use a device, that doesn't mean the device
+> is designed in little endian...
+>=20
+> Then if a big endian target plan to use this device, it will require
+> more work and you might have introduced regressions...
 
-As MO_TE is conditional upon NEED_CPU_H, the s/DEVICE_NATIVE_ENDIAN/MO_TE/
-required changing some device object files from common-obj-* to obj-*. In p=
-atch
-#15 of v6 Paolo noted that most devices should not of been DEVICE_NATIVE_EN=
-DIAN
-and hinted at a clean up.
+Uh.. only if they make the version of the device on a big endian
+target big endian.  Which is a terrible idea - if you know a hardware
+designer planning to do this, please slap them.
 
-The +16 patches in v7 is the clean up effort.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
->Anyhow if this not required by your series, you should split it out of
->it, and send it on your principal changes are merged.
->I'm worried because this these new patches involve many subsystems (thus
->maintainers) and reviewing them will now take a fair amount of time.
+--DKU6Jbt7q3WqK7+M
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Yes, lets split these patches out. They are very much a tangent to the seri=
-es
-purpose.
+-----BEGIN PGP SIGNATURE-----
 
->> For each device declared with DEVICE_NATIVE_ENDIAN, find the set of
->> targets from the set of target/hw/*/device.o.
->>
->> If the set of targets are all little or all big endian, re-declare
->> the device endianness as DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN
->> respectively.
->
->If only little endian targets use a device, that doesn't mean the device
->is designed in little endian...
->
->Then if a big endian target plan to use this device, it will require
->more work and you might have introduced regressions...
->
->I'm not sure this is a safe move.
->
->> This *naive* deduction may result in genuinely native endian devices
->> being incorrectly declared as little or big endian, but should not
->> introduce regressions for current targets.
->
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1WlskACgkQbDjKyiDZ
+s5K9oQ//Uuo9cWWmd396i/MdQyddqKELOko009vf2k8wlEaysKrMpuKkkj7EV4Lz
+x+MQYyqEBAZMLC5KoTeSRYHynyRTPSBOURxhQNkH4Nqj3Skxr9buvX4pqhNLhmLE
+A8tSn3paa4N5GKXbgt4fOiNwBXxnrcAQgmruCbyvO7NKXPmZyTSQxJkR8VHE/qxK
+LWKEgA/bjyloFI7OwpWW0rc0LdqmDljy4NKmfHsFxlZdc+TlcM2PgkYPBdRMf5SH
+Nlj3YvXrsxa1gfrGLou/tlS9WHyKxl7K1DSbh42ObtrBKtc6z9aPY9+mi1moAJLi
+/CpHM3SbdY4j1mGPk5/TZBul+m7spkoJfDB0A/mwb5pTLsZKO0fIOThUkjlCD32D
+It90f2Y2I+omAnGOs8nX52SOoNfUwB6vtA4ThBEXzKSOOepPuL5dgSmJ8sGUn1GY
+eckRx2z4Emap23L0WavytQ+oaQW8PrhfMFUBWS1DSh/uPVUs1m4Zcs2Q8siBRXZJ
+J70alEhGvbhch2+S5q69iYIvljVoMcA1DjHc06WTwZOatjUdjJAQpMLidpH03+UC
+AKeSvwpEA5yvuxCfLuThYD+6MeEGyVtH/IEKqSLE7IFVp2VBeqZ4tNKN41Fw/aQH
+t3Q5LKmwmLKiyzHZSFM5JmNuyjmdwG56N4INLGlLEAPy9F40PR0=
+=nw08
+-----END PGP SIGNATURE-----
 
-Roger. Evidently too naive. TBH, most devices I've never heard of...
+--DKU6Jbt7q3WqK7+M--
 
-Regards,
-Tony
