@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48710902C5
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:20:20 +0200 (CEST)
-Received: from localhost ([::1]:55904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B99902C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:20:23 +0200 (CEST)
+Received: from localhost ([::1]:55908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyc9T-00054j-3Z
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:20:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35093)
+	id 1hyc9W-000580-24
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:20:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35122)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc6h-0003Jm-89
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc6i-0003Jo-IC
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc6f-0005K9-L8
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:26 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33032)
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc6g-0005KT-73
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:28 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44788)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hyc6e-0005He-Jq
+ id 1hyc6e-0005Il-NS
  for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:24 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id p77so3177703wme.0
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:22 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id p17so1512037wrf.11
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=SD5ZT/I/fGGNqGuhj28nPoIF8fnOhWt0fYax6076UXY=;
- b=yENjP4f3yrT9/NAooiizQ1KbvOYNNqdMDA4oyAceZ9VU49eqvRtnDnZGKvf2k6z+yr
- pQ0k83l/o8u0RzMrO7ITWwVXdehQiAnlQqpaaUrWa8g4oh7F02XIqsbSkRXALG39dSAX
- kaLKX55wJ9sPLBsXTpRQafN9B2nKw+eaFQcvMo9vyiLJVUDqq8UUL4Nz+iBX+AttIWuc
- tnAE7jeuhg/DZgDs7nmZrzDq8DU5AO1/xJ2jCnCPVF9wYXbWQrfcmSPzXrqj4KeE8i9/
- Eg70+mk0N4kGVez/7G5AcPcwOVUjSUBYK6Nc9GU5cdB0W1j01HWYweQJer6G7TFIH+zV
- bKKQ==
+ bh=0ZnJsA94N8X7Cu7kfm4dOD2XBmDpwblF2KvIbDAt0vg=;
+ b=TBQBwkWyuT6Stlizt1gHqQss/m5pVzDpeiWCTYtt/+L479Z1DkG+SdwtCM/DGxmg2Z
+ vHTAuSYhijfBwHtcPEGqk2a6t3biEGyw8sjfPXXduoxB1GdldBAOdEtClXRdECr42cEH
+ QQNCjxITB5r6ohTAWkW8lCQh+UZR0QvvYExaxMb6BRYfsLTqLSkuTdKmbVzFxYWbBvRG
+ 957ggFtXni9KfqTiq3MjRrZiIE0XRY9BxKe87nndLOo7jGjfTV1u61CrqECd6YtY6Fzq
+ wWCJlJIPw4/V6Gxm9gj+gS1laY2jHlIyshHLFtdLjW/+Vvlbj00t/fXJMsgC5OeCL5Ip
+ 4BaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SD5ZT/I/fGGNqGuhj28nPoIF8fnOhWt0fYax6076UXY=;
- b=tjqJTb5Ngi56d/sut8uJFqarOquWV7ZADKkVajri6uHGxgqM54RwRiOIbts1ha1+FF
- eUDLzGYRuPU0/BdtEAonzt6BzM4tLNl+DNtvN837VBuvHG4FjI/SiEOe7RhZKbp43hNr
- 5yL6aq/DlqtvldDp+FrXg1EKV0I6yOhv2TefqJYKuv+haX++hz5f61bpgtbjtx7bRQXk
- TFGyl+92YJQygqeFHSYeMKZqPinBtTX8ozmeNQ50Fii9fley41LKd1KJOJVwUCgJdZvq
- 8rNHyi42TW77j3CZym8uxxi+QbfMTtHqu0WJhGzHXPl8rpXMzh+5M4WcVrBLKN0xbSl9
- M1ng==
-X-Gm-Message-State: APjAAAU317KbY2K03u+JYkCeaUAIS2kNupWJjhPH8m0giv4cPLMYLFQM
- Syjnjwl8NkNaNw0HLvRA74mXR0B9j9uVCQ==
-X-Google-Smtp-Source: APXvYqx3Wpy42SiZ+gKaodGale8NvErZLW4Z83QhIANwCUmmKKez/JZCG1ewMzf57Auz0E+bCmkQHg==
-X-Received: by 2002:a1c:107:: with SMTP id 7mr7514812wmb.84.1565961441005;
- Fri, 16 Aug 2019 06:17:21 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0ZnJsA94N8X7Cu7kfm4dOD2XBmDpwblF2KvIbDAt0vg=;
+ b=JUHMarBuAiRmKMqrPzAs2OucAxhKTHHwmKKmo9pWzi5Uw8Vz3l8vzaK+7slaTWv3ip
+ BJjrxitGTtU+Pz3vp+CX9YwGCfxv2X3/Ob46GbM5FbLoYHHszMAta0kmDNNdncpa7Al7
+ uEgz84+Xt8Il33inrov8yt2PRIadWie6yQpv1VbH57DxGvYN7L7FhnNgz4ILXp9flO/v
+ strMFb53FvgRMldaWw5UvTSFUZPn7j2p7Jb0knyv7AvBIw6eNb0EWkCe5kwSZ3S6Wv6+
+ +/gJBZ+DIiUrYy7eQUtE0H34dZAOm3cTEcTj/VmKT0VVRscESPdy1YqOgJiDuDk0bqsC
+ clUA==
+X-Gm-Message-State: APjAAAV7980IWsQGhn89NQBygFExozNnNmsUvYq8Xuin7+r4WibJc0QU
+ 7pM+dDWOKMGFwbSi5AyYRZ2ZbKEArU/0hA==
+X-Google-Smtp-Source: APXvYqyKqvPa1VJSPpgsSl6OFFleDEiFJGFezepRpT1QF7So9mhrR6JM0ElSwdmZa0+7aUQ1YV8W1Q==
+X-Received: by 2002:a5d:518d:: with SMTP id k13mr11384527wrv.349.1565961442809; 
+ Fri, 16 Aug 2019 06:17:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.20
+ by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 06:17:20 -0700 (PDT)
+ Fri, 16 Aug 2019 06:17:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 14:16:50 +0100
-Message-Id: <20190816131719.28244-1-peter.maydell@linaro.org>
+Date: Fri, 16 Aug 2019 14:16:51 +0100
+Message-Id: <20190816131719.28244-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190816131719.28244-1-peter.maydell@linaro.org>
+References: <20190816131719.28244-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
-Subject: [Qemu-devel] [PULL 00/29] target-arm queue
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PULL 01/29] target/arm: generate a custom MIDR for
+ -cpu max
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,92 +83,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First arm pullreq of 4.2...
+From: Alex Bennée <alex.bennee@linaro.org>
 
-thanks
--- PMM
+While most features are now detected by probing the ID_* registers
+kernels can (and do) use MIDR_EL1 for working out of they have to
+apply errata. This can trip up warnings in the kernel as it tries to
+work out if it should apply workarounds to features that don't
+actually exist in the reported CPU type.
 
-The following changes since commit 27608c7c66bd923eb5e5faab80e795408cbe2b51:
+Avoid this problem by synthesising our own MIDR value.
 
-  Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20190814a' into staging (2019-08-16 12:00:18 +0100)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20190726113950.7499-1-alex.bennee@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/cpu.h   |  6 ++++++
+ target/arm/cpu64.c | 19 +++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-are available in the Git repository at:
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 94c990cddbd..67f2af0e169 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1611,6 +1611,12 @@ FIELD(V7M_FPCCR, ASPEN, 31, 1)
+ /*
+  * System register ID fields.
+  */
++FIELD(MIDR_EL1, REVISION, 0, 4)
++FIELD(MIDR_EL1, PARTNUM, 4, 12)
++FIELD(MIDR_EL1, ARCHITECTURE, 16, 4)
++FIELD(MIDR_EL1, VARIANT, 20, 4)
++FIELD(MIDR_EL1, IMPLEMENTER, 24, 8)
++
+ FIELD(ID_ISAR0, SWAP, 0, 4)
+ FIELD(ID_ISAR0, BITCOUNT, 4, 4)
+ FIELD(ID_ISAR0, BITFIELD, 8, 4)
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 1901997a064..ee55237a9b2 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -296,6 +296,25 @@ static void aarch64_max_initfn(Object *obj)
+         uint32_t u;
+         aarch64_a57_initfn(obj);
+ 
++        /*
++         * Reset MIDR so the guest doesn't mistake our 'max' CPU type for a real
++         * one and try to apply errata workarounds or use impdef features we
++         * don't provide.
++         * An IMPLEMENTER field of 0 means "reserved for software use";
++         * ARCHITECTURE must be 0xf indicating "v7 or later, check ID registers
++         * to see which features are present";
++         * the VARIANT, PARTNUM and REVISION fields are all implementation
++         * defined and we choose to define PARTNUM just in case guest
++         * code needs to distinguish this QEMU CPU from other software
++         * implementations, though this shouldn't be needed.
++         */
++        t = FIELD_DP64(0, MIDR_EL1, IMPLEMENTER, 0);
++        t = FIELD_DP64(t, MIDR_EL1, ARCHITECTURE, 0xf);
++        t = FIELD_DP64(t, MIDR_EL1, PARTNUM, 'Q');
++        t = FIELD_DP64(t, MIDR_EL1, VARIANT, 0);
++        t = FIELD_DP64(t, MIDR_EL1, REVISION, 0);
++        cpu->midr = t;
++
+         t = cpu->isar.id_aa64isar0;
+         t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2); /* AES + PMULL */
+         t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);
+-- 
+2.20.1
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190816
-
-for you to fetch changes up to 664b7e3b97d6376f3329986c465b3782458b0f8b:
-
-  target/arm: Use tcg_gen_extrh_i64_i32 to extract the high word (2019-08-16 14:02:53 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * target/arm: generate a custom MIDR for -cpu max
- * hw/misc/zynq_slcr: refactor to use standard register definition
- * Set ENET_BD_BDU in I.MX FEC controller
- * target/arm: Fix routing of singlestep exceptions
- * refactor a32/t32 decoder handling of PC
- * minor optimisations/cleanups of some a32/t32 codegen
- * target/arm/cpu64: Ensure kvm really supports aarch64=off
- * target/arm/cpu: Ensure we can use the pmu with kvm
- * target/arm: Minor cleanups preparatory to KVM SVE support
-
-----------------------------------------------------------------
-Aaron Hill (1):
-      Set ENET_BD_BDU in I.MX FEC controller
-
-Alex Bennée (1):
-      target/arm: generate a custom MIDR for -cpu max
-
-Andrew Jones (6):
-      target/arm/cpu64: Ensure kvm really supports aarch64=off
-      target/arm/cpu: Ensure we can use the pmu with kvm
-      target/arm/helper: zcr: Add build bug next to value range assumption
-      target/arm/cpu: Use div-round-up to determine predicate register array size
-      target/arm/kvm64: Fix error returns
-      target/arm/kvm64: Move the get/put of fpsimd registers out
-
-Damien Hedde (1):
-      hw/misc/zynq_slcr: use standard register definition
-
-Peter Maydell (2):
-      target/arm: Factor out 'generate singlestep exception' function
-      target/arm: Fix routing of singlestep exceptions
-
-Richard Henderson (18):
-      target/arm: Pass in pc to thumb_insn_is_16bit
-      target/arm: Introduce pc_curr
-      target/arm: Introduce read_pc
-      target/arm: Introduce add_reg_for_lit
-      target/arm: Remove redundant s->pc & ~1
-      target/arm: Replace s->pc with s->base.pc_next
-      target/arm: Replace offset with pc in gen_exception_insn
-      target/arm: Replace offset with pc in gen_exception_internal_insn
-      target/arm: Remove offset argument to gen_exception_bkpt_insn
-      target/arm: Use unallocated_encoding for aarch32
-      target/arm: Remove helper_double_saturate
-      target/arm: Use tcg_gen_extract_i32 for shifter_out_im
-      target/arm: Use tcg_gen_deposit_i32 for PKHBT, PKHTB
-      target/arm: Remove redundant shift tests
-      target/arm: Use ror32 instead of open-coding the operation
-      target/arm: Use tcg_gen_rotri_i32 for gen_swap_half
-      target/arm: Simplify SMMLA, SMMLAR, SMMLS, SMMLSR
-      target/arm: Use tcg_gen_extrh_i64_i32 to extract the high word
-
- target/arm/cpu.h               |  13 +-
- target/arm/helper.h            |   1 -
- target/arm/kvm_arm.h           |  28 ++
- target/arm/translate-a64.h     |   4 +-
- target/arm/translate.h         |  39 ++-
- hw/misc/zynq_slcr.c            | 450 ++++++++++++++++----------------
- hw/net/imx_fec.c               |   4 +
- target/arm/cpu.c               |  30 ++-
- target/arm/cpu64.c             |  31 ++-
- target/arm/helper.c            |   7 +
- target/arm/kvm.c               |   7 +
- target/arm/kvm64.c             | 161 +++++++-----
- target/arm/op_helper.c         |  15 --
- target/arm/translate-a64.c     | 130 ++++------
- target/arm/translate-vfp.inc.c |  45 +---
- target/arm/translate.c         | 572 +++++++++++++++++------------------------
- 16 files changed, 771 insertions(+), 766 deletions(-)
 
