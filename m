@@ -2,64 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2AE7903BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 16:12:35 +0200 (CEST)
-Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC8C903AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 16:10:58 +0200 (CEST)
+Received: from localhost ([::1]:56762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycy2-0007dY-Uz
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 10:12:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41820)
+	id 1hycwT-0005cp-OQ
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 10:10:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43214)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1hyclT-0003fB-2I
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:59:35 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hycu2-0002xi-3t
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 10:08:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hyclS-0003oE-3s
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:59:34 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:34851)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hyclR-0003nR-Sr; Fri, 16 Aug 2019 09:59:34 -0400
-Received: by mail-ed1-x543.google.com with SMTP id w20so5216222edd.2;
- Fri, 16 Aug 2019 06:59:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oGCfzZeHGWIUbTwKpxV1Bv6Y1t8I17TWnHFwqZIwhtA=;
- b=AQWACyH3QHfMlIuQM9XXcTAwqP5Z6a0cSfxWv6cFtjI/I4WudGQCvnz57LsQVHZKJU
- sGrhWwrDYLdN5HEUinbgJc/o7Ll81stmSSXzb8XwawcrZcGB5iMUcua+123T+Qri6L6x
- 7fS17Q8easraYkB4Os/LE96p6JbrwXUV2/rUlRCIGiU/xKbzEnYuXtq/Er5FFmbG+mGH
- o+/XucHCfodeF9hcCxb1xCjA91EC6gGSo0/CKqpe/H9spAt3Fzt8/2pfzTNleWp550cc
- ocFBAi2fbQ2aqilvYBp9dQ/wnHewH9rKDi3Dg9D/038oxCCtT2/nuGu1eJVXXiqfAA/I
- C06Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oGCfzZeHGWIUbTwKpxV1Bv6Y1t8I17TWnHFwqZIwhtA=;
- b=bs7D+EanLHxmQRENej3njdcrRWdL7Qy8uq2idySdn2xNnTqS6DiByCtZqo0OPQHm8h
- cWYy4+LZFL+afovlY9cuSHZAdQh3QcQLJykjb+JYBdRHnv5GMCDXHFDloGjngA3G4wqJ
- yFtMxvQxwnpPJFQGYdLeG1Kgp0a2yHMlrv+2MWR7kRpFf0tPw7BhJx6/fTBa2eADcIhH
- lgWFeknASNU7we6QSyVTBtvBurlK0eIebKnZ47atXFRnOWxrrCLT1ZWUNL8GwE0nBTEQ
- yR/EkzWZg0Yel1p5sAf9XxvHDbXpysY4r/REdGUm9RxQ6GjqWT7NwSriU3KjIg05lu91
- wahw==
-X-Gm-Message-State: APjAAAUz7cY5TGSwpVvpV3FquYzOz5FbZB072kCeH4/XDWe0siBL/MGq
- rdGF5PrYikUpzq0GNV3SWHaD/NF+Q2T1K7LkkJs=
-X-Google-Smtp-Source: APXvYqyp1tOIzSzFMRvN/wJR3ocnKlIwSqIn90sjN+IvT8x5KJVovMjxTrdISD3yLIRkAm76U3E64fs2f8ZGWdbgvys=
-X-Received: by 2002:a50:8687:: with SMTP id r7mr11015604eda.137.1565963973118; 
- Fri, 16 Aug 2019 06:59:33 -0700 (PDT)
+ (envelope-from <kwolf@redhat.com>) id 1hycu0-0002KY-Q3
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 10:08:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40330)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hycty-0002IT-FB; Fri, 16 Aug 2019 10:08:22 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C3A6725CCB;
+ Fri, 16 Aug 2019 14:08:21 +0000 (UTC)
+Received: from localhost.localdomain (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E1418F6DB;
+ Fri, 16 Aug 2019 14:08:20 +0000 (UTC)
+Date: Fri, 16 Aug 2019 16:08:19 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Message-ID: <20190816140819.GD5014@localhost.localdomain>
+References: <20190816121742.29607-1-berto@igalia.com>
+ <20190816125921.GC5014@localhost.localdomain>
+ <w51lfvti6fs.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-References: <cover.1565904855.git.alistair.francis@wdc.com>
- <083ae70e31e202880ed8babf4de1a3c1ea27100b.1565904855.git.alistair.francis@wdc.com>
-In-Reply-To: <083ae70e31e202880ed8babf4de1a3c1ea27100b.1565904855.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 16 Aug 2019 21:59:21 +0800
-Message-ID: <CAEUhbmUcqe-1PjctdPA9R5jSRaJxZuPb3swKbn34fGU1DhhGQA@mail.gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::543
-Subject: Re: [Qemu-devel] [PATCH v3 6/7] target/riscv: Fix mstatus dirty mask
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <w51lfvti6fs.fsf@maestria.local.igalia.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Fri, 16 Aug 2019 14:08:21 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] qcow2: Fix the calculation of the maximum
+ L2 cache size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,20 +60,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Leonid Bloch <lbloch@janustech.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 16, 2019 at 5:38 AM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/csr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+Am 16.08.2019 um 15:30 hat Alberto Garcia geschrieben:
+> On Fri 16 Aug 2019 02:59:21 PM CEST, Kevin Wolf wrote:
+> > The requirement so that this bug doesn't affect the user seems to be
+> > that the image size is a multiple of 64k * 8k = 512 MB. Which means
+> > that users are probably often lucky enough in practice.
+> 
+> Or rather: cluster_size^2 / 8, which, if my numbers are right:
+> 
+> |--------------+-------------|
+> | Cluster size | Multiple of |
+> |--------------+-------------|
+> |         4 KB |        2 MB |
+> |         8 KB |        8 MB |
+> |        16 KB |       32 MB |
+> |        32 KB |      128 MB |
+> |        64 KB |      512 MB |
+> |       128 KB |        2 GB |
+> |       256 KB |        8 GB |
+> |       512 KB |       32 GB |
+> |      1024 KB |      128 GB |
+> |      2048 KB |      512 GB |
+> |--------------+-------------|
+> 
+> It get trickier with larger clusters, but if you have a larger cluster
+> size you probably have a very large image anyway, so yes I also think
+> that users are probably lucky enough in practice.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Yes, I assumed 64k clusters.
+
+The other somewhat popular cluster size is probably 2 MB, where I think
+images sizes that are not a multiple of 512 GB are rather likely...
+
+> (also, the number of cache tables is always >= 2, so if the image size
+> is less than twice those numbers then it's also safe)
+
+Right. I already corrected my statement to include > 1024 MB in the Red
+Hat Bugzilla (but still didn't consider other cluster sizes).
+
+> And yes, the odd value on the 512KB row on that we discussed last month
+> is due to this same bug:
+> 
+> https://lists.gnu.org/archive/html/qemu-block/2019-07/msg00496.html
+
+Hm... And suddently it makes sense. :-)
+
+So I assume all of 512k/1024k/2048k actually perform better? Or is the
+effect neglegible for 1024k/2048k?
+
+Kevin
 
