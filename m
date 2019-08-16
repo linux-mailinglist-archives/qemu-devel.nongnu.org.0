@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0DA18FA26
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 07:01:01 +0200 (CEST)
-Received: from localhost ([::1]:49274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6958FA2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 07:03:04 +0200 (CEST)
+Received: from localhost ([::1]:49286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyUMG-0004N0-Ii
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 01:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47681)
+	id 1hyUOE-0006CK-Q4
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 01:03:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47855)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1hyUL8-0003ZG-3c
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 00:59:51 -0400
+ (envelope-from <bounces@canonical.com>) id 1hyUM6-0004bv-UV
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:00:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hyUL7-0000Z9-1Y
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 00:59:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51176)
+ (envelope-from <bounces@canonical.com>) id 1hyUM5-0001Id-Ph
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:00:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51434)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hyUL6-0000Yn-SQ
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 00:59:48 -0400
+ id 1hyUM5-0001I5-KK
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:00:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hyUL6-0002ri-1p
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 04:59:48 +0000
+ id 1hyUM4-00035t-PC
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:00:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F28C22E80D4
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 04:59:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BDAC72E80C8
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:00:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Aug 2019 04:49:10 -0000
-From: Thomas Huth <1581976@bugs.launchpad.net>
+Date: Fri, 16 Aug 2019 04:51:22 -0000
+From: Thomas Huth <1823998@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=groug@kaod.org; 
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm feature-request
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gkurz vsyachepuz
-X-Launchpad-Bug-Reporter: VsyachePuz (vsyachepuz)
+X-Launchpad-Bug-Commenters: mark-rutland pmaydell th-huth
+X-Launchpad-Bug-Reporter: Mark Rutland (mark-rutland)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160515152428.9255.6201.malonedeb@gac.canonical.com>
-Message-Id: <156593095135.16499.6998667492255205145.launchpad@wampee.canonical.com>
+References: <155483243569.8652.5979441352991477638.malonedeb@wampee.canonical.com>
+Message-Id: <156593108210.26208.12283982107073128163.malone@soybean.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19022";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 7fc0230f148c65895b5527e79d31f106fbde3726
+X-Launchpad-Hash: 255a747503bc71d36c2f3c99546836df754264bb
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1581976] Re: man qemu contains a bug in
- description of "-virtfs" command line argument
+Subject: [Qemu-devel] [Bug 1823998] Re: qemu-system-aarch64: support kernels
+ bigger than 128MiB
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -65,9 +66,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1581976 <1581976@bugs.launchpad.net>
+Reply-To: Bug 1823998 <1823998@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D5e6dbe1e8cbbe4b6f74
 
 ** Changed in: qemu
        Status: Fix Committed =3D> Fix Released
@@ -76,39 +79,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1581976
+https://bugs.launchpad.net/bugs/1823998
 
 Title:
-  man qemu contains a bug in description of "-virtfs" command line
-  argument
+  qemu-system-aarch64: support kernels bigger than 128MiB
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  The description of command line argument =
+  Presently QEMU reserves up to 128MiB of space for an arm64 Linux
+  kernel, placing the initrd following this, and the dtb following the
+  initrd.
 
-  https://github.com/qemu/qemu/blob/63d3145aadbecaa7e8be1e74b5d6b5cbbeb4e15=
-3/qemu-options.hx#L796-L799
-  looks like this:
+  This is not sufficient for some debug configurations of the kernel,
+  which can be larger than 128MiB. Depending on the relative size of the
+  kernel Image and unpopulated BSS, the dtb (or kernel) will be
+  clobbered by the other, resulting in a silent boot failure.
 
-  =C2=A0-virtfs
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0fsdriver[,path=3Dpath],mount_ta=
-g=3Dmount_tag[,security_model=3Dsecurity_model][,writeout=3Dwriteout][,read=
-only][,socket=3Dsocket|sock_fd=3Dsock_fd]
+  Since v3.17, the kernel Image header exposes a field called
+  image_size, which describes the entire size of the kernel (including
+  unpopulated sections such as the BSS) as a 64-bit little-endian value.
+  For kernels prior to v3.17, this field is zero. This is documented at:
 
-  note, that there is no "id" attribute in the list of parameters.
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
+ocumentation/arm64/booting.txt?h=3Dv5.0#n68
 
-  later on the man there the "id" attribute is documented, as it were
-  present:
-
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0id=3Did
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0Specifies identifier for this device
-
-  i think that it was copied from above section (about "-fsdev") without
-  reviewing.
+  It would be great if QEMU could take the image_size field into account
+  when placing the initrd and dtb to avoid overlap with the kernel.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1581976/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1823998/+subscriptions
 
