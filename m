@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4429039B
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 16:04:52 +0200 (CEST)
-Received: from localhost ([::1]:56626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D759F903A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 16:07:45 +0200 (CEST)
+Received: from localhost ([::1]:56686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycqY-00064b-Ok
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 10:04:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41691)
+	id 1hyctM-0000wJ-L5
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 10:07:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41725)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1hyclG-0003V3-As
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:59:23 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hyclM-0003Zj-PU
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:59:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hyclF-0003eA-Ay
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:59:22 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:38116)
+ (envelope-from <bmeng.cn@gmail.com>) id 1hyclK-0003hl-LU
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:59:28 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:34716)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hyclF-0003dF-5B; Fri, 16 Aug 2019 09:59:21 -0400
-Received: by mail-ed1-x541.google.com with SMTP id r12so5222248edo.5;
- Fri, 16 Aug 2019 06:59:20 -0700 (PDT)
+ id 1hyclK-0003fw-FS; Fri, 16 Aug 2019 09:59:26 -0400
+Received: by mail-ed1-x543.google.com with SMTP id s49so5232121edb.1;
+ Fri, 16 Aug 2019 06:59:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=hhbg35AbKNv8HefsVGrnprTBxEgOiyYkFgjkJJx5H6g=;
- b=TiquCwG6VJws6UUGtqaTyb+S5VA3vc9/lrapl6I+Jj1xvQ2yEhcmJxC5USEqpWgpak
- qccz20ZzUA+ofnTZRcr3aipyZcQ6rCWGOTHvFrQ2m5A45ifezKKVrVqd8auyLHr4zvmd
- DSR82pcY9+wPV7rqlxYnRC0/g47QXrTD4mDPpngloAHjhcJ0MfrkRJYRE2smJ+vB54VY
- rAZkX6Ku3eq2j7O1RJzFh85tM4crNHBTL99VgttXgNfg+q7/0vivMdp+r1ZGugU5mEn0
- ItgXS+n/2sKZbfC6ItWyRIYNEF107i2XuQPceyAfLL1W7jh4RHEUGrF1WEWIuu8G+6g1
- nk4A==
+ bh=Ftc5Pkkjs9SZE8+IqHqOw8kpXRYVsPDy2BShF94kCi8=;
+ b=FbcpcxnAssT0GHamTs+G2e48zTbEMQ8fjL4+ZGQYDrOsieE3nQg3IXmq3lBp7p2+y6
+ w+ftHTxbhuLFHM/DD3QDC7SVErYZUXqRP52plVoCcl6TQY+ydG5e3y3fO3wlstBSLHnd
+ jZf++scNgnrD2FbiKRTSRnbYSWIfqCOFO3/z+0C++9opW/nXaS+G8P5spu5BAESClfEb
+ w/LnUCJ4j6m2WhtYZ13C90Y3PxGMnEB28yi3Y/HKMJBM7ZUtSanGJVBMDWC7GkvzNUxI
+ UZMgSeRw2i7kfMPy5g0GcWM+RKDCjcyKtXCmbfGP4l75gdj2ti88d0JXR5weErDDrU60
+ zJCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=hhbg35AbKNv8HefsVGrnprTBxEgOiyYkFgjkJJx5H6g=;
- b=CQdgcYFUsf4RJbGuXDgmrBoCgOT0iEdUEznemP25gnAQh+F2D0shPBa7Dk3U9WVqkN
- O6ZSRT2JpqJ9XwSop7RRfH4jQTRuTvzfhbFrQHBmj6R6c2kZYVZZ1kuO+IMOo82S3RQw
- 5DfLPtlCf1MkPfm0JhvxAHg1AtPSxQsN9IcyHxWoPKHmIorHneyJ5453plpkSCYSTKNq
- g+ssQM0MyoDGusflY+/MivxtfcykYpvaaa94QrMu09mSCeigg77zJ3+l23au9l+heSUZ
- W38IkIkukHH7n3pibtFAj08euGCLnZ5ftPTITmr3qUvBp909Bprrd+cA/C96j5wthT1U
- 2RYQ==
-X-Gm-Message-State: APjAAAU1MAwZnTuwWIfwPyJEMJoDG5/Z+MS4XMgPilvfwJXfybhJY8BR
- m8ivpm83kIxbWIjXdEaPYZC7t/pYmPQ8anOwEbM=
-X-Google-Smtp-Source: APXvYqz0aRpWIJ9ayRWYodAahB1NK/joYq0JYtMRm3N6AiFEDuvD+TRTjiHqBVS0pAIpMCvEBBBwLWuTf88MF3F0sTk=
-X-Received: by 2002:a05:6402:789:: with SMTP id
- d9mr10795851edy.25.1565963959734; 
- Fri, 16 Aug 2019 06:59:19 -0700 (PDT)
+ bh=Ftc5Pkkjs9SZE8+IqHqOw8kpXRYVsPDy2BShF94kCi8=;
+ b=Xlu2fpSOWZEFrH0dmuVFWk7LOiuOUyCXTkqCJcIBfH7IUTWhS/dypzguiWQ/gPHMu2
+ QiTqXHx8afoAVwUmvyNuwb85tMBLOwzsc5SE4pe5hlBS3xUd1FBjrEukSPjF7rY8GqPg
+ 0ggfNRyY66/JmQWvEctcqrv19fQDzFkzzACqk1GBlcmcCQX5SBk1McNYnfwJo7XNXZ3G
+ ehFlSr92DkFFN4reN3zWvJT0Mse42kuoRstI71OWZmD42lhv3LSki5TbkMqZj1jeY+Vw
+ KG4fqclRfFaI2EnmPuFexai8oUH7py5VUCEXKrEXQDt/CDgW/KeXSMToZGE/lcYlJLhH
+ ff+A==
+X-Gm-Message-State: APjAAAV64IsyimA0f+xwJsgGXbWPyZST+q+iscDdBo7MAqyDeU1v3paz
+ LHwb8szpd5KlKjzWytuyOAU+2D4kEWEKlMcmdII=
+X-Google-Smtp-Source: APXvYqxicENMCp/mqmIrvnPB4FLJ5gGh2XadRi81m1tGmSMG/aDX765FRqK06jqVryWv5Eo+Q3x/Y2wgyd2f+JD1p8k=
+X-Received: by 2002:a50:fb82:: with SMTP id e2mr10857656edq.15.1565963963559; 
+ Fri, 16 Aug 2019 06:59:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1565904855.git.alistair.francis@wdc.com>
- <9ecf08f99b17a0547cc5cc7a427453ce20389b4b.1565904855.git.alistair.francis@wdc.com>
-In-Reply-To: <9ecf08f99b17a0547cc5cc7a427453ce20389b4b.1565904855.git.alistair.francis@wdc.com>
+ <dd11f1aa023aea048d2af7f2f7822895b05d238c.1565904855.git.alistair.francis@wdc.com>
+In-Reply-To: <dd11f1aa023aea048d2af7f2f7822895b05d238c.1565904855.git.alistair.francis@wdc.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 16 Aug 2019 21:59:08 +0800
-Message-ID: <CAEUhbmXq0oVL3epXs3tMyrum1BsYurb-T3D=H-W8Qe+sJ1vN0Q@mail.gmail.com>
+Date: Fri, 16 Aug 2019 21:59:11 +0800
+Message-ID: <CAEUhbmWr-4z0BwHOE6NyM+eVz3A9gb9+ymALuJqZQxFWvsEo0w@mail.gmail.com>
 To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::541
-Subject: Re: [Qemu-devel] [PATCH v3 2/7] riscv: plic: Remove unused
- interrupt functions
+X-Received-From: 2a00:1450:4864:20::543
+Subject: Re: [Qemu-devel] [PATCH v3 3/7] target/riscv: Create function to
+ test if FP is enabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,17 +80,25 @@ Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 16, 2019 at 5:44 AM Alistair Francis
+On Fri, Aug 16, 2019 at 5:42 AM Alistair Francis
 <alistair.francis@wdc.com> wrote:
 >
+> Let's create a function that tests if floating point support is
+> enabled. We can then protect all floating point operations based on if
+> they are enabled.
+>
+> This patch so far doesn't change anything, it's just preparing for the
+> Hypervisor support for floating point operations.
+>
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Jonathan Behrens <fintelia@gmail.com>
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Christophe de Dinechin <dinechin@redhat.com>
 > Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
 > ---
->  hw/riscv/sifive_plic.c         | 12 ------------
->  include/hw/riscv/sifive_plic.h |  3 ---
->  2 files changed, 15 deletions(-)
+>  target/riscv/cpu.h        |  6 +++++-
+>  target/riscv/cpu_helper.c | 10 ++++++++++
+>  target/riscv/csr.c        | 20 +++++++++++---------
+>  3 files changed, 26 insertions(+), 10 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
