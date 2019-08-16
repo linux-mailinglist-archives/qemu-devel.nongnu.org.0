@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319128FE88
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:51:27 +0200 (CEST)
-Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A29C8FE8A
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:51:36 +0200 (CEST)
+Received: from localhost ([::1]:51932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyXxG-0003gS-3E
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:51:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52004)
+	id 1hyXxP-0003ti-Fx
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:51:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52117)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1hyXtG-00071U-A3
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:47:19 -0400
+ (envelope-from <david@redhat.com>) id 1hyXtR-0007Fc-5v
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:47:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1hyXtF-0003tx-68
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:47:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43386)
+ (envelope-from <david@redhat.com>) id 1hyXtO-00042N-M1
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 04:47:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35828)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1hyXtF-0003tR-0s; Fri, 16 Aug 2019 04:47:17 -0400
+ id 1hyXtO-00041D-1x; Fri, 16 Aug 2019 04:47:26 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 387C3369D3;
- Fri, 16 Aug 2019 08:47:16 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 529953082B40;
+ Fri, 16 Aug 2019 08:47:25 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-116-249.ams2.redhat.com [10.36.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E621F6DF;
- Fri, 16 Aug 2019 08:47:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5670543FE2;
+ Fri, 16 Aug 2019 08:47:23 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 10:47:03 +0200
-Message-Id: <20190816084708.602-2-david@redhat.com>
+Date: Fri, 16 Aug 2019 10:47:07 +0200
+Message-Id: <20190816084708.602-6-david@redhat.com>
 In-Reply-To: <20190816084708.602-1-david@redhat.com>
 References: <20190816084708.602-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 16 Aug 2019 08:47:16 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Fri, 16 Aug 2019 08:47:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 1/6] s390x/mmu: Trace the right value if
- setting/getting the storage key fails
+Subject: [Qemu-devel] [PATCH v3 5/6] s390x/mmu: Better storage key reference
+ and change bit handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,46 +64,62 @@ Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to trace the actual return value, not "0".
+Any access sets the reference bit. In case we have a read-fault, we
+should not allow writes to the TLB entry if the change bit was not
+already set.
 
-Fixes: 0f5f669147b5 (s390x: Enable new s390-storage-keys device)
+This is a preparation for proper storage-key reference/change bit handlin=
+g
+in TCG and a fix for KVM whereby read accesses would set the change
+bit (old KVM versions without the ioctl to carry out the translation).
+
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mmu_helper.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ target/s390x/mmu_helper.c | 24 +++++++++++++++++++-----
+ 1 file changed, 19 insertions(+), 5 deletions(-)
 
 diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 6e9c4d6151..b236196802 100644
+index d22c6b9c81..6cc81a29b6 100644
 --- a/target/s390x/mmu_helper.c
 +++ b/target/s390x/mmu_helper.c
-@@ -422,7 +422,8 @@ int mmu_translate(CPUS390XState *env, target_ulong va=
-ddr, int rw, uint64_t asc,
-     *raddr =3D mmu_real2abs(env, *raddr);
-=20
-     if (r =3D=3D 0 && *raddr < ram_size) {
--        if (skeyclass->get_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &key)=
-) {
-+        r =3D skeyclass->get_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &ke=
-y);
-+        if (r) {
-             trace_get_skeys_nonzero(r);
+@@ -420,14 +420,28 @@ nodat:
              return 0;
          }
-@@ -435,7 +436,8 @@ int mmu_translate(CPUS390XState *env, target_ulong va=
-ddr, int rw, uint64_t asc,
+=20
+-        if (*flags & PAGE_READ) {
+-            key |=3D SK_R;
+-        }
+-
+-        if (*flags & PAGE_WRITE) {
++        switch (rw) {
++        case MMU_DATA_LOAD:
++        case MMU_INST_FETCH:
++            /*
++             * The TLB entry has to remain write-protected on read-fault=
+s if
++             * the storage key does not indicate a change already. Other=
+wise
++             * we might miss setting the change bit on write accesses.
++             */
++            if (!(key & SK_C)) {
++                *flags &=3D ~PAGE_WRITE;
++            }
++            break;
++        case MMU_DATA_STORE:
              key |=3D SK_C;
++            break;
++        default:
++            g_assert_not_reached();
          }
 =20
--        if (skeyclass->set_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &key)=
-) {
-+        r =3D skeyclass->set_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &ke=
++        /* Any store/fetch sets the reference bit */
++        key |=3D SK_R;
++
+         r =3D skeyclass->set_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &ke=
 y);
-+        if (r) {
+         if (r) {
              trace_set_skeys_nonzero(r);
-             return 0;
-         }
 --=20
 2.21.0
 
