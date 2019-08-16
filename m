@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E1D9034E
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:43:03 +0200 (CEST)
-Received: from localhost ([::1]:56330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A139035A
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:44:35 +0200 (CEST)
+Received: from localhost ([::1]:56352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycVS-0007L4-Kf
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:43:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35513)
+	id 1hycWw-0000kI-Ik
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:44:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35784)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc7A-0003go-Ge
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:57 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hyc9U-0006HO-MR
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:20:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc79-0005t9-50
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:56 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39641)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hyc78-0005sF-RU
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:55 -0400
-Received: by mail-wr1-x443.google.com with SMTP id t16so1520224wra.6
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=H6CEmZhNUcWnGG10A1rCHrC8jo1DEeiMiR6gM4RwrlU=;
- b=bv8+RR9kIiuGqtvjQWXo420PxJfRa+cics1FOkZOSB2ACD10BxxAOwrOxDnbyiKckM
- TwwdPLpP8JDSpSdRDmyNtnTbhJKbVA0OUHORwFUIZP8CTxbly1Cga6MIBfGwsLe0XNvP
- 45L7q1hq3Jjy8WRlUEp8Ie2J5F/zQ4McgGHSZncTFarJZ0iRwKEoAiJLKvVuuyP5I0VU
- JenwhQ+MM2/a3hyoNBSbvHoyqhy6IWHwMGGaSHRflxxVdwzTCcROlKakfYaQJFkC+9dE
- SJ1IE3I+4dz2BQZXMiQ8hoBd1qF3rdlWOZSMb9xQmaxmtX6Z1v8XgUq/rrlHVlPvvL9y
- q6kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=H6CEmZhNUcWnGG10A1rCHrC8jo1DEeiMiR6gM4RwrlU=;
- b=RRvu8GnVdDbwQNRtnE4pUNHkS8BdOMehv2tZxx95hlCyo3NNY5jLMEXymM3SquBvMb
- po6MOG1mk8rEB4lM20Q7tnYudlw2l84ay3v1Ev9bbyR/CvC8GxvBeMI66z500dcWV/Gk
- Kp4C83NhEEqkg/+Cg3z13yIzjY/YXSyt3ppgeAvUWo6uDGOJuOFnjbWksY30vZNHxdwD
- EwL7FIC93iWtBtZY5tePk1Vz84TPV5Q9ADfbTC7b7PkawW8oO9CPOoF3yNysL6eGlU+m
- yQQME6O+b+EI+yzQsIlkszfASidzs4WM/E+f82pNkgWkrrFbHX3m20akqS8U3ndst6fI
- dtvw==
-X-Gm-Message-State: APjAAAU8kE/IIYi8RrYt+mv+cjO1mw/qbOLJ58Z3t6HR+oEWJxSSD+rq
- aFTdAwaVwcuRLId4l4ndiunwADUFMbSOsQ==
-X-Google-Smtp-Source: APXvYqw2XgSSWP2DvLxAGGvx92o7m4qxBlq/bd/jBHZa6pr3hd7ki8QFZf2nAGi0FGLzkPVk5gdv/g==
-X-Received: by 2002:a5d:4101:: with SMTP id l1mr11621845wrp.202.1565961473753; 
- Fri, 16 Aug 2019 06:17:53 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.52
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 06:17:53 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 14:17:19 +0100
-Message-Id: <20190816131719.28244-30-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190816131719.28244-1-peter.maydell@linaro.org>
-References: <20190816131719.28244-1-peter.maydell@linaro.org>
+ (envelope-from <imammedo@redhat.com>) id 1hyc9S-0007fY-F7
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:20:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:23930)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hyc9S-0007eq-6W
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:20:18 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 330FF4ACA7;
+ Fri, 16 Aug 2019 13:20:17 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E2BA7EBA4;
+ Fri, 16 Aug 2019 13:20:12 +0000 (UTC)
+Date: Fri, 16 Aug 2019 15:20:11 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20190816152011.0c673027@redhat.com>
+In-Reply-To: <20190815183803.13346-4-ehabkost@redhat.com>
+References: <20190815183803.13346-1-ehabkost@redhat.com>
+ <20190815183803.13346-4-ehabkost@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PULL 29/29] target/arm: Use tcg_gen_extrh_i64_i32 to
- extract the high word
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Fri, 16 Aug 2019 13:20:17 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 3/3] pc: Don't make CPU properties
+ mandatory unless necessary
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,88 +57,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Krempa <pkrempa@redhat.com>, Like Xu <like.xu@linux.intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On Thu, 15 Aug 2019 15:38:03 -0300
+Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-Separate shift + extract low will result in one extra insn
-for hosts like RISC-V, MIPS, and Sparc.
+> We have this issue reported when using libvirt to hotplug CPUs:
+> https://bugzilla.redhat.com/show_bug.cgi?id=1741451
+> 
+> Basically, libvirt is not copying die-id from
+> query-hotpluggable-cpus, but die-id is now mandatory.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190808202616.13782-8-richard.henderson@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/translate.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+this should have been gated on compat property and affect
+only new machine types.
+Maybe we should do just that instead of fixup so libvirt
+would finally make proper handling of query-hotpluggable-cpus.
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 9e2853fe76c..d9487571310 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -1746,8 +1746,7 @@ static int disas_iwmmxt_insn(DisasContext *s, uint32_t insn)
-             if (insn & ARM_CP_RW_BIT) {                         /* TMRRC */
-                 iwmmxt_load_reg(cpu_V0, wrd);
-                 tcg_gen_extrl_i64_i32(cpu_R[rdlo], cpu_V0);
--                tcg_gen_shri_i64(cpu_V0, cpu_V0, 32);
--                tcg_gen_extrl_i64_i32(cpu_R[rdhi], cpu_V0);
-+                tcg_gen_extrh_i64_i32(cpu_R[rdhi], cpu_V0);
-             } else {                                    /* TMCRR */
-                 tcg_gen_concat_i32_i64(cpu_V0, cpu_R[rdlo], cpu_R[rdhi]);
-                 iwmmxt_store_reg(cpu_V0, wrd);
-@@ -2792,8 +2791,7 @@ static int disas_dsp_insn(DisasContext *s, uint32_t insn)
-         if (insn & ARM_CP_RW_BIT) {                     /* MRA */
-             iwmmxt_load_reg(cpu_V0, acc);
-             tcg_gen_extrl_i64_i32(cpu_R[rdlo], cpu_V0);
--            tcg_gen_shri_i64(cpu_V0, cpu_V0, 32);
--            tcg_gen_extrl_i64_i32(cpu_R[rdhi], cpu_V0);
-+            tcg_gen_extrh_i64_i32(cpu_R[rdhi], cpu_V0);
-             tcg_gen_andi_i32(cpu_R[rdhi], cpu_R[rdhi], (1 << (40 - 32)) - 1);
-         } else {                                        /* MAR */
-             tcg_gen_concat_i32_i64(cpu_V0, cpu_R[rdlo], cpu_R[rdhi]);
-@@ -5990,8 +5988,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                                 gen_helper_neon_narrow_high_u16(tmp, cpu_V0);
-                                 break;
-                             case 2:
--                                tcg_gen_shri_i64(cpu_V0, cpu_V0, 32);
--                                tcg_gen_extrl_i64_i32(tmp, cpu_V0);
-+                                tcg_gen_extrh_i64_i32(tmp, cpu_V0);
-                                 break;
-                             default: abort();
-                             }
-@@ -6005,8 +6002,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                                 break;
-                             case 2:
-                                 tcg_gen_addi_i64(cpu_V0, cpu_V0, 1u << 31);
--                                tcg_gen_shri_i64(cpu_V0, cpu_V0, 32);
--                                tcg_gen_extrl_i64_i32(tmp, cpu_V0);
-+                                tcg_gen_extrh_i64_i32(tmp, cpu_V0);
-                                 break;
-                             default: abort();
-                             }
-@@ -7239,9 +7235,8 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
-                 tmp = tcg_temp_new_i32();
-                 tcg_gen_extrl_i64_i32(tmp, tmp64);
-                 store_reg(s, rt, tmp);
--                tcg_gen_shri_i64(tmp64, tmp64, 32);
-                 tmp = tcg_temp_new_i32();
--                tcg_gen_extrl_i64_i32(tmp, tmp64);
-+                tcg_gen_extrh_i64_i32(tmp, tmp64);
-                 tcg_temp_free_i64(tmp64);
-                 store_reg(s, rt2, tmp);
-             } else {
-@@ -7350,8 +7345,7 @@ static void gen_storeq_reg(DisasContext *s, int rlow, int rhigh, TCGv_i64 val)
-     tcg_gen_extrl_i64_i32(tmp, val);
-     store_reg(s, rlow, tmp);
-     tmp = tcg_temp_new_i32();
--    tcg_gen_shri_i64(val, val, 32);
--    tcg_gen_extrl_i64_i32(tmp, val);
-+    tcg_gen_extrh_i64_i32(tmp, val);
-     store_reg(s, rhigh, tmp);
- }
  
--- 
-2.20.1
+> We could blame libvirt and say it is not following the documented
+> interface, because we have this buried in the QAPI schema
+> documentation:
+
+I wouldn't say buried, if I understand it right QAPI schema
+should be the authoritative source of interface description.
+
+If I recall it's not the first time, there was similar issue
+for exactly the same reason (libvirt not passing through
+all properties from query-hotpluggable-cpus).
+
+And we had to fix it up on QEMU side (numa_cpu_pre_plug),
+but it seems 2 years later libvirt is still broken the same way :(
+
+Should we really do fixups or finaly fix it on libvirt side?
+
+ 
+> > Note: currently there are 5 properties that could be present
+> > but management should be prepared to pass through other
+> > properties with device_add command to allow for future
+> > interface extension. This also requires the filed names to be kept in
+> > sync with the properties passed to -device/device_add.  
+> 
+> But I don't think this would be reasonable from us.  We can just
+> make QEMU more flexible and let CPU properties to be omitted when
+> there's no ambiguity.  This will allow us to keep compatibility
+> with existing libvirt versions.
+
+I don't really like making rule from exceptions so I'd suggest doing
+it only for  die_id if we have to do fix it up (with fat comment
+like in numa_cpu_pre_plug).
+The rest are working fine as is.
+
+
+> Test case included to ensure we don't break this again.
+> 
+> Cc: Peter Krempa <pkrempa@redhat.com>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+>  hw/i386/pc.c                             | 17 +++++++
+>  tests/acceptance/pc_cpu_hotplug_props.py | 59 ++++++++++++++++++++++++
+>  2 files changed, 76 insertions(+)
+>  create mode 100644 tests/acceptance/pc_cpu_hotplug_props.py
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index fb4ac5ca90..4d773c862d 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -2403,6 +2403,23 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+>          int max_socket = (ms->smp.max_cpus - 1) /
+>                                  smp_threads / smp_cores / pcms->smp_dies;
+>  
+> +        /*
+> +         * If there's only one possible value for a topology property,
+> +         * allow it to be omitted.
+> +         */
+> +        if (cpu->socket_id < 0 && max_socket == 0) {
+> +            cpu->socket_id = 0;
+> +        }
+> +        if (cpu->die_id < 0 && pcms->smp_dies == 1) {
+> +            cpu->die_id = 0;
+> +        }
+> +        if (cpu->core_id < 0 && smp_cores == 1) {
+> +            cpu->core_id = 0;
+> +        }
+> +        if (cpu->thread_id < 0 && smp_threads == 1) {
+> +            cpu->thread_id = 0;
+> +        }
+> +
+>          if (cpu->socket_id < 0) {
+>              error_setg(errp, "CPU socket-id is not set");
+>              return;
+> diff --git a/tests/acceptance/pc_cpu_hotplug_props.py b/tests/acceptance/pc_cpu_hotplug_props.py
+> new file mode 100644
+> index 0000000000..2c36926214
+> --- /dev/null
+> +++ b/tests/acceptance/pc_cpu_hotplug_props.py
+> @@ -0,0 +1,59 @@
+> +#
+> +# Ensure CPU topology parameters may be omitted on -device
+> +#
+> +#  Copyright (c) 2019 Red Hat Inc
+> +#
+> +# Author:
+> +#  Eduardo Habkost <ehabkost@redhat.com>
+> +#
+> +# This library is free software; you can redistribute it and/or
+> +# modify it under the terms of the GNU Lesser General Public
+> +# License as published by the Free Software Foundation; either
+> +# version 2 of the License, or (at your option) any later version.
+> +#
+> +# This library is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> +# Lesser General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU Lesser General Public
+> +# License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> +#
+> +
+> +from avocado_qemu import Test
+> +
+> +class OmittedCPUProps(Test):
+> +    """
+> +    :avocado: tags=arch:x86_64
+> +    """
+> +    def test_only_socket(self):
+> +        self.vm.add_args('-nodefaults', '-S')
+> +        self.vm.add_args('-smp', '1,sockets=2,maxcpus=2')
+> +        self.vm.add_args('-cpu', 'qemu64')
+> +        self.vm.add_args('-device', 'qemu64-x86_64-cpu,socket-id=1')
+> +        self.vm.launch()
+> +        self.assertEquals(len(self.vm.command('query-cpus')), 2)
+> +
+> +    def test_only_die(self):
+> +        self.vm.add_args('-nodefaults', '-S')
+> +        self.vm.add_args('-smp', '1,dies=2,maxcpus=2')
+> +        self.vm.add_args('-cpu', 'qemu64')
+> +        self.vm.add_args('-device', 'qemu64-x86_64-cpu,die-id=1')
+> +        self.vm.launch()
+> +        self.assertEquals(len(self.vm.command('query-cpus')), 2)
+> +
+> +    def test_only_core(self):
+> +        self.vm.add_args('-nodefaults', '-S')
+> +        self.vm.add_args('-smp', '1,cores=2,maxcpus=2')
+> +        self.vm.add_args('-cpu', 'qemu64')
+> +        self.vm.add_args('-device', 'qemu64-x86_64-cpu,core-id=1')
+> +        self.vm.launch()
+> +        self.assertEquals(len(self.vm.command('query-cpus')), 2)
+> +
+> +    def test_only_thread(self):
+> +        self.vm.add_args('-nodefaults', '-S')
+> +        self.vm.add_args('-smp', '1,threads=2,maxcpus=2')
+> +        self.vm.add_args('-cpu', 'qemu64')
+> +        self.vm.add_args('-device', 'qemu64-x86_64-cpu,thread-id=1')
+> +        self.vm.launch()
+> +        self.assertEquals(len(self.vm.command('query-cpus')), 2)
 
 
