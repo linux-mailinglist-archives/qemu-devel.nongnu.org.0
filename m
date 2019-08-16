@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D24548FA2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 07:03:26 +0200 (CEST)
-Received: from localhost ([::1]:49300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DFF8FA32
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 07:07:48 +0200 (CEST)
+Received: from localhost ([::1]:49324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyUOb-0006p5-Tr
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 01:03:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47879)
+	id 1hyUSp-0002EL-Fy
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 01:07:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48294)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1hyUMI-0004uQ-6X
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:01:03 -0400
+ (envelope-from <bounces@canonical.com>) id 1hyUQ7-0008U7-Ba
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:05:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hyUMG-0001RN-OJ
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:01:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51916)
+ (envelope-from <bounces@canonical.com>) id 1hyUQ6-0004Ox-DP
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:04:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52098)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hyUMG-0001QV-Hq
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:01:00 -0400
+ id 1hyUQ6-0004OP-8G
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 01:04:58 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hyUME-0003FN-Is
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:00:58 +0000
+ id 1hyUQ5-0003Ve-HK
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:04:57 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6DF552E80D6
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:00:58 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7E9D52E80C7
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 05:04:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Aug 2019 04:53:19 -0000
-From: Thomas Huth <1696773@bugs.launchpad.net>
+Date: Fri, 16 Aug 2019 04:53:41 -0000
+From: Thomas Huth <1574327@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: edward-vielmetti pawel-moll pmaydell will-newton
-X-Launchpad-Bug-Reporter: Will Newton (will-newton)
+X-Launchpad-Bug-Commenters: th-huth v-launchpad-manuelbaesler
+X-Launchpad-Bug-Reporter: Manuel Baesler (v-launchpad-manuelbaesler)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <149693268144.10005.16353270944603688746.malonedeb@wampee.canonical.com>
-Message-Id: <156593120076.22883.146721665665277838.launchpad@chaenomeles.canonical.com>
+References: <20160424164231.5758.64337.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156593122241.22565.17101085550197487911.launchpad@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19022";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: af20e4a5657368b7921ccef77163334541416b16
+X-Launchpad-Hash: be6dbe9bb31f52e3c9219a48f9e3132f5ffe87d5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1696773] Re: golang calls to exec crash user
- emulation
+Subject: [Qemu-devel] [Bug 1574327] Re: qemu-system-x86_64 -net nic,
+ model=help outputs to stderr instead of std
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -66,7 +65,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1696773 <1696773@bugs.launchpad.net>
+Reply-To: Bug 1574327 <1574327@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -77,23 +76,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1696773
+https://bugs.launchpad.net/bugs/1574327
 
 Title:
-  golang calls to exec crash user emulation
+  qemu-system-x86_64 -net nic,model=3Dhelp outputs to stderr instead of
+  std
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  An example program can be found here:
+  qemu-system-x86_64 -net nic,model=3Dhelp
 
-  https://github.com/willnewton/qemucrash
+  output comes to stderr instead of std
 
-  This code starts a goroutine (thread) and calls exec repeatedly. This
-  works ok natively but when run under ARM user emulation it segfaults
-  (usually, there are occasionally other failures).
+  =
+
+  qemu-system-x86_64 -net nic,model=3Dhelp  -> stdout
+  qemu-system-x86_64 -machine help -> stdout
+  qemu-system-x86_64 -cpu help -> stdout
+
+  as of
+  https://github.com/qemu/qemu/blob/044d65525f6ac2093042ae18dbf8c1300b5c1c1=
+8/net/net.c#L831
+
+  I run qemu 2.5 on x86_64
+
+  kind regards
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1696773/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1574327/+subscriptions
 
