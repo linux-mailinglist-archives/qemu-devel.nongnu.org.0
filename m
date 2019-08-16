@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925858FCDE
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 09:58:45 +0200 (CEST)
-Received: from localhost ([::1]:51102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC7B8FCD7
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 09:55:50 +0200 (CEST)
+Received: from localhost ([::1]:51032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyX8G-0003Yg-18
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 03:58:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38965)
+	id 1hyX5R-0007Rn-8d
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 03:55:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWjj-0006dS-38
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:33:27 -0400
+ (envelope-from <rashmica.g@gmail.com>) id 1hyWjS-0006Ti-Gx
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:33:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWjc-0000Ey-CL
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:33:20 -0400
-Received: from smtpe1.intersmtp.com ([62.239.224.236]:40679)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWio-0008Is-Ny; Fri, 16 Aug 2019 03:32:27 -0400
-Received: from tpw09926dag18f.domain1.systemhost.net (10.9.212.26) by
- RDW083A009ED65.bt.com (10.187.98.35) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Fri, 16 Aug 2019 08:28:31 +0100
-Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18f.domain1.systemhost.net (10.9.212.26) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:32:24 +0100
-Received: from tpw09926dag18e.domain1.systemhost.net
- ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
- ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:32:24 +0100
-From: <tony.nguyen@bt.com>
-To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 17/42] hw/char: Declare device little or
- big endian
-Thread-Index: AQHVVAS/MEVTyvOxxkaaWGWKyfz7nA==
-Date: Fri, 16 Aug 2019 07:32:24 +0000
-Message-ID: <1565940743566.34044@bt.com>
-References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
-In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
-Accept-Language: en-AU, en-GB, en-US
-Content-Language: en-AU
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.187.101.40]
+ (envelope-from <rashmica.g@gmail.com>) id 1hyWjQ-0000AA-7E
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:33:05 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33391)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <rashmica.g@gmail.com>)
+ id 1hyWjI-0008VX-Do; Fri, 16 Aug 2019 03:32:56 -0400
+Received: by mail-pl1-x642.google.com with SMTP id go14so1809239plb.0;
+ Fri, 16 Aug 2019 00:32:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B6NXQRQeCGanV2ONUcT5078tmiJBI2SoR0Tty4lkfZY=;
+ b=jUsp0QMBnX30pUKSuiboAtI9oAK92OqbCK5G2vN1OzOj99VTuuws8X7w1Ki27dteMZ
+ KCGcuAAEIoy0+hhWfvnuJrNrMhLaoz+sBN6aKdeE8aWh4L04ju3rQ/spgY9lZY2qR02N
+ jyL/f7OO4a9R2GRW7Y8iMXXd4zkUt4AGEOFuTjG05biLoGasKeOlgwR/QlezmL0c3Jj6
+ AWHEVVlkTxd8Hg4VSmNBuv3cdhw8IS3Rzi3iV5YRlTytIbZ/QGfcIzX5lDtHNK4iF8k6
+ upoyrpaULdr3AYi+4kO7OX6DKRh/VGtD3sWTQWFzSfeQ+SNc5mThUKvk/b8DwFg2TAzL
+ SU9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B6NXQRQeCGanV2ONUcT5078tmiJBI2SoR0Tty4lkfZY=;
+ b=acDTBmIdj2JAqKw/D/OvZUcuI8m3dWVui9cC9fR1nyABEZkeMpMDCJhVat/ZksICWq
+ I3mr7/3fQvI1i5+C8HZpS1unUxXa0ankkdBe679lJJKUwOVokMT0npcbpB6OUxHEb5os
+ TqRI6BN4XZUzUFrxZWLQ9BgalUrX6hRaiswsU1Tf2xdfY8GX92SlpCH+5SXW2YKXYNFI
+ pt7F9h7Pm/XBKJqCYfngs9eG6STRY0khiJyRpffcyQwc11y5uB6VRUlokWvww9ILljDy
+ ksoZI88hRB2bQ1y7oaOkkNutEjtEYvywTtd1gthf/jsYNH3KIw6XOXwSqqCQgUoC0ZmX
+ xiDA==
+X-Gm-Message-State: APjAAAX21QzthyMvab8Kbcl/HIbmUD4mlj9JVBIv3Dt8flodz6T0HsY5
+ j4O0CeWRmxb+OhOgCX9yRRs=
+X-Google-Smtp-Source: APXvYqzVniOJS1yT0FCPw9EvkqJxutPDElRM0o2OIXGD/YRJh6hfrn1zV9wNEu8clyWCNcg42obwkA==
+X-Received: by 2002:a17:902:82c4:: with SMTP id
+ u4mr8038206plz.196.1565940771859; 
+ Fri, 16 Aug 2019 00:32:51 -0700 (PDT)
+Received: from rashmica.ozlabs.ibm.com ([122.99.82.10])
+ by smtp.gmail.com with ESMTPSA id w129sm5638589pfd.89.2019.08.16.00.32.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Aug 2019 00:32:51 -0700 (PDT)
+From: Rashmica Gupta <rashmica.g@gmail.com>
+To: peter.maydell@linaro.org,
+	qemu-arm@nongnu.org
+Date: Fri, 16 Aug 2019 17:32:26 +1000
+Message-Id: <20190816073229.22787-1-rashmica.g@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 62.239.224.236
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 17/42] hw/char: Declare device little or big
- endian
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v4 0/3] Add Aspeed GPIO controller model
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,171 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: frederic.konrad@adacore.com, berto@igalia.com, qemu-block@nongnu.org,
- arikalo@wavecomp.com, pasic@linux.ibm.com, hpoussin@reactos.org,
- anthony.perard@citrix.com, xen-devel@lists.xenproject.org, lersek@redhat.com,
- jasowang@redhat.com, jiri@resnulli.us, ehabkost@redhat.com,
- b.galvani@gmail.com, eric.auger@redhat.com, alex.williamson@redhat.com,
- stefanha@redhat.com, jsnow@redhat.com, rth@twiddle.net, kwolf@redhat.com,
- andrew@aj.id.au, claudio.fontana@suse.com, crwulff@gmail.com,
- laurent@vivier.eu, sundeep.lkml@gmail.com, michael@walle.cc,
- qemu-ppc@nongnu.org, kbastian@mail.uni-paderborn.de, imammedo@redhat.com,
- fam@euphon.net, peter.maydell@linaro.org, david@redhat.com, palmer@sifive.com,
- keith.busch@intel.com, jcmvbkbc@gmail.com, hare@suse.com,
- sstabellini@kernel.org, andrew.smirnov@gmail.com, deller@gmx.de,
- magnus.damm@gmail.com, atar4qemu@gmail.com, minyard@acm.org, sw@weilnetz.de,
- yuval.shaia@oracle.com, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- jan.kiszka@web.de, clg@kaod.org, shorne@gmail.com, qemu-riscv@nongnu.org,
- i.mitsyanko@gmail.com, cohuck@redhat.com, philmd@redhat.com,
- amarkovic@wavecomp.com, peter.chubb@nicta.com.au, aurelien@aurel32.net,
- pburton@wavecomp.com, sagark@eecs.berkeley.edu, green@moxielogic.com,
- kraxel@redhat.com, edgar.iglesias@gmail.com, gxt@mprc.pku.edu.cn,
- robh@kernel.org, borntraeger@de.ibm.com, joel@jms.id.au,
- antonynpavlov@gmail.com, chouteau@adacore.com, Andrew.Baumann@microsoft.com,
- mreitz@redhat.com, walling@linux.ibm.com, dmitry.fleytman@gmail.com,
- mst@redhat.com, mark.cave-ayland@ilande.co.uk, jslaby@suse.cz, marex@denx.de,
- proljc@gmail.com, marcandre.lureau@redhat.com, alistair@alistair23.me,
- paul.durrant@citrix.com, david@gibson.dropbear.id.au,
- xiaoguangrong.eric@gmail.com, huth@tuxfamily.org, jcd@tribudubois.net,
- pbonzini@redhat.com, stefanb@linux.ibm.com
+Cc: andrew@aj.id.au, qemu-devel@nongnu.org, aik@ozlabs.ru, joel@jms.id.au,
+ Rashmica Gupta <rashmica.g@gmail.com>, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For each device declared with DEVICE_NATIVE_ENDIAN, find the set of
-targets from the set of target/hw/*/device.o.
+v5:
+- integrated AspeedGPIOController fields into AspeedGPIOClass
+- separated ast2600_3_6v and ast2600_1_8v into two classes
 
-If the set of targets are all little or all big endian, re-declare
-the device endianness as DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN
-respectively.
+v4:
+- proper interupt handling thanks to Andrew
+- switch statements for reading and writing suggested by Peter
+- some small cleanups suggested by Alexey
 
-This *naive* deduction may result in genuinely native endian devices
-being incorrectly declared as little or big endian, but should not
-introduce regressions for current targets.
+v3:
+- didn't have each gpio set up as an irq 
+- now can't access set AC on ast2400 (only exists on ast2500)
+- added ast2600 implementation (patch 3)
+- renamed a couple of variables for clarity
 
-These devices should be re-declared as DEVICE_NATIVE_ENDIAN if 1) it
-has a new target with an opposite endian or 2) someone informed knows
-better =3D)
+v2: Addressed Andrew's feedback, added debounce regs, renamed get/set to
+read/write to minimise confusion with a 'set' of registers.
 
-Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
----
- hw/char/cadence_uart.c   | 2 +-
- hw/char/escc.c           | 2 +-
- hw/char/etraxfs_ser.c    | 2 +-
- hw/char/grlib_apbuart.c  | 2 +-
- hw/char/imx_serial.c     | 2 +-
- hw/char/lm32_uart.c      | 2 +-
- hw/char/milkymist-uart.c | 2 +-
- hw/char/pl011.c          | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
+Rashmica Gupta (3):
+  hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500
+  aspeed: add a GPIO controller to the SoC
+  hw/gpio: Add in AST2600 specific implementation
 
-diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-index fa25fe2..6c7b904 100644
---- a/hw/char/cadence_uart.c
-+++ b/hw/char/cadence_uart.c
-@@ -457,7 +457,7 @@ static uint64_t uart_read(void *opaque, hwaddr offset,
- static const MemoryRegionOps uart_ops =3D {
-     .read =3D uart_read,
-     .write =3D uart_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
- };
+ include/hw/arm/aspeed_soc.h   |    3 +
+ include/hw/gpio/aspeed_gpio.h |  100 ++++
+ hw/arm/aspeed_soc.c           |   17 +
+ hw/gpio/aspeed_gpio.c         | 1006 +++++++++++++++++++++++++++++++++
+ hw/gpio/Makefile.objs         |    1 +
+ 5 files changed, 1127 insertions(+)
+ create mode 100644 include/hw/gpio/aspeed_gpio.h
+ create mode 100644 hw/gpio/aspeed_gpio.c
 
- static void cadence_uart_reset(DeviceState *dev)
-diff --git a/hw/char/escc.c b/hw/char/escc.c
-index 8ddbb4b..36182d9 100644
---- a/hw/char/escc.c
-+++ b/hw/char/escc.c
-@@ -574,7 +574,7 @@ static uint64_t escc_mem_read(void *opaque, hwaddr addr=
-,
- static const MemoryRegionOps escc_mem_ops =3D {
-     .read =3D escc_mem_read,
-     .write =3D escc_mem_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_BIG_ENDIAN,
-     .valid =3D {
-         .min_access_size =3D 1,
-         .max_access_size =3D 1,
-diff --git a/hw/char/etraxfs_ser.c b/hw/char/etraxfs_ser.c
-index 9745bca..cda687b 100644
---- a/hw/char/etraxfs_ser.c
-+++ b/hw/char/etraxfs_ser.c
-@@ -155,7 +155,7 @@ ser_write(void *opaque, hwaddr addr,
- static const MemoryRegionOps ser_ops =3D {
-     .read =3D ser_read,
-     .write =3D ser_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
-     .valid =3D {
-         .min_access_size =3D 4,
-         .max_access_size =3D 4
-diff --git a/hw/char/grlib_apbuart.c b/hw/char/grlib_apbuart.c
-index c2bb3ac..119fc84 100644
---- a/hw/char/grlib_apbuart.c
-+++ b/hw/char/grlib_apbuart.c
-@@ -237,7 +237,7 @@ static void grlib_apbuart_write(void *opaque, hwaddr ad=
-dr,
- static const MemoryRegionOps grlib_apbuart_ops =3D {
-     .write      =3D grlib_apbuart_write,
-     .read       =3D grlib_apbuart_read,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_BIG_ENDIAN,
- };
+-- 
+2.20.1
 
- static void grlib_apbuart_realize(DeviceState *dev, Error **errp)
-diff --git a/hw/char/imx_serial.c b/hw/char/imx_serial.c
-index 0655a95..7c66551 100644
---- a/hw/char/imx_serial.c
-+++ b/hw/char/imx_serial.c
-@@ -332,7 +332,7 @@ static void imx_event(void *opaque, int event)
- static const struct MemoryRegionOps imx_serial_ops =3D {
-     .read =3D imx_serial_read,
-     .write =3D imx_serial_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
- };
-
- static void imx_serial_realize(DeviceState *dev, Error **errp)
-diff --git a/hw/char/lm32_uart.c b/hw/char/lm32_uart.c
-index d047a44..2fe5f60 100644
---- a/hw/char/lm32_uart.c
-+++ b/hw/char/lm32_uart.c
-@@ -205,7 +205,7 @@ static void uart_write(void *opaque, hwaddr addr,
- static const MemoryRegionOps uart_ops =3D {
-     .read =3D uart_read,
-     .write =3D uart_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_BIG_ENDIAN,
-     .valid =3D {
-         .min_access_size =3D 4,
-         .max_access_size =3D 4,
-diff --git a/hw/char/milkymist-uart.c b/hw/char/milkymist-uart.c
-index 8a78fcc..bdb8282 100644
---- a/hw/char/milkymist-uart.c
-+++ b/hw/char/milkymist-uart.c
-@@ -156,7 +156,7 @@ static const MemoryRegionOps uart_mmio_ops =3D {
-         .min_access_size =3D 4,
-         .max_access_size =3D 4,
-     },
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_BIG_ENDIAN,
- };
-
- static void uart_rx(void *opaque, const uint8_t *buf, int size)
-diff --git a/hw/char/pl011.c b/hw/char/pl011.c
-index c1ae2f3..5fb95d2 100644
---- a/hw/char/pl011.c
-+++ b/hw/char/pl011.c
-@@ -287,7 +287,7 @@ static void pl011_event(void *opaque, int event)
- static const MemoryRegionOps pl011_ops =3D {
-     .read =3D pl011_read,
-     .write =3D pl011_write,
--    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
- };
-
- static const VMStateDescription vmstate_pl011 =3D {
---
-1.8.3.1
-
-?
 
