@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45E4902D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:22:35 +0200 (CEST)
-Received: from localhost ([::1]:55968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C878902F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 15:28:05 +0200 (CEST)
+Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hycBe-0000C6-K2
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35327)
+	id 1hycGy-0007MH-BY
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 09:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35352)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc6v-0003Rr-8E
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:43 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc6x-0003SH-7S
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hyc6u-0005a1-4Z
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:41 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37991)
+ (envelope-from <peter.maydell@linaro.org>) id 1hyc6v-0005bT-7D
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:43 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52595)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hyc6t-0005Yc-Uu
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:40 -0400
-Received: by mail-wm1-x335.google.com with SMTP id m125so4047090wmm.3
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:39 -0700 (PDT)
+ id 1hyc6u-0005aF-Vl
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 09:17:41 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id o4so4026806wmh.2
+ for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 06:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KlCSG2yQBk84HQMtc2AZ6n1YsIT4tj03PHTJtQ4LM54=;
- b=zA1uALVpF5JXlWkh6Fd6AB4nk/AuIU4k1hQqXPj4NXtWTUVmut1yLUoyPSGIzudXyf
- 3iBwZdpM3gM61ywWvCRSpEhtVUVbpwcQcUhNfwb19bxmhUXLXOIjQ5T98eR8UIpqpsg1
- koNlfNjv7Lu8HojR9PTB3p4og4byMbQGzD0jyPVYyOOshRkAbjeFoJKFf0fBcu+JPjQN
- cMcHm0xePW5oAk/MjUEtWsfWamevymu5XmCGofiglUe1TjehZclWofqBjnoQ+Y5YzRsm
- PoOsxjsJgUUNznsrTwTPBMyfWzU/SyY7p3VI0SmpQVvuLpjGWGAY6D0P4RHrUeASXlW4
- qbOw==
+ bh=ZNL72tQPdI8dzNTcNNXhQyWga+jG4To7j6GoDCCb7u0=;
+ b=DM2bjjNgv4874A3MwDqrKzsITN6mfBOJZsPZ2OMUb7IjiS88Us334WgD79lUQbuaRA
+ MDHtEGLowtAvLMrbhxSHdNU/xk+id3huvsGa9vcLBgWDMDW60gC2tLmQXty1KhNZZ48O
+ 72OQ6aMjoOGm/RQJFm5cxAYLLJ3TBcsoslD5iT7uHwRSLv/qxS19+jIA9u8pD1knd6GZ
+ QXNVUh9lS9XWEwJWS/EDLbS5noEpg55QIKiMQl4PvwoMTP5QFlroQ7bwtZwL12+QOI4c
+ mHc5gKmMGzc3eHPD9PPu7ej3US0g9uqj+AkSu/JDxWAuFSK3n/vGF5VAZqXNUDCZcjQ8
+ ae6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KlCSG2yQBk84HQMtc2AZ6n1YsIT4tj03PHTJtQ4LM54=;
- b=Ks12M3BI8axFampZeqyElj8yk9zR0BjqUCFJyXHDQqTf37oS/mejYiUzNCD2OKOo1O
- qZohp4eL2fSMT0AMGqwFTRD7q52OrFXZ3S0zNLIF2cdFHQsvReLKMH4tlmRjjSgHvhe4
- xW1GKctUA7OXF0Y8UpHGfI6uCuNS9zHjksG+xN66Er2tdQ7iuCXVIeno60JApQM8EoS3
- R+xU3oT19HO8kH3smWjDOOh+mQA6alKSAxojSdxS6hq64dvZnICSNJ1CPS3JIgmM+DAE
- McnWhFDrUsgQuw/sj7agR0qlDkIm27uT2oq18SkzwU/DVOSLQrGrR3P4weOa60H5f0uc
- vYkw==
-X-Gm-Message-State: APjAAAV0c58AxbO9uZNrBiqsU9dQs2+1w1we8sHlvsQHctsTkZEuYDX+
- 3NJJwM3jCjA/auOBhK+kLJBjhYzH8dPUQg==
-X-Google-Smtp-Source: APXvYqwYpja+sK5Ty1gYsV9skjhvqJzdoUbXKOI/VlbIwFZBXKIFWh6HH4hzYWqZdgLHR6SrBFR3uQ==
-X-Received: by 2002:a05:600c:2245:: with SMTP id
- a5mr7462261wmm.121.1565961458786; 
- Fri, 16 Aug 2019 06:17:38 -0700 (PDT)
+ bh=ZNL72tQPdI8dzNTcNNXhQyWga+jG4To7j6GoDCCb7u0=;
+ b=WdEC3kefxGh4M4EnHsRqEh2TmmvF2TZPQCswVb7/9OkBFFydN7UXXR7L+yBKbXrRQ0
+ 0RGeXNUwhJK/MafNtpjO5rBH2Eic/aogJGsSt8AWl6JL/SU18KFPD+2r4DIXVf3cNvTa
+ OFMLCS2sHdMbeZK8LV7/Nm2Sl8/jIHDhyi1cPB8r9i5+qIt4Im2zMAAKkrcWMaq49a/y
+ FGRUpggDQq7WGUhu07nacCdd03Jbue9exlXPFySz+rAUOo0opMyHtRZ1ntZeIFt2JJ1o
+ I739h+EuvvAgcTSTGK/RZGCbupQiMg14Qf7jmH1gIVmB3kgpr8DGk5Pr/8rRFrQFQGI3
+ GScQ==
+X-Gm-Message-State: APjAAAWl3zjnFTRhXi5FB5E46D5/nRg3fC3BMbQXwdpmYW7ZyLTQKM6n
+ qdU2DdqX9qSSq8WKkx4mayfB1JEMm2tONg==
+X-Google-Smtp-Source: APXvYqyAN3l6TJH2bS9ZZuUbqX4r6einTCn1ZU+KCnzbHNxJmbxSpxp0PRSdSR5+nVd3lJaPKsO01w==
+X-Received: by 2002:a05:600c:144:: with SMTP id
+ w4mr7824801wmm.94.1565961459621; 
+ Fri, 16 Aug 2019 06:17:39 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.37
+ by smtp.gmail.com with ESMTPSA id 4sm8705796wro.78.2019.08.16.06.17.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 06:17:38 -0700 (PDT)
+ Fri, 16 Aug 2019 06:17:39 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 16 Aug 2019 14:17:06 +0100
-Message-Id: <20190816131719.28244-17-peter.maydell@linaro.org>
+Date: Fri, 16 Aug 2019 14:17:07 +0100
+Message-Id: <20190816131719.28244-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190816131719.28244-1-peter.maydell@linaro.org>
 References: <20190816131719.28244-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
-Subject: [Qemu-devel] [PULL 16/29] target/arm: Remove helper_double_saturate
+X-Received-From: 2a00:1450:4864:20::32f
+Subject: [Qemu-devel] [PULL 17/29] target/arm/cpu64: Ensure kvm really
+ supports aarch64=off
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,82 +83,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Andrew Jones <drjones@redhat.com>
 
-Replace x = double_saturate(y) with x = add_saturate(y, y).
-There is no need for a separate more specialized helper.
+If -cpu <cpu>,aarch64=off is used then KVM must also be used, and it
+and the host must support running the vcpu in 32-bit mode. Also, if
+-cpu <cpu>,aarch64=on is used, then it doesn't matter if kvm is
+enabled or not.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190807045335.1361-12-richard.henderson@linaro.org
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.h    |  1 -
- target/arm/op_helper.c | 15 ---------------
- target/arm/translate.c |  4 ++--
- 3 files changed, 2 insertions(+), 18 deletions(-)
+ target/arm/kvm_arm.h | 14 ++++++++++++++
+ target/arm/cpu64.c   | 12 ++++++------
+ target/arm/kvm64.c   |  9 +++++++++
+ 3 files changed, 29 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 132aa1682e8..1fb2cb5a777 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -6,7 +6,6 @@ DEF_HELPER_3(add_saturate, i32, env, i32, i32)
- DEF_HELPER_3(sub_saturate, i32, env, i32, i32)
- DEF_HELPER_3(add_usaturate, i32, env, i32, i32)
- DEF_HELPER_3(sub_usaturate, i32, env, i32, i32)
--DEF_HELPER_2(double_saturate, i32, env, s32)
- DEF_HELPER_FLAGS_2(sdiv, TCG_CALL_NO_RWG_SE, s32, s32, s32)
- DEF_HELPER_FLAGS_2(udiv, TCG_CALL_NO_RWG_SE, i32, i32, i32)
- DEF_HELPER_FLAGS_1(rbit, TCG_CALL_NO_RWG_SE, i32, i32)
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 5e1625a1c8a..0fd4bd02385 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -135,21 +135,6 @@ uint32_t HELPER(sub_saturate)(CPUARMState *env, uint32_t a, uint32_t b)
-     return res;
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index 2a07333c615..98af1050a75 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -207,6 +207,15 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf);
+  */
+ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu);
+ 
++/**
++ * kvm_arm_aarch32_supported:
++ * @cs: CPUState
++ *
++ * Returns: true if the KVM VCPU can enable AArch32 mode
++ * and false otherwise.
++ */
++bool kvm_arm_aarch32_supported(CPUState *cs);
++
+ /**
+  * kvm_arm_get_max_vm_ipa_size - Returns the number of bits in the
+  * IPA address space supported by KVM
+@@ -247,6 +256,11 @@ static inline void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
+     cpu->host_cpu_probe_failed = true;
  }
  
--uint32_t HELPER(double_saturate)(CPUARMState *env, int32_t val)
--{
--    uint32_t res;
--    if (val >= 0x40000000) {
--        res = ~SIGNBIT;
--        env->QF = 1;
--    } else if (val <= (int32_t)0xc0000000) {
--        res = SIGNBIT;
--        env->QF = 1;
--    } else {
--        res = val << 1;
--    }
--    return res;
--}
--
- uint32_t HELPER(add_usaturate)(CPUARMState *env, uint32_t a, uint32_t b)
++static inline bool kvm_arm_aarch32_supported(CPUState *cs)
++{
++    return false;
++}
++
+ static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
  {
-     uint32_t res = a + b;
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index cc7d37b787e..34e65cd80c0 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -8107,7 +8107,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             tmp = load_reg(s, rm);
-             tmp2 = load_reg(s, rn);
-             if (op1 & 2)
--                gen_helper_double_saturate(tmp2, cpu_env, tmp2);
-+                gen_helper_add_saturate(tmp2, cpu_env, tmp2, tmp2);
-             if (op1 & 1)
-                 gen_helper_sub_saturate(tmp, cpu_env, tmp, tmp2);
-             else
-@@ -9950,7 +9950,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                 tmp = load_reg(s, rn);
-                 tmp2 = load_reg(s, rm);
-                 if (op & 1)
--                    gen_helper_double_saturate(tmp, cpu_env, tmp);
-+                    gen_helper_add_saturate(tmp, cpu_env, tmp, tmp);
-                 if (op & 2)
-                     gen_helper_sub_saturate(tmp, cpu_env, tmp2, tmp);
-                 else
+     return -ENOENT;
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index ee55237a9b2..ab63115c776 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -426,13 +426,13 @@ static void aarch64_cpu_set_aarch64(Object *obj, bool value, Error **errp)
+      * restriction allows us to avoid fixing up functionality that assumes a
+      * uniform execution state like do_interrupt.
+      */
+-    if (!kvm_enabled()) {
+-        error_setg(errp, "'aarch64' feature cannot be disabled "
+-                         "unless KVM is enabled");
+-        return;
+-    }
+-
+     if (value == false) {
++        if (!kvm_enabled() || !kvm_arm_aarch32_supported(CPU(cpu))) {
++            error_setg(errp, "'aarch64' feature cannot be disabled "
++                             "unless KVM is enabled and 32-bit EL1 "
++                             "is supported");
++            return;
++        }
+         unset_feature(&cpu->env, ARM_FEATURE_AARCH64);
+     } else {
+         set_feature(&cpu->env, ARM_FEATURE_AARCH64);
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 22d19c9aec6..3d91846beb8 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -24,7 +24,9 @@
+ #include "exec/gdbstub.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/kvm_int.h"
+ #include "kvm_arm.h"
++#include "hw/boards.h"
+ #include "internals.h"
+ 
+ static bool have_guest_debug;
+@@ -593,6 +595,13 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+     return true;
+ }
+ 
++bool kvm_arm_aarch32_supported(CPUState *cpu)
++{
++    KVMState *s = KVM_STATE(current_machine->accelerator);
++
++    return kvm_check_extension(s, KVM_CAP_ARM_EL1_32BIT);
++}
++
+ #define ARM_CPU_ID_MPIDR       3, 0, 0, 0, 5
+ 
+ int kvm_arch_init_vcpu(CPUState *cs)
 -- 
 2.20.1
 
