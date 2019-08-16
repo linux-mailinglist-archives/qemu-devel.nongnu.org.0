@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D1748FD39
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:09:30 +0200 (CEST)
-Received: from localhost ([::1]:51382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA048FD4E
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Aug 2019 10:12:26 +0200 (CEST)
+Received: from localhost ([::1]:51442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyXIf-0001TH-BH
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:09:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41336)
+	id 1hyXLV-0005LK-Gm
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 04:12:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40642)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWpz-0005M7-Qy
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:39:59 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWnp-00035P-85
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:37:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hyWpr-0003zG-VZ
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:39:51 -0400
-Received: from smtpe1.intersmtp.com ([62.239.224.235]:15094)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (envelope-from <tony.nguyen@bt.com>) id 1hyWnh-0002wf-VL
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 03:37:37 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.75]:44508)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hyWow-0003bx-FU; Fri, 16 Aug 2019 03:38:46 -0400
-Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
- RDW083A011ED67.bt.com (10.187.98.37) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Fri, 16 Aug 2019 08:44:40 +0100
+ id 1hyWmW-0002Lb-Uz; Fri, 16 Aug 2019 03:36:17 -0400
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:38:43 +0100
+ BWP09926080.bt.com (10.36.82.111) with Microsoft SMTP Server (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 16
+ Aug 2019 08:35:47 +0100
+Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
+ tpw09926dag18e.domain1.systemhost.net (10.9.212.18) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 16 Aug 2019 08:36:13 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 16 Aug
- 2019 08:38:43 +0100
+ 2019 08:36:13 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v7 38/42] memory: Single byte swap along the
- I/O path
-Thread-Index: AQHVVAWh4SrE1xJVHUGCBVtvjA+sLA==
-Date: Fri, 16 Aug 2019 07:38:43 +0000
-Message-ID: <1565941122698.46462@bt.com>
+Thread-Topic: [Qemu-devel] [PATCH v7 30/42] hw/timer: Declare device little or
+ big endian
+Thread-Index: AQHVVAVHJHteuAQjY06hANVhOnIhew==
+Date: Fri, 16 Aug 2019 07:36:13 +0000
+Message-ID: <1565940972287.31476@bt.com>
 References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -47,14 +48,13 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.40]
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 62.239.224.235
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 213.121.35.75
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v7 38/42] memory: Single byte swap along the
- I/O path
+Subject: [Qemu-devel] [PATCH v7 30/42] hw/timer: Declare device little or
+ big endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,352 +96,280 @@ Cc: frederic.konrad@adacore.com, berto@igalia.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that MemOp has been pushed down into the memory API, and
-callers are encoding endianness, we can collapse byte swaps
-along the I/O path into the accelerator and target independent
-adjust_endianness.
+For each device declared with DEVICE_NATIVE_ENDIAN, find the set of
+targets from the set of target/hw/*/device.o.
 
-Collapsing byte swaps along the I/O path enables additional endian
-inversion logic, e.g. SPARC64 Invert Endian TTE bit, with redundant
-byte swaps cancelling out.
+If the set of targets are all little or all big endian, re-declare
+the device endianness as DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN
+respectively.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+This *naive* deduction may result in genuinely native endian devices
+being incorrectly declared as little or big endian, but should not
+introduce regressions for current targets.
+
+These devices should be re-declared as DEVICE_NATIVE_ENDIAN if 1) it
+has a new target with an opposite endian or 2) someone informed knows
+better =3D)
+
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- accel/tcg/cputlb.c     | 42 +++------------------------------
- hw/virtio/virtio-pci.c | 10 ++++----
- memory.c               | 33 ++++++++++----------------
- memory_ldst.inc.c      | 63 ----------------------------------------------=
-----
- 4 files changed, 19 insertions(+), 129 deletions(-)
+ hw/timer/a9gtimer.c         | 4 ++--
+ hw/timer/arm_mptimer.c      | 4 ++--
+ hw/timer/arm_timer.c        | 4 ++--
+ hw/timer/armv7m_systick.c   | 2 +-
+ hw/timer/aspeed_rtc.c       | 2 +-
+ hw/timer/cadence_ttc.c      | 2 +-
+ hw/timer/grlib_gptimer.c    | 2 +-
+ hw/timer/hpet.c             | 2 +-
+ hw/timer/imx_epit.c         | 2 +-
+ hw/timer/imx_gpt.c          | 2 +-
+ hw/timer/lm32_timer.c       | 2 +-
+ hw/timer/milkymist-sysctl.c | 2 +-
+ hw/timer/mss-timer.c        | 2 +-
+ hw/timer/pl031.c            | 2 +-
+ hw/timer/stm32f2xx_timer.c  | 2 +-
+ hw/timer/sun4v-rtc.c        | 2 +-
+ 16 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 8022c81..bb2f55d 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1200,38 +1200,6 @@ static void *atomic_mmu_lookup(CPUArchState *env, ta=
-rget_ulong addr,
-     cpu_loop_exit_atomic(env_cpu(env), retaddr);
- }
+diff --git a/hw/timer/a9gtimer.c b/hw/timer/a9gtimer.c
+index 09e2a7b..8bb5f6e 100644
+--- a/hw/timer/a9gtimer.c
++++ b/hw/timer/a9gtimer.c
+@@ -254,7 +254,7 @@ static const MemoryRegionOps a9_gtimer_this_ops =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
--#ifdef TARGET_WORDS_BIGENDIAN
--#define NEED_BE_BSWAP 0
--#define NEED_LE_BSWAP 1
--#else
--#define NEED_BE_BSWAP 1
--#define NEED_LE_BSWAP 0
--#endif
--
--/*
-- * Byte Swap Helper
-- *
-- * This should all dead code away depending on the build host and
-- * access type.
-- */
--
--static inline uint64_t handle_bswap(uint64_t val, MemOp op)
--{
--    if ((memop_big_endian(op) && NEED_BE_BSWAP) ||
--        (!memop_big_endian(op) && NEED_LE_BSWAP)) {
--        switch (op & MO_SIZE) {
--        case MO_8: return val;
--        case MO_16: return bswap16(val);
--        case MO_32: return bswap32(val);
--        case MO_64: return bswap64(val);
--        default:
--            g_assert_not_reached();
--        }
--    } else {
--        return val;
--    }
--}
--
- /*
-  * Load Helpers
-  *
-@@ -1306,10 +1274,8 @@ load_helper(CPUArchState *env, target_ulong addr, TC=
-GMemOpIdx oi,
-             }
-         }
+ static const MemoryRegionOps a9_gtimer_ops =3D {
+@@ -264,7 +264,7 @@ static const MemoryRegionOps a9_gtimer_ops =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
--        /* FIXME: io_readx ignores MO_BSWAP.  */
--        res =3D io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
--                       mmu_idx, addr, retaddr, access_type, op);
--        return handle_bswap(res, op);
-+        return io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
-+                        mmu_idx, addr, retaddr, access_type, op);
-     }
+ static void a9_gtimer_reset(DeviceState *dev)
+diff --git a/hw/timer/arm_mptimer.c b/hw/timer/arm_mptimer.c
+index 93044aa..9397218 100644
+--- a/hw/timer/arm_mptimer.c
++++ b/hw/timer/arm_mptimer.c
+@@ -190,7 +190,7 @@ static const MemoryRegionOps arm_thistimer_ops =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
-     /* Handle slow unaligned access (it spans two pages or IO).  */
-@@ -1552,10 +1518,8 @@ store_helper(CPUArchState *env, target_ulong addr, u=
-int64_t val,
-             }
-         }
+ static const MemoryRegionOps timerblock_ops =3D {
+@@ -200,7 +200,7 @@ static const MemoryRegionOps timerblock_ops =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
--        /* FIXME: io_writex ignores MO_BSWAP.  */
-         io_writex(env, &env_tlb(env)->d[mmu_idx].iotlb[index], mmu_idx,
--                  handle_bswap(val, op),
--                  addr, retaddr, op);
-+                  val, addr, retaddr, op);
-         return;
-     }
+ static void timerblock_reset(TimerBlock *tb)
+diff --git a/hw/timer/arm_timer.c b/hw/timer/arm_timer.c
+index f0a7534..22ce3ff 100644
+--- a/hw/timer/arm_timer.c
++++ b/hw/timer/arm_timer.c
+@@ -265,7 +265,7 @@ static void sp804_write(void *opaque, hwaddr offset,
+ static const MemoryRegionOps sp804_ops =3D {
+     .read =3D sp804_read,
+     .write =3D sp804_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index ad06c12..84f820d 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -542,16 +542,15 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy=
-, hwaddr addr,
-         val =3D pci_get_byte(buf);
-         break;
-     case 2:
--        val =3D cpu_to_le16(pci_get_word(buf));
-+        val =3D pci_get_word(buf);
-         break;
-     case 4:
--        val =3D cpu_to_le32(pci_get_long(buf));
-+        val =3D pci_get_long(buf);
-         break;
-     default:
-         /* As length is under guest control, handle illegal values. */
-         return;
-     }
--    /* FIXME: memory_region_dispatch_write ignores MO_BSWAP.  */
-     memory_region_dispatch_write(mr, addr, val, size_memop(len) | MO_LE,
-                                  MEMTXATTRS_UNSPECIFIED);
- }
-@@ -576,7 +575,6 @@ virtio_address_space_read(VirtIOPCIProxy *proxy, hwaddr=
- addr,
-     /* Make sure caller aligned buf properly */
-     assert(!(((uintptr_t)buf) & (len - 1)));
+ static const VMStateDescription vmstate_sp804 =3D {
+@@ -346,7 +346,7 @@ static void icp_pit_write(void *opaque, hwaddr offset,
+ static const MemoryRegionOps icp_pit_ops =3D {
+     .read =3D icp_pit_read,
+     .write =3D icp_pit_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
--    /* FIXME: memory_region_dispatch_read ignores MO_BSWAP.  */
-     memory_region_dispatch_read(mr, addr, &val, size_memop(len) | MO_LE,
-                                 MEMTXATTRS_UNSPECIFIED);
-     switch (len) {
-@@ -584,10 +582,10 @@ virtio_address_space_read(VirtIOPCIProxy *proxy, hwad=
-dr addr,
-         pci_set_byte(buf, val);
-         break;
-     case 2:
--        pci_set_word(buf, le16_to_cpu(val));
-+        pci_set_word(buf, val);
-         break;
-     case 4:
--        pci_set_long(buf, le32_to_cpu(val));
-+        pci_set_long(buf, val);
-         break;
-     default:
-         /* As length is under guest control, handle illegal values. */
-diff --git a/memory.c b/memory.c
-index 01fd29d..ebe0066 100644
---- a/memory.c
-+++ b/memory.c
-@@ -343,32 +343,23 @@ static void flatview_simplify(FlatView *view)
-     }
- }
+ static void icp_pit_init(Object *obj)
+diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
+index 9464074..3c34fd0 100644
+--- a/hw/timer/armv7m_systick.c
++++ b/hw/timer/armv7m_systick.c
+@@ -191,7 +191,7 @@ static MemTxResult systick_write(void *opaque, hwaddr a=
+ddr,
+ static const MemoryRegionOps systick_ops =3D {
+     .read_with_attrs =3D systick_read,
+     .write_with_attrs =3D systick_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+     .valid.min_access_size =3D 4,
+     .valid.max_access_size =3D 4,
+ };
+diff --git a/hw/timer/aspeed_rtc.c b/hw/timer/aspeed_rtc.c
+index 19f061c..c528e47 100644
+--- a/hw/timer/aspeed_rtc.c
++++ b/hw/timer/aspeed_rtc.c
+@@ -130,7 +130,7 @@ static void aspeed_rtc_reset(DeviceState *d)
+ static const MemoryRegionOps aspeed_rtc_ops =3D {
+     .read =3D aspeed_rtc_read,
+     .write =3D aspeed_rtc_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
--static bool memory_region_wrong_endianness(MemoryRegion *mr)
-+static void adjust_endianness(MemoryRegion *mr, uint64_t *data, MemOp op)
- {
--#ifdef TARGET_WORDS_BIGENDIAN
--    return mr->ops->endianness =3D=3D MO_LE;
--#else
--    return mr->ops->endianness =3D=3D MO_BE;
--#endif
--}
--
--static void adjust_endianness(MemoryRegion *mr, uint64_t *data, unsigned s=
-ize)
--{
--    if (memory_region_wrong_endianness(mr)) {
--        switch (size) {
--        case 1:
-+    if ((op & MO_BSWAP) !=3D mr->ops->endianness) {
-+        switch (op & MO_SIZE) {
-+        case MO_8:
-             break;
--        case 2:
-+        case MO_16:
-             *data =3D bswap16(*data);
-             break;
--        case 4:
-+        case MO_32:
-             *data =3D bswap32(*data);
-             break;
--        case 8:
-+        case MO_64:
-             *data =3D bswap64(*data);
-             break;
-         default:
--            abort();
-+            g_assert_not_reached();
-         }
-     }
- }
-@@ -1442,7 +1433,7 @@ MemTxResult memory_region_dispatch_read(MemoryRegion =
-*mr,
-     }
+ static const VMStateDescription vmstate_aspeed_rtc =3D {
+diff --git a/hw/timer/cadence_ttc.c b/hw/timer/cadence_ttc.c
+index 115d935..d422efe 100644
+--- a/hw/timer/cadence_ttc.c
++++ b/hw/timer/cadence_ttc.c
+@@ -389,7 +389,7 @@ static void cadence_ttc_write(void *opaque, hwaddr offs=
+et,
+ static const MemoryRegionOps cadence_ttc_ops =3D {
+     .read =3D cadence_ttc_read,
+     .write =3D cadence_ttc_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
-     r =3D memory_region_dispatch_read1(mr, addr, pval, size, attrs);
--    adjust_endianness(mr, pval, size);
-+    adjust_endianness(mr, pval, op);
-     return r;
- }
+ static void cadence_timer_reset(CadenceTimerState *s)
+diff --git a/hw/timer/grlib_gptimer.c b/hw/timer/grlib_gptimer.c
+index e45a490..dc3b028 100644
+--- a/hw/timer/grlib_gptimer.c
++++ b/hw/timer/grlib_gptimer.c
+@@ -313,7 +313,7 @@ static void grlib_gptimer_write(void *opaque, hwaddr ad=
+dr,
+ static const MemoryRegionOps grlib_gptimer_ops =3D {
+     .read =3D grlib_gptimer_read,
+     .write =3D grlib_gptimer_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_BIG_ENDIAN,
+     .valid =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
+index 41024f3..8268b24 100644
+--- a/hw/timer/hpet.c
++++ b/hw/timer/hpet.c
+@@ -675,7 +675,7 @@ static const MemoryRegionOps hpet_ram_ops =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
-@@ -1485,7 +1476,7 @@ MemTxResult memory_region_dispatch_write(MemoryRegion=
- *mr,
-         return MEMTX_DECODE_ERROR;
-     }
+ static void hpet_reset(DeviceState *d)
+diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
+index 7a88316..a87dc06 100644
+--- a/hw/timer/imx_epit.c
++++ b/hw/timer/imx_epit.c
+@@ -282,7 +282,7 @@ static void imx_epit_cmp(void *opaque)
+ static const MemoryRegionOps imx_epit_ops =3D {
+     .read =3D imx_epit_read,
+     .write =3D imx_epit_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
--    adjust_endianness(mr, &data, size);
-+    adjust_endianness(mr, &data, op);
+ static const VMStateDescription vmstate_imx_timer_epit =3D {
+diff --git a/hw/timer/imx_gpt.c b/hw/timer/imx_gpt.c
+index 3086c03..4eca249 100644
+--- a/hw/timer/imx_gpt.c
++++ b/hw/timer/imx_gpt.c
+@@ -474,7 +474,7 @@ static void imx_gpt_timeout(void *opaque)
+ static const MemoryRegionOps imx_gpt_ops =3D {
+     .read =3D imx_gpt_read,
+     .write =3D imx_gpt_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
-     if ((!kvm_eventfds_enabled()) &&
-         memory_region_dispatch_write_eventfds(mr, addr, data, size, attrs)=
-) {
-@@ -2331,7 +2322,7 @@ void memory_region_add_eventfd(MemoryRegion *mr,
-     }
 
-     if (size) {
--        adjust_endianness(mr, &mrfd.data, size);
-+        adjust_endianness(mr, &mrfd.data, size_memop(size));
-     }
-     memory_region_transaction_begin();
-     for (i =3D 0; i < mr->ioeventfd_nb; ++i) {
-@@ -2366,7 +2357,7 @@ void memory_region_del_eventfd(MemoryRegion *mr,
-     unsigned i;
+diff --git a/hw/timer/lm32_timer.c b/hw/timer/lm32_timer.c
+index 6ce876c..88d2ee0 100644
+--- a/hw/timer/lm32_timer.c
++++ b/hw/timer/lm32_timer.c
+@@ -144,7 +144,7 @@ static void timer_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps timer_ops =3D {
+     .read =3D timer_read,
+     .write =3D timer_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_BIG_ENDIAN,
+     .valid =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+diff --git a/hw/timer/milkymist-sysctl.c b/hw/timer/milkymist-sysctl.c
+index a9d2508..c1d715f 100644
+--- a/hw/timer/milkymist-sysctl.c
++++ b/hw/timer/milkymist-sysctl.c
+@@ -220,7 +220,7 @@ static const MemoryRegionOps sysctl_mmio_ops =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_BIG_ENDIAN,
+ };
 
-     if (size) {
--        adjust_endianness(mr, &mrfd.data, size);
-+        adjust_endianness(mr, &mrfd.data, size_memop(size));
-     }
-     memory_region_transaction_begin();
-     for (i =3D 0; i < mr->ioeventfd_nb; ++i) {
-diff --git a/memory_ldst.inc.c b/memory_ldst.inc.c
-index 482e4b3..7b7f0c0 100644
---- a/memory_ldst.inc.c
-+++ b/memory_ldst.inc.c
-@@ -37,17 +37,7 @@ static inline uint32_t glue(address_space_ldl_internal, =
-SUFFIX)(ARG1_DECL,
-         release_lock |=3D prepare_mmio_access(mr);
+ static void timer0_hit(void *opaque)
+diff --git a/hw/timer/mss-timer.c b/hw/timer/mss-timer.c
+index 6add47a..26a51f1 100644
+--- a/hw/timer/mss-timer.c
++++ b/hw/timer/mss-timer.c
+@@ -197,7 +197,7 @@ timer_write(void *opaque, hwaddr offset,
+ static const MemoryRegionOps timer_ops =3D {
+     .read =3D timer_read,
+     .write =3D timer_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+     .valid =3D {
+         .min_access_size =3D 1,
+         .max_access_size =3D 4
+diff --git a/hw/timer/pl031.c b/hw/timer/pl031.c
+index 1a7e2ee..62b0fab 100644
+--- a/hw/timer/pl031.c
++++ b/hw/timer/pl031.c
+@@ -175,7 +175,7 @@ static void pl031_write(void * opaque, hwaddr offset,
+ static const MemoryRegionOps pl031_ops =3D {
+     .read =3D pl031_read,
+     .write =3D pl031_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
-         /* I/O case */
--        /* FIXME: memory_region_dispatch_read ignores MO_BSWAP.  */
-         r =3D memory_region_dispatch_read(mr, addr1, &val, MO_32 | endian,=
- attrs);
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian =3D=3D MO_LE) {
--            val =3D bswap32(val);
--        }
--#else
--        if (endian =3D=3D MO_BE) {
--            val =3D bswap32(val);
--        }
--#endif
-     } else {
-         /* RAM case */
-         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -113,17 +103,7 @@ static inline uint64_t glue(address_space_ldq_internal=
-, SUFFIX)(ARG1_DECL,
-         release_lock |=3D prepare_mmio_access(mr);
+ static void pl031_init(Object *obj)
+diff --git a/hw/timer/stm32f2xx_timer.c b/hw/timer/stm32f2xx_timer.c
+index 4c49dc4..ecfcdad 100644
+--- a/hw/timer/stm32f2xx_timer.c
++++ b/hw/timer/stm32f2xx_timer.c
+@@ -265,7 +265,7 @@ static void stm32f2xx_timer_write(void *opaque, hwaddr =
+offset,
+ static const MemoryRegionOps stm32f2xx_timer_ops =3D {
+     .read =3D stm32f2xx_timer_read,
+     .write =3D stm32f2xx_timer_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
+ };
 
-         /* I/O case */
--        /* FIXME: memory_region_dispatch_read ignores MO_BSWAP.  */
-         r =3D memory_region_dispatch_read(mr, addr1, &val, MO_64 | endian,=
- attrs);
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian =3D=3D MO_LE) {
--            val =3D bswap64(val);
--        }
--#else
--        if (endian =3D=3D MO_BE) {
--            val =3D bswap64(val);
--        }
--#endif
-     } else {
-         /* RAM case */
-         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -223,17 +203,7 @@ static inline uint32_t glue(address_space_lduw_interna=
-l, SUFFIX)(ARG1_DECL,
-         release_lock |=3D prepare_mmio_access(mr);
+ static const VMStateDescription vmstate_stm32f2xx_timer =3D {
+diff --git a/hw/timer/sun4v-rtc.c b/hw/timer/sun4v-rtc.c
+index ba62adc..6b7ca75 100644
+--- a/hw/timer/sun4v-rtc.c
++++ b/hw/timer/sun4v-rtc.c
+@@ -48,7 +48,7 @@ static void sun4v_rtc_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps sun4v_rtc_ops =3D {
+     .read =3D sun4v_rtc_read,
+     .write =3D sun4v_rtc_write,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .endianness =3D DEVICE_BIG_ENDIAN,
+ };
 
-         /* I/O case */
--        /* FIXME: memory_region_dispatch_read ignores MO_BSWAP.  */
-         r =3D memory_region_dispatch_read(mr, addr1, &val, MO_16 | endian,=
- attrs);
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian =3D=3D MO_LE) {
--            val =3D bswap16(val);
--        }
--#else
--        if (endian =3D=3D MO_BE) {
--            val =3D bswap16(val);
--        }
--#endif
-     } else {
-         /* RAM case */
-         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -335,17 +305,6 @@ static inline void glue(address_space_stl_internal, SU=
-FFIX)(ARG1_DECL,
-     mr =3D TRANSLATE(addr, &addr1, &l, true, attrs);
-     if (l < 4 || !memory_access_is_direct(mr, true)) {
-         release_lock |=3D prepare_mmio_access(mr);
--
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian =3D=3D MO_LE) {
--            val =3D bswap32(val);
--        }
--#else
--        if (endian =3D=3D MO_BE) {
--            val =3D bswap32(val);
--        }
--#endif
--        /* FIXME: memory_region_dispatch_write ignores MO_BSWAP.  */
-         r =3D memory_region_dispatch_write(mr, addr1, val, MO_32 | endian,=
- attrs);
-     } else {
-         /* RAM case */
-@@ -441,17 +400,6 @@ static inline void glue(address_space_stw_internal, SU=
-FFIX)(ARG1_DECL,
-     mr =3D TRANSLATE(addr, &addr1, &l, true, attrs);
-     if (l < 2 || !memory_access_is_direct(mr, true)) {
-         release_lock |=3D prepare_mmio_access(mr);
--
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian =3D=3D MO_LE) {
--            val =3D bswap16(val);
--        }
--#else
--        if (endian =3D=3D MO_BE) {
--            val =3D bswap16(val);
--        }
--#endif
--        /* FIXME: memory_region_dispatch_write ignores MO_BSWAP.  */
-         r =3D memory_region_dispatch_write(mr, addr1, val, MO_16 | endian,=
- attrs);
-     } else {
-         /* RAM case */
-@@ -515,17 +463,6 @@ static void glue(address_space_stq_internal, SUFFIX)(A=
-RG1_DECL,
-     mr =3D TRANSLATE(addr, &addr1, &l, true, attrs);
-     if (l < 8 || !memory_access_is_direct(mr, true)) {
-         release_lock |=3D prepare_mmio_access(mr);
--
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian =3D=3D MO_LE) {
--            val =3D bswap64(val);
--        }
--#else
--        if (endian =3D=3D MO_BE) {
--            val =3D bswap64(val);
--        }
--#endif
--        /* FIXME: memory_region_dispatch_write ignores MO_BSWAP.  */
-         r =3D memory_region_dispatch_write(mr, addr1, val, MO_64 | endian,=
- attrs);
-     } else {
-         /* RAM case */
+ void sun4v_rtc_init(hwaddr addr)
 --
 1.8.3.1
 
