@@ -2,50 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C663290F94
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 10:57:33 +0200 (CEST)
-Received: from localhost ([::1]:35030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BAF690F93
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 10:57:30 +0200 (CEST)
+Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyuWi-0004Ja-Tv
-	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 04:57:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49102)
+	id 1hyuWf-0004Fg-JQ
+	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 04:57:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1hyuUD-0001FV-2Y
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 04:54:58 -0400
+ (envelope-from <thuth@redhat.com>) id 1hyuUG-0001O6-QG
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 04:55:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hyuUB-0006sx-OV
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 04:54:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40450)
+ (envelope-from <thuth@redhat.com>) id 1hyuUF-0006un-Ox
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 04:55:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41656)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1hyuU8-0006qk-Lj; Sat, 17 Aug 2019 04:54:52 -0400
+ id 1hyuUD-0006ta-Lr; Sat, 17 Aug 2019 04:54:57 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0211F59465;
- Sat, 17 Aug 2019 08:54:52 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 058D4C057F20;
+ Sat, 17 Aug 2019 08:54:57 +0000 (UTC)
 Received: from thuth.com (ovpn-116-52.ams2.redhat.com [10.36.116.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B700951C3A;
- Sat, 17 Aug 2019 08:54:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5EA4651C3A;
+ Sat, 17 Aug 2019 08:54:52 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Sat, 17 Aug 2019 10:54:42 +0200
-Message-Id: <20190817085443.11471-3-thuth@redhat.com>
+Date: Sat, 17 Aug 2019 10:54:43 +0200
+Message-Id: <20190817085443.11471-4-thuth@redhat.com>
 In-Reply-To: <20190817085443.11471-1-thuth@redhat.com>
 References: <20190817085443.11471-1-thuth@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Sat, 17 Aug 2019 08:54:52 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.32]); Sat, 17 Aug 2019 08:54:57 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 2/3] tests: Run the iotests during "make check"
- again
+Subject: [Qemu-devel] [PULL 3/3] gitlab-ci: Remove qcow2 tests that are
+ handled by "make check" already
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,162 +58,41 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-People often forget to run the iotests before submitting patches or pull
-requests - this is likely due to the fact that we do not run the tests
-during our mandatory "make check" tests yet. Now that we've got a proper
-"auto" group of iotests that should be fine to run in every environment,
-we can enable the iotests during "make check" again by running the "auto"
-tests by default from the check-block.sh script.
+Since most iotests are now run during "make check" already, we do not
+need to test them explicitly from the gitlab-ci.yml script anymore.
+And while we're at it, add some of the new non-auto tests >= 246 instead.
 
-Some cases still need to be checked first, though: iotests need bash and
-GNU sed (otherwise they fail), and if gprof is enabled, it spoils the
-output of some test cases causing them to fail. So if we detect that one
-of the required programs is missing or that gprof is enabled, we still
-have to skip the iotests to avoid failures.
-
-And finally, since we are using check-block.sh now again, this patch also
-removes the qemu-iotests-quick.sh script since we do not need that anymor=
-e
-(and having two shell wrapper scripts around the block tests seems rather
-confusing than helpful).
-
-Message-Id: <20190717111947.30356-4-thuth@redhat.com>
+Message-Id: <20190717111947.30356-5-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-[AJB: -makecheck to check-block.sh, move check-block to start and gate it=
-]
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 ---
- tests/Makefile.include      | 10 +++++----
- tests/check-block.sh        | 44 ++++++++++++++++++++++++++++---------
- tests/qemu-iotests-quick.sh |  8 -------
- 3 files changed, 40 insertions(+), 22 deletions(-)
- delete mode 100755 tests/qemu-iotests-quick.sh
+ .gitlab-ci.yml | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index fd7fdb8658..6f02dfcc01 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -142,7 +142,7 @@ check-unit-y +=3D tests/test-uuid$(EXESUF)
- check-unit-y +=3D tests/ptimer-test$(EXESUF)
- check-unit-y +=3D tests/test-qapi-util$(EXESUF)
-=20
--check-block-$(CONFIG_POSIX) +=3D tests/qemu-iotests-quick.sh
-+check-block-$(call land,$(CONFIG_POSIX),$(CONFIG_SOFTMMU)) +=3D tests/ch=
-eck-block.sh
-=20
- # All QTests for now are POSIX-only, but the dependencies are
- # really in libqtest, not in the testcases themselves.
-@@ -1092,8 +1092,10 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
-=20
- QEMU_IOTESTS_HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) =3D =
-tests/qemu-iotests/socket_scm_helper$(EXESUF)
-=20
--.PHONY: check-tests/qemu-iotests-quick.sh
--check-tests/qemu-iotests-quick.sh: tests/qemu-iotests-quick.sh qemu-img$=
-(EXESUF) qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y)
-+.PHONY: check-tests/check-block.sh
-+check-tests/check-block.sh: tests/check-block.sh qemu-img$(EXESUF) \
-+		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
-+		$(patsubst %,%/all,$(filter %-softmmu,$(TARGET_DIRS)))
- 	$<
-=20
- .PHONY: $(patsubst %, check-%, $(check-qapi-schema-y))
-@@ -1167,7 +1169,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
- check-qapi-schema: $(patsubst %,check-%, $(check-qapi-schema-y)) check-t=
-ests/qapi-schema/doc-good.texi
- check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
- check-block: $(patsubst %,check-%, $(check-block-y))
--check: check-qapi-schema check-unit check-softfloat check-qtest check-de=
-codetree
-+check: check-block check-qapi-schema check-unit check-softfloat check-qt=
-est check-decodetree
- check-clean:
- 	rm -rf $(check-unit-y) tests/*.o $(QEMU_IOTESTS_HELPERS-y)
- 	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(t=
-arget)-y)) $(check-qtest-generic-y))
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-index f3d12fd602..c8b6cec3f6 100755
---- a/tests/check-block.sh
-+++ b/tests/check-block.sh
-@@ -1,24 +1,48 @@
- #!/bin/sh
-=20
--FORMAT_LIST=3D"raw qcow2 qed vmdk vpc"
-+# Honor the SPEED environment variable, just like we do it for the qtest=
-s.
-+if [ "$SPEED" =3D "slow" ]; then
-+    format_list=3D"raw qcow2"
-+    group=3D
-+elif [ "$SPEED" =3D "thorough" ]; then
-+    format_list=3D"raw qcow2 qed vmdk vpc"
-+    group=3D
-+else
-+    format_list=3Dqcow2
-+    group=3D"-g auto"
-+fi
-+
- if [ "$#" -ne 0 ]; then
--    FORMAT_LIST=3D"$@"
-+    format_list=3D"$@"
-+fi
-+
-+if grep -q "TARGET_GPROF=3Dy" *-softmmu/config-target.mak 2>/dev/null ; =
-then
-+    echo "GPROF is enabled =3D=3D> Not running the qemu-iotests."
-+    exit 0
- fi
-=20
--export QEMU_PROG=3D"$PWD/x86_64-softmmu/qemu-system-x86_64"
--export QEMU_IMG_PROG=3D"$PWD/qemu-img"
--export QEMU_IO_PROG=3D"$PWD/qemu-io"
-+if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
-+    echo "No qemu-system binary available =3D=3D> Not running the qemu-i=
-otests."
-+    exit 0
-+fi
-+
-+if ! command -v bash >/dev/null 2>&1 ; then
-+    echo "bash not available =3D=3D> Not running the qemu-iotests."
-+    exit 0
-+fi
-=20
--if [ ! -x $QEMU_PROG ]; then
--    echo "'make check-block' requires qemu-system-x86_64"
--    exit 1
-+if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
-+    if ! command -v gsed >/dev/null 2>&1; then
-+        echo "GNU sed not available =3D=3D> Not running the qemu-iotests=
-."
-+        exit 0
-+    fi
- fi
-=20
- cd tests/qemu-iotests
-=20
- ret=3D0
--for FMT in $FORMAT_LIST ; do
--    ./check -T -nocache -$FMT || ret=3D1
-+for fmt in $format_list ; do
-+    ./check -makecheck -$fmt $group || ret=3D1
- done
-=20
- exit $ret
-diff --git a/tests/qemu-iotests-quick.sh b/tests/qemu-iotests-quick.sh
-deleted file mode 100755
-index 0e554bb972..0000000000
---- a/tests/qemu-iotests-quick.sh
-+++ /dev/null
-@@ -1,8 +0,0 @@
--#!/bin/sh
--
--cd tests/qemu-iotests
--
--ret=3D0
--TEST_DIR=3D${TEST_DIR:-/tmp/qemu-iotests-quick-$$} ./check -T -qcow2 -g =
-quick || ret=3D1
--
--exit $ret
---=20
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index c63bf2f822..cd4c03372b 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -45,15 +45,10 @@ build-tcg-disabled:
+  - ./check -raw 001 002 003 004 005 008 009 010 011 012 021 025 032 033 048
+             052 063 077 086 101 104 106 113 147 148 150 151 152 157 159 160
+             163 170 171 183 184 192 194 197 205 208 215 221 222 226 227 236
+- - ./check -qcow2 001 002 003 004 005 007 008 009 010 011 012 013 017 018 019
+-            020 021 022 024 025 027 028 029 031 032 033 034 035 036 037 038
+-            039 040 042 043 046 047 048 049 050 051 052 053 054 056 057 058
+-            060 061 062 063 065 066 067 068 069 071 072 073 074 079 080 082
+-            085 086 089 090 091 095 096 097 098 099 102 103 104 105 107 108
+-            110 111 114 117 120 122 124 126 127 129 130 132 133 134 137 138
+-            139 140 141 142 143 144 145 147 150 151 152 154 155 156 157 158
+-            161 165 170 172 174 176 177 179 184 186 187 190 192 194 195 196
+-            197 200 202 203 205 208 209 214 215 216 217 218 222 226 227 229 234
++ - ./check -qcow2 028 040 051 056 057 058 065 067 068 082 085 091 095 096 102
++            122 124 127 129 132 139 142 144 145 147 151 152 155 157 165 194
++            196 197 200 202 203 205 208 209 215 216 218 222 227 234 246 247
++            248 250 254 255 256
+ 
+ build-user:
+  script:
+-- 
 2.18.1
 
 
