@@ -2,56 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F24A90D53
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 08:18:52 +0200 (CEST)
-Received: from localhost ([::1]:34460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF7590DDD
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 09:38:43 +0200 (CEST)
+Received: from localhost ([::1]:34634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hys38-0003GU-PF
-	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 02:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33444)
+	id 1hytIQ-000074-El
+	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 03:38:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40991)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1hys2F-0002nb-LY
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 02:17:56 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hytGT-0006pc-5n
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hys2E-00060M-2X
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 02:17:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57386)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hys2D-0005zU-Rf
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 02:17:54 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 914251089041;
- Sat, 17 Aug 2019 06:17:52 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C183860CCD;
- Sat, 17 Aug 2019 06:17:49 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1D72E10E6CCA; Sat, 17 Aug 2019 08:17:48 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20190815183803.13346-1-ehabkost@redhat.com>
- <20190815183803.13346-4-ehabkost@redhat.com>
- <20190816152011.0c673027@redhat.com>
- <20190816165635.GC3908@habkost.net>
-Date: Sat, 17 Aug 2019 08:17:48 +0200
-In-Reply-To: <20190816165635.GC3908@habkost.net> (Eduardo Habkost's message of
- "Fri, 16 Aug 2019 13:56:35 -0300")
-Message-ID: <87sgq0qprn.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hytGR-0006Wu-Gj
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:41 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:47797)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hytGR-0006VM-7u
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:39 -0400
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
+ [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 667A2570BF;
+ Sat, 17 Aug 2019 16:36:35 +0900 (JST)
+Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
+ [222.8.5.235])
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id F1818240087;
+ Sat, 17 Aug 2019 16:36:34 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: qemu-devel@nongnu.org
+Date: Sat, 17 Aug 2019 16:36:08 +0900
+Message-Id: <20190817073628.94473-3-ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20190817073628.94473-1-ysato@users.sourceforge.jp>
+References: <20190817073628.94473-1-ysato@users.sourceforge.jp>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Sat, 17 Aug 2019 06:17:52 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/3] pc: Don't make CPU properties
- mandatory unless necessary
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 202.224.55.15
+Subject: [Qemu-devel] [PATCH v23 02/22] qemu/bitops.h: Add extract8 and
+ extract16
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,103 +54,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>, Like Xu <like.xu@linux.intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, imammedo@redhat.com, richard.henderson@linaro.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
+Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20190607091116.49044-10-ysato@users.sourceforge.jp>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/qemu/bitops.h | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-> On Fri, Aug 16, 2019 at 03:20:11PM +0200, Igor Mammedov wrote:
->> On Thu, 15 Aug 2019 15:38:03 -0300
->> Eduardo Habkost <ehabkost@redhat.com> wrote:
->> 
->> > We have this issue reported when using libvirt to hotplug CPUs:
->> > https://bugzilla.redhat.com/show_bug.cgi?id=1741451
->> > 
->> > Basically, libvirt is not copying die-id from
->> > query-hotpluggable-cpus, but die-id is now mandatory.
->> 
->> this should have been gated on compat property and affect
->> only new machine types.
->> Maybe we should do just that instead of fixup so libvirt
->> would finally make proper handling of query-hotpluggable-cpus.
->> 
->>  
->> > We could blame libvirt and say it is not following the documented
->> > interface, because we have this buried in the QAPI schema
->> > documentation:
->> 
->> I wouldn't say buried, if I understand it right QAPI schema
->> should be the authoritative source of interface description.
->> 
->> If I recall it's not the first time, there was similar issue
->> for exactly the same reason (libvirt not passing through
->> all properties from query-hotpluggable-cpus).
->> 
->> And we had to fix it up on QEMU side (numa_cpu_pre_plug),
->> but it seems 2 years later libvirt is still broken the same way :(
->> 
->> Should we really do fixups or finaly fix it on libvirt side?
->
-> Is it truly a bug in libvirt?  Making QEMU behave differently
-> when getting exactly the same input sounds like a bad idea, even
-> if we documented that at the QAPI documentation.
->
-> My suggestion is to instead drop the comment below from the QAPI
-> documentation.  New properties shouldn't become mandatory.
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 3f0926cf40..764f9d1ea0 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -301,6 +301,44 @@ static inline uint32_t extract32(uint32_t value, int=
+ start, int length)
+ }
+=20
+ /**
++ * extract8:
++ * @value: the value to extract the bit field from
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ *
++ * Extract from the 8 bit input @value the bit field specified by the
++ * @start and @length parameters, and return it. The bit field must
++ * lie entirely within the 8 bit word. It is valid to request that
++ * all 8 bits are returned (ie @length 8 and @start 0).
++ *
++ * Returns: the value of the bit field extracted from the input value.
++ */
++static inline uint8_t extract8(uint8_t value, int start, int length)
++{
++    assert(start >=3D 0 && length > 0 && length <=3D 8 - start);
++    return extract32(value, start, length);
++}
++
++/**
++ * extract16:
++ * @value: the value to extract the bit field from
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ *
++ * Extract from the 16 bit input @value the bit field specified by the
++ * @start and @length parameters, and return it. The bit field must
++ * lie entirely within the 16 bit word. It is valid to request that
++ * all 16 bits are returned (ie @length 16 and @start 0).
++ *
++ * Returns: the value of the bit field extracted from the input value.
++ */
++static inline uint16_t extract16(uint16_t value, int start, int length)
++{
++    assert(start >=3D 0 && length > 0 && length <=3D 16 - start);
++    return extract32(value, start, length);
++}
++
++/**
+  * extract64:
+  * @value: the value to extract the bit field from
+  * @start: the lowest bit in the bit field (numbered from 0)
+--=20
+2.11.0
 
-The "comment below" is this one, in qapi/machine.json:
-
->> > > Note: currently there are 5 properties that could be present
->> > > but management should be prepared to pass through other
->> > > properties with device_add command to allow for future
->> > > interface extension. This also requires the filed names to be kept in
->> > > sync with the properties passed to -device/device_add.  
-
-Goes back to commit d4633541ee0, v2.7.0.  @die-id was the first such
-interface extension.
-
-A rule like "to use command C, you must pass it whatever you get from
-command Q" punches a hole into the "QMP is a stable interface" promise.
-Retroactively tacking it onto an existing interface like device-add
-some-existing-device is even more problematic than specifying it for a
-new interface.  Mind, this is not a categorical "can't ever do that".
-It's more like "you better show this is less bad than all the
-alternatives we can think of, and we've thought pretty hard".
-
-Since this particular hole failed us the first time anybody actually
-tried to wiggle through it, I think Eduardo has a point when he calls
-for filling it in by deleting the comment.
-
-By the way, the line preceding the comment
-
-     # @core-id: core number within die the CPU belongs to# @thread-id: thread number within core the CPU belongs to
-
-is actually two lines run together.  Messed up when @die-id was added
-(commit 176d2cda0de).  Minor review fail (I didn't look even though I
-was cc'ed on v2; I wasn't on v3).  Let's fix that, too.
-
->> > But I don't think this would be reasonable from us.  We can just
->> > make QEMU more flexible and let CPU properties to be omitted when
->> > there's no ambiguity.  This will allow us to keep compatibility
->> > with existing libvirt versions.
->> 
->> I don't really like making rule from exceptions so I'd suggest doing
->> it only for  die_id if we have to do fix it up (with fat comment
->> like in numa_cpu_pre_plug).
->> The rest are working fine as is.
->
-> I will insist we make it consistent for all properties, but I
-> don't want this discussion to hold the bug fix.  So I'll do this:
->
-> I will submit a new patch that makes only die-id optional, and CC
-> qemu-stable.
->
-> After that, i will submit this patch again, and we can discuss
-> whether we should make all properties optional.
-
-Makes sense, go ahead.
 
