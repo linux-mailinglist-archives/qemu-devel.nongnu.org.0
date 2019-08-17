@@ -2,47 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EEDB90F16
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 09:51:53 +0200 (CEST)
-Received: from localhost ([::1]:34768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F61190F31
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 09:55:18 +0200 (CEST)
+Received: from localhost ([::1]:34802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hytVA-00017E-L0
-	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 03:51:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41196)
+	id 1hytYT-0004Lj-9X
+	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 03:55:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42907)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hytGf-00075F-3e
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:54 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hytXK-0003oW-MY
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:54:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hytGd-0006kz-Hc
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:52 -0400
-Received: from mail03.asahi-net.or.jp ([202.224.55.15]:47819)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hytGd-0006Xb-9g
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:51 -0400
-Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
- [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail03.asahi-net.or.jp (Postfix) with ESMTPA id EADAC572B0;
- Sat, 17 Aug 2019 16:36:40 +0900 (JST)
-Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
- [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id A3975240085;
- Sat, 17 Aug 2019 16:36:40 +0900 (JST)
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
-To: qemu-devel@nongnu.org
-Date: Sat, 17 Aug 2019 16:36:27 +0900
-Message-Id: <20190817073628.94473-22-ysato@users.sourceforge.jp>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190817073628.94473-1-ysato@users.sourceforge.jp>
-References: <20190817073628.94473-1-ysato@users.sourceforge.jp>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hytXJ-0000Tv-5i
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:54:06 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42163)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1hytXF-0000Pj-W0; Sat, 17 Aug 2019 03:54:02 -0400
+Received: by mail-ot1-x343.google.com with SMTP id j7so11680634ota.9;
+ Sat, 17 Aug 2019 00:54:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=QducGt1kiXEU2n2Hi+Oiq8/yIY3AymjRQGsbtdusS8g=;
+ b=CYeGpuLqOsnHzMeNFyWdEJwt1ilREaSXAAISvi8UyQMDu/dKLnp/z5jpVtTEhzmv+f
+ 2pkwX0icHawGiSQYczgNPAgy52eOS0plp0BqDmh5ZDvlobqmTCMLd3Qoo84fRWxDG6nP
+ t4c7HcogNE8jMKgZxxiPQGzn41Ov+ccZ+iF3UkatbJay+Lc4sbRyXmL2BZ2rQHplc5JZ
+ M4H/FWjcEwFf02Cmt/PLMfJjyPDNEnhjK2ocn7/0+UQzyQf2WTiKVQKsMZvcBvfA8tQh
+ llL1FpaTdljf6wkRi7Ik1k0E1fw7/d0z8RM5e4vBg9V52Qz0UR6rdPkfQ3yVPrtX8EOb
+ Xnqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=QducGt1kiXEU2n2Hi+Oiq8/yIY3AymjRQGsbtdusS8g=;
+ b=TazlRvlB3vueBiq4jiT0NzLmaHZpMH1ddyq4sYTR7nNpn6puqcp8oE7zXwlhi2xvq/
+ KC8ZW0roXrSEcD7CFqXNig7d9sIPwRs94/Y6uAzUdZKb4dER2bWIUkBiJYfMo7UiVlxt
+ FAgcqQw11pWrXr9g8I5yfyEPmI/5W/nWIkSgAr5VTPh0NSmABBBRHJ9OP6TVEHweSxL7
+ pvvAICVa7G9y7ZKWrET8QxWAZ/L92zxVbhyz6gBDVvPRyif68J4kxmkeoZ0yRBe3HX0U
+ krqthp6Es++1rV4jzmEUpj8ZCYszUQEmgT7ZSmakvcmv4LAip68LvmPnEumgwBhAfntc
+ hpHw==
+X-Gm-Message-State: APjAAAUnasX9GY9Mh6zmpySwYPM2Dgvffwnsc2gkhDMuCDSmxEn9pBEw
+ w0nYqQ+XaK7Cth0dYZSlk9ZmFtJhaY1fWLdx/Zo4lQ==
+X-Google-Smtp-Source: APXvYqznTo9rcMBPmOismr5eGLQP28CaRRXpKCD86+08jPFPeod1+DtloQfbw2yUZClEgrcltZHXK2dDwlzlIiEllLU=
+X-Received: by 2002:a05:6830:1d75:: with SMTP id
+ l21mr9842611oti.121.1566028440281; 
+ Sat, 17 Aug 2019 00:54:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Sat, 17 Aug 2019 00:53:59
+ -0700 (PDT)
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Sat, 17 Aug 2019 00:53:59
+ -0700 (PDT)
+In-Reply-To: <CAL1e-=jy6vggskJ26rTc8dnaqtqCB0SdfpV9p-NvKdjoBk+Vkw@mail.gmail.com>
+References: <1565983669-6886-1-git-send-email-pc@us.ibm.com>
+ <CAL1e-=jy6vggskJ26rTc8dnaqtqCB0SdfpV9p-NvKdjoBk+Vkw@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Sat, 17 Aug 2019 09:53:59 +0200
+Message-ID: <CAL1e-=hAcMMQMP4ecW_AW_3UM1yCjRE+P7QN3ytn2JaZeTFxUg@mail.gmail.com>
+To: "Paul A. Clarke" <pc@us.ibm.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 202.224.55.15
-Subject: [Qemu-devel] [PATCH v23 21/22] BootLinuxConsoleTest: Test the
- RX-Virt machine
+X-Received-From: 2607:f8b0:4864:20::343
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH] ppc: Three floating point fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,126 +78,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, imammedo@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+17.08.2019. 00.59, "Aleksandar Markovic" <aleksandar.m.mail@gmail.com> =D1=
+=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+>
+> 16.08.2019. 21.28, "Paul A. Clarke" <pc@us.ibm.com> =D1=98=D0=B5 =D0=BD=
+=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> >
+> > From: "Paul A. Clarke" <pc@us.ibm.com>
+> >
+> > - target/ppc/fpu_helper.c:
+> >   - helper_todouble() was not properly converting INFINITY from 32 bit
+> >   float to 64 bit double.
+> >   - helper_todouble() was not properly converting any denormalized
+> >   32 bit float to 64 bit double.
+> >
+> > - GCC, as of version 8 or so, takes advantage of the hardware's
+> >   implementation of the xscvdpspn instruction to optimize the following
+> >   sequence:
+> >     xscvdpspn vs0,vs1
+> >     mffprwz   r8,f0
+> >   ISA 3.0B has xscvdpspn leaving its result in word 1 of the target
+register,
+> >   and mffprwz expecting its input to come from word 0 of the source
+register.
+> >   This sequence fails with QEMU, as a shift is required between those
+two
+> >   instructions.  However, the hardware splats the result to both word 0
+and
+> >   word 1 of its output register, so the shift is not necessary.
+> >   Expect a future revision of the ISA to specify this behavior.
+> >
+>
+> Hmmm... Isn't this a gcc bug (using undocumented hardware feature), given
+everything you said here?
+>
 
-Add two tests for the rx-virt machine, based on the recommended test
-setup from Yoshinori Sato:
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03586.html
+Paul, you are touching here a very sensitive area. If I were you, I would
+most likely propose a similar patch, given thr info you presented. However,
+in general, QEMU is a compiler-agnostic tool and should not depend on
+compiler features, let alone fix its bugs, and therefore I think you should
+more clearly spell out in your commit message that the code segment in
+question is a workaround for an outright GCC bug, and just a kind of
+"necessary evil" in given situation.
 
-- U-Boot prompt
-- Linux kernel with Sash shell
+Let us also wait for David possibly coming up with the final verdict wrt
+this issue.
 
-These are very quick tests:
+Also, this patch should be split into two or three (infinity conversions
+have nothing to do with xscvdpspn) - a patch deals with only one logical
+unit.
 
-  $ avocado run -t arch:rx tests/acceptance/boot_linux_console.py
-  JOB ID     : 84a6ef01c0b87975ecbfcb31a920afd735753ace
-  JOB LOG    : /home/phil/avocado/job-results/job-2019-05-24T05.02-84a6ef=
-0/job.log
-   (1/2) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_rx_=
-uboot: PASS (0.11 s)
-   (2/2) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_rx_=
-linux: PASS (0.45 s)
-  RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 =
-| CANCEL 0
+Yours,
+Aleksandar
 
-Tests can also be run with:
-
-  $ avocado --show=3Dconsole run -t arch:rx tests/acceptance/boot_linux_c=
-onsole.py
-  console: U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty (Feb 05 2019 - 21:5=
-6:06 +0900)
-  console: Linux version 4.19.0+ (yo-satoh@yo-satoh-debian) (gcc version =
-9.0.0 20181105 (experimental) (GCC)) #137 Wed Feb 20 23:20:02 JST 2019
-  console: Built 1 zonelists, mobility grouping on.  Total pages: 8128
-  ...
-  console: SuperH (H)SCI(F) driver initialized
-  console: 88240.serial: ttySC0 at MMIO 0x88240 (irq =3D 215, base_baud =3D=
- 0) is a sci
-  console: console [ttySC0] enabled
-  console: 88248.serial: ttySC1 at MMIO 0x88248 (irq =3D 219, base_baud =3D=
- 0) is a sci
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Based-on: 20190517045136.3509-1-richard.henderson@linaro.org
-"RX architecture support"
-
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- tests/acceptance/boot_linux_console.py | 46 ++++++++++++++++++++++++++++=
-++++++
- 1 file changed, 46 insertions(+)
-
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-index 32159503e9..19aab894d1 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -354,3 +354,49 @@ class BootLinuxConsole(Test):
-         self.vm.launch()
-         console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
-ine
-         self.wait_for_console_pattern(console_pattern)
-+
-+    def test_rx_uboot(self):
-+        """
-+        :avocado: tags=3Darch:rx
-+        :avocado: tags=3Dmachine:rx-virt
-+        :avocado: tags=3Dendian:little
-+        """
-+        uboot_url =3D ('https://acc.dl.osdn.jp/users/23/23888/u-boot.bin=
-.gz')
-+        uboot_hash =3D '9b78dbd43b40b2526848c0b1ce9de02c24f4dcdb'
-+        uboot_path =3D self.fetch_asset(uboot_url, asset_hash=3Duboot_ha=
-sh)
-+        uboot_path =3D archive.uncompress(uboot_path, self.workdir)
-+
-+        self.vm.set_machine('rx-virt')
-+        self.vm.set_console()
-+        self.vm.add_args('-bios', uboot_path,
-+                         '-no-reboot')
-+        self.vm.launch()
-+        uboot_version =3D 'U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty'
-+        self.wait_for_console_pattern(uboot_version)
-+        gcc_version =3D 'rx-unknown-linux-gcc (GCC) 9.0.0 20181105 (expe=
-rimental)'
-+        # FIXME limit baudrate on chardev, else we type too fast
-+        #self.exec_command_and_wait_for_pattern('version', gcc_version)
-+
-+    def test_rx_linux(self):
-+        """
-+        :avocado: tags=3Darch:rx
-+        :avocado: tags=3Dmachine:rx-virt
-+        :avocado: tags=3Dendian:little
-+        """
-+        dtb_url =3D ('https://acc.dl.osdn.jp/users/23/23887/rx-qemu.dtb'=
-)
-+        dtb_hash =3D '7b4e4e2c71905da44e86ce47adee2210b026ac18'
-+        dtb_path =3D self.fetch_asset(dtb_url, asset_hash=3Ddtb_hash)
-+        kernel_url =3D ('http://acc.dl.osdn.jp/users/23/23845/zImage')
-+        kernel_hash =3D '39a81067f8d72faad90866ddfefa19165d68fc99'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-+
-+        self.vm.set_machine('rx-virt')
-+        self.vm.set_console()
-+        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'early=
-con'
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-dtb', dtb_path,
-+                         '-no-reboot')
-+        self.vm.launch()
-+        self.wait_for_console_pattern('Sash command shell (version 1.1.1=
-)')
-+        self.exec_command_and_wait_for_pattern('printenv',
-+                                               'TERM=3Dlinux')
---=20
-2.11.0
-
-
+> Sincerely,
+> Aleksandar
+>
+> > Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
+> > ---
+> >  target/ppc/fpu_helper.c | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> > index 5611cf0..82b5425 100644
+> > --- a/target/ppc/fpu_helper.c
+> > +++ b/target/ppc/fpu_helper.c
+> > @@ -62,13 +62,14 @@ uint64_t helper_todouble(uint32_t arg)
+> >          ret  =3D (uint64_t)extract32(arg, 30, 2) << 62;
+> >          ret |=3D ((extract32(arg, 30, 1) ^ 1) * (uint64_t)7) << 59;
+> >          ret |=3D (uint64_t)extract32(arg, 0, 30) << 29;
+> > +        ret |=3D (0x7ffULL * (extract32(arg, 23, 8) =3D=3D 0xff)) << 5=
+2;
+> >      } else {
+> >          /* Zero or Denormalized operand.  */
+> >          ret =3D (uint64_t)extract32(arg, 31, 1) << 63;
+> >          if (unlikely(abs_arg !=3D 0)) {
+> >              /* Denormalized operand.  */
+> >              int shift =3D clz32(abs_arg) - 9;
+> > -            int exp =3D -126 - shift + 1023;
+> > +            int exp =3D -127 - shift + 1023;
+> >              ret |=3D (uint64_t)exp << 52;
+> >              ret |=3D abs_arg << (shift + 29);
+> >          }
+> > @@ -2871,10 +2872,14 @@ void helper_xscvqpdp(CPUPPCState *env, uint32_t
+opcode,
+> >
+> >  uint64_t helper_xscvdpspn(CPUPPCState *env, uint64_t xb)
+> >  {
+> > +    uint64_t result;
+> > +
+> >      float_status tstat =3D env->fp_status;
+> >      set_float_exception_flags(0, &tstat);
+> >
+> > -    return (uint64_t)float64_to_float32(xb, &tstat) << 32;
+> > +    result =3D (uint64_t)float64_to_float32(xb, &tstat);
+> > +    /* hardware replicates result to both words of the doubleword
+result.  */
+> > +    return (result << 32) | result;
+> >  }
+> >
+> >  uint64_t helper_xscvspdpn(CPUPPCState *env, uint64_t xb)
+> > --
+> > 1.8.3.1
+> >
+> >
