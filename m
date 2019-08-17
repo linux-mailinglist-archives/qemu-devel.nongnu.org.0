@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90997910DE
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 16:44:11 +0200 (CEST)
-Received: from localhost ([::1]:36590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5036D910EC
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 16:51:03 +0200 (CEST)
+Received: from localhost ([::1]:36630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyzwA-0000be-Ex
-	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 10:44:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55094)
+	id 1hz02o-0002Vx-6B
+	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 10:51:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55743)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1hyzux-0008Sf-Bu
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 10:42:56 -0400
+ (envelope-from <eblake@redhat.com>) id 1hz01a-0001gd-Ke
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 10:49:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hyzuw-0007R3-BA
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 10:42:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49486)
+ (envelope-from <eblake@redhat.com>) id 1hz01Z-000471-KS
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 10:49:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37922)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hyzut-0007Oj-JJ; Sat, 17 Aug 2019 10:42:51 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1hz01X-00045F-Bt; Sat, 17 Aug 2019 10:49:43 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 89B2F3082B4B;
- Sat, 17 Aug 2019 14:42:50 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6F72D7FD45;
+ Sat, 17 Aug 2019 14:49:42 +0000 (UTC)
 Received: from [10.3.116.18] (ovpn-116-18.phx2.redhat.com [10.3.116.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5906C10013A7;
- Sat, 17 Aug 2019 14:42:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10DC561B65;
+ Sat, 17 Aug 2019 14:49:38 +0000 (UTC)
 To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <1554474244-553661-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1677e835-39a1-4af3-8f4f-e1600021a2ee@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,18 +59,18 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <1677e835-39a1-4af3-8f4f-e1600021a2ee@redhat.com>
-Date: Sat, 17 Aug 2019 09:42:46 -0500
+Message-ID: <fa4f4405-5a51-c7ec-f712-95e40ef6dd41@redhat.com>
+Date: Sat, 17 Aug 2019 09:49:38 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <1554474244-553661-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+In-Reply-To: <1677e835-39a1-4af3-8f4f-e1600021a2ee@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="qs8hvWT9iV1XCFIMGuNk91sk3uXJ0HMxk"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+ boundary="UkV0YVBySgvTF2n5duz7HT8LIo58OyRqq"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Sat, 17 Aug 2019 14:42:50 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Sat, 17 Aug 2019 14:49:42 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PATCH] block/io.c: fix for the allocation failure
@@ -90,59 +91,79 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---qs8hvWT9iV1XCFIMGuNk91sk3uXJ0HMxk
-Content-Type: multipart/mixed; boundary="GzxA6pPWqIFuhnUZ202HSC3QzKOsI5xZy";
+--UkV0YVBySgvTF2n5duz7HT8LIo58OyRqq
+Content-Type: multipart/mixed; boundary="TcsTaR8AhlWk7W2qUS1eQsWMmlQEcXeXz";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
 Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
  mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
-Message-ID: <1677e835-39a1-4af3-8f4f-e1600021a2ee@redhat.com>
+Message-ID: <fa4f4405-5a51-c7ec-f712-95e40ef6dd41@redhat.com>
 Subject: Re: [Qemu-devel] [PATCH] block/io.c: fix for the allocation failure
 References: <1554474244-553661-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-In-Reply-To: <1554474244-553661-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1677e835-39a1-4af3-8f4f-e1600021a2ee@redhat.com>
+In-Reply-To: <1677e835-39a1-4af3-8f4f-e1600021a2ee@redhat.com>
 
---GzxA6pPWqIFuhnUZ202HSC3QzKOsI5xZy
+--TcsTaR8AhlWk7W2qUS1eQsWMmlQEcXeXz
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 4/5/19 9:24 AM, Andrey Shinkevich wrote:
-> On a file system used by the customer, fallocate() returns an error
-
-Which error?
-
-> if the block is not properly aligned. So, bdrv_co_pwrite_zeroes()
-> fails. We can handle that case the same way as it is done for the
-> unsupported cases, namely, call to bdrv_driver_pwritev() that writes
-> zeroes to an image for the unaligned chunk of the block.
+On 8/17/19 9:42 AM, Eric Blake wrote:
+> On 4/5/19 9:24 AM, Andrey Shinkevich wrote:
+>> On a file system used by the customer, fallocate() returns an error
 >=20
-> Suggested-by: Denis V. Lunev <den@openvz.org>
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> ---
->  block/io.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/block/io.c b/block/io.c
-> index dfc153b..0412a51 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -1516,7 +1516,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(=
-BlockDriverState *bs,
->              assert(!bs->supported_zero_flags);
->          }
-> =20
-> -        if (ret =3D=3D -ENOTSUP && !(flags & BDRV_REQ_NO_FALLBACK)) {
-> +        if (ret < 0 && !(flags & BDRV_REQ_NO_FALLBACK)) {
+> Which error?
 
-This change is a regression of sorts.  Now, you are unconditionally
-attempting the fallback for ALL failures (such as EIO) and for all
-drivers, even when that was not previously attempted and increases the
-traffic.  I think we should revert this patch and instead fix the
-fallocate() path to convert whatever ACTUAL errno you got from unaligned
-fallocate failure into ENOTSUP (that is, just the file-posix.c location
-that failed), while leaving all other errors as immediately fatal.
+Okay, I read the rest of the thread; EINVAL.  But the commit message was
+not amended before becoming commit 118f9944.
+
+
+>> =20
+>> -        if (ret =3D=3D -ENOTSUP && !(flags & BDRV_REQ_NO_FALLBACK)) {=
+
+>> +        if (ret < 0 && !(flags & BDRV_REQ_NO_FALLBACK)) {
+>=20
+> This change is a regression of sorts.  Now, you are unconditionally
+> attempting the fallback for ALL failures (such as EIO) and for all
+> drivers, even when that was not previously attempted and increases the
+> traffic.  I think we should revert this patch and instead fix the
+> fallocate() path to convert whatever ACTUAL errno you got from unaligne=
+d
+> fallocate failure into ENOTSUP (that is, just the file-posix.c location=
+
+> that failed), while leaving all other errors as immediately fatal.
+
+And the rest of the thread worried about that exact scenario.
+
+Here's how I encountered it. I was trying to debug the nbdkit sh plugin,
+with:
+
+$ cat >script  <<\EOF
+case $1 in
+get_size) echo 1m;;
+pread) false;;
+can_write|can_zero) ;;
+pwrite) ;;
+zero) echo ENOTSUP; exit 1 ;;
+*) exit 2;;
+esac
+EOF
+
+(the script has a subtle bug; zero) should be using 'echo ENOTSUP >&2',
+but because it didn't, nbdkit treats the failure as EIO rather than the
+intended ENOTSUP)
+
+coupled with:
+
+$ qemu-io -f raw nbd://localhost:10810 -c 'w -z 0 1'
+
+but when the script fails with EIO and qemu-io reported that the write
+was still successful, I was confused (I was debugging a server-side
+fallback to write, not a client-side one), until I discovered that we
+changed the semantics in qemu 4.1 that EIO is no longer fatal and
+attempts the write fallback.
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -150,24 +171,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---GzxA6pPWqIFuhnUZ202HSC3QzKOsI5xZy--
+--TcsTaR8AhlWk7W2qUS1eQsWMmlQEcXeXz--
 
---qs8hvWT9iV1XCFIMGuNk91sk3uXJ0HMxk
+--UkV0YVBySgvTF2n5duz7HT8LIo58OyRqq
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1YEmYACgkQp6FrSiUn
-Q2q+0wf/WVZPW8zBzYvxS87Y27M4ys72wK1VWmETE7/yTXnHQ6zwUJ2Od2T2HjWA
-FnlmkJ2GlV8ZKuFYIgN7+GWhxYdJpY6AMLdcq5ye8l43B++N5e69lUHd3dr+ffqt
-8+aNzkkSHMRrFPUffYBLS5BwTP54g7opfkgEFV18SI4oRV+M4k9PNuwoIBxtb03E
-jwqv6UKeV8PZC7QvrX5OUUt/kAHQ6J/6vL63E7Gafk18cJWbsTjKDrwp7yXWBWn2
-9BD6EQccOkj374EV8MCSP1K2/GBY7f3fWo+I6ds/1DtAo4D+eK7rKJoPld2UzHPh
-qqUo+cJED+3ML7h/Ar/2CIuH/ap1MQ==
-=9L2A
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1YFAIACgkQp6FrSiUn
+Q2rC/Af/eaHq0d65KTtJdfGyXQTaeeC9M3Aytl1RCraTxCIh1oUPfu+q4noScSOB
+EB6ckVpHIDJawYJeRNBBFYhMDv8uVATxElqUnNWw9nwfMqbgTaPB2IvsX7HIVDxL
+UYlbZF0IYxagcfKoe1Dq8QTm9aFgBBmL03u9mt57c4rhvpHO4vJBl4L/yWmplGYK
+7tXfoEpkT/xFw/KTzuUotYaK1Q0+seMclkvBRaerN0TmhOftmSKQLeUCXotiLntQ
+HCK6nPfKuGAn1fvv9UATdFLXOeBzq6AUZmfDKkwjr0Scq9cE3wOmwqMsS2h1pW95
+Gw8CeJ83gJPIOUtPN2ySHU1knoOEQw==
+=/sUZ
 -----END PGP SIGNATURE-----
 
---qs8hvWT9iV1XCFIMGuNk91sk3uXJ0HMxk--
+--UkV0YVBySgvTF2n5duz7HT8LIo58OyRqq--
 
