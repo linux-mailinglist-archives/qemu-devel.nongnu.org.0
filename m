@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5AD90FF0
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 12:22:28 +0200 (CEST)
-Received: from localhost ([::1]:35396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CD990FF5
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 12:26:17 +0200 (CEST)
+Received: from localhost ([::1]:35444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyvqt-0003Kt-Ip
-	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 06:22:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58117)
+	id 1hyvua-0000Tr-Br
+	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 06:26:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58147)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1hyvoP-0000mz-JM
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 06:19:54 -0400
+ (envelope-from <thuth@redhat.com>) id 1hyvoR-0000om-Mi
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 06:19:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hyvoO-0004Um-I8
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 06:19:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34102)
+ (envelope-from <thuth@redhat.com>) id 1hyvoQ-0004Wh-M0
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 06:19:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46106)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1hyvoM-0004RN-5w; Sat, 17 Aug 2019 06:19:50 -0400
+ id 1hyvoO-0004Tm-H6; Sat, 17 Aug 2019 06:19:52 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5E429C049D59;
- Sat, 17 Aug 2019 10:19:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 101683083394;
+ Sat, 17 Aug 2019 10:19:51 +0000 (UTC)
 Received: from thuth.com (ovpn-116-52.ams2.redhat.com [10.36.116.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1DF0FD1E5;
- Sat, 17 Aug 2019 10:19:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF21BD1E5;
+ Sat, 17 Aug 2019 10:19:48 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Yang Zhong <yang.zhong@intel.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-Date: Sat, 17 Aug 2019 12:19:26 +0200
-Message-Id: <20190817101931.28386-4-thuth@redhat.com>
+Date: Sat, 17 Aug 2019 12:19:27 +0200
+Message-Id: <20190817101931.28386-5-thuth@redhat.com>
 In-Reply-To: <20190817101931.28386-1-thuth@redhat.com>
 References: <20190817101931.28386-1-thuth@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Sat, 17 Aug 2019 10:19:48 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.44]); Sat, 17 Aug 2019 10:19:51 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 3/8] hw/dma: Do not build the xlnx_dpdma
- device for the MicroBlaze machines
+Subject: [Qemu-devel] [PATCH v3 4/8] hw/core: Add a config switch for the
+ "register" device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,34 +62,64 @@ Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+The "register" device is only used by certain machines. Let's add
+a proper config switch for it so that it only gets compiled when we
+really need it.
 
-The xlnx_dpdma device is only used by the ZynqMP AArch64 machine
-(not the MicroBlaze PMU). Remove it from the ZynqMP generic objects.
-(Note, this entry was duplicated for the AArch64).
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190427141459.19728-4-philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/dma/Makefile.objs | 1 -
- 1 file changed, 1 deletion(-)
+ hw/Kconfig            | 1 +
+ hw/core/Kconfig       | 3 +++
+ hw/core/Makefile.objs | 2 +-
+ hw/dma/Kconfig        | 1 +
+ 4 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/hw/dma/Makefile.objs b/hw/dma/Makefile.objs
-index 8b39f9c600..b672e7a522 100644
---- a/hw/dma/Makefile.objs
-+++ b/hw/dma/Makefile.objs
-@@ -8,7 +8,6 @@ common-obj-$(CONFIG_XILINX_AXI) +=3D xilinx_axidma.o
- common-obj-$(CONFIG_ZYNQ_DEVCFG) +=3D xlnx-zynq-devcfg.o
- common-obj-$(CONFIG_ETRAXFS) +=3D etraxfs_dma.o
- common-obj-$(CONFIG_STP2000) +=3D sparc32_dma.o
--obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx_dpdma.o
- obj-$(CONFIG_XLNX_ZYNQMP_ARM) +=3D xlnx_dpdma.o
- common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) +=3D xlnx-zdma.o
-=20
---=20
+diff --git a/hw/Kconfig b/hw/Kconfig
+index dbae1c0852..b45db3c813 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -76,3 +76,4 @@ config XILINX_AXI
+ 
+ config XLNX_ZYNQMP
+     bool
++    select REGISTER
+diff --git a/hw/core/Kconfig b/hw/core/Kconfig
+index c2a1ae8122..d11920fcb3 100644
+--- a/hw/core/Kconfig
++++ b/hw/core/Kconfig
+@@ -9,3 +9,6 @@ config FITLOADER
+ 
+ config PLATFORM_BUS
+     bool
++
++config REGISTER
++    bool
+diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
+index f8481d959f..d6cfb2a81b 100644
+--- a/hw/core/Makefile.objs
++++ b/hw/core/Makefile.objs
+@@ -17,7 +17,7 @@ common-obj-$(CONFIG_SOFTMMU) += machine.o
+ common-obj-$(CONFIG_SOFTMMU) += loader.o
+ common-obj-$(CONFIG_FITLOADER) += loader-fit.o
+ common-obj-$(CONFIG_SOFTMMU) += qdev-properties-system.o
+-common-obj-$(CONFIG_SOFTMMU) += register.o
++common-obj-$(CONFIG_REGISTER) += register.o
+ common-obj-$(CONFIG_SOFTMMU) += or-irq.o
+ common-obj-$(CONFIG_SOFTMMU) += split-irq.o
+ common-obj-$(CONFIG_PLATFORM_BUS) += platform-bus.o
+diff --git a/hw/dma/Kconfig b/hw/dma/Kconfig
+index 751dec5426..5c61b67bc0 100644
+--- a/hw/dma/Kconfig
++++ b/hw/dma/Kconfig
+@@ -16,6 +16,7 @@ config I8257
+ 
+ config ZYNQ_DEVCFG
+     bool
++    select REGISTER
+ 
+ config STP2000
+     bool
+-- 
 2.18.1
 
 
