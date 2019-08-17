@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9DE990FAC
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 11:34:26 +0200 (CEST)
-Received: from localhost ([::1]:35160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDB690FAE
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 11:36:08 +0200 (CEST)
+Received: from localhost ([::1]:35174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hyv6P-0006ND-J2
-	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 05:34:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53247)
+	id 1hyv83-0008Fw-Iy
+	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 05:36:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1hyv4y-0005Od-5k
+ (envelope-from <peterx@redhat.com>) id 1hyv4y-0005Oo-C4
  for qemu-devel@nongnu.org; Sat, 17 Aug 2019 05:32:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1hyv4w-0007Tw-8t
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 05:32:55 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:45937)
+ (envelope-from <peterx@redhat.com>) id 1hyv4x-0007UQ-8C
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 05:32:56 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45008)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hyv4w-0007RV-3Q
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 05:32:54 -0400
-Received: by mail-pf1-f193.google.com with SMTP id w26so4363136pfq.12
- for <qemu-devel@nongnu.org>; Sat, 17 Aug 2019 02:32:50 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hyv4x-0007St-2a
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 05:32:55 -0400
+Received: by mail-pg1-f196.google.com with SMTP id i18so4147156pgl.11
+ for <qemu-devel@nongnu.org>; Sat, 17 Aug 2019 02:32:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WN15kRwUIpiTgqZ6FcyxFvfA5gnKgrwg4P1J0yV6K6o=;
- b=Pqu0nVmj7EokfZby/htYfUFexU6A8QwYLvzuTyD9Z7AsIk8oYAXVo25RTG676pas+j
- PbiVJBGx0d044oaDPq11mTQocE26dIIJUXwpOlAcoJWbHIkle1CtsJwaPegALp+ZSxpj
- 4QrpjtDYOEc7vsWlWl5xcEB/G2tM9y+VkL3yrs79mN2k6QM+PR8lKngJLKnPUoVD6Cj1
- 1gqLySwMc+4iJUeAW4rlu+Rh/XmoMJd+0/ofMffl5eBSv9zbLJxPD8GBKP2wKH5LfVAl
- 6Or+cITC8nNpTR3Zz7cNjwYhfqgRVnMJbx7sZvsdHnzM8H5Nu1G8t7LRM0U4LY/+WFKK
- rZAA==
-X-Gm-Message-State: APjAAAUg2rmNB9gfn0Bw1aAC1qJrDk8ShL9XJhvO/gWDJC3BZxm8scqR
- NJClpX5I73J/NoqKuHS1jJgyp6vdqUU=
-X-Google-Smtp-Source: APXvYqw920/AbB6wKvP1StqQD7u7SovqwMByLKDmJn4uT9R7iS/S6VUFWmP+krDO6m/tkTgV7XqkCg==
-X-Received: by 2002:a63:69c1:: with SMTP id
- e184mr10770165pgc.198.1566034368671; 
- Sat, 17 Aug 2019 02:32:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OJ8kD2/76pq/lLNCK63wh1+/dd7Uwzv0Gang7spaF0Y=;
+ b=cCdFdXwwKQijVnQBBPHTZQPYnJvqAr9ypzJvE7BRGh/wfhzTsCTXSRunG/kiWPegys
+ K9JTV7OCDdsa+Iicl3Ec7kfnlMfE/TGyImmeIHXaNAbe/o47wQCW6iHAoTL2F7Z5qGDE
+ pC9+s1ZMM+2mA6QTsW+RaReu2jqK3nJ4YwZmDD41QfLSzeOGpU5qvhzZaB268ECkw8NJ
+ Df8SQU0V/few+seqVALheTRXh+Gj3bES+6kROzSnwsHRBTmYb3H3K/+1Y+Lde6mlM/d4
+ YA6ox8qgVed4plaJyDgtxMwkLwHYAjFUXCDG+1spxDKLuMf68Bzq1LZdyYdKkJ8mzJdu
+ JGSg==
+X-Gm-Message-State: APjAAAVn/UQl6iG7A0HF7c6xdMKGjj43BiPi7LvyqzDbgOo9CN7wpCA3
+ pWbQl7WThFc4BcTfUUKiiMwCGsXubmk=
+X-Google-Smtp-Source: APXvYqyDvPMauJPBrlAbwnL82CmTS67Rb4tamIpAaIl5GyY00M4KQPnVJ3zFQHREGS77W6ymrCcwWQ==
+X-Received: by 2002:a65:62cd:: with SMTP id m13mr11175853pgv.437.1566034371524; 
+ Sat, 17 Aug 2019 02:32:51 -0700 (PDT)
 Received: from xz-x1.redhat.com ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id y23sm9821473pfr.86.2019.08.17.02.32.45
+ by smtp.gmail.com with ESMTPSA id y23sm9821473pfr.86.2019.08.17.02.32.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Aug 2019 02:32:47 -0700 (PDT)
+ Sat, 17 Aug 2019 02:32:50 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 17 Aug 2019 17:32:35 +0800
-Message-Id: <20190817093237.27967-1-peterx@redhat.com>
+Date: Sat, 17 Aug 2019 17:32:36 +0800
+Message-Id: <20190817093237.27967-2-peterx@redhat.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190817093237.27967-1-peterx@redhat.com>
+References: <20190817093237.27967-1-peterx@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.193
-Subject: [Qemu-devel] [PATCH 0/2] memory: Fix up coalesced_io_del not
- working for KVM
+X-Received-From: 209.85.215.196
+Subject: [Qemu-devel] [PATCH 1/2] memory: Replace has_coalesced_range with
+ add/del flags
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,69 +71,94 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I can easily crash QEMU as long as KVM is used with e1000 and reboot
-many times, then I hit this and QEMU aborts [1]:
+The previous has_coalesced_range counter has a problem in that it only
+works for additions of coalesced mmio ranges but not deletions.  The
+reason is that has_coalesced_range information can be lost when the
+FlatView updates the topology again when the updated region is not
+covering the coalesced regions. When that happens, due to
+flatrange_equal() is not checking against has_coalesced_range, the new
+FlatRange will be seen as the same one as the old and the new
+instance (whose has_coalesced_range will be zero) will replace the old
+instance (whose has_coalesced_range _could_ be non-zero).
 
-  kvm_mem_ioeventfd_add: error adding ioeventfd: No space left on device (28)
+To fix it, we don't cache has_coalesced_range at all in the FlatRange.
+Instead we introduce two flags to make sure the coalesced_io_{add|del}
+will only be called once for every FlatRange instance.  This will even
+work if another FlatRange replaces current one.
 
-To reproduce this issue and also to avoid rebooting so many times,
-simply dump the devcount from KVM would work too with this patch
-applied to kernel:
+Without this patch, MemoryListener.coalesced_io_del is hardly being
+called due to has_coalesced_range will be mostly zero in
+flat_range_coalesced_io_del() when topologies frequently change for
+the "memory" address space.
 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index c6a91b044d8d..c4f1e8a5a93c 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -3841,6 +3841,7 @@ int kvm_io_bus_register_dev(struct kvm *kvm, enum kvm_bus bus_idx, gpa_t addr,
+Fixes: 3ac7d43a6fbb5d4a3
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ memory.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-        memcpy(new_bus, bus, sizeof(*bus) + i * sizeof(struct kvm_io_range));
-        new_bus->dev_count++;
-+       pr_info("%s: dev_count++ (%d)\n", __func__, new_bus->dev_count);
-        new_bus->range[i] = range;
-        memcpy(new_bus->range + i + 1, bus->range + i,
-                (bus->dev_count - i) * sizeof(struct kvm_io_range));
-@@ -3879,6 +3880,7 @@ void kvm_io_bus_unregister_dev(struct kvm *kvm, enum kvm_bus bus_idx,
-
-        memcpy(new_bus, bus, sizeof(*bus) + i * sizeof(struct kvm_io_range));
-        new_bus->dev_count--;
-+       pr_info("%s: dev_count-- (%d)\n", __func__, new_bus->dev_count);
-        memcpy(new_bus->range + i, bus->range + i + 1,
-               (new_bus->dev_count - i) * sizeof(struct kvm_io_range));
-
-Just watch it increase with reboots...
-
-After some digging, it seems to be the coalesced mmio device that
-overflowed the kvm io device count.
-
-I suspect it's not working from the very beginning when the coalesced
-interfaces were introduced...  We had a fix for the addition
-previously but it seems that the deletion part was still broken.  This
-patchset tries to fix the two problems related to the deletion part.
-
-IMHO the 2nd patch is a workaround of KVM in that KVM should allow
-KVM_UNREGISTER_COALESCED_MMIO to work even if the user specified a
-very large zone that covers multiple mmio devices.  I've a KVM patch
-for that, however I didn't send it because it'll slightly change the
-syscall behavior (of course it won't break any existing users in most
-cases).  Please shoot if anyone thought I should post that for good.
-
-I _think_ this should be needed by stables as well because e1000 is
-still widely used (is it?) and triggering it is still not that hard
-(simply reboot enough times, this should be even worse if we got more
-MMIO devices, e.g., multiple e1000-like devices). I'll leave
-maintainers to judge.
-
-Please have a look, thanks.
-
-[1] https://bugzilla.redhat.com/show_bug.cgi?id=1741863
-
-Peter Xu (2):
-  memory: Replace has_coalesced_range with add/del flags
-  memory: Split zones when do coalesced_io_del()
-
- memory.c | 51 +++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 43 insertions(+), 8 deletions(-)
-
+diff --git a/memory.c b/memory.c
+index 8141486832..1a2b465a96 100644
+--- a/memory.c
++++ b/memory.c
+@@ -217,7 +217,13 @@ struct FlatRange {
+     bool romd_mode;
+     bool readonly;
+     bool nonvolatile;
+-    int has_coalesced_range;
++    /*
++     * Flags to show whether we have delievered the
++     * coalesced_io_{add|del} events to the listeners for this
++     * FlatRange.
++     */
++    bool coalesced_mmio_add_done;
++    bool coalesced_mmio_del_done;
+ };
+ 
+ #define FOR_EACH_FLAT_RANGE(var, view)          \
+@@ -654,7 +660,8 @@ static void render_memory_region(FlatView *view,
+     fr.romd_mode = mr->romd_mode;
+     fr.readonly = readonly;
+     fr.nonvolatile = nonvolatile;
+-    fr.has_coalesced_range = 0;
++    fr.coalesced_mmio_add_done = false;
++    fr.coalesced_mmio_del_done = false;
+ 
+     /* Render the region itself into any gaps left by the current view. */
+     for (i = 0; i < view->nr && int128_nz(remain); ++i) {
+@@ -857,14 +864,16 @@ static void address_space_update_ioeventfds(AddressSpace *as)
+ 
+ static void flat_range_coalesced_io_del(FlatRange *fr, AddressSpace *as)
+ {
+-    if (!fr->has_coalesced_range) {
++    if (QTAILQ_EMPTY(&fr->mr->coalesced)) {
+         return;
+     }
+ 
+-    if (--fr->has_coalesced_range > 0) {
++    if (fr->coalesced_mmio_del_done) {
+         return;
+     }
+ 
++    fr->coalesced_mmio_del_done = true;
++
+     MEMORY_LISTENER_UPDATE_REGION(fr, as, Reverse, coalesced_io_del,
+                                   int128_get64(fr->addr.start),
+                                   int128_get64(fr->addr.size));
+@@ -880,10 +889,12 @@ static void flat_range_coalesced_io_add(FlatRange *fr, AddressSpace *as)
+         return;
+     }
+ 
+-    if (fr->has_coalesced_range++) {
++    if (fr->coalesced_mmio_add_done) {
+         return;
+     }
+ 
++    fr->coalesced_mmio_add_done = true;
++
+     QTAILQ_FOREACH(cmr, &mr->coalesced, link) {
+         tmp = addrrange_shift(cmr->addr,
+                               int128_sub(fr->addr.start,
 -- 
 2.21.0
 
