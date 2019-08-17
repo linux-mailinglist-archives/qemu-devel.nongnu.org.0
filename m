@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570C690DDE
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 09:38:47 +0200 (CEST)
-Received: from localhost ([::1]:34636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1565D90E03
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 09:43:45 +0200 (CEST)
+Received: from localhost ([::1]:34688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hytIU-0000EZ-1w
-	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 03:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41056)
+	id 1hytNH-0007Iz-Pa
+	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 03:43:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40994)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hytGV-0006pz-RC
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:45 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hytGT-0006pd-K3
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hytGU-0006cy-4f
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:43 -0400
-Received: from mail01.asahi-net.or.jp ([202.224.55.13]:57986)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hytGR-0006X7-KM
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:41 -0400
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:38505)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hytGT-0006bY-R5
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:42 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hytGR-0006VN-AN
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 03:36:39 -0400
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
  [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 329391338E0;
- Sat, 17 Aug 2019 16:36:41 +0900 (JST)
+ by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 4EDDD586BB;
+ Sat, 17 Aug 2019 16:36:35 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id E333C240086;
- Sat, 17 Aug 2019 16:36:40 +0900 (JST)
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 59A8F240085;
+ Sat, 17 Aug 2019 16:36:34 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Date: Sat, 17 Aug 2019 16:36:28 +0900
-Message-Id: <20190817073628.94473-23-ysato@users.sourceforge.jp>
+Date: Sat, 17 Aug 2019 16:36:06 +0900
+Message-Id: <20190817073628.94473-1-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190817073628.94473-1-ysato@users.sourceforge.jp>
-References: <20190817073628.94473-1-ysato@users.sourceforge.jp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 202.224.55.13
-Subject: [Qemu-devel] [PATCH v23 22/22] target/rx: remove unused functions.
+X-Received-From: 202.224.55.14
+Subject: [Qemu-devel] [PATCH v23 00/22] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,68 +56,149 @@ Cc: peter.maydell@linaro.org, imammedo@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- target/rx/monitor.c     | 38 --------------------------------------
- target/rx/Makefile.objs |  1 -
- 2 files changed, 39 deletions(-)
- delete mode 100644 target/rx/monitor.c
+Hello.
+This patch series is added Renesas RX target emulation.
 
-diff --git a/target/rx/monitor.c b/target/rx/monitor.c
-deleted file mode 100644
-index 5d7a1e58b5..0000000000
---- a/target/rx/monitor.c
-+++ /dev/null
-@@ -1,38 +0,0 @@
--/*
-- * QEMU monitor
-- *
-- * Copyright (c) 2003-2004 Fabrice Bellard
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--#include "qemu/osdep.h"
--#include "cpu.h"
--#include "monitor/monitor.h"
--#include "monitor/hmp-target.h"
--#include "hmp.h"
--
--void hmp_info_tlb(Monitor *mon, const QDict *qdict)
--{
--    CPUArchState *env = mon_get_cpu_env();
--
--    if (!env) {
--        monitor_printf(mon, "No CPU available\n");
--        return;
--    }
--}
-diff --git a/target/rx/Makefile.objs b/target/rx/Makefile.objs
-index aa6f2d2d6c..a0018d5bc5 100644
---- a/target/rx/Makefile.objs
-+++ b/target/rx/Makefile.objs
-@@ -1,5 +1,4 @@
- obj-y += translate.o op_helper.o helper.o cpu.o gdbstub.o disas.o
--obj-$(CONFIG_SOFTMMU) += monitor.o
- 
- DECODETREE = $(SRC_PATH)/scripts/decodetree.py
- 
--- 
+Changes for v22.
+Added some include.
+
+Changes for v21.
+rebase latest master.
+Remove unneeded hmp_info_tlb.
+
+Chanegs for v20.
+Reorderd patches.
+Squashed v19 changes.
+
+Changes for v19.
+Follow tcg changes.
+Cleanup cpu.c.
+simplify rx_cpu_class_by_name and rx_load_image move to rx-virt.
+
+My git repository is bellow.
+git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190618
+
+Testing binaries bellow.
+u-boot
+Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
+
+starting
+$ gzip -d u-boot.bin.gz
+$ qemu-system-rx -bios u-boot.bin
+
+linux and pico-root (only sash)
+Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+           https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTre=
+e)
+
+starting
+$ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
+
+
+Philippe Mathieu-Daud=C3=A9 (3):
+  hw/registerfields.h: Add 8bit and 16bit register macros
+  hw/rx: Restrict the RX62N microcontroller to the RX62N CPU core
+  BootLinuxConsoleTest: Test the RX-Virt machine
+
+Richard Henderson (7):
+  target/rx: Disassemble rx_index_addr into a string
+  target/rx: Replace operand with prt_ldmi in disassembler
+  target/rx: Use prt_ldmi for XCHG_mr disassembly
+  target/rx: Emit all disassembly in one prt()
+  target/rx: Collect all bytes during disassembly
+  target/rx: Dump bytes for each insn during disassembly
+  hw/rx: Honor -accel qtest
+
+Yoshinori Sato (12):
+  MAINTAINERS: Add RX
+  qemu/bitops.h: Add extract8 and extract16
+  target/rx: TCG translation
+  target/rx: TCG helper
+  target/rx: CPU definition
+  target/rx: RX disassembler
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N internal timer modules
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX Target hardware definition
+  Add rx-softmmu
+  target/rx: remove unused functions.
+
+ configure                              |    8 +
+ default-configs/rx-softmmu.mak         |    3 +
+ qapi/common.json                       |    3 +-
+ include/disas/dis-asm.h                |    5 +
+ include/exec/poison.h                  |    1 +
+ include/hw/char/renesas_sci.h          |   45 +
+ include/hw/intc/rx_icu.h               |   56 +
+ include/hw/registerfields.h            |   32 +-
+ include/hw/rx/rx.h                     |    7 +
+ include/hw/rx/rx62n.h                  |   91 ++
+ include/hw/timer/renesas_cmt.h         |   38 +
+ include/hw/timer/renesas_tmr.h         |   53 +
+ include/qemu/bitops.h                  |   38 +
+ include/sysemu/arch_init.h             |    1 +
+ target/rx/cpu-param.h                  |   31 +
+ target/rx/cpu-qom.h                    |   42 +
+ target/rx/cpu.h                        |  182 +++
+ target/rx/helper.h                     |   31 +
+ arch_init.c                            |    2 +
+ hw/char/renesas_sci.c                  |  343 +++++
+ hw/intc/rx_icu.c                       |  379 +++++
+ hw/rx/rx-virt.c                        |  135 ++
+ hw/rx/rx62n.c                          |  247 ++++
+ hw/timer/renesas_cmt.c                 |  278 ++++
+ hw/timer/renesas_tmr.c                 |  458 ++++++
+ target/rx/cpu.c                        |  217 +++
+ target/rx/disas.c                      | 1446 +++++++++++++++++++
+ target/rx/gdbstub.c                    |  112 ++
+ target/rx/helper.c                     |  149 ++
+ target/rx/op_helper.c                  |  470 ++++++
+ target/rx/translate.c                  | 2432 ++++++++++++++++++++++++++=
+++++++
+ tests/machine-none-test.c              |    1 +
+ MAINTAINERS                            |   19 +
+ hw/Kconfig                             |    1 +
+ hw/char/Kconfig                        |    3 +
+ hw/char/Makefile.objs                  |    1 +
+ hw/intc/Kconfig                        |    3 +
+ hw/intc/Makefile.objs                  |    1 +
+ hw/rx/Kconfig                          |   14 +
+ hw/rx/Makefile.objs                    |    2 +
+ hw/timer/Kconfig                       |    6 +
+ hw/timer/Makefile.objs                 |    3 +
+ target/rx/Makefile.objs                |   11 +
+ target/rx/insns.decode                 |  621 ++++++++
+ tests/acceptance/boot_linux_console.py |   46 +
+ 45 files changed, 8065 insertions(+), 2 deletions(-)
+ create mode 100644 default-configs/rx-softmmu.mak
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 target/rx/cpu-param.h
+ create mode 100644 target/rx/cpu-qom.h
+ create mode 100644 target/rx/cpu.h
+ create mode 100644 target/rx/helper.h
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 target/rx/cpu.c
+ create mode 100644 target/rx/disas.c
+ create mode 100644 target/rx/gdbstub.c
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/op_helper.c
+ create mode 100644 target/rx/translate.c
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 target/rx/Makefile.objs
+ create mode 100644 target/rx/insns.decode
+
+--=20
 2.11.0
 
 
