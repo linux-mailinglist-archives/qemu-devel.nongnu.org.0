@@ -2,66 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A0790BD6
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 03:05:41 +0200 (CEST)
-Received: from localhost ([::1]:33878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F3A90BD8
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 03:05:42 +0200 (CEST)
+Received: from localhost ([::1]:33882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hynA3-00050N-Ti
-	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 21:05:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51109)
+	id 1hynA5-00054J-Dv
+	for lists+qemu-devel@lfdr.de; Fri, 16 Aug 2019 21:05:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55064)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jkz@google.com>) id 1hylmE-0003wt-KS
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:37:01 -0400
+ (envelope-from <extsmtp@sr.ht>) id 1hymDx-0000Zu-NV
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 20:05:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jkz@google.com>) id 1hylmB-0000AV-6d
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:36:57 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42396)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jkz@google.com>) id 1hylm8-00008s-6z
- for qemu-devel@nongnu.org; Fri, 16 Aug 2019 19:36:53 -0400
-Received: by mail-pl1-x642.google.com with SMTP id y1so3039932plp.9
- for <qemu-devel@nongnu.org>; Fri, 16 Aug 2019 16:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e4Lx6wWXbd6ffhNIOQFJiBVPGZ/9pQupzsoFMeU6VT4=;
- b=EjfiQa4yrDbtgGU+NX/IUydjWOys+8gonnpq9ObOSc7j/+5iRR9pXeBjQT3cC3cG4b
- b4mzgpnZxQrAkEU9e63Yc41AIXtlQvNjZ06PGWqdwiX0AiPRXcf/ELG6oB9/yd6Pepm6
- jO5I4n22K9TzP4aqaTOWtAFUhky5F3mzfZVNjSchXvshcfhZVwp6WOZBFR6gVAypykAO
- yy2BciFN+l3ci3YB3XNbLUpkuq4ynDkEV7jnaWg7FX+YfKkfYcfuru4GIDRqYT3QV3fK
- apqEWelkOYdgec2K+JdzoRLcqz33je7VaQNIrVWTNdFYrHpF6gGFGPruEaoCZ1wdoSIz
- dQUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=e4Lx6wWXbd6ffhNIOQFJiBVPGZ/9pQupzsoFMeU6VT4=;
- b=T5p6G4TMFCiy46Y2A+qgz2VS8Q2DEbe7GbVAo8Khn8asbETw6HOOEIj0d8VpOSMoU2
- oyosttBCNzvQ27QjO8vVa96w99/uc8/N02KO9A5bVfwna8BevkrpYIRybUAe/NA0iKu+
- h/f0Z+IjbLeDSSRD3vachz6RqLjJn6L0t/RoU7MQwaM3P1ytSGdnb04SqEukdJjJBmQH
- ponj3TsQLWcJHumnA+7l7wlfrXX/e14lpclf0EYfvAWqGoePHO8UppiPMKcBHeM2pq1V
- 8qYWErOwLGbo54zsjSP5wWXkg3Jak6hp/NumcgrT7kCU5s7SjRp8893MY8LhiiNCM1uD
- YALQ==
-X-Gm-Message-State: APjAAAWArOrEOIIhMKhPW8/iQfNe3avowMVeBBbfTnl4roammthsuxVT
- LrxEY4hHr0QPQsAFP1fnKwzZH+lnE40aixJhQdrjKlTpo4ZDNA==
-X-Google-Smtp-Source: APXvYqw7f9rI8XUzdi8hN/PN6hjIyFAggNcti8AzfPjl0z/tm5nEXaRcLG9BNEXsBf/CYVUjxGQKPC1M2AsFudgvguM=
-X-Received: by 2002:a17:902:e38b:: with SMTP id
- ch11mr10778799plb.275.1565998607549; 
- Fri, 16 Aug 2019 16:36:47 -0700 (PDT)
+ (envelope-from <extsmtp@sr.ht>) id 1hymDw-0005m6-NF
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 20:05:37 -0400
+Received: from mail.sr.ht ([173.195.146.137]:46868)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <extsmtp@sr.ht>) id 1hymDw-0005lw-J3
+ for qemu-devel@nongnu.org; Fri, 16 Aug 2019 20:05:36 -0400
+Received: from lists.my.domain (unknown [173.195.146.144])
+ by mail.sr.ht (Postfix) with ESMTPSA id B83A3400F1
+ for <qemu-devel@nongnu.org>; Sat, 17 Aug 2019 00:05:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lists.sr.ht; s=srht;
+ t=1566000335; bh=mxEbhZU1+qSGknyPGIoh5POTHchOtvpCHYUZlJlhwdU=;
+ h=To:From:In-Reply-To:Subject:Reply-To:Date;
+ b=f+XFY/sfaKi/YKQicGr/b1Qw+7+dvvmJ73Dc0U2jq9YqK+DbT4R35LN+DqWElC3Bg
+ 1BDHpusoX3zFlI8PfWuVKwJIgHtw/mJ1rL86b35n96zJhg2DA0LoWslcTttIIWfm7l
+ mtN8aNy5k5+hQgsdtLXuSNmtWcYWrOtlyplaygHHhBfF/3S4b3RRJrEoo57yO50dQo
+ SLieVVFHVR5Hbf/gRxWwz813a+ne2Mw2gqxxAzNDlLBUfzdtJJpZPyDliOYzW2+K6p
+ OYPYHwmnFZojbQGy1xETDwOUeIwRG35zpVR4HzyIRL1V7DQvm0Jg7SndOHke5smc0U
+ kBJdDKl5Jx8pg==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-References: <20190816233422.16715-1-jkz@google.com>
-In-Reply-To: <20190816233422.16715-1-jkz@google.com>
-Date: Fri, 16 Aug 2019 16:36:36 -0700
-Message-ID: <CADgy-2s7t-zoycYZ5yBygN2cJ4-cj1wjdnAA=D0QDUTGnTjLRw@mail.gmail.com>
-To: qemu-devel@nongnu.org
+Content-Transfer-Encoding: 7bit
+To: Shu-Chun Weng via Qemu-devel <qemu-devel@nongnu.org>
+From: mailer@lists.sr.ht
+In-Reply-To: <CAF3nBxiu9i8=07+1QqHj2bWiBmHkwCGyg2Y+bK6eVrhhroiJzw@mail.gmail.com>
+Auto-Submitted: auto-replied
+Date: Sat, 17 Aug 2019 00:05:35 -0000
+Message-ID: <156600033562.27960.9602028956329290680@lists.my.domain>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 173.195.146.137
 X-Mailman-Approved-At: Fri, 16 Aug 2019 21:04:12 -0400
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH] linux-user: Support gdb 'qOffsets' query
- for ELF
+Subject: Re: [Qemu-devel] [PATCH] Add support for ethtool via
+ TARGET_SIOCETHTOOL ioctls.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,48 +58,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Josh Kunz via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Josh Kunz <jkz@google.com>
-Cc: qemu-trivial@nongnu.org, riku.voipio@iki.fi, laurent@vivier.eu
+Reply-To: Drew DeVault <sir@cmpwn.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+cc: riku.voipio@iki.fi, I typoed the email on the first go.
+Hi Shu-Chun Weng via Qemu-devel!
 
-On Fri, Aug 16, 2019 at 4:34 PM Josh Kunz <jkz@google.com> wrote:
+We received your email, but were unable to deliver it because it
+contains content which has been blacklisted by the list admin. Please
+remove your application/pkcs7-signature attachments and send again.
 
-> This is needed to support debugging PIE ELF binaries running under QEMU
-> user mode. Currently, `code_offset` and `data_offset` remain unset for
-> all ELF binaries, so GDB is unable to correctly locate the position of
-> the binary's text and data.
->
-> The fields `code_offset`, and `data_offset` were originally added way
-> back in 2006 to support debugging of bFMT executables (978efd6aac6),
-> and support was just never added for ELF. Since non-PIE binaries are
-> loaded at exactly the address specified in the binary, GDB does not need
-> to relocate any symbols, so the buggy behavior is not normally observed.
->
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1528239
-> Signed-off-by: Josh Kunz <jkz@google.com>
-> ---
->  linux-user/elfload.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 3365e192eb..ceac035208 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -2380,6 +2380,8 @@ static void load_elf_image(const char *image_name,
-> int image_fd,
->      }
->
->      info->load_bias = load_bias;
-> +    info->code_offset = load_bias;
-> +    info->data_offset = load_bias;
->      info->load_addr = load_addr;
->      info->entry = ehdr->e_entry + load_bias;
->      info->start_code = -1;
-> --
-> 2.23.0.rc1.153.gdeed80330f-goog
->
->
+You are also advised to configure your email client to send emails in
+plain text to avoid additional errors in the future:
+
+https://useplaintext.email
+
+If you have any questions, please reply to this email to reach the mail
+admin. We apologise for the inconvenience.
+
