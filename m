@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E702791A3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 01:13:57 +0200 (CEST)
-Received: from localhost ([::1]:43552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC55E91A35
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 01:11:20 +0200 (CEST)
+Received: from localhost ([::1]:43524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzUN2-000567-D8
-	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 19:13:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49673)
+	id 1hzUKV-0001M2-Ao
+	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 19:11:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49675)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1hzUGP-0006OZ-G9
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 19:07:07 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1hzUGP-0006Oq-Lx
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 19:07:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1hzUGN-0005Fs-FO
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1hzUGO-0005GG-1k
  for qemu-devel@nongnu.org; Sun, 18 Aug 2019 19:07:05 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36351)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:56228)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1hzUGN-0005F9-8A
+ id 1hzUGN-0005Ff-Qs
  for qemu-devel@nongnu.org; Sun, 18 Aug 2019 19:07:03 -0400
-Received: by mail-wr1-x441.google.com with SMTP id r3so6763837wrt.3
+Received: by mail-wm1-x344.google.com with SMTP id f72so3485wmf.5
  for <qemu-devel@nongnu.org>; Sun, 18 Aug 2019 16:07:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rLuE1VYugRIBQ6xgNLZazfJDNiMMD4SCYlxUXZPXkaU=;
- b=elbowPXGBepJbypBVQANbSyjfkCOgoq4HwiwYJnZf+ryV9JOIhcCezxhNgmOuuoG9r
- TUlcVPiLkk4O33Pliro5fNsIgR7WoL/CQ1oGt64nitT3novbg4bjqi/6TdCfIFxQtEoh
- 0sBhGI1NsUVQJamPULzUNzYeLyBQ36PNfPRnwwO8gmw+JAnZLuDozcNteGdl0M67UsOd
- R1HneqN1vjT1O3sef/l0gDjgKEHmkVeSP+xMYcyXNWn/LTPh4ME8mnEoRXvfbZXm3fEr
- b8Eey3tGfPZ8iI3gVr1eA/UNXCNzAjJozMsLO7TWvQpXhW0FP9jieRSdOEoeItt/IhpW
- XJPg==
+ bh=QXktBjDIkU004GPPN3Dzwd8YTk78iS8o8SEmh2y6abE=;
+ b=TSAnI6TmWwSVHa0ZK8rclNaFLqdpgAhVmsUuDktkqMDrpTFb98DRnTjU1ZdNoqRE50
+ ISydPtcMOjz+BZaIc9Sjdrz56tf3bTNZy5WdVnB2VmXWesPJHWWnqhZn5wy6XcIWfEup
+ X5xC/ykPLIq6Sxw756o7kehcXpqSI9JIFNUBcIqntmkU8GFeJcRO30+M2jd0T7kOG/Dy
+ FamC5Vkrwt/j+KYOtlhg4jxEZxlAc655qnKMlA+HcFbBfS+YIV/sc2QRurabkdh39Icg
+ CsYOklJTHcek+juDVSb4A4rUJRTfpfRuDa6jNuUEA85wxFzd94Mkc0RoUeYuwTbeRfBA
+ ETrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rLuE1VYugRIBQ6xgNLZazfJDNiMMD4SCYlxUXZPXkaU=;
- b=UCDxvmnkGuC0G92KbOlc4BKeJRkSXKJd86qCU2BT95fE+iwSmRWr6B92fxhv+LpoaP
- swIEA2Wfvthw8a3goz1PgegsCPHMUOqeq5E9451bT+mmDtWy3Hv0B98OOFOFryhviKEa
- hqJvO2T3hAj9ORGWvJ+Ysmo42OkjwRvd18RFAyzPDjnXWeN+DnEV5gLj0yBjS59VYQM4
- gK8FPX9hXEG7/AY4o93XDpesG1wesiNJT5l/hpjzWJc3q5FoRQOZLU5qKb19mTObWA+/
- cAVt7BPBIaHVlVfico0XqsAljWl9xZmwvzNZtDt9lSA437nVsamSgxa/uSXS1GJcQZFY
- TLaA==
-X-Gm-Message-State: APjAAAUWpzNj1B76ROWfRl+mfPzdVIRimfhHDLupxbUR21R+ZQimAXbG
- iadb0tagsqIsl4qHfCvmIaV6KN1X
-X-Google-Smtp-Source: APXvYqyz9nasw8OB9K4I6CPYXMyvE/nETTcMR2F+lfEMxf8n5r/WX4SeqbW3kt3HRYURRRzB9wl0VA==
-X-Received: by 2002:adf:f286:: with SMTP id k6mr9391340wro.320.1566169622002; 
+ bh=QXktBjDIkU004GPPN3Dzwd8YTk78iS8o8SEmh2y6abE=;
+ b=tXdoozrrQR0XwpdwwC142KBo82R5NIDnHiM3eteuZq1hm462RXw2CG5kU9PXGvRTEc
+ PPb58FWyWraiNE/OZXg3H/U6yS0px6fi8q0oFjh7jpkY/OizBRTjQcN9DY3pTmAE/uC7
+ 2Pd0/HqPUP3zTQh51I3dsNpjlHFX4YeYNM+2K4GzaD42GBlvmF3guZpjt6hEu6lJnRO5
+ YRfDiP5vxAxK7OaGEG+u5Bj10tr+RKzv3hNICl57W3/AR++JPMkVvHJVrpYTWx+YC8up
+ zKST4ohQVBLLjepEafHP5zEU1+5Zno0ckiqtG99PsGroD5xRsKgVA+oepaq4Ykg20WHM
+ E6yQ==
+X-Gm-Message-State: APjAAAUBgZuUrYAV70UdT8JuhhTlH4O4bmUOIe+XGTevVWMJbf+Jo63V
+ HAw1Pfem/21OEZewD+sGF2U5tFDZ
+X-Google-Smtp-Source: APXvYqw50wn7TewekKsWI7pPt43LUxlGZyjuXJXlCn3ew8rjP+b9/EFVLFcYNLCsyWF87g9AvIUyjA==
+X-Received: by 2002:a1c:f20a:: with SMTP id s10mr17732870wmc.145.1566169622716; 
  Sun, 18 Aug 2019 16:07:02 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-49c9-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:49c9::5])
- by smtp.gmail.com with ESMTPSA id c15sm33657152wrb.80.2019.08.18.16.07.01
+ by smtp.gmail.com with ESMTPSA id c15sm33657152wrb.80.2019.08.18.16.07.02
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 18 Aug 2019 16:07:01 -0700 (PDT)
+ Sun, 18 Aug 2019 16:07:02 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 01:06:47 +0200
-Message-Id: <67aef54f9e729a7160fe95c465351115e392164b.1566168923.git.DirtY.iCE.hu@gmail.com>
+Date: Mon, 19 Aug 2019 01:06:48 +0200
+Message-Id: <8cbc9e865bbf40850c14340fc0549e6ac2d5fe9c.1566168923.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1566168923.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1566168923.git.DirtY.iCE.hu@gmail.com>
@@ -70,9 +70,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v4 02/14] audio: basic support for multi
- backend audio
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH v4 03/14] audio: add audiodev property to vnc
+ and wav_capture
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,361 +84,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-Audio functions no longer access glob_audio_state, instead they get an
-AudioState as a parameter.  This is required in order to support
-multiple backends.
-
-glob_audio_state is also gone, and replaced with a tailq so we can store
-more than one states.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
 
 Notes:
-    Changes from v1:
+    Changes from v2:
     
-    * Moved wav_capture/vnc audiodev param to a separate commit
+    * audiodev parameter for wavcapture is now mandatory.
+    * removed some unnecessary qdict_haskey calls from hmp_wavcapture
 
- audio/audio.h          |  12 +++--
- audio/audio_int.h      |   2 +
- audio/audio_template.h |   2 +-
- audio/audio.c          | 102 +++++++++++++++++++++++++++++++----------
- audio/wavcapture.c     |   6 +--
- monitor/misc.c         |   2 +-
- ui/vnc.c               |   2 +-
- 7 files changed, 95 insertions(+), 33 deletions(-)
+ ui/vnc.h        |  2 ++
+ monitor/misc.c  | 22 +++++++++++-----------
+ ui/vnc.c        | 15 ++++++++++++++-
+ hmp-commands.hx | 11 ++++++-----
+ qemu-options.hx |  6 ++++++
+ 5 files changed, 39 insertions(+), 17 deletions(-)
 
-diff --git a/audio/audio.h b/audio/audio.h
-index 64b0f761bc..ad2457f4de 100644
---- a/audio/audio.h
-+++ b/audio/audio.h
-@@ -78,8 +78,10 @@ typedef struct SWVoiceOut SWVoiceOut;
- typedef struct CaptureVoiceOut CaptureVoiceOut;
- typedef struct SWVoiceIn SWVoiceIn;
- 
-+typedef struct AudioState AudioState;
- typedef struct QEMUSoundCard {
-     char *name;
-+    AudioState *state;
-     QLIST_ENTRY (QEMUSoundCard) entries;
- } QEMUSoundCard;
- 
-@@ -92,7 +94,8 @@ void AUD_log (const char *cap, const char *fmt, ...) GCC_FMT_ATTR(2, 3);
- 
- void AUD_register_card (const char *name, QEMUSoundCard *card);
- void AUD_remove_card (QEMUSoundCard *card);
--CaptureVoiceOut *AUD_add_capture (
-+CaptureVoiceOut *AUD_add_capture(
-+    AudioState *s,
-     struct audsettings *as,
-     struct audio_capture_ops *ops,
-     void *opaque
-@@ -160,8 +163,8 @@ static inline void *advance (void *p, int incr)
- #define audio_MAX(a, b) ((a)<(b)?(b):(a))
+diff --git a/ui/vnc.h b/ui/vnc.h
+index 18f1b1d6d0..8643860967 100644
+--- a/ui/vnc.h
++++ b/ui/vnc.h
+@@ -182,6 +182,8 @@ struct VncDisplay
+ #ifdef CONFIG_VNC_SASL
+     VncDisplaySASL sasl;
  #endif
- 
--int wav_start_capture (CaptureState *s, const char *path, int freq,
--                       int bits, int nchannels);
-+int wav_start_capture(AudioState *state, CaptureState *s, const char *path,
-+                      int freq, int bits, int nchannels);
- 
- bool audio_is_cleaning_up(void);
- void audio_cleanup(void);
-@@ -175,4 +178,7 @@ void audio_parse_option(const char *opt);
- void audio_init_audiodevs(void);
- void audio_legacy_help(void);
- 
-+AudioState *audio_state_by_name(const char *name);
-+const char *audio_get_id(QEMUSoundCard *card);
 +
- #endif /* QEMU_AUDIO_H */
-diff --git a/audio/audio_int.h b/audio/audio_int.h
-index 8164696b2c..9f01f6ad00 100644
---- a/audio/audio_int.h
-+++ b/audio/audio_int.h
-@@ -196,6 +196,8 @@ typedef struct AudioState {
- 
-     bool timer_running;
-     uint64_t timer_last;
-+
-+    QTAILQ_ENTRY(AudioState) list;
- } AudioState;
- 
- extern const struct mixeng_volume nominal_volume;
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index c721fed75d..54f07338e7 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -428,7 +428,7 @@ SW *glue (AUD_open_, TYPE) (
-     struct audsettings *as
-     )
- {
--    AudioState *s = &glob_audio_state;
-+    AudioState *s = card->state;
-     AudiodevPerDirectionOptions *pdo = glue(audio_get_pdo_, TYPE)(s->dev);
- 
-     if (audio_bug(__func__, !card || !name || !callback_fn || !as)) {
-diff --git a/audio/audio.c b/audio/audio.c
-index 4f27e33245..8e9ccd0ac4 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -87,7 +87,8 @@ audio_driver *audio_driver_lookup(const char *name)
-     return NULL;
- }
- 
--static AudioState glob_audio_state;
-+static QTAILQ_HEAD(AudioStateHead, AudioState) audio_states =
-+    QTAILQ_HEAD_INITIALIZER(audio_states);
- 
- const struct mixeng_volume nominal_volume = {
-     .mute = 0,
-@@ -1236,11 +1237,14 @@ static void audio_run_capture (AudioState *s)
- 
- void audio_run (const char *msg)
- {
--    AudioState *s = &glob_audio_state;
-+    AudioState *s;
-+
-+    QTAILQ_FOREACH(s, &audio_states, list) {
-+        audio_run_out(s);
-+        audio_run_in(s);
-+        audio_run_capture(s);
-+    }
- 
--    audio_run_out (s);
--    audio_run_in (s);
--    audio_run_capture (s);
- #ifdef DEBUG_POLL
-     {
-         static double prevtime;
-@@ -1304,13 +1308,11 @@ bool audio_is_cleaning_up(void)
-     return is_cleaning_up;
- }
- 
--void audio_cleanup(void)
-+static void free_audio_state(AudioState *s)
- {
--    AudioState *s = &glob_audio_state;
-     HWVoiceOut *hwo, *hwon;
-     HWVoiceIn *hwi, *hwin;
- 
--    is_cleaning_up = true;
-     QLIST_FOREACH_SAFE(hwo, &s->hw_head_out, entries, hwon) {
-         SWVoiceCap *sc;
- 
-@@ -1347,6 +1349,17 @@ void audio_cleanup(void)
-         qapi_free_Audiodev(s->dev);
-         s->dev = NULL;
-     }
-+    g_free(s);
-+}
-+
-+void audio_cleanup(void)
-+{
-+    is_cleaning_up = true;
-+    while (!QTAILQ_EMPTY(&audio_states)) {
-+        AudioState *s = QTAILQ_FIRST(&audio_states);
-+        QTAILQ_REMOVE(&audio_states, s, list);
-+        free_audio_state(s);
-+    }
- }
- 
- static const VMStateDescription vmstate_audio = {
-@@ -1373,28 +1386,33 @@ static AudiodevListEntry *audiodev_find(
-     return NULL;
- }
- 
--static int audio_init(Audiodev *dev)
-+/*
-+ * if we have dev, this function was called because of an -audiodev argument =>
-+ *   initialize a new state with it
-+ * if dev == NULL => legacy implicit initialization, return the already created
-+ *   state or create a new one
-+ */
-+static AudioState *audio_init(Audiodev *dev)
- {
-+    static bool atexit_registered;
-     size_t i;
-     int done = 0;
-     const char *drvname = NULL;
-     VMChangeStateEntry *e;
--    AudioState *s = &glob_audio_state;
-+    AudioState *s;
-     struct audio_driver *driver;
-     /* silence gcc warning about uninitialized variable */
-     AudiodevListHead head = QSIMPLEQ_HEAD_INITIALIZER(head);
- 
--    if (s->drv) {
--        if (dev) {
--            dolog("Cannot create more than one audio backend, sorry\n");
--            qapi_free_Audiodev(dev);
--        }
--        return -1;
--    }
--
-     if (dev) {
-         /* -audiodev option */
-         drvname = AudiodevDriver_str(dev->driver);
-+    } else if (!QTAILQ_EMPTY(&audio_states)) {
-+        /*
-+         * todo: check for -audiodev once we have normal audiodev selection
-+         * support
-+         */
-+        return QTAILQ_FIRST(&audio_states);
-     } else {
-         /* legacy implicit initialization */
-         head = audio_handle_legacy_opts();
-@@ -1408,12 +1426,18 @@ static int audio_init(Audiodev *dev)
-         dev = QSIMPLEQ_FIRST(&head)->dev;
-         audio_validate_opts(dev, &error_abort);
-     }
-+
-+    s = g_malloc0(sizeof(AudioState));
-     s->dev = dev;
- 
-     QLIST_INIT (&s->hw_head_out);
-     QLIST_INIT (&s->hw_head_in);
-     QLIST_INIT (&s->cap_head);
--    atexit(audio_cleanup);
-+    if (!atexit_registered) {
-+        atexit(audio_cleanup);
-+        atexit_registered = true;
-+    }
-+    QTAILQ_INSERT_TAIL(&audio_states, s, list);
- 
-     s->ts = timer_new_ns(QEMU_CLOCK_VIRTUAL, audio_timer, s);
- 
-@@ -1478,7 +1502,7 @@ static int audio_init(Audiodev *dev)
- 
-     QLIST_INIT (&s->card_head);
-     vmstate_register (NULL, 0, &vmstate_audio, s);
--    return 0;
-+    return s;
- }
- 
- void audio_free_audiodev_list(AudiodevListHead *head)
-@@ -1493,10 +1517,13 @@ void audio_free_audiodev_list(AudiodevListHead *head)
- 
- void AUD_register_card (const char *name, QEMUSoundCard *card)
- {
--    audio_init(NULL);
-+    if (!card->state) {
-+        card->state = audio_init(NULL);
-+    }
-+
-     card->name = g_strdup (name);
-     memset (&card->entries, 0, sizeof (card->entries));
--    QLIST_INSERT_HEAD (&glob_audio_state.card_head, card, entries);
-+    QLIST_INSERT_HEAD(&card->state->card_head, card, entries);
- }
- 
- void AUD_remove_card (QEMUSoundCard *card)
-@@ -1506,16 +1533,21 @@ void AUD_remove_card (QEMUSoundCard *card)
- }
- 
- 
--CaptureVoiceOut *AUD_add_capture (
-+CaptureVoiceOut *AUD_add_capture(
-+    AudioState *s,
-     struct audsettings *as,
-     struct audio_capture_ops *ops,
-     void *cb_opaque
-     )
- {
--    AudioState *s = &glob_audio_state;
-     CaptureVoiceOut *cap;
-     struct capture_callback *cb;
- 
-+    if (!s) {
-+        /* todo: remove when we have normal audiodev selection support */
-+        s = audio_init(NULL);
-+    }
-+
-     if (audio_validate_settings (as)) {
-         dolog ("Invalid settings were passed when trying to add capture\n");
-         audio_print_settings (as);
-@@ -1805,3 +1837,25 @@ int audio_buffer_bytes(AudiodevPerDirectionOptions *pdo,
-     return audio_buffer_samples(pdo, as, def_usecs) *
-         audioformat_bytes_per_sample(as->fmt);
- }
-+
-+AudioState *audio_state_by_name(const char *name)
-+{
-+    AudioState *s;
-+    QTAILQ_FOREACH(s, &audio_states, list) {
-+        assert(s->dev);
-+        if (strcmp(name, s->dev->id) == 0) {
-+            return s;
-+        }
-+    }
-+    return NULL;
-+}
-+
-+const char *audio_get_id(QEMUSoundCard *card)
-+{
-+    if (card->state) {
-+        assert(card->state->dev);
-+        return card->state->dev->id;
-+    } else {
-+        return "";
-+    }
-+}
-diff --git a/audio/wavcapture.c b/audio/wavcapture.c
-index 493edc60e4..8d7ce2eda1 100644
---- a/audio/wavcapture.c
-+++ b/audio/wavcapture.c
-@@ -104,8 +104,8 @@ static struct capture_ops wav_capture_ops = {
-     .info = wav_capture_info
++    AudioState *audio_state;
  };
  
--int wav_start_capture (CaptureState *s, const char *path, int freq,
--                       int bits, int nchannels)
-+int wav_start_capture(AudioState *state, CaptureState *s, const char *path,
-+                      int freq, int bits, int nchannels)
- {
-     WAVState *wav;
-     uint8_t hdr[] = {
-@@ -170,7 +170,7 @@ int wav_start_capture (CaptureState *s, const char *path, int freq,
-         goto error_free;
-     }
- 
--    cap = AUD_add_capture (&as, &ops, wav);
-+    cap = AUD_add_capture(state, &as, &ops, wav);
-     if (!cap) {
-         error_report("Failed to add audio capture");
-         goto error_free;
+ typedef struct VncTight {
 diff --git a/monitor/misc.c b/monitor/misc.c
-index d229e65450..6b71059739 100644
+index 6b71059739..aef16f6cfb 100644
 --- a/monitor/misc.c
 +++ b/monitor/misc.c
-@@ -1156,7 +1156,7 @@ static void hmp_wavcapture(Monitor *mon, const QDict *qdict)
-     bits = has_bits ? bits : 16;
-     nchannels = has_channels ? nchannels : 2;
+@@ -1142,21 +1142,21 @@ static void hmp_stopcapture(Monitor *mon, const QDict *qdict)
+ static void hmp_wavcapture(Monitor *mon, const QDict *qdict)
+ {
+     const char *path = qdict_get_str(qdict, "path");
+-    int has_freq = qdict_haskey(qdict, "freq");
+-    int freq = qdict_get_try_int(qdict, "freq", -1);
+-    int has_bits = qdict_haskey(qdict, "bits");
+-    int bits = qdict_get_try_int(qdict, "bits", -1);
+-    int has_channels = qdict_haskey(qdict, "nchannels");
+-    int nchannels = qdict_get_try_int(qdict, "nchannels", -1);
++    int freq = qdict_get_try_int(qdict, "freq", 44100);
++    int bits = qdict_get_try_int(qdict, "bits", 16);
++    int nchannels = qdict_get_try_int(qdict, "nchannels", 2);
++    const char *audiodev = qdict_get_str(qdict, "audiodev");
+     CaptureState *s;
++    AudioState *as = audio_state_by_name(audiodev);
++
++    if (!as) {
++        monitor_printf(mon, "Audiodev '%s' not found\n", audiodev);
++        return;
++    }
  
--    if (wav_start_capture (s, path, freq, bits, nchannels)) {
-+    if (wav_start_capture(NULL, s, path, freq, bits, nchannels)) {
+     s = g_malloc0 (sizeof (*s));
+ 
+-    freq = has_freq ? freq : 44100;
+-    bits = has_bits ? bits : 16;
+-    nchannels = has_channels ? nchannels : 2;
+-
+-    if (wav_start_capture(NULL, s, path, freq, bits, nchannels)) {
++    if (wav_start_capture(as, s, path, freq, bits, nchannels)) {
          monitor_printf(mon, "Failed to add wave capture\n");
          g_free (s);
          return;
 diff --git a/ui/vnc.c b/ui/vnc.c
-index 4812ed29d0..ed5e8aa5f8 100644
+index ed5e8aa5f8..649ce93cd2 100644
 --- a/ui/vnc.c
 +++ b/ui/vnc.c
 @@ -1224,7 +1224,7 @@ static void audio_add(VncState *vs)
      ops.destroy = audio_capture_destroy;
      ops.capture = audio_capture;
  
--    vs->audio_cap = AUD_add_capture(&vs->as, &ops, vs);
-+    vs->audio_cap = AUD_add_capture(NULL, &vs->as, &ops, vs);
+-    vs->audio_cap = AUD_add_capture(NULL, &vs->as, &ops, vs);
++    vs->audio_cap = AUD_add_capture(vs->vd->audio_state, &vs->as, &ops, vs);
      if (!vs->audio_cap) {
          error_report("Failed to add audio capture");
      }
+@@ -3371,6 +3371,9 @@ static QemuOptsList qemu_vnc_opts = {
+         },{
+             .name = "non-adaptive",
+             .type = QEMU_OPT_BOOL,
++        },{
++            .name = "audiodev",
++            .type = QEMU_OPT_STRING,
+         },
+         { /* end of list */ }
+     },
+@@ -3808,6 +3811,7 @@ void vnc_display_open(const char *id, Error **errp)
+     const char *saslauthz;
+     int lock_key_sync = 1;
+     int key_delay_ms;
++    const char *audiodev;
+ 
+     if (!vd) {
+         error_setg(errp, "VNC display not active");
+@@ -3993,6 +3997,15 @@ void vnc_display_open(const char *id, Error **errp)
+     }
+     vd->ledstate = 0;
+ 
++    audiodev = qemu_opt_get(opts, "audiodev");
++    if (audiodev) {
++        vd->audio_state = audio_state_by_name(audiodev);
++        if (!vd->audio_state) {
++            error_setg(errp, "Audiodev '%s' not found", audiodev);
++            goto fail;
++        }
++    }
++
+     device_id = qemu_opt_get(opts, "display");
+     if (device_id) {
+         int head = qemu_opt_get_number(opts, "head", 0);
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index bfa5681dd2..cfcc044ce4 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -819,16 +819,17 @@ ETEXI
+ 
+     {
+         .name       = "wavcapture",
+-        .args_type  = "path:F,freq:i?,bits:i?,nchannels:i?",
+-        .params     = "path [frequency [bits [channels]]]",
++        .args_type  = "path:F,audiodev:s,freq:i?,bits:i?,nchannels:i?",
++        .params     = "path audiodev [frequency [bits [channels]]]",
+         .help       = "capture audio to a wave file (default frequency=44100 bits=16 channels=2)",
+         .cmd        = hmp_wavcapture,
+     },
+ STEXI
+-@item wavcapture @var{filename} [@var{frequency} [@var{bits} [@var{channels}]]]
++@item wavcapture @var{filename} @var{audiodev} [@var{frequency} [@var{bits} [@var{channels}]]]
+ @findex wavcapture
+-Capture audio into @var{filename}. Using sample rate @var{frequency}
+-bits per sample @var{bits} and number of channels @var{channels}.
++Capture audio into @var{filename} from @var{audiodev}, using sample rate
++@var{frequency} bits per sample @var{bits} and number of channels
++@var{channels}.
+ 
+ Defaults:
+ @itemize @minus
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 9621e934c0..a308e5f5aa 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1978,6 +1978,12 @@ can help the device and guest to keep up and not lose events in case
+ events are arriving in bulk.  Possible causes for the latter are flaky
+ network connections, or scripts for automated testing.
+ 
++@item audiodev=@var{audiodev}
++
++Use the specified @var{audiodev} when the VNC client requests audio
++transmission. When not using an -audiodev argument, this option must
++be omitted, otherwise is must be present and specify a valid audiodev.
++
+ @end table
+ ETEXI
+ 
 -- 
 2.22.0
 
