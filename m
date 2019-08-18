@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F0C91572
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Aug 2019 10:02:32 +0200 (CEST)
-Received: from localhost ([::1]:39670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411E991576
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Aug 2019 10:11:08 +0200 (CEST)
+Received: from localhost ([::1]:39712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzG91-0003kR-6f
-	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 04:02:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46090)
+	id 1hzGHL-0005cr-Cj
+	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 04:11:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46837)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzG7a-0002qL-OY
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 04:01:03 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hzGGN-0004z8-Fv
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 04:10:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzG7Z-00008X-Bt
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 04:01:02 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36690)
+ (envelope-from <richard.henderson@linaro.org>) id 1hzGGM-0003ON-9s
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 04:10:07 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36730)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzG7Z-000084-3R
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 04:01:01 -0400
-Received: by mail-wm1-x344.google.com with SMTP id g67so415980wme.1
- for <qemu-devel@nongnu.org>; Sun, 18 Aug 2019 01:01:01 -0700 (PDT)
+ id 1hzGGM-0003Ng-3f
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 04:10:06 -0400
+Received: by mail-wm1-x344.google.com with SMTP id g67so425751wme.1
+ for <qemu-devel@nongnu.org>; Sun, 18 Aug 2019 01:10:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uAq1Bx1yrrzxmeBiVdlALOq5Ppa6afiV/vkrW+o0MHU=;
- b=Xy4ltRxkppA6zUGvqITpuq13qtcQNAtsWomUZFhO/NLhfq1TG4cc7w4ZKIOtPrBo+n
- CbdTg5HniBIFKzdeakjn7zAB1MB9kdbRYNxd5JGTaHpl4URFyokLWha3hqmHAtbMgfim
- /Ow23YwgF9C4zNJT7h65qknACN+aXoA0PDV2nQVQDbLdubIkMo/BBhu3QV3BFTnOYWzx
- NkUxEukQ0Z3LUN0NkMtViZgjSymLiT8ddmlcIRD2zmXJTRHzsAwhfOSPhUbFlvN8t8Uv
- vfK6Ur8b7+2OaY8soNxRKoWSifrxtvXMYhDXDtZgdF2xS2DdCQamik2PZsEGQeykSs2v
- hjiQ==
+ bh=BZdDCuqJqJYcgNGw8QD3afizhnfR29dZ+p9G36xcPhQ=;
+ b=Sgow9rR8GQf8kWkpa2UR60WDiKHAcy/qnbrnP1coPvzgKj/qIlINcWDFyRdagWgIlL
+ fToMiVVk9G4I9xSyFx/1ygiDqmZIpADIqGb3EHjZFhdQKWxvnJjvfKpfm3B6xIPnEjis
+ hSr7pwnherdLHv+U6znkbt24EADJPv84m9+imMP4QWDm3edqEFWMMDRTAgCEkGJ9cYGi
+ sBD90CLMbbz61qAed4EgijcVG1RCIx9Eg3AtNebrUUUJKiGhup4RfbNegwiObJbUSJzK
+ TB/0OJ/E12caF/rCReLThpcX5MBsP0xw9HHQVgxBnvkuZ6KMxFhMqwuZ8a4MXALsW7pA
+ 2x9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uAq1Bx1yrrzxmeBiVdlALOq5Ppa6afiV/vkrW+o0MHU=;
- b=JyoPouR8fil+dA6QEXpJsOPuTwdk5ybJ4kvwU6FMXq/SDNavNRV1Rk6nRa9bKQjHn9
- dncxB6gQpKVmsUrAnbl20O1z81afcxN3HfjcQqzIC5crddDOO+Jj5m5j6ic3KbiULPfT
- 12ZXVKHKxJSZUd2dHErFPLX1NN/Z1pBuYcxTcqXlJ+Lp+eDRot5rAanTazL5D5jVRPrD
- XDUUunXWM2w1h/8zjTtTf1abvWHG7GkXjx80n95pQgE3CRjloEfk+HO44kSNtSmszwok
- ksnN089i/UVWNk9lnJDDl+du9H2+/Swk0qWagxpbQitOuM9Lh3rbIJVipFAzK3AK/Ten
- x4tg==
-X-Gm-Message-State: APjAAAWdE/4PcLJ7/IL5o4BlmrIsWGml8YdkxoYII7VjdlWGdXxyCnD+
- 9bCwj54WtEWWztJjfubX3cEm9/uFsw4=
-X-Google-Smtp-Source: APXvYqyrg1qHi6+/MtKOYtw6oWhds7QoW4eaR0CjFin4u6CiSVhte6YgT7P7ZFOhK8CF1YBSM08bPw==
-X-Received: by 2002:a05:600c:40f:: with SMTP id
- q15mr15054237wmb.88.1566115259662; 
- Sun, 18 Aug 2019 01:00:59 -0700 (PDT)
+ bh=BZdDCuqJqJYcgNGw8QD3afizhnfR29dZ+p9G36xcPhQ=;
+ b=CrcKu1WGtlFIXs5gQsofFQ+koFmZC0X/jWIB9VKBi4ASbfVZeLo99t7Cq64q64ChqH
+ Zs1KPNJ5rUB6zJ/W4l+hGqm8Ngw9uhLolMJV/aQci+jtU7o4rc011omrWlzPT00SmrEc
+ MQavIlfRLooFKgdhqYWevZyrnJZeq0XY9xjSlrv8UK0gQ0Sngk9t4NKh1GQ3NtH6BjDL
+ WfWzzeTlYdRS0KfR1kEz8wYr6y7RCw0YxoCC8Z0s3yUszMKfoD/n+dZ5JCLKrlQtrtgF
+ lOD/p72a5SiCEXhg2MXM+GGSTAvHdqzxU2ZVcI2ILgEYrjn4c/UdOgRtdWAnQckZAt6a
+ 4WrA==
+X-Gm-Message-State: APjAAAXbGuC+E6TOzxD5mmLcdBglssPvop+HwxkiFBYspNhNdkQFocJq
+ 0PX+HJ6RknB4TKQ7+3Vf9ramGg==
+X-Google-Smtp-Source: APXvYqxQb1p0wS1cDGoHUva/vw9LdjPfvYplHZPAz/cwrUOxHDegIwyuCODRTQz7E77+FBr6i9RShQ==
+X-Received: by 2002:a1c:a957:: with SMTP id s84mr14718936wme.65.1566115804539; 
+ Sun, 18 Aug 2019 01:10:04 -0700 (PDT)
 Received: from ?IPv6:2a02:c7f:a69:1700:8897:9507:94c2:b98d?
  ([2a02:c7f:a69:1700:8897:9507:94c2:b98d])
- by smtp.gmail.com with ESMTPSA id z8sm10680213wru.13.2019.08.18.01.00.58
+ by smtp.gmail.com with ESMTPSA id c65sm17187995wma.44.2019.08.18.01.10.03
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 18 Aug 2019 01:00:58 -0700 (PDT)
-To: "Paul A. Clarke" <pc@us.ibm.com>, david@gibson.dropbear.id.au
+ Sun, 18 Aug 2019 01:10:03 -0700 (PDT)
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ "Paul A. Clarke" <pc@us.ibm.com>
 References: <1565983669-6886-1-git-send-email-pc@us.ibm.com>
+ <CAL1e-=jy6vggskJ26rTc8dnaqtqCB0SdfpV9p-NvKdjoBk+Vkw@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <130a4cea-e747-1a20-4ef3-8f777ae44493@linaro.org>
-Date: Sun, 18 Aug 2019 09:00:56 +0100
+Message-ID: <0cfddc22-92ef-3067-9275-8f4f22ca9805@linaro.org>
+Date: Sun, 18 Aug 2019 09:10:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1565983669-6886-1-git-send-email-pc@us.ibm.com>
+In-Reply-To: <CAL1e-=jy6vggskJ26rTc8dnaqtqCB0SdfpV9p-NvKdjoBk+Vkw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -84,105 +85,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/16/19 8:27 PM, Paul A. Clarke wrote:
-> From: "Paul A. Clarke" <pc@us.ibm.com>
+On 8/16/19 11:59 PM, Aleksandar Markovic wrote:
+>> From: "Paul A. Clarke" <pc@us.ibm.com>
+...
+>>   ISA 3.0B has xscvdpspn leaving its result in word 1 of the target
+> register,
+>>   and mffprwz expecting its input to come from word 0 of the source
+> register.
+>>   This sequence fails with QEMU, as a shift is required between those two
+>>   instructions.  However, the hardware splats the result to both word 0
+> and
+>>   word 1 of its output register, so the shift is not necessary.
+>>   Expect a future revision of the ISA to specify this behavior.
+>>
 > 
-> - target/ppc/fpu_helper.c:
->   - helper_todouble() was not properly converting INFINITY from 32 bit
->   float to 64 bit double.
->   - helper_todouble() was not properly converting any denormalized
->   32 bit float to 64 bit double.
+> Hmmm... Isn't this a gcc bug (using undocumented hardware feature), given
+> everything you said here?
 
-These two would seem to be my fault:
-Fixes: 86c0cab11aa (target/ppc: Use non-arithmetic conversions for fp load/store)
+The key here is "expect a future revision of the ISA to specify this behavior".
 
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index 5611cf0..82b5425 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -62,13 +62,14 @@ uint64_t helper_todouble(uint32_t arg)
->          ret  = (uint64_t)extract32(arg, 30, 2) << 62;
->          ret |= ((extract32(arg, 30, 1) ^ 1) * (uint64_t)7) << 59;
->          ret |= (uint64_t)extract32(arg, 0, 30) << 29;
-> +        ret |= (0x7ffULL * (extract32(arg, 23, 8) == 0xff)) << 52;
-
-Since the overwrites bits set two lines above,
-I think this would be better as
-
-    if (likely(abs_arg >= 0x00800000)) {
-        /* Normalized operand, or Inf or NaN.  */
-        if (unlikely(extract32(arg, 23, 8) == 0xff)) {
-            /* Inf or NaN.  */
-            ...
-        } else {
-            /* Normalized operand.  */
-
-
->      } else {
->          /* Zero or Denormalized operand.  */
->          ret = (uint64_t)extract32(arg, 31, 1) << 63;
->          if (unlikely(abs_arg != 0)) {
->              /* Denormalized operand.  */
->              int shift = clz32(abs_arg) - 9;
-> -            int exp = -126 - shift + 1023;
-> +            int exp = -127 - shift + 1023;
->              ret |= (uint64_t)exp << 52;
->              ret |= abs_arg << (shift + 29);
-
-Hmm.  The manual says -126, but it also shifts the fraction by a different
-amount, such that the implicit bit is 1.
-
-What I also don't see here is where the most significant bit is removed from
-the fraction, a-la "FRT[5:63] = frac[1:52]" in the manual.
-
-The soft-float code from which this was probably copied did this by shifting
-the fraction such that the msb overlaps the exponent, biasing the exponent by
--1, and then using an add instead of an or to simultaneously remove the bias,
-swallow the msb, and include the lower bits unchanged.
-
-So it looks like this should be
-
-    /*
-     * Shift fraction so that the msb is in the implicit bit position.
-     * Thus shift is in the range [1:23].
-     */
-    int shift = clz32(abs_arg) - 8;
-    /*
-     * The first 3 terms compute the float64 exponent.  We then bias
-     * this result by -1 so that we can swallow the implicit bit below.
-     */
-    int exp = -126 - shift + 1023 - 1;
-    ret |= (uint64_t)exp << 52;
-    ret += (uint64_t)abs_arg << (52 - 23 + shift);
-
-Hmm.  I see another bug in the existing code whereby abs_arg is not cast before
-shifting.  This truncation is probably how you're seeing correct results with
-your patch, for denormals containing only one bit set, e.g. FLT_TRUE_MIN.
-
-It would be good to test other denormals, like 0x00055555.
-
-
-> @@ -2871,10 +2872,14 @@ void helper_xscvqpdp(CPUPPCState *env, uint32_t opcode,
->  
->  uint64_t helper_xscvdpspn(CPUPPCState *env, uint64_t xb)
->  {
-> +    uint64_t result;
-> +
->      float_status tstat = env->fp_status;
->      set_float_exception_flags(0, &tstat);
->  
-> -    return (uint64_t)float64_to_float32(xb, &tstat) << 32;
-> +    result = (uint64_t)float64_to_float32(xb, &tstat);
-> +    /* hardware replicates result to both words of the doubleword result.  */
-> +    return (result << 32) | result;
->  }
-
-This definitely should be a separate patch.  The comment should include some
-language about this behaviour being required by a future ISA revision.
+It's clearly within IBM's purview to adjust the specification to document a
+previously undocumented hardware feature.
 
 
 r~
