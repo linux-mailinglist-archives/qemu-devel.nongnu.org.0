@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A3191358
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Aug 2019 23:34:16 +0200 (CEST)
-Received: from localhost ([::1]:38134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A60913FB
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Aug 2019 03:33:01 +0200 (CEST)
+Received: from localhost ([::1]:38942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hz6L1-00056u-Fj
-	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 17:34:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39331)
+	id 1hzA44-0002ao-33
+	for lists+qemu-devel@lfdr.de; Sat, 17 Aug 2019 21:33:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37066)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nsoffer@redhat.com>) id 1hz6Iu-0004Om-1f
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 17:32:06 -0400
+ (envelope-from <nsoffer@redhat.com>) id 1hzA3F-00026P-Pu
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 21:32:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nsoffer@redhat.com>) id 1hz6Ir-0001hB-G0
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 17:32:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33996)
+ (envelope-from <nsoffer@redhat.com>) id 1hzA3E-000593-0F
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 21:32:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42110)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1hz6Ir-0001gS-7w
- for qemu-devel@nongnu.org; Sat, 17 Aug 2019 17:32:01 -0400
+ (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1hzA3D-000588-OY
+ for qemu-devel@nongnu.org; Sat, 17 Aug 2019 21:32:07 -0400
 Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
  [209.85.210.70])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BD04F7EBBD
- for <qemu-devel@nongnu.org>; Sat, 17 Aug 2019 21:31:59 +0000 (UTC)
-Received: by mail-ot1-f70.google.com with SMTP id x31so1435607ota.4
- for <qemu-devel@nongnu.org>; Sat, 17 Aug 2019 14:31:59 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 03D013DBC2
+ for <qemu-devel@nongnu.org>; Sun, 18 Aug 2019 01:32:06 +0000 (UTC)
+Received: by mail-ot1-f70.google.com with SMTP id a26so6526792otl.1
+ for <qemu-devel@nongnu.org>; Sat, 17 Aug 2019 18:32:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=13OJiW/fiI38hsN6qscgOvSYFZmx17aJBLxbi/I8T0g=;
- b=QmWNtFs/LAFrsZZajeX694jxLAOJY0ZBeUxFM4CCI5AjAUKgaK9ynvOTg5G04lPlb4
- Ash/84qn17mLqAOsxZwp7l/6U009iBqKPKAs+lxieX6a9t+EINj1KsBl/z7d8wHdG+wh
- yU0ZDMM4FRQlbt70slKdb5zxA66lTkLONjUHtJjMdIomlUc925J8dnm/SUYO9ZDR1p0D
- b5iK18Ft2fz6LxI0c4hCDGv/VWzIEOL35I5zeC9GC45MA+z7vQrHYqqcao04vleGjLYI
- GvcA5pWniY2WT4tXR1QnVOTpGfG1YhcUz8+CjHa3xJNP7aYHc4dJv6Y99zyKlBvLSlxs
- 5AvA==
-X-Gm-Message-State: APjAAAXPn/fyZsPam9/dFjUEyfNXn6TGORYGIky6VXKHcp7k6ISqXP5N
- XtsTb2oSVIcK9gkLTbHhsgLjrpU1QVsBytDMNCTsJTfZz/7aNcuXNsnlcKbNsTv2W5poH13Pj0O
- 1YpWe3UkgjxbkEmYHlKOOkPxOXqQvfec=
-X-Received: by 2002:a54:4610:: with SMTP id p16mr9545880oip.56.1566077519114; 
- Sat, 17 Aug 2019 14:31:59 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyNDCoq8gmIL5hUUEIyT9FXTaojZxe2qyCNv0cQYITEFwIfch5pRWW/c4pP7mxsiPTD+vZoTpQt0HPAffN7+P4=
-X-Received: by 2002:a54:4610:: with SMTP id p16mr9545865oip.56.1566077518781; 
- Sat, 17 Aug 2019 14:31:58 -0700 (PDT)
+ bh=SSzxOaM90Uqsz9r2its47BsJIi5iDQgj0dQmD+Dgy40=;
+ b=WdExO+j1DK3IInqqeK62m4fytaeuFRBjeQ9ecKH0dL+0HaCGFHvcq5NksghP6h7RbS
+ 8h/h1mKKOd0lCpf32Q+ZvO4DyV8Ha41W4A6zxEJM38hPF2VOtOdsKN6RYNs0Uf61fwOP
+ MOuvDqc159p0o06j3zRiEa4hPa5s8SD5YPbVIw0yKZ+QUESXQYr5f2Ui33Bx4FF/yObS
+ fyJAV7i8co1sA1zv7+hdyezVVDxCl4RUy1bEnC3BRe7CkStTt6rIZmbYFfhfgctGk08e
+ 3EF2PHJMnnNT1dsHA3XwndQDfLO1dnE+gTI2CdCkooaT4KOazyJCu1B07yl08/dRbFsE
+ gk2Q==
+X-Gm-Message-State: APjAAAWh9AtL1BTfTgCWu7uWa5EYMWdvQbv+/2typ+0RVLN37IvtHK8c
+ 6hNSAvq/0P/SuDAhbkIRVJqjqmXVvjKc/Nv6EN8DxO3V1RgZVxo12X9kuBPG4gNNL3jg5QztR0t
+ wr8Habuk4QYuRd+C9b+Odt7f9Ob5W7S8=
+X-Received: by 2002:aca:4083:: with SMTP id n125mr3520150oia.106.1566091925392; 
+ Sat, 17 Aug 2019 18:32:05 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzxxdi5i+RYC5hQWV6gGKcgvKOeenmms6AzhvKw4I9ALJvByVwLifmCC1CXUJHaUjSqm8TQitVFzKNqjPfinYE=
+X-Received: by 2002:aca:4083:: with SMTP id n125mr3520141oia.106.1566091925070; 
+ Sat, 17 Aug 2019 18:32:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190817212111.13265-1-nsoffer@redhat.com>
-In-Reply-To: <20190817212111.13265-1-nsoffer@redhat.com>
+References: <20190815185024.7010-1-eblake@redhat.com>
+ <104559cd-a1dc-2b2c-8992-689cbdd0f827@virtuozzo.com>
+ <22c4c265-91fc-3639-4a4e-2fffe426ce68@virtuozzo.com>
+ <3f1fa92e-af18-87f8-3149-7c11bd186e64@redhat.com>
+In-Reply-To: <3f1fa92e-af18-87f8-3149-7c11bd186e64@redhat.com>
 From: Nir Soffer <nsoffer@redhat.com>
-Date: Sun, 18 Aug 2019 00:31:47 +0300
-Message-ID: <CAMRbyyv2FnyPVirbSRZNqgvoqp=0_cYPgQZfprf51gUgCgHO9g@mail.gmail.com>
-To: Nir Soffer <nirsof@gmail.com>
+Date: Sun, 18 Aug 2019 04:31:53 +0300
+Message-ID: <CAMRbyytdGmsoLbg_i=zbbkrkWpAW+jAvUAiwmJEO3MGXpvrTaA@mail.gmail.com>
+To: Eric Blake <eblake@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 Content-Type: text/plain; charset="UTF-8"
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH] block: gluster: Probe alignment limits
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] nbd: Advertise multi-conn for
+ shared read-only connections
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,185 +74,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, integration@gluster.org,
- qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Niels de Vos <ndevos@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Daniel Erez <derez@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Aug 18, 2019 at 12:21 AM Nir Soffer <nirsof@gmail.com> wrote:
+On Sat, Aug 17, 2019 at 5:30 PM Eric Blake <eblake@redhat.com> wrote:
 
-> Implement alignment probing similar to file-posix, by reading from the
-> first 4k of the image.
+> On 8/16/19 5:47 AM, Vladimir Sementsov-Ogievskiy wrote:
 >
-> Before this change, provisioning a VM on storage with sector size of
-> 4096 bytes would fail when the installer try to create filesystems. Here
-> is an example command that reproduces this issue:
+> >>> +++ b/blockdev-nbd.c
+> >>> @@ -189,7 +189,7 @@ void qmp_nbd_server_add(const char *device, bool
+> has_name, const char *name,
+> >>>       }
+> >>>
+> >>>       exp = nbd_export_new(bs, 0, len, name, NULL, bitmap,
+> >>> -                         writable ? 0 : NBD_FLAG_READ_ONLY,
+> >>> +                         writable ? 0 : NBD_FLAG_READ_ONLY, true,
+> >>
+> >> s/true/!writable ?
+> >
+> > Oh, I see, John already noticed this, it's checked in nbd_export_new
+> anyway..
 >
->     $ qemu-system-x86_64 -accel kvm -m 2048 -smp 2 \
->         -drive
-> file=gluster://gluster1/gv0/fedora29.raw,format=raw,cache=none \
->         -cdrom Fedora-Server-dvd-x86_64-29-1.2.iso
->
-> The installer fails in few seconds when trying to create filesystem on
-> /dev/mapper/fedora-root. In error report we can see that it failed with
-> EINVAL (I could not extract the error from guest).
->
-> Copying disk fails with EINVAL:
->
->     $ qemu-img convert -p -f raw -O raw -t none -T none \
->         gluster://gluster1/gv0/fedora29.raw \
->         gluster://gluster1/gv0/fedora29-clone.raw
->     qemu-img: error while writing sector 4190208: Invalid argument
->
-> This is a fix to same issue fixed in commit a6b257a08e3d (file-posix:
-> Handle undetectable alignment) for gluster:// images.
->
-> This fix has the same limit, that the first block of the image should be
-> allocated, otherwise we cannot detect the alignment and fallback to a
-> safe value (4096) even when using storage with sector size of 512 bytes.
->
-> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-> ---
->  block/gluster.c | 47 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
->
-> diff --git a/block/gluster.c b/block/gluster.c
-> index f64dc5b01e..d936240b72 100644
-> --- a/block/gluster.c
-> +++ b/block/gluster.c
-> @@ -52,6 +52,9 @@
->
->  #define GERR_INDEX_HINT "hint: check in 'server' array index '%d'\n"
->
-> +/* The value is known only on the server side. */
-> +#define MAX_ALIGN 4096
-> +
->  typedef struct GlusterAIOCB {
->      int64_t size;
->      int ret;
-> @@ -902,8 +905,52 @@ out:
->      return ret;
->  }
->
-> +/*
-> + * Check if read is allowed with given memory buffer and length.
-> + *
-> + * This function is used to check O_DIRECT request alignment.
-> + */
-> +static bool gluster_is_io_aligned(struct glfs_fd *fd, void *buf, size_t
-> len)
-> +{
-> +    ssize_t ret = glfs_pread(fd, buf, len, 0, 0, NULL);
-> +    return ret >= 0 || errno != EINVAL;
-> +}
-> +
-> +static void gluster_probe_alignment(BlockDriverState *bs, struct glfs_fd
-> *fd,
-> +                                    Error **errp)
-> +{
-> +    char *buf;
-> +    size_t alignments[] = {1, 512, 1024, 2048, 4096};
-> +    size_t align;
-> +    int i;
-> +
-> +    buf = qemu_memalign(MAX_ALIGN, MAX_ALIGN);
-> +
-> +    for (i = 0; i < ARRAY_SIZE(alignments); i++) {
-> +        align = alignments[i];
-> +        if (gluster_is_io_aligned(fd, buf, align)) {
-> +            /* Fallback to safe value. */
-> +            bs->bl.request_alignment = (align != 1) ? align : MAX_ALIGN;
-> +            break;
-> +        }
-> +    }
-> +
-> +    qemu_vfree(buf);
-> +
-> +    if (!bs->bl.request_alignment) {
-> +        error_setg(errp, "Could not find working O_DIRECT alignment");
-> +        error_append_hint(errp, "Try cache.direct=off\n");
-> +    }
-> +}
-> +
->  static void qemu_gluster_refresh_limits(BlockDriverState *bs, Error
-> **errp)
->  {
-> +    BDRVGlusterState *s = bs->opaque;
-> +
-> +    gluster_probe_alignment(bs, s->fd, errp);
-> +
-> +    bs->bl.min_mem_alignment = bs->bl.request_alignment;
-> +    bs->bl.opt_mem_alignment = MAX(bs->bl.request_alignment, MAX_ALIGN);
->      bs->bl.max_transfer = GLUSTER_MAX_TRANSFER;
->  }
->
-> --
-> 2.20.1
+> Still, since two reviewers have caught it, I'm fixing it :)
 >
 >
-To debug this I added this temporary patch:
+> >>> @@ -1486,6 +1486,8 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+> uint64_t dev_offset,
+> >>>       perm = BLK_PERM_CONSISTENT_READ;
+> >>>       if ((nbdflags & NBD_FLAG_READ_ONLY) == 0) {
+> >>>           perm |= BLK_PERM_WRITE;
+> >>> +    } else if (shared) {
+> >>> +        nbdflags |= NBD_FLAG_CAN_MULTI_CONN;
+> >
+> > For me it looks a bit strange: we already have nbdflags parameter for
+> nbd_export_new(), why
+> > to add a separate boolean to pass one of nbdflags flags?
+>
+> Because I want to get rid of the nbdflags in my next patch.
+>
+> >
+> > Also, for qemu-nbd, shouldn't we allow -e only together with -r ?
+>
+> I'm reluctant to; it might break whatever existing user is okay exposing
+> it (although such users are questionable, so maybe we can argue they
+> were already broken).  Maybe it's time to start a deprecation cycle?
+>
 
-diff --git a/block/gluster.c b/block/gluster.c
-index d2d187490b..790ef4251b 100644
---- a/block/gluster.c
-+++ b/block/gluster.c
-@@ -912,6 +912,7 @@ out:
- static bool gluster_is_io_aligned(struct glfs_fd *fd, void *buf, size_t
-len)
- {
-     ssize_t ret = glfs_pread(fd, buf, len, 0, 0, NULL);
-+    printf("gluster_is_io_aligned len=%ld ret=%ld errno=%d\n", len, ret,
-errno);
-     return ret >= 0 || errno != EINVAL;
- }
+man qemu-nbd (on Centos 7.6) says:
 
-@@ -940,6 +941,9 @@ static void gluster_probe_alignment(BlockDriverState
-*bs, struct glfs_fd *fd,
-         error_setg(errp, "Could not find working O_DIRECT alignment");
-         error_append_hint(errp, "Try cache.direct=off\n");
-     }
-+
-+    printf("Probed aligment for %s request_alignment=%d\n",
-+           bs->filename, bs->bl.request_alignment);
- }
+       -e, --shared=num
+           Allow up to num clients to share the device (default 1)
 
- static void qemu_gluster_refresh_limits(BlockDriverState *bs, Error **errp)
+I see that in qemu-img 4.1 there is a note about consistency with writers:
 
-Here is example run with volume with sector size of 512 bytes:
+       -e, --shared=num
+           Allow up to num clients to share the device (default 1). Safe
+for readers, but for now, consistency is not guaranteed between multiple
+writers.
+But it is not clear what are the consistency guarantees.
 
-$ sudo mount -t glusterfs gluster1:/gv1 /tmp/gv1
-$ dd if=/dev/zero bs=1M count=100 | tr "\0" "x" > /tmp/gv1/src.raw
-$ truncate -s 100m /tmp/gv1/dst.raw
-$ dd if=/dev/zero bs=1 count=1 of=/tmp/gv1/dst.raw conv=notrunc
+Supporting multiple writers is important. oVirt is giving the user a URL
+(since 4.3), and the user
+can use multiple connections using the same URL, each having a connection
+to the same qemu-nbd
+socket. I know that some backup vendors tried to use multiple connections
+to speed up backups, and
+they may try to do this also for restore.
 
-$ ./qemu-img convert -n -f raw -O raw -t none -T none
-gluster://gluster1/gv1/src.raw gluster://gluster1/gv1/dst.raw
-gluster_is_io_aligned len=1 ret=-1 errno=22
-gluster_is_io_aligned len=512 ret=512 errno=0
-Probed aligment for gluster://gluster1/gv1/src.raw request_alignment=512
-gluster_is_io_aligned len=1 ret=-1 errno=22
-gluster_is_io_aligned len=512 ret=512 errno=0
-Probed aligment for gluster://gluster1/gv1/dst.raw request_alignment=512
+An interesting use case would be using multiple connections on client side
+to write in parallel to
+same image, when every client is writing different ranges.
 
-And with volume with sector size of 4096 bytes:
+Do we have real issue in qemu-nbd serving multiple clients writing to
+different parts of
+the same image?
 
-$ sudo mount -t glusterfs gluster1:/gv0 /tmp/gv0
-$ dd if=/dev/zero bs=1M count=100 | tr "\0" "x" > /tmp/gv0/src.raw
-$ truncate -s 100m /tmp/gv0/dst.raw
-$ dd if=/dev/zero bs=1 count=1 of=/tmp/gv0/dst.raw conv=notrunc
-
-$ ./qemu-img convert -n -f raw -O raw -t none -T none
-gluster://gluster1/gv0/src.raw gluster://gluster1/gv0/dst.raw
-gluster_is_io_aligned len=1 ret=-1 errno=22
-gluster_is_io_aligned len=512 ret=-1 errno=22
-gluster_is_io_aligned len=1024 ret=-1 errno=22
-gluster_is_io_aligned len=2048 ret=-1 errno=22
-gluster_is_io_aligned len=4096 ret=4096 errno=0
-Probed aligment for gluster://gluster1/gv0/src.raw request_alignment=4096
-gluster_is_io_aligned len=1 ret=-1 errno=22
-gluster_is_io_aligned len=512 ret=-1 errno=22
-gluster_is_io_aligned len=1024 ret=-1 errno=22
-gluster_is_io_aligned len=2048 ret=-1 errno=22
-gluster_is_io_aligned len=4096 ret=4096 errno=0
-Probed aligment for gluster://gluster1/gv0/dst.raw request_alignment=4096
+Nir
