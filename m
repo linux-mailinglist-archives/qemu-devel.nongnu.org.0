@@ -2,88 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BA2916C5
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Aug 2019 15:23:00 +0200 (CEST)
-Received: from localhost ([::1]:41188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF20918AA
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Aug 2019 20:16:58 +0200 (CEST)
+Received: from localhost ([::1]:42450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzL99-0007BC-Jr
-	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 09:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49219)
+	id 1hzPjc-0005H2-WA
+	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 14:16:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49212)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuval.shaia@oracle.com>) id 1hzL7e-0006MK-38
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 09:21:27 -0400
+ (envelope-from <bounces@canonical.com>) id 1hzPiJ-0004qi-3T
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 14:15:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuval.shaia@oracle.com>) id 1hzL7b-0000AN-3r
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 09:21:26 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:45546)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yuval.shaia@oracle.com>)
- id 1hzL7a-00009X-UL
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 09:21:23 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7IDIfHs060883;
- Sun, 18 Aug 2019 13:21:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : subject :
- date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2019-08-05;
- bh=zSUYcUr2OWd1phr39A7Ir4sANA6yOXwYXTKM2tqcpsQ=;
- b=fCVIUtWZVlgRQ+vvP4MjeFD8seJRfd9dD1p4abuuzcSYA0ySh2EtdkZ8TqW7dhcRJF53
- 5xFn6NaTF4b689FbPNoiCHE4GwfpRKhQO3dc0VHBmwMdNIzOY81yXCftXn9OcbHlSAHW
- h+eIXa/vkzcremEg4IAU3OdiK9alwDiJLDKbp3tI1YEbGlwl0P5/oeeuvtJtN2ViT6yq
- YvmqH9YU4FSmfA7azgd8QVYwCPtBkBZNSF/6oZ/0fSumnSXKu9OGpD+FU+2xzorRCYL9
- hQPjh3PeFjjO60JPXK6ixxuNHSlep/9ev9MkUHo6IfVK8gZyFDbteg4UPVC6K+2P2Ft4 DA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2ue9hp3hpd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 18 Aug 2019 13:21:21 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7IDIA9c087295;
- Sun, 18 Aug 2019 13:21:20 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 2ue8wx80nf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 18 Aug 2019 13:21:20 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x7IDLIsr011814;
- Sun, 18 Aug 2019 13:21:18 GMT
-Received: from host4.lan (/77.138.183.59)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sun, 18 Aug 2019 06:21:17 -0700
-From: Yuval Shaia <yuval.shaia@oracle.com>
-To: berrange@redhat.com, thuth@redhat.com, philmd@redhat.com,
- pbonzini@redhat.com, laurent@vivier.eu, qemu-devel@nongnu.org,
- yuval.shaia@oracle.com, marcel.apfelbaum@gmail.com
-Date: Sun, 18 Aug 2019 16:21:07 +0300
-Message-Id: <20190818132107.18181-3-yuval.shaia@oracle.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190818132107.18181-1-yuval.shaia@oracle.com>
-References: <20190818132107.18181-1-yuval.shaia@oracle.com>
+ (envelope-from <bounces@canonical.com>) id 1hzPiH-0004hc-UA
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 14:15:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38336)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hzPiH-0004gs-Ov
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 14:15:33 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hzPiG-0002aK-IP
+ for <qemu-devel@nongnu.org>; Sun, 18 Aug 2019 18:15:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 71DB92E80BA
+ for <qemu-devel@nongnu.org>; Sun, 18 Aug 2019 18:15:32 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9352
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=995
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1906280000 definitions=main-1908180148
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9352
- signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
- definitions=main-1908180148
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [PATCH 2/2] hw/rdma: Utilize ibv_reg_mr_iova for
- memory registration
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 18 Aug 2019 18:07:17 -0000
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user sh4
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: glaubitz pmaydell
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
+X-Launchpad-Bug-Modifier: John Paul Adrian Glaubitz (glaubitz)
+References: <153886120838.22456.12836438866392888832.malonedeb@gac.canonical.com>
+Message-Id: <156615163786.16299.4015389679336446505.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19022";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 33fb533444c494bfab47d55c7748071aead03182
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1796520] Re: autogen crashes on qemu-sh4-user
+ after 61dedf2af7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,120 +66,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1796520 <1796520@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virtual address that is provided by the guest in post_send and
-post_recv operations is related to the guest address space. This address
-space is unknown to the HCA resides on host so extra step in these
-operations is needed to adjust the address to host virtual address.
+We can ask both glibc upstream and some SuperH experts. I'll ask.
 
-This step, which is done in data-path affects performances.
+-- =
 
-An enhanced verion of MR registration introduced here
-https://patchwork.kernel.org/patch/11044467/ can be used so that the
-guest virtual address space for this MR is known to the HCA in host.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1796520
 
-This will save the data-path adjustment.
+Title:
+  autogen crashes on qemu-sh4-user after 61dedf2af7
 
-Signed-off-by: Yuval Shaia <yuval.shaia@oracle.com>
----
- hw/rdma/rdma_backend.c    | 13 +++++++++++++
- hw/rdma/rdma_backend.h    |  5 +++++
- hw/rdma/rdma_rm.c         |  5 +++++
- hw/rdma/vmw/pvrdma_main.c |  6 ++++++
- 4 files changed, 29 insertions(+)
+Status in QEMU:
+  Confirmed
 
-diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
-index c39051068d..c346407cd3 100644
---- a/hw/rdma/rdma_backend.c
-+++ b/hw/rdma/rdma_backend.c
-@@ -391,7 +391,11 @@ static int build_host_sge_array(RdmaDeviceResources *rdma_dev_res,
-             return VENDOR_ERR_INVLKEY | ssge[ssge_idx].lkey;
-         }
- 
-+#ifdef LEGACY_RDMA_REG_MR
-         dsge->addr = (uintptr_t)mr->virt + ssge[ssge_idx].addr - mr->start;
-+#else
-+        dsge->addr = ssge[ssge_idx].addr;
-+#endif
-         dsge->length = ssge[ssge_idx].length;
-         dsge->lkey = rdma_backend_mr_lkey(&mr->backend_mr);
- 
-@@ -735,10 +739,19 @@ void rdma_backend_destroy_pd(RdmaBackendPD *pd)
-     }
- }
- 
-+#ifdef LEGACY_RDMA_REG_MR
- int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
-                            size_t length, int access)
-+#else
-+int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
-+                           size_t length, uint64_t guest_start, int access)
-+#endif
- {
-+#ifdef LEGACY_RDMA_REG_MR
-     mr->ibmr = ibv_reg_mr(pd->ibpd, addr, length, access);
-+#else
-+    mr->ibmr = ibv_reg_mr_iova(pd->ibpd, addr, length, guest_start, access);
-+#endif
-     if (!mr->ibmr) {
-         rdma_error_report("ibv_reg_mr fail, errno=%d", errno);
-         return -EIO;
-diff --git a/hw/rdma/rdma_backend.h b/hw/rdma/rdma_backend.h
-index 7c1a19a2b5..127f96e2d5 100644
---- a/hw/rdma/rdma_backend.h
-+++ b/hw/rdma/rdma_backend.h
-@@ -78,8 +78,13 @@ int rdma_backend_query_port(RdmaBackendDev *backend_dev,
- int rdma_backend_create_pd(RdmaBackendDev *backend_dev, RdmaBackendPD *pd);
- void rdma_backend_destroy_pd(RdmaBackendPD *pd);
- 
-+#ifdef LEGACY_RDMA_REG_MR
- int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
-                            size_t length, int access);
-+#else
-+int rdma_backend_create_mr(RdmaBackendMR *mr, RdmaBackendPD *pd, void *addr,
-+                           size_t length, uint64_t guest_start, int access);
-+#endif
- void rdma_backend_destroy_mr(RdmaBackendMR *mr);
- 
- int rdma_backend_create_cq(RdmaBackendDev *backend_dev, RdmaBackendCQ *cq,
-diff --git a/hw/rdma/rdma_rm.c b/hw/rdma/rdma_rm.c
-index 1927f85472..1524dfaeaa 100644
---- a/hw/rdma/rdma_rm.c
-+++ b/hw/rdma/rdma_rm.c
-@@ -227,8 +227,13 @@ int rdma_rm_alloc_mr(RdmaDeviceResources *dev_res, uint32_t pd_handle,
-         mr->length = guest_length;
-         mr->virt += (mr->start & (TARGET_PAGE_SIZE - 1));
- 
-+#ifdef LEGACY_RDMA_REG_MR
-         ret = rdma_backend_create_mr(&mr->backend_mr, &pd->backend_pd, mr->virt,
-                                      mr->length, access_flags);
-+#else
-+        ret = rdma_backend_create_mr(&mr->backend_mr, &pd->backend_pd, mr->virt,
-+                                     mr->length, guest_start, access_flags);
-+#endif
-         if (ret) {
-             ret = -EIO;
-             goto out_dealloc_mr;
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 3e36e13013..18075285f6 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -664,6 +664,12 @@ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
-     dev->shutdown_notifier.notify = pvrdma_shutdown_notifier;
-     qemu_register_shutdown_notifier(&dev->shutdown_notifier);
- 
-+#ifdef LEGACY_RDMA_REG_MR
-+    rdma_info_report("Using legacy reg_mr");
-+#else
-+    rdma_info_report("Using iova reg_mr");
-+#endif
-+
- out:
-     if (rc) {
-         pvrdma_fini(pdev);
--- 
-2.20.1
+Bug description:
+  Running "autogen --help" crashes on qemu-sh4-user with:
 
+  (sid-sh4-sbuild)root@nofan:/# autogen --help
+  Unhandled trap: 0x180
+  pc=3D0xf64dd2de sr=3D0x00000000 pr=3D0xf63b9c74 fpscr=3D0x00080000
+  spc=3D0x00000000 ssr=3D0x00000000 gbr=3D0xf61102a8 vbr=3D0x00000000
+  sgr=3D0x00000000 dbr=3D0x00000000 delayed_pc=3D0xf64dd2a0 fpul=3D0x000000=
+03
+  r0=3D0xf6fc1320 r1=3D0x00000000 r2=3D0xffff5dc4 r3=3D0xf67bfb50
+  r4=3D0xf6fc1230 r5=3D0xf6fc141c r6=3D0x000003ff r7=3D0x00000000
+  r8=3D0x00000004 r9=3D0xf63e20bc r10=3D0xf6fc141c r11=3D0xf63e28f0
+  r12=3D0xf63e2258 r13=3D0xf63eae1c r14=3D0x00000804 r15=3D0xf6fc1220
+  r16=3D0x00000000 r17=3D0x00000000 r18=3D0x00000000 r19=3D0x00000000
+  r20=3D0x00000000 r21=3D0x00000000 r22=3D0x00000000 r23=3D0x00000000
+  (sid-sh4-sbuild)root@nofan:/#
+
+  Bi-secting found this commit to be the culprit:
+
+  61dedf2af79fb5866dc7a0f972093682f2185e17 is the first bad commit
+  commit 61dedf2af79fb5866dc7a0f972093682f2185e17
+  Author: Richard Henderson <rth@twiddle.net>
+  Date:   Tue Jul 18 10:02:50 2017 -1000
+
+      target/sh4: Add missing FPSCR.PR =3D=3D 0 checks
+      =
+
+      Both frchg and fschg require PR =3D=3D 0, otherwise undefined_operati=
+on.
+      =
+
+      Reviewed-by: Aurelien Jarno <aurelien@aurel32.net>
+      Signed-off-by: Richard Henderson <rth@twiddle.net>
+      Message-Id: <20170718200255.31647-26-rth@twiddle.net>
+      Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
+
+  :040000 040000 980d79b69ae712f23a1e4c56983e97a843153b4a
+  1024c109f506c7ad57367c63bc8bbbc8a7a36cd7 M      target
+
+  Reverting 61dedf2af79fb5866dc7a0f972093682f2185e17 fixes the problem
+  for me.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1796520/+subscriptions
 
