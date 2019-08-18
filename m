@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87B891A40
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 01:17:07 +0200 (CEST)
-Received: from localhost ([::1]:43582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFF691A3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 01:13:41 +0200 (CEST)
+Received: from localhost ([::1]:43548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzUQ6-0000CL-T5
-	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 19:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49715)
+	id 1hzUMm-0004cb-14
+	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 19:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49733)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1hzUGS-0006T5-73
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 19:07:09 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1hzUGT-0006Uk-3r
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 19:07:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1hzUGR-0005Ic-9j
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1hzUGS-0005J3-1N
  for qemu-devel@nongnu.org; Sun, 18 Aug 2019 19:07:08 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42686)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45560)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1hzUGR-0005I3-46
+ id 1hzUGR-0005IX-Rt
  for qemu-devel@nongnu.org; Sun, 18 Aug 2019 19:07:07 -0400
-Received: by mail-wr1-x444.google.com with SMTP id b16so6742968wrq.9
+Received: by mail-wr1-x442.google.com with SMTP id q12so6728990wrj.12
  for <qemu-devel@nongnu.org>; Sun, 18 Aug 2019 16:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SQdS/4gPbCHrpQ6QHLwZkQ1izi38pwhpM703vz5qgTE=;
- b=cxVJfMC9RkViOeSspi0t2cLErhyX4bF5K0o4zTH5wyZaZCU1ErfY7sjmLetrXVEuDj
- V6bzFbQOLyn/I8I4pC8KG/XM+UWqjoZ1VBPAb8rX2OIJ0lB4drHqPGaektfOW5odUXJd
- D3s50Hv71PJ8tM1EWX327r2j/n0GfXSu+z2sH0/c8DrpyCLN/I1QQH9Y1JAXekmAKO8z
- AvCqmk0ySXwnAF2I7kBJ2JMAnu72DH10HtdICKsglj6BvCQlAeVxtMAtbMHoqMWFy0U/
- /xDmVk7iG5vFA+0hD649ebenvn+0i5H4qySb/koD6RIWWNHb1IxjrDyyceZ066j45TND
- +PIg==
+ bh=rslzC2c2WDwNlJOxHo//ed6lLff8LJfI6lnQMj5SLIg=;
+ b=bhm7J5WmqoaiqOT9MpO/YBlLvJe2+OELuIQxSHhTPuJ/UnOP28hg03rFukTJMpHZMS
+ 9YWtMjmspgdeap3qRuPUyj0WdSvV4M7CCpbKo5Tjgg1uH4LtUPZ+0NuFEzUJAF+v+28v
+ ticIqugalbBHuQuLB5s7V7CYjUFCaIy34b71PTYnDNUGK4YfIryPBIHAQrXhEv/5Gjrj
+ LPeLsn2SqvTpbk0mRvUFtiNpIbh4JNUp6DOd6kbE2gwENAk+SDH9f73QbGlMdgpDNp0i
+ rrlsJ7eLksZtExxu5Dt9BuH66y032i6GIx+O+uetsCmcA6K+1FgO1hYJAqivqwVZQjTq
+ MPiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SQdS/4gPbCHrpQ6QHLwZkQ1izi38pwhpM703vz5qgTE=;
- b=Q5+vq1FHXcRXYm+iP/B9cIlelnuomtdxEhMTyHjC6zhiiMFWM/k2ClXJUY4VK3J38T
- pjx3Pjv72l+SDt1fyYSebSAmNAXaFQmV5PJdipChPX6LNvZCniZ7shUCct15oAslAeRZ
- 8wGrrPvSikqiEq6A8z8os8bVgb9UVzg8R8SCDJm2NNoo8/y8QVGnJBrokoWA6fewyIVJ
- keE5auLu+FaKwiYlqzVbgPDfbdBNE6z5PyVN89b7Lad0xpqsLVzeXDZU4a+UwZKkU8qZ
- 5fkS3TPmpPw5Z/f2mciFU7dUB80UPjc0UC7fdreOQ7Shp3zbJ3Ww3isw2JuiSoS8DqcV
- PZ/Q==
-X-Gm-Message-State: APjAAAUQ8QknozB5XL1t/3kAzdx+Nd1B5I+C2IiBSqr65+SNVSRAE3a2
- Nls4GyQ7Ofu9DyO3a2V8vcHNKQkfH+A=
-X-Google-Smtp-Source: APXvYqwoUEOu8sNGvRKwXEBvmfKbykIcQFuUM1fjwz9hC8jh3eUzQqJbuz8jWLJ7YHIXXFQrTwGK1A==
-X-Received: by 2002:adf:8004:: with SMTP id 4mr15528970wrk.341.1566169625986; 
- Sun, 18 Aug 2019 16:07:05 -0700 (PDT)
+ bh=rslzC2c2WDwNlJOxHo//ed6lLff8LJfI6lnQMj5SLIg=;
+ b=V9AU0c5hDR3NeGFfu7JpoNGOZcrQdbVs7gXKv90X1VoNuZCXGpOA6lCvFUfpch25pu
+ eaPpafM00lNUcBP156UOsMawSJ0XlN8sYix12Rkx+iuXqmKIYmNF5XKrUSCS8auNAcao
+ mBeBmAotzvD4Ya+55ra9Jn5QSQ0dNaYyKkQZ17JpFdDSt5smVQ+DM7n1BFNb7trWcYNJ
+ Q4hAtH+Blorg0FO28RYYcNgH/DjhPAEV5roWAYlQuBNweNM/f9gYsbkfmJ7fhe+Tn9eS
+ rDm6+Fa2FpAERGuVf9VBV5xuUdsOYM4tT5bCssxs/CfiEyqZhFpSQ5xY/30Q611Nk/eS
+ HAzg==
+X-Gm-Message-State: APjAAAVRjH/ruogHIwgdZaDCm2SsLsPVLQs88v8hyoyvJ3P3x6FiTlHJ
+ Qp8I2nP/vN7VHtpSrupjr7PAV74AxUw=
+X-Google-Smtp-Source: APXvYqwYF2hOooTME+dXctIkL5vuCECTpDypSc3fiEQKeXemYjoSfDA+d4fWycw6MPPkJ8wKyp40iA==
+X-Received: by 2002:a5d:4cc5:: with SMTP id c5mr21987734wrt.278.1566169626737; 
+ Sun, 18 Aug 2019 16:07:06 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-49c9-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:49c9::5])
- by smtp.gmail.com with ESMTPSA id c15sm33657152wrb.80.2019.08.18.16.07.05
+ by smtp.gmail.com with ESMTPSA id c15sm33657152wrb.80.2019.08.18.16.07.06
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 18 Aug 2019 16:07:05 -0700 (PDT)
+ Sun, 18 Aug 2019 16:07:06 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 01:06:52 +0200
-Message-Id: <c245929463e6e46a48b2875a150815e2ccba11b4.1566168923.git.DirtY.iCE.hu@gmail.com>
+Date: Mon, 19 Aug 2019 01:06:53 +0200
+Message-Id: <c81019d550d9c3518185d3d08bd463ae3ccdc392.1566168923.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1566168923.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1566168923.git.DirtY.iCE.hu@gmail.com>
@@ -70,9 +70,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH v4 07/14] paaudio: do not move stream when
- sink/source name is specified
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH v4 08/14] paaudio: properly disconnect streams
+ in fini_*
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,31 +89,64 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unless we disable stream moving, pulseaudio can easily move the stream
-on connect, effectively ignoring the source/sink specified by the user.
+Currently this needs a workaround due to bug #247 in pulseaudio.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- audio/paaudio.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ audio/paaudio.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
 diff --git a/audio/paaudio.c b/audio/paaudio.c
-index cc3a34c2ea..24d98b344a 100644
+index 24d98b344a..1d68173636 100644
 --- a/audio/paaudio.c
 +++ b/audio/paaudio.c
-@@ -517,6 +517,11 @@ static pa_stream *qpa_simple_new (
- #endif
-         | PA_STREAM_AUTO_TIMING_UPDATE;
+@@ -685,6 +685,27 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+     return -1;
+ }
  
-+    if (dev) {
-+        /* don't move the stream if the user specified a sink/source */
-+        flags |= PA_STREAM_DONT_MOVE;
++static void qpa_simple_disconnect(PAConnection *c, pa_stream *stream)
++{
++    int err;
++
++    pa_threaded_mainloop_lock(c->mainloop);
++    /*
++     * wait until actually connects. workaround pa bug #247
++     * https://gitlab.freedesktop.org/pulseaudio/pulseaudio/issues/247
++     */
++    while (pa_stream_get_state(stream) == PA_STREAM_CREATING) {
++        pa_threaded_mainloop_wait(c->mainloop);
 +    }
 +
-     if (dir == PA_STREAM_PLAYBACK) {
-         r = pa_stream_connect_playback(stream, dev, attr, flags, NULL, NULL);
-     } else {
++    err = pa_stream_disconnect(stream);
++    if (err != 0) {
++        dolog("Failed to disconnect! err=%d\n", err);
++    }
++    pa_stream_unref(stream);
++    pa_threaded_mainloop_unlock(c->mainloop);
++}
++
+ static void qpa_fini_out (HWVoiceOut *hw)
+ {
+     void *ret;
+@@ -696,7 +717,7 @@ static void qpa_fini_out (HWVoiceOut *hw)
+     audio_pt_join(&pa->pt, &ret, __func__);
+ 
+     if (pa->stream) {
+-        pa_stream_unref (pa->stream);
++        qpa_simple_disconnect(pa->g->conn, pa->stream);
+         pa->stream = NULL;
+     }
+ 
+@@ -716,7 +737,7 @@ static void qpa_fini_in (HWVoiceIn *hw)
+     audio_pt_join(&pa->pt, &ret, __func__);
+ 
+     if (pa->stream) {
+-        pa_stream_unref (pa->stream);
++        qpa_simple_disconnect(pa->g->conn, pa->stream);
+         pa->stream = NULL;
+     }
+ 
 -- 
 2.22.0
 
