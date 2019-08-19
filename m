@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED9EA95028
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 23:52:24 +0200 (CEST)
-Received: from localhost ([::1]:59154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAD895053
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 23:58:27 +0200 (CEST)
+Received: from localhost ([::1]:59282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzpZf-0001GB-HY
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 17:52:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58808)
+	id 1hzpfW-0001cM-6z
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 17:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58837)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpM2-0001bo-Su
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:20 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpM4-0001eB-FI
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpM1-000690-GU
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:18 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46328)
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpM2-0006A0-Sb
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:20 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41903)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzpM1-00068k-BB
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:17 -0400
-Received: by mail-pf1-x442.google.com with SMTP id q139so1932803pfc.13
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:17 -0700 (PDT)
+ id 1hzpM2-00069R-Mc
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:18 -0400
+Received: by mail-pg1-x541.google.com with SMTP id x15so1926604pgg.8
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=F/upwaanfqXSt3Hk/7WIkT0U11Hn2bkl0Zsc2jcodB0=;
- b=s7d7yvxyrP04hcw4TOgSZXuVe0kp2q777ybiXRZoZ2RxEmdST4Boy/6w3bkuB3R5Wc
- ljietIQp+kzGWwJu5dR1yABU/E+xqMptzKjG8ujBpuylaoiXSHP/MjLpsf6AEy7wGBBG
- +BTPCPVAaIW3n5nHX/uFvjgZZwfEITTZaoaZQetl8PRgCKJsLXyH8HO5q/Gatc8f/5Z6
- tYxT0OBCjg/O+4TkeI87l+8ju7sXnhDCj/LqqCbRzacB4c94IAH3IodwtcXUjRYwDM+3
- CEUkaONwmJmotDMxX/xfpKBAxeRMyoLhxhBt7DYH2S9mIrzD8wOiMheRWDpKQ1DeL9Sv
- UvAg==
+ bh=zZYWccT7CCrzOlrmxHsfHjAEIVHw6UJ7WILoC7VO3SU=;
+ b=PPb1t8l9YP39KVfPVkg+miZTF3Jpd18TujsLmnHArLFTCMt3WmDDzdA6EsoAqoVjBP
+ 9XYQLpHfU9Dtg03+e7F8WObuM9K8a2qXgNojBce1Z1WW/ZzX1fM+drr23SPgMr5L/Lg/
+ pBHY+l6/RwDzHbfz+YCpWwPW7yyg4eL1AlnDU1zL4XIEuXEYRqaazEB3ysP1ATZPiARm
+ d3/nToby9TXFpQWg+doyEX24e3ugljUBAreYveJSuvwY0EV7OZ38V70yZTrxdG3ihNtm
+ NwAS3XSVFmisUOZJqoA8KAx4gPTDYllXP1sO7uPKaMWbIvZJtKqLKxv+uk+XMEIpRftJ
+ 4Z+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=F/upwaanfqXSt3Hk/7WIkT0U11Hn2bkl0Zsc2jcodB0=;
- b=itZxwVfp7UxdW/kp4VwIkfTddQoaG+WUBLcsGjDQfA2FdEQymYaJxHHRdK5dB9YjnV
- Q4f+w+Cin098lkUAXMBgu+UJGH7Vf6IsRSnabfdqSpOQOKJJqBxkbItXr1zboczh4/jF
- 9EWGKmYJwDBStzDT5TQNlEsXaIp9JzuaD5Aa9HfSQpfCXk2t1FSiv7V7X8D/A63qCrd/
- IGez3UEKe9pn1Pm9tDS7XKFvLjWeNQFPD5xK+Mq7MFx/vTc3BaGZ7pCsHRxFt2dYs9UO
- YvDRDPo6FqtYlaLgDoqvCaCbbqmpcbY6W1mE7aJpUMTERV8813988GRmamyE0jpn1XaF
- GzTw==
-X-Gm-Message-State: APjAAAVhM4g56buOP85vJr6R7e5PRlFhQsUSdD9OohQxbnnp04Wu0yKn
- 3WMNPbv697VcRTGa6+8m0faubn8wwV0=
-X-Google-Smtp-Source: APXvYqyIwEwuhH74An9HTur0VNW40wAfzfxgfdmHQWbKZop/BKbCLdUu71HtCElQwdnW3uMadWUDyA==
-X-Received: by 2002:aa7:8189:: with SMTP id g9mr26793797pfi.143.1566250696097; 
- Mon, 19 Aug 2019 14:38:16 -0700 (PDT)
+ bh=zZYWccT7CCrzOlrmxHsfHjAEIVHw6UJ7WILoC7VO3SU=;
+ b=bJJ1wfDH0849zny+DL2W6qLlFhwmYWkAtvmAmPXOiHcFpxaBCMI9KiOpOtYwUZ74F8
+ mcyW/JE6nkGw3ZrsYAI/hF8wd9EcsExVaTKFdHAV/BrhNe86mNmMdyFYfA/pjH9OTDa/
+ BsPultStD8ClOS6fFyhRQarK4OunRZLwViDoYPStcVXw5Hpc9oz5T0/v3/FSrbvINXa6
+ SFo2rfGICwVj5gQTk1l1xm6MWGRtp+8Ng1oASD5/+PGs4rWqnwg9rplh86SwZYDSrFP5
+ 7qywwx6QbiyY/1Y2U+PFlKwP+dvHIwrNTt1jyW/jof5Cyvza4hRPTuzPZKAGruD1yBwl
+ SSqQ==
+X-Gm-Message-State: APjAAAWi+Xa8ywQSmdaMWb4ORBo9kMOpvDwtOmIysXdQ62qeoYJnDzf1
+ sem+T0b2KguSwpKa2s6vrZxm1B1ZA+A=
+X-Google-Smtp-Source: APXvYqzDroV08IYwhlvi7ngTP+2jkDNYwf9Pzr2ACQjTPqbmJInnqhAi1ZRHYOnXbrcVMzyCnEs3TA==
+X-Received: by 2002:a63:1f03:: with SMTP id f3mr21523509pgf.249.1566250697329; 
+ Mon, 19 Aug 2019 14:38:17 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.14
+ by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 14:38:15 -0700 (PDT)
+ Mon, 19 Aug 2019 14:38:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 14:37:02 -0700
-Message-Id: <20190819213755.26175-16-richard.henderson@linaro.org>
+Date: Mon, 19 Aug 2019 14:37:03 -0700
+Message-Id: <20190819213755.26175-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819213755.26175-1-richard.henderson@linaro.org>
 References: <20190819213755.26175-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v2 15/68] target/arm: Convert BX, BXJ,
- BLX (register)
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v2 16/68] target/arm: Convert CLZ
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,41 +79,25 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Document our choice about the T32 CONSTRAINED UNPREDICTABLE behaviour.
+This matches the undocumented choice made by the legacy decoder.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 78 ++++++++++++++++++++----------------------
- target/arm/a32.decode  |  7 ++++
- target/arm/t32.decode  |  2 ++
- 3 files changed, 47 insertions(+), 40 deletions(-)
+ target/arm/translate.c | 31 +++++++++++++++----------------
+ target/arm/a32.decode  |  4 ++++
+ target/arm/t32.decode  |  5 +++++
+ 3 files changed, 24 insertions(+), 16 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index f390656ce9..ef26ed7b57 100644
+index ef26ed7b57..f0fa5253b6 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8429,6 +8429,38 @@ static bool trans_MSR_v7m(DisasContext *s, arg_MSR_v7m *a)
+@@ -8461,6 +8461,19 @@ static bool trans_BLX_r(DisasContext *s, arg_BLX_r *a)
      return true;
  }
  
-+static bool trans_BX(DisasContext *s, arg_BX *a)
-+{
-+    if (!ENABLE_ARCH_4T) {
-+        return false;
-+    }
-+    gen_bx(s, load_reg(s, a->rm));
-+    return true;
-+}
-+
-+static bool trans_BXJ(DisasContext *s, arg_BXJ *a)
-+{
-+    if (!ENABLE_ARCH_5J || arm_dc_feature(s, ARM_FEATURE_M)) {
-+        return false;
-+    }
-+    /* Trivial implementation equivalent to bx.  */
-+    gen_bx(s, load_reg(s, a->rm));
-+    return true;
-+}
-+
-+static bool trans_BLX_r(DisasContext *s, arg_BLX_r *a)
++static bool trans_CLZ(DisasContext *s, arg_CLZ *a)
 +{
 +    TCGv_i32 tmp;
 +
@@ -122,126 +105,115 @@ index f390656ce9..ef26ed7b57 100644
 +        return false;
 +    }
 +    tmp = load_reg(s, a->rm);
-+    tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
-+    gen_bx(s, tmp);
++    tcg_gen_clzi_i32(tmp, tmp, 32);
++    store_reg(s, a->rd, tmp);
 +    return true;
 +}
 +
  /*
   * Legacy decoder.
   */
-@@ -8718,12 +8750,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+@@ -8749,18 +8762,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+             /* MSR/MRS (banked/register) */
              /* All done in decodetree.  Illegal ops already signalled.  */
              g_assert_not_reached();
-         case 0x1:
--            if (op1 == 1) {
--                /* branch/exchange thumb (bx).  */
--                ARCH(4T);
+-        case 0x1:
+-            if (op1 == 3) {
+-                /* clz */
+-                ARCH(5);
+-                rd = (insn >> 12) & 0xf;
 -                tmp = load_reg(s, rm);
--                gen_bx(s, tmp);
--            } else if (op1 == 3) {
-+            if (op1 == 3) {
-                 /* clz */
-                 ARCH(5);
-                 rd = (insn >> 12) & 0xf;
-@@ -8734,30 +8761,9 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-                 goto illegal_op;
-             }
-             break;
--        case 0x2:
--            if (op1 == 1) {
--                ARCH(5J); /* bxj */
--                /* Trivial implementation equivalent to bx.  */
--                tmp = load_reg(s, rm);
--                gen_bx(s, tmp);
+-                tcg_gen_clzi_i32(tmp, tmp, 32);
+-                store_reg(s, rd, tmp);
 -            } else {
 -                goto illegal_op;
 -            }
 -            break;
--        case 0x3:
--            if (op1 != 1)
--              goto illegal_op;
--
--            ARCH(5);
--            /* branch link/exchange thumb (blx) */
--            tmp = load_reg(s, rm);
--            tmp2 = tcg_temp_new_i32();
--            tcg_gen_movi_i32(tmp2, s->base.pc_next);
--            store_reg(s, 14, tmp2);
--            gen_bx(s, tmp);
--            break;
--        case 0x4:
--            /* crc32 */
-+        case 0x2: /* bxj */
-+        case 0x3: /* blx */
-+        case 0x4: /* crc32 */
-             /* All done in decodetree.  Illegal ops reach here.  */
-             goto illegal_op;
-         case 0x5:
-@@ -10578,16 +10584,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                             goto illegal_op;
-                         }
-                         break;
--                    case 4: /* bxj */
--                        /* Trivial implementation equivalent to bx.
--                         * This instruction doesn't exist at all for M-profile.
--                         */
--                        if (arm_dc_feature(s, ARM_FEATURE_M)) {
--                            goto illegal_op;
--                        }
--                        tmp = load_reg(s, rn);
--                        gen_bx(s, tmp);
--                        break;
-+                    case 4: /* bxj, in decodetree */
-+                        goto illegal_op;
-                     case 5: /* Exception return.  */
-                         if (IS_USER(s)) {
-                             goto illegal_op;
++        case 0x1: /* bx, clz */
+         case 0x2: /* bxj */
+         case 0x3: /* blx */
+         case 0x4: /* crc32 */
+@@ -10201,13 +10203,13 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                 case 0x08: /* rev */
+                 case 0x09: /* rev16 */
+                 case 0x0b: /* revsh */
+-                case 0x18: /* clz */
+                     break;
+                 case 0x10: /* sel */
+                     if (!arm_dc_feature(s, ARM_FEATURE_THUMB_DSP)) {
+                         goto illegal_op;
+                     }
+                     break;
++                case 0x18: /* clz, in decodetree */
+                 case 0x20: /* crc32/crc32c, in decodetree */
+                 case 0x21:
+                 case 0x22:
+@@ -10240,9 +10242,6 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                     tcg_temp_free_i32(tmp3);
+                     tcg_temp_free_i32(tmp2);
+                     break;
+-                case 0x18: /* clz */
+-                    tcg_gen_clzi_i32(tmp, tmp, 32);
+-                    break;
+                 default:
+                     g_assert_not_reached();
+                 }
 diff --git a/target/arm/a32.decode b/target/arm/a32.decode
-index a8ef435b15..6cb9c16e2f 100644
+index 6cb9c16e2f..182f2b6725 100644
 --- a/target/arm/a32.decode
 +++ b/target/arm/a32.decode
 @@ -29,6 +29,7 @@
  &s_rrrr          s rd rn rm ra
  &rrrr            rd rn rm ra
  &rrr             rd rn rm
-+&r               rm
++&rr              rd rm
+ &r               rm
  &msr_reg         rn r mask
  &mrs_reg         rd r
- &msr_bank        rn r sysm
-@@ -195,8 +196,14 @@ CRC32CW          .... 0001 0100 .... .... 0010 0100 ....      @rndm
- 
+@@ -197,6 +198,7 @@ CRC32CW          .... 0001 0100 .... .... 0010 0100 ....      @rndm
  %sysm            8:1 16:4
  
-+@rm              ---- .... .... .... .... .... .... rm:4      &r
-+
+ @rm              ---- .... .... .... .... .... .... rm:4      &r
++@rdm             ---- .... .... .... rd:4 .... .... rm:4      &rr
+ 
  MRS_bank         ---- 0001 0 r:1 00 .... rd:4 001. 0000 0000  &mrs_bank %sysm
  MSR_bank         ---- 0001 0 r:1 10 .... 1111 001. 0000 rn:4  &msr_bank %sysm
- 
- MRS_reg          ---- 0001 0 r:1 00 1111   rd:4 0000 0000 0000  &mrs_reg
- MSR_reg          ---- 0001 0 r:1 10 mask:4 1111 0000 0000 rn:4  &msr_reg
+@@ -207,3 +209,5 @@ MSR_reg          ---- 0001 0 r:1 10 mask:4 1111 0000 0000 rn:4  &msr_reg
+ BX               .... 0001 0010 1111 1111 1111 0001 ....      @rm
+ BXJ              .... 0001 0010 1111 1111 1111 0010 ....      @rm
+ BLX_r            .... 0001 0010 1111 1111 1111 0011 ....      @rm
 +
-+BX               .... 0001 0010 1111 1111 1111 0001 ....      @rm
-+BXJ              .... 0001 0010 1111 1111 1111 0010 ....      @rm
-+BLX_r            .... 0001 0010 1111 1111 1111 0011 ....      @rm
++CLZ              .... 0001 0110 1111 .... 1111 0001 ....      @rdm
 diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 261db100ff..337706ebbe 100644
+index 337706ebbe..67724efe4b 100644
 --- a/target/arm/t32.decode
 +++ b/target/arm/t32.decode
 @@ -26,6 +26,7 @@
  &s_rrrr          !extern s rd rn rm ra
  &rrrr            !extern rd rn rm ra
  &rrr             !extern rd rn rm
-+&r               !extern rm
++&rr              !extern rd rm
+ &r               !extern rm
  &msr_reg         !extern rn r mask
  &mrs_reg         !extern rd r
- &msr_bank        !extern rn r sysm
-@@ -211,4 +212,5 @@ CRC32CW          1111 1010 1101 .... 1111 .... 1010 ....      @rndm
-     MSR_reg      1111 0011 100 r:1 rn:4 1000 mask:4 0000 0000  &msr_reg
-     MSR_v7m      1111 0011 100 0   rn:4 1000 mask:2 00 sysm:8
-   }
-+  BXJ            1111 0011 1100 rm:4 1000 1111 0000 0000      &r
- }
+@@ -126,6 +127,7 @@ RSB_rri          1111 0.0 1110 . .... 0 ... .... ........     @s_rri_rot
+ @rnadm           .... .... .... rn:4 ra:4 rd:4 .... rm:4      &rrrr
+ @rn0dm           .... .... .... rn:4 .... rd:4 .... rm:4      &rrrr ra=0
+ @rndm            .... .... .... rn:4 .... rd:4 .... rm:4      &rrr
++@rdm             .... .... .... .... .... rd:4 .... rm:4      &rr
+ 
+ {
+   MUL            1111 1011 0000 .... 1111 .... 0000 ....      @s0_rn0dm
+@@ -180,6 +182,9 @@ CRC32CB          1111 1010 1101 .... 1111 .... 1000 ....      @rndm
+ CRC32CH          1111 1010 1101 .... 1111 .... 1001 ....      @rndm
+ CRC32CW          1111 1010 1101 .... 1111 .... 1010 ....      @rndm
+ 
++# Note rn != rm is CONSTRAINED UNPREDICTABLE; we choose to ignore rn.
++CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
++
+ # Branches and miscellaneous control
+ 
+ %msr_sysm        4:1 8:4
 -- 
 2.17.1
 
