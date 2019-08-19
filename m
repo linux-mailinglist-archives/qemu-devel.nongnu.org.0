@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8C69508E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 00:12:49 +0200 (CEST)
-Received: from localhost ([::1]:59654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F57095096
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 00:16:14 +0200 (CEST)
+Received: from localhost ([::1]:59702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzptQ-0005R8-L8
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 18:12:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59384)
+	id 1hzpwi-0000T6-HH
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 18:16:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59418)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpMS-0002Jb-4L
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:45 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpMU-0002Lf-BW
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpMR-0006TS-1c
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:43 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34696)
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpMS-0006UL-Bs
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:45 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:37305)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzpMQ-0006T0-T5
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:42 -0400
-Received: by mail-pg1-x541.google.com with SMTP id n9so1938493pgc.1
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:42 -0700 (PDT)
+ id 1hzpMS-0006Tr-5p
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:44 -0400
+Received: by mail-pf1-x442.google.com with SMTP id 129so1946965pfa.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=nUlERtxnsk9pzgBS89kY7GryxKus7N1Qg8iHW/AeABc=;
- b=Flk5TmVR1JR2yQH7xN27Vi9JZjxy+LJgxgCSEYXWQVAj19fwhgst81Tfv2YFVnKcvo
- xVe5/aFgDprkbAp4dJuGCGSaefy62x9K5rN2ZQXL8Ydb4SO39zwlgPcoauM9AJHPOoAw
- QLB9nDlu2vmfofN12U+LT8RDbxP5ZV+SSJqNeeUomH6/O+Coq3sZSgbkIEz66IDgdqYE
- e6Mqlt/p7YSm/ZyId8VYxYcbuv56ewVEZxMmZIwpY2xKjd2BerbBLwAu+WSTCqf26td8
- Q4PvBqnixtWTXiTrX8ZjagG1dIrj8wI7MDOk+vfUYOTC7dYAahdN8bC+1nhBoBcKNu1R
- c9og==
+ bh=JhmaAGzRoow6PV3mD1aboEwUvmsUrSNHW6vrm01q9UA=;
+ b=eNhhBEL5W3OtD0P4jcvd636YxZSbqIkbtSAji8NqXmO/jUYNdcN9uGXP1MRb9ERTzK
+ fV0r8EKdmtiqAxgt8/yiM3hALXwu3wzHOrv7Uo0Mzw4rEdCXzmVKz5p6X1XxX26LJ7By
+ 3ACWkDpuqkQ3QElmHwAEJedX7ULxqbuAnqN40E7HjVXLsbC+JlIDyBYoApz7DmRgSnN/
+ wAAMONm3ToZG7Wme9VvyGZ78D7+GNvQe4ALsZB3KQlj10VfFJ6ua4p57fI8S/JC9S1Ay
+ hA/xuwmQC3J7tH4jV5A/6QIs4uOtM+p9sSNGe+xW4kk3M5GDNQnv69xA3VY3ZUo/r22V
+ m7sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=nUlERtxnsk9pzgBS89kY7GryxKus7N1Qg8iHW/AeABc=;
- b=jRhZNekurO0x2MxDDNMchpqsxhP3yM2zcXBMxVYm5HY2pE0NLMJvEn8Jobn3+My8qe
- IMUFuvsQTMe8f3Jp5Pl247yXgXDGq0aWxfqoYaQCoowJdurDW4vwA9dP2NS22MsENbhp
- X57S8kAhUBSqRvGuIGD3PAYoXfveOZCNK/MCKg4XSUGKmWDSHkq9FeLqAr8mhWusWNvu
- tPEelZR7toDK7I380AxSZNcOLkRn50OpgG4i2Kyi560nZtsdaPxrgLNJkAfRDWoKUNPu
- yLv+o86eIFcK7ycNVRPVKfppcY2pE05FcYDGzDnLzmRr4S0lYiU73ccqo2jPStvY/H4k
- 97iA==
-X-Gm-Message-State: APjAAAUUSXBzaie4sv8uQuovIOAjPsF/xI7qx1ZQU/o+iJVlhqgGk5v1
- 25/9oWHdHDY7AJlk69yLv4uF4pa38y8=
-X-Google-Smtp-Source: APXvYqxkcXHspZhhiZ/KLz8beCaNw0aJhqoMyskxswBSHYVj87ACPBznHPtQ/L0eGTIz/HC4DuCFxA==
-X-Received: by 2002:aa7:80d7:: with SMTP id a23mr15956894pfn.208.1566250721714; 
- Mon, 19 Aug 2019 14:38:41 -0700 (PDT)
+ bh=JhmaAGzRoow6PV3mD1aboEwUvmsUrSNHW6vrm01q9UA=;
+ b=lTWKWAcqk4EpJ7r3X0yWNCwNn4pCwLxdv3r3mjQ8JNl40eqSvEsneKzaHZlotM9Xci
+ 8ooFL4PpMUPLUtPfXyUxj9glnMHVQOvJmNGcaebKXYWryJMPfCz15dF6xZJO+Pl9KgRJ
+ ImejeSHuISL5j20Hp+lnm9ULl0g1/eBYf3OnqplyJwEwqIKfwc/PGwLJcoHBOb6ILHZr
+ v7xspCL4/Cy/x5VSIPcz6/aXiLb7Q7qk6wZI/Iv91mfCljqCJ1I9tXTVjjUcNvjcTZah
+ Kg51q6IzJM8lduEMrvoOldORqakdAwDUpDgsrQCuQwHVNyp0HGjiznrsZTodV8xXTi+r
+ qi9Q==
+X-Gm-Message-State: APjAAAUH31Nj0VHrYhEJkg5IYf0qMq3F7KSwUi95F/d+oKjRNZBFURfF
+ qw6uLqp+s7cRTpGTiFLPf2mwmUXpWa4=
+X-Google-Smtp-Source: APXvYqxoagVaQD4lMq4gQRlMqh9SI+umOIy27rtVUV3ClakfJ/Hf2+4Q2pNwr8XILBjD+GC3jasvaw==
+X-Received: by 2002:aa7:9516:: with SMTP id b22mr26306293pfp.106.1566250722846; 
+ Mon, 19 Aug 2019 14:38:42 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.40
+ by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 14:38:40 -0700 (PDT)
+ Mon, 19 Aug 2019 14:38:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 14:37:23 -0700
-Message-Id: <20190819213755.26175-37-richard.henderson@linaro.org>
+Date: Mon, 19 Aug 2019 14:37:24 -0700
+Message-Id: <20190819213755.26175-38-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819213755.26175-1-richard.henderson@linaro.org>
 References: <20190819213755.26175-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH v2 36/68] target/arm: Convert SETEND
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v2 37/68] target/arm: Convert PLI, PLD, PLDW
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,69 +81,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c       | 22 +++++++++++++---------
- target/arm/a32-uncond.decode |  4 ++++
- 2 files changed, 17 insertions(+), 9 deletions(-)
+ target/arm/translate.c       | 37 +++++++++++++++++++-----------------
+ target/arm/a32-uncond.decode | 10 ++++++++++
+ 2 files changed, 30 insertions(+), 17 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 928205d993..46e88d1d17 100644
+index 46e88d1d17..a30a9bb4e0 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -10124,6 +10124,18 @@ static bool trans_SB(DisasContext *s, arg_SB *a)
+@@ -10136,6 +10136,26 @@ static bool trans_SETEND(DisasContext *s, arg_SETEND *a)
      return true;
  }
  
-+static bool trans_SETEND(DisasContext *s, arg_SETEND *a)
++/*
++ * Preload instructions
++ * All are nops, contingent on the appropriate arch level.
++ */
++
++static bool trans_PLD(DisasContext *s, arg_PLD *a)
 +{
-+    if (!ENABLE_ARCH_6) {
-+        return false;
-+    }
-+    if (a->E != (s->be_data == MO_BE)) {
-+        gen_helper_setend(cpu_env);
-+        s->base.is_jmp = DISAS_UPDATE;
-+    }
-+    return true;
++    return ENABLE_ARCH_5TE;
++}
++
++static bool trans_PLDW(DisasContext *s, arg_PLD *a)
++{
++    return arm_dc_feature(s, ARM_FEATURE_V7MP);
++}
++
++static bool trans_PLI(DisasContext *s, arg_PLD *a)
++{
++    return ENABLE_ARCH_7;
 +}
 +
  /*
   * Legacy decoder.
   */
-@@ -10209,15 +10221,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             return; /* v7MP: Unallocated memory hint: must NOP */
+@@ -10196,23 +10216,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+             }
+             return;
          }
- 
--        if ((insn & 0x0ffffdff) == 0x01010000) {
--            ARCH(6);
--            /* setend */
--            if (((insn >> 9) & 1) != !!(s->be_data == MO_BE)) {
--                gen_helper_setend(cpu_env);
--                s->base.is_jmp = DISAS_UPDATE;
+-        if (((insn & 0x0f30f000) == 0x0510f000) ||
+-            ((insn & 0x0f30f010) == 0x0710f000)) {
+-            if ((insn & (1 << 22)) == 0) {
+-                /* PLDW; v7MP */
+-                if (!arm_dc_feature(s, ARM_FEATURE_V7MP)) {
+-                    goto illegal_op;
+-                }
 -            }
+-            /* Otherwise PLD; v5TE+ */
+-            ARCH(5TE);
 -            return;
--        } else if ((insn & 0x0e000f00) == 0x0c000100) {
-+        if ((insn & 0x0e000f00) == 0x0c000100) {
-             if (arm_dc_feature(s, ARM_FEATURE_IWMMXT)) {
-                 /* iWMMXt register transfer.  */
-                 if (extract32(s->c15_cpar, 1, 1)) {
+-        }
+-        if (((insn & 0x0f70f000) == 0x0450f000) ||
+-            ((insn & 0x0f70f010) == 0x0650f000)) {
+-            ARCH(7);
+-            return; /* PLI; V7 */
+-        }
+         if (((insn & 0x0f700000) == 0x04100000) ||
+             ((insn & 0x0f700010) == 0x06100000)) {
+             if (!arm_dc_feature(s, ARM_FEATURE_V7MP)) {
 diff --git a/target/arm/a32-uncond.decode b/target/arm/a32-uncond.decode
-index eb1c55b330..d5ed48f0fd 100644
+index d5ed48f0fd..aed381cb8e 100644
 --- a/target/arm/a32-uncond.decode
 +++ b/target/arm/a32-uncond.decode
-@@ -24,6 +24,7 @@
+@@ -54,3 +54,13 @@ SB               1111 0101 0111 1111 1111 0000 0111 0000
  
- &empty           !extern
- &i               !extern imm
-+&setend          E
- 
- # Branch with Link and Exchange
- 
-@@ -50,3 +51,6 @@ DSB              1111 0101 0111 1111 1111 0000 0100 ----
- DMB              1111 0101 0111 1111 1111 0000 0101 ----
- ISB              1111 0101 0111 1111 1111 0000 0110 ----
- SB               1111 0101 0111 1111 1111 0000 0111 0000
+ # Set Endianness
+ SETEND           1111 0001 0000 0001 0000 00 E:1 0 0000 0000  &setend
 +
-+# Set Endianness
-+SETEND           1111 0001 0000 0001 0000 00 E:1 0 0000 0000  &setend
++# Preload instructions
++
++PLD              1111 0101 -101 ---- 1111 ---- ---- ----    # (imm, lit) 5te
++PLDW             1111 0101 -001 ---- 1111 ---- ---- ----    # (imm, lit) 7mp
++PLI              1111 0100 -101 ---- 1111 ---- ---- ----    # (imm, lit) 7
++
++PLD              1111 0111 -101 ---- 1111 ----- -- 0 ----   # (register) 5te
++PLDW             1111 0111 -001 ---- 1111 ----- -- 0 ----   # (register) 7mp
++PLI              1111 0110 -101 ---- 1111 ----- -- 0 ----   # (register) 7
 -- 
 2.17.1
 
