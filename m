@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC8894C6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 20:12:07 +0200 (CEST)
-Received: from localhost ([::1]:56024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACCF994C64
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 20:10:48 +0200 (CEST)
+Received: from localhost ([::1]:56014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzm8U-0004Tb-Jd
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 14:12:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54869)
- by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1hzm7E-0003ei-P3
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:10:49 -0400
+	id 1hzm7D-0003LD-Q6
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 14:10:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54726)
+ by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
+ <38OVaXQMKChkH1L5DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--scw.bounces.google.com>)
+ id 1hzm6N-0002lP-G1
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:09:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hzm7D-0004NY-Gm
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:10:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52130)
+ (envelope-from
+ <38OVaXQMKChkH1L5DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--scw.bounces.google.com>)
+ id 1hzm6M-0003q8-47
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:09:55 -0400
+Received: from mail-ua1-x94a.google.com ([2607:f8b0:4864:20::94a]:35485)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hzm7D-0004NC-BD
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:10:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hzm7B-0004nT-U9
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 18:10:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DE8E32E80CC
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 18:10:45 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Aug 2019 17:55:50 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1819289@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cbparker curryrice71 philmd
-X-Launchpad-Bug-Reporter: John M (curryrice71)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <155216177409.9624.16357609956497374456.malonedeb@gac.canonical.com>
-Message-Id: <156623735058.22999.5452030542189411929.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19022";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 9a9c095989f5006fd881d0b5cbba17906a01dbda
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1819289] Re: Windows 95 and Windows 98 will not
- install or run
+ (Exim 4.71) (envelope-from
+ <38OVaXQMKChkH1L5DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--scw.bounces.google.com>)
+ id 1hzm6M-0003pb-0V
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:09:54 -0400
+Received: by mail-ua1-x94a.google.com with SMTP id s1so442068uao.2
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 11:09:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=T7he1QDEJio2Ie6GPQrqlVylHc1mwsd0spBdAQSpsEk=;
+ b=qDiriZ+1sWLdYyF3/vSYvm6gbkv9GxiR21+FFFJxat1oPDujsp4Qy9F6gdEmvh4cng
+ Z1xl91YtqVvgBzMeUT2mrXy/CPTFy2VGyVfjNBJJu3epmKRkHcjko2+dGTTu6pmF/HCR
+ 68x0hIsSwsLTgZKaEb/FZwBHMcPgj36dI2iPKwzQ2+jHkkI0lOziMpIgABSDgvlNWR1D
+ gfrHgQf3+ta9zkm00dxW3urH1YdH+xZJelvxkHsE/FGCgsbA/UP2HVzkrlhzhmho7l0w
+ qMrvlRw+KjAxnbZkEzlQfMeOC2trXtDpM74+AKJsyuFp3/0smoBkZEhG24dVSLF+s+fw
+ wqlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=T7he1QDEJio2Ie6GPQrqlVylHc1mwsd0spBdAQSpsEk=;
+ b=dju4wBbu1icwNa2bKw4BNhc6Hp0KikTpZe3K0v83KUC7C68XEP1I1h4hUysTvjsou6
+ fqUt1y6+vLbUG2LljgWD0bIDSX0ePp7sfCWHsztu6dFkEB7dwJiMFYhSH57uN5TiOU5t
+ 3rUuUCMjs3BbSTKSmFri4+HrLoL4pcYx++ART8D8BB2uuR00UxIBtc91EhLJk2BbDPAs
+ 6vDPiAWAW0Q29WKLNiI7Xx9DO3wyXqzSflJDNTyzAlTIZAqtVP/UEyqUSjS3Aiip15fH
+ tXwkdkWDskqdCppqG7fMtbPiVuCZbRr9sh6X4VNeIsqm4glqS8fU36rHu/vQziL9hEI5
+ zfdQ==
+X-Gm-Message-State: APjAAAXoOzLJ5es+l5s5XTVmy9HLyWVffsg2KFUPQdYvwjLo/v/VYTWu
+ zOoPdXbqwWDYavMSeI9x7ubsqJk=
+X-Google-Smtp-Source: APXvYqw50AMNQZcvBuY5d5UrVqs930I161XpFYFFum63XJqefCQ5uPpzu19FdofnMdSTynGRjik1N7Y=
+X-Received: by 2002:a1f:144:: with SMTP id 65mr8480438vkb.51.1566238192492;
+ Mon, 19 Aug 2019 11:09:52 -0700 (PDT)
+Date: Mon, 19 Aug 2019 11:09:47 -0700
+In-Reply-To: <CAFEAcA-GWR6_wGCMWkMHttU3ARJPqfADvNTnqQUU_OzcWgHHuQ@mail.gmail.com>
+Message-Id: <20190819180947.180725-1-scw@google.com>
+Mime-Version: 1.0
+References: <CAFEAcA-GWR6_wGCMWkMHttU3ARJPqfADvNTnqQUU_OzcWgHHuQ@mail.gmail.com>
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
+To: marcandre.lureau@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::94a
+Subject: [Qemu-devel] [PATCH v3] linux-user: add memfd_create
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,66 +75,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1819289 <1819289@bugs.launchpad.net>
+From: Shu-Chun Weng via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Shu-Chun Weng <scw@google.com>
+Cc: arunkaly@google.com, Shu-Chun Weng <scw@google.com>, riku.voipio@iki.fi,
+ qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/19 7:26 PM, Brad Parker wrote:
-> Whoops, 3.11.0 does not exist. Went back and did a full bisect. 3.0.0
-> works fine, and the breakage starts before 3.0.1 and 3.1.0 was released,
-> specifically, with commit 05306935b1ae49107c2dc2f301574dd6c29b6838.
+Add support for the memfd_create syscall. If the host does not have the
+libc wrapper, translate to a direct syscall with NC-macro.
 
-This commit is migration related. Are you trying to restore/launch a
-pre-installed image?
+Buglink: https://bugs.launchpad.net/qemu/+bug/1734792
+Signed-off-by: Shu-Chun Weng <scw@google.com>
+---
+ include/qemu/memfd.h |  4 ++++
+ linux-user/syscall.c | 12 ++++++++++++
+ util/memfd.c         |  2 +-
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
-John reported "either not install or will not run 95 or 98 at all" but
-you report "95 just reboots infinitely after trying to boot from HDD
-after the initial setup." which is slighly different.
+diff --git a/include/qemu/memfd.h b/include/qemu/memfd.h
+index d551c28b68..975b6bdb77 100644
+--- a/include/qemu/memfd.h
++++ b/include/qemu/memfd.h
+@@ -32,6 +32,10 @@
+ #define MFD_HUGE_SHIFT 26
+ #endif
+ 
++#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
++int memfd_create(const char *name, unsigned int flags);
++#endif
++
+ int qemu_memfd_create(const char *name, size_t size, bool hugetlb,
+                       uint64_t hugetlbsize, unsigned int seals, Error **errp);
+ bool qemu_memfd_alloc_check(void);
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 8367cb138d..f3f9311e9c 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/cutils.h"
+ #include "qemu/path.h"
++#include "qemu/memfd.h"
+ #include <elf.h>
+ #include <endian.h>
+ #include <grp.h>
+@@ -11938,6 +11939,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         /* PowerPC specific.  */
+         return do_swapcontext(cpu_env, arg1, arg2, arg3);
+ #endif
++#ifdef TARGET_NR_memfd_create
++    case TARGET_NR_memfd_create:
++        p = lock_user_string(arg1);
++        if (!p) {
++            return -TARGET_EFAULT;
++        }
++        ret = get_errno(memfd_create(p, arg2));
++        fd_trans_unregister(ret);
++        unlock_user(p, arg1, 0);
++        return ret;
++#endif
+ 
+     default:
+         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+diff --git a/util/memfd.c b/util/memfd.c
+index 00334e5b21..4a3c07e0be 100644
+--- a/util/memfd.c
++++ b/util/memfd.c
+@@ -35,7 +35,7 @@
+ #include <sys/syscall.h>
+ #include <asm/unistd.h>
+ 
+-static int memfd_create(const char *name, unsigned int flags)
++int memfd_create(const char *name, unsigned int flags)
+ {
+ #ifdef __NR_memfd_create
+     return syscall(__NR_memfd_create, name, flags);
+-- 
+2.23.0.rc1.153.gdeed80330f-goog
 
-What host/os/distrib are you using?
-
-What command line are you using to start QEMU?
-
-If you are using migration, I wonder if the following commit might
-affect here:
-
-commit 341ba0df4c69269cac839ddbacb2a0ca641a856d
-Author: Peter Maydell <peter.maydell@linaro.org>
-Date:   Tue Sep 25 17:19:24 2018 +0100
-
-    migration/ram.c: Avoid taking address of fields in packed MultiFDInit_t=
- struct
-    =
-
-    Taking the address of a field in a packed struct is a bad idea, because
-    it might not be actually aligned enough for that pointer type (and
-    thus cause a crash on dereference on some host architectures). Newer
-    versions of clang warn about this:
-    =
-
-    Avoid the bug by not using the "modify in place" byteswapping
-    functions.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1819289
-
-Title:
-  Windows 95 and Windows 98 will not install or run
-
-Status in QEMU:
-  New
-
-Bug description:
-  The last version of QEMU I have been able to run Windows 95 or Windows
-  98 on was 2.7 or 2.8. Recent versions since then even up to 3.1 will
-  either not install or will not run 95 or 98 at all. I have tried every
-  combination of options like isapc or no isapc, cpu pentium  or cpu as
-  486. Tried different memory configurations, but they just don't work
-  anymore.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1819289/+subscriptions
 
