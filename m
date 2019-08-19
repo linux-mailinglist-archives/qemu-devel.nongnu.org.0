@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDF991B08
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 04:28:06 +0200 (CEST)
-Received: from localhost ([::1]:44138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07FFD91B10
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 04:37:43 +0200 (CEST)
+Received: from localhost ([::1]:44160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzXOv-0003V3-MD
-	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 22:28:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42580)
+	id 1hzXYD-00067H-T9
+	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 22:37:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43813)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hzXO4-00034n-CT
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 22:27:13 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hzXXG-0005dH-TG
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 22:36:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hzXO3-0005ND-0u
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 22:27:12 -0400
-Received: from mga17.intel.com ([192.55.52.151]:29387)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hzXXF-0002OR-Qc
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 22:36:42 -0400
+Received: from mga11.intel.com ([192.55.52.93]:4121)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1hzXO2-0005Kz-NU
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 22:27:10 -0400
+ id 1hzXXF-0002MQ-JD
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 22:36:41 -0400
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2019 19:27:04 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2019 19:36:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; d="scan'208";a="329238100"
+X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; d="scan'208";a="261696842"
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by orsmga004.jf.intel.com with ESMTP; 18 Aug 2019 19:27:02 -0700
-Date: Mon, 19 Aug 2019 10:26:39 +0800
+ by orsmga001.jf.intel.com with ESMTP; 18 Aug 2019 19:36:37 -0700
+Date: Mon, 19 Aug 2019 10:36:14 +0800
 From: Wei Yang <richardw.yang@linux.intel.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Message-ID: <20190819022639.GA6368@richard>
-References: <20190712032704.7826-1-richardw.yang@linux.intel.com>
- <20190719175400.GJ3000@work-vm>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190819023614.GB6368@richard>
+References: <20190731144225.3784-1-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190719175400.GJ3000@work-vm>
+In-Reply-To: <20190731144225.3784-1-richardw.yang@linux.intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.151
-Subject: Re: [Qemu-devel] [PATCH] migration: check length directly to make
- sure the range is aligned
+X-Received-From: 192.55.52.93
+Subject: Re: [Qemu-devel] [PATCH 0/2] migration/qemu-file: cleanup and
+ refine qemu-file
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,58 +58,30 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, quintela@redhat.com,
- Wei Yang <richardw.yang@linux.intel.com>, rth@twiddle.net
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 19, 2019 at 06:54:00PM +0100, Dr. David Alan Gilbert wrote:
->* Wei Yang (richardw.yang@linux.intel.com) wrote:
->> Since the start addr is already checked, to make sure the range is
->> aligned, checking the length is enough.
->> 
->> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->> ---
->>  exec.c | 7 +++----
->>  1 file changed, 3 insertions(+), 4 deletions(-)
->> 
->> diff --git a/exec.c b/exec.c
->> index 50ea9c5aaa..8fa980baae 100644
->> --- a/exec.c
->> +++ b/exec.c
->> @@ -4067,10 +4067,9 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
->>  
->>      if ((start + length) <= rb->used_length) {
->>          bool need_madvise, need_fallocate;
->> -        uint8_t *host_endaddr = host_startaddr + length;
->> -        if ((uintptr_t)host_endaddr & (rb->page_size - 1)) {
->> -            error_report("ram_block_discard_range: Unaligned end address: %p",
->> -                         host_endaddr);
->> +        if (length & (rb->page_size - 1)) {
->> +            error_report("ram_block_discard_range: Unaligned length: %lx",
->> +                         length);
+On Wed, Jul 31, 2019 at 10:42:23PM +0800, Wei Yang wrote:
+>Two cleanup:
 >
->Yes, I *think* this is safe, we'll need to watch out for any warnings;
->David Gibson's balloon fix from February means that the balloon code
->should now warn in it's case.
->
->rth: Want to pick this up?
->
->Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>Patch #1 make code consistent on calling add_to_iovec
+>Patch #2 refine the code to handle the case when buf already flushed
 >
 
-Hi, David
+Ping~
 
-Do you like this one?
-
->>              goto err;
->>          }
->>  
->> -- 
->> 2.17.1
->> 
->--
->Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>Wei Yang (2):
+>  migration/qemu-file: remove check on writev_buffer in
+>    qemu_put_compression_data
+>  migration/qemu-file: fix potential buf waste for extra buf_index
+>    adjustment
+>
+> migration/qemu-file.c | 44 +++++++++++++++++++++++++++----------------
+> 1 file changed, 28 insertions(+), 16 deletions(-)
+>
+>-- 
+>2.17.1
 
 -- 
 Wei Yang
