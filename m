@@ -2,77 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B2B92419
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:02:21 +0200 (CEST)
-Received: from localhost ([::1]:49838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B56C092463
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:10:39 +0200 (CEST)
+Received: from localhost ([::1]:50508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzhIi-0006z5-Av
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:02:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43922)
+	id 1hzhQk-00060S-RO
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:10:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1hzh4j-0007zN-OT
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:47:55 -0400
+ (envelope-from <david@redhat.com>) id 1hzgg8-0000Bx-Bl
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:22:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hzh4i-0005dA-A7
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:47:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39294)
+ (envelope-from <david@redhat.com>) id 1hzgg6-0001IE-Rz
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:22:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49214)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hzh4h-0005cX-V5
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:47:52 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1hzgg6-0001I3-K7; Mon, 19 Aug 2019 08:22:26 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E8A3E2A09D4
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 12:47:50 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id k8so4089625wrx.19
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 05:47:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=E3EWK1hCVDvHhz9MwDgrsGJYt0HwG2P0wxgxsXsAI48=;
- b=gBOxQsN/ljVXiVgqdVR8wecicWl6xaQHPTYFoHa1jtvitcELS6jH6oAU/OqrMTMc5o
- o8F6CXGv7qR1fkZ9I4oD5t2InmAKWHdXuYYqp9GLMuVrkCGrVwOF9ehyxGOOElnrBjzc
- PVNHoED+92GXOqiUk6svyOPXt4VQgClZxMUVuDHxd8/fsMc10tUkDcNNUhx44Zc7Srko
- JLaZgZ6iKzeGi4+x3+W5hD0l/7lyeZfWh0ptXyqObj3kdHzJANBeyLLPlC0XMgoELRlj
- +1RtRM4u2ZMRd0vh8/nVkSK3yuwseZRriRYjjbwNGI9i0PKV+OJidHcGEUb4gIyTQYcV
- xxOg==
-X-Gm-Message-State: APjAAAW20rGluRkCz/maFBLjEjtz4LbazfP/jxPUNKXpD3q6v9TmDMAk
- 5fN7QSsJvv924Sv0LD6p/E5eW6a2n6mxVnZAHLEBW78WJcR+dDlHfY5PxEMIlUKWLXQ3wZCb9C9
- oyuoz+eCX2RUMsRo=
-X-Received: by 2002:a1c:4c02:: with SMTP id z2mr21517309wmf.92.1566218869714; 
- Mon, 19 Aug 2019 05:47:49 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqy8FdSlf2QruAqhP1Hyg7IV+B3y0ulfeZJTPL+NvrDPL+ahYkqyQHw3usMvgjYh2o8irXoYQg==
-X-Received: by 2002:a1c:4c02:: with SMTP id z2mr21517236wmf.92.1566218868899; 
- Mon, 19 Aug 2019 05:47:48 -0700 (PDT)
-Received: from [192.168.1.39] (251.red-88-10-102.dynamicip.rima-tde.net.
- [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id j20sm35269873wre.65.2019.08.19.05.47.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Aug 2019 05:47:48 -0700 (PDT)
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
-References: <20190817101931.28386-1-thuth@redhat.com>
- <20190817101931.28386-8-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <68d2669d-9a67-f197-939b-dc038f0118ba@redhat.com>
-Date: Mon, 19 Aug 2019 14:47:47 +0200
+ by mx1.redhat.com (Postfix) with ESMTPS id DE71F3B74C;
+ Mon, 19 Aug 2019 12:22:25 +0000 (UTC)
+Received: from [10.36.117.56] (ovpn-117-56.ams2.redhat.com [10.36.117.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5788E50;
+ Mon, 19 Aug 2019 12:22:24 +0000 (UTC)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <8fb538f3-dfdd-b427-727a-2e7c2120da09@gmail.com>
+ <20e800e8-846b-a9c3-f840-826238b0818f@redhat.com>
+ <CAFEAcA9xbPGSezS60cg6WzqpDR1u38aE0bXL_6pLs+H1TK3Ddw@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <dff44ac1-10e7-285e-467d-8dfe8c7a469b@redhat.com>
+Date: Mon, 19 Aug 2019 14:22:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190817101931.28386-8-thuth@redhat.com>
+In-Reply-To: <CAFEAcA9xbPGSezS60cg6WzqpDR1u38aE0bXL_6pLs+H1TK3Ddw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Mon, 19 Aug 2019 12:22:26 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 7/8] hw/misc: Add a config switch for
- the "unimplemented" device
+Subject: Re: [Qemu-devel] [qemu-s390x] linux-user: s390x issue on Fedora 30
+ (dynamic library loader?)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,166 +106,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-arm@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Cornelia Huck <cohuck@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-s390x <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/19 12:19 PM, Thomas Huth wrote:
-> The device is only used by some few boards. Let's use a proper Kconfig
-> switch so that we only compile this code if we really need it.
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On 19.08.19 14:11, Peter Maydell wrote:
+> On Sat, 17 Aug 2019 at 17:14, David Hildenbrand <david@redhat.com> wrote:
+>>
+>> On 17.08.19 17:59, David Hildenbrand wrote:
+>>> Hi everybody,
+>>>
+>>> I was just trying to run qemu-s390x (linux-user) with a very simple
+>>> binary (gzip + lib/ld64.so.1, compiled under Fedora 27). This used to
+>>> work just fine a while ago (especially when I was working on vector
+>>> instructions using QEMU v3.1). However, now I can't get past a SEGFAULT
+>>> in the dynamic library loader (I assume it is trying to locate glibc). I
+>>> tried a couple of other binaries that definitely used to work (from
+>>> Fedora 30).
+>>>
+>>> I checked QEMU v4.1, v4.0 and v3.1. All are broken for me. Which is
+>>> weird - because it used to work :/
+>>>
+>>> I remember that I was running Fedora 29 the last time I had it running,
+>>> so my gut feeling is that this is related to some other system library
+>>> (but which?). I am running on an up-to-date Fedora 30 x86-64 now.
+>>>
+>>> Any ideas? Has this been reported already? (not sure if this is a Fedora
+>>> 30 issue)
+> 
+> I'm pretty sure the problem you've run into is a long standing
+> bug in the glibc dynamic loader. It cannot cope with the ld.so.cache
+> being for the wrong endianness. (Correct endianness but incorrect
+> architecture it correctly detects and ignores). The result is that
+> running a linux-user QEMU dynamic binary for big-endian on little-endian
+> like this will crash in the dynamic loader unless you arrange that it can't
+> find the host's ld.so.cache somehow, eg:
+>  (a) run inside a chroot
+>  (b) create an empty /etc/ld.so.cache file inside the -L directory
+> 
+> The ideal fix would be if somebody cared enough to track down
+> and fix the ld.so bug.
+> 
+> Compare:
+> https://bugs.launchpad.net/qemu/+bug/1701798
+> https://bugs.launchpad.net/qemu/+bug/1835693
+> 
+> thanks
+> -- PMM
+> 
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Thanks, running
 
-> ---
->  hw/arm/Kconfig        | 11 +++++++++++
->  hw/microblaze/Kconfig |  1 +
->  hw/misc/Kconfig       |  3 +++
->  hw/misc/Makefile.objs |  2 +-
->  hw/sparc64/Kconfig    |  1 +
->  5 files changed, 17 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 6e24c73b54..76a2a6bcbf 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -82,6 +82,7 @@ config MUSCA
->      select PL011
->      select PL031
->      select SPLIT_IRQ
-> +    select UNIMP
-> =20
->  config MUSICPAL
->      bool
-> @@ -217,6 +218,7 @@ config STELLARIS
->      select SSI_SD
->      select STELLARIS_INPUT
->      select STELLARIS_ENET # ethernet
-> +    select UNIMP
-> =20
->  config STRONGARM
->      bool
-> @@ -283,6 +285,7 @@ config ALLWINNER_A10
->      select ALLWINNER_A10_PIC
->      select ALLWINNER_EMAC
->      select SERIAL
-> +    select UNIMP
-> =20
->  config RASPI
->      bool
-> @@ -320,6 +323,7 @@ config XLNX_VERSAL
->      select PL011
->      select CADENCE
->      select VIRTIO_MMIO
-> +    select UNIMP
-> =20
->  config FSL_IMX25
->      bool
-> @@ -355,6 +359,7 @@ config ASPEED_SOC
->      select SSI_M25P80
->      select TMP105
->      select TMP421
-> +    select UNIMP
-> =20
->  config MPS2
->      bool
-> @@ -366,6 +371,7 @@ config MPS2
->      select PL022    # Serial port
->      select PL080    # DMA controller
->      select SPLIT_IRQ
-> +    select UNIMP
-> =20
->  config FSL_IMX7
->      bool
-> @@ -378,6 +384,7 @@ config FSL_IMX7
->      select IMX_I2C
->      select PCI_EXPRESS_DESIGNWARE
->      select SDHCI
-> +    select UNIMP
-> =20
->  config ARM_SMMUV3
->      bool
-> @@ -389,6 +396,7 @@ config FSL_IMX6UL
->      select IMX_FEC
->      select IMX_I2C
->      select SDHCI
-> +    select UNIMP
-> =20
->  config MICROBIT
->      bool
-> @@ -398,6 +406,7 @@ config NRF51_SOC
->      bool
->      select I2C
->      select ARM_V7M
-> +    select UNIMP
-> =20
->  config EMCRAFT_SF2
->      bool
-> @@ -410,6 +419,7 @@ config MSF2
->      select PTIMER
->      select SERIAL
->      select SSI
-> +    select UNIMP
-> =20
->  config ZAURUS
->      bool
-> @@ -448,6 +458,7 @@ config ARMSSE
->      select TZ_MPC
->      select TZ_MSC
->      select TZ_PPC
-> +    select UNIMP
-> =20
->  config ARMSSE_CPUID
->      bool
-> diff --git a/hw/microblaze/Kconfig b/hw/microblaze/Kconfig
-> index c4dc120973..e2697ced9c 100644
-> --- a/hw/microblaze/Kconfig
-> +++ b/hw/microblaze/Kconfig
-> @@ -4,6 +4,7 @@ config PETALOGIX_S3ADSP1800
->      select XILINX
->      select XILINX_AXI
->      select XILINX_ETHLITE
-> +    select UNIMP
-> =20
->  config PETALOGIX_ML605
->      bool
-> diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-> index 385e1b0cec..51754bb47c 100644
-> --- a/hw/misc/Kconfig
-> +++ b/hw/misc/Kconfig
-> @@ -117,4 +117,7 @@ config AUX
->      bool
->      select I2C
-> =20
-> +config UNIMP
-> +    bool
-> +
->  source macio/Kconfig
-> diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-> index e9aab519a1..e4aad707fb 100644
-> --- a/hw/misc/Makefile.objs
-> +++ b/hw/misc/Makefile.objs
-> @@ -9,7 +9,7 @@ common-obj-$(CONFIG_PCI_TESTDEV) +=3D pci-testdev.o
->  common-obj-$(CONFIG_EDU) +=3D edu.o
->  common-obj-$(CONFIG_PCA9552) +=3D pca9552.o
-> =20
-> -common-obj-y +=3D unimp.o
-> +common-obj-$(CONFIG_UNIMP) +=3D unimp.o
->  common-obj-$(CONFIG_FW_CFG_DMA) +=3D vmcoreinfo.o
-> =20
->  # ARM devices
-> diff --git a/hw/sparc64/Kconfig b/hw/sparc64/Kconfig
-> index d4d76a89be..f9f8b0f73a 100644
-> --- a/hw/sparc64/Kconfig
-> +++ b/hw/sparc64/Kconfig
-> @@ -17,3 +17,4 @@ config NIAGARA
->      bool
->      select EMPTY_SLOT
->      select SUN4V_RTC
-> +    select UNIMP
->=20
+"ldconfig -c etc/ld.so.cache -r ."
+
+Seems to fix the issue for me. So you are sure the bug resides in glic
+and not in the qemu-user pieces of the library loader?
+
+-- 
+
+Thanks,
+
+David / dhildenb
 
