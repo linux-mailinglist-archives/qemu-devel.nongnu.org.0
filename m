@@ -2,47 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6163694F0C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:32:38 +0200 (CEST)
-Received: from localhost ([::1]:57502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C7494F17
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:35:03 +0200 (CEST)
+Received: from localhost ([::1]:57530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzoKT-0001K8-4K
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:32:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46028)
+	id 1hzoMo-0004Kf-OL
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:35:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46425)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1hzo7o-0001qj-BX
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:19:33 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hzoBF-0007C4-QE
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:23:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hzo7n-0004f4-Dt
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:19:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43908)
+ (envelope-from <mreitz@redhat.com>) id 1hzoBD-0005kU-PS
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:23:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60982)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hzo7l-0004e0-A1; Mon, 19 Aug 2019 16:19:29 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hzoB6-0005ir-2H; Mon, 19 Aug 2019 16:22:56 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9BC05C057E16;
- Mon, 19 Aug 2019 20:19:28 +0000 (UTC)
-Received: from localhost (ovpn-204-64.brq.redhat.com [10.40.204.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 365591D0;
- Mon, 19 Aug 2019 20:19:28 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 12E6E3001A9A;
+ Mon, 19 Aug 2019 20:22:55 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-64.brq.redhat.com
+ [10.40.204.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC6337E35;
+ Mon, 19 Aug 2019 20:22:53 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Mon, 19 Aug 2019 22:18:51 +0200
-Message-Id: <20190819201851.24418-9-mreitz@redhat.com>
-In-Reply-To: <20190819201851.24418-1-mreitz@redhat.com>
-References: <20190819201851.24418-1-mreitz@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
+References: <20190819092118.18920-1-thuth@redhat.com>
+ <763f15ee-a1ca-ba06-fc70-fdff9427ebf7@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <9df50705-4d16-f390-8c16-202eac567fa1@redhat.com>
+Date: Mon, 19 Aug 2019 22:22:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <763f15ee-a1ca-ba06-fc70-fdff9427ebf7@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="2SjW1lopVo0DmSn8jPut5LgZxBeQjjOyV"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Mon, 19 Aug 2019 20:19:28 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.45]); Mon, 19 Aug 2019 20:22:55 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 8/8] iotests: Cache supported_formats()
+Subject: Re: [Qemu-devel] [PATCH] iotests: Add more "skip_if_unsupported"
+ statements to the python tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,44 +86,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/iotests.py | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--2SjW1lopVo0DmSn8jPut5LgZxBeQjjOyV
+Content-Type: multipart/mixed; boundary="9PFG0hE1OmfIYt2JLVSEpzXUmxGclk3qH";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <9df50705-4d16-f390-8c16-202eac567fa1@redhat.com>
+Subject: Re: [PATCH] iotests: Add more "skip_if_unsupported" statements to the
+ python tests
+References: <20190819092118.18920-1-thuth@redhat.com>
+ <763f15ee-a1ca-ba06-fc70-fdff9427ebf7@redhat.com>
+In-Reply-To: <763f15ee-a1ca-ba06-fc70-fdff9427ebf7@redhat.com>
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-index 8f315538e9..f6492b355f 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -884,9 +884,17 @@ def qemu_pipe(*args):
- def supported_formats(read_only=3DFalse):
-     '''Set 'read_only' to True to check ro-whitelist
-        Otherwise, rw-whitelist is checked'''
--    format_message =3D qemu_pipe("-drive", "format=3Dhelp")
--    line =3D 1 if read_only else 0
--    return format_message.splitlines()[line].split(":")[1].split()
-+
-+    if not hasattr(supported_formats, "formats"):
-+        supported_formats.formats =3D {}
-+
-+    if read_only not in supported_formats.formats:
-+        format_message =3D qemu_pipe("-drive", "format=3Dhelp")
-+        line =3D 1 if read_only else 0
-+        supported_formats.formats[read_only] =3D \
-+            format_message.splitlines()[line].split(":")[1].split()
-+
-+    return supported_formats.formats[read_only]
-=20
- def skip_if_unsupported(required_formats=3D[], read_only=3DFalse):
-     '''Skip Test Decorator
---=20
-2.21.0
+--9PFG0hE1OmfIYt2JLVSEpzXUmxGclk3qH
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
+On 19.08.19 21:13, Max Reitz wrote:
+> On 19.08.19 11:21, Thomas Huth wrote:
+>> The python code already contains a possibility to skip tests if the
+>> corresponding driver is not available in the qemu binary - use it
+>> in more spots to avoid that the tests are failing if the driver has
+>> been disabled.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>  tests/qemu-iotests/030 |  3 +++
+>>  tests/qemu-iotests/040 |  2 ++
+>>  tests/qemu-iotests/041 | 14 +++++++++++++-
+>>  tests/qemu-iotests/245 |  2 ++
+>>  4 files changed, 20 insertions(+), 1 deletion(-)
+>=20
+> [...]
+>=20
+>> diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+>> index 26bf1701eb..f45d20fbe0 100755
+>> --- a/tests/qemu-iotests/041
+>> +++ b/tests/qemu-iotests/041
+>> @@ -817,6 +817,7 @@ class TestRepairQuorum(iotests.QMPTestCase):
+>>      image_len =3D 1 * 1024 * 1024 # MB
+>>      IMAGES =3D [ quorum_img1, quorum_img2, quorum_img3 ]
+>> =20
+>> +    @iotests.skip_if_unsupported(['quorum'])
+>>      def setUp(self):
+>>          self.vm =3D iotests.VM()
+>=20
+> It=E2=80=99s clear that none of these tests can run if there is no quor=
+um
+> support, because setUp() creates a quorum node.  I think it would be
+> nice if it would suffice to just skip everything automatically if
+> setUp() is skipped and not have to bother about each of the test cases.=
+
+>=20
+> Coincidentally (:-)), I have a patch to do that, namely =E2=80=9Ciotest=
+s: Allow
+> skipping test cases=E2=80=9D in my =E2=80=9Ciotests: Selfish patches=E2=
+=80=9D series:
+>=20
+> https://lists.nongnu.org/archive/html/qemu-block/2019-06/msg01106.html
+>=20
+> Yes, that means you cannot use an annotation because it needs @self to
+> be able to skip the test.  Hm... But I think I can make that work by
+> simply s/case_notrun/args[0].case_skip/ in skip_if_unsupported()?
+
+(Sent a v3 now that does that.)
+
+(Max)
+
+
+--9PFG0hE1OmfIYt2JLVSEpzXUmxGclk3qH--
+
+--2SjW1lopVo0DmSn8jPut5LgZxBeQjjOyV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1bBRwACgkQ9AfbAGHV
+z0C3RAf+InNZruz7ZTQBfTrPE04JP1QjMhU0yQHdLvDp4gqpjRpBdWhDcpWXgGgq
+qo8ebMjo//JxRKH1ERwrcF6cR8PLyR4EgIqbujIvEwt6lqLiRZeU42nYFJGYpmms
+vneFxLTjQy+BEO5AGQZCjNvkhZgqRnGVKp75YrySoFkZ6QZatVz/g763jD2aYFzF
+0DTQ5Ph/DmuYBJZLUs3gWrMDE3a+nVEuytJMAtAHqQSY6edtuOz7yITBaCfDe4oa
+pw2Ssd0/CxQeN9w8TdcEPCyf1Bh+YIZ4WHveYg2Fdq4kvIdg8zn0xZvVS23Fyhb6
+v5GAW1c7AxwzjS6KYUMbzaFepGVd4g==
+=SUsb
+-----END PGP SIGNATURE-----
+
+--2SjW1lopVo0DmSn8jPut5LgZxBeQjjOyV--
 
