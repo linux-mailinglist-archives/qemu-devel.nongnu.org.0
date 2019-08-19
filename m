@@ -2,47 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1C691D1F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 08:31:38 +0200 (CEST)
-Received: from localhost ([::1]:45314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E09191D3B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 08:38:05 +0200 (CEST)
+Received: from localhost ([::1]:45342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzbCb-00088z-Ek
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 02:31:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52753)
+	id 1hzbIq-0002Dx-JQ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 02:38:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53788)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1hzbBP-0007Sf-OO
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 02:30:25 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hzbI0-0001no-Bq
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 02:37:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hzbBO-0001WL-B6
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 02:30:23 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:58673 helo=ozlabs.org)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hzbHz-0004zZ-49
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 02:37:12 -0400
+Received: from mga11.intel.com ([192.55.52.93]:10618)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hzbBN-0001Rq-0x; Mon, 19 Aug 2019 02:30:22 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46BkYw4cWNz9sNF; Mon, 19 Aug 2019 16:30:12 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1566196212;
- bh=qncahDD/zDfQatmm5dmG4qskxPt8N0CvVbI8Ipq5D68=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=A0SuZRNVLLsBTRV+LeIKXeK/Fj9CZ9g03VsKtaw31yIGfWeaOBD/WBTmTBhTdOoLu
- nquiPC6Ax/TylJ6qb+hu4G0wZ8NJGVUoVS6HfKs1apteXe8hhkV1PlILqLtv+am0Fo
- P/zwOt+l3Qf2gEY6a+NfoTFvcfrA2UBjCpvAiAuA=
-Date: Mon, 19 Aug 2019 16:30:03 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Paul A. Clarke" <pc@us.ibm.com>
-Message-ID: <20190819063003.GB24503@umbus.fritz.box>
-References: <1565983669-6886-1-git-send-email-pc@us.ibm.com>
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1hzbHy-0004yE-SU
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 02:37:11 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2019 23:37:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; d="scan'208";a="179329883"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by fmsmga007.fm.intel.com with ESMTP; 18 Aug 2019 23:37:06 -0700
+Date: Mon, 19 Aug 2019 14:36:43 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: "Zeng, Star" <star.zeng@intel.com>
+Message-ID: <20190819063643.GA28772@richard>
+References: <20190730003740.20694-1-richardw.yang@linux.intel.com>
+ <20190730003740.20694-2-richardw.yang@linux.intel.com>
+ <0C09AFA07DD0434D9E2A0C6AEB0483104038F59D@shsmsx102.ccr.corp.intel.com>
+ <20190808021329.GC26938@richard>
+ <0C09AFA07DD0434D9E2A0C6AEB0483104038F61B@shsmsx102.ccr.corp.intel.com>
+ <20190808023802.GD26938@richard>
+ <a73f638c-e33d-c3d8-0b4a-0fa78943a30d@redhat.com>
+ <20190819023855.GC6368@richard>
+ <0C09AFA07DD0434D9E2A0C6AEB0483104039E3A1@shsmsx102.ccr.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MfFXiAuoTsnnDAfZ"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1565983669-6886-1-git-send-email-pc@us.ibm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH] ppc: Three floating point fixes
+In-Reply-To: <0C09AFA07DD0434D9E2A0C6AEB0483104039E3A1@shsmsx102.ccr.corp.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.93
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] memory-device: not necessary to use
+ goto for the last check
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,114 +65,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "imammedo@redhat.com" <imammedo@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Aug 19, 2019 at 05:32:14AM +0000, Zeng, Star wrote:
+>
+>
+>> -----Original Message-----
+>> From: Wei Yang [mailto:richardw.yang@linux.intel.com]
+>> Sent: Monday, August 19, 2019 10:39 AM
+>> To: David Hildenbrand <david@redhat.com>
+>> Cc: Wei Yang <richardw.yang@linux.intel.com>; Zeng, Star
+>> <star.zeng@intel.com>; imammedo@redhat.com; qemu-devel@nongnu.org;
+>> mst@redhat.com
+>> Subject: Re: [Qemu-devel] [PATCH v2 1/2] memory-device: not necessary to
+>> use goto for the last check
+>> 
+>> On Thu, Aug 08, 2019 at 09:06:21AM +0200, David Hildenbrand wrote:
+>> >On 08.08.19 04:38, Wei Yang wrote:
+>> >> On Thu, Aug 08, 2019 at 02:30:02AM +0000, Zeng, Star wrote:
+>> >>>> -----Original Message-----
+>> >>>> From: Wei Yang [mailto:richardw.yang@linux.intel.com]
+>> >>>> Sent: Thursday, August 8, 2019 10:13 AM
+>> >>>> To: Zeng, Star <star.zeng@intel.com>
+>> >>>> Cc: Wei Yang <richardw.yang@linux.intel.com>;
+>> >>>> qemu-devel@nongnu.org; imammedo@redhat.com;
+>> david@redhat.com;
+>> >>>> mst@redhat.com
+>> >>>> Subject: Re: [Qemu-devel] [PATCH v2 1/2] memory-device: not
+>> >>>> necessary to use goto for the last check
+>> >>>>
+>> >>>> On Thu, Aug 08, 2019 at 01:42:14AM +0000, Zeng, Star wrote:
+>> >>>>>> -----Original Message-----
+>> >>>>>> From: Qemu-devel [mailto:qemu-devel-
+>> >>>>>> bounces+star.zeng=intel.com@nongnu.org] On Behalf Of Wei Yang
+>> >>>>>> Sent: Tuesday, July 30, 2019 8:38 AM
+>> >>>>>> To: qemu-devel@nongnu.org
+>> >>>>>> Cc: imammedo@redhat.com; david@redhat.com; Wei Yang
+>> >>>>>> <richardw.yang@linux.intel.com>; mst@redhat.com
+>> >>>>>> Subject: [Qemu-devel] [PATCH v2 1/2] memory-device: not
+>> necessary
+>> >>>>>> to use goto for the last check
+>> >>>>>>
+>> >>>>>> We are already at the last condition check.
+>> >>>>>>
+>> >>>>>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>> >>>>>> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+>> >>>>>> Reviewed-by: David Hildenbrand <david@redhat.com>
+>> >>>>>> ---
+>> >>>>>>  hw/mem/memory-device.c | 1 -
+>> >>>>>>  1 file changed, 1 deletion(-)
+>> >>>>>>
+>> >>>>>> diff --git a/hw/mem/memory-device.c b/hw/mem/memory-
+>> device.c
+>> >>>> index
+>> >>>>>> 5f2c408036..df3261b32a 100644
+>> >>>>>> --- a/hw/mem/memory-device.c
+>> >>>>>> +++ b/hw/mem/memory-device.c
+>> >>>>>> @@ -186,7 +186,6 @@ static uint64_t
+>> >>>>>> memory_device_get_free_addr(MachineState *ms,
+>> >>>>>>      if (!range_contains_range(&as, &new)) {
+>> >>>>>>          error_setg(errp, "could not find position in guest address space
+>> for "
+>> >>>>>>                     "memory device - memory fragmented due to
+>> alignments");
+>> >>>>>> -        goto out;
+>> >>>>>
+>> >>>>> Is it better to return 0 (or set new_addr to 0) for this error
+>> >>>>> path and another
+>> >>>> remaining "goto out" path?
+>> >>>>>
+>> >>>>
+>> >>>> I may not get your point.
+>> >>>>
+>> >>>> We set errp which is handled in its caller. By doing so, the error is
+>> propagated.
+>> >>>>
+>> >>>> Do I miss something?
+>> >>>
+>> >>> Yes, you are right. Currently, the caller is checking errp, but not the
+>> returned address, so there should be no issue.
+>> >>> But when you see other error paths, you will find they all return 0.
+>> >>> To be aligned (return 0 when error), so just suggest also returning
+>> >>> 0 for these two "goto out" error path. :)
+>> >>>
+>> >>
+>> >> You may have some point.
+>> >>
+>> >> Let's see whether others have the same taste, or we can refine it
+>> separately.
+>> >>
+>> >
+>> >I don't think that's necessary (callers really should check for errors
+>> >before using the return values), but I would also not object to that change.
+>> >
+>> 
+>> In case there is no strong requirement to refactor the code. I would leave it
+>> here.
+>
+>It was just my suggestion. I am fine with any preference you and other experts have.
+>
 
---MfFXiAuoTsnnDAfZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks
 
-On Fri, Aug 16, 2019 at 02:27:49PM -0500, Paul A. Clarke wrote:
-> From: "Paul A. Clarke" <pc@us.ibm.com>
->=20
-> - target/ppc/fpu_helper.c:
->   - helper_todouble() was not properly converting INFINITY from 32 bit
->   float to 64 bit double.
->   - helper_todouble() was not properly converting any denormalized
->   32 bit float to 64 bit double.
->=20
-> - GCC, as of version 8 or so, takes advantage of the hardware's
->   implementation of the xscvdpspn instruction to optimize the following
->   sequence:
->     xscvdpspn vs0,vs1
->     mffprwz   r8,f0
->   ISA 3.0B has xscvdpspn leaving its result in word 1 of the target regis=
-ter,
->   and mffprwz expecting its input to come from word 0 of the source regis=
-ter.
->   This sequence fails with QEMU, as a shift is required between those two
->   instructions.  However, the hardware splats the result to both word 0 a=
-nd
->   word 1 of its output register, so the shift is not necessary.
->   Expect a future revision of the ISA to specify this behavior.
+>Thanks,
+>Star
+>
+>> 
+>> >--
+>> >
+>> >Thanks,
+>> >
+>> >David / dhildenb
+>> 
+>> --
+>> Wei Yang
+>> Help you, Help me
 
-As well as addressing Richard's comments, I'd prefer to see each of
-the 3 fixes here in separate patches.  The code changes may be tiny,
-but I find the fpu emulation code cryptic at the best of times, and
-making it clear which change is addressing which bug would help.
-
-> Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
-> ---
->  target/ppc/fpu_helper.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->=20
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index 5611cf0..82b5425 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -62,13 +62,14 @@ uint64_t helper_todouble(uint32_t arg)
->          ret  =3D (uint64_t)extract32(arg, 30, 2) << 62;
->          ret |=3D ((extract32(arg, 30, 1) ^ 1) * (uint64_t)7) << 59;
->          ret |=3D (uint64_t)extract32(arg, 0, 30) << 29;
-> +        ret |=3D (0x7ffULL * (extract32(arg, 23, 8) =3D=3D 0xff)) << 52;
->      } else {
->          /* Zero or Denormalized operand.  */
->          ret =3D (uint64_t)extract32(arg, 31, 1) << 63;
->          if (unlikely(abs_arg !=3D 0)) {
->              /* Denormalized operand.  */
->              int shift =3D clz32(abs_arg) - 9;
-> -            int exp =3D -126 - shift + 1023;
-> +            int exp =3D -127 - shift + 1023;
->              ret |=3D (uint64_t)exp << 52;
->              ret |=3D abs_arg << (shift + 29);
->          }
-> @@ -2871,10 +2872,14 @@ void helper_xscvqpdp(CPUPPCState *env, uint32_t o=
-pcode,
-> =20
->  uint64_t helper_xscvdpspn(CPUPPCState *env, uint64_t xb)
->  {
-> +    uint64_t result;
-> +
->      float_status tstat =3D env->fp_status;
->      set_float_exception_flags(0, &tstat);
-> =20
-> -    return (uint64_t)float64_to_float32(xb, &tstat) << 32;
-> +    result =3D (uint64_t)float64_to_float32(xb, &tstat);
-> +    /* hardware replicates result to both words of the doubleword result=
-=2E  */
-> +    return (result << 32) | result;
->  }
-> =20
->  uint64_t helper_xscvspdpn(CPUPPCState *env, uint64_t xb)
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---MfFXiAuoTsnnDAfZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1aQeoACgkQbDjKyiDZ
-s5L7Zw/+JiCGfGBRadMSAq+D5vtWNMxIWfUCvDUuL9XWBtdUh3cFp5jnta8f7jFj
-CRg6I4bompechW1/2cQy8XHwl09lLMDi+TRH9izE3Wp1L49cplkE5F7WJb7fsHtj
-LTFpOxST301GfLeVCHI2Z7PEddI21Aj89dL1GRTZqyzlB3nwXivbmnZXXaPOjYMo
-p/HP+IWGwkQa5CJhOs4HK7fbvQZJuqUSyGOn+3yAacIkBgvmK5m47Z6Feve9+I0P
-1HqagxUl85oOTOYplo2mRXLIVSJ6SKGPtcs706kkjbVQ0X3lu+P4ZNqJbM4lypxw
-ZBGDulL/uDmlM1PYo5926K9jAeVfDBTAk+Ctz8v5ORfJFjV+0uOKWtLSoYxFTx+v
-Aldc+XSMq500n3Jj632XVltVVqVUzy3CQVuX6decA/2pQNK1wZcYpAOGK29jtjKL
-y7sTvMD64DJJLAd/gbYNiFEcjkbADIS9wh9hvxCBlvwpekzptCZgfC+MsbCQIoGI
-W2XtTRi/ck87tHrXc5Mdb1wdrH01Z8xTb/1BT6IRInXWTCrYLJZ/GzUEWwhWdlK7
-VLwq5Mt/uuNtZB97eVmcmV+74pndELYjLko02zZzvTY6RueOYXAUyinMxrdadEtd
-R1H851kbgZ/um3yAEUAfNij+qOW6asPV+0O8uLk1Zu585lyPgEs=
-=sI1V
------END PGP SIGNATURE-----
-
---MfFXiAuoTsnnDAfZ--
+-- 
+Wei Yang
+Help you, Help me
 
