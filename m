@@ -2,118 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8AC594BCE
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 19:35:13 +0200 (CEST)
-Received: from localhost ([::1]:55817 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51D894BE7
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 19:44:36 +0200 (CEST)
+Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzlYm-0006dP-82
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 13:35:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48927)
+	id 1hzlhr-0001qv-OV
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 13:44:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar@xilinx.com>) id 1hzlXL-0005bi-1o
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 13:33:44 -0400
+ (envelope-from <pc@us.ibm.com>) id 1hzlgs-0001Kh-7E
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 13:43:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar@xilinx.com>) id 1hzlXJ-0003ub-SD
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 13:33:42 -0400
-Received: from mail-eopbgr820070.outbound.protection.outlook.com
- ([40.107.82.70]:57856 helo=NAM01-SN1-obe.outbound.protection.outlook.com)
+ (envelope-from <pc@us.ibm.com>) id 1hzlgp-0001zR-Do
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 13:43:32 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55388
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <edgar@xilinx.com>)
- id 1hzlXG-0003rE-2B; Mon, 19 Aug 2019 13:33:38 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xj7QU2pmFbv52gFFmmRt4B7hMzSZZig8lfrPATJj9vBrQUGRDk/2ZgDrsJyP+ARn7BVuZ6FVJCZYieRUlUk5KgxI1C4rT1E3c5Ft1tGTAi00kCwGcdBS7Q4LnjjLi0BGW1C7VjbhnFpA/ge5P7a5Du5N2cz6BCSXFFjseOeOobCDFfmMoJ8fZA25mn+voHydUIJvBxED3TFdoUg+2k49oKfHiSX66+RrQY0nRs/xxu2S3cUjkQBEcf7dvpRV4AeXrsdYCAPTlzo/eGekmsKKuUXBv6XMdOJ3I8R7vVModypboIk3Aua1za9o2PdEdexE1VtDvcOz3guMokpJBYdRjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vCzxFDdkIKiM4RYY93olJ3kjkwrTWERtRGgi+oEYdMQ=;
- b=kuzQl+EitpDiepEtVqGr80p7Uqo97gBtmHGhFayrIlaOSsU1WNiDFa+O7XA9KdFPtX+4xg8WNbuA84UNfWG/KvFPj78Dc4z6CirMtzGxOKk9Mvy1KmHftd1zWcdoGvg6JN3G/zk+D+FWifcNfd4jBs1TaeXA8YwWyStvykrF/isJgFtfBjy3O8tMQC4HGSRjx5Lw76s5IfoYRXx20b1bQtsalnvXxnHD8beEW3CdekCj/hUsGYA3HsEC8mdcKcYCfwylTtN26OMehNksrzmvep8dzUraRLYsxzo19L74TmWM+bfuTWKPd2plR8Ort2WDeb0NCLzfW4xbnASXgmGm1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.100) smtp.rcpttodomain=linaro.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vCzxFDdkIKiM4RYY93olJ3kjkwrTWERtRGgi+oEYdMQ=;
- b=PAmKjDGLe4wk+uq9eZRJInK2Bx/BC9wxiIPGiMBaGWC+Rv8/Mu2F4m4+e+yvLhE/XM46tc11EgGjq4n2YWP1C5luXUW2LmAviI068xtBnfxoG4DxP60egAV/u0P0sl8+Zcyg2RjSBlK6HozJByn4Lj5+mWe3PSC1/YPPEnWAnqc=
-Received: from MWHPR02CA0018.namprd02.prod.outlook.com (2603:10b6:300:4b::28)
- by DM6PR02MB5306.namprd02.prod.outlook.com (2603:10b6:5:48::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2178.16; Mon, 19 Aug
- 2019 17:33:31 +0000
-Received: from SN1NAM02FT016.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e44::200) by MWHPR02CA0018.outlook.office365.com
- (2603:10b6:300:4b::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2178.16 via Frontend
- Transport; Mon, 19 Aug 2019 17:33:31 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.100)
- smtp.mailfrom=xilinx.com; linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
-Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
- SN1NAM02FT016.mail.protection.outlook.com (10.152.72.113) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2178.16
- via Frontend Transport; Mon, 19 Aug 2019 17:33:30 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66]:53576
- helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1hzlX7-0002i7-DZ; Mon, 19 Aug 2019 10:33:29 -0700
-Received: from localhost ([127.0.0.1] helo=xsj-pvapsmtp01)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1hzlX2-0005F2-A3; Mon, 19 Aug 2019 10:33:24 -0700
-Received: from [10.71.117.108] (helo=localhost)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1hzlX1-0005Ez-SC; Mon, 19 Aug 2019 10:33:24 -0700
-Date: Mon, 19 Aug 2019 19:33:23 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190819173323.GP17732@toto>
-References: <20190816125802.25877-1-peter.maydell@linaro.org>
- <CAFEAcA-7Lr0nUD3g=C7S1Obgaa0E0p794XLhuBZRW_+fC5YjcQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-7Lr0nUD3g=C7S1Obgaa0E0p794XLhuBZRW_+fC5YjcQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(7916004)(4636009)(39860400002)(396003)(346002)(136003)(376002)(2980300002)(189003)(199004)(9786002)(356004)(16586007)(2906002)(58126008)(23726003)(76506006)(1076003)(47776003)(70586007)(106002)(70206006)(8936002)(33716001)(9686003)(5660300002)(6916009)(316002)(54906003)(81156014)(8676002)(229853002)(81166006)(336012)(486006)(33656002)(478600001)(4326008)(11346002)(426003)(446003)(126002)(476003)(57986006)(63266004)(50466002)(76176011)(305945005)(186003)(6246003)(14444005)(26005)(5001870100001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR02MB5306; H:xsj-pvapsmtpgw02; FPR:;
- SPF:Pass; LANG:en; PTR:xapps1.xilinx.com,unknown-60-100.xilinx.com; MX:1; A:1;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c973529a-1a5d-4288-df03-08d724cb5a5d
-X-Microsoft-Antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(4709080)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328);
- SRVR:DM6PR02MB5306; 
-X-MS-TrafficTypeDiagnostic: DM6PR02MB5306:
-X-Microsoft-Antispam-PRVS: <DM6PR02MB5306BFA8CA2484E624E39C29C2A80@DM6PR02MB5306.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0134AD334F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: yCH3j/2ZouuK6oMJzvUNdwwymdlMDsPyOWuCUbUdSgJTYe5HJUmnbKOoWY+FosAXKsa9Q0zvX5uhcRSMc7DeZcUsAoPO0BEQkqK5WEc5sFtWhP3INPQCo+gxSWXdhll6JkTpOPw2hvcr4azXfSOnpj6Kx/EMtq/LcICzjxBU1GH8QzpydIiosbTcAbZteK+uCFUaSM6JMl+V4EpcgMNYmjJMfBdMIPa2nyc440Xr0wLEK8KalMqeG2q3saY4mNX/bdpqKU7mP3lPRBeXrQMDaA4tzgKHuQ+2RJ+2j75LVIMfbAi1v+p1bRYD5HQdZtDBcO02yxJwrDEfgsU5fYjV872Yi0xquAj6t/lt8nzJhRi4mX6uhk+OgBfZRkBr2/oUIxWwkNt1eIksc79rymc5sCj6Tp7U9eF90ZPpU0lP+Bo=
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2019 17:33:30.6194 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c973529a-1a5d-4288-df03-08d724cb5a5d
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.100];
- Helo=[xsj-pvapsmtpgw02]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5306
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.82.70
-Subject: Re: [Qemu-devel] [PATCH 0/2] target/arm: Take exceptions on ATS
- instructions
+ (Exim 4.71) (envelope-from <pc@us.ibm.com>)
+ id 1hzlgp-0001z7-9N; Mon, 19 Aug 2019 13:43:31 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x7JHgNfC167319; Mon, 19 Aug 2019 13:43:26 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2ufyb02hqx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 Aug 2019 13:43:25 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x7JHh7OJ169755;
+ Mon, 19 Aug 2019 13:43:25 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2ufyb02hqr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 Aug 2019 13:43:25 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7JHfqF0005516;
+ Mon, 19 Aug 2019 17:43:24 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03wdc.us.ibm.com with ESMTP id 2ug0ck000r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 Aug 2019 17:43:24 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x7JHhN4K57803238
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 19 Aug 2019 17:43:23 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 905AFBE056;
+ Mon, 19 Aug 2019 17:43:23 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 57479BE051;
+ Mon, 19 Aug 2019 17:43:23 +0000 (GMT)
+Received: from localhost (unknown [9.80.202.43])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 19 Aug 2019 17:43:23 +0000 (GMT)
+From: "Paul A. Clarke" <pc@us.ibm.com>
+To: david@gibson.dropbear.id.au
+Date: Mon, 19 Aug 2019 12:43:21 -0500
+Message-Id: <1566236601-22954-1-git-send-email-pc@us.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-08-19_03:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908190188
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: [Qemu-devel] [PATCH v2] ppc: conform to processor User's Manual for
+ xscvdpspn
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -125,64 +88,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>, qemu-arm <qemu-arm@nongnu.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 19, 2019 at 01:44:37PM +0100, Peter Maydell wrote:
-> On Fri, 16 Aug 2019 at 13:58, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > The translation table walk for an ATS instruction can result in
-> > various faults.  In general these are just reported back via the
-> > PAR_EL1 fault status fields, but in some cases the architecture
-> > requires that the fault is turned into an exception:
-> >  * synchronous stage 2 faults of any kind during AT S1E0* and
-> >    AT S1E1* instructions executed from NS EL1 fault to EL2 or EL3
-> >  * synchronous external aborts are taken as Data Abort exceptions
-> >
-> > (This is documented in the v8A Arm ARM DDI0487A.e D5.2.11 and G5.13.4.)
-> >
-> > I noticed this by code inspection back last year sometime when
-> > I was investigating a guest boot failure that turned out to be
-> > due to an entirely different cause. I got about halfway through
-> > trying to code up a fix before I realised it was irrelevant to
-> > that bug. This patchset is just tidying up and completing that
-> > work so it doesn't get lost.
-> >
-> > Use of ATS insns in the cases where they might actually fault
-> > is quite rare (obviously nobody sets up page tables where there's
-> > no memory and they'll take external aborts, and even for the
-> > "take a hyp trap for a stage 2 fault" case you need a setup
-> > with a hypervisor and a guest that uses ATS insns, and Linux as
-> > a guest doesn't use ATS at all. So my testing of this patchset
-> > has been more "check it doesn't break things" rather than
-> > actively finding and testing a use of the throw-an-exception path...
-> 
-> I'm told that Xen for Arm makes more active use of ATS
-> instructions, so I've cc'd a few Xen people -- do any
-> of you have handy testing setups to try running Xen in
-> emulation under QEMU? Configs where the guest (EL1) actually
-> uses ATS instructions are the particularly interesting point
-> for this patchset.
-> 
-> (if there's a good set of instructions for creating a test
-> image I could probably add it to the ad-hoc set of things
-> I sometimes test with.)
-> 
+From: "Paul A. Clarke" <pc@us.ibm.com>
 
-Yes, I'm not very up to date with the Xen code but it used to
-be the case that Xen used ATS a fair bit. We have some other
-tests that use it but they don't rely on exceptions IIRC.
+The POWER8 and POWER9 User's Manuals specify the implementation
+behavior for what the ISA leaves "undefined" behavior for the
+xscvdpspn and xscvdpsp instructions.  This patch corrects the QEMU
+implementation to match the hardware implementation for that case.
 
-I'll take your patches and test them with our internal testsuites, including Xen images.
+ISA 3.0B has xscvdpspn leaving its result in word 0 of the target register,
+with the other words of the target register left "undefined".
 
-I may also be able to find a Xen image I can share that works with upstream QEMU.
-Stefano may have something in his pocket already?
+The User's Manuals specify:
+  VSX scalar convert from double-precision to single-precision (xscvdpsp,
+  xscvdpspn).
+  VSR[32:63] is set to VSR[0:31].
+So, words 0 and 1 both contain the result.
 
-Cheers,
-Edgar
+Note: this is important because GCC as of version 8 or so, assumes and takes
+advantage of this behavior to optimize the following sequence:
+  xscvdpspn vs0,vs1
+  mffprwz   r8,f0
+ISA 3.0B has xscvdpspn leaving its result in word 0 of the target register,
+and mffprwz expecting its input to come from word 1 of the source register.
+This sequence fails with QEMU, as a shift is required between those two
+instructions.  However, since the hardware splats the result to both words 0
+and 1 of its output register, the shift is not necessary.
 
+Expect a future revision of the ISA to specify this behavior.
+
+Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
+
+v2
+- Splitting patch "ppc: Three floating point fixes"; this is just one part.
+- Updated commit message to clarify behavior is documented in User's Manuals.
+- Updated commit message to correct which words are in output and source of
+  xscvdpspn and mffprz.
+- No source changes to this part of the original patch.
+
+---
+ target/ppc/fpu_helper.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 5611cf0..23b9c97 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -2871,10 +2871,14 @@ void helper_xscvqpdp(CPUPPCState *env, uint32_t opcode,
+ 
+ uint64_t helper_xscvdpspn(CPUPPCState *env, uint64_t xb)
+ {
++    uint64_t result;
++
+     float_status tstat = env->fp_status;
+     set_float_exception_flags(0, &tstat);
+ 
+-    return (uint64_t)float64_to_float32(xb, &tstat) << 32;
++    result = (uint64_t)float64_to_float32(xb, &tstat);
++    /* hardware replicates result to both words of the doubleword result.  */
++    return (result << 32) | result;
+ }
+ 
+ uint64_t helper_xscvspdpn(CPUPPCState *env, uint64_t xb)
+-- 
+1.8.3.1
 
 
