@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71484924AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:20:49 +0200 (CEST)
-Received: from localhost ([::1]:50924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 096DD924E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:24:11 +0200 (CEST)
+Received: from localhost ([::1]:51232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzhaa-00065n-IJ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:20:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42933)
+	id 1hzhdp-00086r-Rp
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:24:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49913)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1hzh1m-0005ar-Om
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:44:51 -0400
+ (envelope-from <crosa@redhat.com>) id 1hzhQW-0006Zv-5q
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 09:10:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hzh1l-0003nB-Ac
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:44:50 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40424)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hzh1l-0003mR-2N
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:44:49 -0400
-Received: by mail-ot1-x343.google.com with SMTP id c34so1501419otb.7
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 05:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=eVweLXtZ+wSXU5GcqQegNDhfZ1nPcypw8IAPu4OvJ+c=;
- b=UmBreZ8Zhi+mbXoBKu4ueSTZJOvMFd4Zso0r1uo9XAO8lvMn1PQq1WAbG2DmpyFzs3
- Il+jMu4Et5vLc+0cdyZizvjdt+ZIIWb6eWL7eYzMDm+kKVp9MV7QOLgGbkCHJnFfLDur
- 8g9cME0g//EbahgK1+ASCGP+YJ9IeAVCoephOW3qdc4bSYF3zP1h47hSUIk5DSxZcMtb
- ErT8G/MykDKA/TdBW0mxYtj0XdNrSvRKLGgq/70eI/fbBnmYKl1bUuxtKbWZs0OeFTs7
- YNDVPVwwVrobljTOhz27Jd7i9hfT55zl4Hqg5yf9dgkugtQDYlIqGfda4OIDQDOKVXuI
- ztOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=eVweLXtZ+wSXU5GcqQegNDhfZ1nPcypw8IAPu4OvJ+c=;
- b=AyrqSmRSLZIfD9TGYO2AtQa2Kx67vGCB24hutEDvfeZSguzHhg0b/ClSwWW7rts627
- +boiyWX1ywo643LdO5RsznIhuYH0O7Um5KnMFGkciyn3LjAIWIpe5fQZEfrqaNJ2EM/t
- HI2PZ390jFrirjPX5N8RfG25H4bvJSaYe3N6Z6vEflLIAurSUOy9/UIuvUxxS1lLx1Fo
- muBPDWNcUyXHziPxXX3XN1MHjc/iZ8qW6K6F+uZVrkhLV8ttx7Q4w8yjIVp+GGpyl6/J
- +tCmvxvL8CSpSnu2aDb+aOXsA6aTOxIncrkN2uG1qbMdv+cAXf/xviiRbIhhRWCwE82q
- Qqdg==
-X-Gm-Message-State: APjAAAW37/Eh+PBGUwnDbLOIfiDbWJrdlJCqOv/kd9KWm/s3YuA2QfuN
- Qp8hurFlOgO+l8JLcNud1zRp2OQ882Pr7u5psYeUOQ==
-X-Google-Smtp-Source: APXvYqwi6Rd5jlf5nVL9X3u7HRmPrafl0RRYkFH6658oNusW+FBCBOGkzFEhFuA9Eqik4lDOU9p8rN62rOoRzHdjeOg=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr18694147oti.91.1566218687905; 
- Mon, 19 Aug 2019 05:44:47 -0700 (PDT)
+ (envelope-from <crosa@redhat.com>) id 1hzhQT-0000DI-Qv
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 09:10:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38088)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hzhQT-0000C6-If
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 09:10:21 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 964D780038D;
+ Mon, 19 Aug 2019 13:10:18 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-124-60.rdu2.redhat.com
+ [10.10.124.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2574F857BC;
+ Mon, 19 Aug 2019 13:10:05 +0000 (UTC)
+Date: Mon, 19 Aug 2019 09:10:03 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190819131003.GA29867@localhost.localdomain>
+References: <20171108022828.7242-1-f4bug@amsat.org>
+ <23253f77-ccc8-220d-3028-f27945f9542c@redhat.com>
+ <791dd038-8811-6335-75f7-6dd309ff0ff7@amsat.org>
+ <20180511135544.GH25013@localhost.localdomain>
+ <4e72cde3-8475-2964-b834-f74d15d66cae@redhat.com>
+ <fb3237cd-002b-528b-32cf-4e7675ef27f7@redhat.com>
+ <e857bb21-ad12-7150-8fe3-ce86629accab@redhat.com>
 MIME-Version: 1.0
-References: <20190816125802.25877-1-peter.maydell@linaro.org>
-In-Reply-To: <20190816125802.25877-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Aug 2019 13:44:37 +0100
-Message-ID: <CAFEAcA-7Lr0nUD3g=C7S1Obgaa0E0p794XLhuBZRW_+fC5YjcQ@mail.gmail.com>
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>, 
- Stefano Stabellini <sstabellini@kernel.org>,
- Edgar Iglesias <edgar.iglesias@xilinx.com>, 
- Anthony PERARD <anthony.perard@citrix.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH 0/2] target/arm: Take exceptions on ATS
- instructions
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <e857bb21-ad12-7150-8fe3-ce86629accab@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Mon, 19 Aug 2019 13:10:18 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Publishing binary images for testing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,59 +64,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ avocado-devel@redhat.com,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Marcel Apfelbaum <marcel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 16 Aug 2019 at 13:58, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The translation table walk for an ATS instruction can result in
-> various faults.  In general these are just reported back via the
-> PAR_EL1 fault status fields, but in some cases the architecture
-> requires that the fault is turned into an exception:
->  * synchronous stage 2 faults of any kind during AT S1E0* and
->    AT S1E1* instructions executed from NS EL1 fault to EL2 or EL3
->  * synchronous external aborts are taken as Data Abort exceptions
->
-> (This is documented in the v8A Arm ARM DDI0487A.e D5.2.11 and G5.13.4.)
->
-> I noticed this by code inspection back last year sometime when
-> I was investigating a guest boot failure that turned out to be
-> due to an entirely different cause. I got about halfway through
-> trying to code up a fix before I realised it was irrelevant to
-> that bug. This patchset is just tidying up and completing that
-> work so it doesn't get lost.
->
-> Use of ATS insns in the cases where they might actually fault
-> is quite rare (obviously nobody sets up page tables where there's
-> no memory and they'll take external aborts, and even for the
-> "take a hyp trap for a stage 2 fault" case you need a setup
-> with a hypervisor and a guest that uses ATS insns, and Linux as
-> a guest doesn't use ATS at all. So my testing of this patchset
-> has been more "check it doesn't break things" rather than
-> actively finding and testing a use of the throw-an-exception path...
+On Fri, Aug 16, 2019 at 12:51:06PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> ping? :)
+>=20
+> On 6/17/19 7:17 AM, Philippe Mathieu-Daud=E9 wrote:
+> > Hi Cleber,
+> >=20
+> > On 5/11/18 4:27 PM, Cleber Rosa wrote:
+> >> On 05/11/2018 09:55 AM, Eduardo Habkost wrote:
+> >>> (CCing Cleber and avocado-devel in case they have suggestions)
+> >>>
+> >>> On Tue, May 08, 2018 at 12:47:52PM -0300, Philippe Mathieu-Daud=E9 =
+wrote:
+> >>> [...]
+> >>>> Ironically I have been using the Gumstix machines quite a lot for =
+the SD
+> >>>> 'subsystem' refactor, using the MMC commands in U-Boot (I am unabl=
+e to
+> >>>> reach the Linux userland since the kernel crashes), and plan to ad=
+d SD
+> >>>> integration tests via Avocado.
+> >>>>
+> >>>> This raises:
+> >>>>
+> >>>> - What will happens if I add tests downloading running on their co=
+mpiled
+> >>>> u-boot
+> >>>> (https://downloads.gumstix.com/images/angstrom/developer/2012-01-2=
+2-1750/u-boot.bin)
+> >>>> and the company decides to remove this old directory?
+> >>>> Since sometimes old open-source software are hard to rebuild with =
+recent
+> >>>> compilers, should we consider to use a public storage to keep
+> >>>> open-source (signed) blobs we can use for integration testing?
+> >>>
+> >>> I think a maintained repository of images for testing would be
+> >>> nice to have.  We need to be careful to comply with the license
+> >>> of the software being distributed, though.
+> >>>
+> >>> If the images are very small (like u-boot.bin above), it might be
+> >>> OK to carry them in qemu.git, just like the images in pc-bios.
+> >>>
+> >>>>
+> >>>> Avocado has a 'vmimage library' which could be extended, adding su=
+pport
+> >>>> for binary url + detached gpg signatures from some QEMU maintainer=
+s?
 
-I'm told that Xen for Arm makes more active use of ATS
-instructions, so I've cc'd a few Xen people -- do any
-of you have handy testing setups to try running Xen in
-emulation under QEMU? Configs where the guest (EL1) actually
-uses ATS instructions are the particularly interesting point
-for this patchset.
+Yes, although I believe a stronger distinction between the images
+originally targeted by avocado.utils.vmimage and those other images
+should probably exist.  One of the reasons that make me think so is
+that the images obtained through vmimage *should* be configurable by
+the accompanying avocado.utils.cloudinit library.
 
-(if there's a good set of instructions for creating a test
-image I could probably add it to the ad-hoc set of things
-I sometimes test with.)
+> >>>
+> >>> Requiring a signature makes the binaries hard to replace.  Any
+> >>> specific reason to suggest gpg signatures instead of just a
+> >>> (e.g.) sha256 hash?
+> >>>
+> >>>>
+> >>>> (I am also using old Gentoo/Debian packaged HPPA/Alpha Linux kerne=
+l for
+> >>>> Avocado SuperIO tests, which aren't guaranteed to stay downloadabl=
+e
+> >>>> forever).
+> >>>
+> >>> Question for the Avocado folks: how this is normally handled in
+> >>> avocado/avocado-vt?  Do you maintain a repository for guest
+> >>> images, or you always point to their original sources?
+> >>>
+> >>
+> >> For pure Avocado, the vmimage library attempts to fetch, by default,=
+ the
+> >> latest version of a guest image directly from the original sources.
+> >> Say, a Fedora image will be downloaded by default from the Fedora
+> >> servers.  Because of that, we don't pay too much attention to the
+> >> availability of specific (old?) versions of guest images.
+> >>
+> >> For Avocado-VT, there are the JeOS images[1], which we keep on a tes=
+t
+> >> "assets" directory.  We have a lot of storage/bandwidth availability=
+, so
+> >> it can be used for other assets proven to be necessary for tests.
+> >>
+> >> As long as distribution rights and licensing are not issues, we can
+> >> definitely use the same server for kernels, u-boot images and what n=
+ot.
+> >>
+> >> [1] - https://avocado-project.org/data/assets/
+> >=20
+> > 1/ How do we check for distribution rights?
+> >=20
+> > Is it OK for:
+> > - a Debian/Fedora image
+> > - a compiled Linux kernel (for a Debian/Fedora release)
+> >
 
-> Peter Maydell (2):
->   target/arm: Allow ARMCPRegInfo read/write functions to throw
->     exceptions
->   target/arm: Take exceptions on ATS instructions when needed
->
->  target/arm/cpu.h           |   6 ++-
->  target/arm/helper.c        | 107 +++++++++++++++++++++++++++++++------
->  target/arm/translate-a64.c |   6 +++
->  target/arm/translate.c     |   7 +++
->  4 files changed, 110 insertions(+), 16 deletions(-)
+I think released images are just fine.
 
-thanks
--- PMM
+FIY, with regards to custom iamges: the Avocado-VT JeOS images are
+based on Fedora, and can be recreated with the kickstart files that
+are also in-tree.  Making the custom binary file reproducible is,
+AFAICT good enough.
+
+> > 2/ Who to ask to add files to this assets directory?
+> >
+
+I'd be happy to setup a secure upload mechanism, say, ftp+ssl, so that
+"image maintainers" can upload new images.
+
+> > 3/ Can we use a 'webarchive' directory structure?
+> >=20
+> > Such /site/date/original_site_path/file
+> >
+
+I don't see why not.
+
+> > 4/ What are the chances that this website disappears? :S
+> >=20
+> > (Someone has to pay for it, and the bandwidth...)
+
+Of course the best scenario would be to rely on some bigger
+institution, say an University decides to host this archive of images,
+and others decide to mirror them.  Until then, if it's decided to push
+forward the use of the "avocado-project.org" site, the chances of it
+going away are basically if I fail to have $5/month to keep it
+running, so hopefully (I mean it) this won't be an issue :)
+
+And thans for the ping, although I was really in need of a brick thrown
+at my head to wake me up on this thread! :)
+
+- Cleber.
+
+> >=20
+> > Thanks,
+> >=20
+> > Phil.
 
