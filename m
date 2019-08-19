@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E360F94EED
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:26:58 +0200 (CEST)
-Received: from localhost ([::1]:57428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2772794ED2
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:21:38 +0200 (CEST)
+Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzoEz-0002zD-Iz
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:26:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45500)
+	id 1hzo9o-0004AA-T1
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:21:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tcminyard@gmail.com>) id 1hzo5n-0007fc-0H
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:33 -0400
+ (envelope-from <tcminyard@gmail.com>) id 1hzo5j-0007bV-Hc
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1hzo5f-0003DX-MA
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:26 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44181)
+ (envelope-from <tcminyard@gmail.com>) id 1hzo5f-0003Dn-QP
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:23 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:36879)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hzo5f-0003CB-Eo
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hzo5f-0003CL-Ky
  for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:19 -0400
-Received: by mail-ot1-x342.google.com with SMTP id w4so2874847ote.11
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:17:18 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id f17so2895545otq.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=gp7YET4wc6HTTyajO3GZqgH8xALg6OOqzmcQarhMc/A=;
- b=DRHeBPp3R371hw50G5XMRjpi4ICbO3nk1cCrnN3E8SfD8kgvk6XSh0yGY0F7wkp7d5
- eVg7s7FgC74PwFI5tBr3AJ7JnDfWXsMOwcaz0B/gMIDAqea4YEBp896Ft0WVLgjug5HC
- y0mupZFWfEwpO9VTaRXUjUqp1WpW9BRT8fp0y5rGLgzSPb4GyqTzRr1DBxoGq1Th9RdG
- gzPXL1kQY5tZjvroSwcXw2khfSPejbsH3RUOJSfgOeD9h8bwTHQ4+4GIExZnLLzFLw3w
- MXhtBodsA7yEQg/YKRnoeVamQ0RnARJMKyMb1Dqou78DWtAysSwFyBkAEHZyrsHMSxpK
- gAgw==
+ bh=2RTc8GIAmHAQeyoEa8ZN4sRA9/pcwsPzo1tgjJ/3mxo=;
+ b=ONOc/XcfJJPxhaw1mpsh9nI5VbKmoLkmLR0KtYjOdSEiU8IgmRaa3k9yXbdsaIDCR7
+ zxvpN1Q+J/C1/jjorA1pIne7qsWhs7gBLM2MCMKuQjoFHVpgJU5YPJdx0tbN2sh7M7nS
+ 7k8OVZ3Nhk/6Kbl0qvofIK3300MVd6hPqwH2Yg2MmkwHpfHccptd08SukyPZ4mkAA6iE
+ ET/Gur2JToqtNT07ec4QpnQfDqknfeQ1oZ2Zw59r06R6nLvkxWuwDjb8X1I/GtWelU5T
+ s2nt2leDjbcMfbOOkcQT+0izkLygeWqq4tWL9y3N3RoixyLTi+akTBS7Z0z93kttfnz0
+ sr1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=gp7YET4wc6HTTyajO3GZqgH8xALg6OOqzmcQarhMc/A=;
- b=iqsCdsZUnivYddxRdftbT33/4Cy3LV4s848WpNrPLcKSboKecLDHcRTG0eEbPkviwo
- lAyWNGii474H96IBAwc17KREbR4LLcts0S1P4afxH71yHznO4PpMd8kKW44j4x0j94+8
- iigV9y505tutllCT9r8j98kG49Q7f8B2sn9jhVHrt8OVjPTZwwWU1dXvzHbvw0G1ndUH
- q/7s5cNioR9FIioNNJTSS9ymE2m+sLLjOXqqvWMa0ycqFgHWhtxaVTWHM60j1pO9xnIx
- RJwo4G2FQsaiVxZyPnJbZtpkhJ5IS7T4hsNDYXUUwY53/ZC+BGFUe83dIGE8XMt140gf
- S+HA==
-X-Gm-Message-State: APjAAAXt3IUZa6HK23bhIyFrLSlKgA2f3NERz2iunYDXNP35fetFC65l
- qpD0ar/mlAXxS96KIMd1Zmhlt2A=
-X-Google-Smtp-Source: APXvYqy0wi7Y9ro0z+orYg0RdyTY4OC+msgTH8tfkVXlOKTaTLxQNWM0iif6qK37risdii0R/uUfvQ==
-X-Received: by 2002:a9d:340b:: with SMTP id v11mr20510938otb.317.1566245837798; 
- Mon, 19 Aug 2019 13:17:17 -0700 (PDT)
+ bh=2RTc8GIAmHAQeyoEa8ZN4sRA9/pcwsPzo1tgjJ/3mxo=;
+ b=XNd0/XwboX4yt6JWZaqDi+0d1SRwQwGuQaB6njbBFXunw7pib3KpkeErrVB/tAhGqf
+ wT9AUxQB2CXN0jmIF6+j5GYEwx7dKE6xtqpj6mfoL97JXjZ1/KHJpSXm8nklhPOZbmN6
+ uMJfTrTdcrpIj0JCuSGJEvzVVTIF6jw3sdt0VDe0lNOL+JJdCBMEbSYxVWVhtIN9lPRI
+ U7SVm1AjA0zmRwm7HXqSB0BSdN6ijlWAdPEiF2XxasVJPMLXS70mnPn5dWBfKxGRl8HA
+ IcdiNikeroMPL3LF2KGU99GZwld/jMzrTxaIY54usOqFqrZyfFsSwrvjSDxF44PnObiU
+ L4Kg==
+X-Gm-Message-State: APjAAAXLzy6V5FWxoBV9YhXsmbU7Zu1rvhULi2ZC6OlKqmtuHjA1vkTy
+ yyZ6Hw4+Bgqc+AGQKezKtoC/fmM=
+X-Google-Smtp-Source: APXvYqwzezBrj2jmD8kQEoFFe36JkNlm4bHeDsSVNm4rN4ZxssubOsSzAFPxpPN2t3Yb9RNqm7r6Qw==
+X-Received: by 2002:a05:6830:2094:: with SMTP id
+ y20mr18872085otq.36.1566245838218; 
+ Mon, 19 Aug 2019 13:17:18 -0700 (PDT)
 Received: from serve.minyard.net ([47.184.134.43])
- by smtp.gmail.com with ESMTPSA id m18sm1411229oic.12.2019.08.19.13.17.16
+ by smtp.gmail.com with ESMTPSA id 11sm5957554otc.45.2019.08.19.13.17.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 19 Aug 2019 13:17:17 -0700 (PDT)
 Received: from t430.minyard.net (t430m.minyard.net [192.168.27.3])
- by serve.minyard.net (Postfix) with ESMTPA id A41511805A8;
+ by serve.minyard.net (Postfix) with ESMTPA id E26EE1805A9;
  Mon, 19 Aug 2019 20:17:16 +0000 (UTC)
 Received: by t430.minyard.net (Postfix, from userid 1000)
- id 63B9B301176; Mon, 19 Aug 2019 15:17:15 -0500 (CDT)
+ id 9EC3E302506; Mon, 19 Aug 2019 15:17:16 -0500 (CDT)
 From: minyard@acm.org
 To: QEMU Developers <qemu-devel@nongnu.org>
-Date: Mon, 19 Aug 2019 15:16:53 -0500
-Message-Id: <20190819201705.31633-4-minyard@acm.org>
+Date: Mon, 19 Aug 2019 15:16:54 -0500
+Message-Id: <20190819201705.31633-5-minyard@acm.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819201705.31633-1-minyard@acm.org>
 References: <20190819201705.31633-1-minyard@acm.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: [Qemu-devel] [PATCH 03/15] ipmi: Generate an interrupt on watchdog
- pretimeout expiry
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: [Qemu-devel] [PATCH 04/15] tests:ipmi: Fix IPMI BT tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,35 +79,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Corey Minyard <cminyard@mvista.com>
 
-Add the watchdog pretimeout to the bits that cause an interrupt on attn.
-Otherwise the user won't know.
+The IPMI BT tests had a race condition, if it receive an IPMI command
+to enable interrupt, it would write the message to enable interrupts
+after it wrote the command response.  So the test code could
+receive the command response and issue the next command before the
+device handled the interrupt enable command, and thus no interrupt.
 
+So send the message to enable interrupt before the command response.
+
+Also add some sleeps to give qemu time to handle responses, there was
+no delay before, and it could result in an invalid timeout.
+
+And re-enable the tests, as hopefully they are fixed now.
+
+Note that I was unable to reproduce this even with the instructions
+Peter gave me, but hopefully this fixes the issue.
+
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Corey Minyard <cminyard@mvista.com>
 ---
- hw/ipmi/ipmi_bmc_sim.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/Makefile.include | 3 +--
+ tests/ipmi-bt-test.c   | 4 +++-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
-index afb99e33d7..6e6cd1b47d 100644
---- a/hw/ipmi/ipmi_bmc_sim.c
-+++ b/hw/ipmi/ipmi_bmc_sim.c
-@@ -477,7 +477,9 @@ static int attn_set(IPMIBmcSim *ibs)
- 
- static int attn_irq_enabled(IPMIBmcSim *ibs)
- {
--    return (IPMI_BMC_MSG_INTS_ON(ibs) && IPMI_BMC_MSG_FLAG_RCV_MSG_QUEUE_SET(ibs))
-+    return (IPMI_BMC_MSG_INTS_ON(ibs) &&
-+            (IPMI_BMC_MSG_FLAG_RCV_MSG_QUEUE_SET(ibs) ||
-+             IPMI_BMC_MSG_FLAG_WATCHDOG_TIMEOUT_MASK_SET(ibs)))
-         || (IPMI_BMC_EVBUF_FULL_INT_ENABLED(ibs) &&
-             IPMI_BMC_MSG_FLAG_EVT_BUF_FULL_SET(ibs));
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index fd7fdb8658..6fc3abfc42 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -169,8 +169,7 @@ check-qtest-i386-$(CONFIG_SGA) += tests/boot-serial-test$(EXESUF)
+ check-qtest-i386-$(CONFIG_SLIRP) += tests/pxe-test$(EXESUF)
+ check-qtest-i386-y += tests/rtc-test$(EXESUF)
+ check-qtest-i386-$(CONFIG_ISA_IPMI_KCS) += tests/ipmi-kcs-test$(EXESUF)
+-# Disabled temporarily as it fails intermittently especially under NetBSD VM
+-# check-qtest-i386-$(CONFIG_ISA_IPMI_BT) += tests/ipmi-bt-test$(EXESUF)
++check-qtest-i386-$(CONFIG_ISA_IPMI_BT) += tests/ipmi-bt-test$(EXESUF)
+ check-qtest-i386-y += tests/i440fx-test$(EXESUF)
+ check-qtest-i386-y += tests/fw_cfg-test$(EXESUF)
+ check-qtest-i386-y += tests/device-plug-test$(EXESUF)
+diff --git a/tests/ipmi-bt-test.c b/tests/ipmi-bt-test.c
+index fc4c83b5db..9f3e638146 100644
+--- a/tests/ipmi-bt-test.c
++++ b/tests/ipmi-bt-test.c
+@@ -99,6 +99,7 @@ static void bt_wait_b_busy(void)
+     unsigned int count = 1000;
+     while (IPMI_BT_CTLREG_GET_B_BUSY() != 0) {
+         g_assert(--count != 0);
++        usleep(100);
+     }
  }
+ 
+@@ -107,6 +108,7 @@ static void bt_wait_b2h_atn(void)
+     unsigned int count = 1000;
+     while (IPMI_BT_CTLREG_GET_B2H_ATN() == 0) {
+         g_assert(--count != 0);
++        usleep(100);
+     }
+ }
+ 
+@@ -240,13 +242,13 @@ static void emu_msg_handler(void)
+         write_emu_msg(msg, msg_len);
+     } else if ((msg[1] == set_bmc_globals_cmd[0]) &&
+                (msg[2] == set_bmc_globals_cmd[1])) {
++        write_emu_msg(enable_irq_cmd, sizeof(enable_irq_cmd));
+         memcpy(msg + 1, set_bmc_globals_rsp, sizeof(set_bmc_globals_rsp));
+         msg_len = sizeof(set_bmc_globals_rsp) + 1;
+         msg[msg_len] = -ipmb_checksum(msg, msg_len, 0);
+         msg_len++;
+         msg[msg_len++] = 0xa0;
+         write_emu_msg(msg, msg_len);
+-        write_emu_msg(enable_irq_cmd, sizeof(enable_irq_cmd));
+     } else {
+         g_assert(0);
+     }
 -- 
 2.17.1
 
