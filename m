@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D040A91C55
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:18:23 +0200 (CEST)
-Received: from localhost ([::1]:44574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1347D91C48
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:15:07 +0200 (CEST)
+Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hza3i-0002DC-A0
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:18:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43434)
+	id 1hza0X-0007Ro-EN
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:15:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43528)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzZxm-0004ri-Fu
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:15 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hzZxr-000504-3X
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzZxl-0007Bm-KB
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:14 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:34901)
+ (envelope-from <bmeng.cn@gmail.com>) id 1hzZxq-0007Te-4v
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:19 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:37282)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hzZxl-00078g-Ee; Mon, 19 Aug 2019 01:12:13 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id d85so461751pfd.2;
- Sun, 18 Aug 2019 22:12:13 -0700 (PDT)
+ id 1hzZxp-0007Q8-Uq; Mon, 19 Aug 2019 01:12:18 -0400
+Received: by mail-pf1-x441.google.com with SMTP id 129so456335pfa.4;
+ Sun, 18 Aug 2019 22:12:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=0Q6/3Tqqsuch53tx7oUcefBw2d5+9iSqouDG2xIbmao=;
- b=A/kneHcHr/X94j5GQKV/aIGm4IRrnesOTpRnkWGHvBc4cvuDt/4sRAwQ23IU7BOeE1
- jXTRxhANMSm/asMAH1lzihI8Vp4u1/49Dd1hAOj87wHSBBllY12Y5+9XkiMk8JM0UxT8
- /R5WOj0hPlWgORfudDU3saOViBMeYypBw79oWpKcie+UK+hrLqMUnvisSp6eL+ISBSf/
- /WqptQ/ib57jv5E9A5BJisf1PcEGWJpVaTRTcG8xtAtAlKp7SSgpVwurzx25ozaqPYPj
- IReOZASJUL6DdWuODc0lHVcAlM97XdwqTTqslCG9jxcJXd/GWihApw2dEcbOVLQzpA3C
- b1hw==
+ bh=ADbrDNOHtnmDej9eClFWWb6D3hQH7ua5FDpfJg6FqBU=;
+ b=TZjuTmLg9whWBu41INonrovWOqf5MCjDeUOh2gW/uSbUeUx+8OXK0i8CrGXUFiAd38
+ E0jYlG4ZvGjVed1YhF8nCI8XSro0Gia1z/Q9P6HgWwlpY3FERB9wUOnaaEm+jWeu/cMQ
+ lDhbLMSEyogeWjqn8Pc6oWtmftV/ErwIquz1K3zUft09/ZmuNeSFRDEyh6xcoZ8EvH7H
+ chtuPjqM4wK7NitGE/EVD/S60hCLdE2vRpbNe47C91+Nbz6urckvtXRsPut0rRCH3t2A
+ Fx6rXJ89Ox5EZ8Gska9JXdCBnpjlfcU+zSsaO78pENeJxcs3Oiv1Et+MbwnlbAT4dwW/
+ FsnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=0Q6/3Tqqsuch53tx7oUcefBw2d5+9iSqouDG2xIbmao=;
- b=HLly/5ydgiKNO7qoJlX/OIBS8dmHoJaVSSpVQQOb9GbiWFp5bkkFN0A4PFOBRw4Hc8
- U556aBiPsJH9o6kchbDa1RuZeSOCg7oNdX6YS7ZKtabO72mHoFDh2/Tp6MK5mWJ40aXY
- QjnVIWShimGUOOu5FzyycaLoEbgKp/CI3YLeBhVMvaZKD/UJH+gk/8Xbzw29f/y9Bsua
- NPKYh5JJDvQ2uOUlUF7r568KucIut8ZAmdY1mSzdfS/+ivVutxk5ym1mh0o07y0gXhDo
- kM63JHkTLxGM9Zeb623XbaIO0hYVPBTiSg6PyWd1WejySQ5xHjwPUPFFJv0Jvz7KyQ7L
- 72qw==
-X-Gm-Message-State: APjAAAXwn4uc4RI6pnoHXSRbG9odJw0AfNcI9oMnTUCxUeXalyq5+T0T
- RXIRkZUF61ZBzYED+nUUvKI=
-X-Google-Smtp-Source: APXvYqx80YXo+EDFYwasuUPqE7g4QSwTybcxU7vemCZwhPSlV3bA22vI7aV0bfMzWR4o5FtgqXsCSQ==
-X-Received: by 2002:a65:6817:: with SMTP id l23mr18386674pgt.46.1566191532644; 
- Sun, 18 Aug 2019 22:12:12 -0700 (PDT)
+ bh=ADbrDNOHtnmDej9eClFWWb6D3hQH7ua5FDpfJg6FqBU=;
+ b=DxaD9DDOhV97yw4MrRsqssR4uxvfmFNhWTCwAXmxBUZq4D3rhgBdZV8F04e+TF3NlC
+ gPQ7fjK62JFnmuKxv6nD2QSKHATuxVIry6OYXJJP17EUXq3S1bjIhPp6JUwAccuFB+U/
+ AHj3RtpyarxY4rln0E09lhaLFrIZMHsOodi7ZU98z6NRcFd9L0KDif5+qfslarbLaVCN
+ ZrnZA4DjR9iK+vYB9Ew2bRgYGNNtBTPmWZ9FomX0K1FGaIeGGp49rhMnuo5YS0VSrqUE
+ h/6Gm20BFW11OPSzeH6dePCmkoBOm2PZFtoJoz6srAZrBv9a4/wHsZZWcg7/yrpCz2lE
+ 1vFA==
+X-Gm-Message-State: APjAAAV/7DDymnAq1BYSKIYeQEdh5B85S8eFhokVSXeq2ZwfgOe4qPaC
+ WYWM5DCpvf05iEDTl73L+i0=
+X-Google-Smtp-Source: APXvYqyJDnErPIP/cRBw1eWAzrrRYmfw0qvq16nfWF3wFhar2LLF9DxYFpi1+NHBMBa+8yeU1hQfAw==
+X-Received: by 2002:a65:56c1:: with SMTP id w1mr18006662pgs.395.1566191537024; 
+ Sun, 18 Aug 2019 22:12:17 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id q13sm15464986pfl.124.2019.08.18.22.12.11
+ by smtp.gmail.com with ESMTPSA id q13sm15464986pfl.124.2019.08.18.22.12.16
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Sun, 18 Aug 2019 22:12:12 -0700 (PDT)
+ Sun, 18 Aug 2019 22:12:16 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Sun, 18 Aug 2019 22:11:38 -0700
-Message-Id: <1566191521-7820-6-git-send-email-bmeng.cn@gmail.com>
+Date: Sun, 18 Aug 2019 22:11:42 -0700
+Message-Id: <1566191521-7820-10-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1566191521-7820-1-git-send-email-bmeng.cn@gmail.com>
 References: <1566191521-7820-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::42c
-Subject: [Qemu-devel] [PATCH v4 05/28] riscv: roms: Remove executable
- attribute of opensbi images
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: [Qemu-devel] [PATCH v4 09/28] riscv: sifive_e: prci: Update the
+ PRCI register block size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,36 +80,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like other binary files, the executable attribute of opensbi images
-should not be set.
+Currently the PRCI register block size is set to 0x8000, but in fact
+0x1000 is enough, which is also what the manual says.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-
+Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
-Changes in v4:
-- new patch to remove executable attribute of opensbi images
-
+Changes in v4: None
 Changes in v3: None
 Changes in v2: None
 
- pc-bios/opensbi-riscv32-virt-fw_jump.bin     | Bin
- pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin | Bin
- pc-bios/opensbi-riscv64-virt-fw_jump.bin     | Bin
- 3 files changed, 0 insertions(+), 0 deletions(-)
- mode change 100755 => 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
- mode change 100755 => 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
- mode change 100755 => 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
+ hw/riscv/sifive_e_prci.c         | 2 +-
+ include/hw/riscv/sifive_e_prci.h | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/pc-bios/opensbi-riscv32-virt-fw_jump.bin b/pc-bios/opensbi-riscv32-virt-fw_jump.bin
-old mode 100755
-new mode 100644
-diff --git a/pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin b/pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
-old mode 100755
-new mode 100644
-diff --git a/pc-bios/opensbi-riscv64-virt-fw_jump.bin b/pc-bios/opensbi-riscv64-virt-fw_jump.bin
-old mode 100755
-new mode 100644
+diff --git a/hw/riscv/sifive_e_prci.c b/hw/riscv/sifive_e_prci.c
+index 603a54b..3afcb84 100644
+--- a/hw/riscv/sifive_e_prci.c
++++ b/hw/riscv/sifive_e_prci.c
+@@ -85,7 +85,7 @@ static void sifive_e_prci_init(Object *obj)
+     SiFiveEPRCIState *s = SIFIVE_E_PRCI(obj);
+ 
+     memory_region_init_io(&s->mmio, obj, &sifive_e_prci_ops, s,
+-                          TYPE_SIFIVE_E_PRCI, 0x8000);
++                          TYPE_SIFIVE_E_PRCI, SIFIVE_E_PRCI_REG_SIZE);
+     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+ 
+     s->hfrosccfg = (SIFIVE_E_PRCI_HFROSCCFG_RDY | SIFIVE_E_PRCI_HFROSCCFG_EN);
+diff --git a/include/hw/riscv/sifive_e_prci.h b/include/hw/riscv/sifive_e_prci.h
+index c4b76aa..698b0b4 100644
+--- a/include/hw/riscv/sifive_e_prci.h
++++ b/include/hw/riscv/sifive_e_prci.h
+@@ -47,6 +47,8 @@ enum {
+     SIFIVE_E_PRCI_PLLOUTDIV_DIV1 = (1 << 8)
+ };
+ 
++#define SIFIVE_E_PRCI_REG_SIZE  0x1000
++
+ #define TYPE_SIFIVE_E_PRCI      "riscv.sifive.e.prci"
+ 
+ #define SIFIVE_E_PRCI(obj) \
 -- 
 2.7.4
 
