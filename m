@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE1D94D9A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 21:11:37 +0200 (CEST)
-Received: from localhost ([::1]:56758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA7394DA2
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 21:13:19 +0200 (CEST)
+Received: from localhost ([::1]:56772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzn44-0003nP-Gm
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 15:11:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33414)
+	id 1hzn5i-0005yO-F5
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 15:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34659)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1hzmt5-0007QY-Vx
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 15:00:17 -0400
+ (envelope-from <eblake@redhat.com>) id 1hzmzQ-0006ga-3z
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 15:06:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hzmt4-0003TH-IV
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 15:00:15 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:33022)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hzmt4-0003Sm-BL; Mon, 19 Aug 2019 15:00:14 -0400
-Received: by mail-lj1-x242.google.com with SMTP id z17so2777888ljz.0;
- Mon, 19 Aug 2019 12:00:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=XbndJ77t/JRz8dNAC/FwbHTdclXUBxE+llpURtJTt5I=;
- b=lo7C7GXz+nRGJV02k9U9Gf19yDJzXQb0DJcrQ9t1NKPpuXB4SR0VMcZruD4jpS4eXO
- ZmyIjUbDjQ6zj2ZtQuRahGuFt8ENB3AULW4+bTQOzRY2vDjqN+e600cwLpE+eXgZOJoO
- cRjfd0yuxIGRsL0wtqe0JL18bTvp4vlZ37BV2wxqR82e0rqM3BIxYDm+6IvlmDUQZ0F/
- q+65Tm1cJ5ul+Xb4Z8N94QpuVba2yFcyz4dHth+mV3q219AHCA1DK7Oym++VEStkH2d+
- s4ovSAsGGqdH6vec1SqosCUxBr+zCea1FU8kPjnmgx/X8pLtkzxt2gm2schES6+6u1xG
- 5mWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=XbndJ77t/JRz8dNAC/FwbHTdclXUBxE+llpURtJTt5I=;
- b=tUYLZf0Ii3phMUr9poIwZc3+bKtR8t+vcgjXEOlzTnntTADQN7EHL3E2uuJsIXL/CW
- aZm87VBNdV0/hcuaCMccXC7b1aW4aHC/IAjxzJOjqNJWIa2eeJpyGWRXQpAedjcWZDr/
- UALajBRsAt8SWNchdrBggJiN5lsfKa3sdVtIoeQdcpLKMt7d0oNOT/bkIQ/EkeRrOkWJ
- sr2GbIDr2Zykq5nXvGCcdmnplpwvqv6/luEuE2jdiXNOUBpLN4Aetli6zs4XUqHj3NuY
- o4I+sEZlXD9e+gUmR//22augp98/ZIjrARKB7gIvFugYnsZovadPHLL8Nz+pxAGFX6Wg
- dIcQ==
-X-Gm-Message-State: APjAAAWBHVL57xz8D89Rz6/YRnqp8too7vyM9vTAG1+mJvIPavwsF6zV
- JihME0S7GesBmnG7gvMyy8V4S+TxNZOHVHM0ElY=
-X-Google-Smtp-Source: APXvYqyTWbI5KpcAyuGZ1wKrgHSH7msuJVIBQvCyfyum98YGmIHCIVqAT4BFKqcAm5nNOGlmx+anX7t7YQ4Tx3/Zx+I=
-X-Received: by 2002:a2e:7c0b:: with SMTP id x11mr13344006ljc.85.1566241212847; 
- Mon, 19 Aug 2019 12:00:12 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1hzmzP-0006sZ-6z
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 15:06:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46116)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hzmzM-0006pN-NX; Mon, 19 Aug 2019 15:06:44 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 272EF307D95F;
+ Mon, 19 Aug 2019 19:06:43 +0000 (UTC)
+Received: from [10.3.117.3] (ovpn-117-3.phx2.redhat.com [10.3.117.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD90F50;
+ Mon, 19 Aug 2019 19:06:42 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20190819185602.4267-1-mreitz@redhat.com>
+ <20190819185602.4267-2-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <e622a4e2-5f75-7592-436e-ecd8447d9063@redhat.com>
+Date: Mon, 19 Aug 2019 14:06:41 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <0141541d-43ff-98d8-e9d4-4a2fdcfdcf36@c-sky.com>
- <CAKmqyKPr0V6acB2-Y+N1-aoj-5LSofwi=Jz=u6KFJN1fPUWjzA@mail.gmail.com>
- <2b741fb0-0f12-0f07-a516-9cc23abc0b6e@c-sky.com>
-In-Reply-To: <2b741fb0-0f12-0f07-a516-9cc23abc0b6e@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 19 Aug 2019 11:56:11 -0700
-Message-ID: <CAKmqyKPa2YbAASRsQ8cAm+LR58Z3i_bCXDd7tYtD5TtXvv4YdQ@mail.gmail.com>
-To: liuzhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::242
-Subject: Re: [Qemu-devel] RISCV: when will the CLIC be ready?
+In-Reply-To: <20190819185602.4267-2-mreitz@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="uOb7wIOy9cepJajaU2fQeKSUQpicCXCBx"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Mon, 19 Aug 2019 19:06:43 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 01/16] include: Move endof() up from
+ hw/virtio/virtio.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,105 +85,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 19, 2019 at 6:44 AM liuzhiwei <zhiwei_liu@c-sky.com> wrote:
->
->
-> On 2019/8/17 =E4=B8=8A=E5=8D=881:29, Alistair Francis wrote:
-> > On Thu, Aug 15, 2019 at 8:39 PM liuzhiwei<zhiwei_liu@c-sky.com>  wrote:
-> >> Hi, Palmer
-> >>
-> >> When Michael Clark still was the maintainer of RISCV QEMU, he wrote in=
- the mail list, "the CLIC interrupt controller is under testing,
-> >> and will be included in QEMU 3.1 or 3.2". It is pity that the CLIC is =
-not in
-> >> included even in QEMU 4.1.0.
-> > I see that there is a CLIC branch available here:
-> > https://github.com/riscv/riscv-qemu/pull/157
-> >
-> > It looks like all of the work is in a single commit
-> > (https://github.com/riscv/riscv-qemu/pull/157/commits/206d9ac339feb9ef2=
-c325402a00f0f45f453d019)
-> > and that most of the other commits in the PR have already made it into
-> > master.
-> >
-> > Although the CLIC commit is very large it doesn't seem impossible to
-> > manually pull out the CLIC bits and apply it onto master.
-> >
-> > Do you know the state of the CLIC model? If it's working it shouldn't
-> > be too hard to rebase the work and get the code into mainline.
-> >
-> > Alistair
-> >
-> Hi,  Alistair
->
-> In my opinion, the CLIC code almost works.
->
-> Last year when my workmate ported an RTOS, I once read the CLIC specifica=
-tion and used the CLIC model code. It worked through  all the tests after f=
-ixed two bugs. I also had sent the patch to Michael, but without response(m=
-aybe a wrong email address).
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 7bf6cbc..95d80ab 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -505,6 +505,9 @@ static target_ulong riscv_intr_pc(CPURISCVState *env,
->       if (!(async || clic)) {
->           return tvec & ~0b11;
->       }
-> +    if (clic) {
-> +        cause &=3D 0x3ff;
-> +    }
->
->       /* bits [1:0] encode mode; 0 =3D direct, 1 =3D vectored, 2 >=3D res=
-erved */
->       switch (mode1) {
-> @@ -645,6 +648,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->           riscv_cpu_set_mode(env, PRV_M);
->       }
->
-> +    if (clic) {
-> +        env->exccode =3D 0;
-> +    }
->       /* NOTE: it is not necessary to yield load reservations here. It is=
- only
->          necessary for an SC from "another hart" to cause a load reservat=
-ion
->          to be yielded. Refer to the memory consistency model section of =
-the
->
-> After that, the specification has updated and the code may changed. I did=
-n't pull new code again.
->
-> If the CLIC model may merged into the mainline, and no body maintain the =
-code, I'd like to work on it, fixing the bugs and updating the code accordi=
-ng to latest specification.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--uOb7wIOy9cepJajaU2fQeKSUQpicCXCBx
+Content-Type: multipart/mixed; boundary="3D3wYujFGyT7E0AaZRWBHK6mkrzHc4B3s";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
+Message-ID: <e622a4e2-5f75-7592-436e-ecd8447d9063@redhat.com>
+Subject: Re: [PATCH v2 01/16] include: Move endof() up from hw/virtio/virtio.h
+References: <20190819185602.4267-1-mreitz@redhat.com>
+ <20190819185602.4267-2-mreitz@redhat.com>
+In-Reply-To: <20190819185602.4267-2-mreitz@redhat.com>
 
-Yes please! We will be happy to merge it!
+--3D3wYujFGyT7E0AaZRWBHK6mkrzHc4B3s
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-If you would like to it would be great if you could update the code,
-fix the bugs and then send patches to this list.
+On 8/19/19 1:55 PM, Max Reitz wrote:
+> endof() is a useful macro, we can make use of it outside of virtio.
+>=20
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  include/hw/virtio/virtio.h |  7 -------
+>  include/qemu/compiler.h    |  7 +++++++
+>  hw/block/virtio-blk.c      |  4 ++--
+>  hw/net/virtio-net.c        | 10 +++++-----
+>  4 files changed, 14 insertions(+), 14 deletions(-)
+>=20
 
-Alistair
+> +++ b/include/qemu/compiler.h
+> @@ -60,6 +60,13 @@
+> =20
+>  #define sizeof_field(type, field) sizeof(((type *)0)->field)
+> =20
+> +/*
+> + * Calculate the number of bytes up to and including the given 'field'=
+ of
+> + * 'container'.
+> + */
+> +#define endof(container, field) \
+> +    (offsetof(container, field) + sizeof_field(container, field))
 
->
-> Best Regards,
-> Zhiwei
->
-> >> As we have cpus using CLIC, I have to use the out of tree qemu code in=
- SIFIVE
-> >> a long time. Could you tell me when it will be upstreamed?
-> >>
-> >> Best Regards
-> >> Zhiwei
-> >>
+Bike-shedding: I might have done s/container/type/ as part of the
+motion, to match the above definition of sizeof_field (and in C, we tend
+to refer to 'type's, not 'container's).  But doesn't affect correctness
+of the patch.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--3D3wYujFGyT7E0AaZRWBHK6mkrzHc4B3s--
+
+--uOb7wIOy9cepJajaU2fQeKSUQpicCXCBx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1a80EACgkQp6FrSiUn
+Q2rODwf+JF6YHgdDfBE64tZ1ZftY16DkbT4vobq9S4J23HeeeREQzMzU/73qYLYn
+uh5bh6YtB/aSMagqMFTwdR8WG7lLp9GTCQou5rcOAUKMV5HxiUMJ/y55uWS64tnM
+p8peeW/PsnYzRbl/1QKLpEoxrvCiH7tYsq+XFkh0gdr83J8aUWp9yIk60UtZj+l0
+iW/sO+AgmxA3WEfOugh7PmfGOYSnAq8vDkfF7IVbpsxMClO5BhT16JKlQcOQtj57
+JZ9a7DPolo8FHF3/3YUavy0i4GW2E05VPbGd2CUR+HUOrgEJ966AgRScUqixd3e5
+qZXnW3XRDVm/j15nioqL20IOkpHopQ==
+=/fa5
+-----END PGP SIGNATURE-----
+
+--uOb7wIOy9cepJajaU2fQeKSUQpicCXCBx--
 
