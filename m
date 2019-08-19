@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBC291C7C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:27:05 +0200 (CEST)
-Received: from localhost ([::1]:44702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AC591C90
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:34:07 +0200 (CEST)
+Received: from localhost ([::1]:44830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzaC8-0005JN-54
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:27:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45224)
+	id 1hzaIw-00065V-D8
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47273)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzaAA-0003u6-1d
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:25:02 -0400
+ (envelope-from <bounces@canonical.com>) id 1hzXzJ-0002gR-P1
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 23:05:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzaA9-0005me-3I
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:25:01 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:35525)
+ (envelope-from <bounces@canonical.com>) id 1hzXzG-0002sD-1g
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 23:05:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33140)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hzaA8-0005kw-Tq; Mon, 19 Aug 2019 01:25:01 -0400
-Received: by mail-ed1-x542.google.com with SMTP id w20so477571edd.2;
- Sun, 18 Aug 2019 22:25:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Kw8gZukUQn7Y0YiR2lb3z6XxAV+KtL/W1eXtQ5TEyOI=;
- b=atvHOqa2h1M7il1dJDVq6U0vuvXfIHLCSYRO8vn4ITyO7qkL4x6lbeukOX7yDvz+bl
- Z5RAmKiEeH2NaydGRpSczxEdgp0a70+ZVtwIzlPJU/XvH4x1JlLCQp8xHM0XZNotyyWf
- MFrXdcCegQWkA+/e89tBc0PzJ2ptdcnHENcHUTA5mshO/fDcfnN2iBzgCLzI6CiWJqZK
- QUi/E2cP1218e+cLxNraZWSAPhHxD48hgx4rsL5vafH5JnDxUL83ZqpMMmSBtE8JEgVo
- F4AOPlkk++0iBIA33+IEIdzftTHhxL97XNaOBOD5U5y2LfGZ3UHiJ0yIFACSRtjluQ87
- svLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Kw8gZukUQn7Y0YiR2lb3z6XxAV+KtL/W1eXtQ5TEyOI=;
- b=l9HRm/bCtc4WT+qenfvBDv8xkohaB7WHFkGrgDGb6qMftpPs9Zs38bOJqtjvEmWJDo
- /zTBOJom7sEHPFxd51Z2J7YkccJ6KIXbyuCHziyTa/DfCE10PffPqTJV108PpRv6twNx
- MLOK5M+xHmoaFp14hoXeS/Qpy+2jI5/9zICidx6xTOLFQsIeNGFIxaXjvgAaowpwHMH7
- p0hQ87awlt2AbjAFqj2FNvFQB9bozMzzRMLnScxSXKomKClwFeJzwuVnD6dqvTeqD2p5
- TyNIwDJk7AZjINGDSsfEtG1/JQ65MH0h5Rcgg1JCmLy9kxVSiCUGX+XndNAUtWabnXDf
- 6K1w==
-X-Gm-Message-State: APjAAAUUj/WRU2wQFJMLJtcGtmOfCBjGw8DXjTjp/d3UCpuYpf/2RTHm
- p/BrM3345a1lgn5RA69x4dJNKkTeMRTWsq2D/ds=
-X-Google-Smtp-Source: APXvYqxw6GFQdqIMDUq68tJ+4wuAqTqjMsG7PC9ielCXcULMHoPguM5vOSxL+73k5LlGTYlNRtMUNiorhHExmA2RkMA=
-X-Received: by 2002:a17:906:32c2:: with SMTP id
- k2mr2762236ejk.308.1566192299260; 
- Sun, 18 Aug 2019 22:24:59 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hzXzF-0002rN-Sd
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 23:05:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hzXzD-00023b-RC
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 03:05:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C27E22E8070
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 03:05:35 +0000 (UTC)
 MIME-Version: 1.0
-References: <1565335544-23584-1-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKOyTXgs5uZuukZjAEqQkTtf1U+vD=u9_470+OgsfaQdqQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKOyTXgs5uZuukZjAEqQkTtf1U+vD=u9_470+OgsfaQdqQ@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 19 Aug 2019 13:24:48 +0800
-Message-ID: <CAEUhbmW0sCEN7mzSfCvUBSqhAGD3v5JyeDj2iSqs0MQJv13bag@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::542
-Subject: Re: [Qemu-devel] [PATCH v3] hw: net: cadence_gem: Fix build errors
- in DB_PRINT()
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 19 Aug 2019 02:56:44 -0000
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm usb
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aditya-govardhan andrew-pennebaker kraxel-redhat
+ pmaydell vortelf weberkai
+X-Launchpad-Bug-Reporter: George (vortelf)
+X-Launchpad-Bug-Modifier: Weber Kai (weberkai)
+References: <152673688616.9061.7617411809661975686.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156618340459.22324.2948520356642462313.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19022";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 21ed8b390b20154206c2ed93a1d6d23d6139317c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Mon, 19 Aug 2019 01:29:33 -0400
+Subject: [Qemu-devel] [Bug 1772165] Re: arm raspi2/raspi3 emulation has no
+ USB support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,34 +67,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+From: Weber Kai via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Bug 1772165 <1772165@bugs.launchpad.net>
+Cc: Weber Kai <weberkai@yahoo.com.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Aug 10, 2019 at 9:58 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Fri, Aug 9, 2019 at 12:26 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > When CADENCE_GEM_ERR_DEBUG is turned on, there are several
-> > compilation errors in DB_PRINT(). Fix them.
-> >
-> > While we are here, update to use appropriate modifiers in
-> > the same DB_PRINT() call.
-> >
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
->
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->
+Hi!
 
-Ping?
+I've googled: "usb" "designware" "otg" "datasheet"
 
-What's the status of this patch?
+I think this is the kernel driver for this device:
+https://github.com/torvalds/linux/tree/master/drivers/usb/dwc3
 
-Regards,
-Bin
+Maybe it should be possible to use this as a reference? Maybe try to
+redirect the proprietary drivers system calls? I don't know...
+
+I've also found theses docs, which explains the device a little bit:
+http://www.infradead.org/~mchehab/kernel_docs_pdf/driver-api.pdf
+https://media.digikey.com/pdf/Data%20Sheets/Austriamicrosystems%20PDFs/AS35=
+24.pdf
+https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/hb=
+/arria-10/a10_54018.pdf
+
+Thanks.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1772165
+
+Title:
+  arm raspi2/raspi3 emulation has no USB support
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Using Qemu 2.12.0 on ArchLinux.
+
+  Trying to emulate arm device with `qemu-system-arm` and attach usb
+  device for unput using
+
+  ` -usb -device usb-host,bus=3D001,vendorid=3D0x1d6b,productid=3D0x0002 `
+
+  # lsusb returns
+
+  Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+  Bus 001 Device 014: ID 13d3:3487 IMC Networks =
+
+  Bus 001 Device 004: ID 0457:11af Silicon Integrated Systems Corp. =
+
+  Bus 001 Device 003: ID 0bda:57e6 Realtek Semiconductor Corp. =
+
+  Bus 001 Device 002: ID 0bda:0129 Realtek Semiconductor Corp. RTS5129 Card=
+ Reader Controller
+  Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+  # qemu returns
+  qemu-system-arm: -device usb-host,bus=3D001,vendorid=3D0x1d6b,productid=
+=3D0x0002: Bus '001' not found
+
+  =
+
+  Tried with connecting external usb keyboard but that didn't seem to work =
+either.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1772165/+subscriptions
 
