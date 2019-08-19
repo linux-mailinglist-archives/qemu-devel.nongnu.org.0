@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84DFF923C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 14:48:56 +0200 (CEST)
-Received: from localhost ([::1]:49484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B72923B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 14:44:33 +0200 (CEST)
+Received: from localhost ([::1]:49406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzh5j-0007QC-9i
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 08:48:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36465)
+	id 1hzh1T-0003i5-Na
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 08:44:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36496)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgTy-0002Nq-FV
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:59 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgU4-0002O0-Je
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:10:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgTw-0002sJ-CV
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:53 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:59122 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgU3-0002x1-51
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:10:00 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:59126 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hzgTw-0002j2-2j
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:52 -0400
+ id 1hzgTx-0002kb-Qa
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:54 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 0CFEF1A21FF;
+ by mail.rt-rk.com (Postfix) with ESMTP id 272FC1A20C6;
  Mon, 19 Aug 2019 14:08:26 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 3BD151A2179;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 5113C1A222E;
  Mon, 19 Aug 2019 14:08:25 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 14:08:13 +0200
-Message-Id: <1566216496-17375-35-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Mon, 19 Aug 2019 14:08:15 +0200
+Message-Id: <1566216496-17375-37-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1566216496-17375-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1566216496-17375-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v8 34/37] target/mips: Clean up handling of CP0
- register 30
+Subject: [Qemu-devel] [PATCH v8 36/37] target/mips: tests/tcg: Add optional
+ printing of more detailed failure info
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,53 +57,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Clean up handling of CP0 register 30.
+There is a need for printing input and output data for failure cases,
+for debugging purpose. This is achieved by this patch, and only if a
+preprocessor constant is manually set to 1. (Assumption is that the
+need for such printout is relatively rare.)
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- target/mips/translate.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/tcg/mips/include/test_utils_128.h | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 9025a50..a8bd08a 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -7571,7 +7571,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_30:
-         switch (sel) {
--        case 0:
-+        case CP0_REG30__ERROREPC:
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_ErrorEPC));
-             tcg_gen_ext32s_tl(arg, arg);
-             register_name = "ErrorEPC";
-@@ -8329,7 +8329,7 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-        break;
-     case CP0_REGISTER_30:
-         switch (sel) {
--        case 0:
-+        case CP0_REG30__ERROREPC:
-             tcg_gen_st_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_ErrorEPC));
-             register_name = "ErrorEPC";
-             break;
-@@ -9067,7 +9067,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_30:
-         switch (sel) {
--        case 0:
-+        case CP0_REG30__ERROREPC:
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_ErrorEPC));
-             register_name = "ErrorEPC";
-             break;
-@@ -9811,7 +9811,7 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_30:
-         switch (sel) {
--        case 0:
-+        case CP0_REG30__ERROREPC:
-             tcg_gen_st_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_ErrorEPC));
-             register_name = "ErrorEPC";
-             break;
+diff --git a/tests/tcg/mips/include/test_utils_128.h b/tests/tcg/mips/include/test_utils_128.h
+index 2fea610..0dd3868 100644
+--- a/tests/tcg/mips/include/test_utils_128.h
++++ b/tests/tcg/mips/include/test_utils_128.h
+@@ -27,7 +27,8 @@
+ #include <inttypes.h>
+ #include <string.h>
+ 
+-#define PRINT_RESULTS 0
++#define PRINT_RESULTS    0
++#define PRINT_FAILURES   0
+ 
+ 
+ static inline int32_t check_results_128(const char *isa_ase_name,
+@@ -65,6 +66,26 @@ static inline int32_t check_results_128(const char *isa_ase_name,
+             (b128_result[2 * i + 1] == b128_expect[2 * i + 1])) {
+             pass_count++;
+         } else {
++#if PRINT_FAILURES
++            uint32_t ii;
++            uint64_t a, b;
++
++            printf("\n");
++
++            printf("FAILURE for test case %d!\n", i);
++
++            memcpy(&a, (b128_expect + 2 * i), 8);
++            memcpy(&b, (b128_expect + 2 * i + 1), 8);
++            printf("Expected result : { 0x%016llxULL, 0x%016llxULL, },\n",
++                   a, b);
++
++            memcpy(&a, (b128_result + 2 * i), 8);
++            memcpy(&b, (b128_result + 2 * i + 1), 8);
++            printf("Actual result   : { 0x%016llxULL, 0x%016llxULL, },\n",
++                   a, b);
++
++            printf("\n");
++#endif
+             fail_count++;
+         }
+     }
 -- 
 2.7.4
 
