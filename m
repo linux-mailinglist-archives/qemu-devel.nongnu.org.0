@@ -2,70 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DC2950A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 00:20:28 +0200 (CEST)
-Received: from localhost ([::1]:59812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2955F950AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 00:22:42 +0200 (CEST)
+Received: from localhost ([::1]:59894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzq0o-0007WL-JO
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 18:20:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60144)
+	id 1hzq2z-0003Eb-3z
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 18:22:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32986)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpN1-00033x-3x
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:39:20 -0400
+ (envelope-from <jkz@google.com>) id 1hzpU0-0003yS-13
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:46:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpMz-0006xk-NE
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:39:18 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:35398)
+ (envelope-from <jkz@google.com>) id 1hzpTw-0001m5-Qa
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:46:31 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:35046)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzpMz-0006xK-Hs
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:39:17 -0400
-Received: by mail-pg1-x541.google.com with SMTP id n4so1937259pgv.2
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GQyk/IPAzG6M9shM4zauPndvY+PKuQRptTNum9FjIF4=;
- b=U1Wa2JjkTtEr8I1MOovLSN8jz9r2NAb/+fR4a83qgEvzMQuaFsju0+ydUzL0JrnKM6
- v+JknZURt457WLs4EfvWFAZKCBTTgtK0mGa8bP7Rp54ZKB7iQaqW3SHvJkSUZlxwF/r9
- FmsrQGeiPUgb/MFOwXYN/Sr/Gwb3XhNmiJVPiccAApx6KIP2mYhzZtEX5Y2TMZCAllP9
- f8IqslOlr/xJxRwzhQTe8GTxCjJiQseyMDE8fiDR7n8z5IIB4BudpxxgFHGkedYnpb4e
- Aki75HoVSeR9vmPZtpS0yb8kD4Yb4eoO6viR47pqnO+P/6fjeceudHgkWobJUlNDNT2H
- e9+w==
+ (Exim 4.71) (envelope-from <jkz@google.com>) id 1hzpTw-0001hb-CW
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:46:28 -0400
+Received: by mail-pf1-x443.google.com with SMTP id d85so1968238pfd.2
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=ikavlIOQOEnel5CO+3gZOR2OAKyiRO+kaAZwrxJfrzg=;
+ b=boTVdzNxiFK/APPvyrHAKGZ+XUFBxDu06Oq1BPKodzjO7RWbVQ3rsBBbveHGuCGHHT
+ h15V2eZ+2XhEvWL+O/3gwdHxun6T5BJaSVTkeFcyide3xd15zyPFayBoYCTxiQDRqled
+ 4+RE2P538/o28ox8JLgfY+1+++SIKyg6g4HuGidcqcLIembnD2nIOIk1XPw1fM8vBRQH
+ W4DP3floDjhOP/tMlE93YXNysrbobHKh4qp7XOMPtdA1q3xGfGJuwwl++63wUrechVmc
+ S8tTQFB/OH1e4ZovT2iCKAfyTb1X9yhcX2tP6Hgnzna3PQ6j1tS6DVcHOoKlQ8f5Kf8i
+ bcEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=GQyk/IPAzG6M9shM4zauPndvY+PKuQRptTNum9FjIF4=;
- b=ONtY4pXv2h6RXOB1dlqCclxxwPU1vTNhNUGjubbjZcX1joSTpfZgGzrK7jt+u0b/zT
- bbDYP5NXz9QVWz9T2TaKLwn4hxzI1uXxElqMF/mx1n61Zo8R3jijJOVdcrMy6g10Of8s
- 4oBQNLkvU0cI7i+1Z5j/JFcjbGM8V/KRvSk0clZpBXsHTD8hQmIT9Zw89SVqAuDscIcX
- guC5XptOquJYcxewFk+vAbZYeP+zmumBLxLBezVgNgn8M7UsJakBJb6AkNJCczc1jxC8
- C+nVVj7PYwxgZdeVRFN0XPM3/83lkeCFx2bwnnrzipOiOhgjb2IugJ18pE83g3ck9oRr
- VKhg==
-X-Gm-Message-State: APjAAAVKj+duo1qAXfcuI2qm3BIsynJa6FOG2SynerbNOZ63kQKneWsa
- TILdIz+s+MQ5masm/OJamT60MPwJZfE=
-X-Google-Smtp-Source: APXvYqxcNaDqZvZOulLjPj/TjCmD7suyGdAYrU6iBHMuWZUM0xpeSaNovaH+WoKHbFMTXJXbjR6zTw==
-X-Received: by 2002:a63:30c6:: with SMTP id
- w189mr21114425pgw.398.1566250756266; 
- Mon, 19 Aug 2019 14:39:16 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.39.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 14:39:15 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 14:37:51 -0700
-Message-Id: <20190819213755.26175-65-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190819213755.26175-1-richard.henderson@linaro.org>
-References: <20190819213755.26175-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=ikavlIOQOEnel5CO+3gZOR2OAKyiRO+kaAZwrxJfrzg=;
+ b=h6J1tVa7BkVRJ0NI4shi0ZYdNFSDYw4Zoh0wrVc3qI/AP9tRtBp8W/T5blK+i5558F
+ x2tWW6yHy3vx9DAFVWicwCeN3LKvZ7cTA132ztcJvCuKLJgmH60TG2NjGrQ4oZGKzOS9
+ W/F1EDfHCk3tZOyPz2kQaBbV+mYVMqVPgCpxD3xGbmo8BD1L8XG0vG25MA3a3fTnGOTs
+ NjTCDtWYskzJUsFCShtOKntgMS5QRdamzsPty22Cp6GOchRAd/dQwm7xD0O+d7ycinCP
+ HGgu6VBaS/NggcIfpkpauaGPVCURUwuKCtwfQQNGvhYBchxPxxXloMEtkM539eh+Dn7V
+ kKKw==
+X-Gm-Message-State: APjAAAUVrxoxlXW+nLuLQ5+9au2CGbXfzGbTWj39AQR6+BO2iva47IjZ
+ xauREi2iG+AdvL/+D06BkKxxoxZmykT29TpEcSo1Hg==
+X-Google-Smtp-Source: APXvYqxRx6oUNp1G9JHtrYWLK+lg+ZxfFHsYR09xUd7U/+vXBqqUJxFeCPikTgVX0o5Z79OgQi3+vUv/kfGUwpI2+pg=
+X-Received: by 2002:a62:7513:: with SMTP id q19mr27647688pfc.192.1566251184064; 
+ Mon, 19 Aug 2019 14:46:24 -0700 (PDT)
+MIME-Version: 1.0
+Date: Mon, 19 Aug 2019 14:46:13 -0700
+Message-ID: <CADgy-2vznasvwaUwNSi96Sy=ucPC=-3e=O9irqc5DSpV_uhWUg@mail.gmail.com>
+To: marlies.ruck@gmail.com, qemu-devel@nongnu.org, riku.voipio@iki.fi, 
+ laurent@vivier.eu
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH v2 64/68] target/arm: Convert T16,
- load (literal)
+X-Received-From: 2607:f8b0:4864:20::443
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] patch to swap SIGRTMIN + 1 and SIGRTMAX - 1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,117 +68,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+From: Josh Kunz via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Josh Kunz <jkz@google.com>
+Cc: qemu-trivial@nongnu.org, peter.maydell@linaro.org,
+ Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate.c | 42 ++----------------------------------------
- target/arm/t16.decode  |  4 ++++
- 2 files changed, 6 insertions(+), 40 deletions(-)
+Hi all,
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index dc3c9049cd..1882057402 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -963,14 +963,6 @@ static inline void gen_aa32_ld##SUFF(DisasContext *s, TCGv_i32 val,      \
-                                      TCGv_i32 a32, int index)            \
- {                                                                        \
-     gen_aa32_ld_i32(s, val, a32, index, OPC | s->be_data);               \
--}                                                                        \
--static inline void gen_aa32_ld##SUFF##_iss(DisasContext *s,              \
--                                           TCGv_i32 val,                 \
--                                           TCGv_i32 a32, int index,      \
--                                           ISSInfo issinfo)              \
--{                                                                        \
--    gen_aa32_ld##SUFF(s, val, a32, index);                               \
--    disas_set_da_iss(s, OPC, issinfo);                                   \
- }
- 
- #define DO_GEN_ST(SUFF, OPC)                                             \
-@@ -978,14 +970,6 @@ static inline void gen_aa32_st##SUFF(DisasContext *s, TCGv_i32 val,      \
-                                      TCGv_i32 a32, int index)            \
- {                                                                        \
-     gen_aa32_st_i32(s, val, a32, index, OPC | s->be_data);               \
--}                                                                        \
--static inline void gen_aa32_st##SUFF##_iss(DisasContext *s,              \
--                                           TCGv_i32 val,                 \
--                                           TCGv_i32 a32, int index,      \
--                                           ISSInfo issinfo)              \
--{                                                                        \
--    gen_aa32_st##SUFF(s, val, a32, index);                               \
--    disas_set_da_iss(s, OPC, issinfo | ISSIsWrite);                      \
- }
- 
- static inline void gen_aa32_frob64(DisasContext *s, TCGv_i64 val)
-@@ -1034,9 +1018,7 @@ static inline void gen_aa32_st64(DisasContext *s, TCGv_i64 val,
-     gen_aa32_st_i64(s, val, a32, index, MO_Q | s->be_data);
- }
- 
--DO_GEN_LD(8s, MO_SB)
- DO_GEN_LD(8u, MO_UB)
--DO_GEN_LD(16s, MO_SW)
- DO_GEN_LD(16u, MO_UW)
- DO_GEN_LD(32u, MO_UL)
- DO_GEN_ST(8, MO_UB)
-@@ -10630,11 +10612,10 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
- 
- static void disas_thumb_insn(DisasContext *s, uint32_t insn)
- {
--    uint32_t val, rd;
-+    uint32_t val;
-     int32_t offset;
-     TCGv_i32 tmp;
-     TCGv_i32 tmp2;
--    TCGv_i32 addr;
- 
-     if (disas_t16(s, insn)) {
-         return;
-@@ -10644,26 +10625,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-     switch (insn >> 12) {
-     case 0: case 1: /* add/sub (3reg, 2reg imm), shift imm; in decodetree */
-     case 2: case 3: /* add, sub, cmp, mov (reg, imm), in decodetree */
--        goto illegal_op;
--    case 4:
--        if (insn & (1 << 11)) {
--            rd = (insn >> 8) & 7;
--            /* load pc-relative.  Bit 1 of PC is ignored.  */
--            addr = add_reg_for_lit(s, 15, (insn & 0xff) * 4);
--            tmp = tcg_temp_new_i32();
--            gen_aa32_ld32u_iss(s, tmp, addr, get_mem_index(s),
--                               rd | ISSIs16Bit);
--            tcg_temp_free_i32(addr);
--            store_reg(s, rd, tmp);
--            break;
--        }
--
--        /*
--         * - Data-processing (two low registers), in decodetree
--         * - data processing extended, branch and exchange, in decodetree
--         */
--        goto illegal_op;
--
-+    case 4: /* ldr lit, data proc (2reg), data proc ext, bx; in decodetree */
-     case 5: /* load/store register offset, in decodetree */
-     case 6: /* load/store word immediate offset, in decodetree */
-     case 7: /* load/store byte immediate offset, in decodetree */
-diff --git a/target/arm/t16.decode b/target/arm/t16.decode
-index 1adad20804..f87e6fde50 100644
---- a/target/arm/t16.decode
-+++ b/target/arm/t16.decode
-@@ -113,6 +113,10 @@ LDRH_ri         10001 ..... ... ...             @ldst_ri_2
- STR_ri          10010 ... ........              @ldst_spec_i rn=13
- LDR_ri          10011 ... ........              @ldst_spec_i rn=13
- 
-+# Load (PC-relative)
-+
-+LDR_ri          01001 ... ........              @ldst_spec_i rn=15
-+
- # Add PC/SP (immediate)
- 
- ADR             10100 rd:3 ........             imm=%imm8_0x4
--- 
-2.17.1
+I have also experienced issues with SIGRTMIN + 1, and am interested in
+moving this patch forwards. Anything I can do here to help? Would the
+maintainers prefer myself or Marli re-submit the patch?
 
+The Go issue here seems particularly sticky. Even if we update the Go
+runtime, users may try and run older binaries built with older versions of
+Go for quite some time (months? years?). Would it be better to hide this
+behind some kind of build-time flag (`--enable-sigrtmin-plus-one-proxy` or
+something), so that some users can opt-in, but older binaries still work as
+expected?
 
+Also, here is a link to the original thread this message is in reply to
+in-case my mail-client doesn't set up the reply properly:
+https://lists.nongnu.org/archive/html/qemu-devel/2019-07/msg01303.html
+
+Thanks,
+Josh Kunz
