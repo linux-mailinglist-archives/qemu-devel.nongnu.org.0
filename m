@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C4E92787
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 16:50:32 +0200 (CEST)
-Received: from localhost ([::1]:52190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E7792790
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 16:51:59 +0200 (CEST)
+Received: from localhost ([::1]:52212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzizP-0006kz-0F
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 10:50:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39431)
+	id 1hzj0o-0000rf-FG
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 10:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39557)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <arikalo@wavecomp.com>) id 1hzixK-0004qJ-GW
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 10:48:24 -0400
+ (envelope-from <arikalo@wavecomp.com>) id 1hziy8-00067K-W4
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 10:49:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <arikalo@wavecomp.com>) id 1hzixH-00016h-SE
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 10:48:22 -0400
-Received: from mail-eopbgr760099.outbound.protection.outlook.com
- ([40.107.76.99]:62318 helo=NAM02-CY1-obe.outbound.protection.outlook.com)
+ (envelope-from <arikalo@wavecomp.com>) id 1hziy7-0001Q1-J4
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 10:49:12 -0400
+Received: from mail-eopbgr720096.outbound.protection.outlook.com
+ ([40.107.72.96]:22016 helo=NAM05-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <arikalo@wavecomp.com>)
- id 1hzixG-000151-OV
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 10:48:19 -0400
+ id 1hziy6-0001PK-Vv
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 10:49:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YzN1nSVSQ3+nfy4DQNUg4VTPvQ3IOAHId415u7NYFk3iArhdOouMcs39nIpc3IHKjJap2JqQHJOwUAZi+dZBx1PsmMzWl407WfvXlgANI82C+/bkdaZv0/+coij6tOIQESmw9Xa2l1Nb2xjrBnxq7XXzpXRMo9qunM7IrH+Kr65wk3sVSM81zDpXDjdpxIXw6sSPHFMalduSSR+/qo8ughlIdX3tZKXWeY3/o8/IuxQqs4CCQ5O8kki+XNaODMAlNU1LQCgEhFaVmB1EKHYJBkXa6LsZ09pVSzIpUnVpw2KC0GmezeCnbmPP3EK7vYMUTaj4nacFsGaFiVK5z/j03Q==
+ b=nI3k6aqpPaJ5fqLyUNd2wwAgUl7nLcPwVX8tpLqQE3vO8kfD6w+Ck6w2CVaqib+UyhV73OjzXky0Vt99gU4c4M+9CuEKV6mCQ3aBnJ5jFgTY8KshF7FjT9FheQv+UojIEKX76/6b4ixGNCwQ8pJMCK5sdn6L+A0pNb8xIPknvGlpcRInsNbuKO8HP3qsbmTjkuDv27t5jYFkC9uFVrfc+0EmO9mR2nDOjaeWxCto1TDqxE/bKoFdpTqSokWStmPjHHsrk18eRBv1Y/0SWu7xg0hEXmDHMHBme1jvPGXNJWLb+P1PS+9lM1hhxM2BScdIFTH6vQbKB7v81oLJKg0K1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DFp2D9VIQfFd5Vov2YPMj5p8DOgxlqaESTiL5qZIYqs=;
- b=nyXPA8Wt6UudrrGYvtCzOZtH1+iidlGKGsubmDLO2yD1cWE3SjOhwXD1Ftn+NpNYX9mRk313nAWPANSVnYGnoQWO/REEi5JtL2ozS5iQkl3EPwZvggr/c6sB+3m5Ny+iOCJyJidb3lwNkAUNDPDvGwUjnW7MFF9SyVIIxr7fVQLq2eyYbm7JIOKZQdpx4nt9f7uKcB1rWn2pvyeOKQYlwwLpnR7gi9Fa5mSwnHb39HE0wiM34glaQUquKLepP0miDsoj1yGCPFwycVcYcgfPYY7htaUORskYn+pxRtqzj1K/65jXxgI/PfggjTxjtcCaDcqRkOoqZIUe7S6uWRZaPQ==
+ bh=Y0AS2O+xs6nZh/h75VRWXC9zRWT9GKszbF8+F0gqW4E=;
+ b=fmCxS27GKeTvuibprcWlB+OAKZVMCJskOcS5uzetAIy411kBKzw6Mp8n8JMWW8YTIMG+UypGYFMzPPhV4xEOCbpSUR30p7/fPiwvNSbp6lU0EiZBZ/8vTKPMFavtnUHiByX3CAgKyQi/mvb7BGlWrC+psCYpNNUDnhwllTY9MGnVIunEccuN0OftdG3NDnlFgigrCmAK6A/6tmJqMoG/3fBlX8u5Rh53Q/XZrD9hJ88kMOhpUeGV3rQbUO/g1wgsLYP6eTzP6NoLc5M1bCbJeIsUqT0lBqGZM0wIdvfkKjYP9OSpUotOYBbtvdFURivRjjkJjWz0bqlIgzXnzmfNRQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wavecomp.com; dmarc=pass action=none header.from=wavecomp.com;
  dkim=pass header.d=wavecomp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wavecomp.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DFp2D9VIQfFd5Vov2YPMj5p8DOgxlqaESTiL5qZIYqs=;
- b=sTiddv3cJt56YQrVAnikwSmD6n5QYCJWSxd6rNPAqrvI13vz1kJepV3sxg/Q5UqO6FQMSUw8J3K4Hg47UW+jJMtG3fL26uHCCEvWoXVIqparO0Hug2RFCP/G++l6T7ANGPMff4JAEmtQ1R/1iIghysfFcEGeo33FXbzM+CyMWnE=
+ bh=Y0AS2O+xs6nZh/h75VRWXC9zRWT9GKszbF8+F0gqW4E=;
+ b=Mxc5glrERt/ujkgLFyk65C79h9xFNIp9lnAcIvMhA+E/YgFLL2Z5E/hQv8+o6tiPA/+jh5ryjN8ns0izoJm+ol6z0yHpScWaZylGFAKaUSCmrDDtH4nldZy6P2jWcRf9DUVfQKdEq2gEQf0Rv2uLGp3oFJbaJ+QUieJ2az8w+IM=
 Received: from DM5PR22MB1658.namprd22.prod.outlook.com (10.164.152.163) by
- DM5PR22MB0331.namprd22.prod.outlook.com (10.173.175.10) with Microsoft SMTP
+ DM5PR22MB0683.namprd22.prod.outlook.com (10.172.190.23) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2178.16; Mon, 19 Aug 2019 14:48:16 +0000
+ 15.20.2178.18; Mon, 19 Aug 2019 14:49:09 +0000
 Received: from DM5PR22MB1658.namprd22.prod.outlook.com
  ([fe80::ed69:1c9f:bdff:2197]) by DM5PR22MB1658.namprd22.prod.outlook.com
  ([fe80::ed69:1c9f:bdff:2197%5]) with mapi id 15.20.2178.018; Mon, 19 Aug 2019
- 14:48:16 +0000
+ 14:49:09 +0000
 From: Aleksandar Rikalo <arikalo@wavecomp.com>
 To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [EXTERNAL][PATCH v8 16/37] target/mips: Style improvements in
- mips_mipssim.c
-Thread-Index: AQHVVobTIGpjcHBw/Ei75EpXFeFfb6cCjQlO
-Date: Mon, 19 Aug 2019 14:48:15 +0000
-Message-ID: <DM5PR22MB16586963B2C4E1BD18A0C4E5D2A80@DM5PR22MB1658.namprd22.prod.outlook.com>
+Thread-Topic: [EXTERNAL][PATCH v8 36/37] target/mips: tests/tcg: Add optional
+ printing of more detailed failure info
+Thread-Index: AQHVVobVFkuqG8u43Ue30JVR1gbssacCjVTI
+Date: Mon, 19 Aug 2019 14:49:09 +0000
+Message-ID: <DM5PR22MB1658A66A26A98AC8EDA83E45D2A80@DM5PR22MB1658.namprd22.prod.outlook.com>
 References: <1566216496-17375-1-git-send-email-aleksandar.markovic@rt-rk.com>,
- <1566216496-17375-17-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1566216496-17375-17-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1566216496-17375-37-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1566216496-17375-37-git-send-email-aleksandar.markovic@rt-rk.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -64,40 +64,40 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=arikalo@wavecomp.com; 
 x-originating-ip: [82.117.201.26]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 31484c7e-3fd4-43e6-ca81-08d724b4449c
+x-ms-office365-filtering-correlation-id: 510f2be0-433d-49d9-9af2-08d724b4646c
 x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DM5PR22MB0331; 
-x-ms-traffictypediagnostic: DM5PR22MB0331:
+ RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
+ SRVR:DM5PR22MB0683; 
+x-ms-traffictypediagnostic: DM5PR22MB0683:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR22MB03310A7380782E9E0D7BF950D2A80@DM5PR22MB0331.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2150;
+x-microsoft-antispam-prvs: <DM5PR22MB068361427DCBE22EC17C4015D2A80@DM5PR22MB0683.namprd22.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3383;
 x-forefront-prvs: 0134AD334F
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(376002)(346002)(366004)(396003)(39830400003)(189003)(199004)(99286004)(76116006)(66556008)(66476007)(66946007)(91956017)(64756008)(66066001)(6606003)(256004)(5024004)(2906002)(8676002)(81156014)(110136005)(66446008)(52536014)(71200400001)(71190400001)(2501003)(53936002)(3846002)(54906003)(6116002)(316002)(186003)(107886003)(7696005)(478600001)(76176011)(81166006)(8936002)(5660300002)(14454004)(7736002)(19627405001)(33656002)(6246003)(4326008)(486006)(74316002)(25786009)(446003)(86362001)(55236004)(53546011)(102836004)(6506007)(55016002)(54896002)(9686003)(229853002)(6436002)(476003)(11346002)(26005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR22MB0331;
+ SFS:(10019020)(376002)(136003)(346002)(396003)(39840400004)(366004)(199004)(189003)(186003)(66066001)(9686003)(81166006)(102836004)(4326008)(81156014)(107886003)(5660300002)(54906003)(6436002)(54896002)(19627405001)(110136005)(26005)(6116002)(86362001)(3846002)(2501003)(55016002)(486006)(52536014)(476003)(8676002)(316002)(256004)(6606003)(6506007)(53546011)(11346002)(53936002)(55236004)(14454004)(66446008)(64756008)(71200400001)(7736002)(6246003)(33656002)(99286004)(71190400001)(91956017)(76116006)(66556008)(66946007)(229853002)(74316002)(66476007)(446003)(2906002)(25786009)(76176011)(7696005)(14444005)(478600001)(8936002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR22MB0683;
  H:DM5PR22MB1658.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
+ PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: wavecomp.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 8jNYrh7w/kAxnQPtjNNzwb+NP1YTfrQ3Pu2moJwELNcYIJ63kiKQoZyWQ0K/eA3NYj0BxuUBCA3a/f9QRrAA4XGH/uJ88WxoJPqnBYHtOh6tAfacTWgNvxqv2dThcJdMp1LR6lUG1EiMNQWbIPfHyWmt6fZQ4vFcJDXeRPvwQcssMBAmKEDegCP6IjlLrvShNZLuYd+KVSfvXXuaavoWa45LHSyuu70iM9cIOFFYVQzOwbKRweLKP0yFULq9vAWxrTIDhWO9zgmFLHmqZ1VzGzXAFu+PXnX8CsDseIS6MKtI75IceYO8KXMruzNPqIsoRygXJwN6ilfAAAl7GoMXMotz/HiuvsH+pdj1+gLiFOEdq8NmWtDscuRzqOIzeDYXstsWMu/JHuDAhoS4WeSSj6MeLWzvejJWtOSmIduekEc=
+x-microsoft-antispam-message-info: OrHczmviFKhtHKRopkn8TWu4K9VD7dnw8leNiM7BzGI/eIgjerMuniDNkB1nm+QFcYpuwTXFmylCJBGz/lDm17DCBTQXn+RO6rsG4oVaFVYpVTDmLxNWVSq3Ti1QwRQ9BZCwW9X2Gx7UF9y3wQvPVxUuhjv1/fIj6nwCSSzlnKo4j2B0w0ytdrhBrtYi5rC+WUl2JojULNanY23wEmlQbqmtyTLGZ1YhJYNs+R4jQLVmYuhVt8e/b7DLtv1jSingyOZa80xjxqIswLgtmHgA98QpvSJYQAZTFTkM9clZBYzRXNV2EhvWC3b6JX/16lSlLUw01OhS+WK7CtYjBlC75LCkVlD/4Dk1dTpGf9XflNuwK0p+0d8iNtIaPw6m/4ALSbxQ/k9oF4iI91CNbnlOt4QT1boTMTW8f4knaPbM41w=
 MIME-Version: 1.0
 X-OriginatorOrg: wavecomp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31484c7e-3fd4-43e6-ca81-08d724b4449c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2019 14:48:15.9094 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 510f2be0-433d-49d9-9af2-08d724b4646c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2019 14:49:09.2947 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: e8XWNB7ThCj6ejNT4MFGCw9f+1K+tO5V0WOAHzEKX/SpRy3/0YHlMlISR6UCVG450EmeXCoacD3ypfqcPbLl0Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR22MB0331
+X-MS-Exchange-CrossTenant-userprincipalname: Y/jmhJEht3hlpJIkhBrtq4TZxJrIg7nuUZvuyitpNHIObhLNL3kz31J3iwr1vN88EJDTc5OL/qy6KDygf4BiVA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR22MB0683
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.76.99
+X-Received-From: 40.107.72.96
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [EXTERNAL][PATCH v8 16/37] target/mips: Style
- improvements in mips_mipssim.c
+Subject: Re: [Qemu-devel] [EXTERNAL][PATCH v8 36/37] target/mips: tests/tcg:
+ Add optional printing of more detailed failure info
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,87 +115,70 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 > From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-> Sent: Monday, August 19, 2019 2:07 PM
+> Sent: Monday, August 19, 2019 2:08 PM
 > To: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
 > Cc: philmd@redhat.com <philmd@redhat.com>; Aleksandar Markovic <amarkovic=
 @wavecomp.com>; Aleksandar Rikalo <arikalo@wavecomp.com>
-> Subject: [EXTERNAL][PATCH v8 16/37] target/mips: Style improvements in mi=
-ps_mipssim.c
+> Subject: [EXTERNAL][PATCH v8 36/37] target/mips: tests/tcg: Add optional =
+printing of more detailed failure info
 >
 > From: Aleksandar Markovic <amarkovic@wavecomp.com>
 >
-> Fixes mostly errors and warnings reported by 'checkpatch.pl -f'.
+> There is a need for printing input and output data for failure cases,
+> for debugging purpose. This is achieved by this patch, and only if a
+> preprocessor constant is manually set to 1. (Assumption is that the
+> need for such printout is relatively rare.)
 >
 > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 > ---
->  hw/mips/mips_mipssim.c | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
+>  tests/tcg/mips/include/test_utils_128.h | 23 ++++++++++++++++++++++-
+>  1 file changed, 22 insertions(+), 1 deletion(-)
 >
-> diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-> index 824abda..b3155e17 100644
-> --- a/hw/mips/mips_mipssim.c
-> +++ b/hw/mips/mips_mipssim.c
-> @@ -3,7 +3,7 @@
->   *
->   * Emulates a very simple machine model similar to the one used by the
->   * proprietary MIPS emulator.
-> - *
-> + *
->   * Copyright (c) 2007 Thiemo Seufer
->   *
->   * Permission is hereby granted, free of charge, to any person obtaining=
- a copy
-> @@ -75,8 +75,9 @@ static int64_t load_kernel(void)
->                             (uint64_t *)&kernel_high, big_endian,
->                             EM_MIPS, 1, 0);
->      if (kernel_size >=3D 0) {
-> -        if ((entry & ~0x7fffffffULL) =3D=3D 0x80000000)
-> +        if ((entry & ~0x7fffffffULL) =3D=3D 0x80000000) {
->              entry =3D (int32_t)entry;
-> +        }
->      } else {
->          error_report("could not load kernel '%s': %s",
->                       loaderparams.kernel_filename,
-> @@ -88,9 +89,10 @@ static int64_t load_kernel(void)
->      initrd_size =3D 0;
->      initrd_offset =3D 0;
->      if (loaderparams.initrd_filename) {
-> -        initrd_size =3D get_image_size (loaderparams.initrd_filename);
-> +        initrd_size =3D get_image_size(loaderparams.initrd_filename);
->          if (initrd_size > 0) {
-> -            initrd_offset =3D (kernel_high + ~INITRD_PAGE_MASK) & INITRD=
-_PAGE_MASK;
-> +            initrd_offset =3D (kernel_high + ~INITRD_PAGE_MASK) &
-> +                            INITRD_PAGE_MASK;
->              if (initrd_offset + initrd_size > loaderparams.ram_size) {
->                  error_report("memory too small for initial ram disk '%s'=
+> diff --git a/tests/tcg/mips/include/test_utils_128.h b/tests/tcg/mips/inc=
+lude/test_utils_128.h
+> index 2fea610..0dd3868 100644
+> --- a/tests/tcg/mips/include/test_utils_128.h
+> +++ b/tests/tcg/mips/include/test_utils_128.h
+> @@ -27,7 +27,8 @@
+>  #include <inttypes.h>
+>  #include <string.h>
+>
+> -#define PRINT_RESULTS 0
+> +#define PRINT_RESULTS    0
+> +#define PRINT_FAILURES   0
+>
+>
+>  static inline int32_t check_results_128(const char *isa_ase_name,
+> @@ -65,6 +66,26 @@ static inline int32_t check_results_128(const char *is=
+a_ase_name,
+>              (b128_result[2 * i + 1] =3D=3D b128_expect[2 * i + 1])) {
+>              pass_count++;
+>          } else {
+> +#if PRINT_FAILURES
+> +            uint32_t ii;
+> +            uint64_t a, b;
+> +
+> +            printf("\n");
+> +
+> +            printf("FAILURE for test case %d!\n", i);
+> +
+> +            memcpy(&a, (b128_expect + 2 * i), 8);
+> +            memcpy(&b, (b128_expect + 2 * i + 1), 8);
+> +            printf("Expected result : { 0x%016llxULL, 0x%016llxULL, },\n=
 ",
->                               loaderparams.initrd_filename);
-> @@ -174,8 +176,9 @@ mips_mipssim_init(MachineState *machine)
->      /* Map the BIOS / boot exception handler. */
->      memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
->      /* Load a BIOS / boot exception handler image. */
-> -    if (bios_name =3D=3D NULL)
-> +    if (bios_name =3D=3D NULL) {
->          bios_name =3D BIOS_FILENAME;
-> +    }
->      filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->      if (filename) {
->          bios_size =3D load_image_targphys(filename, 0x1fc00000LL, BIOS_S=
-IZE);
-> @@ -211,8 +214,10 @@ mips_mipssim_init(MachineState *machine)
->                               get_system_io(), 0, 0x00010000);
->      memory_region_add_subregion(get_system_memory(), 0x1fd00000, isa);
->
-> -    /* A single 16450 sits at offset 0x3f8. It is attached to
-> -       MIPS CPU INT2, which is interrupt 4. */
-> +    /*
-> +     * A single 16450 sits at offset 0x3f8. It is attached to
-> +     * MIPS CPU INT2, which is interrupt 4.
-> +     */
->      if (serial_hd(0))
->          serial_init(0x3f8, env->irq[4], 115200, serial_hd(0),
->                      get_system_io());
+> +                   a, b);
+> +
+> +            memcpy(&a, (b128_result + 2 * i), 8);
+> +            memcpy(&b, (b128_result + 2 * i + 1), 8);
+> +            printf("Actual result   : { 0x%016llxULL, 0x%016llxULL, },\n=
+",
+> +                   a, b);
+> +
+> +            printf("\n");
+> +#endif
+>              fail_count++;
+>          }
+>      }
 > --
 > 2.7.4
 
