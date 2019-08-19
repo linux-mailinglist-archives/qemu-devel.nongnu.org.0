@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15E491C7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:27:05 +0200 (CEST)
-Received: from localhost ([::1]:44704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0ECE91C64
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:21:58 +0200 (CEST)
+Received: from localhost ([::1]:44624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzaC8-0005K8-Pt
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:27:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43581)
+	id 1hza7B-0006kI-CW
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43598)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzZxt-00056K-PT
+ (envelope-from <bmeng.cn@gmail.com>) id 1hzZxu-00057q-BK
  for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzZxs-0007bg-A7
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:21 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:43247)
+ (envelope-from <bmeng.cn@gmail.com>) id 1hzZxt-0007eb-6W
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:22 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:32895)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hzZxs-0007XZ-0A; Mon, 19 Aug 2019 01:12:20 -0400
-Received: by mail-pf1-x442.google.com with SMTP id v12so445710pfn.10;
- Sun, 18 Aug 2019 22:12:19 -0700 (PDT)
+ id 1hzZxt-0007c8-0u; Mon, 19 Aug 2019 01:12:21 -0400
+Received: by mail-pg1-x541.google.com with SMTP id n190so484258pgn.0;
+ Sun, 18 Aug 2019 22:12:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=pqOCkNiswrl8eqAUR5cT2tEbqpobUdAiltlSIodl66Y=;
- b=HjHeWLX4H8vEB4p6A/CPalF7KtznkhW2/VHqmPtTM/uhwFeBHVZlQcreNyjdYaXt43
- bbBxK89d5d/GKDHytEuDz7RIvlLeMO9wBdvwtmXX7TYSTjsM3qrtpr+1WATce0Cu4Ra7
- yBZO4c6o6mfWkVTRu8rg/DLCojbvdSMOPp5k6wV3NEVcWThChCWV4cfhMvhCvGldem1A
- CjKtDcFGCez9BZGAnm7vd6fW7k5gunIcmBGMKYYk8AJtfs6s0UqctHhIdXHnrIjhLbep
- TOkKJ4SGmaX4SFD+xKPqj5W62Jk6d/Y+vW59nMiiMGUHDUq7I7zfWcUuHFii01z8Eroc
- ubuQ==
+ h=from:to:subject:date:message-id:in-reply-to:references;
+ bh=Tucvwbpl50vqcsdv4Gs5/Ot/ead75E87NGyI6G9+GKg=;
+ b=H4+5QGARAQ8lFiWA8E9DyGPMftiaxe4LZAtcZR7aszHnE9fh2scOXndTS01R5dTm96
+ Osxs1D5F8LN6TvuhZAnoXlBgVOEsNi2Gh/OVsqx2Ik101slS0WU0ZhdWBgYI/f29SBFG
+ 3xC9Inu9lu6B7XWRk0JpveEgQbjmSfCz52loBNswObRWd1JNXji4v3E/YEJbAeGpIlk8
+ scBgvN80C+771aXHWo2oVi3VHo3kNUScga2KsFcksfMaHc/uzsvks6mNYNFCMrUZpJCe
+ PpKtnFHvcG9BlCc0XD1ykmMqkYxNuS827Lqzubcpp8hI1/OTFQKShOsY2xKqIX1cp/Jc
+ ngEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pqOCkNiswrl8eqAUR5cT2tEbqpobUdAiltlSIodl66Y=;
- b=pPmkquuS7QkFyifVXxTwQnvh5CWUx33UwHHvYKWr7tDIEUVk7Z3R//MI4zy6Rx0zm5
- h92Od5DyOthGcM8PCOjIsyFzhA3++nfmwz7L5ZsWUoJwXVbmUiKlp7DGzTptwi6UAUtp
- VvQXttLAK9g2yakqbP+D7W1tVAmUZzRmYYWa12/6qpPzYqX18lG/ynbTYRnFpEq1YIkp
- GECJfgSsUihsAgbayoUBNuXCnVdFOQJK0/BL5aZEp7662dxq7wOfuAJa9PwblhIsFeBf
- ZLHLvf6Jlqec1+1qAnUxXlIQS88oJAfqO3EWOsARBxk9Wn4mGjPxCU7LhymviIxTdwqn
- ew2Q==
-X-Gm-Message-State: APjAAAWdAR5CwAjP9n9Og50XCX9laSFV1Y4+hQ60ieqnwSsHaLJfsUfj
- Z9YtIX21kZoj375txCnjMgEqp98A
-X-Google-Smtp-Source: APXvYqx8kjMMJ2VOPlp5bNJl0+vy4bNxB0QXFTP3CWLQgl1ivxnQwmCWZTrONi1gaapRzXt1KGal3A==
-X-Received: by 2002:a63:a35c:: with SMTP id v28mr18483156pgn.144.1566191539128; 
- Sun, 18 Aug 2019 22:12:19 -0700 (PDT)
+ :references;
+ bh=Tucvwbpl50vqcsdv4Gs5/Ot/ead75E87NGyI6G9+GKg=;
+ b=XM4+mtky2CFUB8PrzHHYcWKoAfnfejawnOjPIdzdoGH3dXo9kES3LS+WmCjooaA1Dk
+ G4ML8V2t3IBENUyodkO8BqDZTaNE65CqGh69QOxjAWeCbn6LMukPZh2nhUlhYfhwM7uu
+ 2vvf9riAYgTB+p7ohAK3zVi+kbgxtfyC95huHWPHsUtHxw0rwnlYDKdjyXZhqL1pj95C
+ iqUuRotAnC4s239L2Jp2xYNvTNM93cj5K5N0NHtQ7G9YmjBySGAnZAxcdezeYUHTR10J
+ 7vlgekWYFHp5L/zgsrHoBsU55AG71tUP0NkLUfBgjwhUTMXE55fVXGUJfLoTIGzZgHOe
+ I+gA==
+X-Gm-Message-State: APjAAAVdya7HjLK484q4DL+4P2ZeMQ7S5Zzd/ewVXo3TxPgBdOFWe0td
+ XeYzEt27h3xlZYHfSwpsmQxbh4zJ
+X-Google-Smtp-Source: APXvYqxAC5eKj3EDHSp2ErKzlOcyP3Os8wCFERO4qcJw5KphJJRUcpukwq/DVSIdemd70hS62bWBmg==
+X-Received: by 2002:a62:174a:: with SMTP id 71mr23134453pfx.140.1566191540244; 
+ Sun, 18 Aug 2019 22:12:20 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id q13sm15464986pfl.124.2019.08.18.22.12.18
+ by smtp.gmail.com with ESMTPSA id q13sm15464986pfl.124.2019.08.18.22.12.19
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Sun, 18 Aug 2019 22:12:18 -0700 (PDT)
+ Sun, 18 Aug 2019 22:12:19 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Sun, 18 Aug 2019 22:11:44 -0700
-Message-Id: <1566191521-7820-12-git-send-email-bmeng.cn@gmail.com>
+Date: Sun, 18 Aug 2019 22:11:45 -0700
+Message-Id: <1566191521-7820-13-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1566191521-7820-1-git-send-email-bmeng.cn@gmail.com>
 References: <1566191521-7820-1-git-send-email-bmeng.cn@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v4 11/28] riscv: Add a sifive_cpu.h to include
- both E and U cpu type defines
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v4 12/28] riscv: hart: Extract hart realize to
+ a separate routine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,106 +80,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Group SiFive E and U cpu type defines into one header file.
+Currently riscv_harts_realize() creates all harts based on the
+same cpu type given in the hart array property. With current
+implementation it can only create homogeneous harts. Exact the
+hart realize to a separate routine in preparation for supporting
+multiple hart arrays.
+
+Note the file header says the RISC-V hart array holds the state
+of a heterogeneous array of RISC-V harts, which is not true.
+Update the comment to mention homogeneous array of RISC-V harts.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
 
 Changes in v4: None
 Changes in v3: None
 Changes in v2: None
 
- include/hw/riscv/sifive_cpu.h | 31 +++++++++++++++++++++++++++++++
- include/hw/riscv/sifive_e.h   |  7 +------
- include/hw/riscv/sifive_u.h   |  7 +------
- 3 files changed, 33 insertions(+), 12 deletions(-)
- create mode 100644 include/hw/riscv/sifive_cpu.h
+ hw/riscv/riscv_hart.c | 33 ++++++++++++++++++++-------------
+ 1 file changed, 20 insertions(+), 13 deletions(-)
 
-diff --git a/include/hw/riscv/sifive_cpu.h b/include/hw/riscv/sifive_cpu.h
-new file mode 100644
-index 0000000..1367996
---- /dev/null
-+++ b/include/hw/riscv/sifive_cpu.h
-@@ -0,0 +1,31 @@
-+/*
-+ * SiFive CPU types
-+ *
-+ * Copyright (c) 2017 SiFive, Inc.
-+ * Copyright (c) 2019 Bin Meng <bmeng.cn@gmail.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
+diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
+index ca69a1b..9deef869 100644
+--- a/hw/riscv/riscv_hart.c
++++ b/hw/riscv/riscv_hart.c
+@@ -3,7 +3,7 @@
+  *
+  * Copyright (c) 2017 SiFive, Inc.
+  *
+- * Holds the state of a heterogenous array of RISC-V harts
++ * Holds the state of a homogeneous array of RISC-V harts
+  *
+  * This program is free software; you can redistribute it and/or modify it
+  * under the terms and conditions of the GNU General Public License,
+@@ -37,26 +37,33 @@ static void riscv_harts_cpu_reset(void *opaque)
+     cpu_reset(CPU(cpu));
+ }
+ 
++static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
++                               char *cpu_type, Error **errp)
++{
++    Error *err = NULL;
 +
-+#ifndef HW_SIFIVE_CPU_H
-+#define HW_SIFIVE_CPU_H
++    object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx],
++                            sizeof(RISCVCPU), cpu_type,
++                            &error_abort, NULL);
++    s->harts[idx].env.mhartid = idx;
++    qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
++    object_property_set_bool(OBJECT(&s->harts[idx]), true,
++                             "realized", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
++}
 +
-+#if defined(TARGET_RISCV32)
-+#define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E31
-+#define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U34
-+#elif defined(TARGET_RISCV64)
-+#define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E51
-+#define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U54
-+#endif
-+
-+#endif /* HW_SIFIVE_CPU_H */
-diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-index d175b24..e17cdfd 100644
---- a/include/hw/riscv/sifive_e.h
-+++ b/include/hw/riscv/sifive_e.h
-@@ -19,6 +19,7 @@
- #ifndef HW_SIFIVE_E_H
- #define HW_SIFIVE_E_H
+ static void riscv_harts_realize(DeviceState *dev, Error **errp)
+ {
+     RISCVHartArrayState *s = RISCV_HART_ARRAY(dev);
+-    Error *err = NULL;
+     int n;
  
-+#include "hw/riscv/sifive_cpu.h"
- #include "hw/riscv/sifive_gpio.h"
+     s->harts = g_new0(RISCVCPU, s->num_harts);
  
- #define TYPE_RISCV_E_SOC "riscv.sifive.e.soc"
-@@ -83,10 +84,4 @@ enum {
- #define SIFIVE_E_PLIC_CONTEXT_BASE 0x200000
- #define SIFIVE_E_PLIC_CONTEXT_STRIDE 0x1000
+     for (n = 0; n < s->num_harts; n++) {
+-        object_initialize_child(OBJECT(s), "harts[*]", &s->harts[n],
+-                                sizeof(RISCVCPU), s->cpu_type,
+-                                &error_abort, NULL);
+-        s->harts[n].env.mhartid = n;
+-        qemu_register_reset(riscv_harts_cpu_reset, &s->harts[n]);
+-        object_property_set_bool(OBJECT(&s->harts[n]), true,
+-                                 "realized", &err);
+-        if (err) {
+-            error_propagate(errp, err);
+-            return;
+-        }
++        riscv_hart_realize(s, n, s->cpu_type, errp);
+     }
+ }
  
--#if defined(TARGET_RISCV32)
--#define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E31
--#elif defined(TARGET_RISCV64)
--#define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E51
--#endif
--
- #endif
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 892f0ee..4abc621 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -20,6 +20,7 @@
- #define HW_SIFIVE_U_H
- 
- #include "hw/net/cadence_gem.h"
-+#include "hw/riscv/sifive_cpu.h"
- 
- #define TYPE_RISCV_U_SOC "riscv.sifive.u.soc"
- #define RISCV_U_SOC(obj) \
-@@ -77,10 +78,4 @@ enum {
- #define SIFIVE_U_PLIC_CONTEXT_BASE 0x200000
- #define SIFIVE_U_PLIC_CONTEXT_STRIDE 0x1000
- 
--#if defined(TARGET_RISCV32)
--#define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U34
--#elif defined(TARGET_RISCV64)
--#define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U54
--#endif
--
- #endif
 -- 
 2.7.4
 
