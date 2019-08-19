@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D465E95038
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 23:54:25 +0200 (CEST)
-Received: from localhost ([::1]:59192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D6B95025
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 23:51:12 +0200 (CEST)
+Received: from localhost ([::1]:59120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzpbc-0004U7-Ji
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 17:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58765)
+	id 1hzpYV-0007kl-AO
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 17:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpM0-0001YD-QD
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:18 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpM2-0001a4-1H
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpLy-00067W-Uq
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:16 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44255)
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpM0-00068L-BI
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:17 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:44256)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzpLy-00066y-NO
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:14 -0400
-Received: by mail-pl1-x642.google.com with SMTP id t14so1574203plr.11
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:14 -0700 (PDT)
+ id 1hzpM0-00067w-5M
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:16 -0400
+Received: by mail-pl1-x643.google.com with SMTP id t14so1574231plr.11
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=yfBEnFsdiAgak7aUP03KjpvGrVpxR8pw6hwr0KfqOzQ=;
- b=RkcDuxzr43MIeIvVP7H7Qce4Gg0mc3x+a7toDAcIS9Qz6BgeV7OFa992NmADu/6GsW
- 1ARUrk7OqpS+y4TIdNcDZLnJ0F0h2O/ug0giqMdTvUL2lYPOAEny3J0TavRZMcUpxJP5
- dyeahBaSxQBFerHk9tqqBmRzdahnDdBE9fIMqOtcmb2sU2F1VxSWoNXOcJ6feYSpFsd+
- goAPEF3sjdAYy/36CQeXS4WnrQ9rAY0d3Fhnb5V4bpS9ARBbC/el881yAxUKBZYrA3gT
- 6h4CFB7k2ZW54lal7I5BCBvPj5SBK0+QwXDFHXjnV5z+r/9mzdwNmFUcoHfoaPf6tai8
- ywFQ==
+ bh=7Eta9ZtvQ0oDIOcJ2OoQMP0oMhVWN+OV+wP28xTcUIs=;
+ b=CeL1dswG3Eb8rIKISt5NQW8orqLZrsq8get5MJ1vBFHRznDsbE3PMt2rD5USdxcw0A
+ GHiI76ST3VdwGXxJGGDAe2w5X4/UJPSQzaT1yXTlpCPepOJB04d5BDFSGVFB7oSdDr4T
+ NFVhiDaVWwgBWUM3lucSv/hzAUCtwbdDyVjWQ3Y9B6ytwVORLcG+Evkp1lFd0o+Kau6t
+ FHK4E5Ih0nEdMnRD3I4DLXZ42OvwSi3q0Iq4ek2gOcAlm2LoNkbYoPHkJWbxur2qWkmK
+ 5YHjnTy13kryH+ieXt6SPJPM1zwLRM5ckxYm/H0T+vPXq0x3bYDU/bCRatL3CaiD71UY
+ MhpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=yfBEnFsdiAgak7aUP03KjpvGrVpxR8pw6hwr0KfqOzQ=;
- b=uJJStSOdYBgUe9TKvQrc5NX11810CxckEooxLShr8QMEUGRNltYvYE7mP/ylI5ALDj
- LfPdxL+wi9NiIPOjkXme0VD/ANY6B1wRHXO3hEQoj4FZ0awqCx2W/ljaVfvO/eETDdvk
- 566Oh1XWE+yaIS0O4BiTlUIkvaoF3O75o2tvs5ez0CAI5jd0Qrhl2Oaj1LplYP6l060T
- 5g7KlzwNIRW2v5etNLO/kg56//1v2xHajR0dNj0JUIGy1JE8sdvSoNDfHcjR5H2pOc0+
- AUedwQkMc3+xoEt2nBvJyG8ojUQBIYKdo/VjlBFijGGocG1LdYxytPBRrTAWkLdR6RzO
- 0Uqg==
-X-Gm-Message-State: APjAAAXrYk33BLPajPtxvW7N0/Kok9UqxqJvbFFs547HlW3Ei22wvyd4
- 4iijFX5dMN0XBlRvZGpu9gXbezRdn5o=
-X-Google-Smtp-Source: APXvYqw2n+kKukxJ7vvNsc/e6BpMHQrLI0KlqJKvXtH5hv4MQt3ldUPsaPYUNXJmRJinm2HMcGPh8A==
-X-Received: by 2002:a17:902:6bc7:: with SMTP id
- m7mr25195841plt.60.1566250693347; 
- Mon, 19 Aug 2019 14:38:13 -0700 (PDT)
+ bh=7Eta9ZtvQ0oDIOcJ2OoQMP0oMhVWN+OV+wP28xTcUIs=;
+ b=V1wZgn36AKK5wH03OMgXsSWk1z0G+fY+ki3GoFaHdQ9ZKnGbFaM8yJhkFEbMZ4uzdE
+ OhZSdufc1TKfDQlrBxG4wXxW2JxrjA3FaPMcWJsKNddblS0njZVl3/N6sFQ3iNd5ay3C
+ j3HnaRxwKnajSd/PE00rUBIkWnOsG+nMLBqcM/lIE+9x7O1qptezF2NDP7fkbYlv/YEh
+ dg5B4INjR2Xr8BD9sYrGLyX03mCii2imG/LTQUhNIUwSno+lCbIJ1hTCJrwK6V4Mawth
+ a0+jVVuC6rcVagO8WapQuGtohfwpeDjshwrDnbXTmRBPyeV2L/dANjTG7rdzWc01QP51
+ WYRg==
+X-Gm-Message-State: APjAAAVfnjXbl1WivbvV1yj5aRjsySqWt0yhPQo93TPmePC59cQa5Ex0
+ le0i8yXOVYtXdYD3L+++zNjwJ2GEcL8=
+X-Google-Smtp-Source: APXvYqzc+awt/zls0SsMHz1ZmT+5q+pppG1CabsQwmCpSaKmAZGtUEO8XxSK+d/Ge1hKl6PDAjatiA==
+X-Received: by 2002:a17:902:5a1:: with SMTP id
+ f30mr25193212plf.64.1566250694884; 
+ Mon, 19 Aug 2019 14:38:14 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.12
+ by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 14:38:12 -0700 (PDT)
+ Mon, 19 Aug 2019 14:38:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 14:37:00 -0700
-Message-Id: <20190819213755.26175-14-richard.henderson@linaro.org>
+Date: Mon, 19 Aug 2019 14:37:01 -0700
+Message-Id: <20190819213755.26175-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819213755.26175-1-richard.henderson@linaro.org>
 References: <20190819213755.26175-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: [Qemu-devel] [PATCH v2 13/68] target/arm: Convert MRS/MSR (banked,
- register)
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: [Qemu-devel] [PATCH v2 14/68] target/arm: Convert Cyclic Redundancy
+ Check
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,364 +81,209 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The m-profile and a-profile, decodings overlap.  Only return false
-for the case of wrong profile; handle UNDEFINED for permission failure
-directly.  This ensures that we don't accidentally pass an insn that
-applies to the wrong profile.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 226 ++++++++++++++++++-----------------------
- target/arm/a32.decode  |  14 +++
- target/arm/t32.decode  |  40 ++++++--
- 3 files changed, 142 insertions(+), 138 deletions(-)
+ target/arm/translate.c | 121 +++++++++++++++++++----------------------
+ target/arm/a32.decode  |   9 +++
+ target/arm/t32.decode  |   7 +++
+ 3 files changed, 72 insertions(+), 65 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index ee485b1cbd..026abcaa9c 100644
+index 026abcaa9c..f390656ce9 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8291,6 +8291,93 @@ static bool trans_MSR_imm(DisasContext *s, arg_MSR_imm *a)
+@@ -8291,6 +8291,57 @@ static bool trans_MSR_imm(DisasContext *s, arg_MSR_imm *a)
      return true;
  }
  
 +/*
-+ * Miscellaneous instructions
++ * Cyclic Redundancy Check
 + */
 +
-+static bool trans_MRS_bank(DisasContext *s, arg_MRS_bank *a)
++static bool op_crc32(DisasContext *s, arg_rrr *a, bool c, TCGMemOp sz)
 +{
-+    if (arm_dc_feature(s, ARM_FEATURE_M)) {
++    TCGv_i32 t1, t2, t3;
++
++    if (!dc_isar_feature(aa32_crc32, s)) {
 +        return false;
 +    }
-+    gen_mrs_banked(s, a->r, a->sysm, a->rd);
-+    return true;
-+}
 +
-+static bool trans_MSR_bank(DisasContext *s, arg_MSR_bank *a)
-+{
-+    if (arm_dc_feature(s, ARM_FEATURE_M)) {
-+        return false;
++    t1 = load_reg(s, a->rn);
++    t2 = load_reg(s, a->rm);
++    switch (sz) {
++    case MO_8:
++        gen_uxtb(t2);
++        break;
++    case MO_16:
++        gen_uxth(t2);
++        break;
++    case MO_32:
++        break;
++    default:
++        g_assert_not_reached();
 +    }
-+    gen_msr_banked(s, a->r, a->sysm, a->rn);
-+    return true;
-+}
-+
-+static bool trans_MRS_reg(DisasContext *s, arg_MRS_reg *a)
-+{
-+    TCGv_i32 tmp;
-+
-+    if (arm_dc_feature(s, ARM_FEATURE_M)) {
-+        return false;
-+    }
-+    if (a->r) {
-+        if (IS_USER(s)) {
-+            unallocated_encoding(s);
-+            return true;
-+        }
-+        tmp = load_cpu_field(spsr);
++    t3 = tcg_const_i32(1 << sz);
++    if (c) {
++        gen_helper_crc32c(t1, t1, t2, t3);
 +    } else {
-+        tmp = tcg_temp_new_i32();
-+        gen_helper_cpsr_read(tmp, cpu_env);
++        gen_helper_crc32(t1, t1, t2, t3);
 +    }
-+    store_reg(s, a->rd, tmp);
++    tcg_temp_free_i32(t2);
++    tcg_temp_free_i32(t3);
++    store_reg(s, a->rd, t1);
 +    return true;
 +}
 +
-+static bool trans_MSR_reg(DisasContext *s, arg_MSR_reg *a)
-+{
-+    TCGv_i32 tmp;
-+    uint32_t mask = msr_mask(s, a->mask, a->r);
++#define DO_CRC32(NAME, c, sz) \
++static bool trans_##NAME(DisasContext *s, arg_rrr *a)  \
++    { return op_crc32(s, a, c, sz); }
 +
-+    if (arm_dc_feature(s, ARM_FEATURE_M)) {
-+        return false;
-+    }
-+    tmp = load_reg(s, a->rn);
-+    if (gen_set_psr(s, mask, a->r, tmp)) {
-+        unallocated_encoding(s);
-+    }
-+    return true;
-+}
++DO_CRC32(CRC32B, false, MO_8)
++DO_CRC32(CRC32H, false, MO_16)
++DO_CRC32(CRC32W, false, MO_32)
++DO_CRC32(CRC32CB, true, MO_8)
++DO_CRC32(CRC32CH, true, MO_16)
++DO_CRC32(CRC32CW, true, MO_32)
 +
-+static bool trans_MRS_v7m(DisasContext *s, arg_MRS_v7m *a)
-+{
-+    TCGv_i32 tmp;
-+
-+    if (!arm_dc_feature(s, ARM_FEATURE_M)) {
-+        return false;
-+    }
-+    tmp = tcg_const_i32(a->sysm);
-+    gen_helper_v7m_mrs(tmp, cpu_env, tmp);
-+    store_reg(s, a->rd, tmp);
-+    return true;
-+}
-+
-+static bool trans_MSR_v7m(DisasContext *s, arg_MSR_v7m *a)
-+{
-+    TCGv_i32 addr, reg;
-+
-+    if (!arm_dc_feature(s, ARM_FEATURE_M)) {
-+        return false;
-+    }
-+    addr = tcg_const_i32((a->mask << 10) | a->sysm);
-+    reg = load_reg(s, a->rn);
-+    gen_helper_v7m_msr(cpu_env, addr, reg);
-+    tcg_temp_free_i32(addr);
-+    tcg_temp_free_i32(reg);
-+    gen_lookup_tb(s);
-+    return true;
-+}
++#undef DO_CRC32
 +
  /*
-  * Legacy decoder.
+  * Miscellaneous instructions
   */
-@@ -8575,46 +8662,10 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-         sh = (insn >> 4) & 0xf;
-         rm = insn & 0xf;
-         switch (sh) {
--        case 0x0: /* MSR, MRS */
--            if (insn & (1 << 9)) {
--                /* MSR (banked) and MRS (banked) */
--                int sysm = extract32(insn, 16, 4) |
--                    (extract32(insn, 8, 1) << 4);
--                int r = extract32(insn, 22, 1);
+@@ -8706,39 +8757,9 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+             gen_bx(s, tmp);
+             break;
+         case 0x4:
+-        {
+-            /* crc32/crc32c */
+-            uint32_t c = extract32(insn, 8, 4);
 -
--                if (op1 & 1) {
--                    /* MSR (banked) */
--                    gen_msr_banked(s, r, sysm, rm);
--                } else {
--                    /* MRS (banked) */
--                    int rd = extract32(insn, 12, 4);
--
--                    gen_mrs_banked(s, r, sysm, rd);
--                }
--                break;
+-            /* Check this CPU supports ARMv8 CRC instructions.
+-             * op1 == 3 is UNPREDICTABLE but handle as UNDEFINED.
+-             * Bits 8, 10 and 11 should be zero.
+-             */
+-            if (!dc_isar_feature(aa32_crc32, s) || op1 == 0x3 || (c & 0xd) != 0) {
+-                goto illegal_op;
 -            }
 -
--            /* MSR, MRS (for PSRs) */
--            if (op1 & 1) {
--                /* PSR = reg */
--                tmp = load_reg(s, rm);
--                i = ((op1 & 2) != 0);
--                if (gen_set_psr(s, msr_mask(s, (insn >> 16) & 0xf, i), i, tmp))
--                    goto illegal_op;
+-            rn = extract32(insn, 16, 4);
+-            rd = extract32(insn, 12, 4);
+-
+-            tmp = load_reg(s, rn);
+-            tmp2 = load_reg(s, rm);
+-            if (op1 == 0) {
+-                tcg_gen_andi_i32(tmp2, tmp2, 0xff);
+-            } else if (op1 == 1) {
+-                tcg_gen_andi_i32(tmp2, tmp2, 0xffff);
+-            }
+-            tmp3 = tcg_const_i32(1 << op1);
+-            if (c & 0x2) {
+-                gen_helper_crc32c(tmp, tmp, tmp2, tmp3);
 -            } else {
--                /* reg = PSR */
--                rd = (insn >> 12) & 0xf;
--                if (op1 & 2) {
--                    if (IS_USER(s))
--                        goto illegal_op;
--                    tmp = load_cpu_field(spsr);
--                } else {
--                    tmp = tcg_temp_new_i32();
--                    gen_helper_cpsr_read(tmp, cpu_env);
--                }
--                store_reg(s, rd, tmp);
+-                gen_helper_crc32(tmp, tmp, tmp2, tmp3);
 -            }
+-            tcg_temp_free_i32(tmp2);
+-            tcg_temp_free_i32(tmp3);
+-            store_reg(s, rd, tmp);
 -            break;
-+        case 0x0:
-+            /* MSR/MRS (banked/register) */
-+            /* All done in decodetree.  Illegal ops already signalled.  */
-+            g_assert_not_reached();
-         case 0x1:
-             if (op1 == 1) {
-                 /* branch/exchange thumb (bx).  */
-@@ -10471,40 +10522,9 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                 } else {
-                     op = (insn >> 20) & 7;
-                     switch (op) {
--                    case 0: /* msr cpsr.  */
--                        if (arm_dc_feature(s, ARM_FEATURE_M)) {
--                            tmp = load_reg(s, rn);
--                            /* the constant is the mask and SYSm fields */
--                            addr = tcg_const_i32(insn & 0xfff);
--                            gen_helper_v7m_msr(cpu_env, addr, tmp);
--                            tcg_temp_free_i32(addr);
--                            tcg_temp_free_i32(tmp);
--                            gen_lookup_tb(s);
--                            break;
--                        }
--                        /* fall through */
--                    case 1: /* msr spsr.  */
--                        if (arm_dc_feature(s, ARM_FEATURE_M)) {
--                            goto illegal_op;
--                        }
--
--                        if (extract32(insn, 5, 1)) {
--                            /* MSR (banked) */
--                            int sysm = extract32(insn, 8, 4) |
--                                (extract32(insn, 4, 1) << 4);
--                            int r = op & 1;
--
--                            gen_msr_banked(s, r, sysm, rm);
--                            break;
--                        }
--
--                        /* MSR (for PSRs) */
--                        tmp = load_reg(s, rn);
--                        if (gen_set_psr(s,
--                              msr_mask(s, (insn >> 8) & 0xf, op == 1),
--                              op == 1, tmp))
--                            goto illegal_op;
--                        break;
-+                    case 0: /* msr cpsr, in decodetree  */
-+                    case 1: /* msr spsr, in decodetree  */
-+                        goto illegal_op;
-                     case 2: /* cps, nop-hint.  */
-                         /* nop hints in decodetree */
-                         /* Implemented as NOP in user mode.  */
-@@ -10596,61 +10616,9 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                         }
-                         gen_exception_return(s, tmp);
-                         break;
--                    case 6: /* MRS */
--                        if (extract32(insn, 5, 1) &&
--                            !arm_dc_feature(s, ARM_FEATURE_M)) {
--                            /* MRS (banked) */
--                            int sysm = extract32(insn, 16, 4) |
--                                (extract32(insn, 4, 1) << 4);
--
--                            gen_mrs_banked(s, 0, sysm, rd);
--                            break;
--                        }
--
--                        if (extract32(insn, 16, 4) != 0xf) {
--                            goto illegal_op;
--                        }
--                        if (!arm_dc_feature(s, ARM_FEATURE_M) &&
--                            extract32(insn, 0, 8) != 0) {
--                            goto illegal_op;
--                        }
--
--                        /* mrs cpsr */
--                        tmp = tcg_temp_new_i32();
--                        if (arm_dc_feature(s, ARM_FEATURE_M)) {
--                            addr = tcg_const_i32(insn & 0xff);
--                            gen_helper_v7m_mrs(tmp, cpu_env, addr);
--                            tcg_temp_free_i32(addr);
--                        } else {
--                            gen_helper_cpsr_read(tmp, cpu_env);
--                        }
--                        store_reg(s, rd, tmp);
--                        break;
--                    case 7: /* MRS */
--                        if (extract32(insn, 5, 1) &&
--                            !arm_dc_feature(s, ARM_FEATURE_M)) {
--                            /* MRS (banked) */
--                            int sysm = extract32(insn, 16, 4) |
--                                (extract32(insn, 4, 1) << 4);
--
--                            gen_mrs_banked(s, 1, sysm, rd);
--                            break;
--                        }
--
--                        /* mrs spsr.  */
--                        /* Not accessible in user mode.  */
--                        if (IS_USER(s) || arm_dc_feature(s, ARM_FEATURE_M)) {
--                            goto illegal_op;
--                        }
--
--                        if (extract32(insn, 16, 4) != 0xf ||
--                            extract32(insn, 0, 8) != 0) {
--                            goto illegal_op;
--                        }
--
--                        tmp = load_cpu_field(spsr);
--                        store_reg(s, rd, tmp);
--                        break;
-+                    case 6: /* MRS, in decodetree */
-+                    case 7: /* MSR, in decodetree */
-+                        goto illegal_op;
+-        }
++            /* crc32 */
++            /* All done in decodetree.  Illegal ops reach here.  */
++            goto illegal_op;
+         case 0x5:
+             /* Saturating addition and subtraction.  */
+             /* All done in decodetree.  Reach here for illegal ops.  */
+@@ -10181,16 +10202,13 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                         goto illegal_op;
                      }
+                     break;
+-                case 0x20: /* crc32/crc32c */
++                case 0x20: /* crc32/crc32c, in decodetree */
+                 case 0x21:
+                 case 0x22:
+                 case 0x28:
+                 case 0x29:
+                 case 0x2a:
+-                    if (!dc_isar_feature(aa32_crc32, s)) {
+-                        goto illegal_op;
+-                    }
+-                    break;
++                    goto illegal_op;
+                 default:
+                     goto illegal_op;
                  }
-             } else {
+@@ -10219,33 +10237,6 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                 case 0x18: /* clz */
+                     tcg_gen_clzi_i32(tmp, tmp, 32);
+                     break;
+-                case 0x20:
+-                case 0x21:
+-                case 0x22:
+-                case 0x28:
+-                case 0x29:
+-                case 0x2a:
+-                {
+-                    /* crc32/crc32c */
+-                    uint32_t sz = op & 0x3;
+-                    uint32_t c = op & 0x8;
+-
+-                    tmp2 = load_reg(s, rm);
+-                    if (sz == 0) {
+-                        tcg_gen_andi_i32(tmp2, tmp2, 0xff);
+-                    } else if (sz == 1) {
+-                        tcg_gen_andi_i32(tmp2, tmp2, 0xffff);
+-                    }
+-                    tmp3 = tcg_const_i32(1 << sz);
+-                    if (c) {
+-                        gen_helper_crc32c(tmp, tmp, tmp2, tmp3);
+-                    } else {
+-                        gen_helper_crc32(tmp, tmp, tmp2, tmp3);
+-                    }
+-                    tcg_temp_free_i32(tmp2);
+-                    tcg_temp_free_i32(tmp3);
+-                    break;
+-                }
+                 default:
+                     g_assert_not_reached();
+                 }
 diff --git a/target/arm/a32.decode b/target/arm/a32.decode
-index 3d5c5408f9..6ee12c1140 100644
+index 6ee12c1140..a8ef435b15 100644
 --- a/target/arm/a32.decode
 +++ b/target/arm/a32.decode
-@@ -29,6 +29,10 @@
- &s_rrrr          s rd rn rm ra
- &rrrr            rd rn rm ra
- &rrr             rd rn rm
-+&msr_reg         rn r mask
-+&mrs_reg         rd r
-+&msr_bank        rn r sysm
-+&mrs_bank        rd r sysm
- 
- # Data-processing (register)
- 
-@@ -177,3 +181,13 @@ SMULTT           .... 0001 0110 .... 0000 .... 1110 ....      @rd0mn
-   MSR_imm        .... 0011 0010 .... 1111 .... .... ....      @msr_i r=0
+@@ -182,6 +182,15 @@ SMULTT           .... 0001 0110 .... 0000 .... 1110 ....      @rd0mn
  }
  MSR_imm          .... 0011 0110 .... 1111 .... .... ....      @msr_i r=1
+ 
++# Cyclic Redundancy Check
 +
-+# Miscellaneous instructions
++CRC32B           .... 0001 0000 .... .... 0000 0100 ....      @rndm
++CRC32H           .... 0001 0010 .... .... 0000 0100 ....      @rndm
++CRC32W           .... 0001 0100 .... .... 0000 0100 ....      @rndm
++CRC32CB          .... 0001 0000 .... .... 0010 0100 ....      @rndm
++CRC32CH          .... 0001 0010 .... .... 0010 0100 ....      @rndm
++CRC32CW          .... 0001 0100 .... .... 0010 0100 ....      @rndm
 +
-+%sysm            8:1 16:4
-+
-+MRS_bank         ---- 0001 0 r:1 00 .... rd:4 001. 0000 0000  &mrs_bank %sysm
-+MSR_bank         ---- 0001 0 r:1 10 .... 1111 001. 0000 rn:4  &msr_bank %sysm
-+
-+MRS_reg          ---- 0001 0 r:1 00 1111   rd:4 0000 0000 0000  &mrs_reg
-+MSR_reg          ---- 0001 0 r:1 10 mask:4 1111 0000 0000 rn:4  &msr_reg
+ # Miscellaneous instructions
+ 
+ %sysm            8:1 16:4
 diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index ccb7cdd4ef..98b682e7ec 100644
+index 98b682e7ec..261db100ff 100644
 --- a/target/arm/t32.decode
 +++ b/target/arm/t32.decode
-@@ -26,6 +26,10 @@
- &s_rrrr          !extern s rd rn rm ra
- &rrrr            !extern rd rn rm ra
- &rrr             !extern rd rn rm
-+&msr_reg         !extern rn r mask
-+&mrs_reg         !extern rd r
-+&msr_bank        !extern rn r sysm
-+&mrs_bank        !extern rd r sysm
+@@ -172,6 +172,13 @@ QSUB             1111 1010 1000 .... 1111 .... 1010 ....      @rndm
+ QDADD            1111 1010 1000 .... 1111 .... 1001 ....      @rndm
+ QDSUB            1111 1010 1000 .... 1111 .... 1011 ....      @rndm
  
- # Data-processing (register)
- 
-@@ -170,16 +174,34 @@ QDSUB            1111 1010 1000 .... 1111 .... 1011 ....      @rndm
- 
++CRC32B           1111 1010 1100 .... 1111 .... 1000 ....      @rndm
++CRC32H           1111 1010 1100 .... 1111 .... 1001 ....      @rndm
++CRC32W           1111 1010 1100 .... 1111 .... 1010 ....      @rndm
++CRC32CB          1111 1010 1101 .... 1111 .... 1000 ....      @rndm
++CRC32CH          1111 1010 1101 .... 1111 .... 1001 ....      @rndm
++CRC32CW          1111 1010 1101 .... 1111 .... 1010 ....      @rndm
++
  # Branches and miscellaneous control
  
-+%msr_sysm        4:1 8:4
-+%mrs_sysm        4:1 16:4
-+
- {
--  YIELD          1111 0011 1010 1111 1000 0000 0000 0001
--  WFE            1111 0011 1010 1111 1000 0000 0000 0010
--  WFI            1111 0011 1010 1111 1000 0000 0000 0011
-+  {
-+    YIELD        1111 0011 1010 1111 1000 0000 0000 0001
-+    WFE          1111 0011 1010 1111 1000 0000 0000 0010
-+    WFI          1111 0011 1010 1111 1000 0000 0000 0011
- 
--  # TODO: Implement SEV, SEVL; may help SMP performance.
--  # SEV          1111 0011 1010 1111 1000 0000 0000 0100
--  # SEVL         1111 0011 1010 1111 1000 0000 0000 0101
-+    # TODO: Implement SEV, SEVL; may help SMP performance.
-+    # SEV        1111 0011 1010 1111 1000 0000 0000 0100
-+    # SEVL       1111 0011 1010 1111 1000 0000 0000 0101
- 
--  # The canonical nop ends in 0000 0000, but the whole rest
--  # of the space is "reserved hint, behaves as nop".
--  NOP            1111 0011 1010 1111 1000 0000 ---- ----
-+    # The canonical nop ends in 0000 0000, but the whole rest
-+    # of the space is "reserved hint, behaves as nop".
-+    NOP          1111 0011 1010 1111 1000 0000 ---- ----
-+  }
-+  # Note that the v7m insn overlaps both the normal and banked insn.
-+  {
-+    MRS_bank     1111 0011 111 r:1 .... 1000 rd:4   001. 0000  \
-+                 &mrs_bank sysm=%mrs_sysm
-+    MRS_reg      1111 0011 111 r:1 1111 1000 rd:4   0000 0000  &mrs_reg
-+    MRS_v7m      1111 0011 111 0   1111 1000 rd:4   sysm:8
-+  }
-+  {
-+    MSR_bank     1111 0011 100 r:1 rn:4 1000 ....   001. 0000  \
-+                 &msr_bank sysm=%msr_sysm
-+    MSR_reg      1111 0011 100 r:1 rn:4 1000 mask:4 0000 0000  &msr_reg
-+    MSR_v7m      1111 0011 100 0   rn:4 1000 mask:2 00 sysm:8
-+  }
- }
+ %msr_sysm        4:1 8:4
 -- 
 2.17.1
 
