@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB68294ED7
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:22:44 +0200 (CEST)
-Received: from localhost ([::1]:57342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F47694EE8
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:24:57 +0200 (CEST)
+Received: from localhost ([::1]:57394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzoAV-00055L-OS
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45537)
+	id 1hzoD1-0008P0-Op
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:24:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45534)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tcminyard@gmail.com>) id 1hzo5p-0007iF-Tu
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:37 -0400
+ (envelope-from <tcminyard@gmail.com>) id 1hzo5p-0007i9-QX
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1hzo5h-0003JV-OW
+ (envelope-from <tcminyard@gmail.com>) id 1hzo5i-0003LB-N4
  for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:29 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:44181)
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37923)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hzo5h-0003IX-FO
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:21 -0400
-Received: by mail-ot1-x341.google.com with SMTP id w4so2875001ote.11
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:17:21 -0700 (PDT)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hzo5i-0003KT-He
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:22 -0400
+Received: by mail-ot1-x344.google.com with SMTP id r20so2890090ota.5
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=9eQ4joAwiFmTBtW5knmkHQFBsB1k1moAi+3W/AaYmOU=;
- b=pQDi6xERphDJf7bHAgKj2ODZsgWyLVylcB6iuHYp9S9N9+GvEBmsT0M81ooo9AE01L
- QcXwmwSrNCsGbskeI22Uk/Jlka6OAWV32zkltX50dmg5Kgi17eFtQHjHS5QhJ/APyzYq
- K0UrxZDo+ENVqnwBBZmsZfqjl8ROtr02sONSkybvkYjZEUiVO7HGYQsf3OLBX+J9q3i6
- EwLOemWZrv37iz8eKXSRjqVbFzegW1V/By9KF7aJL7cRlIRtaa9FE7zEPyPxTFur9M39
- NldoLVTmRQtGmFfp4U9Dv7tbVDvHGiappWUtvw6xDfUH3CoDuPA+robhy97tL3x+o5vf
- ueqw==
+ bh=FcIfcrqIGdpNZl0S22ugT9WUisJdVXVDfqKYhKlZSoQ=;
+ b=e0olLEB8tJ0kShDTL0mQ+xOapVASbrWCE4FQKLqYFABiTtfaao7di+g1dRLmN8SObV
+ TZKadJcYn3Amx6HUlT6WbqaEjlMsqYRrff1xbE8M6Ygr7W9khHo1xpXp53R2Hf6FSlcL
+ DotYWm0Q4F2OsYksBAJKMj6PT7OrZTnVuc+NKhuoR17vW8DbFW68KBxbl5t1X8CWO+Hf
+ UZT6Yfu+Gd0QGcIjLdBXIPhzi9mniYXu8eCclI7Wab+SFu7zavvmclQVsmg+vsmtTQcN
+ UwmZELG+u8nMeodsAptVFj846vplQyiLJpIIBVWyNFXrPyCD0WV+TwbbZBQfwz/594WJ
+ IjhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=9eQ4joAwiFmTBtW5knmkHQFBsB1k1moAi+3W/AaYmOU=;
- b=UWSzwibADNSpawWtqQSNUf3+LnspYIGseZ4xvOe9CAf5ya5exjzw/g/JZA5W5iI9li
- xIoLwdrNt9d+c/1FfSAQkKLylD+vg4qKLjOxT3ANSvZ88cXfBl0y+YASSMAFZKCBRQFs
- ai4t4qeMeSnr7t1AVUy1N8djPwMqQlmBQIvztwRuTwpVNvxqAca9muobZivlYt9YNs20
- bN2fX/4vBnrSRqlhVFB6gs2UyYdGJML+dHl8Oy94sJmRpLjtOCeJlGubK+e+iyvOVPID
- X8QnctBtXUU7b8SHoChhA7DwzimUUM0y91tRFTlvgFRulZwNrd8ZONoVlvbqvK5Y8VYy
- AmFw==
-X-Gm-Message-State: APjAAAXiOSrUv8RlS/NSIn6h6dltNIDjxBxk8kOXmYwA2d0SOFYGrwGZ
- Ob3xBqkOGz30pHf1EQr/bgJWcEE=
-X-Google-Smtp-Source: APXvYqwzWYGIQ0eKqWME2cMfvgHTb6UssgRwV1KKJ1Ex03uzqGiLqN6WIYcjr6noF0beV8KeL9IBDw==
-X-Received: by 2002:a9d:7b46:: with SMTP id f6mr18439891oto.365.1566245840402; 
- Mon, 19 Aug 2019 13:17:20 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id 94sm5916438oty.44.2019.08.19.13.17.17
+ bh=FcIfcrqIGdpNZl0S22ugT9WUisJdVXVDfqKYhKlZSoQ=;
+ b=aUbCNqx99as0ckUVaRLYWNW8UolXCCZrT47otfW/5A2f12giDI2Orh3mxkldFIDSuc
+ NzLUAMxz9ho1RkaVjKc2B/UZY/HmqxptWd9w/udm726kF+gyGSsvoylIUSF1+39G+N6T
+ 3b6mieQvay2oWBw+0+YHDikAPy9fmHtXguCab3fjp2TsXoW/8TOZblFTMNxuHZTK+Sod
+ 60TMvYprktVFImO2A7iTZ8uzggaMVIQwNscc1s5svVNFq8CQATAms46qa/qqmNbwk7Ny
+ SN+g8ZjhF9OCybQ8bxpEeb1IarPwnE9ebWxmNR0x8iwyZqz3j3gyIW3csljsLe3xt9ce
+ K/mw==
+X-Gm-Message-State: APjAAAWP+3owP5IKwlvVwvrl5ukxRCUYCJCUkALr66p3UY+VoDY/YjyO
+ 9dZE8W4k9Oz65rfllO+uLpHktug=
+X-Google-Smtp-Source: APXvYqyGNG/PZqTsM/XAGPkSNmAhLvJYvDCpyP/YKR0NLgxPK+lzKqzXH1avwwgH0ieBOfbAQrreCQ==
+X-Received: by 2002:a9d:7dc4:: with SMTP id k4mr13057026otn.171.1566245841747; 
+ Mon, 19 Aug 2019 13:17:21 -0700 (PDT)
+Received: from serve.minyard.net ([47.184.134.43])
+ by smtp.gmail.com with ESMTPSA id i16sm5661752otc.65.2019.08.19.13.17.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 19 Aug 2019 13:17:19 -0700 (PDT)
 Received: from t430.minyard.net (t430m.minyard.net [192.168.27.3])
- by serve.minyard.net (Postfix) with ESMTPA id 19E981805AA;
+ by serve.minyard.net (Postfix) with ESMTPA id AC8251805AC;
  Mon, 19 Aug 2019 20:17:17 +0000 (UTC)
 Received: by t430.minyard.net (Postfix, from userid 1000)
- id DA5A2302524; Mon, 19 Aug 2019 15:17:16 -0500 (CDT)
+ id 77A6130232A; Mon, 19 Aug 2019 15:17:17 -0500 (CDT)
 From: minyard@acm.org
 To: QEMU Developers <qemu-devel@nongnu.org>
-Date: Mon, 19 Aug 2019 15:16:57 -0500
-Message-Id: <20190819201705.31633-8-minyard@acm.org>
+Date: Mon, 19 Aug 2019 15:16:59 -0500
+Message-Id: <20190819201705.31633-10-minyard@acm.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819201705.31633-1-minyard@acm.org>
 References: <20190819201705.31633-1-minyard@acm.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: [Qemu-devel] [PATCH 07/15] ipmi: Split out KCS-specific code from
- ISA KCS code
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: [Qemu-devel] [PATCH 09/15] ipmi: Allow a size value to be passed
+ for I/O space
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,1018 +85,227 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Corey Minyard <cminyard@mvista.com>
 
-Get ready for PCI and other KCS interfaces.
-
-No functional changes, just split the code into the generic KCS code
-and the ISA-specific code.
+PCI device I/O must be >= 8 bytes in length or they don't work.
+Allow the size to be passed in, the default size of 2 or 3
+won't work.
 
 Signed-off-by: Corey Minyard <cminyard@mvista.com>
 ---
- hw/ipmi/Makefile.objs      |   2 +-
- hw/ipmi/ipmi_kcs.c         | 408 ++++++++++++++++++++++++++++++++++++
- hw/ipmi/isa_ipmi_kcs.c     | 417 ++-----------------------------------
- include/hw/ipmi/ipmi_kcs.h |  75 +++++++
- 4 files changed, 505 insertions(+), 397 deletions(-)
- create mode 100644 hw/ipmi/ipmi_kcs.c
- create mode 100644 include/hw/ipmi/ipmi_kcs.h
+ hw/ipmi/ipmi_bt.c          | 19 +++++++++++++++----
+ hw/ipmi/ipmi_kcs.c         | 23 +++++++++++++++++++----
+ hw/ipmi/isa_ipmi_bt.c      |  2 +-
+ hw/ipmi/isa_ipmi_kcs.c     |  2 +-
+ include/hw/ipmi/ipmi.h     |  7 ++++++-
+ include/hw/ipmi/ipmi_bt.h  |  1 +
+ include/hw/ipmi/ipmi_kcs.h |  1 +
+ 7 files changed, 44 insertions(+), 11 deletions(-)
 
-diff --git a/hw/ipmi/Makefile.objs b/hw/ipmi/Makefile.objs
-index 1b422bbee0..6835d2f64a 100644
---- a/hw/ipmi/Makefile.objs
-+++ b/hw/ipmi/Makefile.objs
-@@ -1,4 +1,4 @@
--common-obj-$(CONFIG_IPMI) += ipmi.o
-+common-obj-$(CONFIG_IPMI) += ipmi.o ipmi_kcs.o
- common-obj-$(CONFIG_IPMI_LOCAL) += ipmi_bmc_sim.o
- common-obj-$(CONFIG_IPMI_EXTERN) += ipmi_bmc_extern.o
- common-obj-$(CONFIG_ISA_IPMI_KCS) += isa_ipmi_kcs.o
+diff --git a/hw/ipmi/ipmi_bt.c b/hw/ipmi/ipmi_bt.c
+index e6765ca4f8..22f94fb98d 100644
+--- a/hw/ipmi/ipmi_bt.c
++++ b/hw/ipmi/ipmi_bt.c
+@@ -189,7 +189,7 @@ static uint64_t ipmi_bt_ioport_read(void *opaque, hwaddr addr, unsigned size)
+     IPMIBT *ib = iic->get_backend_data(ii);
+     uint32_t ret = 0xff;
+ 
+-    switch (addr & 3) {
++    switch (addr & ib->size_mask) {
+     case 0:
+         ret = ib->control_reg;
+         break;
+@@ -208,6 +208,9 @@ static uint64_t ipmi_bt_ioport_read(void *opaque, hwaddr addr, unsigned size)
+     case 2:
+         ret = ib->mask_reg;
+         break;
++    default:
++        ret = 0xff;
++        break;
+     }
+     return ret;
+ }
+@@ -230,7 +233,7 @@ static void ipmi_bt_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+     IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+     IPMIBT *ib = iic->get_backend_data(ii);
+ 
+-    switch (addr & 3) {
++    switch (addr & ib->size_mask) {
+     case 0:
+         if (IPMI_BT_GET_CLR_WR(val)) {
+             ib->inlen = 0;
+@@ -285,6 +288,9 @@ static void ipmi_bt_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+             ipmi_bt_lower_irq(ib);
+         }
+         break;
++    default:
++        /* Ignore. */
++        break;
+     }
+ }
+ 
+@@ -346,14 +352,19 @@ static void ipmi_bt_set_irq_enable(IPMIInterface *ii, int val)
+     ib->irqs_enabled = val;
+ }
+ 
+-static void ipmi_bt_init(IPMIInterface *ii, Error **errp)
++static void ipmi_bt_init(IPMIInterface *ii, unsigned int min_size, Error **errp)
+ {
+     IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+     IPMIBT *ib = iic->get_backend_data(ii);
+ 
++    if (min_size == 0) {
++        min_size = 4;
++    }
++    ib->size_mask = min_size - 1;
+     ib->io_length = 3;
+ 
+-    memory_region_init_io(&ib->io, NULL, &ipmi_bt_io_ops, ii, "ipmi-bt", 3);
++    memory_region_init_io(&ib->io, NULL, &ipmi_bt_io_ops, ii, "ipmi-bt",
++                          min_size);
+ }
+ 
+ int ipmi_bt_vmstate_post_load(void *opaque, int version)
 diff --git a/hw/ipmi/ipmi_kcs.c b/hw/ipmi/ipmi_kcs.c
-new file mode 100644
-index 0000000000..dab1af8bc8
---- /dev/null
+index dab1af8bc8..a77612946a 100644
+--- a/hw/ipmi/ipmi_kcs.c
 +++ b/hw/ipmi/ipmi_kcs.c
-@@ -0,0 +1,408 @@
-+/*
-+ * QEMU IPMI KCS emulation
-+ *
-+ * Copyright (c) 2015,2017 Corey Minyard, MontaVista Software, LLC
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#include "qemu/osdep.h"
-+#include "migration/vmstate.h"
-+#include "qemu/log.h"
-+#include "qapi/error.h"
-+#include "hw/ipmi/ipmi_kcs.h"
-+
-+#define IPMI_KCS_OBF_BIT        0
-+#define IPMI_KCS_IBF_BIT        1
-+#define IPMI_KCS_SMS_ATN_BIT    2
-+#define IPMI_KCS_CD_BIT         3
-+
-+#define IPMI_KCS_OBF_MASK          (1 << IPMI_KCS_OBF_BIT)
-+#define IPMI_KCS_GET_OBF(d)        (((d) >> IPMI_KCS_OBF_BIT) & 0x1)
-+#define IPMI_KCS_SET_OBF(d, v)     (d) = (((d) & ~IPMI_KCS_OBF_MASK) | \
-+                                       (((v) & 1) << IPMI_KCS_OBF_BIT))
-+#define IPMI_KCS_IBF_MASK          (1 << IPMI_KCS_IBF_BIT)
-+#define IPMI_KCS_GET_IBF(d)        (((d) >> IPMI_KCS_IBF_BIT) & 0x1)
-+#define IPMI_KCS_SET_IBF(d, v)     (d) = (((d) & ~IPMI_KCS_IBF_MASK) | \
-+                                       (((v) & 1) << IPMI_KCS_IBF_BIT))
-+#define IPMI_KCS_SMS_ATN_MASK      (1 << IPMI_KCS_SMS_ATN_BIT)
-+#define IPMI_KCS_GET_SMS_ATN(d)    (((d) >> IPMI_KCS_SMS_ATN_BIT) & 0x1)
-+#define IPMI_KCS_SET_SMS_ATN(d, v) (d) = (((d) & ~IPMI_KCS_SMS_ATN_MASK) | \
-+                                       (((v) & 1) << IPMI_KCS_SMS_ATN_BIT))
-+#define IPMI_KCS_CD_MASK           (1 << IPMI_KCS_CD_BIT)
-+#define IPMI_KCS_GET_CD(d)         (((d) >> IPMI_KCS_CD_BIT) & 0x1)
-+#define IPMI_KCS_SET_CD(d, v)      (d) = (((d) & ~IPMI_KCS_CD_MASK) | \
-+                                       (((v) & 1) << IPMI_KCS_CD_BIT))
-+
-+#define IPMI_KCS_IDLE_STATE        0
-+#define IPMI_KCS_READ_STATE        1
-+#define IPMI_KCS_WRITE_STATE       2
-+#define IPMI_KCS_ERROR_STATE       3
-+
-+#define IPMI_KCS_GET_STATE(d)    (((d) >> 6) & 0x3)
-+#define IPMI_KCS_SET_STATE(d, v) ((d) = ((d) & ~0xc0) | (((v) & 0x3) << 6))
-+
-+#define IPMI_KCS_ABORT_STATUS_CMD       0x60
-+#define IPMI_KCS_WRITE_START_CMD        0x61
-+#define IPMI_KCS_WRITE_END_CMD          0x62
-+#define IPMI_KCS_READ_CMD               0x68
-+
-+#define IPMI_KCS_STATUS_NO_ERR          0x00
-+#define IPMI_KCS_STATUS_ABORTED_ERR     0x01
-+#define IPMI_KCS_STATUS_BAD_CC_ERR      0x02
-+#define IPMI_KCS_STATUS_LENGTH_ERR      0x06
-+
-+static void ipmi_kcs_raise_irq(IPMIKCS *ik)
-+{
-+    if (ik->use_irq && ik->irqs_enabled && ik->raise_irq) {
-+        ik->raise_irq(ik);
-+    }
-+}
-+
-+static void ipmi_kcs_lower_irq(IPMIKCS *ik)
-+{
-+    if (ik->lower_irq) {
-+        ik->lower_irq(ik);
-+    }
-+}
-+
-+#define SET_OBF() \
-+    do {                                                                      \
-+        IPMI_KCS_SET_OBF(ik->status_reg, 1);                                  \
-+        if (!ik->obf_irq_set) {                                               \
-+            ik->obf_irq_set = 1;                                              \
-+            if (!ik->atn_irq_set) {                                           \
-+                ipmi_kcs_raise_irq(ik);                                  \
-+            }                                                                 \
-+        }                                                                     \
-+    } while (0)
-+
-+static void ipmi_kcs_signal(IPMIKCS *ik, IPMIInterface *ii)
-+{
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-+
-+    ik->do_wake = 1;
-+    while (ik->do_wake) {
-+        ik->do_wake = 0;
-+        iic->handle_if_event(ii);
-+    }
-+}
-+
-+static void ipmi_kcs_handle_event(IPMIInterface *ii)
-+{
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-+    IPMIKCS *ik = iic->get_backend_data(ii);
-+
-+    if (ik->cmd_reg == IPMI_KCS_ABORT_STATUS_CMD) {
-+        if (IPMI_KCS_GET_STATE(ik->status_reg) != IPMI_KCS_ERROR_STATE) {
-+            ik->waiting_rsp++; /* Invalidate the message */
-+            ik->outmsg[0] = IPMI_KCS_STATUS_ABORTED_ERR;
-+            ik->outlen = 1;
-+            ik->outpos = 0;
-+            IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_ERROR_STATE);
-+            SET_OBF();
-+        }
-+        goto out;
-+    }
-+
-+    switch (IPMI_KCS_GET_STATE(ik->status_reg)) {
-+    case IPMI_KCS_IDLE_STATE:
-+        if (ik->cmd_reg == IPMI_KCS_WRITE_START_CMD) {
-+            IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_WRITE_STATE);
-+            ik->cmd_reg = -1;
-+            ik->write_end = 0;
-+            ik->inlen = 0;
-+            SET_OBF();
-+        }
-+        break;
-+
-+    case IPMI_KCS_READ_STATE:
-+    handle_read:
-+        if (ik->outpos >= ik->outlen) {
-+            IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_IDLE_STATE);
-+            SET_OBF();
-+        } else if (ik->data_in_reg == IPMI_KCS_READ_CMD) {
-+            ik->data_out_reg = ik->outmsg[ik->outpos];
-+            ik->outpos++;
-+            SET_OBF();
-+        } else {
-+            ik->outmsg[0] = IPMI_KCS_STATUS_BAD_CC_ERR;
-+            ik->outlen = 1;
-+            ik->outpos = 0;
-+            IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_ERROR_STATE);
-+            SET_OBF();
-+            goto out;
-+        }
-+        break;
-+
-+    case IPMI_KCS_WRITE_STATE:
-+        if (ik->data_in_reg != -1) {
-+            /*
-+             * Don't worry about input overrun here, that will be
-+             * handled in the BMC.
-+             */
-+            if (ik->inlen < sizeof(ik->inmsg)) {
-+                ik->inmsg[ik->inlen] = ik->data_in_reg;
-+            }
-+            ik->inlen++;
-+        }
-+        if (ik->write_end) {
-+            IPMIBmcClass *bk = IPMI_BMC_GET_CLASS(ik->bmc);
-+            ik->outlen = 0;
-+            ik->write_end = 0;
-+            ik->outpos = 0;
-+            bk->handle_command(ik->bmc, ik->inmsg, ik->inlen, sizeof(ik->inmsg),
-+                               ik->waiting_rsp);
-+            goto out_noibf;
-+        } else if (ik->cmd_reg == IPMI_KCS_WRITE_END_CMD) {
-+            ik->cmd_reg = -1;
-+            ik->write_end = 1;
-+        }
-+        SET_OBF();
-+        break;
-+
-+    case IPMI_KCS_ERROR_STATE:
-+        if (ik->data_in_reg != -1) {
-+            IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_READ_STATE);
-+            ik->data_in_reg = IPMI_KCS_READ_CMD;
-+            goto handle_read;
-+        }
-+        break;
-+    }
-+
-+    if (ik->cmd_reg != -1) {
-+        /* Got an invalid command */
-+        ik->outmsg[0] = IPMI_KCS_STATUS_BAD_CC_ERR;
-+        ik->outlen = 1;
-+        ik->outpos = 0;
-+        IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_ERROR_STATE);
-+    }
-+
-+ out:
-+    ik->cmd_reg = -1;
-+    ik->data_in_reg = -1;
-+    IPMI_KCS_SET_IBF(ik->status_reg, 0);
-+ out_noibf:
-+    return;
-+}
-+
-+static void ipmi_kcs_handle_rsp(IPMIInterface *ii, uint8_t msg_id,
-+                                unsigned char *rsp, unsigned int rsp_len)
-+{
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-+    IPMIKCS *ik = iic->get_backend_data(ii);
-+
-+    if (ik->waiting_rsp == msg_id) {
-+        ik->waiting_rsp++;
-+        if (rsp_len > sizeof(ik->outmsg)) {
-+            ik->outmsg[0] = rsp[0];
-+            ik->outmsg[1] = rsp[1];
-+            ik->outmsg[2] = IPMI_CC_CANNOT_RETURN_REQ_NUM_BYTES;
-+            ik->outlen = 3;
-+        } else {
-+            memcpy(ik->outmsg, rsp, rsp_len);
-+            ik->outlen = rsp_len;
-+        }
-+        IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_READ_STATE);
-+        ik->data_in_reg = IPMI_KCS_READ_CMD;
-+        ipmi_kcs_signal(ik, ii);
-+    }
-+}
-+
-+
-+static uint64_t ipmi_kcs_ioport_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    IPMIInterface *ii = opaque;
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-+    IPMIKCS *ik = iic->get_backend_data(ii);
-+    uint32_t ret;
-+
-+    switch (addr & 1) {
-+    case 0:
-+        ret = ik->data_out_reg;
-+        IPMI_KCS_SET_OBF(ik->status_reg, 0);
-+        if (ik->obf_irq_set) {
-+            ik->obf_irq_set = 0;
-+            if (!ik->atn_irq_set) {
-+                ipmi_kcs_lower_irq(ik);
-+            }
-+        }
-+        break;
-+    case 1:
-+        ret = ik->status_reg;
-+        if (ik->atn_irq_set) {
-+            ik->atn_irq_set = 0;
-+            if (!ik->obf_irq_set) {
-+                ipmi_kcs_lower_irq(ik);
-+            }
-+        }
-+        break;
-+    }
-+    return ret;
-+}
-+
-+static void ipmi_kcs_ioport_write(void *opaque, hwaddr addr, uint64_t val,
-+                                  unsigned size)
-+{
-+    IPMIInterface *ii = opaque;
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-+    IPMIKCS *ik = iic->get_backend_data(ii);
-+
-+    if (IPMI_KCS_GET_IBF(ik->status_reg)) {
-+        return;
-+    }
-+
-+    switch (addr & 1) {
-+    case 0:
-+        ik->data_in_reg = val;
-+        break;
-+
-+    case 1:
-+        ik->cmd_reg = val;
-+        break;
-+    }
-+    IPMI_KCS_SET_IBF(ik->status_reg, 1);
-+    ipmi_kcs_signal(ik, ii);
-+}
-+
-+const MemoryRegionOps ipmi_kcs_io_ops = {
-+    .read = ipmi_kcs_ioport_read,
-+    .write = ipmi_kcs_ioport_write,
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+static void ipmi_kcs_set_atn(IPMIInterface *ii, int val, int irq)
-+{
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-+    IPMIKCS *ik = iic->get_backend_data(ii);
-+
-+    IPMI_KCS_SET_SMS_ATN(ik->status_reg, val);
-+    if (val) {
-+        if (irq && !ik->atn_irq_set) {
-+            ik->atn_irq_set = 1;
-+            if (!ik->obf_irq_set) {
-+                ipmi_kcs_raise_irq(ik);
-+            }
-+        }
-+    } else {
-+        if (ik->atn_irq_set) {
-+            ik->atn_irq_set = 0;
-+            if (!ik->obf_irq_set) {
-+                ipmi_kcs_lower_irq(ik);
-+            }
-+        }
-+    }
-+}
-+
-+static void ipmi_kcs_set_irq_enable(IPMIInterface *ii, int val)
-+{
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-+    IPMIKCS *ik = iic->get_backend_data(ii);
-+
-+    ik->irqs_enabled = val;
-+}
-+
-+static void ipmi_kcs_init(IPMIInterface *ii, Error **errp)
-+{
-+    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-+    IPMIKCS *ik = iic->get_backend_data(ii);
-+
-+    ik->io_length = 2;
-+    memory_region_init_io(&ik->io, NULL, &ipmi_kcs_io_ops, ii, "ipmi-kcs", 2);
-+}
-+
-+int ipmi_kcs_vmstate_post_load(void *opaque, int version)
-+{
-+    IPMIKCS *ik = opaque;
-+
-+    /* Make sure all the values are sane. */
-+    if (ik->outpos >= MAX_IPMI_MSG_SIZE || ik->outlen >= MAX_IPMI_MSG_SIZE ||
-+        ik->outpos >= ik->outlen) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "ipmi:kcs: vmstate transfer received bad out values: %d %d\n",
-+                      ik->outpos, ik->outlen);
-+        ik->outpos = 0;
-+        ik->outlen = 0;
-+    }
-+
-+    if (ik->inlen >= MAX_IPMI_MSG_SIZE) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "ipmi:kcs: vmstate transfer received bad in value: %d\n",
-+                      ik->inlen);
-+        ik->inlen = 0;
-+    }
-+
-+    return 0;
-+}
-+
-+static bool vmstate_kcs_before_version2(void *opaque, int version)
-+{
-+    return version <= 1;
-+}
-+
-+const VMStateDescription vmstate_IPMIKCS = {
-+    .name = TYPE_IPMI_INTERFACE_PREFIX "kcs",
-+    .version_id = 2,
-+    .minimum_version_id = 1,
-+    .post_load = ipmi_kcs_vmstate_post_load,
-+    .fields      = (VMStateField[]) {
-+        VMSTATE_BOOL(obf_irq_set, IPMIKCS),
-+        VMSTATE_BOOL(atn_irq_set, IPMIKCS),
-+        VMSTATE_UNUSED_TEST(vmstate_kcs_before_version2, 1), /* Was use_irq */
-+        VMSTATE_BOOL(irqs_enabled, IPMIKCS),
-+        VMSTATE_UINT32(outpos, IPMIKCS),
-+        VMSTATE_UINT32_V(outlen, IPMIKCS, 2),
-+        VMSTATE_UINT8_ARRAY(outmsg, IPMIKCS, MAX_IPMI_MSG_SIZE),
-+        VMSTATE_UINT32_V(inlen, IPMIKCS, 2),
-+        VMSTATE_UINT8_ARRAY(inmsg, IPMIKCS, MAX_IPMI_MSG_SIZE),
-+        VMSTATE_BOOL(write_end, IPMIKCS),
-+        VMSTATE_UINT8(status_reg, IPMIKCS),
-+        VMSTATE_UINT8(data_out_reg, IPMIKCS),
-+        VMSTATE_INT16(data_in_reg, IPMIKCS),
-+        VMSTATE_INT16(cmd_reg, IPMIKCS),
-+        VMSTATE_UINT8(waiting_rsp, IPMIKCS),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+void ipmi_kcs_get_fwinfo(IPMIKCS *ik, IPMIFwInfo *info)
-+{
-+    info->interface_name = "kcs";
-+    info->interface_type = IPMI_SMBIOS_KCS;
-+    info->ipmi_spec_major_revision = 2;
-+    info->ipmi_spec_minor_revision = 0;
-+    info->base_address = ik->io_base;
-+    info->i2c_slave_address = ik->bmc->slave_addr;
-+    info->register_length = ik->io_length;
-+    info->register_spacing = 1;
-+    info->memspace = IPMI_MEMSPACE_IO;
-+    info->irq_type = IPMI_LEVEL_IRQ;
-+}
-+
-+void ipmi_kcs_class_init(IPMIInterfaceClass *iic)
-+{
-+    iic->init = ipmi_kcs_init;
-+    iic->set_atn = ipmi_kcs_set_atn;
-+    iic->handle_rsp = ipmi_kcs_handle_rsp;
-+    iic->handle_if_event = ipmi_kcs_handle_event;
-+    iic->set_irq_enable = ipmi_kcs_set_irq_enable;
-+}
-diff --git a/hw/ipmi/isa_ipmi_kcs.c b/hw/ipmi/isa_ipmi_kcs.c
-index 374b2a0709..8e32774f85 100644
---- a/hw/ipmi/isa_ipmi_kcs.c
-+++ b/hw/ipmi/isa_ipmi_kcs.c
-@@ -1,7 +1,7 @@
- /*
-  * QEMU ISA IPMI KCS emulation
-  *
-- * Copyright (c) 2015 Corey Minyard, MontaVista Software, LLC
-+ * Copyright (c) 2015,2017 Corey Minyard, MontaVista Software, LLC
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a copy
-  * of this software and associated documentation files (the "Software"), to deal
-@@ -26,338 +26,12 @@
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
--#include "hw/ipmi/ipmi.h"
- #include "hw/irq.h"
-+#include "hw/ipmi/ipmi_kcs.h"
- #include "hw/isa/isa.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
+@@ -232,7 +232,7 @@ static uint64_t ipmi_kcs_ioport_read(void *opaque, hwaddr addr, unsigned size)
+     IPMIKCS *ik = iic->get_backend_data(ii);
+     uint32_t ret;
  
--#define IPMI_KCS_OBF_BIT        0
--#define IPMI_KCS_IBF_BIT        1
--#define IPMI_KCS_SMS_ATN_BIT    2
--#define IPMI_KCS_CD_BIT         3
--
--#define IPMI_KCS_OBF_MASK          (1 << IPMI_KCS_OBF_BIT)
--#define IPMI_KCS_GET_OBF(d)        (((d) >> IPMI_KCS_OBF_BIT) & 0x1)
--#define IPMI_KCS_SET_OBF(d, v)     (d) = (((d) & ~IPMI_KCS_OBF_MASK) | \
--                                       (((v) & 1) << IPMI_KCS_OBF_BIT))
--#define IPMI_KCS_IBF_MASK          (1 << IPMI_KCS_IBF_BIT)
--#define IPMI_KCS_GET_IBF(d)        (((d) >> IPMI_KCS_IBF_BIT) & 0x1)
--#define IPMI_KCS_SET_IBF(d, v)     (d) = (((d) & ~IPMI_KCS_IBF_MASK) | \
--                                       (((v) & 1) << IPMI_KCS_IBF_BIT))
--#define IPMI_KCS_SMS_ATN_MASK      (1 << IPMI_KCS_SMS_ATN_BIT)
--#define IPMI_KCS_GET_SMS_ATN(d)    (((d) >> IPMI_KCS_SMS_ATN_BIT) & 0x1)
--#define IPMI_KCS_SET_SMS_ATN(d, v) (d) = (((d) & ~IPMI_KCS_SMS_ATN_MASK) | \
--                                       (((v) & 1) << IPMI_KCS_SMS_ATN_BIT))
--#define IPMI_KCS_CD_MASK           (1 << IPMI_KCS_CD_BIT)
--#define IPMI_KCS_GET_CD(d)         (((d) >> IPMI_KCS_CD_BIT) & 0x1)
--#define IPMI_KCS_SET_CD(d, v)      (d) = (((d) & ~IPMI_KCS_CD_MASK) | \
--                                       (((v) & 1) << IPMI_KCS_CD_BIT))
--
--#define IPMI_KCS_IDLE_STATE        0
--#define IPMI_KCS_READ_STATE        1
--#define IPMI_KCS_WRITE_STATE       2
--#define IPMI_KCS_ERROR_STATE       3
--
--#define IPMI_KCS_GET_STATE(d)    (((d) >> 6) & 0x3)
--#define IPMI_KCS_SET_STATE(d, v) ((d) = ((d) & ~0xc0) | (((v) & 0x3) << 6))
--
--#define IPMI_KCS_ABORT_STATUS_CMD       0x60
--#define IPMI_KCS_WRITE_START_CMD        0x61
--#define IPMI_KCS_WRITE_END_CMD          0x62
--#define IPMI_KCS_READ_CMD               0x68
--
--#define IPMI_KCS_STATUS_NO_ERR          0x00
--#define IPMI_KCS_STATUS_ABORTED_ERR     0x01
--#define IPMI_KCS_STATUS_BAD_CC_ERR      0x02
--#define IPMI_KCS_STATUS_LENGTH_ERR      0x06
--
--typedef struct IPMIKCS {
--    IPMIBmc *bmc;
--
--    bool do_wake;
--
--    qemu_irq irq;
--
--    uint32_t io_base;
--    unsigned long io_length;
--    MemoryRegion io;
--
--    bool obf_irq_set;
--    bool atn_irq_set;
--    bool use_irq;
--    bool irqs_enabled;
--
--    uint8_t outmsg[MAX_IPMI_MSG_SIZE];
--    uint32_t outpos;
--    uint32_t outlen;
--
--    uint8_t inmsg[MAX_IPMI_MSG_SIZE];
--    uint32_t inlen;
--    bool write_end;
--
--    uint8_t status_reg;
--    uint8_t data_out_reg;
--
--    int16_t data_in_reg; /* -1 means not written */
--    int16_t cmd_reg;
--
--    /*
--     * This is a response number that we send with the command to make
--     * sure that the response matches the command.
--     */
--    uint8_t waiting_rsp;
--} IPMIKCS;
--
--#define SET_OBF() \
--    do {                                                                      \
--        IPMI_KCS_SET_OBF(ik->status_reg, 1);                                  \
--        if (ik->use_irq && ik->irqs_enabled && !ik->obf_irq_set) {            \
--            ik->obf_irq_set = 1;                                              \
--            if (!ik->atn_irq_set) {                                           \
--                qemu_irq_raise(ik->irq);                                      \
--            }                                                                 \
--        }                                                                     \
--    } while (0)
--
--static void ipmi_kcs_signal(IPMIKCS *ik, IPMIInterface *ii)
--{
--    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
--
--    ik->do_wake = 1;
--    while (ik->do_wake) {
--        ik->do_wake = 0;
--        iic->handle_if_event(ii);
--    }
--}
--
--static void ipmi_kcs_handle_event(IPMIInterface *ii)
--{
--    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
--    IPMIKCS *ik = iic->get_backend_data(ii);
--
--    if (ik->cmd_reg == IPMI_KCS_ABORT_STATUS_CMD) {
--        if (IPMI_KCS_GET_STATE(ik->status_reg) != IPMI_KCS_ERROR_STATE) {
--            ik->waiting_rsp++; /* Invalidate the message */
--            ik->outmsg[0] = IPMI_KCS_STATUS_ABORTED_ERR;
--            ik->outlen = 1;
--            ik->outpos = 0;
--            IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_ERROR_STATE);
--            SET_OBF();
--        }
--        goto out;
--    }
--
--    switch (IPMI_KCS_GET_STATE(ik->status_reg)) {
--    case IPMI_KCS_IDLE_STATE:
--        if (ik->cmd_reg == IPMI_KCS_WRITE_START_CMD) {
--            IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_WRITE_STATE);
--            ik->cmd_reg = -1;
--            ik->write_end = 0;
--            ik->inlen = 0;
--            SET_OBF();
--        }
--        break;
--
--    case IPMI_KCS_READ_STATE:
--    handle_read:
--        if (ik->outpos >= ik->outlen) {
--            IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_IDLE_STATE);
--            SET_OBF();
--        } else if (ik->data_in_reg == IPMI_KCS_READ_CMD) {
--            ik->data_out_reg = ik->outmsg[ik->outpos];
--            ik->outpos++;
--            SET_OBF();
--        } else {
--            ik->outmsg[0] = IPMI_KCS_STATUS_BAD_CC_ERR;
--            ik->outlen = 1;
--            ik->outpos = 0;
--            IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_ERROR_STATE);
--            SET_OBF();
--            goto out;
--        }
--        break;
--
--    case IPMI_KCS_WRITE_STATE:
--        if (ik->data_in_reg != -1) {
--            /*
--             * Don't worry about input overrun here, that will be
--             * handled in the BMC.
--             */
--            if (ik->inlen < sizeof(ik->inmsg)) {
--                ik->inmsg[ik->inlen] = ik->data_in_reg;
--            }
--            ik->inlen++;
--        }
--        if (ik->write_end) {
--            IPMIBmcClass *bk = IPMI_BMC_GET_CLASS(ik->bmc);
--            ik->outlen = 0;
--            ik->write_end = 0;
--            ik->outpos = 0;
--            bk->handle_command(ik->bmc, ik->inmsg, ik->inlen, sizeof(ik->inmsg),
--                               ik->waiting_rsp);
--            goto out_noibf;
--        } else if (ik->cmd_reg == IPMI_KCS_WRITE_END_CMD) {
--            ik->cmd_reg = -1;
--            ik->write_end = 1;
--        }
--        SET_OBF();
--        break;
--
--    case IPMI_KCS_ERROR_STATE:
--        if (ik->data_in_reg != -1) {
--            IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_READ_STATE);
--            ik->data_in_reg = IPMI_KCS_READ_CMD;
--            goto handle_read;
--        }
--        break;
--    }
--
--    if (ik->cmd_reg != -1) {
--        /* Got an invalid command */
--        ik->outmsg[0] = IPMI_KCS_STATUS_BAD_CC_ERR;
--        ik->outlen = 1;
--        ik->outpos = 0;
--        IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_ERROR_STATE);
--    }
--
-- out:
--    ik->cmd_reg = -1;
--    ik->data_in_reg = -1;
--    IPMI_KCS_SET_IBF(ik->status_reg, 0);
-- out_noibf:
--    return;
--}
--
--static void ipmi_kcs_handle_rsp(IPMIInterface *ii, uint8_t msg_id,
--                                unsigned char *rsp, unsigned int rsp_len)
--{
--    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
--    IPMIKCS *ik = iic->get_backend_data(ii);
--
--    if (ik->waiting_rsp == msg_id) {
--        ik->waiting_rsp++;
--        if (rsp_len > sizeof(ik->outmsg)) {
--            ik->outmsg[0] = rsp[0];
--            ik->outmsg[1] = rsp[1];
--            ik->outmsg[2] = IPMI_CC_CANNOT_RETURN_REQ_NUM_BYTES;
--            ik->outlen = 3;
--        } else {
--            memcpy(ik->outmsg, rsp, rsp_len);
--            ik->outlen = rsp_len;
--        }
--        IPMI_KCS_SET_STATE(ik->status_reg, IPMI_KCS_READ_STATE);
--        ik->data_in_reg = IPMI_KCS_READ_CMD;
--        ipmi_kcs_signal(ik, ii);
--    }
--}
--
--
--static uint64_t ipmi_kcs_ioport_read(void *opaque, hwaddr addr, unsigned size)
--{
--    IPMIInterface *ii = opaque;
--    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
--    IPMIKCS *ik = iic->get_backend_data(ii);
--    uint32_t ret;
--
 -    switch (addr & 1) {
--    case 0:
--        ret = ik->data_out_reg;
--        IPMI_KCS_SET_OBF(ik->status_reg, 0);
--        if (ik->obf_irq_set) {
--            ik->obf_irq_set = 0;
--            if (!ik->atn_irq_set) {
--                qemu_irq_lower(ik->irq);
--            }
--        }
--        break;
--    case 1:
--        ret = ik->status_reg;
--        if (ik->atn_irq_set) {
--            ik->atn_irq_set = 0;
--            if (!ik->obf_irq_set) {
--                qemu_irq_lower(ik->irq);
--            }
--        }
--        break;
--    }
--    return ret;
--}
--
--static void ipmi_kcs_ioport_write(void *opaque, hwaddr addr, uint64_t val,
--                                  unsigned size)
--{
--    IPMIInterface *ii = opaque;
--    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
--    IPMIKCS *ik = iic->get_backend_data(ii);
--
--    if (IPMI_KCS_GET_IBF(ik->status_reg)) {
--        return;
--    }
--
++    switch (addr & ik->size_mask) {
+     case 0:
+         ret = ik->data_out_reg;
+         IPMI_KCS_SET_OBF(ik->status_reg, 0);
+@@ -243,6 +243,7 @@ static uint64_t ipmi_kcs_ioport_read(void *opaque, hwaddr addr, unsigned size)
+             }
+         }
+         break;
++
+     case 1:
+         ret = ik->status_reg;
+         if (ik->atn_irq_set) {
+@@ -252,6 +253,9 @@ static uint64_t ipmi_kcs_ioport_read(void *opaque, hwaddr addr, unsigned size)
+             }
+         }
+         break;
++
++    default:
++        ret = 0xff;
+     }
+     return ret;
+ }
+@@ -267,7 +271,7 @@ static void ipmi_kcs_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+         return;
+     }
+ 
 -    switch (addr & 1) {
--    case 0:
--        ik->data_in_reg = val;
--        break;
--
--    case 1:
--        ik->cmd_reg = val;
--        break;
--    }
--    IPMI_KCS_SET_IBF(ik->status_reg, 1);
--    ipmi_kcs_signal(ik, ii);
--}
--
--const MemoryRegionOps ipmi_kcs_io_ops = {
--    .read = ipmi_kcs_ioport_read,
--    .write = ipmi_kcs_ioport_write,
--    .impl = {
--        .min_access_size = 1,
--        .max_access_size = 1,
--    },
--    .endianness = DEVICE_LITTLE_ENDIAN,
--};
--
--static void ipmi_kcs_set_atn(IPMIInterface *ii, int val, int irq)
--{
--    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
--    IPMIKCS *ik = iic->get_backend_data(ii);
--
--    IPMI_KCS_SET_SMS_ATN(ik->status_reg, val);
--    if (val) {
--        if (irq && !ik->atn_irq_set && ik->use_irq && ik->irqs_enabled) {
--            ik->atn_irq_set = 1;
--            if (!ik->obf_irq_set) {
--                qemu_irq_raise(ik->irq);
--            }
--        }
--    } else {
--        if (ik->atn_irq_set) {
--            ik->atn_irq_set = 0;
--            if (!ik->obf_irq_set) {
--                qemu_irq_lower(ik->irq);
--            }
--        }
--    }
--}
--
--static void ipmi_kcs_set_irq_enable(IPMIInterface *ii, int val)
--{
--    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
--    IPMIKCS *ik = iic->get_backend_data(ii);
--
--    ik->irqs_enabled = val;
--}
--
++    switch (addr & ik->size_mask) {
+     case 0:
+         ik->data_in_reg = val;
+         break;
+@@ -275,6 +279,10 @@ static void ipmi_kcs_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+     case 1:
+         ik->cmd_reg = val;
+         break;
++
++    default:
++        /* Ignore. */
++        break;
+     }
+     IPMI_KCS_SET_IBF(ik->status_reg, 1);
+     ipmi_kcs_signal(ik, ii);
+@@ -321,13 +329,20 @@ static void ipmi_kcs_set_irq_enable(IPMIInterface *ii, int val)
+     ik->irqs_enabled = val;
+ }
+ 
 -static void ipmi_kcs_init(IPMIInterface *ii, Error **errp)
--{
--    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
--    IPMIKCS *ik = iic->get_backend_data(ii);
--
--    ik->io_length = 2;
++/* min_size must be a power of 2. */
++static void ipmi_kcs_init(IPMIInterface *ii, unsigned int min_size,
++                          Error **errp)
+ {
+     IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+     IPMIKCS *ik = iic->get_backend_data(ii);
+ 
++    if (min_size == 0) {
++        min_size = 2;
++    }
++    ik->size_mask = min_size - 1;
+     ik->io_length = 2;
 -    memory_region_init_io(&ik->io, NULL, &ipmi_kcs_io_ops, ii, "ipmi-kcs", 2);
--}
--
- #define TYPE_ISA_IPMI_KCS "isa-ipmi-kcs"
- #define ISA_IPMI_KCS(obj) OBJECT_CHECK(ISAIPMIKCSDevice, (obj), \
-                                        TYPE_ISA_IPMI_KCS)
-@@ -365,36 +39,32 @@ static void ipmi_kcs_init(IPMIInterface *ii, Error **errp)
- typedef struct ISAIPMIKCSDevice {
-     ISADevice dev;
-     int32_t isairq;
-+    qemu_irq irq;
-     IPMIKCS kcs;
-     uint32_t uuid;
- } ISAIPMIKCSDevice;
- 
--static void ipmi_kcs_get_fwinfo(IPMIInterface *ii, IPMIFwInfo *info)
-+static void isa_ipmi_kcs_get_fwinfo(IPMIInterface *ii, IPMIFwInfo *info)
- {
-     ISAIPMIKCSDevice *iik = ISA_IPMI_KCS(ii);
- 
--    info->interface_name = "kcs";
--    info->interface_type = IPMI_SMBIOS_KCS;
--    info->ipmi_spec_major_revision = 2;
--    info->ipmi_spec_minor_revision = 0;
--    info->base_address = iik->kcs.io_base;
--    info->i2c_slave_address = iik->kcs.bmc->slave_addr;
--    info->register_length = iik->kcs.io_length;
--    info->register_spacing = 1;
--    info->memspace = IPMI_MEMSPACE_IO;
--    info->irq_type = IPMI_LEVEL_IRQ;
-+    ipmi_kcs_get_fwinfo(&iik->kcs, info);
-     info->interrupt_number = iik->isairq;
-     info->uuid = iik->uuid;
++    memory_region_init_io(&ik->io, NULL, &ipmi_kcs_io_ops, ii, "ipmi-kcs",
++                          min_size);
  }
  
--static void ipmi_kcs_class_init(IPMIInterfaceClass *iic)
-+static void isa_ipmi_kcs_raise_irq(IPMIKCS *ik)
- {
--    iic->init = ipmi_kcs_init;
--    iic->set_atn = ipmi_kcs_set_atn;
--    iic->handle_rsp = ipmi_kcs_handle_rsp;
--    iic->handle_if_event = ipmi_kcs_handle_event;
--    iic->set_irq_enable = ipmi_kcs_set_irq_enable;
--    iic->get_fwinfo = ipmi_kcs_get_fwinfo;
-+    ISAIPMIKCSDevice *iik = ik->opaque;
-+
-+    qemu_irq_raise(iik->irq);
-+}
-+
-+static void isa_ipmi_kcs_lower_irq(IPMIKCS *ik)
-+{
-+    ISAIPMIKCSDevice *iik = ik->opaque;
-+
-+    qemu_irq_lower(iik->irq);
- }
+ int ipmi_kcs_vmstate_post_load(void *opaque, int version)
+diff --git a/hw/ipmi/isa_ipmi_bt.c b/hw/ipmi/isa_ipmi_bt.c
+index c102778712..9a87ffd3f0 100644
+--- a/hw/ipmi/isa_ipmi_bt.c
++++ b/hw/ipmi/isa_ipmi_bt.c
+@@ -85,7 +85,7 @@ static void isa_ipmi_bt_realize(DeviceState *dev, Error **errp)
+     iib->bt.bmc->intf = ii;
+     iib->bt.opaque = iib;
  
- static void ipmi_isa_realize(DeviceState *dev, Error **errp)
-@@ -412,14 +82,17 @@ static void ipmi_isa_realize(DeviceState *dev, Error **errp)
-     iik->uuid = ipmi_next_uuid();
- 
-     iik->kcs.bmc->intf = ii;
-+    iik->kcs.opaque = iik;
- 
-     iic->init(ii, errp);
+-    iic->init(ii, errp);
++    iic->init(ii, 0, errp);
      if (*errp)
          return;
  
-     if (iik->isairq > 0) {
--        isa_init_irq(isadev, &iik->kcs.irq, iik->isairq);
-+        isa_init_irq(isadev, &iik->irq, iik->isairq);
-         iik->kcs.use_irq = 1;
-+        iik->kcs.raise_irq = isa_ipmi_kcs_raise_irq;
-+        iik->kcs.lower_irq = isa_ipmi_kcs_lower_irq;
-     }
+diff --git a/hw/ipmi/isa_ipmi_kcs.c b/hw/ipmi/isa_ipmi_kcs.c
+index 8e32774f85..ca3ea36a3f 100644
+--- a/hw/ipmi/isa_ipmi_kcs.c
++++ b/hw/ipmi/isa_ipmi_kcs.c
+@@ -84,7 +84,7 @@ static void ipmi_isa_realize(DeviceState *dev, Error **errp)
+     iik->kcs.bmc->intf = ii;
+     iik->kcs.opaque = iik;
  
-     qdev_set_legacy_instance_id(dev, iik->kcs.io_base, iik->kcs.io_length);
-@@ -427,60 +100,11 @@ static void ipmi_isa_realize(DeviceState *dev, Error **errp)
-     isa_register_ioport(isadev, &iik->kcs.io, iik->kcs.io_base);
- }
+-    iic->init(ii, errp);
++    iic->init(ii, 0, errp);
+     if (*errp)
+         return;
  
--static int ipmi_kcs_vmstate_post_load(void *opaque, int version)
--{
--    IPMIKCS *ik = opaque;
--
--    /* Make sure all the values are sane. */
--    if (ik->outpos >= MAX_IPMI_MSG_SIZE || ik->outlen >= MAX_IPMI_MSG_SIZE ||
--        ik->outpos >= ik->outlen) {
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "ipmi:kcs: vmstate transfer received bad out values: %d %d\n",
--                      ik->outpos, ik->outlen);
--        ik->outpos = 0;
--        ik->outlen = 0;
--    }
--
--    if (ik->inlen >= MAX_IPMI_MSG_SIZE) {
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "ipmi:kcs: vmstate transfer received bad in value: %d\n",
--                      ik->inlen);
--        ik->inlen = 0;
--    }
--
--    return 0;
--}
--
- static bool vmstate_kcs_before_version2(void *opaque, int version)
- {
-     return version <= 1;
- }
+diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
+index 70871da0a7..6f2413b39b 100644
+--- a/include/hw/ipmi/ipmi.h
++++ b/include/hw/ipmi/ipmi.h
+@@ -118,7 +118,12 @@ typedef struct IPMIInterface IPMIInterface;
+ typedef struct IPMIInterfaceClass {
+     InterfaceClass parent;
  
--static const VMStateDescription vmstate_IPMIKCS = {
--    .name = TYPE_IPMI_INTERFACE_PREFIX "kcs",
--    .version_id = 2,
--    .minimum_version_id = 1,
--    .post_load = ipmi_kcs_vmstate_post_load,
--    .fields      = (VMStateField[]) {
--        VMSTATE_BOOL(obf_irq_set, IPMIKCS),
--        VMSTATE_BOOL(atn_irq_set, IPMIKCS),
--        VMSTATE_UNUSED_TEST(vmstate_kcs_before_version2, 1), /* Was use_irq */
--        VMSTATE_BOOL(irqs_enabled, IPMIKCS),
--        VMSTATE_UINT32(outpos, IPMIKCS),
--        VMSTATE_UINT32_V(outlen, IPMIKCS, 2),
--        VMSTATE_UINT8_ARRAY(outmsg, IPMIKCS, MAX_IPMI_MSG_SIZE),
--        VMSTATE_UINT32_V(inlen, IPMIKCS, 2),
--        VMSTATE_UINT8_ARRAY(inmsg, IPMIKCS, MAX_IPMI_MSG_SIZE),
--        VMSTATE_BOOL(write_end, IPMIKCS),
--        VMSTATE_UINT8(status_reg, IPMIKCS),
--        VMSTATE_UINT8(data_out_reg, IPMIKCS),
--        VMSTATE_INT16(data_in_reg, IPMIKCS),
--        VMSTATE_INT16(cmd_reg, IPMIKCS),
--        VMSTATE_UINT8(waiting_rsp, IPMIKCS),
--        VMSTATE_END_OF_LIST()
--    }
--};
--
- static const VMStateDescription vmstate_ISAIPMIKCSDevice = {
-     .name = TYPE_IPMI_INTERFACE,
-     .version_id = 2,
-@@ -531,6 +155,7 @@ static void isa_ipmi_kcs_class_init(ObjectClass *oc, void *data)
- 
-     iic->get_backend_data = isa_ipmi_kcs_get_backend_data;
-     ipmi_kcs_class_init(iic);
-+    iic->get_fwinfo = isa_ipmi_kcs_get_fwinfo;
- }
- 
- static const TypeInfo isa_ipmi_kcs_info = {
-diff --git a/include/hw/ipmi/ipmi_kcs.h b/include/hw/ipmi/ipmi_kcs.h
-new file mode 100644
-index 0000000000..91d76d08f4
---- /dev/null
-+++ b/include/hw/ipmi/ipmi_kcs.h
-@@ -0,0 +1,75 @@
-+/*
-+ * QEMU IPMI KCS emulation
-+ *
-+ * Copyright (c) 2015,2017 Corey Minyard, MontaVista Software, LLC
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#ifndef HW_IPMI_KCS_H
-+#define HW_IPMI_KCS_H
-+
-+#include "hw/ipmi/ipmi.h"
-+
-+typedef struct IPMIKCS {
-+    IPMIBmc *bmc;
-+
-+    bool do_wake;
-+
-+    bool obf_irq_set;
-+    bool atn_irq_set;
-+    bool irqs_enabled;
-+
-+    uint8_t outmsg[MAX_IPMI_MSG_SIZE];
-+    uint32_t outpos;
-+    uint32_t outlen;
-+
-+    uint8_t inmsg[MAX_IPMI_MSG_SIZE];
-+    uint32_t inlen;
-+    bool write_end;
-+
-+    uint8_t status_reg;
-+    uint8_t data_out_reg;
-+
-+    int16_t data_in_reg; /* -1 means not written */
-+    int16_t cmd_reg;
-+
+-    void (*init)(struct IPMIInterface *s, Error **errp);
 +    /*
-+     * This is a response number that we send with the command to make
-+     * sure that the response matches the command.
++     * min_size is the requested I/O size and must be a power of 2.
++     * This is so PCI (or other busses) can request a bigger range.
++     * Use 0 for the default.
 +     */
-+    uint8_t waiting_rsp;
-+
-+    uint32_t io_base;
-+    unsigned long io_length;
-+    MemoryRegion io;
-+
-+    void (*raise_irq)(struct IPMIKCS *ik);
-+    void (*lower_irq)(struct IPMIKCS *ik);
-+    void *opaque;
-+
-+    bool use_irq;
-+} IPMIKCS;
-+
-+void ipmi_kcs_get_fwinfo(IPMIKCS *ik, IPMIFwInfo *info);
-+void ipmi_kcs_class_init(IPMIInterfaceClass *iic);
-+extern const VMStateDescription vmstate_IPMIKCS;
-+int ipmi_kcs_vmstate_post_load(void *opaque, int version);
-+
-+#endif /* HW_IPMI_KCS_H */
++    void (*init)(struct IPMIInterface *s, unsigned int min_size, Error **errp);
+ 
+     /*
+      * Perform various operations on the hardware.  If checkonly is
+diff --git a/include/hw/ipmi/ipmi_bt.h b/include/hw/ipmi/ipmi_bt.h
+index 9667aaa88a..8a4316ea7c 100644
+--- a/include/hw/ipmi/ipmi_bt.h
++++ b/include/hw/ipmi/ipmi_bt.h
+@@ -56,6 +56,7 @@ typedef struct IPMIBT {
+     uint32_t io_base;
+     unsigned long io_length;
+     MemoryRegion io;
++    unsigned long size_mask;
+ 
+     void (*raise_irq)(struct IPMIBT *ib);
+     void (*lower_irq)(struct IPMIBT *ib);
+diff --git a/include/hw/ipmi/ipmi_kcs.h b/include/hw/ipmi/ipmi_kcs.h
+index 91d76d08f4..6e6ef4c539 100644
+--- a/include/hw/ipmi/ipmi_kcs.h
++++ b/include/hw/ipmi/ipmi_kcs.h
+@@ -59,6 +59,7 @@ typedef struct IPMIKCS {
+     uint32_t io_base;
+     unsigned long io_length;
+     MemoryRegion io;
++    unsigned long size_mask;
+ 
+     void (*raise_irq)(struct IPMIKCS *ik);
+     void (*lower_irq)(struct IPMIKCS *ik);
 -- 
 2.17.1
 
