@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DEA59283F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 17:20:45 +0200 (CEST)
-Received: from localhost ([::1]:54284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADA89283E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 17:20:40 +0200 (CEST)
+Received: from localhost ([::1]:54276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzjSd-0004Jv-Tu
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 11:20:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53023)
+	id 1hzjSY-0004BJ-Kl
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 11:20:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53018)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzjPy-0002Uv-45
+ (envelope-from <richard.henderson@linaro.org>) id 1hzjPy-0002Ut-3H
  for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:17:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzjPw-0002WZ-P6
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:17:58 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:33699)
+ (envelope-from <richard.henderson@linaro.org>) id 1hzjPw-0002Wn-Pk
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:17:57 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:35964)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzjPw-0002RC-HE
+ id 1hzjPw-0002Rn-Iq
  for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:17:56 -0400
-Received: by mail-pl1-x629.google.com with SMTP id go14so1115905plb.0
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 08:17:48 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id w2so1349214pfi.3
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 08:17:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kcQQwhe8tbvIkqlEv04wiqdNqDeAeBEJXEVRAMnwP74=;
- b=oOzgaKQvX9pX/pHo6fX2nRrnGGPWGfe1iUDvPjg+1Kl2hE2p834EWd1J4syElgmY3h
- qk7LBj12kFb9hxgtpBcwF9agEJ6jut9pECh4IjyKszOsLrpDSEZnmnz9krH0ngRrT85c
- dlgsyh5nxj44XprDhOUtGuMoByKVvVkM1P59b3SIuHQE0SgJNnusCC5MImBMOoc4Dnr9
- ihiYft2gltHWjaZJfarlh0WukArNCt9nBNbnP9iyuePd3G9wMMwZAULX/retuIhLyIBq
- caEna1GOpggAFfh5ker2q+7iA9imJY7XONJ8PXD/NDEkTdbVUufbkRSmUwJM1zmcHWm4
- lhDA==
+ bh=FYIOkeCFDs+BgfZApqGQTYKi9ofiCzdQQpabShx+clA=;
+ b=ltAd+58YwCh5eaUQEsu2K4Js+5xQgGw9JIVMFYOr/3Jb49QKktf0Wb/JhDgils9xXZ
+ iY51U5XNUY5VZMVWwBxeRzVALpmDZsvajMSGsVbP/0WGChTxiL8a4BOkln1bv0v4ioi1
+ +basAvd3MtrGMdhCKpaWh3UUafeJFcI4Jod6L7/qK+Zqx6/uZ+GSRWIOmUwUl5GdcIUX
+ bvdmXYn0G/9VhlFaCTRDeK8JQoGxjuOjQMYA0MytTRqmO/nMEc4A2OFzbPUgu+6oBArE
+ 7YIOK0FaiczpHILdMOnWdqJdPqVATWtd2rBglf8Oca8JIbaTFkHX7q/KOnC0Ujhklagz
+ /fCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kcQQwhe8tbvIkqlEv04wiqdNqDeAeBEJXEVRAMnwP74=;
- b=iX8Ux+BoR8H0ZzQ+v0Xjwu3t3s70LsX1S1xCJK0fIStU8QHHVepLAtcAvpNrgW4GYa
- FBXCHX1RqRmunOwOUkXMebYXXFpYEJ42Q1Qet90MUdBcrO3Iths7+gYB9fwJ+hPG0K6D
- /eAzmDSGv+Jx58BahHh84fw/gnQhZf9naDJjvcQrxjp+v0IYJOLFOn8W+P0VUELSxDWL
- xyTqitOn7CbpBE0JLDV5SSX8BaZ4qYS8Piq1Idm9qqM3pxQMOwE23cg0DquOJxRU+yWb
- ePfm/npwvHtozWalqEwB8i799d1+LTyoaVPdPYzwIztjLtShqkGdMtA5mYVYYox8h/7N
- 8XoA==
-X-Gm-Message-State: APjAAAVFFwHK60xEeP72uCbmQZ80kfB4YyVbfXlUf7xdQya2wCU9wM7a
- 9LUZeBXAeXV46E5wZBJTxiJhXBloFSc=
-X-Google-Smtp-Source: APXvYqxE5d0ADpu/eSkXXYOzafnaMOkWbBBlmp+8buJkgUqAOUMRP++wc00Fa+V8H/Rct6mIuSicOg==
-X-Received: by 2002:a17:902:834c:: with SMTP id
- z12mr9134007pln.8.1566227867525; 
- Mon, 19 Aug 2019 08:17:47 -0700 (PDT)
+ bh=FYIOkeCFDs+BgfZApqGQTYKi9ofiCzdQQpabShx+clA=;
+ b=V55bCHpQnZmj0vpjDXNJas0eOsDTqPJKukXk5Adi18ZVWea4fdv78XQ1ifWczWR3vv
+ +5zybmPxmPa+VlJIeB6rq2Yq3s0NJg2SsCi8m4GQ34IryNSBL05kMsndDg2CS55jnMgB
+ Y+oEJiowrfj5uMBoaUGjMfjhOalEoY2PAIcK8VwIGajTxv+Zd1AFr4zbY7Q5ZEKxQup8
+ yGw1FMdoqoWmfWhxZ67rQreB/BokQ6SetWO9+W4u7hr9DeToJDyuVyp/x48IwkkwtwfA
+ rg7VmRPqL/5G9JKgjNPqd4GLrIEqD06jsLhE8Djw8srIonAk0Ywg/xp1HBOcqErIuCmU
+ r49g==
+X-Gm-Message-State: APjAAAXwA48XM8V0soxj+oPUkNaT6laXLQ3oGOknbYYd/pEaQjyvYYdb
+ EvkUgvjzANyIqBDCvDLXtLMrE+livQc=
+X-Google-Smtp-Source: APXvYqyNjvVuL2i/xaKNgryLYL4/IXw3l4OsJidKNWPYCtzKcrXzmR63YJs2+tMgAj/zBJ+6pdr5XQ==
+X-Received: by 2002:a65:458d:: with SMTP id o13mr20056311pgq.34.1566227868801; 
+ Mon, 19 Aug 2019 08:17:48 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id r27sm21020406pgn.25.2019.08.19.08.17.46
+ by smtp.gmail.com with ESMTPSA id r27sm21020406pgn.25.2019.08.19.08.17.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 08:17:46 -0700 (PDT)
+ Mon, 19 Aug 2019 08:17:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 08:17:42 -0700
-Message-Id: <20190819151743.17267-3-richard.henderson@linaro.org>
+Date: Mon, 19 Aug 2019 08:17:43 -0700
+Message-Id: <20190819151743.17267-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819151743.17267-1-richard.henderson@linaro.org>
 References: <20190819151743.17267-1-richard.henderson@linaro.org>
@@ -67,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::629
-Subject: [Qemu-devel] [PULL 2/3] decodetree: Suppress redundant declaration
- warnings
+X-Received-From: 2607:f8b0:4864:20::42d
+Subject: [Qemu-devel] [PULL 3/3] target/riscv: Remove redundant declaration
+ pragmas
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,90 +84,49 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can tell that a decodetree input file is "secondary" when it
-uses an argument set marked "!extern".  This indicates that at
-least one of the insn translation functions will have already
-been declared by the "primary" input file, but given only the
-secondary we cannot tell which.
-
-Avoid redundant declaration warnings by suppressing them with pragmas.
+These are now generated by decodetree itself.
 
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- scripts/decodetree.py | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ target/riscv/translate.c | 19 +------------------
+ 1 file changed, 1 insertion(+), 18 deletions(-)
 
-diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-index f6f7368774..d8c59cab60 100755
---- a/scripts/decodetree.py
-+++ b/scripts/decodetree.py
-@@ -33,6 +33,7 @@ arguments = {}
- formats = {}
- patterns = []
- allpatterns = []
-+anyextern = False
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 8d6ab73258..adeddb85f6 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -708,26 +708,9 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
+ #include "insn_trans/trans_rvd.inc.c"
+ #include "insn_trans/trans_privileged.inc.c"
  
- translate_prefix = 'trans'
- translate_scope = 'static '
-@@ -482,12 +483,14 @@ def parse_arguments(lineno, name, toks):
-     """Parse one argument set from TOKS at LINENO"""
-     global arguments
-     global re_ident
-+    global anyextern
+-/*
+- * Auto-generated decoder.
+- * Note that the 16-bit decoder reuses some of the trans_* functions
+- * initially declared by the 32-bit decoder, which results in duplicate
+- * declaration warnings.  Suppress them.
+- */
+-#ifdef CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE
+-# pragma GCC diagnostic push
+-# pragma GCC diagnostic ignored "-Wredundant-decls"
+-# ifdef __clang__
+-#  pragma GCC diagnostic ignored "-Wtypedef-redefinition"
+-# endif
+-#endif
+-
++/* Include the auto-generated decoder for 16 bit insn */
+ #include "decode_insn16.inc.c"
  
-     flds = []
-     extern = False
-     for t in toks:
-         if re_fullmatch('!extern', t):
-             extern = True
-+            anyextern = True
-             continue
-         if not re_fullmatch(re_ident, t):
-             error(lineno, 'invalid argument set token "{0}"'.format(t))
-@@ -1188,6 +1191,7 @@ def main():
-     global insnmask
-     global decode_function
-     global variablewidth
-+    global anyextern
- 
-     decode_scope = 'static '
- 
-@@ -1248,6 +1252,19 @@ def main():
-     # A single translate function can be invoked for different patterns.
-     # Make sure that the argument sets are the same, and declare the
-     # function only once.
-+    #
-+    # If we're sharing formats, we're likely also sharing trans_* functions,
-+    # but we can't tell which ones.  Prevent issues from the compiler by
-+    # suppressing redundant declaration warnings.
-+    if anyextern:
-+        output("#ifdef CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE\n",
-+               "# pragma GCC diagnostic push\n",
-+               "# pragma GCC diagnostic ignored \"-Wredundant-decls\"\n",
-+               "# ifdef __clang__\n"
-+               "#  pragma GCC diagnostic ignored \"-Wtypedef-redefinition\"\n",
-+               "# endif\n",
-+               "#endif\n\n")
-+
-     out_pats = {}
-     for i in allpatterns:
-         if i.name in out_pats:
-@@ -1259,6 +1276,11 @@ def main():
-             out_pats[i.name] = i
-     output('\n')
- 
-+    if anyextern:
-+        output("#ifdef CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE\n",
-+               "# pragma GCC diagnostic pop\n",
-+               "#endif\n\n")
-+
-     for n in sorted(formats.keys()):
-         f = formats[n]
-         f.output_extract()
+-#ifdef CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE
+-# pragma GCC diagnostic pop
+-#endif
+-
+ static void decode_opc(DisasContext *ctx)
+ {
+     /* check for compressed insn */
 -- 
 2.17.1
 
