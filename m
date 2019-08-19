@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE4D94F2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:38:50 +0200 (CEST)
-Received: from localhost ([::1]:57590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59FE694F34
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:41:05 +0200 (CEST)
+Received: from localhost ([::1]:57626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzoQT-0001vp-EA
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:38:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47529)
+	id 1hzoSe-0005I0-FJ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:41:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46330)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1hzoIo-0008VB-46
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:30:56 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hzoAs-00072W-QI
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:22:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hzoIm-0000kL-SC
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:30:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:23276)
+ (envelope-from <mreitz@redhat.com>) id 1hzoAq-0005cY-L9
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:22:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52126)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hzoIh-0000ew-5k; Mon, 19 Aug 2019 16:30:47 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hzoAW-0005Zk-8G; Mon, 19 Aug 2019 16:22:20 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 988B319AD50A;
- Mon, 19 Aug 2019 20:30:44 +0000 (UTC)
-Received: from [10.3.117.3] (ovpn-117-3.phx2.redhat.com [10.3.117.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CDA1F1DE;
- Mon, 19 Aug 2019 20:30:41 +0000 (UTC)
-To: "Denis V. Lunev" <den@openvz.org>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <1554474244-553661-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1677e835-39a1-4af3-8f4f-e1600021a2ee@redhat.com>
- <fa4f4405-5a51-c7ec-f712-95e40ef6dd41@redhat.com>
- <5dc0231e-6fbc-3efc-8cc7-ff953651d0e9@redhat.com>
- <a7cfd04b-5185-e13c-2ced-7e689de05247@openvz.org>
-From: Eric Blake <eblake@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 7E69836887;
+ Mon, 19 Aug 2019 20:22:19 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-64.brq.redhat.com
+ [10.40.204.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E2D515C686;
+ Mon, 19 Aug 2019 20:22:15 +0000 (UTC)
+To: qemu-block@nongnu.org
+References: <20190819201851.24418-1-mreitz@redhat.com>
+ <20190819201851.24418-3-mreitz@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <71d406a0-d1a0-6feb-5768-6295d36e18fc@redhat.com>
-Date: Mon, 19 Aug 2019 15:30:40 -0500
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <ca574f30-157c-88ef-db73-f96e16846f11@redhat.com>
+Date: Mon, 19 Aug 2019 22:22:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <a7cfd04b-5185-e13c-2ced-7e689de05247@openvz.org>
+In-Reply-To: <20190819201851.24418-3-mreitz@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="UfpZbObvInp6K2q5HvnHN0mxgF1ria8A3"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Mon, 19 Aug 2019 20:30:44 +0000 (UTC)
+ boundary="hwdNeyiRroGeZKSPelsnGMWC5nV84Ulxj"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Mon, 19 Aug 2019 20:22:19 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] block/io.c: fix for the allocation failure
+Subject: Re: [Qemu-devel] [PATCH v3 2/8] iotests: Prefer null-co over
+ null-aio
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,97 +86,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---UfpZbObvInp6K2q5HvnHN0mxgF1ria8A3
-Content-Type: multipart/mixed; boundary="YGPGWy4dLdgcxfl3qYaKvJlVKcrFyyN9h";
+--hwdNeyiRroGeZKSPelsnGMWC5nV84Ulxj
+Content-Type: multipart/mixed; boundary="X1YydFFVwv1gPEYlyZQo9W7KMDdx24lEi";
  protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: "Denis V. Lunev" <den@openvz.org>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
-Message-ID: <71d406a0-d1a0-6feb-5768-6295d36e18fc@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH] block/io.c: fix for the allocation failure
-References: <1554474244-553661-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1677e835-39a1-4af3-8f4f-e1600021a2ee@redhat.com>
- <fa4f4405-5a51-c7ec-f712-95e40ef6dd41@redhat.com>
- <5dc0231e-6fbc-3efc-8cc7-ff953651d0e9@redhat.com>
- <a7cfd04b-5185-e13c-2ced-7e689de05247@openvz.org>
-In-Reply-To: <a7cfd04b-5185-e13c-2ced-7e689de05247@openvz.org>
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Message-ID: <ca574f30-157c-88ef-db73-f96e16846f11@redhat.com>
+Subject: Re: [PATCH v3 2/8] iotests: Prefer null-co over null-aio
+References: <20190819201851.24418-1-mreitz@redhat.com>
+ <20190819201851.24418-3-mreitz@redhat.com>
+In-Reply-To: <20190819201851.24418-3-mreitz@redhat.com>
 
---YGPGWy4dLdgcxfl3qYaKvJlVKcrFyyN9h
+--X1YydFFVwv1gPEYlyZQo9W7KMDdx24lEi
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 8/19/19 2:46 PM, Denis V. Lunev wrote:
-> On 8/17/19 5:56 PM, Eric Blake wrote:
->> On 8/17/19 9:49 AM, Eric Blake wrote:
->>
->>>> This change is a regression of sorts.  Now, you are unconditionally
->>>> attempting the fallback for ALL failures (such as EIO) and for all
->>>> drivers, even when that was not previously attempted and increases t=
-he
->>>> traffic.  I think we should revert this patch and instead fix the
->>>> fallocate() path to convert whatever ACTUAL errno you got from unali=
-gned
->>>> fallocate failure into ENOTSUP (that is, just the file-posix.c locat=
-ion
->>>> that failed), while leaving all other errors as immediately fatal.
->> Or even better, fix the call site of fallocate() to skip attempting an=
+On 19.08.19 22:18, Max Reitz wrote:
+> We use null-co basically everywhere in the iotests.  Unless we want to
+> test null-aio specifically, we should use it instead (for consistency).=
 
->> unaligned fallocate(), and just directly return ENOTSUP, rather than
->> trying to diagnose EINVAL after the fact.
->>
-> No way. Single ENOTSUP will turn off fallocate() support on caller side=
+>=20
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Reviewed-by: John Snow <jsnow@redhat.com>
 
-> while
-> aligned (99.99% of calls) works normally.
+Hm, sorry, I just noticed that I probably should have dropped this R-b. :=
+-/
 
-I didn't mean skip fallocate() unconditionally, only when unaligned:
-
-if (request not aligned enough)
-   return -ENOTSUP;
-fallocate() ...
-
-so that the 99.99% requests that ARE aligned get to use fallocate()
-normally.
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+(I mean, apart from the rebase conflict, nothing has changed, but still.)=
 
 
---YGPGWy4dLdgcxfl3qYaKvJlVKcrFyyN9h--
+Max
 
---UfpZbObvInp6K2q5HvnHN0mxgF1ria8A3
+> ---
+>  tests/qemu-iotests/093 | 7 +++----
+>  tests/qemu-iotests/245 | 2 +-
+>  2 files changed, 4 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
+> index 3c4f5173ce..50c1e7f2ec 100755
+> --- a/tests/qemu-iotests/093
+> +++ b/tests/qemu-iotests/093
+> @@ -267,13 +267,12 @@ class ThrottleTestCoroutine(ThrottleTestCase):
+>      test_img =3D "null-co://"
+> =20
+>  class ThrottleTestGroupNames(iotests.QMPTestCase):
+> -    test_img =3D "null-aio://"
+>      max_drives =3D 3
+> =20
+>      def setUp(self):
+>          self.vm =3D iotests.VM()
+>          for i in range(0, self.max_drives):
+> -            self.vm.add_drive(self.test_img,
+> +            self.vm.add_drive("null-co://",
+>                                "throttling.iops-total=3D100,file.read-z=
+eroes=3Don")
+>          self.vm.launch()
+> =20
+> @@ -376,10 +375,10 @@ class ThrottleTestRemovableMedia(iotests.QMPTestC=
+ase):
+> =20
+>      def test_removable_media(self):
+>          # Add a couple of dummy nodes named cd0 and cd1
+> -        result =3D self.vm.qmp("blockdev-add", driver=3D"null-aio",
+> +        result =3D self.vm.qmp("blockdev-add", driver=3D"null-co",
+>                               read_zeroes=3DTrue, node_name=3D"cd0")
+>          self.assert_qmp(result, 'return', {})
+> -        result =3D self.vm.qmp("blockdev-add", driver=3D"null-aio",
+> +        result =3D self.vm.qmp("blockdev-add", driver=3D"null-co",
+>                               read_zeroes=3DTrue, node_name=3D"cd1")
+>          self.assert_qmp(result, 'return', {})
+> =20
+> diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+> index bc1ceb9792..ae169778b0 100644
+> --- a/tests/qemu-iotests/245
+> +++ b/tests/qemu-iotests/245
+> @@ -598,7 +598,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+>          ##################
+>          ###### null ######
+>          ##################
+> -        opts =3D {'driver': 'null-aio', 'node-name': 'root', 'size': 1=
+024}
+> +        opts =3D {'driver': 'null-co', 'node-name': 'root', 'size': 10=
+24}
+> =20
+>          result =3D self.vm.qmp('blockdev-add', conv_keys =3D False, **=
+opts)
+>          self.assert_qmp(result, 'return', {})
+>=20
+
+
+
+--X1YydFFVwv1gPEYlyZQo9W7KMDdx24lEi--
+
+--hwdNeyiRroGeZKSPelsnGMWC5nV84Ulxj
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1bBvAACgkQp6FrSiUn
-Q2rtoAf/XKenaQsNjLRp3HROKUFoUsMA3eqogphjbsg32uI8WF8LpTpQp5/zQSiT
-+2t22ShZj8iHodBWjwm1Iu305MtObpKx/tWNWRdMxPSgvQXWPHdJVz2x4g4o8m36
-jQLYoSzGHDhxqGqdxJG0rfxExOh2my2VQQlymVE0S0anuJ7DjJ0OLzPtA+wm9jVZ
-LShQ2uIPNDqyt1iggKcTHDuI+TeKlX4dcOWFv+ix/PFy07iAi30JTRlUQi3iHeiq
-lMWt8dO5z57ZAnPtjpkDwIrKrxUBaxjhizMVT7R+abj/+kqcx4406VaGbIJG3jWy
-zqSOsYFjaUcMP213mqSk1dQb03IqFQ==
-=fQas
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1bBPYACgkQ9AfbAGHV
+z0BuKQf9EeAprQ5Q90R5NSSgVBw0yuucY3MtYgEXT35cxJy4ln3ZGuCbERdRNpDM
+zaqpZB1QV+UqUfbM4mTePcuImkd4LRsshP/Affg5Ug6RfHVW423jGF7h2dmDVHJ2
+zV8vPnlsL2wd5Db++/1YUhUUeXdURBVuOByzwskjwLbiUADG7VnQ0hw6How52b/w
+qn/5Snb0EYrJu3JQ6BsdhC1WkCUDAQOUDz6YSdUYRNU43Qtw4sp4dfEBxeVGxen0
+7n9DyBtKYzdJ6PhzGynogy8C1qIrkbEoCOIo9s2RVyzoQVzTeuqL9VGiIMNSb0Dc
+HznZ7ocMSR4Get0pen6/CLQkamS9zA==
+=teGj
 -----END PGP SIGNATURE-----
 
---UfpZbObvInp6K2q5HvnHN0mxgF1ria8A3--
+--hwdNeyiRroGeZKSPelsnGMWC5nV84Ulxj--
 
