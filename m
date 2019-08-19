@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508D792337
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 14:15:01 +0200 (CEST)
-Received: from localhost ([::1]:48974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B28A9232B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 14:12:03 +0200 (CEST)
+Received: from localhost ([::1]:48940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzgYu-0007Yk-5T
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 08:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36067)
+	id 1hzgW2-0003sG-Fa
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 08:12:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36096)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgTa-0001rH-Rt
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:32 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgTb-0001sK-OA
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgTZ-0002YX-Cg
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:30 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:56479 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgTZ-0002Yv-In
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:31 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:56504 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hzgTZ-0001et-6B
+ id 1hzgTZ-0001ey-7N
  for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:29 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 19A631A2083;
+ by mail.rt-rk.com (Postfix) with ESMTP id 282CA1A205D;
  Mon, 19 Aug 2019 14:08:24 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id BB23F1A2061;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id D2B161A2077;
  Mon, 19 Aug 2019 14:08:23 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 14:07:42 +0200
-Message-Id: <1566216496-17375-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Mon, 19 Aug 2019 14:07:44 +0200
+Message-Id: <1566216496-17375-6-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1566216496-17375-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1566216496-17375-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v8 03/37] target/mips: Amend CP0 MemoryMapID
- register implementation
+Subject: [Qemu-devel] [PATCH v8 05/37] target/mips: Add support for
+ emulation of CRC32 group of instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,68 +57,172 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yongbok Kim <yongbok.kim@mips.com>
 
-Add migration support and fix preprocessor constant name for
-MemoryMapID register.
+Add emulation of MIPS' CRC32 (Cyclic Redundancy Check) instructions.
+Reuse zlib crc32() and Linux crc32c(). Note that, at the time being,
+there is no MIPS CPU that supports CRC32 instructions (they are an
+optional part of MIPS64/32 R6 anf nanoMIPS ISAs).
 
 Signed-off-by: Yongbok Kim <yongbok.kim@mips.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- target/mips/cpu.h     | 2 +-
- target/mips/machine.c | 7 +++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ disas/mips.c            |  8 ++++++++
+ target/mips/helper.h    |  2 ++
+ target/mips/op_helper.c | 22 ++++++++++++++++++++++
+ target/mips/translate.c | 41 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 73 insertions(+)
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 6406ba8..eda8350 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -290,7 +290,7 @@ typedef struct mips_def_t mips_def_t;
- #define CP0_REG04__CONTEXT         0
- #define CP0_REG04__USERLOCAL       2
- #define CP0_REG04__DBGCONTEXTID    4
--#define CP0_REG00__MMID            5
-+#define CP0_REG04__MEMORYMAPID     5
- /* CP0 Register 05 */
- #define CP0_REG05__PAGEMASK        0
- #define CP0_REG05__PAGEGRAIN       1
-diff --git a/target/mips/machine.c b/target/mips/machine.c
-index c3e52f8..e23b767 100644
---- a/target/mips/machine.c
-+++ b/target/mips/machine.c
-@@ -137,6 +137,7 @@ static int get_tlb(QEMUFile *f, void *pv, size_t size,
-     qemu_get_betls(f, &v->VPN);
-     qemu_get_be32s(f, &v->PageMask);
-     qemu_get_be16s(f, &v->ASID);
-+    qemu_get_be32s(f, &v->MMID);
-     qemu_get_be16s(f, &flags);
-     v->G = (flags >> 10) & 1;
-     v->C0 = (flags >> 7) & 3;
-@@ -162,6 +163,7 @@ static int put_tlb(QEMUFile *f, void *pv, size_t size,
-     r4k_tlb_t *v = pv;
+diff --git a/disas/mips.c b/disas/mips.c
+index c3a3059..b9a5204 100644
+--- a/disas/mips.c
++++ b/disas/mips.c
+@@ -1411,6 +1411,14 @@ const struct mips_opcode mips_builtin_opcodes[] =
+ {"evp",        "t",     0x41600004, 0xffe0ffff, TRAP|WR_t,            0, I32R6},
+ {"ginvi",      "v",     0x7c00003d, 0xfc1ffcff, TRAP | INSN_TLB,      0, I32R6},
+ {"ginvt",      "v",     0x7c0000bd, 0xfc1ffcff, TRAP | INSN_TLB,      0, I32R6},
++{"crc32b",     "t,v,t", 0x7c00000f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32h",     "t,v,t", 0x7c00004f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32w",     "t,v,t", 0x7c00008f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32d",     "t,v,t", 0x7c0000cf, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I64R6},
++{"crc32cb",    "t,v,t", 0x7c00010f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32ch",    "t,v,t", 0x7c00014f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32cw",    "t,v,t", 0x7c00018f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32cd",    "t,v,t", 0x7c0001cf, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I64R6},
  
-     uint16_t asid = v->ASID;
-+    uint32_t mmid = v->MMID;
-     uint16_t flags = ((v->EHINV << 15) |
-                       (v->RI1 << 14) |
-                       (v->RI0 << 13) |
-@@ -178,6 +180,7 @@ static int put_tlb(QEMUFile *f, void *pv, size_t size,
-     qemu_put_betls(f, &v->VPN);
-     qemu_put_be32s(f, &v->PageMask);
-     qemu_put_be16s(f, &asid);
-+    qemu_put_be32s(f, &mmid);
-     qemu_put_be16s(f, &flags);
-     qemu_put_be64s(f, &v->PFN[0]);
-     qemu_put_be64s(f, &v->PFN[1]);
-@@ -199,8 +202,8 @@ const VMStateInfo vmstate_info_tlb = {
+ /* MSA */
+ {"sll.b",   "+d,+e,+f", 0x7800000d, 0xffe0003f, WR_VD|RD_VS|RD_VT,  0, MSA},
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index c7d35bd..0e61043 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -40,6 +40,8 @@ DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+ DEF_HELPER_FLAGS_1(dbitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+ #endif
  
- const VMStateDescription vmstate_tlb = {
-     .name = "cpu/tlb",
--    .version_id = 2,
--    .minimum_version_id = 2,
-+    .version_id = 3,
-+    .minimum_version_id = 3,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(nb_tlb, CPUMIPSTLBContext),
-         VMSTATE_UINT32(tlb_in_use, CPUMIPSTLBContext),
++DEF_HELPER_3(crc32, tl, tl, tl, i32)
++DEF_HELPER_3(crc32c, tl, tl, tl, i32)
+ DEF_HELPER_FLAGS_4(rotx, TCG_CALL_NO_RWG_SE, tl, tl, i32, i32, i32)
+ 
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+index 3104904..5874029 100644
+--- a/target/mips/op_helper.c
++++ b/target/mips/op_helper.c
+@@ -25,6 +25,8 @@
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+ #include "sysemu/kvm.h"
++#include "qemu/crc32c.h"
++#include <zlib.h>
+ 
+ /*****************************************************************************/
+ /* Exceptions processing helpers */
+@@ -343,6 +345,26 @@ target_ulong helper_rotx(target_ulong rs, uint32_t shift, uint32_t shiftx,
+     return (int64_t)(int32_t)(uint32_t)tmp5;
+ }
+ 
++/* these crc32 functions are based on target/arm/helper-a64.c */
++target_ulong helper_crc32(target_ulong val, target_ulong m, uint32_t sz)
++{
++    uint8_t buf[8];
++    target_ulong mask = ((sz * 8) == 64) ? -1ULL : ((1ULL << (sz * 8)) - 1);
++
++    m &= mask;
++    stq_le_p(buf, m);
++    return (int32_t) (crc32(val ^ 0xffffffff, buf, sz) ^ 0xffffffff);
++}
++
++target_ulong helper_crc32c(target_ulong val, target_ulong m, uint32_t sz)
++{
++    uint8_t buf[8];
++    target_ulong mask = ((sz * 8) == 64) ? -1ULL : ((1ULL << (sz * 8)) - 1);
++    m &= mask;
++    stq_le_p(buf, m);
++    return (int32_t) (crc32c(val, buf, sz) ^ 0xffffffff);
++}
++
+ #ifndef CONFIG_USER_ONLY
+ 
+ static inline hwaddr do_translate_address(CPUMIPSState *env,
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 3f73be0..3f9f113 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -452,6 +452,7 @@ enum {
+     OPC_LWE            = 0x2F | OPC_SPECIAL3,
+ 
+     /* R6 */
++    OPC_CRC32          = 0x0F | OPC_SPECIAL3,
+     R6_OPC_PREF        = 0x35 | OPC_SPECIAL3,
+     R6_OPC_CACHE       = 0x25 | OPC_SPECIAL3,
+     R6_OPC_LL          = 0x36 | OPC_SPECIAL3,
+@@ -2550,6 +2551,7 @@ typedef struct DisasContext {
+     bool saar;
+     bool mi;
+     int gi;
++    bool crcp;
+ } DisasContext;
+ 
+ #define DISAS_STOP       DISAS_TARGET_0
+@@ -27041,6 +27043,33 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
+     }
+ }
+ 
++static void gen_crc32(DisasContext *ctx, int rd, int rs, int rt, int sz,
++                      int crc32c)
++{
++    TCGv t0;
++    TCGv t1;
++    TCGv_i32 tsz = tcg_const_i32(1 << sz);
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++
++    gen_load_gpr(t0, rt);
++    gen_load_gpr(t1, rs);
++
++    if (crc32c) {
++        gen_helper_crc32c(cpu_gpr[rd], t0, t1, tsz);
++    } else {
++        gen_helper_crc32(cpu_gpr[rd], t0, t1, tsz);
++    }
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++    tcg_temp_free_i32(tsz);
++}
++
+ static void decode_opc_special3_r6(CPUMIPSState *env, DisasContext *ctx)
+ {
+     int rs, rt, rd, sa;
+@@ -27055,6 +27084,17 @@ static void decode_opc_special3_r6(CPUMIPSState *env, DisasContext *ctx)
+ 
+     op1 = MASK_SPECIAL3(ctx->opcode);
+     switch (op1) {
++    case OPC_CRC32:
++        if (unlikely(!ctx->crcp) ||
++            unlikely((extract32(ctx->opcode, 6, 2) == 3) &&
++                     (!(ctx->hflags & MIPS_HFLAG_64))) ||
++            unlikely((extract32(ctx->opcode, 8, 3) >= 2))) {
++            generate_exception_end(ctx, EXCP_RI);
++        }
++        gen_crc32(ctx, rt, rs, rt,
++                  extract32(ctx->opcode, 6, 2),
++                  extract32(ctx->opcode, 8, 3));
++        break;
+     case R6_OPC_PREF:
+         if (rt >= 24) {
+             /* hint codes 24-31 are reserved and signal RI */
+@@ -30049,6 +30089,7 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->abs2008 = (env->active_fpu.fcr31 >> FCR31_ABS2008) & 1;
+     ctx->mi = (env->CP0_Config5 >> CP0C5_MI) & 1;
+     ctx->gi = (env->CP0_Config5 >> CP0C5_GI) & 3;
++    ctx->crcp = (env->CP0_Config5 >> CP0C5_CRCP) & 1;
+     restore_cpu_state(env, ctx);
+ #ifdef CONFIG_USER_ONLY
+         ctx->mem_idx = MIPS_HFLAG_UM;
 -- 
 2.7.4
 
