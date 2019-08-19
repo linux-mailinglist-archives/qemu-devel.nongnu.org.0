@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2772794ED2
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:21:38 +0200 (CEST)
-Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6BD94EF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:27:53 +0200 (CEST)
+Received: from localhost ([::1]:57432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzo9o-0004AA-T1
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45460)
+	id 1hzoFr-0003fg-PI
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:27:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45527)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tcminyard@gmail.com>) id 1hzo5j-0007bV-Hc
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:29 -0400
+ (envelope-from <tcminyard@gmail.com>) id 1hzo5p-0007hV-6H
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1hzo5f-0003Dn-QP
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:23 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:36879)
+ (envelope-from <tcminyard@gmail.com>) id 1hzo5h-0003IG-1f
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:29 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43658)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hzo5f-0003CL-Ky
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:19 -0400
-Received: by mail-ot1-x344.google.com with SMTP id f17so2895545otq.4
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:17:19 -0700 (PDT)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hzo5g-0003Fn-Sh
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:20 -0400
+Received: by mail-ot1-x341.google.com with SMTP id e12so2880848otp.10
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:17:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=2RTc8GIAmHAQeyoEa8ZN4sRA9/pcwsPzo1tgjJ/3mxo=;
- b=ONOc/XcfJJPxhaw1mpsh9nI5VbKmoLkmLR0KtYjOdSEiU8IgmRaa3k9yXbdsaIDCR7
- zxvpN1Q+J/C1/jjorA1pIne7qsWhs7gBLM2MCMKuQjoFHVpgJU5YPJdx0tbN2sh7M7nS
- 7k8OVZ3Nhk/6Kbl0qvofIK3300MVd6hPqwH2Yg2MmkwHpfHccptd08SukyPZ4mkAA6iE
- ET/Gur2JToqtNT07ec4QpnQfDqknfeQ1oZ2Zw59r06R6nLvkxWuwDjb8X1I/GtWelU5T
- s2nt2leDjbcMfbOOkcQT+0izkLygeWqq4tWL9y3N3RoixyLTi+akTBS7Z0z93kttfnz0
- sr1Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=pQrNrlutSjh4UjFqEukTp7P40byeYhsqRJhsys+eh9E=;
+ b=VakG3AdTk8YJ/lPm0bxWU2fWgXODErwMaQbs1amdlkJKzim7+0taiVUwHQgmqbmiKn
+ bFu0vrb6BhKhD9gt4Jk15Uzg1w9iPgQaQfZYoUKc72VV8/TemimoMmo6U6rTMmcjP4DZ
+ Nv4W2IxIMrDUMygH0cOk9YvXBrX0o1Jgp964Wgc+G+KkyP8jGRjo9TUi/51aGdGUbAQQ
+ TtOZsNUxsaxoSlHNi+6o4wF7TxmH9vKkxT1d6df5hpcW02kWxXOaDSCeozF2YQnYEqjC
+ i/vb+AlfrB3AtbHzi8IR0Oh5DFlUWuMAffaloM5smp8Z03MCu8Ar/PjIGOGayN67Th43
+ sSZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=2RTc8GIAmHAQeyoEa8ZN4sRA9/pcwsPzo1tgjJ/3mxo=;
- b=XNd0/XwboX4yt6JWZaqDi+0d1SRwQwGuQaB6njbBFXunw7pib3KpkeErrVB/tAhGqf
- wT9AUxQB2CXN0jmIF6+j5GYEwx7dKE6xtqpj6mfoL97JXjZ1/KHJpSXm8nklhPOZbmN6
- uMJfTrTdcrpIj0JCuSGJEvzVVTIF6jw3sdt0VDe0lNOL+JJdCBMEbSYxVWVhtIN9lPRI
- U7SVm1AjA0zmRwm7HXqSB0BSdN6ijlWAdPEiF2XxasVJPMLXS70mnPn5dWBfKxGRl8HA
- IcdiNikeroMPL3LF2KGU99GZwld/jMzrTxaIY54usOqFqrZyfFsSwrvjSDxF44PnObiU
- L4Kg==
-X-Gm-Message-State: APjAAAXLzy6V5FWxoBV9YhXsmbU7Zu1rvhULi2ZC6OlKqmtuHjA1vkTy
- yyZ6Hw4+Bgqc+AGQKezKtoC/fmM=
-X-Google-Smtp-Source: APXvYqwzezBrj2jmD8kQEoFFe36JkNlm4bHeDsSVNm4rN4ZxssubOsSzAFPxpPN2t3Yb9RNqm7r6Qw==
-X-Received: by 2002:a05:6830:2094:: with SMTP id
- y20mr18872085otq.36.1566245838218; 
- Mon, 19 Aug 2019 13:17:18 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.134.43])
- by smtp.gmail.com with ESMTPSA id 11sm5957554otc.45.2019.08.19.13.17.17
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=pQrNrlutSjh4UjFqEukTp7P40byeYhsqRJhsys+eh9E=;
+ b=fZ4TszrGToXpBCo6zFHJMUd6kYo5RJ+UTMo5ntTOEGwbcLC6/h6RvV0fJqL8KRms/2
+ DhrEm2plXg4ef25EQak3csa1q70AHYoLHUBcJYpUBLIGgF88WU64THYfuKECLhAwiyuH
+ zL1cT1k+Dz43sGNv1KmCvyg5M6zkWQdD5OJ/5gQAMZ+DE2yc1Jj0wZ01jYdpqZRfRafY
+ jPYqH/APuP+iuFf64MFVJHAijBavG7+dF74T0HAu3kq3fO1Y5mtAd7oNrTaWWhX/TuRT
+ u0sw2O+tOtSdb3f2cU1nm7vS4osEHlXoXnjSha+6RCrG1MFALxI4Nj5Tu18XWPQOR8O3
+ 1W+g==
+X-Gm-Message-State: APjAAAUUYbVA23a28MdlZ0cXKxPLEJ8EDu3efCsepgdo1F1HPjPEPLdG
+ 6jxN8unIYt4LLJwFFu9X5g==
+X-Google-Smtp-Source: APXvYqy5saHztBC4/aREnzmk95haJv2h9GxhnpTnMjqdU0pfO1jso1JjIRmftL0uLAXZ8WZQw6L9+A==
+X-Received: by 2002:a9d:4801:: with SMTP id c1mr19981615otf.94.1566245839964; 
+ Mon, 19 Aug 2019 13:17:19 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id r2sm5743461otk.49.2019.08.19.13.17.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 13:17:17 -0700 (PDT)
+ Mon, 19 Aug 2019 13:17:19 -0700 (PDT)
 Received: from t430.minyard.net (t430m.minyard.net [192.168.27.3])
- by serve.minyard.net (Postfix) with ESMTPA id E26EE1805A9;
- Mon, 19 Aug 2019 20:17:16 +0000 (UTC)
+ by serve.minyard.net (Postfix) with ESMTPA id 7F4B71800D1;
+ Mon, 19 Aug 2019 20:17:17 +0000 (UTC)
 Received: by t430.minyard.net (Postfix, from userid 1000)
- id 9EC3E302506; Mon, 19 Aug 2019 15:17:16 -0500 (CDT)
+ id 4169B301220; Mon, 19 Aug 2019 15:17:16 -0500 (CDT)
 From: minyard@acm.org
 To: QEMU Developers <qemu-devel@nongnu.org>
-Date: Mon, 19 Aug 2019 15:16:54 -0500
-Message-Id: <20190819201705.31633-5-minyard@acm.org>
+Date: Mon, 19 Aug 2019 15:16:55 -0500
+Message-Id: <20190819201705.31633-6-minyard@acm.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819201705.31633-1-minyard@acm.org>
 References: <20190819201705.31633-1-minyard@acm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: [Qemu-devel] [PATCH 04/15] tests:ipmi: Fix IPMI BT tests
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: [Qemu-devel] [PATCH 05/15] qdev: Add a no default uuid property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,85 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Corey Minyard <cminyard@mvista.com>, Fam Zheng <famz@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Corey Minyard <cminyard@mvista.com>
 
-The IPMI BT tests had a race condition, if it receive an IPMI command
-to enable interrupt, it would write the message to enable interrupts
-after it wrote the command response.  So the test code could
-receive the command response and issue the next command before the
-device handled the interrupt enable command, and thus no interrupt.
+This is for IPMI, which will behave differently if the UUID is
+not set.
 
-So send the message to enable interrupt before the command response.
-
-Also add some sleeps to give qemu time to handle responses, there was
-no delay before, and it could result in an invalid timeout.
-
-And re-enable the tests, as hopefully they are fixed now.
-
-Note that I was unable to reproduce this even with the instructions
-Peter gave me, but hopefully this fixes the issue.
-
-Cc: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Corey Minyard <cminyard@mvista.com>
+Cc: Fam Zheng <famz@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- tests/Makefile.include | 3 +--
- tests/ipmi-bt-test.c   | 4 +++-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ include/hw/qdev-properties.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index fd7fdb8658..6fc3abfc42 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -169,8 +169,7 @@ check-qtest-i386-$(CONFIG_SGA) += tests/boot-serial-test$(EXESUF)
- check-qtest-i386-$(CONFIG_SLIRP) += tests/pxe-test$(EXESUF)
- check-qtest-i386-y += tests/rtc-test$(EXESUF)
- check-qtest-i386-$(CONFIG_ISA_IPMI_KCS) += tests/ipmi-kcs-test$(EXESUF)
--# Disabled temporarily as it fails intermittently especially under NetBSD VM
--# check-qtest-i386-$(CONFIG_ISA_IPMI_BT) += tests/ipmi-bt-test$(EXESUF)
-+check-qtest-i386-$(CONFIG_ISA_IPMI_BT) += tests/ipmi-bt-test$(EXESUF)
- check-qtest-i386-y += tests/i440fx-test$(EXESUF)
- check-qtest-i386-y += tests/fw_cfg-test$(EXESUF)
- check-qtest-i386-y += tests/device-plug-test$(EXESUF)
-diff --git a/tests/ipmi-bt-test.c b/tests/ipmi-bt-test.c
-index fc4c83b5db..9f3e638146 100644
---- a/tests/ipmi-bt-test.c
-+++ b/tests/ipmi-bt-test.c
-@@ -99,6 +99,7 @@ static void bt_wait_b_busy(void)
-     unsigned int count = 1000;
-     while (IPMI_BT_CTLREG_GET_B_BUSY() != 0) {
-         g_assert(--count != 0);
-+        usleep(100);
-     }
- }
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index bb34a614e2..47b7029ccd 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -235,6 +235,13 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+         .set_default = true,                                       \
+         }
  
-@@ -107,6 +108,7 @@ static void bt_wait_b2h_atn(void)
-     unsigned int count = 1000;
-     while (IPMI_BT_CTLREG_GET_B2H_ATN() == 0) {
-         g_assert(--count != 0);
-+        usleep(100);
-     }
- }
++#define DEFINE_PROP_UUID_NODEFAULT(_name, _state, _field) {        \
++        .name      = (_name),                                      \
++        .info      = &qdev_prop_uuid,                              \
++        .offset    = offsetof(_state, _field)                      \
++            + type_check(QemuUUID, typeof_field(_state, _field)),  \
++        }
++
+ #define DEFINE_PROP_END_OF_LIST()               \
+     {}
  
-@@ -240,13 +242,13 @@ static void emu_msg_handler(void)
-         write_emu_msg(msg, msg_len);
-     } else if ((msg[1] == set_bmc_globals_cmd[0]) &&
-                (msg[2] == set_bmc_globals_cmd[1])) {
-+        write_emu_msg(enable_irq_cmd, sizeof(enable_irq_cmd));
-         memcpy(msg + 1, set_bmc_globals_rsp, sizeof(set_bmc_globals_rsp));
-         msg_len = sizeof(set_bmc_globals_rsp) + 1;
-         msg[msg_len] = -ipmb_checksum(msg, msg_len, 0);
-         msg_len++;
-         msg[msg_len++] = 0xa0;
-         write_emu_msg(msg, msg_len);
--        write_emu_msg(enable_irq_cmd, sizeof(enable_irq_cmd));
-     } else {
-         g_assert(0);
-     }
 -- 
 2.17.1
 
