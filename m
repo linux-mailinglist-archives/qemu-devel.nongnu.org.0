@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55672949D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:27:07 +0200 (CEST)
-Received: from localhost ([::1]:55298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A6A949E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:29:47 +0200 (CEST)
+Received: from localhost ([::1]:55330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzkUr-00053p-Lq
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:27:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35657)
+	id 1hzkXR-0000Uf-T6
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:29:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35719)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1hzkMF-0003MY-0P
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:18:14 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hzkMK-0003Nk-RN
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:18:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hzkMD-0006Xo-2E
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:18:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:65337)
+ (envelope-from <mreitz@redhat.com>) id 1hzkMH-0006a8-Q1
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:18:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42662)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hzkMA-0006Uy-LG; Mon, 19 Aug 2019 12:18:06 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1hzkMC-0006Wz-Ik; Mon, 19 Aug 2019 12:18:08 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9C73D30860C6;
- Mon, 19 Aug 2019 16:18:05 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E2E5E1FAA6E;
+ Mon, 19 Aug 2019 16:18:07 +0000 (UTC)
 Received: from localhost (ovpn-204-64.brq.redhat.com [10.40.204.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3770110016EA;
- Mon, 19 Aug 2019 16:18:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E6825C22C;
+ Mon, 19 Aug 2019 16:18:07 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 19 Aug 2019 18:17:21 +0200
-Message-Id: <20190819161723.7746-16-mreitz@redhat.com>
+Date: Mon, 19 Aug 2019 18:17:22 +0200
+Message-Id: <20190819161723.7746-17-mreitz@redhat.com>
 In-Reply-To: <20190819161723.7746-1-mreitz@redhat.com>
 References: <20190819161723.7746-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Mon, 19 Aug 2019 16:18:05 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Mon, 19 Aug 2019 16:18:07 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 15/17] vpc: Do not return RAW from block_status
+Subject: [Qemu-devel] [PULL 16/17] iotests: Fix 141 when run with qed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,37 +59,140 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vpc is not really a passthrough driver, even when using the fixed
-subformat (where host and guest offsets are equal).  It should handle
-preallocation like all other drivers do, namely by returning
-DATA | RECURSE instead of RAW.
+69f47505ee has changed qcow2 in such a way that the commit job run in
+test 141 (and 144[1]) returns before it emits the READY event.  However,
+141 also runs with qed, where the order is still the other way around.
+Just filter out the {"return": {}} so the test passes for qed again.
 
-There is no tangible difference but the fact that bdrv_is_allocated() no
-longer falls through to the protocol layer.
+[1] 144 only runs with qcow2, so it is fine as it is.
 
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Fixes: 69f47505ee66afaa513305de0c1895a224e52c45
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190725155512.9827-4-mreitz@redhat.com
+Message-id: 20190809185253.17535-1-mreitz@redhat.com
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/vpc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/141           | 9 +++++++--
+ tests/qemu-iotests/141.out       | 5 -----
+ tests/qemu-iotests/common.filter | 5 +++++
+ 3 files changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/block/vpc.c b/block/vpc.c
-index d4776ee8a5..b25aab0425 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -737,7 +737,7 @@ static int coroutine_fn vpc_co_block_status(BlockDriv=
-erState *bs,
-         *pnum =3D bytes;
-         *map =3D offset;
-         *file =3D bs->file->bs;
--        return BDRV_BLOCK_RAW | BDRV_BLOCK_OFFSET_VALID;
-+        return BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID | BDRV_BLOCK_RE=
-CURSE;
-     }
+diff --git a/tests/qemu-iotests/141 b/tests/qemu-iotests/141
+index 2197a82d45..8c2ae79f2b 100755
+--- a/tests/qemu-iotests/141
++++ b/tests/qemu-iotests/141
+@@ -58,16 +58,21 @@ test_blockjob()
+               }}}" \
+         'return'
 =20
-     qemu_co_mutex_lock(&s->lock);
++    # If "$2" is an event, we may or may not see it before the
++    # {"return": {}}.  Therefore, filter the {"return": {}} out both
++    # here and in the next command.  (Naturally, if we do not see it
++    # here, we will see it before the next command can be executed,
++    # so it will appear in the next _send_qemu_cmd's output.)
+     _send_qemu_cmd $QEMU_HANDLE \
+         "$1" \
+         "$2" \
+-        | _filter_img_create
++        | _filter_img_create | _filter_qmp_empty_return
+=20
+     # We want this to return an error because the block job is still run=
+ning
+     _send_qemu_cmd $QEMU_HANDLE \
+         "{'execute': 'blockdev-del',
+           'arguments': {'node-name': 'drv0'}}" \
+-        'error' | _filter_generated_node_ids
++        'error' | _filter_generated_node_ids | _filter_qmp_empty_return
+=20
+     _send_qemu_cmd $QEMU_HANDLE \
+         "{'execute': 'block-job-cancel',
+diff --git a/tests/qemu-iotests/141.out b/tests/qemu-iotests/141.out
+index 4d71d9dcae..dbd3bdef6c 100644
+--- a/tests/qemu-iotests/141.out
++++ b/tests/qemu-iotests/141.out
+@@ -10,7 +10,6 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D104=
+8576 backing_file=3DTEST_DIR/m.
+ Formatting 'TEST_DIR/o.IMGFMT', fmt=3DIMGFMT size=3D1048576 backing_file=
+=3DTEST_DIR/t.IMGFMT backing_fmt=3DIMGFMT
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+-{"return": {}}
+ {"error": {"class": "GenericError", "desc": "Node drv0 is in use"}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "job0"}}
+@@ -27,7 +26,6 @@ Formatting 'TEST_DIR/o.IMGFMT', fmt=3DIMGFMT size=3D104=
+8576 backing_file=3DTEST_DIR/t.
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "BLOCK_JOB_READY", "data": {"device": "job0", "len": 0, "offset": 0, =
+"speed": 0, "type": "mirror"}}
+-{"return": {}}
+ {"error": {"class": "GenericError", "desc": "Node 'drv0' is busy: block =
+device is in use by block job: mirror"}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "job0"}}
+@@ -42,7 +40,6 @@ Formatting 'TEST_DIR/o.IMGFMT', fmt=3DIMGFMT size=3D104=
+8576 backing_file=3DTEST_DIR/t.
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+-{"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "BLOCK_JOB_READY", "data": {"device": "job0", "len": 0, "offset": 0, =
+"speed": 0, "type": "commit"}}
+ {"error": {"class": "GenericError", "desc": "Node 'drv0' is busy: block =
+device is in use by block job: commit"}}
+@@ -61,7 +58,6 @@ wrote 1048576/1048576 bytes at offset 0
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+-{"return": {}}
+ {"error": {"class": "GenericError", "desc": "Node drv0 is in use"}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "job0"}}
+@@ -77,7 +73,6 @@ wrote 1048576/1048576 bytes at offset 0
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+-{"return": {}}
+ {"error": {"class": "GenericError", "desc": "Node drv0 is in use"}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "even=
+t": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "job0"}}
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common=
+.filter
+index 35fddc746f..8e9235d6fe 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -219,5 +219,10 @@ _filter_nbd()
+         -e 's#\(foo\|PORT/\?\|.sock\): Failed to .*$#\1#'
+ }
+=20
++_filter_qmp_empty_return()
++{
++    grep -v '{"return": {}}'
++}
++
+ # make sure this script returns success
+ true
 --=20
 2.21.0
 
