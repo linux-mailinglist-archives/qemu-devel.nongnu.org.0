@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829AF92844
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 17:21:48 +0200 (CEST)
-Received: from localhost ([::1]:54354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FDE49283D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 17:20:40 +0200 (CEST)
+Received: from localhost ([::1]:54280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzjTf-0006PR-MF
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 11:21:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53019)
+	id 1hzjSY-0004By-O3
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 11:20:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzjPy-0002Uu-3h
+ (envelope-from <richard.henderson@linaro.org>) id 1hzjPy-0002Uw-4F
  for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:17:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzjPw-0002We-PA
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:17:57 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:35960)
+ (envelope-from <richard.henderson@linaro.org>) id 1hzjPw-0002Wl-Pm
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:17:58 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:37084)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzjPw-0002QO-FK
+ id 1hzjPw-0002Qi-FP
  for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:17:56 -0400
-Received: by mail-pf1-x429.google.com with SMTP id w2so1349113pfi.3
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 08:17:46 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id 129so1347046pfa.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 08:17:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cvxEo5nV3XitRw4aFSjrYMhh92IvVDWZriLEb2HuXXI=;
- b=WZ9EOL8H5jlWXDQ/bXz5ywrA9uHEzHTAzyAwVr47cRBl+RkekMAtlZL9dwcCNT9nU5
- gRSJGZjdRzzMYzQzF46sH8JeQZRcEeKKSptQg1HQG2QRk4i6tIbrFiX6LTsFI0QtYL/Y
- ysn633ZBphk4UJLuk22OpuxJwiWm+Oe05Yz48Bv3rQkFZCIuhzA48mArz+QXszYfDgox
- w4jpYGJtJFZKQwTYPJFwfM/cciYGOg4C4a1Xp1hGxJhBhLPV9sqa/9tHSFkHG8n4t0hu
- OQEBqQkyioBlQMd8axjGcnRegYUL6l/qAMCWqJ1xusULQ8o1JXEq69hBiTYawR1bG+Hv
- lkig==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=aAsgcvP1KNeiO2DyuHvEBM+1rf528V/HzEzeINYjmQQ=;
+ b=YabwG0qDHJQ3zR8wemiC7oSISh8CtnYF2SufRC1eX5C2WRTHZXnzd9i9BpHaVhS1i2
+ iMpwDXxZyGK0mj7EFqUf4gTB5rBTvRs7Gms8/fdIafSscK8JrEB3fZ/hcAH1d3hCmgmI
+ VIjqJ2I0cTnhmh93LAaTEqQQCJYxPtOq79Ur7XKtgZ0OUAUpbKS789Hv3uIW+l83H+Hi
+ JQ/OCi6ydmFemLzC99zLwQf2UEktbvSWQk6afWkEBDKiJdn0NfgfKLNv7cAH0dvAbrIL
+ K3DA+5FAOHfFf4cFUqqcL+91XRSSLWV+unSq+e3tJxzTpY0BZcfvDsKl0Gx54J33hdB8
+ HALw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cvxEo5nV3XitRw4aFSjrYMhh92IvVDWZriLEb2HuXXI=;
- b=cFUrP28b+cSMduQ1uvcZHLQM5Dz6/dIltyTdhkhP5uYSzwYZrPCkGFX2G2ga2R786v
- N1Jii27CvWZKmLdHVjMAdALXZTq6ILkOMWRsDEYLbs0co5T8toGERboOkA5iqTt1w7+k
- bzkVuWIbCQ4rdD3atS553guOLR+5XL93dersQR/CEhp03VyY0Lgry9U6zYSh0Ma1gv+S
- Tp+Ue5Fl+NlYEjCRHPuWl650hPCTaWjOUVcw/4itaaQsgrseRQIeh43sungzhPNqiNgD
- r1rKK7ydnuawVTBsKzoyZR8U4VslPlgyLAvD/XOrVcF9wKkC5AWnU3+qbcfYMyD1f25S
- JaOQ==
-X-Gm-Message-State: APjAAAVbox1DDAgHVcjtjBrWahcmM68N7TbQnEhR3kP8RBU3KBoo4cJy
- Yg/2jUBAa9cRylCk/FPgVQvco0NLx+k=
-X-Google-Smtp-Source: APXvYqyqafSrpDmyVuT+ibY+vF+qbf7tLU1IAb8OXOfnF0I6boCjDS6sd4nW7VWZeBM7Z4woNQhISA==
-X-Received: by 2002:a17:90a:ac11:: with SMTP id
- o17mr21595149pjq.104.1566227865062; 
- Mon, 19 Aug 2019 08:17:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=aAsgcvP1KNeiO2DyuHvEBM+1rf528V/HzEzeINYjmQQ=;
+ b=mJvN5E+d+t4rFVcgcY251/fo2MzdbjMcfWphC3FLGhNzcnoEVkbxpWAol36xnFJBs5
+ jtvIKtJX4pCkkRRzwxewGDT1gWbGxYBlKx2Isg+R0pD4GPaJZJFL+icRtRRaUIoruhxU
+ UUhm39zTCC7qb4lwDv3VjQGPd0pWSlYKNbDWQV3KHyVfAPzwwSOsdH7qr8pJfA/jpcHu
+ uc7VYXfbw7Gthi7sA3crfeECSlenMwBtZJJMDng3VD9g4XqGR/CeowaIDyNRDCQgAQSz
+ Nl3++CcvFHXduiiQ3hrIcXmaG2rMWC7aD8Qz369n1w8nOVI4gwYrww8Wh1AizprQxd6N
+ lpRA==
+X-Gm-Message-State: APjAAAUVK4TANPsx4VbWysRVz4U6gDQ+hxCbOkjuLL1K1GcBxejSQiB8
+ q2PGaacfZrmr1keAc9zjCpZ2XX5Q8ck=
+X-Google-Smtp-Source: APXvYqzOb3flQFpF/coP68QsC0S0Rp+nwTy6EsLIlNSvOA5qc00fB/LgSUjQkCy+4DF+sB+Ie8k9XQ==
+X-Received: by 2002:a65:690f:: with SMTP id s15mr19835734pgq.432.1566227866271; 
+ Mon, 19 Aug 2019 08:17:46 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id r27sm21020406pgn.25.2019.08.19.08.17.43
+ by smtp.gmail.com with ESMTPSA id r27sm21020406pgn.25.2019.08.19.08.17.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 08:17:44 -0700 (PDT)
+ Mon, 19 Aug 2019 08:17:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 08:17:40 -0700
-Message-Id: <20190819151743.17267-1-richard.henderson@linaro.org>
+Date: Mon, 19 Aug 2019 08:17:41 -0700
+Message-Id: <20190819151743.17267-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190819151743.17267-1-richard.henderson@linaro.org>
+References: <20190819151743.17267-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::429
-Subject: [Qemu-devel] [PULL 0/3] decodetree improvements
+X-Received-From: 2607:f8b0:4864:20::431
+Subject: [Qemu-devel] [PULL 1/3] decodetree: Allow !function with no input
+ bits
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,34 +80,145 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 3fbd3405d2b0604ea530fc7a1828f19da1e95ff9:
+Call this form a "parameter", returning a value extracted
+from the DisasContext.
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-08-17' into staging (2019-08-19 14:14:09 +0100)
-
-are available in the Git repository at:
-
-  https://github.com/rth7680/qemu.git tags/pull-dt-20190819
-
-for you to fetch changes up to 59a3a1c0c211640e18b058a1b0444154c4eb6f99:
-
-  target/riscv: Remove redundant declaration pragmas (2019-08-19 08:13:14 -0700)
-
-----------------------------------------------------------------
-Implement parameter fields.
-Push warning pragmas into the generated code.
-
-----------------------------------------------------------------
-Richard Henderson (3):
-      decodetree: Allow !function with no input bits
-      decodetree: Suppress redundant declaration warnings
-      target/riscv: Remove redundant declaration pragmas
-
- target/riscv/translate.c          | 19 +----------
+Reviewed-by: Philippe Mathieu-Daude <philmd@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
  docs/devel/decodetree.rst         |  8 ++++-
- scripts/decodetree.py             | 71 +++++++++++++++++++++++++++++++++------
- tests/decode/err_field6.decode    |  5 +++
+ scripts/decodetree.py             | 49 ++++++++++++++++++++++++-------
+ tests/decode/err_field6.decode    |  5 ++++
  tests/decode/succ_function.decode |  6 ++++
- 5 files changed, 79 insertions(+), 30 deletions(-)
+ 4 files changed, 56 insertions(+), 12 deletions(-)
  create mode 100644 tests/decode/err_field6.decode
  create mode 100644 tests/decode/succ_function.decode
+
+diff --git a/docs/devel/decodetree.rst b/docs/devel/decodetree.rst
+index 44ac621ea8..ce7f52308f 100644
+--- a/docs/devel/decodetree.rst
++++ b/docs/devel/decodetree.rst
+@@ -23,7 +23,7 @@ Fields
+ 
+ Syntax::
+ 
+-  field_def     := '%' identifier ( unnamed_field )+ ( !function=identifier )?
++  field_def     := '%' identifier ( unnamed_field )* ( !function=identifier )?
+   unnamed_field := number ':' ( 's' ) number
+ 
+ For *unnamed_field*, the first number is the least-significant bit position
+@@ -34,6 +34,12 @@ present, they are concatenated.  In this way one can define disjoint fields.
+ If ``!function`` is specified, the concatenated result is passed through the
+ named function, taking and returning an integral value.
+ 
++One may use ``!function`` with zero ``unnamed_fields``.  This case is called
++a *parameter*, and the named function is only passed the ``DisasContext``
++and returns an integral value extracted from there.
++
++A field with no ``unnamed_fields`` and no ``!function`` is in error.
++
+ FIXME: the fields of the structure into which this result will be stored
+ is restricted to ``int``.  Which means that we cannot expand 64-bit items.
+ 
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index d7a59d63ac..f6f7368774 100755
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -245,7 +245,7 @@ class ConstField:
+ 
+ 
+ class FunctionField:
+-    """Class representing a field passed through an expander"""
++    """Class representing a field passed through a function"""
+     def __init__(self, func, base):
+         self.mask = base.mask
+         self.sign = base.sign
+@@ -266,6 +266,27 @@ class FunctionField:
+ # end FunctionField
+ 
+ 
++class ParameterField:
++    """Class representing a pseudo-field read from a function"""
++    def __init__(self, func):
++        self.mask = 0
++        self.sign = 0
++        self.func = func
++
++    def __str__(self):
++        return self.func
++
++    def str_extract(self):
++        return self.func + '(ctx)'
++
++    def __eq__(self, other):
++        return self.func == other.func
++
++    def __ne__(self, other):
++        return not self.__eq__(other)
++# end ParameterField
++
++
+ class Arguments:
+     """Class representing the extracted fields of a format"""
+     def __init__(self, nm, flds, extern):
+@@ -433,17 +454,23 @@ def parse_field(lineno, name, toks):
+ 
+     if width > insnwidth:
+         error(lineno, 'field too large')
+-    if len(subs) == 1:
+-        f = subs[0]
++    if len(subs) == 0:
++        if func:
++            f = ParameterField(func)
++        else:
++            error(lineno, 'field with no value')
+     else:
+-        mask = 0
+-        for s in subs:
+-            if mask & s.mask:
+-                error(lineno, 'field components overlap')
+-            mask |= s.mask
+-        f = MultiField(subs, mask)
+-    if func:
+-        f = FunctionField(func, f)
++        if len(subs) == 1:
++            f = subs[0]
++        else:
++            mask = 0
++            for s in subs:
++                if mask & s.mask:
++                    error(lineno, 'field components overlap')
++                mask |= s.mask
++            f = MultiField(subs, mask)
++        if func:
++            f = FunctionField(func, f)
+ 
+     if name in fields:
+         error(lineno, 'duplicate field', name)
+diff --git a/tests/decode/err_field6.decode b/tests/decode/err_field6.decode
+new file mode 100644
+index 0000000000..a719884572
+--- /dev/null
++++ b/tests/decode/err_field6.decode
+@@ -0,0 +1,5 @@
++# This work is licensed under the terms of the GNU LGPL, version 2 or later.
++# See the COPYING.LIB file in the top-level directory.
++
++# Diagnose no bits in field
++%field
+diff --git a/tests/decode/succ_function.decode b/tests/decode/succ_function.decode
+new file mode 100644
+index 0000000000..7751b1784e
+--- /dev/null
++++ b/tests/decode/succ_function.decode
+@@ -0,0 +1,6 @@
++# This work is licensed under the terms of the GNU LGPL, version 2 or later.
++# See the COPYING.LIB file in the top-level directory.
++
++# "Field" as parameter pulled from DisasContext.
++%foo  !function=foo
++foo   00000000000000000000000000000000 %foo
+-- 
+2.17.1
+
 
