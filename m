@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0ECE91C64
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:21:58 +0200 (CEST)
-Received: from localhost ([::1]:44624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521CC91C81
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:28:42 +0200 (CEST)
+Received: from localhost ([::1]:44718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hza7B-0006kI-CW
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:21:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43598)
+	id 1hzaDh-0007VF-EO
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:28:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzZxu-00057q-BK
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:24 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hzZxw-000580-60
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzZxt-0007eb-6W
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:22 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:32895)
+ (envelope-from <bmeng.cn@gmail.com>) id 1hzZxu-0007i1-5S
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:24 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37285)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hzZxt-0007c8-0u; Mon, 19 Aug 2019 01:12:21 -0400
-Received: by mail-pg1-x541.google.com with SMTP id n190so484258pgn.0;
- Sun, 18 Aug 2019 22:12:20 -0700 (PDT)
+ id 1hzZxt-0007fe-Vt; Mon, 19 Aug 2019 01:12:22 -0400
+Received: by mail-pf1-x444.google.com with SMTP id 129so456468pfa.4;
+ Sun, 18 Aug 2019 22:12:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=Tucvwbpl50vqcsdv4Gs5/Ot/ead75E87NGyI6G9+GKg=;
- b=H4+5QGARAQ8lFiWA8E9DyGPMftiaxe4LZAtcZR7aszHnE9fh2scOXndTS01R5dTm96
- Osxs1D5F8LN6TvuhZAnoXlBgVOEsNi2Gh/OVsqx2Ik101slS0WU0ZhdWBgYI/f29SBFG
- 3xC9Inu9lu6B7XWRk0JpveEgQbjmSfCz52loBNswObRWd1JNXji4v3E/YEJbAeGpIlk8
- scBgvN80C+771aXHWo2oVi3VHo3kNUScga2KsFcksfMaHc/uzsvks6mNYNFCMrUZpJCe
- PpKtnFHvcG9BlCc0XD1ykmMqkYxNuS827Lqzubcpp8hI1/OTFQKShOsY2xKqIX1cp/Jc
- ngEA==
+ bh=GiQllcar9GWdqn3xlcOyEZI4UT/k9/yNdl3brUTisP4=;
+ b=QORLyABnpLXP+1qTvC1b3m8ovNmsC2fZkLzWtKEbEekjxMIbzmwUwsfMAjFBC1r8LQ
+ sYuFAen3SY9R1ZXp6FKwbCaGEBD+J2bPRVq5pz6Od/LLzRSzxhjDhCPZfidgz8YkwVmV
+ z1u0+2X05yRl4Lc0E8w9emNcl6hWV66S+eaftQdX1bHA3wNF0wqP+pMQArVk5E9CtanG
+ mPmVP6K7TWuwBQVTCuiLWGvwLgiqqDszNDZ/+jtTM3OuPx6h7WW4WEH26KctStuZE5Cw
+ p+X0HJ1Xh5CDFyfl2mbJftMt5J8rBXc7zEzfHuIP0LQLeMRbMbqInUvsnkvZK4SdwrIb
+ no3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=Tucvwbpl50vqcsdv4Gs5/Ot/ead75E87NGyI6G9+GKg=;
- b=XM4+mtky2CFUB8PrzHHYcWKoAfnfejawnOjPIdzdoGH3dXo9kES3LS+WmCjooaA1Dk
- G4ML8V2t3IBENUyodkO8BqDZTaNE65CqGh69QOxjAWeCbn6LMukPZh2nhUlhYfhwM7uu
- 2vvf9riAYgTB+p7ohAK3zVi+kbgxtfyC95huHWPHsUtHxw0rwnlYDKdjyXZhqL1pj95C
- iqUuRotAnC4s239L2Jp2xYNvTNM93cj5K5N0NHtQ7G9YmjBySGAnZAxcdezeYUHTR10J
- 7vlgekWYFHp5L/zgsrHoBsU55AG71tUP0NkLUfBgjwhUTMXE55fVXGUJfLoTIGzZgHOe
- I+gA==
-X-Gm-Message-State: APjAAAVdya7HjLK484q4DL+4P2ZeMQ7S5Zzd/ewVXo3TxPgBdOFWe0td
- XeYzEt27h3xlZYHfSwpsmQxbh4zJ
-X-Google-Smtp-Source: APXvYqxAC5eKj3EDHSp2ErKzlOcyP3Os8wCFERO4qcJw5KphJJRUcpukwq/DVSIdemd70hS62bWBmg==
-X-Received: by 2002:a62:174a:: with SMTP id 71mr23134453pfx.140.1566191540244; 
- Sun, 18 Aug 2019 22:12:20 -0700 (PDT)
+ bh=GiQllcar9GWdqn3xlcOyEZI4UT/k9/yNdl3brUTisP4=;
+ b=JSOm6S7o+cGTTGRtYfi/ynrHVOWfkbwKc5XCou1tXXeIQkk09FS9AGp6t3IGsj8S1V
+ wDuG5r8iX0yBfoRcsFez3hPqpRfwoF9QYg1DIPA+8juBMrL3/Ut7PLxVgaDigBRBQAbf
+ VDfZuilIAuZfB8Fs9yPsuMdKVMj+P2U4fMF0nY9BDwwQq6IkYf7zLiPaJyAKEN27PorG
+ QimFW/HKkV/dybPTzGzTi7WjrFxSqX5WGoHIMCkovGa4k9Y6onPg8TCApfDI16ulyNcK
+ Tnz/Kli3xTqg1je0SlUAcmniwLAVs4XGZyn6JhgS73h9FBKdxayBciMvwr0ss1THo8P/
+ prnw==
+X-Gm-Message-State: APjAAAXeuXlZBExxjEvtIeamfiwiNNSwgKM40IUhYXAZQNCsIPhoH5yR
+ Ok2Th0SdEYnVrHhexk1AfIzqCeCy
+X-Google-Smtp-Source: APXvYqxIvDQXVIK4sM7Yif0deP0Wu7/g4Bg8lOLYRixPMyypB+PogSU2emxXeKJn7M4wBsCn/8cSYA==
+X-Received: by 2002:a17:90a:f0c9:: with SMTP id
+ fa9mr18064082pjb.137.1566191541240; 
+ Sun, 18 Aug 2019 22:12:21 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id q13sm15464986pfl.124.2019.08.18.22.12.19
+ by smtp.gmail.com with ESMTPSA id q13sm15464986pfl.124.2019.08.18.22.12.20
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Sun, 18 Aug 2019 22:12:19 -0700 (PDT)
+ Sun, 18 Aug 2019 22:12:20 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Sun, 18 Aug 2019 22:11:45 -0700
-Message-Id: <1566191521-7820-13-git-send-email-bmeng.cn@gmail.com>
+Date: Sun, 18 Aug 2019 22:11:46 -0700
+Message-Id: <1566191521-7820-14-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1566191521-7820-1-git-send-email-bmeng.cn@gmail.com>
 References: <1566191521-7820-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH v4 12/28] riscv: hart: Extract hart realize to
- a separate routine
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v4 13/28] riscv: hart: Add a "hartid-base"
+ property to RISC-V hart array
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,86 +81,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently riscv_harts_realize() creates all harts based on the
-same cpu type given in the hart array property. With current
-implementation it can only create homogeneous harts. Exact the
-hart realize to a separate routine in preparation for supporting
-multiple hart arrays.
+At present each hart's hartid in a RISC-V hart array is assigned
+the same value of its index in the hart array. But for a system
+that has multiple hart arrays, this is not the case any more.
 
-Note the file header says the RISC-V hart array holds the state
-of a heterogeneous array of RISC-V harts, which is not true.
-Update the comment to mention homogeneous array of RISC-V harts.
+Add a new "hartid-base" property so that hartid number can be
+assigned based on the property value.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
 ---
 
-Changes in v4: None
+Changes in v4:
+- new patch to add a "hartid-base" property to RISC-V hart array
+
 Changes in v3: None
 Changes in v2: None
 
- hw/riscv/riscv_hart.c | 33 ++++++++++++++++++++-------------
- 1 file changed, 20 insertions(+), 13 deletions(-)
+ hw/riscv/riscv_hart.c         | 8 +++++---
+ include/hw/riscv/riscv_hart.h | 1 +
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-index ca69a1b..9deef869 100644
+index 9deef869..52ab86a 100644
 --- a/hw/riscv/riscv_hart.c
 +++ b/hw/riscv/riscv_hart.c
-@@ -3,7 +3,7 @@
-  *
-  * Copyright (c) 2017 SiFive, Inc.
-  *
-- * Holds the state of a heterogenous array of RISC-V harts
-+ * Holds the state of a homogeneous array of RISC-V harts
-  *
-  * This program is free software; you can redistribute it and/or modify it
-  * under the terms and conditions of the GNU General Public License,
-@@ -37,26 +37,33 @@ static void riscv_harts_cpu_reset(void *opaque)
+@@ -27,6 +27,7 @@
+ 
+ static Property riscv_harts_props[] = {
+     DEFINE_PROP_UINT32("num-harts", RISCVHartArrayState, num_harts, 1),
++    DEFINE_PROP_UINT32("hartid-base", RISCVHartArrayState, hartid_base, 0),
+     DEFINE_PROP_STRING("cpu-type", RISCVHartArrayState, cpu_type),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+@@ -37,7 +38,7 @@ static void riscv_harts_cpu_reset(void *opaque)
      cpu_reset(CPU(cpu));
  }
  
-+static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
-+                               char *cpu_type, Error **errp)
-+{
-+    Error *err = NULL;
-+
-+    object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx],
-+                            sizeof(RISCVCPU), cpu_type,
-+                            &error_abort, NULL);
-+    s->harts[idx].env.mhartid = idx;
-+    qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
-+    object_property_set_bool(OBJECT(&s->harts[idx]), true,
-+                             "realized", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+}
-+
+-static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
++static void riscv_hart_realize(RISCVHartArrayState *s, int idx, uint32_t hartid,
+                                char *cpu_type, Error **errp)
+ {
+     Error *err = NULL;
+@@ -45,7 +46,7 @@ static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
+     object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx],
+                             sizeof(RISCVCPU), cpu_type,
+                             &error_abort, NULL);
+-    s->harts[idx].env.mhartid = idx;
++    s->harts[idx].env.mhartid = hartid;
+     qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
+     object_property_set_bool(OBJECT(&s->harts[idx]), true,
+                              "realized", &err);
+@@ -58,12 +59,13 @@ static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
  static void riscv_harts_realize(DeviceState *dev, Error **errp)
  {
      RISCVHartArrayState *s = RISCV_HART_ARRAY(dev);
--    Error *err = NULL;
++    uint32_t hartid = s->hartid_base;
      int n;
  
      s->harts = g_new0(RISCVCPU, s->num_harts);
  
      for (n = 0; n < s->num_harts; n++) {
--        object_initialize_child(OBJECT(s), "harts[*]", &s->harts[n],
--                                sizeof(RISCVCPU), s->cpu_type,
--                                &error_abort, NULL);
--        s->harts[n].env.mhartid = n;
--        qemu_register_reset(riscv_harts_cpu_reset, &s->harts[n]);
--        object_property_set_bool(OBJECT(&s->harts[n]), true,
--                                 "realized", &err);
--        if (err) {
--            error_propagate(errp, err);
--            return;
--        }
-+        riscv_hart_realize(s, n, s->cpu_type, errp);
+-        riscv_hart_realize(s, n, s->cpu_type, errp);
++        riscv_hart_realize(s, n, hartid + n, s->cpu_type, errp);
      }
  }
  
+diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.h
+index 0671d88..1984e30 100644
+--- a/include/hw/riscv/riscv_hart.h
++++ b/include/hw/riscv/riscv_hart.h
+@@ -32,6 +32,7 @@ typedef struct RISCVHartArrayState {
+ 
+     /*< public >*/
+     uint32_t num_harts;
++    uint32_t hartid_base;
+     char *cpu_type;
+     RISCVCPU *harts;
+ } RISCVHartArrayState;
 -- 
 2.7.4
 
