@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A541692469
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:11:21 +0200 (CEST)
-Received: from localhost ([::1]:50528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F03792477
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:15:01 +0200 (CEST)
+Received: from localhost ([::1]:50774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzhRQ-0006iy-P3
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:11:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46994)
+	id 1hzhUy-0000rh-K7
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50002)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1hzhHK-0006zS-Ja
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 09:00:56 -0400
+ (envelope-from <bounces@canonical.com>) id 1hzhR3-0006tA-SG
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 09:10:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hzhHI-00032H-Nx
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 09:00:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46718)
+ (envelope-from <bounces@canonical.com>) id 1hzhR2-0000Os-AZ
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 09:10:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50664)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hzhHI-00030p-8w
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 09:00:52 -0400
+ id 1hzhR0-0000MI-9v
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 09:10:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hzhHG-0003TK-Nd
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:00:50 +0000
+ id 1hzhQw-00052N-Ps
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:10:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B001A2E8041
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:00:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BBC8A2E8070
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:10:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Aug 2019 12:51:11 -0000
-From: Rafael David Tinoco <rafaeldtinoco@kernelpath.com>
+Date: Mon, 19 Aug 2019 13:04:15 -0000
+From: Avi Eis <1834113@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -47,15 +47,15 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: bryce ikes73 paelzer rafaeldtinoco
 X-Launchpad-Bug-Reporter: Avi Eis (ikes73)
-X-Launchpad-Bug-Modifier: Rafael David Tinoco (rafaeldtinoco)
+X-Launchpad-Bug-Modifier: Avi Eis (ikes73)
 References: <156142437029.30985.13623507391124028236.malonedeb@soybean.canonical.com>
-Message-Id: <156621907139.27013.14451664941319063041.malone@soybean.canonical.com>
+Message-Id: <156621985567.22174.9686439531006087595.malone@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19022";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 12ac413acc1e610fa941ae22eea5bcb0e5cb3c61
+X-Launchpad-Hash: bc8aae0a92dd7a47f75cc2ab8e4a5baeb622edb5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1834113] Re: QEMU touchpad input erratic after
@@ -74,53 +74,10 @@ Reply-To: Bug 1834113 <1834113@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avi,
+Right now it stopped happening, although I did see something briefly
+last week that fixed itself on a reboot.
 
-Something I have realized we missed as a feedback here - or maybe I
-missed checking previous comments - is how your mouse is being setup for
-the guest. Is it being PS/2 emulated (default) or is it being given as
-an USB device (when qemu cmd line has "-usb -device usb-tablet"). Also,
-are you using SPICE protocol (perhaps with USB direction option ?).
-
-Are you able to tell which xserver-xorg-input-XX module is being used
-inside the guest ? You will probably find that information from Xorg log
-files (check if you're using xf86-input-wacom or xserver-xorg-input-
-evdev or some other).
-
-Another thing that comes to my mind as well, are you using powersaving
-features ? Specifically the I2C bus I'm concerned. Using "powertop", you
-are able to change "Runtime PM for I2C Adapter" option under the
-Tunables Tab (turning the power mgmt to off). I would like to know if
-you are able to reproduce the issue without having power management
-enabled for I2C. You can try disabling only I2C and then disabling all
-PM options as a second attempt.
-
->From your host:
-
-Device #1
-
-[    2.834320] input: WCOM488E:00 056A:488E Mouse as
-/devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-1/i2c-
-WCOM488E:00/0018:056A:488E.0001/input/input12
-
-[    3.064686] input: Wacom HID 488E Finger as
-/devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-1/i2c-
-WCOM488E:00/0018:056A:488E.0001/input/input17
-
-Device #2
-
-[    2.834860] input: SYNA2393:00 06CB:7A13 Mouse as
-/devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-6/i2c-
-SYNA2393:00/0018:06CB:7A13.0002/input/input13
-
-[    2.834929] input: SYNA2393:00 06CB:7A13 Touchpad as
-/devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-6/i2c-
-SYNA2393:00/0018:06CB:7A13.0002/input/input14
-
-Could you describe your input devices ? How many mice, trackpads, pens,
-etc, you are using connected to the host ?
-
-Thanks! And sorry for so many questions =3D).
+If it happens again I'll check those details.
 
 -- =
 
