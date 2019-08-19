@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD889243A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:04:51 +0200 (CEST)
-Received: from localhost ([::1]:50048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5729240C
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:00:55 +0200 (CEST)
+Received: from localhost ([::1]:49830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzhL8-0001pG-5d
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:04:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39635)
+	id 1hzhHK-0005hx-45
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:00:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41215)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1hzgjx-0004TI-Hh
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:26:26 -0400
+ (envelope-from <david@redhat.com>) id 1hzgss-0003s2-Rf
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:35:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1hzgjw-0002lL-Gj
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:26:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37342)
+ (envelope-from <david@redhat.com>) id 1hzgsr-0006Rx-NX
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:35:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50678)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1hzgju-0002k9-Eu; Mon, 19 Aug 2019 08:26:22 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1hzgsr-0006Qk-EL; Mon, 19 Aug 2019 08:35:37 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4122A19AD4F7;
- Mon, 19 Aug 2019 12:26:21 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9A069106E970;
+ Mon, 19 Aug 2019 12:35:36 +0000 (UTC)
 Received: from [10.36.117.56] (ovpn-117-56.ams2.redhat.com [10.36.117.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 679F51E8;
- Mon, 19 Aug 2019 12:26:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC6B21CF;
+ Mon, 19 Aug 2019 12:35:32 +0000 (UTC)
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 References: <20190805152947.28536-1-david@redhat.com>
  <20190805152947.28536-6-david@redhat.com>
  <41ecb40c-25e6-c209-48f9-e63fc309ed5a@redhat.com>
  <5bd53f3f-b2cd-9ab4-9185-310b9778cc8e@redhat.com>
+ <c9d4ee70-5819-722f-f404-697622ee5ce5@redhat.com>
+ <701fa06a-35e7-8903-5d07-125afb11938c@redhat.com>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -80,18 +82,18 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <c9d4ee70-5819-722f-f404-697622ee5ce5@redhat.com>
-Date: Mon, 19 Aug 2019 14:26:18 +0200
+Message-ID: <6067a11e-4db3-043c-48cb-976a64221b4b@redhat.com>
+Date: Mon, 19 Aug 2019 14:35:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <5bd53f3f-b2cd-9ab4-9185-310b9778cc8e@redhat.com>
+In-Reply-To: <701fa06a-35e7-8903-5d07-125afb11938c@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Mon, 19 Aug 2019 12:26:21 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.66]); Mon, 19 Aug 2019 12:35:36 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH-for-4.2 v1 5/9] s390x/mmu:
@@ -114,27 +116,49 @@ Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19.08.19 14:22, Thomas Huth wrote:
-> On 8/19/19 2:16 PM, Thomas Huth wrote:
->> On 8/5/19 5:29 PM, David Hildenbrand wrote:
->>> We always have to indicate whether it is a fetch or a store for all access
->>> exceptions. This is only missing for LAP exceptions.
+On 19.08.19 14:30, Thomas Huth wrote:
+> On 8/19/19 2:26 PM, David Hildenbrand wrote:
+>> On 19.08.19 14:22, Thomas Huth wrote:
+>>> On 8/19/19 2:16 PM, Thomas Huth wrote:
+>>>> On 8/5/19 5:29 PM, David Hildenbrand wrote:
+>>>>> We always have to indicate whether it is a fetch or a store for all access
+>>>>> exceptions. This is only missing for LAP exceptions.
+>>>>
+>>>> Do we really need this for LAP, too? If I get figure 3-5 "Enhanced
+>>>> Suppression-on-Protection Results" right, these bits are not set for LAP
+>>>> exceptions...? Do I miss something?
+>>>
+>>> I was looking at an older version of the PoP ... the table that I mean
+>>> is "Figure 3-8. Enhanced Suppression-on-Protection Facility 2 Results"
+>>> in SA22-7832-11.
+>>>
+>>>  Thomas
+>>>
 >>
->> Do we really need this for LAP, too? If I get figure 3-5 "Enhanced
->> Suppression-on-Protection Results" right, these bits are not set for LAP
->> exceptions...? Do I miss something?
+>> I think that table only states that if 56==60==61==0, then we might have
+>> either KCP or LAP ("Presented if TEID details are not available" - but
+>> as we have TEID information available, we can just set 56=1 and 60=61=0
+>> (== LAP), or am I missing something?
 > 
-> I was looking at an older version of the PoP ... the table that I mean
-> is "Figure 3-8. Enhanced Suppression-on-Protection Facility 2 Results"
-> in SA22-7832-11.
+> Oh, well, I was looking at the older version of the PoP first, and it
+> was not specified there yet, and when I started looking the the new
+> version, I only saw the first LAP line and stopped reading properly
+> afterwards... of course you're right, there is another LAP line in the
+> table where they say that the address is correclty specified.
 > 
+> Please mentioned the "Enhanced Suppression-on-Protection
+> Facility 2" (which introduced this new behavior) in the patch
+> description to make this clear, then your patch is fine.
+> 
+
+Ah, right, that comes in the next patch. Might make sense to reshuffle
+both patches. Will have a look.
+
+Thanks!
+
 >  Thomas
 > 
 
-I think that table only states that if 56==60==61==0, then we might have
-either KCP or LAP ("Presented if TEID details are not available" - but
-as we have TEID information available, we can just set 56=1 and 60=61=0
-(== LAP), or am I missing something?
 
 -- 
 
