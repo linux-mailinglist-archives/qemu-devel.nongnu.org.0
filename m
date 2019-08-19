@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B728F95041
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 23:57:01 +0200 (CEST)
-Received: from localhost ([::1]:59258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82DE95061
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 00:01:39 +0200 (CEST)
+Received: from localhost ([::1]:59370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzpe8-0007g1-Ae
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 17:57:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59189)
+	id 1hzpic-0005Z2-Gj
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 18:01:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpMK-000265-G6
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:37 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpM5-0001g5-FA
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpMJ-0006Nu-0i
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:36 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43141)
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpM4-0006Ag-7G
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:21 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:46040)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzpMI-0006N6-O6
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:34 -0400
-Received: by mail-pg1-x544.google.com with SMTP id k3so1921599pgb.10
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:34 -0700 (PDT)
+ id 1hzpM4-0006AF-1x
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:20 -0400
+Received: by mail-pg1-x541.google.com with SMTP id o13so1920460pgp.12
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=PE2YkC2uYnkrGF/f+RQwnN2RH8jlq2MEkPtJdHa8VHQ=;
- b=t8oNyn9ZZ3RCoFQiIKX4jSToehRsZPBSpTvpY9Z9O0ijBgjNpKVTXyQQZIj+0WQ1I9
- vNssbEbg6nKXjvsygAhI5ZFYDHFXOe/jw8E/zmSjoiCT3D6DbkmJ4SI65C+i5glaquEj
- exzjnem76xrCYZdKpZsexjc6bFARf8cGzp0Ys+IWQ4ZDKMUoDuTLzxjLI8XxjQg7Dn42
- yKjbV5ycXhFT1NOZUC1RmQa75ErVhGNizoUDdc0h4aJVW9h/kehjv0qgQYEsVChuRj/P
- e1hZc6hrr8YwFEFpq5wuuDR3YzMk2wA64D2E/2ta6lMlYUWOosLaFXvWmKHn/LUU9cbw
- 3R8A==
+ bh=e+H++wAKyA1U/1YuB/2iGYEbH8KDD+Sy3cPPJBo/ztc=;
+ b=BPkzu9VfHA0Ug4azqB6MlZseOF0rAlCUSH8Px+FcrOi8fOeuOGf48r1VdhRxbQrBac
+ MHNwfmkgnVPfgJ0BBh/vKM9MjGSxmKf+BaHOlZt5gRE9iRGaBM5u1mAIqmPSaHh0+P3Q
+ E4OonWZBWMd1POO7e/n+BI3adVKNLj1Uj+EBVmqzA54TnUMzyMZnMHeIE3lVixtLT0E0
+ zjfHRvgxAJGf6xBfxtjl4oWNcPQv4uvfp57O/maBfDItlA8sXfezcKPYb0kbvdrnxIOw
+ SWtQcU0K88cNCHhyjxm8YJSFi6bL/0xR23Id5p4ZL3O04/WL5LTfDl+MJ6prBQFtxJgu
+ 7DXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=PE2YkC2uYnkrGF/f+RQwnN2RH8jlq2MEkPtJdHa8VHQ=;
- b=Mntx5l6WZZJc3V55U2SjLpD4yf9VtVXzSRn0cXCc5bty1YgreuVXxwuPJmUe8i2Xuz
- rfI0Jgw5TXDxhAoSWs1XU0Ms13/6tNOfnhDz341fGJGp+ToV5cNCyIn3SU8Qvmtg4c1E
- KpIkLkBoMbsLdl11Fc22uMIzbbDag0oSYC8fZu1H8QEyOMG9Uuj2afN8EGV7J0fjVeAH
- KYupepGBc/KtvZKsR/BPkF1YWhADDNUFT1YfDjA3hzibQdqVbhjaoUI8MZ/Vm7UjDber
- ffVPrEfS3fRXJycFWdqPRAnvDL/VEv4lQKY6e/6hHdA14qr9BFc+mLS3IAq3pGeqdFlk
- inrw==
-X-Gm-Message-State: APjAAAVukD9mKDTPKCsh8DZmgd8AAmvkTy3tyeZIYxV6cZJm/mJwLiXH
- pyCIyZzvNbTNzjKU8BhE4AbrY6nqEXw=
-X-Google-Smtp-Source: APXvYqxgALNgiwL5LxxNgNOjY3hpHYZNCkpg62IU22V2zRzmwICq2jve7P0gWxDoK0UpD2P8UXDpPQ==
-X-Received: by 2002:a62:1703:: with SMTP id 3mr22426920pfx.118.1566250713399; 
- Mon, 19 Aug 2019 14:38:33 -0700 (PDT)
+ bh=e+H++wAKyA1U/1YuB/2iGYEbH8KDD+Sy3cPPJBo/ztc=;
+ b=NAdGE4U5MLhB+3kgbLIS404VZR09tIdt/5hpxGnyE/CsFE4WJQsRvi5Zck7+eQq9j/
+ fdwn5HfOTOy8GNCyDHe+BnlgSMi4U6MHsiAPfKBFEP0Vy1oCp4eyPVLrdKS997GgFkLZ
+ En3EjsR0tynbqtYVbQolgLeVMGWP8OiwwDCCVULdApU8mx64/DKo3EJbTcqjMQ8TRy4Q
+ 9bLe4s8dnuvR8dapaf8e0SKArJ9Vg/gNI1GELVMq60XcepnmwYZlr6aOBzylClY7eye7
+ duIywZgXjKszwJqSLQGraN9cM1XfIxlm/I1RGMYGDRM6Qu/x0TdyJtyPLuFnjHGbl5VI
+ y8pg==
+X-Gm-Message-State: APjAAAXv4qT1VpTtwLvOMgGvM9cmlqycFUVimU+PIp2gIW8XvDfD0Hzc
+ WsLJbXr6wckCKdc2NAZ1Z+49iZrWLBQ=
+X-Google-Smtp-Source: APXvYqxoMwe+U6OcO/POIzp4JGKmrYnUVLKe0+FYnUY4AjVmOtVCdANM+lQeutFyM3c2frgIXKn5Vw==
+X-Received: by 2002:a65:654d:: with SMTP id a13mr21542136pgw.196.1566250698650; 
+ Mon, 19 Aug 2019 14:38:18 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.32
+ by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 14:38:32 -0700 (PDT)
+ Mon, 19 Aug 2019 14:38:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 14:37:16 -0700
-Message-Id: <20190819213755.26175-30-richard.henderson@linaro.org>
+Date: Mon, 19 Aug 2019 14:37:04 -0700
+Message-Id: <20190819213755.26175-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819213755.26175-1-richard.henderson@linaro.org>
 References: <20190819213755.26175-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH v2 29/68] target/arm: Diagnose too few
- registers in list for LDM/STM
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v2 17/68] target/arm: Convert ERET
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,93 +79,129 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This has been a TODO item for quite a while.  The minimum bit
-count for A32 and T16 is 1, and for T32 is 2.
+Pass the T5 encoding of SUBS PC, LR, #IMM through the normal SUBS path
+to make it clear exactly what's happening -- we hit ALUExceptionReturn
+along that path.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ target/arm/translate.c | 58 ++++++++++++++----------------------------
+ target/arm/a32.decode  |  2 ++
+ target/arm/t32.decode  |  8 ++++++
+ 3 files changed, 29 insertions(+), 39 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 29e2eae441..1792bb7abd 100644
+index f0fa5253b6..cb7b35489f 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -9733,7 +9733,7 @@ static void op_addr_block_post(DisasContext *s, arg_ldst_block *a,
-     }
+@@ -8474,6 +8474,23 @@ static bool trans_CLZ(DisasContext *s, arg_CLZ *a)
+     return true;
  }
  
--static bool op_stm(DisasContext *s, arg_ldst_block *a)
-+static bool op_stm(DisasContext *s, arg_ldst_block *a, int min_n)
- {
-     int i, j, n, list, mem_idx;
-     bool user = a->u;
-@@ -9749,7 +9749,9 @@ static bool op_stm(DisasContext *s, arg_ldst_block *a)
- 
-     list = a->list;
-     n = ctpop16(list);
--    /* TODO: test invalid n == 0 case */
-+    if (n < min_n) {
++static bool trans_ERET(DisasContext *s, arg_ERET *a)
++{
++    TCGv_i32 tmp;
++
++    if (IS_USER(s) || !arm_dc_feature(s, ARM_FEATURE_V7VE)) {
 +        return false;
 +    }
- 
-     addr = op_addr_block_pre(s, a, n);
-     mem_idx = get_mem_index(s);
-@@ -9782,7 +9784,8 @@ static bool op_stm(DisasContext *s, arg_ldst_block *a)
- 
- static bool trans_STM(DisasContext *s, arg_ldst_block *a)
- {
--    return op_stm(s, a);
-+    /* BitCount(list) < 1 is UNPREDICTABLE */
-+    return op_stm(s, a, 1);
- }
- 
- static bool trans_STM_t32(DisasContext *s, arg_ldst_block *a)
-@@ -9791,10 +9794,11 @@ static bool trans_STM_t32(DisasContext *s, arg_ldst_block *a)
-     if (a->w && (a->list & (1 << a->rn))) {
-         return false;
-     }
--    return op_stm(s, a);
-+    /* BitCount(list) < 2 is UNPREDICTABLE */
-+    return op_stm(s, a, 2);
- }
- 
--static bool do_ldm(DisasContext *s, arg_ldst_block *a)
-+static bool do_ldm(DisasContext *s, arg_ldst_block *a, int min_n)
- {
-     int i, j, n, list, mem_idx;
-     bool loaded_base;
-@@ -9821,7 +9825,9 @@ static bool do_ldm(DisasContext *s, arg_ldst_block *a)
- 
-     list = a->list;
-     n = ctpop16(list);
--    /* TODO: test invalid n == 0 case */
-+    if (n < min_n) {
-+        return false;
++    if (s->current_el == 2) {
++        /* ERET from Hyp uses ELR_Hyp, not LR */
++        tmp = load_cpu_field(elr_el[2]);
++    } else {
++        tmp = load_reg(s, 14);
 +    }
- 
-     addr = op_addr_block_pre(s, a, n);
-     mem_idx = get_mem_index(s);
-@@ -9888,7 +9894,8 @@ static bool trans_LDM_a32(DisasContext *s, arg_ldst_block *a)
-     if (ENABLE_ARCH_7 && a->w && (a->list & (1 << a->rn))) {
-         return false;
-     }
--    return do_ldm(s, a);
-+    /* BitCount(list) < 1 is UNPREDICTABLE */
-+    return do_ldm(s, a, 1);
- }
- 
- static bool trans_LDM_t32(DisasContext *s, arg_ldst_block *a)
-@@ -9897,7 +9904,8 @@ static bool trans_LDM_t32(DisasContext *s, arg_ldst_block *a)
-     if (a->w && (a->list & (1 << a->rn))) {
-         return false;
-     }
--    return do_ldm(s, a);
-+    /* BitCount(list) < 2 is UNPREDICTABLE */
-+    return do_ldm(s, a, 2);
- }
- 
++    gen_exception_return(s, tmp);
++    return true;
++}
++
  /*
+  * Legacy decoder.
+  */
+@@ -8768,29 +8785,10 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+         case 0x4: /* crc32 */
+             /* All done in decodetree.  Illegal ops reach here.  */
+             goto illegal_op;
+-        case 0x5:
+-            /* Saturating addition and subtraction.  */
++        case 0x5: /* Saturating addition and subtraction.  */
++        case 0x6: /* ERET */
+             /* All done in decodetree.  Reach here for illegal ops.  */
+             goto illegal_op;
+-        case 0x6: /* ERET */
+-            if (op1 != 3) {
+-                goto illegal_op;
+-            }
+-            if (!arm_dc_feature(s, ARM_FEATURE_V7VE)) {
+-                goto illegal_op;
+-            }
+-            if ((insn & 0x000fff0f) != 0x0000000e) {
+-                /* UNPREDICTABLE; we choose to UNDEF */
+-                goto illegal_op;
+-            }
+-
+-            if (s->current_el == 2) {
+-                tmp = load_cpu_field(elr_el[2]);
+-            } else {
+-                tmp = load_reg(s, 14);
+-            }
+-            gen_exception_return(s, tmp);
+-            break;
+         case 7:
+         {
+             int imm16 = extract32(insn, 0, 4) | (extract32(insn, 8, 12) << 4);
+@@ -10586,24 +10584,6 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                     case 4: /* bxj, in decodetree */
+                         goto illegal_op;
+                     case 5: /* Exception return.  */
+-                        if (IS_USER(s)) {
+-                            goto illegal_op;
+-                        }
+-                        if (rn != 14 || rd != 15) {
+-                            goto illegal_op;
+-                        }
+-                        if (s->current_el == 2) {
+-                            /* ERET from Hyp uses ELR_Hyp, not LR */
+-                            if (insn & 0xff) {
+-                                goto illegal_op;
+-                            }
+-                            tmp = load_cpu_field(elr_el[2]);
+-                        } else {
+-                            tmp = load_reg(s, rn);
+-                            tcg_gen_subi_i32(tmp, tmp, insn & 0xff);
+-                        }
+-                        gen_exception_return(s, tmp);
+-                        break;
+                     case 6: /* MRS, in decodetree */
+                     case 7: /* MSR, in decodetree */
+                         goto illegal_op;
+diff --git a/target/arm/a32.decode b/target/arm/a32.decode
+index 182f2b6725..52a66dd1d5 100644
+--- a/target/arm/a32.decode
++++ b/target/arm/a32.decode
+@@ -211,3 +211,5 @@ BXJ              .... 0001 0010 1111 1111 1111 0010 ....      @rm
+ BLX_r            .... 0001 0010 1111 1111 1111 0011 ....      @rm
+ 
+ CLZ              .... 0001 0110 1111 .... 1111 0001 ....      @rdm
++
++ERET             ---- 0001 0110 0000 0000 0000 0110 1110
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index 67724efe4b..6236d28b99 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -218,4 +218,12 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+     MSR_v7m      1111 0011 100 0   rn:4 1000 mask:2 00 sysm:8
+   }
+   BXJ            1111 0011 1100 rm:4 1000 1111 0000 0000      &r
++  {
++    # At v6T2, this is the T5 encoding of SUBS PC, LR, #IMM, and works as for
++    # every other encoding of SUBS.  With v7VE, IMM=0 is redefined as ERET.
++    # The distinction between the two only matters for Hyp mode.
++    ERET         1111 0011 1101 1110 1000 1111 0000 0000
++    SUB_rri      1111 0011 1101 1110 1000 1111 imm:8 \
++                 &s_rri_rot rot=0 s=1 rd=15 rn=14
++  }
+ }
 -- 
 2.17.1
 
