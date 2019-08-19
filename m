@@ -2,44 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E7291B78
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 05:29:27 +0200 (CEST)
-Received: from localhost ([::1]:44290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C8991B7B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 05:31:49 +0200 (CEST)
+Received: from localhost ([::1]:44302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzYMI-0007Ql-Gt
-	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 23:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49399)
+	id 1hzYOa-0008UV-7B
+	for lists+qemu-devel@lfdr.de; Sun, 18 Aug 2019 23:31:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49667)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hzYLQ-00072G-Pe
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 23:28:33 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hzYN7-0007xa-4T
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 23:30:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hzYLP-0008IL-K6
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 23:28:32 -0400
-Received: from mga12.intel.com ([192.55.52.136]:19984)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hzYN4-00016Z-Ga
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 23:30:15 -0400
+Received: from mga04.intel.com ([192.55.52.120]:22250)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1hzYLP-0008H3-Ch
- for qemu-devel@nongnu.org; Sun, 18 Aug 2019 23:28:31 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
+ id 1hzYN4-00012s-7J
+ for qemu-devel@nongnu.org; Sun, 18 Aug 2019 23:30:14 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2019 20:28:29 -0700
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2019 20:30:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; d="scan'208";a="378057779"
+X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; d="scan'208";a="177755552"
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga006.fm.intel.com with ESMTP; 18 Aug 2019 20:28:28 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 18 Aug 2019 20:30:10 -0700
+Date: Mon, 19 Aug 2019 11:29:47 +0800
 From: Wei Yang <richardw.yang@linux.intel.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 11:28:04 +0800
-Message-Id: <20190819032804.8579-1-richardw.yang@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190819032947.GB18468@richard>
+References: <20190621142739.23703-1-richardw.yang@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190621142739.23703-1-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.136
-Subject: [Qemu-devel] [PATCH v2] migration: cleanup check on ops in
- savevm.handlers iterations
+X-Received-From: 192.55.52.120
+Subject: Re: [Qemu-devel] [PATCH] migrtion: define
+ MigrationState/MigrationIncomingState.state as MigrationStatus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,88 +57,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Yang <richardw.yang@linux.intel.com>, dgilbert@redhat.com,
- quintela@redhat.com
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-During migration, there are several places to iterate on
-savevm.handlers. And on each iteration, we need to check its ops and
-related callbacks before invoke it.
+On Fri, Jun 21, 2019 at 10:27:39PM +0800, Wei Yang wrote:
+>No functional change. Add default case to fix warning.
+>
 
-Generally, ops is the first element to check, and it is only necessary
-to check it once.
+Hi, David & Juan
 
-This patch clean all the related part in savevm.c to check ops only once
-in those iterations.
+Do you like this?
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>---
+> migration/migration.c | 8 +++++++-
+> migration/migration.h | 6 +++---
+> 2 files changed, 10 insertions(+), 4 deletions(-)
+>
+>diff --git a/migration/migration.c b/migration/migration.c
+>index 2865ae3fa9..0fd2364961 100644
+>--- a/migration/migration.c
+>+++ b/migration/migration.c
+>@@ -946,6 +946,8 @@ static void fill_source_migration_info(MigrationInfo *info)
+>     case MIGRATION_STATUS_CANCELLED:
+>         info->has_status = true;
+>         break;
+>+    default:
+>+        return;
+>     }
+>     info->status = s->state;
+> }
+>@@ -1054,6 +1056,8 @@ static void fill_destination_migration_info(MigrationInfo *info)
+>         info->has_status = true;
+>         fill_destination_postcopy_migration_info(info);
+>         break;
+>+    default:
+>+        return;
+>     }
+>     info->status = mis->state;
+> }
+>@@ -1446,7 +1450,7 @@ void qmp_migrate_start_postcopy(Error **errp)
+> 
+> /* shared migration helpers */
+> 
+>-void migrate_set_state(int *state, int old_state, int new_state)
+>+void migrate_set_state(MigrationStatus *state, int old_state, int new_state)
+> {
+>     assert(new_state < MIGRATION_STATUS__MAX);
+>     if (atomic_cmpxchg(state, old_state, new_state) == old_state) {
+>@@ -1683,6 +1687,8 @@ bool migration_is_idle(void)
+>         return false;
+>     case MIGRATION_STATUS__MAX:
+>         g_assert_not_reached();
+>+    default:
+>+        g_assert_not_reached();
+>     }
+> 
+>     return false;
+>diff --git a/migration/migration.h b/migration/migration.h
+>index 5e8f09c6db..418ee00053 100644
+>--- a/migration/migration.h
+>+++ b/migration/migration.h
+>@@ -65,7 +65,7 @@ struct MigrationIncomingState {
+> 
+>     QEMUBH *bh;
+> 
+>-    int state;
+>+    MigrationStatus state;
+> 
+>     bool have_colo_incoming_thread;
+>     QemuThread colo_incoming_thread;
+>@@ -151,7 +151,7 @@ struct MigrationState
+>     /* params from 'migrate-set-parameters' */
+>     MigrationParameters parameters;
+> 
+>-    int state;
+>+    MigrationStatus state;
+> 
+>     /* State related to return path */
+>     struct {
+>@@ -234,7 +234,7 @@ struct MigrationState
+>     bool decompress_error_check;
+> };
+> 
+>-void migrate_set_state(int *state, int old_state, int new_state);
+>+void migrate_set_state(MigrationStatus *state, int old_state, int new_state);
+> 
+> void migration_fd_process_incoming(QEMUFile *f);
+> void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp);
+>-- 
+>2.19.1
 
----
-v2: rebase on latest upstream
----
- migration/savevm.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 4a86128ac4..35426d1db8 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1100,7 +1100,7 @@ void qemu_savevm_state_setup(QEMUFile *f)
-         if (!se->ops || !se->ops->save_setup) {
-             continue;
-         }
--        if (se->ops && se->ops->is_active) {
-+        if (se->ops->is_active) {
-             if (!se->ops->is_active(se->opaque)) {
-                 continue;
-             }
-@@ -1131,7 +1131,7 @@ int qemu_savevm_state_resume_prepare(MigrationState *s)
-         if (!se->ops || !se->ops->resume_prepare) {
-             continue;
-         }
--        if (se->ops && se->ops->is_active) {
-+        if (se->ops->is_active) {
-             if (!se->ops->is_active(se->opaque)) {
-                 continue;
-             }
-@@ -1227,7 +1227,7 @@ void qemu_savevm_state_complete_postcopy(QEMUFile *f)
-         if (!se->ops || !se->ops->save_live_complete_postcopy) {
-             continue;
-         }
--        if (se->ops && se->ops->is_active) {
-+        if (se->ops->is_active) {
-             if (!se->ops->is_active(se->opaque)) {
-                 continue;
-             }
-@@ -1264,7 +1264,7 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
-             continue;
-         }
- 
--        if (se->ops && se->ops->is_active) {
-+        if (se->ops->is_active) {
-             if (!se->ops->is_active(se->opaque)) {
-                 continue;
-             }
-@@ -1413,7 +1413,7 @@ void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
-         if (!se->ops || !se->ops->save_live_pending) {
-             continue;
-         }
--        if (se->ops && se->ops->is_active) {
-+        if (se->ops->is_active) {
-             if (!se->ops->is_active(se->opaque)) {
-                 continue;
-             }
-@@ -2334,7 +2334,7 @@ static int qemu_loadvm_state_setup(QEMUFile *f)
-         if (!se->ops || !se->ops->load_setup) {
-             continue;
-         }
--        if (se->ops && se->ops->is_active) {
-+        if (se->ops->is_active) {
-             if (!se->ops->is_active(se->opaque)) {
-                 continue;
-             }
 -- 
-2.17.1
-
+Wei Yang
+Help you, Help me
 
