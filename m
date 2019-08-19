@@ -2,69 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC37191C93
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:35:36 +0200 (CEST)
-Received: from localhost ([::1]:44852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B2791CA8
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:41:59 +0200 (CEST)
+Received: from localhost ([::1]:44942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzaKO-0007wp-1E
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:35:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46104)
+	id 1hzaQY-0003KA-Om
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47372)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <star.zeng@intel.com>) id 1hzaHH-0004EJ-Ds
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:32:24 -0400
+ (envelope-from <jasowang@redhat.com>) id 1hzaPW-0002Ta-3P
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:40:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <star.zeng@intel.com>) id 1hzaHF-00058Y-DK
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:32:22 -0400
-Received: from mga03.intel.com ([134.134.136.65]:52443)
+ (envelope-from <jasowang@redhat.com>) id 1hzaPV-0000qA-36
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:40:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33106)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <star.zeng@intel.com>) id 1hzaHF-00055g-3l
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:32:21 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2019 22:32:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; d="scan'208";a="206895690"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
- by fmsmga002.fm.intel.com with ESMTP; 18 Aug 2019 22:32:16 -0700
-Received: from shsmsx103.ccr.corp.intel.com (10.239.4.69) by
- FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Sun, 18 Aug 2019 22:32:16 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.19]) by
- SHSMSX103.ccr.corp.intel.com ([169.254.4.139]) with mapi id 14.03.0439.000;
- Mon, 19 Aug 2019 13:32:14 +0800
-From: "Zeng, Star" <star.zeng@intel.com>
-To: Wei Yang <richardw.yang@linux.intel.com>, David Hildenbrand
- <david@redhat.com>
-Thread-Topic: [Qemu-devel] [PATCH v2 1/2] memory-device: not necessary to
- use goto for the last check
-Thread-Index: AQHVRm8sI9RcDIduCkeWmeFT3LDTHabwhy4g//+DlICAAIksAP//fbAAgABK94CAEP7tgIAAtkoQ
-Date: Mon, 19 Aug 2019 05:32:14 +0000
-Message-ID: <0C09AFA07DD0434D9E2A0C6AEB0483104039E3A1@shsmsx102.ccr.corp.intel.com>
-References: <20190730003740.20694-1-richardw.yang@linux.intel.com>
- <20190730003740.20694-2-richardw.yang@linux.intel.com>
- <0C09AFA07DD0434D9E2A0C6AEB0483104038F59D@shsmsx102.ccr.corp.intel.com>
- <20190808021329.GC26938@richard>
- <0C09AFA07DD0434D9E2A0C6AEB0483104038F61B@shsmsx102.ccr.corp.intel.com>
- <20190808023802.GD26938@richard>
- <a73f638c-e33d-c3d8-0b4a-0fa78943a30d@redhat.com>
- <20190819023855.GC6368@richard>
-In-Reply-To: <20190819023855.GC6368@richard>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>)
+ id 1hzaPR-0000na-TM; Mon, 19 Aug 2019 01:40:50 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A637D46660;
+ Mon, 19 Aug 2019 05:40:48 +0000 (UTC)
+Received: from [10.72.12.146] (ovpn-12-146.pek2.redhat.com [10.72.12.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A10F74C;
+ Mon, 19 Aug 2019 05:40:43 +0000 (UTC)
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair23@gmail.com>
+References: <1565335544-23584-1-git-send-email-bmeng.cn@gmail.com>
+ <CAKmqyKOyTXgs5uZuukZjAEqQkTtf1U+vD=u9_470+OgsfaQdqQ@mail.gmail.com>
+ <CAEUhbmW0sCEN7mzSfCvUBSqhAGD3v5JyeDj2iSqs0MQJv13bag@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <67e917c9-d080-5af1-22ea-ba6d9af4daee@redhat.com>
+Date: Mon, 19 Aug 2019 13:40:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.65
-Subject: Re: [Qemu-devel] [PATCH v2 1/2] memory-device: not necessary to use
- goto for the last check
+In-Reply-To: <CAEUhbmW0sCEN7mzSfCvUBSqhAGD3v5JyeDj2iSqs0MQJv13bag@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Mon, 19 Aug 2019 05:40:48 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3] hw: net: cadence_gem: Fix build errors
+ in DB_PRINT()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,125 +61,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "imammedo@redhat.com" <imammedo@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Zeng,
- Star" <star.zeng@intel.com>, "mst@redhat.com" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+On 2019/8/19 =E4=B8=8B=E5=8D=881:24, Bin Meng wrote:
+> On Sat, Aug 10, 2019 at 9:58 AM Alistair Francis <alistair23@gmail.com>=
+ wrote:
+>> On Fri, Aug 9, 2019 at 12:26 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>> When CADENCE_GEM_ERR_DEBUG is turned on, there are several
+>>> compilation errors in DB_PRINT(). Fix them.
+>>>
+>>> While we are here, update to use appropriate modifiers in
+>>> the same DB_PRINT() call.
+>>>
+>>> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>>
+> Ping?
+>
+> What's the status of this patch?
+>
+> Regards,
+> Bin
 
-> -----Original Message-----
-> From: Wei Yang [mailto:richardw.yang@linux.intel.com]
-> Sent: Monday, August 19, 2019 10:39 AM
-> To: David Hildenbrand <david@redhat.com>
-> Cc: Wei Yang <richardw.yang@linux.intel.com>; Zeng, Star
-> <star.zeng@intel.com>; imammedo@redhat.com; qemu-devel@nongnu.org;
-> mst@redhat.com
-> Subject: Re: [Qemu-devel] [PATCH v2 1/2] memory-device: not necessary to
-> use goto for the last check
->=20
-> On Thu, Aug 08, 2019 at 09:06:21AM +0200, David Hildenbrand wrote:
-> >On 08.08.19 04:38, Wei Yang wrote:
-> >> On Thu, Aug 08, 2019 at 02:30:02AM +0000, Zeng, Star wrote:
-> >>>> -----Original Message-----
-> >>>> From: Wei Yang [mailto:richardw.yang@linux.intel.com]
-> >>>> Sent: Thursday, August 8, 2019 10:13 AM
-> >>>> To: Zeng, Star <star.zeng@intel.com>
-> >>>> Cc: Wei Yang <richardw.yang@linux.intel.com>;
-> >>>> qemu-devel@nongnu.org; imammedo@redhat.com;
-> david@redhat.com;
-> >>>> mst@redhat.com
-> >>>> Subject: Re: [Qemu-devel] [PATCH v2 1/2] memory-device: not
-> >>>> necessary to use goto for the last check
-> >>>>
-> >>>> On Thu, Aug 08, 2019 at 01:42:14AM +0000, Zeng, Star wrote:
-> >>>>>> -----Original Message-----
-> >>>>>> From: Qemu-devel [mailto:qemu-devel-
-> >>>>>> bounces+star.zeng=3Dintel.com@nongnu.org] On Behalf Of Wei Yang
-> >>>>>> Sent: Tuesday, July 30, 2019 8:38 AM
-> >>>>>> To: qemu-devel@nongnu.org
-> >>>>>> Cc: imammedo@redhat.com; david@redhat.com; Wei Yang
-> >>>>>> <richardw.yang@linux.intel.com>; mst@redhat.com
-> >>>>>> Subject: [Qemu-devel] [PATCH v2 1/2] memory-device: not
-> necessary
-> >>>>>> to use goto for the last check
-> >>>>>>
-> >>>>>> We are already at the last condition check.
-> >>>>>>
-> >>>>>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> >>>>>> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> >>>>>> Reviewed-by: David Hildenbrand <david@redhat.com>
-> >>>>>> ---
-> >>>>>>  hw/mem/memory-device.c | 1 -
-> >>>>>>  1 file changed, 1 deletion(-)
-> >>>>>>
-> >>>>>> diff --git a/hw/mem/memory-device.c b/hw/mem/memory-
-> device.c
-> >>>> index
-> >>>>>> 5f2c408036..df3261b32a 100644
-> >>>>>> --- a/hw/mem/memory-device.c
-> >>>>>> +++ b/hw/mem/memory-device.c
-> >>>>>> @@ -186,7 +186,6 @@ static uint64_t
-> >>>>>> memory_device_get_free_addr(MachineState *ms,
-> >>>>>>      if (!range_contains_range(&as, &new)) {
-> >>>>>>          error_setg(errp, "could not find position in guest addres=
-s space
-> for "
-> >>>>>>                     "memory device - memory fragmented due to
-> alignments");
-> >>>>>> -        goto out;
-> >>>>>
-> >>>>> Is it better to return 0 (or set new_addr to 0) for this error
-> >>>>> path and another
-> >>>> remaining "goto out" path?
-> >>>>>
-> >>>>
-> >>>> I may not get your point.
-> >>>>
-> >>>> We set errp which is handled in its caller. By doing so, the error i=
-s
-> propagated.
-> >>>>
-> >>>> Do I miss something?
-> >>>
-> >>> Yes, you are right. Currently, the caller is checking errp, but not t=
-he
-> returned address, so there should be no issue.
-> >>> But when you see other error paths, you will find they all return 0.
-> >>> To be aligned (return 0 when error), so just suggest also returning
-> >>> 0 for these two "goto out" error path. :)
-> >>>
-> >>
-> >> You may have some point.
-> >>
-> >> Let's see whether others have the same taste, or we can refine it
-> separately.
-> >>
-> >
-> >I don't think that's necessary (callers really should check for errors
-> >before using the return values), but I would also not object to that cha=
-nge.
-> >
->=20
-> In case there is no strong requirement to refactor the code. I would leav=
-e it
-> here.
 
-It was just my suggestion. I am fine with any preference you and other expe=
-rts have.
+Applied.
 
-Thanks,
-Star
+Thanks
 
->=20
-> >--
-> >
-> >Thanks,
-> >
-> >David / dhildenb
->=20
-> --
-> Wei Yang
-> Help you, Help me
 
