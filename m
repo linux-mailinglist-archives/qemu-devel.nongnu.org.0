@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 405FA94966
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:05:56 +0200 (CEST)
-Received: from localhost ([::1]:54926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE8F949B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:21:10 +0200 (CEST)
+Received: from localhost ([::1]:55224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzkAN-0007A9-5Y
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:05:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33625)
+	id 1hzkP7-0004uo-5R
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:21:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35210)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1hzk93-0006Zg-VY
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:04:35 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hzkLe-0002ej-Fs
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:17:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hzk92-0008W7-8v
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:04:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:8622)
+ (envelope-from <mreitz@redhat.com>) id 1hzkLd-0006Cj-6s
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:17:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57352)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hzk92-0008UC-0k
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:04:32 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hzkLX-0006AH-UE; Mon, 19 Aug 2019 12:17:28 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E9B993CA06;
- Mon, 19 Aug 2019 16:04:29 +0000 (UTC)
-Received: from localhost (ovpn-116-205.ams2.redhat.com [10.36.116.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5592F857BC;
- Mon, 19 Aug 2019 16:04:26 +0000 (UTC)
-Date: Mon, 19 Aug 2019 17:04:26 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: virtio-fs@redhat.com
-Message-ID: <20190819160426.GB2625@stefanha-x1.localdomain>
+ by mx1.redhat.com (Postfix) with ESMTPS id 19C5430917AC;
+ Mon, 19 Aug 2019 16:17:26 +0000 (UTC)
+Received: from localhost (ovpn-204-64.brq.redhat.com [10.40.204.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60D53863A0;
+ Mon, 19 Aug 2019 16:17:25 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Mon, 19 Aug 2019 18:17:06 +0200
+Message-Id: <20190819161723.7746-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dc+cDN39EJAMEtIO"
-Content-Disposition: inline
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Mon, 19 Aug 2019 16:04:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Mon, 19 Aug 2019 16:17:26 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [ANNOUNCE] virtio-fs v0.3 release
+Subject: [Qemu-devel] [PULL 00/17] Block patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,94 +53,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kata-dev@lists.katacontainers.io
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 3fbd3405d2b0604ea530fc7a1828f19da1e95f=
+f9:
 
---dc+cDN39EJAMEtIO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-201=
+9-08-17' into staging (2019-08-19 14:14:09 +0100)
 
-I am delighted to announce the release of virtio-fs v0.3, a shared file
-system that lets virtual machines access a directory tree on the host.
-This release is based on QEMU 4.1.0 and Linux 5.3-rc3.
+are available in the Git repository at:
 
-For more information about virtio-fs: https://virtio-fs.gitlab.io/
+  https://github.com/XanClic/qemu.git tags/pull-block-2019-08-19
 
-This is a development release aimed at early adopters of virtio-fs.  Work is
-being done to upstream the code into Linux and QEMU.  We expect to stop
-publishing virtio-fs releases once the code has been merged by these upstream
-projects.
+for you to fetch changes up to fa27c478102a6b5d1c6b02c005607ad9404b915f:
 
-Where to get it:
+  doc: Preallocation does not require writing zeroes (2019-08-19 17:13:26=
+ +0200)
 
-  https://gitlab.com/virtio-fs/linux/-/tags/virtio-fs-v0.3
-  https://gitlab.com/virtio-fs/qemu/-/tags/virtio-fs-v0.3
+----------------------------------------------------------------
+Block patches:
+- preallocation=3Dfalloc/full support for LUKS
+- Various minor fixes
 
-Changes:
+----------------------------------------------------------------
+Max Reitz (16):
+  qemu-img: Fix bdrv_has_zero_init() use in convert
+  mirror: Fix bdrv_has_zero_init() use
+  block: Add bdrv_has_zero_init_truncate()
+  block: Implement .bdrv_has_zero_init_truncate()
+  block: Use bdrv_has_zero_init_truncate()
+  qcow2: Fix .bdrv_has_zero_init()
+  vdi: Fix .bdrv_has_zero_init()
+  vhdx: Fix .bdrv_has_zero_init()
+  iotests: Convert to preallocated encrypted qcow2
+  iotests: Test convert -n to pre-filled image
+  iotests: Full mirror to existing non-zero image
+  vdi: Make block_status recurse for fixed images
+  vmdk: Make block_status recurse for flat extents
+  vpc: Do not return RAW from block_status
+  iotests: Fix 141 when run with qed
+  doc: Preallocation does not require writing zeroes
 
- * Please note that the mount syntax has changed to:
+Maxim Levitsky (1):
+  LUKS: support preallocation
 
-     # mount -t virtio_fs myfs /mnt -o ...
+ qapi/block-core.json             | 15 +++++---
+ include/block/block.h            |  1 +
+ include/block/block_int.h        |  9 +++++
+ block.c                          | 21 +++++++++++
+ block/crypto.c                   | 30 ++++++++++++++--
+ block/file-posix.c               |  1 +
+ block/file-win32.c               |  1 +
+ block/gluster.c                  |  4 +++
+ block/mirror.c                   | 11 ++++--
+ block/nfs.c                      |  1 +
+ block/parallels.c                |  2 +-
+ block/qcow2.c                    | 30 +++++++++++++++-
+ block/qed.c                      |  1 +
+ block/raw-format.c               |  6 ++++
+ block/rbd.c                      |  1 +
+ block/sheepdog.c                 |  1 +
+ block/ssh.c                      |  1 +
+ block/vdi.c                      | 16 +++++++--
+ block/vhdx.c                     | 28 +++++++++++++--
+ block/vmdk.c                     |  3 ++
+ block/vpc.c                      |  2 +-
+ blockdev.c                       | 16 +++++++--
+ qemu-img.c                       | 11 ++++--
+ tests/test-block-iothread.c      |  2 +-
+ docs/qemu-block-drivers.texi     |  4 +--
+ qemu-img.texi                    |  4 +--
+ tests/qemu-iotests/041           | 62 +++++++++++++++++++++++++++++---
+ tests/qemu-iotests/041.out       |  4 +--
+ tests/qemu-iotests/122           | 17 +++++++++
+ tests/qemu-iotests/122.out       |  8 +++++
+ tests/qemu-iotests/141           |  9 +++--
+ tests/qemu-iotests/141.out       |  5 ---
+ tests/qemu-iotests/188           | 20 ++++++++++-
+ tests/qemu-iotests/188.out       |  4 +++
+ tests/qemu-iotests/common.filter |  5 +++
+ 35 files changed, 313 insertions(+), 43 deletions(-)
 
-   The old syntax was "mount -t virtio_fs none /mnt -o tag=myfs,...".
+--=20
+2.21.0
 
- * virtiofsd --fd=FDNUM takes a listen socket file descriptor number.  File
-   descriptor passing is an alternative way to manage the vhost-user UNIX
-   domain socket.  The parent process no longer needs to wait for virtiofsd to
-   create the listen socket before spawning the VM.
-
- * virtiofsd --syslog logs to syslog(2) instead of stderr.  Useful for unifying
-   logging and when the virtiofsd process is not being supervised.
-
- * virtiofsd --thread-pool-size=NUM sets the maximum number of worker threads
-   for FUSE request processing.  This can be used to control the host queue
-   depth.  The default is 64.
-
- * Performance improvements and bug fixes.
-
-Note for Kata Containers: the new kernel is not compatible with existing
-Kata Containers releases due to the mount syntax change.  To try it out,
-please apply the following kata-runtime patch:
-
-  https://gitlab.com/virtio-fs/runtime/commit/a2e44de817e438c02a495cf258039774527e3178
-
-Kata Containers patches for virtio-fs v0.3 are under development and will be
-submitted to Kata soon.
-
-Thanks to the following people for contributing code and to many more
-for helping the virtio-fs effort:
-
-Dr. David Alan Gilbert <dgilbert@redhat.com>
-Eric Ren <renzhen@linux.alibaba.com>
-Eryu Guan <eguan@linux.alibaba.com>
-Ganesh Maharaj Mahalingam <ganesh.mahalingam@intel.com>
-Jiufei Xue <jiufei.xue@linux.alibaba.com>
-Liu Bo <bo.liu@linux.alibaba.com>
-Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
-Miklos Szeredi <mszeredi@redhat.com>
-Peng Tao <tao.peng@linux.alibaba.com>
-piaojun <piaojun@huawei.com>
-Sebastien Boeuf <sebastien.boeuf@intel.com>
-Stefan Hajnoczi <stefanha@redhat.com>
-Vivek Goyal <vgoyal@redhat.com>
-Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
-
---dc+cDN39EJAMEtIO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1ayIkACgkQnKSrs4Gr
-c8hAzQf9E4PbRDszsY7PdMkSP1YTi+I3Nv+dejPOnv98yeUdhv+vJFrrmsi4ZT0c
-403/aP5zUg6+iIPUu8kjF1yCBeLNK5a6mNKtZT5k0o3uyUlHk1cNKAZaJimOm1UD
-MYzgKTwvHkPd8ZLKwo1Ion1L597neZnF3SqhJE7pMbkKBNJvRPduY531zl2NwdJ8
-+gH3MxPqyIlu0lwCdE1kdYe9gFP+CvWK9g0PMvkD+XhjdO21JxBNFaTu4jjzc+WV
-MRndGHtT0fbqj75bS6coe8CMnaWUDoRbH03ByK048YjTidlYL2z5SVOLFKIidSmo
-cA6OS1FyZs8XDU+GwvoHPvpCff8iJw==
-=zbZx
------END PGP SIGNATURE-----
-
---dc+cDN39EJAMEtIO--
 
