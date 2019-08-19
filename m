@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD6895072
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 00:06:20 +0200 (CEST)
-Received: from localhost ([::1]:59480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE30095079
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 00:08:44 +0200 (CEST)
+Received: from localhost ([::1]:59538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzpn8-0003ua-VB
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 18:06:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59513)
+	id 1hzppT-0007Xw-4L
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 18:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59544)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpMb-0002Px-9w
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:55 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpMd-0002RD-Df
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpMX-0006Yu-F3
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:53 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46332)
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpMb-0006bU-7O
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:55 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:38315)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzpMX-0006W0-7m
+ id 1hzpMX-0006XJ-Ap
  for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:49 -0400
-Received: by mail-pf1-x443.google.com with SMTP id q139so1933662pfc.13
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:47 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id m12so1591036plt.5
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=wLniY7IH5XOVstT1ZURU/Pqp4JvYW6tk9V3WWoNomaw=;
- b=Fzr8/0vmfS6tSszW7ZllixzfRjddneCkY3yTW+m9YASnALE0+/I7xJV/rXV2NlepPR
- l7fvYZFPWDJL4lkV5FoRQLS2oyKNOCjBasxe7Hy6SFdbHARbFNwLcaGGdqyyz0tPi3a8
- cG5BPLHtvUaf9yk6KZgXd7IWYlPTbyuXchEl0ZaMsxJpDU6rjB1cKu79L0ZCv49UG5dt
- MhasRf1cTv4f3KH2ZUvuF6HuvbZHRgrKqfTxu9533K1jNkvSMtnqF7jO6Ky2mWlkh8o/
- eTdvgsbPzhgo2hX1QvhOE5VDz0vzv/HbIczzBC90C4q1HZyhPqLphzwnEqY82AgH015a
- rTrw==
+ bh=ac3UBjPihyDkOeX0vZxfIb3puwN3GecMDaJ1xyBUXaw=;
+ b=VRiUNrzCYdV2Fjxa9QpObGV22NV5RPDM6YKfqC4R20btrDTQT8tH2oFbUdq0MujkiR
+ Ar7IApPhQp9siEY3cQ4oMIqajBbJSIJnTguFuyETeCWbJudkZv3d1a4NvTrqH+T1+7ti
+ tmM/p9YsIVcaJD73f4veRXN80sWJI418zM7CPyToiKXXm5sNLwHwonFjukw3eDzsF8nA
+ eoVp3KQ9ygS6g7ikDHI/qDWCT99hsBRCJPIhWREG5fB71UF2JA608xjS7BbznGPrpjr7
+ +rOaq0j2JISMe0HktD7nS3ceRRmiA4Ac7Q556zguAO8PJABdXOJINGYKm53YOjTe1wY8
+ O4cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=wLniY7IH5XOVstT1ZURU/Pqp4JvYW6tk9V3WWoNomaw=;
- b=LZxl+3tunOJvda6koIuZWd33iR/h48GSAIgf+o/ej5Wgd2G2o6JDLyaevqIacBeoad
- SJI2y7aZi4IceKzI8tSfNAjhoZwraMglHLm2+KqjFcOgJbC0D+3IeXds7OycB4a1Maqo
- vkK7LfQfyAgl6q21mJtFALF790D1WHQoT7T0tQqqQjIkmBk5vHfbEe9qtobVLT2RzESx
- 0kh0DDnhLavXul7m8f2LiX9rur8motXcax7/DavOmCYTiFZrKJlH6QOHEjuQhY4e6Y3W
- DkfPUX9sBDtCIFG3b+ORx/hz3fxvqM0NggsYhASNQCB4/GUsC9rbSlTs7BXq6TjlJ+gu
- cGpQ==
-X-Gm-Message-State: APjAAAUz0Ips9zw0Ecjh+HYzRPQMS/eYKmXZdlJFhEeQTwZHkTtQ9Y3N
- 4yZ9dd5OqfbnsGz+1hEBxUWxlKMDbOc=
-X-Google-Smtp-Source: APXvYqx8KCW+nrN2cD+a0gmjz2UlXqpJ5QkZDzVHodaw9BoHuge5eQPGsicGc4GCCsuoXHw1Og74nQ==
-X-Received: by 2002:a62:2603:: with SMTP id m3mr27356125pfm.163.1566250726092; 
- Mon, 19 Aug 2019 14:38:46 -0700 (PDT)
+ bh=ac3UBjPihyDkOeX0vZxfIb3puwN3GecMDaJ1xyBUXaw=;
+ b=isLiqaxi+20xOL8QyyMkuPjNQW/02RFcZMtpY8zmjEGdGTbOGJ8DEN8oeXfeTGfCSP
+ 3jTQwd3f+ssqf4U1okDwKluzec/v8Aqd8V+Chc4xIqD36YNa1ZRA4WGJdxnc6R8duZjy
+ WzkwrL5x7khdwDkc/jF96v8E6rpbuc1I0y/qdaZlWKTdcPCNS7m8DV0FHMjJaCK3ZR96
+ CTHQdO2+4/5UBjYQXm9y1uKhhrA1lF9qPchTK9dmZBj+WggqEUSNM2zNJxXBfRI+t3zK
+ t5xtfvSxcdDfsHOUG6oRxf24rSfaKB8KwP7EIXj1R48z1NFgRDqncfqzlQb5TmtCYUwq
+ sXQA==
+X-Gm-Message-State: APjAAAURifEgTwbb1HnIXvM/AfkC/88v15cPs0Q2ITQ9QAq3BaYFDDuy
+ XYg3qic0BJE0ahMuJ0rTiyunkDG00zU=
+X-Google-Smtp-Source: APXvYqx4LamgaJDw1LT9cmAMavLrBNJ6adbVGQ37v05DG++uJiE2J3bkryRjBmrLH9Pat3vO0hUX8Q==
+X-Received: by 2002:a17:902:2bc5:: with SMTP id
+ l63mr22378145plb.239.1566250727323; 
+ Mon, 19 Aug 2019 14:38:47 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.45
+ by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 14:38:45 -0700 (PDT)
+ Mon, 19 Aug 2019 14:38:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 14:37:27 -0700
-Message-Id: <20190819213755.26175-41-richard.henderson@linaro.org>
+Date: Mon, 19 Aug 2019 14:37:28 -0700
+Message-Id: <20190819213755.26175-42-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819213755.26175-1-richard.henderson@linaro.org>
 References: <20190819213755.26175-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH v2 40/68] target/arm: Convert SG
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v2 41/68] target/arm: Convert TT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,95 +82,143 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 51 ++++++++++++++++++++++++------------------
- target/arm/t32.decode  |  5 ++++-
- 2 files changed, 33 insertions(+), 23 deletions(-)
+ target/arm/translate.c | 87 +++++++++++++-----------------------------
+ target/arm/t32.decode  |  5 ++-
+ 2 files changed, 31 insertions(+), 61 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 7c05e7006e..9a8864e8ff 100644
+index 9a8864e8ff..d1078ca1ec 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8426,6 +8426,34 @@ static bool trans_SMC(DisasContext *s, arg_SMC *a)
+@@ -8454,6 +8454,30 @@ static bool trans_SG(DisasContext *s, arg_SG *a)
      return true;
  }
  
-+static bool trans_SG(DisasContext *s, arg_SG *a)
++static bool trans_TT(DisasContext *s, arg_TT *a)
 +{
++    TCGv_i32 addr, tmp;
++
 +    if (!arm_dc_feature(s, ARM_FEATURE_M) ||
 +        !arm_dc_feature(s, ARM_FEATURE_V8)) {
 +        return false;
 +    }
-+    /*
-+     * SG (v8M only)
-+     * The bulk of the behaviour for this instruction is implemented
-+     * in v7m_handle_execute_nsc(), which deals with the insn when
-+     * it is executed by a CPU in non-secure state from memory
-+     * which is Secure & NonSecure-Callable.
-+     * Here we only need to handle the remaining cases:
-+     *  * in NS memory (including the "security extension not
-+     *    implemented" case) : NOP
-+     *  * in S memory but CPU already secure (clear IT bits)
-+     * We know that the attribute for the memory this insn is
-+     * in must match the current CPU state, because otherwise
-+     * get_phys_addr_pmsav8 would have generated an exception.
-+     */
-+    if (s->v8m_secure) {
-+        /* Like the IT insn, we don't need to generate any code */
-+        s->condexec_cond = 0;
-+        s->condexec_mask = 0;
++    if (a->rd == 13 || a->rd == 15 || a->rn == 15) {
++        /* We UNDEF for these UNPREDICTABLE cases */
++        return false;
 +    }
++    if (a->A && !s->v8m_secure) {
++        return false;
++    }
++
++    addr = load_reg(s, a->rn);
++    tmp = tcg_const_i32((a->A << 1) | a->T);
++    gen_helper_v7m_tt(tmp, cpu_env, addr, tmp);
++    tcg_temp_free_i32(addr);
++    store_reg(s, a->rd, tmp);
 +    return true;
 +}
 +
  /*
   * Load/store register index
   */
-@@ -10437,28 +10465,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-              * - load/store doubleword, load/store exclusive, ldacq/strel,
-              *   table branch, TT.
-              */
--            if (insn == 0xe97fe97f && arm_dc_feature(s, ARM_FEATURE_M) &&
--                arm_dc_feature(s, ARM_FEATURE_V8)) {
--                /* 0b1110_1001_0111_1111_1110_1001_0111_111
--                 *  - SG (v8M only)
--                 * The bulk of the behaviour for this instruction is implemented
--                 * in v7m_handle_execute_nsc(), which deals with the insn when
--                 * it is executed by a CPU in non-secure state from memory
--                 * which is Secure & NonSecure-Callable.
--                 * Here we only need to handle the remaining cases:
--                 *  * in NS memory (including the "security extension not
--                 *    implemented" case) : NOP
--                 *  * in S memory but CPU already secure (clear IT bits)
--                 * We know that the attribute for the memory this insn is
--                 * in must match the current CPU state, because otherwise
--                 * get_phys_addr_pmsav8 would have generated an exception.
+@@ -10409,7 +10433,7 @@ static bool thumb_insn_is_16bit(DisasContext *s, uint32_t pc, uint32_t insn)
+ /* Translate a 32-bit thumb instruction. */
+ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+ {
+-    uint32_t rd, rn, rs;
++    uint32_t rn;
+     int op;
+ 
+     /*
+@@ -10453,70 +10477,13 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+     /* fall back to legacy decoder */
+ 
+     rn = (insn >> 16) & 0xf;
+-    rs = (insn >> 12) & 0xf;
+-    rd = (insn >> 8) & 0xf;
+     switch ((insn >> 25) & 0xf) {
+     case 0: case 1: case 2: case 3:
+         /* 16-bit instructions.  Should never happen.  */
+         abort();
+     case 4:
+-        if (insn & (1 << 22)) {
+-            /* 0b1110_100x_x1xx_xxxx_xxxx_xxxx_xxxx_xxxx
+-             * - load/store doubleword, load/store exclusive, ldacq/strel,
+-             *   table branch, TT.
+-             */
+-            if (insn & 0x01200000) {
+-                /* load/store dual, in decodetree */
+-                goto illegal_op;
+-            } else if ((insn & (1 << 23)) == 0) {
+-                /* 0b1110_1000_010x_xxxx_xxxx_xxxx_xxxx_xxxx
+-                 * - load/store exclusive word
+-                 * - TT (v8M only)
 -                 */
--                if (s->v8m_secure) {
--                    /* Like the IT insn, we don't need to generate any code */
--                    s->condexec_cond = 0;
--                    s->condexec_mask = 0;
+-                if (rs == 15) {
+-                    if (!(insn & (1 << 20)) &&
+-                        arm_dc_feature(s, ARM_FEATURE_M) &&
+-                        arm_dc_feature(s, ARM_FEATURE_V8)) {
+-                        /* 0b1110_1000_0100_xxxx_1111_xxxx_xxxx_xxxx
+-                         *  - TT (v8M only)
+-                         */
+-                        bool alt = insn & (1 << 7);
+-                        TCGv_i32 addr, op, ttresp;
+-
+-                        if ((insn & 0x3f) || rd == 13 || rd == 15 || rn == 15) {
+-                            /* we UNDEF for these UNPREDICTABLE cases */
+-                            goto illegal_op;
+-                        }
+-
+-                        if (alt && !s->v8m_secure) {
+-                            goto illegal_op;
+-                        }
+-
+-                        addr = load_reg(s, rn);
+-                        op = tcg_const_i32(extract32(insn, 6, 2));
+-                        ttresp = tcg_temp_new_i32();
+-                        gen_helper_v7m_tt(ttresp, cpu_env, addr, op);
+-                        tcg_temp_free_i32(addr);
+-                        tcg_temp_free_i32(op);
+-                        store_reg(s, rd, ttresp);
+-                        break;
+-                    }
+-                    goto illegal_op;
 -                }
--            } else if (insn & 0x01200000) {
-+            if (insn & 0x01200000) {
-                 /* load/store dual, in decodetree */
-                 goto illegal_op;
-             } else if ((insn & (1 << 23)) == 0) {
+-                /* Load/store exclusive, in decodetree */
+-                goto illegal_op;
+-            } else if ((insn & (7 << 5)) == 0) {
+-                /* Table Branch, in decodetree */
+-                goto illegal_op;
+-            } else {
+-                /* Load/store exclusive, load-acq/store-rel, in decodetree */
+-                goto illegal_op;
+-            }
+-        } else {
+-            /* Load/store multiple, RFE, SRS, in decodetree */
+-            goto illegal_op;
+-        }
+-        break;
++        /* All in decodetree */
++        goto illegal_op;
+     case 5:
+         /* All in decodetree */
+         goto illegal_op;
 diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 0cc0808c05..ce46650446 100644
+index ce46650446..bb875f77b0 100644
 --- a/target/arm/t32.decode
 +++ b/target/arm/t32.decode
-@@ -485,7 +485,10 @@ STRD_ri_t32      1110 1001 .100 .... .... .... ........    @ldstd_ri8 w=0 p=1
- LDRD_ri_t32      1110 1001 .101 .... .... .... ........    @ldstd_ri8 w=0 p=1
+@@ -506,7 +506,10 @@ STRD_ri_t32      1110 1001 .110 .... .... .... ........    @ldstd_ri8 w=1 p=1
+ @ldrex_d         .... .... .... rn:4 rt:4 rt2:4 .... .... \
+                  &ldrex imm=0
  
- STRD_ri_t32      1110 1001 .110 .... .... .... ........    @ldstd_ri8 w=1 p=1
--LDRD_ri_t32      1110 1001 .111 .... .... .... ........    @ldstd_ri8 w=1 p=1
+-STREX            1110 1000 0100 .... .... .... .... ....      @strex_i
 +{
-+  SG             1110 1001 0111 1111 1110 1001 01111111
-+  LDRD_ri_t32    1110 1001 .111 .... .... .... ........    @ldstd_ri8 w=1 p=1
++  TT             1110 1000 0100 rn:4 1111 rd:4 A:1 T:1 000000
++  STREX          1110 1000 0100 .... .... .... .... ....      @strex_i
 +}
- 
- # Load/Store Exclusive, Load-Acquire/Store-Release, and Table Branch
- 
+ STREXB           1110 1000 1100 .... .... 1111 0100 ....      @strex_0
+ STREXH           1110 1000 1100 .... .... 1111 0101 ....      @strex_0
+ STREXD_t32       1110 1000 1100 .... .... .... 0111 ....      @strex_d
 -- 
 2.17.1
 
