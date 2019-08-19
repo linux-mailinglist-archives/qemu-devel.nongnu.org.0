@@ -2,75 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E44F923FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 14:57:49 +0200 (CEST)
-Received: from localhost ([::1]:49737 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6876A923DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 14:52:01 +0200 (CEST)
+Received: from localhost ([::1]:49568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzhEK-0001bL-8b
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 08:57:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39100)
+	id 1hzh8i-0003A8-80
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 08:52:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1hzggg-0000h2-3f
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:23:03 -0400
+ (envelope-from <thuth@redhat.com>) id 1hzggC-0000J6-GE
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:22:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hzggd-0001W0-Cx
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:23:01 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38306)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hzggc-0001Tw-AT
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:22:58 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id g17so8520086wrr.5
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 05:22:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3EgZAgrLHmvjFmEihZ2FxaGJcoIsHosX2efs7meYYq8=;
- b=iUu+Fci/hO0Elm1PK6rlbzXcG2nxwvk3KeNotk+hOPwxKIJ3i6hxw8+0yaaOp4DAfl
- X9dbvTw3EJtPK3eze6OVJMn+Z144JMtsVR8Vx3BvwnwEBwdXlQbgbkh42+UkFALNcWSf
- W0zmCpZyD2AzEfbSw2rVuRYinzsALZ97sgJPuKSrMX8AJndH/V8td4iytXEBBOccSr0C
- Ial+SiPzm0d+SMicif5GyS+nczdLSAWb2wpky+qy9WE2otWOOykA1htgvt/acUZSHJES
- uhqja74AykbvMlOGHXfEtJLT5aGJLO8dvGy9nWV1FscUq9dBFUbRJ2B2ElL3RkIWtvh2
- bERA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3EgZAgrLHmvjFmEihZ2FxaGJcoIsHosX2efs7meYYq8=;
- b=hDJFNOKisQN4Y8VCUdqDR65nw9ws074M3pVuyNIU7b7dzNgu1wD/4clv5wWADrXvE9
- Neu/40B+sQWi6kPerUqJziemu34h2UOzwGXiziEoPnYT4Fcwdnn1kotuduYwy0IfUe9h
- FNUJIuh+gINhseFsV8DncjT0h14hK6wl/n8VVxacjmwVdAdkviVPoETHwb6f+d7fJbgE
- EUgHOu03kNQV6a5CkR9pP5fpYsnCxy5TgMhtgSD9RKdsOEA26WlOpezPagKk6kgOZucI
- NYFsEH87GHZYS+fZBy1aYgnlN3qrcwz6cp68pCeNsSW3M5C8kW+wsn3v7Suyniuk/Lym
- QcPA==
-X-Gm-Message-State: APjAAAWXQn4+WR0BvL2FKMkI9mMwcN0z5bKRen0vX05LloiXCMM/uPH+
- qtr1yt8oetAkuLGrjY/yE2HTNQ==
-X-Google-Smtp-Source: APXvYqxLBq0b51ntTj8r8cc0yss4XyNdH+Z5SET2o2He3ApZSJAj1YjHmdHyYL86mnBzgXW6yR0Mjg==
-X-Received: by 2002:a5d:6a49:: with SMTP id t9mr2290783wrw.134.1566217373446; 
- Mon, 19 Aug 2019 05:22:53 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id e6sm15359993wrr.14.2019.08.19.05.22.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 05:22:52 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 08CBA1FF87;
- Mon, 19 Aug 2019 13:17:11 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Mon, 19 Aug 2019 13:17:09 +0100
-Message-Id: <20190819121709.31597-13-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190819121709.31597-1-alex.bennee@linaro.org>
-References: <20190819121709.31597-1-alex.bennee@linaro.org>
+ (envelope-from <thuth@redhat.com>) id 1hzggB-0001Jw-Di
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:22:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33376)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1hzggB-0001JX-5O; Mon, 19 Aug 2019 08:22:31 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6E6B8C05AA65;
+ Mon, 19 Aug 2019 12:22:30 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-127.ams2.redhat.com [10.36.116.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA4FCF6DB;
+ Mon, 19 Aug 2019 12:22:25 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190805152947.28536-1-david@redhat.com>
+ <20190805152947.28536-6-david@redhat.com>
+ <41ecb40c-25e6-c209-48f9-e63fc309ed5a@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ mQINBFH7eUwBEACzyOXKU+5Pcs6wNpKzrlJwzRl3VGZt95VCdb+FgoU9g11m7FWcOafrVRwU
+ yYkTm9+7zBUc0sW5AuPGR/dp3pSLX/yFWsA/UB4nJsHqgDvDU7BImSeiTrnpMOTXb7Arw2a2
+ 4CflIyFqjCpfDM4MuTmzTjXq4Uov1giGE9X6viNo1pxyEpd7PanlKNnf4PqEQp06X4IgUacW
+ tSGj6Gcns1bCuHV8OPWLkf4hkRnu8hdL6i60Yxz4E6TqlrpxsfYwLXgEeswPHOA6Mn4Cso9O
+ 0lewVYfFfsmokfAVMKWzOl1Sr0KGI5T9CpmRfAiSHpthhHWnECcJFwl72NTi6kUcUzG4se81
+ O6n9d/kTj7pzTmBdfwuOZ0YUSqcqs0W+l1NcASSYZQaDoD3/SLk+nqVeCBB4OnYOGhgmIHNW
+ 0CwMRO/GK+20alxzk//V9GmIM2ACElbfF8+Uug3pqiHkVnKqM7W9/S1NH2qmxB6zMiJUHlTH
+ gnVeZX0dgH27mzstcF786uPcdEqS0KJuxh2kk5IvUSL3Qn3ZgmgdxBMyCPciD/1cb7/Ahazr
+ 3ThHQXSHXkH/aDXdfLsKVuwDzHLVSkdSnZdt5HHh75/NFHxwaTlydgfHmFFwodK8y/TjyiGZ
+ zg2Kje38xnz8zKn9iesFBCcONXS7txENTzX0z80WKBhK+XSFJwARAQABtB5UaG9tYXMgSHV0
+ aCA8dGh1dGhAcmVkaGF0LmNvbT6JAjgEEwECACIFAlVgX6oCGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAAoJEC7Z13T+cC21EbIP/ii9cvT2HHGbFRl8HqGT6+7Wkb+XLMqJBMAIGiQK
+ QIP3xk1HPTsLfVG0ao4hy/oYkGNOP8+ubLnZen6Yq3zAFiMhQ44lvgigDYJo3Ve59gfe99KX
+ EbtB+X95ODARkq0McR6OAsPNJ7gpEUzfkQUUJTXRDQXfG/FX303Gvk+YU0spm2tsIKPl6AmV
+ 1CegDljzjycyfJbk418MQmMu2T82kjrkEofUO2a24ed3VGC0/Uz//XCR2ZTo+vBoBUQl41BD
+ eFFtoCSrzo3yPFS+w5fkH9NT8ChdpSlbNS32NhYQhJtr9zjWyFRf0Zk+T/1P7ECn6gTEkp5k
+ ofFIA4MFBc/fXbaDRtBmPB0N9pqTFApIUI4vuFPPO0JDrII9dLwZ6lO9EKiwuVlvr1wwzsgq
+ zJTPBU3qHaUO4d/8G+gD7AL/6T4zi8Jo/GmjBsnYaTzbm94lf0CjXjsOX3seMhaE6WAZOQQG
+ tZHAO1kAPWpaxne+wtgMKthyPLNwelLf+xzGvrIKvLX6QuLoWMnWldu22z2ICVnLQChlR9d6
+ WW8QFEpo/FK7omuS8KvvopFcOOdlbFMM8Y/8vBgVMSsK6fsYUhruny/PahprPbYGiNIhKqz7
+ UvgyZVl4pBFjTaz/SbimTk210vIlkDyy1WuS8Zsn0htv4+jQPgo9rqFE4mipJjy/iboDuQIN
+ BFH7eUwBEAC2nzfUeeI8dv0C4qrfCPze6NkryUflEut9WwHhfXCLjtvCjnoGqFelH/PE9NF4
+ 4VPSCdvD1SSmFVzu6T9qWdcwMSaC+e7G/z0/AhBfqTeosAF5XvKQlAb9ZPkdDr7YN0a1XDfa
+ +NgA+JZB4ROyBZFFAwNHT+HCnyzy0v9Sh3BgJJwfpXHH2l3LfncvV8rgFv0bvdr70U+On2XH
+ 5bApOyW1WpIG5KPJlDdzcQTyptOJ1dnEHfwnABEfzI3dNf63rlxsGouX/NFRRRNqkdClQR3K
+ gCwciaXfZ7ir7fF0u1N2UuLsWA8Ei1JrNypk+MRxhbvdQC4tyZCZ8mVDk+QOK6pyK2f4rMf/
+ WmqxNTtAVmNuZIwnJdjRMMSs4W4w6N/bRvpqtykSqx7VXcgqtv6eqoDZrNuhGbekQA0sAnCJ
+ VPArerAZGArm63o39me/bRUQeQVSxEBmg66yshF9HkcUPGVeC4B0TPwz+HFcVhheo6hoJjLq
+ knFOPLRj+0h+ZL+D0GenyqD3CyuyeTT5dGcNU9qT74bdSr20k/CklvI7S9yoQje8BeQAHtdV
+ cvO8XCLrpGuw9SgOS7OP5oI26a0548M4KldAY+kqX6XVphEw3/6U1KTf7WxW5zYLTtadjISB
+ X9xsRWSU+Yqs3C7oN5TIPSoj9tXMoxZkCIHWvnqGwZ7JhwARAQABiQIfBBgBAgAJBQJR+3lM
+ AhsMAAoJEC7Z13T+cC21hPAQAIsBL9MdGpdEpvXs9CYrBkd6tS9mbaSWj6XBDfA1AEdQkBOn
+ ZH1Qt7HJesk+qNSnLv6+jP4VwqK5AFMrKJ6IjE7jqgzGxtcZnvSjeDGPF1h2CKZQPpTw890k
+ fy18AvgFHkVk2Oylyexw3aOBsXg6ukN44vIFqPoc+YSU0+0QIdYJp/XFsgWxnFIMYwDpxSHS
+ 5fdDxUjsk3UBHZx+IhFjs2siVZi5wnHIqM7eK9abr2cK2weInTBwXwqVWjsXZ4tq5+jQrwDK
+ cvxIcwXdUTLGxc4/Z/VRH1PZSvfQxdxMGmNTGaXVNfdFZjm4fz0mz+OUi6AHC4CZpwnsliGV
+ ODqwX8Y1zic9viSTbKS01ZNp175POyWViUk9qisPZB7ypfSIVSEULrL347qY/hm9ahhqmn17
+ Ng255syASv3ehvX7iwWDfzXbA0/TVaqwa1YIkec+/8miicV0zMP9siRcYQkyTqSzaTFBBmqD
+ oiT+z+/E59qj/EKfyce3sbC9XLjXv3mHMrq1tKX4G7IJGnS989E/fg6crv6NHae9Ckm7+lSs
+ IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
+ yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
+Organization: Red Hat
+Message-ID: <5bd53f3f-b2cd-9ab4-9185-310b9778cc8e@redhat.com>
+Date: Mon, 19 Aug 2019 14:22:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42b
-Subject: [Qemu-devel] [PULL 12/12] targets (various): use
- softfloat-helpers.h where we can
+In-Reply-To: <41ecb40c-25e6-c209-48f9-e63fc309ed5a@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Mon, 19 Aug 2019 12:22:30 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH-for-4.2 v1 5/9] s390x/mmu:
+ Implement access-exception-fetch/store-indication facility
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,108 +105,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>, Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generally the cpu and non-FP helper files just want to manipulate the
-softfloat flags. For this they can just use the -helpers.h include
-which brings in a minimal number of inline helpers.
+On 8/19/19 2:16 PM, Thomas Huth wrote:
+> On 8/5/19 5:29 PM, David Hildenbrand wrote:
+>> We always have to indicate whether it is a fetch or a store for all access
+>> exceptions. This is only missing for LAP exceptions.
+> 
+> Do we really need this for LAP, too? If I get figure 3-5 "Enhanced
+> Suppression-on-Protection Results" right, these bits are not set for LAP
+> exceptions...? Do I miss something?
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I was looking at an older version of the PoP ... the table that I mean
+is "Figure 3-8. Enhanced Suppression-on-Protection Facility 2 Results"
+in SA22-7832-11.
 
-diff --git a/target/alpha/helper.c b/target/alpha/helper.c
-index 93b8e788b18..c6998348df4 100644
---- a/target/alpha/helper.c
-+++ b/target/alpha/helper.c
-@@ -21,7 +21,7 @@
- 
- #include "cpu.h"
- #include "exec/exec-all.h"
--#include "fpu/softfloat.h"
-+#include "fpu/softfloat-types.h"
- #include "exec/helper-proto.h"
- #include "qemu/qemu-print.h"
- 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 0bec54b2f8a..9cfd7445e7d 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -28,7 +28,7 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "exec/exec-all.h"
--#include "fpu/softfloat.h"
-+#include "fpu/softfloat-helpers.h"
- 
- static const struct {
-     const char *name;
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 9466cd832d4..3abe7e80fd0 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -42,7 +42,7 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/tcg.h"
- #endif
--#include "fpu/softfloat.h"
-+#include "fpu/softfloat-helpers.h"
- 
- #define CR0_RESET       0xE0UL
- #define CR14_RESET      0xC2000000UL;
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 816d6d7f311..d0a7707991f 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -25,8 +25,7 @@
- #include "cpu.h"
- #include "migration/vmstate.h"
- #include "exec/exec-all.h"
--#include "fpu/softfloat.h"
--
-+#include "fpu/softfloat-helpers.h"
- 
- static void superh_cpu_set_pc(CPUState *cs, vaddr value)
- {
-diff --git a/target/tricore/helper.c b/target/tricore/helper.c
-index a6803368506..d5db7b2c03f 100644
---- a/target/tricore/helper.c
-+++ b/target/tricore/helper.c
-@@ -19,7 +19,7 @@
- 
- #include "cpu.h"
- #include "exec/exec-all.h"
--#include "fpu/softfloat.h"
-+#include "fpu/softfloat-helpers.h"
- #include "qemu/qemu-print.h"
- 
- enum {
-diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
-index 802e2f1eba5..b27fb9689ff 100644
---- a/target/unicore32/cpu.c
-+++ b/target/unicore32/cpu.c
-@@ -17,7 +17,6 @@
- #include "cpu.h"
- #include "migration/vmstate.h"
- #include "exec/exec-all.h"
--#include "fpu/softfloat.h"
- 
- static void uc32_cpu_set_pc(CPUState *cs, vaddr value)
- {
--- 
-2.20.1
-
+ Thomas
 
