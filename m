@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521CC91C81
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:28:42 +0200 (CEST)
-Received: from localhost ([::1]:44718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CFC91C62
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 07:21:38 +0200 (CEST)
+Received: from localhost ([::1]:44618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzaDh-0007VF-EO
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:28:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43614)
+	id 1hza6q-0006Gk-Ve
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 01:21:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzZxw-000580-60
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:25 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hzZxz-0005EA-Rx
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzZxu-0007i1-5S
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:24 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37285)
+ (envelope-from <bmeng.cn@gmail.com>) id 1hzZxx-0007vX-NA
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 01:12:26 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40131)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hzZxt-0007fe-Vt; Mon, 19 Aug 2019 01:12:22 -0400
-Received: by mail-pf1-x444.google.com with SMTP id 129so456468pfa.4;
- Sun, 18 Aug 2019 22:12:21 -0700 (PDT)
+ id 1hzZxw-0007nu-4P; Mon, 19 Aug 2019 01:12:24 -0400
+Received: by mail-pf1-x444.google.com with SMTP id w16so452419pfn.7;
+ Sun, 18 Aug 2019 22:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=GiQllcar9GWdqn3xlcOyEZI4UT/k9/yNdl3brUTisP4=;
- b=QORLyABnpLXP+1qTvC1b3m8ovNmsC2fZkLzWtKEbEekjxMIbzmwUwsfMAjFBC1r8LQ
- sYuFAen3SY9R1ZXp6FKwbCaGEBD+J2bPRVq5pz6Od/LLzRSzxhjDhCPZfidgz8YkwVmV
- z1u0+2X05yRl4Lc0E8w9emNcl6hWV66S+eaftQdX1bHA3wNF0wqP+pMQArVk5E9CtanG
- mPmVP6K7TWuwBQVTCuiLWGvwLgiqqDszNDZ/+jtTM3OuPx6h7WW4WEH26KctStuZE5Cw
- p+X0HJ1Xh5CDFyfl2mbJftMt5J8rBXc7zEzfHuIP0LQLeMRbMbqInUvsnkvZK4SdwrIb
- no3Q==
+ bh=VEJB+HxL2ZrMa+PdqWbMrKQ++EGFdXzRJFd60wjp4Xw=;
+ b=bkCKGW0002EcdSdhNrnmBn8rPWBa95djQ/Et3RSJgI1u8JTbaUPnLmX98i3WR3W7sZ
+ wlq5DYXIiARwF4ucZ2K2Ad5iYKzJIuZTPVcCNLgfDmyslvxj3wE63aWoGKrbxlx0gvuq
+ b97GKg9qd15+1DaYBRxOaz0MG9fIuxbRLW3ek3PCcvALjaOjAzlHnbeSLZD0qvGSyO9G
+ 3dVd6JWazGuqu9mgvkgY7GvREzS/vhQr9y7eGbluX2BZ7P/DzesI2FfNnndF6dBjrzbX
+ vUHnagEavWBDnqBruLsXfDX1RSBy/CY+rf3jfAyCF9meOVBzoe7UZLUbOlABcnnhPwXs
+ tn9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=GiQllcar9GWdqn3xlcOyEZI4UT/k9/yNdl3brUTisP4=;
- b=JSOm6S7o+cGTTGRtYfi/ynrHVOWfkbwKc5XCou1tXXeIQkk09FS9AGp6t3IGsj8S1V
- wDuG5r8iX0yBfoRcsFez3hPqpRfwoF9QYg1DIPA+8juBMrL3/Ut7PLxVgaDigBRBQAbf
- VDfZuilIAuZfB8Fs9yPsuMdKVMj+P2U4fMF0nY9BDwwQq6IkYf7zLiPaJyAKEN27PorG
- QimFW/HKkV/dybPTzGzTi7WjrFxSqX5WGoHIMCkovGa4k9Y6onPg8TCApfDI16ulyNcK
- Tnz/Kli3xTqg1je0SlUAcmniwLAVs4XGZyn6JhgS73h9FBKdxayBciMvwr0ss1THo8P/
- prnw==
-X-Gm-Message-State: APjAAAXeuXlZBExxjEvtIeamfiwiNNSwgKM40IUhYXAZQNCsIPhoH5yR
- Ok2Th0SdEYnVrHhexk1AfIzqCeCy
-X-Google-Smtp-Source: APXvYqxIvDQXVIK4sM7Yif0deP0Wu7/g4Bg8lOLYRixPMyypB+PogSU2emxXeKJn7M4wBsCn/8cSYA==
-X-Received: by 2002:a17:90a:f0c9:: with SMTP id
- fa9mr18064082pjb.137.1566191541240; 
- Sun, 18 Aug 2019 22:12:21 -0700 (PDT)
+ bh=VEJB+HxL2ZrMa+PdqWbMrKQ++EGFdXzRJFd60wjp4Xw=;
+ b=momVPzlCW+SfHYMPb1jYZbgj7D3mbwvBPTNN1chmlyJNzwqcqjD0YjLK+xEIQjZC1x
+ +cbPwuvRshr/Jpf2XXs5Anky7M40OmSWEFgraStsDb0VKiKmDCkUYD33TMyKA+MWVP/P
+ pYMtKu4Byslk/IzZrXgxoLt6FZD8ooKr4iCsoRcBZLdBJtAZOvPQviQSTHHPL+JTvS/K
+ AnQ+jITGAjgZ5HEpyBhl8cnSjln7fZxFnWTFOZUD9XvtICkb+TGCwEtLorRNOjoM9ncO
+ q2kv01j2X4qSMbCEaadgt+LR8BbX/lmQ1y9ywle5CSkDCaTUHMXZAacGMCjprIORXV/5
+ Ah9g==
+X-Gm-Message-State: APjAAAWFjh8BQNC23KXCEMvmxE5SyeeWBs9t7QVnW/iVK97v+G60mhWI
+ msstzCEK0Y34s0jvuM1vMCE=
+X-Google-Smtp-Source: APXvYqwm3ysD41xzE1AgxVRbYwVna6NwrJFjGev3WtKVA95zx+KN+O2IMiXkkC9hxZ2hwH6vRe4dgg==
+X-Received: by 2002:a62:1715:: with SMTP id 21mr22525457pfx.134.1566191543338; 
+ Sun, 18 Aug 2019 22:12:23 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id q13sm15464986pfl.124.2019.08.18.22.12.20
+ by smtp.gmail.com with ESMTPSA id q13sm15464986pfl.124.2019.08.18.22.12.22
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Sun, 18 Aug 2019 22:12:20 -0700 (PDT)
+ Sun, 18 Aug 2019 22:12:22 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Sun, 18 Aug 2019 22:11:46 -0700
-Message-Id: <1566191521-7820-14-git-send-email-bmeng.cn@gmail.com>
+Date: Sun, 18 Aug 2019 22:11:48 -0700
+Message-Id: <1566191521-7820-16-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1566191521-7820-1-git-send-email-bmeng.cn@gmail.com>
 References: <1566191521-7820-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v4 13/28] riscv: hart: Add a "hartid-base"
- property to RISC-V hart array
+Subject: [Qemu-devel] [PATCH v4 15/28] riscv: sifive_u: Set the minimum
+ number of cpus to 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,84 +80,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At present each hart's hartid in a RISC-V hart array is assigned
-the same value of its index in the hart array. But for a system
-that has multiple hart arrays, this is not the case any more.
-
-Add a new "hartid-base" property so that hartid number can be
-assigned based on the property value.
+It is not useful if we only have one management CPU.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 ---
 
-Changes in v4:
-- new patch to add a "hartid-base" property to RISC-V hart array
+Changes in v4: None
+Changes in v3:
+- use management cpu count + 1 for the min_cpus
 
-Changes in v3: None
-Changes in v2: None
+Changes in v2:
+- update the file header to indicate at least 2 harts are created
 
- hw/riscv/riscv_hart.c         | 8 +++++---
- include/hw/riscv/riscv_hart.h | 1 +
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ hw/riscv/sifive_u.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-index 9deef869..52ab86a 100644
---- a/hw/riscv/riscv_hart.c
-+++ b/hw/riscv/riscv_hart.c
-@@ -27,6 +27,7 @@
- 
- static Property riscv_harts_props[] = {
-     DEFINE_PROP_UINT32("num-harts", RISCVHartArrayState, num_harts, 1),
-+    DEFINE_PROP_UINT32("hartid-base", RISCVHartArrayState, hartid_base, 0),
-     DEFINE_PROP_STRING("cpu-type", RISCVHartArrayState, cpu_type),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -37,7 +38,7 @@ static void riscv_harts_cpu_reset(void *opaque)
-     cpu_reset(CPU(cpu));
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 0e5bbe7..a36cd77 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -10,8 +10,8 @@
+  * 1) CLINT (Core Level Interruptor)
+  * 2) PLIC (Platform Level Interrupt Controller)
+  *
+- * This board currently generates devicetree dynamically that indicates at most
+- * five harts.
++ * This board currently generates devicetree dynamically that indicates at least
++ * two harts and up to five harts.
+  *
+  * This program is free software; you can redistribute it and/or modify it
+  * under the terms and conditions of the GNU General Public License,
+@@ -485,6 +485,7 @@ static void riscv_sifive_u_machine_init(MachineClass *mc)
+     mc->desc = "RISC-V Board compatible with SiFive U SDK";
+     mc->init = riscv_sifive_u_init;
+     mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
++    mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
  }
  
--static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
-+static void riscv_hart_realize(RISCVHartArrayState *s, int idx, uint32_t hartid,
-                                char *cpu_type, Error **errp)
- {
-     Error *err = NULL;
-@@ -45,7 +46,7 @@ static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
-     object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx],
-                             sizeof(RISCVCPU), cpu_type,
-                             &error_abort, NULL);
--    s->harts[idx].env.mhartid = idx;
-+    s->harts[idx].env.mhartid = hartid;
-     qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
-     object_property_set_bool(OBJECT(&s->harts[idx]), true,
-                              "realized", &err);
-@@ -58,12 +59,13 @@ static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
- static void riscv_harts_realize(DeviceState *dev, Error **errp)
- {
-     RISCVHartArrayState *s = RISCV_HART_ARRAY(dev);
-+    uint32_t hartid = s->hartid_base;
-     int n;
- 
-     s->harts = g_new0(RISCVCPU, s->num_harts);
- 
-     for (n = 0; n < s->num_harts; n++) {
--        riscv_hart_realize(s, n, s->cpu_type, errp);
-+        riscv_hart_realize(s, n, hartid + n, s->cpu_type, errp);
-     }
- }
- 
-diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.h
-index 0671d88..1984e30 100644
---- a/include/hw/riscv/riscv_hart.h
-+++ b/include/hw/riscv/riscv_hart.h
-@@ -32,6 +32,7 @@ typedef struct RISCVHartArrayState {
- 
-     /*< public >*/
-     uint32_t num_harts;
-+    uint32_t hartid_base;
-     char *cpu_type;
-     RISCVCPU *harts;
- } RISCVHartArrayState;
+ DEFINE_MACHINE("sifive_u", riscv_sifive_u_machine_init)
 -- 
 2.7.4
 
