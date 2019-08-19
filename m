@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ADA89283E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 17:20:40 +0200 (CEST)
-Received: from localhost ([::1]:54276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDDFB9493D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 17:56:40 +0200 (CEST)
+Received: from localhost ([::1]:54670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzjSY-0004BJ-Kl
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 11:20:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53018)
+	id 1hzk1P-0001GF-Kc
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 11:56:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60215)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzjPy-0002Ut-3H
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:17:59 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hzk0H-0000pW-GQ
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:55:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzjPw-0002Wn-Pk
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:17:57 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:35964)
+ (envelope-from <peter.maydell@linaro.org>) id 1hzk0F-0003hS-Tn
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:55:28 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:33678)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzjPw-0002Rn-Iq
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:17:56 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id w2so1349214pfi.3
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 08:17:50 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hzk0F-0003h5-K2
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 11:55:27 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id q20so2129607otl.0
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 08:55:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FYIOkeCFDs+BgfZApqGQTYKi9ofiCzdQQpabShx+clA=;
- b=ltAd+58YwCh5eaUQEsu2K4Js+5xQgGw9JIVMFYOr/3Jb49QKktf0Wb/JhDgils9xXZ
- iY51U5XNUY5VZMVWwBxeRzVALpmDZsvajMSGsVbP/0WGChTxiL8a4BOkln1bv0v4ioi1
- +basAvd3MtrGMdhCKpaWh3UUafeJFcI4Jod6L7/qK+Zqx6/uZ+GSRWIOmUwUl5GdcIUX
- bvdmXYn0G/9VhlFaCTRDeK8JQoGxjuOjQMYA0MytTRqmO/nMEc4A2OFzbPUgu+6oBArE
- 7YIOK0FaiczpHILdMOnWdqJdPqVATWtd2rBglf8Oca8JIbaTFkHX7q/KOnC0Ujhklagz
- /fCg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=QQIzFXLbAmAxQFl6yS5o+5njLjephfq0hRCPswHShsE=;
+ b=maoBEtbltgUFYwdf6uTlRqYyiUeCsGhdYZQWidB/vZ9MRFud2C03XfoCrrtNxx1mw5
+ dVfk2nM9IS8yKiY6Z4ZUU1OpzpkwULwLY7X7VSy/E25DeZxbj+FR1HCgPQOgHJH+8qTU
+ /PPAstNPolsTQrfn1XEaZpK4EoeDymD8vaVqb9w2RqrosAaqsMn4UVJIg6H4V1uBqGUT
+ IKYkRZbZgtQeqa4Vk1yn2niEvKcx8/10FErVH2UXmFgZ/mFdUnyFbt/sHcTETehn2Wwa
+ a6AoVeZeAgSblZ/I+cje85GkCL5AlgGbRg6SjLq0SxRmseyI66zxBkowfwDSz2qdEws1
+ z2hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FYIOkeCFDs+BgfZApqGQTYKi9ofiCzdQQpabShx+clA=;
- b=V55bCHpQnZmj0vpjDXNJas0eOsDTqPJKukXk5Adi18ZVWea4fdv78XQ1ifWczWR3vv
- +5zybmPxmPa+VlJIeB6rq2Yq3s0NJg2SsCi8m4GQ34IryNSBL05kMsndDg2CS55jnMgB
- Y+oEJiowrfj5uMBoaUGjMfjhOalEoY2PAIcK8VwIGajTxv+Zd1AFr4zbY7Q5ZEKxQup8
- yGw1FMdoqoWmfWhxZ67rQreB/BokQ6SetWO9+W4u7hr9DeToJDyuVyp/x48IwkkwtwfA
- rg7VmRPqL/5G9JKgjNPqd4GLrIEqD06jsLhE8Djw8srIonAk0Ywg/xp1HBOcqErIuCmU
- r49g==
-X-Gm-Message-State: APjAAAXwA48XM8V0soxj+oPUkNaT6laXLQ3oGOknbYYd/pEaQjyvYYdb
- EvkUgvjzANyIqBDCvDLXtLMrE+livQc=
-X-Google-Smtp-Source: APXvYqyNjvVuL2i/xaKNgryLYL4/IXw3l4OsJidKNWPYCtzKcrXzmR63YJs2+tMgAj/zBJ+6pdr5XQ==
-X-Received: by 2002:a65:458d:: with SMTP id o13mr20056311pgq.34.1566227868801; 
- Mon, 19 Aug 2019 08:17:48 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id r27sm21020406pgn.25.2019.08.19.08.17.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 08:17:47 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 08:17:43 -0700
-Message-Id: <20190819151743.17267-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190819151743.17267-1-richard.henderson@linaro.org>
-References: <20190819151743.17267-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=QQIzFXLbAmAxQFl6yS5o+5njLjephfq0hRCPswHShsE=;
+ b=YTcnUFb2Po+JKf7M/3oXsGpTBluLe5FwWMPPjjydIOZ9LGonOeCrQ+le/8GnkTPw64
+ PDB42X2RWSmmKkq4pAcgKb59phVMJ/fnmNpzhDsJNE79RyTC4i8nDvTXqGPt4tcnEcQe
+ 5SUGWABnDqblVbW24wQTVHD392pw34UdiuPCY2c/CMcZvg/VnuZcReLCrhLlu5PNcS5n
+ zAJGg8ZWAqYFWfyWQMQHboPfNHo+3R/qU17ys+vt48C4fI4R/rKrbpWT7BMgc/qfnOGg
+ jUrH02bsKjzDv13sNNtJc6wdZ8xXpBN2/5NeJHGNJJtt9onY2P1cbPIj/BhLKu1EU3wg
+ xFXw==
+X-Gm-Message-State: APjAAAUOVTaRr11Nb3IB9iy62PQ7CqpKkTQwbdm7K8Kzex4OnEW5u8uz
+ IcNJG9r8eeHj1t8GRupLoMY4rrYSF4jj1y0MciSEPRDF
+X-Google-Smtp-Source: APXvYqx9S0pA8Ml4+aakvkaApx1hrxOxMhRTaF+yfYLEATRF4VxfNcvnb8nc9rZmKU/GhKQgZeUowZeGUYj/ZA+kdAs=
+X-Received: by 2002:a9d:6a94:: with SMTP id l20mr17634897otq.221.1566230126433; 
+ Mon, 19 Aug 2019 08:55:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190819121709.31597-1-alex.bennee@linaro.org>
+In-Reply-To: <20190819121709.31597-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Aug 2019 16:55:14 +0100
+Message-ID: <CAFEAcA_J6mnvipw7WsHC2YGqLjxCdVAJk8mcPceXWEJdscDyEw@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::42d
-Subject: [Qemu-devel] [PULL 3/3] target/riscv: Remove redundant declaration
- pragmas
+X-Received-From: 2607:f8b0:4864:20::32c
+Subject: Re: [Qemu-devel] [PULL 00/12] softfloat header updates
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,54 +73,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are now generated by decodetree itself.
+On Mon, 19 Aug 2019 at 13:17, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> The following changes since commit afd760539308a5524accf964107cdb1d54a059=
+e3:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-201=
+90816' into staging (2019-08-16 17:21:40 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stsquad/qemu.git tags/pull-softfloat-headers-190819-=
+1
+>
+> for you to fetch changes up to 5f8ab0004e878a6cd0f50fa8659df4a4f853eea8:
+>
+>   targets (various): use softfloat-helpers.h where we can (2019-08-19 12:=
+07:13 +0100)
+>
+> ----------------------------------------------------------------
+> Softfloat updates
+>
+>   - minor refactoring of constants
+>   - drop LIT64 macro
+>   - re-organise header inclusion
+>
+> ----------------------------------------------------------------
+> Alex Benn=C3=A9e (12):
+>       fpu: replace LIT64 usage with UINT64_C for specialize constants
+>       fpu: convert float[16/32/64]_squash_denormal to new modern style
+>       fpu: use min/max values from stdint.h for integral overflow
+>       fpu: replace LIT64 with UINT64_C macros
+>       target/m68k: replace LIT64 with UINT64_C macros
+>       fpu: remove the LIT64 macro
+>       fpu: move inline helpers into a separate header
+>       fpu: make softfloat-macros "self-contained"
+>       fpu: rename softfloat-specialize.h -> .inc.c
+>       target/mips: rationalise softfloat includes
+>       target/riscv: rationalise softfloat includes
+>       targets (various): use softfloat-helpers.h where we can
 
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Acked-by: Palmer Dabbelt <palmer@sifive.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/translate.c | 19 +------------------
- 1 file changed, 1 insertion(+), 18 deletions(-)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 8d6ab73258..adeddb85f6 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -708,26 +708,9 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
- #include "insn_trans/trans_rvd.inc.c"
- #include "insn_trans/trans_privileged.inc.c"
- 
--/*
-- * Auto-generated decoder.
-- * Note that the 16-bit decoder reuses some of the trans_* functions
-- * initially declared by the 32-bit decoder, which results in duplicate
-- * declaration warnings.  Suppress them.
-- */
--#ifdef CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE
--# pragma GCC diagnostic push
--# pragma GCC diagnostic ignored "-Wredundant-decls"
--# ifdef __clang__
--#  pragma GCC diagnostic ignored "-Wtypedef-redefinition"
--# endif
--#endif
--
-+/* Include the auto-generated decoder for 16 bit insn */
- #include "decode_insn16.inc.c"
- 
--#ifdef CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE
--# pragma GCC diagnostic pop
--#endif
--
- static void decode_opc(DisasContext *ctx)
- {
-     /* check for compressed insn */
--- 
-2.17.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
