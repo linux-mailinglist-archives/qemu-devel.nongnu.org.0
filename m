@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D6B95025
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 23:51:12 +0200 (CEST)
-Received: from localhost ([::1]:59120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9EA95028
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 23:52:24 +0200 (CEST)
+Received: from localhost ([::1]:59154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzpYV-0007kl-AO
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 17:51:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58783)
+	id 1hzpZf-0001GB-HY
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 17:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpM2-0001a4-1H
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:19 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpM2-0001bo-Su
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpM0-00068L-BI
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:17 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:44256)
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpM1-000690-GU
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:18 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46328)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzpM0-00067w-5M
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:16 -0400
-Received: by mail-pl1-x643.google.com with SMTP id t14so1574231plr.11
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:16 -0700 (PDT)
+ id 1hzpM1-00068k-BB
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:17 -0400
+Received: by mail-pf1-x442.google.com with SMTP id q139so1932803pfc.13
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=7Eta9ZtvQ0oDIOcJ2OoQMP0oMhVWN+OV+wP28xTcUIs=;
- b=CeL1dswG3Eb8rIKISt5NQW8orqLZrsq8get5MJ1vBFHRznDsbE3PMt2rD5USdxcw0A
- GHiI76ST3VdwGXxJGGDAe2w5X4/UJPSQzaT1yXTlpCPepOJB04d5BDFSGVFB7oSdDr4T
- NFVhiDaVWwgBWUM3lucSv/hzAUCtwbdDyVjWQ3Y9B6ytwVORLcG+Evkp1lFd0o+Kau6t
- FHK4E5Ih0nEdMnRD3I4DLXZ42OvwSi3q0Iq4ek2gOcAlm2LoNkbYoPHkJWbxur2qWkmK
- 5YHjnTy13kryH+ieXt6SPJPM1zwLRM5ckxYm/H0T+vPXq0x3bYDU/bCRatL3CaiD71UY
- MhpQ==
+ bh=F/upwaanfqXSt3Hk/7WIkT0U11Hn2bkl0Zsc2jcodB0=;
+ b=s7d7yvxyrP04hcw4TOgSZXuVe0kp2q777ybiXRZoZ2RxEmdST4Boy/6w3bkuB3R5Wc
+ ljietIQp+kzGWwJu5dR1yABU/E+xqMptzKjG8ujBpuylaoiXSHP/MjLpsf6AEy7wGBBG
+ +BTPCPVAaIW3n5nHX/uFvjgZZwfEITTZaoaZQetl8PRgCKJsLXyH8HO5q/Gatc8f/5Z6
+ tYxT0OBCjg/O+4TkeI87l+8ju7sXnhDCj/LqqCbRzacB4c94IAH3IodwtcXUjRYwDM+3
+ CEUkaONwmJmotDMxX/xfpKBAxeRMyoLhxhBt7DYH2S9mIrzD8wOiMheRWDpKQ1DeL9Sv
+ UvAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=7Eta9ZtvQ0oDIOcJ2OoQMP0oMhVWN+OV+wP28xTcUIs=;
- b=V1wZgn36AKK5wH03OMgXsSWk1z0G+fY+ki3GoFaHdQ9ZKnGbFaM8yJhkFEbMZ4uzdE
- OhZSdufc1TKfDQlrBxG4wXxW2JxrjA3FaPMcWJsKNddblS0njZVl3/N6sFQ3iNd5ay3C
- j3HnaRxwKnajSd/PE00rUBIkWnOsG+nMLBqcM/lIE+9x7O1qptezF2NDP7fkbYlv/YEh
- dg5B4INjR2Xr8BD9sYrGLyX03mCii2imG/LTQUhNIUwSno+lCbIJ1hTCJrwK6V4Mawth
- a0+jVVuC6rcVagO8WapQuGtohfwpeDjshwrDnbXTmRBPyeV2L/dANjTG7rdzWc01QP51
- WYRg==
-X-Gm-Message-State: APjAAAVfnjXbl1WivbvV1yj5aRjsySqWt0yhPQo93TPmePC59cQa5Ex0
- le0i8yXOVYtXdYD3L+++zNjwJ2GEcL8=
-X-Google-Smtp-Source: APXvYqzc+awt/zls0SsMHz1ZmT+5q+pppG1CabsQwmCpSaKmAZGtUEO8XxSK+d/Ge1hKl6PDAjatiA==
-X-Received: by 2002:a17:902:5a1:: with SMTP id
- f30mr25193212plf.64.1566250694884; 
- Mon, 19 Aug 2019 14:38:14 -0700 (PDT)
+ bh=F/upwaanfqXSt3Hk/7WIkT0U11Hn2bkl0Zsc2jcodB0=;
+ b=itZxwVfp7UxdW/kp4VwIkfTddQoaG+WUBLcsGjDQfA2FdEQymYaJxHHRdK5dB9YjnV
+ Q4f+w+Cin098lkUAXMBgu+UJGH7Vf6IsRSnabfdqSpOQOKJJqBxkbItXr1zboczh4/jF
+ 9EWGKmYJwDBStzDT5TQNlEsXaIp9JzuaD5Aa9HfSQpfCXk2t1FSiv7V7X8D/A63qCrd/
+ IGez3UEKe9pn1Pm9tDS7XKFvLjWeNQFPD5xK+Mq7MFx/vTc3BaGZ7pCsHRxFt2dYs9UO
+ YvDRDPo6FqtYlaLgDoqvCaCbbqmpcbY6W1mE7aJpUMTERV8813988GRmamyE0jpn1XaF
+ GzTw==
+X-Gm-Message-State: APjAAAVhM4g56buOP85vJr6R7e5PRlFhQsUSdD9OohQxbnnp04Wu0yKn
+ 3WMNPbv697VcRTGa6+8m0faubn8wwV0=
+X-Google-Smtp-Source: APXvYqyIwEwuhH74An9HTur0VNW40wAfzfxgfdmHQWbKZop/BKbCLdUu71HtCElQwdnW3uMadWUDyA==
+X-Received: by 2002:aa7:8189:: with SMTP id g9mr26793797pfi.143.1566250696097; 
+ Mon, 19 Aug 2019 14:38:16 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.13
+ by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 14:38:13 -0700 (PDT)
+ Mon, 19 Aug 2019 14:38:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 14:37:01 -0700
-Message-Id: <20190819213755.26175-15-richard.henderson@linaro.org>
+Date: Mon, 19 Aug 2019 14:37:02 -0700
+Message-Id: <20190819213755.26175-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819213755.26175-1-richard.henderson@linaro.org>
 References: <20190819213755.26175-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: [Qemu-devel] [PATCH v2 14/68] target/arm: Convert Cyclic Redundancy
- Check
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v2 15/68] target/arm: Convert BX, BXJ,
+ BLX (register)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,207 +82,166 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 121 +++++++++++++++++++----------------------
- target/arm/a32.decode  |   9 +++
- target/arm/t32.decode  |   7 +++
- 3 files changed, 72 insertions(+), 65 deletions(-)
+ target/arm/translate.c | 78 ++++++++++++++++++++----------------------
+ target/arm/a32.decode  |  7 ++++
+ target/arm/t32.decode  |  2 ++
+ 3 files changed, 47 insertions(+), 40 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 026abcaa9c..f390656ce9 100644
+index f390656ce9..ef26ed7b57 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8291,6 +8291,57 @@ static bool trans_MSR_imm(DisasContext *s, arg_MSR_imm *a)
+@@ -8429,6 +8429,38 @@ static bool trans_MSR_v7m(DisasContext *s, arg_MSR_v7m *a)
      return true;
  }
  
-+/*
-+ * Cyclic Redundancy Check
-+ */
-+
-+static bool op_crc32(DisasContext *s, arg_rrr *a, bool c, TCGMemOp sz)
++static bool trans_BX(DisasContext *s, arg_BX *a)
 +{
-+    TCGv_i32 t1, t2, t3;
-+
-+    if (!dc_isar_feature(aa32_crc32, s)) {
++    if (!ENABLE_ARCH_4T) {
 +        return false;
 +    }
-+
-+    t1 = load_reg(s, a->rn);
-+    t2 = load_reg(s, a->rm);
-+    switch (sz) {
-+    case MO_8:
-+        gen_uxtb(t2);
-+        break;
-+    case MO_16:
-+        gen_uxth(t2);
-+        break;
-+    case MO_32:
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+    t3 = tcg_const_i32(1 << sz);
-+    if (c) {
-+        gen_helper_crc32c(t1, t1, t2, t3);
-+    } else {
-+        gen_helper_crc32(t1, t1, t2, t3);
-+    }
-+    tcg_temp_free_i32(t2);
-+    tcg_temp_free_i32(t3);
-+    store_reg(s, a->rd, t1);
++    gen_bx(s, load_reg(s, a->rm));
 +    return true;
 +}
 +
-+#define DO_CRC32(NAME, c, sz) \
-+static bool trans_##NAME(DisasContext *s, arg_rrr *a)  \
-+    { return op_crc32(s, a, c, sz); }
++static bool trans_BXJ(DisasContext *s, arg_BXJ *a)
++{
++    if (!ENABLE_ARCH_5J || arm_dc_feature(s, ARM_FEATURE_M)) {
++        return false;
++    }
++    /* Trivial implementation equivalent to bx.  */
++    gen_bx(s, load_reg(s, a->rm));
++    return true;
++}
 +
-+DO_CRC32(CRC32B, false, MO_8)
-+DO_CRC32(CRC32H, false, MO_16)
-+DO_CRC32(CRC32W, false, MO_32)
-+DO_CRC32(CRC32CB, true, MO_8)
-+DO_CRC32(CRC32CH, true, MO_16)
-+DO_CRC32(CRC32CW, true, MO_32)
++static bool trans_BLX_r(DisasContext *s, arg_BLX_r *a)
++{
++    TCGv_i32 tmp;
 +
-+#undef DO_CRC32
++    if (!ENABLE_ARCH_5) {
++        return false;
++    }
++    tmp = load_reg(s, a->rm);
++    tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
++    gen_bx(s, tmp);
++    return true;
++}
 +
  /*
-  * Miscellaneous instructions
+  * Legacy decoder.
   */
-@@ -8706,39 +8757,9 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             gen_bx(s, tmp);
+@@ -8718,12 +8750,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+             /* All done in decodetree.  Illegal ops already signalled.  */
+             g_assert_not_reached();
+         case 0x1:
+-            if (op1 == 1) {
+-                /* branch/exchange thumb (bx).  */
+-                ARCH(4T);
+-                tmp = load_reg(s, rm);
+-                gen_bx(s, tmp);
+-            } else if (op1 == 3) {
++            if (op1 == 3) {
+                 /* clz */
+                 ARCH(5);
+                 rd = (insn >> 12) & 0xf;
+@@ -8734,30 +8761,9 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                 goto illegal_op;
+             }
              break;
-         case 0x4:
--        {
--            /* crc32/crc32c */
--            uint32_t c = extract32(insn, 8, 4);
--
--            /* Check this CPU supports ARMv8 CRC instructions.
--             * op1 == 3 is UNPREDICTABLE but handle as UNDEFINED.
--             * Bits 8, 10 and 11 should be zero.
--             */
--            if (!dc_isar_feature(aa32_crc32, s) || op1 == 0x3 || (c & 0xd) != 0) {
+-        case 0x2:
+-            if (op1 == 1) {
+-                ARCH(5J); /* bxj */
+-                /* Trivial implementation equivalent to bx.  */
+-                tmp = load_reg(s, rm);
+-                gen_bx(s, tmp);
+-            } else {
 -                goto illegal_op;
 -            }
--
--            rn = extract32(insn, 16, 4);
--            rd = extract32(insn, 12, 4);
--
--            tmp = load_reg(s, rn);
--            tmp2 = load_reg(s, rm);
--            if (op1 == 0) {
--                tcg_gen_andi_i32(tmp2, tmp2, 0xff);
--            } else if (op1 == 1) {
--                tcg_gen_andi_i32(tmp2, tmp2, 0xffff);
--            }
--            tmp3 = tcg_const_i32(1 << op1);
--            if (c & 0x2) {
--                gen_helper_crc32c(tmp, tmp, tmp2, tmp3);
--            } else {
--                gen_helper_crc32(tmp, tmp, tmp2, tmp3);
--            }
--            tcg_temp_free_i32(tmp2);
--            tcg_temp_free_i32(tmp3);
--            store_reg(s, rd, tmp);
 -            break;
--        }
-+            /* crc32 */
-+            /* All done in decodetree.  Illegal ops reach here.  */
-+            goto illegal_op;
-         case 0x5:
-             /* Saturating addition and subtraction.  */
-             /* All done in decodetree.  Reach here for illegal ops.  */
-@@ -10181,16 +10202,13 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                         goto illegal_op;
-                     }
-                     break;
--                case 0x20: /* crc32/crc32c */
-+                case 0x20: /* crc32/crc32c, in decodetree */
-                 case 0x21:
-                 case 0x22:
-                 case 0x28:
-                 case 0x29:
-                 case 0x2a:
--                    if (!dc_isar_feature(aa32_crc32, s)) {
--                        goto illegal_op;
--                    }
--                    break;
-+                    goto illegal_op;
-                 default:
-                     goto illegal_op;
-                 }
-@@ -10219,33 +10237,6 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                 case 0x18: /* clz */
-                     tcg_gen_clzi_i32(tmp, tmp, 32);
-                     break;
--                case 0x20:
--                case 0x21:
--                case 0x22:
--                case 0x28:
--                case 0x29:
--                case 0x2a:
--                {
--                    /* crc32/crc32c */
--                    uint32_t sz = op & 0x3;
--                    uint32_t c = op & 0x8;
+-        case 0x3:
+-            if (op1 != 1)
+-              goto illegal_op;
 -
--                    tmp2 = load_reg(s, rm);
--                    if (sz == 0) {
--                        tcg_gen_andi_i32(tmp2, tmp2, 0xff);
--                    } else if (sz == 1) {
--                        tcg_gen_andi_i32(tmp2, tmp2, 0xffff);
--                    }
--                    tmp3 = tcg_const_i32(1 << sz);
--                    if (c) {
--                        gen_helper_crc32c(tmp, tmp, tmp2, tmp3);
--                    } else {
--                        gen_helper_crc32(tmp, tmp, tmp2, tmp3);
--                    }
--                    tcg_temp_free_i32(tmp2);
--                    tcg_temp_free_i32(tmp3);
--                    break;
--                }
-                 default:
-                     g_assert_not_reached();
-                 }
+-            ARCH(5);
+-            /* branch link/exchange thumb (blx) */
+-            tmp = load_reg(s, rm);
+-            tmp2 = tcg_temp_new_i32();
+-            tcg_gen_movi_i32(tmp2, s->base.pc_next);
+-            store_reg(s, 14, tmp2);
+-            gen_bx(s, tmp);
+-            break;
+-        case 0x4:
+-            /* crc32 */
++        case 0x2: /* bxj */
++        case 0x3: /* blx */
++        case 0x4: /* crc32 */
+             /* All done in decodetree.  Illegal ops reach here.  */
+             goto illegal_op;
+         case 0x5:
+@@ -10578,16 +10584,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                             goto illegal_op;
+                         }
+                         break;
+-                    case 4: /* bxj */
+-                        /* Trivial implementation equivalent to bx.
+-                         * This instruction doesn't exist at all for M-profile.
+-                         */
+-                        if (arm_dc_feature(s, ARM_FEATURE_M)) {
+-                            goto illegal_op;
+-                        }
+-                        tmp = load_reg(s, rn);
+-                        gen_bx(s, tmp);
+-                        break;
++                    case 4: /* bxj, in decodetree */
++                        goto illegal_op;
+                     case 5: /* Exception return.  */
+                         if (IS_USER(s)) {
+                             goto illegal_op;
 diff --git a/target/arm/a32.decode b/target/arm/a32.decode
-index 6ee12c1140..a8ef435b15 100644
+index a8ef435b15..6cb9c16e2f 100644
 --- a/target/arm/a32.decode
 +++ b/target/arm/a32.decode
-@@ -182,6 +182,15 @@ SMULTT           .... 0001 0110 .... 0000 .... 1110 ....      @rd0mn
- }
- MSR_imm          .... 0011 0110 .... 1111 .... .... ....      @msr_i r=1
- 
-+# Cyclic Redundancy Check
-+
-+CRC32B           .... 0001 0000 .... .... 0000 0100 ....      @rndm
-+CRC32H           .... 0001 0010 .... .... 0000 0100 ....      @rndm
-+CRC32W           .... 0001 0100 .... .... 0000 0100 ....      @rndm
-+CRC32CB          .... 0001 0000 .... .... 0010 0100 ....      @rndm
-+CRC32CH          .... 0001 0010 .... .... 0010 0100 ....      @rndm
-+CRC32CW          .... 0001 0100 .... .... 0010 0100 ....      @rndm
-+
- # Miscellaneous instructions
+@@ -29,6 +29,7 @@
+ &s_rrrr          s rd rn rm ra
+ &rrrr            rd rn rm ra
+ &rrr             rd rn rm
++&r               rm
+ &msr_reg         rn r mask
+ &mrs_reg         rd r
+ &msr_bank        rn r sysm
+@@ -195,8 +196,14 @@ CRC32CW          .... 0001 0100 .... .... 0010 0100 ....      @rndm
  
  %sysm            8:1 16:4
+ 
++@rm              ---- .... .... .... .... .... .... rm:4      &r
++
+ MRS_bank         ---- 0001 0 r:1 00 .... rd:4 001. 0000 0000  &mrs_bank %sysm
+ MSR_bank         ---- 0001 0 r:1 10 .... 1111 001. 0000 rn:4  &msr_bank %sysm
+ 
+ MRS_reg          ---- 0001 0 r:1 00 1111   rd:4 0000 0000 0000  &mrs_reg
+ MSR_reg          ---- 0001 0 r:1 10 mask:4 1111 0000 0000 rn:4  &msr_reg
++
++BX               .... 0001 0010 1111 1111 1111 0001 ....      @rm
++BXJ              .... 0001 0010 1111 1111 1111 0010 ....      @rm
++BLX_r            .... 0001 0010 1111 1111 1111 0011 ....      @rm
 diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 98b682e7ec..261db100ff 100644
+index 261db100ff..337706ebbe 100644
 --- a/target/arm/t32.decode
 +++ b/target/arm/t32.decode
-@@ -172,6 +172,13 @@ QSUB             1111 1010 1000 .... 1111 .... 1010 ....      @rndm
- QDADD            1111 1010 1000 .... 1111 .... 1001 ....      @rndm
- QDSUB            1111 1010 1000 .... 1111 .... 1011 ....      @rndm
- 
-+CRC32B           1111 1010 1100 .... 1111 .... 1000 ....      @rndm
-+CRC32H           1111 1010 1100 .... 1111 .... 1001 ....      @rndm
-+CRC32W           1111 1010 1100 .... 1111 .... 1010 ....      @rndm
-+CRC32CB          1111 1010 1101 .... 1111 .... 1000 ....      @rndm
-+CRC32CH          1111 1010 1101 .... 1111 .... 1001 ....      @rndm
-+CRC32CW          1111 1010 1101 .... 1111 .... 1010 ....      @rndm
-+
- # Branches and miscellaneous control
- 
- %msr_sysm        4:1 8:4
+@@ -26,6 +26,7 @@
+ &s_rrrr          !extern s rd rn rm ra
+ &rrrr            !extern rd rn rm ra
+ &rrr             !extern rd rn rm
++&r               !extern rm
+ &msr_reg         !extern rn r mask
+ &mrs_reg         !extern rd r
+ &msr_bank        !extern rn r sysm
+@@ -211,4 +212,5 @@ CRC32CW          1111 1010 1101 .... 1111 .... 1010 ....      @rndm
+     MSR_reg      1111 0011 100 r:1 rn:4 1000 mask:4 0000 0000  &msr_reg
+     MSR_v7m      1111 0011 100 0   rn:4 1000 mask:2 00 sysm:8
+   }
++  BXJ            1111 0011 1100 rm:4 1000 1111 0000 0000      &r
+ }
 -- 
 2.17.1
 
