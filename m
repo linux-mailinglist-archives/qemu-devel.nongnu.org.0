@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154AF94CFF
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 20:33:10 +0200 (CEST)
-Received: from localhost ([::1]:56290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7AE94D44
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 20:54:49 +0200 (CEST)
+Received: from localhost ([::1]:56340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzmSr-0004eg-5a
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 14:33:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57398)
- by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1hzmPZ-0002yF-CU
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:29:46 -0400
+	id 1hzmno-0000ao-BC
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 14:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60401)
+ by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
+ <3P_BaXQMKCnwxh1lttlqj.htrvjrz-ij0jqstslsz.twl@flex--scw.bounces.google.com>)
+ id 1hzmmw-0000Ak-To
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:53:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hzmPY-0005n6-9J
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:29:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40182)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzmPY-0005mX-1w
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:29:44 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 28A267BDB6
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 18:29:43 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id b1so5659329wru.4
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 11:29:43 -0700 (PDT)
+ (envelope-from
+ <3P_BaXQMKCnwxh1lttlqj.htrvjrz-ij0jqstslsz.twl@flex--scw.bounces.google.com>)
+ id 1hzmmv-0000ql-W8
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:53:54 -0400
+Received: from mail-qk1-x74a.google.com ([2607:f8b0:4864:20::74a]:36421)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from
+ <3P_BaXQMKCnwxh1lttlqj.htrvjrz-ij0jqstslsz.twl@flex--scw.bounces.google.com>)
+ id 1hzmmv-0000oO-QX
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:53:53 -0400
+Received: by mail-qk1-x74a.google.com with SMTP id q62so4446231qkd.3
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 11:53:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=Nrgig+C5pc7X6sZGR3YI4RODigq0lm7IQt9biX4BZYs=;
+ b=a6OBngfACo7ivVNDRhvZ/3yYtycbvuNdPKsvXkzZflxIb8EbADM6eVY518OAuR0c5b
+ vm+g6vWmHElW2ieoGNPN6HvUel5Sgfoj1ooOalB4apeU9TS0zz6avBjwJ2mcDlW0+ixm
+ vC1q6OF7CInzSp7MpNKTDbX0BDO3jzuOjP3M4780QftD9hCqoK9qAXLf91M2bsiBgS6B
+ vbyv0EuxS9WTdCqxQbugCMNa0DwTDdsUpXGTdW6QH3HTAEEnm7tNYUkl95K82YYX6upT
+ qAa67B8bkoQAZpinTmpuoaSSyzt5LZAkJHxudA/wCqtBWX0CNNxH/Gdd7kbp1GVxpZNY
+ cOdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2AWM5QJsOEl26RbrGu9u71/aoBSOJcokey3JtMybmtE=;
- b=H/NASB2OaASaWuXN8C6WV4k6ccvHqe8Zpjo+QlupvMpakc4iwOnpszvtejaq3vcKab
- +sizQOr4W1aUS5WgVwdqMBfNKzJvwtYC2uX7vx6sj1pzv1I6KxIAL0IiXUoUusNHdaf2
- TY4Vo/mK67O1E/e15wtshUUDoy4oomHfWqiDfDScsS34KzFMcM1s0qlnCqjISYCYoXjA
- cRR4e3zOHg//KJX6oyQX4Xxdw2fZ39xQbDGV8OxH2G8xDmcaafHNqfK2mJOxz08Kyz8w
- 1qqhgSMsGL66CQ/PhD/o+0insmLaOSxCsnMjql6qENazQSvIcbw3fn1cnPHM2UDDE+bW
- rPFw==
-X-Gm-Message-State: APjAAAVk2ZuVk3JrEYgZrOmnow77iuYa9miWMeNqad1G5SLoAaqiaWF6
- tTRRoj8fAn/zEFnzB/rKbe8XzljojcHUOVM+dwfGmrVxlfvAYc/gRRTseybDbUPqZmAw/vEIg4d
- IXrz5XnJGUstx7jA=
-X-Received: by 2002:adf:f204:: with SMTP id p4mr30446241wro.317.1566239380855; 
- Mon, 19 Aug 2019 11:29:40 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyg0OqJZAKSnLqhaxokVPXEufs5sg5knDZPQxFk14FkUk+Vv8S0ARXUwV8ldlCH7o+UEsaAaQ==
-X-Received: by 2002:adf:f204:: with SMTP id p4mr30446155wro.317.1566239380560; 
- Mon, 19 Aug 2019 11:29:40 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:399c:411e:1ccb:f240?
- ([2001:b07:6468:f312:399c:411e:1ccb:f240])
- by smtp.gmail.com with ESMTPSA id o14sm28083513wrg.64.2019.08.19.11.29.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Aug 2019 11:29:39 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, tony.nguyen@bt.com, qemu-devel@nongnu.org
-References: <43bc5e07ac614d0e8e740bf6007ff77b@tpw09926dag18e.domain1.systemhost.net>
- <1565941032362.60179@bt.com>
- <1b5f5a92-1b75-f0d9-d7bc-4605094ad8e7@redhat.com>
- <8d8b37c9-3daf-d241-df92-1a5467bca451@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <3b983f77-8503-3fcd-7c42-45d0121845e6@redhat.com>
-Date: Mon, 19 Aug 2019 20:29:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <8d8b37c9-3daf-d241-df92-1a5467bca451@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH v7 33/42] exec: Replace
- device_endian with MemOp
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=Nrgig+C5pc7X6sZGR3YI4RODigq0lm7IQt9biX4BZYs=;
+ b=oQesRb23MCC453Fkfc4puROIbZw5kSs7ShwJZ3m5Bl1K8e2v9JIi7AmI0mC15BZsHa
+ 8QcLJJV/5hbvBv5DIeZfMtUIbtsdCMhlmqOl4P2L3xHC9zOievSJ2FzhsZtOnG6RSNf+
+ hXYSlCU7iU8KE4Prr5R3YNldNBHKgIK7A4kOuEO2uF7lwUS9bvCrNhSudRnEnDolj+rN
+ gTiov5LtvXxuRX4Ml6QNzVoeiwa5dcQnEMm/pJrJ7n2dg56bI7aeAUYilo1tGL9SgM5l
+ tvqeS8PLA72nwVhbcIldYVpOunXIyv5UOJIwu0H8fzA5k3Vq56UiafSBWwh27Wtu0WRf
+ 3KAw==
+X-Gm-Message-State: APjAAAWKaqlbOiNOlMo/a5IKsEn3zD9ESENq5epUNule8PbRBur/yBTf
+ 9AMwWepGwOGUrtFksIlg2Dl1GjM=
+X-Google-Smtp-Source: APXvYqxEtaK1nzf6ysIel9xkbdUIGmHFYG2gjzY+fjJIaDUsrOGYk3ou+kV5VOuoqCvauTdNKHfd8YU=
+X-Received: by 2002:ab0:6883:: with SMTP id t3mr6266931uar.104.1566240831142; 
+ Mon, 19 Aug 2019 11:53:51 -0700 (PDT)
+Date: Mon, 19 Aug 2019 11:53:48 -0700
+Message-Id: <20190819185348.221825-1-scw@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::74a
+Subject: [Qemu-devel] [PATCH] linux-user: erroneous fd_trans_unregister call
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,58 +72,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: frederic.konrad@adacore.com, berto@igalia.com, qemu-block@nongnu.org,
- arikalo@wavecomp.com, pasic@linux.ibm.com, hpoussin@reactos.org,
- anthony.perard@citrix.com, xen-devel@lists.xenproject.org, philmd@redhat.com,
- green@moxielogic.com, jiri@resnulli.us, ehabkost@redhat.com,
- b.galvani@gmail.com, eric.auger@redhat.com, alex.williamson@redhat.com,
- stefanha@redhat.com, jsnow@redhat.com, rth@twiddle.net, kwolf@redhat.com,
- andrew@aj.id.au, claudio.fontana@suse.com, crwulff@gmail.com,
- laurent@vivier.eu, sundeep.lkml@gmail.com, michael@walle.cc,
- qemu-ppc@nongnu.org, kbastian@mail.uni-paderborn.de, imammedo@redhat.com,
- fam@euphon.net, peter.maydell@linaro.org, david@redhat.com, palmer@sifive.com,
- keith.busch@intel.com, jcmvbkbc@gmail.com, hare@suse.com,
- sstabellini@kernel.org, andrew.smirnov@gmail.com, deller@gmx.de,
- magnus.damm@gmail.com, atar4qemu@gmail.com, minyard@acm.org, sw@weilnetz.de,
- yuval.shaia@oracle.com, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- peter.chubb@nicta.com.au, clg@kaod.org, shorne@gmail.com,
- qemu-riscv@nongnu.org, i.mitsyanko@gmail.com, cohuck@redhat.com,
- amarkovic@wavecomp.com, jan.kiszka@web.de, aurelien@aurel32.net,
- pburton@wavecomp.com, sagark@eecs.berkeley.edu, jasowang@redhat.com,
- kraxel@redhat.com, edgar.iglesias@gmail.com, gxt@mprc.pku.edu.cn,
- robh@kernel.org, lersek@redhat.com, borntraeger@de.ibm.com, joel@jms.id.au,
- antonynpavlov@gmail.com, chouteau@adacore.com, Andrew.Baumann@microsoft.com,
- mreitz@redhat.com, walling@linux.ibm.com, dmitry.fleytman@gmail.com,
- mst@redhat.com, mark.cave-ayland@ilande.co.uk, jslaby@suse.cz, marex@denx.de,
- proljc@gmail.com, marcandre.lureau@redhat.com, alistair@alistair23.me,
- paul.durrant@citrix.com, david@gibson.dropbear.id.au,
- xiaoguangrong.eric@gmail.com, huth@tuxfamily.org, jcd@tribudubois.net,
- stefanb@linux.ibm.com
+From: Shu-Chun Weng via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Shu-Chun Weng <scw@google.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
+ Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/08/19 20:28, Paolo Bonzini wrote:
-> On 16/08/19 12:12, Thomas Huth wrote:
->> This patch is *huge*, more than 800kB. It keeps being stuck in the the
->> filter of the qemu-s390x list each time you send it. Please:
->>
->> 1) Try to break it up in more digestible pieces, e.g. change only one
->> subsystem at a time (this is also better reviewable by people who are
->> interested in one area)
-> 
-> This is not really possible, since the patch is basically a
-> search-and-replace.  You could perhaps use some magic
-> ("DEVICE_MEMOP_ENDIAN" or something like that) to allow a split, but it
-> would introduce more complication than anything else.
+timer_getoverrun returns the "overrun count" for the timer, which is not
+a file descriptor and thus should not call fd_trans_unregister on it.
 
-I'm stupid, at this point of the series it _would_ be possible to split
-the patch by subsystem.  Still not sure it would be actually an advantage.
+Signed-off-by: Shu-Chun Weng <scw@google.com>
+---
+ linux-user/syscall.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Paolo
-
-> Agreed on the HTML though. :)
-> 
-> Paolo
-> 
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 8367cb138d..012d79f8c1 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11846,7 +11846,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             timer_t htimer = g_posix_timers[timerid];
+             ret = get_errno(timer_getoverrun(htimer));
+         }
+-        fd_trans_unregister(ret);
+         return ret;
+     }
+ #endif
+-- 
+2.23.0.rc1.153.gdeed80330f-goog
 
 
