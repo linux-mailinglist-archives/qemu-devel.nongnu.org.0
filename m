@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27C6949B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:21:08 +0200 (CEST)
-Received: from localhost ([::1]:55222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2167949BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:23:38 +0200 (CEST)
+Received: from localhost ([::1]:55254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzkP5-0004pA-Ht
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:21:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35246)
+	id 1hzkRV-000065-99
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35235)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1hzkLh-0002hS-7t
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:17:38 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hzkLf-0006EM-S1
+ (envelope-from <mreitz@redhat.com>) id 1hzkLg-0002gg-Bf
  for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:17:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38264)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <mreitz@redhat.com>) id 1hzkLf-0006E0-Bu
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:17:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42422)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hzkLb-0006BK-5f; Mon, 19 Aug 2019 12:17:33 -0400
+ id 1hzkLd-0006CB-4R; Mon, 19 Aug 2019 12:17:33 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 819AE11A1B;
- Mon, 19 Aug 2019 16:17:29 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 347661FAA69;
+ Mon, 19 Aug 2019 16:17:32 +0000 (UTC)
 Received: from localhost (ovpn-204-64.brq.redhat.com [10.40.204.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE60E859CE;
- Mon, 19 Aug 2019 16:17:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 64822863A0;
+ Mon, 19 Aug 2019 16:17:31 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 19 Aug 2019 18:17:07 +0200
-Message-Id: <20190819161723.7746-2-mreitz@redhat.com>
+Date: Mon, 19 Aug 2019 18:17:08 +0200
+Message-Id: <20190819161723.7746-3-mreitz@redhat.com>
 In-Reply-To: <20190819161723.7746-1-mreitz@redhat.com>
 References: <20190819161723.7746-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Mon, 19 Aug 2019 16:17:29 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Mon, 19 Aug 2019 16:17:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 01/17] LUKS: support preallocation
+Subject: [Qemu-devel] [PULL 02/17] qemu-img: Fix bdrv_has_zero_init() use in
+ convert
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,160 +60,56 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+bdrv_has_zero_init() only has meaning for newly created images or image
+areas.  If qemu-img convert did not create the image itself, it cannot
+rely on bdrv_has_zero_init()'s result to carry any meaning.
 
-preallocation=3Doff and preallocation=3Dmetadata
-both allocate luks header only, and preallocation=3Dfalloc/full
-is passed to underlying file.
-
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1534951
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-id: 20190716161901.1430-1-mlevitsk@redhat.com
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20190724171239.8764-2-mreitz@redhat.com
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/block-core.json |  6 +++++-
- block/crypto.c       | 30 +++++++++++++++++++++++++++---
- 2 files changed, 32 insertions(+), 4 deletions(-)
+ qemu-img.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index e9364a4a29..a5ab38db99 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4212,13 +4212,17 @@
- #
- # @file             Node to create the image format on
- # @size             Size of the virtual disk in bytes
-+# @preallocation    Preallocation mode for the new image
-+#                   (since: 4.2)
-+#                   (default: off; allowed values: off, metadata, falloc=
-, full)
- #
- # Since: 2.12
- ##
- { 'struct': 'BlockdevCreateOptionsLUKS',
-   'base': 'QCryptoBlockCreateOptionsLUKS',
-   'data': { 'file':             'BlockdevRef',
--            'size':             'size' } }
-+            'size':             'size',
-+            '*preallocation':   'PreallocMode' } }
+diff --git a/qemu-img.c b/qemu-img.c
+index c920e3564c..7daa05e51a 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -1578,6 +1578,7 @@ typedef struct ImgConvertState {
+     bool has_zero_init;
+     bool compressed;
+     bool unallocated_blocks_are_zero;
++    bool target_is_new;
+     bool target_has_backing;
+     int64_t target_backing_sectors; /* negative if unknown */
+     bool wr_in_order;
+@@ -1975,9 +1976,11 @@ static int convert_do_copy(ImgConvertState *s)
+     int64_t sector_num =3D 0;
 =20
- ##
- # @BlockdevCreateOptionsNfs:
-diff --git a/block/crypto.c b/block/crypto.c
-index 8237424ae6..7eb698774e 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -74,6 +74,7 @@ static ssize_t block_crypto_read_func(QCryptoBlock *blo=
-ck,
- struct BlockCryptoCreateData {
-     BlockBackend *blk;
-     uint64_t size;
-+    PreallocMode prealloc;
- };
+     /* Check whether we have zero initialisation or can get it efficient=
+ly */
+-    s->has_zero_init =3D s->min_sparse && !s->target_has_backing
+-                     ? bdrv_has_zero_init(blk_bs(s->target))
+-                     : false;
++    if (s->target_is_new && s->min_sparse && !s->target_has_backing) {
++        s->has_zero_init =3D bdrv_has_zero_init(blk_bs(s->target));
++    } else {
++        s->has_zero_init =3D false;
++    }
 =20
-=20
-@@ -112,7 +113,7 @@ static ssize_t block_crypto_init_func(QCryptoBlock *b=
-lock,
-      * available to the guest, so we must take account of that
-      * which will be used by the crypto header
-      */
--    return blk_truncate(data->blk, data->size + headerlen, PREALLOC_MODE=
-_OFF,
-+    return blk_truncate(data->blk, data->size + headerlen, data->preallo=
-c,
-                         errp);
- }
-=20
-@@ -251,6 +252,7 @@ static int block_crypto_open_generic(QCryptoBlockForm=
-at format,
- static int block_crypto_co_create_generic(BlockDriverState *bs,
-                                           int64_t size,
-                                           QCryptoBlockCreateOptions *opt=
-s,
-+                                          PreallocMode prealloc,
-                                           Error **errp)
- {
-     int ret;
-@@ -266,9 +268,14 @@ static int block_crypto_co_create_generic(BlockDrive=
-rState *bs,
-         goto cleanup;
+     if (!s->has_zero_init && !s->target_has_backing &&
+         bdrv_can_write_zeroes_with_unmap(blk_bs(s->target)))
+@@ -2428,6 +2431,8 @@ static int img_convert(int argc, char **argv)
+         }
      }
 =20
-+    if (prealloc =3D=3D PREALLOC_MODE_METADATA) {
-+        prealloc =3D PREALLOC_MODE_OFF;
-+    }
++    s.target_is_new =3D !skip_create;
 +
-     data =3D (struct BlockCryptoCreateData) {
-         .blk =3D blk,
-         .size =3D size,
-+        .prealloc =3D prealloc,
-     };
-=20
-     crypto =3D qcrypto_block_create(opts, NULL,
-@@ -500,6 +507,7 @@ block_crypto_co_create_luks(BlockdevCreateOptions *cr=
-eate_options, Error **errp)
-     BlockdevCreateOptionsLUKS *luks_opts;
-     BlockDriverState *bs =3D NULL;
-     QCryptoBlockCreateOptions create_opts;
-+    PreallocMode preallocation =3D PREALLOC_MODE_OFF;
-     int ret;
-=20
-     assert(create_options->driver =3D=3D BLOCKDEV_DRIVER_LUKS);
-@@ -515,8 +523,12 @@ block_crypto_co_create_luks(BlockdevCreateOptions *c=
-reate_options, Error **errp)
-         .u.luks =3D *qapi_BlockdevCreateOptionsLUKS_base(luks_opts),
-     };
-=20
-+    if (luks_opts->has_preallocation) {
-+        preallocation =3D luks_opts->preallocation;
-+    }
-+
-     ret =3D block_crypto_co_create_generic(bs, luks_opts->size, &create_=
-opts,
--                                         errp);
-+                                         preallocation, errp);
+     flags =3D s.min_sparse ? (BDRV_O_RDWR | BDRV_O_UNMAP) : BDRV_O_RDWR;
+     ret =3D bdrv_parse_cache_mode(cache, &flags, &writethrough);
      if (ret < 0) {
-         goto fail;
-     }
-@@ -534,12 +546,24 @@ static int coroutine_fn block_crypto_co_create_opts=
-_luks(const char *filename,
-     QCryptoBlockCreateOptions *create_opts =3D NULL;
-     BlockDriverState *bs =3D NULL;
-     QDict *cryptoopts;
-+    PreallocMode prealloc;
-+    char *buf =3D NULL;
-     int64_t size;
-     int ret;
-+    Error *local_err =3D NULL;
-=20
-     /* Parse options */
-     size =3D qemu_opt_get_size_del(opts, BLOCK_OPT_SIZE, 0);
-=20
-+    buf =3D qemu_opt_get_del(opts, BLOCK_OPT_PREALLOC);
-+    prealloc =3D qapi_enum_parse(&PreallocMode_lookup, buf,
-+                               PREALLOC_MODE_OFF, &local_err);
-+    g_free(buf);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return -EINVAL;
-+    }
-+
-     cryptoopts =3D qemu_opts_to_qdict_filtered(opts, NULL,
-                                              &block_crypto_create_opts_l=
-uks,
-                                              true);
-@@ -565,7 +589,7 @@ static int coroutine_fn block_crypto_co_create_opts_l=
-uks(const char *filename,
-     }
-=20
-     /* Create format layer */
--    ret =3D block_crypto_co_create_generic(bs, size, create_opts, errp);
-+    ret =3D block_crypto_co_create_generic(bs, size, create_opts, preall=
-oc, errp);
-     if (ret < 0) {
-         goto fail;
-     }
 --=20
 2.21.0
 
