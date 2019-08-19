@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113D994F16
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:34:47 +0200 (CEST)
-Received: from localhost ([::1]:57528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C30694F1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:36:30 +0200 (CEST)
+Received: from localhost ([::1]:57546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzoMX-0003zC-PN
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:34:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45929)
+	id 1hzoOD-0006aI-4R
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45974)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1hzo7c-0001Wr-FC
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:19:21 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hzo7i-0001hH-NA
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:19:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hzo7b-0004Xh-Gc
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:19:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40810)
+ (envelope-from <mreitz@redhat.com>) id 1hzo7h-0004cX-Mw
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:19:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52306)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hzo7Z-0004RN-D5; Mon, 19 Aug 2019 16:19:17 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hzo7e-0004b6-Bm; Mon, 19 Aug 2019 16:19:22 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B2BA78D5BAB;
- Mon, 19 Aug 2019 20:19:16 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A9744300BEA9;
+ Mon, 19 Aug 2019 20:19:21 +0000 (UTC)
 Received: from localhost (ovpn-204-64.brq.redhat.com [10.40.204.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 44AA57E51;
- Mon, 19 Aug 2019 20:19:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FB2B18C6B;
+ Mon, 19 Aug 2019 20:19:18 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 19 Aug 2019 22:18:48 +0200
-Message-Id: <20190819201851.24418-6-mreitz@redhat.com>
+Date: Mon, 19 Aug 2019 22:18:49 +0200
+Message-Id: <20190819201851.24418-7-mreitz@redhat.com>
 In-Reply-To: <20190819201851.24418-1-mreitz@redhat.com>
 References: <20190819201851.24418-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Mon, 19 Aug 2019 20:19:16 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Mon, 19 Aug 2019 20:19:21 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 5/8] iotests: Let skip_if_unsupported()
- accept a method
+Subject: [Qemu-devel] [PATCH v3 6/8] iotests: Test driver whitelisting in 093
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,38 +60,61 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This lets tests use skip_if_unsupported() with a potentially variable
-list of required formats.
+null-aio may not be whitelisted.  Skip all test cases that require it.
 
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/093 | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-index 726f904f50..8f315538e9 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -893,8 +893,12 @@ def skip_if_unsupported(required_formats=3D[], read_=
-only=3DFalse):
-        Runs the test if all the required formats are whitelisted'''
-     def skip_test_decorator(func):
-         def func_wrapper(*args, **kwargs):
--            usf_list =3D list(set(required_formats) -
--                            set(supported_formats(read_only)))
-+            if callable(required_formats):
-+                fmts =3D required_formats(args[0])
-+            else:
-+                fmts =3D required_formats
+diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
+index 50c1e7f2ec..f03fa24a07 100755
+--- a/tests/qemu-iotests/093
++++ b/tests/qemu-iotests/093
+@@ -24,7 +24,7 @@ import iotests
+ nsec_per_sec =3D 1000000000
+=20
+ class ThrottleTestCase(iotests.QMPTestCase):
+-    test_img =3D "null-aio://"
++    test_driver =3D "null-aio"
+     max_drives =3D 3
+=20
+     def blockstats(self, device):
+@@ -35,10 +35,14 @@ class ThrottleTestCase(iotests.QMPTestCase):
+                 return stat['rd_bytes'], stat['rd_operations'], stat['wr=
+_bytes'], stat['wr_operations']
+         raise Exception("Device not found for blockstats: %s" % device)
+=20
++    def required_drivers(self):
++        return [self.test_driver]
 +
-+            usf_list =3D list(set(fmts) - set(supported_formats(read_onl=
-y)))
-             if usf_list:
-                 args[0].case_skip('{}: formats {} are not whitelisted'.f=
-ormat(
-                     args[0], usf_list))
++    @iotests.skip_if_unsupported(required_drivers)
+     def setUp(self):
+         self.vm =3D iotests.VM()
+         for i in range(0, self.max_drives):
+-            self.vm.add_drive(self.test_img, "file.read-zeroes=3Don")
++            self.vm.add_drive(self.test_driver + "://", "file.read-zeroe=
+s=3Don")
+         self.vm.launch()
+=20
+     def tearDown(self):
+@@ -264,7 +268,7 @@ class ThrottleTestCase(iotests.QMPTestCase):
+         self.assertEqual(self.blockstats('drive1')[0], 4096)
+=20
+ class ThrottleTestCoroutine(ThrottleTestCase):
+-    test_img =3D "null-co://"
++    test_driver =3D "null-co"
+=20
+ class ThrottleTestGroupNames(iotests.QMPTestCase):
+     max_drives =3D 3
+@@ -425,4 +429,6 @@ class ThrottleTestRemovableMedia(iotests.QMPTestCase)=
+:
+=20
+=20
+ if __name__ =3D=3D '__main__':
++    if 'null-co' not in iotests.supported_formats():
++        iotests.notrun('null-co driver support missing')
+     iotests.main(supported_fmts=3D["raw"])
 --=20
 2.21.0
 
