@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 592AE94EC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:19:57 +0200 (CEST)
-Received: from localhost ([::1]:57238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E360F94EED
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 22:26:58 +0200 (CEST)
+Received: from localhost ([::1]:57428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzo8B-0001CX-Uy
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45554)
+	id 1hzoEz-0002zD-Iz
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 16:26:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tcminyard@gmail.com>) id 1hzo5r-0007jI-KR
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:38 -0400
+ (envelope-from <tcminyard@gmail.com>) id 1hzo5n-0007fc-0H
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1hzo5k-0003Nk-Ie
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:31 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40348)
+ (envelope-from <tcminyard@gmail.com>) id 1hzo5f-0003DX-MA
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:26 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44181)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hzo5k-0003NU-Dr
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:24 -0400
-Received: by mail-ot1-x344.google.com with SMTP id c34so2881901otb.7
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:17:24 -0700 (PDT)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hzo5f-0003CB-Eo
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 16:17:19 -0400
+Received: by mail-ot1-x342.google.com with SMTP id w4so2874847ote.11
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 13:17:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=pj7Gc7TY1hWb2Vay0SQtf3pTVgcm4YVS5TFdWn8LG1s=;
- b=ueKnuAux1SnpHP45LvnmPwXZJ7sTdIpIAQCjskY9wxaLvSzy4IT8CLaACnhE2KwsUq
- ebeRg+1y76Zas4E/NzPcfhAvsbrVIOad/UtgaL+xCwo8LGDfC+9jv7NS3C6n8GEdIsWw
- mAgIt/d6gHGHjSeny7BENfMBxNCnaKj5KvWSG5IkAwY3KmwRxoOqV1tLse1H6gIlwTGZ
- lX1wvIi+VhrVmMfrAUs9nAdW/TdaTI6hu/r93fO7AW191TTKazz9sAC4R4pZbYppCuuD
- mdvsgcLIHSrRXEYOL2R/q/R7tW8VHJNq5fKuIWdqvz6s3j4jozSZwvKedK+ddQ9SO5uC
- xFuQ==
+ bh=gp7YET4wc6HTTyajO3GZqgH8xALg6OOqzmcQarhMc/A=;
+ b=DRHeBPp3R371hw50G5XMRjpi4ICbO3nk1cCrnN3E8SfD8kgvk6XSh0yGY0F7wkp7d5
+ eVg7s7FgC74PwFI5tBr3AJ7JnDfWXsMOwcaz0B/gMIDAqea4YEBp896Ft0WVLgjug5HC
+ y0mupZFWfEwpO9VTaRXUjUqp1WpW9BRT8fp0y5rGLgzSPb4GyqTzRr1DBxoGq1Th9RdG
+ gzPXL1kQY5tZjvroSwcXw2khfSPejbsH3RUOJSfgOeD9h8bwTHQ4+4GIExZnLLzFLw3w
+ MXhtBodsA7yEQg/YKRnoeVamQ0RnARJMKyMb1Dqou78DWtAysSwFyBkAEHZyrsHMSxpK
+ gAgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=pj7Gc7TY1hWb2Vay0SQtf3pTVgcm4YVS5TFdWn8LG1s=;
- b=Uo5ezftJOUz1kxCG9YC0uXLa00fmEdTQGTS6v8DqQ0kBUUUA5R8IK+AG/QysucsQO6
- 982vPmzXwnk8ZJ4LS2RGshWyfdxG9QPrViNEklpBG2P0os/Q63M29FCda/Dt20ry//z6
- M7YKqhrv325WcKT+HwolkUyN5uW28+16oZRaGqAYwzdQwTEIs7Ln7zvJxXHrDup5a0KO
- 9tknuRKpOambk1zQCPs0RfPaaYFqNGynCtwjfZDMWIaIpzuYSgDJXeXrSCBdNDnMdHJU
- 9AwALrUQueL/O+BkvLNDGnPQnbOOGdiufBJ6q2VOYwJYqnCLtSf0Xm2sS6E+JBNW7O6X
- cPUA==
-X-Gm-Message-State: APjAAAX75EOKPvm3tEgSPVgYdPfcFeEZ44UeFmbGHUfY7eXdo7t8RPuq
- YE4kQvZw9pFGsDj9IPOu44DEOr0=
-X-Google-Smtp-Source: APXvYqyhVRn2PuTAKa8g4vHQ+dglE5w3nQ4JX/bh1tKNir4FQ1EFcH+ACaLCd524/K0YGR8WJ63LwQ==
-X-Received: by 2002:a05:6830:1411:: with SMTP id
- v17mr19202604otp.108.1566245843629; 
- Mon, 19 Aug 2019 13:17:23 -0700 (PDT)
+ bh=gp7YET4wc6HTTyajO3GZqgH8xALg6OOqzmcQarhMc/A=;
+ b=iqsCdsZUnivYddxRdftbT33/4Cy3LV4s848WpNrPLcKSboKecLDHcRTG0eEbPkviwo
+ lAyWNGii474H96IBAwc17KREbR4LLcts0S1P4afxH71yHznO4PpMd8kKW44j4x0j94+8
+ iigV9y505tutllCT9r8j98kG49Q7f8B2sn9jhVHrt8OVjPTZwwWU1dXvzHbvw0G1ndUH
+ q/7s5cNioR9FIioNNJTSS9ymE2m+sLLjOXqqvWMa0ycqFgHWhtxaVTWHM60j1pO9xnIx
+ RJwo4G2FQsaiVxZyPnJbZtpkhJ5IS7T4hsNDYXUUwY53/ZC+BGFUe83dIGE8XMt140gf
+ S+HA==
+X-Gm-Message-State: APjAAAXt3IUZa6HK23bhIyFrLSlKgA2f3NERz2iunYDXNP35fetFC65l
+ qpD0ar/mlAXxS96KIMd1Zmhlt2A=
+X-Google-Smtp-Source: APXvYqy0wi7Y9ro0z+orYg0RdyTY4OC+msgTH8tfkVXlOKTaTLxQNWM0iif6qK37risdii0R/uUfvQ==
+X-Received: by 2002:a9d:340b:: with SMTP id v11mr20510938otb.317.1566245837798; 
+ Mon, 19 Aug 2019 13:17:17 -0700 (PDT)
 Received: from serve.minyard.net ([47.184.134.43])
- by smtp.gmail.com with ESMTPSA id v5sm5805897otk.64.2019.08.19.13.17.19
+ by smtp.gmail.com with ESMTPSA id m18sm1411229oic.12.2019.08.19.13.17.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 13:17:22 -0700 (PDT)
+ Mon, 19 Aug 2019 13:17:17 -0700 (PDT)
 Received: from t430.minyard.net (t430m.minyard.net [192.168.27.3])
- by serve.minyard.net (Postfix) with ESMTPA id 770CE1800D4;
- Mon, 19 Aug 2019 20:17:19 +0000 (UTC)
+ by serve.minyard.net (Postfix) with ESMTPA id A41511805A8;
+ Mon, 19 Aug 2019 20:17:16 +0000 (UTC)
 Received: by t430.minyard.net (Postfix, from userid 1000)
- id 51EE1301220; Mon, 19 Aug 2019 15:17:18 -0500 (CDT)
+ id 63B9B301176; Mon, 19 Aug 2019 15:17:15 -0500 (CDT)
 From: minyard@acm.org
 To: QEMU Developers <qemu-devel@nongnu.org>
-Date: Mon, 19 Aug 2019 15:17:04 -0500
-Message-Id: <20190819201705.31633-15-minyard@acm.org>
+Date: Mon, 19 Aug 2019 15:16:53 -0500
+Message-Id: <20190819201705.31633-4-minyard@acm.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819201705.31633-1-minyard@acm.org>
 References: <20190819201705.31633-1-minyard@acm.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: [Qemu-devel] [PATCH 14/15] ipmi: Fix SSIF ACPI handling to use the
- right CRS
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: [Qemu-devel] [PATCH 03/15] ipmi: Generate an interrupt on watchdog
+ pretimeout expiry
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,119 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, Igor Mammedov <imammedo@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Corey Minyard <cminyard@mvista.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Corey Minyard <cminyard@mvista.com>
 
-Pass in the CRS so that it can be set to the SMBus for IPMI later.
+Add the watchdog pretimeout to the bits that cause an interrupt on attn.
+Otherwise the user won't know.
 
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Corey Minyard <cminyard@mvista.com>
 ---
- hw/acpi/ipmi-stub.c    |  2 +-
- hw/acpi/ipmi.c         | 13 +++++++------
- hw/i386/acpi-build.c   |  2 +-
- include/hw/acpi/ipmi.h |  2 +-
- 4 files changed, 10 insertions(+), 9 deletions(-)
+ hw/ipmi/ipmi_bmc_sim.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/acpi/ipmi-stub.c b/hw/acpi/ipmi-stub.c
-index f525f71c2d..8634fb325c 100644
---- a/hw/acpi/ipmi-stub.c
-+++ b/hw/acpi/ipmi-stub.c
-@@ -10,6 +10,6 @@
- #include "qemu/osdep.h"
- #include "hw/acpi/ipmi.h"
+diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
+index afb99e33d7..6e6cd1b47d 100644
+--- a/hw/ipmi/ipmi_bmc_sim.c
++++ b/hw/ipmi/ipmi_bmc_sim.c
+@@ -477,7 +477,9 @@ static int attn_set(IPMIBmcSim *ibs)
  
--void build_acpi_ipmi_devices(Aml *table, BusState *bus)
-+void build_acpi_ipmi_devices(Aml *table, BusState *bus, const char *resource)
+ static int attn_irq_enabled(IPMIBmcSim *ibs)
  {
+-    return (IPMI_BMC_MSG_INTS_ON(ibs) && IPMI_BMC_MSG_FLAG_RCV_MSG_QUEUE_SET(ibs))
++    return (IPMI_BMC_MSG_INTS_ON(ibs) &&
++            (IPMI_BMC_MSG_FLAG_RCV_MSG_QUEUE_SET(ibs) ||
++             IPMI_BMC_MSG_FLAG_WATCHDOG_TIMEOUT_MASK_SET(ibs)))
+         || (IPMI_BMC_EVBUF_FULL_INT_ENABLED(ibs) &&
+             IPMI_BMC_MSG_FLAG_EVT_BUF_FULL_SET(ibs));
  }
-diff --git a/hw/acpi/ipmi.c b/hw/acpi/ipmi.c
-index 651e2e94ea..96e48eba15 100644
---- a/hw/acpi/ipmi.c
-+++ b/hw/acpi/ipmi.c
-@@ -13,7 +13,7 @@
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/ipmi.h"
- 
--static Aml *aml_ipmi_crs(IPMIFwInfo *info)
-+static Aml *aml_ipmi_crs(IPMIFwInfo *info, const char *resource)
- {
-     Aml *crs = aml_resource_template();
- 
-@@ -48,7 +48,8 @@ static Aml *aml_ipmi_crs(IPMIFwInfo *info)
-                             info->register_spacing, info->register_length));
-         break;
-     case IPMI_MEMSPACE_SMBUS:
--        aml_append(crs, aml_return(aml_int(info->base_address)));
-+        aml_append(crs, aml_i2c_serial_bus_device(info->base_address,
-+                                                  resource));
-         break;
-     default:
-         abort();
-@@ -61,7 +62,7 @@ static Aml *aml_ipmi_crs(IPMIFwInfo *info)
-     return crs;
- }
- 
--static Aml *aml_ipmi_device(IPMIFwInfo *info)
-+static Aml *aml_ipmi_device(IPMIFwInfo *info, const char *resource)
- {
-     Aml *dev;
-     uint16_t version = ((info->ipmi_spec_major_revision << 8)
-@@ -74,14 +75,14 @@ static Aml *aml_ipmi_device(IPMIFwInfo *info)
-     aml_append(dev, aml_name_decl("_STR", aml_string("ipmi_%s",
-                                                      info->interface_name)));
-     aml_append(dev, aml_name_decl("_UID", aml_int(info->uuid)));
--    aml_append(dev, aml_name_decl("_CRS", aml_ipmi_crs(info)));
-+    aml_append(dev, aml_name_decl("_CRS", aml_ipmi_crs(info, resource)));
-     aml_append(dev, aml_name_decl("_IFT", aml_int(info->interface_type)));
-     aml_append(dev, aml_name_decl("_SRV", aml_int(version)));
- 
-     return dev;
- }
- 
--void build_acpi_ipmi_devices(Aml *scope, BusState *bus)
-+void build_acpi_ipmi_devices(Aml *scope, BusState *bus, const char *resource)
- {
- 
-     BusChild *kid;
-@@ -101,6 +102,6 @@ void build_acpi_ipmi_devices(Aml *scope, BusState *bus)
-         iic = IPMI_INTERFACE_GET_CLASS(obj);
-         memset(&info, 0, sizeof(info));
-         iic->get_fwinfo(ii, &info);
--        aml_append(scope, aml_ipmi_device(&info));
-+        aml_append(scope, aml_ipmi_device(&info, resource));
-     }
- }
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 5b0ec1b89e..0c94e21a1a 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1290,7 +1290,7 @@ static void build_isa_devices_aml(Aml *table)
-     } else if (!obj) {
-         error_report("No ISA bus, unable to define IPMI ACPI data");
-     } else {
--        build_acpi_ipmi_devices(scope, BUS(obj));
-+        build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
-     }
- 
-     aml_append(table, scope);
-diff --git a/include/hw/acpi/ipmi.h b/include/hw/acpi/ipmi.h
-index c38483565c..c14ad682ac 100644
---- a/include/hw/acpi/ipmi.h
-+++ b/include/hw/acpi/ipmi.h
-@@ -16,6 +16,6 @@
-  * bus matches the given bus.  The resource is the ACPI resource that
-  * contains the IPMI device, this is required for the I2C CRS.
-  */
--void build_acpi_ipmi_devices(Aml *table, BusState *bus);
-+void build_acpi_ipmi_devices(Aml *table, BusState *bus, const char *resource);
- 
- #endif /* HW_ACPI_IPMI_H */
 -- 
 2.17.1
 
