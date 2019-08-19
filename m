@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCE092403
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 14:58:58 +0200 (CEST)
-Received: from localhost ([::1]:49740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6739241A
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:02:32 +0200 (CEST)
+Received: from localhost ([::1]:49840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzhFR-00036d-39
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 08:58:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42967)
+	id 1hzhIs-00071R-TY
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:02:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37857)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1hzh1p-0005fn-Un
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:44:54 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hzgbG-000389-K2
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:17:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1hzh1o-0003pC-Jc
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:44:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41488)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hzh1o-0003oS-93
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:44:52 -0400
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8D3B8C057F31
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 12:44:51 +0000 (UTC)
-Received: by mail-pg1-f200.google.com with SMTP id z35so2506075pgk.10
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 05:44:51 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1hzgbE-0007ER-9S
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:17:26 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41874)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hzgbE-00078B-1a
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:17:24 -0400
+Received: by mail-wr1-x444.google.com with SMTP id j16so8477483wrr.8
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 05:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=k3UlDFsnQKhnBccuJpDIK9/bUicL4SPZmPjZKiFlMRI=;
+ b=GsmkgQV9cB9i6VvsW3N6TAByakFsP5lq6ktrMwG8mEv8ZnSk8oIHGLhRF7txUwDuUL
+ pN79IVGXIiPfaLrJi9+3ZjM57X6ib3uMCBjd5MjbUmlmlQGp4i79Ki8SVAavCNV2u5tl
+ 4FJYDUOGVnvH3QeRD6W7J8dP2wuitbLXEvFBN2kJJaEvqOSDzHkF3EL/1g2UK5HMwsCC
+ yqn+PPUKSIyFR9Za79SIN/AmZzywTlJeh3dnTRMdE9lWQ7AqIkKuBVDrDLmc/+2o05XQ
+ hBTjPH+jJW0x+rLGv5RFT8hqUqfjt4d5hfQ75aRs0JVA15gk/S18ACz0C8fWl37K3ESM
+ vQxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=VX59h7cYMfm7tHfMNYleY8XgaDwvKlk0BYd+QJymBwk=;
- b=d8+ZFTqCv7UJmlNrFeIoF/7HoOB84MvDDxGWSvwd2gLhCq/QABA32IFUeEkOq0ZG4J
- H2E+QG1TWFPXAMb5ypmrTHfqCe0hH6e9lGpSymxSNyK5wv0Tw5RYy6VPEfYUsDYHEUgM
- JQOJyCmh4bWs/limulBVrt51FId26cGSIAsBD1Y4RH4RrojgXp0i9DC5vzbSPJcYwbll
- GjgoyfM2bkfJkj/3xftq9yzocc+H+1Na4zb79itKLisjo2HX0zB9AlZRM099+Kplv/QT
- 5IpTTPW7Wwp91Xj86jW6lOPGHoxsiQfrx75CmrnM5FAqSg0H5H7F53pldyYAMULHhyCO
- MUDQ==
-X-Gm-Message-State: APjAAAWL6fUp5Z61ZbQNQWC6uo1xp4P0rtBD1CXaGse7i/bcvkp0Uazz
- vIVyApPU5eeONNFop+Wfongek7XLxpb/BGkCGCkdWpM3BRCTRxJ1NB/bYM+H3UiQ7sZAAHZh48/
- +9XLM/jYzTDxJc0k=
-X-Received: by 2002:a17:902:2ae9:: with SMTP id
- j96mr12769964plb.10.1566218691147; 
- Mon, 19 Aug 2019 05:44:51 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyrYbay3xVMt1ctWFr5kZshNjIYr4lxtnwgUyEA+AlZ8CLWvD/VQ2xjLQXAC0kG9T/xv36YGg==
-X-Received: by 2002:a17:902:2ae9:: with SMTP id
- j96mr12769951plb.10.1566218690954; 
- Mon, 19 Aug 2019 05:44:50 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id v18sm16431169pgl.87.2019.08.19.05.44.45
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=k3UlDFsnQKhnBccuJpDIK9/bUicL4SPZmPjZKiFlMRI=;
+ b=KAx6QHWU2WN6EQInLUn1Z986RZl1gQVFkYPn/d8cmk7aVd9yam0I/rsEXwFam8H+Bv
+ SqOr+6WYXrTZdFa2VC+W0+mwavaFkuCpkoIW+fXQrnJ3m0bt+Z/sV5Ik1HuM7XIgeAEV
+ +uH9GciJMiEZX7eBC2/ru+gV+CaUUPbx3q6atKr2Tc9gA/7CcWEB/WzTiEl1aA4YMzEq
+ m/Zfvgn7Oc84d0AHcpp4nZLo9zQGiP7n4C7zcFTXKnzOlxF82YMzvEmYR+4e/kOv2SOx
+ gmm/Z8L8VH55fwwO34nkTkLmWEOQ1clumjELs7LBTVnZW/wlvBKm10l1ZIBEJPFZ56N4
+ 1K6Q==
+X-Gm-Message-State: APjAAAWnNMBTmfMb463/JUDovDQ42q0VWqarsOuouFh2peJIEasHE45F
+ uUAYPaFigLyfp74nufw8hN+si4MBo2E=
+X-Google-Smtp-Source: APXvYqxzhAHYyWvQbDl2h1shN87Du3GS9odmK2Zf0OGGCy4VPQUxZuLNH070doak2fIM3lQ4YnBsHQ==
+X-Received: by 2002:a5d:6392:: with SMTP id p18mr28364860wru.330.1566217033041; 
+ Mon, 19 Aug 2019 05:17:13 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id a19sm48058356wra.2.2019.08.19.05.17.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 05:44:50 -0700 (PDT)
-Date: Mon, 19 Aug 2019 20:44:38 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Message-ID: <20190819124438.GE13560@xz-x1>
-References: <20190730172137.23114-1-eric.auger@redhat.com>
- <20190730172137.23114-14-eric.auger@redhat.com>
+ Mon, 19 Aug 2019 05:17:11 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2DB101FF90;
+ Mon, 19 Aug 2019 13:17:10 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Date: Mon, 19 Aug 2019 13:17:00 +0100
+Message-Id: <20190819121709.31597-4-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190819121709.31597-1-alex.bennee@linaro.org>
+References: <20190819121709.31597-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190730172137.23114-14-eric.auger@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.2 v10 13/15] virtio_iommu: Handle
- reserved regions in translation process
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PULL 03/12] fpu: use min/max values from stdint.h for
+ integral overflow
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,27 +82,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, kevin.tian@intel.com, mst@redhat.com,
- tn@semihalf.com, qemu-devel@nongnu.org, alex.williamson@redhat.com,
- qemu-arm@nongnu.org, jean-philippe@linaro.org, bharat.bhushan@nxp.com,
- eric.auger.pro@gmail.com
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 30, 2019 at 07:21:35PM +0200, Eric Auger wrote:
-> When translating an address we need to check if it belongs to
-> a reserved virtual address range. If it does, there are 2 cases:
-> 
-> - it belongs to a RESERVED region: the guest should neither use
->   this address in a MAP not instruct the end-point to DMA on
->   them. We report an error
-> 
-> - It belongs to an MSI region: we bypass the translation.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Remove some more use of LIT64 while making the meaning more clear. We
+also avoid the need of casts as the results by definition fit into the
+return type.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 53855892b9f..d2cdf4a4a3b 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -3384,7 +3384,7 @@ static int32_t roundAndPackInt32(flag zSign, uint64_t absZ, float_status *status
+     if ( zSign ) z = - z;
+     if ( ( absZ>>32 ) || ( z && ( ( z < 0 ) ^ zSign ) ) ) {
+         float_raise(float_flag_invalid, status);
+-        return zSign ? (int32_t) 0x80000000 : 0x7FFFFFFF;
++        return zSign ? INT32_MIN : INT32_MAX;
+     }
+     if (roundBits) {
+         status->float_exception_flags |= float_flag_inexact;
+@@ -3444,9 +3444,7 @@ static int64_t roundAndPackInt64(flag zSign, uint64_t absZ0, uint64_t absZ1,
+     if ( z && ( ( z < 0 ) ^ zSign ) ) {
+  overflow:
+         float_raise(float_flag_invalid, status);
+-        return
+-              zSign ? (int64_t) LIT64( 0x8000000000000000 )
+-            : LIT64( 0x7FFFFFFFFFFFFFFF );
++        return zSign ? INT64_MIN : INT64_MAX;
+     }
+     if (absZ1) {
+         status->float_exception_flags |= float_flag_inexact;
+@@ -3497,7 +3495,7 @@ static int64_t roundAndPackUint64(flag zSign, uint64_t absZ0,
+         ++absZ0;
+         if (absZ0 == 0) {
+             float_raise(float_flag_invalid, status);
+-            return LIT64(0xFFFFFFFFFFFFFFFF);
++            return UINT64_MAX;
+         }
+         absZ0 &= ~(((uint64_t)(absZ1<<1) == 0) & roundNearestEven);
+     }
+@@ -5518,9 +5516,9 @@ int64_t floatx80_to_int64(floatx80 a, float_status *status)
+         if ( shiftCount ) {
+             float_raise(float_flag_invalid, status);
+             if (!aSign || floatx80_is_any_nan(a)) {
+-                return LIT64( 0x7FFFFFFFFFFFFFFF );
++                return INT64_MAX;
+             }
+-            return (int64_t) LIT64( 0x8000000000000000 );
++            return INT64_MIN;
+         }
+         aSigExtra = 0;
+     }
+@@ -5561,10 +5559,10 @@ int64_t floatx80_to_int64_round_to_zero(floatx80 a, float_status *status)
+         if ( ( a.high != 0xC03E ) || aSig ) {
+             float_raise(float_flag_invalid, status);
+             if ( ! aSign || ( ( aExp == 0x7FFF ) && aSig ) ) {
+-                return LIT64( 0x7FFFFFFFFFFFFFFF );
++                return INT64_MAX;
+             }
+         }
+-        return (int64_t) LIT64( 0x8000000000000000 );
++        return INT64_MIN;
+     }
+     else if ( aExp < 0x3FFF ) {
+         if (aExp | aSig) {
+@@ -6623,7 +6621,7 @@ int32_t float128_to_int32_round_to_zero(float128 a, float_status *status)
+     if ( ( z < 0 ) ^ aSign ) {
+  invalid:
+         float_raise(float_flag_invalid, status);
+-        return aSign ? (int32_t) 0x80000000 : 0x7FFFFFFF;
++        return aSign ? INT32_MIN : INT32_MAX;
+     }
+     if ( ( aSig0<<shiftCount ) != savedASig ) {
+         status->float_exception_flags |= float_flag_inexact;
+@@ -6662,9 +6660,9 @@ int64_t float128_to_int64(float128 a, float_status *status)
+                       && ( aSig1 || ( aSig0 != LIT64( 0x0001000000000000 ) ) )
+                     )
+                ) {
+-                return LIT64( 0x7FFFFFFFFFFFFFFF );
++                return INT64_MAX;
+             }
+-            return (int64_t) LIT64( 0x8000000000000000 );
++            return INT64_MIN;
+         }
+         shortShift128Left( aSig0, aSig1, - shiftCount, &aSig0, &aSig1 );
+     }
+@@ -6710,10 +6708,10 @@ int64_t float128_to_int64_round_to_zero(float128 a, float_status *status)
+             else {
+                 float_raise(float_flag_invalid, status);
+                 if ( ! aSign || ( ( aExp == 0x7FFF ) && ( aSig0 | aSig1 ) ) ) {
+-                    return LIT64( 0x7FFFFFFFFFFFFFFF );
++                    return INT64_MAX;
+                 }
+             }
+-            return (int64_t) LIT64( 0x8000000000000000 );
++            return INT64_MIN;
+         }
+         z = ( aSig0<<shiftCount ) | ( aSig1>>( ( - shiftCount ) & 63 ) );
+         if ( (uint64_t) ( aSig1<<shiftCount ) ) {
+@@ -6764,19 +6762,19 @@ uint64_t float128_to_uint64(float128 a, float_status *status)
+     if (aSign && (aExp > 0x3FFE)) {
+         float_raise(float_flag_invalid, status);
+         if (float128_is_any_nan(a)) {
+-            return LIT64(0xFFFFFFFFFFFFFFFF);
++            return UINT64_MAX;
+         } else {
+             return 0;
+         }
+     }
+     if (aExp) {
+-        aSig0 |= LIT64(0x0001000000000000);
++        aSig0 |= UINT64_C(0x0001000000000000);
+     }
+     shiftCount = 0x402F - aExp;
+     if (shiftCount <= 0) {
+         if (0x403E < aExp) {
+             float_raise(float_flag_invalid, status);
+-            return LIT64(0xFFFFFFFFFFFFFFFF);
++            return UINT64_MAX;
+         }
+         shortShift128Left(aSig0, aSig1, -shiftCount, &aSig0, &aSig1);
+     } else {
 -- 
-Peter Xu
+2.20.1
+
 
