@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6799243F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:06:36 +0200 (CEST)
-Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B2B92419
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:02:21 +0200 (CEST)
+Received: from localhost ([::1]:49838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzhMp-0002Hu-RD
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42937)
+	id 1hzhIi-0006z5-Av
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:02:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43922)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clement.deschamps@greensocs.com>) id 1hzh1n-0005bn-AS
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:44:52 -0400
+ (envelope-from <philmd@redhat.com>) id 1hzh4j-0007zN-OT
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:47:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clement.deschamps@greensocs.com>) id 1hzh1l-0003nX-Vr
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:44:51 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:35570)
+ (envelope-from <philmd@redhat.com>) id 1hzh4i-0005dA-A7
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:47:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39294)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clement.deschamps@greensocs.com>)
- id 1hzh1l-0003mB-Hb
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:44:49 -0400
-Received: from [172.16.11.122] (unknown [172.16.11.122])
- by beetle.greensocs.com (Postfix) with ESMTPSA id BF7D596F50;
- Mon, 19 Aug 2019 12:44:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1566218686;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tB7ZV+oS88VEZwlHZcTvLx/rgT8keqR7JTFuF6olx7Y=;
- b=NzRgqqjoJ8iq56VR6acLcKfK5asF9n+ZVt2cwdxHUhy2W8QxK899lygfuq/9KjaVhmkjzO
- D2WcDhJuJCcVBZB32lnn5ZrIAXzXpqS2tm11ov/gRSMlVdj1/P6BnHDaQHQkO2fCJBo/0M
- g9Z8AvGYnU+OuAHcgmHHG9OmebYvs+U=
-To: Bug 1772165 <1772165@bugs.launchpad.net>
-References: <152673688616.9061.7617411809661975686.malonedeb@chaenomeles.canonical.com>
- <156620618154.26323.6701574989955080460.malone@soybean.canonical.com>
-From: Clement Deschamps <clement.deschamps@greensocs.com>
-Message-ID: <b7ce8c40-5145-0b58-304d-898900ebf285@greensocs.com>
-Date: Mon, 19 Aug 2019 14:44:39 +0200
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hzh4h-0005cX-V5
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:47:52 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E8A3E2A09D4
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 12:47:50 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id k8so4089625wrx.19
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 05:47:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=E3EWK1hCVDvHhz9MwDgrsGJYt0HwG2P0wxgxsXsAI48=;
+ b=gBOxQsN/ljVXiVgqdVR8wecicWl6xaQHPTYFoHa1jtvitcELS6jH6oAU/OqrMTMc5o
+ o8F6CXGv7qR1fkZ9I4oD5t2InmAKWHdXuYYqp9GLMuVrkCGrVwOF9ehyxGOOElnrBjzc
+ PVNHoED+92GXOqiUk6svyOPXt4VQgClZxMUVuDHxd8/fsMc10tUkDcNNUhx44Zc7Srko
+ JLaZgZ6iKzeGi4+x3+W5hD0l/7lyeZfWh0ptXyqObj3kdHzJANBeyLLPlC0XMgoELRlj
+ +1RtRM4u2ZMRd0vh8/nVkSK3yuwseZRriRYjjbwNGI9i0PKV+OJidHcGEUb4gIyTQYcV
+ xxOg==
+X-Gm-Message-State: APjAAAW20rGluRkCz/maFBLjEjtz4LbazfP/jxPUNKXpD3q6v9TmDMAk
+ 5fN7QSsJvv924Sv0LD6p/E5eW6a2n6mxVnZAHLEBW78WJcR+dDlHfY5PxEMIlUKWLXQ3wZCb9C9
+ oyuoz+eCX2RUMsRo=
+X-Received: by 2002:a1c:4c02:: with SMTP id z2mr21517309wmf.92.1566218869714; 
+ Mon, 19 Aug 2019 05:47:49 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqy8FdSlf2QruAqhP1Hyg7IV+B3y0ulfeZJTPL+NvrDPL+ahYkqyQHw3usMvgjYh2o8irXoYQg==
+X-Received: by 2002:a1c:4c02:: with SMTP id z2mr21517236wmf.92.1566218868899; 
+ Mon, 19 Aug 2019 05:47:48 -0700 (PDT)
+Received: from [192.168.1.39] (251.red-88-10-102.dynamicip.rima-tde.net.
+ [88.10.102.251])
+ by smtp.gmail.com with ESMTPSA id j20sm35269873wre.65.2019.08.19.05.47.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Aug 2019 05:47:48 -0700 (PDT)
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
+References: <20190817101931.28386-1-thuth@redhat.com>
+ <20190817101931.28386-8-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <68d2669d-9a67-f197-939b-dc038f0118ba@redhat.com>
+Date: Mon, 19 Aug 2019 14:47:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <156620618154.26323.6701574989955080460.malone@soybean.canonical.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20190817101931.28386-8-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1566218686;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tB7ZV+oS88VEZwlHZcTvLx/rgT8keqR7JTFuF6olx7Y=;
- b=BzWT0Cd6eOuJro4zzWwXaIBX+eIRqJdRWAFJiJDUDyXAuaINqX6S3iqOuaRdNhNECCvsh5
- 7N+2Wp84MaWmqSt6HPXK8U2E1B8bDNkVEAWKqBjCgHMPz/zjI+IB0CP5XWiY96AD19YwrK
- tCl+0e38L3aGw88OOHZgZePVNQGEI1U=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1566218686; a=rsa-sha256; cv=none;
- b=L7hdu0/ri/LSAcLHDrx4FU9uQS4U2HbzJzzA0W84RGYgBH3hi4RRbeGUkMOCOAV7Z/C6P4
- muVoWwi0lHGAKjPuQDX+CuyvUgbuT9G022p2ObU1m5Xx8Nr/EbdzOpGmALfrnjXatNEf5o
- /5erOnS/aDiiKanwkTc5GbB9W4vzhrU=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=clement smtp.mailfrom=clement.deschamps@greensocs.com
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
-Subject: Re: [Qemu-devel] [Bug 1772165] Re: arm raspi2/raspi3 emulation has
- no USB support
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 7/8] hw/misc: Add a config switch for
+ the "unimplemented" device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,20 +84,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-arm@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It looks like the same USB controller is part of a TI SoC:
+On 8/17/19 12:19 PM, Thomas Huth wrote:
+> The device is only used by some few boards. Let's use a proper Kconfig
+> switch so that we only compile this code if we really need it.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-http://www.ti.com/lit/ug/spruhj7a/spruhj7a.pdf
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-
-Clement
-
-On 8/19/19 11:16 AM, Peter Maydell wrote:
-> Thanks for digging those up. Unfortunately just the driver sources
-> aren't really enough information for a good device model, and the other
-> docs are just overviews without the level of detail we need.
-> 
+> ---
+>  hw/arm/Kconfig        | 11 +++++++++++
+>  hw/microblaze/Kconfig |  1 +
+>  hw/misc/Kconfig       |  3 +++
+>  hw/misc/Makefile.objs |  2 +-
+>  hw/sparc64/Kconfig    |  1 +
+>  5 files changed, 17 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 6e24c73b54..76a2a6bcbf 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -82,6 +82,7 @@ config MUSCA
+>      select PL011
+>      select PL031
+>      select SPLIT_IRQ
+> +    select UNIMP
+> =20
+>  config MUSICPAL
+>      bool
+> @@ -217,6 +218,7 @@ config STELLARIS
+>      select SSI_SD
+>      select STELLARIS_INPUT
+>      select STELLARIS_ENET # ethernet
+> +    select UNIMP
+> =20
+>  config STRONGARM
+>      bool
+> @@ -283,6 +285,7 @@ config ALLWINNER_A10
+>      select ALLWINNER_A10_PIC
+>      select ALLWINNER_EMAC
+>      select SERIAL
+> +    select UNIMP
+> =20
+>  config RASPI
+>      bool
+> @@ -320,6 +323,7 @@ config XLNX_VERSAL
+>      select PL011
+>      select CADENCE
+>      select VIRTIO_MMIO
+> +    select UNIMP
+> =20
+>  config FSL_IMX25
+>      bool
+> @@ -355,6 +359,7 @@ config ASPEED_SOC
+>      select SSI_M25P80
+>      select TMP105
+>      select TMP421
+> +    select UNIMP
+> =20
+>  config MPS2
+>      bool
+> @@ -366,6 +371,7 @@ config MPS2
+>      select PL022    # Serial port
+>      select PL080    # DMA controller
+>      select SPLIT_IRQ
+> +    select UNIMP
+> =20
+>  config FSL_IMX7
+>      bool
+> @@ -378,6 +384,7 @@ config FSL_IMX7
+>      select IMX_I2C
+>      select PCI_EXPRESS_DESIGNWARE
+>      select SDHCI
+> +    select UNIMP
+> =20
+>  config ARM_SMMUV3
+>      bool
+> @@ -389,6 +396,7 @@ config FSL_IMX6UL
+>      select IMX_FEC
+>      select IMX_I2C
+>      select SDHCI
+> +    select UNIMP
+> =20
+>  config MICROBIT
+>      bool
+> @@ -398,6 +406,7 @@ config NRF51_SOC
+>      bool
+>      select I2C
+>      select ARM_V7M
+> +    select UNIMP
+> =20
+>  config EMCRAFT_SF2
+>      bool
+> @@ -410,6 +419,7 @@ config MSF2
+>      select PTIMER
+>      select SERIAL
+>      select SSI
+> +    select UNIMP
+> =20
+>  config ZAURUS
+>      bool
+> @@ -448,6 +458,7 @@ config ARMSSE
+>      select TZ_MPC
+>      select TZ_MSC
+>      select TZ_PPC
+> +    select UNIMP
+> =20
+>  config ARMSSE_CPUID
+>      bool
+> diff --git a/hw/microblaze/Kconfig b/hw/microblaze/Kconfig
+> index c4dc120973..e2697ced9c 100644
+> --- a/hw/microblaze/Kconfig
+> +++ b/hw/microblaze/Kconfig
+> @@ -4,6 +4,7 @@ config PETALOGIX_S3ADSP1800
+>      select XILINX
+>      select XILINX_AXI
+>      select XILINX_ETHLITE
+> +    select UNIMP
+> =20
+>  config PETALOGIX_ML605
+>      bool
+> diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+> index 385e1b0cec..51754bb47c 100644
+> --- a/hw/misc/Kconfig
+> +++ b/hw/misc/Kconfig
+> @@ -117,4 +117,7 @@ config AUX
+>      bool
+>      select I2C
+> =20
+> +config UNIMP
+> +    bool
+> +
+>  source macio/Kconfig
+> diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+> index e9aab519a1..e4aad707fb 100644
+> --- a/hw/misc/Makefile.objs
+> +++ b/hw/misc/Makefile.objs
+> @@ -9,7 +9,7 @@ common-obj-$(CONFIG_PCI_TESTDEV) +=3D pci-testdev.o
+>  common-obj-$(CONFIG_EDU) +=3D edu.o
+>  common-obj-$(CONFIG_PCA9552) +=3D pca9552.o
+> =20
+> -common-obj-y +=3D unimp.o
+> +common-obj-$(CONFIG_UNIMP) +=3D unimp.o
+>  common-obj-$(CONFIG_FW_CFG_DMA) +=3D vmcoreinfo.o
+> =20
+>  # ARM devices
+> diff --git a/hw/sparc64/Kconfig b/hw/sparc64/Kconfig
+> index d4d76a89be..f9f8b0f73a 100644
+> --- a/hw/sparc64/Kconfig
+> +++ b/hw/sparc64/Kconfig
+> @@ -17,3 +17,4 @@ config NIAGARA
+>      bool
+>      select EMPTY_SLOT
+>      select SUN4V_RTC
+> +    select UNIMP
+>=20
 
