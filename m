@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1550E94A90
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:39:33 +0200 (CEST)
-Received: from localhost ([::1]:55504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774E794A99
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:40:47 +0200 (CEST)
+Received: from localhost ([::1]:55548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzkgu-00026K-64
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:39:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40490)
+	id 1hzki6-0003fQ-Kt
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:40:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40727)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1hzkfp-0000yl-SU
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:38:26 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hzkhJ-00037e-1P
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:39:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hzkfo-0000IM-OK
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:38:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46934)
+ (envelope-from <pbonzini@redhat.com>) id 1hzkhI-00014M-3s
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:39:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46732)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hzkfo-0000Hx-JG; Mon, 19 Aug 2019 12:38:24 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzkhH-00013k-SB
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:39:56 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DC2781089044;
- Mon, 19 Aug 2019 16:38:23 +0000 (UTC)
-Received: from gondolin (unknown [10.36.116.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9580427CA8;
- Mon, 19 Aug 2019 16:38:19 +0000 (UTC)
-Date: Mon, 19 Aug 2019 18:38:16 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Message-ID: <20190819183816.45dd8178.cohuck@redhat.com>
-In-Reply-To: <20190816084708.602-1-david@redhat.com>
-References: <20190816084708.602-1-david@redhat.com>
-Organization: Red Hat GmbH
+ by mx1.redhat.com (Postfix) with ESMTPS id E6DE611A06
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 16:39:54 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id k8so4398126wrx.19
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 09:39:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NTmPTNky474ZfEmIHtmIKlq9OkKlmL+UX0qRfUQzy+w=;
+ b=gZDcumgYeRFf4SNZvorYVcvvLHKfMIGwY0u3gj7XCsR1G17Jsv8DBIcdf/Vc+oioq0
+ PU5Q0ZOWqeV2d0YCKA3SQ1Vza9tZ8oZPfd992hJEx9NRp0JZJJCEzNsHbrcerJyZ66k5
+ yQwRVrYc5tFVnkDMkWD9KIJAgZTs9ZhscVsRttICReIWdflwpruG8xVY4J5D2qKpHdqp
+ atH4TKWDgeKAS16qBP0HdwnSZAFPVbDWWcpC9Eyh8Z8CdeRKppFcVpkgH4jlcQtWD1tZ
+ 3reLtF1xLRoB1DPMzoyhBocgLrzzDKkWOU9NBK2+opiTStmQfwJiJrRqJP49fIt36mdH
+ rmYA==
+X-Gm-Message-State: APjAAAWMar4bXSMj7gCA8hsFkLCpogEp7pdzuKArEErDky9LwZvlokq8
+ u8yqz32m/0Zg2eLz6zBaWLmTI5A/wLJnuBMMLKI4cr+ClXmIe93x3BEzFpHrxObXVH9l7uX7aCk
+ qPMb/TDZyWvDV91I=
+X-Received: by 2002:a5d:5591:: with SMTP id i17mr28555213wrv.280.1566232793360; 
+ Mon, 19 Aug 2019 09:39:53 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw9uMo7matUpHGHhJP/ZpHJnJtcoNh2nMBJuG1A1hsEbVEi9gGZmwSmZxUwb+/djWoqmBAnqQ==
+X-Received: by 2002:a5d:5591:: with SMTP id i17mr28555185wrv.280.1566232793077; 
+ Mon, 19 Aug 2019 09:39:53 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:8033:56b6:f047:ba4f?
+ ([2001:b07:6468:f312:8033:56b6:f047:ba4f])
+ by smtp.gmail.com with ESMTPSA id d19sm21314178wrb.7.2019.08.19.09.39.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Aug 2019 09:39:52 -0700 (PDT)
+To: Yury Kotov <yury-kotov@yandex-team.ru>,
+ Peter Crosthwaite <crosthwaite.peter@gmail.com>,
+ Richard Henderson <rth@twiddle.net>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Stefan Weil <sw@weilnetz.de>
+References: <20190723134215.25095-1-yury-kotov@yandex-team.ru>
+ <2013231565163716@vla1-1374b6242101.qloud-c.yandex.net>
+ <3137561565860372@sas1-fc7737ec834f.qloud-c.yandex.net>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <82eb0ad0-d4ee-bfc8-0087-d8910f6cf504@redhat.com>
+Date: Mon, 19 Aug 2019 18:39:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Mon, 19 Aug 2019 16:38:23 +0000 (UTC)
+In-Reply-To: <3137561565860372@sas1-fc7737ec834f.qloud-c.yandex.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 0/6] s390x/mmu: Storage key reference
- and change bit handling
+Subject: Re: [Qemu-devel] [PATCH v4 0/3] High downtime with 95+ throttle pct
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,62 +85,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: "open list:Overall" <qemu-devel@nongnu.org>,
+ "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 16 Aug 2019 10:47:02 +0200
-David Hildenbrand <david@redhat.com> wrote:
+On 15/08/19 11:13, Yury Kotov wrote:
+> Ping ping
 
-> The first two patches are modified patches from:
->     [PATCH-for-4.2 v1 0/9] s390x: MMU changes and extensions
->=20
-> This series primarily fixes minor things in the storage key handling code
-> in the MMU and implements fairly reliable reference and change bit handli=
-ng
-> for TCG. To track the reference and change bit, we have to invalidate
-> TLB entries whenever the storage key is changed by the guest and make sure
-> not TLB entry is writable in case the storage key does not indicate a
-> change already.
->=20
-> With this series, the kvm-unit-test "skey" now passes. \o/
->=20
-> v2 -> v3:
-> - Reshuffled patches to avoid a temporary uninitialized return value
-> - Minor updates to patch descriptions
-> - "s390x/tcg: Flush the TLB of all CPUs on SSKE and RRBE"
-> -- Updated comments
-> - "s390x/mmu: Factor out storage key handling"
-> -- Reduce indentation
->=20
-> v1 -> v2:
-> - "s390x/tcg: Rework MMU selection for instruction fetches"
-> -- Cleanup return value handling
-> - Added RB's
->=20
-> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->=20
-> David Hildenbrand (6):
->   s390x/mmu: Trace the right value if setting/getting the storage key
->     fails
->   s390x/mmu: ASC selection in s390_cpu_get_phys_page_debug()
->   s390x/tcg: Rework MMU selection for instruction fetches
->   s390x/tcg: Flush the TLB of all CPUs on SSKE and RRBE
->   s390x/mmu: Better storage key reference and change bit handling
->   s390x/mmu: Factor out storage key handling
->=20
->  target/s390x/cpu.h        |   7 ++
->  target/s390x/helper.c     |   5 ++
->  target/s390x/mem_helper.c |  10 +++
->  target/s390x/mmu_helper.c | 135 ++++++++++++++++++++++++--------------
->  4 files changed, 107 insertions(+), 50 deletions(-)
->=20
+Hi,
 
-[Now the correct one...]
+sorry for the delay, I was waiting for the 4.1 release.
 
-Thanks, applied.
+I would like to make a small change so that preemption of QEMU does not
+result in overly long sleeps.  The following patch on top of yours computes
+the throttle-end time just once.  Of course you can still be unlucky if
+you are preempted at the wrong time, but the window becomes much smaller.
+
+diff --git a/cpus.c b/cpus.c
+index d091dbd..d7e2145 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -781,7 +781,7 @@ static void cpu_throttle_thread(CPUState *cpu, run_on_cpu_data opaque)
+ {
+     double pct;
+     double throttle_ratio;
+-    int64_t sleeptime_ns;
++    int64_t sleeptime_ns, end;
+ 
+     if (!cpu_throttle_get_percentage()) {
+         return;
+@@ -792,18 +792,17 @@ static void cpu_throttle_thread(CPUState *cpu, run_on_cpu_data opaque)
+     /* Add 1ns to fix double's rounding error (like 0.9999999...) */
+     sleeptime_ns = (int64_t)(throttle_ratio * CPU_THROTTLE_TIMESLICE_NS + 1);
+ 
+-    while (sleeptime_ns >= SCALE_MS && !cpu->stop) {
+-        int64_t start, end;
+-        start = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
+-        qemu_cond_timedwait(cpu->halt_cond, &qemu_global_mutex,
+-                            sleeptime_ns / SCALE_MS);
+-        end = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
+-        sleeptime_ns -= end - start;
+-    }
+-    if (sleeptime_ns >= SCALE_US && !cpu->stop) {
+-        qemu_mutex_unlock_iothread();
+-        g_usleep(sleeptime_ns / SCALE_US);
+-        qemu_mutex_lock_iothread();
++    end = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + sleeptime_ns;
++    while (sleeptime_ns > 0 && !cpu->stop) {
++        if (sleeptime_ns > SCALE_MS) {
++            qemu_cond_timedwait(cpu->halt_cond, &qemu_global_mutex,
++                                sleeptime_ns / SCALE_MS);
++        } else {
++            qemu_mutex_unlock_iothread();
++            g_usleep(sleeptime_ns / SCALE_US);
++            qemu_mutex_lock_iothread();
++        }
++        sleeptime_ns = end - qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
+     }
+     atomic_set(&cpu->throttle_thread_scheduled, 0);
+ }
 
