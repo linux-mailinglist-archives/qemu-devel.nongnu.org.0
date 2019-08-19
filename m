@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19ED92358
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 14:22:17 +0200 (CEST)
-Received: from localhost ([::1]:49130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2263B92352
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 14:20:42 +0200 (CEST)
+Received: from localhost ([::1]:49108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzgfw-00073q-Ls
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 08:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36131)
+	id 1hzgeO-0004jL-IF
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 08:20:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36188)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgTc-0001t3-TG
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:35 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgTe-0001tt-LF
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgTZ-0002Z1-JT
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:32 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:56438 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzgTb-0002bR-3z
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:34 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:57737 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hzgTZ-0001eX-7g
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:29 -0400
+ id 1hzgTa-0002ZC-Fq
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:09:30 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 086771A20AB;
+ by mail.rt-rk.com (Postfix) with ESMTP id 3DA871A205C;
  Mon, 19 Aug 2019 14:08:24 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id A7E4B1A205C;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id C31531A2072;
  Mon, 19 Aug 2019 14:08:23 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 14:07:40 +0200
-Message-Id: <1566216496-17375-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Mon, 19 Aug 2019 14:07:43 +0200
+Message-Id: <1566216496-17375-5-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1566216496-17375-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1566216496-17375-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v8 01/37] target/mips: Add support for DSPRAM
+Subject: [Qemu-devel] [PATCH v8 04/37] target/mips: Add support for
+ emulation of GINVT instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,464 +57,476 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yongbok Kim <yongbok.kim@mips.com>
 
-The optional Data Scratch Pad RAM (DSPRAM) block provides a general scratch pad RAM
-used for temporary storage of data. The DSPRAM provides a connection to on-chip
-memory or memory-mapped registers, which are accessed in parallel with the L1 data
-cache to minimize access latency
+Implement emulation of GINVT instruction. As QEMU doesn't support
+caches and virtualization, this implementation covers only GINVT
+(Global Invalidate TLB) instruction among TLB-related instructions.
 
 Signed-off-by: Yongbok Kim <yongbok.kim@mips.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- hw/mips/cps.c                    |  29 +++++++-
- hw/misc/Makefile.objs            |   1 +
- hw/misc/mips_dspram.c            | 153 +++++++++++++++++++++++++++++++++++++++
- include/hw/mips/cps.h            |   2 +
- include/hw/misc/mips_dspram.h    |  46 ++++++++++++
- target/mips/cpu.h                |   9 ++-
- target/mips/internal.h           |   3 +-
- target/mips/op_helper.c          |  18 +++++
- target/mips/translate.c          |   8 ++
- target/mips/translate_init.inc.c |   2 +
- 10 files changed, 266 insertions(+), 5 deletions(-)
- create mode 100644 hw/misc/mips_dspram.c
- create mode 100644 include/hw/misc/mips_dspram.h
+ disas/mips.c            |   2 +
+ target/mips/helper.c    |  24 ++++++++--
+ target/mips/helper.h    |   2 +
+ target/mips/internal.h  |   1 +
+ target/mips/op_helper.c | 122 ++++++++++++++++++++++++++++++++++++++++++------
+ target/mips/translate.c |  48 ++++++++++++++++++-
+ 6 files changed, 177 insertions(+), 22 deletions(-)
 
-diff --git a/hw/mips/cps.c b/hw/mips/cps.c
-index 0d459c4..c84bc64 100644
---- a/hw/mips/cps.c
-+++ b/hw/mips/cps.c
-@@ -18,6 +18,7 @@
-  */
+diff --git a/disas/mips.c b/disas/mips.c
+index dfefe5e..c3a3059 100644
+--- a/disas/mips.c
++++ b/disas/mips.c
+@@ -1409,6 +1409,8 @@ const struct mips_opcode mips_builtin_opcodes[] =
+ {"dvp",        "t",     0x41600024, 0xffe0ffff, TRAP|WR_t,            0, I32R6},
+ {"evp",        "",      0x41600004, 0xffffffff, TRAP,                 0, I32R6},
+ {"evp",        "t",     0x41600004, 0xffe0ffff, TRAP|WR_t,            0, I32R6},
++{"ginvi",      "v",     0x7c00003d, 0xfc1ffcff, TRAP | INSN_TLB,      0, I32R6},
++{"ginvt",      "v",     0x7c0000bd, 0xfc1ffcff, TRAP | INSN_TLB,      0, I32R6},
  
- #include "qemu/osdep.h"
-+#include "qemu/error-report.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
- #include "hw/mips/cps.h"
-@@ -91,7 +92,8 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+ /* MSA */
+ {"sll.b",   "+d,+e,+f", 0x7800000d, 0xffe0003f, WR_VD|RD_VS|RD_VT,  0, MSA},
+diff --git a/target/mips/helper.c b/target/mips/helper.c
+index a2b6459..6e583d3 100644
+--- a/target/mips/helper.c
++++ b/target/mips/helper.c
+@@ -70,7 +70,12 @@ int r4k_map_address (CPUMIPSState *env, hwaddr *physical, int *prot,
+                      target_ulong address, int rw, int access_type)
+ {
+     uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
++    uint32_t MMID = env->CP0_MemoryMapID;
++    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
+     int i;
++    uint32_t tlb_mmid;
++
++    MMID = mi ? MMID : (uint32_t) ASID;
  
-     cpu = MIPS_CPU(first_cpu);
-     env = &cpu->env;
--    saar_present = (bool)env->saarp;
-+    saar_present = env->saarp;
-+    bool dspram_present = env->dspramp;
+     for (i = 0; i < env->tlb->tlb_in_use; i++) {
+         r4k_tlb_t *tlb = &env->tlb->mmu.r4k.tlb[i];
+@@ -82,8 +87,9 @@ int r4k_map_address (CPUMIPSState *env, hwaddr *physical, int *prot,
+         tag &= env->SEGMask;
+ #endif
  
-     /* Inter-Thread Communication Unit */
-     if (itu_present) {
-@@ -102,7 +104,8 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-         object_property_set_bool(OBJECT(&s->itu), saar_present, "saar-present",
-                                  &err);
-         if (saar_present) {
--            qdev_prop_set_ptr(DEVICE(&s->itu), "saar", (void *)&env->CP0_SAAR);
-+            qdev_prop_set_ptr(DEVICE(&s->itu), "saar",
-+                              (void *) &env->CP0_SAAR[0]);
-         }
-         object_property_set_bool(OBJECT(&s->itu), true, "realized", &err);
-         if (err != NULL) {
-@@ -113,6 +116,28 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-         memory_region_add_subregion(&s->container, 0,
-                            sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->itu), 0));
+-        /* Check ASID, virtual page number & size */
+-        if ((tlb->G == 1 || tlb->ASID == ASID) && VPN == tag && !tlb->EHINV) {
++        /* Check ASID/MMID, virtual page number & size */
++        tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
++        if ((tlb->G == 1 || tlb_mmid == MMID) && VPN == tag && !tlb->EHINV) {
+             /* TLB match */
+             int n = !!(address & mask & ~(mask >> 1));
+             /* Check access rights */
+@@ -1397,12 +1403,20 @@ void r4k_invalidate_tlb (CPUMIPSState *env, int idx, int use_extra)
+     target_ulong addr;
+     target_ulong end;
+     uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
++    uint32_t MMID = env->CP0_MemoryMapID;
+     target_ulong mask;
++    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
++    uint32_t tlb_mmid;
++
++    MMID = mi ? MMID : (uint32_t) ASID;
+ 
+     tlb = &env->tlb->mmu.r4k.tlb[idx];
+-    /* The qemu TLB is flushed when the ASID changes, so no need to
+-       flush these entries again.  */
+-    if (tlb->G == 0 && tlb->ASID != ASID) {
++    /*
++     * The qemu TLB is flushed when the ASID/MMID changes, so no need to
++     * flush these entries again.
++     */
++    tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
++    if (tlb->G == 0 && tlb_mmid != MMID) {
+         return;
      }
-+    env->dspram = g_new0(MIPSDSPRAMState, 1);
-+
-+    /* Data Scratch Pad RAM */
-+    if (dspram_present) {
-+        if (!saar_present) {
-+            error_report("%s: DSPRAM requires SAAR registers", __func__);
-+            return;
-+        }
-+        object_initialize(&s->dspram, sizeof(MIPSDSPRAMState),
-+                          TYPE_MIPS_DSPRAM);
-+        qdev_set_parent_bus(DEVICE(&s->dspram), sysbus_get_default());
-+        qdev_prop_set_ptr(DEVICE(&s->dspram), "saar",
-+                          &env->CP0_SAAR[1]);
-+        object_property_set_bool(OBJECT(&s->dspram), true, "realized", &err);
-+        if (err != NULL) {
-+            error_report("%s: DSPRAM initialisation failed", __func__);
-+            error_propagate(errp, err);
-+            return;
-+        }
-+        memory_region_add_subregion(&s->container, 0,
-+                    sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dspram), 0));
-+    }
  
-     /* Cluster Power Controller */
-     sysbus_init_child_obj(OBJECT(dev), "cpc", &s->cpc, sizeof(s->cpc),
-diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-index e9aab51..5fcb4db 100644
---- a/hw/misc/Makefile.objs
-+++ b/hw/misc/Makefile.objs
-@@ -60,6 +60,7 @@ obj-$(CONFIG_STM32F2XX_SYSCFG) += stm32f2xx_syscfg.o
- obj-$(CONFIG_MIPS_CPS) += mips_cmgcr.o
- obj-$(CONFIG_MIPS_CPS) += mips_cpc.o
- obj-$(CONFIG_MIPS_ITU) += mips_itu.o
-+obj-$(CONFIG_MIPS_DSPRAM) += mips_dspram.o
- obj-$(CONFIG_MPS2_FPGAIO) += mps2-fpgaio.o
- obj-$(CONFIG_MPS2_SCC) += mps2-scc.o
- 
-diff --git a/hw/misc/mips_dspram.c b/hw/misc/mips_dspram.c
-new file mode 100644
-index 0000000..9bc155b
---- /dev/null
-+++ b/hw/misc/mips_dspram.c
-@@ -0,0 +1,153 @@
-+/*
-+ * Data Scratch Pad RAM
-+ *
-+ * Copyright (c) 2017 Imagination Technologies
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "cpu.h"
-+#include "qemu/log.h"
-+#include "exec/exec-all.h"
-+#include "hw/hw.h"
-+#include "hw/sysbus.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/misc/mips_dspram.h"
-+
-+static void raise_exception(int excp)
-+{
-+    current_cpu->exception_index = excp;
-+    cpu_loop_exit(current_cpu);
-+}
-+
-+static uint64_t dspram_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    MIPSDSPRAMState *s = (MIPSDSPRAMState *)opaque;
-+
-+    switch (size) {
-+    case 1:
-+    case 2:
-+        raise_exception(EXCP_AdEL);
-+        return 0;
-+    case 4:
-+        return *(uint32_t *) &s->ramblock[addr % (1 << s->size)];
-+    case 8:
-+        return *(uint64_t *) &s->ramblock[addr % (1 << s->size)];
-+    }
-+    return 0;
-+}
-+
-+static void dspram_write(void *opaque, hwaddr addr, uint64_t data,
-+                         unsigned size)
-+{
-+    MIPSDSPRAMState *s = (MIPSDSPRAMState *)opaque;
-+
-+    switch (size) {
-+    case 1:
-+    case 2:
-+        raise_exception(EXCP_AdES);
-+        return;
-+    case 4:
-+        *(uint32_t *) &s->ramblock[addr % (1 << s->size)] = (uint32_t) data;
-+        break;
-+    case 8:
-+        *(uint64_t *) &s->ramblock[addr % (1 << s->size)] = data;
-+        break;
-+    }
-+}
-+
-+void dspram_reconfigure(struct MIPSDSPRAMState *dspram)
-+{
-+    MemoryRegion *mr = &dspram->mr;
-+    hwaddr address;
-+    bool is_enabled;
-+
-+    address = ((*(uint64_t *) dspram->saar) & 0xFFFFFFFE000ULL) << 4;
-+    is_enabled = *(uint64_t *) dspram->saar & 1;
-+
-+    memory_region_transaction_begin();
-+    memory_region_set_size(mr, (1 << dspram->size));
-+    memory_region_set_address(mr, address);
-+    memory_region_set_enabled(mr, is_enabled);
-+    memory_region_transaction_commit();
-+}
-+
-+static const MemoryRegionOps dspram_ops = {
-+    .read = dspram_read,
-+    .write = dspram_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .valid = {
-+        .unaligned = false,
-+    }
-+};
-+
-+static void mips_dspram_init(Object *obj)
-+{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    MIPSDSPRAMState *s = MIPS_DSPRAM(obj);
-+
-+    memory_region_init_io(&s->mr, OBJECT(s), &dspram_ops, s,
-+                          "mips-dspram", (1 << s->size));
-+    sysbus_init_mmio(sbd, &s->mr);
-+}
-+
-+static void mips_dspram_realize(DeviceState *dev, Error **errp)
-+{
-+    MIPSDSPRAMState *s = MIPS_DSPRAM(dev);
-+
-+    /* some error handling here */
-+
-+    s->ramblock = g_malloc0(1 << s->size);
-+}
-+
-+static void mips_dspram_reset(DeviceState *dev)
-+{
-+    MIPSDSPRAMState *s = MIPS_DSPRAM(dev);
-+
-+    *(uint64_t *) s->saar = s->size << 1;
-+    memset(s->ramblock, 0, (1 << s->size));
-+}
-+
-+static Property mips_dspram_properties[] = {
-+    DEFINE_PROP_PTR("saar", MIPSDSPRAMState, saar),
-+    /* default DSPRAM size is 64 KB */
-+    DEFINE_PROP_SIZE("size", MIPSDSPRAMState, size, 0x10),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void mips_dspram_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->props = mips_dspram_properties;
-+    dc->realize = mips_dspram_realize;
-+    dc->reset = mips_dspram_reset;
-+}
-+
-+static const TypeInfo mips_dspram_info = {
-+    .name          = TYPE_MIPS_DSPRAM,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(MIPSDSPRAMState),
-+    .instance_init = mips_dspram_init,
-+    .class_init    = mips_dspram_class_init,
-+};
-+
-+static void mips_dspram_register_types(void)
-+{
-+    type_register_static(&mips_dspram_info);
-+}
-+
-+type_init(mips_dspram_register_types);
-diff --git a/include/hw/mips/cps.h b/include/hw/mips/cps.h
-index aab1af9..a637036 100644
---- a/include/hw/mips/cps.h
-+++ b/include/hw/mips/cps.h
-@@ -25,6 +25,7 @@
- #include "hw/intc/mips_gic.h"
- #include "hw/misc/mips_cpc.h"
- #include "hw/misc/mips_itu.h"
-+#include "hw/misc/mips_dspram.h"
- 
- #define TYPE_MIPS_CPS "mips-cps"
- #define MIPS_CPS(obj) OBJECT_CHECK(MIPSCPSState, (obj), TYPE_MIPS_CPS)
-@@ -41,6 +42,7 @@ typedef struct MIPSCPSState {
-     MIPSGICState gic;
-     MIPSCPCState cpc;
-     MIPSITUState itu;
-+    MIPSDSPRAMState dspram;
- } MIPSCPSState;
- 
- qemu_irq get_cps_irq(MIPSCPSState *cps, int pin_number);
-diff --git a/include/hw/misc/mips_dspram.h b/include/hw/misc/mips_dspram.h
-new file mode 100644
-index 0000000..ee99e17
---- /dev/null
-+++ b/include/hw/misc/mips_dspram.h
-@@ -0,0 +1,46 @@
-+/*
-+ * Data Scratch Pad RAM
-+ *
-+ * Copyright (c) 2017 Imagination Technologies
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef MIPS_DSPRAM_H
-+#define MIPS_DSPRAM_H
-+
-+#include "hw/sysbus.h"
-+
-+#define TYPE_MIPS_DSPRAM "mips-dspram"
-+#define MIPS_DSPRAM(obj) OBJECT_CHECK(MIPSDSPRAMState, (obj), TYPE_MIPS_DSPRAM)
-+
-+typedef struct MIPSDSPRAMState {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+    /*< public >*/
-+
-+    /* 2 ^ SIZE */
-+    uint64_t size;
-+
-+    MemoryRegion mr;
-+
-+    /* SAAR */
-+    bool saar_present;
-+    void *saar;
-+
-+    /* ramblock */
-+    uint8_t *ramblock;
-+} MIPSDSPRAMState;
-+
-+#endif /* MIPS_DSPRAM_H */
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 21c0615..90a2ed8 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -453,6 +453,7 @@ struct TCState {
- 
- };
- 
-+struct MIPSDSPRAMState;
- struct MIPSITUState;
- typedef struct CPUMIPSState CPUMIPSState;
- struct CPUMIPSState {
-@@ -1035,8 +1036,8 @@ struct CPUMIPSState {
-     uint32_t CP0_Status_rw_bitmask; /* Read/write bits in CP0_Status */
-     uint32_t CP0_TCStatus_rw_bitmask; /* Read/write bits in CP0_TCStatus */
-     uint64_t insn_flags; /* Supported instruction set */
--    int saarp;
--
-+    bool saarp;
-+    bool dspramp;
-     /* Fields up to this point are cleared by a CPU reset */
-     struct {} end_reset_fields;
- 
-@@ -1051,6 +1052,7 @@ struct CPUMIPSState {
-     QEMUTimer *timer; /* Internal timer */
-     struct MIPSITUState *itu;
-     MemoryRegion *itc_tag; /* ITC Configuration Tags */
-+    struct MIPSDSPRAMState *dspram;
-     target_ulong exception_base; /* ExceptionBase input to the core */
- };
- 
-@@ -1192,6 +1194,9 @@ void cpu_mips_soft_irq(CPUMIPSState *env, int irq, int level);
- /* mips_itu.c */
- void itc_reconfigure(struct MIPSITUState *tag);
- 
-+/* mips_dspram.c */
-+void dspram_reconfigure(struct MIPSDSPRAMState *dspram);
-+
- /* helper.c */
- target_ulong exception_resume_pc(CPUMIPSState *env);
- 
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index aad0951..c7d35bd 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -120,6 +120,7 @@ DEF_HELPER_2(mtc0_tcschefback, void, env, tl)
+ DEF_HELPER_2(mttc0_tcschefback, void, env, tl)
+ DEF_HELPER_2(mtc0_entrylo1, void, env, tl)
+ DEF_HELPER_2(mtc0_context, void, env, tl)
++DEF_HELPER_2(mtc0_memorymapid, void, env, tl)
+ DEF_HELPER_2(mtc0_pagemask, void, env, tl)
+ DEF_HELPER_2(mtc0_pagegrain, void, env, tl)
+ DEF_HELPER_2(mtc0_segctl0, void, env, tl)
+@@ -376,6 +377,7 @@ DEF_HELPER_1(ei, tl, env)
+ DEF_HELPER_1(eret, void, env)
+ DEF_HELPER_1(eretnc, void, env)
+ DEF_HELPER_1(deret, void, env)
++DEF_HELPER_3(ginvt, void, env, tl, i32)
+ #endif /* !CONFIG_USER_ONLY */
+ DEF_HELPER_1(rdhwr_cpunum, tl, env)
+ DEF_HELPER_1(rdhwr_synci_step, tl, env)
 diff --git a/target/mips/internal.h b/target/mips/internal.h
-index b2b41a5..f6d0d7a 100644
+index f6d0d7a..d9216fb 100644
 --- a/target/mips/internal.h
 +++ b/target/mips/internal.h
-@@ -61,7 +61,8 @@ struct mips_def_t {
-     target_ulong CP0_EBaseWG_rw_bitmask;
-     uint64_t insn_flags;
-     enum mips_mmu_types mmu_type;
--    int32_t SAARP;
-+    bool SAARP;
-+    bool DSPRAMP;
- };
- 
- extern const struct mips_def_t mips_defs[];
+@@ -92,6 +92,7 @@ struct r4k_tlb_t {
+     target_ulong VPN;
+     uint32_t PageMask;
+     uint16_t ASID;
++    uint32_t MMID;
+     unsigned int G:1;
+     unsigned int C0:3;
+     unsigned int C1:3;
 diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index 9e2e02f..628da45 100644
+index 279b800..3104904 100644
 --- a/target/mips/op_helper.c
 +++ b/target/mips/op_helper.c
-@@ -1614,7 +1614,16 @@ void helper_mtc0_saar(CPUMIPSState *env, target_ulong arg1)
-                 itc_reconfigure(env->itu);
-             }
-             break;
-+#if defined(CONFIG_MIPS_DSPRAM)
-+        case 1:
-+            if (env->dspram) {
-+                dspram_reconfigure(env->dspram);
-+            }
-+            break;
-+#endif
-         }
-+    } else {
-+        helper_raise_exception(env, EXCP_RI);
-     }
+@@ -1409,6 +1409,17 @@ void helper_mtc0_context(CPUMIPSState *env, target_ulong arg1)
+     env->CP0_Context = (env->CP0_Context & 0x007FFFFF) | (arg1 & ~0x007FFFFF);
  }
  
-@@ -1631,7 +1640,16 @@ void helper_mthc0_saar(CPUMIPSState *env, target_ulong arg1)
-                 itc_reconfigure(env->itu);
-             }
-             break;
-+#if defined(CONFIG_MIPS_DSPRAM)
-+        case 1:
-+            if (env->dspram) {
-+                dspram_reconfigure(env->dspram);
-+            }
-+            break;
-+#endif
-         }
-+    } else {
-+        helper_raise_exception(env, EXCP_RI);
-     }
++void helper_mtc0_memorymapid(CPUMIPSState *env, target_ulong arg1)
++{
++    int32_t old;
++    old = env->CP0_MemoryMapID;
++    env->CP0_MemoryMapID = (int32_t) arg1;
++    /* If the MemoryMapID changes, flush qemu's TLB.  */
++    if (old != env->CP0_MemoryMapID) {
++        cpu_mips_tlb_flush(env);
++    }
++}
++
+ void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
+ {
+     uint64_t mask = arg1 >> (TARGET_PAGE_BITS + 1);
+@@ -1857,6 +1868,8 @@ void helper_mtc0_config5(CPUMIPSState *env, target_ulong arg1)
+ {
+     env->CP0_Config5 = (env->CP0_Config5 & (~env->CP0_Config5_rw_bitmask)) |
+                        (arg1 & env->CP0_Config5_rw_bitmask);
++    env->CP0_EntryHi_ASID_mask = (env->CP0_Config5 & (1 << CP0C5_MI)) ? 0x0 :
++                        (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
+     compute_hflags(env);
  }
  
+@@ -2276,6 +2289,7 @@ static void r4k_fill_tlb(CPUMIPSState *env, int idx)
+     tlb->VPN &= env->SEGMask;
+ #endif
+     tlb->ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
++    tlb->MMID = env->CP0_MemoryMapID;
+     tlb->PageMask = env->CP0_PageMask;
+     tlb->G = env->CP0_EntryLo0 & env->CP0_EntryLo1 & 1;
+     tlb->V0 = (env->CP0_EntryLo0 & 2) != 0;
+@@ -2294,13 +2308,18 @@ static void r4k_fill_tlb(CPUMIPSState *env, int idx)
+ 
+ void r4k_helper_tlbinv(CPUMIPSState *env)
+ {
++    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
+     int idx;
+     r4k_tlb_t *tlb;
+     uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
++    uint32_t MMID = env->CP0_MemoryMapID;
++    uint32_t tlb_mmid;
+ 
++    MMID = mi ? MMID : (uint32_t) ASID;
+     for (idx = 0; idx < env->tlb->nb_tlb; idx++) {
+         tlb = &env->tlb->mmu.r4k.tlb[idx];
+-        if (!tlb->G && tlb->ASID == ASID) {
++        tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
++        if (!tlb->G && tlb_mmid == MMID) {
+             tlb->EHINV = 1;
+         }
+     }
+@@ -2319,11 +2338,16 @@ void r4k_helper_tlbinvf(CPUMIPSState *env)
+ 
+ void r4k_helper_tlbwi(CPUMIPSState *env)
+ {
++    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
+     r4k_tlb_t *tlb;
+     int idx;
+     target_ulong VPN;
+-    uint16_t ASID;
+     bool EHINV, G, V0, D0, V1, D1, XI0, XI1, RI0, RI1;
++    uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
++    uint32_t MMID = env->CP0_MemoryMapID;
++    uint32_t tlb_mmid;
++
++    MMID = mi ? MMID : (uint32_t) ASID;
+ 
+     idx = (env->CP0_Index & ~0x80000000) % env->tlb->nb_tlb;
+     tlb = &env->tlb->mmu.r4k.tlb[idx];
+@@ -2331,7 +2355,6 @@ void r4k_helper_tlbwi(CPUMIPSState *env)
+ #if defined(TARGET_MIPS64)
+     VPN &= env->SEGMask;
+ #endif
+-    ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
+     EHINV = (env->CP0_EntryHi & (1 << CP0EnHi_EHINV)) != 0;
+     G = env->CP0_EntryLo0 & env->CP0_EntryLo1 & 1;
+     V0 = (env->CP0_EntryLo0 & 2) != 0;
+@@ -2343,9 +2366,10 @@ void r4k_helper_tlbwi(CPUMIPSState *env)
+     XI1 = (env->CP0_EntryLo1 >> CP0EnLo_XI) &1;
+     RI1 = (env->CP0_EntryLo1 >> CP0EnLo_RI) &1;
+ 
++    tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
+     /* Discard cached TLB entries, unless tlbwi is just upgrading access
+        permissions on the current entry. */
+-    if (tlb->VPN != VPN || tlb->ASID != ASID || tlb->G != G ||
++    if (tlb->VPN != VPN || tlb_mmid != MMID || tlb->G != G ||
+         (!tlb->EHINV && EHINV) ||
+         (tlb->V0 && !V0) || (tlb->D0 && !D0) ||
+         (!tlb->XI0 && XI0) || (!tlb->RI0 && RI0) ||
+@@ -2368,14 +2392,17 @@ void r4k_helper_tlbwr(CPUMIPSState *env)
+ 
+ void r4k_helper_tlbp(CPUMIPSState *env)
+ {
++    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
+     r4k_tlb_t *tlb;
+     target_ulong mask;
+     target_ulong tag;
+     target_ulong VPN;
+-    uint16_t ASID;
+     int i;
++    uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
++    uint32_t MMID = env->CP0_MemoryMapID;
++    uint32_t tlb_mmid;
+ 
+-    ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
++    MMID = mi ? MMID : (uint32_t) ASID;
+     for (i = 0; i < env->tlb->nb_tlb; i++) {
+         tlb = &env->tlb->mmu.r4k.tlb[i];
+         /* 1k pages are not supported. */
+@@ -2385,8 +2412,9 @@ void r4k_helper_tlbp(CPUMIPSState *env)
+ #if defined(TARGET_MIPS64)
+         tag &= env->SEGMask;
+ #endif
+-        /* Check ASID, virtual page number & size */
+-        if ((tlb->G == 1 || tlb->ASID == ASID) && VPN == tag && !tlb->EHINV) {
++        tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
++        /* Check ASID/MMID, virtual page number & size */
++        if ((tlb->G == 1 || tlb_mmid == MMID) && VPN == tag && !tlb->EHINV) {
+             /* TLB match */
+             env->CP0_Index = i;
+             break;
+@@ -2403,8 +2431,9 @@ void r4k_helper_tlbp(CPUMIPSState *env)
+ #if defined(TARGET_MIPS64)
+             tag &= env->SEGMask;
+ #endif
+-            /* Check ASID, virtual page number & size */
+-            if ((tlb->G == 1 || tlb->ASID == ASID) && VPN == tag) {
++            tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
++            /* Check ASID/MMID, virtual page number & size */
++            if ((tlb->G == 1 || tlb_mmid == MMID) && VPN == tag) {
+                 r4k_mips_tlb_flush_extra (env, i);
+                 break;
+             }
+@@ -2426,17 +2455,22 @@ static inline uint64_t get_entrylo_pfn_from_tlb(uint64_t tlb_pfn)
+ 
+ void r4k_helper_tlbr(CPUMIPSState *env)
+ {
++    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
+     r4k_tlb_t *tlb;
+-    uint16_t ASID;
+     int idx;
++    uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
++    uint32_t MMID = env->CP0_MemoryMapID;
++    uint32_t tlb_mmid;
+ 
+-    ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
++    MMID = mi ? MMID : (uint32_t) ASID;
+     idx = (env->CP0_Index & ~0x80000000) % env->tlb->nb_tlb;
+     tlb = &env->tlb->mmu.r4k.tlb[idx];
+ 
+-    /* If this will change the current ASID, flush qemu's TLB.  */
+-    if (ASID != tlb->ASID)
++    tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
++    /* If this will change the current ASID/MMID, flush qemu's TLB.  */
++    if (MMID != tlb_mmid) {
+         cpu_mips_tlb_flush(env);
++    }
+ 
+     r4k_mips_tlb_flush_extra(env, env->tlb->nb_tlb);
+ 
+@@ -2446,7 +2480,8 @@ void r4k_helper_tlbr(CPUMIPSState *env)
+         env->CP0_EntryLo0 = 0;
+         env->CP0_EntryLo1 = 0;
+     } else {
+-        env->CP0_EntryHi = tlb->VPN | tlb->ASID;
++        env->CP0_EntryHi = mi ? tlb->VPN : tlb->VPN | tlb->ASID;
++        env->CP0_MemoryMapID = tlb->MMID;
+         env->CP0_PageMask = tlb->PageMask;
+         env->CP0_EntryLo0 = tlb->G | (tlb->V0 << 1) | (tlb->D0 << 2) |
+                         ((uint64_t)tlb->RI0 << CP0EnLo_RI) |
+@@ -2489,6 +2524,63 @@ void helper_tlbinvf(CPUMIPSState *env)
+     env->tlb->helper_tlbinvf(env);
+ }
+ 
++static void global_invalidate_tlb(CPUMIPSState *env,
++                           uint32_t invMsgVPN2,
++                           uint8_t invMsgR,
++                           uint32_t invMsgMMid,
++                           bool invAll,
++                           bool invVAMMid,
++                           bool invMMid,
++                           bool invVA)
++{
++
++    int idx;
++    r4k_tlb_t *tlb;
++    bool VAMatch;
++    bool MMidMatch;
++
++    for (idx = 0; idx < env->tlb->nb_tlb; idx++) {
++        tlb = &env->tlb->mmu.r4k.tlb[idx];
++        VAMatch =
++            (((tlb->VPN & ~tlb->PageMask) == (invMsgVPN2 & ~tlb->PageMask))
++#ifdef TARGET_MIPS64
++            &&
++            (extract64(env->CP0_EntryHi, 62, 2) == invMsgR)
++#endif
++            );
++        MMidMatch = tlb->MMID == invMsgMMid;
++        if ((invAll && (idx > env->CP0_Wired)) ||
++            (VAMatch && invVAMMid && (tlb->G || MMidMatch)) ||
++            (VAMatch && invVA) ||
++            (MMidMatch && !(tlb->G) && invMMid)) {
++            tlb->EHINV = 1;
++        }
++    }
++    cpu_mips_tlb_flush(env);
++}
++
++void helper_ginvt(CPUMIPSState *env, target_ulong arg, uint32_t type)
++{
++    bool invAll = type == 0;
++    bool invVA = type == 1;
++    bool invMMid = type == 2;
++    bool invVAMMid = type == 3;
++    uint32_t invMsgVPN2 = arg & (TARGET_PAGE_MASK << 1);
++    uint8_t invMsgR = 0;
++    uint32_t invMsgMMid = env->CP0_MemoryMapID;
++    CPUState *other_cs = first_cpu;
++
++#ifdef TARGET_MIPS64
++    invMsgR = extract64(arg, 62, 2);
++#endif
++
++    CPU_FOREACH(other_cs) {
++        MIPSCPU *other_cpu = MIPS_CPU(other_cs);
++        global_invalidate_tlb(&other_cpu->env, invMsgVPN2, invMsgR, invMsgMMid,
++                              invAll, invVAMMid, invMMid, invVA);
++    }
++}
++
+ /* Specials */
+ target_ulong helper_di(CPUMIPSState *env)
+ {
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index ca62800..4ebeabe 100644
+index b40468d..3f73be0 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -30368,6 +30368,8 @@ void cpu_state_reset(CPUMIPSState *env)
-     env->active_fpu.fcr31 = env->cpu_model->CP1_fcr31;
-     env->msair = env->cpu_model->MSAIR;
-     env->insn_flags = env->cpu_model->insn_flags;
-+    env->saarp = env->cpu_model->SAARP;
-+    env->dspramp = env->cpu_model->DSPRAMP;
+@@ -388,6 +388,7 @@ enum {
+     OPC_BSHFL    = 0x20 | OPC_SPECIAL3,
+     OPC_DBSHFL   = 0x24 | OPC_SPECIAL3,
+     OPC_RDHWR    = 0x3B | OPC_SPECIAL3,
++    OPC_GINV     = 0x3D | OPC_SPECIAL3,
  
- #if defined(CONFIG_USER_ONLY)
-     env->CP0_Status = (MIPS_HFLAG_UM << CP0St_KSU);
-@@ -30528,6 +30530,12 @@ void cpu_state_reset(CPUMIPSState *env)
-         msa_reset(env);
+     /* Loongson 2E */
+     OPC_MULT_G_2E   = 0x18 | OPC_SPECIAL3,
+@@ -2548,6 +2549,7 @@ typedef struct DisasContext {
+     bool abs2008;
+     bool saar;
+     bool mi;
++    int gi;
+ } DisasContext;
+ 
+ #define DISAS_STOP       DISAS_TARGET_0
+@@ -7027,6 +7029,11 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+             tcg_gen_ext32s_tl(arg, arg);
+             register_name = "UserLocal";
+             break;
++        case 5:
++            CP0_CHECK(ctx->mi);
++            gen_helper_mtc0_memorymapid(cpu_env, arg);
++            register_name = "MemoryMapID";
++            break;
+         default:
+             goto cp0_unimplemented;
+         }
+@@ -7763,6 +7770,11 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
+             register_name = "UserLocal";
+             break;
++        case 5:
++            CP0_CHECK(ctx->mi);
++            gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_MemoryMapID));
++            register_name = "MemoryMapID";
++            break;
+         default:
+             goto cp0_unimplemented;
+         }
+@@ -8509,6 +8521,11 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
+             register_name = "UserLocal";
+             break;
++        case 5:
++            CP0_CHECK(ctx->mi);
++            gen_helper_mtc0_memorymapid(cpu_env, arg);
++            register_name = "MemoryMapID";
++            break;
+         default:
+             goto cp0_unimplemented;
+         }
+@@ -9225,6 +9242,11 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
+             register_name = "UserLocal";
+             break;
++        case 5:
++            CP0_CHECK(ctx->mi);
++            gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_MemoryMapID));
++            register_name = "MemoryMapID";
++            break;
+         default:
+             goto cp0_unimplemented;
+         }
+@@ -27072,6 +27094,27 @@ static void decode_opc_special3_r6(CPUMIPSState *env, DisasContext *ctx)
+             }
+         }
+         break;
++#ifndef CONFIG_USER_ONLY
++    case OPC_GINV:
++        if (unlikely(ctx->gi <= 1)) {
++            generate_exception_end(ctx, EXCP_RI);
++        }
++        check_cp0_enabled(ctx);
++        switch ((ctx->opcode >> 6) & 3) {
++        case 0:
++            /* GINVI */
++            /* Treat as NOP. */
++            break;
++        case 2:
++            /* GINVT */
++            gen_helper_0e1i(ginvt, cpu_gpr[rs], extract32(ctx->opcode, 8, 2));
++            break;
++        default:
++            generate_exception_end(ctx, EXCP_RI);
++            break;
++        }
++        break;
++#endif
+ #if defined(TARGET_MIPS64)
+     case R6_OPC_SCD:
+         gen_st_cond(ctx, rt, rs, imm, MO_TEQ, false);
+@@ -30005,6 +30048,7 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->nan2008 = (env->active_fpu.fcr31 >> FCR31_NAN2008) & 1;
+     ctx->abs2008 = (env->active_fpu.fcr31 >> FCR31_ABS2008) & 1;
+     ctx->mi = (env->CP0_Config5 >> CP0C5_MI) & 1;
++    ctx->gi = (env->CP0_Config5 >> CP0C5_GI) & 3;
+     restore_cpu_state(env, ctx);
+ #ifdef CONFIG_USER_ONLY
+         ctx->mem_idx = MIPS_HFLAG_UM;
+@@ -30464,8 +30508,8 @@ void cpu_state_reset(CPUMIPSState *env)
+     if (env->CP0_Config3 & (1 << CP0C3_CMGCR)) {
+         env->CP0_CMGCRBase = 0x1fbf8000 >> 4;
      }
- 
-+    /* DSPRAM */
-+    if (env->dspramp) {
-+        /* Fixed DSPRAM size with Default Value */
-+        env->CP0_SAAR[1] = 0x10 << 1;
-+    }
-+
-     compute_hflags(env);
-     restore_fp_status(env);
-     restore_pamask(env);
-diff --git a/target/mips/translate_init.inc.c b/target/mips/translate_init.inc.c
-index 6d145a9..1df0901 100644
---- a/target/mips/translate_init.inc.c
-+++ b/target/mips/translate_init.inc.c
-@@ -760,6 +760,8 @@ const mips_def_t mips_defs[] =
-         .PABITS = 48,
-         .insn_flags = CPU_MIPS64R6 | ASE_MSA,
-         .mmu_type = MMU_TYPE_R4000,
-+        .SAARP = 1,
-+        .DSPRAMP = 1,
-     },
-     {
-         .name = "Loongson-2E",
+-    env->CP0_EntryHi_ASID_mask = (env->CP0_Config4 & (1 << CP0C4_AE)) ?
+-                                 0x3ff : 0xff;
++    env->CP0_EntryHi_ASID_mask = (env->CP0_Config5 & (1 << CP0C5_MI)) ? 0x0 :
++                        (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
+     env->CP0_Status = (1 << CP0St_BEV) | (1 << CP0St_ERL);
+     /*
+      * Vectored interrupts not implemented, timer on int 7,
 -- 
 2.7.4
 
