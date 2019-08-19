@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A4894A7B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:38:48 +0200 (CEST)
-Received: from localhost ([::1]:55468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4815694A92
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:39:47 +0200 (CEST)
+Received: from localhost ([::1]:55506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzkgB-0000rL-9p
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:38:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40381)
+	id 1hzkh8-0002HX-CR
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:39:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1hzkeo-0008Fc-Lk
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:37:23 -0400
+ (envelope-from <chihmin.chao@sifive.com>) id 1hzkfu-00014j-6T
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:38:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hzken-0008P7-Dy
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:37:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39988)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hzken-0008Nd-7y; Mon, 19 Aug 2019 12:37:21 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 749C730860C6;
- Mon, 19 Aug 2019 16:37:20 +0000 (UTC)
-Received: from gondolin (unknown [10.36.116.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6D54527C46;
- Mon, 19 Aug 2019 16:37:15 +0000 (UTC)
-Date: Mon, 19 Aug 2019 18:37:13 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Message-ID: <20190819183713.7d0016fa.cohuck@redhat.com>
-In-Reply-To: <20190819183623.3afe92c4.cohuck@redhat.com>
-References: <20190814072355.15333-1-david@redhat.com>
- <20190819183623.3afe92c4.cohuck@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <chihmin.chao@sifive.com>) id 1hzkfs-0000K4-Bj
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:38:30 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:46141)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chihmin.chao@sifive.com>)
+ id 1hzkfs-0000JV-1i
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:38:28 -0400
+Received: by mail-io1-xd42.google.com with SMTP id x4so5641630iog.13
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 09:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LqaMVi2bhKEsy7fqdRpYFiDwvc9O1DVGTsv5s250QcQ=;
+ b=BYKbTk6DJmlvdHwMz0s5lx0Iz1BHVk/HfPHqprIxOOXp+cFQ3tuwZp2IXzRY9P5X1p
+ KSwzUxJdbxKSBCGiC0ClvxjqY9Cwqw9IwVHcPg06c7TSMutrPtfkiiIkBvIZP2VENpcl
+ ihFDwL9lM917d1G8HteBs5/h9Rh37ZqHnEHok+6XcIU4AdPx1RVUjnB1XzfMJRU6A5PR
+ 0Nx9aSvSh3653IZrvzVUV8D+Nk2Xa+QQlkFhAn+nTc423Oho71hLUJDnextu6WKGMXr0
+ rc5WC5DXM4eFRP19dUiuJidl9Tk5Hq59sGaodnFHTrBUuB9Xn48U0PCYTeHbsZqxWKCB
+ HoYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LqaMVi2bhKEsy7fqdRpYFiDwvc9O1DVGTsv5s250QcQ=;
+ b=pf7u8pfVc8VqvwnNmJ8odwAY9tdJchkoWj7Pv0QzYmRQs7YKr5Nt/QoYYnz4NwxQCQ
+ eFlKT2b6Zad7hmy/xUmZzKt4b4YyGSbmLUL7oYw6i1E/OJlgkpUBNV9/+BWI+aoDBfnz
+ lIS00hopY3/Vi+akupEVXYzFMgJJ4GPxmybMFYAzEdpyzeNqHtFMmX5p3W8xn3nxxnXh
+ PIRHx1elvEp9fSv8dXpLaNkDlLgNxXYdrjXWiIM/hMJcRSl5uk192OQ2HDRGrmmKxlKi
+ LDaW9LBfezdlJaQzZWlGxzGSNnwmUZMIpDbYv4s2r/6u+Agw2elYsfKfKVw6FhBmhKjr
+ YbjQ==
+X-Gm-Message-State: APjAAAXgqtVDDzGsu66A1k2a/pdhytg38fF6ofDwq554kCOurU6082Ad
+ /qL6D3e675UHZOFQFrKOH1u4fZRnZmw3xB9S7Vw1+w==
+X-Google-Smtp-Source: APXvYqzib2XRArNBbh1PVLHZC9BtixpPG2+lrquZCIF1Zvpj0GPnt8XIKD9LBCc60gaB2wZHL/p5pr41jhdl4ITcCyI=
+X-Received: by 2002:a05:6602:228e:: with SMTP id
+ d14mr26772808iod.85.1566232706956; 
+ Mon, 19 Aug 2019 09:38:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Mon, 19 Aug 2019 16:37:20 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH-for-4.2 v2 0/6] s390x/mmu: Storage key
- reference and change bit handling
+References: <0141541d-43ff-98d8-e9d4-4a2fdcfdcf36@c-sky.com>
+ <CAKmqyKPr0V6acB2-Y+N1-aoj-5LSofwi=Jz=u6KFJN1fPUWjzA@mail.gmail.com>
+ <2b741fb0-0f12-0f07-a516-9cc23abc0b6e@c-sky.com>
+In-Reply-To: <2b741fb0-0f12-0f07-a516-9cc23abc0b6e@c-sky.com>
+From: Chih-Min Chao <chihmin.chao@sifive.com>
+Date: Tue, 20 Aug 2019 00:38:15 +0800
+Message-ID: <CAEiOBXU1SbdgJdsn_Cvny4=7NTxE+XQPrQQn6NevBxwB8Wox5w@mail.gmail.com>
+To: liuzhiwei <zhiwei_liu@c-sky.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d42
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [Qemu-riscv]  RISCV: when will the CLIC be ready?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,53 +76,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 19 Aug 2019 18:36:23 +0200
-Cornelia Huck <cohuck@redhat.com> wrote:
+On Mon, Aug 19, 2019 at 9:47 PM liuzhiwei <zhiwei_liu@c-sky.com> wrote:
 
-> On Wed, 14 Aug 2019 09:23:49 +0200
-> David Hildenbrand <david@redhat.com> wrote:
-> 
-> > The first two patches are modified patches from:
-> >     [PATCH-for-4.2 v1 0/9] s390x: MMU changes and extensions
-> > 
-> > This series primarily fixes minor things in the storage key handling code
-> > in the MMU and implements fairly reliable reference and change bit handling
-> > for TCG. To track the reference and change bit, we have to invalidate
-> > TLB entries whenever the storage key is changed by the guest and make sure
-> > not TLB entry is writable in case the storage key does not indicate a
-> > change already.
-> > 
-> > With this series, the kvm-unit-test "skey" now passes. \o/
-> > 
-> > v1 -> v2:
-> > - "s390x/tcg: Rework MMU selection for instruction fetches"
-> > -- Cleanup return value handling
-> > - Added RB's
-> > 
-> > David Hildenbrand (6):
-> >   s390x/mmu: ASC selection in s390_cpu_get_phys_page_debug()
-> >   s390x/tcg: Rework MMU selection for instruction fetches
-> >   s390x/tcg: Flush the TLB of all CPUs on SSKE and RRBE
-> >   s390x/mmu: Trace the right value if setting/getting the storage key
-> >     fails
-> >   s390x/mmu: Better storage key reference and change bit handling
-> >   s390x/mmu: Factor out storage key handling
-> > 
-> >  target/s390x/cpu.h        |   7 ++
-> >  target/s390x/helper.c     |   5 ++
-> >  target/s390x/mem_helper.c |   4 ++
-> >  target/s390x/mmu_helper.c | 133 ++++++++++++++++++++++++--------------
-> >  4 files changed, 99 insertions(+), 50 deletions(-)
-> >   
-> 
-> Thanks, applied.
+>
+> On 2019/8/17 =E4=B8=8A=E5=8D=881:29, Alistair Francis wrote:
+> > On Thu, Aug 15, 2019 at 8:39 PM liuzhiwei<zhiwei_liu@c-sky.com>  wrote:
+> >> Hi, Palmer
+> >>
+> >> When Michael Clark still was the maintainer of RISCV QEMU, he wrote in
+> the mail list, "the CLIC interrupt controller is under testing,
+> >> and will be included in QEMU 3.1 or 3.2". It is pity that the CLIC is
+> not in
+> >> included even in QEMU 4.1.0.
+> > I see that there is a CLIC branch available here:
+> > https://github.com/riscv/riscv-qemu/pull/157
+> >
+> > It looks like all of the work is in a single commit
+> > (
+> https://github.com/riscv/riscv-qemu/pull/157/commits/206d9ac339feb9ef2c32=
+5402a00f0f45f453d019
+> )
+> > and that most of the other commits in the PR have already made it into
+> > master.
+> >
+> > Although the CLIC commit is very large it doesn't seem impossible to
+> > manually pull out the CLIC bits and apply it onto master.
+> >
+> > Do you know the state of the CLIC model? If it's working it shouldn't
+> > be too hard to rebase the work and get the code into mainline.
+> >
+> > Alistair
+> >
+> Hi,  Alistair
+>
+> In my opinion, the CLIC code almost works.
+>
+> Last year when my workmate ported an RTOS, I once read the CLIC
+> specification and used the CLIC model code. It worked through  all the
+> tests after fixed two bugs. I also had sent the patch to Michael, but
+> without response(maybe a wrong email address).
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 7bf6cbc..95d80ab 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -505,6 +505,9 @@ static target_ulong riscv_intr_pc(CPURISCVState *env,
+>       if (!(async || clic)) {
+>           return tvec & ~0b11;
+>       }
+> +    if (clic) {
+> +        cause &=3D 0x3ff;
+> +    }
+>
+>       /* bits [1:0] encode mode; 0 =3D direct, 1 =3D vectored, 2 >=3D res=
+erved */
+>       switch (mode1) {
+> @@ -645,6 +648,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>           riscv_cpu_set_mode(env, PRV_M);
+>       }
+>
+> +    if (clic) {
+> +        env->exccode =3D 0;
+> +    }
+>       /* NOTE: it is not necessary to yield load reservations here. It is
+> only
+>          necessary for an SC from "another hart" to cause a load
+> reservation
+>          to be yielded. Refer to the memory consistency model section of
+> the
+>
+> After that, the specification has updated and the code may changed. I
+> didn't pull new code again.
+>
+> If the CLIC model may merged into the mainline, and no body maintain the
+> code, I'd like to work on it, fixing the bugs and updating the code
+> according to latest specification.
+>
+> Best Regards,
+> Zhiwei
+>
+> >> As we have cpus using CLIC, I have to use the out of tree qemu code in
+> SIFIVE
+> >> a long time. Could you tell me when it will be upstreamed?
+> >>
+> >> Best Regards
+> >> Zhiwei
+> >>
+>
+>
+Hi Zhiwei,
 
-No, not that one, v3. Argh.
+I think what Alistair point out is the latest clic version (or
+https://github.com/riscv/riscv-qemu/tree/riscv-qemu-3.1).  The two
+versions, on pull request and 3.1 branch, should be similar.
+As far as I know, there is no concrete plan on CLIC patch in short term.
+It is good to know that the clic patch has been run with real RTOS.
+It is also great if you could update the implementation to latest spec and
+send the patch again.
 
+chihmin
