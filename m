@@ -2,53 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD8D9495B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:04:37 +0200 (CEST)
-Received: from localhost ([::1]:54914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405FA94966
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 18:05:56 +0200 (CEST)
+Received: from localhost ([::1]:54926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzk95-0006Hj-LN
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:04:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60947)
+	id 1hzkAN-0007A9-5Y
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 12:05:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1hzk59-0002e6-1B
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:00:32 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hzk93-0006Zg-VY
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:04:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1hzk53-0005nD-Qv
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:00:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:31542)
+ (envelope-from <stefanha@redhat.com>) id 1hzk92-0008W7-8v
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:04:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:8622)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hzk53-0005n0-LU
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:00:25 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hzk92-0008UC-0k
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 12:04:32 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DF18551F00;
- Mon, 19 Aug 2019 16:00:24 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-124-60.rdu2.redhat.com
- [10.10.124.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C6B61CB;
- Mon, 19 Aug 2019 16:00:21 +0000 (UTC)
-Date: Mon, 19 Aug 2019 12:00:19 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190819160019.GB7887@localhost.localdomain>
-References: <20190818231827.27573-1-philmd@redhat.com>
- <20190818231827.27573-3-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id E9B993CA06;
+ Mon, 19 Aug 2019 16:04:29 +0000 (UTC)
+Received: from localhost (ovpn-116-205.ams2.redhat.com [10.36.116.205])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5592F857BC;
+ Mon, 19 Aug 2019 16:04:26 +0000 (UTC)
+Date: Mon, 19 Aug 2019 17:04:26 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: virtio-fs@redhat.com
+Message-ID: <20190819160426.GB2625@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dc+cDN39EJAMEtIO"
 Content-Disposition: inline
-In-Reply-To: <20190818231827.27573-3-philmd@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Mon, 19 Aug 2019 16:00:25 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.39]); Mon, 19 Aug 2019 16:04:30 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/4] tests/docker: update our Travis image
- to run acceptance tests locally
+Subject: [Qemu-devel] [ANNOUNCE] virtio-fs v0.3 release
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,41 +55,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org, kata-dev@lists.katacontainers.io
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 19, 2019 at 01:18:25AM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Since commit aa983ff67c3, Travis CI runs acceptance tests using
-> the Avocado framework. Since Avocado requires Python 3, update
-> our Docker image to be able to run these tests locally.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  tests/docker/dockerfiles/travis.docker | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/tests/docker/dockerfiles/travis.docker b/tests/docker/dock=
-erfiles/travis.docker
-> index 35714664a1..b5c5036534 100644
-> --- a/tests/docker/dockerfiles/travis.docker
-> +++ b/tests/docker/dockerfiles/travis.docker
-> @@ -13,6 +13,8 @@ RUN apt-get -y install \
->      lsof \
->      net-tools \
->      python2.7 \
-> +    python3-pip \
-> +    python3.5-venv \
->      python-yaml
->  # Travis tools require PhantomJS / Neo4j / Maven accessible
->  # in their PATH (QEMU build won't access them).
-> --=20
-> 2.20.1
->=20
->=20
 
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
+--dc+cDN39EJAMEtIO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+I am delighted to announce the release of virtio-fs v0.3, a shared file
+system that lets virtual machines access a directory tree on the host.
+This release is based on QEMU 4.1.0 and Linux 5.3-rc3.
+
+For more information about virtio-fs: https://virtio-fs.gitlab.io/
+
+This is a development release aimed at early adopters of virtio-fs.  Work is
+being done to upstream the code into Linux and QEMU.  We expect to stop
+publishing virtio-fs releases once the code has been merged by these upstream
+projects.
+
+Where to get it:
+
+  https://gitlab.com/virtio-fs/linux/-/tags/virtio-fs-v0.3
+  https://gitlab.com/virtio-fs/qemu/-/tags/virtio-fs-v0.3
+
+Changes:
+
+ * Please note that the mount syntax has changed to:
+
+     # mount -t virtio_fs myfs /mnt -o ...
+
+   The old syntax was "mount -t virtio_fs none /mnt -o tag=myfs,...".
+
+ * virtiofsd --fd=FDNUM takes a listen socket file descriptor number.  File
+   descriptor passing is an alternative way to manage the vhost-user UNIX
+   domain socket.  The parent process no longer needs to wait for virtiofsd to
+   create the listen socket before spawning the VM.
+
+ * virtiofsd --syslog logs to syslog(2) instead of stderr.  Useful for unifying
+   logging and when the virtiofsd process is not being supervised.
+
+ * virtiofsd --thread-pool-size=NUM sets the maximum number of worker threads
+   for FUSE request processing.  This can be used to control the host queue
+   depth.  The default is 64.
+
+ * Performance improvements and bug fixes.
+
+Note for Kata Containers: the new kernel is not compatible with existing
+Kata Containers releases due to the mount syntax change.  To try it out,
+please apply the following kata-runtime patch:
+
+  https://gitlab.com/virtio-fs/runtime/commit/a2e44de817e438c02a495cf258039774527e3178
+
+Kata Containers patches for virtio-fs v0.3 are under development and will be
+submitted to Kata soon.
+
+Thanks to the following people for contributing code and to many more
+for helping the virtio-fs effort:
+
+Dr. David Alan Gilbert <dgilbert@redhat.com>
+Eric Ren <renzhen@linux.alibaba.com>
+Eryu Guan <eguan@linux.alibaba.com>
+Ganesh Maharaj Mahalingam <ganesh.mahalingam@intel.com>
+Jiufei Xue <jiufei.xue@linux.alibaba.com>
+Liu Bo <bo.liu@linux.alibaba.com>
+Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+Miklos Szeredi <mszeredi@redhat.com>
+Peng Tao <tao.peng@linux.alibaba.com>
+piaojun <piaojun@huawei.com>
+Sebastien Boeuf <sebastien.boeuf@intel.com>
+Stefan Hajnoczi <stefanha@redhat.com>
+Vivek Goyal <vgoyal@redhat.com>
+Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
+
+--dc+cDN39EJAMEtIO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1ayIkACgkQnKSrs4Gr
+c8hAzQf9E4PbRDszsY7PdMkSP1YTi+I3Nv+dejPOnv98yeUdhv+vJFrrmsi4ZT0c
+403/aP5zUg6+iIPUu8kjF1yCBeLNK5a6mNKtZT5k0o3uyUlHk1cNKAZaJimOm1UD
+MYzgKTwvHkPd8ZLKwo1Ion1L597neZnF3SqhJE7pMbkKBNJvRPduY531zl2NwdJ8
++gH3MxPqyIlu0lwCdE1kdYe9gFP+CvWK9g0PMvkD+XhjdO21JxBNFaTu4jjzc+WV
+MRndGHtT0fbqj75bS6coe8CMnaWUDoRbH03ByK048YjTidlYL2z5SVOLFKIidSmo
+cA6OS1FyZs8XDU+GwvoHPvpCff8iJw==
+=zbZx
+-----END PGP SIGNATURE-----
+
+--dc+cDN39EJAMEtIO--
 
