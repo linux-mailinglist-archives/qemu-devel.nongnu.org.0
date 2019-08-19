@@ -2,55 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8570A94D95
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 21:09:33 +0200 (CEST)
-Received: from localhost ([::1]:56722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E6394D9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 21:11:57 +0200 (CEST)
+Received: from localhost ([::1]:56760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzn24-0001dx-Gw
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 15:09:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34731)
+	id 1hzn4N-00047S-Rh
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 15:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32998)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1hzmzl-0007Fe-1O
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 15:07:10 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hzmq2-0002oA-Es
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:57:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hzmzi-00072C-UT
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 15:07:08 -0400
-Resent-Date: Mon, 19 Aug 2019 15:07:08 -0400
-Resent-Message-Id: <E1hzmzi-00072C-UT@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21411)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hzmzi-00071W-MJ
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 15:07:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1566241606; cv=none; d=zoho.com; s=zohoarc; 
- b=oFMWUkKvQ9Kfs51cEgi1I8jvzSTHAuQouZR9GhZvLhhuNVCitvEmanvsseVndHlqIKVOotwyzDeBG9bX/u/QyOm4zCwBYQAsZvJ9x7pa/ymNQPn8UYxoTKXblkg/3fc8AMc4nIMa8kvwR8sOqldZUC2UmZzPU+IYA/l05vVyx8E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1566241606;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=2ScoBVB79kLFPQs+KPQarqW6sFEBSswbJ2SKiuj/ovY=; 
- b=KejgfzaeGkB6oGKDuGXaUTgIeCIFseWsZPtR8/6bWgxHKLlPGKbDaW3N5BEkYZ/WxSB2PWoy4kaZ45QW/b6WWi/k7twq5/LK5Y2Fw26ULowBJXvrlr57qH0UW3rRUdOmNY3UQ1vQdSeknngtuSjOTc69Si2GGsZotSSU6IURVJM=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 156624160467554.06052244036539;
- Mon, 19 Aug 2019 12:06:44 -0700 (PDT)
-In-Reply-To: <20190819185348.221825-1-scw@google.com>
-Message-ID: <156624160358.10709.12216629519561886436@5dec9699b7de>
+ (envelope-from <mreitz@redhat.com>) id 1hzmpy-0002M8-Dg
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:57:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53052)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hzmpp-0002Hw-HD; Mon, 19 Aug 2019 14:56:53 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D54A510C0525;
+ Mon, 19 Aug 2019 18:56:52 +0000 (UTC)
+Received: from localhost (ovpn-204-64.brq.redhat.com [10.40.204.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB3481C9;
+ Mon, 19 Aug 2019 18:56:51 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Mon, 19 Aug 2019 20:56:02 +0200
+Message-Id: <20190819185602.4267-17-mreitz@redhat.com>
+In-Reply-To: <20190819185602.4267-1-mreitz@redhat.com>
+References: <20190819185602.4267-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 12:06:44 -0700 (PDT)
-X-ZohoMailClient: External
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Mon, 19 Aug 2019 18:56:52 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH] linux-user: erroneous fd_trans_unregister
- call
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 16/16] iotests: Test qcow2's snapshot table
+ handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,144 +55,942 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: scw@google.com, riku.voipio@iki.fi, laurent@vivier.eu,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDgxOTE4NTM0OC4yMjE4
-MjUtMS1zY3dAZ29vZ2xlLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
-bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
-bWF0aW9uOgoKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUEFUQ0hdIGxpbnV4
-LXVzZXI6IGVycm9uZW91cyBmZF90cmFuc191bnJlZ2lzdGVyIGNhbGwKTWVzc2FnZS1pZDogMjAx
-OTA4MTkxODUzNDguMjIxODI1LTEtc2N3QGdvb2dsZS5jb20KCj09PSBURVNUIFNDUklQVCBCRUdJ
-TiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQg
-MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2Nh
-bCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlz
-dG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNU
-IFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJk
-ODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAq
-IFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAxOTA4MTkxODUzNDguMjIxODI1LTEtc2N3QGdv
-b2dsZS5jb20gLT4gcGF0Y2hldy8yMDE5MDgxOTE4NTM0OC4yMjE4MjUtMS1zY3dAZ29vZ2xlLmNv
-bQpTdWJtb2R1bGUgJ2NhcHN0b25lJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2NhcHN0b25l
-LmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAnY2Fwc3RvbmUnClN1Ym1vZHVsZSAnZHRjJyAoaHR0
-cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2R0Yy5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ2R0YycK
-U3VibW9kdWxlICdyb21zL1FlbXVNYWNEcml2ZXJzJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0
-L1FlbXVNYWNEcml2ZXJzLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9RZW11TWFjRHJp
-dmVycycKU3VibW9kdWxlICdyb21zL1NMT0YnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvU0xP
-Ri5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvU0xPRicKU3VibW9kdWxlICdyb21zL2Vk
-azInIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvZWRrMi5naXQpIHJlZ2lzdGVyZWQgZm9yIHBh
-dGggJ3JvbXMvZWRrMicKU3VibW9kdWxlICdyb21zL2lweGUnIChodHRwczovL2dpdC5xZW11Lm9y
-Zy9naXQvaXB4ZS5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvaXB4ZScKU3VibW9kdWxl
-ICdyb21zL29wZW5iaW9zJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L29wZW5iaW9zLmdpdCkg
-cmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9vcGVuYmlvcycKU3VibW9kdWxlICdyb21zL29wZW5o
-YWNrd2FyZScgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9vcGVuaGFja3dhcmUuZ2l0KSByZWdp
-c3RlcmVkIGZvciBwYXRoICdyb21zL29wZW5oYWNrd2FyZScKU3VibW9kdWxlICdyb21zL29wZW5z
-YmknIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvb3BlbnNiaS5naXQpIHJlZ2lzdGVyZWQgZm9y
-IHBhdGggJ3JvbXMvb3BlbnNiaScKU3VibW9kdWxlICdyb21zL3FlbXUtcGFsY29kZScgKGh0dHBz
-Oi8vZ2l0LnFlbXUub3JnL2dpdC9xZW11LXBhbGNvZGUuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRo
-ICdyb21zL3FlbXUtcGFsY29kZScKU3VibW9kdWxlICdyb21zL3NlYWJpb3MnIChodHRwczovL2dp
-dC5xZW11Lm9yZy9naXQvc2VhYmlvcy5naXQvKSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL3Nl
-YWJpb3MnClN1Ym1vZHVsZSAncm9tcy9zZWFiaW9zLWhwcGEnIChodHRwczovL2dpdC5xZW11Lm9y
-Zy9naXQvc2VhYmlvcy1ocHBhLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9zZWFiaW9z
-LWhwcGEnClN1Ym1vZHVsZSAncm9tcy9zZ2FiaW9zJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0
-L3NnYWJpb3MuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL3NnYWJpb3MnClN1Ym1vZHVs
-ZSAncm9tcy9za2lib290JyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L3NraWJvb3QuZ2l0KSBy
-ZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL3NraWJvb3QnClN1Ym1vZHVsZSAncm9tcy91LWJvb3Qn
-IChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvdS1ib290LmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0
-aCAncm9tcy91LWJvb3QnClN1Ym1vZHVsZSAncm9tcy91LWJvb3Qtc2FtNDYwZXgnIChodHRwczov
-L2dpdC5xZW11Lm9yZy9naXQvdS1ib290LXNhbTQ2MGV4LmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0
-aCAncm9tcy91LWJvb3Qtc2FtNDYwZXgnClN1Ym1vZHVsZSAnc2xpcnAnIChodHRwczovL2dpdC5x
-ZW11Lm9yZy9naXQvbGlic2xpcnAuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdzbGlycCcKU3Vi
-bW9kdWxlICd0ZXN0cy9mcC9iZXJrZWxleS1zb2Z0ZmxvYXQtMycgKGh0dHBzOi8vZ2l0LnFlbXUu
-b3JnL2dpdC9iZXJrZWxleS1zb2Z0ZmxvYXQtMy5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3Rl
-c3RzL2ZwL2JlcmtlbGV5LXNvZnRmbG9hdC0zJwpTdWJtb2R1bGUgJ3Rlc3RzL2ZwL2JlcmtlbGV5
-LXRlc3RmbG9hdC0zJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2JlcmtlbGV5LXRlc3RmbG9h
-dC0zLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAndGVzdHMvZnAvYmVya2VsZXktdGVzdGZsb2F0
-LTMnClN1Ym1vZHVsZSAndWkva2V5Y29kZW1hcGRiJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0
-L2tleWNvZGVtYXBkYi5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3VpL2tleWNvZGVtYXBkYicK
-Q2xvbmluZyBpbnRvICdjYXBzdG9uZScuLi4KU3VibW9kdWxlIHBhdGggJ2NhcHN0b25lJzogY2hl
-Y2tlZCBvdXQgJzIyZWFkM2UwYmZkYjg3NTE2NjU2NDUzMzM2MTYwZTBhMzdiMDY2YmYnCkNsb25p
-bmcgaW50byAnZHRjJy4uLgpTdWJtb2R1bGUgcGF0aCAnZHRjJzogY2hlY2tlZCBvdXQgJzg4ZjE4
-OTA5ZGI3MzFhNjI3NDU2ZjI2ZDc3OTQ0NWY4NGU0NDk1MzYnCkNsb25pbmcgaW50byAncm9tcy9R
-ZW11TWFjRHJpdmVycycuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvUWVtdU1hY0RyaXZlcnMnOiBj
-aGVja2VkIG91dCAnOTBjNDg4ZDVmNGE0MDczNDIyNDdiOWVhODY5ZGYxYzJkOWM4ZTI2NicKQ2xv
-bmluZyBpbnRvICdyb21zL1NMT0YnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL1NMT0YnOiBjaGVj
-a2VkIG91dCAnYmExYWIzNjBlZWJlNjMzOGJiOGQ3ZDgzYTkyMjBjY2Y3ZTIxM2FmMycKQ2xvbmlu
-ZyBpbnRvICdyb21zL2VkazInLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL2VkazInOiBjaGVja2Vk
-IG91dCAnMjBkMmU1YTEyNWUzNGZjODUwMTAyNjYxM2E3MTU0OWIyYTFhM2U1NCcKU3VibW9kdWxl
-ICdTb2Z0RmxvYXQnIChodHRwczovL2dpdGh1Yi5jb20vdWNiLWJhci9iZXJrZWxleS1zb2Z0Zmxv
-YXQtMy5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ0FybVBrZy9MaWJyYXJ5L0FybVNvZnRGbG9h
-dExpYi9iZXJrZWxleS1zb2Z0ZmxvYXQtMycKU3VibW9kdWxlICdDcnlwdG9Qa2cvTGlicmFyeS9P
-cGVuc3NsTGliL29wZW5zc2wnIChodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsKSBy
-ZWdpc3RlcmVkIGZvciBwYXRoICdDcnlwdG9Qa2cvTGlicmFyeS9PcGVuc3NsTGliL29wZW5zc2wn
-CkNsb25pbmcgaW50byAnQXJtUGtnL0xpYnJhcnkvQXJtU29mdEZsb2F0TGliL2JlcmtlbGV5LXNv
-ZnRmbG9hdC0zJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9lZGsyL0FybVBrZy9MaWJyYXJ5L0Fy
-bVNvZnRGbG9hdExpYi9iZXJrZWxleS1zb2Z0ZmxvYXQtMyc6IGNoZWNrZWQgb3V0ICdiNjRhZjQx
-YzMyNzZmOTdmMGUxODE5MjA0MDBlZTA1NmI5Yzg4MDM3JwpDbG9uaW5nIGludG8gJ0NyeXB0b1Br
-Zy9MaWJyYXJ5L09wZW5zc2xMaWIvb3BlbnNzbCcuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvZWRr
-Mi9DcnlwdG9Qa2cvTGlicmFyeS9PcGVuc3NsTGliL29wZW5zc2wnOiBjaGVja2VkIG91dCAnNTBl
-YWFjOWYzMzM3NjY3MjU5ZGU3MjU0NTFmMjAxZTc4NDU5OTY4NycKU3VibW9kdWxlICdib3Jpbmdz
-c2wnIChodHRwczovL2JvcmluZ3NzbC5nb29nbGVzb3VyY2UuY29tL2JvcmluZ3NzbCkgcmVnaXN0
-ZXJlZCBmb3IgcGF0aCAnYm9yaW5nc3NsJwpTdWJtb2R1bGUgJ2tyYjUnIChodHRwczovL2dpdGh1
-Yi5jb20va3JiNS9rcmI1KSByZWdpc3RlcmVkIGZvciBwYXRoICdrcmI1JwpTdWJtb2R1bGUgJ3B5
-Y2EuY3J5cHRvZ3JhcGh5JyAoaHR0cHM6Ly9naXRodWIuY29tL3B5Y2EvY3J5cHRvZ3JhcGh5Lmdp
-dCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncHljYS1jcnlwdG9ncmFwaHknCkNsb25pbmcgaW50byAn
-Ym9yaW5nc3NsJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9lZGsyL0NyeXB0b1BrZy9MaWJyYXJ5
-L09wZW5zc2xMaWIvb3BlbnNzbC9ib3Jpbmdzc2wnOiBjaGVja2VkIG91dCAnMjA3MGY4YWQ5MTUx
-ZGM4ZjNhNzNiZmZhYTE0NmI1ZTY5MzdhNTgzZicKQ2xvbmluZyBpbnRvICdrcmI1Jy4uLgpTdWJt
-b2R1bGUgcGF0aCAncm9tcy9lZGsyL0NyeXB0b1BrZy9MaWJyYXJ5L09wZW5zc2xMaWIvb3BlbnNz
-bC9rcmI1JzogY2hlY2tlZCBvdXQgJ2I5YWQ2YzQ5NTA1Yzk2YTA4ODMyNmI2MmE1MjU2OGUzNDg0
-ZjIxNjgnCkNsb25pbmcgaW50byAncHljYS1jcnlwdG9ncmFwaHknLi4uClN1Ym1vZHVsZSBwYXRo
-ICdyb21zL2VkazIvQ3J5cHRvUGtnL0xpYnJhcnkvT3BlbnNzbExpYi9vcGVuc3NsL3B5Y2EtY3J5
-cHRvZ3JhcGh5JzogY2hlY2tlZCBvdXQgJzA5NDAzMTAwZGUyZjZmMWNkZDBkNDg0ZGNiOGU2MjBm
-MWMzMzVjOGYnCkNsb25pbmcgaW50byAncm9tcy9pcHhlJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9t
-cy9pcHhlJzogY2hlY2tlZCBvdXQgJ2RlNDU2NWNiZTc2ZWE5Zjc5MTNhMDFmMzMxYmUzZWU5MDFi
-YjZlMTcnCkNsb25pbmcgaW50byAncm9tcy9vcGVuYmlvcycuLi4KU3VibW9kdWxlIHBhdGggJ3Jv
-bXMvb3BlbmJpb3MnOiBjaGVja2VkIG91dCAnYzc5ZTBlY2I4NGY0ZjFlZTNmNzNmNTIxNjIyZTI2
-NGVkZDFiZjE3NCcKQ2xvbmluZyBpbnRvICdyb21zL29wZW5oYWNrd2FyZScuLi4KU3VibW9kdWxl
-IHBhdGggJ3JvbXMvb3BlbmhhY2t3YXJlJzogY2hlY2tlZCBvdXQgJ2M1NTlkYTdjOGVlYzVlNDVl
-ZjFmNjc5Nzg4MjdhZjZmMGI5NTQ2ZjUnCkNsb25pbmcgaW50byAncm9tcy9vcGVuc2JpJy4uLgpT
-dWJtb2R1bGUgcGF0aCAncm9tcy9vcGVuc2JpJzogY2hlY2tlZCBvdXQgJ2NlMjI4ZWUwOTE5ZGVi
-OTk1NzE5MmQ3MjNlZWNjOGFhYWUyNjk3YzYnCkNsb25pbmcgaW50byAncm9tcy9xZW11LXBhbGNv
-ZGUnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL3FlbXUtcGFsY29kZSc6IGNoZWNrZWQgb3V0ICdi
-ZjBlMTM2OTg4NzI0NTAxNjRmYTcwNDBkYTM2YTk1ZDJkNGIzMjZmJwpDbG9uaW5nIGludG8gJ3Jv
-bXMvc2VhYmlvcycuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvc2VhYmlvcyc6IGNoZWNrZWQgb3V0
-ICdhNWNhYjU4ZTlhM2ZiNmUxNjhhYmE5MTljNTY2OWJlYTQwNjU3M2I0JwpDbG9uaW5nIGludG8g
-J3JvbXMvc2VhYmlvcy1ocHBhJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9zZWFiaW9zLWhwcGEn
-OiBjaGVja2VkIG91dCAnMGY0ZmU4NDY1ODE2NWU5NmNlMzU4NzBmZDE5ZmM2MzRlMTgyZTc3YicK
-Q2xvbmluZyBpbnRvICdyb21zL3NnYWJpb3MnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL3NnYWJp
-b3MnOiBjaGVja2VkIG91dCAnY2JhZWU1MjI4N2U1ZjMyMzczMTgxY2ZmNTBhMDBiNmM0YWM5MDE1
-YScKQ2xvbmluZyBpbnRvICdyb21zL3NraWJvb3QnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL3Nr
-aWJvb3QnOiBjaGVja2VkIG91dCAnMjYxY2E4ZTc3OWU1MTM4ODY5YTQ1ZjE3NGNhYTQ5YmU2YTI3
-NDUwMScKQ2xvbmluZyBpbnRvICdyb21zL3UtYm9vdCcuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMv
-dS1ib290JzogY2hlY2tlZCBvdXQgJ2QzNjg5MjY3ZjkyYzU5NTZlMDljYzdkMWJhYTQ3MDAxNDE2
-NjJiZmYnCkNsb25pbmcgaW50byAncm9tcy91LWJvb3Qtc2FtNDYwZXgnLi4uClN1Ym1vZHVsZSBw
-YXRoICdyb21zL3UtYm9vdC1zYW00NjBleCc6IGNoZWNrZWQgb3V0ICc2MGIzOTE2ZjMzZTYxN2E4
-MTU5NzNjNWE2ZGY3NzA1NWIyZTNhNTg4JwpDbG9uaW5nIGludG8gJ3NsaXJwJy4uLgpTdWJtb2R1
-bGUgcGF0aCAnc2xpcnAnOiBjaGVja2VkIG91dCAnMTI2YzA0YWNiYWJkN2FkMzJjMmIwMThmZTEw
-ZGZhYzJhM2JjMTIxMCcKQ2xvbmluZyBpbnRvICd0ZXN0cy9mcC9iZXJrZWxleS1zb2Z0ZmxvYXQt
-MycuLi4KU3VibW9kdWxlIHBhdGggJ3Rlc3RzL2ZwL2JlcmtlbGV5LXNvZnRmbG9hdC0zJzogY2hl
-Y2tlZCBvdXQgJ2I2NGFmNDFjMzI3NmY5N2YwZTE4MTkyMDQwMGVlMDU2YjljODgwMzcnCkNsb25p
-bmcgaW50byAndGVzdHMvZnAvYmVya2VsZXktdGVzdGZsb2F0LTMnLi4uClN1Ym1vZHVsZSBwYXRo
-ICd0ZXN0cy9mcC9iZXJrZWxleS10ZXN0ZmxvYXQtMyc6IGNoZWNrZWQgb3V0ICc1YTU5ZGNlYzE5
-MzI3Mzk2YTAxMWExN2ZkOTI0YWVkNGZlYzQxNmIzJwpDbG9uaW5nIGludG8gJ3VpL2tleWNvZGVt
-YXBkYicuLi4KU3VibW9kdWxlIHBhdGggJ3VpL2tleWNvZGVtYXBkYic6IGNoZWNrZWQgb3V0ICc2
-YjNkNzE2ZTJiNjQ3MmViNzE4OWQzMjIwNTUyMjgwZWYzZDgzMmNlJwpTd2l0Y2hlZCB0byBhIG5l
-dyBicmFuY2ggJ3Rlc3QnCjQ2N2I2NWIgbGludXgtdXNlcjogZXJyb25lb3VzIGZkX3RyYW5zX3Vu
-cmVnaXN0ZXIgY2FsbAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IEF1dGhvciBlbWFpbCBh
-ZGRyZXNzIGlzIG1hbmdsZWQgYnkgdGhlIG1haWxpbmcgbGlzdAojMjogCkF1dGhvcjogU2h1LUNo
-dW4gV2VuZyB2aWEgUWVtdS1kZXZlbCA8cWVtdS1kZXZlbEBub25nbnUub3JnPgoKdG90YWw6IDEg
-ZXJyb3JzLCAwIHdhcm5pbmdzLCA3IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA0NjdiNjViYTYyYzgg
-KGxpbnV4LXVzZXI6IGVycm9uZW91cyBmZF90cmFuc191bnJlZ2lzdGVyIGNhbGwpIGhhcyBzdHls
-ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
-bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
-Q0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRl
-ZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
-aGV3Lm9yZy9sb2dzLzIwMTkwODE5MTg1MzQ4LjIyMTgyNS0xLXNjd0Bnb29nbGUuY29tL3Rlc3Rp
-bmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRp
-Y2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3Vy
-IGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Add a test how our qcow2 driver handles extra data in snapshot table
+entries, and how it repairs overly long snapshot tables.
+
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/261     | 523 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/261.out | 346 ++++++++++++++++++++++++
+ tests/qemu-iotests/group   |   1 +
+ 3 files changed, 870 insertions(+)
+ create mode 100755 tests/qemu-iotests/261
+ create mode 100644 tests/qemu-iotests/261.out
+
+diff --git a/tests/qemu-iotests/261 b/tests/qemu-iotests/261
+new file mode 100755
+index 0000000000..fb96bcfbe2
+--- /dev/null
++++ b/tests/qemu-iotests/261
+@@ -0,0 +1,523 @@
++#!/usr/bin/env bash
++#
++# Test case for qcow2's handling of extra data in snapshot table entries
++# (and more generally, how certain cases of broken snapshot tables are
++# handled)
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++# creator
++owner=3Dmreitz@redhat.com
++
++seq=3D$(basename $0)
++echo "QA output created by $seq"
++
++status=3D1	# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++    rm -f "$TEST_IMG".v{2,3}.orig
++    rm -f "$TEST_DIR"/sn{0,1,2}{,-pre,-extra,-post}
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++# This tests qocw2-specific low-level functionality
++_supported_fmt qcow2
++_supported_proto file
++_supported_os Linux
++# (1) We create a v2 image that supports nothing but refcount_bits=3D16
++# (2) We do some refcount management on our own which expects
++#     refcount_bits=3D16
++_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
++
++# Parameters:
++#   $1: image filename
++#   $2: snapshot table entry offset in the image
++snapshot_table_entry_size()
++{
++    id_len=3D$(peek_file_be "$1" $(($2 + 12)) 2)
++    name_len=3D$(peek_file_be "$1" $(($2 + 14)) 2)
++    extra_len=3D$(peek_file_be "$1" $(($2 + 36)) 4)
++
++    full_len=3D$((40 + extra_len + id_len + name_len))
++    echo $(((full_len + 7) / 8 * 8))
++}
++
++# Parameter:
++#   $1: image filename
++print_snapshot_table()
++{
++    nb_entries=3D$(peek_file_be "$1" 60 4)
++    offset=3D$(peek_file_be "$1" 64 8)
++
++    echo "Snapshots in $1:" | _filter_testdir | _filter_imgfmt
++
++    for ((i =3D 0; i < nb_entries; i++)); do
++        id_len=3D$(peek_file_be "$1" $((offset + 12)) 2)
++        name_len=3D$(peek_file_be "$1" $((offset + 14)) 2)
++        extra_len=3D$(peek_file_be "$1" $((offset + 36)) 4)
++
++        extra_ofs=3D$((offset + 40))
++        id_ofs=3D$((extra_ofs + extra_len))
++        name_ofs=3D$((id_ofs + id_len))
++
++        echo "  [$i]"
++        echo "    ID: $(peek_file_raw "$1" $id_ofs $id_len)"
++        echo "    Name: $(peek_file_raw "$1" $name_ofs $name_len)"
++        echo "    Extra data size: $extra_len"
++        if [ $extra_len -ge 8 ]; then
++            echo "    VM state size: $(peek_file_be "$1" $extra_ofs 8)"
++        fi
++        if [ $extra_len -ge 16 ]; then
++            echo "    Disk size: $(peek_file_be "$1" $((extra_ofs + 8)) =
+8)"
++        fi
++        if [ $extra_len -gt 16 ]; then
++            echo '    Unknown extra data:' \
++                "$(peek_file_raw "$1" $((extra_ofs + 16)) $((extra_len -=
+ 16)) \
++                   | tr -d '\0')"
++        fi
++
++        offset=3D$((offset + $(snapshot_table_entry_size "$1" $offset)))
++    done
++}
++
++# Mark clusters as allocated; works only in refblock 0 (i.e. before
++# cluster #32768).
++# Parameters:
++#   $1: Start offset of what to allocate
++#   $2: End offset (exclusive)
++refblock0_allocate()
++{
++    reftable_ofs=3D$(peek_file_be "$TEST_IMG" 48 8)
++    refblock_ofs=3D$(peek_file_be "$TEST_IMG" $reftable_ofs 8)
++
++    cluster=3D$(($1 / 65536))
++    ecluster=3D$((($2 + 65535) / 65536))
++
++    while [ $cluster -lt $ecluster ]; do
++        if [ $cluster -ge 32768 ]; then
++            echo "*** Abort: Cluster $cluster exceeds refblock 0 ***"
++            exit 1
++        fi
++        poke_file "$TEST_IMG" $((refblock_ofs + cluster * 2)) '\x00\x01'
++        cluster=3D$((cluster + 1))
++    done
++}
++
++
++echo
++echo '=3D=3D=3D Create v2 template =3D=3D=3D'
++echo
++
++# Create v2 image with a snapshot table with three entries:
++# [0]: No extra data (valid with v2, not valid with v3)
++# [1]: Has extra data unknown to qemu
++# [2]: Has the 64-bit VM state size, but not the disk size (again,
++#      valid with v2, not valid with v3)
++
++TEST_IMG=3D"$TEST_IMG.v2.orig" IMGOPTS=3D'compat=3D0.10' _make_test_img =
+64M
++$QEMU_IMG snapshot -c sn0 "$TEST_IMG.v2.orig"
++$QEMU_IMG snapshot -c sn1 "$TEST_IMG.v2.orig"
++$QEMU_IMG snapshot -c sn2 "$TEST_IMG.v2.orig"
++
++# Copy out all existing snapshot table entries
++sn_table_ofs=3D$(peek_file_be "$TEST_IMG.v2.orig" 64 8)
++
++# ofs: Snapshot table entry offset
++# eds: Extra data size
++# ids: Name + ID size
++# len: Total entry length
++sn0_ofs=3D$sn_table_ofs
++sn0_eds=3D$(peek_file_be "$TEST_IMG.v2.orig" $((sn0_ofs + 36)) 4)
++sn0_ids=3D$(($(peek_file_be "$TEST_IMG.v2.orig" $((sn0_ofs + 12)) 2) +
++           $(peek_file_be "$TEST_IMG.v2.orig" $((sn0_ofs + 14)) 2)))
++sn0_len=3D$(snapshot_table_entry_size "$TEST_IMG.v2.orig" $sn0_ofs)
++sn1_ofs=3D$((sn0_ofs + sn0_len))
++sn1_eds=3D$(peek_file_be "$TEST_IMG.v2.orig" $((sn1_ofs + 36)) 4)
++sn1_ids=3D$(($(peek_file_be "$TEST_IMG.v2.orig" $((sn1_ofs + 12)) 2) +
++           $(peek_file_be "$TEST_IMG.v2.orig" $((sn1_ofs + 14)) 2)))
++sn1_len=3D$(snapshot_table_entry_size "$TEST_IMG.v2.orig" $sn1_ofs)
++sn2_ofs=3D$((sn1_ofs + sn1_len))
++sn2_eds=3D$(peek_file_be "$TEST_IMG.v2.orig" $((sn2_ofs + 36)) 4)
++sn2_ids=3D$(($(peek_file_be "$TEST_IMG.v2.orig" $((sn2_ofs + 12)) 2) +
++           $(peek_file_be "$TEST_IMG.v2.orig" $((sn2_ofs + 14)) 2)))
++sn2_len=3D$(snapshot_table_entry_size "$TEST_IMG.v2.orig" $sn2_ofs)
++
++# Data before extra data
++dd if=3D"$TEST_IMG.v2.orig" of=3D"$TEST_DIR/sn0-pre" bs=3D1 skip=3D$sn0_=
+ofs count=3D40 \
++    &> /dev/null
++dd if=3D"$TEST_IMG.v2.orig" of=3D"$TEST_DIR/sn1-pre" bs=3D1 skip=3D$sn1_=
+ofs count=3D40 \
++    &> /dev/null
++dd if=3D"$TEST_IMG.v2.orig" of=3D"$TEST_DIR/sn2-pre" bs=3D1 skip=3D$sn2_=
+ofs count=3D40 \
++    &> /dev/null
++
++# Extra data
++dd if=3D"$TEST_IMG.v2.orig" of=3D"$TEST_DIR/sn0-extra" bs=3D1 \
++    skip=3D$((sn0_ofs + 40)) count=3D$sn0_eds &> /dev/null
++dd if=3D"$TEST_IMG.v2.orig" of=3D"$TEST_DIR/sn1-extra" bs=3D1 \
++    skip=3D$((sn1_ofs + 40)) count=3D$sn1_eds &> /dev/null
++dd if=3D"$TEST_IMG.v2.orig" of=3D"$TEST_DIR/sn2-extra" bs=3D1 \
++    skip=3D$((sn2_ofs + 40)) count=3D$sn2_eds &> /dev/null
++
++# Data after extra data
++dd if=3D"$TEST_IMG.v2.orig" of=3D"$TEST_DIR/sn0-post" bs=3D1 \
++    skip=3D$((sn0_ofs + 40 + sn0_eds)) count=3D$sn0_ids \
++    &> /dev/null
++dd if=3D"$TEST_IMG.v2.orig" of=3D"$TEST_DIR/sn1-post" bs=3D1 \
++    skip=3D$((sn1_ofs + 40 + sn1_eds)) count=3D$sn1_ids \
++    &> /dev/null
++dd if=3D"$TEST_IMG.v2.orig" of=3D"$TEST_DIR/sn2-post" bs=3D1 \
++    skip=3D$((sn2_ofs + 40 + sn2_eds)) count=3D$sn2_ids \
++    &> /dev/null
++
++# Amend them, one by one
++# Set sn0's extra data size to 0
++poke_file "$TEST_DIR/sn0-pre" 36 '\x00\x00\x00\x00'
++truncate -s 0 "$TEST_DIR/sn0-extra"
++# Grow sn0-post to pad
++truncate -s $(($(snapshot_table_entry_size "$TEST_DIR/sn0-pre") - 40)) \
++    "$TEST_DIR/sn0-post"
++
++# Set sn1's extra data size to 42
++poke_file "$TEST_DIR/sn1-pre" 36 '\x00\x00\x00\x2a'
++truncate -s 42 "$TEST_DIR/sn1-extra"
++poke_file "$TEST_DIR/sn1-extra" 16 'very important data'
++# Grow sn1-post to pad
++truncate -s $(($(snapshot_table_entry_size "$TEST_DIR/sn1-pre") - 82)) \
++    "$TEST_DIR/sn1-post"
++
++# Set sn2's extra data size to 8
++poke_file "$TEST_DIR/sn2-pre" 36 '\x00\x00\x00\x08'
++truncate -s 8 "$TEST_DIR/sn2-extra"
++# Grow sn2-post to pad
++truncate -s $(($(snapshot_table_entry_size "$TEST_DIR/sn2-pre") - 48)) \
++    "$TEST_DIR/sn2-post"
++
++# Construct snapshot table
++cat "$TEST_DIR"/sn0-{pre,extra,post} \
++    "$TEST_DIR"/sn1-{pre,extra,post} \
++    "$TEST_DIR"/sn2-{pre,extra,post} \
++    | dd of=3D"$TEST_IMG.v2.orig" bs=3D1 seek=3D$sn_table_ofs conv=3Dnot=
+runc \
++          &> /dev/null
++
++# Done!
++TEST_IMG=3D"$TEST_IMG.v2.orig" _check_test_img
++print_snapshot_table "$TEST_IMG.v2.orig"
++
++echo
++echo '=3D=3D=3D Upgrade to v3 =3D=3D=3D'
++echo
++
++cp "$TEST_IMG.v2.orig" "$TEST_IMG.v3.orig"
++$QEMU_IMG amend -o compat=3D1.1 "$TEST_IMG.v3.orig"
++TEST_IMG=3D"$TEST_IMG.v3.orig" _check_test_img
++print_snapshot_table "$TEST_IMG.v3.orig"
++
++echo
++echo '=3D=3D=3D Repair botched v3 =3D=3D=3D'
++echo
++
++# Force the v2 file to be v3.  v3 requires each snapshot table entry
++# to have at least 16 bytes of extra data, so it will not comply to
++# the qcow2 v3 specification; but we can fix that.
++cp "$TEST_IMG.v2.orig" "$TEST_IMG"
++
++# Set version
++poke_file "$TEST_IMG" 4 '\x00\x00\x00\x03'
++# Increase header length (necessary for v3)
++poke_file "$TEST_IMG" 100 '\x00\x00\x00\x68'
++# Set refcount order (necessary for v3)
++poke_file "$TEST_IMG" 96 '\x00\x00\x00\x04'
++
++_check_test_img -r all
++print_snapshot_table "$TEST_IMG"
++
++
++# From now on, just test the qcow2 version we are supposed to test.
++# (v3 by default, v2 by choice through $IMGOPTS.)
++# That works because we always write all known extra data when
++# updating the snapshot table, independent of the version.
++
++if echo "$IMGOPTS" | grep -q 'compat=3D\(0\.10\|v2\)' 2> /dev/null; then
++    subver=3Dv2
++else
++    subver=3Dv3
++fi
++
++echo
++echo '=3D=3D=3D Add new snapshot =3D=3D=3D'
++echo
++
++cp "$TEST_IMG.$subver.orig" "$TEST_IMG"
++$QEMU_IMG snapshot -c sn3 "$TEST_IMG"
++_check_test_img
++print_snapshot_table "$TEST_IMG"
++
++echo
++echo '=3D=3D=3D Remove different snapshots =3D=3D=3D'
++
++for sn in sn0 sn1 sn2; do
++    echo
++    echo "--- $sn ---"
++
++    cp "$TEST_IMG.$subver.orig" "$TEST_IMG"
++    $QEMU_IMG snapshot -d $sn "$TEST_IMG"
++    _check_test_img
++    print_snapshot_table "$TEST_IMG"
++done
++
++echo
++echo '=3D=3D=3D Reject too much unknown extra data =3D=3D=3D'
++echo
++
++cp "$TEST_IMG.$subver.orig" "$TEST_IMG"
++$QEMU_IMG snapshot -c sn3 "$TEST_IMG"
++
++sn_table_ofs=3D$(peek_file_be "$TEST_IMG" 64 8)
++sn0_ofs=3D$sn_table_ofs
++sn1_ofs=3D$((sn0_ofs + $(snapshot_table_entry_size "$TEST_IMG" $sn0_ofs)=
+))
++sn2_ofs=3D$((sn1_ofs + $(snapshot_table_entry_size "$TEST_IMG" $sn1_ofs)=
+))
++sn3_ofs=3D$((sn2_ofs + $(snapshot_table_entry_size "$TEST_IMG" $sn2_ofs)=
+))
++
++# 64 kB of extra data should be rejected
++# (Note that this also induces a refcount error, because it spills
++# over to the next cluster.  That's a good way to test that we can
++# handle simultaneous snapshot table and refcount errors.)
++poke_file "$TEST_IMG" $((sn3_ofs + 36)) '\x00\x01\x00\x00'
++
++# Print error
++_img_info
++echo
++_check_test_img
++echo
++
++# Should be repairable
++_check_test_img -r all
++
++echo
++echo '=3D=3D=3D Snapshot table too big =3D=3D=3D'
++echo
++
++sn_table_ofs=3D$(peek_file_be "$TEST_IMG.v3.orig" 64 8)
++
++# Fill a snapshot with 1 kB of extra data, a 65535-char ID, and a
++# 65535-char name, and repeat it as many times as necessary to fill
++# 64 MB (the maximum supported by qemu)
++
++touch "$TEST_DIR/sn0"
++
++# Full size (fixed + extra + ID + name + padding)
++sn_size=3D$((40 + 1024 + 65535 + 65535 + 2))
++
++# We only need the fixed part, though.
++truncate -s 40 "$TEST_DIR/sn0"
++
++# 65535-char ID string
++poke_file "$TEST_DIR/sn0" 12 '\xff\xff'
++# 65535-char name
++poke_file "$TEST_DIR/sn0" 14 '\xff\xff'
++# 1 kB of extra data
++poke_file "$TEST_DIR/sn0" 36 '\x00\x00\x04\x00'
++
++# Create test image
++_make_test_img 64M
++
++# Hook up snapshot table somewhere safe (at 1 MB)
++poke_file "$TEST_IMG" 64 '\x00\x00\x00\x00\x00\x10\x00\x00'
++
++offset=3D1048576
++size_written=3D0
++sn_count=3D0
++while [ $size_written -le $((64 * 1048576)) ]; do
++    dd if=3D"$TEST_DIR/sn0" of=3D"$TEST_IMG" bs=3D1 seek=3D$offset conv=3D=
+notrunc \
++        &> /dev/null
++    offset=3D$((offset + sn_size))
++    size_written=3D$((size_written + sn_size))
++    sn_count=3D$((sn_count + 1))
++done
++truncate -s "$offset" "$TEST_IMG"
++
++# Give the last snapshot (the one to be removed) an L1 table so we can
++# see how that is handled when repairing the image
++# (Put it two clusters before 1 MB, and one L2 table one cluster
++# before 1 MB)
++poke_file "$TEST_IMG" $((offset - sn_size + 0)) \
++    '\x00\x00\x00\x00\x00\x0e\x00\x00'
++poke_file "$TEST_IMG" $((offset - sn_size + 8)) \
++    '\x00\x00\x00\x01'
++
++# Hook up the L2 table
++poke_file "$TEST_IMG" $((1048576 - 2 * 65536)) \
++    '\x80\x00\x00\x00\x00\x0f\x00\x00'
++
++# Make sure all of the clusters we just hooked up are allocated:
++# - The snapshot table
++# - The last snapshot's L1 and L2 table
++refblock0_allocate $((1048576 - 2 * 65536)) $offset
++
++poke_file "$TEST_IMG" 60 \
++    "$(printf '%08x' $sn_count | sed -e 's/\(..\)/\\x\1/g')"
++
++# Print error
++_img_info
++echo
++_check_test_img
++echo
++
++# Should be repairable
++_check_test_img -r all
++
++echo
++echo "$((sn_count - 1)) snapshots should remain:"
++echo "  qemu-img info reports $(_img_info | grep -c '^ \{34\}') snapshot=
+s"
++echo "  Image header reports $(peek_file_be "$TEST_IMG" 60 4) snapshots"
++
++echo
++echo '=3D=3D=3D Snapshot table too big with one entry with too much extr=
+a data =3D=3D=3D'
++echo
++
++# For this test, we reuse the image from the previous case, which has
++# a snapshot table that is right at the limit.
++# Our layout looks like this:
++# - (a number of snapshot table entries)
++# - One snapshot with $extra_data_size extra data
++# - One normal snapshot that breaks the 64 MB boundary
++# - One normal snapshot beyond the 64 MB boundary
++#
++# $extra_data_size is calculated so that simply by virtue of it
++# decreasing to 1 kB, the penultimate snapshot will fit into 64 MB
++# limit again.  The final snapshot will always be beyond the limit, so
++# that we can see that the repair algorithm does still determine the
++# limit to be somewhere, even when truncating one snapshot's extra
++# data.
++
++# The last case has removed the last snapshot, so calculate
++# $old_offset to get the current image's real length
++old_offset=3D$((offset - sn_size))
++
++# The layout from the previous test had one snapshot beyond the 64 MB
++# limit; we want the same (after the oversized extra data has been
++# truncated to 1 kB), so we drop the last three snapshots and
++# construct them from scratch.
++offset=3D$((offset - 3 * sn_size))
++sn_count=3D$((sn_count - 3))
++
++# Assuming we had already written one of the three snapshots
++# (necessary so we can calculate $extra_data_size next).
++size_written=3D$((size_written - 2 * sn_size))
++
++# Increase the extra data size so we go past the limit
++# (The -1024 comes from the 1 kB of extra data we already have)
++extra_data_size=3D$((64 * 1048576 + 8 - sn_size - (size_written - 1024))=
+)
++
++poke_file "$TEST_IMG" $((offset + 36)) \
++    "$(printf '%08x' $extra_data_size | sed -e 's/\(..\)/\\x\1/g')"
++
++offset=3D$((offset + sn_size - 1024 + extra_data_size))
++size_written=3D$((size_written - 1024 + extra_data_size))
++sn_count=3D$((sn_count + 1))
++
++# Write the two normal snapshots
++for ((i =3D 0; i < 2; i++)); do
++    dd if=3D"$TEST_DIR/sn0" of=3D"$TEST_IMG" bs=3D1 seek=3D$offset conv=3D=
+notrunc \
++        &> /dev/null
++    offset=3D$((offset + sn_size))
++    size_written=3D$((size_written + sn_size))
++    sn_count=3D$((sn_count + 1))
++
++    if [ $i =3D 0 ]; then
++        # Check that the penultimate snapshot is beyond the 64 MB limit
++        echo "Snapshot table size should equal $((64 * 1048576 + 8)):" \
++            $size_written
++        echo
++    fi
++done
++
++truncate -s $offset "$TEST_IMG"
++refblock0_allocate $old_offset $offset
++
++poke_file "$TEST_IMG" 60 \
++    "$(printf '%08x' $sn_count | sed -e 's/\(..\)/\\x\1/g')"
++
++# Print error
++_img_info
++echo
++_check_test_img
++echo
++
++# Just truncating the extra data should be sufficient to shorten the
++# snapshot table so only one snapshot exceeds the extra size
++_check_test_img -r all
++
++echo
++echo '=3D=3D=3D Too many snapshots =3D=3D=3D'
++echo
++
++# Create a v2 image, for speeds' sake: All-zero snapshot table entries
++# are only valid in v2.
++IMGOPTS=3D'compat=3D0.10' _make_test_img 64M
++
++# Hook up snapshot table somewhere safe (at 1 MB)
++poke_file "$TEST_IMG" 64 '\x00\x00\x00\x00\x00\x10\x00\x00'
++# "Create" more than 65536 snapshots (twice that many here)
++poke_file "$TEST_IMG" 60 '\x00\x02\x00\x00'
++
++# 40-byte all-zero snapshot table entries are valid snapshots, but
++# only in v2 (v3 needs 16 bytes of extra data, so we would have to
++# write 131072x '\x10').
++truncate -s $((1048576 + 40 * 131072)) "$TEST_IMG"
++
++# But let us give one of the snapshots to be removed an L1 table so
++# we can see how that is handled when repairing the image.
++# (Put it two clusters before 1 MB, and one L2 table one cluster
++# before 1 MB)
++poke_file "$TEST_IMG" $((1048576 + 40 * 65536 + 0)) \
++    '\x00\x00\x00\x00\x00\x0e\x00\x00'
++poke_file "$TEST_IMG" $((1048576 + 40 * 65536 + 8)) \
++    '\x00\x00\x00\x01'
++
++# Hook up the L2 table
++poke_file "$TEST_IMG" $((1048576 - 2 * 65536)) \
++    '\x80\x00\x00\x00\x00\x0f\x00\x00'
++
++# Make sure all of the clusters we just hooked up are allocated:
++# - The snapshot table
++# - The last snapshot's L1 and L2 table
++refblock0_allocate $((1048576 - 2 * 65536)) $((1048576 + 40 * 131072))
++
++# Print error
++_img_info
++echo
++_check_test_img
++echo
++
++# Should be repairable
++_check_test_img -r all
++
++echo
++echo '65536 snapshots should remain:'
++echo "  qemu-img info reports $(_img_info | grep -c '^ \{34\}') snapshot=
+s"
++echo "  Image header reports $(peek_file_be "$TEST_IMG" 60 4) snapshots"
++
++# success, all done
++echo "*** done"
++status=3D0
+diff --git a/tests/qemu-iotests/261.out b/tests/qemu-iotests/261.out
+new file mode 100644
+index 0000000000..2600354566
+--- /dev/null
++++ b/tests/qemu-iotests/261.out
+@@ -0,0 +1,346 @@
++QA output created by 261
++
++=3D=3D=3D Create v2 template =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT.v2.orig', fmt=3DIMGFMT size=3D67108864
++No errors were found on the image.
++Snapshots in TEST_DIR/t.IMGFMT.v2.orig:
++  [0]
++    ID: 1
++    Name: sn0
++    Extra data size: 0
++  [1]
++    ID: 2
++    Name: sn1
++    Extra data size: 42
++    VM state size: 0
++    Disk size: 67108864
++    Unknown extra data: very important data
++  [2]
++    ID: 3
++    Name: sn2
++    Extra data size: 8
++    VM state size: 0
++
++=3D=3D=3D Upgrade to v3 =3D=3D=3D
++
++No errors were found on the image.
++Snapshots in TEST_DIR/t.IMGFMT.v3.orig:
++  [0]
++    ID: 1
++    Name: sn0
++    Extra data size: 16
++    VM state size: 0
++    Disk size: 67108864
++  [1]
++    ID: 2
++    Name: sn1
++    Extra data size: 42
++    VM state size: 0
++    Disk size: 67108864
++    Unknown extra data: very important data
++  [2]
++    ID: 3
++    Name: sn2
++    Extra data size: 16
++    VM state size: 0
++    Disk size: 67108864
++
++=3D=3D=3D Repair botched v3 =3D=3D=3D
++
++Repairing snapshot table entry 0 is incomplete
++Repairing snapshot table entry 2 is incomplete
++The following inconsistencies were found and repaired:
++
++    0 leaked clusters
++    2 corruptions
++
++Double checking the fixed image now...
++No errors were found on the image.
++Snapshots in TEST_DIR/t.IMGFMT:
++  [0]
++    ID: 1
++    Name: sn0
++    Extra data size: 16
++    VM state size: 0
++    Disk size: 67108864
++  [1]
++    ID: 2
++    Name: sn1
++    Extra data size: 42
++    VM state size: 0
++    Disk size: 67108864
++    Unknown extra data: very important data
++  [2]
++    ID: 3
++    Name: sn2
++    Extra data size: 16
++    VM state size: 0
++    Disk size: 67108864
++
++=3D=3D=3D Add new snapshot =3D=3D=3D
++
++No errors were found on the image.
++Snapshots in TEST_DIR/t.IMGFMT:
++  [0]
++    ID: 1
++    Name: sn0
++    Extra data size: 16
++    VM state size: 0
++    Disk size: 67108864
++  [1]
++    ID: 2
++    Name: sn1
++    Extra data size: 42
++    VM state size: 0
++    Disk size: 67108864
++    Unknown extra data: very important data
++  [2]
++    ID: 3
++    Name: sn2
++    Extra data size: 16
++    VM state size: 0
++    Disk size: 67108864
++  [3]
++    ID: 4
++    Name: sn3
++    Extra data size: 16
++    VM state size: 0
++    Disk size: 67108864
++
++=3D=3D=3D Remove different snapshots =3D=3D=3D
++
++--- sn0 ---
++No errors were found on the image.
++Snapshots in TEST_DIR/t.IMGFMT:
++  [0]
++    ID: 2
++    Name: sn1
++    Extra data size: 42
++    VM state size: 0
++    Disk size: 67108864
++    Unknown extra data: very important data
++  [1]
++    ID: 3
++    Name: sn2
++    Extra data size: 16
++    VM state size: 0
++    Disk size: 67108864
++
++--- sn1 ---
++No errors were found on the image.
++Snapshots in TEST_DIR/t.IMGFMT:
++  [0]
++    ID: 1
++    Name: sn0
++    Extra data size: 16
++    VM state size: 0
++    Disk size: 67108864
++  [1]
++    ID: 3
++    Name: sn2
++    Extra data size: 16
++    VM state size: 0
++    Disk size: 67108864
++
++--- sn2 ---
++No errors were found on the image.
++Snapshots in TEST_DIR/t.IMGFMT:
++  [0]
++    ID: 1
++    Name: sn0
++    Extra data size: 16
++    VM state size: 0
++    Disk size: 67108864
++  [1]
++    ID: 2
++    Name: sn1
++    Extra data size: 42
++    VM state size: 0
++    Disk size: 67108864
++    Unknown extra data: very important data
++
++=3D=3D=3D Reject too much unknown extra data =3D=3D=3D
++
++qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Too much extra metadata in=
+ snapshot table entry 3
++You can force-remove this extra metadata with qemu-img check -r all
++
++qemu-img: ERROR failed to read the snapshot table: Too much extra metada=
+ta in snapshot table entry 3
++You can force-remove this extra metadata with qemu-img check -r all
++qemu-img: Check failed: File too large
++
++Discarding too much extra metadata in snapshot table entry 3 (65536 > 10=
+24)
++ERROR cluster 10 refcount=3D0 reference=3D1
++Rebuilding refcount structure
++Repairing cluster 1 refcount=3D1 reference=3D0
++Repairing cluster 2 refcount=3D1 reference=3D0
++The following inconsistencies were found and repaired:
++
++    0 leaked clusters
++    2 corruptions
++
++Double checking the fixed image now...
++No errors were found on the image.
++
++=3D=3D=3D Snapshot table too big =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
++qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Snapshot table is too big
++You can force-remove all 1 overhanging snapshots with qemu-img check -r =
+all
++
++qemu-img: ERROR failed to read the snapshot table: Snapshot table is too=
+ big
++You can force-remove all 1 overhanging snapshots with qemu-img check -r =
+all
++qemu-img: Check failed: File too large
++
++Discarding 1 overhanging snapshots (snapshot table is too big)
++Leaked cluster 14 refcount=3D1 reference=3D0
++Leaked cluster 15 refcount=3D1 reference=3D0
++Leaked cluster 1039 refcount=3D1 reference=3D0
++Leaked cluster 1040 refcount=3D1 reference=3D0
++Repairing cluster 14 refcount=3D1 reference=3D0
++Repairing cluster 15 refcount=3D1 reference=3D0
++Repairing cluster 1039 refcount=3D1 reference=3D0
++Repairing cluster 1040 refcount=3D1 reference=3D0
++The following inconsistencies were found and repaired:
++
++    4 leaked clusters
++    1 corruptions
++
++Double checking the fixed image now...
++No errors were found on the image.
++
++507 snapshots should remain:
++  qemu-img info reports 507 snapshots
++  Image header reports 507 snapshots
++
++=3D=3D=3D Snapshot table too big with one entry with too much extra data=
+ =3D=3D=3D
++
++Snapshot table size should equal 67108872: 67108872
++
++qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Too much extra metadata in=
+ snapshot table entry 505
++You can force-remove this extra metadata with qemu-img check -r all
++
++qemu-img: ERROR failed to read the snapshot table: Too much extra metada=
+ta in snapshot table entry 505
++You can force-remove this extra metadata with qemu-img check -r all
++qemu-img: Check failed: File too large
++
++Discarding too much extra metadata in snapshot table entry 505 (116944 >=
+ 1024)
++Discarding 1 overhanging snapshots (snapshot table is too big)
++Leaked cluster 1041 refcount=3D1 reference=3D0
++Leaked cluster 1042 refcount=3D1 reference=3D0
++Repairing cluster 1041 refcount=3D1 reference=3D0
++Repairing cluster 1042 refcount=3D1 reference=3D0
++The following inconsistencies were found and repaired:
++
++    2 leaked clusters
++    2 corruptions
++
++Double checking the fixed image now...
++No errors were found on the image.
++
++=3D=3D=3D Too many snapshots =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
++qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Snapshot table too large
++
++qemu-img: ERROR snapshot table too large
++You can force-remove all 65536 overhanging snapshots with qemu-img check=
+ -r all
++qemu-img: Check failed: File too large
++
++Discarding 65536 overhanging snapshots
++Leaked cluster 14 refcount=3D1 reference=3D0
++Leaked cluster 15 refcount=3D1 reference=3D0
++Leaked cluster 56 refcount=3D1 reference=3D0
++Leaked cluster 57 refcount=3D1 reference=3D0
++Leaked cluster 58 refcount=3D1 reference=3D0
++Leaked cluster 59 refcount=3D1 reference=3D0
++Leaked cluster 60 refcount=3D1 reference=3D0
++Leaked cluster 61 refcount=3D1 reference=3D0
++Leaked cluster 62 refcount=3D1 reference=3D0
++Leaked cluster 63 refcount=3D1 reference=3D0
++Leaked cluster 64 refcount=3D1 reference=3D0
++Leaked cluster 65 refcount=3D1 reference=3D0
++Leaked cluster 66 refcount=3D1 reference=3D0
++Leaked cluster 67 refcount=3D1 reference=3D0
++Leaked cluster 68 refcount=3D1 reference=3D0
++Leaked cluster 69 refcount=3D1 reference=3D0
++Leaked cluster 70 refcount=3D1 reference=3D0
++Leaked cluster 71 refcount=3D1 reference=3D0
++Leaked cluster 72 refcount=3D1 reference=3D0
++Leaked cluster 73 refcount=3D1 reference=3D0
++Leaked cluster 74 refcount=3D1 reference=3D0
++Leaked cluster 75 refcount=3D1 reference=3D0
++Leaked cluster 76 refcount=3D1 reference=3D0
++Leaked cluster 77 refcount=3D1 reference=3D0
++Leaked cluster 78 refcount=3D1 reference=3D0
++Leaked cluster 79 refcount=3D1 reference=3D0
++Leaked cluster 80 refcount=3D1 reference=3D0
++Leaked cluster 81 refcount=3D1 reference=3D0
++Leaked cluster 82 refcount=3D1 reference=3D0
++Leaked cluster 83 refcount=3D1 reference=3D0
++Leaked cluster 84 refcount=3D1 reference=3D0
++Leaked cluster 85 refcount=3D1 reference=3D0
++Leaked cluster 86 refcount=3D1 reference=3D0
++Leaked cluster 87 refcount=3D1 reference=3D0
++Leaked cluster 88 refcount=3D1 reference=3D0
++Leaked cluster 89 refcount=3D1 reference=3D0
++Leaked cluster 90 refcount=3D1 reference=3D0
++Leaked cluster 91 refcount=3D1 reference=3D0
++Leaked cluster 92 refcount=3D1 reference=3D0
++Leaked cluster 93 refcount=3D1 reference=3D0
++Leaked cluster 94 refcount=3D1 reference=3D0
++Leaked cluster 95 refcount=3D1 reference=3D0
++Repairing cluster 14 refcount=3D1 reference=3D0
++Repairing cluster 15 refcount=3D1 reference=3D0
++Repairing cluster 56 refcount=3D1 reference=3D0
++Repairing cluster 57 refcount=3D1 reference=3D0
++Repairing cluster 58 refcount=3D1 reference=3D0
++Repairing cluster 59 refcount=3D1 reference=3D0
++Repairing cluster 60 refcount=3D1 reference=3D0
++Repairing cluster 61 refcount=3D1 reference=3D0
++Repairing cluster 62 refcount=3D1 reference=3D0
++Repairing cluster 63 refcount=3D1 reference=3D0
++Repairing cluster 64 refcount=3D1 reference=3D0
++Repairing cluster 65 refcount=3D1 reference=3D0
++Repairing cluster 66 refcount=3D1 reference=3D0
++Repairing cluster 67 refcount=3D1 reference=3D0
++Repairing cluster 68 refcount=3D1 reference=3D0
++Repairing cluster 69 refcount=3D1 reference=3D0
++Repairing cluster 70 refcount=3D1 reference=3D0
++Repairing cluster 71 refcount=3D1 reference=3D0
++Repairing cluster 72 refcount=3D1 reference=3D0
++Repairing cluster 73 refcount=3D1 reference=3D0
++Repairing cluster 74 refcount=3D1 reference=3D0
++Repairing cluster 75 refcount=3D1 reference=3D0
++Repairing cluster 76 refcount=3D1 reference=3D0
++Repairing cluster 77 refcount=3D1 reference=3D0
++Repairing cluster 78 refcount=3D1 reference=3D0
++Repairing cluster 79 refcount=3D1 reference=3D0
++Repairing cluster 80 refcount=3D1 reference=3D0
++Repairing cluster 81 refcount=3D1 reference=3D0
++Repairing cluster 82 refcount=3D1 reference=3D0
++Repairing cluster 83 refcount=3D1 reference=3D0
++Repairing cluster 84 refcount=3D1 reference=3D0
++Repairing cluster 85 refcount=3D1 reference=3D0
++Repairing cluster 86 refcount=3D1 reference=3D0
++Repairing cluster 87 refcount=3D1 reference=3D0
++Repairing cluster 88 refcount=3D1 reference=3D0
++Repairing cluster 89 refcount=3D1 reference=3D0
++Repairing cluster 90 refcount=3D1 reference=3D0
++Repairing cluster 91 refcount=3D1 reference=3D0
++Repairing cluster 92 refcount=3D1 reference=3D0
++Repairing cluster 93 refcount=3D1 reference=3D0
++Repairing cluster 94 refcount=3D1 reference=3D0
++Repairing cluster 95 refcount=3D1 reference=3D0
++The following inconsistencies were found and repaired:
++
++    42 leaked clusters
++    65536 corruptions
++
++Double checking the fixed image now...
++No errors were found on the image.
++
++65536 snapshots should remain:
++  qemu-img info reports 65536 snapshots
++  Image header reports 65536 snapshots
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index d95d556414..b11b2e808c 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -273,4 +273,5 @@
+ 256 rw quick
+ 257 rw
+ 258 rw quick
++261 rw
+ 262 rw quick migration
+--=20
+2.21.0
 
 
