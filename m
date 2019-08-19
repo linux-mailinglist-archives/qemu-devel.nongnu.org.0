@@ -2,52 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E4D91D05
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 08:26:50 +0200 (CEST)
-Received: from localhost ([::1]:45300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 731D691CF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 08:20:49 +0200 (CEST)
+Received: from localhost ([::1]:45242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzb7x-0006dp-Sr
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 02:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52254)
+	id 1hzb28-000312-3w
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 02:20:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51743)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1hzb6L-00067F-9G
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 02:25:10 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hzb0y-0002Dn-4e
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 02:19:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hzb6J-0006RO-Mb
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 02:25:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59142)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hzb0x-0003CV-2P
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 02:19:35 -0400
+Received: from mga18.intel.com ([134.134.136.126]:56636)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hzb6J-0006Qv-HR
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 02:25:07 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6B9A788FFF8;
- Mon, 19 Aug 2019 06:25:05 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com
- [10.36.116.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D354558C9C;
- Mon, 19 Aug 2019 06:25:04 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0AC1616E08; Mon, 19 Aug 2019 08:15:46 +0200 (CEST)
-Date: Mon, 19 Aug 2019 08:15:45 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Message-ID: <20190819061545.7qeiyonvvqe3s6up@sirius.home.kraxel.org>
-References: <alpine.BSF.2.21.9999.1908190208150.57965@zero.eik.bme.hu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.BSF.2.21.9999.1908190208150.57965@zero.eik.bme.hu>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Mon, 19 Aug 2019 06:25:05 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Machine specific option ROMs
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1hzb0w-0003B6-RS
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 02:19:35 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2019 23:19:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; d="scan'208";a="177784511"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by fmsmga008.fm.intel.com with ESMTP; 18 Aug 2019 23:19:31 -0700
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 19 Aug 2019 14:18:40 +0800
+Message-Id: <20190819061843.28642-1-richardw.yang@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.126
+Subject: [Qemu-devel] [PATCH 0/3] migration/postcopy: unsentmap is not
+ necessary
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,30 +51,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
+ dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 19, 2019 at 02:38:09AM +0200, BALATON Zoltan wrote:
-> Hello,
-> 
-> I know about the possibility to set the option ROM of a PCIDevice with the
-> romfile property (that we can set on command line or in a device's init
-> method) but is there a way to set it depending on the machine that uses the
-> device? If this is not currently possible what would be needed to allow
-> this?
+Three patches to cleanup postcopy:
 
-Should work with compat properties.  That is a list of device, property
-and value which a specific machine type should use.  Typically they are
-used to make versioned machine types behave simliar to older qemu
-versions (this is where the name comes from).  Using them to use
-non-default properties on ppc platform should work too.
+[1]: split canonicalize bitmap and discard page
+[2]: remove unsentmap since it is not necessary
+[3]: cleanup the get_queued_page_not_dirty
 
-For example in qemu 1.5 the nic roms got EFI support and there is a
-compat property which switches the pc-i440fx-1.4 (and older) machine
-types to the non-efi versions.  Grep for pxe-e1000.rom to find the code.
+Wei Yang (3):
+  migration/postcopy: not necessary to do discard when canonicalizing
+    bitmap
+  migration/postcopy: unsentmap is not necessary for postcopy
+  migration: remove sent parameter in get_queued_page_not_dirty
 
-HTH,
-  Gerd
+ include/exec/ram_addr.h |  6 ---
+ migration/ram.c         | 94 +++++++----------------------------------
+ migration/trace-events  |  2 +-
+ 3 files changed, 16 insertions(+), 86 deletions(-)
+
+-- 
+2.17.1
 
 
