@@ -2,68 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACCF994C64
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 20:10:48 +0200 (CEST)
-Received: from localhost ([::1]:56014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0798B94C7E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 20:20:21 +0200 (CEST)
+Received: from localhost ([::1]:56056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzm7D-0003LD-Q6
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 14:10:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54726)
- by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
- <38OVaXQMKChkH1L5DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--scw.bounces.google.com>)
- id 1hzm6N-0002lP-G1
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:09:56 -0400
+	id 1hzmGR-0007Wz-PN
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 14:20:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55705)
+ by lists.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <dan@danny.cz>) id 1hzmFf-00077z-K2
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:19:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from
- <38OVaXQMKChkH1L5DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--scw.bounces.google.com>)
- id 1hzm6M-0003q8-47
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:09:55 -0400
-Received: from mail-ua1-x94a.google.com ([2607:f8b0:4864:20::94a]:35485)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from
- <38OVaXQMKChkH1L5DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--scw.bounces.google.com>)
- id 1hzm6M-0003pb-0V
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:09:54 -0400
-Received: by mail-ua1-x94a.google.com with SMTP id s1so442068uao.2
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 11:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=T7he1QDEJio2Ie6GPQrqlVylHc1mwsd0spBdAQSpsEk=;
- b=qDiriZ+1sWLdYyF3/vSYvm6gbkv9GxiR21+FFFJxat1oPDujsp4Qy9F6gdEmvh4cng
- Z1xl91YtqVvgBzMeUT2mrXy/CPTFy2VGyVfjNBJJu3epmKRkHcjko2+dGTTu6pmF/HCR
- 68x0hIsSwsLTgZKaEb/FZwBHMcPgj36dI2iPKwzQ2+jHkkI0lOziMpIgABSDgvlNWR1D
- gfrHgQf3+ta9zkm00dxW3urH1YdH+xZJelvxkHsE/FGCgsbA/UP2HVzkrlhzhmho7l0w
- qMrvlRw+KjAxnbZkEzlQfMeOC2trXtDpM74+AKJsyuFp3/0smoBkZEhG24dVSLF+s+fw
- wqlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=T7he1QDEJio2Ie6GPQrqlVylHc1mwsd0spBdAQSpsEk=;
- b=dju4wBbu1icwNa2bKw4BNhc6Hp0KikTpZe3K0v83KUC7C68XEP1I1h4hUysTvjsou6
- fqUt1y6+vLbUG2LljgWD0bIDSX0ePp7sfCWHsztu6dFkEB7dwJiMFYhSH57uN5TiOU5t
- 3rUuUCMjs3BbSTKSmFri4+HrLoL4pcYx++ART8D8BB2uuR00UxIBtc91EhLJk2BbDPAs
- 6vDPiAWAW0Q29WKLNiI7Xx9DO3wyXqzSflJDNTyzAlTIZAqtVP/UEyqUSjS3Aiip15fH
- tXwkdkWDskqdCppqG7fMtbPiVuCZbRr9sh6X4VNeIsqm4glqS8fU36rHu/vQziL9hEI5
- zfdQ==
-X-Gm-Message-State: APjAAAXoOzLJ5es+l5s5XTVmy9HLyWVffsg2KFUPQdYvwjLo/v/VYTWu
- zOoPdXbqwWDYavMSeI9x7ubsqJk=
-X-Google-Smtp-Source: APXvYqw50AMNQZcvBuY5d5UrVqs930I161XpFYFFum63XJqefCQ5uPpzu19FdofnMdSTynGRjik1N7Y=
-X-Received: by 2002:a1f:144:: with SMTP id 65mr8480438vkb.51.1566238192492;
- Mon, 19 Aug 2019 11:09:52 -0700 (PDT)
-Date: Mon, 19 Aug 2019 11:09:47 -0700
-In-Reply-To: <CAFEAcA-GWR6_wGCMWkMHttU3ARJPqfADvNTnqQUU_OzcWgHHuQ@mail.gmail.com>
-Message-Id: <20190819180947.180725-1-scw@google.com>
+ (envelope-from <dan@danny.cz>) id 1hzmFe-0001Gg-Jq
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:19:31 -0400
+Received: from 72.155.broadband6.iol.cz ([88.101.155.72]:59425
+ helo=server.danny.cz) by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <dan@danny.cz>) id 1hzmFe-0001FB-Cy
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 14:19:30 -0400
+Received: from talos.danny.cz (unknown
+ [IPv6:2001:470:5c11:160:47df:83f6:718e:218])
+ by server.danny.cz (Postfix) with SMTP id 3C36D11A6D4;
+ Mon, 19 Aug 2019 20:19:27 +0200 (CEST)
+Date: Mon, 19 Aug 2019 20:19:27 +0200
+From: Dan =?UTF-8?B?SG9yw6Fr?= <dan@danny.cz>
+To: Paolo Bonzini <bonzini@gnu.org>
+Message-Id: <20190819201927.c5cf1e8cd423781761d70b2b@danny.cz>
+In-Reply-To: <CAHFMJ7teOmtBGrhrh85fr0M-BiStNqpFZ4RXr4LgwYg4sS668A@mail.gmail.com>
+References: <CAJSP0QVKV4mv6xJS0Oyx0GZ3QtLM+NhQGhyK24WqpuBFmg129A@mail.gmail.com>
+ <20190819105711.ea79a7962ff9efcc7054e396@danny.cz>
+ <CAHFMJ7teOmtBGrhrh85fr0M-BiStNqpFZ4RXr4LgwYg4sS668A@mail.gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; powerpc64le-redhat-linux-gnu)
 Mime-Version: 1.0
-References: <CAFEAcA-GWR6_wGCMWkMHttU3ARJPqfADvNTnqQUU_OzcWgHHuQ@mail.gmail.com>
-X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-To: marcandre.lureau@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::94a
-Subject: [Qemu-devel] [PATCH v3] linux-user: add memfd_create
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.4.x-2.6.x [generic]
+X-Received-From: 88.101.155.72
+Subject: Re: [Qemu-devel] Patchew s390 QEMU build issues
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,83 +50,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Shu-Chun Weng via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Shu-Chun Weng <scw@google.com>
-Cc: arunkaly@google.com, Shu-Chun Weng <scw@google.com>, riku.voipio@iki.fi,
- qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for the memfd_create syscall. If the host does not have the
-libc wrapper, translate to a direct syscall with NC-macro.
+On Mon, 19 Aug 2019 20:07:02 +0200
+Paolo Bonzini <bonzini@gnu.org> wrote:
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1734792
-Signed-off-by: Shu-Chun Weng <scw@google.com>
----
- include/qemu/memfd.h |  4 ++++
- linux-user/syscall.c | 12 ++++++++++++
- util/memfd.c         |  2 +-
- 3 files changed, 17 insertions(+), 1 deletion(-)
+> The machine has been reinstalled, I'll leave s390 builds for QEMU
+> disabled until I'm back from vacation.
 
-diff --git a/include/qemu/memfd.h b/include/qemu/memfd.h
-index d551c28b68..975b6bdb77 100644
---- a/include/qemu/memfd.h
-+++ b/include/qemu/memfd.h
-@@ -32,6 +32,10 @@
- #define MFD_HUGE_SHIFT 26
- #endif
- 
-+#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
-+int memfd_create(const char *name, unsigned int flags);
-+#endif
-+
- int qemu_memfd_create(const char *name, size_t size, bool hugetlb,
-                       uint64_t hugetlbsize, unsigned int seals, Error **errp);
- bool qemu_memfd_alloc_check(void);
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8367cb138d..f3f9311e9c 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
- #include "qemu/path.h"
-+#include "qemu/memfd.h"
- #include <elf.h>
- #include <endian.h>
- #include <grp.h>
-@@ -11938,6 +11939,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         /* PowerPC specific.  */
-         return do_swapcontext(cpu_env, arg1, arg2, arg3);
- #endif
-+#ifdef TARGET_NR_memfd_create
-+    case TARGET_NR_memfd_create:
-+        p = lock_user_string(arg1);
-+        if (!p) {
-+            return -TARGET_EFAULT;
-+        }
-+        ret = get_errno(memfd_create(p, arg2));
-+        fd_trans_unregister(ret);
-+        unlock_user(p, arg1, 0);
-+        return ret;
-+#endif
- 
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
-diff --git a/util/memfd.c b/util/memfd.c
-index 00334e5b21..4a3c07e0be 100644
---- a/util/memfd.c
-+++ b/util/memfd.c
-@@ -35,7 +35,7 @@
- #include <sys/syscall.h>
- #include <asm/unistd.h>
- 
--static int memfd_create(const char *name, unsigned int flags)
-+int memfd_create(const char *name, unsigned int flags)
- {
- #ifdef __NR_memfd_create
-     return syscall(__NR_memfd_create, name, flags);
--- 
-2.23.0.rc1.153.gdeed80330f-goog
+for the record, it has been recovered, but as I learned we lost data
+from /var/spool, meaning user cron jobs are gone :-(
 
+
+		Dan
 
