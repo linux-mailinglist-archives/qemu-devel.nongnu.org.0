@@ -2,100 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AAC992470
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:13:45 +0200 (CEST)
-Received: from localhost ([::1]:50684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309589247F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 15:16:37 +0200 (CEST)
+Received: from localhost ([::1]:50800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzhTk-00084y-B6
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40323)
+	id 1hzhWV-0002O2-Ro
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 09:16:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41300)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1hzgo4-0007qq-Rt
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:30:44 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1hzgt9-0004Qb-85
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:35:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hzgny-0004Hw-Qu
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:30:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42086)
+ (envelope-from <mlevitsk@redhat.com>) id 1hzgt8-0006cE-0m
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:35:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52156)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1hzgnr-0004BH-4n; Mon, 19 Aug 2019 08:30:29 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1hzgt5-0006ZG-9c; Mon, 19 Aug 2019 08:35:51 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AC3F5C01DDF1;
- Mon, 19 Aug 2019 12:30:22 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-127.ams2.redhat.com [10.36.116.127])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A33B831A4;
- Mon, 19 Aug 2019 12:30:13 +0000 (UTC)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190805152947.28536-1-david@redhat.com>
- <20190805152947.28536-6-david@redhat.com>
- <41ecb40c-25e6-c209-48f9-e63fc309ed5a@redhat.com>
- <5bd53f3f-b2cd-9ab4-9185-310b9778cc8e@redhat.com>
- <c9d4ee70-5819-722f-f404-697622ee5ce5@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat
-Message-ID: <701fa06a-35e7-8903-5d07-125afb11938c@redhat.com>
-Date: Mon, 19 Aug 2019 14:30:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <c9d4ee70-5819-722f-f404-697622ee5ce5@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ by mx1.redhat.com (Postfix) with ESMTPS id ED88D30089A1;
+ Mon, 19 Aug 2019 12:35:49 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4AC00859CE;
+ Mon, 19 Aug 2019 12:35:45 +0000 (UTC)
+Message-ID: <ba8e9afd066d65099a897b5c515a73ab2c64625d.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
+ Kevin Wolf <kwolf@redhat.com>
+Date: Mon, 19 Aug 2019 15:35:44 +0300
+In-Reply-To: <414e8dab-b19b-fd47-52eb-db43ae75ec07@redhat.com>
+References: <20190814202219.1870-1-mlevitsk@redhat.com>
+ <d0635a23-7f99-9cf7-500c-af668e8ca370@redhat.com>
+ <20190815091039.GA7415@linux.fritz.box> <87y2zuy0k7.fsf@dusky.pond.sub.org>
+ <2561ace5297c93cee597c776230dcb8f457a8561.camel@redhat.com>
+ <414e8dab-b19b-fd47-52eb-db43ae75ec07@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Mon, 19 Aug 2019 12:30:22 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Mon, 19 Aug 2019 12:35:50 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH-for-4.2 v1 5/9] s390x/mmu:
- Implement access-exception-fetch/store-indication facility
+Subject: Re: [Qemu-devel] [PATCH 00/13] RFC: luks/encrypted qcow2 key
+ management
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,45 +61,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>, Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Daniel =?ISO-8859-1?Q?P=2EBerrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/19 2:26 PM, David Hildenbrand wrote:
-> On 19.08.19 14:22, Thomas Huth wrote:
->> On 8/19/19 2:16 PM, Thomas Huth wrote:
->>> On 8/5/19 5:29 PM, David Hildenbrand wrote:
->>>> We always have to indicate whether it is a fetch or a store for all access
->>>> exceptions. This is only missing for LAP exceptions.
->>>
->>> Do we really need this for LAP, too? If I get figure 3-5 "Enhanced
->>> Suppression-on-Protection Results" right, these bits are not set for LAP
->>> exceptions...? Do I miss something?
->>
->> I was looking at an older version of the PoP ... the table that I mean
->> is "Figure 3-8. Enhanced Suppression-on-Protection Facility 2 Results"
->> in SA22-7832-11.
->>
->>  Thomas
->>
+On Thu, 2019-08-15 at 10:00 -0500, Eric Blake wrote:
+> On 8/15/19 9:44 AM, Maxim Levitsky wrote:
 > 
-> I think that table only states that if 56==60==61==0, then we might have
-> either KCP or LAP ("Presented if TEID details are not available" - but
-> as we have TEID information available, we can just set 56=1 and 60=61=0
-> (== LAP), or am I missing something?
+> > > > > Does the idea of a union type with a default value for the discriminator
+> > > > > help?  Maybe we have a discriminator which defaults to 'auto', and add a
+> > > > > union branch 'auto':'any'.  During creation, if the "driver":"auto"
+> > > > > branch is selected (usually implicitly by omitting "driver", but also
+> > > > > possible explicitly), the creation attempt is rejected as invalid
+> > > > > regardless of the contents of the remaining 'any'.  But during amend
+> > > > > usage, if the 'auto' branch is selected, we then add in the proper
+> > > > > "driver":"xyz" and reparse the QAPI object to determine if the remaining
+> > > > > fields in 'any' still meet the specification for the required driver branch.
+> > > > > 
+> > > > > This idea may still require some tweaks to the QAPI generator, but it's
+> > > > > the best I can come up with for a way to parse an arbitrary JSON object
+> > > > > with unknown validation, then reparse it again after adding more
+> > > > > information that would constrain the parse differently.
+> > > > 
+> > > > Feels like this would be a lot of code just to allow the client to omit
+> > > > passing a value that it knows anyway. If this were a human interface, I
+> > > > could understand the desire to make commands less verbose, but for QMP I
+> > > > honestly don't see the point when it's not trivial.
+> > > 
+> > > Seconded.
+> > 
+> > 
+> > But what about my suggestion of adding something like:
+> > 
+> > { 'union': 'BlockdevAmendOptions',
+> > 
+> >   'base': {
+> >       'node-name':         'str' },
+> > 
+> >   'discriminator': { 'get_block_driver(node-name)' } ,
+> 
+> Not worth it. It makes the QAPI generator more complex (to invoke
+> arbitrary code instead of a fixed name) just to avoid a little bit of
+> complexity in the caller (which is assumed to be a computer, and thus
+> shouldn't have a hard time providing a sane 'driver' unconditionally).
+> An HMP wrapper around the QMP command can do whatever magic it needs to
+> omit driver, but making driver mandatory for QMP is just fine.
 
-Oh, well, I was looking at the older version of the PoP first, and it
-was not specified there yet, and when I started looking the the new
-version, I only saw the first LAP line and stopped reading properly
-afterwards... of course you're right, there is another LAP line in the
-table where they say that the address is correclty specified.
+All right! I kind of not agree with that, since I think even though QMP is a machine language,
+it still should be consistent since humans still use it, even if this is humans that code some
+tool that use it.
 
-Please mentioned the "Enhanced Suppression-on-Protection
-Facility 2" (which introduced this new behavior) in the patch
-description to make this clear, then your patch is fine.
+I won't argue with you though, let it be like that.
 
- Thomas
+Best regards,
+	Maxim Levitsky
+
+> 
+
+
 
