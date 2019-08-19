@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBF695078
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 00:08:07 +0200 (CEST)
-Received: from localhost ([::1]:59534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDB095082
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 00:10:27 +0200 (CEST)
+Received: from localhost ([::1]:59586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzpos-0006j3-BE
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 18:08:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59641)
+	id 1hzpr8-0001qf-NF
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 18:10:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59085)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpMh-0002T1-Dh
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:39:00 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpMH-00020x-8k
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hzpMf-0006fi-BG
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:59 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:40808)
+ (envelope-from <richard.henderson@linaro.org>) id 1hzpMF-0006KL-D3
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:33 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33449)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hzpMd-0006au-8N
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:57 -0400
-Received: by mail-pg1-x542.google.com with SMTP id w10so1927984pgj.7
- for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:53 -0700 (PDT)
+ id 1hzpMF-0006Je-5x
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 17:38:31 -0400
+Received: by mail-pl1-x642.google.com with SMTP id go14so1586487plb.0
+ for <qemu-devel@nongnu.org>; Mon, 19 Aug 2019 14:38:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=NNqewFxAhp3TmNZYeBy2lNscR/CrnSrYWBFvc4ZcTG4=;
- b=r5EwM5I9gX9aNCrTZZpwXCMnyDdCNN39XSzG2ENvcklVcaQyXaXf7lRSVQHiOC1LmQ
- 3I9B4rrVKiUIj/7GcjJIZp26p62c+vX/nX//UaYVPfwDjpGHIhB8ZhLNghzXx/ZovKS/
- TBvwPtCZLdCE1vutYzKIBLtqV+GN/M4IH2Us70Ii7p6yT/uwPZoNODqJhl8jNi/HSYAD
- /TcOQSE/vgrrPRPnOQP9wCV4mNZ+SO6RgCzCtZt149sVHk/T1KP+0S3AzncJBaZFsiIb
- KjVWV9j/33ALUV0dcRRSbygHfSrv/hr+/ob5xOovvkTmYulLmvqg9zRlGg1ufVzzPl7O
- UZlg==
+ bh=VezSzLCtFs9kY3Fe5wLKu5xLpiNSXhDdz7VdFtZV8bc=;
+ b=ulv9UWqoykjQuoORkZKHART9F1UQJ5YF4smszkfmZD96jkaFF6AzK63EezyXvAV5mT
+ ZrJcDoz0PwXVM3sWokk/i825/SRehg/pVS8jd0rahdv7BdbVIIeZYlxmJZS90oyrgodd
+ VZ2biauI+FxWaMdq+3SvaUvpfVWhu/3akhXY5ptKHzoa+Vo2GcrJf0W1uxIk4hNWOhfF
+ 5C8QrBMNHKXs/nBTab5ajRwqXlOMhtPv4hJupD/0MOYDYqH/DGLgZlsx08m7JoXXjYkx
+ kMQTf8IPWwNNMSCJsKOWpWrX8TVzqUzie0oc+NT+kWyh71n43GtZrX1dW3BP9F74+2lr
+ tioQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=NNqewFxAhp3TmNZYeBy2lNscR/CrnSrYWBFvc4ZcTG4=;
- b=i36EMrcIUydJLvSXABknFaw2mEEz91kG0as2L6Hn07qSSFpMl4KoBVpDKB4QtHQOBW
- IFB0WrctmGrPmoUizpmWImfQJEgDWa49HTZGTYnf0gnmIOZAy4cRQsWliaoW7LKgloub
- dE4z2AArwjU4g26e/aXf9uMAxENW3hYVyXMZZlhDxW9esspLNTXsmFyiMZSlEWl7om8N
- nZBCBHyHpsHK+RVD1C5r2BpISD6eHleSbxAn9NY63qAA7G6vq/3XOP2zv2qda15e+rB/
- IOrGF6CUKh/qqZbrh2Popot+Ni+0DSTD7niKDL0nTVfsE7OHQMetcmkZ/FyZdHEqevk2
- 3+wg==
-X-Gm-Message-State: APjAAAXolXgQVUupYpdbscf0IkgcvNNUb8ts+wYYjw5W55jBMt9fybL+
- UunMv3lpkM0mtQCa2sWS93tyTRwySN4=
-X-Google-Smtp-Source: APXvYqxPGPlXMQFy58wgjTBpjK2+zyOs4RziZCUJUqHiigmQNUFYJMp3iSTdhB+90ZOmISK234AeIg==
-X-Received: by 2002:a63:5f09:: with SMTP id t9mr22017442pgb.351.1566250732046; 
- Mon, 19 Aug 2019 14:38:52 -0700 (PDT)
+ bh=VezSzLCtFs9kY3Fe5wLKu5xLpiNSXhDdz7VdFtZV8bc=;
+ b=OWNssDYYBTR3lR/fHGb3waBUBjd5SKWpARYPIRpDv3gYWFHe4Bu8ZDU/ORGhJWRIgq
+ BImglHdO/ppfwIH/5ljJP89l8DFaIjaMb1rc7ll/HMpkmKTglOHqMajcDGWhm3QoY1Yq
+ xP/C+cGvolQFGF3Ct9Hb8RfKA4OqXO3lqyNnP3QogfehHhA3PvDDmjIyQL9ern2cfr2P
+ 7tIV9zqlpOcvvA3ju5zUunNZlc64xZUTyp+OxxP0KlFP1W6DE0K9OhFf+xtS2UmcPHo9
+ IL7tesLXDmXPpEDbR/upbrRRGOCVcQk1PADQhnaEk2lj1U9PSj1oKYS3q0HaMwU74vb6
+ K+FQ==
+X-Gm-Message-State: APjAAAX0WcMCnKxOMpq2aGtC5C0pE/y1rP0iZgVWEeR2POX8o2O2emzm
+ rg0Lg/OLNvaO9LCJd4Cz27L25STorIY=
+X-Google-Smtp-Source: APXvYqxpuLhojcnlaRKl5Zrc2InKU6heGumh9JRDNXn3cQjeg4B8kg1n9Yz3rmJEr1xxu2P33pU7RA==
+X-Received: by 2002:a17:902:223:: with SMTP id
+ 32mr25241732plc.220.1566250709791; 
+ Mon, 19 Aug 2019 14:38:29 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.51
+ by smtp.gmail.com with ESMTPSA id d2sm13446951pjs.21.2019.08.19.14.38.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Aug 2019 14:38:51 -0700 (PDT)
+ Mon, 19 Aug 2019 14:38:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 19 Aug 2019 14:37:32 -0700
-Message-Id: <20190819213755.26175-46-richard.henderson@linaro.org>
+Date: Mon, 19 Aug 2019 14:37:13 -0700
+Message-Id: <20190819213755.26175-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819213755.26175-1-richard.henderson@linaro.org>
 References: <20190819213755.26175-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH v2 45/68] target/arm: Convert T16
- data-processing (two low regs)
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v2 26/68] target/arm: Convert MOVW, MOVT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,232 +82,170 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 152 ++---------------------------------------
- target/arm/t16.decode  |  36 ++++++++++
- 2 files changed, 43 insertions(+), 145 deletions(-)
+ target/arm/translate.c | 89 ++++++++++++++++--------------------------
+ target/arm/a32.decode  |  6 +++
+ target/arm/t32.decode  |  9 +++++
+ 3 files changed, 48 insertions(+), 56 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 90d608a2d2..7c5769bd42 100644
+index 7962ac49e6..81eae286e8 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -445,13 +445,6 @@ static inline void gen_logic_CC(TCGv_i32 var)
-     tcg_gen_mov_i32(cpu_ZF, var);
+@@ -7841,6 +7841,34 @@ static bool trans_ADR(DisasContext *s, arg_ri *a)
+     return true;
  }
  
--/* T0 += T1 + CF.  */
--static void gen_adc(TCGv_i32 t0, TCGv_i32 t1)
--{
--    tcg_gen_add_i32(t0, t0, t1);
--    tcg_gen_add_i32(t0, t0, cpu_CF);
--}
--
- /* dest = T0 + T1 + CF. */
- static void gen_add_carry(TCGv_i32 dest, TCGv_i32 t0, TCGv_i32 t1)
- {
-@@ -7531,6 +7524,11 @@ static int t32_branch24(DisasContext *s, int x)
-     return x << 1;
- }
- 
-+static int t16_setflags(DisasContext *s)
++static bool trans_MOVW(DisasContext *s, arg_MOVW *a)
 +{
-+    return s->condexec_mask == 0;
++    TCGv_i32 tmp;
++
++    if (!ENABLE_ARCH_6T2) {
++        return false;
++    }
++
++    tmp = tcg_const_i32(a->imm);
++    store_reg(s, a->rd, tmp);
++    return true;
++}
++
++static bool trans_MOVT(DisasContext *s, arg_MOVW *a)
++{
++    TCGv_i32 tmp;
++
++    if (!ENABLE_ARCH_6T2) {
++        return false;
++    }
++
++    tmp = load_reg(s, a->rd);
++    tcg_gen_ext16u_i32(tmp, tmp);
++    tcg_gen_ori_i32(tmp, tmp, a->imm << 16);
++    store_reg(s, a->rd, tmp);
++    return true;
 +}
 +
  /*
-  * Include the generated decoders.
+  * Multiply and multiply accumulate
   */
-@@ -10742,145 +10740,9 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+@@ -9649,7 +9677,7 @@ static bool trans_UDIV(DisasContext *s, arg_rrr *a)
  
-         /*
-          * 0b0100_00xx_xxxx_xxxx
--         *  - Data-processing (two low registers)
-+         *  - Data-processing (two low registers), in decodetree
-          */
--        rd = insn & 7;
--        rm = (insn >> 3) & 7;
--        op = (insn >> 6) & 0xf;
--        if (op == 2 || op == 3 || op == 4 || op == 7) {
--            /* the shift/rotate ops want the operands backwards */
--            val = rm;
--            rm = rd;
--            rd = val;
--            val = 1;
+ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+ {
+-    unsigned int cond, val, op1, i, rn, rd;
++    unsigned int cond, val, op1, i, rn;
+     TCGv_i32 tmp;
+     TCGv_i32 tmp2;
+     TCGv_i32 addr;
+@@ -9898,26 +9926,8 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+     /* fall back to legacy decoder */
+ 
+     if ((insn & 0x0f900000) == 0x03000000) {
+-        if ((insn & (1 << 21)) == 0) {
+-            ARCH(6T2);
+-            rd = (insn >> 12) & 0xf;
+-            val = ((insn >> 4) & 0xf000) | (insn & 0xfff);
+-            if ((insn & (1 << 22)) == 0) {
+-                /* MOVW */
+-                tmp = tcg_temp_new_i32();
+-                tcg_gen_movi_i32(tmp, val);
+-            } else {
+-                /* MOVT */
+-                tmp = load_reg(s, rd);
+-                tcg_gen_ext16u_i32(tmp, tmp);
+-                tcg_gen_ori_i32(tmp, tmp, val << 16);
+-            }
+-            store_reg(s, rd, tmp);
 -        } else {
--            val = 0;
+-            /* MSR (immediate) and hints */
+-            /* All done in decodetree.  Illegal ops already signalled.  */
+-            g_assert_not_reached();
 -        }
--
--        if (op == 9) { /* neg */
--            tmp = tcg_temp_new_i32();
--            tcg_gen_movi_i32(tmp, 0);
--        } else if (op != 0xf) { /* mvn doesn't read its first operand */
--            tmp = load_reg(s, rd);
--        } else {
--            tmp = NULL;
--        }
--
--        tmp2 = load_reg(s, rm);
--        switch (op) {
--        case 0x0: /* and */
--            tcg_gen_and_i32(tmp, tmp, tmp2);
--            if (!s->condexec_mask)
--                gen_logic_CC(tmp);
--            break;
--        case 0x1: /* eor */
--            tcg_gen_xor_i32(tmp, tmp, tmp2);
--            if (!s->condexec_mask)
--                gen_logic_CC(tmp);
--            break;
--        case 0x2: /* lsl */
--            if (s->condexec_mask) {
--                gen_shl(tmp2, tmp2, tmp);
--            } else {
--                gen_helper_shl_cc(tmp2, cpu_env, tmp2, tmp);
--                gen_logic_CC(tmp2);
--            }
--            break;
--        case 0x3: /* lsr */
--            if (s->condexec_mask) {
--                gen_shr(tmp2, tmp2, tmp);
--            } else {
--                gen_helper_shr_cc(tmp2, cpu_env, tmp2, tmp);
--                gen_logic_CC(tmp2);
--            }
--            break;
--        case 0x4: /* asr */
--            if (s->condexec_mask) {
--                gen_sar(tmp2, tmp2, tmp);
--            } else {
--                gen_helper_sar_cc(tmp2, cpu_env, tmp2, tmp);
--                gen_logic_CC(tmp2);
--            }
--            break;
--        case 0x5: /* adc */
--            if (s->condexec_mask) {
--                gen_adc(tmp, tmp2);
--            } else {
--                gen_adc_CC(tmp, tmp, tmp2);
--            }
--            break;
--        case 0x6: /* sbc */
--            if (s->condexec_mask) {
--                gen_sub_carry(tmp, tmp, tmp2);
--            } else {
--                gen_sbc_CC(tmp, tmp, tmp2);
--            }
--            break;
--        case 0x7: /* ror */
--            if (s->condexec_mask) {
--                tcg_gen_andi_i32(tmp, tmp, 0x1f);
--                tcg_gen_rotr_i32(tmp2, tmp2, tmp);
--            } else {
--                gen_helper_ror_cc(tmp2, cpu_env, tmp2, tmp);
--                gen_logic_CC(tmp2);
--            }
--            break;
--        case 0x8: /* tst */
--            tcg_gen_and_i32(tmp, tmp, tmp2);
--            gen_logic_CC(tmp);
--            rd = 16;
--            break;
--        case 0x9: /* neg */
--            if (s->condexec_mask)
--                tcg_gen_neg_i32(tmp, tmp2);
--            else
--                gen_sub_CC(tmp, tmp, tmp2);
--            break;
--        case 0xa: /* cmp */
--            gen_sub_CC(tmp, tmp, tmp2);
--            rd = 16;
--            break;
--        case 0xb: /* cmn */
--            gen_add_CC(tmp, tmp, tmp2);
--            rd = 16;
--            break;
--        case 0xc: /* orr */
--            tcg_gen_or_i32(tmp, tmp, tmp2);
--            if (!s->condexec_mask)
--                gen_logic_CC(tmp);
--            break;
--        case 0xd: /* mul */
--            tcg_gen_mul_i32(tmp, tmp, tmp2);
--            if (!s->condexec_mask)
--                gen_logic_CC(tmp);
--            break;
--        case 0xe: /* bic */
--            tcg_gen_andc_i32(tmp, tmp, tmp2);
--            if (!s->condexec_mask)
--                gen_logic_CC(tmp);
--            break;
--        case 0xf: /* mvn */
--            tcg_gen_not_i32(tmp2, tmp2);
--            if (!s->condexec_mask)
--                gen_logic_CC(tmp2);
--            val = 1;
--            rm = rd;
--            break;
--        }
--        if (rd != 16) {
--            if (val) {
--                store_reg(s, rm, tmp2);
--                if (op != 0xf)
--                    tcg_temp_free_i32(tmp);
--            } else {
--                store_reg(s, rd, tmp);
--                tcg_temp_free_i32(tmp2);
--            }
--        } else {
--            tcg_temp_free_i32(tmp);
--            tcg_temp_free_i32(tmp2);
--        }
--        break;
++        /* All done in decodetree.  Illegal ops reach here.  */
 +        goto illegal_op;
+     } else if ((insn & 0x0f900000) == 0x01000000
+                && (insn & 0x00000090) != 0x00000090) {
+         /* miscellaneous instructions */
+@@ -10655,42 +10665,9 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+             /*
+              * 0b1111_0xxx_xxxx_0xxx_xxxx_xxxx
+              *  - Data-processing (modified immediate, plain binary immediate)
++             * All in decodetree.
+              */
+-            if (insn & (1 << 25)) {
+-                /*
+-                 * 0b1111_0x1x_xxxx_0xxx_xxxx_xxxx
+-                 *  - Data-processing (plain binary immediate)
+-                 */
+-                if (insn & (1 << 24)) {
+-                    /* Bitfield/Saturate, in decodetree */
+-                    goto illegal_op;
+-                } else {
+-                    imm = ((insn & 0x04000000) >> 15)
+-                          | ((insn & 0x7000) >> 4) | (insn & 0xff);
+-                    if (insn & (1 << 22)) {
+-                        /* 16-bit immediate.  */
+-                        imm |= (insn >> 4) & 0xf000;
+-                        if (insn & (1 << 23)) {
+-                            /* movt */
+-                            tmp = load_reg(s, rd);
+-                            tcg_gen_ext16u_i32(tmp, tmp);
+-                            tcg_gen_ori_i32(tmp, tmp, imm << 16);
+-                        } else {
+-                            /* movw */
+-                            tmp = tcg_temp_new_i32();
+-                            tcg_gen_movi_i32(tmp, imm);
+-                        }
+-                        store_reg(s, rd, tmp);
+-                    } else {
+-                        /* Add/sub 12-bit immediate, in decodetree */
+-                        goto illegal_op;
+-                    }
+-                }
+-            } else {
+-                /* Data-processing (modified immediate) */
+-                /* All done in decodetree.  Reach here for illegal ops.  */
+-                goto illegal_op;
+-            }
++            goto illegal_op;
+         }
+         break;
+     case 12:
+diff --git a/target/arm/a32.decode b/target/arm/a32.decode
+index d7a333b90b..341882e637 100644
+--- a/target/arm/a32.decode
++++ b/target/arm/a32.decode
+@@ -73,6 +73,12 @@ MOV_rxri         .... 000 1101 . 0000 .... ..... .. 0 ....    @s_rxr_shi
+ BIC_rrri         .... 000 1110 . .... .... ..... .. 0 ....    @s_rrr_shi
+ MVN_rxri         .... 000 1111 . 0000 .... ..... .. 0 ....    @s_rxr_shi
  
-     case 5:
-         /* load/store register offset.  */
-diff --git a/target/arm/t16.decode b/target/arm/t16.decode
-index e954f61fe4..44e7250c55 100644
---- a/target/arm/t16.decode
-+++ b/target/arm/t16.decode
-@@ -18,3 +18,39 @@
- #
- # This file is processed by scripts/decodetree.py
- #
++%imm16           16:4 0:12
++@mov16           ---- .... .... .... rd:4 ............        &ri imm=%imm16
 +
-+&s_rrr_shi       !extern s rd rn rm shim shty
-+&s_rrr_shr       !extern s rn rd rm rs shty
-+&s_rri_rot       !extern s rn rd imm rot
-+&s_rrrr          !extern s rd rn rm ra
++MOVW             .... 0011 0000 .... .... ............        @mov16
++MOVT             .... 0011 0100 .... .... ............        @mov16
 +
-+# Set S if the instruction is outside of an IT block.
-+%s               !function=t16_setflags
+ # Data-processing (register-shifted register)
+ 
+ @s_rrr_shr       ---- ... .... s:1 rn:4 rd:4 rs:4 . shty:2 . rm:4 \
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index 677acb698d..f315fde0f4 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -150,6 +150,15 @@ RSB_rri          1111 0.0 1110 . .... 0 ... .... ........     @s_rri_rot
+   SUB_rri        1111 0.1 0101 0 .... 0 ... .... ........     @s0_rri_12
+ }
+ 
++# Move Wide
 +
-+# Data-processing (two low registers)
++%imm16_26_16_12_0 16:4 26:1 12:3 0:8
++@mov16           .... .... .... .... .... rd:4 .... .... \
++                 &ri imm=%imm16_26_16_12_0
 +
-+%reg_0           0:3
++MOVW             1111 0.10 0100 .... 0 ... .... ........      @mov16
++MOVT             1111 0.10 1100 .... 0 ... .... ........      @mov16
 +
-+@lll_noshr       ...... .... rm:3 rd:3 \
-+                 &s_rrr_shi %s rn=%reg_0 shim=0 shty=0
-+@xll_noshr       ...... .... rm:3 rn:3 \
-+                 &s_rrr_shi s=1 rd=0 shim=0 shty=0
-+@lxl_shr         ...... .... rs:3 rd:3 \
-+                 &s_rrr_shr %s rm=%reg_0 rn=0
-+
-+AND_rrri         010000 0000 ... ...            @lll_noshr
-+EOR_rrri         010000 0001 ... ...            @lll_noshr
-+MOV_rxrr         010000 0010 ... ...            @lxl_shr shty=0  # LSL
-+MOV_rxrr         010000 0011 ... ...            @lxl_shr shty=1  # LSR
-+MOV_rxrr         010000 0100 ... ...            @lxl_shr shty=2  # ASR
-+ADC_rrri         010000 0101 ... ...            @lll_noshr
-+SBC_rrri         010000 0110 ... ...            @lll_noshr
-+MOV_rxrr         010000 0111 ... ...            @lxl_shr shty=3  # ROR
-+TST_xrri         010000 1000 ... ...            @xll_noshr
-+RSB_rri          010000 1001 rn:3 rd:3          &s_rri_rot %s imm=0 rot=0
-+CMP_xrri         010000 1010 ... ...            @xll_noshr
-+CMN_xrri         010000 1011 ... ...            @xll_noshr
-+ORR_rrri         010000 1100 ... ...            @lll_noshr
-+MUL              010000 1101 rn:3 rd:3          &s_rrrr %s rm=%reg_0 ra=0
-+BIC_rrri         010000 1110 ... ...            @lll_noshr
-+MVN_rxri         010000 1111 ... ...            @lll_noshr
+ # Saturate, bitfield
+ 
+ @sat             .... .... .. sh:1 . rn:4 . ... rd:4 .. . satimm:5 \
 -- 
 2.17.1
 
