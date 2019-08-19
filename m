@@ -2,38 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAF8922F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 14:02:40 +0200 (CEST)
-Received: from localhost ([::1]:48842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB7A92301
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Aug 2019 14:04:21 +0200 (CEST)
+Received: from localhost ([::1]:48866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzgMx-0002sG-1z
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 08:02:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34865)
+	id 1hzgOZ-0004QV-G1
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 08:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1hzgLQ-0002Mk-PC
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:01:06 -0400
+ (envelope-from <thuth@redhat.com>) id 1hzgMV-0002nN-8f
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:02:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hzgLP-0006b4-HV
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:01:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51514)
+ (envelope-from <thuth@redhat.com>) id 1hzgMU-0007Dt-5v
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 08:02:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39052)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1hzgLP-0006as-A1; Mon, 19 Aug 2019 08:01:03 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1hzgMT-0007DC-Ty; Mon, 19 Aug 2019 08:02:10 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3BC5E7F746;
- Mon, 19 Aug 2019 12:01:02 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 190C2106E96C;
+ Mon, 19 Aug 2019 12:02:09 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-116-127.ams2.redhat.com [10.36.116.127])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CEBEE1DA;
- Mon, 19 Aug 2019 12:00:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5318C84952;
+ Mon, 19 Aug 2019 12:01:59 +0000 (UTC)
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20190805152947.28536-1-david@redhat.com>
- <20190805152947.28536-4-david@redhat.com>
- <a8b248fe-9f50-f388-1d44-c1eb6e011748@redhat.com>
- <eda96be0-d446-753e-6180-97e966309092@redhat.com>
+ <20190805152947.28536-5-david@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
@@ -79,22 +77,22 @@ Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
  IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
  yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
 Organization: Red Hat
-Message-ID: <7ae68b4d-6fa9-0e78-4f4e-3a84732d496a@redhat.com>
-Date: Mon, 19 Aug 2019 14:00:58 +0200
+Message-ID: <0f4336fe-c273-f798-6e4a-239ced50f1fb@redhat.com>
+Date: Mon, 19 Aug 2019 14:01:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <eda96be0-d446-753e-6180-97e966309092@redhat.com>
+In-Reply-To: <20190805152947.28536-5-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Mon, 19 Aug 2019 12:01:02 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.66]); Mon, 19 Aug 2019 12:02:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH-for-4.2 v1 3/9] s390x/mmu: DAT
- translation rewrite
+Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH-for-4.2 v1 4/9] s390x/mmu: Add
+ EDAT2 translation support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,102 +111,47 @@ Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/19 1:58 PM, David Hildenbrand wrote:
-> On 19.08.19 13:40, Thomas Huth wrote:
->> On 8/5/19 5:29 PM, David Hildenbrand wrote:
->>> Let's rewrite the DAT translation in a non-recursive way, similar to
->>> arch/s390/kvm/gaccess.c:guest_translate() in KVM. This makes the
->>> code much easier to read, compare and maintain.
->>
->> Ok, I just had another look at this patch, and even if I don't like th=
-e
->> complete rewrite just for the sake of it, the new code looks ok to me.
->>
->> [...]
->>> +    switch (asce & ASCE_TYPE_MASK) {
->>> +    case ASCE_TYPE_REGION1:
->>> +        if (read_table_entry(gaddr, &entry)) {
->>> +            return PGM_ADDRESSING;
->>> +        }
->>> +        if (entry & REGION_ENTRY_I) {
->>> +            return PGM_REG_FIRST_TRANS;
->>> +        }
->>> +        if ((entry & REGION_ENTRY_TT) !=3D REGION_ENTRY_TT_REGION1) =
-{
->>> +            return PGM_TRANS_SPEC;
->>> +        }
->>> +        if (VADDR_REGION2_TL(vaddr) < (entry & REGION_ENTRY_TF) >> 6=
- ||
->>> +            VADDR_REGION2_TL(vaddr) > (entry & REGION_ENTRY_TL)) {
->>> +            return PGM_REG_SEC_TRANS;
->>> +        }
->>> +        if (edat1 && (entry & REGION_ENTRY_P)) {
->>> +            *flags &=3D ~PAGE_WRITE;
->>> +        }
->>> +        gaddr =3D (entry & REGION_ENTRY_ORIGIN) + VADDR_REGION2_TX(v=
-addr) * 8;
->>> +        /* FALL THROUGH */
->>> +    case ASCE_TYPE_REGION2:
->>> +        if (read_table_entry(gaddr, &entry)) {
->>> +            return PGM_ADDRESSING;
->>> +        }
->>> +        if (entry & REGION_ENTRY_I) {
->>> +            return PGM_REG_SEC_TRANS;
->>> +        }
->>> +        if ((entry & REGION_ENTRY_TT) !=3D REGION_ENTRY_TT_REGION2) =
-{
->>> +            return PGM_TRANS_SPEC;
->>> +        }
->>> +        if (VADDR_REGION3_TL(vaddr) < (entry & REGION_ENTRY_TF) >> 6=
- ||
->>> +            VADDR_REGION3_TL(vaddr) > (entry & REGION_ENTRY_TL)) {
->>> +            return PGM_REG_THIRD_TRANS;
->>> +        }
->>> +        if (edat1 && (entry & REGION_ENTRY_P)) {
->>> +            *flags &=3D ~PAGE_WRITE;
->>> +        }
->>> +        gaddr =3D (entry & REGION_ENTRY_ORIGIN) + VADDR_REGION3_TX(v=
-addr) * 8;
->>> +        /* FALL THROUGH */
->>> +    case ASCE_TYPE_REGION3:
->>> +        if (read_table_entry(gaddr, &entry)) {
->>> +            return PGM_ADDRESSING;
->>> +        }
->>> +        if (entry & REGION_ENTRY_I) {
->>> +            return PGM_REG_THIRD_TRANS;
->>> +        }
->>> +        if ((entry & REGION_ENTRY_TT) !=3D REGION_ENTRY_TT_REGION3) =
-{
->>> +            return PGM_TRANS_SPEC;
->>> +        }
->>> +        if (edat1 && (entry & REGION_ENTRY_P)) {
->>> +            *flags &=3D ~PAGE_WRITE;
->>> +        }
->>> +        if (VADDR_SEGMENT_TL(vaddr) < (entry & REGION_ENTRY_TF) >> 6=
- ||
->>> +            VADDR_SEGMENT_TL(vaddr) > (entry & REGION_ENTRY_TL)) {
->>> +            return PGM_SEGMENT_TRANS;
->>> +        }
->>> +        gaddr =3D (entry & REGION_ENTRY_ORIGIN) + VADDR_SEGMENT_TX(v=
-addr) * 8;
->>> +        /* FALL THROUGH */
->>
->> If you don't like recursion, maybe you could at least use a for-loop f=
-or
->> the region tables? ... the code is really quite repetitive here... jus=
-t
->> my 0.02 =E2=82=AC.
->=20
-> I'll split this patch further up once I have time. With the unrolling I
-> am not yet quite sure - the tables tend to get more different with ever=
-y
-> new HW release (especially, see the other patches in this series, like
-> edat2 and IEP) and we want our branch predictor to produce sane
-> predictions (especially when processing consecutive pages).
+On 8/5/19 5:29 PM, David Hildenbrand wrote:
+> This only adds basic support to the DAT translation, but no EDAT2 support
+> for TCG. E.g., the gdbstub under kvm uses this function, too, to
+> translate virtual addresses.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/mmu_helper.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+> index de7798284d..5c9c7d385d 100644
+> --- a/target/s390x/mmu_helper.c
+> +++ b/target/s390x/mmu_helper.c
+> @@ -139,6 +139,7 @@ static int mmu_translate_asce(CPUS390XState *env, target_ulong vaddr,
+>  {
+>      const bool edat1 = (env->cregs[0] & CR0_EDAT) &&
+>                         s390_has_feat(S390_FEAT_EDAT);
+> +    const bool edat2 = edat1 && s390_has_feat(S390_FEAT_EDAT_2);
+>      const int asce_tl = asce & ASCE_TABLE_LENGTH;
+>      const int asce_p = asce & ASCE_PRIVATE_SPACE;
+>      hwaddr gaddr = asce & ASCE_ORIGIN;
+> @@ -234,9 +235,16 @@ static int mmu_translate_asce(CPUS390XState *env, target_ulong vaddr,
+>          if ((entry & REGION_ENTRY_TT) != REGION_ENTRY_TT_REGION3) {
+>              return PGM_TRANS_SPEC;
+>          }
+> +        if (edat2 && (entry & REGION3_ENTRY_CR) && asce_p) {
+> +            return PGM_TRANS_SPEC;
+> +        }
+>          if (edat1 && (entry & REGION_ENTRY_P)) {
+>              *flags &= ~PAGE_WRITE;
+>          }
+> +        if (edat2 && (entry & REGION3_ENTRY_FC)) {
+> +            *raddr = entry & REGION3_ENTRY_RFAA;
+> +            return 0;
+> +        }
+>          if (VADDR_SEGMENT_TL(vaddr) < (entry & REGION_ENTRY_TF) >> 6 ||
+>              VADDR_SEGMENT_TL(vaddr) > (entry & REGION_ENTRY_TL)) {
+>              return PGM_SEGMENT_TRANS;
 
-Ok, I just also saw in the next patch that region 3 already needs some
-special handling for EDAT-2, so never mind, it's likely best to keep it
-unrolled.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
- Thomas
+
 
