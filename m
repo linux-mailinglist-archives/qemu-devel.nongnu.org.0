@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B23F95771
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 08:43:44 +0200 (CEST)
-Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C729495793
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 08:46:04 +0200 (CEST)
+Received: from localhost ([::1]:33440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzxrq-00031E-VC
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 02:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40089)
+	id 1hzxu7-0006Sp-EI
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 02:46:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40365)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1hzxmr-00059p-Ra
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:34 -0400
+ (envelope-from <thuth@redhat.com>) id 1hzxpM-0000Kh-E2
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:41:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hzxmq-0006sG-O4
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44322)
+ (envelope-from <thuth@redhat.com>) id 1hzxpL-0000CL-9k
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:41:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47560)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1hzxmo-0006qe-9M; Tue, 20 Aug 2019 02:38:30 -0400
+ id 1hzxpI-0000An-Qd; Tue, 20 Aug 2019 02:41:05 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A003A11A06;
- Tue, 20 Aug 2019 06:38:29 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 13DB4307D921;
+ Tue, 20 Aug 2019 06:41:04 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-116-232.ams2.redhat.com [10.36.116.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93AB518AB6;
- Tue, 20 Aug 2019 06:38:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D6081DD;
+ Tue, 20 Aug 2019 06:40:59 +0000 (UTC)
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20190819201851.24418-1-mreitz@redhat.com>
- <20190819201851.24418-3-mreitz@redhat.com>
+ <20190819201851.24418-7-mreitz@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
@@ -77,22 +77,22 @@ Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
  IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
  yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
 Organization: Red Hat
-Message-ID: <e2e6a1b6-7fa9-4770-1fa4-f3ce6d242544@redhat.com>
-Date: Tue, 20 Aug 2019 08:38:23 +0200
+Message-ID: <c0d92948-0d97-321d-ea26-17ce4d2da5d9@redhat.com>
+Date: Tue, 20 Aug 2019 08:40:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190819201851.24418-3-mreitz@redhat.com>
+In-Reply-To: <20190819201851.24418-7-mreitz@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 20 Aug 2019 06:38:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Tue, 20 Aug 2019 06:41:04 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 2/8] iotests: Prefer null-co over
- null-aio
+Subject: Re: [Qemu-devel] [PATCH v3 6/8] iotests: Test driver whitelisting
+ in 093
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,62 +110,60 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/19/19 10:18 PM, Max Reitz wrote:
-> We use null-co basically everywhere in the iotests.  Unless we want to
-> test null-aio specifically, we should use it instead (for consistency).
+> null-aio may not be whitelisted.  Skip all test cases that require it.
 > 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
-> Reviewed-by: John Snow <jsnow@redhat.com>
 > ---
->  tests/qemu-iotests/093 | 7 +++----
->  tests/qemu-iotests/245 | 2 +-
->  2 files changed, 4 insertions(+), 5 deletions(-)
+>  tests/qemu-iotests/093 | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
 > 
 > diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
-> index 3c4f5173ce..50c1e7f2ec 100755
+> index 50c1e7f2ec..f03fa24a07 100755
 > --- a/tests/qemu-iotests/093
 > +++ b/tests/qemu-iotests/093
-> @@ -267,13 +267,12 @@ class ThrottleTestCoroutine(ThrottleTestCase):
->      test_img = "null-co://"
+> @@ -24,7 +24,7 @@ import iotests
+>  nsec_per_sec = 1000000000
 >  
->  class ThrottleTestGroupNames(iotests.QMPTestCase):
+>  class ThrottleTestCase(iotests.QMPTestCase):
 > -    test_img = "null-aio://"
+> +    test_driver = "null-aio"
 >      max_drives = 3
 >  
+>      def blockstats(self, device):
+> @@ -35,10 +35,14 @@ class ThrottleTestCase(iotests.QMPTestCase):
+>                  return stat['rd_bytes'], stat['rd_operations'], stat['wr_bytes'], stat['wr_operations']
+>          raise Exception("Device not found for blockstats: %s" % device)
+>  
+> +    def required_drivers(self):
+> +        return [self.test_driver]
+> +
+> +    @iotests.skip_if_unsupported(required_drivers)
 >      def setUp(self):
 >          self.vm = iotests.VM()
 >          for i in range(0, self.max_drives):
-> -            self.vm.add_drive(self.test_img,
-> +            self.vm.add_drive("null-co://",
->                                "throttling.iops-total=100,file.read-zeroes=on")
+> -            self.vm.add_drive(self.test_img, "file.read-zeroes=on")
+> +            self.vm.add_drive(self.test_driver + "://", "file.read-zeroes=on")
 >          self.vm.launch()
 >  
-> @@ -376,10 +375,10 @@ class ThrottleTestRemovableMedia(iotests.QMPTestCase):
+>      def tearDown(self):
+> @@ -264,7 +268,7 @@ class ThrottleTestCase(iotests.QMPTestCase):
+>          self.assertEqual(self.blockstats('drive1')[0], 4096)
 >  
->      def test_removable_media(self):
->          # Add a couple of dummy nodes named cd0 and cd1
-> -        result = self.vm.qmp("blockdev-add", driver="null-aio",
-> +        result = self.vm.qmp("blockdev-add", driver="null-co",
->                               read_zeroes=True, node_name="cd0")
->          self.assert_qmp(result, 'return', {})
-> -        result = self.vm.qmp("blockdev-add", driver="null-aio",
-> +        result = self.vm.qmp("blockdev-add", driver="null-co",
->                               read_zeroes=True, node_name="cd1")
->          self.assert_qmp(result, 'return', {})
+>  class ThrottleTestCoroutine(ThrottleTestCase):
+> -    test_img = "null-co://"
+> +    test_driver = "null-co"
 >  
-> diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-> index bc1ceb9792..ae169778b0 100644
-> --- a/tests/qemu-iotests/245
-> +++ b/tests/qemu-iotests/245
-> @@ -598,7 +598,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
->          ##################
->          ###### null ######
->          ##################
-> -        opts = {'driver': 'null-aio', 'node-name': 'root', 'size': 1024}
-> +        opts = {'driver': 'null-co', 'node-name': 'root', 'size': 1024}
+>  class ThrottleTestGroupNames(iotests.QMPTestCase):
+>      max_drives = 3
+> @@ -425,4 +429,6 @@ class ThrottleTestRemovableMedia(iotests.QMPTestCase):
 >  
->          result = self.vm.qmp('blockdev-add', conv_keys = False, **opts)
->          self.assert_qmp(result, 'return', {})
-> 
+>  
+>  if __name__ == '__main__':
+> +    if 'null-co' not in iotests.supported_formats():
+> +        iotests.notrun('null-co driver support missing')
+>      iotests.main(supported_fmts=["raw"])
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Maybe also mention null-co in the patch description?
+
+ Thomas
 
