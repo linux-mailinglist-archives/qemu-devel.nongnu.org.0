@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DDF9958EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:53:23 +0200 (CEST)
-Received: from localhost ([::1]:34392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B95958EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:52:18 +0200 (CEST)
+Received: from localhost ([::1]:34376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzyxG-0006kh-9Y
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49486)
+	id 1hzywD-0004oU-84
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1hzysB-00083B-89
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:08 -0400
+ (envelope-from <thuth@redhat.com>) id 1hzysC-00085B-Ow
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hzysA-0004St-2r
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46732)
+ (envelope-from <thuth@redhat.com>) id 1hzysB-0004Td-LQ
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60382)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hzys9-0004Se-U5
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:06 -0400
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hzysB-0004TF-CV
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:07 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3DA3087648;
- Tue, 20 Aug 2019 07:48:05 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A7D5C3001BF1;
+ Tue, 20 Aug 2019 07:48:06 +0000 (UTC)
 Received: from thuth.com (ovpn-116-232.ams2.redhat.com [10.36.116.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BAEDD1001B09;
- Tue, 20 Aug 2019 07:48:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99254100195C;
+ Tue, 20 Aug 2019 07:48:05 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 09:47:46 +0200
-Message-Id: <20190820074749.25208-6-thuth@redhat.com>
+Date: Tue, 20 Aug 2019 09:47:47 +0200
+Message-Id: <20190820074749.25208-7-thuth@redhat.com>
 In-Reply-To: <20190820074749.25208-1-thuth@redhat.com>
 References: <20190820074749.25208-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 20 Aug 2019 07:48:05 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Tue, 20 Aug 2019 07:48:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 5/8] hw/core: Add a config switch for the
- "or-irq" device
+Subject: [Qemu-devel] [PULL 6/8] hw/core: Add a config switch for the
+ "split-irq" device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,90 +61,71 @@ Cc: philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "or-irq" device is only used by certain machines. Let's add
-a proper config switch for it so that it only gets compiled when we
-really need it.
+The "split-irq" device is currently only used by machines that use
+CONFIG_ARMSSE. Let's add a proper CONFIG_SPLIT_IRQ switch for this
+so that it only gets compiled when we really need it.
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190817101931.28386-6-thuth@redhat.com>
+Message-Id: <20190817101931.28386-7-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
  hw/arm/Kconfig        | 3 +++
  hw/core/Kconfig       | 3 +++
  hw/core/Makefile.objs | 2 +-
- hw/pci-host/Kconfig   | 3 ++-
- 4 files changed, 9 insertions(+), 2 deletions(-)
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index ab65ecd216..849195c3f6 100644
+index 849195c3f6..6e24c73b54 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -292,6 +292,7 @@ config RASPI
- config STM32F205_SOC
+@@ -81,6 +81,7 @@ config MUSCA
+     select ARMSSE
+     select PL011
+     select PL031
++    select SPLIT_IRQ
+=20
+ config MUSICPAL
      bool
-     select ARM_V7M
-+    select OR_IRQ
-     select STM32F2XX_TIMER
-     select STM32F2XX_USART
-     select STM32F2XX_SYSCFG
-@@ -360,6 +361,7 @@ config MPS2
-     select LAN9118
-     select MPS2_FPGAIO
-     select MPS2_SCC
-+    select OR_IRQ
+@@ -364,6 +365,7 @@ config MPS2
+     select OR_IRQ
      select PL022    # Serial port
      select PL080    # DMA controller
++    select SPLIT_IRQ
 =20
-@@ -439,6 +441,7 @@ config ARMSSE
-     select IOTKIT_SECCTL
+ config FSL_IMX7
+     bool
+@@ -442,6 +444,7 @@ config ARMSSE
      select IOTKIT_SYSCTL
      select IOTKIT_SYSINFO
-+    select OR_IRQ
+     select OR_IRQ
++    select SPLIT_IRQ
      select TZ_MPC
      select TZ_MSC
      select TZ_PPC
 diff --git a/hw/core/Kconfig b/hw/core/Kconfig
-index d11920fcb3..984143456a 100644
+index 984143456a..fffb3d62b2 100644
 --- a/hw/core/Kconfig
 +++ b/hw/core/Kconfig
-@@ -7,6 +7,9 @@ config PTIMER
- config FITLOADER
-     bool
+@@ -15,3 +15,6 @@ config PLATFORM_BUS
 =20
-+config OR_IRQ
-+    bool
+ config REGISTER
+     bool
 +
- config PLATFORM_BUS
-     bool
-=20
++config SPLIT_IRQ
++    bool
 diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-index d6cfb2a81b..ce337bd7c9 100644
+index ce337bd7c9..bb1afe422a 100644
 --- a/hw/core/Makefile.objs
 +++ b/hw/core/Makefile.objs
-@@ -18,7 +18,7 @@ common-obj-$(CONFIG_SOFTMMU) +=3D loader.o
- common-obj-$(CONFIG_FITLOADER) +=3D loader-fit.o
+@@ -19,7 +19,7 @@ common-obj-$(CONFIG_FITLOADER) +=3D loader-fit.o
  common-obj-$(CONFIG_SOFTMMU) +=3D qdev-properties-system.o
  common-obj-$(CONFIG_REGISTER) +=3D register.o
--common-obj-$(CONFIG_SOFTMMU) +=3D or-irq.o
-+common-obj-$(CONFIG_OR_IRQ) +=3D or-irq.o
- common-obj-$(CONFIG_SOFTMMU) +=3D split-irq.o
+ common-obj-$(CONFIG_OR_IRQ) +=3D or-irq.o
+-common-obj-$(CONFIG_SOFTMMU) +=3D split-irq.o
++common-obj-$(CONFIG_SPLIT_IRQ) +=3D split-irq.o
  common-obj-$(CONFIG_PLATFORM_BUS) +=3D platform-bus.o
  common-obj-$(CONFIG_SOFTMMU) +=3D generic-loader.o
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index 8c16d96b3f..1edc1a31d4 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -2,8 +2,9 @@ config PAM
-     bool
-=20
- config PREP_PCI
--    select PCI
-     bool
-+    select PCI
-+    select OR_IRQ
-=20
- config GRACKLE_PCI
-     select PCI
+ common-obj-$(CONFIG_SOFTMMU) +=3D null-machine.o
 --=20
 2.18.1
 
