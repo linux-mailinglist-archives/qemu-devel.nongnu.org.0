@@ -2,104 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DCD96642
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 18:25:15 +0200 (CEST)
-Received: from localhost ([::1]:39514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D7A19665F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 18:29:52 +0200 (CEST)
+Received: from localhost ([::1]:39556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i06wc-00080E-NY
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 12:25:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
+	id 1i0715-00031g-6H
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 12:29:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1i06vY-0007PZ-5q
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:24:10 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i06zu-0001qI-FW
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:28:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1i06vW-0000B4-0W
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:24:07 -0400
-Received: from mail-eopbgr50129.outbound.protection.outlook.com
- ([40.107.5.129]:37767 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1i06vV-00008b-Pt
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:24:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eRq5t+bh78HcuomepfOYi6a0oi2rXY1gyyRh38kfh5k1qKpO8/eKYV9FuoRWD+M0y5gNCp8T8RQVslu3KpeVvnTyhyUED77PCvSsUihWDaJ7lNRce98j+r2ytMHKNAR0GNFgkkGYLUuNwFlJkwpCV9AzELf+pIFH2GHzrlLzFAa7WFjwKh/zALFfknHdT/AWVrotdCHiBjwG7rJQlKrMjsP3o4sSi2AcGziCxnqe14TNUr7XXbZv87/B2l+1eRbXV+kMWI+A0n+ER+UmMGS7iKW6sW6snnRqmQZQIIRCqLiecZ+7DhxF3BlBzN3lWxP+dr8PholWQnqJNIdugNg+FQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oxYSa1mKgtwdWR6ZgPXqDghgiQhiKYPPquUscgSe3NM=;
- b=A3CSipRDiJJLLGCl9+LKzCys5E+c1nqE5TEzfk3c1mnsNrHxYrVhEuDxjfvRrY6DuK4930pZ/IoNNeqjAxfBFB/eYxrZGBBkOMbP9oTWHowawr1cvIyOz8EUtdpAELGpVWN6ZKwS/RuANDfKP4bed5juuW53qZg4BrqDbe6wKJvpGH14l+/C+3vDWPjo0ltus/do7brn+Nim4qVYoZ9Pp7Eof80NR+cYu+bDSgbC+r13fRDNg3Ln8vxb5mI4FBt6dx5KyQ+GMIn3L1DLIqjwwEfu4CTR5KwPrZR24eJCAsVXyugWcS7i/wCwmhXQb3NKg3TD5VNnIkRaRwOscuIZ5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oxYSa1mKgtwdWR6ZgPXqDghgiQhiKYPPquUscgSe3NM=;
- b=W3YON76k3IYaP4C6WcpsUAoEG56Q/9S2mGFKzfLoEW4TsxLQNGW5uqrstWnybnbVGZN77RT0TQ0eocCg92NuOOKhSpeUYPamS4iIQ2zEc7bruo0k86OdA0mGycag+hfhqwY1Osssnr/A5nDE/nB5s+Nsdnr6LsifAyPxVt8ZWco=
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (20.178.22.27) by
- AM0PR08MB3795.eurprd08.prod.outlook.com (20.178.23.151) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2178.18; Tue, 20 Aug 2019 16:24:03 +0000
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::ac29:7eee:83d9:4668]) by AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::ac29:7eee:83d9:4668%7]) with mapi id 15.20.2157.024; Tue, 20 Aug 2019
- 16:24:03 +0000
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>
-Thread-Topic: [PATCH v9] qemu-io: add pattern file for write command
-Thread-Index: AQHVV1wcGJUcVc3jCEioObuNgpDsdKcEOJqA
-Date: Tue, 20 Aug 2019 16:24:03 +0000
-Message-ID: <30AD7752-A792-459B-AD48-45B4E841EC7A@getmailspring.com>
-References: <f3eb6ae0-98d9-b7d1-3c04-60b37444fa68@redhat.com>
-In-Reply-To: <f3eb6ae0-98d9-b7d1-3c04-60b37444fa68@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0701CA0072.eurprd07.prod.outlook.com
- (2603:10a6:3:64::16) To AM0PR08MB3745.eurprd08.prod.outlook.com
- (2603:10a6:208:ff::27)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=dplotnikov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: Mailspring
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 65bd411e-2269-41d5-800b-08d7258ad0a9
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:AM0PR08MB3795; 
-x-ms-traffictypediagnostic: AM0PR08MB3795:
-x-microsoft-antispam-prvs: <AM0PR08MB3795AB500408EE69DC257672CFAB0@AM0PR08MB3795.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
-x-forefront-prvs: 013568035E
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(396003)(136003)(366004)(376002)(346002)(199004)(189003)(2906002)(386003)(6506007)(18926415008)(3736002)(8936002)(50226002)(6486002)(14454004)(25786009)(53546011)(8676002)(99286004)(52116002)(6436002)(733005)(76176011)(54906003)(478600001)(5660300002)(33656002)(81156014)(81166006)(36756003)(26005)(86362001)(107886003)(3846002)(6116002)(7736002)(71200400001)(305945005)(71190400001)(66946007)(486006)(186003)(102836004)(6246003)(66066001)(53936002)(476003)(229853002)(14444005)(4326008)(316002)(9686003)(6306002)(54896002)(446003)(256004)(11346002)(66556008)(66476007)(6862004)(6512007)(66446008)(64756008);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3795;
- H:AM0PR08MB3745.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: JFMLjfXI/MKYtDab1dGO2FxsMiuQcJBdJLtbp2q8qAFh0rh1usMP2QKE2+r0ZwsLLh9RtDT3iFqth2UrxLKBcOnZlytuhI9MEyg+hG+a78Da0j2i06eHK0DD5W+0PjYU/WHUhul48U639l3cpng1PeYtUwPKXstY7H6XWTYEDRg5C+qcZFodjP7fy7/u3XJVHyfzQAgvwzzrBYUvGOycnMqVyG1kHJkGbFfo9HhQqPwKyhARW0Q3hnccjYL3J+f7Gmo7EItSdMqFOwthFGygjP6q9meWCo4Lnn76rOWscAwUS6OEyS9ZvrZJe/p4syRRz++llJAC8Vugicr9a77lCilgei+wPpV0Ip33bLlu/dVW6jPvMr8ImdGmL3iVhwCKC7FLm2giZmHkzYT04SsDInYHZaYLtKf/cIPK+YfL1ss=
-x-ms-exchange-transport-forked: True
+ (envelope-from <peter.maydell@linaro.org>) id 1i06zs-0003um-W8
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:28:38 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34897)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i06zs-0003u3-Q4
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:28:36 -0400
+Received: by mail-oi1-x243.google.com with SMTP id a127so4557204oii.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 09:28:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tzMRtwYZ03u7tHw7cZOlVBfr7BswpAxGXZmKHLrisK8=;
+ b=FrgZWlONl6KV/S7CCIiLS2RjF3gCTs35UNBISu2WwTfp4KSK6BYm0ZZIeK3rrmW97D
+ mkvkpmeDKUrGGUw2AfvkNMQ6tbMFWdv4TpYegOr4L4/vByecDWeOSmFbCfg5QGy+V6tc
+ zPqLZGa421V/a8hC8+PkDyuM4GNNCdXdj7q1rbVOtgVQdssKqvDLI4aUgsHQypzpr6UR
+ 0J+a0pPYlnckyPkx5IGs/ZVejf+Urf3RXKuo6rekow5XZjxxPlCux1J896tDlLwVV9i4
+ +cgvHnyVbR+YYbzSrPhkvRpMcnkqp3mNZPzq5Khl1Dapsq/BHdyELqbQpxaGsQ7pWMgR
+ wCwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tzMRtwYZ03u7tHw7cZOlVBfr7BswpAxGXZmKHLrisK8=;
+ b=drWX7w6yJLdK7G0zOASjosHCWjAM15++dStHyjpNZI3seMgO7s4lkXPfJvVhwIMLst
+ bHzvAgZAniCjWdzSqC4Zn9u7FGSgWYv/5YMz97As+EMk0bni1IndEp14OFaPiMjB5IPr
+ wFlyGIsMXL7uldVtXFM5UQ56StzVQqphZVMfhaciC0OE28gRNCe590iSONlZmkRDEWQF
+ l+iHdGxY1WL+Z9WhMIHRecfhEKQI39f79uzkF8F7cOgHESmppDf8Vk+12rJQV9bfhoRw
+ xAAeAcpqKsA24vHOujcNOTDMEoS7Ubrh65kjd90oXUMoq7WgG3S8L+xs1Bq7umf9ccs/
+ d98w==
+X-Gm-Message-State: APjAAAWPBzHfJ/CZgTWe+FP3N/9HMlgOIWsr6hSgTPjFtBQmQo3q8jvM
+ oJWkkuhWMTvEilQzhbGvgl0XSAhAwmV4S2ebRtbZiA==
+X-Google-Smtp-Source: APXvYqxp+d6iHRjrhK2+5w+mdnkOsQffFq4wzPurh4KHibyB+CVzeek7uEumIseWag51EeVl/Aq0BHF3T72b39PtzLM=
+X-Received: by 2002:aca:4a57:: with SMTP id x84mr691142oia.170.1566318515678; 
+ Tue, 20 Aug 2019 09:28:35 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65bd411e-2269-41d5-800b-08d7258ad0a9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2019 16:24:03.3957 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Yk+2iDnj8DyvwEktG8D7smNZ1r0rhWGyoQffPzfjEaz4C65ui8NsDTvUNjUOaChZDEEtresJBppZ9blIsfNQd1z+IHox1igTARb8SK8eguM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3795
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.5.129
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v9] qemu-io: add pattern file for write
- command
+References: <1566314861-32709-1-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1566314861-32709-1-git-send-email-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Aug 2019 17:28:24 +0100
+Message-ID: <CAFEAcA8jXewGKbW_WP3oKRNkwbPzGP3DdeEhwje_D=uHN3zTkg@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PULL v2 00/34] Misc patches for 2019-08-20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,85 +71,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIEF1ZyAyMCAyMDE5LCBhdCA0OjM1IHBtLCBNYXggUmVpdHogPG1yZWl0ekByZWRoYXQu
-Y29tPiB3cm90ZToNCk9uIDE5LjA4LjE5IDE4OjE4LCBEZW5pcyBQbG90bmlrb3Ygd3JvdGU6DQpU
-aGUgcGF0Y2ggYWxsb3dzIHRvIHByb3ZpZGUgYSBwYXR0ZXJuIGZpbGUgZm9yIHdyaXRlDQpjb21t
-YW5kLiBUaGVyZSB3YXMgbm8gc2ltaWxhciBhYmlsaXR5IGJlZm9yZS4NCg0KU2lnbmVkLW9mZi1i
-eTogRGVuaXMgUGxvdG5pa292IDxkcGxvdG5pa292QHZpcnR1b3p6by5jb20+DQotLS0NCnY5Og0K
-KiByZXBsYWNlIGZsYWcgY2FzdCB0byBpbnQgd2l0aCBib29sIFtFcmljXQ0KKiBmaXggdGhlIGVy
-cm9yIG1lc3NhZ2UgW0VyaWNdDQoqIHVzZSBxZW11X2lvX2ZyZWUgaW5zdGVhZCBvZiBxZW11X3Zm
-cmVlIFtFcmljXQ0KKiBhZGQgZnVuY3Rpb24gZGVzY3JpcHRpb24gW0VyaWNdDQoNCnY4OiBmaXgg
-YWNjb3JkaW5nIHRvIE1heCdzIGNvbW1lbnRzDQoqIGdldCByaWQgb2YgdW5uZWNlc3NhcnkgYnVm
-ZmVyIGZvciB0aGUgcGF0dGVybg0KKiBidWZmZXIgYWxsb2NhdGlvbiBqdXN0IGluIGJ5dGVzDQoq
-IHRha2UgaW50byBhY2NvdW50IHRoZSBtaXNzYWxpZ24gb2Zmc2V0DQoqIGRvbid0IGNvcHkgZmls
-ZSBuYW1lDQoqIGNoYW5nZWQgY2hhciogdG8gY29uc3QgY2hhciogaW4gaW5wdXQgcGFyYW1zDQoN
-CnY3Og0KKiBmaXggdmFyaWFibGUgbmFtaW5nDQoqIG1ha2UgY29kZSBtb3JlIHJlYWRhYmxlDQoq
-IGV4dGVuZCBoZWxwIGZvciB3cml0ZSBjb21tYW5kDQoNCnY2Og0KKiB0aGUgcGF0dGVybiBmaWxl
-IGlzIHJlYWQgb25jZSB0byByZWR1Y2UgaW8NCg0KdjU6DQoqIGZpbGUgbmFtZSBpbml0aWF0ZWQg
-d2l0aCBudWxsIHRvIG1ha2UgY29tcGlsZXJzIGhhcHB5DQoNCnY0Og0KKiBtaXNzaW5nIHNpZ25l
-ZC1vZmYgY2xhdXNlIGFkZGVkDQoNCnYzOg0KKiBtaXNzaW5nIGZpbGUgY2xvc2luZyBhZGRlZA0K
-KiBleGNsdXNpdmUgZmxhZ3MgcHJvY2Vzc2luZyBjaGFuZ2VkDQoqIGJ1ZmZlciB2b2lkKiBjb252
-ZXJ0ZWQgdG8gY2hhciogdG8gZml4IHBvaW50ZXIgYXJpdGhtZXRpY3MNCiogZmlsZSByZWFkaW5n
-IGVycm9yIHByb2Nlc3NpbmcgYWRkZWQNCi0tLQ0KcWVtdS1pby1jbWRzLmMgfCA5NyArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLQ0KMSBmaWxlIGNoYW5n
-ZWQsIDkxIGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9xZW11
-LWlvLWNtZHMuYyBiL3FlbXUtaW8tY21kcy5jDQppbmRleCAwOTc1MGEyM2NlLi5mN2JkZmU2NzNi
-IDEwMDY0NA0KLS0tIGEvcWVtdS1pby1jbWRzLmMNCisrKyBiL3FlbXUtaW8tY21kcy5jDQpAQCAt
-MzUxLDYgKzM1MSw3NyBAQCBzdGF0aWMgdm9pZCBxZW11X2lvX2ZyZWUodm9pZCAqcCkNCnFlbXVf
-dmZyZWUocCk7DQp9DQoNCisvKg0KKyAqIHFlbXVfaW9fYWxsb2NfZnJvbV9maWxlKCkNCisgKg0K
-KyAqIEFsbG9jYXRlcyB0aGUgYnVmZmVyIGFuZCBwb3B1bGF0ZXMgaXQgd2l0aCB0aGUgY29udGVu
-dCBvZiB0aGUgZ2l2ZW4gZmlsZQ0KKyAqIHVwIHRvIEBsZW4gYnl0ZXMuIElmIHRoZSBmaWxlIGxl
-bmd0aCBpcyBsZXNzIHRoZW4gQGxlbiwgdGhlbiB0aGUgYnVmZmVyDQoNCnMvdGhlbi90aGFuLyAo
-dGhlIGZpcnN0IG9uZSkNCg0KKyAqIGlzIHBvcHVsYXRlZCB3aXRoIHRoZW4gZmlsZSBjb250ZW50
-IGN5Y2xpY2FsbHkuDQoNCnMvdGhlbi90aGUvDQoNCisgKg0KKyAqIEBibGsgLSB0aGUgYmxvY2sg
-YmFja2VuZCB3aGVyZSB0aGUgYnVmZmVyIGNvbnRlbnQgaXMgZ29pbmcgdG8gYmUgd3JpdHRlbiB0
-bw0KKyAqIEBsZW4gLSB0aGUgYnVmZmVyIGxlbmd0aA0KKyAqIEBmaWxlX25hbWUgLSB0aGUgZmls
-ZSB0byBjb3B5IHRoZSBjb250ZW50IGZyb20NCg0KUHJvYmFibHkgYmV0dGVyIHMvY29weS9yZWFk
-Lw0KDQorICoNCisgKiBSZXR1cm5zOiB0aGUgYnVmZmVyIHBvaW50ZXIgb24gc3VjY2Vzcw0KKyAq
-IE5VTEwgb24gZXJyb3INCisgKi8NCitzdGF0aWMgdm9pZCAqcWVtdV9pb19hbGxvY19mcm9tX2Zp
-bGUoQmxvY2tCYWNrZW5kICpibGssIHNpemVfdCBsZW4sDQorIGNvbnN0IGNoYXIgKmZpbGVfbmFt
-ZSkNCit7DQorIGNoYXIgKmJ1ZiwgKmJ1Zl9vcmlnaW47DQorIEZJTEUgKmYgPSBmb3BlbihmaWxl
-X25hbWUsICJyIik7DQorIGludCBwYXR0ZXJuX2xlbjsNCisNCisgaWYgKCFmKSB7DQorIHBlcnJv
-cihmaWxlX25hbWUpOw0KKyByZXR1cm4gTlVMTDsNCisgfQ0KKw0KKyBpZiAocWVtdWlvX21pc2Fs
-aWduKSB7DQorIGxlbiArPSBNSVNBTElHTl9PRkZTRVQ7DQorIH0NCisNCisgYnVmX29yaWdpbiA9
-IGJ1ZiA9IGJsa19ibG9ja2FsaWduKGJsaywgbGVuKTsNCisNCisgaWYgKHFlbXVpb19taXNhbGln
-bikgew0KKyBidWZfb3JpZ2luICs9IE1JU0FMSUdOX09GRlNFVDsNCisgfQ0KKw0KKyBwYXR0ZXJu
-X2xlbiA9IGZyZWFkKGJ1Zl9vcmlnaW4sIDEsIGxlbiwgZik7DQoNClB1bGxpbmcgdGhlIG1pc2Fs
-aWdubWVudCB1cCBoZXJlIGhhcyBtb3JlIGVmZmVjdHMgdGhhbiBqdXN0IHJlcXVpcmluZw0KcWVt
-dV9pb19mcmVlKCkgcmF0aGVyIHRoYW4gcWVtdV92ZnJlZSgpLg0KDQpGaXJzdCwgaXQgYnJlYWtz
-IHRoaXMgZnJlYWQoKSwgYmVjYXVzZSBAbGVuIGlzIHRoZSBsZW5ndGggb2YgdGhlIGJ1ZmZlcg0K
-aW4gdG90YWwsIHNvIHRoaXMgaGVyZSBpcyBhIGJ1ZmZlciBvdmVyZmxvdy4NCg0KKw0KKyBpZiAo
-ZmVycm9yKGYpKSB7DQorIHBlcnJvcihmaWxlX25hbWUpOw0KKyBnb3RvIGVycm9yOw0KKyB9DQor
-DQorIGlmIChwYXR0ZXJuX2xlbiA9PSAwKSB7DQorIGZwcmludGYoc3RkZXJyLCAiJXM6IGZpbGUg
-aXMgZW1wdHlcbiIsIGZpbGVfbmFtZSk7DQorIGdvdG8gZXJyb3I7DQorIH0NCisNCisgZmNsb3Nl
-KGYpOw0KKw0KKyBpZiAobGVuID4gcGF0dGVybl9sZW4pIHsNCisgbGVuIC09IHBhdHRlcm5fbGVu
-Ow0KKyBidWYgKz0gcGF0dGVybl9sZW47DQorDQorIHdoaWxlIChsZW4gPiAwKSB7DQorIHNpemVf
-dCBsZW5fdG9fY29weSA9IE1JTihwYXR0ZXJuX2xlbiwgbGVuKTsNCisNCisgbWVtY3B5KGJ1Ziwg
-YnVmX29yaWdpbiwgbGVuX3RvX2NvcHkpOw0KDQpTZWNvbmQsIGl0IGJyZWFrcyB0aGlzIG1lbWNw
-eSgpLCBiZWNhdXNlIG5vdyBbYnVmLCBidWYgKyBsZW5fdG9fY29weSkNCmFuZCBbYnVmX29yaWdp
-biwgYnVmX29yaWdpbiArIGxlbl90b19jb3B5KSBtYXkgb3ZlcmxhcC4NCg0KSSB0aGluayB0aGUg
-c29sdXRpb24gd291bGQgYmUgKDEpIHRvIGFkZCBNSVNBTElHTl9PRkZTRVQgbm90IG9ubHkgdG8N
-CkBidWZfb3JpZ2luLCBidXQgdG8gQGJ1ZiBhbHNvLCBhbmQgKDIpIHRvIHJlZHVjZSBsZW4gYnkg
-TUlTQUxJR05fT0ZGU0VULg0KDQoNClNvIGFsbCBpbiBhbGwsIEkgdGhpbmsgYm90aCBpc3N1ZXMg
-c2hvdWxkIGJlIGZpeGVkIGlmIHlvdSBhZGQNCuKAnGJ1ZiArPSBNSVNBTElHTl9PRkZTRVTigJ0g
-YW5kIOKAnGxlbiAtPSBNSVNBTElHTl9PRkZTRVTigJ0gdG8gdGhlIHNlY29uZA0K4oCcaWYgKHFl
-bXVpb19taXNhbGlnbinigJ0gYmxvY2suIEkgdGhpbmsuDQoNClllcywgdGhhbmtzIGZvciBwb2lu
-dGluZyBvdXQNCg0KRGVuaXMNCg0KKw0KKyBsZW4gLT0gbGVuX3RvX2NvcHk7DQorIGJ1ZiArPSBs
-ZW5fdG9fY29weTsNCisgfQ0KKyB9DQorDQorIHJldHVybiBidWZfb3JpZ2luOw0KKw0KK2Vycm9y
-Og0KKyBxZW11X2lvX2ZyZWUoYnVmX29yaWdpbik7DQorIHJldHVybiBOVUxMOw0KK30NCisNCnN0
-YXRpYyB2b2lkIGR1bXBfYnVmZmVyKGNvbnN0IHZvaWQgKmJ1ZmZlciwgaW50NjRfdCBvZmZzZXQs
-IGludDY0X3QgbGVuKQ0Kew0KdWludDY0X3QgaTsNCg0KWy4uLl0NCg0KQEAgLTEwNTEsOCArMTEy
-OCw5IEBAIHN0YXRpYyBpbnQgd3JpdGVfZihCbG9ja0JhY2tlbmQgKmJsaywgaW50IGFyZ2MsIGNo
-YXIgKiphcmd2KQ0KcmV0dXJuIC1FSU5WQUw7DQp9DQoNCi0gaWYgKHpmbGFnICYmIFBmbGFnKSB7
-DQotIHByaW50ZigiLXogYW5kIC1QIGNhbm5vdCBiZSBzcGVjaWZpZWQgYXQgdGhlIHNhbWUgdGlt
-ZVxuIik7DQorIGlmICgoYm9vbCl6ZmxhZyArIChib29sKVBmbGFnICsgKGJvb2wpc2ZsYWcgPiAx
-KSB7DQoNCkVyaWPigJlzIHBvaW50IHdhcyB0aGF0IHlvdSBkb27igJl0IG5lZWQgdG8gY2FzdCBh
-dCBhbGwuDQoNCk1heA0KDQorIHByaW50ZigiT25seSBvbmUgb2YgLXosIC1QLCBhbmQgLXMgIg0K
-KyAiY2FuIGJlIHNwZWNpZmllZCBhdCB0aGUgc2FtZSB0aW1lXG4iKTsNCnJldHVybiAtRUlOVkFM
-Ow0KfQ0KDQo=
+On Tue, 20 Aug 2019 at 16:28, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 17dc57990320edaad52ac9ea808be9719c91cea6:
+>
+>   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-08-20' into staging (2019-08-20 14:14:20 +0100)
+>
+> are available in the git repository at:
+>
+>
+>   git://github.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to f496f8aca311b0b1fab979657694069871426395:
+>
+>   x86: Intel AVX512_BF16 feature enabling (2019-08-20 17:26:30 +0200)
+>
+> ----------------------------------------------------------------
+> * New KVM PV features (Marcelo, Wanpeng)
+> * valgrind fixes (Andrey)
+> * Remove clock reset notifiers (David)
+> * KConfig and Makefile cleanups (Paolo)
+> * Replay and icount improvements (Pavel)
+> * x86 FP fixes (Peter M.)
+> * TCG locking assertions (Roman)
+> * x86 support for mmap-ed -kernel/-initrd (Stefano)
+> * Other cleanups (Wei Yang, Yan Zhao, Tony)
+> * LSI fix for infinite loop (Prasad)
+> * ARM migration fix (Catherine)
+> * AVX512_BF16 feature (Jing)
+>
+> ----------------------------------------------------------------
+
+The linux-user build seems to fail 'make check-tcg':
+e104462:bionic:qemu-for-merges$ make -C build/all-linux-static/ check-tcg
+make: Entering directory
+'/home/petmay01/linaro/qemu-for-merges/build/all-linux-static'
+make[1]: Entering directory '/home/petmay01/linaro/qemu-for-merges/slirp'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/petmay01/linaro/qemu-for-merges/slirp'
+  BUILD   debian10
+  BUILD   debian-buster-arm64-cross
+  BUILD   TCG tests for aarch64-linux-user
+  BUILD   aarch64 guest-tests with aarch64-linux-gnu-gcc
+  RUN     TCG tests for aarch64-linux-user
+  BUILD   aarch64 guest-tests with aarch64-linux-gnu-gcc
+  RUN     tests for aarch64
+  TEST    test-mmap (default) on aarch64
+qemu-aarch64: /home/petmay01/linaro/qemu-for-merges/cpus-common.c:219:
+cpu_exec_start: Assertion `!qemu_mutex_iothread_locked()' failed.
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/multiarch/Makefile.target:30:
+recipe for target 'run-test-mmap' failed
+make[2]: *** [run-test-mmap] Error 127
+/home/petmay01/linaro/qemu-for-merges/tests/tcg/Makefile.include:71:
+recipe for target 'run-guest-tests' failed
+make[1]: *** [run-guest-tests] Error 2
+/home/petmay01/linaro/qemu-for-merges/tests/Makefile.include:1075:
+recipe for target 'run-tcg-tests-aarch64-linux-user' failed
+make: *** [run-tcg-tests-aarch64-linux-user] Error 2
+make: Leaving directory
+'/home/petmay01/linaro/qemu-for-merges/build/all-linux-static'
+
+Looks like we hit the assertion immediately on startup before
+we try to do anything:
+
+Thread 2 (Thread 0x7ffff7ff9700 (LWP 9252)):
+#0  0x0000000060340b49 in syscall ()
+#1  0x00000000601492af in qemu_futex_wait (f=0x628c9838
+<rcu_call_ready_event>, val=4294967295)
+    at /home/petmay01/linaro/qemu-for-merges/include/qemu/futex.h:29
+#2  0x0000000060149476 in qemu_event_wait (ev=0x628c9838 <rcu_call_ready_event>)
+    at /home/petmay01/linaro/qemu-for-merges/util/qemu-thread-posix.c:442
+#3  0x0000000060152794 in call_rcu_thread (opaque=0x0) at
+/home/petmay01/linaro/qemu-for-merges/util/rcu.c:260
+#4  0x0000000060149629 in qemu_thread_start (args=0x628d3f20) at
+/home/petmay01/linaro/qemu-for-merges/util/qemu-thread-posix.c:502
+#5  0x00000000602b19fb in start_thread (arg=0x7ffff7ff9700) at
+pthread_create.c:463
+#6  0x000000006034292f in clone ()
+
+Thread 1 (Thread 0x628d2940 (LWP 9248)):
+#0  0x00000000602d52b7 in raise ()
+#1  0x00000000602d5951 in abort ()
+#2  0x00000000602c884c in __assert_fail_base ()
+#3  0x00000000602c88c2 in __assert_fail ()
+#4  0x00000000600f2438 in cpu_exec_start (cpu=0x628f5cd0) at
+/home/petmay01/linaro/qemu-for-merges/cpus-common.c:219
+#5  0x0000000060094fc7 in cpu_loop (env=0x628fdfa0) at
+/home/petmay01/linaro/qemu-for-merges/linux-user/i386/cpu_loop.c:93
+#6  0x0000000060064f2c in main (argc=6, argv=0x7fffffffe3b8,
+envp=0x7fffffffe3f0)
+    at /home/petmay01/linaro/qemu-for-merges/linux-user/main.c:838
+
+This is because for linux-user we're using the stubs/ version
+of qemu_mutex_iothread_locked(), which always returns 'true',
+so the assertion can never pass...
+
+thanks
+-- PMM
+
