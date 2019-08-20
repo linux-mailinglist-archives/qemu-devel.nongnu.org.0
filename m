@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FAF957D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:07:00 +0200 (CEST)
-Received: from localhost ([::1]:33818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3558B957DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:10:03 +0200 (CEST)
+Received: from localhost ([::1]:33844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzyEN-000332-EA
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:06:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42583)
+	id 1hzyHJ-0006kD-Rw
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42619)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1hzy8L-0005bP-Im
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:50 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hzy8U-0005g3-1p
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hzy8K-0003C5-Fu
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:30669)
+ (envelope-from <pbonzini@redhat.com>) id 1hzy8Q-0003Gm-3B
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:23885)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy8K-0003BO-AA
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:44 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy8P-0003Do-PI
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:49 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 913618D6CAA;
- Tue, 20 Aug 2019 07:00:43 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 381FF106E978;
+ Tue, 20 Aug 2019 07:00:46 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
  [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F552BABE;
- Tue, 20 Aug 2019 07:00:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D624D11E52C;
+ Tue, 20 Aug 2019 07:00:43 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 08:59:32 +0200
-Message-Id: <1566284395-30287-14-git-send-email-pbonzini@redhat.com>
+Date: Tue, 20 Aug 2019 08:59:33 +0200
+Message-Id: <1566284395-30287-15-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 References: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Tue, 20 Aug 2019 07:00:43 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.66]); Tue, 20 Aug 2019 07:00:46 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 13/36] i386/kvm: initialize struct at full
- before ioctl call
+Subject: [Qemu-devel] [PULL 14/36] target/i386: Return 'indefinite integer
+ value' for invalid SSE fp->int conversions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,50 +54,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Not the whole structure is initialized before passing it to the KVM.
-Reduce the number of Valgrind reports.
+The x86 architecture requires that all conversions from floating
+point to integer which raise the 'invalid' exception (infinities of
+both signs, NaN, and all values which don't fit in the destination
+integer) return what the x86 spec calls the "indefinite integer
+value", which is 0x8000_0000 for 32-bits or 0x8000_0000_0000_0000 for
+64-bits.  The softfloat functions return the more usual behaviour of
+positive overflows returning the maximum value that fits in the
+destination integer format and negative overflows returning the
+minimum value that fits.
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-Id: <1564502498-805893-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+Wrap the softfloat functions in x86-specific versions which
+detect the 'invalid' condition and return the indefinite integer.
+
+Note that we don't use these wrappers for the 3DNow! pf2id and pf2iw
+instructions, which do return the minimum value that fits in
+an int32 if the input float is a large negative number.
+
+Fixes: https://bugs.launchpad.net/qemu/+bug/1815423
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20190805180332.10185-1-peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/i386/ops_sse.h | 88 +++++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 60 insertions(+), 28 deletions(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index a66b956..ce3f1c3 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -190,6 +190,7 @@ static int kvm_get_tsc(CPUState *cs)
-         return 0;
-     }
+diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+index ed05989..ec1ec74 100644
+--- a/target/i386/ops_sse.h
++++ b/target/i386/ops_sse.h
+@@ -710,102 +710,134 @@ void helper_cvtsq2sd(CPUX86State *env, ZMMReg *d, uint64_t val)
+ #endif
  
-+    memset(&msr_data, 0, sizeof(msr_data));
-     msr_data.info.nmsrs = 1;
-     msr_data.entries[0].index = MSR_IA32_TSC;
-     env->tsc_valid = !runstate_is_running();
-@@ -1706,6 +1707,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+ /* float to integer */
++
++/*
++ * x86 mandates that we return the indefinite integer value for the result
++ * of any float-to-integer conversion that raises the 'invalid' exception.
++ * Wrap the softfloat functions to get this behaviour.
++ */
++#define WRAP_FLOATCONV(RETTYPE, FN, FLOATTYPE, INDEFVALUE)              \
++    static inline RETTYPE x86_##FN(FLOATTYPE a, float_status *s)        \
++    {                                                                   \
++        int oldflags, newflags;                                         \
++        RETTYPE r;                                                      \
++                                                                        \
++        oldflags = get_float_exception_flags(s);                        \
++        set_float_exception_flags(0, s);                                \
++        r = FN(a, s);                                                   \
++        newflags = get_float_exception_flags(s);                        \
++        if (newflags & float_flag_invalid) {                            \
++            r = INDEFVALUE;                                             \
++        }                                                               \
++        set_float_exception_flags(newflags | oldflags, s);              \
++        return r;                                                       \
++    }
++
++WRAP_FLOATCONV(int32_t, float32_to_int32, float32, INT32_MIN)
++WRAP_FLOATCONV(int32_t, float32_to_int32_round_to_zero, float32, INT32_MIN)
++WRAP_FLOATCONV(int32_t, float64_to_int32, float64, INT32_MIN)
++WRAP_FLOATCONV(int32_t, float64_to_int32_round_to_zero, float64, INT32_MIN)
++WRAP_FLOATCONV(int64_t, float32_to_int64, float32, INT64_MIN)
++WRAP_FLOATCONV(int64_t, float32_to_int64_round_to_zero, float32, INT64_MIN)
++WRAP_FLOATCONV(int64_t, float64_to_int64, float64, INT64_MIN)
++WRAP_FLOATCONV(int64_t, float64_to_int64_round_to_zero, float64, INT64_MIN)
++
+ void helper_cvtps2dq(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+ {
+-    d->ZMM_L(0) = float32_to_int32(s->ZMM_S(0), &env->sse_status);
+-    d->ZMM_L(1) = float32_to_int32(s->ZMM_S(1), &env->sse_status);
+-    d->ZMM_L(2) = float32_to_int32(s->ZMM_S(2), &env->sse_status);
+-    d->ZMM_L(3) = float32_to_int32(s->ZMM_S(3), &env->sse_status);
++    d->ZMM_L(0) = x86_float32_to_int32(s->ZMM_S(0), &env->sse_status);
++    d->ZMM_L(1) = x86_float32_to_int32(s->ZMM_S(1), &env->sse_status);
++    d->ZMM_L(2) = x86_float32_to_int32(s->ZMM_S(2), &env->sse_status);
++    d->ZMM_L(3) = x86_float32_to_int32(s->ZMM_S(3), &env->sse_status);
+ }
  
-     if (has_xsave) {
-         env->xsave_buf = qemu_memalign(4096, sizeof(struct kvm_xsave));
-+        memset(env->xsave_buf, 0, sizeof(struct kvm_xsave));
-     }
+ void helper_cvtpd2dq(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+ {
+-    d->ZMM_L(0) = float64_to_int32(s->ZMM_D(0), &env->sse_status);
+-    d->ZMM_L(1) = float64_to_int32(s->ZMM_D(1), &env->sse_status);
++    d->ZMM_L(0) = x86_float64_to_int32(s->ZMM_D(0), &env->sse_status);
++    d->ZMM_L(1) = x86_float64_to_int32(s->ZMM_D(1), &env->sse_status);
+     d->ZMM_Q(1) = 0;
+ }
  
-     max_nested_state_len = kvm_max_nested_state_length();
-@@ -3488,6 +3490,7 @@ static int kvm_put_debugregs(X86CPU *cpu)
-         return 0;
-     }
+ void helper_cvtps2pi(CPUX86State *env, MMXReg *d, ZMMReg *s)
+ {
+-    d->MMX_L(0) = float32_to_int32(s->ZMM_S(0), &env->sse_status);
+-    d->MMX_L(1) = float32_to_int32(s->ZMM_S(1), &env->sse_status);
++    d->MMX_L(0) = x86_float32_to_int32(s->ZMM_S(0), &env->sse_status);
++    d->MMX_L(1) = x86_float32_to_int32(s->ZMM_S(1), &env->sse_status);
+ }
  
-+    memset(&dbgregs, 0, sizeof(dbgregs));
-     for (i = 0; i < 4; i++) {
-         dbgregs.db[i] = env->dr[i];
-     }
+ void helper_cvtpd2pi(CPUX86State *env, MMXReg *d, ZMMReg *s)
+ {
+-    d->MMX_L(0) = float64_to_int32(s->ZMM_D(0), &env->sse_status);
+-    d->MMX_L(1) = float64_to_int32(s->ZMM_D(1), &env->sse_status);
++    d->MMX_L(0) = x86_float64_to_int32(s->ZMM_D(0), &env->sse_status);
++    d->MMX_L(1) = x86_float64_to_int32(s->ZMM_D(1), &env->sse_status);
+ }
+ 
+ int32_t helper_cvtss2si(CPUX86State *env, ZMMReg *s)
+ {
+-    return float32_to_int32(s->ZMM_S(0), &env->sse_status);
++    return x86_float32_to_int32(s->ZMM_S(0), &env->sse_status);
+ }
+ 
+ int32_t helper_cvtsd2si(CPUX86State *env, ZMMReg *s)
+ {
+-    return float64_to_int32(s->ZMM_D(0), &env->sse_status);
++    return x86_float64_to_int32(s->ZMM_D(0), &env->sse_status);
+ }
+ 
+ #ifdef TARGET_X86_64
+ int64_t helper_cvtss2sq(CPUX86State *env, ZMMReg *s)
+ {
+-    return float32_to_int64(s->ZMM_S(0), &env->sse_status);
++    return x86_float32_to_int64(s->ZMM_S(0), &env->sse_status);
+ }
+ 
+ int64_t helper_cvtsd2sq(CPUX86State *env, ZMMReg *s)
+ {
+-    return float64_to_int64(s->ZMM_D(0), &env->sse_status);
++    return x86_float64_to_int64(s->ZMM_D(0), &env->sse_status);
+ }
+ #endif
+ 
+ /* float to integer truncated */
+ void helper_cvttps2dq(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+ {
+-    d->ZMM_L(0) = float32_to_int32_round_to_zero(s->ZMM_S(0), &env->sse_status);
+-    d->ZMM_L(1) = float32_to_int32_round_to_zero(s->ZMM_S(1), &env->sse_status);
+-    d->ZMM_L(2) = float32_to_int32_round_to_zero(s->ZMM_S(2), &env->sse_status);
+-    d->ZMM_L(3) = float32_to_int32_round_to_zero(s->ZMM_S(3), &env->sse_status);
++    d->ZMM_L(0) = x86_float32_to_int32_round_to_zero(s->ZMM_S(0), &env->sse_status);
++    d->ZMM_L(1) = x86_float32_to_int32_round_to_zero(s->ZMM_S(1), &env->sse_status);
++    d->ZMM_L(2) = x86_float32_to_int32_round_to_zero(s->ZMM_S(2), &env->sse_status);
++    d->ZMM_L(3) = x86_float32_to_int32_round_to_zero(s->ZMM_S(3), &env->sse_status);
+ }
+ 
+ void helper_cvttpd2dq(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+ {
+-    d->ZMM_L(0) = float64_to_int32_round_to_zero(s->ZMM_D(0), &env->sse_status);
+-    d->ZMM_L(1) = float64_to_int32_round_to_zero(s->ZMM_D(1), &env->sse_status);
++    d->ZMM_L(0) = x86_float64_to_int32_round_to_zero(s->ZMM_D(0), &env->sse_status);
++    d->ZMM_L(1) = x86_float64_to_int32_round_to_zero(s->ZMM_D(1), &env->sse_status);
+     d->ZMM_Q(1) = 0;
+ }
+ 
+ void helper_cvttps2pi(CPUX86State *env, MMXReg *d, ZMMReg *s)
+ {
+-    d->MMX_L(0) = float32_to_int32_round_to_zero(s->ZMM_S(0), &env->sse_status);
+-    d->MMX_L(1) = float32_to_int32_round_to_zero(s->ZMM_S(1), &env->sse_status);
++    d->MMX_L(0) = x86_float32_to_int32_round_to_zero(s->ZMM_S(0), &env->sse_status);
++    d->MMX_L(1) = x86_float32_to_int32_round_to_zero(s->ZMM_S(1), &env->sse_status);
+ }
+ 
+ void helper_cvttpd2pi(CPUX86State *env, MMXReg *d, ZMMReg *s)
+ {
+-    d->MMX_L(0) = float64_to_int32_round_to_zero(s->ZMM_D(0), &env->sse_status);
+-    d->MMX_L(1) = float64_to_int32_round_to_zero(s->ZMM_D(1), &env->sse_status);
++    d->MMX_L(0) = x86_float64_to_int32_round_to_zero(s->ZMM_D(0), &env->sse_status);
++    d->MMX_L(1) = x86_float64_to_int32_round_to_zero(s->ZMM_D(1), &env->sse_status);
+ }
+ 
+ int32_t helper_cvttss2si(CPUX86State *env, ZMMReg *s)
+ {
+-    return float32_to_int32_round_to_zero(s->ZMM_S(0), &env->sse_status);
++    return x86_float32_to_int32_round_to_zero(s->ZMM_S(0), &env->sse_status);
+ }
+ 
+ int32_t helper_cvttsd2si(CPUX86State *env, ZMMReg *s)
+ {
+-    return float64_to_int32_round_to_zero(s->ZMM_D(0), &env->sse_status);
++    return x86_float64_to_int32_round_to_zero(s->ZMM_D(0), &env->sse_status);
+ }
+ 
+ #ifdef TARGET_X86_64
+ int64_t helper_cvttss2sq(CPUX86State *env, ZMMReg *s)
+ {
+-    return float32_to_int64_round_to_zero(s->ZMM_S(0), &env->sse_status);
++    return x86_float32_to_int64_round_to_zero(s->ZMM_S(0), &env->sse_status);
+ }
+ 
+ int64_t helper_cvttsd2sq(CPUX86State *env, ZMMReg *s)
+ {
+-    return float64_to_int64_round_to_zero(s->ZMM_D(0), &env->sse_status);
++    return x86_float64_to_int64_round_to_zero(s->ZMM_D(0), &env->sse_status);
+ }
+ #endif
+ 
 -- 
 1.8.3.1
 
