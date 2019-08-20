@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2494495832
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:21:59 +0200 (CEST)
-Received: from localhost ([::1]:34006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED0E95853
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:29:00 +0200 (CEST)
+Received: from localhost ([::1]:34128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzySs-0005wb-7d
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:21:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42829)
+	id 1hzyZf-0007Zf-5g
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:28:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42913)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1hzy8u-0005ws-Gr
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:23 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hzy92-00063p-St
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hzy8s-0003jz-Uv
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40510)
+ (envelope-from <pbonzini@redhat.com>) id 1hzy8x-0003pB-Fr
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37758)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy8m-0003cA-59
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:13 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy8u-0003f8-EY
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:20 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B4C8119AD50A;
- Tue, 20 Aug 2019 07:01:09 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B04333001836
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 07:01:12 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
  [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE1F060F88;
- Tue, 20 Aug 2019 07:01:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AAF5560F88;
+ Tue, 20 Aug 2019 07:01:11 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 08:59:49 +0200
-Message-Id: <1566284395-30287-31-git-send-email-pbonzini@redhat.com>
+Date: Tue, 20 Aug 2019 08:59:51 +0200
+Message-Id: <1566284395-30287-33-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 References: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Tue, 20 Aug 2019 07:01:09 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Tue, 20 Aug 2019 07:01:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 30/36] cpus-common: assert BQL nesting within
- cpu-exclusive sections
+Subject: [Qemu-devel] [PULL 32/36] HACKING: Document 'struct' keyword usage
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,57 +53,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Kagan <rkagan@virtuozzo.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Roman Kagan <rkagan@virtuozzo.com>
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-Assert that the cpu-exclusive sections are never entered/left with the
-BQL taken.
+Sometimes we use the 'struct' keyword in headers to help us
+reduce dependencies between header files.  Document that
+practice.
 
-Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
-Message-Id: <20190523105440.27045-3-rkagan@virtuozzo.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- cpus-common.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ HACKING | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/cpus-common.c b/cpus-common.c
-index 023cfeb..9aa75fe 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -174,6 +174,7 @@ void start_exclusive(void)
-     CPUState *other_cpu;
-     int running_cpus;
+diff --git a/HACKING b/HACKING
+index 0fc3e0f..097d482 100644
+--- a/HACKING
++++ b/HACKING
+@@ -100,7 +100,19 @@ pointer, you're guaranteed that it is used to modify the storage
+ it points to, or it is aliased to another pointer that is.
  
-+    assert(!qemu_mutex_iothread_locked());
-     qemu_mutex_lock(&qemu_cpu_list_lock);
-     exclusive_idle();
+ 2.3. Typedefs
+-Typedefs are used to eliminate the redundant 'struct' keyword.
++
++Typedefs are used to eliminate the redundant 'struct' keyword, since type
++names have a different style than other identifiers ("CamelCase" versus
++"snake_case").  Each named struct type should have a CamelCase name and a
++corresponding typedef.
++
++Since certain C compilers choke on duplicated typedefs, you should avoid
++them and declare a typedef only in one header file.  For common types,
++you can use "include/qemu/typedefs.h" for example.  However, as a matter
++of convenience it is also perfectly fine to use forward struct
++definitions instead of typedefs in headers and function prototypes; this
++avoids problems with duplicated typedefs and reduces the need to include
++headers from other headers.
  
-@@ -205,6 +206,7 @@ void start_exclusive(void)
- /* Finish an exclusive operation.  */
- void end_exclusive(void)
- {
-+    assert(!qemu_mutex_iothread_locked());
-     qemu_mutex_lock(&qemu_cpu_list_lock);
-     atomic_set(&pending_cpus, 0);
-     qemu_cond_broadcast(&exclusive_resume);
-@@ -214,6 +216,7 @@ void end_exclusive(void)
- /* Wait for exclusive ops to finish, and begin cpu execution.  */
- void cpu_exec_start(CPUState *cpu)
- {
-+    assert(!qemu_mutex_iothread_locked());
-     atomic_set(&cpu->running, true);
- 
-     /* Write cpu->running before reading pending_cpus.  */
-@@ -255,6 +258,7 @@ void cpu_exec_start(CPUState *cpu)
- /* Mark cpu as not executing, and release pending exclusive ops.  */
- void cpu_exec_end(CPUState *cpu)
- {
-+    assert(!qemu_mutex_iothread_locked());
-     atomic_set(&cpu->running, false);
- 
-     /* Write cpu->running before reading pending_cpus.  */
+ 2.4. Reserved namespaces in C and POSIX
+ Underscore capital, double underscore, and underscore 't' suffixes should be
 -- 
 1.8.3.1
 
