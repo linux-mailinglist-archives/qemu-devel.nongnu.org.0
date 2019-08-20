@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40AAB9576A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 08:40:56 +0200 (CEST)
-Received: from localhost ([::1]:33366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08AA9576D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 08:43:15 +0200 (CEST)
+Received: from localhost ([::1]:33398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzxp8-0006mv-TH
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 02:40:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39935)
+	id 1hzxrO-0002F1-Iv
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 02:43:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39954)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzxmf-0004o8-34
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:22 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzxmf-0004ol-Hw
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzxmd-0006Ur-E1
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:20 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:39271 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzxmd-0006UX-Ck
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:21 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:39284 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hzxmd-0006ML-3E
+ id 1hzxmd-0006Nj-5C
  for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:19 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 6BC6D1A1FE9;
+ by mail.rt-rk.com (Postfix) with ESMTP id 83A621A1FB1;
  Tue, 20 Aug 2019 08:38:15 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 4C4891A0F20;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 52DCF1A1151;
  Tue, 20 Aug 2019 08:38:15 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 08:37:53 +0200
-Message-Id: <1566283083-21838-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Tue, 20 Aug 2019 08:37:54 +0200
+Message-Id: <1566283083-21838-3-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1566283083-21838-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1566283083-21838-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -41,8 +41,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 01/11] target/mips: Style improvements in
- cp0_timer.c
+Subject: [Qemu-devel] [PULL 02/11] target/mips: Style improvements in cpu.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,129 +63,57 @@ Fixes mostly errors and warnings reported by 'checkpatch.pl -f'.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <1566216496-17375-7-git-send-email-aleksandar.markovic@rt-rk.=
+Message-Id: <1566216496-17375-8-git-send-email-aleksandar.markovic@rt-rk.=
 com>
 ---
- target/mips/cp0_timer.c | 42 +++++++++++++++++++++++-------------------
- 1 file changed, 23 insertions(+), 19 deletions(-)
+ target/mips/cpu.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/target/mips/cp0_timer.c b/target/mips/cp0_timer.c
-index 48c18d7..bd7efb1 100644
---- a/target/mips/cp0_timer.c
-+++ b/target/mips/cp0_timer.c
-@@ -30,7 +30,7 @@
- #define TIMER_PERIOD 10 /* 10 ns period for 100 Mhz frequency */
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 39eafaf..3ffa342 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -57,9 +57,11 @@ static bool mips_cpu_has_work(CPUState *cs)
+     CPUMIPSState *env =3D &cpu->env;
+     bool has_work =3D false;
 =20
- /* XXX: do not use a global */
--uint32_t cpu_mips_get_random (CPUMIPSState *env)
-+uint32_t cpu_mips_get_random(CPUMIPSState *env)
- {
-     static uint32_t seed =3D 1;
-     static uint32_t prev_idx =3D 0;
-@@ -43,8 +43,10 @@ uint32_t cpu_mips_get_random (CPUMIPSState *env)
-=20
-     /* Don't return same value twice, so get another value */
-     do {
--        /* Use a simple algorithm of Linear Congruential Generator
--         * from ISO/IEC 9899 standard. */
-+        /*
-+         * Use a simple algorithm of Linear Congruential Generator
-+         * from ISO/IEC 9899 standard.
-+         */
-         seed =3D 1103515245 * seed + 12345;
-         idx =3D (seed >> 16) % nb_rand_tlb + env->CP0_Wired;
-     } while (idx =3D=3D prev_idx);
-@@ -74,7 +76,7 @@ static void cpu_mips_timer_expire(CPUMIPSState *env)
-     qemu_irq_raise(env->irq[(env->CP0_IntCtl >> CP0IntCtl_IPTI) & 0x7]);
- }
-=20
--uint32_t cpu_mips_get_count (CPUMIPSState *env)
-+uint32_t cpu_mips_get_count(CPUMIPSState *env)
- {
-     if (env->CP0_Cause & (1 << CP0Ca_DC)) {
-         return env->CP0_Count;
-@@ -92,16 +94,16 @@ uint32_t cpu_mips_get_count (CPUMIPSState *env)
-     }
- }
-=20
--void cpu_mips_store_count (CPUMIPSState *env, uint32_t count)
-+void cpu_mips_store_count(CPUMIPSState *env, uint32_t count)
- {
-     /*
-      * This gets called from cpu_state_reset(), potentially before timer=
- init.
-      * So env->timer may be NULL, which is also the case with KVM enable=
-d so
-      * treat timer as disabled in that case.
-      */
--    if (env->CP0_Cause & (1 << CP0Ca_DC) || !env->timer)
-+    if (env->CP0_Cause & (1 << CP0Ca_DC) || !env->timer) {
-         env->CP0_Count =3D count;
--    else {
-+    } else {
-         /* Store new count register */
-         env->CP0_Count =3D count -
-                (uint32_t)(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / TIMER_=
-PERIOD);
-@@ -110,13 +112,15 @@ void cpu_mips_store_count (CPUMIPSState *env, uint3=
-2_t count)
-     }
- }
-=20
--void cpu_mips_store_compare (CPUMIPSState *env, uint32_t value)
-+void cpu_mips_store_compare(CPUMIPSState *env, uint32_t value)
- {
-     env->CP0_Compare =3D value;
--    if (!(env->CP0_Cause & (1 << CP0Ca_DC)))
-+    if (!(env->CP0_Cause & (1 << CP0Ca_DC))) {
-         cpu_mips_timer_update(env);
--    if (env->insn_flags & ISA_MIPS32R2)
-+    }
-+    if (env->insn_flags & ISA_MIPS32R2) {
-         env->CP0_Cause &=3D ~(1 << CP0Ca_TI);
-+    }
-     qemu_irq_lower(env->irq[(env->CP0_IntCtl >> CP0IntCtl_IPTI) & 0x7]);
- }
-=20
-@@ -132,27 +136,27 @@ void cpu_mips_stop_count(CPUMIPSState *env)
-                                  TIMER_PERIOD);
- }
-=20
--static void mips_timer_cb (void *opaque)
-+static void mips_timer_cb(void *opaque)
- {
-     CPUMIPSState *env;
-=20
-     env =3D opaque;
--#if 0
--    qemu_log("%s\n", __func__);
--#endif
-=20
--    if (env->CP0_Cause & (1 << CP0Ca_DC))
-+    if (env->CP0_Cause & (1 << CP0Ca_DC)) {
-         return;
-+    }
-=20
--    /* ??? This callback should occur when the counter is exactly equal =
-to
--       the comparator value.  Offset the count by one to avoid immediate=
-ly
--       retriggering the callback before any virtual time has passed.  */
+-    /* Prior to MIPS Release 6 it is implementation dependent if non-ena=
+bled
+-       interrupts wake-up the CPU, however most of the implementations o=
+nly
+-       check for interrupts that can be taken. */
 +    /*
-+     * ??? This callback should occur when the counter is exactly equal =
-to
-+     * the comparator value.  Offset the count by one to avoid immediate=
-ly
-+     * retriggering the callback before any virtual time has passed.
++     * Prior to MIPS Release 6 it is implementation dependent if non-ena=
+bled
++     * interrupts wake-up the CPU, however most of the implementations o=
+nly
++     * check for interrupts that can be taken.
 +     */
-     env->CP0_Count++;
-     cpu_mips_timer_expire(env);
-     env->CP0_Count--;
+     if ((cs->interrupt_request & CPU_INTERRUPT_HARD) &&
+         cpu_mips_hw_interrupts_pending(env)) {
+         if (cpu_mips_hw_interrupts_enabled(env) ||
+@@ -70,8 +72,10 @@ static bool mips_cpu_has_work(CPUState *cs)
+=20
+     /* MIPS-MT has the ability to halt the CPU.  */
+     if (env->CP0_Config3 & (1 << CP0C3_MT)) {
+-        /* The QEMU model will issue an _WAKE request whenever the CPUs
+-           should be woken up.  */
++        /*
++         * The QEMU model will issue an _WAKE request whenever the CPUs
++         * should be woken up.
++         */
+         if (cs->interrupt_request & CPU_INTERRUPT_WAKE) {
+             has_work =3D true;
+         }
+@@ -112,7 +116,8 @@ static void mips_cpu_reset(CPUState *s)
+ #endif
  }
 =20
--void cpu_mips_clock_init (MIPSCPU *cpu)
-+void cpu_mips_clock_init(MIPSCPU *cpu)
+-static void mips_cpu_disas_set_info(CPUState *s, disassemble_info *info)=
  {
++static void mips_cpu_disas_set_info(CPUState *s, disassemble_info *info)
++{
+     MIPSCPU *cpu =3D MIPS_CPU(s);
      CPUMIPSState *env =3D &cpu->env;
 =20
 --=20
