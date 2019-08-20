@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38FD9584D
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:27:49 +0200 (CEST)
-Received: from localhost ([::1]:34098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9E995866
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:30:00 +0200 (CEST)
+Received: from localhost ([::1]:34148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzyYW-0005s5-TV
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42882)
+	id 1hzyad-0000Fb-Iz
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:29:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42899)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1hzy8z-0005z4-0c
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:26 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hzy8z-0005zw-PZ
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hzy8x-0003pa-ND
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47986)
+ (envelope-from <pbonzini@redhat.com>) id 1hzy8y-0003qB-1F
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:12097)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy8u-0003hM-VF
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:21 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy8x-0003iK-NG
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:01:23 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A68FA3CA0B;
- Tue, 20 Aug 2019 07:01:15 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 24EEE300BEAC;
+ Tue, 20 Aug 2019 07:01:17 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
  [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E98A60BE2;
- Tue, 20 Aug 2019 07:01:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F9C860F88;
+ Tue, 20 Aug 2019 07:01:15 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 08:59:53 +0200
-Message-Id: <1566284395-30287-35-git-send-email-pbonzini@redhat.com>
+Date: Tue, 20 Aug 2019 08:59:54 +0200
+Message-Id: <1566284395-30287-36-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 References: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Tue, 20 Aug 2019 07:01:15 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Tue, 20 Aug 2019 07:01:17 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 34/36] test-bitmap: test set 1 bit case for
- bitmap_set
+Subject: [Qemu-devel] [PULL 35/36] scsi: lsi: exit infinite loop while
+ executing script (CVE-2019-12068)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,46 +54,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Yang <richardw.yang@linux.intel.com>
+Cc: Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+When executing script in lsi_execute_script(), the LSI scsi adapter
+emulator advances 's->dsp' index to read next opcode. This can lead
+to an infinite loop if the next opcode is empty. Move the existing
+loop exit after 10k iterations so that it covers no-op opcodes as
+well.
 
-All current bitmap_set test cases set range across word, while the
-handle of a range within one word is different from that.
-
-Add case to set 1 bit as a represent for set range within one word.
-
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Reported-by: Bugs SysSec <bugs-syssec@rub.de>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/test-bitmap.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/scsi/lsi53c895a.c | 41 +++++++++++++++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 14 deletions(-)
 
-diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
-index 18aa584..087e02a 100644
---- a/tests/test-bitmap.c
-+++ b/tests/test-bitmap.c
-@@ -67,6 +67,18 @@ static void bitmap_set_case(bmap_set_func set_func)
+diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
+index 10468c1..72f7b59 100644
+--- a/hw/scsi/lsi53c895a.c
++++ b/hw/scsi/lsi53c895a.c
+@@ -185,6 +185,9 @@ static const char *names[] = {
+ /* Flag set if this is a tagged command.  */
+ #define LSI_TAG_VALID     (1 << 16)
  
-     bmap = bitmap_new(BMAP_SIZE);
- 
-+    /* Set one bit at offset in second word */
-+    for (offset = 0; offset <= BITS_PER_LONG; offset++) {
-+        bitmap_clear(bmap, 0, BMAP_SIZE);
-+        set_func(bmap, BITS_PER_LONG + offset, 1);
-+        g_assert_cmpint(find_first_bit(bmap, 2 * BITS_PER_LONG),
-+                        ==, BITS_PER_LONG + offset);
-+        g_assert_cmpint(find_next_zero_bit(bmap,
-+                                           3 * BITS_PER_LONG,
-+                                           BITS_PER_LONG + offset),
-+                        ==, BITS_PER_LONG + offset + 1);
-+    }
++/* Maximum instructions to process. */
++#define LSI_MAX_INSN    10000
 +
-     /* Both Aligned, set bits [BITS_PER_LONG, 3*BITS_PER_LONG] */
-     set_func(bmap, BITS_PER_LONG, 2 * BITS_PER_LONG);
-     g_assert_cmpuint(bmap[1], ==, -1ul);
+ typedef struct lsi_request {
+     SCSIRequest *req;
+     uint32_t tag;
+@@ -1132,7 +1135,21 @@ static void lsi_execute_script(LSIState *s)
+ 
+     s->istat1 |= LSI_ISTAT1_SRUN;
+ again:
+-    insn_processed++;
++    if (++insn_processed > LSI_MAX_INSN) {
++        /* Some windows drivers make the device spin waiting for a memory
++           location to change.  If we have been executed a lot of code then
++           assume this is the case and force an unexpected device disconnect.
++           This is apparently sufficient to beat the drivers into submission.
++         */
++        if (!(s->sien0 & LSI_SIST0_UDC)) {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "lsi_scsi: inf. loop with UDC masked");
++        }
++        lsi_script_scsi_interrupt(s, LSI_SIST0_UDC, 0);
++        lsi_disconnect(s);
++        trace_lsi_execute_script_stop();
++        return;
++    }
+     insn = read_dword(s, s->dsp);
+     if (!insn) {
+         /* If we receive an empty opcode increment the DSP by 4 bytes
+@@ -1569,19 +1586,7 @@ again:
+             }
+         }
+     }
+-    if (insn_processed > 10000 && s->waiting == LSI_NOWAIT) {
+-        /* Some windows drivers make the device spin waiting for a memory
+-           location to change.  If we have been executed a lot of code then
+-           assume this is the case and force an unexpected device disconnect.
+-           This is apparently sufficient to beat the drivers into submission.
+-         */
+-        if (!(s->sien0 & LSI_SIST0_UDC)) {
+-            qemu_log_mask(LOG_GUEST_ERROR,
+-                          "lsi_scsi: inf. loop with UDC masked");
+-        }
+-        lsi_script_scsi_interrupt(s, LSI_SIST0_UDC, 0);
+-        lsi_disconnect(s);
+-    } else if (s->istat1 & LSI_ISTAT1_SRUN && s->waiting == LSI_NOWAIT) {
++    if (s->istat1 & LSI_ISTAT1_SRUN && s->waiting == LSI_NOWAIT) {
+         if (s->dcntl & LSI_DCNTL_SSM) {
+             lsi_script_dma_interrupt(s, LSI_DSTAT_SSI);
+         } else {
+@@ -1969,6 +1974,10 @@ static void lsi_reg_writeb(LSIState *s, int offset, uint8_t val)
+     case 0x2f: /* DSP[24:31] */
+         s->dsp &= 0x00ffffff;
+         s->dsp |= val << 24;
++        /*
++         * FIXME: if s->waiting != LSI_NOWAIT, this will only execute one
++         * instruction.  Is this correct?
++         */
+         if ((s->dmode & LSI_DMODE_MAN) == 0
+             && (s->istat1 & LSI_ISTAT1_SRUN) == 0)
+             lsi_execute_script(s);
+@@ -1987,6 +1996,10 @@ static void lsi_reg_writeb(LSIState *s, int offset, uint8_t val)
+         break;
+     case 0x3b: /* DCNTL */
+         s->dcntl = val & ~(LSI_DCNTL_PFF | LSI_DCNTL_STD);
++        /*
++         * FIXME: if s->waiting != LSI_NOWAIT, this will only execute one
++         * instruction.  Is this correct?
++         */
+         if ((val & LSI_DCNTL_STD) && (s->istat1 & LSI_ISTAT1_SRUN) == 0)
+             lsi_execute_script(s);
+         break;
 -- 
 1.8.3.1
 
