@@ -2,44 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7179579F
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 08:47:20 +0200 (CEST)
-Received: from localhost ([::1]:33450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B23F95771
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 08:43:44 +0200 (CEST)
+Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzxvL-0007Ys-Ca
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 02:47:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39968)
+	id 1hzxrq-00031E-VC
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 02:43:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40089)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzxmf-0004p4-R3
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:23 -0400
+ (envelope-from <thuth@redhat.com>) id 1hzxmr-00059p-Ra
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hzxme-0006bO-MW
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:21 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:39313 helo=mail.rt-rk.com)
+ (envelope-from <thuth@redhat.com>) id 1hzxmq-0006sG-O4
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44322)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hzxme-0006W6-Ee
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 02:38:20 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id E297D1A0F1A;
- Tue, 20 Aug 2019 08:38:15 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id A4C531A1F85;
- Tue, 20 Aug 2019 08:38:15 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 08:38:02 +0200
-Message-Id: <1566283083-21838-11-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1566283083-21838-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1566283083-21838-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 10/11] target/mips: tests/tcg: Add optional
- printing of more detailed failure info
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1hzxmo-0006qe-9M; Tue, 20 Aug 2019 02:38:30 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A003A11A06;
+ Tue, 20 Aug 2019 06:38:29 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-232.ams2.redhat.com [10.36.116.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93AB518AB6;
+ Tue, 20 Aug 2019 06:38:24 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20190819201851.24418-1-mreitz@redhat.com>
+ <20190819201851.24418-3-mreitz@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <e2e6a1b6-7fa9-4770-1fa4-f3ce6d242544@redhat.com>
+Date: Tue, 20 Aug 2019 08:38:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190819201851.24418-3-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Tue, 20 Aug 2019 06:38:29 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 2/8] iotests: Prefer null-co over
+ null-aio
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,66 +104,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On 8/19/19 10:18 PM, Max Reitz wrote:
+> We use null-co basically everywhere in the iotests.  Unless we want to
+> test null-aio specifically, we should use it instead (for consistency).
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Reviewed-by: John Snow <jsnow@redhat.com>
+> ---
+>  tests/qemu-iotests/093 | 7 +++----
+>  tests/qemu-iotests/245 | 2 +-
+>  2 files changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
+> index 3c4f5173ce..50c1e7f2ec 100755
+> --- a/tests/qemu-iotests/093
+> +++ b/tests/qemu-iotests/093
+> @@ -267,13 +267,12 @@ class ThrottleTestCoroutine(ThrottleTestCase):
+>      test_img = "null-co://"
+>  
+>  class ThrottleTestGroupNames(iotests.QMPTestCase):
+> -    test_img = "null-aio://"
+>      max_drives = 3
+>  
+>      def setUp(self):
+>          self.vm = iotests.VM()
+>          for i in range(0, self.max_drives):
+> -            self.vm.add_drive(self.test_img,
+> +            self.vm.add_drive("null-co://",
+>                                "throttling.iops-total=100,file.read-zeroes=on")
+>          self.vm.launch()
+>  
+> @@ -376,10 +375,10 @@ class ThrottleTestRemovableMedia(iotests.QMPTestCase):
+>  
+>      def test_removable_media(self):
+>          # Add a couple of dummy nodes named cd0 and cd1
+> -        result = self.vm.qmp("blockdev-add", driver="null-aio",
+> +        result = self.vm.qmp("blockdev-add", driver="null-co",
+>                               read_zeroes=True, node_name="cd0")
+>          self.assert_qmp(result, 'return', {})
+> -        result = self.vm.qmp("blockdev-add", driver="null-aio",
+> +        result = self.vm.qmp("blockdev-add", driver="null-co",
+>                               read_zeroes=True, node_name="cd1")
+>          self.assert_qmp(result, 'return', {})
+>  
+> diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+> index bc1ceb9792..ae169778b0 100644
+> --- a/tests/qemu-iotests/245
+> +++ b/tests/qemu-iotests/245
+> @@ -598,7 +598,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+>          ##################
+>          ###### null ######
+>          ##################
+> -        opts = {'driver': 'null-aio', 'node-name': 'root', 'size': 1024}
+> +        opts = {'driver': 'null-co', 'node-name': 'root', 'size': 1024}
+>  
+>          result = self.vm.qmp('blockdev-add', conv_keys = False, **opts)
+>          self.assert_qmp(result, 'return', {})
+> 
 
-There is a need for printing input and output data for failure cases,
-for debugging purpose. This is achieved by this patch, and only if a
-preprocessor constant is manually set to 1. (Assumption is that the
-need for such printout is relatively rare.)
-
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
-Message-Id: <1566216496-17375-37-git-send-email-aleksandar.markovic@rt-rk.com>
----
- tests/tcg/mips/include/test_utils_128.h | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
-
-diff --git a/tests/tcg/mips/include/test_utils_128.h b/tests/tcg/mips/include/test_utils_128.h
-index 2fea610..0dd3868 100644
---- a/tests/tcg/mips/include/test_utils_128.h
-+++ b/tests/tcg/mips/include/test_utils_128.h
-@@ -27,7 +27,8 @@
- #include <inttypes.h>
- #include <string.h>
- 
--#define PRINT_RESULTS 0
-+#define PRINT_RESULTS    0
-+#define PRINT_FAILURES   0
- 
- 
- static inline int32_t check_results_128(const char *isa_ase_name,
-@@ -65,6 +66,26 @@ static inline int32_t check_results_128(const char *isa_ase_name,
-             (b128_result[2 * i + 1] == b128_expect[2 * i + 1])) {
-             pass_count++;
-         } else {
-+#if PRINT_FAILURES
-+            uint32_t ii;
-+            uint64_t a, b;
-+
-+            printf("\n");
-+
-+            printf("FAILURE for test case %d!\n", i);
-+
-+            memcpy(&a, (b128_expect + 2 * i), 8);
-+            memcpy(&b, (b128_expect + 2 * i + 1), 8);
-+            printf("Expected result : { 0x%016llxULL, 0x%016llxULL, },\n",
-+                   a, b);
-+
-+            memcpy(&a, (b128_result + 2 * i), 8);
-+            memcpy(&b, (b128_result + 2 * i + 1), 8);
-+            printf("Actual result   : { 0x%016llxULL, 0x%016llxULL, },\n",
-+                   a, b);
-+
-+            printf("\n");
-+#endif
-             fail_count++;
-         }
-     }
--- 
-2.7.4
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
