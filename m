@@ -2,54 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D27F96DE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 01:43:21 +0200 (CEST)
-Received: from localhost ([::1]:42712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A107396DF0
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 01:55:35 +0200 (CEST)
+Received: from localhost ([::1]:42854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0DmZ-00007X-Uz
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 19:43:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46344)
+	id 1i0DyQ-00057G-6L
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 19:55:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48731)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i0Dln-00088C-05
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 19:42:31 -0400
+ (envelope-from <jsnow@redhat.com>) id 1i0Dvo-0002Rv-2s
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 19:52:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i0Dll-0007Ns-CC
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 19:42:30 -0400
-Resent-Date: Tue, 20 Aug 2019 19:42:30 -0400
-Resent-Message-Id: <E1i0Dll-0007Ns-CC@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21546)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i0Dll-0007MJ-4k
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 19:42:29 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1566344535; cv=none; d=zoho.com; s=zohoarc; 
- b=G0f2V9XHSxDpeAwL8fBOlv+pKM5kQuhlSMTJH9x4oB0xTIYHkapsoNOKFoxn6md/oKg3oaSUqPDcKZ4TTxPjT6KVwNvqi1UQAS17sv6s/+kTeVqhw6bGs0vPY8iD3pKlyLpPCVizM9oCEYUt4lCytWGYu+JME3N35OUTW+UlhRw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1566344535;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=8xoTgwefr1ZxvUQV49MseMuglJYDsb74zdoASaY7t0Y=; 
- b=NZQ9zZ6fwTsxUqGgqjdytvEsXVySyZKFoLsqbQX3DFWQ2Qa+jX9MpcbGXDzk7aTfFxZYj1AJrkDGNIOTA/knhuNO48a6e5A34o0JQzcW/nCpqGHv0vMFmczklxujNBbO7KBVhqJNmM87mq6yk58QCk7DS2M5mUnfacUr5ntuR0M=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1566344533010500.8854938404663;
- Tue, 20 Aug 2019 16:42:13 -0700 (PDT)
-In-Reply-To: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
-Message-ID: <156634453212.13663.14946915935014639862@5dec9699b7de>
+ (envelope-from <jsnow@redhat.com>) id 1i0Dvm-00051J-MK
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 19:52:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54474)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1i0Dvk-0004yi-1Q; Tue, 20 Aug 2019 19:52:48 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 611F0C06511B;
+ Tue, 20 Aug 2019 23:52:47 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-187.bos.redhat.com [10.18.17.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 41D2F2C8DC;
+ Tue, 20 Aug 2019 23:52:44 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Tue, 20 Aug 2019 19:52:39 -0400
+Message-Id: <20190820235243.26092-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Tue, 20 Aug 2019 16:42:13 -0700 (PDT)
-X-ZohoMailClient: External
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Tue, 20 Aug 2019 23:52:47 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PULL 00/36] QEMU patches for 2018-08-20
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3 0/4] iotests: use python logging
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,33 +53,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ ehabkost@redhat.com, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTY2Mjg0Mzk1LTMwMjg3LTEt
-Z2l0LXNlbmQtZW1haWwtcGJvbnppbmlAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBm
-YWlsZWQgdGhlIGFzYW4gYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
-ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
-eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtZmVkb3JhIFY9MSBORVRXT1JL
-PTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LWRlYnVnQGZlZG9yYSBUQVJHRVRfTElTVD14ODZfNjQt
-c29mdG1tdSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBDQyAgICAg
-IGh3L2Rpc3BsYXkveGVuZmIubwogIENDICAgICAgaHcvZGlzcGxheS92Z2EtcGNpLm8KICBDQyAg
-ICAgIGh3L2Rpc3BsYXkvdmdhLWlzYS5vCi90bXAvcWVtdS10ZXN0L3NyYy9ody9jb3JlL2xvYWRl
-ci5jOjExMjM6OTogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uICdydW5z
-dGF0ZV9jaGVjaycgaXMgaW52YWxpZCBpbiBDOTkgWy1XZXJyb3IsLVdpbXBsaWNpdC1mdW5jdGlv
-bi1kZWNsYXJhdGlvbl0KICAgIGlmIChydW5zdGF0ZV9jaGVjayhSVU5fU1RBVEVfSU5NSUdSQVRF
-KSkKICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy9ody9jb3JlL2xvYWRlci5jOjExMjM6OTog
-ZXJyb3I6IHRoaXMgZnVuY3Rpb24gZGVjbGFyYXRpb24gaXMgbm90IGEgcHJvdG90eXBlIFstV2Vy
-cm9yLC1Xc3RyaWN0LXByb3RvdHlwZXNdCjIgZXJyb3JzIGdlbmVyYXRlZC4KbWFrZTogKioqIFsv
-dG1wL3FlbXUtdGVzdC9zcmMvcnVsZXMubWFrOjY5OiBody9jb3JlL2xvYWRlci5vXSBFcnJvciAx
-Cm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCgoKVGhlIGZ1bGwgbG9n
-IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8xNTY2Mjg0Mzk1LTMwMjg3
-LTEtZ2l0LXNlbmQtZW1haWwtcGJvbnppbmlAcmVkaGF0LmNvbS90ZXN0aW5nLmFzYW4vP3R5cGU9
-bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
-dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
-LWRldmVsQHJlZGhhdC5jb20=
+This series uses python logging to enable output conditionally on
+iotests.log(). We unify an initialization call (which also enables
+debugging output for those tests with -d) and then make the switch
+inside of iotests.
+
+It will help alleviate the need to create logged/unlogged versions
+of all the various helpers we have made.
+
+V3:
+ - Rebased for 4.1+; now based on main branch.
+
+V2:
+ - Added all of the other python tests I missed to use script_initialize
+ - Refactored the common setup as per Ehabkost's suggestion
+ - Added protocol arguments to common initialization,
+   but this isn't strictly required.
+
+John Snow (4):
+  iotests: add script_initialize
+  iotest 258: use script_main
+  iotests: add protocol support to initialization info
+  iotests: use python logging for iotests.log()
+
+ tests/qemu-iotests/030        |   4 +-
+ tests/qemu-iotests/149        |   3 +-
+ tests/qemu-iotests/194        |   3 +-
+ tests/qemu-iotests/202        |   3 +-
+ tests/qemu-iotests/203        |   3 +-
+ tests/qemu-iotests/206        |   2 +-
+ tests/qemu-iotests/207        |   4 +-
+ tests/qemu-iotests/208        |   2 +-
+ tests/qemu-iotests/209        |   2 +-
+ tests/qemu-iotests/210        |   4 +-
+ tests/qemu-iotests/211        |   4 +-
+ tests/qemu-iotests/212        |   4 +-
+ tests/qemu-iotests/213        |   4 +-
+ tests/qemu-iotests/216        |   3 +-
+ tests/qemu-iotests/218        |   2 +-
+ tests/qemu-iotests/219        |   2 +-
+ tests/qemu-iotests/222        |   5 +-
+ tests/qemu-iotests/224        |   3 +-
+ tests/qemu-iotests/228        |   3 +-
+ tests/qemu-iotests/234        |   3 +-
+ tests/qemu-iotests/235        |   4 +-
+ tests/qemu-iotests/236        |   2 +-
+ tests/qemu-iotests/237        |   2 +-
+ tests/qemu-iotests/238        |   2 +
+ tests/qemu-iotests/242        |   2 +-
+ tests/qemu-iotests/245        |   1 +
+ tests/qemu-iotests/245.out    |  24 ++++----
+ tests/qemu-iotests/246        |   2 +-
+ tests/qemu-iotests/248        |   2 +-
+ tests/qemu-iotests/254        |   2 +-
+ tests/qemu-iotests/255        |   2 +-
+ tests/qemu-iotests/256        |   2 +-
+ tests/qemu-iotests/258        |   8 +--
+ tests/qemu-iotests/262        |   3 +-
+ tests/qemu-iotests/iotests.py | 108 ++++++++++++++++++++++------------
+ 35 files changed, 124 insertions(+), 105 deletions(-)
+
+--=20
+2.21.0
 
 
