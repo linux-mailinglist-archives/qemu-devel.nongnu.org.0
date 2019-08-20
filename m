@@ -2,69 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF6496B8D
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 23:38:59 +0200 (CEST)
-Received: from localhost ([::1]:42150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB6096B85
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 23:36:12 +0200 (CEST)
+Received: from localhost ([::1]:42098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0BqE-0003c0-7H
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 17:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55407)
+	id 1i0BnX-0007kK-Iu
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 17:36:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56528)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nsoffer@redhat.com>) id 1i0BXg-0003Lu-Ni
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 17:19:50 -0400
+ (envelope-from <jsnow@redhat.com>) id 1i0BfB-000174-MR
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 17:27:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nsoffer@redhat.com>) id 1i0BXc-00085G-S4
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 17:19:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45954)
+ (envelope-from <jsnow@redhat.com>) id 1i0BfA-00054N-NW
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 17:27:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41530)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1i0BXa-00082o-SA
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 17:19:44 -0400
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1i0Bf1-00051Y-Lx; Tue, 20 Aug 2019 17:27:23 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5499BC059B7C
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 21:19:40 +0000 (UTC)
-Received: by mail-ot1-f70.google.com with SMTP id g6so74331otq.13
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 14:19:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yPQ2BEyhFVu5FROpUdygX4Qc3ac0b32DOATgMloyvvQ=;
- b=Q9jaUfi99TrvMdQnFMoM3Gh9ehRwvGAWg/fIQRKhlWpZ91yFHgoK/1ybuUWrnInbWd
- BcK1kpt2b/VivSorwvgDfiCfXldvP7T10X4RBbDOiD5Qedy2fC1cFUnb1NVQDDhJQJh7
- csGvAGhGvgv/MYtjp3AnsnjGX50IBUHlNRpY8uNlOT++XjhHHuYGMW0PkKONV4GsGiSA
- 5SOTLGDOz0mS+dCvY7/5VNu1V8JnhbEHa1NS0O1aOv3cVmpXJL9tqxk90YPyBU3O3yX1
- QsZczyD/+fpohM25xsgOBYkf63CCpNhMUm4mOlgvQgigRdRpXJfR13Sv0lAfH1SNN32q
- Uz6A==
-X-Gm-Message-State: APjAAAXBWPrk4tT5CcauDG7qKC+qeHt1H758GBkPmXqr3BrxtIhs+04b
- u+HHea41zc6zlSb5j5lz3Dww9mggW85PDgj8vf0gmrcHTjBiTfm56CdaSG7Ar0yTuuk16eyNG5A
- lA38z7D6RI1GXXoXv+LUaSypBnipUoXs=
-X-Received: by 2002:aca:1714:: with SMTP id j20mr1417535oii.135.1566335979199; 
- Tue, 20 Aug 2019 14:19:39 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzVRcJj4QM7SsWgYnjM2sWFZnOrB7+lU96xn/yeyVGM8QiY5zvRX05Q9Kmam22t/dWaiLT6ywJBj2o21W9sX1U=
-X-Received: by 2002:aca:1714:: with SMTP id j20mr1417511oii.135.1566335978785; 
- Tue, 20 Aug 2019 14:19:38 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id E6B893CA20;
+ Tue, 20 Aug 2019 21:27:22 +0000 (UTC)
+Received: from [10.18.17.187] (dhcp-17-187.bos.redhat.com [10.18.17.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 41181194BE;
+ Tue, 20 Aug 2019 21:27:22 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20190819201851.24418-1-mreitz@redhat.com>
+ <20190819201851.24418-5-mreitz@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <3e717f46-489f-170a-a201-cbe841d400f6@redhat.com>
+Date: Tue, 20 Aug 2019 17:27:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190815185024.7010-1-eblake@redhat.com>
- <104559cd-a1dc-2b2c-8992-689cbdd0f827@virtuozzo.com>
- <22c4c265-91fc-3639-4a4e-2fffe426ce68@virtuozzo.com>
- <3f1fa92e-af18-87f8-3149-7c11bd186e64@redhat.com>
- <CAMRbyytdGmsoLbg_i=zbbkrkWpAW+jAvUAiwmJEO3MGXpvrTaA@mail.gmail.com>
- <847b1ef7-0f9d-fd7a-3c0c-368f5d862ecb@redhat.com>
-In-Reply-To: <847b1ef7-0f9d-fd7a-3c0c-368f5d862ecb@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Wed, 21 Aug 2019 00:19:27 +0300
-Message-ID: <CAMRbyyv272b83sx8m=kt740+6Pz6c0baUU=xKRNq_Eud1maZbw@mail.gmail.com>
-To: Eric Blake <eblake@redhat.com>
+In-Reply-To: <20190819201851.24418-5-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Tue, 20 Aug 2019 21:27:22 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] nbd: Advertise multi-conn for
- shared read-only connections
+Subject: Re: [Qemu-devel] [PATCH v3 4/8] iotests: Use case_skip() in
+ skip_if_unsupported()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,78 +135,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Daniel Erez <derez@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 19, 2019 at 9:04 PM Eric Blake <eblake@redhat.com> wrote:
-
-> On 8/17/19 8:31 PM, Nir Soffer wrote:
-> >>> Also, for qemu-nbd, shouldn't we allow -e only together with -r ?
-> >>
-> >> I'm reluctant to; it might break whatever existing user is okay exposing
-> >> it (although such users are questionable, so maybe we can argue they
-> >> were already broken).  Maybe it's time to start a deprecation cycle?
-> >>
-> >
-> > man qemu-nbd (on Centos 7.6) says:
-> >
-> >        -e, --shared=num
-> >            Allow up to num clients to share the device (default 1)
-> >
-> > I see that in qemu-img 4.1 there is a note about consistency with
-> writers:
-> >
-> >        -e, --shared=num
-> >            Allow up to num clients to share the device (default 1). Safe
-> > for readers, but for now, consistency is not guaranteed between multiple
-> > writers.
-> > But it is not clear what are the consistency guarantees.
-> >
-> > Supporting multiple writers is important. oVirt is giving the user a URL
-> > (since 4.3), and the user
-> > can use multiple connections using the same URL, each having a connection
-> > to the same qemu-nbd
-> > socket. I know that some backup vendors tried to use multiple connections
-> > to speed up backups, and
-> > they may try to do this also for restore.
-> >
-> > An interesting use case would be using multiple connections on client
-> side
-> > to write in parallel to
-> > same image, when every client is writing different ranges.
->
-> Good to know.
->
-> >
-> > Do we have real issue in qemu-nbd serving multiple clients writing to
-> > different parts of
-> > the same image?
->
-> If a server advertises multi-conn on a writable image, then clients have
-> stronger guarantees about behavior on what happens with flush on one
-> client vs. write in another, to the point that you can make some better
-> assumptions about image consistency, including what one client will read
-> after another has written.  But as long as multiple clients only ever
-> access distinct portions of the disk, then multi-conn is not important
-> to that client (whether for reading or for writing).
->
-
-Thanks for making this clear. I think we need to document this in oVirt,
-so users will be careful about using multiple connections.
 
 
+On 8/19/19 4:18 PM, Max Reitz wrote:
+> skip_if_unsupported() should use the stronger variant case_skip(),
+> because this allows it to be used even with setUp() (in a meaningful
+> way).
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/iotests.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 2f53baf633..726f904f50 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -896,7 +896,7 @@ def skip_if_unsupported(required_formats=[], read_only=False):
+>              usf_list = list(set(required_formats) -
+>                              set(supported_formats(read_only)))
+>              if usf_list:
+> -                case_notrun('{}: formats {} are not whitelisted'.format(
+> +                args[0].case_skip('{}: formats {} are not whitelisted'.format(
+>                      args[0], usf_list))
+>              else:
+>                  return func(*args, **kwargs)
+> 
 
->
-> So it sounds like I have no reason to deprecate qemu-nbd -e 2, even for
-> writable images.
->
-> --
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
->
->
+Should we promote args[0] to a named argument here, because we depend on
+it having a specific type? It's not truly as polymorphic as we're making
+it appear.
+
+That type here is iotests.QMPTestCase because we're relying on case_skip
+being present.
+
+def test_wrapper(test_case, *args, **kwargs):
+    ...
+        return func(test_case, *args, **kwargs)
+
+--js
+
