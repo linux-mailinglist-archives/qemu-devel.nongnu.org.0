@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681D0957DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:10:00 +0200 (CEST)
-Received: from localhost ([::1]:33842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FAF957D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:07:00 +0200 (CEST)
+Received: from localhost ([::1]:33818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzyHG-0006eT-Vc
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:09:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42594)
+	id 1hzyEN-000332-EA
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:06:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1hzy8P-0005dR-Rn
+ (envelope-from <pbonzini@redhat.com>) id 1hzy8L-0005bP-Im
  for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hzy8J-0003BB-DK
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51858)
+ (envelope-from <pbonzini@redhat.com>) id 1hzy8K-0003C5-Fu
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:30669)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy8J-0003AX-4N
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:43 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy8K-0003BO-AA
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:44 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 690F4307DA31;
- Tue, 20 Aug 2019 07:00:42 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 913618D6CAA;
+ Tue, 20 Aug 2019 07:00:43 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
  [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E51B711E535;
- Tue, 20 Aug 2019 07:00:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F552BABE;
+ Tue, 20 Aug 2019 07:00:42 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 08:59:31 +0200
-Message-Id: <1566284395-30287-13-git-send-email-pbonzini@redhat.com>
+Date: Tue, 20 Aug 2019 08:59:32 +0200
+Message-Id: <1566284395-30287-14-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 References: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 20 Aug 2019 07:00:42 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Tue, 20 Aug 2019 07:00:43 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 12/36] tests: Fix uninitialized byte in
- test_visitor_in_fuzz
+Subject: [Qemu-devel] [PULL 13/36] i386/kvm: initialize struct at full
+ before ioctl call
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,43 +60,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-One byte in the local buffer stays uninitialized, at least with the
-first iteration, because of the double decrement in the
-test_visitor_in_fuzz(). This is what Valgrind does not like and not
-critical for the test itself. So, reduce the number of the memory
-issues reports.
+Not the whole structure is initialized before passing it to the KVM.
+Reduce the number of Valgrind reports.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-Id: <1564502498-805893-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+Message-Id: <1564502498-805893-4-git-send-email-andrey.shinkevich@virtuozzo.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/test-string-input-visitor.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ target/i386/kvm.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/test-string-input-visitor.c b/tests/test-string-input-visitor.c
-index 34b54df..5418e08 100644
---- a/tests/test-string-input-visitor.c
-+++ b/tests/test-string-input-visitor.c
-@@ -444,16 +444,14 @@ static void test_visitor_in_fuzz(TestInputVisitorData *data,
-     char buf[10000];
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index a66b956..ce3f1c3 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -190,6 +190,7 @@ static int kvm_get_tsc(CPUState *cs)
+         return 0;
+     }
  
-     for (i = 0; i < 100; i++) {
--        unsigned int j;
-+        unsigned int j, k;
++    memset(&msr_data, 0, sizeof(msr_data));
+     msr_data.info.nmsrs = 1;
+     msr_data.entries[0].index = MSR_IA32_TSC;
+     env->tsc_valid = !runstate_is_running();
+@@ -1706,6 +1707,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
  
-         j = g_test_rand_int_range(0, sizeof(buf) - 1);
+     if (has_xsave) {
+         env->xsave_buf = qemu_memalign(4096, sizeof(struct kvm_xsave));
++        memset(env->xsave_buf, 0, sizeof(struct kvm_xsave));
+     }
  
-         buf[j] = '\0';
+     max_nested_state_len = kvm_max_nested_state_length();
+@@ -3488,6 +3490,7 @@ static int kvm_put_debugregs(X86CPU *cpu)
+         return 0;
+     }
  
--        if (j != 0) {
--            for (j--; j != 0; j--) {
--                buf[j - 1] = (char)g_test_rand_int_range(0, 256);
--            }
-+        for (k = 0; k != j; k++) {
-+            buf[k] = (char)g_test_rand_int_range(0, 256);
-         }
- 
-         v = visitor_input_test_init(data, buf);
++    memset(&dbgregs, 0, sizeof(dbgregs));
+     for (i = 0; i < 4; i++) {
+         dbgregs.db[i] = env->dr[i];
+     }
 -- 
 1.8.3.1
 
