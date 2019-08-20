@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B10295ADB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 11:22:01 +0200 (CEST)
-Received: from localhost ([::1]:35278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7A795AD4
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 11:21:07 +0200 (CEST)
+Received: from localhost ([::1]:35262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i00L2-0003Ea-8k
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 05:22:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35445)
+	id 1i00KA-0002Kc-FL
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 05:21:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35138)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i00K7-0002am-J5
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:21:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i00J0-0001fC-PJ
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:19:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i00K6-0005Sl-Ha
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:21:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38552)
+ (envelope-from <peter.maydell@linaro.org>) id 1i00Iz-0003VI-Be
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:19:54 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:41758)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i00K6-0005Oy-C8
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:21:02 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i00K3-0008V2-Ji
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 09:20:59 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 93EC02E8082
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 09:20:59 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i00Iz-0003Tz-57
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:19:53 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id g7so3566618oia.8
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 02:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=z2tiHunDR1SB6uAkT9X4weYEpM3uwRbTBhJLmrnBzBc=;
+ b=NxxeeUQNilmf6zIOvnRe0//TIeVd6G2aJ0x2DxICmhWebJtsvVML6sNgthTkiSgIdy
+ MNvPp+dZ4SChqIaJ82QPsPYcmpB58hblVNBcuNe8Wf15j71IdaaRlOzu2FrabdPLlG3f
+ 6+juUkZN4MipfKQC3onNJisXKBTM38Av5qP2V46qb7sEv8y/WhPhAEDHeFdsSqrRSUB1
+ Q5MSSVJHKfpFjZul1iygE9OZaWI7nbjv9/8bVK5fAvN+W06Z18s4ZI59sPaeP2TJJJmM
+ /DH8706gMIhoj90QFSCJVeK5PQtG5ux4BI34V7zgx4NSXUWZL9U7S8NyO+sXtbm2aZ9x
+ 3lKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=z2tiHunDR1SB6uAkT9X4weYEpM3uwRbTBhJLmrnBzBc=;
+ b=FWU7srsQ4D9Pyc1yx++7rJmlUB06oO+wg2iStAlQGtWuyv+Wmcu84WaM+oCVxDk0U8
+ jgvP9PVhgCukUSggeoql/b7n7yirlvCxYPceLasbnFwyY+6tDHEegEQm9lq/ztb9XCcx
+ TobUf9m17RuWRxeahfwsv6PmsEE4tx1WwCncETNLd7a8HerXOnIhZHHllDiuzN4DdRFX
+ BzgcQcKnwvlqDFVnufOLyvnm3lFR+CicAK6s3NB6R1fHKi4ieZNV+o8YmFLnPEpK+xZL
+ A3FCBmdpu48SU+gQ+m+ozP0o8W45XbjJmthdb+c3gHcs/MnxMCFsfXzxHx/zQE1nzFc5
+ p2QQ==
+X-Gm-Message-State: APjAAAUtrKYUazh3hPorMu2Zhro+zKw/FGwK1GFIcdCUoFOI6vBm8kKR
+ Y30T4t8/FMK1aPWPz0tXACi0QLXXQjlzjUZ6C0rsXw==
+X-Google-Smtp-Source: APXvYqwR237HsyzU9vTMPuHumt/64ELcu640cwhJT8/2FO1fOB2qY1OlLCIyhFMPXJ3rIekNyL894k/jQFhxAqh3vPA=
+X-Received: by 2002:aca:4a57:: with SMTP id x84mr16795042oia.170.1566292792170; 
+ Tue, 20 Aug 2019 02:19:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Aug 2019 09:08:07 -0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cbparker curryrice71 dgilbert-h philmd
-X-Launchpad-Bug-Reporter: John M (curryrice71)
-X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
-References: <155216177409.9624.16357609956497374456.malonedeb@gac.canonical.com>
-Message-Id: <156629208797.26630.9498546728897837802.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19022";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 3924cd026a066575532b39edab0ce1aa3b9d6e1a
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1819289] Re: Windows 95 and Windows 98 will not
- install or run
+References: <20190819151743.17267-1-richard.henderson@linaro.org>
+In-Reply-To: <20190819151743.17267-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Aug 2019 10:19:41 +0100
+Message-ID: <CAFEAcA95hD44RqrBLSrnPiTBUCWcKfm4YNxfdvGUWt8wrx2eig@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22a
+Subject: Re: [Qemu-devel] [PULL 0/3] decodetree improvements
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,38 +71,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1819289 <1819289@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yep, these types of bugs don't necessarily bisect cleanly if they're todo w=
-ith code layout or dirty memory.
-Still, it's good to keep a note of the earliest patches that you find a fai=
-lure on - because then we know it must be somewhere before that.
+On Mon, 19 Aug 2019 at 16:17, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The following changes since commit 3fbd3405d2b0604ea530fc7a1828f19da1e95ff9:
+>
+>   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-08-17' into staging (2019-08-19 14:14:09 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/rth7680/qemu.git tags/pull-dt-20190819
+>
+> for you to fetch changes up to 59a3a1c0c211640e18b058a1b0444154c4eb6f99:
+>
+>   target/riscv: Remove redundant declaration pragmas (2019-08-19 08:13:14 -0700)
+>
+> ----------------------------------------------------------------
+> Implement parameter fields.
+> Push warning pragmas into the generated code.
+>
+> ----------------------------------------------------------------
+> Richard Henderson (3):
+>       decodetree: Allow !function with no input bits
+>       decodetree: Suppress redundant declaration warnings
+>       target/riscv: Remove redundant declaration pragmas
+>
+>  target/riscv/translate.c          | 19 +----------
+>  docs/devel/decodetree.rst         |  8 ++++-
+>  scripts/decodetree.py             | 71 +++++++++++++++++++++++++++++++++------
+>  tests/decode/err_field6.decode    |  5 +++
+>  tests/decode/succ_function.decode |  6 ++++
+>  5 files changed, 79 insertions(+), 30 deletions(-)
+>  create mode 100644 tests/decode/err_field6.decode
+>  create mode 100644 tests/decode/succ_function.decode
 
-I remember there was a problem reported booting FreeDOS as well; and
-I've got to wonder if it's related.
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1819289
+Applied, thanks.
 
-Title:
-  Windows 95 and Windows 98 will not install or run
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
-Status in QEMU:
-  New
-
-Bug description:
-  The last version of QEMU I have been able to run Windows 95 or Windows
-  98 on was 2.7 or 2.8. Recent versions since then even up to 3.1 will
-  either not install or will not run 95 or 98 at all. I have tried every
-  combination of options like isapc or no isapc, cpu pentium  or cpu as
-  486. Tried different memory configurations, but they just don't work
-  anymore.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1819289/+subscriptions
+-- PMM
 
