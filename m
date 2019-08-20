@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597AD95F6F
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 15:05:53 +0200 (CEST)
-Received: from localhost ([::1]:37294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A683895FC9
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 15:17:59 +0200 (CEST)
+Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i03pg-0003Wc-7n
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 09:05:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39942)
+	id 1i041O-0001W5-Ng
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 09:17:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i03oh-0002e1-4H
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 09:04:52 -0400
+ (envelope-from <bounces@canonical.com>) id 1i03zA-0008Sw-NE
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 09:15:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i03og-0000Eh-4N
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 09:04:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36240)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1i03oZ-0000Bp-UC; Tue, 20 Aug 2019 09:04:44 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E5C435F17E;
- Tue, 20 Aug 2019 13:04:42 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 604F03DA5;
- Tue, 20 Aug 2019 13:04:42 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20190819185602.4267-1-mreitz@redhat.com>
- <20190819185602.4267-13-mreitz@redhat.com>
- <272cbeba-2053-9aa6-7ceb-e1b3827de540@redhat.com>
- <39066a69-e319-c3ad-7b3b-2983bb248a25@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <12094c23-597d-b6fc-a279-5609e29c31a9@redhat.com>
-Date: Tue, 20 Aug 2019 08:04:41 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <bounces@canonical.com>) id 1i03z8-0004wG-SX
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 09:15:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49804)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i03z8-0004vw-Ma
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 09:15:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i03z7-0008As-It
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 13:15:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8A1C32E8019
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 13:15:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <39066a69-e319-c3ad-7b3b-2983bb248a25@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="lS80dSunIXD6koqyXPwwDeTcVn1eZF9Z3"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 20 Aug 2019 13:04:42 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 20 Aug 2019 13:01:50 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1840777@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=philmd@redhat.com; 
+X-Launchpad-Bug-Tags: arm raspi
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <156630611054.27013.17194308047826699430.malonedeb@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19022";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 05ac18f28c41f822d5148482c1fa030d66ef4357
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 12/16] qcow2: Fix overly long snapshot
- tables
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1840777] [NEW] raspi3 machine can not shutdown
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,93 +66,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1840777 <1840777@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lS80dSunIXD6koqyXPwwDeTcVn1eZF9Z3
-Content-Type: multipart/mixed; boundary="3SnIbpC7KmS1mwNRdiiuJQp5TJtvdzwqi";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <12094c23-597d-b6fc-a279-5609e29c31a9@redhat.com>
-Subject: Re: [PATCH v2 12/16] qcow2: Fix overly long snapshot tables
-References: <20190819185602.4267-1-mreitz@redhat.com>
- <20190819185602.4267-13-mreitz@redhat.com>
- <272cbeba-2053-9aa6-7ceb-e1b3827de540@redhat.com>
- <39066a69-e319-c3ad-7b3b-2983bb248a25@redhat.com>
-In-Reply-To: <39066a69-e319-c3ad-7b3b-2983bb248a25@redhat.com>
+Public bug reported:
 
---3SnIbpC7KmS1mwNRdiiuJQp5TJtvdzwqi
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+tag v4.1.0
 
-On 8/20/19 7:09 AM, Max Reitz wrote:
-> On 19.08.19 21:43, Eric Blake wrote:
->> On 8/19/19 1:55 PM, Max Reitz wrote:
->>> We currently refuse to open qcow2 images with overly long snapshot
->>> tables.  This patch makes qemu-img check -r all drop all offending
->>> entries past what we deem acceptable.
->>>
->>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>> ---
->>>  block/qcow2-snapshot.c | 88 +++++++++++++++++++++++++++++++++++++---=
---
->>>  1 file changed, 78 insertions(+), 10 deletions(-)
->>
->> I know I was reluctant in v1, but you also managed to convince me that=
+Running "shutdown" within a raspi3 image leads to kernel panic:
 
->> it really takes a LOT of effort to get a table with that many entries.=
+         Starting Power-Off...
+[   39.719617] systemd-shutdow: 39 output lines suppressed due to ratelimit=
+ing
+[   39.922997] systemd-shutdown[1]: Syncing filesystems and block devices.
+[   39.962415] systemd-shutdown[1]: Sending SIGTERM to remaining processes.=
+..
+[   40.006842] systemd-journald[186]: Received SIGTERM from PID 1 (systemd-=
+shutdow).
+[   40.060745] systemd-shutdown[1]: Sending SIGKILL to remaining processes.=
+..
+[   40.098318] systemd-shutdown[1]: Unmounting file systems.
+[   40.108351] systemd-shutdown[455]: Remounting '/' read-only in with opti=
+ons 'data=3Dordered'.
+[   40.128919] EXT4-fs (mmcblk0p2): re-mounted. Opts: data=3Dordered
+[   40.152844] systemd-shutdown[1]: All filesystems unmounted.
+[   40.153239] systemd-shutdown[1]: Deactivating swaps.
+[   40.154701] systemd-shutdown[1]: All swaps deactivated.
+[   40.155062] systemd-shutdown[1]: Detaching loop devices.
+[   40.159792] systemd-shutdown[1]: All loop devices detached.
+[   40.201746] kvm: exiting hardware virtualization
+[   40.207628] reboot: Power down
+bcm2835-pm: unimplemented device read (size 4, offset 0x20)
+bcm2835-pm: unimplemented device write (size 4, value 0x5a000555, offset 0x=
+20)
+bcm2835-pm: unimplemented device write (size 4, value 0x5a00000a, offset 0x=
+24)
+bcm2835-pm: unimplemented device read (size 4, offset 0x1c)
+bcm2835-pm: unimplemented device write (size 4, value 0x5a000020, offset 0x=
+1c)
+[   40.229604] systemd-shutdow: 4 output lines suppressed due to ratelimiti=
+ng
+[   40.230849] Kernel panic - not syncing: Attempted to kill init! exitcode=
+=3D0x00000000
+[   40.230849] =
 
->> And a user has to opt-in to 'qemu-img -r' (it may discard a snapshot
->> they value, but that beats not being able to use the image under qemu =
-at
->> all, and we don't erase it for plain 'qemu-img check').  So I'm okay
->> with this going in.  Maybe the commit message can state this sort of
->> reasoning.
->=20
-> So maybe:
->=20
-> The user cannot choose which snapshots are removed.  This is fine
-> because we have chosen the maximum snapshot table size to be so large
-> (64 MB) that it cannot be reasonably reached.  If the snapshot table
-> exceeds this size, the image has probably been corrupted in some way; i=
-n
-> this case, it is most important to just make the image usable such that=
+[   40.231781] CPU: 0 PID: 1 Comm: systemd-shutdow Not tainted 4.14.0-3-arm=
+64 #1 Debian 4.14.12-2
+[   40.232470] Hardware name: Raspberry Pi 3 Model B (DT)
+[   40.233206] Call trace:
+[   40.234096] [<ffff00000808a708>] dump_backtrace+0x0/0x280
+[   40.234519] [<ffff00000808a9ac>] show_stack+0x24/0x30
+[   40.234972] [<ffff00000885bb7c>] dump_stack+0x9c/0xc0
+[   40.235378] [<ffff0000080d1bd4>] panic+0x138/0x2b4
+[   40.235805] [<ffff0000080d72d4>] do_exit+0xa04/0xa08
+[   40.236260] [<ffff0000080fa9d8>] SyS_reboot+0x178/0x260
+[   40.236915] Exception stack(0xffff00000802bec0 to 0xffff00000802c000)
+[   40.237487] bec0: fffffffffee1dead 0000000028121969 000000004321fedc adc=
+576109fd73c00
+[   40.237949] bee0: 0000000000000028 8080800000000000 0000ffffad2392f8 7f7=
+f7f7f7f7f7f7f
+[   40.238376] bf00: 000000000000008e 0000000000000000 0000000000000069 000=
+0000000000000
+[   40.238744] bf20: 0000000000000000 0000000000000020 0000000000000000 000=
+0000000000000
+[   40.239101] bf40: 0000aaaabeb9bf10 0000ffffad3030a8 0000000000000001 000=
+0000000000000
+[   40.239462] bf60: 0000000000000000 0000aaaaeb6e0040 0000aaaabeb8a008 000=
+0fffff7ce8d30
+[   40.239802] bf80: 0000001b00000004 0000aaaabeb8a000 0000fffff7ce8fa8 000=
+0000000000000
+[   40.240134] bfa0: 0000aaaabeb9b000 0000fffff7ce8ac0 0000aaaabeb8741c 000=
+0fffff7ce8aa0
+[   40.240468] bfc0: 0000ffffad3030c4 0000000000000000 fffffffffee1dead 000=
+000000000008e
+[   40.240809] bfe0: 0000000000000000 0000000000000000 0000000000000000 000=
+0000000000000
+[   40.241194] [<ffff0000080837b0>] el0_svc_naked+0x24/0x28
+[   40.241930] Kernel Offset: disabled
+[   40.242197] CPU features: 0x002004
+[   40.242450] Memory Limit: none
+[   40.243063] ---[ end Kernel panic - not syncing: Attempted to kill init!=
+ exitcode=3D0x00000000
+[   40.243063] =
 
-> the user can copy off at least the active layer.
-> (Also note that the snapshots will be removed only with "-r all", so a
-> plain "check" or "check -r leaks" will not delete any data.)
+qemu-system-aarch64: terminating on signal 2
 
-I like it.
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+** Affects: qemu
+     Importance: Undecided
+     Assignee: Philippe Mathieu-Daud=C3=A9 (philmd)
+         Status: New
 
 
---3SnIbpC7KmS1mwNRdiiuJQp5TJtvdzwqi--
+** Tags: arm raspi
 
---lS80dSunIXD6koqyXPwwDeTcVn1eZF9Z3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Philippe Mathieu-Daud=C3=A9 (philmd)
 
------BEGIN PGP SIGNATURE-----
+-- =
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1b7+kACgkQp6FrSiUn
-Q2ppRwf9H6pXDvz0CNBsTmqbR2ok+a7rZS1sbDPkmgyWkPuurMZpt8CE3BXSvYqM
-sqf7y+JMqk4KC124hMA60g4U0UmIfT1tfgThZCaRTL9GCku5VD2iWn4Qo6eT9g3h
-SlZdkrlXLZMBLGTtc6rGnMKdi9s6m4feKZpaluaZdHqd3+SUQ5+5PjEWP19y8kyL
-WFum4nax2fd/5VXr90oLQDDlLGMuy2bLj6W2NzmrLW7E8IJ/3Clmf0yU1fgNxa2N
-kYP9JZIgdbI2UdMBdN7UMYYWxjeTCuc8ThxioDa4POMWeS7zmDOofAvUBCDY1mqX
-3aTlopBFcNAyfUpjyqgtPIUlvDkSJg==
-=JOXz
------END PGP SIGNATURE-----
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1840777
 
---lS80dSunIXD6koqyXPwwDeTcVn1eZF9Z3--
+Title:
+  raspi3 machine can not shutdown
+
+Status in QEMU:
+  New
+
+Bug description:
+  tag v4.1.0
+
+  Running "shutdown" within a raspi3 image leads to kernel panic:
+
+           Starting Power-Off...
+  [   39.719617] systemd-shutdow: 39 output lines suppressed due to ratelim=
+iting
+  [   39.922997] systemd-shutdown[1]: Syncing filesystems and block devices.
+  [   39.962415] systemd-shutdown[1]: Sending SIGTERM to remaining processe=
+s...
+  [   40.006842] systemd-journald[186]: Received SIGTERM from PID 1 (system=
+d-shutdow).
+  [   40.060745] systemd-shutdown[1]: Sending SIGKILL to remaining processe=
+s...
+  [   40.098318] systemd-shutdown[1]: Unmounting file systems.
+  [   40.108351] systemd-shutdown[455]: Remounting '/' read-only in with op=
+tions 'data=3Dordered'.
+  [   40.128919] EXT4-fs (mmcblk0p2): re-mounted. Opts: data=3Dordered
+  [   40.152844] systemd-shutdown[1]: All filesystems unmounted.
+  [   40.153239] systemd-shutdown[1]: Deactivating swaps.
+  [   40.154701] systemd-shutdown[1]: All swaps deactivated.
+  [   40.155062] systemd-shutdown[1]: Detaching loop devices.
+  [   40.159792] systemd-shutdown[1]: All loop devices detached.
+  [   40.201746] kvm: exiting hardware virtualization
+  [   40.207628] reboot: Power down
+  bcm2835-pm: unimplemented device read (size 4, offset 0x20)
+  bcm2835-pm: unimplemented device write (size 4, value 0x5a000555, offset =
+0x20)
+  bcm2835-pm: unimplemented device write (size 4, value 0x5a00000a, offset =
+0x24)
+  bcm2835-pm: unimplemented device read (size 4, offset 0x1c)
+  bcm2835-pm: unimplemented device write (size 4, value 0x5a000020, offset =
+0x1c)
+  [   40.229604] systemd-shutdow: 4 output lines suppressed due to ratelimi=
+ting
+  [   40.230849] Kernel panic - not syncing: Attempted to kill init! exitco=
+de=3D0x00000000
+  [   40.230849] =
+
+  [   40.231781] CPU: 0 PID: 1 Comm: systemd-shutdow Not tainted 4.14.0-3-a=
+rm64 #1 Debian 4.14.12-2
+  [   40.232470] Hardware name: Raspberry Pi 3 Model B (DT)
+  [   40.233206] Call trace:
+  [   40.234096] [<ffff00000808a708>] dump_backtrace+0x0/0x280
+  [   40.234519] [<ffff00000808a9ac>] show_stack+0x24/0x30
+  [   40.234972] [<ffff00000885bb7c>] dump_stack+0x9c/0xc0
+  [   40.235378] [<ffff0000080d1bd4>] panic+0x138/0x2b4
+  [   40.235805] [<ffff0000080d72d4>] do_exit+0xa04/0xa08
+  [   40.236260] [<ffff0000080fa9d8>] SyS_reboot+0x178/0x260
+  [   40.236915] Exception stack(0xffff00000802bec0 to 0xffff00000802c000)
+  [   40.237487] bec0: fffffffffee1dead 0000000028121969 000000004321fedc a=
+dc576109fd73c00
+  [   40.237949] bee0: 0000000000000028 8080800000000000 0000ffffad2392f8 7=
+f7f7f7f7f7f7f7f
+  [   40.238376] bf00: 000000000000008e 0000000000000000 0000000000000069 0=
+000000000000000
+  [   40.238744] bf20: 0000000000000000 0000000000000020 0000000000000000 0=
+000000000000000
+  [   40.239101] bf40: 0000aaaabeb9bf10 0000ffffad3030a8 0000000000000001 0=
+000000000000000
+  [   40.239462] bf60: 0000000000000000 0000aaaaeb6e0040 0000aaaabeb8a008 0=
+000fffff7ce8d30
+  [   40.239802] bf80: 0000001b00000004 0000aaaabeb8a000 0000fffff7ce8fa8 0=
+000000000000000
+  [   40.240134] bfa0: 0000aaaabeb9b000 0000fffff7ce8ac0 0000aaaabeb8741c 0=
+000fffff7ce8aa0
+  [   40.240468] bfc0: 0000ffffad3030c4 0000000000000000 fffffffffee1dead 0=
+00000000000008e
+  [   40.240809] bfe0: 0000000000000000 0000000000000000 0000000000000000 0=
+000000000000000
+  [   40.241194] [<ffff0000080837b0>] el0_svc_naked+0x24/0x28
+  [   40.241930] Kernel Offset: disabled
+  [   40.242197] CPU features: 0x002004
+  [   40.242450] Memory Limit: none
+  [   40.243063] ---[ end Kernel panic - not syncing: Attempted to kill ini=
+t! exitcode=3D0x00000000
+  [   40.243063] =
+
+  qemu-system-aarch64: terminating on signal 2
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1840777/+subscriptions
 
