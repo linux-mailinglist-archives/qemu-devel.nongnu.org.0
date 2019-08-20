@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112C4957EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:12:32 +0200 (CEST)
-Received: from localhost ([::1]:33862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9279957FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:14:27 +0200 (CEST)
+Received: from localhost ([::1]:33884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzyJj-0000qn-0X
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:12:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42493)
+	id 1hzyLa-00041N-Pw
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:14:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42556)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1hzy89-0005Iz-0e
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:34 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hzy8J-0005XQ-Fh
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hzy87-00030w-Dm
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44916)
+ (envelope-from <pbonzini@redhat.com>) id 1hzy8E-00036k-H3
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42240)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy87-00030G-5S
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:31 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy8E-00035v-99
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:38 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7936D190C10B;
- Tue, 20 Aug 2019 07:00:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 79809195DB89
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 07:00:37 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
  [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5178791E9F;
- Tue, 20 Aug 2019 07:00:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FDEF11C9BA;
+ Tue, 20 Aug 2019 07:00:31 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 08:59:26 +0200
-Message-Id: <1566284395-30287-8-git-send-email-pbonzini@redhat.com>
+Date: Tue, 20 Aug 2019 08:59:28 +0200
+Message-Id: <1566284395-30287-10-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 References: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Tue, 20 Aug 2019 07:00:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.62]); Tue, 20 Aug 2019 07:00:37 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 07/36] configure: Define target access alignment
- in configure
+Subject: [Qemu-devel] [PULL 09/36] 9p: simplify source file selection
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,213 +56,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "tony.nguyen@bt.com" <tony.nguyen@bt.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "tony.nguyen@bt.com" <tony.nguyen@bt.com>
+Express the complex conditions in Kconfig rather than Makefiles, since Kc=
+onfig
+is better suited at expressing dependencies and detecting contradictions.
 
-This patch moves the define of target access alignment earlier from
-target/foo/cpu.h to configure.
-
-Suggested in Richard Henderson's reply to "[PATCH 1/4] tcg: TCGMemOp is now
-accelerator independent MemOp"
-
-Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Message-Id: <11e818d38ebc40e986cfa62dd7d0afdc@tpw09926dag18e.domain1.systemhost.net>
+Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: tony.nguyen@bt.com <tony.nguyen@bt.com>
 ---
- configure             | 12 ++++++++++--
- include/exec/poison.h |  1 +
- include/qom/cpu.h     |  2 +-
- target/alpha/cpu.h    |  2 --
- target/hppa/cpu.h     |  1 -
- target/mips/cpu.h     |  2 --
- target/sh4/cpu.h      |  2 --
- target/sparc/cpu.h    |  2 --
- target/xtensa/cpu.h   |  2 --
- tcg/tcg.c             |  2 +-
- tcg/tcg.h             |  8 +++++---
- 11 files changed, 18 insertions(+), 18 deletions(-)
+ Kconfig.host        | 1 +
+ fsdev/Makefile.objs | 2 +-
+ hw/9pfs/Kconfig     | 5 +++++
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 714e7fb..942a73b 100755
---- a/configure
-+++ b/configure
-@@ -7431,11 +7431,16 @@ for target in $target_list; do
- target_dir="$target"
- config_target_mak=$target_dir/config-target.mak
- target_name=$(echo $target | cut -d '-' -f 1)
-+target_aligned_only="no"
-+case "$target_name" in
-+  alpha|hppa|mips64el|mips64|mipsel|mips|mipsn32|mipsn32el|sh4|sh4eb|sparc|sparc64|sparc32plus|xtensa|xtensaeb)
-+  target_aligned_only="yes"
-+  ;;
-+esac
- target_bigendian="no"
--
- case "$target_name" in
-   armeb|aarch64_be|hppa|lm32|m68k|microblaze|mips|mipsn32|mips64|moxie|or1k|ppc|ppc64|ppc64abi32|s390x|sh4eb|sparc|sparc64|sparc32plus|xtensaeb)
--  target_bigendian=yes
-+  target_bigendian="yes"
-   ;;
- esac
- target_softmmu="no"
-@@ -7717,6 +7722,9 @@ fi
- if supported_whpx_target $target; then
-     echo "CONFIG_WHPX=y" >> $config_target_mak
- fi
-+if test "$target_aligned_only" = "yes" ; then
-+  echo "TARGET_ALIGNED_ONLY=y" >> $config_target_mak
-+fi
- if test "$target_bigendian" = "yes" ; then
-   echo "TARGET_WORDS_BIGENDIAN=y" >> $config_target_mak
- fi
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index b862320..955eb86 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -35,6 +35,7 @@
- #pragma GCC poison TARGET_UNICORE32
- #pragma GCC poison TARGET_XTENSA
- 
-+#pragma GCC poison TARGET_ALIGNED_ONLY
- #pragma GCC poison TARGET_HAS_BFLT
- #pragma GCC poison TARGET_NAME
- #pragma GCC poison TARGET_SUPPORTS_MTTCG
-diff --git a/include/qom/cpu.h b/include/qom/cpu.h
-index 5ee0046..9b50b73 100644
---- a/include/qom/cpu.h
-+++ b/include/qom/cpu.h
-@@ -89,7 +89,7 @@ struct TranslationBlock;
-  * @do_unassigned_access: Callback for unassigned access handling.
-  * (this is deprecated: new targets should use do_transaction_failed instead)
-  * @do_unaligned_access: Callback for unaligned access handling, if
-- * the target defines #ALIGNED_ONLY.
-+ * the target defines #TARGET_ALIGNED_ONLY.
-  * @do_transaction_failed: Callback for handling failed memory transactions
-  * (ie bus faults or external aborts; not MMU faults)
-  * @virtio_is_big_endian: Callback to return %true if a CPU which supports
-diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-index b3e8a82..16eb804 100644
---- a/target/alpha/cpu.h
-+++ b/target/alpha/cpu.h
-@@ -23,8 +23,6 @@
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
- 
--#define ALIGNED_ONLY
--
- /* Alpha processors have a weak memory model */
- #define TCG_GUEST_DEFAULT_MO      (0)
- 
-diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
-index aab251b..2be67c2 100644
---- a/target/hppa/cpu.h
-+++ b/target/hppa/cpu.h
-@@ -30,7 +30,6 @@
-    basis.  It's probably easier to fall back to a strong memory model.  */
- #define TCG_GUEST_DEFAULT_MO        TCG_MO_ALL
- 
--#define ALIGNED_ONLY
- #define MMU_KERNEL_IDX   0
- #define MMU_USER_IDX     3
- #define MMU_PHYS_IDX     4
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 21c0615..c13cd4e 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -1,8 +1,6 @@
- #ifndef MIPS_CPU_H
- #define MIPS_CPU_H
- 
--#define ALIGNED_ONLY
--
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
- #include "fpu/softfloat.h"
-diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index aee733e..ecaa7a1 100644
---- a/target/sh4/cpu.h
-+++ b/target/sh4/cpu.h
-@@ -23,8 +23,6 @@
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
- 
--#define ALIGNED_ONLY
--
- /* CPU Subtypes */
- #define SH_CPU_SH7750  (1 << 0)
- #define SH_CPU_SH7750S (1 << 1)
-diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index 8ed2250..1406f0b 100644
---- a/target/sparc/cpu.h
-+++ b/target/sparc/cpu.h
-@@ -5,8 +5,6 @@
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
- 
--#define ALIGNED_ONLY
--
- #if !defined(TARGET_SPARC64)
- #define TARGET_DPREGS 16
- #else
-diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 2c27713..0459243 100644
---- a/target/xtensa/cpu.h
-+++ b/target/xtensa/cpu.h
-@@ -32,8 +32,6 @@
- #include "exec/cpu-defs.h"
- #include "xtensa-isa.h"
- 
--#define ALIGNED_ONLY
--
- /* Xtensa processors have a weak memory model */
- #define TCG_GUEST_DEFAULT_MO      (0)
- 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index be2c33c..8d23fb0 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1926,7 +1926,7 @@ static const char * const ldst_name[] =
- };
- 
- static const char * const alignment_name[(MO_AMASK >> MO_ASHIFT) + 1] = {
--#ifdef ALIGNED_ONLY
-+#ifdef TARGET_ALIGNED_ONLY
-     [MO_UNALN >> MO_ASHIFT]    = "un+",
-     [MO_ALIGN >> MO_ASHIFT]    = "",
- #else
-diff --git a/tcg/tcg.h b/tcg/tcg.h
-index b411e17..529acb2 100644
---- a/tcg/tcg.h
-+++ b/tcg/tcg.h
-@@ -333,10 +333,12 @@ typedef enum TCGMemOp {
-     MO_TE    = MO_LE,
- #endif
- 
--    /* MO_UNALN accesses are never checked for alignment.
-+    /*
-+     * MO_UNALN accesses are never checked for alignment.
-      * MO_ALIGN accesses will result in a call to the CPU's
-      * do_unaligned_access hook if the guest address is not aligned.
--     * The default depends on whether the target CPU defines ALIGNED_ONLY.
-+     * The default depends on whether the target CPU defines
-+     * TARGET_ALIGNED_ONLY.
-      *
-      * Some architectures (e.g. ARMv8) need the address which is aligned
-      * to a size more than the size of the memory access.
-@@ -353,7 +355,7 @@ typedef enum TCGMemOp {
-      */
-     MO_ASHIFT = 4,
-     MO_AMASK = 7 << MO_ASHIFT,
--#ifdef ALIGNED_ONLY
-+#ifdef TARGET_ALIGNED_ONLY
-     MO_ALIGN = 0,
-     MO_UNALN = MO_AMASK,
- #else
--- 
+diff --git a/Kconfig.host b/Kconfig.host
+index aec9536..bb6e116 100644
+--- a/Kconfig.host
++++ b/Kconfig.host
+@@ -28,6 +28,7 @@ config VHOST_USER
+=20
+ config XEN
+     bool
++    select FSDEV_9P if VIRTFS
+=20
+ config VIRTFS
+     bool
+diff --git a/fsdev/Makefile.objs b/fsdev/Makefile.objs
+index 24bbb3e..42cd70c 100644
+--- a/fsdev/Makefile.objs
++++ b/fsdev/Makefile.objs
+@@ -1,6 +1,6 @@
+ # Lots of the fsdev/9pcode is pulled in by vl.c via qemu_fsdev_add.
+ # only pull in the actual 9p backend if we also enabled virtio or xen.
+-ifeq ($(call land,$(CONFIG_VIRTFS),$(call lor,$(CONFIG_VIRTIO_9P),$(CONF=
+IG_XEN))),y)
++ifeq ($(CONFIG_FSDEV_9P),y)
+ common-obj-y =3D qemu-fsdev.o 9p-marshal.o 9p-iov-marshal.o
+ else
+ common-obj-y =3D qemu-fsdev-dummy.o
+diff --git a/hw/9pfs/Kconfig b/hw/9pfs/Kconfig
+index 8c5032c..3ae5749 100644
+--- a/hw/9pfs/Kconfig
++++ b/hw/9pfs/Kconfig
+@@ -1,4 +1,9 @@
++config FSDEV_9P
++    bool
++    depends on VIRTFS
++
+ config VIRTIO_9P
+     bool
+     default y
+     depends on VIRTFS && VIRTIO
++    select FSDEV_9P
+--=20
 1.8.3.1
 
 
