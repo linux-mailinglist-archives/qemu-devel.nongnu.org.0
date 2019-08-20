@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5182F957CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:04:13 +0200 (CEST)
-Received: from localhost ([::1]:33794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD99957D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:07:00 +0200 (CEST)
+Received: from localhost ([::1]:33816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzyBf-0007Xq-Po
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:04:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42509)
+	id 1hzyEN-000330-Ce
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:06:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42547)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1hzy8D-0005Qp-CE
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:38 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hzy8I-0005WO-FB
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hzy88-00031k-GB
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38678)
+ (envelope-from <pbonzini@redhat.com>) id 1hzy8H-00039d-Gq
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45086)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy88-00031I-Aa
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:32 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hzy8H-00038l-Ba
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:00:41 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9DFB1309174E
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 07:00:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9A4391918640;
+ Tue, 20 Aug 2019 07:00:40 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
  [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D76359F70
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 07:00:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 68D7311E537;
+ Tue, 20 Aug 2019 07:00:39 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 08:59:27 +0200
-Message-Id: <1566284395-30287-9-git-send-email-pbonzini@redhat.com>
+Date: Tue, 20 Aug 2019 08:59:30 +0200
+Message-Id: <1566284395-30287-12-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 References: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 20 Aug 2019 07:00:31 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Tue, 20 Aug 2019 07:00:40 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 08/36] block: fix NetBSD qemu-iotests failure
+Subject: [Qemu-devel] [PULL 11/36] test-throttle: Fix uninitialized use of
+ burst_length
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,48 +54,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Opening a block device on NetBSD has an additional step compared to other OSes,
-corresponding to raw_normalize_devicepath.  The error message in that function
-is slightly different from that in raw_open_common and this was causing spurious
-failures in qemu-iotests.  However, in general it is not important to know what
-exact step was failing, for example in the qemu-iotests case the error message
-contains the fairly unequivocal "No such file or directory" text from strerror.
-We can thus fix the failures by standardizing on a single error message for
-both raw_open_common and raw_normalize_devicepath; in fact, we can even
-use error_setg_file_open to make sure the error message is the same as in
-the rest of QEMU.
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+ThrottleState::cfg of the static variable 'ts' is reassigned with the
+local one in the do_test_accounting() and then is passed to the
+throttle_account() with uninitialized member LeakyBucket::burst_length.
+
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-Id: <1564502498-805893-2-git-send-email-andrey.shinkevich@virtuozzo.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/file-posix.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/test-throttle.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 4479cc7..da1fde1 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -217,7 +217,7 @@ static int raw_normalize_devicepath(const char **filename, Error **errp)
-     fname = *filename;
-     dp = strrchr(fname, '/');
-     if (lstat(fname, &sb) < 0) {
--        error_setg_errno(errp, errno, "%s: stat failed", fname);
-+        error_setg_file_open(errp, errno, fname);
-         return -errno;
-     }
+diff --git a/tests/test-throttle.c b/tests/test-throttle.c
+index a288122..ebf3aeb 100644
+--- a/tests/test-throttle.c
++++ b/tests/test-throttle.c
+@@ -557,6 +557,8 @@ static bool do_test_accounting(bool is_ops, /* are we testing bps or ops */
+     BucketType index;
+     int i;
  
-@@ -547,7 +547,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-     ret = fd < 0 ? -errno : 0;
- 
-     if (ret < 0) {
--        error_setg_errno(errp, -ret, "Could not open '%s'", filename);
-+        error_setg_file_open(errp, -ret, filename);
-         if (ret == -EROFS) {
-             ret = -EACCES;
-         }
++    throttle_config_init(&cfg);
++
+     for (i = 0; i < 3; i++) {
+         BucketType index = to_test[is_ops][i];
+         cfg.buckets[index].avg = avg;
 -- 
 1.8.3.1
 
