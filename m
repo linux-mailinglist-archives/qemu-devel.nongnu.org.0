@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07FA5958E8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:52:03 +0200 (CEST)
-Received: from localhost ([::1]:34372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DDF9958EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:53:23 +0200 (CEST)
+Received: from localhost ([::1]:34392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzyvx-0004a6-U4
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:52:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49440)
+	id 1hzyxG-0006kh-9Y
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:53:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49486)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1hzys5-0007w3-Qy
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:02 -0400
+ (envelope-from <thuth@redhat.com>) id 1hzysB-00083B-89
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hzys4-0004Q9-Ox
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53774)
+ (envelope-from <thuth@redhat.com>) id 1hzysA-0004St-2r
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46732)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hzys4-0004Pg-Jh
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:00 -0400
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hzys9-0004Se-U5
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:48:06 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 164241FAA62;
- Tue, 20 Aug 2019 07:47:58 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3DA3087648;
+ Tue, 20 Aug 2019 07:48:05 +0000 (UTC)
 Received: from thuth.com (ovpn-116-232.ams2.redhat.com [10.36.116.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A419100195C;
- Tue, 20 Aug 2019 07:47:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BAEDD1001B09;
+ Tue, 20 Aug 2019 07:48:02 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 09:47:42 +0200
-Message-Id: <20190820074749.25208-2-thuth@redhat.com>
+Date: Tue, 20 Aug 2019 09:47:46 +0200
+Message-Id: <20190820074749.25208-6-thuth@redhat.com>
 In-Reply-To: <20190820074749.25208-1-thuth@redhat.com>
 References: <20190820074749.25208-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Tue, 20 Aug 2019 07:47:59 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Tue, 20 Aug 2019 07:48:05 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 1/8] hw/Kconfig: Move the generic XLNX_ZYNQMP to
- the root hw/Kconfig
+Subject: [Qemu-devel] [PULL 5/8] hw/core: Add a config switch for the
+ "or-irq" device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,45 +61,90 @@ Cc: philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+The "or-irq" device is only used by certain machines. Let's add
+a proper config switch for it so that it only gets compiled when we
+really need it.
 
-The XLNX_ZYNQMP config is used in multiple subdirectories
-(timer, intc). Move it to the root hw/Kconfig.
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190427141459.19728-2-philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20190817101931.28386-6-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/Kconfig       | 3 +++
- hw/timer/Kconfig | 3 ---
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ hw/arm/Kconfig        | 3 +++
+ hw/core/Kconfig       | 3 +++
+ hw/core/Makefile.objs | 2 +-
+ hw/pci-host/Kconfig   | 3 ++-
+ 4 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/hw/Kconfig b/hw/Kconfig
-index 195f541e50..dbae1c0852 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -73,3 +73,6 @@ config XILINX
- config XILINX_AXI
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index ab65ecd216..849195c3f6 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -292,6 +292,7 @@ config RASPI
+ config STM32F205_SOC
      bool
-     select PTIMER # for hw/dma/xilinx_axidma.c
-+
-+config XLNX_ZYNQMP
-+    bool
-diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-index 51921eb63f..eefc95f35e 100644
---- a/hw/timer/Kconfig
-+++ b/hw/timer/Kconfig
-@@ -34,9 +34,6 @@ config TWL92230
-     bool
-     depends on I2C
+     select ARM_V7M
++    select OR_IRQ
+     select STM32F2XX_TIMER
+     select STM32F2XX_USART
+     select STM32F2XX_SYSCFG
+@@ -360,6 +361,7 @@ config MPS2
+     select LAN9118
+     select MPS2_FPGAIO
+     select MPS2_SCC
++    select OR_IRQ
+     select PL022    # Serial port
+     select PL080    # DMA controller
 =20
--config XLNX_ZYNQMP
--    bool
--
- config ALTERA_TIMER
+@@ -439,6 +441,7 @@ config ARMSSE
+     select IOTKIT_SECCTL
+     select IOTKIT_SYSCTL
+     select IOTKIT_SYSINFO
++    select OR_IRQ
+     select TZ_MPC
+     select TZ_MSC
+     select TZ_PPC
+diff --git a/hw/core/Kconfig b/hw/core/Kconfig
+index d11920fcb3..984143456a 100644
+--- a/hw/core/Kconfig
++++ b/hw/core/Kconfig
+@@ -7,6 +7,9 @@ config PTIMER
+ config FITLOADER
      bool
-     select PTIMER
+=20
++config OR_IRQ
++    bool
++
+ config PLATFORM_BUS
+     bool
+=20
+diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
+index d6cfb2a81b..ce337bd7c9 100644
+--- a/hw/core/Makefile.objs
++++ b/hw/core/Makefile.objs
+@@ -18,7 +18,7 @@ common-obj-$(CONFIG_SOFTMMU) +=3D loader.o
+ common-obj-$(CONFIG_FITLOADER) +=3D loader-fit.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D qdev-properties-system.o
+ common-obj-$(CONFIG_REGISTER) +=3D register.o
+-common-obj-$(CONFIG_SOFTMMU) +=3D or-irq.o
++common-obj-$(CONFIG_OR_IRQ) +=3D or-irq.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D split-irq.o
+ common-obj-$(CONFIG_PLATFORM_BUS) +=3D platform-bus.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D generic-loader.o
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+index 8c16d96b3f..1edc1a31d4 100644
+--- a/hw/pci-host/Kconfig
++++ b/hw/pci-host/Kconfig
+@@ -2,8 +2,9 @@ config PAM
+     bool
+=20
+ config PREP_PCI
+-    select PCI
+     bool
++    select PCI
++    select OR_IRQ
+=20
+ config GRACKLE_PCI
+     select PCI
 --=20
 2.18.1
 
