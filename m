@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22208959D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 10:40:14 +0200 (CEST)
-Received: from localhost ([::1]:34756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA669959DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 10:41:26 +0200 (CEST)
+Received: from localhost ([::1]:34782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzzgb-0001b5-96
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 04:40:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56470)
+	id 1hzzhl-0002zW-Mk
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 04:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56817)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1hzzfp-00017L-EI
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 04:39:27 -0400
+ (envelope-from <berrange@redhat.com>) id 1hzzgv-0002Rl-5I
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 04:40:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hzzfn-00088z-Mn
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 04:39:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33552)
+ (envelope-from <berrange@redhat.com>) id 1hzzgu-00013z-0t
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 04:40:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42392)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1hzzfk-00083D-E5; Tue, 20 Aug 2019 04:39:20 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1hzzgr-00010d-PB; Tue, 20 Aug 2019 04:40:29 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7919F300BEA4;
- Tue, 20 Aug 2019 08:39:19 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0972D10C0216;
+ Tue, 20 Aug 2019 08:40:29 +0000 (UTC)
 Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 916AA1F5;
- Tue, 20 Aug 2019 08:39:07 +0000 (UTC)
-Date: Tue, 20 Aug 2019 09:39:04 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D8D81001B09;
+ Tue, 20 Aug 2019 08:40:13 +0000 (UTC)
+Date: Tue, 20 Aug 2019 09:40:10 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Juan Quintela <quintela@redhat.com>
-Message-ID: <20190820083904.GA23352@redhat.com>
+Message-ID: <20190820084010.GB23352@redhat.com>
 References: <20190820082459.2101-1-quintela@redhat.com>
- <20190820082459.2101-2-quintela@redhat.com>
+ <20190820082459.2101-3-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190820082459.2101-2-quintela@redhat.com>
+In-Reply-To: <20190820082459.2101-3-quintela@redhat.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 20 Aug 2019 08:39:19 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Tue, 20 Aug 2019 08:40:29 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 1/5] socket: Add backlog parameter to
- socket_listen
+Subject: Re: [Qemu-devel] [PATCH v2 2/5] socket: Add num connections to
+ qio_channel_socket_sync()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,60 +71,29 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 20, 2019 at 10:24:55AM +0200, Juan Quintela wrote:
-> Current parameter was always one.  We continue with that value for now
-> in all callers.
-> 
+On Tue, Aug 20, 2019 at 10:24:56AM +0200, Juan Quintela wrote:
 > Signed-off-by: Juan Quintela <quintela@redhat.com>
 > ---
->  include/qemu/sockets.h    |  2 +-
->  io/channel-socket.c       |  2 +-
->  qga/channel-posix.c       |  2 +-
->  tests/test-util-sockets.c | 12 ++++++------
->  util/qemu-sockets.c       | 33 ++++++++++++++++++++++-----------
->  util/trace-events         |  2 ++
->  6 files changed, 33 insertions(+), 20 deletions(-)
-> 
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index e3a1666578..3f0a80404f 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -31,6 +31,7 @@
->  #include "qapi/qobject-input-visitor.h"
->  #include "qapi/qobject-output-visitor.h"
->  #include "qemu/cutils.h"
-> +#include "trace.h"
->  
->  #ifndef AI_ADDRCONFIG
->  # define AI_ADDRCONFIG 0
-> @@ -207,6 +208,7 @@ static int try_bind(int socket, InetSocketAddress *saddr, struct addrinfo *e)
->  
->  static int inet_listen_saddr(InetSocketAddress *saddr,
->                               int port_offset,
-> +                             int num,
->                               Error **errp)
->  {
->      struct addrinfo ai,*res,*e;
-> @@ -309,7 +311,8 @@ static int inet_listen_saddr(InetSocketAddress *saddr,
->                      goto listen_failed;
->                  }
->              } else {
-> -                if (!listen(slisten, 1)) {
-> +                trace_inet_listen_saddr(num);
+>  include/io/channel-socket.h    | 2 ++
+>  io/channel-socket.c            | 7 ++++---
+>  io/net-listener.c              | 2 +-
+>  io/trace-events                | 2 +-
+>  scsi/qemu-pr-helper.c          | 2 +-
+>  tests/test-char.c              | 4 ++--
+>  tests/test-io-channel-socket.c | 2 +-
+>  tests/tpm-emu.c                | 2 +-
+>  8 files changed, 13 insertions(+), 10 deletions(-)
 
-It is a bit odd to only have the trace event for inet sockets. I'd
-prefer it in the caller for all sockets, with just "socket_listen"
-name.
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-> +                if (!listen(slisten, num)) {
->                      goto listen_ok;
->                  }
->                  if (errno != EADDRINUSE) {
 
 Regards,
 Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
