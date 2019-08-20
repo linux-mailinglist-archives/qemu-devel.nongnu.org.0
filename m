@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757F5965F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 18:11:17 +0200 (CEST)
-Received: from localhost ([::1]:39362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0EB96613
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 18:17:07 +0200 (CEST)
+Received: from localhost ([::1]:39456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i06j6-0006g1-G7
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 12:11:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42365)
+	id 1i06ok-0003Vq-Dz
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 12:17:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43761)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1i06fZ-0001vO-8h
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:07:38 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i06nL-0002z9-N2
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:15:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1i06fX-0003JW-MI
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:07:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57790)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1i06fX-0003JC-E0; Tue, 20 Aug 2019 12:07:35 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BB8972A09A9;
- Tue, 20 Aug 2019 16:07:34 +0000 (UTC)
-Received: from gondolin (ovpn-116-201.ams2.redhat.com [10.36.116.201])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9AD611E0;
- Tue, 20 Aug 2019 16:07:30 +0000 (UTC)
-Date: Tue, 20 Aug 2019 18:07:27 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190820180727.32cf4891.cohuck@redhat.com>
-In-Reply-To: <20190807153241.24050-1-imammedo@redhat.com>
-References: <20190806094834.7691-2-imammedo@redhat.com>
- <20190807153241.24050-1-imammedo@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i06nK-0001RZ-3i
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:15:39 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:34136)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1i06nJ-0001Qo-Te
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:15:38 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id g128so4530709oib.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 09:15:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mfZI9vKNpxE7fCSQTa0GxMEcN1qepcVPHGFp977KSbM=;
+ b=ptV2C96IjnBGuRJms4qZcA07oEeoLGN4lxgILSMglPEcMl5HDO+VdE/jQEfdKpU2k8
+ /b1SvYHUvjfoSDtlSDvFehS8im3ADcsncgqhhB8XbAfjC8MkPBYCsmtVfn1+QpCmaapL
+ 9t7ASiagQevtAjgPb9gQfdqBKnYcoCbZsmeO/23FbxQIogTnt1UCEanwQIQie3It8H/a
+ QmE6Yw/c5ileZzOT30vJO2IZb8pkjohEwWskfwc+C0BlGlvhbuYEF64gXhfYlMdofUs8
+ fmXz1UAtxE/lCQH5vaRK5hKL+hKNCRQzIuDAvxcIBNOYy4Ulh7lhe5r6ZcXU5wyCmBe0
+ f/7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mfZI9vKNpxE7fCSQTa0GxMEcN1qepcVPHGFp977KSbM=;
+ b=nSeQZX6Sxc7LO4vR15bRwlKHvtM5wWgzIzm0oN58kfHMob1pqowMa9dxxYJp1lU6fy
+ HNNmKQ0HLHAiesw2AtQ1S6qW67/ek6AR7MHVmij60bVb/ysKSi0BCkiUCqpt9Pqp4b3f
+ Eayypgvp4SbOucRgHoGxp/wn9YFWZBHCcaybPi/EGULBXoFZjfQSdnh0oOq0siJqxo8k
+ UD2f+EP+v6cWelXei6rwIX1xaW8s46TGh4u/X61NB5G8/xVDHhu3TtuJp6B4zXkrGrcA
+ 4ST+p/OY3ouHvWU3PKARb91dv41gf///tQKRgD0cloLNNQ1p4ZDp+Jl6xQiVRY6P92aM
+ Uh6w==
+X-Gm-Message-State: APjAAAVBN5W/XU1xsDZlNLde59wJ/atYwphXgtY1L0oyTKLWEYV9U8Ts
+ y9mckj1j3X4R2xjKDr9QWTcVKZsPxboZGBiyuzg=
+X-Google-Smtp-Source: APXvYqwSTo3Vk22nl9nZCnukvDZQwwl7GBEwwWxQNx24uzm+U4Xxagy1MCsTTnxwotZhf6aqh3tx/49ZP07O5VJ7ROA=
+X-Received: by 2002:aca:fd92:: with SMTP id b140mr549588oii.79.1566317737052; 
+ Tue, 20 Aug 2019 09:15:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 20 Aug 2019 16:07:34 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.2 v5 1/2] kvm: s390: split too big
- memory section on several memslots
+References: <BN6PR2201MB1251511E7694854909AFEEB4C6AB0@BN6PR2201MB1251.namprd22.prod.outlook.com>
+ <CAFEAcA9UJGXOdNUD49bxmrdoZ5FEv4VLqAvyzDw66MOGsGB=wg@mail.gmail.com>
+ <BN6PR2201MB1251C78A16D557867586FFD4C6AB0@BN6PR2201MB1251.namprd22.prod.outlook.com>
+ <1fc18db5-abd4-80be-11ee-209dfd4a55f4@linaro.org>
+In-Reply-To: <1fc18db5-abd4-80be-11ee-209dfd4a55f4@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Tue, 20 Aug 2019 18:15:26 +0200
+Message-ID: <CAL1e-=hx9bLLOZiwa2UySt98T3HGWhshwwm2j0wTp5JSjJxG-Q@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22f
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [EXTERNAL]Re: Proposal for amending TCG interface
+ naming scheme
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,232 +76,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, qemu-devel@nongnu.org,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@sifive.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ "aurelien@aurel32.net" <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  7 Aug 2019 11:32:41 -0400
-Igor Mammedov <imammedo@redhat.com> wrote:
+On Tue, Aug 20, 2019 at 5:37 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-> Max memslot size supported by kvm on s390 is 8Tb,
-> move logic of splitting RAM in chunks upto 8T to KVM code.
-> 
-> This way it will hide KVM specific restrictions in KVM code
-> and won't affect baord level design decisions. Which would allow
-> us to avoid misusing memory_region_allocate_system_memory() API
-> and eventually use a single hostmem backend for guest RAM.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
-> v5:
->   * move computation 'size -= slot_size' inside of loop body
->           (David Hildenbrand <david@redhat.com>)
-> v4:
->   * fix compilation issue
->           (Christian Borntraeger <borntraeger@de.ibm.com>)
->   * advance HVA along with GPA in kvm_set_phys_mem()
->           (Christian Borntraeger <borntraeger@de.ibm.com>)
-> 
-> patch prepares only KVM side for switching to single RAM memory region
-> another patch will take care of  dropping manual RAM partitioning in
-> s390 code.
-
-I may have lost track a bit -- what is the status of this patch (and
-the series)?
-
-> ---
->  include/sysemu/kvm_int.h   |  1 +
->  accel/kvm/kvm-all.c        | 82 ++++++++++++++++++++++++--------------
->  hw/s390x/s390-virtio-ccw.c |  9 -----
->  target/s390x/kvm.c         | 12 ++++++
->  4 files changed, 64 insertions(+), 40 deletions(-)
-> 
-> diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-> index 31df465fdc..7f7520bce2 100644
-> --- a/include/sysemu/kvm_int.h
-> +++ b/include/sysemu/kvm_int.h
-> @@ -41,4 +41,5 @@ typedef struct KVMMemoryListener {
->  void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
->                                    AddressSpace *as, int as_id);
->  
-> +void kvm_set_max_memslot_size(hwaddr max_slot_size);
->  #endif
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index f450f25295..8153556335 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -138,6 +138,7 @@ bool kvm_direct_msi_allowed;
->  bool kvm_ioeventfd_any_length_allowed;
->  bool kvm_msi_use_devid;
->  static bool kvm_immediate_exit;
-> +static hwaddr kvm_max_slot_size = ~0;
->  
->  static const KVMCapabilityInfo kvm_required_capabilites[] = {
->      KVM_CAP_INFO(USER_MEMORY),
-> @@ -951,6 +952,14 @@ kvm_check_extension_list(KVMState *s, const KVMCapabilityInfo *list)
->      return NULL;
->  }
->  
-> +void kvm_set_max_memslot_size(hwaddr max_slot_size)
-> +{
-> +    g_assert(
-> +        ROUND_UP(max_slot_size, qemu_real_host_page_size) == max_slot_size
-> +    );
-> +    kvm_max_slot_size = max_slot_size;
-> +}
-> +
->  static void kvm_set_phys_mem(KVMMemoryListener *kml,
->                               MemoryRegionSection *section, bool add)
->  {
-> @@ -958,7 +967,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
->      int err;
->      MemoryRegion *mr = section->mr;
->      bool writeable = !mr->readonly && !mr->rom_device;
-> -    hwaddr start_addr, size;
-> +    hwaddr start_addr, size, slot_size;
->      void *ram;
->  
->      if (!memory_region_is_ram(mr)) {
-> @@ -983,41 +992,52 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
->      kvm_slots_lock(kml);
->  
->      if (!add) {
-> -        mem = kvm_lookup_matching_slot(kml, start_addr, size);
-> -        if (!mem) {
-> -            goto out;
-> -        }
-> -        if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
-> -            kvm_physical_sync_dirty_bitmap(kml, section);
-> -        }
-> +        do {
-> +            slot_size = kvm_max_slot_size < size ? kvm_max_slot_size : size;
-> +            mem = kvm_lookup_matching_slot(kml, start_addr, slot_size);
-> +            if (!mem) {
-> +                goto out;
-> +            }
-> +            if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
-> +                kvm_physical_sync_dirty_bitmap(kml, section);
-> +            }
->  
-> -        /* unregister the slot */
-> -        g_free(mem->dirty_bmap);
-> -        mem->dirty_bmap = NULL;
-> -        mem->memory_size = 0;
-> -        mem->flags = 0;
-> -        err = kvm_set_user_memory_region(kml, mem, false);
-> -        if (err) {
-> -            fprintf(stderr, "%s: error unregistering slot: %s\n",
-> -                    __func__, strerror(-err));
-> -            abort();
-> -        }
-> +            /* unregister the slot */
-> +            g_free(mem->dirty_bmap);
-> +            mem->dirty_bmap = NULL;
-> +            mem->memory_size = 0;
-> +            mem->flags = 0;
-> +            err = kvm_set_user_memory_region(kml, mem, false);
-> +            if (err) {
-> +                fprintf(stderr, "%s: error unregistering slot: %s\n",
-> +                        __func__, strerror(-err));
-> +                abort();
-> +            }
-> +            start_addr += slot_size;
-> +            size -= slot_size;
-> +        } while (size);
->          goto out;
->      }
->  
->      /* register the new slot */
-> -    mem = kvm_alloc_slot(kml);
-> -    mem->memory_size = size;
-> -    mem->start_addr = start_addr;
-> -    mem->ram = ram;
-> -    mem->flags = kvm_mem_flags(mr);
-> -
-> -    err = kvm_set_user_memory_region(kml, mem, true);
-> -    if (err) {
-> -        fprintf(stderr, "%s: error registering slot: %s\n", __func__,
-> -                strerror(-err));
-> -        abort();
-> -    }
-> +    do {
-> +        slot_size = kvm_max_slot_size < size ? kvm_max_slot_size : size;
-> +        mem = kvm_alloc_slot(kml);
-> +        mem->memory_size = slot_size;
-> +        mem->start_addr = start_addr;
-> +        mem->ram = ram;
-> +        mem->flags = kvm_mem_flags(mr);
-> +
-> +        err = kvm_set_user_memory_region(kml, mem, true);
-> +        if (err) {
-> +            fprintf(stderr, "%s: error registering slot: %s\n", __func__,
-> +                    strerror(-err));
-> +            abort();
-> +        }
-> +        start_addr += slot_size;
-> +        ram += slot_size;
-> +        size -= slot_size;
-> +    } while (size);
->  
->  out:
->      kvm_slots_unlock(kml);
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 5b6a9a4e55..0c03ffb7c7 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -151,15 +151,6 @@ static void virtio_ccw_register_hcalls(void)
->                                     virtio_ccw_hcall_early_printk);
->  }
->  
-> -/*
-> - * KVM does only support memory slots up to KVM_MEM_MAX_NR_PAGES pages
-> - * as the dirty bitmap must be managed by bitops that take an int as
-> - * position indicator. If we have a guest beyond that we will split off
-> - * new subregions. The split must happen on a segment boundary (1MB).
-> - */
-> -#define KVM_MEM_MAX_NR_PAGES ((1ULL << 31) - 1)
-> -#define SEG_MSK (~0xfffffULL)
-> -#define KVM_SLOT_MAX_BYTES ((KVM_MEM_MAX_NR_PAGES * TARGET_PAGE_SIZE) & SEG_MSK)
->  static void s390_memory_init(ram_addr_t mem_size)
->  {
->      MemoryRegion *sysmem = get_system_memory();
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> index 6e814c230b..6b1428a760 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm.c
-> @@ -28,6 +28,7 @@
->  #include "cpu.h"
->  #include "internal.h"
->  #include "kvm_s390x.h"
-> +#include "sysemu/kvm_int.h"
->  #include "qapi/error.h"
->  #include "qemu/error-report.h"
->  #include "qemu/timer.h"
-> @@ -122,6 +123,16 @@
->  #define VCPU_IRQ_BUF_SIZE(max_cpus) (sizeof(struct kvm_s390_irq) * \
->                                       (max_cpus + NR_LOCAL_IRQS))
->  
-> +/*
-> + * KVM does only support memory slots up to KVM_MEM_MAX_NR_PAGES pages
-> + * as the dirty bitmap must be managed by bitops that take an int as
-> + * position indicator. If we have a guest beyond that we will split off
-> + * new subregions. The split must happen on a segment boundary (1MB).
-> + */
-> +#define KVM_MEM_MAX_NR_PAGES ((1ULL << 31) - 1)
-> +#define SEG_MSK (~0xfffffULL)
-> +#define KVM_SLOT_MAX_BYTES ((KVM_MEM_MAX_NR_PAGES * TARGET_PAGE_SIZE) & SEG_MSK)
-> +
->  static CPUWatchpoint hw_watchpoint;
->  /*
->   * We don't use a list because this structure is also used to transmit the
-> @@ -347,6 +358,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->       */
->      /* kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0); */
->  
-> +    kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
->      return 0;
->  }
->  
+> On 8/20/19 6:49 AM, Aleksandar Markovic wrote:
+> >> From: Peter Maydell <peter.maydell@linaro.org>
+> >> On Tue, 20 Aug 2019 at 13:50, Aleksandar Markovic
+> >> <amarkovic@wavecomp.com> wrote:
+> >>> The idea is to provide significant "lexicographic" distance between
+> those > groups of functions, rather than having the similar name (wiht
+> common root > "ext) for all of them.
+> >>
+> >> The current naming of the extract/sextract TCG ops is intended to keep
+> >> them in line with the extract32/sextract32/extract64/sextract64 utility
+> >> functions in bitops.h. I think those ones are reasonably named. The
+> >> other ops are a bit more ad-hoc in naming, admittedly...
+> >>
+> >
+> > How about
+> >
+> > tcg_gen_extract2_i32
+> > tcg_gen_extract2_i64
+> > tcg_gen_extract2_tl
+> > tcg_gen_extrl_i64_i32
+> > tcg_gen_extrh_i64_i32
+> > tcg_gen_ext_i32_i64
+> > tcg_gen_extu_i32_i64
+> >
+> > to
+> >
+> > tcg_gen_gather_i32
+> > tcg_gen_gather_i64
+> > tcg_gen_gather_tl
+>
+> I'm not sure how "gather" applies.
 
 
+gather = come together; assemble or accumulate
+
+
+> To me this sounds like a vector
+> scatter/gather operation, where N different addresses are used to load the
+> N
+> elements of the vector.
+>
+> When extract2 was named, I was only thinking "extract" because of how the
+> AArch64 instruction that implements this operation is named (EXTR), and
+> "extr"
+> itself was already taken.  We did ask for naming suggestions at the time,
+> but
+> no better ideas were floated...
+>
+> Would it be clearer to use the x86 instruction name: SHRD (SHift Right
+> Doubleword)?
+>
+> > tcg_gen_pick_l_i64_i32
+> > tcg_gen_pick_h_i64_i32
+>
+> Hmm, "pick" doesn't mean anything to me.
+
+
+and "extl" does?
+
+
+> Which makes it better than "gather",
+> but only just.
+>
+> We do have a couple of related operations: tcg_gen_trunc_i64_tl and
+> tcg_gen_trunc_tl_i32.  It's easy to see tcg_gen_extrl_i64_i32 as
+> "truncate",
+> because that's what it does.  But it's harder to see tcg_gen_extrh_i64_i32
+> as
+> "truncate high".  Is tcg_gen_shr32_trunc_i64_i32 too unwieldy?
+>
+> Or perhaps we could leave these alone.  Changing the others gives us the
+> desired (or at least increased) lexicographic distance.
+>
+> > tcg_gen_extend_s_i32_i64
+> > tcg_gen_extend_0_i32_i64
+>
+> These should not drift too far from the other extension names,
+>
+>     tcg_gen_ext{8,16}{u,s}_i32
+>     tcg_gen_ext{8,16,32}{u,s}_i64
+>
+> What if we use the AArch64 mnemonics: zxt (zero-extend) and sxt
+> (sign-extend)?
+>  This would give us
+>
+>     tcg_gen_zxt8_i32
+>     tcg_gen_sxt8_i32
+>     (etc)
+>     tcg_gen_zxt_i32_i64
+>     tcg_gen_sxt_i32_i64
+>
+>
+Perhaps the whole "extend" front-end segment should be tweaked to be
+consistent.
+
+In general, Z/S scheme in these cases looks better than U/S scheme to me.
+The prevalent terms are "zero-extend" and "sign-extend", and involving
+Unsigned/Signed just widens the semantic gap.
+
+I used "0" and "s" to make the visual distinction easier (it is easier to
+spot).
+
+I was hoping we would remove "sextract" (well, it is funny a little bit
+definitely, but if there are zillion occurrences, and used everyday, it
+just stops being funny, and is somewhat distracting...), however it looks
+we will get "sextend", and "sextend2", and "sex_h" and "sex_l"...
+
+Aleksandar
+
+
+>
+> r~
+>
+>
