@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7A795AD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 11:21:07 +0200 (CEST)
-Received: from localhost ([::1]:35262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B54A95AF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 11:28:03 +0200 (CEST)
+Received: from localhost ([::1]:35316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i00KA-0002Kc-FL
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 05:21:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35138)
+	id 1i00Qs-0005u5-Hz
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 05:28:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36289)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i00J0-0001fC-PJ
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:19:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i00Q3-0005Rd-2J
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:27:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i00Iz-0003VI-Be
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:19:54 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:41758)
+ (envelope-from <peter.maydell@linaro.org>) id 1i00Q1-00055R-RF
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:27:10 -0400
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:46110)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i00Iz-0003Tz-57
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:19:53 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id g7so3566618oia.8
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 02:19:53 -0700 (PDT)
+ id 1i00Q1-00054S-Lm
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:27:09 -0400
+Received: by mail-ot1-x331.google.com with SMTP id z17so4402996otk.13
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 02:27:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z2tiHunDR1SB6uAkT9X4weYEpM3uwRbTBhJLmrnBzBc=;
- b=NxxeeUQNilmf6zIOvnRe0//TIeVd6G2aJ0x2DxICmhWebJtsvVML6sNgthTkiSgIdy
- MNvPp+dZ4SChqIaJ82QPsPYcmpB58hblVNBcuNe8Wf15j71IdaaRlOzu2FrabdPLlG3f
- 6+juUkZN4MipfKQC3onNJisXKBTM38Av5qP2V46qb7sEv8y/WhPhAEDHeFdsSqrRSUB1
- Q5MSSVJHKfpFjZul1iygE9OZaWI7nbjv9/8bVK5fAvN+W06Z18s4ZI59sPaeP2TJJJmM
- /DH8706gMIhoj90QFSCJVeK5PQtG5ux4BI34V7zgx4NSXUWZL9U7S8NyO+sXtbm2aZ9x
- 3lKQ==
+ :cc:content-transfer-encoding;
+ bh=cTuLr4jggrAqOR6Qr8EQBgaEOrqcNm0atKrOWYoLXOk=;
+ b=g8dqMdpOyx8QgqeSt4EOj07bseZeNXjHCtlF7eHogtMq/ATtOG41ilnoSjNs/d/6MD
+ t8lxMQT7qiAbZltIh42uGeNUGsGDfyoBgro5j8qvX0a1M+UqMRlnGmwN3NQkWp0FTbgN
+ ZqqJzkaL/GaOUS9FW2LcC3vC0lglLMSjvxmRtQ6RayVw163NhKzs1YhvkpZJt/FsvDlh
+ 2R3f+v6zao6m79EDbUXKgFfXxRU3rx4HKUS69O4V6geP+DzXRRuFXMjmcmiCQDr8aibm
+ qoYuDevZL7ZxWZu1iJqXp6UM+tJIDZewQfobJiSA3B786OndiU3S9amKDeioEMCB0Nev
+ +IPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z2tiHunDR1SB6uAkT9X4weYEpM3uwRbTBhJLmrnBzBc=;
- b=FWU7srsQ4D9Pyc1yx++7rJmlUB06oO+wg2iStAlQGtWuyv+Wmcu84WaM+oCVxDk0U8
- jgvP9PVhgCukUSggeoql/b7n7yirlvCxYPceLasbnFwyY+6tDHEegEQm9lq/ztb9XCcx
- TobUf9m17RuWRxeahfwsv6PmsEE4tx1WwCncETNLd7a8HerXOnIhZHHllDiuzN4DdRFX
- BzgcQcKnwvlqDFVnufOLyvnm3lFR+CicAK6s3NB6R1fHKi4ieZNV+o8YmFLnPEpK+xZL
- A3FCBmdpu48SU+gQ+m+ozP0o8W45XbjJmthdb+c3gHcs/MnxMCFsfXzxHx/zQE1nzFc5
- p2QQ==
-X-Gm-Message-State: APjAAAUtrKYUazh3hPorMu2Zhro+zKw/FGwK1GFIcdCUoFOI6vBm8kKR
- Y30T4t8/FMK1aPWPz0tXACi0QLXXQjlzjUZ6C0rsXw==
-X-Google-Smtp-Source: APXvYqwR237HsyzU9vTMPuHumt/64ELcu640cwhJT8/2FO1fOB2qY1OlLCIyhFMPXJ3rIekNyL894k/jQFhxAqh3vPA=
-X-Received: by 2002:aca:4a57:: with SMTP id x84mr16795042oia.170.1566292792170; 
- Tue, 20 Aug 2019 02:19:52 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cTuLr4jggrAqOR6Qr8EQBgaEOrqcNm0atKrOWYoLXOk=;
+ b=F59ja+v67hSWCyczuxke76GMtCxQNymfmtuREcISerHgWYHXkt+wGw1AlfP+k2MCCT
+ PB7JCYexBP3IlGplO3ohihhc4UagZGQQhr0U6f9t4QVAN9vzoZNy3Ph1HfH3h3SGf9ub
+ qdfMSOrfcSjJDYr/7/KOfv2zoqUiVVq0TE3BA4/UvIRQdfLGH49xm0UCI4v6TOY/tYgR
+ 07qOxuRdI01UeqiOZvPhGP2gXIOjh5WPcZTX7X3zdYbV/sdEeAqmD9rFEsCd3sY6o6nN
+ aL/hvxVQRoAUSBnC/nd3sKmnYVdAbek6rrtMIR45EhgpYneMMVbwTnQVJ4CrKUVc7Xes
+ Bk+w==
+X-Gm-Message-State: APjAAAUFHU1LHLiXSxTCdQRvaZSUfV0Kmy8PAp0M16cfaEiarvItQd3c
+ Cxm0z3rRCaMWUJCO5u/shAow/TchFcdf70EwCj+zJg==
+X-Google-Smtp-Source: APXvYqzqb33k6qV86Ifk0VhcspCA5QVzcdmRedX+QvX0liCQ6vg04xyk3Ox9vjDxBhDmAFY9RRGZQ9YJx/GKMh+9pY0=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr22491829oti.91.1566293228611; 
+ Tue, 20 Aug 2019 02:27:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190819151743.17267-1-richard.henderson@linaro.org>
-In-Reply-To: <20190819151743.17267-1-richard.henderson@linaro.org>
+References: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Aug 2019 10:19:41 +0100
-Message-ID: <CAFEAcA95hD44RqrBLSrnPiTBUCWcKfm4YNxfdvGUWt8wrx2eig@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Tue, 20 Aug 2019 10:26:57 +0100
+Message-ID: <CAFEAcA_h6mVJ-BaQC4VxbJF7EnCOcD1jn1e4YEEKODn+zToCXQ@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22a
-Subject: Re: [Qemu-devel] [PULL 0/3] decodetree improvements
+X-Received-From: 2607:f8b0:4864:20::331
+Subject: Re: [Qemu-devel] [PULL 00/36] QEMU patches for 2018-08-20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,46 +77,58 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 19 Aug 2019 at 16:17, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, 20 Aug 2019 at 08:02, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> The following changes since commit 3fbd3405d2b0604ea530fc7a1828f19da1e95ff9:
+> The following changes since commit 864ab314f1d924129d06ac7b571f105a2b76a4=
+b2:
 >
->   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-08-17' into staging (2019-08-19 14:14:09 +0100)
+>   Update version for v4.1.0-rc4 release (2019-08-06 17:05:21 +0100)
 >
-> are available in the Git repository at:
+> are available in the git repository at:
 >
->   https://github.com/rth7680/qemu.git tags/pull-dt-20190819
+>   git://github.com/bonzini/qemu.git tags/for-upstream
 >
-> for you to fetch changes up to 59a3a1c0c211640e18b058a1b0444154c4eb6f99:
+> for you to fetch changes up to 6f93977075ae9971d73879ca872f75e2737f66c5:
 >
->   target/riscv: Remove redundant declaration pragmas (2019-08-19 08:13:14 -0700)
->
-> ----------------------------------------------------------------
-> Implement parameter fields.
-> Push warning pragmas into the generated code.
+>   x86: Intel AVX512_BF16 feature enabling (2019-08-20 08:59:18 +0200)
 >
 > ----------------------------------------------------------------
-> Richard Henderson (3):
->       decodetree: Allow !function with no input bits
->       decodetree: Suppress redundant declaration warnings
->       target/riscv: Remove redundant declaration pragmas
+> * New KVM PV features (Marcelo, Wanpeng)
+> * valgrind fixes (Andrey)
+> * Remove clock reset notifiers (David)
+> * KConfig and Makefile cleanups (Paolo)
+> * Replay and icount improvements (Pavel)
+> * x86 FP fixes (Peter M.)
+> * TCG locking assertions (Roman)
+> * x86 support for mmap-ed -kernel/-initrd (Stefano)
+> * Other cleanups (Wei Yang, Yan Zhao, Tony)
+> * LSI fix for infinite loop (Prasad)
+> * ARM migration fix (Catherine)
+> * AVX512_BF16 feature (Jing)
 >
->  target/riscv/translate.c          | 19 +----------
->  docs/devel/decodetree.rst         |  8 ++++-
->  scripts/decodetree.py             | 71 +++++++++++++++++++++++++++++++++------
->  tests/decode/err_field6.decode    |  5 +++
->  tests/decode/succ_function.decode |  6 ++++
->  5 files changed, 79 insertions(+), 30 deletions(-)
->  create mode 100644 tests/decode/err_field6.decode
->  create mode 100644 tests/decode/succ_function.decode
+> ----------------------------------------------------------------
 
+Hi; this fails to compile (all platforms):
 
+/home/petmay01/linaro/qemu-for-merges/hw/core/loader.c: In function =E2=80=
+=98rom_reset=E2=80=99:
+/home/petmay01/linaro/qemu-for-merges/hw/core/loader.c:1123:9: error:
+implicit declaration of function =E2=80=98runstate_check=E2=80=99; did you =
+mean
+=E2=80=98type_check=E2=80=99? [-Werror=3Dimplicit-function-declaration]
+     if (runstate_check(RUN_STATE_INMIGRATE))
+         ^~~~~~~~~~~~~~
+         type_check
+/home/petmay01/linaro/qemu-for-merges/hw/core/loader.c:1123:9: error:
+nested extern declaration of =E2=80=98runstate_check=E2=80=99 [-Werror=3Dne=
+sted-externs]
+cc1: all warnings being treated as errors
+/home/petmay01/linaro/qemu-for-merges/rules.mak:69: recipe for target
+'hw/core/loader.o' failed
 
-Applied, thanks.
+I suspect the patchset has a semantic conflict with Marcus's
+include-cleanup and needs an extra #include somewhere.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
-
+thanks
 -- PMM
 
