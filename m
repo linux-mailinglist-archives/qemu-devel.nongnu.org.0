@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B8096438
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 17:23:46 +0200 (CEST)
-Received: from localhost ([::1]:38564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D70496446
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 17:25:45 +0200 (CEST)
+Received: from localhost ([::1]:38614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i05z7-0007r8-V0
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 11:23:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34175)
+	id 1i0612-0001Xe-GH
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 11:25:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34476)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i05xT-0006mp-Mi
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 11:22:06 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i05zd-00006w-VG
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 11:24:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i05xS-00087Z-AQ
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 11:22:03 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:44518)
+ (envelope-from <peter.maydell@linaro.org>) id 1i05zc-0002yA-Mz
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 11:24:17 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33160)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i05xS-00085n-4b
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 11:22:02 -0400
-Received: by mail-oi1-x241.google.com with SMTP id k22so4365232oiw.11
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 08:22:01 -0700 (PDT)
+ id 1i05zb-0002vn-VZ
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 11:24:16 -0400
+Received: by mail-ot1-x344.google.com with SMTP id q20so5408609otl.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 08:24:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Y6Ki5dUmafFpVbXIzk/GSG4kD2HSc6Q/1jjH1ORseMQ=;
- b=j4s/2GABFz/A1Y8QwNVEcIznvyp1Akmd9l/f7ZBnjXCYLnpmkNLFJx+b/QDQB43zou
- OHVF+GskobqORyMZrLmzT+0tykqiwzwjpOUDhuKSOKYRgHcW0EfqGG7k36OBmOo4oNyW
- Z9r0uSJcy+BVX0L6H8NcYj5tPcoA2rYdSg7yyLax9DT3N4adsU3R/JeAnwO92JWHiqQN
- N8dcn+h9eZCBM+8GwK7g+yvr+ylSBaWVsNtWM+dXQWZC8vCQcAQ7r78Om40HSPGbwZXQ
- 4NuGNZO84IuYHiBW7u055U93u7PNNECnHnavmJYkCvbvTJ03QfnVvt7eLulQAJn7fxC+
- pM1w==
+ :cc; bh=9/XqcEjqZQcCuL55U5xMT+H3aHbvN8Rtmrx1tXl80Ek=;
+ b=yz3DZz0JdC2uvCvIGv8fOqN0hk3NGstvZ2WbD6HK1HO2y9guO4CktkZ9JTBskHZrne
+ k9x1XWLKjX1/XYsT2gzDyxRMbVIfQNNydU/EAgv5Mg9MZhhIhMJzzicj8+SErrxk5Toh
+ OtZxwrvm7+TbajbnEwdYTwisvgmdt2oY6STOKsQKayO2KVhe5nYk274LjFiy4qFPJadE
+ 3uX33tC402IrM/i1/lJJQbcfuDmB4wiOdlx/unaCKYpd87JwH1lDRBuAl1WoYXpWfwNY
+ s1uhj811WwaaR4VBns12tbLhOl2k4dmgSHXtQhKD1T+E8AL75acU60MjbGhUCV9iRyUt
+ XJow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Y6Ki5dUmafFpVbXIzk/GSG4kD2HSc6Q/1jjH1ORseMQ=;
- b=gIk9d/6c6bhNIpfr1M7tWCjzzUgNcEcdEibUuErf+dm0915LWO38gsPKFfSNvd8SK1
- OgDiXHBx8gUWJ+Y5EUcBcMBEmWGp0PSG7UvJakkH1ObYAj7jaHe5mA8NSMU2TxuSYlCw
- AN5yAfopVQMLXbXwBgyTalMDYeCf9bftkcz9555jL9C22+9ucIIHChe0ZI1EiqMFfas3
- OZHrTwxsWFVuo3+AsBpXNFAF/N7Tc9PhoPDec6BMcUgsLAMLoq1sETvwf7unyFvFhr9g
- txTNVWiuMwWd37WSQabjCgX5h6j0py0PQfecpUxAr0UZw+0fGC3wma0wAPU9HQqMVHd0
- jkVA==
-X-Gm-Message-State: APjAAAU+rsB6XznhXqv9zSKxEGy1hG3Urdafc8ilYmy0prOoSt2zp+OV
- OlsI0rUs1cHMG5TlOwiqStIqwGmRoPHKPWp7JFk42g==
-X-Google-Smtp-Source: APXvYqxIb2FRdBJttjpaf/rH3p6hKRErQs8SSBdvwQGJy37RPF0sZYBzz6nXc3fP+ZHcUyvfF2/gAF7ZO9HjRWFZMDQ=
-X-Received: by 2002:aca:4814:: with SMTP id v20mr458521oia.98.1566314520769;
- Tue, 20 Aug 2019 08:22:00 -0700 (PDT)
+ bh=9/XqcEjqZQcCuL55U5xMT+H3aHbvN8Rtmrx1tXl80Ek=;
+ b=XQZ4RetSzG9WjNNOiUfvYTqwR1TaEnB+Je0g06Tn7ffiaSgAXR0cinP/wL5rVsH3KO
+ 9C5e59AxB4vK0NELl9JR6m9jd8WAF5ZbJNO1LDMQWJ5JUZxviBg09dhRNbx9vfAvLW9e
+ Lm0KriWThOt3LGMeZljgDJ0ymExxhegIUOU73CIqO/RQCUsMOK8GwGCF85H59zxX3OqH
+ UELKGvYNYqExJ+V7FfawIMIb1w5nHFBG3mfGLM3gqw6oWoYdzZxYnMBKq9BH2Fy/FFaH
+ 52SzW98nPHCKC0JdM5aaaFrGEWLMOBIB91NKgkDAr3P7+Csgy/crb4Ew3oZpZ+xX8M8p
+ bkiA==
+X-Gm-Message-State: APjAAAUMfOM1i+96oOdzuKqPH5OrzjQHnhndUtq1hEZNIAJsNdzErNTs
+ w9ZPs2yLSYUw838GOQBKA9BU5hiqJk+8s+K36L9Ypg==
+X-Google-Smtp-Source: APXvYqxc3wwSjLKgrEPqiV3CUD8/cROw4+Q9UXhZRwUEYU6Onkz7iOWKKUQG04EsQCkOg+eruKFN8BHA8TGSEyaJsL4=
+X-Received: by 2002:a9d:4817:: with SMTP id c23mr21414900otf.97.1566314654807; 
+ Tue, 20 Aug 2019 08:24:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <1564481593-776647-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <7a3c6043-7fff-7589-875a-9f81754af275@virtuozzo.com>
-In-Reply-To: <7a3c6043-7fff-7589-875a-9f81754af275@virtuozzo.com>
+References: <20190803210803.5701-1-richard.henderson@linaro.org>
+ <20190803210803.5701-3-richard.henderson@linaro.org>
+In-Reply-To: <20190803210803.5701-3-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Aug 2019 16:21:49 +0100
-Message-ID: <CAFEAcA9PCk_zpPBDBxXJPYdLvJAE=Lyy_vcytaRMjdA7bCaRLA@mail.gmail.com>
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Date: Tue, 20 Aug 2019 16:24:03 +0100
+Message-ID: <CAFEAcA9bpnMTo1Z5yi9wGz1T0knqm_TbK8YJgfyW+Xm+T8NrgA@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH] Fix: fp-test uninitialized member
- floatX::exp
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v7 2/6] linux-user: Validate mmap/mprotect
+ prot value
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,24 +73,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cota@braap.org" <cota@braap.org>,
- "jhauser@eecs.berkeley.edu" <jhauser@eecs.berkeley.edu>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Dave P Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Aug 2019 at 16:18, Andrey Shinkevich
-<andrey.shinkevich@virtuozzo.com> wrote:
+On Sat, 3 Aug 2019 at 22:08, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> PINGING...
+> The kernel will return -EINVAL for bits set in the prot argument
+> that are unknown or invalid.  Previously we were simply cropping
+> out the bits that we care about.
+>
+> Introduce validate_prot_to_pageflags to perform this check in a
+> single place between the two syscalls.  Differentiate between
+> the target and host versions of prot.  Compute the qemu internal
+> page_flags value at the same time.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Hi -- Alex asked you a question on the 13th when you last
-pinged this patch, which I don't think you've replied to
-yet (or if you did then my mail client has filed it somewhere
-unhelpful).
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
