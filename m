@@ -2,97 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1299584B
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:27:47 +0200 (CEST)
-Received: from localhost ([::1]:34096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B189589B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 09:37:09 +0200 (CEST)
+Received: from localhost ([::1]:34226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzyYU-0005nq-DM
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:27:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44737)
+	id 1hzyhY-0003d3-II
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 03:37:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47464)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1hzyLv-0005JQ-Tl
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:14:49 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hzyfQ-0001yB-R3
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:34:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hzyLu-0000Qs-Jc
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:14:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38648)
+ (envelope-from <dgibson@ozlabs.org>) id 1hzyfP-0004fT-BR
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 03:34:56 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:49377 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1hzyLr-0000M2-LN; Tue, 20 Aug 2019 03:14:43 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id ACEE43082E0F;
- Tue, 20 Aug 2019 07:14:42 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-232.ams2.redhat.com [10.36.116.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 392305C298;
- Tue, 20 Aug 2019 07:14:41 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20190819092118.18920-1-thuth@redhat.com>
- <763f15ee-a1ca-ba06-fc70-fdff9427ebf7@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- mQINBFH7eUwBEACzyOXKU+5Pcs6wNpKzrlJwzRl3VGZt95VCdb+FgoU9g11m7FWcOafrVRwU
- yYkTm9+7zBUc0sW5AuPGR/dp3pSLX/yFWsA/UB4nJsHqgDvDU7BImSeiTrnpMOTXb7Arw2a2
- 4CflIyFqjCpfDM4MuTmzTjXq4Uov1giGE9X6viNo1pxyEpd7PanlKNnf4PqEQp06X4IgUacW
- tSGj6Gcns1bCuHV8OPWLkf4hkRnu8hdL6i60Yxz4E6TqlrpxsfYwLXgEeswPHOA6Mn4Cso9O
- 0lewVYfFfsmokfAVMKWzOl1Sr0KGI5T9CpmRfAiSHpthhHWnECcJFwl72NTi6kUcUzG4se81
- O6n9d/kTj7pzTmBdfwuOZ0YUSqcqs0W+l1NcASSYZQaDoD3/SLk+nqVeCBB4OnYOGhgmIHNW
- 0CwMRO/GK+20alxzk//V9GmIM2ACElbfF8+Uug3pqiHkVnKqM7W9/S1NH2qmxB6zMiJUHlTH
- gnVeZX0dgH27mzstcF786uPcdEqS0KJuxh2kk5IvUSL3Qn3ZgmgdxBMyCPciD/1cb7/Ahazr
- 3ThHQXSHXkH/aDXdfLsKVuwDzHLVSkdSnZdt5HHh75/NFHxwaTlydgfHmFFwodK8y/TjyiGZ
- zg2Kje38xnz8zKn9iesFBCcONXS7txENTzX0z80WKBhK+XSFJwARAQABtB5UaG9tYXMgSHV0
- aCA8dGh1dGhAcmVkaGF0LmNvbT6JAjgEEwECACIFAlVgX6oCGwMGCwkIBwMCBhUIAgkKCwQW
- AgMBAh4BAheAAAoJEC7Z13T+cC21EbIP/ii9cvT2HHGbFRl8HqGT6+7Wkb+XLMqJBMAIGiQK
- QIP3xk1HPTsLfVG0ao4hy/oYkGNOP8+ubLnZen6Yq3zAFiMhQ44lvgigDYJo3Ve59gfe99KX
- EbtB+X95ODARkq0McR6OAsPNJ7gpEUzfkQUUJTXRDQXfG/FX303Gvk+YU0spm2tsIKPl6AmV
- 1CegDljzjycyfJbk418MQmMu2T82kjrkEofUO2a24ed3VGC0/Uz//XCR2ZTo+vBoBUQl41BD
- eFFtoCSrzo3yPFS+w5fkH9NT8ChdpSlbNS32NhYQhJtr9zjWyFRf0Zk+T/1P7ECn6gTEkp5k
- ofFIA4MFBc/fXbaDRtBmPB0N9pqTFApIUI4vuFPPO0JDrII9dLwZ6lO9EKiwuVlvr1wwzsgq
- zJTPBU3qHaUO4d/8G+gD7AL/6T4zi8Jo/GmjBsnYaTzbm94lf0CjXjsOX3seMhaE6WAZOQQG
- tZHAO1kAPWpaxne+wtgMKthyPLNwelLf+xzGvrIKvLX6QuLoWMnWldu22z2ICVnLQChlR9d6
- WW8QFEpo/FK7omuS8KvvopFcOOdlbFMM8Y/8vBgVMSsK6fsYUhruny/PahprPbYGiNIhKqz7
- UvgyZVl4pBFjTaz/SbimTk210vIlkDyy1WuS8Zsn0htv4+jQPgo9rqFE4mipJjy/iboDuQIN
- BFH7eUwBEAC2nzfUeeI8dv0C4qrfCPze6NkryUflEut9WwHhfXCLjtvCjnoGqFelH/PE9NF4
- 4VPSCdvD1SSmFVzu6T9qWdcwMSaC+e7G/z0/AhBfqTeosAF5XvKQlAb9ZPkdDr7YN0a1XDfa
- +NgA+JZB4ROyBZFFAwNHT+HCnyzy0v9Sh3BgJJwfpXHH2l3LfncvV8rgFv0bvdr70U+On2XH
- 5bApOyW1WpIG5KPJlDdzcQTyptOJ1dnEHfwnABEfzI3dNf63rlxsGouX/NFRRRNqkdClQR3K
- gCwciaXfZ7ir7fF0u1N2UuLsWA8Ei1JrNypk+MRxhbvdQC4tyZCZ8mVDk+QOK6pyK2f4rMf/
- WmqxNTtAVmNuZIwnJdjRMMSs4W4w6N/bRvpqtykSqx7VXcgqtv6eqoDZrNuhGbekQA0sAnCJ
- VPArerAZGArm63o39me/bRUQeQVSxEBmg66yshF9HkcUPGVeC4B0TPwz+HFcVhheo6hoJjLq
- knFOPLRj+0h+ZL+D0GenyqD3CyuyeTT5dGcNU9qT74bdSr20k/CklvI7S9yoQje8BeQAHtdV
- cvO8XCLrpGuw9SgOS7OP5oI26a0548M4KldAY+kqX6XVphEw3/6U1KTf7WxW5zYLTtadjISB
- X9xsRWSU+Yqs3C7oN5TIPSoj9tXMoxZkCIHWvnqGwZ7JhwARAQABiQIfBBgBAgAJBQJR+3lM
- AhsMAAoJEC7Z13T+cC21hPAQAIsBL9MdGpdEpvXs9CYrBkd6tS9mbaSWj6XBDfA1AEdQkBOn
- ZH1Qt7HJesk+qNSnLv6+jP4VwqK5AFMrKJ6IjE7jqgzGxtcZnvSjeDGPF1h2CKZQPpTw890k
- fy18AvgFHkVk2Oylyexw3aOBsXg6ukN44vIFqPoc+YSU0+0QIdYJp/XFsgWxnFIMYwDpxSHS
- 5fdDxUjsk3UBHZx+IhFjs2siVZi5wnHIqM7eK9abr2cK2weInTBwXwqVWjsXZ4tq5+jQrwDK
- cvxIcwXdUTLGxc4/Z/VRH1PZSvfQxdxMGmNTGaXVNfdFZjm4fz0mz+OUi6AHC4CZpwnsliGV
- ODqwX8Y1zic9viSTbKS01ZNp175POyWViUk9qisPZB7ypfSIVSEULrL347qY/hm9ahhqmn17
- Ng255syASv3ehvX7iwWDfzXbA0/TVaqwa1YIkec+/8miicV0zMP9siRcYQkyTqSzaTFBBmqD
- oiT+z+/E59qj/EKfyce3sbC9XLjXv3mHMrq1tKX4G7IJGnS989E/fg6crv6NHae9Ckm7+lSs
- IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
- yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
-Organization: Red Hat
-Message-ID: <b4b99c07-6a56-108f-06b7-cfd77d2004ef@redhat.com>
-Date: Tue, 20 Aug 2019 09:14:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hzyfN-0004Zj-E2; Tue, 20 Aug 2019 03:34:54 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46CMxw6WCkz9s3Z; Tue, 20 Aug 2019 17:34:44 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1566286484;
+ bh=7//Bv474f8ItXvZa0vOPz62j1Gmsug5L9GUddrhwoIk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HzePCN2Pm+UvFWhrtxeC5vTdyXL0qNPbc+0tL3Wv6NKcsEcPgMuoEz7cXaLP0HewW
+ nzOdSikWstualuGu3ziAawDo2yPLdhqGCDfdPXZJj22rui+4tmwMO1Nc8ktu2pKRd+
+ 5mC1HZTUfDJmScgL3l4VbiLeb7yA8jKA6qX8NW6U=
+Date: Tue, 20 Aug 2019 17:31:14 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Paul Clarke <pc@us.ibm.com>
+Message-ID: <20190820073114.GC20890@umbus>
+References: <1565983669-6886-1-git-send-email-pc@us.ibm.com>
+ <CAL1e-=jy6vggskJ26rTc8dnaqtqCB0SdfpV9p-NvKdjoBk+Vkw@mail.gmail.com>
+ <0cfddc22-92ef-3067-9275-8f4f22ca9805@linaro.org>
+ <CAL1e-=h=Hzfm8KZ4ebwaBsS6U=KVcReXpOPT2-vy4OeBktjWkQ@mail.gmail.com>
+ <20190819062817.GA24503@umbus.fritz.box>
+ <CAL1e-=j0w=OasHidP4W4ND-R3p6Ui7MS0iaj7Wk+c1tVyR09+A@mail.gmail.com>
+ <1b486ed4-512f-e5b3-bcd7-9385b689b1cb@us.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <763f15ee-a1ca-ba06-fc70-fdff9427ebf7@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="eNAZZruwT9ocnLV1vvlN5ngasWiXLTDQI"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Tue, 20 Aug 2019 07:14:42 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] iotests: Add more "skip_if_unsupported"
- statements to the python tests
+ protocol="application/pgp-signature"; boundary="jCrbxBqMcLqd4mOl"
+Content-Disposition: inline
+In-Reply-To: <1b486ed4-512f-e5b3-bcd7-9385b689b1cb@us.ibm.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH] ppc: Three floating point fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,109 +61,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---eNAZZruwT9ocnLV1vvlN5ngasWiXLTDQI
-Content-Type: multipart/mixed; boundary="ouCLcmIZHJAgyWHKxSwACgLxErsCpiF1d";
- protected-headers="v1"
-From: Thomas Huth <thuth@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <b4b99c07-6a56-108f-06b7-cfd77d2004ef@redhat.com>
-Subject: Re: [PATCH] iotests: Add more "skip_if_unsupported" statements to the
- python tests
-References: <20190819092118.18920-1-thuth@redhat.com>
- <763f15ee-a1ca-ba06-fc70-fdff9427ebf7@redhat.com>
-In-Reply-To: <763f15ee-a1ca-ba06-fc70-fdff9427ebf7@redhat.com>
 
---ouCLcmIZHJAgyWHKxSwACgLxErsCpiF1d
+--jCrbxBqMcLqd4mOl
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 8/19/19 9:13 PM, Max Reitz wrote:
-> On 19.08.19 11:21, Thomas Huth wrote:
->> The python code already contains a possibility to skip tests if the
->> corresponding driver is not available in the qemu binary - use it
->> in more spots to avoid that the tests are failing if the driver has
->> been disabled.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  tests/qemu-iotests/030 |  3 +++
->>  tests/qemu-iotests/040 |  2 ++
->>  tests/qemu-iotests/041 | 14 +++++++++++++-
->>  tests/qemu-iotests/245 |  2 ++
->>  4 files changed, 20 insertions(+), 1 deletion(-)
+On Mon, Aug 19, 2019 at 12:13:34PM -0500, Paul Clarke wrote:
+> On 8/19/19 1:44 AM, Aleksandar Markovic wrote:
+> > 19.08.2019. 08.30, "David Gibson" <david@gibson.dropbear.id.au> =D1=98=
+=D0=B5
+> > =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> >>
+> >> On Sun, Aug 18, 2019 at 10:59:01PM +0200, Aleksandar Markovic wrote:
+> >>> 18.08.2019. 10.10, "Richard Henderson" <richard.henderson@linaro.org>=
+ =D1=98=D0=B5
+> >>> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> >>>>
+> >>>> On 8/16/19 11:59 PM, Aleksandar Markovic wrote:
+> >>>>>> From: "Paul A. Clarke" <pc@us.ibm.com>
+> >>>> ...
+> >>>>>>   ISA 3.0B has xscvdpspn leaving its result in word 1 of the target
+> >>>>> register,
+> >>>>>>   and mffprwz expecting its input to come from word 0 of the source
+> >>>>> register.
+> >>>>>>   This sequence fails with QEMU, as a shift is required between
+> > those
+> >>> two
+> >>>>>>   instructions.  However, the hardware splats the result to both
+> > word 0
+> >>>>> and
+> >>>>>>   word 1 of its output register, so the shift is not necessary.
+> >>>>>>   Expect a future revision of the ISA to specify this behavior.
+> >>>>>>
+> >>>>>
+> >>>>> Hmmm... Isn't this a gcc bug (using undocumented hardware feature),
+> >>> given
+> >>>>> everything you said here?
+> >>>>
+> >>>> The key here is "expect a future revision of the ISA to specify this
+> >>> behavior".
+> >>>>
+> >>>> It's clearly within IBM's purview to adjust the specification to
+> > document
+> >>> a
+> >>>> previously undocumented hardware feature.
+> >>>>
+> >>>
+> >>> By no means, yes, the key is in ISA documentation. But, the impression
+> > that
+> >>> full original commit message conveys is that the main reason for chan=
+ge
+> > is
+> >>> gcc behavior. If we accepted in general that gcc behavior determines
+> > QEMU
+> >>> behavior, I am afraid we would be on a very slippery slope - therefor=
+e I
+> >>> think the commit message (and possible code comment) should, in my
+> > opinion,
+> >>> mention ISA docs as the central reason for change. Paul, is there any
+> >>> tentative release date of the new ISA specification?
+> >>
+> >> It's not really a question of gcc behaviour, it's a question of actual
+> >> cpu behaviour versus ISA document.  Which one qemu should follow is
+> >> somewhat debatable, but it sounds here like the ISA will be updated to
+> >> match the cpu, which weights it heavily in favour of mimicing the
+> >> actual cpu.
+> >>
+> >=20
+> > This sounds right to me.
 >=20
-> [...]
+> Thanks for the reviews and great discussion.
 >=20
->> diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
->> index 26bf1701eb..f45d20fbe0 100755
->> --- a/tests/qemu-iotests/041
->> +++ b/tests/qemu-iotests/041
->> @@ -817,6 +817,7 @@ class TestRepairQuorum(iotests.QMPTestCase):
->>      image_len =3D 1 * 1024 * 1024 # MB
->>      IMAGES =3D [ quorum_img1, quorum_img2, quorum_img3 ]
->> =20
->> +    @iotests.skip_if_unsupported(['quorum'])
->>      def setUp(self):
->>          self.vm =3D iotests.VM()
+> While not yet part of a published version of the ISA, I did find the beha=
+vior documented in the User's Manuals for the POWER8 and POWER9 processors:
 >=20
-> It=E2=80=99s clear that none of these tests can run if there is no quor=
-um
-> support, because setUp() creates a quorum node.  I think it would be
-> nice if it would suffice to just skip everything automatically if
-> setUp() is skipped and not have to bother about each of the test cases.=
-
+> https://www-355.ibm.com/systems/power/openpower/
+> "Public Documents"
+> - "POWER9 Processor User's Manual"
+> - "POWER8 Processor User's Manual for the SCM"
 >=20
-> Coincidentally (:-)), I have a patch to do that, namely =E2=80=9Ciotest=
-s: Allow
-> skipping test cases=E2=80=9D in my =E2=80=9Ciotests: Selfish patches=E2=
-=80=9D series:
+> POWER9 Processor User's Manual=20
+> 4. Power Architecture Compliance
+> 4.3 Floating-Point Processor (FP, VMX, and VSX)
+> 4.3.7 Floating-Point Invalid Forms and Undefined Conditions
 >=20
-> https://lists.nongnu.org/archive/html/qemu-block/2019-06/msg01106.html
+> POWER8 Processor User's Manual for the Single-Chip Module
+> 3. Power Architecture Compliance
+> 3.2 Floating-Point Processor (FP, VMX, and VSX)
+> 3.2.9 Floating-Point Invalid Forms and Undefined Conditions
 >=20
-> Yes, that means you cannot use an annotation because it needs @self to
-> be able to skip the test.  Hm... But I think I can make that work by
-> simply s/case_notrun/args[0].case_skip/ in skip_if_unsupported()?
+> In a bullet:
+> - VSX scalar convert from double-precision to single-precision (xscvdpsp,=
+ xscvdpspn).
+> VSR[32:63] is set to VSR[0:31].
+>=20
+> I have not confirmed when the new revision of the ISA will be published, =
+but it's on somebody's "to do" list.
+>=20
+> I will respin the patch as 3 independent patches, and include a reference=
+ to the above documents for the change under discussion here.  (The other t=
+wo changes may take a bit more time, because like David, I find the FPU emu=
+lation code cryptic.  :-/  )
+>=20
+> These issues were found while running Glibc's test suite for "math",
+> and there are still a *LOT* of QEMU-only FAILs, so I may be back
+> again with suggested fixes or questions.  :-)
 
-Sure, feel free to ignore my patch here or to modify it according to
-your reworks. As long as we finally get the iotests into a shape where
-they are a little bit more flexible wrt the enabled/disabled drivers,
-I'm happy.
+That doesn't greatly surprise me, TCG's ppc target stuff is only so-so
+tested, TBH.
 
- Thomas
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-
---ouCLcmIZHJAgyWHKxSwACgLxErsCpiF1d--
-
---eNAZZruwT9ocnLV1vvlN5ngasWiXLTDQI
+--jCrbxBqMcLqd4mOl
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJ7iIR+7gJQEY8+q5LtnXdP5wLbUFAl1bneAACgkQLtnXdP5w
-LbU8oRAAljEjmwht3FiQTouKA26fuPsddGuYDw5p6qUSEftxZmX8eGzllYVXRCii
-9W1xkli1qC3ABMUhwCUrYhbpv2kAOuUKIVTXvf1gaF6i5Zp31u3xNhHWiyt9oEwj
-8rIddX0RM9SDy4CGxShswHGyZ1b3dxQEiS7UXhM+/u4Kka80Q7jbK8Z/zXSD+FSR
-5u0ex35WyBvhO8do3p3dEsieuK9xhEjBwVneRebaTV4a9Xea1URlJ/EWMfn7Z8D6
-zKBXChX9ZBEfyOiSPAVTRtSwEKxv9CJsAmiZjlQCxEYrUsR5befUVC1iMUt3HvVh
-xZHZ/meCoyzUPmg2nO1bpVtJNr78hfkkvfx0TKozhKxhXqLHibb3HjN39cge3Zs3
-su08JWNDJxaXpNJfl7dJbAXVenLbC/FvYJrbpX2RiZ03B2ICDa/kzh9Yb6m6G3wx
-fynQyF3gNQ4ZUK0qh0YRGo2MXEV9+dLzKxuczgtAKhuJYXGNi7dnPxlpvqpVdrmM
-L34hHPNG7prt1qRJB4Z4ajWBU8W5we4O1BNqZ9qU2D8fZRU11+DDfiS2tRFPRNMs
-6fHrWIVFC83Kuxs4bkJ5m1tRmYVpWLcN/GTkdCqBUF5eNck3KH3AN9B9UPXwhWdV
-ucKqHsuVAyqvLhuqXr6I7i6E72EWnuKCq6mLrAPzXX4xSYlOVGo=
-=dIvb
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1bocIACgkQbDjKyiDZ
+s5LRhA//QGTcawA+M2x3owFz0c3fpOBFpe/unIG7yGxX3XkCdkGWqxAKaAuPZP22
+1mA67aHgUqfxzslLIe6ywLYwwvwa9XO+0MPTbmBQ3uS23SXcc30r0rCS2Ple1jwj
+/0Pz5TLqcqIzznODaFHrXi2ariSLz41DCVZcC1JkUeBtshjDmVn70sVW3KvrKTZt
+L94q/Hv3j9bDLdlGhPChiixjHC4/jgI8dHcRBbOfCrvLdcN5H5Fz89tXwAhHQt1q
+71V1+exglXaGBjM3Jw5OaifcwG+UNKCUe7uDNeCKvPXfIo7canPzh3rDIrP26r4x
+Ucd0QvTCCGFXkDEYU5dPbZ54dM6ZRVTnQPRrP/7i3y7g+Ir7lPiTxCZz8wf4Pe5V
+MEoJvjP2V+/SFbEld/FG5QyJfCdQ3CfXouhFJfCX9kUB9i3r8fnTYvH9GaV+Xyy5
+VaNknYJLbe2x92+iWhrHG727xB9+j2ThIZTBmQQDE/trfD+wLF28ZidfdGHnSwZX
+sZnWk/gPgfiTvcEVoO3Znj5whIVwq2r+4HE+syI0EyCOCzWnhQCIxWkjQZGBixWi
+pbE+d9l/vUIoLDsy6Vyin1ih/Rp/vgeLucSY43N9x0gTUn+aDefXZBtUB+YG1KLe
++vQ3ZAQWCnKL5nHjSj6Zx5UUuvzZWEGWv4x09KZwxQKPKeWsPDc=
+=MBBv
 -----END PGP SIGNATURE-----
 
---eNAZZruwT9ocnLV1vvlN5ngasWiXLTDQI--
+--jCrbxBqMcLqd4mOl--
 
