@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE6E96897
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 20:29:00 +0200 (CEST)
-Received: from localhost ([::1]:40370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9084968A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 20:34:20 +0200 (CEST)
+Received: from localhost ([::1]:40422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i08sN-0006Vw-7r
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 14:28:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60033)
+	id 1i08xX-0001Oo-QJ
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 14:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60582)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i08rR-0005ee-1e
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 14:28:02 -0400
+ (envelope-from <alistair23@gmail.com>) id 1i08uK-0007y3-RB
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 14:31:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i08rP-0000i7-49
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 14:28:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49994)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i08rL-0000ca-CE; Tue, 20 Aug 2019 14:27:55 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9B2E4C0035C2;
- Tue, 20 Aug 2019 18:27:54 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A73A5C21F;
- Tue, 20 Aug 2019 18:27:49 +0000 (UTC)
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20190814202219.1870-1-mlevitsk@redhat.com>
- <20190814202219.1870-8-mlevitsk@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <12c342c8-6ac8-3533-7a7b-e61826e9abb0@redhat.com>
-Date: Tue, 20 Aug 2019 20:27:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <alistair23@gmail.com>) id 1i08uJ-0002rz-JZ
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 14:31:00 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:43083)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1i08uJ-0002qe-Bx; Tue, 20 Aug 2019 14:30:59 -0400
+Received: by mail-lf1-x142.google.com with SMTP id c19so4875738lfm.10;
+ Tue, 20 Aug 2019 11:30:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gwOr14KGaGz9a1KxZ5kvmL2cBh45zg0ovh8E45LSHcA=;
+ b=sM3Az+iz/8aEM8yxHRFVU8pGlqRRu1UlpswT0DedcfIa7GNFX+d03/DwndDpddqVqa
+ DXXVY0KebJ5o+Vr/gl0lFNCKx4yeAqNMPRTTE4JOEYMRMSxdvQ/7+SYyNhzWoa5Ka2ly
+ hL+CfO4nFqAn1/3NhZbgoNLgWwfGoH7Kw3HI3R6IwyTA/01ka3DlFMZ6vwzttdbUconw
+ 9VLBPseE2MtnEl+ED40ByZdt1mtkydYzIc2N7SCiYmokvONpqviYEC8Chi8EBIB/mReT
+ RnRxdjTFXTwxLQoMrfyhyAXe49AbthTmzKpS+vuvfnCvpR7n8oRkzUcFtJq0JGVusPfO
+ lK/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gwOr14KGaGz9a1KxZ5kvmL2cBh45zg0ovh8E45LSHcA=;
+ b=YnSQ6UlDre3sZNYSwpbUdhy+F4GDtJwAJXCdKugBdz8Lpcz9DHHxpi2mksM69uC+7y
+ FeDBkbKSgat8jk310taWfFZ+3eM0i5qVgY/YMjC9m48t6nm3KEyFus3OW0ZXbJ/mPGBx
+ hWpiRVTGXBvTSr4QIcZ8fjfcU0P3Vs9FurALzkCteZy56TYExKMv+4RfURd2eS0AJM6d
+ 0NzCzCmClvIeEqLeyTs4NHnaQEyb7sjxyujQX+BPXmweMzUlKT1Lypc3GdcKXeKHLWQ+
+ AO7Pv6orsNNNk1Pkjveu+KdRLb4pCeXNdU/7ok1b6jxTTWKTnbLSbux+n31CVJBB2LCi
+ W7VQ==
+X-Gm-Message-State: APjAAAU2yTkVPrE1aoMqePGnRsvwcBOW8m7F5hZws3d19e+FfzvCGfig
+ V3gUcX9iiSA+ZoDunax1Wf1SbwsKIiHV/T+ixuU=
+X-Google-Smtp-Source: APXvYqzDNS0eNhrUsQdLXRIDOu2uVOVCW2u7uKOTWB5YiyG3LK+n6FQxCmrSzkMMQdCBhazrcmj9+Rnb3jtRPSJ8004=
+X-Received: by 2002:a19:ed11:: with SMTP id y17mr16106170lfy.141.1566325857684; 
+ Tue, 20 Aug 2019 11:30:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190814202219.1870-8-mlevitsk@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="i5WvR3RGj9lgmr8JbsnYohiizEkgJ2HQ4"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 20 Aug 2019 18:27:54 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 07/13] block: add manage-encryption command
- (qmp and blockdev)
+References: <1566191521-7820-1-git-send-email-bmeng.cn@gmail.com>
+ <1566191521-7820-21-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1566191521-7820-21-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 20 Aug 2019 11:26:55 -0700
+Message-ID: <CAKmqyKPu8=VB5AnbC3nqbc889T5oYZOwsdymkk=yjTz_jjsqYA@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::142
+Subject: Re: [Qemu-devel] [PATCH v4 20/28] riscv: sifive_u: Reference PRCI
+ clocks in UART and ethernet nodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,224 +72,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---i5WvR3RGj9lgmr8JbsnYohiizEkgJ2HQ4
-Content-Type: multipart/mixed; boundary="Exr5HmmcXqvgTfBzF7WNuN2lCmGE13reg";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>
-Message-ID: <12c342c8-6ac8-3533-7a7b-e61826e9abb0@redhat.com>
-Subject: Re: [PATCH 07/13] block: add manage-encryption command (qmp and
- blockdev)
-References: <20190814202219.1870-1-mlevitsk@redhat.com>
- <20190814202219.1870-8-mlevitsk@redhat.com>
-In-Reply-To: <20190814202219.1870-8-mlevitsk@redhat.com>
+On Sun, Aug 18, 2019 at 10:24 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Now that we have added a PRCI node, update existing UART and ethernet
+> nodes to reference PRCI as their clock sources, to keep in sync with
+> the Linux kernel device tree.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
---Exr5HmmcXqvgTfBzF7WNuN2lCmGE13reg
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On 14.08.19 22:22, Maxim Levitsky wrote:
-> This adds:
->=20
-> * x-blockdev-update-encryption and x-blockdev-erase-encryption qmp comm=
-ands
->   Both commands take the QCryptoKeyManageOptions
->   the x-blockdev-update-encryption is meant for non destructive additio=
-n
->   of key slots / whatever the encryption driver supports in the future
->=20
->   x-blockdev-erase-encryption is meant for destructive encryption key e=
-rase,
->   in some cases even without way to recover the data.
->=20
->=20
-> * bdrv_setup_encryption callback in the block driver
->   This callback does both the above functions with 'action' parameter
->=20
-> * QCryptoKeyManageOptions with set of options that drivers can use for =
-encryption managment
->   Currently it has all the options that LUKS needs, and later it can be=
- extended
->   (via union) to support more encryption drivers if needed
->=20
-> * blk_setup_encryption / bdrv_setup_encryption - the usual block layer =
-wrappers.
->   Note that bdrv_setup_encryption takes BlockDriverState and not BdrvCh=
-ild,
->   for the ease of use from the qmp code. It is not expected that this f=
-unction
->   will be used by anything but qmp and qemu-img code
->=20
->=20
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Alistair
+
 > ---
->  block/block-backend.c          |  9 ++++++++
->  block/io.c                     | 24 ++++++++++++++++++++
->  blockdev.c                     | 40 ++++++++++++++++++++++++++++++++++=
-
->  include/block/block.h          | 12 ++++++++++
->  include/block/block_int.h      | 11 ++++++++++
->  include/sysemu/block-backend.h |  7 ++++++
->  qapi/block-core.json           | 36 ++++++++++++++++++++++++++++++
->  qapi/crypto.json               | 26 ++++++++++++++++++++++
->  8 files changed, 165 insertions(+)
-
-Now I don=E2=80=99t know whether you want to keep this interface at all, =
-because
-the cover letter seemed to imply you=E2=80=99d prefer a QMP amend.  But l=
-et it
-be said that a QMP amend is no trivial task.  I think the most difficult
-bit is that the qcow2 implementation currently is inherently an offline
-operation.  It isn=E2=80=99t a good idea to use it on a live image.  (May=
-be it
-works, but it=E2=80=99s definitely not what I had in mind when I wrote it=
-=2E)
-
-So I=E2=80=99ll still take a quick glance at the interface here.
-
-[...]
-
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 0d43d4f37c..53ed411eed 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -5327,3 +5327,39 @@
->    'data' : { 'node-name': 'str',
->               'iothread': 'StrOrNull',
->               '*force': 'bool' } }
+>
+> Changes in v4: None
+> Changes in v3: None
+> Changes in v2: None
+>
+>  hw/riscv/sifive_u.c              |  7 ++++---
+>  include/hw/riscv/sifive_u_prci.h | 10 ++++++++++
+>  2 files changed, 14 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index bd5551c..8818fd6 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -80,7 +80,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      int cpu;
+>      uint32_t *cells;
+>      char *nodename;
+> -    char ethclk_names[] = "pclk\0hclk\0tx_clk";
+> +    char ethclk_names[] = "pclk\0hclk";
+>      uint32_t plic_phandle, prci_phandle, ethclk_phandle, phandle = 1;
+>      uint32_t uartclk_phandle;
+>      uint32_t hfclk_phandle, rtcclk_phandle;
+> @@ -265,7 +265,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
+>      qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_GEM_IRQ);
+>      qemu_fdt_setprop_cells(fdt, nodename, "clocks",
+> -        ethclk_phandle, ethclk_phandle, ethclk_phandle);
+> +        prci_phandle, PRCI_CLK_GEMGXLPLL, prci_phandle, PRCI_CLK_GEMGXLPLL);
+>      qemu_fdt_setprop(fdt, nodename, "clock-names", ethclk_names,
+>          sizeof(ethclk_names));
+>      qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
+> @@ -295,7 +295,8 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+>      qemu_fdt_setprop_cells(fdt, nodename, "reg",
+>          0x0, memmap[SIFIVE_U_UART0].base,
+>          0x0, memmap[SIFIVE_U_UART0].size);
+> -    qemu_fdt_setprop_cell(fdt, nodename, "clocks", uartclk_phandle);
+> +    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
+> +        prci_phandle, PRCI_CLK_TLCLK);
+>      qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
+>      qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_UART0_IRQ);
+>
+> diff --git a/include/hw/riscv/sifive_u_prci.h b/include/hw/riscv/sifive_u_prci.h
+> index 66eacb5..cdf1d33 100644
+> --- a/include/hw/riscv/sifive_u_prci.h
+> +++ b/include/hw/riscv/sifive_u_prci.h
+> @@ -87,4 +87,14 @@ typedef struct SiFiveUPRCIState {
+>
+>  DeviceState *sifive_u_prci_create(hwaddr addr);
+>
+> +/*
+> + * Clock indexes for use by Device Tree data and the PRCI driver.
+> + *
+> + * These values are from sifive-fu540-prci.h in the Linux kernel.
+> + */
+> +#define PRCI_CLK_COREPLL        0
+> +#define PRCI_CLK_DDRPLL         1
+> +#define PRCI_CLK_GEMGXLPLL      2
+> +#define PRCI_CLK_TLCLK          3
 > +
-> +
-> +##
-> +# @x-blockdev-update-encryption:
-> +#
-> +# Update the encryption keys for an encrypted block device
-> +#
-> +# @node-name: 	  Name of the blockdev to operate on
-> +# @force:         Disable safety checks (use with care)
-> +# @options:       Driver specific options
-> +#
-> +
-> +# Since: 4.2
-> +##
-> +{ 'command': 'x-blockdev-update-encryption',
-> +  'data': { 'node-name' : 'str',
-> +            '*force' : 'bool',
-> +            'options': 'QCryptoEncryptionSetupOptions' } }
-> +
-> +##
-> +# @x-blockdev-erase-encryption:
-> +#
-> +# Erase the encryption keys for an encrypted block device
-> +#
-> +# @node-name: 	  Name of the blockdev to operate on
-
-Why the tab?
-
-> +# @force:         Disable safety checks (use with care)
-
-I think being a bit more verbose wouldn=E2=80=99t hurt.
-
-(Same above.)
-
-> +# @options:       Driver specific options
-> +#
-> +# Returns: @QCryptoKeyManageResult
-> +#
-> +# Since: 4.2
-> +##
-> +{ 'command': 'x-blockdev-erase-encryption',
-> +  'data': { 'node-name' : 'str',
-> +            '*force' : 'bool',
-> +            'options': 'QCryptoEncryptionSetupOptions' } }
-> diff --git a/qapi/crypto.json b/qapi/crypto.json
-> index b2a4cff683..69e8b086db 100644
-> --- a/qapi/crypto.json
-> +++ b/qapi/crypto.json
-> @@ -309,3 +309,29 @@
->    'base': 'QCryptoBlockInfoBase',
->    'discriminator': 'format',
->    'data': { 'luks': 'QCryptoBlockInfoLUKS' } }
-> +
-> +
-> +##
-> +# @QCryptoEncryptionSetupOptions:
-> +#
-> +# Driver specific options for encryption key management.
-
-The options do seem LUKS-specific, but the name of this structure does no=
-t.
-
-> +# @key-secret: the ID of a QCryptoSecret object providing the password=
-
-> +#              to add or to erase (optional for erase)
-> +#
-> +# @old-key-secret: the ID of a QCryptoSecret object providing the pass=
-word
-> +#                  that can currently unlock the image
-> +#
-> +# @slot: Key slot to update/erase
-> +#        (optional, for update will select a free slot,
-> +#        for erase will erase all slots that match the password)
-> +#
-> +# @iter-time: number of milliseconds to spend in
-> +#             PBKDF passphrase processing. Currently defaults to 2000
-> +# Since: 4.2
-> +##
-
-Does it really make sense to use the same structure for erasing and
-updating?  I think there are ways to represent @key-secret vs. @slot
-being alternatives to each other for erase; @iter-time doesn=E2=80=99t se=
-em to
-make sense for erase; and @slot doesn=E2=80=99t seem to make sense for up=
-date.
-Also, I don=E2=80=99t know whether to use @key-secret or @old-key-secret =
-for erase.
-
-All in all, it seems more sensible to me to have separate structs for
-updating and erasing.
-
-Max
-
-> +{ 'struct': 'QCryptoEncryptionSetupOptions',
-> +  'data': { '*key-secret': 'str',
-> +            '*old-key-secret': 'str',
-> +            '*slot': 'int',
-> +            '*iter-time': 'int' } }
->=20
-
-
-
---Exr5HmmcXqvgTfBzF7WNuN2lCmGE13reg--
-
---i5WvR3RGj9lgmr8JbsnYohiizEkgJ2HQ4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1cO6QACgkQ9AfbAGHV
-z0C/bQgAtOzxiyDF4S8+HXySdADAhf7OdBxeC/GKg9UwY05Sj7yasDDkqG2YOevr
-mKBxYTnhxMEZLiftIMDswYLNY+5T3DGAh1nTnBQ1wpk3Ilch00kVTQBQvmeRMGyc
-OoW/ULjrS7gjtlrmS/HkZD8lco3zeRYGCGLedz93nxDfewONXOz1P1SfTi29a25K
-uy45I3qvSxohvQt8DgG1wnJmvgmh3mzycxyNJ0TBrsFwLdZzAUPxyW4kphOVy+hc
-+aXVNAVmT0x3Q4wmcRqiBgQ62TD6ZjtvwRhofUzT1+TC069osvc/C4M3lD1zKw8S
-9eqKaJN4/ztef6Uam6VRDCPdpGT4xw==
-=YzBj
------END PGP SIGNATURE-----
-
---i5WvR3RGj9lgmr8JbsnYohiizEkgJ2HQ4--
+>  #endif /* HW_SIFIVE_U_PRCI_H */
+> --
+> 2.7.4
+>
+>
 
