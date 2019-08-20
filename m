@@ -2,49 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6324F965ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 18:09:37 +0200 (CEST)
-Received: from localhost ([::1]:39302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86354965EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 18:09:13 +0200 (CEST)
+Received: from localhost ([::1]:39297 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i06hU-0004Hy-GR
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 12:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42197)
+	id 1i06h6-0003Pb-GP
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 12:09:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lvivier@redhat.com>) id 1i06eX-0000dl-FU
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:06:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i06fT-0001mG-8j
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:07:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1i06eW-0002f4-38
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:06:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46776)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1i06eV-0002eg-UL
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:06:32 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4D4683084212;
- Tue, 20 Aug 2019 16:06:31 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-117-179.ams2.redhat.com
- [10.36.117.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C81AD84952;
- Tue, 20 Aug 2019 16:06:27 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 18:06:15 +0200
-Message-Id: <20190820160615.14616-4-lvivier@redhat.com>
-In-Reply-To: <20190820160615.14616-1-lvivier@redhat.com>
-References: <20190820160615.14616-1-lvivier@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1i06fR-0003Gj-Tp
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:07:30 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42266)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i06fR-0003G4-NW
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:07:29 -0400
+Received: by mail-ot1-x344.google.com with SMTP id j7so5521355ota.9
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 09:07:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v12VnDYdjo5ioJ04KkdklVuOuXeScNdl+4v4TtfkkmU=;
+ b=gxOBVL/j1EWjQT3xMmwpzMiD/XMYrj0PlFB9dLZvP1qFEZlN/RBdbomkyqSVsCsTM3
+ A0ebdbvX50BxjqH1udMGmKNqjgjQ5uaBIwVGkho/JnvLvP1aSZJqunZr08tqQhuFqsnN
+ AdYeZx5rLaAW20VRpm7zdBinGHes675l+TamnLbvhdrDS8TiyfEwib9jSN+phsXC/xYg
+ oG9kTstyHa0751jvqWIYfymsIZ50R4AsO/t5H8YhfOc5oSkckTQWmXGHZI9uSIXN6ZDN
+ YYdaoIN718qwxBRch/omV3SvMVVOaDDcZ9SkPHIj1g5insmL//cMwd5QOColQczglDab
+ XPzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v12VnDYdjo5ioJ04KkdklVuOuXeScNdl+4v4TtfkkmU=;
+ b=gsaMNIk+lQKPLuZFm214kDzy4OTfYhaHFLh3zz2HUGhpciJZwksrfAHwzOR5erraz2
+ iVGZ41DSnMIY/t3Yt2jzyzUjQ2eDDlkKF2e0KEfy1RUVziEX9RmIY5An1QL/RqgL3MeE
+ kcHbli7HIZv8LsOVFkUla4Azjm//QhW7UXOkk4zF9RSJjdewvN0sukTm/3AuYXhUXmOb
+ oKykO+AN9MnzFbs5evqBYjgkbYg4iae1RCiqG6CRtcGiITiPmVwaNKoMXldPMq5TFLQO
+ IR8L0rCK7YaIjRg4uAuZCnT+Ej/F8m/mpKT3HOZHn5zGgfJZ4FMM/CDZ2q61hsE/d2lS
+ j8Zw==
+X-Gm-Message-State: APjAAAV9W+WkxCH0xXFmZiTC3nf7RAVV0HZ4TvmMLqeOa5V6lWAuWIYA
+ CakizSuVINg1EUSfu3hAppVsxyGRXtrWo7JWg4wmpg==
+X-Google-Smtp-Source: APXvYqzLtPVtKiKrfsW1G7hbsk2Lvr2a6T/G14TQ0oL2ukaMY6Y+YmsswRvfgMrODTSF4svNRJ4UKNuMCwDbtytMx/w=
+X-Received: by 2002:a05:6830:1015:: with SMTP id
+ a21mr18311446otp.232.1566317248726; 
+ Tue, 20 Aug 2019 09:07:28 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 20 Aug 2019 16:06:31 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v8 3/3] virtio-rng: change default backend to
- rng-builtin
+References: <20190803210803.5701-1-richard.henderson@linaro.org>
+ <20190803210803.5701-5-richard.henderson@linaro.org>
+ <CAFEAcA-_gMkE-0kA=xyUyNKxeqX0n6B-9i_7132xfFXQNRqb6w@mail.gmail.com>
+ <7c739082-c1d5-ad03-0020-9776cf08694a@linaro.org>
+In-Reply-To: <7c739082-c1d5-ad03-0020-9776cf08694a@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Aug 2019 17:07:17 +0100
+Message-ID: <CAFEAcA9mpXFLsbgJBm0wbfdMapa+605KZ8U=8RFQ94LVDbmGsg@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v7 4/6] include/elf: Add defines related to
+ GNU property notes for AArch64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,89 +76,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>, Amit Shah <amit@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Richard W . M . Jones" <rjones@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Dave P Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- backends/rng-builtin.c | 1 -
- hw/virtio/virtio-rng.c | 3 +--
- include/sysemu/rng.h   | 2 ++
- qemu-options.hx        | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+On Tue, 20 Aug 2019 at 16:59, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 8/20/19 8:39 AM, Peter Maydell wrote:
+> > On Sat, 3 Aug 2019 at 22:08, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >>
+> >> These are all of the defines required to parse
+> >> GNU_PROPERTY_AARCH64_FEATURE_1_AND, copied from binutils.
+> >> Other missing defines related to other GNU program headers
+> >> and notes are elided for now.
+> >>
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >
+> > What's the authoritative source for these definitions? I
+> > tried looking in glibc, binutils and the kernel without
+> > any luck.
+>
+> Presumably the true "authoritative" source is an ARM document, but I don't have
+> that handy.
+>
+> For binutils, the defines are in include/elf/common.h:
+>
+> https://sourceware.org/git/?p=binutils-gdb.git;a=blob_plain;f=include/elf/common.h;hb=HEAD
 
-diff --git a/backends/rng-builtin.c b/backends/rng-builtin.c
-index 3381d47174df..ba1b8d66b83e 100644
---- a/backends/rng-builtin.c
-+++ b/backends/rng-builtin.c
-@@ -10,7 +10,6 @@
- #include "qemu/main-loop.h"
- #include "qemu/guest-random.h"
-=20
--#define TYPE_RNG_BUILTIN "rng-builtin"
- #define RNG_BUILTIN(obj) OBJECT_CHECK(RngBuiltin, (obj), TYPE_RNG_BUILTI=
-N)
-=20
- typedef struct RngBuiltin {
-diff --git a/hw/virtio/virtio-rng.c b/hw/virtio/virtio-rng.c
-index fcf3b2e32912..e93bed020f64 100644
---- a/hw/virtio/virtio-rng.c
-+++ b/hw/virtio/virtio-rng.c
-@@ -19,7 +19,6 @@
- #include "hw/virtio/virtio-rng.h"
- #include "sysemu/rng.h"
- #include "sysemu/runstate.h"
--#include "sysemu/rng-random.h"
- #include "qom/object_interfaces.h"
- #include "trace.h"
-=20
-@@ -193,7 +192,7 @@ static void virtio_rng_device_realize(DeviceState *de=
-v, Error **errp)
-     }
-=20
-     if (vrng->conf.rng =3D=3D NULL) {
--        Object *default_backend =3D object_new(TYPE_RNG_RANDOM);
-+        Object *default_backend =3D object_new(TYPE_RNG_BUILTIN);
-=20
-         user_creatable_complete(USER_CREATABLE(default_backend),
-                                 &local_err);
-diff --git a/include/sysemu/rng.h b/include/sysemu/rng.h
-index 9b22c156f8e6..fa6eada78cd7 100644
---- a/include/sysemu/rng.h
-+++ b/include/sysemu/rng.h
-@@ -24,6 +24,8 @@
- #define RNG_BACKEND_CLASS(klass) \
-     OBJECT_CLASS_CHECK(RngBackendClass, (klass), TYPE_RNG_BACKEND)
-=20
-+#define TYPE_RNG_BUILTIN "rng-builtin"
-+
- typedef struct RngRequest RngRequest;
- typedef struct RngBackendClass RngBackendClass;
- typedef struct RngBackend RngBackend;
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 312586cc18f8..14b0bbeffc96 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4328,7 +4328,7 @@ The @option{share} boolean option is @var{on} by de=
-fault with memfd.
- Creates a random number generator backend which obtains entropy from
- QEMU builtin functions. The @option{id} parameter is a unique ID that
- will be used to reference this entropy backend from the @option{virtio-r=
-ng}
--device.
-+device. By default, the @option{virtio-rng} device uses this RNG backend=
-.
-=20
- @item -object rng-random,id=3D@var{id},filename=3D@var{/dev/random}
-=20
---=20
-2.21.0
+Thanks.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+-- PMM
 
