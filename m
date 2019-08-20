@@ -2,72 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6822795C3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 12:27:36 +0200 (CEST)
-Received: from localhost ([::1]:35668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C714995C52
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 12:33:19 +0200 (CEST)
+Received: from localhost ([::1]:35738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i01MV-0003zF-8k
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 06:27:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44813)
+	id 1i01S2-0007nh-U3
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 06:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i01Kx-0003Kx-Kt
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:26:00 -0400
+ (envelope-from <zhenyuw@linux.intel.com>) id 1i01Qh-0006lz-78
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:31:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i01Kv-0006cH-Un
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:25:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47542)
+ (envelope-from <zhenyuw@linux.intel.com>) id 1i01Qg-0002B4-3R
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:31:54 -0400
+Received: from mga14.intel.com ([192.55.52.115]:36847)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i01Kv-0006Zj-Le
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:25:57 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 69002A23CC
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 10:25:55 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id a17so6791877wrr.10
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 03:25:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:from:subject:openpgp:cc:message-id:date
- :user-agent:mime-version:content-language:content-transfer-encoding;
- bh=oC7wDpFXg3tMHnfL5ict2ib9gtUl7N/dDInYCMI8K0E=;
- b=UgV5KeqtCRpMReFA4ZU9nKvX1j/CA+r3dz+dwAk7Ibi7jclEPt2WBLZmwnVzgB1+jQ
- Jej2gSRjoxUrMWW1l3FeK4CqLHPcHD1fCkLUnw20BBOZD4GIdKtUpITlXviCxSi0B/r0
- 6RyOMjRshR/3tsyLkShVpVZF9i/dQpKUdkvGgcxf5v2X0/6R69AI0LzSrmyyx44jy5An
- 5cFd4kH2yv09YCho60XVaYN9uXUNcoC3WpRyGd3qwsTfDLjUncid9M/wd5oIpNbjG9Zq
- o/GbZDSueayIsqpqM37GPhKuC9P1xooiG3pe1VGb1tFUo8ESnpdk+W9+YkD98oQtqrsb
- b4mw==
-X-Gm-Message-State: APjAAAXu3zXCqbdp4/3bwY9zpkaMizjrLUKuOLvVo8Vd50IY6cmJTQ0F
- nYpha1c4nr8uqHqZq2w7bHNQ7M0wifV9JA+A1K13TpfdTREnt5dXHN2yZ/lLvADKm6/O6J7Qjsg
- 7sq/tBoJb0kAB/5g=
-X-Received: by 2002:adf:efd2:: with SMTP id i18mr32683495wrp.145.1566296754170; 
- Tue, 20 Aug 2019 03:25:54 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzXUqBFNaRv3SxCbR67cRhXHm+bLXJjM19jDyZ5JTRiX1Gff14Xg48P6n4NnM75O56+4d79Ew==
-X-Received: by 2002:adf:efd2:: with SMTP id i18mr32683471wrp.145.1566296753950; 
- Tue, 20 Aug 2019 03:25:53 -0700 (PDT)
-Received: from [192.168.1.39] (251.red-88-10-102.dynamicip.rima-tde.net.
- [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id e9sm17016358wrt.69.2019.08.20.03.25.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Aug 2019 03:25:53 -0700 (PDT)
-To: seabios@seabios.org, Nikolay Nikolov <nickysn@users.sourceforge.net>,
- John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <fccac7fa-888e-6ac5-458d-688808f3b282@redhat.com>
-Date: Tue, 20 Aug 2019 12:25:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <zhenyuw@linux.intel.com>)
+ id 1i01Qf-0001NX-QO
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:31:54 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Aug 2019 03:30:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,408,1559545200"; d="scan'208";a="202635579"
+Received: from ubuntu-nuc.bj.intel.com ([10.238.154.61])
+ by fmsmga004.fm.intel.com with ESMTP; 20 Aug 2019 03:30:46 -0700
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 20 Aug 2019 18:30:30 +0800
+Message-Id: <20190820103030.12515-1-zhenyuw@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] Regression with floppy drive controller
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.115
+Subject: [Qemu-devel] [PATCH] i386/kvm: fix FEATURE_HYPERV_EDX value in
+ hyperv_passthrough case
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,67 +53,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex <coderain@sdf.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[cross posting QEMU & SeaBIOS]
+Fix typo to use correct edx value for FEATURE_HYPERV_EDX when
+hyperv_passthrough is enabled.
 
-Hello,
+Signed-off-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+---
+ target/i386/kvm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'v been looking at a QEMU bug report [1] which bisection resulted in a
-SeaBIOS commit:
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 2abc881324..101229bce4 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1152,7 +1152,7 @@ static int hyperv_handle_properties(CPUState *cs,
+         if (c) {
+             env->features[FEAT_HYPERV_EAX] = c->eax;
+             env->features[FEAT_HYPERV_EBX] = c->ebx;
+-            env->features[FEAT_HYPERV_EDX] = c->eax;
++            env->features[FEAT_HYPERV_EDX] = c->edx;
+         }
+         c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+         if (c) {
+-- 
+2.20.1
 
-4a6dbcea3e412fe12effa2f812f50dd7eae90955 is the first bad commit
-commit 4a6dbcea3e412fe12effa2f812f50dd7eae90955
-Author: Nikolay Nikolov <nickysn@users.sourceforge.net>
-Date:   Sun Feb 4 17:27:01 2018 +0200
-
-    floppy: Use timer_check() in floppy_wait_irq()
-
-    Use timer_check() instead of using floppy_motor_counter in BDA for the
-    timeout check in floppy_wait_irq().
-
-    The problem with using floppy_motor_counter was that, after it reaches
-    0, it immediately stops the floppy motors, which is not what is
-    supposed to happen on real hardware. Instead, after a timeout (like in
-    the end of every floppy operation, regardless of the result - success,
-    timeout or error), the floppy motors must be kept spinning for
-    additional 2 seconds (the FLOPPY_MOTOR_TICKS). So, now the
-    floppy_motor_counter is initialized to 255 (the max value) in the
-    beginning of the floppy operation. For IRQ timeouts, a different
-    timeout is used, specified by the new FLOPPY_IRQ_TIMEOUT constant
-    (currently set to 5 seconds - a fairly conservative value, but should
-    work reliably on most floppies).
-
-    After the floppy operation, floppy_drive_pio() resets the
-    floppy_motor_counter to 2 seconds (FLOPPY_MOTOR_TICKS).
-
-    This is also consistent with what other PC BIOSes do.
-
-
-This commit improve behavior with real hardware, so maybe QEMU is not
-modelling something or modelling it incorrectly?
-
-
-Regards,
-
-Phil.
-
-
-PD: How to reproduce:
-
-- Download Windows 98 SE floppy image from [2]
-
-- Run QEMU using the 'isapc' machine:
-
-  $ qemu-system-i386 -M isapc \
-     -fda Windows\ 98\ Second\ Edition\ Boot.img
-
-  SeaBIOS (version rel-1.11.0-11-g4a6dbce-prebuilt.qemu.org)
-  Booting from Floppy...
-  Boot failed: could not read the boot disk
-
-[1] https://bugs.launchpad.net/qemu/+bug/1840719
-[2] https://winworldpc.com/download/417d71c2-ae18-c39a-11c3-a4e284a2c3a5
 
