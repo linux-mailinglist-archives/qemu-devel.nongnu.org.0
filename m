@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF77195C51
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 12:32:53 +0200 (CEST)
-Received: from localhost ([::1]:35730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2045195C5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 12:36:40 +0200 (CEST)
+Received: from localhost ([::1]:35786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i01Rc-00070q-Os
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 06:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45746)
+	id 1i01VH-0000wB-80
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 06:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46515)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i01QH-0006MH-Pq
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:31:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i01UM-0000W7-Eo
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:35:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i01QG-0001rU-LN
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:31:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47888)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i01QG-0001r2-G3
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:31:28 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A2CE611A3E
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 10:31:27 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id i4so6799697wri.1
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 03:31:27 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1i01UL-0005Ei-41
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:35:42 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:33668)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i01UK-0005EH-UZ
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 06:35:41 -0400
+Received: by mail-io1-xd43.google.com with SMTP id z3so11135182iog.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 03:35:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E1nsCHiOTFXqRw8V3tz3HK0ndA+NiKw+twh6mpGuzuE=;
+ b=EvLGbP0oz36kyG6TUN3mF1Mmvw6DUIa7iWJA+2ADaxd/EOKV8+TgCuT26r2LTjmq0+
+ lLsQTsixVW0RYYK4BBEN3SzLKB3Fa0QqZvlOOKzaYRWbmrOdlFRqfkZIWwja0JlKaDlC
+ X1vCIYXrQgfQA+/WGcOPnFQRwjdkR2f7TEpscRppN9Rikkz3xCKICOcO766shpt5Qct+
+ drYujL06kD/rM0K4rx80NevLvTu1huLvvOn0G+QzRsbXcjAcJliawGcTz6dB2OcokMV+
+ 17l/PMfVVv7U9XgDSW8jiIo6N2tjvTr4rgTS7lNLOTXfZ7XOokl5wx/r5x+Kl/yaG2LM
+ oYSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zRmCSsjiJXGe7+NQ2dvyO/kuzD5uZQw9bnQCimJQwPY=;
- b=EdMxyN7HUKAzmXK4QzoXyOdPPMJdmuQHZufuB84imViZ0ychd/E/9U/YdQz9IYFzpK
- aVmnEESzpqF1cy6ozH30iKniOKTJQEyJIqe4NMwCQz4Bhb7XvZ8DyBJkj6RCzkxtkMbx
- aVVVtaUyMJiGB9BB7LNHCe7rpQwPkrsu1oWpq/+X94ybB3+HzepUlff88I01diUj7jLK
- h9SiZd1XvS7VqyWzifk6XnUaihEbISqGHU964OO1po5YPV10O5XFklOMe5KcKcN94WoT
- Spq+uOuNADGc+ikF+ndb1gh63N/x6bSR1bUMcCTACe3rHre+zHbJWtXL1KNwT6DccSZX
- 1I7A==
-X-Gm-Message-State: APjAAAVNJLTQaoz6HUssvooGf4H2MQCFBsQVQl/eGj7UY9geoy5M07Ki
- Vxi8VNWWAtyGhINrdCmHMe/kD0yB+e+NeEldlOaGTaLPxIvHuh2zhK3ONqguvmOleK6B1b6ecdt
- KR1upWhMOlXV82j4=
-X-Received: by 2002:adf:db03:: with SMTP id s3mr22460234wri.214.1566297085629; 
- Tue, 20 Aug 2019 03:31:25 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxvxjDrwPtxBKCLEgDmnhOUrkDfLTedN3eLpT9179BdLCodg5hkXMLyYzHSIvWKGkhrXCzaBg==
-X-Received: by 2002:adf:db03:: with SMTP id s3mr22460201wri.214.1566297085394; 
- Tue, 20 Aug 2019 03:31:25 -0700 (PDT)
-Received: from [192.168.1.39] (251.red-88-10-102.dynamicip.rima-tde.net.
- [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id r5sm16980865wmh.35.2019.08.20.03.31.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Aug 2019 03:31:24 -0700 (PDT)
-To: lampahome <pahome.chen@mirlab.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <CAB3eZfvki=jgCGvu5vNErGtW2gEDW9CXRsMR0LgNJLnNCWb9Ww@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <2cfc52ae-b8d8-387e-2290-8d42a4feba7c@redhat.com>
-Date: Tue, 20 Aug 2019 12:31:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E1nsCHiOTFXqRw8V3tz3HK0ndA+NiKw+twh6mpGuzuE=;
+ b=HyJum9Lv/CmpMg8d9UhhDx7kg27cLJy5PAPLJahFr4K1Fk+cYgqOxYYjhHClQ4No9p
+ vgRF3RquPeJ0JMYLMni0vWswuAQQu+arHalCWhaIDJ6a7FOmPPC3SxC3DrHcuDGn358z
+ 6KPhStQPS1+vQycvQdu5tom5dXNYJeiFccQ4+0qI5nxUPbJXFvA/qB2DkdxEac/6LxEb
+ YueRnWW8ClwmPhWoXuMF5G3me9+hs7NYIMrWhH12wECdLtrb9i1UDJYWjy9FyUuXpK6Y
+ 7zweVchiDYa9hsyTNs9gfvL6mVYrxaPggR/ZrnwdBhVHDyatN3TS9Pzkq/B23eNuDG7l
+ PZyw==
+X-Gm-Message-State: APjAAAWFC2UIB0QcmJdS1DeVfvUvDNHWHdHXl+I+lAVLN67eFRByse3T
+ q8UqsJkEuHWMyf5BO3m3kdJWRFr8N5gYuWPfmIA39/bo
+X-Google-Smtp-Source: APXvYqwEyhZkzn39LsqNWGTzbh66av4eMhsOTO6Nsf33CC79MSIPiKJkBjVsrZIpiBRj36Qm4iKCXeQQqjCXP5PQb8E=
+X-Received: by 2002:a6b:cac2:: with SMTP id
+ a185mr30959078iog.142.1566297340136; 
+ Tue, 20 Aug 2019 03:35:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAB3eZfvki=jgCGvu5vNErGtW2gEDW9CXRsMR0LgNJLnNCWb9Ww@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Difference between commit and rebase
+References: <1565983669-6886-1-git-send-email-pc@us.ibm.com>
+ <CAL1e-=jy6vggskJ26rTc8dnaqtqCB0SdfpV9p-NvKdjoBk+Vkw@mail.gmail.com>
+ <0cfddc22-92ef-3067-9275-8f4f22ca9805@linaro.org>
+ <CAL1e-=h=Hzfm8KZ4ebwaBsS6U=KVcReXpOPT2-vy4OeBktjWkQ@mail.gmail.com>
+ <20190819062817.GA24503@umbus.fritz.box>
+ <CAL1e-=j0w=OasHidP4W4ND-R3p6Ui7MS0iaj7Wk+c1tVyR09+A@mail.gmail.com>
+ <1b486ed4-512f-e5b3-bcd7-9385b689b1cb@us.ibm.com>
+ <20190820073114.GC20890@umbus>
+In-Reply-To: <20190820073114.GC20890@umbus>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Aug 2019 11:35:29 +0100
+Message-ID: <CAFEAcA-qCRH-a7oGj3K_gvBVTq_JR8LjsorZuOKOP+w4pk4G6A@mail.gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d43
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH] ppc: Three floating point fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,20 +79,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>, Paul Clarke <pc@us.ibm.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing qemu-block@
+On Tue, 20 Aug 2019 at 08:36, David Gibson <david@gibson.dropbear.id.au> wrote:
+> On Mon, Aug 19, 2019 at 12:13:34PM -0500, Paul Clarke wrote:
+> > These issues were found while running Glibc's test suite for "math",
+> > and there are still a *LOT* of QEMU-only FAILs, so I may be back
+> > again with suggested fixes or questions.  :-)
+>
+> That doesn't greatly surprise me, TCG's ppc target stuff is only so-so
+> tested, TBH.
 
-On 8/20/19 11:27 AM, lampahome wrote:
-> I want to remove snapshots and I found two ways:
-> qemu-img commit
-> qemu-img rebase
-> 
-> I found they both can choose where to rebase(merge) the images.
-> commit can truncate or not on specific image.
-> rebase won't truncate rebased image.
-> 
-> I found they have something similarity and I don't know what situation is
-> suitable for commit or rebase?
+You might also consider using/extending the risu test cases for
+ppc64 -- individual checks of each insn against a known-good
+implementation can be easier to track down bugs than trying
+to figure out why a higher-level test suite like the glibc one
+has reported a failure, IME. (There are already risu patterns
+for XSCVDPSP and XSCVDPSPN, so I think that bug at least ought
+to be found by risu if you run it against the right h/w as
+known-good reference...)
+
+thanks
+-- PMM
 
