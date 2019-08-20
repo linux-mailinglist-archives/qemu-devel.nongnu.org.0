@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D664A96230
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 16:16:02 +0200 (CEST)
-Received: from localhost ([::1]:37912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B76296282
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 16:33:08 +0200 (CEST)
+Received: from localhost ([::1]:38014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i04vZ-0003wt-Lp
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 10:16:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51841)
+	id 1i05C7-0003Ic-17
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 10:33:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1i04tW-0002be-3e
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 10:13:55 -0400
+ (envelope-from <groeck7@gmail.com>) id 1i05AJ-0002Iy-KR
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 10:31:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1i04tU-0007Wz-SF
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 10:13:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52804)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1i04tU-0007TU-Hy
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 10:13:52 -0400
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D3DD6C0546F2
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 14:13:51 +0000 (UTC)
-Received: by mail-pf1-f197.google.com with SMTP id n186so4905558pfn.6
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 07:13:51 -0700 (PDT)
+ (envelope-from <groeck7@gmail.com>) id 1i05AI-0002qx-EO
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 10:31:15 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:42508)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>)
+ id 1i05AF-0002mw-NA; Tue, 20 Aug 2019 10:31:11 -0400
+Received: by mail-pf1-x443.google.com with SMTP id i30so3495391pfk.9;
+ Tue, 20 Aug 2019 07:31:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TjKlcReLpXlh05Iw2h9/M1+xRcBBUqLQ42/Ni8tXUE4=;
+ b=F2lI6F/cZRER26JlzzNhSMSLlWa4hkfpA2x2x/ATPMby5dDloMYTFav06T5D+aWU0D
+ RNRyLCKDLQgSVMEdoc2wPH16SX/cJAr6RszFJ6zFIgL7rBryHIGt3VzMnSx1f9SZvAND
+ fLyP+InrAEkRaQkI14uccmILO5gXL3JizU47Mf2laMjrn86sRR9eHpTiMprumIK13EmJ
+ iSWHgpUwyuKHT5L+QY9TwEG3+rpqmlPzDbuwfgFA0W2j044LDSEYCe3FRUbhVjE6bQmJ
+ fCJDe3uoQpeYWQxvaOJyAlRsLDptNbqdCXLMVzoz9Ka0t3/q8qYvZiQZ0pqFUN7dm2vP
+ tv5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=09T6APry/hKW1d7wgqIZDeiyq1OtzijdsQjH90lcRxY=;
- b=jAHwIrbuxSfuwcMCNeBU2jyd5X5VNza0Rd6/F0PMlY8AdR2ExP5terpLIcWKDwyqiM
- D2Xxftl2XzVFoxXk+2MbRaJcqhzUDtnISCN1whG2e7VazdUQA9yU3yF8fGf9CUJ/8HcV
- IdbKQ9DNAmviDW1SvMNcElg86ZP2U0UwChIuiOL574F9uGdrKaSwyR6PLkCAPL0ANIa5
- pPyDBtsQzFiVW+6f45dhkjkXo2kPYWMKUp+BJbG+QSLhoNZIKkCMPdkaWjK4ArNJOGVL
- 5JcKaMNnHeGoz+bxiY9S0bla+4J82lRGV1geY3CP/Lb626f0LWS6kk82xnNOkfe5xHC0
- nViQ==
-X-Gm-Message-State: APjAAAXe/lbJdY7WT5XGtONb2OPWuhmiYQ597GCpWCWx2uWEzZWWXhKZ
- Mm0O6LdP1Xw5L4x1iSHfGapTsh3amkTB+v5oxEQHALXyXDxbBUlc00xB0YeBaKRjYHIfsJ7ABKz
- aYGbiM5kTcaoxx/c=
-X-Received: by 2002:a17:902:7083:: with SMTP id
- z3mr28435065plk.87.1566310431047; 
- Tue, 20 Aug 2019 07:13:51 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwbCWRxHRwtCElFSTc/rf/zLBkKNbGRm8wwm4/t4pTfLKe9HmoWPuGkG0/aDlRxgTzKZ0WWrg==
-X-Received: by 2002:a17:902:7083:: with SMTP id
- z3mr28435047plk.87.1566310430899; 
- Tue, 20 Aug 2019 07:13:50 -0700 (PDT)
-Received: from xz-x1.redhat.com ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id e185sm9057921pfa.119.2019.08.20.07.13.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Aug 2019 07:13:50 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 20 Aug 2019 22:13:28 +0800
-Message-Id: <20190820141328.10009-5-peterx@redhat.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190820141328.10009-1-peterx@redhat.com>
-References: <20190820141328.10009-1-peterx@redhat.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TjKlcReLpXlh05Iw2h9/M1+xRcBBUqLQ42/Ni8tXUE4=;
+ b=UvjL+l1aF6jGMm9Mcv8HM2Fltr6pK1px3FncB/+Hv2ho95KWmmE2ARNLTuPspQ9/hf
+ 2+J3dedbKQhGdIhJdKVwdxxqS0lxzV3lzqeO2rO/OOnwu6hmmgKXwpU2TEzU7qKiMC0A
+ qgqFb7BL78xE4Dd/2dTI5n38d3xRNLgNVcdYxhNvKb5FYE7wQPtcy/2LdPJ7eINkKk2h
+ pUQ8iVb78muGCImWFOhbtMK7XRzlv13gz9sJgXFBuSyph6+pCY9UlxqPWeOGIFJZPULq
+ SCPp5W2HVHzzwe31i8OCK32+37mDLtHfw8JufQg7/AGlOmFV3qx782+d2+dc/0QMArMb
+ MORw==
+X-Gm-Message-State: APjAAAUZUY2/n/xpj+qD69LPTvDhMm8gfkVAumBGCGFE8HTNN+ym5Rov
+ AkrJuBhd2iAE885FRL44WbA=
+X-Google-Smtp-Source: APXvYqzFnxJKwql/pLpKx2TdUkWS7UE7XTemWxsZYnOjOnisgjcLAD0qccfRw+xe6/ULwEGhCHi4zg==
+X-Received: by 2002:aa7:8f2e:: with SMTP id y14mr30446880pfr.113.1566311470241; 
+ Tue, 20 Aug 2019 07:31:10 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ b19sm10936832pgs.10.2019.08.20.07.31.08
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 20 Aug 2019 07:31:09 -0700 (PDT)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190820123417.27930-1-philmd@redhat.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Message-ID: <3e3fcb30-1e12-eaf4-07a2-47d09aea2511@roeck-us.net>
+Date: Tue, 20 Aug 2019 07:31:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 4/4] memory: Fix up
- memory_region_{add|del}_coalescing
+In-Reply-To: <20190820123417.27930-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: Re: [Qemu-devel] [RFC PATCH 0/2] hw/char/bcm2835_aux: Provide full
+ 16550 UART support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,109 +83,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, peterx@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The old memory_region_{add|clear}_coalescing() has some defects
-because they both changed mr->coalesced before updating the regions
-using memory_region_update_coalesced_range_as().  Then when the
-regions were updated in memory_region_update_coalesced_range_as() the
-mr->coalesced will always be either one more or one less.  So:
+On 8/20/19 5:34 AM, Philippe Mathieu-Daudé wrote:
+> Hi,
+> 
+> Since there has been some activity on the list asking about
+> Rasberry PI USB support, I had a look a some previous unfinished
+> work and rebased it to share, in case it helps hobbyist interested
+> in improving these machines.
+> 
+> This series is some proof-of-concept on improving the AUX UART
+> support. See the commit description for various TODO/questions.
+> 
+> This can be tested using files documented by Peter Maydell in
+> his blog post:
+> https://translatedcode.wordpress.com/2018/04/25/debian-on-qemus-raspberry-pi-3-model/
+> 
+> And using the kernel command line arguments suggested by Guenter Roeck:
+> 
+> qemu-system-aarch64 -M raspi3 -m 1024 \
+>    -kernel raspi3/bootpart/vmlinuz-4.14.0-3-arm64 \
+>    -initrd raspi3/bootpart/initrd.img-4.14.0-3-arm64 \
+>    -dtb raspi3/bootpart/bcm2837-rpi-3-b.dtb \
+>    -append 'earlycon=uart8250,mmio32,0x3f215040 rdinit=/sbin/init panic=-1 console=ttyS1,115200' \
+>    -drive file=raspi3/2018-01-08-raspberry-pi-3-buster-PREVIEW.img,format=raw,if=sd \
+>    -serial null -serial stdio \
+>    -d unimp,guest_errors -trace bcm283\*
 
-- For memory_region_add_coalescing: it'll always trying to remove the
-  newly added coalesced region while it shouldn't, and,
+[ ... ]
 
-- For memory_region_clear_coalescing: when it calls the update there
-  will be no coalesced ranges on mr->coalesced because they were all
-  removed before hand so the update will probably do nothing for real.
+> [    3.123313] Unpacking initramfs...
+> 
+> Here it hangs, even with CPRMAN patch from Guenter:
+> https://lists.gnu.org/archive/html/qemu-devel/2018-07/msg03153.html
+> 
 
-Let's fix this.  Now we've got flat_range_coalesced_io_notify() to
-notify a single CoalescedMemoryRange instance change, so use it in the
-existing memory_region_update_coalesced_range() logic by only notify
-either an addition or deletion.  Then we hammer both the
-memory_region_{add|clear}_coalescing() to use it.
+This command line works for me:
 
-Fixes: 3ac7d43a6fbb5d4a3
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- memory.c | 36 +++++++++++++++++-------------------
- 1 file changed, 17 insertions(+), 19 deletions(-)
+qemu-system-aarch64 -M raspi3 -kernel arch/arm64/boot/Image -no-reboot \
+	-nographic -snapshot -smp 4 -m 1G \
+	-drive file=rootfs.ext2,format=raw,if=sd \
+	-serial null -serial stdio -monitor none -no-reboot \
+	--append 'panic=-1 slub_debug=FZPUA root=/dev/mmcblk0 rootwait earlycon=uart8250,mmio32,0x3f215040 console=ttyS1,115200' \
+	-dtb arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dtb
 
-diff --git a/memory.c b/memory.c
-index 2f7a67086a..5d2194ebcc 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2238,27 +2238,26 @@ void memory_region_ram_resize(MemoryRegion *mr, r=
-am_addr_t newsize, Error **errp
-     qemu_ram_resize(mr->ram_block, newsize, errp);
- }
-=20
--static void memory_region_update_coalesced_range_as(MemoryRegion *mr, Ad=
-dressSpace *as)
-+/*
-+ * Call proper memory listeners about the change on the newly
-+ * added/removed CoalescedMemoryRange.
-+ */
-+static void memory_region_update_coalesced_range(MemoryRegion *mr,
-+                                                 CoalescedMemoryRange *c=
-mr,
-+                                                 bool add)
- {
-+    AddressSpace *as;
-     FlatView *view;
-     FlatRange *fr;
-=20
--    view =3D address_space_get_flatview(as);
--    FOR_EACH_FLAT_RANGE(fr, view) {
--        if (fr->mr =3D=3D mr) {
--            flat_range_coalesced_io_del(fr, as);
--            flat_range_coalesced_io_add(fr, as);
--        }
--    }
--    flatview_unref(view);
--}
--
--static void memory_region_update_coalesced_range(MemoryRegion *mr)
--{
--    AddressSpace *as;
--
-     QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
--        memory_region_update_coalesced_range_as(mr, as);
-+        view =3D address_space_get_flatview(as);
-+        FOR_EACH_FLAT_RANGE(fr, view) {
-+            if (fr->mr =3D=3D mr) {
-+                flat_range_coalesced_io_notify(fr, as, cmr, add);
-+            }
-+        }
-+        flatview_unref(view);
-     }
- }
-=20
-@@ -2276,7 +2275,7 @@ void memory_region_add_coalescing(MemoryRegion *mr,
-=20
-     cmr->addr =3D addrrange_make(int128_make64(offset), int128_make64(si=
-ze));
-     QTAILQ_INSERT_TAIL(&mr->coalesced, cmr, link);
--    memory_region_update_coalesced_range(mr);
-+    memory_region_update_coalesced_range(mr, cmr, true);
-     memory_region_set_flush_coalesced(mr);
- }
-=20
-@@ -2294,10 +2293,9 @@ void memory_region_clear_coalescing(MemoryRegion *=
-mr)
-     while (!QTAILQ_EMPTY(&mr->coalesced)) {
-         cmr =3D QTAILQ_FIRST(&mr->coalesced);
-         QTAILQ_REMOVE(&mr->coalesced, cmr, link);
-+        memory_region_update_coalesced_range(mr, cmr, false);
-         g_free(cmr);
-     }
--
--    memory_region_update_coalesced_range(mr);
- }
-=20
- void memory_region_set_flush_coalesced(MemoryRegion *mr)
---=20
-2.21.0
+or, with initrd:
 
+qemu-system-aarch64 -M raspi3 -kernel arch/arm64/boot/Image -no-reboot \
+	-nographic \
+	-initrd rootfs.cpio \
+	-m 1G -serial null -serial stdio -monitor none -no-reboot \
+	--append 'panic=-1 slub_debug=FZPUA rdinit=/sbin/init earlycon=uart8250,mmio32,0x3f215040 console=ttyS1,115200' \
+	-dtb arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dtb
+
+This is with the mainline kernel.
+
+I don't see a significant difference to your patch series.
+
+I tested with qemu 4.0, 4.1, and mainline (with my patch series applied on top of each).
+One problem I do see is that booting mainline (as of right now) is _slow_ compared
+to released versions of qemu. It takes some 35 seconds to get to "Unpacking initramfs",
+compared to ~8 seconds for v4.1 and earlier. Otherwise it works.
+
+One possibility might be that your initrd has a problem. Can you boot without your patch
+series, or is it always stuck ?
+
+Thanks,
+Guenter
 
