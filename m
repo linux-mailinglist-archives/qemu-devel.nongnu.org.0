@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918C895AC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 11:16:23 +0200 (CEST)
-Received: from localhost ([::1]:35236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B10295ADB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 11:22:01 +0200 (CEST)
+Received: from localhost ([::1]:35278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i00Fa-0000Tf-DY
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 05:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34354)
+	id 1i00L2-0003Ea-8k
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 05:22:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35445)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1i00EL-0008LA-DG
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:15:06 -0400
+ (envelope-from <bounces@canonical.com>) id 1i00K7-0002am-J5
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:21:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1i00EK-0004VY-Fr
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:15:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43520)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>)
- id 1i00EH-0004Ox-UA; Tue, 20 Aug 2019 05:15:02 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8A5BC1065B0C;
- Tue, 20 Aug 2019 09:15:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.118.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89B7A7E35;
- Tue, 20 Aug 2019 09:14:52 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-In-Reply-To: <20190820083904.GA23352@redhat.com> ("Daniel P. =?utf-8?Q?Ber?=
- =?utf-8?Q?rang=C3=A9=22's?=
- message of "Tue, 20 Aug 2019 09:39:04 +0100")
-References: <20190820082459.2101-1-quintela@redhat.com>
- <20190820082459.2101-2-quintela@redhat.com>
- <20190820083904.GA23352@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-Date: Tue, 20 Aug 2019 11:14:50 +0200
-Message-ID: <877e782o6t.fsf@trasno.org>
+ (envelope-from <bounces@canonical.com>) id 1i00K6-0005Sl-Ha
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:21:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38552)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i00K6-0005Oy-C8
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 05:21:02 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i00K3-0008V2-Ji
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 09:20:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 93EC02E8082
+ for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 09:20:59 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Tue, 20 Aug 2019 09:15:00 +0000 (UTC)
+Date: Tue, 20 Aug 2019 09:08:07 -0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cbparker curryrice71 dgilbert-h philmd
+X-Launchpad-Bug-Reporter: John M (curryrice71)
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+References: <155216177409.9624.16357609956497374456.malonedeb@gac.canonical.com>
+Message-Id: <156629208797.26630.9498546728897837802.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19022";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 3924cd026a066575532b39edab0ce1aa3b9d6e1a
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 1/5] socket: Add backlog parameter to
- socket_listen
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1819289] Re: Windows 95 and Windows 98 will not
+ install or run
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -61,39 +64,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Reply-To: Bug 1819289 <1819289@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> On Tue, Aug 20, 2019 at 10:24:55AM +0200, Juan Quintela wrote:
->> Current parameter was always one.  We continue with that value for now
->> in all callers.
->>=20
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
+Yep, these types of bugs don't necessarily bisect cleanly if they're todo w=
+ith code layout or dirty memory.
+Still, it's good to keep a note of the earliest patches that you find a fai=
+lure on - because then we know it must be somewhere before that.
 
->> @@ -309,7 +311,8 @@ static int inet_listen_saddr(InetSocketAddress *sadd=
-r,
->>                      goto listen_failed;
->>                  }
->>              } else {
->> -                if (!listen(slisten, 1)) {
->> +                trace_inet_listen_saddr(num);
->
-> It is a bit odd to only have the trace event for inet sockets. I'd
-> prefer it in the caller for all sockets, with just "socket_listen"
-> name.
+I remember there was a problem reported booting FreeDOS as well; and
+I've got to wonder if it's related.
 
-Ok. will change.
+-- =
 
-This is the one that I needed, I just changed an error_report() to a
-trace O:-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1819289
+
+Title:
+  Windows 95 and Windows 98 will not install or run
+
+Status in QEMU:
+  New
+
+Bug description:
+  The last version of QEMU I have been able to run Windows 95 or Windows
+  98 on was 2.7 or 2.8. Recent versions since then even up to 3.1 will
+  either not install or will not run 95 or 98 at all. I have tried every
+  combination of options like isapc or no isapc, cpu pentium  or cpu as
+  486. Tried different memory configurations, but they just don't work
+  anymore.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1819289/+subscriptions
 
