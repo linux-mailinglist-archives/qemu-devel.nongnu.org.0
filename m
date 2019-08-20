@@ -2,68 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5327195350
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 03:23:03 +0200 (CEST)
-Received: from localhost ([::1]:60678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2474495371
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 03:34:23 +0200 (CEST)
+Received: from localhost ([::1]:60714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hzsrW-00051R-1G
-	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 21:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60737)
+	id 1hzt2U-00010f-80
+	for lists+qemu-devel@lfdr.de; Mon, 19 Aug 2019 21:34:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33689)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzsqF-0004a2-3U
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 21:21:45 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hzszO-0006sg-Rc
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 21:31:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hzsqD-0003vL-Pu
- for qemu-devel@nongnu.org; Mon, 19 Aug 2019 21:21:43 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:37032)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hzsqA-0003rG-RH; Mon, 19 Aug 2019 21:21:39 -0400
-Received: by mail-ed1-x541.google.com with SMTP id f22so4201790edt.4;
- Mon, 19 Aug 2019 18:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=FyDhifdM46kGL6wLXdrdr45V4T4oPGnjGga7555czzQ=;
- b=Qq0DieCZIiippwewBm34jX5rUEpVBi8bgJGXDxL5Ao2UdBM3eIHdfr7q2PPYvzIr7/
- fweuPSl+bXT7N3/GIXSz3jTyf5Dx0PEYn5nnAB6P51XcivVlPajMfKfLZDFZoqXsRw6F
- HEUS5uUTDfa9yMRJeB+d4DhijMh6U+rRqlzYu2wQI2pvJVbXJYRzCbEUl72Am8/h6fnL
- kn3plSPDrAitv+nohjp6XPS7tbn6AVnQRTC9gSoBCNTyjA2TtLNsXsgIFFhlGfX4AP/N
- l1y6t7atOaD4vhCj5Eu1vi1lkXFaqi4KFvFGwr37F7VtQDDxO0gfo7DYiheRm8ijiWYs
- AasQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=FyDhifdM46kGL6wLXdrdr45V4T4oPGnjGga7555czzQ=;
- b=Hs/DOf1LN/Mlh9bA7X3N2aDtXTJnOZDaSh1O9L6RMz2A6FlWJ7WRrWJEWACDd1FHiY
- jy6gbkYICdsFdHAffKXazTzdRT1O/o+ig1s4lZ2GoQ1qjMgOxOI7UHkIzZxwZ0gH9obB
- PhAUk9HmfAKp1HkLIXghdV4flGexBLhds0bl1UcqtDg0WtWjNfAtyz1G+4c5ayDy8i0/
- 2yzK7/z2/M14w3DKi1UyKTO6K179t7QsS2oXg5q6qAVtbTZSabphtd241A+LlOy3KIkK
- qEOi02DmGC+iDkeowJ8Z50k9ZqjOnQu0/rXXCH32qE+hoOWhbPMZaZ0YaPJnSlwy7Jbg
- ynPA==
-X-Gm-Message-State: APjAAAUy2IgBVA0SrmtDYBNyjodTiBA3tnbdBAy/Rb0tDfelff0FMvSf
- +ahMS6McPpMsJQeVMmflhf06Og7KzW1/UX7fKUw=
-X-Google-Smtp-Source: APXvYqygNxQ5Apj56i01NcfLDCzmWJFTd+VCE9jjO9Ea63vQAbGu6MyMy4nEE9LxXWDDydbTMiqhWDWWr/Bip2AJjy4=
-X-Received: by 2002:a50:8687:: with SMTP id r7mr28216214eda.137.1566264097355; 
- Mon, 19 Aug 2019 18:21:37 -0700 (PDT)
+ (envelope-from <dgibson@ozlabs.org>) id 1hzszM-0008F2-I1
+ for qemu-devel@nongnu.org; Mon, 19 Aug 2019 21:31:10 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51797 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hzszI-0008BZ-QB; Mon, 19 Aug 2019 21:31:06 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46CCtB4YWxz9sML; Tue, 20 Aug 2019 11:30:58 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1566264658;
+ bh=KaoGbYN34/ZymmVYggXkmdR5AhYcb5acqMo2xRZcamI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=N1mY3ET3TV2kM8Bk96zxVMJ0Q4GIPLKroUrEVRXRCoLkjbUrq2IxiQdgNeRZJjW70
+ aOs6MD1KNIBndWXyEbb30FgSQyaobmAoqqiSVV7NwlvEhAlJ5LtFyGD9ivko9Wm4yQ
+ hePuknjlG3ZQD9ikNZvMwxYpccMBHcDHhubYi0ZQ=
+Date: Tue, 20 Aug 2019 10:58:19 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Paul A. Clarke" <pc@us.ibm.com>
+Message-ID: <20190820005819.GD24503@umbus.fritz.box>
+References: <1566236601-22954-1-git-send-email-pc@us.ibm.com>
 MIME-Version: 1.0
-References: <0141541d-43ff-98d8-e9d4-4a2fdcfdcf36@c-sky.com>
- <CAKmqyKPr0V6acB2-Y+N1-aoj-5LSofwi=Jz=u6KFJN1fPUWjzA@mail.gmail.com>
- <2b741fb0-0f12-0f07-a516-9cc23abc0b6e@c-sky.com>
- <CAKmqyKPa2YbAASRsQ8cAm+LR58Z3i_bCXDd7tYtD5TtXvv4YdQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKPa2YbAASRsQ8cAm+LR58Z3i_bCXDd7tYtD5TtXvv4YdQ@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 20 Aug 2019 09:21:26 +0800
-Message-ID: <CAEUhbmWsySubx0W__c6-6pWznfYb71JZfGm-EVKJ0iFeOWGKkg@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ytoMbUMiTKPMT3hY"
+Content-Disposition: inline
+In-Reply-To: <1566236601-22954-1-git-send-email-pc@us.ibm.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::541
-Subject: Re: [Qemu-devel] RISCV: when will the CLIC be ready?
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH v2] ppc: conform to processor User's Manual
+ for xscvdpspn
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,106 +56,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, liuzhiwei <zhiwei_liu@c-sky.com>
+Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 20, 2019 at 3:09 AM Alistair Francis <alistair23@gmail.com> wro=
-te:
->
-> On Mon, Aug 19, 2019 at 6:44 AM liuzhiwei <zhiwei_liu@c-sky.com> wrote:
-> >
-> >
-> > On 2019/8/17 =E4=B8=8A=E5=8D=881:29, Alistair Francis wrote:
-> > > On Thu, Aug 15, 2019 at 8:39 PM liuzhiwei<zhiwei_liu@c-sky.com>  wrot=
-e:
-> > >> Hi, Palmer
-> > >>
-> > >> When Michael Clark still was the maintainer of RISCV QEMU, he wrote =
-in the mail list, "the CLIC interrupt controller is under testing,
-> > >> and will be included in QEMU 3.1 or 3.2". It is pity that the CLIC i=
-s not in
-> > >> included even in QEMU 4.1.0.
-> > > I see that there is a CLIC branch available here:
-> > > https://github.com/riscv/riscv-qemu/pull/157
-> > >
-> > > It looks like all of the work is in a single commit
-> > > (https://github.com/riscv/riscv-qemu/pull/157/commits/206d9ac339feb9e=
-f2c325402a00f0f45f453d019)
-> > > and that most of the other commits in the PR have already made it int=
-o
-> > > master.
-> > >
-> > > Although the CLIC commit is very large it doesn't seem impossible to
-> > > manually pull out the CLIC bits and apply it onto master.
-> > >
-> > > Do you know the state of the CLIC model? If it's working it shouldn't
-> > > be too hard to rebase the work and get the code into mainline.
-> > >
-> > > Alistair
-> > >
-> > Hi,  Alistair
-> >
-> > In my opinion, the CLIC code almost works.
-> >
-> > Last year when my workmate ported an RTOS, I once read the CLIC specifi=
-cation and used the CLIC model code. It worked through  all the tests after=
- fixed two bugs. I also had sent the patch to Michael, but without response=
-(maybe a wrong email address).
-> >
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 7bf6cbc..95d80ab 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -505,6 +505,9 @@ static target_ulong riscv_intr_pc(CPURISCVState *en=
-v,
-> >       if (!(async || clic)) {
-> >           return tvec & ~0b11;
-> >       }
-> > +    if (clic) {
-> > +        cause &=3D 0x3ff;
-> > +    }
-> >
-> >       /* bits [1:0] encode mode; 0 =3D direct, 1 =3D vectored, 2 >=3D r=
-eserved */
-> >       switch (mode1) {
-> > @@ -645,6 +648,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-> >           riscv_cpu_set_mode(env, PRV_M);
-> >       }
-> >
-> > +    if (clic) {
-> > +        env->exccode =3D 0;
-> > +    }
-> >       /* NOTE: it is not necessary to yield load reservations here. It =
-is only
-> >          necessary for an SC from "another hart" to cause a load reserv=
-ation
-> >          to be yielded. Refer to the memory consistency model section o=
-f the
-> >
-> > After that, the specification has updated and the code may changed. I d=
-idn't pull new code again.
-> >
-> > If the CLIC model may merged into the mainline, and no body maintain th=
-e code, I'd like to work on it, fixing the bugs and updating the code accor=
-ding to latest specification.
->
-> Yes please! We will be happy to merge it!
->
-> If you would like to it would be great if you could update the code,
-> fix the bugs and then send patches to this list.
->
 
-Is the spec here?
-https://github.com/sifive/clic-spec/blob/master/clic.adoc
+--ytoMbUMiTKPMT3hY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Which silicon is going to have this CLIC?
+On Mon, Aug 19, 2019 at 12:43:21PM -0500, Paul A. Clarke wrote:
+> From: "Paul A. Clarke" <pc@us.ibm.com>
+>=20
+> The POWER8 and POWER9 User's Manuals specify the implementation
+> behavior for what the ISA leaves "undefined" behavior for the
+> xscvdpspn and xscvdpsp instructions.  This patch corrects the QEMU
+> implementation to match the hardware implementation for that case.
+>=20
+> ISA 3.0B has xscvdpspn leaving its result in word 0 of the target registe=
+r,
+> with the other words of the target register left "undefined".
+>=20
+> The User's Manuals specify:
+>   VSX scalar convert from double-precision to single-precision (xscvdpsp,
+>   xscvdpspn).
+>   VSR[32:63] is set to VSR[0:31].
+> So, words 0 and 1 both contain the result.
+>=20
+> Note: this is important because GCC as of version 8 or so, assumes and ta=
+kes
+> advantage of this behavior to optimize the following sequence:
+>   xscvdpspn vs0,vs1
+>   mffprwz   r8,f0
+> ISA 3.0B has xscvdpspn leaving its result in word 0 of the target registe=
+r,
+> and mffprwz expecting its input to come from word 1 of the source registe=
+r.
+> This sequence fails with QEMU, as a shift is required between those two
+> instructions.  However, since the hardware splats the result to both word=
+s 0
+> and 1 of its output register, the shift is not necessary.
+>=20
+> Expect a future revision of the ISA to specify this behavior.
+>=20
+> Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
 
-Regards,
-Bin
+Applied to ppc-for-4.2, thanks.
+
+>=20
+> v2
+> - Splitting patch "ppc: Three floating point fixes"; this is just one par=
+t.
+> - Updated commit message to clarify behavior is documented in User's Manu=
+als.
+> - Updated commit message to correct which words are in output and source =
+of
+>   xscvdpspn and mffprz.
+> - No source changes to this part of the original patch.
+>=20
+> ---
+>  target/ppc/fpu_helper.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> index 5611cf0..23b9c97 100644
+> --- a/target/ppc/fpu_helper.c
+> +++ b/target/ppc/fpu_helper.c
+> @@ -2871,10 +2871,14 @@ void helper_xscvqpdp(CPUPPCState *env, uint32_t o=
+pcode,
+> =20
+>  uint64_t helper_xscvdpspn(CPUPPCState *env, uint64_t xb)
+>  {
+> +    uint64_t result;
+> +
+>      float_status tstat =3D env->fp_status;
+>      set_float_exception_flags(0, &tstat);
+> =20
+> -    return (uint64_t)float64_to_float32(xb, &tstat) << 32;
+> +    result =3D (uint64_t)float64_to_float32(xb, &tstat);
+> +    /* hardware replicates result to both words of the doubleword result=
+=2E  */
+> +    return (result << 32) | result;
+>  }
+> =20
+>  uint64_t helper_xscvspdpn(CPUPPCState *env, uint64_t xb)
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--ytoMbUMiTKPMT3hY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1bRasACgkQbDjKyiDZ
+s5IgGg//YfpBJ6YjzIlJdQC31MsuN9731b03O2tPFYPJ2alSxNxHAVLw8IYCWuFd
+VNsUGHvykSzQuNn6uFGUD/SUV1pdMgt6DHMUUL4ATELNDX1i8NGvnOqfh1BauU6i
+LpLjmidFG3hrs7yPGJZl4yCCkZ1bvb5IodqoPlIP2SHsdfmrH33OnkyeSxDbcRH0
+JjtRaNJLyy9NJW3dOyHlxg+FsHS0u+dap39Wa/kRlM3lnbboLwqLeKtVC4Df5jsQ
++Yg2gCxmxpCyp2bBb6+IzGrJNA/yY1PK71N6gLZj3fFuAk+DqKw51FduXL9+5eCP
+D26NzUxInsSpRO58SA9ihGLq4IAokoKyNuUe1v1f94EbtKJKg50jgqSbJag4KizJ
+RaHKVsa273+oEBZF+5ygOE6333TXf4mx95CzK7dDUfRa+t4thSqQCBiJ/TPEhGyd
+Rcj2UXpodiL7y4QyJh4GURKkjf5YoYwlYY+1BjQ02UgaFSnteqgR2D4ar/znnMoM
+stE4p/svO1dr/y19oHgor4OgZm43S0VeKpo3Do0bFwsCBDpBoB+o1Muh2o5s2CpY
+IHR5EFS5fnIljLgKGKJIdOzsCjmwjZ2+qDpvO6rgpmvZIaq84tace8UmwZa7Vn7i
+NZNMu6JqMCn7BnXkNZFVvRdCVtdtGtH4JmhsKGI0fheKKduQEQ4=
+=sULM
+-----END PGP SIGNATURE-----
+
+--ytoMbUMiTKPMT3hY--
 
