@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED21965F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 18:11:12 +0200 (CEST)
-Received: from localhost ([::1]:39294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE92A965F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Aug 2019 18:12:29 +0200 (CEST)
+Received: from localhost ([::1]:39378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i06j0-00036Z-PT
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 12:11:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41348)
+	id 1i06kG-0008LE-NQ
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 12:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42138)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Dave.Martin@arm.com>) id 1i06bn-0005al-69
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:03:44 -0400
+ (envelope-from <lvivier@redhat.com>) id 1i06eQ-0000QI-4V
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:06:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Dave.Martin@arm.com>) id 1i06bl-00007R-VA
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:03:43 -0400
-Received: from foss.arm.com ([217.140.110.172]:42868)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <Dave.Martin@arm.com>)
- id 1i06bi-0008Vy-AH; Tue, 20 Aug 2019 12:03:38 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1FC8228;
- Tue, 20 Aug 2019 09:03:37 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 518CB3F246;
- Tue, 20 Aug 2019 09:03:36 -0700 (PDT)
-Date: Tue, 20 Aug 2019 17:03:29 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190820160320.GA27757@arm.com>
-References: <20190803210803.5701-1-richard.henderson@linaro.org>
- <20190803210803.5701-5-richard.henderson@linaro.org>
- <CAFEAcA-_gMkE-0kA=xyUyNKxeqX0n6B-9i_7132xfFXQNRqb6w@mail.gmail.com>
- <7c739082-c1d5-ad03-0020-9776cf08694a@linaro.org>
+ (envelope-from <lvivier@redhat.com>) id 1i06eO-0002Vo-SO
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:06:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57978)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1i06eO-0002VG-LC
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 12:06:24 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 01D2969099;
+ Tue, 20 Aug 2019 16:06:24 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-117-179.ams2.redhat.com
+ [10.36.117.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CEB7087A1;
+ Tue, 20 Aug 2019 16:06:21 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 20 Aug 2019 18:06:13 +0200
+Message-Id: <20190820160615.14616-2-lvivier@redhat.com>
+In-Reply-To: <20190820160615.14616-1-lvivier@redhat.com>
+References: <20190820160615.14616-1-lvivier@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7c739082-c1d5-ad03-0020-9776cf08694a@linaro.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Tue, 20 Aug 2019 16:06:24 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.140.110.172
-Subject: Re: [Qemu-devel] [PATCH v7 4/6] include/elf: Add defines related to
- GNU property notes for AArch64
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v8 1/3] rng-builtin: add an RNG backend that
+ uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,44 +56,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, Amit Shah <amit@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Richard W . M . Jones" <rjones@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 20, 2019 at 04:59:50PM +0100, Richard Henderson wrote:
-> On 8/20/19 8:39 AM, Peter Maydell wrote:
-> > On Sat, 3 Aug 2019 at 22:08, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> These are all of the defines required to parse
-> >> GNU_PROPERTY_AARCH64_FEATURE_1_AND, copied from binutils.
-> >> Other missing defines related to other GNU program headers
-> >> and notes are elided for now.
-> >>
-> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > 
-> > What's the authoritative source for these definitions? I
-> > tried looking in glibc, binutils and the kernel without
-> > any luck.
-> 
-> Presumably the true "authoritative" source is an ARM document, but I don't have
-> that handy.
-> 
-> For binutils, the defines are in include/elf/common.h:
-> 
-> https://sourceware.org/git/?p=binutils-gdb.git;a=blob_plain;f=include/elf/common.h;hb=HEAD
-> 
-> The upstream kernel is also lacking the defines, as they're part of the ARM
-> patch set that is still in flight.  The defines are still not present in glibc
-> as of today.
+Add a new RNG backend using QEMU builtin getrandom function.
 
+It can be created and used with something like:
 
-The AArch64 spec is here:
+    ... -object rng-builtin,id=3Drng0 -device virtio-rng,rng=3Drng0 ...
 
-https://developer.arm.com/docs/ihi0056/latest/elf-for-the-arm-64-bit-architecture-aarch64-abi-2019q2-documentation
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+---
+ backends/Makefile.objs |  2 +-
+ backends/rng-builtin.c | 78 ++++++++++++++++++++++++++++++++++++++++++
+ qemu-options.hx        |  7 ++++
+ 3 files changed, 86 insertions(+), 1 deletion(-)
+ create mode 100644 backends/rng-builtin.c
 
-Cheers
----Dave
+diff --git a/backends/Makefile.objs b/backends/Makefile.objs
+index 981e8e122f2c..f0691116e86e 100644
+--- a/backends/Makefile.objs
++++ b/backends/Makefile.objs
+@@ -1,4 +1,4 @@
+-common-obj-y +=3D rng.o rng-egd.o
++common-obj-y +=3D rng.o rng-egd.o rng-builtin.o
+ common-obj-$(CONFIG_POSIX) +=3D rng-random.o
+=20
+ common-obj-$(CONFIG_TPM) +=3D tpm.o
+diff --git a/backends/rng-builtin.c b/backends/rng-builtin.c
+new file mode 100644
+index 000000000000..3381d47174df
+--- /dev/null
++++ b/backends/rng-builtin.c
+@@ -0,0 +1,78 @@
++/*
++ * QEMU Builtin Random Number Generator Backend
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "sysemu/rng.h"
++#include "qemu/main-loop.h"
++#include "qemu/guest-random.h"
++
++#define TYPE_RNG_BUILTIN "rng-builtin"
++#define RNG_BUILTIN(obj) OBJECT_CHECK(RngBuiltin, (obj), TYPE_RNG_BUILTI=
+N)
++
++typedef struct RngBuiltin {
++    RngBackend parent;
++    QEMUBH *bh;
++} RngBuiltin;
++
++static void rng_builtin_receive_entropy_bh(void *opaque)
++{
++    RngBuiltin *s =3D opaque;
++
++    while (!QSIMPLEQ_EMPTY(&s->parent.requests)) {
++        RngRequest *req =3D QSIMPLEQ_FIRST(&s->parent.requests);
++
++        qemu_guest_getrandom_nofail(req->data, req->size);
++
++        req->receive_entropy(req->opaque, req->data, req->size);
++
++        rng_backend_finalize_request(&s->parent, req);
++    }
++}
++
++static void rng_builtin_request_entropy(RngBackend *b, RngRequest *req)
++{
++    RngBuiltin *s =3D RNG_BUILTIN(b);
++
++    qemu_bh_schedule(s->bh);
++}
++
++static void rng_builtin_init(Object *obj)
++{
++    RngBuiltin *s =3D RNG_BUILTIN(obj);
++
++    s->bh =3D qemu_bh_new(rng_builtin_receive_entropy_bh, s);
++}
++
++static void rng_builtin_finalize(Object *obj)
++{
++    RngBuiltin *s =3D RNG_BUILTIN(obj);
++
++    qemu_bh_delete(s->bh);
++}
++
++static void rng_builtin_class_init(ObjectClass *klass, void *data)
++{
++    RngBackendClass *rbc =3D RNG_BACKEND_CLASS(klass);
++
++    rbc->request_entropy =3D rng_builtin_request_entropy;
++}
++
++static const TypeInfo rng_builtin_info =3D {
++    .name =3D TYPE_RNG_BUILTIN,
++    .parent =3D TYPE_RNG_BACKEND,
++    .instance_size =3D sizeof(RngBuiltin),
++    .instance_init =3D rng_builtin_init,
++    .instance_finalize =3D rng_builtin_finalize,
++    .class_init =3D rng_builtin_class_init,
++};
++
++static void register_types(void)
++{
++    type_register_static(&rng_builtin_info);
++}
++
++type_init(register_types);
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 9621e934c0bf..312586cc18f8 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4323,6 +4323,13 @@ other options.
+=20
+ The @option{share} boolean option is @var{on} by default with memfd.
+=20
++@item -object rng-builtin,id=3D@var{id}
++
++Creates a random number generator backend which obtains entropy from
++QEMU builtin functions. The @option{id} parameter is a unique ID that
++will be used to reference this entropy backend from the @option{virtio-r=
+ng}
++device.
++
+ @item -object rng-random,id=3D@var{id},filename=3D@var{/dev/random}
+=20
+ Creates a random number generator backend which obtains entropy from
+--=20
+2.21.0
+
 
