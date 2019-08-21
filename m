@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7909973E0
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:51:48 +0200 (CEST)
-Received: from localhost ([::1]:44682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8158C973F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:53:50 +0200 (CEST)
+Received: from localhost ([::1]:44718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0LPH-0000qZ-PZ
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:51:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
+	id 1i0LRF-0003nb-Ey
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:53:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42615)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0r-0005Bz-E2
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0r-0005By-7j
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0q-0008UL-48
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0q-0008UK-3m
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:33 -0400
-Received: from ozlabs.org ([203.11.71.1]:49305)
+Received: from ozlabs.org ([203.11.71.1]:33781)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L0p-00089v-82; Wed, 21 Aug 2019 03:26:32 -0400
+ id 1i0L0p-0008BV-NP; Wed, 21 Aug 2019 03:26:32 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46CzjF2C7Rz9sQy; Wed, 21 Aug 2019 17:25:51 +1000 (AEST)
+ id 46CzjF4BGcz9sRD; Wed, 21 Aug 2019 17:25:51 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1566372353;
- bh=5NEgZKDdcOaJCDCiAi3qAZVToJWd/48Fn/4AGJJvmnI=;
+ bh=6GY9++/Hv1KppOVgXUV+rDcGBLJtsjsXR/b4Qa8ecqI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=D+66zVAnbnU6cpgNsHZl/FTd9/pSzz+MYZMAwmIXgHOPhYP134ttrlI7zILO5tdxy
- OtJx5chAObPJ2w60MYeBfm0ozlJtPrJ02hcst4QhR+OVeKsxrG9T4spBNKDif8lg+v
- zaTn+ROwgsv4g8Ku9DV//rZr4o8FrtBlt+kWin+k=
+ b=k1JMFcPWQRQwEf/bcGe7LEaPA3b2+wWqHLXrD6PXtZvEzy3seq85zXthhPV5D8N5x
+ 5ZY99VWTBfEo3YkcVgXlqmfgIOudzLB4seAOe8zdj/kelx2TXhXdZvkaUleDwwyY33
+ nF8tar15+srUojPhvwj5/khp/lTTgKRozF8ihMfU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:36 +1000
-Message-Id: <20190821072542.23090-37-david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 17:25:38 +1000
+Message-Id: <20190821072542.23090-39-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
@@ -40,8 +40,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 36/42] spapr: Implement better workaround in
- spapr-vty device
+Subject: [Qemu-devel] [PULL 38/42] target/ppc: Add Directed Privileged
+ Door-bell Exception State (DPDES) SPR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,87 +54,79 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- Paul Mackerras <paulus@ozlabs.org>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paul Mackerras <paulus@ozlabs.org>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-Linux guest kernels have code which scans the string of characters
-returned from the H_GET_TERM_CHAR hypercall and removes any \0
-character which comes immediately after a \r character.  This is to
-work around a bug which was present in some ancient versions of
-PowerVM.  In order to avoid the corruption of the console byte stream
-that this introduced, commit 6c3bc244d3cb ("spapr: Implement bug in
-spapr-vty device to be compatible with PowerVM") added a workaround
-which adds a \0 character after every \r character.  Unfortunately,
-this corrupts the console byte stream for those operating systems,
-such as AIX, which don't remove the null bytes.
+DPDES stores a status of a doorbell message and if it is lost in
+migration, the destination CPU won't receive it. This does not hit us
+much as IPIs complete too quick to catch a pending one and even if
+we missed one, broadcasts happen often enough to wake that CPU.
 
-We can avoid triggering the Linux kernel workaround if we avoid
-returning a buffer which contains a \0 after a \r.  We can do that by
-breaking out of the loop in vty_getchars() if we are about to insert a
-\0 and the previous character in the buffer is a \r.  That means we
-return the characters up to the \r for the current H_GET_TERM_CHAR,
-and the characters starting with the \0 for the next one.
+This defines DPDES and registers with KVM for migration.
 
-With this workaround, we don't insert any spurious characters and we
-avoid triggering the Linux kernel workaround, so the guest will
-receive an uncorrupted stream whether or not they have the workaround.
-
-Fixes: 6c3bc244d3cb ("spapr: Implement bug in spapr-vty device to be comp=
-atible with PowerVM")
-Signed-off-by: Paul Mackerras <paulus@ozlabs.org>
-Message-Id: <20190731043653.shdi5sizjp4t65op@oak.ozlabs.ibm.com>
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-Id: <20190816061733.53572-1-aik@ozlabs.ru>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/char/spapr_vty.c | 30 ++++++++++++------------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
+ target/ppc/cpu.h                |  1 +
+ target/ppc/translate_init.inc.c | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/hw/char/spapr_vty.c b/hw/char/spapr_vty.c
-index 7f860fcce7..087c93e4fa 100644
---- a/hw/char/spapr_vty.c
-+++ b/hw/char/spapr_vty.c
-@@ -59,25 +59,19 @@ static int vty_getchars(SpaprVioDevice *sdev, uint8_t=
- *buf, int max)
-     int n =3D 0;
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 50245a8c4d..4b35c8e4f4 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1466,6 +1466,7 @@ typedef PowerPCCPU ArchCPU;
+ #define SPR_MPC_ICTRL         (0x09E)
+ #define SPR_MPC_BAR           (0x09F)
+ #define SPR_PSPB              (0x09F)
++#define SPR_DPDES             (0x0B0)
+ #define SPR_DAWR              (0x0B4)
+ #define SPR_RPR               (0x0BA)
+ #define SPR_CIABR             (0x0BB)
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+index c9fcd87095..7e41ae1456 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -8198,6 +8198,18 @@ static void gen_spr_power8_pspb(CPUPPCState *env)
+                      KVM_REG_PPC_PSPB, 0);
+ }
 =20
-     while ((n < max) && (dev->out !=3D dev->in)) {
--        buf[n++] =3D dev->buf[dev->out++ % VTERM_BUFSIZE];
--
--        /* PowerVM's vty implementation has a bug where it inserts a
--         * \0 after every \r going to the guest.  Existing guests have
--         * a workaround for this which removes every \0 immediately
--         * following a \r, so here we make ourselves bug-for-bug
--         * compatible, so that the guest won't drop a real \0-after-\r
--         * that happens to occur in a binary stream. */
--        if (buf[n - 1] =3D=3D '\r') {
--            if (n < max) {
--                buf[n++] =3D '\0';
--            } else {
--                /* No room for the extra \0, roll back and try again
--                 * next time */
--                dev->out--;
--                n--;
--                break;
--            }
-+        /*
-+         * Long ago, PowerVM's vty implementation had a bug where it
-+         * inserted a \0 after every \r going to the guest.  Existing
-+         * guests have a workaround for this which removes every \0
-+         * immediately following a \r.  To avoid triggering this
-+         * workaround, we stop before inserting a \0 if the preceding
-+         * character in the output buffer is a \r.
-+         */
-+        if (n > 0 && (buf[n - 1] =3D=3D '\r') &&
-+                (dev->buf[dev->out % VTERM_BUFSIZE] =3D=3D '\0')) {
-+            break;
-         }
-+        buf[n++] =3D dev->buf[dev->out++ % VTERM_BUFSIZE];
-     }
-=20
-     qemu_chr_fe_accept_input(&dev->chardev);
++static void gen_spr_power8_dpdes(CPUPPCState *env)
++{
++#if !defined(CONFIG_USER_ONLY)
++    /* Directed Privileged Door-bell Exception State, used for IPI */
++    spr_register_kvm_hv(env, SPR_DPDES, "DPDES",
++                        SPR_NOACCESS, SPR_NOACCESS,
++                        &spr_read_generic, SPR_NOACCESS,
++                        &spr_read_generic, &spr_write_generic,
++                        KVM_REG_PPC_DPDES, 0x00000000);
++#endif
++}
++
+ static void gen_spr_power8_ic(CPUPPCState *env)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+@@ -8629,6 +8641,7 @@ static void init_proc_POWER8(CPUPPCState *env)
+     gen_spr_power8_pmu_user(env);
+     gen_spr_power8_tm(env);
+     gen_spr_power8_pspb(env);
++    gen_spr_power8_dpdes(env);
+     gen_spr_vtb(env);
+     gen_spr_power8_ic(env);
+     gen_spr_power8_book4(env);
+@@ -8817,6 +8830,7 @@ static void init_proc_POWER9(CPUPPCState *env)
+     gen_spr_power8_pmu_user(env);
+     gen_spr_power8_tm(env);
+     gen_spr_power8_pspb(env);
++    gen_spr_power8_dpdes(env);
+     gen_spr_vtb(env);
+     gen_spr_power8_ic(env);
+     gen_spr_power8_book4(env);
 --=20
 2.21.0
 
