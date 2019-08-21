@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8DC977DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:23:06 +0200 (CEST)
-Received: from localhost ([::1]:47056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A2D977E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:28:05 +0200 (CEST)
+Received: from localhost ([::1]:47118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Ohl-0007aX-4l
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:23:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53211)
+	id 1i0Oma-00054E-D0
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53648)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i0Of6-0004Yk-Kl
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:21 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i0OfV-000591-1x
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i0Of5-0006PF-Dd
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:20 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:55335)
+ (envelope-from <laurent@vivier.eu>) id 1i0OfS-0006fP-On
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:44 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:42335)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i0Of5-0006O9-4k; Wed, 21 Aug 2019 07:20:19 -0400
+ id 1i0Of6-0006Pq-Q6; Wed, 21 Aug 2019 07:20:21 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M5x9B-1hu5G32Iah-007WCn; Wed, 21 Aug 2019 13:19:56 +0200
+ id 1MWBGG-1hlanV1wyI-00XblI; Wed, 21 Aug 2019 13:19:59 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:19:34 +0200
-Message-Id: <20190821111947.26580-2-laurent@vivier.eu>
+Date: Wed, 21 Aug 2019 13:19:36 +0200
+Message-Id: <20190821111947.26580-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821111947.26580-1-laurent@vivier.eu>
 References: <20190821111947.26580-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Dyz+FTs9M8yBZRNT0UZg9ivzFx4vuRw06ZKO9VJlZ/dglEzp+nD
- Ab6JZqBAuH0/2F1MlsyE1niOH2DIDCwpyj2G8czG4uSn8MF8C6d/1KRQ1PiKlPJUIyi1e6Z
- FhtA/+2m2npGlGb5r0JRBQxxMGRBoMco1Gs/MLaEt+hjX7opVGETJDHfaGpd1wEnHPIElY+
- KQP/2WLuQbt5chpVq/G/w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vKlawgQCwrk=:5TEchVoecxcoa6h/lj0huH
- 82xQFN/YSJDGekkJTMb+RLmTcizyy5JR8+84NEHMYgTI6/IyaHDqTYmr/Xh6aa5KoX9UCeKhz
- CrgYgoLZAcyxiZeANMq9PGH0wugqkqkrZB6SDyAGDpVciSug3tQrNc8DA0t1wuzmfR9JpB+92
- oZAem9vrduHCIoR7HVuLtQR+4kD+W03AdSDYMsTsnWRvIG6T36c3v59UVHMq9Ca065uZwiYOJ
- IGY00hAIYK4jbw18pKz6sTmV6+2CA9kPYJgF8SzMLwdx/gAOcAXstHTkJ9vgJRF4qeQkeygJq
- rA889WbSLP17MudScFQkpOQwXPrXSkfnyR4eqg9PBu3wHigtgOBSZB1+JNP8qghZmENCC46gq
- wCzUtlzItoLu9/vFj1MSx/tulayl00dZSF0BKghTVyBPlD1PqSBxDkMYDni4rAnH120VyFc/s
- oQxtDWsEypHvsC81/kI/GMYWwG4uHHL74bspH+FA1PdmPqOFsLEAgEBMWmbAp5rQuSewDvwWS
- T/Y8VDIQme3urz0nE3TMMTkGuDvRadXiB2RRIVy0aeDJq+C0dZkgtc9i/zg6VyFa95NcT+ewL
- g/RoOWmdAtAfK8viWyio1zDRII3t2YmFMIuUUvR/qYrMVC15aWbXxClN/4/OZaQZhQIQStB5C
- zAKON4TdP8AQRjqIzesFheajewO3gLhoGqFZAxTD6A8BZWsBXEJTY10+cf5TZtzhi0CRiX1yc
- pa6zRfzGcAsAVcJeOAK60ZQXx62C6EQSnHJGlw==
+X-Provags-ID: V03:K1:ZV7dLwTZZz5R+wuccd172/uspKnkVx3+luV7blIDhC72uT07rni
+ R8CpCIws4VISkdZq/3xxqth6IJA9AyGo7IbTVcDtHzY+u/CzoFe0GmRiTWDN/hjxmdhkUNp
+ P6vCRc56N3ylwfIHhItTV+42TJ0sHCigl1XZDiqOMyM3caGXZWNK5MIo9EXcCCXZVpXxhfo
+ EKgzDQAmDsHwAB4kX8R0g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xjV6d8eXXZY=:9ZScjLxS+qktx/ZdKggwCz
+ DPH/XYmvR7iPh9kTh0z/r1dSHQGu8BOH3QpaUns722Q5sClPJ3hSvQN2+nImbH9ArwPwVa4an
+ zkxYRppsz+C2Akyw8JWLx8EOeCLACP+l2F8UIHP1FZx+X3TCCjbJxeq5SI5dkVRqJZenw1FyZ
+ EMqefvVr9Ofl2ld5hWDAe23fIHeDpa3Fwbc0q06o1xW7AKyhR0+5s5KdiFSsARkH0ljmkw8Am
+ yQRrffxj+LrfSOR6mPq2uSYLTdbsOpmZs8nAlRpIvMytQzYVa3EyXF/9QJsZErCC62F4Ae9LK
+ ITaqr2wnRqbwPiR3Jpca/rlsYszqkMWRy9V9gcpbjCk+KyDHoonnH6saNpDsZBr1FqyK8HKvL
+ HS7wzYZbwXLy8VA3quxHvQMniIfW8R8fPDPiRFXEOgQjo4ECbthC8vzcmAj7IR11aasa/PDUK
+ utuZVfP6sM06FJMqRbuHEn82Q3ObXZcFtKbODnGDAglEFWaYmx3BF7DOpzvmoVEeFW7cvI7ly
+ MxyAi8kQW9cY0DvS8FkCDWGRqikgIKfJqgBTU8P+F1gj8yPSgZCTQ0OpMN+ov7tTo3csaPpqN
+ LoKjKCgFsTtX5JwjxgTHAInhvuND9P2xOFZ9ov7eOZ3GWwexwhvzHZ9u1ZBb1EZQv7r8dPSDQ
+ +A+5FTOJl6Uw0jDhcdUSP8FnR97WqERkrIwHcUu+Rr/tjq02ieoVIrKL7wQoHMBXIi5fUqf3k
+ NE5xaj6U7m6q9SjsqdbWrzmIdomKxI16awQqK0vpZhqYNC2o7wRVlH3yQho=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 217.72.192.74
-Subject: [Qemu-devel] [PULL 01/14] test: Use g_strndup instead of plain
- strndup
+Subject: [Qemu-devel] [PULL 03/14] configure: remove obsoleted $sparc_cpu
+ variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,72 +67,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
  Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
  Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, "tony.nguyen@bt.com" <tony.nguyen@bt.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Carlo=20Marcelo=20Arenas=20Bel=C3=B3n?= <carenas@gmail.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "tony.nguyen@bt.com" <tony.nguyen@bt.com>
+From: Carlo Marcelo Arenas Belón <carenas@gmail.com>
 
-Due to memory management rules. See HACKING.
+9b9c37c364 ("tcg-sparc: Assume v9 cpu always, i.e. force v8plus in
+32-bit mode.", 2012-09-21) removed the need for this variable and
+most of the references to it, but this one.
 
-Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Remove defunct code, no effect or functionality change expected.
 
-Message-Id: <dce313b46d294ada8826d34609a3447e@tpw09926dag18e.domain1.systemhost.net>
+Signed-off-by: Carlo Marcelo Arenas Belón <carenas@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190709234330.89699-1-carenas@gmail.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/check-qjson.c      | 2 +-
- tests/migration/stress.c | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ configure | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/tests/check-qjson.c b/tests/check-qjson.c
-index fa2afccb0a24..07a773e6530b 100644
---- a/tests/check-qjson.c
-+++ b/tests/check-qjson.c
-@@ -767,7 +767,7 @@ static void utf8_string(void)
-                     if (*end == ' ') {
-                         end++;
-                     }
--                    in = strndup(tail, end - tail);
-+                    in = g_strndup(tail, end - tail);
-                     str = from_json_str(in, j, NULL);
-                     g_assert(!str);
-                     g_free(in);
-diff --git a/tests/migration/stress.c b/tests/migration/stress.c
-index 49a03aab7b83..d9aa4afe928b 100644
---- a/tests/migration/stress.c
-+++ b/tests/migration/stress.c
-@@ -104,9 +104,9 @@ static int get_command_arg_str(const char *name,
-     }
- 
-     if (end)
--        *val = strndup(start, end - start);
-+        *val = g_strndup(start, end - start);
-     else
--        *val = strdup(start);
-+        *val = g_strdup(start);
-     return 1;
- }
- 
-@@ -126,10 +126,10 @@ static int get_command_arg_ull(const char *name,
-     if (errno || *end) {
-         fprintf(stderr, "%s (%05d): ERROR: cannot parse %s value %s\n",
-                 argv0, gettid(), name, valstr);
--        free(valstr);
-+        g_free(valstr);
-         return -1;
-     }
--    free(valstr);
-+    g_free(valstr);
-     return 0;
- }
- 
+diff --git a/configure b/configure
+index 714e7fb6a1fb..4e7b79c826a2 100755
+--- a/configure
++++ b/configure
+@@ -6384,9 +6384,6 @@ if test "$vnc" = "yes" ; then
+     echo "VNC JPEG support  $vnc_jpeg"
+     echo "VNC PNG support   $vnc_png"
+ fi
+-if test -n "$sparc_cpu"; then
+-    echo "Target Sparc Arch $sparc_cpu"
+-fi
+ echo "xen support       $xen"
+ if test "$xen" = "yes" ; then
+   echo "xen ctrl version  $xen_ctrl_version"
 -- 
 2.21.0
 
