@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553D6977E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:28:04 +0200 (CEST)
-Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3558B977DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:24:14 +0200 (CEST)
+Received: from localhost ([::1]:47058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0OmY-0004zu-W4
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:28:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53708)
+	id 1i0Oiq-0000Es-HN
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:24:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53587)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i0OfW-0005Bx-8E
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:47 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i0OfS-00057I-RC
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i0OfU-0006gv-Q5
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:46 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:60159)
+ (envelope-from <laurent@vivier.eu>) id 1i0OfQ-0006dw-SO
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:42 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:49615)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i0OfI-0006XX-FM; Wed, 21 Aug 2019 07:20:34 -0400
+ id 1i0OfM-0006Yy-T4; Wed, 21 Aug 2019 07:20:38 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MJn4B-1hgNrk3nRJ-00K5FT; Wed, 21 Aug 2019 13:20:10 +0200
+ id 1MbBUc-1iXWU71nWC-00bcEU; Wed, 21 Aug 2019 13:20:11 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:19:43 +0200
-Message-Id: <20190821111947.26580-11-laurent@vivier.eu>
+Date: Wed, 21 Aug 2019 13:19:44 +0200
+Message-Id: <20190821111947.26580-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821111947.26580-1-laurent@vivier.eu>
 References: <20190821111947.26580-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:dZPXJ7zALzqELWms6CgEg+HsPRg5cmClSJEGrVb744N3hZRY0VY
- GsNSpBr/WJLhfdimJegSry3T4iUgR0Gau1dCpecRqrJICDNbI8tIKBYazKZ+eiJF3IMPrW2
- rAga7e3JfkemVBGx7cLIV39JiZv8DlKZy7Xx8sudEKC2Wa6u0C7X7xR0YpFLgZlQo38VDEz
- Ro6O/YLOSQ8qtlqkySr/Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DMrcvKZLe2c=:GljK/BN08zJCcYKWmmTCJu
- zUXpdhsuKZ2PWZl6nk/f21Ra9U865kOcgPAB+lac7HU3DtXHZRdFF8sfr/v5dXAoD9WcGFv0o
- Qfks28aECPpNLmJvLY/djUOUWEdTWscfaBpqtYavwlkJSBHsRTFcipy5dhFrF5Obvqc8am1zF
- WHLD5R64eGJYaLcEoIq+9udX8dQyMW92hdTSFsYW3Oe3m5WloJHGfshWzbMv+84OwZWaYYha6
- ePNw/hCS1ZNvC+2tNkq49TSlheLaIzYf4kFgPinlsoNT6SZ1mbPHCeIp2MkiTLCmF+wJfZeGg
- ltxWjzVagwXHTYUp87IenjjLkd99fFZwbjGkdCUhQHJCT1vOIroNulSkNIIYlEor0j5lhcA+C
- T8qIY+8r1YNXFRQA9QWi1bXgijYP75TATXWoKtq4vl8a+yPKwVXuomXuPg1f2AZG3asfCr7Td
- jNiZEGjiJ3uYyh75r/ryGU1X82s2p/o/A5YjykQ4Hmm8KbuQ5WWbYtGikp+0rNXEuTgq5TyG/
- FWquEvhAqkJuQL9iwX6/cV6eB8NQzaz6caAIpunGDmXAIAj3Xu0hA9cQntO7wWJrY+65M7QwS
- 0i+RIjnWdZYPnQYOhU8tZCZMJwABlJTa40S9/IvK6FdSLq1xBcKMVlh2m682oTL2yl47YJ/6N
- /0O76BVBA1u4WZxfGURdOF4+rKGpX3ogwubUys57GVwLG/d1fR5/5N+zwTq2wUS5cKnfQMxiM
- GnLagKPYWd0QSAsISA3PoSTE6EtJftula6Z/rn+46EAvIVd8XJTebQspLbsf2Jad8F1JOnVUL
- tkfuT+Bne7shKIG2nlPPXa0snKxNQ==
+X-Provags-ID: V03:K1:/oOFEv+k3MPTZ96mUEMj/iCXZ45kRUL3eJQ8HPBaJiqO5J0VmDa
+ 2k9TwkVRGXjuYvwXElBiKM3v1yh68CFr5ElZUw4QMLhzZnT00TuS9pM0RVWHLCql7N5U/rt
+ RLiwj2RyW/m4hHYxtzcmKuagGjgNGtiPLatUFycPIiWpmyOUqN2oBYOQKtRKYMcQbeeS4ZJ
+ qPhYDng9Lv9teI7IlUV0Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BxAiurucm6M=:OTRWXvXQbGGgFzqW+rNfSQ
+ on7IFr0c27dgp2X1cDZMDFP4dUJvJOEM7f7v/8Nmi186sFBwMSqcEukgDZcb2vtD8SZvTwAu+
+ 8hN4B+Wu+dANO6UJDEDWPV6Ot9HzQhHHqmS6t0PlSnkPXyqBl/zLxV6YkPVSLgaqqq4yATFG7
+ jMYsX8Q44wndzfNVQyF/UEMYspxqfWipLdp77fl1x7M4yHl2OuUCiBsQ+NPIP16sTCdGjEyqF
+ EAhO66A8TEeBJurAGPEcUcLpt7ldpWeTmWGq5NPJdLPD5+eoexnC7yjmN7DmzzH8yazXkfC91
+ Pyo0UfKYCRj+JnrtzeDDzzYLdG5UE77ggEcfNFE/tsLAwDxiqlZ6eJNjsuZy9s9Bdk25KD0LD
+ 8LNDt05YOMSIyct4eTdtYZITA76TmgIcxy5Pqjzo5Uf7pFN4O5W+D4bRq0Dm+jHZEk47+/WnH
+ 755SmoZniMwwisMkThKcA2yPfGiNZBnsVUdqSkSC9DQhsei9HLRIcqCmGyuoSegTCAP5x2pRh
+ UMPojOXps4HC1mlKohK+wWsx9HFIhtPB0dZUp6adsPpA3VlspkUkR31DcwIGMEol+2Ty66iIh
+ pQpswTmtkioYLkkzViI6B14hgWUOW9i6IQqRJHMVClAxwIZoUUasAdw9TW+o29/2zgiRwUa3v
+ 4AqjqR6yQsro7RoZaXiRIahjCGGApxFH8DDznAnr3xDCJlP8juZAEW5MVqX4l79JL6cnEByYQ
+ prK/OxiJdNxlCUHtNcUkippyUzJtw0A39wJYu81p+1cf777368FRUWwCCS4=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
-Subject: [Qemu-devel] [PULL 10/14] target/ppc: Rewrite a fall through comment
+X-Received-From: 217.72.192.73
+Subject: [Qemu-devel] [PULL 11/14] vl: Rewrite a fall through comment
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,8 +68,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
  Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Markus Armbruster <armbru@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
@@ -83,13 +83,13 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 GCC9 is confused by this comment when building with CFLAG
 -Wimplicit-fallthrough=2:
 
-  target/ppc/mmu_helper.c: In function ‘dump_mmu’:
-  target/ppc/mmu_helper.c:1349:12: error: this statement may fall through [-Werror=implicit-fallthrough=]
-   1349 |         if (ppc64_v3_radix(env_archcpu(env))) {
-        |            ^
-  target/ppc/mmu_helper.c:1356:5: note: here
-   1356 |     default:
-        |     ^~~~~~~
+  vl.c: In function ‘qemu_ref_timedate’:
+  vl.c:773:15: error: this statement may fall through [-Werror=implicit-fallthrough=]
+    773 |         value -= rtc_realtime_clock_offset;
+        |         ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  vl.c:775:5: note: here
+    775 |     case QEMU_CLOCK_VIRTUAL:
+        |     ^~~~
   cc1: all warnings being treated as errors
 
 Rewrite the comment using 'fall through' which is recognized by
@@ -97,44 +97,26 @@ GCC and static analyzers.
 
 Reported-by: Stefan Weil <sw@weilnetz.de>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20190719131425.10835-6-philmd@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Message-Id: <20190719131425.10835-7-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/ppc/mmu_helper.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ vl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 55f7a7f16a12..86c667b09415 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -100,7 +100,7 @@ static int pp_check(int key, int pp, int nx)
-         case 0x1:
-         case 0x2:
-             access |= PAGE_WRITE;
--            /* No break here */
-+            /* fall through */
-         case 0x3:
-             access |= PAGE_READ;
-             break;
-@@ -708,7 +708,7 @@ static int mmu40x_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
-             if (pr != 0) {
-                 goto check_perms;
-             }
--            /* No break here */
-+            /* fall through */
-         case 0x3:
-             /* All accesses granted */
-             ctx->prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-@@ -722,7 +722,7 @@ static int mmu40x_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
-                 ret = -2;
-                 break;
-             }
--            /* No break here */
-+            /* fall through */
-         case 0x1:
-         check_perms:
-             /* Check from TLB entry */
+diff --git a/vl.c b/vl.c
+index edd5390110b2..1588dd8fc337 100644
+--- a/vl.c
++++ b/vl.c
+@@ -772,7 +772,7 @@ static time_t qemu_ref_timedate(QEMUClockType clock)
+     switch (clock) {
+     case QEMU_CLOCK_REALTIME:
+         value -= rtc_realtime_clock_offset;
+-        /* no break */
++        /* fall through */
+     case QEMU_CLOCK_VIRTUAL:
+         value += rtc_ref_start_datetime;
+         break;
 -- 
 2.21.0
 
