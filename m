@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D44D98165
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:36:20 +0200 (CEST)
-Received: from localhost ([::1]:51144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E838198180
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:38:49 +0200 (CEST)
+Received: from localhost ([::1]:51194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0UWx-00078b-1c
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40266)
+	id 1i0UZM-0002kJ-Ov
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:38:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40307)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1i0UPS-0006X4-Rh
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:35 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPX-0006gi-Ki
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1i0UPR-0005AB-PM
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54737)
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPW-0005Gy-I5
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:20236)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0UPR-000592-Jw
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:33 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0UPW-0005Fb-Cd
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:38 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EED7F191C687
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 17:28:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B500D8980E1
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 17:28:37 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
  [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E990260F88;
- Wed, 21 Aug 2019 17:28:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0E3660E1C;
+ Wed, 21 Aug 2019 17:28:36 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 19:28:12 +0200
-Message-Id: <1566408501-48680-5-git-send-email-pbonzini@redhat.com>
+Date: Wed, 21 Aug 2019 19:28:14 +0200
+Message-Id: <1566408501-48680-7-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
 References: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Wed, 21 Aug 2019 17:28:32 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.67]); Wed, 21 Aug 2019 17:28:37 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 04/13] module: return success on module load
+Subject: [Qemu-devel] [PULL 06/13] configure: remove AUTOCONF_HOST
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,88 +62,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Let the caller know of load success.
-
-Note that this also changes slightly the behaviour of the function to
-try loading on subsequent calls if the previous ones failed.
+This is a left-over from commit
+c12b6d70e384c769ca372e15ffd19b3e9f563662 ("pixman: drop submodule")
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/module.h |  2 +-
- util/module.c         | 14 +++++++++++---
- 2 files changed, 12 insertions(+), 4 deletions(-)
+ configure | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/include/qemu/module.h b/include/qemu/module.h
-index db30653..65ba596 100644
---- a/include/qemu/module.h
-+++ b/include/qemu/module.h
-@@ -65,6 +65,6 @@ void register_module_init(void (*fn)(void), module_init=
-_type type);
- void register_dso_module_init(void (*fn)(void), module_init_type type);
-=20
- void module_call_init(module_init_type type);
--void module_load_one(const char *prefix, const char *lib_name);
-+bool module_load_one(const char *prefix, const char *lib_name);
-=20
- #endif
-diff --git a/util/module.c b/util/module.c
-index ca9885c..e9fe3e5 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -156,8 +156,10 @@ out:
- }
- #endif
-=20
--void module_load_one(const char *prefix, const char *lib_name)
-+bool module_load_one(const char *prefix, const char *lib_name)
- {
-+    bool success =3D false;
-+
- #ifdef CONFIG_MODULES
-     char *fname =3D NULL;
-     char *exec_dir;
-@@ -170,7 +172,7 @@ void module_load_one(const char *prefix, const char *=
-lib_name)
-=20
-     if (!g_module_supported()) {
-         fprintf(stderr, "Module is not supported by system.\n");
--        return;
-+        return false;
-     }
-=20
-     if (!loaded_modules) {
-@@ -181,7 +183,7 @@ void module_load_one(const char *prefix, const char *=
-lib_name)
-=20
-     if (!g_hash_table_add(loaded_modules, module_name)) {
-         g_free(module_name);
--        return;
-+        return true;
-     }
-=20
-     exec_dir =3D qemu_get_exec_dir();
-@@ -205,13 +207,19 @@ void module_load_one(const char *prefix, const char=
- *lib_name)
-         fname =3D NULL;
-         /* Try loading until loaded a module file */
-         if (!ret) {
-+            success =3D true;
-             break;
-         }
-     }
-=20
-+    if (!success) {
-+        g_hash_table_remove(loaded_modules, module_name);
-+    }
-+
-     for (i =3D 0; i < n_dirs; i++) {
-         g_free(dirs[i]);
-     }
-=20
- #endif
-+    return success;
- }
+diff --git a/configure b/configure
+index b7f4283..d7d6dfc 100755
+--- a/configure
++++ b/configure
+@@ -7366,11 +7366,6 @@ if test "$sparse" =3D "yes" ; then
+   echo "HOST_CC      :=3D REAL_CC=3D\"\$(HOST_CC)\" cgcc"  >> $config_ho=
+st_mak
+   echo "QEMU_CFLAGS  +=3D -Wbitwise -Wno-transparent-union -Wno-old-init=
+ializer -Wno-non-pointer-null" >> $config_host_mak
+ fi
+-if test "$cross_prefix" !=3D ""; then
+-  echo "AUTOCONF_HOST :=3D --host=3D${cross_prefix%-}"     >> $config_ho=
+st_mak
+-else
+-  echo "AUTOCONF_HOST :=3D "                             >> $config_host=
+_mak
+-fi
+ echo "LDFLAGS=3D$LDFLAGS" >> $config_host_mak
+ echo "LDFLAGS_NOPIE=3D$LDFLAGS_NOPIE" >> $config_host_mak
+ echo "QEMU_LDFLAGS=3D$QEMU_LDFLAGS" >> $config_host_mak
 --=20
 1.8.3.1
 
