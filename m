@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC8D97C03
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 16:05:53 +0200 (CEST)
-Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A8197BED
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 16:03:18 +0200 (CEST)
+Received: from localhost ([::1]:48758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0RFI-0000ad-Jv
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 10:05:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57663)
+	id 1i0RCn-0005jb-9E
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 10:03:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57665)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i0RAR-0003tA-8B
+ (envelope-from <bounces@canonical.com>) id 1i0RAR-0003tD-8n
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:00:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i0RAP-0003Pq-8S
+ (envelope-from <bounces@canonical.com>) id 1i0RAP-0003Q2-BM
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:00:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60020)
+Received: from indium.canonical.com ([91.189.90.7]:60032)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i0RAN-0003OQ-Aj
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:00:47 -0400
+ id 1i0RAN-0003OW-BP
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:00:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i0RAL-00019X-8M
+ id 1i0RAL-0001AK-S7
  for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 14:00:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 36D8E2E8041
+ by loganberry.canonical.com (Postfix) with ESMTP id D1BE72E8041
  for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 14:00:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Aug 2019 13:51:24 -0000
+Date: Wed, 21 Aug 2019 13:51:49 -0000
 From: Christophe Lyon <christophe.lyon+launchpad@gmail.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,17 +42,18 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: christophe-lyon
 X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
 X-Launchpad-Bug-Modifier: Christophe Lyon (christophe-lyon)
-Message-Id: <156639548437.26869.13792283715555746637.malonedeb@gac.canonical.com>
+References: <156639548437.26869.13792283715555746637.malonedeb@gac.canonical.com>
+Message-Id: <156639550965.22730.9048170412970326178.malone@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19022";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: f8c03d73165d0edb0355085fd62d018e415307b3
+X-Launchpad-Hash: ee445783264b04137325fb28a4e91b62ac34f24b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1840922] [NEW] qemu-arm for cortex-m33 aborts
- with unhandled CPU exception 0x8
+Subject: [Qemu-devel] [Bug 1840922] Re: qemu-arm for cortex-m33 aborts with
+ unhandled CPU exception 0x8
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -67,42 +68,9 @@ Reply-To: Bug 1840922 <1840922@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-Hi,
-
-While experimenting with running the GCC testsuite with cortex-m33 as targe=
-t (to exercise v8-m code), I came across this failure:
-qemu: unhandled CPU exception 0x8 - aborting
-R00=3Dfffeaf58 R01=3Dfffeaf58 R02=3D00000000 R03=3Dfffeaf5d
-R04=3Dfffeaf5c R05=3Dfffeaf9c R06=3D00000000 R07=3Dfffeaf80
-R08=3D00000000 R09=3D00000000 R10=3D00019dbc R11=3D00000000
-R12=3D000000f0 R13=3Dfffeaf58 R14=3D000081f3 R15=3Dfffeaf5c
-XPSR=3D61000000 -ZC- T NS priv-thread
-qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x6033c9=
-08
-
-I'm using arm-eabi-gcc, so it targets bare-metal, not linux.
-
-The testcase is GCC's gcc/testsuite/gcc.c-torture/execute/20000822-1.c;
-it works when compiled at -O2, but crashes when compiled at -Os. The
-test uses nested functions, so it creates a trampoline on the stack,
-whose address may be a problem. But since the stack address seems to be
-in the same range in the O2 and Os cases, it's not that clear.
-
-I'm attaching the C source, asm, binary executables and qemu traces with
-in_asm,cpu.
-
-I execute the binaries with:
-qemu-arm --cpu cortex-m33  ./20000822-1.exe.Os
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "C source code"
-   https://bugs.launchpad.net/bugs/1840922/+attachment/5283726/+files/20000=
-822-1.c
+** Attachment added: "asm at -Os"
+   https://bugs.launchpad.net/qemu/+bug/1840922/+attachment/5283727/+files/=
+20000822-1.s.Os
 
 -- =
 
