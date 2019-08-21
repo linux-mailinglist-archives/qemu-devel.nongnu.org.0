@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864C897452
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 10:03:15 +0200 (CEST)
-Received: from localhost ([::1]:44816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7F697457
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 10:03:51 +0200 (CEST)
+Received: from localhost ([::1]:44820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0LaM-0007aP-Ag
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 04:03:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42943)
+	id 1i0Law-0008V1-GW
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 04:03:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44220)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L1H-0005hI-Dn
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:27:00 -0400
+ (envelope-from <pagupta@redhat.com>) id 1i0LAy-00084E-AO
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:37:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L1F-0000Kq-Ru
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:59 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:53327)
+ (envelope-from <pagupta@redhat.com>) id 1i0LAv-0004Dw-Oc
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:36:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55218)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L1F-00005E-EU; Wed, 21 Aug 2019 03:26:57 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46CzjH26Wsz9sRM; Wed, 21 Aug 2019 17:25:52 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1566372355;
- bh=jK/ciQJoSLXGmTAlQkkkT7mytfHoAHk++6GYWm8bOaA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=A3Il0kCbHGwp+6xoHS3g0Zcn0KLkFjwNWTyIPsjuDej0cEsvtUqRAwMaY7DB5+APh
- U8pvbZv5+tPkWSU7pyDR6lcn7otMNwQmSrn5YldI28hWW3w0HdqLT6KlFh5DG5PWP0
- u04uWid690q79Nphe3NEcwQBdwHUkt4TmCx0HIJQ=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:40 +1000
-Message-Id: <20190821072542.23090-41-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
-References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1i0LAu-0004Bj-GA
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:36:57 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6107D308A98C;
+ Wed, 21 Aug 2019 07:36:53 +0000 (UTC)
+Received: from dhcp201-121.englab.pnq.redhat.com (ovpn-116-177.sin2.redhat.com
+ [10.67.116.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDC9D1001B12;
+ Wed, 21 Aug 2019 07:36:35 +0000 (UTC)
+From: Pankaj Gupta <pagupta@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 21 Aug 2019 13:06:30 +0530
+Message-Id: <20190821073630.2561-1-pagupta@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Wed, 21 Aug 2019 07:36:54 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 40/42] ppc: conform to processor User's Manual
- for xscvdpspn
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2] virtio pmem: user document
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,85 +53,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, "Paul A. Clarke" <pc@us.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: pagupta@redhat.com, david@redhat.com, cohuck@redhat.com,
+ lcapitulino@redhat.com, mst@redhat.com, stefanha@redhat.com, riel@surriel.com,
+ nilal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Paul A. Clarke" <pc@us.ibm.com>
+This patch documents the steps to use virtio pmem.
+It also documents other useful information about
+virtio pmem e.g use-case, comparison with Qemu NVDIMM
+backend and current limitations.
 
-The POWER8 and POWER9 User's Manuals specify the implementation
-behavior for what the ISA leaves "undefined" behavior for the
-xscvdpspn and xscvdpsp instructions.  This patch corrects the QEMU
-implementation to match the hardware implementation for that case.
-
-ISA 3.0B has xscvdpspn leaving its result in word 0 of the target registe=
-r,
-with the other words of the target register left "undefined".
-
-The User's Manuals specify:
-  VSX scalar convert from double-precision to single-precision (xscvdpsp,
-  xscvdpspn).
-  VSR[32:63] is set to VSR[0:31].
-So, words 0 and 1 both contain the result.
-
-Note: this is important because GCC as of version 8 or so, assumes and ta=
-kes
-advantage of this behavior to optimize the following sequence:
-  xscvdpspn vs0,vs1
-  mffprwz   r8,f0
-ISA 3.0B has xscvdpspn leaving its result in word 0 of the target registe=
-r,
-and mffprwz expecting its input to come from word 1 of the source registe=
-r.
-This sequence fails with QEMU, as a shift is required between those two
-instructions.  However, since the hardware splats the result to both word=
-s 0
-and 1 of its output register, the shift is not necessary.
-
-Expect a future revision of the ISA to specify this behavior.
-
-Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
-
-v2
-- Splitting patch "ppc: Three floating point fixes"; this is just one par=
-t.
-- Updated commit message to clarify behavior is documented in User's Manu=
-als.
-- Updated commit message to correct which words are in output and source =
-of
-  xscvdpspn and mffprz.
-- No source changes to this part of the original patch.
-
-Message-Id: <1566236601-22954-1-git-send-email-pc@us.ibm.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
 ---
- target/ppc/fpu_helper.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+v1->v2
+ - Fixes on text format and 'Guest Data persistence'
+   section - Cornelia
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 5611cf0156..23b9c97439 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2871,10 +2871,14 @@ void helper_xscvqpdp(CPUPPCState *env, uint32_t o=
-pcode,
-=20
- uint64_t helper_xscvdpspn(CPUPPCState *env, uint64_t xb)
- {
-+    uint64_t result;
+ docs/virtio-pmem.rst | 75 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 75 insertions(+)
+ create mode 100644 docs/virtio-pmem.rst
+
+diff --git a/docs/virtio-pmem.rst b/docs/virtio-pmem.rst
+new file mode 100644
+index 0000000000..0346e61674
+--- /dev/null
++++ b/docs/virtio-pmem.rst
+@@ -0,0 +1,75 @@
 +
-     float_status tstat =3D env->fp_status;
-     set_float_exception_flags(0, &tstat);
-=20
--    return (uint64_t)float64_to_float32(xb, &tstat) << 32;
-+    result =3D (uint64_t)float64_to_float32(xb, &tstat);
-+    /* hardware replicates result to both words of the doubleword result=
-.  */
-+    return (result << 32) | result;
- }
-=20
- uint64_t helper_xscvspdpn(CPUPPCState *env, uint64_t xb)
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++QEMU virtio pmem
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++ This document explains the setup and usage of virtio pmem device
++ which is available since QEMU v4.1.0.
++
++ The virtio pmem is a paravirtualized persistent memory device on
++ regular(i.e non-NVDIMM) storage.
++
++Usecase
++--------
++
++  Allows to bypass the guest page cache and directly use host page cache=
+.
++  This reduces guest memory footprint as the host can make efficient
++  memory reclaim decisions under memory pressure.
++
++o How does virtio-pmem compare to the nvdimm emulation supported by QEMU=
+?
++
++  NVDIMM emulation on regular(i.e. non-NVDIMM) host storage does not
++  persist the guest writes as there are no defined semantics in the devi=
+ce
++  specification. The virtio pmem device provides guest write persistence
++  on non-NVDIMM host storage.
++
++virtio pmem usage
++-----------------
++
++  A virtio pmem device backed by a memory-backend-file can be created on
++  the QEMU command line as in the following example:
++
++  -object memory-backend-file,id=3Dmem1,share,mem-path=3D./virtio_pmem.i=
+mg,size=3D4G
++  -device virtio-pmem-pci,memdev=3Dmem1,id=3Dnv1
++
++   where:
++   - "object memory-backend-file,id=3Dmem1,share,mem-path=3D<image>, siz=
+e=3D<image size>"
++     creates a backend file of size on a mem-path.
++
++   - "device virtio-pmem-pci,id=3Dnvdimm1,memdev=3Dmem1" creates a virti=
+o pmem
++     pci device whose storage is provided by above memory backend device=
+.
++
++  Multiple virtio pmem devices can be created if multiple pairs of "-obj=
+ect"
++  and "-device" are provided.
++
++Hotplug
++-------
++
++"Virtio pmem devices can be hotplugged via the QEMU monitor. First, the
++memory backing has to be added via 'object_add'; afterwards, the virtio
++pmem device can be added via 'device_add'."
++
++For example, the following commands add another 4GB virtio pmem device t=
+o
++the guest:
++
++ (qemu) object_add memory-backend-file,id=3Dmem2,share=3Don,mem-path=3Dv=
+irtio_pmem2.img,size=3D4G
++ (qemu) device_add virtio-pmem-pci,id=3Dvirtio_pmem2,memdev=3Dmem2
++
++Guest Data Persistence
++----------------------
++
++ Guest data persistence on non-NVDIMM requires guest userspace applicati=
+on to
++ perform fsync/msync. This is different from a real nvdimm backend where=
+ no
++ additional fsync/msync is required. This is to persist guest writes in =
+host
++ backing file which otherwise remains in host page cache and there is ri=
+sk of
++ losing the data in case of power failure.
++
++ With virtio pmem device, MAP_SYNC mmap flag is not supported. This prov=
+ides
++ a hint to application to perform fsync for write persistence.
++
++Limitations
++------------
++- Real nvdimm device backend is not supported.
++- virtio pmem hotunplug is not supported.
++- ACPI NVDIMM features like regions/namespaces are not supported.
++- ndctl command is not supported.
 --=20
 2.21.0
 
