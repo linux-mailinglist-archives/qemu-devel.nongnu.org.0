@@ -2,59 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF97C96FB2
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 04:42:00 +0200 (CEST)
-Received: from localhost ([::1]:43516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 382C197001
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 05:07:58 +0200 (CEST)
+Received: from localhost ([::1]:43614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0GZT-0005xZ-Jl
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 22:41:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39566)
+	id 1i0Gyb-0005p9-C3
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 23:07:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42627)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i0GYN-0005CV-9O
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 22:40:52 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1i0Gxk-0004q0-71
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 23:07:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i0GYL-0006uk-Uo
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 22:40:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55918)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i0GYL-0006tS-Oj
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 22:40:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i0GYJ-00038K-QW
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 02:40:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C77C52E8070
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 02:40:47 +0000 (UTC)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1i0Gxi-0001MT-L0
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 23:07:03 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:47863)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1i0Gxi-0001As-AS; Tue, 20 Aug 2019 23:07:02 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07439327|-1; CH=green;
+ DM=CONTINUE|CONTINUE|true|0.55312-0.0189336-0.427946; FP=0|0|0|0|0|-1|-1|-1;
+ HT=e02c03309; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=7; RT=7; SR=0;
+ TI=SMTPD_---.FFcpSje_1566356812; 
+Received: from 172.16.28.187(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.FFcpSje_1566356812)
+ by smtp.aliyun-inc.com(10.147.44.118);
+ Wed, 21 Aug 2019 11:06:54 +0800
+To: Alistair Francis <alistair23@gmail.com>
+References: <0141541d-43ff-98d8-e9d4-4a2fdcfdcf36@c-sky.com>
+ <CAKmqyKPr0V6acB2-Y+N1-aoj-5LSofwi=Jz=u6KFJN1fPUWjzA@mail.gmail.com>
+ <2b741fb0-0f12-0f07-a516-9cc23abc0b6e@c-sky.com>
+ <CAKmqyKPa2YbAASRsQ8cAm+LR58Z3i_bCXDd7tYtD5TtXvv4YdQ@mail.gmail.com>
+From: liuzhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <5689fa51-c167-863a-0798-1fa16e628c47@c-sky.com>
+Date: Wed, 21 Aug 2019 11:01:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Aug 2019 02:33:50 -0000
-From: fangying <1840865@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: yorifang
-X-Launchpad-Bug-Reporter: fangying (yorifang)
-X-Launchpad-Bug-Modifier: fangying (yorifang)
-Message-Id: <156635483019.23159.9094249492846476541.malonedeb@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19022";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: b8eee8ec939871b78ff512079be7b67393944a1f
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1840865] [NEW] qemu crashes when doing iotest on
- virtio-9p filesystem
+In-Reply-To: <CAKmqyKPa2YbAASRsQ8cAm+LR58Z3i_bCXDd7tYtD5TtXvv4YdQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 121.197.200.217
+Subject: Re: [Qemu-devel] RISCV: when will the CLIC be ready?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,117 +57,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1840865 <1840865@bugs.launchpad.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-Qemu crashes when doing avocado-vt test on virtio-9p filesystem.
-This bug can be reproduced running https://github.com/autotest/tp-qemu/blob=
-/master/qemu/tests/9p.py.
-The crash stack goes like:
+On 2019/8/20 上午2:56, Alistair Francis wrote:
+> On Mon, Aug 19, 2019 at 6:44 AM liuzhiwei <zhiwei_liu@c-sky.com> wrote:
+>>
+>> On 2019/8/17 上午1:29, Alistair Francis wrote:
+>>> On Thu, Aug 15, 2019 at 8:39 PM liuzhiwei<zhiwei_liu@c-sky.com>  wrote:
+>>>> Hi, Palmer
+>>>>
+>>>> When Michael Clark still was the maintainer of RISCV QEMU, he wrote in the mail list, "the CLIC interrupt controller is under testing,
+>>>> and will be included in QEMU 3.1 or 3.2". It is pity that the CLIC is not in
+>>>> included even in QEMU 4.1.0.
+>>> I see that there is a CLIC branch available here:
+>>> https://github.com/riscv/riscv-qemu/pull/157
+>>>
+>>> It looks like all of the work is in a single commit
+>>> (https://github.com/riscv/riscv-qemu/pull/157/commits/206d9ac339feb9ef2c325402a00f0f45f453d019)
+>>> and that most of the other commits in the PR have already made it into
+>>> master.
+>>>
+>>> Although the CLIC commit is very large it doesn't seem impossible to
+>>> manually pull out the CLIC bits and apply it onto master.
+>>>
+>>> Do you know the state of the CLIC model? If it's working it shouldn't
+>>> be too hard to rebase the work and get the code into mainline.
+>>>
+>>> Alistair
+>>>
+>> Hi,  Alistair
+>>
+>> In my opinion, the CLIC code almost works.
+>>
+>> Last year when my workmate ported an RTOS, I once read the CLIC specification and used the CLIC model code. It worked through  all the tests after fixed two bugs. I also had sent the patch to Michael, but without response(maybe a wrong email address).
+>>
+>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>> index 7bf6cbc..95d80ab 100644
+>> --- a/target/riscv/cpu_helper.c
+>> +++ b/target/riscv/cpu_helper.c
+>> @@ -505,6 +505,9 @@ static target_ulong riscv_intr_pc(CPURISCVState *env,
+>>        if (!(async || clic)) {
+>>            return tvec & ~0b11;
+>>        }
+>> +    if (clic) {
+>> +        cause &= 0x3ff;
+>> +    }
+>>
+>>        /* bits [1:0] encode mode; 0 = direct, 1 = vectored, 2 >= reserved */
+>>        switch (mode1) {
+>> @@ -645,6 +648,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>>            riscv_cpu_set_mode(env, PRV_M);
+>>        }
+>>
+>> +    if (clic) {
+>> +        env->exccode = 0;
+>> +    }
+>>        /* NOTE: it is not necessary to yield load reservations here. It is only
+>>           necessary for an SC from "another hart" to cause a load reservation
+>>           to be yielded. Refer to the memory consistency model section of the
+>>
+>> After that, the specification has updated and the code may changed. I didn't pull new code again.
+>>
+>> If the CLIC model may merged into the mainline, and no body maintain the code, I'd like to work on it, fixing the bugs and updating the code according to latest specification.
+> Yes please! We will be happy to merge it!
+>
+> If you would like to it would be great if you could update the code,
+> fix the bugs and then send patches to this list.
+>
+> Alistair
+>
+OK,  I'd like to. As the vector extension patch has already been under 
+data  disclosure  review,
 
-Program terminated with signal SIGSEGV, Segmentation fault.
-#0  v9fs_mark_fids_unreclaim (pdu=3Dpdu@entry=3D0xaaab00046868, path=3Dpath=
-@entry=3D0xffff851e2fa8)
-    at hw/9pfs/9p.c:505
-#1  0x0000aaaae3585acc in v9fs_unlinkat (opaque=3D0xaaab00046868) at hw/9pf=
-s/9p.c:2590
-#2  0x0000aaaae3811c10 in coroutine_trampoline (i0=3D<optimized out>, i1=3D=
-<optimized out>)
-    at util/coroutine-ucontext.c:116
-#3  0x0000ffffa13ddb20 in ?? () from /lib64/libc.so.6
-Backtrace stopped: not enough registers or memory available to unwind furth=
-er
+I will forward move on to this work and send the patch about two or 
+three weeks later.
 
-A segment fault is triggered at hw/9pfs/9p.c line 505
+Best Regards,
+Zhiwei
 
-    for (fidp =3D s->fid_list; fidp; fidp =3D fidp->next) {
-        if (fidp->path.size !=3D path->size) {     # fidp is invalid =
-
-            continue;
-        }
-
-(gdb) p path
-$10 =3D (V9fsPath *) 0xffff851e2fa8
-(gdb) p *path
-$11 =3D {size =3D 21, data =3D 0xaaaafed6f420 "./9p_test/p2a1/d0/f1"}
-(gdb) p *fidp
-Cannot access memory at address 0x101010101010101
-(gdb) p *pdu
-$12 =3D {size =3D 19, tag =3D 54, id =3D 76 'L', cancelled =3D 0 '\000', co=
-mplete =3D {entries =3D {
-      sqh_first =3D 0x0, sqh_last =3D 0xaaab00046870}}, s =3D 0xaaab000454b=
-8, next =3D {
-    le_next =3D 0xaaab000467c0, le_prev =3D 0xaaab00046f88}, idx =3D 88}
-(gdb) =
-
-
-Address Sanitizer shows error and saying that there is a heap-use-after-
-free on *fidp*.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1840865
-
-Title:
-  qemu crashes when doing iotest on  virtio-9p filesystem
-
-Status in QEMU:
-  New
-
-Bug description:
-  Qemu crashes when doing avocado-vt test on virtio-9p filesystem.
-  This bug can be reproduced running https://github.com/autotest/tp-qemu/bl=
-ob/master/qemu/tests/9p.py.
-  The crash stack goes like:
-
-  Program terminated with signal SIGSEGV, Segmentation fault.
-  #0  v9fs_mark_fids_unreclaim (pdu=3Dpdu@entry=3D0xaaab00046868, path=3Dpa=
-th@entry=3D0xffff851e2fa8)
-      at hw/9pfs/9p.c:505
-  #1  0x0000aaaae3585acc in v9fs_unlinkat (opaque=3D0xaaab00046868) at hw/9=
-pfs/9p.c:2590
-  #2  0x0000aaaae3811c10 in coroutine_trampoline (i0=3D<optimized out>, i1=
-=3D<optimized out>)
-      at util/coroutine-ucontext.c:116
-  #3  0x0000ffffa13ddb20 in ?? () from /lib64/libc.so.6
-  Backtrace stopped: not enough registers or memory available to unwind fur=
-ther
-
-  A segment fault is triggered at hw/9pfs/9p.c line 505
-
-      for (fidp =3D s->fid_list; fidp; fidp =3D fidp->next) {
-          if (fidp->path.size !=3D path->size) {     # fidp is invalid =
-
-              continue;
-          }
-
-  (gdb) p path
-  $10 =3D (V9fsPath *) 0xffff851e2fa8
-  (gdb) p *path
-  $11 =3D {size =3D 21, data =3D 0xaaaafed6f420 "./9p_test/p2a1/d0/f1"}
-  (gdb) p *fidp
-  Cannot access memory at address 0x101010101010101
-  (gdb) p *pdu
-  $12 =3D {size =3D 19, tag =3D 54, id =3D 76 'L', cancelled =3D 0 '\000', =
-complete =3D {entries =3D {
-        sqh_first =3D 0x0, sqh_last =3D 0xaaab00046870}}, s =3D 0xaaab00045=
-4b8, next =3D {
-      le_next =3D 0xaaab000467c0, le_prev =3D 0xaaab00046f88}, idx =3D 88}
-  (gdb) =
-
-
-  Address Sanitizer shows error and saying that there is a heap-use-
-  after-free on *fidp*.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1840865/+subscriptions
+>> Best Regards,
+>> Zhiwei
+>>
+>>>> As we have cpus using CLIC, I have to use the out of tree qemu code in SIFIVE
+>>>> a long time. Could you tell me when it will be upstreamed?
+>>>>
+>>>> Best Regards
+>>>> Zhiwei
+>>>>
 
