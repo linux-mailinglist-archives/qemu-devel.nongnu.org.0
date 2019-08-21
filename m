@@ -2,54 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7659867B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 23:19:41 +0200 (CEST)
-Received: from localhost ([::1]:35396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B8F9868D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 23:23:01 +0200 (CEST)
+Received: from localhost ([::1]:35440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Y15-0004on-MZ
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 17:19:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51368)
+	id 1i0Y4K-0000An-8S
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 17:23:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52059)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1i0Xz9-0003Jk-1o
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 17:17:41 -0400
+ (envelope-from <bounces@canonical.com>) id 1i0Y2D-00066N-EP
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 17:20:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1i0Xz5-0001yQ-22
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 17:17:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41634)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i0Xz4-0001y2-Sg
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 17:17:35 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 47A7887630;
- Wed, 21 Aug 2019 21:00:34 +0000 (UTC)
-Received: from localhost (ovpn-116-73.gru2.redhat.com [10.97.116.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 744296012E;
- Wed, 21 Aug 2019 21:00:33 +0000 (UTC)
-Date: Wed, 21 Aug 2019 18:00:30 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Message-ID: <20190821210030.GH7077@habkost.net>
-References: <1564760158-27536-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <CAL1e-=hWc6G7Ob+LU7EWoY3LVBvABY2ky=RT28dSzqM=9O=OEA@mail.gmail.com>
+ (envelope-from <bounces@canonical.com>) id 1i0Y2C-0002d8-CQ
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 17:20:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44054)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i0Y2C-0002ci-6F
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 17:20:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i0Xin-0001oy-P1
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 21:00:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B9EA42E8074
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 21:00:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAL1e-=hWc6G7Ob+LU7EWoY3LVBvABY2ky=RT28dSzqM=9O=OEA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Wed, 21 Aug 2019 21:00:34 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Aug 2019 20:54:29 -0000
+From: Richard Henderson <rth@twiddle.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: christophe-lyon
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <156639548437.26869.13792283715555746637.malonedeb@gac.canonical.com>
+Message-Id: <156642087181.16299.15922415665092176439.launchpad@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19022";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: f4f5041744a3c5e6937dc504cb6164e76c9b7601
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/2] tests/acceptance: Update MIPS Malta
- ssh test
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1840922] Re: qemu-arm for cortex-m33 aborts with
+ unhandled CPU exception 0x8
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,67 +65,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, f4bug@amsat.org, qemu-devel@nongnu.org,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, amarkovic@wavecomp.com,
- crosa@redhat.com
+Reply-To: Bug 1840922 <1840922@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 21, 2019 at 10:27:11PM +0200, Aleksandar Markovic wrote:
-> 02.08.2019. 17.37, "Aleksandar Markovic" <aleksandar.markovic@rt-rk.com=
-> =D1=98=D0=B5
-> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
-> >
-> > From: Aleksandar Markovic <amarkovic@wavecomp.com>
-> >
-> > This little series improves linux_ssh_mips_malta.py, both in the sens=
-e
-> > of code organization and in the sense of quantity of executed tests.
-> >
->=20
-> Hello, all.
->=20
-> I am going to send a new version in few days, and I have a question for
-> test team:
->=20
-> Currently, the outcome of the script execition is either PASS:1 FAIL:0 =
-or
-> PASS:0 FAIL:1. But the test actually consists of several subtests. Is t=
-here
-> any way that this single Python script considers these subtests as sepa=
-rate
-> tests (test cases), reporting something like PASS:12 FAIL:7? If yes, wh=
-at
-> would be the best way to achieve that?
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-If you are talking about each test_*() method, they are already
-treated like separate tests.  If you mean treating each
-ssh_command_output_contains() call as a separate test, this might
-be difficult.
+-- =
 
-Cleber, is there something already available in the Avocado API
-that would help us report more fine-grained results inside each
-test case?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1840922
 
+Title:
+  qemu-arm for cortex-m33 aborts with unhandled CPU exception 0x8
 
->=20
-> Thanks in advance,
-> Aleksandar
->=20
-> > Aleksandar Markovic (2):
-> >   tests/acceptance: Refactor and improve reporting in
-> >     linux_ssh_mips_malta.py
-> >   tests/acceptance: Add new test cases in linux_ssh_mips_malta.py
-> >
-> >  tests/acceptance/linux_ssh_mips_malta.py | 81
-> ++++++++++++++++++++++++++------
-> >  1 file changed, 66 insertions(+), 15 deletions(-)
-> >
-> > --
-> > 2.7.4
-> >
-> >
+Status in QEMU:
+  Confirmed
 
---=20
-Eduardo
+Bug description:
+  Hi,
+
+  While experimenting with running the GCC testsuite with cortex-m33 as tar=
+get (to exercise v8-m code), I came across this failure:
+  qemu: unhandled CPU exception 0x8 - aborting
+  R00=3Dfffeaf58 R01=3Dfffeaf58 R02=3D00000000 R03=3Dfffeaf5d
+  R04=3Dfffeaf5c R05=3Dfffeaf9c R06=3D00000000 R07=3Dfffeaf80
+  R08=3D00000000 R09=3D00000000 R10=3D00019dbc R11=3D00000000
+  R12=3D000000f0 R13=3Dfffeaf58 R14=3D000081f3 R15=3Dfffeaf5c
+  XPSR=3D61000000 -ZC- T NS priv-thread
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x6033=
+c908
+
+  I'm using arm-eabi-gcc, so it targets bare-metal, not linux.
+
+  The testcase is GCC's
+  gcc/testsuite/gcc.c-torture/execute/20000822-1.c; it works when
+  compiled at -O2, but crashes when compiled at -Os. The test uses
+  nested functions, so it creates a trampoline on the stack, whose
+  address may be a problem. But since the stack address seems to be in
+  the same range in the O2 and Os cases, it's not that clear.
+
+  I'm attaching the C source, asm, binary executables and qemu traces
+  with in_asm,cpu.
+
+  I execute the binaries with:
+  qemu-arm --cpu cortex-m33  ./20000822-1.exe.Os
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1840922/+subscriptions
 
