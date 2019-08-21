@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740C69819E
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:43:03 +0200 (CEST)
-Received: from localhost ([::1]:51260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2B3981B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:48:51 +0200 (CEST)
+Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0UdS-0000Tv-8l
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:43:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40751)
+	id 1i0Uj3-0007OP-Rp
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:48:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40764)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1i0UR4-0000kE-1K
+ (envelope-from <jan.bobek@gmail.com>) id 1i0UR4-0000kv-E4
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1i0UR2-00077Q-QG
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:13 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:35302)
+ (envelope-from <jan.bobek@gmail.com>) id 1i0UR2-00077Z-Tw
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:14 -0400
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:45506)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0UR2-000767-Lq
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0UR2-000772-Os
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:12 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id c9so1353020ybf.2
+Received: by mail-yb1-xb42.google.com with SMTP id u32so1326379ybi.12
  for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YAMNXlLOuM4Ta9jqg2Fe8pblTj+VNxEkwoFOEYqrh7E=;
- b=JlNm4gqXEy62ha6a6f4ap8noJQ8VLKhi/CmH4NsEw+PWbrcglnYisvy8i5VxZHpTe5
- xDc9gz5/RiOmJwdsnf/1FnkHnOqNzq0w9Xs/jl4LuJjUHxNkz80bHDazU9KeIi697n/k
- ISxlwsFXgZnOGFixjpJEhlbIYIp7Ii3YJdiTXyHwkHcJxmnYIo3UFtonbTK1H9WjmPoH
- 0SDruOpEVbCe4xJ8RHJrAr/Gsku99VPV4GLXaPOLgARmQ936wBqxvNFg3AiC7+NEGj/m
- fwgDCVlD8NXlTZneognZV+9LiiDkzG1hubkagkMhol8g3Dv6kna8AThyd39xXC9r8/Bh
- 6UcQ==
+ bh=WEqQSkOn6tgWF8MsWRjc3VD3xb5ORz43vFOppSEWU84=;
+ b=HxkgLEEqA6TL3H7Zwvae9d7MkzG/UZL+Txz+QRTzZWfUAw0eP4MRFXHGMf9aK39ZEv
+ /YAIgzLgGcSw5dF0D0EVSaJMwDWz321bliNXF/yiLBRpdZg6WerLgtgPKmq7IX8A4YTe
+ MIOSJGCVSpbEFxTr/mk2AShFD9qTmERmlWifUYTcTSGws2ZhvXqtRkGPmdlpbvaO60Yp
+ 54q21Z5wmWKPSlwfOAFRbCVwjZI3P0/3bgWQe5UR/xm+AxH/TDY6L88PyFMuFHr8PBNd
+ W0IpsGF8WLT9laPwAZBSTpR/dNe7Klujg8Q2znbhn5qUsK9qlBcePdZ0LxtUJzLgKGMx
+ OLnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YAMNXlLOuM4Ta9jqg2Fe8pblTj+VNxEkwoFOEYqrh7E=;
- b=m0hmHk0m/fv6yO/1Ftxf4CVn0vpO/epcOsTPf4OutOB7bKD090vgyM0elrp/5ruVvj
- LvSLMT8p2iWi1ClSDiVKFGLe83k8poqzzkPZ91U4aiTt8laIzv93bdmlyw9gfphvEzAM
- +clFz/c5Jflvvx/DQf2RUPLq84MZhykBsduwLyneZ4GjcW1MIRLB2pxgqmVMg3SWAPgm
- TeN64/BftN9ThD2fFKezerMtR1YgJHzCwbRvA2aYtOyvBYt+ju3WJzbfYJ9lMdBunz1N
- u0YUuXZXRk7Pdv5n7BbVGPnbYad5yf1LnfP5HPabUmNOsbtLlbTpCIAfiNHz06CyVOO6
- QmCg==
-X-Gm-Message-State: APjAAAXB+/wYzVlJIiFJtVXQvJGtHHTooxgScxQVFCQlHcCHi6G6d6Rw
- o9owv/1xDmGzZsu9A6jv2xEMnWXO
-X-Google-Smtp-Source: APXvYqzfUTazJKO8tiolkBFWkiYuIFg81dxKDejSTtcXisSSpRHQwxxfK+LxA3/m+EI76/v4vZGfeg==
-X-Received: by 2002:a25:76ca:: with SMTP id r193mr26497258ybc.33.1566408610938; 
- Wed, 21 Aug 2019 10:30:10 -0700 (PDT)
+ bh=WEqQSkOn6tgWF8MsWRjc3VD3xb5ORz43vFOppSEWU84=;
+ b=H+F11B0ZJT9WPYKE5BdZoPyUJDb+rrW5t9hCLU4kClByk4aeE6YwuXFuYgIqfMJ/au
+ V82J6HpBeOrnQbw3cbgzrwKPDs0Qk32TOWgxg+htfMQjLrCB5jjLDmHfaYwriT5mOeZa
+ UMz9q31tEw89QJgm+WjM1M5GPtB6/JHlL48g9/lxv0x+rAiQxJsoE8BIOXKYxKIoGnEM
+ qfxxtJltf+2dtIbzcFZ09axM0yACf2e6S1UgUWXwMVQipidDVSLw1lZiT5HwPp188llQ
+ FKtup6EVr4p9QJBB9VO+OfrdpyEU5RJqWN4Zq5ZbO952pNpq8I5+YqoI8UM2lnQHadLM
+ /46w==
+X-Gm-Message-State: APjAAAXhrZNtT3TZZ+GI7bkZA8rAH8DiSzgJc/9alFJkOnsR2yUeBdId
+ TR4HAJjLMhZVql/oMcw+fpq3dgS7
+X-Google-Smtp-Source: APXvYqxBKE+N+fOMgly2HFf1ieXZCAAAqtKm+g6/isBUNKIKzLmLbSgB7bpxVOHbeaD/cpkrOHjBcw==
+X-Received: by 2002:a25:324b:: with SMTP id y72mr12446483yby.361.1566408612104; 
+ Wed, 21 Aug 2019 10:30:12 -0700 (PDT)
 Received: from localhost.localdomain ([2601:c0:c67f:e390::3])
- by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.10
+ by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Aug 2019 10:30:10 -0700 (PDT)
+ Wed, 21 Aug 2019 10:30:11 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:28:46 -0400
-Message-Id: <20190821172951.15333-11-jan.bobek@gmail.com>
+Date: Wed, 21 Aug 2019 13:28:47 -0400
+Message-Id: <20190821172951.15333-12-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190821172951.15333-1-jan.bobek@gmail.com>
 References: <20190821172951.15333-1-jan.bobek@gmail.com>
@@ -63,9 +63,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b44
-Subject: [Qemu-devel] [RFC PATCH v4 10/75] target/i386: add vector register
- file alignment constraints
+X-Received-From: 2607:f8b0:4864:20::b42
+Subject: [Qemu-devel] [RFC PATCH v4 11/75] target/i386: introduce gen_sse_ng
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,33 +82,79 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-gvec operations require that all vectors be aligned on 16-byte
-boundary; make sure the MM/XMM/YMM/ZMM register file is aligned as
-neccessary.
+This function serves as the point-of-intercept for all newly
+implemented instructions. If no new implementation exists, fall back
+to gen_sse.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/cpu.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/i386/translate.c | 46 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 5f6e3a029a..f226e61724 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1202,9 +1202,9 @@ typedef struct CPUX86State {
-     float_status mmx_status; /* for 3DNow! float ops */
-     float_status sse_status;
-     uint32_t mxcsr;
--    ZMMReg xmm_regs[CPU_NB_REGS == 8 ? 8 : 32];
--    ZMMReg xmm_t0;
--    MMXReg mmx_t0;
-+    ZMMReg xmm_regs[CPU_NB_REGS == 8 ? 8 : 32] QEMU_ALIGNED(16);
-+    ZMMReg xmm_t0 QEMU_ALIGNED(16);
-+    MMXReg mmx_t0 QEMU_ALIGNED(8);
+diff --git a/target/i386/translate.c b/target/i386/translate.c
+index 44ad55f9ee..8045ce3ce0 100644
+--- a/target/i386/translate.c
++++ b/target/i386/translate.c
+@@ -4477,6 +4477,50 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+     }
+ }
  
-     XMMReg ymmh_regs[CPU_NB_REGS];
- 
++static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
++{
++    enum {
++        P_NP = 0,
++        P_66 = 1 << 8,
++        P_F3 = 1 << 9,
++        P_F2 = 1 << 10,
++
++        M_NA   = 0,
++        M_0F   = 1 << 11,
++        M_0F38 = 1 << 12,
++        M_0F3A = 1 << 13,
++
++        W_0 = 0,
++        W_1 = 1 << 14,
++
++        VEX_128 = 1 << 15,
++        VEX_256 = 1 << 16,
++    };
++
++    const int p =
++        (s->prefix & PREFIX_DATA ? P_66 : 0)
++        | (s->prefix & PREFIX_REPZ ? P_F3 : 0)
++        | (s->prefix & PREFIX_REPNZ ? P_F2 : 0)
++        | (!(s->prefix & PREFIX_VEX) ? 0 :
++           (s->vex_l ? VEX_256 : VEX_128));
++    int m =
++        M_0F;
++    const int w =
++        REX_W(s) > 0 ? W_1 : W_0;
++    int op =
++        b & 0xff;
++
++    while (1) {
++        switch (p | m | w | op) {
++
++        default: {
++            gen_sse(env, s, b);
++        } return;
++
++        }
++    }
++}
++
+ static int disas_insn_prefix(DisasContext *s, CPUX86State *env)
+ {
+     int b, prefixes;
+@@ -8372,7 +8416,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x1c2:
+     case 0x1c4 ... 0x1c6:
+     case 0x1d0 ... 0x1fe:
+-        gen_sse(env, s, b);
++        gen_sse_ng(env, s, b);
+         break;
+     default:
+         goto unknown_op;
 -- 
 2.20.1
 
