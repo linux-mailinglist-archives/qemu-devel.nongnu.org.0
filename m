@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0070B9813B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:27:43 +0200 (CEST)
-Received: from localhost ([::1]:50964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997C59813E
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:28:12 +0200 (CEST)
+Received: from localhost ([::1]:50968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0UOb-0003vf-Hr
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:27:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39531)
+	id 1i0UP5-0004dy-AG
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:28:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39995)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vandersonmr2@gmail.com>) id 1i0UL3-0007gM-1P
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:24:02 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i0UN9-0002xA-Sp
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:26:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vandersonmr2@gmail.com>) id 1i0UL1-0000GA-8W
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:24:00 -0400
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:45720)
+ (envelope-from <richard.henderson@linaro.org>) id 1i0UN8-0002SH-AR
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:26:11 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:43361)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
- id 1i0UL1-0000Fv-3U
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:23:59 -0400
-Received: by mail-qt1-x841.google.com with SMTP id k13so3939054qtm.12
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:23:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2OMuKEWX3HhH/rU8jwGd3aUuZK2eSsJvZM+u2kVWjEM=;
- b=ig5QcvFd0yHKvlcfZJ75t+5/DR6pDFCdBbCbnzJrACEQWPGc+hq8J5oyl/ATn7e6a4
- pi0UXsHDoOASS7DH2lcv9YXN7a2zApYnGBrVJM7IrHgF/7GhmsaG9abG1qGEYngeWbqS
- ln/oa74AL4bBWfQbEKzujxy51dl4JR6czjwPMyp/DQza9vnxyM81qEz0qfqiFxfAN87X
- wAB21WakEUqlF52lvSszTnJ2smVuJ5epvtxbVpFUdPUQatSbDYqyQWCyBUfdEkcU6hhv
- eBCsmuJo1Rbs4gELpUplREBCZc8tuMNikgeGx84nmJAfupXKa47yB7evhXMiSCScyLJQ
- PVZQ==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i0UN8-0002Qt-0E
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:26:10 -0400
+Received: by mail-pg1-x542.google.com with SMTP id k3so1679639pgb.10
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:26:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oInbOgNscJRZUfgK1mx7l/CjhhovsgM8ujhMOHOC13g=;
+ b=BUX9hqVwt8ZIog+BP00f6XlDKaf6Vwek8XZrmV9+piJXrVHXpkBXX70ir08KKbDypu
+ VXGJjy0Bl3TO01KewuxDgTPMGLzLgYURcLS3ONKHDfsyi3ANdEFALPfOvvy8Jxelp7JK
+ ACdUgjs0USTjnqXsMIH323aj3qbI7G+Mmx1GDz5hkzJ0HPUxohphjO0RNWg9pY2hYB/Z
+ qpzfcNCsRnJQYMYUgdzYRCZLyvUV0MgLteJqx58tq+i2BEqWew+yEncjBP21/tQY9Afa
+ GEdJ/s5rKlATRRThk0rnPnqXe+Qw6eCZwpdLOTOVLcb0JsI5Vpk0G0l5eYtmeU4KuDwf
+ B5DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2OMuKEWX3HhH/rU8jwGd3aUuZK2eSsJvZM+u2kVWjEM=;
- b=OdOnAGDYRtIDGffA11QMlse/ymC4PWlfxg7krXAjC8AG/4CBCyaIIniF07YzxTVGdk
- DugKwaKha3xLbIjBfeJquEaH9BjwNyjPfWM6nQqlZ8VzAryRwodV2Ev1AGtXRaNfbJFg
- qdx7NySLbn4/FU2ucUT8gdgGrOjNxZjyKkrgfpRVlDyL/2Km2cntEv1dwxWumbzmWn+o
- RDi1UhPgEfM180A22M7vjr76nxx00dmoe9jSFoW89cIOLwIT4i/B/6XjtEmOyZi7jKZn
- mmJjeAAMJHXynqdRUFX+PaFtAx2Roo/aGqJK7Rpo2JVQnkpqW7Y3F0Zj1EHk6I2s3MHI
- akWg==
-X-Gm-Message-State: APjAAAXeqSDQ3qbXpSWoFhbkkFdc9aFq2GKEdxP2dNpq5Ohj2E/sPTYv
- lLevqPkISnPOsrBxpzSt1iFMojonZ51NJg==
-X-Google-Smtp-Source: APXvYqz6dCOqhp9GgxaZujGqkJPYXzMTK/SyTzNRtnpYg66OMfULzbCEVpR63V85tTiF8bXJn5CLuQ==
-X-Received: by 2002:a05:6214:32f:: with SMTP id
- j15mr1949861qvu.42.1566408238306; 
- Wed, 21 Aug 2019 10:23:58 -0700 (PDT)
-Received: from vanderson-lmcad.gw.lmcad.ic.unicamp.br (gw.lmcad.ic.unicamp.br.
- [143.106.73.166])
- by smtp.googlemail.com with ESMTPSA id a3sm9623998qtp.10.2019.08.21.10.23.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Aug 2019 10:23:57 -0700 (PDT)
-From: vandersonmr <vandersonmr2@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 14:23:26 -0300
-Message-Id: <20190821172329.2062-8-vandersonmr2@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190821172329.2062-1-vandersonmr2@gmail.com>
-References: <20190821172329.2062-1-vandersonmr2@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oInbOgNscJRZUfgK1mx7l/CjhhovsgM8ujhMOHOC13g=;
+ b=BojoC17JxURaIeXyVj9i8s1JMKBv7M0F/JIK6Z78b9VizPe7/5WO+aQrJJzXvnI5YQ
+ m2nIN2iQ4utDvBjEkPO1I0ieDH0IZY6oUii9ksfGJCCNZ6f57hmcBEPqsWRr1omTHQaG
+ 4sMAN/v5RB2H5SewZ3kdHXpor18CUuKnqFTtp2AaLaBrYfprQ0Ii/7f6IvQgDc1ss+kq
+ hORUYGkRrbaUShRSxkgom8ZMo1ia39uErN21drZ71lzOBRWC/TOCIUGCvZK81hIfkU1Q
+ mjsQtQPvIoIYkLX7Ar8+43tk3QjKi04vI+ikD5ibQsgu1M2yNVcJP+tJSHgkM8xig+PU
+ VTsw==
+X-Gm-Message-State: APjAAAVTyV9qFtyBrskBjK4igmPFeyiX1hzac4kLjih0AIJd4GojLAfP
+ Tgw1g+eFL8+sAQMDBCph+8Xw8Q==
+X-Google-Smtp-Source: APXvYqxCd2WYJTcEOoN813v80GtEMFLTmy8bHWJTbjge/NJrX+E/Nc6iQnw2RDKBWyxA2vshaRZFxQ==
+X-Received: by 2002:a63:6a81:: with SMTP id
+ f123mr30566609pgc.348.1566408368723; 
+ Wed, 21 Aug 2019 10:26:08 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id c13sm25449749pfi.17.2019.08.21.10.26.07
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 21 Aug 2019 10:26:07 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190821092252.26541-1-david@redhat.com>
+ <20190821092252.26541-3-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <dc42887a-f991-1fe0-36a7-a7804bc4a939@linaro.org>
+Date: Wed, 21 Aug 2019 10:26:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190821092252.26541-3-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::841
-Subject: [Qemu-devel] [PATCH v6 07/10] monitor: adding tb_stats hmp command
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: Re: [Qemu-devel] [PATCH v1 2/4] s390x/tcg: Introduce
+ probe_read_access()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,351 +85,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
+ qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding tb_stats [start|pause|stop|filter] command to hmp.
-This allows controlling the collection of statistics.
-It is also possible to set the level of collection:
-all, jit, or exec.
+On 8/21/19 2:22 AM, David Hildenbrand wrote:
+> +/*
+> + * Make sure the read access is permitted and TLB entries are created. In
+> + * very rare cases it might happen that the actual accesses might need
+> + * new MMU translations. If the page tables were changed in between, we
+> + * might still trigger a fault. However, this seems to barely happen, so we
+> + * can ignore this for now.
+> + */
+> +void probe_read_access(CPUS390XState *env, uint64_t addr, uint64_t len,
+> +                       uintptr_t ra)
+> +{
+> +#ifdef CONFIG_USER_ONLY
+> +    if (!guest_addr_valid(addr) || !guest_addr_valid(addr + len - 1) ||
+> +        page_check_range(addr, len, PAGE_READ) < 0) {
+> +        s390_program_interrupt(env, PGM_ADDRESSING, ILEN_AUTO, ra);
+> +    }
+> +#else
+> +    while (len) {
+> +        const uint64_t pagelen = -(addr | -TARGET_PAGE_MASK);
+> +        const uint64_t curlen = MIN(pagelen, len);
+> +
+> +        cpu_ldub_data_ra(env, addr, ra);
+> +        addr = wrap_address(env, addr + curlen);
+> +        len -= curlen;
+> +    }
+> +#endif
+> +}
 
-tb_stats filter allow to only collect statistics for the TB
-in the last_search list.
+I don't think this is really the right approach, precisely because of the
+comment above.
 
-The goal of this command is to allow the dynamic exploration
-of the TCG behavior and quality. Therefore, for now, a
-corresponding QMP command is not worthwhile.
+I think we should
 
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
----
- accel/tcg/tb-stats.c    | 111 ++++++++++++++++++++++++++++++++++++++++
- hmp-commands.hx         |  17 ++++++
- include/exec/tb-stats.h |  12 +++++
- include/qemu-common.h   |   1 +
- monitor/misc.c          |  49 ++++++++++++++++++
- vl.c                    |   6 +++
- 6 files changed, 196 insertions(+)
+(1) Modify the generic probe_write to return the host address,
+    akin to tlb_vaddr_to_host except it *will* fault.
 
-diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
-index 8554174360..ffaa9d5d51 100644
---- a/accel/tcg/tb-stats.c
-+++ b/accel/tcg/tb-stats.c
-@@ -9,6 +9,9 @@
- 
- #include "exec/tb-stats.h"
- 
-+/* only accessed in safe work */
-+static GList *last_search;
-+
- uint64_t dev_time;
- 
- struct jit_profile_info {
-@@ -137,6 +140,96 @@ void dump_jit_profile_info(TCGProfile *s)
-     g_free(jpi);
- }
- 
-+static void free_tbstats(void *p, uint32_t hash, void *userp)
-+{
-+    g_free(p);
-+}
-+
-+static void clean_tbstats(void)
-+{
-+    /* remove all tb_stats */
-+    qht_iter(&tb_ctx.tb_stats, free_tbstats, NULL);
-+    qht_destroy(&tb_ctx.tb_stats);
-+}
-+
-+void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd)
-+{
-+    struct TbstatsCommand *cmdinfo = icmd.host_ptr;
-+    int cmd = cmdinfo->cmd;
-+    uint32_t level = cmdinfo->level;
-+
-+    switch (cmd) {
-+    case START:
-+        if (tb_stats_collection_paused()) {
-+            set_tbstats_flags(level);
-+        } else {
-+            if (tb_stats_collection_enabled()) {
-+                qemu_printf("TB information already being recorded");
-+                return;
-+            }
-+            qht_init(&tb_ctx.tb_stats, tb_stats_cmp, CODE_GEN_HTABLE_SIZE,
-+                        QHT_MODE_AUTO_RESIZE);
-+        }
-+
-+        set_default_tbstats_flag(level);
-+        enable_collect_tb_stats();
-+        tb_flush(cpu);
-+        break;
-+    case PAUSE:
-+        if (!tb_stats_collection_enabled()) {
-+            qemu_printf("TB information not being recorded");
-+            return;
-+        }
-+
-+        /* Continue to create TBStatistic structures but stop collecting statistics */
-+        pause_collect_tb_stats();
-+        set_default_tbstats_flag(TB_NOTHING);
-+        set_tbstats_flags(TB_PAUSED);
-+        tb_flush(cpu);
-+        break;
-+    case STOP:
-+        if (!tb_stats_collection_enabled()) {
-+            qemu_printf("TB information not being recorded");
-+            return;
-+        }
-+
-+        /* Dissalloc all TBStatistics structures and stop creating new ones */
-+        disable_collect_tb_stats();
-+        clean_tbstats();
-+        tb_flush(cpu);
-+        break;
-+    case FILTER:
-+        if (!tb_stats_collection_enabled()) {
-+            qemu_printf("TB information not being recorded");
-+            return;
-+        }
-+        if (!last_search) {
-+            qemu_printf("no search on record! execute info tbs before filtering!");
-+            return;
-+        }
-+
-+        set_default_tbstats_flag(TB_NOTHING);
-+
-+        /* Set all tbstats as paused, then return only the ones from last_search */
-+        pause_collect_tb_stats();
-+        set_tbstats_flags(TB_PAUSED);
-+
-+        for (GList *iter = last_search; iter; iter = g_list_next(iter)) {
-+            TBStatistics *tbs = iter->data;
-+            tbs->stats_enabled = level;
-+        }
-+
-+        tb_flush(cpu);
-+
-+        break;
-+    default: /* INVALID */
-+        g_assert_not_reached();
-+        break;
-+    }
-+
-+    g_free(cmdinfo);
-+}
-+
- 
- void init_tb_stats_htable_if_not(void)
- {
-@@ -172,6 +265,24 @@ bool tb_stats_collection_paused(void)
-     return tcg_collect_tb_stats == TB_STATS_PAUSED;
- }
- 
-+static void reset_tbstats_flag(void *p, uint32_t hash, void *userp)
-+{
-+    uint32_t flag = *((int *)userp);
-+    TBStatistics *tbs = p;
-+    tbs->stats_enabled = flag;
-+}
-+
-+void set_default_tbstats_flag(uint32_t flag)
-+{
-+    default_tbstats_flag = flag;
-+}
-+
-+void set_tbstats_flags(uint32_t flag)
-+{
-+    /* iterate over tbstats setting their flag as TB_NOTHING */
-+    qht_iter(&tb_ctx.tb_stats, reset_tbstats_flag, &flag);
-+}
-+
- uint32_t get_default_tbstats_flag(void)
- {
-     return default_tbstats_flag;
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index bfa5681dd2..419898751e 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1885,6 +1885,23 @@ STEXI
- @findex qemu-io
- Executes a qemu-io command on the given block device.
- 
-+ETEXI
-+#if defined(CONFIG_TCG)
-+    {
-+        .name       = "tb_stats",
-+        .args_type  = "command:s,level:s?",
-+        .params     = "command [stats_level]",
-+        .help       = "Control tb statistics collection:"
-+                        "tb_stats (start|pause|stop|filter) [all|jit_stats|exec_stats]",
-+        .cmd        = hmp_tbstats,
-+    },
-+#endif
-+
-+STEXI
-+@item tb_stats
-+@findex
-+Control recording tb statistics
-+
- ETEXI
- 
-     {
-diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
-index a607ceaa53..b57324fc1a 100644
---- a/include/exec/tb-stats.h
-+++ b/include/exec/tb-stats.h
-@@ -6,6 +6,9 @@
- #include "exec/tb-context.h"
- #include "tcg.h"
- 
-+enum SortBy { SORT_BY_HOTNESS, SORT_BY_HG /* Host/Guest */, SORT_BY_SPILLS };
-+enum TbstatsCmd { START, PAUSE, STOP, FILTER };
-+
- #define tb_stats_enabled(tb, JIT_STATS) \
-     (tb && tb->tb_stats && (tb->tb_stats->stats_enabled & JIT_STATS))
- 
-@@ -74,10 +77,18 @@ bool tb_stats_cmp(const void *ap, const void *bp);
- 
- void dump_jit_exec_time_info(uint64_t dev_time);
- 
-+void set_tbstats_flags(uint32_t flags);
- void init_tb_stats_htable_if_not(void);
- 
- void dump_jit_profile_info(TCGProfile *s);
- 
-+struct TbstatsCommand {
-+    enum TbstatsCmd cmd;
-+    uint32_t level;
-+};
-+
-+void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd);
-+
- /* TBStatistic collection controls */
- void enable_collect_tb_stats(void);
- void disable_collect_tb_stats(void);
-@@ -85,6 +96,7 @@ void pause_collect_tb_stats(void);
- bool tb_stats_collection_enabled(void);
- bool tb_stats_collection_paused(void);
- 
-+void set_default_tbstats_flag(uint32_t flag);
- uint32_t get_default_tbstats_flag(void);
- 
- #endif
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index 3930b61ec0..d653c00d91 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -141,6 +141,7 @@ enum TBStatsStatus {
- #define TB_EXEC_STATS (1 << 1)
- #define TB_JIT_STATS  (1 << 2)
- #define TB_JIT_TIME   (1 << 3)
-+#define TB_PAUSED     (1 << 4)
- 
- extern int tcg_collect_tb_stats;
- extern uint32_t default_tbstats_flag;
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 4839d6875f..6902e8addb 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -74,6 +74,8 @@
- #include "sysemu/cpus.h"
- #include "qemu/cutils.h"
- #include "tcg/tcg.h"
-+#include "exec/tb-stats.h"
-+#include "qemu-common.h"
- 
- #if defined(TARGET_S390X)
- #include "hw/s390x/storage-keys.h"
-@@ -459,6 +461,49 @@ static void hmp_info_registers(Monitor *mon, const QDict *qdict)
- }
- 
- #ifdef CONFIG_TCG
-+static void hmp_tbstats(Monitor *mon, const QDict *qdict)
-+{
-+    if (!tcg_enabled()) {
-+        error_report("TB information is only available with accel=tcg");
-+        return;
-+    }
-+
-+    char *cmd = (char *) qdict_get_try_str(qdict, "command");
-+    enum TbstatsCmd icmd = -1;
-+
-+    if (strcmp(cmd, "start") == 0) {
-+        icmd = START;
-+    } else if (strcmp(cmd, "pause") == 0) {
-+        icmd = PAUSE;
-+    } else if (strcmp(cmd, "stop") == 0) {
-+        icmd = STOP;
-+    } else if (strcmp(cmd, "filter") == 0) {
-+        icmd = FILTER;
-+    } else {
-+        error_report("invalid command!");
-+        return;
-+    }
-+
-+    char *slevel = (char *) qdict_get_try_str(qdict, "level");
-+    uint32_t level = TB_EXEC_STATS | TB_JIT_STATS | TB_JIT_TIME;
-+    if (slevel) {
-+        if (strcmp(slevel, "jit") == 0) {
-+            level = TB_JIT_STATS;
-+        } else if (strcmp(slevel, "exec") == 0) {
-+            level = TB_EXEC_STATS;
-+        } else if (strcmp(slevel, "time") == 0) {
-+            level = TB_JIT_TIME;
-+        }
-+    }
-+
-+    struct TbstatsCommand *tbscommand = g_new0(struct TbstatsCommand, 1);
-+    tbscommand->cmd = icmd;
-+    tbscommand->level = level;
-+    async_safe_run_on_cpu(first_cpu, do_hmp_tbstats_safe,
-+                          RUN_ON_CPU_HOST_PTR(tbscommand));
-+
-+}
-+
- static void hmp_info_jit(Monitor *mon, const QDict *qdict)
- {
-     if (!tcg_enabled()) {
-@@ -1089,8 +1134,12 @@ static void hmp_info_mtree(Monitor *mon, const QDict *qdict)
- 
- static void hmp_info_profile(Monitor *mon, const QDict *qdict)
- {
-+#ifdef CONFIG_TCG
-     dump_jit_exec_time_info(dev_time);
-     dev_time = 0;
-+#else
-+    error_report("TCG should be enabled!");
-+#endif
- }
- 
- /* Capture support */
-diff --git a/vl.c b/vl.c
-index ef7737a7bc..326090c36a 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1781,11 +1781,17 @@ static bool main_loop_should_exit(void)
- 
- static void main_loop(void)
- {
-+#ifdef CONFIG_TCG
-     uint64_t ti;
-+#endif
-     while (!main_loop_should_exit()) {
-+#ifdef CONFIG_TCG
-         ti = profile_getclock();
-+#endif
-         main_loop_wait(false);
-+#ifdef CONFIG_TCG
-         dev_time += profile_getclock() - ti;
-+#endif
-     }
- }
- 
--- 
-2.22.0
+(2) Create a generic version of probe_write for CONFIG_USER_ONLY,
+    much like the one you have done for target/s390x.
 
+(3) Create generic version of probe_read that does the same.
+
+(4) Rewrite fast_memset and fast_memmove to fetch all of the host
+    addresses before doing any modifications.  The functions are
+    currently written as if len can be very large, handling any
+    number of pages.  Except that's not true.  While there are
+    several kinds of users apart from MVC, two pages are sufficient
+    for all users.
+
+    Well, should be.  We would need to adjust do_mvcl to limit the
+    operation to TARGET_PAGE_SIZE (CC=3, cpu-determined number of
+    bytes moved without reaching end of first operand).
+    Which is probably a good idea anyway.  System mode should not
+    spend forever executing one instruction, as it would if you
+    pass in a 64-bit length from MVCLE.
+
+
+Something like
+
+static void fast_memmove_idx(CPUS390XState *env, uint64_t dst,
+                             uint64_t src, uint32_t len,
+                             int dst_idx, int src_idx,
+                             uintptr_t ra)
+{
+    void *dst1, *dst2, *dst3;
+    void *src1, *src2, *src3;
+    uint32_t len1, len2, lenr;
+    uint64_t dstr, srcr;
+
+    if (unlikely(len == 0)) {
+        return;
+    }
+    assert(len <= TARGET_PAGE_SIZE);
+
+    dst1 = probe_write(env, dst, 1, dst_idx, ra);
+    src1 = probe_read(env, src, 1, src_idx, ra);
+
+    if (dst1 == NULL || src1 == NULL) {
+        goto io_memmove;
+    }
+
+    /* Crop length so that neither SRC+LEN nor DST+LEN crosses a page. */
+    len1 = adj_len_to_page(adj_len_to_page(len, src), dst);
+    lenr = len - len1;
+
+    if (likely(lenr == 0)) {
+        memmove(dst1, src1, len);
+        return;
+    }
+
+    /* Probe for the second page and range.  */
+    dstr = dst + len1;
+    srcr = src + len1;
+    dst2 = probe_write(env, dstr, 1, dst_idx, ra);
+    src2 = probe_read(env, srcr, 1, src_idx, ra);
+
+    len2 = adj_len_to_page(adj_len_to_page(lenr, srcr), dstr);
+    lenr -= len2;
+
+    if (likely(lenr == 0)) {
+        memmove(dst1, src1, len1);
+        if (dst2 != NULL && src2 != NULL) {
+            memmove(dst2, src2, len2);
+            return;
+        }
+        dst = dstr;
+        src = srcr;
+        len = len2;
+        goto io_memmove;
+    }
+
+    /*
+     * There is a chance for a third page and range.  E.g.
+     *   dst = 0xaaaff0, src = 0xbbbff8, len = 32
+     * len1 = 8, bringing src to its page crossing, then
+     * len2 = 8, bringing dst to its page crossing, then
+     * lenr = 16, finishing the rest of the operation.
+     */
+    dstr += len2;
+    srcr += len2;
+    dst3 = probe_write(env, dstr, 1, dst_idx, ra);
+    src3 = probe_read(env, srcr, 1, src_idx, ra);
+
+    memmove(dst1, src1, len1);
+    memmove(dst2, src2, len2);
+    if (dst3 != NULL && src3 != NULL) {
+        memmove(dst3, src3, lenr);
+        return;
+    }
+    dst = dstr;
+    src = srcr;
+    len = lenr;
+
+ io_memmove:
+#ifdef CONFIG_USER_ONLY
+    /*
+     * There is no I/O space, so probe_{read,write} raise exceptions
+     * for unmapped pages and never return NULL.
+     */
+    g_assert_not_reached();
+#else
+    TCGMemOpIdx oi_dst = make_memop_idx(MO_UB, dst_idx);
+    TCGMemOpIdx oi_src = make_memop_idx(MO_UB, src_idx);
+    do {
+        uint8_t x = helper_ret_ldub_mmu(env, src, oi_src, ra);
+        helper_ret_stb_mmu(env, dest, x, oi_dst, ra);
+    } while (--len != 0);
+#endif
+}
+
+static void fast_memmove(CPUS390XState *env, uint64_t dst, uint64_t src,
+                         uint32_t len, uintptr_t ra)
+{
+    int mmu_idx = cpu_mmu_index(env, false);
+    fast_memmove_idx(env, dst, src, len, mmu_idx, mmu_idx, ra);
+}
+
+
+r~
 
