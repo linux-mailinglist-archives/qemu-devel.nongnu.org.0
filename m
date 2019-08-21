@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B226796DF6
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 01:57:41 +0200 (CEST)
-Received: from localhost ([::1]:42898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C07A296E0E
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 02:12:01 +0200 (CEST)
+Received: from localhost ([::1]:42970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0E0S-0008WK-RC
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 19:57:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49015)
+	id 1i0EEK-00067k-A3
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 20:12:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i0Dxs-0005Vf-Q7
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 19:55:02 -0400
+ (envelope-from <no-reply@patchew.org>) id 1i0EDM-0005bL-8N
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 20:11:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i0Dxr-0006kD-9U
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 19:55:00 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:40502)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i0Dxr-0006jH-1e
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 19:54:59 -0400
-Received: by mail-pl1-x644.google.com with SMTP id h3so275178pls.7
- for <qemu-devel@nongnu.org>; Tue, 20 Aug 2019 16:54:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language;
- bh=bqL6VVZsmBEz56sB/yNc1xn8GU2AW+BrfR4Xoq3SXQ4=;
- b=A4zd9NlWvoMEvO2uju63ZcaopUUzK27bjZ14S+sLJDWlfNu0ZjnFPj/HJI307/ON4X
- FNxbLF89jRUnzPMvsIHPY74J0h16fGiStKHDa6yHFsV16brReKv/yJwOO3yqn5QmlvwY
- Z+ESLrBHPQqVUmY7FmdynIAdJhPfXO9JKAN2J+cZi4PBQAWf1nNEhnNrmoHqw1WMs4uh
- 6p0H57On6ot8++GynVEmeQpe0fgXvPwiXq2mFVqrxoUKAI+kfluFgC8r6F+sdDeIlE+1
- l82TFC6BGIbiepinSh1QR23R78xXmCUtJRRYwmgXkIBKFUJkVY//nOA8NRLNrTPgsYR2
- xpsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language;
- bh=bqL6VVZsmBEz56sB/yNc1xn8GU2AW+BrfR4Xoq3SXQ4=;
- b=oacCiYtT0M0ow/YoXtCsWgNl1MJo3etLs1mESFOLA0KPKarol7msVqPZhqzMyPiI0L
- cxeP73PfnvzQGoa0lmWd5qSODaEI9zl4CcV6MJwPWHgvZHGub95/ytIjDbjCi1qbY7iS
- hGneMGodOM8J598iejtbwxCwHFokV2siBeVATto6Zsen2e9QyCdCJ+cyFRxDPUVOtNgS
- wcpuYDSsApz9lvQ7+VpflZHWLSnnonT3v3iuAZgj33myBnGXqTuK9ZzZjXQ8NuRmAe8Q
- 4TDYqAngcGQKzixHKMlto6gc0OasuJosU2wVU6Yph79TDYH80vX+mS7dZ2lGlY/MR7Xl
- vLFQ==
-X-Gm-Message-State: APjAAAXzzSY7G92ywupKJZif8qn7nFmeoSOIvSpPLVKdLsiNjN2EeZns
- icsWmI3OX9KjzQA9LWQVkCVzcQ==
-X-Google-Smtp-Source: APXvYqx+alqDxkv3kra3TaHJGwZSCWJtNEfFyqagQRQ3ZoRIVQC8HNbgh4U5TV4biWux70MHAijq3A==
-X-Received: by 2002:a17:902:9a8d:: with SMTP id
- w13mr30403064plp.157.1566345297474; 
- Tue, 20 Aug 2019 16:54:57 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id y13sm13721145pfb.48.2019.08.20.16.54.56
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 20 Aug 2019 16:54:56 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20190820210720.18976-1-richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <dacbea19-9692-0288-9b64-8500d0cf232a@linaro.org>
-Date: Tue, 20 Aug 2019 16:54:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <no-reply@patchew.org>) id 1i0EDK-0008Lr-Cm
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 20:11:00 -0400
+Resent-Date: Tue, 20 Aug 2019 20:11:00 -0400
+Resent-Message-Id: <E1i0EDK-0008Lr-Cm@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21437)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1i0EDC-0008HC-LI; Tue, 20 Aug 2019 20:10:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1566346234; cv=none; d=zoho.com; s=zohoarc; 
+ b=INvRJogmn/v0vKZLRt+h0XoFE7IbvCxuLsrYbBeLMm6QElVvUZc+C5nA7oHkraHLvYcNkpTxuWDPq6Hlc4SIj4dS41yyod8DYRsEUJgBam+QWeBNSpDHI4zqCVnmoYlyhwYXve/99lIBO8aGDcyRY03ehp0bL1CxOiECbaNuWXU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1566346234;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=8A1z2w3ZRc/emILTU4RZIpUHa8jTXbKtjWgO1Rq5i4Q=; 
+ b=do5yJ4Lxalaix3RyjdStHd4uAU6+bQmidOhgr6M4b9VvsNk5waDZ6gE2SsMeYMK05Gtw8muLdUwmOesJRpgGS35rHYiONSemg8WyoOavcTOoOqHOARNkRuSWphrjXOgEdzoT5lzhbpbolcDJ44D8V0B50cNOcVrKoqWbUD0qnU0=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1566346232626838.0057600773463;
+ Tue, 20 Aug 2019 17:10:32 -0700 (PDT)
+In-Reply-To: <20190820235243.26092-1-jsnow@redhat.com>
+Message-ID: <156634623142.13663.3643515445255180825@5dec9699b7de>
 MIME-Version: 1.0
-In-Reply-To: <20190820210720.18976-1-richard.henderson@linaro.org>
-Content-Type: multipart/mixed; boundary="------------5233F652544173C873D1DD62"
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: Re: [Qemu-devel] [PATCH v5 00/17] target/arm: Reduce overhead of
- cpu_get_tb_cpu_state
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: jsnow@redhat.com
+Date: Tue, 20 Aug 2019 17:10:32 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH v3 0/4] iotests: use python logging
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,120 +60,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------5233F652544173C873D1DD62
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDgyMDIzNTI0My4yNjA5
+Mi0xLWpzbm93QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKClR5cGU6IHNlcmllcwpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIIHYzIDAv
+NF0gaW90ZXN0czogdXNlIHB5dGhvbiBsb2dnaW5nCk1lc3NhZ2UtaWQ6IDIwMTkwODIwMjM1MjQz
+LjI2MDkyLTEtanNub3dAcmVkaGF0LmNvbQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9i
+aW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25m
+aWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVu
+YW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9z
+Y3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVO
+RCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQK
+RnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWdd
+ICAgICAgICAgcGF0Y2hldy8yMDE5MDgyMDIzNTI0My4yNjA5Mi0xLWpzbm93QHJlZGhhdC5jb20g
+LT4gcGF0Y2hldy8yMDE5MDgyMDIzNTI0My4yNjA5Mi0xLWpzbm93QHJlZGhhdC5jb20KU3VibW9k
+dWxlICdjYXBzdG9uZScgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9jYXBzdG9uZS5naXQpIHJl
+Z2lzdGVyZWQgZm9yIHBhdGggJ2NhcHN0b25lJwpTdWJtb2R1bGUgJ2R0YycgKGh0dHBzOi8vZ2l0
+LnFlbXUub3JnL2dpdC9kdGMuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdkdGMnClN1Ym1vZHVs
+ZSAncm9tcy9RZW11TWFjRHJpdmVycycgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9RZW11TWFj
+RHJpdmVycy5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvUWVtdU1hY0RyaXZlcnMnClN1
+Ym1vZHVsZSAncm9tcy9TTE9GJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L1NMT0YuZ2l0KSBy
+ZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL1NMT0YnClN1Ym1vZHVsZSAncm9tcy9lZGsyJyAoaHR0
+cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2VkazIuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21z
+L2VkazInClN1Ym1vZHVsZSAncm9tcy9pcHhlJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2lw
+eGUuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL2lweGUnClN1Ym1vZHVsZSAncm9tcy9v
+cGVuYmlvcycgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9vcGVuYmlvcy5naXQpIHJlZ2lzdGVy
+ZWQgZm9yIHBhdGggJ3JvbXMvb3BlbmJpb3MnClN1Ym1vZHVsZSAncm9tcy9vcGVuaGFja3dhcmUn
+IChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvb3BlbmhhY2t3YXJlLmdpdCkgcmVnaXN0ZXJlZCBm
+b3IgcGF0aCAncm9tcy9vcGVuaGFja3dhcmUnClN1Ym1vZHVsZSAncm9tcy9vcGVuc2JpJyAoaHR0
+cHM6Ly9naXQucWVtdS5vcmcvZ2l0L29wZW5zYmkuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdy
+b21zL29wZW5zYmknClN1Ym1vZHVsZSAncm9tcy9xZW11LXBhbGNvZGUnIChodHRwczovL2dpdC5x
+ZW11Lm9yZy9naXQvcWVtdS1wYWxjb2RlLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9x
+ZW11LXBhbGNvZGUnClN1Ym1vZHVsZSAncm9tcy9zZWFiaW9zJyAoaHR0cHM6Ly9naXQucWVtdS5v
+cmcvZ2l0L3NlYWJpb3MuZ2l0LykgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9zZWFiaW9zJwpT
+dWJtb2R1bGUgJ3JvbXMvc2VhYmlvcy1ocHBhJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L3Nl
+YWJpb3MtaHBwYS5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvc2VhYmlvcy1ocHBhJwpT
+dWJtb2R1bGUgJ3JvbXMvc2dhYmlvcycgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9zZ2FiaW9z
+LmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9zZ2FiaW9zJwpTdWJtb2R1bGUgJ3JvbXMv
+c2tpYm9vdCcgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9za2lib290LmdpdCkgcmVnaXN0ZXJl
+ZCBmb3IgcGF0aCAncm9tcy9za2lib290JwpTdWJtb2R1bGUgJ3JvbXMvdS1ib290JyAoaHR0cHM6
+Ly9naXQucWVtdS5vcmcvZ2l0L3UtYm9vdC5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMv
+dS1ib290JwpTdWJtb2R1bGUgJ3JvbXMvdS1ib290LXNhbTQ2MGV4JyAoaHR0cHM6Ly9naXQucWVt
+dS5vcmcvZ2l0L3UtYm9vdC1zYW00NjBleC5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMv
+dS1ib290LXNhbTQ2MGV4JwpTdWJtb2R1bGUgJ3NsaXJwJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcv
+Z2l0L2xpYnNsaXJwLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAnc2xpcnAnClN1Ym1vZHVsZSAn
+dGVzdHMvZnAvYmVya2VsZXktc29mdGZsb2F0LTMnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQv
+YmVya2VsZXktc29mdGZsb2F0LTMuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICd0ZXN0cy9mcC9i
+ZXJrZWxleS1zb2Z0ZmxvYXQtMycKU3VibW9kdWxlICd0ZXN0cy9mcC9iZXJrZWxleS10ZXN0Zmxv
+YXQtMycgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9iZXJrZWxleS10ZXN0ZmxvYXQtMy5naXQp
+IHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3Rlc3RzL2ZwL2JlcmtlbGV5LXRlc3RmbG9hdC0zJwpTdWJt
+b2R1bGUgJ3VpL2tleWNvZGVtYXBkYicgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9rZXljb2Rl
+bWFwZGIuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICd1aS9rZXljb2RlbWFwZGInCkNsb25pbmcg
+aW50byAnY2Fwc3RvbmUnLi4uClN1Ym1vZHVsZSBwYXRoICdjYXBzdG9uZSc6IGNoZWNrZWQgb3V0
+ICcyMmVhZDNlMGJmZGI4NzUxNjY1NjQ1MzMzNjE2MGUwYTM3YjA2NmJmJwpDbG9uaW5nIGludG8g
+J2R0YycuLi4KU3VibW9kdWxlIHBhdGggJ2R0Yyc6IGNoZWNrZWQgb3V0ICc4OGYxODkwOWRiNzMx
+YTYyNzQ1NmYyNmQ3Nzk0NDVmODRlNDQ5NTM2JwpDbG9uaW5nIGludG8gJ3JvbXMvUWVtdU1hY0Ry
+aXZlcnMnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL1FlbXVNYWNEcml2ZXJzJzogY2hlY2tlZCBv
+dXQgJzkwYzQ4OGQ1ZjRhNDA3MzQyMjQ3YjllYTg2OWRmMWMyZDljOGUyNjYnCkNsb25pbmcgaW50
+byAncm9tcy9TTE9GJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9TTE9GJzogY2hlY2tlZCBvdXQg
+J2JhMWFiMzYwZWViZTYzMzhiYjhkN2Q4M2E5MjIwY2NmN2UyMTNhZjMnCkNsb25pbmcgaW50byAn
+cm9tcy9lZGsyJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9lZGsyJzogY2hlY2tlZCBvdXQgJzIw
+ZDJlNWExMjVlMzRmYzg1MDEwMjY2MTNhNzE1NDliMmExYTNlNTQnClN1Ym1vZHVsZSAnU29mdEZs
+b2F0JyAoaHR0cHM6Ly9naXRodWIuY29tL3VjYi1iYXIvYmVya2VsZXktc29mdGZsb2F0LTMuZ2l0
+KSByZWdpc3RlcmVkIGZvciBwYXRoICdBcm1Qa2cvTGlicmFyeS9Bcm1Tb2Z0RmxvYXRMaWIvYmVy
+a2VsZXktc29mdGZsb2F0LTMnClN1Ym1vZHVsZSAnQ3J5cHRvUGtnL0xpYnJhcnkvT3BlbnNzbExp
+Yi9vcGVuc3NsJyAoaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbCkgcmVnaXN0ZXJl
+ZCBmb3IgcGF0aCAnQ3J5cHRvUGtnL0xpYnJhcnkvT3BlbnNzbExpYi9vcGVuc3NsJwpDbG9uaW5n
+IGludG8gJ0FybVBrZy9MaWJyYXJ5L0FybVNvZnRGbG9hdExpYi9iZXJrZWxleS1zb2Z0ZmxvYXQt
+MycuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvZWRrMi9Bcm1Qa2cvTGlicmFyeS9Bcm1Tb2Z0Rmxv
+YXRMaWIvYmVya2VsZXktc29mdGZsb2F0LTMnOiBjaGVja2VkIG91dCAnYjY0YWY0MWMzMjc2Zjk3
+ZjBlMTgxOTIwNDAwZWUwNTZiOWM4ODAzNycKQ2xvbmluZyBpbnRvICdDcnlwdG9Qa2cvTGlicmFy
+eS9PcGVuc3NsTGliL29wZW5zc2wnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL2VkazIvQ3J5cHRv
+UGtnL0xpYnJhcnkvT3BlbnNzbExpYi9vcGVuc3NsJzogY2hlY2tlZCBvdXQgJzUwZWFhYzlmMzMz
+NzY2NzI1OWRlNzI1NDUxZjIwMWU3ODQ1OTk2ODcnClN1Ym1vZHVsZSAnYm9yaW5nc3NsJyAoaHR0
+cHM6Ly9ib3Jpbmdzc2wuZ29vZ2xlc291cmNlLmNvbS9ib3Jpbmdzc2wpIHJlZ2lzdGVyZWQgZm9y
+IHBhdGggJ2JvcmluZ3NzbCcKU3VibW9kdWxlICdrcmI1JyAoaHR0cHM6Ly9naXRodWIuY29tL2ty
+YjUva3JiNSkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAna3JiNScKU3VibW9kdWxlICdweWNhLmNyeXB0
+b2dyYXBoeScgKGh0dHBzOi8vZ2l0aHViLmNvbS9weWNhL2NyeXB0b2dyYXBoeS5naXQpIHJlZ2lz
+dGVyZWQgZm9yIHBhdGggJ3B5Y2EtY3J5cHRvZ3JhcGh5JwpDbG9uaW5nIGludG8gJ2JvcmluZ3Nz
+bCcuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvZWRrMi9DcnlwdG9Qa2cvTGlicmFyeS9PcGVuc3Ns
+TGliL29wZW5zc2wvYm9yaW5nc3NsJzogY2hlY2tlZCBvdXQgJzIwNzBmOGFkOTE1MWRjOGYzYTcz
+YmZmYWExNDZiNWU2OTM3YTU4M2YnCkNsb25pbmcgaW50byAna3JiNScuLi4KU3VibW9kdWxlIHBh
+dGggJ3JvbXMvZWRrMi9DcnlwdG9Qa2cvTGlicmFyeS9PcGVuc3NsTGliL29wZW5zc2wva3JiNSc6
+IGNoZWNrZWQgb3V0ICdiOWFkNmM0OTUwNWM5NmEwODgzMjZiNjJhNTI1NjhlMzQ4NGYyMTY4JwpD
+bG9uaW5nIGludG8gJ3B5Y2EtY3J5cHRvZ3JhcGh5Jy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9l
+ZGsyL0NyeXB0b1BrZy9MaWJyYXJ5L09wZW5zc2xMaWIvb3BlbnNzbC9weWNhLWNyeXB0b2dyYXBo
+eSc6IGNoZWNrZWQgb3V0ICcwOTQwMzEwMGRlMmY2ZjFjZGQwZDQ4NGRjYjhlNjIwZjFjMzM1Yzhm
+JwpDbG9uaW5nIGludG8gJ3JvbXMvaXB4ZScuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvaXB4ZSc6
+IGNoZWNrZWQgb3V0ICdkZTQ1NjVjYmU3NmVhOWY3OTEzYTAxZjMzMWJlM2VlOTAxYmI2ZTE3JwpD
+bG9uaW5nIGludG8gJ3JvbXMvb3BlbmJpb3MnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL29wZW5i
+aW9zJzogY2hlY2tlZCBvdXQgJ2M3OWUwZWNiODRmNGYxZWUzZjczZjUyMTYyMmUyNjRlZGQxYmYx
+NzQnCkNsb25pbmcgaW50byAncm9tcy9vcGVuaGFja3dhcmUnLi4uClN1Ym1vZHVsZSBwYXRoICdy
+b21zL29wZW5oYWNrd2FyZSc6IGNoZWNrZWQgb3V0ICdjNTU5ZGE3YzhlZWM1ZTQ1ZWYxZjY3OTc4
+ODI3YWY2ZjBiOTU0NmY1JwpDbG9uaW5nIGludG8gJ3JvbXMvb3BlbnNiaScuLi4KU3VibW9kdWxl
+IHBhdGggJ3JvbXMvb3BlbnNiaSc6IGNoZWNrZWQgb3V0ICdjZTIyOGVlMDkxOWRlYjk5NTcxOTJk
+NzIzZWVjYzhhYWFlMjY5N2M2JwpDbG9uaW5nIGludG8gJ3JvbXMvcWVtdS1wYWxjb2RlJy4uLgpT
+dWJtb2R1bGUgcGF0aCAncm9tcy9xZW11LXBhbGNvZGUnOiBjaGVja2VkIG91dCAnYmYwZTEzNjk4
+ODcyNDUwMTY0ZmE3MDQwZGEzNmE5NWQyZDRiMzI2ZicKQ2xvbmluZyBpbnRvICdyb21zL3NlYWJp
+b3MnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL3NlYWJpb3MnOiBjaGVja2VkIG91dCAnYTVjYWI1
+OGU5YTNmYjZlMTY4YWJhOTE5YzU2NjliZWE0MDY1NzNiNCcKQ2xvbmluZyBpbnRvICdyb21zL3Nl
+YWJpb3MtaHBwYScuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvc2VhYmlvcy1ocHBhJzogY2hlY2tl
+ZCBvdXQgJzBmNGZlODQ2NTgxNjVlOTZjZTM1ODcwZmQxOWZjNjM0ZTE4MmU3N2InCkNsb25pbmcg
+aW50byAncm9tcy9zZ2FiaW9zJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9zZ2FiaW9zJzogY2hl
+Y2tlZCBvdXQgJ2NiYWVlNTIyODdlNWYzMjM3MzE4MWNmZjUwYTAwYjZjNGFjOTAxNWEnCkNsb25p
+bmcgaW50byAncm9tcy9za2lib290Jy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9za2lib290Jzog
+Y2hlY2tlZCBvdXQgJzI2MWNhOGU3NzllNTEzODg2OWE0NWYxNzRjYWE0OWJlNmEyNzQ1MDEnCkNs
+b25pbmcgaW50byAncm9tcy91LWJvb3QnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL3UtYm9vdCc6
+IGNoZWNrZWQgb3V0ICdkMzY4OTI2N2Y5MmM1OTU2ZTA5Y2M3ZDFiYWE0NzAwMTQxNjYyYmZmJwpD
+bG9uaW5nIGludG8gJ3JvbXMvdS1ib290LXNhbTQ2MGV4Jy4uLgpTdWJtb2R1bGUgcGF0aCAncm9t
+cy91LWJvb3Qtc2FtNDYwZXgnOiBjaGVja2VkIG91dCAnNjBiMzkxNmYzM2U2MTdhODE1OTczYzVh
+NmRmNzcwNTViMmUzYTU4OCcKQ2xvbmluZyBpbnRvICdzbGlycCcuLi4KU3VibW9kdWxlIHBhdGgg
+J3NsaXJwJzogY2hlY2tlZCBvdXQgJzEyNmMwNGFjYmFiZDdhZDMyYzJiMDE4ZmUxMGRmYWMyYTNi
+YzEyMTAnCkNsb25pbmcgaW50byAndGVzdHMvZnAvYmVya2VsZXktc29mdGZsb2F0LTMnLi4uClN1
+Ym1vZHVsZSBwYXRoICd0ZXN0cy9mcC9iZXJrZWxleS1zb2Z0ZmxvYXQtMyc6IGNoZWNrZWQgb3V0
+ICdiNjRhZjQxYzMyNzZmOTdmMGUxODE5MjA0MDBlZTA1NmI5Yzg4MDM3JwpDbG9uaW5nIGludG8g
+J3Rlc3RzL2ZwL2JlcmtlbGV5LXRlc3RmbG9hdC0zJy4uLgpTdWJtb2R1bGUgcGF0aCAndGVzdHMv
+ZnAvYmVya2VsZXktdGVzdGZsb2F0LTMnOiBjaGVja2VkIG91dCAnNWE1OWRjZWMxOTMyNzM5NmEw
+MTFhMTdmZDkyNGFlZDRmZWM0MTZiMycKQ2xvbmluZyBpbnRvICd1aS9rZXljb2RlbWFwZGInLi4u
+ClN1Ym1vZHVsZSBwYXRoICd1aS9rZXljb2RlbWFwZGInOiBjaGVja2VkIG91dCAnNmIzZDcxNmUy
+YjY0NzJlYjcxODlkMzIyMDU1MjI4MGVmM2Q4MzJjZScKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNo
+ICd0ZXN0Jwo0MzEzZmVkIGlvdGVzdHM6IHVzZSBweXRob24gbG9nZ2luZyBmb3IgaW90ZXN0cy5s
+b2coKQo5MzFjMDQ4IGlvdGVzdHM6IGFkZCBwcm90b2NvbCBzdXBwb3J0IHRvIGluaXRpYWxpemF0
+aW9uIGluZm8KMGFiNWI5YyBpb3Rlc3QgMjU4OiB1c2Ugc2NyaXB0X21haW4KZDc0ZGM1MiBpb3Rl
+c3RzOiBhZGQgc2NyaXB0X2luaXRpYWxpemUKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvNCBDaGVj
+a2luZyBjb21taXQgZDc0ZGM1MmM3NDY1IChpb3Rlc3RzOiBhZGQgc2NyaXB0X2luaXRpYWxpemUp
+CkVSUk9SOiBNaXNzaW5nIFNpZ25lZC1vZmYtYnk6IGxpbmUocykKCnRvdGFsOiAxIGVycm9ycywg
+MCB3YXJuaW5ncywgMzU2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvNCBoYXMgc3R5bGUgcHJvYmxl
+bXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3Np
+dGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1B
+SU5UQUlORVJTLgoKMi80IENoZWNraW5nIGNvbW1pdCAwYWI1YjljZWE1MmIgKGlvdGVzdCAyNTg6
+IHVzZSBzY3JpcHRfbWFpbikKRVJST1I6IE1pc3NpbmcgU2lnbmVkLW9mZi1ieTogbGluZShzKQoK
+dG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxNyBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzQg
+aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
+cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
+Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvNCBDaGVja2luZyBjb21taXQgOTMxYzA0ODVj
+MzZmIChpb3Rlc3RzOiBhZGQgcHJvdG9jb2wgc3VwcG9ydCB0byBpbml0aWFsaXphdGlvbiBpbmZv
+KQpFUlJPUjogTWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBsaW5lKHMpCgp0b3RhbDogMSBlcnJvcnMs
+IDAgd2FybmluZ3MsIDY3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvNCBoYXMgc3R5bGUgcHJvYmxl
+bXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3Np
+dGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1B
+SU5UQUlORVJTLgoKNC80IENoZWNraW5nIGNvbW1pdCA0MzEzZmVkOWQ0ZDAgKGlvdGVzdHM6IHVz
+ZSBweXRob24gbG9nZ2luZyBmb3IgaW90ZXN0cy5sb2coKSkKRVJST1I6IE1pc3NpbmcgU2lnbmVk
+LW9mZi1ieTogbGluZShzKQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxNDEgbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggNC80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVU
+IEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9n
+IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDgyMDIzNTI0My4y
+NjA5Mi0xLWpzbm93QHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2Uu
+Ci0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3Bh
+dGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEBy
+ZWRoYXQuY29t
 
-On 8/20/19 2:07 PM, Richard Henderson wrote:
-> Changes since v4:
->   * Split patch 1 into 15 smaller patches.
->   * Cache the new DEBUG_TARGET_EL field.
->   * Split out m-profile hflags separately from a-profile 32-bit.
->   * Move around non-cached tb flags as well, avoiding repetitive
->     checks for m-profile or other mutually exclusive conditions.
-
-Just after I posted this, I started rebasing my VHE patch set on top, and I
-found that the new DEBUG_TARGET_EL field has used The Last Bit, so that I could
-not add the one bit that I need for VHE.
-
-However, while working on this patch set, I noticed that we have a lot of
-unnecessary overlap between A- and M- profile in the TBFLAGs.  Thus point 4
-above and the completely separate rebuild_hflags_m32().
-
-If we rearrange things like the appended, then we recover 4 bits.
-
-Thoughts?
-
-
-r~
-
---------------5233F652544173C873D1DD62
-Content-Type: text/x-patch;
- name="m-tbflag.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="m-tbflag.patch"
-
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 91a54662c3..0c2803baa1 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3183,38 +3183,50 @@ FIELD(TBFLAG_ANY, BE_DATA, 23, 1)
-  */
- FIELD(TBFLAG_ANY, DEBUG_TARGET_EL, 21, 2)
- 
--/* Bit usage when in AArch32 state: */
--FIELD(TBFLAG_A32, THUMB, 0, 1)          /* Not cached. */
--FIELD(TBFLAG_A32, VECLEN, 1, 3)         /* Not cached. */
--FIELD(TBFLAG_A32, VECSTRIDE, 4, 2)      /* Not cached. */
-+/*
-+ * Bit usage when in AArch32 state, both A- and M-profile.
-+ */
-+FIELD(TBFLAG_AM32, CONDEXEC, 0, 8)      /* Not cached. */
-+
-+/*
-+ * Bit usage when in AArch32 state, for A-profile only.
-+ */
-+FIELD(TBFLAG_A32, THUMB, 8, 1)          /* Not cached. */
-+FIELD(TBFLAG_A32, VECLEN, 9, 3)         /* Not cached. */
-+FIELD(TBFLAG_A32, VECSTRIDE, 12, 2)     /* Not cached. */
- /*
-  * We store the bottom two bits of the CPAR as TB flags and handle
-  * checks on the other bits at runtime. This shares the same bits as
-  * VECSTRIDE, which is OK as no XScale CPU has VFP.
-  * Not cached, because VECLEN+VECSTRIDE are not cached.
-  */
--FIELD(TBFLAG_A32, XSCALE_CPAR, 4, 2)
-+FIELD(TBFLAG_A32, XSCALE_CPAR, 12, 2)
-+FIELD(TBFLAG_A32, VFPEN, 14, 1)         /* Partially cached, minus FPEXC. */
-+FIELD(TBFLAG_A32, SCTLR_B, 15, 1)
- /*
-  * Indicates whether cp register reads and writes by guest code should access
-  * the secure or nonsecure bank of banked registers; note that this is not
-  * the same thing as the current security state of the processor!
-  */
--FIELD(TBFLAG_A32, NS, 6, 1)
--FIELD(TBFLAG_A32, VFPEN, 7, 1)          /* Partially cached, minus FPEXC. */
--FIELD(TBFLAG_A32, CONDEXEC, 8, 8)       /* Not cached. */
--FIELD(TBFLAG_A32, SCTLR_B, 16, 1)
--/* For M profile only, set if FPCCR.LSPACT is set */
--FIELD(TBFLAG_A32, LSPACT, 18, 1)        /* Not cached. */
--/* For M profile only, set if we must create a new FP context */
--FIELD(TBFLAG_A32, NEW_FP_CTXT_NEEDED, 19, 1) /* Not cached. */
--/* For M profile only, set if FPCCR.S does not match current security state */
--FIELD(TBFLAG_A32, FPCCR_S_WRONG, 20, 1) /* Not cached. */
--/* For M profile only, Handler (ie not Thread) mode */
--FIELD(TBFLAG_A32, HANDLER, 21, 1)
--/* For M profile only, whether we should generate stack-limit checks */
--FIELD(TBFLAG_A32, STACKCHECK, 22, 1)
-+FIELD(TBFLAG_A32, NS, 16, 1)
- 
--/* Bit usage when in AArch64 state */
-+/*
-+ * Bit usage when in AArch32 state, for M-profile only.
-+ */
-+/* Set if FPCCR.LSPACT is set */
-+FIELD(TBFLAG_M32, LSPACT, 8, 1)                  /* Not cached. */
-+/* Set if we must create a new FP context */
-+FIELD(TBFLAG_M32, NEW_FP_CTXT_NEEDED, 9, 1)      /* Not cached. */
-+/* Set if FPCCR.S does not match current security state */
-+FIELD(TBFLAG_M32, FPCCR_S_WRONG, 10, 1)          /* Not cached. */
-+/* Handler (ie not Thread) mode */
-+FIELD(TBFLAG_A32, HANDLER, 11, 1)
-+/* Whether we should generate stack-limit checks */
-+FIELD(TBFLAG_A32, STACKCHECK, 12, 1)
-+
-+/*
-+ * Bit usage when in AArch64 state
-+ */
- FIELD(TBFLAG_A64, TBII, 0, 2)
- FIELD(TBFLAG_A64, SVEEXC_EL, 2, 2)
- FIELD(TBFLAG_A64, ZCR_LEN, 4, 4)
-
---------------5233F652544173C873D1DD62--
 
