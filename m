@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FF69741A
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:57:51 +0200 (CEST)
-Received: from localhost ([::1]:44756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7909973E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:51:48 +0200 (CEST)
+Received: from localhost ([::1]:44682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0LV7-00008U-E7
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42812)
+	id 1i0LPH-0000qZ-PZ
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L1C-0005a3-RG
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:55 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0r-0005Bz-E2
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L1B-0000Fz-O2
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:54 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:58457)
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0q-0008UL-48
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:33 -0400
+Received: from ozlabs.org ([203.11.71.1]:49305)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L1B-0008SS-6Q; Wed, 21 Aug 2019 03:26:53 -0400
+ id 1i0L0p-00089v-82; Wed, 21 Aug 2019 03:26:32 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46CzjG4wxZz9sQx; Wed, 21 Aug 2019 17:25:50 +1000 (AEST)
+ id 46CzjF2C7Rz9sQy; Wed, 21 Aug 2019 17:25:51 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1566372354;
- bh=w8jJ4HioXwrN0ISowEXNExCB5N6zlcEr6dihcQPI6D0=;
+ d=gibson.dropbear.id.au; s=201602; t=1566372353;
+ bh=5NEgZKDdcOaJCDCiAi3qAZVToJWd/48Fn/4AGJJvmnI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Rtxyf0s/tsHX4/mTTvBBggoE/aBraVGmqVs81Wl/AMAXuOxrH0zBpbLuM1RA79XuW
- Em/SomeCtHyFwgPbn/5VJzZhTpjacz+/9dBwyscafe3EGx1AFuosmetbUaG/sFc2jc
- 6KKE9MS5cv1gq5z5CRVvr4m1wE5ORIbQxNY8TWQ8=
+ b=D+66zVAnbnU6cpgNsHZl/FTd9/pSzz+MYZMAwmIXgHOPhYP134ttrlI7zILO5tdxy
+ OtJx5chAObPJ2w60MYeBfm0ozlJtPrJ02hcst4QhR+OVeKsxrG9T4spBNKDif8lg+v
+ zaTn+ROwgsv4g8Ku9DV//rZr4o8FrtBlt+kWin+k=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:27 +1000
-Message-Id: <20190821072542.23090-28-david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 17:25:36 +1000
+Message-Id: <20190821072542.23090-37-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 27/42] ppc/xive: Provide silent escalation
- support
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PULL 36/42] spapr: Implement better workaround in
+ spapr-vty device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,69 +54,87 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Paul Mackerras <paulus@ozlabs.org>, qemu-ppc@nongnu.org,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Paul Mackerras <paulus@ozlabs.org>
 
-When the 's' bit is set the escalation is said to be 'silent' or
-'silent/gather'. In such configuration, the notification sequence is
-skipped and only the escalation sequence is performed. This is used to
-configure all the EQs of a vCPU to escalate on a single EQ which will
-then target the hypervisor.
+Linux guest kernels have code which scans the string of characters
+returned from the H_GET_TERM_CHAR hypercall and removes any \0
+character which comes immediately after a \r character.  This is to
+work around a bug which was present in some ancient versions of
+PowerVM.  In order to avoid the corruption of the console byte stream
+that this introduced, commit 6c3bc244d3cb ("spapr: Implement bug in
+spapr-vty device to be compatible with PowerVM") added a workaround
+which adds a \0 character after every \r character.  Unfortunately,
+this corrupts the console byte stream for those operating systems,
+such as AIX, which don't remove the null bytes.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190718115420.19919-8-clg@kaod.org>
+We can avoid triggering the Linux kernel workaround if we avoid
+returning a buffer which contains a \0 after a \r.  We can do that by
+breaking out of the loop in vty_getchars() if we are about to insert a
+\0 and the previous character in the buffer is a \r.  That means we
+return the characters up to the \r for the current H_GET_TERM_CHAR,
+and the characters starting with the \0 for the next one.
+
+With this workaround, we don't insert any spurious characters and we
+avoid triggering the Linux kernel workaround, so the guest will
+receive an uncorrupted stream whether or not they have the workaround.
+
+Fixes: 6c3bc244d3cb ("spapr: Implement bug in spapr-vty device to be comp=
+atible with PowerVM")
+Signed-off-by: Paul Mackerras <paulus@ozlabs.org>
+Message-Id: <20190731043653.shdi5sizjp4t65op@oak.ozlabs.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xive.c             | 8 ++++++++
- include/hw/ppc/xive_regs.h | 2 ++
- 2 files changed, 10 insertions(+)
+ hw/char/spapr_vty.c | 30 ++++++++++++------------------
+ 1 file changed, 12 insertions(+), 18 deletions(-)
 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 3fe84f3e76..dd7d02dfdf 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -1485,6 +1485,13 @@ static void xive_router_end_notify(XiveRouter *xrt=
-r, uint8_t end_blk,
-         xive_router_write_end(xrtr, end_blk, end_idx, &end, 1);
+diff --git a/hw/char/spapr_vty.c b/hw/char/spapr_vty.c
+index 7f860fcce7..087c93e4fa 100644
+--- a/hw/char/spapr_vty.c
++++ b/hw/char/spapr_vty.c
+@@ -59,25 +59,19 @@ static int vty_getchars(SpaprVioDevice *sdev, uint8_t=
+ *buf, int max)
+     int n =3D 0;
+=20
+     while ((n < max) && (dev->out !=3D dev->in)) {
+-        buf[n++] =3D dev->buf[dev->out++ % VTERM_BUFSIZE];
+-
+-        /* PowerVM's vty implementation has a bug where it inserts a
+-         * \0 after every \r going to the guest.  Existing guests have
+-         * a workaround for this which removes every \0 immediately
+-         * following a \r, so here we make ourselves bug-for-bug
+-         * compatible, so that the guest won't drop a real \0-after-\r
+-         * that happens to occur in a binary stream. */
+-        if (buf[n - 1] =3D=3D '\r') {
+-            if (n < max) {
+-                buf[n++] =3D '\0';
+-            } else {
+-                /* No room for the extra \0, roll back and try again
+-                 * next time */
+-                dev->out--;
+-                n--;
+-                break;
+-            }
++        /*
++         * Long ago, PowerVM's vty implementation had a bug where it
++         * inserted a \0 after every \r going to the guest.  Existing
++         * guests have a workaround for this which removes every \0
++         * immediately following a \r.  To avoid triggering this
++         * workaround, we stop before inserting a \0 if the preceding
++         * character in the output buffer is a \r.
++         */
++        if (n > 0 && (buf[n - 1] =3D=3D '\r') &&
++                (dev->buf[dev->out % VTERM_BUFSIZE] =3D=3D '\0')) {
++            break;
+         }
++        buf[n++] =3D dev->buf[dev->out++ % VTERM_BUFSIZE];
      }
 =20
-+    /*
-+     * When the END is silent, we skip the notification part.
-+     */
-+    if (xive_end_is_silent_escalation(&end)) {
-+        goto do_escalation;
-+    }
-+
-     /*
-      * The W7 format depends on the F bit in W6. It defines the type
-      * of the notification :
-@@ -1564,6 +1571,7 @@ static void xive_router_end_notify(XiveRouter *xrtr=
-, uint8_t end_blk,
-          */
-     }
-=20
-+do_escalation:
-     /*
-      * If activated, escalate notification using the ESe PQ bits and
-      * the EAS in w4-5
-diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-index 4378d7259c..fed019516f 100644
---- a/include/hw/ppc/xive_regs.h
-+++ b/include/hw/ppc/xive_regs.h
-@@ -212,6 +212,8 @@ typedef struct XiveEND {
- #define xive_end_is_escalate(end) (be32_to_cpu((end)->w0) & END_W0_ESCAL=
-ATE_CTL)
- #define xive_end_is_uncond_escalation(end)              \
-     (be32_to_cpu((end)->w0) & END_W0_UNCOND_ESCALATE)
-+#define xive_end_is_silent_escalation(end)              \
-+    (be32_to_cpu((end)->w0) & END_W0_SILENT_ESCALATE)
-=20
- static inline uint64_t xive_end_qaddr(XiveEND *end)
- {
+     qemu_chr_fe_accept_input(&dev->chardev);
 --=20
 2.21.0
 
