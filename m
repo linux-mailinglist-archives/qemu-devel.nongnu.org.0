@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD78D97E81
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 17:20:35 +0200 (CEST)
-Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E243F97E89
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 17:22:12 +0200 (CEST)
+Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0SPa-0007SZ-Q2
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 11:20:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45323)
+	id 1i0SR9-0001w0-Ve
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 11:22:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45353)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen.git@gmail.com>) id 1i0SGB-00034j-3l
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:52 -0400
+ (envelope-from <tony.nguyen.git@gmail.com>) id 1i0SGF-0003Ae-JE
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen.git@gmail.com>) id 1i0SG9-0003qq-PP
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:50 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:46943)
+ (envelope-from <tony.nguyen.git@gmail.com>) id 1i0SGD-0003vU-8S
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:55 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:42342)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <tony.nguyen.git@gmail.com>)
- id 1i0SG9-0003pt-JM
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:49 -0400
-Received: by mail-pl1-x644.google.com with SMTP id c2so1477102plz.13
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 08:10:49 -0700 (PDT)
+ id 1i0SGD-0003uU-2a
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:53 -0400
+Received: by mail-pg1-x541.google.com with SMTP id p3so1468523pgb.9
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 08:10:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oY9Kbuk4pt2Aj9npIHiGUXJM5Dr0CoLora3bbZEdlnU=;
- b=ksUJSb4OfBg9EfDATYLEyq4y1odVus5emNYpPEbGsFwOPgiIJEivJ/2rT+N5Nr19xj
- 8rQlsyLDr5Ttqq+oNHi300CmhrParY7M89zXxcDejLGJugcJ9dyqyH7imjQnidwEQUeu
- pWy9IXVEQEuvWPkVEW1w0pbbhTDRUjOg8SR34ayswOWuYCxVzUB9TA18Vb+4gCUUifK3
- vYhEqsbuI00e0ks/PIBzEOs7LhyLN1KuXvnCsP8VPoj74JVWeMdwVkO7CINSu9eUwX+S
- bbhpjK3LRZqXUB263cdnFWsk2du0+wVaFVA4ZnkhyGeywuN29CJ2WTNLQEIg8CzF2fC3
- bvqw==
+ bh=ZQrSORTexmqUbB8NHgb60CoVdE93miI4HpVhE2CwILU=;
+ b=qdDg5qC+2UidtVnmrtTSA7JLoFCFIzwL4lZXpLT/ERgdIizsc7PKJwhQ+DMkTbYpx0
+ BfmuoIhbMyNsv98/lgJtHMBR7xadfcpaU/9leXqoS5zQhO2SBq9mr+c4q9XyzfegW9QT
+ dC/aKFWw6j9lJTskdxzWAwR1lJIZ+lmTNrc56Gbo8ucTZQsaAPfHDu3PzI7/7O8frtzM
+ biGeWKFjEVJgiepa/gM2IlTUPUsQrO9PZTI8Ea9ugsq0yvil+m5z/bInKS1yLq1RJo/f
+ qv3Mltvz4sIC347vNQzjm4jG3KJV+hAVJAQ3qOyiFAQSHMC63JcFeSiGai594JtUxnb5
+ Edyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oY9Kbuk4pt2Aj9npIHiGUXJM5Dr0CoLora3bbZEdlnU=;
- b=VSpHoHeq1ifw/7v23gf/2wwtDFnlZUYrk2mkwm/Le04Kh5mvZ/v9AuMFK+UBOfmFWT
- Ls/T0SwjgAyzAiXmf4vPVCI8l+dXsNUGtE7OGLJ6hWtqOHJZyEZikb3F6tHqYpnQ1O4S
- elI17tmvYogMcQ2o2lKUjQ3vH5bU+F8vQXVvAxD5sD0h7YdAz3xrxy0DX0JFtpSKIbxS
- YsdlBf8OUQGj+fDyuHnI2FzUPTu+m6ULETODFfAY7O4edO7lEzqX6HZxMj6VMbUHBHgN
- sTGAhEWzj2xfCtbpTd7AeB8sXC0V628FuAC1aCMfn633Bp44Tr5LT7twjeHQQ6WMKavz
- UJEA==
-X-Gm-Message-State: APjAAAU4ms88+vYfKbSA+5swWgkVNEksjX8bGoPdkXQcNbnq8ENh9rDr
- 8b3pYkj8ehVH49IXZOdu4+YSxBbnPMw=
-X-Google-Smtp-Source: APXvYqzPk9fXGlYXo4+82Y5YqFti0WfUryogCBY3icdaq/Y5BIeOqjXjPyb/dlFc7NiZKtvMiXSTgQ==
-X-Received: by 2002:a17:902:41:: with SMTP id
- 59mr12109260pla.268.1566400248617; 
- Wed, 21 Aug 2019 08:10:48 -0700 (PDT)
+ bh=ZQrSORTexmqUbB8NHgb60CoVdE93miI4HpVhE2CwILU=;
+ b=mtuAyQyF5cC92MADb23rEKoXm0/31qfZuPKdivf3m+L5hTYhoadcRMJPpcIEst1Ncb
+ hiINRrVmmfqTjNFgO1rp4TpmKQG3lzKO39km135mlCs5N8+6nedhH0iOq18cbrqUdUBj
+ n5wQYPIf4UMkTDap9xgDVHDZd2S3VHYZ3ZxVg9CKGpzoQweURS8QMUMOeH/LOlP2EGmn
+ OyndlYqs6zvwkA3sOMzbQcLQp4SGvOJ5X0lHEnv6lEOZgA6468p1FmyNNdyDuhNtyOM6
+ KOh7obgBgF27MCIExmPldnjO6DEFVBWRUHxZxlxqqBaI85dz1Y47GqosqgKOjGWwmYWv
+ buDg==
+X-Gm-Message-State: APjAAAVD9ZqPhKXJlO4+cNViWAmwDtDYZ4zPdC1m63ZzRwwZXXvOPUby
+ QhIc74zhFgjXDcfKXRiMQftwmOksIfk=
+X-Google-Smtp-Source: APXvYqwim9vjeE0uC6ziif6GFzFc40pea3F5oTht47NIZl7drPK+sSClohyoV6pkpuo2iUL6dnLMfg==
+X-Received: by 2002:a63:e14d:: with SMTP id h13mr29506910pgk.431.1566400251755; 
+ Wed, 21 Aug 2019 08:10:51 -0700 (PDT)
 Received: from localhost.localdomain ([58.173.98.68])
- by smtp.gmail.com with ESMTPSA id e19sm5887633pfh.114.2019.08.21.08.10.45
+ by smtp.gmail.com with ESMTPSA id e19sm5887633pfh.114.2019.08.21.08.10.49
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 21 Aug 2019 08:10:47 -0700 (PDT)
+ Wed, 21 Aug 2019 08:10:51 -0700 (PDT)
 From: Tony Nguyen <tony.nguyen.git@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 01:09:14 +1000
-Message-Id: <9ba4b3413e6878b4a868be0dddeba8bec00a2e07.1566397711.git.tony.nguyen.git@gmail.com>
+Date: Thu, 22 Aug 2019 01:09:15 +1000
+Message-Id: <27f915e6ee675b0f88bcd1429bd9f37210d72728.1566397711.git.tony.nguyen.git@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1566397711.git.tony.nguyen.git@gmail.com>
 References: <cover.1566397711.git.tony.nguyen.git@gmail.com>
@@ -65,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH v8 20/21] target/sparc: Add TLB entry with
- attributes
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v8 21/21] target/sparc: sun4u Invert Endian TTE
+ bit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,127 +85,75 @@ Cc: Tony Nguyen <tony.nguyen.git@gmail.com>, Tony Nguyen <tony.nguyen@bt.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Append MemTxAttrs to interfaces so we can pass along up coming Invert
-Endian TTE bit on SPARC64.
+This bit configures endianness of PCI MMIO devices. It is used by
+Solaris and OpenBSD sunhme drivers.
+
+Tested working on OpenBSD.
+
+Unfortunately Solaris 10 had a unrelated keyboard issue blocking
+testing... another inch towards Solaris 10 on SPARC64 =)
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- target/sparc/mmu_helper.c | 32 ++++++++++++++++++--------------
- 1 file changed, 18 insertions(+), 14 deletions(-)
+ target/sparc/cpu.h        | 2 ++
+ target/sparc/mmu_helper.c | 8 +++++++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index 694d7139cf..490e14dfcf 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -275,6 +275,7 @@ enum {
+ 
+ #define TTE_VALID_BIT       (1ULL << 63)
+ #define TTE_NFO_BIT         (1ULL << 60)
++#define TTE_IE_BIT          (1ULL << 59)
+ #define TTE_USED_BIT        (1ULL << 41)
+ #define TTE_LOCKED_BIT      (1ULL <<  6)
+ #define TTE_SIDEEFFECT_BIT  (1ULL <<  3)
+@@ -291,6 +292,7 @@ enum {
+ 
+ #define TTE_IS_VALID(tte)   ((tte) & TTE_VALID_BIT)
+ #define TTE_IS_NFO(tte)     ((tte) & TTE_NFO_BIT)
++#define TTE_IS_IE(tte)      ((tte) & TTE_IE_BIT)
+ #define TTE_IS_USED(tte)    ((tte) & TTE_USED_BIT)
+ #define TTE_IS_LOCKED(tte)  ((tte) & TTE_LOCKED_BIT)
+ #define TTE_IS_SIDEEFFECT(tte) ((tte) & TTE_SIDEEFFECT_BIT)
 diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index cbd1e91179..826e14b6f0 100644
+index 826e14b6f0..77dc86ac5c 100644
 --- a/target/sparc/mmu_helper.c
 +++ b/target/sparc/mmu_helper.c
-@@ -88,7 +88,7 @@ static const int perm_table[2][8] = {
- };
+@@ -537,6 +537,10 @@ static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
+         if (ultrasparc_tag_match(&env->dtlb[i], address, context, physical)) {
+             int do_fault = 0;
  
- static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
--                                int *prot, int *access_index,
-+                                int *prot, int *access_index, MemTxAttrs *attrs,
-                                 target_ulong address, int rw, int mmu_idx,
-                                 target_ulong *page_size)
- {
-@@ -219,6 +219,7 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     target_ulong vaddr;
-     target_ulong page_size;
-     int error_code = 0, prot, access_index;
-+    MemTxAttrs attrs = {};
- 
-     /*
-      * TODO: If we ever need tlb_vaddr_to_host for this target,
-@@ -229,7 +230,7 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     assert(!probe);
- 
-     address &= TARGET_PAGE_MASK;
--    error_code = get_physical_address(env, &paddr, &prot, &access_index,
-+    error_code = get_physical_address(env, &paddr, &prot, &access_index, &attrs,
-                                       address, access_type,
-                                       mmu_idx, &page_size);
-     vaddr = address;
-@@ -490,8 +491,8 @@ static inline int ultrasparc_tag_match(SparcTLBEntry *tlb,
-     return 0;
- }
- 
--static int get_physical_address_data(CPUSPARCState *env,
--                                     hwaddr *physical, int *prot,
-+static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
-+                                     int *prot, MemTxAttrs *attrs,
-                                      target_ulong address, int rw, int mmu_idx)
- {
-     CPUState *cs = env_cpu(env);
-@@ -608,8 +609,8 @@ static int get_physical_address_data(CPUSPARCState *env,
-     return 1;
- }
- 
--static int get_physical_address_code(CPUSPARCState *env,
--                                     hwaddr *physical, int *prot,
-+static int get_physical_address_code(CPUSPARCState *env, hwaddr *physical,
-+                                     int *prot, MemTxAttrs *attrs,
-                                      target_ulong address, int mmu_idx)
- {
-     CPUState *cs = env_cpu(env);
-@@ -686,7 +687,7 @@ static int get_physical_address_code(CPUSPARCState *env,
- }
- 
- static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
--                                int *prot, int *access_index,
-+                                int *prot, int *access_index, MemTxAttrs *attrs,
-                                 target_ulong address, int rw, int mmu_idx,
-                                 target_ulong *page_size)
- {
-@@ -716,11 +717,11 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
-     }
- 
-     if (rw == 2) {
--        return get_physical_address_code(env, physical, prot, address,
-+        return get_physical_address_code(env, physical, prot, attrs, address,
-                                          mmu_idx);
-     } else {
--        return get_physical_address_data(env, physical, prot, address, rw,
--                                         mmu_idx);
-+        return get_physical_address_data(env, physical, prot, attrs, address,
-+                                         rw, mmu_idx);
-     }
- }
- 
-@@ -734,10 +735,11 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     target_ulong vaddr;
-     hwaddr paddr;
-     target_ulong page_size;
-+    MemTxAttrs attrs = {};
-     int error_code = 0, prot, access_index;
- 
-     address &= TARGET_PAGE_MASK;
--    error_code = get_physical_address(env, &paddr, &prot, &access_index,
-+    error_code = get_physical_address(env, &paddr, &prot, &access_index, &attrs,
-                                       address, access_type,
-                                       mmu_idx, &page_size);
-     if (likely(error_code == 0)) {
-@@ -747,7 +749,8 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                                    env->dmmu.mmu_primary_context,
-                                    env->dmmu.mmu_secondary_context);
- 
--        tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, page_size);
-+        tlb_set_page_with_attrs(cs, vaddr, paddr, attrs, prot, mmu_idx,
-+                                page_size);
-         return true;
-     }
-     if (probe) {
-@@ -849,9 +852,10 @@ static int cpu_sparc_get_phys_page(CPUSPARCState *env, hwaddr *phys,
- {
-     target_ulong page_size;
-     int prot, access_index;
-+    MemTxAttrs attrs = {};
- 
--    return get_physical_address(env, phys, &prot, &access_index, addr, rw,
--                                mmu_idx, &page_size);
-+    return get_physical_address(env, phys, &prot, &access_index, &attrs, addr,
-+                                rw, mmu_idx, &page_size);
- }
- 
- #if defined(TARGET_SPARC64)
++            if (TTE_IS_IE(env->dtlb[i].tte)) {
++                attrs->byte_swap = true;
++            }
++
+             /* access ok? */
+             /* multiple bits in SFSR.FT may be set on TT_DFAULT */
+             if (TTE_IS_PRIV(env->dtlb[i].tte) && is_user) {
+@@ -792,7 +796,7 @@ void dump_mmu(CPUSPARCState *env)
+             }
+             if (TTE_IS_VALID(env->dtlb[i].tte)) {
+                 qemu_printf("[%02u] VA: %" PRIx64 ", PA: %llx"
+-                            ", %s, %s, %s, %s, ctx %" PRId64 " %s\n",
++                            ", %s, %s, %s, %s, ie %s, ctx %" PRId64 " %s\n",
+                             i,
+                             env->dtlb[i].tag & (uint64_t)~0x1fffULL,
+                             TTE_PA(env->dtlb[i].tte),
+@@ -801,6 +805,8 @@ void dump_mmu(CPUSPARCState *env)
+                             TTE_IS_W_OK(env->dtlb[i].tte) ? "RW" : "RO",
+                             TTE_IS_LOCKED(env->dtlb[i].tte) ?
+                             "locked" : "unlocked",
++                            TTE_IS_IE(env->dtlb[i].tte) ?
++                            "yes" : "no",
+                             env->dtlb[i].tag & (uint64_t)0x1fffULL,
+                             TTE_IS_GLOBAL(env->dtlb[i].tte) ?
+                             "global" : "local");
 -- 
 2.23.0
 
