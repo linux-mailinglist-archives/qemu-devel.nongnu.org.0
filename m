@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4EE9759D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 11:09:38 +0200 (CEST)
-Received: from localhost ([::1]:45978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6835597587
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 11:02:58 +0200 (CEST)
+Received: from localhost ([::1]:45786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Mcb-0007JO-43
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 05:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58467)
+	id 1i0MW9-0006KZ-3R
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 05:02:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58978)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i0MPT-0006QW-RS
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:56:04 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i0MQD-0007s4-9V
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:56:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i0MPS-0005BR-QN
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:56:03 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:55583)
+ (envelope-from <laurent@vivier.eu>) id 1i0MQB-0005d1-9H
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:56:48 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:33283)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i0MPL-000568-T7; Wed, 21 Aug 2019 04:55:56 -0400
+ id 1i0MQ7-0005bE-FD; Wed, 21 Aug 2019 04:56:43 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mtxxk-1iEs3R2x3s-00uFQO; Wed, 21 Aug 2019 10:55:45 +0200
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M7aqD-1hsPGu2gtp-00865F; Wed, 21 Aug 2019 10:56:33 +0200
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20190719131425.10835-1-philmd@redhat.com>
- <20190719131425.10835-3-philmd@redhat.com>
+ <20190719131425.10835-5-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Openpgp: preference=signencrypt
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
@@ -71,35 +71,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <346bac40-ee88-f615-38a9-891d78252bc2@vivier.eu>
-Date: Wed, 21 Aug 2019 10:55:40 +0200
+Message-ID: <7b1fb7f8-6993-6f7d-6daf-f0ff5314167d@vivier.eu>
+Date: Wed, 21 Aug 2019 10:56:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190719131425.10835-3-philmd@redhat.com>
+In-Reply-To: <20190719131425.10835-5-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:styZQo0jpFSBJ8rFP5mL08trpzG1urDoxz1KQ4H4PHXEeyD8Sbf
- MPF9KdFgPn8fsyAL+6BDCpoQTi0hGrLIV7QPmyDSZOwJdm4kFMArDSb/BtrzKUsnxStOmBD
- pGc43+jonLIZJihdtYApyxeAsuGvEJ7tq7gqQhD8DUosjzXghTpoCBgVBZjblCeJOl76z9X
- Z6L7cm71jH2V9/wP9hjYw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6AnKFEH0FTY=:zFdABrdbh2GSW7O3sjnvFb
- BntZU5GcmOshanmqLWMPNcfN6PvWTFTvqk8zEFoUfawPMNXka4mJ9xF2470cJeR5EfuBJwnth
- C96oHkbOXODYZczlyWSzxrloK91uWLb0cO5De7V82MmowcvuuhwB6DJwcdhcOJrQ3pj16xEAW
- GuU9mU39jzXqMFY8IwxBi9RmBy7cQUA8exEeprIYGd3A8H6JrAAfY7eydLK5yAmQ0SNCqIk98
- bddmxBzmEZeaT3o2g/3oU5WAPpPv/I5AbWhgZ311HgsQ0k/2AKNI7hgPz/1H0n27bE9lpZ9qF
- 0iexkHUlTxKL/LGUzNXu2x7o8YRS6RTcqqTnoj1EdCWzApeiCZUcVmrJjySnBlUDufP2cnD38
- AB0rnDKV+4JAP/i3kd0u2BWEQr1NaS5w9BEJSXCMjZvXPq6H71PWUeNpHsw95PypSnvW2npiZ
- sG3g/tr+vXW30LOvKPtSxqx6gMJljq2O1PXFIF14Wm7eGn98oD/r+QFxq4UE0jFN7vvVawUvw
- qT2HXkuGRjS6rhWd7TkLMloSzC/jvUsDF/F95gjelSjwRL9ynrUPeGO4xr96+OBE3C9mPAb9h
- gSLiK5up1CS27OCdhgG6SMb+VPJ17VKBjr6wWb3NtwbKwqTSaqO+izbYWJsVHLs5NJUokY+eV
- iEwLtcqDKHw4URBpoFQa0nC0PckLo9Um9iXgwysvD4WmwgMAlwpihDNEwlllxSMfx2KjAfedo
- S4iy3T+GcRLBNeCKtM6iUqttmYvKKhPUsjOaLD671bWCwyKpITsYWBSlpQ8=
+X-Provags-ID: V03:K1:QvcYfRir4nfmJWAJNTFbiZgzp8y1o0bpxbSEAiUDwlBuanmLXcO
+ 4oUjfEVzpf1CJbRF+ShuIVbRi7GleVqr9c3xv2Y4DIbeVEz546NxeZ4DGlG3geIx6fJAXdO
+ cNxWoQAiby/OI46S8GGXceL3YiLBAAQePp4kWq5VVqm7WoVl3b0k0sQ2JmJH8AuHuz/8Fh4
+ lmqJNmlI7lIxtjuX4LPvA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QGlMfj8HnPs=:HOLRctit6y4K2LKKvio+fJ
+ AeC8dzh+3Kc37VdP86X57vJrZe4lUEHpQRqV4JXuJigGoIjqG6kefohEvY0/J/Pasa0TpVj5O
+ TsUxKeYLAtuFnYS0Jkm39JjYkpkUN2bsxq8+487cg4/jkFQfLQNbMTlepHNQZ/ELvOSy42AVP
+ ALdGWNEOLZ5EXK3OcE8BtaGw0r2TF+IKWoUuIeKxt7M2EjjwcKHLNHZdDovHrOVJTWGT16FpO
+ cdQ4OXKjkRkL/LPKKurqa/Un+4TLlsZ+SgL9OJjmwhtd1iaOwvQ9zIzR2Nmr0MTJRyCuSyJMw
+ 491XLsBdOmrmzkt2DEQkGT5nf7uwYoQRdwJiBVTUVnd0YpoCRs+4Vb8UwKC0DQwlrkqpFu9CL
+ YZ4GlyAzVA1I7DNZ087TMnZVnovWIchESyNvLStfIKL0Qvzc5X53Wm/w3AkWueMtzx8hEuRiz
+ 16VzULWXwG+iCmqlo/Z3SbnMWVETCnpNDn2X1IajDL+diHa+CGxYPYh0bh3FXnehBV7hjBb79
+ d2UkxIb3y4CflQYKfbNpqpldmENR7yGCSvztX6jLEfAUOdvi9fsegOm6A7RPEalTCCn93+gMi
+ rwnA1ZLGLuECMP4iHJ26j2MaMD9CxLhAWya/jwpzCS/pJYYkzkc0292CavgaL3MJJ0EesRIps
+ Ce23GS4HP40SS+hXIb/otWQ+yXk6sqO+V8UqDnl9BxbabPN3H5IbEI13p6lKtHACr0yK6ElaH
+ 5WKoIgCxvPSwDGqV6dlWNeOtKUyv0kWdxf3IZ/VwQeKSLPgZ/jmQJ8/pWCk=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH-for-4.1? 2/7]
- hw/dma/omap_dma: Move switch 'fall through' comment to correct place
+X-Received-From: 212.227.126.134
+Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH-for-4.1? 4/7] hw/ipmi:
+ Rewrite a fall through comment
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -122,40 +122,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 19/07/2019 à 15:14, Philippe Mathieu-Daudé a écrit :
-> Reported by GCC9 when building with CFLAG -Wimplicit-fallthrough=2:
+> GCC9 is confused by this comment when building with CFLAG
+> -Wimplicit-fallthrough=2:
 > 
->     CC      hw/dma/omap_dma.o
->   hw/dma/omap_dma.c: In function ‘omap_dma_write’:
->   hw/dma/omap_dma.c:1532:12: error: this statement may fall through [-Werror=implicit-fallthrough=]
->    1532 |         if (s->model <= omap_dma_3_1)
->         |            ^
->   hw/dma/omap_dma.c:1534:5: note: here
->    1534 |     case 0x400:
->         |     ^~~~
+>   hw/ipmi/ipmi_bmc_extern.c: In function ‘addchar’:
+>   hw/ipmi/ipmi_bmc_extern.c:178:12: error: this statement may fall through [-Werror=implicit-fallthrough=]
+>     178 |         ch |= 0x10;
+>         |         ~~~^~~~~~~
+>   hw/ipmi/ipmi_bmc_extern.c:181:5: note: here
+>     181 |     default:
+>         |     ^~~~~~~
 >   cc1: all warnings being treated as errors
+>   make: *** [rules.mak:69: hw/ipmi/ipmi_bmc_extern.o] Error 1
 > 
-> Correctly place the 'fall through' comment.
+> Rewrite the comment using 'fall through' which is recognized by
+> GCC and static analyzers.
 > 
 > Reported-by: Stefan Weil <sw@weilnetz.de>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/dma/omap_dma.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/ipmi/ipmi_bmc_extern.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/hw/dma/omap_dma.c b/hw/dma/omap_dma.c
-> index eab83c5c3a..6677237d42 100644
-> --- a/hw/dma/omap_dma.c
-> +++ b/hw/dma/omap_dma.c
-> @@ -1531,8 +1531,8 @@ static void omap_dma_write(void *opaque, hwaddr addr,
->      case 0x404 ... 0x4fe:
->          if (s->model <= omap_dma_3_1)
->              break;
+> diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
+> index c0a8dac346..d4cbd210c4 100644
+> --- a/hw/ipmi/ipmi_bmc_extern.c
+> +++ b/hw/ipmi/ipmi_bmc_extern.c
+> @@ -176,8 +176,7 @@ static void addchar(IPMIBmcExtern *ibe, unsigned char ch)
+>          ibe->outbuf[ibe->outlen] = VM_ESCAPE_CHAR;
+>          ibe->outlen++;
+>          ch |= 0x10;
+> -        /* No break */
+> -
 > +        /* fall through */
->      case 0x400:
-> -        /* Fall through. */
->          if (omap_dma_sys_write(s, addr, value))
->              break;
->          return;
+>      default:
+>          ibe->outbuf[ibe->outlen] = ch;
+>          ibe->outlen++;
 > 
 
 Applied to my trivial-patches branch.
