@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502E0973B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:40:58 +0200 (CEST)
-Received: from localhost ([::1]:44546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0DE973C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:46:05 +0200 (CEST)
+Received: from localhost ([::1]:44600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0LEn-00040X-45
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:40:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42183)
+	id 1i0LJj-0002G4-PZ
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:46:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42223)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0Q-0004XV-FP
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0R-0004Zy-R8
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0O-000844-8b
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:06 -0400
-Received: from ozlabs.org ([203.11.71.1]:33927)
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0Q-000853-8B
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:07 -0400
+Received: from ozlabs.org ([203.11.71.1]:44371)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L0N-00080y-M8; Wed, 21 Aug 2019 03:26:04 -0400
+ id 1i0L0N-0007zp-QY; Wed, 21 Aug 2019 03:26:04 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46CzjC1N27z9sPV; Wed, 21 Aug 2019 17:25:49 +1000 (AEST)
+ id 46CzjB1GyDz9sQn; Wed, 21 Aug 2019 17:25:49 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1566372351;
- bh=WXwNYOWKcVD8fT6frteigyYRh/UVz+d5FBWDZT7i9rQ=;
+ d=gibson.dropbear.id.au; s=201602; t=1566372350;
+ bh=+ll5cKS8GpOsg1khTBTggYL8D2mfNQnbIIz1+Y1r/oc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iLNllmOh2zTxqOSj/iwteCxEA7jtU/kdcutl/0Oza9GpLq/FhcfiBcoBmUxPqtmJI
- 9WL7dRHeG+SZcQ6dv0aCgWpEv7FUCWNJzoDb9BDiIJdyy41r/CtO08zdFjaL8N0RYV
- hbLcqQ5NZBRZRDWfoIdPh11ThkOLeswbTYteGnM8=
+ b=azlSd8yrrBNnQcLtQ/iPF/8qkBll2P8rZUH5mD+8UVayCCFCplNMTJ6+GP8SXcE2k
+ B8Ds2FvN+wOLCMvVwFb9SPQ+iwshZ4TzoRzoJUwZGcNP7bb+RRJ8ljaX04BT7a29Vq
+ zubuzSg18TBzVJ6pHNFTSdhFAK2C4ySK8fkwNj6g=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:15 +1000
-Message-Id: <20190821072542.23090-16-david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 17:25:16 +1000
+Message-Id: <20190821072542.23090-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
@@ -40,7 +40,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 15/42] spapr: Implement dispatch tracking for tcg
+Subject: [Qemu-devel] [PULL 16/42] spapr: Implement H_PROD
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,196 +60,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nicholas Piggin <npiggin@gmail.com>
 
-Implement cpu_exec_enter/exit on ppc which calls into new methods of
-the same name in PPCVirtualHypervisorClass. These are used by spapr
-to implement the splpar VPA dispatch counter initially.
+H_PROD is added, and H_CEDE is modified to test the prod bit
+according to PAPR.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Message-Id: <20190718034214.14948-2-npiggin@gmail.com>
-[dwg: Removed unnecessary CONFIG_USER_ONLY checks as suggested by gkurz]
+Message-Id: <20190718034214.14948-3-npiggin@gmail.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c                  | 48 +++++++++++++++++++++++++++++++++
- hw/ppc/spapr_hcall.c            |  5 ----
- include/hw/ppc/spapr.h          |  7 +++++
- target/ppc/cpu.h                |  4 +++
- target/ppc/translate_init.inc.c | 27 +++++++++++++++++++
- 5 files changed, 86 insertions(+), 5 deletions(-)
+ hw/ppc/spapr.c                  |  1 +
+ hw/ppc/spapr_hcall.c            | 32 ++++++++++++++++++++++++++++++++
+ include/hw/ppc/spapr_cpu_core.h |  1 +
+ 3 files changed, 34 insertions(+)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 22a45c3737..08cc7c2bd6 100644
+index 08cc7c2bd6..0890c2840f 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -4306,6 +4306,52 @@ PowerPCCPU *spapr_find_cpu(int vcpu_id)
-     return NULL;
- }
+@@ -4312,6 +4312,7 @@ static void spapr_cpu_exec_enter(PPCVirtualHypervis=
+or *vhyp, PowerPCCPU *cpu)
 =20
-+static void spapr_cpu_exec_enter(PPCVirtualHypervisor *vhyp, PowerPCCPU =
-*cpu)
-+{
-+    SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
-+
-+    /* These are only called by TCG, KVM maintains dispatch state */
-+
-+    if (spapr_cpu->vpa_addr) {
-+        CPUState *cs =3D CPU(cpu);
-+        uint32_t dispatch;
-+
-+        dispatch =3D ldl_be_phys(cs->as,
-+                               spapr_cpu->vpa_addr + VPA_DISPATCH_COUNTE=
-R);
-+        dispatch++;
-+        if ((dispatch & 1) !=3D 0) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "VPA: incorrect dispatch counter value for "
-+                          "dispatched partition %u, correcting.\n", disp=
-atch);
-+            dispatch++;
-+        }
-+        stl_be_phys(cs->as,
-+                    spapr_cpu->vpa_addr + VPA_DISPATCH_COUNTER, dispatch=
-);
-+    }
-+}
-+
-+static void spapr_cpu_exec_exit(PPCVirtualHypervisor *vhyp, PowerPCCPU *=
-cpu)
-+{
-+    SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
-+
-+    if (spapr_cpu->vpa_addr) {
-+        CPUState *cs =3D CPU(cpu);
-+        uint32_t dispatch;
-+
-+        dispatch =3D ldl_be_phys(cs->as,
-+                               spapr_cpu->vpa_addr + VPA_DISPATCH_COUNTE=
-R);
-+        dispatch++;
-+        if ((dispatch & 1) !=3D 1) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "VPA: incorrect dispatch counter value for "
-+                          "preempted partition %u, correcting.\n", dispa=
-tch);
-+            dispatch++;
-+        }
-+        stl_be_phys(cs->as,
-+                    spapr_cpu->vpa_addr + VPA_DISPATCH_COUNTER, dispatch=
-);
-+    }
-+}
-+
- static void spapr_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc =3D MACHINE_CLASS(oc);
-@@ -4362,6 +4408,8 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
-     vhc->hpte_set_r =3D spapr_hpte_set_r;
-     vhc->get_pate =3D spapr_get_pate;
-     vhc->encode_hpt_for_kvm_pr =3D spapr_encode_hpt_for_kvm_pr;
-+    vhc->cpu_exec_enter =3D spapr_cpu_exec_enter;
-+    vhc->cpu_exec_exit =3D spapr_cpu_exec_exit;
-     xic->ics_get =3D spapr_ics_get;
-     xic->ics_resend =3D spapr_ics_resend;
-     xic->icp_get =3D spapr_icp_get;
+     /* These are only called by TCG, KVM maintains dispatch state */
+=20
++    spapr_cpu->prod =3D false;
+     if (spapr_cpu->vpa_addr) {
+         CPUState *cs =3D CPU(cpu);
+         uint32_t dispatch;
 diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 47b566882b..4c5ea17250 100644
+index 4c5ea17250..dd584da1ce 100644
 --- a/hw/ppc/spapr_hcall.c
 +++ b/hw/ppc/spapr_hcall.c
-@@ -875,11 +875,6 @@ unmap_out:
- #define FLAGS_DEREGISTER_DTL       0x0000c00000000000ULL
- #define FLAGS_DEREGISTER_SLBSHADOW 0x0000e00000000000ULL
-=20
--#define VPA_MIN_SIZE           640
--#define VPA_SIZE_OFFSET        0x4
--#define VPA_SHARED_PROC_OFFSET 0x9
--#define VPA_SHARED_PROC_VAL    0x2
--
- static target_ulong register_vpa(PowerPCCPU *cpu, target_ulong vpa)
+@@ -1051,14 +1051,44 @@ static target_ulong h_cede(PowerPCCPU *cpu, Spapr=
+MachineState *spapr,
  {
+     CPUPPCState *env =3D &cpu->env;
      CPUState *cs =3D CPU(cpu);
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 60553d32c4..5d36eec9d0 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -525,6 +525,13 @@ void spapr_register_hypercall(target_ulong opcode, s=
-papr_hcall_fn fn);
- target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
-                              target_ulong *args);
++    SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
 =20
-+/* Virtual Processor Area structure constants */
-+#define VPA_MIN_SIZE           640
-+#define VPA_SIZE_OFFSET        0x4
-+#define VPA_SHARED_PROC_OFFSET 0x9
-+#define VPA_SHARED_PROC_VAL    0x2
-+#define VPA_DISPATCH_COUNTER   0x100
+     env->msr |=3D (1ULL << MSR_EE);
+     hreg_compute_hflags(env);
 +
- /* ibm,set-eeh-option */
- #define RTAS_EEH_DISABLE                 0
- #define RTAS_EEH_ENABLE                  1
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 630a25c246..50245a8c4d 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1224,6 +1224,10 @@ struct PPCVirtualHypervisorClass {
-     void (*hpte_set_r)(PPCVirtualHypervisor *vhyp, hwaddr ptex, uint64_t=
- pte1);
-     void (*get_pate)(PPCVirtualHypervisor *vhyp, ppc_v3_pate_t *entry);
-     target_ulong (*encode_hpt_for_kvm_pr)(PPCVirtualHypervisor *vhyp);
-+#ifndef CONFIG_USER_ONLY
-+    void (*cpu_exec_enter)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
-+    void (*cpu_exec_exit)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
-+#endif
- };
-=20
- #define TYPE_PPC_VIRTUAL_HYPERVISOR "ppc-virtual-hypervisor"
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-index 9cd2033bb9..c9fcd87095 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -10469,6 +10469,28 @@ static bool ppc_cpu_is_big_endian(CPUState *cs)
-=20
-     return !msr_le;
++    if (spapr_cpu->prod) {
++        spapr_cpu->prod =3D false;
++        return H_SUCCESS;
++    }
++
+     if (!cpu_has_work(cs)) {
+         cs->halted =3D 1;
+         cs->exception_index =3D EXCP_HLT;
+         cs->exit_request =3D 1;
+     }
++
++    return H_SUCCESS;
++}
++
++static target_ulong h_prod(PowerPCCPU *cpu, SpaprMachineState *spapr,
++                           target_ulong opcode, target_ulong *args)
++{
++    target_long target =3D args[0];
++    PowerPCCPU *tcpu;
++    CPUState *cs;
++    SpaprCpuState *spapr_cpu;
++
++    tcpu =3D spapr_find_cpu(target);
++    cs =3D CPU(tcpu);
++    if (!cs) {
++        return H_PARAMETER;
++    }
++
++    spapr_cpu =3D spapr_cpu_state(tcpu);
++    spapr_cpu->prod =3D true;
++    cs->halted =3D 0;
++    qemu_cpu_kick(cs);
++
+     return H_SUCCESS;
  }
-+
-+static void ppc_cpu_exec_enter(CPUState *cs)
-+{
-+    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-+
-+    if (cpu->vhyp) {
-+        PPCVirtualHypervisorClass *vhc =3D
-+            PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
-+        vhc->cpu_exec_enter(cpu->vhyp, cpu);
-+    }
-+}
-+
-+static void ppc_cpu_exec_exit(CPUState *cs)
-+{
-+    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-+
-+    if (cpu->vhyp) {
-+        PPCVirtualHypervisorClass *vhc =3D
-+            PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
-+        vhc->cpu_exec_exit(cpu->vhyp, cpu);
-+    }
-+}
- #endif
 =20
- static void ppc_cpu_instance_init(Object *obj)
-@@ -10622,6 +10644,11 @@ static void ppc_cpu_class_init(ObjectClass *oc, =
-void *data)
-     cc->tcg_initialize =3D ppc_translate_init;
-     cc->tlb_fill =3D ppc_cpu_tlb_fill;
- #endif
-+#ifndef CONFIG_USER_ONLY
-+    cc->cpu_exec_enter =3D ppc_cpu_exec_enter;
-+    cc->cpu_exec_exit =3D ppc_cpu_exec_exit;
-+#endif
+@@ -1885,6 +1915,8 @@ static void hypercall_register_types(void)
+     /* hcall-splpar */
+     spapr_register_hypercall(H_REGISTER_VPA, h_register_vpa);
+     spapr_register_hypercall(H_CEDE, h_cede);
++    spapr_register_hypercall(H_PROD, h_prod);
 +
-     cc->disas_set_info =3D ppc_disas_set_info;
+     spapr_register_hypercall(H_SIGNAL_SYS_RESET, h_signal_sys_reset);
 =20
-     dc->fw_name =3D "PowerPC,UNKNOWN";
+     /* processor register resource access h-calls */
+diff --git a/include/hw/ppc/spapr_cpu_core.h b/include/hw/ppc/spapr_cpu_c=
+ore.h
+index 35e0a7eead..1c4cc6559c 100644
+--- a/include/hw/ppc/spapr_cpu_core.h
++++ b/include/hw/ppc/spapr_cpu_core.h
+@@ -46,6 +46,7 @@ typedef struct SpaprCpuState {
+     uint64_t vpa_addr;
+     uint64_t slb_shadow_addr, slb_shadow_size;
+     uint64_t dtl_addr, dtl_size;
++    bool prod; /* not migrated, only used to improve dispatch latencies =
+*/
+     struct ICPState *icp;
+     struct XiveTCTX *tctx;
+ } SpaprCpuState;
 --=20
 2.21.0
 
