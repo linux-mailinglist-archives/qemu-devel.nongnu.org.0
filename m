@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB27F97846
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:47:58 +0200 (CEST)
-Received: from localhost ([::1]:47324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A889782B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:42:40 +0200 (CEST)
+Received: from localhost ([::1]:47276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0P5p-0001kf-DN
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:47:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53706)
+	id 1i0P0h-0004gK-4v
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53475)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i0OfW-0005Bs-7j
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:47 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i0OfN-0004wA-3q
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i0OfU-0006h0-Pn
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:45 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:36673)
+ (envelope-from <laurent@vivier.eu>) id 1i0OfK-0006Zh-RA
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:36 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:55141)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i0OfA-0006Re-Ak; Wed, 21 Aug 2019 07:20:24 -0400
+ id 1i0Of2-0006MV-KP; Wed, 21 Aug 2019 07:20:16 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MXHBo-1hkUrl3R8w-00YiE0; Wed, 21 Aug 2019 13:20:04 +0200
+ id 1Mqrjz-1idq8i1ebZ-00mvpD; Wed, 21 Aug 2019 13:20:05 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:19:39 +0200
-Message-Id: <20190821111947.26580-7-laurent@vivier.eu>
+Date: Wed, 21 Aug 2019 13:19:40 +0200
+Message-Id: <20190821111947.26580-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821111947.26580-1-laurent@vivier.eu>
 References: <20190821111947.26580-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:u2atPAoeKpCu5Yo8clBe1Kcd3F6j4dMNP1n92CWUCIMF4iVFIN0
- HB3W5V2tXHG2XG9Zm+Pa8nQINXF2pbWxvfvh2RAM8NfvoZXbQtpe9szEYfiXEwdj9YjqWIB
- PHDnBafwblquxKDujYqeU0nulnO7JcGY8tW4sRoULOwhlj/LEw08cbFsSm0YsDzpYrcA8TN
- zJZL6suIPqxMmvCij41/g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+Cos+Wn8A+E=:EWRm5POM6JvWWBgwUC1dty
- XbsDJN4qMDvRF/LC/PQ0lUTQuVf/vtc9MXw12GuA4HIjLerASa2z09iOdqYnl2mmjhKxDDdQb
- Jr4y63PH1lizLwlv5pyVFRxe2xs8CaKUaCAjEJz+PSRrt1XSmJ+kaSDb3OMN7uoWH7B90f13m
- XyB8hZEFcNgs3iqAnogpmoB7ds4wUGjMsxamQBA1YTzz5o6bNNc1g7qZadhYTFIntGvWUzVsX
- PkMiP7I4imrCGVmQQ7GT50nP/QPvsJMnQFX8LqzV5NC7N1KMvNZQadEy3GrQyzEQ/I4maM/4L
- 6sw4JaYy6f/sxAHZ5I16+W3EfQV4UuZxlp7ONfNyYKXzUpdtYGLTnk+Uycu4K6OG/rlFxytCc
- hIaN8RRNJHeOJ2xMD0bgR9bU5d7zqnwz7UyEMRG45gUrLIReVjWXxg2uYtclJwMyNgkT8bDnf
- gQWI4vUp91zDKX49cz738GNQB+mdqayZCy4C0cmgvII/suqIZXeiDIuZJdBghBjU7GTKicEEw
- jKaG+4Yct5Jk6XHAoiGLpivJHIJwqJfru5/EMhh91PX9ZSfPxNG3l/lLYzhUxeCjL0mlMy+Fx
- m1AYQY0ScDO9PWywouTom8kzT2LWy4XnV6iPPzcYqyRchK/OGecrpa0ZKoOFn/u8komWXEODX
- jMGwj0apc6wBsmPllCElERy9rxuRtbA8MCZvfB6W1mOyFf3MfKJeCyxMPEi78bw0qRN+I4nBm
- Knmol9q88Z2yEnN5N+dl6bcFCNd2XmUkWSOyeirx7WXDQMdSvCVze041XJk=
+X-Provags-ID: V03:K1:i+3b3qlR6kyQgu6gQfu96rxZj7K07Flpi6sw/j0BgOY8QwjhaRL
+ FLLPkCl5BEfqwz5dQI5OsOlUnlrfaUy4i5pPqfWeF5wrf018FvTB08mNMgnnMEnDrhWVa/J
+ IYjFmHpNmRZRXJjEypFI0uSbL6vK83oYIaxMpETydGePHENw/6DYZWycUAfct4xsLPi5GyG
+ P50TxSivcFVqbYY8Qy0KQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/lz0sZuo1ps=:qu6e8G22GTbs71/edVKvng
+ U/Dy36pjAJMQojsfEnHkTrU0uJ3MNI0PTN/1Ph4pJjaNVf3oVDceaoOXsy0UJuR0t0rEzwqy7
+ ODYKWm67rOGNUGRxh3DTl46uaIYvGDx4rBri8x1tT5xVE3BxAn58bQpm/rzRXJGAxgsCGH53w
+ U3FKHIktqi9/tUNJnFHnnoWEJ7/6b42XL5uaAWDJ9LrXmyxPvFzQIe8k0NXifBOd+QFZFH2rk
+ GmFOubWF584hkrayFPlAc6D6hR3+jInQ0/Mc3uimC3Sv1N0wU45z3CFU/F8jru4JoWFRH0Ihp
+ E0cpzdNitUwTtLCi6QUqxhI5NzS2UrvDnYD93qS5YUKubmpBphg9n94gMv82pwpkxOMpfFd02
+ 4DFbcI87G4JGHhpVaXRdMZ+GMgC15lJCi5EWSpoTVYke3qsgvkUo5vLcd0uMJrKSZN7ErT4Zc
+ GTBGpEMxFqhucRwpbCy8U6qVQVoKcKPeu85MS2NTO8+ZksoJWTpUhGA5ULiQ3Jf4Bnt9r+laT
+ XsQ1XTv+VLA47zXgDEYtCZBS8fc8lMLszuGmEFEwOuW4Kwqt7aMgk1jU0XIBt+QZ7KEm19vzE
+ ea/AMVOtThxx2GF0d5QrXCnpzFD2Gc661yw4OlDEMonLTES3Gn+Rv6E9s+Z5H090jeu0HcOZ7
+ fVEzdGgvan7j2pBH16iXtlbgDJD3IkEfS3jLEbDmARq67U47Ph4NcXfCSSJKZ42ZBsbyyeq8K
+ gAXYc9aiarjQVL3qWb4O0BSGT0GxhL2gLc3nOQ4KH3vMV1DUKq/wPb65nj810hiyN8+LoNI/5
+ cXiuGrIcuBHDE38b2pPz3XBNh60vw==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: [Qemu-devel] [PULL 06/14] hw/net/e1000: Fix erroneous comment
+X-Received-From: 212.227.17.24
+Subject: [Qemu-devel] [PULL 07/14] json: Move switch 'fall through' comment
+ to correct place
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,9 +68,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
  Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Markus Armbruster <armbru@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
  qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
@@ -79,30 +81,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Missed during the QOM convertion in 9af21dbee14.
+Reported by GCC9 when building with CFLAG -Wimplicit-fallthrough=2:
 
+  qobject/json-parser.c: In function ‘parse_literal’:
+  qobject/json-parser.c:492:24: error: this statement may fall through [-Werror=implicit-fallthrough=]
+    492 |     case JSON_INTEGER: {
+        |                        ^
+  qobject/json-parser.c:524:5: note: here
+    524 |     case JSON_FLOAT:
+        |     ^~~~
+
+Correctly place the 'fall through' comment.
+
+Reported-by: Stefan Weil <sw@weilnetz.de>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20190715102210.31365-1-philmd@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20190719131425.10835-2-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/net/e1000.c | 2 +-
+ qobject/json-parser.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index 8ae4e08f1e90..a73f8d404e6c 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -1608,7 +1608,7 @@ static const VMStateDescription vmstate_e1000 = {
- 
- /*
-  * EEPROM contents documented in Tables 5-2 and 5-3, pp. 98-102.
-- * Note: A valid DevId will be inserted during pci_e1000_init().
-+ * Note: A valid DevId will be inserted during pci_e1000_realize().
-  */
- static const uint16_t e1000_eeprom_template[64] = {
-     0x0000, 0x0000, 0x0000, 0x0000,      0xffff, 0x0000,      0x0000, 0x0000,
+diff --git a/qobject/json-parser.c b/qobject/json-parser.c
+index 7d23e12e3379..d083810d3782 100644
+--- a/qobject/json-parser.c
++++ b/qobject/json-parser.c
+@@ -519,8 +519,8 @@ static QObject *parse_literal(JSONParserContext *ctxt)
+             }
+             assert(ret == -ERANGE);
+         }
+-        /* fall through to JSON_FLOAT */
+     }
++    /* fall through to JSON_FLOAT */
+     case JSON_FLOAT:
+         /* FIXME dependent on locale; a pervasive issue in QEMU */
+         /* FIXME our lexer matches RFC 8259 in forbidding Inf or NaN,
 -- 
 2.21.0
 
