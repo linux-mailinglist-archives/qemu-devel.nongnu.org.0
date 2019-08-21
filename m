@@ -2,71 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E243F97E89
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 17:22:12 +0200 (CEST)
-Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2E497EB2
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 17:29:05 +0200 (CEST)
+Received: from localhost ([::1]:49492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0SR9-0001w0-Ve
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 11:22:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45353)
+	id 1i0SXo-0007JP-8g
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 11:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48741)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen.git@gmail.com>) id 1i0SGF-0003Ae-JE
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:56 -0400
+ (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0SWu-0006XJ-ID
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:28:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen.git@gmail.com>) id 1i0SGD-0003vU-8S
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:55 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:42342)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tony.nguyen.git@gmail.com>)
- id 1i0SGD-0003uU-2a
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:53 -0400
-Received: by mail-pg1-x541.google.com with SMTP id p3so1468523pgb.9
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 08:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZQrSORTexmqUbB8NHgb60CoVdE93miI4HpVhE2CwILU=;
- b=qdDg5qC+2UidtVnmrtTSA7JLoFCFIzwL4lZXpLT/ERgdIizsc7PKJwhQ+DMkTbYpx0
- BfmuoIhbMyNsv98/lgJtHMBR7xadfcpaU/9leXqoS5zQhO2SBq9mr+c4q9XyzfegW9QT
- dC/aKFWw6j9lJTskdxzWAwR1lJIZ+lmTNrc56Gbo8ucTZQsaAPfHDu3PzI7/7O8frtzM
- biGeWKFjEVJgiepa/gM2IlTUPUsQrO9PZTI8Ea9ugsq0yvil+m5z/bInKS1yLq1RJo/f
- qv3Mltvz4sIC347vNQzjm4jG3KJV+hAVJAQ3qOyiFAQSHMC63JcFeSiGai594JtUxnb5
- Edyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZQrSORTexmqUbB8NHgb60CoVdE93miI4HpVhE2CwILU=;
- b=mtuAyQyF5cC92MADb23rEKoXm0/31qfZuPKdivf3m+L5hTYhoadcRMJPpcIEst1Ncb
- hiINRrVmmfqTjNFgO1rp4TpmKQG3lzKO39km135mlCs5N8+6nedhH0iOq18cbrqUdUBj
- n5wQYPIf4UMkTDap9xgDVHDZd2S3VHYZ3ZxVg9CKGpzoQweURS8QMUMOeH/LOlP2EGmn
- OyndlYqs6zvwkA3sOMzbQcLQp4SGvOJ5X0lHEnv6lEOZgA6468p1FmyNNdyDuhNtyOM6
- KOh7obgBgF27MCIExmPldnjO6DEFVBWRUHxZxlxqqBaI85dz1Y47GqosqgKOjGWwmYWv
- buDg==
-X-Gm-Message-State: APjAAAVD9ZqPhKXJlO4+cNViWAmwDtDYZ4zPdC1m63ZzRwwZXXvOPUby
- QhIc74zhFgjXDcfKXRiMQftwmOksIfk=
-X-Google-Smtp-Source: APXvYqwim9vjeE0uC6ziif6GFzFc40pea3F5oTht47NIZl7drPK+sSClohyoV6pkpuo2iUL6dnLMfg==
-X-Received: by 2002:a63:e14d:: with SMTP id h13mr29506910pgk.431.1566400251755; 
- Wed, 21 Aug 2019 08:10:51 -0700 (PDT)
-Received: from localhost.localdomain ([58.173.98.68])
- by smtp.gmail.com with ESMTPSA id e19sm5887633pfh.114.2019.08.21.08.10.49
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 21 Aug 2019 08:10:51 -0700 (PDT)
-From: Tony Nguyen <tony.nguyen.git@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 01:09:15 +1000
-Message-Id: <27f915e6ee675b0f88bcd1429bd9f37210d72728.1566397711.git.tony.nguyen.git@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <cover.1566397711.git.tony.nguyen.git@gmail.com>
-References: <cover.1566397711.git.tony.nguyen.git@gmail.com>
+ (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0SWs-0004F3-4J
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:28:07 -0400
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:34013)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <Sandra_Loosemore@mentor.com>)
+ id 1i0SWr-0004DC-PD
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:28:06 -0400
+IronPort-SDR: XsHyqUeQPfZS8TDdoy76roThbt94vCHz83P6MTzEKeq91rZ7wL+4Hf/e7ClTDffxfFbHZbtymt
+ tvX91ziV9G5d+DV6n69RcW9jzg+spaj3cFgN4rsSC+Ts53NLs7KlL24Bd2hObnFFnM4AULvrCw
+ /P5hKQrkRJQtx56QR9tLMkY1bXeroPM2/7Fg7clsHwKtkQNN1gSnOvSBR4L2cbzjJKh/JjJFx+
+ SN4WK/QutvTila76pfswsIXo4P1QFdJWuKrKCDc/y5+F/ztuUy/BhSlCHyVRJMO+PEBrBnIHHY
+ zmk=
+X-IronPort-AV: E=Sophos;i="5.64,412,1559548800"; d="scan'208";a="40642337"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+ by esa3.mentor.iphmx.com with ESMTP; 21 Aug 2019 07:28:00 -0800
+IronPort-SDR: 43ATZMWLknnrgChvW7SItBGarZ303YSjMb8zGBml07IAeyuhwM3sV/kvXg4kAFMliHRDj5H6t9
+ 1tSMy16oem7sEDtOlJSnCXr2oNnggyFWbSsgdTp0LaNPyeskviMMMDx4Vo3iwqI2WKSlI6dxEi
+ cuxCrR90x4ef3+ppk9AqUQhw4NLK4FriFe3bySXUDtSFkBymheR8GvixM7Dua5EhBOgZL9yT3+
+ NqIhokIdCyal0hdvWaIc/qL7WkH8r8dKtl1Clyez/vx3nRo76X0bL4VdfNe1tfIDiG/T/PJsWi
+ 2tM=
+To: Laurent Vivier <laurent@vivier.eu>, <qemu-devel@nongnu.org>
+References: <20190821142151.19995-1-sandra@codesourcery.com>
+ <20190821142151.19995-2-sandra@codesourcery.com>
+ <e84f586a-7238-7bbe-f519-bb7c370c404b@vivier.eu>
+From: Sandra Loosemore <sandra@codesourcery.com>
+Message-ID: <608fde9c-bcac-9e6f-98f0-c208bda2eb5a@codesourcery.com>
+Date: Wed, 21 Aug 2019 09:27:54 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <e84f586a-7238-7bbe-f519-bb7c370c404b@vivier.eu>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH v8 21/21] target/sparc: sun4u Invert Endian TTE
- bit
+X-ClientProxiedBy: svr-orw-mbx-04.mgc.mentorg.com (147.34.90.204) To
+ svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 68.232.137.180
+Subject: Re: [Qemu-devel] [PATCH 1/2] target/nios2: Fix bug in semihosted
+ exit handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,83 +65,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Nguyen <tony.nguyen.git@gmail.com>, Tony Nguyen <tony.nguyen@bt.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This bit configures endianness of PCI MMIO devices. It is used by
-Solaris and OpenBSD sunhme drivers.
+On 8/21/19 8:41 AM, Laurent Vivier wrote:
+> Le 21/08/2019 à 16:21, Sandra Loosemore a écrit :
+>> This patch fixes a bug that caused semihosted exit to always return
+>> status 0; it was incorrectly using the value of register R_ARG0 (which
+>> contains the HOSTED_EXIT request number) instead of register R_ARG1.
+>>
+>> Signed-off-by: Sandra Loosemore <sandra@codesourcery.com>
+>> ---
+>>   target/nios2/nios2-semi.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
+>> index d7a80dd..06c0861 100644
+>> --- a/target/nios2/nios2-semi.c
+>> +++ b/target/nios2/nios2-semi.c
+>> @@ -215,8 +215,8 @@ void do_nios2_semihosting(CPUNios2State *env)
+>>       args = env->regs[R_ARG1];
+>>       switch (nr) {
+>>       case HOSTED_EXIT:
+>> -        gdb_exit(env, env->regs[R_ARG0]);
+>> -        exit(env->regs[R_ARG0]);
+>> +        gdb_exit(env, env->regs[R_ARG1]);
+>> +        exit(env->regs[R_ARG1]);
+> 
+> It's weird: in line 215,  env->regs[R_ARG1] is args.
+> 
+> Are you sure it's not something like:
+> 
+>          GET_ARG(0)
+>          gdb_exit(env, arg0);
+>          exit(arg0);
+> 
+> same for m68k.
+> 
+> Did you check the kernel code?
 
-Tested working on OpenBSD.
+It's not the kernel that's involved here, it's libgloss.  And yes, the 
+HOSTED_EXIT case takes an immediate argument in the register rather than 
+a pointer to an argument block.
 
-Unfortunately Solaris 10 had a unrelated keyboard issue blocking
-testing... another inch towards Solaris 10 on SPARC64 =)
+Here's the documentation for nios2 semihosting.
 
-Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- target/sparc/cpu.h        | 2 ++
- target/sparc/mmu_helper.c | 8 +++++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+https://www.sourceware.org/git/gitweb.cgi?p=newlib-cygwin.git;a=blob;f=libgloss/nios2/nios2-semi.txt;h=ded3a093c03dbae84cb95b4cd45bc3e0d751eda2;hb=HEAD
 
-diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index 694d7139cf..490e14dfcf 100644
---- a/target/sparc/cpu.h
-+++ b/target/sparc/cpu.h
-@@ -275,6 +275,7 @@ enum {
- 
- #define TTE_VALID_BIT       (1ULL << 63)
- #define TTE_NFO_BIT         (1ULL << 60)
-+#define TTE_IE_BIT          (1ULL << 59)
- #define TTE_USED_BIT        (1ULL << 41)
- #define TTE_LOCKED_BIT      (1ULL <<  6)
- #define TTE_SIDEEFFECT_BIT  (1ULL <<  3)
-@@ -291,6 +292,7 @@ enum {
- 
- #define TTE_IS_VALID(tte)   ((tte) & TTE_VALID_BIT)
- #define TTE_IS_NFO(tte)     ((tte) & TTE_NFO_BIT)
-+#define TTE_IS_IE(tte)      ((tte) & TTE_IE_BIT)
- #define TTE_IS_USED(tte)    ((tte) & TTE_USED_BIT)
- #define TTE_IS_LOCKED(tte)  ((tte) & TTE_LOCKED_BIT)
- #define TTE_IS_SIDEEFFECT(tte) ((tte) & TTE_SIDEEFFECT_BIT)
-diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index 826e14b6f0..77dc86ac5c 100644
---- a/target/sparc/mmu_helper.c
-+++ b/target/sparc/mmu_helper.c
-@@ -537,6 +537,10 @@ static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
-         if (ultrasparc_tag_match(&env->dtlb[i], address, context, physical)) {
-             int do_fault = 0;
- 
-+            if (TTE_IS_IE(env->dtlb[i].tte)) {
-+                attrs->byte_swap = true;
-+            }
-+
-             /* access ok? */
-             /* multiple bits in SFSR.FT may be set on TT_DFAULT */
-             if (TTE_IS_PRIV(env->dtlb[i].tte) && is_user) {
-@@ -792,7 +796,7 @@ void dump_mmu(CPUSPARCState *env)
-             }
-             if (TTE_IS_VALID(env->dtlb[i].tte)) {
-                 qemu_printf("[%02u] VA: %" PRIx64 ", PA: %llx"
--                            ", %s, %s, %s, %s, ctx %" PRId64 " %s\n",
-+                            ", %s, %s, %s, %s, ie %s, ctx %" PRId64 " %s\n",
-                             i,
-                             env->dtlb[i].tag & (uint64_t)~0x1fffULL,
-                             TTE_PA(env->dtlb[i].tte),
-@@ -801,6 +805,8 @@ void dump_mmu(CPUSPARCState *env)
-                             TTE_IS_W_OK(env->dtlb[i].tte) ? "RW" : "RO",
-                             TTE_IS_LOCKED(env->dtlb[i].tte) ?
-                             "locked" : "unlocked",
-+                            TTE_IS_IE(env->dtlb[i].tte) ?
-+                            "yes" : "no",
-                             env->dtlb[i].tag & (uint64_t)0x1fffULL,
-                             TTE_IS_GLOBAL(env->dtlb[i].tte) ?
-                             "global" : "local");
--- 
-2.23.0
+And m68k:
 
+https://www.sourceware.org/git/gitweb.cgi?p=newlib-cygwin.git;a=blob;f=libgloss/m68k/m68k-semi.txt;h=50520c15292aa7edf7eef28e09fd9202ce75b153;hb=HEAD
+
+Again, a lot of cutting and pasting involved here.  ;-)
+
+-Sandra
 
