@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DB5980BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 18:54:35 +0200 (CEST)
-Received: from localhost ([::1]:50596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3BB980CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 18:57:33 +0200 (CEST)
+Received: from localhost ([::1]:50622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0TsY-0001We-HV
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 12:54:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59701)
+	id 1i0TvQ-00049b-1w
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 12:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1i0Ta6-0007rD-LL
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:35:31 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1i0Ta8-0007tg-5g
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:35:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1i0Ta5-0006Bc-Dl
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:35:30 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:36492)
+ (envelope-from <damien.hedde@greensocs.com>) id 1i0Ta6-0006Cd-PU
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:35:32 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:36506)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1i0Ta5-0006Ae-5c
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:35:29 -0400
+ id 1i0Ta6-0006Bt-Fl
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:35:30 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id DC66D96F54;
- Wed, 21 Aug 2019 16:35:27 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 37FC296F56;
+ Wed, 21 Aug 2019 16:35:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1566405328;
+ s=mail; t=1566405329;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IoXWqtvBGWyNCiBvyV0lKqkzc+865svTakM6A2Tn4Wk=;
- b=G/MeHLaH4aAjNQudwW3sXabdf2FzcsahvfF33SALhn2jSgXXDnFsgr5W4Zxmw5vZfZ7+l1
- wKumm0o2gYn2vBUw2zGlrUIq8EjX95fho8iBq1nkPaXKPn/H+FxDQCh8RG4ew4eRiaoFJO
- XW7EqGwzpS2/dWTwzPZFDoCCJHNtVRk=
+ bh=0BR3eridDeouQ+ZfE9j4HBjTSNzRxIpuXQwC0lZSXRw=;
+ b=2hh4BAez+k2D75Mso0k7eea36N1cRG5Vw0XGPBO+50R4TDtQskzOXCnnrea3c4swsdard+
+ 6RNuD7BKc1cKf7QpFL49CM2H6lL0QzhUB43a82fI0DX19hzDm++cxl6XWAGSPmbEnr9N/4
+ EHxtvwT67qyvOb4nmo9w9TGtPiWbnL4=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 18:33:40 +0200
-Message-Id: <20190821163341.16309-10-damien.hedde@greensocs.com>
+Date: Wed, 21 Aug 2019 18:33:41 +0200
+Message-Id: <20190821163341.16309-11-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190821163341.16309-1-damien.hedde@greensocs.com>
 References: <20190821163341.16309-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1566405328;
+ s=mail; t=1566405329;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IoXWqtvBGWyNCiBvyV0lKqkzc+865svTakM6A2Tn4Wk=;
- b=OLi8yLSbTEHnvGY6grGbLGGgzTuR4VU0EJxNEhluRs6/WFlqje4iQcdy8ye2tTgkeBMN6x
- ltIj5ttoqJhPtHVKAfYxthFz6GSypZR9MlZ8V+C9lREJH4RETEoQlmmF2q7WoTpFx7GWT3
- R9ogOklrt4xhn9D+fJ+I+Fd8eBcSZPw=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1566405328; a=rsa-sha256; cv=none;
- b=597dorltUPx5uesqcLQCv6daraqUYiPE46pTVlnjKi0Gb6RmAwl4fJkJMGm4a0R7ePNpHf
- +nPHru8zyO3aR2nuT1ozHx7H0FoXpup7TR1Ye3IIdt7s6173dNsDesCUOsxDWw9avRGs8z
- YWRHRDSy9RUxHLu5Gkerr0uRX7ASnJI=
+ bh=0BR3eridDeouQ+ZfE9j4HBjTSNzRxIpuXQwC0lZSXRw=;
+ b=C6cas6EmaSKbb/7RvHLBDI+LBytvNe17O7DS2ja5KD+tjb+L0qrF4Mf/qnoyBRmWSLXYtN
+ xxwYEZiNDw7NeBRqSf1uyrN6GidMbDnzEJzQ4dl5Y1tmzRJVBkREZwPQ/uvSY+8xcmMhuH
+ ViDinnU+kKmcyFyCsI+fxnlsZpBswA8=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1566405329; a=rsa-sha256; cv=none;
+ b=auUOw8C4R+1wmvrmoFFW3MpmAuPceMMtoj5n3r2Qf9nYuf3cnzNeyvjiyU/0leAteZIA/C
+ OF2gp3K7rNZVSshUIs8RSdDVQqDJVG13wdlwnYumr3Uqi7N3SwzPly5b63DoAKjD+83NYo
+ oeuPxqVrcm2El/9mNQJ3HUuib5tLMog=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v4 09/10] hw/core/: add warm reset helpers for
- devices and buses
+Subject: [Qemu-devel] [PATCH v4 10/10] docs/devel/reset.txt: add
+ documentation about warm reset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,127 +82,162 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This add helpers to trigger warm reset and to retrieve the
-reset current reset type.
+Complete the documentation with the handling of several reset types
+(cold and warm).
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/core/bus.c          | 11 +++++++++++
- hw/core/qdev.c         | 11 +++++++++++
- include/hw/qdev-core.h | 34 ++++++++++++++++++++++++++++++++++
- 3 files changed, 56 insertions(+)
+ docs/devel/reset.txt | 55 ++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 51 insertions(+), 4 deletions(-)
 
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 3be65ad041..b245fd6937 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -74,11 +74,22 @@ void bus_cold_reset(BusState *bus)
-     resettable_reset(OBJECT(bus), RESET_TYPE_COLD);
- }
+diff --git a/docs/devel/reset.txt b/docs/devel/reset.txt
+index 77ff29b3d7..ed1a72566d 100644
+--- a/docs/devel/reset.txt
++++ b/docs/devel/reset.txt
+@@ -31,16 +31,21 @@ makes no difference. But there can be some; some conf=
+iguration may be kept when
+ applying a warm reset for example.
 =20
-+void bus_warm_reset(BusState *bus)
-+{
-+    resettable_reset(OBJECT(bus), RESET_TYPE_WARM);
-+}
-+
- bool bus_is_resetting(BusState *bus)
- {
-     return resettable_is_resetting(OBJECT(bus));
- }
+ The Resettable interface handles reset kinds with an enum. For now only =
+cold
+-reset is defined, others may be added later.
++and warm reset are defined, others may be added later.
+ ```
+ typedef enum ResetType {
+     RESET_TYPE_COLD,
++    RESET_TYPE_WARM,
+ } ResetType;
+ ```
 =20
-+bool bus_test_reset_type(BusState *bus, ResetType type)
-+{
-+    ResetType cur_type =3D resettable_get_type(OBJECT(bus));
-+    return (cur_type & type);
-+}
-+
- static ResetState *bus_get_reset_state(Object *obj)
- {
-     BusState *bus =3D BUS(obj);
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 1638bc9f3b..9095f2b9c1 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -281,11 +281,22 @@ void device_cold_reset(DeviceState *dev)
-     resettable_reset(OBJECT(dev), RESET_TYPE_COLD);
- }
+ In qemu, RESET_TYPE_COLD means we reset to the initial state correspondi=
+ng to
+ the start of qemu; this might differs from what is a read hardware cold =
+reset.
 =20
-+void device_warm_reset(DeviceState *dev)
-+{
-+    resettable_reset(OBJECT(dev), RESET_TYPE_WARM);
-+}
++Although the interface can handle several kind of resets, these are not =
+totally
++independant and disjoint. There are some constraints; these are explaine=
+d below
++in the "multi-phase" section.
 +
- bool device_is_resetting(DeviceState *dev)
- {
-     return resettable_is_resetting(OBJECT(dev));
- }
 =20
-+bool device_test_reset_type(DeviceState *dev, ResetType type)
-+{
-+    ResetType cur_type =3D resettable_get_type(OBJECT(dev));
-+    return (cur_type & type);
-+}
-+
- static ResetState *device_get_reset_state(Object *obj)
- {
-     DeviceState *dev =3D DEVICE(obj);
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 2976121fbc..eb11f0f801 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -422,18 +422,52 @@ void device_cold_reset(DeviceState *dev);
-  */
- void bus_cold_reset(BusState *bus);
+ Triggering reset
+ ----------------
+@@ -49,21 +54,41 @@ This section documents the APIs which "users" of a re=
+settable object should use
+ to control it. All resettable control functions must be called while hol=
+ding
+ the iothread lock.
 =20
-+/**
-+ * device_warm_reset:
-+ * Trigger a warm reset of the device @dev.
-+ *
-+ * Use the Resettable interface (see hw/interface.h); it also reset the
-+ * device's qdev/qbus subtree.
-+ */
-+void device_warm_reset(DeviceState *dev);
+-You can trigger a reset event on a resettable object with resettable_res=
+et().
+-The object will be instantly reset.
++A resettable object can be put into its "in reset" state and held there
++indefinitely.
 +
-+/**
-+ * bus_warm_reset:
-+ * Trigger a warm reset of the bus @bus.
-+ *
-+ * Use the Resettable interface (see hw/interface.h); it also reset the
-+ * bus's qdev/qbus subtree.
-+ */
-+void bus_warm_reset(BusState *bus);
++You must call resettable_assert_reset() to put an object in reset. It wi=
+ll stay
++in this state until you eventually call resettable_deassert_reset(). Car=
+e must
++be taken to call resettable_deassert_reset() once and only once per call=
+ of
++resettable_assert_reset().
 +
- /**
-  * device_is_resetting:
-  * Return true if the device @dev is currently being reset.
-  */
- bool device_is_resetting(DeviceState *dev);
++```resettable_assert_reset(Object *obj, ResetType type);```
++The parameter "obj" is an object implementing the Resettable interface.
++The parameter "type" gives the type of reset you want to trigger.
++
++```resettable_deassert_reset(Object *obj);```
++The parameter "obj" is an object implementing the Resettable interface.
++
++If you want to just trigger a reset event but not leave the object in re=
+set for
++any period of time, you can use resettable_reset(), which is a convenien=
+ce
++function identical in behaviour to calling resettable_assert() and then
++immediately calling resettable_deassert().
 =20
-+/**
-+ * device_test_reset_type:
-+ * Return true if the device @dev is currently under reset type
-+ * @type.
-+ * Only valid if device_is_resetting() is true
-+ */
-+bool device_test_reset_type(DeviceState *dev, ResetType type);
-+
- /**
-  * bus_is_resetting:
-  * Return true if the bus @bus is currently being reset.
-  */
- bool bus_is_resetting(BusState *bus);
+ ```void resettable_reset(Object *obj, ResetType type);```
+ The parameter "obj" is an object implementing the Resettable interface.
+ The parameter "type" gives the type of reset you want to trigger.
 =20
-+/**
-+ * bus_test_reset_type:
-+ * Return true if the bus @bus is currently under reset type
-+ * @type.
-+ * Only valid if device_is_resetting() is true
-+ */
-+bool bus_test_reset_type(BusState *bus, ResetType type);
-+
- /* This should go away once we get rid of the NULL bus hack */
- BusState *sysbus_get_default(void);
+ It is possible to interleave multiple calls to
++ - resettable_assert_reset(),
++ - resettable_deassert_reset(),
+  - resettable_reset().
 =20
+ There may be several reset sources/controllers of a given object. The in=
+terface
+ handles everything and the different reset controllers do not need to kn=
+ow
+ anything about each others. The object will leave reset state only when =
+each
+ other controllers end their reset operation. This point is handled by
+-maintaining a count of reset.
++maintaining a count of reset; this is why resettable_deassert_reset() mu=
+st be
++called once and only once per resettable_assert_reset().
+=20
+ Note that it is a programming error to call a resettable function on a
+ non-Resettable object and it will trigger a run time assert error. Since=
+ most
+@@ -74,6 +99,8 @@ For Devices and Buses, the following helper functions e=
+xists:
+ ```
+ void device_cold_reset(Device *dev);
+ void bus_cold_reset(Bus *bus);
++void device_warm_reset(Device *dev);
++void bus_warm_reset(Bus *bus);
+ ```
+=20
+ These are simple wrappers around resettable_reset() function; they only =
+cast the
+@@ -123,6 +150,25 @@ The exit phase is executed only when the last reset =
+operation ends. Therefore
+ the object has not to care how many reset controllers it has and how man=
+y of
+ them have started a reset.
+=20
++An exception to that is when entering a new reset type AND if there was =
+no
++previous cold reset; in that case, init and hold methods are executed ag=
+ain
++because the different reset type may reset more things than the previous=
+ one
++has done.
++
++For example if some controller has started a RESET_TYPE_WARM with
++resettable_assert_reset() on a device and another controller does a
++device_cold_reset() on the same object, then the init phase is executed =
+with
++RESET_TYPE_COLD as an argument and then the hold phase.
++If the first reset was a cold reset, then the warm reset would have trig=
+gered
++nothing because the cold reset is "stronger".
++
++Note also that the exit phase will never be executed twice; it will only=
+ be
++executed when all reset operation are closed, independently of the numbe=
+r of
++reset types that were issued. This is a limitation of the interface, the=
+re is
++only a global count of reset (not a count per reset type). The consequen=
+ce is
++that the different reset types must be close enough in behavior to not r=
+equire
++different exit phases.
++
+=20
+ Handling reset in a new resettable object
+ -----------------------------------------
+@@ -203,6 +249,7 @@ interface.
+ typedef struct ResetState {
+     uint32_t count;
+     bool hold_phase_needed;
++    ResetType type;
+ } ResetState;
+=20
+ typedef ResetState *(*ResettableGetState)(Object *obj);
 --=20
 2.22.0
 
