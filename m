@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2539297943
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 14:28:52 +0200 (CEST)
-Received: from localhost ([::1]:47974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C454897932
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 14:26:26 +0200 (CEST)
+Received: from localhost ([::1]:47952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0PjP-0005ax-9h
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 08:28:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35895)
+	id 1i0Ph3-0002j5-UX
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 08:26:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35911)
  by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
  <SRS0=9d03=721=mail.uni-paderborn.de=kbastian@mail.uni-paderborn.de>)
- id 1i0PeE-0000ZN-Vb
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 08:23:32 -0400
+ id 1i0PeG-0000ab-Ac
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 08:23:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from
  <SRS0=9d03=721=mail.uni-paderborn.de=kbastian@mail.uni-paderborn.de>)
- id 1i0PeD-0008Lk-Om
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 08:23:30 -0400
-Received: from zuban.uni-paderborn.de ([131.234.189.17]:48772
+ id 1i0PeF-0008Mg-64
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 08:23:32 -0400
+Received: from zuban.uni-paderborn.de ([131.234.189.17]:48786
  helo=mail.uni-paderborn.de)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from
  <SRS0=9d03=721=mail.uni-paderborn.de=kbastian@mail.uni-paderborn.de>)
- id 1i0PeD-0008L9-J0
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 08:23:29 -0400
+ id 1i0PeF-0008M8-01
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 08:23:31 -0400
 Received: from magmaria.uni-paderborn.de ([131.234.189.24]
  helo=localhost.localdomain)
  by mail.uni-paderborn.de with esmtp (Exim 4.89 zuban)
- id 1i0PeC-0001F2-Lg; Wed, 21 Aug 2019 14:23:28 +0200
-Received: from mail.uni-paderborn.de by magmaria with queue id 3651649-3;
- Wed, 21 Aug 2019 12:23:27 GMT
+ id 1i0PeE-0001FM-Jj; Wed, 21 Aug 2019 14:23:30 +0200
+Received: from mail.uni-paderborn.de by magmaria with queue id 3651650-3;
+ Wed, 21 Aug 2019 12:23:28 GMT
 X-Envelope-From: <kbastian@mail.uni-paderborn.de>
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 14:23:14 +0200
-Message-Id: <20190821122315.18015-5-kbastian@mail.uni-paderborn.de>
+Date: Wed, 21 Aug 2019 14:23:15 +0200
+Message-Id: <20190821122315.18015-6-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190821122315.18015-1-kbastian@mail.uni-paderborn.de>
 References: <20190821122315.18015-1-kbastian@mail.uni-paderborn.de>
@@ -48,8 +48,8 @@ X-PMX-Version: 6.4.7.2805085, Antispam-Engine: 2.7.2.2107409,
 X-IMT-Spam-Score: 0.0 ()
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 131.234.189.17
-Subject: [Qemu-devel] [PATCH v2 4/5] target/tricore: Implement a qemu
- excptions helper
+Subject: [Qemu-devel] [PATCH v2 5/5] target/tricore: Fix
+ tricore_tr_translate_insn
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,99 +66,92 @@ Cc: kbastian@mail.uni-paderborn.de, david.brenken@efs-auto.de,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-this helper is only used to raise qemu specific exceptions. We use this
-helper to raise it on breakpoints as well as the TriCore debug insn.
+we now fetch 2 bytes first, check whether we have a 32 bit insn, and only then
+fetch another 2 bytes. We also make sure that a 16 bit insn that still fits
+into the current page does not end up in the next page.
 
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- target/tricore/helper.h    |  1 +
- target/tricore/op_helper.c |  7 +++++++
- target/tricore/translate.c | 24 +++++++++++++++++++++---
- 3 files changed, 29 insertions(+), 3 deletions(-)
+ target/tricore/translate.c | 47 +++++++++++++++++++++++++++-----------
+ 1 file changed, 34 insertions(+), 13 deletions(-)
 
-diff --git a/target/tricore/helper.h b/target/tricore/helper.h
-index b64780c37d..78176aa17a 100644
---- a/target/tricore/helper.h
-+++ b/target/tricore/helper.h
-@@ -153,3 +153,4 @@ DEF_HELPER_2(psw_write, void, env, i32)
- DEF_HELPER_1(psw_read, i32, env)
- /* Exceptions */
- DEF_HELPER_3(raise_exception_sync, noreturn, env, i32, i32)
-+DEF_HELPER_2(qemu_excp, noreturn, env, i32)
-diff --git a/target/tricore/op_helper.c b/target/tricore/op_helper.c
-index 9476d10d00..32c2bc1699 100644
---- a/target/tricore/op_helper.c
-+++ b/target/tricore/op_helper.c
-@@ -107,6 +107,13 @@ static void raise_exception_sync_helper(CPUTriCoreState *env, uint32_t class,
-     raise_exception_sync_internal(env, class, tin, pc, 0);
- }
- 
-+void helper_qemu_excp(CPUTriCoreState *env, uint32_t excp)
-+{
-+    CPUState *cs = env_cpu(env);
-+    cs->exception_index = excp;
-+    cpu_loop_exit(cs);
-+}
-+
- /* Addressing mode helper */
- 
- static uint16_t reverse16(uint16_t val)
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 5fb42abe35..19a0e4554c 100644
+index 19a0e4554c..3ffcf0440e 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
-@@ -3261,6 +3261,15 @@ static void generate_trap(DisasContext *ctx, int class, int tin)
-     tcg_temp_free(tintemp);
+@@ -8781,17 +8781,9 @@ static void decode_32Bit_opc(DisasContext *ctx)
+     }
  }
  
-+static void generate_qemu_excp(DisasContext *ctx, int excp)
+-static void decode_opc(DisasContext *ctx)
++static bool tricore_insn_is_16bit(uint32_t insn)
+ {
+-    /* 16-Bit Instruction */
+-    if ((ctx->opcode & 0x1) == 0) {
+-        ctx->pc_succ_insn = ctx->base.pc_next + 2;
+-        decode_16Bit_opc(ctx);
+-    /* 32-Bit Instruction */
+-    } else {
+-        ctx->pc_succ_insn = ctx->base.pc_next + 4;
+-        decode_32Bit_opc(ctx);
+-    }
++    return (insn & 0x1) == 0;
+ }
+ 
+ static void tricore_tr_init_disas_context(DisasContextBase *dcbase,
+@@ -8829,20 +8821,49 @@ static bool tricore_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
+     return true;
+ }
+ 
++static bool insn_crosses_page(CPUTriCoreState *env, DisasContext *ctx)
 +{
-+    TCGv_i32 tmp = tcg_const_i32(excp);
-+    gen_save_pc(ctx->base.pc_next);
-+    gen_helper_qemu_excp(cpu_env, tmp);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+    tcg_temp_free(tmp);
++    /*
++     * Return true if the insn at ctx->base.pc_next might cross a page boundary.
++     * (False positives are OK, false negatives are not.)
++     * Our caller ensures we are only called if dc->base.pc_next is less than
++     * 4 bytes from the page boundary, so we cross the page if the first
++     * 16 bits indicate that this is a 32 bit insn.
++     */
++    uint16_t insn = cpu_lduw_code(env, ctx->base.pc_next);
++
++    return !tricore_insn_is_16bit(insn);
 +}
 +
- static inline void gen_branch_cond(DisasContext *ctx, TCGCond cond, TCGv r1,
-                                    TCGv r2, int16_t address)
- {
-@@ -3928,7 +3937,7 @@ static void decode_sr_system(DisasContext *ctx)
-         ctx->base.is_jmp = DISAS_NORETURN;
-         break;
-     case OPC2_16_SR_DEBUG:
--        /* raise EXCP_DEBUG */
-+        generate_qemu_excp(ctx, EXCP_DEBUG);
-         break;
-     case OPC2_16_SR_FRET:
-         gen_fret(ctx);
-@@ -8354,7 +8363,7 @@ static void decode_sys_interrupts(DisasContext *ctx)
- 
-     switch (op2) {
-     case OPC2_32_SYS_DEBUG:
--        /* raise EXCP_DEBUG */
-+        generate_qemu_excp(ctx, EXCP_DEBUG);
-         break;
-     case OPC2_32_SYS_DISABLE:
-         tcg_gen_andi_tl(cpu_ICR, cpu_ICR, ~MASK_ICR_IE_1_3);
-@@ -8808,7 +8817,16 @@ static void tricore_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
- static bool tricore_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
-                                       const CPUBreakpoint *bp)
- {
--    return false;
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+    generate_qemu_excp(ctx, EXCP_DEBUG);
-+    /*
-+     * The address covered by the breakpoint must be included in
-+     * [tb->pc, tb->pc + tb->size) in order to for it to be
-+     * properly cleared -- thus we increment the PC here so that
-+     * the logic setting tb->size below does the right thing.
-+     */
-+    ctx->base.pc_next += 4;
-+    return true;
- }
- 
++
  static void tricore_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     CPUTriCoreState *env = cpu->env_ptr;
++    uint16_t insn_lo;
++    bool is_16bit;
+ 
+-    ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
+-    decode_opc(ctx);
++    insn_lo = cpu_lduw_code(env, ctx->base.pc_next);
++    is_16bit = tricore_insn_is_16bit(insn_lo);
++    if (is_16bit) {
++        ctx->opcode = insn_lo;
++        ctx->pc_succ_insn = ctx->base.pc_next + 2;
++        decode_16Bit_opc(ctx);
++    } else {
++        uint32_t insn_hi = cpu_lduw_code(env, ctx->base.pc_next + 2);
++        ctx->opcode = insn_hi << 16 | insn_lo;
++        ctx->pc_succ_insn = ctx->base.pc_next + 4;
++        decode_32Bit_opc(ctx);
++    }
+     ctx->base.pc_next = ctx->pc_succ_insn;
+ 
+     if (ctx->base.is_jmp == DISAS_NEXT) {
+         target_ulong page_start;
+ 
+         page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
+-        if (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE) {
++        if (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE
++            || (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE - 3
++                && insn_crosses_page(env, ctx))) {
+             ctx->base.is_jmp = DISAS_TOO_MANY;
+         }
+     }
 -- 
 2.23.0
 
