@@ -2,58 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9272977F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:33:01 +0200 (CEST)
-Received: from localhost ([::1]:47170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7987D97802
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:37:14 +0200 (CEST)
+Received: from localhost ([::1]:47222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0OrL-0001iA-UN
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:32:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
+	id 1i0OvQ-0006ZD-KT
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54640)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i0OfS-00057Q-T4
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:44 -0400
+ (envelope-from <cohuck@redhat.com>) id 1i0Oja-0002kk-IP
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:25:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i0OfQ-0006dV-Qy
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:42 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:58727)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i0OfC-0006UD-Db; Wed, 21 Aug 2019 07:20:26 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M6VNX-1htX2U3K7l-006yF1; Wed, 21 Aug 2019 13:20:16 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:19:47 +0200
-Message-Id: <20190821111947.26580-15-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190821111947.26580-1-laurent@vivier.eu>
-References: <20190821111947.26580-1-laurent@vivier.eu>
+ (envelope-from <cohuck@redhat.com>) id 1i0OjY-0000mA-Ss
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:24:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41022)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1i0OjY-0000k3-FJ
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:24:56 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BEE0B3082128;
+ Wed, 21 Aug 2019 11:24:54 +0000 (UTC)
+Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF818194BE;
+ Wed, 21 Aug 2019 11:24:42 +0000 (UTC)
+Date: Wed, 21 Aug 2019 13:24:40 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Pankaj Gupta <pagupta@redhat.com>
+Message-ID: <20190821132440.066dfbba.cohuck@redhat.com>
+In-Reply-To: <20190821073630.2561-1-pagupta@redhat.com>
+References: <20190821073630.2561-1-pagupta@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:IY6l50A0xPEDA9udGQabyD0pxfy01OHYRizudoGvggfbOXc5CnQ
- nrN+nGGhjBrVeo+9MMeMErAHwvNwe1Xt47eCd4aRDd5bqs2r63b3Z9NISQ8VTlrw27yAaWp
- Z4EgmMGsTtqCV1CQsUMjA6P+QDCRJtU/V0MeDSvlGZMbraLlnhzxFq8YWrSMtEJONUqP6n/
- cusio3oV16io3Ka7PztkQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:C0HWSpMZ7NA=:NRRiRNRoz198yrqX3hDgzn
- YswRGL2lIvats2Z46huM1e+bnFV7vjeRHEiE2s4kCXfjEMzDFmIknrt9cvGJKhMX/Gzr+32cD
- 3B82Lc1DvVYkNBTWMsO7tFOeVTKkxuc0sLHrDWH3GsKKqq9MXe2UleLZl3ss4gKvCTkQjPGFL
- gLNQ285NIqqhYMA6Si4FTixW9JFDQRSj5kMI97LjePghP356dOnTBLNIFyRmFH3Wf04w1GN8t
- CE1+ptvxM35bylB9NatOpUCtEBqWUqhTu7+sccqmie/1Ky8vkpwSseZDDFKDz2hoG50FZsPx6
- xGqwCEo7kBMCklc4C5NqFXuawLDOq2oRTWQQgVTSnAQ+il1C+4rLbR46Tssana7nV2ifP7LHz
- B36ut9lds8i5WxIokNZhRbC/br9HeyhNNxfVF53nLmoygPMZ7vX+rDtqwrYdEonVkxps5xo+m
- 3rxcN+JpVpJgWjjAV8CtJuOwrj6yrK4JdcEDj6YBvKhBT3g4msYkZpsgjF3MAOEECnqusa8cm
- A1W0r+kgPjemmtUNqN+kvhYRxjWbYpAUu9oPM/C8ek2KS+3UeJZASYOnrNbRqxrMlmVGAYpNq
- gL3/1vee27lhCbebNXYR7dWIUNYU5Dwti8MvMt/2e/vqfEX8SE5151Ptac2FkPwrGA4k+9TlC
- YFVmuQ41EZ3WfUtyOnzahFquF1hVrHj0T+rmUyU/OAsSqc8WjKMcX5YpgDLeJwj8aXRU3sdy+
- dKpyaVaWFfpFMZs98csYjJjcp2reYbisfMRvFbGAQvjK1Gl3lBNOlA+p9JH2MZ3z4U6ZhEdhv
- WRR+fUD0mXERz8WsuGaiYfXD7okAA==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Wed, 21 Aug 2019 11:24:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
-Subject: [Qemu-devel] [PULL 14/14] hw/display: Compile various display
- devices as common object
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2] virtio pmem: user document
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,72 +56,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
- Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: mst@redhat.com, david@redhat.com, qemu-devel@nongnu.org,
+ lcapitulino@redhat.com, stefanha@redhat.com, riel@surriel.com,
+ nilal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Wed, 21 Aug 2019 13:06:30 +0530
+Pankaj Gupta <pagupta@redhat.com> wrote:
 
-Various display devices are not target-specific and can
-be compiled once for all the targets.
-After this commit, the 'make world' target is reduced by
-54 objects
+> This patch documents the steps to use virtio pmem.
+> It also documents other useful information about
+> virtio pmem e.g use-case, comparison with Qemu NVDIMM
+> backend and current limitations.
+> 
+> Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
+> ---
+> v1->v2
+>  - Fixes on text format and 'Guest Data persistence'
+>    section - Cornelia
+> 
+>  docs/virtio-pmem.rst | 75 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+>  create mode 100644 docs/virtio-pmem.rst
+> 
+> diff --git a/docs/virtio-pmem.rst b/docs/virtio-pmem.rst
+> new file mode 100644
+> index 0000000000..0346e61674
+> --- /dev/null
+> +++ b/docs/virtio-pmem.rst
+> @@ -0,0 +1,75 @@
+> +
+> +========================
+> +QEMU virtio pmem
+> +========================
+> +
+> + This document explains the setup and usage of virtio pmem device
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20190812113739.16587-3-philmd@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/display/Makefile.objs | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+s/virtio pmem device/the virtio pmem device/
 
-diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
-index a64998fc7b23..0f11d55b14ef 100644
---- a/hw/display/Makefile.objs
-+++ b/hw/display/Makefile.objs
-@@ -31,13 +31,13 @@ obj-$(CONFIG_MILKYMIST_TMU2) += milkymist-tmu2.o
- milkymist-tmu2.o-cflags := $(X11_CFLAGS) $(OPENGL_CFLAGS)
- milkymist-tmu2.o-libs := $(X11_LIBS) $(OPENGL_LIBS)
- 
--obj-$(CONFIG_OMAP) += omap_dss.o
-+common-obj-$(CONFIG_OMAP) += omap_dss.o
- obj-$(CONFIG_OMAP) += omap_lcdc.o
--obj-$(CONFIG_PXA2XX) += pxa2xx_lcd.o
--obj-$(CONFIG_RASPI) += bcm2835_fb.o
--obj-$(CONFIG_SM501) += sm501.o
--obj-$(CONFIG_TCX) += tcx.o
--obj-$(CONFIG_CG3) += cg3.o
-+common-obj-$(CONFIG_PXA2XX) += pxa2xx_lcd.o
-+common-obj-$(CONFIG_RASPI) += bcm2835_fb.o
-+common-obj-$(CONFIG_SM501) += sm501.o
-+common-obj-$(CONFIG_TCX) += tcx.o
-+common-obj-$(CONFIG_CG3) += cg3.o
- 
- obj-$(CONFIG_VGA) += vga.o
- 
-@@ -53,7 +53,7 @@ virtio-gpu.o-cflags := $(VIRGL_CFLAGS)
- virtio-gpu.o-libs += $(VIRGL_LIBS)
- virtio-gpu-3d.o-cflags := $(VIRGL_CFLAGS)
- virtio-gpu-3d.o-libs += $(VIRGL_LIBS)
--obj-$(CONFIG_DPCD) += dpcd.o
--obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx_dp.o
-+common-obj-$(CONFIG_DPCD) += dpcd.o
-+common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx_dp.o
- 
--obj-$(CONFIG_ATI_VGA) += ati.o ati_2d.o ati_dbg.o
-+common-obj-$(CONFIG_ATI_VGA) += ati.o ati_2d.o ati_dbg.o
--- 
-2.21.0
+> + which is available since QEMU v4.1.0.
+> +
+> + The virtio pmem is a paravirtualized persistent memory device on
 
+s/The virtio pmem/The virtio pmem device/
+
+> + regular(i.e non-NVDIMM) storage.
+
+missing blank before '('
+
+> +
+> +Usecase
+> +--------
+> +
+> +  Allows to bypass the guest page cache and directly use host page cache.
+
+"Virtio pmem allows to..." ?
+
+> +  This reduces guest memory footprint as the host can make efficient
+> +  memory reclaim decisions under memory pressure.
+> +
+> +o How does virtio-pmem compare to the nvdimm emulation supported by QEMU?
+> +
+> +  NVDIMM emulation on regular(i.e. non-NVDIMM) host storage does not
+
+missing blank before '('
+
+> +  persist the guest writes as there are no defined semantics in the device
+> +  specification. The virtio pmem device provides guest write persistence
+> +  on non-NVDIMM host storage.
+> +
+> +virtio pmem usage
+> +-----------------
+> +
+> +  A virtio pmem device backed by a memory-backend-file can be created on
+> +  the QEMU command line as in the following example:
+> +
+> +  -object memory-backend-file,id=mem1,share,mem-path=./virtio_pmem.img,size=4G
+> +  -device virtio-pmem-pci,memdev=mem1,id=nv1
+> +
+> +   where:
+> +   - "object memory-backend-file,id=mem1,share,mem-path=<image>, size=<image size>"
+> +     creates a backend file of size on a mem-path.
+
+"a backend file with the specified size" ?
+
+> +
+> +   - "device virtio-pmem-pci,id=nvdimm1,memdev=mem1" creates a virtio pmem
+> +     pci device whose storage is provided by above memory backend device.
+> +
+> +  Multiple virtio pmem devices can be created if multiple pairs of "-object"
+> +  and "-device" are provided.
+> +
+> +Hotplug
+> +-------
+> +
+> +"Virtio pmem devices can be hotplugged via the QEMU monitor. First, the
+> +memory backing has to be added via 'object_add'; afterwards, the virtio
+> +pmem device can be added via 'device_add'."
+
+Please lose the '"' (copy/paste leftover, I presume? :)
+
+> +
+> +For example, the following commands add another 4GB virtio pmem device to
+> +the guest:
+> +
+> + (qemu) object_add memory-backend-file,id=mem2,share=on,mem-path=virtio_pmem2.img,size=4G
+> + (qemu) device_add virtio-pmem-pci,id=virtio_pmem2,memdev=mem2
+> +
+> +Guest Data Persistence
+> +----------------------
+> +
+> + Guest data persistence on non-NVDIMM requires guest userspace application to
+
+s/application/applications/ ?
+
+> + perform fsync/msync. This is different from a real nvdimm backend where no
+> + additional fsync/msync is required. This is to persist guest writes in host
+> + backing file which otherwise remains in host page cache and there is risk of
+> + losing the data in case of power failure.
+> +
+> + With virtio pmem device, MAP_SYNC mmap flag is not supported. This provides
+> + a hint to application to perform fsync for write persistence.
+> +
+> +Limitations
+> +------------
+> +- Real nvdimm device backend is not supported.
+> +- virtio pmem hotunplug is not supported.
+> +- ACPI NVDIMM features like regions/namespaces are not supported.
+> +- ndctl command is not supported.
+
+Only some nits from my side, otherwise looks good to me.
 
