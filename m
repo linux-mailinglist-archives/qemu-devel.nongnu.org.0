@@ -2,89 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197E1975F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 11:22:54 +0200 (CEST)
-Received: from localhost ([::1]:46300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0502E975EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 11:21:30 +0200 (CEST)
+Received: from localhost ([::1]:46286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0MpR-00057S-4S
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 05:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36344)
+	id 1i0Mo5-00038Z-5G
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 05:21:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36310)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1i0Mn7-0002OP-LC
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:30 -0400
+ (envelope-from <kraxel@redhat.com>) id 1i0Mn4-0002Kw-3m
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1i0Mn6-0007mR-Au
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:29 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:7419)
+ (envelope-from <kraxel@redhat.com>) id 1i0Mn3-0007kH-6n
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51362)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1i0Mn6-0007iC-3N
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1566379227;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=LKkFWbEHVRRLGoXttk3iW00wagoE0ctWHxQjhYL3ir4=;
- b=ZOEQzcVTl8WR1zIlt0EqxDM3vknwtHjp2viwUaZkSxTGR7DmgXBidKVX
- +ZDQTQ4jmTSWv6Ayt6xn68mRnmemO95Dxe9ob6weyxgSm6S8zxkDzMzCi
- pdoIL1ZzvUoyX4ZMzAyD3dZODbZuQiJEVea7pagNOSI46Fzz0hl1lcriV o=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=anthony.perard@citrix.com;
- spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible
-Received-SPF: Pass (esa6.hc3370-68.iphmx.com: domain of
- anthony.perard@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: WfjGDj2DQFiJy54qdsaOgrVkQw3aWiHlsoBLNpBt2U248THIHc0Y8riEu/v4C7ZiixdnbUtqVz
- P7C55PalBoVq1dTW8NTiC5YMfvoghAdjR2vZ6Yh5i85o7QDyyJwMdXJ6dadkZnMRRbvp3Su9Tm
- vpSAc+zamMqDQnOWIQP8lN9v9z673ja0WxAsyn+0WrJLMuVRwWD5q38ilHA7g+zWEkWxsH8aIi
- Z3hE7/sV4H3dBg/eeYjP6eNDuE4NkHWj3Ojfia/zOWkQmdPryzHwrzvyCQ0FvIISAUydX0ytaB
- ZFM=
-X-SBRS: 2.7
-X-MesageID: 4731852
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.64,412,1559534400"; 
-   d="scan'208";a="4731852"
-From: Anthony PERARD <anthony.perard@citrix.com>
-To: <qemu-devel@nongnu.org>
-Date: Wed, 21 Aug 2019 10:20:20 +0100
-Message-ID: <20190821092020.17952-3-anthony.perard@citrix.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190821092020.17952-1-anthony.perard@citrix.com>
-References: <20190821092020.17952-1-anthony.perard@citrix.com>
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0Mn3-0007j8-1H
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:25 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id CF2B0C054907
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 09:20:22 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com
+ [10.36.116.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89ABF5D9E2;
+ Wed, 21 Aug 2019 09:20:22 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 89EDC16E1A; Wed, 21 Aug 2019 11:20:21 +0200 (CEST)
+Date: Wed, 21 Aug 2019 11:20:21 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190821092021.wuepylldd5htygrz@sirius.home.kraxel.org>
+References: <1563451264-46176-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.155.175
-Subject: [Qemu-devel] [PATCH 2/2] xen-bus: Avoid rewriting identical values
- to xenstore
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1563451264-46176-1-git-send-email-pbonzini@redhat.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Wed, 21 Aug 2019 09:20:23 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] curses: assert get_wch return value is okay
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,143 +59,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Stefano Stabellini <sstabellini@kernel.org>,
- Paul Durrant <paul.durrant@citrix.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When QEMU receive a xenstore watch event suggesting that the "state" or
-"online" status of the frontend or the backend changed, it record this
-in its own state but it also re-write the value back into xenstore even
-so there were no changed. This trigger an unnecessary xenstore watch
-event which QEMU will process again (and maybe the frontend as well).
+On Thu, Jul 18, 2019 at 02:01:04PM +0200, Paolo Bonzini wrote:
+> This prevents the compiler from reporting a possible uninitialized use
+> of maybe_keycode in function curses_refresh.
 
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
----
- hw/xen/xen-bus.c | 37 ++++++++++++++++++++++++-------------
- 1 file changed, 24 insertions(+), 13 deletions(-)
+Fixed whitespace, added to ui queue.
 
-diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
-index 982eca4533..c83f07424a 100644
---- a/hw/xen/xen-bus.c
-+++ b/hw/xen/xen-bus.c
-@@ -481,20 +481,27 @@ static int xen_device_backend_scanf(XenDevice *xendev, const char *key,
-     return rc;
- }
- 
--void xen_device_backend_set_state(XenDevice *xendev,
--                                  enum xenbus_state state)
-+static bool xen_device_backend_record_state(XenDevice *xendev,
-+                                            enum xenbus_state state)
- {
-     const char *type = object_get_typename(OBJECT(xendev));
- 
-     if (xendev->backend_state == state) {
--        return;
-+        return false;
-     }
- 
-     trace_xen_device_backend_state(type, xendev->name,
-                                    xs_strstate(state));
- 
-     xendev->backend_state = state;
--    xen_device_backend_printf(xendev, "state", "%u", state);
-+    return true;
-+}
-+
-+void xen_device_backend_set_state(XenDevice *xendev,
-+                                  enum xenbus_state state)
-+{
-+    if (xen_device_backend_record_state(xendev, state))
-+        xen_device_backend_printf(xendev, "state", "%u", state);
- }
- 
- enum xenbus_state xen_device_backend_get_state(XenDevice *xendev)
-@@ -502,7 +509,8 @@ enum xenbus_state xen_device_backend_get_state(XenDevice *xendev)
-     return xendev->backend_state;
- }
- 
--static void xen_device_backend_set_online(XenDevice *xendev, bool online)
-+static void xen_device_backend_set_online(XenDevice *xendev, bool online,
-+                                          bool export)
- {
-     const char *type = object_get_typename(OBJECT(xendev));
- 
-@@ -513,7 +521,8 @@ static void xen_device_backend_set_online(XenDevice *xendev, bool online)
-     trace_xen_device_backend_online(type, xendev->name, online);
- 
-     xendev->backend_online = online;
--    xen_device_backend_printf(xendev, "online", "%u", online);
-+    if (export)
-+        xen_device_backend_printf(xendev, "online", "%u", online);
- }
- 
- static void xen_device_backend_changed(void *opaque)
-@@ -529,13 +538,13 @@ static void xen_device_backend_changed(void *opaque)
-         state = XenbusStateUnknown;
-     }
- 
--    xen_device_backend_set_state(xendev, state);
-+    xen_device_backend_record_state(xendev, state);
- 
-     if (xen_device_backend_scanf(xendev, "online", "%u", &online) != 1) {
-         online = 0;
-     }
- 
--    xen_device_backend_set_online(xendev, !!online);
-+    xen_device_backend_set_online(xendev, !!online, false);
- 
-     /*
-      * If the toolstack (or unplug request callback) has set the backend
-@@ -683,7 +692,8 @@ int xen_device_frontend_scanf(XenDevice *xendev, const char *key,
- }
- 
- static void xen_device_frontend_set_state(XenDevice *xendev,
--                                          enum xenbus_state state)
-+                                          enum xenbus_state state,
-+                                          bool export)
- {
-     const char *type = object_get_typename(OBJECT(xendev));
- 
-@@ -695,7 +705,8 @@ static void xen_device_frontend_set_state(XenDevice *xendev,
-                                     xs_strstate(state));
- 
-     xendev->frontend_state = state;
--    xen_device_frontend_printf(xendev, "state", "%u", state);
-+    if (export)
-+        xen_device_frontend_printf(xendev, "state", "%u", state);
- }
- 
- static void xen_device_frontend_changed(void *opaque)
-@@ -711,7 +722,7 @@ static void xen_device_frontend_changed(void *opaque)
-         state = XenbusStateUnknown;
-     }
- 
--    xen_device_frontend_set_state(xendev, state);
-+    xen_device_frontend_set_state(xendev, state, false);
- 
-     if (state == XenbusStateInitialising &&
-         xendev->backend_state == XenbusStateClosed &&
-@@ -1146,7 +1157,7 @@ static void xen_device_realize(DeviceState *dev, Error **errp)
-                               xendev->frontend_id);
-     xen_device_backend_printf(xendev, "hotplug-status", "connected");
- 
--    xen_device_backend_set_online(xendev, true);
-+    xen_device_backend_set_online(xendev, true, true);
-     xen_device_backend_set_state(xendev, XenbusStateInitWait);
- 
-     xen_device_frontend_printf(xendev, "backend", "%s",
-@@ -1154,7 +1165,7 @@ static void xen_device_realize(DeviceState *dev, Error **errp)
-     xen_device_frontend_printf(xendev, "backend-id", "%u",
-                                xenbus->backend_id);
- 
--    xen_device_frontend_set_state(xendev, XenbusStateInitialising);
-+    xen_device_frontend_set_state(xendev, XenbusStateInitialising, true);
- 
-     xendev->exit.notify = xen_device_exit;
-     qemu_add_exit_notifier(&xendev->exit);
--- 
-Anthony PERARD
+thanks,
+  Gerd
 
 
