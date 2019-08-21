@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F240697E5E
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 17:16:30 +0200 (CEST)
-Received: from localhost ([::1]:49370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4E497E75
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 17:19:47 +0200 (CEST)
+Received: from localhost ([::1]:49408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0SLd-0001rZ-R5
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 11:16:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45095)
+	id 1i0SOo-0006Nk-Mf
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 11:19:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45125)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen.git@gmail.com>) id 1i0SFe-0002DY-V0
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:21 -0400
+ (envelope-from <tony.nguyen.git@gmail.com>) id 1i0SFi-0002HI-JJ
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen.git@gmail.com>) id 1i0SFd-0002wA-Jy
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:18 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:39497)
+ (envelope-from <tony.nguyen.git@gmail.com>) id 1i0SFh-00032K-HO
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:22 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:46939)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <tony.nguyen.git@gmail.com>)
- id 1i0SFd-0002uV-CF
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 11:10:17 -0400
-Received: by mail-pl1-x642.google.com with SMTP id z3so1491211pln.6
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 08:10:16 -0700 (PDT)
+ id 1i0SFh-00030y-Bv; Wed, 21 Aug 2019 11:10:21 -0400
+Received: by mail-pl1-x643.google.com with SMTP id c2so1476489plz.13;
+ Wed, 21 Aug 2019 08:10:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zdj58c8A9QRTAa5i396K+J8rIcvzCaaq0/p6FGydUPQ=;
- b=NX+jpnMP5ZWrp/f149XBy9yr4047kE3ykLAeVt642aLOqdHeFugJ4Q0Hi5JecBBwbt
- IlSdMMyBuzcmM3Qiu4UgTBfooDjgI41Cl9G2tbss/Tlp5ij7IJx1kzRpjW9Czd5xULkR
- C/6I131wm8cYBlFL8HGRm/I1NIwV8CpgiZuXfuPzn9OkPpF8MxIS0GSzNltWavZw7yhn
- pwVu4geV0uS3KCSp5FAocJrIku64h7CHl6F59vKkjDdZh/G6CLVBPgJfe3lBAMTdehN5
- yarW7jhh/SVmEfXLtXBx5UJ4rc5VVp4rOvyyjogtUCfqvlefE9JQEP3Ub+rPIL+DKCy/
- j3wA==
+ bh=vzEiXgWMAIcrtGJtWdLNIaBgt80NgMVHhXxi+ye0uTI=;
+ b=A0M/3mAV+FSZzwI0stLMw6XN/IXJJ1xCjzxsqTvd932Jy8GnDmiA95wA2iyEoDo87Y
+ u4fDctytid7KaC004lHg4ZyZamgZe3zxszOWO2+AlzT4HO0BRcWpe+poL9iJSY/MYLOK
+ q9fMG62TUMaEfzQfE3LiHyvmqmTLHx4wEYZ2tGQ10w0/Xl1z6Xezp0r/fDBMA2GkaekD
+ 7IPCelcLHn4dheN/1KopATZbOSG0mz4VgFAjV/KTXm39jDLUN9RamNuBPD9cA3BradPY
+ xchk+LvwSd6JvTDXX3gjUYBLPp1HBX/Q/vfIzAdjc4O83X93Oc8Z9CfAS9VKEPfXcJ4S
+ lCFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zdj58c8A9QRTAa5i396K+J8rIcvzCaaq0/p6FGydUPQ=;
- b=ZrLlQvcI4+zOsLR2g9nyPvjbocnfXVRqadkddSQe9plCSk+Md1J5SaVKCw8nr1+TV8
- 14Eg6lYaoaQIxX0GmOVkrWmF4gaxyo59Il6xi0iQwclU1wHS2MPbblY4dinO3XKgVUOx
- Fshx2LXvpbCXuMplWp+gdtvf3nF0bBXnENonlSBjG/1TZYIP6f2QwsIvFJjaBU7u8cQU
- nyyf1+f3dVp91QsAPQmgROSZMcK8/vVJl7ZoP0qS9gWnfgVyBnmVRRsj6pyNE2DhrmEX
- n1eTKwqj/0bosbQKsyi/SDnnMrDbdQE8zpxLIg9FkAsNSObVtm+0mksbaZ5KKDRChPCx
- BAMA==
-X-Gm-Message-State: APjAAAXrV5SZ4iZ2xq8C9EFGkV92HYutEQCX63WhncN4/eS2GQlBy2Pd
- RpFvO9mOzihsLMk2h3FeHlvtWCpkrew=
-X-Google-Smtp-Source: APXvYqyBj00X1zjgxCf6MiEAOHc5yzlWciF75uSa9qbYl2CCUZYn/QVDQ9pk+nV5GPtbn4m3L3jCGg==
-X-Received: by 2002:a17:902:e592:: with SMTP id
- cl18mr2941943plb.291.1566400215839; 
- Wed, 21 Aug 2019 08:10:15 -0700 (PDT)
+ bh=vzEiXgWMAIcrtGJtWdLNIaBgt80NgMVHhXxi+ye0uTI=;
+ b=FIuxllIYZIyvA9ic6flXsaPoxmY1Kyk6q60UQ2o1h1uxJmw3uGMrQdXRXFCWRRzZbP
+ Fkiqi3BisCHl8tFV8QSp6+jWRUJJJfefOdd2/NuUVYEDouFPH1eMkXPaKMn07XzOW1WR
+ sz5NvSyjTfhFTj8a8MSbnnp/8vZ+Ip0oYFF78H6yLCZdzY7Pp++z5Ftio1dEAixsv7Ln
+ 78TAoG0a6jZcgobZpsPt2z1uOlpnFQhrCxjniTFgHdWQieW0HSt/8uu3WT8TAvO+NKmj
+ I2PpJfa5GlIJwagkJ/bbfVdNtm0GcQ/c1aQvwM+pstZ787jHOLLOwdMamLfqowWz5upF
+ 5hDw==
+X-Gm-Message-State: APjAAAV/DTim3ilzSq8uB30wLDKchgQ8CruVy6OJZLtudLPN6fdrYaeU
+ iwWNZLfg8jnWeVLgKLnKNrNAMReihds=
+X-Google-Smtp-Source: APXvYqwRWhBfVhCU/AgiCrq61faUtuf56jJYcmKra3T0GK/rTOwV/NIWxuubIDayeZsuWydAAtY6zQ==
+X-Received: by 2002:a17:902:bb94:: with SMTP id
+ m20mr33697001pls.336.1566400220206; 
+ Wed, 21 Aug 2019 08:10:20 -0700 (PDT)
 Received: from localhost.localdomain ([58.173.98.68])
- by smtp.gmail.com with ESMTPSA id e19sm5887633pfh.114.2019.08.21.08.10.13
+ by smtp.gmail.com with ESMTPSA id e19sm5887633pfh.114.2019.08.21.08.10.16
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 21 Aug 2019 08:10:15 -0700 (PDT)
+ Wed, 21 Aug 2019 08:10:19 -0700 (PDT)
 From: Tony Nguyen <tony.nguyen.git@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 01:09:05 +1000
-Message-Id: <db6a7e38ed6d2050be0b3d2d7567faf8eef6c1aa.1566397711.git.tony.nguyen.git@gmail.com>
+Date: Thu, 22 Aug 2019 01:09:06 +1000
+Message-Id: <bd8cba693cdda2a30c400142b576930404bb6951.1566397711.git.tony.nguyen.git@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1566397711.git.tony.nguyen.git@gmail.com>
 References: <cover.1566397711.git.tony.nguyen.git@gmail.com>
@@ -65,8 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: [Qemu-devel] [PATCH v8 11/21] memory: Access MemoryRegion with MemOp
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: [Qemu-devel] [PATCH v8 12/21] hw/s390x: Hard code size with
+ MO_{8|16|32|64}
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,136 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Nguyen <tony.nguyen.git@gmail.com>, Tony Nguyen <tony.nguyen@bt.com>,
+Cc: Tony Nguyen <tony.nguyen@bt.com>, Collin Walling <walling@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Tony Nguyen <tony.nguyen.git@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert memory_region_dispatch_{read|write} operand "unsigned size"
-into a "MemOp op".
+Temporarily no-op size_memop was introduced to aid the conversion of
+memory_region_dispatch_{read|write} operand "unsigned size" into
+"MemOp op".
+
+Now size_memop is implemented, again hard coded size but with
+MO_{8|16|32|64}. This is more expressive and avoids size_memop calls.
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- include/exec/memop.h  | 20 ++++++++++++++------
- include/exec/memory.h |  9 +++++----
- memory.c              |  7 +++++--
- 3 files changed, 24 insertions(+), 12 deletions(-)
+ hw/s390x/s390-pci-inst.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/exec/memop.h b/include/exec/memop.h
-index dfd76a1604..0a610b75d9 100644
---- a/include/exec/memop.h
-+++ b/include/exec/memop.h
-@@ -12,6 +12,8 @@
- #ifndef MEMOP_H
- #define MEMOP_H
- 
-+#include "qemu/host-utils.h"
-+
- typedef enum MemOp {
-     MO_8     = 0,
-     MO_16    = 1,
-@@ -107,14 +109,20 @@ typedef enum MemOp {
-     MO_SSIZE = MO_SIZE | MO_SIGN,
- } MemOp;
- 
-+/* MemOp to size in bytes.  */
-+static inline unsigned memop_size(MemOp op)
-+{
-+    return 1 << (op & MO_SIZE);
-+}
-+
- /* Size in bytes to MemOp.  */
--static inline unsigned size_memop(unsigned size)
-+static inline MemOp size_memop(unsigned size)
- {
--    /*
--     * FIXME: No-op to aid conversion of memory_region_dispatch_{read|write}
--     * "unsigned size" operand into a "MemOp op".
--     */
--    return size;
-+#ifdef CONFIG_DEBUG_TCG
-+    /* Power of 2 up to 8.  */
-+    assert((size & (size - 1)) == 0 && size >= 1 && size <= 8);
-+#endif
-+    return ctz32(size);
- }
- 
- #endif
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index d99eb25d2e..887aece05d 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -19,6 +19,7 @@
- #include "exec/cpu-common.h"
- #include "exec/hwaddr.h"
- #include "exec/memattrs.h"
-+#include "exec/memop.h"
- #include "exec/ramlist.h"
- #include "qemu/bswap.h"
- #include "qemu/queue.h"
-@@ -1737,13 +1738,13 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner);
-  * @mr: #MemoryRegion to access
-  * @addr: address within that region
-  * @pval: pointer to uint64_t which the data is written to
-- * @size: size of the access in bytes
-+ * @op: size, sign, and endianness of the memory operation
-  * @attrs: memory transaction attributes to use for the access
-  */
- MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
-                                         hwaddr addr,
-                                         uint64_t *pval,
--                                        unsigned size,
-+                                        MemOp op,
-                                         MemTxAttrs attrs);
- /**
-  * memory_region_dispatch_write: perform a write directly to the specified
-@@ -1752,13 +1753,13 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
-  * @mr: #MemoryRegion to access
-  * @addr: address within that region
-  * @data: data to write
-- * @size: size of the access in bytes
-+ * @op: size, sign, and endianness of the memory operation
-  * @attrs: memory transaction attributes to use for the access
-  */
- MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
-                                          hwaddr addr,
-                                          uint64_t data,
--                                         unsigned size,
-+                                         MemOp op,
-                                          MemTxAttrs attrs);
- 
- /**
-diff --git a/memory.c b/memory.c
-index 8141486832..19f3324232 100644
---- a/memory.c
-+++ b/memory.c
-@@ -1439,9 +1439,10 @@ static MemTxResult memory_region_dispatch_read1(MemoryRegion *mr,
- MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
-                                         hwaddr addr,
-                                         uint64_t *pval,
--                                        unsigned size,
-+                                        MemOp op,
-                                         MemTxAttrs attrs)
- {
-+    unsigned size = memop_size(op);
-     MemTxResult r;
- 
-     if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
-@@ -1483,9 +1484,11 @@ static bool memory_region_dispatch_write_eventfds(MemoryRegion *mr,
- MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
-                                          hwaddr addr,
-                                          uint64_t data,
--                                         unsigned size,
-+                                         MemOp op,
-                                          MemTxAttrs attrs)
- {
-+    unsigned size = memop_size(op);
-+
-     if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
-         unassigned_mem_write(mr, addr, data, size);
-         return MEMTX_DECODE_ERROR;
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index 0c958fc391..0e92a372ca 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -782,8 +782,7 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
+     for (i = 0; i < len / 8; i++) {
+         result = memory_region_dispatch_write(mr, offset + i * 8,
+                                               ldq_p(buffer + i * 8),
+-                                              size_memop(8),
+-                                              MEMTXATTRS_UNSPECIFIED);
++                                              MO_64, MEMTXATTRS_UNSPECIFIED);
+         if (result != MEMTX_OK) {
+             s390_program_interrupt(env, PGM_OPERAND, 6, ra);
+             return 0;
 -- 
 2.23.0
 
