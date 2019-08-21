@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF389738F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:33:48 +0200 (CEST)
-Received: from localhost ([::1]:44478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B210B973B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:39:51 +0200 (CEST)
+Received: from localhost ([::1]:44540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0L7r-0002qF-GC
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42080)
+	id 1i0LDi-0002Yz-EL
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42081)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0M-0004TE-3Q
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0M-0004TF-4C
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0K-0007z9-Cw
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0K-0007zK-Db
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:01 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:42071)
+Received: from ozlabs.org ([2401:3900:2:1::2]:53655)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L0J-0007sy-LE; Wed, 21 Aug 2019 03:26:00 -0400
+ id 1i0L0J-0007t6-O5; Wed, 21 Aug 2019 03:26:00 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46Czj91gHVz9sND; Wed, 21 Aug 2019 17:25:49 +1000 (AEST)
+ id 46Czj92GJcz9sPP; Wed, 21 Aug 2019 17:25:49 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1566372349;
- bh=W0SUWrowz5QUfB8a0jGTaV1ZYR7DK6nAsa+DrTnUQvc=;
+ bh=Man+cTJD40md8jcRo0qPDBf0tBh7Y8v0Agzqmq1Hr8A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NNuX0NB6n6B64qkQ0rMzBzAnRgxCR0trp/QjPHA7MS0CchZPSnPBJnqkqf1dHb6ht
- RKqtuelIJs4yhRZ9zljhaQHPJhb5F0/0u1GxVipUNnbXPMS1AGdYHmr1yUn90BE0FH
- pKuEXmwlgIKwCsNl9oJ6qzrl1/YGPXP9qMnAgFws=
+ b=C9Jw+PM+zVZzvjlx2A+T3AXMLKaASEinDY7UNVoatHUOkIOaF+DiBTifb2/9ukiBi
+ kmuiq1k7F7xHA/lovpyBEy+zlCuBMItuYBFOs8R3DXEQN79VgZ+875RqhjNgrLWvt0
+ ci+kGL51W05cOy/TZCw1kcvuvQEKLjO6f8Soz0oM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:10 +1000
-Message-Id: <20190821072542.23090-11-david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 17:25:11 +1000
+Message-Id: <20190821072542.23090-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
@@ -41,7 +41,7 @@ Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 10/42] target/ppc: Optimize emulation of vclzd
+Subject: [Qemu-devel] [PULL 11/42] target/ppc: Optimize emulation of vclzw
  instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,21 +64,20 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 
-Optimize Altivec instruction vclzd (Vector Count Leading Zeros Doubleword=
-).
-This instruction counts the number of leading zeros of each doubleword el=
-ement
-in source register and places result in the appropriate doubleword elemen=
-t of
+Optimize Altivec instruction vclzw (Vector Count Leading Zeros Word).
+This instruction counts the number of leading zeros of each word element
+in source register and places result in the appropriate word element of
 destination register.
 
-Using tcg-s count leading zeros instruction two times(once for each
-doubleword element of source register vB) and placing result in
-appropriate doubleword element of destination register vD.
+Counting is to be performed in four iterations of for loop(one for each
+word elemnt of source register vB). Every iteration consists of loading
+appropriate word element from source register, counting leading zeros
+with tcg_gen_clzi_i32, and saving the result in appropriate word element
+of destination register.
 
 Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1563200574-11098-6-git-send-email-stefan.brankovic@rt-rk.com=
+Message-Id: <1563200574-11098-7-git-send-email-stefan.brankovic@rt-rk.com=
 >
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
@@ -88,42 +87,40 @@ Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
  3 files changed, 27 insertions(+), 5 deletions(-)
 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 9b486a0c37..e203f76bf1 100644
+index e203f76bf1..54ea9b9500 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -311,7 +311,6 @@ DEF_HELPER_4(vctsxs, void, env, avr, avr, i32)
+@@ -310,7 +310,6 @@ DEF_HELPER_4(vctsxs, void, env, avr, avr, i32)
+=20
  DEF_HELPER_2(vclzb, void, avr, avr)
  DEF_HELPER_2(vclzh, void, avr, avr)
- DEF_HELPER_2(vclzw, void, avr, avr)
--DEF_HELPER_2(vclzd, void, avr, avr)
+-DEF_HELPER_2(vclzw, void, avr, avr)
  DEF_HELPER_2(vctzb, void, avr, avr)
  DEF_HELPER_2(vctzh, void, avr, avr)
  DEF_HELPER_2(vctzw, void, avr, avr)
 diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index a265cb07c5..b82765db33 100644
+index b82765db33..46deb57a34 100644
 --- a/target/ppc/int_helper.c
 +++ b/target/ppc/int_helper.c
-@@ -1820,17 +1820,14 @@ VUPK(lsw, s64, s32, UPKLO)
+@@ -1819,15 +1819,12 @@ VUPK(lsw, s64, s32, UPKLO)
+=20
  #define clzb(v) ((v) ? clz32((uint32_t)(v) << 24) : 8)
  #define clzh(v) ((v) ? clz32((uint32_t)(v) << 16) : 16)
- #define clzw(v) clz32((v))
--#define clzd(v) clz64((v))
+-#define clzw(v) clz32((v))
 =20
  VGENERIC_DO(clzb, u8)
  VGENERIC_DO(clzh, u16)
- VGENERIC_DO(clzw, u32)
--VGENERIC_DO(clzd, u64)
+-VGENERIC_DO(clzw, u32)
 =20
  #undef clzb
  #undef clzh
- #undef clzw
--#undef clzd
+-#undef clzw
 =20
  #define ctzb(v) ((v) ? ctz32(v) : 8)
  #define ctzh(v) ((v) ? ctz32(v) : 16)
 diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/v=
 mx-impl.inc.c
-index 13153352e4..3372c2c3d3 100644
+index 3372c2c3d3..0d71c10428 100644
 --- a/target/ppc/translate/vmx-impl.inc.c
 +++ b/target/ppc/translate/vmx-impl.inc.c
 @@ -742,6 +742,32 @@ static void trans_vgbbd(DisasContext *ctx)
@@ -131,45 +128,45 @@ index 13153352e4..3372c2c3d3 100644
  }
 =20
 +/*
-+ * vclzd VRT,VRB - Vector Count Leading Zeros Doubleword
++ * vclzw VRT,VRB - Vector Count Leading Zeros Word
 + *
-+ * Counting the number of leading zero bits of each doubleword element i=
-n source
-+ * register and placing result in appropriate doubleword element of dest=
-ination
++ * Counting the number of leading zero bits of each word element in sour=
+ce
++ * register and placing result in appropriate word element of destinatio=
+n
 + * register.
 + */
-+static void trans_vclzd(DisasContext *ctx)
++static void trans_vclzw(DisasContext *ctx)
 +{
 +    int VT =3D rD(ctx->opcode);
 +    int VB =3D rB(ctx->opcode);
-+    TCGv_i64 avr =3D tcg_temp_new_i64();
++    TCGv_i32 tmp =3D tcg_temp_new_i32();
++    int i;
 +
-+    /* high doubleword */
-+    get_avr64(avr, VB, true);
-+    tcg_gen_clzi_i64(avr, avr, 64);
-+    set_avr64(VT, avr, true);
++    /* Perform count for every word element using tcg_gen_clzi_i32. */
++    for (i =3D 0; i < 4; i++) {
++        tcg_gen_ld_i32(tmp, cpu_env,
++            offsetof(CPUPPCState, vsr[32 + VB].u64[0]) + i * 4);
++        tcg_gen_clzi_i32(tmp, tmp, 32);
++        tcg_gen_st_i32(tmp, cpu_env,
++            offsetof(CPUPPCState, vsr[32 + VT].u64[0]) + i * 4);
++    }
 +
-+    /* low doubleword */
-+    get_avr64(avr, VB, false);
-+    tcg_gen_clzi_i64(avr, avr, 64);
-+    set_avr64(VT, avr, false);
-+
-+    tcg_temp_free_i64(avr);
++    tcg_temp_free_i32(tmp);
 +}
 +
- GEN_VXFORM(vmuloub, 4, 0);
- GEN_VXFORM(vmulouh, 4, 1);
- GEN_VXFORM(vmulouw, 4, 2);
-@@ -1258,7 +1284,7 @@ GEN_VAFORM_PAIRED(vmaddfp, vnmsubfp, 23)
+ /*
+  * vclzd VRT,VRB - Vector Count Leading Zeros Doubleword
+  *
+@@ -1283,7 +1309,7 @@ GEN_VAFORM_PAIRED(vmaddfp, vnmsubfp, 23)
+=20
  GEN_VXFORM_NOA(vclzb, 1, 28)
  GEN_VXFORM_NOA(vclzh, 1, 29)
- GEN_VXFORM_NOA(vclzw, 1, 30)
--GEN_VXFORM_NOA(vclzd, 1, 31)
-+GEN_VXFORM_TRANS(vclzd, 1, 31)
+-GEN_VXFORM_NOA(vclzw, 1, 30)
++GEN_VXFORM_TRANS(vclzw, 1, 30)
+ GEN_VXFORM_TRANS(vclzd, 1, 31)
  GEN_VXFORM_NOA_2(vnegw, 1, 24, 6)
  GEN_VXFORM_NOA_2(vnegd, 1, 24, 7)
- GEN_VXFORM_NOA_2(vextsb2w, 1, 24, 16)
 --=20
 2.21.0
 
