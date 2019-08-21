@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A2D977E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:28:05 +0200 (CEST)
-Received: from localhost ([::1]:47118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFBD977D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:22:48 +0200 (CEST)
+Received: from localhost ([::1]:47052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Oma-00054E-D0
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53648)
+	id 1i0OhS-000787-Eb
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53103)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i0OfV-000591-1x
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:46 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i0Oez-0004M1-Ng
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i0OfS-0006fP-On
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:44 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:42335)
+ (envelope-from <laurent@vivier.eu>) id 1i0Oey-0006L1-Od
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:13 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:53255)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i0Of6-0006Pq-Q6; Wed, 21 Aug 2019 07:20:21 -0400
+ id 1i0Oey-0006KI-Fd; Wed, 21 Aug 2019 07:20:12 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MWBGG-1hlanV1wyI-00XblI; Wed, 21 Aug 2019 13:19:59 +0200
+ id 1M6EOc-1hto1S1adU-006hG6; Wed, 21 Aug 2019 13:20:02 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:19:36 +0200
-Message-Id: <20190821111947.26580-4-laurent@vivier.eu>
+Date: Wed, 21 Aug 2019 13:19:38 +0200
+Message-Id: <20190821111947.26580-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821111947.26580-1-laurent@vivier.eu>
 References: <20190821111947.26580-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZV7dLwTZZz5R+wuccd172/uspKnkVx3+luV7blIDhC72uT07rni
- R8CpCIws4VISkdZq/3xxqth6IJA9AyGo7IbTVcDtHzY+u/CzoFe0GmRiTWDN/hjxmdhkUNp
- P6vCRc56N3ylwfIHhItTV+42TJ0sHCigl1XZDiqOMyM3caGXZWNK5MIo9EXcCCXZVpXxhfo
- EKgzDQAmDsHwAB4kX8R0g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xjV6d8eXXZY=:9ZScjLxS+qktx/ZdKggwCz
- DPH/XYmvR7iPh9kTh0z/r1dSHQGu8BOH3QpaUns722Q5sClPJ3hSvQN2+nImbH9ArwPwVa4an
- zkxYRppsz+C2Akyw8JWLx8EOeCLACP+l2F8UIHP1FZx+X3TCCjbJxeq5SI5dkVRqJZenw1FyZ
- EMqefvVr9Ofl2ld5hWDAe23fIHeDpa3Fwbc0q06o1xW7AKyhR0+5s5KdiFSsARkH0ljmkw8Am
- yQRrffxj+LrfSOR6mPq2uSYLTdbsOpmZs8nAlRpIvMytQzYVa3EyXF/9QJsZErCC62F4Ae9LK
- ITaqr2wnRqbwPiR3Jpca/rlsYszqkMWRy9V9gcpbjCk+KyDHoonnH6saNpDsZBr1FqyK8HKvL
- HS7wzYZbwXLy8VA3quxHvQMniIfW8R8fPDPiRFXEOgQjo4ECbthC8vzcmAj7IR11aasa/PDUK
- utuZVfP6sM06FJMqRbuHEn82Q3ObXZcFtKbODnGDAglEFWaYmx3BF7DOpzvmoVEeFW7cvI7ly
- MxyAi8kQW9cY0DvS8FkCDWGRqikgIKfJqgBTU8P+F1gj8yPSgZCTQ0OpMN+ov7tTo3csaPpqN
- LoKjKCgFsTtX5JwjxgTHAInhvuND9P2xOFZ9ov7eOZ3GWwexwhvzHZ9u1ZBb1EZQv7r8dPSDQ
- +A+5FTOJl6Uw0jDhcdUSP8FnR97WqERkrIwHcUu+Rr/tjq02ieoVIrKL7wQoHMBXIi5fUqf3k
- NE5xaj6U7m6q9SjsqdbWrzmIdomKxI16awQqK0vpZhqYNC2o7wRVlH3yQho=
+X-Provags-ID: V03:K1:qzR5HNnO6FY7LGx0tZ0b6gMXbFXJvxbxC156Z+PBSbIxM+DXenD
+ YUNVZX3yOe4338y5su+c7Y2AbEE3LqLKqc3aoz3prxZMjA+m6A5XEXpiNTGx5yHz0OSvNpf
+ K4W2W5g5oBq3PBYnDx++LqqUdbWR0No6faQiChNygLJwIvKbFAr3vfwHob6cVqn6BlVSgAu
+ 8XzTBpNY1GAPXorywxN7Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:U928ZJdrwHE=:vlZvRbvlAJUrfcrRTtoV7P
+ Y6TKwYAWp0qZenfkVEVlU/Y+Q9mOH1eNUvWtyzr1HwZIMFA8zlqxAXceMSTeOdnKldVkThGub
+ bGrXhU0lVM+evvYUBpgrInf7Cl3thPtLkUbNS/pn+AvMupQRBf7QE4ZbTOH8z1eKBEcrpI6Wp
+ 1D19HvETiZ9JHGl/7Dv1nYQk7UyAu0lSTweb95GuMIcHhhdp9JSfrwmPkWUkyZZLBMUSEe3/X
+ I0Yw4BbqRfT/3V5C6FGQtdNxe0bfaZ8lBmJrBq/70Y3ksxogY55yEQdpUOc7d42Li68KL6Wmo
+ Rk35szsMKdnEWdAj+ZswvzTePvRv8uECkvZPwRJpOFI5ru4ZvxYrv/nAIVIpQM2kVQNTHwkN/
+ MubdEWWimn0TCyZvMw/bm6zmuiv7fsTYhxlO4di5FPXBWA5dlVAwZ2HKDmPkcJ/VjX23hHlo7
+ BngVyUgYtlYcLzr7HqR805jR6xcuuOcGyr42J6O+5T6D4Xj053ronssbip6xeNgV5b5e9+N1u
+ /35q5+5t+6T4Ob/x8PwN0xqnjnavGLSp/SRKn8NY9tujweewa8fWKjC/J8OxZLWjg+CU9I6ZX
+ 4765MiiEZ7n10Iootlu7B1DnuhOSaRZ+3CtgI8Tnrg7KfwS2WD0hLx5i4nEXZtHgC4C3U53Mc
+ idyILR3iV3lOFNBtkK7hxMp3e7Yt7EA0Q0r0nBSj5vH0+t/uSG78unKDQWVny/7M0cb5Xa01q
+ UcROufOUnraJqSv9gflcHcH6n2rAKzduV+wZZDTmbBzYcTVb7V2mv1ProG8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: [Qemu-devel] [PULL 03/14] configure: remove obsoleted $sparc_cpu
- variable
+X-Received-From: 212.227.17.13
+Subject: [Qemu-devel] [PULL 05/14] .gitignore: ignore some vhost-user*
+ related files
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,51 +67,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
  Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ Michal Privoznik <mprivozn@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Markus Armbruster <armbru@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-ppc@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Carlo=20Marcelo=20Arenas=20Bel=C3=B3n?= <carenas@gmail.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Carlo Marcelo Arenas Belón <carenas@gmail.com>
+From: Michal Privoznik <mprivozn@redhat.com>
 
-9b9c37c364 ("tcg-sparc: Assume v9 cpu always, i.e. force v8plus in
-32-bit mode.", 2012-09-21) removed the need for this variable and
-most of the references to it, but this one.
+Commit d52c454aadc creates
+'/contrib/vhost-user-gpu/50-qemu-gpu.json' and '/vhost-user-gpu'
+and commit 06914c97d3a creates '/vhost-user-input' neither of
+which is ignored by git.
 
-Remove defunct code, no effect or functionality change expected.
-
-Signed-off-by: Carlo Marcelo Arenas Belón <carenas@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190709234330.89699-1-carenas@gmail.com>
+Message-Id: <db150a03315a89a849ab9968e4a5a26110d41424.1562942402.git.mprivozn@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- configure | 3 ---
- 1 file changed, 3 deletions(-)
+ .gitignore | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/configure b/configure
-index 714e7fb6a1fb..4e7b79c826a2 100755
---- a/configure
-+++ b/configure
-@@ -6384,9 +6384,6 @@ if test "$vnc" = "yes" ; then
-     echo "VNC JPEG support  $vnc_jpeg"
-     echo "VNC PNG support   $vnc_png"
- fi
--if test -n "$sparc_cpu"; then
--    echo "Target Sparc Arch $sparc_cpu"
--fi
- echo "xen support       $xen"
- if test "$xen" = "yes" ; then
-   echo "xen ctrl version  $xen_ctrl_version"
+diff --git a/.gitignore b/.gitignore
+index fd6e6c38c7b9..e9bbc006d39e 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -65,6 +65,8 @@
+ /scsi/qemu-pr-helper
+ /vhost-user-scsi
+ /vhost-user-blk
++/vhost-user-gpu
++/vhost-user-input
+ /fsdev/virtfs-proxy-helper
+ *.tmp
+ *.[1-9]
+@@ -131,6 +133,7 @@
+ /docs/interop/qemu-qmp-ref.info*
+ /docs/interop/qemu-qmp-ref.txt
+ /docs/version.texi
++/contrib/vhost-user-gpu/50-qemu-gpu.json
+ *.tps
+ .stgit-*
+ .git-submodule-status
 -- 
 2.21.0
 
