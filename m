@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0CF975F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 11:21:40 +0200 (CEST)
-Received: from localhost ([::1]:46288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197E1975F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 11:22:54 +0200 (CEST)
+Received: from localhost ([::1]:46300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0MoF-0003MP-IE
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 05:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36330)
+	id 1i0MpR-00057S-4S
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 05:22:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36344)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1i0Mn6-0002NO-Uq
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:29 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1i0Mn7-0002OP-LC
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1i0Mn5-0007m5-TM
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:28 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1i0Mn6-0007mR-Au
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:29 -0400
 Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:7419)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1i0Mn5-0007iC-LH; Wed, 21 Aug 2019 05:20:27 -0400
+ id 1i0Mn6-0007iC-3N
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=citrix.com; s=securemail; t=1566379227;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=BK2UfPfQnsAdpwWahhn9/K+61xT4PsE2aBOjJXllKHk=;
- b=dzNc5o+nTt70S3GIToqrIr1/+IfDW538isrj+W8exeKUu4H37ojD/a+O
- RlQZJHqmj43SyKiZROKOWnZYllgsvQKzDT2b2UOeGu4b9aBGVYGNbzhWa
- 84ijbGOMRXWIYHd2KF83rb40zQpZetY7V+F+X+ercbIEkJvJrdrntk90g c=;
+ bh=LKkFWbEHVRRLGoXttk3iW00wagoE0ctWHxQjhYL3ir4=;
+ b=ZOEQzcVTl8WR1zIlt0EqxDM3vknwtHjp2viwUaZkSxTGR7DmgXBidKVX
+ +ZDQTQ4jmTSWv6Ayt6xn68mRnmemO95Dxe9ob6weyxgSm6S8zxkDzMzCi
+ pdoIL1ZzvUoyX4ZMzAyD3dZODbZuQiJEVea7pagNOSI46Fzz0hl1lcriV o=;
 Authentication-Results: esa6.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
@@ -58,22 +59,22 @@ Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: Dre/avdhM7+LkeeYNgXPxCnkXilAmFPsNzT4qdmjCyNlv3RbAuMOhVn8Hnt589TC2ULQAyStmJ
- wztSwrqA0slgsaYkaxu90dU3UyfmxOHqd0ywcZ+98kK+RjFO9FYLuJIE8r0tRR/Gn7YVBB4lqB
- b6iSUVXUkjPwrJUtVz621eni4MLaOxm7efr/gQJaNhCkecfQ5HGEJ5VuHoNh6x87n95f+58EuQ
- 1tNsyO2VabwmwuQl/amP+KFPELiUvI3GQAooAUS887cQnyBt9uPiTpot6St8gekcuXoRKO+e2D
- PLI=
+IronPort-SDR: WfjGDj2DQFiJy54qdsaOgrVkQw3aWiHlsoBLNpBt2U248THIHc0Y8riEu/v4C7ZiixdnbUtqVz
+ P7C55PalBoVq1dTW8NTiC5YMfvoghAdjR2vZ6Yh5i85o7QDyyJwMdXJ6dadkZnMRRbvp3Su9Tm
+ vpSAc+zamMqDQnOWIQP8lN9v9z673ja0WxAsyn+0WrJLMuVRwWD5q38ilHA7g+zWEkWxsH8aIi
+ Z3hE7/sV4H3dBg/eeYjP6eNDuE4NkHWj3Ojfia/zOWkQmdPryzHwrzvyCQ0FvIISAUydX0ytaB
+ ZFM=
 X-SBRS: 2.7
-X-MesageID: 4731850
+X-MesageID: 4731852
 X-Ironport-Server: esa6.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.64,412,1559534400"; 
-   d="scan'208";a="4731850"
+   d="scan'208";a="4731852"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Date: Wed, 21 Aug 2019 10:20:19 +0100
-Message-ID: <20190821092020.17952-2-anthony.perard@citrix.com>
+Date: Wed, 21 Aug 2019 10:20:20 +0100
+Message-ID: <20190821092020.17952-3-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190821092020.17952-1-anthony.perard@citrix.com>
 References: <20190821092020.17952-1-anthony.perard@citrix.com>
@@ -82,8 +83,8 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 216.71.155.175
-Subject: [Qemu-devel] [PATCH 1/2] xen-bus: Fix backend state transition on
- device reset
+Subject: [Qemu-devel] [PATCH 2/2] xen-bus: Avoid rewriting identical values
+ to xenstore
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,47 +97,141 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-stable@nongnu.org,
+ Stefano Stabellini <sstabellini@kernel.org>,
  Paul Durrant <paul.durrant@citrix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a frontend want to reset its state and the backend one, it start
-with setting "Closing", then wait for the backend (QEMU) to do the same.
+When QEMU receive a xenstore watch event suggesting that the "state" or
+"online" status of the frontend or the backend changed, it record this
+in its own state but it also re-write the value back into xenstore even
+so there were no changed. This trigger an unnecessary xenstore watch
+event which QEMU will process again (and maybe the frontend as well).
 
-But when QEMU is setting "Closing" to its state, it trigger an event
-(xenstore watch) that re-execute xen_device_backend_changed() and set
-the backend state to "Closed". QEMU should wait for the frontend to
-set "Closed" before doing the same.
-
-Before setting "Closed" to the backend_state, we are also going to
-check if the frontend was responsible for the transition to "Closing".
-
-Fixes: b6af8926fb858c4f1426e5acb2cfc1f0580ec98a
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
-Cc: qemu-stable@nongnu.org
----
- hw/xen/xen-bus.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/xen/xen-bus.c | 37 ++++++++++++++++++++++++-------------
+ 1 file changed, 24 insertions(+), 13 deletions(-)
 
 diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
-index e40500242d..982eca4533 100644
+index 982eca4533..c83f07424a 100644
 --- a/hw/xen/xen-bus.c
 +++ b/hw/xen/xen-bus.c
-@@ -540,9 +540,11 @@ static void xen_device_backend_changed(void *opaque)
+@@ -481,20 +481,27 @@ static int xen_device_backend_scanf(XenDevice *xendev, const char *key,
+     return rc;
+ }
+ 
+-void xen_device_backend_set_state(XenDevice *xendev,
+-                                  enum xenbus_state state)
++static bool xen_device_backend_record_state(XenDevice *xendev,
++                                            enum xenbus_state state)
+ {
+     const char *type = object_get_typename(OBJECT(xendev));
+ 
+     if (xendev->backend_state == state) {
+-        return;
++        return false;
+     }
+ 
+     trace_xen_device_backend_state(type, xendev->name,
+                                    xs_strstate(state));
+ 
+     xendev->backend_state = state;
+-    xen_device_backend_printf(xendev, "state", "%u", state);
++    return true;
++}
++
++void xen_device_backend_set_state(XenDevice *xendev,
++                                  enum xenbus_state state)
++{
++    if (xen_device_backend_record_state(xendev, state))
++        xen_device_backend_printf(xendev, "state", "%u", state);
+ }
+ 
+ enum xenbus_state xen_device_backend_get_state(XenDevice *xendev)
+@@ -502,7 +509,8 @@ enum xenbus_state xen_device_backend_get_state(XenDevice *xendev)
+     return xendev->backend_state;
+ }
+ 
+-static void xen_device_backend_set_online(XenDevice *xendev, bool online)
++static void xen_device_backend_set_online(XenDevice *xendev, bool online,
++                                          bool export)
+ {
+     const char *type = object_get_typename(OBJECT(xendev));
+ 
+@@ -513,7 +521,8 @@ static void xen_device_backend_set_online(XenDevice *xendev, bool online)
+     trace_xen_device_backend_online(type, xendev->name, online);
+ 
+     xendev->backend_online = online;
+-    xen_device_backend_printf(xendev, "online", "%u", online);
++    if (export)
++        xen_device_backend_printf(xendev, "online", "%u", online);
+ }
+ 
+ static void xen_device_backend_changed(void *opaque)
+@@ -529,13 +538,13 @@ static void xen_device_backend_changed(void *opaque)
+         state = XenbusStateUnknown;
+     }
+ 
+-    xen_device_backend_set_state(xendev, state);
++    xen_device_backend_record_state(xendev, state);
+ 
+     if (xen_device_backend_scanf(xendev, "online", "%u", &online) != 1) {
+         online = 0;
+     }
+ 
+-    xen_device_backend_set_online(xendev, !!online);
++    xen_device_backend_set_online(xendev, !!online, false);
+ 
      /*
       * If the toolstack (or unplug request callback) has set the backend
-      * state to Closing, but there is no active frontend (i.e. the
--     * state is not Connected) then set the backend state to Closed.
-+     * state is not Connected or Closing) then set the backend state
-+     * to Closed.
-      */
-     if (xendev->backend_state == XenbusStateClosing &&
-+        xendev->frontend_state != XenbusStateClosing &&
-         xendev->frontend_state != XenbusStateConnected) {
-         xen_device_backend_set_state(xendev, XenbusStateClosed);
+@@ -683,7 +692,8 @@ int xen_device_frontend_scanf(XenDevice *xendev, const char *key,
+ }
+ 
+ static void xen_device_frontend_set_state(XenDevice *xendev,
+-                                          enum xenbus_state state)
++                                          enum xenbus_state state,
++                                          bool export)
+ {
+     const char *type = object_get_typename(OBJECT(xendev));
+ 
+@@ -695,7 +705,8 @@ static void xen_device_frontend_set_state(XenDevice *xendev,
+                                     xs_strstate(state));
+ 
+     xendev->frontend_state = state;
+-    xen_device_frontend_printf(xendev, "state", "%u", state);
++    if (export)
++        xen_device_frontend_printf(xendev, "state", "%u", state);
+ }
+ 
+ static void xen_device_frontend_changed(void *opaque)
+@@ -711,7 +722,7 @@ static void xen_device_frontend_changed(void *opaque)
+         state = XenbusStateUnknown;
      }
+ 
+-    xen_device_frontend_set_state(xendev, state);
++    xen_device_frontend_set_state(xendev, state, false);
+ 
+     if (state == XenbusStateInitialising &&
+         xendev->backend_state == XenbusStateClosed &&
+@@ -1146,7 +1157,7 @@ static void xen_device_realize(DeviceState *dev, Error **errp)
+                               xendev->frontend_id);
+     xen_device_backend_printf(xendev, "hotplug-status", "connected");
+ 
+-    xen_device_backend_set_online(xendev, true);
++    xen_device_backend_set_online(xendev, true, true);
+     xen_device_backend_set_state(xendev, XenbusStateInitWait);
+ 
+     xen_device_frontend_printf(xendev, "backend", "%s",
+@@ -1154,7 +1165,7 @@ static void xen_device_realize(DeviceState *dev, Error **errp)
+     xen_device_frontend_printf(xendev, "backend-id", "%u",
+                                xenbus->backend_id);
+ 
+-    xen_device_frontend_set_state(xendev, XenbusStateInitialising);
++    xen_device_frontend_set_state(xendev, XenbusStateInitialising, true);
+ 
+     xendev->exit.notify = xen_device_exit;
+     qemu_add_exit_notifier(&xendev->exit);
 -- 
 Anthony PERARD
 
