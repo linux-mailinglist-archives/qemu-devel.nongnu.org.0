@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BF998193
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:40:42 +0200 (CEST)
-Received: from localhost ([::1]:51238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EB9F98196
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:42:11 +0200 (CEST)
+Received: from localhost ([::1]:51250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0UbB-0004sQ-HW
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:40:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40437)
+	id 1i0Ucb-00074h-VY
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:42:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40640)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1i0UPm-0007Ad-Jh
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:55 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1i0UQu-0000X8-Ie
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1i0UPl-0005aL-6j
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49244)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0UPl-0005Zj-1M
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:53 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5C083308219F;
- Wed, 21 Aug 2019 17:28:52 +0000 (UTC)
-Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
- [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57C2460F88;
- Wed, 21 Aug 2019 17:28:51 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (envelope-from <jan.bobek@gmail.com>) id 1i0UQs-0006vD-Ou
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:04 -0400
+Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:39003)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0UQs-0006tL-Jt
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:02 -0400
+Received: by mail-yw1-xc44.google.com with SMTP id x74so1236877ywx.6
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:30:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iC4N8jaavrth7nWSpJ+D8outStrlNYauXAH1aP/8t9E=;
+ b=p8J/VfqhJwN0Hu4GY+gzwGs2qJsKSUM+OuVG1EbpTkMXQXCPm0HCfvAv1JvNAJVYkc
+ GUi3Tey4yP0W+rr3vMuDSRtIzK01pA7nU5tN3fLsN17x7fHDmxct6FkHelHjmTCpgEE8
+ hoBwmdbExgQgna6Cc2YKqGMnRTBpcP58GOMzLSrJxzVjjwYFs6DoQHwxTzrTTot+OpmV
+ eJePmkvO0S5VXZrWSsFTq5sQ0Fxeeqm2KVdVSmSJZ/qDBKUNhiEbL4VD5hi8U6ttANif
+ 35804/to1Rp1Z9X2HHn2Tx5CNvgmuc3un3ae56hNJNKmfwmKkmLMZqVsJIF4a2fx0hlc
+ C9SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iC4N8jaavrth7nWSpJ+D8outStrlNYauXAH1aP/8t9E=;
+ b=A3qXOsGQiPaGpFQO941zrjNHpRmZtNxuX7v2T0nxDhvzbYYH6Be/8rgMu99pHW27jW
+ ChReAlGQ8n+QZQKusHr638S9LT4jjBhxGQw5TSZVJrZr0NqVK0LDN5COomPCuU3CvhsD
+ CcsVP3bKTBcEobUF59+oRmAZa8BI/IZLBWnP7Q78UyFwRJfSjKOJ9ah/SxhP+h2LRQQH
+ 9FV5le7TJKyKCbAaulS/chlFqItNPjPvZfutTvpexfgBnZLmMJ10j+vbIyTqD9Duuq+Y
+ hz8kvKbdBsfUFatse0UIaBzkAfIIkn5dTzmaHueP0wMxSYGPmuo3oWA5qoTbWjOdcRPX
+ QREg==
+X-Gm-Message-State: APjAAAW3NCZfn87uK7kmQDP0v+XIVl7LEXVffXFsR2/ZTMJgqg3Y59vJ
+ Pioz/aL26NB4ghwT8a3aT0jyNohy
+X-Google-Smtp-Source: APXvYqxVlhQvcLX0jWanr/TbAYqg0ZG4Iy0FzsSOa1jCfx0HS57kdMKnqWDRRavDuB9Gumz7Ns+DQw==
+X-Received: by 2002:a81:67d5:: with SMTP id
+ b204mr25308509ywc.416.1566408601325; 
+ Wed, 21 Aug 2019 10:30:01 -0700 (PDT)
+Received: from localhost.localdomain ([2601:c0:c67f:e390::3])
+ by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Aug 2019 10:30:00 -0700 (PDT)
+From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 19:28:20 +0200
-Message-Id: <1566408501-48680-13-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
-References: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
+Date: Wed, 21 Aug 2019 13:28:36 -0400
+Message-Id: <20190821172951.15333-1-jan.bobek@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 21 Aug 2019 17:28:52 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 12/13] main-loop: Fix GSource leak in
- qio_task_thread_worker()
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::c44
+Subject: [Qemu-devel] [RFC PATCH v4 00/75] rewrite MMX/SSE*/AVX/AVX2 vector
+ instruction translation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,42 +76,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alberto Garcia <berto@igalia.com>
+Cc: Jan Bobek <jan.bobek@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+Here comes the next version of my patch series, this time v4; the
+previous version can be found at [1].
 
-After g_source_attach() the GMainContext holds a reference to the
-GSource, so the caller does not need to keep it.
+This version can decode all vector instructions up to AVX2. However,
+note that this does not mean all of these instructions are implemented
+correctly: to achieve that, the old ad-hoc style helpers will need to
+be rewritten into the style used by gvec helpers (initial effort
+towards that goal can be seen in patches 65-75). There is also a
+number of instructions which have not been previously implemented at
+all, for which the helpers need to be written from scratch.
 
-qio_task_thread_worker() is not releasing its reference so the GSource
-is being leaked since a17536c594bfed94d05667b419f747b692f5fc7f.
+Cheers,
+ -Jan
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Message-Id: <1565625509-404969-2-git-send-email-andrey.shinkevich@virtuoz=
-zo.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- io/task.c | 1 +
- 1 file changed, 1 insertion(+)
+Changes from v3:
+  - introduce disas_insn_prefix ([2])
+  - rename ck_cpuid to check_cpuid ([3])
+  - clarify this series deals with vector instructions only ([4])
+  - add a list of instructions per each vector ISA extension ([5])
+  - change return type of check_cpuid and insnop_init to bool ([6])
 
-diff --git a/io/task.c b/io/task.c
-index 64c4c71..1ae7b86 100644
---- a/io/task.c
-+++ b/io/task.c
-@@ -136,6 +136,7 @@ static gpointer qio_task_thread_worker(gpointer opaqu=
-e)
-                           qio_task_thread_result, task, NULL);
-     g_source_attach(task->thread->completion,
-                     task->thread->context);
-+    g_source_unref(task->thread->completion);
-     trace_qio_task_thread_source_attach(task, task->thread->completion);
-=20
-     qemu_cond_signal(&task->thread_cond);
---=20
-1.8.3.1
+References:
+  1. https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg02616.html
+  2. https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg02686.html
+  3. https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg04120.html
+  4. https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg04119.html
+  5. https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg02689.html
+  6. https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg02701.html
 
+Jan Bobek (72):
+  target/i386: use dflag from DisasContext
+  target/i386: use prefix from DisasContext
+  target/i386: introduce disas_insn_prefix
+  target/i386: use pc_start from DisasContext
+  target/i386: make variable b1 const
+  target/i386: make variable is_xmm const
+  target/i386: add vector register file alignment constraints
+  target/i386: introduce gen_sse_ng
+  target/i386: introduce CASES_* macros in gen_sse_ng
+  target/i386: decode the 0F38/0F3A prefix in gen_sse_ng
+  target/i386: introduce aliases for some tcg_gvec operations
+  target/i386: introduce function check_cpuid
+  target/i386: disable AVX/AVX2 cpuid bitchecks
+  target/i386: introduce instruction operand infrastructure
+  target/i386: introduce generic operand alias
+  target/i386: introduce generic either-or operand
+  target/i386: introduce generic load-store operand
+  target/i386: introduce tcg register operands
+  target/i386: introduce modrm operand
+  target/i386: introduce operands for decoding modrm fields
+  target/i386: introduce operand for direct-only r/m field
+  target/i386: introduce Ib (immediate) operand
+  target/i386: introduce M* (memptr) operands
+  target/i386: introduce G*, R*, E* (general register) operands
+  target/i386: introduce P*, N*, Q* (MMX) operands
+  target/i386: introduce H*, L*, V*, U*, W* (SSE/AVX) operands
+  target/i386: alias H* operands with the V* operands
+  target/i386: introduce code generators
+  target/i386: introduce helper-based code generator macros
+  target/i386: introduce gvec-based code generator macros
+  target/i386: introduce sse-opcode.inc.h
+  target/i386: introduce instruction translator macros
+  target/i386: introduce MMX translators
+  target/i386: introduce MMX code generators
+  target/i386: introduce MMX vector instructions to sse-opcode.inc.h
+  target/i386: introduce SSE translators
+  target/i386: introduce SSE code generators
+  target/i386: introduce SSE vector instructions to sse-opcode.inc.h
+  target/i386: introduce SSE2 translators
+  target/i386: introduce SSE2 code generators
+  target/i386: introduce SSE2 vector instructions to sse-opcode.inc.h
+  target/i386: introduce SSE3 translators
+  target/i386: introduce SSE3 code generators
+  target/i386: introduce SSE3 vector instructions to sse-opcode.inc.h
+  target/i386: introduce SSSE3 translators
+  target/i386: introduce SSSE3 code generators
+  target/i386: introduce SSSE3 vector instructions to sse-opcode.inc.h
+  target/i386: introduce SSE4.1 translators
+  target/i386: introduce SSE4.1 code generators
+  target/i386: introduce SSE4.1 vector instructions to sse-opcode.inc.h
+  target/i386: introduce SSE4.2 code generators
+  target/i386: introduce SSE4.2 vector instructions to sse-opcode.inc.h
+  target/i386: introduce AES and PCLMULQDQ translators
+  target/i386: introduce AES and PCLMULQDQ code generators
+  target/i386: introduce AES and PCLMULQDQ vector instructions to
+    sse-opcode.inc.h
+  target/i386: introduce AVX translators
+  target/i386: introduce AVX code generators
+  target/i386: introduce AVX vector instructions to sse-opcode.inc.h
+  target/i386: introduce AVX2 translators
+  target/i386: introduce AVX2 code generators
+  target/i386: introduce AVX2 vector instructions to sse-opcode.inc.h
+  target/i386: remove obsoleted helpers
+  target/i386: cleanup leftovers in ops_sse_header.h
+  target/i386: introduce aliases for helper-based tcg_gen_gvec_*
+    functions
+  target/i386: convert ps((l,r)l(w,d,q),ra(w,d)) to helpers to gvec
+    style
+  target/i386: convert pmullw/pmulhw/pmulhuw helpers to gvec style
+  target/i386: convert pavgb/pavgw helpers to gvec style
+  target/i386: convert pmuludq/pmaddwd helpers to gvec style
+  target/i386: convert psadbw helper to gvec style
+  target/i386: remove obsoleted helper_mov(l,q)_mm_T0
+  target/i386: convert pshuf(w,lw,hw,d),shuf(pd,ps) helpers to gvec
+    style
+  target/i386: convert pmovmskb/movmskps/movmskpd helpers to gvec style
+
+Richard Henderson (3):
+  target/i386: Push rex_r into DisasContext
+  target/i386: Push rex_w into DisasContext
+  target/i386: Simplify gen_exception arguments
+
+ target/i386/cpu.h            |    6 +-
+ target/i386/ops_sse.h        |  812 +++---
+ target/i386/ops_sse_header.h |  131 +-
+ target/i386/sse-opcode.inc.h | 2069 +++++++++++++++
+ target/i386/translate.c      | 4777 ++++++++++++++++++++++++++++++----
+ 5 files changed, 6842 insertions(+), 953 deletions(-)
+ create mode 100644 target/i386/sse-opcode.inc.h
+
+-- 
+2.20.1
 
 
