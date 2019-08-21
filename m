@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F254697449
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:59:58 +0200 (CEST)
-Received: from localhost ([::1]:44772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FF69741A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:57:51 +0200 (CEST)
+Received: from localhost ([::1]:44756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0LXB-0002nA-UC
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:59:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42819)
+	id 1i0LV7-00008U-E7
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L1D-0005aY-5H
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:56 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L1B-0000GD-Tk
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L1C-0005a3-RG
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:55 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:54227)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L1B-0000Fz-O2
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:54 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:58457)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L1B-0008SO-6e; Wed, 21 Aug 2019 03:26:53 -0400
+ id 1i0L1B-0008SS-6Q; Wed, 21 Aug 2019 03:26:53 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46CzjG4F0wz9sQt; Wed, 21 Aug 2019 17:25:50 +1000 (AEST)
+ id 46CzjG4wxZz9sQx; Wed, 21 Aug 2019 17:25:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1566372354;
- bh=wU5H61CwJkmgDFkNVITD7MVdyA45DnpLl8N5eMfxsL0=;
+ bh=w8jJ4HioXwrN0ISowEXNExCB5N6zlcEr6dihcQPI6D0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P1MhiYgzTY68Yc0YWoCozd/KAgNwuf/8Fx4YjP7JR0shhFZ6QoEUhaCsWenpUwc/j
- R8hMx6524AkcVZtP+Uztg6W9jFm0HcEBVE1nD+yMWO7aiSbTzKzT0ykwWHa5gK20kj
- 74/4OUEjgug0EysJQ/BlTCjEzHx6fvwXTimRbzgQ=
+ b=Rtxyf0s/tsHX4/mTTvBBggoE/aBraVGmqVs81Wl/AMAXuOxrH0zBpbLuM1RA79XuW
+ Em/SomeCtHyFwgPbn/5VJzZhTpjacz+/9dBwyscafe3EGx1AFuosmetbUaG/sFc2jc
+ 6KKE9MS5cv1gq5z5CRVvr4m1wE5ORIbQxNY8TWQ8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:24 +1000
-Message-Id: <20190821072542.23090-25-david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 17:25:27 +1000
+Message-Id: <20190821072542.23090-28-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
@@ -42,7 +42,8 @@ Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 24/42] ppc/xive: Provide backlog support
+Subject: [Qemu-devel] [PULL 27/42] ppc/xive: Provide silent escalation
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,144 +63,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-If backlog is activated ('b' bit) on the END, the pending priority of
-a missed event is recorded in the IPB field of the NVT for a later
-resend.
+When the 's' bit is set the escalation is said to be 'silent' or
+'silent/gather'. In such configuration, the notification sequence is
+skipped and only the escalation sequence is performed. This is used to
+configure all the EQs of a vCPU to escalate on a single EQ which will
+then target the hypervisor.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190718115420.19919-5-clg@kaod.org>
+Message-Id: <20190718115420.19919-8-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xive.c | 77 +++++++++++++++++++++++++++++++-------------------
- 1 file changed, 48 insertions(+), 29 deletions(-)
+ hw/intc/xive.c             | 8 ++++++++
+ include/hw/ppc/xive_regs.h | 2 ++
+ 2 files changed, 10 insertions(+)
 
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index ab7ce64a83..f27b4e3328 100644
+index 3fe84f3e76..dd7d02dfdf 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -1411,46 +1411,22 @@ static bool xive_presenter_match(XiveRouter *xrtr=
-, uint8_t format,
-  *
-  * The parameters represent what is sent on the PowerBus
-  */
--static void xive_presenter_notify(XiveRouter *xrtr, uint8_t format,
-+static bool xive_presenter_notify(XiveRouter *xrtr, uint8_t format,
-                                   uint8_t nvt_blk, uint32_t nvt_idx,
-                                   bool cam_ignore, uint8_t priority,
-                                   uint32_t logic_serv)
- {
--    XiveNVT nvt;
-     XiveTCTXMatch match =3D { .tctx =3D NULL, .ring =3D 0 };
-     bool found;
-=20
--    /* NVT cache lookup */
--    if (xive_router_get_nvt(xrtr, nvt_blk, nvt_idx, &nvt)) {
--        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: no NVT %x/%x\n",
--                      nvt_blk, nvt_idx);
--        return;
--    }
--
--    if (!xive_nvt_is_valid(&nvt)) {
--        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVT %x/%x is invalid\n",
--                      nvt_blk, nvt_idx);
--        return;
--    }
--
-     found =3D xive_presenter_match(xrtr, format, nvt_blk, nvt_idx, cam_i=
-gnore,
-                                  priority, logic_serv, &match);
-     if (found) {
-         ipb_update(&match.tctx->regs[match.ring], priority);
-         xive_tctx_notify(match.tctx, match.ring);
--        return;
+@@ -1485,6 +1485,13 @@ static void xive_router_end_notify(XiveRouter *xrt=
+r, uint8_t end_blk,
+         xive_router_write_end(xrtr, end_blk, end_idx, &end, 1);
      }
 =20
--    /* Record the IPB in the associated NVT structure */
--    ipb_update((uint8_t *) &nvt.w4, priority);
--    xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
--
--    /*
--     * If no matching NVT is dispatched on a HW thread :
--     * - update the NVT structure if backlog is activated
--     * - escalate (ESe PQ bits and EAS in w4-5) if escalation is
--     *   activated
--     */
-+    return found;
- }
-=20
- /*
-@@ -1464,6 +1440,10 @@ static void xive_router_end_notify(XiveRouter *xrt=
-r, uint8_t end_blk,
-     XiveEND end;
-     uint8_t priority;
-     uint8_t format;
-+    uint8_t nvt_blk;
-+    uint32_t nvt_idx;
-+    XiveNVT nvt;
-+    bool found;
-=20
-     /* END cache lookup */
-     if (xive_router_get_end(xrtr, end_blk, end_idx, &end)) {
-@@ -1522,14 +1502,53 @@ static void xive_router_end_notify(XiveRouter *xr=
-tr, uint8_t end_blk,
-     /*
-      * Follows IVPE notification
-      */
--    xive_presenter_notify(xrtr, format,
--                          xive_get_field32(END_W6_NVT_BLOCK, end.w6),
--                          xive_get_field32(END_W6_NVT_INDEX, end.w6),
-+    nvt_blk =3D xive_get_field32(END_W6_NVT_BLOCK, end.w6);
-+    nvt_idx =3D xive_get_field32(END_W6_NVT_INDEX, end.w6);
-+
-+    /* NVT cache lookup */
-+    if (xive_router_get_nvt(xrtr, nvt_blk, nvt_idx, &nvt)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: no NVT %x/%x\n",
-+                      nvt_blk, nvt_idx);
-+        return;
-+    }
-+
-+    if (!xive_nvt_is_valid(&nvt)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVT %x/%x is invalid\n",
-+                      nvt_blk, nvt_idx);
-+        return;
-+    }
-+
-+    found =3D xive_presenter_notify(xrtr, format, nvt_blk, nvt_idx,
-                           xive_get_field32(END_W7_F0_IGNORE, end.w7),
-                           priority,
-                           xive_get_field32(END_W7_F1_LOG_SERVER_ID, end.=
-w7));
-=20
-     /* TODO: Auto EOI. */
-+
-+    if (found) {
-+        return;
-+    }
-+
 +    /*
-+     * If no matching NVT is dispatched on a HW thread :
-+     * - specific VP: update the NVT structure if backlog is activated
-+     * - logical server : forward request to IVPE (not supported)
++     * When the END is silent, we skip the notification part.
 +     */
-+    if (xive_end_is_backlog(&end)) {
-+        if (format =3D=3D 1) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "XIVE: END %x/%x invalid config: F1 & backlog\=
-n",
-+                          end_blk, end_idx);
-+            return;
-+        }
-+        /* Record the IPB in the associated NVT structure */
-+        ipb_update((uint8_t *) &nvt.w4, priority);
-+        xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
-+
-+        /*
-+         * On HW, follows a "Broadcast Backlog" to IVPEs
-+         */
++    if (xive_end_is_silent_escalation(&end)) {
++        goto do_escalation;
 +    }
- }
++
+     /*
+      * The W7 format depends on the F bit in W6. It defines the type
+      * of the notification :
+@@ -1564,6 +1571,7 @@ static void xive_router_end_notify(XiveRouter *xrtr=
+, uint8_t end_blk,
+          */
+     }
 =20
- void xive_router_notify(XiveNotifier *xn, uint32_t lisn)
++do_escalation:
+     /*
+      * If activated, escalate notification using the ESe PQ bits and
+      * the EAS in w4-5
+diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+index 4378d7259c..fed019516f 100644
+--- a/include/hw/ppc/xive_regs.h
++++ b/include/hw/ppc/xive_regs.h
+@@ -212,6 +212,8 @@ typedef struct XiveEND {
+ #define xive_end_is_escalate(end) (be32_to_cpu((end)->w0) & END_W0_ESCAL=
+ATE_CTL)
+ #define xive_end_is_uncond_escalation(end)              \
+     (be32_to_cpu((end)->w0) & END_W0_UNCOND_ESCALATE)
++#define xive_end_is_silent_escalation(end)              \
++    (be32_to_cpu((end)->w0) & END_W0_SILENT_ESCALATE)
+=20
+ static inline uint64_t xive_end_qaddr(XiveEND *end)
+ {
 --=20
 2.21.0
 
