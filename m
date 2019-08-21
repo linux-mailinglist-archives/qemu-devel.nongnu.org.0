@@ -2,70 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13580981BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:49:56 +0200 (CEST)
-Received: from localhost ([::1]:51318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96061981C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:52:30 +0200 (CEST)
+Received: from localhost ([::1]:51366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Uk6-0000Io-PR
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40934)
+	id 1i0Umb-0004ZW-15
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1i0URD-00013C-Hx
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:24 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPl-000777-0c
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1i0URC-0007Lz-Hg
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:23 -0400
-Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:35833)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0URC-0007LC-Df
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:22 -0400
-Received: by mail-yw1-xc42.google.com with SMTP id g19so1247176ywe.2
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:30:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=iDDKKkIsqc5vcwy+TY7VAlm2HY42sA6+LGzneYmglI8=;
- b=UAX5yKI+RA4KqLkVkxerCxJuJZg3JYm2iJx/OEg04OTyGx1uB4zRQqge6A2COGPbBX
- ADLg1+0HwdqtuXee+MK1KdkNiZrVbufG2iVV+4THnlDJsh/N03h9EH9SJEJMfsjsch+7
- eG/TsLIv1fRWoB79aonXWpac0Skdxn0fSpW3r0IGb2pB56M6aIZjzm4fapq0K1sRW3TC
- XFk4loHjKibTKvRhG8HgH7EIh+NK7Tu80732Kyod+IVsZ2BbRu94O7D6XCdSHEwaQuQl
- PZ8egdU0I7wNpUQ5JuTmfKyjI1mYqbDWlYIs5rFS0ajkzZZQTi6kzDXtuSFKHZKz7Kdj
- 4CzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=iDDKKkIsqc5vcwy+TY7VAlm2HY42sA6+LGzneYmglI8=;
- b=HKfuwxnUxqj6hgDdI5yowEqaotMw9KlbbVATiVjzphZC0c74EOLIHJak2i1vIjeYiw
- DNrt8WXpcbUARAqbDbXeqK7GiQdtVSYNJTk7w/q+Xg7Ch1+8wIBtaHgL8PBVSuMrqi0g
- ADaIAz8hda7Hm5GNBC+9vjyFSiJVGdoSe9otRIRtkto4xVDSKJ+EzHKBdCuVExAOMAeM
- aheyVupIbElwrzbKwjJohfgt4FTtwUU/Ww6VZeRPyyHqVXNzXzzJsDOk6ck3cibMMIA+
- ix1ZzHbqJF1TtRz25IuEb8vuh6SKYmT5AW44VmiQzCWStDBlUropUiiBJUUmAFxCTz1P
- MQ0Q==
-X-Gm-Message-State: APjAAAVkY4cnvYodaa8RDI+GK7FvMF8/VnzWMKF1QmeoOpI+qNpxJCq2
- 4cpuLe8n64JSnT8IZ4M0qZG6oXaZ
-X-Google-Smtp-Source: APXvYqy0qumOobhp63Wtn1kLDwOnTWQ7f/SFiUWXPEWFDUqRhLWx8bEX4IxHJUI29XCtyv0dOouBUQ==
-X-Received: by 2002:a81:7914:: with SMTP id u20mr25352685ywc.230.1566408621648; 
- Wed, 21 Aug 2019 10:30:21 -0700 (PDT)
-Received: from localhost.localdomain ([2601:c0:c67f:e390::3])
- by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Aug 2019 10:30:21 -0700 (PDT)
-From: Jan Bobek <jan.bobek@gmail.com>
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPj-0005ZA-PP
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39024)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0UPj-0005Yc-Gl
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:51 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DC46518C4260
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 17:28:50 +0000 (UTC)
+Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
+ [10.36.112.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7942760E1C;
+ Wed, 21 Aug 2019 17:28:48 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:28:57 -0400
-Message-Id: <20190821172951.15333-22-jan.bobek@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190821172951.15333-1-jan.bobek@gmail.com>
-References: <20190821172951.15333-1-jan.bobek@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c42
-Subject: [Qemu-devel] [RFC PATCH v4 21/75] target/i386: introduce tcg
- register operands
+Date: Wed, 21 Aug 2019 19:28:19 +0200
+Message-Id: <1566408501-48680-12-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
+References: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Wed, 21 Aug 2019 17:28:50 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 11/13] memory: Fix up
+ memory_region_{add|del}_coalescing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,76 +54,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jan Bobek <jan.bobek@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TCG operands allocate a 32-bit or 64-bit TCG temporary and later
-automatically free it.
+From: Peter Xu <peterx@redhat.com>
 
-Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
+The old memory_region_{add|clear}_coalescing() has some defects
+because they both changed mr->coalesced before updating the regions
+using memory_region_update_coalesced_range_as().  Then when the
+regions were updated in memory_region_update_coalesced_range_as() the
+mr->coalesced will always be either one more or one less.  So:
+
+- For memory_region_add_coalescing: it'll always trying to remove the
+  newly added coalesced region while it shouldn't, and,
+
+- For memory_region_clear_coalescing: when it calls the update there
+  will be no coalesced ranges on mr->coalesced because they were all
+  removed before hand so the update will probably do nothing for real.
+
+Let's fix this.  Now we've got flat_range_coalesced_io_notify() to
+notify a single CoalescedMemoryRange instance change, so use it in the
+existing memory_region_update_coalesced_range() logic by only notify
+either an addition or deletion.  Then we hammer both the
+memory_region_{add|clear}_coalescing() to use it.
+
+Fixes: 3ac7d43a6fbb5d4a3
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20190820141328.10009-5-peterx@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/translate.c | 44 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ memory.c | 36 +++++++++++++++++-------------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
 
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 1be6176934..80cfb59978 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -4727,6 +4727,50 @@ static bool check_cpuid(CPUX86State *env, DisasContext *s, CheckCpuidFeat feat)
-                                 env, s, modrm, is_write, arg);          \
-     }
+diff --git a/memory.c b/memory.c
+index 6e4b06e..7fd93b1 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2243,27 +2243,26 @@ void memory_region_ram_resize(MemoryRegion *mr, ram_addr_t newsize, Error **errp
+     qemu_ram_resize(mr->ram_block, newsize, errp);
+ }
  
+-static void memory_region_update_coalesced_range_as(MemoryRegion *mr, AddressSpace *as)
 +/*
-+ * tcg_i32
-+ *
-+ * Operand which allocates a 32-bit TCG temporary and frees it
-+ * automatically after use.
++ * Call proper memory listeners about the change on the newly
++ * added/removed CoalescedMemoryRange.
 + */
-+typedef TCGv_i32 insnop_arg_t(tcg_i32);
-+typedef struct {} insnop_ctxt_t(tcg_i32);
-+
-+INSNOP_INIT(tcg_i32)
-+{
-+    return true;
-+}
-+INSNOP_PREPARE(tcg_i32)
-+{
-+    return tcg_temp_new_i32();
-+}
-+INSNOP_FINALIZE(tcg_i32)
-+{
-+    tcg_temp_free_i32(arg);
-+}
-+
-+/*
-+ * tcg_i64
-+ *
-+ * Operand which allocates a 64-bit TCG temporary and frees it
-+ * automatically after use.
-+ */
-+typedef TCGv_i64 insnop_arg_t(tcg_i64);
-+typedef struct {} insnop_ctxt_t(tcg_i64);
-+
-+INSNOP_INIT(tcg_i64)
-+{
-+    return true;
-+}
-+INSNOP_PREPARE(tcg_i64)
-+{
-+    return tcg_temp_new_i64();
-+}
-+INSNOP_FINALIZE(tcg_i64)
-+{
-+    tcg_temp_free_i64(arg);
-+}
-+
- static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
++static void memory_region_update_coalesced_range(MemoryRegion *mr,
++                                                 CoalescedMemoryRange *cmr,
++                                                 bool add)
  {
-     enum {
++    AddressSpace *as;
+     FlatView *view;
+     FlatRange *fr;
+ 
+-    view = address_space_get_flatview(as);
+-    FOR_EACH_FLAT_RANGE(fr, view) {
+-        if (fr->mr == mr) {
+-            flat_range_coalesced_io_del(fr, as);
+-            flat_range_coalesced_io_add(fr, as);
+-        }
+-    }
+-    flatview_unref(view);
+-}
+-
+-static void memory_region_update_coalesced_range(MemoryRegion *mr)
+-{
+-    AddressSpace *as;
+-
+     QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+-        memory_region_update_coalesced_range_as(mr, as);
++        view = address_space_get_flatview(as);
++        FOR_EACH_FLAT_RANGE(fr, view) {
++            if (fr->mr == mr) {
++                flat_range_coalesced_io_notify(fr, as, cmr, add);
++            }
++        }
++        flatview_unref(view);
+     }
+ }
+ 
+@@ -2281,7 +2280,7 @@ void memory_region_add_coalescing(MemoryRegion *mr,
+ 
+     cmr->addr = addrrange_make(int128_make64(offset), int128_make64(size));
+     QTAILQ_INSERT_TAIL(&mr->coalesced, cmr, link);
+-    memory_region_update_coalesced_range(mr);
++    memory_region_update_coalesced_range(mr, cmr, true);
+     memory_region_set_flush_coalesced(mr);
+ }
+ 
+@@ -2299,10 +2298,9 @@ void memory_region_clear_coalescing(MemoryRegion *mr)
+     while (!QTAILQ_EMPTY(&mr->coalesced)) {
+         cmr = QTAILQ_FIRST(&mr->coalesced);
+         QTAILQ_REMOVE(&mr->coalesced, cmr, link);
++        memory_region_update_coalesced_range(mr, cmr, false);
+         g_free(cmr);
+     }
+-
+-    memory_region_update_coalesced_range(mr);
+ }
+ 
+ void memory_region_set_flush_coalesced(MemoryRegion *mr)
 -- 
-2.20.1
+1.8.3.1
+
 
 
