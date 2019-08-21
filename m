@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8158C973F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:53:50 +0200 (CEST)
-Received: from localhost ([::1]:44718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B643897433
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:58:48 +0200 (CEST)
+Received: from localhost ([::1]:44762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0LRF-0003nb-Ey
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:53:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42615)
+	id 1i0LW3-0001X0-Ku
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:58:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42882)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0r-0005By-7j
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:35 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L1F-0005do-7u
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0q-0008UK-3m
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:33 -0400
-Received: from ozlabs.org ([203.11.71.1]:33781)
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L1E-0000Hx-1j
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:57 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:55877)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L0p-0008BV-NP; Wed, 21 Aug 2019 03:26:32 -0400
+ id 1i0L1D-0008WF-KT; Wed, 21 Aug 2019 03:26:55 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46CzjF4BGcz9sRD; Wed, 21 Aug 2019 17:25:51 +1000 (AEST)
+ id 46CzjH0frgz9sR6; Wed, 21 Aug 2019 17:25:52 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1566372353;
- bh=6GY9++/Hv1KppOVgXUV+rDcGBLJtsjsXR/b4Qa8ecqI=;
+ d=gibson.dropbear.id.au; s=201602; t=1566372355;
+ bh=09s3Sx5x9dItVKpkAhqcWtlr41w7mRGKr2ii2x7SWlc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=k1JMFcPWQRQwEf/bcGe7LEaPA3b2+wWqHLXrD6PXtZvEzy3seq85zXthhPV5D8N5x
- 5ZY99VWTBfEo3YkcVgXlqmfgIOudzLB4seAOe8zdj/kelx2TXhXdZvkaUleDwwyY33
- nF8tar15+srUojPhvwj5/khp/lTTgKRozF8ihMfU=
+ b=gmuS3eI1p63ubtJ5yo2a1NHuAh2EYkDTZzZE2Z7EuNsu8dOBd+oOPGDWyg0zyOemG
+ k/Oqc/lossuzOzdbd457fvu/xHMbkJxA0hysJbVT4PtkRYvfv3FqHYcdg0jaGppAhu
+ No4rR3WVrN9uPtQm1+qjekeNwLYkFY2qk4kifgpw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:38 +1000
-Message-Id: <20190821072542.23090-39-david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 17:25:42 +1000
+Message-Id: <20190821072542.23090-43-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 38/42] target/ppc: Add Directed Privileged
- Door-bell Exception State (DPDES) SPR
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PULL 42/42] ppc: Fix emulated single to double
+ denormalized conversions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,80 +54,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, aik@ozlabs.ru,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, "Paul A. Clarke" <pc@us.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
+From: "Paul A. Clarke" <pc@us.ibm.com>
 
-DPDES stores a status of a doorbell message and if it is lost in
-migration, the destination CPU won't receive it. This does not hit us
-much as IPIs complete too quick to catch a pending one and even if
-we missed one, broadcasts happen often enough to wake that CPU.
+helper_todouble() was not properly converting any denormalized 32 bit
+float to 64 bit double.
 
-This defines DPDES and registers with KVM for migration.
+Fix-suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
 
-Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-Id: <20190816061733.53572-1-aik@ozlabs.ru>
+v2:
+- Splitting patch "ppc: Three floating point fixes"; this is just one par=
+t.
+- Original suggested "fix" was likely flawed.  v2 is rewritten by
+  Richard Henderson (Thanks, Richard!); I reformatted the comments in a
+  couple of places, compiled, and tested.
+Message-Id: <1566250936-14538-1-git-send-email-pc@us.ibm.com>
+
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu.h                |  1 +
- target/ppc/translate_init.inc.c | 14 ++++++++++++++
- 2 files changed, 15 insertions(+)
+ target/ppc/fpu_helper.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 50245a8c4d..4b35c8e4f4 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1466,6 +1466,7 @@ typedef PowerPCCPU ArchCPU;
- #define SPR_MPC_ICTRL         (0x09E)
- #define SPR_MPC_BAR           (0x09F)
- #define SPR_PSPB              (0x09F)
-+#define SPR_DPDES             (0x0B0)
- #define SPR_DAWR              (0x0B4)
- #define SPR_RPR               (0x0BA)
- #define SPR_CIABR             (0x0BB)
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-index c9fcd87095..7e41ae1456 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -8198,6 +8198,18 @@ static void gen_spr_power8_pspb(CPUPPCState *env)
-                      KVM_REG_PPC_PSPB, 0);
- }
-=20
-+static void gen_spr_power8_dpdes(CPUPPCState *env)
-+{
-+#if !defined(CONFIG_USER_ONLY)
-+    /* Directed Privileged Door-bell Exception State, used for IPI */
-+    spr_register_kvm_hv(env, SPR_DPDES, "DPDES",
-+                        SPR_NOACCESS, SPR_NOACCESS,
-+                        &spr_read_generic, SPR_NOACCESS,
-+                        &spr_read_generic, &spr_write_generic,
-+                        KVM_REG_PPC_DPDES, 0x00000000);
-+#endif
-+}
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 52bcda27a6..07bc9051b0 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -73,11 +73,20 @@ uint64_t helper_todouble(uint32_t arg)
+         /* Zero or Denormalized operand.  */
+         ret =3D (uint64_t)extract32(arg, 31, 1) << 63;
+         if (unlikely(abs_arg !=3D 0)) {
+-            /* Denormalized operand.  */
+-            int shift =3D clz32(abs_arg) - 9;
+-            int exp =3D -126 - shift + 1023;
++            /*
++             * Denormalized operand.
++             * Shift fraction so that the msb is in the implicit bit pos=
+ition.
++             * Thus, shift is in the range [1:23].
++             */
++            int shift =3D clz32(abs_arg) - 8;
++            /*
++             * The first 3 terms compute the float64 exponent.  We then =
+bias
++             * this result by -1 so that we can swallow the implicit bit=
+ below.
++             */
++            int exp =3D -126 - shift + 1023 - 1;
 +
- static void gen_spr_power8_ic(CPUPPCState *env)
- {
- #if !defined(CONFIG_USER_ONLY)
-@@ -8629,6 +8641,7 @@ static void init_proc_POWER8(CPUPPCState *env)
-     gen_spr_power8_pmu_user(env);
-     gen_spr_power8_tm(env);
-     gen_spr_power8_pspb(env);
-+    gen_spr_power8_dpdes(env);
-     gen_spr_vtb(env);
-     gen_spr_power8_ic(env);
-     gen_spr_power8_book4(env);
-@@ -8817,6 +8830,7 @@ static void init_proc_POWER9(CPUPPCState *env)
-     gen_spr_power8_pmu_user(env);
-     gen_spr_power8_tm(env);
-     gen_spr_power8_pspb(env);
-+    gen_spr_power8_dpdes(env);
-     gen_spr_vtb(env);
-     gen_spr_power8_ic(env);
-     gen_spr_power8_book4(env);
+             ret |=3D (uint64_t)exp << 52;
+-            ret |=3D abs_arg << (shift + 29);
++            ret +=3D (uint64_t)abs_arg << (52 - 23 + shift);
+         }
+     }
+     return ret;
 --=20
 2.21.0
 
