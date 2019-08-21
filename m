@@ -2,131 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB8B98519
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 22:03:20 +0200 (CEST)
-Received: from localhost ([::1]:54164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820EE98593
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 22:26:03 +0200 (CEST)
+Received: from localhost ([::1]:54302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0WpD-0007qy-7o
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 16:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57886)
+	id 1i0XBC-00042u-Cc
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 16:26:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60028)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1i0Wo0-00078l-Ro
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 16:02:06 -0400
+ (envelope-from <michael.d.kinney@intel.com>) id 1i0X2h-0006Rc-PG
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 16:17:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1i0Wnz-00046D-Aw
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 16:02:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45132)
+ (envelope-from <michael.d.kinney@intel.com>) id 1i0X2f-0008Iv-Q8
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 16:17:14 -0400
+Received: from mga09.intel.com ([134.134.136.24]:54807)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1i0Wnv-000445-TW; Wed, 21 Aug 2019 16:02:00 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EDF6F1918644;
- Wed, 21 Aug 2019 20:01:58 +0000 (UTC)
-Received: from [10.18.17.187] (dhcp-17-187.bos.redhat.com [10.18.17.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 30B765C226;
- Wed, 21 Aug 2019 20:01:53 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20190809201333.29033-1-jsnow@redhat.com>
- <b85698e6-cd79-a9c5-554c-c92487060280@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <154bc276-d782-443f-3db6-38d87992d609@redhat.com>
-Date: Wed, 21 Aug 2019 16:01:52 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <b85698e6-cd79-a9c5-554c-c92487060280@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.71) (envelope-from <michael.d.kinney@intel.com>)
+ id 1i0X2f-0008HW-Im
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 16:17:13 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2019 13:17:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,412,1559545200"; d="scan'208";a="190322594"
+Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
+ by orsmga002.jf.intel.com with ESMTP; 21 Aug 2019 13:17:09 -0700
+Received: from orsmsx163.amr.corp.intel.com (10.22.240.88) by
+ ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 21 Aug 2019 13:17:09 -0700
+Received: from orsmsx113.amr.corp.intel.com ([169.254.9.198]) by
+ ORSMSX163.amr.corp.intel.com ([169.254.9.208]) with mapi id 14.03.0439.000;
+ Wed, 21 Aug 2019 13:17:09 -0700
+From: "Kinney, Michael D" <michael.d.kinney@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, "rfc@edk2.groups.io"
+ <rfc@edk2.groups.io>, "Yao, Jiewen" <jiewen.yao@intel.com>, "Kinney, Michael
+ D" <michael.d.kinney@intel.com>
+Thread-Topic: [edk2-rfc] [edk2-devel] CPU hotplug using SMM with QEMU+OVMF
+Thread-Index: AQHVUfF5vU6QBeHgZE+cN7DIWDHHwKb6jzUA//+ZRQCAAaHSAIAAFq8AgAEuZqD//8zIAIAAiChAgABQUYCAACK6gIAAmpdAgAJgcwCAALs9d4AEPCbwgACNBoD//467cAAPWXAAAAlUNOA=
+Date: Wed, 21 Aug 2019 20:17:08 +0000
+Message-ID: <E92EE9817A31E24EB0585FDF735412F5B9D9E82C@ORSMSX113.amr.corp.intel.com>
+References: <8091f6e8-b1ec-f017-1430-00b0255729f4@redhat.com>
+ <effa5e32-be1e-4703-4419-8866b7754e2d@redhat.com>
+ <74D8A39837DF1E4DA445A8C0B3885C503F75B680@shsmsx102.ccr.corp.intel.com>
+ <047801f8-624a-2300-3cf7-1daa1395ce59@redhat.com>
+ <99219f81-33a3-f447-95f8-f10341d70084@redhat.com>
+ <6f8b9507-58d0-5fbd-b827-c7194b3b2948@redhat.com>
+ <74D8A39837DF1E4DA445A8C0B3885C503F75FAD3@shsmsx102.ccr.corp.intel.com>
+ <7cb458ea-956e-c1df-33f7-025e4f0f22df@redhat.com>
+ <74D8A39837DF1E4DA445A8C0B3885C503F7600B9@shsmsx102.ccr.corp.intel.com>
+ <bb6fdbe0-2a3b-e586-e9a5-93e1ac0803ec@redhat.com>
+ <20190816161933.7d30a881@x1.home>
+ <74D8A39837DF1E4DA445A8C0B3885C503F761B96@shsmsx102.ccr.corp.intel.com>
+ <35396800-32d2-c25f-b0d0-2d7cd8438687@redhat.com>
+ <D2A45071-A097-4642-A34C-6B7C5D7D2466@intel.com>
+ <E92EE9817A31E24EB0585FDF735412F5B9D9C671@ORSMSX113.amr.corp.intel.com>
+ <a76014e2-2f0a-afce-6d15-1c45c5c1e467@redhat.com>
+ <E92EE9817A31E24EB0585FDF735412F5B9D9D74A@ORSMSX113.amr.corp.intel.com>
+ <adf3f3b8-1dc9-79e1-7411-4d9131657a1f@redhat.com>
+In-Reply-To: <adf3f3b8-1dc9-79e1-7411-4d9131657a1f@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Wed, 21 Aug 2019 20:01:59 +0000 (UTC)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.139]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] block/backup: install notifier during
- creation
+MIME-Version: 1.0
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.24
+X-Mailman-Approved-At: Wed, 21 Aug 2019 16:24:46 -0400
+Subject: Re: [Qemu-devel] [edk2-rfc] [edk2-devel] CPU hotplug using SMM with
+ QEMU+OVMF
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -138,187 +91,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: "Chen, Yingwen" <yingwen.chen@intel.com>,
+ "devel@edk2.groups.io" <devel@edk2.groups.io>,
+ Phillip Goerl <phillip.goerl@oracle.com>, qemu
+ devel list <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>, "Nakajima,
+ Jun" <jun.nakajima@intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Laszlo Ersek <lersek@redhat.com>,
+ Joao Marcal Lemos Martins <joao.m.martins@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Paolo,
 
+It makes sense to match real HW.  That puts us back to
+the reset vector and handling the initial SMI at
+3000:8000.  That is all workable from a FW implementation
+perspective.  It look like the only issue left is DMA.
 
-On 8/21/19 10:41 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 09.08.2019 23:13, John Snow wrote:
->> Backup jobs may yield prior to installing their handler, because of th=
-e
->> job_co_entry shim which guarantees that a job won't begin work until
->> we are ready to start an entire transaction.
->>
->> Unfortunately, this makes proving correctness about transactional
->> points-in-time for backup hard to reason about. Make it explicitly cle=
-ar
->> by moving the handler registration to creation time, and changing the
->> write notifier to a no-op until the job is started.
->>
->> Reported-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   block/backup.c     | 32 +++++++++++++++++++++++---------
->>   include/qemu/job.h |  5 +++++
->>   job.c              |  2 +-
->>   3 files changed, 29 insertions(+), 10 deletions(-)
->>
->> diff --git a/block/backup.c b/block/backup.c
->> index 07d751aea4..4df5b95415 100644
->> --- a/block/backup.c
->> +++ b/block/backup.c
->> @@ -344,6 +344,13 @@ static int coroutine_fn backup_before_write_notif=
-y(
->>       assert(QEMU_IS_ALIGNED(req->offset, BDRV_SECTOR_SIZE));
->>       assert(QEMU_IS_ALIGNED(req->bytes, BDRV_SECTOR_SIZE));
->>  =20
->> +    /* The handler is installed at creation time; the actual point-in=
--time
->> +     * starts at job_start(). Transactions guarantee those two points=
- are
->> +     * the same point in time. */
->> +    if (!job_started(&job->common.job)) {
->> +        return 0;
->> +    }
+DMA protection of memory ranges is a chipset feature.
+For the current QEMU implementation, what ranges of
+memory are guaranteed to be protected from DMA?  Is
+it only A/B seg and TSEG?
+
+Thanks,
+
+Mike
+
+> -----Original Message-----
+> From: Paolo Bonzini [mailto:pbonzini@redhat.com]
+> Sent: Wednesday, August 21, 2019 10:40 AM
+> To: Kinney, Michael D <michael.d.kinney@intel.com>;
+> rfc@edk2.groups.io; Yao, Jiewen <jiewen.yao@intel.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>; Laszlo
+> Ersek <lersek@redhat.com>; devel@edk2.groups.io; qemu
+> devel list <qemu-devel@nongnu.org>; Igor Mammedov
+> <imammedo@redhat.com>; Chen, Yingwen
+> <yingwen.chen@intel.com>; Nakajima, Jun
+> <jun.nakajima@intel.com>; Boris Ostrovsky
+> <boris.ostrovsky@oracle.com>; Joao Marcal Lemos Martins
+> <joao.m.martins@oracle.com>; Phillip Goerl
+> <phillip.goerl@oracle.com>
+> Subject: Re: [edk2-rfc] [edk2-devel] CPU hotplug using
+> SMM with QEMU+OVMF
 >=20
-> Hmm, sorry if it is a stupid question, I'm not good in multiprocessing =
-and in
-> Qemu iothreads..
+> On 21/08/19 19:25, Kinney, Michael D wrote:
+> > Could we have an initial SMBASE that is within TSEG.
+> >
+> > If we bring in hot plug CPUs one at a time, then
+> initial SMBASE in
+> > TSEG can reprogram the SMBASE to the correct value for
+> that CPU.
+> >
+> > Can we add a register to the hot plug controller that
+> allows the BSP
+> > to set the initial SMBASE value for a hot added CPU?
+> The default can
+> > be 3000:8000 for compatibility.
+> >
+> > Another idea is when the SMI handler runs for a hot
+> add CPU event, the
+> > SMM monarch programs the hot plug controller register
+> with the SMBASE
+> > to use for the CPU that is being added.  As each CPU
+> is added, a
+> > different SMBASE value can be programmed by the SMM
+> Monarch.
 >=20
-> job_started just reads job->co. If bs runs in iothread, and therefore w=
-rite-notifier
-> is in iothread, when job_start is called from main thread.. Is it guara=
-nteed that
-> write-notifier will see job->co variable change early enough to not mis=
-s guest write?
-> Should not job->co be volatile for example or something like this?
+> Yes, all of these would work.  Again, I'm interested in
+> having something that has a hope of being implemented in
+> real hardware.
 >=20
-> If not think about this patch looks good for me.
+> Another, far easier to implement possibility could be a
+> lockable MSR (could be the existing
+> MSR_SMM_FEATURE_CONTROL) that allows programming the
+> SMBASE outside SMM.  It would be nice if such a bit
+> could be defined by Intel.
 >=20
-
-You know, it's a really good question.
-So good, in fact, that I have no idea.
-
-=C2=AF\_(=E3=83=84)_/=C2=AF
-
-I'm fairly certain that IO will not come in until the .clean phase of a
-qmp_transaction, because bdrv_drained_begin(bs) is called during
-.prepare, and we activate the handler (by starting the job) in .commit.
-We do not end the drained section until .clean.
-
-I'm not fully clear on what threading guarantees we have otherwise,
-though; is it possible that "Thread A" would somehow lift the bdrv_drain
-on an IO thread ("Thread B") and, after that, "Thread B" would somehow
-still be able to see an outdated version of job->co that was set by
-"Thread A"?
-
-I doubt it; but I can't prove it.
-
-Paolo, may I please ask you for a consult here as our resident
-volatility expert?
-
---js
-
->> +
->>       return backup_do_cow(job, req->offset, req->bytes, NULL, true);
->>   }
->>  =20
->> @@ -398,6 +405,12 @@ static void backup_clean(Job *job)
->>       BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.j=
-ob);
->>       BlockDriverState *bs =3D blk_bs(s->common.blk);
->>  =20
->> +    /* cancelled before job_start: remove write_notifier */
->> +    if (s->before_write.notify) {
->> +        notifier_with_return_remove(&s->before_write);
->> +        s->before_write.notify =3D NULL;
->> +    }
->> +
->>       if (s->copy_bitmap) {
->>           bdrv_release_dirty_bitmap(bs, s->copy_bitmap);
->>           s->copy_bitmap =3D NULL;
->> @@ -527,17 +540,8 @@ static void backup_init_copy_bitmap(BackupBlockJo=
-b *job)
->>   static int coroutine_fn backup_run(Job *job, Error **errp)
->>   {
->>       BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.j=
-ob);
->> -    BlockDriverState *bs =3D blk_bs(s->common.blk);
->>       int ret =3D 0;
->>  =20
->> -    QLIST_INIT(&s->inflight_reqs);
->> -    qemu_co_rwlock_init(&s->flush_rwlock);
->> -
->> -    backup_init_copy_bitmap(s);
->> -
->> -    s->before_write.notify =3D backup_before_write_notify;
->> -    bdrv_add_before_write_notifier(bs, &s->before_write);
->> -
->>       if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP) {
->>           int64_t offset =3D 0;
->>           int64_t count;
->> @@ -572,6 +576,7 @@ static int coroutine_fn backup_run(Job *job, Error=
- **errp)
->>  =20
->>    out:
->>       notifier_with_return_remove(&s->before_write);
->> +    s->before_write.notify =3D NULL;
->>  =20
->>       /* wait until pending backup_do_cow() calls have completed */
->>       qemu_co_rwlock_wrlock(&s->flush_rwlock);
->> @@ -767,6 +772,15 @@ BlockJob *backup_job_create(const char *job_id, B=
-lockDriverState *bs,
->>                          &error_abort);
->>       job->len =3D len;
->>  =20
->> +    /* Finally, install a write notifier that takes effect after job_=
-start() */
->> +    backup_init_copy_bitmap(job);
->> +
->> +    QLIST_INIT(&job->inflight_reqs);
->> +    qemu_co_rwlock_init(&job->flush_rwlock);
->> +
->> +    job->before_write.notify =3D backup_before_write_notify;
->> +    bdrv_add_before_write_notifier(bs, &job->before_write);
->> +
->>       return &job->common;
->>  =20
->>    error:
->> diff --git a/include/qemu/job.h b/include/qemu/job.h
->> index 9e7cd1e4a0..733afb696b 100644
->> --- a/include/qemu/job.h
->> +++ b/include/qemu/job.h
->> @@ -394,6 +394,11 @@ void job_enter_cond(Job *job, bool(*fn)(Job *job)=
-);
->>    */
->>   void job_start(Job *job);
->>  =20
->> +/**
->> + * job_started returns true if the @job has started.
->> + */
->> +bool job_started(Job *job);
->> +
->>   /**
->>    * @job: The job to enter.
->>    *
->> diff --git a/job.c b/job.c
->> index 28dd48f8a5..745af659ff 100644
->> --- a/job.c
->> +++ b/job.c
->> @@ -243,7 +243,7 @@ bool job_is_completed(Job *job)
->>       return false;
->>   }
->>  =20
->> -static bool job_started(Job *job)
->> +bool job_started(Job *job)
->>   {
->>       return job->co;
->>   }
->>
->=20
->=20
+> Paolo
 
