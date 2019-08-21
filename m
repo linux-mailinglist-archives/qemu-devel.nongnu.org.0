@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE6697CC9
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 16:24:39 +0200 (CEST)
-Received: from localhost ([::1]:49012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2E297CC6
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 16:24:37 +0200 (CEST)
+Received: from localhost ([::1]:49010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0RXS-0005Dh-7O
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 10:24:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34811)
+	id 1i0RXQ-0005Bs-MD
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 10:24:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34825)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0RVo-0003hl-K1
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:22:57 -0400
+ (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0RVp-0003iS-CO
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:22:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0RVn-00089d-J5
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:22:56 -0400
+ (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0RVo-0008CL-B4
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:22:57 -0400
 Received: from esa1.mentor.iphmx.com ([68.232.129.153]:61425)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <Sandra_Loosemore@mentor.com>)
- id 1i0RVn-00086g-6O
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:22:55 -0400
-IronPort-SDR: jaz8WVTE0zJHhfkhLcNvP3/ddiVQqB7AoYzOgbeI2rK740uFDaRS1znFrWZ2Aw75sNEhGRn7OU
- K+K/4fvvnY4d8EweK//xbuPMIgIKjnhqRkJOIOhukCd5jyhK4TgAj58rPyyi8jEzybc50zfggA
- S9dyeVj3dU40Sd0frljEODlf0YGTKW8oeJ+gtHyA7agVudG0shtqrSsVANv9WJVhMzudewrKVN
- GeiHD6TMdaQc/0MAR+tpn6Ac3V/AYogf+nUljhQygSN7VfabRPIJK1J/e0l47nqCEcF3y+Q+yS
- f5g=
-X-IronPort-AV: E=Sophos;i="5.64,412,1559548800"; d="scan'208";a="42443946"
+ id 1i0RVo-00086g-0P
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:22:56 -0400
+IronPort-SDR: Hg97n1o4R3Y25WRnPKpoiXEQp1G8WmLlVZdGJQDcACh/J8BP6bgq/AAcB0IsJeqd8DshZ8tGqm
+ 9D1kEv7roJkT9RdzM3XhPi7i1LZk6/9vApQdxTtnZbpBb44rllzsFF/1q1swaj79G9ghTphWb2
+ leT9Da+BzieGL0Sk99D4/hJdKUNmanQk+dOdbO1FjUq0ZvO6PuBnnWJmO8iozXCYiBC7RjJG+a
+ PhDCEtO0QGKfC6ydglqBVrSjscw92SkGNJJgZEEJdvlmFjeswmFDodZKahjXmJqw8Dtms79ngf
+ L2U=
+X-IronPort-AV: E=Sophos;i="5.64,412,1559548800"; d="scan'208";a="42443949"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa1.mentor.iphmx.com with ESMTP; 21 Aug 2019 06:22:52 -0800
-IronPort-SDR: JteUtEH+uM3Y+MSNDjjJbfEMq63QzdboWj+vssHRxr+abkecI4QhIpe+et5iBsOPto+wCxrspL
- QnHL60D3x7bW4Aw/9VN1F2PeH6snGJanLVQsr5nGAR8IaMSAoDSKqX1f9QDyaREJLugAMUnN8t
- mQ1lCB1NNTe8WU5VcxaH/WXv8MRyovAeKOK5zvqa1P20GWMauhoC/BV/Z054oVqwv9TY2Yu/jL
- Hn3Qu26UD1wQHEMbx2/Y84M8B/HRN3yPUea2P/PoJQctdfSaqNgaIXBnvjhGhGD/6bYR7jUAju
- UAQ=
+ by esa1.mentor.iphmx.com with ESMTP; 21 Aug 2019 06:22:55 -0800
+IronPort-SDR: kwh3JegEK9nawQtU17/Guc9T3VG1YyBqgu0KVzt/g2Ci4A2hPJKePX3wSyLgEbj9/qaOwhXYr5
+ DI6zUNyedInbXo3VTC6iFNzVYZexgkg4bVs9T1i377PFwIF8N8Jhun+sr5kd06tR09WYCGXlp4
+ 9OEgG7pkOYcXFiAYQ54vxg+jOnmpMBqgQdKpA3yN5Nfcjcyu/TYO63bGhcuy3wLsu+fxtwbeqm
+ GvZ9kHlx8IoaCsWmDqGkYcD8BFzsJ+jCZIn1regdGU3dlpMVUp+mr6RpAaRMuI+OVpwHK0xtey
+ b6g=
 From: Sandra Loosemore <sandra@codesourcery.com>
 To: <qemu-devel@nongnu.org>
-Date: Wed, 21 Aug 2019 08:21:50 -0600
-Message-ID: <20190821142151.19995-2-sandra@codesourcery.com>
+Date: Wed, 21 Aug 2019 08:21:51 -0600
+Message-ID: <20190821142151.19995-3-sandra@codesourcery.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190821142151.19995-1-sandra@codesourcery.com>
 References: <20190821142151.19995-1-sandra@codesourcery.com>
@@ -47,7 +47,7 @@ X-ClientProxiedBy: svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201) To
  svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 68.232.129.153
-Subject: [Qemu-devel] [PATCH 1/2] target/nios2: Fix bug in semihosted exit
+Subject: [Qemu-devel] [PATCH 2/2] target/m68k: Fix bug in semihosted exit
  handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,26 +66,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch fixes a bug that caused semihosted exit to always return
-status 0; it was incorrectly using the value of register R_ARG0 (which
-contains the HOSTED_EXIT request number) instead of register R_ARG1.
+status 0; it was incorrectly using the value of D0 (which
+contains the HOSTED_EXIT request number) instead of D1.
 
 Signed-off-by: Sandra Loosemore <sandra@codesourcery.com>
 ---
- target/nios2/nios2-semi.c | 4 ++--
+ target/m68k/m68k-semi.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
-index d7a80dd..06c0861 100644
---- a/target/nios2/nios2-semi.c
-+++ b/target/nios2/nios2-semi.c
-@@ -215,8 +215,8 @@ void do_nios2_semihosting(CPUNios2State *env)
-     args = env->regs[R_ARG1];
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index 8e5fbfc..f189c92 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -194,8 +194,8 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
+     args = env->dregs[1];
      switch (nr) {
      case HOSTED_EXIT:
--        gdb_exit(env, env->regs[R_ARG0]);
--        exit(env->regs[R_ARG0]);
-+        gdb_exit(env, env->regs[R_ARG1]);
-+        exit(env->regs[R_ARG1]);
+-        gdb_exit(env, env->dregs[0]);
+-        exit(env->dregs[0]);
++        gdb_exit(env, env->dregs[1]);
++        exit(env->dregs[1]);
      case HOSTED_OPEN:
          GET_ARG(0);
          GET_ARG(1);
