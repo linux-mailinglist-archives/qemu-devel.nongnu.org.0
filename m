@@ -2,55 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF99972B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 08:43:09 +0200 (CEST)
-Received: from localhost ([::1]:44324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A86397306
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:08:09 +0200 (CEST)
+Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0KKq-0001d5-Jk
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 02:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37790)
+	id 1i0Kj2-000885-5a
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:08:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1i0KK5-0001DI-AO
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 02:42:22 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1i0Kha-0007fY-4w
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:06:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1i0KK4-0000DC-0T
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 02:42:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56590)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0KK3-0000C7-RC
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 02:42:19 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B6D23C050DEC;
- Wed, 21 Aug 2019 06:42:17 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com
- [10.36.116.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8658F1001B14;
- Wed, 21 Aug 2019 06:42:09 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 54CCE16E1A; Wed, 21 Aug 2019 08:42:08 +0200 (CEST)
-Date: Wed, 21 Aug 2019 08:42:08 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Message-ID: <20190821064208.eckikvttpdc3zjmd@sirius.home.kraxel.org>
-References: <fccac7fa-888e-6ac5-458d-688808f3b282@redhat.com>
- <699eee57-3009-4160-a9a2-1070f92b9c20@redhat.com>
- <cc0b5a77-8bc4-070b-31e4-f29d5a174eb8@redhat.com>
- <7f6e8a5c-8262-ae39-333a-e8f18b3174f0@redhat.com>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1i0KhY-0005M3-PZ
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:06:38 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36135)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1i0KhY-0005L7-HC
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:06:36 -0400
+Received: by mail-wr1-x436.google.com with SMTP id r3so947690wrt.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 00:06:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=K3ZcHeR0fCcY+QJXVdDsc1wM6iYLSy+1SZ8zgBaJ7SA=;
+ b=d5wkHxt/JWQwsbWmZj8cWWLWGPFiW+M8RBGOV+6TQwrMor6HAmve7JavuCAsVrsx0Y
+ 1mzNi6lF2psyrH6geeXMtAkSi6dx0JOQybE8KDKTSBo9z2uZJKtvcDx8ctBa8LEuZc3p
+ 2AK//skrJ3GEb2924kU+NivVaaZWGrjiIfD3iaqZyeKi2g9/H80jqaPc6cJP9JQq5svK
+ BUqadGdIwxwxF+S/dHe92YE4FJ2GOaWTiYo2z9iT0ONZ9WeVd2FSHKCwmZpFPQhRMt3d
+ u950o3MUDZ2c5COtZOOibSDcZcFZhku36DVwtxeRJRqqEgEtQQNsPbLiIdEzGt5zY+j9
+ vjag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=K3ZcHeR0fCcY+QJXVdDsc1wM6iYLSy+1SZ8zgBaJ7SA=;
+ b=EZtXxLbxXNs4CRz+y3URxkiz0jM4Id3SfsTVNmYlhDtMWl84Xq6SAkFuDdsDURbckm
+ 1WU5LPIPiuZFzTN9IybaObhnk6pVcVBN0BrMMYzx2VKqIuCkqQ2oBrk2Blkej+FsDOdJ
+ eKg73vZjzVOjtaMZtdyrRI6EIjo3gjYsoZF7Rf+pXHYIDdF8uuUbWYeP5SMPGxdB7+QY
+ LC03S8Z8oFY0IqYGDYjFKQCa/lvMxGecW8muWuR59fHzzhdC1OmWI+CzOHNzh99MrSFl
+ w1ZIBM4U2+vVBuea6gHN8nabgB6Ic/JrVVY1mpegKKst0w4lixQykeD5m4KdSedsWfus
+ +TEA==
+X-Gm-Message-State: APjAAAUTQEy7ovPwi1ezV8c/MDhbtp2MQMur0U6ivLpGlrvQa8pYnnwj
+ xamPXWH8vgMowgkTHdbKQL0cOQxivZSQTgolIeM=
+X-Google-Smtp-Source: APXvYqxKKztdqd0y7CE1CxmOnhQ7ixNNfB9Mk5pLzwdHwuCKed+pNGBDS7bXUzPVy8hyoSB5wM+qJa0sZOoDqYYIHvo=
+X-Received: by 2002:a05:6000:1284:: with SMTP id
+ f4mr5047671wrx.89.1566371194372; 
+ Wed, 21 Aug 2019 00:06:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7f6e8a5c-8262-ae39-333a-e8f18b3174f0@redhat.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Wed, 21 Aug 2019 06:42:17 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Regression with floppy drive controller
+References: <20190819105753.30913-1-alex.bennee@linaro.org>
+In-Reply-To: <20190819105753.30913-1-alex.bennee@linaro.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 21 Aug 2019 11:06:22 +0400
+Message-ID: <CAJ+F1CL=qQ6JDFUKo5r2TJHh2WAMHPz7+=fUhZ5NiRFW8otP9Q@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::436
+Subject: Re: [Qemu-devel] [Webpage PATCH] add support page
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,36 +74,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Alex <coderain@sdf.org>,
- seabios@seabios.org, QEMU Developers <qemu-devel@nongnu.org>,
- Nikolay Nikolov <nickysn@users.sourceforge.net>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Mon, Aug 19, 2019 at 2:58 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>
+> This is intended to be a useful page we can link to in the banner of
+> the IRC channel explaining the various support options someone might
+> have.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> Using the default QEMU config, we build SeaBIOS to use the TSC timer:
-> 
-> builds/seabios-128k/.config:CONFIG_TSC_TIMER=y
-> builds/seabios-256k/.config:CONFIG_TSC_TIMER=y
+May be you should remove "bug reporting" and "contact" sections from
+README, and link to this file instead?
 
-> Do we need a cpu with TSC support to run SeaBIOS?
+anyway lgtm,
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Hmm.  seabios uses pmtimer if available.  isapc has no pmtimer though,
-so it uses TSC instead.
+> ---
+>  support.md | 37 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 support.md
+>
+> diff --git a/support.md b/support.md
+> new file mode 100644
+> index 0000000..b9f4aa6
+> --- /dev/null
+> +++ b/support.md
+> @@ -0,0 +1,37 @@
+> +---
+> +title: Support
+> +permalink: /support/
+> +---
+> +
+> +If you have a support question that is not answered by our
+> +[documentation](/documentation) you have a number of options available
+> +to you.
+> +
+> +If the question is specifically about the integration of QEMU with the
+> +rest of your distribution you may be better served by asking through
+> +your distribution's support channels. This includes questions about a
+> +specifically packaged versions of QEMU. The developers are generally
+> +concerned with the latest release and the current state of the [master
+> +branch](https://git.qemu.org/?p=3Dqemu.git).
+> +
+> +Questions about complex configurations of networking and storage are
+> +usually met with a recommendation to use management tool like
+> +[virt-manager](https://virt-manager.org/) from the [libvirt
+> +project](https://libvirt.org/) to configure and run QEMU.
+> +
+> +* There is a
+> +[qemu-discuss@nongnu.org](https://lists.nongnu.org/mailman/listinfo/qemu=
+-discuss)
+> +mailing list for user focused questions<br>
+> +If your question is more technical or architecture specific you may
+> +want to send your question to another of [QEMU's mailing
+> +lists](https://wiki.qemu.org/MailingLists)
+> +
+> +* A lot of developers hang around on IRC (network: irc.oftc.net,
+> +channel #qemu)<br> QEMU developers tend to hold normal office hours
+> +and are distributed around the world. Please be patient as you may
+> +have to wait some time for a response. If you can't leave IRC open and
+> +wait you may be better served by a mailing list.
+> +
+> +* If you think you have found a bug you can report it on [our bug
+> +  tracker](https://bugs.launchpad.net/qemu/)<br>
+> +Please see our guide on [how to report a bug](/contribute/report-a-bug/)
+> --
+> 2.20.1
+>
+>
 
-> So we should use '-cpu Conroe' or '-cpu core2duo' minimum?
 
--cpu Conroe for -M isapc is kida silly though ...
-
-Maybe we should simply build seabios with CONFIG_TSC_TIMER=n ?
-
-Using the TSC in a virtual machine is problematic anyway, the
-calibration can be _way_ off on a loaded host, this is why seabios
-prefers the (fixed frequency) pmtimer. 
-
-cheers,
-  Gerd
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
