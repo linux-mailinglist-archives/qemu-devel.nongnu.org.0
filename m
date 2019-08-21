@@ -2,49 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC61981B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:46:39 +0200 (CEST)
-Received: from localhost ([::1]:51286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 218A9981BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:50:02 +0200 (CEST)
+Received: from localhost ([::1]:51324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Ugv-0004Wk-Me
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40288)
+	id 1i0UkC-0000g9-Ki
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:50:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40401)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1i0UPW-0006eM-GX
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:39 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPi-00071v-6o
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1i0UPV-0005E4-5f
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53118)
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPg-0005VR-U2
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:30267)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0UPU-0005Ct-TD
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:37 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0UPg-0005Un-OI
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:48 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3F6F630833A1
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 17:28:36 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 072FD180158C
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 17:28:48 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
  [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A0E260F9F;
- Wed, 21 Aug 2019 17:28:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0EEB960E1C;
+ Wed, 21 Aug 2019 17:28:44 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 19:28:13 +0200
-Message-Id: <1566408501-48680-6-git-send-email-pbonzini@redhat.com>
+Date: Wed, 21 Aug 2019 19:28:18 +0200
+Message-Id: <1566408501-48680-11-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
 References: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Wed, 21 Aug 2019 17:28:36 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Wed, 21 Aug 2019 17:28:48 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 05/13] tests: add module loading test
+Subject: [Qemu-devel] [PULL 10/13] memory: Remove has_coalesced_range counter
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,174 +53,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+From: Peter Xu <peterx@redhat.com>
 
-This test will simply check that modules can be loaded, and no symbols
-are missing.
+The has_coalesced_range could potentially be problematic in that it
+only works for additions of coalesced mmio ranges but not deletions.
+The reason is that has_coalesced_range information can be lost when
+the FlatView updates the topology again when the updated region is not
+covering the coalesced regions. When that happens, due to
+flatrange_equal() is not checking against has_coalesced_range, the new
+FlatRange will be seen as the same one as the old and the new
+instance (whose has_coalesced_range will be zero) will replace the old
+instance (whose has_coalesced_range _could_ be non-zero).
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+The counter was originally used to make sure every FlatRange will only
+notify once for coalesced_io_{add|del} memory listeners, because each
+FlatRange can be used by multiple address spaces, so logically
+speaking it could be called multiple times.  However we should not
+limit that, because memory listeners should will only be registered
+with specific address space rather than multiple address spaces.
+
+So let's fix this up by simply removing the whole has_coalesced_range.
+
+Fixes: 3ac7d43a6fbb5d4a3
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20190820141328.10009-3-peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qtest.c                |  9 +++++++
- tests/Makefile.include |  1 +
- tests/libqtest.c       |  6 +++++
- tests/libqtest.h       |  2 ++
- tests/modules-test.c   | 71 ++++++++++++++++++++++++++++++++++++++++++++=
-++++++
- 5 files changed, 89 insertions(+)
- create mode 100644 tests/modules-test.c
+ memory.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/qtest.c b/qtest.c
-index d8b4857..8b50e27 100644
---- a/qtest.c
-+++ b/qtest.c
-@@ -661,6 +661,15 @@ static void qtest_process_command(CharBackend *chr, =
-gchar **words)
-         qtest_send_prefix(chr);
-         qtest_sendf(chr, "OK %"PRIi64"\n",
-                     (int64_t)qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
-+    } else if (strcmp(words[0], "module_load") =3D=3D 0) {
-+        g_assert(words[1] && words[2]);
-+
-+        qtest_send_prefix(chr);
-+        if (module_load_one(words[1], words[2])) {
-+            qtest_sendf(chr, "OK\n");
-+        } else {
-+            qtest_sendf(chr, "FAIL\n");
-+        }
-     } else if (qtest_enabled() && strcmp(words[0], "clock_set") =3D=3D 0=
-) {
-         int64_t ns;
-         int ret;
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 6f02dfc..39bed75 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -149,6 +149,7 @@ check-block-$(call land,$(CONFIG_POSIX),$(CONFIG_SOFT=
-MMU)) +=3D tests/check-block.
-=20
- check-qtest-generic-y +=3D tests/qmp-test$(EXESUF)
- check-qtest-generic-y +=3D tests/qmp-cmd-test$(EXESUF)
-+check-qtest-generic-$(CONFIG_MODULES) +=3D tests/modules-test$(EXESUF)
-=20
- check-qtest-generic-y +=3D tests/device-introspect-test$(EXESUF)
- check-qtest-generic-y +=3D tests/cdrom-test$(EXESUF)
-diff --git a/tests/libqtest.c b/tests/libqtest.c
-index eb971d0..2713b86 100644
---- a/tests/libqtest.c
-+++ b/tests/libqtest.c
-@@ -811,6 +811,12 @@ bool qtest_get_irq(QTestState *s, int num)
-     return s->irq_level[num];
- }
-=20
-+void qtest_module_load(QTestState *s, const char *prefix, const char *li=
-bname)
-+{
-+    qtest_sendf(s, "module_load %s %s\n", prefix, libname);
-+    qtest_rsp(s, 0);
-+}
-+
- static int64_t qtest_clock_rsp(QTestState *s)
+diff --git a/memory.c b/memory.c
+index 7124274..6e4b06e 100644
+--- a/memory.c
++++ b/memory.c
+@@ -217,7 +217,6 @@ struct FlatRange {
+     bool romd_mode;
+     bool readonly;
+     bool nonvolatile;
+-    int has_coalesced_range;
+ };
+ 
+ #define FOR_EACH_FLAT_RANGE(var, view)          \
+@@ -654,7 +653,6 @@ static void render_memory_region(FlatView *view,
+     fr.romd_mode = mr->romd_mode;
+     fr.readonly = readonly;
+     fr.nonvolatile = nonvolatile;
+-    fr.has_coalesced_range = 0;
+ 
+     /* Render the region itself into any gaps left by the current view. */
+     for (i = 0; i < view->nr && int128_nz(remain); ++i) {
+@@ -888,14 +886,6 @@ static void flat_range_coalesced_io_del(FlatRange *fr, AddressSpace *as)
  {
-     gchar **words;
-diff --git a/tests/libqtest.h b/tests/libqtest.h
-index 7833148..07ea358 100644
---- a/tests/libqtest.h
-+++ b/tests/libqtest.h
-@@ -262,6 +262,8 @@ char *qtest_hmp(QTestState *s, const char *fmt, ...) =
-GCC_FMT_ATTR(2, 3);
- char *qtest_vhmp(QTestState *s, const char *fmt, va_list ap)
-     GCC_FMT_ATTR(2, 0);
-=20
-+void qtest_module_load(QTestState *s, const char *prefix, const char *li=
-bname);
-+
- /**
-  * qtest_get_irq:
-  * @s: #QTestState instance to operate on.
-diff --git a/tests/modules-test.c b/tests/modules-test.c
-new file mode 100644
-index 0000000..3aef0e5
---- /dev/null
-+++ b/tests/modules-test.c
-@@ -0,0 +1,71 @@
-+#include "qemu/osdep.h"
-+#include "libqtest.h"
-+
-+static void test_modules_load(const void *data)
-+{
-+    QTestState *qts;
-+    const char **args =3D data;
-+
-+    qts =3D qtest_init(NULL);
-+    qtest_module_load(qts, args[0], args[1]);
-+    qtest_quit(qts);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    const char *modules[] =3D {
-+#ifdef CONFIG_CURL
-+        "block-", "curl",
-+#endif
-+#ifdef CONFIG_GLUSTERFS
-+        "block-", "gluster",
-+#endif
-+#ifdef CONFIG_LIBISCSI
-+        "block-", "iscsi",
-+#endif
-+#ifdef CONFIG_LIBNFS
-+        "block-", "nfs",
-+#endif
-+#ifdef CONFIG_LIBSSH
-+        "block-", "ssh",
-+#endif
-+#ifdef CONFIG_RBD
-+        "block-", "rbd",
-+#endif
-+#ifdef CONFIG_AUDIO_ALSA
-+        "audio-", "alsa",
-+#endif
-+#ifdef CONFIG_AUDIO_OSS
-+        "audio-", "oss",
-+#endif
-+#ifdef CONFIG_AUDIO_PA
-+        "audio-", "pa",
-+#endif
-+#ifdef CONFIG_AUDIO_SDL
-+        "audio-", "sdl",
-+#endif
-+#ifdef CONFIG_CURSES
-+        "ui-", "curses",
-+#endif
-+#if defined(CONFIG_GTK) && defined(CONFIG_VTE)
-+        "ui-", "gtk",
-+#endif
-+#ifdef CONFIG_SDL
-+        "ui-", "sdl",
-+#endif
-+#if defined(CONFIG_SPICE) && defined(CONFIG_GIO)
-+        "ui-", "spice-app",
-+#endif
-+    };
-+    int i;
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    for (i =3D 0; i < G_N_ELEMENTS(modules); i +=3D 2) {
-+        char *testname =3D g_strdup_printf("/module/load/%s", modules[i =
-+ 1]);
-+        qtest_add_data_func(testname, modules + i, test_modules_load);
-+        g_free(testname);
-+    }
-+
-+    return g_test_run();
-+}
---=20
+     CoalescedMemoryRange *cmr;
+ 
+-    if (!fr->has_coalesced_range) {
+-        return;
+-    }
+-
+-    if (--fr->has_coalesced_range > 0) {
+-        return;
+-    }
+-
+     QTAILQ_FOREACH(cmr, &fr->mr->coalesced, link) {
+         flat_range_coalesced_io_notify(fr, as, cmr, false);
+     }
+@@ -910,10 +900,6 @@ static void flat_range_coalesced_io_add(FlatRange *fr, AddressSpace *as)
+         return;
+     }
+ 
+-    if (fr->has_coalesced_range++) {
+-        return;
+-    }
+-
+     QTAILQ_FOREACH(cmr, &mr->coalesced, link) {
+         flat_range_coalesced_io_notify(fr, as, cmr, true);
+     }
+-- 
 1.8.3.1
 
 
