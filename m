@@ -2,78 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD7398312
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 20:34:58 +0200 (CEST)
-Received: from localhost ([::1]:51792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3085A98328
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 20:37:23 +0200 (CEST)
+Received: from localhost ([::1]:51820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0VRg-0006Qs-NB
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 14:34:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42548)
+	id 1i0VU2-0001Zd-3q
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 14:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42914)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i0UWE-0007bT-6p
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:35:36 -0400
+ (envelope-from <david@redhat.com>) id 1i0UYZ-0002vB-S6
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:38:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i0UWC-0006UQ-7U
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:35:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43424)
+ (envelope-from <david@redhat.com>) id 1i0UYX-0000E7-Lo
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:37:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34755)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1i0UW8-0006ML-DI; Wed, 21 Aug 2019 13:35:28 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1i0UYX-0000CC-Ci; Wed, 21 Aug 2019 13:37:57 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AA66C307D90D;
- Wed, 21 Aug 2019 17:35:27 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E20C60F88;
- Wed, 21 Aug 2019 17:35:24 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20190821165215.61406-1-vsementsov@virtuozzo.com>
- <20190821165215.61406-3-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 1BB988980EF;
+ Wed, 21 Aug 2019 17:37:56 +0000 (UTC)
+Received: from [10.36.118.29] (unknown [10.36.118.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F1D160600;
+ Wed, 21 Aug 2019 17:37:54 +0000 (UTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190821092252.26541-1-david@redhat.com>
+ <20190821092252.26541-3-david@redhat.com>
+ <dc42887a-f991-1fe0-36a7-a7804bc4a939@linaro.org>
+From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <4f7cce1f-d7a8-aa3f-01d0-15c28c97b6dd@redhat.com>
-Date: Wed, 21 Aug 2019 12:35:23 -0500
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwX4EEwECACgFAljj9eoCGwMFCQlmAYAGCwkI
+ BwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEE3eEPcA/4Na5IIP/3T/FIQMxIfNzZshIq687qgG
+ 8UbspuE/YSUDdv7r5szYTK6KPTlqN8NAcSfheywbuYD9A4ZeSBWD3/NAVUdrCaRP2IvFyELj
+ xoMvfJccbq45BxzgEspg/bVahNbyuBpLBVjVWwRtFCUEXkyazksSv8pdTMAs9IucChvFmmq3
+ jJ2vlaz9lYt/lxN246fIVceckPMiUveimngvXZw21VOAhfQ+/sofXF8JCFv2mFcBDoa7eYob
+ s0FLpmqFaeNRHAlzMWgSsP80qx5nWWEvRLdKWi533N2vC/EyunN3HcBwVrXH4hxRBMco3jvM
+ m8VKLKao9wKj82qSivUnkPIwsAGNPdFoPbgghCQiBjBe6A75Z2xHFrzo7t1jg7nQfIyNC7ez
+ MZBJ59sqA9EDMEJPlLNIeJmqslXPjmMFnE7Mby/+335WJYDulsRybN+W5rLT5aMvhC6x6POK
+ z55fMNKrMASCzBJum2Fwjf/VnuGRYkhKCqqZ8gJ3OvmR50tInDV2jZ1DQgc3i550T5JDpToh
+ dPBxZocIhzg+MBSRDXcJmHOx/7nQm3iQ6iLuwmXsRC6f5FbFefk9EjuTKcLMvBsEx+2DEx0E
+ UnmJ4hVg7u1PQ+2Oy+Lh/opK/BDiqlQ8Pz2jiXv5xkECvr/3Sv59hlOCZMOaiLTTjtOIU7Tq
+ 7ut6OL64oAq+zsFNBFXLn5EBEADn1959INH2cwYJv0tsxf5MUCghCj/CA/lc/LMthqQ773ga
+ uB9mN+F1rE9cyyXb6jyOGn+GUjMbnq1o121Vm0+neKHUCBtHyseBfDXHA6m4B3mUTWo13nid
+ 0e4AM71r0DS8+KYh6zvweLX/LL5kQS9GQeT+QNroXcC1NzWbitts6TZ+IrPOwT1hfB4WNC+X
+ 2n4AzDqp3+ILiVST2DT4VBc11Gz6jijpC/KI5Al8ZDhRwG47LUiuQmt3yqrmN63V9wzaPhC+
+ xbwIsNZlLUvuRnmBPkTJwwrFRZvwu5GPHNndBjVpAfaSTOfppyKBTccu2AXJXWAE1Xjh6GOC
+ 8mlFjZwLxWFqdPHR1n2aPVgoiTLk34LR/bXO+e0GpzFXT7enwyvFFFyAS0Nk1q/7EChPcbRb
+ hJqEBpRNZemxmg55zC3GLvgLKd5A09MOM2BrMea+l0FUR+PuTenh2YmnmLRTro6eZ/qYwWkC
+ u8FFIw4pT0OUDMyLgi+GI1aMpVogTZJ70FgV0pUAlpmrzk/bLbRkF3TwgucpyPtcpmQtTkWS
+ gDS50QG9DR/1As3LLLcNkwJBZzBG6PWbvcOyrwMQUF1nl4SSPV0LLH63+BrrHasfJzxKXzqg
+ rW28CTAE2x8qi7e/6M/+XXhrsMYG+uaViM7n2je3qKe7ofum3s4vq7oFCPsOgwARAQABwsFl
+ BBgBAgAPBQJVy5+RAhsMBQkJZgGAAAoJEE3eEPcA/4NagOsP/jPoIBb/iXVbM+fmSHOjEshl
+ KMwEl/m5iLj3iHnHPVLBUWrXPdS7iQijJA/VLxjnFknhaS60hkUNWexDMxVVP/6lbOrs4bDZ
+ NEWDMktAeqJaFtxackPszlcpRVkAs6Msn9tu8hlvB517pyUgvuD7ZS9gGOMmYwFQDyytpepo
+ YApVV00P0u3AaE0Cj/o71STqGJKZxcVhPaZ+LR+UCBZOyKfEyq+ZN311VpOJZ1IvTExf+S/5
+ lqnciDtbO3I4Wq0ArLX1gs1q1XlXLaVaA3yVqeC8E7kOchDNinD3hJS4OX0e1gdsx/e6COvy
+ qNg5aL5n0Kl4fcVqM0LdIhsubVs4eiNCa5XMSYpXmVi3HAuFyg9dN+x8thSwI836FoMASwOl
+ C7tHsTjnSGufB+D7F7ZBT61BffNBBIm1KdMxcxqLUVXpBQHHlGkbwI+3Ye+nE6HmZH7IwLwV
+ W+Ajl7oYF+jeKaH4DZFtgLYGLtZ1LDwKPjX7VAsa4Yx7S5+EBAaZGxK510MjIx6SGrZWBrrV
+ TEvdV00F2MnQoeXKzD7O4WFbL55hhyGgfWTHwZ457iN9SgYi1JLPqWkZB0JRXIEtjd4JEQcx
+ +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <60d60d82-0407-9549-09b8-ff35218a4e71@redhat.com>
+Date: Wed, 21 Aug 2019 19:37:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190821165215.61406-3-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="cX92qz9sBoGENbt8NtgSvkTH66m6wV0sI"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Wed, 21 Aug 2019 17:35:27 +0000 (UTC)
+In-Reply-To: <dc42887a-f991-1fe0-36a7-a7804bc4a939@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Wed, 21 Aug 2019 17:37:56 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v8 2/3] block/nbd: nbd reconnect
+Subject: Re: [Qemu-devel] [PATCH v1 2/4] s390x/tcg: Introduce
+ probe_read_access()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,323 +106,410 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, sheepdog@lists.wpkg.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org,
- namei.unix@gmail.com
+Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
+ qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---cX92qz9sBoGENbt8NtgSvkTH66m6wV0sI
-Content-Type: multipart/mixed; boundary="ok6G0SI9tkw42d5zME29YOPthXlg0drQL";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, sheepdog@lists.wpkg.org, stefanha@redhat.com,
- namei.unix@gmail.com, fam@euphon.net, mreitz@redhat.com, kwolf@redhat.com,
- den@openvz.org
-Message-ID: <4f7cce1f-d7a8-aa3f-01d0-15c28c97b6dd@redhat.com>
-Subject: Re: [PATCH v8 2/3] block/nbd: nbd reconnect
-References: <20190821165215.61406-1-vsementsov@virtuozzo.com>
- <20190821165215.61406-3-vsementsov@virtuozzo.com>
-In-Reply-To: <20190821165215.61406-3-vsementsov@virtuozzo.com>
-
---ok6G0SI9tkw42d5zME29YOPthXlg0drQL
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 8/21/19 11:52 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Implement reconnect. To achieve this:
+On 21.08.19 19:26, Richard Henderson wrote:
+> On 8/21/19 2:22 AM, David Hildenbrand wrote:
+>> +/*
+>> + * Make sure the read access is permitted and TLB entries are created=
+. In
+>> + * very rare cases it might happen that the actual accesses might nee=
+d
+>> + * new MMU translations. If the page tables were changed in between, =
+we
+>> + * might still trigger a fault. However, this seems to barely happen,=
+ so we
+>> + * can ignore this for now.
+>> + */
+>> +void probe_read_access(CPUS390XState *env, uint64_t addr, uint64_t le=
+n,
+>> +                       uintptr_t ra)
+>> +{
+>> +#ifdef CONFIG_USER_ONLY
+>> +    if (!guest_addr_valid(addr) || !guest_addr_valid(addr + len - 1) =
+||
+>> +        page_check_range(addr, len, PAGE_READ) < 0) {
+>> +        s390_program_interrupt(env, PGM_ADDRESSING, ILEN_AUTO, ra);
+>> +    }
+>> +#else
+>> +    while (len) {
+>> +        const uint64_t pagelen =3D -(addr | -TARGET_PAGE_MASK);
+>> +        const uint64_t curlen =3D MIN(pagelen, len);
+>> +
+>> +        cpu_ldub_data_ra(env, addr, ra);
+>> +        addr =3D wrap_address(env, addr + curlen);
+>> +        len -=3D curlen;
+>> +    }
+>> +#endif
+>> +}
 >=20
-> 1. add new modes:
->    connecting-wait: means, that reconnecting is in progress, and there
->      were small number of reconnect attempts, so all requests are
->      waiting for the connection.
->    connecting-nowait: reconnecting is in progress, there were a lot of
->      attempts of reconnect, all requests will return errors.
+> I don't think this is really the right approach, precisely because of t=
+he
+> comment above.
 >=20
->    two old modes are used too:
->    connected: normal state
->    quit: exiting after fatal error or on close
+> I think we should
 >=20
-> Possible transitions are:
+> (1) Modify the generic probe_write to return the host address,
+>     akin to tlb_vaddr_to_host except it *will* fault.
 >=20
->    * -> quit
->    connecting-* -> connected
->    connecting-wait -> connecting-nowait (transition is done after
->                       reconnect-delay seconds in connecting-wait mode)
->    connected -> connecting-wait
+> (2) Create a generic version of probe_write for CONFIG_USER_ONLY,
+>     much like the one you have done for target/s390x.
 >=20
-> 2. Implement reconnect in connection_co. So, in connecting-* mode,
->     connection_co, tries to reconnect unlimited times.
+> (3) Create generic version of probe_read that does the same.
 >=20
-> 3. Retry nbd queries on channel error, if we are in connecting-wait
->     state.
+> (4) Rewrite fast_memset and fast_memmove to fetch all of the host
+>     addresses before doing any modifications.  The functions are
+>     currently written as if len can be very large, handling any
+>     number of pages.  Except that's not true.  While there are
+>     several kinds of users apart from MVC, two pages are sufficient
+>     for all users.
 >=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
+>     Well, should be.  We would need to adjust do_mvcl to limit the
+>     operation to TARGET_PAGE_SIZE (CC=3D3, cpu-determined number of
+>     bytes moved without reaching end of first operand).
+>     Which is probably a good idea anyway.  System mode should not
+>     spend forever executing one instruction, as it would if you
+>     pass in a 64-bit length from MVCLE.
 
-> +static bool nbd_client_connecting(BDRVNBDState *s)
-> +{
-> +    return s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT ||
-> +            s->state =3D=3D NBD_CLIENT_CONNECTING_NOWAIT;
+
+Hah, guess what, I implemented a similar variant of "fetch all
+of the host addresses" *but* it is not that easy as you might
+think (sorry for the bad news).
+
+There are certain cases where we can't get access to the raw host
+page. Namely, cpu watchpoints, LAP, NODIRTY. In summary: this won't
+as you describe. (my first approach did exactly this)
+
+The following patch requires another re-factoring
+(tcg_s390_cpu_mmu_translate), but you should get the idea.
 
 
-Indentation looks unusual. I might have done:
 
-    return (s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT ||
-            s->state =3D=3D NBD_CLIENT_CONNECTING_NOWAIT);
+From 0cacd2aea3dbc25e93492cca04f6c866b86d7f8a Mon Sep 17 00:00:00 2001
+From: David Hildenbrand <david@redhat.com>
+Date: Tue, 20 Aug 2019 09:37:11 +0200
+Subject: [PATCH v1] s390x/tcg: Fault-safe MVC (MOVE) implementation
 
-Or even exploit the enum encoding:
+MVC can cross page boundaries. In case we fault on the second page, we
+already partially copied data. If we have overlaps, we would
+trigger a fault after having partially moved data, eventually having
+our original data already overwritten. When continuing after the fault,
+we would try to move already modified data, not the original data -
+very bad.
 
-    return s->state <=3D NBD_CLIENT_CONNECTING_NOWAIT
+glibc started to use MVC for forward memmove() and is able to trigger
+exectly this corruption (via rpmbuild and rpm). Fedora 31 (rawhide)
+currently fails to install as we trigger rpm database corruptions due to
+this bug.
 
-Is s->state updated atomically, or do we risk the case where we might
-see two different values of s->state across the || sequence point?  Does
-that matter?
+We need a way to translate a virtual address range to individual pages th=
+at
+we can access later on without triggering faults. Probing all virtual
+addresses once before the read/write is not sufficient - the guest could
+have modified the page tables (e.g., write-protect, map out) in between,
+so on we could fault on any new tlb_fill() - we have to skip any new MMU
+translations.
 
-> +}
-> +
-> +static bool nbd_client_connecting_wait(BDRVNBDState *s)
-> +{
-> +    return s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT;
-> +}
-> +
-> +static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
-> +{
-> +    Error *local_err =3D NULL;
-> +
-> +    if (!nbd_client_connecting(s)) {
-> +        return;
-> +    }
-> +    assert(nbd_client_connecting(s));
+Unfortunately, there are TLB entries for which cannot get a host address
+for (esp., watchpoints, LAP, NOTDIRTY) - in these cases we cannot avoid
+a new MMU translation using the ordinary ld/st helpers. Let's fallback
+to guest physical addresses in these cases, that we access via
+cpu_physical_memory_(read|write),
 
-This assert adds nothing given the condition beforehand.
+This change reduced the boottime for s390x guests (to prompt) from ~1:29
+min to ~1:19 min in my tests. For example, LAP protected pages are now on=
+ly
+translated once when writing to them using MVC and we don't always fallba=
+ck
+to byte-based copies.
 
-> +
-> +    /* Wait for completion of all in-flight requests */
-> +
-> +    qemu_co_mutex_lock(&s->send_mutex);
-> +
-> +    while (s->in_flight > 0) {
-> +        qemu_co_mutex_unlock(&s->send_mutex);
-> +        nbd_recv_coroutines_wake_all(s);
-> +        s->wait_in_flight =3D true;
-> +        qemu_coroutine_yield();
-> +        s->wait_in_flight =3D false;
-> +        qemu_co_mutex_lock(&s->send_mutex);
-> +    }
-> +
-> +    qemu_co_mutex_unlock(&s->send_mutex);
-> +
-> +    if (!nbd_client_connecting(s)) {
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * Now we are sure that nobody is accessing the channel, and no on=
-e will
-> +     * try until we set the state to CONNECTED.
-> +     */
-> +
-> +    /* Finalize previous connection if any */
-> +    if (s->ioc) {
-> +        nbd_client_detach_aio_context(s->bs);
-> +        object_unref(OBJECT(s->sioc));
-> +        s->sioc =3D NULL;
-> +        object_unref(OBJECT(s->ioc));
-> +        s->ioc =3D NULL;
-> +    }
-> +
-> +    s->connect_status =3D nbd_client_connect(s->bs, &local_err);
-> +    error_free(s->connect_err);
-> +    s->connect_err =3D NULL;
-> +    error_propagate(&s->connect_err, local_err);
-> +    local_err =3D NULL;
-> +
-> +    if (s->connect_status < 0) {
-> +        /* failed attempt */
-> +        return;
-> +    }
-> +
-> +    /* successfully connected */
-> +    s->state =3D NBD_CLIENT_CONNECTED;
-> +    qemu_co_queue_restart_all(&s->free_sema);
-> +}
-> +
-> +static coroutine_fn void nbd_reconnect_loop(BDRVNBDState *s)
-> +{
-> +    uint64_t start_time_ns =3D qemu_clock_get_ns(QEMU_CLOCK_REALTIME);=
+We will want to use the same mechanism for other accesses as well (e.g.,
+mvcl), prepare for that right away.
 
-> +    uint64_t delay_ns =3D s->reconnect_delay * NANOSECONDS_PER_SECOND;=
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ target/s390x/mem_helper.c | 213 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 200 insertions(+), 13 deletions(-)
 
-> +    uint64_t timeout =3D 1 * NANOSECONDS_PER_SECOND;
-> +    uint64_t max_timeout =3D 16 * NANOSECONDS_PER_SECOND;
-> +
-> +    nbd_reconnect_attempt(s);
-> +
-> +    while (nbd_client_connecting(s)) {
-> +        if (s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT &&
-> +            qemu_clock_get_ns(QEMU_CLOCK_REALTIME) - start_time_ns > d=
-elay_ns)
-> +        {
-> +            s->state =3D NBD_CLIENT_CONNECTING_NOWAIT;
-> +            qemu_co_queue_restart_all(&s->free_sema);
-> +        }
-> +
-> +        qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, timeout,
-> +                         &s->connection_co_sleep_ns_state);
-> +        if (s->drained) {
-> +            bdrv_dec_in_flight(s->bs);
-> +            s->wait_drained_end =3D true;
-> +            while (s->drained) {
-> +                /*
-> +                 * We may be entered once from nbd_client_attach_aio_c=
-ontext_bh
-> +                 * and then from nbd_client_co_drain_end. So here is a=
- loop.
-> +                 */
-> +                qemu_coroutine_yield();
-> +            }
-> +            bdrv_inc_in_flight(s->bs);
-> +        }
-> +        if (timeout < max_timeout) {
-> +            timeout *=3D 2;
-> +        }
-> +
-> +        nbd_reconnect_attempt(s);
-> +    }
->  }
-> =20
->  static coroutine_fn void nbd_connection_entry(void *opaque)
->  {
-> -    BDRVNBDState *s =3D opaque;
-> +    BDRVNBDState *s =3D (BDRVNBDState *)opaque;
-
-The cast is not necessary.
-
->      uint64_t i;
->      int ret =3D 0;
->      Error *local_err =3D NULL;
-> @@ -177,16 +331,26 @@ static coroutine_fn void nbd_connection_entry(voi=
-d *opaque)
->           * Therefore we keep an additional in_flight reference all the=
- time and
->           * only drop it temporarily here.
->           */
-> +
-> +        if (nbd_client_connecting(s)) {
-> +            nbd_reconnect_loop(s);
-> +        }
-> +
-> +        if (s->state !=3D NBD_CLIENT_CONNECTED) {
-> +            continue;
-> +        }
-> +
->          assert(s->reply.handle =3D=3D 0);
->          ret =3D nbd_receive_reply(s->bs, s->ioc, &s->reply, &local_err=
+diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+index 91ba2e03d9..1ca293e00d 100644
+--- a/target/s390x/mem_helper.c
++++ b/target/s390x/mem_helper.c
+@@ -24,8 +24,10 @@
+ #include "exec/helper-proto.h"
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
++#include "exec/cpu-common.h"
+ #include "qemu/int128.h"
+ #include "qemu/atomic128.h"
++#include "tcg_s390x.h"
+=20
+ #if !defined(CONFIG_USER_ONLY)
+ #include "hw/s390x/storage-keys.h"
+@@ -104,6 +106,181 @@ static inline void cpu_stsize_data_ra(CPUS390XState=
+ *env, uint64_t addr,
+     }
+ }
+=20
++/*
++ * An access covers one page, except for the start/end of the translated
++ * virtual address range.
++ */
++typedef struct S390Access {
++    union {
++        char *haddr;
++        hwaddr paddr;
++    };
++    uint16_t size;
++    bool isHaddr;
++} S390Access;
++
++/*
++ * Prepare access to a virtual address range, guaranteeing we won't trig=
+ger
++ * faults during the actual access. Sometimes we can't get access to the
++ * host address (e.g., LAP, cpu watchpoints/PER, clean pages, ...). Then=
+, we
++ * translate to guest physical addresses instead. We'll have to perform
++ * slower, indirect, access to these physical addresses then.
++ */
++static void access_prepare_idx(CPUS390XState *env, S390Access access[],
++                               int nb_access, vaddr vaddr, target_ulong =
+size,
++                               MMUAccessType access_type, int mmu_idx,
++                               uintptr_t ra)
++{
++    int i =3D 0;
++    int cur_size;
++
++    /*
++     * After we obtained the host address of a TLB entry that entry migh=
+t
++     * be invalidated again - e.g., via tlb_set_dirty(), via another
++     * tlb_fill(). We assume here that it is fine to temporarily store t=
+he
++     * host address to access it later - we didn't agree to any tlb flus=
+h and
++     * there seems to be no mechanism protecting the return value of
++     * tlb_vaddr_to_host().
++     */
++    while (size) {
++        g_assert(i < nb_access);
++        cur_size =3D adj_len_to_page(size, vaddr);
++
++        access[i].isHaddr =3D true;
++        access[i].haddr =3D tlb_vaddr_to_host(env, vaddr, access_type, m=
+mu_idx);
++        if (!access[i].haddr) {
++            access[i].isHaddr =3D false;
++            tcg_s390_cpu_mmu_translate(env, vaddr, cur_size, access_type=
+,
++                                       mmu_idx, false, &access[i].paddr,
++                                       NULL, ra);
++        }
++        access[i].size =3D cur_size;
++
++        vaddr +=3D cur_size;
++        size -=3D cur_size;
++        i++;
++    }
++
++    /* let's zero-out the remaining entries, so we have a size of 0 */
++    if (i < nb_access) {
++        memset(&access[i], 0 , sizeof(S390Access) * (nb_access - i));
++    }
++}
++
++static void access_prepare(CPUS390XState *env, S390Access access[],
++                           int nb_access, target_ulong vaddr, target_ulo=
+ng size,
++                           MMUAccessType access_type, uintptr_t ra)
++{
++    int mmu_idx =3D cpu_mmu_index(env, false);
++
++    access_prepare_idx(env, access, nb_access, vaddr, size, access_type,
++                       mmu_idx, ra);
++}
++
++static void access_set(CPUS390XState *env, S390Access write[], int nb_wr=
+ite,
++                       uint8_t byte, target_ulong size)
++{
++    target_ulong cur_size;
++    void *buf =3D NULL;
++    int w =3D 0;
++
++    while (size) {
++        g_assert(w < nb_write);
++        if (!write[w].size) {
++            w++;
++            continue;
++        }
++
++        cur_size =3D MIN(size, write[w].size);
++        if (write[w].isHaddr) {
++            memset(write[w].haddr, byte, cur_size);
++            write[w].haddr +=3D cur_size;
++        } else {
++#ifndef CONFIG_USER_ONLY
++            if (!buf) {
++                buf =3D g_malloc(TARGET_PAGE_SIZE);
++                memset(buf, byte, cur_size);
++            }
++            cpu_physical_memory_write(write[w].paddr, buf, cur_size);
++            write[w].paddr +=3D cur_size;
++#else
++            g_assert_not_reached();
++#endif
++        }
++        write[w].size -=3D cur_size;
++        size -=3D cur_size;
++    }
++    g_free(buf);
++}
++
++/*
++ * Copy memory in chunks up to chunk_size. If the ranges don't overlap o=
+r
++ * if it's a forward move, this function behaves like memmove().
++ *
++ * To achieve a backwards byte-by-byte copy (e.g., MVC), the chunk_size
++ * must not be bigger than the address difference (in the worst case, 1 =
+byte).
++ */
++static void access_copy(CPUS390XState *env, S390Access write[], int nb_w=
+rite,
++                        S390Access read[], int nb_read, target_ulong siz=
+e,
++                        target_ulong chunk_size)
++{
++    target_ulong cur_size;
++    void *buf =3D NULL;
++    int r =3D 0;
++    int w =3D 0;
++
++    g_assert(chunk_size > 0);
++    chunk_size =3D MIN(chunk_size, TARGET_PAGE_SIZE);
++
++    while (size) {
++        g_assert(w < nb_write);
++        g_assert(r < nb_read);
++        if (!write[w].size) {
++            w++;
++            continue;
++        }
++        if (!read[r].size) {
++            r++;
++            continue;
++        }
++        cur_size =3D MIN(MIN(MIN(size, write[w].size), read[r].size), ch=
+unk_size);
++
++        if (write[w].isHaddr && read[r].isHaddr) {
++            memmove(write[w].haddr, read[r].haddr,
++                    cur_size);
++            write[w].haddr +=3D cur_size;
++            read[r].haddr +=3D cur_size;
++#ifndef CONFIG_USER_ONLY
++        } else if (!write[w].isHaddr && read[r].isHaddr) {
++            cpu_physical_memory_write(write[w].paddr,
++                                      read[r].haddr, cur_size);
++            write[w].paddr +=3D cur_size;
++            read[r].haddr +=3D cur_size;
++        } else if (write[w].isHaddr && !read[r].isHaddr) {
++            cpu_physical_memory_read(read[r].paddr,
++                                     write[w].haddr, cur_size);
++            write[w].haddr +=3D cur_size;
++            read[r].paddr +=3D cur_size;
++        } else {
++            if (!buf) {
++                buf =3D g_malloc(chunk_size);
++            }
++            cpu_physical_memory_read(read[r].paddr, buf, cur_size);
++            cpu_physical_memory_write(write[w].paddr, buf, cur_size);
++            write[w].paddr +=3D cur_size;
++            read[r].paddr +=3D cur_size;
++#else
++        } else {
++            g_assert_not_reached();
++#endif
++        }
++        write[w].size -=3D cur_size;
++        read[r].size -=3D cur_size;
++        size -=3D cur_size;
++    }
++    g_free(buf);
++}
++
+ static void fast_memset(CPUS390XState *env, uint64_t dest, uint8_t byte,
+                         uint32_t l, uintptr_t ra)
+ {
+@@ -302,24 +479,34 @@ uint32_t HELPER(oc)(CPUS390XState *env, uint32_t l,=
+ uint64_t dest,
+ static uint32_t do_helper_mvc(CPUS390XState *env, uint32_t l, uint64_t d=
+est,
+                               uint64_t src, uintptr_t ra)
+ {
+-    uint32_t i;
++    /* 256 bytes cannot cross more than two pages */
++    S390Access read[2];
++    S390Access write[2];
+=20
+     HELPER_LOG("%s l %d dest %" PRIx64 " src %" PRIx64 "\n",
+                __func__, l, dest, src);
++    l++;
+=20
+-    /* mvc and memmove do not behave the same when areas overlap! */
+-    /* mvc with source pointing to the byte after the destination is the
+-       same as memset with the first source byte */
++    g_assert(l <=3D 256);
++    access_prepare(env, write, ARRAY_SIZE(write), dest, l, MMU_DATA_STOR=
+E, ra);
++
++    /*
++     * The result of MVC is as if moving single bytes from left to right
++     * (in contrast to memmove()). It can be used like memset().
++     */
+     if (dest =3D=3D src + 1) {
+-        fast_memset(env, dest, cpu_ldub_data_ra(env, src, ra), l + 1, ra=
 );
-> =20
->          if (local_err) {
->              trace_nbd_read_reply_entry_fail(ret, error_get_pretty(loca=
-l_err));
->              error_free(local_err);
-> +            local_err =3D NULL;
->          }
->          if (ret <=3D 0) {
->              nbd_channel_error(s, ret ? ret : -EIO);
-> -            break;
-> +            continue;
->          }
-> =20
->          /*
-> @@ -201,7 +365,7 @@ static coroutine_fn void nbd_connection_entry(void =
-*opaque)
->              (nbd_reply_is_structured(&s->reply) && !s->info.structured=
-_reply))
->          {
->              nbd_channel_error(s, -EINVAL);
-> -            break;
-> +            continue;
->          }
-> =20
+-    } else if (dest < src || src + l < dest) {
+-        fast_memmove(env, dest, src, l + 1, ra);
+-    } else {
+-        /* slow version with byte accesses which always work */
+-        for (i =3D 0; i <=3D l; i++) {
+-            uint8_t x =3D cpu_ldub_data_ra(env, src + i, ra);
+-            cpu_stb_data_ra(env, dest + i, x, ra);
+-        }
++        access_set(env, write, ARRAY_SIZE(write),
++                   cpu_ldub_data_ra(env, src, ra), l);
++        return env->cc_op;
++    }
++
++    access_prepare(env, read, ARRAY_SIZE(read), src, l, MMU_DATA_LOAD, r=
+a);
++    if (dest < src || src + l <=3D dest) {
++        access_copy(env, write, ARRAY_SIZE(write), read, ARRAY_SIZE(read=
+), l,
++                    TARGET_PAGE_SIZE);
++    } else if (src < dest) {
++        access_copy(env, write, ARRAY_SIZE(write), read, ARRAY_SIZE(read=
+), l,
++                    dest - src);
+     }
+=20
+     return env->cc_op;
+--=20
+2.21.0
 
-The commit message says you re-attempt the request after reconnection if
-you have not yet timed out from the previous connection; but do you also
-need to clear out any partial reply received to make sure the new
-request isn't operating on stale assumptions left over if the server
-died between two structured chunks?
-
-
-> @@ -927,20 +1113,26 @@ static int nbd_co_request(BlockDriverState *bs, =
-NBDRequest *request,
->      } else {
->          assert(request->type !=3D NBD_CMD_WRITE);
->      }
-> -    ret =3D nbd_co_send_request(bs, request, write_qiov);
-> -    if (ret < 0) {
-> -        return ret;
-> -    }
-> =20
-> -    ret =3D nbd_co_receive_return_code(s, request->handle,
-> -                                     &request_ret, &local_err);
-> -    if (local_err) {
-> -        trace_nbd_co_request_fail(request->from, request->len, request=
-->handle,
-> -                                  request->flags, request->type,
-> -                                  nbd_cmd_lookup(request->type),
-> -                                  ret, error_get_pretty(local_err));
-> -        error_free(local_err);
-> -    }
-> +    do {
-> +        ret =3D nbd_co_send_request(bs, request, write_qiov);
-> +        if (ret < 0) {
-> +            continue;
-> +        }
-> +
-> +        ret =3D nbd_co_receive_return_code(s, request->handle,
-> +                                         &request_ret, &local_err);
-> +        if (local_err) {
-> +            trace_nbd_co_request_fail(request->from, request->len,
-> +                                      request->handle, request->flags,=
-
-> +                                      request->type,
-> +                                      nbd_cmd_lookup(request->type),
-> +                                      ret, error_get_pretty(local_err)=
-);
-> +            error_free(local_err);
-> +            local_err =3D NULL;
-> +        }
-> +    } while (ret < 0 && nbd_client_connecting_wait(s));
-
-I ask because nothing seems to reset request_ret here in the new loop.
 
 --=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
 
+Thanks,
 
---ok6G0SI9tkw42d5zME29YOPthXlg0drQL--
-
---cX92qz9sBoGENbt8NtgSvkTH66m6wV0sI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1dgNsACgkQp6FrSiUn
-Q2qSIQf8D6H/po6NEe90rpy6RH8ypkZKiq5jq24WkUDXbZgAknuNmmIFBO6yKTmF
-ktvAW5065x2LkBQYD7CdWlY6mgoNHwR7W52K0aPNGrrkpHl1VKJ8+KH++eBnLmHv
-k8BmICw78PMswwhdmmxTzLWB4exRptpDw+aSupWuj+TcHpUWeY5d7bvfwe/pwJ7G
-xBCHUtW0zU8GdwyzAD1USudha8LF5lPhS7VAJvITJNynG6xf/dNG2fWJXA7vvFHo
-eqyI2e/ZpPwBiJraf1lrP7ux2/e3kWGXumXZqzfh/zpV4/Uiq19VTws+EW/WEu/H
-Gv7zECZfMQ/LXee6Ml6cdWeIhyVn1w==
-=j38a
------END PGP SIGNATURE-----
-
---cX92qz9sBoGENbt8NtgSvkTH66m6wV0sI--
+David / dhildenb
 
