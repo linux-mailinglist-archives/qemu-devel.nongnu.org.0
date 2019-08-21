@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3809197FB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 18:09:14 +0200 (CEST)
-Received: from localhost ([::1]:50163 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D549797FBB
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 18:11:52 +0200 (CEST)
+Received: from localhost ([::1]:50248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0TAe-0004G1-Qa
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 12:09:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55327)
+	id 1i0TDD-000850-Tp
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 12:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i0T9f-0002qM-2K
+ (envelope-from <armbru@redhat.com>) id 1i0T9f-0002qD-1N
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:08:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i0T9d-0002hu-MP
+ (envelope-from <armbru@redhat.com>) id 1i0T9d-0002hf-M1
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:08:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39372)
+Received: from mx1.redhat.com ([209.132.183.28]:64267)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i0T9a-0002gd-3P
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i0T9a-0002ge-3J
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:08:07 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E47B6368CF
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 16:08:04 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 09B427F756
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 16:08:05 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B02A5610C6;
- Wed, 21 Aug 2019 16:08:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A535E60BF3
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 16:08:04 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2BE1B11655F4; Wed, 21 Aug 2019 18:08:03 +0200 (CEST)
+ id 21EDC11655EE; Wed, 21 Aug 2019 18:08:03 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 18:08:02 +0200
-Message-Id: <20190821160803.10026-4-armbru@redhat.com>
-In-Reply-To: <20190821160803.10026-1-armbru@redhat.com>
-References: <20190821160803.10026-1-armbru@redhat.com>
+Date: Wed, 21 Aug 2019 18:07:59 +0200
+Message-Id: <20190821160803.10026-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Wed, 21 Aug 2019 16:08:04 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Wed, 21 Aug 2019 16:08:05 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 3/4] qdev: Collect HMP handlers command handlers
- in qdev-monitor.c
+Subject: [Qemu-devel] [PULL 0/4] Monitor patches for 2019-08-21
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,104 +56,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move hmp_device_add(), hmp_device_del() from monitor/hmp-cmds.c to
-qdev-monitor.c, where they are covered by MAINTAINERS section "QOM",
-just like qapi/qdev.json.  hmp_info_qtree() and hmp_info_qdm() are
-already there.
+The following changes since commit 17dc57990320edaad52ac9ea808be9719c91ce=
+a6:
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190709185936.31335-1-armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- monitor/hmp-cmds.c | 19 -------------------
- qdev-monitor.c     | 18 ++++++++++++++++++
- 2 files changed, 18 insertions(+), 19 deletions(-)
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-201=
+9-08-20' into staging (2019-08-20 14:14:20 +0100)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index e4d4043a3b..b2551c16d1 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -25,7 +25,6 @@
- #include "qemu/timer.h"
- #include "qemu/sockets.h"
- #include "monitor/monitor-internal.h"
--#include "monitor/qdev.h"
- #include "qapi/error.h"
- #include "qapi/clone-visitor.h"
- #include "qapi/opts-visitor.h"
-@@ -35,7 +34,6 @@
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-net.h"
--#include "qapi/qapi-commands-qdev.h"
- #include "qapi/qapi-commands-rocker.h"
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-commands-tpm.h"
-@@ -2167,23 +2165,6 @@ void hmp_migrate(Monitor *mon, const QDict *qdict)
-     }
- }
-=20
--void hmp_device_add(Monitor *mon, const QDict *qdict)
--{
--    Error *err =3D NULL;
--
--    qmp_device_add((QDict *)qdict, NULL, &err);
--    hmp_handle_error(mon, &err);
--}
--
--void hmp_device_del(Monitor *mon, const QDict *qdict)
--{
--    const char *id =3D qdict_get_str(qdict, "id");
--    Error *err =3D NULL;
--
--    qmp_device_del(id, &err);
--    hmp_handle_error(mon, &err);
--}
--
- void hmp_netdev_add(Monitor *mon, const QDict *qdict)
- {
-     Error *err =3D NULL;
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index a0003bf2a9..8fe5c2cad2 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -19,6 +19,7 @@
-=20
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "monitor/hmp.h"
- #include "monitor/monitor.h"
- #include "monitor/qdev.h"
- #include "sysemu/arch_init.h"
-@@ -844,6 +845,23 @@ void qmp_device_del(const char *id, Error **errp)
-     }
- }
-=20
-+void hmp_device_add(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err =3D NULL;
-+
-+    qmp_device_add((QDict *)qdict, NULL, &err);
-+    hmp_handle_error(mon, &err);
-+}
-+
-+void hmp_device_del(Monitor *mon, const QDict *qdict)
-+{
-+    const char *id =3D qdict_get_str(qdict, "id");
-+    Error *err =3D NULL;
-+
-+    qmp_device_del(id, &err);
-+    hmp_handle_error(mon, &err);
-+}
-+
- BlockBackend *blk_by_qdev_id(const char *id, Error **errp)
- {
-     DeviceState *dev;
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/armbru.git tags/pull-monitor-2019-08-21
+
+for you to fetch changes up to eb707eac58dfc2d17281f67dde40cab3b8b26cc0:
+
+  monitor/qmp: Update comment for commit 4eaca8de268 (2019-08-21 17:33:38=
+ +0200)
+
+----------------------------------------------------------------
+Monitor patches for 2019-08-21
+
+----------------------------------------------------------------
+Markus Armbruster (4):
+      hw/core: Move cpu.c, cpu.h from qom/ to hw/core/
+      qapi: Move query-target from misc.json to machine.json
+      qdev: Collect HMP handlers command handlers in qdev-monitor.c
+      monitor/qmp: Update comment for commit 4eaca8de268
+
+ docs/interop/firmware.json     |  2 +-
+ qapi/common.json               | 25 ----------------------
+ qapi/machine.json              | 48 ++++++++++++++++++++++++++++++++++++=
++++++-
+ qapi/misc.json                 | 23 --------------------
+ include/exec/cpu-all.h         |  2 +-
+ include/exec/cpu-defs.h        |  2 +-
+ include/exec/log.h             |  2 +-
+ include/hw/boards.h            |  2 +-
+ include/{qom =3D> hw/core}/cpu.h |  0
+ include/hw/ppc/openpic.h       |  2 +-
+ include/sysemu/hw_accel.h      |  2 +-
+ include/sysemu/kvm.h           |  2 +-
+ target/alpha/cpu-qom.h         |  2 +-
+ target/arm/cpu-qom.h           |  2 +-
+ target/cris/cpu-qom.h          |  2 +-
+ target/hppa/cpu-qom.h          |  2 +-
+ target/i386/cpu-qom.h          |  2 +-
+ target/lm32/cpu-qom.h          |  2 +-
+ target/m68k/cpu-qom.h          |  2 +-
+ target/microblaze/cpu-qom.h    |  2 +-
+ target/mips/cpu-qom.h          |  2 +-
+ target/moxie/cpu.h             |  2 +-
+ target/nios2/cpu.h             |  2 +-
+ target/openrisc/cpu.h          |  2 +-
+ target/ppc/cpu-qom.h           |  2 +-
+ target/riscv/cpu.h             |  2 +-
+ target/s390x/cpu-qom.h         |  2 +-
+ target/s390x/cpu_models.h      |  2 +-
+ target/sh4/cpu-qom.h           |  2 +-
+ target/sparc/cpu-qom.h         |  2 +-
+ target/tilegx/cpu.h            |  2 +-
+ target/tricore/cpu-qom.h       |  2 +-
+ target/unicore32/cpu-qom.h     |  2 +-
+ target/xtensa/cpu-qom.h        |  2 +-
+ trace/control-vcpu.h           |  2 +-
+ accel/tcg/user-exec-stub.c     |  2 +-
+ arch_init.c                    | 11 ----------
+ cpus-common.c                  |  2 +-
+ exec.c                         |  2 +-
+ hw/acpi/cpu_hotplug.c          |  2 +-
+ hw/acpi/ich9.c                 |  2 +-
+ hw/acpi/piix4.c                |  2 +-
+ hw/arm/smmu-common.c           |  2 +-
+ hw/arm/virt-acpi-build.c       |  2 +-
+ {qom =3D> hw/core}/cpu.c         |  2 +-
+ hw/core/generic-loader.c       |  2 +-
+ hw/core/machine-qmp-cmds.c     | 10 +++++++++
+ hw/core/null-machine.c         |  2 +-
+ hw/core/numa.c                 |  2 +-
+ hw/cpu/a9mpcore.c              |  2 +-
+ hw/cpu/cluster.c               |  2 +-
+ hw/i386/acpi-build.c           |  2 +-
+ hw/i386/pc.c                   |  2 +-
+ hw/intc/arm_gic.c              |  2 +-
+ hw/intc/arm_gicv3_common.c     |  2 +-
+ hw/isa/lpc_ich9.c              |  2 +-
+ hw/misc/imx6_src.c             |  2 +-
+ hw/ppc/spapr.c                 |  2 +-
+ hw/timer/a9gtimer.c            |  2 +-
+ hw/timer/arm_mptimer.c         |  2 +-
+ monitor/hmp-cmds.c             | 19 -----------------
+ monitor/qmp.c                  |  2 +-
+ qdev-monitor.c                 | 18 ++++++++++++++++
+ target/hppa/int_helper.c       |  2 +-
+ target/hppa/mem_helper.c       |  2 +-
+ MAINTAINERS                    |  6 ++----
+ hw/core/Makefile.objs          |  1 +
+ qom/Makefile.objs              |  1 -
+ trace-events                   |  2 +-
+ ui/cocoa.m                     |  2 +-
+ 70 files changed, 137 insertions(+), 143 deletions(-)
+ rename include/{qom =3D> hw/core}/cpu.h (100%)
+ rename {qom =3D> hw/core}/cpu.c (99%)
+
 --=20
 2.21.0
 
