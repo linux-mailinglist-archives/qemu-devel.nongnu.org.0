@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB2998170
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:37:49 +0200 (CEST)
-Received: from localhost ([::1]:51181 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD529817A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:38:47 +0200 (CEST)
+Received: from localhost ([::1]:51192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0UYO-0001B3-CS
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:37:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40355)
+	id 1i0UZJ-0002fJ-Vo
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:38:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40455)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1i0UPe-0006vL-OP
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:47 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPp-0007HX-Uq
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1i0UPd-0005Rd-Fu
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33624)
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPn-0005c5-E7
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57480)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0UPd-0005QU-78
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:45 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0UPn-0005bQ-1t
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:55 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 917211089041
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 17:28:44 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 33FB4A2F6B6;
+ Wed, 21 Aug 2019 17:28:54 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
  [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8E1EF60E1C;
- Wed, 21 Aug 2019 17:28:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC03860E1C;
+ Wed, 21 Aug 2019 17:28:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 19:28:17 +0200
-Message-Id: <1566408501-48680-10-git-send-email-pbonzini@redhat.com>
+Date: Wed, 21 Aug 2019 19:28:21 +0200
+Message-Id: <1566408501-48680-14-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
 References: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Wed, 21 Aug 2019 17:28:44 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.68]); Wed, 21 Aug 2019 17:28:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 09/13] memory: Split zones when do
- coalesced_io_del()
+Subject: [Qemu-devel] [PULL 13/13] char-socket: Lock tcp_chr_disconnect()
+ and socket_reconnect_timeout()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,114 +54,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Xu <peterx@redhat.com>
+Cc: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+From: Alberto Garcia <berto@igalia.com>
 
-It is a workaround of current KVM's KVM_UNREGISTER_COALESCED_MMIO
-interface.  The kernel interface only allows to unregister an mmio
-device with exactly the zone size when registered, or any smaller zone
-that is included in the device mmio zone.  It does not support the
-userspace to specify a very large zone to remove all the small mmio
-devices within the zone covered.
+There's a race condition in which the tcp_chr_read() ioc handler can
+close a connection that is being written to from another thread.
 
-Logically speaking it would be nicer to fix this from KVM side, though
-in all cases we still need to coop with old kernels so let's do this.
+Running iotest 136 in a loop triggers this problem and crashes QEMU.
 
-Fixes: 3ac7d43a6fbb5d4a3
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20190820141328.10009-2-peterx@redhat.com>
+ (gdb) bt
+ #0  0x00005558b842902d in object_get_class (obj=0x0) at qom/object.c:860
+ #1  0x00005558b84f92db in qio_channel_writev_full (ioc=0x0, iov=0x7ffc355decf0, niov=1, fds=0x0, nfds=0, errp=0x0) at io/channel.c:76
+ #2  0x00005558b84e0e9e in io_channel_send_full (ioc=0x0, buf=0x5558baf5beb0, len=138, fds=0x0, nfds=0) at chardev/char-io.c:123
+ #3  0x00005558b84e4a69 in tcp_chr_write (chr=0x5558ba460380, buf=0x5558baf5beb0 "...", len=138) at chardev/char-socket.c:135
+ #4  0x00005558b84dca55 in qemu_chr_write_buffer (s=0x5558ba460380, buf=0x5558baf5beb0 "...", len=138, offset=0x7ffc355dedd0, write_all=false) at chardev/char.c:112
+ #5  0x00005558b84dcbc2 in qemu_chr_write (s=0x5558ba460380, buf=0x5558baf5beb0 "...", len=138, write_all=false) at chardev/char.c:147
+ #6  0x00005558b84dfb26 in qemu_chr_fe_write (be=0x5558ba476610, buf=0x5558baf5beb0 "...", len=138) at chardev/char-fe.c:42
+ #7  0x00005558b8088c86 in monitor_flush_locked (mon=0x5558ba476610) at monitor.c:406
+ #8  0x00005558b8088e8c in monitor_puts (mon=0x5558ba476610, str=0x5558ba921e49 "") at monitor.c:449
+ #9  0x00005558b8089178 in qmp_send_response (mon=0x5558ba476610, rsp=0x5558bb161600) at monitor.c:498
+ #10 0x00005558b808920c in monitor_qapi_event_emit (event=QAPI_EVENT_SHUTDOWN, qdict=0x5558bb161600) at monitor.c:526
+ #11 0x00005558b8089307 in monitor_qapi_event_queue_no_reenter (event=QAPI_EVENT_SHUTDOWN, qdict=0x5558bb161600) at monitor.c:551
+ #12 0x00005558b80896c0 in qapi_event_emit (event=QAPI_EVENT_SHUTDOWN, qdict=0x5558bb161600) at monitor.c:626
+ #13 0x00005558b855f23b in qapi_event_send_shutdown (guest=false, reason=SHUTDOWN_CAUSE_HOST_QMP_QUIT) at qapi/qapi-events-run-state.c:43
+ #14 0x00005558b81911ef in qemu_system_shutdown (cause=SHUTDOWN_CAUSE_HOST_QMP_QUIT) at vl.c:1837
+ #15 0x00005558b8191308 in main_loop_should_exit () at vl.c:1885
+ #16 0x00005558b819140d in main_loop () at vl.c:1924
+ #17 0x00005558b8198c84 in main (argc=18, argv=0x7ffc355df3f8, envp=0x7ffc355df490) at vl.c:4665
+
+This patch adds a lock to protect tcp_chr_disconnect() and
+socket_reconnect_timeout()
+
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-Id: <1565625509-404969-3-git-send-email-andrey.shinkevich@virtuozzo.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- memory.c | 49 +++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 35 insertions(+), 14 deletions(-)
+ chardev/char-socket.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/memory.c b/memory.c
-index 9a1193a..7124274 100644
---- a/memory.c
-+++ b/memory.c
-@@ -855,8 +855,39 @@ static void address_space_update_ioeventfds(AddressSpace *as)
-     flatview_unref(view);
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index 7ca5d97..03f0340 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -150,7 +150,7 @@ static void tcp_chr_accept(QIONetListener *listener,
+                            void *opaque);
+ 
+ static int tcp_chr_read_poll(void *opaque);
+-static void tcp_chr_disconnect(Chardev *chr);
++static void tcp_chr_disconnect_locked(Chardev *chr);
+ 
+ /* Called with chr_write_lock held.  */
+ static int tcp_chr_write(Chardev *chr, const uint8_t *buf, int len)
+@@ -174,7 +174,7 @@ static int tcp_chr_write(Chardev *chr, const uint8_t *buf, int len)
+ 
+         if (ret < 0 && errno != EAGAIN) {
+             if (tcp_chr_read_poll(chr) <= 0) {
+-                tcp_chr_disconnect(chr);
++                tcp_chr_disconnect_locked(chr);
+                 return len;
+             } /* else let the read handler finish it properly */
+         }
+@@ -469,8 +469,9 @@ static void update_disconnected_filename(SocketChardev *s)
+ /* NB may be called even if tcp_chr_connect has not been
+  * reached, due to TLS or telnet initialization failure,
+  * so can *not* assume s->state == TCP_CHARDEV_STATE_CONNECTED
++ * This must be called with chr->chr_write_lock held.
+  */
+-static void tcp_chr_disconnect(Chardev *chr)
++static void tcp_chr_disconnect_locked(Chardev *chr)
+ {
+     SocketChardev *s = SOCKET_CHARDEV(chr);
+     bool emit_close = s->state == TCP_CHARDEV_STATE_CONNECTED;
+@@ -490,6 +491,13 @@ static void tcp_chr_disconnect(Chardev *chr)
+     }
  }
  
-+/*
-+ * Notify the memory listeners about the coalesced IO change events of
-+ * range `cmr'.  Only the part that has intersection of the specified
-+ * FlatRange will be sent.
-+ */
-+static void flat_range_coalesced_io_notify(FlatRange *fr, AddressSpace *as,
-+                                           CoalescedMemoryRange *cmr, bool add)
++static void tcp_chr_disconnect(Chardev *chr)
 +{
-+    AddrRange tmp;
-+
-+    tmp = addrrange_shift(cmr->addr,
-+                          int128_sub(fr->addr.start,
-+                                     int128_make64(fr->offset_in_region)));
-+    if (!addrrange_intersects(tmp, fr->addr)) {
-+        return;
-+    }
-+    tmp = addrrange_intersection(tmp, fr->addr);
-+
-+    if (add) {
-+        MEMORY_LISTENER_UPDATE_REGION(fr, as, Forward, coalesced_io_add,
-+                                      int128_get64(tmp.start),
-+                                      int128_get64(tmp.size));
-+    } else {
-+        MEMORY_LISTENER_UPDATE_REGION(fr, as, Reverse, coalesced_io_del,
-+                                      int128_get64(tmp.start),
-+                                      int128_get64(tmp.size));
-+    }
++    qemu_mutex_lock(&chr->chr_write_lock);
++    tcp_chr_disconnect_locked(chr);
++    qemu_mutex_unlock(&chr->chr_write_lock);
 +}
 +
- static void flat_range_coalesced_io_del(FlatRange *fr, AddressSpace *as)
+ static gboolean tcp_chr_read(QIOChannel *chan, GIOCondition cond, void *opaque)
  {
-+    CoalescedMemoryRange *cmr;
-+
-     if (!fr->has_coalesced_range) {
-         return;
-     }
-@@ -865,16 +896,15 @@ static void flat_range_coalesced_io_del(FlatRange *fr, AddressSpace *as)
-         return;
-     }
+     Chardev *chr = CHARDEV(opaque);
+@@ -1131,8 +1139,10 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
+     Chardev *chr = CHARDEV(opaque);
+     SocketChardev *s = SOCKET_CHARDEV(opaque);
  
--    MEMORY_LISTENER_UPDATE_REGION(fr, as, Reverse, coalesced_io_del,
--                                  int128_get64(fr->addr.start),
--                                  int128_get64(fr->addr.size));
-+    QTAILQ_FOREACH(cmr, &fr->mr->coalesced, link) {
-+        flat_range_coalesced_io_notify(fr, as, cmr, false);
-+    }
- }
++    qemu_mutex_lock(&chr->chr_write_lock);
+     g_source_unref(s->reconnect_timer);
+     s->reconnect_timer = NULL;
++    qemu_mutex_unlock(&chr->chr_write_lock);
  
- static void flat_range_coalesced_io_add(FlatRange *fr, AddressSpace *as)
- {
-     MemoryRegion *mr = fr->mr;
-     CoalescedMemoryRange *cmr;
--    AddrRange tmp;
- 
-     if (QTAILQ_EMPTY(&mr->coalesced)) {
-         return;
-@@ -885,16 +915,7 @@ static void flat_range_coalesced_io_add(FlatRange *fr, AddressSpace *as)
-     }
- 
-     QTAILQ_FOREACH(cmr, &mr->coalesced, link) {
--        tmp = addrrange_shift(cmr->addr,
--                              int128_sub(fr->addr.start,
--                                         int128_make64(fr->offset_in_region)));
--        if (!addrrange_intersects(tmp, fr->addr)) {
--            continue;
--        }
--        tmp = addrrange_intersection(tmp, fr->addr);
--        MEMORY_LISTENER_UPDATE_REGION(fr, as, Forward, coalesced_io_add,
--                                      int128_get64(tmp.start),
--                                      int128_get64(tmp.size));
-+        flat_range_coalesced_io_notify(fr, as, cmr, true);
-     }
- }
- 
+     if (chr->be_open) {
+         return false;
 -- 
 1.8.3.1
-
 
 
