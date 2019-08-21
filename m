@@ -2,56 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449D197817
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:41:26 +0200 (CEST)
-Received: from localhost ([::1]:47254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEBFD9782C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:42:58 +0200 (CEST)
+Received: from localhost ([::1]:47278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0OzV-0002tE-Dh
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:41:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53857)
+	id 1i0P0z-00052A-RM
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:42:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54149)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i0Ofg-0005W6-JB
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:21:01 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1i0Oh1-0007eY-Ee
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:22:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i0OfZ-0006ky-Hh
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:56 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:42937)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i0OfZ-0006kA-8O; Wed, 21 Aug 2019 07:20:49 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N0F9t-1iD08N1wCF-00xHPp; Wed, 21 Aug 2019 13:20:08 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:19:42 +0200
-Message-Id: <20190821111947.26580-10-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190821111947.26580-1-laurent@vivier.eu>
-References: <20190821111947.26580-1-laurent@vivier.eu>
+ (envelope-from <balaton@eik.bme.hu>) id 1i0Ogz-0007Su-QY
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:22:18 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:60045)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1i0Ogz-0007SS-KW
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:22:17 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 584887456E3;
+ Wed, 21 Aug 2019 13:22:16 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 3238B7456D5; Wed, 21 Aug 2019 13:22:16 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 2B9507456B4;
+ Wed, 21 Aug 2019 13:22:16 +0200 (CEST)
+Date: Wed, 21 Aug 2019 13:22:16 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Gerd Hoffmann <kraxel@redhat.com>
+In-Reply-To: <20190821091321.tr45eiaqxjm3csvw@sirius.home.kraxel.org>
+Message-ID: <alpine.BSF.2.21.9999.1908211318590.60573@zero.eik.bme.hu>
+References: <cover.1565907489.git.balaton@eik.bme.hu>
+ <489ce252f9d5f902f7d240ff9895e77bb335f1a9.1565907489.git.balaton@eik.bme.hu>
+ <20190821091321.tr45eiaqxjm3csvw@sirius.home.kraxel.org>
+User-Agent: Alpine 2.21.9999 (BSF 287 2018-06-16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LC4f+dfAljIEcCQ1REYw2lGRpTrvXt53bCf+1c1lJIZihbJTgyC
- 5sWySJUsf9Rmg7bNn7LZ6r84o257RZpjq8lO/NUkGMthXVszNsoDOneT/5gIcZy7caIjxVZ
- jrIEqkl+ZDzGMN5mLDFLW1f0uh1GegdodD8yn0senDHIwPLe493pdvHEQ9f1vQ+XeztMnPm
- lf/onC5Rua93OjYvJmizA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PgMaRYuJqzQ=:T/JqyOOFPbLTAWb18T0MgJ
- phT3UYjHKPJ/jF6OjW68yAmHFrmjpsF/7J3dMP1ObMuM3gqDjQ5lhNIR5f67iwEzFqNfncBBZ
- c4wFFIjk4uDPa73X64eQMR5Wx1nc9bqycjp/QYfpP8pXG8omSWVO93UpjfCbtE5iAd9d3XAo9
- 7DVPg6AUdCEfsF0opLCuUFTO7vT0E8EiO2HHybakoLqEYHxAnSp1RAjf0PwV9e4D3B3tE9Iz9
- ad21NIw+QJV8K4obEZQcELHSjmx/fNHBxe5muGFFAxmgQ7q63R5PdA98VcBingmJXsK3CXGGp
- Su5DJSdkgJSGC4IlMIcmvn4NEIA2pB1eN8cwf0PVP9WxcZpRtq8Rv+Swi28J5DPVtY6zRAgzv
- JlnnEPkzae4tft/FvPxg53adBu7gdS12bDXnRqCumf0P8QzC8wkMayw6swWJaoWUHfIIRzS4U
- Ss9eyrhyQKdB/ftADt6XjnkSCQr/+9Jprwq5qTISqUitxiP0uvr4vCCB6TJMzI6QI5/uXhpgd
- GLLORwDbUjToZ7wgaEOuIrhJQIzpUXXA/7iN++OWBQNBxB8NVuKa0GtWr/YHLcbU8BSggPBij
- y6IbUNgkQ1qC0Rn9q1QJMlXb4yCCs4fSLmFpB1aLvm/DReo0QkN2JdPYVN+xYTXM9lwiQsIMW
- 7WCt3XRfXUWf6MXZ1uJtFNu1ew1V1WqrQ9lRJh95TVOxh0JcT9L9dIp3QI+nymnGFnzjlw5ds
- Li+zrlT21DMgONOBXUiEB/ZVmoj+A8tYyiSVWLOJ9Qh7js1fglbMCDLTX5E=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: [Qemu-devel] [PULL 09/14] hw/ipmi: Rewrite a fall through comment
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
+Subject: Re: [Qemu-devel] [PATCH 3/3] ati-vga: Silence some noisy traces
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,63 +53,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Corey Minyard <cminyard@mvista.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Corey Minyard <minyard@acm.org>, Juan Quintela <quintela@redhat.com>,
- qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Wed, 21 Aug 2019, Gerd Hoffmann wrote:
+> On Fri, Aug 16, 2019 at 12:18:09AM +0200, BALATON Zoltan wrote:
+>> Some registers are accessed very frequently so exclude these from
+>> traces to avoid flooding output with a lot of trace logs when traces
+>> are enabled thus helping debugging.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/display/ati.c | 18 ++++++++++++++++--
+>>  1 file changed, 16 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/display/ati.c b/hw/display/ati.c
+>> index 5e2c4ba4aa..36d2a75f71 100644
+>> --- a/hw/display/ati.c
+>> +++ b/hw/display/ati.c
+>> @@ -489,7 +489,14 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
+>>      default:
+>>          break;
+>>      }
+>> -    if (addr < CUR_OFFSET || addr > CUR_CLR1 || ATI_DEBUG_HW_CURSOR) {
+>> +    if ((addr < CUR_OFFSET || addr > CUR_CLR1 + 3 || (ATI_DEBUG_HW_CURSOR &&
+>> +        (addr >= CUR_OFFSET && addr <= CUR_CLR1 + 3))) &&
+>> +        (addr < GEN_INT_CNTL || addr > GEN_INT_STATUS + 3) &&
+>> +        (addr < GPIO_MONID || addr > GPIO_MONID + 3) &&
+>> +        (addr < AMCGPIO_MASK_MIR || addr > AMCGPIO_EN_MIR + 3) &&
+>> +        (addr < 0x908 || addr > 0x90f) && (addr < 0xc4c || addr > 0xc53) &&
+>> +        addr != RBBM_STATUS && addr != 0x1714 &&
+>> +        addr != 0x7b8 && addr > MM_DATA + 3) {
+>>          trace_ati_mm_read(size, addr, ati_reg_name(addr & ~3ULL), val);
+>
+> I'd suggest to split the trace_ati_mm_read tracepoint, so this can be
+> tweaked at runtime without patching the source code.
+>
+> One tracepoint per register is probably a bit over the top.  Grouping
+> registers by function (i2c, crtc, irq, cursor, ...) looks useful to me.
 
-GCC9 is confused by this comment when building with CFLAG
--Wimplicit-fallthrough=2:
+Thanks for the suggestion but I don't have time for that now. Maybe I'll 
+ckean it up later in a follow up patch but not sure when. Until then you 
+can either drop this one (but that would make tracing useless due to 
+flooding log) or take it as it is (as this is just debug logging noe and 
+maybe I should have use DPRINTF here as well).
 
-  hw/ipmi/ipmi_bmc_extern.c: In function ‘addchar’:
-  hw/ipmi/ipmi_bmc_extern.c:178:12: error: this statement may fall through [-Werror=implicit-fallthrough=]
-    178 |         ch |= 0x10;
-        |         ~~~^~~~~~~
-  hw/ipmi/ipmi_bmc_extern.c:181:5: note: here
-    181 |     default:
-        |     ^~~~~~~
-  cc1: all warnings being treated as errors
-  make: *** [rules.mak:69: hw/ipmi/ipmi_bmc_extern.o] Error 1
-
-Rewrite the comment using 'fall through' which is recognized by
-GCC and static analyzers.
-
-Reported-by: Stefan Weil <sw@weilnetz.de>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Corey Minyard <cminyard@mvista.com>
-Message-Id: <20190719131425.10835-5-philmd@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/ipmi/ipmi_bmc_extern.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
-index 573428eca1b2..87da9ff99cf5 100644
---- a/hw/ipmi/ipmi_bmc_extern.c
-+++ b/hw/ipmi/ipmi_bmc_extern.c
-@@ -177,8 +177,7 @@ static void addchar(IPMIBmcExtern *ibe, unsigned char ch)
-         ibe->outbuf[ibe->outlen] = VM_ESCAPE_CHAR;
-         ibe->outlen++;
-         ch |= 0x10;
--        /* No break */
--
-+        /* fall through */
-     default:
-         ibe->outbuf[ibe->outlen] = ch;
-         ibe->outlen++;
--- 
-2.21.0
-
+Regards,
+BALATON Zoltan
 
