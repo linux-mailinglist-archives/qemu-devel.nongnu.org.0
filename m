@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1040F97000
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 05:06:00 +0200 (CEST)
-Received: from localhost ([::1]:43598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F35AE9700F
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 05:12:45 +0200 (CEST)
+Received: from localhost ([::1]:43628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Gwg-0003wY-Le
-	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 23:05:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42373)
+	id 1i0H3F-0007Kh-0i
+	for lists+qemu-devel@lfdr.de; Tue, 20 Aug 2019 23:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42998)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <owen.si@ucloud.cn>) id 1i0Gvl-0002rJ-2Z
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 23:05:02 -0400
+ (envelope-from <joel.stan@gmail.com>) id 1i0H0Z-0006e2-CR
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 23:10:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <owen.si@ucloud.cn>) id 1i0Gvh-00081h-Ev
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 23:04:58 -0400
-Received: from m9785.mail.qiye.163.com ([220.181.97.85]:12280)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <owen.si@ucloud.cn>) id 1i0Gvg-0007uE-S2
- for qemu-devel@nongnu.org; Tue, 20 Aug 2019 23:04:57 -0400
-Received: from SKY-20190329ATQ (unknown [117.48.120.186])
- by m9785.mail.qiye.163.com (Hmail) with ESMTPA id A6B5E5C1640;
- Wed, 21 Aug 2019 11:04:46 +0800 (CST)
-Date: Wed, 21 Aug 2019 11:04:46 +0800
-From: "owen.si@ucloud.cn" <owen.si@ucloud.cn>
-To: "Eduardo Habkost" <ehabkost@redhat.com>
-References: <20190819100924.14968-1-owen.si@ucloud.cn>, 
- <20190820212306.GM3908@habkost.net>
-X-Priority: 3
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.10.151[cn]
-Mime-Version: 1.0
-Message-ID: <2019082111044638341815@ucloud.cn>
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZVkpVSEtJS0tLT0tIT0tPSU9ZV1koWU
- FJQjdXWS1ZQUlXWQkOFx4IWUFZNTQpNjo3JCkuNz5ZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nwg6Lww5ITg#OT8cTCxLDk8x
- Mz4aCglVSlVKTk1NSE5NTUNMSktCVTMWGhIXVRQMHhVVCBI7DhgXFA4fVRgVRVlXWRILWUFZSkpM
- VU9DVUpJS1VKQ01ZV1kIAVlBQ05JSjcG
-X-HM-Tid: 0a6cb222476b2087kuqya6b5e5c1640
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 220.181.97.85
-Content-Type: text/plain;
-	charset="ISO-8859-1"
-Content-Transfer-Encoding: base64
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH] Revert "i386: correct cpu_x86_cpuid(0xd)"
+ (envelope-from <joel.stan@gmail.com>) id 1i0H0Y-0003Xd-Ed
+ for qemu-devel@nongnu.org; Tue, 20 Aug 2019 23:09:59 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:43831)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
+ id 1i0H0W-0003TI-2W; Tue, 20 Aug 2019 23:09:56 -0400
+Received: by mail-pl1-x642.google.com with SMTP id 4so497448pld.10;
+ Tue, 20 Aug 2019 20:09:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4H0DNln+vkIfh3c16gEfBqSh6PiHJ/PVZ4BRLm+SFLI=;
+ b=TT6fjxKLXHGBiNm3kYcqos/P1+uUqIFmRu4wrlu18JrXhGnRoV8lgryOIU3JCIfWjr
+ MB7a56PpHkyiku5ARARow/VTelXruvv38sklWPkLS3ulHGjm0WO80SURfsJ6grLlAMMy
+ qLvS+C1OdiXemZjpskZGzu3kFkKmXdO6nchF99xMn6C1dG58CPgr/FubEzqc4jmWBmmN
+ t49mbcth9vyPQJQadYqGvWD8T+9oJXAWu4Qun4Qv3HVP1L1c/AumnFKXRsHoadI4mXhI
+ JHWl70AS2GqkQkDVxsfayogPQBR3Q5cfmY6+Lb+sdxC0k9lnNetOkjQH2sjKdEOKQx/j
+ Cutw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=4H0DNln+vkIfh3c16gEfBqSh6PiHJ/PVZ4BRLm+SFLI=;
+ b=ZPAkTAiUZ8BzI2Y7Scy3ryNhlaX3fAHdVabvdI/6tmNmRpL5OHJfllaH72byDF+hAP
+ rryfHbDHNkJEKyDa8DKBx1PuRJdVjLJ6J1xc2uakJX0KmkNwrbPiv5yvCRkDj0jgnJUz
+ G5zH9L5T9Hn3ajnfjNwnovhR2KzQMYVv4hncexjKV5ItEMzjYYX5vIiNEpuFI/adZqKF
+ HHr3wdL+d1DZkNvMI0R9QI4txZMhhqu5UsaO8/CwDs96WJmgNsq8x/t+3bht05d2Emtl
+ X5VqL2mgO4sy9X80233r8adXEIIA7wxENqOQ3OwjV5JEF3foUOZfjmGbXDR9h1CV8aqK
+ fLvQ==
+X-Gm-Message-State: APjAAAV+j4+Md5ze9xgUW7ZMssBXGzC+mq9wp+TUi0FdKnF9hBxC4kRC
+ oGXUy2UdGIYA7+FzHB0m8LA+2Uv0
+X-Google-Smtp-Source: APXvYqz+fsexjRX/MjnQEbaR8sNd55NIudhCNs2m5xczzd25mqpRbPTLeqvtprDONJW1MfWDEahdsQ==
+X-Received: by 2002:a17:902:b604:: with SMTP id
+ b4mr30612298pls.94.1566356993571; 
+ Tue, 20 Aug 2019 20:09:53 -0700 (PDT)
+Received: from voyager.ibm.com ([36.255.48.244])
+ by smtp.gmail.com with ESMTPSA id j10sm21335220pfn.188.2019.08.20.20.09.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Aug 2019 20:09:53 -0700 (PDT)
+From: Joel Stanley <joel@jms.id.au>
+To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 12:39:45 +0930
+Message-Id: <20190821030945.473-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.23.0.rc1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v2] ppc/pnv: Set default ram size to 1.75GB
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,42 +76,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhhbmtzIGZvciB5b3UgcmVwbHksIHdlIGhhdmUgc29tZSBob3N0cyBydW5uaW5nIHdpdGggbGVn
-YWN5IGtlcm5lbCwgZGlmZmljdWx0IHRvIHVwZ3JhZGUsIGFuZCBpIHdhbnQgdG8gcnVuIHRoZSBs
-YXRlc3QgcWVtdS4NCkRvZXMgUUVNVSBzdXBwb3J0IHJ1bm5pbmcgd2l0aCBsZWdhY3kga2VybmVs
-KGt2bSkgaW4gZGVzaWduPw0KDQoNCg0Kb3dlbi5zaUB1Y2xvdWQuY24NCiANCkZyb206IEVkdWFy
-ZG8gSGFia29zdA0KRGF0ZTogMjAxOS0wOC0yMSAwNToyMw0KVG86IEJpbmdzb25nIFNpDQpDQzog
-cWVtdS1kZXZlbA0KU3ViamVjdDogUmU6IFtRZW11LWRldmVsXSBbUEFUQ0hdIFJldmVydCAiaTM4
-NjogY29ycmVjdCBjcHVfeDg2X2NwdWlkKDB4ZCkiDQpPbiBNb24sIEF1ZyAxOSwgMjAxOSBhdCAw
-NjowOToyNFBNICswODAwLCBCaW5nc29uZyBTaSB3cm90ZToNCj4gVGhpcyByZXZlcnRzIGNvbW1p
-dCBkZTJlNjhjOTAyZjdiNmU0MzhiMGZhM2NmZWRkNzRhMDZhMjA3MDRmLg0KPiANCj4gSW5pdGlh
-bCB2YWx1ZSBvZiBlbnYtPnhjcjAgPT0gMCwgdGhlbiBDUFVJRChFQVg9MHhkLEVDWD0wKS5FQlgg
-PT0gMCwgYWZ0ZXIga3ZtDQo+IHVwc3RyZWFtIGNvbW1pdCA0MTJhM2M0MSwgSXQgaXMgb2suDQo+
-IE9uIGhvc3QgYmVmb3JlIGNvbW1pdCA0MTJhM2M0MSwgc29tZSBsZWdhY3kgZ3Vlc3QsIGkuZS4g
-Q2VudE9TIDYsIGdldA0KPiB4c3RhdGVfc2l6ZSA9PSAwLCB3aWxsIGNyYXNoIHRoZSBndWVzdC4N
-Cj4gDQo+IFNpZ25lZC1vZmYtYnk6IEJpbmdzb25nIFNpIDxvd2VuLnNpQHVjbG91ZC5jbj4NCiAN
-CmNwdV94ODZfY3B1aWQoKSBpcyBhbHNvIHVzZWQgYnkgVENHLCBhbmQgbmVlZHMgdG8gcmV0dXJu
-IHRoZQ0KY29ycmVjdCBkYXRhIGRlcGVuZGluZyBvbiB4Y3IwLiAgSWYgeW91IHdhbnQgdG8gd29y
-ayBhcm91bmQgYSBLVk0NCmJ1ZyBieSBpZ25vcmluZyB4Y3IwLCBpdCBuZWVkcyB0byBiZSBjb25k
-aXRpb25hbCBvbg0Ka3ZtX2VuYWJsZWQoKS4NCiANCkJ1dCBldmVuIGlmIHdlIHlvdSBtYWtlIHRo
-aXMgY29uZGl0aW9uYWwgb24ga3ZtX2VuYWJsZWQoKSwgSQ0KZG9uJ3QgdW5kZXJzdGFuZCB3aHkg
-UUVNVSB3b3VsZCBuZWVkIGEgd29ya2Fyb3VuZCBmb3IgYSBLVk0gYnVnDQp0aGF0IHdhcyBmaXhl
-ZCBtb3JlIHRoYW4gNCB5ZWFycyBhZ28uDQogDQo+IC0tLQ0KPiAgdGFyZ2V0L2kzODYvY3B1LmMg
-fCAyICstDQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkN
-Cj4gDQo+IGRpZmYgLS1naXQgYS90YXJnZXQvaTM4Ni9jcHUuYyBiL3RhcmdldC9pMzg2L2NwdS5j
-DQo+IGluZGV4IGZmNjVlMTEwMDguLjY5NTYyZTIxZWQgMTAwNjQ0DQo+IC0tLSBhL3RhcmdldC9p
-Mzg2L2NwdS5jDQo+ICsrKyBiL3RhcmdldC9pMzg2L2NwdS5jDQo+IEBAIC00NDE2LDcgKzQ0MTYs
-NyBAQCB2b2lkIGNwdV94ODZfY3B1aWQoQ1BVWDg2U3RhdGUgKmVudiwgdWludDMyX3QgaW5kZXgs
-IHVpbnQzMl90IGNvdW50LA0KPiAgICAgICAgICAgICAgKmVjeCA9IHhzYXZlX2FyZWFfc2l6ZSh4
-ODZfY3B1X3hzYXZlX2NvbXBvbmVudHMoY3B1KSk7DQo+ICAgICAgICAgICAgICAqZWF4ID0gZW52
-LT5mZWF0dXJlc1tGRUFUX1hTQVZFX0NPTVBfTE9dOw0KPiAgICAgICAgICAgICAgKmVkeCA9IGVu
-di0+ZmVhdHVyZXNbRkVBVF9YU0FWRV9DT01QX0hJXTsNCj4gLSAgICAgICAgICAgICplYnggPSB4
-c2F2ZV9hcmVhX3NpemUoZW52LT54Y3IwKTsNCj4gKyAgICAgICAgICAgICplYnggPSAqZWN4Ow0K
-PiAgICAgICAgICB9IGVsc2UgaWYgKGNvdW50ID09IDEpIHsNCj4gICAgICAgICAgICAgICplYXgg
-PSBlbnYtPmZlYXR1cmVzW0ZFQVRfWFNBVkVdOw0KPiAgICAgICAgICB9IGVsc2UgaWYgKGNvdW50
-IDwgQVJSQVlfU0laRSh4ODZfZXh0X3NhdmVfYXJlYXMpKSB7DQo+IC0tIA0KPiAyLjIyLjANCj4g
-DQo+IA0KIA0KLS0gDQpFZHVhcmRvDQo=
+This makes the powernv machine easier for end users as the default
+initrd address (1.5GB) is now within RAM.
+
+This uses less than 2GB of RAM to ensure 32 bit Qemu still works.
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+--
+v2: Use INITRD defines, whcih come out to 1.75, instead of 2GB
+---
+ hw/ppc/pnv.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index d95086fbbd1e..5000db5faab5 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1361,7 +1361,9 @@ static void pnv_machine_class_init(ObjectClass *oc, void *data)
+                                       * storage */
+     mc->no_parallel = 1;
+     mc->default_boot_order = NULL;
+-    mc->default_ram_size = 1 * GiB;
++    /* RAM defaults to less than 2048 for 32-bit hosts, and large
++     * enough to fit the maximum initrd size at it's load address */
++    mc->default_ram_size = INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
+     xic->icp_get = pnv_icp_get;
+     xic->ics_get = pnv_ics_get;
+     xic->ics_resend = pnv_ics_resend;
+-- 
+2.23.0.rc1
+
+
