@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C8897539
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 10:43:52 +0200 (CEST)
-Received: from localhost ([::1]:45430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A059397548
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 10:46:44 +0200 (CEST)
+Received: from localhost ([::1]:45466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0MDf-0005Xj-Dj
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 04:43:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55129)
+	id 1i0MGR-0000eW-3B
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 04:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55145)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1i0MBF-0003ie-6y
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:22 -0400
+ (envelope-from <kraxel@redhat.com>) id 1i0MBF-0003kJ-V5
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1i0MBD-00052s-OY
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44712)
+ (envelope-from <kraxel@redhat.com>) id 1i0MBF-00053a-0A
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59844)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0MBD-00052E-H7
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:19 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0MBE-00053B-Qg
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:20 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 855EE307D88D;
- Wed, 21 Aug 2019 08:41:17 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1F56EC0021D3;
+ Wed, 21 Aug 2019 08:41:20 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com
  [10.36.116.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B20DA6B49A;
- Wed, 21 Aug 2019 08:41:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A3072E0C9;
+ Wed, 21 Aug 2019 08:41:17 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 661B616E1A; Wed, 21 Aug 2019 10:41:13 +0200 (CEST)
+ id 6D7E016E36; Wed, 21 Aug 2019 10:41:13 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 10:40:58 +0200
-Message-Id: <20190821084113.1840-1-kraxel@redhat.com>
+Date: Wed, 21 Aug 2019 10:40:59 +0200
+Message-Id: <20190821084113.1840-2-kraxel@redhat.com>
+In-Reply-To: <20190821084113.1840-1-kraxel@redhat.com>
+References: <20190821084113.1840-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Wed, 21 Aug 2019 08:41:17 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Wed, 21 Aug 2019 08:41:20 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 00/15] Audio 20190821 patches
+Subject: [Qemu-devel] [PULL 01/15] audio: Add missing fall through comments
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,7 +59,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Markus Armbruster <armbru@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Michael Walle <michael@walle.cc>, Gerd Hoffmann <kraxel@redhat.com>,
  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
@@ -65,85 +68,40 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 17dc57990320edaad52ac9ea808be9719c91ce=
-a6:
+From: Stefan Weil <sw@weilnetz.de>
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-201=
-9-08-20' into staging (2019-08-20 14:14:20 +0100)
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-id: 20190718193441.12490-1-sw@weilnetz.de
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ audio/audio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-are available in the Git repository at:
-
-  git://git.kraxel.org/qemu tags/audio-20190821-pull-request
-
-for you to fetch changes up to e76ba19a1f1377314573a6df7e2d82b597aa3d0a:
-
-  audio: fix memory leak reported by ASAN (2019-08-21 09:13:37 +0200)
-
-----------------------------------------------------------------
-audio: second batch of -audiodev support, adding support for multiple bac=
-kends.
-
-----------------------------------------------------------------
-
-K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n (14):
-  audio: reduce glob_audio_state usage
-  audio: basic support for multi backend audio
-  audio: add audiodev property to vnc and wav_capture
-  audio: add audiodev properties to frontends
-  paaudio: prepare for multiple audiodev
-  audio: audiodev=3D parameters no longer optional when -audiodev present
-  paaudio: do not move stream when sink/source name is specified
-  paaudio: properly disconnect streams in fini_*
-  audio: remove audio_MIN, audio_MAX
-  audio: do not run each backend in audio_run
-  paaudio: fix playback glitches
-  audio: remove read and write pcm_ops
-  audio: use size_t where makes sense
-  audio: fix memory leak reported by ASAN
-
-Stefan Weil (1):
-  audio: Add missing fall through comments
-
- audio/audio.h                    |  37 ++-
- audio/audio_int.h                |  43 ++--
- audio/audio_template.h           |  62 +++--
- audio/mixeng.h                   |   9 +-
- audio/rate_template.h            |   2 +-
- include/hw/qdev-properties.h     |   3 +
- include/sysemu/replay.h          |   4 +-
- ui/vnc.h                         |   2 +
- audio/alsaaudio.c                |  49 ++--
- audio/audio.c                    | 347 ++++++++++++++-----------
- audio/coreaudio.c                |  18 +-
- audio/dsoundaudio.c              |  31 +--
- audio/noaudio.c                  |  39 +--
- audio/ossaudio.c                 |  75 +++---
- audio/paaudio.c                  | 421 ++++++++++++++++++-------------
- audio/sdlaudio.c                 |  30 +--
- audio/spiceaudio.c               |  34 +--
- audio/wavaudio.c                 |  18 +-
- audio/wavcapture.c               |   6 +-
- hw/audio/ac97.c                  |  11 +-
- hw/audio/adlib.c                 |   5 +-
- hw/audio/cs4231a.c               |   5 +-
- hw/audio/es1370.c                |  13 +-
- hw/audio/gus.c                   |   7 +-
- hw/audio/hda-codec.c             |  17 +-
- hw/audio/milkymist-ac97.c        |  14 +-
- hw/audio/pcspk.c                 |   3 +-
- hw/audio/pl041.c                 |   1 +
- hw/audio/sb16.c                  |   3 +-
- hw/audio/wm8750.c                |  10 +-
- hw/core/qdev-properties-system.c |  57 +++++
- hw/usb/dev-audio.c               |   1 +
- monitor/misc.c                   |  22 +-
- replay/replay-audio.c            |  16 +-
- replay/replay.c                  |   2 +-
- ui/vnc.c                         |  15 +-
- hmp-commands.hx                  |  11 +-
- qemu-options.hx                  |   6 +
- 38 files changed, 794 insertions(+), 655 deletions(-)
-
+diff --git a/audio/audio.c b/audio/audio.c
+index c8b88d892d20..a76787b3e872 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -306,6 +306,7 @@ void audio_pcm_init_info (struct audio_pcm_info *info=
+, struct audsettings *as)
+=20
+     case AUDIO_FORMAT_S16:
+         sign =3D 1;
++        /* fall through */
+     case AUDIO_FORMAT_U16:
+         bits =3D 16;
+         shift =3D 1;
+@@ -313,6 +314,7 @@ void audio_pcm_init_info (struct audio_pcm_info *info=
+, struct audsettings *as)
+=20
+     case AUDIO_FORMAT_S32:
+         sign =3D 1;
++        /* fall through */
+     case AUDIO_FORMAT_U32:
+         bits =3D 32;
+         shift =3D 2;
 --=20
 2.18.1
 
