@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AFE897396
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:34:00 +0200 (CEST)
-Received: from localhost ([::1]:44480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE9C973B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:38:14 +0200 (CEST)
+Received: from localhost ([::1]:44510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0L82-000359-NP
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:33:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42089)
+	id 1i0LC9-0008UC-JO
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42095)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0M-0004Tc-Bu
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0M-0004Tr-JE
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0K-0007zX-MZ
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0K-0007zd-P2
  for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:02 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:43563)
+Received: from ozlabs.org ([2401:3900:2:1::2]:48573)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L0J-0007sz-Qn; Wed, 21 Aug 2019 03:26:00 -0400
+ id 1i0L0J-0007tU-WA; Wed, 21 Aug 2019 03:26:00 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46Czj9109Rz9sNk; Wed, 21 Aug 2019 17:25:48 +1000 (AEST)
+ id 46Czj94QDHz9sP3; Wed, 21 Aug 2019 17:25:49 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1566372349;
- bh=sRXk7SNRvroQ2qFl7AEBNqbIUZ7MSRvgK0vwUkIjtnY=;
+ bh=XqyhbOl/gxAdC8MJ8BVPV9g2FOc7Ped5PieEArgy48k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z69Q38IEtwqTqwKBbuh3qQ/2GsBw77JDb41a/mjzLfHB/pD3EkbyxyRNpveVhT9P4
- dU4gtEsD3iB8fMErSWEN+XYmxK2HQsbm8JnF6xjpAt14cFzdVMuWhE5yoW5ggc1JBs
- jaO5v4AmBeqWvo04WpOHrUHpWFAE7btWFygaZNZ4=
+ b=STvSz3V72iqhpPC6EvXckAeQviXBGOtwtXcUt2TWXq7YwI11Zpj08eOpMQu/zhhgM
+ A+VuezACU9iLtmxcJMkQ9QVTcL80Ce/YzTlLNL/naLA4MBjhJp0acb5s98QbyGlYGI
+ lagI3EhW+TTyifITE/nQXqvc7fVPpe3kckf3WWj8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:03 +1000
-Message-Id: <20190821072542.23090-4-david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 17:25:08 +1000
+Message-Id: <20190821072542.23090-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 03/42] hw: add compat machines for 4.2
+Subject: [Qemu-devel] [PULL 08/42] target/ppc: move opcode decode tables to
+ PowerPCCPU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,254 +55,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Eduardo Habkost <ehabkost@redhat.com>, aik@ozlabs.ru,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, aik@ozlabs.ru,
+ Richard Henderson <richard.henderson@linaro.org>, 1836558@bugs.launchpad.net,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cornelia Huck <cohuck@redhat.com>
+From: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Add 4.2 machine types for arm/i440fx/q35/s390x/spapr.
+The opcode decode tables aren't really part of the CPUPPCState but an
+internal implementation detail for the translator. This can cause
+problems with memcpy in cpu_copy as any table created during
+ppc_cpu_realize get written over causing a memory leak. To avoid this
+move the tables into PowerPCCPU which is better suited to hold
+internal implementation details.
 
-For i440fx and q35, unversioned cpu models are still translated
-to -v1, as 0788a56bd1ae ("i386: Make unversioned CPU models be
-aliases") states this should only transition to the latest cpu
-model version in 4.3 (or later).
-
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20190724103524.20916-1-cohuck@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Attempts to fix: https://bugs.launchpad.net/qemu/+bug/1836558
+Cc: 1836558@bugs.launchpad.net
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Message-Id: <20190716121352.302-1-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/arm/virt.c              |  9 ++++++++-
- hw/core/machine.c          |  3 +++
- hw/i386/pc.c               |  3 +++
- hw/i386/pc_piix.c          | 14 +++++++++++++-
- hw/i386/pc_q35.c           | 13 ++++++++++++-
- hw/ppc/spapr.c             | 15 +++++++++++++--
- hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
- include/hw/boards.h        |  3 +++
- include/hw/i386/pc.h       |  3 +++
- 9 files changed, 71 insertions(+), 6 deletions(-)
+ target/ppc/cpu.h                |  8 ++++----
+ target/ppc/translate.c          |  3 ++-
+ target/ppc/translate_init.inc.c | 16 +++++++---------
+ 3 files changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 02510acb81..0d1629ccb3 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2050,10 +2050,17 @@ static void machvirt_machine_init(void)
- }
- type_init(machvirt_machine_init);
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 4ea33cf696..630a25c246 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1104,10 +1104,6 @@ struct CPUPPCState {
+     bool resume_as_sreset;
+ #endif
 =20
-+static void virt_machine_4_2_options(MachineClass *mc)
-+{
-+}
-+DEFINE_VIRT_MACHINE_AS_LATEST(4, 2)
+-    /* Those resources are used only during code translation */
+-    /* opcode handlers */
+-    opc_handler_t *opcodes[PPC_CPU_OPCODES_LEN];
+-
+     /* Those resources are used only in QEMU core */
+     target_ulong hflags;      /* hflags is a MSR & HFLAGS_MASK         *=
+/
+     target_ulong hflags_nmsr; /* specific hflags, not coming from MSR */
+@@ -1191,6 +1187,10 @@ struct PowerPCCPU {
+     int32_t node_id; /* NUMA node this CPU belongs to */
+     PPCHash64Options *hash64_opts;
+=20
++    /* Those resources are used only during code translation */
++    /* opcode handlers */
++    opc_handler_t *opcodes[PPC_CPU_OPCODES_LEN];
 +
- static void virt_machine_4_1_options(MachineClass *mc)
- {
-+    virt_machine_4_2_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_len)=
-;
- }
--DEFINE_VIRT_MACHINE_AS_LATEST(4, 1)
-+DEFINE_VIRT_MACHINE(4, 1)
-=20
- static void virt_machine_4_0_options(MachineClass *mc)
- {
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 32d1ca9abc..83cd1bfeec 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -27,6 +27,9 @@
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
-=20
-+GlobalProperty hw_compat_4_1[] =3D {};
-+const size_t hw_compat_4_1_len =3D G_N_ELEMENTS(hw_compat_4_1);
-+
- GlobalProperty hw_compat_4_0[] =3D {
-     { "VGA",            "edid", "false" },
-     { "secondary-vga",  "edid", "false" },
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 3ab4bcb3ca..95edbbfe9e 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -119,6 +119,9 @@ struct hpet_fw_config hpet_cfg =3D {.count =3D UINT8_=
-MAX};
- /* Physical Address of PVH entry point read from kernel ELF NOTE */
- static size_t pvh_start_addr;
-=20
-+GlobalProperty pc_compat_4_1[] =3D {};
-+const size_t pc_compat_4_1_len =3D G_N_ELEMENTS(pc_compat_4_1);
-+
- GlobalProperty pc_compat_4_0[] =3D {};
- const size_t pc_compat_4_0_len =3D G_N_ELEMENTS(pc_compat_4_0);
-=20
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 9e187f856a..a70cf0aafc 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -432,7 +432,7 @@ static void pc_i440fx_machine_options(MachineClass *m=
+     /* Fields related to migration compatibility hacks */
+     bool pre_2_8_migration;
+     target_ulong mig_msr_mask;
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 9f9553afb4..1afb31e855 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7858,6 +7858,7 @@ static bool ppc_tr_breakpoint_check(DisasContextBas=
+e *dcbase, CPUState *cs,
+ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs=
 )
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
- }
-=20
--static void pc_i440fx_4_1_machine_options(MachineClass *m)
-+static void pc_i440fx_4_2_machine_options(MachineClass *m)
  {
-     PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
-     pc_i440fx_machine_options(m);
-@@ -441,6 +441,18 @@ static void pc_i440fx_4_1_machine_options(MachineCla=
-ss *m)
-     pcmc->default_cpu_version =3D 1;
- }
+     DisasContext *ctx =3D container_of(dcbase, DisasContext, base);
++    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+     CPUPPCState *env =3D cs->env_ptr;
+     opc_handler_t **table, *handler;
 =20
-+DEFINE_I440FX_MACHINE(v4_2, "pc-i440fx-4.2", NULL,
-+                      pc_i440fx_4_2_machine_options);
-+
-+static void pc_i440fx_4_1_machine_options(MachineClass *m)
-+{
-+    pc_i440fx_4_2_machine_options(m);
-+    m->alias =3D NULL;
-+    m->is_default =3D 0;
-+    compat_props_add(m->compat_props, hw_compat_4_1, hw_compat_4_1_len);
-+    compat_props_add(m->compat_props, pc_compat_4_1, pc_compat_4_1_len);
-+}
-+
- DEFINE_I440FX_MACHINE(v4_1, "pc-i440fx-4.1", NULL,
-                       pc_i440fx_4_1_machine_options);
-=20
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index be3464f485..d4e8a1cb9f 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -364,7 +364,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->max_cpus =3D 288;
- }
-=20
--static void pc_q35_4_1_machine_options(MachineClass *m)
-+static void pc_q35_4_2_machine_options(MachineClass *m)
+@@ -7875,7 +7876,7 @@ static void ppc_tr_translate_insn(DisasContextBase =
+*dcbase, CPUState *cs)
+               opc3(ctx->opcode), opc4(ctx->opcode),
+               ctx->le_mode ? "little" : "big");
+     ctx->base.pc_next +=3D 4;
+-    table =3D env->opcodes;
++    table =3D cpu->opcodes;
+     handler =3D table[opc1(ctx->opcode)];
+     if (is_indirect_opcode(handler)) {
+         table =3D ind_table(handler);
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+index 86fc8f2e31..9cd2033bb9 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -9440,14 +9440,13 @@ static void fix_opcode_tables(opc_handler_t **ppc=
+_opcodes)
+ static void create_ppc_opcodes(PowerPCCPU *cpu, Error **errp)
  {
-     PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
-     pc_q35_machine_options(m);
-@@ -372,6 +372,17 @@ static void pc_q35_4_1_machine_options(MachineClass =
-*m)
-     pcmc->default_cpu_version =3D 1;
+     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+-    CPUPPCState *env =3D &cpu->env;
+     opcode_t *opc;
+=20
+-    fill_new_table(env->opcodes, PPC_CPU_OPCODES_LEN);
++    fill_new_table(cpu->opcodes, PPC_CPU_OPCODES_LEN);
+     for (opc =3D opcodes; opc < &opcodes[ARRAY_SIZE(opcodes)]; opc++) {
+         if (((opc->handler.type & pcc->insns_flags) !=3D 0) ||
+             ((opc->handler.type2 & pcc->insns_flags2) !=3D 0)) {
+-            if (register_insn(env->opcodes, opc) < 0) {
++            if (register_insn(cpu->opcodes, opc) < 0) {
+                 error_setg(errp, "ERROR initializing PowerPC instruction=
+ "
+                            "0x%02x 0x%02x 0x%02x", opc->opc1, opc->opc2,
+                            opc->opc3);
+@@ -9455,7 +9454,7 @@ static void create_ppc_opcodes(PowerPCCPU *cpu, Err=
+or **errp)
+             }
+         }
+     }
+-    fix_opcode_tables(env->opcodes);
++    fix_opcode_tables(cpu->opcodes);
+     fflush(stdout);
+     fflush(stderr);
  }
-=20
-+DEFINE_Q35_MACHINE(v4_2, "pc-q35-4.2", NULL,
-+                   pc_q35_4_2_machine_options);
-+
-+static void pc_q35_4_1_machine_options(MachineClass *m)
-+{
-+    pc_q35_4_2_machine_options(m);
-+    m->alias =3D NULL;
-+    compat_props_add(m->compat_props, hw_compat_4_1, hw_compat_4_1_len);
-+    compat_props_add(m->compat_props, pc_compat_4_1, pc_compat_4_1_len);
-+}
-+
- DEFINE_Q35_MACHINE(v4_1, "pc-q35-4.1", NULL,
-                    pc_q35_4_1_machine_options);
-=20
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index e09c67eb75..6587d9b559 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4430,15 +4430,26 @@ static const TypeInfo spapr_machine_info =3D {
-     }                                                                \
-     type_init(spapr_machine_register_##suffix)
-=20
-+/*
-+ * pseries-4.2
-+ */
-+static void spapr_machine_4_2_class_options(MachineClass *mc)
-+{
-+    /* Defaults for the latest behaviour inherited from the base class *=
-/
-+}
-+
-+DEFINE_SPAPR_MACHINE(4_2, "4.2", true);
-+
- /*
-  * pseries-4.1
-  */
- static void spapr_machine_4_1_class_options(MachineClass *mc)
+@@ -10023,7 +10022,6 @@ static void ppc_cpu_unrealize(DeviceState *dev, E=
+rror **errp)
  {
--    /* Defaults for the latest behaviour inherited from the base class *=
-/
-+    spapr_machine_4_2_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_len)=
-;
- }
+     PowerPCCPU *cpu =3D POWERPC_CPU(dev);
+     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+-    CPUPPCState *env =3D &cpu->env;
+     Error *local_err =3D NULL;
+     opc_handler_t **table, **table_2;
+     int i, j, k;
+@@ -10035,11 +10033,11 @@ static void ppc_cpu_unrealize(DeviceState *dev,=
+ Error **errp)
+     }
 =20
--DEFINE_SPAPR_MACHINE(4_1, "4.1", true);
-+DEFINE_SPAPR_MACHINE(4_1, "4.1", false);
-=20
- /*
-  * pseries-4.0
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 434d933ec9..8bfb6684cb 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -663,14 +663,26 @@ bool css_migration_enabled(void)
-     }                                                                   =
-      \
-     type_init(ccw_machine_register_##suffix)
-=20
-+static void ccw_machine_4_2_instance_options(MachineState *machine)
-+{
-+}
-+
-+static void ccw_machine_4_2_class_options(MachineClass *mc)
-+{
-+}
-+DEFINE_CCW_MACHINE(4_2, "4.2", true);
-+
- static void ccw_machine_4_1_instance_options(MachineState *machine)
- {
-+    ccw_machine_4_2_instance_options(machine);
- }
-=20
- static void ccw_machine_4_1_class_options(MachineClass *mc)
- {
-+    ccw_machine_4_2_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_len)=
-;
- }
--DEFINE_CCW_MACHINE(4_1, "4.1", true);
-+DEFINE_CCW_MACHINE(4_1, "4.1", false);
-=20
- static void ccw_machine_4_0_instance_options(MachineState *machine)
- {
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 739d109fe1..aa35955f7f 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -317,6 +317,9 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
-=20
-+extern GlobalProperty hw_compat_4_1[];
-+extern const size_t hw_compat_4_1_len;
-+
- extern GlobalProperty hw_compat_4_0[];
- extern const size_t hw_compat_4_0_len;
-=20
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 4bb9e29114..ec538df9b7 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -301,6 +301,9 @@ int e820_add_entry(uint64_t, uint64_t, uint32_t);
- int e820_get_num_entries(void);
- bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
-=20
-+extern GlobalProperty pc_compat_4_1[];
-+extern const size_t pc_compat_4_1_len;
-+
- extern GlobalProperty pc_compat_4_0[];
- extern const size_t pc_compat_4_0_len;
-=20
+     for (i =3D 0; i < PPC_CPU_OPCODES_LEN; i++) {
+-        if (env->opcodes[i] =3D=3D &invalid_handler) {
++        if (cpu->opcodes[i] =3D=3D &invalid_handler) {
+             continue;
+         }
+-        if (is_indirect_opcode(env->opcodes[i])) {
+-            table =3D ind_table(env->opcodes[i]);
++        if (is_indirect_opcode(cpu->opcodes[i])) {
++            table =3D ind_table(cpu->opcodes[i]);
+             for (j =3D 0; j < PPC_CPU_INDIRECT_OPCODES_LEN; j++) {
+                 if (table[j] =3D=3D &invalid_handler) {
+                     continue;
+@@ -10057,7 +10055,7 @@ static void ppc_cpu_unrealize(DeviceState *dev, E=
+rror **errp)
+                                              ~PPC_INDIRECT));
+                 }
+             }
+-            g_free((opc_handler_t *)((uintptr_t)env->opcodes[i] &
++            g_free((opc_handler_t *)((uintptr_t)cpu->opcodes[i] &
+                 ~PPC_INDIRECT));
+         }
+     }
 --=20
 2.21.0
 
