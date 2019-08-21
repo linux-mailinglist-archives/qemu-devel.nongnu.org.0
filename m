@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193BC97552
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 10:50:25 +0200 (CEST)
-Received: from localhost ([::1]:45494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B7F97570
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 10:54:59 +0200 (CEST)
+Received: from localhost ([::1]:45558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0MK0-0005Qx-4m
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 04:50:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55231)
+	id 1i0MOQ-0004Ut-O1
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 04:54:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55279)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1i0MBJ-0003qR-Qy
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:26 -0400
+ (envelope-from <kraxel@redhat.com>) id 1i0MBM-0003wk-OW
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1i0MBI-00056J-Ig
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39574)
+ (envelope-from <kraxel@redhat.com>) id 1i0MBL-00058C-GD
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36850)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0MBI-00055S-9n
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:24 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0MBL-00057h-8p
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:27 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 993193060286;
- Wed, 21 Aug 2019 08:41:23 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9644410F23E1;
+ Wed, 21 Aug 2019 08:41:26 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com
  [10.36.116.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B01A2B675;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E15791001959;
  Wed, 21 Aug 2019 08:41:21 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C8D3631E76; Wed, 21 Aug 2019 10:41:13 +0200 (CEST)
+ id 15A1B31E94; Wed, 21 Aug 2019 10:41:14 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 10:41:05 +0200
-Message-Id: <20190821084113.1840-8-kraxel@redhat.com>
+Date: Wed, 21 Aug 2019 10:41:09 +0200
+Message-Id: <20190821084113.1840-12-kraxel@redhat.com>
 In-Reply-To: <20190821084113.1840-1-kraxel@redhat.com>
 References: <20190821084113.1840-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 21 Aug 2019 08:41:23 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Wed, 21 Aug 2019 08:41:26 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 07/15] audio: audiodev= parameters no longer
- optional when -audiodev present
+Subject: [Qemu-devel] [PULL 11/15] audio: do not run each backend in
+ audio_run
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,100 +65,152 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail.com>
 
-This means you should probably stop using -soundhw (as it doesn't allow
-you to specify any options) and add the device manually with -device.
-The exception is pcspk, it's currently not possible to manually add it.
-To use it with audiodev, use something like this:
-
-    -audiodev id=3Dfoo,... -global isa-pcspk.audiodev=3Dfoo -soundhw pcsp=
-k
+audio_run is called manually by alsa and oss backends when polling.
+In this case only the requesting backend should be run, not all of them.
 
 Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com=
 >
-Message-id: 9072b955acffda13976bca7b61f86d7f708c9269.1566168923.git.DirtY=
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Message-id: 10221fcea2028fa18d95cf531526ffe3b1d9b21a.1566168923.git.DirtY=
 .iCE.hu@gmail.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/audio.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ audio/audio_int.h |  2 +-
+ audio/alsaaudio.c |  7 +++++--
+ audio/audio.c     | 14 +++++---------
+ audio/ossaudio.c  | 12 ++++++------
+ 4 files changed, 17 insertions(+), 18 deletions(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 17ef4f498fcd..c99e4ddea4c3 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -101,6 +101,8 @@ const struct mixeng_volume nominal_volume =3D {
- #endif
+diff --git a/audio/audio_int.h b/audio/audio_int.h
+index 9f01f6ad002c..7e00c1332e16 100644
+--- a/audio/audio_int.h
++++ b/audio/audio_int.h
+@@ -221,7 +221,7 @@ int audio_pcm_hw_clip_out (HWVoiceOut *hw, void *pcm_=
+buf,
+ int audio_bug (const char *funcname, int cond);
+ void *audio_calloc (const char *funcname, int nmemb, size_t size);
+=20
+-void audio_run (const char *msg);
++void audio_run(AudioState *s, const char *msg);
+=20
+ #define VOICE_ENABLE 1
+ #define VOICE_DISABLE 2
+diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+index 6b9e0f06af47..3daa7c8f8f02 100644
+--- a/audio/alsaaudio.c
++++ b/audio/alsaaudio.c
+@@ -39,6 +39,7 @@ struct pollhlp {
+     struct pollfd *pfds;
+     int count;
+     int mask;
++    AudioState *s;
  };
 =20
-+static bool legacy_config =3D true;
-+
- #ifdef AUDIO_IS_FLAWLESS_AND_NO_CHECKS_ARE_REQURIED
- #error No its not
- #else
-@@ -1394,7 +1396,7 @@ static AudiodevListEntry *audiodev_find(
-  * if dev =3D=3D NULL =3D> legacy implicit initialization, return the al=
-ready created
-  *   state or create a new one
-  */
--static AudioState *audio_init(Audiodev *dev)
-+static AudioState *audio_init(Audiodev *dev, const char *name)
- {
-     static bool atexit_registered;
-     size_t i;
-@@ -1408,12 +1410,13 @@ static AudioState *audio_init(Audiodev *dev)
+ typedef struct ALSAVoiceOut {
+@@ -199,11 +200,11 @@ static void alsa_poll_handler (void *opaque)
+         break;
 =20
-     if (dev) {
-         /* -audiodev option */
-+        legacy_config =3D false;
-         drvname =3D AudiodevDriver_str(dev->driver);
-     } else if (!QTAILQ_EMPTY(&audio_states)) {
--        /*
--         * todo: check for -audiodev once we have normal audiodev select=
-ion
--         * support
--         */
-+        if (!legacy_config) {
-+            dolog("You must specify an audiodev=3D for the device %s\n",=
- name);
-+            exit(1);
-+        }
-         return QTAILQ_FIRST(&audio_states);
-     } else {
-         /* legacy implicit initialization */
-@@ -1520,7 +1523,7 @@ void audio_free_audiodev_list(AudiodevListHead *hea=
-d)
- void AUD_register_card (const char *name, QEMUSoundCard *card)
- {
-     if (!card->state) {
--        card->state =3D audio_init(NULL);
-+        card->state =3D audio_init(NULL, name);
+     case SND_PCM_STATE_PREPARED:
+-        audio_run ("alsa run (prepared)");
++        audio_run(hlp->s, "alsa run (prepared)");
+         break;
+=20
+     case SND_PCM_STATE_RUNNING:
+-        audio_run ("alsa run (running)");
++        audio_run(hlp->s, "alsa run (running)");
+         break;
+=20
+     default:
+@@ -749,6 +750,7 @@ static int alsa_init_out(HWVoiceOut *hw, struct audse=
+ttings *as,
+         return -1;
      }
 =20
-     card->name =3D g_strdup (name);
-@@ -1546,8 +1549,11 @@ CaptureVoiceOut *AUD_add_capture(
-     struct capture_callback *cb;
-=20
-     if (!s) {
--        /* todo: remove when we have normal audiodev selection support *=
-/
--        s =3D audio_init(NULL);
-+        if (!legacy_config) {
-+            dolog("You must specify audiodev when trying to capture\n");
-+            return NULL;
-+        }
-+        s =3D audio_init(NULL, NULL);
++    alsa->pollhlp.s =3D hw->s;
+     alsa->handle =3D handle;
+     alsa->dev =3D dev;
+     return 0;
+@@ -850,6 +852,7 @@ static int alsa_init_in(HWVoiceIn *hw, struct audsett=
+ings *as, void *drv_opaque)
+         return -1;
      }
 =20
-     if (audio_validate_settings (as)) {
-@@ -1778,7 +1784,7 @@ void audio_init_audiodevs(void)
-     AudiodevListEntry *e;
++    alsa->pollhlp.s =3D hw->s;
+     alsa->handle =3D handle;
+     alsa->dev =3D dev;
+     return 0;
+diff --git a/audio/audio.c b/audio/audio.c
+index 38267695f788..bc9ac25c08ea 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -837,7 +837,7 @@ static void audio_timer (void *opaque)
+     }
+     s->timer_last =3D now;
 =20
-     QSIMPLEQ_FOREACH(e, &audiodevs, next) {
--        audio_init(e->dev);
-+        audio_init(e->dev, NULL);
+-    audio_run("timer");
++    audio_run(s, "timer");
+     audio_reset_timer(s);
+ }
+=20
+@@ -1239,15 +1239,11 @@ static void audio_run_capture (AudioState *s)
      }
  }
 =20
+-void audio_run (const char *msg)
++void audio_run(AudioState *s, const char *msg)
+ {
+-    AudioState *s;
+-
+-    QTAILQ_FOREACH(s, &audio_states, list) {
+-        audio_run_out(s);
+-        audio_run_in(s);
+-        audio_run_capture(s);
+-    }
++    audio_run_out(s);
++    audio_run_in(s);
++    audio_run_capture(s);
+=20
+ #ifdef DEBUG_POLL
+     {
+diff --git a/audio/ossaudio.c b/audio/ossaudio.c
+index 29139ef1f5cd..456fba748064 100644
+--- a/audio/ossaudio.c
++++ b/audio/ossaudio.c
+@@ -110,28 +110,28 @@ static void oss_anal_close (int *fdp)
+=20
+ static void oss_helper_poll_out (void *opaque)
+ {
+-    (void) opaque;
+-    audio_run ("oss_poll_out");
++    AudioState *s =3D opaque;
++    audio_run(s, "oss_poll_out");
+ }
+=20
+ static void oss_helper_poll_in (void *opaque)
+ {
+-    (void) opaque;
+-    audio_run ("oss_poll_in");
++    AudioState *s =3D opaque;
++    audio_run(s, "oss_poll_in");
+ }
+=20
+ static void oss_poll_out (HWVoiceOut *hw)
+ {
+     OSSVoiceOut *oss =3D (OSSVoiceOut *) hw;
+=20
+-    qemu_set_fd_handler (oss->fd, NULL, oss_helper_poll_out, NULL);
++    qemu_set_fd_handler(oss->fd, NULL, oss_helper_poll_out, hw->s);
+ }
+=20
+ static void oss_poll_in (HWVoiceIn *hw)
+ {
+     OSSVoiceIn *oss =3D (OSSVoiceIn *) hw;
+=20
+-    qemu_set_fd_handler (oss->fd, oss_helper_poll_in, NULL, NULL);
++    qemu_set_fd_handler(oss->fd, oss_helper_poll_in, NULL, hw->s);
+ }
+=20
+ static int oss_write (SWVoiceOut *sw, void *buf, int len)
 --=20
 2.18.1
 
