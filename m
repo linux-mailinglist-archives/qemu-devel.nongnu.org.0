@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00AF498228
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:59:30 +0200 (CEST)
-Received: from localhost ([::1]:51434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9939822D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 20:00:16 +0200 (CEST)
+Received: from localhost ([::1]:51440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0UtM-0004O4-LI
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:59:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41083)
+	id 1i0Uu6-0005Jr-EZ
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 14:00:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1i0URO-0001Jm-UN
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:36 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1i0UR8-0000rT-Ey
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1i0URN-0007hI-FA
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:34 -0400
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:32970)
+ (envelope-from <jan.bobek@gmail.com>) id 1i0UR7-0007Dw-5n
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:18 -0400
+Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:45508)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0URN-0007gv-9a
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:33 -0400
-Received: by mail-yb1-xb43.google.com with SMTP id b16so1357194ybq.0
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:30:33 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0UR7-0007Dc-1g
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:17 -0400
+Received: by mail-yb1-xb44.google.com with SMTP id u32so1326455ybi.12
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:30:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=netrSEZQl2bmTZcuntz1QA9QFA375JtQxyUKl0B/xrw=;
- b=hNhSru+H6LBc1SmAAHNHVBMHJEiNKOVnqyBmB5iQyXXjbE60K5cxvnkYeFmZ+U2xdL
- Peq1ykFsjpnQKjMvMjzmRxgGxvm0fFKczR5pbPj4+WgXRnXXmVRAmSGOCFacB9sjftLu
- w0gFYl5clXb2HUNPEmvs8z/WFeARjBVrUzXXhFQ+nBWVe9JDBucwEbMZrHczXOj6Crl2
- vB+2m3LVXHFXw+TLKLiTLQI1i/SXrAUVDlX21gM1XWQF1XyEdcSk0M60w1mRZA9MbCZh
- +g7Rs2JxbjwikNRm6CefkswsFnI+jkwVLgZXMxxRfoZct+kFph6CGu1ic6CemrojtEf6
- 6ETg==
+ bh=78dLtAzIc8Khj/cWFcmAZfU/AZ/wK2C4JMNwdD2INNQ=;
+ b=ZL2ebsA7Ub9YoCKiuOEpEwUzvZFXxms+seoXSC0LrQYXmqmYYJc7iwb39cH/mBuf/S
+ fhufh1DmiR9QGVYugodcVj48Zz5JD0Y6u38QB9wEwV+KaPhXMJTFg2VZFOg8YhhChjzA
+ GMyjP9+cxMplJhsrxa3Fkna8RcEojWBhJI2LJW11hWAuq4gFH2x57WdUWlNzrnslup+i
+ IlUFkSbbbIxHvTvVSfudFv2EHfr/kCx/qN+GDNqomRoPZKy5pMrvnLPzQG0UqfMR5mGB
+ 5oEmYtuidgt3edagar3BnaXsKiLXOeCQRq5v+C/Ti/LR0Hw9PEFoCCMPILxM6sry0SPp
+ Nmfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=netrSEZQl2bmTZcuntz1QA9QFA375JtQxyUKl0B/xrw=;
- b=POswP5BIDzPIFMUn7+gJEkM8/CeYpDLTKSqsj8wSb5pOlwninSAEYPxDaHxzpOSyQi
- tVpM4OpZhPKEHYjLx6kVaaZ7E/04Fd+jLlj5Tpig3hs+txoEqSBbCUPeqaULkoByOmrn
- yYiMwpkBJlGR86naCOdc71S3kE3pxM2HKWjP27CBayYwCMInZV/G2BESv0omthEXD03/
- 5sjmfBhr+RCrMidO3VwobMsJvgx2zzxXWnLo00ItdEOZW5l3hQEQyZgOt3riMB2+kvkd
- 5aGm1VDCKt0KW/T8i7Gx2KkLLJpaX7KlyRdYtrBv+CWWkGlGSFOdjx+QsswM6VMw8cx3
- hKHw==
-X-Gm-Message-State: APjAAAWHKOhBDRT3arWreJz/m88sW8eJjkxcuaSifWA6KJDdRO5D3M6P
- IPT5YGhlM3lpkzaFmMAUyxy1a7WI
-X-Google-Smtp-Source: APXvYqxDpNULtr8341LbscrzcYwLwANTSsWPz3fPyiBXLLDK67xTX9UtsNK2c2jYXoZMG6uofwh9kA==
-X-Received: by 2002:a25:6846:: with SMTP id d67mr25597595ybc.483.1566408632650; 
- Wed, 21 Aug 2019 10:30:32 -0700 (PDT)
+ bh=78dLtAzIc8Khj/cWFcmAZfU/AZ/wK2C4JMNwdD2INNQ=;
+ b=ko5+v+HCbXoRztb23XtdMF+OyH5rrlU1/8zq+tn5CIq2KOaybNqYmiKCwF8rrpJCWb
+ 6NNm7WOoy1KOtpmZRguYlMvlbP2VQI7Lasl3xCobF504YmNORjSE+2aX+5UB1gYVnSZv
+ ucuEcITbMZndBflgBqGj1l17/zcglq4BD/yl3it5JX9OqVrVTZmNVjzclSh1DPrPX+cs
+ lDnKLAd6tdxhnDwIvnqsDwA/o1/85K4WU23c2Bg/ChW0TNKGLluqG5+dn8NJzVzfSEDN
+ HrkAg1Q3vAwIzf8nxt6XhW7bfDVFsnatLqhvqHAxW9Cplxi4Ug2ZCyVBocJOkWwNT3rT
+ /mZQ==
+X-Gm-Message-State: APjAAAWQK/s77+UpwDimO88CnWk96EgCwRakSXTBdMBYkFD5GaF+bm1U
+ FcGWosvFmZXmlCeflnxtSsVB2/XQ
+X-Google-Smtp-Source: APXvYqzhO8XWDTYidGfiIjCG0N6lRQ7/iFEdbkMJSv00QA+QLj0reMc8igQpfB3QRxYgMhdPOwC7CQ==
+X-Received: by 2002:a25:6846:: with SMTP id d67mr25596541ybc.483.1566408616372; 
+ Wed, 21 Aug 2019 10:30:16 -0700 (PDT)
 Received: from localhost.localdomain ([2601:c0:c67f:e390::3])
- by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.31
+ by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Aug 2019 10:30:31 -0700 (PDT)
+ Wed, 21 Aug 2019 10:30:15 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:29:08 -0400
-Message-Id: <20190821172951.15333-33-jan.bobek@gmail.com>
+Date: Wed, 21 Aug 2019 13:28:51 -0400
+Message-Id: <20190821172951.15333-16-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190821172951.15333-1-jan.bobek@gmail.com>
 References: <20190821172951.15333-1-jan.bobek@gmail.com>
@@ -63,9 +63,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b43
-Subject: [Qemu-devel] [RFC PATCH v4 32/75] target/i386: introduce
- helper-based code generator macros
+X-Received-From: 2607:f8b0:4864:20::b44
+Subject: [Qemu-devel] [RFC PATCH v4 15/75] target/i386: introduce function
+ check_cpuid
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,181 +83,82 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Code generators defined using these macros rely on a helper function
-(as emitted by gen_helper_*).
+Introduce a helper function to take care of instruction CPUID checks.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 160 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 160 insertions(+)
+ target/i386/translate.c | 62 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 603a5b80a1..046914578b 100644
+index 467ecf15ba..3e54443d99 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -5377,6 +5377,166 @@ INSNOP_LDST(xmm, Mhq)
-         insnop_arg_t(opT3) arg3, insnop_arg_t(opT4) arg4,       \
-         insnop_arg_t(opT5) arg5)
+@@ -4516,6 +4516,68 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+ #define gen_gvec_cmp(dofs, aofs, bofs, oprsz, maxsz, vece, cond)        \
+     tcg_gen_gvec_cmp(cond, vece, dofs, aofs, bofs, oprsz, maxsz)
  
-+#define DEF_GEN_INSN0_HELPER(mnem, helper)      \
-+    GEN_INSN0(mnem)                             \
-+    {                                           \
-+        gen_helper_ ## helper(cpu_env);         \
-+    }
++typedef enum {
++    CHECK_CPUID_MMX = 1,
++    CHECK_CPUID_3DNOW,
++    CHECK_CPUID_SSE,
++    CHECK_CPUID_SSE2,
++    CHECK_CPUID_CLFLUSH,
++    CHECK_CPUID_SSE3,
++    CHECK_CPUID_SSSE3,
++    CHECK_CPUID_SSE4_1,
++    CHECK_CPUID_SSE4_2,
++    CHECK_CPUID_SSE4A,
++    CHECK_CPUID_AES,
++    CHECK_CPUID_PCLMULQDQ,
++    CHECK_CPUID_AVX,
++    CHECK_CPUID_AES_AVX,
++    CHECK_CPUID_PCLMULQDQ_AVX,
++    CHECK_CPUID_AVX2,
++} CheckCpuidFeat;
 +
-+#define DEF_GEN_INSN2_HELPER_EPD(mnem, helper, opT1, opT2)      \
-+    GEN_INSN2(mnem, opT1, opT2)                                 \
-+    {                                                           \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();           \
-+                                                                \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);              \
-+        gen_helper_ ## helper(cpu_env, arg1_ptr, arg2);         \
-+                                                                \
-+        tcg_temp_free_ptr(arg1_ptr);                            \
++static bool check_cpuid(CPUX86State *env, DisasContext *s, CheckCpuidFeat feat)
++{
++    switch (feat) {
++    case CHECK_CPUID_MMX:
++        return (s->cpuid_features & CPUID_MMX)
++            && (s->cpuid_ext2_features & CPUID_EXT2_MMX);
++    case CHECK_CPUID_3DNOW:
++        return s->cpuid_ext2_features & CPUID_EXT2_3DNOW;
++    case CHECK_CPUID_SSE:
++        return s->cpuid_features & CPUID_SSE;
++    case CHECK_CPUID_SSE2:
++        return s->cpuid_features & CPUID_SSE2;
++    case CHECK_CPUID_CLFLUSH:
++        return s->cpuid_features & CPUID_CLFLUSH;
++    case CHECK_CPUID_SSE3:
++        return s->cpuid_ext_features & CPUID_EXT_SSE3;
++    case CHECK_CPUID_SSSE3:
++        return s->cpuid_ext_features & CPUID_EXT_SSSE3;
++    case CHECK_CPUID_SSE4_1:
++        return s->cpuid_ext_features & CPUID_EXT_SSE41;
++    case CHECK_CPUID_SSE4_2:
++        return s->cpuid_ext_features & CPUID_EXT_SSE42;
++    case CHECK_CPUID_SSE4A:
++        return s->cpuid_ext3_features & CPUID_EXT3_SSE4A;
++    case CHECK_CPUID_AES:
++        return s->cpuid_ext_features & CPUID_EXT_AES;
++    case CHECK_CPUID_PCLMULQDQ:
++        return s->cpuid_ext_features & CPUID_EXT_PCLMULQDQ;
++    case CHECK_CPUID_AVX:
++        return s->cpuid_ext_features & CPUID_EXT_AVX;
++    case CHECK_CPUID_AES_AVX:
++        return (s->cpuid_ext_features & CPUID_EXT_AES)
++            && (s->cpuid_ext_features & CPUID_EXT_AVX);
++    case CHECK_CPUID_PCLMULQDQ_AVX:
++        return (s->cpuid_ext_features & CPUID_EXT_PCLMULQDQ)
++            && (s->cpuid_ext_features & CPUID_EXT_AVX);
++    case CHECK_CPUID_AVX2:
++        return s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_AVX2;
++    default:
++        g_assert_not_reached();
 +    }
-+#define DEF_GEN_INSN2_HELPER_DEP(mnem, helper, opT1, opT2)      \
-+    GEN_INSN2(mnem, opT1, opT2)                                 \
-+    {                                                           \
-+        const TCGv_ptr arg2_ptr = tcg_temp_new_ptr();           \
-+                                                                \
-+        tcg_gen_addi_ptr(arg2_ptr, cpu_env, arg2);              \
-+        gen_helper_ ## helper(arg1, cpu_env, arg2_ptr);         \
-+                                                                \
-+        tcg_temp_free_ptr(arg2_ptr);                            \
-+    }
-+#ifdef TARGET_X86_64
-+#define DEF_GEN_INSN2_HELPER_EPQ(mnem, helper, opT1, opT2)      \
-+    DEF_GEN_INSN2_HELPER_EPD(mnem, helper, opT1, opT2)
-+#define DEF_GEN_INSN2_HELPER_QEP(mnem, helper, opT1, opT2)      \
-+    DEF_GEN_INSN2_HELPER_DEP(mnem, helper, opT1, opT2)
-+#else /* !TARGET_X86_64 */
-+#define DEF_GEN_INSN2_HELPER_EPQ(mnem, helper, opT1, opT2)      \
-+    GEN_INSN2(mnem, opT1, opT2)                                 \
-+    {                                                           \
-+        g_assert_not_reached();                                 \
-+    }
-+#define DEF_GEN_INSN2_HELPER_QEP(mnem, helper, opT1, opT2)      \
-+    GEN_INSN2(mnem, opT1, opT2)                                 \
-+    {                                                           \
-+        g_assert_not_reached();                                 \
-+    }
-+#endif /* !TARGET_X86_64 */
-+#define DEF_GEN_INSN2_HELPER_EPP(mnem, helper, opT1, opT2)      \
-+    GEN_INSN2(mnem, opT1, opT2)                                 \
-+    {                                                           \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();           \
-+        const TCGv_ptr arg2_ptr = tcg_temp_new_ptr();           \
-+                                                                \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);              \
-+        tcg_gen_addi_ptr(arg2_ptr, cpu_env, arg2);              \
-+        gen_helper_ ## helper(cpu_env, arg1_ptr, arg2_ptr);     \
-+                                                                \
-+        tcg_temp_free_ptr(arg1_ptr);                            \
-+        tcg_temp_free_ptr(arg2_ptr);                            \
-+    }
-+
-+#define DEF_GEN_INSN3_HELPER_EPD(mnem, helper, opT1, opT2, opT3)        \
-+    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
-+    {                                                                   \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
-+                                                                        \
-+        assert(arg1 == arg2);                                           \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
-+        gen_helper_ ## helper(cpu_env, arg1_ptr, arg3);                 \
-+                                                                        \
-+        tcg_temp_free_ptr(arg1_ptr);                                    \
-+    }
-+#ifdef TARGET_X86_64
-+#define DEF_GEN_INSN3_HELPER_EPQ(mnem, helper, opT1, opT2, opT3)        \
-+    DEF_GEN_INSN3_HELPER_EPD(mnem, helper, opT1, opT2, opT3)
-+#else /* !TARGET_X86_64 */
-+#define DEF_GEN_INSN3_HELPER_EPQ(mnem, helper, opT1, opT2, opT3)        \
-+    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
-+    {                                                                   \
-+        g_assert_not_reached();                                         \
-+    }
-+#endif /* !TARGET_X86_64 */
-+#define DEF_GEN_INSN3_HELPER_EPP(mnem, helper, opT1, opT2, opT3)        \
-+    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
-+    {                                                                   \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_ptr arg3_ptr = tcg_temp_new_ptr();                   \
-+                                                                        \
-+        assert(arg1 == arg2);                                           \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
-+        tcg_gen_addi_ptr(arg3_ptr, cpu_env, arg3);                      \
-+        gen_helper_ ## helper(cpu_env, arg1_ptr, arg3_ptr);             \
-+                                                                        \
-+        tcg_temp_free_ptr(arg1_ptr);                                    \
-+        tcg_temp_free_ptr(arg3_ptr);                                    \
-+    }
-+#define DEF_GEN_INSN3_HELPER_PPI(mnem, helper, opT1, opT2, opT3)        \
-+    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
-+    {                                                                   \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_ptr arg2_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_i32 arg3_r32 = tcg_temp_new_i32();                   \
-+                                                                        \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
-+        tcg_gen_addi_ptr(arg2_ptr, cpu_env, arg2);                      \
-+        tcg_gen_movi_i32(arg3_r32, arg3);                               \
-+        gen_helper_ ## helper(arg1_ptr, arg2_ptr, arg3_r32);            \
-+                                                                        \
-+        tcg_temp_free_ptr(arg1_ptr);                                    \
-+        tcg_temp_free_ptr(arg2_ptr);                                    \
-+        tcg_temp_free_i32(arg3_r32);                                    \
-+    }
-+#define DEF_GEN_INSN3_HELPER_EPPI(mnem, helper, opT1, opT2, opT3)       \
-+    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
-+    {                                                                   \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_ptr arg2_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_i32 arg3_r32 = tcg_temp_new_i32();                   \
-+                                                                        \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
-+        tcg_gen_addi_ptr(arg2_ptr, cpu_env, arg2);                      \
-+        tcg_gen_movi_i32(arg3_r32, arg3);                               \
-+        gen_helper_ ## helper(cpu_env, arg1_ptr, arg2_ptr, arg3_r32);   \
-+                                                                        \
-+        tcg_temp_free_ptr(arg1_ptr);                                    \
-+        tcg_temp_free_ptr(arg2_ptr);                                    \
-+        tcg_temp_free_i32(arg3_r32);                                    \
-+    }
-+
-+#define DEF_GEN_INSN4_HELPER_PPI(mnem, helper, opT1, opT2, opT3, opT4)  \
-+    GEN_INSN4(mnem, opT1, opT2, opT3, opT4)                             \
-+    {                                                                   \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_ptr arg3_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_i32 arg4_r32 = tcg_temp_new_i32();                   \
-+                                                                        \
-+        assert(arg1 == arg2);                                           \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
-+        tcg_gen_addi_ptr(arg3_ptr, cpu_env, arg3);                      \
-+        tcg_gen_movi_i32(arg4_r32, arg4);                               \
-+        gen_helper_ ## helper(arg1_ptr, arg3_ptr, arg4_r32);            \
-+                                                                        \
-+        tcg_temp_free_ptr(arg1_ptr);                                    \
-+        tcg_temp_free_ptr(arg3_ptr);                                    \
-+        tcg_temp_free_i32(arg4_r32);                                    \
-+    }
-+#define DEF_GEN_INSN4_HELPER_EPPI(mnem, helper, opT1, opT2, opT3, opT4) \
-+    GEN_INSN4(mnem, opT1, opT2, opT3, opT4)                             \
-+    {                                                                   \
-+        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_ptr arg3_ptr = tcg_temp_new_ptr();                   \
-+        const TCGv_i32 arg4_r32 = tcg_temp_new_i32();                   \
-+                                                                        \
-+        assert(arg1 == arg2);                                           \
-+        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
-+        tcg_gen_addi_ptr(arg3_ptr, cpu_env, arg3);                      \
-+        tcg_gen_movi_i32(arg4_r32, arg4);                               \
-+        gen_helper_ ## helper(cpu_env, arg1_ptr, arg3_ptr, arg4_r32);   \
-+                                                                        \
-+        tcg_temp_free_ptr(arg1_ptr);                                    \
-+        tcg_temp_free_ptr(arg3_ptr);                                    \
-+        tcg_temp_free_i32(arg4_r32);                                    \
-+    }
++}
 +
  static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
  {
