@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8DB98578
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 22:20:32 +0200 (CEST)
-Received: from localhost ([::1]:54248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329D698598
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 22:28:16 +0200 (CEST)
+Received: from localhost ([::1]:54314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0X5r-0007rG-32
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 16:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60471)
- by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
- <3TqddXQMKCgUxh1lttlqj.htrvjrz-ij0jqstslsz.twl@flex--scw.bounces.google.com>)
- id 1i0X4t-0007SP-Ak
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 16:19:32 -0400
+	id 1i0XDL-0005AU-9Y
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 16:28:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33524)
+ by lists.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i0XCN-0004kc-7w
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 16:27:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from
- <3TqddXQMKCgUxh1lttlqj.htrvjrz-ij0jqstslsz.twl@flex--scw.bounces.google.com>)
- id 1i0X4s-0000h4-2K
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 16:19:31 -0400
-Received: from mail-yw1-xc49.google.com ([2607:f8b0:4864:20::c49]:48818)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i0XCL-0004fU-5B
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 16:27:15 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44210)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from
- <3TqddXQMKCgUxh1lttlqj.htrvjrz-ij0jqstslsz.twl@flex--scw.bounces.google.com>)
- id 1i0X4r-0000gK-ST
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 16:19:30 -0400
-Received: by mail-yw1-xc49.google.com with SMTP id h22so2301747ywk.15
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 13:19:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=s+ndl3VqHc//jkjH2CP3u+dZiSg4o9u5DjFzgvWfkBo=;
- b=f/IPOlTXC68gaWZdaAybXxC8mD92sMUN3lIUs/D3mnhFBmS7tnkR4GXl5ZSYAfOTNy
- UNNE7OSft0y2bte7xaTShrPnHf74uwy79j5C4z48XjtXYm4NDBnV2NWYlhKyC+rTDY7O
- YO2+Yiphjo0JCODHQOkuRy/TuNzHRUHctW0VoA4RfgeW9xRNF+I3RycZZM9UxElKWyrl
- Wu3+NFnwdnrd2OdRzgO6oqRLbQ7+GnNWxbYxXARmGFafJ99HxjCDKB7y/kdqBtpgOwXr
- 2A2rg5vSsrLCV2cx4UpcyA82Q6QIj7JDLC4uxuu0/o7awQu/jnmYeDBaprVJs7NTdOby
- G4KA==
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1i0XCL-0004f2-0U
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 16:27:13 -0400
+Received: by mail-ot1-x344.google.com with SMTP id w4so3297835ote.11
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 13:27:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=JDCc7gULav1TTulhVx4N0uvNHX96QLHd6afN0FRmvXo=;
+ b=anCiP+DQtX3Opfg98AmESJe68RHB3V7v1eAS3kiNwGNiRRRM+fPepPMdQGJ1Wy01qu
+ XeBbaAXL2+cs7mLVUG4GU0+gOjtu+aaDOI6FO2580hjLKcz4dflNx3E1a31oPbw/fLkP
+ z2WOaFgIq7m52Je5joK8cFehc8n6zYUXYqCkz7u+WNsuEHXxmaQkZiD658PXKcjOK0EL
+ sZlNKI+dXYh/UAX8L0CscFmZ9NIyEmBJKLhSGi1Bk04wNzj0KotZaEkWW7BJtd39CoNv
+ Dt/MG+GXzZeLcSkXIBaFb1mpNaNeOClqnb0maeRjOkAKHDbDmvCEgH1j+qSYTQxHJahp
+ x7MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=s+ndl3VqHc//jkjH2CP3u+dZiSg4o9u5DjFzgvWfkBo=;
- b=pTG23VlbmTz3FiTy3hwglBNypK7R7Z5jLa4/Xwybtnz/S+bV8FyENzrKJbOHNCqsMB
- gF+y9wFQxxwGQfShkOpg47LBhT+PYkrwjpV1nHT8FVxl2klgKnqTNwEIEsSEP8J45es+
- XnR6Cfci0z5RBuvWGQ2ZIk4cZV5aqEdk1Ad/m7pGXlrdXixUoVQs0+OkLs0oQvH3HGdp
- zDUfLoL6AtAYyg57FWl62UpjTyKIDQZHT5XbcIIfSvl6MHjc7sJ3YZPI6E0ozwaQMRFq
- xF4hl/q51jc+eAYCGoJZ7475flT6z547uVH1OPsdw63ZEajfmkygXaZL4VToPNk3B+iZ
- A1RA==
-X-Gm-Message-State: APjAAAXnHbbe7daCwS2P2cUqsZgZx42PhKpHBP6KTrb8fNqvqPMliPWY
- DjiVqY6C8bRgjBqo9u/rExwK/R8=
-X-Google-Smtp-Source: APXvYqxmQjvQDNb4FD1GwdXWF8mBZH90ie5+X50odV49sID4k94fNG46JR+51ps3R+W7z2QncksmhkQ=
-X-Received: by 2002:a0d:df8e:: with SMTP id i136mr26313949ywe.19.1566418766993; 
- Wed, 21 Aug 2019 13:19:26 -0700 (PDT)
-Date: Wed, 21 Aug 2019 13:19:21 -0700
-Message-Id: <20190821201921.106902-1-scw@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=JDCc7gULav1TTulhVx4N0uvNHX96QLHd6afN0FRmvXo=;
+ b=ubE7OD4Mfw8TiKYLWiW1vzRJpWJOmop0P+ZJI+WZ41XxK8eVDwI6d2y0UNzwtimMWu
+ QtUwJydagGIxtfR5daAc9vIbMiYzZLZq3hSlSafv5Mw00q88lPL8DEn2AiHTa2t6j2VM
+ v5ZwRnYrA3c0+PUnfUH/0LDmRlZJahfUksvy9uWYCMJpz4HD3/3B2vxjitVqdcEAQxvi
+ pY7exsTHfO9VGI0Yw+1U7RnCVEf3Hz47FvqChyHjqxzD3xDElN50q6mvRtQlIih2FEm4
+ xwGQO0MrPh4MG7+zvWaHVE3KUX+/J/2XiaNkXzmItF78V0O5zR/AixRiS/STSj6+gjqG
+ gTpQ==
+X-Gm-Message-State: APjAAAXN88eZ8pfGxXILlSNodfidxAybnrLuPGe/K3w/BSurFooPN6D4
+ kXgjsPEzkT8KfcDy1+Ct6pL2R4j0jTZy6LE4EOw=
+X-Google-Smtp-Source: APXvYqxIct9RZ9bnKRLBt69hSqGRbQ2IjfP3/nup1eSxpLQ4s06mp2FpB4jOUVQXJYZT/I9ijBgoqMkECaz9KODwIP8=
+X-Received: by 2002:a9d:1288:: with SMTP id g8mr303986otg.306.1566419231978;
+ Wed, 21 Aug 2019 13:27:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Wed, 21 Aug 2019 13:27:11
+ -0700 (PDT)
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Wed, 21 Aug 2019 13:27:11
+ -0700 (PDT)
+In-Reply-To: <1564760158-27536-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1564760158-27536-1-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Wed, 21 Aug 2019 22:27:11 +0200
+Message-ID: <CAL1e-=hWc6G7Ob+LU7EWoY3LVBvABY2ky=RT28dSzqM=9O=OEA@mail.gmail.com>
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c49
-Subject: [Qemu-devel] [PATCH] linux-user: hijack open() for thread
- directories
+X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH 0/2] tests/acceptance: Update MIPS Malta
+ ssh test
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,185 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Shu-Chun Weng via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Shu-Chun Weng <scw@google.com>
-Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
- Shu-Chun Weng <scw@google.com>
+Cc: ehabkost@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ f4bug@amsat.org, crosa@redhat.com, amarkovic@wavecomp.com, ccarrara@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Besides /proc/self|<pid>, files under /proc/thread-self and
-/proc/self|<pid>/task/<tid> also expose host information to the guest
-program. This patch adds them to the hijack infrastracture. Note that
-is_proc_myself() does not check if the <tid> matches the current thread
-and is thus only suitable for procfs files that are identical for all
-threads in the same process.
+02.08.2019. 17.37, "Aleksandar Markovic" <aleksandar.markovic@rt-rk.com> =
+=D1=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>
+> This little series improves linux_ssh_mips_malta.py, both in the sense
+> of code organization and in the sense of quantity of executed tests.
+>
 
-Behavior verified with guest program:
+Hello, all.
 
-long main_thread_tid;
+I am going to send a new version in few days, and I have a question for
+test team:
 
-long gettid() {
-  return syscall(SYS_gettid);
-}
+Currently, the outcome of the script execition is either PASS:1 FAIL:0 or
+PASS:0 FAIL:1. But the test actually consists of several subtests. Is there
+any way that this single Python script considers these subtests as separate
+tests (test cases), reporting something like PASS:12 FAIL:7? If yes, what
+would be the best way to achieve that?
 
-void print_info(const char* cxt, const char* dir) {
-  char buf[1024];
-  FILE* fp;
+Thanks in advance,
+Aleksandar
 
-  snprintf(buf, sizeof(buf), "%s/cmdline", dir);
-  fp = fopen(buf, "r");
-
-  if (fp == NULL) {
-    printf("%s: can't open %s\n", cxt, buf);
-  } else {
-    fgets(buf, sizeof(buf), fp);
-    printf("%s %s cmd: %s\n", cxt, dir, buf);
-    fclose(fp);
-  }
-
-  snprintf(buf, sizeof(buf), "%s/maps", dir);
-  fp = fopen(buf, "r");
-
-  if (fp == NULL) {
-    printf("%s: can't open %s\n", cxt, buf);
-  } else {
-    char seen[128][128];
-    int n = 0, is_new = 0;
-    while(fgets(buf, sizeof(buf), fp) != NULL) {
-      const char* p = strrchr(buf, ' ');
-      if (p == NULL || *(p + 1) == '\n') {
-        continue;
-      }
-      ++p;
-      is_new = 1;
-      for (int i = 0; i < n; ++i) {
-        if (strncmp(p, seen[i], sizeof(seen[i])) == 0) {
-          is_new = 0;
-          break;
-        }
-      }
-      if (is_new) {
-        printf("%s %s map: %s", cxt, dir, p);
-        if (n < 128) {
-          strncpy(seen[n], p, sizeof(seen[n]));
-          seen[n][sizeof(seen[n]) - 1] = '\0';
-          ++n;
-        }
-      }
-    }
-    fclose(fp);
-  }
-}
-
-void* thread_main(void* _) {
-  char buf[1024];
-
-  print_info("Child", "/proc/thread-self");
-
-  snprintf(buf, sizeof(buf), "/proc/%ld/task/%ld", (long) getpid(), main_thread_tid);
-  print_info("Child", buf);
-
-  snprintf(buf, sizeof(buf), "/proc/%ld/task/%ld", (long) getpid(), (long) gettid());
-  print_info("Child", buf);
-
-  return NULL;
-}
-
-int main() {
-  char buf[1024];
-  pthread_t thread;
-  int ret;
-
-  print_info("Main", "/proc/thread-self");
-  print_info("Main", "/proc/self");
-
-  snprintf(buf, sizeof(buf), "/proc/%ld", (long) getpid());
-  print_info("Main", buf);
-
-  main_thread_tid = gettid();
-  snprintf(buf, sizeof(buf), "/proc/self/task/%ld", main_thread_tid);
-  print_info("Main", buf);
-
-  snprintf(buf, sizeof(buf), "/proc/%ld/task/%ld", (long) getpid(), main_thread_tid);
-  print_info("Main", buf);
-
-  if ((ret = pthread_create(&thread, NULL, &thread_main, NULL)) < 0) {
-    printf("ptherad_create failed: %s (%d)\n", strerror(ret), ret);
-  }
-
-  pthread_join(thread, NULL);
-  return 0;
-}
-
-Signed-off-by: Shu-Chun Weng <scw@google.com>
----
- linux-user/syscall.c | 40 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8367cb138d..73fe82bcc7 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6968,17 +6968,57 @@ static int open_self_auxv(void *cpu_env, int fd)
-     return 0;
- }
- 
-+static int consume_task_directories(const char **filename)
-+{
-+    if (!strncmp(*filename, "task/", strlen("task/"))) {
-+        *filename += strlen("task/");
-+        if (**filename < '1' || **filename > '9') {
-+            return 0;
-+        }
-+        /*
-+         * Don't care about the exact tid.
-+         * XXX: this allows opening files under /proc/self|<pid>/task/<n> where
-+         *      <n> is not a valid thread id. Consider checking if the file
-+         *      actually exists.
-+         */
-+        const char *p = *filename + 1;
-+        while (*p >= '0' && *p <= '9') {
-+            ++p;
-+        }
-+        if (*p == '/') {
-+            *filename = p + 1;
-+            return 1;
-+        } else {
-+            return 0;
-+        }
-+    }
-+    return 1;
-+}
-+
-+/*
-+ * Determines if filename refer to a procfs file for the current process or any
-+ * thread within the current process. This function should only be used to check
-+ * for files that have identical contents in all threads, e.g. exec, maps, etc.
-+ */
- static int is_proc_myself(const char *filename, const char *entry)
- {
-     if (!strncmp(filename, "/proc/", strlen("/proc/"))) {
-         filename += strlen("/proc/");
-         if (!strncmp(filename, "self/", strlen("self/"))) {
-             filename += strlen("self/");
-+            if (!consume_task_directories(&filename)) {
-+                return 0;
-+            }
-+        } else if (!strncmp(filename, "thread-self/", strlen("thread-self/"))) {
-+            filename += strlen("thread-self/");
-         } else if (*filename >= '1' && *filename <= '9') {
-             char myself[80];
-             snprintf(myself, sizeof(myself), "%d/", getpid());
-             if (!strncmp(filename, myself, strlen(myself))) {
-                 filename += strlen(myself);
-+                if (!consume_task_directories(&filename)) {
-+                    return 0;
-+                }
-             } else {
-                 return 0;
-             }
--- 
-2.23.0.rc1.153.gdeed80330f-goog
-
-
+> Aleksandar Markovic (2):
+>   tests/acceptance: Refactor and improve reporting in
+>     linux_ssh_mips_malta.py
+>   tests/acceptance: Add new test cases in linux_ssh_mips_malta.py
+>
+>  tests/acceptance/linux_ssh_mips_malta.py | 81
+++++++++++++++++++++++++++------
+>  1 file changed, 66 insertions(+), 15 deletions(-)
+>
+> --
+> 2.7.4
+>
+>
