@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A979780A
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:38:43 +0200 (CEST)
-Received: from localhost ([::1]:47238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B7B977F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:32:12 +0200 (CEST)
+Received: from localhost ([::1]:47164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Ows-0000m1-Mv
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53733)
+	id 1i0OqY-0000t0-SL
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:32:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53750)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i0OfW-0005DW-Vd
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:47 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i0OfX-0005EZ-EV
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i0OfV-0006hw-QW
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:46 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:48679)
+ (envelope-from <laurent@vivier.eu>) id 1i0OfW-0006ib-6V
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:20:47 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:41083)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i0OfV-0006gn-Gs; Wed, 21 Aug 2019 07:20:45 -0400
+ id 1i0OfK-0006Yo-Tc; Wed, 21 Aug 2019 07:20:35 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M3DaN-1hwop93Vi1-003erP; Wed, 21 Aug 2019 13:20:07 +0200
+ id 1MBV2f-1i68Tj3duR-00D2Vp; Wed, 21 Aug 2019 13:20:13 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:19:41 +0200
-Message-Id: <20190821111947.26580-9-laurent@vivier.eu>
+Date: Wed, 21 Aug 2019 13:19:45 +0200
+Message-Id: <20190821111947.26580-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821111947.26580-1-laurent@vivier.eu>
 References: <20190821111947.26580-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XFqrSYgzKdwKE3NPvAuk+SvzM02d7ufxqsFdJGzCeHSMLpORSLn
- hOaoH18TBeUFKEOqe3kZEuKxWQsFcDgwardSBNpB4BbxkA1tzet0+18ZOlZ9wm2YKxjHRE/
- keydpj3DygWBQcPjR+JV6jfGjFD8aLlKx/Z24kcu8+bf+34n1apyE8Cbe59qVJCFY2tz6EH
- cPSlLZmIG8O0XOW2P4QLQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:tDAYKQHj5uQ=:DqYl+QOv/59V1ZJO1dSUbz
- T6aMBrvT4MQDmoPZnH0be3fwob8cZff/VfEic0PbFHrUtfEDspdAPv6Djxkh+5cmZAkMHDhCp
- 1a652DfC7HfxVAs+hPSmLjb7HylEszSxzqwXQ2NN9xkZTZgxdZVsePff1euNTimDgSQny9lNo
- PrE8Tf9vKs8pKRNLO2t9MI+Ymh9s3xTgza1EWAWoe6F4s2/4uT+s18y28LF2nrk/FjIIG6crj
- o6ROuzogfAo/LVwAKK49rLrxW9d6Fo0TqoHT1TTZoeSS6iy++2lvomo8ZmvffSwHyHHVkeBRh
- yQg36ROkzfdmLMKhK6/v07Kji+ZhtjWUYs7WoCmflSyKrCjPHdFpDdY0rTmqKIdhHG4ACcyb6
- X12Mb6ztM2DhfGf1ytxHStNOT0QlRxa5v3bQewyEMlaEbIS4SayjIawhRk2jLpoKeB3r8Ylsm
- se182xzBu4F2zDiPcv9wU4BBaIKCOm60ajqnmylfQdNc3UvKGl3A+cOl9aMX2xO6WjIc9Nf1b
- Y0s4f7aLuds+qgljK/0cUJKVIQ6UgjpHGC3VAPboLT54k8HNQ+gLsMVF+BnJ1SHvG5XMjSCbh
- h8dJniGBEFJJ2c6bOGn9JBad4Ro1MLgqE9u4utSAf8iUu0AhSignlKPSG+jUhsqds5+ADwWR/
- gWdYofcNJIT9M0HvYjpcRAJS2xdPaGjmA9P2zTgUPtXi3IsQRhAbEc68kD05b02JmLCybehu/
- sQ3C26jHD+wuFyRODlszeXIgJW/6DaixHa8f8IfPpaAjQNcEcl1YrkZj6tE=
+X-Provags-ID: V03:K1:6ipEDEcf1Ck2g1S/2T5QDfUmWvcuh7rLUy0thWBMmKgkr/N+jy1
+ Ybak3/nPxJmyHlHnCx5c6BXVpxx1374Z3SOvYs+KdQAz07Doe2mtfJyevTsKCgJ5QzPKf/X
+ IwPYYqfooIabtrLUTh6pxtFN7EQhvYZvly+ByKaYneUXipiJzhv0vA8FtAdK85bKnmtRgvN
+ vntQWrHDpJeHtE9O0vV4w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DwWjJYGGRN4=:0isE0L0d1QA40v1eJkR/lK
+ sVjek+lCcppBL/cb0uvibM1wjQZffouxlGFFgJl64PnWdAjWdRGy7IQtfH8zmh2uXv1QM3v5t
+ 5LEsKGaGM9LrFqFXttszEOS6/KZF03P3gQaDpfk3l3EA/xy4qk1obGFZgBJFIzLgYkZ0EKAIP
+ Iw+rEbTo1aN5kSqgSJL6uN7ABRba3WjkSel/5UtVOfHfVo2y94S0eItGI/YlPFBlwO+BnyyFw
+ saaXtgMPf2wyJB1TBbagLLX4a8Q6Kz4uFuzCdJfp/4o58EYBC8tmq/QF4KlE946WmK7Fy+sRO
+ fwlFDUhPZJGFECUKHJTo+CrPKkC5Mq561UlUif2qv5U+wby1Z+oBt07Yp/OhPNqBq2+SvSOK9
+ koD0lS4ArB/FlzHmx5SKJ8VwEPuiM4N6FOHIeXlb8QYPnKWnp+/nY/AVBTXJmjttZExROM25C
+ 7SFVXg+0BZ9fLmaZLbaocUfvS1AYVwqFAsn5jnyXA9X0loe6fmD4UDYgfA7SnXldp/ttrXcGy
+ Q8NbmGf2umfEUK3MFv5t3KytZq6xgeGGP+BCrt0spAGYM2kYaq7Kk2J/fpTxu77AXLFg83JXp
+ wfuxysMMvb6Dd1Nf3Idi+DSth38ffeH/NUlceIDSyKQY9aXtYpecIaNy2hXPzdrY2XRiBx0hY
+ 4RqRRptC4wYZTbzoJOC5+FhHkk8IOSs+la/Gc2VcuHh86kwevlFdhj0z0ThI65UumfEncdYh/
+ SFe3b+SO/kq+R2u/yiIgABY264zhWutoJ6nLHjKMC4MyZAyjcW/PTY0jaF4=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 217.72.192.73
-Subject: [Qemu-devel] [PULL 08/14] hw/dma/omap_dma: Move switch 'fall
- through' comment to correct place
+Subject: [Qemu-devel] [PULL 12/14] spapr_events: Rewrite a fall through
+ comment
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,43 +80,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reported by GCC9 when building with CFLAG -Wimplicit-fallthrough=2:
+GCC9 is confused by this comment when building with CFLAG
+-Wimplicit-fallthrough=2:
 
-    CC      hw/dma/omap_dma.o
-  hw/dma/omap_dma.c: In function ‘omap_dma_write’:
-  hw/dma/omap_dma.c:1532:12: error: this statement may fall through [-Werror=implicit-fallthrough=]
-   1532 |         if (s->model <= omap_dma_3_1)
+    CC      ppc64-softmmu/hw/ppc/spapr_rtc.o
+  hw/ppc/spapr_events.c: In function ‘rtas_event_log_to_source’:
+  hw/ppc/spapr_events.c:312:12: error: this statement may fall through [-Werror=implicit-fallthrough=]
+    312 |         if (spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT)) {
         |            ^
-  hw/dma/omap_dma.c:1534:5: note: here
-   1534 |     case 0x400:
+  hw/ppc/spapr_events.c:317:5: note: here
+    317 |     case RTAS_LOG_TYPE_EPOW:
         |     ^~~~
   cc1: all warnings being treated as errors
 
-Correctly place the 'fall through' comment.
+Rewrite the comment using 'fall through' which is recognized by
+GCC and static analyzers.
 
 Reported-by: Stefan Weil <sw@weilnetz.de>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20190719131425.10835-3-philmd@redhat.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20190719131425.10835-8-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/dma/omap_dma.c | 2 +-
+ hw/ppc/spapr_events.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/dma/omap_dma.c b/hw/dma/omap_dma.c
-index eab83c5c3a16..6677237d42a4 100644
---- a/hw/dma/omap_dma.c
-+++ b/hw/dma/omap_dma.c
-@@ -1531,8 +1531,8 @@ static void omap_dma_write(void *opaque, hwaddr addr,
-     case 0x404 ... 0x4fe:
-         if (s->model <= omap_dma_3_1)
+diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+index 163a6cd25b45..0e4c19523aea 100644
+--- a/hw/ppc/spapr_events.c
++++ b/hw/ppc/spapr_events.c
+@@ -314,7 +314,7 @@ rtas_event_log_to_source(SpaprMachineState *spapr, int log_type)
+             g_assert(source->enabled);
              break;
-+        /* fall through */
-     case 0x400:
--        /* Fall through. */
-         if (omap_dma_sys_write(s, addr, value))
-             break;
-         return;
+         }
+-        /* fall back to epow for legacy hotplug interrupt source */
++        /* fall through back to epow for legacy hotplug interrupt source */
+     case RTAS_LOG_TYPE_EPOW:
+         source = spapr_event_sources_get_source(spapr->event_sources,
+                                                 EVENT_CLASS_EPOW);
 -- 
 2.21.0
 
