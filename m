@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE79F981DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:55:32 +0200 (CEST)
-Received: from localhost ([::1]:51396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AF498228
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:59:30 +0200 (CEST)
+Received: from localhost ([::1]:51434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0UpV-0000dQ-V8
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:55:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41001)
+	id 1i0UtM-0004O4-LI
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41083)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1i0URK-0001DA-FY
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:31 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1i0URO-0001Jm-UN
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1i0URJ-0007YV-7W
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:30 -0400
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:41465)
+ (envelope-from <jan.bobek@gmail.com>) id 1i0URN-0007hI-FA
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:34 -0400
+Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:32970)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0URJ-0007WI-0o
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:29 -0400
-Received: by mail-yb1-xb43.google.com with SMTP id 1so900358ybj.8
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:30:28 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0URN-0007gv-9a
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:33 -0400
+Received: by mail-yb1-xb43.google.com with SMTP id b16so1357194ybq.0
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:30:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jd8mPhTXyu3w3ABGcqRNH3LYLJveHqDWxHnZ8Lape/8=;
- b=jP7ysIsN/bVRk/QyuJYmCiMyqFOY7hTv+TvYWsGKQ7EfEgP9tBgULbq3TTQnFUqbrK
- 0LYTeViICcvPW/TDDX6btygmQM4NmCaGh9/oIbqOb77Xm9xFwlg1yRbwUuQs1DuDqHzo
- 6BTBrgOenh5yht5j6D+tTgUpztcMY4DquEADQQwoPpfJ5evl8JXfHV92EauaN0gc87Z8
- NXnkyfjHfAz3arZqq9AlFtiIX7vCKMefwjTHWaR9N7azFynXaSuF+O49aLYaC2GjC7Ze
- PMbhqpchBryLsp60S4Vu78CxYo1lqrTmJCYQGlPvMHoYCWU8ajfVxj+ObXbg2OVvOkke
- Nr9A==
+ bh=netrSEZQl2bmTZcuntz1QA9QFA375JtQxyUKl0B/xrw=;
+ b=hNhSru+H6LBc1SmAAHNHVBMHJEiNKOVnqyBmB5iQyXXjbE60K5cxvnkYeFmZ+U2xdL
+ Peq1ykFsjpnQKjMvMjzmRxgGxvm0fFKczR5pbPj4+WgXRnXXmVRAmSGOCFacB9sjftLu
+ w0gFYl5clXb2HUNPEmvs8z/WFeARjBVrUzXXhFQ+nBWVe9JDBucwEbMZrHczXOj6Crl2
+ vB+2m3LVXHFXw+TLKLiTLQI1i/SXrAUVDlX21gM1XWQF1XyEdcSk0M60w1mRZA9MbCZh
+ +g7Rs2JxbjwikNRm6CefkswsFnI+jkwVLgZXMxxRfoZct+kFph6CGu1ic6CemrojtEf6
+ 6ETg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jd8mPhTXyu3w3ABGcqRNH3LYLJveHqDWxHnZ8Lape/8=;
- b=RyqEVsFTnkDHnXrKdvZ7oWshPeK0oj+p5cYATSLV67Cm7geKJBOxU5pvEV6kNPvNwM
- /hndyQZEzLJ08NDhMrA2TrtwqBY4pd4RfAl7ynRkdaz/mbbTxsbujOAPj9QIsLP5FPKV
- +V+d5JwtQIgF1yHFG9AqQjenGMrbQJCRoZqhp4fnDqIJNjaxKmjDQW41MP8cFXZGnKH6
- LZShP/DgCU2O+wUsm7/IpqD8xOx5odCD3kSHn5LQztoSMDy184kQl7GYu+edF9v86sLZ
- DsoaQ2ZQXDzMttueuETc5DK3F10pLvaBDmoVJcGZitxNl/8dtn+BQHUg0/knUyhdE+3p
- HCDw==
-X-Gm-Message-State: APjAAAU5WlBUbM4qLT/e5BtkCLY30cgcx31v31uWgvStHeRSvbej025E
- VAdO7ftFuzS2rKUbephjDhJc8p0N
-X-Google-Smtp-Source: APXvYqxhpL/8P/NOnHQy5Yy1bHNxWj+oqgyOClCV6zDJ1BH0Ad9OBAu68jhsBYJR/hpYuYafn8KAqg==
-X-Received: by 2002:a25:888a:: with SMTP id d10mr24839501ybl.308.1566408627731; 
- Wed, 21 Aug 2019 10:30:27 -0700 (PDT)
+ bh=netrSEZQl2bmTZcuntz1QA9QFA375JtQxyUKl0B/xrw=;
+ b=POswP5BIDzPIFMUn7+gJEkM8/CeYpDLTKSqsj8wSb5pOlwninSAEYPxDaHxzpOSyQi
+ tVpM4OpZhPKEHYjLx6kVaaZ7E/04Fd+jLlj5Tpig3hs+txoEqSBbCUPeqaULkoByOmrn
+ yYiMwpkBJlGR86naCOdc71S3kE3pxM2HKWjP27CBayYwCMInZV/G2BESv0omthEXD03/
+ 5sjmfBhr+RCrMidO3VwobMsJvgx2zzxXWnLo00ItdEOZW5l3hQEQyZgOt3riMB2+kvkd
+ 5aGm1VDCKt0KW/T8i7Gx2KkLLJpaX7KlyRdYtrBv+CWWkGlGSFOdjx+QsswM6VMw8cx3
+ hKHw==
+X-Gm-Message-State: APjAAAWHKOhBDRT3arWreJz/m88sW8eJjkxcuaSifWA6KJDdRO5D3M6P
+ IPT5YGhlM3lpkzaFmMAUyxy1a7WI
+X-Google-Smtp-Source: APXvYqxDpNULtr8341LbscrzcYwLwANTSsWPz3fPyiBXLLDK67xTX9UtsNK2c2jYXoZMG6uofwh9kA==
+X-Received: by 2002:a25:6846:: with SMTP id d67mr25597595ybc.483.1566408632650; 
+ Wed, 21 Aug 2019 10:30:32 -0700 (PDT)
 Received: from localhost.localdomain ([2601:c0:c67f:e390::3])
- by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.26
+ by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Aug 2019 10:30:27 -0700 (PDT)
+ Wed, 21 Aug 2019 10:30:31 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:29:03 -0400
-Message-Id: <20190821172951.15333-28-jan.bobek@gmail.com>
+Date: Wed, 21 Aug 2019 13:29:08 -0400
+Message-Id: <20190821172951.15333-33-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190821172951.15333-1-jan.bobek@gmail.com>
 References: <20190821172951.15333-1-jan.bobek@gmail.com>
@@ -64,8 +64,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::b43
-Subject: [Qemu-devel] [RFC PATCH v4 27/75] target/i386: introduce G*, R*,
- E* (general register) operands
+Subject: [Qemu-devel] [RFC PATCH v4 32/75] target/i386: introduce
+ helper-based code generator macros
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,109 +83,181 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These address the general-purpose register file. The corresponding
-32-bit or 64-bit register is passed as the operand value.
+Code generators defined using these macros rely on a helper function
+(as emitted by gen_helper_*).
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 88 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
+ target/i386/translate.c | 160 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 160 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 46c41cc3be..d6d32c7f06 100644
+index 603a5b80a1..046914578b 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4944,6 +4944,94 @@ DEF_INSNOP_ALIAS(Mq, M)
- DEF_INSNOP_ALIAS(Mdq, M)
- DEF_INSNOP_ALIAS(Mqq, M)
+@@ -5377,6 +5377,166 @@ INSNOP_LDST(xmm, Mhq)
+         insnop_arg_t(opT3) arg3, insnop_arg_t(opT4) arg4,       \
+         insnop_arg_t(opT5) arg5)
  
-+/*
-+ * 32-bit general register operands
-+ */
-+DEF_INSNOP_LDST(Gd, tcg_i32, modrm_reg)
-+DEF_INSNOP_LDST(Rd, tcg_i32, modrm_rm_direct)
-+
-+INSNOP_LDST(tcg_i32, modrm_reg)
-+{
-+    assert(0 <= ptr && ptr < CPU_NB_REGS);
-+    if (is_write) {
-+        tcg_gen_extu_i32_tl(cpu_regs[ptr], arg);
-+    } else {
-+        tcg_gen_trunc_tl_i32(arg, cpu_regs[ptr]);
++#define DEF_GEN_INSN0_HELPER(mnem, helper)      \
++    GEN_INSN0(mnem)                             \
++    {                                           \
++        gen_helper_ ## helper(cpu_env);         \
 +    }
-+}
-+INSNOP_LDST(tcg_i32, modrm_rm_direct)
-+{
-+    insnop_ldst(tcg_i32, modrm_reg)(env, s, is_write, arg, ptr);
-+}
 +
-+DEF_INSNOP_LDST(MEd, tcg_i32, Md)
-+DEF_INSNOP_EITHER(Ed, Rd, MEd)
-+DEF_INSNOP_LDST(MRdMw, tcg_i32, Mw)
-+DEF_INSNOP_EITHER(RdMw, Rd, MRdMw)
-+DEF_INSNOP_LDST(MRdMb, tcg_i32, Mb)
-+DEF_INSNOP_EITHER(RdMb, Rd, MRdMb)
-+
-+INSNOP_LDST(tcg_i32, Md)
-+{
-+    if (is_write) {
-+        tcg_gen_qemu_st_i32(arg, ptr, s->mem_index, MO_LEUL);
-+    } else {
-+        tcg_gen_qemu_ld_i32(arg, ptr, s->mem_index, MO_LEUL);
++#define DEF_GEN_INSN2_HELPER_EPD(mnem, helper, opT1, opT2)      \
++    GEN_INSN2(mnem, opT1, opT2)                                 \
++    {                                                           \
++        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();           \
++                                                                \
++        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);              \
++        gen_helper_ ## helper(cpu_env, arg1_ptr, arg2);         \
++                                                                \
++        tcg_temp_free_ptr(arg1_ptr);                            \
 +    }
-+}
-+INSNOP_LDST(tcg_i32, Mw)
-+{
-+    if (is_write) {
-+        tcg_gen_qemu_st_i32(arg, ptr, s->mem_index, MO_LEUW);
-+    } else {
-+        tcg_gen_qemu_ld_i32(arg, ptr, s->mem_index, MO_LEUW);
++#define DEF_GEN_INSN2_HELPER_DEP(mnem, helper, opT1, opT2)      \
++    GEN_INSN2(mnem, opT1, opT2)                                 \
++    {                                                           \
++        const TCGv_ptr arg2_ptr = tcg_temp_new_ptr();           \
++                                                                \
++        tcg_gen_addi_ptr(arg2_ptr, cpu_env, arg2);              \
++        gen_helper_ ## helper(arg1, cpu_env, arg2_ptr);         \
++                                                                \
++        tcg_temp_free_ptr(arg2_ptr);                            \
 +    }
-+}
-+INSNOP_LDST(tcg_i32, Mb)
-+{
-+    if (is_write) {
-+        tcg_gen_qemu_st_i32(arg, ptr, s->mem_index, MO_UB);
-+    } else {
-+        tcg_gen_qemu_ld_i32(arg, ptr, s->mem_index, MO_UB);
-+    }
-+}
-+
-+/*
-+ * 64-bit general register operands
-+ */
-+DEF_INSNOP_LDST(Gq, tcg_i64, modrm_reg)
-+DEF_INSNOP_LDST(Rq, tcg_i64, modrm_rm_direct)
-+
-+INSNOP_LDST(tcg_i64, modrm_reg)
-+{
 +#ifdef TARGET_X86_64
-+    assert(0 <= ptr && ptr < CPU_NB_REGS);
-+    if (is_write) {
-+        tcg_gen_mov_i64(cpu_regs[ptr], arg);
-+    } else {
-+        tcg_gen_mov_i64(arg, cpu_regs[ptr]);
-+    }
++#define DEF_GEN_INSN2_HELPER_EPQ(mnem, helper, opT1, opT2)      \
++    DEF_GEN_INSN2_HELPER_EPD(mnem, helper, opT1, opT2)
++#define DEF_GEN_INSN2_HELPER_QEP(mnem, helper, opT1, opT2)      \
++    DEF_GEN_INSN2_HELPER_DEP(mnem, helper, opT1, opT2)
 +#else /* !TARGET_X86_64 */
-+    g_assert_not_reached();
-+#endif /* !TARGET_X86_64 */
-+}
-+INSNOP_LDST(tcg_i64, modrm_rm_direct)
-+{
-+    insnop_ldst(tcg_i64, modrm_reg)(env, s, is_write, arg, ptr);
-+}
-+
-+DEF_INSNOP_LDST(MEq, tcg_i64, Mq)
-+DEF_INSNOP_EITHER(Eq, Rq, MEq)
-+
-+INSNOP_LDST(tcg_i64, Mq)
-+{
-+    if (is_write) {
-+        tcg_gen_qemu_st_i64(arg, ptr, s->mem_index, MO_LEQ);
-+    } else {
-+        tcg_gen_qemu_ld_i64(arg, ptr, s->mem_index, MO_LEQ);
++#define DEF_GEN_INSN2_HELPER_EPQ(mnem, helper, opT1, opT2)      \
++    GEN_INSN2(mnem, opT1, opT2)                                 \
++    {                                                           \
++        g_assert_not_reached();                                 \
 +    }
-+}
++#define DEF_GEN_INSN2_HELPER_QEP(mnem, helper, opT1, opT2)      \
++    GEN_INSN2(mnem, opT1, opT2)                                 \
++    {                                                           \
++        g_assert_not_reached();                                 \
++    }
++#endif /* !TARGET_X86_64 */
++#define DEF_GEN_INSN2_HELPER_EPP(mnem, helper, opT1, opT2)      \
++    GEN_INSN2(mnem, opT1, opT2)                                 \
++    {                                                           \
++        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();           \
++        const TCGv_ptr arg2_ptr = tcg_temp_new_ptr();           \
++                                                                \
++        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);              \
++        tcg_gen_addi_ptr(arg2_ptr, cpu_env, arg2);              \
++        gen_helper_ ## helper(cpu_env, arg1_ptr, arg2_ptr);     \
++                                                                \
++        tcg_temp_free_ptr(arg1_ptr);                            \
++        tcg_temp_free_ptr(arg2_ptr);                            \
++    }
++
++#define DEF_GEN_INSN3_HELPER_EPD(mnem, helper, opT1, opT2, opT3)        \
++    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
++    {                                                                   \
++        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
++                                                                        \
++        assert(arg1 == arg2);                                           \
++        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
++        gen_helper_ ## helper(cpu_env, arg1_ptr, arg3);                 \
++                                                                        \
++        tcg_temp_free_ptr(arg1_ptr);                                    \
++    }
++#ifdef TARGET_X86_64
++#define DEF_GEN_INSN3_HELPER_EPQ(mnem, helper, opT1, opT2, opT3)        \
++    DEF_GEN_INSN3_HELPER_EPD(mnem, helper, opT1, opT2, opT3)
++#else /* !TARGET_X86_64 */
++#define DEF_GEN_INSN3_HELPER_EPQ(mnem, helper, opT1, opT2, opT3)        \
++    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
++    {                                                                   \
++        g_assert_not_reached();                                         \
++    }
++#endif /* !TARGET_X86_64 */
++#define DEF_GEN_INSN3_HELPER_EPP(mnem, helper, opT1, opT2, opT3)        \
++    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
++    {                                                                   \
++        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
++        const TCGv_ptr arg3_ptr = tcg_temp_new_ptr();                   \
++                                                                        \
++        assert(arg1 == arg2);                                           \
++        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
++        tcg_gen_addi_ptr(arg3_ptr, cpu_env, arg3);                      \
++        gen_helper_ ## helper(cpu_env, arg1_ptr, arg3_ptr);             \
++                                                                        \
++        tcg_temp_free_ptr(arg1_ptr);                                    \
++        tcg_temp_free_ptr(arg3_ptr);                                    \
++    }
++#define DEF_GEN_INSN3_HELPER_PPI(mnem, helper, opT1, opT2, opT3)        \
++    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
++    {                                                                   \
++        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
++        const TCGv_ptr arg2_ptr = tcg_temp_new_ptr();                   \
++        const TCGv_i32 arg3_r32 = tcg_temp_new_i32();                   \
++                                                                        \
++        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
++        tcg_gen_addi_ptr(arg2_ptr, cpu_env, arg2);                      \
++        tcg_gen_movi_i32(arg3_r32, arg3);                               \
++        gen_helper_ ## helper(arg1_ptr, arg2_ptr, arg3_r32);            \
++                                                                        \
++        tcg_temp_free_ptr(arg1_ptr);                                    \
++        tcg_temp_free_ptr(arg2_ptr);                                    \
++        tcg_temp_free_i32(arg3_r32);                                    \
++    }
++#define DEF_GEN_INSN3_HELPER_EPPI(mnem, helper, opT1, opT2, opT3)       \
++    GEN_INSN3(mnem, opT1, opT2, opT3)                                   \
++    {                                                                   \
++        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
++        const TCGv_ptr arg2_ptr = tcg_temp_new_ptr();                   \
++        const TCGv_i32 arg3_r32 = tcg_temp_new_i32();                   \
++                                                                        \
++        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
++        tcg_gen_addi_ptr(arg2_ptr, cpu_env, arg2);                      \
++        tcg_gen_movi_i32(arg3_r32, arg3);                               \
++        gen_helper_ ## helper(cpu_env, arg1_ptr, arg2_ptr, arg3_r32);   \
++                                                                        \
++        tcg_temp_free_ptr(arg1_ptr);                                    \
++        tcg_temp_free_ptr(arg2_ptr);                                    \
++        tcg_temp_free_i32(arg3_r32);                                    \
++    }
++
++#define DEF_GEN_INSN4_HELPER_PPI(mnem, helper, opT1, opT2, opT3, opT4)  \
++    GEN_INSN4(mnem, opT1, opT2, opT3, opT4)                             \
++    {                                                                   \
++        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
++        const TCGv_ptr arg3_ptr = tcg_temp_new_ptr();                   \
++        const TCGv_i32 arg4_r32 = tcg_temp_new_i32();                   \
++                                                                        \
++        assert(arg1 == arg2);                                           \
++        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
++        tcg_gen_addi_ptr(arg3_ptr, cpu_env, arg3);                      \
++        tcg_gen_movi_i32(arg4_r32, arg4);                               \
++        gen_helper_ ## helper(arg1_ptr, arg3_ptr, arg4_r32);            \
++                                                                        \
++        tcg_temp_free_ptr(arg1_ptr);                                    \
++        tcg_temp_free_ptr(arg3_ptr);                                    \
++        tcg_temp_free_i32(arg4_r32);                                    \
++    }
++#define DEF_GEN_INSN4_HELPER_EPPI(mnem, helper, opT1, opT2, opT3, opT4) \
++    GEN_INSN4(mnem, opT1, opT2, opT3, opT4)                             \
++    {                                                                   \
++        const TCGv_ptr arg1_ptr = tcg_temp_new_ptr();                   \
++        const TCGv_ptr arg3_ptr = tcg_temp_new_ptr();                   \
++        const TCGv_i32 arg4_r32 = tcg_temp_new_i32();                   \
++                                                                        \
++        assert(arg1 == arg2);                                           \
++        tcg_gen_addi_ptr(arg1_ptr, cpu_env, arg1);                      \
++        tcg_gen_addi_ptr(arg3_ptr, cpu_env, arg3);                      \
++        tcg_gen_movi_i32(arg4_r32, arg4);                               \
++        gen_helper_ ## helper(cpu_env, arg1_ptr, arg3_ptr, arg4_r32);   \
++                                                                        \
++        tcg_temp_free_ptr(arg1_ptr);                                    \
++        tcg_temp_free_ptr(arg3_ptr);                                    \
++        tcg_temp_free_i32(arg4_r32);                                    \
++    }
 +
  static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
  {
