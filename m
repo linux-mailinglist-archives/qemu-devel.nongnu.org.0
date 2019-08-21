@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4058A97B49
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 15:53:41 +0200 (CEST)
-Received: from localhost ([::1]:48702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC8D97C03
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 16:05:53 +0200 (CEST)
+Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0R3U-0006pT-DM
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 09:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54674)
+	id 1i0RFI-0000ad-Jv
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 10:05:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57663)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i0R2Y-00060T-MT
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 09:52:45 -0400
+ (envelope-from <bounces@canonical.com>) id 1i0RAR-0003tA-8B
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:00:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i0R2X-0007wY-Bu
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 09:52:42 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:36804)
+ (envelope-from <bounces@canonical.com>) id 1i0RAP-0003Pq-8S
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:00:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60020)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i0R2X-0007vf-5N
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 09:52:41 -0400
-Received: by mail-ot1-x342.google.com with SMTP id k18so2126093otr.3
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 06:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qbLWvaQWmApgFoeFFUNjQGURzMZAbz3AkYdZfv321Yo=;
- b=T147OV8TF7UYadSr7aJeCiH5LJXrK1kfDhJb2NefzneHEBMK8K1suweqljgcQ0fzg2
- BeRgpuew7LOofMwLzIDoulVK8GA2MvjLTMu02lT/Vohd+JiB+3MvEeQ7VLf15ZWyIwCo
- Q6JjPL51rO5CUdZz6OcDnWy73r9YH0FuFZM2HAIt34DptMcxI//8VId3Tl5eNGjVCCN5
- rUiRwNHpOymqiEfansL2T9DYoAzJkIVhjiXO8S4w/wGNvODAP145Rx+chIOHgaIG/L/y
- MoZpD+pbxLZ8kkCceGz4BmxALEEBIvOlOlDsJ2nclLshKrWC+Ln2Q2iSkqzQL+Gp4o9Z
- eGew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qbLWvaQWmApgFoeFFUNjQGURzMZAbz3AkYdZfv321Yo=;
- b=FhSFSKSqNpKBGfQmcIOMhSLNg/tDHyM/OJrJN1aXoTwg+iPqe1e4xqzOe+myHlbx5o
- ViAQmRudqWTqGWI9itWjlsy8gAbEZ9PD4jWZWTU8nWIbNLjKbkavuonP/NTa3x2/qgm/
- gWgoFJFd1b3tn62w086JTz8TaHuV6SmMgwQKJ52xAmNK7xMyfkuC13x+3Cq0xM+etCwg
- Rb+/g4hp/It/10KpYK0tweVD4MD7wx6+kNn/S1NYU21oXdTKDBnQ/zZtR1dp3RNLSJcM
- DqTgdGBDBkuskB7vD2ZtKHaBB/Vvb0SYzief/XS5Htn1wl1VCUDp7uZnJzkCtRF7MTGa
- cdrA==
-X-Gm-Message-State: APjAAAV5B7d23h9EFZ0TH1VlMRsRg9B0wTFc4Yny+3+eraAjvTgJLwlW
- busKiki+6llocaOz1MWXtMwL74g0mmtph4HQT8XcuQ==
-X-Google-Smtp-Source: APXvYqyZlCFCpmgW5Y5qGAApx5CTUwmHA4r3OkhQr+sqXNqK4LlKu0TArLY7+hK4onOfo9VHWw4IkPdetqdqEX3swjI=
-X-Received: by 2002:a05:6830:1015:: with SMTP id
- a21mr22097879otp.232.1566395559712; 
- Wed, 21 Aug 2019 06:52:39 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i0RAN-0003OQ-Aj
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 10:00:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i0RAL-00019X-8M
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 14:00:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 36D8E2E8041
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 14:00:45 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190821133932.7428-1-aurelien@aurel32.net>
-In-Reply-To: <20190821133932.7428-1-aurelien@aurel32.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 21 Aug 2019 14:52:28 +0100
-Message-ID: <CAFEAcA-YEeYEkLW1AL_dgqoANFnfpqJu=XSAkVBctNOh1i=kcw@mail.gmail.com>
-To: Aurelien Jarno <aurelien@aurel32.net>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH] target/alpha: fix tlb_fill trap_arg2 value
- for instruction fetch
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Aug 2019 13:51:24 -0000
+From: Christophe Lyon <christophe.lyon+launchpad@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: christophe-lyon
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: Christophe Lyon (christophe-lyon)
+Message-Id: <156639548437.26869.13792283715555746637.malonedeb@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19022";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: f8c03d73165d0edb0355085fd62d018e415307b3
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1840922] [NEW] qemu-arm for cortex-m33 aborts
+ with unhandled CPU exception 0x8
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,49 +63,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <rth@twiddle.net>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-stable <qemu-stable@nongnu.org>
+Reply-To: Bug 1840922 <1840922@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 21 Aug 2019 at 14:42, Aurelien Jarno <aurelien@aurel32.net> wrote:
->
-> Commit e41c94529740cc26 ("target/alpha: Convert to CPUClass::tlb_fill")
-> slightly changed the way the trap_arg2 value is computed in case of TLB
-> fill. The type of the variable used in the ternary operator has been
-> changed from an int to an enum. This causes the -1 value to not be
-> sign-extended to 64-bit in case of an instruction fetch. The trap_arg2
-> ends up with 0xffffffff instead of 0xffffffffffffffff. Fix that by
-> changing the -1 into -1LL.
->
-> This fixes the execution of user space processes in qemu-system-alpha.
->
-> Fixes: e41c94529740cc26
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
-> ---
->  target/alpha/helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/alpha/helper.c b/target/alpha/helper.c
-> index 93b8e788b1..9e9d880c1a 100644
-> --- a/target/alpha/helper.c
-> +++ b/target/alpha/helper.c
-> @@ -283,7 +283,7 @@ bool alpha_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
->          cs->exception_index = EXCP_MMFAULT;
->          env->trap_arg0 = addr;
->          env->trap_arg1 = fail;
-> -        env->trap_arg2 = (access_type == MMU_INST_FETCH ? -1 : access_type);
-> +        env->trap_arg2 = (access_type == MMU_INST_FETCH ? -1LL : access_type);
->          cpu_loop_exit_restore(cs, retaddr);
->      }
+Public bug reported:
 
-Oops. Thanks for the catch.
+Hi,
 
-Maybe we should not rely directly on the value of the access_type
-enum to set trap_arg2 at all (ie just go for a switch on access_type and
-set env->trap_arg2 to the right h/w value in the three cases)?
+While experimenting with running the GCC testsuite with cortex-m33 as targe=
+t (to exercise v8-m code), I came across this failure:
+qemu: unhandled CPU exception 0x8 - aborting
+R00=3Dfffeaf58 R01=3Dfffeaf58 R02=3D00000000 R03=3Dfffeaf5d
+R04=3Dfffeaf5c R05=3Dfffeaf9c R06=3D00000000 R07=3Dfffeaf80
+R08=3D00000000 R09=3D00000000 R10=3D00019dbc R11=3D00000000
+R12=3D000000f0 R13=3Dfffeaf58 R14=3D000081f3 R15=3Dfffeaf5c
+XPSR=3D61000000 -ZC- T NS priv-thread
+qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x6033c9=
+08
 
-thanks
--- PMM
+I'm using arm-eabi-gcc, so it targets bare-metal, not linux.
+
+The testcase is GCC's gcc/testsuite/gcc.c-torture/execute/20000822-1.c;
+it works when compiled at -O2, but crashes when compiled at -Os. The
+test uses nested functions, so it creates a trampoline on the stack,
+whose address may be a problem. But since the stack address seems to be
+in the same range in the O2 and Os cases, it's not that clear.
+
+I'm attaching the C source, asm, binary executables and qemu traces with
+in_asm,cpu.
+
+I execute the binaries with:
+qemu-arm --cpu cortex-m33  ./20000822-1.exe.Os
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "C source code"
+   https://bugs.launchpad.net/bugs/1840922/+attachment/5283726/+files/20000=
+822-1.c
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1840922
+
+Title:
+  qemu-arm for cortex-m33 aborts with unhandled CPU exception 0x8
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi,
+
+  While experimenting with running the GCC testsuite with cortex-m33 as tar=
+get (to exercise v8-m code), I came across this failure:
+  qemu: unhandled CPU exception 0x8 - aborting
+  R00=3Dfffeaf58 R01=3Dfffeaf58 R02=3D00000000 R03=3Dfffeaf5d
+  R04=3Dfffeaf5c R05=3Dfffeaf9c R06=3D00000000 R07=3Dfffeaf80
+  R08=3D00000000 R09=3D00000000 R10=3D00019dbc R11=3D00000000
+  R12=3D000000f0 R13=3Dfffeaf58 R14=3D000081f3 R15=3Dfffeaf5c
+  XPSR=3D61000000 -ZC- T NS priv-thread
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x6033=
+c908
+
+  I'm using arm-eabi-gcc, so it targets bare-metal, not linux.
+
+  The testcase is GCC's
+  gcc/testsuite/gcc.c-torture/execute/20000822-1.c; it works when
+  compiled at -O2, but crashes when compiled at -Os. The test uses
+  nested functions, so it creates a trampoline on the stack, whose
+  address may be a problem. But since the stack address seems to be in
+  the same range in the O2 and Os cases, it's not that clear.
+
+  I'm attaching the C source, asm, binary executables and qemu traces
+  with in_asm,cpu.
+
+  I execute the binaries with:
+  qemu-arm --cpu cortex-m33  ./20000822-1.exe.Os
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1840922/+subscriptions
 
