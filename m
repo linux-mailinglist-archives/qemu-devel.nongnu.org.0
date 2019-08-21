@@ -2,67 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A86397306
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:08:09 +0200 (CEST)
-Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42A89735B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:28:53 +0200 (CEST)
+Received: from localhost ([::1]:44430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Kj2-000885-5a
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40232)
+	id 1i0L36-0006cc-Ev
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:28:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41950)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1i0Kha-0007fY-4w
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:06:39 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0G-0004On-Cx
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:25:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1i0KhY-0005M3-PZ
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:06:38 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36135)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1i0KhY-0005L7-HC
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:06:36 -0400
-Received: by mail-wr1-x436.google.com with SMTP id r3so947690wrt.3
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 00:06:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=K3ZcHeR0fCcY+QJXVdDsc1wM6iYLSy+1SZ8zgBaJ7SA=;
- b=d5wkHxt/JWQwsbWmZj8cWWLWGPFiW+M8RBGOV+6TQwrMor6HAmve7JavuCAsVrsx0Y
- 1mzNi6lF2psyrH6geeXMtAkSi6dx0JOQybE8KDKTSBo9z2uZJKtvcDx8ctBa8LEuZc3p
- 2AK//skrJ3GEb2924kU+NivVaaZWGrjiIfD3iaqZyeKi2g9/H80jqaPc6cJP9JQq5svK
- BUqadGdIwxwxF+S/dHe92YE4FJ2GOaWTiYo2z9iT0ONZ9WeVd2FSHKCwmZpFPQhRMt3d
- u950o3MUDZ2c5COtZOOibSDcZcFZhku36DVwtxeRJRqqEgEtQQNsPbLiIdEzGt5zY+j9
- vjag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=K3ZcHeR0fCcY+QJXVdDsc1wM6iYLSy+1SZ8zgBaJ7SA=;
- b=EZtXxLbxXNs4CRz+y3URxkiz0jM4Id3SfsTVNmYlhDtMWl84Xq6SAkFuDdsDURbckm
- 1WU5LPIPiuZFzTN9IybaObhnk6pVcVBN0BrMMYzx2VKqIuCkqQ2oBrk2Blkej+FsDOdJ
- eKg73vZjzVOjtaMZtdyrRI6EIjo3gjYsoZF7Rf+pXHYIDdF8uuUbWYeP5SMPGxdB7+QY
- LC03S8Z8oFY0IqYGDYjFKQCa/lvMxGecW8muWuR59fHzzhdC1OmWI+CzOHNzh99MrSFl
- w1ZIBM4U2+vVBuea6gHN8nabgB6Ic/JrVVY1mpegKKst0w4lixQykeD5m4KdSedsWfus
- +TEA==
-X-Gm-Message-State: APjAAAUTQEy7ovPwi1ezV8c/MDhbtp2MQMur0U6ivLpGlrvQa8pYnnwj
- xamPXWH8vgMowgkTHdbKQL0cOQxivZSQTgolIeM=
-X-Google-Smtp-Source: APXvYqxKKztdqd0y7CE1CxmOnhQ7ixNNfB9Mk5pLzwdHwuCKed+pNGBDS7bXUzPVy8hyoSB5wM+qJa0sZOoDqYYIHvo=
-X-Received: by 2002:a05:6000:1284:: with SMTP id
- f4mr5047671wrx.89.1566371194372; 
- Wed, 21 Aug 2019 00:06:34 -0700 (PDT)
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0E-0007st-Vv
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:25:56 -0400
+Received: from ozlabs.org ([203.11.71.1]:53337)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1i0L0E-0007qS-1s; Wed, 21 Aug 2019 03:25:54 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46Czj85MMyz9sNC; Wed, 21 Aug 2019 17:25:48 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1566372348;
+ bh=QhtAqHLfc/dTm4MprysS84S8YY7xN8GFeazUYfR9k1A=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=BytxYckJ2qZNoTCJ/0Tg1ClPF/iTYs3O/AdMVWlEnOKObXtpo5GiHFLS+9O9Ho5QV
+ pJKfYsLHRr44aTPRNh2CglvFMjb6M+zmXd8YyufpfHjLqsWufRmSv6AgLbRFmNbhge
+ 5rryHkI+Xqwxfd1bZDbLx5V8jDHDd4V7yQ56d6Jo=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Date: Wed, 21 Aug 2019 17:25:01 +1000
+Message-Id: <20190821072542.23090-2-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
+References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-References: <20190819105753.30913-1-alex.bennee@linaro.org>
-In-Reply-To: <20190819105753.30913-1-alex.bennee@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 21 Aug 2019 11:06:22 +0400
-Message-ID: <CAJ+F1CL=qQ6JDFUKo5r2TJHh2WAMHPz7+=fUhZ5NiRFW8otP9Q@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::436
-Subject: Re: [Qemu-devel] [Webpage PATCH] add support page
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PULL 01/42] spapr: quantify error messages regarding
+ capability settings
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,80 +53,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org,
+ Daniel Black <daniel@linux.ibm.com>, groug@kaod.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 19, 2019 at 2:58 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
-> This is intended to be a useful page we can link to in the banner of
-> the IRC channel explaining the various support options someone might
-> have.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+From: Daniel Black <daniel@linux.ibm.com>
 
-May be you should remove "bug reporting" and "contact" sections from
-README, and link to this file instead?
+Its not immediately obvious how cap-X=3DY setting need to be applied
+to the command line so, for spapr capability error messages, this
+has been clarified to:
 
-anyway lgtm,
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+ appending -machine cap-X=3DY
 
-> ---
->  support.md | 37 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
->  create mode 100644 support.md
->
-> diff --git a/support.md b/support.md
-> new file mode 100644
-> index 0000000..b9f4aa6
-> --- /dev/null
-> +++ b/support.md
-> @@ -0,0 +1,37 @@
-> +---
-> +title: Support
-> +permalink: /support/
-> +---
-> +
-> +If you have a support question that is not answered by our
-> +[documentation](/documentation) you have a number of options available
-> +to you.
-> +
-> +If the question is specifically about the integration of QEMU with the
-> +rest of your distribution you may be better served by asking through
-> +your distribution's support channels. This includes questions about a
-> +specifically packaged versions of QEMU. The developers are generally
-> +concerned with the latest release and the current state of the [master
-> +branch](https://git.qemu.org/?p=3Dqemu.git).
-> +
-> +Questions about complex configurations of networking and storage are
-> +usually met with a recommendation to use management tool like
-> +[virt-manager](https://virt-manager.org/) from the [libvirt
-> +project](https://libvirt.org/) to configure and run QEMU.
-> +
-> +* There is a
-> +[qemu-discuss@nongnu.org](https://lists.nongnu.org/mailman/listinfo/qemu=
--discuss)
-> +mailing list for user focused questions<br>
-> +If your question is more technical or architecture specific you may
-> +want to send your question to another of [QEMU's mailing
-> +lists](https://wiki.qemu.org/MailingLists)
-> +
-> +* A lot of developers hang around on IRC (network: irc.oftc.net,
-> +channel #qemu)<br> QEMU developers tend to hold normal office hours
-> +and are distributed around the world. Please be patient as you may
-> +have to wait some time for a response. If you can't leave IRC open and
-> +wait you may be better served by a mailing list.
-> +
-> +* If you think you have found a bug you can report it on [our bug
-> +  tracker](https://bugs.launchpad.net/qemu/)<br>
-> +Please see our guide on [how to report a bug](/contribute/report-a-bug/)
-> --
-> 2.20.1
->
->
+The wrong value messages have been left as is, as the user has found
+the right location.
 
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Daniel Black <daniel@linux.ibm.com>
+Message-Id: <20190812071044.30806-1-daniel@linux.ibm.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/ppc/spapr_caps.c | 42 ++++++++++++++++++++++++++++--------------
+ 1 file changed, 28 insertions(+), 14 deletions(-)
 
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index 7830d66d77..a61bf329bf 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -195,10 +195,12 @@ static void cap_htm_apply(SpaprMachineState *spapr,=
+ uint8_t val, Error **errp)
+     }
+     if (tcg_enabled()) {
+         error_setg(errp,
+-                   "No Transactional Memory support in TCG, try cap-htm=3D=
+off");
++                   "No Transactional Memory support in TCG,"
++                   " try appending -machine cap-htm=3Doff");
+     } else if (kvm_enabled() && !kvmppc_has_cap_htm()) {
+         error_setg(errp,
+-"KVM implementation does not support Transactional Memory, try cap-htm=3D=
+off"
++"KVM implementation does not support Transactional Memory,"
++                   " try appending -machine cap-htm=3Doff"
+             );
+     }
+ }
+@@ -216,7 +218,8 @@ static void cap_vsx_apply(SpaprMachineState *spapr, u=
+int8_t val, Error **errp)
+      * rid of anything that doesn't do VMX */
+     g_assert(env->insns_flags & PPC_ALTIVEC);
+     if (!(env->insns_flags2 & PPC2_VSX)) {
+-        error_setg(errp, "VSX support not available, try cap-vsx=3Doff")=
+;
++        error_setg(errp, "VSX support not available,"
++                   " try appending -machine cap-vsx=3Doff");
+     }
+ }
+=20
+@@ -230,7 +233,8 @@ static void cap_dfp_apply(SpaprMachineState *spapr, u=
+int8_t val, Error **errp)
+         return;
+     }
+     if (!(env->insns_flags2 & PPC2_DFP)) {
+-        error_setg(errp, "DFP support not available, try cap-dfp=3Doff")=
+;
++        error_setg(errp, "DFP support not available,"
++                   " try appending -machine cap-dfp=3Doff");
+     }
+ }
+=20
+@@ -254,7 +258,8 @@ static void cap_safe_cache_apply(SpaprMachineState *s=
+papr, uint8_t val,
+                    cap_cfpc_possible.vals[val]);
+     } else if (kvm_enabled() && (val > kvm_val)) {
+         error_setg(errp,
+-"Requested safe cache capability level not supported by kvm, try cap-cfp=
+c=3D%s",
++                   "Requested safe cache capability level not supported =
+by kvm,"
++                   " try appending -machine cap-cfpc=3D%s",
+                    cap_cfpc_possible.vals[kvm_val]);
+     }
+=20
+@@ -282,7 +287,8 @@ static void cap_safe_bounds_check_apply(SpaprMachineS=
+tate *spapr, uint8_t val,
+                    cap_sbbc_possible.vals[val]);
+     } else if (kvm_enabled() && (val > kvm_val)) {
+         error_setg(errp,
+-"Requested safe bounds check capability level not supported by kvm, try =
+cap-sbbc=3D%s",
++"Requested safe bounds check capability level not supported by kvm,"
++                   " try appending -machine cap-sbbc=3D%s",
+                    cap_sbbc_possible.vals[kvm_val]);
+     }
+=20
+@@ -313,7 +319,8 @@ static void cap_safe_indirect_branch_apply(SpaprMachi=
+neState *spapr,
+                    cap_ibs_possible.vals[val]);
+     } else if (kvm_enabled() && (val > kvm_val)) {
+         error_setg(errp,
+-"Requested safe indirect branch capability level not supported by kvm, t=
+ry cap-ibs=3D%s",
++"Requested safe indirect branch capability level not supported by kvm,"
++                   " try appending -machine cap-ibs=3D%s",
+                    cap_ibs_possible.vals[kvm_val]);
+     }
+=20
+@@ -402,11 +409,13 @@ static void cap_nested_kvm_hv_apply(SpaprMachineSta=
+te *spapr,
+=20
+     if (tcg_enabled()) {
+         error_setg(errp,
+-                   "No Nested KVM-HV support in tcg, try cap-nested-hv=3D=
+off");
++                   "No Nested KVM-HV support in tcg,"
++                   " try appending -machine cap-nested-hv=3Doff");
+     } else if (kvm_enabled()) {
+         if (!kvmppc_has_cap_nested_kvm_hv()) {
+             error_setg(errp,
+-"KVM implementation does not support Nested KVM-HV, try cap-nested-hv=3D=
+off");
++"KVM implementation does not support Nested KVM-HV,"
++                       " try appending -machine cap-nested-hv=3Doff");
+         } else if (kvmppc_set_cap_nested_kvm_hv(val) < 0) {
+                 error_setg(errp,
+ "Error enabling cap-nested-hv with KVM, try cap-nested-hv=3Doff");
+@@ -436,10 +445,12 @@ static void cap_large_decr_apply(SpaprMachineState =
+*spapr,
+=20
+         if (!kvm_nr_bits) {
+             error_setg(errp,
+-                       "No large decrementer support, try cap-large-decr=
+=3Doff");
++                       "No large decrementer support,"
++                        " try appending -machine cap-large-decr=3Doff");
+         } else if (pcc->lrg_decr_bits !=3D kvm_nr_bits) {
+             error_setg(errp,
+-"KVM large decrementer size (%d) differs to model (%d), try -cap-large-d=
+ecr=3Doff",
++"KVM large decrementer size (%d) differs to model (%d),"
++                " try appending -machine cap-large-decr=3Doff",
+                 kvm_nr_bits, pcc->lrg_decr_bits);
+         }
+     }
+@@ -455,7 +466,8 @@ static void cap_large_decr_cpu_apply(SpaprMachineStat=
+e *spapr,
+     if (kvm_enabled()) {
+         if (kvmppc_enable_cap_large_decr(cpu, val)) {
+             error_setg(errp,
+-                       "No large decrementer support, try cap-large-decr=
+=3Doff");
++                       "No large decrementer support,"
++                       " try appending -machine cap-large-decr=3Doff");
+         }
+     }
+=20
+@@ -475,10 +487,12 @@ static void cap_ccf_assist_apply(SpaprMachineState =
+*spapr, uint8_t val,
+     if (tcg_enabled() && val) {
+         /* TODO - for now only allow broken for TCG */
+         error_setg(errp,
+-"Requested count cache flush assist capability level not supported by tc=
+g, try cap-ccf-assist=3Doff");
++"Requested count cache flush assist capability level not supported by tc=
+g,"
++                   " try appending -machine cap-ccf-assist=3Doff");
+     } else if (kvm_enabled() && (val > kvm_val)) {
+         error_setg(errp,
+-"Requested count cache flush assist capability level not supported by kv=
+m, try cap-ccf-assist=3Doff");
++"Requested count cache flush assist capability level not supported by kv=
+m,"
++                   " try appending -machine cap-ccf-assist=3Doff");
+     }
+ }
+=20
 --=20
-Marc-Andr=C3=A9 Lureau
+2.21.0
+
 
