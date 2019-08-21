@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA0B98318
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 20:35:31 +0200 (CEST)
-Received: from localhost ([::1]:51800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD7398312
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 20:34:58 +0200 (CEST)
+Received: from localhost ([::1]:51792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0VSE-0007Ec-8f
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 14:35:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41641)
+	id 1i0VRg-0006Qs-NB
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 14:34:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42548)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1i0US3-0001yV-12
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:31:16 -0400
+ (envelope-from <eblake@redhat.com>) id 1i0UWE-0007bT-6p
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:35:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1i0US0-0000DA-OP
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:31:14 -0400
-Received: from mail-yw1-xc32.google.com ([2607:f8b0:4864:20::c32]:36337)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0US0-0000Cl-JL
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:31:12 -0400
-Received: by mail-yw1-xc32.google.com with SMTP id m11so1245542ywh.3
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:31:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7bR2HUr7nWzHcbedf2vlhprEYxS2A4qecEYLgRJuH1o=;
- b=e8L39zn42txzDmJPL9b5Udmhr9tEXnYt7xaJdFJ1NGgHsBD+2zLXadlXVdAHjz7cnA
- DOIs+y3i5RhCJOKcXW6nW7VXZg5DqIAMkg/b3JW4Tl9nx2HY1DI/Yp8H8N5hJtT/BXCV
- LJrm93JUiDaj8ydl9eSAOADbzIt83IbFUGnLVxdYS12KRyYfyP0ZE7+9f+V6cSeUXW9K
- Otx7xnel1Avpo8mQiHZeh+R/IwHp7XNfoQ4HxqCRNuVlJrI9h7sWuCmYcb0mkg67tjr0
- vnusbYlzw/hqhcd/EaM6NXzDKDpDSEVSwXs7pPbxLeFeszT4X1vrZszu8FOa9nRmYKrm
- INRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7bR2HUr7nWzHcbedf2vlhprEYxS2A4qecEYLgRJuH1o=;
- b=ZHbFrhfPzONv4RwOCaNwJrRIF5NyNpHuhcGRDyj9qpNfRSh1sgulnaUYOp6PWRyrQs
- J0GCpVVkjkSOk9KTvkWoy7eoYYFOe0U3xdBaW8oIONwv3MuN04Q7mfkSFf1DVrSLMBTF
- jp+r/F/lvfOxOxK8SJP8Q/Z3tlF9tr7ZnLtxaSIbVafVj6XiRJzPLzcSeZPwjEKEV834
- lnLDi13UOO9zwP/Ed4DFhRmpNpE1HTAqaPRF5OAv7jQt0b4OeMivrZjVoCHJhTRnLs1H
- 7AW28yPA3qx2q3ytrHzW7cbrAz7sym0fQzohgBqLDrrYAuhqX7AOIiMhWHeDsZypMMb7
- yevA==
-X-Gm-Message-State: APjAAAW+hpQf3BPJeeu3qqv6tO1tpySrDe2ZHOFbMti1KnIqya9VWbQj
- kBLep9TCNthSbvWMjgmKvOZvTEX1
-X-Google-Smtp-Source: APXvYqybD8U7e3QbwlnX4n4h/LuyPg5LuzMR6sAyYxiGzkidxj3IcmYweVRkrEMw0FgzJj009FTyoQ==
-X-Received: by 2002:a81:9293:: with SMTP id
- j141mr25651734ywg.363.1566408671687; 
- Wed, 21 Aug 2019 10:31:11 -0700 (PDT)
-Received: from localhost.localdomain ([2601:c0:c67f:e390::3])
- by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.31.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Aug 2019 10:31:11 -0700 (PDT)
-From: Jan Bobek <jan.bobek@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:29:50 -0400
-Message-Id: <20190821172951.15333-75-jan.bobek@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190821172951.15333-1-jan.bobek@gmail.com>
-References: <20190821172951.15333-1-jan.bobek@gmail.com>
+ (envelope-from <eblake@redhat.com>) id 1i0UWC-0006UQ-7U
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:35:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43424)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1i0UW8-0006ML-DI; Wed, 21 Aug 2019 13:35:28 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AA66C307D90D;
+ Wed, 21 Aug 2019 17:35:27 +0000 (UTC)
+Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E20C60F88;
+ Wed, 21 Aug 2019 17:35:24 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20190821165215.61406-1-vsementsov@virtuozzo.com>
+ <20190821165215.61406-3-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <4f7cce1f-d7a8-aa3f-01d0-15c28c97b6dd@redhat.com>
+Date: Wed, 21 Aug 2019 12:35:23 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c32
-Subject: [Qemu-devel] [RFC PATCH v4 74/75] target/i386: convert pshuf(w, lw,
- hw, d), shuf(pd, ps) helpers to gvec style
+In-Reply-To: <20190821165215.61406-3-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="cX92qz9sBoGENbt8NtgSvkTH66m6wV0sI"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Wed, 21 Aug 2019 17:35:27 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v8 2/3] block/nbd: nbd reconnect
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,270 +85,323 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jan Bobek <jan.bobek@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: fam@euphon.net, kwolf@redhat.com, sheepdog@lists.wpkg.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org,
+ namei.unix@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make these helpers suitable for use with tcg_gen_gvec_* functions.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--cX92qz9sBoGENbt8NtgSvkTH66m6wV0sI
+Content-Type: multipart/mixed; boundary="ok6G0SI9tkw42d5zME29YOPthXlg0drQL";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, sheepdog@lists.wpkg.org, stefanha@redhat.com,
+ namei.unix@gmail.com, fam@euphon.net, mreitz@redhat.com, kwolf@redhat.com,
+ den@openvz.org
+Message-ID: <4f7cce1f-d7a8-aa3f-01d0-15c28c97b6dd@redhat.com>
+Subject: Re: [PATCH v8 2/3] block/nbd: nbd reconnect
+References: <20190821165215.61406-1-vsementsov@virtuozzo.com>
+ <20190821165215.61406-3-vsementsov@virtuozzo.com>
+In-Reply-To: <20190821165215.61406-3-vsementsov@virtuozzo.com>
 
-Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
----
- target/i386/ops_sse.h        | 141 ++++++++++++++++++++++++-----------
- target/i386/ops_sse_header.h |  12 +--
- target/i386/translate.c      |  34 ++++-----
- 3 files changed, 119 insertions(+), 68 deletions(-)
+--ok6G0SI9tkw42d5zME29YOPthXlg0drQL
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index 8172324e34..2e50d91a25 100644
---- a/target/i386/ops_sse.h
-+++ b/target/i386/ops_sse.h
-@@ -551,70 +551,123 @@ void glue(helper_maskmov, SUFFIX)(CPUX86State *env, Reg *a, Reg *b,
- }
- 
- #if SHIFT == 0
--void glue(helper_pshufw, SUFFIX)(Reg *d, Reg *s, int order)
-+void glue(helper_pshufw, SUFFIX)(Reg *d, Reg *a, uint32_t desc)
- {
--    Reg r;
-+    const intptr_t oprsz = simd_oprsz(desc);
-+    const intptr_t maxsz = simd_maxsz(desc);
-+    const uint8_t ctrl = simd_data(desc);
- 
--    r.W(0) = s->W(order & 3);
--    r.W(1) = s->W((order >> 2) & 3);
--    r.W(2) = s->W((order >> 4) & 3);
--    r.W(3) = s->W((order >> 6) & 3);
--    *d = r;
-+    for (intptr_t i = 0; 4 * i * sizeof(uint16_t) < oprsz; ++i) {
-+        const uint16_t t0 = a->W(4 * i + ((ctrl >> 0) & 3));
-+        const uint16_t t1 = a->W(4 * i + ((ctrl >> 2) & 3));
-+        const uint16_t t2 = a->W(4 * i + ((ctrl >> 4) & 3));
-+        const uint16_t t3 = a->W(4 * i + ((ctrl >> 6) & 3));
-+
-+        d->W(4 * i + 0) = t0;
-+        d->W(4 * i + 1) = t1;
-+        d->W(4 * i + 2) = t2;
-+        d->W(4 * i + 3) = t3;
-+    }
-+    glue(clear_high, SUFFIX)(d, oprsz, maxsz);
- }
- #else
--void helper_shufps(Reg *d, Reg *s, int order)
-+void glue(helper_pshuflw, SUFFIX)(Reg *d, Reg *a, uint32_t desc)
- {
--    Reg r;
-+    const intptr_t oprsz = simd_oprsz(desc);
-+    const intptr_t maxsz = simd_maxsz(desc);
-+    const uint8_t ctrl = simd_data(desc);
- 
--    r.L(0) = d->L(order & 3);
--    r.L(1) = d->L((order >> 2) & 3);
--    r.L(2) = s->L((order >> 4) & 3);
--    r.L(3) = s->L((order >> 6) & 3);
--    *d = r;
-+    for (intptr_t i = 0; 8 * i * sizeof(uint16_t) < oprsz; ++i) {
-+        const uint16_t t0 = a->W(8 * i + ((ctrl >> 0) & 3));
-+        const uint16_t t1 = a->W(8 * i + ((ctrl >> 2) & 3));
-+        const uint16_t t2 = a->W(8 * i + ((ctrl >> 4) & 3));
-+        const uint16_t t3 = a->W(8 * i + ((ctrl >> 6) & 3));
-+
-+        d->W(8 * i + 0) = t0;
-+        d->W(8 * i + 1) = t1;
-+        d->W(8 * i + 2) = t2;
-+        d->W(8 * i + 3) = t3;
-+        d->Q(2 * i + 1) = a->Q(2 * i + 1);
-+    }
-+    glue(clear_high, SUFFIX)(d, oprsz, maxsz);
- }
- 
--void helper_shufpd(Reg *d, Reg *s, int order)
-+void glue(helper_pshufhw, SUFFIX)(Reg *d, Reg *a, uint32_t desc)
- {
--    Reg r;
-+    const intptr_t oprsz = simd_oprsz(desc);
-+    const intptr_t maxsz = simd_maxsz(desc);
-+    const uint8_t ctrl = simd_data(desc);
-+
-+    for (intptr_t i = 0; 8 * i * sizeof(uint16_t) < oprsz; ++i) {
-+        const uint16_t t0 = a->W(8 * i + 4 + ((ctrl >> 0) & 3));
-+        const uint16_t t1 = a->W(8 * i + 4 + ((ctrl >> 2) & 3));
-+        const uint16_t t2 = a->W(8 * i + 4 + ((ctrl >> 4) & 3));
-+        const uint16_t t3 = a->W(8 * i + 4 + ((ctrl >> 6) & 3));
- 
--    r.Q(0) = d->Q(order & 1);
--    r.Q(1) = s->Q((order >> 1) & 1);
--    *d = r;
-+        d->Q(2 * i + 0) = a->Q(2 * i + 0);
-+        d->W(8 * i + 4) = t0;
-+        d->W(8 * i + 5) = t1;
-+        d->W(8 * i + 6) = t2;
-+        d->W(8 * i + 7) = t3;
-+    }
-+    glue(clear_high, SUFFIX)(d, oprsz, maxsz);
- }
- 
--void glue(helper_pshufd, SUFFIX)(Reg *d, Reg *s, int order)
-+void glue(helper_pshufd, SUFFIX)(Reg *d, Reg *a, uint32_t desc)
- {
--    Reg r;
-+    const intptr_t oprsz = simd_oprsz(desc);
-+    const intptr_t maxsz = simd_maxsz(desc);
-+    const uint8_t ctrl = simd_data(desc);
-+
-+    for (intptr_t i = 0; 4 * i * sizeof(uint32_t) < oprsz; ++i) {
-+        const uint32_t t0 = a->L(4 * i + ((ctrl >> 0) & 3));
-+        const uint32_t t1 = a->L(4 * i + ((ctrl >> 2) & 3));
-+        const uint32_t t2 = a->L(4 * i + ((ctrl >> 4) & 3));
-+        const uint32_t t3 = a->L(4 * i + ((ctrl >> 6) & 3));
-+
-+        d->L(4 * i + 0) = t0;
-+        d->L(4 * i + 1) = t1;
-+        d->L(4 * i + 2) = t2;
-+        d->L(4 * i + 3) = t3;
- 
--    r.L(0) = s->L(order & 3);
--    r.L(1) = s->L((order >> 2) & 3);
--    r.L(2) = s->L((order >> 4) & 3);
--    r.L(3) = s->L((order >> 6) & 3);
--    *d = r;
-+    }
-+    glue(clear_high, SUFFIX)(d, oprsz, maxsz);
- }
- 
--void glue(helper_pshuflw, SUFFIX)(Reg *d, Reg *s, int order)
-+void glue(helper_shufps, SUFFIX)(Reg *d, Reg *a, Reg *b, uint32_t desc)
- {
--    Reg r;
--
--    r.W(0) = s->W(order & 3);
--    r.W(1) = s->W((order >> 2) & 3);
--    r.W(2) = s->W((order >> 4) & 3);
--    r.W(3) = s->W((order >> 6) & 3);
--    r.Q(1) = s->Q(1);
--    *d = r;
-+    const intptr_t oprsz = simd_oprsz(desc);
-+    const intptr_t maxsz = simd_maxsz(desc);
-+    const uint8_t ctrl = simd_data(desc);
-+
-+    for (intptr_t i = 0; 4 * i * sizeof(uint32_t) < oprsz; ++i) {
-+        const uint32_t t0 = a->L(4 * i + ((ctrl >> 0) & 3));
-+        const uint32_t t1 = a->L(4 * i + ((ctrl >> 2) & 3));
-+        const uint32_t t2 = b->L(4 * i + ((ctrl >> 4) & 3));
-+        const uint32_t t3 = b->L(4 * i + ((ctrl >> 6) & 3));
-+
-+        d->W(4 * i + 0) = t0;
-+        d->W(4 * i + 1) = t1;
-+        d->W(4 * i + 2) = t2;
-+        d->W(4 * i + 3) = t3;
-+    }
-+    glue(clear_high, SUFFIX)(d, oprsz, maxsz);
- }
- 
--void glue(helper_pshufhw, SUFFIX)(Reg *d, Reg *s, int order)
-+void glue(helper_shufpd, SUFFIX)(Reg *d, Reg *a, Reg *b, uint32_t desc)
- {
--    Reg r;
--
--    r.Q(0) = s->Q(0);
--    r.W(4) = s->W(4 + (order & 3));
--    r.W(5) = s->W(4 + ((order >> 2) & 3));
--    r.W(6) = s->W(4 + ((order >> 4) & 3));
--    r.W(7) = s->W(4 + ((order >> 6) & 3));
--    *d = r;
-+    const intptr_t oprsz = simd_oprsz(desc);
-+    const intptr_t maxsz = simd_maxsz(desc);
-+    const uint8_t ctrl = simd_data(desc);
-+
-+    for (intptr_t i = 0; 2 * i * sizeof(uint64_t) < oprsz; ++i) {
-+        const uint64_t t0 = a->Q(2 * i + ((ctrl >> 0) & 1));
-+        const uint64_t t1 = b->Q(2 * i + ((ctrl >> 1) & 1));
-+
-+        d->Q(2 * i + 0) = t0;
-+        d->Q(2 * i + 1) = t1;
-+    }
-+    glue(clear_high, SUFFIX)(d, oprsz, maxsz);
- }
- #endif
- 
-diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
-index ee8bd4c1af..207d41e248 100644
---- a/target/i386/ops_sse_header.h
-+++ b/target/i386/ops_sse_header.h
-@@ -78,13 +78,13 @@ DEF_HELPER_4(glue(psadbw, SUFFIX), void, Reg, Reg, Reg, i32)
- DEF_HELPER_4(glue(maskmov, SUFFIX), void, env, Reg, Reg, tl)
- 
- #if SHIFT == 0
--DEF_HELPER_3(glue(pshufw, SUFFIX), void, Reg, Reg, int)
-+DEF_HELPER_3(glue(pshufw, SUFFIX), void, Reg, Reg, i32)
- #else
--DEF_HELPER_3(shufps, void, Reg, Reg, int)
--DEF_HELPER_3(shufpd, void, Reg, Reg, int)
--DEF_HELPER_3(glue(pshufd, SUFFIX), void, Reg, Reg, int)
--DEF_HELPER_3(glue(pshuflw, SUFFIX), void, Reg, Reg, int)
--DEF_HELPER_3(glue(pshufhw, SUFFIX), void, Reg, Reg, int)
-+DEF_HELPER_3(glue(pshuflw, SUFFIX), void, Reg, Reg, i32)
-+DEF_HELPER_3(glue(pshufhw, SUFFIX), void, Reg, Reg, i32)
-+DEF_HELPER_3(glue(pshufd, SUFFIX), void, Reg, Reg, i32)
-+DEF_HELPER_4(glue(shufps, SUFFIX), void, Reg, Reg, Reg, i32)
-+DEF_HELPER_4(glue(shufpd, SUFFIX), void, Reg, Reg, Reg, i32)
- #endif
- 
- #if SHIFT == 1
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 3554086336..bb4120a848 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -2763,8 +2763,6 @@ static const SSEFunc_0_epp sse_op_table1[256][4] = {
-     [0x5b] = { gen_helper_cvtdq2ps, gen_helper_cvtps2dq, gen_helper_cvttps2dq },
- 
-     [0xc2] = SSE_FOP(cmpeq),
--    [0xc6] = { (SSEFunc_0_epp)gen_helper_shufps,
--               (SSEFunc_0_epp)gen_helper_shufpd }, /* XXX: casts */
- 
-     /* SSSE3, SSE4, MOVBE, CRC32, BMI1, BMI2, ADX.  */
-     [0x38] = { SSE_SPECIAL, SSE_SPECIAL, SSE_SPECIAL, SSE_SPECIAL },
-@@ -6971,22 +6969,22 @@ DEF_GEN_INSN3_HELPER_EPP(pshufb, pshufb_mmx, Pq, Pq, Qq)
- DEF_GEN_INSN3_HELPER_EPP(pshufb, pshufb_xmm, Vdq, Vdq, Wdq)
- DEF_GEN_INSN3_HELPER_EPP(vpshufb, pshufb_xmm, Vdq, Hdq, Wdq)
- DEF_GEN_INSN3_HELPER_EPP(vpshufb, pshufb_xmm, Vqq, Hqq, Wqq)
--DEF_GEN_INSN3_HELPER_PPI(pshufw, pshufw_mmx, Pq, Qq, Ib)
--DEF_GEN_INSN3_HELPER_PPI(pshuflw, pshuflw_xmm, Vdq, Wdq, Ib)
--DEF_GEN_INSN3_HELPER_PPI(vpshuflw, pshuflw_xmm, Vdq, Wdq, Ib)
--DEF_GEN_INSN3_HELPER_PPI(vpshuflw, pshuflw_xmm, Vqq, Wqq, Ib)
--DEF_GEN_INSN3_HELPER_PPI(pshufhw, pshufhw_xmm, Vdq, Wdq, Ib)
--DEF_GEN_INSN3_HELPER_PPI(vpshufhw, pshufhw_xmm, Vdq, Wdq, Ib)
--DEF_GEN_INSN3_HELPER_PPI(vpshufhw, pshufhw_xmm, Vqq, Wqq, Ib)
--DEF_GEN_INSN3_HELPER_PPI(pshufd, pshufd_xmm, Vdq, Wdq, Ib)
--DEF_GEN_INSN3_HELPER_PPI(vpshufd, pshufd_xmm, Vdq, Wdq, Ib)
--DEF_GEN_INSN3_HELPER_PPI(vpshufd, pshufd_xmm, Vqq, Wqq, Ib)
--DEF_GEN_INSN4_HELPER_PPI(shufps, shufps, Vdq, Vdq, Wdq, Ib)
--DEF_GEN_INSN4_HELPER_PPI(vshufps, shufps, Vdq, Hdq, Wdq, Ib)
--DEF_GEN_INSN4_HELPER_PPI(vshufps, shufps, Vqq, Hqq, Wqq, Ib)
--DEF_GEN_INSN4_HELPER_PPI(shufpd, shufpd, Vdq, Vdq, Wdq, Ib)
--DEF_GEN_INSN4_HELPER_PPI(vshufpd, shufpd, Vdq, Hdq, Wdq, Ib)
--DEF_GEN_INSN4_HELPER_PPI(vshufpd, shufpd, Vqq, Hqq, Wqq, Ib)
-+DEF_GEN_INSN3_GVEC(pshufw, Pq, Qq, Ib, 2i_ool, MM_OPRSZ, MM_MAXSZ, pshufw_mmx)
-+DEF_GEN_INSN3_GVEC(pshuflw, Vdq, Wdq, Ib, 2i_ool, XMM_OPRSZ, XMM_MAXSZ, pshuflw_xmm)
-+DEF_GEN_INSN3_GVEC(vpshuflw, Vdq, Wdq, Ib, 2i_ool, XMM_OPRSZ, XMM_MAXSZ, pshuflw_xmm)
-+DEF_GEN_INSN3_GVEC(vpshuflw, Vqq, Wqq, Ib, 2i_ool, XMM_OPRSZ, XMM_MAXSZ, pshuflw_xmm)
-+DEF_GEN_INSN3_GVEC(pshufhw, Vdq, Wdq, Ib, 2i_ool, XMM_OPRSZ, XMM_MAXSZ, pshufhw_xmm)
-+DEF_GEN_INSN3_GVEC(vpshufhw, Vdq, Wdq, Ib, 2i_ool, XMM_OPRSZ, XMM_MAXSZ, pshufhw_xmm)
-+DEF_GEN_INSN3_GVEC(vpshufhw, Vqq, Wqq, Ib, 2i_ool, XMM_OPRSZ, XMM_MAXSZ, pshufhw_xmm)
-+DEF_GEN_INSN3_GVEC(pshufd, Vdq, Wdq, Ib, 2i_ool, XMM_OPRSZ, XMM_MAXSZ, pshufd_xmm)
-+DEF_GEN_INSN3_GVEC(vpshufd, Vdq, Wdq, Ib, 2i_ool, XMM_OPRSZ, XMM_MAXSZ, pshufd_xmm)
-+DEF_GEN_INSN3_GVEC(vpshufd, Vqq, Wqq, Ib, 2i_ool, XMM_OPRSZ, XMM_MAXSZ, pshufd_xmm)
-+DEF_GEN_INSN4_GVEC(shufps, Vdq, Vdq, Wdq, Ib, 3i_ool, XMM_OPRSZ, XMM_MAXSZ, shufps_xmm)
-+DEF_GEN_INSN4_GVEC(vshufps, Vdq, Hdq, Wdq, Ib, 3i_ool, XMM_OPRSZ, XMM_MAXSZ, shufps_xmm)
-+DEF_GEN_INSN4_GVEC(vshufps, Vqq, Hqq, Wqq, Ib, 3i_ool, XMM_OPRSZ, XMM_MAXSZ, shufps_xmm)
-+DEF_GEN_INSN4_GVEC(shufpd, Vdq, Vdq, Wdq, Ib, 3i_ool, XMM_OPRSZ, XMM_MAXSZ, shufpd_xmm)
-+DEF_GEN_INSN4_GVEC(vshufpd, Vdq, Hdq, Wdq, Ib, 3i_ool, XMM_OPRSZ, XMM_MAXSZ, shufpd_xmm)
-+DEF_GEN_INSN4_GVEC(vshufpd, Vqq, Hqq, Wqq, Ib, 3i_ool, XMM_OPRSZ, XMM_MAXSZ, shufpd_xmm)
- 
- DEF_GEN_INSN4_HELPER_EPPI(blendps, blendps_xmm, Vdq, Vdq, Wdq, Ib)
- DEF_GEN_INSN4_HELPER_EPPI(vblendps, blendps_xmm, Vdq, Hdq, Wdq, Ib)
--- 
-2.20.1
+On 8/21/19 11:52 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Implement reconnect. To achieve this:
+>=20
+> 1. add new modes:
+>    connecting-wait: means, that reconnecting is in progress, and there
+>      were small number of reconnect attempts, so all requests are
+>      waiting for the connection.
+>    connecting-nowait: reconnecting is in progress, there were a lot of
+>      attempts of reconnect, all requests will return errors.
+>=20
+>    two old modes are used too:
+>    connected: normal state
+>    quit: exiting after fatal error or on close
+>=20
+> Possible transitions are:
+>=20
+>    * -> quit
+>    connecting-* -> connected
+>    connecting-wait -> connecting-nowait (transition is done after
+>                       reconnect-delay seconds in connecting-wait mode)
+>    connected -> connecting-wait
+>=20
+> 2. Implement reconnect in connection_co. So, in connecting-* mode,
+>     connection_co, tries to reconnect unlimited times.
+>=20
+> 3. Retry nbd queries on channel error, if we are in connecting-wait
+>     state.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
 
+> +static bool nbd_client_connecting(BDRVNBDState *s)
+> +{
+> +    return s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT ||
+> +            s->state =3D=3D NBD_CLIENT_CONNECTING_NOWAIT;
+
+
+Indentation looks unusual. I might have done:
+
+    return (s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT ||
+            s->state =3D=3D NBD_CLIENT_CONNECTING_NOWAIT);
+
+Or even exploit the enum encoding:
+
+    return s->state <=3D NBD_CLIENT_CONNECTING_NOWAIT
+
+Is s->state updated atomically, or do we risk the case where we might
+see two different values of s->state across the || sequence point?  Does
+that matter?
+
+> +}
+> +
+> +static bool nbd_client_connecting_wait(BDRVNBDState *s)
+> +{
+> +    return s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT;
+> +}
+> +
+> +static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+> +{
+> +    Error *local_err =3D NULL;
+> +
+> +    if (!nbd_client_connecting(s)) {
+> +        return;
+> +    }
+> +    assert(nbd_client_connecting(s));
+
+This assert adds nothing given the condition beforehand.
+
+> +
+> +    /* Wait for completion of all in-flight requests */
+> +
+> +    qemu_co_mutex_lock(&s->send_mutex);
+> +
+> +    while (s->in_flight > 0) {
+> +        qemu_co_mutex_unlock(&s->send_mutex);
+> +        nbd_recv_coroutines_wake_all(s);
+> +        s->wait_in_flight =3D true;
+> +        qemu_coroutine_yield();
+> +        s->wait_in_flight =3D false;
+> +        qemu_co_mutex_lock(&s->send_mutex);
+> +    }
+> +
+> +    qemu_co_mutex_unlock(&s->send_mutex);
+> +
+> +    if (!nbd_client_connecting(s)) {
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * Now we are sure that nobody is accessing the channel, and no on=
+e will
+> +     * try until we set the state to CONNECTED.
+> +     */
+> +
+> +    /* Finalize previous connection if any */
+> +    if (s->ioc) {
+> +        nbd_client_detach_aio_context(s->bs);
+> +        object_unref(OBJECT(s->sioc));
+> +        s->sioc =3D NULL;
+> +        object_unref(OBJECT(s->ioc));
+> +        s->ioc =3D NULL;
+> +    }
+> +
+> +    s->connect_status =3D nbd_client_connect(s->bs, &local_err);
+> +    error_free(s->connect_err);
+> +    s->connect_err =3D NULL;
+> +    error_propagate(&s->connect_err, local_err);
+> +    local_err =3D NULL;
+> +
+> +    if (s->connect_status < 0) {
+> +        /* failed attempt */
+> +        return;
+> +    }
+> +
+> +    /* successfully connected */
+> +    s->state =3D NBD_CLIENT_CONNECTED;
+> +    qemu_co_queue_restart_all(&s->free_sema);
+> +}
+> +
+> +static coroutine_fn void nbd_reconnect_loop(BDRVNBDState *s)
+> +{
+> +    uint64_t start_time_ns =3D qemu_clock_get_ns(QEMU_CLOCK_REALTIME);=
+
+> +    uint64_t delay_ns =3D s->reconnect_delay * NANOSECONDS_PER_SECOND;=
+
+> +    uint64_t timeout =3D 1 * NANOSECONDS_PER_SECOND;
+> +    uint64_t max_timeout =3D 16 * NANOSECONDS_PER_SECOND;
+> +
+> +    nbd_reconnect_attempt(s);
+> +
+> +    while (nbd_client_connecting(s)) {
+> +        if (s->state =3D=3D NBD_CLIENT_CONNECTING_WAIT &&
+> +            qemu_clock_get_ns(QEMU_CLOCK_REALTIME) - start_time_ns > d=
+elay_ns)
+> +        {
+> +            s->state =3D NBD_CLIENT_CONNECTING_NOWAIT;
+> +            qemu_co_queue_restart_all(&s->free_sema);
+> +        }
+> +
+> +        qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, timeout,
+> +                         &s->connection_co_sleep_ns_state);
+> +        if (s->drained) {
+> +            bdrv_dec_in_flight(s->bs);
+> +            s->wait_drained_end =3D true;
+> +            while (s->drained) {
+> +                /*
+> +                 * We may be entered once from nbd_client_attach_aio_c=
+ontext_bh
+> +                 * and then from nbd_client_co_drain_end. So here is a=
+ loop.
+> +                 */
+> +                qemu_coroutine_yield();
+> +            }
+> +            bdrv_inc_in_flight(s->bs);
+> +        }
+> +        if (timeout < max_timeout) {
+> +            timeout *=3D 2;
+> +        }
+> +
+> +        nbd_reconnect_attempt(s);
+> +    }
+>  }
+> =20
+>  static coroutine_fn void nbd_connection_entry(void *opaque)
+>  {
+> -    BDRVNBDState *s =3D opaque;
+> +    BDRVNBDState *s =3D (BDRVNBDState *)opaque;
+
+The cast is not necessary.
+
+>      uint64_t i;
+>      int ret =3D 0;
+>      Error *local_err =3D NULL;
+> @@ -177,16 +331,26 @@ static coroutine_fn void nbd_connection_entry(voi=
+d *opaque)
+>           * Therefore we keep an additional in_flight reference all the=
+ time and
+>           * only drop it temporarily here.
+>           */
+> +
+> +        if (nbd_client_connecting(s)) {
+> +            nbd_reconnect_loop(s);
+> +        }
+> +
+> +        if (s->state !=3D NBD_CLIENT_CONNECTED) {
+> +            continue;
+> +        }
+> +
+>          assert(s->reply.handle =3D=3D 0);
+>          ret =3D nbd_receive_reply(s->bs, s->ioc, &s->reply, &local_err=
+);
+> =20
+>          if (local_err) {
+>              trace_nbd_read_reply_entry_fail(ret, error_get_pretty(loca=
+l_err));
+>              error_free(local_err);
+> +            local_err =3D NULL;
+>          }
+>          if (ret <=3D 0) {
+>              nbd_channel_error(s, ret ? ret : -EIO);
+> -            break;
+> +            continue;
+>          }
+> =20
+>          /*
+> @@ -201,7 +365,7 @@ static coroutine_fn void nbd_connection_entry(void =
+*opaque)
+>              (nbd_reply_is_structured(&s->reply) && !s->info.structured=
+_reply))
+>          {
+>              nbd_channel_error(s, -EINVAL);
+> -            break;
+> +            continue;
+>          }
+> =20
+
+The commit message says you re-attempt the request after reconnection if
+you have not yet timed out from the previous connection; but do you also
+need to clear out any partial reply received to make sure the new
+request isn't operating on stale assumptions left over if the server
+died between two structured chunks?
+
+
+> @@ -927,20 +1113,26 @@ static int nbd_co_request(BlockDriverState *bs, =
+NBDRequest *request,
+>      } else {
+>          assert(request->type !=3D NBD_CMD_WRITE);
+>      }
+> -    ret =3D nbd_co_send_request(bs, request, write_qiov);
+> -    if (ret < 0) {
+> -        return ret;
+> -    }
+> =20
+> -    ret =3D nbd_co_receive_return_code(s, request->handle,
+> -                                     &request_ret, &local_err);
+> -    if (local_err) {
+> -        trace_nbd_co_request_fail(request->from, request->len, request=
+->handle,
+> -                                  request->flags, request->type,
+> -                                  nbd_cmd_lookup(request->type),
+> -                                  ret, error_get_pretty(local_err));
+> -        error_free(local_err);
+> -    }
+> +    do {
+> +        ret =3D nbd_co_send_request(bs, request, write_qiov);
+> +        if (ret < 0) {
+> +            continue;
+> +        }
+> +
+> +        ret =3D nbd_co_receive_return_code(s, request->handle,
+> +                                         &request_ret, &local_err);
+> +        if (local_err) {
+> +            trace_nbd_co_request_fail(request->from, request->len,
+> +                                      request->handle, request->flags,=
+
+> +                                      request->type,
+> +                                      nbd_cmd_lookup(request->type),
+> +                                      ret, error_get_pretty(local_err)=
+);
+> +            error_free(local_err);
+> +            local_err =3D NULL;
+> +        }
+> +    } while (ret < 0 && nbd_client_connecting_wait(s));
+
+I ask because nothing seems to reset request_ret here in the new loop.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--ok6G0SI9tkw42d5zME29YOPthXlg0drQL--
+
+--cX92qz9sBoGENbt8NtgSvkTH66m6wV0sI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1dgNsACgkQp6FrSiUn
+Q2qSIQf8D6H/po6NEe90rpy6RH8ypkZKiq5jq24WkUDXbZgAknuNmmIFBO6yKTmF
+ktvAW5065x2LkBQYD7CdWlY6mgoNHwR7W52K0aPNGrrkpHl1VKJ8+KH++eBnLmHv
+k8BmICw78PMswwhdmmxTzLWB4exRptpDw+aSupWuj+TcHpUWeY5d7bvfwe/pwJ7G
+xBCHUtW0zU8GdwyzAD1USudha8LF5lPhS7VAJvITJNynG6xf/dNG2fWJXA7vvFHo
+eqyI2e/ZpPwBiJraf1lrP7ux2/e3kWGXumXZqzfh/zpV4/Uiq19VTws+EW/WEu/H
+Gv7zECZfMQ/LXee6Ml6cdWeIhyVn1w==
+=j38a
+-----END PGP SIGNATURE-----
+
+--cX92qz9sBoGENbt8NtgSvkTH66m6wV0sI--
 
