@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA19973B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:38:03 +0200 (CEST)
-Received: from localhost ([::1]:44502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9FB997398
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:34:08 +0200 (CEST)
+Received: from localhost ([::1]:44482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0LBx-0007jg-GN
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42106)
+	id 1i0L8B-0003MR-D8
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:34:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42370)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0M-0004UM-UR
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:05 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0V-0004h2-Gz
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0L-00080c-5i
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:02 -0400
-Received: from ozlabs.org ([203.11.71.1]:60027)
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0T-000896-22
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:11 -0400
+Received: from ozlabs.org ([203.11.71.1]:55445)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L0K-0007v7-Hq; Wed, 21 Aug 2019 03:26:01 -0400
+ id 1i0L0S-00086W-CK; Wed, 21 Aug 2019 03:26:08 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46Czj96Bmbz9sNy; Wed, 21 Aug 2019 17:25:49 +1000 (AEST)
+ id 46CzjC6Wb4z9sQr; Wed, 21 Aug 2019 17:25:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1566372349;
- bh=0dWKqVmlK2exHuzprTgcVoL1/9FViLIL4ZD9+4OJrYI=;
+ d=gibson.dropbear.id.au; s=201602; t=1566372351;
+ bh=nD2L+SiGYUChIjp0CrLusuaG7viZyrANK72wGdiR5tM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oEpLNhgDSZdutOA95xMilbrgfWcbi/HzsGw06oEWoZ06uMRKI5heKGuo5eWv57+CX
- wVe0cZ+mxRxzQodRmmDaW2aJOxLbi0s8A+fbAIXruydRbSJwjOvylqd4or2eFXKeXz
- pV07tl4UenkwVoS4I4MDL9eVNKCxPGK8FboxH3M0=
+ b=ODHF3SkAlwP8ouTlUkWwoGY0k6opY/REiHpmhLEfACYd8iXEN7I4OA1aFFZY6SyUk
+ 09OpoC5beumS3dR+W/Pf6lfzSMyUSG8xdgvqdkLaEg6gBQMBWELEJWs/OXX+2nSKut
+ EqvwxdyppYXfarlOHB+XG6p9Qy3IGKSdfOYz/NvY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:19 +1000
-Message-Id: <20190821072542.23090-20-david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 17:25:26 +1000
+Message-Id: <20190821072542.23090-27-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 19/42] docs/specs: initial spec summary for
- Ultravisor-related hcalls
+Subject: [Qemu-devel] [PULL 26/42] ppc/xive: Provide unconditional
+ escalation support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,133 +54,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru, Michael Roth <mdroth@linux.vnet.ibm.com>,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
+From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-For now this only covers hcalls relating to TPM communication since
-it's the only one particularly important from a QEMU perspective atm,
-but others can be added here where it makes sense.
+When the 'u' bit is set the escalation is said to be 'unconditional'
+which means that the ESe PQ bits are not used. Introduce a
+xive_router_end_es_notify() routine to share code with the ESn
+notification.
 
-The full specification for all hcalls/ucalls will eventually be made
-available in the public/OpenPower version of the PAPR specification.
-
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-Message-Id: <20190717205842.17827-2-mdroth@linux.vnet.ibm.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20190718115420.19919-7-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- docs/specs/ppc-spapr-uv-hcalls.txt | 76 ++++++++++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
- create mode 100644 docs/specs/ppc-spapr-uv-hcalls.txt
+ hw/intc/xive.c             | 44 ++++++++++++++++++++++++++++++--------
+ include/hw/ppc/xive_regs.h |  2 ++
+ 2 files changed, 37 insertions(+), 9 deletions(-)
 
-diff --git a/docs/specs/ppc-spapr-uv-hcalls.txt b/docs/specs/ppc-spapr-uv=
--hcalls.txt
-new file mode 100644
-index 0000000000..389c2740d7
---- /dev/null
-+++ b/docs/specs/ppc-spapr-uv-hcalls.txt
-@@ -0,0 +1,76 @@
-+On PPC64 systems supporting Protected Execution Facility (PEF), system
-+memory can be placed in a secured region where only an "ultravisor"
-+running in firmware can provide to access it. pseries guests on such
-+systems can communicate with the ultravisor (via ultracalls) to switch t=
-o a
-+secure VM mode (SVM) where the guest's memory is relocated to this secur=
-ed
-+region, making its memory inaccessible to normal processes/guests runnin=
-g on
-+the host.
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 12f0d09df6..3fe84f3e76 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1429,6 +1429,27 @@ static bool xive_presenter_notify(XiveRouter *xrtr=
+, uint8_t format,
+     return found;
+ }
+=20
++/*
++ * Notification using the END ESe/ESn bit (Event State Buffer for
++ * escalation and notification). Profide futher coalescing in the
++ * Router.
++ */
++static bool xive_router_end_es_notify(XiveRouter *xrtr, uint8_t end_blk,
++                                      uint32_t end_idx, XiveEND *end,
++                                      uint32_t end_esmask)
++{
++    uint8_t pq =3D xive_get_field32(end_esmask, end->w1);
++    bool notify =3D xive_esb_trigger(&pq);
 +
-+The various ultracalls/hypercalls relating to SVM mode are currently
-+only documented internally, but are planned for direct inclusion into th=
-e
-+public OpenPOWER version of the PAPR specification (LoPAPR/LoPAR). An in=
-ternal
-+ACR has been filed to reserve a hypercall number range specific to this
-+use-case to avoid any future conflicts with the internally-maintained PA=
-PR
-+specification. This document summarizes some of these details as they re=
-late
-+to QEMU.
++    if (pq !=3D xive_get_field32(end_esmask, end->w1)) {
++        end->w1 =3D xive_set_field32(end_esmask, end->w1, pq);
++        xive_router_write_end(xrtr, end_blk, end_idx, end, 1);
++    }
 +
-+=3D=3D hypercalls needed by the ultravisor =3D=3D
++    /* ESe/n[Q]=3D1 : end of notification */
++    return notify;
++}
 +
-+Switching to SVM mode involves a number of hcalls issued by the ultravis=
-or
-+to the hypervisor to orchestrate the movement of guest memory to secure
-+memory and various other aspects SVM mode. Numbers are assigned for thes=
-e
-+hcalls within the reserved range 0xEF00-0xEF80. The below documents the
-+hcalls relevant to QEMU.
+ /*
+  * An END trigger can come from an event trigger (IPI or HW) or from
+  * another chip. We don't model the PowerBus but the END trigger
+@@ -1485,16 +1506,9 @@ static void xive_router_end_notify(XiveRouter *xrt=
+r, uint8_t end_blk,
+      * even futher coalescing in the Router
+      */
+     if (!xive_end_is_notify(&end)) {
+-        uint8_t pq =3D xive_get_field32(END_W1_ESn, end.w1);
+-        bool notify =3D xive_esb_trigger(&pq);
+-
+-        if (pq !=3D xive_get_field32(END_W1_ESn, end.w1)) {
+-            end.w1 =3D xive_set_field32(END_W1_ESn, end.w1, pq);
+-            xive_router_write_end(xrtr, end_blk, end_idx, &end, 1);
+-        }
+-
+         /* ESn[Q]=3D1 : end of notification */
+-        if (!notify) {
++        if (!xive_router_end_es_notify(xrtr, end_blk, end_idx,
++                                       &end, END_W1_ESn)) {
+             return;
+         }
+     }
+@@ -1558,6 +1572,18 @@ static void xive_router_end_notify(XiveRouter *xrt=
+r, uint8_t end_blk,
+         return;
+     }
+=20
++    /*
++     * Check the END ESe (Event State Buffer for escalation) for even
++     * futher coalescing in the Router
++     */
++    if (!xive_end_is_uncond_escalation(&end)) {
++        /* ESe[Q]=3D1 : end of notification */
++        if (!xive_router_end_es_notify(xrtr, end_blk, end_idx,
++                                       &end, END_W1_ESe)) {
++            return;
++        }
++    }
 +
-+- H_TPM_COMM (0xef10)
-+
-+  For TPM_COMM_OP_EXECUTE operation:
-+    Send a request to a TPM and receive a response, opening a new TPM se=
-ssion
-+    if one has not already been opened.
-+
-+  For TPM_COMM_OP_CLOSE_SESSION operation:
-+    Close the existing TPM session, if any.
-+
-+  Arguments:
-+
-+    r3 : H_TPM_COMM (0xef10)
-+    r4 : TPM operation, one of:
-+         TPM_COMM_OP_EXECUTE (0x1)
-+         TPM_COMM_OP_CLOSE_SESSION (0x2)
-+    r5 : in_buffer, guest physical address of buffer containing the requ=
-est
-+         - Caller may use the same address for both request and response
-+    r6 : in_size, size of the in buffer
-+         - Must be less than or equal to 4KB
-+    r7 : out_buffer, guest physical address of buffer to store the respo=
-nse
-+         - Caller may use the same address for both request and response
-+    r8 : out_size, size of the out buffer
-+         - Must be at least 4KB, as this is the maximum request/response=
- size
-+           supported by most TPM implementations, including the TPM Reso=
-urce
-+           Manager in the linux kernel.
-+
-+  Return values:
-+
-+    r3 : H_Success    request processed successfully
-+         H_PARAMETER  invalid TPM operation
-+         H_P2         in_buffer is invalid
-+         H_P3         in_size is invalid
-+         H_P4         out_buffer is invalid
-+         H_P5         out_size is invalid
-+         H_RESOURCE   problem communicating with TPM
-+         H_FUNCTION   TPM access is not currently allowed/configured
-+    r4 : For TPM_COMM_OP_EXECUTE, the size of the response will be store=
-d here
-+         upon success.
-+
-+  Use-case/notes:
-+
-+    SVM filesystems are encrypted using a symmetric key. This key is the=
-n
-+    wrapped/encrypted using the public key of a trusted system which has=
- the
-+    private key stored in the system's TPM. An Ultravisor will use this
-+    hcall to unwrap/unseal the symmetric key using the system's TPM devi=
-ce
-+    or a TPM Resource Manager associated with the device.
-+
-+    The Ultravisor sets up a separate session key with the TPM in advanc=
-e
-+    during host system boot. All sensitive in and out values will be
-+    encrypted using the session key. Though the hypervisor will see the =
-'in'
-+    and 'out' buffers in raw form, any sensitive contents will generally=
- be
-+    encrypted using this session key.
+     /*
+      * The END trigger becomes an Escalation trigger
+      */
+diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+index b0c68ab5f7..4378d7259c 100644
+--- a/include/hw/ppc/xive_regs.h
++++ b/include/hw/ppc/xive_regs.h
+@@ -210,6 +210,8 @@ typedef struct XiveEND {
+ #define xive_end_is_notify(end)   (be32_to_cpu((end)->w0) & END_W0_UCOND=
+_NOTIFY)
+ #define xive_end_is_backlog(end)  (be32_to_cpu((end)->w0) & END_W0_BACKL=
+OG)
+ #define xive_end_is_escalate(end) (be32_to_cpu((end)->w0) & END_W0_ESCAL=
+ATE_CTL)
++#define xive_end_is_uncond_escalation(end)              \
++    (be32_to_cpu((end)->w0) & END_W0_UNCOND_ESCALATE)
+=20
+ static inline uint64_t xive_end_qaddr(XiveEND *end)
+ {
 --=20
 2.21.0
 
