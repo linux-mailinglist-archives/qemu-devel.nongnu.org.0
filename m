@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE9C973B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:38:14 +0200 (CEST)
-Received: from localhost ([::1]:44510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF389738F
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:33:48 +0200 (CEST)
+Received: from localhost ([::1]:44478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0LC9-0008UC-JO
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:38:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42095)
+	id 1i0L7r-0002qF-GC
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:33:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42080)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0M-0004Tr-JE
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:04 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0M-0004TE-3Q
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0K-0007zd-P2
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:02 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:48573)
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0K-0007z9-Cw
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:01 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:42071)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L0J-0007tU-WA; Wed, 21 Aug 2019 03:26:00 -0400
+ id 1i0L0J-0007sy-LE; Wed, 21 Aug 2019 03:26:00 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46Czj94QDHz9sP3; Wed, 21 Aug 2019 17:25:49 +1000 (AEST)
+ id 46Czj91gHVz9sND; Wed, 21 Aug 2019 17:25:49 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1566372349;
- bh=XqyhbOl/gxAdC8MJ8BVPV9g2FOc7Ped5PieEArgy48k=;
+ bh=W0SUWrowz5QUfB8a0jGTaV1ZYR7DK6nAsa+DrTnUQvc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=STvSz3V72iqhpPC6EvXckAeQviXBGOtwtXcUt2TWXq7YwI11Zpj08eOpMQu/zhhgM
- A+VuezACU9iLtmxcJMkQ9QVTcL80Ce/YzTlLNL/naLA4MBjhJp0acb5s98QbyGlYGI
- lagI3EhW+TTyifITE/nQXqvc7fVPpe3kckf3WWj8=
+ b=NNuX0NB6n6B64qkQ0rMzBzAnRgxCR0trp/QjPHA7MS0CchZPSnPBJnqkqf1dHb6ht
+ RKqtuelIJs4yhRZ9zljhaQHPJhb5F0/0u1GxVipUNnbXPMS1AGdYHmr1yUn90BE0FH
+ pKuEXmwlgIKwCsNl9oJ6qzrl1/YGPXP9qMnAgFws=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:08 +1000
-Message-Id: <20190821072542.23090-9-david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 17:25:10 +1000
+Message-Id: <20190821072542.23090-11-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 08/42] target/ppc: move opcode decode tables to
- PowerPCCPU
+Subject: [Qemu-devel] [PULL 10/42] target/ppc: Optimize emulation of vclzd
+ instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,154 +55,121 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru,
- Richard Henderson <richard.henderson@linaro.org>, 1836558@bugs.launchpad.net,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org,
+ Stefan Brankovic <stefan.brankovic@rt-rk.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 
-The opcode decode tables aren't really part of the CPUPPCState but an
-internal implementation detail for the translator. This can cause
-problems with memcpy in cpu_copy as any table created during
-ppc_cpu_realize get written over causing a memory leak. To avoid this
-move the tables into PowerPCCPU which is better suited to hold
-internal implementation details.
+Optimize Altivec instruction vclzd (Vector Count Leading Zeros Doubleword=
+).
+This instruction counts the number of leading zeros of each doubleword el=
+ement
+in source register and places result in the appropriate doubleword elemen=
+t of
+destination register.
 
-Attempts to fix: https://bugs.launchpad.net/qemu/+bug/1836558
-Cc: 1836558@bugs.launchpad.net
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Message-Id: <20190716121352.302-1-alex.bennee@linaro.org>
+Using tcg-s count leading zeros instruction two times(once for each
+doubleword element of source register vB) and placing result in
+appropriate doubleword element of destination register vD.
+
+Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <1563200574-11098-6-git-send-email-stefan.brankovic@rt-rk.com=
+>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu.h                |  8 ++++----
- target/ppc/translate.c          |  3 ++-
- target/ppc/translate_init.inc.c | 16 +++++++---------
- 3 files changed, 13 insertions(+), 14 deletions(-)
+ target/ppc/helper.h                 |  1 -
+ target/ppc/int_helper.c             |  3 ---
+ target/ppc/translate/vmx-impl.inc.c | 28 +++++++++++++++++++++++++++-
+ 3 files changed, 27 insertions(+), 5 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 4ea33cf696..630a25c246 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1104,10 +1104,6 @@ struct CPUPPCState {
-     bool resume_as_sreset;
- #endif
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 9b486a0c37..e203f76bf1 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -311,7 +311,6 @@ DEF_HELPER_4(vctsxs, void, env, avr, avr, i32)
+ DEF_HELPER_2(vclzb, void, avr, avr)
+ DEF_HELPER_2(vclzh, void, avr, avr)
+ DEF_HELPER_2(vclzw, void, avr, avr)
+-DEF_HELPER_2(vclzd, void, avr, avr)
+ DEF_HELPER_2(vctzb, void, avr, avr)
+ DEF_HELPER_2(vctzh, void, avr, avr)
+ DEF_HELPER_2(vctzw, void, avr, avr)
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index a265cb07c5..b82765db33 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1820,17 +1820,14 @@ VUPK(lsw, s64, s32, UPKLO)
+ #define clzb(v) ((v) ? clz32((uint32_t)(v) << 24) : 8)
+ #define clzh(v) ((v) ? clz32((uint32_t)(v) << 16) : 16)
+ #define clzw(v) clz32((v))
+-#define clzd(v) clz64((v))
 =20
--    /* Those resources are used only during code translation */
--    /* opcode handlers */
--    opc_handler_t *opcodes[PPC_CPU_OPCODES_LEN];
--
-     /* Those resources are used only in QEMU core */
-     target_ulong hflags;      /* hflags is a MSR & HFLAGS_MASK         *=
-/
-     target_ulong hflags_nmsr; /* specific hflags, not coming from MSR */
-@@ -1191,6 +1187,10 @@ struct PowerPCCPU {
-     int32_t node_id; /* NUMA node this CPU belongs to */
-     PPCHash64Options *hash64_opts;
+ VGENERIC_DO(clzb, u8)
+ VGENERIC_DO(clzh, u16)
+ VGENERIC_DO(clzw, u32)
+-VGENERIC_DO(clzd, u64)
 =20
-+    /* Those resources are used only during code translation */
-+    /* opcode handlers */
-+    opc_handler_t *opcodes[PPC_CPU_OPCODES_LEN];
-+
-     /* Fields related to migration compatibility hacks */
-     bool pre_2_8_migration;
-     target_ulong mig_msr_mask;
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 9f9553afb4..1afb31e855 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -7858,6 +7858,7 @@ static bool ppc_tr_breakpoint_check(DisasContextBas=
-e *dcbase, CPUState *cs,
- static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs=
-)
- {
-     DisasContext *ctx =3D container_of(dcbase, DisasContext, base);
-+    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-     CPUPPCState *env =3D cs->env_ptr;
-     opc_handler_t **table, *handler;
+ #undef clzb
+ #undef clzh
+ #undef clzw
+-#undef clzd
 =20
-@@ -7875,7 +7876,7 @@ static void ppc_tr_translate_insn(DisasContextBase =
-*dcbase, CPUState *cs)
-               opc3(ctx->opcode), opc4(ctx->opcode),
-               ctx->le_mode ? "little" : "big");
-     ctx->base.pc_next +=3D 4;
--    table =3D env->opcodes;
-+    table =3D cpu->opcodes;
-     handler =3D table[opc1(ctx->opcode)];
-     if (is_indirect_opcode(handler)) {
-         table =3D ind_table(handler);
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-index 86fc8f2e31..9cd2033bb9 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -9440,14 +9440,13 @@ static void fix_opcode_tables(opc_handler_t **ppc=
-_opcodes)
- static void create_ppc_opcodes(PowerPCCPU *cpu, Error **errp)
- {
-     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
--    CPUPPCState *env =3D &cpu->env;
-     opcode_t *opc;
-=20
--    fill_new_table(env->opcodes, PPC_CPU_OPCODES_LEN);
-+    fill_new_table(cpu->opcodes, PPC_CPU_OPCODES_LEN);
-     for (opc =3D opcodes; opc < &opcodes[ARRAY_SIZE(opcodes)]; opc++) {
-         if (((opc->handler.type & pcc->insns_flags) !=3D 0) ||
-             ((opc->handler.type2 & pcc->insns_flags2) !=3D 0)) {
--            if (register_insn(env->opcodes, opc) < 0) {
-+            if (register_insn(cpu->opcodes, opc) < 0) {
-                 error_setg(errp, "ERROR initializing PowerPC instruction=
- "
-                            "0x%02x 0x%02x 0x%02x", opc->opc1, opc->opc2,
-                            opc->opc3);
-@@ -9455,7 +9454,7 @@ static void create_ppc_opcodes(PowerPCCPU *cpu, Err=
-or **errp)
-             }
-         }
-     }
--    fix_opcode_tables(env->opcodes);
-+    fix_opcode_tables(cpu->opcodes);
-     fflush(stdout);
-     fflush(stderr);
+ #define ctzb(v) ((v) ? ctz32(v) : 8)
+ #define ctzh(v) ((v) ? ctz32(v) : 16)
+diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/v=
+mx-impl.inc.c
+index 13153352e4..3372c2c3d3 100644
+--- a/target/ppc/translate/vmx-impl.inc.c
++++ b/target/ppc/translate/vmx-impl.inc.c
+@@ -742,6 +742,32 @@ static void trans_vgbbd(DisasContext *ctx)
+     tcg_temp_free_i64(avr[1]);
  }
-@@ -10023,7 +10022,6 @@ static void ppc_cpu_unrealize(DeviceState *dev, E=
-rror **errp)
- {
-     PowerPCCPU *cpu =3D POWERPC_CPU(dev);
-     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
--    CPUPPCState *env =3D &cpu->env;
-     Error *local_err =3D NULL;
-     opc_handler_t **table, **table_2;
-     int i, j, k;
-@@ -10035,11 +10033,11 @@ static void ppc_cpu_unrealize(DeviceState *dev,=
- Error **errp)
-     }
 =20
-     for (i =3D 0; i < PPC_CPU_OPCODES_LEN; i++) {
--        if (env->opcodes[i] =3D=3D &invalid_handler) {
-+        if (cpu->opcodes[i] =3D=3D &invalid_handler) {
-             continue;
-         }
--        if (is_indirect_opcode(env->opcodes[i])) {
--            table =3D ind_table(env->opcodes[i]);
-+        if (is_indirect_opcode(cpu->opcodes[i])) {
-+            table =3D ind_table(cpu->opcodes[i]);
-             for (j =3D 0; j < PPC_CPU_INDIRECT_OPCODES_LEN; j++) {
-                 if (table[j] =3D=3D &invalid_handler) {
-                     continue;
-@@ -10057,7 +10055,7 @@ static void ppc_cpu_unrealize(DeviceState *dev, E=
-rror **errp)
-                                              ~PPC_INDIRECT));
-                 }
-             }
--            g_free((opc_handler_t *)((uintptr_t)env->opcodes[i] &
-+            g_free((opc_handler_t *)((uintptr_t)cpu->opcodes[i] &
-                 ~PPC_INDIRECT));
-         }
-     }
++/*
++ * vclzd VRT,VRB - Vector Count Leading Zeros Doubleword
++ *
++ * Counting the number of leading zero bits of each doubleword element i=
+n source
++ * register and placing result in appropriate doubleword element of dest=
+ination
++ * register.
++ */
++static void trans_vclzd(DisasContext *ctx)
++{
++    int VT =3D rD(ctx->opcode);
++    int VB =3D rB(ctx->opcode);
++    TCGv_i64 avr =3D tcg_temp_new_i64();
++
++    /* high doubleword */
++    get_avr64(avr, VB, true);
++    tcg_gen_clzi_i64(avr, avr, 64);
++    set_avr64(VT, avr, true);
++
++    /* low doubleword */
++    get_avr64(avr, VB, false);
++    tcg_gen_clzi_i64(avr, avr, 64);
++    set_avr64(VT, avr, false);
++
++    tcg_temp_free_i64(avr);
++}
++
+ GEN_VXFORM(vmuloub, 4, 0);
+ GEN_VXFORM(vmulouh, 4, 1);
+ GEN_VXFORM(vmulouw, 4, 2);
+@@ -1258,7 +1284,7 @@ GEN_VAFORM_PAIRED(vmaddfp, vnmsubfp, 23)
+ GEN_VXFORM_NOA(vclzb, 1, 28)
+ GEN_VXFORM_NOA(vclzh, 1, 29)
+ GEN_VXFORM_NOA(vclzw, 1, 30)
+-GEN_VXFORM_NOA(vclzd, 1, 31)
++GEN_VXFORM_TRANS(vclzd, 1, 31)
+ GEN_VXFORM_NOA_2(vnegw, 1, 24, 6)
+ GEN_VXFORM_NOA_2(vnegd, 1, 24, 7)
+ GEN_VXFORM_NOA_2(vextsb2w, 1, 24, 16)
 --=20
 2.21.0
 
