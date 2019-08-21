@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A09D9804C
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 18:38:40 +0200 (CEST)
-Received: from localhost ([::1]:50426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7472698066
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 18:41:26 +0200 (CEST)
+Received: from localhost ([::1]:50460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Td9-0001tg-A7
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 12:38:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59113)
+	id 1i0Tfp-0006sa-J7
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 12:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59244)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1i0TZM-0006Y3-Cl
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:34:46 -0400
+ (envelope-from <ldoktor@redhat.com>) id 1i0TZn-0006qZ-AC
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:35:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1i0TZK-0005La-Pu
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:34:44 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:36314)
+ (envelope-from <ldoktor@redhat.com>) id 1i0TOq-0000jL-I8
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:23:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33790)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1i0TZK-0005Ju-9E
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 12:34:42 -0400
-Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id 1335B96F50;
- Wed, 21 Aug 2019 16:34:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1566405279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WSZCf5q/9sv8cWAFzLb6DtBViG89QMisz/wUpvaIT9A=;
- b=hk8pDHTKOMmzHpCU5o8m0FBfd5QNbWdVL6dhxugGUUvV8y6hAylXHXa5nhuf1dJ/wmhjYM
- hOQADG3rgtaqJlCk2cG4v6DUyBI1G2kRy8Q/zShNYjhEYAB7GqUQRwqf54GjhfbPcy6W2x
- c4Q7b+B1lyC8eqVYzJne1cyhApl1Cwk=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 18:33:31 +0200
-Message-Id: <20190821163341.16309-1-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.22.0
+ (Exim 4.71) (envelope-from <ldoktor@redhat.com>)
+ id 1i0TOp-0000il-6I; Wed, 21 Aug 2019 12:23:51 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 08393859FE;
+ Wed, 21 Aug 2019 16:23:50 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-204-35.brq.redhat.com
+ [10.40.204.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7175B17D2F;
+ Wed, 21 Aug 2019 16:23:48 +0000 (UTC)
+To: Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Andrew Jones <drjones@redhat.com>
+References: <db672a84-0f30-bb82-ef94-c543e444372e@redhat.com>
+ <b9129921-91cb-4339-0a3e-eb73ae5f6390@virtuozzo.com>
+From: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=ldoktor@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFcV6vsBCADa8NUYov+a+AmCEEUB3stiiMM0NQc1WwlcxGoMxKHcqqIj/kdPhUDvFS32
+ V94V7en1Lx+cpXKRMZP3n+3WG+VZWLwaktJgqrECZ161zE7xF5d1H3CLmwStbe6Cw1oR4LYQ
+ HBpuqFEA5znoLuTTsP1uXs9h1cYNzX7hmOTvPCLJfDJ1iv954FsgCGtoVvl4CoxaR3u2VNOs
+ hXsTTVyJM6gDTsyqn0uvLOHGWGIGVhDkLV4hv6pSdiKrtQKWIUji3Z8x41MbZybmJxHkpOVz
+ Jl3jnNE3CbiEq77Is9LMI4yTF2CESs3V4XMBLfZPLrQBC0gzjeRxwCnbdOZRwY5KI457ABEB
+ AAG0K0x1a2FzIERva3RvciAoUmVkIEhhdCkgPGxkb2t0b3JAcmVkaGF0LmNvbT6JAVUEEwEC
+ AD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEF
+ AlqVjq0FCQdCCrIACgkQJrNi5H/PIsFF1Qf+K23kB5iOvsbe/swQda9nJZSgKkbXLCF3KCdw
+ jCY3qdneHzro696qosRhWn+tpLQ6Mp8sgnXuJk96qaptXtx0R1Ci2oHFo01WfcSLZ1f99/0q
+ dWGWJhTt2TPNP6A5rrw//FZlQOYNTYG9vn7euLE0el32ZQp/0HCO7XpLiujEX48fWdlaPmDO
+ nalJEpzzJJNu8WnHIG2eLS8lGrNdnPbkxHyeERxPuWDAmHmWyZSaDMtMd40XVKfLfkyY83jz
+ +uq8uMxPMzq116YvFygsXqJPgWGYX39BdasEssr/GABHqgKY54dtTdMnFZZFVowkoCSh2Al/
+ X/OSk5wpyYZrEYeKNLkBDQRXFer7AQgAw8JIK9pZUfZWNZirBIwOevkdZu1aLhgH84EfXw40
+ ynMEFa1t/c0baOiuLNcVbdnHLGvUAQJ2oN/+rdGpEWITVSjDxFYf3JOnySZJhLnQgGMG4j3m
+ dFZMubPG1GJEuubPAAB0huRfjQTvOvpIK03J2H5cMoug862OHOnT+mfonGruTkSO0PBq3wtf
+ P+Z3gLCuEDkmEZSh4IKxs0CoLU4KxWRQHpoTOxcAiHzj8cm5qbu3Cb1KrXz8dEmYhCq2fpFf
+ /h+GfEO8gU/ICJD8WQUHYcVK0bbiZskCcSOGtStjwq0QqitZMbcsPEset/2L3z44MLPuVApv
+ c9wORs/3iT9BhwARAQABiQE8BBgBAgAmAhsMFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAlqV
+ j3sFCQdCC4AACgkQJrNi5H/PIsG+JAf/emslPCAW4gmn3Ep1ON0V0xPGxFOUbH2m+f079pVP
+ Jo3dGT6ZFF8q00GEsqxjpxO/c0opsTFrAN3qyTS3Kr4435ua66J5eP+TBkjN+vljmRi3T9Xg
+ h/dHp0JkZQCtcnmNsm/9F0/GzMvc7CnsptDp4aT0KGMfpvv7XrQOkprSr2wgWeAdNVhCP2ZQ
+ y+yAzLmHe5OGPW1qPmIBBvEnU2C8av0ONGKIxIAUCF8UCm+YJzPwIwJLhkzrhANiqNwQXwfn
+ j8HaEsOCIX26S4GYYmIaY1+GBeHkeh0R/GzERRPh6jfhg2JiCE6ftgZ+DKRjsK3o1uw40aYe
+ s/q9jwLlkaqraQ==
+Message-ID: <db5bc7fa-a943-24fa-700b-9a675bdda79a@redhat.com>
+Date: Wed, 21 Aug 2019 18:23:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1566405279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WSZCf5q/9sv8cWAFzLb6DtBViG89QMisz/wUpvaIT9A=;
- b=DqVDy2rX2YCErBPZo4TzigG3JumRncH1pFN+QWu6Og7J1IvmyYmipQxGgXUXRKMtO6AJMi
- T83z6MEhcxuQOAMBVeiV+ODc/Pqfy6HVEhrnC1vmcMSc3UlS4+zgWWL+xv0LbX28c+KCZd
- PuUR7zhv90IcEr0lQZQkGBgsrAIYLlk=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1566405279; a=rsa-sha256; cv=none;
- b=zfzBJT4XRePr+2eXJjPjSYVNOdbyLt5Vwcz7doKLUlfxEb4FTE78OgvhJS79c6oUc3g7lS
- XQDozTM3ysWOE8PjEjjGVVDImqxUcaFBqF4o6+tWaq/zHGw0nEY3PvI9XpGkDd+YtgmTOW
- 8jG+JA7uvvu95R2OrWrCQPsCl4bb2SA=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <b9129921-91cb-4339-0a3e-eb73ae5f6390@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="32yWQD6eeANNEXxJcJ5CkNC64SAHHRSCu"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Wed, 21 Aug 2019 16:23:50 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v4 00/10] Multi-phase reset mechanism
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Broken aarch64 by qcow2: skip writing zero buffers
+ to empty COW areas [v2]
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,143 +90,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- edgar.iglesias@xilinx.com, berrange@redhat.com, ehabkost@redhat.com,
- mark.burton@greensocs.com, pbonzini@redhat.com, philmd@redhat.com,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--32yWQD6eeANNEXxJcJ5CkNC64SAHHRSCu
+Content-Type: multipart/mixed; boundary="Med2PnU6H5KSgRwbAZ9DiFVa8Naa9mwdy";
+ protected-headers="v1"
+From: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
+To: Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Andrew Jones <drjones@redhat.com>
+Message-ID: <db5bc7fa-a943-24fa-700b-9a675bdda79a@redhat.com>
+Subject: Re: Broken aarch64 by qcow2: skip writing zero buffers to empty COW
+ areas [v2]
+References: <db672a84-0f30-bb82-ef94-c543e444372e@redhat.com>
+ <b9129921-91cb-4339-0a3e-eb73ae5f6390@virtuozzo.com>
+In-Reply-To: <b9129921-91cb-4339-0a3e-eb73ae5f6390@virtuozzo.com>
 
-Here's the 4th version of the multi-phase reset proposal patches.
-Previous version can be found here:
-https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg06365.html
+--Med2PnU6H5KSgRwbAZ9DiFVa8Naa9mwdy
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-The purpose of this series is to split the current reset procedure into
-multiple phases. This will help to solve some ordering difficulties we ha=
-ve
-during reset. Please see patch 4 which adds documentation for more detail=
-s.
+Dne 21. 08. 19 v 17:49 Anton Nefedov napsal(a):
+> On 21/8/2019 5:14 PM, Luk=C3=A1=C5=A1 Doktor wrote:
+>> Hello guys,
+>>
+>> First attempt was rejected due to zip attachment, let's try it again w=
+ith just Avocado-vt debug.log and serial console log files attached.
+>>
+>> I bisected a regression on aarch64 all the way to this commit: "qcow2:=
+ skip writing zero buffers to empty COW areas" c8bb23cbdbe32f5c326365e0a8=
+2e1b0e68cdcd8a. Would you please have a look at it?
+>>
+>> My reproducer is running kickstart installation of RHEL-8 from DVD on =
+aarch64 gicv3 machine, which never finishes since this commit, where anac=
+onda complains about package installation, occasionally there are also XF=
+S metadata corruption messages on serial console:
+>>
+>=20
+> hi,
+>=20
+> this looks scary :( I doubt that it can have anything to do with aarch6=
+4
+> but rather a really tricky timing (or, possibly, a broken environment
+> like broken fallocate() on a host? who knows..)
+>=20
+> Is it always the same machine you observe this issue on? Did you try
+> others?
+>=20
+> I just wonder if it's worth to try to reproduce it on my machine
+> (and I don't have aarch64 on hand now). I can probably come up with
+> some torture test that will continuously write to qcow2 with random
+> offsets/sizes and verify the result.
+>=20
+> If you could kindly reproduce it again then we can probably start with
+> enabling qemu traces by appending
+>   " -trace bdrv* -trace qcow2* -trace file=3D/some_huge_partition/qemu.=
+log"
+> to the command line.
+>=20
+> Beware that it's going to produce a huge amount of logs.
+>=20
+> Also, the corrupted image and the serial log will be required for
+> investigation.
+>=20
+> thanks,
+>=20
+> /Anton
+>=20
 
-Compared to previous version, I've reduced the scope of the series to
-multi-phase basics. In particular, I've removed migration-related feature=
-s
-which can be added and discussed later when we've settled the api. I've a=
-lso
-not included the change to the new api for the ~20 impacted files because=
- it
-highly depends on whether we handle cold vs warm reset difference or not.=
- I'll
-handle them when we'll advance on this point.
+Hello Anton,
 
-I've isolated in patch 2 to 4, the multi-phase base mechanism handling on=
-ly
-cold reset as suggested by David.
-Patches 5 and 6 do trivial modifications related to the registration of r=
-eset
-handler in the main system reset.
-Patch 7 handles the hotplug device reset case.
-These first 7 patches form a multi-phase basics independent subset; the f=
-irst 6
-do not modify the behavior. I'd really like to move forward on them as we=
- have
-things depending on the basic multi-phase capability only (in particular =
-the
-clock-tree support).
+I have only tried that on a single machine, but colleague of mine reporte=
+d similar issues even on TCG installing Fedora using x86_64 host. I'll tr=
+y to reproduce it on my x86_64 box which should simplify the debugging.
 
-Nevertheless I've kept in this series the addition of warm reset (in patc=
-hes 8
-to 10) so we can continue the discussion. Even if we don't introduce warm
-reset, it allows discussion about multiple reset type support.
-Maybe I should have put these 3 patches in their own (rfc ?) series, sinc=
-e
-there was lot of questioning about the warm reset and talking about handl=
-ing
-other resets like bus specific ones.
-
-I've tested that the actual reset order was not modified by these patches=
- by
-tracing calls to individual reset method after and before applying the se=
-ries.
+Luk=C3=A1=C5=A1
 
 
-Changes v3 -> v4
-general:
-    + various comments and typos
-patch 1: add device_legacy_reset function to prepare for reset api change
-    + squash of 2 patches from v3 (asked by Peter and David)
-patch 2: Create Resettable QOM interface
-    + ResetType enum (only cold for now) (David and Philippe's remark)
-    + ResetState to factorize most of the code (to address David's concer=
-n)
-    + all phases order is now children-to-parent (Peter's remark)
-    + assert/deassert removed to isolate migration related features
-patch 3: add Resettable interface in Bus and Device classes
-    + squash of 2 patches (make Device and Bus Resettable & switch to
-      resettable api) since patch 2 has reduced their size.
-    + adaptation to patch 2 changes (warm reset, state and methods)
-    + isolate hotplug reset change into patch 7 (Peter's remark)
-    + fix qdev/qbus_reset_not doing a cold reset (Peter's remark)
-    + call helper device_reset_cold instead of device_reset (David's rema=
-rk)
-patch 4: docs/devel/reset.txt: create doc about Resettable interface
-    + various improvements
-    + in this patch, doc is reduced to cold multi-phase reset with no "in=
- reset"
-      state (other parts are kept for following commits)
-patch 5: vl.c: replace deprecated qbus_reset_all registration
-    + suggested comment improvement from Peter
-patch 6: hw/s390x/ipl.c: replace deprecated qbus_reset_all registration
-    + suggested comment improvement from Peter
+--Med2PnU6H5KSgRwbAZ9DiFVa8Naa9mwdy--
 
-Thanks for your feedback,
-Damien
+--32yWQD6eeANNEXxJcJ5CkNC64SAHHRSCu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Damien Hedde (10):
-  add device_legacy_reset function to prepare for reset api change
-  hw/core: create Resettable QOM interface
-  hw/core: add Resettable interface in Bus and Device classes
-  docs/devel/reset.txt: create doc about Resettable interface
-  vl.c: replace deprecated qbus_reset_all registration
-  hw/s390x/ipl.c: replace deprecated qbus_reset_all registration
-  hw/core/qdev: replace deprecated device_legacy_reset when hotplugging
-    device
-  hw/core/resettable: add support for warm reset
-  hw/core/: add warm reset helpers for devices and buses
-  docs/devel/reset.txt: add documentation about warm reset
+-----BEGIN PGP SIGNATURE-----
 
- Makefile.objs            |   1 +
- docs/devel/reset.txt     | 284 +++++++++++++++++++++++++++++++++++++++
- hw/audio/intel-hda.c     |   2 +-
- hw/core/Makefile.objs    |   1 +
- hw/core/bus.c            |  64 +++++++++
- hw/core/qdev.c           |  86 +++++++++---
- hw/core/resettable.c     | 199 +++++++++++++++++++++++++++
- hw/core/trace-events     |  36 +++++
- hw/hyperv/hyperv.c       |   2 +-
- hw/i386/pc.c             |   2 +-
- hw/ide/microdrive.c      |   8 +-
- hw/intc/spapr_xive.c     |   2 +-
- hw/ppc/pnv_psi.c         |   2 +-
- hw/ppc/spapr_pci.c       |   2 +-
- hw/ppc/spapr_vio.c       |   2 +-
- hw/s390x/ipl.c           |  10 +-
- hw/s390x/s390-pci-inst.c |   2 +-
- hw/scsi/vmw_pvscsi.c     |   2 +-
- hw/sd/omap_mmc.c         |   2 +-
- hw/sd/pl181.c            |   2 +-
- include/hw/qdev-core.h   | 100 +++++++++++++-
- include/hw/resettable.h  | 171 +++++++++++++++++++++++
- tests/Makefile.include   |   1 +
- vl.c                     |  10 +-
- 24 files changed, 949 insertions(+), 44 deletions(-)
- create mode 100644 docs/devel/reset.txt
- create mode 100644 hw/core/resettable.c
- create mode 100644 hw/core/trace-events
- create mode 100644 include/hw/resettable.h
+iQEzBAEBCAAdFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAl1dcBMACgkQJrNi5H/P
+IsHN7AgAyNTfdgJ9+TwDbdrf26NgNwwkZsZeiGC2Fdo3dfKJ2WE0cZOZbHXRU8sB
+NOU+hPqTDyrzQdJEluWpbhj1iFb4wd7NewgcZtAGxqMmOGdmeRI4+UJfCYId5Ucf
+NAWfXcUSDoZCVeMUs8nsxfIjSgewjk58vWLB5BSF86BddYwyZO/cuh4xtlv5Nk7O
+4sZG3Gyb8HAWFRlH4Hxbtvhl3Xj6965jSZO7kP9yATysPPbfFUWVid1ldaVAy4gq
+5+SCY7et5COV6GtcOhmwpyJA2MYEIrvnFN4m1BgFyYqCX9QS3PGASroFXxA0Q6gK
+qaJXgOba7rNDY9bsRCgb7Ctz7vareQ==
+=rXH2
+-----END PGP SIGNATURE-----
 
---=20
-2.22.0
-
+--32yWQD6eeANNEXxJcJ5CkNC64SAHHRSCu--
 
