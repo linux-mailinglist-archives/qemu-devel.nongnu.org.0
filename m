@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707979740A
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:56:33 +0200 (CEST)
-Received: from localhost ([::1]:44744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C8A973FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:53:54 +0200 (CEST)
+Received: from localhost ([::1]:44720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0LTs-0006uO-IN
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:56:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42790)
+	id 1i0LRJ-0003tX-AF
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:53:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L1B-0005YD-Po
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:54 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0q-0005Bj-3j
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L1A-0000FD-LW
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:53 -0400
-Received: from ozlabs.org ([203.11.71.1]:43093)
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0o-0008Rs-6q
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:31 -0400
+Received: from ozlabs.org ([203.11.71.1]:38065)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L1A-0008SK-AH; Wed, 21 Aug 2019 03:26:52 -0400
+ id 1i0L0m-00086l-Oq; Wed, 21 Aug 2019 03:26:30 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46CzjG33Flz9sR8; Wed, 21 Aug 2019 17:25:49 +1000 (AEST)
+ id 46CzjD6KFSz9sRC; Wed, 21 Aug 2019 17:25:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1566372354;
- bh=7bWUvyvMwDHcXO2wfGBuWkd301O7ASe0z8ehsRSbHj4=;
+ d=gibson.dropbear.id.au; s=201602; t=1566372352;
+ bh=DFkJG95qo/G957L8HxCC42/eteTec5f3+2EJ2gUFXKQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dBNLcH2SHDkqn2SNejGDkpomBX1R8x9a12OXRDyQmD6eFmcf62NCeM5wFDmgL6y6t
- iZ/pEc1WjZ+Um97RFm2MLwmiEVYOQkwh6fZSxHkRFQ9t7ToTNzCPbgrE0519fPrff7
- sA7qeRaF2W4XcYiFwLd9f3nNXte3ZQAT+Iev8O1I=
+ b=gdEJdRnLZHTSjk6rOyNwBLOXRY39g5YxfyYkp5gO4O/ER+1taPTnasQ/iLJHghTh6
+ BqTJY+DuHnPV34iF1gZAUietLYxJ+M0mYHZXpMogh3btWwKGIuXYJaHR/GZa2Pxg0K
+ qAN1ERwSJCQTsp0ySAt7N4z2Vx1igyBI2G2Rjc8c=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:22 +1000
-Message-Id: <20190821072542.23090-23-david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 17:25:23 +1000
+Message-Id: <20190821072542.23090-24-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
@@ -41,8 +41,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 22/42] ppc/xive: use an abstract type for
- XiveNotifier
+Subject: [Qemu-devel] [PULL 23/42] ppc/xive: Implement TM_PULL_OS_CTX
+ special command
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,33 +62,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
+When a vCPU is not dispatched anymore on a HW thread, the Hypervisor
+(KVM on Linux) invalidates the OS interrupt context of a vCPU with
+this special command. It returns the OS CAM line value and resets the
+VO bit.
+
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190718115420.19919-2-clg@kaod.org>
+Message-Id: <20190718115420.19919-4-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- include/hw/ppc/xive.h | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/intc/xive.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 9399c77d2d..ea6ae34375 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -148,13 +148,11 @@
-  * XIVE Notifier (Interface between Source and Router)
-  */
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 7a6e4b763a..ab7ce64a83 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -337,6 +337,17 @@ static void xive_tm_set_os_pending(XiveTCTX *tctx, h=
+waddr offset,
+     xive_tctx_notify(tctx, TM_QW1_OS);
+ }
 =20
--typedef struct XiveNotifier {
--    Object parent;
--} XiveNotifier;
-+typedef struct XiveNotifier XiveNotifier;
-=20
- #define TYPE_XIVE_NOTIFIER "xive-notifier"
- #define XIVE_NOTIFIER(obj)                                     \
--    OBJECT_CHECK(XiveNotifier, (obj), TYPE_XIVE_NOTIFIER)
-+    INTERFACE_CHECK(XiveNotifier, (obj), TYPE_XIVE_NOTIFIER)
- #define XIVE_NOTIFIER_CLASS(klass)                                     \
-     OBJECT_CLASS_CHECK(XiveNotifierClass, (klass), TYPE_XIVE_NOTIFIER)
- #define XIVE_NOTIFIER_GET_CLASS(obj)                                   \
++static uint64_t xive_tm_pull_os_ctx(XiveTCTX *tctx, hwaddr offset,
++                                    unsigned size)
++{
++    uint32_t qw1w2_prev =3D xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
++    uint32_t qw1w2;
++
++    qw1w2 =3D xive_set_field32(TM_QW1W2_VO, qw1w2_prev, 0);
++    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
++    return qw1w2;
++}
++
+ /*
+  * Define a mapping of "special" operations depending on the TIMA page
+  * offset and the size of the operation.
+@@ -363,6 +374,8 @@ static const XiveTmOp xive_tm_operations[] =3D {
+     /* MMIOs above 2K : special operations with side effects */
+     { XIVE_TM_OS_PAGE, TM_SPC_ACK_OS_REG,     2, NULL, xive_tm_ack_os_re=
+g },
+     { XIVE_TM_OS_PAGE, TM_SPC_SET_OS_PENDING, 1, xive_tm_set_os_pending,=
+ NULL },
++    { XIVE_TM_HV_PAGE, TM_SPC_PULL_OS_CTX,    4, NULL, xive_tm_pull_os_c=
+tx },
++    { XIVE_TM_HV_PAGE, TM_SPC_PULL_OS_CTX,    8, NULL, xive_tm_pull_os_c=
+tx },
+     { XIVE_TM_HV_PAGE, TM_SPC_ACK_HV_REG,     2, NULL, xive_tm_ack_hv_re=
+g },
+     { XIVE_TM_HV_PAGE, TM_SPC_PULL_POOL_CTX,  4, NULL, xive_tm_pull_pool=
+_ctx },
+     { XIVE_TM_HV_PAGE, TM_SPC_PULL_POOL_CTX,  8, NULL, xive_tm_pull_pool=
+_ctx },
+@@ -406,7 +419,7 @@ void xive_tctx_tm_write(XiveTCTX *tctx, hwaddr offset=
+, uint64_t value,
+     if (offset & 0x800) {
+         xto =3D xive_tm_find_op(offset, size, true);
+         if (!xto) {
+-            qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid write access a=
+t TIMA"
++            qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid write access a=
+t TIMA "
+                           "@%"HWADDR_PRIx"\n", offset);
+         } else {
+             xto->write_handler(tctx, offset, value, size);
 --=20
 2.21.0
 
