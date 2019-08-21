@@ -2,53 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ED83975CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 11:16:27 +0200 (CEST)
-Received: from localhost ([::1]:46210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6F7975F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 11:22:41 +0200 (CEST)
+Received: from localhost ([::1]:46298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0MjC-0000DK-KW
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 05:16:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35353)
+	id 1i0MpE-0004p6-24
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 05:22:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36325)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1i0MhY-0006si-AR
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:14:45 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1i0Mn6-0002MT-Sh
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1i0MhX-00059g-G9
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:14:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41480)
+ (envelope-from <anthony.perard@citrix.com>) id 1i0Mn5-0007lf-Ce
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:28 -0400
+Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:7419)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0MhX-00059I-B1
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:14:43 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 954843CA0E;
- Wed, 21 Aug 2019 09:14:42 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com
- [10.36.116.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 41C7579B9;
- Wed, 21 Aug 2019 09:14:42 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6E83B16E1A; Wed, 21 Aug 2019 11:14:41 +0200 (CEST)
-Date: Wed, 21 Aug 2019 11:14:41 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Message-ID: <20190821091441.i4mazhpgkvgredm7@sirius.home.kraxel.org>
-References: <cover.1565907489.git.balaton@eik.bme.hu>
- <89364275f2fb5f85ee73c0e76528aa91691a499a.1565907489.git.balaton@eik.bme.hu>
+ (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
+ id 1i0Mn4-0007iC-SX
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:20:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1566379226;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=jU4aiKls9iM4bKNHFjEoSzHpSYRslUWzqajIBzlS5J0=;
+ b=Ws35BMEwMzteHyOl3ruy1rofQEBB0dA82ldP9UZwa2VY3E72ZOnWDYVY
+ qTHbGpQbfd6gCv+QXK777rwg4ANC53IL++26U/uR4p5JautDBWHSeYQ8y
+ 69yl0io6SosjYvmpW6EV+/SA5SyUIty4YmWm9CWRz21NxMY+tPr3/Fv69 Q=;
+Authentication-Results: esa6.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=anthony.perard@citrix.com;
+ spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ anthony.perard@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible
+Received-SPF: Pass (esa6.hc3370-68.iphmx.com: domain of
+ anthony.perard@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
+Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: LUJgCfHIDvzkaqsSBe5waOiBzHbnJYUznQ1vYPag6IGjbzy5VmveIGKk9bBaY8xqH9l+ZnNKvt
+ KqLhMwdQW+5K8yjwCFerRRiFsiEyr9unR5DzjNspKtaMx3By18aLOcb1ao34eqUOK81TIW8xMe
+ ij8flk+79+JLHBQYPuQRT4uZbuR7u+JDvMSsulgItKUiyaOun8OVLv6cyfG1DqWXtjKleDIgqo
+ +l3G+4FDrZ1m5+S6btlk9MvNt97CpvwV3qYYuQ4WLVG+XY54DfIeTu7FhdimhxcbW6EVD8LjbH
+ 0Ys=
+X-SBRS: 2.7
+X-MesageID: 4731848
+X-Ironport-Server: esa6.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.64,412,1559534400"; 
+   d="scan'208";a="4731848"
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: <qemu-devel@nongnu.org>
+Date: Wed, 21 Aug 2019 10:20:18 +0100
+Message-ID: <20190821092020.17952-1-anthony.perard@citrix.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <89364275f2fb5f85ee73c0e76528aa91691a499a.1565907489.git.balaton@eik.bme.hu>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Wed, 21 Aug 2019 09:14:42 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/3] ati-vga: Implement dummy VBlank IRQ
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.155.175
+Subject: [Qemu-devel] [PATCH 0/2] Fix for the xen-bus driver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,21 +93,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Anthony PERARD <anthony.perard@citrix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 16, 2019 at 12:18:09AM +0200, BALATON Zoltan wrote:
-> The MacOS driver exits if the card does not have an interrupt. If we
-> set PCI_INTERRUPT_PIN to 1 then it enables VBlank interrupts and it
-> boots but the mouse pointer cannot be moved. This patch implements a
-> dummy VBlank interrupt triggered by a 60 Hz timer. With this the
-> pointer now moves but MacOS still hangs somewhere before completely
-> finishing boot.
+Cheers,
 
-Queued patch.
+Anthony PERARD (2):
+  xen-bus: Fix backend state transition on device reset
+  xen-bus: Avoid rewriting identical values to xenstore
 
-thanks,
-  Gerd
+ hw/xen/xen-bus.c | 41 +++++++++++++++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 14 deletions(-)
+
+-- 
+Anthony PERARD
 
 
