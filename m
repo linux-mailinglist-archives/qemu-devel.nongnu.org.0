@@ -2,72 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA8998171
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:37:54 +0200 (CEST)
-Received: from localhost ([::1]:51182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC6E9814C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:31:27 +0200 (CEST)
+Received: from localhost ([::1]:51088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0UYS-0001C1-Ub
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39588)
+	id 1i0USD-0000Mz-OC
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:31:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vandersonmr2@gmail.com>) id 1i0ULC-0007vn-BR
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:24:11 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPM-0006Ki-5b
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vandersonmr2@gmail.com>) id 1i0UL9-0000NC-9z
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:24:10 -0400
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:39297)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
- id 1i0UL9-0000Mv-6K
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:24:07 -0400
-Received: by mail-qt1-x841.google.com with SMTP id l9so3981792qtu.6
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:24:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2vHSzjBBDOJZCdH5rqPViCfcareFW5HwMzJbdpbNj5s=;
- b=bf4mS8n65pIy3QcGxZGX6BJG6ljjC7XXxBCpVPKgCLzh73WJXFg2vqIdcF5pLM3OUS
- 1IudgQUsWTazHmyIQdqTVhbso3IPVwSaGcPtq9B5Mfl7dJELu1G/Vj72Y8RBYUOYJ/ap
- dUe+GNC9jOw8K9pb17wNZJbayJ/6ihZNTFizIe96YQn8zvOK9+Hx+DtLhtOcRVi8xy2j
- G0XSaO4k9Rwf5QxGCJAhAtaWjrlEpAd4JVs2vS3TjTps+g4w/m9qGg5K+X3r/MVJI+W4
- 6V92BXWZTwSFgfmNggfOGR2OiIl2I8otNjgXoQ9oUo/Vdxqvzc+tFc6H9BfKg+Mksn8M
- 2wiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2vHSzjBBDOJZCdH5rqPViCfcareFW5HwMzJbdpbNj5s=;
- b=TGa8a6iPQGqtf5j1O02h6VB/aAQ/sC4TKUkbUz3ojIjq+9Sk12GeBSG7Vjayedqd8s
- CettkIkW/EJH61LPzOYmrimGrV8/ma8VEAPYwgnx1xW5hx8D4uf7aou+t2MHuAGvpfx+
- +/f3iYQcUB5uz/TG1v2vM7QV/hMf0HR1omt2uM9eJvfuP4KKF9uP6DQwaDD1Q29KcH1L
- u58X+S2+prYJGsoludHFUYbTNN7RX0nganMRa3mXpYdnLKbbyCsjhx8BuTfSHy/uRLhJ
- PdJnn7n3eM9PEPcgxD1FwE5zzqJv2jK5ujQMq6RPlUYKGYf6Shc1cqMaiC3zCzVKTEgX
- 3CxQ==
-X-Gm-Message-State: APjAAAWVCLdikEYPJr8kCLQx/gocAI4T+b0sCOX7xF7Dsq+CRTqA+s9x
- VpFq7OV+EZE0W6kYDmllefvpOVnotxSqAA==
-X-Google-Smtp-Source: APXvYqwVJE5va73RMTNg25hQrAG8Er6Rdsi39iEmCy0er9kWC+SBoDmVT5HCwJDMtvCigZIb0FHloA==
-X-Received: by 2002:ac8:764f:: with SMTP id i15mr5061470qtr.194.1566408246520; 
- Wed, 21 Aug 2019 10:24:06 -0700 (PDT)
-Received: from vanderson-lmcad.gw.lmcad.ic.unicamp.br (gw.lmcad.ic.unicamp.br.
- [143.106.73.166])
- by smtp.googlemail.com with ESMTPSA id a3sm9623998qtp.10.2019.08.21.10.24.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Aug 2019 10:24:06 -0700 (PDT)
-From: vandersonmr <vandersonmr2@gmail.com>
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPL-000527-2Q
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53030)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0UPK-00051Z-T0
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:27 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3511530860A5
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 17:28:26 +0000 (UTC)
+Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
+ [10.36.112.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D47160E1C
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 17:28:25 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 14:23:29 -0300
-Message-Id: <20190821172329.2062-11-vandersonmr2@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190821172329.2062-1-vandersonmr2@gmail.com>
-References: <20190821172329.2062-1-vandersonmr2@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::841
-Subject: [Qemu-devel] [PATCH v6 10/10] linux-user: dumping hot TBs at the
- end of the execution
+Date: Wed, 21 Aug 2019 19:28:09 +0200
+Message-Id: <1566408501-48680-2-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
+References: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Wed, 21 Aug 2019 17:28:26 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 01/13] qemu-ga: clean up TOOLS variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,57 +53,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, vandersonmr <vandersonmr2@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-dumps, in linux-user mode, the hottest TBs if -d tb_stats is used.
+qemu-ga is included in the TOOLS variable without the .exe suffix, and this is
+then worked around twice in the Makefile.  Do the right thing in configure
+instead.
 
-Example of output for the 3 hottest TBs:
-
-TB id:1 | phys:0x34d54 virt:0x0000000000034d54 flags:0x0000f0
-        | exec:4828932/0 guest inst cov:16.38%
-        | trans:1 ints: g:3 op:82 op_opt:34 spills:3
-        | h/g (host bytes / guest insts): 90.666664
-        | time to gen at 2.4GHz => code:3150.83(ns) IR:712.08(ns)
-        | targets: 0x0000000000034d5e (id:11), 0x0000000000034d0d (id:2)
-
-TB id:2 | phys:0x34d0d virt:0x0000000000034d0d flags:0x0000f0
-        | exec:4825842/0 guest inst cov:21.82%
-        | trans:1 ints: g:4 op:80 op_opt:38 spills:2
-        | h/g (host bytes / guest insts): 84.000000
-        | time to gen at 2.4GHz => code:3362.92(ns) IR:793.75(ns)
-        | targets: 0x0000000000034d19 (id:12), 0x0000000000034d54 (id:1)
-
-TB id:3 | phys:0xec1c1 virt:0x00000000000ec1c1 flags:0x0000b0
-        | exec:872032/0 guest inst cov:1.97%
-        | trans:1 ints: g:2 op:56 op_opt:26 spills:1
-        | h/g (host bytes / guest insts): 68.000000
-        | time to gen at 2.4GHz => code:1692.08(ns) IR:473.75(ns)
-        | targets: 0x00000000000ec1c5 (id:4), 0x00000000000ec1cb (id:13)
-
-Signed-off-by: vandersonmr <vandersonmr2@gmail.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- linux-user/exit.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ Makefile  | 4 ++--
+ configure | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/linux-user/exit.c b/linux-user/exit.c
-index bdda720553..7226104959 100644
---- a/linux-user/exit.c
-+++ b/linux-user/exit.c
-@@ -28,6 +28,10 @@ extern void __gcov_dump(void);
- 
- void preexit_cleanup(CPUArchState *env, int code)
- {
-+    if (tb_stats_collection_enabled()) {
-+        dump_tbs_info(max_num_hot_tbs_to_dump, SORT_BY_HOTNESS, false);
-+    }
-+
- #ifdef TARGET_GPROF
-         _mcleanup();
- #endif
+diff --git a/Makefile b/Makefile
+index 85862fb..00825cd 100644
+--- a/Makefile
++++ b/Makefile
+@@ -681,7 +681,7 @@ clean: recurse-clean
+ 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
+ 		-exec rm {} +
+ 	rm -f $(edk2-decompressed)
+-	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) qemu-ga$(EXESUF) TAGS cscope.* *.pod *~ */*~
++	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
+ 	rm -f fsdev/*.pod scsi/*.pod
+ 	rm -f qemu-img-cmds.h
+ 	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
+@@ -845,7 +845,7 @@ install: all $(if $(BUILD_DOCS),install-doc) install-datadir install-localstated
+ 	$(if $(INSTALL_BLOBS),$(edk2-decompressed)) \
+ 	recurse-install
+ ifneq ($(TOOLS),)
+-	$(call install-prog,$(subst qemu-ga,qemu-ga$(EXESUF),$(TOOLS)),$(DESTDIR)$(bindir))
++	$(call install-prog,$(TOOLS),$(DESTDIR)$(bindir))
+ endif
+ ifneq ($(CONFIG_MODULES),)
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_moddir)"
+diff --git a/configure b/configure
+index 942a73b..e96981b 100755
+--- a/configure
++++ b/configure
+@@ -6129,7 +6129,7 @@ if [ "$guest_agent" != "no" ]; then
+   if [ "$softmmu" = no -a "$want_tools" = no ] ; then
+       guest_agent=no
+   elif [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" -o "$mingw32" = "yes" ] ; then
+-      tools="qemu-ga $tools"
++      tools="qemu-ga\$(EXESUF) $tools"
+       guest_agent=yes
+   elif [ "$guest_agent" != yes ]; then
+       guest_agent=no
 -- 
-2.22.0
+1.8.3.1
+
 
 
