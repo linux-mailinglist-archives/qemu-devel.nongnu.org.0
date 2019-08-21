@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86FFD981AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:46:22 +0200 (CEST)
-Received: from localhost ([::1]:51284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13580981BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:49:56 +0200 (CEST)
+Received: from localhost ([::1]:51318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Uge-00045a-VJ
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:46:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40841)
+	id 1i0Uk6-0000Io-PR
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:49:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40934)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1i0UR7-0000qL-Iu
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:18 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1i0URD-00013C-Hx
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1i0UR6-0007Cv-7x
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:17 -0400
-Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:33620)
+ (envelope-from <jan.bobek@gmail.com>) id 1i0URC-0007Lz-Hg
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:23 -0400
+Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:35833)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0UR6-0007CV-3D
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:16 -0400
-Received: by mail-yw1-xc43.google.com with SMTP id e65so1253136ywh.0
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:30:16 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0URC-0007LC-Df
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:22 -0400
+Received: by mail-yw1-xc42.google.com with SMTP id g19so1247176ywe.2
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:30:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=unvBXoZP2PhE77vw3JAkXue/pIkYAU2oPlhgBYzDV70=;
- b=kOXPwq+1l+eLfNz2tbh2rWvgooSbH6IbqCBCTaVTtD35AUhtXwOYSD385X6oJKybiO
- sEoLcfcgClRH0mI4n/sWf6dzCoVJwi+8O7lYXh/hSRjKAivrUKehQ1J0ZTJ6JXchX2YX
- tn3rLU8aWbOkTice8EjQhpJHE9pTd+830EOVGwMTy/49uVNf4dJ8tyhqRmWhNR2CKa4s
- Ku7UhsfeN4RXYXD4or+/4E/2s7oTMrB1P80xlzFPsFyeuCznN9dNXqSULY+/hneuzSpN
- 3WSiCPjiCgFn+1zDBUpbLjIsoWBWg6MhGDvXJZatGgo+tCZDwLYpVpdLPD/GibrenwNF
- e0mQ==
+ bh=iDDKKkIsqc5vcwy+TY7VAlm2HY42sA6+LGzneYmglI8=;
+ b=UAX5yKI+RA4KqLkVkxerCxJuJZg3JYm2iJx/OEg04OTyGx1uB4zRQqge6A2COGPbBX
+ ADLg1+0HwdqtuXee+MK1KdkNiZrVbufG2iVV+4THnlDJsh/N03h9EH9SJEJMfsjsch+7
+ eG/TsLIv1fRWoB79aonXWpac0Skdxn0fSpW3r0IGb2pB56M6aIZjzm4fapq0K1sRW3TC
+ XFk4loHjKibTKvRhG8HgH7EIh+NK7Tu80732Kyod+IVsZ2BbRu94O7D6XCdSHEwaQuQl
+ PZ8egdU0I7wNpUQ5JuTmfKyjI1mYqbDWlYIs5rFS0ajkzZZQTi6kzDXtuSFKHZKz7Kdj
+ 4CzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=unvBXoZP2PhE77vw3JAkXue/pIkYAU2oPlhgBYzDV70=;
- b=MNy65gledYUBaQhEFGFS2mzbTJg7Cdx9N5MEMLFRl6wrooMBNE4WyP/fd27GQClTnO
- PxelM2tK0PgKSVNl9/XBebOwiHkXNmWH5ahPRv0BiDyKQ5dfvYSbVA1Qmymr9VRhZF61
- KQYE7JlU96nCZwAmMIuPWBsB+/Kelg/fYbV+hrZOQS3z19va8PupuYwKL+1s66WXfQZC
- nIIoMs7ZDJCKKXGTV/KRiNw9MfgtsrNtF+K3JDkouoFUKmwwsnLZkDReQW75iDSYtPDA
- 1pPmFtH5RCysa0GKfBo1b1SCQCcsG0XZnp85Lj+dgp9uvMRzr1CsZfbVCieU/TBXNzB4
- qDEA==
-X-Gm-Message-State: APjAAAUjmdCEGs3aRFXnygW6khmF0BPmxN2/+/uwA18AB4+4MosGn29T
- XWmzFNhnWguGT+qRH6w9g0y8TeT+
-X-Google-Smtp-Source: APXvYqwZwSlmHCjmiidmDNs9eKtYtaPFcWRFIjIGZtrB09C75u0OBo/o9bldwxqS3bj/Jrr2EdWMlA==
-X-Received: by 2002:a81:33cd:: with SMTP id
- z196mr23203716ywz.213.1566408615432; 
- Wed, 21 Aug 2019 10:30:15 -0700 (PDT)
+ bh=iDDKKkIsqc5vcwy+TY7VAlm2HY42sA6+LGzneYmglI8=;
+ b=HKfuwxnUxqj6hgDdI5yowEqaotMw9KlbbVATiVjzphZC0c74EOLIHJak2i1vIjeYiw
+ DNrt8WXpcbUARAqbDbXeqK7GiQdtVSYNJTk7w/q+Xg7Ch1+8wIBtaHgL8PBVSuMrqi0g
+ ADaIAz8hda7Hm5GNBC+9vjyFSiJVGdoSe9otRIRtkto4xVDSKJ+EzHKBdCuVExAOMAeM
+ aheyVupIbElwrzbKwjJohfgt4FTtwUU/Ww6VZeRPyyHqVXNzXzzJsDOk6ck3cibMMIA+
+ ix1ZzHbqJF1TtRz25IuEb8vuh6SKYmT5AW44VmiQzCWStDBlUropUiiBJUUmAFxCTz1P
+ MQ0Q==
+X-Gm-Message-State: APjAAAVkY4cnvYodaa8RDI+GK7FvMF8/VnzWMKF1QmeoOpI+qNpxJCq2
+ 4cpuLe8n64JSnT8IZ4M0qZG6oXaZ
+X-Google-Smtp-Source: APXvYqy0qumOobhp63Wtn1kLDwOnTWQ7f/SFiUWXPEWFDUqRhLWx8bEX4IxHJUI29XCtyv0dOouBUQ==
+X-Received: by 2002:a81:7914:: with SMTP id u20mr25352685ywc.230.1566408621648; 
+ Wed, 21 Aug 2019 10:30:21 -0700 (PDT)
 Received: from localhost.localdomain ([2601:c0:c67f:e390::3])
- by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.14
+ by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Aug 2019 10:30:14 -0700 (PDT)
+ Wed, 21 Aug 2019 10:30:21 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:28:50 -0400
-Message-Id: <20190821172951.15333-15-jan.bobek@gmail.com>
+Date: Wed, 21 Aug 2019 13:28:57 -0400
+Message-Id: <20190821172951.15333-22-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190821172951.15333-1-jan.bobek@gmail.com>
 References: <20190821172951.15333-1-jan.bobek@gmail.com>
@@ -64,9 +63,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c43
-Subject: [Qemu-devel] [RFC PATCH v4 14/75] target/i386: introduce aliases
- for some tcg_gvec operations
+X-Received-From: 2607:f8b0:4864:20::c42
+Subject: [Qemu-devel] [RFC PATCH v4 21/75] target/i386: introduce tcg
+ register operands
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,68 +83,65 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The aliases create a thin layer above the raw tcg_gvec functions,
-making room for us to permute the arguments, pass additional constant
-values etc., which will prove highly useful later.
+TCG operands allocate a 32-bit or 64-bit TCG temporary and later
+automatically free it.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ target/i386/translate.c | 44 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index bd9c62dc54..467ecf15ba 100644
+index 1be6176934..80cfb59978 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -22,6 +22,7 @@
- #include "cpu.h"
- #include "disas/disas.h"
- #include "exec/exec-all.h"
-+#include "tcg-gvec-desc.h"
- #include "tcg-op.h"
- #include "exec/cpu_ldst.h"
- #include "exec/translator.h"
-@@ -4477,6 +4478,44 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+@@ -4727,6 +4727,50 @@ static bool check_cpuid(CPUX86State *env, DisasContext *s, CheckCpuidFeat feat)
+                                 env, s, modrm, is_write, arg);          \
      }
- }
  
-+#define gen_gvec_mov(dofs, aofs, oprsz, maxsz, vece)    \
-+    tcg_gen_gvec_mov(vece, dofs, aofs, oprsz, maxsz)
++/*
++ * tcg_i32
++ *
++ * Operand which allocates a 32-bit TCG temporary and frees it
++ * automatically after use.
++ */
++typedef TCGv_i32 insnop_arg_t(tcg_i32);
++typedef struct {} insnop_ctxt_t(tcg_i32);
 +
-+#define gen_gvec_add(dofs, aofs, bofs, oprsz, maxsz, vece)      \
-+    tcg_gen_gvec_add(vece, dofs, aofs, bofs, oprsz, maxsz)
-+#define gen_gvec_sub(dofs, aofs, bofs, oprsz, maxsz, vece)      \
-+    tcg_gen_gvec_sub(vece, dofs, aofs, bofs, oprsz, maxsz)
++INSNOP_INIT(tcg_i32)
++{
++    return true;
++}
++INSNOP_PREPARE(tcg_i32)
++{
++    return tcg_temp_new_i32();
++}
++INSNOP_FINALIZE(tcg_i32)
++{
++    tcg_temp_free_i32(arg);
++}
 +
-+#define gen_gvec_ssadd(dofs, aofs, bofs, oprsz, maxsz, vece)    \
-+    tcg_gen_gvec_ssadd(vece, dofs, aofs, bofs, oprsz, maxsz)
-+#define gen_gvec_sssub(dofs, aofs, bofs, oprsz, maxsz, vece)    \
-+    tcg_gen_gvec_sssub(vece, dofs, aofs, bofs, oprsz, maxsz)
-+#define gen_gvec_usadd(dofs, aofs, bofs, oprsz, maxsz, vece)    \
-+    tcg_gen_gvec_usadd(vece, dofs, aofs, bofs, oprsz, maxsz)
-+#define gen_gvec_ussub(dofs, aofs, bofs, oprsz, maxsz, vece)    \
-+    tcg_gen_gvec_ussub(vece, dofs, aofs, bofs, oprsz, maxsz)
++/*
++ * tcg_i64
++ *
++ * Operand which allocates a 64-bit TCG temporary and frees it
++ * automatically after use.
++ */
++typedef TCGv_i64 insnop_arg_t(tcg_i64);
++typedef struct {} insnop_ctxt_t(tcg_i64);
 +
-+#define gen_gvec_smin(dofs, aofs, bofs, oprsz, maxsz, vece)     \
-+    tcg_gen_gvec_smin(vece, dofs, aofs, bofs, oprsz, maxsz)
-+#define gen_gvec_umin(dofs, aofs, bofs, oprsz, maxsz, vece)     \
-+    tcg_gen_gvec_umin(vece, dofs, aofs, bofs, oprsz, maxsz)
-+#define gen_gvec_smax(dofs, aofs, bofs, oprsz, maxsz, vece)     \
-+    tcg_gen_gvec_smax(vece, dofs, aofs, bofs, oprsz, maxsz)
-+#define gen_gvec_umax(dofs, aofs, bofs, oprsz, maxsz, vece)     \
-+    tcg_gen_gvec_umax(vece, dofs, aofs, bofs, oprsz, maxsz)
-+
-+#define gen_gvec_and(dofs, aofs, bofs, oprsz, maxsz, vece)      \
-+    tcg_gen_gvec_and(vece, dofs, aofs, bofs, oprsz, maxsz)
-+#define gen_gvec_andn(dofs, aofs, bofs, oprsz, maxsz, vece)     \
-+    tcg_gen_gvec_andc(vece, dofs, bofs, aofs, oprsz, maxsz)
-+#define gen_gvec_or(dofs, aofs, bofs, oprsz, maxsz, vece)       \
-+    tcg_gen_gvec_or(vece, dofs, aofs, bofs, oprsz, maxsz)
-+#define gen_gvec_xor(dofs, aofs, bofs, oprsz, maxsz, vece)      \
-+    tcg_gen_gvec_xor(vece, dofs, aofs, bofs, oprsz, maxsz)
-+
-+#define gen_gvec_cmp(dofs, aofs, bofs, oprsz, maxsz, vece, cond)        \
-+    tcg_gen_gvec_cmp(cond, vece, dofs, aofs, bofs, oprsz, maxsz)
++INSNOP_INIT(tcg_i64)
++{
++    return true;
++}
++INSNOP_PREPARE(tcg_i64)
++{
++    return tcg_temp_new_i64();
++}
++INSNOP_FINALIZE(tcg_i64)
++{
++    tcg_temp_free_i64(arg);
++}
 +
  static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
  {
