@@ -2,103 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B9297535
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 10:43:44 +0200 (CEST)
-Received: from localhost ([::1]:45428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8AAE9753D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 10:44:58 +0200 (CEST)
+Received: from localhost ([::1]:45440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0MDX-0005Go-DP
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 04:43:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55061)
+	id 1i0MEj-0006tn-Fs
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 04:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55172)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i0MB4-0003cV-TT
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:11 -0400
+ (envelope-from <kraxel@redhat.com>) id 1i0MBH-0003my-Gz
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i0MB3-0004yI-FS
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:10 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:33287)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i0MB3-0004wZ-41; Wed, 21 Aug 2019 04:41:09 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N63mC-1iKQC90QdU-016NMO; Wed, 21 Aug 2019 10:41:05 +0200
-To: Michal Privoznik <mprivozn@redhat.com>, qemu-trivial@nongnu.org
-References: <db150a03315a89a849ab9968e4a5a26110d41424.1562942402.git.mprivozn@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <c2a4ba95-c77c-d311-f597-2312b2462720@vivier.eu>
-Date: Wed, 21 Aug 2019 10:41:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <kraxel@redhat.com>) id 1i0MBF-00053v-J1
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43526)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0MBF-00053Q-AM
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:41:21 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A0B4930917AC;
+ Wed, 21 Aug 2019 08:41:20 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com
+ [10.36.116.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 879F22C8D6;
+ Wed, 21 Aug 2019 08:41:18 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B73676DCB; Wed, 21 Aug 2019 10:41:13 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 21 Aug 2019 10:41:03 +0200
+Message-Id: <20190821084113.1840-6-kraxel@redhat.com>
+In-Reply-To: <20190821084113.1840-1-kraxel@redhat.com>
+References: <20190821084113.1840-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <db150a03315a89a849ab9968e4a5a26110d41424.1562942402.git.mprivozn@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XlzmmF7pyeb+mDvfXFzAiFk0EskfKcdVRvY1Wsh9e54f19xow42
- aAlSXok8ysLM2C3LMyhxrJSDqdEO2tZJNshjeUrRw3uuiKfH1U7kM9dTKrD4VuVICuc82CX
- BQLp1ZqNY+XFBVu0wydKhekkJmuR+6fK57Gj1Kg7tOsvFJ8+ZC3mIiVE3RAMj5Ub7HKjxui
- u6LbsjMUXlnRSp3qLJOzw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fP4Bt6n1+J0=:PoQqWcL2OgW6XPObVmi311
- D4hmCev9odrAKYKxX4mWoDeZdgtuXJDSPlSl+ts/NhTv+7krwXi1deGZIfthKDZ1P0SMSBUqG
- doE6wK0n+ldNdJTY5gH3Wt8Yd7SVW8Bf4C61jnogBWmBGN1Cib6JkWLcZnKiat8phS8U3nrbg
- 7myx/cZcSnPD7G0FgJ4Ek3MLn8U5GWtIDyoN5T+DaVVpx5i/+lZsBcBxGgFkBXrXX755xHqhj
- ev+PrCI9G8jFf/UxdfyDxkdxQsEXaNFncXYgOnn1vD0yLrXFAUwEN69qKoXZhTSsINkVrPQ9w
- LbvGJMeSTqUfSvgQtn7EBm2JDi2vJN4O0Y3r6br6LOWPI9dWN1Sc+VulJOatwaFYfXU/X8kT/
- zBEj5/GQfS2SrrykDCSOAUf8oLi5vY85CNGakq/LndNo8EolwOGfekzZV3GOPzvwVmHB9552N
- Uu0GN0kSGiLUtI8xYivq7dNNWs54535K3Eajf5JYVpyzSq2c5+eK3CIE0RmqNWo563s340aFv
- SJFplWKsvT6IZLajtqbHXLI3KeZbYcpO4/MRnf3BEjAvkXYzqGZnI1SfkNJ9JCetbZzQzg/ut
- R9+Ta9F+MO2+3yowN/eS8EFQjMCD6FcBHU3ukIlhQfDfrO1EDcLgcjRYpHJPrbtGEINKZuY/3
- Lyzz1KlEPYKF7SXZofStZh/Y8leWZWdccddlafOeikWB8Jq4l9i7Vg0apvNKsTrSFDERLGPb2
- /+TWJZX9p74Cf/6vrsdcIC6QU9lMkHvFQvTx9JUJ9loRh5ZV2ZcBPBdXElTZ6S/F+WWvjCw2e
- fz/fQEC4OZ9L3RRBlDcX0ABAg4Svg==
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Wed, 21 Aug 2019 08:41:20 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] .gitignore: ignore some
- vhost-user* related files
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 05/15] audio: add audiodev properties to
+ frontends
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,46 +59,355 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>, Kővágó@redhat.com, Markus Armbruster <armbru@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Michael Walle <michael@walle.cc>, Gerd Hoffmann <kraxel@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, =?UTF-8?q?Zolt=C3=A1n?= <DirtY.iCE.hu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 12/07/2019 à 16:41, Michal Privoznik a écrit :
-> Commit d52c454aadc creates
-> '/contrib/vhost-user-gpu/50-qemu-gpu.json' and '/vhost-user-gpu'
-> and commit 06914c97d3a creates '/vhost-user-input' neither of
-> which is ignored by git.
-> 
-> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-> ---
->  .gitignore | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/.gitignore b/.gitignore
-> index fd6e6c38c7..e9bbc006d3 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -65,6 +65,8 @@
->  /scsi/qemu-pr-helper
->  /vhost-user-scsi
->  /vhost-user-blk
-> +/vhost-user-gpu
-> +/vhost-user-input
->  /fsdev/virtfs-proxy-helper
->  *.tmp
->  *.[1-9]
-> @@ -131,6 +133,7 @@
->  /docs/interop/qemu-qmp-ref.info*
->  /docs/interop/qemu-qmp-ref.txt
->  /docs/version.texi
-> +/contrib/vhost-user-gpu/50-qemu-gpu.json
->  *.tps
->  .stgit-*
->  .git-submodule-status
-> 
+From: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail.com>
 
-Applied to my trivial-patches branch.
+Finally add audiodev=3D options to audio frontends so users can specify
+which backend to use when multiple backends exist.  Not specifying an
+audiodev=3D option currently causes the first audiodev to be used, this i=
+s
+fixed in the next commit.
 
-Thanks,
-Laurent
+Example usage: -audiodev pa,id=3Dfoo -device AC97,audiodev=3Dfoo
+
+Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com=
+>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Message-id: d64db52dda2d0e9d97bc5ab1dd9adf724280fea1.1566168923.git.DirtY=
+.iCE.hu@gmail.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ audio/audio.h                    |  4 +++
+ include/hw/qdev-properties.h     |  3 ++
+ hw/audio/ac97.c                  |  1 +
+ hw/audio/adlib.c                 |  1 +
+ hw/audio/cs4231a.c               |  1 +
+ hw/audio/es1370.c                |  7 +++-
+ hw/audio/gus.c                   |  1 +
+ hw/audio/hda-codec.c             |  1 +
+ hw/audio/milkymist-ac97.c        |  6 ++++
+ hw/audio/pcspk.c                 |  1 +
+ hw/audio/pl041.c                 |  1 +
+ hw/audio/sb16.c                  |  1 +
+ hw/audio/wm8750.c                |  6 ++++
+ hw/core/qdev-properties-system.c | 57 ++++++++++++++++++++++++++++++++
+ hw/usb/dev-audio.c               |  1 +
+ 15 files changed, 91 insertions(+), 1 deletion(-)
+
+diff --git a/audio/audio.h b/audio/audio.h
+index ad2457f4de95..3257165b0541 100644
+--- a/audio/audio.h
++++ b/audio/audio.h
+@@ -27,6 +27,7 @@
+=20
+ #include "qemu/queue.h"
+ #include "qapi/qapi-types-audio.h"
++#include "hw/qdev-properties.h"
+=20
+ typedef void (*audio_callback_fn) (void *opaque, int avail);
+=20
+@@ -181,4 +182,7 @@ void audio_legacy_help(void);
+ AudioState *audio_state_by_name(const char *name);
+ const char *audio_get_id(QEMUSoundCard *card);
+=20
++#define DEFINE_AUDIO_PROPERTIES(_s, _f)         \
++    DEFINE_PROP_AUDIODEV("audiodev", _s, _f)
++
+ #endif /* QEMU_AUDIO_H */
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index bb34a614e2cc..2e98dd60db85 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -33,6 +33,7 @@ extern const PropertyInfo qdev_prop_blocksize;
+ extern const PropertyInfo qdev_prop_pci_host_devaddr;
+ extern const PropertyInfo qdev_prop_uuid;
+ extern const PropertyInfo qdev_prop_arraylen;
++extern const PropertyInfo qdev_prop_audiodev;
+ extern const PropertyInfo qdev_prop_link;
+ extern const PropertyInfo qdev_prop_off_auto_pcibar;
+ extern const PropertyInfo qdev_prop_pcie_link_speed;
+@@ -234,6 +235,8 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+             + type_check(QemuUUID, typeof_field(_state, _field)),  \
+         .set_default =3D true,                                       \
+         }
++#define DEFINE_PROP_AUDIODEV(_n, _s, _f) \
++    DEFINE_PROP(_n, _s, _f, qdev_prop_audiodev, QEMUSoundCard)
+=20
+ #define DEFINE_PROP_END_OF_LIST()               \
+     {}
+diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
+index 115ee51c7ca2..b4c0b690d720 100644
+--- a/hw/audio/ac97.c
++++ b/hw/audio/ac97.c
+@@ -1410,6 +1410,7 @@ static int ac97_init (PCIBus *bus)
+ }
+=20
+ static Property ac97_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(AC97LinkState, card),
+     DEFINE_PROP_UINT32 ("use_broken_id", AC97LinkState, use_broken_id, 0=
+),
+     DEFINE_PROP_END_OF_LIST (),
+ };
+diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
+index 2f4aacbf43d8..64a1060b807a 100644
+--- a/hw/audio/adlib.c
++++ b/hw/audio/adlib.c
+@@ -299,6 +299,7 @@ static void adlib_realizefn (DeviceState *dev, Error =
+**errp)
+ }
+=20
+ static Property adlib_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(AdlibState, card),
+     DEFINE_PROP_UINT32 ("iobase",  AdlibState, port, 0x220),
+     DEFINE_PROP_UINT32 ("freq",    AdlibState, freq,  44100),
+     DEFINE_PROP_END_OF_LIST (),
+diff --git a/hw/audio/cs4231a.c b/hw/audio/cs4231a.c
+index d77a4e713e3f..5b7baeae256d 100644
+--- a/hw/audio/cs4231a.c
++++ b/hw/audio/cs4231a.c
+@@ -690,6 +690,7 @@ static int cs4231a_init (ISABus *bus)
+ }
+=20
+ static Property cs4231a_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(CSState, card),
+     DEFINE_PROP_UINT32 ("iobase",  CSState, port, 0x534),
+     DEFINE_PROP_UINT32 ("irq",     CSState, irq,  9),
+     DEFINE_PROP_UINT32 ("dma",     CSState, dma,  3),
+diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
+index 39deecbbc61b..88f886491b96 100644
+--- a/hw/audio/es1370.c
++++ b/hw/audio/es1370.c
+@@ -887,6 +887,11 @@ static int es1370_init (PCIBus *bus)
+     return 0;
+ }
+=20
++static Property es1370_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(ES1370State, card),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void es1370_class_init (ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS (klass);
+@@ -903,6 +908,7 @@ static void es1370_class_init (ObjectClass *klass, vo=
+id *data)
+     dc->desc =3D "ENSONIQ AudioPCI ES1370";
+     dc->vmsd =3D &vmstate_es1370;
+     dc->reset =3D es1370_on_reset;
++    dc->props =3D es1370_properties;
+ }
+=20
+ static const TypeInfo es1370_info =3D {
+@@ -923,4 +929,3 @@ static void es1370_register_types (void)
+ }
+=20
+ type_init (es1370_register_types)
+-
+diff --git a/hw/audio/gus.c b/hw/audio/gus.c
+index dbfe7cf63428..effec31d356d 100644
+--- a/hw/audio/gus.c
++++ b/hw/audio/gus.c
+@@ -299,6 +299,7 @@ static int GUS_init (ISABus *bus)
+ }
+=20
+ static Property gus_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(GUSState, card),
+     DEFINE_PROP_UINT32 ("freq",    GUSState, freq,        44100),
+     DEFINE_PROP_UINT32 ("iobase",  GUSState, port,        0x240),
+     DEFINE_PROP_UINT32 ("irq",     GUSState, emu.gusirq,  7),
+diff --git a/hw/audio/hda-codec.c b/hw/audio/hda-codec.c
+index 4fee0673d9ca..68fe1de987c2 100644
+--- a/hw/audio/hda-codec.c
++++ b/hw/audio/hda-codec.c
+@@ -841,6 +841,7 @@ static const VMStateDescription vmstate_hda_audio =3D=
+ {
+ };
+=20
+ static Property hda_audio_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(HDAAudioState, card),
+     DEFINE_PROP_UINT32("debug", HDAAudioState, debug,   0),
+     DEFINE_PROP_BOOL("mixer", HDAAudioState, mixer,  true),
+     DEFINE_PROP_BOOL("use-timer", HDAAudioState, use_timer,  true),
+diff --git a/hw/audio/milkymist-ac97.c b/hw/audio/milkymist-ac97.c
+index 481dde10a193..853b4ed8746b 100644
+--- a/hw/audio/milkymist-ac97.c
++++ b/hw/audio/milkymist-ac97.c
+@@ -330,6 +330,11 @@ static const VMStateDescription vmstate_milkymist_ac=
+97 =3D {
+     }
+ };
+=20
++static Property milkymist_ac97_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(MilkymistAC97State, card),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void milkymist_ac97_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+@@ -337,6 +342,7 @@ static void milkymist_ac97_class_init(ObjectClass *kl=
+ass, void *data)
+     dc->realize =3D milkymist_ac97_realize;
+     dc->reset =3D milkymist_ac97_reset;
+     dc->vmsd =3D &vmstate_milkymist_ac97;
++    dc->props =3D milkymist_ac97_properties;
+ }
+=20
+ static const TypeInfo milkymist_ac97_info =3D {
+diff --git a/hw/audio/pcspk.c b/hw/audio/pcspk.c
+index 016946d4b280..307c6647254a 100644
+--- a/hw/audio/pcspk.c
++++ b/hw/audio/pcspk.c
+@@ -209,6 +209,7 @@ static const VMStateDescription vmstate_spk =3D {
+ };
+=20
+ static Property pcspk_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(PCSpkState, card),
+     DEFINE_PROP_UINT32("iobase", PCSpkState, iobase,  -1),
+     DEFINE_PROP_BOOL("migrate", PCSpkState, migrate,  true),
+     DEFINE_PROP_END_OF_LIST(),
+diff --git a/hw/audio/pl041.c b/hw/audio/pl041.c
+index ca9139907880..c30417d46d51 100644
+--- a/hw/audio/pl041.c
++++ b/hw/audio/pl041.c
+@@ -625,6 +625,7 @@ static const VMStateDescription vmstate_pl041 =3D {
+ };
+=20
+ static Property pl041_device_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(PL041State, codec.card),
+     /* Non-compact FIFO depth property */
+     DEFINE_PROP_UINT32("nc_fifo_depth", PL041State, fifo_depth,
+                        DEFAULT_FIFO_DEPTH),
+diff --git a/hw/audio/sb16.c b/hw/audio/sb16.c
+index 3ad01f3599b4..7e50ab8a84a3 100644
+--- a/hw/audio/sb16.c
++++ b/hw/audio/sb16.c
+@@ -1422,6 +1422,7 @@ static int SB16_init (ISABus *bus)
+ }
+=20
+ static Property sb16_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(SB16State, card),
+     DEFINE_PROP_UINT32 ("version", SB16State, ver,  0x0405), /* 4.5 */
+     DEFINE_PROP_UINT32 ("iobase",  SB16State, port, 0x220),
+     DEFINE_PROP_UINT32 ("irq",     SB16State, irq,  5),
+diff --git a/hw/audio/wm8750.c b/hw/audio/wm8750.c
+index 9f6df5d59c9b..a8725abf6a37 100644
+--- a/hw/audio/wm8750.c
++++ b/hw/audio/wm8750.c
+@@ -702,6 +702,11 @@ void wm8750_set_bclk_in(void *opaque, int new_hz)
+     wm8750_clk_update(s, 1);
+ }
+=20
++static Property wm8750_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(WM8750State, card),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void wm8750_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+@@ -712,6 +717,7 @@ static void wm8750_class_init(ObjectClass *klass, voi=
+d *data)
+     sc->recv =3D wm8750_rx;
+     sc->send =3D wm8750_tx;
+     dc->vmsd =3D &vmstate_wm8750;
++    dc->props =3D wm8750_properties;
+ }
+=20
+ static const TypeInfo wm8750_info =3D {
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-s=
+ystem.c
+index fceab9afd5ea..70bfd4809b17 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -11,6 +11,7 @@
+  */
+=20
+ #include "qemu/osdep.h"
++#include "audio/audio.h"
+ #include "net/net.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+@@ -353,6 +354,62 @@ const PropertyInfo qdev_prop_netdev =3D {
+ };
+=20
+=20
++/* --- audiodev --- */
++static void get_audiodev(Object *obj, Visitor *v, const char* name,
++                         void *opaque, Error **errp)
++{
++    DeviceState *dev =3D DEVICE(obj);
++    Property *prop =3D opaque;
++    QEMUSoundCard *card =3D qdev_get_prop_ptr(dev, prop);
++    char *p =3D g_strdup(audio_get_id(card));
++
++    visit_type_str(v, name, &p, errp);
++    g_free(p);
++}
++
++static void set_audiodev(Object *obj, Visitor *v, const char* name,
++                         void *opaque, Error **errp)
++{
++    DeviceState *dev =3D DEVICE(obj);
++    Property *prop =3D opaque;
++    QEMUSoundCard *card =3D qdev_get_prop_ptr(dev, prop);
++    AudioState *state;
++    Error *local_err =3D NULL;
++    int err =3D 0;
++    char *str;
++
++    if (dev->realized) {
++        qdev_prop_set_after_realize(dev, name, errp);
++        return;
++    }
++
++    visit_type_str(v, name, &str, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
++    state =3D audio_state_by_name(str);
++
++    if (!state) {
++        err =3D -ENOENT;
++        goto out;
++    }
++    card->state =3D state;
++
++out:
++    error_set_from_qdev_prop_error(errp, err, dev, prop, str);
++    g_free(str);
++}
++
++const PropertyInfo qdev_prop_audiodev =3D {
++    .name =3D "str",
++    .description =3D "ID of an audiodev to use as a backend",
++    /* release done on shutdown */
++    .get =3D get_audiodev,
++    .set =3D set_audiodev,
++};
++
+ void qdev_prop_set_drive(DeviceState *dev, const char *name,
+                          BlockBackend *value, Error **errp)
+ {
+diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
+index d3ca3bd1ab9e..ae42e5a2f1d0 100644
+--- a/hw/usb/dev-audio.c
++++ b/hw/usb/dev-audio.c
+@@ -667,6 +667,7 @@ static const VMStateDescription vmstate_usb_audio =3D=
+ {
+ };
+=20
+ static Property usb_audio_properties[] =3D {
++    DEFINE_AUDIO_PROPERTIES(USBAudioState, card),
+     DEFINE_PROP_UINT32("debug", USBAudioState, debug, 0),
+     DEFINE_PROP_UINT32("buffer", USBAudioState, buffer,
+                        32 * USBAUDIO_PACKET_SIZE),
+--=20
+2.18.1
+
 
