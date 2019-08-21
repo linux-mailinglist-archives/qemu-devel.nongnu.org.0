@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43B798371
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 20:46:55 +0200 (CEST)
-Received: from localhost ([::1]:52372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0E4298343
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 20:42:09 +0200 (CEST)
+Received: from localhost ([::1]:51874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0VdG-0000q4-Q4
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 14:46:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44670)
+	id 1i0VYe-0007kT-V8
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 14:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44690)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0Ul0-0003Ng-3e
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:50:52 -0400
+ (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0Ul5-0003RU-9J
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:50:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0Uky-0005Q8-D5
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:50:49 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:13357)
+ (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0Ul4-0005cl-2p
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:50:55 -0400
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:13363)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <Sandra_Loosemore@mentor.com>)
- id 1i0Uky-0005KR-4X
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:50:48 -0400
-IronPort-SDR: mMk/178bEhjfPxnXcVEpDQFhPQDF25KQIduSBTapHiQ9KJyUGueNW39tuizfPew/RUmOX1qrsk
- F/JumlHbYxD3Ffli/peWqL5FMM6p8+cPif8nghFt11lnsvp6qA3nSqN1l2n3pNzzyiU3RMMMYU
- J9LKLLs/6LlwBSPVxHhIEPNQ8VOag4roIEp5CfNuA1s6jPJoYz5CdQ8YdVNrzSZ0hiH4uHzvqJ
- cMsKssJfEYuKQJp0oXPUTyu4SYkIcYqmLtzunrOW3g05SDVmh0OSG1KQ03s/+F3gmrUuSQOD1X
- EPE=
-X-IronPort-AV: E=Sophos;i="5.64,412,1559548800"; d="scan'208";a="40657528"
+ id 1i0Ul2-0005Uk-2Y
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:50:54 -0400
+IronPort-SDR: OmtgVFvRWFOAVEv2vW5yjFsOQvjQikRbDoEcyQcvvNfyHxnmEOE3aXEIoX4A9YlaJIMfv8wBw+
+ fdSA0lMwohVFyc2gCcLDwVajC4bfD0ithz4qhJlUre6Wsxf59G5CxrqjJD5gXq9dAsfvZ+f1cR
+ h34HZIpcwuHPpzPRokS5bsMPhVrsehAQlR+1OgKrG0D7xyLdRvFwjBn95CDUqcxlUx9GfbK6rk
+ vKIJKhUU7cK3WUG3/RiW6zoRlkchIi07mITqAyXXtuua2jw8jXYBNk3LisQ+cGbccn5HgS4uPR
+ WCQ=
+X-IronPort-AV: E=Sophos;i="5.64,412,1559548800"; d="scan'208";a="40657531"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa4.mentor.iphmx.com with ESMTP; 21 Aug 2019 09:50:47 -0800
-IronPort-SDR: fR6Nskbae+WoPyVgvYJTlkBPQsF5qFiXcNSd+Rk0bN4EahWXa8lZSiNmgNXWNVcUpx7XnkQT0d
- QJoS7mVEmBJ2kPWDG9K93KbaRp/rfKbD9q2psIv73RIglGt3VY6yd3z7T8s+mADMeNYHcGbb5b
- wN039HxVcQg4HHveigD75k2C5QWzwQP88bwaa4RV/EFXGvTpYKH1UmzMYCDTjfkK9m4kLnNm3w
- cF0NpQiWeAAigrvsDGFR8K/7TcJBY+QN0lfbq4682JZcdJZFIk1nmWaxzGcF97lQ96/VWVNi1J
- m3Y=
+ by esa4.mentor.iphmx.com with ESMTP; 21 Aug 2019 09:50:50 -0800
+IronPort-SDR: 7B0yq3nUz7b46Lgg1btkY3aVh3QzKIAKJXaqtrVSUIVR883e8VhUa5cXrdYQ39iPu3oAl1/cwp
+ LWL4mUmjfGBO6IW1TE2ByXDVzoSjJCmveWxdz1BhWsYPaIcacvtrscMj3bU1snVqBQeAJCXXax
+ Cg1+90no2zFBp6AUHNNoaq5J/zbu5XUoAj5LOvTjb03v2fb67WVSaP5GRVxKvFjw330LfHfZv1
+ kVczLes9PTxvwJRiKiXpQHHxO2tdza4Dg3+VXnwasVQP1HZsmzRH+zGprynv3CelHOwn3m5g4u
+ xfo=
 From: Sandra Loosemore <sandra@codesourcery.com>
 To: <qemu-devel@nongnu.org>
-Date: Wed, 21 Aug 2019 11:50:28 -0600
-Message-ID: <20190821175029.21868-2-sandra@codesourcery.com>
+Date: Wed, 21 Aug 2019 11:50:29 -0600
+Message-ID: <20190821175029.21868-3-sandra@codesourcery.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190821175029.21868-1-sandra@codesourcery.com>
 References: <20190821175029.21868-1-sandra@codesourcery.com>
@@ -47,8 +47,8 @@ X-ClientProxiedBy: SVR-ORW-MBX-07.mgc.mentorg.com (147.34.90.207) To
  svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 68.232.137.252
-Subject: [Qemu-devel] [PATCH V2 1/2] target/nios2: Fix bug in semihosted
- exit handling
+Subject: [Qemu-devel] [PATCH V2 2/2] target/m68k: Fix bug in semihosted exit
+ handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,12 +66,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch fixes a bug that caused semihosted exit to always return
-status 0; it was incorrectly using the value of register R_ARG0 (which
-contains the HOSTED_EXIT request number) instead of register R_ARG1.
+status 0; it was incorrectly using the value of D0 (which
+contains the HOSTED_EXIT request number) instead of D1.
 
-Note that per the newlib documentation for the nios2 semihosting protocol
+Note that per the newlib documentation for the m68k semihosting protocol
 
-https://www.sourceware.org/git/gitweb.cgi?p=newlib-cygwin.git;a=blob;f=libgloss/nios2/nios2-semi.txt;h=ded3a093c03dbae84cb95b4cd45bc3e0d751eda2;hb=HEAD
+https://www.sourceware.org/git/gitweb.cgi?p=newlib-cygwin.git;a=blob;f=libgloss/m68k/m68k-semi.txt;h=50520c15292aa7edf7eef28e09fd9202ce75b153;hb=HEAD
 
 for the HOSTED_EXIT syscall the parameter is passed directly in the register
 instead of in a parameter block pointed to by the register.
@@ -79,21 +79,21 @@ instead of in a parameter block pointed to by the register.
 Signed-off-by: Sandra Loosemore <sandra@codesourcery.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/nios2/nios2-semi.c | 4 ++--
+ target/m68k/m68k-semi.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
-index d7a80dd..06c0861 100644
---- a/target/nios2/nios2-semi.c
-+++ b/target/nios2/nios2-semi.c
-@@ -215,8 +215,8 @@ void do_nios2_semihosting(CPUNios2State *env)
-     args = env->regs[R_ARG1];
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index 8e5fbfc..f189c92 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -194,8 +194,8 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
+     args = env->dregs[1];
      switch (nr) {
      case HOSTED_EXIT:
--        gdb_exit(env, env->regs[R_ARG0]);
--        exit(env->regs[R_ARG0]);
-+        gdb_exit(env, env->regs[R_ARG1]);
-+        exit(env->regs[R_ARG1]);
+-        gdb_exit(env, env->dregs[0]);
+-        exit(env->dregs[0]);
++        gdb_exit(env, env->dregs[1]);
++        exit(env->dregs[1]);
      case HOSTED_OPEN:
          GET_ARG(0);
          GET_ARG(1);
