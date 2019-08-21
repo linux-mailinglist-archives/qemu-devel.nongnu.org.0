@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2C49783E
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:45:28 +0200 (CEST)
-Received: from localhost ([::1]:47298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518D19784B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 13:49:58 +0200 (CEST)
+Received: from localhost ([::1]:47362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0P3P-00084v-BW
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:45:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55927)
+	id 1i0P7l-0004A4-EK
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 07:49:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58387)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i0Oq2-0001z6-Q2
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:31:40 -0400
+ (envelope-from <pagupta@redhat.com>) id 1i0P5G-0002Bf-Gp
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:47:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i0Oq0-0005kc-IR
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:31:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53534)
+ (envelope-from <pagupta@redhat.com>) id 1i0P59-0004jM-R6
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:47:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43062)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1i0Opv-0005dO-0z; Wed, 21 Aug 2019 07:31:31 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1i0P57-0004fc-Sw
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 07:47:15 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E5E2F80F79;
- Wed, 21 Aug 2019 11:31:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 433331001959;
- Wed, 21 Aug 2019 11:31:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7FAB611655EE; Wed, 21 Aug 2019 13:31:24 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-References: <20190814202219.1870-1-mlevitsk@redhat.com>
- <d0635a23-7f99-9cf7-500c-af668e8ca370@redhat.com>
- <20190815091039.GA7415@linux.fritz.box>
- <87y2zuy0k7.fsf@dusky.pond.sub.org>
- <2561ace5297c93cee597c776230dcb8f457a8561.camel@redhat.com>
- <414e8dab-b19b-fd47-52eb-db43ae75ec07@redhat.com>
- <ba8e9afd066d65099a897b5c515a73ab2c64625d.camel@redhat.com>
-Date: Wed, 21 Aug 2019 13:31:24 +0200
-In-Reply-To: <ba8e9afd066d65099a897b5c515a73ab2c64625d.camel@redhat.com>
- (Maxim Levitsky's message of "Mon, 19 Aug 2019 15:35:44 +0300")
-Message-ID: <871rxelppv.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id B7EE7308FC4D;
+ Wed, 21 Aug 2019 11:47:10 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF08B2E07C;
+ Wed, 21 Aug 2019 11:47:10 +0000 (UTC)
+Received: from zmail21.collab.prod.int.phx2.redhat.com
+ (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9E5791803B58;
+ Wed, 21 Aug 2019 11:47:10 +0000 (UTC)
+Date: Wed, 21 Aug 2019 07:47:10 -0400 (EDT)
+From: Pankaj Gupta <pagupta@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Message-ID: <1761975250.9673246.1566388030011.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20190821132440.066dfbba.cohuck@redhat.com>
+References: <20190821073630.2561-1-pagupta@redhat.com>
+ <20190821132440.066dfbba.cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.116.177, 10.4.195.26]
+Thread-Topic: virtio pmem: user document
+Thread-Index: ++MfrA1XY/bimkRUBv5J22FkR4vFWQ==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Wed, 21 Aug 2019 11:31:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Wed, 21 Aug 2019 11:47:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 00/13] RFC: luks/encrypted qcow2 key
- management
+Subject: Re: [Qemu-devel] [PATCH v2] virtio pmem: user document
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,64 +64,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Daniel =?utf-8?Q?P=2EBerrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: mst@redhat.com, david@redhat.com, qemu-devel@nongnu.org,
+ lcapitulino@redhat.com, stefanha@redhat.com, riel@surriel.com,
+ nilal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Maxim Levitsky <mlevitsk@redhat.com> writes:
 
-> On Thu, 2019-08-15 at 10:00 -0500, Eric Blake wrote:
->> On 8/15/19 9:44 AM, Maxim Levitsky wrote:
->> 
->> > > > > Does the idea of a union type with a default value for the discriminator
->> > > > > help?  Maybe we have a discriminator which defaults to 'auto', and add a
->> > > > > union branch 'auto':'any'.  During creation, if the "driver":"auto"
->> > > > > branch is selected (usually implicitly by omitting "driver", but also
->> > > > > possible explicitly), the creation attempt is rejected as invalid
->> > > > > regardless of the contents of the remaining 'any'.  But during amend
->> > > > > usage, if the 'auto' branch is selected, we then add in the proper
->> > > > > "driver":"xyz" and reparse the QAPI object to determine if the remaining
->> > > > > fields in 'any' still meet the specification for the required driver branch.
->> > > > > 
->> > > > > This idea may still require some tweaks to the QAPI generator, but it's
->> > > > > the best I can come up with for a way to parse an arbitrary JSON object
->> > > > > with unknown validation, then reparse it again after adding more
->> > > > > information that would constrain the parse differently.
->> > > > 
->> > > > Feels like this would be a lot of code just to allow the client to omit
->> > > > passing a value that it knows anyway. If this were a human interface, I
->> > > > could understand the desire to make commands less verbose, but for QMP I
->> > > > honestly don't see the point when it's not trivial.
->> > > 
->> > > Seconded.
->> > 
->> > 
->> > But what about my suggestion of adding something like:
->> > 
->> > { 'union': 'BlockdevAmendOptions',
->> > 
->> >   'base': {
->> >       'node-name':         'str' },
->> > 
->> >   'discriminator': { 'get_block_driver(node-name)' } ,
->> 
->> Not worth it. It makes the QAPI generator more complex (to invoke
->> arbitrary code instead of a fixed name) just to avoid a little bit of
->> complexity in the caller (which is assumed to be a computer, and thus
->> shouldn't have a hard time providing a sane 'driver' unconditionally).
->> An HMP wrapper around the QMP command can do whatever magic it needs to
->> omit driver, but making driver mandatory for QMP is just fine.
->
-> All right! I kind of not agree with that, since I think even though QMP is a machine language,
-> it still should be consistent since humans still use it, even if this is humans that code some
-> tool that use it.
->
-> I won't argue with you though, let it be like that.
+Hi Cornelia,
 
-Software's fundamental limit is complexity.  We need to pick what we use
-it for.  Sometimes, that means saying no to things that would be nice to
-have.
+> > This patch documents the steps to use virtio pmem.
+> > It also documents other useful information about
+> > virtio pmem e.g use-case, comparison with Qemu NVDIMM
+> > backend and current limitations.
+> > 
+> > Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
+> > ---
+> > v1->v2
+> >  - Fixes on text format and 'Guest Data persistence'
+> >    section - Cornelia
+> > 
+> >  docs/virtio-pmem.rst | 75 ++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 75 insertions(+)
+> >  create mode 100644 docs/virtio-pmem.rst
+> > 
+> > diff --git a/docs/virtio-pmem.rst b/docs/virtio-pmem.rst
+> > new file mode 100644
+> > index 0000000000..0346e61674
+> > --- /dev/null
+> > +++ b/docs/virtio-pmem.rst
+> > @@ -0,0 +1,75 @@
+> > +
+> > +========================
+> > +QEMU virtio pmem
+> > +========================
+> > +
+> > + This document explains the setup and usage of virtio pmem device
+> 
+> s/virtio pmem device/the virtio pmem device/
+
+done
+
+> 
+> > + which is available since QEMU v4.1.0.
+> > +
+> > + The virtio pmem is a paravirtualized persistent memory device on
+> 
+> s/The virtio pmem/The virtio pmem device/
+
+o.k
+
+> 
+> > + regular(i.e non-NVDIMM) storage.
+> 
+> missing blank before '('
+
+sure
+> 
+> > +
+> > +Usecase
+> > +--------
+> > +
+> > +  Allows to bypass the guest page cache and directly use host page cache.
+> 
+> "Virtio pmem allows to..." ?
+
+done.
+
+> 
+> > +  This reduces guest memory footprint as the host can make efficient
+> > +  memory reclaim decisions under memory pressure.
+> > +
+> > +o How does virtio-pmem compare to the nvdimm emulation supported by QEMU?
+> > +
+> > +  NVDIMM emulation on regular(i.e. non-NVDIMM) host storage does not
+> 
+> missing blank before '('
+
+done.
+> 
+> > +  persist the guest writes as there are no defined semantics in the device
+> > +  specification. The virtio pmem device provides guest write persistence
+> > +  on non-NVDIMM host storage.
+> > +
+> > +virtio pmem usage
+> > +-----------------
+> > +
+> > +  A virtio pmem device backed by a memory-backend-file can be created on
+> > +  the QEMU command line as in the following example:
+> > +
+> > +  -object
+> > memory-backend-file,id=mem1,share,mem-path=./virtio_pmem.img,size=4G
+> > +  -device virtio-pmem-pci,memdev=mem1,id=nv1
+> > +
+> > +   where:
+> > +   - "object memory-backend-file,id=mem1,share,mem-path=<image>,
+> > size=<image size>"
+> > +     creates a backend file of size on a mem-path.
+> 
+> "a backend file with the specified size" ?
+
+done.
+
+> 
+> > +
+> > +   - "device virtio-pmem-pci,id=nvdimm1,memdev=mem1" creates a virtio pmem
+> > +     pci device whose storage is provided by above memory backend device.
+> > +
+> > +  Multiple virtio pmem devices can be created if multiple pairs of
+> > "-object"
+> > +  and "-device" are provided.
+> > +
+> > +Hotplug
+> > +-------
+> > +
+> > +"Virtio pmem devices can be hotplugged via the QEMU monitor. First, the
+> > +memory backing has to be added via 'object_add'; afterwards, the virtio
+> > +pmem device can be added via 'device_add'."
+> 
+> Please lose the '"' (copy/paste leftover, I presume? :)
+
+Done :)
+
+> 
+> > +
+> > +For example, the following commands add another 4GB virtio pmem device to
+> > +the guest:
+> > +
+> > + (qemu) object_add
+> > memory-backend-file,id=mem2,share=on,mem-path=virtio_pmem2.img,size=4G
+> > + (qemu) device_add virtio-pmem-pci,id=virtio_pmem2,memdev=mem2
+> > +
+> > +Guest Data Persistence
+> > +----------------------
+> > +
+> > + Guest data persistence on non-NVDIMM requires guest userspace application
+> > to
+> 
+> s/application/applications/ ?
+
+done.
+
+> 
+> > + perform fsync/msync. This is different from a real nvdimm backend where
+> > no
+> > + additional fsync/msync is required. This is to persist guest writes in
+> > host
+> > + backing file which otherwise remains in host page cache and there is risk
+> > of
+> > + losing the data in case of power failure.
+> > +
+> > + With virtio pmem device, MAP_SYNC mmap flag is not supported. This
+> > provides
+> > + a hint to application to perform fsync for write persistence.
+> > +
+> > +Limitations
+> > +------------
+> > +- Real nvdimm device backend is not supported.
+> > +- virtio pmem hotunplug is not supported.
+> > +- ACPI NVDIMM features like regions/namespaces are not supported.
+> > +- ndctl command is not supported.
+> 
+> Only some nits from my side, otherwise looks good to me.
+
+Thank you for the review. Will post a v3 with the changes.
+
+Best regards,
+Pankaj
+
+> 
 
