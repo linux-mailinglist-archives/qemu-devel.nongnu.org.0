@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B210B973B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:39:51 +0200 (CEST)
-Received: from localhost ([::1]:44540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA19973B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 09:38:03 +0200 (CEST)
+Received: from localhost ([::1]:44502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0LDi-0002Yz-EL
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42081)
+	id 1i0LBx-0007jg-GN
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 03:38:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42106)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0M-0004TF-4C
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:03 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0M-0004UM-UR
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0L0K-0007zK-Db
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:01 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:53655)
+ (envelope-from <dgibson@ozlabs.org>) id 1i0L0L-00080c-5i
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 03:26:02 -0400
+Received: from ozlabs.org ([203.11.71.1]:60027)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0L0J-0007t6-O5; Wed, 21 Aug 2019 03:26:00 -0400
+ id 1i0L0K-0007v7-Hq; Wed, 21 Aug 2019 03:26:01 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46Czj92GJcz9sPP; Wed, 21 Aug 2019 17:25:49 +1000 (AEST)
+ id 46Czj96Bmbz9sNy; Wed, 21 Aug 2019 17:25:49 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1566372349;
- bh=Man+cTJD40md8jcRo0qPDBf0tBh7Y8v0Agzqmq1Hr8A=;
+ bh=0dWKqVmlK2exHuzprTgcVoL1/9FViLIL4ZD9+4OJrYI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C9Jw+PM+zVZzvjlx2A+T3AXMLKaASEinDY7UNVoatHUOkIOaF+DiBTifb2/9ukiBi
- kmuiq1k7F7xHA/lovpyBEy+zlCuBMItuYBFOs8R3DXEQN79VgZ+875RqhjNgrLWvt0
- ci+kGL51W05cOy/TZCw1kcvuvQEKLjO6f8Soz0oM=
+ b=oEpLNhgDSZdutOA95xMilbrgfWcbi/HzsGw06oEWoZ06uMRKI5heKGuo5eWv57+CX
+ wVe0cZ+mxRxzQodRmmDaW2aJOxLbi0s8A+fbAIXruydRbSJwjOvylqd4or2eFXKeXz
+ pV07tl4UenkwVoS4I4MDL9eVNKCxPGK8FboxH3M0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 21 Aug 2019 17:25:11 +1000
-Message-Id: <20190821072542.23090-12-david@gibson.dropbear.id.au>
+Date: Wed, 21 Aug 2019 17:25:19 +1000
+Message-Id: <20190821072542.23090-20-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 References: <20190821072542.23090-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 11/42] target/ppc: Optimize emulation of vclzw
- instruction
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PULL 19/42] docs/specs: initial spec summary for
+ Ultravisor-related hcalls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,119 +53,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org,
- Stefan Brankovic <stefan.brankovic@rt-rk.com>,
+Cc: lvivier@redhat.com, aik@ozlabs.ru, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
+From: Michael Roth <mdroth@linux.vnet.ibm.com>
 
-Optimize Altivec instruction vclzw (Vector Count Leading Zeros Word).
-This instruction counts the number of leading zeros of each word element
-in source register and places result in the appropriate word element of
-destination register.
+For now this only covers hcalls relating to TPM communication since
+it's the only one particularly important from a QEMU perspective atm,
+but others can be added here where it makes sense.
 
-Counting is to be performed in four iterations of for loop(one for each
-word elemnt of source register vB). Every iteration consists of loading
-appropriate word element from source register, counting leading zeros
-with tcg_gen_clzi_i32, and saving the result in appropriate word element
-of destination register.
+The full specification for all hcalls/ucalls will eventually be made
+available in the public/OpenPower version of the PAPR specification.
 
-Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1563200574-11098-7-git-send-email-stefan.brankovic@rt-rk.com=
->
+Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
+Message-Id: <20190717205842.17827-2-mdroth@linux.vnet.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/helper.h                 |  1 -
- target/ppc/int_helper.c             |  3 ---
- target/ppc/translate/vmx-impl.inc.c | 28 +++++++++++++++++++++++++++-
- 3 files changed, 27 insertions(+), 5 deletions(-)
+ docs/specs/ppc-spapr-uv-hcalls.txt | 76 ++++++++++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
+ create mode 100644 docs/specs/ppc-spapr-uv-hcalls.txt
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index e203f76bf1..54ea9b9500 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -310,7 +310,6 @@ DEF_HELPER_4(vctsxs, void, env, avr, avr, i32)
-=20
- DEF_HELPER_2(vclzb, void, avr, avr)
- DEF_HELPER_2(vclzh, void, avr, avr)
--DEF_HELPER_2(vclzw, void, avr, avr)
- DEF_HELPER_2(vctzb, void, avr, avr)
- DEF_HELPER_2(vctzh, void, avr, avr)
- DEF_HELPER_2(vctzw, void, avr, avr)
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index b82765db33..46deb57a34 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1819,15 +1819,12 @@ VUPK(lsw, s64, s32, UPKLO)
-=20
- #define clzb(v) ((v) ? clz32((uint32_t)(v) << 24) : 8)
- #define clzh(v) ((v) ? clz32((uint32_t)(v) << 16) : 16)
--#define clzw(v) clz32((v))
-=20
- VGENERIC_DO(clzb, u8)
- VGENERIC_DO(clzh, u16)
--VGENERIC_DO(clzw, u32)
-=20
- #undef clzb
- #undef clzh
--#undef clzw
-=20
- #define ctzb(v) ((v) ? ctz32(v) : 8)
- #define ctzh(v) ((v) ? ctz32(v) : 16)
-diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/v=
-mx-impl.inc.c
-index 3372c2c3d3..0d71c10428 100644
---- a/target/ppc/translate/vmx-impl.inc.c
-+++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -742,6 +742,32 @@ static void trans_vgbbd(DisasContext *ctx)
-     tcg_temp_free_i64(avr[1]);
- }
-=20
-+/*
-+ * vclzw VRT,VRB - Vector Count Leading Zeros Word
-+ *
-+ * Counting the number of leading zero bits of each word element in sour=
-ce
-+ * register and placing result in appropriate word element of destinatio=
+diff --git a/docs/specs/ppc-spapr-uv-hcalls.txt b/docs/specs/ppc-spapr-uv=
+-hcalls.txt
+new file mode 100644
+index 0000000000..389c2740d7
+--- /dev/null
++++ b/docs/specs/ppc-spapr-uv-hcalls.txt
+@@ -0,0 +1,76 @@
++On PPC64 systems supporting Protected Execution Facility (PEF), system
++memory can be placed in a secured region where only an "ultravisor"
++running in firmware can provide to access it. pseries guests on such
++systems can communicate with the ultravisor (via ultracalls) to switch t=
+o a
++secure VM mode (SVM) where the guest's memory is relocated to this secur=
+ed
++region, making its memory inaccessible to normal processes/guests runnin=
+g on
++the host.
++
++The various ultracalls/hypercalls relating to SVM mode are currently
++only documented internally, but are planned for direct inclusion into th=
+e
++public OpenPOWER version of the PAPR specification (LoPAPR/LoPAR). An in=
+ternal
++ACR has been filed to reserve a hypercall number range specific to this
++use-case to avoid any future conflicts with the internally-maintained PA=
+PR
++specification. This document summarizes some of these details as they re=
+late
++to QEMU.
++
++=3D=3D hypercalls needed by the ultravisor =3D=3D
++
++Switching to SVM mode involves a number of hcalls issued by the ultravis=
+or
++to the hypervisor to orchestrate the movement of guest memory to secure
++memory and various other aspects SVM mode. Numbers are assigned for thes=
+e
++hcalls within the reserved range 0xEF00-0xEF80. The below documents the
++hcalls relevant to QEMU.
++
++- H_TPM_COMM (0xef10)
++
++  For TPM_COMM_OP_EXECUTE operation:
++    Send a request to a TPM and receive a response, opening a new TPM se=
+ssion
++    if one has not already been opened.
++
++  For TPM_COMM_OP_CLOSE_SESSION operation:
++    Close the existing TPM session, if any.
++
++  Arguments:
++
++    r3 : H_TPM_COMM (0xef10)
++    r4 : TPM operation, one of:
++         TPM_COMM_OP_EXECUTE (0x1)
++         TPM_COMM_OP_CLOSE_SESSION (0x2)
++    r5 : in_buffer, guest physical address of buffer containing the requ=
+est
++         - Caller may use the same address for both request and response
++    r6 : in_size, size of the in buffer
++         - Must be less than or equal to 4KB
++    r7 : out_buffer, guest physical address of buffer to store the respo=
+nse
++         - Caller may use the same address for both request and response
++    r8 : out_size, size of the out buffer
++         - Must be at least 4KB, as this is the maximum request/response=
+ size
++           supported by most TPM implementations, including the TPM Reso=
+urce
++           Manager in the linux kernel.
++
++  Return values:
++
++    r3 : H_Success    request processed successfully
++         H_PARAMETER  invalid TPM operation
++         H_P2         in_buffer is invalid
++         H_P3         in_size is invalid
++         H_P4         out_buffer is invalid
++         H_P5         out_size is invalid
++         H_RESOURCE   problem communicating with TPM
++         H_FUNCTION   TPM access is not currently allowed/configured
++    r4 : For TPM_COMM_OP_EXECUTE, the size of the response will be store=
+d here
++         upon success.
++
++  Use-case/notes:
++
++    SVM filesystems are encrypted using a symmetric key. This key is the=
 n
-+ * register.
-+ */
-+static void trans_vclzw(DisasContext *ctx)
-+{
-+    int VT =3D rD(ctx->opcode);
-+    int VB =3D rB(ctx->opcode);
-+    TCGv_i32 tmp =3D tcg_temp_new_i32();
-+    int i;
++    wrapped/encrypted using the public key of a trusted system which has=
+ the
++    private key stored in the system's TPM. An Ultravisor will use this
++    hcall to unwrap/unseal the symmetric key using the system's TPM devi=
+ce
++    or a TPM Resource Manager associated with the device.
 +
-+    /* Perform count for every word element using tcg_gen_clzi_i32. */
-+    for (i =3D 0; i < 4; i++) {
-+        tcg_gen_ld_i32(tmp, cpu_env,
-+            offsetof(CPUPPCState, vsr[32 + VB].u64[0]) + i * 4);
-+        tcg_gen_clzi_i32(tmp, tmp, 32);
-+        tcg_gen_st_i32(tmp, cpu_env,
-+            offsetof(CPUPPCState, vsr[32 + VT].u64[0]) + i * 4);
-+    }
-+
-+    tcg_temp_free_i32(tmp);
-+}
-+
- /*
-  * vclzd VRT,VRB - Vector Count Leading Zeros Doubleword
-  *
-@@ -1283,7 +1309,7 @@ GEN_VAFORM_PAIRED(vmaddfp, vnmsubfp, 23)
-=20
- GEN_VXFORM_NOA(vclzb, 1, 28)
- GEN_VXFORM_NOA(vclzh, 1, 29)
--GEN_VXFORM_NOA(vclzw, 1, 30)
-+GEN_VXFORM_TRANS(vclzw, 1, 30)
- GEN_VXFORM_TRANS(vclzd, 1, 31)
- GEN_VXFORM_NOA_2(vnegw, 1, 24, 6)
- GEN_VXFORM_NOA_2(vnegd, 1, 24, 7)
++    The Ultravisor sets up a separate session key with the TPM in advanc=
+e
++    during host system boot. All sensitive in and out values will be
++    encrypted using the session key. Though the hypervisor will see the =
+'in'
++    and 'out' buffers in raw form, any sensitive contents will generally=
+ be
++    encrypted using this session key.
 --=20
 2.21.0
 
