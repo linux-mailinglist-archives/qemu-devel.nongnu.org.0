@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9939822D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 20:00:16 +0200 (CEST)
-Received: from localhost ([::1]:51440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDBAF98241
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 20:04:11 +0200 (CEST)
+Received: from localhost ([::1]:51474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Uu6-0005Jr-EZ
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 14:00:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40856)
+	id 1i0Uxs-0002DX-NH
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 14:04:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40870)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jan.bobek@gmail.com>) id 1i0UR8-0000rT-Ey
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:19 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1i0UR9-0000tC-GY
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1i0UR7-0007Dw-5n
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:18 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:45508)
+ (envelope-from <jan.bobek@gmail.com>) id 1i0UR8-0007Er-9t
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:19 -0400
+Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:40494)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0UR7-0007Dc-1g
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:17 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id u32so1326455ybi.12
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:30:16 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1i0UR8-0007EZ-5M
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:30:18 -0400
+Received: by mail-yb1-xb43.google.com with SMTP id g7so1338169ybd.7
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 10:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=78dLtAzIc8Khj/cWFcmAZfU/AZ/wK2C4JMNwdD2INNQ=;
- b=ZL2ebsA7Ub9YoCKiuOEpEwUzvZFXxms+seoXSC0LrQYXmqmYYJc7iwb39cH/mBuf/S
- fhufh1DmiR9QGVYugodcVj48Zz5JD0Y6u38QB9wEwV+KaPhXMJTFg2VZFOg8YhhChjzA
- GMyjP9+cxMplJhsrxa3Fkna8RcEojWBhJI2LJW11hWAuq4gFH2x57WdUWlNzrnslup+i
- IlUFkSbbbIxHvTvVSfudFv2EHfr/kCx/qN+GDNqomRoPZKy5pMrvnLPzQG0UqfMR5mGB
- 5oEmYtuidgt3edagar3BnaXsKiLXOeCQRq5v+C/Ti/LR0Hw9PEFoCCMPILxM6sry0SPp
- Nmfg==
+ bh=m7m1DBEvl4+jXT++i64MbAF5g/HBmU0aL7h5oTNL2Gk=;
+ b=fCR8UniwwETVrmgG27bXzUGg2drdEa9RK9bKRdOLv86k2YBAT4ETfcuRvxo0bDjA1I
+ D/FX/V6pNkaykt00EgSll14XUd6S7up/h8jdlg197P2geIFDWJlMDMXlnCC25UFRa2i5
+ VTUhj64r+ZLyK5nhMIIo4QAUf/lEzxh+vnh3H+G/Bb002oRq1jAums7IsQWGLU9FeVDA
+ /k9E/3dg/ULQfuvmCR5zrujPRsEocq16t+EYQapiet/TOU7AFd2b5kRMJlH3+i2KbpjM
+ TE960ccKnF0mp6j2qleGQL/FpXC/+uhjfFA1v43WgA/uvPK/J0c0PaiyUyrDPJGmChb/
+ lY8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=78dLtAzIc8Khj/cWFcmAZfU/AZ/wK2C4JMNwdD2INNQ=;
- b=ko5+v+HCbXoRztb23XtdMF+OyH5rrlU1/8zq+tn5CIq2KOaybNqYmiKCwF8rrpJCWb
- 6NNm7WOoy1KOtpmZRguYlMvlbP2VQI7Lasl3xCobF504YmNORjSE+2aX+5UB1gYVnSZv
- ucuEcITbMZndBflgBqGj1l17/zcglq4BD/yl3it5JX9OqVrVTZmNVjzclSh1DPrPX+cs
- lDnKLAd6tdxhnDwIvnqsDwA/o1/85K4WU23c2Bg/ChW0TNKGLluqG5+dn8NJzVzfSEDN
- HrkAg1Q3vAwIzf8nxt6XhW7bfDVFsnatLqhvqHAxW9Cplxi4Ug2ZCyVBocJOkWwNT3rT
- /mZQ==
-X-Gm-Message-State: APjAAAWQK/s77+UpwDimO88CnWk96EgCwRakSXTBdMBYkFD5GaF+bm1U
- FcGWosvFmZXmlCeflnxtSsVB2/XQ
-X-Google-Smtp-Source: APXvYqzhO8XWDTYidGfiIjCG0N6lRQ7/iFEdbkMJSv00QA+QLj0reMc8igQpfB3QRxYgMhdPOwC7CQ==
-X-Received: by 2002:a25:6846:: with SMTP id d67mr25596541ybc.483.1566408616372; 
- Wed, 21 Aug 2019 10:30:16 -0700 (PDT)
+ bh=m7m1DBEvl4+jXT++i64MbAF5g/HBmU0aL7h5oTNL2Gk=;
+ b=cDFKZCcg6sQxQWUs/ml7UxDCjVy6BoNyDCP06Q/LYAk5RoehIhQB3xFVnnqJWRi5Ls
+ BwoNaM1Lcsk5x43+JjqE4vEIn/27I6Zic2C0z13HALY1GiwzANU/UvRenpBDTdt8dDsP
+ bRZ+U0j7rglB7K6ApT8wSRoreUXXk07/+iIBbA5btJWC2w/Ctok0ObMQHtpOoWawlU1P
+ 7F40apMnM98b4D00sCcjaXFKVi7yoZDvXaOGfGEdpmZlUL0enDs1o/6Y6wdtFP/oEoXh
+ sEbmOGN85myxJ5s3dzCC5D+7MnYxNafgMHPX1L5T/JFIOSgqy+RcDtyyRQ4qCxBGzSvX
+ rTGQ==
+X-Gm-Message-State: APjAAAVkRw7PFWVcShqvHX1yAO2Wx1QDjnOINr3eQFF4PDGCfBJCDCCK
+ Q92huIrESTZxJV8cxlMZIaP1xXLf
+X-Google-Smtp-Source: APXvYqxoMY7RxTikxPHgeu0Z8VtojPUHRc7MVklEvQQAU52Gz2+pPxQQ7MqvI4IJt+5SjYPHEs65Wg==
+X-Received: by 2002:a25:c2c4:: with SMTP id s187mr25659291ybf.21.1566408617497; 
+ Wed, 21 Aug 2019 10:30:17 -0700 (PDT)
 Received: from localhost.localdomain ([2601:c0:c67f:e390::3])
- by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.15
+ by smtp.gmail.com with ESMTPSA id l71sm2826167ywl.39.2019.08.21.10.30.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Aug 2019 10:30:15 -0700 (PDT)
+ Wed, 21 Aug 2019 10:30:16 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 13:28:51 -0400
-Message-Id: <20190821172951.15333-16-jan.bobek@gmail.com>
+Date: Wed, 21 Aug 2019 13:28:52 -0400
+Message-Id: <20190821172951.15333-17-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190821172951.15333-1-jan.bobek@gmail.com>
 References: <20190821172951.15333-1-jan.bobek@gmail.com>
@@ -63,9 +63,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b44
-Subject: [Qemu-devel] [RFC PATCH v4 15/75] target/i386: introduce function
- check_cpuid
+X-Received-From: 2607:f8b0:4864:20::b43
+Subject: [Qemu-devel] [RFC PATCH v4 16/75] target/i386: disable AVX/AVX2
+ cpuid bitchecks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,86 +83,44 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a helper function to take care of instruction CPUID checks.
+Ignore the AVX/AVX2 cpuid bits when checking for availability of the
+relevant instructions. This is clearly incorrect, but it preserves the
+old behavior, which is useful during development.
+
+Note: This changeset is intended for development only and shall not be
+included in the final patch series.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 62 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ target/i386/translate.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 467ecf15ba..3e54443d99 100644
+index 3e54443d99..e7c2ad41bf 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -4516,6 +4516,68 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
- #define gen_gvec_cmp(dofs, aofs, bofs, oprsz, maxsz, vece, cond)        \
-     tcg_gen_gvec_cmp(cond, vece, dofs, aofs, bofs, oprsz, maxsz)
- 
-+typedef enum {
-+    CHECK_CPUID_MMX = 1,
-+    CHECK_CPUID_3DNOW,
-+    CHECK_CPUID_SSE,
-+    CHECK_CPUID_SSE2,
-+    CHECK_CPUID_CLFLUSH,
-+    CHECK_CPUID_SSE3,
-+    CHECK_CPUID_SSSE3,
-+    CHECK_CPUID_SSE4_1,
-+    CHECK_CPUID_SSE4_2,
-+    CHECK_CPUID_SSE4A,
-+    CHECK_CPUID_AES,
-+    CHECK_CPUID_PCLMULQDQ,
-+    CHECK_CPUID_AVX,
-+    CHECK_CPUID_AES_AVX,
-+    CHECK_CPUID_PCLMULQDQ_AVX,
-+    CHECK_CPUID_AVX2,
-+} CheckCpuidFeat;
-+
-+static bool check_cpuid(CPUX86State *env, DisasContext *s, CheckCpuidFeat feat)
-+{
-+    switch (feat) {
-+    case CHECK_CPUID_MMX:
-+        return (s->cpuid_features & CPUID_MMX)
-+            && (s->cpuid_ext2_features & CPUID_EXT2_MMX);
-+    case CHECK_CPUID_3DNOW:
-+        return s->cpuid_ext2_features & CPUID_EXT2_3DNOW;
-+    case CHECK_CPUID_SSE:
-+        return s->cpuid_features & CPUID_SSE;
-+    case CHECK_CPUID_SSE2:
-+        return s->cpuid_features & CPUID_SSE2;
-+    case CHECK_CPUID_CLFLUSH:
-+        return s->cpuid_features & CPUID_CLFLUSH;
-+    case CHECK_CPUID_SSE3:
-+        return s->cpuid_ext_features & CPUID_EXT_SSE3;
-+    case CHECK_CPUID_SSSE3:
-+        return s->cpuid_ext_features & CPUID_EXT_SSSE3;
-+    case CHECK_CPUID_SSE4_1:
-+        return s->cpuid_ext_features & CPUID_EXT_SSE41;
-+    case CHECK_CPUID_SSE4_2:
-+        return s->cpuid_ext_features & CPUID_EXT_SSE42;
-+    case CHECK_CPUID_SSE4A:
-+        return s->cpuid_ext3_features & CPUID_EXT3_SSE4A;
-+    case CHECK_CPUID_AES:
-+        return s->cpuid_ext_features & CPUID_EXT_AES;
-+    case CHECK_CPUID_PCLMULQDQ:
-+        return s->cpuid_ext_features & CPUID_EXT_PCLMULQDQ;
-+    case CHECK_CPUID_AVX:
-+        return s->cpuid_ext_features & CPUID_EXT_AVX;
-+    case CHECK_CPUID_AES_AVX:
-+        return (s->cpuid_ext_features & CPUID_EXT_AES)
-+            && (s->cpuid_ext_features & CPUID_EXT_AVX);
-+    case CHECK_CPUID_PCLMULQDQ_AVX:
-+        return (s->cpuid_ext_features & CPUID_EXT_PCLMULQDQ)
-+            && (s->cpuid_ext_features & CPUID_EXT_AVX);
-+    case CHECK_CPUID_AVX2:
-+        return s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_AVX2;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
- static void gen_sse_ng(CPUX86State *env, DisasContext *s, int b)
- {
-     enum {
+@@ -4564,15 +4564,15 @@ static bool check_cpuid(CPUX86State *env, DisasContext *s, CheckCpuidFeat feat)
+     case CHECK_CPUID_PCLMULQDQ:
+         return s->cpuid_ext_features & CPUID_EXT_PCLMULQDQ;
+     case CHECK_CPUID_AVX:
+-        return s->cpuid_ext_features & CPUID_EXT_AVX;
++        return true /* s->cpuid_ext_features & CPUID_EXT_AVX */;
+     case CHECK_CPUID_AES_AVX:
+-        return (s->cpuid_ext_features & CPUID_EXT_AES)
+-            && (s->cpuid_ext_features & CPUID_EXT_AVX);
++        return s->cpuid_ext_features & CPUID_EXT_AES
++            /* && (s->cpuid_ext_features & CPUID_EXT_AVX) */;
+     case CHECK_CPUID_PCLMULQDQ_AVX:
+-        return (s->cpuid_ext_features & CPUID_EXT_PCLMULQDQ)
+-            && (s->cpuid_ext_features & CPUID_EXT_AVX);
++        return s->cpuid_ext_features & CPUID_EXT_PCLMULQDQ
++            /* && (s->cpuid_ext_features & CPUID_EXT_AVX) */;
+     case CHECK_CPUID_AVX2:
+-        return s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_AVX2;
++        return true /* s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_AVX2 */;
+     default:
+         g_assert_not_reached();
+     }
 -- 
 2.20.1
 
