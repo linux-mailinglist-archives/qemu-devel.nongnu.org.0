@@ -2,53 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0E4298343
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 20:42:09 +0200 (CEST)
-Received: from localhost ([::1]:51874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2752F9834B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 20:44:06 +0200 (CEST)
+Received: from localhost ([::1]:52162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0VYe-0007kT-V8
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 14:42:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44690)
+	id 1i0VaW-0003X0-W3
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 14:44:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0Ul5-0003RU-9J
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:50:56 -0400
+ (envelope-from <jsnow@redhat.com>) id 1i0Upy-0002Gq-MD
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:55:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Sandra_Loosemore@mentor.com>) id 1i0Ul4-0005cl-2p
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:50:55 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:13363)
+ (envelope-from <jsnow@redhat.com>) id 1i0Upx-00061F-Fk
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:55:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54916)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Sandra_Loosemore@mentor.com>)
- id 1i0Ul2-0005Uk-2Y
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:50:54 -0400
-IronPort-SDR: OmtgVFvRWFOAVEv2vW5yjFsOQvjQikRbDoEcyQcvvNfyHxnmEOE3aXEIoX4A9YlaJIMfv8wBw+
- fdSA0lMwohVFyc2gCcLDwVajC4bfD0ithz4qhJlUre6Wsxf59G5CxrqjJD5gXq9dAsfvZ+f1cR
- h34HZIpcwuHPpzPRokS5bsMPhVrsehAQlR+1OgKrG0D7xyLdRvFwjBn95CDUqcxlUx9GfbK6rk
- vKIJKhUU7cK3WUG3/RiW6zoRlkchIi07mITqAyXXtuua2jw8jXYBNk3LisQ+cGbccn5HgS4uPR
- WCQ=
-X-IronPort-AV: E=Sophos;i="5.64,412,1559548800"; d="scan'208";a="40657531"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa4.mentor.iphmx.com with ESMTP; 21 Aug 2019 09:50:50 -0800
-IronPort-SDR: 7B0yq3nUz7b46Lgg1btkY3aVh3QzKIAKJXaqtrVSUIVR883e8VhUa5cXrdYQ39iPu3oAl1/cwp
- LWL4mUmjfGBO6IW1TE2ByXDVzoSjJCmveWxdz1BhWsYPaIcacvtrscMj3bU1snVqBQeAJCXXax
- Cg1+90no2zFBp6AUHNNoaq5J/zbu5XUoAj5LOvTjb03v2fb67WVSaP5GRVxKvFjw330LfHfZv1
- kVczLes9PTxvwJRiKiXpQHHxO2tdza4Dg3+VXnwasVQP1HZsmzRH+zGprynv3CelHOwn3m5g4u
- xfo=
-From: Sandra Loosemore <sandra@codesourcery.com>
-To: <qemu-devel@nongnu.org>
-Date: Wed, 21 Aug 2019 11:50:29 -0600
-Message-ID: <20190821175029.21868-3-sandra@codesourcery.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190821175029.21868-1-sandra@codesourcery.com>
-References: <20190821175029.21868-1-sandra@codesourcery.com>
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1i0Upt-0005si-KV; Wed, 21 Aug 2019 13:55:54 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7CACF18C8905;
+ Wed, 21 Aug 2019 17:55:51 +0000 (UTC)
+Received: from [10.18.17.187] (dhcp-17-187.bos.redhat.com [10.18.17.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9D5A5C1D6;
+ Wed, 21 Aug 2019 17:55:50 +0000 (UTC)
+To: qemu-devel@nongnu.org
+References: <156634623142.13663.3643515445255180825@5dec9699b7de>
+From: John Snow <jsnow@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <06a63866-3f75-e057-36cf-ccfa63733b8d@redhat.com>
+Date: Wed, 21 Aug 2019 13:55:50 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: SVR-ORW-MBX-07.mgc.mentorg.com (147.34.90.207) To
- svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 68.232.137.252
-Subject: [Qemu-devel] [PATCH V2 2/2] target/m68k: Fix bug in semihosted exit
- handling
+In-Reply-To: <156634623142.13663.3643515445255180825@5dec9699b7de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Wed, 21 Aug 2019 17:55:51 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 0/4] iotests: use python logging
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,44 +133,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes a bug that caused semihosted exit to always return
-status 0; it was incorrectly using the value of D0 (which
-contains the HOSTED_EXIT request number) instead of D1.
 
-Note that per the newlib documentation for the m68k semihosting protocol
 
-https://www.sourceware.org/git/gitweb.cgi?p=newlib-cygwin.git;a=blob;f=libgloss/m68k/m68k-semi.txt;h=50520c15292aa7edf7eef28e09fd9202ce75b153;hb=HEAD
+On 8/20/19 8:10 PM, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20190820235243.26092-1-jsnow@redhat.com/
+> 
+> 
+> 
+> Hi,
+> 
+> This series seems to have some coding style problems. See output below for
+> more information:
+> 
+> Type: series
+> Subject: [Qemu-devel] [PATCH v3 0/4] iotests: use python logging
+> Message-id: 20190820235243.26092-1-jsnow@redhat.com
+> 
 
-for the HOSTED_EXIT syscall the parameter is passed directly in the register
-instead of in a parameter block pointed to by the register.
+I have to remember that apparently git-publish does not seem to "save"
+my setting for adding my signed-off-by if I don't explicitly request it.
 
-Signed-off-by: Sandra Loosemore <sandra@codesourcery.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
----
- target/m68k/m68k-semi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Sorry about that. You may assume:
 
-diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-index 8e5fbfc..f189c92 100644
---- a/target/m68k/m68k-semi.c
-+++ b/target/m68k/m68k-semi.c
-@@ -194,8 +194,8 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
-     args = env->dregs[1];
-     switch (nr) {
-     case HOSTED_EXIT:
--        gdb_exit(env, env->dregs[0]);
--        exit(env->dregs[0]);
-+        gdb_exit(env, env->dregs[1]);
-+        exit(env->dregs[1]);
-     case HOSTED_OPEN:
-         GET_ARG(0);
-         GET_ARG(1);
--- 
-2.8.1
+Signed-off-by: John Snow <jsnow@redhat.com>
 
+for all patches in this series.
 
