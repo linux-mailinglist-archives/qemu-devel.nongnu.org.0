@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C20975C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 11:14:50 +0200 (CEST)
-Received: from localhost ([::1]:46112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B1D975A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 11:11:23 +0200 (CEST)
+Received: from localhost ([::1]:46018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0Mhc-0006Ay-WD
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 05:14:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60172)
+	id 1i0MeI-0001L9-7K
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 05:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33986)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i0MSv-0002nE-6G
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:59:38 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i0MaJ-0004uI-Jr
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:07:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i0MSu-0007MT-4G
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 04:59:37 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:34797)
+ (envelope-from <laurent@vivier.eu>) id 1i0MaI-0001wb-GZ
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 05:07:15 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:44273)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i0MSn-0007IY-C7; Wed, 21 Aug 2019 04:59:29 -0400
+ id 1i0MaG-0001v8-6D; Wed, 21 Aug 2019 05:07:12 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mi4un-1iV2Ns1Ep7-00e5yE; Wed, 21 Aug 2019 10:59:21 +0200
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MIxBa-1hhB2G1yDy-00KQz1; Wed, 21 Aug 2019 11:07:06 +0200
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20190719131425.10835-1-philmd@redhat.com>
- <20190719131425.10835-8-philmd@redhat.com>
+References: <20190812113739.16587-1-philmd@redhat.com>
+ <20190812113739.16587-2-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Openpgp: preference=signencrypt
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
@@ -71,35 +71,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <91e26081-0ded-0b5a-8fea-e32928021110@vivier.eu>
-Date: Wed, 21 Aug 2019 10:59:17 +0200
+Message-ID: <412e40d3-87d6-3965-814e-9cb4ec31020d@vivier.eu>
+Date: Wed, 21 Aug 2019 11:07:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190719131425.10835-8-philmd@redhat.com>
+In-Reply-To: <20190812113739.16587-2-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:IKxWkAn0//19yD5mQvb4H3M1RH1/mPMJR/CRjW/OKaZXBXE6yIP
- 2JKUS5oghBFnNEb7pXRxXjGxET5N5osAjvGClY/5RuQGIYP2o9WC/j4fsmtJiTZh9B2Rqoy
- 8fY3LUwpO0JKMYeXIXUj5NUcv2R9kvi/yZK+dPvqTP3qtnIhd3yy57TYCOiVSMbiAy0kBA5
- PwgYOfHrZcWfgBiHioDlw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pW6ytaUjS4A=:tYcLzp1zM7YWZ7/AO/S4dD
- mIMv2fpebtsXSEj5Vmly7YQgvUssjSGgj/RX3WUVg0Oeui9M0wJRqBDJ0r9aXg4rfhQfQl0dl
- uLDDfcVwcx7gDwvQgJodLQvjVKwa7EgLFNiXxQsBHJkBk6gGyYvkgJUnIAWK0gRBPjh0vPKjX
- +b8gKXQx0QagFYA6EsXt7FzOAHYD0E7RNKgoMEwmI+7Ea33Vw0qQlUK5h8cmRGI7dCIiSfv9J
- 2n8e2mCb2Ojhw4Vz1xVxmz/YJ83WPZ9Fr/VjuqY2TpyZKRmG8Y3LMW8hiqWUR7RFxB4OX5FVy
- cpM1xwkZK4QEuLc3eSjcp/OU96KSVnreDkuL99tJOwUyqCLIXezoMOvuhYJCT+zlKO47KU0UQ
- GnSCJE2klrTsSJRrFjNIiU3sU32Asc2nO+n03i/bwPKHh2nwEYzoQBsKxLXDorzSkM9ngxNz1
- Mpsm43JowoaZrvpkrONDWiZ0Nmc9QoHz7pz8l0+HW4bVkb9MFm4efv50XsncJ6murDtRqvSvE
- cCJvs/vk6TCCpWaDsHRpMdkh0t2S4h0nt4xJMnmX+pLD/fO/MD7ApzYip3gF+LxlQuhrs+Ds1
- 3rDHugj2C4UWz//Y2EMampO8GnichPRcxI90nglHYsUA90bShP0yURCWlP6D6eJ6/llkaUXyr
- CUK/SKKDN24v+B+YHwjt/XDAuVWixd35tfpHBWV2nGYwb2xSl246bULqQrS8347NT8RPBDp31
- xQAJ/TNd8AqYKD50OjA0+BFHWEQw4L/i0xcxaoCnpIlOdNIApwzwpFWbXNc=
+X-Provags-ID: V03:K1:bq2GR/5JBTOus7CdmBXvMEhrgrIg1uVjn2FRpWkuefDrlXLMW3f
+ O+/yDBKzPZyoFjGpqhwW3+iVHxv8QN4MbNEohcsbtBmdZGx1qVvQgZxLUTQJgyzEliU8n3p
+ R0JtyUwQ8mou99K7X/2dx0VHErllVQsyq7FCUHU2wgDCwwn4VqDRwJ2i53rgU7ZnfuiE5vi
+ SmvhgAkqU1oQ/3D3qIzKQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rTjQvjAK7hM=:+i1N+3QwFu/gc6zLIq6Xpc
+ KFTqynD6NtO5x17jhVtz9QKHoqfMuFikny1H/lV0t2FpBsU2oxHZc6X6YKqC10gd0DWGHQyom
+ c6qDTqqVWp0SdEkpWciWXnXERaP4BxktNQ1/8qjQvZergZRCYgeT/GcxXWgq+th4Ty/I2YFwM
+ 3NCsoDzwElGYLizNm2JWKXewQfKN55DLbPD2/gRll1y+OM7qbHdn9KAu3HZ7w/iY117r+Ta61
+ IGVcNJJuZ38H56JAaid2XDmiqk75uHKGmi3MAYCSa1qWfNoG7mUG1QkP5x/9LwyvshnGNguxT
+ ZjfkYprF6JBVbbQXM9n0s9T5TCLT8nQNBkcfdFUydINUCCZwLWcyLx/+/9u61fevmz8vron2D
+ EhgaUWj0KESmG3cibimoFnMKCbn5ySgm9KORL6h0vcg0s/m6u5NKFEP/5l5/7eHnp3u+c1pmy
+ JWkPdlDvh4XD836Egmkq8BdUpGehVxLiTUzr0d3voZBDaaUTmsIIa/SECdWeaD/fjdRLyI2Ko
+ 2O1Z8UReeC45Rz2yKnKs/oY/AFLGVdDc3oY+2W7go4rIk3tFWVYVSwqXGQ/fQHf0OFhGRbF1W
+ nSzaake9+rLi4jqw9/I28FRivDzQEJMEZBY61/pyF0sMQrviyNAfJRbgbLecHBjG+iY5zjfH7
+ WXYkaHhLjwbiudW7PqwvfXH6dClAO8HiIFhrb49IiAipHtWmbAYuW0tGt8q4rvLId1STvkY/E
+ Bl+fzF7IfM80Zep/Jy54EIYT5SO2ue/fQjyKtIhLIgP9LZr9dEh+zmd49vE=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.134
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH-for-4.1? 7/7] spapr_events:
- Rewrite a fall through comment
+Subject: Re: [Qemu-devel] [PATCH 1/2] hw/display/sm501: Remove unused include
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,55 +110,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Corey Minyard <minyard@acm.org>,
- qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 19/07/2019 à 15:14, Philippe Mathieu-Daudé a écrit :
-> GCC9 is confused by this comment when building with CFLAG
-> -Wimplicit-fallthrough=2:
+Le 12/08/2019 à 13:37, Philippe Mathieu-Daudé a écrit :
+> The "cpu.h" include makes devices target-specific. Since it
+> is not used, remove it, so the device become generic (we can
+> now compile it once for all targets).
 > 
->     CC      ppc64-softmmu/hw/ppc/spapr_rtc.o
->   hw/ppc/spapr_events.c: In function ‘rtas_event_log_to_source’:
->   hw/ppc/spapr_events.c:312:12: error: this statement may fall through [-Werror=implicit-fallthrough=]
->     312 |         if (spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT)) {
->         |            ^
->   hw/ppc/spapr_events.c:317:5: note: here
->     317 |     case RTAS_LOG_TYPE_EPOW:
->         |     ^~~~
->   cc1: all warnings being treated as errors
-> 
-> Rewrite the comment using 'fall through' which is recognized by
-> GCC and static analyzers.
-> 
-> Reported-by: Stefan Weil <sw@weilnetz.de>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/ppc/spapr_events.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/display/sm501.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index ae0f093f59..0a98894ad6 100644
-> --- a/hw/ppc/spapr_events.c
-> +++ b/hw/ppc/spapr_events.c
-> @@ -313,7 +313,7 @@ rtas_event_log_to_source(SpaprMachineState *spapr, int log_type)
->              g_assert(source->enabled);
->              break;
->          }
-> -        /* fall back to epow for legacy hotplug interrupt source */
-> +        /* fall through back to epow for legacy hotplug interrupt source */
->      case RTAS_LOG_TYPE_EPOW:
->          source = spapr_event_sources_get_source(spapr->event_sources,
->                                                  EVENT_CLASS_EPOW);
+> diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+> index 5918f59b2b..b15fb1ab00 100644
+> --- a/hw/display/sm501.c
+> +++ b/hw/display/sm501.c
+> @@ -28,7 +28,6 @@
+>  #include "qapi/error.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+> -#include "cpu.h"
+>  #include "hw/hw.h"
+>  #include "hw/char/serial.h"
+>  #include "ui/console.h"
 > 
 
 Applied to my trivial-patches branch.
+[fixed a conflict with  with 650d103d3ea9 ("Include hw/hw.h exactly
+where needed")]
 
 Thanks,
 Laurent
