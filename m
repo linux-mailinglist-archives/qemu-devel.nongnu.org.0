@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3ABF9814B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:31:25 +0200 (CEST)
-Received: from localhost ([::1]:51086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D44D98165
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Aug 2019 19:36:20 +0200 (CEST)
+Received: from localhost ([::1]:51144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0USC-0000Lm-KC
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:31:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40253)
+	id 1i0UWx-00078b-1c
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 13:36:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40266)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1i0UPR-0006Tk-9M
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:34 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPS-0006X4-Rh
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1i0UPQ-00057R-8E
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51882)
+ (envelope-from <pbonzini@redhat.com>) id 1i0UPR-0005AB-PM
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54737)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0UPQ-00056q-36
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:32 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0UPR-000592-Jw
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 13:28:33 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 77E5B315C005
- for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 17:28:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id EED7F191C687
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 17:28:32 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-20.ams2.redhat.com
  [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE24860F88;
- Wed, 21 Aug 2019 17:28:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E990260F88;
+ Wed, 21 Aug 2019 17:28:31 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 21 Aug 2019 19:28:11 +0200
-Message-Id: <1566408501-48680-4-git-send-email-pbonzini@redhat.com>
+Date: Wed, 21 Aug 2019 19:28:12 +0200
+Message-Id: <1566408501-48680-5-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
 References: <1566408501-48680-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Wed, 21 Aug 2019 17:28:31 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Wed, 21 Aug 2019 17:28:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 03/13] module: use g_hash_table_add()
+Subject: [Qemu-devel] [PULL 04/13] module: return success on module load
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,33 +62,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-The hashtable is used like a set, use the convenience
-g_hash_table_add() function.
+Let the caller know of load success.
+
+Note that this also changes slightly the behaviour of the function to
+try loading on subsequent calls if the previous ones failed.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/module.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/qemu/module.h |  2 +-
+ util/module.c         | 14 +++++++++++---
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index db30653..65ba596 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -65,6 +65,6 @@ void register_module_init(void (*fn)(void), module_init=
+_type type);
+ void register_dso_module_init(void (*fn)(void), module_init_type type);
+=20
+ void module_call_init(module_init_type type);
+-void module_load_one(const char *prefix, const char *lib_name);
++bool module_load_one(const char *prefix, const char *lib_name);
+=20
+ #endif
 diff --git a/util/module.c b/util/module.c
-index 142db7e..ca9885c 100644
+index ca9885c..e9fe3e5 100644
 --- a/util/module.c
 +++ b/util/module.c
-@@ -179,11 +179,10 @@ void module_load_one(const char *prefix, const char=
- *lib_name)
+@@ -156,8 +156,10 @@ out:
+ }
+ #endif
 =20
-     module_name =3D g_strdup_printf("%s%s", prefix, lib_name);
+-void module_load_one(const char *prefix, const char *lib_name)
++bool module_load_one(const char *prefix, const char *lib_name)
+ {
++    bool success =3D false;
++
+ #ifdef CONFIG_MODULES
+     char *fname =3D NULL;
+     char *exec_dir;
+@@ -170,7 +172,7 @@ void module_load_one(const char *prefix, const char *=
+lib_name)
 =20
--    if (g_hash_table_lookup(loaded_modules, module_name)) {
-+    if (!g_hash_table_add(loaded_modules, module_name)) {
-         g_free(module_name);
-         return;
+     if (!g_module_supported()) {
+         fprintf(stderr, "Module is not supported by system.\n");
+-        return;
++        return false;
      }
--    g_hash_table_insert(loaded_modules, module_name, module_name);
+=20
+     if (!loaded_modules) {
+@@ -181,7 +183,7 @@ void module_load_one(const char *prefix, const char *=
+lib_name)
+=20
+     if (!g_hash_table_add(loaded_modules, module_name)) {
+         g_free(module_name);
+-        return;
++        return true;
+     }
 =20
      exec_dir =3D qemu_get_exec_dir();
-     search_dir =3D getenv("QEMU_MODULE_DIR");
+@@ -205,13 +207,19 @@ void module_load_one(const char *prefix, const char=
+ *lib_name)
+         fname =3D NULL;
+         /* Try loading until loaded a module file */
+         if (!ret) {
++            success =3D true;
+             break;
+         }
+     }
+=20
++    if (!success) {
++        g_hash_table_remove(loaded_modules, module_name);
++    }
++
+     for (i =3D 0; i < n_dirs; i++) {
+         g_free(dirs[i]);
+     }
+=20
+ #endif
++    return success;
+ }
 --=20
 1.8.3.1
 
