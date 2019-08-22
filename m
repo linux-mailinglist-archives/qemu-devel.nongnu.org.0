@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AC39A345
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 00:49:36 +0200 (CEST)
-Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEC49A344
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 00:49:03 +0200 (CEST)
+Received: from localhost ([::1]:48480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0vtf-0002mM-DW
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 18:49:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50276)
+	id 1i0vt6-0002G8-90
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 18:49:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50096)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1i0vpt-00083p-12
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 18:45:42 -0400
+ (envelope-from <philmd@redhat.com>) id 1i0voV-0006og-7G
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 18:44:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1i0vpr-0008PT-4P
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 18:45:40 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:44888)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1i0vpp-0008Oa-BE; Thu, 22 Aug 2019 18:45:38 -0400
-Received: by mail-lf1-x141.google.com with SMTP id v16so5668742lfg.11;
- Thu, 22 Aug 2019 15:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rWPzkGKW7kxA6+OrmDgSwr0hnubCNiyJb+xfIGorTlU=;
- b=SjVO40JiUeCQ3JoZx7dZ8UwJMDLwfw5g4NFoSa9aLU+/Dy4ZDwN8Xpx/kndnZq0VNl
- ENPaYayyEHVNuv8ozK4ZuZFL5kGyniS3u0StzVVwLdc+uDlBEC77ihNdRPmDegfOpGTm
- oetAeicnG9b/fnmGJ8U2D3XN8pxHZjcmjtvIfBzV79/38Icu8cFninym1MeT1I6XYkQC
- m7UdvR9HUDx7/352oKO9alfdjz0BUcfTWvcyK1VOz5lra0GU+ZKYPcXLbr5LiiWw5xMU
- DLKJeNWWZdDOZYcgzpC/87rpLSWXLPiyqYouzhCwDvqm9JjhBFI92jtJkzneRTxYq0dw
- oHpg==
+ (envelope-from <philmd@redhat.com>) id 1i0voT-0007VN-6X
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 18:44:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41358)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i0voT-0007U5-18
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 18:44:13 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 108FCC057FA6
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 22:44:12 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id v4so2368514wmh.9
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 15:44:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rWPzkGKW7kxA6+OrmDgSwr0hnubCNiyJb+xfIGorTlU=;
- b=PrJLUyBWT+I/L/UXz/MuFN73xSZxLsy+iDF/+h6YkCJFA/Z8AcP/ECfwR+9rM6FVoi
- H8GJSF9/LULgHd+uFUr++UTmKTtct0RYGKoa299lSw4VYr4rMnOFGndEz35P8ORtAkYJ
- ESMcE0KhqudU0A0GAM79EC/HR2A4WTQ8HvwTxCnT703IzX37KCNTiu3QklJ4pu7Kfsc/
- 0wWCPQrTuQ0FLrIW4/vcMMtGC0T2haayM4P/oeCF8AEajz3e62lY8kd18b5FypOYxdL2
- s+kIrtttFuXyYKVB04UcsIlif4kiQqhpgLILwCGd5F14mFMeYsABmkzl/qbPT0Jza2c5
- AtdQ==
-X-Gm-Message-State: APjAAAUbypGz9KOYjAEAuZw2TjFjq4m8+Nn7uXJDuAXRhycz8L1ciPHi
- jlwLoqN9lHQgtHQxvS2Bti2WlBaroLWVvQ7mGdk=
-X-Google-Smtp-Source: APXvYqygPX915ErPcrMW7rQ14Uu2kYgACVnjKJA/WB6frECpANlxJ9jN4p8MvIvRvSYaNqkSh2ZueABA17KqdX1UT4o=
-X-Received: by 2002:a19:ed11:: with SMTP id y17mr783252lfy.141.1566513936202; 
- Thu, 22 Aug 2019 15:45:36 -0700 (PDT)
+ h=x-gm-message-state:to:cc:from:subject:openpgp:message-id:date
+ :user-agent:mime-version:content-language:content-transfer-encoding;
+ bh=4r8DGozLmpYo3Rn1qUJI/+ygRuvz98L8ycGH8Hf7ed8=;
+ b=Sazq9envHPU2V/c25sf1QnC6uqTzX0k1t1b8rRGxyqm1uWLP42Ov5oSaLFrS9HMNkF
+ 7PAO6b4GxHfmumovVLFE5/dpTRLW6ieRcQcfdqJhkS/iBIP7yJtavnFGHyPfsH6NaO+f
+ 24b39nT8WWHcqNPCXVbIQKnEV+hnbJCu2RuP1Ej4icNM5T37BObWac5M6awriH0pZ6Ys
+ f47cq1mqrXC8HZlh1/wlQVEeZGFuGwnCZW8u6f5AOTqNMGD8mNFddcdJy0HaH2/eKLvA
+ Nsr95Zgq1pzN097+PUcAL4BJUBzftHcA3srJ8Uz81mVBo72NcZQDO1zR0jzJEionN8wv
+ cLaQ==
+X-Gm-Message-State: APjAAAWghQ5BUSVVqXfud8GR1BNwBk9puA6JycQFwZpbbFrmbuGg6aO4
+ vmQUALVZqcJWpXB+ilhWwmCMvC+JUaPDiTcwCAwZ0viDOk9B3dzTitG7aj1JMGfcuD+9M/OLzqn
+ kW1pOprBdA2eHXWQ=
+X-Received: by 2002:a5d:4a4e:: with SMTP id v14mr1138898wrs.200.1566513850865; 
+ Thu, 22 Aug 2019 15:44:10 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqySX9A33kWlnSxQAA0eLhlbVy1fvezope02dy/hGKs4hjnMK7Bbj7X4NC6e1qP3kuobFYscbw==
+X-Received: by 2002:a5d:4a4e:: with SMTP id v14mr1138893wrs.200.1566513850700; 
+ Thu, 22 Aug 2019 15:44:10 -0700 (PDT)
+Received: from [192.168.1.41] (251.red-88-10-102.dynamicip.rima-tde.net.
+ [88.10.102.251])
+ by smtp.gmail.com with ESMTPSA id t8sm2486541wra.73.2019.08.22.15.44.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Aug 2019 15:44:10 -0700 (PDT)
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <3be10e98-f2db-60e1-d846-40c16c70da7b@redhat.com>
+Date: Fri, 23 Aug 2019 00:44:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <1566191521-7820-1-git-send-email-bmeng.cn@gmail.com>
- <1566191521-7820-25-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1566191521-7820-25-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 22 Aug 2019 15:41:31 -0700
-Message-ID: <CAKmqyKMLqA=+X6p2eLS77gH_TTVg7zDw2XAduOF4FQBHSTWryQ@mail.gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::141
-Subject: Re: [Qemu-devel] [PATCH v4 24/28] riscv: sifive: Implement a model
- for SiFive FU540 OTP
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] contrib/gitdm: Add group map for RT-RK?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,359 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Aug 18, 2019 at 10:19 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> This implements a simple model for SiFive FU540 OTP (One-Time
-> Programmable) Memory interface, primarily for reading out the
-> stored serial number from the first 1 KiB of the 16 KiB OTP
-> memory reserved by SiFive for internal use.
->
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
->
-> ---
->
-> Changes in v4:
-> - prefix all macros/variables/functions with SIFIVE_U/sifive_u
->   in the sifive_u_otp driver
->
-> Changes in v3: None
-> Changes in v2: None
->
->  hw/riscv/Makefile.objs          |   1 +
->  hw/riscv/sifive_u_otp.c         | 194 ++++++++++++++++++++++++++++++++++++++++
->  include/hw/riscv/sifive_u_otp.h |  90 +++++++++++++++++++
->  3 files changed, 285 insertions(+)
->  create mode 100644 hw/riscv/sifive_u_otp.c
->  create mode 100644 include/hw/riscv/sifive_u_otp.h
->
-> diff --git a/hw/riscv/Makefile.objs b/hw/riscv/Makefile.objs
-> index b95bbd5..fc3c6dd 100644
-> --- a/hw/riscv/Makefile.objs
-> +++ b/hw/riscv/Makefile.objs
-> @@ -8,6 +8,7 @@ obj-$(CONFIG_SIFIVE) += sifive_gpio.o
->  obj-$(CONFIG_SIFIVE) += sifive_plic.o
->  obj-$(CONFIG_SIFIVE) += sifive_test.o
->  obj-$(CONFIG_SIFIVE_U) += sifive_u.o
-> +obj-$(CONFIG_SIFIVE_U) += sifive_u_otp.o
->  obj-$(CONFIG_SIFIVE_U) += sifive_u_prci.o
->  obj-$(CONFIG_SIFIVE) += sifive_uart.o
->  obj-$(CONFIG_SPIKE) += spike.o
-> diff --git a/hw/riscv/sifive_u_otp.c b/hw/riscv/sifive_u_otp.c
-> new file mode 100644
-> index 0000000..de8801c
-> --- /dev/null
-> +++ b/hw/riscv/sifive_u_otp.c
-> @@ -0,0 +1,194 @@
-> +/*
-> + * QEMU SiFive U OTP (One-Time Programmable) Memory interface
-> + *
-> + * Copyright (c) 2019 Bin Meng <bmeng.cn@gmail.com>
-> + *
-> + * Simple model of the OTP to emulate register reads made by the SDK BSP
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/sysbus.h"
-> +#include "qemu/module.h"
-> +#include "target/riscv/cpu.h"
-> +#include "hw/riscv/sifive_u_otp.h"
-> +
-> +static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
-> +{
-> +    SiFiveUOTPState *s = opaque;
-> +
-> +    switch (addr) {
-> +    case SIFIVE_U_OTP_PA:
-> +        return s->pa;
-> +    case SIFIVE_U_OTP_PAIO:
-> +        return s->paio;
-> +    case SIFIVE_U_OTP_PAS:
-> +        return s->pas;
-> +    case SIFIVE_U_OTP_PCE:
-> +        return s->pce;
-> +    case SIFIVE_U_OTP_PCLK:
-> +        return s->pclk;
-> +    case SIFIVE_U_OTP_PDIN:
-> +        return s->pdin;
-> +    case SIFIVE_U_OTP_PDOUT:
-> +        if ((s->pce & SIFIVE_U_OTP_PCE_EN) &&
-> +            (s->pdstb & SIFIVE_U_OTP_PDSTB_EN) &&
-> +            (s->ptrim & SIFIVE_U_OTP_PTRIM_EN)) {
-> +            return s->fuse[s->pa & SIFIVE_U_OTP_PA_MASK];
-> +        } else {
-> +            return 0xff;
-> +        }
-> +    case SIFIVE_U_OTP_PDSTB:
-> +        return s->pdstb;
-> +    case SIFIVE_U_OTP_PPROG:
-> +        return s->pprog;
-> +    case SIFIVE_U_OTP_PTC:
-> +        return s->ptc;
-> +    case SIFIVE_U_OTP_PTM:
-> +        return s->ptm;
-> +    case SIFIVE_U_OTP_PTM_REP:
-> +        return s->ptm_rep;
-> +    case SIFIVE_U_OTP_PTR:
-> +        return s->ptr;
-> +    case SIFIVE_U_OTP_PTRIM:
-> +        return s->ptrim;
-> +    case SIFIVE_U_OTP_PWE:
-> +        return s->pwe;
-> +    }
-> +
-> +    hw_error("%s: read: addr=0x%x\n", __func__, (int)addr);
+Hi Aleksandar,
 
-This should be qem_log_mask().
+I noticed this list of contributors:
 
-> +    return 0;
-> +}
-> +
-> +static void sifive_u_otp_write(void *opaque, hwaddr addr,
-> +                               uint64_t val64, unsigned int size)
-> +{
-> +    SiFiveUOTPState *s = opaque;
-> +
-> +    switch (addr) {
-> +    case SIFIVE_U_OTP_PA:
-> +        s->pa = (uint32_t) val64 & SIFIVE_U_OTP_PA_MASK;
-> +        break;
-> +    case SIFIVE_U_OTP_PAIO:
-> +        s->paio = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PAS:
-> +        s->pas = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PCE:
-> +        s->pce = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PCLK:
-> +        s->pclk = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PDIN:
-> +        s->pdin = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PDOUT:
-> +        /* read-only */
-> +        break;
-> +    case SIFIVE_U_OTP_PDSTB:
-> +        s->pdstb = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PPROG:
-> +        s->pprog = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PTC:
-> +        s->ptc = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PTM:
-> +        s->ptm = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PTM_REP:
-> +        s->ptm_rep = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PTR:
-> +        s->ptr = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PTRIM:
-> +        s->ptrim = (uint32_t) val64;
-> +        break;
-> +    case SIFIVE_U_OTP_PWE:
-> +        s->pwe = (uint32_t) val64;
-> +        break;
-> +    default:
-> +        hw_error("%s: bad write: addr=0x%x v=0x%x\n",
-> +                 __func__, (int)addr, (int)val64);
+Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+Dejan Jovicevic <dejan.jovicevic@rt-rk.com>
+Lena Djokic <Lena.Djokic@rt-rk.com>
+Mateja Marjanovic <mateja.marjanovic@rt-rk.com>
+Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com>
+Milo=C5=A1 Stojanovi=C4=87 <Milos.Stojanovic@rt-rk.com>
+Petar Jovanovic <petar.jovanovic@rt-rk.com>
+Stefan Brankovic <stefan.brankovic@rt-rk.com>
 
-Same as above
+I see most of the commits are MIPS related (a few are PPC).
 
-> +    }
-> +}
-> +
-> +static const MemoryRegionOps sifive_u_otp_ops = {
-> +    .read = sifive_u_otp_read,
-> +    .write = sifive_u_otp_write,
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
-> +    .valid = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4
-> +    }
-> +};
-> +
-> +static Property sifive_u_otp_properties[] = {
-> +    DEFINE_PROP_UINT32("serial", SiFiveUOTPState, serial, 0),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
-> +{
-> +    SiFiveUOTPState *s = SIFIVE_U_OTP(dev);
-> +
-> +    memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_u_otp_ops, s,
-> +                          TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
-> +    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
-> +
-> +    /* Initialize all fuses' initial value to 0xFFs */
-> +    memset(s->fuse, 0xff, sizeof(s->fuse));
-> +
-> +    /* Make a valid content of serial number */
-> +    s->fuse[SIFIVE_U_OTP_SERIAL_ADDR] = s->serial;
-> +    s->fuse[SIFIVE_U_OTP_SERIAL_ADDR + 1] = ~(s->serial);
-> +}
-> +
-> +static void sifive_u_otp_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->props = sifive_u_otp_properties;
-> +    dc->realize = sifive_u_otp_realize;
-> +}
-> +
-> +static const TypeInfo sifive_u_otp_info = {
-> +    .name          = TYPE_SIFIVE_U_OTP,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(SiFiveUOTPState),
-> +    .class_init    = sifive_u_otp_class_init,
-> +};
-> +
-> +static void sifive_u_otp_register_types(void)
-> +{
-> +    type_register_static(&sifive_u_otp_info);
-> +}
-> +
-> +type_init(sifive_u_otp_register_types)
-> +
-> +
-> +/* Create OTP device */
-> +DeviceState *sifive_u_otp_create(hwaddr addr, uint32_t serial)
+Should we add these emails to contrib/gitdm/group-map-wavecomp or should
+we rather add a new group-map file for this company?
 
-Don't include this function.
+Thanks,
 
-Alistair
-
-> +{
-> +    DeviceState *dev = qdev_create(NULL, TYPE_SIFIVE_U_OTP);
-> +    qdev_prop_set_uint32(dev, "serial", serial);
-> +    qdev_init_nofail(dev);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-> +
-> +    return dev;
-> +}
-> diff --git a/include/hw/riscv/sifive_u_otp.h b/include/hw/riscv/sifive_u_otp.h
-> new file mode 100644
-> index 0000000..7eac661
-> --- /dev/null
-> +++ b/include/hw/riscv/sifive_u_otp.h
-> @@ -0,0 +1,90 @@
-> +/*
-> + * QEMU SiFive U OTP (One-Time Programmable) Memory interface
-> + *
-> + * Copyright (c) 2019 Bin Meng <bmeng.cn@gmail.com>
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef HW_SIFIVE_U_OTP_H
-> +#define HW_SIFIVE_U_OTP_H
-> +
-> +enum {
-> +    SIFIVE_U_OTP_PA         = 0x00,
-> +    SIFIVE_U_OTP_PAIO       = 0x04,
-> +    SIFIVE_U_OTP_PAS        = 0x08,
-> +    SIFIVE_U_OTP_PCE        = 0x0C,
-> +    SIFIVE_U_OTP_PCLK       = 0x10,
-> +    SIFIVE_U_OTP_PDIN       = 0x14,
-> +    SIFIVE_U_OTP_PDOUT      = 0x18,
-> +    SIFIVE_U_OTP_PDSTB      = 0x1C,
-> +    SIFIVE_U_OTP_PPROG      = 0x20,
-> +    SIFIVE_U_OTP_PTC        = 0x24,
-> +    SIFIVE_U_OTP_PTM        = 0x28,
-> +    SIFIVE_U_OTP_PTM_REP    = 0x2C,
-> +    SIFIVE_U_OTP_PTR        = 0x30,
-> +    SIFIVE_U_OTP_PTRIM      = 0x34,
-> +    SIFIVE_U_OTP_PWE        = 0x38
-> +};
-> +
-> +enum {
-> +    SIFIVE_U_OTP_PCE_EN     = (1 << 0)
-> +};
-> +
-> +enum {
-> +    SIFIVE_U_OTP_PDSTB_EN   = (1 << 0)
-> +};
-> +
-> +enum {
-> +    SIFIVE_U_OTP_PTRIM_EN   = (1 << 0)
-> +};
-> +
-> +#define SIFIVE_U_OTP_PA_MASK        0xfff
-> +#define SIFIVE_U_OTP_NUM_FUSES      0x1000
-> +#define SIFIVE_U_OTP_SERIAL_ADDR    0xfc
-> +
-> +#define SIFIVE_U_OTP_REG_SIZE       0x1000
-> +
-> +#define TYPE_SIFIVE_U_OTP           "riscv.sifive.u.otp"
-> +
-> +#define SIFIVE_U_OTP(obj) \
-> +    OBJECT_CHECK(SiFiveUOTPState, (obj), TYPE_SIFIVE_U_OTP)
-> +
-> +typedef struct SiFiveUOTPState {
-> +    /*< private >*/
-> +    SysBusDevice parent_obj;
-> +
-> +    /*< public >*/
-> +    MemoryRegion mmio;
-> +    uint32_t pa;
-> +    uint32_t paio;
-> +    uint32_t pas;
-> +    uint32_t pce;
-> +    uint32_t pclk;
-> +    uint32_t pdin;
-> +    uint32_t pdstb;
-> +    uint32_t pprog;
-> +    uint32_t ptc;
-> +    uint32_t ptm;
-> +    uint32_t ptm_rep;
-> +    uint32_t ptr;
-> +    uint32_t ptrim;
-> +    uint32_t pwe;
-> +    uint32_t fuse[SIFIVE_U_OTP_NUM_FUSES];
-> +    /* config */
-> +    uint32_t serial;
-> +} SiFiveUOTPState;
-> +
-> +DeviceState *sifive_u_otp_create(hwaddr addr, uint32_t serial);
-> +
-> +#endif /* HW_SIFIVE_U_OTP_H */
-> --
-> 2.7.4
->
->
+Phil.
 
