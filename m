@@ -2,50 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A5C998C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 18:07:11 +0200 (CEST)
-Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8434E998D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 18:09:46 +0200 (CEST)
+Received: from localhost ([::1]:45144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0pcD-0005sO-Pr
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 12:07:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60417)
+	id 1i0pej-0000kW-Kw
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 12:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1i0pWW-0000tL-0k
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 12:01:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i0pWq-00019h-Pz
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 12:01:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1i0pWT-00009N-UM
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 12:01:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34212)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1i0pWT-00008h-Oh; Thu, 22 Aug 2019 12:01:13 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 38FDB796FC;
- Thu, 22 Aug 2019 16:01:12 +0000 (UTC)
-Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 71F12610C6;
- Thu, 22 Aug 2019 16:01:10 +0000 (UTC)
-Date: Thu, 22 Aug 2019 18:01:07 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Message-ID: <20190822180107.062450ad.cohuck@redhat.com>
-In-Reply-To: <20190822155513.GY3267@redhat.com>
-References: <20190822174447.3be81c81.cohuck@redhat.com>
- <20190822155513.GY3267@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <peter.maydell@linaro.org>) id 1i0pWi-0000IJ-Sz
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 12:01:32 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:33965)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i0pWi-0000I7-HL
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 12:01:28 -0400
+Received: by mail-ot1-x336.google.com with SMTP id c7so5953807otp.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 09:01:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dlriq+Y6J2Z+3tF8iNJdWTDXN+V13v+YaIXsL0KS8eI=;
+ b=t4A2nGFlyZe9ynubQRK4IUXEnwPVzaUN4kizXki04JbfCTZDbudAH3HWAbWMErVRXw
+ VqnXSGO0vSjLqISQIV/9l0Kapw1qoZ1w4avVNpC+N/1HbzA0CjcFU5//XJrLRkU+8DUh
+ WCgAsN2YKB8YWKQsLtXJZxm8ivvXwlJXy63ZSy+nXjbcuKMEnpF1/1eygN/g0MUy8eLq
+ IqR0sZA8JuaL3u1XxLOVW5oJHH+Dx5MoCZ845lcPHWXrGSWjiZKxvCaRfukEAhsa++EG
+ d1vOnYLZSoYgXBsa3piQR86bdKarYmfV+S5WFpEYvs4T1pQdWu4Xkyr02Kb5qIjTBfSi
+ aINQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dlriq+Y6J2Z+3tF8iNJdWTDXN+V13v+YaIXsL0KS8eI=;
+ b=TQjTO64XkOealK3IK2AMGjIa2/yER4BTg9VNzEccV+3w9+mNoOJJibzGXAqnqPfHiM
+ jpUr36Ap1fFgN8NyzvvQnbevBu09vjoCi1bhS+REMPm7/hZbKAh493rwWknT4e0wbKz4
+ QHSE3htgMFsh6rGFfMysKCzRTjn1lH0apuVC9bhun84X+DruBvmJ6v3YijchQjbYEbXk
+ IJIi+ZPQkuc5hIRU1QO6jWZRYAAbIJWcPtGm4ucvwoZd6JJJY+ZElEr9O/5yV+bIe+i3
+ xPF6UT90CnNiIYxgRnJWQIW1qrrYhzR1J8m0mxz85uXBbesKacideBbWc3pHVadAzB6m
+ C1MA==
+X-Gm-Message-State: APjAAAVuhdMow5EIozfkb6dHdumGgl6U0RydnjrNajbApZVXqL9sQMjA
+ 9t4NKsBQEJdFpCUotXeVvnif9VZhHJVMNB6BF9o4dD7B
+X-Google-Smtp-Source: APXvYqw+fR6UE4VktFW0iXDg9GswMuBJUlAztknh6o1wKJSsw8xgRnPfyDO4i9vClk/XjTVReoLQbXrOHu7+KdSpgK0=
+X-Received: by 2002:a9d:6a94:: with SMTP id l20mr214122otq.221.1566489687740; 
+ Thu, 22 Aug 2019 09:01:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Thu, 22 Aug 2019 16:01:12 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] 'make check-unit' breakage on s390x host
+References: <20190822080503.12063-1-kraxel@redhat.com>
+In-Reply-To: <20190822080503.12063-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 22 Aug 2019 17:01:16 +0100
+Message-ID: <CAFEAcA9Scj20-ozWAqR1MjBs7jaWdxk10p2j1xp7JRCVYVGCVA@mail.gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::336
+Subject: Re: [Qemu-devel] [PULL 0/8] Vga 20190822 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,44 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Aug 2019 16:55:13 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On Thu, 22 Aug 2019 at 09:07, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 17dc57990320edaad52ac9ea808be9719c91cea6:
+>
+>   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-08-20' into staging (2019-08-20 14:14:20 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/vga-20190822-pull-request
+>
+> for you to fetch changes up to b7105d280cab053465de79ff1766d2f7e1ea7554:
+>
+>   ati-vga: Implement dummy VBlank IRQ (2019-08-22 10:04:20 +0200)
+>
+> ----------------------------------------------------------------
+> vga: a collection of ati fixes/improvements.
+>
+> ----------------------------------------------------------------
+>
+> BALATON Zoltan (8):
+>   ati-vga: Add registers for getting apertures
+>   ati-vga: Add some register definitions for debugging
+>   ati-vga: Fix GPIO_MONID register write
+>   ati-vga: Fix cursor color with guest_hwcursor=true
+>   ati-vga: Fix hardware cursor image offset
+>   ati-vga: Attempt to handle CRTC offset not exact multiple of stride
+>   ati-vga: Add limited support for big endian frame buffer aperture
+>   ati-vga: Implement dummy VBlank IRQ
 
-> On Thu, Aug 22, 2019 at 05:44:47PM +0200, Cornelia Huck wrote:
-> > I just noticed a breakage with 'make check-unit' when running on an
-> > s390x host (on my laptop, it runs fine; haven't tried other
-> > architectures). This happens with current master, but I managed to
-> > track the original breakage down to
-> >=20
-> > commit ff3dc8fefe953fd3650279e064bf63b212c5699a
-> > Author: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > Date:   Wed Mar 13 17:36:18 2019 +0000
-> >=20
-> >     filemon: ensure watch IDs are unique to QFileMonitor scope =20
->=20
-> [snip]
->=20
-> > I can try to collect extra info if you tell me what would be helpful. =
-=20
->=20
-> I'm betting you updated to kernel 5.3
+Applied, thanks.
 
-Yeah, indeed... I would have been surprised if it were s390x-specific :)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
->=20
->   https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg04349.html
->=20
-> Just waiting for a Reviewed-by on that patch in order to send a PR....
-
-I'll take a look, but can't promise anything (first time looking at
-that code path...)
-
->=20
-> Regards,
-> Daniel
-
+-- PMM
 
