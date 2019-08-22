@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC17C99E5F
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 20:00:48 +0200 (CEST)
-Received: from localhost ([::1]:46900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AED799E6A
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 20:03:20 +0200 (CEST)
+Received: from localhost ([::1]:46932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0rOB-0006Av-Tg
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 14:00:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48008)
+	id 1i0rQd-0000LD-Mw
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 14:03:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48152)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1i0rMd-0005m4-Rp
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 13:59:14 -0400
+ (envelope-from <lersek@redhat.com>) id 1i0rNT-0006JZ-6q
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 14:00:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1i0rMb-0004aN-CO
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 13:59:11 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:33974)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1i0rMb-0004Zt-5E
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 13:59:09 -0400
-Received: by mail-oi1-x241.google.com with SMTP id g128so5060739oib.1
- for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 10:59:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=auHWgjJeCtop6GGtyshBCKmJ0h9gfb9lVolcIb4uZg4=;
- b=XzeVpYmYZAZsYsNzeqDvTIDj+l03/CTTbO1Vw0Zcoxd7OVaNg6hEa2FL+zIj9/Lngf
- JX2nhZHP0gzYTrgs3GSeMtfZg5N8VEleelrRo5b0WJrQiXQUc0B8AsSV9CQEqAcnC9hZ
- QoLUm/0hXOXYTeqr/CPqELmm0PimXejoWBGG8M2bavbCLNIEtkluut19xve4LzMt3gLP
- F+riqTsSsNjlCoOgIfYhgLxmq3uxkT+uvcNb9W8W7aC54ke+Cye8CuZio40Wl3a7ffNi
- LokUVVeePAzXqnqu2b9FXpJYGuikXU1I+nvmWkmJREcWf/Pp8uXEqJWBqG64loloxK6O
- rjvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=auHWgjJeCtop6GGtyshBCKmJ0h9gfb9lVolcIb4uZg4=;
- b=KqN+8oz57ZB3g7NKI5U8Qd2ORzTjogxsa4hg9saSO86kb4HkSsBUo+aGVhmTp+oxFa
- S82DYzTCGonbHuqAEDIdde7BWDUGyppJTKNYkw4gWamv7wnN7Zwl3xmVq5D1sWqfRoUV
- gdzMVtSYGi4G3W3KN1ZqtO/4ql8b/kzGIeUdOq1XhJXHn2wxjNiN6UKJMGP3yfTcrAg/
- lX0rpzn+CfAAwT+WE+AMqUOy/pMgea0iFjFhzX4mzkSweZwvO2YzeSM0CBaF0SQNBGOS
- s/xt8xoED2jf/HjN6241KsDcZKawWft/3sQhggacFdEIgJZRkocZlh/btceBZpvHHCzz
- 0MMg==
-X-Gm-Message-State: APjAAAWASruSAZg2tsl9OpFO4OOt2JGW6OUmbNZJYzsGMNYRYroJ7xA+
- DXHGIrDiuLFRFJBbexXXm+QaLQkILZzQ6d5VUQ4=
-X-Google-Smtp-Source: APXvYqx4mIii5EL3QWEqs3dWtMgNkfob8TD4Nms2LcpUoM8rNoaFzBOqHgLu0PN1M1hAHrNY+ZhXq2s+cTURlG1T6Oc=
-X-Received: by 2002:a05:6808:8cd:: with SMTP id
- k13mr277345oij.136.1566496748318; 
- Thu, 22 Aug 2019 10:59:08 -0700 (PDT)
+ (envelope-from <lersek@redhat.com>) id 1i0rNQ-0004uK-RX
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 14:00:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:1643)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1i0rNQ-0004tx-ID
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 14:00:00 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A68EC18C8907;
+ Thu, 22 Aug 2019 17:59:59 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.36.118.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 15ECD5D6A7;
+ Thu, 22 Aug 2019 17:59:30 +0000 (UTC)
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ "Kinney, Michael D" <michael.d.kinney@intel.com>,
+ "rfc@edk2.groups.io" <rfc@edk2.groups.io>, "Yao, Jiewen"
+ <jiewen.yao@intel.com>
+References: <8091f6e8-b1ec-f017-1430-00b0255729f4@redhat.com>
+ <effa5e32-be1e-4703-4419-8866b7754e2d@redhat.com>
+ <74D8A39837DF1E4DA445A8C0B3885C503F75B680@shsmsx102.ccr.corp.intel.com>
+ <047801f8-624a-2300-3cf7-1daa1395ce59@redhat.com>
+ <99219f81-33a3-f447-95f8-f10341d70084@redhat.com>
+ <6f8b9507-58d0-5fbd-b827-c7194b3b2948@redhat.com>
+ <74D8A39837DF1E4DA445A8C0B3885C503F75FAD3@shsmsx102.ccr.corp.intel.com>
+ <7cb458ea-956e-c1df-33f7-025e4f0f22df@redhat.com>
+ <74D8A39837DF1E4DA445A8C0B3885C503F7600B9@shsmsx102.ccr.corp.intel.com>
+ <bb6fdbe0-2a3b-e586-e9a5-93e1ac0803ec@redhat.com>
+ <20190816161933.7d30a881@x1.home>
+ <74D8A39837DF1E4DA445A8C0B3885C503F761B96@shsmsx102.ccr.corp.intel.com>
+ <35396800-32d2-c25f-b0d0-2d7cd8438687@redhat.com>
+ <D2A45071-A097-4642-A34C-6B7C5D7D2466@intel.com>
+ <E92EE9817A31E24EB0585FDF735412F5B9D9C671@ORSMSX113.amr.corp.intel.com>
+ <a76014e2-2f0a-afce-6d15-1c45c5c1e467@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <b3907432-b149-3f96-6d93-f443f215e0f8@redhat.com>
+Date: Thu, 22 Aug 2019 19:59:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Thu, 22 Aug 2019 10:59:07
- -0700 (PDT)
-Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Thu, 22 Aug 2019 10:59:07
- -0700 (PDT)
-In-Reply-To: <CAL1e-=iZziwdyjJeaE-ZC2Rbjdmr_enYGBdK5zs4Lh0kN1DQOg@mail.gmail.com>
-References: <1564760158-27536-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <CAL1e-=hWc6G7Ob+LU7EWoY3LVBvABY2ky=RT28dSzqM=9O=OEA@mail.gmail.com>
- <20190821210030.GH7077@habkost.net>
- <CAL1e-=iZziwdyjJeaE-ZC2Rbjdmr_enYGBdK5zs4Lh0kN1DQOg@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 22 Aug 2019 19:59:07 +0200
-Message-ID: <CAL1e-=gf-DOrdfN__Bxbx+B5NKu71ZTCypGEekoFc05WDaQjbw@mail.gmail.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH 0/2] tests/acceptance: Update MIPS Malta
- ssh test
+In-Reply-To: <a76014e2-2f0a-afce-6d15-1c45c5c1e467@redhat.com>
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Thu, 22 Aug 2019 17:59:59 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [edk2-rfc] [edk2-devel] CPU hotplug using SMM with
+ QEMU+OVMF
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,95 +77,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, f4bug@amsat.org, qemu-devel@nongnu.org,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, amarkovic@wavecomp.com,
- crosa@redhat.com
+Cc: "Chen, Yingwen" <yingwen.chen@intel.com>,
+ "devel@edk2.groups.io" <devel@edk2.groups.io>,
+ Phillip Goerl <phillip.goerl@oracle.com>,
+ qemu devel list <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>, "Nakajima,
+ Jun" <jun.nakajima@intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Joao Marcal Lemos Martins <joao.m.martins@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.08.2019. 05.15, "Aleksandar Markovic" <aleksandar.m.mail@gmail.com> =D1=
-=98=D0=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
->
-> 21.08.2019. 23.00, "Eduardo Habkost" <ehabkost@redhat.com> =D1=98=D0=B5 =
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
-> >
-> > On Wed, Aug 21, 2019 at 10:27:11PM +0200, Aleksandar Markovic wrote:
-> > > 02.08.2019. 17.37, "Aleksandar Markovic" <
-aleksandar.markovic@rt-rk.com> =D1=98=D0=B5
-> > > =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
-> > > >
-> > > > From: Aleksandar Markovic <amarkovic@wavecomp.com>
-> > > >
-> > > > This little series improves linux_ssh_mips_malta.py, both in the
-sense
-> > > > of code organization and in the sense of quantity of executed tests=
-.
-> > > >
-> > >
-> > > Hello, all.
-> > >
-> > > I am going to send a new version in few days, and I have a question
-for
-> > > test team:
-> > >
-> > > Currently, the outcome of the script execition is either PASS:1
-FAIL:0 or
-> > > PASS:0 FAIL:1. But the test actually consists of several subtests. Is
-there
-> > > any way that this single Python script considers these subtests as
-separate
-> > > tests (test cases), reporting something like PASS:12 FAIL:7? If yes,
-what
-> > > would be the best way to achieve that?
-> >
-> > If you are talking about each test_*() method, they are already
-> > treated like separate tests.  If you mean treating each
-> > ssh_command_output_contains() call as a separate test, this might
-> > be difficult.
-> >
->
-> Yes, I meant the latter one, individual code segments involving an
-invocation of ssh_command_output_contains() instance being treated as
-separate tests.
->
+On 08/21/19 19:05, Paolo Bonzini wrote:
+> On 21/08/19 17:48, Kinney, Michael D wrote:
+>> Perhaps there is a way to avoid the 3000:8000 startup
+>> vector.
+>>
+>> If a CPU is added after a cold reset, it is already in a
+>> different state because one of the active CPUs needs to
+>> release it by interacting with the hot plug controller.
+>>
+>> Can the SMRR for CPUs in that state be pre-programmed to
+>> match the SMRR in the rest of the active CPUs?
+>>
+>> For OVMF we expect all the active CPUs to use the same
+>> SMRR value, so a check can be made to verify that all 
+>> the active CPUs have the same SMRR value.  If they do,
+>> then any CPU released through the hot plug controller 
+>> can have its SMRR pre-programmed and the initial SMI
+>> will start within TSEG.
+>>
+>> We just need to decide what to do in the unexpected 
+>> case where all the active CPUs do not have the same
+>> SMRR value.
+>>
+>> This should also reduce the total number of steps.
+> 
+> The problem is not the SMRR but the SMBASE.  If the SMBASE area is
+> outside TSEG, it is vulnerable to DMA attacks independent of the SMRR.
+> SMBASE is also different for all CPUs, so it cannot be preprogrammed.
 
-Hello, Cleber,
+The firmware and QEMU could agree on a formula, which would compute the
+CPU-specific SMBASE from a value pre-programmed by the firmware, and the
+initial APIC ID of the hot-added CPU.
 
-I am willing to rewamp python file structure if needed.
+Yes, it would duplicate code -- the calculation -- between QEMU and
+edk2. While that's not optimal, it wouldn't be a first.
 
-The only thing I feel a little unconfortable is if I need to reboot the
-virtual machine for each case of ssh_command_output_contains().
+Thanks
+Laszlo
 
-Grateful in advance,
-Aleksandar
-
-> > Cleber, is there something already available in the Avocado API
-> > that would help us report more fine-grained results inside each
-> > test case?
-> >
->
-> Thanks, that would be a better way of expressing my question.
->
-> >
-> > >
-> > > Thanks in advance,
-> > > Aleksandar
-> > >
-> > > > Aleksandar Markovic (2):
-> > > >   tests/acceptance: Refactor and improve reporting in
-> > > >     linux_ssh_mips_malta.py
-> > > >   tests/acceptance: Add new test cases in linux_ssh_mips_malta.py
-> > > >
-> > > >  tests/acceptance/linux_ssh_mips_malta.py | 81
-> > > ++++++++++++++++++++++++++------
-> > > >  1 file changed, 66 insertions(+), 15 deletions(-)
-> > > >
-> > > > --
-> > > > 2.7.4
-> > > >
-> > > >
-> >
-> > --
-> > Eduardo
