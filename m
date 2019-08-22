@@ -2,51 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26973991EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 13:17:50 +0200 (CEST)
-Received: from localhost ([::1]:40954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B04DB991F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 13:19:49 +0200 (CEST)
+Received: from localhost ([::1]:40976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0l6C-0004mE-N3
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 07:17:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53543)
+	id 1i0l88-0006Sp-Oe
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 07:19:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53921)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i0l4m-0003nn-A6
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:16:21 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1i0l66-0005GB-Fw
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:17:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i0l4k-00050I-N1
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:16:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33778)
+ (envelope-from <anthony.perard@citrix.com>) id 1i0l65-00062o-6t
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:17:42 -0400
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:44362)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1i0l4h-0004wl-Hp; Thu, 22 Aug 2019 07:16:15 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C2D0F69081;
- Thu, 22 Aug 2019 11:16:14 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6D8160603;
- Thu, 22 Aug 2019 11:16:10 +0000 (UTC)
-Date: Thu, 22 Aug 2019 12:16:08 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Message-ID: <20190822111608.GN3267@redhat.com>
-References: <20190814202219.1870-1-mlevitsk@redhat.com>
- <20190814202219.1870-9-mlevitsk@redhat.com>
+ (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
+ id 1i0l64-000617-Fp
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:17:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1566472661;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=cdC/+XCF8A4lCfmd72kiRwi9Nh8c5EpDpeHakVk7NDc=;
+ b=cuAJrhDAp0jDoytSloO0hc6UHk2xsD/21IlVk7AGRbWnkH4r0X3Ebwe/
+ 0YORgZlPsjJFjnUlJqKsc1vT6fBy8AVzLpgdGNYBo7EU4jo+IzCySpR9w
+ pyViE0JNgeV567rTZfCFAHH0Zcu9W1acnF2rDVZXJ/KtzJn1+m+5/n8Tw 8=;
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=anthony.perard@citrix.com;
+ spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ anthony.perard@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa3.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible
+Received-SPF: Pass (esa3.hc3370-68.iphmx.com: domain of
+ anthony.perard@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa3.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
+Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa3.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: ahKcjPonF7nN3SGQWWXY8ZrFBzs8BrcW5o0qDNPXsGQWdKWxesJGJkVhIyaAjhiO9zqmHY6Jrr
+ ySdPW0fAKug7ljQLWKcoUL96DZI92V1jQktjtSGyNpP5IKsO2lVjMtDdtGwoCQMTZCZT9eVQZd
+ VdooDKlIP4KW/FcrO+zofrPkUXDY7nI4yzen8KuUrUfQut83PXC/IxdpPT6W2xAMhe1PqKXHBX
+ 61R8FHTxbVfDXI08lpyfLQB2fE8cPW1a/T6tNtxocCeyhLjKcJWT/zyeR/DrRaMEPOo0c3hzp5
+ J+o=
+X-SBRS: 2.7
+X-MesageID: 4591279
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.64,416,1559534400"; 
+   d="scan'208";a="4591279"
+Date: Thu, 22 Aug 2019 12:17:30 +0100
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: Paul Durrant <Paul.Durrant@citrix.com>
+Message-ID: <20190822111730.GK1289@perard.uk.xensource.com>
+References: <20190821092020.17952-1-anthony.perard@citrix.com>
+ <20190821092020.17952-3-anthony.perard@citrix.com>
+ <703d5a46d4c74eb4afd93d76b7341efc@AMSPEX02CL03.citrite.net>
+ <20190822102132.GJ1289@perard.uk.xensource.com>
+ <b63f378211d8451d8267f83f0922138e@AMSPEX02CL03.citrite.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20190814202219.1870-9-mlevitsk@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Thu, 22 Aug 2019 11:16:14 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 08/13] qcrypto: add the plumbing for
- encryption management
+In-Reply-To: <b63f378211d8451d8267f83f0922138e@AMSPEX02CL03.citrite.net>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.145.155
+Subject: Re: [Qemu-devel] [PATCH 2/2] xen-bus: Avoid rewriting identical
+ values to xenstore
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,145 +100,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 14, 2019 at 11:22:14PM +0300, Maxim Levitsky wrote:
-> This adds qcrypto_block_manage_encryption, which
->  is thin wrapper around manage_encryption of the crypto driver
->  which is also added
-> 
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  crypto/block.c         | 29 +++++++++++++++++++++++++++++
->  crypto/blockpriv.h     |  9 +++++++++
->  include/crypto/block.h | 27 +++++++++++++++++++++++++++
->  3 files changed, 65 insertions(+)
-> 
-> diff --git a/crypto/block.c b/crypto/block.c
-> index ee96759f7d..5916e49aba 100644
-> --- a/crypto/block.c
-> +++ b/crypto/block.c
-> @@ -20,6 +20,7 @@
->  
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
-> +
->  #include "blockpriv.h"
->  #include "block-qcow.h"
->  #include "block-luks.h"
-> @@ -282,6 +283,34 @@ void qcrypto_block_free(QCryptoBlock *block)
->  }
->  
->  
-> +int qcrypto_block_setup_encryption(QCryptoBlock *block,
-> +                                   QCryptoBlockReadFunc readfunc,
-> +                                   QCryptoBlockWriteFunc writefunc,
-> +                                   void *opaque,
-> +                                   enum BlkSetupEncryptionAction action,
-> +                                   QCryptoEncryptionSetupOptions *options,
-> +                                   bool force,
-> +                                   Error **errp)
-> +{
-> +    if (!block->driver->setup_encryption) {
-> +        error_setg(errp,
-> +                "Crypto format %s doesn't support management of encryption keys",
-> +                QCryptoBlockFormat_str(block->format));
-> +        return -1;
-> +    }
-> +
-> +    return block->driver->setup_encryption(block,
-> +                                           readfunc,
-> +                                           writefunc,
-> +                                           opaque,
-> +                                           action,
-> +                                           options,
-> +                                           force,
-> +                                           errp);
-> +}
-> +
-> +
-> +
->  typedef int (*QCryptoCipherEncDecFunc)(QCryptoCipher *cipher,
->                                          const void *in,
->                                          void *out,
-> diff --git a/crypto/blockpriv.h b/crypto/blockpriv.h
-> index 71c59cb542..804965dca3 100644
-> --- a/crypto/blockpriv.h
-> +++ b/crypto/blockpriv.h
-> @@ -81,6 +81,15 @@ struct QCryptoBlockDriver {
->  
->      bool (*has_format)(const uint8_t *buf,
->                         size_t buflen);
-> +
-> +    int (*setup_encryption)(QCryptoBlock *block,
-> +                            QCryptoBlockReadFunc readfunc,
-> +                            QCryptoBlockWriteFunc writefunc,
-> +                            void *opaque,
-> +                            enum BlkSetupEncryptionAction action,
-> +                            QCryptoEncryptionSetupOptions *options,
-> +                            bool force,
-> +                            Error **errp);
->  };
->  
->  
-> diff --git a/include/crypto/block.h b/include/crypto/block.h
-> index fe12899831..60d46e3efc 100644
-> --- a/include/crypto/block.h
-> +++ b/include/crypto/block.h
-> @@ -23,6 +23,7 @@
->  
->  #include "crypto/cipher.h"
->  #include "crypto/ivgen.h"
-> +#include "block/block.h"
->  
->  typedef struct QCryptoBlock QCryptoBlock;
->  
-> @@ -268,4 +269,30 @@ uint64_t qcrypto_block_get_sector_size(QCryptoBlock *block);
->   */
->  void qcrypto_block_free(QCryptoBlock *block);
->  
-> +
-> +/**
-> + * qcrypto_block_setup_encryption:
-> + * @block: the block encryption object
-> + *
-> + * @readfunc: callback for reading data from the volume header
-> + * @writefunc: callback for writing data to the volume header
-> + * @opaque: data to pass to @readfunc and @writefunc
-> + * @action: tell the driver the setup action (add/erase currently)
-> + * @options: driver specific options, that specify
-> + *           what encryption settings to manage
-> + * @force: hint for the driver to allow unsafe operation
-> + * @errp: error pointer
-> + *
-> + * Adds/Erases a new encryption key using @options
+On Thu, Aug 22, 2019 at 11:36:32AM +0100, Paul Durrant wrote:
+> But, now I look at the code again without your patch applied I don't actually see the problem it is trying to fix. The functions xen_device_[back|front]end_set_state return early if the state being set matches the existing state and hence never get to the line where the state is written to xenstore.
 
-I'd prefer to see separate APIs for add + erase instead
-of overloading. It'll lead to a clearer API from callers
-POV to see exactly which parameters are for each action.
+Let's see:
+    * step 1 (initial states in xenstore and QEMU)
+        xenstore/frontend/state = 4
+        xendev->frontend_state = 4
+    * step 2 (frontend changes state in xenstore)
+        xenstore/frontend/state = 5
+    * step 3 (watch event received by QEMU)
+        xen_device_frontend_changed()
+            state = read(xenstore/frontend/state) (state=5)
+            xen_device_frontend_set_state(state)
+                xendev->frontend_state != state  (4!=5)
+                    xendev->frontend_state = state
+                    xenstore/frontend/state = state
+    * step 4
+        # watch event triggers xen_device_frontend_changed() again but
+        # this time xendev->frontend_state == xenstore/frontend_state
 
-> + *
-> + */
-> +int qcrypto_block_setup_encryption(QCryptoBlock *block,
-> +                                   QCryptoBlockReadFunc readfunc,
-> +                                   QCryptoBlockWriteFunc writefunc,
-> +                                   void *opaque,
-> +                                   enum BlkSetupEncryptionAction action,
-> +                                   QCryptoEncryptionSetupOptions *options,
-> +                                   bool force,
-> +                                   Error **errp);
-> +
+This is how QEMU writes to xenstore an identical value.
 
-Regards,
-Daniel
+That behavior might be an issue if the frontend changes the value after
+QEMU have read it but before QEMU writes it again.
+
+Also, it's nice to avoid extra work.
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Anthony PERARD
 
