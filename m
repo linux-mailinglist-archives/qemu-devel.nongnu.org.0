@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92254997EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 17:19:53 +0200 (CEST)
-Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2350599810
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 17:22:28 +0200 (CEST)
+Received: from localhost ([::1]:44430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0osS-0006Tz-Gs
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 11:19:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43576)
- by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1i0onZ-00053v-HK
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 11:14:50 -0400
+	id 1i0oux-0002CB-9j
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 11:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43641)
+ by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
+ <3bLFeXQYKCjspXjbfadlldib.Zljnbjr-absbiklkdkr.lod@flex--sameid.bounces.google.com>)
+ id 1i0onf-0005AO-St
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 11:14:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1i0onY-0006ER-EJ
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 11:14:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:7981)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1i0onS-00066O-77; Thu, 22 Aug 2019 11:14:42 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EF9ED10F23E2;
- Thu, 22 Aug 2019 15:14:40 +0000 (UTC)
-Received: from [10.36.116.105] (ovpn-116-105.ams2.redhat.com [10.36.116.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F3E660925;
- Thu, 22 Aug 2019 15:14:34 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190711061857.13086-1-eric.auger@redhat.com>
- <20190711061857.13086-4-eric.auger@redhat.com>
- <CAFEAcA_=Rz5f8RvZU7kjKXhM5sHKFDujoMRTuzanrauP3ChPVA@mail.gmail.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <778a20c0-7e59-7936-80d2-e245a948c00c@redhat.com>
-Date: Thu, 22 Aug 2019 17:14:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_=Rz5f8RvZU7kjKXhM5sHKFDujoMRTuzanrauP3ChPVA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Thu, 22 Aug 2019 15:14:41 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH-for-4.2 v3 3/5] hw/vfio/common: Assert in
- case of nested mode
+ (envelope-from
+ <3bLFeXQYKCjspXjbfadlldib.Zljnbjr-absbiklkdkr.lod@flex--sameid.bounces.google.com>)
+ id 1i0one-0006NS-TD
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 11:14:55 -0400
+Received: from mail-yw1-xc49.google.com ([2607:f8b0:4864:20::c49]:51984)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from
+ <3bLFeXQYKCjspXjbfadlldib.Zljnbjr-absbiklkdkr.lod@flex--sameid.bounces.google.com>)
+ id 1i0one-0006JF-Ot
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 11:14:54 -0400
+Received: by mail-yw1-xc49.google.com with SMTP id k191so4171555ywe.18
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 08:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:in-reply-to:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=wlvDxBQ972exh1gGCGmWB631I1DcazNGMFBKHGlswO0=;
+ b=Px2TRvmazu2AtBt3h/bnP0Ns7fe3hle5QzoUw4vsZjnUFpyNV/bSSJnILTagkJFTpA
+ AEo1OL1GOONzgDNpBu+kmXXgi0CXtEOlyjMFRDcXz6kKmyG6QjromfRlJrv3yh9k3CJo
+ kuF58uJO1jGL/v7KSQCIbACEz1bkNyYNeiHihuRN1w/9wNB6XQYWnXuMjrUjpMUdbX9w
+ xss4Y7BKlsh4FGJjmMGYYP5trr3gOBp7kwFR65KnpXQYjX699Ynk9E7HBrZMWk/xSaDV
+ 531E7SJObIsq0xb/F42O30LL9dzcgEKVgXG95l0X5yErfA6WILCMV3f9iP9ZGo1dEdqQ
+ E5Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version:subject
+ :from:to:cc:content-transfer-encoding;
+ bh=wlvDxBQ972exh1gGCGmWB631I1DcazNGMFBKHGlswO0=;
+ b=tnOgy42+NDbUPfqBaNXgsqIX7BZQK6TwBTKTylxykQp4MsPbK72Dzy6PP52DYGatch
+ YSZTiAutrup1BHUPw4+HTsGyAJL/Fz9yAoj6I0FmAWuhWBbAggSvW2f8YvtCj7B/oML4
+ eqjDdtoaoWcGJxyHminhY6teZRfKz3lHOc0B7c+wzha/VUpwYIYhXAHpnVzkFyIG0YLn
+ FY0O92erFeRbsCG2w/itzXPjy/Ming5o3WVYQf2Jm0t2FCvPNI4w1iGkEGTSblVeytvM
+ iO86/LNOioM9nGUBKOmQi8jciCeErQ7hCIn3eMrcAjlA/RysunEY1EM6km9diIkoyvjp
+ OtxA==
+X-Gm-Message-State: APjAAAWzPWPyOne1sqllKDYiQcQQkK3WI7oihyGZqfqOX1+ppx2Nm6m5
+ 3659l3EuAHqozUBwSwfrWPAcwLB+GUQ=
+X-Google-Smtp-Source: APXvYqyHRaPqf9uGyVFJL6EMn7LqDbxl5LBmkYC3fZCFyK63/pwem3XUXbkB/E9Jxt6m8cqjTBQuIsG6vj4=
+X-Received: by 2002:a81:7045:: with SMTP id l66mr25009244ywc.284.1566486892251; 
+ Thu, 22 Aug 2019 08:14:52 -0700 (PDT)
+Date: Thu, 22 Aug 2019 18:13:58 +0300
+In-Reply-To: <a4e72a67-4107-4cbb-10e6-6a77011f34ce@redhat.com>
+Message-Id: <20190822151358.6094-1-sameid@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
+To: Sam Eiderman <sameid@google.com>, kwolf@redhat.com, qemu-block@nongnu.org, 
+ qemu-devel@nongnu.org, seabios@seabios.org, kraxel@redhat.com, 
+ kevin@koconnor.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::c49
+X-Mailman-Approved-At: Thu, 22 Aug 2019 11:19:00 -0400
+Subject: Re: [Qemu-devel] [QEMU] [PATCH v5 3/8] bootdevice: Add interface to
+ gather LCHS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,68 +80,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
+From: Sam Eiderman via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Sam Eiderman <sameid@google.com>
+Cc: liran.alon@oracle.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-On 8/5/19 4:41 PM, Peter Maydell wrote:
-> On Thu, 11 Jul 2019 at 07:19, Eric Auger <eric.auger@redhat.com> wrote:
->>
->> As of today, VFIO only works along with vIOMMU supporting
->> caching mode. The SMMUv3 does not support this mode and
->> requires HW nested paging to work properly with VFIO.
->>
->> So any attempt to run a VFIO device protected by such IOMMU
->> would prevent the assigned device from working and at the
->> moment the guest does not even boot as the default
->> memory_region_iommu_replay() implementation attempts to
->> translate the whole address space and completely stalls
->> the execution.
->>
->> So let's assert if we recognize nested mode case.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> ---
->>  hw/vfio/common.c | 8 ++++++++
->>  1 file changed, 8 insertions(+)
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index a859298fda..d622191fe6 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -604,9 +604,17 @@ static void vfio_listener_region_add(MemoryListener *listener,
->>      if (memory_region_is_iommu(section->mr)) {
->>          VFIOGuestIOMMU *giommu;
->>          IOMMUMemoryRegion *iommu_mr = IOMMU_MEMORY_REGION(section->mr);
->> +        bool nested;
->>          int iommu_idx;
->>
->>          trace_vfio_listener_region_add_iommu(iova, end);
->> +
->> +        if (!memory_region_iommu_get_attr(iommu_mr, IOMMU_ATTR_VFIO_NESTED,
->> +                                          (void *)&nested) && nested) {
->> +            error_report("VFIO/vIOMMU integration based on HW nested paging "
->> +                         "is not yet supported");
->> +            abort();
->> +        }
->>          /*
->>           * FIXME: For VFIO iommu types which have KVM acceleration to
->>           * avoid bouncing all map/unmaps through qemu this way, this
-> 
-> Other failure paths in this function mostly seem to do an
-> error_report() and return (apart from the one call to hw_error()
-> at the bottom of the function). Is an abort() OK here?
+> I=E2=80=99ve got a couple of =E2=80=9Cundelivered mail returned to sender=
+=E2=80=9D mails for Sam
+> recently, but anyway...
 
-Yes I should rather jump to the fail label instead.
+- shmuel.eiderman@oracle.com
++ sameid@google.com
 
-Thanks!
+> It doesn=E2=80=99t look like any caller actually passes a NULL @dev, so w=
+hy not
+> drop the @suffix part?
 
-Eric
-> 
-> thanks
-> -- PMM
-> 
+Just copied it from the bootindex implementation.
+I think the suffix part there was implemented specifically for fdc since
+the same device can have two suffixes (A and B).
+This is not relavant here, but I think we still need the suffix to
+create the device name for seabios to find.
+
+Sam
+
 
