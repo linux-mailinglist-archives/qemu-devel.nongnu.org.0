@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F770990B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 12:26:55 +0200 (CEST)
-Received: from localhost ([::1]:40170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A6A990B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 12:28:49 +0200 (CEST)
+Received: from localhost ([::1]:40194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0kIw-0001iy-B5
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 06:26:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33030)
+	id 1i0kKl-0004tA-47
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 06:28:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1i0kDs-0006UM-F3
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:42 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i0kGk-0001j2-Gx
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:24:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1i0kDq-00067M-N1
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:39 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:50999)
+ (envelope-from <pbonzini@redhat.com>) id 1i0kGj-0000a8-0v
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:24:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39396)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1i0kDq-00065J-AH
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1566469298;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ACOh+i3gv8PzYL3XFZAieidQktGCmDPIEGdnisp9ERY=;
- b=ctL2EwsV893jXDAUmelKdkshjPzz0R0BmO1V6DXuQUNgalToVzweDOjE
- S3e3K/zkxUM56wD59f+d/evh6awhq2UAAVeBMuVxhVfE6lMh45ty7qd4I
- eRmOeruBK0f54gYPxraqzaA64DXuoRLnywvn7D6hmwmVQFFTU2Qmhe3n6 Y=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=anthony.perard@citrix.com;
- spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible
-Received-SPF: Pass (esa6.hc3370-68.iphmx.com: domain of
- anthony.perard@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: D1NoZ3g0AHTrPmIHnWiKYpuicwaO0A50jzUceLYneLusE+ly/gcQ9IIA7cdTBWbapHAvdh/8bz
- JaFVTfbTq4MaK7GpIfdTvLzI90zY4sgI87qqF1PJAOVkF150XpfRjxVj9uPvELKEG92EmbPPMe
- prvX3ChSkSFbQtCzhtwo/L4xljrjDBr4NdD88F740EbWEhCJRK/1T5fJyY3qy3VxPpGy0HEK6O
- pKM26AR+sCkh6WO30yO4Sa/EhEK7goR80IiTfpjdvuIZa5gnqbgaNadGG4MuObT+F9C1CrLh/O
- Ygw=
-X-SBRS: 2.7
-X-MesageID: 4792433
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.64,416,1559534400"; 
-   d="scan'208";a="4792433"
-Date: Thu, 22 Aug 2019 11:21:32 +0100
-From: Anthony PERARD <anthony.perard@citrix.com>
-To: Paul Durrant <Paul.Durrant@citrix.com>
-Message-ID: <20190822102132.GJ1289@perard.uk.xensource.com>
-References: <20190821092020.17952-1-anthony.perard@citrix.com>
- <20190821092020.17952-3-anthony.perard@citrix.com>
- <703d5a46d4c74eb4afd93d76b7341efc@AMSPEX02CL03.citrite.net>
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0kGi-0000ZW-RW
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:24:36 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A4AD02D0FCE
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 10:24:35 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id d64so2762167wmc.7
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 03:24:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gFuSvWt36Q6iT39X+6eI17hmIDTYdDFgkEmhvb7j5uM=;
+ b=jR7cgCD37UT4JMuSdGqLm8IBsMz6pjPAbC2P3w4/eTG5RWnFbyDuyITAc4WjuF45qg
+ A/UWrg58uZQ7wUSSL6kpgtKjrQW6+LH6mvdA031ihsGvVmvGqCXNJ89BiZu8MQhtKmbq
+ 19UDLjqRkR368PsIbw+g5qAI+E2Oj0eJw9GiS02E5TGZA5js+/ZLZTaAjGiIA6VqyQzG
+ sz+R9Rii1gN8qh4cW9AQ2rIrzL/5er8kn26Tjo4sFqKrHjD1UY++j06jxPKzTjxQaMcE
+ usJRfjHrtKosrV8PHE20FOSYEDZiSvUwTcrnOs6jso+P3jOum3cuuTXTASKmV1sCxeCH
+ kyyg==
+X-Gm-Message-State: APjAAAUf7J4q5II3lkzF3NEhO7kuMA969sY7IRd5YijZTEaeyh43B+0I
+ ztJbCt8r+pvc+zRL1VqerhsajWAG8+i2j0ZqA8J1/O3TCqSJsO3D4Ohqrk9840oXhzzI+nB8fYs
+ LKUNBg8EuLeAKWLU=
+X-Received: by 2002:adf:ef05:: with SMTP id e5mr46565394wro.158.1566469474224; 
+ Thu, 22 Aug 2019 03:24:34 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyQzjBu6sZF7eQ6Ao50+rGb1S8fxCZ+AJ3TXd2tqWkzD/4BnrdxXAvaTxf1+5nCFCRWwlfZfw==
+X-Received: by 2002:adf:ef05:: with SMTP id e5mr46565352wro.158.1566469473900; 
+ Thu, 22 Aug 2019 03:24:33 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:21b9:ff1f:a96c:9fb3?
+ ([2001:b07:6468:f312:21b9:ff1f:a96c:9fb3])
+ by smtp.gmail.com with ESMTPSA id 4sm46502044wro.78.2019.08.22.03.24.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Aug 2019 03:24:33 -0700 (PDT)
+To: Wei Yang <richardw.yang@linux.intel.com>, qemu-devel@nongnu.org
+References: <20190321082555.21118-1-richardw.yang@linux.intel.com>
+ <20190321082555.21118-3-richardw.yang@linux.intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <d5fb9e01-acb9-06ab-edf9-57e2b80bd880@redhat.com>
+Date: Thu, 22 Aug 2019 12:24:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <703d5a46d4c74eb4afd93d76b7341efc@AMSPEX02CL03.citrite.net>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.155.175
-Subject: Re: [Qemu-devel] [PATCH 2/2] xen-bus: Avoid rewriting identical
- values to xenstore
+In-Reply-To: <20190321082555.21118-3-richardw.yang@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 2/6] exec.c: remove an unnecessary assert
+ on PHYS_MAP_NODE_NIL in phys_map_node_alloc()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,110 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: rth@twiddle.net, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 21, 2019 at 04:40:05PM +0100, Paul Durrant wrote:
-> > -----Original Message-----
-> > From: Anthony PERARD <anthony.perard@citrix.com>
-> > Sent: 21 August 2019 10:20
-> > To: qemu-devel@nongnu.org
-> > Cc: Anthony Perard <anthony.perard@citrix.com>; Stefano Stabellini <sstabellini@kernel.org>; Paul
-> > Durrant <Paul.Durrant@citrix.com>; xen-devel@lists.xenproject.org
-> > Subject: [PATCH 2/2] xen-bus: Avoid rewriting identical values to xenstore
-> > 
-> > When QEMU receive a xenstore watch event suggesting that the "state" or
-> > "online" status of the frontend or the backend changed, it record this
-> > in its own state but it also re-write the value back into xenstore even
-> > so there were no changed. This trigger an unnecessary xenstore watch
-> > event which QEMU will process again (and maybe the frontend as well).
-> > 
-> > Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-> > ---
-> >  hw/xen/xen-bus.c | 37 ++++++++++++++++++++++++-------------
-> >  1 file changed, 24 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
-> > index 982eca4533..c83f07424a 100644
-> > --- a/hw/xen/xen-bus.c
-> > +++ b/hw/xen/xen-bus.c
-> > @@ -481,20 +481,27 @@ static int xen_device_backend_scanf(XenDevice *xendev, const char *key,
-> >      return rc;
-> >  }
-> > 
-> > -void xen_device_backend_set_state(XenDevice *xendev,
-> > -                                  enum xenbus_state state)
-> > +static bool xen_device_backend_record_state(XenDevice *xendev,
-> > +                                            enum xenbus_state state)
-> >  {
-> >      const char *type = object_get_typename(OBJECT(xendev));
-> > 
-> >      if (xendev->backend_state == state) {
-> > -        return;
-> > +        return false;
-> >      }
-> > 
-> >      trace_xen_device_backend_state(type, xendev->name,
-> >                                     xs_strstate(state));
-> > 
-> >      xendev->backend_state = state;
-> > -    xen_device_backend_printf(xendev, "state", "%u", state);
-> > +    return true;
-> > +}
-> > +
-> > +void xen_device_backend_set_state(XenDevice *xendev,
-> > +                                  enum xenbus_state state)
-> > +{
-> > +    if (xen_device_backend_record_state(xendev, state))
-> > +        xen_device_backend_printf(xendev, "state", "%u", state);
-> >  }
-> > 
-> >  enum xenbus_state xen_device_backend_get_state(XenDevice *xendev)
-> > @@ -502,7 +509,8 @@ enum xenbus_state xen_device_backend_get_state(XenDevice *xendev)
-> >      return xendev->backend_state;
-> >  }
-> > 
-> > -static void xen_device_backend_set_online(XenDevice *xendev, bool online)
-> > +static void xen_device_backend_set_online(XenDevice *xendev, bool online,
-> > +                                          bool export)
-> >  {
-> >      const char *type = object_get_typename(OBJECT(xendev));
-> > 
-> > @@ -513,7 +521,8 @@ static void xen_device_backend_set_online(XenDevice *xendev, bool online)
-> >      trace_xen_device_backend_online(type, xendev->name, online);
-> > 
-> >      xendev->backend_online = online;
-> > -    xen_device_backend_printf(xendev, "online", "%u", online);
-> > +    if (export)
-> > +        xen_device_backend_printf(xendev, "online", "%u", online);
-> >  }
-> >
+On 21/03/19 09:25, Wei Yang wrote:
+> PHYS_MAP_NODE_NIL is assigned to PhysPageEntry.ptr in case this is not a
+> leaf entry, while map->nodes_nb range in [0, nodes_nb_alloc).
 > 
-> Perhaps the behaviour of backend_set_state() and backend_set_online() could be the same? I.e. they both take an 'export' (or perhaps 'publish'?) parameter and only write xenstore if that is true. (I realise that would involve modifying xen-block to pass 'true' as the extra export/publish param, but I think it would be neater overall).
+> Seems we are asserting on two different things, just remove it.
 
-I've actually did it this way for backend_set_state() because the only
-reason to update internal states without writing that state into
-xenstore is because the xenstore state changed, so
-{front,back}end_changed() are the only function that don't want/need to
-write the new state into xenstore. I wanted to avoid misuse of the
-extra export/publish param in future backend drivers.
+The assertion checks that this "if" is not entered incorrectly:
 
-As for frontend_set_state() and backend_set_online(), they are only used
-in xen-bus.c, creating a new function didn't seems as needed.
+    if (lp->skip && lp->ptr == PHYS_MAP_NODE_NIL) {
+        lp->ptr = phys_map_node_alloc(map, level == 0);
+    }
 
-I kind of think that maybe I should go further and also have
-frontend_record_state() is it could be possible to have frontend drivers
-in QEMU. (and maybe record_online so they all looks the same.)
+Paolo
 
-So, would you prefer to have the extra param to *_set_*() that should be
-"true" outside of *_changed(), or the extra functions like I did with
-backend_{set,record}_state() ?
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> ---
+>  exec.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/exec.c b/exec.c
+> index 98ebd0dd1d..8e8b6bb1f9 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -242,7 +242,6 @@ static uint32_t phys_map_node_alloc(PhysPageMap *map, bool leaf)
+>  
+>      ret = map->nodes_nb++;
+>      p = map->nodes[ret];
+> -    assert(ret != PHYS_MAP_NODE_NIL);
+>      assert(ret != map->nodes_nb_alloc);
+>  
+>      e.skip = leaf ? 0 : 1;
+> 
 
-Thanks,
-
--- 
-Anthony PERARD
 
