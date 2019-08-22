@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F9199633
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 16:19:00 +0200 (CEST)
-Received: from localhost ([::1]:43746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 160B99964A
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 16:21:06 +0200 (CEST)
+Received: from localhost ([::1]:43794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0nvW-00042H-Ns
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 10:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54661)
+	id 1i0nxZ-0007dw-6O
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 10:21:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55423)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i0ntb-0002L5-JY
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:17:02 -0400
+ (envelope-from <berrange@redhat.com>) id 1i0nw1-0006Sl-3h
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:19:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i0ntZ-0005tL-G3
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:16:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43830)
+ (envelope-from <berrange@redhat.com>) id 1i0nvz-00078q-Tl
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:19:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50750)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i0ntZ-0005sP-7H
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:16:57 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>)
+ id 1i0nvx-00077n-A0; Thu, 22 Aug 2019 10:19:25 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C955B308FC4B;
- Thu, 22 Aug 2019 14:16:55 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AA875DC1E;
- Thu, 22 Aug 2019 14:16:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CF6681162B63; Thu, 22 Aug 2019 16:16:53 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-References: <20190822011620.106337-1-aik@ozlabs.ru>
-Date: Thu, 22 Aug 2019 16:16:53 +0200
-In-Reply-To: <20190822011620.106337-1-aik@ozlabs.ru> (Alexey Kardashevskiy's
- message of "Thu, 22 Aug 2019 11:16:20 +1000")
-Message-ID: <87wof5b7ze.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9DCAF10C6960;
+ Thu, 22 Aug 2019 14:19:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1E1688FD;
+ Thu, 22 Aug 2019 14:19:22 +0000 (UTC)
+Date: Thu, 22 Aug 2019 15:19:20 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Message-ID: <20190822141920.GU3267@redhat.com>
+References: <20190820104836.3093-1-quintela@redhat.com>
+ <20190820104836.3093-2-quintela@redhat.com>
+ <20190820105034.GG23352@redhat.com> <87mug4xezc.fsf@trasno.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Thu, 22 Aug 2019 14:16:56 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87mug4xezc.fsf@trasno.org>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Thu, 22 Aug 2019 14:19:24 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH qemu] qapi: Add query-memory-checksum
+Subject: Re: [Qemu-devel] [PATCH v3 1/5] socket: Add backlog parameter to
+ socket_listen
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,21 +60,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alexey Kardashevskiy <aik@ozlabs.ru> writes:
+On Tue, Aug 20, 2019 at 01:17:59PM +0200, Juan Quintela wrote:
+> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> > On Tue, Aug 20, 2019 at 12:48:32PM +0200, Juan Quintela wrote:
+> >> Current parameter was always one.  We continue with that value for n=
+ow
+> >> in all callers.
+> >>=20
+> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> >>=20
+> >> ---
+> >> Moved trace to socket_listen
+> >> ---
+> >>  include/qemu/sockets.h    |  2 +-
+> >>  io/channel-socket.c       |  2 +-
+> >>  qga/channel-posix.c       |  2 +-
+> >>  tests/test-util-sockets.c | 12 ++++++------
+> >>  util/qemu-sockets.c       | 33 ++++++++++++++++++++++-----------
+> >>  util/trace-events         |  3 +++
+> >>  6 files changed, 34 insertions(+), 20 deletions(-)
+> >
+> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>=20
+> Hi
+>=20
+> Everything is reviewed by you, and it is mostly socket code.  Should I
+> do the pull request, or are you doing it?
 
-> This returns MD5 checksum of all RAM blocks for migration debugging
-> as this is way faster than saving the entire RAM to a file and checking
-> that.
->
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+I'm fine if you want to send a PR, since this is ultimately about
+fixing migration problems.
 
-Any particular reason for MD5?  Have you measured the other choices
-offered by GLib?
 
-I understand you don't need crypto-strength here.  Both MD5 and SHA-1
-would be bad choices then.
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
