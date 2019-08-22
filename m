@@ -2,50 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94409989E
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 17:57:37 +0200 (CEST)
-Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C94D998C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 18:08:06 +0200 (CEST)
+Received: from localhost ([::1]:45112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0pSz-0006Jn-0g
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 11:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58679)
+	id 1i0pd7-00071g-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 12:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60178)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i0pQm-0005AZ-HU
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 11:55:21 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i0pVt-0000d5-Gx
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 12:00:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i0pQl-0005CG-Ab
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 11:55:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40544)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1i0pQl-0005B9-54; Thu, 22 Aug 2019 11:55:19 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BFD7B18C890B;
- Thu, 22 Aug 2019 15:55:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 11E1E5D713;
- Thu, 22 Aug 2019 15:55:15 +0000 (UTC)
-Date: Thu, 22 Aug 2019 16:55:13 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Message-ID: <20190822155513.GY3267@redhat.com>
-References: <20190822174447.3be81c81.cohuck@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1i0pVq-0008Ce-82
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 12:00:35 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37850)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i0pVp-0008BO-Dz
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 12:00:34 -0400
+Received: by mail-ot1-x344.google.com with SMTP id f17so5937838otq.4
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 09:00:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7B3CvyEYOu+pNQ8AYNCbT+h5aS1c7aM+mXvf9WiQoR8=;
+ b=wVnYSTU+VhYQHl9PmxnSBtDOTPBiHcxzCix/rjiLflA5oYCtlJ5wIEPoO3XJU1muby
+ NBNDoJwTFWMflaIceXXKoM/94akMYlmKHIBDSKz8skV5Igk0Yug4JHzggcJTzwaHkoxf
+ 1DBZNJfct9VVe9nlwFwZ/EV/spEyEZqbzxEG3xpgeltsbf5ljy0O1PRe0XKJYAZhlY1B
+ RLBb3h1vaxi6E0H8CyVBCv7WP7RgFMs68HsNy/f9cLiACOqUexfaIt2+uqJY7xm3loKN
+ FDw1JPsnE/ICffSIWdmBnj3s+jjW0TuCNOmCajdDo6xXibUgFKn3HpxaBlXffYA44WFG
+ YkvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7B3CvyEYOu+pNQ8AYNCbT+h5aS1c7aM+mXvf9WiQoR8=;
+ b=ugJX8l+7hBKY+sDibtpa9lMMa52xhg3rgz1c9Dd6AF7ErlyqQ5nNmfxkvk+cviNgy6
+ FjqAtcYDg8OfAwgjXILN6fBPd9uH+E5l57Rsmh+KMOmf2FQaOGbyKnAEOmFWVFmt62dJ
+ pc1h3SRDDJZM+mEjTcP1sMACb/cNHiwnNJa6IPdheBgDhyWMaz8H1qt7lfz+64bA6WuL
+ FyWQpaSpI+3Ua2xzah5+UbgQCDNFAKnFjQVIiSCC8OcD90ZoNCTQqw5opaBg7EIHH4te
+ 8OK4aV9La/o4l7FwEzwHueApnuLZ1D8JmhDZr7l4V5dQuKVT6RIFvWGfjxeGZ2ZVDDtT
+ k3ZA==
+X-Gm-Message-State: APjAAAU1nIKDcvjKp2TpUCsELdKbljUuUAaNE5vpmAdsKlSH51E9UaKs
+ ml2iSy21kTMy+NbxQjOZiO0qQHAjD0p5lRr63EVrNg==
+X-Google-Smtp-Source: APXvYqwKNYFvc06JYO7iYgOjtIfIavR+jN+nScAqJWJIY/MCgcmi7xmh9TZ0LPP2b+xhLksuY94HL0FhVrhzD9hVxpo=
+X-Received: by 2002:a9d:6a94:: with SMTP id l20mr208768otq.221.1566489630622; 
+ Thu, 22 Aug 2019 09:00:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190822174447.3be81c81.cohuck@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Thu, 22 Aug 2019 15:55:17 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] 'make check-unit' breakage on s390x host
+References: <20190819213755.26175-1-richard.henderson@linaro.org>
+ <20190819213755.26175-4-richard.henderson@linaro.org>
+In-Reply-To: <20190819213755.26175-4-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 22 Aug 2019 17:00:19 +0100
+Message-ID: <CAFEAcA9abuRJXTXkEE+2M4tHQuKc+VwsqfJqEmw-w_+Fcwh0rw@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v2 03/68] target/arm: Convert Data
+ Processing (register)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,40 +73,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 22, 2019 at 05:44:47PM +0200, Cornelia Huck wrote:
-> I just noticed a breakage with 'make check-unit' when running on an
-> s390x host (on my laptop, it runs fine; haven't tried other
-> architectures). This happens with current master, but I managed to
-> track the original breakage down to
->=20
-> commit ff3dc8fefe953fd3650279e064bf63b212c5699a
-> Author: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Date:   Wed Mar 13 17:36:18 2019 +0000
->=20
->     filemon: ensure watch IDs are unique to QFileMonitor scope
+On Mon, 19 Aug 2019 at 22:38, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Convert the register shifted by immediate form of the data
+> processing insns.  For A32, we cannot yet remove any code
+> because the legacy decoder intertwines the reg-shifted-reg
+> and immediate forms.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate.c | 229 ++++++++++++++++++++++++++++++++++-------
+>  target/arm/a32.decode  |  28 +++++
+>  target/arm/t32.decode  |  43 ++++++++
+>  3 files changed, 264 insertions(+), 36 deletions(-)
 
-[snip]
 
-> I can try to collect extra info if you tell me what would be helpful.
+> +#define DO_ANY3(NAME, OP, L, K)                                         \
+> +    static bool trans_##NAME##_rrri(DisasContext *s, arg_s_rrr_shi *a)  \
+> +    { StoreRegKind k = (K); return op_s_rrr_shi(s, a, OP, L, k); }
 
-I'm betting you updated to kernel 5.3
+It's a bit non-obvious that we can return early via the expression K
+here (for the "trying to do an old-style exception return in usermode"
+case for SUB and MOV), but it does put the check early where we need it.
 
-  https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg04349.html
+> +DO_ANY3(SUB, a->s ? gen_sub_CC : tcg_gen_sub_i32, false,
+> +        ({
+> +            StoreRegKind ret = STREG_NORMAL;
+> +            if (a->rd == 15 && a->s) {
+> +                /*
+> +                 * See ALUExceptionReturn:
+> +                 * In User mode, UNPREDICTABLE; we choose UNDEF.
+> +                 * In Hyp mode, UNDEFINED.
+> +                 */
+> +                if (IS_USER(s) || s->current_el == 2) {
+> +                    return false;
+> +                }
+> +                /* There is no writeback of nzcv to PSTATE.  */
+> +                a->s = 0;
+> +                ret = STREG_EXC_RET;
+> +            } else if (a->rd == 13 && a->rn == 13) {
+> +                ret = STREG_SP_CHECK;
+> +            }
+> +            ret;
+> +        }))
 
-Just waiting for a Reviewed-by on that patch in order to send a PR....
+It turns out that the decode for Thumb means that we don't
+need to specifically check that this is Arm mode before allowing
+the ALUExceptionReturn handling.
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
