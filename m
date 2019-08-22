@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EEA399299
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 13:51:12 +0200 (CEST)
-Received: from localhost ([::1]:41418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD1499290
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 13:50:20 +0200 (CEST)
+Received: from localhost ([::1]:41398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0lcV-0003nI-2K
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 07:51:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59841)
+	id 1i0lbf-0002QM-2u
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 07:50:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60059)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i0lP7-0004i8-2O
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:37:27 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i0lPH-00051K-2H
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:37:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i0lOr-0007hO-IR
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:37:13 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:36773 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i0lP8-0007xP-VO
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:37:30 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:48180 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1i0lOq-0006xT-Ri
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:37:05 -0400
+ id 1i0lP8-0007he-Aj
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:37:22 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 4DF0C1A2066;
+ by mail.rt-rk.com (Postfix) with ESMTP id 7A9221A2070;
  Thu, 22 Aug 2019 13:35:58 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 237C61A2044;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 42F5B1A2053;
  Thu, 22 Aug 2019 13:35:58 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 13:35:26 +0200
-Message-Id: <1566473750-17743-3-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Thu, 22 Aug 2019 13:35:29 +0200
+Message-Id: <1566473750-17743-6-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1566473750-17743-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1566473750-17743-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH 02/26] target/mips: Clean up handling of CP0
- register 1
+Subject: [Qemu-devel] [PATCH 05/26] target/mips: Clean up handling of CP0
+ register 6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,241 +57,211 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Clean up handling of CP0 register 1.
+Clean up handling of CP0 register 6.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- target/mips/cpu.h       |  8 +++++++
- target/mips/translate.c | 64 ++++++++++++++++++++++++-------------------------
- 2 files changed, 40 insertions(+), 32 deletions(-)
+ target/mips/cpu.h       |  6 ++++++
+ target/mips/translate.c | 56 ++++++++++++++++++++++++-------------------------
+ 2 files changed, 34 insertions(+), 28 deletions(-)
 
 diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index e2f6844..597afa8 100644
+index 2ab388b..c865b51 100644
 --- a/target/mips/cpu.h
 +++ b/target/mips/cpu.h
-@@ -284,6 +284,14 @@ typedef struct mips_def_t mips_def_t;
- #define CP0_REG00__MVPCONF1        3
- #define CP0_REG00__VPCONTROL       4
- /* CP0 Register 01 */
-+#define CP0_REG01__RANDOM          0
-+#define CP0_REG01__VPECONTROL      1
-+#define CP0_REG01__VPECONF0        2
-+#define CP0_REG01__VPECONF1        3
-+#define CP0_REG01__YQMASK          4
-+#define CP0_REG01__VPESCHEDULE     5
-+#define CP0_REG01__VPESCHEFBACK    6
-+#define CP0_REG01__VPEOPT          7
- /* CP0 Register 02 */
- #define CP0_REG02__ENTRYLO0        0
- /* CP0 Register 03 */
+@@ -320,6 +320,12 @@ typedef struct mips_def_t mips_def_t;
+ #define CP0_REG05__PWSIZE          7
+ /* CP0 Register 06 */
+ #define CP0_REG06__WIRED           0
++#define CP0_REG06__SRSCONF0        1
++#define CP0_REG06__SRSCONF1        2
++#define CP0_REG06__SRSCONF2        3
++#define CP0_REG06__SRSCONF3        4
++#define CP0_REG06__SRSCONF4        5
++#define CP0_REG06__PWCTL           6
+ /* CP0 Register 07 */
+ #define CP0_REG07__HWRENA          0
+ /* CP0 Register 08 */
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 06a1646..e350545 100644
+index 9d1e315..cdcc1cc 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -6883,42 +6883,42 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+@@ -7090,36 +7090,36 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_01:
+     case CP0_REGISTER_06:
          switch (sel) {
 -        case 0:
-+        case CP0_REG01__RANDOM:
-             CP0_CHECK(!(ctx->insn_flags & ISA_MIPS32R6));
-             gen_helper_mfc0_random(arg, cpu_env);
-             register_name = "Random";
++        case CP0_REG06__WIRED:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Wired));
+             register_name = "Wired";
              break;
 -        case 1:
-+        case CP0_REG01__VPECONTROL:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_VPEControl));
-             register_name = "VPEControl";
++        case CP0_REG06__SRSCONF0:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf0));
+             register_name = "SRSConf0";
              break;
 -        case 2:
-+        case CP0_REG01__VPECONF0:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_VPEConf0));
-             register_name = "VPEConf0";
++        case CP0_REG06__SRSCONF1:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf1));
+             register_name = "SRSConf1";
              break;
 -        case 3:
-+        case CP0_REG01__VPECONF1:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_VPEConf1));
-             register_name = "VPEConf1";
++        case CP0_REG06__SRSCONF2:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf2));
+             register_name = "SRSConf2";
              break;
 -        case 4:
-+        case CP0_REG01__YQMASK:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_mfc0_load64(arg, offsetof(CPUMIPSState, CP0_YQMask));
-             register_name = "YQMask";
++        case CP0_REG06__SRSCONF3:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf3));
+             register_name = "SRSConf3";
              break;
 -        case 5:
-+        case CP0_REG01__VPESCHEDULE:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_mfc0_load64(arg, offsetof(CPUMIPSState, CP0_VPESchedule));
-             register_name = "VPESchedule";
++        case CP0_REG06__SRSCONF4:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf4));
+             register_name = "SRSConf4";
              break;
 -        case 6:
-+        case CP0_REG01__VPESCHEFBACK:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_mfc0_load64(arg, offsetof(CPUMIPSState, CP0_VPEScheFBack));
-             register_name = "VPEScheFBack";
-             break;
--        case 7:
-+        case CP0_REG01__VPEOPT:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_VPEOpt));
-             register_name = "VPEOpt";
-@@ -7651,43 +7651,43 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
++        case CP0_REG06__PWCTL:
+             check_pw(ctx);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_PWCtl));
+             register_name = "PWCtl";
+@@ -7829,36 +7829,36 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_01:
+     case CP0_REGISTER_06:
          switch (sel) {
 -        case 0:
-+        case CP0_REG01__RANDOM:
-             /* ignored */
-             register_name = "Random";
++        case CP0_REG06__WIRED:
+             gen_helper_mtc0_wired(cpu_env, arg);
+             register_name = "Wired";
              break;
 -        case 1:
-+        case CP0_REG01__VPECONTROL:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_helper_mtc0_vpecontrol(cpu_env, arg);
-             register_name = "VPEControl";
++        case CP0_REG06__SRSCONF0:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_helper_mtc0_srsconf0(cpu_env, arg);
+             register_name = "SRSConf0";
              break;
 -        case 2:
-+        case CP0_REG01__VPECONF0:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_helper_mtc0_vpeconf0(cpu_env, arg);
-             register_name = "VPEConf0";
++        case CP0_REG06__SRSCONF1:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_helper_mtc0_srsconf1(cpu_env, arg);
+             register_name = "SRSConf1";
              break;
 -        case 3:
-+        case CP0_REG01__VPECONF1:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_helper_mtc0_vpeconf1(cpu_env, arg);
-             register_name = "VPEConf1";
++        case CP0_REG06__SRSCONF2:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_helper_mtc0_srsconf2(cpu_env, arg);
+             register_name = "SRSConf2";
              break;
 -        case 4:
-+        case CP0_REG01__YQMASK:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_helper_mtc0_yqmask(cpu_env, arg);
-             register_name = "YQMask";
++        case CP0_REG06__SRSCONF3:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_helper_mtc0_srsconf3(cpu_env, arg);
+             register_name = "SRSConf3";
              break;
 -        case 5:
-+        case CP0_REG01__VPESCHEDULE:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             tcg_gen_st_tl(arg, cpu_env,
-                           offsetof(CPUMIPSState, CP0_VPESchedule));
-             register_name = "VPESchedule";
++        case CP0_REG06__SRSCONF4:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_helper_mtc0_srsconf4(cpu_env, arg);
+             register_name = "SRSConf4";
              break;
 -        case 6:
-+        case CP0_REG01__VPESCHEFBACK:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             tcg_gen_st_tl(arg, cpu_env,
-                           offsetof(CPUMIPSState, CP0_VPEScheFBack));
-             register_name = "VPEScheFBack";
-             break;
--        case 7:
-+        case CP0_REG01__VPEOPT:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_helper_mtc0_vpeopt(cpu_env, arg);
-             register_name = "VPEOpt";
-@@ -8403,42 +8403,42 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
++        case CP0_REG06__PWCTL:
+             check_pw(ctx);
+             gen_helper_mtc0_pwctl(cpu_env, arg);
+             register_name = "PWCtl";
+@@ -8579,36 +8579,36 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_01:
+     case CP0_REGISTER_06:
          switch (sel) {
 -        case 0:
-+        case CP0_REG01__RANDOM:
-             CP0_CHECK(!(ctx->insn_flags & ISA_MIPS32R6));
-             gen_helper_mfc0_random(arg, cpu_env);
-             register_name = "Random";
++        case CP0_REG06__WIRED:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Wired));
+             register_name = "Wired";
              break;
 -        case 1:
-+        case CP0_REG01__VPECONTROL:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_VPEControl));
-             register_name = "VPEControl";
++        case CP0_REG06__SRSCONF0:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf0));
+             register_name = "SRSConf0";
              break;
 -        case 2:
-+        case CP0_REG01__VPECONF0:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_VPEConf0));
-             register_name = "VPEConf0";
++        case CP0_REG06__SRSCONF1:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf1));
+             register_name = "SRSConf1";
              break;
 -        case 3:
-+        case CP0_REG01__VPECONF1:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_VPEConf1));
-             register_name = "VPEConf1";
++        case CP0_REG06__SRSCONF2:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf2));
+             register_name = "SRSConf2";
              break;
 -        case 4:
-+        case CP0_REG01__YQMASK:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_YQMask));
-             register_name = "YQMask";
++        case CP0_REG06__SRSCONF3:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf3));
+             register_name = "SRSConf3";
              break;
 -        case 5:
-+        case CP0_REG01__VPESCHEDULE:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_VPESchedule));
-             register_name = "VPESchedule";
++        case CP0_REG06__SRSCONF4:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf4));
+             register_name = "SRSConf4";
              break;
 -        case 6:
-+        case CP0_REG01__VPESCHEFBACK:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_VPEScheFBack));
-             register_name = "VPEScheFBack";
-             break;
--        case 7:
-+        case CP0_REG01__VPEOPT:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_VPEOpt));
-             register_name = "VPEOpt";
-@@ -9125,41 +9125,41 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
++        case CP0_REG06__PWCTL:
+             check_pw(ctx);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_PWCtl));
+             register_name = "PWCtl";
+@@ -9300,36 +9300,36 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_01:
+     case CP0_REGISTER_06:
          switch (sel) {
 -        case 0:
-+        case CP0_REG01__RANDOM:
-             /* ignored */
-             register_name = "Random";
++        case CP0_REG06__WIRED:
+             gen_helper_mtc0_wired(cpu_env, arg);
+             register_name = "Wired";
              break;
 -        case 1:
-+        case CP0_REG01__VPECONTROL:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_helper_mtc0_vpecontrol(cpu_env, arg);
-             register_name = "VPEControl";
++        case CP0_REG06__SRSCONF0:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_helper_mtc0_srsconf0(cpu_env, arg);
+             register_name = "SRSConf0";
              break;
 -        case 2:
-+        case CP0_REG01__VPECONF0:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_helper_mtc0_vpeconf0(cpu_env, arg);
-             register_name = "VPEConf0";
++        case CP0_REG06__SRSCONF1:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_helper_mtc0_srsconf1(cpu_env, arg);
+             register_name = "SRSConf1";
              break;
 -        case 3:
-+        case CP0_REG01__VPECONF1:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_helper_mtc0_vpeconf1(cpu_env, arg);
-             register_name = "VPEConf1";
++        case CP0_REG06__SRSCONF2:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_helper_mtc0_srsconf2(cpu_env, arg);
+             register_name = "SRSConf2";
              break;
 -        case 4:
-+        case CP0_REG01__YQMASK:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_helper_mtc0_yqmask(cpu_env, arg);
-             register_name = "YQMask";
++        case CP0_REG06__SRSCONF3:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_helper_mtc0_srsconf3(cpu_env, arg);
+             register_name = "SRSConf3";
              break;
 -        case 5:
-+        case CP0_REG01__VPESCHEDULE:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             tcg_gen_st_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_VPESchedule));
-             register_name = "VPESchedule";
++        case CP0_REG06__SRSCONF4:
+             check_insn(ctx, ISA_MIPS32R2);
+             gen_helper_mtc0_srsconf4(cpu_env, arg);
+             register_name = "SRSConf4";
              break;
 -        case 6:
-+        case CP0_REG01__VPESCHEFBACK:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             tcg_gen_st_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_VPEScheFBack));
-             register_name = "VPEScheFBack";
-             break;
--        case 7:
-+        case CP0_REG01__VPEOPT:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
-             gen_helper_mtc0_vpeopt(cpu_env, arg);
-             register_name = "VPEOpt";
++        case CP0_REG06__PWCTL:
+             check_pw(ctx);
+             gen_helper_mtc0_pwctl(cpu_env, arg);
+             register_name = "PWCtl";
 -- 
 2.7.4
 
