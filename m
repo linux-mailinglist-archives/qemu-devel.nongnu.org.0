@@ -2,50 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8799924A
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 13:38:04 +0200 (CEST)
-Received: from localhost ([::1]:41252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4816399254
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 13:40:30 +0200 (CEST)
+Received: from localhost ([::1]:41284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0lPn-0004W2-0T
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 07:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59244)
+	id 1i0lS9-0006q5-8c
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 07:40:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59777)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i0lNy-0003ai-5e
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:36:11 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i0lP3-0004hw-LO
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:37:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i0lNw-00070y-Sn
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:36:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51794)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i0lOr-0007hI-Fm
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:37:11 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:36683 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1i0lNt-0006yk-Ma; Thu, 22 Aug 2019 07:36:06 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 52B9F2BE94;
- Thu, 22 Aug 2019 11:36:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BD37600CD;
- Thu, 22 Aug 2019 11:35:58 +0000 (UTC)
-Date: Thu, 22 Aug 2019 12:35:56 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Message-ID: <20190822113556.GR3267@redhat.com>
-References: <20190814202219.1870-1-mlevitsk@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190814202219.1870-1-mlevitsk@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 22 Aug 2019 11:36:03 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 00/13] RFC: luks/encrypted qcow2 key
- management
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1i0lOr-0006xJ-19
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:37:05 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 2A6D81A204A;
+ Thu, 22 Aug 2019 13:35:58 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 084B81A1513;
+ Thu, 22 Aug 2019 13:35:58 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 22 Aug 2019 13:35:24 +0200
+Message-Id: <1566473750-17743-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH 00/26] Clean up handling of configuration
+ register CP0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,66 +49,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: aurelien@aurel32.net, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 14, 2019 at 11:22:06PM +0300, Maxim Levitsky wrote:
-> Hi!
-> 
-> This patch series implements key management for luks based encryption
-> It supports both raw luks images and qcow2 encrypted images.
-> 
-> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1731898
-> 
-> There are still several issues that need to be figured out,
-> on which the feedback is very welcome, but other than that the code mostly works.
-> 
-> The main issues are:
-> 
-> 1. Instead of the proposed blockdev-update-encryption/blockdev-erase-encryption
-> interface, it is probably better to implement 'blockdev-amend-options' in qmp,
-> and use this both for offline and online key update (with some translation
-> layer to convert the qemu-img 'options' to qmp structures)
-> 
-> This interface already exists for offline qcow2 format options update/
-> 
-> This is an issue that was raised today on IRC with Kevin Wolf. Really thanks
-> for the idea!
-> 
-> We agreed that this new qmp interface should take the same options as
-> blockdev-create does, however since we want to be able to edit the encryption
-> slots separately, this implies that we sort of need to allow this on creation
-> time as well.
-> 
-> Also the BlockdevCreateOptions is a union, which is specialized by the driver name
-> which is great for creation, but for update, the driver name is already known,
-> and thus the user should not be forced to pass it again.
-> However qmp doesn't seem to support union type guessing based on actual fields
-> given (this might not be desired either), which complicates this somewhat.
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Given this design question around the integration into blockdev, I'd
-suggest splitting the series into two parts.
+This series is a spin-off of a former "Misc MIPS fixes for 4.2" series.
 
-One series should do all the work in crypto/ code to support adding
-and erasing key slots.
+The goal of the series is to clean up CP0-related code, and prepare
+it for (near) future extensions and amendments.
 
-One series should focus on block/ layer QMP/qemu-img integration.
+The series is mostly of refactoring nature, however it may contain
+simple fixes (for example, fixes for obvious bugs, or additions of
+simple subregister handling). The more complex fixes and improvements
+(for example, additions of VPE-related functionalities) are, for now,
+outside the scope of this series.
 
-The block layer QAPI stuff shouldn't leak into the crypto/ code.
+Aleksandar Markovic (26):
+  target/mips: Clean up handling of CP0 register 0
+  target/mips: Clean up handling of CP0 register 1
+  target/mips: Clean up handling of CP0 register 2
+  target/mips: Clean up handling of CP0 register 5
+  target/mips: Clean up handling of CP0 register 6
+  target/mips: Clean up handling of CP0 register 7
+  target/mips: Clean up handling of CP0 register 8
+  target/mips: Clean up handling of CP0 register 9
+  target/mips: Clean up handling of CP0 register 10
+  target/mips: Clean up handling of CP0 register 11
+  target/mips: Clean up handling of CP0 register 12
+  target/mips: Clean up handling of CP0 register 15
+  target/mips: Clean up handling of CP0 register 16
+  target/mips: Clean up handling of CP0 register 17
+  target/mips: Clean up handling of CP0 register 18
+  target/mips: Clean up handling of CP0 register 19
+  target/mips: Clean up handling of CP0 register 20
+  target/mips: Clean up handling of CP0 register 23
+  target/mips: Clean up handling of CP0 register 24
+  target/mips: Clean up handling of CP0 register 25
+  target/mips: Clean up handling of CP0 register 26
+  target/mips: Clean up handling of CP0 register 27
+  target/mips: Clean up handling of CP0 register 28
+  target/mips: Clean up handling of CP0 register 29
+  target/mips: Clean up handling of CP0 register 30
+  target/mips: Clean up handling of CP0 register 31
 
-So this will let us get on with reviewing & unit testing the
-crypto code, while we discuss block layer design options in more
-detail.
+ target/mips/cpu.h       |  107 ++++-
+ target/mips/translate.c | 1070 ++++++++++++++++++++++++-----------------------
+ 2 files changed, 633 insertions(+), 544 deletions(-)
 
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.7.4
+
 
