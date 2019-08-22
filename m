@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871D2990B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 12:26:49 +0200 (CEST)
-Received: from localhost ([::1]:40168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FC5990A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 12:23:20 +0200 (CEST)
+Received: from localhost ([::1]:40152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0kIp-0001gr-2O
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 06:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60965)
+	id 1i0kFT-0007G2-JR
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 06:23:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60994)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1i0kDK-0005u4-MP
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:07 -0400
+ (envelope-from <kbastian@mail.uni-paderborn.de>) id 1i0kDL-0005u9-R5
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1i0kDJ-0005aX-76
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:06 -0400
-Received: from telepax.uni-paderborn.de ([131.234.189.14]:43956)
+ (envelope-from <kbastian@mail.uni-paderborn.de>) id 1i0kDK-0005c3-Mq
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:07 -0400
+Received: from telepax.uni-paderborn.de ([131.234.189.14]:43960)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1i0kDJ-0005ZV-0N
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:05 -0400
+ id 1i0kDK-0005az-DD
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
  :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=jINiFwIgkBzloBCN5JnJbGmPZ+sUY/qCCm2bVfZUztY=; b=u36unjx77MGxQxiN8m3B+WOuTd
- tDG4kpY1auMwsamKZZPacN80yNxBEo7cKKhVIZu7LJDAaQUL/JO9Lh8ZI9Cwns2MLLkdlOGdtX/g0
- 2rHzbdQ/MG4Y7eNo81awFvrjLTyIhkUz201R3aroGPblGInS90AfhQQiXPIJEe5BsYUk=;
+ bh=sAfZKs3HXjlWqyQKXWkeuMVNCnEjK93bR+6+xewVvnQ=; b=NzoaWSnppenv4SfSQc7bEs1grC
+ k4ASidRu8f0uSj7XK78VjA7PvHtERkBf4rjQbZ63y0vv9hcYWnGgEOkKTABN/e5ofQ2na4uZh4bu7
+ uovTEOYj+aiaDHNmNCi7/TBfgtZwYWBbhIk4Mh1txntFByPwJTVHv0695VBUu3C69nKw=;
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 12:20:45 +0200
-Message-Id: <20190822102046.8765-5-kbastian@mail.uni-paderborn.de>
+Date: Thu, 22 Aug 2019 12:20:46 +0200
+Message-Id: <20190822102046.8765-6-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190822102046.8765-1-kbastian@mail.uni-paderborn.de>
 References: <20190822102046.8765-1-kbastian@mail.uni-paderborn.de>
@@ -46,8 +46,8 @@ X-PMX-Version: 6.4.7.2805085, Antispam-Engine: 2.7.2.2107409,
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 131.234.189.14
-Subject: [Qemu-devel] [PULL 4/5] target/tricore: Implement a qemu excptions
- helper
+Subject: [Qemu-devel] [PULL 5/5] target/tricore: Fix
+ tricore_tr_translate_insn
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,82 +63,93 @@ Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-this helper is only used to raise qemu specific exceptions. We use this
-helper to raise it on breakpoints.
+we now fetch 2 bytes first, check whether we have a 32 bit insn, and only then
+fetch another 2 bytes. We also make sure that a 16 bit insn that still fits
+into the current page does not end up in the next page.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- target/tricore/helper.h    |  1 +
- target/tricore/op_helper.c |  7 +++++++
- target/tricore/translate.c | 20 +++++++++++++++++++-
- 3 files changed, 27 insertions(+), 1 deletion(-)
+ target/tricore/translate.c | 47 +++++++++++++++++++++++++++-----------
+ 1 file changed, 34 insertions(+), 13 deletions(-)
 
-diff --git a/target/tricore/helper.h b/target/tricore/helper.h
-index b64780c37d..78176aa17a 100644
---- a/target/tricore/helper.h
-+++ b/target/tricore/helper.h
-@@ -153,3 +153,4 @@ DEF_HELPER_2(psw_write, void, env, i32)
- DEF_HELPER_1(psw_read, i32, env)
- /* Exceptions */
- DEF_HELPER_3(raise_exception_sync, noreturn, env, i32, i32)
-+DEF_HELPER_2(qemu_excp, noreturn, env, i32)
-diff --git a/target/tricore/op_helper.c b/target/tricore/op_helper.c
-index 9476d10d00..32c2bc1699 100644
---- a/target/tricore/op_helper.c
-+++ b/target/tricore/op_helper.c
-@@ -107,6 +107,13 @@ static void raise_exception_sync_helper(CPUTriCoreState *env, uint32_t class,
-     raise_exception_sync_internal(env, class, tin, pc, 0);
- }
- 
-+void helper_qemu_excp(CPUTriCoreState *env, uint32_t excp)
-+{
-+    CPUState *cs = env_cpu(env);
-+    cs->exception_index = excp;
-+    cpu_loop_exit(cs);
-+}
-+
- /* Addressing mode helper */
- 
- static uint16_t reverse16(uint16_t val)
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 5fb42abe35..88b2840ad1 100644
+index 88b2840ad1..4f10407477 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
-@@ -3261,6 +3261,15 @@ static void generate_trap(DisasContext *ctx, int class, int tin)
-     tcg_temp_free(tintemp);
+@@ -8781,17 +8781,9 @@ static void decode_32Bit_opc(DisasContext *ctx)
+     }
  }
  
-+static void generate_qemu_excp(DisasContext *ctx, int excp)
+-static void decode_opc(DisasContext *ctx)
++static bool tricore_insn_is_16bit(uint32_t insn)
+ {
+-    /* 16-Bit Instruction */
+-    if ((ctx->opcode & 0x1) == 0) {
+-        ctx->pc_succ_insn = ctx->base.pc_next + 2;
+-        decode_16Bit_opc(ctx);
+-    /* 32-Bit Instruction */
+-    } else {
+-        ctx->pc_succ_insn = ctx->base.pc_next + 4;
+-        decode_32Bit_opc(ctx);
+-    }
++    return (insn & 0x1) == 0;
+ }
+ 
+ static void tricore_tr_init_disas_context(DisasContextBase *dcbase,
+@@ -8829,20 +8821,49 @@ static bool tricore_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
+     return true;
+ }
+ 
++static bool insn_crosses_page(CPUTriCoreState *env, DisasContext *ctx)
 +{
-+    TCGv_i32 tmp = tcg_const_i32(excp);
-+    gen_save_pc(ctx->base.pc_next);
-+    gen_helper_qemu_excp(cpu_env, tmp);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+    tcg_temp_free(tmp);
++    /*
++     * Return true if the insn at ctx->base.pc_next might cross a page boundary.
++     * (False positives are OK, false negatives are not.)
++     * Our caller ensures we are only called if dc->base.pc_next is less than
++     * 4 bytes from the page boundary, so we cross the page if the first
++     * 16 bits indicate that this is a 32 bit insn.
++     */
++    uint16_t insn = cpu_lduw_code(env, ctx->base.pc_next);
++
++    return !tricore_insn_is_16bit(insn);
 +}
 +
- static inline void gen_branch_cond(DisasContext *ctx, TCGCond cond, TCGv r1,
-                                    TCGv r2, int16_t address)
- {
-@@ -8808,7 +8817,16 @@ static void tricore_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
- static bool tricore_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
-                                       const CPUBreakpoint *bp)
- {
--    return false;
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+    generate_qemu_excp(ctx, EXCP_DEBUG);
-+    /*
-+     * The address covered by the breakpoint must be included in
-+     * [tb->pc, tb->pc + tb->size) in order to for it to be
-+     * properly cleared -- thus we increment the PC here so that
-+     * the logic setting tb->size below does the right thing.
-+     */
-+    ctx->base.pc_next += 4;
-+    return true;
- }
- 
++
  static void tricore_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     CPUTriCoreState *env = cpu->env_ptr;
++    uint16_t insn_lo;
++    bool is_16bit;
+ 
+-    ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
+-    decode_opc(ctx);
++    insn_lo = cpu_lduw_code(env, ctx->base.pc_next);
++    is_16bit = tricore_insn_is_16bit(insn_lo);
++    if (is_16bit) {
++        ctx->opcode = insn_lo;
++        ctx->pc_succ_insn = ctx->base.pc_next + 2;
++        decode_16Bit_opc(ctx);
++    } else {
++        uint32_t insn_hi = cpu_lduw_code(env, ctx->base.pc_next + 2);
++        ctx->opcode = insn_hi << 16 | insn_lo;
++        ctx->pc_succ_insn = ctx->base.pc_next + 4;
++        decode_32Bit_opc(ctx);
++    }
+     ctx->base.pc_next = ctx->pc_succ_insn;
+ 
+     if (ctx->base.is_jmp == DISAS_NEXT) {
+         target_ulong page_start;
+ 
+         page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
+-        if (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE) {
++        if (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE
++            || (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE - 3
++                && insn_crosses_page(env, ctx))) {
+             ctx->base.is_jmp = DISAS_TOO_MANY;
+         }
+     }
 -- 
 2.23.0
 
