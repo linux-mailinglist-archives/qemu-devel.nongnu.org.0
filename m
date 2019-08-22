@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A17991E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 13:17:20 +0200 (CEST)
-Received: from localhost ([::1]:40952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D274D991F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 13:19:31 +0200 (CEST)
+Received: from localhost ([::1]:40970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0l5j-0004Av-G5
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 07:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52837)
+	id 1i0l7q-00063e-UB
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 07:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52889)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i0l2s-0002e2-Ks
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:14:24 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i0l33-0002ig-06
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:14:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i0l2r-0003Jk-1v
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:14:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43978)
+ (envelope-from <pbonzini@redhat.com>) id 1i0l31-0003Pp-6m
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:14:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33212)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1i0l2n-0003Hg-HG; Thu, 22 Aug 2019 07:14:17 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0l30-0003PA-Vk
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:14:31 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D471110F23E1;
- Thu, 22 Aug 2019 11:14:16 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 29A6C6D0A4;
- Thu, 22 Aug 2019 11:14:11 +0000 (UTC)
-Date: Thu, 22 Aug 2019 12:14:09 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190822111409.GM3267@redhat.com>
-References: <20190814202219.1870-1-mlevitsk@redhat.com>
- <20190814202219.1870-8-mlevitsk@redhat.com>
- <12c342c8-6ac8-3533-7a7b-e61826e9abb0@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 0606F85545
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 11:14:30 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id b135so1908886wmg.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 04:14:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rhfp2qgvDRgqWhAxuW6vwvHkw8FLbpA6+WLuiPtJ4Pk=;
+ b=ugE7o0gRX8QVvfqQ5pIF+jeDT1vFaUjIoSjgEYVmOYAx24OKwfAAK+4kWcOuaQJY4G
+ 5oonKqGqe1HB/Yp+P/DLqJ/bhjw7uEVDIzH3X2/oKvEzYkryopudIj5OF4QmDP1oN6ds
+ wF2dsdg3fmTzY7PeFcJAkXGLFtn2DJpF/lNrEIgg7nGNyn4dJlXFWqX6t63K5OjNRPIJ
+ l6C261OGWy9Ac4C9SqpTw4MtR2yDgShR8e8CwmfR/7BuAJPTeJjlcHUqb0r5yhqcZ2T4
+ NPph3ZGB7cJ04w8mASnpB/nROw8V+QrGa8oqHTEz4oYhFjBQT5+wsdwezj2spd7xG3Mq
+ rFrQ==
+X-Gm-Message-State: APjAAAXtTh8nGfHR9mXDU+nHvAEGEFicEXila3EGT3BErumpthdQjqtL
+ 9Y+y5dmgvhGLQ3tn09fB4caEB6gLieKWsEJZS0TTafmGEZ55K4aUWG+mhKvSKbOiz2n0tnhjOut
+ 582+DxJrrt6SVHH4=
+X-Received: by 2002:a1c:a9ce:: with SMTP id s197mr5482591wme.35.1566472468714; 
+ Thu, 22 Aug 2019 04:14:28 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqy2vVPK89Fv79pRuHL1UpaRfdcYIlVmr5mkSOGEqPs8SS8O0ueLIV1nlIkkjGM1dNhSOvBXsg==
+X-Received: by 2002:a1c:a9ce:: with SMTP id s197mr5482573wme.35.1566472468402; 
+ Thu, 22 Aug 2019 04:14:28 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:21b9:ff1f:a96c:9fb3?
+ ([2001:b07:6468:f312:21b9:ff1f:a96c:9fb3])
+ by smtp.gmail.com with ESMTPSA id v7sm8109442wrn.41.2019.08.22.04.14.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Aug 2019 04:14:27 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <CAFEAcA8kEKVcRu62+VGDkzRj2J87QPxzjg05dCHszeBC6X76pg@mail.gmail.com>
+ <20190822104957.GE20491@stefanha-x1.localdomain>
+ <CAFEAcA8c_BukhU+ZgfqUxPUqsOaN6MJdJL5n3-Daf-j05ZeTig@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <18cdf90d-1724-e7bf-2079-b7ec829256f0@redhat.com>
+Date: Thu, 22 Aug 2019 13:14:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8c_BukhU+ZgfqUxPUqsOaN6MJdJL5n3-Daf-j05ZeTig@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <12c342c8-6ac8-3533-7a7b-e61826e9abb0@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Thu, 22 Aug 2019 11:14:16 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 07/13] block: add manage-encryption command
- (qmp and blockdev)
+Subject: Re: [Qemu-devel] more automated/public CI for QEMU pullreqs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,190 +83,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Samuel Ortiz <sameo@linux.intel.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 20, 2019 at 08:27:48PM +0200, Max Reitz wrote:
-> On 14.08.19 22:22, Maxim Levitsky wrote:
-> > This adds:
-> >=20
-> > * x-blockdev-update-encryption and x-blockdev-erase-encryption qmp co=
-mmands
-> >   Both commands take the QCryptoKeyManageOptions
-> >   the x-blockdev-update-encryption is meant for non destructive addit=
-ion
-> >   of key slots / whatever the encryption driver supports in the futur=
-e
-> >=20
-> >   x-blockdev-erase-encryption is meant for destructive encryption key=
- erase,
-> >   in some cases even without way to recover the data.
-> >=20
-> >=20
-> > * bdrv_setup_encryption callback in the block driver
-> >   This callback does both the above functions with 'action' parameter
-> >=20
-> > * QCryptoKeyManageOptions with set of options that drivers can use fo=
-r encryption managment
-> >   Currently it has all the options that LUKS needs, and later it can =
-be extended
-> >   (via union) to support more encryption drivers if needed
-> >=20
-> > * blk_setup_encryption / bdrv_setup_encryption - the usual block laye=
-r wrappers.
-> >   Note that bdrv_setup_encryption takes BlockDriverState and not Bdrv=
-Child,
-> >   for the ease of use from the qmp code. It is not expected that this=
- function
-> >   will be used by anything but qmp and qemu-img code
-> >=20
-> >=20
-> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > ---
-> >  block/block-backend.c          |  9 ++++++++
-> >  block/io.c                     | 24 ++++++++++++++++++++
-> >  blockdev.c                     | 40 ++++++++++++++++++++++++++++++++=
-++
-> >  include/block/block.h          | 12 ++++++++++
-> >  include/block/block_int.h      | 11 ++++++++++
-> >  include/sysemu/block-backend.h |  7 ++++++
-> >  qapi/block-core.json           | 36 ++++++++++++++++++++++++++++++
-> >  qapi/crypto.json               | 26 ++++++++++++++++++++++
-> >  8 files changed, 165 insertions(+)
->=20
-> Now I don=E2=80=99t know whether you want to keep this interface at all=
-, because
-> the cover letter seemed to imply you=E2=80=99d prefer a QMP amend.  But=
- let it
-> be said that a QMP amend is no trivial task.  I think the most difficul=
-t
-> bit is that the qcow2 implementation currently is inherently an offline
-> operation.  It isn=E2=80=99t a good idea to use it on a live image.  (M=
-aybe it
-> works, but it=E2=80=99s definitely not what I had in mind when I wrote =
-it.)
+On 22/08/19 13:04, Peter Maydell wrote:
+> On Thu, 22 Aug 2019 at 11:50, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>> One-off tasks:
+>>
+>> 1. Create CI runners that offer similar cross-architecture coverage to
+>>    Peter's current setup.  qemu.org has some x86, ppc, and s390 server
+>>    resources available.  I'm not sure about ARM and other architectures.
+> 
+> Quick list of what I currently have:
+>  * freebsd/openbsd/netbsd -- these are just running the tests/vm stuff
+>  * an x86-64 machine doing the w32/w64 crossbuilds
+>  * aarch64
+>  * aarch32 (done via chroot on an aarch64 box)
+>  * osx
 
-For key mgmt we definitely need to have an online capability.
+I was thinking of setting up a Macincloud account with a Patchew runner
+for this.
 
-If layering it into a general purpose format "amend' option
-is too complex, then we should keep it separate rather than
-making our lives uncecessarily difficult IMHO.
+>  * ppc64 (on a gcc compile farm machine)
+>  * s390 (on a machine Christian arranged for project use)
 
-> > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> > index 0d43d4f37c..53ed411eed 100644
-> > --- a/qapi/block-core.json
-> > +++ b/qapi/block-core.json
-> > @@ -5327,3 +5327,39 @@
-> >    'data' : { 'node-name': 'str',
-> >               'iothread': 'StrOrNull',
-> >               '*force': 'bool' } }
-> > +
-> > +
-> > +##
-> > +# @x-blockdev-update-encryption:
-> > +#
-> > +# Update the encryption keys for an encrypted block device
-> > +#
-> > +# @node-name: 	  Name of the blockdev to operate on
-> > +# @force:         Disable safety checks (use with care)
-> > +# @options:       Driver specific options
-> > +#
-> > +
-> > +# Since: 4.2
-> > +##
-> > +{ 'command': 'x-blockdev-update-encryption',
-> > +  'data': { 'node-name' : 'str',
-> > +            '*force' : 'bool',
-> > +            'options': 'QCryptoEncryptionSetupOptions' } }
-> > +
-> > +##
-> > +# @x-blockdev-erase-encryption:
-> > +#
-> > +# Erase the encryption keys for an encrypted block device
-> > +#
-> > +# @node-name: 	  Name of the blockdev to operate on
->=20
-> Why the tab?
->=20
-> > +# @force:         Disable safety checks (use with care)
->=20
-> I think being a bit more verbose wouldn=E2=80=99t hurt.
->=20
-> (Same above.)
->=20
-> > +# @options:       Driver specific options
-> > +#
-> > +# Returns: @QCryptoKeyManageResult
-> > +#
-> > +# Since: 4.2
-> > +##
-> > +{ 'command': 'x-blockdev-erase-encryption',
-> > +  'data': { 'node-name' : 'str',
-> > +            '*force' : 'bool',
-> > +            'options': 'QCryptoEncryptionSetupOptions' } }
-> > diff --git a/qapi/crypto.json b/qapi/crypto.json
-> > index b2a4cff683..69e8b086db 100644
-> > --- a/qapi/crypto.json
-> > +++ b/qapi/crypto.json
-> > @@ -309,3 +309,29 @@
-> >    'base': 'QCryptoBlockInfoBase',
-> >    'discriminator': 'format',
-> >    'data': { 'luks': 'QCryptoBlockInfoLUKS' } }
-> > +
-> > +
-> > +##
-> > +# @QCryptoEncryptionSetupOptions:
-> > +#
-> > +# Driver specific options for encryption key management.
->=20
-> The options do seem LUKS-specific, but the name of this structure does =
-not.
->=20
-> > +# @key-secret: the ID of a QCryptoSecret object providing the passwo=
-rd
-> > +#              to add or to erase (optional for erase)
-> > +#
-> > +# @old-key-secret: the ID of a QCryptoSecret object providing the pa=
-ssword
-> > +#                  that can currently unlock the image
-> > +#
-> > +# @slot: Key slot to update/erase
-> > +#        (optional, for update will select a free slot,
-> > +#        for erase will erase all slots that match the password)
-> > +#
-> > +# @iter-time: number of milliseconds to spend in
-> > +#             PBKDF passphrase processing. Currently defaults to 200=
-0
-> > +# Since: 4.2
-> > +##
->=20
-> Does it really make sense to use the same structure for erasing and
-> updating?  I think there are ways to represent @key-secret vs. @slot
-> being alternatives to each other for erase; @iter-time doesn=E2=80=99t =
-seem to
-> make sense for erase; and @slot doesn=E2=80=99t seem to make sense for =
-update.
-> Also, I don=E2=80=99t know whether to use @key-secret or @old-key-secre=
-t for erase.
->=20
-> All in all, it seems more sensible to me to have separate structs for
-> updating and erasing.
+Great, we could also move the Patchew tester off the Fedora machine that
+is getting a bit crowded.
 
-I agree, we can get a more understandable schema if each
-command has its own struct wit the right options.
+David, any chance you could add Docker support to ppc64 builds?  I don't
+feel too comfortable doing untrusted builds inside the RH network
+without any protection from containers etc.
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+> Of those the s390 is OK for project use. I'm not sure the gcc
+> compile farm stuff is recommended for fully automatic CI, so
+> if we can avoid that it would be better. Linaro can probably
+> provide some arm-server resources but I haven't checked/asked yet.
+
+Same as above for Docker support.  If ARM builds can be containerized, I
+can also look for resources inside Red Hat.
+
+Paolo
 
