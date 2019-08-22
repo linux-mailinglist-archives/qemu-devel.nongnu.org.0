@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41FBD98D27
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 10:13:55 +0200 (CEST)
-Received: from localhost ([::1]:39102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0713998D0D
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 10:10:38 +0200 (CEST)
+Received: from localhost ([::1]:39086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0iEE-0007UZ-A5
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 04:13:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53987)
+	id 1i0iB3-0003tJ-1C
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 04:10:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53946)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1i0i5q-0007QY-Op
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 04:05:15 -0400
+ (envelope-from <kraxel@redhat.com>) id 1i0i5m-0007M0-LN
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 04:05:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1i0i5p-0005tD-Ff
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 04:05:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44736)
+ (envelope-from <kraxel@redhat.com>) id 1i0i5l-0005pq-7q
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 04:05:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56048)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0i5p-0005sb-8C
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 04:05:13 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0i5k-0005on-Ue
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 04:05:09 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8FDBC308427C;
- Thu, 22 Aug 2019 08:05:12 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2349C18C8905;
+ Thu, 22 Aug 2019 08:05:08 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com
  [10.36.116.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F70D60E1C;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A04F85DC1E;
  Thu, 22 Aug 2019 08:05:07 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3BDCD934B; Thu, 22 Aug 2019 10:05:03 +0200 (CEST)
+ id 46891935A; Thu, 22 Aug 2019 10:05:03 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 10:05:00 +0200
-Message-Id: <20190822080503.12063-7-kraxel@redhat.com>
+Date: Thu, 22 Aug 2019 10:05:01 +0200
+Message-Id: <20190822080503.12063-8-kraxel@redhat.com>
 In-Reply-To: <20190822080503.12063-1-kraxel@redhat.com>
 References: <20190822080503.12063-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 22 Aug 2019 08:05:12 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Thu, 22 Aug 2019 08:05:08 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 6/8] ati-vga: Attempt to handle CRTC offset not
- exact multiple of stride
+Subject: [Qemu-devel] [PULL 7/8] ati-vga: Add limited support for big endian
+ frame buffer aperture
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,67 +62,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-MacOS uses non-0 offset so it needs this and the resulting
-vbe_start_addr seems correct but picture is still broken with OpenBIOS
-after FCode runs but that maybe due to firmware problems now. After
-boot, picture is now correct.
-
-It also occured to me that these CRTC regs are also present in VGA so
-I wonder if they should be shared in case some drivers try to poke
-them via VGA regs or these are a separate set of regs for extended
-mode. Added a comment noting this but drivers I've tried so far
-program the card accessing ati regs so I did not attempt to change it.
+Set frame buffer endianness according to requested endianness for
+frame buffer apertures. We set frame buffer to big endian if any of
+the two apertures are set to big endian. Using different endianness
+for the two apertures is not implemented. This fixes inverted colors
+with MacOS and Xorg frame buffer driver but some Linux drivers may
+have endianness issues even on real hardware so this may not fix all
+cases. MorphOS uses aper0 in LE, Linux uses aper0 in BE and MacOS uses
+aper1 in BE but not sure about others or if MacOS also may need aper0
+in which case we'll need a more complex fix but MacOS has other
+problems yet so for now this might work.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-id: 1c6fce457ef7e6f889e38dc0423791be92310a62.1565558093.git.balaton@eik.bme.hu
+Message-id: e2a7ec7af3fc30523213bcd27832ccad34323f2c.1565558093.git.balaton@eik.bme.hu
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/ati.c | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ hw/display/ati_int.h  |  1 +
+ hw/display/ati_regs.h |  2 ++
+ hw/display/ati.c      | 10 +++++++++-
+ 3 files changed, 12 insertions(+), 1 deletion(-)
 
+diff --git a/hw/display/ati_int.h b/hw/display/ati_int.h
+index 31a1927b3ecb..5b4d3be1e626 100644
+--- a/hw/display/ati_int.h
++++ b/hw/display/ati_int.h
+@@ -39,6 +39,7 @@ typedef struct ATIVGARegs {
+     uint32_t gpio_vga_ddc;
+     uint32_t gpio_dvi_ddc;
+     uint32_t gpio_monid;
++    uint32_t config_cntl;
+     uint32_t crtc_h_total_disp;
+     uint32_t crtc_h_sync_strt_wid;
+     uint32_t crtc_v_total_disp;
+diff --git a/hw/display/ati_regs.h b/hw/display/ati_regs.h
+index 91947ab1e7f7..02046e97c298 100644
+--- a/hw/display/ati_regs.h
++++ b/hw/display/ati_regs.h
+@@ -317,6 +317,8 @@
+ #define X_MPLL_REF_DIV_MASK                     0x000000FF
+ 
+ /* Config control values (CONFIG_CNTL) */
++#define APER_0_ENDIAN                           0x00000003
++#define APER_1_ENDIAN                           0x0000000c
+ #define CFG_VGA_IO_DIS                          0x00000400
+ 
+ /* CRTC control values (CRTC_GEN_CNTL) */
 diff --git a/hw/display/ati.c b/hw/display/ati.c
-index ff04f7eb4a2d..f24c23fa89c8 100644
+index f24c23fa89c8..cceb45b34a58 100644
 --- a/hw/display/ati.c
 +++ b/hw/display/ati.c
-@@ -50,6 +50,7 @@ static void ati_vga_switch_mode(ATIVGAState *s)
-         s->mode = EXT_MODE;
-         if (s->regs.crtc_gen_cntl & CRTC2_EN) {
-             /* CRT controller enabled, use CRTC values */
-+            /* FIXME Should these be the same as VGA CRTC regs? */
-             uint32_t offs = s->regs.crtc_offset & 0x07ffffff;
-             int stride = (s->regs.crtc_pitch & 0x7ff) * 8;
-             int bpp = 0;
-@@ -101,16 +102,23 @@ static void ati_vga_switch_mode(ATIVGAState *s)
-                 (s->regs.dac_cntl & DAC_8BIT_EN ? VBE_DISPI_8BIT_DAC : 0));
-             /* now set offset and stride after enable as that resets these */
-             if (stride) {
-+                int bypp = DIV_ROUND_UP(bpp, BITS_PER_BYTE);
-+
-                 vbe_ioport_write_index(&s->vga, 0, VBE_DISPI_INDEX_VIRT_WIDTH);
-                 vbe_ioport_write_data(&s->vga, 0, stride);
--                if (offs % stride == 0) {
--                    vbe_ioport_write_index(&s->vga, 0, VBE_DISPI_INDEX_Y_OFFSET);
--                    vbe_ioport_write_data(&s->vga, 0, offs / stride);
--                } else {
--                    /* FIXME what to do with this? */
--                    error_report("VGA offset is not multiple of pitch, "
--                                 "expect bad picture");
-+                stride *= bypp;
-+                if (offs % stride) {
-+                    DPRINTF("CRTC offset is not multiple of pitch\n");
-+                    vbe_ioport_write_index(&s->vga, 0,
-+                                           VBE_DISPI_INDEX_X_OFFSET);
-+                    vbe_ioport_write_data(&s->vga, 0, offs % stride / bypp);
-                 }
-+                vbe_ioport_write_index(&s->vga, 0, VBE_DISPI_INDEX_Y_OFFSET);
-+                vbe_ioport_write_data(&s->vga, 0, offs / stride);
-+                DPRINTF("VBE offset (%d,%d), vbe_start_addr=%x\n",
-+                        s->vga.vbe_regs[VBE_DISPI_INDEX_X_OFFSET],
-+                        s->vga.vbe_regs[VBE_DISPI_INDEX_Y_OFFSET],
-+                        s->vga.vbe_start_addr);
-             }
-         }
-     } else {
+@@ -90,7 +90,9 @@ static void ati_vga_switch_mode(ATIVGAState *s)
+             DPRINTF("Switching to %dx%d %d %d @ %x\n", h, v, stride, bpp, offs);
+             vbe_ioport_write_index(&s->vga, 0, VBE_DISPI_INDEX_ENABLE);
+             vbe_ioport_write_data(&s->vga, 0, VBE_DISPI_DISABLED);
+-            s->vga.big_endian_fb = false;
++            s->vga.big_endian_fb = (s->regs.config_cntl & APER_0_ENDIAN ||
++                                    s->regs.config_cntl & APER_1_ENDIAN ?
++                                    true : false);
+             /* reset VBE regs then set up mode */
+             s->vga.vbe_regs[VBE_DISPI_INDEX_XRES] = h;
+             s->vga.vbe_regs[VBE_DISPI_INDEX_YRES] = v;
+@@ -310,6 +312,9 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
+     case PALETTE_DATA:
+         val = vga_ioport_read(&s->vga, VGA_PEL_D);
+         break;
++    case CNFG_CNTL:
++        val = s->regs.config_cntl;
++        break;
+     case CNFG_MEMSIZE:
+         val = s->vga.vram_size;
+         break;
+@@ -604,6 +609,9 @@ static void ati_mm_write(void *opaque, hwaddr addr,
+         data >>= 8;
+         vga_ioport_write(&s->vga, VGA_PEL_D, data & 0xff);
+         break;
++    case CNFG_CNTL:
++        s->regs.config_cntl = data;
++        break;
+     case CRTC_H_TOTAL_DISP:
+         s->regs.crtc_h_total_disp = data & 0x07ff07ff;
+         break;
 -- 
 2.18.1
 
