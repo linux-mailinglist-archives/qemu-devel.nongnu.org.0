@@ -2,51 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0679599215
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 13:33:04 +0200 (CEST)
-Received: from localhost ([::1]:41164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A65B9923B
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 13:35:07 +0200 (CEST)
+Received: from localhost ([::1]:41198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0lKx-00081g-0o
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 07:33:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57034)
+	id 1i0lMw-0001xP-65
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 07:35:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i0lI2-0006aK-6M
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:30:04 -0400
+ (envelope-from <nsoffer@redhat.com>) id 1i0lIt-0007W1-7J
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:30:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i0lI0-0003dA-8W
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:30:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36312)
+ (envelope-from <nsoffer@redhat.com>) id 1i0lIo-00043X-87
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:30:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59648)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1i0lHx-0003bu-Cj; Thu, 22 Aug 2019 07:29:57 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1i0lIn-00042q-Ip
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:30:50 -0400
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B0B3710C6969;
- Thu, 22 Aug 2019 11:29:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 169161001B33;
- Thu, 22 Aug 2019 11:29:48 +0000 (UTC)
-Date: Thu, 22 Aug 2019 12:29:46 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Message-ID: <20190822112946.GP3267@redhat.com>
-References: <20190814202219.1870-1-mlevitsk@redhat.com>
- <20190814202219.1870-11-mlevitsk@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 95F5BC05AA58
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 11:30:48 +0000 (UTC)
+Received: by mail-ot1-f69.google.com with SMTP id x1so2949504oto.8
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 04:30:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pj6o1WBEIggwonL5BmsAF2tJBmF/keEMRhnRbTlTvKE=;
+ b=uQI0r2N3aC2ZBn1WT0c0xrG02I8DJOtrv5AkQZw+D6ofjed+aozOr6Hciudeek0gW7
+ VZniB4AJxevZ7ViAfouVlJcM9f7ra45A9ar+JpsQ8TppRxpjQqLBfNMknMr9weUYUX1G
+ D6pqf39fN/nPfot9VW0ZE0KxTtQWp/ZdDsvmdY8ii0EuSFO5tSIQmzayKeTgC4cJ4x2+
+ rdvsIxmCvM0uKnv8e/7945pAtK2k9HOyvWedKgPYfB/WrFxXMiheq/S+6XhLx38LlFbN
+ eMayl/uA6DgfqcjeAVIdDUD87YXxJOh6Pi1kjYjDXwtzQw6Rbn0jsysg4+xTmHEyZE5x
+ 7NtA==
+X-Gm-Message-State: APjAAAU5cU1fYp4BcDDqQfOFzSNYCyv0mo7ROYJn64vRLYBjPTLV/LCX
+ z7YYHEaTCnTJI0BBTv33yEb0Z4UJ2aPP91K6s6Kh0vB1/aacs5SLkEjZ49KR6t6hbv+7N2TL5Ex
+ 3ir5OggnNA3swEgtX/BVQDNSFlqKL9So=
+X-Received: by 2002:a9d:6303:: with SMTP id q3mr24841192otk.81.1566473447897; 
+ Thu, 22 Aug 2019 04:30:47 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzY4/V7Pz/1stItAFFt+jkXdmSSYaycO3nk3jIYCsWaFEaXHJpdQM+r8SIxE3RqEvWPYybCYhenEjpzdbQeU9k=
+X-Received: by 2002:a9d:6303:: with SMTP id q3mr24841168otk.81.1566473447529; 
+ Thu, 22 Aug 2019 04:30:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190814202219.1870-11-mlevitsk@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Thu, 22 Aug 2019 11:29:56 +0000 (UTC)
+References: <20190816212122.8816-1-nsoffer@redhat.com>
+In-Reply-To: <20190816212122.8816-1-nsoffer@redhat.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Thu, 22 Aug 2019 14:30:36 +0300
+Message-ID: <CAMRbyyuUtAOfdENsvb5+24z2Cr_K6=XPCLVsu3dhUwUb520x1w@mail.gmail.com>
+To: Max Reitz <mreitz@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 10/13] block/crypto: implement the
- encryption key management
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH] block: posix: Always allocate the first
+ block
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,150 +71,324 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 14, 2019 at 11:22:16PM +0300, Maxim Levitsky wrote:
-> This implements the encryption key management
-> using the generic code in qcrypto layer
-> 
-> This code adds another 'write_func' because the initialization
-> write_func works directly on the underlying file,
-> because during the creation, there is no open instance
-> of the luks driver, but during regular use, we have it,
-> and should use it instead.
-> 
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Max, did you have time to look at this?
+
+On Sat, Aug 17, 2019 at 12:21 AM Nir Soffer <nirsof@gmail.com> wrote:
+
+> When creating an image with preallocation "off" or "falloc", the first
+> block of the image is typically not allocated. When using Gluster
+> storage backed by XFS filesystem, reading this block using direct I/O
+> succeeds regardless of request length, fooling alignment detection.
+>
+> In this case we fallback to a safe value (4096) instead of the optimal
+> value (512), which may lead to unneeded data copying when aligning
+> requests.  Allocating the first block avoids the fallback.
+>
+> When using preallocation=off, we always allocate at least one filesystem
+> block:
+>
+>     $ ./qemu-img create -f raw test.raw 1g
+>     Formatting 'test.raw', fmt=raw size=1073741824
+>
+>     $ ls -lhs test.raw
+>     4.0K -rw-r--r--. 1 nsoffer nsoffer 1.0G Aug 16 23:48 test.raw
+>
+> I did quick performance tests for these flows:
+> - Provisioning a VM with a new raw image.
+> - Copying disks with qemu-img convert to new raw target image
+>
+> I installed Fedora 29 server on raw sparse image, measuring the time
+> from clicking "Begin installation" until the "Reboot" button appears:
+>
+> Before(s)  After(s)     Diff(%)
+> -------------------------------
+>      356        389        +8.4
+>
+> I ran this only once, so we cannot tell much from these results.
+>
+> The second test was cloning the installation image with qemu-img
+> convert, doing 10 runs:
+>
+>     for i in $(seq 10); do
+>         rm -f dst.raw
+>         sleep 10
+>         time ./qemu-img convert -f raw -O raw -t none -T none src.raw
+> dst.raw
+>     done
+>
+> Here is a table comparing the total time spent:
+>
+> Type    Before(s)   After(s)    Diff(%)
+> ---------------------------------------
+> real      530.028    469.123      -11.4
+> user       17.204     10.768      -37.4
+> sys        17.881      7.011      -60.7
+>
+> Here we see very clear improvement in CPU usage.
+>
+> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
 > ---
->  block/crypto.c | 96 ++++++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 93 insertions(+), 3 deletions(-)
-> 
-> diff --git a/block/crypto.c b/block/crypto.c
-> index 42a3f0898b..415b6db041 100644
-> --- a/block/crypto.c
-> +++ b/block/crypto.c
-> @@ -36,6 +36,7 @@ typedef struct BlockCrypto BlockCrypto;
->  
->  struct BlockCrypto {
->      QCryptoBlock *block;
-> +    bool updating_keys;
->  };
->  
->  
-> @@ -69,6 +70,24 @@ static ssize_t block_crypto_read_func(QCryptoBlock *block,
+>  block/file-posix.c         | 25 +++++++++++++++++++++++++
+>  tests/qemu-iotests/150.out |  1 +
+>  tests/qemu-iotests/160     |  4 ++++
+>  tests/qemu-iotests/175     | 19 +++++++++++++------
+>  tests/qemu-iotests/175.out |  8 ++++----
+>  tests/qemu-iotests/221.out | 12 ++++++++----
+>  tests/qemu-iotests/253.out | 12 ++++++++----
+>  7 files changed, 63 insertions(+), 18 deletions(-)
+>
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index b9c33c8f6c..3964dd2021 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1755,6 +1755,27 @@ static int handle_aiocb_discard(void *opaque)
 >      return ret;
 >  }
->  
-> +static ssize_t block_crypto_write_func(QCryptoBlock *block,
-> +                                      size_t offset,
-> +                                      const uint8_t *buf,
-> +                                      size_t buflen,
-> +                                      void *opaque,
-> +                                      Error **errp)
+>
+> +/*
+> + * Help alignment detection by allocating the first block.
+> + *
+> + * When reading with direct I/O from unallocated area on Gluster backed
+> by XFS,
+> + * reading succeeds regardless of request length. In this case we
+> fallback to
+> + * safe aligment which is not optimal. Allocating the first block avoids
+> this
+> + * fallback.
+> + *
+> + * Returns: 0 on success, -errno on failure.
+> + */
+> +static int allocate_first_block(int fd)
 > +{
-> +    BlockDriverState *bs = opaque;
-> +    ssize_t ret;
+> +    ssize_t n;
 > +
-> +    ret = bdrv_pwrite(bs->file, offset, buf, buflen);
-> +    if (ret < 0) {
-> +        error_setg_errno(errp, -ret, "Could not write encryption header");
-> +        return ret;
-> +    }
-> +    return ret;
+> +    do {
+> +        n = pwrite(fd, "\0", 1, 0);
+> +    } while (n == -1 && errno == EINTR);
+> +
+> +    return (n == -1) ? -errno : 0;
 > +}
 > +
->  
->  struct BlockCryptoCreateData {
->      BlockBackend *blk;
-> @@ -622,6 +641,78 @@ block_crypto_get_specific_info_luks(BlockDriverState *bs, Error **errp)
->      return spec_info;
+>  static int handle_aiocb_truncate(void *opaque)
+>  {
+>      RawPosixAIOData *aiocb = opaque;
+> @@ -1794,6 +1815,8 @@ static int handle_aiocb_truncate(void *opaque)
+>                  /* posix_fallocate() doesn't set errno. */
+>                  error_setg_errno(errp, -result,
+>                                   "Could not preallocate new data");
+> +            } else if (current_length == 0) {
+> +                allocate_first_block(fd);
+>              }
+>          } else {
+>              result = 0;
+> @@ -1855,6 +1878,8 @@ static int handle_aiocb_truncate(void *opaque)
+>          if (ftruncate(fd, offset) != 0) {
+>              result = -errno;
+>              error_setg_errno(errp, -result, "Could not resize file");
+> +        } else if (current_length == 0 && offset > current_length) {
+> +            allocate_first_block(fd);
+>          }
+>          return result;
+>      default:
+> diff --git a/tests/qemu-iotests/150.out b/tests/qemu-iotests/150.out
+> index 2a54e8dcfa..3cdc7727a5 100644
+> --- a/tests/qemu-iotests/150.out
+> +++ b/tests/qemu-iotests/150.out
+> @@ -3,6 +3,7 @@ QA output created by 150
+>  === Mapping sparse conversion ===
+>
+>  Offset          Length          File
+> +0               0x1000          TEST_DIR/t.IMGFMT
+>
+>  === Mapping non-sparse conversion ===
+>
+> diff --git a/tests/qemu-iotests/160 b/tests/qemu-iotests/160
+> index df89d3864b..ad2d054a47 100755
+> --- a/tests/qemu-iotests/160
+> +++ b/tests/qemu-iotests/160
+> @@ -57,6 +57,10 @@ for skip in $TEST_SKIP_BLOCKS; do
+>      $QEMU_IMG dd if="$TEST_IMG" of="$TEST_IMG.out" skip="$skip" -O
+> "$IMGFMT" \
+>          2> /dev/null
+>      TEST_IMG="$TEST_IMG.out" _check_test_img
+> +
+> +    # We always write the first byte of an image.
+> +    printf "\0" > "$TEST_IMG.out.dd"
+> +
+>      dd if="$TEST_IMG" of="$TEST_IMG.out.dd" skip="$skip" status=none
+>
+>      echo
+> diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
+> index 51e62c8276..c6a3a7bb1e 100755
+> --- a/tests/qemu-iotests/175
+> +++ b/tests/qemu-iotests/175
+> @@ -37,14 +37,16 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+>  # the file size.  This function hides the resulting difference in the
+>  # stat -c '%b' output.
+>  # Parameter 1: Number of blocks an empty file occupies
+> -# Parameter 2: Image size in bytes
+> +# Parameter 2: Minimal number of blocks in an image
+> +# Parameter 3: Image size in bytes
+>  _filter_blocks()
+>  {
+>      extra_blocks=$1
+> -    img_size=$2
+> +    min_blocks=$2
+> +    img_size=$3
+>
+> -    sed -e "s/blocks=$extra_blocks\\(\$\\|[^0-9]\\)/nothing allocated/" \
+> -        -e "s/blocks=$((extra_blocks + img_size /
+> 512))\\(\$\\|[^0-9]\\)/everything allocated/"
+> +    sed -e "s/blocks=$((extra_blocks + min_blocks))\\(\$\\|[^0-9]\\)/min
+> allocation/" \
+> +        -e "s/blocks=$((extra_blocks + img_size /
+> 512))\\(\$\\|[^0-9]\\)/max allocation/"
 >  }
->  
+>
+>  # get standard environment, filters and checks
+> @@ -60,16 +62,21 @@ size=$((1 * 1024 * 1024))
+>  touch "$TEST_DIR/empty"
+>  extra_blocks=$(stat -c '%b' "$TEST_DIR/empty")
+>
+> +# We always write the first byte; check how many blocks this filesystem
+> +# allocates to match empty image alloation.
+> +printf "\0" > "$TEST_DIR/empty"
+> +min_blocks=$(stat -c '%b' "$TEST_DIR/empty")
 > +
-> +static int
-> +block_crypto_setup_encryption(BlockDriverState *bs,
-> +                              enum BlkSetupEncryptionAction action,
-> +                              QCryptoEncryptionSetupOptions *options,
-> +                              bool force,
-> +                              Error **errp)
-> +{
-> +    BlockCrypto *crypto = bs->opaque;
-> +    int ret;
-> +
-> +    assert(crypto);
-> +    assert(crypto->block);
-> +
-> +    crypto->updating_keys = true;
-> +
-> +    ret = bdrv_child_refresh_perms(bs, bs->file, errp);
-> +
-> +    if (ret) {
-> +        crypto->updating_keys = false;
-> +        return ret;
-> +    }
-> +
-> +    ret = qcrypto_block_setup_encryption(crypto->block,
-> +                                          block_crypto_read_func,
-> +                                          block_crypto_write_func,
-> +                                          bs,
-> +                                          action,
-> +                                          options,
-> +                                          force,
-> +                                          errp);
-> +
-> +    crypto->updating_keys = false;
-> +    bdrv_child_refresh_perms(bs, bs->file, errp);
-> +
-> +
-> +    return ret;
-> +
-> +}
-> +
-> +
-> +static void
-> +block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
-> +                         const BdrvChildRole *role,
-> +                         BlockReopenQueue *reopen_queue,
-> +                         uint64_t perm, uint64_t shared,
-> +                         uint64_t *nperm, uint64_t *nshared)
-> +{
-> +
-> +    BlockCrypto *crypto = bs->opaque;
-> +
-> +    /*
-> +     * This driver doesn't modify LUKS metadata except
-> +     * when updating the encryption slots.
-> +     * Allow share-rw=on as a special case.
-> +     *
-> +     * Encryption update will set the crypto->updating_keys
-> +     * during that period and refresh permissions
-> +     *
-> +     * */
-> +
-> +    if (crypto->updating_keys) {
-> +        /*need exclusive write access for header update  */
-> +        perm |= BLK_PERM_WRITE;
-> +        shared &= ~BLK_PERM_WRITE;
-> +    }
-
-So if 2 QEMU's have the same LUKS image open, this means that
-if one tries to update the header, it will fail to upgrade
-its lock & thus be blocked from updating header ?
-
-> +
-> +    bdrv_filter_default_perms(bs, c, role, reopen_queue,
-> +            perm, shared, nperm, nshared);
-> +}
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+>  echo
+>  echo "== creating image with default preallocation =="
+>  _make_test_img $size | _filter_imgfmt
+> -stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks
+> $size
+> +stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks
+> $min_blocks $size
+>
+>  for mode in off full falloc; do
+>      echo
+>      echo "== creating image with preallocation $mode =="
+>      IMGOPTS=preallocation=$mode _make_test_img $size | _filter_imgfmt
+> -    stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks
+> $size
+> +    stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks
+> $min_blocks $size
+>  done
+>
+>  # success, all done
+> diff --git a/tests/qemu-iotests/175.out b/tests/qemu-iotests/175.out
+> index 6d9a5ed84e..263e521262 100644
+> --- a/tests/qemu-iotests/175.out
+> +++ b/tests/qemu-iotests/175.out
+> @@ -2,17 +2,17 @@ QA output created by 175
+>
+>  == creating image with default preallocation ==
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
+> -size=1048576, nothing allocated
+> +size=1048576, min allocation
+>
+>  == creating image with preallocation off ==
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 preallocation=off
+> -size=1048576, nothing allocated
+> +size=1048576, min allocation
+>
+>  == creating image with preallocation full ==
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 preallocation=full
+> -size=1048576, everything allocated
+> +size=1048576, max allocation
+>
+>  == creating image with preallocation falloc ==
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
+> preallocation=falloc
+> -size=1048576, everything allocated
+> +size=1048576, max allocation
+>   *** done
+> diff --git a/tests/qemu-iotests/221.out b/tests/qemu-iotests/221.out
+> index 9f9dd52bb0..dca024a0c3 100644
+> --- a/tests/qemu-iotests/221.out
+> +++ b/tests/qemu-iotests/221.out
+> @@ -3,14 +3,18 @@ QA output created by 221
+>  === Check mapping of unaligned raw image ===
+>
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=65537
+> -[{ "start": 0, "length": 66048, "depth": 0, "zero": true, "data": false,
+> "offset": OFFSET}]
+> -[{ "start": 0, "length": 66048, "depth": 0, "zero": true, "data": false,
+> "offset": OFFSET}]
+> +[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true,
+> "offset": OFFSET},
+> +{ "start": 4096, "length": 61952, "depth": 0, "zero": true, "data":
+> false, "offset": OFFSET}]
+> +[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true,
+> "offset": OFFSET},
+> +{ "start": 4096, "length": 61952, "depth": 0, "zero": true, "data":
+> false, "offset": OFFSET}]
+>  wrote 1/1 bytes at offset 65536
+>  1 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> -[{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false,
+> "offset": OFFSET},
+> +[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true,
+> "offset": OFFSET},
+> +{ "start": 4096, "length": 61440, "depth": 0, "zero": true, "data":
+> false, "offset": OFFSET},
+>  { "start": 65536, "length": 1, "depth": 0, "zero": false, "data": true,
+> "offset": OFFSET},
+>  { "start": 65537, "length": 511, "depth": 0, "zero": true, "data": false,
+> "offset": OFFSET}]
+> -[{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false,
+> "offset": OFFSET},
+> +[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true,
+> "offset": OFFSET},
+> +{ "start": 4096, "length": 61440, "depth": 0, "zero": true, "data":
+> false, "offset": OFFSET},
+>  { "start": 65536, "length": 1, "depth": 0, "zero": false, "data": true,
+> "offset": OFFSET},
+>  { "start": 65537, "length": 511, "depth": 0, "zero": true, "data": false,
+> "offset": OFFSET}]
+>  *** done
+> diff --git a/tests/qemu-iotests/253.out b/tests/qemu-iotests/253.out
+> index 607c0baa0b..3d08b305d7 100644
+> --- a/tests/qemu-iotests/253.out
+> +++ b/tests/qemu-iotests/253.out
+> @@ -3,12 +3,16 @@ QA output created by 253
+>  === Check mapping of unaligned raw image ===
+>
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048575
+> -[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data":
+> false, "offset": OFFSET}]
+> -[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data":
+> false, "offset": OFFSET}]
+> +[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true,
+> "offset": OFFSET},
+> +{ "start": 4096, "length": 1044480, "depth": 0, "zero": true, "data":
+> false, "offset": OFFSET}]
+> +[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true,
+> "offset": OFFSET},
+> +{ "start": 4096, "length": 1044480, "depth": 0, "zero": true, "data":
+> false, "offset": OFFSET}]
+>  wrote 65535/65535 bytes at offset 983040
+>  63.999 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> -[{ "start": 0, "length": 983040, "depth": 0, "zero": true, "data": false,
+> "offset": OFFSET},
+> +[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true,
+> "offset": OFFSET},
+> +{ "start": 4096, "length": 978944, "depth": 0, "zero": true, "data":
+> false, "offset": OFFSET},
+>  { "start": 983040, "length": 65536, "depth": 0, "zero": false, "data":
+> true, "offset": OFFSET}]
+> -[{ "start": 0, "length": 983040, "depth": 0, "zero": true, "data": false,
+> "offset": OFFSET},
+> +[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true,
+> "offset": OFFSET},
+> +{ "start": 4096, "length": 978944, "depth": 0, "zero": true, "data":
+> false, "offset": OFFSET},
+>  { "start": 983040, "length": 65536, "depth": 0, "zero": false, "data":
+> true, "offset": OFFSET}]
+>  *** done
+> --
+> 2.20.1
+>
+>
