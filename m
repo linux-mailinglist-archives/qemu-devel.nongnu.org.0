@@ -2,74 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2AB799754
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 16:52:00 +0200 (CEST)
-Received: from localhost ([::1]:44078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C0C99770
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 16:54:14 +0200 (CEST)
+Received: from localhost ([::1]:44102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0oRT-0005BJ-PW
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 10:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36428)
+	id 1i0oTd-00072D-S3
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 10:54:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36874)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1i0oO2-0002Pv-MZ
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:48:29 -0400
+ (envelope-from <berrange@redhat.com>) id 1i0oPJ-0003AD-Tv
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:49:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1i0oO0-0005dn-O2
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:48:26 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33304)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>)
- id 1i0oNw-0005cM-SQ; Thu, 22 Aug 2019 10:48:21 -0400
-Received: by mail-wr1-x444.google.com with SMTP id u16so5733692wrr.0;
- Thu, 22 Aug 2019 07:48:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=3t0UCxRyMWHLNgHZZua9ouU2f52NrqWCdflIJCQ4x9Y=;
- b=Zsg1cacM7xZAIHuToWrZCQKqU/e+TK1rAd5nxEc+4EHP/LnzKffQaxRGO1PRCX3HlC
- uE7r4m7Yaq2C2xx4IxMGiD7FvealGjbVfwBeQo3Dl2D4Nwln3DFf/NfFEFI0/x3NwdBA
- p50smioLISi3gy558++YHL1NUmtDSSeWi+XcUXseLuCkBn/4T0sHLsJ6pawM1gQnRqGZ
- SndBLh6624z5R1VExhOWvfSX8ol8gDih16abB1u4Uck2LIIRgddI9/hsfaYfAkTgvZXq
- Y8qrWl6Vc9qEAKC8hs7cQZ+hC7+mmFKne89bjtMtLTPF+D/1dC5MZUJ1/l9R8eCD7XFf
- PwrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=3t0UCxRyMWHLNgHZZua9ouU2f52NrqWCdflIJCQ4x9Y=;
- b=jVK6cUPDHZAYFxIEh5qO7WitVLWk1iz3T5hIYoL/Kq74VZiANJ4NxC4lJ95H4BcliW
- /8JBOLi0oeaj7VAWsnhLyOWwTfgubodKRwlTKoh2nQQBgp+maPegREpWYFvEb27BVUdw
- wlGWDGM3j57N01rpt6Ed1VFYwK+8eUHOeL93A/5S6cL9x6IbtRq4tT4oWC3forEvApD9
- rePr+iVzm/0TS6TStYiZgmpAl12MxhI2yR2nv42bOiv68lB0EGGkAADqbc6vwqLoCFGZ
- Q10air4cb4/p/WsuZCEwXgZtgHe3f6RwuuuSK6azO9lXqpek/QAti60g72TGFbYAqzOX
- kiRA==
-X-Gm-Message-State: APjAAAWwkyHRbq3rHVK/OImvuKSLgBpwKaO300RSXREhO5Hj6HxrTysR
- 80qaAhOPIsxo6Q02HrLvE2w=
-X-Google-Smtp-Source: APXvYqzFfG+HRvFxehcPU/83Ue/Aauvg7cz50GLsZktNr+Gm3q2MkhfIR06/b1tVGS8kzfqcuMhDTA==
-X-Received: by 2002:adf:e846:: with SMTP id d6mr1255703wrn.263.1566485299749; 
- Thu, 22 Aug 2019 07:48:19 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id d69sm4200169wmd.4.2019.08.22.07.48.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Aug 2019 07:48:18 -0700 (PDT)
-Date: Thu, 22 Aug 2019 15:48:17 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <20190822144817.GA13952@stefanha-x1.localdomain>
-References: <20190604161514.262241-1-vsementsov@virtuozzo.com>
- <20190729152400.GB21033@stefanha-x1.localdomain>
- <5936085a-a811-87ee-b1b2-0a12c3c745ec@virtuozzo.com>
+ (envelope-from <berrange@redhat.com>) id 1i0oPI-00068g-HT
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:49:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35128)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i0oPI-00068E-92
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:49:44 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 88FA918C4269;
+ Thu, 22 Aug 2019 14:49:43 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3FDB5D6A7;
+ Thu, 22 Aug 2019 14:49:42 +0000 (UTC)
+Date: Thu, 22 Aug 2019 15:49:40 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190822144940.GV3267@redhat.com>
+References: <20190822011620.106337-1-aik@ozlabs.ru>
+ <87wof5b7ze.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xHFwDpU9dbj6ez1V"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5936085a-a811-87ee-b1b2-0a12c3c745ec@virtuozzo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2 00/12] block: qiov_offset
- parameter for io
+In-Reply-To: <87wof5b7ze.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Thu, 22 Aug 2019 14:49:43 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC PATCH qemu] qapi: Add query-memory-checksum
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,104 +57,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Aug 22, 2019 at 04:16:53PM +0200, Markus Armbruster wrote:
+> Alexey Kardashevskiy <aik@ozlabs.ru> writes:
+> 
+> > This returns MD5 checksum of all RAM blocks for migration debugging
+> > as this is way faster than saving the entire RAM to a file and checking
+> > that.
+> >
+> > Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> 
+> Any particular reason for MD5?  Have you measured the other choices
+> offered by GLib?
+> 
+> I understand you don't need crypto-strength here.  Both MD5 and SHA-1
+> would be bad choices then.
 
---xHFwDpU9dbj6ez1V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We have a tests/bench-crypto-hash test but its hardcoded for sha256.
+I hacked it to report all algorithms and got these results for varying
+input chunk sizes:
 
-On Thu, Aug 15, 2019 at 11:12:35AM +0000, Vladimir Sementsov-Ogievskiy wrot=
-e:
-> 29.07.2019 18:24, Stefan Hajnoczi wrote:
-> > On Tue, Jun 04, 2019 at 07:15:02PM +0300, Vladimir Sementsov-Ogievskiy =
-wrote:
-> >> Hi all!
-> >>
-> >> Here is new parameter qiov_offset for io path, to avoid
-> >> a lot of places with same pattern of creating local_qiov or hd_qiov
-> >> variables.
-> >>
-> >> These series also includes my
-> >> "[Qemu-devel] [PATCH 0/2] block/io: refactor padding"
-> >> with some changes [described in 01 and 03 emails]
-> >>
-> >> Vladimir Sementsov-Ogievskiy (12):
-> >>    util/iov: introduce qemu_iovec_init_extended
-> >>    util/iov: improve qemu_iovec_is_zero
-> >>    block/io: refactor padding
-> >>    block: define .*_part io handlers in BlockDriver
-> >>    block/io: bdrv_co_do_copy_on_readv: use and support qiov_offset
-> >>    block/io: bdrv_co_do_copy_on_readv: lazy allocation
-> >>    block/io: bdrv_aligned_preadv: use and support qiov_offset
-> >>    block/io: bdrv_aligned_pwritev: use and support qiov_offset
-> >>    block/io: introduce bdrv_co_p{read,write}v_part
-> >>    block/qcow2: refactor qcow2_co_preadv to use buffer-based io
-> >>    block/qcow2: implement .bdrv_co_preadv_part
-> >>    block/qcow2: implement .bdrv_co_pwritev(_compressed)_part
-> >>
-> >>   block/qcow2.h             |   1 +
-> >>   include/block/block_int.h |  21 ++
-> >>   include/qemu/iov.h        |  10 +-
-> >>   block/backup.c            |   2 +-
-> >>   block/io.c                | 532 ++++++++++++++++++++++--------------=
---
-> >>   block/qcow2-cluster.c     |  14 +-
-> >>   block/qcow2.c             | 131 +++++-----
-> >>   qemu-img.c                |   4 +-
-> >>   util/iov.c                | 153 +++++++++--
-> >>   9 files changed, 559 insertions(+), 309 deletions(-)
-> >>
-> >> --=20
-> >> 2.18.0
-> >=20
-> > Thanks, applied to my block tree:
-> > https://github.com/stefanha/qemu/commits/block
-> >=20
-> > Stefan
-> >=20
->=20
-> Could you please squash this into 01:
->=20
-> diff --git a/util/iov.c b/util/iov.c
-> index 0ed75e764c..5059e10431 100644
-> --- a/util/iov.c
-> +++ b/util/iov.c
-> @@ -422,7 +422,7 @@ void qemu_iovec_init_extended(
->           void *tail_buf, size_t tail_len)
->   {
->       size_t mid_head, mid_tail;
-> -    int total_niov, mid_niov;
-> +    int total_niov, mid_niov =3D 0;
->       struct iovec *p, *mid_iov;
->=20
->       if (mid_len) {
+/crypto/hash/md5/speed-512: 519.12 MB/sec OK
+/crypto/hash/md5/speed-1024: 560.39 MB/sec OK
+/crypto/hash/md5/speed-4096: 591.39 MB/sec OK
+/crypto/hash/md5/speed-16384: 576.46 MB/sec OK
+/crypto/hash/sha1/speed-512: 443.12 MB/sec OK
+/crypto/hash/sha1/speed-1024: 518.82 MB/sec OK
+/crypto/hash/sha1/speed-4096: 555.60 MB/sec OK
+/crypto/hash/sha1/speed-16384: 568.16 MB/sec OK
+/crypto/hash/sha224/speed-512: 221.90 MB/sec OK
+/crypto/hash/sha224/speed-1024: 239.79 MB/sec OK
+/crypto/hash/sha224/speed-4096: 269.37 MB/sec OK
+/crypto/hash/sha224/speed-16384: 274.87 MB/sec OK
+/crypto/hash/sha256/speed-512: 222.75 MB/sec OK
+/crypto/hash/sha256/speed-1024: 253.25 MB/sec OK
+/crypto/hash/sha256/speed-4096: 272.80 MB/sec OK
+/crypto/hash/sha256/speed-16384: 275.59 MB/sec OK
+/crypto/hash/sha384/speed-512: 322.73 MB/sec OK
+/crypto/hash/sha384/speed-1024: 369.84 MB/sec OK
+/crypto/hash/sha384/speed-4096: 406.71 MB/sec OK
+/crypto/hash/sha384/speed-16384: 417.87 MB/sec OK
+/crypto/hash/sha512/speed-512: 320.62 MB/sec OK
+/crypto/hash/sha512/speed-1024: 361.93 MB/sec OK
+/crypto/hash/sha512/speed-4096: 404.91 MB/sec OK
+/crypto/hash/sha512/speed-16384: 418.53 MB/sec OK
+/crypto/hash/ripemd160/speed-512: 226.45 MB/sec OK
+/crypto/hash/ripemd160/speed-1024: 239.25 MB/sec OK
+/crypto/hash/ripemd160/speed-4096: 251.31 MB/sec OK
+/crypto/hash/ripemd160/speed-16384: 255.01 MB/sec OK
 
-Done.  Sending the pull request today.
 
-Stefan
+IOW, md5 is clearly the quickest, by a considerable margin over
+SHA256/512. SHA1 is slightly slower.
 
---xHFwDpU9dbj6ez1V
-Content-Type: application/pgp-signature; name="signature.asc"
+Assuming that we document that this command is intentionally
+*not* trying to guarantee collision resistances we're ok.
 
------BEGIN PGP SIGNATURE-----
+In fact we should not document what kind of checksum is
+reported by query-memory-checksum. The impl should be a black
+box from user's POV.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1eqzEACgkQnKSrs4Gr
-c8jnyAf9FcFzYjo8XO87qUM29kiiSaWdFJ40Ri4wocFDfcPu/9lzh23ztlhKyGve
-nwX6KXzEeDE/OzzRaUy6YFjX98JsgUOeFdlg9+KAnlf+qmFtIh7SWhnOjGvmcJuC
-75bcgPhYfodDbRf1aXMMcwX/TVoB9ednPyntcvYZQ3JGB2zvJ8jtQf0nuE9S1oUX
-Zc24t6V36KyLfLQg0wiHCt4uzl5UJ8WNF3GUuGMnNx2wj92ARDXv28Xz2sJKE+fZ
-1xerVczMMIkcEvVmUy1p3WRQCK4BRePnPV2kSRtIkuD53B6MLQqQitrfQ6qOk3BK
-9mwqzLD3RO9Ekw8o+8a6bTdvvn3msA==
-=TBcm
------END PGP SIGNATURE-----
+If we're just aiming for debugging tool to detect accidental
+corruption, could we even just ignore cryptographic hashs
+entirely and do a crc32 - that'd be way faster than even
+md5.
 
---xHFwDpU9dbj6ez1V--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
