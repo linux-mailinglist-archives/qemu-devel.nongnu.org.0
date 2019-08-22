@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D50549A26B
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 23:56:31 +0200 (CEST)
-Received: from localhost ([::1]:48100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D70E39A287
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 00:02:51 +0200 (CEST)
+Received: from localhost ([::1]:48148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0v4I-0003JA-CU
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 17:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42592)
+	id 1i0vAQ-0007cY-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 18:02:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43204)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1i0v2O-0002T7-QW
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:54:34 -0400
+ (envelope-from <5415baa3955c354d9f1e6aab39270ab2abca662a@lizzy.crudebyte.com>)
+ id 1i0v6x-0006sf-Db
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:59:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1i0v2M-0005d5-UO
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:54:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49314)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i0v2M-0005cp-NA
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:54:30 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1CEF0300DA70;
- Thu, 22 Aug 2019 21:54:29 +0000 (UTC)
-Received: from localhost (ovpn-116-73.gru2.redhat.com [10.97.116.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A50819C78;
- Thu, 22 Aug 2019 21:54:22 +0000 (UTC)
-Date: Thu, 22 Aug 2019 18:54:20 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Message-ID: <20190822215420.GO7077@habkost.net>
-References: <20181109150710.31085-1-crosa@redhat.com>
- <20181109150710.31085-2-crosa@redhat.com>
- <CAFEAcA86JT-3jLV=+aqLntoe1jJr77VYvg1dWn9OBVGA6cPZmQ@mail.gmail.com>
- <20190822211636.GA23027@dhcp-17-173.bos.redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190822211636.GA23027@dhcp-17-173.bos.redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Thu, 22 Aug 2019 21:54:29 +0000 (UTC)
+ (envelope-from <5415baa3955c354d9f1e6aab39270ab2abca662a@lizzy.crudebyte.com>)
+ id 1i0v6v-0006xo-TS
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:59:15 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:46489)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71)
+ (envelope-from <5415baa3955c354d9f1e6aab39270ab2abca662a@lizzy.crudebyte.com>)
+ id 1i0v6v-0006ay-Mz
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:59:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:References:In-Reply-To:
+ Message-Id:Sender:Reply-To:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ATo9ZxD30LpwfiShVhASAlgxgIkm/nBKSWUfpzx5kYM=; b=eBe97Q0QXsj2cq1LNaAo0KPdh
+ 4rLwOdBM+BK9Ao3ZRYJCQNQUYG7XBo+QmH9nsTH4kKqurHIQ0lTuLqDnLWFng9QjowBsygMoxQPfN
+ YttwewU6jwE10vlyaKWCPW6lNcYU7EzAJUbSW0pa87UnwWoAP1NvEltHlWBwczG9P10g/D3U6zjxs
+ S+i8AeYv50/4C0RIa/MJUc9Q9YQuhw56dmWJXMCjpZWD+Ciu8qwjBqVeKbgVWrlZMAQtdJZXU6Z7U
+ WaYrgyKgCj3Qq9175134gl3DKbOVIiaRvFWiyYwLL0VBv6mkQ1zn7Ok8oLFhnmDZ0J5U2QyXB7k0S
+ Pv0+yeS0Q==;
+Message-Id: <5415baa3955c354d9f1e6aab39270ab2abca662a.1566503584.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1566503584.git.qemu_oss@crudebyte.com>
+References: <cover.1566503584.git.qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 22 Aug 2019 21:28:19 +0200
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/4] configure: keep track of Python version
+X-Received-From: 91.194.90.13
+Subject: [Qemu-devel] [PATCH v6 1/4] 9p: Treat multiple devices on one
+ export as an error
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,128 +56,237 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 22, 2019 at 05:19:26PM -0400, Cleber Rosa wrote:
-> On Thu, Aug 22, 2019 at 05:48:46PM +0100, Peter Maydell wrote:
-> > On Fri, 9 Nov 2018 at 15:09, Cleber Rosa <crosa@redhat.com> wrote:
-> > >
-> > > Some functionality is dependent on the Python version
-> > > detected/configured on configure.  While it's possible to run the
-> > > Python version later and check for the version, doing it once is
-> > > preferable.  Also, it's a relevant information to keep in build logs,
-> > > as the overall behavior of the build can be affected by it.
-> > >
-> > > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > > ---
-> > >  configure | 6 +++++-
-> > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/configure b/configure
-> > > index 74e313a810..67fff0290d 100755
-> > > --- a/configure
-> > > +++ b/configure
-> > > @@ -1740,6 +1740,9 @@ if ! $python -c 'import sys; sys.exit(sys.version_info < (2,7))'; then
-> > >        "Use --python=/path/to/python to specify a supported Python."
-> > >  fi
-> > >
-> > > +# Preserve python version since some functionality is dependent on it
-> > > +python_version=$($python -V 2>&1 | sed -e 's/Python\ //')
-> > > +
-> > 
-> > Hi. Somebody on IRC has just fallen over a problem where
-> > their python's "-V" output prints multiple lines, which
-> > means that "$python_version" here is multiple lines, which
-> > means that the eventual config-host.mak has invalid syntax
-> > because we assume here:
-> >
-> 
-> We've tried a number of things, and just when I thought we wouldn't be
-> able to make any sense out of it, I arrived at a still senseless but
-> precise reproducer.  TL;DR: it has to do with interactive shells and
-> that exact Python build.
-> 
-> Reproducer (docker may also do the trick here):
-> 
->   $ podman run --rm -ti fedora:29 /bin/bash -c 'dnf -y install http://mirror.siena.edu/fedora/linux/releases/29/Everything/x86_64/os/Packages/p/python3-3.7.0-9.fc29.x86_64.rpm; python3 -V'
->   Python 3.7.0 (default, Aug 30 2018, 14:32:33) 
->   [GCC 8.2.1 20180801 (Red Hat 8.2.1-2)]
-> 
-> With an interactive shell instead:
-> 
->   $ podman run --rm -ti fedora:29 /bin/bash -i -c 'dnf -y install http://mirror.siena.edu/fedora/linux/releases/29/Everything/x86_64/os/Packages/p/python3-3.7.0-9.fc29.x86_64.rpm; python3 -V'
->   Python 3.7.0
-> 
-> How this behavior came to be, baffles me.  But, it seems to be fixed
-> on newer versions.
-> 
-> > > @@ -6823,6 +6826,7 @@ echo "INSTALL_DATA=$install -c -m 0644" >> $config_host_mak
-> > >  echo "INSTALL_PROG=$install -c -m 0755" >> $config_host_mak
-> > >  echo "INSTALL_LIB=$install -c -m 0644" >> $config_host_mak
-> > >  echo "PYTHON=$python" >> $config_host_mak
-> > > +echo "PYTHON_VERSION=$python_version" >> $config_host_mak
-> > >  echo "CC=$cc" >> $config_host_mak
-> > >  if $iasl -h > /dev/null 2>&1; then
-> > >    echo "IASL=$iasl" >> $config_host_mak
-> > 
-> > that it's only one line, and will generate bogus makefile
-> > syntax if it's got an embedded newline. (Problem system
-> > seems to be Fedora 29.)
-> >
-> 
-> The assumption could be guaranteed by a "head -1", and while
-> it's not a failproof solution, it would at least not corrupt
-> the makefile and the whole build system.
-> 
-> > I've reread this thread, where there seems to have been
-> > some discussion about just running Python itself to
-> > get the sys.version value (which is how we check for
-> > "is this python too old" earlier in the configure script).
-> > But I'm not really clear why trying to parse -V output is better:
-> > it's definitely less reliable, as demonstrated by this bug.
+The QID path should uniquely identify a file. However, the
+inode of a file is currently used as the QID path, which
+on its own only uniquely identifies files within a device.
+Here we track the device hosting the 9pfs share, in order
+to prevent security issues with QID path collisions from
+other devices.
 
-Agreed.
+Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
+[CS: - Assign dev_id to export root's device already in
+       v9fs_device_realize_common(), not postponed in
+       stat_to_qid().
+     - error_report_once() if more than one device was
+       shared by export.
+     - Return -ENODEV instead of -ENOSYS in stat_to_qid().
+     - Fixed typo in log comment. ]
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ hw/9pfs/9p.c | 69 ++++++++++++++++++++++++++++++++++++++++++++++++------------
+ hw/9pfs/9p.h |  1 +
+ 2 files changed, 56 insertions(+), 14 deletions(-)
 
-> >
-> > Given that the only thing as far as I can tell that we
-> > do with PYTHON_VERSION is use it in tests/Makefile.inc
-> > to suppress a bit of test functionality if we don't have
-> > Python 3, could we stop trying to parse -V output and run
-> > python to print sys.version_info instead, and/or just
-> > have the makefile variable track "is this python 2",
-> > since that's what we really care about and would mean we
-> > don't have to then search the string for "v2"  ?
-> 
-> Because I've been bitten way too many times with differences in Python
-> minor versions, I see a lot of value in keeping the version
-> information in the build system.  But, the same information can
-> certainly be obtained in a more resilient way.  Would you object something
-> like:
-> 
->   python_version=$($python -c 'import sys; print(sys.version().split()[0])')
-
-Sounds much better, but why sys.version().split() instead of
-sys.version_info?
-
-  python_version=$($python -c 'import sys; print(sys.version_info[0])')
-
-> 
-> Or an even more paranoid version?  On my side, I understand the
-> fragility of the current approach, but I also appreciate the
-> information it stores.
-
-We have only one place where $(PYTHON_VERSION) is used, and that
-code will be removed once we stop supporting Python 2.  I don't
-see the point of trying to store extra information that is not
-used anywhere in our makefiles.
-
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 586a6dccba..8cc65c2c67 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -572,10 +572,18 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
+                                 P9_STAT_MODE_SOCKET)
+ 
+ /* This is the algorithm from ufs in spfs */
+-static void stat_to_qid(const struct stat *stbuf, V9fsQID *qidp)
++static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
+ {
+     size_t size;
+ 
++    if (pdu->s->dev_id != stbuf->st_dev) {
++        error_report_once(
++            "9p: Multiple devices detected in same VirtFS export. "
++            "You must use a separate export for each device."
++        );
++        return -ENODEV;
++    }
++
+     memset(&qidp->path, 0, sizeof(qidp->path));
+     size = MIN(sizeof(stbuf->st_ino), sizeof(qidp->path));
+     memcpy(&qidp->path, &stbuf->st_ino, size);
+@@ -587,6 +595,8 @@ static void stat_to_qid(const struct stat *stbuf, V9fsQID *qidp)
+     if (S_ISLNK(stbuf->st_mode)) {
+         qidp->type |= P9_QID_TYPE_SYMLINK;
+     }
++
++    return 0;
+ }
+ 
+ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
+@@ -599,7 +609,10 @@ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
+     if (err < 0) {
+         return err;
+     }
+-    stat_to_qid(&stbuf, qidp);
++    err = stat_to_qid(pdu, &stbuf, qidp);
++    if (err < 0) {
++        return err;
++    }
+     return 0;
+ }
+ 
+@@ -830,7 +843,10 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
+ 
+     memset(v9stat, 0, sizeof(*v9stat));
+ 
+-    stat_to_qid(stbuf, &v9stat->qid);
++    err = stat_to_qid(pdu, stbuf, &v9stat->qid);
++    if (err < 0) {
++        return err;
++    }
+     v9stat->mode = stat_to_v9mode(stbuf);
+     v9stat->atime = stbuf->st_atime;
+     v9stat->mtime = stbuf->st_mtime;
+@@ -891,7 +907,7 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
+ #define P9_STATS_ALL           0x00003fffULL /* Mask for All fields above */
+ 
+ 
+-static void stat_to_v9stat_dotl(V9fsState *s, const struct stat *stbuf,
++static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+                                 V9fsStatDotl *v9lstat)
+ {
+     memset(v9lstat, 0, sizeof(*v9lstat));
+@@ -913,7 +929,7 @@ static void stat_to_v9stat_dotl(V9fsState *s, const struct stat *stbuf,
+     /* Currently we only support BASIC fields in stat */
+     v9lstat->st_result_mask = P9_STATS_BASIC;
+ 
+-    stat_to_qid(stbuf, &v9lstat->qid);
++    return stat_to_qid(pdu, stbuf, &v9lstat->qid);
+ }
+ 
+ static void print_sg(struct iovec *sg, int cnt)
+@@ -1115,7 +1131,6 @@ static void coroutine_fn v9fs_getattr(void *opaque)
+     uint64_t request_mask;
+     V9fsStatDotl v9stat_dotl;
+     V9fsPDU *pdu = opaque;
+-    V9fsState *s = pdu->s;
+ 
+     retval = pdu_unmarshal(pdu, offset, "dq", &fid, &request_mask);
+     if (retval < 0) {
+@@ -1136,7 +1151,10 @@ static void coroutine_fn v9fs_getattr(void *opaque)
+     if (retval < 0) {
+         goto out;
+     }
+-    stat_to_v9stat_dotl(s, &stbuf, &v9stat_dotl);
++    retval = stat_to_v9stat_dotl(pdu, &stbuf, &v9stat_dotl);
++    if (retval < 0) {
++        goto out;
++    }
+ 
+     /*  fill st_gen if requested and supported by underlying fs */
+     if (request_mask & P9_STATS_GEN) {
+@@ -1381,7 +1399,10 @@ static void coroutine_fn v9fs_walk(void *opaque)
+             if (err < 0) {
+                 goto out;
+             }
+-            stat_to_qid(&stbuf, &qid);
++            err = stat_to_qid(pdu, &stbuf, &qid);
++            if (err < 0) {
++                goto out;
++            }
+             v9fs_path_copy(&dpath, &path);
+         }
+         memcpy(&qids[name_idx], &qid, sizeof(qid));
+@@ -1483,7 +1504,10 @@ static void coroutine_fn v9fs_open(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     if (S_ISDIR(stbuf.st_mode)) {
+         err = v9fs_co_opendir(pdu, fidp);
+         if (err < 0) {
+@@ -1593,7 +1617,10 @@ static void coroutine_fn v9fs_lcreate(void *opaque)
+         fidp->flags |= FID_NON_RECLAIMABLE;
+     }
+     iounit =  get_iounit(pdu, &fidp->path);
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Qd", &qid, iounit);
+     if (err < 0) {
+         goto out;
+@@ -2327,7 +2354,10 @@ static void coroutine_fn v9fs_create(void *opaque)
+         }
+     }
+     iounit = get_iounit(pdu, &fidp->path);
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Qd", &qid, iounit);
+     if (err < 0) {
+         goto out;
+@@ -2384,7 +2414,10 @@ static void coroutine_fn v9fs_symlink(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err =  pdu_marshal(pdu, offset, "Q", &qid);
+     if (err < 0) {
+         goto out;
+@@ -3064,7 +3097,10 @@ static void coroutine_fn v9fs_mknod(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Q", &qid);
+     if (err < 0) {
+         goto out;
+@@ -3222,7 +3258,10 @@ static void coroutine_fn v9fs_mkdir(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Q", &qid);
+     if (err < 0) {
+         goto out;
+@@ -3633,6 +3672,8 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+         goto out;
+     }
+ 
++    s->dev_id = stat.st_dev;
++
+     s->ctx.fst = &fse->fst;
+     fsdev_throttle_init(s->ctx.fst);
+ 
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 8883761b2c..5e316178d5 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -256,6 +256,7 @@ struct V9fsState
+     Error *migration_blocker;
+     V9fsConf fsconf;
+     V9fsQID root_qid;
++    dev_t dev_id;
+ };
+ 
+ /* 9p2000.L open flags */
 -- 
-Eduardo
+2.11.0
+
 
