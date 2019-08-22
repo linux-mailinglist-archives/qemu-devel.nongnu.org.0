@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D3C98883
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 02:31:15 +0200 (CEST)
-Received: from localhost ([::1]:37354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBEE598890
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 02:37:07 +0200 (CEST)
+Received: from localhost ([::1]:37382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0b0U-0002x7-Uq
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 20:31:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55809)
+	id 1i0b6B-0006Rt-0N
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 20:37:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i0ayY-00012g-5p
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 20:29:15 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1i0b5K-000634-Gi
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 20:36:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i0ayW-0008Se-SQ
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 20:29:13 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:59939)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1i0b5J-0003G4-AZ
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 20:36:14 -0400
+Received: from mga09.intel.com ([134.134.136.24]:21306)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i0ayW-0008Ng-0h; Wed, 21 Aug 2019 20:29:12 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46DQPp0G04z9s7T; Thu, 22 Aug 2019 10:29:01 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1566433742;
- bh=dZRzxb3xj0eLBKOrSsKmIBQQddu84x0SntFJS8SaHXo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jkdyfm+1Gxa9k3Zys6DmUsIjXyi0vxTubQjWc47sZDMUvOi2oUp5erW915nU0lw6/
- NYWrNEPin+pwBtZ4i6NZtQv36Ins1jsbttusfZolYUSwpPal/xYAZcGWpqe9I1NGJ9
- HQJV+Mebc3g89Bi0rTdL4Co+3UHGIbyH9tUWruXU=
-Date: Thu, 22 Aug 2019 09:00:31 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Paul A. Clarke" <pc@us.ibm.com>
-Message-ID: <20190821230031.GH20890@umbus>
-References: <1566321964-1447-1-git-send-email-pc@us.ibm.com>
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1i0b5J-0003FX-2t
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 20:36:13 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 21 Aug 2019 17:36:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,414,1559545200"; d="scan'208";a="378324678"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by fmsmga005.fm.intel.com with ESMTP; 21 Aug 2019 17:36:09 -0700
+Date: Thu, 22 Aug 2019 08:35:47 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Message-ID: <20190822003547.GA11547@richard>
+References: <20190821155327.25208-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ijf6z65S790CMqo8"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1566321964-1447-1-git-send-email-pc@us.ibm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190821155327.25208-1-berrange@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH] ppc: Fix xscvdpspn for SNAN
+X-Received-From: 134.134.136.24
+Subject: Re: [Qemu-devel] [PATCH] tests: make filemonitor test more robust
+ to event ordering
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,114 +57,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Aug 21, 2019 at 04:53:27PM +0100, Daniel P. Berrangé wrote:
+>The ordering of events that are emitted during the rmdir
+>test have changed with kernel >= 5.3. Semantically both
+>new & old orderings are correct, so we must be able to
+>cope with either.
+>
+>To cope with this, when we see an unexpected event, we
+>push it back onto the queue and look and the subsequent
+>event to see if that matches instead.
+>
+>Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
---ijf6z65S790CMqo8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Tested-by: Wei Yang <richardw.yang@linux.intel.com>
 
-On Tue, Aug 20, 2019 at 12:26:04PM -0500, Paul A. Clarke wrote:
-> From: "Paul A. Clarke" <pc@us.ibm.com>
->=20
-> helper_xscvdpspn() uses float64_to_float32() to convert double-precision
-> floating-point to single-precision.  Unfortunately, float64_to_float32()
-> converts SNAN to QNAN, which should not happen with xscvdpspn.
->=20
-> float64_to_float32() is also used by other instruction implementations
-> for conversions which _should_ convert SNAN to QNAN.
->=20
-> Rather than trying to wedge code to preserve SNAN in float64_to_float32()
-> just for this this one case, I instead embed an embodiment of the
-> conversion code outlined in the POWER ISA for xscvdpspn.
->=20
-> Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
+>---
+> tests/test-util-filemonitor.c | 43 +++++++++++++++++++++++++++--------
+> 1 file changed, 34 insertions(+), 9 deletions(-)
+>
+>diff --git a/tests/test-util-filemonitor.c b/tests/test-util-filemonitor.c
+>index 46e781c022..301cd2db61 100644
+>--- a/tests/test-util-filemonitor.c
+>+++ b/tests/test-util-filemonitor.c
+>@@ -45,6 +45,11 @@ typedef struct {
+>     const char *filedst;
+>     int64_t *watchid;
+>     int eventid;
+>+    /*
+>+     * Only valid with OP_EVENT - this event might be
+>+     * swapped with the next OP_EVENT
+>+     */
+>+    bool swapnext;
+> } QFileMonitorTestOp;
+> 
+> typedef struct {
+>@@ -98,6 +103,10 @@ qemu_file_monitor_test_handler(int64_t id,
+>     QFileMonitorTestData *data = opaque;
+>     QFileMonitorTestRecord *rec = g_new0(QFileMonitorTestRecord, 1);
+> 
+>+    if (debug) {
+>+        g_printerr("Queue event id %" PRIx64 " event %d file %s\n",
+>+                   id, event, filename);
+>+    }
+>     rec->id = id;
+>     rec->event = event;
+>     rec->filename = g_strdup(filename);
+>@@ -125,7 +134,8 @@ qemu_file_monitor_test_record_free(QFileMonitorTestRecord *rec)
+>  * to wait for the event to be queued for us.
+>  */
+> static QFileMonitorTestRecord *
+>-qemu_file_monitor_test_next_record(QFileMonitorTestData *data)
+>+qemu_file_monitor_test_next_record(QFileMonitorTestData *data,
+>+                                   QFileMonitorTestRecord *pushback)
+> {
+>     GTimer *timer = g_timer_new();
+>     QFileMonitorTestRecord *record = NULL;
+>@@ -139,9 +149,15 @@ qemu_file_monitor_test_next_record(QFileMonitorTestData *data)
+>     }
+>     if (data->records) {
+>         record = data->records->data;
+>-        tmp = data->records;
+>-        data->records = g_list_remove_link(data->records, tmp);
+>-        g_list_free(tmp);
+>+        if (pushback) {
+>+            data->records->data = pushback;
+>+        } else {
+>+            tmp = data->records;
+>+            data->records = g_list_remove_link(data->records, tmp);
+>+            g_list_free(tmp);
+>+        }
+>+    } else if (pushback) {
+>+        qemu_file_monitor_test_record_free(pushback);
+>     }
+>     qemu_mutex_unlock(&data->lock);
+> 
+>@@ -158,13 +174,15 @@ static bool
+> qemu_file_monitor_test_expect(QFileMonitorTestData *data,
+>                               int64_t id,
+>                               QFileMonitorEvent event,
+>-                              const char *filename)
+>+                              const char *filename,
+>+                              bool swapnext)
+> {
+>     QFileMonitorTestRecord *rec;
+>     bool ret = false;
+> 
+>-    rec = qemu_file_monitor_test_next_record(data);
+>+    rec = qemu_file_monitor_test_next_record(data, NULL);
+> 
+>+ retry:
+>     if (!rec) {
+>         g_printerr("Missing event watch id %" PRIx64 " event %d file %s\n",
+>                    id, event, filename);
+>@@ -172,6 +190,11 @@ qemu_file_monitor_test_expect(QFileMonitorTestData *data,
+>     }
+> 
+>     if (id != rec->id) {
+>+        if (swapnext) {
+>+            rec = qemu_file_monitor_test_next_record(data, rec);
+>+            swapnext = false;
+>+            goto retry;
+>+        }
+>         g_printerr("Expected watch id %" PRIx64 " but got %" PRIx64 "\n",
+>                    id, rec->id);
+>         goto cleanup;
+>@@ -347,7 +370,8 @@ test_file_monitor_events(void)
+>           .filesrc = "fish", },
+>         { .type = QFILE_MONITOR_TEST_OP_EVENT,
+>           .filesrc = "", .watchid = &watch4,
+>-          .eventid = QFILE_MONITOR_EVENT_IGNORED },
+>+          .eventid = QFILE_MONITOR_EVENT_IGNORED,
+>+          .swapnext = true },
+>         { .type = QFILE_MONITOR_TEST_OP_EVENT,
+>           .filesrc = "fish", .watchid = &watch0,
+>           .eventid = QFILE_MONITOR_EVENT_DELETED },
+>@@ -493,8 +517,9 @@ test_file_monitor_events(void)
+>                 g_printerr("Event id=%" PRIx64 " event=%d file=%s\n",
+>                            *op->watchid, op->eventid, op->filesrc);
+>             }
+>-            if (!qemu_file_monitor_test_expect(
+>-                    &data, *op->watchid, op->eventid, op->filesrc))
+>+            if (!qemu_file_monitor_test_expect(&data, *op->watchid,
+>+                                               op->eventid, op->filesrc,
+>+                                               op->swapnext))
+>                 goto cleanup;
+>             break;
+>         case QFILE_MONITOR_TEST_OP_CREATE:
+>-- 
+>2.21.0
 
-Applied to ppc-for-4.2.  I used rth's description rather than the one
-above, since I found it clearer.
-
-> ---
->  target/ppc/fpu_helper.c | 32 ++++++++++++++++++++++++++++++--
->  1 file changed, 30 insertions(+), 2 deletions(-)
->=20
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index 07bc905..c8e7192 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -2887,12 +2887,40 @@ void helper_xscvqpdp(CPUPPCState *env, uint32_t o=
-pcode,
-> =20
->  uint64_t helper_xscvdpspn(CPUPPCState *env, uint64_t xb)
->  {
-> -    uint64_t result;
-> +    uint64_t result, sign, exp, frac;
-> =20
->      float_status tstat =3D env->fp_status;
->      set_float_exception_flags(0, &tstat);
-> =20
-> -    result =3D (uint64_t)float64_to_float32(xb, &tstat);
-> +    sign =3D extract64(xb, 63,  1);
-> +    exp  =3D extract64(xb, 52, 11);
-> +    frac =3D extract64(xb,  0, 52) | 0x10000000000000ULL;
-> +
-> +    if (unlikely(exp =3D=3D 0 && extract64(frac, 0, 52) !=3D 0)) {
-> +        /* DP denormal operand.  */
-> +        /* Exponent override to DP min exp.  */
-> +        exp =3D 1;
-> +        /* Implicit bit override to 0.  */
-> +        frac =3D deposit64(frac, 53, 1, 0);
-> +    }
-> +
-> +    if (unlikely(exp < 897 && frac !=3D 0)) {
-> +        /* SP tiny operand.  */
-> +        if (897 - exp > 63) {
-> +            frac =3D 0;
-> +        } else {
-> +            /* Denormalize until exp =3D SP min exp.  */
-> +            frac >>=3D (897 - exp);
-> +        }
-> +        /* Exponent override to SP min exp - 1.  */
-> +        exp =3D 896;
-> +    }
-> +
-> +    result =3D sign << 31;
-> +    result |=3D extract64(exp, 10, 1) << 30;
-> +    result |=3D extract64(exp, 0, 7) << 23;
-> +    result |=3D extract64(frac, 29, 23);
-> +
->      /* hardware replicates result to both words of the doubleword result=
-=2E  */
->      return (result << 32) | result;
->  }
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---ijf6z65S790CMqo8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1dzQ8ACgkQbDjKyiDZ
-s5KwiBAAg4+tuOkIyU5FThMgsqSxoqeFqS967VZ/7nUnmYbJYHaL8jK6PzK7yxCx
-SpIyMUcF8J1ICe1/YpNP1vLamUiqJ2bE6ozkhKhWD63UqO+saw3b945X8yKgk0ux
-OyhS5mDDmk4TOKqTFDk7Ta0Y2CjHVzET/BGQ4VBF5UsqTQalq61P7caYiLFobkAx
-eCDb2rbaApJgixvGK45RD7K42oOLSHqE03nRsZPufz9qDUfudZTfpAJEi3Gw9d7U
-02podbMZNXhAmcHF/7DHmkyAiVBkQ4q+p/uFG8j/MzCCa8Sv77nyCZ/1lUaE9wKU
-TX78Wqlh/7dG26XZYmG8cl8oepf5PmT2ZoB1//6IQutJIaiB909081Hq0+x6RHIW
-/wMm0G9oJO2cDrRvyEpjtBg4CG5B/eIXiR+jU0dz3T7YavomUeproDAG4OQRnVnk
-z/2oW7QQePXOfrW2hB3Z2OkarUq1IRNHD9EzDoWmkxCH6VzoRTisfMtnEwYO3Bba
-HokRBiPgowPLVHwUljh+7CmoEtLAZAAev5jo6qWbrIjxAHFi8rNuH/rW2GIH5gPy
-cwJgAletKbEWhz1bLq2ng5nGsnupws2rmEbMabFDGgx3vaR7hj44ODSwbltx2j66
-+81tXi7bX/kMDiO8aBD2deLASOmcW2QYr66mc59HrdNn1GAANiw=
-=oJOi
------END PGP SIGNATURE-----
-
---ijf6z65S790CMqo8--
+-- 
+Wei Yang
+Help you, Help me
 
