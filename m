@@ -2,38 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943C899EDF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 20:35:02 +0200 (CEST)
-Received: from localhost ([::1]:47036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830B199EFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 20:39:13 +0200 (CEST)
+Received: from localhost ([::1]:47068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0rvJ-0005EG-8f
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 14:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56181)
+	id 1i0rzM-00011s-Hd
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 14:39:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i0rre-0004Gs-3G
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 14:31:15 -0400
+ (envelope-from <samuel.thibault@gnu.org>) id 1i0rvr-0007aX-Kv
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 14:35:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i0rrc-0003PZ-Ok
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 14:31:13 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47102)
+ (envelope-from <samuel.thibault@gnu.org>) id 1i0rvo-00076I-VK
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 14:35:34 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:53492)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1i0rrY-0003ME-UO; Thu, 22 Aug 2019 14:31:09 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1i0rrS-00012d-Pn; Thu, 22 Aug 2019 21:31:02 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Thu, 22 Aug 2019 21:31:01 +0300
-Message-Id: <1566498661-53008-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH] block: workaround for unaligned byte range in
- fallocate()
+ (Exim 4.71) (envelope-from <samuel.thibault@gnu.org>)
+ id 1i0rvn-00073J-S8; Thu, 22 Aug 2019 14:35:32 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id 4A088F6E6;
+ Thu, 22 Aug 2019 20:35:29 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id b5_gnTVnfr9K; Thu, 22 Aug 2019 20:35:28 +0200 (CEST)
+Received: from function (lfbn-bor-1-306-163.w109-215.abo.wanadoo.fr
+ [109.215.28.163])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 65A82F6E2;
+ Thu, 22 Aug 2019 20:35:28 +0200 (CEST)
+Received: from samy by function with local (Exim 4.92.1)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1i0rtZ-0000ml-Vh; Thu, 22 Aug 2019 20:33:13 +0200
+Date: Thu, 22 Aug 2019 20:33:13 +0200
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Message-ID: <20190822183313.pptfwjsnrpdi6tfp@function>
+Mail-Followup-To: Samuel Thibault <samuel.thibault@gnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ slirp@lists.freedesktop.org, Petr Matousek <pmatouse@redhat.com>,
+ Vishnu Dev TJ <vishnudevtj@gmail.com>, qemu-stable@nongnu.org,
+ qemu-devel@nongnu.org, Prasad J Pandit <ppandit@redhat.com>
+References: <20190822144134.23521-1-philmd@redhat.com>
+ <20190822144134.23521-2-philmd@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190822144134.23521-2-philmd@redhat.com>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 185.233.100.1
+Subject: Re: [Qemu-devel] [Slirp] [PATCH 1/2] Do not reassemble fragments
+ pointing outside of the original payload
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,60 +67,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- mreitz@redhat.com, stefanha@redhat.com, andrey.shinkevich@virtuozzo.com,
- den@openvz.org
+Cc: slirp@lists.freedesktop.org, Petr Matousek <pmatouse@redhat.com>,
+ qemu-devel@nongnu.org, Vishnu Dev TJ <vishnudevtj@gmail.com>,
+ qemu-stable@nongnu.org, Prasad J Pandit <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Revert the commit 118f99442d 'block/io.c: fix for the allocation failure'
-and make better error handling for the file systems that do not support
-fallocate() for the unaligned byte range. Allow falling back to pwrite
-in case fallocate() returns EINVAL.
+Hello,
 
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
-Suggested-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
-Discussed in email thread with the message ID
-<1554474244-553661-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Philippe Mathieu-Daud=C3=A9, le jeu. 22 ao=C3=BBt 2019 16:41:33 +0200, a =
+ecrit:
+>   Later the newly calculated pointer q is converted into ip structure
+>   and values are modified, Due to the wrong calculation of the delta,
+>   ip will be pointing to incorrect location and ip_src and ip_dst can
+>   be used to write controlled data onto the calculated location. This
+>   may also crash qemu if the calculated ip is located in unmaped area.
 
- block/file-posix.c | 7 +++++++
- block/io.c         | 2 +-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+That does not seem to be related to this:
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index fbeb006..2c254ff 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1588,6 +1588,13 @@ static int handle_aiocb_write_zeroes(void *opaque)
-     if (s->has_write_zeroes) {
-         int ret = do_fallocate(s->fd, FALLOC_FL_ZERO_RANGE,
-                                aiocb->aio_offset, aiocb->aio_nbytes);
-+        if (ret == -EINVAL) {
-+            /*
-+             * Allow falling back to pwrite for file systems that
-+             * do not support fallocate() for unaligned byte range.
-+             */
-+            return -ENOTSUP;
-+        }
-         if (ret == 0 || ret != -ENOTSUP) {
-             return ret;
-         }
-diff --git a/block/io.c b/block/io.c
-index 56bbf19..58f08cd 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1558,7 +1558,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
-             assert(!bs->supported_zero_flags);
-         }
- 
--        if (ret < 0 && !(flags & BDRV_REQ_NO_FALLBACK)) {
-+        if (ret == -ENOTSUP && !(flags & BDRV_REQ_NO_FALLBACK)) {
-             /* Fall back to bounce buffer if write zeroes is unsupported */
-             BdrvRequestFlags write_flags = flags & ~BDRV_REQ_ZERO_WRITE;
- 
--- 
-1.8.3.1
+> Do not queue fragments pointing out of the original payload to avoid
+> to calculate the variable delta.
 
+I don't understand the relation with having to calculate delta.
+
+> diff --git a/src/ip_input.c b/src/ip_input.c
+> index 7364ce0..ee52085 100644
+> --- a/src/ip_input.c
+> +++ b/src/ip_input.c
+> @@ -304,6 +304,19 @@ static struct ip *ip_reass(Slirp *slirp, struct ip=
+ *ip, struct ipq *fp)
+>          ip_deq(q->ipf_prev);
+>      }
+> =20
+> +    /*
+> +     * If we received the first fragment, we know the original
+> +     * payload size.
+
+? We only know the total payload size when receiving the last fragment
+(payload =3D offset*8 + size).
+
+> Verify fragments are within our payload.
+
+By construction of the protocol, fragments can only be within the
+payload, since it's the last fragment which provides the payload size.
+
+> +    for (q =3D fp->frag_link.next; q !=3D (struct ipasfrag*)&fp->frag_=
+link;
+> +            q =3D q->ipf_next) {
+> +        if (!q->ipf_off && q->ipf_len) {
+> +            if (ip->ip_off + ip->ip_len >=3D q->ipf_len) {
+> +                goto dropfrag;
+> +            }
+> +        }
+> +    }
+
+Fragments are kept in order, there is no need to go around the list to
+find the fragment with offset zero, if it is there it is the first one.
+
+Did you make your test with commit 126c04acbabd ("Fix heap overflow in
+ip_reass on big packet input") applied?
+
+Samuel
 
