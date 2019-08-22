@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C23990F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 12:34:55 +0200 (CEST)
-Received: from localhost ([::1]:40312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0038990F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 12:36:31 +0200 (CEST)
+Received: from localhost ([::1]:40340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0kQg-0003VT-9M
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 06:34:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38052)
+	id 1i0kSE-0005Ht-Vi
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 06:36:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39103)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i0kOx-0001iy-2n
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:33:08 -0400
+ (envelope-from <berrange@redhat.com>) id 1i0kQk-0004Ew-OQ
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:34:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i0kOu-0001na-V2
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:33:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37206)
+ (envelope-from <berrange@redhat.com>) id 1i0kQj-0003vA-FU
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:34:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44406)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1i0kOq-0001hQ-K9; Thu, 22 Aug 2019 06:33:00 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1i0kQg-0003p2-0R; Thu, 22 Aug 2019 06:34:54 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2BBB5301E11C;
- Thu, 22 Aug 2019 10:32:59 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 16ED9308620B;
+ Thu, 22 Aug 2019 10:34:53 +0000 (UTC)
 Received: from redhat.com (unknown [10.42.16.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A0DC60BF3;
- Thu, 22 Aug 2019 10:32:55 +0000 (UTC)
-Date: Thu, 22 Aug 2019 11:32:53 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 663D15C205;
+ Thu, 22 Aug 2019 10:34:49 +0000 (UTC)
+Date: Thu, 22 Aug 2019 11:34:47 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Maxim Levitsky <mlevitsk@redhat.com>
-Message-ID: <20190822103253.GF3267@redhat.com>
+Message-ID: <20190822103447.GG3267@redhat.com>
 References: <20190814202219.1870-1-mlevitsk@redhat.com>
  <20190814202219.1870-4-mlevitsk@redhat.com>
  <56f412ca-1985-589c-85b4-a8164f701a64@redhat.com>
@@ -42,9 +42,9 @@ Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <426e109e6799ba1c9e045541777aeae9183b6134.camel@redhat.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 22 Aug 2019 10:32:59 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Thu, 22 Aug 2019 10:34:53 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -99,10 +99,22 @@ rs wide...
 > >  (what commit messages normally use)
 > Could you elaborate on that? I thought that code should not
 > exceed 80 character limit.
+>=20
+> >=20
+> > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > > ---
+> > >  crypto/block-luks.c | 756 ++++++++++++++++++++++++++--------------=
+----
+> > >  1 file changed, 440 insertions(+), 316 deletions(-)
+> >=20
+> > Also, this commit is just too big.
+>=20
+> Yea, but it has no functional changes.
+> I can split it further, but that won't help much IMHO.
 
-Code itself should be wrapped at 80 chars, but it is common for
-commit messages to use 72 chars wrapping.
-
+I'd find it easier to review if each newly introduced method was a
+separate patch. It makes it easier to see which bit of removed
+code was added to which method.
 
 Regards,
 Daniel
