@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B539A271
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 23:59:38 +0200 (CEST)
-Received: from localhost ([::1]:48134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D50549A26B
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 23:56:31 +0200 (CEST)
+Received: from localhost ([::1]:48100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0v7J-0006gc-VH
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 17:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43056)
+	id 1i0v4I-0003JA-CU
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 17:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42592)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <2f8ddf611be0b69ce936e4bd1bf3b18156a22995@lizzy.crudebyte.com>)
- id 1i0v5y-0005rP-7W
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:58:15 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1i0v2O-0002T7-QW
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:54:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <2f8ddf611be0b69ce936e4bd1bf3b18156a22995@lizzy.crudebyte.com>)
- id 1i0v5w-0006ar-QY
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:58:14 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:38799)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71)
- (envelope-from <2f8ddf611be0b69ce936e4bd1bf3b18156a22995@lizzy.crudebyte.com>)
- id 1i0v5w-0006I3-K8
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:58:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:References:In-Reply-To:
- Message-Id:Sender:Reply-To:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=t+Ow+NmaIpgO7UyfrCCEQHSXZ9UqtAyOsPA67TZO4Rk=; b=bMI2h6a62H01nlUY0OxJkbeJt
- aP4CnMyDXelbnxpiBXcObWurXAVpLJVT5UTBa9/vpLIgeB32RyGFLI/UiP1cUj0cfX8C4skhZwAv5
- MCS2gdHgiY4LhzJCVoXucctW92Z0gmi7kNtIuZbNLYWftw+TjZHCihvcaeBuUWPXQqJ8mn34wTbtM
- CjN8Th0Rc/18OvIqgViKm8tB6fjN5qSwwUO9V2BHP+kqyi5C90o3dfXtc5lvkQMuawUS9RnUaah6r
- ClcYyBmqA8JhAGan3hupRyrpmnCfg1QTcIcdX34aJHaO33CL5wGbrIqGMeqg7y3SGzrA1lZHPo2Iw
- 546ki2kzw==;
-Message-Id: <2f8ddf611be0b69ce936e4bd1bf3b18156a22995.1566503584.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1566503584.git.qemu_oss@crudebyte.com>
-References: <cover.1566503584.git.qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 21:44:28 +0200
+ (envelope-from <ehabkost@redhat.com>) id 1i0v2M-0005d5-UO
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:54:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49314)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i0v2M-0005cp-NA
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 17:54:30 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1CEF0300DA70;
+ Thu, 22 Aug 2019 21:54:29 +0000 (UTC)
+Received: from localhost (ovpn-116-73.gru2.redhat.com [10.97.116.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A50819C78;
+ Thu, 22 Aug 2019 21:54:22 +0000 (UTC)
+Date: Thu, 22 Aug 2019 18:54:20 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Message-ID: <20190822215420.GO7077@habkost.net>
+References: <20181109150710.31085-1-crosa@redhat.com>
+ <20181109150710.31085-2-crosa@redhat.com>
+ <CAFEAcA86JT-3jLV=+aqLntoe1jJr77VYvg1dWn9OBVGA6cPZmQ@mail.gmail.com>
+ <20190822211636.GA23027@dhcp-17-173.bos.redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190822211636.GA23027@dhcp-17-173.bos.redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Thu, 22 Aug 2019 21:54:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.194.90.13
-Subject: [Qemu-devel] [PATCH v6 3/4] 9p: stat_to_qid: implement slow path
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/4] configure: keep track of Python version
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,199 +58,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-stat_to_qid attempts via qid_path_prefixmap to map unique files (which are
-identified by 64 bit inode nr and 32 bit device id) to a 64 QID path value.
-However this implementation makes some assumptions about inode number
-generation on the host.
+On Thu, Aug 22, 2019 at 05:19:26PM -0400, Cleber Rosa wrote:
+> On Thu, Aug 22, 2019 at 05:48:46PM +0100, Peter Maydell wrote:
+> > On Fri, 9 Nov 2018 at 15:09, Cleber Rosa <crosa@redhat.com> wrote:
+> > >
+> > > Some functionality is dependent on the Python version
+> > > detected/configured on configure.  While it's possible to run the
+> > > Python version later and check for the version, doing it once is
+> > > preferable.  Also, it's a relevant information to keep in build logs,
+> > > as the overall behavior of the build can be affected by it.
+> > >
+> > > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > > ---
+> > >  configure | 6 +++++-
+> > >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/configure b/configure
+> > > index 74e313a810..67fff0290d 100755
+> > > --- a/configure
+> > > +++ b/configure
+> > > @@ -1740,6 +1740,9 @@ if ! $python -c 'import sys; sys.exit(sys.version_info < (2,7))'; then
+> > >        "Use --python=/path/to/python to specify a supported Python."
+> > >  fi
+> > >
+> > > +# Preserve python version since some functionality is dependent on it
+> > > +python_version=$($python -V 2>&1 | sed -e 's/Python\ //')
+> > > +
+> > 
+> > Hi. Somebody on IRC has just fallen over a problem where
+> > their python's "-V" output prints multiple lines, which
+> > means that "$python_version" here is multiple lines, which
+> > means that the eventual config-host.mak has invalid syntax
+> > because we assume here:
+> >
+> 
+> We've tried a number of things, and just when I thought we wouldn't be
+> able to make any sense out of it, I arrived at a still senseless but
+> precise reproducer.  TL;DR: it has to do with interactive shells and
+> that exact Python build.
+> 
+> Reproducer (docker may also do the trick here):
+> 
+>   $ podman run --rm -ti fedora:29 /bin/bash -c 'dnf -y install http://mirror.siena.edu/fedora/linux/releases/29/Everything/x86_64/os/Packages/p/python3-3.7.0-9.fc29.x86_64.rpm; python3 -V'
+>   Python 3.7.0 (default, Aug 30 2018, 14:32:33) 
+>   [GCC 8.2.1 20180801 (Red Hat 8.2.1-2)]
+> 
+> With an interactive shell instead:
+> 
+>   $ podman run --rm -ti fedora:29 /bin/bash -i -c 'dnf -y install http://mirror.siena.edu/fedora/linux/releases/29/Everything/x86_64/os/Packages/p/python3-3.7.0-9.fc29.x86_64.rpm; python3 -V'
+>   Python 3.7.0
+> 
+> How this behavior came to be, baffles me.  But, it seems to be fixed
+> on newer versions.
+> 
+> > > @@ -6823,6 +6826,7 @@ echo "INSTALL_DATA=$install -c -m 0644" >> $config_host_mak
+> > >  echo "INSTALL_PROG=$install -c -m 0755" >> $config_host_mak
+> > >  echo "INSTALL_LIB=$install -c -m 0644" >> $config_host_mak
+> > >  echo "PYTHON=$python" >> $config_host_mak
+> > > +echo "PYTHON_VERSION=$python_version" >> $config_host_mak
+> > >  echo "CC=$cc" >> $config_host_mak
+> > >  if $iasl -h > /dev/null 2>&1; then
+> > >    echo "IASL=$iasl" >> $config_host_mak
+> > 
+> > that it's only one line, and will generate bogus makefile
+> > syntax if it's got an embedded newline. (Problem system
+> > seems to be Fedora 29.)
+> >
+> 
+> The assumption could be guaranteed by a "head -1", and while
+> it's not a failproof solution, it would at least not corrupt
+> the makefile and the whole build system.
+> 
+> > I've reread this thread, where there seems to have been
+> > some discussion about just running Python itself to
+> > get the sys.version value (which is how we check for
+> > "is this python too old" earlier in the configure script).
+> > But I'm not really clear why trying to parse -V output is better:
+> > it's definitely less reliable, as demonstrated by this bug.
 
-If qid_path_prefixmap fails, we still have 48 bits available in the QID
-path to fall back to a less memory efficient full mapping.
+Agreed.
 
-Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
-[CS: - Rebased to https://github.com/gkurz/qemu/commits/9p-next
-       (SHA1 177fd3b6a8).
-     - Updated hash calls to new xxhash API.
-     - Removed unnecessary parantheses in qpf_lookup_func().
-     - Removed unnecessary g_malloc0() result checks.
-     - Log error message when running out of prefixes in
-       qid_path_fullmap().
-     - Log error message about potential degraded performance in
-       qid_path_prefixmap().
-     - Fixed typo in comment. ]
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- hw/9pfs/9p.c | 70 ++++++++++++++++++++++++++++++++++++++++++++++++++++++------
- hw/9pfs/9p.h |  9 ++++++++
- 2 files changed, 72 insertions(+), 7 deletions(-)
+> >
+> > Given that the only thing as far as I can tell that we
+> > do with PYTHON_VERSION is use it in tests/Makefile.inc
+> > to suppress a bit of test functionality if we don't have
+> > Python 3, could we stop trying to parse -V output and run
+> > python to print sys.version_info instead, and/or just
+> > have the makefile variable track "is this python 2",
+> > since that's what we really care about and would mean we
+> > don't have to then search the string for "v2"  ?
+> 
+> Because I've been bitten way too many times with differences in Python
+> minor versions, I see a lot of value in keeping the version
+> information in the build system.  But, the same information can
+> certainly be obtained in a more resilient way.  Would you object something
+> like:
+> 
+>   python_version=$($python -c 'import sys; print(sys.version().split()[0])')
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index c96ea51116..728641fb7f 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -579,23 +579,73 @@ static uint32_t qpp_hash(QppEntry e)
-     return qemu_xxhash7(e.ino_prefix, e.dev, 0, 0, 0);
- }
- 
-+static uint32_t qpf_hash(QpfEntry e)
-+{
-+    return qemu_xxhash7(e.ino, e.dev, 0, 0, 0);
-+}
-+
- static bool qpp_lookup_func(const void *obj, const void *userp)
- {
-     const QppEntry *e1 = obj, *e2 = userp;
-     return e1->dev == e2->dev && e1->ino_prefix == e2->ino_prefix;
- }
- 
--static void qpp_table_remove(void *p, uint32_t h, void *up)
-+static bool qpf_lookup_func(const void *obj, const void *userp)
-+{
-+    const QpfEntry *e1 = obj, *e2 = userp;
-+    return e1->dev == e2->dev && e1->ino == e2->ino;
-+}
-+
-+static void qp_table_remove(void *p, uint32_t h, void *up)
- {
-     g_free(p);
- }
- 
--static void qpp_table_destroy(struct qht *ht)
-+static void qp_table_destroy(struct qht *ht)
- {
--    qht_iter(ht, qpp_table_remove, NULL);
-+    qht_iter(ht, qp_table_remove, NULL);
-     qht_destroy(ht);
- }
- 
-+static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
-+                            uint64_t *path)
-+{
-+    QpfEntry lookup = {
-+        .dev = stbuf->st_dev,
-+        .ino = stbuf->st_ino
-+    }, *val;
-+    uint32_t hash = qpf_hash(lookup);
-+
-+    /* most users won't need the fullmap, so init the table lazily */
-+    if (!pdu->s->qpf_table.map) {
-+        qht_init(&pdu->s->qpf_table, qpf_lookup_func, 1 << 16, QHT_MODE_AUTO_RESIZE);
-+    }
-+
-+    val = qht_lookup(&pdu->s->qpf_table, &lookup, hash);
-+
-+    if (!val) {
-+        if (pdu->s->qp_fullpath_next == 0) {
-+            /* no more files can be mapped :'( */
-+            error_report_once(
-+                "9p: No more prefixes available for remapping inodes from "
-+                "host to guest."
-+            );
-+            return -ENFILE;
-+        }
-+
-+        val = g_malloc0(sizeof(QppEntry));
-+        *val = lookup;
-+
-+        /* new unique inode and device combo */
-+        val->path = pdu->s->qp_fullpath_next++;
-+        pdu->s->qp_fullpath_next &= QPATH_INO_MASK;
-+        qht_insert(&pdu->s->qpf_table, val, hash, NULL);
-+    }
-+
-+    *path = val->path;
-+    return 0;
-+}
-+
- /* stat_to_qid needs to map inode number (64 bits) and device id (32 bits)
-  * to a unique QID path (64 bits). To avoid having to map and keep track
-  * of up to 2^64 objects, we map only the 16 highest bits of the inode plus
-@@ -621,8 +671,7 @@ static int qid_path_prefixmap(V9fsPDU *pdu, const struct stat *stbuf,
-         if (pdu->s->qp_prefix_next == 0) {
-             /* we ran out of prefixes */
-             error_report_once(
--                "9p: No more prefixes available for remapping inodes from "
--                "host to guest."
-+                "9p: Potential degraded performance of inode remapping"
-             );
-             return -ENFILE;
-         }
-@@ -647,6 +696,10 @@ static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
-     if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
-         /* map inode+device to qid path (fast path) */
-         err = qid_path_prefixmap(pdu, stbuf, &qidp->path);
-+        if (err == -ENFILE) {
-+            /* fast path didn't work, fall back to full map */
-+            err = qid_path_fullmap(pdu, stbuf, &qidp->path);
-+        }
-         if (err) {
-             return err;
-         }
-@@ -3813,6 +3866,7 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
-     /* QID path hash table. 1 entry ought to be enough for anybody ;) */
-     qht_init(&s->qpp_table, qpp_lookup_func, 1, QHT_MODE_AUTO_RESIZE);
-     s->qp_prefix_next = 1; /* reserve 0 to detect overflow */
-+    s->qp_fullpath_next = 1;
- 
-     s->ctx.fst = &fse->fst;
-     fsdev_throttle_init(s->ctx.fst);
-@@ -3827,7 +3881,8 @@ out:
-         }
-         g_free(s->tag);
-         g_free(s->ctx.fs_root);
--        qpp_table_destroy(&s->qpp_table);
-+        qp_table_destroy(&s->qpp_table);
-+        qp_table_destroy(&s->qpf_table);
-         v9fs_path_free(&path);
-     }
-     return rc;
-@@ -3840,7 +3895,8 @@ void v9fs_device_unrealize_common(V9fsState *s, Error **errp)
-     }
-     fsdev_throttle_cleanup(s->ctx.fst);
-     g_free(s->tag);
--    qpp_table_destroy(&s->qpp_table);
-+    qp_table_destroy(&s->qpp_table);
-+    qp_table_destroy(&s->qpf_table);
-     g_free(s->ctx.fs_root);
- }
- 
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index a283b0193e..f044a88a41 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -245,6 +245,13 @@ typedef struct {
-     uint16_t qp_prefix;
- } QppEntry;
- 
-+/* QID path full entry, as above */
-+typedef struct {
-+    dev_t dev;
-+    ino_t ino;
-+    uint64_t path;
-+} QpfEntry;
-+
- struct V9fsState
- {
-     QLIST_HEAD(, V9fsPDU) free_list;
-@@ -269,7 +276,9 @@ struct V9fsState
-     ino_t root_ino;
-     dev_t dev_id;
-     struct qht qpp_table;
-+    struct qht qpf_table;
-     uint16_t qp_prefix_next;
-+    uint64_t qp_fullpath_next;
- };
- 
- /* 9p2000.L open flags */
+Sounds much better, but why sys.version().split() instead of
+sys.version_info?
+
+  python_version=$($python -c 'import sys; print(sys.version_info[0])')
+
+> 
+> Or an even more paranoid version?  On my side, I understand the
+> fragility of the current approach, but I also appreciate the
+> information it stores.
+
+We have only one place where $(PYTHON_VERSION) is used, and that
+code will be removed once we stop supporting Python 2.  I don't
+see the point of trying to store extra information that is not
+used anywhere in our makefiles.
+
 -- 
-2.11.0
-
+Eduardo
 
