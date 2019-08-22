@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACFC9A3A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 01:20:11 +0200 (CEST)
-Received: from localhost ([::1]:48714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B329A3A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 01:19:53 +0200 (CEST)
+Received: from localhost ([::1]:48710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0wNG-0000Sd-Dg
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 19:20:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53980)
+	id 1i0wMy-0008Qv-HN
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 19:19:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53997)
  by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
- <37yFfXQMKCqASCWGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--scw.bounces.google.com>)
- id 1i0wIE-0003Yj-6L
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:14:59 -0400
+ <38iFfXQMKCqMVFZJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--scw.bounces.google.com>)
+ id 1i0wII-0003dt-AZ
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:15:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from
- <37yFfXQMKCqASCWGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--scw.bounces.google.com>)
- id 1i0wID-0007lg-76
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:14:58 -0400
-Received: from mail-yw1-xc4a.google.com ([2607:f8b0:4864:20::c4a]:32942)
+ <38iFfXQMKCqMVFZJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--scw.bounces.google.com>)
+ id 1i0wIH-0007nb-Av
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:15:02 -0400
+Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a]:33716)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from
- <37yFfXQMKCqASCWGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--scw.bounces.google.com>)
- id 1i0wID-0007kl-3k
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:14:57 -0400
-Received: by mail-yw1-xc4a.google.com with SMTP id j132so5241718ywa.0
- for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 16:14:56 -0700 (PDT)
+ <38iFfXQMKCqMVFZJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--scw.bounces.google.com>)
+ id 1i0wIG-0007mP-5K
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:15:01 -0400
+Received: by mail-pf1-x44a.google.com with SMTP id r130so5104670pfc.0
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 16:14:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=wjAAokdz+BjWOrP6H30Bj42YsWMqshehdtDNsRq7YK8=;
- b=FLu97IIqMrnv5IXsDnUWMYqmE2u9JgQuy0QfXdtzfgV4ysmf+AA1VmbPVoj1QSV2Zz
- FzNwwwp0/+2qq6ySKXq3oc5/9P42BxZ9gORLXyx/8WOozJAAiM4ofoDt/t6CVKap1xDN
- NPiRsIxtzwihjqLwiW8Q0+IfjqS212ebrrjS1F4ujpjfcWT+xco7a/B8UrtVpnWj85HF
- 5ggds/LzOo66jyR2mr1BUYz9LEVhfFX9ttbBhvqAdD0bITADOM8G2lfoig66JFIZNkLM
- aNCFAjYuG0eQ5O95CJhfsn5aLG354pGZU2P1w9YiNCNUf6jK/I/dixFpo8LIESInoAot
- mLsQ==
+ :cc; bh=ohZHbdryKXSynjo681jhUMl4RCCWauFt1xkFVh1KbPw=;
+ b=h1xznDfpJa+SzNBk6jmopaHlF8rLmA3ldeZ5xQubxAyFEYY/s6dRm5XcGp0soBOC8k
+ CWT+D+zCafv7ay58U1J+LQupUYiBLCttL5APz1iFhw70A1kEpU5rXHvTm8Hsr9axTzu4
+ D/d5gWnTJE4ryRmst5TuZQqfVTb8FTPccwVUAaMj9JEI5ILuO53C2TDRRQYBSfHWzyAN
+ QOEytPxGJ3k9aspTRBoQYTxUOJxz9wUn5zhsjrIMaFeqKgNszlXK2NMgnm0dUZrZpX6i
+ G4+Dv0fqDc0ZHlOZzrkKGmgfldMgWRKevjBUuKX6WOJnXtK2gtRb2+AHHMdNtWQstID7
+ iMKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=wjAAokdz+BjWOrP6H30Bj42YsWMqshehdtDNsRq7YK8=;
- b=bJwC8XgaYUm6u4sFFL02/XPfBD/8DK+tAO5AOSFnrlX1k7PHzgywwpmCW/ONIiqGbi
- HA6a9YH5AkwO4Ahib+IKvA+g1REnjqgaJL03Rvk1edmLKCc/4AeZXl4Aonwj3olVSA6x
- v64aQl9gmO9m6orOI9vHMbOP7GwHtLAOAkLL3WvHeqms4yIAoyOsW9rWWaDAnNsHYvLu
- yboj+fZPZuWLB3XfoEEZ7VBZk15JXgPHQajYDRJB4A8Hev2iLRHrxfZdwNv6bCR1YzZ9
- VcwUT6ui8QJL/mQyqohuBHUaB/11isKTz3AL31aiJdqmSRrxxm6JyhpSPReHiLVPFuOF
- Z57g==
-X-Gm-Message-State: APjAAAWFSySr7QpKp9ZJqSJhv024Gs3HJbxwO85guS9KLl1NHlyifN3F
- BQdfUUUcQlJUFhCKFMIcv3tONxA=
-X-Google-Smtp-Source: APXvYqxPS7mnYfHCiNZUyhbutPZ82qHtoLtEtL77YWEGtBS9pzaOLrEC+VB1TNOq35w1Z7+OqQWwwBs=
-X-Received: by 2002:a81:4c55:: with SMTP id z82mr1292478ywa.367.1566515695253; 
- Thu, 22 Aug 2019 16:14:55 -0700 (PDT)
-Date: Thu, 22 Aug 2019 16:14:42 -0700
+ bh=ohZHbdryKXSynjo681jhUMl4RCCWauFt1xkFVh1KbPw=;
+ b=t35zQVlA7EYUC6ynhT+e6YblsAUnoCXx7cXga91RM4F5whZEJMj0ogWGE9x0+SLmSQ
+ tD5bOFJ6KkDEOF7Jj+dyJ5rY2SWDLxpz/B9IoGDGBycNwJkD4vA73RQ/BtvAFkO1QUiZ
+ R4dt1DAbl6hhBDt65OVmxEFM5uUnN35ZBWiJA7xCSi7gaFo4n3QHowtzGgED7R4A+ur9
+ dr91LdJQtMtxVEwuWgmwPBIgo+ezNuCaRrqFNALP/8rDkDsnNbvoHfE9JVsNYF5KB8Gb
+ MGscOXxQmvfjQMc0PDsjVHRsMep537YS1Zd9R4L2xmcbXQtihf4iT2iqTjoAvA4hmBBj
+ 9hNg==
+X-Gm-Message-State: APjAAAX2jWE8DpyV2SfctFCcYELnMWlRseDN9H6pHmdkifQo5mwT5Qrj
+ xR6qzuHmaq6mJW5sGihmK2/YI4Q=
+X-Google-Smtp-Source: APXvYqw+P9k2vez698x4M7kWpp0xm8fcWXI3wOSh/ZQXh7VG/SdR54XSSnqvwlDFdVZj4w7O46j/+7U=
+X-Received: by 2002:a65:6713:: with SMTP id u19mr1269816pgf.403.1566515698241; 
+ Thu, 22 Aug 2019 16:14:58 -0700 (PDT)
+Date: Thu, 22 Aug 2019 16:14:43 -0700
 In-Reply-To: <20190822231443.172099-1-scw@google.com>
-Message-Id: <20190822231443.172099-2-scw@google.com>
+Message-Id: <20190822231443.172099-3-scw@google.com>
 Mime-Version: 1.0
 References: <20190822231443.172099-1-scw@google.com>
 X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
@@ -62,9 +62,9 @@ To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c4a
-Subject: [Qemu-devel] [PATCH 1/2] linux-user: add missing UDP and IPv6
- setsockopt options
+X-Received-From: 2607:f8b0:4864:20::44a
+Subject: [Qemu-devel] [PATCH 2/2] linux-user: time stamping options for
+ setsockopt()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,50 +83,72 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UDP: SOL_UDP manipulate options at UDP level. All six options currently
-defined in linux source include/uapi/linux/udp.h take integer values.
+This change supports SO_TIMESTAMPNS and SO_TIMESTAMPING for
+setsocketopt() with SOL_SOCKET.
 
-IPv6: IPV6_ADDR_PREFERENCES (RFC5014: Source address selection) was not
-supported.
+The TARGET_SO_TIMESTAMP{NS,ING} constants are already defined for
+alpha, hppa, and sparc. In include/uapi/asm-generic/socket.h:
+
+In arch/mips/include/uapi/asm/socket.h:
 
 Signed-off-by: Shu-Chun Weng <scw@google.com>
 ---
- linux-user/syscall.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ linux-user/generic/sockbits.h |  4 ++++
+ linux-user/mips/sockbits.h    |  4 ++++
+ linux-user/syscall.c          | 10 ++++++++--
+ 3 files changed, 16 insertions(+), 2 deletions(-)
 
+diff --git a/linux-user/generic/sockbits.h b/linux-user/generic/sockbits.h
+index e44733c601..5cbafdb49b 100644
+--- a/linux-user/generic/sockbits.h
++++ b/linux-user/generic/sockbits.h
+@@ -51,6 +51,10 @@
+ #define TARGET_SO_PEERNAME             28
+ #define TARGET_SO_TIMESTAMP            29
+ #define TARGET_SCM_TIMESTAMP           TARGET_SO_TIMESTAMP
++#define TARGET_SO_TIMESTAMPNS          35
++#define TARGET_SCM_TIMESTAMPNS         TARGET_SO_TIMESTAMPNS
++#define TARGET_SO_TIMESTAMPING         37
++#define TARGET_SCM_TIMESTAMPING        TARGET_SO_TIMESTAMPING
+ 
+ #define TARGET_SO_ACCEPTCONN           30
+ 
+diff --git a/linux-user/mips/sockbits.h b/linux-user/mips/sockbits.h
+index 0f022cd598..1246b7d988 100644
+--- a/linux-user/mips/sockbits.h
++++ b/linux-user/mips/sockbits.h
+@@ -63,6 +63,10 @@
+ #define TARGET_SO_PEERNAME             28
+ #define TARGET_SO_TIMESTAMP            29
+ #define SCM_TIMESTAMP          SO_TIMESTAMP
++#define TARGET_SO_TIMESTAMPNS          35
++#define SCM_TIMESTAMPNS         SO_TIMESTAMPNS
++#define TARGET_SO_TIMESTAMPING         37
++#define SCM_TIMESTAMPING        SO_TIMESTAMPING
+ 
+ #define TARGET_SO_PEERSEC              30
+ #define TARGET_SO_SNDBUFFORCE          31
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8367cb138d..8dc4255f12 100644
+index 8dc4255f12..bac00d3fd4 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -49,8 +49,10 @@
- #include <sys/sysinfo.h>
- #include <sys/signalfd.h>
- //#include <sys/user.h>
-+#include <netinet/in.h>
- #include <netinet/ip.h>
- #include <netinet/tcp.h>
-+#include <netinet/udp.h>
- #include <linux/wireless.h>
- #include <linux/icmp.h>
- #include <linux/icmpv6.h>
-@@ -1837,7 +1839,8 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
- 
-     switch(level) {
-     case SOL_TCP:
--        /* TCP options all take an 'int' value.  */
-+    case SOL_UDP:
-+        /* TCP and UDP options all take an 'int' value.  */
-         if (optlen < sizeof(uint32_t))
-             return -TARGET_EINVAL;
- 
-@@ -2488,6 +2491,7 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
-         case IPV6_RECVDSTOPTS:
-         case IPV6_2292DSTOPTS:
-         case IPV6_TCLASS:
-+        case IPV6_ADDR_PREFERENCES:
- #ifdef IPV6_RECVPATHMTU
-         case IPV6_RECVPATHMTU:
- #endif
+@@ -2230,8 +2230,14 @@ set_timeout:
+                 optname = SO_PASSSEC;
+                 break;
+         case TARGET_SO_TIMESTAMP:
+-		optname = SO_TIMESTAMP;
+-		break;
++                optname = SO_TIMESTAMP;
++                break;
++        case TARGET_SO_TIMESTAMPNS:
++                optname = SO_TIMESTAMPNS;
++                break;
++        case TARGET_SO_TIMESTAMPING:
++                optname = SO_TIMESTAMPING;
++                break;
+         case TARGET_SO_RCVLOWAT:
+ 		optname = SO_RCVLOWAT;
+ 		break;
 -- 
 2.23.0.187.g17f5b7556c-goog
 
