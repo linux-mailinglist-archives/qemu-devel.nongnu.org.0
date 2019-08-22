@@ -2,75 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B179F990D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 12:30:46 +0200 (CEST)
-Received: from localhost ([::1]:40254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0268A990F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 12:35:26 +0200 (CEST)
+Received: from localhost ([::1]:40316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0kMf-0007J9-PW
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 06:30:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36038)
+	id 1i0kRB-0003tc-1x
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 06:35:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36532)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1i0kKp-0005kr-9C
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:28:53 -0400
+ (envelope-from <berrange@redhat.com>) id 1i0kLU-0006k0-53
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:29:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1i0kKn-00057b-1h
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:28:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43566)
+ (envelope-from <berrange@redhat.com>) id 1i0kLS-0005zB-Ok
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:29:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46170)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0kKl-0004zN-6K
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:28:48 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <berrange@redhat.com>)
+ id 1i0kLQ-0005vZ-4K; Thu, 22 Aug 2019 06:29:28 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 467A485539
- for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 10:28:41 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id m7so2972804wrw.22
- for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 03:28:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4MfO4wwvQsCCexQFrhxhOuZM/VP4L6uDupwMAnNIvjU=;
- b=eyO2qStOISi2+3U8QRbC2v6oFbwvr5aqIkaOfmkdT3p014xR81U29MJtZiJODwDHCa
- XIGOLeKAaNBt/CDbreImKYkoEyHahZZAD7pSSSW9vzeAxeJ6YSmM6jbEoRKCrQ85PH4w
- BZJwyWOHeIqhc8jJieyUpbeD0bxn8qmTS/lcNl6y/+F7ZzTWHKJeCHg+tG3uaLmIMgnw
- 1zHZUyzdFYe5lL/SQwRsDAxILI+79DZ7yJ2VTCdSeZBnsMpROubPXR2AxINRrILAP7dJ
- dsWaFTs3ViN8B2WCW3NKqgEkIhtfh/TkMYppajbw1+dDo6Px6b2kwSVuhcP9zeGnjygS
- WQ/A==
-X-Gm-Message-State: APjAAAU108QBNQ3b2li5+qnbEpwRZQbVcnWQ5okH4FiehoDUGGrU1Xme
- kDj0kYxKGyZkZwfVcpgtN6dh5DSEsEu4nF3tYeMU/qczhK2zzRWNUxe6qCaibge3T6U5YaCUsZb
- zg5pz8OkEK7uSm1U=
-X-Received: by 2002:adf:fe85:: with SMTP id l5mr43711676wrr.5.1566469719944;
- Thu, 22 Aug 2019 03:28:39 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzcchmnd2d+Q6n3bl7nL/gok1KRpj0qcau6QT0Jbp5sxK2tyfYxaGdUFQWwvZSt7nt5WzCiag==
-X-Received: by 2002:adf:fe85:: with SMTP id l5mr43711646wrr.5.1566469719615;
- Thu, 22 Aug 2019 03:28:39 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:21b9:ff1f:a96c:9fb3?
- ([2001:b07:6468:f312:21b9:ff1f:a96c:9fb3])
- by smtp.gmail.com with ESMTPSA id o2sm3335221wmh.9.2019.08.22.03.28.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Aug 2019 03:28:39 -0700 (PDT)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190818225414.22590-1-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <9e7a5fa2-2bf7-f3fe-57d9-680498166bf9@redhat.com>
-Date: Thu, 22 Aug 2019 12:28:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 79370308FE8D;
+ Thu, 22 Aug 2019 10:29:27 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 431815C206;
+ Thu, 22 Aug 2019 10:29:16 +0000 (UTC)
+Date: Thu, 22 Aug 2019 11:29:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Message-ID: <20190822102914.GE3267@redhat.com>
+References: <20190814202219.1870-1-mlevitsk@redhat.com>
+ <20190814202219.1870-3-mlevitsk@redhat.com>
+ <6b9b4bf7-5765-400b-7452-e37ec797eed1@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190818225414.22590-1-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <6b9b4bf7-5765-400b-7452-e37ec797eed1@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 22 Aug 2019 10:29:27 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 00/15] hw/i386/pc: Do not restrict the
- fw_cfg functions to the PC machine
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 02/13] qcrypto-luks: misc
+ refactoring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,118 +59,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Samuel Ortiz <sameo@linux.intel.com>,
- Rob Bradford <robert.bradford@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- kvm@vger.kernel.org, Christophe de Dinechin <dinechin@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/08/19 00:53, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi,
->=20
-> This is my take at salvaging some NEMU good work.
-> Samuel worked in adding the fw_cfg device to the x86-virt NEMU machine.
-> This series is inspired by NEMU's commit 3cb92d080835 [0] and adapted
-> to upstream style. The result makes the upstream codebase more
-> modularizable.
-> There are very little logical changes, this is mostly a cleanup
-> refactor.
->=20
-> Since v3 [3]:
-> - Addressed Christophe suggestion (patch #8)
-> - Rebased patch #15 since Eduardo merged Like Xu's work between.
->=20
-> Since v2 [2]:
-> - Addressed MST comments from v2 (only patch #2 modified)
->   - do not use unsigned for enum
->   - do not add unuseful documentation
->=20
-> Since v1 [1]:
-> - Addressed Li and MST comments
->=20
-> $ git backport-diff -u v3
-> Key:
-> [----] : patches are identical
-> [####] : number of functional differences between upstream/downstream p=
-atch
-> [down] : patch is downstream-only
-> The flags [FC] indicate (F)unctional and (C)ontextual differences, resp=
-ectively
->=20
-> 001/15:[----] [--] 'hw/i386/pc: Use e820_get_num_entries() to access e8=
-20_entries'
-> 002/15:[----] [-C] 'hw/i386/pc: Extract e820 memory layout code'
-> 003/15:[----] [--] 'hw/i386/pc: Use address_space_memory in place'
-> 004/15:[----] [-C] 'hw/i386/pc: Rename bochs_bios_init as more generic =
-fw_cfg_arch_create'
-> 005/15:[----] [--] 'hw/i386/pc: Pass the boot_cpus value by argument'
-> 006/15:[----] [--] 'hw/i386/pc: Pass the apic_id_limit value by argumen=
-t'
-> 007/15:[0002] [FC] 'hw/i386/pc: Pass the CPUArchIdList array by argumen=
-t'
-> 008/15:[down] 'hw/i386/pc: Remove unused PCMachineState argument in fw_=
-cfg_arch_create'
-> 009/15:[----] [-C] 'hw/i386/pc: Let pc_build_smbios() take a FWCfgState=
- argument'
-> 010/15:[----] [-C] 'hw/i386/pc: Let pc_build_smbios() take a generic Ma=
-chineState argument'
-> 011/15:[----] [-C] 'hw/i386/pc: Rename pc_build_smbios() as generic fw_=
-cfg_build_smbios()'
-> 012/15:[----] [--] 'hw/i386/pc: Let pc_build_feature_control() take a F=
-WCfgState argument'
-> 013/15:[----] [--] 'hw/i386/pc: Let pc_build_feature_control() take a M=
-achineState argument'
-> 014/15:[----] [--] 'hw/i386/pc: Rename pc_build_feature_control() as ge=
-neric fw_cfg_build_*'
-> 015/15:[0017] [FC] 'hw/i386/pc: Extract the x86 generic fw_cfg code'
->=20
-> Regards,
->=20
-> Phil.
->=20
-> [0] https://github.com/intel/nemu/commit/3cb92d080835ac8d47c8b713156338=
-afa33cff5c
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg05759.html
-> [2] https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg02786.html
-> [3] https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg00193.html
->=20
-> Philippe Mathieu-Daud=C3=A9 (15):
->   hw/i386/pc: Use e820_get_num_entries() to access e820_entries
->   hw/i386/pc: Extract e820 memory layout code
->   hw/i386/pc: Use address_space_memory in place
->   hw/i386/pc: Rename bochs_bios_init as more generic fw_cfg_arch_create
->   hw/i386/pc: Pass the boot_cpus value by argument
->   hw/i386/pc: Pass the apic_id_limit value by argument
->   hw/i386/pc: Pass the CPUArchIdList array by argument
->   hw/i386/pc: Remove unused PCMachineState argument in
->     fw_cfg_arch_create
->   hw/i386/pc: Let pc_build_smbios() take a FWCfgState argument
->   hw/i386/pc: Let pc_build_smbios() take a generic MachineState argumen=
-t
->   hw/i386/pc: Rename pc_build_smbios() as generic fw_cfg_build_smbios()
->   hw/i386/pc: Let pc_build_feature_control() take a FWCfgState argument
->   hw/i386/pc: Let pc_build_feature_control() take a MachineState
->     argument
->   hw/i386/pc: Rename pc_build_feature_control() as generic
->     fw_cfg_build_*
->   hw/i386/pc: Extract the x86 generic fw_cfg code
->=20
->  hw/i386/Makefile.objs        |   2 +-
->  hw/i386/e820_memory_layout.c |  59 ++++++++++
->  hw/i386/e820_memory_layout.h |  42 ++++++++
->  hw/i386/fw_cfg.c             | 136 +++++++++++++++++++++++
->  hw/i386/fw_cfg.h             |   7 ++
->  hw/i386/pc.c                 | 202 ++---------------------------------
->  include/hw/i386/pc.h         |  11 --
->  target/i386/kvm.c            |   1 +
->  8 files changed, 254 insertions(+), 206 deletions(-)
->  create mode 100644 hw/i386/e820_memory_layout.c
->  create mode 100644 hw/i386/e820_memory_layout.h
->=20
+On Thu, Aug 15, 2019 at 05:40:11PM -0400, John Snow wrote:
+> 
+> 
+> On 8/14/19 4:22 PM, Maxim Levitsky wrote:
+> > This is also a preparation for key read/write/erase functions
+> > 
+> 
+> This is a matter of taste and I am not usually reviewing LUKS patches
+> (So don't take me too seriously), but I would prefer not to have "misc"
+> patches and instead split things out by individual changes along with a
+> nice commit message for each change.
+> 
+> > * use master key len from the header
+> 
+> This touches enough lines that you could make it its own patch, I think.
+> 
+> > * prefer to use crypto params in the QCryptoBlockLUKS
+> >   over passing them as function arguments
+> 
+> I think the same is true here, and highlighting which variables you are
+> sticking into state instead of leaving as functional parameters would be
+> nice to see without all the other changes.
+> 
+> > * define QCRYPTO_BLOCK_LUKS_DEFAULT_ITER_TIME
+> 
+> This can likely be squashed with whichever patch of yours first needs to
+> use it, because it's so short.
+> 
+> > * Add comments to various crypto parameters in the QCryptoBlockLUKS
+> > 
+> 
+> Can probably be squashed with item #2.
 
-Queued, thanks.
+Agreed, with all these points  - it is too hard to review this
+for correctness with everything merged in one commit, so I'll
+wait for v2 before reviewing much more.
 
-Paolo
+> > @@ -397,6 +411,12 @@ qcrypto_block_luks_essiv_cipher(QCryptoCipherAlgorithm cipher,
+> >      }
+> >  }
+> >  
+> > +static int masterkeylen(QCryptoBlockLUKS *luks)
+> > +{
+> > +    return luks->header.key_bytes;
+> > +}
+> > +
+> > +
+> 
+> generally QEMU uses snake_case_names; please spell as "master_key_len".
+
+Also naming convention in this file expects "qcrypto_block_luks_" prefix
+for all methods
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
