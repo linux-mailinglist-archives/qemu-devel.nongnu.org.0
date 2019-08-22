@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446569A39F
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 01:17:52 +0200 (CEST)
-Received: from localhost ([::1]:48690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACFC9A3A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 01:20:11 +0200 (CEST)
+Received: from localhost ([::1]:48714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0wL1-00055S-52
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 19:17:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53952)
+	id 1i0wNG-0000Sd-Dg
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 19:20:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53980)
  by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
- <36iFfXQMKCpsN7RBJJBG9.7JHL9HP-89Q9GIJIBIP.JMB@flex--scw.bounces.google.com>)
- id 1i0wIB-0003UL-3F
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:14:56 -0400
+ <37yFfXQMKCqASCWGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--scw.bounces.google.com>)
+ id 1i0wIE-0003Yj-6L
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:14:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from
- <36iFfXQMKCpsN7RBJJBG9.7JHL9HP-89Q9GIJIBIP.JMB@flex--scw.bounces.google.com>)
- id 1i0wIA-0007it-4y
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:14:54 -0400
-Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:46395)
+ <37yFfXQMKCqASCWGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--scw.bounces.google.com>)
+ id 1i0wID-0007lg-76
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:14:58 -0400
+Received: from mail-yw1-xc4a.google.com ([2607:f8b0:4864:20::c4a]:32942)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from
- <36iFfXQMKCpsN7RBJJBG9.7JHL9HP-89Q9GIJIBIP.JMB@flex--scw.bounces.google.com>)
- id 1i0wI9-0007i8-Vw
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:14:54 -0400
-Received: by mail-yb1-xb49.google.com with SMTP id t18so5321558ybp.13
- for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 16:14:53 -0700 (PDT)
+ <37yFfXQMKCqASCWGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--scw.bounces.google.com>)
+ id 1i0wID-0007kl-3k
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 19:14:57 -0400
+Received: by mail-yw1-xc4a.google.com with SMTP id j132so5241718ywa.0
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 16:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=oSjaBZiB897A+JXI+hGh8XrU+/BygSpBt6d69nCXV4U=;
- b=BdRzCBCvXFIziyMLIe1oqvYA5pw9zWB45eV7s13IU/fvHtMyjQiI2Ft5PeEKpgOneF
- WMZEJN+ntJXCBCmyiBAOLT5rsBkdLr4VxMQm+0MPDWoEo8hO/9NxwD5w6sHe5OZjAR+Q
- HCziM6cbd4a0fYpuoGW7LDY7oGgdEJahtSMiGAaL6C5Nw56812g+Xl21aM8AoO8xuPgx
- 6Own03viPAGKLeZBv4XxrVvhYExXIXVfArfcLrTJuzv1kIFVc0qO4yBW4YbGHgIVouUy
- /ZJG+RWJoYP/tsSq6Ig1Evq5gF0hPCx0p6GnVRiGAyVxBXhDB17CvAZadCpyuPUFyD8W
- em5g==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=wjAAokdz+BjWOrP6H30Bj42YsWMqshehdtDNsRq7YK8=;
+ b=FLu97IIqMrnv5IXsDnUWMYqmE2u9JgQuy0QfXdtzfgV4ysmf+AA1VmbPVoj1QSV2Zz
+ FzNwwwp0/+2qq6ySKXq3oc5/9P42BxZ9gORLXyx/8WOozJAAiM4ofoDt/t6CVKap1xDN
+ NPiRsIxtzwihjqLwiW8Q0+IfjqS212ebrrjS1F4ujpjfcWT+xco7a/B8UrtVpnWj85HF
+ 5ggds/LzOo66jyR2mr1BUYz9LEVhfFX9ttbBhvqAdD0bITADOM8G2lfoig66JFIZNkLM
+ aNCFAjYuG0eQ5O95CJhfsn5aLG354pGZU2P1w9YiNCNUf6jK/I/dixFpo8LIESInoAot
+ mLsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=oSjaBZiB897A+JXI+hGh8XrU+/BygSpBt6d69nCXV4U=;
- b=KtCE70Ix6E0nVWttb8/5OnnrjB4Uozq3DYlngq44U6v92aTn/1voNWRGNiQrqgOMb0
- jUKsCgq0hcxdgqwapLFnkFr5k2QUvZbDW3UikKACtS5xMlPIV9XyoiMi9BdtTqyFRhZV
- gj8W2g0jJQo9XWoanBNxyP84o3UKFb78Wu/cXSTqlgy8i732U5uMH+fW2CqUcitX0PK/
- bJaQq7sgD9iRnCA5rbCM7jvbopXwwLzSNmz8mdwjco1DIwR60SprCgkBIiy6ZCBs44Se
- BF4csMSOHwFzAGMJCRkZZzt2mzYihY5hZYclyblDkC4cBJZAZGnl4xzQa8CuE5z+tm3b
- cIpw==
-X-Gm-Message-State: APjAAAXUxm/OaO/JAAuarCOb7aCyFhzzt+cYAf45qY9dq0xAFu00RGQw
- N7zy1dVxnAHWsAW5E1giabHO+bM=
-X-Google-Smtp-Source: APXvYqxCz6dKhnBVZNLPDKMQ041r+77KdsIGHdg/H5/ohG8XN07yW8eDl4c/rXsLit0AvxrudDBgLrQ=
-X-Received: by 2002:a81:914a:: with SMTP id i71mr1358782ywg.141.1566515690793; 
- Thu, 22 Aug 2019 16:14:50 -0700 (PDT)
-Date: Thu, 22 Aug 2019 16:14:41 -0700
-Message-Id: <20190822231443.172099-1-scw@google.com>
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=wjAAokdz+BjWOrP6H30Bj42YsWMqshehdtDNsRq7YK8=;
+ b=bJwC8XgaYUm6u4sFFL02/XPfBD/8DK+tAO5AOSFnrlX1k7PHzgywwpmCW/ONIiqGbi
+ HA6a9YH5AkwO4Ahib+IKvA+g1REnjqgaJL03Rvk1edmLKCc/4AeZXl4Aonwj3olVSA6x
+ v64aQl9gmO9m6orOI9vHMbOP7GwHtLAOAkLL3WvHeqms4yIAoyOsW9rWWaDAnNsHYvLu
+ yboj+fZPZuWLB3XfoEEZ7VBZk15JXgPHQajYDRJB4A8Hev2iLRHrxfZdwNv6bCR1YzZ9
+ VcwUT6ui8QJL/mQyqohuBHUaB/11isKTz3AL31aiJdqmSRrxxm6JyhpSPReHiLVPFuOF
+ Z57g==
+X-Gm-Message-State: APjAAAWFSySr7QpKp9ZJqSJhv024Gs3HJbxwO85guS9KLl1NHlyifN3F
+ BQdfUUUcQlJUFhCKFMIcv3tONxA=
+X-Google-Smtp-Source: APXvYqxPS7mnYfHCiNZUyhbutPZ82qHtoLtEtL77YWEGtBS9pzaOLrEC+VB1TNOq35w1Z7+OqQWwwBs=
+X-Received: by 2002:a81:4c55:: with SMTP id z82mr1292478ywa.367.1566515695253; 
+ Thu, 22 Aug 2019 16:14:55 -0700 (PDT)
+Date: Thu, 22 Aug 2019 16:14:42 -0700
+In-Reply-To: <20190822231443.172099-1-scw@google.com>
+Message-Id: <20190822231443.172099-2-scw@google.com>
 Mime-Version: 1.0
+References: <20190822231443.172099-1-scw@google.com>
 X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
 To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b49
-Subject: [Qemu-devel] [PATCH 0/2] Adding some setsockopt() options
+X-Received-From: 2607:f8b0:4864:20::c4a
+Subject: [Qemu-devel] [PATCH 1/2] linux-user: add missing UDP and IPv6
+ setsockopt options
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,15 +83,50 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Shu-Chun Weng (2):
-  linux-user: add missing UDP and IPv6 setsockopt options
-  linux-user: time stamping options for setsockopt()
+UDP: SOL_UDP manipulate options at UDP level. All six options currently
+defined in linux source include/uapi/linux/udp.h take integer values.
 
- linux-user/generic/sockbits.h |  4 ++++
- linux-user/mips/sockbits.h    |  4 ++++
- linux-user/syscall.c          | 16 +++++++++++++---
- 3 files changed, 21 insertions(+), 3 deletions(-)
+IPv6: IPV6_ADDR_PREFERENCES (RFC5014: Source address selection) was not
+supported.
 
+Signed-off-by: Shu-Chun Weng <scw@google.com>
+---
+ linux-user/syscall.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 8367cb138d..8dc4255f12 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -49,8 +49,10 @@
+ #include <sys/sysinfo.h>
+ #include <sys/signalfd.h>
+ //#include <sys/user.h>
++#include <netinet/in.h>
+ #include <netinet/ip.h>
+ #include <netinet/tcp.h>
++#include <netinet/udp.h>
+ #include <linux/wireless.h>
+ #include <linux/icmp.h>
+ #include <linux/icmpv6.h>
+@@ -1837,7 +1839,8 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+ 
+     switch(level) {
+     case SOL_TCP:
+-        /* TCP options all take an 'int' value.  */
++    case SOL_UDP:
++        /* TCP and UDP options all take an 'int' value.  */
+         if (optlen < sizeof(uint32_t))
+             return -TARGET_EINVAL;
+ 
+@@ -2488,6 +2491,7 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
+         case IPV6_RECVDSTOPTS:
+         case IPV6_2292DSTOPTS:
+         case IPV6_TCLASS:
++        case IPV6_ADDR_PREFERENCES:
+ #ifdef IPV6_RECVPATHMTU
+         case IPV6_RECVPATHMTU:
+ #endif
 -- 
 2.23.0.187.g17f5b7556c-goog
 
