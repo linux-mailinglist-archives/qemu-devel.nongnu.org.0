@@ -2,46 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CA19A289
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 00:04:08 +0200 (CEST)
-Received: from localhost ([::1]:48184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84989A2B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 00:19:41 +0200 (CEST)
+Received: from localhost ([::1]:48260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0vBf-0001fZ-CQ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 18:04:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43351)
+	id 1i0vQi-0000iU-MT
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 18:19:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45537)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <c3946c28dd1661ea88c1e2fbf3e57fd0919600d6@lizzy.crudebyte.com>)
- id 1i0v88-0007rD-Rr
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 18:00:33 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1i0vPJ-0008SJ-Sk
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 18:18:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <c3946c28dd1661ea88c1e2fbf3e57fd0919600d6@lizzy.crudebyte.com>)
- id 1i0v87-0007MW-8a
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 18:00:28 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:34631)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71)
- (envelope-from <c3946c28dd1661ea88c1e2fbf3e57fd0919600d6@lizzy.crudebyte.com>)
- id 1i0v7w-0006xt-0o
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 18:00:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:Message-Id:Sender:
- Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZFFxrIgdIoE9R0wF62rENBICWSd8ey/03nJuHXD+WSM=; b=MRIZrq/sCD+0jrwPPjTES+NBmt
- KvHtLfBozLMfETN0n2ypH44E594kfMlcN1ayBRCuHDJvixO6As44p6Oo83dp7h8OeFwYwKRPpbAqG
- j28QhmqlEToJNHJrKKgVV9DsfTAhC5Tmuy9gJNWgdTeqRKRuPnMrwYqgAsGwIOjhuX09+IeR6qfJ8
- p1/m5TCImfVW6ac+7VWqmks2nGwYldhRa5S8kODyhsDxo+izb8K34OdBlDW0THxEEvhzcssE5HA5q
- wY3nfjb/ph/+gtfZGy0niLiv+zSEG1hEyrOVlbVkgAEQ8SAcDlxplPpfiZWjLrumthq017WOAbCDG
- w1Vp4bFw==;
-Message-Id: <cover.1566503584.git.qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 21:53:04 +0200
+ (envelope-from <pbonzini@redhat.com>) id 1i0vPI-00073f-4H
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 18:18:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55868)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1i0vPH-00072i-St
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 18:18:12 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9CCBB4E938
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 22:18:10 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id i4so3854357wri.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 15:18:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QaO7NdHQ77RlOZ6kzZ/1LkWPRELaT1fBysCQIepNC8U=;
+ b=I04U/8Nfitf6Wz13DCxa8Fjh2r95xqrCL6xMRjFi1thW6SLMvCWHDEZsyfKzDcmvZA
+ Rk7uNjSlI87NnNYdmYlHwBXFzFpWdcF3F7qUP7zWqNh5KeKgeRvNCBLFa/r0czNROlt7
+ c3nCQJpjFqKsPttccBtwT0Y7/hTQJUPvDmV9HxLnycIDgURLA1/n7XqAGyEDjJZCtQup
+ Iq7qMF1R+g/3OMinVOXyA18CsKEDb4NuRgaia5n4zjMBTRNp5wjwh2lu/AfppgkPEmGO
+ LrPki8kQ2fnIuHZ98tN2SBuMZtad8JGQwS72+F0+0LhtXjNLrjTo+VXdzS30s8/Ja9Qg
+ VYMw==
+X-Gm-Message-State: APjAAAXGXLvBsae2kZsnjutyFZ56RAKw6HfcSimomxvzwe093Gmg+8jl
+ BWAlcm3wjPwUQ7e458XT806F+ApP1wrUhoVRSCe28EkQteY0sUt4sTfKVkJa9iNyXRoL2H54aha
+ JoPAiXH7an1aa6Ng=
+X-Received: by 2002:adf:ebc6:: with SMTP id v6mr1030361wrn.223.1566512289197; 
+ Thu, 22 Aug 2019 15:18:09 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxMOWDiTSDYe466QR5DyNqUv8ky8sswqRt8k2Bh0l1WKkn/nn3vWbvXHCukrbBBCV1l1j8EIA==
+X-Received: by 2002:adf:ebc6:: with SMTP id v6mr1030335wrn.223.1566512288816; 
+ Thu, 22 Aug 2019 15:18:08 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:21b9:ff1f:a96c:9fb3?
+ ([2001:b07:6468:f312:21b9:ff1f:a96c:9fb3])
+ by smtp.gmail.com with ESMTPSA id o11sm836721wrw.19.2019.08.22.15.18.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Aug 2019 15:18:08 -0700 (PDT)
+To: "Kinney, Michael D" <michael.d.kinney@intel.com>,
+ Laszlo Ersek <lersek@redhat.com>, "rfc@edk2.groups.io" <rfc@edk2.groups.io>,
+ "Yao, Jiewen" <jiewen.yao@intel.com>
+References: <8091f6e8-b1ec-f017-1430-00b0255729f4@redhat.com>
+ <047801f8-624a-2300-3cf7-1daa1395ce59@redhat.com>
+ <99219f81-33a3-f447-95f8-f10341d70084@redhat.com>
+ <6f8b9507-58d0-5fbd-b827-c7194b3b2948@redhat.com>
+ <74D8A39837DF1E4DA445A8C0B3885C503F75FAD3@shsmsx102.ccr.corp.intel.com>
+ <7cb458ea-956e-c1df-33f7-025e4f0f22df@redhat.com>
+ <74D8A39837DF1E4DA445A8C0B3885C503F7600B9@shsmsx102.ccr.corp.intel.com>
+ <bb6fdbe0-2a3b-e586-e9a5-93e1ac0803ec@redhat.com>
+ <20190816161933.7d30a881@x1.home>
+ <74D8A39837DF1E4DA445A8C0B3885C503F761B96@shsmsx102.ccr.corp.intel.com>
+ <35396800-32d2-c25f-b0d0-2d7cd8438687@redhat.com>
+ <D2A45071-A097-4642-A34C-6B7C5D7D2466@intel.com>
+ <E92EE9817A31E24EB0585FDF735412F5B9D9C671@ORSMSX113.amr.corp.intel.com>
+ <a76014e2-2f0a-afce-6d15-1c45c5c1e467@redhat.com>
+ <b3907432-b149-3f96-6d93-f443f215e0f8@redhat.com>
+ <2b4ba607-f0e3-efee-6712-6dcef129b310@redhat.com>
+ <E92EE9817A31E24EB0585FDF735412F5B9DA209B@ORSMSX113.amr.corp.intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <7f2d2f1e-2dd8-6914-c55e-61067e06b142@redhat.com>
+Date: Fri, 23 Aug 2019 00:18:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <E92EE9817A31E24EB0585FDF735412F5B9DA209B@ORSMSX113.amr.corp.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.194.90.13
-Subject: [Qemu-devel] [PATCH v6 0/4] 9p: Fix file ID collisions
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [edk2-rfc] [edk2-devel] CPU hotplug using SMM with
+ QEMU+OVMF
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,48 +99,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: "Chen, Yingwen" <yingwen.chen@intel.com>,
+ "devel@edk2.groups.io" <devel@edk2.groups.io>,
+ Phillip Goerl <phillip.goerl@oracle.com>,
+ qemu devel list <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>, "Nakajima,
+ Jun" <jun.nakajima@intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Joao Marcal Lemos Martins <joao.m.martins@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is v6 of a proposed patch set for fixing file ID collisions with 9pfs.
+On 22/08/19 22:06, Kinney, Michael D wrote:
+> The SMBASE register is internal and cannot be directly accessed 
+> by any CPU.  There is an SMBASE field that is member of the SMM Save
+> State area and can only be modified from SMM and requires the
+> execution of an RSM instruction from SMM for the SMBASE register to
+> be updated from the current SMBASE field value.  The new SMBASE
+> register value is only used on the next SMI.
 
-v5->v6:
+Actually there is also an SMBASE MSR, even though in current silicon
+it's read-only and its use is theoretically limited to SMM-transfer
+monitors.  If that MSR could be made accessible somehow outside SMM,
+that would be great.
 
-  * Rebased to https://github.com/gkurz/qemu/commits/9p-next
-    (SHA1 177fd3b6a8).
+> Once all the CPUs have been initialized for SMM, the CPUs that are not needed
+> can be hot removed.  As noted above, the SMBASE value does not change on
+> an INIT.  So as long as the hot add operation does not do a RESET, the
+> SMBASE value must be preserved.
 
-  * Replaced previous boolean option 'remap_inodes' by tertiary option
-    'multidevs=remap|forbid|warn', where 'warn' is the new/old default
-    behaviour for not breaking existing installations:
-    https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg07098.html
+IIRC, hot-remove + hot-add will unplugs/plugs a completely different CPU.
 
-  * Dropped incomplete fix in v9fs_do_readdir() which aimed to prevent
-    exposing info outside export root with '..' entry. Postponed this
-    fix for now for the reasons described:
-    https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01862.html
+> Another idea is to emulate this behavior.  If the hot plug controller
+> provide registers (only accessible from SMM) to assign the SMBASE address
+> for every CPU.  When a CPU is hot added, QEMU can set the internal SMBASE
+> register value from the hot plug controller register value.  If the SMM
+> Monarch sends an INIT or an SMI from the Local APIC to the hot added CPU,
+> then the SMBASE register should not be modified and the CPU starts execution
+> within TSEG the first time it receives an SMI.
 
-Christian Schoenebeck (4):
-  9p: Treat multiple devices on one export as an error
-  9p: Added virtfs option 'multidevs=remap|forbid|warn'
-  9p: stat_to_qid: implement slow path
-  9p: Use variable length suffixes for inode remapping
+Yes, this would work.  But again---if the issue is real on current
+hardware too, I'd rather have a matching solution for virtual platforms.
 
- fsdev/file-op-9p.h      |   5 +
- fsdev/qemu-fsdev-opts.c |   7 +-
- fsdev/qemu-fsdev.c      |  11 ++
- hw/9pfs/9p.c            | 488 +++++++++++++++++++++++++++++++++++++++++++++---
- hw/9pfs/9p.h            |  51 +++++
- qemu-options.hx         |  33 +++-
- vl.c                    |   6 +-
- 7 files changed, 565 insertions(+), 36 deletions(-)
+If the current hardware for example remembers INIT-preserved across
+hot-remove/hot-add, we could emulate that.
 
--- 
-2.11.0
+I guess the fundamental question is: how do bare metal platforms avoid
+this issue, or plan to avoid this issue?  Once we know that, we can use
+that information to find a way to implement it in KVM.  Only if it is
+impossible we'll have a different strategy that is specific to our platform.
+
+Paolo
+
+> Jiewen and I can collect specific questions on this topic and continue
+> the discussion here.  For example, I do not think there is any method
+> other than what I referenced above to program the SMBASE register, but
+> I can ask if there are any other methods.
 
 
