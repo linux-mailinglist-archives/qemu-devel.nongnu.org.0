@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31436990A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 12:23:20 +0200 (CEST)
-Received: from localhost ([::1]:40148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871D2990B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 12:26:49 +0200 (CEST)
+Received: from localhost ([::1]:40168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0kFT-0007Aw-3t
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 06:23:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60939)
+	id 1i0kIp-0001gr-2O
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 06:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60965)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1i0kDJ-0005tn-0g
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:06 -0400
+ (envelope-from <kbastian@mail.uni-paderborn.de>) id 1i0kDK-0005u4-MP
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1i0kDH-0005Yp-Mb
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:04 -0400
-Received: from telepax.uni-paderborn.de ([131.234.189.14]:43944)
+ (envelope-from <kbastian@mail.uni-paderborn.de>) id 1i0kDJ-0005aX-76
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:06 -0400
+Received: from telepax.uni-paderborn.de ([131.234.189.14]:43956)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1i0kDH-0005Xk-Gt
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:03 -0400
+ id 1i0kDJ-0005ZV-0N
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 06:21:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
  :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Udo5UNzRaPQGVA87Ml0p/xu1ugcYhhbjqb9ss0Zd6CU=; b=tV7Y8FISZ1nhlOKJhvMXuhCy84
- PKxYbFFRdGesBhj+2pl+8BczwCKvWinZ85xmFxDRLEseIN/ZTZZqL9xi/azv93CPBTKeqFK6ORQW3
- M4jn1RV0gdqy1tygt+yidb6gSbbRu+fUnmPf/XBCCsEWxobAxuC4CFns//XWUK9Alz8Y=;
+ bh=jINiFwIgkBzloBCN5JnJbGmPZ+sUY/qCCm2bVfZUztY=; b=u36unjx77MGxQxiN8m3B+WOuTd
+ tDG4kpY1auMwsamKZZPacN80yNxBEo7cKKhVIZu7LJDAaQUL/JO9Lh8ZI9Cwns2MLLkdlOGdtX/g0
+ 2rHzbdQ/MG4Y7eNo81awFvrjLTyIhkUz201R3aroGPblGInS90AfhQQiXPIJEe5BsYUk=;
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 12:20:44 +0200
-Message-Id: <20190822102046.8765-4-kbastian@mail.uni-paderborn.de>
+Date: Thu, 22 Aug 2019 12:20:45 +0200
+Message-Id: <20190822102046.8765-5-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190822102046.8765-1-kbastian@mail.uni-paderborn.de>
 References: <20190822102046.8765-1-kbastian@mail.uni-paderborn.de>
@@ -46,7 +46,8 @@ X-PMX-Version: 6.4.7.2805085, Antispam-Engine: 2.7.2.2107409,
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 131.234.189.14
-Subject: [Qemu-devel] [PULL 3/5] target/tricore: Use translate_loop
+Subject: [Qemu-devel] [PULL 4/5] target/tricore: Implement a qemu excptions
+ helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,156 +63,82 @@ Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+this helper is only used to raise qemu specific exceptions. We use this
+helper to raise it on breakpoints.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- target/tricore/translate.c | 118 +++++++++++++++++++++++--------------
- 1 file changed, 74 insertions(+), 44 deletions(-)
+ target/tricore/helper.h    |  1 +
+ target/tricore/op_helper.c |  7 +++++++
+ target/tricore/translate.c | 20 +++++++++++++++++++-
+ 3 files changed, 27 insertions(+), 1 deletion(-)
 
+diff --git a/target/tricore/helper.h b/target/tricore/helper.h
+index b64780c37d..78176aa17a 100644
+--- a/target/tricore/helper.h
++++ b/target/tricore/helper.h
+@@ -153,3 +153,4 @@ DEF_HELPER_2(psw_write, void, env, i32)
+ DEF_HELPER_1(psw_read, i32, env)
+ /* Exceptions */
+ DEF_HELPER_3(raise_exception_sync, noreturn, env, i32, i32)
++DEF_HELPER_2(qemu_excp, noreturn, env, i32)
+diff --git a/target/tricore/op_helper.c b/target/tricore/op_helper.c
+index 9476d10d00..32c2bc1699 100644
+--- a/target/tricore/op_helper.c
++++ b/target/tricore/op_helper.c
+@@ -107,6 +107,13 @@ static void raise_exception_sync_helper(CPUTriCoreState *env, uint32_t class,
+     raise_exception_sync_internal(env, class, tin, pc, 0);
+ }
+ 
++void helper_qemu_excp(CPUTriCoreState *env, uint32_t excp)
++{
++    CPUState *cs = env_cpu(env);
++    cs->exception_index = excp;
++    cpu_loop_exit(cs);
++}
++
+ /* Addressing mode helper */
+ 
+ static uint16_t reverse16(uint16_t val)
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 6b10ae5c47..5fb42abe35 100644
+index 5fb42abe35..88b2840ad1 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
-@@ -8772,7 +8772,7 @@ static void decode_32Bit_opc(DisasContext *ctx)
-     }
+@@ -3261,6 +3261,15 @@ static void generate_trap(DisasContext *ctx, int class, int tin)
+     tcg_temp_free(tintemp);
  }
  
--static void decode_opc(DisasContext *ctx, int *is_branch)
-+static void decode_opc(DisasContext *ctx)
++static void generate_qemu_excp(DisasContext *ctx, int excp)
++{
++    TCGv_i32 tmp = tcg_const_i32(excp);
++    gen_save_pc(ctx->base.pc_next);
++    gen_helper_qemu_excp(cpu_env, tmp);
++    ctx->base.is_jmp = DISAS_NORETURN;
++    tcg_temp_free(tmp);
++}
++
+ static inline void gen_branch_cond(DisasContext *ctx, TCGCond cond, TCGv r1,
+                                    TCGv r2, int16_t address)
  {
-     /* 16-Bit Instruction */
-     if ((ctx->opcode & 0x1) == 0) {
-@@ -8785,57 +8785,87 @@ static void decode_opc(DisasContext *ctx, int *is_branch)
-     }
- }
- 
--void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-+static void tricore_tr_init_disas_context(DisasContextBase *dcbase,
-+                                          CPUState *cs)
+@@ -8808,7 +8817,16 @@ static void tricore_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+ static bool tricore_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
+                                       const CPUBreakpoint *bp)
  {
+-    return false;
 +    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     CPUTriCoreState *env = cs->env_ptr;
--    DisasContext ctx;
--    target_ulong pc_start;
--    int num_insns = 0;
--
--    pc_start = tb->pc;
--    ctx.base.pc_next = pc_start;
--    ctx.base.tb = tb;
--    ctx.base.singlestep_enabled = cs->singlestep_enabled;
--    ctx.base.is_jmp = DISAS_NEXT;
--    ctx.mem_idx = cpu_mmu_index(env, false);
--    ctx.hflags = (uint32_t)tb->flags;
--    ctx.env = env;
--
--    tcg_clear_temp_count();
--    gen_tb_start(tb);
--    while (ctx.base.is_jmp == DISAS_NEXT) {
--        tcg_gen_insn_start(ctx.base.pc_next);
--        num_insns++;
--
--        ctx.opcode = cpu_ldl_code(env, ctx.base.pc_next);
--        decode_opc(&ctx, 0);
--
--        if (num_insns >= max_insns || tcg_op_buf_full()) {
--            gen_save_pc(ctx.pc_succ_insn);
--            tcg_gen_exit_tb(NULL, 0);
--            break;
-+    ctx->mem_idx = cpu_mmu_index(env, false);
-+    ctx->hflags = (uint32_t)ctx->base.tb->flags;
-+}
-+
-+static void tricore_tr_tb_start(DisasContextBase *db, CPUState *cpu)
-+{
-+}
-+
-+static void tricore_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+
-+    tcg_gen_insn_start(ctx->base.pc_next);
-+}
-+
-+static bool tricore_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
-+                                      const CPUBreakpoint *bp)
-+{
-+    return false;
-+}
-+
-+static void tricore_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+    CPUTriCoreState *env = cpu->env_ptr;
-+
-+    ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
-+    decode_opc(ctx);
-+    ctx->base.pc_next = ctx->pc_succ_insn;
-+
-+    if (ctx->base.is_jmp == DISAS_NEXT) {
-+        target_ulong page_start;
-+
-+        page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
-+        if (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE) {
-+            ctx->base.is_jmp = DISAS_TOO_MANY;
-         }
--        ctx.base.pc_next = ctx.pc_succ_insn;
-     }
-+}
- 
--    gen_tb_end(tb, num_insns);
--    tb->size = ctx.base.pc_next - pc_start;
--    tb->icount = num_insns;
-+static void tricore_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
- 
--    if (tcg_check_temp_count()) {
--        printf("LEAK at %08x\n", env->PC);
-+    switch (ctx->base.is_jmp) {
-+    case DISAS_TOO_MANY:
-+        gen_goto_tb(ctx, 0, ctx->base.pc_next);
-+        break;
-+    case DISAS_NORETURN:
-+        break;
-+    default:
-+        g_assert_not_reached();
-     }
-+}
- 
--#ifdef DEBUG_DISAS
--    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
--        && qemu_log_in_addr_range(pc_start)) {
--        qemu_log_lock();
--        qemu_log("IN: %s\n", lookup_symbol(pc_start));
--        log_target_disas(cs, pc_start, ctx.base.pc_next - pc_start);
--        qemu_log("\n");
--        qemu_log_unlock();
--    }
--#endif
-+static void tricore_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
-+}
-+
-+static const TranslatorOps tricore_tr_ops = {
-+    .init_disas_context = tricore_tr_init_disas_context,
-+    .tb_start           = tricore_tr_tb_start,
-+    .insn_start         = tricore_tr_insn_start,
-+    .breakpoint_check   = tricore_tr_breakpoint_check,
-+    .translate_insn     = tricore_tr_translate_insn,
-+    .tb_stop            = tricore_tr_tb_stop,
-+    .disas_log          = tricore_tr_disas_log,
-+};
-+
-+
-+void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-+{
-+    DisasContext ctx;
-+    translator_loop(&tricore_tr_ops, &ctx.base, cs, tb, max_insns);
++    generate_qemu_excp(ctx, EXCP_DEBUG);
++    /*
++     * The address covered by the breakpoint must be included in
++     * [tb->pc, tb->pc + tb->size) in order to for it to be
++     * properly cleared -- thus we increment the PC here so that
++     * the logic setting tb->size below does the right thing.
++     */
++    ctx->base.pc_next += 4;
++    return true;
  }
  
- void
+ static void tricore_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
 -- 
 2.23.0
 
