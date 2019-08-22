@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3092999BA9
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 19:27:00 +0200 (CEST)
-Received: from localhost ([::1]:46684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E4999BC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 19:29:22 +0200 (CEST)
+Received: from localhost ([::1]:46708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0qrT-0007eo-53
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 13:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35528)
+	id 1i0qtl-0002hL-Mk
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 13:29:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35532)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1i0qol-0005ha-9C
+ (envelope-from <eric.auger@redhat.com>) id 1i0qol-0005iY-JW
  for qemu-devel@nongnu.org; Thu, 22 Aug 2019 13:24:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1i0qoj-00031z-Vn
+ (envelope-from <eric.auger@redhat.com>) id 1i0qok-00032K-Cv
  for qemu-devel@nongnu.org; Thu, 22 Aug 2019 13:24:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39536)
+Received: from mx1.redhat.com ([209.132.183.28]:45462)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1i0qog-0002y8-Ds; Thu, 22 Aug 2019 13:24:06 -0400
+ id 1i0qoh-0002zz-4G; Thu, 22 Aug 2019 13:24:07 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B040F10C696D;
- Thu, 22 Aug 2019 17:24:03 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 661FC10F23E0;
+ Thu, 22 Aug 2019 17:24:06 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-105.ams2.redhat.com [10.36.116.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E467760603;
- Thu, 22 Aug 2019 17:23:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 155DE60605;
+ Thu, 22 Aug 2019 17:24:03 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, peterx@redhat.com,
  pbonzini@redhat.com, alex.williamson@redhat.com
-Date: Thu, 22 Aug 2019 19:23:45 +0200
-Message-Id: <20190822172350.12008-1-eric.auger@redhat.com>
+Date: Thu, 22 Aug 2019 19:23:46 +0200
+Message-Id: <20190822172350.12008-2-eric.auger@redhat.com>
+In-Reply-To: <20190822172350.12008-1-eric.auger@redhat.com>
+References: <20190822172350.12008-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Thu, 22 Aug 2019 17:24:03 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.66]); Thu, 22 Aug 2019 17:24:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 0/5] ARM SMMUv3: Fix spurious notification
- errors and fail with VFIO
+Subject: [Qemu-devel] [PATCH v4 1/5] memory: Remove unused
+ memory_region_iommu_replay_all()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,55 +61,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As of today when a guest is assigned with a host PCI device and
-an SMMUv3, VFIO calls memory_region_iommu_replay() default
-implementation. This translates the whole address range and
-completely stalls the execution. As VFIO/SMMUv3 integration
-is not supported yet (it requires SMMUv3 HW nested paging), let's
-recognize this situation and fail.
+memory_region_iommu_replay_all is not used. Remove it.
 
-Also the series silences some spurious translation configuration
-decoding errors (STE out of span or invalid STE) that may happen
-on guest IOVA invalidation notifications.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+---
+ include/exec/memory.h | 10 ----------
+ memory.c              |  9 ---------
+ 2 files changed, 19 deletions(-)
 
-Best Regards
-
-Eric
-
-This series can be found at:
-https://github.com/eauger/qemu/tree/v4.1.0_smmu_vfio_fail_v4
-
-History:
-
-v3 -> v4:
-- see individual patches
-
-v2 -> v3:
-- squash IOMMU_ATTR_VFIO_NESTED introduction and SMMUv3 usage
-- assert when recognizing VFIO/NESTED case
-- collect R-bs
-
-v1 -> v2:
-- Added "memory: Remove unused memory_region_iommu_replay_all()" &
-  "hw/arm/smmuv3: Log a guest error when decoding an invalid STE"
-- do not attempt to implement replay Cb but rather remove the call
-  in case it is not needed
-- explain why we do not remove other log messages on config decoding
-
-Eric Auger (5):
-  memory: Remove unused memory_region_iommu_replay_all()
-  memory: Add IOMMU_ATTR_HW_NESTED_PAGING IOMMU memory region attribute
-  hw/vfio/common: Fail on VFIO/HW nested paging detection
-  hw/arm/smmuv3: Log a guest error when decoding an invalid STE
-  hw/arm/smmuv3: Remove spurious error messages on IOVA invalidations
-
- hw/arm/smmuv3-internal.h |  1 +
- hw/arm/smmuv3.c          | 30 +++++++++++++++++++++++-------
- hw/vfio/common.c         | 10 ++++++++++
- include/exec/memory.h    | 18 +++++++-----------
- memory.c                 |  9 ---------
- 5 files changed, 41 insertions(+), 27 deletions(-)
-
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index fddc2ff48a..ecca388e69 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1086,16 +1086,6 @@ void memory_region_register_iommu_notifier(MemoryR=
+egion *mr,
+  */
+ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifi=
+er *n);
+=20
+-/**
+- * memory_region_iommu_replay_all: replay existing IOMMU translations
+- * to all the notifiers registered.
+- *
+- * Note: this is not related to record-and-replay functionality.
+- *
+- * @iommu_mr: the memory region to observe
+- */
+-void memory_region_iommu_replay_all(IOMMUMemoryRegion *iommu_mr);
+-
+ /**
+  * memory_region_unregister_iommu_notifier: unregister a notifier for
+  * changes to IOMMU translation entries.
+diff --git a/memory.c b/memory.c
+index 4aa38eb5b1..489df45758 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1915,15 +1915,6 @@ void memory_region_iommu_replay(IOMMUMemoryRegion =
+*iommu_mr, IOMMUNotifier *n)
+     }
+ }
+=20
+-void memory_region_iommu_replay_all(IOMMUMemoryRegion *iommu_mr)
+-{
+-    IOMMUNotifier *notifier;
+-
+-    IOMMU_NOTIFIER_FOREACH(notifier, iommu_mr) {
+-        memory_region_iommu_replay(iommu_mr, notifier);
+-    }
+-}
+-
+ void memory_region_unregister_iommu_notifier(MemoryRegion *mr,
+                                              IOMMUNotifier *n)
+ {
 --=20
 2.20.1
 
