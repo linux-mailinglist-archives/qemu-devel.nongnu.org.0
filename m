@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBAB9885C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 02:11:06 +0200 (CEST)
-Received: from localhost ([::1]:37264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568FA9886F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 02:22:59 +0200 (CEST)
+Received: from localhost ([::1]:37324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0agz-0001Mt-6V
-	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 20:11:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53881)
+	id 1i0asT-0006Bk-Tc
+	for lists+qemu-devel@lfdr.de; Wed, 21 Aug 2019 20:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55083)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i0af2-00086b-1G
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 20:09:05 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i0are-0005kI-HL
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 20:22:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i0af0-0006WJ-R1
- for qemu-devel@nongnu.org; Wed, 21 Aug 2019 20:09:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60318)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i0aey-0006Lb-2T; Wed, 21 Aug 2019 20:09:00 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 561A0898105;
- Thu, 22 Aug 2019 00:08:59 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 859766114F;
- Thu, 22 Aug 2019 00:08:51 +0000 (UTC)
-Message-ID: <98aa8733d9676324ac973efd7569599fe895a79d.camel@redhat.com>
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
-Date: Thu, 22 Aug 2019 03:08:50 +0300
-In-Reply-To: <20190821153929.GG29327@redhat.com>
-References: <20190814202219.1870-1-mlevitsk@redhat.com>
- <20190814202219.1870-2-mlevitsk@redhat.com>
- <20190821153929.GG29327@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Thu, 22 Aug 2019 00:08:59 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 01/13] block-crypto: misc refactoring
+ (envelope-from <richard.henderson@linaro.org>) id 1i0ard-0005Ff-4R
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 20:22:06 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:35646)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i0arc-0005FK-UQ
+ for qemu-devel@nongnu.org; Wed, 21 Aug 2019 20:22:05 -0400
+Received: by mail-pf1-x443.google.com with SMTP id d85so2598834pfd.2
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 17:22:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=2+GorFJiIIvPPj+ZxTdHoEdA13mFcot/VQvvNBL4Nec=;
+ b=Nid+xQyNIq4C695rNBzyJDJQncO0OYVneQPNH3D+Kb9tm0ImPxT31Flk/EKN/jqTU3
+ MiOyRIFy7RGQEsfgYdYwUs+rn6OY7H9BluX4I+TM1WS01g4BZBXTzfizOVA9EAl41t2b
+ xcX5fwewntK6JiKilkKhDDbjS64LWSAt/sWLSzktD8pTREl2EPYCs0WNxhBjqq4uofKq
+ uxWrQ/KBYAioNaSr5xn+Z+ztNpg5Y9TrUVlyEsPFJ8IZ/n0aQ94GJX+qRRoc4lx7AZ/L
+ r3pzGLBgC5CDzmnobMvSTaI0pfzurAME0fsmSFlghxcJHn2JFrACo7tQHqlUKoaSks/3
+ E4Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2+GorFJiIIvPPj+ZxTdHoEdA13mFcot/VQvvNBL4Nec=;
+ b=fqc8uwR/RGQ0HDRoYMqdWneTKzaMOvjcEbrxZ0XuVjtSHJsXJSn5az01LPxCxGDmvU
+ sVeFdX0MVamKMcQcxJi3rQWGaVPQHgJ3J2I1RvpJb7JE5P+9jD/ZI7q3HxLfp6qFCmJX
+ 6mWQX2gz/Cy4EkSIf/fxP791/Pzg+IIQ2Wiwna0kB0HHT8Ybf6HTkdQn2vWlNRG/12Pd
+ YBnZfSoSmWLajC3jJSiht3ZcZSNbQZdV77m2NMsSAZeYvVY3JRwwmdMpAG0QwuHv/OvX
+ GhSZt4aWTMxvTROOuP2+WS1ccmlG2Wp9IgD2zwNifaZ8hyXmIOhSOqVRj1DNklzMyv/R
+ V1hA==
+X-Gm-Message-State: APjAAAWeiTi0YbIiH7EaLzYUSvJ44IndRQs0nve79FrZ9LHQQfKfgWtf
+ ZJQHfeSwEJm0sQisYcPallX/nQ==
+X-Google-Smtp-Source: APXvYqy6/mM3k60n5MlKTiboV2t5HBq/Zkz3nh5kfBIcQ6yPkDKJMNGhtjc9X/PaEm8yjeyWcpy7Og==
+X-Received: by 2002:a17:90a:e502:: with SMTP id
+ t2mr2651738pjy.104.1566433323428; 
+ Wed, 21 Aug 2019 17:22:03 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id a10sm34863895pfl.159.2019.08.21.17.22.01
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 21 Aug 2019 17:22:02 -0700 (PDT)
+To: Tony Nguyen <tony.nguyen.git@gmail.com>, qemu-devel@nongnu.org
+References: <cover.1566397711.git.tony.nguyen.git@gmail.com>
+ <00f837b07ebb2468af5254626cc6b2bf94ddab4b.1566397711.git.tony.nguyen.git@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <31c6129b-dd72-fc16-811e-0b0763459cc6@linaro.org>
+Date: Wed, 21 Aug 2019 17:22:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <00f837b07ebb2468af5254626cc6b2bf94ddab4b.1566397711.git.tony.nguyen.git@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH v8 01/21] configure: Define
+ TARGET_ALIGNED_ONLY in configure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,123 +85,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Tony Nguyen <tony.nguyen@bt.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Cornelia Huck <cohuck@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Max Filippov <jcmvbkbc@gmail.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2019-08-21 at 16:39 +0100, Daniel P. Berrang=C3=A9 wrote:
-> On Wed, Aug 14, 2019 at 11:22:07PM +0300, Maxim Levitsky wrote:
-> > * rename the write_func to create_write_func,
-> >   and init_func to create_init_func
-> >   this is  preparation for other write_func that will
-> >   be used to update the encryption keys.
-> >=20
-> > No functional changes
-> >=20
-> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > ---
-> >  block/crypto.c | 15 ++++++++-------
-> >  1 file changed, 8 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/block/crypto.c b/block/crypto.c
-> > index 8237424ae6..42a3f0898b 100644
-> > --- a/block/crypto.c
-> > +++ b/block/crypto.c
-> > @@ -51,7 +51,6 @@ static int block_crypto_probe_generic(QCryptoBlockF=
-ormat format,
-> >      }
-> >  }
-> > =20
-> > -
->=20
-> Unrelated whitespace change
->=20
-> >  static ssize_t block_crypto_read_func(QCryptoBlock *block,
-> >                                        size_t offset,
-> >                                        uint8_t *buf,
-> > @@ -77,7 +76,7 @@ struct BlockCryptoCreateData {
-> >  };
-> > =20
-> > =20
-> > -static ssize_t block_crypto_write_func(QCryptoBlock *block,
-> > +static ssize_t block_crypto_create_write_func(QCryptoBlock *block,
-> >                                         size_t offset,
-> >                                         const uint8_t *buf,
-> >                                         size_t buflen,
->=20
-> Re-indent.
->=20
-> > @@ -95,8 +94,7 @@ static ssize_t block_crypto_write_func(QCryptoBlock=
- *block,
-> >      return ret;
-> >  }
-> > =20
-> > -
->=20
-> Unrelated whitespace
->=20
-> > -static ssize_t block_crypto_init_func(QCryptoBlock *block,
-> > +static ssize_t block_crypto_create_init_func(QCryptoBlock *block,
-> >                                        size_t headerlen,
-> >                                        void *opaque,
-> >                                        Error **errp)
->=20
-> Re-indent.
->=20
-> > @@ -108,7 +106,8 @@ static ssize_t block_crypto_init_func(QCryptoBloc=
-k *block,
-> >          return -EFBIG;
-> >      }
-> > =20
-> > -    /* User provided size should reflect amount of space made
-> > +    /*
-> > +     * User provided size should reflect amount of space made
->=20
-> Unrelated whitespace
->=20
-> >       * available to the guest, so we must take account of that
-> >       * which will be used by the crypto header
-> >       */
-> > @@ -117,6 +116,8 @@ static ssize_t block_crypto_init_func(QCryptoBloc=
-k *block,
-> >  }
-> > =20
-> > =20
-> > +
-> > +
->=20
-> Unrelated whitespace
->=20
-> >  static QemuOptsList block_crypto_runtime_opts_luks =3D {
-> >      .name =3D "crypto",
-> >      .head =3D QTAILQ_HEAD_INITIALIZER(block_crypto_runtime_opts_luks=
-.head),
-> > @@ -272,8 +273,8 @@ static int block_crypto_co_create_generic(BlockDr=
-iverState *bs,
-> >      };
-> > =20
-> >      crypto =3D qcrypto_block_create(opts, NULL,
-> > -                                  block_crypto_init_func,
-> > -                                  block_crypto_write_func,
-> > +                                  block_crypto_create_init_func,
-> > +                                  block_crypto_create_write_func,
-> >                                    &data,
-> >                                    errp);
->=20
-> With the whitespace changes removed & indent fixed
->=20
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->=20
->=20
-> Regards,
-> Daniel
+On 8/21/19 8:08 AM, Tony Nguyen wrote:
+> Rename ALIGNED_ONLY to TARGET_ALIGNED_ONLY for clarity and move
+> defines out of target/foo/cpu.h into configure, as we do with
+> TARGET_WORDS_BIGENDIAN, so that it is always defined early.
+> 
+> Poisoned TARGET_ALIGNED_ONLY to prevent use in common code.
+> 
+> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>  configure             | 10 +++++++++-
+>  include/exec/poison.h |  1 +
+>  include/qom/cpu.h     |  2 +-
+>  target/alpha/cpu.h    |  2 --
+>  target/hppa/cpu.h     |  1 -
+>  target/mips/cpu.h     |  2 --
+>  target/sh4/cpu.h      |  2 --
+>  target/sparc/cpu.h    |  2 --
+>  target/xtensa/cpu.h   |  2 --
+>  tcg/tcg.c             |  2 +-
+>  tcg/tcg.h             |  8 +++++---
+>  11 files changed, 17 insertions(+), 17 deletions(-)
 
-Thanks you!
+You are going to have to fix your patch submission.
 
-Best regards,
-	Maxim Levitsky
+Applying: configure: Define TARGET_ALIGNED_ONLY in configure
+error: patch failed: configure:7431
+error: configure: patch does not apply
+error: patch failed: include/exec/poison.h:35
+error: include/exec/poison.h: patch does not apply
+error: patch failed: include/qom/cpu.h:89
+error: include/qom/cpu.h: patch does not apply
+error: patch failed: target/alpha/cpu.h:23
+error: target/alpha/cpu.h: patch does not apply
+error: patch failed: target/hppa/cpu.h:30
+error: target/hppa/cpu.h: patch does not apply
+error: patch failed: target/mips/cpu.h:1
+error: target/mips/cpu.h: patch does not apply
+error: patch failed: target/sh4/cpu.h:23
+error: target/sh4/cpu.h: patch does not apply
+error: patch failed: target/sparc/cpu.h:5
+error: target/sparc/cpu.h: patch does not apply
+error: patch failed: target/xtensa/cpu.h:32
+error: target/xtensa/cpu.h: patch does not apply
+error: patch failed: tcg/tcg.c:1925
+error: tcg/tcg.c: patch does not apply
+error: patch failed: tcg/tcg.h:333
+error: tcg/tcg.h: patch does not apply
+Patch failed at 0001 configure: Define TARGET_ALIGNED_ONLY in configure
 
+There are far too many errors for me to want to fix them up by hand.
+
+
+r~
 
