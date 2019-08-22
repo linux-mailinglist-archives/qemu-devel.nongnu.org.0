@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D27298A92
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 06:51:41 +0200 (CEST)
-Received: from localhost ([::1]:38142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF18398B50
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 08:19:23 +0200 (CEST)
+Received: from localhost ([::1]:38470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0f4W-0000jW-Cc
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 00:51:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52386)
+	id 1i0gRO-0003Up-B0
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 02:19:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1i0f3Q-0000JC-1G
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 00:50:33 -0400
+ (envelope-from <mrolnik@gmail.com>) id 1i0gPj-0002cv-EI
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 02:17:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1i0f3O-0006EE-DB
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 00:50:31 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:7558)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1i0f3O-0006DU-1h
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 00:50:30 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d5e1f140001>; Wed, 21 Aug 2019 21:50:28 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Wed, 21 Aug 2019 21:50:28 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Wed, 21 Aug 2019 21:50:28 -0700
-Received: from [10.24.71.106] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 22 Aug
- 2019 04:50:20 +0000
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <1562665760-26158-1-git-send-email-kwankhede@nvidia.com>
- <1562665760-26158-5-git-send-email-kwankhede@nvidia.com>
- <20190711120713.GM3971@work-vm>
-X-Nvconfidentiality: public
-From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <d6400fd9-5f86-b9f2-a10a-1ad53813a066@nvidia.com>
-Date: Thu, 22 Aug 2019 10:20:15 +0530
+ (envelope-from <mrolnik@gmail.com>) id 1i0gPg-0007D0-At
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 02:17:39 -0400
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:45229)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1i0gPg-0007CU-4d
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 02:17:36 -0400
+Received: by mail-qt1-x841.google.com with SMTP id k13so6236043qtm.12
+ for <qemu-devel@nongnu.org>; Wed, 21 Aug 2019 23:17:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tsEzPenX+Wu35yHe38EIUGQLeY1g4sAw1vUBZ/3hDhQ=;
+ b=thYwVI+5kjIDM4fjfrf0tPEhew0cx2AIlJBtzAMv34bQo5O0ohJ/XRbFEbk8r8Bh5z
+ D+j05vfHP+qzN7bnimQT2F5UwHtUoxbdqF+d2CphtSQqa+yyu2pgvhcAHicodydBptlR
+ /q8DRP3O+1hy6rRZIklTCvXwS3NZIyTtRgUE28f85Bc5OLUw6DZjTeOtjhaJ+qgZ40g9
+ zBzTn5R0SPF5I0Q8l1kkaszRNngTHp2keWdtK+dw43GH9hsoYt8YcaUuGZParyQc+EpW
+ uEmM6cTq6Kn45WsD4MaKwJofkYcEm/d+htYEPRAN9cA5KK1tUXWz06EkqJpESAaW2ESP
+ WEiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tsEzPenX+Wu35yHe38EIUGQLeY1g4sAw1vUBZ/3hDhQ=;
+ b=VMqK8RRI8fib+sz2rY0hlwbq+gu8gs65Lb+Fq6r7BdIxn+vwCyjgQ7cMkvwSIlVsbY
+ O54wPIBRYX58ZrfZf6p+7sDdMKy3awjawxS95s0FYpqxOlM/VjEgsavA77Gi4CRe24kt
+ eKqNXSsavdw2A9ZqTQQTxAi1zT4J/7v2SSybEgUc7VBJGiZSJfPbADThHmAtNj3h5NN0
+ kTtkDSDgqZvAv80xioNsjiJuaeS6huppodGMGuedKAb2DPuGJ5T5qloVV5XBqCG83HvF
+ jdBjXdXf9FKLMlVV5yxHDghI1P7UiyKmiL9lkmGpJvsQ3s/y1tIq4+dqqD7TZSc3dwqn
+ Qt6A==
+X-Gm-Message-State: APjAAAX84DVZYn60bkY6PlpX0thT2J+eBtkMnJAbvuPjhe30xz7Fw80r
+ DorACAbgYs+9TzUSzBPc9hBJLC0b6zGeMgAmG8A4AKJlMy8=
+X-Google-Smtp-Source: APXvYqy3wura6xU+keH2fz1P7bAkfO97KQZ+EMCz33TclwtaLYu2HM0J8EsekZrBnPMXXi3dsoDvKm7Il77rw5EdU84=
+X-Received: by 2002:ac8:128b:: with SMTP id y11mr1901692qti.229.1566454654956; 
+ Wed, 21 Aug 2019 23:17:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190711120713.GM3971@work-vm>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1566449428; bh=BvHlmf5KfDyxiBXnBmwuT5pc++dvhJ1Amh/ILAKKdAc=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:MIME-Version:In-Reply-To:X-Originating-IP:
- X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=N/OmogrBf9LBD1MiYeoeLOz1VdM6jewJsXESmDx7mwCn/0JmBd9rdkJJkc3xeUg0A
- 8NGkzYr329EPkWoOKYOX+/BVXP2Dxr44ARK1OzZ15696zKItejTNfBLR1MVnZJMuEF
- wV5HATCufVva8g5KZG6DaDurXnPUl5hXRE5qFXZQF3GxI9yKUHv3y2CZey4imGdFRa
- d/2KwC+ncSgnnVwnQKIzcirdliDrWOgYNyIBfDqX4J4d+8l9wx+4KUZL5K2jf922iB
- Ixmo7lO2kRSPXJlxW9yNXaTqHVTJe730ZJBzEUsLDH8R6zUa9OHBe0IDM5vKEC7SCd
- uJWgEzPBtLBMw==
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
-X-Received-From: 216.228.121.65
-Subject: Re: [Qemu-devel] [PATCH v7 04/13] vfio: Add save and load functions
- for VFIO PCI devices
+References: <20190805141408.89268-1-mrolnik@gmail.com>
+In-Reply-To: <20190805141408.89268-1-mrolnik@gmail.com>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Thu, 22 Aug 2019 09:16:58 +0300
+Message-ID: <CAK4993jadCQ6Aa4k=7JQFkVV=AKsx-EJaL0JqoWYzKHGxS18Dw@mail.gmail.com>
+To: QEMU Developers <qemu-devel@nongnu.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::841
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH for 4.2 v28 0/8] QEMU AVR 8 bit cores
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,202 +71,318 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com, cohuck@redhat.com,
- shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, zhi.a.wang@intel.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
- alex.williamson@redhat.com, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Pavel Dovgalyuk <dovgaluk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry for delay to respond.
+ping
 
-On 7/11/2019 5:37 PM, Dr. David Alan Gilbert wrote:
-> * Kirti Wankhede (kwankhede@nvidia.com) wrote:
->> These functions save and restore PCI device specific data - config
->> space of PCI device.
->> Tested save and restore with MSI and MSIX type.
->>
->> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
->> Reviewed-by: Neo Jia <cjia@nvidia.com>
->> ---
->>  hw/vfio/pci.c                 | 114 ++++++++++++++++++++++++++++++++++++++++++
->>  include/hw/vfio/vfio-common.h |   2 +
->>  2 files changed, 116 insertions(+)
->>
->> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->> index de0d286fc9dd..5fe4f8076cac 100644
->> --- a/hw/vfio/pci.c
->> +++ b/hw/vfio/pci.c
->> @@ -2395,11 +2395,125 @@ static Object *vfio_pci_get_object(VFIODevice *vbasedev)
->>      return OBJECT(vdev);
->>  }
->>  
->> +static void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
->> +{
->> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
->> +    PCIDevice *pdev = &vdev->pdev;
->> +    uint16_t pci_cmd;
->> +    int i;
->> +
->> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
->> +        uint32_t bar;
->> +
->> +        bar = pci_default_read_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, 4);
->> +        qemu_put_be32(f, bar);
->> +    }
->> +
->> +    qemu_put_be32(f, vdev->interrupt);
->> +    if (vdev->interrupt == VFIO_INT_MSI) {
->> +        uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
->> +        bool msi_64bit;
->> +
->> +        msi_flags = pci_default_read_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
->> +                                            2);
->> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
->> +
->> +        msi_addr_lo = pci_default_read_config(pdev,
->> +                                         pdev->msi_cap + PCI_MSI_ADDRESS_LO, 4);
->> +        qemu_put_be32(f, msi_addr_lo);
->> +
->> +        if (msi_64bit) {
->> +            msi_addr_hi = pci_default_read_config(pdev,
->> +                                             pdev->msi_cap + PCI_MSI_ADDRESS_HI,
->> +                                             4);
->> +        }
->> +        qemu_put_be32(f, msi_addr_hi);
->> +
->> +        msi_data = pci_default_read_config(pdev,
->> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
->> +                2);
->> +        qemu_put_be32(f, msi_data);
->> +    } else if (vdev->interrupt == VFIO_INT_MSIX) {
->> +        uint16_t offset;
->> +
->> +        /* save enable bit and maskall bit */
->> +        offset = pci_default_read_config(pdev,
->> +                                       pdev->msix_cap + PCI_MSIX_FLAGS + 1, 2);
->> +        qemu_put_be16(f, offset);
->> +        msix_save(pdev, f);
->> +    }
->> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
->> +    qemu_put_be16(f, pci_cmd);
->> +}
->> +
->> +static void vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
->> +{
->> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
->> +    PCIDevice *pdev = &vdev->pdev;
->> +    uint32_t interrupt_type;
->> +    uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
->> +    uint16_t pci_cmd;
->> +    bool msi_64bit;
->> +    int i;
->> +
->> +    /* retore pci bar configuration */
->> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
->> +    vfio_pci_write_config(pdev, PCI_COMMAND,
->> +                        pci_cmd & (!(PCI_COMMAND_IO | PCI_COMMAND_MEMORY)), 2);
->> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
->> +        uint32_t bar = qemu_get_be32(f);
->> +
->> +        vfio_pci_write_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, bar, 4);
->> +    }
-> 
-> Is it possible to validate the bar's at all?  We just had a bug on a
-> virtual device where one version was asking for a larger bar than the
-> other; our validation caught this in some cases so we could tell that
-> the guest had a BAR that was aligned at the wrong alignment.
-> 
+On Mon, Aug 5, 2019 at 5:14 PM Michael Rolnik <mrolnik@gmail.com> wrote:
 
-"Validate the bars" does that means validate size of bars?
-
->> +    vfio_pci_write_config(pdev, PCI_COMMAND,
->> +                          pci_cmd | PCI_COMMAND_IO | PCI_COMMAND_MEMORY, 2);
-> 
-> Can you explain what this is for?  You write the command register at the
-> end of the function with the original value; there's no guarantee that
-> the device is using IO for example, so ORing it seems odd.
-> 
-
-IO space and memory space accesses are disabled before writing BAR
-addresses, only those are enabled here.
-
-> Also, are the other flags in COMMAND safe at this point - e.g. what
-> about interrupts and stuff?
-> 
-
-COMMAND registers is saved from stop-and-copy phase, interrupt should be
-disabled, then restoring here when vCPU are not yet running.
-
->> +    interrupt_type = qemu_get_be32(f);
->> +
->> +    if (interrupt_type == VFIO_INT_MSI) {
->> +        /* restore msi configuration */
->> +        msi_flags = pci_default_read_config(pdev,
->> +                                            pdev->msi_cap + PCI_MSI_FLAGS, 2);
->> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
->> +
->> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
->> +                              msi_flags & (!PCI_MSI_FLAGS_ENABLE), 2);
->> +
->> +        msi_addr_lo = qemu_get_be32(f);
->> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_LO,
->> +                              msi_addr_lo, 4);
->> +
->> +        msi_addr_hi = qemu_get_be32(f);
->> +        if (msi_64bit) {
->> +            vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_HI,
->> +                                  msi_addr_hi, 4);
->> +        }
->> +        msi_data = qemu_get_be32(f);
->> +        vfio_pci_write_config(pdev,
->> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
->> +                msi_data, 2);
->> +
->> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
->> +                              msi_flags | PCI_MSI_FLAGS_ENABLE, 2);
->> +    } else if (interrupt_type == VFIO_INT_MSIX) {
->> +        uint16_t offset = qemu_get_be16(f);
->> +
->> +        /* load enable bit and maskall bit */
->> +        vfio_pci_write_config(pdev, pdev->msix_cap + PCI_MSIX_FLAGS + 1,
->> +                              offset, 2);
->> +        msix_load(pdev, f);
->> +    }
->> +    pci_cmd = qemu_get_be16(f);
->> +    vfio_pci_write_config(pdev, PCI_COMMAND, pci_cmd, 2);
->> +}
->> +
->>  static VFIODeviceOps vfio_pci_ops = {
->>      .vfio_compute_needs_reset = vfio_pci_compute_needs_reset,
->>      .vfio_hot_reset_multi = vfio_pci_hot_reset_multi,
->>      .vfio_eoi = vfio_intx_eoi,
->>      .vfio_get_object = vfio_pci_get_object,
->> +    .vfio_save_config = vfio_pci_save_config,
->> +    .vfio_load_config = vfio_pci_load_config,
->>  };
->>  
->>  int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
->> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
->> index 771b6d59a3db..ee72bd984a36 100644
->> --- a/include/hw/vfio/vfio-common.h
->> +++ b/include/hw/vfio/vfio-common.h
->> @@ -120,6 +120,8 @@ struct VFIODeviceOps {
->>      int (*vfio_hot_reset_multi)(VFIODevice *vdev);
->>      void (*vfio_eoi)(VFIODevice *vdev);
->>      Object *(*vfio_get_object)(VFIODevice *vdev);
->> +    void (*vfio_save_config)(VFIODevice *vdev, QEMUFile *f);
->> +    void (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
->>  };
->>  
->>  typedef struct VFIOGroup {
->> -- 
->> 2.7.0
->>
+> This series of patches adds 8bit AVR cores to QEMU.
+> All instruction, except BREAK/DES/SPM/SPMX, are implemented. Not fully
+> tested yet.
+> However I was able to execute simple code with functions. e.g fibonacci
+> calculation.
+> This series of patches include a non real, sample board.
+> No fuses support yet. PC is set to 0 at reset.
+>
+> the patches include the following
+> 1. just a basic 8bit AVR CPU, without instruction decoding or translation
+> 2. CPU features which allow define the following 8bit AVR cores
+>      avr1
+>      avr2 avr25
+>      avr3 avr31 avr35
+>      avr4
+>      avr5 avr51
+>      avr6
+>      xmega2 xmega4 xmega5 xmega6 xmega7
+> 3. a definition of sample machine with SRAM, FLASH and CPU which allows to
+> execute simple code
+> 4. encoding for all AVR instructions
+> 5. interrupt handling
+> 6. helpers for IN, OUT, SLEEP, WBR & unsupported instructions
+> 7. a decoder which given an opcode decides what istruction it is
+> 8. translation of AVR instruction into TCG
+> 9. all features together
+>
+> changes since v3
+> 1. rampD/X/Y/Z registers are encoded as 0x00ff0000 (instead of 0x000000ff)
+> for faster address manipulaton
+> 2. ffs changed to ctz32
+> 3. duplicate code removed at avr_cpu_do_interrupt
+> 4. using andc instead of not + and
+> 5. fixing V flag calculation in varios instructions
+> 6. freeing local variables in PUSH
+> 7. tcg_const_local_i32 -> tcg_const_i32
+> 8. using sextract32 instead of my implementation
+> 9. fixing BLD instruction
+> 10.xor(r) instead of 0xff - r at COM
+> 11.fixing MULS/MULSU not to modify inputs' content
+> 12.using SUB for NEG
+> 13.fixing tcg_gen_qemu_ld/st call in XCH
+>
+> changes since v4
+> 1. target is now defined as big endian in order to optimize
+> push_ret/pop_ret
+> 2. all style warnings are fixed
+> 3. adding cpu_set/get_sreg functions
+> 4. simplifying gen_goto_tb as there is no real paging
+> 5. env->pc -> env->pc_w
+> 6. making flag dump more compact
+> 7. more spacing
+> 8. renaming CODE/DATA_INDEX -> MMU_CODE/DATA_IDX
+> 9. removing avr_set_feature
+> 10. SPL/SPH set bug fix
+> 11. switching stb_phys to cpu_stb_data
+> 12. cleaning up avr_decode
+> 13. saving sreg, rampD/X/Y/Z, eind in HW format (savevm)
+> 14. saving CPU features (savevm)
+>
+> changes since v5
+> 1. BLD bug fix
+> 2. decoder generator is added
+>
+> chages since v6
+> 1. using cpu_get_sreg/cpu_set_sreg in
+> avr_cpu_gdb_read_register/avr_cpu_gdb_write_register
+> 2. configure the target as little endian because otherwise GDB does not
+> work
+> 3. fixing and testing gen_push_ret/gen_pop_ret
+>
+> changes since v7
+> 1. folding back v6
+> 2. logging at helper_outb and helper_inb are done for non supported yet
+> registers only
+> 3. MAINTAINERS updated
+>
+> changes since v8
+> 1. removing hw/avr from hw/Makefile.obj as it should not be built for all
+> 2. making linux compilable
+> 3. testing on
+>     a. Mac, Apple LLVM version 7.0.0
+>     b. Ubuntu 12.04, gcc 4.9.2
+>     c. Fedora 23, gcc 5.3.1
+> 4. folding back some patches
+> 5. translation bug fixes for ORI, CPI, XOR instructions
+> 6. propper handling of cpu register writes though memory
+>
+> changes since v9
+> 1. removing forward declarations of static functions
+> 2. disabling debug prints
+> 3. switching to case range instead of if else if ...
+> 4. LD/ST IN/OUT accessing CPU maintainder registers are not routed to any
+> device
+> 5. commenst about sample board and sample IO device added
+> 6. sample board description is more descriptive now
+> 7. memory_region_allocate_system_memory is used to create RAM
+> 8. now there are helper_fullrd & helper_fullwr when LD/ST try to access
+> registers
+>
+> changes since v10
+> 1. movig back fullwr & fullrd into the commit where outb and inb were
+> introduced
+> 2. changing tlb_fill function signature
+> 3. adding empty line between functions
+> 4. adding newline on the last line of the file
+> 5. using tb->flags to generae full access ST/LD instructions
+> 6. fixing SBRC bug
+> 7. folding back 10th commit
+> 8. whenever a new file is introduced it's added to Makefile.objs
+>
+> changes since v11
+> 1. updating to v2.7.0-rc
+> 2. removing assignment to env->fullacc from gen_intermediate_code
+>
+> changes since v12
+> 1. fixing spacing
+> 2. fixing get/put_segment functions
+> 3. removing target-avr/machine.h file
+> 4. VMSTATE_SINGLE_TEST -> VMSTATE_SINGLE
+> 5. comment spelling
+> 6. removing hw/avr/sample_io.c
+> 7. char const* -> const char*
+> 8. proper ram allocation
+> 9. fixing breakpoint functionality.
+> 10.env1 -> env
+> 11.fixing avr_cpu_gdb_write_register & avr_cpu_gdb_read_register functions
+> 12.any cpu is removed
+> 12.feature bits are not saved into vm state
+>
+> changes since v13
+> 1. rebasing to v2.7.0-rc1
+>
+> changes since v14
+> 1. I made self review with git gui tool. (I did not know such a thing
+> exists)
+> 2. removing all double/tripple spaces
+> 3. removing comment reference to SampleIO
+> 4. folding back some changes, so there is not deleted lines in my code
+> 5. moving avr configuration, within configure file, before chris
+>
+> changes since v15
+> 1. removing IO registers cache from CPU
+> 2. implementing CBI/SBI as read(helper_inb), modify, write(helper_outb)
+> 3. implementing CBIC/SBIC as read(helper_inb), check, branch
+> 4. adding missing tcg_temp_free_i32 for tcg_const_i32
+>
+> changes since v16
+> 1. removing EXT IO registers knoledge from CPU. These registers are
+> accessible
+>    by LD/ST only. CPU has no interest in them
+>
+> changes since v17 (by Richard Henderson)
+> This is Michael's v17, with some adjustments of my own:
+>
+> 1. Fix the whitespace errors reported by "git am",
+> 2. Replace the utf-8 characters with normal ascii,
+> 3. Ditch the separate compilation of translate.c.
+>
+> I retained the two separate files that could be regenerated
+> from the included cpugen program, but merged in translate-insn.c.
+> Not that it matters, but the code generated is about 3k smaller.
+>
+> changes since v18
+> 1.  moving target-avr into target/avr
+> 2.  do not call cpu_exec_initfn function from avr_cpu_initfn
+> 3.  call cpu_exec_realizefn avr_cpu_realizefn
+> 4.  do not fail sample machine creation if no rom is suplied
+> 5.  add tcg_gen_exit_tb(0) for BS_BRANCH in gen_intermediate_code
+> 6.  fix a register getters/setters in machine.c
+> 7.  changing QEMU_ARCH_AVR from 1<<17 to 1<<18
+>
+> changes since v19
+> 1.  use decodetree.py tool to decode instructions
+> 2.  adding USART
+> 3.  adding 16 bit timer peripherals
+> 4.  changing QEMU_ARCH_AVR from 1<<18 to 1<<20
+> 5.  renaming tlb_fill to avr_cpu_tlb_fill
+>
+> changes since v20
+> 1.  use one CPU naming convention
+> 2.  merging insn16.decode & insn32.decode files
+> 3.  modifying skip next instruction mechanizm
+> 4.  translate BREAK as NOP for now
+>
+> changes since v21
+> 1.  Reorganize bstate.
+>     This will make transition to <exec/translator.h> easier, and fixes a
+> couple of bugs wrt single stepping
+>     by richard.henderson@linaro.org
+> 2.  Drop cpc and fix page cross condition.
+>     by richard.henderson@linaro.org
+> 3.  Refactor checking supported/unsupported instructions
+> 4.  Add gdb-xml/avr-cpu.xml
+>
+> changes since v22
+> 1.  Rebase
+> 2.  Split long comment
+>
+> changes since v23
+> 1.  remove avr_cpu_list_compare function
+> 2.  modify avr_cpu_class_by_name function
+> 3.  modify avr_cpu_list_entry function
+> 4.  modify avr_cpu_list function
+>
+> changes since v24
+> 1.  remove AVR_CPU_TYPE_NAME macro
+>
+> changes since v25
+> 1.  fix patches. every file belong to one patch only
+> 2.  change copyright year from 2016 to 2019
+> 3.  create mask device to emulate prr0/prr1
+>
+> changes since v26
+> 1.  add avocado acceptence test
+> 2.  add boot serial test
+>
+> changes sicnce v27
+> 1.  list atmel2560 devices as unimplemented
+> 2.  fix sram base/size
+>
+> Michael Rolnik (4):
+>   target/avr: Add instruction decoding
+>   target/avr: Add instruction translation
+>   target/avr: Register AVR support with the rest of QEMU, the build
+>     system, and the MAINTAINERS file
+>   target/avr: Add tests
+>
+> Sarah Harris (4):
+>   target/avr: Add outward facing interfaces and core CPU logic
+>   target/avr: Add instruction helpers
+>   target/avr: Add limited support for USART and 16 bit timer peripherals
+>   target/avr: Add example board configuration
+>
+>  MAINTAINERS                      |    6 +
+>  arch_init.c                      |    2 +
+>  configure                        |    7 +
+>  default-configs/avr-softmmu.mak  |    5 +
+>  gdb-xml/avr-cpu.xml              |   49 +
+>  hw/Kconfig                       |    1 +
+>  hw/avr/Kconfig                   |    5 +
+>  hw/avr/Makefile.objs             |    1 +
+>  hw/avr/sample.c                  |  282 +++
+>  hw/char/Kconfig                  |    3 +
+>  hw/char/Makefile.objs            |    1 +
+>  hw/char/avr_usart.c              |  322 ++++
+>  hw/misc/Kconfig                  |    3 +
+>  hw/misc/Makefile.objs            |    2 +
+>  hw/misc/avr_mask.c               |  110 ++
+>  hw/timer/Kconfig                 |    3 +
+>  hw/timer/Makefile.objs           |    1 +
+>  hw/timer/avr_timer16.c           |  603 +++++++
+>  include/disas/dis-asm.h          |    6 +
+>  include/hw/char/avr_usart.h      |   97 +
+>  include/hw/misc/avr_mask.h       |   47 +
+>  include/hw/timer/avr_timer16.h   |   97 +
+>  include/sysemu/arch_init.h       |    1 +
+>  qapi/common.json                 |    3 +-
+>  target/avr/Makefile.objs         |   33 +
+>  target/avr/cpu-param.h           |   37 +
+>  target/avr/cpu.c                 |  579 ++++++
+>  target/avr/cpu.h                 |  280 +++
+>  target/avr/gdbstub.c             |   85 +
+>  target/avr/helper.c              |  354 ++++
+>  target/avr/helper.h              |   29 +
+>  target/avr/insn.decode           |  175 ++
+>  target/avr/machine.c             |  123 ++
+>  target/avr/translate.c           | 2888 ++++++++++++++++++++++++++++++
+>  tests/Makefile.include           |    2 +
+>  tests/acceptance/machine_avr6.py |   36 +
+>  tests/boot-serial-test.c         |   10 +
+>  tests/machine-none-test.c        |    1 +
+>  38 files changed, 6288 insertions(+), 1 deletion(-)
+>  create mode 100644 default-configs/avr-softmmu.mak
+>  create mode 100644 gdb-xml/avr-cpu.xml
+>  create mode 100644 hw/avr/Kconfig
+>  create mode 100644 hw/avr/Makefile.objs
+>  create mode 100644 hw/avr/sample.c
+>  create mode 100644 hw/char/avr_usart.c
+>  create mode 100644 hw/misc/avr_mask.c
+>  create mode 100644 hw/timer/avr_timer16.c
+>  create mode 100644 include/hw/char/avr_usart.h
+>  create mode 100644 include/hw/misc/avr_mask.h
+>  create mode 100644 include/hw/timer/avr_timer16.h
+>  create mode 100644 target/avr/Makefile.objs
+>  create mode 100644 target/avr/cpu-param.h
+>  create mode 100644 target/avr/cpu.c
+>  create mode 100644 target/avr/cpu.h
+>  create mode 100644 target/avr/gdbstub.c
+>  create mode 100644 target/avr/helper.c
+>  create mode 100644 target/avr/helper.h
+>  create mode 100644 target/avr/insn.decode
+>  create mode 100644 target/avr/machine.c
+>  create mode 100644 target/avr/translate.c
+>  create mode 100644 tests/acceptance/machine_avr6.py
+>
 > --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
+> 2.17.2 (Apple Git-113)
+>
+>
 
+-- 
+Best Regards,
+Michael Rolnik
