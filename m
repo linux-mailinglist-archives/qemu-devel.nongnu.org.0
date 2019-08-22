@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CAA98CDA
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 10:07:58 +0200 (CEST)
-Received: from localhost ([::1]:39062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5E498CDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 10:08:01 +0200 (CEST)
+Received: from localhost ([::1]:39064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0i8T-0000JD-9n
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 04:07:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53903)
+	id 1i0i8W-0000LN-3L
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 04:08:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53900)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1i0i5l-0007LH-AR
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 04:05:10 -0400
+ (envelope-from <kraxel@redhat.com>) id 1i0i5l-0007LF-Dg
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 04:05:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1i0i5k-0005oK-1Z
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 04:05:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56324)
+ (envelope-from <kraxel@redhat.com>) id 1i0i5j-0005nt-Mr
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 04:05:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40728)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0i5j-0005nY-Mh
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0i5j-0005nP-GP
  for qemu-devel@nongnu.org; Thu, 22 Aug 2019 04:05:07 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EFFEC10C6968
- for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 08:05:06 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D0850111A441;
+ Thu, 22 Aug 2019 08:05:06 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com
  [10.36.116.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D56005D9E5;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED3895DE5C;
  Thu, 22 Aug 2019 08:05:03 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0609211AAF; Thu, 22 Aug 2019 10:05:03 +0200 (CEST)
+ id 235CB97A1; Thu, 22 Aug 2019 10:05:03 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 10:04:54 +0200
-Message-Id: <20190822080503.12063-1-kraxel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Date: Thu, 22 Aug 2019 10:04:57 +0200
+Message-Id: <20190822080503.12063-4-kraxel@redhat.com>
+In-Reply-To: <20190822080503.12063-1-kraxel@redhat.com>
+References: <20190822080503.12063-1-kraxel@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Thu, 22 Aug 2019 08:05:06 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.66]); Thu, 22 Aug 2019 08:05:06 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/8] Vga 20190822 patches
+Subject: [Qemu-devel] [PULL 3/8] ati-vga: Fix GPIO_MONID register write
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,42 +59,43 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 17dc57990320edaad52ac9ea808be9719c91ce=
-a6:
+From: BALATON Zoltan <balaton@eik.bme.hu>
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-201=
-9-08-20' into staging (2019-08-20 14:14:20 +0100)
+Also update bitbang_i2c state when output bits are changed while
+enable bits are set. This fixes EDID access by the ATI FCode ROM.
 
-are available in the Git repository at:
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Message-id: 292e70a92b7fbfd9a4120d433dbdcfda4e5f6c3c.1565558093.git.balaton@eik.bme.hu
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/display/ati.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-  git://git.kraxel.org/qemu tags/vga-20190822-pull-request
-
-for you to fetch changes up to b7105d280cab053465de79ff1766d2f7e1ea7554:
-
-  ati-vga: Implement dummy VBlank IRQ (2019-08-22 10:04:20 +0200)
-
-----------------------------------------------------------------
-vga: a collection of ati fixes/improvements.
-
-----------------------------------------------------------------
-
-BALATON Zoltan (8):
-  ati-vga: Add registers for getting apertures
-  ati-vga: Add some register definitions for debugging
-  ati-vga: Fix GPIO_MONID register write
-  ati-vga: Fix cursor color with guest_hwcursor=3Dtrue
-  ati-vga: Fix hardware cursor image offset
-  ati-vga: Attempt to handle CRTC offset not exact multiple of stride
-  ati-vga: Add limited support for big endian frame buffer aperture
-  ati-vga: Implement dummy VBlank IRQ
-
- hw/display/ati_int.h  |   5 ++
- hw/display/ati_regs.h |  17 +++++++
- hw/display/ati.c      | 112 +++++++++++++++++++++++++++++++++++-------
- hw/display/ati_dbg.c  |  10 ++++
- 4 files changed, 126 insertions(+), 18 deletions(-)
-
---=20
+diff --git a/hw/display/ati.c b/hw/display/ati.c
+index 6cdcbef238fe..eb54f6842fed 100644
+--- a/hw/display/ati.c
++++ b/hw/display/ati.c
+@@ -564,12 +564,15 @@ static void ati_mm_write(void *opaque, hwaddr addr,
+                                addr - GPIO_MONID, data, size);
+             /*
+              * Rage128p accesses DDC used to get EDID via these bits.
+-             * Only touch i2c when write overlaps 3rd byte because some
+-             * drivers access this reg via multiple partial writes and
+-             * without this spurious bits would be sent.
++             * Because some drivers access this via multiple byte writes
++             * we have to be careful when we send bits to avoid spurious
++             * changes in bitbang_i2c state. So only do it when mask is set
++             * and either the enable bits are changed or output bits changed
++             * while enabled.
+              */
+             if ((s->regs.gpio_monid & BIT(25)) &&
+-                addr <= GPIO_MONID + 2 && addr + size > GPIO_MONID + 2) {
++                ((addr <= GPIO_MONID + 2 && addr + size > GPIO_MONID + 2) ||
++                 (addr == GPIO_MONID && (s->regs.gpio_monid & 0x60000)))) {
+                 s->regs.gpio_monid = ati_i2c(&s->bbi2c, s->regs.gpio_monid, 1);
+             }
+         }
+-- 
 2.18.1
 
 
