@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0A299898
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 17:55:17 +0200 (CEST)
-Received: from localhost ([::1]:44748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8737A9989F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 17:57:39 +0200 (CEST)
+Received: from localhost ([::1]:44780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0pQi-0004RG-Or
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 11:55:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57800)
+	id 1i0pT0-0006Ma-KO
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 11:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57890)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1i0pOx-0002nU-Nr
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 11:53:28 -0400
+ (envelope-from <stefanha@redhat.com>) id 1i0pP7-000383-OV
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 11:53:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1i0pOw-0003nJ-Kh
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 11:53:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54908)
+ (envelope-from <stefanha@redhat.com>) id 1i0pP6-0003vs-Ng
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 11:53:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54992)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1i0pOu-0003kd-AW; Thu, 22 Aug 2019 11:53:24 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1i0pP4-0003tN-Jp; Thu, 22 Aug 2019 11:53:34 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9BB332BFDC;
- Thu, 22 Aug 2019 15:53:23 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E0B602BFD2;
+ Thu, 22 Aug 2019 15:53:33 +0000 (UTC)
 Received: from localhost (ovpn-116-61.ams2.redhat.com [10.36.116.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D66E5D772;
- Thu, 22 Aug 2019 15:53:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C13621001925;
+ Thu, 22 Aug 2019 15:53:24 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 16:53:01 +0100
-Message-Id: <20190822155302.20916-2-stefanha@redhat.com>
+Date: Thu, 22 Aug 2019 16:53:02 +0100
+Message-Id: <20190822155302.20916-3-stefanha@redhat.com>
 In-Reply-To: <20190822155302.20916-1-stefanha@redhat.com>
 References: <20190822155302.20916-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 22 Aug 2019 15:53:23 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Thu, 22 Aug 2019 15:53:33 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 1/2] util/async: hold AioContext ref to prevent
- use-after-free
+Subject: [Qemu-devel] [PULL 2/2] vhost-user-scsi: prevent using
+ uninitialized vqs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,66 +57,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tests/test-bdrv-drain /bdrv-drain/iothread/drain test case does the
-following:
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-1. The preadv coroutine calls aio_bh_schedule_oneshot() and then yields.
-2. The one-shot BH executes in another AioContext.  All it does is call
-   aio_co_wakeup(preadv_co).
-3. The preadv coroutine is re-entered and returns.
+Of the 3 virtqueues, seabios only sets cmd, leaving ctrl
+and event without a physical address. This can cause
+vhost_verify_ring_part_mapping to return ENOMEM, causing
+the following logs:
 
-There is a race condition in aio_co_wake() where the preadv coroutine
-returns and the test case destroys the preadv IOThread.  aio_co_wake()
-can still be running in the other AioContext and it performs an access
-to the freed IOThread AioContext.
+qemu-system-x86_64: Unable to map available ring for ring 0
+qemu-system-x86_64: Verify ring failure on region 0
 
-Here is the race in aio_co_schedule():
+The qemu commit e6cc11d64fc998c11a4dfcde8fda3fc33a74d844
+has already resolved the issue for vhost scsi devices but
+the fix was never applied to vhost-user scsi devices.
 
-  QSLIST_INSERT_HEAD_ATOMIC(&ctx->scheduled_coroutines,
-                            co, co_scheduled_next);
-  <-- race: co may execute before we invoke qemu_bh_schedule()!
-  qemu_bh_schedule(ctx->co_schedule_bh);
-
-So if co causes ctx to be freed then we're in trouble.  Fix this problem
-by holding a reference to ctx.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-id: 20190723190623.21537-1-stefanha@redhat.com
-Message-Id: <20190723190623.21537-1-stefanha@redhat.com>
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-id: 1560299717-177734-1-git-send-email-raphael.norwitz@nutanix.co=
+m
+Message-Id: <1560299717-177734-1-git-send-email-raphael.norwitz@nutanix.c=
+om>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- util/async.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/scsi/vhost-user-scsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/util/async.c b/util/async.c
-index 8d2105729c..4e4c7af51e 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -459,9 +459,17 @@ void aio_co_schedule(AioContext *ctx, Coroutine *co)
-         abort();
+diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
+index 31c9d34637..6a6c15dd32 100644
+--- a/hw/scsi/vhost-user-scsi.c
++++ b/hw/scsi/vhost-user-scsi.c
+@@ -93,7 +93,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, E=
+rror **errp)
      }
 =20
-+    /* The coroutine might run and release the last ctx reference before=
- we
-+     * invoke qemu_bh_schedule().  Take a reference to keep ctx alive un=
-til
-+     * we're done.
-+     */
-+    aio_context_ref(ctx);
-+
-     QSLIST_INSERT_HEAD_ATOMIC(&ctx->scheduled_coroutines,
-                               co, co_scheduled_next);
-     qemu_bh_schedule(ctx->co_schedule_bh);
-+
-+    aio_context_unref(ctx);
- }
-=20
- void aio_co_wake(struct Coroutine *co)
+     vsc->dev.nvqs =3D 2 + vs->conf.num_queues;
+-    vsc->dev.vqs =3D g_new(struct vhost_virtqueue, vsc->dev.nvqs);
++    vsc->dev.vqs =3D g_new0(struct vhost_virtqueue, vsc->dev.nvqs);
+     vsc->dev.vq_index =3D 0;
+     vsc->dev.backend_features =3D 0;
+     vqs =3D vsc->dev.vqs;
 --=20
 2.21.0
 
