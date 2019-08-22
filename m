@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558BB9957B
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 15:51:59 +0200 (CEST)
-Received: from localhost ([::1]:43302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662DE9957D
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 15:52:11 +0200 (CEST)
+Received: from localhost ([::1]:43304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0nVN-0008BN-BN
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 09:51:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44842)
+	id 1i0nVa-00005T-1t
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 09:52:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44869)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1i0nRD-0006S7-Ft
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 09:47:41 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1i0nRK-0006UL-O2
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 09:47:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1i0nRC-0005wo-4E
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 09:47:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43392)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1i0nRJ-00061Z-Po
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 09:47:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60896)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1i0nRA-0005tw-59
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 09:47:36 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1i0nRJ-000616-K1
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 09:47:45 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4B9873084212;
- Thu, 22 Aug 2019 13:47:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E854611A06;
+ Thu, 22 Aug 2019 13:47:44 +0000 (UTC)
 Received: from localhost (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C72885B69A;
- Thu, 22 Aug 2019 13:47:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EAE060605;
+ Thu, 22 Aug 2019 13:47:35 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 17:47:19 +0400
-Message-Id: <20190822134725.32479-1-marcandre.lureau@redhat.com>
+Date: Thu, 22 Aug 2019 17:47:20 +0400
+Message-Id: <20190822134725.32479-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20190822134725.32479-1-marcandre.lureau@redhat.com>
+References: <20190822134725.32479-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 22 Aug 2019 13:47:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Thu, 22 Aug 2019 13:47:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/6] Podman patches
+Subject: [Qemu-devel] [PULL 1/6] docker.py: add --run-as-current-user
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,50 +56,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org,
+Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ alex.bennee@linaro.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 810923480863c43ecb22ae1241562983854393=
-39:
+(podman will need further tweaks)
 
-  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into s=
-taging (2019-08-22 13:13:35 +0100)
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
+ tests/docker/Makefile.include | 2 +-
+ tests/docker/docker.py        | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  https://github.com/elmarco/qemu.git tags/podman-pull-request
-
-for you to fetch changes up to a4eb74a66a0f34d53127e240c1eeae42073bc558:
-
-  test: skip tests if socket_check_protocol_support() failed (2019-08-22 =
-17:30:25 +0400)
-
-----------------------------------------------------------------
-tests/docker: add podman support
-
-----------------------------------------------------------------
-
-Marc-Andr=C3=A9 Lureau (6):
-  docker.py: add --run-as-current-user
-  docker.py: add podman support
-  tests/docker: add podman support
-  tests: specify the address family when checking bind
-  test-char: skip tcp tests if ipv4 check failed
-  test: skip tests if socket_check_protocol_support() failed
-
- Makefile                       |  2 +-
- tests/Makefile.include         |  2 +-
- tests/docker/Makefile.include  | 10 +++++--
- tests/docker/docker.py         | 53 ++++++++++++++++++++++++++++++----
- tests/socket-helpers.c         | 17 ++++++++---
- tests/socket-helpers.h         | 11 -------
- tests/test-char.c              | 19 +++++++++---
- tests/test-io-channel-socket.c |  4 ++-
- tests/test-util-sockets.c      |  4 ++-
- 9 files changed, 91 insertions(+), 31 deletions(-)
-
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.includ=
+e
+index dbd58e548c..582846a587 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -212,7 +212,7 @@ docker-run: docker-qemu-src
+ 			"  COPYING $(EXECUTABLE) to $(IMAGE)"))
+ 	$(call quiet-command,						\
+ 		$(DOCKER_SCRIPT) run 					\
+-			$(if $(NOUSER),,-u $(shell id -u)) 		\
++			$(if $(NOUSER),,--run-as-current-user) 		\
+ 			--security-opt seccomp=3Dunconfined		\
+ 			$(if $V,,--rm) 					\
+ 			$(if $(DEBUG),-ti,)				\
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 53a8c9c801..f15545aeea 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -333,8 +333,13 @@ class RunCommand(SubCommand):
+     def args(self, parser):
+         parser.add_argument("--keep", action=3D"store_true",
+                             help=3D"Don't remove image when command comp=
+letes")
++        parser.add_argument("--run-as-current-user", action=3D"store_tru=
+e",
++                            help=3D"Run container using the current user=
+'s uid")
+=20
+     def run(self, args, argv):
++        if args.run_as_current_user:
++            uid =3D os.getuid()
++            argv =3D [ "-u", str(uid) ] + argv
+         return Docker().run(argv, args.keep, quiet=3Dargs.quiet)
+=20
+=20
 --=20
 2.23.0
 
