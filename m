@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA7698BC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 08:55:33 +0200 (CEST)
-Received: from localhost ([::1]:38640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C4398BDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 08:59:04 +0200 (CEST)
+Received: from localhost ([::1]:38654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0h0O-0000xI-67
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 02:55:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38983)
+	id 1i0h3m-0004US-Ub
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 02:59:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38961)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1i0gxp-0007Jf-Fl
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 02:52:55 -0400
+ (envelope-from <kraxel@redhat.com>) id 1i0gxn-0007Ik-Ei
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 02:52:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1i0gxl-0004gX-1D
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 02:52:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38084)
+ (envelope-from <kraxel@redhat.com>) id 1i0gxj-0004dN-Hy
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 02:52:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53610)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0gxk-0004el-O8
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 02:52:48 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i0gxj-0004am-5A
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 02:52:47 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 06C371801591
- for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 06:52:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 01826308427C;
+ Thu, 22 Aug 2019 06:52:46 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com
  [10.36.116.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38D145D713;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3AECA10018F9;
  Thu, 22 Aug 2019 06:52:43 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 776C197A1; Thu, 22 Aug 2019 08:52:42 +0200 (CEST)
+ id 7FCE593C9; Thu, 22 Aug 2019 08:52:42 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 22 Aug 2019 08:52:38 +0200
-Message-Id: <20190822065242.12496-2-kraxel@redhat.com>
+Date: Thu, 22 Aug 2019 08:52:39 +0200
+Message-Id: <20190822065242.12496-3-kraxel@redhat.com>
 In-Reply-To: <20190822065242.12496-1-kraxel@redhat.com>
 References: <20190822065242.12496-1-kraxel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Thu, 22 Aug 2019 06:52:48 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Thu, 22 Aug 2019 06:52:46 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 1/5] usbredir: fix buffer-overflow on vmload
+Subject: [Qemu-devel] [PULL 2/5] usb-redir: merge interrupt packets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,67 +55,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Martin Cerveny <M.Cerveny@computer.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+From: Martin Cerveny <M.Cerveny@computer.org>
 
-If interface_count is NO_INTERFACE_INFO, let's not access the arrays
-out-of-bounds.
+Interrupt packets (limited by wMaxPacketSize) should be buffered and merged
+by algorithm described in USB spec.
+(see usb_20.pdf/5.7.3 Interrupt Transfer Packet Size Constraints).
 
-=3D=3D994=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on address 0=
-x625000243930 at pc 0x5642068086a8 bp 0x7f0b6f9ffa50 sp 0x7f0b6f9ffa40
-READ of size 1 at 0x625000243930 thread T0
-    #0 0x5642068086a7 in usbredir_check_bulk_receiving /home/elmarco/src/=
-qemu/hw/usb/redirect.c:1503
-    #1 0x56420681301c in usbredir_post_load /home/elmarco/src/qemu/hw/usb=
-/redirect.c:2154
-    #2 0x5642068a56c2 in vmstate_load_state /home/elmarco/src/qemu/migrat=
-ion/vmstate.c:168
-    #3 0x56420688e2ac in vmstate_load /home/elmarco/src/qemu/migration/sa=
-vevm.c:829
-    #4 0x5642068980cb in qemu_loadvm_section_start_full /home/elmarco/src=
-/qemu/migration/savevm.c:2211
-    #5 0x564206899645 in qemu_loadvm_state_main /home/elmarco/src/qemu/mi=
-gration/savevm.c:2395
-    #6 0x5642068998cf in qemu_loadvm_state /home/elmarco/src/qemu/migrati=
-on/savevm.c:2467
-    #7 0x56420685f3e9 in process_incoming_migration_co /home/elmarco/src/=
-qemu/migration/migration.c:449
-    #8 0x564207106c47 in coroutine_trampoline /home/elmarco/src/qemu/util=
-/coroutine-ucontext.c:115
-    #9 0x7f0c0604e37f  (/lib64/libc.so.6+0x4d37f)
-
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-id: 20190807084048.4258-1-marcandre.lureau@redhat.com
+Signed-off-by: Martin Cerveny <M.Cerveny@computer.org>
+Message-id: 20190724125859.14624-2-M.Cerveny@computer.org
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/redirect.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/usb/redirect.c | 71 ++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 49 insertions(+), 22 deletions(-)
 
 diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index fc9fe0c00f4c..be15b9f30334 100644
+index be15b9f30334..e0f5ca6f818b 100644
 --- a/hw/usb/redirect.c
 +++ b/hw/usb/redirect.c
-@@ -1499,6 +1499,11 @@ static void usbredir_check_bulk_receiving(USBRedir=
-Device *dev)
-     for (i =3D EP2I(USB_DIR_IN); i < MAX_ENDPOINTS; i++) {
-         dev->endpoint[i].bulk_receiving_enabled =3D 0;
+@@ -819,8 +819,8 @@ static void usbredir_handle_interrupt_in_data(USBRedirDevice *dev,
+                                               USBPacket *p, uint8_t ep)
+ {
+     /* Input interrupt endpoint, buffered packet input */
+-    struct buf_packet *intp;
+-    int status, len;
++    struct buf_packet *intp, *intp_to_free;
++    int status, len, sum;
+ 
+     if (!dev->endpoint[EP2I(ep)].interrupt_started &&
+             !dev->endpoint[EP2I(ep)].interrupt_error) {
+@@ -839,9 +839,17 @@ static void usbredir_handle_interrupt_in_data(USBRedirDevice *dev,
+         dev->endpoint[EP2I(ep)].bufpq_dropping_packets = 0;
      }
-+
-+    if (dev->interface_info.interface_count =3D=3D NO_INTERFACE_INFO) {
-+        return;
+ 
+-    intp = QTAILQ_FIRST(&dev->endpoint[EP2I(ep)].bufpq);
++    /* check for completed interrupt message (with all fragments) */
++    sum = 0;
++    QTAILQ_FOREACH(intp, &dev->endpoint[EP2I(ep)].bufpq, next) {
++        sum += intp->len;
++        if (intp->len < dev->endpoint[EP2I(ep)].max_packet_size ||
++            sum >= p->iov.size)
++            break;
 +    }
 +
-     for (i =3D 0; i < dev->interface_info.interface_count; i++) {
-         quirks =3D usb_get_quirks(dev->device_info.vendor_id,
-                                 dev->device_info.product_id,
---=20
+     if (intp == NULL) {
+-        DPRINTF2("interrupt-token-in ep %02X, no intp\n", ep);
++        DPRINTF2("interrupt-token-in ep %02X, no intp, buffered %d\n", ep, sum);
+         /* Check interrupt_error for stream errors */
+         status = dev->endpoint[EP2I(ep)].interrupt_error;
+         dev->endpoint[EP2I(ep)].interrupt_error = 0;
+@@ -852,18 +860,42 @@ static void usbredir_handle_interrupt_in_data(USBRedirDevice *dev,
+         }
+         return;
+     }
+-    DPRINTF("interrupt-token-in ep %02X status %d len %d\n", ep,
+-            intp->status, intp->len);
+-
+-    status = intp->status;
+-    len = intp->len;
+-    if (len > p->iov.size) {
+-        ERROR("received int data is larger then packet ep %02X\n", ep);
+-        len = p->iov.size;
+-        status = usb_redir_babble;
++
++    /* copy of completed interrupt message */
++    sum = 0;
++    status = usb_redir_success;
++    intp_to_free = NULL;
++    QTAILQ_FOREACH(intp, &dev->endpoint[EP2I(ep)].bufpq, next) {
++        if (intp_to_free) {
++            bufp_free(dev, intp_to_free, ep);
++        }
++        DPRINTF("interrupt-token-in ep %02X fragment status %d len %d\n", ep,
++                intp->status, intp->len);
++
++        sum += intp->len;
++        len = intp->len;
++        if (status == usb_redir_success) {
++            status = intp->status;
++        }
++        if (sum > p->iov.size) {
++            ERROR("received int data is larger then packet ep %02X\n", ep);
++            len -= (sum - p->iov.size);
++            sum = p->iov.size;
++            status = usb_redir_babble;
++        }
++
++        usb_packet_copy(p, intp->data, len);
++
++        intp_to_free = intp;
++        if (intp->len < dev->endpoint[EP2I(ep)].max_packet_size ||
++            sum >= p->iov.size)
++            break;
++    }
++    if (intp_to_free) {
++        bufp_free(dev, intp_to_free, ep);
+     }
+-    usb_packet_copy(p, intp->data, len);
+-    bufp_free(dev, intp, ep);
++    DPRINTF("interrupt-token-in ep %02X summary status %d len %d\n", ep,
++            status, sum);
+     usbredir_handle_status(dev, p, status);
+ }
+ 
+@@ -2041,22 +2073,17 @@ static void usbredir_interrupt_packet(void *priv, uint64_t id,
+     }
+ 
+     if (ep & USB_DIR_IN) {
+-        bool q_was_empty;
+-
+         if (dev->endpoint[EP2I(ep)].interrupt_started == 0) {
+             DPRINTF("received int packet while not started ep %02X\n", ep);
+             free(data);
+             return;
+         }
+ 
+-        q_was_empty = QTAILQ_EMPTY(&dev->endpoint[EP2I(ep)].bufpq);
+-
+         /* bufp_alloc also adds the packet to the ep queue */
+         bufp_alloc(dev, data, data_len, interrupt_packet->status, ep, data);
+ 
+-        if (q_was_empty) {
+-            usb_wakeup(usb_ep_get(&dev->dev, USB_TOKEN_IN, ep & 0x0f), 0);
+-        }
++        /* insufficient data solved with USB_RET_NAK */
++        usb_wakeup(usb_ep_get(&dev->dev, USB_TOKEN_IN, ep & 0x0f), 0);
+     } else {
+         /*
+          * We report output interrupt packets as completed directly upon
+-- 
 2.18.1
 
 
