@@ -2,61 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD359960E
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 16:13:29 +0200 (CEST)
-Received: from localhost ([::1]:43666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1060C995FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 16:11:13 +0200 (CEST)
+Received: from localhost ([::1]:43630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0nqC-00075G-O6
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 10:13:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48998)
+	id 1i0no0-0004mI-1D
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 10:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48433)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i0ne6-0002Ok-F6
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:01:03 -0400
+ (envelope-from <cohuck@redhat.com>) id 1i0ncE-0000CN-Ji
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 09:59:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i0ne5-000546-1u
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:00:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42634)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i0ne4-00052x-Sr
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 10:00:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i0ne1-0005hO-U5
- for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 14:00:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DE8B32E80CC
- for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 14:00:53 +0000 (UTC)
+ (envelope-from <cohuck@redhat.com>) id 1i0ncD-0004J0-AI
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 09:59:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51350)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1i0ncD-0004IE-3D; Thu, 22 Aug 2019 09:59:01 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 650B48D6CC6;
+ Thu, 22 Aug 2019 13:59:00 +0000 (UTC)
+Received: from localhost (dhcp-192-222.str.redhat.com [10.33.192.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB4E160606;
+ Thu, 22 Aug 2019 13:58:57 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 22 Aug 2019 15:58:36 +0200
+Message-Id: <20190822135839.32340-6-cohuck@redhat.com>
+In-Reply-To: <20190822135839.32340-1-cohuck@redhat.com>
+References: <20190822135839.32340-1-cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Thu, 22 Aug 2019 13:59:00 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Aug 2019 13:49:10 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: christophe-lyon pmaydell rth
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <156639548437.26869.13792283715555746637.malonedeb@gac.canonical.com>
-Message-Id: <156648175092.26362.4861774804962768354.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19022";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: f04d3da01ab700a60d9d94c07ff2dba9c94a2c3a
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1840922] Re: qemu-arm for cortex-m33 aborts with
- unhandled CPU exception 0x8
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 4/7] s390x/tcg: Rework MMU selection for
+ instruction fetches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,58 +55,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1840922 <1840922@bugs.launchpad.net>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just posted =
+From: David Hildenbrand <david@redhat.com>
 
-https://patchew.org/QEMU/20190822131534.16602-1-peter.maydell@linaro.org/
+Instructions are always fetched from primary address space, except when
+in home address mode. Perform the selection directly in cpu_mmu_index().
 
-which is basically RTH's hack from #8 with a big pile of commentary and
-commit message...
+get_mem_index() is only used to perform data access, instructions are
+fetched via cpu_lduw_code(), which translates to cpu_mmu_index(env, true)=
+.
 
--- =
+We don't care about restricting the access permissions of the TLB
+entries anymore, as we no longer enter PRIMARY entries into the
+SECONDARY MMU. Cleanup related code a bit.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1840922
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20190816084708.602-4-david@redhat.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
+ target/s390x/cpu.h        |  7 +++++++
+ target/s390x/mmu_helper.c | 38 +++++++++++++++-----------------------
+ 2 files changed, 22 insertions(+), 23 deletions(-)
 
-Title:
-  qemu-arm for cortex-m33 aborts with unhandled CPU exception 0x8
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 3d9de25f7ce3..79202c098096 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -332,6 +332,13 @@ static inline int cpu_mmu_index(CPUS390XState *env, =
+bool ifetch)
+         return MMU_REAL_IDX;
+     }
+=20
++    if (ifetch) {
++        if ((env->psw.mask & PSW_MASK_ASC) =3D=3D PSW_ASC_HOME) {
++            return MMU_HOME_IDX;
++        }
++        return MMU_PRIMARY_IDX;
++    }
++
+     switch (env->psw.mask & PSW_MASK_ASC) {
+     case PSW_ASC_PRIMARY:
+         return MMU_PRIMARY_IDX;
+diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+index 6cf74502ef1e..40b6c1fc36a9 100644
+--- a/target/s390x/mmu_helper.c
++++ b/target/s390x/mmu_helper.c
+@@ -350,8 +350,9 @@ int mmu_translate(CPUS390XState *env, target_ulong va=
+ddr, int rw, uint64_t asc,
+ {
+     static S390SKeysState *ss;
+     static S390SKeysClass *skeyclass;
+-    int r =3D -1;
++    uint64_t asce;
+     uint8_t key;
++    int r;
+=20
+     if (unlikely(!ss)) {
+         ss =3D s390_get_skeys_device();
+@@ -381,36 +382,21 @@ int mmu_translate(CPUS390XState *env, target_ulong =
+vaddr, int rw, uint64_t asc,
+=20
+     if (!(env->psw.mask & PSW_MASK_DAT)) {
+         *raddr =3D vaddr;
+-        r =3D 0;
+-        goto out;
++        goto nodat;
+     }
+=20
+     switch (asc) {
+     case PSW_ASC_PRIMARY:
+         PTE_DPRINTF("%s: asc=3Dprimary\n", __func__);
+-        r =3D mmu_translate_asce(env, vaddr, asc, env->cregs[1], raddr, =
+flags,
+-                               rw, exc);
++        asce =3D env->cregs[1];
+         break;
+     case PSW_ASC_HOME:
+         PTE_DPRINTF("%s: asc=3Dhome\n", __func__);
+-        r =3D mmu_translate_asce(env, vaddr, asc, env->cregs[13], raddr,=
+ flags,
+-                               rw, exc);
++        asce =3D env->cregs[13];
+         break;
+     case PSW_ASC_SECONDARY:
+         PTE_DPRINTF("%s: asc=3Dsecondary\n", __func__);
+-        /*
+-         * Instruction: Primary
+-         * Data: Secondary
+-         */
+-        if (rw =3D=3D MMU_INST_FETCH) {
+-            r =3D mmu_translate_asce(env, vaddr, PSW_ASC_PRIMARY, env->c=
+regs[1],
+-                                   raddr, flags, rw, exc);
+-            *flags &=3D ~(PAGE_READ | PAGE_WRITE);
+-        } else {
+-            r =3D mmu_translate_asce(env, vaddr, PSW_ASC_SECONDARY, env-=
+>cregs[7],
+-                                   raddr, flags, rw, exc);
+-            *flags &=3D ~(PAGE_EXEC);
+-        }
++        asce =3D env->cregs[7];
+         break;
+     case PSW_ASC_ACCREG:
+     default:
+@@ -418,11 +404,17 @@ int mmu_translate(CPUS390XState *env, target_ulong =
+vaddr, int rw, uint64_t asc,
+         break;
+     }
+=20
+- out:
++    /* perform the DAT translation */
++    r =3D mmu_translate_asce(env, vaddr, asc, asce, raddr, flags, rw, ex=
+c);
++    if (r) {
++        return r;
++    }
++
++nodat:
+     /* Convert real address -> absolute address */
+     *raddr =3D mmu_real2abs(env, *raddr);
+=20
+-    if (r =3D=3D 0 && *raddr < ram_size) {
++    if (*raddr < ram_size) {
+         r =3D skeyclass->get_skeys(ss, *raddr / TARGET_PAGE_SIZE, 1, &ke=
+y);
+         if (r) {
+             trace_get_skeys_nonzero(r);
+@@ -444,7 +436,7 @@ int mmu_translate(CPUS390XState *env, target_ulong va=
+ddr, int rw, uint64_t asc,
+         }
+     }
+=20
+-    return r;
++    return 0;
+ }
+=20
+ /**
+--=20
+2.20.1
 
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  Hi,
-
-  While experimenting with running the GCC testsuite with cortex-m33 as tar=
-get (to exercise v8-m code), I came across this failure:
-  qemu: unhandled CPU exception 0x8 - aborting
-  R00=3Dfffeaf58 R01=3Dfffeaf58 R02=3D00000000 R03=3Dfffeaf5d
-  R04=3Dfffeaf5c R05=3Dfffeaf9c R06=3D00000000 R07=3Dfffeaf80
-  R08=3D00000000 R09=3D00000000 R10=3D00019dbc R11=3D00000000
-  R12=3D000000f0 R13=3Dfffeaf58 R14=3D000081f3 R15=3Dfffeaf5c
-  XPSR=3D61000000 -ZC- T NS priv-thread
-  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x6033=
-c908
-
-  I'm using arm-eabi-gcc, so it targets bare-metal, not linux.
-
-  The testcase is GCC's
-  gcc/testsuite/gcc.c-torture/execute/20000822-1.c; it works when
-  compiled at -O2, but crashes when compiled at -Os. The test uses
-  nested functions, so it creates a trampoline on the stack, whose
-  address may be a problem. But since the stack address seems to be in
-  the same range in the O2 and Os cases, it's not that clear.
-
-  I'm attaching the C source, asm, binary executables and qemu traces
-  with in_asm,cpu.
-
-  I execute the binaries with:
-  qemu-arm --cpu cortex-m33  ./20000822-1.exe.Os
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1840922/+subscriptions
 
