@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51396992ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 14:11:18 +0200 (CEST)
-Received: from localhost ([::1]:41808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9328A992E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 14:10:31 +0200 (CEST)
+Received: from localhost ([::1]:41804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0lvx-0003uj-6B
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 08:11:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35469)
+	id 1i0lvC-0002eY-Gx
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 08:10:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37396)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i0lZZ-0000y5-EF
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:48:10 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1i0lfv-0001ch-EP
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:54:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i0lZX-0007sv-Tm
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:48:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42546)
+ (envelope-from <dgilbert@redhat.com>) id 1i0lft-0002qN-Oh
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:54:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37912)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i0lZX-0007s9-KU
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:48:07 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i0lft-0002py-GS
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 07:54:41 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C5F54180158C;
- Thu, 22 Aug 2019 11:48:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9836360E1C;
- Thu, 22 Aug 2019 11:47:49 +0000 (UTC)
-Date: Thu, 22 Aug 2019 12:47:47 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190822114747.GS3267@redhat.com>
-References: <CAFEAcA8kEKVcRu62+VGDkzRj2J87QPxzjg05dCHszeBC6X76pg@mail.gmail.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 322C230832C8;
+ Thu, 22 Aug 2019 11:54:40 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-117-231.ams2.redhat.com
+ [10.36.117.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBC505D6A7;
+ Thu, 22 Aug 2019 11:54:35 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org,
+	quintela@redhat.com
+Date: Thu, 22 Aug 2019 12:54:33 +0100
+Message-Id: <20190822115433.12070-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA8kEKVcRu62+VGDkzRj2J87QPxzjg05dCHszeBC6X76pg@mail.gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Thu, 22 Aug 2019 11:48:06 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Thu, 22 Aug 2019 11:54:40 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] more automated/public CI for QEMU pullreqs
+Subject: [Qemu-devel] [PATCH] migration: register_savevm_live doesn't need
+ dev
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,64 +55,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Samuel Ortiz <sameo@linux.intel.com>,
- Kashyap Chamarthy <kchamart@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: samuel.thibault@ens-lyon.org, jasowang@redhat.com, cohuck@redhat.com,
+ stefanha@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 16, 2019 at 07:16:55PM +0100, Peter Maydell wrote:
-> The two major contenders suggested were:
-> 
-> (1) GitLab CI, which supports custom 'runners' which we can set
-> up to run builds and tests on machines we have project access to
-> 
-> (2) Patchew, which can handle running tests on multiple machines (eg
-> we do s390 testing today for all patches on list), and which we could
-> enhance to provide support for the release-manager to do their work
-> 
-> Advantages of Gitlab CI:
->  * somebody else is doing the development and maintainance of the
->    CI tool -- bigger 'bus factor' than patchew
->  * already does (more or less) what we want without needing
->    extra coding work
-> 
-> Advantages of Patchew:
->  * we're already using it for patch submissions, so we know it's
->    not going to go away
->  * it's very easy to deploy to a new host
->  * no dependencies except Python, so works anywhere we expect
->    to be able to build QEMU (whereas gitlab CI's runner is
->    written in Go, and there seem to be ongoing issues with getting
->    it actually to compile for other architectures than x86)
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-IMHO the development tools/processes chosen should enable the project
-contributors to maximise the time they can put into developing useful
-features for QEMU itself. Time we spend writing CI systems like patchew
-is time we're taking away from writing QEMU features, unless the new CI
-system offers major efficiency benefits over other existing solutions.
+Commit 78dd48df3 removed the last caller of register_savevm_live for an
+instantiable device (rather than a single system wide device);
+so trim out the parameter.
 
-A second important aspect is that to enable a smooth/shallow onramp
-for new contributors it is useful to have our development processes
-and tools be familiar to those with general open source dev experience
-outside QEMU.
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ docs/devel/migration.rst       |  3 +--
+ hw/ppc/spapr.c                 |  2 +-
+ hw/s390x/s390-skeys.c          |  2 +-
+ hw/s390x/s390-stattrib.c       |  2 +-
+ hw/s390x/tod.c                 |  2 +-
+ include/migration/register.h   |  3 +--
+ migration/block-dirty-bitmap.c |  2 +-
+ migration/block.c              |  2 +-
+ migration/ram.c                |  2 +-
+ migration/savevm.c             | 23 +----------------------
+ net/slirp.c                    |  2 +-
+ 11 files changed, 11 insertions(+), 34 deletions(-)
 
-With both these points in mind, I think it is  pretty hard sell to
-say we should write & maintain a custom CI system just for QEMU
-unless it is offering major compelling functionality we can't do
-without.
+diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
+index f7668ae389..e88918f763 100644
+--- a/docs/devel/migration.rst
++++ b/docs/devel/migration.rst
+@@ -183,8 +183,7 @@ another to load the state back.
+=20
+ .. code:: c
+=20
+-  int register_savevm_live(DeviceState *dev,
+-                           const char *idstr,
++  int register_savevm_live(const char *idstr,
+                            int instance_id,
+                            int version_id,
+                            SaveVMHandlers *ops,
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 64fc2255cc..b0ef0e3fe4 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3071,7 +3071,7 @@ static void spapr_machine_init(MachineState *machin=
+e)
+      * interface, this is a legacy from the sPAPREnvironment structure
+      * which predated MachineState but had a similar function */
+     vmstate_register(NULL, 0, &vmstate_spapr, spapr);
+-    register_savevm_live(NULL, "spapr/htab", -1, 1,
++    register_savevm_live("spapr/htab", -1, 1,
+                          &savevm_htab_handlers, spapr);
+=20
+     qbus_set_hotplug_handler(sysbus_get_default(), OBJECT(machine),
+diff --git a/hw/s390x/s390-skeys.c b/hw/s390x/s390-skeys.c
+index d4807f7777..bd37f39120 100644
+--- a/hw/s390x/s390-skeys.c
++++ b/hw/s390x/s390-skeys.c
+@@ -389,7 +389,7 @@ static inline void s390_skeys_set_migration_enabled(O=
+bject *obj, bool value,
+     ss->migration_enabled =3D value;
+=20
+     if (ss->migration_enabled) {
+-        register_savevm_live(NULL, TYPE_S390_SKEYS, 0, 1,
++        register_savevm_live(TYPE_S390_SKEYS, 0, 1,
+                              &savevm_s390_storage_keys, ss);
+     } else {
+         unregister_savevm(DEVICE(ss), TYPE_S390_SKEYS, ss);
+diff --git a/hw/s390x/s390-stattrib.c b/hw/s390x/s390-stattrib.c
+index eda5ca3bb6..bf5ac014c4 100644
+--- a/hw/s390x/s390-stattrib.c
++++ b/hw/s390x/s390-stattrib.c
+@@ -381,7 +381,7 @@ static void s390_stattrib_instance_init(Object *obj)
+ {
+     S390StAttribState *sas =3D S390_STATTRIB(obj);
+=20
+-    register_savevm_live(NULL, TYPE_S390_STATTRIB, 0, 0,
++    register_savevm_live(TYPE_S390_STATTRIB, 0, 0,
+                          &savevm_s390_stattrib_handlers, sas);
+=20
+     object_property_add_bool(obj, "migration-enabled",
+diff --git a/hw/s390x/tod.c b/hw/s390x/tod.c
+index 1bf0875afa..2499d6f656 100644
+--- a/hw/s390x/tod.c
++++ b/hw/s390x/tod.c
+@@ -101,7 +101,7 @@ static void s390_tod_realize(DeviceState *dev, Error =
+**errp)
+     S390TODState *td =3D S390_TOD(dev);
+=20
+     /* Legacy migration interface */
+-    register_savevm_live(NULL, "todclock", 0, 1, &savevm_tod, td);
++    register_savevm_live("todclock", 0, 1, &savevm_tod, td);
+ }
+=20
+ static void s390_tod_class_init(ObjectClass *oc, void *data)
+diff --git a/include/migration/register.h b/include/migration/register.h
+index 3d0b9833c6..a13359a08d 100644
+--- a/include/migration/register.h
++++ b/include/migration/register.h
+@@ -68,8 +68,7 @@ typedef struct SaveVMHandlers {
+     int (*resume_prepare)(MigrationState *s, void *opaque);
+ } SaveVMHandlers;
+=20
+-int register_savevm_live(DeviceState *dev,
+-                         const char *idstr,
++int register_savevm_live(const char *idstr,
+                          int instance_id,
+                          int version_id,
+                          const SaveVMHandlers *ops,
+diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitma=
+p.c
+index dd40724b9e..5121f86d73 100644
+--- a/migration/block-dirty-bitmap.c
++++ b/migration/block-dirty-bitmap.c
+@@ -733,7 +733,7 @@ void dirty_bitmap_mig_init(void)
+ {
+     QSIMPLEQ_INIT(&dirty_bitmap_mig_state.dbms_list);
+=20
+-    register_savevm_live(NULL, "dirty-bitmap", 0, 1,
++    register_savevm_live("dirty-bitmap", 0, 1,
+                          &savevm_dirty_bitmap_handlers,
+                          &dirty_bitmap_mig_state);
+ }
+diff --git a/migration/block.c b/migration/block.c
+index aa747b55fa..0de9d84198 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -1030,6 +1030,6 @@ void blk_mig_init(void)
+     QSIMPLEQ_INIT(&block_mig_state.blk_list);
+     qemu_mutex_init(&block_mig_state.lock);
+=20
+-    register_savevm_live(NULL, "block", 0, 1, &savevm_block_handlers,
++    register_savevm_live("block", 0, 1, &savevm_block_handlers,
+                          &block_mig_state);
+ }
+diff --git a/migration/ram.c b/migration/ram.c
+index 18118d6001..b2bd618a89 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -4687,5 +4687,5 @@ static SaveVMHandlers savevm_ram_handlers =3D {
+ void ram_mig_init(void)
+ {
+     qemu_mutex_init(&XBZRLE.lock);
+-    register_savevm_live(NULL, "ram", 0, 4, &savevm_ram_handlers, &ram_s=
+tate);
++    register_savevm_live("ram", 0, 4, &savevm_ram_handlers, &ram_state);
+ }
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 4a86128ac4..2ec5d8b3a2 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -684,8 +684,7 @@ static void savevm_state_handler_insert(SaveStateEntr=
+y *nse)
+    of the system, so instance_id should be removed/replaced.
+    Meanwhile pass -1 as instance_id if you do not already have a clearly
+    distinguishing id for all instances of your device class. */
+-int register_savevm_live(DeviceState *dev,
+-                         const char *idstr,
++int register_savevm_live(const char *idstr,
+                          int instance_id,
+                          int version_id,
+                          const SaveVMHandlers *ops,
+@@ -704,26 +703,6 @@ int register_savevm_live(DeviceState *dev,
+         se->is_ram =3D 1;
+     }
+=20
+-    if (dev) {
+-        char *id =3D qdev_get_dev_path(dev);
+-        if (id) {
+-            if (snprintf(se->idstr, sizeof(se->idstr), "%s/", id) >=3D
+-                sizeof(se->idstr)) {
+-                error_report("Path too long for VMState (%s)", id);
+-                g_free(id);
+-                g_free(se);
+-
+-                return -1;
+-            }
+-            g_free(id);
+-
+-            se->compat =3D g_new0(CompatEntry, 1);
+-            pstrcpy(se->compat->idstr, sizeof(se->compat->idstr), idstr)=
+;
+-            se->compat->instance_id =3D instance_id =3D=3D -1 ?
+-                         calculate_compat_instance_id(idstr) : instance_=
+id;
+-            instance_id =3D -1;
+-        }
+-    }
+     pstrcat(se->idstr, sizeof(se->idstr), idstr);
+=20
+     if (instance_id =3D=3D -1) {
+diff --git a/net/slirp.c b/net/slirp.c
+index b34cb29276..f42f496641 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -576,7 +576,7 @@ static int net_slirp_init(NetClientState *peer, const=
+ char *model,
+      * specific version?
+      */
+     g_assert(slirp_state_version() =3D=3D 4);
+-    register_savevm_live(NULL, "slirp", 0, slirp_state_version(),
++    register_savevm_live("slirp", 0, slirp_state_version(),
+                          &savevm_slirp_state, s->slirp);
+=20
+     s->poll_notifier.notify =3D net_slirp_poll_notify;
+--=20
+2.21.0
 
-IOW, I'd be biased in favour of GitLab CI.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
