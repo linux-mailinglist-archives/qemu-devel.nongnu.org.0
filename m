@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84532992EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 14:11:18 +0200 (CEST)
-Received: from localhost ([::1]:41806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F12992F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Aug 2019 14:14:50 +0200 (CEST)
+Received: from localhost ([::1]:42092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i0lvx-0003rC-DW
-	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 08:11:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41900)
+	id 1i0lzN-0008Pl-Sl
+	for lists+qemu-devel@lfdr.de; Thu, 22 Aug 2019 08:14:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42821)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i0luJ-0002LZ-17
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 08:09:36 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i0ly9-0007CW-0Q
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 08:13:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i0luH-0001kr-UJ
- for qemu-devel@nongnu.org; Thu, 22 Aug 2019 08:09:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48506)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i0luF-0001ih-Cd; Thu, 22 Aug 2019 08:09:31 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 781FF80F98;
- Thu, 22 Aug 2019 12:09:30 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BF3B60925;
- Thu, 22 Aug 2019 12:09:25 +0000 (UTC)
-To: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
- Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Andrew Jones <drjones@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <db672a84-0f30-bb82-ef94-c543e444372e@redhat.com>
- <b0b27c5c-c07a-527b-294a-c4e7ec6d4204@redhat.com>
- <84dd318a-28d4-b2f3-b03b-d870a5f618d5@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <80341376-ecbd-cbf4-8800-022fdd65c04d@redhat.com>
-Date: Thu, 22 Aug 2019 14:09:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <peter.maydell@linaro.org>) id 1i0ly7-0006I3-KT
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 08:13:32 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:40927)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i0ly7-0006HO-El
+ for qemu-devel@nongnu.org; Thu, 22 Aug 2019 08:13:31 -0400
+Received: by mail-ot1-x332.google.com with SMTP id c34so5210369otb.7
+ for <qemu-devel@nongnu.org>; Thu, 22 Aug 2019 05:13:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/mkSP4L3OnAKmS0vMJbq/AuYXl4VbpgLC67Rnq0+IP4=;
+ b=Ox394B3JZfL63P/s+d3fzZg2JAFQ4jyBKcDBJpwUWXgmRM5aqiFPV6tLaAuLhj4DBi
+ o/wzKdXOrtfbIzaY7/Q8QtLm0yieSHcDiIu0Ls9RyahZFPQGWxuxfpSm9wCa0MT7f1s3
+ 0s/naZF4oZEKvXyMzbIVjS9YTr774yPiX+IS7yegNJZspZvcOrxP14mUGb8/PRorxVaR
+ Uk8Z3f24yewo04tKKDUqzT/SoD/WjNdUNCMYBj/uM4iKTjua+50qFHlzI44kzGPoGwHl
+ vzrPediDmUUUe0/I+9SHAAWPtxrk/6caKA0Bv2xISDdmBnTHXD7CAQIYdh4eG7hhF83Y
+ mzag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/mkSP4L3OnAKmS0vMJbq/AuYXl4VbpgLC67Rnq0+IP4=;
+ b=kVX6M5OVHG61JMMK32ou4qc9qE0laPvvYo0mYTzRI0wwhp3gIovb4zug06uYL5rUW0
+ Gm4h0cDmO1rhOVrKUt2ygViLQSxI+Yx3vUIhlo5ukAiHzuhwMWCwaL9SZt697S+BhncE
+ vWDKJtZcmMZyzzP6xwslNQRiJITGeh2VnGLNFfvI90TINx6sisMDO9OPHe4FA57hJ8j8
+ uu10xeIIS3x/VeooQVX3C/G86AGvH+GGDD+XNFCU75AVkMAwget0vK6bzOVsjYvm7LDH
+ 9K7U1bL1cx8xbxBkPUo6dTRi8Z7ZT4zqvUyGt+dIPraQ61P3oEQUtPnv1OOHqOpslc+P
+ 4mag==
+X-Gm-Message-State: APjAAAWbx96VZYcD+bJujxWvIyWUdrEujW2+5yOLqceZJguU6ezNmFrc
+ 0U1DHQQ8F8SD9t6wGcorgYw8Y0xqVejltRAnojRNxA==
+X-Google-Smtp-Source: APXvYqxRh42ZOPwsfIv1rTpbRKX7++snPy7FJa2zztyyJZHtyCi4YI88jMROngrbDP7kZY6CgHwlE3qUfp7Se617iaU=
+X-Received: by 2002:a05:6830:1015:: with SMTP id
+ a21mr26256694otp.232.1566476010135; 
+ Thu, 22 Aug 2019 05:13:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <84dd318a-28d4-b2f3-b03b-d870a5f618d5@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Thu, 22 Aug 2019 12:09:30 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Broken aarch64 by qcow2: skip writing zero buffers
- to empty COW areas [v2]
+References: <20190821160803.10026-1-armbru@redhat.com>
+In-Reply-To: <20190821160803.10026-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 22 Aug 2019 13:13:19 +0100
+Message-ID: <CAFEAcA-Uo7uTrSuGSaBnBP3jKCoXxWicjMPB7Eny9HRU2nzKpw@mail.gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::332
+Subject: Re: [Qemu-devel] [PULL 0/4] Monitor patches for 2019-08-21
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,53 +72,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(CC-ing Paolo because of the XFS connection, and Stefan because why not.)
+On Wed, 21 Aug 2019 at 17:11, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The following changes since commit 17dc57990320edaad52ac9ea808be9719c91cea6:
+>
+>   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-08-20' into staging (2019-08-20 14:14:20 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-monitor-2019-08-21
+>
+> for you to fetch changes up to eb707eac58dfc2d17281f67dde40cab3b8b26cc0:
+>
+>   monitor/qmp: Update comment for commit 4eaca8de268 (2019-08-21 17:33:38 +0200)
+>
+> ----------------------------------------------------------------
+> Monitor patches for 2019-08-21
+>
+> ----------------------------------------------------------------
+> Markus Armbruster (4):
+>       hw/core: Move cpu.c, cpu.h from qom/ to hw/core/
+>       qapi: Move query-target from misc.json to machine.json
+>       qdev: Collect HMP handlers command handlers in qdev-monitor.c
+>       monitor/qmp: Update comment for commit 4eaca8de268
+>
 
-On 22.08.19 13:27, Luk=C3=A1=C5=A1 Doktor wrote:
-> Dne 21. 08. 19 v 19:51 Max Reitz napsal(a):
->> On 21.08.19 16:14, Luk=C3=A1=C5=A1 Doktor wrote:
->>> Hello guys,
->>>
->>> First attempt was rejected due to zip attachment, let's try it again =
-with just Avocado-vt debug.log and serial console log files attached.
->>>
->>> I bisected a regression on aarch64 all the way to this commit: "qcow2=
-: skip writing zero buffers to empty COW areas" c8bb23cbdbe32f5c326365e0a=
-82e1b0e68cdcd8a. Would you please have a look at it?
->>
->> I think I can see the issue on my x64 system (I don=E2=80=99t see the =
-XFS
->> corruption, but the installation fails because of some segfaults).
->>
->> I haven=E2=80=99t found a simpler way to reproduce the problem yet, th=
-ough,
->> which is a pain... :-/
->>
->> It looks like the problem disappears when I configure qemu with
->> =E2=80=9C--disable-xfsctl=E2=80=9D.  Can you try that?
->>
->> Max
->>
->=20
-> Hello Max,
->=20
-> yes, I'm getting the same behavior. With "--disable-xfsctl" it works we=
-ll. Also looking at the option I understand why it only failed on aarch64=
- for me, I don't have libs installed on the other machines, therefor it w=
-as disabled by "./configure" there. Anyway I guess disabling it in my bui=
-lds won't really fix the issue, right? :-)
 
-Thanks!
+Applied, thanks.
 
-No, it won=E2=80=99t, but it means the actual root of the problem is prob=
-ably
-rather in some XFS-related code (be it because qemu uses it the wrong
-way or because of XFS kernel code) than in the pure qcow2 commit that
-made the problem surface by exercising it heavily.  (Or in an
-interaction between the two.)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
-Max
+-- PMM
 
