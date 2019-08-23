@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D6B9B265
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:48:11 +0200 (CEST)
-Received: from localhost ([::1]:57250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9AC9B254
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:42:32 +0200 (CEST)
+Received: from localhost ([::1]:57178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1ArJ-000649-Jw
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:48:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50379)
+	id 1i1Alq-0000HJ-SE
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:42:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50511)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i1AdE-0000Iq-AA
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:37 -0400
+ (envelope-from <philmd@redhat.com>) id 1i1AdX-0000dU-6b
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i1AdD-0001nq-C4
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39436)
+ (envelope-from <philmd@redhat.com>) id 1i1AdU-00023j-Uj
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35438)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1i1AdB-0001mF-4O; Fri, 23 Aug 2019 10:33:33 -0400
+ id 1i1AdP-0001v2-4L; Fri, 23 Aug 2019 10:33:49 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 718C879704;
- Fri, 23 Aug 2019 14:33:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D441218C4271;
+ Fri, 23 Aug 2019 14:33:45 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-118.brq.redhat.com [10.40.204.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C52E5D9CA;
- Fri, 23 Aug 2019 14:33:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EE915D9CA;
+ Fri, 23 Aug 2019 14:33:38 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 23 Aug 2019 16:32:46 +0200
-Message-Id: <20190823143249.8096-4-philmd@redhat.com>
+Date: Fri, 23 Aug 2019 16:32:48 +0200
+Message-Id: <20190823143249.8096-6-philmd@redhat.com>
 In-Reply-To: <20190823143249.8096-1-philmd@redhat.com>
 References: <20190823143249.8096-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 23 Aug 2019 14:33:32 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Fri, 23 Aug 2019 14:33:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 3/6] hw/arm: Use sysbus_init_child_obj for
- correct reference counting
+Subject: [Qemu-devel] [PATCH v2 5/6] hw/dma/xilinx_axi: Use
+ object_initialize_child for correct ref. counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,42 +66,62 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  Peter Chubb <peter.chubb@nicta.com.au>,
  Antony Pavlov <antonynpavlov@gmail.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 As explained in commit aff39be0ed97:
 
-  Both functions, object_initialize() and qdev_set_parent_bus()
+  Both functions, object_initialize() and object_property_add_child()
   increase the reference counter of the new object, so one of the
   references has to be dropped afterwards to get the reference
   counting right. Otherwise the child object will not be properly
   cleaned up when the parent gets destroyed.
-  Thus let's use now sysbus_init_child_obj() instead to get the
+  Thus let's use now object_initialize_child() instead to get the
   reference counting here right.
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2: Corrected commit description (pm215)
+v2: fix typo ENET -> DMA in TYPE macro name
 ---
- hw/arm/exynos4_boards.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/dma/xilinx_axidma.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/arm/exynos4_boards.c b/hw/arm/exynos4_boards.c
-index f69358a5ba..2781d8bd41 100644
---- a/hw/arm/exynos4_boards.c
-+++ b/hw/arm/exynos4_boards.c
-@@ -131,8 +131,8 @@ exynos4_boards_init_common(MachineState *machine,
-     exynos4_boards_init_ram(s, get_system_memory(),
-                             exynos4_board_ram_size[board_type]);
+diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
+index d176df6d44..a254275b64 100644
+--- a/hw/dma/xilinx_axidma.c
++++ b/hw/dma/xilinx_axidma.c
+@@ -566,14 +566,14 @@ static void xilinx_axidma_init(Object *obj)
+     XilinxAXIDMA *s =3D XILINX_AXI_DMA(obj);
+     SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
 =20
--    object_initialize(&s->soc, sizeof(s->soc), TYPE_EXYNOS4210_SOC);
--    qdev_set_parent_bus(DEVICE(&s->soc), sysbus_get_default());
-+    sysbus_init_child_obj(OBJECT(machine), "soc",
-+                          &s->soc, sizeof(s->soc), TYPE_EXYNOS4210_SOC);
-     object_property_set_bool(OBJECT(&s->soc), true, "realized",
-                              &error_fatal);
+-    object_initialize(&s->rx_data_dev, sizeof(s->rx_data_dev),
+-                      TYPE_XILINX_AXI_DMA_DATA_STREAM);
+-    object_initialize(&s->rx_control_dev, sizeof(s->rx_control_dev),
+-                      TYPE_XILINX_AXI_DMA_CONTROL_STREAM);
+-    object_property_add_child(OBJECT(s), "axistream-connected-target",
+-                              (Object *)&s->rx_data_dev, &error_abort);
+-    object_property_add_child(OBJECT(s), "axistream-control-connected-ta=
+rget",
+-                              (Object *)&s->rx_control_dev, &error_abort=
+);
++    object_initialize_child(OBJECT(s), "axistream-connected-target",
++                            &s->rx_data_dev, sizeof(s->rx_data_dev),
++                            TYPE_XILINX_AXI_DMA_DATA_STREAM, &error_abor=
+t,
++                            NULL);
++    object_initialize_child(OBJECT(s), "axistream-control-connected-targ=
+et",
++                            &s->rx_control_dev, sizeof(s->rx_control_dev=
+),
++                            TYPE_XILINX_AXI_DMA_CONTROL_STREAM, &error_a=
+bort,
++                            NULL);
 =20
+     sysbus_init_irq(sbd, &s->streams[0].irq);
+     sysbus_init_irq(sbd, &s->streams[1].irq);
 --=20
 2.20.1
 
