@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69CBD9B63E
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 20:35:49 +0200 (CEST)
-Received: from localhost ([::1]:60870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F42169B640
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 20:36:33 +0200 (CEST)
+Received: from localhost ([::1]:60882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1EPb-0000Tf-RN
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 14:35:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39489)
+	id 1i1EQK-0001Kz-JF
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 14:36:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1i1ENX-0007oI-9P
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:33:40 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1i1ENm-0007yY-FP
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:33:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1i1ENV-0007c6-T3
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:33:38 -0400
-Received: from nsstlmta27p.bpe.bigpond.com ([203.38.21.27]:56618)
+ (envelope-from <tony.nguyen@bt.com>) id 1i1ENl-0007jS-9l
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:33:54 -0400
+Received: from nsstlmta31p.bpe.bigpond.com ([203.38.21.31]:47269)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>) id 1i1ENV-0007Yu-9N
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:33:37 -0400
+ (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
+ id 1i1ENk-0007gU-KY; Fri, 23 Aug 2019 14:33:53 -0400
 Received: from smtp.telstra.com ([10.10.24.4])
- by nsstlfep27p-svc.bpe.nexus.telstra.com.au with ESMTP id
- <20190823183331.UOTW27545.nsstlfep27p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
- Sat, 24 Aug 2019 04:33:31 +1000
+ by nsstlfep31p-svc.bpe.nexus.telstra.com.au with ESMTP id
+ <20190823183347.DTXW30018.nsstlfep31p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
+ Sat, 24 Aug 2019 04:33:47 +1000
 X-RG-Spam: Unknown
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedguddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepvfhonhihucfpghhuhigvnhcuoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecukfhppeehkedrudejfedrleekrdeikeenucfrrghrrghmpehhvghlohepuggsiidrthgvlhhsthhrrgdrtghomhdrrghupdhinhgvthepheekrddujeefrdelkedrieekpdhmrghilhhfrhhomhepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqpdhrtghpthhtohepoegrmhgrrhhkohhvihgtseifrghvvggtohhmphdrtghomheqpdhrtghpthhtohepoegrrhhikhgrlhhoseifrghvvggtohhmphdrtghomheqpdhrtghpthhtohepoegruhhrvghlihgvnhesrghurhgvlhefvddrnhgvtheqpdhrtghpthhtohepoehphhhilhhmugesrhgvughhrghtrdgtohhmqedprhgtphhtthhopeeoqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrgheqpdhrtghpthhtohepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecuvehluhhsthgvrhfuihiivgeptd
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedguddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvohhnhicupfhguhihvghnuceothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucfkphepheekrddujeefrdelkedrieeknecurfgrrhgrmhephhgvlhhopegusgiirdhtvghlshhtrhgrrdgtohhmrdgruhdpihhnvghtpeehkedrudejfedrleekrdeikedpmhgrihhlfhhrohhmpeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqedprhgtphhtthhopeeosghorhhnthhrrggvghgvrhesuggvrdhisghmrdgtohhmqedprhgtphhtthhopeeotghohhhutghksehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoegurghvihgusehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoehprghsihgtsehlihhnuhigrdhisghmrdgtohhmqedprhgtphhtthhopeeoqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeorhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgqedprhgtphhtthhopeeorhhthhesthifihguughl
+ vgdrnhgvtheqpdhrtghpthhtohepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqpdhrtghpthhtohepoeifrghllhhinhhgsehlihhnuhigrdhisghmrdgtohhmqeenucevlhhushhtvghrufhiiigvpedt
 X-RazorGate-Vade-Verdict: clean 0
 X-RazorGate-Vade-Classification: clean
 X-RG-VS-CLASS: clean
 X-Authentication-Info: Submitted using ID tony.nguyen.git@bigpond.com
 Received: from dbz.telstra.com.au (58.173.98.68) by smtp.telstra.com (5.8.335)
  (authenticated as tony.nguyen.git@bigpond.com)
- id 5D3581440CDB13E3; Sat, 24 Aug 2019 04:33:30 +1000
+ id 5D3581440CDB17DC; Sat, 24 Aug 2019 04:33:47 +1000
 From: Tony Nguyen <tony.nguyen@bt.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 24 Aug 2019 04:36:41 +1000
-Message-Id: <af407f0a34dc95ef5aaf2c00dffda7c65df23c3a.1566466906.git.tony.nguyen@bt.com>
+Date: Sat, 24 Aug 2019 04:36:42 +1000
+Message-Id: <2f41da26201fb9b0339c2b7fde34df864f7f9ea8.1566466906.git.tony.nguyen@bt.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1566466906.git.tony.nguyen@bt.com>
 References: <cover.1566466906.git.tony.nguyen@bt.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 203.38.21.27
-Subject: [Qemu-devel] [PATCH v9 03/20] target/mips: Access MemoryRegion with
+X-Received-From: 203.38.21.31
+Subject: [Qemu-devel] [PATCH v9 04/20] hw/s390x: Access MemoryRegion with
  MemOp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,11 +58,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Nguyen <tony.nguyen@bt.com>, Aleksandar Rikalo <arikalo@wavecomp.com>,
+Cc: Tony Nguyen <tony.nguyen@bt.com>, Collin Walling <walling@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -78,39 +79,52 @@ will be converted into a "MemOp op".
 As size_memop is a no-op, this patch does not change any behaviour.
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/mips/op_helper.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/s390x/s390-pci-inst.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index f88a3ab904..1f0e88364a 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -24,6 +24,7 @@
- #include "exec/helper-proto.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index 00235148be..0c958fc391 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -15,6 +15,7 @@
+ #include "cpu.h"
+ #include "s390-pci-inst.h"
+ #include "s390-pci-bus.h"
 +#include "exec/memop.h"
- #include "sysemu/kvm.h"
- #include "fpu/softfloat.h"
- 
-@@ -4741,11 +4742,11 @@ void helper_cache(CPUMIPSState *env, target_ulong addr, uint32_t op)
-     if (op == 9) {
-         /* Index Store Tag */
-         memory_region_dispatch_write(env->itc_tag, index, env->CP0_TagLo,
--                                     8, MEMTXATTRS_UNSPECIFIED);
-+                                     size_memop(8), MEMTXATTRS_UNSPECIFIED);
-     } else if (op == 5) {
-         /* Index Load Tag */
-         memory_region_dispatch_read(env->itc_tag, index, &env->CP0_TagLo,
--                                    8, MEMTXATTRS_UNSPECIFIED);
-+                                    size_memop(8), MEMTXATTRS_UNSPECIFIED);
-     }
- #endif
+ #include "exec/memory-internal.h"
+ #include "qemu/error-report.h"
+ #include "sysemu/hw_accel.h"
+@@ -372,7 +373,7 @@ static MemTxResult zpci_read_bar(S390PCIBusDevice *pbdev, uint8_t pcias,
+     mr = pbdev->pdev->io_regions[pcias].memory;
+     mr = s390_get_subregion(mr, offset, len);
+     offset -= mr->addr;
+-    return memory_region_dispatch_read(mr, offset, data, len,
++    return memory_region_dispatch_read(mr, offset, data, size_memop(len),
+                                        MEMTXATTRS_UNSPECIFIED);
  }
+ 
+@@ -471,7 +472,7 @@ static MemTxResult zpci_write_bar(S390PCIBusDevice *pbdev, uint8_t pcias,
+     mr = pbdev->pdev->io_regions[pcias].memory;
+     mr = s390_get_subregion(mr, offset, len);
+     offset -= mr->addr;
+-    return memory_region_dispatch_write(mr, offset, data, len,
++    return memory_region_dispatch_write(mr, offset, data, size_memop(len),
+                                         MEMTXATTRS_UNSPECIFIED);
+ }
+ 
+@@ -780,7 +781,8 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
+ 
+     for (i = 0; i < len / 8; i++) {
+         result = memory_region_dispatch_write(mr, offset + i * 8,
+-                                              ldq_p(buffer + i * 8), 8,
++                                              ldq_p(buffer + i * 8),
++                                              size_memop(8),
+                                               MEMTXATTRS_UNSPECIFIED);
+         if (result != MEMTX_OK) {
+             s390_program_interrupt(env, PGM_OPERAND, 6, ra);
 -- 
 2.23.0
 
