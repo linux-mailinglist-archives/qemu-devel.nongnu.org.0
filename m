@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED0F9B904
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 01:44:50 +0200 (CEST)
-Received: from localhost ([::1]:34924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53BFB9B913
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 01:49:08 +0200 (CEST)
+Received: from localhost ([::1]:34990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1JEf-0002gI-K1
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 19:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49326)
+	id 1i1JIo-0006f6-VR
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 19:49:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49385)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1JBe-0000Z3-7P
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:41:44 -0400
+ id 1i1JBj-0000c8-UW
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:41:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1JBd-0008Ty-7y
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:41:42 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:59171)
+ id 1i1JBi-0008Vc-OZ
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:41:47 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:50260)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1JBc-0008T1-SX; Fri, 23 Aug 2019 19:41:41 -0400
+ id 1i1JBg-0008Ui-Qi; Fri, 23 Aug 2019 19:41:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1566603701; x=1598139701;
+ t=1566603733; x=1598139733;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=EolHft63t6uTu8IMAST3aFoydFsm2RQTevCGlKxXc4o=;
- b=AmnRcncSJe3LQSLrUruGrUmGmAGpug8i/vjSPazSl3OIgv7r0sP/qdCK
- NBzmUMbVHAF/R+FDtXLx9wPSDjXyt2MyGxnCzy2vedNQnYt6cVpx7Q7gu
- GHiQzmSOwRY31Wmnp0wsE3nQpajTjOyi3vz+1EOdXrQwgdeMjM4hr61U8
- sXqpZmefh2/iwxnSZoX8PX+36CjroDYVUBnv+bUnJNC8dRwXjGnZF2uQD
- c/FTQyQUb2PCSXOFvI8F3V8k1y9gulk8K92gW8PpkdlDsuBPWUXo5EUZm
- PiNK6LpPVW+7XW3MRjH9J5VhN/pCrNTCH23tRuwkAxvrmX/XxPyi6zuaU g==;
-IronPort-SDR: wSqaaUYnsmuzyRQoMkt9sTlaCxxPpXDFbQa+Wru1cFgiFTX8lWZe2Tb5Penxs0ALZr35Igj0N6
- xO4M4qD13qWoovzvZe9s+Ggy/sh+CSJJYVkx9EklAGmO5Vhh+TUP+AH38NJ2oQUViMz244B64S
- oHvU3ytBR/r+e0sFLp4eVb43mXxjDvJKnHioLJ9p/KVxq7LdQ3HUFD4G/6mBjnUvioNhnQC9DZ
- rFEJebzYgFw9AMggqK8PZJcL3uiZvDJ3HQ1q/qHEbECnih4XAmQviFbLNutvEGWiWIYcd1Bc1v
- f58=
-X-IronPort-AV: E=Sophos;i="5.64,422,1559491200"; d="scan'208";a="121144254"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 24 Aug 2019 07:41:41 +0800
-IronPort-SDR: Vk2Gy+no9X2ql3ylETSWYf4iDvmPQKq9OMCWz4FozCg8d8eipzr0iFkcVitE6WfxJ5h/I2a273
- gq/VJkpDXr5QsqU6tEQjAP48G6HDpzjDaEncjPll3wNx4ZdNjpgfUdt/PymkSEJxsDB8igQrS0
- 06p2ChV1PdrUnzKBve+SqXh60CkRX+8dlV8i4NT4OeLxDiUxmaqR8m1TCYamWX1GazrY2ZY8W1
- WnoGn+jN31FVYCawPe9UWVoBGvThxd3BRUocs5KrjYx++N5sLyT6dFFn8mK4ao33fdeT0/schO
- S87flR1JdVzRT/Rl/8vUmwS0
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2019 16:38:58 -0700
-IronPort-SDR: DXb9Yc1dpkfa9w3M3uTRh38YoGv3G0EkJ3HIymrv1FXO9eziYv/Xz+c7YIFkirnNtY8GZzyILZ
- CNwjoZFBAWEooUXRZ3uvnG6VPfVXEiebCr7jrtUHszYSTVk5J6hgWh+4tvZdiLm1drLYSe+s1X
- ZE35U0mnqch/bHv6TANnom0hCl4hra+VaZvVj0q84JPBj7xVgd5XHRxbfU7p++mXcRAzcfqVXu
- jvKUE2NiH/6RABVIJzgbYjNa7aqgVmeUbdwP3TCIyv2tGKHHz7wI8IplY91waj3zQeWkGBC9TC
- jOI=
+ bh=fWPOcwK1QLVia/IV12AzFAZG+JyzmslPbfnxXbr+OYo=;
+ b=pG1gt+nyk+eCq0jnR/Buu6SPIeSYtfqVtl5iqceuFuS3AyVQWdvmvtnm
+ l8suSN3s2igAe3oDw5/s2G8vKKuIxrcsA5hblwrrzZOm7P9IZYBIXmR3j
+ rTNYG1px1W73nT5YsViA8tVTu3lBz6gqYbk7VPZxrCwJ33SeAeDMeWGiV
+ CtC6o/XC6d6RGEQVfMQtqsWKEE7JWW5q290VB8DH/YHhjfjZ6MNrXz6v/
+ Ak2WwG65QcDjkzRr8xSNYnNzavpD+tOJ2yp/9Gs48VkDCE3I+OkS7nLm8
+ H1pChqTR+jKAw+5yUE4wRxk+X4R5SaphzIEemBwNQImRfoJyvMFnCWP1T g==;
+IronPort-SDR: cZocukTPCiZfxPmUXLhnLueZ2Fe9r4iqtYAqM/r/2INeWGFN+YSlAjKVwGveVgLx1gtI7k6nPq
+ nxSDM+++WwFUaHdoriz3YxiN59nE0IGLS8qCC74hVApWvTi7zDhH44AxvFcNjMaEyLMraHymHD
+ sa2fMvK/5+3BEhizO/ZEwekLK+s1RkhUwyY5hzahx/OwXtB3dBLBsosizwAQoJd6A8S35Gn4my
+ ZIj/cx70TIGLP/LFJN5LCHy7/HrMIWv9jWNQ77DFwUSLLuGUwtvP2dmCffDEJfPCvws3bVyVKB
+ E/A=
+X-IronPort-AV: E=Sophos;i="5.64,422,1559491200"; d="scan'208";a="217013885"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 24 Aug 2019 07:42:10 +0800
+IronPort-SDR: pIo/DncM8PUyFDl7sFXj3Fpm6gbs9dcpucWnfpthFTwutY+12ip6BgWz1COmYpCrqcrOpgleDn
+ ZBTxyp3ciJiQHwpDzQKeZUZXCpZHJeZhQzeiyEBizKgKYSqaZQVBDUSGuy4PXnFHK5A+Qu++Ki
+ kHGyWdoHPVoULdeVwa1AtjLLsAfhxXOh4i9pISyA+XqNS+RPVD2LJlrJaUx8zXCFjmzLur7AvS
+ 1BuvJuyIjBBxb87O2bcNUERcNJbZGr3uXCwTrFVtP5OyyEpLrNCg4Jj62Vz158SPlSw3EiOUAs
+ bUnyDtYWZoEBbg5Rxw8CX6lz
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2019 16:39:00 -0700
+IronPort-SDR: sPwGntx8ShKaZHw/GwJ/7ZeJ0qNbruMogp6800CKahDohsPgdiJ6SBJBOVzrh+cfVgdjpquIeS
+ BjVMN/fQuebJ/feJWWZCvPNbjR6OBmQOOxFN1uilvOuKF20teVKqyjf3equKgSGppdpPrFl8CR
+ 1mT8IhpP/Jro9K3Ohzs8MLcYGY2V6eB6qQ1Km1jbuMypUDpx9x4n90eV9+24+gEQgcwehca6Vi
+ 8HRXZnHuHhhtDB6vpqPgbsh7xIugwDHWfTWzb8wegbjiwJcwUwO3tqAkn+p4GV6p2SI0d3chq7
+ p1c=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.58])
- by uls-op-cesaip01.wdc.com with ESMTP; 23 Aug 2019 16:41:41 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Aug 2019 16:41:42 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Date: Fri, 23 Aug 2019 16:38:00 -0700
-Message-Id: <a090bc437bf412c279b1254d05eae5c2d67225db.1566603412.git.alistair.francis@wdc.com>
+Date: Fri, 23 Aug 2019 16:38:02 -0700
+Message-Id: <e959ee81e5121c74678d2383a28665e44db9e31d.1566603412.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1566603412.git.alistair.francis@wdc.com>
 References: <cover.1566603412.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.153.141
-Subject: [Qemu-devel] [PATCH v1 04/28] target/riscv: Fix CSR perm checking
- for HS mode
+X-Received-From: 68.232.143.124
+Subject: [Qemu-devel] [PATCH v1 05/28] target/riscv: Add the Hypervisor CSRs
+ to CPUState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,36 +90,42 @@ Cc: alistair23@gmail.com, Anup.Patel@wdc.com, palmer@sifive.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the CSR permission checking to work correctly when we are in
-HS-mode.
+As the MIP CSR is 32-bits to allow atomic_read on 32-bit hosts the vsip
+is 32-bit as well.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ target/riscv/cpu.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index f767ad24be..471f23a1d0 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -799,9 +799,15 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 3a95c41428..4c342e7a79 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -154,6 +154,23 @@ struct CPURISCVState {
+     target_ulong mcause;
+     target_ulong mtval;  /* since: priv-1.10.0 */
  
-     /* check privileges and return -1 if check fails */
- #if !defined(CONFIG_USER_ONLY)
--    int csr_priv = get_field(csrno, 0x300);
-+    int csr_priv = env->priv;
-     int read_only = get_field(csrno, 0xC00) == 3;
--    if ((write_mask && read_only) || (env->priv < csr_priv)) {
++    /* Hypervisor CSRs */
++    target_ulong hstatus;
++    target_ulong hedeleg;
++    target_ulong hideleg;
++    target_ulong hgatp;
 +
-+    if (riscv_has_ext(env, RVH) && !riscv_cpu_virt_enabled(env)) {
-+        /* Plus 1 as we are in HS mode */
-+        csr_priv++;
-+    }
++    /* Virtual CSRs */
++    target_ulong vsstatus;
++    uint32_t vsip;
++    target_ulong vsie;
++    target_ulong vstvec;
++    target_ulong vsscratch;
++    target_ulong vsepc;
++    target_ulong vscause;
++    target_ulong vstval;
++    target_ulong vsatp;
 +
-+    if ((write_mask && read_only) || (csr_priv < get_field(csrno, 0x300))) {
-         return -1;
-     }
- #endif
+     target_ulong scounteren;
+     target_ulong mcounteren;
+ 
 -- 
 2.22.0
 
