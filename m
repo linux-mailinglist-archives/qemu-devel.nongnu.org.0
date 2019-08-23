@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B939B301
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:06:39 +0200 (CEST)
-Received: from localhost ([::1]:57608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313E99B2DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:01:28 +0200 (CEST)
+Received: from localhost ([::1]:57518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1B9C-0000rD-Ky
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:06:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53715)
+	id 1i1B4A-00046L-AM
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:01:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53988)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i1Aso-0000JN-LI
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:49:43 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i1Au1-0001wb-OP
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:50:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i1Asn-00067U-Hs
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:49:42 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33459)
+ (envelope-from <richard.henderson@linaro.org>) id 1i1Au0-000779-OJ
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:50:57 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:45813)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i1Asn-00066s-Az
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:49:41 -0400
-Received: by mail-pl1-x642.google.com with SMTP id go14so5706562plb.0
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 07:49:41 -0700 (PDT)
+ id 1i1Au0-00076Z-H8
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:50:56 -0400
+Received: by mail-pg1-x541.google.com with SMTP id o13so5897992pgp.12
+ for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 07:50:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QxO2uVfnR+ASBjD1E44tju9xARYVi3V8cmVvh6cGfKU=;
- b=Q+4HoSk6ExxjL5qeds/YT6DBmMr0cgBP3loCMshobrahFbjq+JDOn1FT7FOi9jEcUf
- pBro/03MTfwW1C5w1yhf9xsUnmp0KutH5kXuTkogrS9TbbuwEX7gTIJMZE8dCstjavWF
- wx7vmn+BG9Q+7FgzuHhTDS7hqaWJWjYfLj+PfHXX6yTKIKylocgyNX6pOnVJ9fALSKsn
- EWXUxWJclKpxB2DlXkGjw8OsI0uZR583h5UvKU+5o7WLTDOdJKD9w58bHCmJuIwax9PI
- RHqsQ+z67X9XlriPG/7nTqyhvFwTwmN298k6+60Ou4FU+dDAA9cDL7ybuTHDl835dWl0
- j0iQ==
+ bh=81vmEaQooM/4GcOyzuSEBSKSxz1JzTUbDoYReabzV1c=;
+ b=Y25er+scCLNd6aRjS9tNTMthrOlOP7/8k1GqlVVH+BpNIHwfuA5is8hLf58SVXH9Vc
+ 5luWHVFv5gN4Bp5TotmLLQGVqPnW+pbR1zYlpQ3miZ/wMo2JGNk9DifHVB+prGeyRyHb
+ Rt/6fIAEIE2/D2tKKCSl6tkMw/ZDSOHdKXXo1ve4D1+RRbeBnCsCEOY1Ul2xCh6ESdQR
+ rcaTIJF8CiHMmpSik81ZNt0VbXKy+xfuQsf1/cpiU9HoypRdZ6ghddZnYmHNijWf9Y5p
+ e3BdBw4PwyIqIlnrE2WOuQRyeBHbVxXGQlXozo2SOG+ek4N5d29pdBtkxdEOgsYI7+wP
+ KDrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=QxO2uVfnR+ASBjD1E44tju9xARYVi3V8cmVvh6cGfKU=;
- b=fT8fMbIoVLupkVGVJaG0pUEC4erv73ozopUdiLarnRhiLhnWUDunKyQ762n+/IpZf0
- bORToUX6PXh0kOTZHVZAwPOfhk43wURtrr6CzC7U2uolB4IE+QSnL75ciWcKcgXtMMt9
- 2LWyhRUbzaM9C5g/gbtb7Y5hEfv5e69kbTI6xTtzTgJEZosF8XTm42VN3V5eVMf/dtp5
- Bkc2kQu63uKpyzRgE/qDMDqhHoqozoJwoOAkIC9uG4Vrgi0ttlF4dIldEJvOi+WLpYTj
- cF2dy/AIwMPeBEViSOYkHRUpg3nI3gPFYh2iGRhzzK9mdgjCrOwglVr8ILW13XtdlJcy
- 9Ayw==
-X-Gm-Message-State: APjAAAV3ofsYRN38clMT92+vNhukTJH1vv+oYaZ+cJzCCIgCIlQgf+P8
- A8N0Mduh+JXaUdfTIoqLqV89tg==
-X-Google-Smtp-Source: APXvYqzanQ9kT/4BdN5OgPUL6JfjPxbZxX4Be3SPQD8wywyW89t9/UPFrZdm5nIUoFbsg+O/eOn1uQ==
-X-Received: by 2002:a17:902:e413:: with SMTP id
- ci19mr5296312plb.256.1566571780235; 
- Fri, 23 Aug 2019 07:49:40 -0700 (PDT)
+ bh=81vmEaQooM/4GcOyzuSEBSKSxz1JzTUbDoYReabzV1c=;
+ b=COQzg5vqXmbNwhulWr12m4jZN8EkqXc3ZDVtsbF/NDzZSyuxb6CAAreqPkyhPqOeG6
+ zPbEB/Hee+7gxCXHHP2q8Wcwr63OsqnJg2YRKVmN9ul+X/APlliTZjlxdy+iSYmimlH0
+ xBKGGJT8OpTxRd7xuE0Xk64hgLRseDlyhX+mAoHf3YjKPJa7PPsnzkW9JOlte1NfwiSb
+ 2xNTIV/E1PoW+RHDRn6U0wp//few1OIOnHJkbb//+bFUPzFXunryEKV4vCoXMSkdi7iA
+ nJJywCB88lrWSTyT4edF3e4VsK0hCq7CP2tyDfBebhTsreMk9ybY5Ts2BxMxkLKKAO04
+ Vl7g==
+X-Gm-Message-State: APjAAAVB+FLekSn6G5TyvnHdXvZ5x153/BChRhnSdBuXyGfZf5M8vU1d
+ dWRVgGu+Got7jT8vaYz35GTPNA==
+X-Google-Smtp-Source: APXvYqzF3c24A4bt4yAofm/PvLIp0ICRiAuoyTohKQ4AieH9bL1PphtP4IJpCYt4RaumFR2iD2xK5A==
+X-Received: by 2002:a62:7d0d:: with SMTP id y13mr5535138pfc.150.1566571855558; 
+ Fri, 23 Aug 2019 07:50:55 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id o4sm9068318pje.28.2019.08.23.07.49.39
+ by smtp.gmail.com with ESMTPSA id d16sm5723896pfd.81.2019.08.23.07.50.54
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Aug 2019 07:49:39 -0700 (PDT)
+ Fri, 23 Aug 2019 07:50:54 -0700 (PDT)
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20190823100741.9621-1-david@redhat.com>
- <20190823100741.9621-2-david@redhat.com>
+ <20190823100741.9621-3-david@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <529817b0-9109-7ec9-674f-181a32966857@linaro.org>
-Date: Fri, 23 Aug 2019 07:49:37 -0700
+Message-ID: <c21b333b-7b5a-3c6e-c9e5-b0103b5b06c0@linaro.org>
+Date: Fri, 23 Aug 2019 07:50:52 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190823100741.9621-2-david@redhat.com>
+In-Reply-To: <20190823100741.9621-3-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: Re: [Qemu-devel] [PATCH v1 1/9] s390x/tcg: Use guest_addr_valid()
- instead of h2g_valid() in probe_write_access()
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: Re: [Qemu-devel] [PATCH v1 2/9] s390x/tcg: Fix length calculation
+ in probe_write_access()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,8 +94,9 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/23/19 3:07 AM, David Hildenbrand wrote:
-> If I'm not completely wrong, we are dealing with guest addresses here
-> and not with host addresses. Use the right check.
+> Hm,, how did that "-" slip in (-TAGRET_PAGE_SIZE would be correct). This
+> currently makes us exceed one page in a single probe_write() call,
+> essentially leaving some memory unchecked.
 > 
 > Fixes: c5a7392cfb96 ("s390x/tcg: Provide probe_write_access helper")
 > Signed-off-by: David Hildenbrand <david@redhat.com>
@@ -108,4 +108,5 @@ Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
