@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16129B6F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 21:20:47 +0200 (CEST)
-Received: from localhost ([::1]:33222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894A99B707
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 21:26:40 +0200 (CEST)
+Received: from localhost ([::1]:33362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1F79-0004EQ-0R
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 15:20:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45165)
+	id 1i1FCo-0001SB-Rq
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 15:26:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48041)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i1Erh-0005wQ-D8
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:04:51 -0400
+ (envelope-from <prvs=1319249da=dmitry.fomichev@wdc.com>)
+ id 1i1F96-0007cg-ER
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:22:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i1Erf-0001hR-6Q
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:04:48 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:35768)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i1Ere-0001g6-MB
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:04:47 -0400
-Received: by mail-pl1-x642.google.com with SMTP id gn20so6061094plb.2
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 12:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Me3uBy3nz24VlnsYg7ubJxvYpiVCyDYT57dyN5yHXWQ=;
- b=FklvIOcS5eH4CtRFKKVakN0tas8V8Gutu1c/n24hKC/+d8D6+W6OZautRwUxiQADId
- nJbHFm7ramD5VRELOezozDWEHwCOzBhk+zllh2QT1SynsAKkx76mBQLNaSNjc2Xfhkxk
- lz/iMWJ+179tiSIuwuOcYjfXk2Mkou817ygBrSkf3FWkvaY+VNQs9/KMauU2RVqC6mBC
- b6gOfAYP5GrEUvILNWQKwAz5vvxXfRZ3lNnCNTeaSDUggKlDoUqSPZio+3YeWII9U9EV
- l2u+ZRK2K3dqmrOMg7/V2pR55w8KyTHlGb+BdxID7/o0sOBlSJY9yZFICZ84kMcySQ90
- 8k9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Me3uBy3nz24VlnsYg7ubJxvYpiVCyDYT57dyN5yHXWQ=;
- b=LwZpTh+5xF6lvBFjflZuc06pc7VcGNxAM/ee44YZn1pvcURjCXBt7j0IhMRjXRn2VS
- TYeuz8NTf2CMNhwEC4WKmDQva4c4V/U+AAU3oDTxU8oUMBTY26MqQ2SGoWSMxMwLq7Kl
- zoc0RLVNJybKGRYAeImMlOISRMZXunR/2eL4S0rojAf7zKDJEJ+8Hf2ZtQJ4CNj+C9PG
- fc2KbTsN0BwKwL2kzl6Na5LkvtBe9BYGmYtiDVVUjmLzc0jRGpqbP/rgEVNec5a8uuJH
- LaAUEzrl/N3mZFAJuR1Lt0Fe+M4Tk2phhWdvEH2ED6AV4c+tVDthVlOfcbcBWJLD5t0S
- TQgQ==
-X-Gm-Message-State: APjAAAVboz03joqw6AUTLxlczUC5Zc0ixQM1XmJQ6r5dsIWOr6tGSaxm
- IzVRCIFr+bkwU0vhqkNKYKqraA==
-X-Google-Smtp-Source: APXvYqyC0Js2fu2rOsc7tlBl56hJ54fndhaP5447vz08B1iVw5tAC/zALRscIuhaUJ9JMbc6k9YxvQ==
-X-Received: by 2002:a17:902:8a87:: with SMTP id
- p7mr6501318plo.124.1566587085432; 
- Fri, 23 Aug 2019 12:04:45 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id a5sm2901697pjs.31.2019.08.23.12.04.44
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Aug 2019 12:04:44 -0700 (PDT)
-To: Tony Nguyen <tony.nguyen@bt.com>, qemu-devel@nongnu.org
-References: <cover.1566466906.git.tony.nguyen@bt.com>
- <8066ab3eb037c0388dfadfe53c5118429dd1de3a.1566466906.git.tony.nguyen@bt.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <f0b797c8-7801-d2cc-5ad5-7bf7b46a790e@linaro.org>
-Date: Fri, 23 Aug 2019 12:04:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <prvs=1319249da=dmitry.fomichev@wdc.com>)
+ id 1i1F95-0004KI-28
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:22:48 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:37630)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=1319249da=dmitry.fomichev@wdc.com>)
+ id 1i1F92-0004HC-3H; Fri, 23 Aug 2019 15:22:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1566588164; x=1598124164;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=wDuJg/PXjCdmnfQAHj6RMyp+qTSDniP3cOnxGOeYBNk=;
+ b=mYWuV3Z1pDCRdFB++hQhsSAVxwwiNSWwtuKNu68RAQi22hu/lbk8sycz
+ cAreNiOzHwza+1LrZMos+SjSd5E5s2zC6d99sGWkkj8p9Yeu6+eqtfn7t
+ IEymrgM69NBCuL5g3RdK5ngG5nnY/SLVfG2yIQaYbr5ZttD+0cKyWkkue
+ 6SotH5YAKbVbBmAay8SCMmlmiWrZOdW7GvHTzTwjC1YavGb9d/Bwwx6HF
+ AyPv48ztbda1oER++smSoE0dGOwE5eNaN796ALcDDg2j1WVBe/GX5ti+y
+ STUdexzIpSRntA65UowsHb5IFwELecWa2wLUdvI5tWoUmonj+oQ6tP/Au Q==;
+IronPort-SDR: aYoUkXBewh0D0HznMVXD1DSsf3e6UPQMEiRB/KdZ3yqfbt9QyytaHxVVsNoefecrxSpyN19wt6
+ o5HeJqlvtKSrrzv1HmDrSrrSRq4K8v4WPcAlGZvr6GIynxmj/HMHz+MSkN++Ex+2m6cB3xIcWB
+ Xxtc+3K9Ub8U99ZWDK4US8Gti47qEWwadBvTZ+B48V0Jk0dxkTdlGyQGFI5pc13bD1BgVCXY/E
+ KWzVM1RVVWz6xwr6FUVzmff5Cuk0ihv97PWNbonEQ4zXkKzS3fiZYtEjlhSOYUTMKN5pL7QcmV
+ Y2E=
+X-IronPort-AV: E=Sophos;i="5.64,422,1559491200"; d="scan'208";a="117476288"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 24 Aug 2019 03:22:30 +0800
+IronPort-SDR: kOek2LSY7/gV+4Zn3nB3KIxTD7f9BwWi96vDeKLRuhOZ+Stmh7M4IkjHzSKXbSWO9NFACxgrab
+ lDvCZwAzQgm4UwJLwIqMdSenJfzlwFcy5D5+Epnd8//CCWObjXiRopH0a+wzdcHPSokyLf+52T
+ PpLkSgvX3K6druPFcwSrPhm7ZvMqvRp09JR6Kq4do6Ja5dt9HRvq26NXFWVLpmFSWYMI74OFD0
+ SYvj8rrBc8tKb8F6w2DHz3vPWQfEQ5Wo3tgP8wwB6OD8R5QsZ8GKscjtN3/m7OWmt/Z0bTamH9
+ kTwGeEDe+wKiDXl4x53ma69c
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2019 12:19:47 -0700
+IronPort-SDR: 1qRi1JXeETMvq5m7WpAT9pOty1mfa2zftBn4HvW1tx4BL6f4Iu0J6prhliTxJxAHaQC1fv0H+Q
+ n0EV1yx8Wdkqsg7knu2WVKAnSiIJTucFnZoWgl0FQNk+B2HNDqHaLHOgtp2QmUc4u2hiiSAkar
+ lWVxMR8uv6+JrskcDFjrLYu7fk/hOJslRDDEGHYmu14uK47YFlg5lZbw219O67fS6fAaTkhZhK
+ 76a23iAmKczNyHRZ7sQu5TAtO9s7bfeIPjZ9ecwXwIjtIc08z5AY+tPcNYgcjaSY0MYI41EZJF
+ wh8=
+WDCIronportException: Internal
+Received: from dhcp-10-88-173-43.hgst.com ([10.88.173.43])
+ by uls-op-cesaip01.wdc.com with ESMTP; 23 Aug 2019 12:22:28 -0700
+From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
+Date: Fri, 23 Aug 2019 15:22:23 -0400
+Message-Id: <20190823192226.21154-2-dmitry.fomichev@wdc.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190823192226.21154-1-dmitry.fomichev@wdc.com>
+References: <20190823192226.21154-1-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <8066ab3eb037c0388dfadfe53c5118429dd1de3a.1566466906.git.tony.nguyen@bt.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: Re: [Qemu-devel] [PATCH v9 14/20] memory: Access MemoryRegion with
- endianness
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.153.144
+Subject: [Qemu-devel] [PATCH v4 1/4] block: Add zoned device model property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,45 +84,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Collin Walling <walling@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/19 11:36 AM, Tony Nguyen wrote:
-> Preparation for collapsing the two byte swaps adjust_endianness and
-> handle_bswap into the former.
-> 
-> Call memory_region_dispatch_{read|write} with endianness encoded into
-> the "MemOp op" operand.
-> 
-> This patch does not change any behaviour as
-> memory_region_dispatch_{read|write} is yet to handle the endianness.
-> 
-> Once it does handle endianness, callers with byte swaps can collapse
-> them into adjust_endianness.
-> 
-> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-> ---
->  accel/tcg/cputlb.c       |  8 ++++++--
->  exec.c                   | 13 +++++++++++--
->  hw/intc/armv7m_nvic.c    | 15 ++++++++-------
->  hw/s390x/s390-pci-inst.c |  6 ++++--
->  hw/vfio/pci-quirks.c     |  5 +++--
->  hw/virtio/virtio-pci.c   |  6 ++++--
->  include/exec/memory.h    |  3 +++
->  memory.c                 | 18 ++++++++++++++++++
->  memory_ldst.inc.c        | 24 ++++++++++++++++++------
->  9 files changed, 75 insertions(+), 23 deletions(-)
+This commit adds Zoned Device Model (as defined in T10 ZBC and
+T13 ZAC standards) as a block driver property, along with some
+useful access functions.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+A new backend driver permission, BLK_PERM_SUPPORT_ZONED, is also
+introduced. Only the drivers having this permission will be allowed
+to open zoned block devices.
 
+No code is added yet to initialize or check the value of this new
+property, therefore this commit doesn't change any functionality.
 
-r~
+Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+---
+ block.c                   | 19 +++++++++++++++++++
+ include/block/block.h     | 21 ++++++++++++++++++++-
+ include/block/block_int.h |  4 ++++
+ 3 files changed, 43 insertions(+), 1 deletion(-)
+
+diff --git a/block.c b/block.c
+index 874a29a983..6dd4cecded 100644
+--- a/block.c
++++ b/block.c
+@@ -4679,6 +4679,25 @@ void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr)
+     *nb_sectors_ptr = nb_sectors < 0 ? 0 : nb_sectors;
+ }
+ 
++uint8_t bdrv_get_zoned_model(BlockDriverState *bs)
++{
++    if (bs->drv->bdrv_get_zoned_info) {
++        bs->drv->bdrv_get_zoned_info(bs);
++    }
++
++    return bs->bl.zoned_model;
++}
++
++uint8_t bdrv_is_zoned(BlockDriverState *bs)
++{
++    /*
++     * Host Aware zone devices are supposed to be able to work
++     * just like regular block devices. Thus, we only consider
++     * Host Managed devices to be zoned here.
++     */
++    return bdrv_get_zoned_model(bs) == BLK_ZONED_MODEL_HM;
++}
++
+ bool bdrv_is_sg(BlockDriverState *bs)
+ {
+     return bs->sg;
+diff --git a/include/block/block.h b/include/block/block.h
+index 124ad40809..238c0f5ed7 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -271,18 +271,35 @@ enum {
+      */
+     BLK_PERM_GRAPH_MOD          = 0x10,
+ 
++    /** This permission is required to open zoned block devices. */
++    BLK_PERM_SUPPORT_ZONED      = 0x20,
++
+     BLK_PERM_ALL                = 0x1f,
+ 
+     DEFAULT_PERM_PASSTHROUGH    = BLK_PERM_CONSISTENT_READ
+                                  | BLK_PERM_WRITE
+                                  | BLK_PERM_WRITE_UNCHANGED
+-                                 | BLK_PERM_RESIZE,
++                                 | BLK_PERM_RESIZE
++                                 | BLK_PERM_SUPPORT_ZONED,
+ 
+     DEFAULT_PERM_UNCHANGED      = BLK_PERM_ALL & ~DEFAULT_PERM_PASSTHROUGH,
+ };
+ 
+ char *bdrv_perm_names(uint64_t perm);
+ 
++/*
++ * Known zoned device models.
++ *
++ * TODO For a Linux host, it could be preferrable to include
++ * /usr/include/linux/blkzoned.h instead of defining ZBD-specific
++ * values here.
++ */
++enum blk_zoned_model {
++    BLK_ZONED_MODEL_NONE, /* Regular block device */
++    BLK_ZONED_MODEL_HA,   /* Host-aware zoned block device */
++    BLK_ZONED_MODEL_HM,   /* Host-managed zoned block device */
++};
++
+ /* disk I/O throttling */
+ void bdrv_init(void);
+ void bdrv_init_with_whitelist(void);
+@@ -359,6 +376,8 @@ int64_t bdrv_get_allocated_file_size(BlockDriverState *bs);
+ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, QemuOpts *opts,
+                                BlockDriverState *in_bs, Error **errp);
+ void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
++uint8_t bdrv_get_zoned_model(BlockDriverState *bs);
++uint8_t bdrv_is_zoned(BlockDriverState *bs);
+ void bdrv_refresh_limits(BlockDriverState *bs, Error **errp);
+ int bdrv_commit(BlockDriverState *bs);
+ int bdrv_change_backing_file(BlockDriverState *bs,
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index ceec8c2f56..91496e8149 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -415,6 +415,7 @@ struct BlockDriver {
+     bool (*bdrv_debug_is_suspended)(BlockDriverState *bs, const char *tag);
+ 
+     void (*bdrv_refresh_limits)(BlockDriverState *bs, Error **errp);
++    void (*bdrv_get_zoned_info)(BlockDriverState *bs);
+ 
+     /*
+      * Returns 1 if newly created images are guaranteed to contain only
+@@ -620,6 +621,9 @@ typedef struct BlockLimits {
+ 
+     /* maximum number of iovec elements */
+     int max_iov;
++
++    /* Zoned device model. Zero value indicates a regular block device */
++    uint8_t zoned_model;
+ } BlockLimits;
+ 
+ typedef struct BdrvOpBlocker BdrvOpBlocker;
+-- 
+2.21.0
+
 
