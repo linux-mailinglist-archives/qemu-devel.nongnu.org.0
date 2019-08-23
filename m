@@ -2,49 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE07A9B243
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:39:21 +0200 (CEST)
-Received: from localhost ([::1]:57068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6E29B22D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:37:16 +0200 (CEST)
+Received: from localhost ([::1]:56968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Aim-0004g3-LT
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:39:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50420)
+	id 1i1Agl-0002QJ-4Q
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:37:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i1AdK-0000Qp-BQ
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:45 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i1AdB-0000FS-0O
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i1AdJ-0001rL-BM
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53524)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1i1AdG-0001pk-PF; Fri, 23 Aug 2019 10:33:38 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 17CB7307D915;
- Fri, 23 Aug 2019 14:33:38 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-118.brq.redhat.com [10.40.204.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E549B5D9CA;
- Fri, 23 Aug 2019 14:33:32 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 23 Aug 2019 16:32:47 +0200
-Message-Id: <20190823143249.8096-5-philmd@redhat.com>
-In-Reply-To: <20190823143249.8096-1-philmd@redhat.com>
-References: <20190823143249.8096-1-philmd@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1i1Ad9-0001jk-Og
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:32 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40449)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i1Ad9-0001j9-Ey
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:31 -0400
+Received: by mail-pf1-x444.google.com with SMTP id w16so6583318pfn.7
+ for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 07:33:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JRLxlv4cnfXmmIjSEQBc5L2Hqowbo6b3NP22sM3+D4U=;
+ b=r7Kj5Pp2MToaBkFmJYU+4YyEwatDEAKFCQR+HUlrsFHPk4URu8NlREmjmk5ZH+D71+
+ 6RfMGbuyNpAS8CM1ibz+mYIpvxeArpgrOrp37URWmVzLoVISgP77QVsC0tO8ZOcQuOtP
+ 3xYu0cA6cfOIk+77p7njB2NKnaHr3GQ56za7UzijCFDFUaT1gsoGvEU4mIeGuaT/bVDj
+ NkFXyXeGhp4HbNcQIJr9DLA+WUcSgsmfotPykJbtykKhjo9rt5x2/yZOvNcVYYq9zdb0
+ pjcLU4U89j18WOo7p/RwcMoV9YPscCM3A2zJ+1yCMhT89gUnmEiZ9uXUX4T2Vltg36Xo
+ w8vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JRLxlv4cnfXmmIjSEQBc5L2Hqowbo6b3NP22sM3+D4U=;
+ b=D4z2QbXxxm7clVKd8rErob8rRiPDpEJiCIgNWdvhp1addRW/vRE6Gs+7ztpWxsIweH
+ U4UIr2Qy4pOliU/Gxbd/sflcLYn7OGh7wSrbrkhAOhfAMZUsrXXnbllkDQlANmzt9WQF
+ lkq5JddBw5yltD1bLO3ES7PpmRu/8NVcR7lLw0pEZMIRPOAgFFSmx5D7iF2aTbK7DkUI
+ i1WQMkqEG/+Mq6KxT+lp26a64TpO4xGSKkuBp+NlA0n4lr/5jeIApiyoRwGwCd1JvbLJ
+ aLdJ5BNwlma6u5Ggz+g13AudFHPvcKIFAPBWOgbm4el5RsHc278/LehjyPI140s+yQck
+ greg==
+X-Gm-Message-State: APjAAAVUl0tLiMID1o4IwRd3XKvjW5x7oRkAjAfNzHoWTaDlfN6XXiO3
+ HdmB1Kb8ISVwhFfX6gMXjEuBuw==
+X-Google-Smtp-Source: APXvYqwTjJ++4ByOZ9bTB3jUxO/+bypd2n2FQ/NUPD59nPvuEeKvbPhJRHTyCpvjViwFHKrvCPdu7g==
+X-Received: by 2002:a63:1918:: with SMTP id z24mr4103141pgl.94.1566570810219; 
+ Fri, 23 Aug 2019 07:33:30 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id a128sm4264708pfb.185.2019.08.23.07.33.29
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 23 Aug 2019 07:33:29 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190819213755.26175-1-richard.henderson@linaro.org>
+ <20190819213755.26175-19-richard.henderson@linaro.org>
+ <CAFEAcA9xx_bDZ3hf2aTaOxPupmSFQ11g4xTsHow6nxn6j2ZcEw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <64cbcae8-d9a6-9e5b-4acf-825597884a20@linaro.org>
+Date: Fri, 23 Aug 2019 07:33:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 23 Aug 2019 14:33:38 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 4/6] hw/arm/fsl-imx: Add the cpu as child of
- the SoC object
+In-Reply-To: <CAFEAcA9xx_bDZ3hf2aTaOxPupmSFQ11g4xTsHow6nxn6j2ZcEw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v2 18/68] target/arm: Convert the rest of
+ A32 Miscelaneous instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,66 +85,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Child properties form the composition tree. All objects need to be
-a child of another object. Objects can only be a child of one object.
+On 8/23/19 5:03 AM, Peter Maydell wrote:
+> On Mon, 19 Aug 2019 at 22:38, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> 
+> In subject, typo: "Miscellaneous".
+> 
+>> This fixes an exiting bug with the T5 encoding of SUBS PC, LR, #IMM,
+> 
+> "existing"
+> 
+>> in that it may be executed from user mode as with any other encoding
+>> of SUBS, not as ERET.
+> 
+> Should this paragraph be in the commit message for the previous
+> patch? This change doesn't touch SUBS/ERET.
+> 
+> Otherwise
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Respect this with the i.MX SoC, to get a cleaner composition tree.
+Indeed that text should not be here.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-v2: reworded commit description with Markus suggestions
----
- hw/arm/fsl-imx25.c | 4 +++-
- hw/arm/fsl-imx31.c | 4 +++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+And also, as you might be able to tell from the text of the previous patch, it
+isn't an existing bug.  It took me a while to see that, and that's why I think
+that passing pre-v7m through the usual SUBS path is clearer.
 
-diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
-index 2b2fdb203a..3cb5a8fdfd 100644
---- a/hw/arm/fsl-imx25.c
-+++ b/hw/arm/fsl-imx25.c
-@@ -36,7 +36,9 @@ static void fsl_imx25_init(Object *obj)
-     FslIMX25State *s =3D FSL_IMX25(obj);
-     int i;
-=20
--    object_initialize(&s->cpu, sizeof(s->cpu), ARM_CPU_TYPE_NAME("arm926=
-"));
-+    object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
-+                            ARM_CPU_TYPE_NAME("arm926"),
-+                            &error_abort, NULL);
-=20
-     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
-                           TYPE_IMX_AVIC);
-diff --git a/hw/arm/fsl-imx31.c b/hw/arm/fsl-imx31.c
-index 6760de3c8c..55e90d104b 100644
---- a/hw/arm/fsl-imx31.c
-+++ b/hw/arm/fsl-imx31.c
-@@ -33,7 +33,9 @@ static void fsl_imx31_init(Object *obj)
-     FslIMX31State *s =3D FSL_IMX31(obj);
-     int i;
-=20
--    object_initialize(&s->cpu, sizeof(s->cpu), ARM_CPU_TYPE_NAME("arm113=
-6"));
-+    object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
-+                            ARM_CPU_TYPE_NAME("arm1136"),
-+                            &error_abort, NULL);
-=20
-     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
-                           TYPE_IMX_AVIC);
---=20
-2.20.1
 
+r~
 
