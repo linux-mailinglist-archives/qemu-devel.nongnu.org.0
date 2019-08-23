@@ -2,64 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B315D9B319
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:14:48 +0200 (CEST)
-Received: from localhost ([::1]:57776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C019B328
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:18:11 +0200 (CEST)
+Received: from localhost ([::1]:57830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1BH5-00028Q-Qg
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:14:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57551)
+	id 1i1BKM-00041v-3p
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58003)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i1BE1-000883-0D
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:11:38 -0400
+ (envelope-from <thuth@redhat.com>) id 1i1BGc-00023K-9q
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:14:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i1BDz-0001RV-NQ
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:11:36 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:45128)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i1BDz-0001RB-I2
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:11:35 -0400
-Received: by mail-ot1-x329.google.com with SMTP id m24so9029476otp.12
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 08:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Lm640zrH4mz7W6z5S5SAsE7tGO6rb9vaMQRb3+m+l0Y=;
- b=C9uH592qIvrJo3I//hu0/RWvlgnrxbWvlnOCGlJEP2PtdoyAdBV0CkcFpxAPmU1amj
- 0wNTDLXa59rGx5bmEcbTXSS1JwC7vJbxlbIWAIfFkYlPMG3NDfWI+kxpVGBNO7UmA2o9
- ude12UfSV4sktWkQjE+4SWofs9jZDWKUR3J/z/d/Lo4VlaKnZugHH5JeBX7PlFihD3+s
- yjLm8bM29jCyiTSLKWhS4z83V/LSAYekQbPbCJGFVxibZYTLv9j8kDEt9GrPQg8dQc4G
- ewUjGp6XY5KVk9LQ8DxWnCGPeN1NxPYscw9aMq2rua+Plsm7iurIQARoI01LdLfHnxZC
- xImg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Lm640zrH4mz7W6z5S5SAsE7tGO6rb9vaMQRb3+m+l0Y=;
- b=IbwRlm4NYnaqhik2BlTn2b+gsAWrJekF1THsDCGUZWZC++svQ88GQLVF/zl/nzjeV+
- hRu7/2lyu3FmQa7xC8kGwkdZsvndIuWVzgZXtxGZOouyyaGL/khzxn7ka5Sp3AbSlK+J
- Ewk8qM766CLaNRxkHyITUs+4uQDpxaDlMpWPKxapErMGexNIKHjSFWB1hcYiNQzKbXKO
- v+hEWyUJsiyQBcj8SI9lxKNI2LGdTd9JGn0LIMGryCfrZnWVmtgXjjW/1rqWC1SLbbV8
- RY0/LMiS8h7wdeaFIw2fySGeY9saqBO7yM9lO1u8zDh89Mvl3TBv3UQa1R9f0e1WMRTS
- mSJA==
-X-Gm-Message-State: APjAAAU0uCipv087VXpoJ7Xe4X52800tzECVJq90oi+h8uo6WSCpeHfr
- pz1DIIDtsxy++ScIV76rxMDYAAfo1coG7T+Y3IoA1Q==
-X-Google-Smtp-Source: APXvYqz2w0TBLKJ5CEAxF4m+JVsUilLVrZdb6ptuiuFV6Vgh+Ny0ct4g2+2UD9xUe280fo3q5m+rWGrZmGDIVGyUp1Q=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr4785289oti.91.1566573094769; 
- Fri, 23 Aug 2019 08:11:34 -0700 (PDT)
+ (envelope-from <thuth@redhat.com>) id 1i1BGb-0003Jd-CN
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:14:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55042)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1i1BGX-0003FJ-QS; Fri, 23 Aug 2019 11:14:13 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9232610C0317;
+ Fri, 23 Aug 2019 15:14:12 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-132.ams2.redhat.com [10.36.116.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 915851001944;
+ Fri, 23 Aug 2019 15:14:06 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190823143249.8096-1-philmd@redhat.com>
+ <20190823143249.8096-3-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <a2223a1a-5d25-876c-e0d3-0e3f49e47c00@redhat.com>
+Date: Fri, 23 Aug 2019 17:14:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190822135839.32340-1-cohuck@redhat.com>
-In-Reply-To: <20190822135839.32340-1-cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 23 Aug 2019 16:11:23 +0100
-Message-ID: <CAFEAcA9CvFDYdXNNcFt-KDhCxZ+Wa8kKh3UiA4GErODmvn6XVQ@mail.gmail.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::329
-Subject: Re: [Qemu-devel] [PULL 0/7] First batch of s390x changes for 4.2
+In-Reply-To: <20190823143249.8096-3-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Fri, 23 Aug 2019 15:14:12 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 2/6] hw/arm: Use object_initialize_child
+ for correct reference counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +105,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Aug 2019 at 14:58, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> The following changes since commit f3b8f18ebf344ab359e8f79f6ed777e740dae77c:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-monitor-2019-08-21' into staging (2019-08-22 10:31:21 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/cohuck/qemu tags/s390x-20190822
->
-> for you to fetch changes up to 065fe80fe03ff0f36a0cbebbd2d4b3c05110d96d:
->
->   s390x/mmu: Factor out storage key handling (2019-08-22 14:53:49 +0200)
->
-> ----------------------------------------------------------------
-> s390x updates:
-> - fix a bug in tcg vector handling
-> - improved skey handling
->
+On 8/23/19 4:32 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> As explained in commit aff39be0ed97:
+>=20
+>   Both functions, object_initialize() and object_property_add_child()
+>   increase the reference counter of the new object, so one of the
+>   references has to be dropped afterwards to get the reference
+>   counting right. Otherwise the child object will not be properly
+>   cleaned up when the parent gets destroyed.
+>   Thus let's use now object_initialize_child() instead to get the
+>   reference counting here right.
+>=20
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/arm/mcimx7d-sabre.c |  9 ++++-----
+>  hw/arm/mps2-tz.c       | 15 +++++++--------
+>  hw/arm/musca.c         |  9 +++++----
+>  3 files changed, 16 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/hw/arm/mcimx7d-sabre.c b/hw/arm/mcimx7d-sabre.c
+> index 97b8bb788a..78b87c502f 100644
+> --- a/hw/arm/mcimx7d-sabre.c
+> +++ b/hw/arm/mcimx7d-sabre.c
+> @@ -30,7 +30,6 @@ static void mcimx7d_sabre_init(MachineState *machine)
+>  {
+>      static struct arm_boot_info boot_info;
+>      MCIMX7Sabre *s =3D g_new0(MCIMX7Sabre, 1);
+> -    Object *soc;
+>      int i;
+> =20
+>      if (machine->ram_size > FSL_IMX7_MMDC_SIZE) {
+> @@ -49,10 +48,10 @@ static void mcimx7d_sabre_init(MachineState *machin=
+e)
+>          .nb_cpus =3D machine->smp.cpus,
+>      };
+> =20
+> -    object_initialize(&s->soc, sizeof(s->soc), TYPE_FSL_IMX7);
+> -    soc =3D OBJECT(&s->soc);
+> -    object_property_add_child(OBJECT(machine), "soc", soc, &error_fata=
+l);
+> -    object_property_set_bool(soc, true, "realized", &error_fatal);
+> +    object_initialize_child(OBJECT(machine), "soc",
+> +                            &s->soc, sizeof(s->soc),
+> +                            TYPE_FSL_IMX7, &error_fatal, NULL);
 
+You could fit that into two instead of three lines.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
-
--- PMM
+But it's just a cosmetic nit, so:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
