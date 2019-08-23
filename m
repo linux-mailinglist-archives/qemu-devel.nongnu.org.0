@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E15C9B2EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:03:44 +0200 (CEST)
-Received: from localhost ([::1]:57558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B939B301
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:06:39 +0200 (CEST)
+Received: from localhost ([::1]:57608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1B6M-0006C4-JT
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:03:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52902)
+	id 1i1B9C-0000rD-Ky
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:06:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i1AoR-0004hO-34
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:45:13 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i1Aso-0000JN-LI
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:49:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i1AoP-0002yf-N4
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:45:10 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:45664)
+ (envelope-from <richard.henderson@linaro.org>) id 1i1Asn-00067U-Hs
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:49:42 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33459)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i1AoP-0002vk-51
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:45:09 -0400
-Received: by mail-pf1-x443.google.com with SMTP id w26so6583374pfq.12
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 07:45:08 -0700 (PDT)
+ id 1i1Asn-00066s-Az
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:49:41 -0400
+Received: by mail-pl1-x642.google.com with SMTP id go14so5706562plb.0
+ for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 07:49:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=t5KLg6wG4uIOGb4glckszS9qjHVN5Bcu52P7WbJKD9U=;
- b=NCxALKB6zggQJWeordpFAdQfKw0BCbG4IEfRs6HV0V5Kp24y+td12Z0Hbim7rovWKR
- 9oTL4sF90oeHIxsSxgl7Et1nka82ygqq+uVBA+po5uQcuOTdgi8tPZHTpwKN3ybhtorT
- /TtEhHXjLGx8XZBl2uo38vmlkj42ADqCuMnAHKqVAEa/Rdfz+U0513n9xKBmbNAf7GZF
- JpU7/jOeQl3QPqtKOx6sp3bfi+y+YruuWUY+3vIPkjnTGXlyjTRWIZLc1FGwm3BXF/J9
- lTSYpoIrmnqPgr1o9TlNxqoOLdrXlTZarl54glC1itPAAxvA5GMQE4aIO3Ow7uBwxB5C
- V2tA==
+ bh=QxO2uVfnR+ASBjD1E44tju9xARYVi3V8cmVvh6cGfKU=;
+ b=Q+4HoSk6ExxjL5qeds/YT6DBmMr0cgBP3loCMshobrahFbjq+JDOn1FT7FOi9jEcUf
+ pBro/03MTfwW1C5w1yhf9xsUnmp0KutH5kXuTkogrS9TbbuwEX7gTIJMZE8dCstjavWF
+ wx7vmn+BG9Q+7FgzuHhTDS7hqaWJWjYfLj+PfHXX6yTKIKylocgyNX6pOnVJ9fALSKsn
+ EWXUxWJclKpxB2DlXkGjw8OsI0uZR583h5UvKU+5o7WLTDOdJKD9w58bHCmJuIwax9PI
+ RHqsQ+z67X9XlriPG/7nTqyhvFwTwmN298k6+60Ou4FU+dDAA9cDL7ybuTHDl835dWl0
+ j0iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=t5KLg6wG4uIOGb4glckszS9qjHVN5Bcu52P7WbJKD9U=;
- b=F13xgZB6Pwl100XaF/KSIB8o+Bmo/lEX7tcE2dlGtyZ1km2WOOJOItyYfX8f4XKMvx
- J+SZWm6hPaTPqD/3TsIiaqHVBk5s3p+cpw5mAGbExaAHhJ0nTy5et9AMKnIxzhdE4t7C
- +px6qu7ty5rAw9yYKpgPmLN4FIblWauck7/Y/st2iKTRhjZ8EWiFqvM/KxwhjPxqJKKF
- LYxtD/SUY+DUqlt6lT9XQG2RgZUmKtrdAoskN5bR02vcUU64otN8+SXRJs75tlFBDzF/
- aedgbPSgXJ45t6zlqsIzL5C6UUo5ufZPwn4v9O0lk89vwgTWG0NS6j3YeQIV9BQrzbow
- BZfA==
-X-Gm-Message-State: APjAAAWnD9cZxAUPJYzYS6layCOzxuLsBPGdFUFbmLesLcDt4r6v5lDj
- vPvabxfOGjQqXZDSThNf7i3nGA==
-X-Google-Smtp-Source: APXvYqyCjyafLZ6wfhhbq1kX8EWk7+EEgKxdfIlYaogm1em/7TcsJWBBebxBmTfEaClvha54SfIGAw==
-X-Received: by 2002:a65:690e:: with SMTP id s14mr4362638pgq.47.1566571506593; 
- Fri, 23 Aug 2019 07:45:06 -0700 (PDT)
+ bh=QxO2uVfnR+ASBjD1E44tju9xARYVi3V8cmVvh6cGfKU=;
+ b=fT8fMbIoVLupkVGVJaG0pUEC4erv73ozopUdiLarnRhiLhnWUDunKyQ762n+/IpZf0
+ bORToUX6PXh0kOTZHVZAwPOfhk43wURtrr6CzC7U2uolB4IE+QSnL75ciWcKcgXtMMt9
+ 2LWyhRUbzaM9C5g/gbtb7Y5hEfv5e69kbTI6xTtzTgJEZosF8XTm42VN3V5eVMf/dtp5
+ Bkc2kQu63uKpyzRgE/qDMDqhHoqozoJwoOAkIC9uG4Vrgi0ttlF4dIldEJvOi+WLpYTj
+ cF2dy/AIwMPeBEViSOYkHRUpg3nI3gPFYh2iGRhzzK9mdgjCrOwglVr8ILW13XtdlJcy
+ 9Ayw==
+X-Gm-Message-State: APjAAAV3ofsYRN38clMT92+vNhukTJH1vv+oYaZ+cJzCCIgCIlQgf+P8
+ A8N0Mduh+JXaUdfTIoqLqV89tg==
+X-Google-Smtp-Source: APXvYqzanQ9kT/4BdN5OgPUL6JfjPxbZxX4Be3SPQD8wywyW89t9/UPFrZdm5nIUoFbsg+O/eOn1uQ==
+X-Received: by 2002:a17:902:e413:: with SMTP id
+ ci19mr5296312plb.256.1566571780235; 
+ Fri, 23 Aug 2019 07:49:40 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id m145sm2869750pfd.68.2019.08.23.07.45.05
+ by smtp.gmail.com with ESMTPSA id o4sm9068318pje.28.2019.08.23.07.49.39
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Aug 2019 07:45:05 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190819213755.26175-1-richard.henderson@linaro.org>
- <20190819213755.26175-20-richard.henderson@linaro.org>
- <CAFEAcA8Q3ujQFtZfLXTsbKBxUQAHCPo0i_TpdX9KcmnNUY04Eg@mail.gmail.com>
+ Fri, 23 Aug 2019 07:49:39 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190823100741.9621-1-david@redhat.com>
+ <20190823100741.9621-2-david@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <c8809173-6b8a-afab-507f-69983ac29224@linaro.org>
-Date: Fri, 23 Aug 2019 07:45:04 -0700
+Message-ID: <529817b0-9109-7ec9-674f-181a32966857@linaro.org>
+Date: Fri, 23 Aug 2019 07:49:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8Q3ujQFtZfLXTsbKBxUQAHCPo0i_TpdX9KcmnNUY04Eg@mail.gmail.com>
+In-Reply-To: <20190823100741.9621-2-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH v2 19/68] target/arm: Convert T32 ADDW/SUBW
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: Re: [Qemu-devel] [PATCH v1 1/9] s390x/tcg: Use guest_addr_valid()
+ instead of h2g_valid() in probe_write_access()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,48 +85,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-s390x@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/19 6:04 AM, Peter Maydell wrote:
->> +static bool trans_ADR(DisasContext *s, arg_ri *a)
->> +{
->> +    store_reg_bx(s, a->rd, add_reg_for_lit(s, 15, a->imm));
->> +    return true;
->> +}
-...
->> -                        if (rn == 13 && rd == 13) {
->> -                            /* ADD SP, SP, imm or SUB SP, SP, imm */
->> -                            store_sp_checked(s, tmp);
->> -                        } else {
->> -                            store_reg(s, rd, tmp);
->> -                        }
->> +                        /* Add/sub 12-bit immediate, in decodetree */
->> +                        goto illegal_op;
+On 8/23/19 3:07 AM, David Hildenbrand wrote:
+> If I'm not completely wrong, we are dealing with guest addresses here
+> and not with host addresses. Use the right check.
 > 
-> We seem to have lost the store_sp_checked() handling ?
+> Fixes: c5a7392cfb96 ("s390x/tcg: Provide probe_write_access helper")
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/mem_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Not from ADR, which of course is ADD RD, PC, IMM, and so wouldn't match.
-
->> +&ri              rd imm
->>  &r               rm
->>  &i               imm
->>  &msr_reg         rn r mask
-> 
-> Should this change be in some other patch ?
-
-No, it's used by ADR.
-
->> +  ADR            1111 0.1 0000 0 1111 0 ... rd:4 ........ \
->> +                 &ri imm=%imm12_26_12_0
-
-... here.
-
->> +  ADD_rri        1111 0.1 0000 0 .... 0 ... .... ........     @s0_rri_12
-
-The rest of the store_sp_checked handling is here in the existing ADD path.
-Recall STREG_SP_CHECK from patch 2.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
