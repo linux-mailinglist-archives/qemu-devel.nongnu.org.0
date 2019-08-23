@@ -2,49 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F719B197
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:05:59 +0200 (CEST)
-Received: from localhost ([::1]:56440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADB99B1A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:10:43 +0200 (CEST)
+Received: from localhost ([::1]:56506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1ACU-0007Z7-6z
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:05:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44906)
+	id 1i1AH4-0005A2-GE
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:10:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46298)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i1A5M-0001bY-5O
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 09:58:37 -0400
+ (envelope-from <berrange@redhat.com>) id 1i1AG1-0004Ty-O8
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:09:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i1A5K-0007NC-WD
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 09:58:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41926)
+ (envelope-from <berrange@redhat.com>) id 1i1AG0-0003Yn-9D
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:09:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44634)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1i1A5I-0007KZ-Jt; Fri, 23 Aug 2019 09:58:32 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i1AG0-0003YJ-3I
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:09:36 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D2D39300BEB4;
- Fri, 23 Aug 2019 13:58:28 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-118.brq.redhat.com [10.40.204.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DF59F19C77;
- Fri, 23 Aug 2019 13:58:26 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 23 Aug 2019 15:58:11 +0200
-Message-Id: <20190823135811.13883-5-philmd@redhat.com>
-In-Reply-To: <20190823135811.13883-1-philmd@redhat.com>
-References: <20190823135811.13883-1-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 0370FC044CDE;
+ Fri, 23 Aug 2019 14:09:34 +0000 (UTC)
+Received: from redhat.com (ovpn-112-60.ams2.redhat.com [10.36.112.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5077D1001938;
+ Fri, 23 Aug 2019 14:09:29 +0000 (UTC)
+Date: Fri, 23 Aug 2019 15:09:26 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Message-ID: <20190823140926.GI9654@redhat.com>
+References: <20190808150325.21939-1-marcandre.lureau@redhat.com>
+ <20190823112053.GE9654@redhat.com>
+ <CAMxuvayoLetZkJ_HNKxC8Y0Yk33hn5pHLLn32R-XCuD7z31i=Q@mail.gmail.com>
+ <20190823114157.GG9654@redhat.com> <20190823130014.GG2784@work-vm>
+ <CAJ+F1CKTsQC1fULFG-hbUZ=Ao654K-TE6Fm9c1V+eRdAjk9QRA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJ+F1CKTsQC1fULFG-hbUZ=Ao654K-TE6Fm9c1V+eRdAjk9QRA@mail.gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 23 Aug 2019 13:58:28 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Fri, 23 Aug 2019 14:09:34 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/4] RFC target/arm: Do not build A/M-profile
- cpus when using KVM
+Subject: Re: [Qemu-devel] [PATCH v2 0/2] Add dbus-vmstate
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,110 +61,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A KVM-only build won't be able to run A or M-profile cpus,
-disable them.
+On Fri, Aug 23, 2019 at 05:48:37PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+> Hi
+>=20
+> On Fri, Aug 23, 2019 at 5:00 PM Dr. David Alan Gilbert
+> <dgilbert@redhat.com> wrote:
+> >
+> > * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
+> >
+> > <snip>
+> >
+> > > This means QEMU still has to iterate over every single client
+> > > on the bus to identify them. If you're doing that, there's
+> > > no point in owning a well known service at all. Just iterate
+> > > over the unique bus names and look for the exported object
+> > > path /org/qemu/VMState
+> > >
+> >
+> > Not knowing anything about DBus security, I want to ask how do
+> > we handle security here?
+>=20
+> First of all, we are talking about cooperative processes, and having a
+> specific bus for each qemu instance. So some amount of security/trust
+> is already assumed.
+>=20
+> But if necessary, dbus can enforce policies on who is allowed to own a
+> name, or to send/receive message from. As far as I know, this is
+> mostly user/group policies.
 
-If KVM is not enabled, they are enabled by default.
+Yep, the bulk of dbus policy restrictions are tied to user/groups.
+After all, if two processes are under the same user ID, in general
+any restrictions dbus tried to place on them are worthless as they
+can simply attack each other outside dbus.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Sadly this does not work with --enable-tcg --enable-kvm dual config.
----
- default-configs/arm-softmmu.mak | 14 ++++++--------
- hw/arm/Kconfig                  | 16 +++++++++++++---
- 2 files changed, 19 insertions(+), 11 deletions(-)
+Running helpers as different UID from QEMU itself makes sense.
 
-diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmm=
-u.mak
-index 081d507c87..3995c4bb65 100644
---- a/default-configs/arm-softmmu.mak
-+++ b/default-configs/arm-softmmu.mak
-@@ -1,25 +1,18 @@
- # Default configuration for arm-softmmu
-=20
--# TODO: ARM_V7M is currently always required - make this more flexible!
--CONFIG_ARM_V7M=3Dy
--
- # CONFIG_PCI_DEVICES=3Dn
- # CONFIG_TEST_DEVICES=3Dn
-+CONFIG_ARM_V7M=3Dn
-=20
- CONFIG_ARM_VIRT=3Dy
- CONFIG_CUBIEBOARD=3Dy
- CONFIG_EXYNOS4=3Dy
- CONFIG_FSL_IMX31=3Dy
--CONFIG_MUSCA=3Dy
--CONFIG_STELLARIS=3Dy
- CONFIG_REALVIEW=3Dy
- CONFIG_VEXPRESS=3Dy
- CONFIG_ZYNQ=3Dy
--CONFIG_NETDUINO2=3Dy
--CONFIG_MPS2=3Dy
- CONFIG_RASPI=3Dy
- CONFIG_SABRELITE=3Dy
--CONFIG_EMCRAFT_SF2=3Dy
- CONFIG_FSL_IMX7=3Dy
- CONFIG_FSL_IMX6UL=3Dy
- CONFIG_SEMIHOSTING=3Dy
-@@ -38,4 +31,9 @@ CONFIG_SEMIHOSTING=3Dy
- #CONFIG_ASPEED_SOC=3Dy
- #CONFIG_NSERIES=3Dy
- #CONFIG_HIGHBANK=3Dn
-+#CONFIG_MUSCA=3Dn
-+#CONFIG_STELLARIS=3Dn
-+#CONFIG_NETDUINO2=3Dn
-+#CONFIG_MPS2=3Dn
-+#CONFIG_EMCRAFT_SF2=3Dn
- #CONFIG_MICROBIT=3Dn
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 902cceca7e..9b16dfaa5f 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -13,6 +13,18 @@ config ARM_V6
-     depends on !KVM
-     bool
-=20
-+# ARM Microcontroller profile
-+config ARM_V7M
-+    default y
-+    depends on !KVM
-+    bool
-+
-+# ARM Realtime profile
-+config ARM_V7R
-+    default y
-+    depends on !KVM
-+    bool
-+
- config ARM_VIRT
-     bool
-     imply PCI_DEVICES
-@@ -298,9 +310,6 @@ config ZYNQ
-     select XILINX_SPIPS
-     select ZYNQ_DEVCFG
-=20
--config ARM_V7M
--    bool
--
- config ALLWINNER_A10
-     bool
-     select AHCI
-@@ -328,6 +337,7 @@ config STM32F205_SOC
-=20
- config XLNX_ZYNQMP_ARM
-     bool
-+    select ARM_V7R
-     select AHCI
-     select ARM_GIC
-     select CADENCE
+Running every single helper as a distinct UID is likely unmanagably
+complex - especially if the helpers need certain privileges to
+do their job.
+
+> But there is also SELinux checks to send_msg and acquire_svc (see
+> dbus-daemon(1))
+
+SELinux gives us more fine grained control.
+
+For example, consider each vhost user helper process
+
+   "virtiofs_t"=20
+
+and QEMU is "svirt_t"
+
+You can write a rule which says  svirt_t can send messages
+to virtiofs_t, which allows QEMU to talk to the helpers.
+
+Two helper processes both running "virtiofs_t" will, however,
+not be able to talk to each other.
+
+
+Regards,
+Daniel
 --=20
-2.20.1
-
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
