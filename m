@@ -2,79 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E409B1DC
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:25:14 +0200 (CEST)
-Received: from localhost ([::1]:56678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CABFC9B1F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:28:59 +0200 (CEST)
+Received: from localhost ([::1]:56748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1AV6-0000L1-W4
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:25:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48421)
+	id 1i1AYk-0003xB-Mr
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:28:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48978)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i1ASd-000789-6l
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:22:40 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1i1AW3-0002X0-CS
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:26:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i1ASb-0001SX-S6
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:22:38 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:43720)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i1ASb-0001RZ-Ki
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:22:37 -0400
-Received: by mail-pl1-x641.google.com with SMTP id 4so5662093pld.10
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 07:22:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=66p1y4OA4qvXcxScLC8OUgkRGDTJQaJ/jKO13ndKLMQ=;
- b=dH7enH3xjNk0ntRIUz9Flaw+o66k5EGgPG/e2ARtkOPBTOnUvX4CgFusyktaWnvjC5
- DQC+VhRcfu86XfIBCK8AlBVNZi8xVlT1gn8RHqqtZUlYqlQ17eSAH31TU3dt43zX7S1k
- HwCb8Nm/I5u8ozD6UWANz6N2BHcAYAgbYa1gJloxVJo05skCTdr7RVnNIxA1gBpvxzV/
- y77iMi/BKEDx5ynOxg/aTW29Pwfc5BeuHMysUOKMhdvvtSaAlNY148t5N58ayFm1TYmJ
- j2ZtxEHUa4MnPhquhna7otJyEqjhzhG+KmipcubGUmkLmce9z0OI0q8H6Sa4lbLl9RhH
- /Zdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=66p1y4OA4qvXcxScLC8OUgkRGDTJQaJ/jKO13ndKLMQ=;
- b=mZ4kA/Gk9aR+6kJHB0Xjqjt3MajrCOQ0yX4YOGn/tpMkiTMfKET5ISE67BzI5yG4k+
- YFRsJHKpuHMGKP48A0Nriu/hQWWZFkUIcxQ8dQl7CGioorfFWxcEriThXhnWWgQ1bylZ
- VDHiUycqvz/1KgW2GbguiqzyQVyA3iyyV2ZK+y7AVWwD52PxcOn2xMmSeswdzORAbNUT
- JPC4w9SfoIfAw1Np0c7w3eZ0C3uvnh5/UlrLhJisAg4ZcNAokMIKRNLGTs8LTKTDLgOb
- Iz9QeQ2NlsJdG47sewpvfgPMVh01ZVe+cRdtDYlUxpeQE6XAwfE8mEew/s9lLe7ivBtF
- Imug==
-X-Gm-Message-State: APjAAAX+086fStL4yyw8/iPvT+BQcg3XPtqiG/vLz6fNWRWDq/dTCble
- 8QJl+uqajy7KoLyb5mGliXOWqw==
-X-Google-Smtp-Source: APXvYqzsqTWbrEEAuDluNGTelN4+t2+KjcnlmyyZ+bAyYdba5sZC9VZ3WUFFVUv/yOS609DcFE6cWw==
-X-Received: by 2002:a17:902:aa03:: with SMTP id
- be3mr5142817plb.240.1566570156217; 
- Fri, 23 Aug 2019 07:22:36 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id a18sm2093410pgl.44.2019.08.23.07.22.34
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Aug 2019 07:22:35 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190819213755.26175-1-richard.henderson@linaro.org>
- <20190819213755.26175-16-richard.henderson@linaro.org>
- <CAFEAcA9r3LvFAfu5WWD71ETyhEOzWmsZTUjid2nfGEMu1tOnTg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <69cf4f6e-7453-c858-75fb-ae8bedd9dde1@linaro.org>
-Date: Fri, 23 Aug 2019 07:22:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <dgilbert@redhat.com>) id 1i1AW1-0004Vu-Qt
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:26:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35238)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i1AW1-0004VO-Ij
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:26:09 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id EC9E430832DC;
+ Fri, 23 Aug 2019 14:26:08 +0000 (UTC)
+Received: from work-vm (ovpn-117-244.ams2.redhat.com [10.36.117.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 08E0C6CE61;
+ Fri, 23 Aug 2019 14:26:04 +0000 (UTC)
+Date: Fri, 23 Aug 2019 15:26:02 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Message-ID: <20190823142602.GJ2784@work-vm>
+References: <20190808150325.21939-1-marcandre.lureau@redhat.com>
+ <20190823112053.GE9654@redhat.com>
+ <CAMxuvayoLetZkJ_HNKxC8Y0Yk33hn5pHLLn32R-XCuD7z31i=Q@mail.gmail.com>
+ <20190823114157.GG9654@redhat.com> <20190823130014.GG2784@work-vm>
+ <CAJ+F1CKTsQC1fULFG-hbUZ=Ao654K-TE6Fm9c1V+eRdAjk9QRA@mail.gmail.com>
+ <20190823140948.GI2784@work-vm> <20190823142054.GK9654@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9r3LvFAfu5WWD71ETyhEOzWmsZTUjid2nfGEMu1tOnTg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: Re: [Qemu-devel] [PATCH v2 15/68] target/arm: Convert BX, BXJ,
- BLX (register)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20190823142054.GK9654@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Fri, 23 Aug 2019 14:26:08 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 0/2] Add dbus-vmstate
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,53 +62,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/19 4:49 AM, Peter Maydell wrote:
-> On Mon, 19 Aug 2019 at 22:38, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  target/arm/translate.c | 78 ++++++++++++++++++++----------------------
->>  target/arm/a32.decode  |  7 ++++
->>  target/arm/t32.decode  |  2 ++
->>  3 files changed, 47 insertions(+), 40 deletions(-)
-> 
->> @@ -195,8 +196,14 @@ CRC32CW          .... 0001 0100 .... .... 0010 0100 ....      @rndm
->>
->>  %sysm            8:1 16:4
->>
->> +@rm              ---- .... .... .... .... .... .... rm:4      &r
->> +
->>  MRS_bank         ---- 0001 0 r:1 00 .... rd:4 001. 0000 0000  &mrs_bank %sysm
->>  MSR_bank         ---- 0001 0 r:1 10 .... 1111 001. 0000 rn:4  &msr_bank %sysm
->>
->>  MRS_reg          ---- 0001 0 r:1 00 1111   rd:4 0000 0000 0000  &mrs_reg
->>  MSR_reg          ---- 0001 0 r:1 10 mask:4 1111 0000 0000 rn:4  &msr_reg
->> +
->> +BX               .... 0001 0010 1111 1111 1111 0001 ....      @rm
->> +BXJ              .... 0001 0010 1111 1111 1111 0010 ....      @rm
->> +BLX_r            .... 0001 0010 1111 1111 1111 0011 ....      @rm
-> 
-> Why do the decode patterns for these use '....' in the cond field
-> rather than '----' like the other patterns ?
+* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> On Fri, Aug 23, 2019 at 03:09:48PM +0100, Dr. David Alan Gilbert wrote:
+> > * Marc-Andr=E9 Lureau (marcandre.lureau@gmail.com) wrote:
+> > > Hi
+> > >=20
+> > > On Fri, Aug 23, 2019 at 5:00 PM Dr. David Alan Gilbert
+> > > <dgilbert@redhat.com> wrote:
+> > > >
+> > > > * Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> > > >
+> > > > <snip>
+> > > >
+> > > > > This means QEMU still has to iterate over every single client
+> > > > > on the bus to identify them. If you're doing that, there's
+> > > > > no point in owning a well known service at all. Just iterate
+> > > > > over the unique bus names and look for the exported object
+> > > > > path /org/qemu/VMState
+> > > > >
+> > > >
+> > > > Not knowing anything about DBus security, I want to ask how do
+> > > > we handle security here?
+> > >=20
+> > > First of all, we are talking about cooperative processes, and havin=
+g a
+> > > specific bus for each qemu instance. So some amount of security/tru=
+st
+> > > is already assumed.
+> >=20
+> > Some but we need to keep it as limited as possible; for example two
+> > reasons for having separate processes both come down to security:
+> >=20
+> >   a) vtpm - however screwy the qemu is, you can never get to the keys=
+ in
+> > the vtpm
+>=20
+> Processes connected to dbus can only call the DBus APIs that vtpm
+> actually exports.  The vtpm should simply *not* export a DBus
+> API that allows anything to fetch the keys.
+>=20
+> If it did want to export APIs for fetching keys, then we would
+> have to ensure suitable dbus /selinux policy was created to
+> prevent unwarranted access.
 
-As much as possible I've tried to put the "----" in the format, so that it'll
-be easier in future to add a cond:4 field.  Except that the MRS/MSR insns are
-all one-offs so I didn't bother creating a separate format.
+This was really just one example of where the security/trust isn't
+assumed; however a more concrete case is migration of a vtpm, and even
+though it's probably encrypted blob you still don't want some other
+device to grab the migration data - or to say reinitialise the vtpm.
 
+> >   b) virtio-gpu, loads of complex GPU code that can't break the main
+> > qemu process.
+>=20
+> That's no problem - virtio-gpu crashes, it disappears from the dbus
+> bus, but everything else keeps running.
 
-r~
+Crashing is the easy case; assume it's malicious and you don't want it
+getting to say a storage device provided by another vhost-user device.
 
-> 
-> Otherwise
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> thanks
-> -- PMM
-> 
+> > > But if necessary, dbus can enforce policies on who is allowed to ow=
+n a
+> > > name, or to send/receive message from. As far as I know, this is
+> > > mostly user/group policies.
+> > >=20
+> > > But there is also SELinux checks to send_msg and acquire_svc (see
+> > > dbus-daemon(1))
+> >=20
+> > But how does something like SELinux interact with a private dbus=20
+> > rather than the system dbus?
+>=20
+> There's already two dbus-daemon's on each host - the system one and
+> the session one, and they get different selinux contexts,
+> system_dbus_t and unconfined_dbus_t.
+>=20
+> Since libvirt would be responsible for launching these private dbus
+> daemons it would be easy to make it run  svirt_dbus_t for example.
+> Actually it would be  svirt_dbus_t:s0:cNNN,cMMM to get uniqueness
+> per VM.
+>=20
+> Will of course require us to talk to the SELinux maintainers to
+> get some sensible policy rules created.
 
+This all relies on SELinux and running privileged qemu/vhost-user pairs;
+needing to do that purely to enforce security seems wrong.
+
+Dave
+
+> > > > I want to know that the external device that's giving me migratio=
+n data
+> > > > is the device I think I'm speaking to, not one of the other devic=
+es;
+> > >=20
+> > > DBus is not the problem nor the solution here.
+> >=20
+> > Well, if the migration data was squirting down the existing vhost-use=
+r
+> > channel then there would be no risk here; so the use of dbus is creat=
+ing
+> > the problem.
+> >=20
+> > > But what defines that device-service strong relationship? Can you
+> > > generalize it? I don't think so.
+> > >=20
+> > > What DBus can guarantee is that the unique-id you are talking to is
+> > > always the same connection (thus the same process).
+> > >=20
+> > > > I also dont want different devices chatting to each other over db=
+us
+> > > > unless we're very careful.
+> > >=20
+> > > That's a bus policy job.
+> >=20
+> > OK, as long as you somehow set it up.
+> >=20
+> > Dave
+> >=20
+> > > >
+> > > > Dave
+> > > >
+> > > > > Regards,
+> > > > > Daniel
+> > > > > --
+> > > > > |: https://berrange.com      -o-    https://www.flickr.com/phot=
+os/dberrange :|
+> > > > > |: https://libvirt.org         -o-            https://fstop138.=
+berrange.com :|
+> > > > > |: https://entangle-photo.org    -o-    https://www.instagram.c=
+om/dberrange :|
+> > > > --
+> > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > > >
+> > >=20
+> > >=20
+> > > --=20
+> > > Marc-Andr=E9 Lureau
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>=20
+> Regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberr=
+ange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange=
+.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberr=
+ange :|
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
