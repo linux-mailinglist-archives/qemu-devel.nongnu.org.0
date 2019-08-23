@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254309B710
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 21:31:04 +0200 (CEST)
-Received: from localhost ([::1]:33414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5922D9B721
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 21:37:17 +0200 (CEST)
+Received: from localhost ([::1]:33512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1FH4-0005bJ-AV
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 15:31:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48053)
+	id 1i1FN6-0003v7-C3
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 15:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=1319249da=dmitry.fomichev@wdc.com>)
- id 1i1F97-0007dp-7Q
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:22:50 -0400
+ (envelope-from <eblake@redhat.com>) id 1i1FL3-00021Q-Qr
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:35:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=1319249da=dmitry.fomichev@wdc.com>)
- id 1i1F95-0004LY-VV
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:22:49 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:37630)
+ (envelope-from <eblake@redhat.com>) id 1i1FL1-0000iM-Cl
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:35:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55182)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=1319249da=dmitry.fomichev@wdc.com>)
- id 1i1F93-0004HC-Lc; Fri, 23 Aug 2019 15:22:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1566588166; x=1598124166;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=oXXVZjLLMipUXBqkSzzjZDHjxHTciBQy9f0jCrV5G90=;
- b=U1M3SJlUyYrhrYdzFXxMYuTcmsqXaTx9p2DyUqn7DwHr+YCW+HrvLSYq
- jpROToJN15t2p4Rn5xNtXBuF43y6iRA25rQnGFZwR24zbmerfBC407LwE
- cKpbCz51+1LtlAn9UlyPya330Iu4jM2B/i3fPFKAgGnhDXqPxJRAnZNsZ
- oRdj6r6UWvobCLjXfuU6B9+SNTgclBs1qjwC7cC74uOmwIF/eTHEMELVV
- bf3RqTpNFl82K4uAP3U7otaJg3U9z4fC5x2rR6HLwXd9cZdhsDHiusZVX
- tS30oHFoKPZdQ74SniTB/m+/Bvg49ufaGD+3zsGMAw0vwzECNbWDa5nP9 w==;
-IronPort-SDR: 6wZMekoa+ic/mwSicIT0FnxnuyQvWJK5M7ukNHLzllJZEC+AF+76l/BW17cC25maTNsRojPeHG
- YAnoHJs25M0YMjhcXBdg5KZFNsGMdSuK0qcPfYE1jIkIxK9mJMX+quBmLNSVqbNG7z3ejUyoLk
- sMckaGAwppxeO8Qy+gmIGtKAO4GxUH/QH2jnk2OHX5U9q7F4f8D13FlfQTOLhCDzw5dzATm2ws
- MK7kJ9fYjBwuV3troaMqEExZsWuvQNCRf1EKGQgb6QOrbNCNC0xJx2eT8VLn8+Fdu2ubxhhNVQ
- UnQ=
-X-IronPort-AV: E=Sophos;i="5.64,422,1559491200"; d="scan'208";a="117476291"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 24 Aug 2019 03:22:34 +0800
-IronPort-SDR: AhTRtiV61dGhnDBV/gjhpcGdHmKQv+oGv/XT/DEqF0LwRQXbO87LOZnItHK9Mpv6syUVQE2JDE
- RW/oS4QiD/n7e63wnYbdPdIGNGIRcMo9s6yFbc+LbQHsZuGRbxTsDtKzo1g3a4jSSi+ApznuB9
- fP17cl70iuava+J+Eg+Q5Fo3SgorGVRi2tF+lbwu4NZwHkmQXdaRydEUm8KzJ9NTI0lhoWyZTk
- UBfWHpGycqJCQyVPsDFSblstHtc4YrwBzWO/PFA70NrP0rnHu/7+/2Djt3Uc4bFLfoKpSst0zp
- ZYj7S7C0wAgj780pgeqAVpHB
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2019 12:19:50 -0700
-IronPort-SDR: wTV4CZHMBxhakaiQ/ILgrVIVZpocjPjP8l7/EF7rlzt7RbLQQnbSrfyyMsioosFTW9ziAhJRyD
- VwI0XEphzUxXZAggOMPe0LfrOgMaZjl/r3RCgTgSaYx6a1Cx+U32xk9TIFAqZLFBDEuAbdqjXt
- kaINKOp8kQMHv3oODjEX/ue3ia4FNfxBePA1CY1DnLuTexXVLtBsntvNQ4NWFntUzfa9esuTGP
- BUESTx1IwUPSIoBKxprxOcwYoDvRse0xr0DLShe8d5mokmoKH4p+nMKlTglrZx9sPHnY7ICM+D
- SNQ=
-WDCIronportException: Internal
-Received: from dhcp-10-88-173-43.hgst.com ([10.88.173.43])
- by uls-op-cesaip01.wdc.com with ESMTP; 23 Aug 2019 12:22:32 -0700
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
-Date: Fri, 23 Aug 2019 15:22:26 -0400
-Message-Id: <20190823192226.21154-5-dmitry.fomichev@wdc.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190823192226.21154-1-dmitry.fomichev@wdc.com>
-References: <20190823192226.21154-1-dmitry.fomichev@wdc.com>
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i1FL1-0000i7-4S
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:35:07 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5F21519CFF4;
+ Fri, 23 Aug 2019 19:35:06 +0000 (UTC)
+Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 047DD6012E;
+ Fri, 23 Aug 2019 19:35:05 +0000 (UTC)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190823163931.7442-1-berrange@redhat.com>
+ <20190823163931.7442-3-berrange@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <3345a7e9-c0de-78d8-4656-0255fa1e34fd@redhat.com>
+Date: Fri, 23 Aug 2019 14:35:05 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.153.144
-Subject: [Qemu-devel] [PATCH v4 4/4] raw: Don't open ZBDs if backend can't
- handle them
+In-Reply-To: <20190823163931.7442-3-berrange@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="DStethDntVyKsa5hujMrofP3wbZhD3YrL"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Fri, 23 Aug 2019 19:35:06 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 2/4] docs: merge HACKING.md contents into
+ CODING_STYLE.md
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,47 +86,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Abort opening a zoned device as a raw file in case the chosen
-block backend driver lacks proper support for this type of
-storage.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--DStethDntVyKsa5hujMrofP3wbZhD3YrL
+Content-Type: multipart/mixed; boundary="ihDE6Evjl2mIKxy7Iqg18DnlELq5X3rXR";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Message-ID: <3345a7e9-c0de-78d8-4656-0255fa1e34fd@redhat.com>
+Subject: Re: [PATCH 2/4] docs: merge HACKING.md contents into CODING_STYLE.md
+References: <20190823163931.7442-1-berrange@redhat.com>
+ <20190823163931.7442-3-berrange@redhat.com>
+In-Reply-To: <20190823163931.7442-3-berrange@redhat.com>
 
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
----
- block/file-posix.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+--ihDE6Evjl2mIKxy7Iqg18DnlELq5X3rXR
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index d9f2fc5e46..090e7c4d2f 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2884,6 +2884,20 @@ static int raw_check_perm(BlockDriverState *bs, uint64_t perm, uint64_t shared,
-             goto fail;
-         }
-     }
-+
-+    /*
-+     * If we are opening a zoned block device, check if the backend
-+     * driver can properly handle such devices, abort if not.
-+     */
-+    if (bdrv_is_zoned(bs) &&
-+        (shared & BLK_PERM_SUPPORT_ZONED) &&
-+        !(perm & BLK_PERM_SUPPORT_ZONED)) {
-+        error_setg(errp,
-+                   "block backend driver doesn't support HM zoned devices");
-+        ret = -ENOTSUP;
-+        goto fail;
-+    }
-+
-     return 0;
- 
- fail:
--- 
-2.21.0
+On 8/23/19 11:39 AM, Daniel P. Berrang=C3=A9 wrote:
+> The split of information between the two docs is rather arbitary and
+> unclear. It is simpler for contributors if all the information is in
+> one file.
+>=20
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  CODING_STYLE.md | 262 +++++++++++++++++++++++++++++++++++++++++++++++
+>  HACKING.md      | 263 ------------------------------------------------=
 
+>  README          |   2 +-
+>  3 files changed, 263 insertions(+), 264 deletions(-)
+>  delete mode 100644 HACKING.md
+
+Is it worth trying to group related sections as part of the combination?
+ (Your solution of just concatenating at the end is obviously the
+fastest, but may result in odd ordering where similar things are
+mentioned twice but in different parts of the file).
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--ihDE6Evjl2mIKxy7Iqg18DnlELq5X3rXR--
+
+--DStethDntVyKsa5hujMrofP3wbZhD3YrL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1gP+kACgkQp6FrSiUn
+Q2p4xAf+POYjWnHKgUsT8KNlPquyt4izc5Tn8iKz9RQ4uEZtv4NGKsS5I7DrAXuF
+Iakct0qv+HOSdTsXzish49WbQX3p1/Eih+DwcjuDS/kfvd45Y3jCCAt2BVkkffG9
+iJpmpjJsne+Eim4AuvoP5o+XY8+Td5V2vx8iqo4r/D/4ttRfNuM69ZC8r6zRQvrC
+FfGQYWz/gmrfwtXcVVOcbIQVbeQWWy/Qf5biagz+/2yyLqu9dXj+3pnb0MEb+2QC
+92fjDahgrc8tgm0RY0JpvtBkSdb5eAsWPdGMDkZVHWIZl1xabsgLpvrd1Eep3jem
++3XBDW0et2PfYZkASUTFT3bzAQEpYg==
+=Bj3J
+-----END PGP SIGNATURE-----
+
+--DStethDntVyKsa5hujMrofP3wbZhD3YrL--
 
