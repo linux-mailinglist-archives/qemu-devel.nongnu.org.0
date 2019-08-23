@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9DF9B922
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 01:52:54 +0200 (CEST)
-Received: from localhost ([::1]:35052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F6A9B92A
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 01:56:28 +0200 (CEST)
+Received: from localhost ([::1]:35112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1JMT-0002G3-Gn
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 19:52:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49393)
+	id 1i1JPv-00063I-EF
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 19:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49443)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1JBl-0000cn-GV
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:41:51 -0400
+ id 1i1JBp-0000fL-Ez
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:41:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1JBj-0008Vu-2m
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:41:49 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:50261)
+ id 1i1JBn-00005d-EX
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:41:52 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:50262)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1JBi-0008VO-Rq; Fri, 23 Aug 2019 19:41:47 -0400
+ id 1i1JBl-0008WT-KQ; Fri, 23 Aug 2019 19:41:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1566603736; x=1598139736;
+ t=1566603740; x=1598139740;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4fCEIJykJaL9FzeuRrcOgwXmFygv+5KK+9CM95lLsXA=;
- b=HiqcWhh1SYpvm58Y6BxwxRe1eoMXuoUDy69FbNIjc4jX2OCRpBvoP3I2
- MxqOglbd9P/2cSdhuxdcqMda2jH/siw1nV+HPtWZk6Y/MQXLSaIpYMPGH
- edi4kkubpPeTISwg4HCb1ZeCPmk5+makNSiikaqOVnUzvpK4If1bMl2sS
- t64E6pT8ofxefW3k8qOyz0tgTXcqhlIkzHu1CRfqFukmBMI44hC851xw0
- LVcDSmYHy0Hpm5PZxdIaO+e0BGugZuih1kuODKcMO6bIjeCvSyPi8XCdE
- CogDbkNVBr5uqeSHoh7dgArZYeiDVXeh7TbseoVm/WDsLu3VjAQkXR3kR w==;
-IronPort-SDR: w1HfI8idvD5gnZN9fWGmWCXzE8MFrmhJq7XHgGay1Cr8r/INzHIKrM/c/Q+9dvAVUH11lNKa07
- H4tu5LKGk5HKZC0jmGrOXgwufq1anKohichpABe02b2beWWY4x9IkTB0LvMRtEaBJY60I1q7EM
- Jm4hvH/NXXyvVommqNdmbcQk9x+MPge8QvHxEDpQhbdUiszbhgtLw3o8HBWa1chX7/iA2PfhrY
- S0cavmW6PF9cS65hChZ1bEBUg53wv/pgJVegGxZMuNQMke9r0y1FAQfoIiIGAs3L+2svEKzwTc
- 65k=
-X-IronPort-AV: E=Sophos;i="5.64,422,1559491200"; d="scan'208";a="217013888"
+ bh=RC1jpnfKpSPVNtO61GtMXn3UdcU0g2g0oxsZ5KiVCFQ=;
+ b=C2FjOohcqTGRxr+9yquB62rW9/1OdrMdArOrmuSHPt58b4sG2JKiV41E
+ qcwU2g8iBe7PooeJ3W3BlQ+sREVlOAM1+PGYXpL6Ymivozy6TgQ3CzcT5
+ aoWInbMcdKNjoNvZ5bNysEzyvSwoj3BRpAFo7IwkXQSbe1vt1eMdkSw+o
+ 7nUa8bELS+a8+z7pyCh63opUPMs/WiTGCXYcdAjfQiF6D0pXU0cBqEmG8
+ qNzqyk5g24lKUcF7IwQb8/SaI9G29Dn52A+r3EHhmILfHHI3DvFMImlSN
+ aHeg0+t4VCEVH/6HM+C9qsTweMazCvpm4znnxTkhiOkTmUNG3UKZkpbw+ Q==;
+IronPort-SDR: frVhyGMooABk6e2sKx7Qz7M40fEttSfkybV/LLyHMZqaj9870zDiItgkEmQLUVCWcPvREXQNT8
+ loJHnPpgjfPQD/tW+4sKlDIOsMKZb7Ei9m4VF36FS1kizdiY6GrfG+GYZZ9JE74rxaXv1N2Szk
+ pt4LhnddCyTvTqYMHv8VPAPVtmUHuE4Rh0y664JEwl9BZBX/waFut8fFXZIpUnasX+q+RUq3FW
+ HGYC+doES2iu0NzhIm6D4twEvuT11PRgXVdeFkB7da+B4eqdJUxM/vjyo/JanMCh9mkmAO9/Rn
+ IJg=
+X-IronPort-AV: E=Sophos;i="5.64,422,1559491200"; d="scan'208";a="217013889"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 24 Aug 2019 07:42:14 +0800
-IronPort-SDR: 0DibZqr2OwVTTf8w711kl3ETWmSpfruFplgRuHxGsGk9H5mzZvKyvj/atnAghhfqSiRVlkYXmj
- 7Z0VvhyuFsWLGoU+Jetx9EOF+JquMzmIjq+YZLLwalr7mOILgOVQ7Uzneza/oFc2BHeovwBimJ
- jqPPH1fn51LKe/lz890ILh6GF2q4ykZDJalHn3JW6h+bXWEySrTf+GusIISXtaET4Ag7Y4ClK7
- lrnUo+lp6dKxUTCiJgPEhnLVOQNc4C1PoNVbiEiF3AVOrGrNGC2PQC4ZkORvlbmChgfiITJ1qt
- xrqbhb3XM2175KJIM6oq2BEA
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by ob1.hgst.iphmx.com with ESMTP; 24 Aug 2019 07:42:18 +0800
+IronPort-SDR: cU8l17LKy+3mhYy9lw06rUW0SzFegpWghGInp8pAadSzQSsU6WKbusj4rzxwC790ccapKFCXLO
+ ay78r0FYh6RoESprE7kwX+Vs+SwcG8W3UYiihJsgnY0ZTEhgvugxu8qQUscJ8p9/qy/WzOSFV1
+ Z+lDsdGZs4fq/uZe3rxFfAxZB+zoPikcMst88m/ZoTuyKsxhxTM9g7WLU5bMNsoSL2jX+1d0HS
+ NkXH4yhDjvNYO66Wjon2b5hJBB9LGOFS9wHW2LUbYuHVn3SZ2wZEoCJR73/4vej+3OFzE3Q7bH
+ +uGDyL223h28k1BFY+9iO3sC
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2019 16:39:03 -0700
-IronPort-SDR: yqs5Gvo/AnL1lQUsdRc5WwW+RvUbcR4d4+686/o0EgWDMnGbVke5TLbTu6Q/sPJujGkyfCWfsX
- n0CPVUMt+BUM/8HeDbok5xdyI3lIVHPBdveeiCGRCcfZtzB22o7J2YDfs0c6UMUosJd/ZPWcHy
- ZWIBmpjHQ0Jth+HK6uU0G8JYThK2WENg+7TAf1Rov3iYPGuKnB6Nczj+KSi+K+G7OVw1wXEs75
- NffPsvGbbneE36q5A5c6+uyFo2DfFXa8OrzLdFXSEwjiX7Agi6NJJA1ZBXVPPgNhqaEHc5ur5Y
- Snw=
+ 23 Aug 2019 16:39:05 -0700
+IronPort-SDR: 3BQzKctzxbEg58BNiFyS/6JjbxPeI4mZBAm1PF6bLi4swOeD3FBLCXqALStNUancfwVpvCuhv9
+ UoyRGa/ELAs4LI/GLlzol/D9styOIgmd9Dn/IK92s6lCgbc5TtqQdx2zrILmEkdsApvzUdQ2WE
+ WtNif1bankygh7bHXmYPKHwDl2Vd/XoQFcOv8l4A1yDFSdm2+T8Z9DrVgdMZ6yxPPhi8LC7/Ks
+ c5E2/Uee96WEXTbuMsC7VllRxGkNtMbvCwUQrBekLlScEl4uyAlJTu3wg06TtkMCY+cKG2Hm9d
+ Cyc=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.58])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Aug 2019 16:41:45 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 23 Aug 2019 16:41:49 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Date: Fri, 23 Aug 2019 16:38:05 -0700
-Message-Id: <413539f43f6b9c120efd4c882ce7341ef3530b81.1566603412.git.alistair.francis@wdc.com>
+Date: Fri, 23 Aug 2019 16:38:07 -0700
+Message-Id: <47e7fd90ce1d2373824799274376b29d751d56c3.1566603412.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1566603412.git.alistair.francis@wdc.com>
 References: <cover.1566603412.git.alistair.francis@wdc.com>
@@ -72,8 +72,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 68.232.143.124
-Subject: [Qemu-devel] [PATCH v1 06/28] target/riscv: Print priv and virt in
- disas log
+Subject: [Qemu-devel] [PATCH v1 07/28] target/riscv: Dump Hypervisor
+ registers if enabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,31 +90,73 @@ Cc: alistair23@gmail.com, Anup.Patel@wdc.com, palmer@sifive.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/translate.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Dump the Hypervisor registers and the current Hypervisor state.
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index adeddb85f6..8ac72c6470 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -810,7 +810,15 @@ static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+While we are editing this code let's also dump stvec and scause.
+
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
+---
+ target/riscv/cpu.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index f13e298a36..be8f643fc2 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -220,18 +220,52 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     CPURISCVState *env = &cpu->env;
+     int i;
  
- static void riscv_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
- {
-+#ifndef CONFIG_USER_ONLY
-+    RISCVCPU *rvcpu = RISCV_CPU(cpu);
-+    CPURISCVState *env = &rvcpu->env;
++#if !defined(CONFIG_USER_ONLY)
++    if (riscv_has_ext(env, RVH)) {
++        qemu_fprintf(f, " %s %d\n", "V      =  ", riscv_cpu_virt_enabled(env));
++    }
 +#endif
-+
-     qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
-+#ifndef CONFIG_USER_ONLY
-+    qemu_log("Priv: "TARGET_FMT_ld"; Virt: "TARGET_FMT_ld"\n", env->priv, env->virt);
-+#endif
-     log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
- }
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "pc      ", env->pc);
+ #ifndef CONFIG_USER_ONLY
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mhartid ", env->mhartid);
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mstatus ", env->mstatus);
++    if (riscv_has_ext(env, RVH)) {
++        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "hstatus ", env->hstatus);
++        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "bstatus ", env->vsstatus);
++    }
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mip     ",
+                  (target_ulong)atomic_read(&env->mip));
++    if (riscv_has_ext(env, RVH)) {
++        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsip    ",
++                     (target_ulong)atomic_read(&env->vsip));
++    }
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mie     ", env->mie);
++    if (riscv_has_ext(env, RVH)) {
++        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsie    ", env->vsie);
++    }
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mideleg ", env->mideleg);
++    if (riscv_has_ext(env, RVH)) {
++        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "hideleg ", env->hideleg);
++    }
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "medeleg ", env->medeleg);
++    if (riscv_has_ext(env, RVH)) {
++        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "hedeleg ", env->hedeleg);
++    }
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtvec   ", env->mtvec);
++    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "stvec   ", env->stvec);
++    if (riscv_has_ext(env, RVH)) {
++        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vstvec  ", env->vstvec);
++    }
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mepc    ", env->mepc);
++    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "sepc    ", env->sepc);
++    if (riscv_has_ext(env, RVH)) {
++        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsepc   ", env->vsepc);
++    }
+     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mcause  ", env->mcause);
++    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "scause  ", env->scause);
++    if (riscv_has_ext(env, RVH)) {
++        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vscause ", env->vscause);
++    }
+ #endif
  
+     for (i = 0; i < 32; i++) {
 -- 
 2.22.0
 
