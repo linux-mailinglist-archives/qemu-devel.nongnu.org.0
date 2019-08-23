@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA6C9B592
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 19:34:52 +0200 (CEST)
-Received: from localhost ([::1]:60238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66959B588
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 19:33:58 +0200 (CEST)
+Received: from localhost ([::1]:60234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1DSc-0000P9-U4
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 13:34:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58736)
+	id 1i1DRl-00008M-MD
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 13:33:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58803)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i1DOd-0006Gd-Kp
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 13:30:45 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i1DP4-0006ct-2y
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 13:31:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i1DOc-0005QN-Mh
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 13:30:43 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41116)
+ (envelope-from <richard.henderson@linaro.org>) id 1i1DP3-0005ZK-2a
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 13:31:09 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33193)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i1DOc-0005Py-HV
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 13:30:42 -0400
-Received: by mail-ot1-x342.google.com with SMTP id o101so9442769ota.8
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 10:30:42 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i1DP2-0005Ys-Tj
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 13:31:09 -0400
+Received: by mail-pf1-x443.google.com with SMTP id g2so6894020pfq.0
+ for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 10:31:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a/1PZznsLdjjJH0BWG9qHgCgdaqy2MydQV0cqzggrB0=;
- b=Fccf4bINf5GviOwS/vCjzvJMRWWh0G6W6w49sZi/JCLAoRqzqD6my9Mx5Qzc3C/3tu
- SphqCFb3c1v+ZHWgt3ZLngagZhiqF7Oxf7YG2pdLMdJb/znIkckNt3rA3LzLivdULF0K
- r9eicWQ0Tw/yy/jXNM58PzGS9zmYNnTmlbZYsi2Quseq49/+XsQa3XF5q37fmbnLBlyx
- pukANNyFhif7sNwn//t1sDKzppcW9XytYxKku6VaJ8a3y+ISUuAsjPuNd3eypYonv5+/
- GOd1p6Jp5OSHSiuoT6lBtfIQefyAH5hg2BzSkeWuSI2pay0A8N4POFoJYcqmJCAJ3nMM
- GmzA==
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=V/AjrV59P1NHShm5e2W+azDxhSKVmZ9Ld6wDgXeXJxw=;
+ b=mmnqtftNsRXhz/7YLIWfBWUdoFg9pElLL+GUNSlQhuzTPmi+/paDbyZCmvJdrKa1dL
+ n79DRd/KDeqM+tv9UyLyHMObqOOMpRnwUBvkSUJLvr9D7MCSxNL0NGfmR/Qu+v8KhFq9
+ QE3oF9NkJfgXFH7Ppkjxn4RDKcTs00KwCKTqO2RJZD4/dbG2WsKpwoBzepzD8LmGbKtK
+ MjrPv4a+tQdkbwIyXJeXL2VaAhcVyTaVWBo/52GniMuXGEgkSLZDdd3n4C4za4UL8asZ
+ GbkJcH6cnCy76AjIdiGQJr+hsUDAL+qxzqgB/yWrV4Ms+QqILkNTqrrBPq8guAxCA/6+
+ O87A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=a/1PZznsLdjjJH0BWG9qHgCgdaqy2MydQV0cqzggrB0=;
- b=igzj3k8MJSwBph231FXBb21UMSPDo8JEFtyjBVJSl6TcoqO8Ae4TE+JZUlqvIT9sQs
- X4gWVsRGJ++yhngQUty77Vu+6fUr/x8UwkqWr00bnJCvZpl9yWOY8eJXe5ehl5D2/e6p
- KTRLb8eYXXGm+SyXWNBA/HqLbR9t1hFamfrJe2zBnfLcnhtjbf8ZiNmgI27PWaJdokXm
- Em+o3AkgcWJdvegsr2hEkPhiKXTuIiDTnqXFjk2uXfwPA0EPC6dDL2hRKFVeYhET68X9
- z5M9zX1rSvI5UflnjTQ6wYD9e0FNIznLc5bVY6QtqKbFQZYKIsKFxl2dvToe7YAJ/00K
- bMXQ==
-X-Gm-Message-State: APjAAAUiA+4pu9mdd1ZYKkhESLJPaBAYKQuZ37cHgZmIUdk2swYGh+fI
- qUZij/M9SDt0gAGOMioPLAdTw4/K4q0x3r4+7ucBZA==
-X-Google-Smtp-Source: APXvYqx0uS3lNgdUm3GXKDqEVY7+552GEFPSGvPugdlWdYmVAWCRksgx9r8RskK+6fq9e8RKBjVXJgUgww/6o/7WA3Q=
-X-Received: by 2002:a9d:4817:: with SMTP id c23mr2197839otf.97.1566581441777; 
- Fri, 23 Aug 2019 10:30:41 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=V/AjrV59P1NHShm5e2W+azDxhSKVmZ9Ld6wDgXeXJxw=;
+ b=d66ZFuXcalAIfX98R3amAilcCLpzblU6o0/6y7tQ8ZtIdLQLvOsLODos26WnHtYxgR
+ QrfT9xXqQhFKyUyUE1pk0hq1HRT210ebt5VgCIXWbJIP24REOzzfzYm3nbJFPjblzN5V
+ JaI+THx5DvvSbz8laYa/1QBvDRnNwF2VlMuk7jihJsxt10FMzIJyJtqc4okdxTJC7g9v
+ yy3DbQWf1p+dkMa8SepryzI1S/2cKbVbqzss7AolJUEgC0FhujXuHAU5jz22gqsy7Mgi
+ ETCfi+V9c4k5OyNGVexC+1S5wAR4MJ8mTcgdjhD8MTfro8ang0POjNdl+r3/zW5scLFQ
+ LuOA==
+X-Gm-Message-State: APjAAAV6mtHKzYSZNH0Hjqd3qX3GvHLIEQA2aLj7GksN9Ck2dHFfcOhK
+ 1IYxy+3JWWlaYtd6X2CpZLdGQQ==
+X-Google-Smtp-Source: APXvYqwRFgE1X6Me50UqWEeVQF+SbjJVYY+sdd1ZZxhniwkUPg8bqVYHb50MH/Tzro8uRfH8VFa0vg==
+X-Received: by 2002:aa7:8a99:: with SMTP id a25mr6547578pfc.127.1566581466972; 
+ Fri, 23 Aug 2019 10:31:06 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id i137sm4217522pgc.4.2019.08.23.10.31.05
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 23 Aug 2019 10:31:06 -0700 (PDT)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190823143249.8096-1-philmd@redhat.com>
+ <20190823143249.8096-7-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <08147950-75bc-9145-bb32-d1b4c7f84648@linaro.org>
+Date: Fri, 23 Aug 2019 10:31:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190819213755.26175-1-richard.henderson@linaro.org>
- <20190819213755.26175-30-richard.henderson@linaro.org>
-In-Reply-To: <20190819213755.26175-30-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 23 Aug 2019 18:30:30 +0100
-Message-ID: <CAFEAcA_p-FWaToeKiTW-_hBnD3-yzJpi4qm4WqD=6aRQnauD6g@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190823143249.8096-7-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v2 29/68] target/arm: Diagnose too few
- registers in list for LDM/STM
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH v2 6/6] hw/net/xilinx_axi: Use
+ object_initialize_child for correct ref. counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,24 +85,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 19 Aug 2019 at 22:38, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This has been a TODO item for quite a while.  The minimum bit
-> count for A32 and T16 is 1, and for T32 is 2.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 8/23/19 7:32 AM, Philippe Mathieu-Daudé wrote:
+> As explained in commit aff39be0ed97:
+> 
+>   Both functions, object_initialize() and object_property_add_child()
+>   increase the reference counter of the new object, so one of the
+>   references has to be dropped afterwards to get the reference
+>   counting right. Otherwise the child object will not be properly
+>   cleaned up when the parent gets destroyed.
+>   Thus let's use now object_initialize_child() instead to get the
+>   reference counting here right.
+> 
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  target/arm/translate.c | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
->
+>  hw/net/xilinx_axienet.c | 17 ++++++++---------
+>  1 file changed, 8 insertions(+), 9 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-thanks
--- PMM
+
+r~
+
 
