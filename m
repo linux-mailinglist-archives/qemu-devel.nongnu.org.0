@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282129B6E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 21:16:39 +0200 (CEST)
-Received: from localhost ([::1]:33176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C269B6AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 21:10:24 +0200 (CEST)
+Received: from localhost ([::1]:33106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1F36-0000yK-AS
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 15:16:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42747)
+	id 1i1Ex5-0002Mw-6P
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 15:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42905)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1i1EgS-0002D5-1h
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:53:13 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1i1Egp-0002ou-L1
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:53:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1i1EgQ-0002xh-Su
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:53:11 -0400
-Received: from nsstlmta36p.bpe.bigpond.com ([203.38.21.36]:34758)
+ (envelope-from <tony.nguyen@bt.com>) id 1i1Ego-00037b-Kv
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:53:35 -0400
+Received: from nsstlmta09p.bpe.bigpond.com ([203.38.21.9]:38158)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>) id 1i1EgQ-0002wR-9Q
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:53:10 -0400
+ (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
+ id 1i1Ego-00036H-1Y; Fri, 23 Aug 2019 14:53:34 -0400
 Received: from smtp.telstra.com ([10.10.24.4])
- by nsstlfep36p-svc.bpe.nexus.telstra.com.au with ESMTP id
- <20190823185306.DOXC18913.nsstlfep36p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
- Sat, 24 Aug 2019 04:53:06 +1000
+ by nsstlfep09p-svc.bpe.nexus.telstra.com.au with ESMTP id
+ <20190823185329.BCAA7749.nsstlfep09p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
+ Sat, 24 Aug 2019 04:53:29 +1000
 X-RG-Spam: Unknown
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedguddvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvohhnhicupfhguhihvghnuceothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucfkphepheekrddujeefrdelkedrieeknecurfgrrhgrmhephhgvlhhopegusgiirdhtvghlshhtrhgrrdgtohhmrdgruhdpihhnvghtpeehkedrudejfedrleekrdeikedpmhgrihhlfhhrohhmpeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqedprhgtphhtthhopeeokhhrrgigvghlsehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoehmihgthhgrvghlseifrghllhgvrdgttgeqpdhrtghpthhtohepoehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucevlhhushhtvghrufhiiigvpedt
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedguddvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvohhnhicupfhguhihvghnuceothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucfkphepheekrddujeefrdelkedrieeknecurfgrrhgrmhephhgvlhhopegusgiirdhtvghlshhtrhgrrdgtohhmrdgruhdpihhnvghtpeehkedrudejfedrleekrdeikedpmhgrihhlfhhrohhmpeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqedprhgtphhtthhopeeosggrlhhrohhgghesghhmrghilhdrtghomheqpdhrtghpthhtohepoehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrgheqpdhrtghpthhtohepoehqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeoqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecuvehluhhsthgvrhfuihiivgeptd
 X-RazorGate-Vade-Verdict: clean 0
 X-RazorGate-Vade-Classification: clean
 X-RG-VS-CLASS: clean
 X-Authentication-Info: Submitted using ID tony.nguyen.git@bigpond.com
 Received: from dbz.telstra.com.au (58.173.98.68) by smtp.telstra.com (5.8.335)
  (authenticated as tony.nguyen.git@bigpond.com)
- id 5D3581440CDC4169; Sat, 24 Aug 2019 04:53:06 +1000
+ id 5D3692920C8C188D; Sat, 24 Aug 2019 04:53:29 +1000
 From: Tony Nguyen <tony.nguyen@bt.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 24 Aug 2019 04:56:22 +1000
-Message-Id: <36211ec49c94671a51994b5421980369c86c0571.1566467963.git.tony.nguyen@bt.com>
+Date: Sat, 24 Aug 2019 04:56:27 +1000
+Message-Id: <985f1f2ff3f9359b12b0df2368d3712c865f6c53.1566467963.git.tony.nguyen@bt.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1566467963.git.tony.nguyen@bt.com>
 References: <cover.1566467963.git.tony.nguyen@bt.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 203.38.21.36
-Subject: [Qemu-devel] [RFC PATCH 01/17] hw/audio: Declare device little or
+X-Received-From: 203.38.21.9
+Subject: [Qemu-devel] [RFC PATCH 06/17] hw/gpio: Declare device little or
  big endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,8 +57,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Nguyen <tony.nguyen@bt.com>, Michael Walle <michael@walle.cc>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Tony Nguyen <tony.nguyen@bt.com>, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -79,64 +79,36 @@ better =)
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- hw/audio/cs4231.c          | 2 +-
- hw/audio/marvell_88w8618.c | 2 +-
- hw/audio/milkymist-ac97.c  | 2 +-
- hw/audio/pl041.c           | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ hw/gpio/pl061.c  | 2 +-
+ hw/gpio/zaurus.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/audio/cs4231.c b/hw/audio/cs4231.c
-index b5d3e895ce..1ff9093efa 100644
---- a/hw/audio/cs4231.c
-+++ b/hw/audio/cs4231.c
-@@ -133,7 +133,7 @@ static void cs_mem_write(void *opaque, hwaddr addr,
- static const MemoryRegionOps cs_mem_ops = {
-     .read = cs_mem_read,
-     .write = cs_mem_write,
--    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .endianness = DEVICE_BIG_ENDIAN,
- };
- 
- static const VMStateDescription vmstate_cs4231 = {
-diff --git a/hw/audio/marvell_88w8618.c b/hw/audio/marvell_88w8618.c
-index 883ef74c8b..da1ab89ce6 100644
---- a/hw/audio/marvell_88w8618.c
-+++ b/hw/audio/marvell_88w8618.c
-@@ -242,7 +242,7 @@ static void mv88w8618_audio_reset(DeviceState *d)
- static const MemoryRegionOps mv88w8618_audio_ops = {
-     .read = mv88w8618_audio_read,
-     .write = mv88w8618_audio_write,
+diff --git a/hw/gpio/pl061.c b/hw/gpio/pl061.c
+index 2a828260bd..25371d6c5a 100644
+--- a/hw/gpio/pl061.c
++++ b/hw/gpio/pl061.c
+@@ -341,7 +341,7 @@ static void pl061_set_irq(void * opaque, int irq, int level)
+ static const MemoryRegionOps pl061_ops = {
+     .read = pl061_read,
+     .write = pl061_write,
 -    .endianness = DEVICE_NATIVE_ENDIAN,
 +    .endianness = DEVICE_LITTLE_ENDIAN,
  };
  
- static void mv88w8618_audio_init(Object *obj)
-diff --git a/hw/audio/milkymist-ac97.c b/hw/audio/milkymist-ac97.c
-index 6d409eff1b..897dfff85a 100644
---- a/hw/audio/milkymist-ac97.c
-+++ b/hw/audio/milkymist-ac97.c
-@@ -177,7 +177,7 @@ static const MemoryRegionOps ac97_mmio_ops = {
-         .min_access_size = 4,
-         .max_access_size = 4,
-     },
--    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .endianness = DEVICE_BIG_ENDIAN,
- };
- 
- static void ac97_in_cb(void *opaque, int avail_b)
-diff --git a/hw/audio/pl041.c b/hw/audio/pl041.c
-index c30417d46d..5803bfcf0c 100644
---- a/hw/audio/pl041.c
-+++ b/hw/audio/pl041.c
-@@ -522,7 +522,7 @@ static void pl041_device_reset(DeviceState *d)
- static const MemoryRegionOps pl041_ops = {
-     .read = pl041_read,
-     .write = pl041_write,
+ static void pl061_luminary_init(Object *obj)
+diff --git a/hw/gpio/zaurus.c b/hw/gpio/zaurus.c
+index 9a12c68342..60bbbb8564 100644
+--- a/hw/gpio/zaurus.c
++++ b/hw/gpio/zaurus.c
+@@ -157,7 +157,7 @@ static void scoop_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps scoop_ops = {
+     .read = scoop_read,
+     .write = scoop_write,
 -    .endianness = DEVICE_NATIVE_ENDIAN,
 +    .endianness = DEVICE_LITTLE_ENDIAN,
  };
  
- static void pl041_init(Object *obj)
+ static void scoop_gpio_set(void *opaque, int line, int level)
 -- 
 2.23.0
 
