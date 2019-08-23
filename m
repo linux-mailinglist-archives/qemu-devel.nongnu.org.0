@@ -2,65 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1C89B05B
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 15:08:10 +0200 (CEST)
-Received: from localhost ([::1]:55956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE10B9B073
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 15:10:28 +0200 (CEST)
+Received: from localhost ([::1]:55992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i19IW-0003u9-T9
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 09:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36766)
+	id 1i19Kl-0006eg-R7
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 09:10:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36509)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i19Fd-0001Sh-Ta
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 09:05:11 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i19ET-0000f7-PG
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 09:04:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i19Fb-0004bJ-7i
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 09:05:09 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45595)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i19Fb-0004aT-0i
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 09:05:07 -0400
-Received: by mail-ot1-x344.google.com with SMTP id m24so8642061otp.12
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 06:05:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3V5IMwDRdJxEHaCpGw2y6KqCjyfmiyL4t/7PUYITS3c=;
- b=dJK4Hwo7sT7nUFxqN8b/r6F2b21//5H/pTet9eMpEIiJ2OnsB6kAG+IiypGE/ZHOS1
- 3irTdV/pS9+w2Zt+ONRr36iVuiFQrlk7d6wIoZxp73sUjoyR0rul2H6LfoDUSWZUhhRR
- NOqigikV2t8hVeHOLsNKc8UWPaSUVmRyxEsnwly1ezKgAoGf676J0vP06c8Hl0xm8E5+
- WqEIx5qMzh4L/1cqNxFM5B9dttJLpmFvpJJ2Kd4UNW8N5T/T7j5sbrRKAgmqrhsdZiz5
- 7+pGil+2BT1tI/HntGv7V9vaMn479yv+fmIhfwhLB9tUb6aqjWJBx2dpfWFTAsj2fTUp
- pSnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3V5IMwDRdJxEHaCpGw2y6KqCjyfmiyL4t/7PUYITS3c=;
- b=c/2InOW9Ev4qcjHoy8mzWyfxskw+7pGNWHv/wA7Lu/pisi/lSZE2t6mkSz+m+Whjyi
- wfBFceMTGGavM+Xu2obARYh8FdnTh60JPPasParvfX/5Djvtp+AIjQjUH6kMWbyV5mIO
- yjClPoHzqGd5YrwfkVNYZ5jb6QxbsirGitMsG8WJ54Tzk258Gw9Kh/GCy2Iiz8wjp4bq
- Fs9275xNUOdvQhy+z700sGM+y++ozdRRWeKN+ISnP8wT7hlg/BBWcffD24KaiKFpzwNr
- 9Qkh2okuEOwVelrf5kD8NCzl2ja/l78gggf5MwqPWNT+lof2shi0hsz3VuHrjg9ofcSW
- SeIQ==
-X-Gm-Message-State: APjAAAWSfJH7oviib8OPbk83qO+9PbcAKYBXoTB8p9OeWXFvrtL2/XHq
- hqrgoaQyKq0dn4JesBzoBADeCHUBdYKAhXIwhDHVYg==
-X-Google-Smtp-Source: APXvYqzpA7jOyqtFDWLOVDCn5Ye4Ujo5RlOVlYINskAmyFG7orMVH08KHpr+cnQnvYuHEuEyibkP6FgyyKuxNVSKjN4=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr4198136oti.91.1566565505695; 
- Fri, 23 Aug 2019 06:05:05 -0700 (PDT)
+ (envelope-from <mreitz@redhat.com>) id 1i19ES-0003uC-Lc
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 09:03:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40250)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1i19EK-0003ln-Aq; Fri, 23 Aug 2019 09:03:49 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6CBB430655F5;
+ Fri, 23 Aug 2019 13:03:45 +0000 (UTC)
+Received: from localhost (ovpn-204-96.brq.redhat.com [10.40.204.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E5F6360126;
+ Fri, 23 Aug 2019 13:03:42 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Fri, 23 Aug 2019 15:03:39 +0200
+Message-Id: <20190823130341.21550-1-mreitz@redhat.com>
 MIME-Version: 1.0
-References: <20190819213755.26175-1-richard.henderson@linaro.org>
- <20190819213755.26175-20-richard.henderson@linaro.org>
-In-Reply-To: <20190819213755.26175-20-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 23 Aug 2019 14:04:54 +0100
-Message-ID: <CAFEAcA8Q3ujQFtZfLXTsbKBxUQAHCPo0i_TpdX9KcmnNUY04Eg@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH v2 19/68] target/arm: Convert T32 ADDW/SUBW
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Fri, 23 Aug 2019 13:03:45 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/2] block/file-posix: Reduce xfsctl() use
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,128 +53,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Luk=C3=A1=C5=A1=20Doktor?= <ldoktor@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 19 Aug 2019 at 22:38, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate.c | 24 +++++++++++++-----------
->  target/arm/a32.decode  |  1 +
->  target/arm/t32.decode  | 19 +++++++++++++++++++
->  3 files changed, 33 insertions(+), 11 deletions(-)
->
-> diff --git a/target/arm/translate.c b/target/arm/translate.c
-> index cb6296dc12..0e51289928 100644
-> --- a/target/arm/translate.c
-> +++ b/target/arm/translate.c
-> @@ -7626,6 +7626,11 @@ static void arm_skip_unless(DisasContext *s, uint32_t cond)
->   * Constant expanders for the decoders.
->   */
->
-> +static int negate(DisasContext *s, int x)
-> +{
-> +    return -x;
-> +}
-> +
->  static int times_2(DisasContext *s, int x)
->  {
->      return x * 2;
-> @@ -7975,6 +7980,12 @@ static bool trans_ORN_rri(DisasContext *s, arg_s_rri_rot *a)
->  #undef DO_ANY2
->  #undef DO_CMP2
->
-> +static bool trans_ADR(DisasContext *s, arg_ri *a)
-> +{
-> +    store_reg_bx(s, a->rd, add_reg_for_lit(s, 15, a->imm));
-> +    return true;
-> +}
-> +
->  /*
->   * Multiply and multiply accumulate
->   */
-> @@ -10670,17 +10681,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
->                          }
->                          store_reg(s, rd, tmp);
->                      } else {
-> -                        /* Add/sub 12-bit immediate.  */
-> -                        if (insn & (1 << 23)) {
-> -                            imm = -imm;
-> -                        }
-> -                        tmp = add_reg_for_lit(s, rn, imm);
-> -                        if (rn == 13 && rd == 13) {
-> -                            /* ADD SP, SP, imm or SUB SP, SP, imm */
-> -                            store_sp_checked(s, tmp);
-> -                        } else {
-> -                            store_reg(s, rd, tmp);
-> -                        }
-> +                        /* Add/sub 12-bit immediate, in decodetree */
-> +                        goto illegal_op;
+Hi,
 
-We seem to have lost the store_sp_checked() handling ?
+As suggested by Paolo, this series drops xfsctl() calls where we have
+working fallocate() alternatives.  (And thus replaces =E2=80=9Cblock/file=
+-posix:
+Fix xfs_write_zeroes()=E2=80=9D.)
 
->                      }
->                  }
->              } else {
-> diff --git a/target/arm/a32.decode b/target/arm/a32.decode
-> index c7f156be6d..aac991664d 100644
-> --- a/target/arm/a32.decode
-> +++ b/target/arm/a32.decode
-> @@ -30,6 +30,7 @@
->  &rrrr            rd rn rm ra
->  &rrr             rd rn rm
->  &rr              rd rm
-> +&ri              rd imm
->  &r               rm
->  &i               imm
->  &msr_reg         rn r mask
+Unfortunately, we also use xfsctl() to inquire the request alignment for
+O_DIRECT, and this is the only way we currently have to obtain it
+without trying.  Therefore, I didn=E2=80=99t quite like removing that cal=
+l, too,
+so this series doesn=E2=80=99t get rid of xfsctl() completely.
 
-Should this change be in some other patch ?
-
-> diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-> index 5116c6165a..be4e5f087c 100644
-> --- a/target/arm/t32.decode
-> +++ b/target/arm/t32.decode
-> @@ -27,6 +27,7 @@
->  &rrrr            !extern rd rn rm ra
->  &rrr             !extern rd rn rm
->  &rr              !extern rd rm
-> +&ri              !extern rd imm
->  &r               !extern rm
->  &i               !extern imm
->  &msr_reg         !extern rn r mask
-> @@ -121,6 +122,24 @@ SBC_rri          1111 0.0 1011 . .... 0 ... .... ........     @s_rri_rot
->  }
->  RSB_rri          1111 0.0 1110 . .... 0 ... .... ........     @s_rri_rot
->
-> +# Data processing (plain binary immediate)
-> +
-> +%imm12_26_12_0   26:1 12:3 0:8
-> +%neg12_26_12_0   26:1 12:3 0:8 !function=negate
-> +@s0_rri_12       .... ... .... . rn:4 . ... rd:4 ........ \
-> +                 &s_rri_rot imm=%imm12_26_12_0 rot=0 s=0
-> +
-> +{
-> +  ADR            1111 0.1 0000 0 1111 0 ... rd:4 ........ \
-> +                 &ri imm=%imm12_26_12_0
-> +  ADD_rri        1111 0.1 0000 0 .... 0 ... .... ........     @s0_rri_12
-> +}
-> +{
-> +  ADR            1111 0.1 0101 0 1111 0 ... rd:4 ........ \
-> +                 &ri imm=%neg12_26_12_0
-> +  SUB_rri        1111 0.1 0101 0 .... 0 ... .... ........     @s0_rri_12
-> +}
-> +
->  # Multiply and multiply accumulate
->
->  @s0_rnadm        .... .... .... rn:4 ra:4 rd:4 .... rm:4      &s_rrrr s=0
-> --
-> 2.17.1
+(If we did, we could delete 146 lines instead of these measly 76 here.)
 
 
-thanks
--- PMM
+Anyway, dropping xfs_write_zeroes() will also fix the guest corruptions
+Luk=C3=A1=C5=A1 has reported (for qcow2, but I think it should be possibl=
+e to see
+similar corruptions with raw, although I haven=E2=80=99t investigated tha=
+t too
+far).
+
+
+Max Reitz (2):
+  block/file-posix: Reduce xfsctl() use
+  iotests: Test reverse sub-cluster qcow2 writes
+
+ block/file-posix.c         | 77 +-------------------------------------
+ tests/qemu-iotests/265     | 67 +++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/265.out |  6 +++
+ tests/qemu-iotests/group   |  1 +
+ 4 files changed, 75 insertions(+), 76 deletions(-)
+ create mode 100755 tests/qemu-iotests/265
+ create mode 100644 tests/qemu-iotests/265.out
+
+--=20
+2.21.0
+
 
