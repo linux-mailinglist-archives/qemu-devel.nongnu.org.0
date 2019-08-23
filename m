@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313E99B2DD
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:01:28 +0200 (CEST)
-Received: from localhost ([::1]:57518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9939B308
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:08:43 +0200 (CEST)
+Received: from localhost ([::1]:57650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1B4A-00046L-AM
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:01:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53988)
+	id 1i1BBC-0004S7-5w
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54469)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i1Au1-0001wb-OP
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:50:58 -0400
+ (envelope-from <lersek@redhat.com>) id 1i1Awk-0005W2-ER
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:53:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i1Au0-000779-OJ
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:50:57 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:45813)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i1Au0-00076Z-H8
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:50:56 -0400
-Received: by mail-pg1-x541.google.com with SMTP id o13so5897992pgp.12
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 07:50:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=81vmEaQooM/4GcOyzuSEBSKSxz1JzTUbDoYReabzV1c=;
- b=Y25er+scCLNd6aRjS9tNTMthrOlOP7/8k1GqlVVH+BpNIHwfuA5is8hLf58SVXH9Vc
- 5luWHVFv5gN4Bp5TotmLLQGVqPnW+pbR1zYlpQ3miZ/wMo2JGNk9DifHVB+prGeyRyHb
- Rt/6fIAEIE2/D2tKKCSl6tkMw/ZDSOHdKXXo1ve4D1+RRbeBnCsCEOY1Ul2xCh6ESdQR
- rcaTIJF8CiHMmpSik81ZNt0VbXKy+xfuQsf1/cpiU9HoypRdZ6ghddZnYmHNijWf9Y5p
- e3BdBw4PwyIqIlnrE2WOuQRyeBHbVxXGQlXozo2SOG+ek4N5d29pdBtkxdEOgsYI7+wP
- KDrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=81vmEaQooM/4GcOyzuSEBSKSxz1JzTUbDoYReabzV1c=;
- b=COQzg5vqXmbNwhulWr12m4jZN8EkqXc3ZDVtsbF/NDzZSyuxb6CAAreqPkyhPqOeG6
- zPbEB/Hee+7gxCXHHP2q8Wcwr63OsqnJg2YRKVmN9ul+X/APlliTZjlxdy+iSYmimlH0
- xBKGGJT8OpTxRd7xuE0Xk64hgLRseDlyhX+mAoHf3YjKPJa7PPsnzkW9JOlte1NfwiSb
- 2xNTIV/E1PoW+RHDRn6U0wp//few1OIOnHJkbb//+bFUPzFXunryEKV4vCoXMSkdi7iA
- nJJywCB88lrWSTyT4edF3e4VsK0hCq7CP2tyDfBebhTsreMk9ybY5Ts2BxMxkLKKAO04
- Vl7g==
-X-Gm-Message-State: APjAAAVB+FLekSn6G5TyvnHdXvZ5x153/BChRhnSdBuXyGfZf5M8vU1d
- dWRVgGu+Got7jT8vaYz35GTPNA==
-X-Google-Smtp-Source: APXvYqzF3c24A4bt4yAofm/PvLIp0ICRiAuoyTohKQ4AieH9bL1PphtP4IJpCYt4RaumFR2iD2xK5A==
-X-Received: by 2002:a62:7d0d:: with SMTP id y13mr5535138pfc.150.1566571855558; 
- Fri, 23 Aug 2019 07:50:55 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d16sm5723896pfd.81.2019.08.23.07.50.54
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Aug 2019 07:50:54 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190823100741.9621-1-david@redhat.com>
- <20190823100741.9621-3-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <c21b333b-7b5a-3c6e-c9e5-b0103b5b06c0@linaro.org>
-Date: Fri, 23 Aug 2019 07:50:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <lersek@redhat.com>) id 1i1Awi-0008Bb-GQ
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:53:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41328)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1i1Awi-0008BH-98
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:53:44 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 87A123090FC1;
+ Fri, 23 Aug 2019 14:53:42 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-39.ams2.redhat.com
+ [10.36.117.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 77A796CE79;
+ Fri, 23 Aug 2019 14:53:33 +0000 (UTC)
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ "Kinney, Michael D" <michael.d.kinney@intel.com>,
+ "rfc@edk2.groups.io" <rfc@edk2.groups.io>, "Yao, Jiewen"
+ <jiewen.yao@intel.com>
+References: <8091f6e8-b1ec-f017-1430-00b0255729f4@redhat.com>
+ <74D8A39837DF1E4DA445A8C0B3885C503F75FAD3@shsmsx102.ccr.corp.intel.com>
+ <7cb458ea-956e-c1df-33f7-025e4f0f22df@redhat.com>
+ <74D8A39837DF1E4DA445A8C0B3885C503F7600B9@shsmsx102.ccr.corp.intel.com>
+ <bb6fdbe0-2a3b-e586-e9a5-93e1ac0803ec@redhat.com>
+ <20190816161933.7d30a881@x1.home>
+ <74D8A39837DF1E4DA445A8C0B3885C503F761B96@shsmsx102.ccr.corp.intel.com>
+ <35396800-32d2-c25f-b0d0-2d7cd8438687@redhat.com>
+ <D2A45071-A097-4642-A34C-6B7C5D7D2466@intel.com>
+ <E92EE9817A31E24EB0585FDF735412F5B9D9C671@ORSMSX113.amr.corp.intel.com>
+ <a76014e2-2f0a-afce-6d15-1c45c5c1e467@redhat.com>
+ <E92EE9817A31E24EB0585FDF735412F5B9D9D74A@ORSMSX113.amr.corp.intel.com>
+ <adf3f3b8-1dc9-79e1-7411-4d9131657a1f@redhat.com>
+ <E92EE9817A31E24EB0585FDF735412F5B9D9E82C@ORSMSX113.amr.corp.intel.com>
+ <772d64f7-e153-e9e6-dd69-9f34de5bb577@redhat.com>
+ <3ca65433-8aed-57d4-7f18-a2a2718a6ffe@redhat.com>
+ <c96fc875-ac07-b33c-e752-35cb65fa0e5e@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <88721a95-a31a-5302-3614-17440c7eb508@redhat.com>
+Date: Fri, 23 Aug 2019 16:53:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20190823100741.9621-3-david@redhat.com>
+In-Reply-To: <c96fc875-ac07-b33c-e752-35cb65fa0e5e@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: Re: [Qemu-devel] [PATCH v1 2/9] s390x/tcg: Fix length calculation
- in probe_write_access()
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Fri, 23 Aug 2019 14:53:42 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [edk2-rfc] [edk2-devel] CPU hotplug using SMM with
+ QEMU+OVMF
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +79,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-s390x@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Richard Henderson <rth@twiddle.net>
+Cc: "Chen, Yingwen" <yingwen.chen@intel.com>,
+ "devel@edk2.groups.io" <devel@edk2.groups.io>,
+ Phillip Goerl <phillip.goerl@oracle.com>,
+ qemu devel list <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>, "Nakajima,
+ Jun" <jun.nakajima@intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Joao Marcal Lemos Martins <joao.m.martins@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/19 3:07 AM, David Hildenbrand wrote:
-> Hm,, how did that "-" slip in (-TAGRET_PAGE_SIZE would be correct). This
-> currently makes us exceed one page in a single probe_write() call,
-> essentially leaving some memory unchecked.
+On 08/22/19 20:51, Paolo Bonzini wrote:
+> On 22/08/19 20:29, Laszlo Ersek wrote:
+>> On 08/22/19 08:18, Paolo Bonzini wrote:
+>>> On 21/08/19 22:17, Kinney, Michael D wrote:
+>>>> DMA protection of memory ranges is a chipset feature. For the current
+>>>> QEMU implementation, what ranges of memory are guaranteed to be
+>>>> protected from DMA?  Is it only A/B seg and TSEG?
+>>>
+>>> Yes.
+>>
+>> This thread (esp. Jiewen's and Mike's messages) are the first time that
+>> I've heard about the *existence* of such RAM ranges / the chipset
+>> feature. :)
+>>
+>> Out of interest (independently of virtualization), how is a general
+>> purpose OS informed by the firmware, "never try to set up DMA to this
+>> RAM area"? Is this communicated through ACPI _CRS perhaps?
+>>
+>> ... Ah, almost: ACPI 6.2 specifies _DMA, in "6.2.4 _DMA (Direct Memory
+>> Access)". It writes,
+>>
+>>     For example, if a platform implements a PCI bus that cannot access
+>>     all of physical memory, it has a _DMA object under that PCI bus that
+>>     describes the ranges of physical memory that can be accessed by
+>>     devices on that bus.
+>>
+>> Sorry about the digression, and also about being late to this thread,
+>> continually -- I'm primarily following and learning.
 > 
-> Fixes: c5a7392cfb96 ("s390x/tcg: Provide probe_write_access helper")
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/mem_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> It's much simpler: these ranges are not in e820, for example
+> 
+> kernel: BIOS-e820: [mem 0x0000000000059000-0x000000000008bfff] usable
+> kernel: BIOS-e820: [mem 0x000000000008c000-0x00000000000fffff] reserved
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+(1) Sorry, my _DMA quote was a detour from QEMU -- I wondered how a
+physical machine with actual RAM at 0x30000, and also chipset level
+protection against DMA to/from that RAM range, would expose the fact to
+the OS (so that the OS not innocently try to set up DMA there).
+
+(2) In case of QEMU+OVMF, "e820" is not defined at the firmware level.
+
+While
+- QEMU exports an "e820 map" (and OVMF does utilize that),
+- and Linux parses the UEFI memmap into an "e820 map" (so that dependent
+logic only need to deal with e820),
+
+in edk2 the concepts are "GCD memory space map" and "UEFI memmap".
+
+So what OVMF does is, it reserves the TSEG area in the UEFI memmap:
+
+  https://github.com/tianocore/edk2/commit/b09c1c6f2569a
+
+(This was later de-constified for the extended TSEG size, in commit
+23bfb5c0aab6, "OvmfPkg/PlatformPei: prepare for PcdQ35TsegMbytes
+becoming dynamic", 2017-07-05).
+
+This is just to say that with OVMF, TSEG is not absent from the UEFI
+memmap, it is reserved instead. (Apologies if I misunderstood and you
+didn't actually claim otherwise.)
 
 
-r~
+> The ranges are not special-cased in any way by QEMU.  Simply, AB-segs
+> and TSEG RAM are not part of the address space except when in SMM.
+
+(or when TSEG is not locked, and open; but:) yes, this matches my
+understanding.
+
+> Therefore, DMA to those ranges ends up respectively to low VGA RAM[1]
+> and to the bit bucket.  When AB-segs are open, for example, DMA to that
+> area becomes possible.
+
+Which seems to imply that, if we alias 0x30000 to the AB-segs, and rely
+on the AB-segs for CPU hotplug, OVMF should close and lock down the
+AB-segs at first boot. Correct? (Because OVMF doesn't do anything about
+AB at the moment.)
+
+Thanks
+Laszlo
+
+> 
+> Paolo
+> 
+> [1] old timers may remember DEF SEG=&HB800: BLOAD "foo.img",0.  It still
+> works with some disk device models.
+> 
 
 
