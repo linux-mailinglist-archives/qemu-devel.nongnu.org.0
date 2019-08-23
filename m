@@ -2,78 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7059B383
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:37:32 +0200 (CEST)
-Received: from localhost ([::1]:58344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C5F9B350
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:31:18 +0200 (CEST)
+Received: from localhost ([::1]:58182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Bd6-0006KR-22
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59962)
+	id 1i1BX3-0007Dy-4E
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:31:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59809)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1BR5-0001sS-Cv
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:25:08 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1i1BQt-0001c7-8o
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:24:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1BR4-0000E0-FA
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:25:07 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33705)
+ (envelope-from <dgilbert@redhat.com>) id 1i1BQr-000061-Mx
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:24:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41276)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1BR4-0000DR-7o; Fri, 23 Aug 2019 11:25:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1566573907; x=1598109907;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ksFRuDOVK+nvrJfNMPopN/I2U8vPsOLgk90V/grIQdA=;
- b=jmIVx29166JGKXRTpBmqBkacoyEqk94unEbIuEFGqOckEw/OQkb+0Fnb
- HuVpG0hZJdKhxKCJr7/xiar8L5+gjcF6o23K2Hxjb0WuHmUi3SpMwPj72
- G+/Y3yqoKGQhtYiEVhDBP+Rd3gIOKkflkIm0nSg5Jsf8kq4PR4WydMK4p
- 1VyZ323gST/1m8bnx3/KKWfvx0SVg/2rkAbP8SapPWKUkdsnuJq8ARb/Z
- sCG8ODO2wojgKm6hLjyhrGYawnBo7xAzwm/O+XbS+Mn+GI3MRsX4Z/zlI
- bp7RmIaoWcXBX/Bi0WgVehgTe/eIyOSrpqpeHiqLpJq+yepkvKkWn1OFD w==;
-IronPort-SDR: 1VGsWPsKJg7shpFrbmJuaB00TtA/wMpcQGxWj6SuL35+er3Rl2CJNdHHHEFbZBMkD0nEh6/LUY
- 7O5UGJDjHoIs4C7f9Y4NJMcbTF2GaWiPmpLq4yf8VIIszNuGiQUrhJltvWsQ3w0/WK+QEGHFo3
- b5XELoadt+dXoGwgKB0A0wpJd+4VdSeUnIE/o0FdSQ4ltYcm4xCD4rXuil0Am3qIpesMtQnKXc
- pC64Tfx7RzU1SDz/1O3AS6ER1YgtmMY8k/zGQ+3thtLJoNAwDbka01HbOh0MmF3jh7F8hI/CfN
- JlY=
-X-IronPort-AV: E=Sophos;i="5.64,421,1559491200"; d="scan'208";a="116527778"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Aug 2019 23:25:05 +0800
-IronPort-SDR: Sp3q9CQ9++mUtzUDmnKnCbYKpJQzUFXDndxFCIaZgAdof5ROSW5tIWIjXl7AA/3CCxJOtYOWoj
- 7DxzjwknaYuqMQDCmQjLB9ZzYxGwZvzkG0oCLU4lSqKHnNDVi7MboQX5EnGADQjGjbSXfOyrc+
- fQWymlAL32+OThriF7fuCCgyPnKlECUZnFFZMo1D/9AA3O/S+vZqffR8sWrFKTExeYMjUmxKsb
- L1BhS/8Ybm6U9oogj+DaaNUusotWRfyTIj6kcXPfBbVessVk1fxaE3pHWonLrJ6X4//CGwjhQM
- Lty8Z+QcuG6QlVu1vYY+VEEk
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2019 08:22:23 -0700
-IronPort-SDR: r8mUkXi/N67n/I5pkxTK9YVjoQ7lYovu32DTi9+iFfwyaWBjzyan8ln+u0FzHihDD0mN/V/Hcf
- I7P70KDOYcuEVGKJN39SNFvIaRAqKNssTgKu+Au9Od5Y+pGviq/4CyiSKwqRpyqyjcYUkUUtUd
- xGDPlxwZRu/3eDZbxVgFEut12LEkR9pabH/bP9kn/KJ6eb2rcjIUn1+8EShIRYBgSlzjb+C/3E
- 3IRoH6ld1LQpa+LUwNRhTxsBw2ujixyLyrixjhiiMvO5rqykUNuhBDpKyqL8FYzoVV/DCqI79u
- yUo=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.157.58])
- by uls-op-cesaip01.wdc.com with ESMTP; 23 Aug 2019 08:25:05 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Date: Fri, 23 Aug 2019 08:21:25 -0700
-Message-Id: <066a2c520c38b0c175c052d6a3385d5661764833.1566573576.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <cover.1566573576.git.alistair.francis@wdc.com>
-References: <cover.1566573576.git.alistair.francis@wdc.com>
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i1BQr-00005Y-HF
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:24:53 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D2AE23081CF6;
+ Fri, 23 Aug 2019 15:24:52 +0000 (UTC)
+Received: from work-vm (ovpn-117-244.ams2.redhat.com [10.36.117.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 876436E706;
+ Fri, 23 Aug 2019 15:24:47 +0000 (UTC)
+Date: Fri, 23 Aug 2019 16:24:45 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Message-ID: <20190823152445.GM2784@work-vm>
+References: <20190823130014.GG2784@work-vm>
+ <CAJ+F1CKTsQC1fULFG-hbUZ=Ao654K-TE6Fm9c1V+eRdAjk9QRA@mail.gmail.com>
+ <20190823140948.GI2784@work-vm> <20190823142054.GK9654@redhat.com>
+ <20190823142602.GJ2784@work-vm> <20190823144052.GL9654@redhat.com>
+ <20190823145634.GK2784@work-vm> <20190823150508.GM9654@redhat.com>
+ <20190823151448.GL2784@work-vm> <20190823152137.GN9654@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.154.42
-Subject: [Qemu-devel] [PATCH v4 7/7] target/riscv: Use TB_FLAGS_MSTATUS_FS
- for floating point
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20190823152137.GN9654@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Fri, 23 Aug 2019 15:24:52 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 0/2] Add dbus-vmstate
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,33 +62,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com,
- bmeng.cn@gmail.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the TB_FLAGS_MSTATUS_FS macro when enabling floating point in the tb
-flags.
+* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> On Fri, Aug 23, 2019 at 04:14:48PM +0100, Dr. David Alan Gilbert wrote:
+> > * Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> > > On Fri, Aug 23, 2019 at 03:56:34PM +0100, Dr. David Alan Gilbert wr=
+ote:
+> > > > * Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> > > > > If two helpers are running as the same user ID, then can still
+> > > > > directly attack each other via things like ptrace or /proc/$PID=
+/mem,
+> > > > > unless you've used SELinux to isolate them, or run each as a di=
+stinct
+> > > > > user ID.  If you do the latter, then we can still easily isolat=
+e
+> > > > > them using dbus.
+> > > >=20
+> > > > You can lock those down pretty easily though.
+> > >=20
+> > > How were you thinking ?
+> > >=20
+> > > If you're not using SELinux or separate user IDs, then AFAICT you'v=
+e
+> > > got a choice of using seccomp or containers.  seccomp is really har=
+d
+> > > to get a useful policy out of with QEMU, and using containers for
+> > > each helper process adds a level of complexity worse than selinux
+> > > or separate user IDs, so isn't an obvious win over using dbus.
+> >=20
+> > You can just drop the CAP_SYS_PTRACE on the whole lot for that;
+> > I thought there was something for /proc/.../mem as well.
+>=20
+> If they're running the same user ID & not SELinux constrained, I don't
+> think that trying to block PRACTE / /proc/$PID/mem offers a reassuring
+> level of security separation, as there's still plenty of other files
+> that will be readable & writable to both vhostuser helper daemons which
+> can be leveraged as indirect attack vectors - auditing both helpers and
+> every library they link to to ensure nothing can be exploited is very
+> hard.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Still, it doesn't mean we shouldn't be careful about anything new we
+add.
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index eb7b5b0af3..0347be453b 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -301,7 +301,7 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
- #else
-     *flags = cpu_mmu_index(env, 0);
-     if (riscv_cpu_fp_enabled(env)) {
--        *flags |= env->mstatus & MSTATUS_FS;
-+        *flags |= TB_FLAGS_MSTATUS_FS;
-     }
- #endif
- }
--- 
-2.22.0
+Dave
 
+> Regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberr=
+ange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange=
+.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberr=
+ange :|
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
