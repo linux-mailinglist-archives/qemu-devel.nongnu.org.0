@@ -2,55 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910669A73A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 07:51:00 +0200 (CEST)
-Received: from localhost ([::1]:51802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017209A75A
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 08:05:27 +0200 (CEST)
+Received: from localhost ([::1]:51884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i12TT-0002GH-Lo
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 01:50:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49499)
+	id 1i12hS-00022h-29
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 02:05:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51122)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i12S9-0000yM-Tm
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 01:49:39 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i12eQ-0000kN-0s
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 02:02:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i12S7-0006lX-5N
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 01:49:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35750)
+ (envelope-from <dgibson@ozlabs.org>) id 1i12eO-0004c9-Ld
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 02:02:17 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:47873 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i12S6-0006lF-UO
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 01:49:35 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C962610F23E0;
- Fri, 23 Aug 2019 05:49:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F0231001DC0;
- Fri, 23 Aug 2019 05:49:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E73CF1162B63; Fri, 23 Aug 2019 07:49:31 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-References: <20190822011620.106337-1-aik@ozlabs.ru>
- <87wof5b7ze.fsf@dusky.pond.sub.org> <20190822144940.GV3267@redhat.com>
-Date: Fri, 23 Aug 2019 07:49:31 +0200
-In-Reply-To: <20190822144940.GV3267@redhat.com> ("Daniel P. =?utf-8?Q?Berr?=
- =?utf-8?Q?ang=C3=A9=22's?=
- message of "Thu, 22 Aug 2019 15:49:40 +0100")
-Message-ID: <87blwg77o4.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1i12eN-0004SC-HY; Fri, 23 Aug 2019 02:02:16 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46F9lg3HMhz9sDQ; Fri, 23 Aug 2019 16:02:07 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1566540127;
+ bh=8ZTHtF+ugZBKjfJdgjp9FYzrY8pjIjS01p9713FeAC0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ai2AYBHcS4CVcgMGfpqLq4hhaAV17xm8apqmHe1418W1p353WNBOssqKhyUi7VFVR
+ 0gJP02Jo+GiYKIGMe0zSvMYF86sB62Cyp3Slaliegb5prqDAsz9v0f8/1vzTWB8js4
+ u/7ILrFdrotfMPIP6XKA03TTdK4t7lb1Cf+bgQSk=
+Date: Fri, 23 Aug 2019 15:29:03 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Eric Blake <eblake@redhat.com>
+Message-ID: <20190823052903.GA3027@umbus.fritz.box>
+References: <20190822195918.3307-1-danielhb413@gmail.com>
+ <63a2fef4-3e9d-5dfc-9ccb-2924bb1fe808@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Fri, 23 Aug 2019 05:49:33 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH qemu] qapi: Add query-memory-checksum
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="r5Pyd7+fXNt84Ff3"
+Content-Disposition: inline
+In-Reply-To: <63a2fef4-3e9d-5dfc-9ccb-2924bb1fe808@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH v1 1/1] spapr_pci: remove all child
+ functions in function zero unplug
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,85 +57,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Thu, Aug 22, 2019 at 04:16:53PM +0200, Markus Armbruster wrote:
->> Alexey Kardashevskiy <aik@ozlabs.ru> writes:
->>=20
->> > This returns MD5 checksum of all RAM blocks for migration debugging
->> > as this is way faster than saving the entire RAM to a file and checking
->> > that.
->> >
->> > Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>=20
->> Any particular reason for MD5?  Have you measured the other choices
->> offered by GLib?
->>=20
->> I understand you don't need crypto-strength here.  Both MD5 and SHA-1
->> would be bad choices then.
->
-> We have a tests/bench-crypto-hash test but its hardcoded for sha256.
-> I hacked it to report all algorithms and got these results for varying
-> input chunk sizes:
->
-> /crypto/hash/md5/speed-512: 519.12 MB/sec OK
-> /crypto/hash/md5/speed-1024: 560.39 MB/sec OK
-> /crypto/hash/md5/speed-4096: 591.39 MB/sec OK
-> /crypto/hash/md5/speed-16384: 576.46 MB/sec OK
-> /crypto/hash/sha1/speed-512: 443.12 MB/sec OK
-> /crypto/hash/sha1/speed-1024: 518.82 MB/sec OK
-> /crypto/hash/sha1/speed-4096: 555.60 MB/sec OK
-> /crypto/hash/sha1/speed-16384: 568.16 MB/sec OK
-> /crypto/hash/sha224/speed-512: 221.90 MB/sec OK
-> /crypto/hash/sha224/speed-1024: 239.79 MB/sec OK
-> /crypto/hash/sha224/speed-4096: 269.37 MB/sec OK
-> /crypto/hash/sha224/speed-16384: 274.87 MB/sec OK
-> /crypto/hash/sha256/speed-512: 222.75 MB/sec OK
-> /crypto/hash/sha256/speed-1024: 253.25 MB/sec OK
-> /crypto/hash/sha256/speed-4096: 272.80 MB/sec OK
-> /crypto/hash/sha256/speed-16384: 275.59 MB/sec OK
-> /crypto/hash/sha384/speed-512: 322.73 MB/sec OK
-> /crypto/hash/sha384/speed-1024: 369.84 MB/sec OK
-> /crypto/hash/sha384/speed-4096: 406.71 MB/sec OK
-> /crypto/hash/sha384/speed-16384: 417.87 MB/sec OK
-> /crypto/hash/sha512/speed-512: 320.62 MB/sec OK
-> /crypto/hash/sha512/speed-1024: 361.93 MB/sec OK
-> /crypto/hash/sha512/speed-4096: 404.91 MB/sec OK
-> /crypto/hash/sha512/speed-16384: 418.53 MB/sec OK
-> /crypto/hash/ripemd160/speed-512: 226.45 MB/sec OK
-> /crypto/hash/ripemd160/speed-1024: 239.25 MB/sec OK
-> /crypto/hash/ripemd160/speed-4096: 251.31 MB/sec OK
-> /crypto/hash/ripemd160/speed-16384: 255.01 MB/sec OK
->
->
-> IOW, md5 is clearly the quickest, by a considerable margin over
-> SHA256/512. SHA1 is slightly slower.
->
-> Assuming that we document that this command is intentionally
-> *not* trying to guarantee collision resistances we're ok.
->
-> In fact we should not document what kind of checksum is
-> reported by query-memory-checksum. The impl should be a black
-> box from user's POV.
->
-> If we're just aiming for debugging tool to detect accidental
-> corruption, could we even just ignore cryptographic hashs
-> entirely and do a crc32 - that'd be way faster than even
-> md5.
+--r5Pyd7+fXNt84Ff3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Good points.
+On Thu, Aug 22, 2019 at 04:11:45PM -0500, Eric Blake wrote:
+> On 8/22/19 2:59 PM, Daniel Henrique Barboza wrote:
+> > There is nothing wrong with how sPAPR handles multifunction PCI
+> > hot unplugs. The problem is that x86 does it simpler. Instead of
+> > removing each non-zero function and then removing function zero,
+> > x86 can remove any function of the slot to trigger the hot unplug.
+> >=20
+>=20
+> > +++ b/hw/ppc/spapr_pci.c
+> > @@ -1700,11 +1700,13 @@ static void spapr_pci_unplug_request(HotplugHan=
+dler *plug_handler,
+> >                  state =3D func_drck->dr_entity_sense(func_drc);
+> >                  if (state =3D=3D SPAPR_DR_ENTITY_SENSE_PRESENT
+> >                      && !spapr_drc_unplug_requested(func_drc)) {
+> > -                    error_setg(errp,
+> > -                               "PCI: slot %d, function %d still presen=
+t. "
+> > -                               "Must unplug all non-0 functions first.=
+",
+> > -                               slotnr, i);
+> > -                    return;
+> > +                    /*
+> > +                     * Attempting to remove function 0 of a multifunct=
+ion
+> > +                     * device will will cascade into removing all child
+> > +                     * functions, even if their unplug weren't request=
+ed
+>=20
+> s/weren't/wasn't/
 
-The doc strings should spell out "for debugging", like the commit
-message does, and both should spell out "weak collision resistance".
+Actually, I think this is technically a subjunctive, which would make
+it "were" rather than "was".  Modern English usage doesn't really do
+the subjunctive, though.
+</more-pedantic-than-thou>
 
-I can't find CRC-32 in GLib, but zlib appears to provide it:
-http://refspecs.linuxbase.org/LSB_3.0.0/LSB-Core-generic/LSB-Core-generic/z=
-lib-crc32-1.html
+With my maintainer hat on, rather than pedant hat, the meaning is
+clear so I really don't care, especially from a contributer whose
+first language isn't English.
 
-Care to compare its speed to MD5?
+>=20
+> > +                     * beforehand.
+> > +                     */
+> > +                    spapr_drc_detach(func_drc);
+> >                  }
+> >              }
+> >          }
+> >=20
+>=20
+
+
+
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--r5Pyd7+fXNt84Ff3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1feZ0ACgkQbDjKyiDZ
+s5KuvxAAlRktcrWR8T2LO+DmWexVPNGsEd8Sf/HhWcQIi7rrPmpjTU/ulZV7S0bg
+2/VmGlSdK6RL5a/lwQ4MiMXsrR/wXov2w26UhstPWrl/1NeuxaOeqmIH2uT6AZr+
+/jTt9bnxuDBo8ryWFP3NKuIoSrmsO36NNO58mvYVeB1jxGzjBbpfLJoJu8QrHTTb
+X9E+9/T5DK8LzHs2gUrkPmqMATjXZJXGWDPW/PjeQUCWlBqjntzkkp/gZAOLAGug
+ZUiV94suBgeva3aSL8NOI2z4hbR3RgETn07jRZI0GPQvZBARypLrpRnXj7uDDD/R
+0LMNG0e41axdzvk7RduRynZeX/L6wAKAg7dimk35M8EWp6r3GKQm4huBnwmDxAnw
+oZGKwxwRLzbP7rR2VJDHaXY8TShAe/w/oPWq59xibRrHxdlv7WfpSR6jQ9lNIX3B
+8QMoZwznnKpPFToPpOuzr34dt0nzle17e6ABO+sDM1hr8r5yEbQ12sbBWle7mCUY
+XE/zRnWFlG7+6VIe2TD2046vQZANklvstdqAecdY0UBrZvoeQhb+yy5CZ5gUclo/
+UJwZdZYK/ruLR1/+61fg/eWj8cFhupRCqUJNKulk0H6IKZeBy0WHdtRA7T7XT0Zy
+wVJkvRLy3ru9CyRzK4ALMqskVTQzezLVdhY3yyn16V34Td8j6Dg=
+=L63N
+-----END PGP SIGNATURE-----
+
+--r5Pyd7+fXNt84Ff3--
 
