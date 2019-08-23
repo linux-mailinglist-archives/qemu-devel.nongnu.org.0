@@ -2,78 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C96979B349
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:27:56 +0200 (CEST)
-Received: from localhost ([::1]:58084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F7D39B33A
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:22:49 +0200 (CEST)
+Received: from localhost ([::1]:57920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1BTn-00044j-BT
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59908)
+	id 1i1BOq-0007Xs-Cy
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:22:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1BQz-0001kR-SS
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:25:02 -0400
+ (envelope-from <berrange@redhat.com>) id 1i1BNs-0006xy-At
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:21:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1BQy-0000BA-Sy
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:25:01 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:38180)
+ (envelope-from <berrange@redhat.com>) id 1i1BNr-0007EE-8d
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:21:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46174)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1BQy-00006k-ES; Fri, 23 Aug 2019 11:25:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1566573900; x=1598109900;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=vHb0pnbRKCCc9XGl9i+ecqnjlhPO6xUM1eeCtHYaGKg=;
- b=dOBQgAVDXIBFclyVf0I1qbMHe/r0wgeyE0+s511FFcZpYpezGAiAueTr
- RSA05m6U4bMmKXxiMW7oJG45N1sMLGYmJkX5emsPi08YzMD8wgNWE7mvc
- VSo31qQocfnDXbAH51ptuEgxAgPvxKpRqQUByZpGUGEgBemh59DrF0smR
- Jy9gmIgt4YwP2+J1xNWYWflkz3d+bB6rlKYT7W7Gw0o+80azMQX3TeWRj
- JbfWdhCkTirlwzgzAYDHQ8OIvTD/PSkk06r1YKfmx1hcZGw7bW3MpAVCI
- axSNE1qvGQ/AD2ydYQMlMUwpealH4gzxNdBj86lvQoZZHAlRtOzsELhAw g==;
-IronPort-SDR: uqizzG03OH1FlwMP2RMY29udxUqwAQmH1oIrP6cmpdllBYTxSnG90LqDiP9c+E5NZn2waQ0uWN
- Nev2Y0OBO1tyfrdWLIlQvl9mb02petf5Ix4WIfciZfQ6fwweYIpzrZk4/Cy1LI03jkK3xFfJ6p
- szq0DTheqpvUxOAT/MCr6p7h4OL5nV/iIAn0IJMWWb6iRaqRCd1UO8U++ntHJAv7mrDzZzlwSF
- /EjZoE5mZ0ihPv9caJhMiWgGAKivTTu5l9WtjqZivArAtibHufX/gH8kkT/mgwRPLG2co+gjJI
- ji4=
-X-IronPort-AV: E=Sophos;i="5.64,421,1559491200"; d="scan'208";a="121112433"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 23 Aug 2019 23:25:00 +0800
-IronPort-SDR: xaWy9nvF0boztDZHNlIMmLuqxamjqjn2otpwSfDvFpKZzm0iqH0Bxc4UCnK4jyeQ6qhzCUw1x7
- ZofrIeIAJQQXF89GO6Ur0YKHrqHvcaWOi+QwsdMldXLoi+kbG/eAzw3O7TxzzLVmri1prXnuJI
- NYI3z49gb1slrrOSwoSgD1ubW2lnVc7nR7++geffDQsjACe2K4DRrvKJgT/AGtifSg6gSBkddh
- 5RhJkOl+hcrLdcVNtr0XfL9ilW5jZ9DegBJljE6/PU/S6DROo51zfVC0/x7psjhBERnF/Pkdfg
- NRCrFwFfS007y2t7e1/OF/Tb
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2019 08:22:17 -0700
-IronPort-SDR: qRhFM2xJcFBWr4wozziC5WSspFxFvYNvKOZOHKVn9KQcQRJaLe/ttfGaihiJupp4d7dQg/7HQE
- xxt9x3jIR5sccJl4Y8+MdyIroB0NSi0hWMfGxwopUb7Kc5qoD2e7rpYy/iqW3Sc7V9G0gnR4ZS
- g/XBh/MTneNfwLxNvxNN/L3tCiOKJj5JcYCWuzr0/oSBHxvY0D098eMJ5hwBkp6h/VtusamQGt
- UhArcHOIIIR0OS3bkC9wuT6qzk6ZQ/NQXgwbCQP8ii8gelgtztGC3KSjVaTDkPWXx5FYRRMMNm
- dWg=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.157.58])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Aug 2019 08:25:00 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Date: Fri, 23 Aug 2019 08:21:19 -0700
-Message-Id: <2101ad1b795800a6f7cbf52d47de5cb0e86c568a.1566573576.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <cover.1566573576.git.alistair.francis@wdc.com>
-References: <cover.1566573576.git.alistair.francis@wdc.com>
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i1BNr-0007Dr-3g
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:21:47 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2056630A5A70;
+ Fri, 23 Aug 2019 15:21:46 +0000 (UTC)
+Received: from redhat.com (ovpn-112-60.ams2.redhat.com [10.36.112.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6CCA5D9CA;
+ Fri, 23 Aug 2019 15:21:40 +0000 (UTC)
+Date: Fri, 23 Aug 2019 16:21:37 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190823152137.GN9654@redhat.com>
+References: <20190823114157.GG9654@redhat.com> <20190823130014.GG2784@work-vm>
+ <CAJ+F1CKTsQC1fULFG-hbUZ=Ao654K-TE6Fm9c1V+eRdAjk9QRA@mail.gmail.com>
+ <20190823140948.GI2784@work-vm> <20190823142054.GK9654@redhat.com>
+ <20190823142602.GJ2784@work-vm> <20190823144052.GL9654@redhat.com>
+ <20190823145634.GK2784@work-vm> <20190823150508.GM9654@redhat.com>
+ <20190823151448.GL2784@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.153.141
-Subject: [Qemu-devel] [PATCH v4 5/7] target/riscv: Use both register name
- and ABI name
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190823151448.GL2784@work-vm>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Fri, 23 Aug 2019 15:21:46 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 0/2] Add dbus-vmstate
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,57 +62,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com,
- bmeng.cn@gmail.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Atish Patra <atish.patra@wdc.com>
+On Fri, Aug 23, 2019 at 04:14:48PM +0100, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
+> > On Fri, Aug 23, 2019 at 03:56:34PM +0100, Dr. David Alan Gilbert wrot=
+e:
+> > > * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
+> > > > If two helpers are running as the same user ID, then can still
+> > > > directly attack each other via things like ptrace or /proc/$PID/m=
+em,
+> > > > unless you've used SELinux to isolate them, or run each as a dist=
+inct
+> > > > user ID.  If you do the latter, then we can still easily isolate
+> > > > them using dbus.
+> > >=20
+> > > You can lock those down pretty easily though.
+> >=20
+> > How were you thinking ?
+> >=20
+> > If you're not using SELinux or separate user IDs, then AFAICT you've
+> > got a choice of using seccomp or containers.  seccomp is really hard
+> > to get a useful policy out of with QEMU, and using containers for
+> > each helper process adds a level of complexity worse than selinux
+> > or separate user IDs, so isn't an obvious win over using dbus.
+>=20
+> You can just drop the CAP_SYS_PTRACE on the whole lot for that;
+> I thought there was something for /proc/.../mem as well.
 
-Use both the generic register name and ABI name for the general purpose
-registers and floating point registers.
+If they're running the same user ID & not SELinux constrained, I don't
+think that trying to block PRACTE / /proc/$PID/mem offers a reassuring
+level of security separation, as there's still plenty of other files
+that will be readable & writable to both vhostuser helper daemons which
+can be leveraged as indirect attack vectors - auditing both helpers and
+every library they link to to ensure nothing can be exploited is very
+hard.
 
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
----
- target/riscv/cpu.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6d52f97d7c..f13e298a36 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -34,17 +34,20 @@
- static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
- 
- const char * const riscv_int_regnames[] = {
--  "zero", "ra", "sp",  "gp",  "tp", "t0", "t1", "t2",
--  "s0",   "s1", "a0",  "a1",  "a2", "a3", "a4", "a5",
--  "a6",   "a7", "s2",  "s3",  "s4", "s5", "s6", "s7",
--  "s8",   "s9", "s10", "s11", "t3", "t4", "t5", "t6"
-+  "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
-+  "x7/t2",   "x8/s0",  "x9/s1",  "x10/a0", "x11/a1", "x12/a2",  "x13/a3",
-+  "x14/a4",  "x15/a5", "x16/a6", "x17/a7", "x18/s2", "x19/s3",  "x20/s4",
-+  "x21/s5",  "x22/s6", "x23/s7", "x24/s8", "x25/s9", "x26/s10", "x27/s11",
-+  "x28/t3",  "x29/t4", "x30/t5", "x31/t6"
- };
- 
- const char * const riscv_fpr_regnames[] = {
--  "ft0", "ft1", "ft2",  "ft3",  "ft4", "ft5", "ft6",  "ft7",
--  "fs0", "fs1", "fa0",  "fa1",  "fa2", "fa3", "fa4",  "fa5",
--  "fa6", "fa7", "fs2",  "fs3",  "fs4", "fs5", "fs6",  "fs7",
--  "fs8", "fs9", "fs10", "fs11", "ft8", "ft9", "ft10", "ft11"
-+  "f0/ft0",   "f1/ft1",  "f2/ft2",   "f3/ft3",   "f4/ft4",  "f5/ft5",
-+  "f6/ft6",   "f7/ft7",  "f8/fs0",   "f9/fs1",   "f10/fa0", "f11/fa1",
-+  "f12/fa2",  "f13/fa3", "f14/fa4",  "f15/fa5",  "f16/fa6", "f17/fa7",
-+  "f18/fs2",  "f19/fs3", "f20/fs4",  "f21/fs5",  "f22/fs6", "f23/fs7",
-+  "f24/fs8",  "f25/fs9", "f26/fs10", "f27/fs11", "f28/ft8", "f29/ft9",
-+  "f30/ft10", "f31/ft11"
- };
- 
- const char * const riscv_excp_names[] = {
--- 
-2.22.0
-
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
