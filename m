@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D51259B05C
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 15:09:02 +0200 (CEST)
-Received: from localhost ([::1]:55970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A089B055
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 15:07:23 +0200 (CEST)
+Received: from localhost ([::1]:55950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i19JN-0005Fg-VB
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 09:09:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36530)
+	id 1i19Hl-00039W-OP
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 09:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i19EW-0000gk-12
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 09:04:01 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i19EX-0000hj-KQ
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 09:04:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i19EU-0003vT-B9
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 09:03:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33846)
+ (envelope-from <mreitz@redhat.com>) id 1i19EW-0003xn-1c
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 09:04:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:9252)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i19EL-0003nA-Bk; Fri, 23 Aug 2019 09:03:49 -0400
+ id 1i19ES-0003pB-Hh; Fri, 23 Aug 2019 09:03:56 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AE6EA1053E64;
- Fri, 23 Aug 2019 13:03:47 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0CA8C190C029;
+ Fri, 23 Aug 2019 13:03:50 +0000 (UTC)
 Received: from localhost (ovpn-204-96.brq.redhat.com [10.40.204.96])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 35DA010027BA;
- Fri, 23 Aug 2019 13:03:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95A4E1001B08;
+ Fri, 23 Aug 2019 13:03:49 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 23 Aug 2019 15:03:40 +0200
-Message-Id: <20190823130341.21550-2-mreitz@redhat.com>
+Date: Fri, 23 Aug 2019 15:03:41 +0200
+Message-Id: <20190823130341.21550-3-mreitz@redhat.com>
 In-Reply-To: <20190823130341.21550-1-mreitz@redhat.com>
 References: <20190823130341.21550-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Fri, 23 Aug 2019 13:03:47 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.70]); Fri, 23 Aug 2019 13:03:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/2] block/file-posix: Reduce xfsctl() use
+Subject: [Qemu-devel] [PATCH 2/2] iotests: Test reverse sub-cluster qcow2
+ writes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,162 +61,114 @@ Cc: =?UTF-8?q?Luk=C3=A1=C5=A1=20Doktor?= <ldoktor@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch removes xfs_write_zeroes() and xfs_discard().  Both functions
-have been added just before the same feature was present through
-fallocate():
+This exercises the regression introduced in commit
+50ba5b2d994853b38fed10e0841b119da0f8b8e5.  On my machine, it has close
+to a 50 % false-negative rate, but that should still be sufficient to
+test the fix.
 
-- fallocate() has supported PUNCH_HOLE for XFS since Linux 2.6.38 (March
-  2011); xfs_discard() was added in December 2010.
-
-- fallocate() has supported ZERO_RANGE for XFS since Linux 3.15 (June
-  2014); xfs_write_zeroes() was added in November 2013.
-
-Nowadays, all systems that qemu runs on should support both fallocate()
-features (RHEL 7's kernel does).
-
-xfsctl() is still useful for getting the request alignment for O_DIRECT,
-so this patch does not remove our dependency on it completely.
-
-Note that xfs_write_zeroes() had a bug: It calls ftruncate() when the
-file is shorter than the specified range (because ZERO_RANGE does not
-increase the file length).  ftruncate() may yield and then discard data
-that parallel write requests have written past the EOF in the meantime.
-Dropping the function altogether fixes the bug.
-
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Fixes: 50ba5b2d994853b38fed10e0841b119da0f8b8e5
-Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
-Cc: qemu-stable@nongnu.org
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/file-posix.c | 77 +---------------------------------------------
- 1 file changed, 1 insertion(+), 76 deletions(-)
+ tests/qemu-iotests/265     | 67 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/265.out |  6 ++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 74 insertions(+)
+ create mode 100755 tests/qemu-iotests/265
+ create mode 100644 tests/qemu-iotests/265.out
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index fbeb0068db..4519065573 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1459,59 +1459,6 @@ out:
-     }
- }
-=20
--#ifdef CONFIG_XFS
--static int xfs_write_zeroes(BDRVRawState *s, int64_t offset, uint64_t by=
-tes)
--{
--    int64_t len;
--    struct xfs_flock64 fl;
--    int err;
--
--    len =3D lseek(s->fd, 0, SEEK_END);
--    if (len < 0) {
--        return -errno;
--    }
--
--    if (offset + bytes > len) {
--        /* XFS_IOC_ZERO_RANGE does not increase the file length */
--        if (ftruncate(s->fd, offset + bytes) < 0) {
--            return -errno;
--        }
--    }
--
--    memset(&fl, 0, sizeof(fl));
--    fl.l_whence =3D SEEK_SET;
--    fl.l_start =3D offset;
--    fl.l_len =3D bytes;
--
--    if (xfsctl(NULL, s->fd, XFS_IOC_ZERO_RANGE, &fl) < 0) {
--        err =3D errno;
--        trace_file_xfs_write_zeroes(strerror(errno));
--        return -err;
--    }
--
--    return 0;
--}
--
--static int xfs_discard(BDRVRawState *s, int64_t offset, uint64_t bytes)
--{
--    struct xfs_flock64 fl;
--    int err;
--
--    memset(&fl, 0, sizeof(fl));
--    fl.l_whence =3D SEEK_SET;
--    fl.l_start =3D offset;
--    fl.l_len =3D bytes;
--
--    if (xfsctl(NULL, s->fd, XFS_IOC_UNRESVSP64, &fl) < 0) {
--        err =3D errno;
--        trace_file_xfs_discard(strerror(errno));
--        return -err;
--    }
--
--    return 0;
--}
--#endif
--
- static int translate_err(int err)
- {
-     if (err =3D=3D -ENODEV || err =3D=3D -ENOSYS || err =3D=3D -EOPNOTSU=
-PP ||
-@@ -1567,10 +1514,8 @@ static ssize_t handle_aiocb_write_zeroes_block(Raw=
-PosixAIOData *aiocb)
- static int handle_aiocb_write_zeroes(void *opaque)
- {
-     RawPosixAIOData *aiocb =3D opaque;
--#if defined(CONFIG_FALLOCATE) || defined(CONFIG_XFS)
--    BDRVRawState *s =3D aiocb->bs->opaque;
--#endif
- #ifdef CONFIG_FALLOCATE
-+    BDRVRawState *s =3D aiocb->bs->opaque;
-     int64_t len;
- #endif
-=20
-@@ -1578,12 +1523,6 @@ static int handle_aiocb_write_zeroes(void *opaque)
-         return handle_aiocb_write_zeroes_block(aiocb);
-     }
-=20
--#ifdef CONFIG_XFS
--    if (s->is_xfs) {
--        return xfs_write_zeroes(s, aiocb->aio_offset, aiocb->aio_nbytes)=
-;
--    }
--#endif
--
- #ifdef CONFIG_FALLOCATE_ZERO_RANGE
-     if (s->has_write_zeroes) {
-         int ret =3D do_fallocate(s->fd, FALLOC_FL_ZERO_RANGE,
-@@ -1646,14 +1585,6 @@ static int handle_aiocb_write_zeroes_unmap(void *o=
-paque)
-     }
- #endif
-=20
--#ifdef CONFIG_XFS
--    if (s->is_xfs) {
--        /* xfs_discard() guarantees that the discarded area reads as all=
--zero
--         * afterwards, so we can use it here. */
--        return xfs_discard(s, aiocb->aio_offset, aiocb->aio_nbytes);
--    }
--#endif
--
-     /* If we couldn't manage to unmap while guaranteed that the area rea=
-ds as
-      * all-zero afterwards, just write zeroes without unmapping */
-     ret =3D handle_aiocb_write_zeroes(aiocb);
-@@ -1730,12 +1661,6 @@ static int handle_aiocb_discard(void *opaque)
-         ret =3D -errno;
- #endif
-     } else {
--#ifdef CONFIG_XFS
--        if (s->is_xfs) {
--            return xfs_discard(s, aiocb->aio_offset, aiocb->aio_nbytes);
--        }
--#endif
--
- #ifdef CONFIG_FALLOCATE_PUNCH_HOLE
-         ret =3D do_fallocate(s->fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEE=
-P_SIZE,
-                            aiocb->aio_offset, aiocb->aio_nbytes);
+diff --git a/tests/qemu-iotests/265 b/tests/qemu-iotests/265
+new file mode 100755
+index 0000000000..dce6f77be3
+--- /dev/null
++++ b/tests/qemu-iotests/265
+@@ -0,0 +1,67 @@
++#!/usr/bin/env bash
++#
++# Test reverse-ordered qcow2 writes on a sub-cluster level
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++seq=3D$(basename $0)
++echo "QA output created by $seq"
++
++status=3D1	# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++# qcow2-specific test
++_supported_fmt qcow2
++_supported_proto file
++_supported_os Linux
++
++echo '--- Writing to the image ---'
++
++# Reduce cluster size so we get more and quicker I/O
++IMGOPTS=3D'cluster_size=3D4096' _make_test_img 1M
++(for ((kb =3D 1024 - 4; kb >=3D 0; kb -=3D 4)); do \
++     echo "aio_write -P 42 $((kb + 1))k 2k"; \
++ done) \
++ | $QEMU_IO "$TEST_IMG" > /dev/null
++
++echo '--- Verifying its content ---'
++
++(for ((kb =3D 0; kb < 1024; kb +=3D 4)); do \
++    echo "read -P 0 ${kb}k 1k"; \
++    echo "read -P 42 $((kb + 1))k 2k"; \
++    echo "read -P 0 $((kb + 3))k 1k"; \
++ done) \
++ | $QEMU_IO "$TEST_IMG" | _filter_qemu_io | grep 'verification'
++
++# Status of qemu-io
++if [ ${PIPESTATUS[1]} =3D 0 ]; then
++    echo 'Content verified.'
++fi
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=3D0
+diff --git a/tests/qemu-iotests/265.out b/tests/qemu-iotests/265.out
+new file mode 100644
+index 0000000000..6eac620f25
+--- /dev/null
++++ b/tests/qemu-iotests/265.out
+@@ -0,0 +1,6 @@
++QA output created by 265
++--- Writing to the image ---
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576
++--- Verifying its content ---
++Content verified.
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index d95d556414..0c129c1644 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -274,3 +274,4 @@
+ 257 rw
+ 258 rw quick
+ 262 rw quick migration
++265 rw auto quick
 --=20
 2.21.0
 
