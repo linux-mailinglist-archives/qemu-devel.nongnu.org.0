@@ -2,56 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D639B305
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:07:57 +0200 (CEST)
-Received: from localhost ([::1]:57632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B1A9B312
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:12:10 +0200 (CEST)
+Received: from localhost ([::1]:57716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1BAS-0003DK-G8
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56342)
+	id 1i1BEY-00084w-1u
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:12:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i1B7u-0000Rg-RE
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:05:20 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i1B8H-00014B-4e
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:05:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i1B7t-0006gv-4g
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:05:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57167)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i1B7s-0006gQ-Sh
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:05:17 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3A7597F758;
- Fri, 23 Aug 2019 15:05:16 +0000 (UTC)
-Received: from redhat.com (ovpn-112-60.ams2.redhat.com [10.36.112.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 237FE60925;
- Fri, 23 Aug 2019 15:05:10 +0000 (UTC)
-Date: Fri, 23 Aug 2019 16:05:08 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Message-ID: <20190823150508.GM9654@redhat.com>
-References: <20190823112053.GE9654@redhat.com>
- <CAMxuvayoLetZkJ_HNKxC8Y0Yk33hn5pHLLn32R-XCuD7z31i=Q@mail.gmail.com>
- <20190823114157.GG9654@redhat.com> <20190823130014.GG2784@work-vm>
- <CAJ+F1CKTsQC1fULFG-hbUZ=Ao654K-TE6Fm9c1V+eRdAjk9QRA@mail.gmail.com>
- <20190823140948.GI2784@work-vm> <20190823142054.GK9654@redhat.com>
- <20190823142602.GJ2784@work-vm> <20190823144052.GL9654@redhat.com>
- <20190823145634.GK2784@work-vm>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i1B8G-0006p5-AT
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:05:41 -0400
+Received: from mail-he1eur04on070e.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0d::70e]:14260
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1i1B8C-0006mR-LF; Fri, 23 Aug 2019 11:05:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Thx4tbBY2iH1vzkyh7yQgF1qFpaP6gZadxmlWqeP7KbZuS+eIFFArocsu1EQMTnfagbmYTulVv6LPZTV5fp/ubvBICdTOhjJiuEhHzZ1RfzA+5QdzBCoRcqCszw7xmOxClEI+8pnNteHa1lRl9qa8ChP6ajAElvtJBEgn/9K9P1JRwJZMJMedUcuydPBfEyGAoj4z2vxlzEyJfidegLNj4RN3Gdtb6TGbguJDvpIPNJjgtplDkiuwnLP0jLE/dvfOzrqsXKnRMDFdz0G2iT4ObLQYwW5Ei3Pl4nnPvlUVgMgejWhfLCPK7ipdroTVYnyAFEgAwXYfZHd8erpEiRG3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fs10yTQqe3mVFz/YRDYXZr7vs+j1B4zPDoxF8K41b+A=;
+ b=XEn/uyoDxenmkdHTgEBGyYbvO4SkxeAYSflDgjuSy/HBwCkZR0kXeFy3b5EOsK6YIwhQc1kE1bEL8hqCAVjVYgf3AUfRMyqzAdCPYuCA/F1AW9pbof+oJI4iYsOjOCWjsy2zBCyJ1dJjFBCJO+WYe0bFLOMjR0tCmendLnCcJUyI+LFvsxdFNRnZ/bTqVj6epuydFG418D90W7xaM+Zo7IN6j2MYxUU7d+g+9Egf/NgSY+RG4+toga0WLkaUjpDoDNoVu+xEyUCN3pR5S6xb/BOqavtTwJ+nad8Moa8rkjEVa9aLDkSPJxaQhwHAaMOf+35ZeB3oitQTRn1aVsResw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fs10yTQqe3mVFz/YRDYXZr7vs+j1B4zPDoxF8K41b+A=;
+ b=O/ZAEm0qzde3vaufdSHtuRZoQTxuyfzStk0tQHnKmixrNK7Fhmbx5nxSi66fByJlNUPS/22162FMjN8xAGdUCXAo2XwNPq7c+1P/CW5uXLvCHi13q315Zk3iVnor0w08RmmfRdm8GPas2q/7n7bg2YqEGT34G17dGW1R+8AG+to=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB5033.eurprd08.prod.outlook.com (10.255.17.213) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2178.18; Fri, 23 Aug 2019 15:05:32 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::617b:d2c2:11e9:4604]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::617b:d2c2:11e9:4604%3]) with mapi id 15.20.2178.020; Fri, 23 Aug 2019
+ 15:05:32 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Eric Blake <eblake@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>, "nbd@other.debian.org"
+ <nbd@other.debian.org>, "libguestfs@redhat.com" <libguestfs@redhat.com>
+Thread-Topic: [Qemu-devel] cross-project patches: Add NBD Fast Zero support
+Thread-Index: AQHVWb+6QvwHE28+MUauWUhIkXuSiKcI1OeA
+Date: Fri, 23 Aug 2019 15:05:32 +0000
+Message-ID: <89042b51-42c8-27b3-f742-894c0a62119a@virtuozzo.com>
+References: <25ead363-4f37-5450-b985-1876374e314d@redhat.com>
+In-Reply-To: <25ead363-4f37-5450-b985-1876374e314d@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0301CA0022.eurprd03.prod.outlook.com
+ (2603:10a6:3:76::32) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190823180529760
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fe319ae2-526c-43ed-05ec-08d727db57bf
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DB8PR08MB5033; 
+x-ms-traffictypediagnostic: DB8PR08MB5033:
+x-microsoft-antispam-prvs: <DB8PR08MB5033A462C0B9386583A39D30C1A40@DB8PR08MB5033.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 0138CD935C
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(376002)(366004)(396003)(136003)(39850400004)(189003)(199004)(66946007)(386003)(31686004)(2616005)(53936002)(446003)(6436002)(6116002)(3846002)(11346002)(25786009)(102836004)(4744005)(7736002)(6506007)(478600001)(66446008)(64756008)(316002)(229853002)(66476007)(66556008)(66066001)(6486002)(2906002)(6512007)(486006)(26005)(36756003)(186003)(476003)(6246003)(2201001)(31696002)(305945005)(256004)(14454004)(99286004)(86362001)(81156014)(8936002)(71200400001)(71190400001)(8676002)(52116002)(81166006)(5660300002)(76176011)(110136005)(2501003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5033;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: v/ZpbUNUvyifNLwNGOWgU1eNil59HbchHxEqwsQiFwlNf1QSv7pPHUiBl/Ap1WHOdO7eYuLHnlYbRf7o9SDQxAblwoaCYG1lgcnjJUCYMLsb8FP8aABKkjRAlY550U2BLYcj/jmpFKk3U7kQSQklulIWmQWfWubeX7LZlyuS+NzVgDh8x7adaD0g7ZSRIcqg8//SPWAp1Mo7vfpVAYN1BbNN94xlpGHYTb74FxUbWiqrqJfrdo9u6rlRWA3SvEBhlvY0yWhq3eOemLOd9cFavwPAhR/eJv5DFvmc2q8jO9WNMCS1KEq3DgQh3KIROoqFizaN+AA6hGekk9Hqs84niAr5WmIqSg6+iKXIEQoUnhE9Jgj2Ln3wgOahKUL8fH+lLwmbIEJEUmIkLtk6ToalpFfjmYctqjZ79Nr9FMW16NM=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3C929FB1C131FE47A0A60CA5E59504B9@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190823145634.GK2784@work-vm>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Fri, 23 Aug 2019 15:05:16 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 0/2] Add dbus-vmstate
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe319ae2-526c-43ed-05ec-08d727db57bf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2019 15:05:32.1583 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: TF9bIycHjViJwrYkO/hDesB3dvQBpHD1Iv25U/xBQzLEybN02tVUIBLMFzl+cFc6Q+wWhjeGl+UXyFqcaqeraWsr7U6tSPX3V+PCAdEs6IU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5033
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe0d::70e
+Subject: Re: [Qemu-devel] cross-project patches: Add NBD Fast Zero support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,207 +112,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 23, 2019 at 03:56:34PM +0100, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
-> > On Fri, Aug 23, 2019 at 03:26:02PM +0100, Dr. David Alan Gilbert wrot=
-e:
-> > > * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
-> > > > On Fri, Aug 23, 2019 at 03:09:48PM +0100, Dr. David Alan Gilbert =
-wrote:
-> > > > > * Marc-Andr=C3=A9 Lureau (marcandre.lureau@gmail.com) wrote:
-> > > > > > Hi
-> > > > > >=20
-> > > > > > On Fri, Aug 23, 2019 at 5:00 PM Dr. David Alan Gilbert
-> > > > > > <dgilbert@redhat.com> wrote:
-> > > > > > >
-> > > > > > > * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
-> > > > > > >
-> > > > > > > <snip>
-> > > > > > >
-> > > > > > > > This means QEMU still has to iterate over every single cl=
-ient
-> > > > > > > > on the bus to identify them. If you're doing that, there'=
-s
-> > > > > > > > no point in owning a well known service at all. Just iter=
-ate
-> > > > > > > > over the unique bus names and look for the exported objec=
-t
-> > > > > > > > path /org/qemu/VMState
-> > > > > > > >
-> > > > > > >
-> > > > > > > Not knowing anything about DBus security, I want to ask how=
- do
-> > > > > > > we handle security here?
-> > > > > >=20
-> > > > > > First of all, we are talking about cooperative processes, and=
- having a
-> > > > > > specific bus for each qemu instance. So some amount of securi=
-ty/trust
-> > > > > > is already assumed.
-> > > > >=20
-> > > > > Some but we need to keep it as limited as possible; for example=
- two
-> > > > > reasons for having separate processes both come down to securit=
-y:
-> > > > >=20
-> > > > >   a) vtpm - however screwy the qemu is, you can never get to th=
-e keys in
-> > > > > the vtpm
-> > > >=20
-> > > > Processes connected to dbus can only call the DBus APIs that vtpm
-> > > > actually exports.  The vtpm should simply *not* export a DBus
-> > > > API that allows anything to fetch the keys.
-> > > >=20
-> > > > If it did want to export APIs for fetching keys, then we would
-> > > > have to ensure suitable dbus /selinux policy was created to
-> > > > prevent unwarranted access.
-> > >=20
-> > > This was really just one example of where the security/trust isn't
-> > > assumed; however a more concrete case is migration of a vtpm, and e=
-ven
-> > > though it's probably encrypted blob you still don't want some other
-> > > device to grab the migration data - or to say reinitialise the vtpm=
-.
-> >=20
-> > That can be dealt with by the dbus security policies, provided
-> > you either run the vtpm as a different user ID from the other
-> > untrustworthy helpers, or use a different selinux context for
-> > vtpm. You can then express that only the user that QEMU is
-> > running under can talk to vtpm over dbus.
->=20
-> The need for the extra user ID or selinux context is a pain;
-> but probably warranted for the vTPM;  in general though some of this
-> exists because of the choice of DBus and wouldn't be a problem for
-> something that had a point-to-point socket it sent everything over.
-
-NB be careful to use s/DBus/DBus bus/
-
-DBus the protocol is fine to be used in a point-to-point socket
-scenario - the use of the bus is strictly optional.
-
-If all communication we expect is exclusively  Helper <-> QEMU,
-then I'd argue in favour of dbus in point-to-point mode.
-
-The use cases Stefan brought up for virtiofsd though is what
-I think brings the idea of using the bus relevant. It is the
-desire to allow online control/mgmt of the helper, which
-introduces a 3rd party which isn't QEMU. Instead either libvirt
-or a standalone admin/debugging tool. With multiple parties
-involved I think the bus becomes relevant
-
-With p2p mode you could have 2 dbus socket for Helper <-> QEMU
-and another dbus socket for Helper <-> libvirt/debugging, but
-this isn't an obvious security win over using the bus, as you
-now need different access rules for each of the p2p sockets
-to say who can connect to which socket.=20
-
-
-> > Where I think you could have problems is if you needed finer
-> > grainer control with selinux. eg if vstpm exports 2 different
-> > services, you can't allow access to one service, but forbid
-> > access to the other service.
-> >=20
-> > > > >   b) virtio-gpu, loads of complex GPU code that can't break the=
- main
-> > > > > qemu process.
-> > > >=20
-> > > > That's no problem - virtio-gpu crashes, it disappears from the db=
-us
-> > > > bus, but everything else keeps running.
-> > >=20
-> > > Crashing is the easy case; assume it's malicious and you don't want=
- it
-> > > getting to say a storage device provided by another vhost-user devi=
-ce.
-> >=20
-> > If we assume that the 2 processes can't commnuicate / access each
-> > other outside DBus, then the attack avenues added by use of dbus
-> > are most likely either:
-> >=20
-> >  - invoking some DBus method that should not be allowed due
-> >    to incomplete dbus security policy.=20
-> >=20
-> >  - finding a crash in a dbus client library that you can somehow
-> >    exploit to get remote code execution in the separate process
-> >=20
-> >    I won't claim this is impossible, but I think it helps to be
-> >    using a standard, widely used battle tested RPC impl, rather
-> >    than a home grown RPC protocol.
->=20
-> It's only the policy case I worry about; and my point here is if we
-> decide to use dbus then we have to think properly about security and
-> defined stuff.
->=20
-> >=20
-> >=20
-> > > > > > But if necessary, dbus can enforce policies on who is allowed=
- to own a
-> > > > > > name, or to send/receive message from. As far as I know, this=
- is
-> > > > > > mostly user/group policies.
-> > > > > >=20
-> > > > > > But there is also SELinux checks to send_msg and acquire_svc =
-(see
-> > > > > > dbus-daemon(1))
-> > > > >=20
-> > > > > But how does something like SELinux interact with a private dbu=
-s=20
-> > > > > rather than the system dbus?
-> > > >=20
-> > > > There's already two dbus-daemon's on each host - the system one a=
-nd
-> > > > the session one, and they get different selinux contexts,
-> > > > system_dbus_t and unconfined_dbus_t.
-> > > >=20
-> > > > Since libvirt would be responsible for launching these private db=
-us
-> > > > daemons it would be easy to make it run  svirt_dbus_t for example=
-.
-> > > > Actually it would be  svirt_dbus_t:s0:cNNN,cMMM to get uniqueness
-> > > > per VM.
-> > > >=20
-> > > > Will of course require us to talk to the SELinux maintainers to
-> > > > get some sensible policy rules created.
-> > >=20
-> > > This all relies on SELinux and running privileged qemu/vhost-user p=
-airs;
-> > > needing to do that purely to enforce security seems wrong.
-> >=20
-> > Compare to an alternative bus-less solution where each helper has
-> > a direct UNIX socket connection to QEMU.
-> >=20
-> > If two helpers are running as the same user ID, then can still
-> > directly attack each other via things like ptrace or /proc/$PID/mem,
-> > unless you've used SELinux to isolate them, or run each as a distinct
-> > user ID.  If you do the latter, then we can still easily isolate
-> > them using dbus.
->=20
-> You can lock those down pretty easily though.
-
-How were you thinking ?
-
-If you're not using SELinux or separate user IDs, then AFAICT you've
-got a choice of using seccomp or containers.  seccomp is really hard
-to get a useful policy out of with QEMU, and using containers for
-each helper process adds a level of complexity worse than selinux
-or separate user IDs, so isn't an obvious win over using dbus.
-
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+MjMuMDguMjAxOSAxNzozMCwgRXJpYyBCbGFrZSB3cm90ZToNCj4gVGhpcyBpcyBhIGNvdmVyIGxl
+dHRlciB0byBhIHNlcmllcyBvZiBwYXRjaGVzIGJlaW5nIHByb3Bvc2VkIGluIHRhbmRlbQ0KPiB0
+byBmb3VyIGRpZmZlcmVudCBwcm9qZWN0czoNCg0KSSBhbHdheXMga25ldyB5b3Ugd2VyZSBncmVh
+dCwgYnV0IHRoYXQgYnJlYWtzIGFsbCB0aGUgcmVjb3Jkcw0KDQo+IC0gbmJkOiBEb2N1bWVudCBh
+IG5ldyBOQkRfQ01EX0ZMQUdfRkFTVF9aRVJPIGNvbW1hbmQgZmxhZw0KPiAtIHFlbXU6IEltcGxl
+bWVudCB0aGUgZmxhZyBmb3IgYm90aCBjbGllbnRzIGFuZCBzZXJ2ZXINCj4gLSBsaWJuYmQ6IElt
+cGxlbWVudCB0aGUgZmxhZyBmb3IgY2xpZW50cw0KPiAtIG5iZGtpdDogSW1wbGVtZW50IHRoZSBm
+bGFnIGZvciBzZXJ2ZXJzLCBpbmNsdWRpbmcgdGhlIG5iZCBwYXNzdGhyb3VnaA0KPiBjbGllbnQN
+Cj4gDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
 
