@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9C19B67C
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 20:55:40 +0200 (CEST)
-Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F959B68A
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 20:59:26 +0200 (CEST)
+Received: from localhost ([::1]:32950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Eio-0004RU-Rr
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 14:55:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42769)
+	id 1i1EmT-000885-9P
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 14:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42819)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1i1EgV-0002HI-0N
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:53:16 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1i1EgY-0002MR-6D
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:53:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1i1EgT-0002yq-Tw
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:53:14 -0400
-Received: from nsstlmta37p.bpe.bigpond.com ([203.38.21.37]:51609)
+ (envelope-from <tony.nguyen@bt.com>) id 1i1EgW-00030R-Ly
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:53:18 -0400
+Received: from nsstlmta25p.bpe.bigpond.com ([203.38.21.25]:54762)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1i1EgT-0002wk-Ah; Fri, 23 Aug 2019 14:53:13 -0400
+ id 1i1EgW-0002xy-2v; Fri, 23 Aug 2019 14:53:16 -0400
 Received: from smtp.telstra.com ([10.10.24.4])
- by nsstlfep37p-svc.bpe.nexus.telstra.com.au with ESMTP id
- <20190823185307.FWAU1159.nsstlfep37p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
- Sat, 24 Aug 2019 04:53:07 +1000
+ by nsstlfep25p-svc.bpe.nexus.telstra.com.au with ESMTP id
+ <20190823185311.NTBS14235.nsstlfep25p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
+ Sat, 24 Aug 2019 04:53:11 +1000
 X-RG-Spam: Unknown
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedguddvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvohhnhicupfhguhihvghnuceothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucfkphepheekrddujeefrdelkedrieeknecurfgrrhgrmhephhgvlhhopegusgiirdhtvghlshhtrhgrrdgtohhmrdgruhdpihhnvghtpeehkedrudejfedrleekrdeikedpmhgrihhlfhhrohhmpeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqedprhgtphhtthhopeeokhifohhlfhesrhgvughhrghtrdgtohhmqedprhgtphhtthhopeeomhhrvghithiisehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoehqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeoqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecuvehluhhsthgvrhfuihiivgeptd
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedguddvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvohhnhicupfhguhihvghnuceothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucfkphepheekrddujeefrdelkedrieeknecurfgrrhgrmhephhgvlhhopegusgiirdhtvghlshhtrhgrrdgtohhmrdgruhdpihhnvghtpeehkedrudejfedrleekrdeikedpmhgrihhlfhhrohhmpeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqedprhgtphhtthhopeeorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvqedprhgtphhtthhopeeotghhohhuthgvrghusegruggrtghorhgvrdgtohhmqedprhgtphhtthhopeeovggughgrrhdrihhglhgvshhirghssehgmhgrihhlrdgtohhmqedprhgtphhtthhopeeofhhrvgguvghrihgtrdhkohhnrhgrugesrggurggtohhrvgdrtghomheqpdhrtghpthhtohepoehmrghrtggrnhgurhgvrdhluhhrvggruhesrhgvughhrghtrdgtohhmqedprhgtphhtthhopeeomhhitghhrggvlhesfigrlhhlvgdrtggtqedprhgtphhtthhopeeophgsohhniihinhhisehrvgguhhgrthdrtghomheqpdhrtghpthhtohep
+ oehpvghtvghrrdgthhhusggssehnihgtthgrrdgtohhmrdgruheqpdhrtghpthhtohepoehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrgheqpdhrtghpthhtohepoehqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeoqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecuvehluhhsthgvrhfuihiivgeptd
 X-RazorGate-Vade-Verdict: clean 0
 X-RazorGate-Vade-Classification: clean
 X-RG-VS-CLASS: clean
 X-Authentication-Info: Submitted using ID tony.nguyen.git@bigpond.com
 Received: from dbz.telstra.com.au (58.173.98.68) by smtp.telstra.com (5.8.335)
  (authenticated as tony.nguyen.git@bigpond.com)
- id 5D3581440CDC41B7; Sat, 24 Aug 2019 04:53:07 +1000
+ id 5D3581440CDC4292; Sat, 24 Aug 2019 04:53:10 +1000
 From: Tony Nguyen <tony.nguyen@bt.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 24 Aug 2019 04:56:23 +1000
-Message-Id: <5346080e6ef2851cacfc17bb081ba02b2aa501e8.1566467963.git.tony.nguyen@bt.com>
+Date: Sat, 24 Aug 2019 04:56:24 +1000
+Message-Id: <cece576078bb043c7f98b899c643159aaaf3f0d8.1566467963.git.tony.nguyen@bt.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1566467963.git.tony.nguyen@bt.com>
 References: <cover.1566467963.git.tony.nguyen@bt.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 203.38.21.37
-Subject: [Qemu-devel] [RFC PATCH 02/17] hw/block: Declare device little or
+X-Received-From: 203.38.21.25
+Subject: [Qemu-devel] [RFC PATCH 03/17] hw/char: Declare device little or
  big endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,8 +58,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Tony Nguyen <tony.nguyen@bt.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Tony Nguyen <tony.nguyen@bt.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Michael Walle <michael@walle.cc>, Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -79,22 +86,120 @@ better =)
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- hw/block/onenand.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/char/cadence_uart.c   | 2 +-
+ hw/char/escc.c           | 2 +-
+ hw/char/etraxfs_ser.c    | 2 +-
+ hw/char/grlib_apbuart.c  | 2 +-
+ hw/char/imx_serial.c     | 2 +-
+ hw/char/lm32_uart.c      | 2 +-
+ hw/char/milkymist-uart.c | 2 +-
+ hw/char/pl011.c          | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/block/onenand.c b/hw/block/onenand.c
-index fcc5a69b90..95fc0443d3 100644
---- a/hw/block/onenand.c
-+++ b/hw/block/onenand.c
-@@ -771,7 +771,7 @@ static void onenand_write(void *opaque, hwaddr addr,
- static const MemoryRegionOps onenand_ops = {
-     .read = onenand_read,
-     .write = onenand_write,
+diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+index 0e315b2376..5a128aa5b3 100644
+--- a/hw/char/cadence_uart.c
++++ b/hw/char/cadence_uart.c
+@@ -459,7 +459,7 @@ static uint64_t uart_read(void *opaque, hwaddr offset,
+ static const MemoryRegionOps uart_ops = {
+     .read = uart_read,
+     .write = uart_write,
 -    .endianness = DEVICE_NATIVE_ENDIAN,
 +    .endianness = DEVICE_LITTLE_ENDIAN,
  };
  
- static void onenand_realize(DeviceState *dev, Error **errp)
+ static void cadence_uart_reset(DeviceState *dev)
+diff --git a/hw/char/escc.c b/hw/char/escc.c
+index e185522e27..e2130e04e5 100644
+--- a/hw/char/escc.c
++++ b/hw/char/escc.c
+@@ -576,7 +576,7 @@ static uint64_t escc_mem_read(void *opaque, hwaddr addr,
+ static const MemoryRegionOps escc_mem_ops = {
+     .read = escc_mem_read,
+     .write = escc_mem_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
++    .endianness = DEVICE_BIG_ENDIAN,
+     .valid = {
+         .min_access_size = 1,
+         .max_access_size = 1,
+diff --git a/hw/char/etraxfs_ser.c b/hw/char/etraxfs_ser.c
+index 15ac12ef22..6096158188 100644
+--- a/hw/char/etraxfs_ser.c
++++ b/hw/char/etraxfs_ser.c
+@@ -157,7 +157,7 @@ ser_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps ser_ops = {
+     .read = ser_read,
+     .write = ser_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
++    .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
+         .min_access_size = 4,
+         .max_access_size = 4
+diff --git a/hw/char/grlib_apbuart.c b/hw/char/grlib_apbuart.c
+index fe3cbf41a3..880878ab4d 100644
+--- a/hw/char/grlib_apbuart.c
++++ b/hw/char/grlib_apbuart.c
+@@ -239,7 +239,7 @@ static void grlib_apbuart_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps grlib_apbuart_ops = {
+     .write      = grlib_apbuart_write,
+     .read       = grlib_apbuart_read,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
++    .endianness = DEVICE_BIG_ENDIAN,
+ };
+ 
+ static void grlib_apbuart_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/char/imx_serial.c b/hw/char/imx_serial.c
+index fddde9b43d..8a2f10d7bd 100644
+--- a/hw/char/imx_serial.c
++++ b/hw/char/imx_serial.c
+@@ -334,7 +334,7 @@ static void imx_event(void *opaque, int event)
+ static const struct MemoryRegionOps imx_serial_ops = {
+     .read = imx_serial_read,
+     .write = imx_serial_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
++    .endianness = DEVICE_LITTLE_ENDIAN,
+ };
+ 
+ static void imx_serial_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/char/lm32_uart.c b/hw/char/lm32_uart.c
+index 32f29c44cf..372c7d60d8 100644
+--- a/hw/char/lm32_uart.c
++++ b/hw/char/lm32_uart.c
+@@ -207,7 +207,7 @@ static void uart_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps uart_ops = {
+     .read = uart_read,
+     .write = uart_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
++    .endianness = DEVICE_BIG_ENDIAN,
+     .valid = {
+         .min_access_size = 4,
+         .max_access_size = 4,
+diff --git a/hw/char/milkymist-uart.c b/hw/char/milkymist-uart.c
+index c358ca07f3..ed4f02c500 100644
+--- a/hw/char/milkymist-uart.c
++++ b/hw/char/milkymist-uart.c
+@@ -158,7 +158,7 @@ static const MemoryRegionOps uart_mmio_ops = {
+         .min_access_size = 4,
+         .max_access_size = 4,
+     },
+-    .endianness = DEVICE_NATIVE_ENDIAN,
++    .endianness = DEVICE_BIG_ENDIAN,
+ };
+ 
+ static void uart_rx(void *opaque, const uint8_t *buf, int size)
+diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+index 84ad8ff9fb..0a86f6f340 100644
+--- a/hw/char/pl011.c
++++ b/hw/char/pl011.c
+@@ -289,7 +289,7 @@ static void pl011_event(void *opaque, int event)
+ static const MemoryRegionOps pl011_ops = {
+     .read = pl011_read,
+     .write = pl011_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
++    .endianness = DEVICE_LITTLE_ENDIAN,
+ };
+ 
+ static const VMStateDescription vmstate_pl011 = {
 -- 
 2.23.0
 
