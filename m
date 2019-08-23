@@ -2,101 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2AF59B2F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:05:31 +0200 (CEST)
-Received: from localhost ([::1]:57584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B769B303
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:07:14 +0200 (CEST)
+Received: from localhost ([::1]:57622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1B86-0007x4-3X
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:05:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55937)
+	id 1i1B9k-00027d-UV
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:07:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i1B4m-0005sK-3K
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:02:05 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1i1B7Y-0008N6-Nw
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:04:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i1B4k-0004OE-5o
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:02:03 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:39257)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1i1B4j-0004L3-LA; Fri, 23 Aug 2019 11:02:01 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N9d91-1iLXNR3Ja9-015dr3; Fri, 23 Aug 2019 17:01:48 +0200
-To: Chen Zhang <tgfbeta@me.com>, qemu-devel@nongnu.org
-References: <8E5A9C27-C76D-46CF-85B0-79121A00B05F@me.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <d11d786b-bd04-42a5-46f2-23191f070df4@vivier.eu>
-Date: Fri, 23 Aug 2019 17:01:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <ehabkost@redhat.com>) id 1i1B7W-0006UB-SZ
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:04:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50308)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i1B7W-0006Tu-LB
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:04:54 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id B29AD18C427C;
+ Fri, 23 Aug 2019 15:04:53 +0000 (UTC)
+Received: from localhost (ovpn-116-73.gru2.redhat.com [10.97.116.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 58954261A7;
+ Fri, 23 Aug 2019 15:04:48 +0000 (UTC)
+Date: Fri, 23 Aug 2019 12:04:46 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Message-ID: <20190823150446.GQ7077@habkost.net>
+References: <20181109150710.31085-1-crosa@redhat.com>
+ <20181109150710.31085-2-crosa@redhat.com>
+ <CAFEAcA86JT-3jLV=+aqLntoe1jJr77VYvg1dWn9OBVGA6cPZmQ@mail.gmail.com>
+ <20190822211636.GA23027@dhcp-17-173.bos.redhat.com>
+ <20190822215420.GO7077@habkost.net>
+ <20190823134054.GA3936@localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <8E5A9C27-C76D-46CF-85B0-79121A00B05F@me.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0B82HvmwNC6S/Sp5DN+hMz77JTvBzKv/MzJilF+IJsFyz/6aWQP
- 3L8nqIc9Wxwebl0h/rCh5YDMEoEKPZhIDWB8yMajiczK+XAdp+zsD6aiCtfACzUq0C6LpB8
- vhp8zpxw1m4hEZQHo2PThLJxd7J84M5id1D16t8GQepNHtWNdedJxnbuUFttkGcyrheBQe5
- hmvEUC9omJ0tFr/HXEvgQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:H19RhOfi82E=:+60eU9sYUmQVNoe8/RNsI3
- mEVH8P48OjuzcBoXZj6sIcL05aZbUtxQZJ3FCt8hk7cBPpwzfP6wL0+x9jQvSSqpBZQv+gXuM
- tgcSbDzUnmd8+T8QCVkdvjbRZPZeo2ZIa0Uc4e4muh3MBgfkf+OvEJmtGfZHzVp24Uxlm2tui
- yj6ra8HHw8Xap3oU0dfvQEi73LlGbeJkc0B0kMHOAaxzdvbeZ58eUps+qmMTW3UqYXzauuN7j
- YmH4dr6GE5mfEud3XP/HFVuv9SXE6ymO3YehsX0MolGOpb6fpBfmqD6H1xMv/2vuc8EQkEnxo
- KaTAeRPx9UBH4pq5ctTDrAnp8CqEQEC6reholIH8RC5o3WJEeofoHHkw9XeNa2cJu0VqSE5GI
- BPMBdc2180hn96PhbvnBr/1is3bxyk4jOk4X1zXa5tLXAsb4fX56m4RTJXzgof7QQu9GPWaIm
- xwDxujAXk1718lyRNet39DtFoti5Mrssk5WY254eZaLVEHEKq1pTjYUrXMdF7PurCSwAIC1ZY
- 8KR0G9J5JMQcV/I4wsBicbPATYZbQ1zmi7PPKWAe/aLFp0U7hg3KQ59L0l8uZglu/FfHWRpYI
- so7MlB5c2H4qWo26+3dp+m4TKdfA/mFBp6pZgqUKMackX0HxSChltqvRSCjJoKvOnjv382oal
- KaY8XMnKs5DGFl8gkj99I2bUe3XYxnbcETlxg5P4vbVJjMvyvXu0rPBGjL0m7rwAEkmSCqUtY
- ll546DictkeaY3UGGIkkKgyrpkcqxmSodZqcZo57OgPNttkFPn+I3A+b7/c=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190823134054.GA3936@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Fri, 23 Aug 2019 15:04:53 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] vfio: fix a typo
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/4] configure: keep track of Python version
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,42 +60,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Alex Williamson <alex.williamson@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 22/08/2019 à 08:49, Chen Zhang via Qemu-trivial a écrit :
-> Signed-off-by: Chen Zhang <tgfbeta@me.com>
-> ---
->  hw/vfio/pci.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On Fri, Aug 23, 2019 at 09:40:54AM -0400, Cleber Rosa wrote:
+> On Thu, Aug 22, 2019 at 06:54:20PM -0300, Eduardo Habkost wrote:
+> > On Thu, Aug 22, 2019 at 05:19:26PM -0400, Cleber Rosa wrote:
+> > > On Thu, Aug 22, 2019 at 05:48:46PM +0100, Peter Maydell wrote:
+> > > > On Fri, 9 Nov 2018 at 15:09, Cleber Rosa <crosa@redhat.com> wrote:
+> > > > >
+> > > > > Some functionality is dependent on the Python version
+> > > > > detected/configured on configure.  While it's possible to run the
+> > > > > Python version later and check for the version, doing it once is
+> > > > > preferable.  Also, it's a relevant information to keep in build logs,
+> > > > > as the overall behavior of the build can be affected by it.
+> > > > >
+> > > > > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > > > > ---
+> > > > >  configure | 6 +++++-
+> > > > >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/configure b/configure
+> > > > > index 74e313a810..67fff0290d 100755
+> > > > > --- a/configure
+> > > > > +++ b/configure
+> > > > > @@ -1740,6 +1740,9 @@ if ! $python -c 'import sys; sys.exit(sys.version_info < (2,7))'; then
+> > > > >        "Use --python=/path/to/python to specify a supported Python."
+> > > > >  fi
+> > > > >
+> > > > > +# Preserve python version since some functionality is dependent on it
+> > > > > +python_version=$($python -V 2>&1 | sed -e 's/Python\ //')
+> > > > > +
+> > > > 
+> > > > Hi. Somebody on IRC has just fallen over a problem where
+> > > > their python's "-V" output prints multiple lines, which
+> > > > means that "$python_version" here is multiple lines, which
+> > > > means that the eventual config-host.mak has invalid syntax
+> > > > because we assume here:
+> > > >
+> > > 
+> > > We've tried a number of things, and just when I thought we wouldn't be
+> > > able to make any sense out of it, I arrived at a still senseless but
+> > > precise reproducer.  TL;DR: it has to do with interactive shells and
+> > > that exact Python build.
+> > > 
+> > > Reproducer (docker may also do the trick here):
+> > > 
+> > >   $ podman run --rm -ti fedora:29 /bin/bash -c 'dnf -y install http://mirror.siena.edu/fedora/linux/releases/29/Everything/x86_64/os/Packages/p/python3-3.7.0-9.fc29.x86_64.rpm; python3 -V'
+> > >   Python 3.7.0 (default, Aug 30 2018, 14:32:33) 
+> > >   [GCC 8.2.1 20180801 (Red Hat 8.2.1-2)]
+> > > 
+> > > With an interactive shell instead:
+> > > 
+> > >   $ podman run --rm -ti fedora:29 /bin/bash -i -c 'dnf -y install http://mirror.siena.edu/fedora/linux/releases/29/Everything/x86_64/os/Packages/p/python3-3.7.0-9.fc29.x86_64.rpm; python3 -V'
+> > >   Python 3.7.0
+> > > 
+> > > How this behavior came to be, baffles me.  But, it seems to be fixed
+> > > on newer versions.
+> > > 
+> > > > > @@ -6823,6 +6826,7 @@ echo "INSTALL_DATA=$install -c -m 0644" >> $config_host_mak
+> > > > >  echo "INSTALL_PROG=$install -c -m 0755" >> $config_host_mak
+> > > > >  echo "INSTALL_LIB=$install -c -m 0644" >> $config_host_mak
+> > > > >  echo "PYTHON=$python" >> $config_host_mak
+> > > > > +echo "PYTHON_VERSION=$python_version" >> $config_host_mak
+> > > > >  echo "CC=$cc" >> $config_host_mak
+> > > > >  if $iasl -h > /dev/null 2>&1; then
+> > > > >    echo "IASL=$iasl" >> $config_host_mak
+> > > > 
+> > > > that it's only one line, and will generate bogus makefile
+> > > > syntax if it's got an embedded newline. (Problem system
+> > > > seems to be Fedora 29.)
+> > > >
+> > > 
+> > > The assumption could be guaranteed by a "head -1", and while
+> > > it's not a failproof solution, it would at least not corrupt
+> > > the makefile and the whole build system.
+> > > 
+> > > > I've reread this thread, where there seems to have been
+> > > > some discussion about just running Python itself to
+> > > > get the sys.version value (which is how we check for
+> > > > "is this python too old" earlier in the configure script).
+> > > > But I'm not really clear why trying to parse -V output is better:
+> > > > it's definitely less reliable, as demonstrated by this bug.
+> > 
+> > Agreed.
+> > 
+> > > >
+> > > > Given that the only thing as far as I can tell that we
+> > > > do with PYTHON_VERSION is use it in tests/Makefile.inc
+> > > > to suppress a bit of test functionality if we don't have
+> > > > Python 3, could we stop trying to parse -V output and run
+> > > > python to print sys.version_info instead, and/or just
+> > > > have the makefile variable track "is this python 2",
+> > > > since that's what we really care about and would mean we
+> > > > don't have to then search the string for "v2"  ?
+> > > 
+> > > Because I've been bitten way too many times with differences in Python
+> > > minor versions, I see a lot of value in keeping the version
+> > > information in the build system.  But, the same information can
+> > > certainly be obtained in a more resilient way.  Would you object something
+> > > like:
+> > > 
+> > >   python_version=$($python -c 'import sys; print(sys.version().split()[0])')
+> > 
+> > Sounds much better, but why sys.version().split() instead of
+> > sys.version_info?
+> > 
+> >   python_version=$($python -c 'import sys; print(sys.version_info[0])')
+> >
 > 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index dc3479c..c5e6fe6 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -44,7 +44,7 @@
->  #define TYPE_VFIO_PCI "vfio-pci"
->  #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
->  
-> -#define TYPE_VIFO_PCI_NOHOTPLUG "vfio-pci-nohotplug"
-> +#define TYPE_VFIO_PCI_NOHOTPLUG "vfio-pci-nohotplug"
->  
->  static void vfio_disable_interrupts(VFIOPCIDevice *vdev);
->  static void vfio_mmap_set_enabled(VFIOPCIDevice *vdev, bool enabled);
-> @@ -3199,7 +3199,7 @@ static void vfio_pci_nohotplug_dev_class_init(ObjectClass *klass, void *data)
->  }
->  
->  static const TypeInfo vfio_pci_nohotplug_dev_info = { 
-> -    .name = TYPE_VIFO_PCI_NOHOTPLUG,
-> +    .name = TYPE_VFIO_PCI_NOHOTPLUG,
->      .parent = TYPE_VFIO_PCI,
->      .instance_size = sizeof(VFIOPCIDevice),
->      .class_init = vfio_pci_nohotplug_dev_class_init,
+> I meant to capture not only the major version, but the minor and release
+> as well.  My reasoning (may not appeal more people):
 > 
+>  "Because I've been bitten way too many times with differences in Python
+>   minor versions, I see a lot of value in keeping the version
+>   information in the build system."
+> 
+> > > 
+> > > Or an even more paranoid version?  On my side, I understand the
+> > > fragility of the current approach, but I also appreciate the
+> > > information it stores.
+> > 
+> > We have only one place where $(PYTHON_VERSION) is used, and that
+> > code will be removed once we stop supporting Python 2.  I don't
+> > see the point of trying to store extra information that is not
+> > used anywhere in our makefiles.
+[...]
+> 
+> I see it being used by humans, so that brings a lot of subjetivity
+> into the matter.  IMO this is not out of place within the build
+> system, given that a lot of requirements detected by configure will
+> print out their versions (GTK, nettle, spice, etc).
 
-Applied to my trivial-patches branch.
+Absolutely, but are we talking about the output printed by
+./configure, or about variables in config-host.mak?
 
-Thanks,
-Laurent
+config-host.mak is not for humans, it's just input for our
+makefile code.  The output printed by ./configure on stdout is
+for humans, and I'd agree completely if ./configure keeps
+printing full Python version information on stdout.
+
+> [...]
+
+-- 
+Eduardo
 
