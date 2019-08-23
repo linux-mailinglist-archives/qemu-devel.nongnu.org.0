@@ -2,78 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC3A9B4E8
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 18:51:41 +0200 (CEST)
-Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E0A9B4EC
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 18:53:07 +0200 (CEST)
+Received: from localhost ([::1]:59520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Cmq-0006wN-3W
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 12:51:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50221)
+	id 1i1CoE-0008TZ-HW
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 12:53:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i1Ci5-0004Rd-KI
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 12:46:47 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i1CkF-0005uq-1E
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 12:49:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i1Ci3-000124-7t
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 12:46:44 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37116)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i1Ci2-00010X-PP
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 12:46:43 -0400
-Received: by mail-pf1-x444.google.com with SMTP id y9so6436807pfl.4
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 09:46:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SeQTjSbXSFNIw+BQ/nWIVkYKPWZvoYbwRR116PNQt1Y=;
- b=WfH5BMl7KEjsno4z7eFYoTHlXcx2DoDkrQjWq2zruDMCcxDKCQQnLtUtrjJ2wWzPba
- nG7zkRxv8goaupOL7alE1TD3n8yzOB7e2DluZ5F2EjJa3IEbg653JZNvGS2VNmLAE0m/
- O9klobrA0ZvYlrzheIwgm0gVOPPu1s2FmFCZdAOBDS8hd2kbf5DG2QLXhyYU19cIUsf0
- g6rkl/TZr0iGVtkqlIRmajHNgKGDNzUm4kes0z7dH1hy/aGHVxCBmYL4Mkyc2ZnW3Fn6
- YhLjRmdBxMXqcxM5uw3QypztSFHTZsCKGifMLVF1INkTwevJH1vv773Rf3ja3rFUko8c
- 2C0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SeQTjSbXSFNIw+BQ/nWIVkYKPWZvoYbwRR116PNQt1Y=;
- b=k0hayi55k91xnxx+SO44APc4VB7MAwBjUwbP1qCKKcz+WnvVS6k1PJUfDHMgo59K6s
- JDqadvj0ditexoDWNLUb+jOMH8fRoX7KvntI8OpJ4d+5brZOOBf6NseSD4w8eGVpKDNl
- qU358f0sMOs21EvipDZxEazhMq4YvLIneagLt2U/hNSOblSKl2YsyYt+kbJXJK62HQye
- RRoH6lER6429PjEKiSYmzQ191VO9Jfd4KJ9qphhKQbkoigTm2sblwYHNsxHnrM1Ef9Lm
- HLj3vuA//irhHRITnaA+qSBbLqTsHK///J1+vPOw/or2H7pSE50O2AeKuc8ktqhzY/Ls
- FRIw==
-X-Gm-Message-State: APjAAAXfrpPpSoEiu6h4hGFkMzGKvArXg6KonynxtI3KRHXD3kAuFhfG
- WPG3IpeiveRb9ZzbGzgoxiBehO48XO4=
-X-Google-Smtp-Source: APXvYqxJ6pSWR3rlCxH39rxnzpODarWMCiY7HOjS+Mx7a53KDRWj32xSctgp9Ow0Pf8JGa4CqB9MEw==
-X-Received: by 2002:a62:2ac4:: with SMTP id q187mr6202945pfq.242.1566578799815; 
- Fri, 23 Aug 2019 09:46:39 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 203sm3818278pfz.107.2019.08.23.09.46.38
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Aug 2019 09:46:39 -0700 (PDT)
-To: tony.nguyen@bt.com, tony.nguyen.git@mail.com, qemu-devel@nongnu.org
-References: <cover.1566466906.git.tony.nguyen@bt.com>
- <a61e429b-6493-3ad0-cd22-07832dbcc1f7@linaro.org>
- <1566563109661.99467@bt.com>
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1i1CkB-0002EC-4I
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 12:48:57 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:53749)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i1CkA-0002Bv-Cb
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 12:48:54 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MLz7f-1hjwyD0A0P-00Hx40; Fri, 23 Aug 2019 18:48:36 +0200
+To: Shu-Chun Weng <scw@google.com>, marcandre.lureau@gmail.com
+References: <CAFEAcA-GWR6_wGCMWkMHttU3ARJPqfADvNTnqQUU_OzcWgHHuQ@mail.gmail.com>
+ <20190819180947.180725-1-scw@google.com>
+From: Laurent Vivier <laurent@vivier.eu>
 Openpgp: preference=signencrypt
-Message-ID: <b0f6bbc8-6ee5-c8b7-f565-3bce486312ef@linaro.org>
-Date: Fri, 23 Aug 2019 09:46:37 -0700
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <66ab145d-2d5f-415c-8663-f8828041e93d@vivier.eu>
+Date: Fri, 23 Aug 2019 18:48:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1566563109661.99467@bt.com>
+In-Reply-To: <20190819180947.180725-1-scw@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH v9 00/20] Invert Endian bit in SPARCv9 MMU
- TTE
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:YDYYpFs6RoKVk8H0Xb4z0i4/bS1GdKUw95mWd//zH5rc16BGk5v
+ FlIYcvsG0vOFo+E6NsLqPmHDAJ4Ld+KWrV5DNAsBf3fmzDRKcT/9MLuNQq9wHwy8vQPCXln
+ DoVeIkGsq6Z0ZgtmY+WGflNjcCyJ4TvRD8NoQAFzA9JOnFuuhHGE2bObJ5KW86vhkLPVFO6
+ Jag/dIAQJPtNUMaLCywaQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DjOtMq/nv2E=:oqhacqaObyjV3nNagDdTV0
+ aVr08lxfWn6SHQRls5sLoHknNxkp/Tf5aUOA5XCV7fznyzbIKqCsqIxcA3XDvEJZQHPfmS/WI
+ JECSEKG6Xq4EeK6FAkLjhcIIdzz2T2+m7Fu8swlJafld3MjfUmNW+dyEjd+a+0f4n0ZVB1xAG
+ hVNYAcfchLjZ8woOt8h1OkrOqQ7Zk4osuE7OecShTpxGrhJWqC/7OM5WTLcJ95k6B/pGWbH+o
+ C0PUv4Pe4XTXMxbgojuSmEPzDSojm64jOqUJDBEhbg0khG3rUWNpINA8ajTC4YKISLdpxpBpO
+ rGH6CciSE9TCTC0S1M63XBkDsltWRFsJaFh00RXs8yyTXjYQjUoGreRFgAUlrpPvIQSC4Dehr
+ 2XXe3cUlasoaquqrICKg3j75oGjOq/PkUldyfKcyhDcPoYkwDDeR+YAInUtEkbgg128JabOEs
+ oNu2UffS569bfE37a/yIr+2piI3h/I+ww1oOVSzc9EjjCNxzcr1kTwtAqYFO15kDC5k32EeRM
+ wBUAOCBbmXfhPgcJ23HunF6Hj4IwI+EeivSUW4ZWfIsCvkVCXfiKMe/r35Vc8/t3+hsjiQq9h
+ 5lSsbOkHWtX//06DX24q2WoRDA+rMkbh7MyeKjGWwdMYLf2huFjDU2EdvTtKtm5KXKII8ORd+
+ kL21aBlApgrkzpcPChSfglXfnZVJKmwyH4bDy2u3IZirUip5f4oqyEv6zVwJv7RO6SWzC/+95
+ udFt6jwF38nVOXluSUFVwjrbm6wdyc3ZeEEA+er2uICEqnjrUN0Wgmc7ni0=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 217.72.192.74
+Subject: Re: [Qemu-devel] [PATCH v3] linux-user: add memfd_create
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,26 +109,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: arunkaly@google.com, riku.voipio@iki.fi, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/19 5:25 AM, tony.nguyen@bt.com wrote:
-> On 8/22/19 12:29 PM, Richard Henderson wrote:
->> So... after an hour only the cover letter has arrived.
->> I'm thinking that it didn't work.
+Le 19/08/2019 à 20:09, Shu-Chun Weng via Qemu-devel a écrit :
+> Add support for the memfd_create syscall. If the host does not have the
+> libc wrapper, translate to a direct syscall with NC-macro.
 > 
-> Frustratingly, I keep getting blocked.
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1734792
+> Signed-off-by: Shu-Chun Weng <scw@google.com>
+> ---
+
+Please, next time, to help review, add an history here, something like:
+
+v3: add fd_trans_unregister()
+v2: no change
+
+And don't send new versions as a reply to the previous ones.
+
+>  include/qemu/memfd.h |  4 ++++
+>  linux-user/syscall.c | 12 ++++++++++++
+>  util/memfd.c         |  2 +-
+>  3 files changed, 17 insertions(+), 1 deletion(-)
 > 
-> Perhaps new GMail and Mail.com accounts sending in bulk on behalf of bt.com
-> falls foul of spam filters.
+> diff --git a/include/qemu/memfd.h b/include/qemu/memfd.h
+> index d551c28b68..975b6bdb77 100644
+> --- a/include/qemu/memfd.h
+> +++ b/include/qemu/memfd.h
+> @@ -32,6 +32,10 @@
+>  #define MFD_HUGE_SHIFT 26
+>  #endif
+>  
+> +#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
+> +int memfd_create(const char *name, unsigned int flags);
+> +#endif
+> +
+>  int qemu_memfd_create(const char *name, size_t size, bool hugetlb,
+>                        uint64_t hugetlbsize, unsigned int seals, Error **errp);
+>  bool qemu_memfd_alloc_check(void);
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 8367cb138d..f3f9311e9c 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -20,6 +20,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/path.h"
+> +#include "qemu/memfd.h"
+>  #include <elf.h>
+>  #include <endian.h>
+>  #include <grp.h>
+> @@ -11938,6 +11939,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>          /* PowerPC specific.  */
+>          return do_swapcontext(cpu_env, arg1, arg2, arg3);
+>  #endif
+> +#ifdef TARGET_NR_memfd_create
+> +    case TARGET_NR_memfd_create:
+> +        p = lock_user_string(arg1);
+> +        if (!p) {
+> +            return -TARGET_EFAULT;
+> +        }
+> +        ret = get_errno(memfd_create(p, arg2));
+> +        fd_trans_unregister(ret);
+> +        unlock_user(p, arg1, 0);
+> +        return ret;
+> +#endif
+>  
+>      default:
+>          qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+> diff --git a/util/memfd.c b/util/memfd.c
+> index 00334e5b21..4a3c07e0be 100644
+> --- a/util/memfd.c
+> +++ b/util/memfd.c
+> @@ -35,7 +35,7 @@
+>  #include <sys/syscall.h>
+>  #include <asm/unistd.h>
+>  
+> -static int memfd_create(const char *name, unsigned int flags)
+> +int memfd_create(const char *name, unsigned int flags)
+>  {
+>  #ifdef __NR_memfd_create
+>      return syscall(__NR_memfd_create, name, flags);
+> 
 
-I have no idea how to solve this.  Perhaps a personal gmail account, bypassing
-bt.com?
-
-In the meantime, I assume v9 is intended to be the same as v8, except for the
-wrapped lines?  How about you push your branch to a public facing git repo
-somewhere and I'll do a final review and pull from there.
-
-
-r~
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
