@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9B09B21B
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:36:59 +0200 (CEST)
-Received: from localhost ([::1]:56966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE07A9B243
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:39:21 +0200 (CEST)
+Received: from localhost ([::1]:57068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1AgT-0002EW-6l
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50171)
+	id 1i1Aim-0004g3-LT
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:39:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50420)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i1Acp-0008J7-KX
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:12 -0400
+ (envelope-from <philmd@redhat.com>) id 1i1AdK-0000Qp-BQ
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i1Aco-0001Sn-Fq
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41546)
+ (envelope-from <philmd@redhat.com>) id 1i1AdJ-0001rL-BM
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53524)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1i1Acl-0001P4-3R; Fri, 23 Aug 2019 10:33:07 -0400
+ id 1i1AdG-0001pk-PF; Fri, 23 Aug 2019 10:33:38 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DD7301801592;
- Fri, 23 Aug 2019 14:33:04 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 17CB7307D915;
+ Fri, 23 Aug 2019 14:33:38 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-118.brq.redhat.com [10.40.204.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A8C25DD61;
- Fri, 23 Aug 2019 14:32:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E549B5D9CA;
+ Fri, 23 Aug 2019 14:33:32 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 23 Aug 2019 16:32:43 +0200
-Message-Id: <20190823143249.8096-1-philmd@redhat.com>
+Date: Fri, 23 Aug 2019 16:32:47 +0200
+Message-Id: <20190823143249.8096-5-philmd@redhat.com>
+In-Reply-To: <20190823143249.8096-1-philmd@redhat.com>
+References: <20190823143249.8096-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Fri, 23 Aug 2019 14:33:05 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Fri, 23 Aug 2019 14:33:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 0/6] hw/arm: Use ARM_CPU_TYPE_NAME() and
- object_initialize_child()
+Subject: [Qemu-devel] [PATCH v2 4/6] hw/arm/fsl-imx: Add the cpu as child of
+ the SoC object
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,51 +70,51 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First we use ARM_CPU_TYPE_NAME() when we should.
+Child properties form the composition tree. All objects need to be
+a child of another object. Objects can only be a child of one object.
 
-Then is follow up of [1]:
+Respect this with the i.MX SoC, to get a cleaner composition tree.
 
-  This series looks at Eduardo suggestions from [2]
-  and Thomas commit aff39be0ed97 to replace various
-  object_initialize + qdev_set_parent_bus calls by
-  sysbus_init_child_obj().
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+v2: reworded commit description with Markus suggestions
+---
+ hw/arm/fsl-imx25.c | 4 +++-
+ hw/arm/fsl-imx31.c | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-Finally, some devices are declared orphean while they have a parent,
-let them be together again.
-
-Since v1 [3]:
-- addressed Peter Maydell review comments
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01492.html
-[2] https://patchwork.ozlabs.org/patch/943333/#1953608
-[3] https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg00135.html
-
-Philippe Mathieu-Daud=C3=A9 (6):
-  hw/arm: Use ARM_CPU_TYPE_NAME() macro when appropriate
-  hw/arm: Use object_initialize_child for correct reference counting
-  hw/arm: Use sysbus_init_child_obj for correct reference counting
-  hw/arm/fsl-imx: Add the cpu as child of the SoC object
-  hw/dma/xilinx_axi: Use object_initialize_child for correct ref.
-    counting
-  hw/net/xilinx_axi: Use object_initialize_child for correct ref.
-    counting
-
- hw/arm/allwinner-a10.c  |  3 ++-
- hw/arm/cubieboard.c     |  3 ++-
- hw/arm/digic.c          |  3 ++-
- hw/arm/exynos4_boards.c |  4 ++--
- hw/arm/fsl-imx25.c      |  4 +++-
- hw/arm/fsl-imx31.c      |  4 +++-
- hw/arm/fsl-imx6.c       |  3 ++-
- hw/arm/fsl-imx6ul.c     |  2 +-
- hw/arm/mcimx7d-sabre.c  |  9 ++++-----
- hw/arm/mps2-tz.c        | 15 +++++++--------
- hw/arm/musca.c          |  9 +++++----
- hw/arm/xlnx-zynqmp.c    |  8 ++++----
- hw/dma/xilinx_axidma.c  | 16 ++++++++--------
- hw/net/xilinx_axienet.c | 17 ++++++++---------
- 14 files changed, 53 insertions(+), 47 deletions(-)
-
+diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
+index 2b2fdb203a..3cb5a8fdfd 100644
+--- a/hw/arm/fsl-imx25.c
++++ b/hw/arm/fsl-imx25.c
+@@ -36,7 +36,9 @@ static void fsl_imx25_init(Object *obj)
+     FslIMX25State *s =3D FSL_IMX25(obj);
+     int i;
+=20
+-    object_initialize(&s->cpu, sizeof(s->cpu), ARM_CPU_TYPE_NAME("arm926=
+"));
++    object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
++                            ARM_CPU_TYPE_NAME("arm926"),
++                            &error_abort, NULL);
+=20
+     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
+                           TYPE_IMX_AVIC);
+diff --git a/hw/arm/fsl-imx31.c b/hw/arm/fsl-imx31.c
+index 6760de3c8c..55e90d104b 100644
+--- a/hw/arm/fsl-imx31.c
++++ b/hw/arm/fsl-imx31.c
+@@ -33,7 +33,9 @@ static void fsl_imx31_init(Object *obj)
+     FslIMX31State *s =3D FSL_IMX31(obj);
+     int i;
+=20
+-    object_initialize(&s->cpu, sizeof(s->cpu), ARM_CPU_TYPE_NAME("arm113=
+6"));
++    object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
++                            ARM_CPU_TYPE_NAME("arm1136"),
++                            &error_abort, NULL);
+=20
+     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
+                           TYPE_IMX_AVIC);
 --=20
 2.20.1
 
