@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060409B73D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 21:44:50 +0200 (CEST)
-Received: from localhost ([::1]:33622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7469B745
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 21:47:12 +0200 (CEST)
+Received: from localhost ([::1]:33652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1FUO-0002lq-NQ
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 15:44:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50561)
+	id 1i1FWh-00057X-L3
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 15:47:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50569)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1i1FPy-0007zX-Ad
+ (envelope-from <tony.nguyen@bt.com>) id 1i1FPy-0007zy-LQ
  for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:40:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1i1FPw-0002Vx-PW
+ (envelope-from <tony.nguyen@bt.com>) id 1i1FPx-0002WC-Av
  for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:40:14 -0400
-Received: from nsstlmta35p.bpe.bigpond.com ([203.38.21.35]:42607)
+Received: from nsstlmta15p.bpe.bigpond.com ([203.38.21.15]:47462)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>) id 1i1FPw-0002NQ-54
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:40:12 -0400
+ (Exim 4.71) (envelope-from <tony.nguyen@bt.com>) id 1i1FPw-0002Os-Li
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 15:40:13 -0400
 Received: from smtp.telstra.com ([10.10.24.4])
- by nsstlfep35p-svc.bpe.nexus.telstra.com.au with ESMTP id
- <20190823194007.PTP29150.nsstlfep35p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
- Sat, 24 Aug 2019 05:40:07 +1000
+ by nsstlfep15p-svc.bpe.nexus.telstra.com.au with ESMTP id
+ <20190823194008.SANB20769.nsstlfep15p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
+ Sat, 24 Aug 2019 05:40:08 +1000
 X-RG-Spam: Unknown
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedgudefjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvohhnhicupfhguhihvghnuceothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucfkphepheekrddujeefrdelkedrieeknecurfgrrhgrmhephhgvlhhopegusgiirdhtvghlshhtrhgrrdgtohhmrdgruhdpihhnvghtpeehkedrudejfedrleekrdeikedpmhgrihhlfhhrohhmpeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqedprhgtphhtthhopeeophgsohhniihinhhisehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeorhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgqedprhgtphhtthhopeeorhhthhesthifihguughlvgdrnhgvtheqpdhrtghpthhtohepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecuvehluhhsthgvrhfuihiivgeptd
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedgudefjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvohhnhicupfhguhihvghnuceothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucfkphepheekrddujeefrdelkedrieeknecurfgrrhgrmhephhgvlhhopegusgiirdhtvghlshhtrhgrrdgtohhmrdgruhdpihhnvghtpeehkedrudejfedrleekrdeikedpmhgrihhlfhhrohhmpeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqedprhgtphhtthhopeeophgsohhniihinhhisehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeorhhthhesthifihguughlvgdrnhgvtheqpdhrtghpthhtohepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecuvehluhhsthgvrhfuihiivgeptd
 X-RazorGate-Vade-Verdict: clean 0
 X-RazorGate-Vade-Classification: clean
 X-RG-VS-CLASS: clean
 X-Authentication-Info: Submitted using ID tony.nguyen.git@bigpond.com
 Received: from dbz.telstra.com.au (58.173.98.68) by smtp.telstra.com (5.8.335)
  (authenticated as tony.nguyen.git@bigpond.com)
- id 5D2D11750F5B9ADB; Sat, 24 Aug 2019 05:40:07 +1000
+ id 5D2D11750F5B9B11; Sat, 24 Aug 2019 05:40:08 +1000
 From: Tony Nguyen <tony.nguyen@bt.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 24 Aug 2019 05:42:46 +1000
-Message-Id: <938f9e43e999a4596eabf744cb4439c51ba84628.1566588034.git.tony.nguyen@bt.com>
+Date: Sat, 24 Aug 2019 05:42:47 +1000
+Message-Id: <11377fa49c502c61e74f5cab4d20ea89e317597b.1566588034.git.tony.nguyen@bt.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1566588033.git.tony.nguyen@bt.com>
 References: <cover.1566588033.git.tony.nguyen@bt.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 203.38.21.35
-Subject: [Qemu-devel]  [PATCH 7/9] exec: Delete device_endian
+X-Received-From: 203.38.21.15
+Subject: [Qemu-devel]  [PATCH 8/9] exec: Delete DEVICE_HOST_ENDIAN
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,38 +57,62 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Tony Nguyen <tony.nguyen@bt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-device_endian has been made redundant by MemOp.
+Simplify code with MemOp short hand for host endianness, 0.
+
+ typedef enum MemOp {
+     /* snip */
+ #ifdef HOST_WORDS_BIGENDIAN
+     MO_LE    = MO_BSWAP,
+     MO_BE    = 0,
+ #else
+     MO_LE    = 0,
+     MO_BE    = MO_BSWAP,
+ #endif
+     /* snip */
+ };
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
  include/exec/cpu-common.h | 8 --------
- 1 file changed, 8 deletions(-)
+ memory.c                  | 2 +-
+ 2 files changed, 1 insertion(+), 9 deletions(-)
 
 diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index 01a29ba571..7eeb78c48b 100644
+index 7eeb78c48b..b33dc0c9f5 100644
 --- a/include/exec/cpu-common.h
 +++ b/include/exec/cpu-common.h
-@@ -18,14 +18,6 @@ void tcg_flush_softmmu_tlb(CPUState *cs);
+@@ -16,14 +16,6 @@ void tcg_flush_softmmu_tlb(CPUState *cs);
  
- #include "exec/memop.h"
+ #if !defined(CONFIG_USER_ONLY)
  
--enum device_endian {
--#ifdef NEED_CPU_H
--    DEVICE_NATIVE_ENDIAN = MO_TE,
--#endif
--    DEVICE_BIG_ENDIAN = MO_BE,
--    DEVICE_LITTLE_ENDIAN = MO_LE,
--};
+-#include "exec/memop.h"
 -
- #if defined(HOST_WORDS_BIGENDIAN)
- #define DEVICE_HOST_ENDIAN MO_BE
- #else
+-#if defined(HOST_WORDS_BIGENDIAN)
+-#define DEVICE_HOST_ENDIAN MO_BE
+-#else
+-#define DEVICE_HOST_ENDIAN MO_LE
+-#endif
+-
+ /* address in the RAM (different from a physical address) */
+ #if defined(CONFIG_XEN_BACKEND)
+ typedef uint64_t ram_addr_t;
+diff --git a/memory.c b/memory.c
+index d78d6e46db..ee7559a18c 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1353,7 +1353,7 @@ static void memory_region_ram_device_write(void *opaque, hwaddr addr,
+ static const MemoryRegionOps ram_device_mem_ops = {
+     .read = memory_region_ram_device_read,
+     .write = memory_region_ram_device_write,
+-    .endianness = DEVICE_HOST_ENDIAN,
++    .endianness = 0, /* Host endianness */
+     .valid = {
+         .min_access_size = 1,
+         .max_access_size = 8,
 -- 
 2.23.0
 
