@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890979ACFC
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 12:19:24 +0200 (CEST)
-Received: from localhost ([::1]:53784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B859ACDD
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 12:14:18 +0200 (CEST)
+Received: from localhost ([::1]:53740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i16fD-0002zD-JF
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 06:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58553)
+	id 1i16aH-0005Z8-90
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 06:14:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58584)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i16UV-0006oO-41
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:08:20 -0400
+ (envelope-from <david@redhat.com>) id 1i16UX-0006s8-Pc
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:08:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i16UT-0008Ht-Q1
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:08:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37010)
+ (envelope-from <david@redhat.com>) id 1i16UW-0008KE-Kg
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:08:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59531)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i16UT-0008HN-IM; Fri, 23 Aug 2019 06:08:17 -0400
+ id 1i16UW-0008Jl-FF; Fri, 23 Aug 2019 06:08:20 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C78F285536;
- Fri, 23 Aug 2019 10:08:16 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B71BC30832DC;
+ Fri, 23 Aug 2019 10:08:19 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-2.ams2.redhat.com [10.36.117.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53B685D6B2;
- Fri, 23 Aug 2019 10:08:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C9B85D6B2;
+ Fri, 23 Aug 2019 10:08:16 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 23 Aug 2019 12:07:40 +0200
-Message-Id: <20190823100741.9621-9-david@redhat.com>
+Date: Fri, 23 Aug 2019 12:07:41 +0200
+Message-Id: <20190823100741.9621-10-david@redhat.com>
 In-Reply-To: <20190823100741.9621-1-david@redhat.com>
 References: <20190823100741.9621-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Fri, 23 Aug 2019 10:08:16 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Fri, 23 Aug 2019 10:08:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v1 8/9] exec.c: Factor out core logic of
- check_watchpoint()
+Subject: [Qemu-devel] [PATCH v1 9/9] tcg: Check for watchpoints in
+ probe_write()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,103 +58,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
  Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
  Aleksandar Rikalo <arikalo@wavecomp.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-s390x@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to perform the same checks in probe_write() to trigger a cpu
-exit before doing any modifications. We'll have to pass a PC.
+Let's check for write watchpoints. We'll want to do something similar
+for probe_read() in the future (once we introduce that).
 
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- exec.c                | 23 +++++++++++++++++------
- include/hw/core/cpu.h |  2 ++
- 2 files changed, 19 insertions(+), 6 deletions(-)
+ accel/tcg/cputlb.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/exec.c b/exec.c
-index 1df966d17a..d233a4250b 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2810,12 +2810,10 @@ static const MemoryRegionOps notdirty_mem_ops =3D=
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 4b49ccb58a..8382ac2fc2 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1063,6 +1063,7 @@ void probe_write(CPUArchState *env, target_ulong ad=
+dr, int size, int mmu_idx,
  {
-     },
- };
+     uintptr_t index =3D tlb_index(env, mmu_idx, addr);
+     CPUTLBEntry *entry =3D tlb_entry(env, mmu_idx, addr);
++    target_ulong tlb_addr;
 =20
--/* Generate a debug exception if a watchpoint has been hit.  */
--static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int =
-flags)
-+void cpu_check_watchpoint(CPUState *cpu, vaddr vaddr, int len,
-+                          MemTxAttrs attrs, int flags, uintptr_t ra)
- {
--    CPUState *cpu =3D current_cpu;
-     CPUClass *cc =3D CPU_GET_CLASS(cpu);
--    target_ulong vaddr;
-     CPUWatchpoint *wp;
+     g_assert(-(addr | TARGET_PAGE_MASK) >=3D size);
 =20
-     assert(tcg_enabled());
-@@ -2826,7 +2824,7 @@ static void check_watchpoint(int offset, int len, M=
-emTxAttrs attrs, int flags)
-         cpu_interrupt(cpu, CPU_INTERRUPT_DEBUG);
-         return;
+@@ -1071,8 +1072,23 @@ void probe_write(CPUArchState *env, target_ulong a=
+ddr, int size, int mmu_idx,
+         if (!VICTIM_TLB_HIT(addr_write, addr)) {
+             tlb_fill(env_cpu(env), addr, size, MMU_DATA_STORE,
+                      mmu_idx, retaddr);
++            /* TLB resize via tlb_fill may have moved the entry. */
++            entry =3D tlb_entry(env, mmu_idx, addr);
+         }
      }
--    vaddr =3D (cpu->mem_io_vaddr & TARGET_PAGE_MASK) + offset;
 +
-     vaddr =3D cc->adjust_watchpoint_address(cpu, vaddr, len);
-     QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
-         if (cpu_watchpoint_address_matches(wp, vaddr, len)
-@@ -2851,11 +2849,14 @@ static void check_watchpoint(int offset, int len,=
- MemTxAttrs attrs, int flags)
-                 if (wp->flags & BP_STOP_BEFORE_ACCESS) {
-                     cpu->exception_index =3D EXCP_DEBUG;
-                     mmap_unlock();
--                    cpu_loop_exit(cpu);
-+                    cpu_loop_exit_restore(cpu, ra);
-                 } else {
-                     /* Force execution of one insn next time.  */
-                     cpu->cflags_next_tb =3D 1 | curr_cflags();
-                     mmap_unlock();
-+                    if (ra) {
-+                        cpu_restore_state(cpu, ra, true);
-+                    }
-                     cpu_loop_exit_noexc(cpu);
-                 }
-             }
-@@ -2865,6 +2866,16 @@ static void check_watchpoint(int offset, int len, =
-MemTxAttrs attrs, int flags)
-     }
++    if (!size) {
++        return;
++    }
++    tlb_addr =3D tlb_addr_write(entry);
++
++    /* Watchpoints for this entry only apply if TLB_MMIO was set. */
++    if (tlb_addr & TLB_MMIO) {
++        MemTxAttrs attrs =3D env_tlb(env)->d[mmu_idx].iotlb[index].attrs=
+;
++
++        cpu_check_watchpoint(env_cpu(env), addr, size, attrs, BP_MEM_WRI=
+TE,
++                             retaddr);
++    }
  }
 =20
-+/* Generate a debug exception if a watchpoint has been hit.  */
-+static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int =
-flags)
-+{
-+    CPUState *cpu =3D current_cpu;
-+    vaddr vaddr;
-+
-+    vaddr =3D (cpu->mem_io_vaddr & TARGET_PAGE_MASK) + offset;
-+    cpu_check_watchpoint(cpu, vaddr, len, attrs, flags, 0);
-+}
-+
- /* Watchpoint access routines.  Watchpoints are inserted using TLB trick=
-s,
-    so these check for a hit then pass through to the normal out-of-line
-    phys routines.  */
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 77fca95a40..3a2d76b32c 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -1070,6 +1070,8 @@ static inline bool cpu_breakpoint_test(CPUState *cp=
-u, vaddr pc, int mask)
-     return false;
- }
-=20
-+void cpu_check_watchpoint(CPUState *cpu, vaddr vaddr, int len,
-+                          MemTxAttrs attrs, int flags, uintptr_t ra);
- int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
-                           int flags, CPUWatchpoint **watchpoint);
- int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
+ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
 --=20
 2.21.0
 
