@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F879AC94
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 12:09:47 +0200 (CEST)
-Received: from localhost ([::1]:53666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F3E9AC96
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 12:10:00 +0200 (CEST)
+Received: from localhost ([::1]:53670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i16Vt-0007Zj-Te
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 06:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58278)
+	id 1i16W7-0007xO-SJ
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 06:09:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58373)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i16U4-0006Gg-4g
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:07:52 -0400
+ (envelope-from <david@redhat.com>) id 1i16UG-0006Tl-6O
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:08:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i16U3-0007ud-7r
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:07:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60974)
+ (envelope-from <david@redhat.com>) id 1i16UF-00085w-2y
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:08:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39010)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i16U3-0007u0-0s; Fri, 23 Aug 2019 06:07:51 -0400
+ id 1i16UE-00085H-Tn; Fri, 23 Aug 2019 06:08:03 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 280B57F745;
- Fri, 23 Aug 2019 10:07:50 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 28E7A87648;
+ Fri, 23 Aug 2019 10:08:02 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-2.ams2.redhat.com [10.36.117.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A94965D6B2;
- Fri, 23 Aug 2019 10:07:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A7CF55D6B2;
+ Fri, 23 Aug 2019 10:07:59 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 23 Aug 2019 12:07:33 +0200
-Message-Id: <20190823100741.9621-2-david@redhat.com>
+Date: Fri, 23 Aug 2019 12:07:36 +0200
+Message-Id: <20190823100741.9621-5-david@redhat.com>
 In-Reply-To: <20190823100741.9621-1-david@redhat.com>
 References: <20190823100741.9621-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Fri, 23 Aug 2019 10:07:50 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Fri, 23 Aug 2019 10:08:02 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v1 1/9] s390x/tcg: Use guest_addr_valid()
- instead of h2g_valid() in probe_write_access()
+Subject: [Qemu-devel] [PATCH v1 4/9] tcg: Enforce single page access in
+ probe_write() for !CONFIG_USER_ONLY
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,29 +64,31 @@ Cc: Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If I'm not completely wrong, we are dealing with guest addresses here
-and not with host addresses. Use the right check.
+While the CONFIG_USER_ONLY variant can handle multiple pages (no MMU), th=
+e
+!CONFIG_USER_ONLY variant can't and won't. We'll want to convert
+probe_write() to return a host address (similar to tlb_vaddr_to_host())
+soon. This only works on page granularity.
 
-Fixes: c5a7392cfb96 ("s390x/tcg: Provide probe_write_access helper")
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mem_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ accel/tcg/cputlb.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 91ba2e03d9..7819aca15d 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -2616,7 +2616,7 @@ void probe_write_access(CPUS390XState *env, uint64_=
-t addr, uint64_t len,
-                         uintptr_t ra)
- {
- #ifdef CONFIG_USER_ONLY
--    if (!h2g_valid(addr) || !h2g_valid(addr + len - 1) ||
-+    if (!guest_addr_valid(addr) || !guest_addr_valid(addr + len - 1) ||
-         page_check_range(addr, len, PAGE_WRITE) < 0) {
-         s390_program_interrupt(env, PGM_ADDRESSING, ILEN_AUTO, ra);
-     }
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index bb9897b25a..4b49ccb58a 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1064,6 +1064,8 @@ void probe_write(CPUArchState *env, target_ulong ad=
+dr, int size, int mmu_idx,
+     uintptr_t index =3D tlb_index(env, mmu_idx, addr);
+     CPUTLBEntry *entry =3D tlb_entry(env, mmu_idx, addr);
+=20
++    g_assert(-(addr | TARGET_PAGE_MASK) >=3D size);
++
+     if (!tlb_hit(tlb_addr_write(entry), addr)) {
+         /* TLB entry is for a different page */
+         if (!VICTIM_TLB_HIT(addr_write, addr)) {
 --=20
 2.21.0
 
