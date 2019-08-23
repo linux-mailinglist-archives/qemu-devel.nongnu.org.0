@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABBEB9B95A
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 02:11:38 +0200 (CEST)
-Received: from localhost ([::1]:35378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7429B967
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 02:12:48 +0200 (CEST)
+Received: from localhost ([::1]:35420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Jeb-0005ag-Jz
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 20:11:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49828)
+	id 1i1Jfj-00073R-Gc
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 20:12:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50015)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1JCO-00018W-5S
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:42:29 -0400
+ id 1i1JCd-0001Vb-VI
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:42:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1JCN-0000JX-1D
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:42:28 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:38476)
+ id 1i1JCc-0000QH-8J
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:42:43 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13713)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
- id 1i1JCM-0000Il-LN; Fri, 23 Aug 2019 19:42:26 -0400
+ id 1i1JCb-0000Pq-US; Fri, 23 Aug 2019 19:42:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1566603747; x=1598139747;
+ t=1566603762; x=1598139762;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Zk6i3nobuH9a+yzfXQLxN8Qyk5ojE8cdGzrGAao+Hwk=;
- b=QK10wwnjDK+7aJCxWNwT2uNaT8dbI9RIFh1t7RWmRo11ZFohb9tmH8fL
- xo+7Tsb9WMPUsrUJA50MjMNFX9fYKBJCe378CJatIjPgJt1r/OeZq8dia
- UlMzEnN8CdGKxyZvFTFWZgzaT6d1vu2yUxu831XyB7iNDWm4nFHJZJxNN
- 0KdKKNtd9aTL3hTo1G+USV4wTuwfNyGdOex3lC+2HEn1oXx6ryAi0yiIk
- jMVDhu/bqnkGvyXwfShgAgoZDNkk5bvDRIGVRdQC0/6rCNKH3bCY5WO7j
- em8ZsrTYobXoU8LdOxBoJEFatq+n9gJ28+P7zU0sgKxvKKhKQrQjpi9+v w==;
-IronPort-SDR: Z/cH5aUAjdpIEQNWONTXY9uVO9Ckl6xiWC8kiJChlvL8v8Rp2UQqzTsVN/vqtAoj4fXijwuNJD
- jQ/eZQZ+O/TUfXQey2DFnvy6EVuyj9Pu48GaTs/U9g4EzLZrAeRJXgaxbSMDNeYfaTR3GB6AyY
- hVKXGk2TSXE9IELd0geFa2A6AKEf5haBbR5nqTvleoO879NgYoESO/OuH+kD9jEnAy67mzs/Ip
- eWBOopREhH8vcJdjdMLE0vP8SezDixeS1Fs+SECbj9HhvIU2sAnGDgdq3D4uE8Kmyz+EMM0xo4
- hkk=
-X-IronPort-AV: E=Sophos;i="5.64,422,1559491200"; d="scan'208";a="117486907"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 24 Aug 2019 07:42:26 +0800
-IronPort-SDR: SpDd8GTqtoJfMFuVUDK6nZizm+FtDduQYKJRgMcEIcwOH8jZ9iaWtvxM9Zx37Be4OT0g/tFARZ
- OkrBtCcaOuRWVkFAwpw9Ls7zWuj3QoAGzKCwQ6Cp2eqa39X5zynSnh+rvVh7lmltbAZlZXxxuz
- L6fn+Gfs19rvgYAMBZaG2KPaikCcV/3H0nnCaba84G3/I9VqxIk4i2NAAz49h0fuA8rpB+kjZ4
- kLvmkgZX3cMuyY4zez34cWEiIEJnkjGPGSbsbTq1X88aJ8bznnK3920NDUuqP18GLvBSRYtZEx
- YCG7HLhm89aowP0P/C4Q94l4
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2019 16:39:43 -0700
-IronPort-SDR: 7elb/x0ptLLj0i0Sez73m0Di+PGjl5lUQXUgDnEobbiNQmr8x8nU/lVqCNhL4XkXQWyQnmr7Of
- QANgHSW7CZ5knaFXyR7odRpFQ50eGnqHWqJy75mkFQfMtSHRgfLaJx2BoIXi811cRJ9dmUaDnA
- E6MtiiHb3KP+FWn4Dyjy0BjDIBXg0WhB4NrVClorqfTEWCpS2E5Lm6Gixa+Lq2YWuvYl4AAeNo
- pQ4zIZ1d+x9GwUgwdPzxFHy50rPvLPlA7yRNUYSMYOBSuTpsRR7fDXWIATr7rb2xOdDHDA7/BM
- dpY=
+ bh=BcKwsJ8UdBDM71IJxhMwOmPklql2SLp8yqEnUlStuz8=;
+ b=qjTUqum+z0DIwS7e6JTax15WJk7ID+Pt8w6AGJIAAe8gs3pnk/544Wu3
+ JHjKwsZmnYb0V2VfGhT+OuVleh5uTQ5LgVzP7ULj0BDpcyoZN8ChxOICk
+ cKkJLNfwa9Rf/YMeYOOikeXQm4EEI5BsZBDjLhqc+7iluluN46reaTtYn
+ /o/MUiwa60bwzoLeN51eV4EoqZ79Pp0FWJCACxBhHU8kNmrPj8FUggzp3
+ y7kkj7Ztj0DX+KkyiKOZRVSRSo9yCjdtMkT5m6YrzA62mulRdiJdjHcCH
+ YVNP8QCIeKNuMDZ0JEKVK47k6CGzjiabJGaKJVj1QHdpLzZJ5Te3lyaUB g==;
+IronPort-SDR: 79cPE2+w4dMo1EtpKVxyViGae5nJ8x4xw6yDgtyh0kxVDhNV/+aT6VktNK2jwhcSuDkPqaxiKM
+ md3n7jHRCmgFavguTMj0ugE02TKmCToE3fiSO7nXN0TH8tdMrTGYGz5BcYN+D6m2Tj96p09oAE
+ dPFQvb/bhHDHiQKHSiw9OG1UO1mWWswfClzDmiIK/dr064tBm6OgsE7O9JA3uwaGhU4D3BDgR+
+ NwDKmLYYNGhJeRi+4L51nGmK08D97+8oTR9HHqS+b4UqCuTr/ATPX6W8Sy0OKQxu8GjAB5RuTa
+ 8c8=
+X-IronPort-AV: E=Sophos;i="5.64,422,1559491200"; d="scan'208";a="118154444"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 24 Aug 2019 07:42:41 +0800
+IronPort-SDR: RCJ5//b4DFr2/SV1EtDYhZrO7nt1Pfl7HSdk6H9VKwdVROfRLFlwrvqVMW1DwSBASg1spvHo35
+ ulr0164NyF0B3Mk19ArRWQxcQNh7gx814CnMmE/cxsjV9Hn8ZknEAwyl9p4tXaEV6So/AH6OqX
+ xI44FttrJp4pbIazxUK3a+y1T/XsFAotiCTBTFSzU7y9DI+/NI5lEA+Rjs3PIoeGWF4S3UAmQH
+ g9OfUsi0LUwOqQWuhHwlCwI7mraAm0pFk2YmDa5x3OTVMVmDJ38312l42kZPXEJRcMBvxaMNLn
+ WyvPfDCChyHTd+iRr//J1Kh8
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2019 16:39:58 -0700
+IronPort-SDR: 0ftYSPLyMbwPbYj7y92iyEUYgRsW2f0QhT/1WD658Twe5/gMP0hIkz0Lw/wumqPXQcusNdfRBy
+ 9O3WRIngg5BaKVhKKGsvu7+BOjv/VN/8K+vaxlYoMx2NVyaSDohrSROxZ0mjmXJBM7yQ+D2xdv
+ boN9IvIjWeFE3P7g0H7Lbd8itPnk0s8fno3563fncnita0FwMsJw31TBxlXlC1wFO2oXFQOhID
+ tqNKkA+e93279yQzGmzac+d9/E0q+oR7tsvhxp1vpdEOVoL4fXy5uB17kXlo5RWg7NsDRKRZwf
+ La0=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.58])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Aug 2019 16:42:24 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 23 Aug 2019 16:42:41 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Date: Fri, 23 Aug 2019 16:38:44 -0700
-Message-Id: <8a628d1542d547b6d639cdba51db67590d0b56de.1566603412.git.alistair.francis@wdc.com>
+Date: Fri, 23 Aug 2019 16:39:00 -0700
+Message-Id: <c7961e38284feb8de1180173bf92c78153fd6970.1566603412.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1566603412.git.alistair.francis@wdc.com>
 References: <cover.1566603412.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.153.144
-Subject: [Qemu-devel] [PATCH v1 21/28] target/riscv: Respect MPRV and SPRV
- for floating point ops
+X-Received-From: 216.71.154.45
+Subject: [Qemu-devel] [PATCH v1 27/28] target/riscv: Add the
+ MSTATUS_MPV_ISSET helper macro
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,41 +90,89 @@ Cc: alistair23@gmail.com, Anup.Patel@wdc.com, palmer@sifive.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Respect the contents of MSTATUS.MPRV and HSTATUS.SPRV when performing
-floating point operations when V=0.
+Add a helper macro MSTATUS_MPV_ISSET() which will determine if the
+MSTATUS_MPV bit is set for both 32-bit and 64-bit RISC-V.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/translate.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ target/riscv/cpu_bits.h   | 11 +++++++++++
+ target/riscv/cpu_helper.c |  4 ++--
+ target/riscv/op_helper.c  |  2 +-
+ target/riscv/translate.c  |  2 +-
+ 4 files changed, 15 insertions(+), 4 deletions(-)
 
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 55e20af6d9..7056d9218b 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -365,8 +365,19 @@
+ #define MSTATUS_TVM         0x00100000 /* since: priv-1.10 */
+ #define MSTATUS_TW          0x20000000 /* since: priv-1.10 */
+ #define MSTATUS_TSR         0x40000000 /* since: priv-1.10 */
++#if defined(TARGET_RISCV64)
+ #define MSTATUS_MTL         0x4000000000ULL
+ #define MSTATUS_MPV         0x8000000000ULL
++#elif defined(TARGET_RISCV32)
++#define MSTATUS_MTL         0x00000040
++#define MSTATUS_MPV         0x00000080
++#endif
++
++#ifdef TARGET_RISCV32
++# define MSTATUS_MPV_ISSET(env)  get_field(*env->mstatush, MSTATUS_MPV)
++#else
++# define MSTATUS_MPV_ISSET(env)  get_field(*env->mstatus, MSTATUS_MPV)
++#endif
+ 
+ #define MSTATUS64_UXL       0x0000000300000000ULL
+ #define MSTATUS64_SXL       0x0000000C00000000ULL
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 8c80486dd0..2b88f756bb 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -351,7 +351,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+             mode = get_field(*env->mstatus, MSTATUS_MPP);
+ 
+             if (riscv_has_ext(env, RVH) &&
+-                get_field(*env->mstatus, MSTATUS_MPV)) {
++                MSTATUS_MPV_ISSET(env)) {
+                 use_background = true;
+             }
+         }
+@@ -730,7 +730,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+         m_mode_two_stage = env->priv == PRV_M &&
+                            access_type != MMU_INST_FETCH &&
+                            get_field(*env->mstatus, MSTATUS_MPRV) &&
+-                           get_field(*env->mstatus, MSTATUS_MPV);
++                           MSTATUS_MPV_ISSET(env);
+ 
+         hs_mode_two_stage = env->priv == PRV_S &&
+                             !riscv_cpu_virt_enabled(env) &&
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index 8dec1aee99..6149cd9c15 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -146,7 +146,7 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
+ 
+     target_ulong mstatus = *env->mstatus;
+     target_ulong prev_priv = get_field(mstatus, MSTATUS_MPP);
+-    target_ulong prev_virt = get_field(mstatus, MSTATUS_MPV);
++    target_ulong prev_virt = MSTATUS_MPV_ISSET(env);
+     mstatus = set_field(mstatus,
+         env->priv_ver >= PRIV_VERSION_1_10_0 ?
+         MSTATUS_MIE : MSTATUS_UIE << prev_priv,
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 19771904f4..ea19ba9c5d 100644
+index ea19ba9c5d..f0d9860429 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -750,7 +750,21 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->mstatus_fs = ctx->base.tb->flags & TB_FLAGS_MSTATUS_FS;
-     ctx->priv_ver = env->priv_ver;
- #if !defined(CONFIG_USER_ONLY)
--    ctx->virt_enabled = riscv_cpu_virt_enabled(env);
-+    if (riscv_has_ext(env, RVH)) {
-+        ctx->virt_enabled = riscv_cpu_virt_enabled(env);
-+        if (env->priv_ver == PRV_M &&
-+            get_field(*env->mstatus, MSTATUS_MPRV) &&
-+            get_field(*env->mstatus, MSTATUS_MPV)) {
-+            ctx->virt_enabled = true;
-+        } else if (env->priv == PRV_S &&
-+                   !riscv_cpu_virt_enabled(env) &&
-+                   get_field(env->hstatus, HSTATUS_SPRV) &&
-+                   get_field(env->hstatus, HSTATUS_SPV)) {
-+            ctx->virt_enabled = true;
-+        }
-+    } else {
-+        ctx->virt_enabled = false;
-+    }
- #else
-     ctx->virt_enabled = false;
- #endif
+@@ -754,7 +754,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+         ctx->virt_enabled = riscv_cpu_virt_enabled(env);
+         if (env->priv_ver == PRV_M &&
+             get_field(*env->mstatus, MSTATUS_MPRV) &&
+-            get_field(*env->mstatus, MSTATUS_MPV)) {
++            MSTATUS_MPV_ISSET(env)) {
+             ctx->virt_enabled = true;
+         } else if (env->priv == PRV_S &&
+                    !riscv_cpu_virt_enabled(env) &&
 -- 
 2.22.0
 
