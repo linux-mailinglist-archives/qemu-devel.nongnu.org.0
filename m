@@ -2,65 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D439B66D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 20:51:44 +0200 (CEST)
-Received: from localhost ([::1]:32805 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8309B65F
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 20:50:31 +0200 (CEST)
+Received: from localhost ([::1]:32796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Ef1-0007b1-CY
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 14:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40415)
+	id 1i1Edq-0005To-DO
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 14:50:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39745)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1i1ES8-0004hn-2K
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:38:25 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1i1EOP-0000O1-5p
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:34:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1i1ES6-0001aC-Vu
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:38:23 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:44715)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1i1ES6-0001ZB-Nz; Fri, 23 Aug 2019 14:38:22 -0400
-Received: by mail-lj1-x244.google.com with SMTP id e24so9719585ljg.11;
- Fri, 23 Aug 2019 11:38:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5HhYI+d7TeubtlYOr+ttlgbGlwQjGw9ZjQgyvEJ38N8=;
- b=gxwbgYZSsX3yuob6P6IoGNXR5SrPTI+cHY7rlbiQp6jka0DSR2jRlLs60V1LDYeLJA
- /ulfSReTFQiht8wWhLNso13G/+EmFVygGThjW1yQeCnshx5w6h5gIL9wueSpW0h7VrFr
- /CMGAV6imZm7ooiGv76RPgS32LO5RcWervzoYjcPj7MWnBiR3UUnKyV8DKAwcy56z/xd
- kKuBda7CAsSMK3JPK92gRoZvPzEaStOWByTjUI3LbSDUcOmiVR4xC4zKpcv3vO2Vo/Zq
- 6eKnQxf6QVqX6XcwaajBS7EBAuq4weOQXg43OP92QQ7QxtV/kt+y+ipNP1X8Ce+yOnv2
- Oz3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5HhYI+d7TeubtlYOr+ttlgbGlwQjGw9ZjQgyvEJ38N8=;
- b=J6i0t9cKa4W1IuZJ29Qw42V4vvg5hko2UseYwm0pSIM+VarLOT5xu1YFqvt4jZG67L
- lBXdJfte9L2ztX224Gegwy7WUuiuBVn/AJGMcwXnjhejajMIsFpENy10GdZUQSuiYfdH
- 7r4BMRgFpuuDG+NzjQQOUtdaMNnCVTKunWuIIO7bbpaxz2smn3C3htxWsxkTTmY4gDcN
- fj/AnfyZG7o/guS8SlpfxzSII9PhA7/i2DnLT+wk28EkMaKHNt4582qYPn/oiNt8Q5Xp
- bZEzcZt50qQTl4jyttwvy/puUGdhq6TWvpGSunCCpEFBKq5ofznltb9YFxObxhDXLB6U
- nSBA==
-X-Gm-Message-State: APjAAAVGoFHp8E5SpXDXztSCt4Qr4Ch8ElnGk7cxjcodcI6sbxcHdGsT
- 8gTxUA+zqp1eMvsF8l7p0Jh96/i4VSI8+s+ZG5s=
-X-Google-Smtp-Source: APXvYqw1xGrtGrV/qucFpDd49EKbjbyoYbhWxzNIGmPw1llA8cFPlsRZeh9PajYgoa0HTb6SobJ7IK2SaJkRd+U1srE=
-X-Received: by 2002:a2e:8102:: with SMTP id d2mr3837034ljg.58.1566585500903;
- Fri, 23 Aug 2019 11:38:20 -0700 (PDT)
+ (envelope-from <tony.nguyen@bt.com>) id 1i1EOM-00083l-SX
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:34:33 -0400
+Received: from nsstlmta25p.bpe.bigpond.com ([203.38.21.25]:52153)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tony.nguyen@bt.com>) id 1i1EOL-000822-VD
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:34:30 -0400
+Received: from smtp.telstra.com ([10.10.24.4])
+ by nsstlfep25p-svc.bpe.nexus.telstra.com.au with ESMTP id
+ <20190823183425.NRLH14235.nsstlfep25p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
+ Sat, 24 Aug 2019 04:34:25 +1000
+X-RG-Spam: Unknown
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedguddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvohhnhicupfhguhihvghnuceothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucfkphepheekrddujeefrdelkedrieeknecurfgrrhgrmhephhgvlhhopegusgiirdhtvghlshhtrhgrrdgtohhmrdgruhdpihhnvghtpeehkedrudejfedrleekrdeikedpmhgrihhlfhhrohhmpeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqedprhgtphhtthhopeeomhhsthesrhgvughhrghtrdgtohhmqedprhgtphhtthhopeeophgsohhniihinhhisehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeorhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgqedprhgtphhtthhopeeorhhthhesthifihguughlvgdrnhgvtheqpdhrtghpthhtohepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecuvehluhhsthgvrhfuihiivgeptd
+X-RazorGate-Vade-Verdict: clean 0
+X-RazorGate-Vade-Classification: clean
+X-RG-VS-CLASS: clean
+X-Authentication-Info: Submitted using ID tony.nguyen.git@bigpond.com
+Received: from dbz.telstra.com.au (58.173.98.68) by smtp.telstra.com (5.8.335)
+ (authenticated as tony.nguyen.git@bigpond.com)
+ id 5D3692920C8AF2E7; Sat, 24 Aug 2019 04:34:24 +1000
+From: Tony Nguyen <tony.nguyen@bt.com>
+To: qemu-devel@nongnu.org
+Date: Sat, 24 Aug 2019 04:36:54 +1000
+Message-Id: <911ff31af11922a9afba9b7ce128af8b8b80f316.1566466906.git.tony.nguyen@bt.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <cover.1566466906.git.tony.nguyen@bt.com>
+References: <cover.1566466906.git.tony.nguyen@bt.com>
 MIME-Version: 1.0
-References: <1566537069-22741-1-git-send-email-bmeng.cn@gmail.com>
- <1566537069-22741-18-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1566537069-22741-18-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 23 Aug 2019 11:34:14 -0700
-Message-ID: <CAKmqyKNGVkqqdPWWy1-mvi=EW1Axw4GAWFGHvSSYAsbvo6b3qg@mail.gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::244
-Subject: Re: [Qemu-devel] [PATCH v5 17/30] riscv: sifive_u: Set the minimum
- number of cpus to 2
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 203.38.21.25
+Subject: [Qemu-devel] [PATCH v9 16/20] memory: Single byte swap along the
+ I/O path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,64 +57,377 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Tony Nguyen <tony.nguyen@bt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 22, 2019 at 10:16 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> It is not useful if we only have one management CPU.
->
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Now that MemOp has been pushed down into the memory API, and
+callers are encoding endianness, we can collapse byte swaps
+along the I/O path into the accelerator and target independent
+adjust_endianness.
 
-Ah, I jumped the gun with patch 16. This should be before patch 16,
-otherwise patch 16 is fine.
+Collapsing byte swaps along the I/O path enables additional endian
+inversion logic, e.g. SPARC64 Invert Endian TTE bit, with redundant
+byte swaps cancelling out.
 
-Alistair
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
+---
+ accel/tcg/cputlb.c     | 42 ++--------------------------
+ exec.c                 | 17 +++---------
+ hw/virtio/virtio-pci.c | 10 +++----
+ memory.c               | 33 ++++++++--------------
+ memory_ldst.inc.c      | 63 ------------------------------------------
+ 5 files changed, 23 insertions(+), 142 deletions(-)
 
->
-> ---
->
-> Changes in v5: None
-> Changes in v4: None
-> Changes in v3:
-> - use management cpu count + 1 for the min_cpus
->
-> Changes in v2:
-> - update the file header to indicate at least 2 harts are created
->
->  hw/riscv/sifive_u.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 0e5bbe7..a36cd77 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -10,8 +10,8 @@
->   * 1) CLINT (Core Level Interruptor)
->   * 2) PLIC (Platform Level Interrupt Controller)
->   *
-> - * This board currently generates devicetree dynamically that indicates at most
-> - * five harts.
-> + * This board currently generates devicetree dynamically that indicates at least
-> + * two harts and up to five harts.
->   *
->   * This program is free software; you can redistribute it and/or modify it
->   * under the terms and conditions of the GNU General Public License,
-> @@ -485,6 +485,7 @@ static void riscv_sifive_u_machine_init(MachineClass *mc)
->      mc->desc = "RISC-V Board compatible with SiFive U SDK";
->      mc->init = riscv_sifive_u_init;
->      mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
-> +    mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
->  }
->
->  DEFINE_MACHINE("sifive_u", riscv_sifive_u_machine_init)
-> --
-> 2.7.4
->
->
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 5c12eef292..3c9e634d99 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1200,38 +1200,6 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+     cpu_loop_exit_atomic(env_cpu(env), retaddr);
+ }
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
+-#define NEED_BE_BSWAP 0
+-#define NEED_LE_BSWAP 1
+-#else
+-#define NEED_BE_BSWAP 1
+-#define NEED_LE_BSWAP 0
+-#endif
+-
+-/*
+- * Byte Swap Helper
+- *
+- * This should all dead code away depending on the build host and
+- * access type.
+- */
+-
+-static inline uint64_t handle_bswap(uint64_t val, MemOp op)
+-{
+-    if ((memop_big_endian(op) && NEED_BE_BSWAP) ||
+-        (!memop_big_endian(op) && NEED_LE_BSWAP)) {
+-        switch (op & MO_SIZE) {
+-        case MO_8: return val;
+-        case MO_16: return bswap16(val);
+-        case MO_32: return bswap32(val);
+-        case MO_64: return bswap64(val);
+-        default:
+-            g_assert_not_reached();
+-        }
+-    } else {
+-        return val;
+-    }
+-}
+-
+ /*
+  * Load Helpers
+  *
+@@ -1306,10 +1274,8 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+             }
+         }
+ 
+-        /* TODO: Merge bswap into io_readx -> memory_region_dispatch_read.  */
+-        res = io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
+-                       mmu_idx, addr, retaddr, access_type, op);
+-        return handle_bswap(res, op);
++        return io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
++                        mmu_idx, addr, retaddr, access_type, op);
+     }
+ 
+     /* Handle slow unaligned access (it spans two pages or IO).  */
+@@ -1552,10 +1518,8 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+             }
+         }
+ 
+-        /* TODO: Merge bswap into io_writex -> memory_region_dispatch_write.  */
+         io_writex(env, &env_tlb(env)->d[mmu_idx].iotlb[index], mmu_idx,
+-                  handle_bswap(val, op),
+-                  addr, retaddr, op);
++                  val, addr, retaddr, op);
+         return;
+     }
+ 
+diff --git a/exec.c b/exec.c
+index 39aff6810b..b3c38be5df 100644
+--- a/exec.c
++++ b/exec.c
+@@ -3363,14 +3363,9 @@ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
+             l = memory_access_size(mr, l, addr1);
+             /* XXX: could force current_cpu to NULL to avoid
+                potential bugs */
+-            val = ldn_p(buf, l);
+-            /*
+-             * TODO: Merge bswap from ldn_p into memory_region_dispatch_write
+-             * by using ldn_he_p and dropping MO_TE to get a host-endian value.
+-             */
++            val = ldn_he_p(buf, l);
+             result |= memory_region_dispatch_write(mr, addr1, val,
+-                                                   size_memop(l) | MO_TE,
+-                                                   attrs);
++                                                   size_memop(l), attrs);
+         } else {
+             /* RAM case */
+             ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
+@@ -3431,13 +3426,9 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
+             /* I/O case */
+             release_lock |= prepare_mmio_access(mr);
+             l = memory_access_size(mr, l, addr1);
+-            /*
+-             * TODO: Merge bswap from stn_p into memory_region_dispatch_read
+-             * by using stn_he_p and dropping MO_TE to get a host-endian value.
+-             */
+             result |= memory_region_dispatch_read(mr, addr1, &val,
+-                                                  size_memop(l) | MO_TE, attrs);
+-            stn_p(buf, l, val);
++                                                  size_memop(l), attrs);
++            stn_he_p(buf, l, val);
+         } else {
+             /* RAM case */
+             ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index d89a85bb33..ffb03728f9 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -544,16 +544,15 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy, hwaddr addr,
+         val = pci_get_byte(buf);
+         break;
+     case 2:
+-        val = cpu_to_le16(pci_get_word(buf));
++        val = pci_get_word(buf);
+         break;
+     case 4:
+-        val = cpu_to_le32(pci_get_long(buf));
++        val = pci_get_long(buf);
+         break;
+     default:
+         /* As length is under guest control, handle illegal values. */
+         return;
+     }
+-    /* TODO: Merge bswap from cpu_to_leXX into memory_region_dispatch_write.  */
+     memory_region_dispatch_write(mr, addr, val, size_memop(len) | MO_LE,
+                                  MEMTXATTRS_UNSPECIFIED);
+ }
+@@ -578,7 +577,6 @@ virtio_address_space_read(VirtIOPCIProxy *proxy, hwaddr addr,
+     /* Make sure caller aligned buf properly */
+     assert(!(((uintptr_t)buf) & (len - 1)));
+ 
+-    /* TODO: Merge bswap from leXX_to_cpu into memory_region_dispatch_read.  */
+     memory_region_dispatch_read(mr, addr, &val, size_memop(len) | MO_LE,
+                                 MEMTXATTRS_UNSPECIFIED);
+     switch (len) {
+@@ -586,10 +584,10 @@ virtio_address_space_read(VirtIOPCIProxy *proxy, hwaddr addr,
+         pci_set_byte(buf, val);
+         break;
+     case 2:
+-        pci_set_word(buf, le16_to_cpu(val));
++        pci_set_word(buf, val);
+         break;
+     case 4:
+-        pci_set_long(buf, le32_to_cpu(val));
++        pci_set_long(buf, val);
+         break;
+     default:
+         /* As length is under guest control, handle illegal values. */
+diff --git a/memory.c b/memory.c
+index 66ba23280a..11a9b08060 100644
+--- a/memory.c
++++ b/memory.c
+@@ -352,32 +352,23 @@ static bool memory_region_big_endian(MemoryRegion *mr)
+ #endif
+ }
+ 
+-static bool memory_region_wrong_endianness(MemoryRegion *mr)
++static void adjust_endianness(MemoryRegion *mr, uint64_t *data, MemOp op)
+ {
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    return mr->ops->endianness == DEVICE_LITTLE_ENDIAN;
+-#else
+-    return mr->ops->endianness == DEVICE_BIG_ENDIAN;
+-#endif
+-}
+-
+-static void adjust_endianness(MemoryRegion *mr, uint64_t *data, unsigned size)
+-{
+-    if (memory_region_wrong_endianness(mr)) {
+-        switch (size) {
+-        case 1:
++    if ((op & MO_BSWAP) != devend_memop(mr->ops->endianness)) {
++        switch (op & MO_SIZE) {
++        case MO_8:
+             break;
+-        case 2:
++        case MO_16:
+             *data = bswap16(*data);
+             break;
+-        case 4:
++        case MO_32:
+             *data = bswap32(*data);
+             break;
+-        case 8:
++        case MO_64:
+             *data = bswap64(*data);
+             break;
+         default:
+-            abort();
++            g_assert_not_reached();
+         }
+     }
+ }
+@@ -1451,7 +1442,7 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
+     }
+ 
+     r = memory_region_dispatch_read1(mr, addr, pval, size, attrs);
+-    adjust_endianness(mr, pval, size);
++    adjust_endianness(mr, pval, op);
+     return r;
+ }
+ 
+@@ -1494,7 +1485,7 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
+         return MEMTX_DECODE_ERROR;
+     }
+ 
+-    adjust_endianness(mr, &data, size);
++    adjust_endianness(mr, &data, op);
+ 
+     if ((!kvm_eventfds_enabled()) &&
+         memory_region_dispatch_write_eventfds(mr, addr, data, size, attrs)) {
+@@ -2345,7 +2336,7 @@ void memory_region_add_eventfd(MemoryRegion *mr,
+     }
+ 
+     if (size) {
+-        adjust_endianness(mr, &mrfd.data, size);
++        adjust_endianness(mr, &mrfd.data, size_memop(size) | MO_TE);
+     }
+     memory_region_transaction_begin();
+     for (i = 0; i < mr->ioeventfd_nb; ++i) {
+@@ -2380,7 +2371,7 @@ void memory_region_del_eventfd(MemoryRegion *mr,
+     unsigned i;
+ 
+     if (size) {
+-        adjust_endianness(mr, &mrfd.data, size);
++        adjust_endianness(mr, &mrfd.data, size_memop(size) | MO_TE);
+     }
+     memory_region_transaction_begin();
+     for (i = 0; i < mr->ioeventfd_nb; ++i) {
+diff --git a/memory_ldst.inc.c b/memory_ldst.inc.c
+index 809a7e8389..c54aee4a95 100644
+--- a/memory_ldst.inc.c
++++ b/memory_ldst.inc.c
+@@ -38,18 +38,8 @@ static inline uint32_t glue(address_space_ldl_internal, SUFFIX)(ARG1_DECL,
+         release_lock |= prepare_mmio_access(mr);
+ 
+         /* I/O case */
+-        /* TODO: Merge bswap32 into memory_region_dispatch_read.  */
+         r = memory_region_dispatch_read(mr, addr1, &val,
+                                         MO_32 | devend_memop(endian), attrs);
+-#if defined(TARGET_WORDS_BIGENDIAN)
+-        if (endian == DEVICE_LITTLE_ENDIAN) {
+-            val = bswap32(val);
+-        }
+-#else
+-        if (endian == DEVICE_BIG_ENDIAN) {
+-            val = bswap32(val);
+-        }
+-#endif
+     } else {
+         /* RAM case */
+         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
+@@ -116,18 +106,8 @@ static inline uint64_t glue(address_space_ldq_internal, SUFFIX)(ARG1_DECL,
+         release_lock |= prepare_mmio_access(mr);
+ 
+         /* I/O case */
+-        /* TODO: Merge bswap64 into memory_region_dispatch_read.  */
+         r = memory_region_dispatch_read(mr, addr1, &val,
+                                         MO_64 | devend_memop(endian), attrs);
+-#if defined(TARGET_WORDS_BIGENDIAN)
+-        if (endian == DEVICE_LITTLE_ENDIAN) {
+-            val = bswap64(val);
+-        }
+-#else
+-        if (endian == DEVICE_BIG_ENDIAN) {
+-            val = bswap64(val);
+-        }
+-#endif
+     } else {
+         /* RAM case */
+         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
+@@ -228,18 +208,8 @@ static inline uint32_t glue(address_space_lduw_internal, SUFFIX)(ARG1_DECL,
+         release_lock |= prepare_mmio_access(mr);
+ 
+         /* I/O case */
+-        /* TODO: Merge bswap16 into memory_region_dispatch_read.  */
+         r = memory_region_dispatch_read(mr, addr1, &val,
+                                         MO_16 | devend_memop(endian), attrs);
+-#if defined(TARGET_WORDS_BIGENDIAN)
+-        if (endian == DEVICE_LITTLE_ENDIAN) {
+-            val = bswap16(val);
+-        }
+-#else
+-        if (endian == DEVICE_BIG_ENDIAN) {
+-            val = bswap16(val);
+-        }
+-#endif
+     } else {
+         /* RAM case */
+         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
+@@ -342,17 +312,6 @@ static inline void glue(address_space_stl_internal, SUFFIX)(ARG1_DECL,
+     mr = TRANSLATE(addr, &addr1, &l, true, attrs);
+     if (l < 4 || !memory_access_is_direct(mr, true)) {
+         release_lock |= prepare_mmio_access(mr);
+-
+-#if defined(TARGET_WORDS_BIGENDIAN)
+-        if (endian == DEVICE_LITTLE_ENDIAN) {
+-            val = bswap32(val);
+-        }
+-#else
+-        if (endian == DEVICE_BIG_ENDIAN) {
+-            val = bswap32(val);
+-        }
+-#endif
+-        /* TODO: Merge bswap32 into memory_region_dispatch_write.  */
+         r = memory_region_dispatch_write(mr, addr1, val,
+                                          MO_32 | devend_memop(endian), attrs);
+     } else {
+@@ -449,17 +408,6 @@ static inline void glue(address_space_stw_internal, SUFFIX)(ARG1_DECL,
+     mr = TRANSLATE(addr, &addr1, &l, true, attrs);
+     if (l < 2 || !memory_access_is_direct(mr, true)) {
+         release_lock |= prepare_mmio_access(mr);
+-
+-#if defined(TARGET_WORDS_BIGENDIAN)
+-        if (endian == DEVICE_LITTLE_ENDIAN) {
+-            val = bswap16(val);
+-        }
+-#else
+-        if (endian == DEVICE_BIG_ENDIAN) {
+-            val = bswap16(val);
+-        }
+-#endif
+-        /* TODO: Merge bswap16 into memory_region_dispatch_write.  */
+         r = memory_region_dispatch_write(mr, addr1, val,
+                                          MO_16 | devend_memop(endian), attrs);
+     } else {
+@@ -524,17 +472,6 @@ static void glue(address_space_stq_internal, SUFFIX)(ARG1_DECL,
+     mr = TRANSLATE(addr, &addr1, &l, true, attrs);
+     if (l < 8 || !memory_access_is_direct(mr, true)) {
+         release_lock |= prepare_mmio_access(mr);
+-
+-#if defined(TARGET_WORDS_BIGENDIAN)
+-        if (endian == DEVICE_LITTLE_ENDIAN) {
+-            val = bswap64(val);
+-        }
+-#else
+-        if (endian == DEVICE_BIG_ENDIAN) {
+-            val = bswap64(val);
+-        }
+-#endif
+-        /* TODO: Merge bswap64 into memory_region_dispatch_write.  */
+         r = memory_region_dispatch_write(mr, addr1, val,
+                                          MO_64 | devend_memop(endian), attrs);
+     } else {
+-- 
+2.23.0
+
 
