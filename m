@@ -2,50 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C3D9A75B
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 08:05:28 +0200 (CEST)
-Received: from localhost ([::1]:51886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A22329A757
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 08:01:33 +0200 (CEST)
+Received: from localhost ([::1]:51864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i12hT-00022t-JS
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 02:05:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51127)
+	id 1i12dg-0007cD-Ic
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 02:01:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50736)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i12eQ-0000kS-By
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 02:02:19 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i12bk-000705-T9
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 01:59:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i12eO-0004cM-PQ
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 02:02:18 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:34237 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i12eN-0004Sc-HZ; Fri, 23 Aug 2019 02:02:16 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46F9lh10tlz9s3Z; Fri, 23 Aug 2019 16:02:07 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1566540128;
- bh=kA6Nk5Mriy/egRWGeO2djE7Ppzd9wcalvdsmHxhZFOQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iZuYneu/So+ZsU+eb5CuWYIQamcYVXMuHxS7GmumG/c8JBwIOgcnksiYd/rmtfrp6
- GN2WOjPGbLyDk9DjSiGodnHu7Tuj85cJ+w8jFvjLurIlCTHzw/E0hTwzsIyOyBxLES
- u1aEOpG3F/MSR0J+oOk2Fa/Z4o4D9RO9Zbv0xFhQ=
-Date: Fri, 23 Aug 2019 15:39:44 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <20190823053944.GC3027@umbus.fritz.box>
-References: <20190813065920.23203-1-david@gibson.dropbear.id.au>
- <20190813065920.23203-2-david@gibson.dropbear.id.au>
- <fe960812-9df2-4c27-8661-633dee3f4a53@redhat.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i12bj-0002V3-Am
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 01:59:32 -0400
+Received: from mail-eopbgr80132.outbound.protection.outlook.com
+ ([40.107.8.132]:58500 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1i12bi-0002Ue-ID; Fri, 23 Aug 2019 01:59:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hEehz6b1C5fWwbOkp8ZdRKb3CkWbHnWwmUTJ9xLRKkx7BqB/wiLVUAa0lP2MAfqIHh066uAjgahahZBU7Vkx9SedrwgHsEemXPuvBQSZ08P6nMdfGwJLs51dZUoRRWpOXlRvaFbqYgEHjU045k2PuukPJ2wSSCfNKeJexf9HGKrzYvEVmRBwV9vmXgVlmgaFfsXMwEgHsQYhC+43wF5KU21raLiMIKsdKfFvWUlDdE+bDHsNf9+GI8GzXGny/YNPdNw5okRmMdb5TQoWCDlBq1ojJ99GB+7aN90ysfhEDLg9Up82MASC/d6gbhtjqgle+ydQ5lx3/00S0rpgfViFTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ileh0Hn4ziGa56iZV32a0CKsb5yXrkHG0xQTpnv1NiM=;
+ b=aH/EX1/dS37YE1OguR429/CX93Ta2ZIbB9NB2KFo0KfUWTNGhqw+iM6cJxeV9v0KKVOemtEbaplbrOSIs2YuA/q+wLfSJ+MkfJ0d/owK65Tmj6PHVou2Yr6Esff8NBNIOu3wJ9oi5ExT0SIf4JH4UJKuvcm9Cmwf+i0mjyUTmJWDMJljRAR1Ces5gZnKtQ2Gk3XPKKvJN3oNmIJG9uTxvfk+t26k2BH4jLNhQllJfzt46+2tqVvqqif2cW1uS2s7D6LrultILXrK1mBT7qLdBL9+dUP0T33p851yLmvwdnPU+RUWk3KFy/FXk1yE3AYa1hNZuRvZ2skqd3tULI+xfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ileh0Hn4ziGa56iZV32a0CKsb5yXrkHG0xQTpnv1NiM=;
+ b=AEzGqF4DRUYz9klubi0yHJYJLRDsrwk1+cj9l6Rb0WgaGGKZ4hAHqnV6yHPDNZLuRvX66YBJwAHZXjoBjgHPPmPrJyPZ3BzYr0DOfhsSOGGrKo/DsoYGB2r4j9Tay2YautE328qrm2U5tUQaAFJKuddm+HD6jXRNBi/677qLK7k=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB3980.eurprd08.prod.outlook.com (20.179.12.87) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2199.19; Fri, 23 Aug 2019 05:59:26 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::617b:d2c2:11e9:4604]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::617b:d2c2:11e9:4604%3]) with mapi id 15.20.2178.020; Fri, 23 Aug 2019
+ 05:59:26 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v6 38/42] iotests: Let complete_and_wait() work with
+ commit
+Thread-Index: AQHVTs2zYjc8L2kpC0midtvA3+khqacIUjeA
+Date: Fri, 23 Aug 2019 05:59:25 +0000
+Message-ID: <9d630252-3681-2740-04ce-09cd4b428421@virtuozzo.com>
+References: <20190809161407.11920-1-mreitz@redhat.com>
+ <20190809161407.11920-39-mreitz@redhat.com>
+In-Reply-To: <20190809161407.11920-39-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR07CA0024.eurprd07.prod.outlook.com
+ (2603:10a6:7:67::34) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190823085923736
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 85434981-3c3f-434a-b797-08d7278f0d8b
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DB8PR08MB3980; 
+x-ms-traffictypediagnostic: DB8PR08MB3980:
+x-microsoft-antispam-prvs: <DB8PR08MB3980B2BE7FB45D1279957120C1A40@DB8PR08MB3980.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:134;
+x-forefront-prvs: 0138CD935C
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(366004)(396003)(39850400004)(376002)(346002)(189003)(199004)(14454004)(6246003)(7736002)(66066001)(316002)(54906003)(102836004)(6506007)(6512007)(5660300002)(86362001)(66476007)(52116002)(71200400001)(71190400001)(256004)(99286004)(478600001)(4326008)(81156014)(81166006)(2501003)(8676002)(53936002)(305945005)(31696002)(6486002)(8936002)(486006)(25786009)(66446008)(66556008)(64756008)(66946007)(36756003)(2616005)(11346002)(476003)(6436002)(446003)(31686004)(186003)(26005)(386003)(76176011)(110136005)(2906002)(6116002)(3846002)(229853002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB3980;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: p5Y9GqtIrLWD0Y4PUO3uoCIUWjBCk6AZv/t2Sqwmqy21qg2oD83t4fURt9QLxYBij9UYLzK+/bPqsiDoxMk6vKMdkjNmnGhl3jhxnIT/rP/asqhQoIEXSj59bZg4k6DVnaRtz8Jun8fCuEveE6u8Bkx7RrTScgShjl9A0Rf0+9zV+pju6Rw0NwZiJg4PSRzOzPpJRJzqfNyrENPfku6wbp3knIpWrxBxrkVAC3Fqvk0ENS8rU5YMskRXOxlnYfXElKD8/OkbK6Gi5Vl+LAvuusk3C75+iO7ViVvC98z3lXEDl+gH7lvDab2VlEPTLkGCuT8cjGkvPvJUQn3bcVLThewzHQedpDyiA7ux+wYoI9mDXcXzUqLnehnmkRnqrZvAgL2P43PaF1AuvI5p5cdO9j/MtKV3pmqEd3h5Hq4kBnc=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EA41337421849949A72748315427CF49@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4ZLFUWh1odzi/v6L"
-Content-Disposition: inline
-In-Reply-To: <fe960812-9df2-4c27-8661-633dee3f4a53@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PULL 1/2] spapr: Reset CAS & IRQ
- subsystem after devices
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85434981-3c3f-434a-b797-08d7278f0d8b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2019 05:59:26.0884 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cU6lYoljgKJENlralzZy6xZELkUnLmMea+JxYYAo0ksAWQunobw2Y2B5f5XGl6cD0Vu6nCE4/otVNrJakp7ftF2gcGNe7YWQOkz4spx8wd4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB3980
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.8.132
+Subject: Re: [Qemu-devel] [PATCH v6 38/42] iotests: Let complete_and_wait()
+ work with commit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,169 +113,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---4ZLFUWh1odzi/v6L
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Aug 22, 2019 at 10:07:09PM +0200, Laurent Vivier wrote:
-> On 13/08/2019 08:59, David Gibson wrote:
-> > This fixes a nasty regression in qemu-4.1 for the 'pseries' machine,
-> > caused by the new "dual" interrupt controller model.  Specifically,
-> > qemu can crash when used with KVM if a 'system_reset' is requested
-> > while there's active I/O in the guest.
-> >=20
-> > The problem is that in spapr_machine_reset() we:
-> >=20
-> > 1. Reset the CAS vector state
-> > 	spapr_ovec_cleanup(spapr->ov5_cas);
-> >=20
-> > 2. Reset all devices
-> > 	qemu_devices_reset()
-> >=20
-> > 3. Reset the irq subsystem
-> > 	spapr_irq_reset();
-> >=20
-> > However (1) implicitly changes the interrupt delivery mode, because
-> > whether we're using XICS or XIVE depends on the CAS state.  We don't
-> > properly initialize the new irq mode until (3) though - in particular
-> > setting up the KVM devices.
-> >=20
-> > During (2), we can temporarily drop the BQL allowing some irqs to be
-> > delivered which will go to an irq system that's not properly set up.
-> >=20
-> > Specifically, if the previous guest was in (KVM) XIVE mode, the CAS
-> > reset will put us back in XICS mode.  kvm_kernel_irqchip() still
-> > returns true, because XIVE was using KVM, however XICs doesn't have
-> > its KVM components intialized and kernel_xics_fd =3D=3D -1.  When the i=
-rq
-> > is delivered it goes via ics_kvm_set_irq() which assert()s that
-> > kernel_xics_fd !=3D -1.
-> >=20
-> > This change addresses the problem by delaying the CAS reset until
-> > after the devices reset.  The device reset should quiesce all the
-> > devices so we won't get irqs delivered while we mess around with the
-> > IRQ.  The CAS reset and irq re-initialize should also now be under the
-> > same BQL critical section so nothing else should be able to interrupt
-> > it either.
-> >=20
-> > We also move the spapr_irq_msi_reset() used in one of the legacy irq
-> > modes, since it logically makes sense at the same point as the
-> > spapr_irq_reset() (it's essentially an equivalent operation for older
-> > machine types).  Since we don't need to switch between different
-> > interrupt controllers for those old machine types it shouldn't
-> > actually be broken in those cases though.
-> >=20
-> > Cc: C=E9dric Le Goater <clg@kaod.org>
-> >=20
-> > Fixes: b2e22477 "spapr: add a 'reset' method to the sPAPR IRQ backend"
-> > Fixes: 13db0cd9 "spapr: introduce a new sPAPR IRQ backend supporting
-> >                  XIVE and XICS"
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  hw/ppc/spapr.c | 24 ++++++++++++------------
-> >  1 file changed, 12 insertions(+), 12 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index 821f0d4a49..12ed4b065c 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -1726,6 +1726,18 @@ static void spapr_machine_reset(MachineState *ma=
-chine)
-> >          spapr_setup_hpt_and_vrma(spapr);
-> >      }
-> > =20
-> > +    /*
-> > +     * NVLink2-connected GPU RAM needs to be placed on a separate NUMA=
- node.
-> > +     * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() wh=
-ich is
-> > +     * called from vPHB reset handler so we initialize the counter her=
-e.
-> > +     * If no NUMA is configured from the QEMU side, we start from 1 as=
- GPU RAM
-> > +     * must be equally distant from any other node.
-> > +     * The final value of spapr->gpu_numa_id is going to be written to
-> > +     * max-associativity-domains in spapr_build_fdt().
-> > +     */
-> > +    spapr->gpu_numa_id =3D MAX(1, nb_numa_nodes);
-> > +    qemu_devices_reset();
-> > +
-> >      /*
-> >       * If this reset wasn't generated by CAS, we should reset our
-> >       * negotiated options and start from scratch
-> > @@ -1741,18 +1753,6 @@ static void spapr_machine_reset(MachineState *ma=
-chine)
-> >          spapr_irq_msi_reset(spapr);
-> >      }
-> > =20
-> > -    /*
-> > -     * NVLink2-connected GPU RAM needs to be placed on a separate NUMA=
- node.
-> > -     * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() wh=
-ich is
-> > -     * called from vPHB reset handler so we initialize the counter her=
-e.
-> > -     * If no NUMA is configured from the QEMU side, we start from 1 as=
- GPU RAM
-> > -     * must be equally distant from any other node.
-> > -     * The final value of spapr->gpu_numa_id is going to be written to
-> > -     * max-associativity-domains in spapr_build_fdt().
-> > -     */
-> > -    spapr->gpu_numa_id =3D MAX(1, nb_numa_nodes);
-> > -    qemu_devices_reset();
-> > -
-> >      /*
-> >       * This is fixing some of the default configuration of the XIVE
-> >       * devices. To be called after the reset of the machine devices.
-> >=20
->=20
-> This commit breaks migration between POWER8 <-> POWER9 hosts:
->=20
-> qemu-system-ppc64: error while loading state for instance 0x1 of device '=
-cpu'
-> qemu-system-ppc64: load of migration failed: Operation not permitted
->=20
-> Using a guest with a running 4.18 kernel (RHEL 8) and "-M pseries,max-cpu=
--compat=3Dpower8" on both sides.
->=20
-> There is no problem if both hosts are of the same kind ( P8 <-> P8 or P9 =
-<-> P9).
-
-Crud, I was afraid there might be some subtle dependency on the
-reverse order.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---4ZLFUWh1odzi/v6L
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1ffCAACgkQbDjKyiDZ
-s5KqLg/9GIb+LEmQ7luzPx4WyHnaeq+1HHUKvhA0Wuf8DcuSF/RTCYztV43BdsrB
-6dvAc0BUF3XYdvBACSuGWz+u9EQ+5p1hV2GIy5fu4LMO9iW3Ur7WXKRTp/0UXchf
-ioicG2/WDdZMVbApgiKXP744r9mJopdkKHEoshlrJb0r5m2dBosAVU5LC71C/k+q
-PtUQdqHtnfSNERQf2EgGxkSZ5oKZmujuhb41GhE+cm8Eqcumjd0pRgQb8wmMTsGc
-J8gZ3R4Ofob8qo36Bx3ouquYsO+f/kuad9LqnVeeHjWqPBEZT5yiqoQqqa+2xRKo
-/8lCiQfu5iDNom/biWR1tKgpxG/FeChzFR2Ex3VUWfvv1pmtNZ9IsY6oanTYTr0U
-irLgPU/f/HgRwSmJP7ZwyxXWebFVmEjQxJ1f2/Sqa7Yp9pg9+Qzve/2LZAzjLjWz
-PognzbbU98WRiwPAOQXJpxZGZQv4s6BBmfiFBJJbLWJa72NpsCSTUwd/ce0LuK20
-gZ07qiAjTi6D5RrNf4KZL/d5VtPm8KjSO5ghjmEL+vcENGn3Ikwjspl1DtQYdAvF
-uQ26SlqIzYTph5LoOMRDBYP56yC6DNUdYIvUPEUa/RgNLPwZve4r3YCnc1+McjGG
-YJIiLutG71iIg2nV0GWCzCYssYC2XV3wo1XzIfn9ZkLFMDQEk4g=
-=I/fE
------END PGP SIGNATURE-----
-
---4ZLFUWh1odzi/v6L--
+MDkuMDguMjAxOSAxOToxNCwgTWF4IFJlaXR6IHdyb3RlOg0KPiBjb21wbGV0ZV9hbmRfd2FpdCgp
+IGFuZCB3YWl0X3JlYWR5KCkgY3VycmVudGx5IG9ubHkgd29yayBmb3IgbWlycm9yDQo+IGpvYnMu
+ICBMZXQgdGhlbSB3b3JrIGZvciBhY3RpdmUgY29tbWl0IGpvYnMsIHRvby4NCj4gDQo+IFNpZ25l
+ZC1vZmYtYnk6IE1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+DQo+IC0tLQ0KPiAgIHRlc3Rz
+L3FlbXUtaW90ZXN0cy9pb3Rlc3RzLnB5IHwgMTAgKysrKysrKy0tLQ0KPiAgIDEgZmlsZSBjaGFu
+Z2VkLCA3IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
+dGVzdHMvcWVtdS1pb3Rlc3RzL2lvdGVzdHMucHkgYi90ZXN0cy9xZW11LWlvdGVzdHMvaW90ZXN0
+cy5weQ0KPiBpbmRleCA4NDQzOGU4MzdjLi4zZWY4NDZkMWRjIDEwMDY0NA0KPiAtLS0gYS90ZXN0
+cy9xZW11LWlvdGVzdHMvaW90ZXN0cy5weQ0KPiArKysgYi90ZXN0cy9xZW11LWlvdGVzdHMvaW90
+ZXN0cy5weQ0KPiBAQCAtNzYxLDggKzc2MSwxMiBAQCBjbGFzcyBRTVBUZXN0Q2FzZSh1bml0dGVz
+dC5UZXN0Q2FzZSk6DQo+ICAgDQo+ICAgICAgIGRlZiB3YWl0X3JlYWR5KHNlbGYsIGRyaXZlPSdk
+cml2ZTAnKToNCj4gICAgICAgICAgICcnJ1dhaXQgdW50aWwgYSBibG9jayBqb2IgQkxPQ0tfSk9C
+X1JFQURZIGV2ZW50JycnDQo+IC0gICAgICAgIGYgPSB7J2RhdGEnOiB7J3R5cGUnOiAnbWlycm9y
+JywgJ2RldmljZSc6IGRyaXZlIH0gfQ0KPiAtICAgICAgICBldmVudCA9IHNlbGYudm0uZXZlbnRf
+d2FpdChuYW1lPSdCTE9DS19KT0JfUkVBRFknLCBtYXRjaD1mKQ0KPiArICAgICAgICBldmVudCA9
+IHNlbGYudm0uZXZlbnRzX3dhaXQoWw0KPiArICAgICAgICAgICAgICAgICgnQkxPQ0tfSk9CX1JF
+QURZJywNCj4gKyAgICAgICAgICAgICAgICAgeydkYXRhJzogeyd0eXBlJzogJ21pcnJvcicsICdk
+ZXZpY2UnOiBkcml2ZSB9IH0pLA0KPiArICAgICAgICAgICAgICAgICgnQkxPQ0tfSk9CX1JFQURZ
+JywNCj4gKyAgICAgICAgICAgICAgICAgeydkYXRhJzogeyd0eXBlJzogJ2NvbW1pdCcsICdkZXZp
+Y2UnOiBkcml2ZSB9IH0pDQo+ICsgICAgICAgICAgICBdKQ0KPiAgIA0KPiAgICAgICBkZWYgd2Fp
+dF9yZWFkeV9hbmRfY2FuY2VsKHNlbGYsIGRyaXZlPSdkcml2ZTAnKToNCj4gICAgICAgICAgIHNl
+bGYud2FpdF9yZWFkeShkcml2ZT1kcml2ZSkNCj4gQEAgLTc4MCw3ICs3ODQsNyBAQCBjbGFzcyBR
+TVBUZXN0Q2FzZSh1bml0dGVzdC5UZXN0Q2FzZSk6DQo+ICAgICAgICAgICBzZWxmLmFzc2VydF9x
+bXAocmVzdWx0LCAncmV0dXJuJywge30pDQo+ICAgDQo+ICAgICAgICAgICBldmVudCA9IHNlbGYu
+d2FpdF91bnRpbF9jb21wbGV0ZWQoZHJpdmU9ZHJpdmUpDQo+IC0gICAgICAgIHNlbGYuYXNzZXJ0
+X3FtcChldmVudCwgJ2RhdGEvdHlwZScsICdtaXJyb3InKQ0KPiArICAgICAgICBzZWxmLmFzc2Vy
+dFRydWUoZXZlbnRbJ2RhdGEnXVsndHlwZSddIGluIFsnbWlycm9yJywgJ2NvbW1pdCddKQ0KPiAg
+IA0KPiAgICAgICBkZWYgcGF1c2Vfd2FpdChzZWxmLCBqb2JfaWQ9J2pvYjAnKToNCj4gICAgICAg
+ICAgIHdpdGggVGltZW91dCgxLCAiVGltZW91dCB3YWl0aW5nIGZvciBqb2IgdG8gcGF1c2UiKToN
+Cj4gDQoNCg0KUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1l
+bnRzb3ZAdmlydHVvenpvLmNvbT4NCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
 
