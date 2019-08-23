@@ -2,51 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2849B655
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 20:47:05 +0200 (CEST)
-Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337B19B689
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 20:59:25 +0200 (CEST)
+Received: from localhost ([::1]:32948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1EaW-0002oe-7t
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 14:47:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39718)
+	id 1i1EmR-0007zY-5H
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 14:59:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40008)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1i1EON-0000L5-78
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:34:33 -0400
+ (envelope-from <alistair23@gmail.com>) id 1i1EPc-0001vm-Kx
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:35:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1i1EOK-00083I-US
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:34:31 -0400
-Received: from nsstlmta18p.bpe.bigpond.com ([203.38.21.18]:44105)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1i1EOK-000815-1o; Fri, 23 Aug 2019 14:34:28 -0400
-Received: from smtp.telstra.com ([10.10.24.4])
- by nsstlfep18p-svc.bpe.nexus.telstra.com.au with ESMTP id
- <20190823183422.CPXV10803.nsstlfep18p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
- Sat, 24 Aug 2019 04:34:22 +1000
-X-RG-Spam: Unknown
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedguddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvohhnhicupfhguhihvghnuceothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucffohhmrghinheprghtthhrshdrshgvtghurhgvnecukfhppeehkedrudejfedrleekrdeikeenucfrrghrrghmpehhvghlohepuggsiidrthgvlhhsthhrrgdrtghomhdrrghupdhinhgvthepheekrddujeefrdelkedrieekpdhmrghilhhfrhhomhepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqpdhrtghpthhtohepoegrlhgvgidrfihilhhlihgrmhhsohhnsehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoegsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomheqpdhrtghpthhtohepoegtohhhuhgtkhesrhgvughhrghtrdgtohhmqedprhgtphhtthhopeeouggrvhhiugesrhgvughhrghtrdgtohhmqedprhgtphhtthhopeeomhhsthesrhgvughhrghtrdgtohhmqedprhgtphhtthhopeeophgrshhitgeslhhinhhugidrihgsmhdrtghomheqpdhrtghpthhtohepoehpsghonhiiihhnihesrhgvughhrghtrdgtohhmqedprhgtphhtthhopeeo
- phgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgqedprhgtphhtthhopeeoqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeoqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehrthhhsehtfihiuggulhgvrdhnvghtqedprhgtphhtthhopeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqedprhgtphhtthhopeeofigrlhhlihhngheslhhinhhugidrihgsmhdrtghomheqnecuvehluhhsthgvrhfuihiivgeptd
-X-RazorGate-Vade-Verdict: clean 0
-X-RazorGate-Vade-Classification: clean
-X-RG-VS-CLASS: clean
-X-Authentication-Info: Submitted using ID tony.nguyen.git@bigpond.com
-Received: from dbz.telstra.com.au (58.173.98.68) by smtp.telstra.com (5.8.335)
- (authenticated as tony.nguyen.git@bigpond.com)
- id 5D3692920C8AF25F; Sat, 24 Aug 2019 04:34:22 +1000
-From: Tony Nguyen <tony.nguyen@bt.com>
-To: qemu-devel@nongnu.org
-Date: Sat, 24 Aug 2019 04:36:52 +1000
-Message-Id: <8066ab3eb037c0388dfadfe53c5118429dd1de3a.1566466906.git.tony.nguyen@bt.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <cover.1566466906.git.tony.nguyen@bt.com>
-References: <cover.1566466906.git.tony.nguyen@bt.com>
+ (envelope-from <alistair23@gmail.com>) id 1i1EPa-0000Pd-9I
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:35:48 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:44701)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1i1EPZ-0000P6-Vk; Fri, 23 Aug 2019 14:35:46 -0400
+Received: by mail-lj1-x243.google.com with SMTP id e24so9713715ljg.11;
+ Fri, 23 Aug 2019 11:35:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kEW7lCKno7GnKLpFH7Xa5j9FpbIosAkE/RbWFoepRSA=;
+ b=gVycuUxnCn9/R/kpnhdxeQs4vsYHFukPWk/Hm5GqvYF2EhiC0zi4z5HkuBdkGKKNRW
+ xk9WXmUKZP4xu+x5AjAMLvqKT2mF7d3PH42qTK7H69I5Np8dU2dkekheUJyDKWXYFhsv
+ cdHUt/zvMLb6cZr2+xTfg2YlyRSJEO0qawq1Wed+5/uNzRyRyBG3M15GBWSypNXztLnI
+ r6hSibm7kkuGRziMArG7HxtCEU/EeLHYbWDQsCkjDojHFO+iK1de05jfboXceljLjEOj
+ +z4dswH5DAdasnjFJMNp4kJzJiXK1wkfqeA3uIZ+ttbAkJ5PJS5UE5+PHZh0WDzzLrSO
+ HDXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kEW7lCKno7GnKLpFH7Xa5j9FpbIosAkE/RbWFoepRSA=;
+ b=VCzl1+gHbNDoftQ/O7mAFn8aGylGJbJpHSv16eurFjHNZ68XJgOA8xhBnTozPhPmxW
+ yxH9As7BC1TOp2cu4duEbrMe+fDAQ8mEqPa/xDrdNvsVHnEyPxaD1SNXf5XGJzOFe5u1
+ QdyP660Nuuj4+YxErhJfW2hWnEP+TVn0e1GTxelS6xvbHveHTQgyZ9hU99MpxChhsu2y
+ a7/F3YpdT4zmwWQSYxV0ARSocY1M/mKeQ/895VbE8de46I418tSkDoCmnuFReQ2h++00
+ h8pUAYhfk64l2CzqGyu/lJ/iMGp8Jj24VfImWYyCubxHXJA4XT5FAgvVzPu12Z8M9j4x
+ SrrQ==
+X-Gm-Message-State: APjAAAXlcATe1gkqTr8XECord1Hv3WHSenVEQkhIt1TShRNQIpQNRK6L
+ TH7Ij9daMhToneo0rkP5VkhpqLXYD2/KWRBS6tw=
+X-Google-Smtp-Source: APXvYqwlAHKf6rmQx1mYt1D2JzVQ3YLFODYSe47TPAcROX03i8be+y+ECDzWkCk9SgzMk4zgFr5L0pPeLg7kX0eb5hg=
+X-Received: by 2002:a05:651c:c1:: with SMTP id 1mr3915812ljr.119.1566585344237; 
+ Fri, 23 Aug 2019 11:35:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 203.38.21.18
-Subject: [Qemu-devel] [PATCH v9 14/20] memory: Access MemoryRegion with
- endianness
+References: <1566537069-22741-1-git-send-email-bmeng.cn@gmail.com>
+ <1566537069-22741-16-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1566537069-22741-16-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 23 Aug 2019 11:31:37 -0700
+Message-ID: <CAKmqyKP3Nusu5zUgFECSn5fOXfrJerYAW6q3o+wjYcrAU3YDEA@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH v5 15/30] riscv: hart: Add a "hartid-base"
+ property to RISC-V hart array
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,344 +72,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Collin Walling <walling@linux.ibm.com>, Tony Nguyen <tony.nguyen@bt.com>,
- Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-s390x@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Preparation for collapsing the two byte swaps adjust_endianness and
-handle_bswap into the former.
+On Thu, Aug 22, 2019 at 10:29 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> At present each hart's hartid in a RISC-V hart array is assigned
+> the same value of its index in the hart array. But for a system
+> that has multiple hart arrays, this is not the case any more.
+>
+> Add a new "hartid-base" property so that hartid number can be
+> assigned based on the property value.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+>
+> ---
+>
+> Changes in v5: None
+> Changes in v4:
+> - new patch to add a "hartid-base" property to RISC-V hart array
+>
+> Changes in v3: None
+> Changes in v2: None
+>
+>  hw/riscv/riscv_hart.c         | 8 +++++---
+>  include/hw/riscv/riscv_hart.h | 1 +
+>  2 files changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
+> index 9deef869..52ab86a 100644
+> --- a/hw/riscv/riscv_hart.c
+> +++ b/hw/riscv/riscv_hart.c
+> @@ -27,6 +27,7 @@
+>
+>  static Property riscv_harts_props[] = {
+>      DEFINE_PROP_UINT32("num-harts", RISCVHartArrayState, num_harts, 1),
+> +    DEFINE_PROP_UINT32("hartid-base", RISCVHartArrayState, hartid_base, 0),
+>      DEFINE_PROP_STRING("cpu-type", RISCVHartArrayState, cpu_type),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+> @@ -37,7 +38,7 @@ static void riscv_harts_cpu_reset(void *opaque)
+>      cpu_reset(CPU(cpu));
+>  }
+>
+> -static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
+> +static void riscv_hart_realize(RISCVHartArrayState *s, int idx, uint32_t hartid,
+>                                 char *cpu_type, Error **errp)
 
-Call memory_region_dispatch_{read|write} with endianness encoded into
-the "MemOp op" operand.
+Do we need to pass hartid, can't we just get it from s here?
 
-This patch does not change any behaviour as
-memory_region_dispatch_{read|write} is yet to handle the endianness.
+>  {
+>      Error *err = NULL;
+> @@ -45,7 +46,7 @@ static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
+>      object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx],
+>                              sizeof(RISCVCPU), cpu_type,
+>                              &error_abort, NULL);
+> -    s->harts[idx].env.mhartid = idx;
+> +    s->harts[idx].env.mhartid = hartid;
+>      qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
+>      object_property_set_bool(OBJECT(&s->harts[idx]), true,
+>                               "realized", &err);
+> @@ -58,12 +59,13 @@ static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
+>  static void riscv_harts_realize(DeviceState *dev, Error **errp)
+>  {
+>      RISCVHartArrayState *s = RISCV_HART_ARRAY(dev);
+> +    uint32_t hartid = s->hartid_base;
 
-Once it does handle endianness, callers with byte swaps can collapse
-them into adjust_endianness.
+I think s->hartid_base can just be used directly, instead of a extra variable.
 
-Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
----
- accel/tcg/cputlb.c       |  8 ++++++--
- exec.c                   | 13 +++++++++++--
- hw/intc/armv7m_nvic.c    | 15 ++++++++-------
- hw/s390x/s390-pci-inst.c |  6 ++++--
- hw/vfio/pci-quirks.c     |  5 +++--
- hw/virtio/virtio-pci.c   |  6 ++++--
- include/exec/memory.h    |  3 +++
- memory.c                 | 18 ++++++++++++++++++
- memory_ldst.inc.c        | 24 ++++++++++++++++++------
- 9 files changed, 75 insertions(+), 23 deletions(-)
+Alistair
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 6c83878f73..f64c6b1c75 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -906,7 +906,8 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-         qemu_mutex_lock_iothread();
-         locked = true;
-     }
--    r = memory_region_dispatch_read(mr, mr_offset, &val, size_memop(size),
-+    r = memory_region_dispatch_read(mr, mr_offset, &val,
-+                                    size_memop(size) | MO_TE,
-                                     iotlbentry->attrs);
-     if (r != MEMTX_OK) {
-         hwaddr physaddr = mr_offset +
-@@ -947,7 +948,8 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-         qemu_mutex_lock_iothread();
-         locked = true;
-     }
--    r = memory_region_dispatch_write(mr, mr_offset, val, size_memop(size),
-+    r = memory_region_dispatch_write(mr, mr_offset, val,
-+                                     size_memop(size) | MO_TE,
-                                      iotlbentry->attrs);
-     if (r != MEMTX_OK) {
-         hwaddr physaddr = mr_offset +
-@@ -1305,6 +1307,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
-             }
-         }
- 
-+        /* TODO: Merge bswap into io_readx -> memory_region_dispatch_read.  */
-         res = io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
-                        mmu_idx, addr, retaddr, access_type, size);
-         return handle_bswap(res, size, big_endian);
-@@ -1553,6 +1556,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-             }
-         }
- 
-+        /* TODO: Merge bswap into io_writex -> memory_region_dispatch_write.  */
-         io_writex(env, &env_tlb(env)->d[mmu_idx].iotlb[index], mmu_idx,
-                   handle_bswap(val, size, big_endian),
-                   addr, retaddr, size);
-diff --git a/exec.c b/exec.c
-index 73d629b9c8..39aff6810b 100644
---- a/exec.c
-+++ b/exec.c
-@@ -3364,8 +3364,13 @@ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
-             /* XXX: could force current_cpu to NULL to avoid
-                potential bugs */
-             val = ldn_p(buf, l);
-+            /*
-+             * TODO: Merge bswap from ldn_p into memory_region_dispatch_write
-+             * by using ldn_he_p and dropping MO_TE to get a host-endian value.
-+             */
-             result |= memory_region_dispatch_write(mr, addr1, val,
--                                                   size_memop(l), attrs);
-+                                                   size_memop(l) | MO_TE,
-+                                                   attrs);
-         } else {
-             /* RAM case */
-             ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
-@@ -3426,8 +3431,12 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
-             /* I/O case */
-             release_lock |= prepare_mmio_access(mr);
-             l = memory_access_size(mr, l, addr1);
-+            /*
-+             * TODO: Merge bswap from stn_p into memory_region_dispatch_read
-+             * by using stn_he_p and dropping MO_TE to get a host-endian value.
-+             */
-             result |= memory_region_dispatch_read(mr, addr1, &val,
--                                                  size_memop(l), attrs);
-+                                                  size_memop(l) | MO_TE, attrs);
-             stn_p(buf, l, val);
-         } else {
-             /* RAM case */
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 7220940133..8e93e51e81 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -2349,8 +2349,8 @@ static MemTxResult nvic_sysreg_ns_write(void *opaque, hwaddr addr,
-     if (attrs.secure) {
-         /* S accesses to the alias act like NS accesses to the real region */
-         attrs.secure = 0;
--        return memory_region_dispatch_write(mr, addr, value, size_memop(size),
--                                            attrs);
-+        return memory_region_dispatch_write(mr, addr, value,
-+                                            size_memop(size) | MO_TE, attrs);
-     } else {
-         /* NS attrs are RAZ/WI for privileged, and BusFault for user */
-         if (attrs.user) {
-@@ -2369,8 +2369,8 @@ static MemTxResult nvic_sysreg_ns_read(void *opaque, hwaddr addr,
-     if (attrs.secure) {
-         /* S accesses to the alias act like NS accesses to the real region */
-         attrs.secure = 0;
--        return memory_region_dispatch_read(mr, addr, data, size_memop(size),
--                                           attrs);
-+        return memory_region_dispatch_read(mr, addr, data,
-+                                           size_memop(size) | MO_TE, attrs);
-     } else {
-         /* NS attrs are RAZ/WI for privileged, and BusFault for user */
-         if (attrs.user) {
-@@ -2396,8 +2396,8 @@ static MemTxResult nvic_systick_write(void *opaque, hwaddr addr,
- 
-     /* Direct the access to the correct systick */
-     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systick[attrs.secure]), 0);
--    return memory_region_dispatch_write(mr, addr, value, size_memop(size),
--                                        attrs);
-+    return memory_region_dispatch_write(mr, addr, value,
-+                                        size_memop(size) | MO_TE, attrs);
- }
- 
- static MemTxResult nvic_systick_read(void *opaque, hwaddr addr,
-@@ -2409,7 +2409,8 @@ static MemTxResult nvic_systick_read(void *opaque, hwaddr addr,
- 
-     /* Direct the access to the correct systick */
-     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systick[attrs.secure]), 0);
--    return memory_region_dispatch_read(mr, addr, data, size_memop(size), attrs);
-+    return memory_region_dispatch_read(mr, addr, data, size_memop(size) | MO_TE,
-+                                       attrs);
- }
- 
- static const MemoryRegionOps nvic_systick_ops = {
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index 0e92a372ca..4b3bd4a804 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -373,7 +373,8 @@ static MemTxResult zpci_read_bar(S390PCIBusDevice *pbdev, uint8_t pcias,
-     mr = pbdev->pdev->io_regions[pcias].memory;
-     mr = s390_get_subregion(mr, offset, len);
-     offset -= mr->addr;
--    return memory_region_dispatch_read(mr, offset, data, size_memop(len),
-+    return memory_region_dispatch_read(mr, offset, data,
-+                                       size_memop(len) | MO_BE,
-                                        MEMTXATTRS_UNSPECIFIED);
- }
- 
-@@ -472,7 +473,8 @@ static MemTxResult zpci_write_bar(S390PCIBusDevice *pbdev, uint8_t pcias,
-     mr = pbdev->pdev->io_regions[pcias].memory;
-     mr = s390_get_subregion(mr, offset, len);
-     offset -= mr->addr;
--    return memory_region_dispatch_write(mr, offset, data, size_memop(len),
-+    return memory_region_dispatch_write(mr, offset, data,
-+                                        size_memop(len) | MO_BE,
-                                         MEMTXATTRS_UNSPECIFIED);
- }
- 
-diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
-index a4e1d2abb5..136f3a9ad6 100644
---- a/hw/vfio/pci-quirks.c
-+++ b/hw/vfio/pci-quirks.c
-@@ -1074,7 +1074,8 @@ static void vfio_rtl8168_quirk_address_write(void *opaque, hwaddr addr,
- 
-                 /* Write to the proper guest MSI-X table instead */
-                 memory_region_dispatch_write(&vdev->pdev.msix_table_mmio,
--                                             offset, val, size_memop(size),
-+                                             offset, val,
-+                                             size_memop(size) | MO_LE,
-                                              MEMTXATTRS_UNSPECIFIED);
-             }
-             return; /* Do not write guest MSI-X data to hardware */
-@@ -1105,7 +1106,7 @@ static uint64_t vfio_rtl8168_quirk_data_read(void *opaque,
-     if (rtl->enabled && (vdev->pdev.cap_present & QEMU_PCI_CAP_MSIX)) {
-         hwaddr offset = rtl->addr & 0xfff;
-         memory_region_dispatch_read(&vdev->pdev.msix_table_mmio, offset,
--                                    &data, size_memop(size),
-+                                    &data, size_memop(size) | MO_LE,
-                                     MEMTXATTRS_UNSPECIFIED);
-         trace_vfio_quirk_rtl8168_msix_read(vdev->vbasedev.name, offset, data);
-     }
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 82c5e87a44..d89a85bb33 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -553,7 +553,8 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy, hwaddr addr,
-         /* As length is under guest control, handle illegal values. */
-         return;
-     }
--    memory_region_dispatch_write(mr, addr, val, size_memop(len),
-+    /* TODO: Merge bswap from cpu_to_leXX into memory_region_dispatch_write.  */
-+    memory_region_dispatch_write(mr, addr, val, size_memop(len) | MO_LE,
-                                  MEMTXATTRS_UNSPECIFIED);
- }
- 
-@@ -577,7 +578,8 @@ virtio_address_space_read(VirtIOPCIProxy *proxy, hwaddr addr,
-     /* Make sure caller aligned buf properly */
-     assert(!(((uintptr_t)buf) & (len - 1)));
- 
--    memory_region_dispatch_read(mr, addr, &val, size_memop(len),
-+    /* TODO: Merge bswap from leXX_to_cpu into memory_region_dispatch_read.  */
-+    memory_region_dispatch_read(mr, addr, &val, size_memop(len) | MO_LE,
-                                 MEMTXATTRS_UNSPECIFIED);
-     switch (len) {
-     case 1:
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 192875b080..c4c86a6ff4 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2211,6 +2211,9 @@ address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
-     }
- }
- 
-+/* enum device_endian to MemOp.  */
-+MemOp devend_memop(enum device_endian end);
-+
- #endif
- 
- #endif
-diff --git a/memory.c b/memory.c
-index d898ad212e..66ba23280a 100644
---- a/memory.c
-+++ b/memory.c
-@@ -3280,3 +3280,21 @@ static void memory_register_types(void)
- }
- 
- type_init(memory_register_types)
-+
-+MemOp devend_memop(enum device_endian end)
-+{
-+    static MemOp conv[] = {
-+        [DEVICE_LITTLE_ENDIAN] = MO_LE,
-+        [DEVICE_BIG_ENDIAN] = MO_BE,
-+        [DEVICE_NATIVE_ENDIAN] = MO_TE,
-+        [DEVICE_HOST_ENDIAN] = 0,
-+    };
-+    switch (end) {
-+    case DEVICE_LITTLE_ENDIAN:
-+    case DEVICE_BIG_ENDIAN:
-+    case DEVICE_NATIVE_ENDIAN:
-+        return conv[end];
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-diff --git a/memory_ldst.inc.c b/memory_ldst.inc.c
-index de658c40c4..809a7e8389 100644
---- a/memory_ldst.inc.c
-+++ b/memory_ldst.inc.c
-@@ -38,7 +38,9 @@ static inline uint32_t glue(address_space_ldl_internal, SUFFIX)(ARG1_DECL,
-         release_lock |= prepare_mmio_access(mr);
- 
-         /* I/O case */
--        r = memory_region_dispatch_read(mr, addr1, &val, MO_32, attrs);
-+        /* TODO: Merge bswap32 into memory_region_dispatch_read.  */
-+        r = memory_region_dispatch_read(mr, addr1, &val,
-+                                        MO_32 | devend_memop(endian), attrs);
- #if defined(TARGET_WORDS_BIGENDIAN)
-         if (endian == DEVICE_LITTLE_ENDIAN) {
-             val = bswap32(val);
-@@ -114,7 +116,9 @@ static inline uint64_t glue(address_space_ldq_internal, SUFFIX)(ARG1_DECL,
-         release_lock |= prepare_mmio_access(mr);
- 
-         /* I/O case */
--        r = memory_region_dispatch_read(mr, addr1, &val, MO_64, attrs);
-+        /* TODO: Merge bswap64 into memory_region_dispatch_read.  */
-+        r = memory_region_dispatch_read(mr, addr1, &val,
-+                                        MO_64 | devend_memop(endian), attrs);
- #if defined(TARGET_WORDS_BIGENDIAN)
-         if (endian == DEVICE_LITTLE_ENDIAN) {
-             val = bswap64(val);
-@@ -224,7 +228,9 @@ static inline uint32_t glue(address_space_lduw_internal, SUFFIX)(ARG1_DECL,
-         release_lock |= prepare_mmio_access(mr);
- 
-         /* I/O case */
--        r = memory_region_dispatch_read(mr, addr1, &val, MO_16, attrs);
-+        /* TODO: Merge bswap16 into memory_region_dispatch_read.  */
-+        r = memory_region_dispatch_read(mr, addr1, &val,
-+                                        MO_16 | devend_memop(endian), attrs);
- #if defined(TARGET_WORDS_BIGENDIAN)
-         if (endian == DEVICE_LITTLE_ENDIAN) {
-             val = bswap16(val);
-@@ -346,7 +352,9 @@ static inline void glue(address_space_stl_internal, SUFFIX)(ARG1_DECL,
-             val = bswap32(val);
-         }
- #endif
--        r = memory_region_dispatch_write(mr, addr1, val, MO_32, attrs);
-+        /* TODO: Merge bswap32 into memory_region_dispatch_write.  */
-+        r = memory_region_dispatch_write(mr, addr1, val,
-+                                         MO_32 | devend_memop(endian), attrs);
-     } else {
-         /* RAM case */
-         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -451,7 +459,9 @@ static inline void glue(address_space_stw_internal, SUFFIX)(ARG1_DECL,
-             val = bswap16(val);
-         }
- #endif
--        r = memory_region_dispatch_write(mr, addr1, val, MO_16, attrs);
-+        /* TODO: Merge bswap16 into memory_region_dispatch_write.  */
-+        r = memory_region_dispatch_write(mr, addr1, val,
-+                                         MO_16 | devend_memop(endian), attrs);
-     } else {
-         /* RAM case */
-         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -524,7 +534,9 @@ static void glue(address_space_stq_internal, SUFFIX)(ARG1_DECL,
-             val = bswap64(val);
-         }
- #endif
--        r = memory_region_dispatch_write(mr, addr1, val, MO_64, attrs);
-+        /* TODO: Merge bswap64 into memory_region_dispatch_write.  */
-+        r = memory_region_dispatch_write(mr, addr1, val,
-+                                         MO_64 | devend_memop(endian), attrs);
-     } else {
-         /* RAM case */
-         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
--- 
-2.23.0
-
+>      int n;
+>
+>      s->harts = g_new0(RISCVCPU, s->num_harts);
+>
+>      for (n = 0; n < s->num_harts; n++) {
+> -        riscv_hart_realize(s, n, s->cpu_type, errp);
+> +        riscv_hart_realize(s, n, hartid + n, s->cpu_type, errp);
+>      }
+>  }
+>
+> diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.h
+> index 0671d88..1984e30 100644
+> --- a/include/hw/riscv/riscv_hart.h
+> +++ b/include/hw/riscv/riscv_hart.h
+> @@ -32,6 +32,7 @@ typedef struct RISCVHartArrayState {
+>
+>      /*< public >*/
+>      uint32_t num_harts;
+> +    uint32_t hartid_base;
+>      char *cpu_type;
+>      RISCVCPU *harts;
+>  } RISCVHartArrayState;
+> --
+> 2.7.4
+>
+>
 
