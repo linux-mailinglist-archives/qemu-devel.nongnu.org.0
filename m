@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C489B336
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:20:12 +0200 (CEST)
-Received: from localhost ([::1]:57888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E0F9B33E
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:24:31 +0200 (CEST)
+Received: from localhost ([::1]:57952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1BMJ-0006AR-U1
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:20:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58502)
+	id 1i1BQU-0000pM-Sc
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:24:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59405)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i1BJg-0004YG-2W
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:17:28 -0400
+ (envelope-from <alistair23@gmail.com>) id 1i1BPB-0008I7-5A
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:23:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i1BJf-00055O-5F
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:17:27 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:40335)
+ (envelope-from <alistair23@gmail.com>) id 1i1BPA-0007rz-6p
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:23:08 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:44227)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i1BJe-00054w-TQ
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:17:27 -0400
-Received: by mail-pl1-x643.google.com with SMTP id h3so5751862pls.7
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 08:17:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nMLmHrNBrvmow7c+EnnN1MQ042yQtn7S13yBJP6CUNw=;
- b=oyBFknSFmRw3adieePrsiEc/E/zXclpECqyH71Fq+H8urZDa84l/4YBb+fDCh1+znb
- gzSDEHZfGUKyjiSBqTl8eNy19yL744oo6n2ZHVf14jzF2/yLOwEVOtFpr7Gw9wsESEn7
- jOwRDwVzIFPKBMXR5sWbpvDWbYZn2A3Emv+5JtYor653JJFDwHzUDgTZ8vPE0U4f/I/W
- eehfyJJnavHNImbk4mUjZ4q3+3GJHT664QyFVQILn7t9lG+jJPwSCB7l06Vrxf3XRNMW
- TD7F61pyBTZ4BmXWI7LUmKLtGtP5K7vSXAdTArlOJsiMzNkhWhrS9P2mh5FkIQ7Ekkhm
- E1JA==
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1i1BP9-0007rL-UI; Fri, 23 Aug 2019 11:23:08 -0400
+Received: by mail-lf1-x143.google.com with SMTP id v16so7373010lfg.11;
+ Fri, 23 Aug 2019 08:23:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qbJ4lagEeZciH+sffYeabCvVwbjwNj/7sds61ms8Evo=;
+ b=Ph1KS7CJEEXk+Cv0rS1+7DLQvJk6N5nR1v0KNuCnUnc32cPBvTgjMFYJeEpCKmay1M
+ FxMLhfPSf+nB8AJYbg/Mm/8QcGlU9EZn/s7l8jkSPzxVEcsFJWeQCE6na//T4uJrH1F+
+ e5sxhatLczTioyuFfaiLG2nmjJYJcSNmX8rhdM11k+NjKphZ1Uhhtb2UdI8D3DWUA1hw
+ f7cMPiB5+QafhTdUi2ROe1VvMU21LZCJq2Z7B/an6YfpolgVnuK2hgmhoBfIL0TXiddy
+ /UW/MSarwuSb6oXQw6J6/YkpY5DcmCJO0rLdz6BB4YCVi0TzZTgVWbHbHhgyWyv1G7W5
+ U+bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nMLmHrNBrvmow7c+EnnN1MQ042yQtn7S13yBJP6CUNw=;
- b=MF7FonFTtiT9oDq0h5RwdWREJfIElR7axJi5IHkr2M2q0AlfxaCZ9tcQiwzp8VgB9f
- wo0YHtYYGSpFwngtz61d0xCw49Zyy6JjR6YsINGp/wa8x6oUxQZCmick+m+vJFe+ecB6
- CphvYlqL8muza29w/eTyuYPKqnT9E9hrZUqe5kDIHZHqR6CKo+VBlmcXqkoRKiQgmLMG
- kkIHweQaL0xJkuCnL9E4XDfpPqU/dEwMuJCYON6QNdKNELNwyCwMAGfR6B0iJb2QjSCg
- JUW3StnsuiQVRfwXZHziY1FaoCk7fimey3dlN+2afSam3g8KyXORWvGJP0/WRH7l/iAX
- XqWw==
-X-Gm-Message-State: APjAAAWLvrz7DUHzYhzRC44iHRlUd30zEV2B11JgO15LlTUe3r1/8wSM
- WzL0kC/yzEVMCAKnHey8GC2VYA==
-X-Google-Smtp-Source: APXvYqyKaKuzwoba/HMntiZBOf6uRN0VPSB94k15peqPcZmbyvNcFygPaVYzoqhIvtTrnFjtPQKDPg==
-X-Received: by 2002:a17:902:2bc7:: with SMTP id
- l65mr5153416plb.119.1566573445318; 
- Fri, 23 Aug 2019 08:17:25 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id v18sm2368892pgl.87.2019.08.23.08.17.24
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Aug 2019 08:17:24 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190823100741.9621-1-david@redhat.com>
- <20190823100741.9621-4-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <1f59df55-d50f-ee38-883b-17a79226ee9a@linaro.org>
-Date: Fri, 23 Aug 2019 08:17:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qbJ4lagEeZciH+sffYeabCvVwbjwNj/7sds61ms8Evo=;
+ b=olpAIv6TL+Pbi4e+yuhCxII4PJyq/zSk4wXQ9vLIOoGOCwCOEHFW/5Xa1Jw9wuIM0w
+ l8LIMNBVGuaZtNDVgchPJsGFA76e3aQ575EF4lUxnCzktf7eAdlfElG8OXFzHd+4aZUG
+ EFz/TiuFtgyxJazakdV9DSNbxbaaHVpyfvi8P4pdgW9NNb6P1TgsnqWfuMztgNd2Tzn+
+ uFd7VeyEH5wh4ZjiucTllcj3agS9+reklm0gBF87thc2jKaazLYPjxxRITPZNWXHNwj1
+ tpKeC4y5CDJhLCzoP2Q7jBCMGQR24P7Zg7ltG4rXE0kQJHSHJaqBGI2WLk74aEQN2Qo5
+ O1Mw==
+X-Gm-Message-State: APjAAAVVk5wwOQDSEvW1zyPZ146ig/ytJawmZGlNtRoOHsW7dntmm2lJ
+ 87ciss5zsH487KBN/nXKSxa6jLa5r3K3eIKA8s0=
+X-Google-Smtp-Source: APXvYqz2KHuFVfo+DwZPIdFP/hmuj34haEiJbKNGmak9IJYWROqLrrjACFjpl/Er8bMeZdRFtQ9mLpKRhaXs7y2t0ks=
+X-Received: by 2002:ac2:528c:: with SMTP id q12mr2198539lfm.135.1566573786043; 
+ Fri, 23 Aug 2019 08:23:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190823100741.9621-4-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1565904855.git.alistair.francis@wdc.com>
+ <7e476df36a8c2ba53162e9a5f62e9fa171da00ad.1565904855.git.alistair.francis@wdc.com>
+In-Reply-To: <7e476df36a8c2ba53162e9a5f62e9fa171da00ad.1565904855.git.alistair.francis@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 23 Aug 2019 08:18:59 -0700
+Message-ID: <CAKmqyKOaoUBQ5PsOuDB4AZ=XK+p13LVHEn-GGt9+k-LS_MirvA@mail.gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: Re: [Qemu-devel] [PATCH v1 3/9] tcg: Factor out CONFIG_USER_ONLY
- probe_write() from s390x code
+X-Received-From: 2a00:1450:4864:20::143
+Subject: Re: [Qemu-devel] [PATCH v3 7/7] target/riscv: Convert mip to
+ target_ulong
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,29 +72,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-s390x@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Richard Henderson <rth@twiddle.net>
+Cc: Palmer Dabbelt <palmer@sifive.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/19 3:07 AM, David Hildenbrand wrote:
-> Factor it out, we'll do some further changes/extensions to both
-> probe_write() implementations soon. Make sure to allow "size = 0".
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On Thu, Aug 15, 2019 at 2:38 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
+>
+> The mip register is an MXLEN-bit long register. Convert it to a
+> target_ulong type instead of uint32_t.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+
+MIP is 32-bit to allow atomic access on 32-bit hosts, so I am going to
+send a v4 with this patch dropped.
+
+Alistair
+
 > ---
->  accel/tcg/user-exec.c     | 16 ++++++++++++++++
->  include/exec/exec-all.h   |  4 ++--
->  target/s390x/mem_helper.c |  7 -------
->  3 files changed, 18 insertions(+), 9 deletions(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
-
+>  target/riscv/cpu.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 2dc9b17678..0a7985c3f7 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -130,7 +130,7 @@ struct CPURISCVState {
+>       * wuth the invariant that CPU_INTERRUPT_HARD is set iff mip is non-zero.
+>       * mip is 32-bits to allow atomic_read on 32-bit hosts.
+>       */
+> -    uint32_t mip;
+> +    target_ulong mip;
+>      uint32_t miclaim;
+>
+>      target_ulong mie;
+> --
+> 2.22.0
+>
 
