@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54FD59B94D
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 02:09:10 +0200 (CEST)
-Received: from localhost ([::1]:35320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABBEB9B95A
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 02:11:38 +0200 (CEST)
+Received: from localhost ([::1]:35378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1JcD-0002XI-6a
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 20:09:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50618)
+	id 1i1Jeb-0005ag-Jz
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 20:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49828)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1i1JJ7-0008Mv-Fc
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:49:30 -0400
+ (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
+ id 1i1JCO-00018W-5S
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:42:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1i1JJ6-00043S-Eb
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:49:25 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38818)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1i1JJ2-0003yq-Bb; Fri, 23 Aug 2019 19:49:20 -0400
-Received: by mail-ot1-x341.google.com with SMTP id r20so10288600ota.5;
- Fri, 23 Aug 2019 16:49:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=GDZjD+DLwOQGXTvn+lxnFGRBmiGUflL7uU0HzcIxmDw=;
- b=BLrfszeizZllNR9+cd7L8KgG5ZsJ91Tcu10IZuL5l6OnbpqOskWSkvSnE7VSlNRLrH
- ipTIXkz1PsfuGnu4AR1pzJHphVcT3WDYtoglt070IY+9eRguhMojDHwcyygpmqJo8mCi
- 02zeR1dlUaIU5AY430TRPAqKlfPQzi17GJgZMkGh6tW4HdzDzw86JLLv4AvtK/Nwtkbt
- 87zb5DQZrdRmgdTIZMY9dbY0+4JmRpt9iFrWTBvKASO6uCFHvMegZV5VglyxLfieFoP9
- 49B87HKiLVHJIKj4jy1sUXkMrH/t3tcYMrueGB3ndYaQx1BoX0abUn1RJDgL3C63W9nz
- vvtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=GDZjD+DLwOQGXTvn+lxnFGRBmiGUflL7uU0HzcIxmDw=;
- b=TdZEOnYPJz0cbu1eLeeOwtwjtTJxkDFvEf5wflaHpRTDCxwZ5q/CQ7T1cMhFcXg6Oe
- +vOXBM2t260UhQaqnuq/e8gNiXAZeZ6XtPJEISmDsYLOaR2ndXUyOtMC9Q2mmAA5ExVF
- tSyvczsHCML1hK4221iLTNc+MihHwsKsCU2B+h7jjglClgkclpOcYS6bfqA1N1w6afkc
- 78P8kYndljiP24If63DRId8BpXkjbRnB2/kPpHGuDdUWqJjVdlrKQMstVfsO5vLI9iWe
- UN04ejDsWyY0h1o77x7vzRlZlYSAQ5eCSQGR5ErpASm2Tdd7n1uqiImOCJc5h/M+8V4o
- jKrQ==
-X-Gm-Message-State: APjAAAXe8MRF/WM9BFQovDr7F0uxiokMtpr/VZ3u6J6HnCPqREVMY4Ti
- fLcJNMjh11em0AXZklv8s9vLtPJq9Ou3bq1o3dA=
-X-Google-Smtp-Source: APXvYqz8T03T+k1hn/p5CHQhDDNRR+LCEIq2wM3DkvIAPlVtG5KvCtbBMQ7afvwcZu5HliAWGDV2GmPXrsAfjE34ioA=
-X-Received: by 2002:a05:6830:15cc:: with SMTP id
- j12mr6174900otr.64.1566604158204; 
- Fri, 23 Aug 2019 16:49:18 -0700 (PDT)
+ (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
+ id 1i1JCN-0000JX-1D
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 19:42:28 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:38476)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
+ id 1i1JCM-0000Il-LN; Fri, 23 Aug 2019 19:42:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1566603747; x=1598139747;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Zk6i3nobuH9a+yzfXQLxN8Qyk5ojE8cdGzrGAao+Hwk=;
+ b=QK10wwnjDK+7aJCxWNwT2uNaT8dbI9RIFh1t7RWmRo11ZFohb9tmH8fL
+ xo+7Tsb9WMPUsrUJA50MjMNFX9fYKBJCe378CJatIjPgJt1r/OeZq8dia
+ UlMzEnN8CdGKxyZvFTFWZgzaT6d1vu2yUxu831XyB7iNDWm4nFHJZJxNN
+ 0KdKKNtd9aTL3hTo1G+USV4wTuwfNyGdOex3lC+2HEn1oXx6ryAi0yiIk
+ jMVDhu/bqnkGvyXwfShgAgoZDNkk5bvDRIGVRdQC0/6rCNKH3bCY5WO7j
+ em8ZsrTYobXoU8LdOxBoJEFatq+n9gJ28+P7zU0sgKxvKKhKQrQjpi9+v w==;
+IronPort-SDR: Z/cH5aUAjdpIEQNWONTXY9uVO9Ckl6xiWC8kiJChlvL8v8Rp2UQqzTsVN/vqtAoj4fXijwuNJD
+ jQ/eZQZ+O/TUfXQey2DFnvy6EVuyj9Pu48GaTs/U9g4EzLZrAeRJXgaxbSMDNeYfaTR3GB6AyY
+ hVKXGk2TSXE9IELd0geFa2A6AKEf5haBbR5nqTvleoO879NgYoESO/OuH+kD9jEnAy67mzs/Ip
+ eWBOopREhH8vcJdjdMLE0vP8SezDixeS1Fs+SECbj9HhvIU2sAnGDgdq3D4uE8Kmyz+EMM0xo4
+ hkk=
+X-IronPort-AV: E=Sophos;i="5.64,422,1559491200"; d="scan'208";a="117486907"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 24 Aug 2019 07:42:26 +0800
+IronPort-SDR: SpDd8GTqtoJfMFuVUDK6nZizm+FtDduQYKJRgMcEIcwOH8jZ9iaWtvxM9Zx37Be4OT0g/tFARZ
+ OkrBtCcaOuRWVkFAwpw9Ls7zWuj3QoAGzKCwQ6Cp2eqa39X5zynSnh+rvVh7lmltbAZlZXxxuz
+ L6fn+Gfs19rvgYAMBZaG2KPaikCcV/3H0nnCaba84G3/I9VqxIk4i2NAAz49h0fuA8rpB+kjZ4
+ kLvmkgZX3cMuyY4zez34cWEiIEJnkjGPGSbsbTq1X88aJ8bznnK3920NDUuqP18GLvBSRYtZEx
+ YCG7HLhm89aowP0P/C4Q94l4
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2019 16:39:43 -0700
+IronPort-SDR: 7elb/x0ptLLj0i0Sez73m0Di+PGjl5lUQXUgDnEobbiNQmr8x8nU/lVqCNhL4XkXQWyQnmr7Of
+ QANgHSW7CZ5knaFXyR7odRpFQ50eGnqHWqJy75mkFQfMtSHRgfLaJx2BoIXi811cRJ9dmUaDnA
+ E6MtiiHb3KP+FWn4Dyjy0BjDIBXg0WhB4NrVClorqfTEWCpS2E5Lm6Gixa+Lq2YWuvYl4AAeNo
+ pQ4zIZ1d+x9GwUgwdPzxFHy50rPvLPlA7yRNUYSMYOBSuTpsRR7fDXWIATr7rb2xOdDHDA7/BM
+ dpY=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.157.58])
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Aug 2019 16:42:24 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Date: Fri, 23 Aug 2019 16:38:44 -0700
+Message-Id: <8a628d1542d547b6d639cdba51db67590d0b56de.1566603412.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <cover.1566603412.git.alistair.francis@wdc.com>
+References: <cover.1566603412.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Fri, 23 Aug 2019 16:49:17
- -0700 (PDT)
-Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Fri, 23 Aug 2019 16:49:17
- -0700 (PDT)
-In-Reply-To: <874l2876kx.fsf@dusky.pond.sub.org>
-References: <20190822230916.576-1-philmd@redhat.com>
- <874l2876kx.fsf@dusky.pond.sub.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Sat, 24 Aug 2019 01:49:17 +0200
-Message-ID: <CAL1e-=hvVp4i=s_Wr0iKy5UO7kH6xw3QR0Ms4_v_tobJSM2wRA@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH 0/3] mailmap: Clean up
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.153.144
+Subject: [Qemu-devel] [PATCH v1 21/28] target/riscv: Respect MPRV and SPRV
+ for floating point ops
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,57 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, alex.bennee@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: alistair23@gmail.com, Anup.Patel@wdc.com, palmer@sifive.com,
+ alistair.francis@wdc.com, Atish.Patra@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.08.2019. 08.13, "Markus Armbruster" <armbru@redhat.com> =D1=98=D0=B5 =D0=
-=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->
-> > Trivial cleanup of .mailmap to have a nice 'git shortlog' output.
-> >
-> > Philippe Mathieu-Daud=C3=A9 (3):
-> >   mailmap: Reorder by sections
-> >   mailmap: Update philmd email address
-> >   mailmap: Add many entries to improve 'git shortlog' statistics
-> >
-> >  .mailmap | 123 +++++++++++++++++++++++++++++++++++++++++++++++++++----
-> >  1 file changed, 115 insertions(+), 8 deletions(-)
->
-> Series
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
->
-> However, it increases the difference to contrib/gitdm/aliases.
+Respect the contents of MSTATUS.MPRV and HSTATUS.SPRV when performing
+floating point operations when V=0.
 
-Alex' initial gitdm effort, as I understood it, was not meant to cover all
-history from 2007 or so, but just to give reasonable statistics for 2018
-(amd future years).
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/translate.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-In that light, .mailmap and gitdm aliases do not need to be equivalent.
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 19771904f4..ea19ba9c5d 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -750,7 +750,21 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->mstatus_fs = ctx->base.tb->flags & TB_FLAGS_MSTATUS_FS;
+     ctx->priv_ver = env->priv_ver;
+ #if !defined(CONFIG_USER_ONLY)
+-    ctx->virt_enabled = riscv_cpu_virt_enabled(env);
++    if (riscv_has_ext(env, RVH)) {
++        ctx->virt_enabled = riscv_cpu_virt_enabled(env);
++        if (env->priv_ver == PRV_M &&
++            get_field(*env->mstatus, MSTATUS_MPRV) &&
++            get_field(*env->mstatus, MSTATUS_MPV)) {
++            ctx->virt_enabled = true;
++        } else if (env->priv == PRV_S &&
++                   !riscv_cpu_virt_enabled(env) &&
++                   get_field(env->hstatus, HSTATUS_SPRV) &&
++                   get_field(env->hstatus, HSTATUS_SPV)) {
++            ctx->virt_enabled = true;
++        }
++    } else {
++        ctx->virt_enabled = false;
++    }
+ #else
+     ctx->virt_enabled = false;
+ #endif
+-- 
+2.22.0
 
-But perhaps Alex would now want gitdm to be used for all QEMU history? Is
-this desirable?
 
-Aleksandar
-
-> I'm just
-> as guilty; my recent "[PATCH 2/2] contrib/gitdm: Add armbru@pond.sub.org
-> to group-map-redhat" updates only that. and not .mailmap.
->
-> Perhaps we want to keep the two in sync manually.  We should then add
-> suitable comments to each file.
->
-> Could we instead teach gitdm to use .mailmap, and ditch
-> contrib/gitdm/aliases?
->
-> aliases' format is documented in gitdm's README.  Each line maps a
-> non-canonical e-mail address to a canonical one.
->
-> .mailmap's format is documented in git-shortlog(1).  It can do a bit
-> more.  Even the common part differs: it has two addresses in different
-> order *boggle*.
->
