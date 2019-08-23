@@ -2,78 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6E29B22D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:37:16 +0200 (CEST)
-Received: from localhost ([::1]:56968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1AD9B247
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:40:34 +0200 (CEST)
+Received: from localhost ([::1]:57102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Agl-0002QJ-4Q
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50346)
+	id 1i1Ajw-0005eB-VP
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:40:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50214)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i1AdB-0000FS-0O
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:34 -0400
+ (envelope-from <philmd@redhat.com>) id 1i1Acw-0008Rj-9u
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i1Ad9-0001jk-Og
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:32 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40449)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i1Ad9-0001j9-Ey
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:31 -0400
-Received: by mail-pf1-x444.google.com with SMTP id w16so6583318pfn.7
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 07:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JRLxlv4cnfXmmIjSEQBc5L2Hqowbo6b3NP22sM3+D4U=;
- b=r7Kj5Pp2MToaBkFmJYU+4YyEwatDEAKFCQR+HUlrsFHPk4URu8NlREmjmk5ZH+D71+
- 6RfMGbuyNpAS8CM1ibz+mYIpvxeArpgrOrp37URWmVzLoVISgP77QVsC0tO8ZOcQuOtP
- 3xYu0cA6cfOIk+77p7njB2NKnaHr3GQ56za7UzijCFDFUaT1gsoGvEU4mIeGuaT/bVDj
- NkFXyXeGhp4HbNcQIJr9DLA+WUcSgsmfotPykJbtykKhjo9rt5x2/yZOvNcVYYq9zdb0
- pjcLU4U89j18WOo7p/RwcMoV9YPscCM3A2zJ+1yCMhT89gUnmEiZ9uXUX4T2Vltg36Xo
- w8vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JRLxlv4cnfXmmIjSEQBc5L2Hqowbo6b3NP22sM3+D4U=;
- b=D4z2QbXxxm7clVKd8rErob8rRiPDpEJiCIgNWdvhp1addRW/vRE6Gs+7ztpWxsIweH
- U4UIr2Qy4pOliU/Gxbd/sflcLYn7OGh7wSrbrkhAOhfAMZUsrXXnbllkDQlANmzt9WQF
- lkq5JddBw5yltD1bLO3ES7PpmRu/8NVcR7lLw0pEZMIRPOAgFFSmx5D7iF2aTbK7DkUI
- i1WQMkqEG/+Mq6KxT+lp26a64TpO4xGSKkuBp+NlA0n4lr/5jeIApiyoRwGwCd1JvbLJ
- aLdJ5BNwlma6u5Ggz+g13AudFHPvcKIFAPBWOgbm4el5RsHc278/LehjyPI140s+yQck
- greg==
-X-Gm-Message-State: APjAAAVUl0tLiMID1o4IwRd3XKvjW5x7oRkAjAfNzHoWTaDlfN6XXiO3
- HdmB1Kb8ISVwhFfX6gMXjEuBuw==
-X-Google-Smtp-Source: APXvYqwTjJ++4ByOZ9bTB3jUxO/+bypd2n2FQ/NUPD59nPvuEeKvbPhJRHTyCpvjViwFHKrvCPdu7g==
-X-Received: by 2002:a63:1918:: with SMTP id z24mr4103141pgl.94.1566570810219; 
- Fri, 23 Aug 2019 07:33:30 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id a128sm4264708pfb.185.2019.08.23.07.33.29
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Aug 2019 07:33:29 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190819213755.26175-1-richard.henderson@linaro.org>
- <20190819213755.26175-19-richard.henderson@linaro.org>
- <CAFEAcA9xx_bDZ3hf2aTaOxPupmSFQ11g4xTsHow6nxn6j2ZcEw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <64cbcae8-d9a6-9e5b-4acf-825597884a20@linaro.org>
-Date: Fri, 23 Aug 2019 07:33:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <philmd@redhat.com>) id 1i1Acu-0001Xy-VN
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52258)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1i1Acs-0001VL-5p; Fri, 23 Aug 2019 10:33:14 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 71363300C033;
+ Fri, 23 Aug 2019 14:33:13 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-118.brq.redhat.com [10.40.204.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F0465DD61;
+ Fri, 23 Aug 2019 14:33:05 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 23 Aug 2019 16:32:44 +0200
+Message-Id: <20190823143249.8096-2-philmd@redhat.com>
+In-Reply-To: <20190823143249.8096-1-philmd@redhat.com>
+References: <20190823143249.8096-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9xx_bDZ3hf2aTaOxPupmSFQ11g4xTsHow6nxn6j2ZcEw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH v2 18/68] target/arm: Convert the rest of
- A32 Miscelaneous instructions
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Fri, 23 Aug 2019 14:33:13 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 1/6] hw/arm: Use ARM_CPU_TYPE_NAME() macro
+ when appropriate
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,35 +56,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/19 5:03 AM, Peter Maydell wrote:
-> On Mon, 19 Aug 2019 at 22:38, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> 
-> In subject, typo: "Miscellaneous".
-> 
->> This fixes an exiting bug with the T5 encoding of SUBS PC, LR, #IMM,
-> 
-> "existing"
-> 
->> in that it may be executed from user mode as with any other encoding
->> of SUBS, not as ERET.
-> 
-> Should this paragraph be in the commit message for the previous
-> patch? This change doesn't touch SUBS/ERET.
-> 
-> Otherwise
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Commit ba1ba5cca introduce the ARM_CPU_TYPE_NAME() macro.
+Unify the code base by use it in all places.
 
-Indeed that text should not be here.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+v2: rebased, use in imx25/31 (pm215)
+---
+ hw/arm/allwinner-a10.c | 3 ++-
+ hw/arm/cubieboard.c    | 3 ++-
+ hw/arm/digic.c         | 3 ++-
+ hw/arm/fsl-imx25.c     | 2 +-
+ hw/arm/fsl-imx31.c     | 2 +-
+ hw/arm/fsl-imx6.c      | 3 ++-
+ hw/arm/fsl-imx6ul.c    | 2 +-
+ hw/arm/xlnx-zynqmp.c   | 8 ++++----
+ 8 files changed, 15 insertions(+), 11 deletions(-)
 
-And also, as you might be able to tell from the text of the previous patch, it
-isn't an existing bug.  It took me a while to see that, and that's why I think
-that passing pre-v7m through the usual SUBS path is clearer.
+diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+index 73810a4440..118032c8c7 100644
+--- a/hw/arm/allwinner-a10.c
++++ b/hw/arm/allwinner-a10.c
+@@ -30,7 +30,8 @@ static void aw_a10_init(Object *obj)
+     AwA10State *s =3D AW_A10(obj);
+=20
+     object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
+-                            "cortex-a8-" TYPE_ARM_CPU, &error_abort, NUL=
+L);
++                            ARM_CPU_TYPE_NAME("cortex-a8"),
++                            &error_abort, NULL);
+=20
+     sysbus_init_child_obj(obj, "intc", &s->intc, sizeof(s->intc),
+                           TYPE_AW_A10_PIC);
+diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
+index 38e0ca0f53..ed8d2333a0 100644
+--- a/hw/arm/cubieboard.c
++++ b/hw/arm/cubieboard.c
+@@ -81,7 +81,8 @@ static void cubieboard_init(MachineState *machine)
+=20
+ static void cubieboard_machine_init(MachineClass *mc)
+ {
+-    mc->desc =3D "cubietech cubieboard";
++    mc->desc =3D "cubietech cubieboard (Cortex-A9)";
++    mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a9");
+     mc->init =3D cubieboard_init;
+     mc->block_default_type =3D IF_IDE;
+     mc->units_per_default_bus =3D 1;
+diff --git a/hw/arm/digic.c b/hw/arm/digic.c
+index 4f52465875..22434a65a2 100644
+--- a/hw/arm/digic.c
++++ b/hw/arm/digic.c
+@@ -37,7 +37,8 @@ static void digic_init(Object *obj)
+     int i;
+=20
+     object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
+-                            "arm946-" TYPE_ARM_CPU, &error_abort, NULL);
++                            ARM_CPU_TYPE_NAME("arm946"),
++                            &error_abort, NULL);
+=20
+     for (i =3D 0; i < DIGIC4_NB_TIMERS; i++) {
+ #define DIGIC_TIMER_NAME_MLEN    11
+diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
+index 532d088298..2b2fdb203a 100644
+--- a/hw/arm/fsl-imx25.c
++++ b/hw/arm/fsl-imx25.c
+@@ -36,7 +36,7 @@ static void fsl_imx25_init(Object *obj)
+     FslIMX25State *s =3D FSL_IMX25(obj);
+     int i;
+=20
+-    object_initialize(&s->cpu, sizeof(s->cpu), "arm926-" TYPE_ARM_CPU);
++    object_initialize(&s->cpu, sizeof(s->cpu), ARM_CPU_TYPE_NAME("arm926=
+"));
+=20
+     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
+                           TYPE_IMX_AVIC);
+diff --git a/hw/arm/fsl-imx31.c b/hw/arm/fsl-imx31.c
+index 1a37a7b997..6760de3c8c 100644
+--- a/hw/arm/fsl-imx31.c
++++ b/hw/arm/fsl-imx31.c
+@@ -33,7 +33,7 @@ static void fsl_imx31_init(Object *obj)
+     FslIMX31State *s =3D FSL_IMX31(obj);
+     int i;
+=20
+-    object_initialize(&s->cpu, sizeof(s->cpu), "arm1136-" TYPE_ARM_CPU);
++    object_initialize(&s->cpu, sizeof(s->cpu), ARM_CPU_TYPE_NAME("arm113=
+6"));
+=20
+     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
+                           TYPE_IMX_AVIC);
+diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
+index 8c397ef04b..552145b24e 100644
+--- a/hw/arm/fsl-imx6.c
++++ b/hw/arm/fsl-imx6.c
+@@ -43,7 +43,8 @@ static void fsl_imx6_init(Object *obj)
+     for (i =3D 0; i < MIN(ms->smp.cpus, FSL_IMX6_NUM_CPUS); i++) {
+         snprintf(name, NAME_SIZE, "cpu%d", i);
+         object_initialize_child(obj, name, &s->cpu[i], sizeof(s->cpu[i])=
+,
+-                                "cortex-a9-" TYPE_ARM_CPU, &error_abort,=
+ NULL);
++                                ARM_CPU_TYPE_NAME("cortex-a9"),
++                                &error_abort, NULL);
+     }
+=20
+     sysbus_init_child_obj(obj, "a9mpcore", &s->a9mpcore, sizeof(s->a9mpc=
+ore),
+diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+index b074177a71..c405b68d1d 100644
+--- a/hw/arm/fsl-imx6ul.c
++++ b/hw/arm/fsl-imx6ul.c
+@@ -34,7 +34,7 @@ static void fsl_imx6ul_init(Object *obj)
+     int i;
+=20
+     object_initialize_child(obj, "cpu0", &s->cpu, sizeof(s->cpu),
+-                            "cortex-a7-" TYPE_ARM_CPU, &error_abort, NUL=
+L);
++                            ARM_CPU_TYPE_NAME("cortex-a7"), &error_abort=
+, NULL);
+=20
+     /*
+      * A7MPCORE
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index 0f587e63d3..fb03c60ebb 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -196,8 +196,8 @@ static void xlnx_zynqmp_create_rpu(MachineState *ms, =
+XlnxZynqMPState *s,
+=20
+         object_initialize_child(OBJECT(&s->rpu_cluster), "rpu-cpu[*]",
+                                 &s->rpu_cpu[i], sizeof(s->rpu_cpu[i]),
+-                                "cortex-r5f-" TYPE_ARM_CPU, &error_abort=
+,
+-                                NULL);
++                                ARM_CPU_TYPE_NAME("cortex-r5f"),
++                                &error_abort, NULL);
+=20
+         name =3D object_get_canonical_path_component(OBJECT(&s->rpu_cpu[=
+i]));
+         if (strcmp(name, boot_cpu)) {
+@@ -237,8 +237,8 @@ static void xlnx_zynqmp_init(Object *obj)
+     for (i =3D 0; i < num_apus; i++) {
+         object_initialize_child(OBJECT(&s->apu_cluster), "apu-cpu[*]",
+                                 &s->apu_cpu[i], sizeof(s->apu_cpu[i]),
+-                                "cortex-a53-" TYPE_ARM_CPU, &error_abort=
+,
+-                                NULL);
++                                ARM_CPU_TYPE_NAME("cortex-a53"),
++                                &error_abort, NULL);
+     }
+=20
+     sysbus_init_child_obj(obj, "gic", &s->gic, sizeof(s->gic),
+--=20
+2.20.1
 
-
-r~
 
