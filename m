@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9789B37D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:36:48 +0200 (CEST)
-Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EA59B36F
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:36:13 +0200 (CEST)
+Received: from localhost ([::1]:58294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1BcN-0005RY-K0
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:36:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60780)
+	id 1i1Bbo-00048O-0y
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:36:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33101)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i1BUt-0006NC-Rl
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:29:04 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i1BXV-0000aM-B0
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:31:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i1BUs-0002HO-UH
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:29:03 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:42882)
+ (envelope-from <richard.henderson@linaro.org>) id 1i1BXU-000438-9h
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:31:45 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33415)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i1BUs-0002Gl-Mu
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:29:02 -0400
-Received: by mail-pl1-x643.google.com with SMTP id y1so5744386plp.9
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 08:29:02 -0700 (PDT)
+ id 1i1BXU-00042r-2B
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:31:44 -0400
+Received: by mail-pf1-x443.google.com with SMTP id g2so6698516pfq.0
+ for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 08:31:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xmxj/V96xc4Nk2eeI7CcokgCy1z4OBxlwAVs8OWgshQ=;
- b=iTbZOmp5q3hp00bh+z75bq+SEETahXaGkGhVridmojse5RbY1/VpN0reJYC3iNNRLM
- PY17xwm15THNbrsTnd0EWU9LeLVSaHpvTKYuf6xS2gHMguaJWZobdlfNR+RQKsvEIieB
- /1qoN8UUo8cAiuYnycQuORXbhpd6M5H/beEGFQ2ZndZ7f8QVVU7KHWspwZgCT/Ign5fk
- /Q6OLMPynyYd7npQKvuTD1sx9SnwlARYnNHU44SPk5JS8ago3S2OEFxNLu2/B09nGL/h
- QWhRmF5/INKKM+L58aGakJAb+hiSyuFTmJlv3AMF4Ms7iHVfOjPCj4Mc0GAzzajPVT9I
- 54fA==
+ bh=D1hoeKpjEE5G3Z5g8ax0q8e/gDb4rKpZOFQX89CV7rU=;
+ b=OJuQZIAW//kCVG+tnriqUQjANWLgvuRAflywjhOrCEVVsUcuGpzKXnZ/N9CO7otWBr
+ 0VWU+M9siTmFX61N8cGFX20dekkZPmW12HQ1ABj2gcUTG8IpZT3Jjpc2pxhfKMGqBvM7
+ pD77GMjnVB5B3dmnWD7e/tF22a8nRQ/ZZLd8OHfOST1h5Jz0pnFss8Lu8rcg5cvvSBuT
+ 2R7+Pk46rDt2fzhAOw1yxaU/UXJ1SCBUGfy3KRaC5HSYmZYdR7bhKLcDAyfjp/nevDqw
+ ZgepJFeQvUJBtTAmN77bl03DupvXcI15I4HSZX77X/o9GIj6If9uHcQxBjbwEot/5jT9
+ BQ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xmxj/V96xc4Nk2eeI7CcokgCy1z4OBxlwAVs8OWgshQ=;
- b=Q3v5EG5qD+wC5FN+E7SAdaHGYkPIzUDtTCbYdqtTW3xU81tdIXSfEFCsRyBonPgj78
- Jhqo8+3ps64fzm8uwKbowR2f2Ud2mZB+0ffrxTHc5OV7JDx0AjrDRq9eyOzV9dyxrbM7
- J9SbUnMsjXm6L+xcXj3JjHZhDu8DjGdxgYAblLiugKSci+DJzsCI1lbAI+0O+GxvNODp
- iuktnBnjex8TfzgWrM8pACFt/6ZHqyeqSYCDEOmhA8EnivgwulDOpfPNtcjZ058CLfmI
- fhR+fsmdh0I1xuRoRUXMuMWk5zH/DEi7t98zxJIG1QZt6n5GSI1j/QR7kN9Gx21WkWkt
- K4Dw==
-X-Gm-Message-State: APjAAAVDyoEAnu+blXzn0Nzjg58KFLrJsOZaLXFbz3tVXu0fVDNdXdxU
- f8Y/Voc2QIqdXFRUXeZtUUPk2w==
-X-Google-Smtp-Source: APXvYqzaJdWi8COqV5OqxVslqcRB4+bJTSEciUeYD5Kyk16C/be13orMdgWQcWYaxIJceqlriXBzpA==
-X-Received: by 2002:a17:902:3003:: with SMTP id
- u3mr5370034plb.161.1566574141594; 
- Fri, 23 Aug 2019 08:29:01 -0700 (PDT)
+ bh=D1hoeKpjEE5G3Z5g8ax0q8e/gDb4rKpZOFQX89CV7rU=;
+ b=TEx6F2oXynqw1g+32rW7dG/p7ntIoZe8bwuvkHalq5iPvO/XUUFf18C/c6zaxiBtyy
+ TtpH3GmsG0rZpCkJqZsyGRzpKIWqyA19Pku6ktH8lanw2xakhXCF5J1NkHCea4zuFav2
+ coXqULeiuZJ7GSz6N7zxtHOK4N5SZpb9dG7MsOcdRzXAx9Gq5m+u7THgr4w8GppBW63/
+ QlupJFG8EpvChXFDT9xqKNKRaZWW31+X9qNkVFRABkO2c5MJsDwqwIkYb1lwyDR35UTe
+ /H7LeIZ4L66ggnG60VabM+pTOt0UGMijs35i6BdWHZhbS0UnI4pIfPP5eQ4CY2mFIWGH
+ RdXA==
+X-Gm-Message-State: APjAAAWxuri/doA6IxEiwaddTeblFZ+oA0Hoht5oJlcvnbHKkCSukGtI
+ aq2P13v8X5eNX8l/aOhSVQTN6g==
+X-Google-Smtp-Source: APXvYqyIL97WUR3XZad1OQ0h8KKGMbOLpPHNfKp5c8xi3JkFTf5hsjOLsYHBIvEJ4dzpDey6qVgEvA==
+X-Received: by 2002:aa7:9591:: with SMTP id z17mr5979137pfj.215.1566574303177; 
+ Fri, 23 Aug 2019 08:31:43 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id b126sm6408507pfa.177.2019.08.23.08.29.00
+ by smtp.gmail.com with ESMTPSA id e66sm5651135pfe.142.2019.08.23.08.31.42
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Aug 2019 08:29:00 -0700 (PDT)
+ Fri, 23 Aug 2019 08:31:42 -0700 (PDT)
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20190823100741.9621-1-david@redhat.com>
- <20190823100741.9621-5-david@redhat.com>
+ <20190823100741.9621-7-david@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <ae881524-d745-c8e1-5765-157962d2b157@linaro.org>
-Date: Fri, 23 Aug 2019 08:28:58 -0700
+Message-ID: <98727e9f-7e20-52b1-25e6-96750ba068ea@linaro.org>
+Date: Fri, 23 Aug 2019 08:31:40 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190823100741.9621-5-david@redhat.com>
+In-Reply-To: <20190823100741.9621-7-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: Re: [Qemu-devel] [PATCH v1 4/9] tcg: Enforce single page access in
- probe_write() for !CONFIG_USER_ONLY
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH v1 6/9] hppa/tcg: Call probe_write() also
+ for CONFIG_USER_ONLY
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,22 +94,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/23/19 3:07 AM, David Hildenbrand wrote:
-> While the CONFIG_USER_ONLY variant can handle multiple pages (no MMU), the
-> !CONFIG_USER_ONLY variant can't and won't. We'll want to convert
-> probe_write() to return a host address (similar to tlb_vaddr_to_host())
-> soon. This only works on page granularity.
+> We now have a variant for CONFIG_USER_ONLY as well.
 > 
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  accel/tcg/cputlb.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  target/hppa/op_helper.c | 2 --
+>  1 file changed, 2 deletions(-)
 
-As I just mentioned in the previous, I think the two implementations should match.
-
-Anyway, the "multiple pages" thing above still means exactly two, since if
-there were three pages involved we were only probing two of them, and the third
-could still be unmapped.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
