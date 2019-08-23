@@ -2,89 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467059ACFA
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 12:19:06 +0200 (CEST)
-Received: from localhost ([::1]:53782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 857CE9AD01
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 12:21:30 +0200 (CEST)
+Received: from localhost ([::1]:53808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i16ev-0002T7-17
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 06:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60829)
+	id 1i16hF-0005HS-NJ
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 06:21:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59345)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1i16bo-0008JF-EW
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:15:53 -0400
+ (envelope-from <stefanha@redhat.com>) id 1i16XG-0002e9-4N
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:11:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1i16bn-0004HB-4w
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:15:52 -0400
-Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:11225)
+ (envelope-from <stefanha@redhat.com>) id 1i16XF-0001rq-0E
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:11:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36228)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1i16bm-0004Ds-TE
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:15:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1566555350;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=DO7MoqGCq5qbArgpzvN9mrrcRAyCtPBqzcT7RIE96GA=;
- b=XJPyZ4mk6R2Aydb6JuCywe26uYYbb+Ofuzqu6FU19K7XO+lfYIyPIamA
- R5IKqpc9qMxljBv0IiA8M8uvu2mM8Kx89kwFiNYhxM4g96Sr2sENwWFC6
- HlT7aE3A0cb7qShkITangmTyQOu2tY5991UjAuwxFwMRpOSo4hO/XOP0a s=;
-Authentication-Results: esa5.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=anthony.perard@citrix.com;
- spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible
-Received-SPF: Pass (esa5.hc3370-68.iphmx.com: domain of
- anthony.perard@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa5.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa5.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: v8P0wpMEi2lEQzdfPnrao0+KylUCNC2SltQiJLyCRaJB/kQ7xkxNq5rE7G/31lWGW305AnybbM
- Z5UA8PzCKcInMvhzQvCq6I693L/5BRmr6uUQkfU7J12Io7VrjpuX+pBu4HecD/kQmruj8CoO5n
- N8xmScIB/SPvU2oBRybd5L2ehHrMrj23Sw4RCq7l0ipbTryt4NPBu+sjDR63KZRpcv5RavYdc2
- UYVcwMtjayz7xla6MXFDDVkJzCAbnS8d/NmvVXmLPa3TaTmz72/FkSth1JtgDUY/OEJ1ecxlyu
- cOI=
-X-SBRS: 2.7
-X-MesageID: 4814135
-X-Ironport-Server: esa5.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.64,420,1559534400"; 
-   d="scan'208";a="4814135"
-From: Anthony PERARD <anthony.perard@citrix.com>
-To: <qemu-devel@nongnu.org>
-Date: Fri, 23 Aug 2019 11:15:34 +0100
-Message-ID: <20190823101534.465-3-anthony.perard@citrix.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190823101534.465-1-anthony.perard@citrix.com>
-References: <20190823101534.465-1-anthony.perard@citrix.com>
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i16XE-0001qI-QR
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 06:11:08 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BE0251801590;
+ Fri, 23 Aug 2019 10:11:07 +0000 (UTC)
+Received: from localhost (ovpn-117-204.ams2.redhat.com [10.36.117.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD8F918677;
+ Fri, 23 Aug 2019 10:11:06 +0000 (UTC)
+Date: Fri, 23 Aug 2019 11:11:05 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Message-ID: <20190823101105.GE12092@stefanha-x1.localdomain>
+References: <20190822115433.12070-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.155.168
-Subject: [Qemu-devel] [PATCH v2 2/2] xen-bus: Avoid rewriting identical
- values to xenstore
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="lteA1dqeVaWQ9QQl"
+Content-Disposition: inline
+In-Reply-To: <20190822115433.12070-1-dgilbert@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Fri, 23 Aug 2019 10:11:08 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] migration: register_savevm_live doesn't
+ need dev
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,74 +58,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Stefano Stabellini <sstabellini@kernel.org>,
- Paul Durrant <paul.durrant@citrix.com>
+Cc: quintela@redhat.com, jasowang@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, samuel.thibault@ens-lyon.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When QEMU receives a xenstore watch event suggesting that the "state"
-of the frontend changed, it records this in its own state but it also
-re-write the value back into xenstore even so there were no change.
-This triggers an unnecessary xenstore watch event which QEMU will
-process again (and maybe the frontend as well). Also QEMU could
-potentially write an already old value.
 
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
----
+--lteA1dqeVaWQ9QQl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Notes:
-    v2:
-    - fix coding style
-    - only change frontend_set_state() and use 'publish' instead of 'export'.
+On Thu, Aug 22, 2019 at 12:54:33PM +0100, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> Commit 78dd48df3 removed the last caller of register_savevm_live for an
+> instantiable device (rather than a single system wide device);
+> so trim out the parameter.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  docs/devel/migration.rst       |  3 +--
+>  hw/ppc/spapr.c                 |  2 +-
+>  hw/s390x/s390-skeys.c          |  2 +-
+>  hw/s390x/s390-stattrib.c       |  2 +-
+>  hw/s390x/tod.c                 |  2 +-
+>  include/migration/register.h   |  3 +--
+>  migration/block-dirty-bitmap.c |  2 +-
+>  migration/block.c              |  2 +-
+>  migration/ram.c                |  2 +-
+>  migration/savevm.c             | 23 +----------------------
+>  net/slirp.c                    |  2 +-
+>  11 files changed, 11 insertions(+), 34 deletions(-)
 
- hw/xen/xen-bus.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
-index 62c127b926..a04478ad4f 100644
---- a/hw/xen/xen-bus.c
-+++ b/hw/xen/xen-bus.c
-@@ -698,7 +698,8 @@ int xen_device_frontend_scanf(XenDevice *xendev, const char *key,
- }
- 
- static void xen_device_frontend_set_state(XenDevice *xendev,
--                                          enum xenbus_state state)
-+                                          enum xenbus_state state,
-+                                          bool publish)
- {
-     const char *type = object_get_typename(OBJECT(xendev));
- 
-@@ -710,7 +711,9 @@ static void xen_device_frontend_set_state(XenDevice *xendev,
-                                     xs_strstate(state));
- 
-     xendev->frontend_state = state;
--    xen_device_frontend_printf(xendev, "state", "%u", state);
-+    if (publish) {
-+        xen_device_frontend_printf(xendev, "state", "%u", state);
-+    }
- }
- 
- static void xen_device_frontend_changed(void *opaque)
-@@ -726,7 +729,7 @@ static void xen_device_frontend_changed(void *opaque)
-         state = XenbusStateUnknown;
-     }
- 
--    xen_device_frontend_set_state(xendev, state);
-+    xen_device_frontend_set_state(xendev, state, false);
- 
-     if (state == XenbusStateInitialising &&
-         xendev->backend_state == XenbusStateClosed &&
-@@ -1169,7 +1172,7 @@ static void xen_device_realize(DeviceState *dev, Error **errp)
-     xen_device_frontend_printf(xendev, "backend-id", "%u",
-                                xenbus->backend_id);
- 
--    xen_device_frontend_set_state(xendev, XenbusStateInitialising);
-+    xen_device_frontend_set_state(xendev, XenbusStateInitialising, true);
- 
-     xendev->exit.notify = xen_device_exit;
-     qemu_add_exit_notifier(&xendev->exit);
--- 
-Anthony PERARD
+--lteA1dqeVaWQ9QQl
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1fu7kACgkQnKSrs4Gr
+c8hkHAf/YDVH5kanaqICh0QogEBjaYOBOxPf0Pi2VO2oriR+Jr9LLLHm9G+uQPSt
+zpAVRusTnNh8uuZPrMWhqQTq7qmhcnjHflxX+cx/vd66Zsqbv7i9Ik8FQwrq7tFu
+Ntvgc6nzJXAlzPoThSvGCm4BhfrMzU2VeoNmsHz87tOTwdWveBEpV7ZjYO2rXzUw
+oGi3/BRFdBvWtvHVNo2z/yhaEFE3eZfeQNAqsNo3v8M/TwmNI/l4geREL4uY7oKh
+q5d7lP0Pb0naIwQcTH8OlrUF722RQjFnzfN5FOX7lLBdYFWfY7n4rh7e1wRS12lJ
+ko17zxk0qv636fAXZsXrkymD21LnZQ==
+=2iri
+-----END PGP SIGNATURE-----
+
+--lteA1dqeVaWQ9QQl--
 
