@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B75B69B26D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:50:21 +0200 (CEST)
-Received: from localhost ([::1]:57278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D629B276
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:52:12 +0200 (CEST)
+Received: from localhost ([::1]:57336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1AtP-00088F-Pg
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:50:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51386)
+	id 1i1AvD-0002Lj-Fx
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:52:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51472)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i1AhD-00043I-0T
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:37:43 -0400
+ (envelope-from <eblake@redhat.com>) id 1i1AhG-00047Q-RK
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:37:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i1AhB-0004gt-Vx
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:37:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44266)
+ (envelope-from <eblake@redhat.com>) id 1i1AhF-0004k2-AZ
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:37:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42308)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1i1Ah6-0004dc-S6; Fri, 23 Aug 2019 10:37:36 -0400
+ id 1i1AhB-0004ek-Vs; Fri, 23 Aug 2019 10:37:42 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 462F989AC9;
- Fri, 23 Aug 2019 14:37:36 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6B74E106E289;
+ Fri, 23 Aug 2019 14:37:37 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC1856CE58;
- Fri, 23 Aug 2019 14:37:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 079B16CE5B;
+ Fri, 23 Aug 2019 14:37:36 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 23 Aug 2019 09:37:24 -0500
-Message-Id: <20190823143726.27062-4-eblake@redhat.com>
+Date: Fri, 23 Aug 2019 09:37:26 -0500
+Message-Id: <20190823143726.27062-6-eblake@redhat.com>
 In-Reply-To: <20190823143726.27062-1-eblake@redhat.com>
 References: <25ead363-4f37-5450-b985-1876374e314d@redhat.com>
  <20190823143726.27062-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Fri, 23 Aug 2019 14:37:36 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Fri, 23 Aug 2019 14:37:37 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/5] nbd: Implement client use of NBD FAST_ZERO
+Subject: [Qemu-devel] [PATCH 5/5] nbd: Tolerate more errors to structured
+ reply request
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,54 +56,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+Cc: "open list:Network Block Dev..." <qemu-block@nongnu.org>,
  libguestfs@redhat.com, nbd@other.debian.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The client side is fairly straightforward: if the server advertised
-fast zero support, then we can map that to BDRV_REQ_NO_FALLBACK
-support.  A server that advertises FAST_ZERO but not WRITE_ZEROES
-is technically broken, but we can ignore that situation as it does
-not change our behavior.
+A server may have a reason to reject a request for structured replies,
+beyond just not recognizing them as a valid request.  It doesn't hurt
+us to continue talking to such a server; otherwise 'qemu-nbd --list'
+of such a server fails to display all possible details about the
+export.
+
+Encountered when temporarily tweaking nbdkit to reply with
+NBD_REP_ERR_POLICY.  Present since structured reply support was first
+added (commit d795299b reused starttls handling, but starttls has to
+reject all errors).
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
-
 ---
+ nbd/client.c | 39 +++++++++++++++++++++++----------------
+ 1 file changed, 23 insertions(+), 16 deletions(-)
 
-Perhaps this is worth merging with the previous patch.
----
- block/nbd.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+diff --git a/nbd/client.c b/nbd/client.c
+index 49bf9906f94b..92444f5e9a62 100644
+--- a/nbd/client.c
++++ b/nbd/client.c
+@@ -1,5 +1,5 @@
+ /*
+- *  Copyright (C) 2016-2018 Red Hat, Inc.
++ *  Copyright (C) 2016-2019 Red Hat, Inc.
+  *  Copyright (C) 2005  Anthony Liguori <anthony@codemonkey.ws>
+  *
+  *  Network Block Device Client Side
+@@ -142,17 +142,19 @@ static int nbd_receive_option_reply(QIOChannel *ioc=
+, uint32_t opt,
+     return 0;
+ }
 
-diff --git a/block/nbd.c b/block/nbd.c
-index beed46fb3414..8339d7106366 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1044,6 +1044,10 @@ static int nbd_client_co_pwrite_zeroes(BlockDriver=
-State *bs, int64_t offset,
-     if (!(flags & BDRV_REQ_MAY_UNMAP)) {
-         request.flags |=3D NBD_CMD_FLAG_NO_HOLE;
+-/* If reply represents success, return 1 without further action.
+- * If reply represents an error, consume the optional payload of
+- * the packet on ioc.  Then return 0 for unsupported (so the client
+- * can fall back to other approaches), or -1 with errp set for other
+- * errors.
++/*
++ * If reply represents success, return 1 without further action.  If
++ * reply represents an error, consume the optional payload of the
++ * packet on ioc.  Then return 0 for unsupported (so the client can
++ * fall back to other approaches), where @strict determines if only
++ * ERR_UNSUP or all errors fit that category, or -1 with errp set for
++ * other errors.
+  */
+ static int nbd_handle_reply_err(QIOChannel *ioc, NBDOptionReply *reply,
+-                                Error **errp)
++                                bool strict, Error **errp)
+ {
+     char *msg =3D NULL;
+-    int result =3D -1;
++    int result =3D strict ? -1 : 0;
+
+     if (!(reply->type & (1 << 31))) {
+         return 1;
+@@ -163,6 +165,7 @@ static int nbd_handle_reply_err(QIOChannel *ioc, NBDO=
+ptionReply *reply,
+             error_setg(errp, "server error %" PRIu32
+                        " (%s) message is too long",
+                        reply->type, nbd_rep_lookup(reply->type));
++            result =3D -1;
+             goto cleanup;
+         }
+         msg =3D g_malloc(reply->length + 1);
+@@ -170,6 +173,7 @@ static int nbd_handle_reply_err(QIOChannel *ioc, NBDO=
+ptionReply *reply,
+             error_prepend(errp, "Failed to read option error %" PRIu32
+                           " (%s) message: ",
+                           reply->type, nbd_rep_lookup(reply->type));
++            result =3D -1;
+             goto cleanup;
+         }
+         msg[reply->length] =3D '\0';
+@@ -258,7 +262,7 @@ static int nbd_receive_list(QIOChannel *ioc, char **n=
+ame, char **description,
+     if (nbd_receive_option_reply(ioc, NBD_OPT_LIST, &reply, errp) < 0) {
+         return -1;
      }
-+    if (flags & BDRV_REQ_NO_FALLBACK) {
-+        assert(s->info.flags & NBD_FLAG_SEND_FAST_ZERO);
-+        request.flags |=3D NBD_CMD_FLAG_FAST_ZERO;
-+    }
-
-     if (!bytes) {
-         return 0;
-@@ -1239,6 +1243,9 @@ static int nbd_client_connect(BlockDriverState *bs,=
- Error **errp)
+-    error =3D nbd_handle_reply_err(ioc, &reply, errp);
++    error =3D nbd_handle_reply_err(ioc, &reply, true, errp);
+     if (error <=3D 0) {
+         return error;
      }
-     if (s->info.flags & NBD_FLAG_SEND_WRITE_ZEROES) {
-         bs->supported_zero_flags |=3D BDRV_REQ_MAY_UNMAP;
-+        if (s->info.flags & NBD_FLAG_SEND_FAST_ZERO) {
-+            bs->supported_zero_flags |=3D BDRV_REQ_NO_FALLBACK;
-+        }
+@@ -371,7 +375,7 @@ static int nbd_opt_info_or_go(QIOChannel *ioc, uint32=
+_t opt,
+         if (nbd_receive_option_reply(ioc, opt, &reply, errp) < 0) {
+             return -1;
+         }
+-        error =3D nbd_handle_reply_err(ioc, &reply, errp);
++        error =3D nbd_handle_reply_err(ioc, &reply, true, errp);
+         if (error <=3D 0) {
+             return error;
+         }
+@@ -546,12 +550,15 @@ static int nbd_receive_query_exports(QIOChannel *io=
+c,
+     }
+ }
+
+-/* nbd_request_simple_option: Send an option request, and parse the repl=
+y
++/*
++ * nbd_request_simple_option: Send an option request, and parse the repl=
+y.
++ * @strict controls whether ERR_UNSUP or all errors produce 0 status.
+  * return 1 for successful negotiation,
+  *        0 if operation is unsupported,
+  *        -1 with errp set for any other error
+  */
+-static int nbd_request_simple_option(QIOChannel *ioc, int opt, Error **e=
+rrp)
++static int nbd_request_simple_option(QIOChannel *ioc, int opt, bool stri=
+ct,
++                                     Error **errp)
+ {
+     NBDOptionReply reply;
+     int error;
+@@ -563,7 +570,7 @@ static int nbd_request_simple_option(QIOChannel *ioc,=
+ int opt, Error **errp)
+     if (nbd_receive_option_reply(ioc, opt, &reply, errp) < 0) {
+         return -1;
+     }
+-    error =3D nbd_handle_reply_err(ioc, &reply, errp);
++    error =3D nbd_handle_reply_err(ioc, &reply, strict, errp);
+     if (error <=3D 0) {
+         return error;
+     }
+@@ -595,7 +602,7 @@ static QIOChannel *nbd_receive_starttls(QIOChannel *i=
+oc,
+     QIOChannelTLS *tioc;
+     struct NBDTLSHandshakeData data =3D { 0 };
+
+-    ret =3D nbd_request_simple_option(ioc, NBD_OPT_STARTTLS, errp);
++    ret =3D nbd_request_simple_option(ioc, NBD_OPT_STARTTLS, true, errp)=
+;
+     if (ret <=3D 0) {
+         if (ret =3D=3D 0) {
+             error_setg(errp, "Server don't support STARTTLS option");
+@@ -695,7 +702,7 @@ static int nbd_receive_one_meta_context(QIOChannel *i=
+oc,
+         return -1;
      }
 
-     s->sioc =3D sioc;
+-    ret =3D nbd_handle_reply_err(ioc, &reply, errp);
++    ret =3D nbd_handle_reply_err(ioc, &reply, true, errp);
+     if (ret <=3D 0) {
+         return ret;
+     }
+@@ -951,7 +958,7 @@ static int nbd_start_negotiate(AioContext *aio_contex=
+t, QIOChannel *ioc,
+             if (structured_reply) {
+                 result =3D nbd_request_simple_option(ioc,
+                                                    NBD_OPT_STRUCTURED_RE=
+PLY,
+-                                                   errp);
++                                                   false, errp);
+                 if (result < 0) {
+                     return -EINVAL;
+                 }
 --=20
 2.21.0
 
