@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847F69B4DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 18:48:36 +0200 (CEST)
-Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D0F9B4B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 18:43:49 +0200 (CEST)
+Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Cjr-0004GQ-96
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 12:48:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46840)
+	id 1i1CfE-0008T7-2c
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 12:43:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46837)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i1CbH-0006b2-5Y
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 12:39:49 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i1CbD-0002tY-MV
+ (envelope-from <berrange@redhat.com>) id 1i1CbG-0006aX-LT
  for qemu-devel@nongnu.org; Fri, 23 Aug 2019 12:39:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60799)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <berrange@redhat.com>) id 1i1CbF-0002uU-Ce
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 12:39:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41522)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i1CbD-0002sz-Cz
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 12:39:39 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i1CbF-0002u7-4x
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 12:39:41 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AC0F618C4272;
- Fri, 23 Aug 2019 16:39:38 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7889A18DE76B;
+ Fri, 23 Aug 2019 16:39:40 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-60.ams2.redhat.com
  [10.36.112.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 59D43BA75;
- Fri, 23 Aug 2019 16:39:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D418BA75;
+ Fri, 23 Aug 2019 16:39:38 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 23 Aug 2019 17:39:29 +0100
-Message-Id: <20190823163931.7442-3-berrange@redhat.com>
+Date: Fri, 23 Aug 2019 17:39:30 +0100
+Message-Id: <20190823163931.7442-4-berrange@redhat.com>
 In-Reply-To: <20190823163931.7442-1-berrange@redhat.com>
 References: <20190823163931.7442-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Fri, 23 Aug 2019 16:39:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.63]); Fri, 23 Aug 2019 16:39:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/4] docs: merge HACKING.md contents into
- CODING_STYLE.md
+Subject: [Qemu-devel] [PATCH 3/4] docs: document use of automatic cleanup
+ functions in glib
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,628 +62,126 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The split of information between the two docs is rather arbitary and
-unclear. It is simpler for contributors if all the information is in
-one file.
+Document the use of g_autofree and g_autoptr in glib for automatic
+freeing of memory, or other resource cleanup (eg mutex unlocking).
 
 Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- CODING_STYLE.md | 262 +++++++++++++++++++++++++++++++++++++++++++++++
- HACKING.md      | 263 ------------------------------------------------
- README          |   2 +-
- 3 files changed, 263 insertions(+), 264 deletions(-)
- delete mode 100644 HACKING.md
+ CODING_STYLE.md | 101 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 101 insertions(+)
 
 diff --git a/CODING_STYLE.md b/CODING_STYLE.md
-index 056eda7739..9f4fc9dc77 100644
+index 9f4fc9dc77..f37b6c2d01 100644
 --- a/CODING_STYLE.md
 +++ b/CODING_STYLE.md
-@@ -217,3 +217,265 @@ and '%#...'. For consistency the only one way shoul=
-d be used. Arguments for
+@@ -479,3 +479,104 @@ terminate QEMU.
 =20
-  - it is more popular
-  - '%#' omits the 0x for the value 0 which makes output inconsistent
+ Note that &error_fatal is just another way to exit(1), and &error_abort
+ is just another way to abort().
 +
 +
-+## Preprocessor
++## Automatic memory deallocation
 +
-+### Variadic macros
++QEMU has a mandatory dependency either the GCC or CLang compiler. As
++such it has the freedom to make use of a C language extension for
++automatically running a cleanup function when a stack variable goes
++out of scope. This can be used to simplify function cleanup paths,
++often allowing many goto jumps to be eliminated, through automatic
++free'ing of memory.
 +
-+For variadic macros, stick with this C99-like syntax:
++The GLib2 library provides a number of functions/macros for enabling
++automatic cleanup:
 +
-+    #define DPRINTF(fmt, ...)                                       \
-+        do { printf("IRQ: " fmt, ## __VA_ARGS__); } while (0)
++ https://developer.gnome.org/glib/stable/glib-Miscellaneous-Macros.html
 +
-+### Include directives
++Most notably:
 +
-+Order include directives as follows:
++ - g_autofree - will invoke g_free() on the variable going out of scope
 +
-+    #include "qemu/osdep.h"  /* Always first... */
-+    #include <...>           /* then system headers... */
-+    #include "..."           /* and finally QEMU headers. */
++ - g_autoptr - for structs / objects, will invoke the cleanup func creat=
+ed
++               by a previous use of G_DEFINE_AUTOPTR_CLEANUP_FUNC. This =
+is
++               supported for most GLib data types and GObjects
 +
-+The "qemu/osdep.h" header contains preprocessor macros that affect the b=
-ehavior
-+of core system headers like <stdint.h>.  It must be the first include so=
- that
-+core system headers included by external libraries get the preprocessor =
-macros
-+that QEMU depends on.
++For example, instead of
 +
-+Do not include "qemu/osdep.h" from header files since the .c file will h=
-ave
-+already included it.
++    int somefunc(void) {
++        int ret =3D -1;
++        char *foo =3D g_strdup_printf("foo%", "wibble");
++        GList *bar =3D .....
 +
-+## C types
++        if (eek) {
++           goto cleanup;
++        }
 +
-+It should be common sense to use the right type, but we have collected
-+a few useful guidelines here.
++        ret =3D 0;
 +
-+### Scalars
++      cleanup:
++        g_free(foo);
++        g_list_free(bar);
++        return ret;
++    }
 +
-+If you're using "int" or "long", odds are good that there's a better typ=
-e.
-+If a variable is counting something, it should be declared with an
-+unsigned type.
++Using g_autofree/g_autoptr enables the code to be written as:
 +
-+If it's host memory-size related, size_t should be a good choice (use
-+ssize_t only if required). Guest RAM memory offsets must use ram_addr_t,
-+but only for RAM, it may not cover whole guest address space.
++    int somefunc(void) {
++        g_autofree char *foo =3D g_strdup_printf("foo%", "wibble");
++        g_autoptr (GList) bar =3D .....
 +
-+If it's file-size related, use off_t.
-+If it's file-offset related (i.e., signed), use off_t.
-+If it's just counting small numbers use "unsigned int";
-+(on all but oddball embedded systems, you can assume that that
-+type is at least four bytes wide).
++        if (eek) {
++           return -1;
++        }
 +
-+In the event that you require a specific width, use a standard type
-+like int32_t, uint32_t, uint64_t, etc.  The specific types are
-+mandatory for VMState fields.
++        return 0;
++    }
 +
-+Don't use Linux kernel internal types like u32, __u32 or __le32.
++While this generally results in simpler, less leak-prone code, there
++are still some caveats to beware of
 +
-+Use hwaddr for guest physical addresses except pcibus_t
-+for PCI addresses.  In addition, ram_addr_t is a QEMU internal address
-+space that maps guest RAM physical addresses into an intermediate
-+address space that can map to host virtual address spaces.  Generally
-+speaking, the size of guest memory can always fit into ram_addr_t but
-+it would not be correct to store an actual guest physical address in a
-+ram_addr_t.
++ * Variables declared with g_auto* MUST always be initialized,
++   otherwise the cleanup function will use uninitialized stack memory
 +
-+For CPU virtual addresses there are several possible types.
-+vaddr is the best type to use to hold a CPU virtual address in
-+target-independent code. It is guaranteed to be large enough to hold a
-+virtual address for any target, and it does not change size from target
-+to target. It is always unsigned.
-+target_ulong is a type the size of a virtual address on the CPU; this me=
-ans
-+it may be 32 or 64 bits depending on which target is being built. It sho=
-uld
-+therefore be used only in target-specific code, and in some
-+performance-critical built-per-target core code such as the TLB code.
-+There is also a signed version, target_long.
-+abi_ulong is for the *-user targets, and represents a type the size of
-+'void *' in that target's ABI. (This may not be the same as the size of =
-a
-+full CPU virtual address in the case of target ABIs which use 32 bit poi=
-nters
-+on 64 bit CPUs, like sparc32plus.) Definitions of structures that must m=
-atch
-+the target's ABI must use this type for anything that on the target is d=
-efined
-+to be an 'unsigned long' or a pointer type.
-+There is also a signed version, abi_long.
++ * If a variable declared with g_auto* holds a value which must
++   live beyond the life of the function, that value must be saved
++   and the original variable NULL'd out. This can be simpler using
++   g_steal_pointer
 +
-+Of course, take all of the above with a grain of salt.  If you're about
-+to use some system interface that requires a type like size_t, pid_t or
-+off_t, use matching types for any corresponding variables.
 +
-+Also, if you try to use e.g., "unsigned int" as a type, and that
-+conflicts with the signedness of a related variable, sometimes
-+it's best just to use the *wrong* type, if "pulling the thread"
-+and fixing all related variables would be too invasive.
++    char *somefunc(void) {
++        g_autofree char *foo =3D g_strdup_printf("foo%", "wibble");
++        g_autoptr (GList) bar =3D .....
 +
-+Finally, while using descriptive types is important, be careful not to
-+go overboard.  If whatever you're doing causes warnings, or requires
-+casts, then reconsider or ask for help.
++        if (eek) {
++           return NULL;
++        }
 +
-+### Pointers
++        return g_steal_pointer(&foo);
++    }
 +
-+Ensure that all of your pointers are "const-correct".
-+Unless a pointer is used to modify the pointed-to storage,
-+give it the "const" attribute.  That way, the reader knows
-+up-front that this is a read-only pointer.  Perhaps more
-+importantly, if we're diligent about this, when you see a non-const
-+pointer, you're guaranteed that it is used to modify the storage
-+it points to, or it is aliased to another pointer that is.
++The cleanup functions are not restricted to simply free'ing memory. The
++GMutexLocker class is a variant of GMutex that has automatic locking and
++unlocking at start and end of the enclosing scope
 +
-+### Typedefs
++In the following example, the `lock` in `MyObj` will be held for the
++precise duration of the `somefunc` function
 +
-+Typedefs are used to eliminate the redundant 'struct' keyword, since typ=
-e
-+names have a different style than other identifiers ("CamelCase" versus
-+"snake_case").  Each named struct type should have a CamelCase name and =
-a
-+corresponding typedef.
++    typedef struct {
++        GMutex lock;
++    } MyObj;
 +
-+Since certain C compilers choke on duplicated typedefs, you should avoid
-+them and declare a typedef only in one header file.  For common types,
-+you can use "include/qemu/typedefs.h" for example.  However, as a matter
-+of convenience it is also perfectly fine to use forward struct
-+definitions instead of typedefs in headers and function prototypes; this
-+avoids problems with duplicated typedefs and reduces the need to include
-+headers from other headers.
++    char *somefunc(MyObj *obj) {
++        g_autofree GMutexLocker *locker =3D g_mutex_locker_new(&obj->loc=
+k)
++        g_autofree char *foo =3D g_strdup_printf("foo%", "wibble");
++        g_autoptr (GList) bar =3D .....
 +
-+### Reserved namespaces in C and POSIX
-+Underscore capital, double underscore, and underscore 't' suffixes shoul=
-d be
-+avoided.
-+
-+## Low level memory management
-+
-+Use of the malloc/free/realloc/calloc/valloc/memalign/posix_memalign
-+APIs is not allowed in the QEMU codebase. Instead of these routines,
-+use the GLib memory allocation routines g_malloc/g_malloc0/g_new/
-+g_new0/g_realloc/g_free or QEMU's qemu_memalign/qemu_blockalign/qemu_vfr=
-ee
-+APIs.
-+
-+Please note that g_malloc will exit on allocation failure, so there
-+is no need to test for failure (as you would have to with malloc).
-+Calling g_malloc with a zero size is valid and will return NULL.
-+
-+Prefer g_new(T, n) instead of g_malloc(sizeof(T) * n) for the following
-+reasons:
-+
-+ * It catches multiplication overflowing size_t;
-+ * It returns T * instead of void *, letting compiler catch more type er=
-rors.
-+
-+Declarations like T *v =3D g_malloc(sizeof(*v)) are acceptable, though.
-+
-+Memory allocated by qemu_memalign or qemu_blockalign must be freed with
-+qemu_vfree, since breaking this will cause problems on Win32.
-+
-+## String manipulation
-+
-+Do not use the strncpy function.  As mentioned in the man page, it does =
-*not*
-+guarantee a NULL-terminated buffer, which makes it extremely dangerous t=
-o use.
-+It also zeros trailing destination bytes out to the specified length.  I=
-nstead,
-+use this similar function when possible, but note its different signatur=
-e:
-+void pstrcpy(char *dest, int dest_buf_size, const char *src)
-+
-+Don't use strcat because it can't check for buffer overflows, but:
-+
-+    char *pstrcat(char *buf, int buf_size, const char *s)
-+
-+The same limitation exists with sprintf and vsprintf, so use snprintf an=
-d
-+vsnprintf.
-+
-+QEMU provides other useful string functions:
-+
-+    int strstart(const char *str, const char *val, const char **ptr)
-+    int stristart(const char *str, const char *val, const char **ptr)
-+    int qemu_strnlen(const char *s, int max_len)
-+
-+There are also replacement character processing macros for isxyz and tox=
-yz,
-+so instead of e.g. isalnum you should use qemu_isalnum.
-+
-+Because of the memory management rules, you must use g_strdup/g_strndup
-+instead of plain strdup/strndup.
-+
-+## Printf-style functions
-+
-+Whenever you add a new printf-style function, i.e., one with a format
-+string argument and following "..." in its prototype, be sure to use
-+gcc's printf attribute directive in the prototype.
-+
-+This makes it so gcc's -Wformat and -Wformat-security options can do
-+their jobs and cross-check format strings with the number and types
-+of arguments.
-+
-+## C standard, implementation defined and undefined behaviors
-+
-+C code in QEMU should be written to the C99 language specification. A co=
-py
-+of the final version of the C99 standard with corrigenda TC1, TC2, and T=
-C3
-+included, formatted as a draft, can be downloaded from:
-+
-+    http://www.open-std.org/jtc1/sc22/WG14/www/docs/n1256.pdf
-+
-+The C language specification defines regions of undefined behavior and
-+implementation defined behavior (to give compiler authors enough leeway =
-to
-+produce better code).  In general, code in QEMU should follow the langua=
-ge
-+specification and avoid both undefined and implementation defined
-+constructs. ("It works fine on the gcc I tested it with" is not a valid
-+argument...) However there are a few areas where we allow ourselves to
-+assume certain behaviors because in practice all the platforms we care a=
-bout
-+behave in the same way and writing strictly conformant code would be
-+painful. These are:
-+
-+ - you may assume that integers are 2s complement representation
-+ - you may assume that right shift of a signed integer duplicates
-+   the sign bit (ie it is an arithmetic shift, not a logical shift)
-+
-+In addition, QEMU assumes that the compiler does not use the latitude
-+given in C99 and C11 to treat aspects of signed '<<' as undefined, as
-+documented in the GNU Compiler Collection manual starting at version 4.0=
-.
-+
-+## Error handling and reporting
-+
-+### Reporting errors to the human user
-+
-+Do not use printf(), fprintf() or monitor_printf().  Instead, use
-+error_report() or error_vreport() from error-report.h.  This ensures the
-+error is reported in the right place (current monitor or stderr), and in
-+a uniform format.
-+
-+Use error_printf() & friends to print additional information.
-+
-+error_report() prints the current location.  In certain common cases
-+like command line parsing, the current location is tracked
-+automatically.  To manipulate it manually, use the loc_*() from
-+error-report.h.
-+
-+### Propagating errors
-+
-+An error can't always be reported to the user right where it's detected,
-+but often needs to be propagated up the call chain to a place that can
-+handle it.  This can be done in various ways.
-+
-+The most flexible one is Error objects.  See error.h for usage
-+information.
-+
-+Use the simplest suitable method to communicate success / failure to
-+callers.  Stick to common methods: non-negative on success / -1 on
-+error, non-negative / -errno, non-null / null, or Error objects.
-+
-+Example: when a function returns a non-null pointer on success, and it
-+can fail only in one way (as far as the caller is concerned), returning
-+null on failure is just fine, and certainly simpler and a lot easier on
-+the eyes than propagating an Error object through an Error ** parameter.
-+
-+Example: when a function's callers need to report details on failure
-+only the function really knows, use Error **, and set suitable errors.
-+
-+Do not report an error to the user when you're also returning an error
-+for somebody else to handle.  Leave the reporting to the place that
-+consumes the error returned.
-+
-+### Handling errors
-+
-+Calling exit() is fine when handling configuration errors during
-+startup.  It's problematic during normal operation.  In particular,
-+monitor commands should never exit().
-+
-+Do not call exit() or abort() to handle an error that can be triggered
-+by the guest (e.g., some unimplemented corner case in guest code
-+translation or device emulation).  Guests should not be able to
-+terminate QEMU.
-+
-+Note that &error_fatal is just another way to exit(1), and &error_abort
-+is just another way to abort().
-diff --git a/HACKING.md b/HACKING.md
-deleted file mode 100644
-index f2f85be40f..0000000000
---- a/HACKING.md
-+++ /dev/null
-@@ -1,263 +0,0 @@
--QEMU Hacking
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--
--## Preprocessor
--
--### Variadic macros
--
--For variadic macros, stick with this C99-like syntax:
--
--    #define DPRINTF(fmt, ...)                                       \
--        do { printf("IRQ: " fmt, ## __VA_ARGS__); } while (0)
--
--### Include directives
--
--Order include directives as follows:
--
--    #include "qemu/osdep.h"  /* Always first... */
--    #include <...>           /* then system headers... */
--    #include "..."           /* and finally QEMU headers. */
--
--The "qemu/osdep.h" header contains preprocessor macros that affect the b=
-ehavior
--of core system headers like <stdint.h>.  It must be the first include so=
- that
--core system headers included by external libraries get the preprocessor =
-macros
--that QEMU depends on.
--
--Do not include "qemu/osdep.h" from header files since the .c file will h=
-ave
--already included it.
--
--## C types
--
--It should be common sense to use the right type, but we have collected
--a few useful guidelines here.
--
--### Scalars
--
--If you're using "int" or "long", odds are good that there's a better typ=
-e.
--If a variable is counting something, it should be declared with an
--unsigned type.
--
--If it's host memory-size related, size_t should be a good choice (use
--ssize_t only if required). Guest RAM memory offsets must use ram_addr_t,
--but only for RAM, it may not cover whole guest address space.
--
--If it's file-size related, use off_t.
--If it's file-offset related (i.e., signed), use off_t.
--If it's just counting small numbers use "unsigned int";
--(on all but oddball embedded systems, you can assume that that
--type is at least four bytes wide).
--
--In the event that you require a specific width, use a standard type
--like int32_t, uint32_t, uint64_t, etc.  The specific types are
--mandatory for VMState fields.
--
--Don't use Linux kernel internal types like u32, __u32 or __le32.
--
--Use hwaddr for guest physical addresses except pcibus_t
--for PCI addresses.  In addition, ram_addr_t is a QEMU internal address
--space that maps guest RAM physical addresses into an intermediate
--address space that can map to host virtual address spaces.  Generally
--speaking, the size of guest memory can always fit into ram_addr_t but
--it would not be correct to store an actual guest physical address in a
--ram_addr_t.
--
--For CPU virtual addresses there are several possible types.
--vaddr is the best type to use to hold a CPU virtual address in
--target-independent code. It is guaranteed to be large enough to hold a
--virtual address for any target, and it does not change size from target
--to target. It is always unsigned.
--target_ulong is a type the size of a virtual address on the CPU; this me=
-ans
--it may be 32 or 64 bits depending on which target is being built. It sho=
-uld
--therefore be used only in target-specific code, and in some
--performance-critical built-per-target core code such as the TLB code.
--There is also a signed version, target_long.
--abi_ulong is for the *-user targets, and represents a type the size of
--'void *' in that target's ABI. (This may not be the same as the size of =
-a
--full CPU virtual address in the case of target ABIs which use 32 bit poi=
-nters
--on 64 bit CPUs, like sparc32plus.) Definitions of structures that must m=
-atch
--the target's ABI must use this type for anything that on the target is d=
-efined
--to be an 'unsigned long' or a pointer type.
--There is also a signed version, abi_long.
--
--Of course, take all of the above with a grain of salt.  If you're about
--to use some system interface that requires a type like size_t, pid_t or
--off_t, use matching types for any corresponding variables.
--
--Also, if you try to use e.g., "unsigned int" as a type, and that
--conflicts with the signedness of a related variable, sometimes
--it's best just to use the *wrong* type, if "pulling the thread"
--and fixing all related variables would be too invasive.
--
--Finally, while using descriptive types is important, be careful not to
--go overboard.  If whatever you're doing causes warnings, or requires
--casts, then reconsider or ask for help.
--
--### Pointers
--
--Ensure that all of your pointers are "const-correct".
--Unless a pointer is used to modify the pointed-to storage,
--give it the "const" attribute.  That way, the reader knows
--up-front that this is a read-only pointer.  Perhaps more
--importantly, if we're diligent about this, when you see a non-const
--pointer, you're guaranteed that it is used to modify the storage
--it points to, or it is aliased to another pointer that is.
--
--### Typedefs
--
--Typedefs are used to eliminate the redundant 'struct' keyword, since typ=
-e
--names have a different style than other identifiers ("CamelCase" versus
--"snake_case").  Each named struct type should have a CamelCase name and =
-a
--corresponding typedef.
--
--Since certain C compilers choke on duplicated typedefs, you should avoid
--them and declare a typedef only in one header file.  For common types,
--you can use "include/qemu/typedefs.h" for example.  However, as a matter
--of convenience it is also perfectly fine to use forward struct
--definitions instead of typedefs in headers and function prototypes; this
--avoids problems with duplicated typedefs and reduces the need to include
--headers from other headers.
--
--### Reserved namespaces in C and POSIX
--Underscore capital, double underscore, and underscore 't' suffixes shoul=
-d be
--avoided.
--
--## Low level memory management
--
--Use of the malloc/free/realloc/calloc/valloc/memalign/posix_memalign
--APIs is not allowed in the QEMU codebase. Instead of these routines,
--use the GLib memory allocation routines g_malloc/g_malloc0/g_new/
--g_new0/g_realloc/g_free or QEMU's qemu_memalign/qemu_blockalign/qemu_vfr=
-ee
--APIs.
--
--Please note that g_malloc will exit on allocation failure, so there
--is no need to test for failure (as you would have to with malloc).
--Calling g_malloc with a zero size is valid and will return NULL.
--
--Prefer g_new(T, n) instead of g_malloc(sizeof(T) * n) for the following
--reasons:
--
-- * It catches multiplication overflowing size_t;
-- * It returns T * instead of void *, letting compiler catch more type er=
-rors.
--
--Declarations like T *v =3D g_malloc(sizeof(*v)) are acceptable, though.
--
--Memory allocated by qemu_memalign or qemu_blockalign must be freed with
--qemu_vfree, since breaking this will cause problems on Win32.
--
--## String manipulation
--
--Do not use the strncpy function.  As mentioned in the man page, it does =
-*not*
--guarantee a NULL-terminated buffer, which makes it extremely dangerous t=
-o use.
--It also zeros trailing destination bytes out to the specified length.  I=
-nstead,
--use this similar function when possible, but note its different signatur=
-e:
--void pstrcpy(char *dest, int dest_buf_size, const char *src)
--
--Don't use strcat because it can't check for buffer overflows, but:
--
--    char *pstrcat(char *buf, int buf_size, const char *s)
--
--The same limitation exists with sprintf and vsprintf, so use snprintf an=
-d
--vsnprintf.
--
--QEMU provides other useful string functions:
--
--    int strstart(const char *str, const char *val, const char **ptr)
--    int stristart(const char *str, const char *val, const char **ptr)
--    int qemu_strnlen(const char *s, int max_len)
--
--There are also replacement character processing macros for isxyz and tox=
-yz,
--so instead of e.g. isalnum you should use qemu_isalnum.
--
--Because of the memory management rules, you must use g_strdup/g_strndup
--instead of plain strdup/strndup.
--
--## Printf-style functions
--
--Whenever you add a new printf-style function, i.e., one with a format
--string argument and following "..." in its prototype, be sure to use
--gcc's printf attribute directive in the prototype.
--
--This makes it so gcc's -Wformat and -Wformat-security options can do
--their jobs and cross-check format strings with the number and types
--of arguments.
--
--## C standard, implementation defined and undefined behaviors
--
--C code in QEMU should be written to the C99 language specification. A co=
-py
--of the final version of the C99 standard with corrigenda TC1, TC2, and T=
-C3
--included, formatted as a draft, can be downloaded from:
--
--    http://www.open-std.org/jtc1/sc22/WG14/www/docs/n1256.pdf
--
--The C language specification defines regions of undefined behavior and
--implementation defined behavior (to give compiler authors enough leeway =
-to
--produce better code).  In general, code in QEMU should follow the langua=
-ge
--specification and avoid both undefined and implementation defined
--constructs. ("It works fine on the gcc I tested it with" is not a valid
--argument...) However there are a few areas where we allow ourselves to
--assume certain behaviors because in practice all the platforms we care a=
-bout
--behave in the same way and writing strictly conformant code would be
--painful. These are:
--
-- - you may assume that integers are 2s complement representation
-- - you may assume that right shift of a signed integer duplicates
--   the sign bit (ie it is an arithmetic shift, not a logical shift)
--
--In addition, QEMU assumes that the compiler does not use the latitude
--given in C99 and C11 to treat aspects of signed '<<' as undefined, as
--documented in the GNU Compiler Collection manual starting at version 4.0=
-.
--
--## Error handling and reporting
--
--### Reporting errors to the human user
--
--Do not use printf(), fprintf() or monitor_printf().  Instead, use
--error_report() or error_vreport() from error-report.h.  This ensures the
--error is reported in the right place (current monitor or stderr), and in
--a uniform format.
--
--Use error_printf() & friends to print additional information.
--
--error_report() prints the current location.  In certain common cases
--like command line parsing, the current location is tracked
--automatically.  To manipulate it manually, use the loc_*() from
--error-report.h.
--
--### Propagating errors
--
--An error can't always be reported to the user right where it's detected,
--but often needs to be propagated up the call chain to a place that can
--handle it.  This can be done in various ways.
--
--The most flexible one is Error objects.  See error.h for usage
--information.
--
--Use the simplest suitable method to communicate success / failure to
--callers.  Stick to common methods: non-negative on success / -1 on
--error, non-negative / -errno, non-null / null, or Error objects.
--
--Example: when a function returns a non-null pointer on success, and it
--can fail only in one way (as far as the caller is concerned), returning
--null on failure is just fine, and certainly simpler and a lot easier on
--the eyes than propagating an Error object through an Error ** parameter.
--
--Example: when a function's callers need to report details on failure
--only the function really knows, use Error **, and set suitable errors.
--
--Do not report an error to the user when you're also returning an error
--for somebody else to handle.  Leave the reporting to the place that
--consumes the error returned.
--
--### Handling errors
--
--Calling exit() is fine when handling configuration errors during
--startup.  It's problematic during normal operation.  In particular,
--monitor commands should never exit().
--
--Do not call exit() or abort() to handle an error that can be triggered
--by the guest (e.g., some unimplemented corner case in guest code
--translation or device emulation).  Guests should not be able to
--terminate QEMU.
--
--Note that &error_fatal is just another way to exit(1), and &error_abort
--is just another way to abort().
-diff --git a/README b/README
-index 374b8f1486..9d2c2688ad 100644
---- a/README
-+++ b/README
-@@ -60,7 +60,7 @@ When submitting patches, one common approach is to use =
-'git
- format-patch' and/or 'git send-email' to format & send the mail to the
- qemu-devel@nongnu.org mailing list. All patches submitted must contain
- a 'Signed-off-by' line from the author. Patches should follow the
--guidelines set out in the HACKING.md and CODING_STYLE.md files.
-+guidelines set out in the CODING_STYLE.md file.
-=20
- Additional information on submitting patches can be found online via
- the QEMU website
++        if (eek) {
++           return NULL;
++        }
++
++        return g_steal_pointer(&foo);
++    }
 --=20
 2.21.0
 
