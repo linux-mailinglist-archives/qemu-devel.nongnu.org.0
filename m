@@ -2,106 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22329A757
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 08:01:33 +0200 (CEST)
-Received: from localhost ([::1]:51864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFB99A76E
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 08:14:47 +0200 (CEST)
+Received: from localhost ([::1]:51964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i12dg-0007cD-Ic
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 02:01:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50736)
+	id 1i12qU-0008TC-DT
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 02:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i12bk-000705-T9
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 01:59:34 -0400
+ (envelope-from <armbru@redhat.com>) id 1i12ov-0006sy-Pc
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 02:13:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i12bj-0002V3-Am
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 01:59:32 -0400
-Received: from mail-eopbgr80132.outbound.protection.outlook.com
- ([40.107.8.132]:58500 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i12bi-0002Ue-ID; Fri, 23 Aug 2019 01:59:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hEehz6b1C5fWwbOkp8ZdRKb3CkWbHnWwmUTJ9xLRKkx7BqB/wiLVUAa0lP2MAfqIHh066uAjgahahZBU7Vkx9SedrwgHsEemXPuvBQSZ08P6nMdfGwJLs51dZUoRRWpOXlRvaFbqYgEHjU045k2PuukPJ2wSSCfNKeJexf9HGKrzYvEVmRBwV9vmXgVlmgaFfsXMwEgHsQYhC+43wF5KU21raLiMIKsdKfFvWUlDdE+bDHsNf9+GI8GzXGny/YNPdNw5okRmMdb5TQoWCDlBq1ojJ99GB+7aN90ysfhEDLg9Up82MASC/d6gbhtjqgle+ydQ5lx3/00S0rpgfViFTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ileh0Hn4ziGa56iZV32a0CKsb5yXrkHG0xQTpnv1NiM=;
- b=aH/EX1/dS37YE1OguR429/CX93Ta2ZIbB9NB2KFo0KfUWTNGhqw+iM6cJxeV9v0KKVOemtEbaplbrOSIs2YuA/q+wLfSJ+MkfJ0d/owK65Tmj6PHVou2Yr6Esff8NBNIOu3wJ9oi5ExT0SIf4JH4UJKuvcm9Cmwf+i0mjyUTmJWDMJljRAR1Ces5gZnKtQ2Gk3XPKKvJN3oNmIJG9uTxvfk+t26k2BH4jLNhQllJfzt46+2tqVvqqif2cW1uS2s7D6LrultILXrK1mBT7qLdBL9+dUP0T33p851yLmvwdnPU+RUWk3KFy/FXk1yE3AYa1hNZuRvZ2skqd3tULI+xfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ileh0Hn4ziGa56iZV32a0CKsb5yXrkHG0xQTpnv1NiM=;
- b=AEzGqF4DRUYz9klubi0yHJYJLRDsrwk1+cj9l6Rb0WgaGGKZ4hAHqnV6yHPDNZLuRvX66YBJwAHZXjoBjgHPPmPrJyPZ3BzYr0DOfhsSOGGrKo/DsoYGB2r4j9Tay2YautE328qrm2U5tUQaAFJKuddm+HD6jXRNBi/677qLK7k=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB3980.eurprd08.prod.outlook.com (20.179.12.87) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2199.19; Fri, 23 Aug 2019 05:59:26 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::617b:d2c2:11e9:4604]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::617b:d2c2:11e9:4604%3]) with mapi id 15.20.2178.020; Fri, 23 Aug 2019
- 05:59:26 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v6 38/42] iotests: Let complete_and_wait() work with
- commit
-Thread-Index: AQHVTs2zYjc8L2kpC0midtvA3+khqacIUjeA
-Date: Fri, 23 Aug 2019 05:59:25 +0000
-Message-ID: <9d630252-3681-2740-04ce-09cd4b428421@virtuozzo.com>
-References: <20190809161407.11920-1-mreitz@redhat.com>
- <20190809161407.11920-39-mreitz@redhat.com>
-In-Reply-To: <20190809161407.11920-39-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR07CA0024.eurprd07.prod.outlook.com
- (2603:10a6:7:67::34) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190823085923736
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 85434981-3c3f-434a-b797-08d7278f0d8b
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB3980; 
-x-ms-traffictypediagnostic: DB8PR08MB3980:
-x-microsoft-antispam-prvs: <DB8PR08MB3980B2BE7FB45D1279957120C1A40@DB8PR08MB3980.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:134;
-x-forefront-prvs: 0138CD935C
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(366004)(396003)(39850400004)(376002)(346002)(189003)(199004)(14454004)(6246003)(7736002)(66066001)(316002)(54906003)(102836004)(6506007)(6512007)(5660300002)(86362001)(66476007)(52116002)(71200400001)(71190400001)(256004)(99286004)(478600001)(4326008)(81156014)(81166006)(2501003)(8676002)(53936002)(305945005)(31696002)(6486002)(8936002)(486006)(25786009)(66446008)(66556008)(64756008)(66946007)(36756003)(2616005)(11346002)(476003)(6436002)(446003)(31686004)(186003)(26005)(386003)(76176011)(110136005)(2906002)(6116002)(3846002)(229853002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB3980;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: p5Y9GqtIrLWD0Y4PUO3uoCIUWjBCk6AZv/t2Sqwmqy21qg2oD83t4fURt9QLxYBij9UYLzK+/bPqsiDoxMk6vKMdkjNmnGhl3jhxnIT/rP/asqhQoIEXSj59bZg4k6DVnaRtz8Jun8fCuEveE6u8Bkx7RrTScgShjl9A0Rf0+9zV+pju6Rw0NwZiJg4PSRzOzPpJRJzqfNyrENPfku6wbp3knIpWrxBxrkVAC3Fqvk0ENS8rU5YMskRXOxlnYfXElKD8/OkbK6Gi5Vl+LAvuusk3C75+iO7ViVvC98z3lXEDl+gH7lvDab2VlEPTLkGCuT8cjGkvPvJUQn3bcVLThewzHQedpDyiA7ux+wYoI9mDXcXzUqLnehnmkRnqrZvAgL2P43PaF1AuvI5p5cdO9j/MtKV3pmqEd3h5Hq4kBnc=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EA41337421849949A72748315427CF49@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <armbru@redhat.com>) id 1i12ou-0002TL-Gd
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 02:13:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54902)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1i12ou-0002Sq-BK; Fri, 23 Aug 2019 02:13:08 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BE89F3082131;
+ Fri, 23 Aug 2019 06:13:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EB8CC5E1CB;
+ Fri, 23 Aug 2019 06:13:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5B0431162B63; Fri, 23 Aug 2019 08:13:02 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+References: <20190822230916.576-1-philmd@redhat.com>
+Date: Fri, 23 Aug 2019 08:13:02 +0200
+In-Reply-To: <20190822230916.576-1-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 23 Aug 2019 01:09:13
+ +0200")
+Message-ID: <874l2876kx.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85434981-3c3f-434a-b797-08d7278f0d8b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2019 05:59:26.0884 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cU6lYoljgKJENlralzZy6xZELkUnLmMea+JxYYAo0ksAWQunobw2Y2B5f5XGl6cD0Vu6nCE4/otVNrJakp7ftF2gcGNe7YWQOkz4spx8wd4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB3980
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.8.132
-Subject: Re: [Qemu-devel] [PATCH v6 38/42] iotests: Let complete_and_wait()
- work with commit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Fri, 23 Aug 2019 06:13:06 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/3] mailmap: Clean up
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,40 +61,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDkuMDguMjAxOSAxOToxNCwgTWF4IFJlaXR6IHdyb3RlOg0KPiBjb21wbGV0ZV9hbmRfd2FpdCgp
-IGFuZCB3YWl0X3JlYWR5KCkgY3VycmVudGx5IG9ubHkgd29yayBmb3IgbWlycm9yDQo+IGpvYnMu
-ICBMZXQgdGhlbSB3b3JrIGZvciBhY3RpdmUgY29tbWl0IGpvYnMsIHRvby4NCj4gDQo+IFNpZ25l
-ZC1vZmYtYnk6IE1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+DQo+IC0tLQ0KPiAgIHRlc3Rz
-L3FlbXUtaW90ZXN0cy9pb3Rlc3RzLnB5IHwgMTAgKysrKysrKy0tLQ0KPiAgIDEgZmlsZSBjaGFu
-Z2VkLCA3IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
-dGVzdHMvcWVtdS1pb3Rlc3RzL2lvdGVzdHMucHkgYi90ZXN0cy9xZW11LWlvdGVzdHMvaW90ZXN0
-cy5weQ0KPiBpbmRleCA4NDQzOGU4MzdjLi4zZWY4NDZkMWRjIDEwMDY0NA0KPiAtLS0gYS90ZXN0
-cy9xZW11LWlvdGVzdHMvaW90ZXN0cy5weQ0KPiArKysgYi90ZXN0cy9xZW11LWlvdGVzdHMvaW90
-ZXN0cy5weQ0KPiBAQCAtNzYxLDggKzc2MSwxMiBAQCBjbGFzcyBRTVBUZXN0Q2FzZSh1bml0dGVz
-dC5UZXN0Q2FzZSk6DQo+ICAgDQo+ICAgICAgIGRlZiB3YWl0X3JlYWR5KHNlbGYsIGRyaXZlPSdk
-cml2ZTAnKToNCj4gICAgICAgICAgICcnJ1dhaXQgdW50aWwgYSBibG9jayBqb2IgQkxPQ0tfSk9C
-X1JFQURZIGV2ZW50JycnDQo+IC0gICAgICAgIGYgPSB7J2RhdGEnOiB7J3R5cGUnOiAnbWlycm9y
-JywgJ2RldmljZSc6IGRyaXZlIH0gfQ0KPiAtICAgICAgICBldmVudCA9IHNlbGYudm0uZXZlbnRf
-d2FpdChuYW1lPSdCTE9DS19KT0JfUkVBRFknLCBtYXRjaD1mKQ0KPiArICAgICAgICBldmVudCA9
-IHNlbGYudm0uZXZlbnRzX3dhaXQoWw0KPiArICAgICAgICAgICAgICAgICgnQkxPQ0tfSk9CX1JF
-QURZJywNCj4gKyAgICAgICAgICAgICAgICAgeydkYXRhJzogeyd0eXBlJzogJ21pcnJvcicsICdk
-ZXZpY2UnOiBkcml2ZSB9IH0pLA0KPiArICAgICAgICAgICAgICAgICgnQkxPQ0tfSk9CX1JFQURZ
-JywNCj4gKyAgICAgICAgICAgICAgICAgeydkYXRhJzogeyd0eXBlJzogJ2NvbW1pdCcsICdkZXZp
-Y2UnOiBkcml2ZSB9IH0pDQo+ICsgICAgICAgICAgICBdKQ0KPiAgIA0KPiAgICAgICBkZWYgd2Fp
-dF9yZWFkeV9hbmRfY2FuY2VsKHNlbGYsIGRyaXZlPSdkcml2ZTAnKToNCj4gICAgICAgICAgIHNl
-bGYud2FpdF9yZWFkeShkcml2ZT1kcml2ZSkNCj4gQEAgLTc4MCw3ICs3ODQsNyBAQCBjbGFzcyBR
-TVBUZXN0Q2FzZSh1bml0dGVzdC5UZXN0Q2FzZSk6DQo+ICAgICAgICAgICBzZWxmLmFzc2VydF9x
-bXAocmVzdWx0LCAncmV0dXJuJywge30pDQo+ICAgDQo+ICAgICAgICAgICBldmVudCA9IHNlbGYu
-d2FpdF91bnRpbF9jb21wbGV0ZWQoZHJpdmU9ZHJpdmUpDQo+IC0gICAgICAgIHNlbGYuYXNzZXJ0
-X3FtcChldmVudCwgJ2RhdGEvdHlwZScsICdtaXJyb3InKQ0KPiArICAgICAgICBzZWxmLmFzc2Vy
-dFRydWUoZXZlbnRbJ2RhdGEnXVsndHlwZSddIGluIFsnbWlycm9yJywgJ2NvbW1pdCddKQ0KPiAg
-IA0KPiAgICAgICBkZWYgcGF1c2Vfd2FpdChzZWxmLCBqb2JfaWQ9J2pvYjAnKToNCj4gICAgICAg
-ICAgIHdpdGggVGltZW91dCgxLCAiVGltZW91dCB3YWl0aW5nIGZvciBqb2IgdG8gcGF1c2UiKToN
-Cj4gDQoNCg0KUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1l
-bnRzb3ZAdmlydHVvenpvLmNvbT4NCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> Trivial cleanup of .mailmap to have a nice 'git shortlog' output.
+>
+> Philippe Mathieu-Daud=C3=A9 (3):
+>   mailmap: Reorder by sections
+>   mailmap: Update philmd email address
+>   mailmap: Add many entries to improve 'git shortlog' statistics
+>
+>  .mailmap | 123 +++++++++++++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 115 insertions(+), 8 deletions(-)
+
+Series
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
+However, it increases the difference to contrib/gitdm/aliases.  I'm just
+as guilty; my recent "[PATCH 2/2] contrib/gitdm: Add armbru@pond.sub.org
+to group-map-redhat" updates only that. and not .mailmap.
+
+Perhaps we want to keep the two in sync manually.  We should then add
+suitable comments to each file.
+
+Could we instead teach gitdm to use .mailmap, and ditch
+contrib/gitdm/aliases?
+
+aliases' format is documented in gitdm's README.  Each line maps a
+non-canonical e-mail address to a canonical one.
+
+.mailmap's format is documented in git-shortlog(1).  It can do a bit
+more.  Even the common part differs: it has two addresses in different
+order *boggle*.
 
