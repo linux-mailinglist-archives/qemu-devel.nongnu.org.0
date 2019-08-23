@@ -2,66 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB1F9B3C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:46:33 +0200 (CEST)
-Received: from localhost ([::1]:58504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589C59B3DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:49:43 +0200 (CEST)
+Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Blo-0006VN-Dx
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:46:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35459)
+	id 1i1Bos-0000Kh-Cy
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:49:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35559)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i1Bjm-0005Ob-5i
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:44:27 -0400
+ (envelope-from <no-reply@patchew.org>) id 1i1Bjz-0005Zu-FM
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:44:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i1Bjk-0002UT-Rg
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:44:26 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40291)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i1Bjk-0002Sf-KM
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:44:24 -0400
-Received: by mail-ot1-x344.google.com with SMTP id c34so9157362otb.7
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 08:44:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=F/d8B342O1qFhviNMOHfA1h6dqxCEf60Anv3ylTyp98=;
- b=I4bOPx0+lvKGZ/P4U99rmEkeinS2mn4vfoeMnhXr3IqTh2dTtSrk0ozWuKlRofSSf/
- oMH6+ct8YeRGlmHE7Jh5nbGaCXNiSgd5sx8jFhW/fgkigiDDZh7ZBCek2P3KZqjhLlHw
- kVo9OmhY/UCCz++SDKkdfGttRMjrciVPgy4Nh4uZ0Zjjr9cCOBOlLBNhgR2dhyWug7EE
- vXo9uQcR03e79V5UEeAiWnr2shcx9D5puYWYuka0l8a86CM1fTt7QBgwhhiKjTrlgZc3
- umMvb/PJ6RUYd9m2oeVCjc+20Pib7lQfOum3BXFV1NhDyfaEQsIqttXrpp7Rlv0zOa5M
- CoHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=F/d8B342O1qFhviNMOHfA1h6dqxCEf60Anv3ylTyp98=;
- b=qQyLQnHdWEGPeJJQ+YPLXKZ8XUclklZwdwT7u6c9hcysVuHE28ZvUl27rh+RQeBaVT
- NI8lVbtGQwlb9MVGgeJh2htTUPfKo+D4lR6d/MmfG+hhOV0IhOifV2LOq3V3qo1WZUqh
- ERTS3Dct9yYubAWAQZ6rGHPGJ7z4hGd2ZnfaeTiERtK04DVNyAt41kVccEzrGtWHv7TO
- ltbs8R/MQricUjREtimF3QGfeI6xwCv9FNwtBglI3uTg0auxfzIRApUKJTQGjCF/vnWX
- Im81omHkLfu4B2Glu08hJfwa0/cEfUqDVpWMO6f8feRS2m5fqR7naHR2xKQQ54y3p5SM
- ueqw==
-X-Gm-Message-State: APjAAAX1heHOyN2trBQ2xbnNA2lLV/UjSGZ54AS6Kk5QqTNE+89ds5T8
- 5MjB8/Lr+tU0E2UA08JRVhRLv00NvraD6Yr860Ja5A==
-X-Google-Smtp-Source: APXvYqzoLNLMQMp3Q7Bp87+bVUn9p6bkHCmr/TGg4yvqUTS0GDOfjBQDApyOvMCww52Atknsq5xObv3hx2Hv44miPes=
-X-Received: by 2002:a9d:4817:: with SMTP id c23mr1853667otf.97.1566575063551; 
- Fri, 23 Aug 2019 08:44:23 -0700 (PDT)
+ (envelope-from <no-reply@patchew.org>) id 1i1Bjx-0002hR-VT
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:44:39 -0400
+Resent-Date: Fri, 23 Aug 2019 11:44:39 -0400
+Resent-Message-Id: <E1i1Bjx-0002hR-VT@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21574)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1i1Bjx-0002d2-Ne; Fri, 23 Aug 2019 11:44:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1566575066; cv=none; d=zoho.com; s=zohoarc; 
+ b=grAvuAmXrNkc57IdX0O8Zy4IvGE3DBA3vPVzXlt+5HXFjoRI2pHZ2V7wkNn8RmmWjFfGxpxhI+9T9eefUkQ5lCA3fT4IdE7MbzN3O58VAKgGzmiDcXSgwcdza5aZnMiH3FMK/E9z6UA1aqkJMGku4h1PQAbXuiFNID+I0hq2cg8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1566575066;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=0KzeNnAtAdQOEnJTPME0MRCWmXptYvj+zWH1kexVZVw=; 
+ b=OGranP9EWLRa3FX5s+KUxLnAaqkgKqY0UBVxWDqNz2Q7Cx0cOfzwuAT5sDY4tLYB12oi9OATqRB4SutE0SaM3rjX85pC0K15oEMd9KniyRCXERfjnVhXrui/H0JzcByim9sMeiB8ktHBt07kjnp6EqPq47YE2ZLvP11TBi04LYg=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1566575062217372.82944311143376;
+ Fri, 23 Aug 2019 08:44:22 -0700 (PDT)
+In-Reply-To: <20190822231231.1306-1-philmd@redhat.com>
+Message-ID: <156657506005.1709.11989095096032401678@5dec9699b7de>
 MIME-Version: 1.0
-References: <cover.1566573576.git.alistair.francis@wdc.com>
- <066a2c520c38b0c175c052d6a3385d5661764833.1566573576.git.alistair.francis@wdc.com>
-In-Reply-To: <066a2c520c38b0c175c052d6a3385d5661764833.1566573576.git.alistair.francis@wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 23 Aug 2019 16:44:12 +0100
-Message-ID: <CAFEAcA8G8ufziwwLLWo6BQZtAHWjzt_3XMMveuMMxknKSgChNA@mail.gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH v4 7/7] target/riscv: Use
- TB_FLAGS_MSTATUS_FS for floating point
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: philmd@redhat.com
+Date: Fri, 23 Aug 2019 08:44:22 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH] contrib/gitdm: Add RT-RK to the domain-map
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,39 +60,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Bin Meng <bmeng.cn@gmail.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, alex.bennee@linaro.org, philmd@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Aug 2019 at 16:37, Alistair Francis <alistair.francis@wdc.com> wrote:
->
-> Use the TB_FLAGS_MSTATUS_FS macro when enabling floating point in the tb
-> flags.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/cpu.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index eb7b5b0af3..0347be453b 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -301,7 +301,7 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->  #else
->      *flags = cpu_mmu_index(env, 0);
->      if (riscv_cpu_fp_enabled(env)) {
-> -        *flags |= env->mstatus & MSTATUS_FS;
-> +        *flags |= TB_FLAGS_MSTATUS_FS;
->      }
->  #endif
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDgyMjIzMTIzMS4xMzA2
+LTEtcGhpbG1kQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2Nr
+ZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
+bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
+IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhIC9iaW4vYmFzaAp0ZXN0ICIkKHVuYW1lIC1tKSIgPSAieDg2XzY0Igo9PT0g
+VEVTVCBTQ1JJUFQgRU5EID09PQoKCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
+Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDgyMjIzMTIzMS4xMzA2LTEtcGhpbG1kQHJlZGhhdC5j
+b20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVkb3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
+ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
+ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
-The old code was setting the bit in flags only if
-it was also set in env->mstatus; the new code sets
-the bit unconditionally -- deliberate change ?
-
-thanks
--- PMM
 
