@@ -2,56 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4127E9B5B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 19:48:17 +0200 (CEST)
-Received: from localhost ([::1]:60446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1C59B5D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 19:50:21 +0200 (CEST)
+Received: from localhost ([::1]:60468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Dfb-00030P-SG
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 13:48:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60759)
+	id 1i1Dhc-0005mt-S1
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 13:50:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60881)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1i1Dbk-0000sl-Nb
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 13:44:18 -0400
+ (envelope-from <alistair23@gmail.com>) id 1i1DcU-0001UJ-QG
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 13:45:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1i1Dbi-00025M-VY
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 13:44:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42034)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1i1Dbi-000252-Nk
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 13:44:14 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C7B51A2FC50;
- Fri, 23 Aug 2019 17:44:13 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-124-81.rdu2.redhat.com
- [10.10.124.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E90875C548;
- Fri, 23 Aug 2019 17:44:07 +0000 (UTC)
-Date: Fri, 23 Aug 2019 13:44:05 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Message-ID: <20190823174405.GB25178@localhost.localdomain>
-References: <20181109150710.31085-1-crosa@redhat.com>
- <20181109150710.31085-2-crosa@redhat.com>
- <CAFEAcA86JT-3jLV=+aqLntoe1jJr77VYvg1dWn9OBVGA6cPZmQ@mail.gmail.com>
- <20190822211636.GA23027@dhcp-17-173.bos.redhat.com>
- <20190822215420.GO7077@habkost.net>
- <20190823134054.GA3936@localhost.localdomain>
- <20190823150446.GQ7077@habkost.net>
+ (envelope-from <alistair23@gmail.com>) id 1i1DcR-00035s-4p
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 13:45:02 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:34936)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1i1DcQ-000323-Qa; Fri, 23 Aug 2019 13:44:59 -0400
+Received: by mail-lj1-x241.google.com with SMTP id l14so9637733lje.2;
+ Fri, 23 Aug 2019 10:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5h395QyvsypISitue18ufYU4FtEvsgcX0U8BKXBDgRg=;
+ b=E9ljkotwZEcfQtlIwv7E6khqDaPPsNwcuXDc/3ojCt0/F+x0ZZm5eqvB2OCnJKrTRq
+ mlWQsB+bgZHvz1ShIbUeP+li8zgjlYKFwTQaNkqwHzSlx0lJeMIL5j2fEApd8qPCkX1z
+ 4/q/3FIF8CXi4v2iLpeWQRpJh3zhvS6wL5XJ6GWm4Y77vFbYClXaB+LfbTXAkLNH5Gy1
+ dYc34YEUdji5hpqvZSNedP3WUhYfywHUQqVrYxZcJzKLtJx0K4VVi6ZJaXLBvHi9Nfo8
+ 1ARIG0GbOnEOADRe7m9FOMzBqR0X47J8Os95K6P+YuRml54bB58pjeOqmPD5NnYezsMY
+ DUNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5h395QyvsypISitue18ufYU4FtEvsgcX0U8BKXBDgRg=;
+ b=MPScLCgYgtj9nGZlBtDxTtCOSwSJ6QjwpRsW9qYAYw9odlef1W1uKwTxC4m5KUZ6zC
+ 6baH95YLyE2CnzEDr2Ss4QpIdU39lJ1xHNZkb1gsszAnkA+U8JmNVo9H0ilyagotZX4T
+ d54KRelZXfOIwQ2DdvV4prH8vezikWCAB3GLpqxyjP+St8KHEMXfky3HW6WkdVyIJt+6
+ R8WFKxC25thYdtjf8FLKM2H1tNplvqal10ciKVZl4H47VDBVfq8F0YHa69EaeYRio7qR
+ Eaw23mf0CVWl83RXK2CiCIrNbsjwDuMBgfQz/G+7iYItTclSfzIfmzMItB0BIScdAI+O
+ lz+A==
+X-Gm-Message-State: APjAAAW++wsZEBdlVs5PNzlvAAwRerbxH0t3sjyrFi4tVnaE4QHErlgv
+ HSlxIcWtXLJsRb+cA5F1R+zWrUJHhqdTpySK0jM=
+X-Google-Smtp-Source: APXvYqzGrzOBLHNJC5nMwaTmWIqLXx46jlQnMAcvd8nXOv52SFuCqVQfOLWH32/0q0DVwXSqNfL+u2P/DMz92LOX2EQ=
+X-Received: by 2002:a2e:8102:: with SMTP id d2mr3712371ljg.58.1566582297673;
+ Fri, 23 Aug 2019 10:44:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190823150446.GQ7077@habkost.net>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Fri, 23 Aug 2019 17:44:13 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/4] configure: keep track of Python version
+References: <1566537069-22741-1-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1566537069-22741-1-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 23 Aug 2019 10:40:51 -0700
+Message-ID: <CAKmqyKMSBWrMOMgE5B6_mRro2M78qJgHNi9qEJbSVgcEiLW1iA@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH v5 00/30] riscv: sifive_u: Improve the
+ emulation fidelity of sifive_u machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,165 +71,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Julio Montes <julio.montes@intel.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 23, 2019 at 12:04:46PM -0300, Eduardo Habkost wrote:
-> On Fri, Aug 23, 2019 at 09:40:54AM -0400, Cleber Rosa wrote:
-> > On Thu, Aug 22, 2019 at 06:54:20PM -0300, Eduardo Habkost wrote:
-> > > On Thu, Aug 22, 2019 at 05:19:26PM -0400, Cleber Rosa wrote:
-> > > > On Thu, Aug 22, 2019 at 05:48:46PM +0100, Peter Maydell wrote:
-> > > > > On Fri, 9 Nov 2018 at 15:09, Cleber Rosa <crosa@redhat.com> wrote:
-> > > > > >
-> > > > > > Some functionality is dependent on the Python version
-> > > > > > detected/configured on configure.  While it's possible to run the
-> > > > > > Python version later and check for the version, doing it once is
-> > > > > > preferable.  Also, it's a relevant information to keep in build logs,
-> > > > > > as the overall behavior of the build can be affected by it.
-> > > > > >
-> > > > > > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > > > > > ---
-> > > > > >  configure | 6 +++++-
-> > > > > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/configure b/configure
-> > > > > > index 74e313a810..67fff0290d 100755
-> > > > > > --- a/configure
-> > > > > > +++ b/configure
-> > > > > > @@ -1740,6 +1740,9 @@ if ! $python -c 'import sys; sys.exit(sys.version_info < (2,7))'; then
-> > > > > >        "Use --python=/path/to/python to specify a supported Python."
-> > > > > >  fi
-> > > > > >
-> > > > > > +# Preserve python version since some functionality is dependent on it
-> > > > > > +python_version=$($python -V 2>&1 | sed -e 's/Python\ //')
-> > > > > > +
-> > > > > 
-> > > > > Hi. Somebody on IRC has just fallen over a problem where
-> > > > > their python's "-V" output prints multiple lines, which
-> > > > > means that "$python_version" here is multiple lines, which
-> > > > > means that the eventual config-host.mak has invalid syntax
-> > > > > because we assume here:
-> > > > >
-> > > > 
-> > > > We've tried a number of things, and just when I thought we wouldn't be
-> > > > able to make any sense out of it, I arrived at a still senseless but
-> > > > precise reproducer.  TL;DR: it has to do with interactive shells and
-> > > > that exact Python build.
-> > > > 
-> > > > Reproducer (docker may also do the trick here):
-> > > > 
-> > > >   $ podman run --rm -ti fedora:29 /bin/bash -c 'dnf -y install http://mirror.siena.edu/fedora/linux/releases/29/Everything/x86_64/os/Packages/p/python3-3.7.0-9.fc29.x86_64.rpm; python3 -V'
-> > > >   Python 3.7.0 (default, Aug 30 2018, 14:32:33) 
-> > > >   [GCC 8.2.1 20180801 (Red Hat 8.2.1-2)]
-> > > > 
-> > > > With an interactive shell instead:
-> > > > 
-> > > >   $ podman run --rm -ti fedora:29 /bin/bash -i -c 'dnf -y install http://mirror.siena.edu/fedora/linux/releases/29/Everything/x86_64/os/Packages/p/python3-3.7.0-9.fc29.x86_64.rpm; python3 -V'
-> > > >   Python 3.7.0
-> > > > 
-> > > > How this behavior came to be, baffles me.  But, it seems to be fixed
-> > > > on newer versions.
-> > > > 
-> > > > > > @@ -6823,6 +6826,7 @@ echo "INSTALL_DATA=$install -c -m 0644" >> $config_host_mak
-> > > > > >  echo "INSTALL_PROG=$install -c -m 0755" >> $config_host_mak
-> > > > > >  echo "INSTALL_LIB=$install -c -m 0644" >> $config_host_mak
-> > > > > >  echo "PYTHON=$python" >> $config_host_mak
-> > > > > > +echo "PYTHON_VERSION=$python_version" >> $config_host_mak
-> > > > > >  echo "CC=$cc" >> $config_host_mak
-> > > > > >  if $iasl -h > /dev/null 2>&1; then
-> > > > > >    echo "IASL=$iasl" >> $config_host_mak
-> > > > > 
-> > > > > that it's only one line, and will generate bogus makefile
-> > > > > syntax if it's got an embedded newline. (Problem system
-> > > > > seems to be Fedora 29.)
-> > > > >
-> > > > 
-> > > > The assumption could be guaranteed by a "head -1", and while
-> > > > it's not a failproof solution, it would at least not corrupt
-> > > > the makefile and the whole build system.
-> > > > 
-> > > > > I've reread this thread, where there seems to have been
-> > > > > some discussion about just running Python itself to
-> > > > > get the sys.version value (which is how we check for
-> > > > > "is this python too old" earlier in the configure script).
-> > > > > But I'm not really clear why trying to parse -V output is better:
-> > > > > it's definitely less reliable, as demonstrated by this bug.
-> > > 
-> > > Agreed.
-> > > 
-> > > > >
-> > > > > Given that the only thing as far as I can tell that we
-> > > > > do with PYTHON_VERSION is use it in tests/Makefile.inc
-> > > > > to suppress a bit of test functionality if we don't have
-> > > > > Python 3, could we stop trying to parse -V output and run
-> > > > > python to print sys.version_info instead, and/or just
-> > > > > have the makefile variable track "is this python 2",
-> > > > > since that's what we really care about and would mean we
-> > > > > don't have to then search the string for "v2"  ?
-> > > > 
-> > > > Because I've been bitten way too many times with differences in Python
-> > > > minor versions, I see a lot of value in keeping the version
-> > > > information in the build system.  But, the same information can
-> > > > certainly be obtained in a more resilient way.  Would you object something
-> > > > like:
-> > > > 
-> > > >   python_version=$($python -c 'import sys; print(sys.version().split()[0])')
-> > > 
-> > > Sounds much better, but why sys.version().split() instead of
-> > > sys.version_info?
-> > > 
-> > >   python_version=$($python -c 'import sys; print(sys.version_info[0])')
-> > >
-> > 
-> > I meant to capture not only the major version, but the minor and release
-> > as well.  My reasoning (may not appeal more people):
-> > 
-> >  "Because I've been bitten way too many times with differences in Python
-> >   minor versions, I see a lot of value in keeping the version
-> >   information in the build system."
-> > 
-> > > > 
-> > > > Or an even more paranoid version?  On my side, I understand the
-> > > > fragility of the current approach, but I also appreciate the
-> > > > information it stores.
-> > > 
-> > > We have only one place where $(PYTHON_VERSION) is used, and that
-> > > code will be removed once we stop supporting Python 2.  I don't
-> > > see the point of trying to store extra information that is not
-> > > used anywhere in our makefiles.
-> [...]
-> > 
-> > I see it being used by humans, so that brings a lot of subjetivity
-> > into the matter.  IMO this is not out of place within the build
-> > system, given that a lot of requirements detected by configure will
-> > print out their versions (GTK, nettle, spice, etc).
-> 
-> Absolutely, but are we talking about the output printed by
-> ./configure, or about variables in config-host.mak?
+On Thu, Aug 22, 2019 at 10:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
+> As of today, the QEMU 'sifive_u' machine is a special target that does
+> not boot the upstream OpenSBI/U-Boot firmware images built for the real
+> SiFive HiFive Unleashed board. Hence OpenSBI supports a special platform
+> "qemu/sifive_u". For U-Boot, the sifive_fu540_defconfig is referenced
+> in the OpenSBI doc as its payload, but that does not boot at all due
+> to various issues in current QEMU 'sifive_u' machine codes.
+>
+> This series aims to improve the emulation fidelity of sifive_u machine,
+> so that the upstream OpenSBI, U-Boot and kernel images built for the
+> SiFive HiFive Unleashed board can be used out of the box without any
+> special hack.
+>
+> The major changes include:
+> - Heterogeneous harts creation supported, so that we can create a CPU
+>   that exactly mirrors the real hardware: 1 E51 + 4 U54.
+> - Implemented a PRCI model for FU540
+> - Implemented an OTP model for FU540, primarily used for storing serial
+>   number of the board
+> - Fixed GEM support that was seriously broken on sifive_u
+> - Synced device tree with upstream Linux kernel on sifive_u
+>
+> OpenSBI v0.4 image built for sifive/fu540 is included as the default
+> bios image for 'sifive_u' machine.
+>
+> The series is tested against OpenSBI v0.4 image for sifive/fu540
+> paltform, U-Boot v2019.10-rc1 image for sifive_fu540_defconfig,
+> and Linux kernel v5.3-rc3 image with the following patch:
+>
+> macb: Update compatibility string for SiFive FU540-C000 [1]
+>
+> OpenSBI + U-Boot, ping/tftpboot with U-Boot MACB driver works well.
+> Boot Linux 64-bit defconfig image, verified that system console on
+> the serial 0 and ping host work pretty well.
+>
+> An OpenSBI patch [2] was sent to drop the special "qemu/sifive_u" platform
+> support in OpenSBI. The original plan was to get the drop patch applied
+> after this QEMU series is merged. However after discussion in the OpenSBI
+> mailing list, it seems the best option for us is to let OpenSBI continue
+> shipping the special "qemu/sifive_u" platform support to work with QEMU
+> version <= 4.1 and deprecate the support sometime in the future. A patch
+> will need to be sent to OpenSBI mailing list to update its document.
+>
+> v4 is now rebased on Palmer's QEMU RISC-V repo "for-master" branch.
+> Dropped the following v3 patch that was already done by someone else.
+> - riscv: sifive_u: Generate an aliases node in the device tree
+> - riscv: sifive_u: Support loading initramfs
+>
+> The following v3 patch was dropped too due to a different cluster approach
+> suggested by Richard Henderson is used in v4:
+> - riscv: hart: Support heterogeneous harts population
+>
+> [1]: https://patchwork.kernel.org/patch/11050003/
+> [2]: http://lists.infradead.org/pipermail/opensbi/2019-August/000335.html
+>
+> Changes in v5:
+> - new patch to change to use qemu_log_mask(LOG_GUEST_ERROR,...) instead
+>   in various sifive models
+> - new patch to remove the unnecessary include of target/riscv/cpu.h
+> - change to use defines instead of enums
+> - change to use qemu_log_mask(LOG_GUEST_ERROR,...) in sifive_u_prci
+> - creating a 32-bit val variable and using that instead of casting
+>   everywhere in sifive_u_prci_write()
+> - move all register initialization to sifive_u_prci_reset() function
+> - drop sifive_u_prci_create()
+> - s/codes that worked/code that works/g
+> - create sifive_u_prci block directly in the machine codes, instead
+>   of calling sifive_u_prci_create()
+> - change to use defines instead of enums
+> - change to use qemu_log_mask(LOG_GUEST_ERROR,...) in sifive_u_otp
+> - creating a 32-bit val variable and using that instead of casting
+>   everywhere in sifive_u_otp_write()
+> - move all register initialization to sifive_u_otp_reset() function
+> - drop sifive_u_otp_create()
+> - create sifive_u_otp block directly in the machine codes, instead
+>   of calling sifive_u_otp_create()
+> - add the missing "local-mac-address" property in the ethernet node
+>
+> Changes in v4:
+> - remove 2 more "linux,phandle" instances in sifive_u.c and spike.c
+>   after rebasing on Palmer's QEMU RISC-V tree
+> - change create_fdt() to return void in sifive_u.c too, after rebasing
+>   on Palmer's QEMU RISC-V tree
+> - new patch to remove executable attribute of opensbi images
+> - prefix all macros/variables/functions with SIFIVE_E/sifive_e
+>   in the sifive_e_prci driver
+> - new patch to add a "hartid-base" property to RISC-V hart array
+> - changed to create clusters for each cpu type
+> - prefix all macros/variables/functions with SIFIVE_U/sifive_u
+>   in the sifive_u_prci driver
+> - prefix all macros/variables/functions with SIFIVE_U/sifive_u
+>   in the sifive_u_otp driver
+> - new patch to remove handcrafted clock nodes for UART and ethernet
+>
+> Changes in v3:
+> - changed to use macros for management and compute cpu count
+> - use management cpu count + 1 for the min_cpus
+> - update IRQ numbers of both UARTs to match hardware as well
+>
+> Changes in v2:
+> - keep the PLIC compatible string unchanged as OpenSBI uses that
+>   for DT fix up
+> - drop patch "riscv: sifive: Move sifive_mmio_emulate() to a common place"
+> - new patch "riscv: sifive_e: Drop sifive_mmio_emulate()"
+> - fixed the "interrupts-extended" property size
+> - update the file header to indicate at least 2 harts are created
+> - use create_unimplemented_device() to create the GEM management
+>   block instead of sifive_mmio_emulate()
+> - add "phy-handle" property to the ethernet node
+>
+> Bin Meng (30):
+>   riscv: hw: Remove superfluous "linux,phandle" property
+>   riscv: hw: Use qemu_fdt_setprop_cell() for property with only 1 cell
+>   riscv: hw: Remove not needed PLIC properties in device tree
+>   riscv: hw: Change create_fdt() to return void
+>   riscv: hw: Change to use qemu_log_mask(LOG_GUEST_ERROR,...) instead
+>   riscv: hw: Remove the unnecessary include of target/riscv/cpu.h
+>   riscv: roms: Remove executable attribute of opensbi images
+>   riscv: sifive_u: Remove the unnecessary include of prci header
+>   riscv: sifive: Rename sifive_prci.{c,h} to sifive_e_prci.{c,h}
+>   riscv: sifive_e: prci: Fix a typo of hfxosccfg register programming
+>   riscv: sifive_e: prci: Update the PRCI register block size
+>   riscv: sifive_e: Drop sifive_mmio_emulate()
+>   riscv: Add a sifive_cpu.h to include both E and U cpu type defines
+>   riscv: hart: Extract hart realize to a separate routine
+>   riscv: hart: Add a "hartid-base" property to RISC-V hart array
+>   riscv: sifive_u: Update hart configuration to reflect the real FU540
+>     SoC
+>   riscv: sifive_u: Set the minimum number of cpus to 2
+>   riscv: sifive_u: Update PLIC hart topology configuration string
+>   riscv: sifive: Implement PRCI model for FU540
+>   riscv: sifive_u: Generate hfclk and rtcclk nodes
+>   riscv: sifive_u: Add PRCI block to the SoC
+>   riscv: sifive_u: Reference PRCI clocks in UART and ethernet nodes
+>   riscv: sifive_u: Update UART base addresses and IRQs
+>   riscv: sifive_u: Change UART node name in device tree
+>   riscv: roms: Update default bios for sifive_u machine
+>   riscv: sifive: Implement a model for SiFive FU540 OTP
+>   riscv: sifive_u: Instantiate OTP memory with a serial number
+>   riscv: sifive_u: Fix broken GEM support
+>   riscv: sifive_u: Remove handcrafted clock nodes for UART and ethernet
+>   riscv: sifive_u: Update model and compatible strings in device tree
 
-Sure, that was a major oversight (or a ill planned shortcut).
+@Palmer, patches 1 - 11 are all reviewed and are good to go in. Can
+you take them in your next PR?
 
-> config-host.mak is not for humans, it's just input for our
-> makefile code.  The output printed by ./configure on stdout is
-> for humans, and I'd agree completely if ./configure keeps
-> printing full Python version information on stdout.
-> 
-> > [...]
-> 
-> -- 
-> Eduardo
-> 
+That'll save Bin from continuing to send a 30 patch series :)
 
-Yes, absolutely agree.  I'll send a fix proposal in a few.
-
-Regards!
-- Cleber.
+Alistair
 
