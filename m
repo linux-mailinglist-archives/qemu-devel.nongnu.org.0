@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1AD9B247
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:40:34 +0200 (CEST)
-Received: from localhost ([::1]:57102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277A89B25A
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 16:43:39 +0200 (CEST)
+Received: from localhost ([::1]:57192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Ajw-0005eB-VP
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:40:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50214)
+	id 1i1Amw-0001mG-2B
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 10:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50314)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i1Acw-0008Rj-9u
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:19 -0400
+ (envelope-from <philmd@redhat.com>) id 1i1Ad8-0000Cd-EL
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i1Acu-0001Xy-VN
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52258)
+ (envelope-from <philmd@redhat.com>) id 1i1Ad7-0001i4-3H
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 10:33:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52326)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1i1Acs-0001VL-5p; Fri, 23 Aug 2019 10:33:14 -0400
+ id 1i1Ad3-0001dd-8V; Fri, 23 Aug 2019 10:33:25 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 71363300C033;
- Fri, 23 Aug 2019 14:33:13 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8C0B330001EE;
+ Fri, 23 Aug 2019 14:33:24 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-118.brq.redhat.com [10.40.204.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F0465DD61;
- Fri, 23 Aug 2019 14:33:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 16E4A5D9CA;
+ Fri, 23 Aug 2019 14:33:13 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 23 Aug 2019 16:32:44 +0200
-Message-Id: <20190823143249.8096-2-philmd@redhat.com>
+Date: Fri, 23 Aug 2019 16:32:45 +0200
+Message-Id: <20190823143249.8096-3-philmd@redhat.com>
 In-Reply-To: <20190823143249.8096-1-philmd@redhat.com>
 References: <20190823143249.8096-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 23 Aug 2019 14:33:13 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Fri, 23 Aug 2019 14:33:24 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 1/6] hw/arm: Use ARM_CPU_TYPE_NAME() macro
- when appropriate
+Subject: [Qemu-devel] [PATCH v2 2/6] hw/arm: Use object_initialize_child for
+ correct reference counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,162 +66,124 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  Peter Chubb <peter.chubb@nicta.com.au>,
  Antony Pavlov <antonynpavlov@gmail.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit ba1ba5cca introduce the ARM_CPU_TYPE_NAME() macro.
-Unify the code base by use it in all places.
+As explained in commit aff39be0ed97:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+  Both functions, object_initialize() and object_property_add_child()
+  increase the reference counter of the new object, so one of the
+  references has to be dropped afterwards to get the reference
+  counting right. Otherwise the child object will not be properly
+  cleaned up when the parent gets destroyed.
+  Thus let's use now object_initialize_child() instead to get the
+  reference counting here right.
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2: rebased, use in imx25/31 (pm215)
----
- hw/arm/allwinner-a10.c | 3 ++-
- hw/arm/cubieboard.c    | 3 ++-
- hw/arm/digic.c         | 3 ++-
- hw/arm/fsl-imx25.c     | 2 +-
- hw/arm/fsl-imx31.c     | 2 +-
- hw/arm/fsl-imx6.c      | 3 ++-
- hw/arm/fsl-imx6ul.c    | 2 +-
- hw/arm/xlnx-zynqmp.c   | 8 ++++----
- 8 files changed, 15 insertions(+), 11 deletions(-)
+ hw/arm/mcimx7d-sabre.c |  9 ++++-----
+ hw/arm/mps2-tz.c       | 15 +++++++--------
+ hw/arm/musca.c         |  9 +++++----
+ 3 files changed, 16 insertions(+), 17 deletions(-)
 
-diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-index 73810a4440..118032c8c7 100644
---- a/hw/arm/allwinner-a10.c
-+++ b/hw/arm/allwinner-a10.c
-@@ -30,7 +30,8 @@ static void aw_a10_init(Object *obj)
-     AwA10State *s =3D AW_A10(obj);
-=20
-     object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
--                            "cortex-a8-" TYPE_ARM_CPU, &error_abort, NUL=
-L);
-+                            ARM_CPU_TYPE_NAME("cortex-a8"),
-+                            &error_abort, NULL);
-=20
-     sysbus_init_child_obj(obj, "intc", &s->intc, sizeof(s->intc),
-                           TYPE_AW_A10_PIC);
-diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
-index 38e0ca0f53..ed8d2333a0 100644
---- a/hw/arm/cubieboard.c
-+++ b/hw/arm/cubieboard.c
-@@ -81,7 +81,8 @@ static void cubieboard_init(MachineState *machine)
-=20
- static void cubieboard_machine_init(MachineClass *mc)
+diff --git a/hw/arm/mcimx7d-sabre.c b/hw/arm/mcimx7d-sabre.c
+index 97b8bb788a..78b87c502f 100644
+--- a/hw/arm/mcimx7d-sabre.c
++++ b/hw/arm/mcimx7d-sabre.c
+@@ -30,7 +30,6 @@ static void mcimx7d_sabre_init(MachineState *machine)
  {
--    mc->desc =3D "cubietech cubieboard";
-+    mc->desc =3D "cubietech cubieboard (Cortex-A9)";
-+    mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a9");
-     mc->init =3D cubieboard_init;
-     mc->block_default_type =3D IF_IDE;
-     mc->units_per_default_bus =3D 1;
-diff --git a/hw/arm/digic.c b/hw/arm/digic.c
-index 4f52465875..22434a65a2 100644
---- a/hw/arm/digic.c
-+++ b/hw/arm/digic.c
-@@ -37,7 +37,8 @@ static void digic_init(Object *obj)
+     static struct arm_boot_info boot_info;
+     MCIMX7Sabre *s =3D g_new0(MCIMX7Sabre, 1);
+-    Object *soc;
      int i;
 =20
-     object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
--                            "arm946-" TYPE_ARM_CPU, &error_abort, NULL);
-+                            ARM_CPU_TYPE_NAME("arm946"),
-+                            &error_abort, NULL);
+     if (machine->ram_size > FSL_IMX7_MMDC_SIZE) {
+@@ -49,10 +48,10 @@ static void mcimx7d_sabre_init(MachineState *machine)
+         .nb_cpus =3D machine->smp.cpus,
+     };
 =20
-     for (i =3D 0; i < DIGIC4_NB_TIMERS; i++) {
- #define DIGIC_TIMER_NAME_MLEN    11
-diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
-index 532d088298..2b2fdb203a 100644
---- a/hw/arm/fsl-imx25.c
-+++ b/hw/arm/fsl-imx25.c
-@@ -36,7 +36,7 @@ static void fsl_imx25_init(Object *obj)
-     FslIMX25State *s =3D FSL_IMX25(obj);
-     int i;
+-    object_initialize(&s->soc, sizeof(s->soc), TYPE_FSL_IMX7);
+-    soc =3D OBJECT(&s->soc);
+-    object_property_add_child(OBJECT(machine), "soc", soc, &error_fatal)=
+;
+-    object_property_set_bool(soc, true, "realized", &error_fatal);
++    object_initialize_child(OBJECT(machine), "soc",
++                            &s->soc, sizeof(s->soc),
++                            TYPE_FSL_IMX7, &error_fatal, NULL);
++    object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_f=
+atal);
 =20
--    object_initialize(&s->cpu, sizeof(s->cpu), "arm926-" TYPE_ARM_CPU);
-+    object_initialize(&s->cpu, sizeof(s->cpu), ARM_CPU_TYPE_NAME("arm926=
-"));
-=20
-     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
-                           TYPE_IMX_AVIC);
-diff --git a/hw/arm/fsl-imx31.c b/hw/arm/fsl-imx31.c
-index 1a37a7b997..6760de3c8c 100644
---- a/hw/arm/fsl-imx31.c
-+++ b/hw/arm/fsl-imx31.c
-@@ -33,7 +33,7 @@ static void fsl_imx31_init(Object *obj)
-     FslIMX31State *s =3D FSL_IMX31(obj);
-     int i;
-=20
--    object_initialize(&s->cpu, sizeof(s->cpu), "arm1136-" TYPE_ARM_CPU);
-+    object_initialize(&s->cpu, sizeof(s->cpu), ARM_CPU_TYPE_NAME("arm113=
-6"));
-=20
-     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
-                           TYPE_IMX_AVIC);
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index 8c397ef04b..552145b24e 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -43,7 +43,8 @@ static void fsl_imx6_init(Object *obj)
-     for (i =3D 0; i < MIN(ms->smp.cpus, FSL_IMX6_NUM_CPUS); i++) {
-         snprintf(name, NAME_SIZE, "cpu%d", i);
-         object_initialize_child(obj, name, &s->cpu[i], sizeof(s->cpu[i])=
-,
--                                "cortex-a9-" TYPE_ARM_CPU, &error_abort,=
- NULL);
-+                                ARM_CPU_TYPE_NAME("cortex-a9"),
-+                                &error_abort, NULL);
-     }
-=20
-     sysbus_init_child_obj(obj, "a9mpcore", &s->a9mpcore, sizeof(s->a9mpc=
-ore),
-diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-index b074177a71..c405b68d1d 100644
---- a/hw/arm/fsl-imx6ul.c
-+++ b/hw/arm/fsl-imx6ul.c
-@@ -34,7 +34,7 @@ static void fsl_imx6ul_init(Object *obj)
-     int i;
-=20
-     object_initialize_child(obj, "cpu0", &s->cpu, sizeof(s->cpu),
--                            "cortex-a7-" TYPE_ARM_CPU, &error_abort, NUL=
-L);
-+                            ARM_CPU_TYPE_NAME("cortex-a7"), &error_abort=
-, NULL);
-=20
-     /*
-      * A7MPCORE
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 0f587e63d3..fb03c60ebb 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -196,8 +196,8 @@ static void xlnx_zynqmp_create_rpu(MachineState *ms, =
-XlnxZynqMPState *s,
-=20
-         object_initialize_child(OBJECT(&s->rpu_cluster), "rpu-cpu[*]",
-                                 &s->rpu_cpu[i], sizeof(s->rpu_cpu[i]),
--                                "cortex-r5f-" TYPE_ARM_CPU, &error_abort=
-,
--                                NULL);
-+                                ARM_CPU_TYPE_NAME("cortex-r5f"),
-+                                &error_abort, NULL);
-=20
-         name =3D object_get_canonical_path_component(OBJECT(&s->rpu_cpu[=
-i]));
-         if (strcmp(name, boot_cpu)) {
-@@ -237,8 +237,8 @@ static void xlnx_zynqmp_init(Object *obj)
-     for (i =3D 0; i < num_apus; i++) {
-         object_initialize_child(OBJECT(&s->apu_cluster), "apu-cpu[*]",
-                                 &s->apu_cpu[i], sizeof(s->apu_cpu[i]),
--                                "cortex-a53-" TYPE_ARM_CPU, &error_abort=
-,
--                                NULL);
-+                                ARM_CPU_TYPE_NAME("cortex-a53"),
-+                                &error_abort, NULL);
-     }
-=20
-     sysbus_init_child_obj(obj, "gic", &s->gic, sizeof(s->gic),
+     memory_region_allocate_system_memory(&s->ram, NULL, "mcimx7d-sabre.r=
+am",
+                                          machine->ram_size);
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index d85dc2c4bd..6b24aaacde 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -427,10 +427,10 @@ static void mps2tz_common_init(MachineState *machin=
+e)
+     /* The sec_resp_cfg output from the IoTKit must be split into multip=
+le
+      * lines, one for each of the PPCs we create here, plus one per MSC.
+      */
+-    object_initialize(&mms->sec_resp_splitter, sizeof(mms->sec_resp_spli=
+tter),
+-                      TYPE_SPLIT_IRQ);
+-    object_property_add_child(OBJECT(machine), "sec-resp-splitter",
+-                              OBJECT(&mms->sec_resp_splitter), &error_ab=
+ort);
++    object_initialize_child(OBJECT(machine), "sec-resp-splitter",
++                            &mms->sec_resp_splitter,
++                            sizeof(mms->sec_resp_splitter),
++                            TYPE_SPLIT_IRQ, &error_abort, NULL);
+     object_property_set_int(OBJECT(&mms->sec_resp_splitter),
+                             ARRAY_SIZE(mms->ppc) + ARRAY_SIZE(mms->msc),
+                             "num-lines", &error_fatal);
+@@ -465,10 +465,9 @@ static void mps2tz_common_init(MachineState *machine=
+)
+      * Tx, Rx and "combined" IRQs are sent to the NVIC separately.
+      * Create the OR gate for this.
+      */
+-    object_initialize(&mms->uart_irq_orgate, sizeof(mms->uart_irq_orgate=
+),
+-                      TYPE_OR_IRQ);
+-    object_property_add_child(OBJECT(mms), "uart-irq-orgate",
+-                              OBJECT(&mms->uart_irq_orgate), &error_abor=
+t);
++    object_initialize_child(OBJECT(mms), "uart-irq-orgate",
++                            &mms->uart_irq_orgate, sizeof(mms->uart_irq_=
+orgate),
++                            TYPE_OR_IRQ, &error_abort, NULL);
+     object_property_set_int(OBJECT(&mms->uart_irq_orgate), 10, "num-line=
+s",
+                             &error_fatal);
+     object_property_set_bool(OBJECT(&mms->uart_irq_orgate), true,
+diff --git a/hw/arm/musca.c b/hw/arm/musca.c
+index ddd8842732..68db4b5b38 100644
+--- a/hw/arm/musca.c
++++ b/hw/arm/musca.c
+@@ -424,10 +424,11 @@ static void musca_init(MachineState *machine)
+      * The sec_resp_cfg output from the SSE-200 must be split into multi=
+ple
+      * lines, one for each of the PPCs we create here.
+      */
+-    object_initialize(&mms->sec_resp_splitter, sizeof(mms->sec_resp_spli=
+tter),
+-                      TYPE_SPLIT_IRQ);
+-    object_property_add_child(OBJECT(machine), "sec-resp-splitter",
+-                              OBJECT(&mms->sec_resp_splitter), &error_fa=
+tal);
++    object_initialize_child(OBJECT(machine), "sec-resp-splitter",
++                            &mms->sec_resp_splitter,
++                            sizeof(mms->sec_resp_splitter),
++                            TYPE_SPLIT_IRQ, &error_fatal, NULL);
++
+     object_property_set_int(OBJECT(&mms->sec_resp_splitter),
+                             ARRAY_SIZE(mms->ppc), "num-lines", &error_fa=
+tal);
+     object_property_set_bool(OBJECT(&mms->sec_resp_splitter), true,
 --=20
 2.20.1
 
