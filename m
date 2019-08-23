@@ -2,54 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29DC79AFB4
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 14:37:48 +0200 (CEST)
-Received: from localhost ([::1]:55428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B84FA9AFCC
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 14:41:06 +0200 (CEST)
+Received: from localhost ([::1]:55520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i18p9-0004vB-7G
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 08:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58939)
+	id 1i18sL-0001LH-F0
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 08:41:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57972)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1i18gi-0007oI-6B
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 08:29:06 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i18bH-0002MQ-CB
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 08:23:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1i18gg-0007Iv-9L
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 08:29:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34502)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i18gf-0007II-P6
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 08:29:01 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EF12F308402E;
- Fri, 23 Aug 2019 12:29:00 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D36E60657;
- Fri, 23 Aug 2019 12:28:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BEAE81162B63; Fri, 23 Aug 2019 14:28:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-References: <20190713143311.17620-1-marcandre.lureau@redhat.com>
- <20190713143311.17620-4-marcandre.lureau@redhat.com>
- <878srknk4g.fsf@dusky.pond.sub.org>
-Date: Fri, 23 Aug 2019 14:28:52 +0200
-In-Reply-To: <878srknk4g.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Fri, 23 Aug 2019 14:26:07 +0200")
-Message-ID: <87wof4m5ff.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <peter.maydell@linaro.org>) id 1i18bG-0004WJ-6l
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 08:23:27 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45205)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i18bG-0004Vo-0z
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 08:23:26 -0400
+Received: by mail-ot1-x344.google.com with SMTP id m24so8532511otp.12
+ for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 05:23:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kOykgX4jukzcLHOtQbzxdIt0wUVBkJ0RXtssb8+ftHM=;
+ b=EgEV8cy0/QGrCDwvZ4BKMo+OxUU8zGio8eowE/1+h0RPq/FFCu2y0wH7G/7Kz6cOD0
+ dN1mcWGgWX/xVmA0grNk5Je9JVkDqcAWSSCXlPv3Ud3thiXl6fY0Rv3a0J9KvEvgz1qU
+ gVsCnulRNsm9YxTf4MmdPSXuu0abDJZeciqA6/LwSCkqeUEarl5KPXtqYoinV1/gEghr
+ j/eYEaW2jzztf5bKTZ0jP33HC5lmt7oHnkYFouA3rFFdpK564tXaAh279HiXpOpA0Yjk
+ 8vtiOwabUqIItY9QT3FlYFC5fMZ0EfeDVRzzdO3pfpH43Ge3Vmj51VufMY751Lm6l7zL
+ IpTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kOykgX4jukzcLHOtQbzxdIt0wUVBkJ0RXtssb8+ftHM=;
+ b=WN2bWE63XDJPX6mo2URR4u5UHWgZjuQq3L1FkA1l6vL3MLISkcUEsWNLGhsJJzATVS
+ skUN65wQLlcUoH7f4o5V9jzi9aC3IcdnGJ1FCDKKojTfrv79F6LarRGZHamePPFJFFHq
+ //dTMwN8oBQgSnRGKqm/Q4nyjs4bxVHbrrj7lQ6ysEAnHPsB8+XZCvvuEK6hSoWJsiPW
+ W+5HgMeiNCl86fy4HM2juZkEzDwDGPSCXRiczShx+asInepkEBxp2VJEZhRULaAJwTsS
+ xSUtpxRuRNZvY++zy+zALRzzFlubfcgau4H3MLx3X4eldZiPwaGBoJueza+qjdqdlek1
+ a0EA==
+X-Gm-Message-State: APjAAAWWNqgC6/l7ZhjsWQUBXQuszxBwVb0fpKYOcgTeYhfWlIRhUGYn
+ RQV04UZDqV1asi3nle8Ry+ph/bt+Xd/vNng+rlrVzA==
+X-Google-Smtp-Source: APXvYqxK6uBvCyaVDssLLQ4DKErt4lXCKTRUzuu9joey8OcFY2MhTbQ7hmVqz0NDow7+msxtbviBvtRu/LUUTIX67YQ=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr4048393oti.91.1566563005259; 
+ Fri, 23 Aug 2019 05:23:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 23 Aug 2019 12:29:01 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 3/6] tests/docker: add podman support
+References: <20190819213755.26175-1-richard.henderson@linaro.org>
+ <20190819213755.26175-14-richard.henderson@linaro.org>
+In-Reply-To: <20190819213755.26175-14-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 23 Aug 2019 13:23:14 +0100
+Message-ID: <CAFEAcA92qXihhbmaP5oHTCNV8LtmZUuxA9m8iPGVUY-JidBaUQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v2 13/68] target/arm: Convert MRS/MSR
+ (banked, register)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,12 +73,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, berrange@redhat.com,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, pbonzini@redhat.com,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One more: does docs/devel/testing.rst need an update?
+On Mon, 19 Aug 2019 at 22:38, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The m-profile and a-profile, decodings overlap.  Only return false
+> for the case of wrong profile; handle UNDEFINED for permission failure
+> directly.  This ensures that we don't accidentally pass an insn that
+> applies to the wrong profile.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
