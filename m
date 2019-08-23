@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D4C9B33D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:24:15 +0200 (CEST)
-Received: from localhost ([::1]:57948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABFB99B352
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 17:31:32 +0200 (CEST)
+Received: from localhost ([::1]:58184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1BQE-0000WU-G2
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59313)
+	id 1i1BXH-0007Mo-D2
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 11:31:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59782)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i1BOq-0007xE-Qu
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:22:49 -0400
+ (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
+ id 1i1BQr-0001bk-Pv
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:24:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i1BOp-0007ig-TP
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:22:48 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40790)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i1BOp-0007iA-Lg
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:22:47 -0400
-Received: by mail-pf1-x442.google.com with SMTP id w16so6665135pfn.7
- for <qemu-devel@nongnu.org>; Fri, 23 Aug 2019 08:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JR/xbsJbdGvh4q5foqnF1z50zj2S+UxaaH4oXYc5/b8=;
- b=C71Ul2TVFIBHxlGe6orpS/IY68iM5ZhTyA2g0q3SipzS/hLVuEXYKBee+rlN1Lq7I5
- iuF7n2eeFCJipsrjEcGCG9gRxrBqSEdrE/Q0dhJB1yrdqKVT4GxwvfiXzgJeLN9ZZNU7
- hyASpeLGRvJ8HRt2br1iTl1iEiK9Wlv/mcmxmNQZweT/UCizi1KNvV1LE/swVcPfyKx1
- d3x6D/Syb7pWy3R+QQ+ld7sgPygND4gSfAn4vXqdz2W37RVKFShq02gNd+Et36kvlpoY
- Mdu3OmZQY9OLM64Q6+SKhGVFund0OcVRxrCEQhesACqZMIW4flvv2R5IyZgY1UTscjTd
- 5ffA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JR/xbsJbdGvh4q5foqnF1z50zj2S+UxaaH4oXYc5/b8=;
- b=ZH42QYgaKPY/+qDmPAxNZsd+K3/vrvWMV75JaK0l/c3k/xPewXK2+BcqA3kdVggYmx
- nWunzLRN3ctLWYxmFilRIqjKfzehrELW9p1zE8fdmBL14Lo2AQ6+YB/hDDwyweG3lj3m
- EQRKlgWSbylGekX45RfihZPc6X6rFpM3fFc5aXRRDApygBKQRmIxApFQh4Z69YGOwCNi
- nim7abVx3KL2bG8EXhXlX5X9c6PPn6kCaXFqIXAyIZwxKkKUnVzZWk+erK7wPDPvIL8Q
- krE2TvvuxQeEbdWic0pZX5JrqaWqi8TN5SvwcfPIALNPAEwZ/ahwjr7soLGtmFZIT+vs
- IIQg==
-X-Gm-Message-State: APjAAAXbMXkdcUN04yP8ER4JhE2Ql3XwXA1tC3zis+dzvEnBGXSlnc8k
- DvtuuddwTW8Np3gNxBv1qHr6xw==
-X-Google-Smtp-Source: APXvYqw67mn/C6o2B6Hhuu5yLbtbFiuncxxwnfvs1PLV5R+P3wDBwHIDnU1c81ew3pLC4f4DPqnhoQ==
-X-Received: by 2002:a63:a35e:: with SMTP id v30mr4313148pgn.129.1566573766163; 
- Fri, 23 Aug 2019 08:22:46 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 185sm3001557pfd.125.2019.08.23.08.22.45
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Aug 2019 08:22:45 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190823100741.9621-1-david@redhat.com>
- <20190823100741.9621-4-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <de422b59-7e1c-3d51-573b-b15ee617f5d8@linaro.org>
-Date: Fri, 23 Aug 2019 08:22:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
+ id 1i1BQq-00005K-PJ
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 11:24:53 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:38171)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=1314b2cac=alistair.francis@wdc.com>)
+ id 1i1BQq-0008UJ-Eh; Fri, 23 Aug 2019 11:24:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1566573892; x=1598109892;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=HavBuiu9o+dhYuPr9DtZDz8tL0ixVJOlU6zBl4mUFso=;
+ b=mz89vmlIlX7Xkn+6JJg4fSZQAINm4KoXeekfwQEszSah2BHS/Xf1NOZJ
+ i8PldDiLVBJD5HgVaLFkp4uz+WTVNOsyEbPG3POHZBxi+1y6AamxY8NIm
+ KOciwwYVNy83FrrRegarvGJTr+oYhkahLuS2dbwO9niyZdMPCtBz5/HMa
+ R74G6v1Yrbn1uwq4A1Ea6XEnNv5JP6Jay/b/LnVvzHYiuuYLOYXuqmUfp
+ SlaU3vJE8fg50XZYthrrDVE24VCHyPw+gSsYVbAAimMdwDIKsWwxoKnBK
+ KVfclNNYCGMrlmp7iez8GBh53KgaPt7K7hNRWu9ZTL8RwH1ZzEJZTE5DA w==;
+IronPort-SDR: nPCuerFax3eWZFHT5xS7sCfbCf4jNXmZDzQupxQG7ixRWY6LaIIgL+zhsQ82yNe1Eoq8WEx5Fi
+ /E24+92TEepUUEkYJr9w0j5dYMOe0WqDnz0/YTSYNrvI/Ynx5SeAW/PNU2uZMOBsLwTVG7mb5H
+ axouIOFwYb8ZmnocYSDRwi0ger1qe8ri7IokPRBAV+2OeN5qqcI36r90/6uH3OXKRMLFccrk/b
+ 48Fogdave0PrUOPaAOSTEpdh1lBexDTQ78i5t8e9Pndyd/WSuUqH98b5R2lU2mWRC4wQJrD5JW
+ Nwg=
+X-IronPort-AV: E=Sophos;i="5.64,421,1559491200"; d="scan'208";a="121112423"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 23 Aug 2019 23:24:52 +0800
+IronPort-SDR: hGaNfzoZVxWkNRv5DVXn6psL7cSLJPxSA4eeVmp5lthWS05xhEeNiaQf3b0X45dKrHyb2/AN6z
+ lIj1KlznQUxm51vlT1iaPsJjRd4h5FftJMoLyvIqMArz8odysr9jYgjKC0Abs1SS5XTYId6ykR
+ NVZ4HSIv+U8wjozD4ruKWerWBrAWQAhATA+GXhVCAMXNPOjkjb8cRXxVCaEJ77OBZRICiEagMA
+ w+OmUNTEcHjDpPf6ryhuXUHowt5zl4KmVnQR4DM9QnwfGfeKu59fO1Evo3K8jmqlUpRkfxyBKj
+ ACbidL7steMTmtgwUiuzFCWz
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2019 08:22:09 -0700
+IronPort-SDR: qy5CXmtGjA6wMmjZ7kVjnApH0FmPBaQCnD2uBgudTehQL8lpwToVCNVYbMPxmittanRubcNuul
+ z74SK/6NnETwIwt/UnMavH7v/OqzMxPV1po0rc9eY3RXksEd6uhvp3Ari5ijI5VOli46PvwScX
+ FQY9nHftWbM5AwXJar/kMdRLdYjroKQ/95EZOkM7nwdL8jb3xpeEWZ/u/FFNqZE0tMr0TfDLDD
+ 1TwO6btDcp093TtZkKwB1UgkHdOZOcNg8K8n93rRmMkmtoj7uah7fxgJ1cL8I0OMMuJa9q7AWa
+ yRs=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.157.58])
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Aug 2019 08:24:52 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Date: Fri, 23 Aug 2019 08:21:12 -0700
+Message-Id: <f48008aade6df437a599000ca8531fbbf80b6e80.1566573576.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <cover.1566573576.git.alistair.francis@wdc.com>
+References: <cover.1566573576.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <20190823100741.9621-4-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: Re: [Qemu-devel] [PATCH v1 3/9] tcg: Factor out CONFIG_USER_ONLY
- probe_write() from s390x code
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.153.141
+Subject: [Qemu-devel] [PATCH v4 2/7] riscv: plic: Remove unused interrupt
+ functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,30 +86,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-s390x@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Richard Henderson <rth@twiddle.net>
+Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com,
+ bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/19 3:07 AM, David Hildenbrand wrote:
-> +void probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
-> +                 uintptr_t retaddr)
-> +{
-> +    CPUState *cpu = env_cpu(env);
-> +    CPUClass *cc;
-> +
-> +    if (!guest_addr_valid(addr) ||
-> +        (size > 0 && !guest_addr_valid(addr + size - 1)) ||
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Jonathan Behrens <fintelia@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+---
+ hw/riscv/sifive_plic.c         | 12 ------------
+ include/hw/riscv/sifive_plic.h |  3 ---
+ 2 files changed, 15 deletions(-)
 
-I think the interface needs to remain the same between softmmu and linux-user,
-and we should not allow size to cross a page here either.  Which also means
-that the second line here can go away -- we only need the one test vs the
-single page.
+diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
+index 64a1a10380..98e4304b66 100644
+--- a/hw/riscv/sifive_plic.c
++++ b/hw/riscv/sifive_plic.c
+@@ -162,18 +162,6 @@ static void sifive_plic_update(SiFivePLICState *plic)
+     }
+ }
+ 
+-void sifive_plic_raise_irq(SiFivePLICState *plic, uint32_t irq)
+-{
+-    sifive_plic_set_pending(plic, irq, true);
+-    sifive_plic_update(plic);
+-}
+-
+-void sifive_plic_lower_irq(SiFivePLICState *plic, uint32_t irq)
+-{
+-    sifive_plic_set_pending(plic, irq, false);
+-    sifive_plic_update(plic);
+-}
+-
+ static uint32_t sifive_plic_claim(SiFivePLICState *plic, uint32_t addrid)
+ {
+     int i, j;
+diff --git a/include/hw/riscv/sifive_plic.h b/include/hw/riscv/sifive_plic.h
+index b0edba2884..4421e81249 100644
+--- a/include/hw/riscv/sifive_plic.h
++++ b/include/hw/riscv/sifive_plic.h
+@@ -69,9 +69,6 @@ typedef struct SiFivePLICState {
+     uint32_t aperture_size;
+ } SiFivePLICState;
+ 
+-void sifive_plic_raise_irq(SiFivePLICState *plic, uint32_t irq);
+-void sifive_plic_lower_irq(SiFivePLICState *plic, uint32_t irq);
+-
+ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
+     uint32_t num_sources, uint32_t num_priorities,
+     uint32_t priority_base, uint32_t pending_base,
+-- 
+2.22.0
 
-
-r~
 
