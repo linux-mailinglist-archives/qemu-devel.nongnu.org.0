@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750B39B674
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 20:52:49 +0200 (CEST)
-Received: from localhost ([::1]:32822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009269B67B
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Aug 2019 20:55:31 +0200 (CEST)
+Received: from localhost ([::1]:32916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Eg4-0000ci-Ej
-	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 14:52:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39795)
+	id 1i1Eif-0004At-M9
+	for lists+qemu-devel@lfdr.de; Fri, 23 Aug 2019 14:55:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39803)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1i1EOa-0000e1-5G
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:34:45 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1i1EOb-0000fF-1F
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:34:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1i1EOY-000882-ST
+ (envelope-from <tony.nguyen@bt.com>) id 1i1EOZ-00088R-C5
  for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:34:44 -0400
-Received: from nsstlmta39p.bpe.bigpond.com ([203.38.21.39]:54348)
+Received: from nsstlmta28p.bpe.bigpond.com ([203.38.21.28]:43153)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>) id 1i1EOY-00086A-8X
- for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:34:42 -0400
+ (Exim 4.71) (envelope-from <tony.nguyen@bt.com>) id 1i1EOY-00086K-O8
+ for qemu-devel@nongnu.org; Fri, 23 Aug 2019 14:34:43 -0400
 Received: from smtp.telstra.com ([10.10.24.4])
- by nsstlfep39p-svc.bpe.nexus.telstra.com.au with ESMTP id
- <20190823183437.QYOS26347.nsstlfep39p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
- Sat, 24 Aug 2019 04:34:37 +1000
+ by nsstlfep28p-svc.bpe.nexus.telstra.com.au with ESMTP id
+ <20190823183438.JMKK9614.nsstlfep28p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
+ Sat, 24 Aug 2019 04:34:38 +1000
 X-RG-Spam: Unknown
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedguddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvohhnhicupfhguhihvghnuceothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucfkphepheekrddujeefrdelkedrieeknecurfgrrhgrmhephhgvlhhopegusgiirdhtvghlshhtrhgrrdgtohhmrdgruhdpihhnvghtpeehkedrudejfedrleekrdeikedpmhgrihhlfhhrohhmpeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqedprhgtphhtthhopeeophgsohhniihinhhisehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeorhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgqedprhgtphhtthhopeeorhhthhesthifihguughlvgdrnhgvtheqpdhrtghpthhtohepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecuvehluhhsthgvrhfuihiivgeptd
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudegkedguddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefvohhnhicupfhguhihvghnuceothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucfkphepheekrddujeefrdelkedrieeknecurfgrrhgrmhephhgvlhhopegusgiirdhtvghlshhtrhgrrdgtohhmrdgruhdpihhnvghtpeehkedrudejfedrleekrdeikedpmhgrihhlfhhrohhmpeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqedprhgtphhtthhopeeorghtrghrgehqvghmuhesghhmrghilhdrtghomheqpdhrtghpthhtohepoehmrghrkhdrtggrvhgvqdgrhihlrghnugesihhlrghnuggvrdgtohdruhhkqedprhgtphhtthhopeeoqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrgheqpdhrtghpthhtohepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecuvehluhhsthgvrhfuihiivgepud
 X-RazorGate-Vade-Verdict: clean 0
 X-RazorGate-Vade-Classification: clean
 X-RG-VS-CLASS: clean
 X-Authentication-Info: Submitted using ID tony.nguyen.git@bigpond.com
 Received: from dbz.telstra.com.au (58.173.98.68) by smtp.telstra.com (5.8.335)
  (authenticated as tony.nguyen.git@bigpond.com)
- id 5D2D11750F57C845; Sat, 24 Aug 2019 04:34:37 +1000
+ id 5D2D11750F57C873; Sat, 24 Aug 2019 04:34:38 +1000
 From: Tony Nguyen <tony.nguyen@bt.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 24 Aug 2019 04:36:56 +1000
-Message-Id: <2a10a1f1c00a894af1212c8f68ef09c2966023c1.1566466906.git.tony.nguyen@bt.com>
+Date: Sat, 24 Aug 2019 04:36:57 +1000
+Message-Id: <f8fcc3138570c460ef289a6b34ba7715ba36f99e.1566466906.git.tony.nguyen@bt.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1566466906.git.tony.nguyen@bt.com>
 References: <cover.1566466906.git.tony.nguyen@bt.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 203.38.21.39
-Subject: [Qemu-devel] [PATCH v9 18/20] cputlb: Byte swap memory transaction
- attribute
+X-Received-From: 203.38.21.28
+Subject: [Qemu-devel] [PATCH v9 19/20] target/sparc: Add TLB entry with
+ attributes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,75 +57,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Nguyen <tony.nguyen@bt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Tony Nguyen <tony.nguyen@bt.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Richard Henderson <richard.henderson@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Notice new attribute, byte swap, and force the transaction through the
-memory slow path.
+Append MemTxAttrs to interfaces so we can pass along up coming Invert
+Endian TTE bit on SPARC64.
 
-Required by architectures that can invert endianness of memory
-transaction, e.g. SPARC64 has the Invert Endian TTE bit.
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c      | 11 +++++++++++
- include/exec/memattrs.h |  2 ++
- 2 files changed, 13 insertions(+)
+ target/sparc/mmu_helper.c | 32 ++++++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 3c9e634d99..f4573e2c7a 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -738,6 +738,9 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
-          */
-         address |= TLB_RECHECK;
-     }
-+    if (attrs.byte_swap) {
-+        address |= TLB_FORCE_SLOW;
-+    }
-     if (!memory_region_is_ram(section->mr) &&
-         !memory_region_is_romd(section->mr)) {
-         /* IO memory case */
-@@ -891,6 +894,10 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     bool locked = false;
-     MemTxResult r;
+diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
+index cbd1e91179..826e14b6f0 100644
+--- a/target/sparc/mmu_helper.c
++++ b/target/sparc/mmu_helper.c
+@@ -88,7 +88,7 @@ static const int perm_table[2][8] = {
+ };
  
-+    if (iotlbentry->attrs.byte_swap) {
-+        op ^= MO_BSWAP;
-+    }
-+
-     section = iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attrs);
-     mr = section->mr;
-     mr_offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-@@ -933,6 +940,10 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     bool locked = false;
-     MemTxResult r;
+ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
+-                                int *prot, int *access_index,
++                                int *prot, int *access_index, MemTxAttrs *attrs,
+                                 target_ulong address, int rw, int mmu_idx,
+                                 target_ulong *page_size)
+ {
+@@ -219,6 +219,7 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     target_ulong vaddr;
+     target_ulong page_size;
+     int error_code = 0, prot, access_index;
++    MemTxAttrs attrs = {};
  
-+    if (iotlbentry->attrs.byte_swap) {
-+        op ^= MO_BSWAP;
-+    }
-+
-     section = iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attrs);
-     mr = section->mr;
-     mr_offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
-index d4a3477d71..95f2d20d55 100644
---- a/include/exec/memattrs.h
-+++ b/include/exec/memattrs.h
-@@ -37,6 +37,8 @@ typedef struct MemTxAttrs {
-     unsigned int user:1;
-     /* Requester ID (for MSI for example) */
-     unsigned int requester_id:16;
-+    /* Invert endianness for this page */
-+    unsigned int byte_swap:1;
      /*
-      * The following are target-specific page-table bits.  These are not
-      * related to actual memory transactions at all.  However, this structure
+      * TODO: If we ever need tlb_vaddr_to_host for this target,
+@@ -229,7 +230,7 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     assert(!probe);
+ 
+     address &= TARGET_PAGE_MASK;
+-    error_code = get_physical_address(env, &paddr, &prot, &access_index,
++    error_code = get_physical_address(env, &paddr, &prot, &access_index, &attrs,
+                                       address, access_type,
+                                       mmu_idx, &page_size);
+     vaddr = address;
+@@ -490,8 +491,8 @@ static inline int ultrasparc_tag_match(SparcTLBEntry *tlb,
+     return 0;
+ }
+ 
+-static int get_physical_address_data(CPUSPARCState *env,
+-                                     hwaddr *physical, int *prot,
++static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
++                                     int *prot, MemTxAttrs *attrs,
+                                      target_ulong address, int rw, int mmu_idx)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -608,8 +609,8 @@ static int get_physical_address_data(CPUSPARCState *env,
+     return 1;
+ }
+ 
+-static int get_physical_address_code(CPUSPARCState *env,
+-                                     hwaddr *physical, int *prot,
++static int get_physical_address_code(CPUSPARCState *env, hwaddr *physical,
++                                     int *prot, MemTxAttrs *attrs,
+                                      target_ulong address, int mmu_idx)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -686,7 +687,7 @@ static int get_physical_address_code(CPUSPARCState *env,
+ }
+ 
+ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
+-                                int *prot, int *access_index,
++                                int *prot, int *access_index, MemTxAttrs *attrs,
+                                 target_ulong address, int rw, int mmu_idx,
+                                 target_ulong *page_size)
+ {
+@@ -716,11 +717,11 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
+     }
+ 
+     if (rw == 2) {
+-        return get_physical_address_code(env, physical, prot, address,
++        return get_physical_address_code(env, physical, prot, attrs, address,
+                                          mmu_idx);
+     } else {
+-        return get_physical_address_data(env, physical, prot, address, rw,
+-                                         mmu_idx);
++        return get_physical_address_data(env, physical, prot, attrs, address,
++                                         rw, mmu_idx);
+     }
+ }
+ 
+@@ -734,10 +735,11 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     target_ulong vaddr;
+     hwaddr paddr;
+     target_ulong page_size;
++    MemTxAttrs attrs = {};
+     int error_code = 0, prot, access_index;
+ 
+     address &= TARGET_PAGE_MASK;
+-    error_code = get_physical_address(env, &paddr, &prot, &access_index,
++    error_code = get_physical_address(env, &paddr, &prot, &access_index, &attrs,
+                                       address, access_type,
+                                       mmu_idx, &page_size);
+     if (likely(error_code == 0)) {
+@@ -747,7 +749,8 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                                    env->dmmu.mmu_primary_context,
+                                    env->dmmu.mmu_secondary_context);
+ 
+-        tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, page_size);
++        tlb_set_page_with_attrs(cs, vaddr, paddr, attrs, prot, mmu_idx,
++                                page_size);
+         return true;
+     }
+     if (probe) {
+@@ -849,9 +852,10 @@ static int cpu_sparc_get_phys_page(CPUSPARCState *env, hwaddr *phys,
+ {
+     target_ulong page_size;
+     int prot, access_index;
++    MemTxAttrs attrs = {};
+ 
+-    return get_physical_address(env, phys, &prot, &access_index, addr, rw,
+-                                mmu_idx, &page_size);
++    return get_physical_address(env, phys, &prot, &access_index, &attrs, addr,
++                                rw, mmu_idx, &page_size);
+ }
+ 
+ #if defined(TARGET_SPARC64)
 -- 
 2.23.0
 
