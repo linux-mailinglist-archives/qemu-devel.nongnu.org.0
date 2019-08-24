@@ -2,79 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5279BC68
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 09:46:04 +0200 (CEST)
-Received: from localhost ([::1]:36370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9A49BCF1
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 12:06:15 +0200 (CEST)
+Received: from localhost ([::1]:36642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1QkO-0005BK-2O
-	for lists+qemu-devel@lfdr.de; Sat, 24 Aug 2019 03:46:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37936)
+	id 1i1Sw1-0003VD-T8
+	for lists+qemu-devel@lfdr.de; Sat, 24 Aug 2019 06:06:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50274)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i1QjF-0004Ni-D5
- for qemu-devel@nongnu.org; Sat, 24 Aug 2019 03:44:54 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i1Sqa-0000xR-Cb
+ for qemu-devel@nongnu.org; Sat, 24 Aug 2019 06:00:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i1QjD-00022p-WA
- for qemu-devel@nongnu.org; Sat, 24 Aug 2019 03:44:53 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44507)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i1QjD-00022J-OL
- for qemu-devel@nongnu.org; Sat, 24 Aug 2019 03:44:51 -0400
-Received: by mail-wr1-x444.google.com with SMTP id p17so10544052wrf.11
- for <qemu-devel@nongnu.org>; Sat, 24 Aug 2019 00:44:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=BLgjtcia8cMafD7t8HujSdrcrbGEaSwtVdie0r+EkYU=;
- b=bchcml/VFOYx+Fk7kcc0OjsTlV/3zuyqTf4vynhl2D7Kef/owAPnZd6ikG2ZW2vR69
- 8wdTLzjeyYmfMGsJpv7nlKA6mipdQ0c9N4jtRyugjNVdCWg5Wffq82txq9VO3WyBu1mv
- TyqCSpOHxTyAT9cTbFSIDKkifttqYdsWVsGYnOHlNqbaOIqVM2iDZJKF0TwruAszMDVr
- T5dJ5r4lkxIah6mFiHqB+lmhwpFO1+4fK3HXyf4Rb4avwKWesqrXpM0s7eQLZLGPk91Q
- iSu33hC+2NmE3+3NvOZcMWgw5bR3fxV8Q7fxAzUd3EbPXwgnkeL1OmqgCMSwMdQdK3Xg
- O6/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=BLgjtcia8cMafD7t8HujSdrcrbGEaSwtVdie0r+EkYU=;
- b=DB8WKzm3og0Tmm0MeAg9UHniCfsASwfNiQXh4/MyKu3J7pNYo3OnIFuNRFkoYBWyuj
- XYBKyhtIpbFQI2sJ4q8stlgKAs1z4Y490geRUanMGtXlFkkt3AtpVPE6YNrwPGjA2IdN
- y/4f/7z1x6KpvVzSMZAQjXTERUOKhsSCxdefE8N8iv0YMBfdqTfwNnXeXS/NGcH9A/cT
- mSAFOpPR0c7azExUoiDZqMWeTycHLOq5ZwD30E8p/WeuA6vq+NjOW08vgnfOYi8bvjMJ
- J0d2GUTVFibH5AKe/G5TjoEs3ZYbeNHuvRmObnITszMGyq1qFvMdsUincdcQ/bOP71ZD
- 5R3A==
-X-Gm-Message-State: APjAAAWx0B9FnR4hWG6cLWgnCv32opVqEo7kdUV5BSf4aCmmwi9zLoVw
- SDIe2e4YywxMPfVyQF3r7yGnuw==
-X-Google-Smtp-Source: APXvYqy0jhIQ0TbzSaExpVFKro4yJ9HXkI4rC8gDwDxlhQPIZRYdeVUVB8WCt9kok7nRVa3/gPGz4Q==
-X-Received: by 2002:adf:f286:: with SMTP id k6mr9843808wro.320.1566632690613; 
- Sat, 24 Aug 2019 00:44:50 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p19sm6070355wmg.31.2019.08.24.00.44.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Aug 2019 00:44:49 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 145781FF87;
- Sat, 24 Aug 2019 08:44:49 +0100 (BST)
-References: <CAFEAcA8kEKVcRu62+VGDkzRj2J87QPxzjg05dCHszeBC6X76pg@mail.gmail.com>
- <20190822114747.GS3267@redhat.com> <20190822163150.GA3332@work-vm>
- <9caf3a64-0841-dde6-3413-a77dc80e22bd@redhat.com>
- <20190822165045.GM3277@work-vm>
- <b9f98b17-49c4-a227-ab87-de4a6f42f089@redhat.com>
- <a9fdc89e-bc75-59c5-2e1a-12c50b3e92de@redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-In-reply-to: <a9fdc89e-bc75-59c5-2e1a-12c50b3e92de@redhat.com>
-Date: Sat, 24 Aug 2019 08:44:48 +0100
-Message-ID: <877e732ej3.fsf@linaro.org>
+ (envelope-from <dgibson@ozlabs.org>) id 1i1SqZ-0000S2-1Z
+ for qemu-devel@nongnu.org; Sat, 24 Aug 2019 06:00:36 -0400
+Received: from ozlabs.org ([203.11.71.1]:43381)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1i1SqV-0000FB-8M; Sat, 24 Aug 2019 06:00:32 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46Fv060TRwz9s7T; Sat, 24 Aug 2019 20:00:22 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1566640822;
+ bh=B2scDrCEmsrvlvxvsFT460N/Jf/uBFVfHmkko8SiUUg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oDwqk41btXVlNhqwUMMwuwmggeYN71pMPu0saPQfHAVlP8pubtRc0s7a35Vd9+CAg
+ cYwEdmeyzDJ3r8CCwI5h9SDIyIFWS4mhbPGczlbQFY4a2gbcxHG94rh6ZtXGG4liVb
+ 93/nGR8eORGLhP/Q4+Ps6JsglYUorhDqeWIi3u0w=
+Date: Sat, 24 Aug 2019 19:27:10 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Tony Nguyen <tony.nguyen@bt.com>
+Message-ID: <20190824092710.GH3027@umbus.fritz.box>
+References: <cover.1566467963.git.tony.nguyen@bt.com>
+ <90bd564769dbabaa7cf70b08e77170d54fa4b625.1566467963.git.tony.nguyen@bt.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] more automated/public CI for QEMU pullreqs
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MGu/vTNewDGZ7tmp"
+Content-Disposition: inline
+In-Reply-To: <90bd564769dbabaa7cf70b08e77170d54fa4b625.1566467963.git.tony.nguyen@bt.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [RFC PATCH 07/17] hw/i2c: Declare device little or
+ big endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,100 +56,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Samuel Ortiz <sameo@linux.intel.com>, Kashyap Chamarthy <kchamart@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+--MGu/vTNewDGZ7tmp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On 8/22/19 7:05 PM, Paolo Bonzini wrote:
->> On 22/08/19 18:50, Dr. David Alan Gilbert wrote:
->>> * Paolo Bonzini (pbonzini@redhat.com) wrote:
->>>> On 22/08/19 18:31, Dr. David Alan Gilbert wrote:
->>>>>> With both these points in mind, I think it is  pretty hard sell to
->>>>>> say we should write & maintain a custom CI system just for QEMU
->>>>>> unless it is offering major compelling functionality we can't do
->>>>>> without.
->>>
->>> (That was Dan's comment)
->>>
->>>> In theory I agree.
->>>>
->>>> In practice, the major compelling functionality is portability.  If it
->>>> is true that setting up runners is problematic even on aarch64, frankly
->>>> GitLab CI is dead on arrival.  If it is not true, then I'd be very hap=
-py
->>>> to use GitLab CI too.
->>>
->>> IMHO if for some weird reason Gitlab has problems on aarch64 then we
->>> just need to get that fixed.
->>
->> I'm sure it's just some packaging or deployment issue.  But
->> https://gitlab.com/gitlab-org/gitlab-runner/merge_requests/725 has been
->> open for more than one year; the last two messages are:
->>
->> * 1 month ago: "I hope we will be able to merge it soon"
->>
->> * 3 weeks ago: "Today I tried use gitlab-runner on my arm64 box, however
->> it kept mysteriously failing"
->>
->> So the question is simply who does the work.
->
-> IIRC Samuel Ortiz told he was using GitLab with Aarch64 runners around
-> Nov 2018, but "compiling from source". Alex Benn=C3=A9e tried building it=
- on
-> our Packet server during early 2019.
-> Later an (unattended?) Ubuntu upgrade installed a package that does not
-> work anymore with current GitLab server. I noticed this few months ago,
-> built it again and tested it, then looked at what was wrong with the
-> upstream MR. The Aarch64 packaging succeed when cross-building on x86_64
-> host, but fails when building natively... Since part of it is "built or
-> tested in the cloud" and involving Go, I simply let a comment:
-> https://gitlab.com/gitlab-org/gitlab-runner/merge_requests/725#note_18347=
-0145
+On Sat, Aug 24, 2019 at 04:56:28AM +1000, Tony Nguyen wrote:
+> For each device declared with DEVICE_NATIVE_ENDIAN, find the set of
+> targets from the set of target/hw/*/device.o.
+>=20
+> If the set of targets are all little or all big endian, re-declare
+> the device endianness as DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN
+> respectively.
+>=20
+> This *naive* deduction may result in genuinely native endian devices
+> being incorrectly declared as little or big endian, but should not
+> introduce regressions for current targets.
+>=20
+> These devices should be re-declared as DEVICE_NATIVE_ENDIAN if 1) it
+> has a new target with an opposite endian or 2) someone informed knows
+> better =3D)
+>=20
+> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
+> ---
+>  hw/i2c/imx_i2c.c       | 2 +-
+>  hw/i2c/mpc_i2c.c       | 2 +-
+>  hw/i2c/versatile_i2c.c | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 
-I need to have another look at this but from memory it is because the
-"cross-build" approach they use is to try and build all arches with a
-qemu-user controlled docker build. However if the host architecture is
-the target you are aiming for that should run normally - however it
-failed on qemu-test because you can't build the armhf binaries there as
-not all AArch64 machines support AArch32. There is a bug in the Debian
-binfmt_misc scripts that I raised but needs proper fixing.
+ppc part (mpc_i2c.c)
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-I think the easiest thing to do would be to document how to build
-exactly 1 architecture at a time so you don't have to succeed in
-building everything at once and can build something natively without
-jumping through hoops.
+>=20
+> diff --git a/hw/i2c/imx_i2c.c b/hw/i2c/imx_i2c.c
+> index 30b9aea247..cc2689d967 100644
+> --- a/hw/i2c/imx_i2c.c
+> +++ b/hw/i2c/imx_i2c.c
+> @@ -278,7 +278,7 @@ static const MemoryRegionOps imx_i2c_ops =3D {
+>      .write =3D imx_i2c_write,
+>      .valid.min_access_size =3D 1,
+>      .valid.max_access_size =3D 2,
+> -    .endianness =3D DEVICE_NATIVE_ENDIAN,
+> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+>  };
+> =20
+>  static const VMStateDescription imx_i2c_vmstate =3D {
+> diff --git a/hw/i2c/mpc_i2c.c b/hw/i2c/mpc_i2c.c
+> index 0aa1be3ce7..b71b5ff7d5 100644
+> --- a/hw/i2c/mpc_i2c.c
+> +++ b/hw/i2c/mpc_i2c.c
+> @@ -306,7 +306,7 @@ static const MemoryRegionOps i2c_ops =3D {
+>      .read =3D  mpc_i2c_read,
+>      .write =3D  mpc_i2c_write,
+>      .valid.max_access_size =3D 1,
+> -    .endianness =3D DEVICE_NATIVE_ENDIAN,
+> +    .endianness =3D DEVICE_BIG_ENDIAN,
+>  };
+> =20
+>  static const VMStateDescription mpc_i2c_vmstate =3D {
+> diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
+> index 1ac2a6f59a..c92d3b115c 100644
+> --- a/hw/i2c/versatile_i2c.c
+> +++ b/hw/i2c/versatile_i2c.c
+> @@ -77,7 +77,7 @@ static void versatile_i2c_write(void *opaque, hwaddr of=
+fset,
+>  static const MemoryRegionOps versatile_i2c_ops =3D {
+>      .read =3D versatile_i2c_read,
+>      .write =3D versatile_i2c_write,
+> -    .endianness =3D DEVICE_NATIVE_ENDIAN,
+> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+>  };
+> =20
+>  static void versatile_i2c_init(Object *obj)
 
->
-> So to confirm what Paolo said, GitLab runners work on Aarch64
-> (and we have it well tested), however there is a packaging issue,
-> so it does not work "out of the box".
->
->
-> Related to:
->
->   Runner compiled with Go 1.8.7 seems to not work properly with
->   multiarch support. Executing the binary built with Go 1.8.7
->   results with an error [...]
->
-> There has been 1 recent fix for the go runner:
-> https://bugs.launchpad.net/qemu/+bug/1838946/comments/1
->
-> And there is an ongoing discussion about "patch to swap SIGRTMIN + 1
-> and SIGRTMAX - 1".
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Much as I champion qemu-user for solving build problems I think being
-able to build natively should be the quicker and easier fix (not that we
-shouldn't fix qemu-user bugs as well).
+--MGu/vTNewDGZ7tmp
+Content-Type: application/pgp-signature; name="signature.asc"
 
---
-Alex Benn=C3=A9e
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1hAuwACgkQbDjKyiDZ
+s5IQhBAAqxrcGxIkMSJFCefVB/bVhpoflWpH1USQmsPShUrd4YR+H6KoFaAWFC7S
+Oz6t6dUXSmSdJ+pOUClx7lGjvRcFSuyEpT7VB26jRpgJ0eZ/PXhMr/mXU9Y/U4ea
+LcbtbHmWHCoZCu+EdfRU3BH6IEUhJGYUr5EA7Tmzn9AUCIGU//NWZOujOW4vL0Pd
+Y5D4yvWrmEFuhnmw48gjnIp1dla0hbnti63fXgSUo7M5DFmwVsHm7igEqDJQkWSc
+8cOtVn6iJ0BcIpQe4ESItDyOcCAPrqbdryucGzOUtqr78ESk9fBGcX/mHnc90qPc
+XqQ9Np2cw0XFzR6yRVR9GPZpvjrzqWyzBrwpdmf6S1aYgbYMqa59INTLK54qcjst
+6mtLCwxbd2GZE2T8VNIxEhmb4QYsF8NQDpfSkbKHGr4Eg+WQ3g6i7LNwMIyFh3Ua
+qGVAX2jnhTJOsnmgPC2BE6juByVa+JN9Txoer3uts8A3Z8EvCa0oUMPqpGifjajd
+bkamwn4Y3tPsuPOVVZSk6GMz6kNrASf25I9JYrhSH39aCv7Kshx3qC4KMv8pXRAa
+VsE96a5rddzgzQ1MAXO4kRQDR+l7secm7XzKCQbclv1YsjvYFdRbAD61/hRGSwht
+cCZhu3dPQG329ZkOFaJVvkEn42AvsQaPbHLaDHdt29FcUf4nuz8=
+=jkcV
+-----END PGP SIGNATURE-----
+
+--MGu/vTNewDGZ7tmp--
 
