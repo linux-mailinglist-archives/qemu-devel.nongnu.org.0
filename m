@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F989C08F
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 23:37:34 +0200 (CEST)
-Received: from localhost ([::1]:39488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3E59C091
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 23:39:46 +0200 (CEST)
+Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1dj2-0002Ld-QI
-	for lists+qemu-devel@lfdr.de; Sat, 24 Aug 2019 17:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36366)
+	id 1i1dlB-0004W5-Mz
+	for lists+qemu-devel@lfdr.de; Sat, 24 Aug 2019 17:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36365)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i1dgg-0001M3-IH
+ (envelope-from <richard.henderson@linaro.org>) id 1i1dgg-0001M2-Hq
  for qemu-devel@nongnu.org; Sat, 24 Aug 2019 17:35:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i1dge-00035V-GB
+ (envelope-from <richard.henderson@linaro.org>) id 1i1dge-00035e-Hm
  for qemu-devel@nongnu.org; Sat, 24 Aug 2019 17:35:06 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:34517)
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:39704)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i1dga-000309-Mg
- for qemu-devel@nongnu.org; Sat, 24 Aug 2019 17:35:02 -0400
-Received: by mail-pg1-x544.google.com with SMTP id n9so7993992pgc.1
- for <qemu-devel@nongnu.org>; Sat, 24 Aug 2019 14:34:59 -0700 (PDT)
+ id 1i1dgc-00032p-HK
+ for qemu-devel@nongnu.org; Sat, 24 Aug 2019 17:35:04 -0400
+Received: by mail-pf1-x443.google.com with SMTP id y200so1357593pfb.6
+ for <qemu-devel@nongnu.org>; Sat, 24 Aug 2019 14:35:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=WeS2D0cuVBKG8KKN1319ExUviIRkQlB9pnf5dIabrik=;
- b=K+zZB3g3oTOEl5WyWli9IBHhbLuqQRpHdRGCOnqGGGhZ0cIhYDgwtGfK9oqNkLInuJ
- FrSuT2d1xCl1BaVyKgVkBJxpuucGgm4KlHbgU+Cr8fY7FaCviFmBoR2QqHR/F+RirVba
- oWWtC/DDGAOu9YAgjgu9d0kQUrw8VT7rd1NiIamOnaT4IftqZ4ptRWH2OEkdk4aOequs
- q+DFSLKlZlI+dtO/T1MnAhprYtJkinQBQ8h3Ege4qTgESoU8wG2ps2saKW9xp2mxCfj7
- S8KNMRRHV8kCxDjM84VHe7ycXx2YYVczDjvvLPNpt6mJfHQhT+BKz2YkrBBr5hNAy9tZ
- EPLw==
+ bh=vNEsJcB2kukOuHiyOwZ4ZNcbnZh0P4uvd68CJElB0UM=;
+ b=rgeFwQ2v34ZzDuPDQgHGQsCpSDKPRgIiGSdMipmsbSX+aheUfiumGIqtXKt/j1LaSf
+ W2HHQO/ZHzIZfwYv8VewLyISpxPAcKFuEMH/x692np2eGFG2C2+jm/lquf+SeePGzDiX
+ wKNAChlY4dPRgW9SnrtiMCb00HORwYNqBIbua7c2ZJReJte7u7S9Hvh9L+2+wzrwGVNV
+ ol3Kd+Hltt5amD3xjyCDy18eKAZ3hXPdaNVfpHnjRSvzaYOT/epR51Ww9lw1nQPvvrkq
+ 2a++6bmxMAdWdQSjBa3mHW4KZ6r3Mzuskn575G/4NLJ6DDzBdsS8rq6vv78/K6JkZ1cX
+ UWOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=WeS2D0cuVBKG8KKN1319ExUviIRkQlB9pnf5dIabrik=;
- b=k+57ISL9yQbqgczwimWAB7VktSqL6xmTfi4hUCGWEbPuC8y3LW9XDqiNVfm5MeLCc3
- /3r06QwRpFj7TOoyTByg7hk+FfHHwBE32L9oLD6FPBKXgrhtOalx6sMMtnt2iQiqg8qS
- znKBaz0l8cFaFRUJreP8l9cmqXXCt839fz8oVEKpBreCoysliMhwK+sh73Bxv0lwSdWN
- /bSmZsQjc48Ax/+uxUvRKyiLrQqalXF3T+zpMCBPRoluKPdWGayq4cG7uGqs1AwPgI5v
- tg1S0q79Ihcn64nZNh2T+5tzl+kQNCKLjKR3gZtdeon9cx+Qg69daokr1x/YiC4TCxP4
- a4fA==
-X-Gm-Message-State: APjAAAUn2d68wp+nIaRrY0loMDnCD1A7wiJmNKxBC4Hw3HSUJ1hPIkyT
- qwon8unlmFBoGxb8GSYo/4C6qeLlfmc=
-X-Google-Smtp-Source: APXvYqzoqPwDz1J85W88Z/BmECBKVhna+gulR7lhxZ3s12z81jJMbvuyJI92ig9Y4s2n94AFfP1GNg==
-X-Received: by 2002:aa7:8a0a:: with SMTP id m10mr12766598pfa.100.1566682498078; 
- Sat, 24 Aug 2019 14:34:58 -0700 (PDT)
+ bh=vNEsJcB2kukOuHiyOwZ4ZNcbnZh0P4uvd68CJElB0UM=;
+ b=tajVj3ra7S7ZRNsrXe+Bu6KeUfKRyQZ30i2nJAHNCmlzteY3psDXT4V6G61HPhjhvb
+ 7YPMgBGVMxNk+J0s9pKd/snjps3n9WFvddJuC33Nz9g0xzj0daTvE77GN1QyYoK0IeHo
+ zrqR2OfbbqA2Fiv7qY6bXBMUpNxI6PHGdRQgxsfA6pShMUikWgUdY+RimaP1Lr41fCFN
+ tJPipw8AEdy1+a48DGrzgtZH+ilvfvQCexZNkIjjr+wEUXq2uovRl+KCSm7NPUEfGn6c
+ UfLr3DN+AZ/7gGKfkwAZ6hgQDftNvz+onVrKILDNrcdONBrFKVOLaYAKqwYZoj6wn8kU
+ 5IXw==
+X-Gm-Message-State: APjAAAW0bxC9iUZBej2Wn83220e/4Ki9AxhW/r8f3EA6xJwuc++7+sBq
+ oGXIh289bL1JQxHn6FEsgKaefWFYr5o=
+X-Google-Smtp-Source: APXvYqx8451f+uKW+ygQwXO/bVu2qRkRBYiGVddMPsbSjnqsm26zphtmbh8+mu97O89ph1zrqVY5nw==
+X-Received: by 2002:a17:90a:3266:: with SMTP id
+ k93mr12250768pjb.46.1566682500442; 
+ Sat, 24 Aug 2019 14:35:00 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 81sm6325753pfx.111.2019.08.24.14.34.57
+ by smtp.gmail.com with ESMTPSA id 81sm6325753pfx.111.2019.08.24.14.34.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Aug 2019 14:34:57 -0700 (PDT)
+ Sat, 24 Aug 2019 14:34:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sat, 24 Aug 2019 14:34:48 -0700
-Message-Id: <20190824213451.31118-4-richard.henderson@linaro.org>
+Date: Sat, 24 Aug 2019 14:34:50 -0700
+Message-Id: <20190824213451.31118-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190824213451.31118-1-richard.henderson@linaro.org>
 References: <20190824213451.31118-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH 3/6] cputlb: Fold TLB_RECHECK into
- TLB_INVALID_MASK
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH 5/6] cputlb: Handle watchpoints via
+ TLB_WATCHPOINT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,198 +81,392 @@ Cc: peter.maydell@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We had two different mechanisms to force a recheck of the tlb.
+The raising of exceptions from check_watchpoint, buried inside
+of the I/O subsystem, is fundamentally broken.  We do not have
+the helper return address with which we can unwind guest state.
 
-Before TLB_RECHECK was introduced, we had a PAGE_WRITE_INV bit
-that would immediate set TLB_INVALID_MASK, which automatically
-means that a second check of the tlb entry fails.
+Replace PHYS_SECTION_WATCH and io_mem_watch with TLB_WATCHPOINT.
+Move the call to cpu_check_watchpoint into the cputlb helpers
+where we do have the helper return address.
 
-We can use the same mechanism to handle small pages.
-Conserve TLB_* bits by removing TLB_RECHECK.
+This also allows us to handle watchpoints on RAM to bypass the
+full i/o access path.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h |  5 +--
- accel/tcg/cputlb.c     | 86 +++++++++++-------------------------------
- 2 files changed, 24 insertions(+), 67 deletions(-)
+ include/exec/cpu-all.h |   5 +-
+ accel/tcg/cputlb.c     |  83 +++++++++++++++++++++++++++---
+ exec.c                 | 114 +++--------------------------------------
+ 3 files changed, 87 insertions(+), 115 deletions(-)
 
 diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 8323094648..8d07ae23a5 100644
+index 8d07ae23a5..d2d443c4f9 100644
 --- a/include/exec/cpu-all.h
 +++ b/include/exec/cpu-all.h
-@@ -329,14 +329,11 @@ CPUArchState *cpu_copy(CPUArchState *env);
+@@ -329,11 +329,14 @@ CPUArchState *cpu_copy(CPUArchState *env);
  #define TLB_NOTDIRTY        (1 << (TARGET_PAGE_BITS - 2))
  /* Set if TLB entry is an IO callback.  */
  #define TLB_MMIO            (1 << (TARGET_PAGE_BITS - 3))
--/* Set if TLB entry must have MMU lookup repeated for every access */
--#define TLB_RECHECK         (1 << (TARGET_PAGE_BITS - 4))
++/* Set if TLB entry contains a watchpoint.  */
++#define TLB_WATCHPOINT      (1 << (TARGET_PAGE_BITS - 4))
  
  /* Use this mask to check interception with an alignment mask
   * in a TCG backend.
   */
--#define TLB_FLAGS_MASK  (TLB_INVALID_MASK | TLB_NOTDIRTY | TLB_MMIO \
--                         | TLB_RECHECK)
-+#define TLB_FLAGS_MASK  (TLB_INVALID_MASK | TLB_NOTDIRTY | TLB_MMIO)
+-#define TLB_FLAGS_MASK  (TLB_INVALID_MASK | TLB_NOTDIRTY | TLB_MMIO)
++#define TLB_FLAGS_MASK \
++    (TLB_INVALID_MASK | TLB_NOTDIRTY | TLB_MMIO | TLB_WATCHPOINT)
  
  /**
   * tlb_hit_page: return true if page aligned @addr is a hit against the
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index d9787cc893..c9576bebcf 100644
+index c9576bebcf..f7a414a131 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -732,11 +732,8 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+@@ -710,6 +710,7 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+     hwaddr iotlb, xlat, sz, paddr_page;
+     target_ulong vaddr_page;
+     int asidx = cpu_asidx_from_attrs(cpu, attrs);
++    int wp_flags;
  
-     address = vaddr_page;
-     if (size < TARGET_PAGE_SIZE) {
--        /*
--         * Slow-path the TLB entries; we will repeat the MMU check and TLB
--         * fill on every access.
--         */
--        address |= TLB_RECHECK;
-+        /* Repeat the MMU check and TLB fill on every access.  */
-+        address |= TLB_INVALID_MASK;
+     assert_cpu_is_self(cpu);
+ 
+@@ -752,6 +753,8 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+     code_address = address;
+     iotlb = memory_region_section_get_iotlb(cpu, section, vaddr_page,
+                                             paddr_page, xlat, prot, &address);
++    wp_flags = cpu_watchpoint_address_matches(cpu, vaddr_page,
++                                              TARGET_PAGE_SIZE);
+ 
+     index = tlb_index(env, mmu_idx, vaddr_page);
+     te = tlb_entry(env, mmu_idx, vaddr_page);
+@@ -805,6 +808,9 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+     tn.addend = addend - vaddr_page;
+     if (prot & PAGE_READ) {
+         tn.addr_read = address;
++        if (wp_flags & BP_MEM_READ) {
++            tn.addr_read |= TLB_WATCHPOINT;
++        }
+     } else {
+         tn.addr_read = -1;
      }
-     if (attrs.byte_swap) {
-         /* Force the access through the I/O slow path.  */
-@@ -1026,10 +1023,15 @@ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
-   victim_tlb_hit(env, mmu_idx, index, offsetof(CPUTLBEntry, TY), \
-                  (ADDR) & TARGET_PAGE_MASK)
+@@ -831,6 +837,9 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+         if (prot & PAGE_WRITE_INV) {
+             tn.addr_write |= TLB_INVALID_MASK;
+         }
++        if (wp_flags & BP_MEM_WRITE) {
++            tn.addr_write |= TLB_WATCHPOINT;
++        }
+     }
  
--/* NOTE: this function can trigger an exception */
--/* NOTE2: the returned address is not exactly the physical address: it
-- * is actually a ram_addr_t (in system mode; the user mode emulation
-- * version of this function returns a guest virtual address).
-+/*
-+ * Return a ram_addr_t for the virtual address for execution.
-+ *
-+ * Return -1 if we can't translate and execute from an entire page
-+ * of RAM.  This will force us to execute by loading and translating
-+ * one insn at a time, without caching.
-+ *
-+ * NOTE: This function will trigger an exception if the page is
-+ * not executable.
-  */
- tb_page_addr_t get_page_addr_code(CPUArchState *env, target_ulong addr)
- {
-@@ -1043,19 +1045,20 @@ tb_page_addr_t get_page_addr_code(CPUArchState *env, target_ulong addr)
-             tlb_fill(env_cpu(env), addr, 0, MMU_INST_FETCH, mmu_idx, 0);
-             index = tlb_index(env, mmu_idx, addr);
-             entry = tlb_entry(env, mmu_idx, addr);
+     copy_tlb_helper_locked(te, &tn);
+@@ -1264,13 +1273,33 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+         tlb_addr &= ~TLB_INVALID_MASK;
+     }
+ 
+-    /* Handle an IO access.  */
++    /* Handle anything that isn't just a straight memory access.  */
+     if (unlikely(tlb_addr & ~TARGET_PAGE_MASK)) {
++        CPUIOTLBEntry *iotlbentry;
 +
-+            if (unlikely(entry->addr_code & TLB_INVALID_MASK)) {
-+                /*
-+                 * The MMU protection covers a smaller range than a target
-+                 * page, so we must redo the MMU check for every insn.
-+                 */
-+                return -1;
-+            }
-         }
-         assert(tlb_hit(entry->addr_code, addr));
-     }
- 
--    if (unlikely(entry->addr_code & (TLB_RECHECK | TLB_MMIO))) {
--        /*
--         * Return -1 if we can't translate and execute from an entire
--         * page of RAM here, which will cause us to execute by loading
--         * and translating one insn at a time, without caching:
--         *  - TLB_RECHECK: means the MMU protection covers a smaller range
--         *    than a target page, so we must redo the MMU check every insn
--         *  - TLB_MMIO: region is not backed by RAM
--         */
-+    if (unlikely(entry->addr_code & TLB_MMIO)) {
-+        /* The region is not backed by RAM.  */
-         return -1;
-     }
- 
-@@ -1180,7 +1183,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
-     }
- 
-     /* Notice an IO access or a needs-MMU-lookup access */
--    if (unlikely(tlb_addr & (TLB_MMIO | TLB_RECHECK))) {
-+    if (unlikely(tlb_addr & TLB_MMIO)) {
-         /* There's really nothing that can be done to
-            support this apart from stop-the-world.  */
-         goto stop_the_world;
-@@ -1258,6 +1261,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
-             entry = tlb_entry(env, mmu_idx, addr);
-         }
-         tlb_addr = code_read ? entry->addr_code : entry->addr_read;
-+        tlb_addr &= ~TLB_INVALID_MASK;
-     }
- 
-     /* Handle an IO access.  */
-@@ -1265,27 +1269,6 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
++        /* For anything that is unaligned, recurse through full_load.  */
          if ((addr & (size - 1)) != 0) {
              goto do_unaligned_access;
          }
--
--        if (tlb_addr & TLB_RECHECK) {
--            /*
--             * This is a TLB_RECHECK access, where the MMU protection
--             * covers a smaller range than a target page, and we must
--             * repeat the MMU check here. This tlb_fill() call might
--             * longjump out if this access should cause a guest exception.
--             */
--            tlb_fill(env_cpu(env), addr, size,
--                     access_type, mmu_idx, retaddr);
--            index = tlb_index(env, mmu_idx, addr);
--            entry = tlb_entry(env, mmu_idx, addr);
--
--            tlb_addr = code_read ? entry->addr_code : entry->addr_read;
--            tlb_addr &= ~TLB_RECHECK;
--            if (!(tlb_addr & ~TARGET_PAGE_MASK)) {
--                /* RAM access */
--                goto do_aligned_access;
--            }
--        }
--
-         return io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
-                         mmu_idx, addr, retaddr, access_type, op);
+-        return io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
+-                        mmu_idx, addr, retaddr, access_type, op);
++
++        iotlbentry = &env_tlb(env)->d[mmu_idx].iotlb[index];
++
++        /* Handle watchpoints.  */
++        if (unlikely(tlb_addr & TLB_WATCHPOINT)) {
++            /* On watchpoint hit, this will longjmp out.  */
++            cpu_check_watchpoint(env_cpu(env), addr, size,
++                                 iotlbentry->attrs, BP_MEM_READ, retaddr);
++
++            /* The backing page may or may not require I/O.  */
++            tlb_addr &= ~TLB_WATCHPOINT;
++            if ((tlb_addr & ~TARGET_PAGE_MASK) == 0) {
++                goto do_aligned_access;
++            }
++        }
++
++        /* Handle I/O access.  */
++        return io_readx(env, iotlbentry, mmu_idx, addr,
++                        retaddr, access_type, op);
      }
-@@ -1314,7 +1297,6 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+ 
+     /* Handle slow unaligned access (it spans two pages or IO).  */
+@@ -1297,6 +1326,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
          return res & MAKE_64BIT_MASK(0, size * 8);
      }
  
-- do_aligned_access:
++ do_aligned_access:
      haddr = (void *)((uintptr_t)addr + entry->addend);
      switch (op) {
      case MO_UB:
-@@ -1509,27 +1491,6 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+@@ -1486,13 +1516,32 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+         tlb_addr = tlb_addr_write(entry) & ~TLB_INVALID_MASK;
+     }
+ 
+-    /* Handle an IO access.  */
++    /* Handle anything that isn't just a straight memory access.  */
+     if (unlikely(tlb_addr & ~TARGET_PAGE_MASK)) {
++        CPUIOTLBEntry *iotlbentry;
++
++        /* For anything that is unaligned, recurse through byte stores.  */
          if ((addr & (size - 1)) != 0) {
              goto do_unaligned_access;
          }
--
--        if (tlb_addr & TLB_RECHECK) {
--            /*
--             * This is a TLB_RECHECK access, where the MMU protection
--             * covers a smaller range than a target page, and we must
--             * repeat the MMU check here. This tlb_fill() call might
--             * longjump out if this access should cause a guest exception.
--             */
--            tlb_fill(env_cpu(env), addr, size, MMU_DATA_STORE,
--                     mmu_idx, retaddr);
--            index = tlb_index(env, mmu_idx, addr);
--            entry = tlb_entry(env, mmu_idx, addr);
--
--            tlb_addr = tlb_addr_write(entry);
--            tlb_addr &= ~TLB_RECHECK;
--            if (!(tlb_addr & ~TARGET_PAGE_MASK)) {
--                /* RAM access */
--                goto do_aligned_access;
--            }
--        }
--
-         io_writex(env, &env_tlb(env)->d[mmu_idx].iotlb[index], mmu_idx,
-                   val, addr, retaddr, op);
-         return;
-@@ -1579,7 +1540,6 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+-        io_writex(env, &env_tlb(env)->d[mmu_idx].iotlb[index], mmu_idx,
+-                  val, addr, retaddr, op);
++
++        iotlbentry = &env_tlb(env)->d[mmu_idx].iotlb[index];
++
++        /* Handle watchpoints.  */
++        if (unlikely(tlb_addr & TLB_WATCHPOINT)) {
++            /* On watchpoint hit, this will longjmp out.  */
++            cpu_check_watchpoint(env_cpu(env), addr, size,
++                                 iotlbentry->attrs, BP_MEM_WRITE, retaddr);
++
++            /* The backing page may or may not require I/O.  */
++            tlb_addr &= ~TLB_WATCHPOINT;
++            if ((tlb_addr & ~TARGET_PAGE_MASK) == 0) {
++                goto do_aligned_access;
++            }
++        }
++
++        /* Handle I/O access.  */
++        io_writex(env, iotlbentry, mmu_idx, val, addr, retaddr, op);
          return;
      }
  
-- do_aligned_access:
+@@ -1504,6 +1553,8 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+         uintptr_t index2;
+         CPUTLBEntry *entry2;
+         target_ulong page2, tlb_addr2;
++        size_t size2;
++
+     do_unaligned_access:
+         /*
+          * Ensure the second page is in the TLB.  Note that the first page
+@@ -1511,16 +1562,33 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+          * cannot evict the first.
+          */
+         page2 = (addr + size) & TARGET_PAGE_MASK;
++        size2 = (addr + size) & ~TARGET_PAGE_MASK;
+         index2 = tlb_index(env, mmu_idx, page2);
+         entry2 = tlb_entry(env, mmu_idx, page2);
+         tlb_addr2 = tlb_addr_write(entry2);
+         if (!tlb_hit_page(tlb_addr2, page2)
+             && !victim_tlb_hit(env, mmu_idx, index2, tlb_off,
+                                page2 & TARGET_PAGE_MASK)) {
+-            tlb_fill(env_cpu(env), page2, size, MMU_DATA_STORE,
++            tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
+                      mmu_idx, retaddr);
+         }
+ 
++        /*
++         * Handle watchpoints.  Since this may trap, all checks
++         * must happen before any store.
++         */
++        if (unlikely(tlb_addr & TLB_WATCHPOINT)) {
++            cpu_check_watchpoint(env_cpu(env), addr,
++                                 -(addr | TARGET_PAGE_MASK),
++                                 env_tlb(env)->d[mmu_idx].iotlb[index].attrs,
++                                 BP_MEM_WRITE, retaddr);
++        }
++        if (unlikely(tlb_addr2 & TLB_WATCHPOINT)) {
++            cpu_check_watchpoint(env_cpu(env), page2, size2,
++                                 env_tlb(env)->d[mmu_idx].iotlb[index2].attrs,
++                                 BP_MEM_WRITE, retaddr);
++        }
++
+         /*
+          * XXX: not efficient, but simple.
+          * This loop must go in the forward direction to avoid issues
+@@ -1540,6 +1608,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+         return;
+     }
+ 
++ do_aligned_access:
      haddr = (void *)((uintptr_t)addr + entry->addend);
      switch (op) {
      case MO_UB:
+diff --git a/exec.c b/exec.c
+index 8575ce51ad..ad0f4a598f 100644
+--- a/exec.c
++++ b/exec.c
+@@ -193,15 +193,12 @@ typedef struct subpage_t {
+ #define PHYS_SECTION_UNASSIGNED 0
+ #define PHYS_SECTION_NOTDIRTY 1
+ #define PHYS_SECTION_ROM 2
+-#define PHYS_SECTION_WATCH 3
+ 
+ static void io_mem_init(void);
+ static void memory_map_init(void);
+ static void tcg_log_global_after_sync(MemoryListener *listener);
+ static void tcg_commit(MemoryListener *listener);
+ 
+-static MemoryRegion io_mem_watch;
+-
+ /**
+  * CPUAddressSpace: all the information a CPU needs about an AddressSpace
+  * @cpu: the CPU whose AddressSpace this is
+@@ -1472,7 +1469,6 @@ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
+                                        target_ulong *address)
+ {
+     hwaddr iotlb;
+-    int flags, match;
+ 
+     if (memory_region_is_ram(section->mr)) {
+         /* Normal RAM.  */
+@@ -1490,19 +1486,6 @@ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
+         iotlb += xlat;
+     }
+ 
+-    /* Avoid trapping reads of pages with a write breakpoint. */
+-    match = (prot & PAGE_READ ? BP_MEM_READ : 0)
+-          | (prot & PAGE_WRITE ? BP_MEM_WRITE : 0);
+-    flags = cpu_watchpoint_address_matches(cpu, vaddr, TARGET_PAGE_SIZE);
+-    if (flags & match) {
+-        /*
+-         * Make accesses to pages with watchpoints go via the
+-         * watchpoint trap routines.
+-         */
+-        iotlb = PHYS_SECTION_WATCH + paddr;
+-        *address |= TLB_MMIO;
+-    }
+-
+     return iotlb;
+ }
+ #endif /* defined(CONFIG_USER_ONLY) */
+@@ -2810,10 +2793,14 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+ 
+     assert(tcg_enabled());
+     if (cpu->watchpoint_hit) {
+-        /* We re-entered the check after replacing the TB. Now raise
+-         * the debug interrupt so that is will trigger after the
+-         * current instruction. */
++        /*
++         * We re-entered the check after replacing the TB.
++         * Now raise the debug interrupt so that it will
++         * trigger after the current instruction.
++         */
++        qemu_mutex_lock_iothread();
+         cpu_interrupt(cpu, CPU_INTERRUPT_DEBUG);
++        qemu_mutex_unlock_iothread();
+         return;
+     }
+ 
+@@ -2858,88 +2845,6 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+     }
+ }
+ 
+-static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
+-{
+-    CPUState *cpu = current_cpu;
+-    vaddr addr = (cpu->mem_io_vaddr & TARGET_PAGE_MASK) + offset;
+-
+-    cpu_check_watchpoint(cpu, addr, len, attrs, flags, 0);
+-}
+-
+-/* Watchpoint access routines.  Watchpoints are inserted using TLB tricks,
+-   so these check for a hit then pass through to the normal out-of-line
+-   phys routines.  */
+-static MemTxResult watch_mem_read(void *opaque, hwaddr addr, uint64_t *pdata,
+-                                  unsigned size, MemTxAttrs attrs)
+-{
+-    MemTxResult res;
+-    uint64_t data;
+-    int asidx = cpu_asidx_from_attrs(current_cpu, attrs);
+-    AddressSpace *as = current_cpu->cpu_ases[asidx].as;
+-
+-    check_watchpoint(addr & ~TARGET_PAGE_MASK, size, attrs, BP_MEM_READ);
+-    switch (size) {
+-    case 1:
+-        data = address_space_ldub(as, addr, attrs, &res);
+-        break;
+-    case 2:
+-        data = address_space_lduw(as, addr, attrs, &res);
+-        break;
+-    case 4:
+-        data = address_space_ldl(as, addr, attrs, &res);
+-        break;
+-    case 8:
+-        data = address_space_ldq(as, addr, attrs, &res);
+-        break;
+-    default: abort();
+-    }
+-    *pdata = data;
+-    return res;
+-}
+-
+-static MemTxResult watch_mem_write(void *opaque, hwaddr addr,
+-                                   uint64_t val, unsigned size,
+-                                   MemTxAttrs attrs)
+-{
+-    MemTxResult res;
+-    int asidx = cpu_asidx_from_attrs(current_cpu, attrs);
+-    AddressSpace *as = current_cpu->cpu_ases[asidx].as;
+-
+-    check_watchpoint(addr & ~TARGET_PAGE_MASK, size, attrs, BP_MEM_WRITE);
+-    switch (size) {
+-    case 1:
+-        address_space_stb(as, addr, val, attrs, &res);
+-        break;
+-    case 2:
+-        address_space_stw(as, addr, val, attrs, &res);
+-        break;
+-    case 4:
+-        address_space_stl(as, addr, val, attrs, &res);
+-        break;
+-    case 8:
+-        address_space_stq(as, addr, val, attrs, &res);
+-        break;
+-    default: abort();
+-    }
+-    return res;
+-}
+-
+-static const MemoryRegionOps watch_mem_ops = {
+-    .read_with_attrs = watch_mem_read,
+-    .write_with_attrs = watch_mem_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-    .valid = {
+-        .min_access_size = 1,
+-        .max_access_size = 8,
+-        .unaligned = false,
+-    },
+-    .impl = {
+-        .min_access_size = 1,
+-        .max_access_size = 8,
+-        .unaligned = false,
+-    },
+-};
+-
+ static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
+                                  MemTxAttrs attrs, uint8_t *buf, hwaddr len);
+ static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs attrs,
+@@ -3115,9 +3020,6 @@ static void io_mem_init(void)
+     memory_region_init_io(&io_mem_notdirty, NULL, &notdirty_mem_ops, NULL,
+                           NULL, UINT64_MAX);
+     memory_region_clear_global_locking(&io_mem_notdirty);
+-
+-    memory_region_init_io(&io_mem_watch, NULL, &watch_mem_ops, NULL,
+-                          NULL, UINT64_MAX);
+ }
+ 
+ AddressSpaceDispatch *address_space_dispatch_new(FlatView *fv)
+@@ -3131,8 +3033,6 @@ AddressSpaceDispatch *address_space_dispatch_new(FlatView *fv)
+     assert(n == PHYS_SECTION_NOTDIRTY);
+     n = dummy_section(&d->map, fv, &io_mem_rom);
+     assert(n == PHYS_SECTION_ROM);
+-    n = dummy_section(&d->map, fv, &io_mem_watch);
+-    assert(n == PHYS_SECTION_WATCH);
+ 
+     d->phys_map  = (PhysPageEntry) { .ptr = PHYS_MAP_NODE_NIL, .skip = 1 };
+ 
 -- 
 2.17.1
 
