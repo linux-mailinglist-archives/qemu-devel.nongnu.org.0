@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54489BCEF
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 12:06:02 +0200 (CEST)
-Received: from localhost ([::1]:36640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7EAD9BCEE
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Aug 2019 12:05:57 +0200 (CEST)
+Received: from localhost ([::1]:36638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1Svp-00038c-6c
-	for lists+qemu-devel@lfdr.de; Sat, 24 Aug 2019 06:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50240)
+	id 1i1Svk-00033I-6Q
+	for lists+qemu-devel@lfdr.de; Sat, 24 Aug 2019 06:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i1SqX-0000wz-Lj
- for qemu-devel@nongnu.org; Sat, 24 Aug 2019 06:00:35 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i1SqX-0000wx-DT
+ for qemu-devel@nongnu.org; Sat, 24 Aug 2019 06:00:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i1SqW-0000Pb-BQ
+ (envelope-from <dgibson@ozlabs.org>) id 1i1SqW-0000P2-2U
  for qemu-devel@nongnu.org; Sat, 24 Aug 2019 06:00:33 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:57823)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38583 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i1SqV-0000FG-Si; Sat, 24 Aug 2019 06:00:32 -0400
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1i1SqV-0000FH-0v
+ for qemu-devel@nongnu.org; Sat, 24 Aug 2019 06:00:32 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46Fv062Vwmz9sN1; Sat, 24 Aug 2019 20:00:22 +1000 (AEST)
+ id 46Fv0640MSz9sNF; Sat, 24 Aug 2019 20:00:22 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1566640822;
- bh=C42fnOAYgag6+7hG6W+ra2eNskn1C/9uAvWMGNDyPQw=;
+ bh=SWKqMXNA2SWu7QG9XMBJIDAkuvgnQOaZq/L21MibKTE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BJs+FInV8iOuzlVwjBwgudZAojJ8Km0Sylv8uUEm3Q8ONR/NjZkKeB1i6VK7MIs0+
- 3nOQcPAvYqhy7vL3L+9vJiM+eQwZUFlz2/Ve6gmh37ZsEtZ2Lx47u58XZGFHCjPB1k
- 5CQcvoX5I+OYWheakZa2iwF2lP5jD4Pfjh9Bnoi8=
-Date: Sat, 24 Aug 2019 19:32:55 +1000
+ b=o7Qx+gcXYLGu6kkNlQP8NSzYUOETLiESVqnFY7y1BvYxGwy+yAEUa/9LZv5/k4PB9
+ D54rmRRLuJT3cfVICyA6RFpeblfzS9ZUNAZvxOrNPDXp5LzNOfwaifTltBOGpraGGB
+ ank377Ltz4T24LhDHCwSL5UlK8ZgFmYRwo0gJRXc=
+Date: Sat, 24 Aug 2019 19:42:30 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: sathnaga@linux.vnet.ibm.com
-Message-ID: <20190824093255.GI3027@umbus.fritz.box>
-References: <20190819082820.14817-1-sathnaga@linux.vnet.ibm.com>
+To: Stefan Brankovic <stefan.brankovic@rt-rk.com>
+Message-ID: <20190824094230.GK3027@umbus.fritz.box>
+References: <1563200574-11098-1-git-send-email-stefan.brankovic@rt-rk.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3eH4Qcq5fItR5cpy"
+ protocol="application/pgp-signature"; boundary="BOhpupldhMlYbdva"
 Content-Disposition: inline
-In-Reply-To: <20190819082820.14817-1-sathnaga@linux.vnet.ibm.com>
+In-Reply-To: <1563200574-11098-1-git-send-email-stefan.brankovic@rt-rk.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH V2 1/2] tests.acceptance.avocado_qemu: Add
- support for powerpc
+Subject: Re: [Qemu-devel] [PATCH v5 0/8] target/ppc: Optimize emulation of
+ some Altivec instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,53 +56,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, crosa@redhat.com
+Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---3eH4Qcq5fItR5cpy
-Content-Type: text/plain; charset=iso-8859-1
+--BOhpupldhMlYbdva
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 19, 2019 at 01:58:20PM +0530, sathnaga@linux.vnet.ibm.com wrote:
-> From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+On Mon, Jul 15, 2019 at 04:22:46PM +0200, Stefan Brankovic wrote:
+> Optimize emulation of ten Altivec instructions: lvsl, lvsr, vsl, vsr, vpk=
+px,
+> vgbbd, vclzb, vclzh, vclzw and vclzd.
 >=20
-> Current acceptance test will not run properly in powerpc
-> environment due qemu target is different from arch, this
-> usually matches, except with bi-endian architectures like ppc64.
-> uname would return `ppc64` or `ppc64le` based `big` or `little`
-> endian but qemu `target` is always `ppc64`. Let's handle it.
->=20
-> Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
-> Signed-off-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+> This series buils up on and complements recent work of Thomas Murta, Mark
+> Cave-Ayland and Richard Henderson in the same area. It is based on devisi=
+ng TCG
+> translation implementation for selected instructions rather than using he=
+lpers.
+> The selected instructions are most of the time idiosyncratic to ppc platf=
+orm,
+> so relatively complex TCG translation (without direct mapping to host
+> instruction that is not possible in these cases) seems to be the best opt=
+ion,
+> and that approach is presented in this series. The performance improvemen=
+ts
+> are significant in all cases.
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-I sent a similar patch a little while back, but it seems it got lost.
-
-
-> ---
->  tests/acceptance/avocado_qemu/__init__.py | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance=
-/avocado_qemu/__init__.py
-> index aee5d820ed..bd41e0443c 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -39,6 +39,9 @@ def pick_default_qemu_bin(arch=3DNone):
->      """
->      if arch is None:
->          arch =3D os.uname()[4]
-> +    # qemu binary path does not match arch for powerpc, handle it
-> +    if 'ppc64le' in arch:
-> +        arch =3D 'ppc64'
->      qemu_bin_relative_path =3D os.path.join("%s-softmmu" % arch,
->                                            "qemu-system-%s" % arch)
->      if is_readable_executable_file(qemu_bin_relative_path):
+I was waiting for acks from rth on the remainder of this series, but
+it seems to have been forgotten.  Can you rebase and resend the
+remaining patches for inclusion in ppc-for-4.2.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -110,25 +95,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---3eH4Qcq5fItR5cpy
+--BOhpupldhMlYbdva
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1hBEcACgkQbDjKyiDZ
-s5I03A/+OS9ebOnz0+cQwmnBm1y+uvf3xbR//fdbiYVjw/YSOnDV5n9L5mqdkGaI
-6HjN2tGCxdFbZfsWTxoLG+PuaAaeVLh4nhvhM/urwajK1kLUREnkDOaq+9yjWnE2
-noW4KW6CUg/DC/1J+vI/PT6Pp3HBgkbOHo9sFS1cCqYrkzHNJFYtai5V15X+RkSO
-GD4JdC9YBhCdkzTKG0mGwV76ZAMllpRlsSoMlmDiAT2BWF3/qeK0JsXZLJLQ0VRT
-jYec7OS4WpCWbWEBxfaVaJXiBoD4+Z59nlAi/T5oggXIqpy7TERsOX2WbfxLw5L6
-Wti9rCCEhQ+A+3iaWBKcRpeszeT8S4TB9zjGP7iaoogW8Ksa9vcJavbr8+fjyxbA
-+qUxqywCb6ujl1NQ1EpozTwZ1YV8EZoaCPVVKTvHUB3pSyv1qe7TJNZK1inrxQFo
-hT29bPwFAZvIXpMFFVco7XXlN97S/gpvL1MrljrbyQ6vbAF3yNunHrfZR6llrbeT
-6iyHfnTSQyCOHJC71cXkWHcadqfHJ9nAaXxk57J8jZAnhIzy/KNs4i8gK/KMkWBH
-2Gh1jlCOgCXMh9JagFblWcHj9JVaN9j+M4heGhtBNayj+fU4VD1lEKn9amloJrhZ
-+V/i04LNUfmZYyjQGay7NBD+M22JXyHROd/CiAnuIA0yFr7vYrs=
-=f6Ww
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1hBoYACgkQbDjKyiDZ
+s5KNBxAAvZysyb1j4lbg/TRdEUs5rGgU0o+Ub6ya//aG0knlKJCox9q7vFJJNcMl
+jHYFNqPI3CrYPTinrFMeSRgQ9u0BQstyztfrtJ2kvamw6PQq3SJcvQNgmUbixYxf
+kCUSlz7ZziYnEutV/t8qqjzn9DxaCPCGVcKn8OH9rOKZLP7a1TWgMX//filmu9qf
+xJzeC4wPeKlmtY/FnlHk15ZOsSvW9uklhJ53BP5kHN9wVy4TdMu8QEaa55oBTBDU
+Spk8JWH3LW0Pd3RzSMbDDSEVjG1u9kpSm/DlBgINFzna9fWSmf9OI7Li+jmHp18U
+i8pLNjITEI5TVznqQ5A3mNlf/zgcWnK2P76FGLA6Zg9236HoPXstQBKsO/f7azS8
+91gre7edzY355HgVcOdai8oRe2l3J8wdSu2ps/ZwrGMWW0Pi6y14vfL9dqT7RNVn
+Fp85W9IgLlZ/ffiFYmM4e3mJxX1DY0NcaQouNsHmU6Ky3h17aC1FBBUvi1FkquA7
+qUGw64g35n3BgnnYDmZRylqoRzYNpno0cH9nT4ViT9arXJC+TjyQmoixJG4FHS/P
+1A6S4194rkroyClx0BEW2PmsKLrgJqAGOn+lHI0SsAh8bGnVDMbYUiN+NvRPtgKV
+E8M43gnvffomGpTVCTF9x0GQEE+lwZy3Cmp5dyOZ+YD7IdbRL9w=
+=GJOV
 -----END PGP SIGNATURE-----
 
---3eH4Qcq5fItR5cpy--
+--BOhpupldhMlYbdva--
 
