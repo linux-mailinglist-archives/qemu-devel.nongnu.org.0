@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85D4A9C407
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Aug 2019 15:36:58 +0200 (CEST)
-Received: from localhost ([::1]:42534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31FE9C40B
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Aug 2019 15:40:13 +0200 (CEST)
+Received: from localhost ([::1]:42544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1shV-0004w7-7K
-	for lists+qemu-devel@lfdr.de; Sun, 25 Aug 2019 09:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40755)
+	id 1i1skf-0006Bt-2d
+	for lists+qemu-devel@lfdr.de; Sun, 25 Aug 2019 09:40:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41132)
  by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
- <3oo5iXQYKCjspXjbfadlldib.Zljnbjr-absbiklkdkr.lod@flex--sameid.bounces.google.com>)
- id 1i1sgB-0004SQ-GI
- for qemu-devel@nongnu.org; Sun, 25 Aug 2019 09:35:36 -0400
+ <3d49iXQYKChIAs4w0vy66y3w.u648w4C-vwDw3565y5C.69y@flex--sameid.bounces.google.com>)
+ id 1i1sja-0005kF-LO
+ for qemu-devel@nongnu.org; Sun, 25 Aug 2019 09:39:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from
- <3oo5iXQYKCjspXjbfadlldib.Zljnbjr-absbiklkdkr.lod@flex--sameid.bounces.google.com>)
- id 1i1sg9-0003vF-RI
- for qemu-devel@nongnu.org; Sun, 25 Aug 2019 09:35:35 -0400
-Received: from mail-qt1-x849.google.com ([2607:f8b0:4864:20::849]:49590)
+ <3d49iXQYKChIAs4w0vy66y3w.u648w4C-vwDw3565y5C.69y@flex--sameid.bounces.google.com>)
+ id 1i1sjZ-0006y4-HX
+ for qemu-devel@nongnu.org; Sun, 25 Aug 2019 09:39:06 -0400
+Received: from mail-vk1-xa4a.google.com ([2607:f8b0:4864:20::a4a]:48395)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from
- <3oo5iXQYKCjspXjbfadlldib.Zljnbjr-absbiklkdkr.lod@flex--sameid.bounces.google.com>)
- id 1i1sg9-0003tp-Fw
- for qemu-devel@nongnu.org; Sun, 25 Aug 2019 09:35:33 -0400
-Received: by mail-qt1-x849.google.com with SMTP id l17so14869360qtk.16
- for <qemu-devel@nongnu.org>; Sun, 25 Aug 2019 06:35:31 -0700 (PDT)
+ <3d49iXQYKChIAs4w0vy66y3w.u648w4C-vwDw3565y5C.69y@flex--sameid.bounces.google.com>)
+ id 1i1sjZ-0006ux-EK
+ for qemu-devel@nongnu.org; Sun, 25 Aug 2019 09:39:05 -0400
+Received: by mail-vk1-xa4a.google.com with SMTP id l3so6286077vkb.15
+ for <qemu-devel@nongnu.org>; Sun, 25 Aug 2019 06:39:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:subject:from:to:cc
  :content-transfer-encoding;
- bh=nRy5VaU5yHxoTxX90BU4AtUOsfsyL9jB3YWOcBS6Wd0=;
- b=DSsNB1iVfOs/cDNw4dJT8LsW5+VWsBipz/HHVb+Gn/PTjXpsoGMIR35YoqDn+Ud1Vh
- pPiBmei594Ge4TNWHPea7LiW9WqP9vPMh4tQ8RlAQ9CB6IG2/NPB9AiI2JfF5YjmMkTl
- wrypjJ5pN7Hzz4vTBETBUDzqVHnjsqc9hBz03S+O2Wn5qzaS2Jyiq+6cxKuubtzyAsS0
- nNVgDrtWyzxhm4zyUE6jxhnzFJe/e/QHQmBbJqX7bxnUd3erQXNouL8knn5Ma3dtKLQO
- XpNcAZnXzpGmw370kqGC6p2Ut/EPBnBmPfror5nYXDJOjVxUyN/gJIhb3wFYblaSICEH
- u88A==
+ bh=g7qkMlAlXmJE5OGAre+yPdwL+yzkW5Cktd2SxoDAaMQ=;
+ b=AsLXHT77hWFM79q2/kzmtt1pC5kqXZTrulXn3OlcqHMHhFo5Bac3JjZP6bhAwFQl+Z
+ nQxNj/zdtT41LaCPI6aAksGLlEGEFRza1NXIP/0G5s6oAsKiwjUgQ9CqrUQzDe8bk54n
+ pXqyDRhfsJ4frrVM7rBXvBHE2+oBvJ+UuFksKxat2kESS8Ydhw8mitG9mXJkmzJ/m3CS
+ uV6dMcDwOsT7HfIkVMqtjVyT2Dk2HW+UbyYaaKqzb/MCqYoBcf1/sKjdTHBroG6nItYy
+ y//HoECZM4A27gOc1WZucpaIz443sUgz02np9wNM+qkBAuLabA6v/raPy7aU56oobhrt
+ XlxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version:subject
  :from:to:cc:content-transfer-encoding;
- bh=nRy5VaU5yHxoTxX90BU4AtUOsfsyL9jB3YWOcBS6Wd0=;
- b=aT8DVYJw42AdJz2VyM9PgH4Jh7GbAlFvlimiMzYH9+Ib021ip1MaRB0R4tlD+xLfC1
- xmwKRA6+YH0sqcNUk/o1nJQpCJB3UIMkHBcZ7YDBu73k5Wr3X8IoRx2Lz9oL3PjRrQkX
- kaJWpxwdUEEf0605BJuuA7XKUQ96oymTpBseboLNU0oBiw7lFFk1/nqa8bK/UG9HwVXJ
- /28uOCmhy2Td+mKAKQZvyBJ050GxtSh8uMi84KB3I0ZSPNkEQjlAlNIKGHyxDXhWM1ko
- 7aOpsWn1bI0NVkoZQlgG3PN/jghanrK1l2HR1FGR+z5ZvE70Z0LYYCvSPMGkFpVMZCDD
- nBzQ==
-X-Gm-Message-State: APjAAAX7f1yypBDFf/i8228HLAg1EyTY3z15luFt9FkubLizJR8egXoT
- pMuB/nZUuQZbTXYgdjlxHMqmDRKWQnE=
-X-Google-Smtp-Source: APXvYqzev35jR+tqgVQKVgpIaeKZAqLBNLzFrXlkfkJov2432qEVHlkNOZPPkVMKpyVplX8G0yTZjTbzVcQ=
-X-Received: by 2002:ae9:ef06:: with SMTP id d6mr12304895qkg.157.1566740130907; 
- Sun, 25 Aug 2019 06:35:30 -0700 (PDT)
-Date: Sun, 25 Aug 2019 16:35:14 +0300
-In-Reply-To: <49d3db3b-5a66-c87d-8d78-157bd0201731@redhat.com>
-Message-Id: <20190825133514.237228-1-sameid@google.com>
+ bh=g7qkMlAlXmJE5OGAre+yPdwL+yzkW5Cktd2SxoDAaMQ=;
+ b=mE7UM8rchxl620vuBzHb9gnouyrPaKU1HD3As0W/MzmKvNmNF1w+Yv8aAGOhjWYACR
+ Us+MA8IYP9pZkJhgxw6t20iJ/o5pS9UgjOEUEt5sjTlZDUNk4k29jZFT4+WSRnryyA8B
+ QOnSH0qdkD3zUZcGgvx/UoB4H+VLVQqO0vKdJToAhokfrCfDIGtSZITbLYxxmGrfVEJF
+ iBNK4V9wJqQO8ngkG1299dAlMWUaDhN2CUuWJcDZq2PSI81CoGV2UyL6ge25opaOxnNa
+ vZrH6Bu9xUeTvMuWHPVbBvMUoRJU+g6vILgPqAKMI3dvpXwzYfd4yL9ZdkSA79xX2b0r
+ Pf2w==
+X-Gm-Message-State: APjAAAWHBulsiscjb6eX7UlM3ROxG3NheX5aAY4m+cHRBTpF0wduNPg4
+ mGti6UGdlOo1gHcQbyZROPWGMuciUT0=
+X-Google-Smtp-Source: APXvYqwaegjQEKft6jxnsJypqmpXMegBeqeYoM9zs43ICXdQ9ubeCyA6uej9O5lRn10XDCErM50YqH7d+tA=
+X-Received: by 2002:a1f:b511:: with SMTP id e17mr5596823vkf.86.1566740343715; 
+ Sun, 25 Aug 2019 06:39:03 -0700 (PDT)
+Date: Sun, 25 Aug 2019 16:38:58 +0300
+In-Reply-To: <8e54c29d-119b-e02b-8966-56fa7ea91f9e@redhat.com>
+Message-Id: <20190825133858.241842-1-sameid@google.com>
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
 To: Sam Eiderman <sameid@google.com>, kwolf@redhat.com, qemu-block@nongnu.org, 
@@ -65,9 +65,9 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::849
-Subject: Re: [Qemu-devel] [QEMU] [PATCH v5 4/8] scsi: Propagate unrealize()
- callback to scsi-hd
+X-Received-From: 2607:f8b0:4864:20::a4a
+Subject: Re: [Qemu-devel] [QEMU] [PATCH v5 5/8] bootdevice: Gather LCHS from
+ all relevant devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,37 +85,18 @@ Cc: liran.alon@oracle.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> @@ -213,11 +221,18 @@ static void scsi_qdev_realize(DeviceState *qdev, Er=
-ror **errp)
->  static void scsi_qdev_unrealize(DeviceState *qdev, Error **errp)
->  {
->      SCSIDevice *dev =3D SCSI_DEVICE(qdev);
-> +    Error *local_err =3D NULL;
+> Only scsi-hd has the lchs properties, though, so what=E2=80=99s the purpo=
+se of
+> defining the unrealize function for all other classes?
 >
->      if (dev->vmsentry) {
->          qemu_del_vm_change_state_handler(dev->vmsentry);
->      }
->
-> +    scsi_device_unrealize(dev, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +
->      scsi_device_purge_requests(dev, SENSE_CODE(NO_SENSE));
-
-(I see this code for the first time, but) I suppose I=E2=80=99d put the
-scsi_device_unrealize() after scsi_device_purge_requests().
-
-Max
-
->      blockdev_mark_auto_del(dev->conf.blk);
->  }
+> Max
 
 - shmuel.eiderman@oracle.com
 + sameid@google.com
 
-Sure, I'll resubmit
+The only purpose is to already have them mapped to the correct existing
+function, in case it will be used later on.
+I can resubmit without the unrealize for the other classes, WDYT?
 
 Sam
 
