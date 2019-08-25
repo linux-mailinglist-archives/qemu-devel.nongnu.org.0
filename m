@@ -2,72 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C0F9C0DC
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Aug 2019 00:58:58 +0200 (CEST)
-Received: from localhost ([::1]:39758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA3E9C216
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Aug 2019 06:48:51 +0200 (CEST)
+Received: from localhost ([::1]:40680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1ezo-0005h1-Ev
-	for lists+qemu-devel@lfdr.de; Sat, 24 Aug 2019 18:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44542)
+	id 1i1kSP-00044K-Ur
+	for lists+qemu-devel@lfdr.de; Sun, 25 Aug 2019 00:48:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48014)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nsoffer@redhat.com>) id 1i1eyr-0005BU-Eb
- for qemu-devel@nongnu.org; Sat, 24 Aug 2019 18:57:59 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i1kRH-0003WT-Aj
+ for qemu-devel@nongnu.org; Sun, 25 Aug 2019 00:47:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nsoffer@redhat.com>) id 1i1eyp-00037I-Ek
- for qemu-devel@nongnu.org; Sat, 24 Aug 2019 18:57:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35890)
+ (envelope-from <dgibson@ozlabs.org>) id 1i1kRF-00059v-M4
+ for qemu-devel@nongnu.org; Sun, 25 Aug 2019 00:47:38 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:58085)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1i1eyp-00034q-35
- for qemu-devel@nongnu.org; Sat, 24 Aug 2019 18:57:55 -0400
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0143281F01
- for <qemu-devel@nongnu.org>; Sat, 24 Aug 2019 22:57:53 +0000 (UTC)
-Received: by mail-ot1-f69.google.com with SMTP id k70so7502782otk.6
- for <qemu-devel@nongnu.org>; Sat, 24 Aug 2019 15:57:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WVPHhwQKA+ql5IsxsZSIXvTJPqAEZ2As4d3TJTr8PgI=;
- b=ByIqY5YKzVePqPtzHKAzQjxmga/tx7ung8ssbmhNCW4DTlqT4mwBL8vUan8YSaRvr0
- LcdkDid8AQs09nVl/jxvvytMF9v8Uij5Vqx7o0XoyE4qC2SSSaL1cwy5warIhqplUlRj
- v8Lt377YmGElXeq+V9w/M37GYjwNLHELDMNeAW13YdIXH/ZlKmxBJHAH1TW/jh1r/H0G
- v6oM+vdOqoOQYblmF9atjYTC+59OTUiKzd7s3cvHEIPeBiC2sWRQWLcuuGriRoOl9cnF
- 9Je96o7s/FKV/NW0bk78wXqD8W6TSFanWASkmrGJ9syxWRMaadoyQAQO4Tl2ggLvJ4DG
- Nmmg==
-X-Gm-Message-State: APjAAAWKn79SH2KJDA2ev229LD+G1CXMAgK95Aoff6DjcNr/0boDWPx9
- +pSVkGhuP2tEImcmNfYfcJQ0QYMfwySFlQcRkrf9nkAYK5jQSXrSlij4i53eLe4kvYd3zwO53Mh
- dhfKBduq7E4zSRixeZFtPU94T3RhUGo0=
-X-Received: by 2002:aca:1714:: with SMTP id j20mr7176563oii.135.1566687472411; 
- Sat, 24 Aug 2019 15:57:52 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxmvawwyCVxQOWL0FrTbplzHcmsblV/974GuCPpNImSr25Zpfu/HXJcaB3lJbMSwPkYp1hnvOW4u/ZSYYx0amY=
-X-Received: by 2002:aca:1714:: with SMTP id j20mr7176552oii.135.1566687472079; 
- Sat, 24 Aug 2019 15:57:52 -0700 (PDT)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1i1kRE-00057o-33; Sun, 25 Aug 2019 00:47:37 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46GN0d113vz9s7T; Sun, 25 Aug 2019 14:47:29 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1566708449;
+ bh=xxb/9PThA0Cd8x4fYRzuHvKWGhjdqtoVKvv9sOaQ5pc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iovdFVjolLAAD8AEDEsbvz4NJ/TI90WpXCRpXHk2DV0Kg9F2PIUVkj1bFreXixrl1
+ 517s8v86t6W9sggQBUTmLNis2SGVDqipdIKVNrAXOuu9q46GYuMNpIZtRrLcEDnrVV
+ Bsaae3pwmfXchLtXsx5zNHgpsov7xsq28zvcAeos=
+Date: Sun, 25 Aug 2019 11:03:10 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-ID: <20190825010310.GN3027@umbus.fritz.box>
+References: <20190719024555.18845-1-aik@ozlabs.ru>
+ <ae3e5bd1-c7dd-d893-5c0e-803f4e4f2325@linux.vnet.ibm.com>
+ <20190812100849.GF3947@umbus.fritz.box>
+ <3722a768-c8bb-ed04-e450-b18cba8e6296@linux.vnet.ibm.com>
+ <20190813141755.GN3947@umbus.fritz.box>
+ <a2edbfa3-85fe-6998-ce0c-b97898081822@linux.vnet.ibm.com>
+ <9639fb3c-1b26-925d-903e-961fc306674c@ozlabs.ru>
 MIME-Version: 1.0
-References: <20190816212122.8816-1-nsoffer@redhat.com>
- <86c147ef-9dd3-d35a-5005-ec53081196d7@redhat.com>
- <CAMRbyyt3Ku0Znpfx16FDqFTYbp5oJ1-9DnyxntHnArHsbR1ing@mail.gmail.com>
- <271a2dd3-9f2b-013d-896f-f4059c804967@redhat.com>
- <CAMRbyytxF8r9LoX4J_7ca2QPRtnpWgdTtyaKq=p=7ZaoMu-uug@mail.gmail.com>
- <e8db1edb-b1ee-8244-c772-8e08794181f0@redhat.com>
- <CAMRbyytObKSo+spkrQsTurybGJEndDTWP4UJgieP0nVw=CLmag@mail.gmail.com>
- <5a6cabf2-a284-9f63-da0e-96af26f8e0cd@redhat.com>
-In-Reply-To: <5a6cabf2-a284-9f63-da0e-96af26f8e0cd@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Sun, 25 Aug 2019 01:57:40 +0300
-Message-ID: <CAMRbyys_PgX0Lr27O_m6FZTDr3YFZ3LgnEsYhZk7KrV1ub5peg@mail.gmail.com>
-To: Max Reitz <mreitz@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH] block: posix: Always allocate the first
- block
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0aF+6pWUK5w8WdCh"
+Content-Disposition: inline
+In-Reply-To: <9639fb3c-1b26-925d-903e-961fc306674c@ozlabs.ru>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [Qemu-ppc] [GIT PULL for qemu-pseries REPOST]
+ pseries: Update SLOF firmware image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,87 +62,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Nir Soffer <nirsof@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Aravinda Prasad <aravinda@linux.vnet.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 23, 2019 at 8:53 PM Max Reitz <mreitz@redhat.com> wrote:
 
-> On 23.08.19 18:48, Nir Soffer wrote:
-> > On Fri, Aug 23, 2019 at 4:58 PM Max Reitz <mreitz@redhat.com
-> > <mailto:mreitz@redhat.com>> wrote:
->
-> [...]
->
-> >     If you have a format layer that truncates the image to a fixed size
-> and
-> >     does not write anything into the first block itself (say because it
-> uses
-> >     a footer), then (with O_DIRECT) allocate_first_block() will fail
-> >     (silently, because while it does return an error value, it is never
-> >     checked and there is no comment that explains why we don=E2=80=99t =
-check it)
-> >
-> >
-> > The motivation is that this is an optimization for the special case of
-> using
-> > empty image, so it does not worth failing image creation.
-> > I will add a comment about that.
->
-> Thanks!
->
-> [...]
->
-> > Thanks for the example.
-> >
-> > I will need time to play with blockdev and understand the flows when
-> image
-> > are created. Do you think is would be useful to fix now only image
-> creation
-> > via qemu-img, and handle blockdev later?
->
-> Well, it isn=E2=80=99t about blockdev, it=E2=80=99s simply about the fact=
- that this
-> function doesn=E2=80=99t work for O_DIRECT files.  I showed how to reprod=
-uce the
-> issue without blockdev (namely block_resize).  Sure, that is an edge
-> case, but it is a completely valid case.
->
-> Also, it seems to me the fix is rather simple.  Just something like:
->
-> static int allocate_first_block(int fd, int64_t max_size)
-> {
->     int write_size =3D MIN(max_size, MAX_BLOCKSIZE);
->     void *buf;
->     ssize_t n;
->
->     /* Round down to power of two */
->     assert(write_size > 0);
->     write_size =3D 1 << (31 - clz32(write_size));
->
->     buf =3D qemu_memalign(MAX(getpagesize(), write_size), write_size);
->     memset(buf, 0, write_size);
->
->     do {
->         n =3D pwrite(fd, buf, write_size, 0);
->     } while (n < 0 && errno =3D=3D EINTR);
->
->     qemu_vfree(buf);
->
->     return n < 0 ? -errno : 0;
-> }
->
-> Wouldn=E2=80=99t that work?
->
+--0aF+6pWUK5w8WdCh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sure, it should work.
+On Fri, Aug 23, 2019 at 02:09:44PM +1000, Alexey Kardashevskiy wrote:
+>=20
+>=20
+> On 14/08/2019 14:33, Aravinda Prasad wrote:
+> >=20
+> >=20
+> > On Tuesday 13 August 2019 07:47 PM, David Gibson wrote:
+> > > On Tue, Aug 13, 2019 at 01:00:24PM +0530, Aravinda Prasad wrote:
+> > > >=20
+> > > >=20
+> > > > On Monday 12 August 2019 03:38 PM, David Gibson wrote:
+> > > > > On Mon, Aug 05, 2019 at 02:14:39PM +0530, Aravinda Prasad wrote:
+> > > > > > Alexey/David,
+> > > > > >=20
+> > > > > > With the SLOF changes, QEMU cannot resize the RTAS blob. Resizi=
+ng is
+> > > > > > required for FWNMI support which extends the RTAS blob to inclu=
+de an
+> > > > > > error log upon a machine check.
+> > > > > >=20
+> > > > > > The check to valid RTAS buffer fails in the guest because the r=
+tas-size
+> > > > > > updated in QEMU is not reflecting in the guest.
+> > > > > >=20
+> > > > > > Any workaround for this?
+> > > > >=20
+> > > > > Well, we should still be able to do it, it just means fwnmi would=
+ need
+> > > > > a SLOF change.  It's an inconvenience, but not really a big deal.
+> > > >=20
+> > > > Yes. Alexey and I were discussing about the following changes to SL=
+Of:
+> > > >=20
+> > > > diff --git a/lib/libhvcall/hvcall.S b/lib/libhvcall/hvcall.S
+> > > > index b19f6dbeff2c..880d29a29122 100644
+> > > > --- a/lib/libhvcall/hvcall.S
+> > > > +++ b/lib/libhvcall/hvcall.S
+> > > > @@ -134,6 +134,7 @@ ENTRY(hv_rtas)
+> > > >          ori     r3,r3,KVMPPC_H_RTAS@l
+> > > >          HVCALL
+> > > >          blr
+> > > > +    .space 2048
+> > > >          .globl hv_rtas_size
+> > > >   hv_rtas_size:
+> > > >          .long . - hv_rtas;
+> > > >=20
+> > > >=20
+> > > > But this will statically reserve space for RTAS even when
+> > > > SPAPR_CAP_FWNMI_MCE is OFF.
+> > >=20
+> > > Sure.  We could flag that in the DT somehow, and have SLOF reserve the
+> > > space conditionally.
+> > >=20
+> > > Or we could just ignore it. 2 kiB is miniscule compared to our minimum
+> > > guest size, and our current RTAS is microscopic compared to PowerVM.
+> >=20
+> > I also think so, 2kiB is miniscule so we can allocate it statically.
+> >=20
+> > Alexey,
+> >=20
+> > Can you please include the above one line fix to SLOF?
+>=20
+>=20
+> I am thinking of:
+> =3D=3D=3D
+> @@ -132,20 +132,22 @@ ENTRY(hv_rtas)
+>  	mr	r4,r3
+>  	lis	r3,KVMPPC_H_RTAS@h
+>  	ori	r3,r3,KVMPPC_H_RTAS@l
+>  	HVCALL
+>  	blr
+> +	.space 2048 - (. - hv_rtas)
+>  	.globl hv_rtas_size
+>  hv_rtas_size:
+>  	.long . - hv_rtas;
+>=20
+>  ENTRY(hv_rtas_broken_sc1)
+>  	mr	r4,r3
+>  	lis	r3,KVMPPC_H_RTAS@h
+>  	ori	r3,r3,KVMPPC_H_RTAS@l
+>  	.long	0x7c000268
+>  	blr
+> +	.space 2048 - (. - hv_rtas_broken_sc1)
+>  	.globl hv_rtas_broken_sc1_size
+>  hv_rtas_broken_sc1_size:
+>  	.long . - hv_rtas_broken_sc1;
+> =3D=3D=3D
+>=20
+> to align the rtas blob to 2k precisely. But QEMU hardcoded
+> RTAS_ERROR_LOG_OFFSET bothers me a bit, I should probably put some sort o=
+f a
+> magic marker at which RTAS log can start.
+>=20
+> David, any thoughts? The marker could be as simple as a zero, for example.
 
-But I think we can make this simpler, always writing MIN(max_size,
-MAX_BLOCKSIZE).
+Eh, TBH I don't think an agreed upon magic marker has all that much
+advantage on an agreed upon offset.  Let's keep it simple and retain
+the fixed offset for now.  If that's ever a problem we'll need a
+synchronized qemu & SLOF update, but that's ok - that's an
+inconvenience, not a disaster.
 
-vdsm is enforcing now 4k alignment, and there is no way to create images
-with unaligned
-size. Maybe qemu should adapt this rule?
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Nir
+--0aF+6pWUK5w8WdCh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1h3k4ACgkQbDjKyiDZ
+s5J05g/9Fyu8f1E9YA+q+rsfKjUdUUU0jUGoWOU7Rolrq7P0gq9ayuX0Dvngtjnb
+6XvQe1Y1h4jNf+bWtoP3TjvZxR9NZ1gQCtiXZVw6p4aWsgXdtMdPTVxKGusCiA1O
+l1SL+ZgdNjZ54toC1EvbRoVrQxC31RMkWN/bgHtmASxxwjDyQdCjWBwg6RMofrcZ
+FW6BBTD2Q8dYfyX3MRfm6z8S2okgGRTc6yzQxmuR92CprPJ6eb/rmqykP7hPBWF9
+BVNkJP4RRaqVg65k7jNnfJhqcFO4f/fZ0W+RMWC9z8Eat3kixFExONiS9C/mEZER
+pEmrwe/PqDuHI4K7TT81Cri2EH4DVLtQ4OJKeoJB3iK+2/px+vifp5+p6Dqbx6Gq
+/eMN061ELm2RAi9NBzmHRvNIQHyoogV3x3T2J6vzW6ircmUhHRBC3NBkwDneavZP
+rqKGvNESvuSSJNXjBNCoQpHt8pIIzarYjTdE0Mg8G5UhSLgzdXYPVFKJ8TTsYcy8
+l9A6SJS71EOupfenLz2ykFzBaFtJaCeCGKEgipJh2Joa5Kt1XPPZU1t9h2bo2Q9A
++vHlLy01wOjVHTVayVmJ1UfPDHvFvBVLCM6+lwuvfSZL2eBKKmXyzD45qNx2uOJS
+4dZo8PrR68zgzH3zL/tvwGlh9KwWRId4EMBgXzJ5syECfdGZeD8=
+=KgwT
+-----END PGP SIGNATURE-----
+
+--0aF+6pWUK5w8WdCh--
+
