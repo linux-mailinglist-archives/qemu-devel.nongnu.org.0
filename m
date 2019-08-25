@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF7C9C5C5
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Aug 2019 21:08:13 +0200 (CEST)
-Received: from localhost ([::1]:46464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C569C5B5
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Aug 2019 21:01:11 +0200 (CEST)
+Received: from localhost ([::1]:46182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i1xs4-000704-GC
-	for lists+qemu-devel@lfdr.de; Sun, 25 Aug 2019 15:08:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57898)
+	id 1i1xlG-0000Jk-Hb
+	for lists+qemu-devel@lfdr.de; Sun, 25 Aug 2019 15:01:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57913)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i1xXV-0001R4-TQ
- for qemu-devel@nongnu.org; Sun, 25 Aug 2019 14:46:58 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i1xXW-0001SU-Mh
+ for qemu-devel@nongnu.org; Sun, 25 Aug 2019 14:46:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i1xXU-0004wQ-Nh
- for qemu-devel@nongnu.org; Sun, 25 Aug 2019 14:46:57 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:34191)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i1xXV-0004x3-Jp
+ for qemu-devel@nongnu.org; Sun, 25 Aug 2019 14:46:58 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:45179)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i1xXU-0004wC-EB
- for qemu-devel@nongnu.org; Sun, 25 Aug 2019 14:46:56 -0400
-Received: by mail-qt1-x842.google.com with SMTP id q4so15966567qtp.1
- for <qemu-devel@nongnu.org>; Sun, 25 Aug 2019 11:46:56 -0700 (PDT)
+ id 1i1xXV-0004wp-FH
+ for qemu-devel@nongnu.org; Sun, 25 Aug 2019 14:46:57 -0400
+Received: by mail-qt1-x843.google.com with SMTP id k13so15899108qtm.12
+ for <qemu-devel@nongnu.org>; Sun, 25 Aug 2019 11:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ECptL8lQSTguMqq/LB40663siPqUvdjJaVqTJAuQZkg=;
- b=ukbeSz1oPi0PIDpCS8VZigWW8EJ986rAkFWfUUnDa912W6hgumtSrPKDjbMCWg3pAi
- Ftfq2dwhe9W/cbxCPwvrxQKtoXXkoB/18sqTDE1h8y+/jhVwQPc2DPDMiiRpiRoBGj5O
- VaqZTAdLFl+S3uYabk3tofLpsCnG1UCxrBu4g5WnxYQmNEvslu//cmTPwVTZGcrsJpcs
- udYzHxZKImH5jySAx8U9twlqX+WmmvUCoiyBhzsZcgnPON9GHhkA8jRiY/oKRq/QzuDj
- VWVyARtmynXyF9+wAIGouP2Hh8prmo3Ua/SqSqF8ah5chlIp2joAMgUMvS4Rc1oIayCr
- sP9g==
+ bh=oup2xTgLOuc5pQrwdWdp2p8hzuUK4Bunh8yLJZfvb+Q=;
+ b=SNfnfncdOW66zji8f1KafYc+tq1eD81p6J8+EbVs9qn7SN3lBFCHvvXc6GQ3mowXwn
+ lZPWcW1gXUWVm1/wREp9iQxbyECcd9q+ug+79inKE765n2vunRyrFRZES/JJYJS7VFoQ
+ mApqUoqyNNE4EvTNGjaCHYow6Wfa7PShwB2gZ3zhw7aeawTmixk7wMSRBBKR7mGZY2uG
+ fCCnNVH67CYMWzU6Nya9FEtKJK8axAteSWHUn11VhpiVyFPpM6mN5au92J5gVRkX/w0/
+ 7AIRkFQpaOKWzb+CPQGDKcdacwBqBIbyh/QpqWgHujY8HkY+yPEN6JsG8xbkGZRjvMZ4
+ zfvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ECptL8lQSTguMqq/LB40663siPqUvdjJaVqTJAuQZkg=;
- b=oU/R2MrnvrxI1OFZOxLD098bcQVI/m85q/n/dx2dVfls6RF4+jj7GEJ8klCKLmqiuy
- ttLGKDpATlILM0O9qmXwoXjh0Pr/QR/eaMB3UOSW3RfmgLY2EN1Ap83+tr1p/ph3M78v
- u+Q3hBv1znMR+33zfQRGqHjl8l8vq5WuWeEi/HKTJT+o3YpyLGvZYWjttgzDBGxfFvnC
- LiMZdbwxk0oa2c9UslHP9+u4aNiS4eivP3qDt7dU1c3RlTQOtWpVLOuJi7kGLAqyJVrf
- POjnzwfsHs8lbgT/AwzmuG8v/X0WbXWAlHcgMXFjkE7ZAq/AZIqb5enXUwRh4oWgp+E9
- utDA==
-X-Gm-Message-State: APjAAAUje0rVJX9lGwS3EUwqy61u6Q/zbeKVxfGr/UQ1lv79yAU0abqw
- 8u9tCkwQlI5QeVtNEos3Iu3Vu5FMpcI=
-X-Google-Smtp-Source: APXvYqw6luoS+Pl3cqcPwfZ3U5BLP9SrE446xsh4ckXVzXeceik16Xb8N+y62tQAR2oUivAVJaFU+A==
-X-Received: by 2002:a0c:ee82:: with SMTP id u2mr12202963qvr.156.1566758815876; 
- Sun, 25 Aug 2019 11:46:55 -0700 (PDT)
+ bh=oup2xTgLOuc5pQrwdWdp2p8hzuUK4Bunh8yLJZfvb+Q=;
+ b=fgUUxLT6xB9wvEVF6JFCfcpbtowEGu6pvcWQaDgZkEsqmvNEem90r4YkzsV3x289n1
+ WQAeS0l1iwCMnrdP629z08eWxBlxiw14I9B8jGOs03b8gifsItaxuHH+TVYbzBo2j+E4
+ gaqQ8LfLSM+A4jRobWZcwUL0TsoaRVdX/DUoMMnvXslyxePT4HpjBAJHIwDwH3cx9WGC
+ k3NbiXc5aTm+KScpry5vNZ4S9ywNUShWH+W9Cy4MJ7/OJ8scvW4dNYRwuDUEdn69PGmz
+ qCHxTe8i7UyWuZ+V0o5W4i/rQpKOp0MimJhqQFSSWedrIJ18masLE3916plsGEw73bBw
+ oJNw==
+X-Gm-Message-State: APjAAAWj2fUBY56Q13rVjhxXwK7N/hsAAHEw0OQT72o9sOJ+LIhuO8Zu
+ dQdVgDej7w4faGewrNVcn+Ca3FyHwDk=
+X-Google-Smtp-Source: APXvYqyiyXQjvY+7teULzdtLqxxI1Lf6fPFe6LYTHfAViKosHMUezI5bmVWhn0kdq0PvJKUYZWYknA==
+X-Received: by 2002:a0c:b251:: with SMTP id k17mr12658518qve.132.1566758816916; 
+ Sun, 25 Aug 2019 11:46:56 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-61b1-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:61b1::5])
- by smtp.gmail.com with ESMTPSA id d3sm5348870qtq.32.2019.08.25.11.46.54
+ by smtp.gmail.com with ESMTPSA id d3sm5348870qtq.32.2019.08.25.11.46.56
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 25 Aug 2019 11:46:55 -0700 (PDT)
+ Sun, 25 Aug 2019 11:46:56 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sun, 25 Aug 2019 20:46:24 +0200
-Message-Id: <8ddd9c04b32fca07e3aa4f5a327bcb486a077b2c.1566755452.git.DirtY.iCE.hu@gmail.com>
+Date: Sun, 25 Aug 2019 20:46:25 +0200
+Message-Id: <f09fc2df16e0dba25fe1a514b817cb52f97c4c47.1566755452.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1566755452.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1566755452.git.DirtY.iCE.hu@gmail.com>
@@ -70,8 +70,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::842
-Subject: [Qemu-devel] [PATCH 22/25] paaudio: channel-map option
+X-Received-From: 2607:f8b0:4864:20::843
+Subject: [Qemu-devel] [PATCH 23/25] usb-audio: do not count on avail bytes
+ actually available
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,122 +84,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an option to change the channel map used by pulseaudio.  If not
-specified, falls back to an OSS compatible channel map.
+This assumption is no longer true when mixeng is turned off.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
- qapi/audio.json |  7 +++++--
- audio/paaudio.c | 18 ++++++++++++++----
- qemu-options.hx |  9 +++++++++
- 3 files changed, 28 insertions(+), 6 deletions(-)
+ hw/usb/dev-audio.c | 30 ++++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index dc7f9cb1e2..e9e040a156 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -214,13 +214,16 @@
- # @latency: latency you want PulseAudio to achieve in microseconds
- #           (default 15000)
- #
-+# @channel-map: channel map to use (default: OSS compatible map, since: 4.2)
-+#
- # Since: 4.0
- ##
- { 'struct': 'AudiodevPaPerDirectionOptions',
-   'base': 'AudiodevPerDirectionOptions',
-   'data': {
--    '*name': 'str',
--    '*latency': 'uint32' } }
-+    '*name':        'str',
-+    '*latency':     'uint32',
-+    '*channel-map': 'str' } }
- 
- ##
- # @AudiodevPaOptions:
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index 796890a3a5..4ce4f03c72 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -338,17 +338,27 @@ static pa_stream *qpa_simple_new (
-         pa_stream_direction_t dir,
-         const char *dev,
-         const pa_sample_spec *ss,
--        const pa_channel_map *map,
-+        const char *map,
-         const pa_buffer_attr *attr,
-         int *rerror)
+diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
+index ae42e5a2f1..74c99b1f12 100644
+--- a/hw/usb/dev-audio.c
++++ b/hw/usb/dev-audio.c
+@@ -319,30 +319,31 @@ static int streambuf_put(struct streambuf *buf, USBPacket *p)
  {
-     int r;
-     pa_stream *stream;
-     pa_stream_flags_t flags;
-+    pa_channel_map pa_map;
+     uint32_t free = buf->size - (buf->prod - buf->cons);
  
-     pa_threaded_mainloop_lock(c->mainloop);
- 
--    stream = pa_stream_new(c->context, name, ss, map);
-+    if (map && !pa_channel_map_parse(&pa_map, map)) {
-+        dolog("Invalid channel map specified: '%s'\n", map);
-+        map = NULL;
-+    }
-+    if (!map) {
-+        pa_channel_map_init_extend(&pa_map, ss->channels,
-+                                   PA_CHANNEL_MAP_OSS);
-+    }
-+
-+    stream = pa_stream_new(c->context, name, ss, &pa_map);
-     if (!stream) {
-         goto fail;
+-    if (!free) {
++    if (free < USBAUDIO_PACKET_SIZE) {
+         return 0;
      }
-@@ -421,7 +431,7 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
-         PA_STREAM_PLAYBACK,
-         ppdo->has_name ? ppdo->name : NULL,
-         &ss,
--        NULL,                   /* channel map */
-+        ppdo->has_channel_map ? ppdo->channel_map : NULL,
-         &ba,                    /* buffering attributes */
-         &error
-         );
-@@ -477,7 +487,7 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
-         PA_STREAM_RECORD,
-         ppdo->has_name ? ppdo->name : NULL,
-         &ss,
--        NULL,                   /* channel map */
-+        ppdo->has_channel_map ? ppdo->channel_map : NULL,
-         &ba,                    /* buffering attributes */
-         &error
-         );
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 8de6deb691..4eb4d6fe6d 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -471,6 +471,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
-     "-audiodev pa,id=id[,prop[=value][,...]]\n"
-     "                server= PulseAudio server address\n"
-     "                in|out.name= source/sink device name\n"
-+    "                in|out.channel-map= channel map to use\n"
- #endif
- #ifdef CONFIG_AUDIO_SDL
-     "-audiodev sdl,id=id[,prop[=value][,...]]\n"
-@@ -636,6 +637,14 @@ Sets the PulseAudio @var{server} to connect to.
- @item in|out.name=@var{sink}
- Use the specified source/sink for recording/playback.
- 
-+@item in|out.channel-map=@var{map}
-+Use the specified channel map.  The default is an OSS compatible
-+channel map.  Do not forget to escape commas inside the map:
+     if (p->iov.size != USBAUDIO_PACKET_SIZE) {
+         return 0;
+     }
+-    assert(free >= USBAUDIO_PACKET_SIZE);
 +
-+@example
-+-audiodev pa,id=example,sink.channel-map=front-left,,front-right
-+@end example
-+
- @end table
+     usb_packet_copy(p, buf->data + (buf->prod % buf->size),
+                     USBAUDIO_PACKET_SIZE);
+     buf->prod += USBAUDIO_PACKET_SIZE;
+     return USBAUDIO_PACKET_SIZE;
+ }
  
- @item -audiodev sdl,id=@var{id}[,@var{prop}[=@var{value}][,...]]
+-static uint8_t *streambuf_get(struct streambuf *buf)
++static uint8_t *streambuf_get(struct streambuf *buf, size_t *len)
+ {
+     uint32_t used = buf->prod - buf->cons;
+     uint8_t *data;
+ 
+     if (!used) {
++        *len = 0;
+         return NULL;
+     }
+-    assert(used >= USBAUDIO_PACKET_SIZE);
+     data = buf->data + (buf->cons % buf->size);
+-    buf->cons += USBAUDIO_PACKET_SIZE;
++    *len = MIN(buf->prod - buf->cons,
++               buf->size - (buf->cons % buf->size));
+     return data;
+ }
+ 
+@@ -374,16 +375,21 @@ static void output_callback(void *opaque, int avail)
+     USBAudioState *s = opaque;
+     uint8_t *data;
+ 
+-    for (;;) {
+-        if (avail < USBAUDIO_PACKET_SIZE) {
+-            return;
+-        }
+-        data = streambuf_get(&s->out.buf);
++    while (avail) {
++        size_t written, len;
++
++        data = streambuf_get(&s->out.buf, &len);
+         if (!data) {
+             return;
+         }
+-        AUD_write(s->out.voice, data, USBAUDIO_PACKET_SIZE);
+-        avail -= USBAUDIO_PACKET_SIZE;
++
++        written = AUD_write(s->out.voice, data, len);
++        avail -= written;
++        s->out.buf.cons += written;
++
++        if (written < len) {
++            return;
++        }
+     }
+ }
+ 
 -- 
 2.22.0
 
