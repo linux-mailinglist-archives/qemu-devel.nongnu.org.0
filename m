@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C1D9D729
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 22:02:38 +0200 (CEST)
-Received: from localhost ([::1]:57328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA459D730
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 22:06:12 +0200 (CEST)
+Received: from localhost ([::1]:57364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2LCG-0006mv-RW
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 16:02:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47155)
+	id 1i2LFj-0002Ii-UU
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 16:06:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48881)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i2L8z-0004vJ-5d
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:59:14 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i2LEU-0001Id-24
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 16:04:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i2L8y-0000lV-3s
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:59:13 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:34714)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i2LET-0004WU-08
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 16:04:53 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:37818)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i2L8x-0000lI-WD
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:59:12 -0400
-Received: by mail-qk1-x743.google.com with SMTP id m10so15125801qkk.1
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 12:59:11 -0700 (PDT)
+ id 1i2LES-0004WB-QP
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 16:04:52 -0400
+Received: by mail-qt1-x843.google.com with SMTP id y26so19205000qto.4
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 13:04:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ySokALVusjzAmJ3tB5VFUmu77Hw7Lnlmsc5ORnFHP8A=;
- b=D+fOjlIezy9+fjM3Cqvo66ZjSq/zVkiLsMnDeY9YNcYg2KuT0z0PrADoQynUIJDFB5
- Wvd5R6aPY5c5Z0D+K6j0n04t2JU46wedb64I1Wb5+GHty8rH5TInVtYdq8CpDNspEaga
- Xx7vaiebrm604bgTxizd4o6awLVG+aFqjKrI2o7Lk2ihvRbi8ZxzMFsUBnkmZKDHdf7O
- GXNIXsNGWXptHrqYOT5jNSRr/Z+JEMk/idchgW6LUQ0CTmKWKd7GZdsb47qmZo5XzTOg
- XCxNjguveTbg7gR58BJi+5Bxzk7qC8Phrb0p1evyCoF8eCIhuUmWip9Yi5OF9Nz8Q9Kd
- wtMw==
+ h=from:subject:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=d3BIuTEPbYOdMrpbP7UNRH36z//xHl4HV2kirQMHKjo=;
+ b=o/H939dQdh9CGVcTG5x1bhH10FklX4DDr5an/PLAWzg7oIjG+yOUlevWi9BmlLEdqR
+ DJhr6Wwd6Smp/xwI+vaikSh0LU2XnUNutwh5e2tq1tiECXfGp8/eO9tIi51EkWzEiwl+
+ e7VCZgAikcYnEkzEWhbwXXJJFlNuCBvrYec52gaVfYND0o4RBzM63xDk/Ky5EyWlL/F9
+ FtooO/eeDbxO1TrnQLVlWGN/9yT1+YeGIYeVwwA5xr3pbgRBy0HEkw+f9GT5tUGVTSyQ
+ DCY2moSkteU/xX1AIUPuUJtUJUPFHm8N07IqZrLK0Q1IhpRcyp26AJMpD2v0rbJsBMqg
+ W/+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ySokALVusjzAmJ3tB5VFUmu77Hw7Lnlmsc5ORnFHP8A=;
- b=D6YtCbcMXMFJ3w1p6Cnyt7arPSjQ2+FV4qBl5jfJ/s8fLAsPKMeIIVLCHBG4iQ7K1g
- eRMxG8S9ioZy7G76qIgBc8Av2ahymH3uUvD61AWr0zv7BFbmC5KzZBwKczYdzUVzf+yz
- ZEkrugPywsp8ygCiJOPWG69AwqrVNrdxg/MLVD6YK6tqsLcBLXXoajycwtoMzGetZXLA
- YSbSSXSY6Jxmje0ZfhZj271kMd4sA6zXZuPGq0wBsmYh4jxM+CHOfUx4fml4lw7+lAZ2
- GJMTMgulLRG8FSUtopRAPaXyMaCxrUHuWwaoJO/OUnodCTIbvPAMzZdpOGLnEikLjOrS
- wi9g==
-X-Gm-Message-State: APjAAAWSE/RaaenKBi29VI3pEIxACAEgXVRoe3+jC9KW5F32hzvhnswe
- ASy2OYSaZ6eUqPpzEIm74vLOPgzLdNc=
-X-Google-Smtp-Source: APXvYqzxGj4mWY++l6Nanz89PuP3eyoMxG8rOpU2SLE6fZzdEgRa3wgRzUiNERFIXAZhsWHF3i0Icw==
-X-Received: by 2002:a05:620a:1355:: with SMTP id
- c21mr17076321qkl.97.1566849551426; 
- Mon, 26 Aug 2019 12:59:11 -0700 (PDT)
-Received: from nullptr.home.dirty-ice.org
+ h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=d3BIuTEPbYOdMrpbP7UNRH36z//xHl4HV2kirQMHKjo=;
+ b=kdocccKQerh8dzI+Kw8xmVi/Z+nFSuxj4vjzxSv9giKP0VHRQlMPpYpzwJDSCcu6+G
+ aVCFs36Yhe+09s4af38FWXdI9ROQEoSz7OqLPlrTErWUAsMhAcSocB2mOYJfoQeqtC4m
+ ckQ5+CQL853+rZ8ZiBIHdCeDt3vsrlxOEuzHgs4quhgml0Y0mxh65MD+g1PdvFA1d2a4
+ vSVdUq4HFRTc3Ieob8rmiFJjRnTYWpkucumxXKn5OffcsJek/Wr6CYKkmx4tfT+WBvoE
+ iChCpJkL0az1VBt7IgYo3SWseUlNm3uTTANvnW9hlEXU/ANS+REXGtqMHKuKDQJX3kEe
+ Wmdw==
+X-Gm-Message-State: APjAAAUHBDPghqG8/7oCqJPFi/3Wq47vIGfo5Xl+S0ESVv6Gid/c8Iuk
+ 7G9t3TKEil67Pa+XfNqPcOs=
+X-Google-Smtp-Source: APXvYqztrwH20SjWSDYjK77GyinbH18A76LD0521CSzr8+heNZtsoLCHXbpephKlqZmZBlC77HdkFw==
+X-Received: by 2002:aed:3327:: with SMTP id u36mr18759705qtd.94.1566849892182; 
+ Mon, 26 Aug 2019 13:04:52 -0700 (PDT)
+Received: from ?IPv6:fd00:835b:d940:d4fc::5?
  (2a01-036c-0113-61b1-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:61b1::5])
- by smtp.gmail.com with ESMTPSA id v7sm6795459qte.86.2019.08.26.12.59.10
+ by smtp.googlemail.com with ESMTPSA id b18sm5565503qkc.112.2019.08.26.13.04.50
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 26 Aug 2019 12:59:11 -0700 (PDT)
-From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
- <dirty.ice.hu@gmail.com>
-X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
+ Mon, 26 Aug 2019 13:04:51 -0700 (PDT)
+From: "=?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=" <dirty.ice.hu@gmail.com>
+X-Google-Original-From: =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=
  <DirtY.iCE.hu@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 26 Aug 2019 21:59:04 +0200
-Message-Id: <43076a2afeb0439b607b0631e0bfff77d55bc0cc.1566847960.git.DirtY.iCE.hu@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <cover.1566847960.git.DirtY.iCE.hu@gmail.com>
-References: <cover.1566847960.git.DirtY.iCE.hu@gmail.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <cover.1566755452.git.DirtY.iCE.hu@gmail.com>
+ <76a0c0fda2f78cfb5f2234aa7e28073aa3e8bd95.1566755452.git.DirtY.iCE.hu@gmail.com>
+ <1e59409e-1754-543f-28e1-03db2b01d634@redhat.com>
+Message-ID: <90eee26d-ff1f-8ada-08ba-32ca1f27ae8e@gmail.com>
+Date: Mon, 26 Aug 2019 22:04:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <1e59409e-1754-543f-28e1-03db2b01d634@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::743
-Subject: [Qemu-devel] [PATCH v2 4/4] audio: paaudio: ability to specify
- stream name
+X-Received-From: 2607:f8b0:4864:20::843
+Subject: Re: [Qemu-devel] [PATCH 16/25] audio: add mixeng option
+ (documentation)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,68 +88,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This can be used to identify stream in tools like pavucontrol when one
-creates multiple -audiodevs or runs multiple qemu instances.
+On 2019-08-26 15:35, Eric Blake wrote:
+> On 8/25/19 1:46 PM, Kővágó, Zoltán wrote:
+>> This will allow us to disable mixeng when we use a decent backend.
+>>
+>> Disabling mixeng have a few advantages:
+>> * we no longer convert the audio output from one format to another, when
+>>   the underlying audio system would just convert it to a third format.
+>>   We no longer convert, only the underlying system, when needed.
+>> * the underlying system probably has better resampling and sample format
+>>   converting methods anyway...
+>> * we may support formats that the mixeng currently does not support (S24
+>>   or float samples, more than two channels)
+>> * when using an audio server (like pulseaudio) different sound card
+>>   outputs will show up as separate streams, even if we use only one
+>>   backend
+>>
+>> Disadvantages:
+>> * audio capturing no longer works (wavcapture, and vnc audio extension)
+>> * some backends only support a single playback stream or very picky
+>>   about the audio format.  In this case we can't disable mixeng.
+>>
+>> However mixeng is not removed, only made optional, so this shouldn't be
+>> a big concern.
+>>
+>> Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
+>> ---
+>>  qapi/audio.json | 5 +++++
+>>  qemu-options.hx | 6 ++++++
+>>  2 files changed, 11 insertions(+)
+>>
+>> diff --git a/qapi/audio.json b/qapi/audio.json
+>> index 9fefdf5186..dc7f9cb1e2 100644
+>> --- a/qapi/audio.json
+>> +++ b/qapi/audio.json
+>> @@ -11,6 +11,10 @@
+>>  # General audio backend options that are used for both playback and
+>>  # recording.
+>>  #
+>> +# @mixeng: use QEMU's mixing engine to mix all streams inside QEMU. When set to
+>> +#          off, fixed-settings must be also off. Not every backend compatible
+>> +#          with the off setting (default on, since 4.2)
+>> +#
+> 
+> 'mixeng' looks like an accidental typo, when 3 words later is 'mixing'.
+> Would 'mix-eng' or 'mix-engine' be more obvious?
 
-Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- qapi/audio.json | 6 ++++++
- audio/paaudio.c | 4 ++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
+I used the spelling used in audio/mixeng.c, if we treat it as a name
+then it should be simply 'mixeng'.  However I agree that it might not be
+too meaningful for users, so 'mixing-engine' would make more sense, even
+though it's a bit longer.
 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index 9fefdf5186..a433b3c9d7 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -206,6 +206,11 @@
- #
- # @name: name of the sink/source to use
- #
-+# @stream-name: name of the PulseAudio stream created by qemu.  Can be
-+#               used to identify the stream in PulseAudio when you
-+#               create multiple PulseAudio devices or run multiple qemu
-+#               instances (default "qemu", since 4.2)
-+#
- # @latency: latency you want PulseAudio to achieve in microseconds
- #           (default 15000)
- #
-@@ -215,6 +220,7 @@
-   'base': 'AudiodevPerDirectionOptions',
-   'data': {
-     '*name': 'str',
-+    '*stream-name': 'str',
-     '*latency': 'uint32' } }
- 
- ##
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index 777b8e4718..827f442b6e 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -562,7 +562,7 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
- 
-     pa->stream = qpa_simple_new (
-         c,
--        "qemu",
-+        ppdo->has_stream_name ? ppdo->stream_name : "qemu",
-         PA_STREAM_PLAYBACK,
-         ppdo->has_name ? ppdo->name : NULL,
-         &ss,
-@@ -630,7 +630,7 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
- 
-     pa->stream = qpa_simple_new (
-         c,
--        "qemu",
-+        ppdo->has_stream_name ? ppdo->stream_name : "qemu",
-         PA_STREAM_RECORD,
-         ppdo->has_name ? ppdo->name : NULL,
-         &ss,
--- 
-2.22.0
+> 
+> 
+>>  ##
+>>  { 'struct': 'AudiodevPerDirectionOptions',
+>>    'data': {
+>> +    '*mixeng':         'bool',
+>>      '*fixed-settings': 'bool',
+> 
+> And the very next member is an example that QAPI doesn't have to use
+> abbreviations.
+> 
 
+Regards,
+Zoltan
 
