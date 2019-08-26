@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E513E9C68B
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 01:35:05 +0200 (CEST)
-Received: from localhost ([::1]:48724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99D679C6D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 02:30:49 +0200 (CEST)
+Received: from localhost ([::1]:48834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i222K-0004yG-HJ
-	for lists+qemu-devel@lfdr.de; Sun, 25 Aug 2019 19:35:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43603)
+	id 1i22uG-0003P2-HP
+	for lists+qemu-devel@lfdr.de; Sun, 25 Aug 2019 20:30:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48752)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i221U-0004X4-6G
- for qemu-devel@nongnu.org; Sun, 25 Aug 2019 19:34:13 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i22sk-0002Tp-Jj
+ for qemu-devel@nongnu.org; Sun, 25 Aug 2019 20:29:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i221T-0003xk-1O
- for qemu-devel@nongnu.org; Sun, 25 Aug 2019 19:34:12 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:34951)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i22sj-0001zG-MD
+ for qemu-devel@nongnu.org; Sun, 25 Aug 2019 20:29:14 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40920)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i221S-0003wz-S3
- for qemu-devel@nongnu.org; Sun, 25 Aug 2019 19:34:10 -0400
-Received: by mail-qt1-x843.google.com with SMTP id u34so16344268qte.2
- for <qemu-devel@nongnu.org>; Sun, 25 Aug 2019 16:34:10 -0700 (PDT)
+ id 1i22sj-0001yD-En
+ for qemu-devel@nongnu.org; Sun, 25 Aug 2019 20:29:13 -0400
+Received: by mail-wr1-x442.google.com with SMTP id c3so13590495wrd.7
+ for <qemu-devel@nongnu.org>; Sun, 25 Aug 2019 17:29:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:subject:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+O6IBfmZuZ3cWAMdrT8zT818FPBJyiBkiRiYPDXhew0=;
- b=cez9CQKQgzLhNLkTUW8Q5SXwxs7bo+t5pdkRX8sMK2Drra4O/ZapB3/DfUZZO1cXCn
- 0iyfeB9DkOgsqO2Vx5rAAojOA2YRH4O8YfASut1UrqU3ZfALZicll7zpOLT0Q4WEvmIH
- M26LQf76jbw9WYWlx+yBQFY1EXfUBsEYXkHXnOPpKOy974dc097JcT66FA0YDQzNxkWM
- UMakatnWQr0U1oj0Of9JtnTX0JUbpWCKyuu+gZvWakiovqOwJgoQaUHF6m5G4z3da/vj
- GyCYp8ASAH+YB1Wekvs+8oG7M6L6Zd0hwe5GcnMEKV5ycXLPd0AHXRJH3iGforFdy47m
- Y6Og==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iuzhz3YlSSEZ1qULLWDfG2jNmKUN6q/tYh9r34j0TbQ=;
+ b=WxvZnuHCUzbw/TonCjLDGpepq2hQQtcY881oJ6YNVcx339C+BBatAhJPkuI2SNEqUP
+ VIZ/0fg1Dsqq52UkBIithzl/SgzDWj6o1zXElUTJtmpfZWb3WMiXId8mqnkmp9kQVe3H
+ ni/ZQ85ppm8jyO/eCVqWK3MGtOHCOHDjf6uIoD21drdq4jnNSme9lzQk/zevXdIPvwlR
+ LhOPlwXb8sV2juVR3KhF1o0AhEI/9tHhjYVX+RQnlibnj7sh7wmQKaPhByl15Qm7dJmg
+ D9iG8sJ2GYztP2pLhamSlPSpB/y6KtsYsQj4efpojM2roKDz/8MRm1AiSOUGtv662DUv
+ duZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=+O6IBfmZuZ3cWAMdrT8zT818FPBJyiBkiRiYPDXhew0=;
- b=iK8fB57ckPqaD0YKAOT726bvHYBCaUN/Kut/nTqVLzjRKj/vgmPXXeoNlSGY9NjOde
- zzYJnpLNd9nykrZmf0Tb9NJGqUhXVINMszEKmHKU3zuirmMaHY6J1kxZ8aRX83Gkc4DH
- gHhrHGPBSA50XWluIsfKb0TiJ4NFFi1CMd2QlRe3trPloT36o9z9ORHE61XWkQSeu/Am
- JBbTvXNkiipboC3UArzg0J11MFwYI8p/H1/4BojxcxEtdrQkoeqSKwPUXzVZ449AKYnP
- MOkVzfdf3MBw3/HdaXHtuVjJpzWO93pD7HO3GfhKmHmo+fdah5OpFmxBhLx2KVfZsgr+
- hiFA==
-X-Gm-Message-State: APjAAAW2b/KLiGL3TAXcw1hArORiU2vDjPLT/Y7cQxPF0z0UAEc2G/5C
- gea33nHfPN4wBdMiTV/zDJw=
-X-Google-Smtp-Source: APXvYqwgNgJTNZS6ik34zzbAE5xPgDtc9JnjauYFx+7f5PFxZMBgBxpC6xG4kiMrSJlzcOoUxbJMCw==
-X-Received: by 2002:aed:22b3:: with SMTP id p48mr13018152qtc.136.1566776050019; 
- Sun, 25 Aug 2019 16:34:10 -0700 (PDT)
-Received: from ?IPv6:fd00:835b:d940:d4fc:1::d3?
+ bh=iuzhz3YlSSEZ1qULLWDfG2jNmKUN6q/tYh9r34j0TbQ=;
+ b=nhHFnTjAtfAI/DBx2bMRyTYImkFDHKd1JXmpa6jZXPd3MWOp9e77C+A1MpIG2+J9Jv
+ Qcfk6fGfYbpYAM7CUMKiToLNEnTlCAwSOCnw3vTwjdYVhwiEOistM1VT8OaglUBqj7PE
+ vY3bnx48cLleyiS18TFtRVMuE3JsC8JkANYwiJM9KSMb9oME7+nVtHytITyeQQc8MalG
+ M3cB1zflwam77PBpozkuEIGUsUPyEBrtmBBJ3/Mg+dFfairKI7L3kwnyxXoGXO7NjWju
+ rnFajaoWwOfV0zWmH8a4PCmx4a/+lF+2Z2lqkvczUGh9QOrTJGARiKhs8ukq7KK6G8AE
+ sxiw==
+X-Gm-Message-State: APjAAAWJHYG2CycpdR68AnVeNyrSZpHN0xhpQYJETGiCukn/nQyMb9Y5
+ 8nW96Mxp+zp+72FS8bsg93t0iBtyx4o=
+X-Google-Smtp-Source: APXvYqzmkktGO41ZW7zXnvcfzeMcEe9Z/ihJ7YyioIuiEAEQw7Du3j06KaJPP37NYlWzqdP5vzf/Fw==
+X-Received: by 2002:adf:e5c4:: with SMTP id a4mr19625267wrn.87.1566779351495; 
+ Sun, 25 Aug 2019 17:29:11 -0700 (PDT)
+Received: from decltype.home.dirty-ice.org
  (2a01-036c-0113-61b1-0001-0000-0000-00d3.pool6.digikabel.hu.
  [2a01:36c:113:61b1:1::d3])
- by smtp.gmail.com with ESMTPSA id 20sm5256715qkg.59.2019.08.25.16.34.05
+ by smtp.gmail.com with ESMTPSA id c19sm8662339wml.13.2019.08.25.17.29.09
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 25 Aug 2019 16:34:09 -0700 (PDT)
-From: "=?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=" <dirty.ice.hu@gmail.com>
-X-Google-Original-From: =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=
+ Sun, 25 Aug 2019 17:29:10 -0700 (PDT)
+From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
+ <dirty.ice.hu@gmail.com>
+X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190821084113.1840-1-kraxel@redhat.com>
- <20190821084113.1840-8-kraxel@redhat.com>
- <01aadba9669734bfde832a01bb62f7746a57f905.camel@redhat.com>
- <cc1b515e-de9b-8bb0-d1e1-94f038420853@gmail.com>
- <813e5200e860b3615e5e827bb3a761b503ef1702.camel@redhat.com>
-Message-ID: <7d6c27a5-a09b-17b7-74c3-400fcfb10e4a@gmail.com>
-Date: Mon, 26 Aug 2019 01:34:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+To: qemu-devel@nongnu.org
+Date: Mon, 26 Aug 2019 02:29:06 +0200
+Message-Id: <cover.1566779143.git.DirtY.iCE.hu@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <813e5200e860b3615e5e827bb3a761b503ef1702.camel@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::843
-Subject: Re: [Qemu-devel] [PULL 07/15] audio: audiodev= parameters no longer
- optional when -audiodev present
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH 0/3] Audio: misc fixes for "Audio 20190821
+ patches"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,71 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Michael Walle <michael@walle.cc>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2019-08-26 00:15, Maxim Levitsky wrote:
-> On Sun, 2019-08-25 at 20:05 +0200, Zoltán Kővágó wrote:
->> On 2019-08-25 11:44, Maxim Levitsky wrote:
->>> On Wed, 2019-08-21 at 10:41 +0200, Gerd Hoffmann wrote:
->>>> From: Kővágó, Zoltán <dirty.ice.hu@gmail.com>
->>>>
->>>> This means you should probably stop using -soundhw (as it doesn't allow
->>>> you to specify any options) and add the device manually with -device.
->>>> The exception is pcspk, it's currently not possible to manually add it.
->>>> To use it with audiodev, use something like this:
->>>>
->>>>     -audiodev id=foo,... -global isa-pcspk.audiodev=foo -soundhw pcspk
->>>
->>> Hi!
->>
->> Hi,
->>
->>> There is one corner case this breaks.
->>> In qemu 4.1.0, there is no way to specify audiodev for a sound device, specifying it
->>> fails with error.
->>> So some of my machines have audiodev (which is miles better that using old env variables)
->>> but also have sound devices without audiodev reference since this wasn't supported.
->>>
->>>
->>> In what will be qemu 4.2, you must specify it, thus this kind of breaks backward compatibility.
->>> Maybe we can have audiodev reference optional for a version or two?
->>>
->>> This is just a minor itch, as otherwise the sound improvements are really good. The days
->>> of installing that old realtek driver are finally gone :-)
->>
->> Hmm, this is what happens when you split a patch series.  We could
->> either revert this patch, or alternatively turn the error messages into
->> warnings about using deprecated behavior.
-> Warning would be great in this case!
->>
->>> Another thing I noted, that there is no way for pulseaudio audiodev to specify the 'client name',
->>> it always shows up in pavucontrl as the socket path to the server. 
->>> Thus if I added two PA audiodevs, I can't really distinguish between them.
->>> The in|out.name= seems to specify the pulseaudio source/sink to connect to, which is not the same.
->>
->> We currently supply the constant "qemu" as a name to pa_stream_new.
->> While it's still not ideal, shouldn't this end up as a client name in
->> pulseaudio instead of a socket path?
-> 
-> Actually it seems that pulseaudio has two names supplied for each stream
-> Maybe stream name and application name?
-> 
-> This is how chromium playback looks versus qemu in pavucontrol and in gnome volume control.
-> 
-> https://imgur.com/a/I8HZhgx
-> 
-> I do notice that 'qemu' now, in pavucontrol though.
+Hi,
 
-I see.  We currently pass the server socket to pa_context_new instead of
-the client name.  I'll prepare a patch soon, thanks for the report!
+This series fixes two problems reported by Maxim Levitsky in relation of
+my multiple audio backend patch series, and a small feature request.
+
+Unfortunately I don't really use PulseAudio nowadays, so I haven't
+tested it other than making sure it compiles and connects to pa.
 
 Regards,
 Zoltan
+
+Kővágó, Zoltán (3):
+  audio: omitting audiodev= parameter is only deprecated
+  audio: paaudio: fix client name
+  audio: paaudio: ability to specify stream name
+
+ qemu-deprecated.texi | 7 +++++++
+ qapi/audio.json      | 6 ++++++
+ audio/audio.c        | 8 ++++----
+ audio/paaudio.c      | 6 +++---
+ 4 files changed, 20 insertions(+), 7 deletions(-)
+
+-- 
+2.22.0
+
 
