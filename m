@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D659D709
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 21:54:40 +0200 (CEST)
-Received: from localhost ([::1]:57286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593D29D705
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 21:53:15 +0200 (CEST)
+Received: from localhost ([::1]:57275 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2L4Z-0002wI-Nl
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 15:54:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46040)
+	id 1i2L3B-0001dI-29
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 15:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46016)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i2L2J-00017z-Na
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:52:20 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i2L2E-000160-9P
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:52:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i2L2I-00063C-Ny
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:52:19 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37517)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i2L2C-00061T-FM
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:52:14 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:40068)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i2L2I-00062x-Hj
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:52:18 -0400
-Received: by mail-oi1-x243.google.com with SMTP id b25so13111672oib.4
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 12:52:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wsQSsDSjnsZdMZjo0xkidElZrPufq2mB/NuD5hpzyXs=;
- b=yedh92U2qt1mqgFz9E39m85vTwfHGFBp+qOYfs2OohBGe72iKcAWC//hdrk72Oepcx
- 3EcV9WqR8/mhn41b1iAhrgj3mk4+Gag+0woPOuJcQ7+tQQ2a50JwkPcA81pLbFWGXaMt
- NFamtPhFKvJn3nXfJCFohcQrGPnOIziv85CKOSPktmIj+724DHcDH8hS5T1ydJXIaTwA
- yghYiy2MKO95xwzNvQgT0LdmAm68tf4k+hEETEdX/hpIgkTEpQkSSMSMXxeGPPQy1/o7
- TbTp5/G0zARlln8WK9mKYA+ij7+LXwp6MQeR2BGZfhtUniOws4aOVgq6Y1ghH2fHMSWw
- cCMA==
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1i2L2C-00061A-9s
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:52:12 -0400
+Received: by mail-ot1-x342.google.com with SMTP id c34so16391998otb.7
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 12:52:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=/FrBueZ97fqEdcSuHjL6ZAlO+OJARCeFd+EGMB+mQ2U=;
+ b=g9D3cGBtRzuqyJVTqh3pKEUxIlBBc8JaiADh6x5QGMPa9KRjCA8ktx2SSzpumBE7Lw
+ DTgfTB7Gy+puvO5rNzH5QJKjp/Qb7d7urUa2Ss3Qv2xGCsiglN7zwanqFsE9Tnqziyb3
+ hPeRxn+4XaXjgad8rLbijWp9fwTDKimJFru0FBKUFlUevgm5JSHPc6RTlmKolnfcjMdA
+ P0vJ+oYO/gvmTjAR2l4ms6wAXsb4Szi2f6t+9hhCe9rzmBRGO1Ted9oZd60OSRDhomES
+ o/QqctGU0qYmUoDzcIOPmN6FQGoZV/zJueMVuPzf/7+ZzEQFFuuHCTU5C2lCyHaRMJdT
+ zVcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
  :message-id:subject:to:cc;
- bh=wsQSsDSjnsZdMZjo0xkidElZrPufq2mB/NuD5hpzyXs=;
- b=S5XruKF7YWdX/wxXllMsot27HrCYXeC2ya4OjBrABvm5IBTUpoB2DxHAUlRUjbdTZJ
- w596+dUiccdt9gu185Z3BAqCDXdKBMFwWWcBc+614zaPfUpUR52pkPxSMXMoNPfbq95s
- HXvnD0sAU6xmgQ58hR7Rxn7VdoJ1pS290bLfBYEcM9Rr4WEBqkgRLCDXyB+CqAPU05hZ
- stZTe8oijNdIVacKQpLoI6hn76xOnVeqHfXQX6sSMuhAZoccId0B/fbUYU+vDjsFE/2T
- vAEnMtSd15lKU/SKR/iZ541HAaXLbCEHrIGrkr6gaNWljo25Zmcr3cRzIrvyh9KMzHp0
- +W+w==
-X-Gm-Message-State: APjAAAV6nQEEt1gijWKBPF9x2JaLOlXimAUusAM/ZJXJLfyXOTvrb+j0
- 8uKibugPNY6J+sTqUyfP5cKUZXj0w8DHxFTb0C+Sjw==
-X-Google-Smtp-Source: APXvYqwPuFHxRhQFkHlLNNUlVAod6baOc7X/wledYYYbsn7O0IC0ZfzYxZnudjyr+nkAZ8BL75lkVW3UXHG+2skCyGk=
-X-Received: by 2002:a54:4718:: with SMTP id k24mr13169665oik.146.1566849137740; 
- Mon, 26 Aug 2019 12:52:17 -0700 (PDT)
+ bh=/FrBueZ97fqEdcSuHjL6ZAlO+OJARCeFd+EGMB+mQ2U=;
+ b=IIoflVd9QQBKx4r1I40fKgq3QLa11TsBZV4mZuV/S9EGRAst7Wee9aSv4RPfq5Ol+4
+ 2m22tZQMPCRQ6DMuw/wVNGVR8MxOFN7GHV6KO9lixrPCxcMmKO/q95c2G+AGrnpnWft9
+ IDM7F/xFLqOwIAKlDhNZKBkKBBLY9zigAawJYHWaX3oGx4BNtrsKfXXx46zizDdqjH66
+ xc0usKzDpzp56pIzlBLOMS1PbInVPK3Cnf6U4zLNl52Oyysmeb0XQQzN4k3Jl+xbegDJ
+ kt15uZEvLJ1m1oWXp3fA3BzTQzBLeS5S0WvtLO7IiFVmRxbCLH5Med0G9vQr9wxuKZeM
+ Z/5w==
+X-Gm-Message-State: APjAAAU3etfqrRdOawomXnI9ZpO6tHSTR1jgc1RzwH4mdiC8lljTRS2N
+ 1co5l+retcdgCrUPhdBPkp5IOaT0d/edOV3lFuE=
+X-Google-Smtp-Source: APXvYqyzW8F08yvzBskcbSw0RghIIi2kv7EtFsOoyA7KvXkugynbZ230kLcoVB1iXjVXnehFOy6W5tpwx5u9bjYpyNg=
+X-Received: by 2002:a05:6830:4d6:: with SMTP id
+ s22mr283142otd.295.1566849131223; 
+ Mon, 26 Aug 2019 12:52:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190819213755.26175-1-richard.henderson@linaro.org>
- <20190819213755.26175-62-richard.henderson@linaro.org>
-In-Reply-To: <20190819213755.26175-62-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Aug 2019 20:52:06 +0100
-Message-ID: <CAFEAcA8N_X28ADZgoaWhj1wHjD5Rg48pfU+bYicZw4NmDW8DdA@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Mon, 26 Aug 2019 12:52:10
+ -0700 (PDT)
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Mon, 26 Aug 2019 12:52:10
+ -0700 (PDT)
+In-Reply-To: <CAL1e-=gf-DOrdfN__Bxbx+B5NKu71ZTCypGEekoFc05WDaQjbw@mail.gmail.com>
+References: <1564760158-27536-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <CAL1e-=hWc6G7Ob+LU7EWoY3LVBvABY2ky=RT28dSzqM=9O=OEA@mail.gmail.com>
+ <20190821210030.GH7077@habkost.net>
+ <CAL1e-=iZziwdyjJeaE-ZC2Rbjdmr_enYGBdK5zs4Lh0kN1DQOg@mail.gmail.com>
+ <CAL1e-=gf-DOrdfN__Bxbx+B5NKu71ZTCypGEekoFc05WDaQjbw@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Mon, 26 Aug 2019 21:52:10 +0200
+Message-ID: <CAL1e-=g_KkfW8tvWoyTSfFJYaq7XbUMHUZ9D4PmiPYfEaHQ0fQ@mail.gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH v2 61/68] target/arm: Convert T16,
- Conditional branches, Supervisor call
+X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH 0/2] tests/acceptance: Update MIPS Malta
+ ssh test
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,21 +83,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: cohuck@redhat.com, f4bug@amsat.org, qemu-devel@nongnu.org,
+ Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, amarkovic@wavecomp.com,
+ crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 19 Aug 2019 at 22:39, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+ping
+
+22.08.2019. 19.59, "Aleksandar Markovic" <aleksandar.m.mail@gmail.com> =D1=
+=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate.c | 26 +++-----------------------
->  target/arm/t16.decode  | 12 ++++++++++++
->  2 files changed, 15 insertions(+), 23 deletions(-)
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
-
+>
+> 22.08.2019. 05.15, "Aleksandar Markovic" <aleksandar.m.mail@gmail.com> =
+=D1=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> >
+> >
+> > 21.08.2019. 23.00, "Eduardo Habkost" <ehabkost@redhat.com> =D1=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> > >
+> > > On Wed, Aug 21, 2019 at 10:27:11PM +0200, Aleksandar Markovic wrote:
+> > > > 02.08.2019. 17.37, "Aleksandar Markovic" <
+aleksandar.markovic@rt-rk.com> =D1=98=D0=B5
+> > > > =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> > > > >
+> > > > > From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> > > > >
+> > > > > This little series improves linux_ssh_mips_malta.py, both in the
+sense
+> > > > > of code organization and in the sense of quantity of executed
+tests.
+> > > > >
+> > > >
+> > > > Hello, all.
+> > > >
+> > > > I am going to send a new version in few days, and I have a question
+for
+> > > > test team:
+> > > >
+> > > > Currently, the outcome of the script execition is either PASS:1
+FAIL:0 or
+> > > > PASS:0 FAIL:1. But the test actually consists of several subtests.
+Is there
+> > > > any way that this single Python script considers these subtests as
+separate
+> > > > tests (test cases), reporting something like PASS:12 FAIL:7? If
+yes, what
+> > > > would be the best way to achieve that?
+> > >
+> > > If you are talking about each test_*() method, they are already
+> > > treated like separate tests.  If you mean treating each
+> > > ssh_command_output_contains() call as a separate test, this might
+> > > be difficult.
+> > >
+> >
+> > Yes, I meant the latter one, individual code segments involving an
+invocation of ssh_command_output_contains() instance being treated as
+separate tests.
+> >
+>
+> Hello, Cleber,
+>
+> I am willing to rewamp python file structure if needed.
+>
+> The only thing I feel a little unconfortable is if I need to reboot the
+virtual machine for each case of ssh_command_output_contains().
+>
+> Grateful in advance,
+> Aleksandar
+>
+> > > Cleber, is there something already available in the Avocado API
+> > > that would help us report more fine-grained results inside each
+> > > test case?
+> > >
+> >
+> > Thanks, that would be a better way of expressing my question.
+> >
+> > >
+> > > >
+> > > > Thanks in advance,
+> > > > Aleksandar
+> > > >
+> > > > > Aleksandar Markovic (2):
+> > > > >   tests/acceptance: Refactor and improve reporting in
+> > > > >     linux_ssh_mips_malta.py
+> > > > >   tests/acceptance: Add new test cases in linux_ssh_mips_malta.py
+> > > > >
+> > > > >  tests/acceptance/linux_ssh_mips_malta.py | 81
+> > > > ++++++++++++++++++++++++++------
+> > > > >  1 file changed, 66 insertions(+), 15 deletions(-)
+> > > > >
+> > > > > --
+> > > > > 2.7.4
+> > > > >
+> > > > >
+> > >
+> > > --
+> > > Eduardo
