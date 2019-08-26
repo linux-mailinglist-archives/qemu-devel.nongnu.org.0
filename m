@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8735C9D122
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 15:55:05 +0200 (CEST)
-Received: from localhost ([::1]:53100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A274E9D12B
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 15:58:45 +0200 (CEST)
+Received: from localhost ([::1]:53138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2FSa-0001Il-1K
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 09:55:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37975)
+	id 1i2FW8-0005DI-6m
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 09:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38031)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i2FP3-0007tu-QH
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:51:31 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i2FPI-00081n-AU
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:51:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i2FOu-0006Hu-Br
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:51:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44880)
+ (envelope-from <mlevitsk@redhat.com>) id 1i2FPG-0006Oh-Ti
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:51:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39588)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i2FOs-0006GD-AZ; Mon, 26 Aug 2019 09:51:14 -0400
+ id 1i2FOv-0006I5-2z; Mon, 26 Aug 2019 09:51:17 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8B8DB300BE7F;
- Mon, 26 Aug 2019 13:51:13 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5D089308FB82;
+ Mon, 26 Aug 2019 13:51:16 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C65F85D721;
- Mon, 26 Aug 2019 13:51:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E628A5D6C8;
+ Mon, 26 Aug 2019 13:51:13 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 26 Aug 2019 16:50:50 +0300
-Message-Id: <20190826135103.22410-1-mlevitsk@redhat.com>
+Date: Mon, 26 Aug 2019 16:50:51 +0300
+Message-Id: <20190826135103.22410-2-mlevitsk@redhat.com>
+In-Reply-To: <20190826135103.22410-1-mlevitsk@redhat.com>
+References: <20190826135103.22410-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Mon, 26 Aug 2019 13:51:13 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Mon, 26 Aug 2019 13:51:16 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 00/13] RFC crypto/luks: preparation for
- encryption key managment
+Subject: [Qemu-devel] [PATCH v2 01/13] introduce g_autowipe
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,41 +63,93 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi!
+Marking a pointer with g_autowipe, will
+not only free it at the scope exit, but also
+erase the data it points to just prior to freeing it.
 
-This patch series is the refactoring/preparation part of the
-former patch series I had sent which adds support for luks
-key management.
+This is first attempt to implement this feature,
+as suggested by Daniel and Nir.
 
-I tried my best to address all the comments that were given
-during the review, and I would like to use that opportunity
-to thanks again for the review I was given.
+The things that need to be verified prior to merging this is
 
-Best regards,
-	Maxim Levitsky
+1. Can we just always use memset_s (defined in C++)
+ or some alternative.
 
-Maxim Levitsky (13):
-  introduce g_autowipe
-  block-crypto: misc refactoring
-  qcrypto-luks: rename some fields in QCryptoBlockLUKSHeader
-  qcrypto-luks: don't overwrite cipher_mode in header
-  qcrypto-luks: simplify masterkey and masterkey length
-  qcrypto-block: pass keyslot index rather that pointer to the keyslot
-  qcrypto-luks: use the parsed encryption settings in QCryptoBlockLUKS
-  qcrypto-luks: extract store and load header
-  qcrypto-block: extract check and parse header
-  qcrypto-luks: refactoring: extract store key function
-  qcrypto-luks: refactoring: simplify the math used for keyslot
-    locations
-  qcrypto-luks: use g_autowipe
-  qcrypto-luks: implement more rigorous header checking
+2. is it portable enought for us to use malloc_usable_size
+to get the size of malloced pointer in the autofree callback?
+This function is aviable in glibc (but no wrapper in glib).
 
- block/crypto.c      |   12 +-
- crypto/block-luks.c | 1046 +++++++++++++++++++++++++------------------
- include/autowipe.h  |   52 +++
- 3 files changed, 666 insertions(+), 444 deletions(-)
+Thanks for Daniel for the g_autowipe and to Nir for the
+information about the fact that plain memset is usually
+optimized away.
+
+Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Suggested-by: Nir Soffer <nsoffer@redhat.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ include/autowipe.h | 52 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
  create mode 100644 include/autowipe.h
 
+diff --git a/include/autowipe.h b/include/autowipe.h
+new file mode 100644
+index 0000000000..1ed4eaf3ba
+--- /dev/null
++++ b/include/autowipe.h
+@@ -0,0 +1,52 @@
++/*
++ * g_autowipe implementation for crypto secret wiping
++ *
++ * Copyright (c) 2019 Red Hat, Inc.
++ * Copyright (c) 2019 Maxim Levitsky
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it would be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++
++#include <stddef.h>
++#include <malloc.h>
++#include <glib.h>
++
++
++/*
++ * based on
++ * https://www.cryptologie.net/article/419/zeroing-memory-compiler-optim=
+izations-and-memset_s/
++ */
++
++static inline void memerase(void *pointer, size_t size)
++{
++#ifdef __STDC_LIB_EXT1__
++    memset_s(pointer, size, 0, size);
++#else
++    /*volatile used to force compiler to not optimize the code away*/
++    volatile unsigned char *p =3D pointer;
++    while (size--) {
++        *p++ =3D 0;
++    }
++#endif
++}
++
++static void g_autoptr_cleanup_generic_wipe_gfree(void *p)
++{
++    void **pp =3D (void **)p;
++    size_t size =3D malloc_usable_size(*pp);
++    memerase(*pp, size);
++    g_free(*pp);
++}
++
++#define g_autowipe _GLIB_CLEANUP(g_autoptr_cleanup_generic_wipe_gfree)
 --=20
 2.17.2
 
