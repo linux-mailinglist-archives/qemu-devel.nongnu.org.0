@@ -2,60 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C1F9D3BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 18:09:25 +0200 (CEST)
-Received: from localhost ([::1]:55276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140A59D39D
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 18:01:35 +0200 (CEST)
+Received: from localhost ([::1]:55080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2HYa-00052n-Ea
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 12:09:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35452)
+	id 1i2HQz-00071g-67
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 12:01:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i2HV6-0002bo-Bi
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 12:05:49 -0400
+ (envelope-from <mjt@tls.msk.ru>) id 1i2HNz-0005r3-Ps
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:58:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i2HV0-0003rs-GI
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 12:05:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39434)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i2HV0-0003q2-A0
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 12:05:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i2HUv-0005sq-H8
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 16:05:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7F8492E80C7
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 16:05:37 +0000 (UTC)
+ (envelope-from <mjt@tls.msk.ru>) id 1i2HNx-0008AB-6s
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:58:27 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:53593)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mjt@tls.msk.ru>) id 1i2HNw-00084X-6x
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:58:24 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 0AD7E415A8;
+ Mon, 26 Aug 2019 18:58:14 +0300 (MSK)
+Received: from [192.168.177.7] (wh.tls.msk.ru [192.168.177.7])
+ by tsrv.corpit.ru (Postfix) with ESMTP id E3B423C7;
+ Mon, 26 Aug 2019 18:58:13 +0300 (MSK)
+To: Li Qiang <liq3ea@163.com>, mst@redhat.com, kraxel@redhat.com
+References: <20190628161358.10400-1-liq3ea@163.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mjt@tls.msk.ru; prefer-encrypt=mutual; keydata=
+ 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 dCM=
+Message-ID: <6b610546-e7e3-45ec-b6d8-e6345d8c65e0@msgid.tls.msk.ru>
+Date: Mon, 26 Aug 2019 18:58:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Aug 2019 15:57:08 -0000
-From: Paul Clarke <pc@us.ibm.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 7-pc rth
-X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
-X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
-References: <156683160080.31851.8159878323909291412.malonedeb@soybean.canonical.com>
-Message-Id: <156683502854.32141.11207589947109873446.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19031";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 1ea3be905f74ec03fcf4b8304868e127994ef191
+In-Reply-To: <20190628161358.10400-1-liq3ea@163.com>
+Content-Type: text/plain; charset=koi8-r
+Content-Language: ru-RU
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1841442] Re: floating point emulation can fail to
- set FE_INEXACT
+X-Received-From: 86.62.121.231
+Subject: Re: [Qemu-devel] [PATCH] virtio-gpu: check if the resource already
+ exists in virtio_gpu_load()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,87 +130,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1841442 <1841442@bugs.launchpad.net>
+Cc: liq3ea@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Interesting. Did you run qemu-aarch64 on aarch64? If so, it may have
-been using "hardfloat".  I ran "qemu-system-ppc64" on x86_64 and "qemu-
-x86_64" on ppc64le to ensure I was using "softfloat".
+28.06.2019 19:13, Li Qiang wrote:
+> While loading virtio-gpu, the data can be malicious, we
+> should check if the resource already exists.
+> 
+> Signed-off-by: Li Qiang <liq3ea@163.com>
+> ---
+>  hw/display/virtio-gpu.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+> index 2b0f66b1d6..f1ebed9959 100644
+> --- a/hw/display/virtio-gpu.c
+> +++ b/hw/display/virtio-gpu.c
+> @@ -1002,6 +1002,11 @@ static int virtio_gpu_load(QEMUFile *f, void *opaque, size_t size,
+>  
+>      resource_id = qemu_get_be32(f);
+>      while (resource_id != 0) {
+> +        res = virtio_gpu_find_resource(g, resource_id);
+> +        if (res) {
+> +            return -EINVAL;
 
--- =
+  EEXIST?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1841442
-
-Title:
-  floating point emulation can fail to set FE_INEXACT
-
-Status in QEMU:
-  New
-
-Bug description:
-  Floating point emulation can fail to set FE_INEXACT in some
-  circumstances. This shows up quite often in glibc's "math" tests.  A
-  similar test is attached.
-
-  On ppc64le native:
-  --
-  $ gcc nextafter.c -o nextafter -lm
-  $ ./nextafter $(./nextafter)
-  0x0000000000000001 0.000000
-  0x0
-
-  0xa000000
-  FE_INEXACT FE_UNDERFLOW
-  0x0000000000000000 0.000000
-  --
-
-  On x86_64:
-  --
-  $ gcc nextafter.c -o nextafter -lm
-  $ ./nextafter $(./nextafter)
-  0x0000000000000001 0.000000
-  0x0
-
-  0x30
-  FE_INEXACT FE_UNDERFLOW =
-
-  0x0000000000000000 0.000000
-  --
-
-  Using qemu-system-ppc64
-  --
-  $ ./nextafter $(./nextafter)
-  0x0000000000000001 0.000000
-  0x0
-
-  0x8000000
-  FE_UNDERFLOW =
-
-  0x0000000000000000 0.000000
-  --
-
-  Using qemu-x86_64:
-  --
-  $ ./nextafter $(./nextafter)
-  0x0000000000000001 0.000000
-  0x0
-
-  0x0
-
-  0x0000000000000000 0.000000
-  --
-
-  QEMU versions vary, but not too much, and are pretty close to git HEAD:
-  - 586f3dced9 (HEAD -> master, origin/master, origin/HEAD) Merge remote-tr=
-acking branch 'remotes/cohuck/tags/s390x-20190822' into staging
-  - 864ab31 Update version for v4.1.0-rc4 release
-
-  Since the issue happens nearly identically on different targets, I
-  suspect the issue lies somewhere in fpu/softfloat.c.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1841442/+subscriptions
+/mjt
 
