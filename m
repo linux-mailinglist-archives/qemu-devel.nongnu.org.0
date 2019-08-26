@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D7F9D6D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 21:33:23 +0200 (CEST)
-Received: from localhost ([::1]:56990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EBCF9D6D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 21:34:58 +0200 (CEST)
+Received: from localhost ([::1]:57008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2Kjy-00019O-8b
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 15:33:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39259)
+	id 1i2KlV-0002sV-GC
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 15:34:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39306)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1i2Kb7-000874-0S
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:24:14 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1i2KbI-0008Kn-Gr
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:24:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1i2Kb4-0000Rb-BW
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:24:12 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:18361)
+ (envelope-from <kwankhede@nvidia.com>) id 1i2KbH-0000U1-B6
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:24:24 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:7983)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1i2Kb3-0000R9-Oi
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:24:10 -0400
+ id 1i2KbH-0000To-3j
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:24:23 -0400
 Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d6431da0000>; Mon, 26 Aug 2019 12:24:10 -0700
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d6431e60000>; Mon, 26 Aug 2019 12:24:22 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate102.nvidia.com (PGP Universal service);
- Mon, 26 Aug 2019 12:24:08 -0700
+ Mon, 26 Aug 2019 12:24:21 -0700
 X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Mon, 26 Aug 2019 12:24:08 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Aug
- 2019 19:24:08 +0000
+ by hqpgpgate102.nvidia.com on Mon, 26 Aug 2019 12:24:21 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Aug
+ 2019 19:24:21 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 26 Aug 2019 19:24:01 +0000
+ Transport; Mon, 26 Aug 2019 19:24:15 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Date: Tue, 27 Aug 2019 00:25:45 +0530
-Message-ID: <1566845753-18993-6-git-send-email-kwankhede@nvidia.com>
+Date: Tue, 27 Aug 2019 00:25:47 +0530
+Message-ID: <1566845753-18993-8-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1566845753-18993-1-git-send-email-kwankhede@nvidia.com>
 References: <1566845753-18993-1-git-send-email-kwankhede@nvidia.com>
@@ -46,20 +46,20 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1566847450; bh=t0m0/KZq+eedxu6mQvZ0GKVBlAAw38+09LX0dUohT/o=;
+ t=1566847463; bh=ky3f2uX7iY70D+zE35elXzKJwKwLZyaubsOYn3Y9tZI=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  Content-Type;
- b=LPs4uyD8r/SM1PiXHEbQJQr8iwBKLWibYJVUuR8sUrzMT0jn/LW3cUxeCeom9Ib4i
- Uq0wAs4X4WN2D1CFrxpFt51q1F+1un0JbYHtDU7uXVvUYyqR8G7QiG0Ow2vAtw53eD
- Fai0kXG6gZKgTs4tMNl+ovjAS/FerOaYVecyHqPGpHF+Vrhryx6xclkiMoKmK6R3uL
- ZAPV8ZIaITwUIUfYXbXdPsm/6eT8XVuo3s4ntOlX7ukE3idxqOeyACP3P9JdJJZelP
- dvdz2ZiJSiEKyzdmiOkT+EW1p+qiO4cD/Fq4JLT4EAyqdMUV1sYZZHbs5QCeOOiFFo
- oZniI3gnDqhqw==
+ b=qYpqMjNFyTN9EBL+E1B5FRqITV3RtACTchSOjEvw40cb0fXKG8eYs4jcr1n9+6pQZ
+ sa/w9PCdN7jsSFRoj+4fAbKgQxjVjx4fvHRMOPo0o1miJfmyg0pMpVqRlJcfIPgBH1
+ qhBJEEy3WWr8loAl9uDU1e/6y27P0kXZecphcAVShK2U3WGMsOOkbp6OiqR3ee014V
+ iBQT4w3nnc8rHdx/77d5jDMxiqhTxLNjkRDX7EfAbV7T5/z7WUBkekYK3B/L+hL7mO
+ 0/OjEv4tVsPqgcXIFJolY7qWlNFmtXLC5q+9/S+xVx4n8ZnM1cZZuRTRsRmTunZVZ0
+ Mh/N+WNmKXHiQ==
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
-X-Received-From: 216.228.121.64
-Subject: [Qemu-devel] [PATCH v8 05/13] vfio: Add migration region
- initialization and finalize function
+X-Received-From: 216.228.121.65
+Subject: [Qemu-devel] [PATCH v8 07/13] vfio: Add migration state change
+ notifier
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,224 +81,92 @@ Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Migration functions are implemented for VFIO_DEVICE_TYPE_PCI device in this
-  patch series.
-- VFIO device supports migration or not is decided based of migration region
-  query. If migration region query is successful and migration region
-  initialization is successful then migration is supported else migration is
-  blocked.
+Added migration state change notifier to get notification on migration state
+change. These states are translated to VFIO device state and conveyed to vendor
+driver.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 Reviewed-by: Neo Jia <cjia@nvidia.com>
 ---
- hw/vfio/Makefile.objs         |   2 +-
- hw/vfio/migration.c           | 140 ++++++++++++++++++++++++++++++++++++++++++
- hw/vfio/trace-events          |   3 +
- include/hw/vfio/vfio-common.h |  11 ++++
- 4 files changed, 155 insertions(+), 1 deletion(-)
- create mode 100644 hw/vfio/migration.c
+ hw/vfio/migration.c           | 28 ++++++++++++++++++++++++++++
+ hw/vfio/trace-events          |  1 +
+ include/hw/vfio/vfio-common.h |  1 +
+ 3 files changed, 30 insertions(+)
 
-diff --git a/hw/vfio/Makefile.objs b/hw/vfio/Makefile.objs
-index abad8b818c9b..36033d1437c5 100644
---- a/hw/vfio/Makefile.objs
-+++ b/hw/vfio/Makefile.objs
-@@ -1,4 +1,4 @@
--obj-y += common.o spapr.o
-+obj-y += common.o spapr.o migration.o
- obj-$(CONFIG_VFIO_PCI) += pci.o pci-quirks.o display.o
- obj-$(CONFIG_VFIO_CCW) += ccw.o
- obj-$(CONFIG_VFIO_PLATFORM) += platform.o
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-new file mode 100644
-index 000000000000..a1feeb7e1a5a
---- /dev/null
+index 83057d909d49..e97f1b0fe803 100644
+--- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -0,0 +1,140 @@
-+/*
-+ * Migration support for VFIO devices
-+ *
-+ * Copyright NVIDIA, Inc. 2019
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2. See
-+ * the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include <linux/vfio.h>
-+
-+#include "hw/vfio/vfio-common.h"
-+#include "cpu.h"
-+#include "migration/migration.h"
-+#include "migration/qemu-file.h"
-+#include "migration/register.h"
-+#include "migration/blocker.h"
-+#include "migration/misc.h"
-+#include "qapi/error.h"
-+#include "exec/ramlist.h"
-+#include "exec/ram_addr.h"
-+#include "pci.h"
-+#include "trace.h"
-+
-+static void vfio_migration_region_exit(VFIODevice *vbasedev)
+@@ -134,6 +134,26 @@ static void vfio_vmstate_change(void *opaque, int running, RunState state)
+     }
+ }
+ 
++static void vfio_migration_state_notifier(Notifier *notifier, void *data)
 +{
-+    VFIOMigration *migration = vbasedev->migration;
-+
-+    if (!migration) {
-+        return;
-+    }
-+
-+    if (migration->region.size) {
-+        vfio_region_exit(&migration->region);
-+        vfio_region_finalize(&migration->region);
-+    }
-+}
-+
-+static int vfio_migration_region_init(VFIODevice *vbasedev, int index)
-+{
-+    VFIOMigration *migration = vbasedev->migration;
-+    Object *obj = NULL;
-+    int ret = -EINVAL;
-+
-+    if (!vbasedev->ops || !vbasedev->ops->vfio_get_object) {
-+        return ret;
-+    }
-+
-+    obj = vbasedev->ops->vfio_get_object(vbasedev);
-+    if (!obj) {
-+        return ret;
-+    }
-+
-+    ret = vfio_region_setup(obj, vbasedev, &migration->region, index,
-+                            "migration");
-+    if (ret) {
-+        error_report("%s: Failed to setup VFIO migration region %d: %s",
-+                     vbasedev->name, index, strerror(-ret));
-+        goto err;
-+    }
-+
-+    if (!migration->region.size) {
-+        ret = -EINVAL;
-+        error_report("%s: Invalid region size of VFIO migration region %d: %s",
-+                     vbasedev->name, index, strerror(-ret));
-+        goto err;
-+    }
-+
-+    return 0;
-+
-+err:
-+    vfio_migration_region_exit(vbasedev);
-+    return ret;
-+}
-+
-+static int vfio_migration_init(VFIODevice *vbasedev,
-+                               struct vfio_region_info *info)
-+{
++    MigrationState *s = data;
++    VFIODevice *vbasedev = container_of(notifier, VFIODevice, migration_state);
 +    int ret;
 +
-+    vbasedev->migration = g_new0(VFIOMigration, 1);
++    trace_vfio_migration_state_notifier(vbasedev->name, s->state);
 +
-+    ret = vfio_migration_region_init(vbasedev, info->index);
-+    if (ret) {
-+        error_report("%s: Failed to initialise migration region",
-+                     vbasedev->name);
-+        g_free(vbasedev->migration);
-+        return ret;
-+    }
-+
-+    return 0;
-+}
-+
-+/* ---------------------------------------------------------------------- */
-+
-+int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
-+{
-+    struct vfio_region_info *info;
-+    Error *local_err = NULL;
-+    int ret;
-+
-+    ret = vfio_get_dev_region_info(vbasedev, VFIO_REGION_TYPE_MIGRATION,
-+                                   VFIO_REGION_SUBTYPE_MIGRATION, &info);
-+    if (ret) {
-+        goto add_blocker;
-+    }
-+
-+    ret = vfio_migration_init(vbasedev, info);
-+    if (ret) {
-+        goto add_blocker;
-+    }
-+
-+    trace_vfio_migration_probe(vbasedev->name, info->index);
-+    return 0;
-+
-+add_blocker:
-+    error_setg(&vbasedev->migration_blocker,
-+               "VFIO device doesn't support migration");
-+    ret = migrate_add_blocker(vbasedev->migration_blocker, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        error_free(vbasedev->migration_blocker);
-+    }
-+    return ret;
-+}
-+
-+void vfio_migration_finalize(VFIODevice *vbasedev)
-+{
-+    if (vbasedev->migration_blocker) {
-+        migrate_del_blocker(vbasedev->migration_blocker);
-+        error_free(vbasedev->migration_blocker);
-+    }
-+
-+    vfio_migration_region_exit(vbasedev);
-+
-+    if (vbasedev->migration) {
-+        g_free(vbasedev->migration);
++    switch (s->state) {
++    case MIGRATION_STATUS_CANCELLING:
++    case MIGRATION_STATUS_CANCELLED:
++    case MIGRATION_STATUS_FAILED:
++        ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_RUNNING,
++                       VFIO_DEVICE_STATE_SAVING | VFIO_DEVICE_STATE_RESUMING);
++        if (ret) {
++            error_report("%s: Failed to set state RUNNING", vbasedev->name);
++        }
 +    }
 +}
++
+ static int vfio_migration_init(VFIODevice *vbasedev,
+                                struct vfio_region_info *info)
+ {
+@@ -152,6 +172,9 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+     vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+                                                           vbasedev);
+ 
++    vbasedev->migration_state.notify = vfio_migration_state_notifier;
++    add_migration_state_change_notifier(&vbasedev->migration_state);
++
+     return 0;
+ }
+ 
+@@ -190,6 +213,11 @@ add_blocker:
+ 
+ void vfio_migration_finalize(VFIODevice *vbasedev)
+ {
++
++    if (vbasedev->migration_state.notify) {
++        remove_migration_state_change_notifier(&vbasedev->migration_state);
++    }
++
+     if (vbasedev->vm_state) {
+         qemu_del_vm_change_state_handler(vbasedev->vm_state);
+     }
 diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 8cdc27946cb8..191a726a1312 100644
+index 3d15bacd031a..69503228f20e 100644
 --- a/hw/vfio/trace-events
 +++ b/hw/vfio/trace-events
-@@ -143,3 +143,6 @@ vfio_display_edid_link_up(void) ""
- vfio_display_edid_link_down(void) ""
- vfio_display_edid_update(uint32_t prefx, uint32_t prefy) "%ux%u"
- vfio_display_edid_write_error(void) ""
-+
-+# migration.c
-+vfio_migration_probe(char *name, uint32_t index) " (%s) Region %d"
+@@ -148,3 +148,4 @@ vfio_display_edid_write_error(void) ""
+ vfio_migration_probe(char *name, uint32_t index) " (%s) Region %d"
+ vfio_migration_set_state(char *name, uint32_t state) " (%s) state %d"
+ vfio_vmstate_change(char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
++vfio_migration_state_notifier(char *name, int state) " (%s) state %d"
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 6ea4898c4d7e..f80e04e26e1f 100644
+index 15be0358845b..dcab8a4ae0f9 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -57,6 +57,12 @@ typedef struct VFIORegion {
-     uint8_t nr; /* cache the region number for debug */
- } VFIORegion;
- 
-+typedef struct VFIOMigration {
-+    VFIORegion region;
-+    uint64_t pending_bytes;
-+    QemuMutex lock;
-+} VFIOMigration;
-+
- typedef struct VFIOAddressSpace {
-     AddressSpace *as;
-     QLIST_HEAD(, VFIOContainer) containers;
-@@ -113,6 +119,8 @@ typedef struct VFIODevice {
-     unsigned int num_irqs;
-     unsigned int num_regions;
-     unsigned int flags;
-+    VFIOMigration *migration;
-+    Error *migration_blocker;
+@@ -125,6 +125,7 @@ typedef struct VFIODevice {
+     uint32_t device_state;
+     VMChangeStateEntry *vm_state;
+     int vm_running;
++    Notifier migration_state;
  } VFIODevice;
  
  struct VFIODeviceOps {
-@@ -204,4 +212,7 @@ int vfio_spapr_create_window(VFIOContainer *container,
- int vfio_spapr_remove_window(VFIOContainer *container,
-                              hwaddr offset_within_address_space);
- 
-+int vfio_migration_probe(VFIODevice *vbasedev, Error **errp);
-+void vfio_migration_finalize(VFIODevice *vbasedev);
-+
- #endif /* HW_VFIO_VFIO_COMMON_H */
 -- 
 2.7.0
 
