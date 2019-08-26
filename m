@@ -2,43 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 066449D36C
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 17:53:17 +0200 (CEST)
-Received: from localhost ([::1]:54972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C1F9D3BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 18:09:25 +0200 (CEST)
+Received: from localhost ([::1]:55276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2HIx-0000JS-HN
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 11:53:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60884)
+	id 1i2HYa-00052n-Ea
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 12:09:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35452)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i2HGN-00073E-JQ
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:50:39 -0400
+ (envelope-from <bounces@canonical.com>) id 1i2HV6-0002bo-Bi
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 12:05:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i2HGM-0004TK-Ev
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:50:35 -0400
-Received: from relay.sw.ru ([185.231.240.75]:44126)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1i2HGM-0004Ri-0f; Mon, 26 Aug 2019 11:50:34 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1i2HGJ-0006N5-DM; Mon, 26 Aug 2019 18:50:31 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Mon, 26 Aug 2019 18:50:28 +0300
-Message-Id: <1566834628-485525-7-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1566834628-485525-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1566834628-485525-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v6 6/6] iotests: extend sleeping time under
- Valgrind
+ (envelope-from <bounces@canonical.com>) id 1i2HV0-0003rs-GI
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 12:05:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39434)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i2HV0-0003q2-A0
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 12:05:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i2HUv-0005sq-H8
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 16:05:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7F8492E80C7
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 16:05:37 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 26 Aug 2019 15:57:08 -0000
+From: Paul Clarke <pc@us.ibm.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc rth
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
+References: <156683160080.31851.8159878323909291412.malonedeb@soybean.canonical.com>
+Message-Id: <156683502854.32141.11207589947109873446.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19031";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 1ea3be905f74ec03fcf4b8304868e127994ef191
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1841442] Re: floating point emulation can fail to
+ set FE_INEXACT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -47,38 +64,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
- andrey.shinkevich@virtuozzo.com, den@openvz.org, jsnow@redhat.com
+Reply-To: Bug 1841442 <1841442@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To synchronize the time when QEMU is running longer under the Valgrind,
-increase the sleeping time in the test 247.
+Interesting. Did you run qemu-aarch64 on aarch64? If so, it may have
+been using "hardfloat".  I ran "qemu-system-ppc64" on x86_64 and "qemu-
+x86_64" on ppc64le to ensure I was using "softfloat".
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/247 | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+-- =
 
-diff --git a/tests/qemu-iotests/247 b/tests/qemu-iotests/247
-index 546a794..c853b73 100755
---- a/tests/qemu-iotests/247
-+++ b/tests/qemu-iotests/247
-@@ -57,7 +57,11 @@ TEST_IMG="$TEST_IMG.4" _make_test_img $size
- {"execute":"block-commit",
-  "arguments":{"device":"format-4", "top-node": "format-2", "base-node":"format-0", "job-id":"job0"}}
- EOF
--sleep 1
-+if [ "${VALGRIND_QEMU}" == "y" ]; then
-+    sleep 10
-+else
-+    sleep 1
-+fi
- echo '{"execute":"quit"}'
- ) | $QEMU -qmp stdio -nographic -nodefaults \
-     -blockdev file,node-name=file-0,filename=$TEST_IMG.0,auto-read-only=on \
--- 
-1.8.3.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841442
 
+Title:
+  floating point emulation can fail to set FE_INEXACT
+
+Status in QEMU:
+  New
+
+Bug description:
+  Floating point emulation can fail to set FE_INEXACT in some
+  circumstances. This shows up quite often in glibc's "math" tests.  A
+  similar test is attached.
+
+  On ppc64le native:
+  --
+  $ gcc nextafter.c -o nextafter -lm
+  $ ./nextafter $(./nextafter)
+  0x0000000000000001 0.000000
+  0x0
+
+  0xa000000
+  FE_INEXACT FE_UNDERFLOW
+  0x0000000000000000 0.000000
+  --
+
+  On x86_64:
+  --
+  $ gcc nextafter.c -o nextafter -lm
+  $ ./nextafter $(./nextafter)
+  0x0000000000000001 0.000000
+  0x0
+
+  0x30
+  FE_INEXACT FE_UNDERFLOW =
+
+  0x0000000000000000 0.000000
+  --
+
+  Using qemu-system-ppc64
+  --
+  $ ./nextafter $(./nextafter)
+  0x0000000000000001 0.000000
+  0x0
+
+  0x8000000
+  FE_UNDERFLOW =
+
+  0x0000000000000000 0.000000
+  --
+
+  Using qemu-x86_64:
+  --
+  $ ./nextafter $(./nextafter)
+  0x0000000000000001 0.000000
+  0x0
+
+  0x0
+
+  0x0000000000000000 0.000000
+  --
+
+  QEMU versions vary, but not too much, and are pretty close to git HEAD:
+  - 586f3dced9 (HEAD -> master, origin/master, origin/HEAD) Merge remote-tr=
+acking branch 'remotes/cohuck/tags/s390x-20190822' into staging
+  - 864ab31 Update version for v4.1.0-rc4 release
+
+  Since the issue happens nearly identically on different targets, I
+  suspect the issue lies somewhere in fpu/softfloat.c.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841442/+subscriptions
 
