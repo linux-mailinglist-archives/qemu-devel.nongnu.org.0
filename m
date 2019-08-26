@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9389D15E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 16:08:47 +0200 (CEST)
-Received: from localhost ([::1]:53272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02759D14D
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 16:05:00 +0200 (CEST)
+Received: from localhost ([::1]:53230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2Ffq-0005Dc-0x
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 10:08:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38387)
+	id 1i2FcB-00023k-GO
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 10:04:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i2FQF-0000Ng-30
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:52:41 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i2FQJ-0000Vq-6y
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:52:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i2FQ6-0007P2-KH
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:52:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48782)
+ (envelope-from <mlevitsk@redhat.com>) id 1i2FQH-0007Uw-UY
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:52:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45020)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i2FQ3-0007M0-Jn; Mon, 26 Aug 2019 09:52:27 -0400
+ id 1i2FQE-0007Pl-4d; Mon, 26 Aug 2019 09:52:38 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E94F78666C;
- Mon, 26 Aug 2019 13:52:26 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7489D190C019;
+ Mon, 26 Aug 2019 13:52:31 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 812835D6C8;
- Mon, 26 Aug 2019 13:52:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4EEC55D6C8;
+ Mon, 26 Aug 2019 13:52:27 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 26 Aug 2019 16:51:02 +0300
-Message-Id: <20190826135103.22410-13-mlevitsk@redhat.com>
+Date: Mon, 26 Aug 2019 16:51:03 +0300
+Message-Id: <20190826135103.22410-14-mlevitsk@redhat.com>
 In-Reply-To: <20190826135103.22410-1-mlevitsk@redhat.com>
 References: <20190826135103.22410-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Mon, 26 Aug 2019 13:52:26 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Mon, 26 Aug 2019 13:52:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 12/13] qcrypto-luks: use g_autowipe
+Subject: [Qemu-devel] [PATCH v2 13/13] qcrypto-luks: implement more rigorous
+ header checking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,223 +61,84 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch makes the luks crypto driver use the g_autowipe to erase the master keys,
-and the passwords from the memory.
-
-Note that this is not a complete solution, since these keys are also present in the
-chipers, and in the secrets.
-
-Some of them still can be erased, at least at driver instance close.
+Check that keyslots don't overlap with the data,
+and check that keyslots don't overlap with each other.
+(this is done using naive O(n^2) nested loops,
+but since there are just 8 keyslots, this doesn't really matter.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- crypto/block-luks.c | 61 ++++++++++++++++-----------------------------
- 1 file changed, 22 insertions(+), 39 deletions(-)
+ crypto/block-luks.c | 46 +++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 44 insertions(+), 2 deletions(-)
 
 diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-index 6a43d97ce5..db0fb764b4 100644
+index db0fb764b4..fdf4c41f8a 100644
 --- a/crypto/block-luks.c
 +++ b/crypto/block-luks.c
-@@ -32,6 +32,7 @@
- #include "qemu/uuid.h"
- 
- #include "qemu/coroutine.h"
-+#include "autowipe.h"
- 
- /*
-  * Reference for the LUKS format implemented here is
-@@ -698,19 +699,18 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
+@@ -541,12 +541,12 @@ fail:
+ static int
+ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
  {
-     QCryptoBlockLUKS *luks = block->opaque;
-     QCryptoBlockLUKSKeySlot *slot = &luks->header.key_slots[slot_idx];
--    g_autofree uint8_t *splitkey = NULL;
-+    g_autowipe uint8_t *splitkey = NULL;
-     size_t splitkeylen;
--    g_autofree uint8_t *slotkey = NULL;
-+    g_autowipe uint8_t *slotkey = NULL;
-     g_autoptr(QCryptoCipher) cipher = NULL;
-     g_autoptr(QCryptoIVGen) ivgen = NULL;
-     Error *local_err = NULL;
-     uint64_t iters;
--    int ret = -1;
+-    int ret;
++    int ret = -EINVAL;
++    size_t i, j;
  
-     if (qcrypto_random_bytes(slot->salt,
-                              QCRYPTO_BLOCK_LUKS_SALT_LEN,
-                              errp) < 0) {
--        goto cleanup;
-+        return -1;
+     if (memcmp(luks->header.magic, qcrypto_block_luks_magic,
+                QCRYPTO_BLOCK_LUKS_MAGIC_LEN) != 0) {
+         error_setg(errp, "Volume is not in LUKS format");
+-        ret = -EINVAL;
+         goto fail;
      }
  
-     splitkeylen = luks->header.master_key_len * slot->stripes;
-@@ -728,14 +728,14 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
-                                        &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
--        goto cleanup;
-+        return -1;
+@@ -557,6 +557,48 @@ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
+         goto fail;
      }
  
-     if (iters > (ULLONG_MAX / iter_time)) {
-         error_setg_errno(errp, ERANGE,
-                          "PBKDF iterations %llu too large to scale",
-                          (unsigned long long)iters);
--        goto cleanup;
-+        return -1;
-     }
- 
-     /* iter_time was in millis, but count_iters reported for secs */
-@@ -745,7 +745,7 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
-         error_setg_errno(errp, ERANGE,
-                          "PBKDF iterations %llu larger than %u",
-                          (unsigned long long)iters, UINT32_MAX);
--        goto cleanup;
-+        return -1;
-     }
- 
-     slot->iterations =
-@@ -764,7 +764,7 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
-                        slot->iterations,
-                        slotkey, luks->header.master_key_len,
-                        errp) < 0) {
--        goto cleanup;
-+        return -1;
-     }
- 
- 
-@@ -777,7 +777,7 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
-                                 slotkey, luks->header.master_key_len,
-                                 errp);
-     if (!cipher) {
--        goto cleanup;
-+        return -1;
-     }
- 
-     ivgen = qcrypto_ivgen_new(luks->ivgen_alg,
-@@ -786,7 +786,7 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
-                               slotkey, luks->header.master_key_len,
-                               errp);
-     if (!ivgen) {
--        goto cleanup;
-+        return -1;
-     }
- 
-     /*
-@@ -802,7 +802,7 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
-                                masterkey,
-                                splitkey,
-                                errp) < 0) {
--        goto cleanup;
-+        return -1;
-     }
- 
-     /*
-@@ -815,7 +815,7 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
-                                             splitkey,
-                                             splitkeylen,
-                                             errp) < 0) {
--        goto cleanup;
-+        return -1;
-     }
- 
-     /* Write out the slot's master key material. */
-@@ -825,25 +825,16 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
-                   splitkey, splitkeylen,
-                   opaque,
-                   errp) != splitkeylen) {
--        goto cleanup;
-+        return -1;
-     }
- 
-     slot->active = QCRYPTO_BLOCK_LUKS_KEY_SLOT_ENABLED;
- 
-     if (qcrypto_block_luks_store_header(block,  writefunc, opaque, errp)) {
--        goto cleanup;
-+        return -1;
-     }
- 
--    ret = 0;
--
--cleanup:
--    if (slotkey) {
--        memset(slotkey, 0, luks->header.master_key_len);
--    }
--    if (splitkey) {
--        memset(splitkey, 0, splitkeylen);
--    }
--    return ret;
-+    return 0;
- }
- 
- /*
-@@ -868,9 +859,9 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
- {
-     QCryptoBlockLUKS *luks = block->opaque;
-     const QCryptoBlockLUKSKeySlot *slot = &luks->header.key_slots[slot_idx];
--    g_autofree uint8_t *splitkey = NULL;
-+    g_autowipe uint8_t *splitkey = NULL;
-     size_t splitkeylen;
--    g_autofree uint8_t *possiblekey = NULL;
-+    g_autowipe uint8_t *possiblekey = NULL;
-     ssize_t rv;
-     g_autoptr(QCryptoCipher) cipher = NULL;
-     uint8_t keydigest[QCRYPTO_BLOCK_LUKS_DIGEST_LEN];
-@@ -1059,8 +1050,8 @@ qcrypto_block_luks_open(QCryptoBlock *block,
- {
-     QCryptoBlockLUKS *luks = NULL;
-     int ret = 0;
--    g_autofree uint8_t *masterkey = NULL;
--    g_autofree char *password = NULL;
-+    g_autowipe uint8_t *masterkey = NULL;
-+    g_autowipe char *password = NULL;
- 
-     if (!(flags & QCRYPTO_BLOCK_OPEN_NO_IO)) {
-         if (!options->u.luks.key_secret) {
-@@ -1151,6 +1142,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-  fail:
-     qcrypto_block_free_cipher(block);
-     qcrypto_ivgen_free(block->ivgen);
++    /* Check all keyslots for corruption  */
++    for (i = 0 ; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; i++) {
 +
-     g_free(luks);
-     return ret;
- }
-@@ -1176,11 +1168,11 @@ qcrypto_block_luks_create(QCryptoBlock *block,
-     QCryptoBlockLUKS *luks;
-     QCryptoBlockCreateOptionsLUKS luks_opts;
-     Error *local_err = NULL;
--    g_autofree uint8_t *masterkey = NULL;
-+    g_autowipe uint8_t *masterkey = NULL;
-     size_t header_sectors;
-     size_t split_key_sectors;
-     size_t i;
--    g_autofree char *password;
-+    g_autowipe char *password;
-     const char *cipher_alg;
-     const char *cipher_mode;
-     const char *ivgen_alg;
-@@ -1445,23 +1437,14 @@ qcrypto_block_luks_create(QCryptoBlock *block,
-         goto error;
-      }
- 
--
--    memset(masterkey, 0, luks->header.master_key_len);
++        const QCryptoBlockLUKSKeySlot *slot1 = &luks->header.key_slots[i];
++        unsigned int start1 = slot1->key_offset_sector;
++        unsigned int len1 =
++            qcrypto_block_luks_splitkeylen_sectors(luks, slot1->stripes);
++
++        if (slot1->stripes == 0) {
++            error_setg(errp, "Keyslot %zu is corrupted (stripes == 0)", i);
++            goto fail;
++        }
++
++        if (slot1->active != QCRYPTO_BLOCK_LUKS_KEY_SLOT_DISABLED &&
++                slot1->active != QCRYPTO_BLOCK_LUKS_KEY_SLOT_ENABLED) {
++            error_setg(errp,
++                       "Keyslot %zu state (active/disable) is corrupted", i);
++            goto fail;
++        }
++
++        if (start1 + len1 > luks->header.payload_offset_sector) {
++            error_setg(errp,
++                       "Keyslot %zu is overlapping with the encrypted payload",
++                       i);
++            goto fail;
++        }
++
++        for (j = i + 1 ; j < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; j++) {
++            const QCryptoBlockLUKSKeySlot *slot2 = &luks->header.key_slots[j];
++            unsigned int start2 = slot2->key_offset_sector;
++            unsigned int len2 =
++                qcrypto_block_luks_splitkeylen_sectors(luks, slot2->stripes);
++
++            if (start1 + len1 > start2 && start2 + len2 > start1) {
++                error_setg(errp,
++                           "Keyslots %zu and %zu are overlapping in the header",
++                           i, j);
++                goto fail;
++            }
++        }
++
++    }
      return 0;
--
-  error:
--    if (masterkey) {
--        memset(masterkey, 0, luks->header.master_key_len);
--    }
--
-     qcrypto_block_free_cipher(block);
-     qcrypto_ivgen_free(block->ivgen);
--
-     g_free(luks);
-     return -1;
- }
- 
--
- static int qcrypto_block_luks_get_info(QCryptoBlock *block,
-                                        QCryptoBlockInfo *info,
-                                        Error **errp)
+ fail:
+     return ret;
 -- 
 2.17.2
 
