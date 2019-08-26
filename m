@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116809D123
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 15:55:19 +0200 (CEST)
-Received: from localhost ([::1]:53102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 571129D128
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 15:56:18 +0200 (CEST)
+Received: from localhost ([::1]:53106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2FSn-0001Xf-R9
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 09:55:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38046)
+	id 1i2FTl-0002iX-4F
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 09:56:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38069)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i2FPJ-00083N-Kw
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:51:42 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i2FPM-00085r-19
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:51:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i2FPI-0006Qm-KT
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:51:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37132)
+ (envelope-from <mlevitsk@redhat.com>) id 1i2FPJ-0006SL-UT
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:51:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50762)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i2FPD-0006J2-4b; Mon, 26 Aug 2019 09:51:35 -0400
+ id 1i2FPE-0006KT-NQ; Mon, 26 Aug 2019 09:51:36 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2D40B155E0;
- Mon, 26 Aug 2019 13:51:19 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id F3F14189DAD3;
+ Mon, 26 Aug 2019 13:51:21 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B78035D6C8;
- Mon, 26 Aug 2019 13:51:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 878245D6C8;
+ Mon, 26 Aug 2019 13:51:19 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 26 Aug 2019 16:50:52 +0300
-Message-Id: <20190826135103.22410-3-mlevitsk@redhat.com>
+Date: Mon, 26 Aug 2019 16:50:53 +0300
+Message-Id: <20190826135103.22410-4-mlevitsk@redhat.com>
 In-Reply-To: <20190826135103.22410-1-mlevitsk@redhat.com>
 References: <20190826135103.22410-1-mlevitsk@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Mon, 26 Aug 2019 13:51:19 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Mon, 26 Aug 2019 13:51:22 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 02/13] block-crypto: misc refactoring
+Subject: [Qemu-devel] [PATCH v2 03/13] qcrypto-luks: rename some fields in
+ QCryptoBlockLUKSHeader
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,67 +61,331 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* rename the write_func to create_write_func,
-  and init_func to create_init_func
-  this is  preparation for other write_func that will
-  be used to update the encryption keys.
-
-No functional changes
+* key_bytes -> master_key_len
+* payload_offset = payload_offset_sector (to emphasise that this isn't byte offset)
+* key_offset -> key_offset_sector - same as above for luks slots
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- block/crypto.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ crypto/block-luks.c | 91 +++++++++++++++++++++++----------------------
+ 1 file changed, 47 insertions(+), 44 deletions(-)
 
-diff --git a/block/crypto.c b/block/crypto.c
-index 7eb698774e..6e822c6e50 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -78,7 +78,7 @@ struct BlockCryptoCreateData {
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index 743949adbf..f12fa2d270 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -143,7 +143,7 @@ struct QCryptoBlockLUKSKeySlot {
+     /* salt for PBKDF2 */
+     uint8_t salt[QCRYPTO_BLOCK_LUKS_SALT_LEN];
+     /* start sector of key material */
+-    uint32_t key_offset;
++    uint32_t key_offset_sector;
+     /* number of anti-forensic stripes */
+     uint32_t stripes;
  };
-=20
-=20
--static ssize_t block_crypto_write_func(QCryptoBlock *block,
-+static ssize_t block_crypto_create_write_func(QCryptoBlock *block,
-                                        size_t offset,
-                                        const uint8_t *buf,
-                                        size_t buflen,
-@@ -96,8 +96,7 @@ static ssize_t block_crypto_write_func(QCryptoBlock *bl=
-ock,
-     return ret;
- }
-=20
--
--static ssize_t block_crypto_init_func(QCryptoBlock *block,
-+static ssize_t block_crypto_create_init_func(QCryptoBlock *block,
-                                       size_t headerlen,
-                                       void *opaque,
-                                       Error **errp)
-@@ -109,7 +108,8 @@ static ssize_t block_crypto_init_func(QCryptoBlock *b=
-lock,
-         return -EFBIG;
-     }
-=20
--    /* User provided size should reflect amount of space made
-+    /*
-+     * User provided size should reflect amount of space made
-      * available to the guest, so we must take account of that
-      * which will be used by the crypto header
+@@ -172,10 +172,10 @@ struct QCryptoBlockLUKSHeader {
+     char hash_spec[QCRYPTO_BLOCK_LUKS_HASH_SPEC_LEN];
+ 
+     /* start offset of the volume data (in 512 byte sectors) */
+-    uint32_t payload_offset;
++    uint32_t payload_offset_sector;
+ 
+     /* Number of key bytes */
+-    uint32_t key_bytes;
++    uint32_t master_key_len;
+ 
+     /* master key checksum after PBKDF2 */
+     uint8_t master_key_digest[QCRYPTO_BLOCK_LUKS_DIGEST_LEN];
+@@ -466,7 +466,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+      * then encrypted.
       */
-@@ -279,8 +279,8 @@ static int block_crypto_co_create_generic(BlockDriver=
-State *bs,
-     };
-=20
-     crypto =3D qcrypto_block_create(opts, NULL,
--                                  block_crypto_init_func,
--                                  block_crypto_write_func,
-+                                  block_crypto_create_init_func,
-+                                  block_crypto_create_write_func,
-                                   &data,
-                                   errp);
-=20
---=20
+     rv = readfunc(block,
+-                  slot->key_offset * QCRYPTO_BLOCK_LUKS_SECTOR_SIZE,
++                  slot->key_offset_sector * QCRYPTO_BLOCK_LUKS_SECTOR_SIZE,
+                   splitkey, splitkeylen,
+                   opaque,
+                   errp);
+@@ -584,8 +584,8 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
+     size_t i;
+     int rv;
+ 
+-    *masterkey = g_new0(uint8_t, luks->header.key_bytes);
+-    *masterkeylen = luks->header.key_bytes;
++    *masterkey = g_new0(uint8_t, luks->header.master_key_len);
++    *masterkeylen = luks->header.master_key_len;
+ 
+     for (i = 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
+         rv = qcrypto_block_luks_load_key(block,
+@@ -677,14 +677,14 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+     /* The header is always stored in big-endian format, so
+      * convert everything to native */
+     be16_to_cpus(&luks->header.version);
+-    be32_to_cpus(&luks->header.payload_offset);
+-    be32_to_cpus(&luks->header.key_bytes);
++    be32_to_cpus(&luks->header.payload_offset_sector);
++    be32_to_cpus(&luks->header.master_key_len);
+     be32_to_cpus(&luks->header.master_key_iterations);
+ 
+     for (i = 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
+         be32_to_cpus(&luks->header.key_slots[i].active);
+         be32_to_cpus(&luks->header.key_slots[i].iterations);
+-        be32_to_cpus(&luks->header.key_slots[i].key_offset);
++        be32_to_cpus(&luks->header.key_slots[i].key_offset_sector);
+         be32_to_cpus(&luks->header.key_slots[i].stripes);
+     }
+ 
+@@ -743,10 +743,11 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+         goto fail;
+     }
+ 
+-    cipheralg = qcrypto_block_luks_cipher_name_lookup(luks->header.cipher_name,
+-                                                      ciphermode,
+-                                                      luks->header.key_bytes,
+-                                                      &local_err);
++    cipheralg =
++        qcrypto_block_luks_cipher_name_lookup(luks->header.cipher_name,
++                                              ciphermode,
++                                              luks->header.master_key_len,
++                                              &local_err);
+     if (local_err) {
+         ret = -ENOTSUP;
+         error_propagate(errp, local_err);
+@@ -838,7 +839,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+     }
+ 
+     block->sector_size = QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
+-    block->payload_offset = luks->header.payload_offset *
++    block->payload_offset = luks->header.payload_offset_sector *
+         block->sector_size;
+ 
+     luks->cipher_alg = cipheralg;
+@@ -993,9 +994,11 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     strcpy(luks->header.cipher_mode, cipher_mode_spec);
+     strcpy(luks->header.hash_spec, hash_alg);
+ 
+-    luks->header.key_bytes = qcrypto_cipher_get_key_len(luks_opts.cipher_alg);
++    luks->header.master_key_len =
++        qcrypto_cipher_get_key_len(luks_opts.cipher_alg);
++
+     if (luks_opts.cipher_mode == QCRYPTO_CIPHER_MODE_XTS) {
+-        luks->header.key_bytes *= 2;
++        luks->header.master_key_len *= 2;
+     }
+ 
+     /* Generate the salt used for hashing the master key
+@@ -1008,9 +1011,9 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     }
+ 
+     /* Generate random master key */
+-    masterkey = g_new0(uint8_t, luks->header.key_bytes);
++    masterkey = g_new0(uint8_t, luks->header.master_key_len);
+     if (qcrypto_random_bytes(masterkey,
+-                             luks->header.key_bytes, errp) < 0) {
++                             luks->header.master_key_len, errp) < 0) {
+         goto error;
+     }
+ 
+@@ -1018,7 +1021,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     /* Setup the block device payload encryption objects */
+     if (qcrypto_block_init_cipher(block, luks_opts.cipher_alg,
+                                   luks_opts.cipher_mode, masterkey,
+-                                  luks->header.key_bytes, 1, errp) < 0) {
++                                  luks->header.master_key_len, 1, errp) < 0) {
+         goto error;
+     }
+ 
+@@ -1028,7 +1031,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     block->ivgen = qcrypto_ivgen_new(luks_opts.ivgen_alg,
+                                      ivcipheralg,
+                                      luks_opts.ivgen_hash_alg,
+-                                     masterkey, luks->header.key_bytes,
++                                     masterkey, luks->header.master_key_len,
+                                      errp);
+ 
+     if (!block->ivgen) {
+@@ -1040,7 +1043,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+      * key, in order to have 1 second of compute time used
+      */
+     iters = qcrypto_pbkdf2_count_iters(luks_opts.hash_alg,
+-                                       masterkey, luks->header.key_bytes,
++                                       masterkey, luks->header.master_key_len,
+                                        luks->header.master_key_salt,
+                                        QCRYPTO_BLOCK_LUKS_SALT_LEN,
+                                        QCRYPTO_BLOCK_LUKS_DIGEST_LEN,
+@@ -1080,7 +1083,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+      * valid master key
+      */
+     if (qcrypto_pbkdf2(luks_opts.hash_alg,
+-                       masterkey, luks->header.key_bytes,
++                       masterkey, luks->header.master_key_len,
+                        luks->header.master_key_salt,
+                        QCRYPTO_BLOCK_LUKS_SALT_LEN,
+                        luks->header.master_key_iterations,
+@@ -1093,7 +1096,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+ 
+     /* Although LUKS has multiple key slots, we're just going
+      * to use the first key slot */
+-    splitkeylen = luks->header.key_bytes * QCRYPTO_BLOCK_LUKS_STRIPES;
++    splitkeylen = luks->header.master_key_len * QCRYPTO_BLOCK_LUKS_STRIPES;
+     for (i = 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
+         luks->header.key_slots[i].active = i == 0 ?
+             QCRYPTO_BLOCK_LUKS_KEY_SLOT_ENABLED :
+@@ -1103,7 +1106,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+         /* This calculation doesn't match that shown in the spec,
+          * but instead follows the cryptsetup implementation.
+          */
+-        luks->header.key_slots[i].key_offset =
++        luks->header.key_slots[i].key_offset_sector =
+             (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
+              QCRYPTO_BLOCK_LUKS_SECTOR_SIZE) +
+             (ROUND_UP(DIV_ROUND_UP(splitkeylen, QCRYPTO_BLOCK_LUKS_SECTOR_SIZE),
+@@ -1124,7 +1127,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+                                        (uint8_t *)password, strlen(password),
+                                        luks->header.key_slots[0].salt,
+                                        QCRYPTO_BLOCK_LUKS_SALT_LEN,
+-                                       luks->header.key_bytes,
++                                       luks->header.master_key_len,
+                                        &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+@@ -1155,13 +1158,13 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     /* Generate a key that we'll use to encrypt the master
+      * key, from the user's password
+      */
+-    slotkey = g_new0(uint8_t, luks->header.key_bytes);
++    slotkey = g_new0(uint8_t, luks->header.master_key_len);
+     if (qcrypto_pbkdf2(luks_opts.hash_alg,
+                        (uint8_t *)password, strlen(password),
+                        luks->header.key_slots[0].salt,
+                        QCRYPTO_BLOCK_LUKS_SALT_LEN,
+                        luks->header.key_slots[0].iterations,
+-                       slotkey, luks->header.key_bytes,
++                       slotkey, luks->header.master_key_len,
+                        errp) < 0) {
+         goto error;
+     }
+@@ -1172,7 +1175,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+      */
+     cipher = qcrypto_cipher_new(luks_opts.cipher_alg,
+                                 luks_opts.cipher_mode,
+-                                slotkey, luks->header.key_bytes,
++                                slotkey, luks->header.master_key_len,
+                                 errp);
+     if (!cipher) {
+         goto error;
+@@ -1181,7 +1184,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     ivgen = qcrypto_ivgen_new(luks_opts.ivgen_alg,
+                               ivcipheralg,
+                               luks_opts.ivgen_hash_alg,
+-                              slotkey, luks->header.key_bytes,
++                              slotkey, luks->header.master_key_len,
+                               errp);
+     if (!ivgen) {
+         goto error;
+@@ -1193,7 +1196,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     splitkey = g_new0(uint8_t, splitkeylen);
+ 
+     if (qcrypto_afsplit_encode(luks_opts.hash_alg,
+-                               luks->header.key_bytes,
++                               luks->header.master_key_len,
+                                luks->header.key_slots[0].stripes,
+                                masterkey,
+                                splitkey,
+@@ -1217,7 +1220,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+      * slot headers, rounded up to the nearest sector, combined with
+      * the size of each master key material region, also rounded up
+      * to the nearest sector */
+-    luks->header.payload_offset =
++    luks->header.payload_offset_sector =
+         (QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
+          QCRYPTO_BLOCK_LUKS_SECTOR_SIZE) +
+         (ROUND_UP(DIV_ROUND_UP(splitkeylen, QCRYPTO_BLOCK_LUKS_SECTOR_SIZE),
+@@ -1226,7 +1229,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+          QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS);
+ 
+     block->sector_size = QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
+-    block->payload_offset = luks->header.payload_offset *
++    block->payload_offset = luks->header.payload_offset_sector *
+         block->sector_size;
+ 
+     /* Reserve header space to match payload offset */
+@@ -1239,14 +1242,14 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     /* Everything on disk uses Big Endian, so flip header fields
+      * before writing them */
+     cpu_to_be16s(&luks->header.version);
+-    cpu_to_be32s(&luks->header.payload_offset);
+-    cpu_to_be32s(&luks->header.key_bytes);
++    cpu_to_be32s(&luks->header.payload_offset_sector);
++    cpu_to_be32s(&luks->header.master_key_len);
+     cpu_to_be32s(&luks->header.master_key_iterations);
+ 
+     for (i = 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
+         cpu_to_be32s(&luks->header.key_slots[i].active);
+         cpu_to_be32s(&luks->header.key_slots[i].iterations);
+-        cpu_to_be32s(&luks->header.key_slots[i].key_offset);
++        cpu_to_be32s(&luks->header.key_slots[i].key_offset_sector);
+         cpu_to_be32s(&luks->header.key_slots[i].stripes);
+     }
+ 
+@@ -1263,14 +1266,14 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     /* Byte swap the header back to native, in case we need
+      * to read it again later */
+     be16_to_cpus(&luks->header.version);
+-    be32_to_cpus(&luks->header.payload_offset);
+-    be32_to_cpus(&luks->header.key_bytes);
++    be32_to_cpus(&luks->header.payload_offset_sector);
++    be32_to_cpus(&luks->header.master_key_len);
+     be32_to_cpus(&luks->header.master_key_iterations);
+ 
+     for (i = 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
+         be32_to_cpus(&luks->header.key_slots[i].active);
+         be32_to_cpus(&luks->header.key_slots[i].iterations);
+-        be32_to_cpus(&luks->header.key_slots[i].key_offset);
++        be32_to_cpus(&luks->header.key_slots[i].key_offset_sector);
+         be32_to_cpus(&luks->header.key_slots[i].stripes);
+     }
+ 
+@@ -1282,7 +1285,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     /* Write out the master key material, starting at the
+      * sector immediately following the partition header. */
+     if (writefunc(block,
+-                  luks->header.key_slots[0].key_offset *
++                  luks->header.key_slots[0].key_offset_sector *
+                   QCRYPTO_BLOCK_LUKS_SECTOR_SIZE,
+                   splitkey, splitkeylen,
+                   opaque,
+@@ -1296,17 +1299,17 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     luks->ivgen_hash_alg = luks_opts.ivgen_hash_alg;
+     luks->hash_alg = luks_opts.hash_alg;
+ 
+-    memset(masterkey, 0, luks->header.key_bytes);
+-    memset(slotkey, 0, luks->header.key_bytes);
++    memset(masterkey, 0, luks->header.master_key_len);
++    memset(slotkey, 0, luks->header.master_key_len);
+ 
+     return 0;
+ 
+  error:
+     if (masterkey) {
+-        memset(masterkey, 0, luks->header.key_bytes);
++        memset(masterkey, 0, luks->header.master_key_len);
+     }
+     if (slotkey) {
+-        memset(slotkey, 0, luks->header.key_bytes);
++        memset(slotkey, 0, luks->header.master_key_len);
+     }
+ 
+     qcrypto_block_free_cipher(block);
+@@ -1346,7 +1349,7 @@ static int qcrypto_block_luks_get_info(QCryptoBlock *block,
+         slots->value = slot = g_new0(QCryptoBlockInfoLUKSSlot, 1);
+         slot->active = luks->header.key_slots[i].active ==
+             QCRYPTO_BLOCK_LUKS_KEY_SLOT_ENABLED;
+-        slot->key_offset = luks->header.key_slots[i].key_offset
++        slot->key_offset = luks->header.key_slots[i].key_offset_sector
+              * QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
+         if (slot->active) {
+             slot->has_iters = true;
+-- 
 2.17.2
 
 
