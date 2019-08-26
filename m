@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024CF9D18D
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 16:23:05 +0200 (CEST)
-Received: from localhost ([::1]:53538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944379D1A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 16:26:48 +0200 (CEST)
+Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2Ftf-0006Ue-K3
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 10:23:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42653)
+	id 1i2FxH-0001i8-C6
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 10:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42817)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1i2Fpb-0004Qw-C0
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 10:18:52 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1i2Fpx-0004aG-DQ
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 10:19:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1i2Fpa-0008Ox-0K
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 10:18:51 -0400
-Received: from nsstlmta31p.bpe.bigpond.com ([203.38.21.31]:53343)
+ (envelope-from <tony.nguyen@bt.com>) id 1i2Fpt-0000TU-O0
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 10:19:11 -0400
+Received: from nsstlmta19p.bpe.bigpond.com ([203.38.21.19]:47262)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1i2FpY-0008K4-Uw; Mon, 26 Aug 2019 10:18:49 -0400
+ (Exim 4.71) (envelope-from <tony.nguyen@bt.com>) id 1i2Fpr-0000KH-Nf
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 10:19:09 -0400
 Received: from smtp.telstra.com ([10.10.24.4])
- by nsstlfep31p-svc.bpe.nexus.telstra.com.au with ESMTP id
- <20190826141842.ITCV30018.nsstlfep31p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
- Tue, 27 Aug 2019 00:18:42 +1000
+ by nsstlfep19p-svc.bpe.nexus.telstra.com.au with ESMTP id
+ <20190826141902.LWAR20367.nsstlfep19p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
+ Tue, 27 Aug 2019 00:19:02 +1000
 X-RG-Spam: Unknown
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudehgedgjeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuuffpveftpgfvgffnuffvtfetpdfqfgfvnecuuegrihhlohhuthemucegtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepvfhonhihucfpghhuhigvnhcuoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecukfhppeehkedrudejfedrleekrdeikeenucfrrghrrghmpehhvghlohepuggsiidrthgvlhhsthhrrgdrtghomhdrrghupdhinhgvthepheekrddujeefrdelkedrieekpdhmrghilhhfrhhomhepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqpdhrtghpthhtohepoegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghuqedprhgtphhtthhopeeoihdrmhhithhshigrnhhkohesghhmrghilhdrtghomheqpdhrtghpthhtohepoehpvghtvghrrdgthhhusggssehnihgtthgrrdgtohhmrdgruheqpdhrtghpthhtohepoehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrgheqpdhrtghpthhtohepoehqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeoqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeo
- thhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucevlhhushhtvghrufhiiigvpedt
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudehgedgjeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuuffpveftpgfvgffnuffvtfetpdfqfgfvnecuuegrihhlohhuthemucegtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepvfhonhihucfpghhuhigvnhcuoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecukfhppeehkedrudejfedrleekrdeikeenucfrrghrrghmpehhvghlohepuggsiidrthgvlhhsthhrrgdrtghomhdrrghupdhinhgvthepheekrddujeefrdelkedrieekpdhmrghilhhfrhhomhepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqpdhrtghpthhtohepoegrmhgrrhhkohhvihgtseifrghvvggtohhmphdrtghomheqpdhrtghpthhtohepoegrrhhikhgrlhhoseifrghvvggtohhmphdrtghomheqpdhrtghpthhtohepoehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeothhonhihrdhnghhuhigvnhessghtrdgtohhmqeenucevlhhushhtvghrufhiiigvpedv
 X-RazorGate-Vade-Verdict: clean 0
 X-RazorGate-Vade-Classification: clean
 X-RG-VS-CLASS: clean
 X-Authentication-Info: Submitted using ID tony.nguyen.git@bigpond.com
 Received: from dbz.telstra.com.au (58.173.98.68) by smtp.telstra.com (5.8.335)
  (authenticated as tony.nguyen.git@bigpond.com)
- id 5D2D117510588F73; Tue, 27 Aug 2019 00:18:42 +1000
+ id 5D3581440DDB1122; Tue, 27 Aug 2019 00:19:02 +1000
 From: Tony Nguyen <tony.nguyen@bt.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 27 Aug 2019 00:21:34 +1000
-Message-Id: <8e06140f2ab714c4f9713f2d89287af4cc8ddf12.1566829168.git.tony.nguyen@bt.com>
+Date: Tue, 27 Aug 2019 00:21:38 +1000
+Message-Id: <27e2352289217228aa255eaeb997ed1fded48c01.1566829168.git.tony.nguyen@bt.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1566829168.git.tony.nguyen@bt.com>
 References: <cover.1566829168.git.tony.nguyen@bt.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 203.38.21.31
-Subject: [Qemu-devel] [PATCH 08/19] hw/i2c: Declare device little or big
+X-Received-From: 203.38.21.19
+Subject: [Qemu-devel] [PATCH 12/19] hw/isa: Declare device little or big
  endian
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,10 +57,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Nguyen <tony.nguyen@bt.com>, Peter Maydell <peter.maydell@linaro.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Tony Nguyen <tony.nguyen@bt.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -72,74 +69,31 @@ If the set of targets are all little or all big endian, re-declare
 as DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN respectively.
 
 Then, on inspection:
-- if ununsed, re-declare as DEVICE_HOST_ENDIAN.
+- if not used, re-declare as DEVICE_HOST_ENDIAN.
 - if max/min size=1, re-declare as DEVICE_HOST_ENDIAN.
-- if just a bit bucket, re-delcare as DEVICE_HOST_ENDIAN
+- if just a bit bucket, re-declare as DEVICE_HOST_ENDIAN
 - if PCI, re-declare as DEVICE_LITTLE_ENDIAN.
 - if for {ARM|unicore32} only, re-declare as DEVICE_LITTLE_ENDIAN.
 - if for SPARC only, re-declare as DEVICE_BIG_ENDIAN.
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/i2c/exynos4210_i2c.c | 2 +-
- hw/i2c/imx_i2c.c        | 2 +-
- hw/i2c/mpc_i2c.c        | 2 +-
- hw/i2c/versatile_i2c.c  | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ hw/isa/vt82c686.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/i2c/exynos4210_i2c.c b/hw/i2c/exynos4210_i2c.c
-index a600f65560..d7e462664a 100644
---- a/hw/i2c/exynos4210_i2c.c
-+++ b/hw/i2c/exynos4210_i2c.c
-@@ -266,7 +266,7 @@ static void exynos4210_i2c_write(void *opaque, hwaddr offset,
- static const MemoryRegionOps exynos4210_i2c_ops = {
-     .read = exynos4210_i2c_read,
-     .write = exynos4210_i2c_write,
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 50bd28fa82..400f2b3c87 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -109,7 +109,7 @@ static uint64_t superio_ioport_readb(void *opaque, hwaddr addr, unsigned size)
+ static const MemoryRegionOps superio_ops = {
+     .read = superio_ioport_readb,
+     .write = superio_ioport_writeb,
 -    .endianness = DEVICE_NATIVE_ENDIAN,
 +    .endianness = DEVICE_LITTLE_ENDIAN,
- };
- 
- static const VMStateDescription exynos4210_i2c_vmstate = {
-diff --git a/hw/i2c/imx_i2c.c b/hw/i2c/imx_i2c.c
-index 30b9aea247..cc2689d967 100644
---- a/hw/i2c/imx_i2c.c
-+++ b/hw/i2c/imx_i2c.c
-@@ -278,7 +278,7 @@ static const MemoryRegionOps imx_i2c_ops = {
-     .write = imx_i2c_write,
-     .valid.min_access_size = 1,
-     .valid.max_access_size = 2,
--    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
- };
- 
- static const VMStateDescription imx_i2c_vmstate = {
-diff --git a/hw/i2c/mpc_i2c.c b/hw/i2c/mpc_i2c.c
-index 0aa1be3ce7..b71b5ff7d5 100644
---- a/hw/i2c/mpc_i2c.c
-+++ b/hw/i2c/mpc_i2c.c
-@@ -306,7 +306,7 @@ static const MemoryRegionOps i2c_ops = {
-     .read =  mpc_i2c_read,
-     .write =  mpc_i2c_write,
-     .valid.max_access_size = 1,
--    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .endianness = DEVICE_BIG_ENDIAN,
- };
- 
- static const VMStateDescription mpc_i2c_vmstate = {
-diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
-index 1ac2a6f59a..c92d3b115c 100644
---- a/hw/i2c/versatile_i2c.c
-+++ b/hw/i2c/versatile_i2c.c
-@@ -77,7 +77,7 @@ static void versatile_i2c_write(void *opaque, hwaddr offset,
- static const MemoryRegionOps versatile_i2c_ops = {
-     .read = versatile_i2c_read,
-     .write = versatile_i2c_write,
--    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
- };
- 
- static void versatile_i2c_init(Object *obj)
+     .impl = {
+         .min_access_size = 1,
+         .max_access_size = 1,
 -- 
 2.23.0
 
