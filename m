@@ -2,68 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FF69D344
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 17:43:12 +0200 (CEST)
-Received: from localhost ([::1]:54892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484AF9D371
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 17:54:47 +0200 (CEST)
+Received: from localhost ([::1]:54998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2H9D-0005Wb-8S
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 11:43:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59632)
+	id 1i2HKQ-000361-Bs
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 11:54:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60872)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nirsof@gmail.com>) id 1i2H8M-000512-2P
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:42:19 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i2HGN-00073B-Fn
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:50:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nirsof@gmail.com>) id 1i2H8L-0007f1-3M
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:42:17 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:35794)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nirsof@gmail.com>)
- id 1i2H8K-0007ei-TM; Mon, 26 Aug 2019 11:42:17 -0400
-Received: by mail-io1-xd41.google.com with SMTP id b10so29324960ioj.2;
- Mon, 26 Aug 2019 08:42:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VwxrGyveeTtFCGfeull61D5+PSUN3DjnIp2KIzI3lMQ=;
- b=Ph+pAKjKd/hke8IaB3djjlCLUPg4rpUn5W0f6UPvJZdUJ8hHihJmfKtvJqfAg9ViH7
- 5fEbIKyMC0Gz7XSbTrDto3K/vDlkaKOAZIXZURSnhd2+7foF/5YpgYTY2+kiZXBVIUGE
- sF/Zzxp6d3WoDQYOodci1BdvlXNVCnq0zhiIByMXFmNv6OP8JG63ZIw6RucvIQbMOYZz
- Qp2o+HpxUGu3QAfv3knWQ6/P9KlilzaNKp2wItFSR63W1q8MjrVdjltSHJxmWDYdXII2
- ZzhMpdD057518B8XPQ7vhYdf7mexLb3QFP4U8PnjDlhBW6P+n6UkVQyOOHCq+xGq+0s9
- w0Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VwxrGyveeTtFCGfeull61D5+PSUN3DjnIp2KIzI3lMQ=;
- b=uiYcPBJuZ0W27BaLTG9whUzRMemXPoo9Rk20plX6gY2sMjvhg66CaBPnx9jwhdyKZb
- vhTyZTPClU8yYiTe1tZaPMP+GEoyvoQ4M+ooNiXCpgQHwiEGo7W9Z0OoWD3FTDzJZHYp
- RdNpTKih7RStx7qpqQlVs4p4Gmg8BGKLzm1qmTeRI0qr4/K+6BB4fVvT3Z9by0dxsT8l
- Ok1PwVXE2Jf0sm8yDQA/W97QMJKcjBKBhoWs864efeeJHijPXV4G/wyYi+9sXjwRfzcX
- R76V66RTmkEGrJ2/m/B003YR3aJ3sGD3b1Rqb5IN4wTXIsxAwHe0lBOzrSY97isCCn4F
- Y9sA==
-X-Gm-Message-State: APjAAAUuo3DEQ1VMvrlCyA29M7Je0IH6PJm/6DMn/6IjdnI4Etp5Wgb+
- u5O8pqjl+GN+PYCEUqraNHrG3ZK+VVfSclXrDis=
-X-Google-Smtp-Source: APXvYqwkyACBsmfsEZdCQ9kceG7WxgVKMiEAu9E8L3Bj+Bv5TGYd+kBWfZgi3H3H19mmOXHXr3+OMYqeI8ayJTJEWfc=
-X-Received: by 2002:a02:4005:: with SMTP id n5mr18379042jaa.73.1566834136310; 
- Mon, 26 Aug 2019 08:42:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190825220329.7942-1-nsoffer@redhat.com>
- <20190825220329.7942-2-nsoffer@redhat.com>
- <e4e45496-b867-4e57-5b25-d0f1425d4824@redhat.com>
-In-Reply-To: <e4e45496-b867-4e57-5b25-d0f1425d4824@redhat.com>
-From: Nir Soffer <nirsof@gmail.com>
-Date: Mon, 26 Aug 2019 18:41:59 +0300
-Message-ID: <CAMr-obvF9d=ed0hxa0FRCqFU93U8Mi21nZ6zoraYm2EfpgpQag@mail.gmail.com>
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d41
-Subject: Re: [Qemu-devel] [PATCH v2 1/2] block: posix: Always allocate the
- first block
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i2HGL-0004Sc-Q3
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:50:34 -0400
+Received: from relay.sw.ru ([185.231.240.75]:44124)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1i2HGL-0004Rd-J2; Mon, 26 Aug 2019 11:50:33 -0400
+Received: from [172.16.25.136] (helo=localhost.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1i2HGI-0006N5-FF; Mon, 26 Aug 2019 18:50:30 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Mon, 26 Aug 2019 18:50:22 +0300
+Message-Id: <1566834628-485525-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v6 0/6] Allow Valgrind checking all QEMU
+ processes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,65 +45,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
+ andrey.shinkevich@virtuozzo.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 26, 2019 at 3:31 PM Max Reitz <mreitz@redhat.com> wrote:
->
-> On 26.08.19 00:03, Nir Soffer wrote:
-...
-> > +/*
-> > + * Help alignment probing by allocating the first block.
-> > + *
-> > + * When reading with direct I/O from unallocated area on Gluster backe=
-d by XFS,
-> > + * reading succeeds regardless of request length. In this case we fall=
-back to
-> > + * safe alignment which is not optimal. Allocating the first block avo=
-ids this
-> > + * fallback.
-> > + *
-> > + * fd may be opened with O_DIRECT, but we don't know the buffer alignm=
-ent or
-> > + * request alignment, so we use safe values.
-> > + *
-> > + * Returns: 0 on success, -errno on failure. Since this is an optimiza=
-tion,
-> > + * caller may ignore failures.
-> > + */
-> > +static int allocate_first_block(int fd, size_t max_size)
-> > +{
-> > +    size_t write_size =3D MIN(MAX_BLOCKSIZE, max_size);
->
-> Hm, well, there was a reason why I proposed rounding this down to the
-> next power of two.  If max_size is not a power of two but below
-> MAX_BLOCKSIZE, write_size will not be a power of two, and thus the write
-> below may fail even if write_size exceeds the physical block size.
->
-> You can see that in the test case you add by using e.g. 768 as the
-> destination size (provided your test filesystem has a block size of 512).
->
-> Now I would like to say that it=E2=80=99s stupid to resize an O_DIRECT fi=
-le to a
-> size that is not a multiple of the block size; but I=E2=80=99ve had a bug
-> assigned to me before because that didn=E2=80=99t work.
->
-> But maybe it=E2=80=99s actually better if it doesn=E2=80=99t work.  I don=
-=E2=80=99t know.
+In the current implementation of the QEMU bash iotests, only qemu-io
+processes may be run under the Valgrind, which is a useful tool for
+finding memory usage issues. Let's allow the common.rc bash script
+runing all the QEMU processes, such as qemu-kvm, qemu-img, qemu-ndb
+and qemu-vxhs, under the Valgrind tool.
 
-I tried to avoid complexity that is unlikely to help anyone, but we
-can make the (typical)
-case of 512 bytes sector size work with this:
+v6:
+  01: The possibility was added for a user to exclude particular processes
+      from running under the Valgrind to speed up the test run (suggested
+      by John).
+  02: The shim function _NO_VALGRIND() was introduced as a workaround for
+      the Valgrind bug that hangs QEMU killed process (suggested by John).
+  03: The comments were amended in the commit messages and common.rc file.
 
-    size_t write_size =3D (max_size < MAX_BLOCKSIZE)
-        ? BDRV_SECTOR_SIZE
-        : MAX_BLOCKSIZE;
+  Discussed in the email threads with the message IDs:
+  <1563553816-148827-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+  <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 
-Unfortunately testing max_size < 4096 will not be reliable since we don't k=
-now
-that underlying storage sector size.
+Andrey Shinkevich (6):
+  iotests: allow Valgrind checking all QEMU processes
+  iotests: exclude killed processes from running under Valgrind
+  iotests: Add casenotrun report to bash tests
+  iotests: Valgrind fails with nonexistent directory
+  iotests: extended timeout under Valgrind
+  iotests: extend sleeping time under Valgrind
 
-...
+ tests/qemu-iotests/028       |   6 ++-
+ tests/qemu-iotests/039       |   5 ++
+ tests/qemu-iotests/039.out   |  30 ++---------
+ tests/qemu-iotests/051       |   4 ++
+ tests/qemu-iotests/061       |   2 +
+ tests/qemu-iotests/061.out   |  12 +----
+ tests/qemu-iotests/137       |   1 +
+ tests/qemu-iotests/137.out   |   6 +--
+ tests/qemu-iotests/183       |   9 +++-
+ tests/qemu-iotests/192       |   6 ++-
+ tests/qemu-iotests/247       |   6 ++-
+ tests/qemu-iotests/common.rc | 124 ++++++++++++++++++++++++++++++++++++-------
+ 12 files changed, 149 insertions(+), 62 deletions(-)
+
+-- 
+1.8.3.1
+
 
