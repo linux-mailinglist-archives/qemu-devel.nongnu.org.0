@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5849DA1E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 01:48:43 +0200 (CEST)
-Received: from localhost ([::1]:58424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5DC9DA1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 01:49:28 +0200 (CEST)
+Received: from localhost ([::1]:58430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2Oj4-0004B8-3P
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 19:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59615)
+	id 1i2Ojn-00051K-OR
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 19:49:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i2Ohk-0003Ui-N8
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 19:47:21 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1i2OiT-00049H-Lu
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 19:48:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i2Ohj-0004d7-FI
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 19:47:20 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33758)
+ (envelope-from <palmer@dabbelt.com>) id 1i2OiS-0004yt-Hl
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 19:48:05 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44756)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i2Ohj-0004bn-7H
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 19:47:19 -0400
-Received: by mail-pf1-x444.google.com with SMTP id g2so12847306pfq.0
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 16:47:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=t5dXr+5eWDk+oOUl/xpSyEk5zCVFGBpHOuDbiv61zLs=;
- b=IWGGDmTNVqZncR+pmdt74BM6clveQUSfDZDBgzCmgBq79Z8bOVA1pzUAfit0tJc0yn
- gSQdUdF5H1moHJ5cEButowrYJtNcU869ubk7n3kATtDsOStfJhOJSI22D2Wz5wzNyH5b
- A9H7VnQGfcPofTr6sDnyjK8hr0kc3F1d0IGe5Ve8/jMQJF6Eseeing9cs9+eZWZwGbUW
- HGWDorEdSZDegrCGR9ZtiVWt3dLuuwhpTzr2plFSY/LoIaQzyUzXG5nWLlwjK5iPU747
- o2+YcUJPeXRHRMZ/K/FcnDR89TLLBLl8DHg0weJxuvnnaYfJpsCX1WMI6nSmY3W5c/EI
- xlgw==
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1i2OiS-0004xA-BW
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 19:48:04 -0400
+Received: by mail-pg1-f195.google.com with SMTP id i18so11525389pgl.11
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 16:48:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=t5dXr+5eWDk+oOUl/xpSyEk5zCVFGBpHOuDbiv61zLs=;
- b=idxr+jyWe7BaeUJYqha/kf3uPnpEVKfyymB0lhFwVILFH3SFt6P9nuiMZItfYrHpFg
- BylXfos2arBxy+NCW7xpCDZVymlg/S3N8CaPPG2ALm45wxJxrmgMqf0davvEHIXhDlGb
- UhUhvEKXP6xZxJFdE9YCKnW1QxfaH+kWJaE67VlVBj5ue6HiH+H2dn3SfDO7kCVn6gr2
- u4zLr/bAIHhDJlj14meM+ookQSRtu80HWYn2e8VsRVTo0k2X5qoOmsrpyQDa9nVh1s6l
- deehUaZAeY1PWyRovNBuzirg1IpEAzw+xysUXlfOs3DZhG4CH/HecVwQPk0kqbMm0pDa
- 30fA==
-X-Gm-Message-State: APjAAAVKs9BXbL4tlnkkrIBMmiTtcnONrW/EpWReuZWCRPuE7xQjzyBq
- f3cfLSkzgouhgI8hviHa96IGtw==
-X-Google-Smtp-Source: APXvYqx83BF5aBtomrcJFqqrUqfZwx11b/0bWRGr+FBy1xqgRwW31aNcnZdsDzRCgDfci4gwK8IrXw==
-X-Received: by 2002:a62:8343:: with SMTP id h64mr22102853pfe.170.1566863237475; 
- Mon, 26 Aug 2019 16:47:17 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id t6sm10940776pgu.23.2019.08.26.16.47.15
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 26 Aug 2019 16:47:16 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190819213755.26175-1-richard.henderson@linaro.org>
- <20190819213755.26175-63-richard.henderson@linaro.org>
- <CAFEAcA-iBjMbeqC92A69Xn_Y0qnOu93+VhQwqw+hOeBYRXrBjw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <155ee312-cb2e-3fba-6277-c00d35c5ea94@linaro.org>
-Date: Mon, 26 Aug 2019 16:47:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-iBjMbeqC92A69Xn_Y0qnOu93+VhQwqw+hOeBYRXrBjw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH v2 62/68] target/arm: Convert T16,
- Miscellaneous 16-bit instructions
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Qg97ovKp6M6fr6vn7k4ZGE1sL7iuQpMEjXXay3ouk4M=;
+ b=MF0SyuQtA3ctWObZIkT4tXqVDvij3ldYSfDlkghFZh6OVvNEocel8hyUs1S6SY87He
+ OtTvtxPz3lOHc0MTIjL150rTyHuNkQngjY+4NjWkvTJfwJ0u/0ksCOX9kZccl8+FkGsj
+ +55NXh9Ea5JPfRF5B/GosjkmFV8xqxj+jpTFwURnP+Cc8HSx3fy7O9zI/WVKxv9+5ovS
+ rVqO5KWQykkgv8H/koQ38L6BrdxL6AdVxIo/MObnDRpKYe7QjERoZNUGIeodi3IsWoLp
+ jnY88rJIg93cAeGeZ2HOZ8wfa9uowfEQr6LB/gQGkideoaxpKfgrWfByjB5OPG+PsJcw
+ JwRw==
+X-Gm-Message-State: APjAAAUNQBntIkErFDYygsTHdQ1BF0xpQqEL1CMkpLDlbcdtA+EgAqKp
+ WFWd0/alQvAgvBFZbHMtHa7Rpg==
+X-Google-Smtp-Source: APXvYqwC0fdE0AsetU0WYTna3zWcrUMdBYmcwI5hXpitibmbyx4pNcytn4x5XjkSxIWVKZ+jm1YRmQ==
+X-Received: by 2002:a17:90a:1b24:: with SMTP id
+ q33mr22051014pjq.80.1566863282197; 
+ Mon, 26 Aug 2019 16:48:02 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id 65sm14694174pff.148.2019.08.26.16.48.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Aug 2019 16:48:01 -0700 (PDT)
+Date: Mon, 26 Aug 2019 16:48:01 -0700 (PDT)
+X-Google-Original-Date: Mon, 26 Aug 2019 15:47:41 PDT (-0700)
+In-Reply-To: <1565960976-6693-1-git-send-email-bmeng.cn@gmail.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: bmeng.cn@gmail.com
+Message-ID: <mhng-5c1b5c56-2659-4e37-b9fc-eba7d8418083@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.215.195
+Subject: Re: [Qemu-devel] [PATCH 0/2] riscv: Fix "-L" not working for bios
+ image search path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,46 +68,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ sagark@eecs.berkeley.edu, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/19 1:38 PM, Peter Maydell wrote:
->> +  IT            1011 1111 ... imm:5             &ci cond=%it_cond
-> 
-> This is correct (same behaviour as the old decoder, but
-> it looks a bit odd here because it's not the same as
-> the fields defined by the architecture (in particular the
-> 'cond' field is not the same set of bits as the 'firstcond'
-> field). We could maybe comment it:
-> 
->   # Bits 7:0 in IT are architecturally simply the
->   # new PSTATE.IT bits (despite the instruction description
->   # splitting them into 'firstcond' and 'mask' fields).
->   # In QEMU during translation we track the IT bits using
->   # the DisasContext fields condexec_cond and condexec_mask,
->   # so here we massage the bits from the insn into the form
->   # that that optimization requires.
-> 
-> (Or equivalently we could just pass a single 8 bit immediate
-> to the trans_IT function and split it out there, I dunno.)
+On Fri, 16 Aug 2019 06:09:34 PDT (-0700), bmeng.cn@gmail.com wrote:
+> Currently when QEMU is given a bios image with only a file name and
+> its file path passed in "-L", it still reports file not found.
+>
+> This series fixes the issue. This is especially helpful for creating
+> distro QEMU packages.
+>
+>
+> Bin Meng (2):
+>   riscv: Add a helper routine for finding firmware
+>   riscv: Resolve full path of the given bios image
+>
+>  hw/riscv/boot.c         | 26 +++++++++++++++++---------
+>  include/hw/riscv/boot.h |  1 +
+>  2 files changed, 18 insertions(+), 9 deletions(-)
 
-I think I'll just go with this latter and do everything in trans_IT.
-
->> +%imm6_9_3       9:1 3:5 !function=times_2
-> 
-> Would it be worth adding support to the decodetree script
-> for letting you specify fixed bits in this kind of field-decode,
-> so we could write '9:1 3:5 0' rather than having to specify
-> a multiply-by-2 function to put the 0 bit in ? Or is it
-> not likely to be common enough to be worth bothering with?
-> (Not something for this series, anyway.)
-
-I hadn't thought about that.
-
-Adding 1, 2, or -1 also appears, but that's 3 of the 60 instances currently in
-the tree whereas shifts make up 33 of 60.
-
-
-r~
+Thanks, I've put these two in the patch queue with Alistair's review.
 
