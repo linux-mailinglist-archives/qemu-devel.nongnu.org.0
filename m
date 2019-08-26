@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926359D4D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 19:22:52 +0200 (CEST)
-Received: from localhost ([::1]:56116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2573B9D59D
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 20:17:24 +0200 (CEST)
+Received: from localhost ([::1]:56388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2Ihf-00034g-3A
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 13:22:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48164)
+	id 1i2JYQ-0001PG-Mu
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 14:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i2Ifd-0001sC-99
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 13:20:46 -0400
+ (envelope-from <jcmvbkbc@gmail.com>) id 1i2JWw-0000vR-Ff
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 14:15:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i2Ifc-0002tM-5p
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 13:20:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36862)
+ (envelope-from <jcmvbkbc@gmail.com>) id 1i2JWv-0006u3-62
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 14:15:50 -0400
+Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:43995)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i2Ifc-0002se-0O
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 13:20:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i2Ifb-0000nx-2K
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 17:20:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 007962E80CC
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 17:20:43 +0000 (UTC)
+ (Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1i2JWu-0006sj-HF
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 14:15:49 -0400
+Received: by mail-yw1-xc43.google.com with SMTP id n205so6953303ywb.10
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 11:15:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=w/HBVRuZfoNKh596k6db3h7AINZMBeQ28GGogj0c3zs=;
+ b=K4hXoAnDMHfjzDu4BpCpaZ7OV6l9HAUuqPpLioHDMyTeuaLzuc1fSjslz6gdUrY/Ur
+ TYmVG7wh8P/5gCPIPBSTLKQU8Hv7q39aEJ4IKF82Z31N/YXXxk2oUUUrEilEaDaoSHjl
+ a2JYeesJsYjkFjxCguOdsUWTdC9akqZWw+kocKN9LfCyfCn7dBwFe+LUkY0keEUsEtnS
+ OU41rin1MGM8YshkDrE8oFnvu7muBDzyaOq7v4X8yXvRm4RiXAB62InF/Ta6GstHpHzW
+ kgn1IU6DFfqqq/XkO+/uUw9ATCew1y5sEBdzWFdsEcqEKxpvAiRN+X0X22Is1PfeuHo0
+ iniQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=w/HBVRuZfoNKh596k6db3h7AINZMBeQ28GGogj0c3zs=;
+ b=ggtGGG8L9lRYuCx62icZiJ+iWOMOVZjIflcE4fUfysqh6c5dcPlMIaOd9amq6ZJV6B
+ Wysj7Hv2g+klx4W91zSYmHVWm7Zc9dvMOTS8vXiVpsTm4AlnsP1YAQSq1pzNeXL6Q6aY
+ caJgBWNKVcXYQHgTcGYg9noQ3GeM12IadV7UVWg1hALDxndSyWtLNT47sdMZNJEo9HTx
+ 9AKC3NxfV1RWc8kaFWfu7tvJ1c9QrkzXSXLjyaukUFK1ksgGEgplKzP1dGmZqjtsNXgh
+ b7Z5rN9nB5O/998zEq8oBAPtLNya4l7E+iQcEeppcD+GhtzrFuV/zSPWlmbBNBJ/UKDW
+ rIAA==
+X-Gm-Message-State: APjAAAX22J/AbqN/iV19KXjnhv1zUHALNsFYVC7kRjnOHBXivm3FLYRy
+ XTZcInTOKvXcQtgPrDXiCmF7FDAckVkpfheJ79thNPeB
+X-Google-Smtp-Source: APXvYqzLzIalddLjYPk+TaocVJ7iuFjVUXk4qledmwThMMp3Rcx6g0iE9Fa5vLN9ijZkvVYvIziuyC6dnthBmck6vB0=
+X-Received: by 2002:a0d:d4c4:: with SMTP id
+ w187mr13977666ywd.409.1566843346655; 
+ Mon, 26 Aug 2019 11:15:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20190825221704.1574-1-jcmvbkbc@gmail.com>
+ <b61d9c3e-6bfc-c26e-6552-858071fc280b@vivier.eu>
+In-Reply-To: <b61d9c3e-6bfc-c26e-6552-858071fc280b@vivier.eu>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Mon, 26 Aug 2019 11:15:35 -0700
+Message-ID: <CAMo8BfJ8yxxFoy+Fzz-wga-baqqtSP2GRHhCwZUgXbnBpuDurQ@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Aug 2019 17:09:29 -0000
-From: Richard Henderson <rth@twiddle.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 7-pc ajbennee rth
-X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <156683160080.31851.8159878323909291412.malonedeb@soybean.canonical.com>
-Message-Id: <156683936980.3485.7001675352238859641.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19031";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: fe77f86e085c9caefeb7c920f962d03cad3f649f
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1841442] Re: floating point emulation can fail to
- set FE_INEXACT
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::c43
+Subject: Re: [Qemu-devel] [PATCH] target/xtensa: linux-user: add call0 ABI
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,89 +75,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1841442 <1841442@bugs.launchpad.net>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch for ppc:
-https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg05532.html
+On Mon, Aug 26, 2019 at 3:27 AM Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Le 26/08/2019 =C3=A0 00:17, Max Filippov a =C3=A9crit :
+> > Xtensa binaries built for call0 ABI don't rotate register window on
+> > function calls and returns. Invocation of signal handlers from the
+> > kernel is therefore different in windowed and call0 ABIs.
+> > There's currently no way to determine xtensa ELF binary ABI from the
+> > binary itself. Provide an environment variable QEMU_XTENSA_ABI_CALL0 an=
+d
+> > use it to initialize PS.WOE in xtensa_cpu_reset. Check this flag in
+> > setup_rt_frame to determine how a signal should be delivered.
+> >
+> > Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+> > ---
+> >  linux-user/xtensa/signal.c | 25 +++++++++++++++++--------
+> >  target/xtensa/cpu.c        | 22 ++++++++++++++++++----
+> >  2 files changed, 35 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/linux-user/xtensa/signal.c b/linux-user/xtensa/signal.c
+> > index 8d54ef3ae34b..590f0313ffe9 100644
+> > --- a/linux-user/xtensa/signal.c
+> > +++ b/linux-user/xtensa/signal.c
+> > @@ -134,6 +134,8 @@ void setup_rt_frame(int sig, struct target_sigactio=
+n *ka,
+> >      abi_ulong frame_addr;
+> >      struct target_rt_sigframe *frame;
+> >      uint32_t ra;
+> > +    bool abi_call0;
+> > +    unsigned base;
+> >      int i;
+> >
+> >      frame_addr =3D get_sigframe(ka, env, sizeof(*frame));
+> > @@ -182,20 +184,27 @@ void setup_rt_frame(int sig, struct target_sigact=
+ion *ka,
+> >          __put_user(0x00, &frame->retcode[5]);
+> >  #endif
+> >      }
+> > -    env->sregs[PS] =3D PS_UM | (3 << PS_RING_SHIFT);
+> > -    if (xtensa_option_enabled(env->config, XTENSA_OPTION_WINDOWED_REGI=
+STER)) {
+> > -        env->sregs[PS] |=3D PS_WOE | (1 << PS_CALLINC_SHIFT);
+> > -    }
+> >      memset(env->regs, 0, sizeof(env->regs));
+> >      env->pc =3D ka->_sa_handler;
+> >      env->regs[1] =3D frame_addr;
+> >      env->sregs[WINDOW_BASE] =3D 0;
+> >      env->sregs[WINDOW_START] =3D 1;
+> >
+> > -    env->regs[4] =3D (ra & 0x3fffffff) | 0x40000000;
+> > -    env->regs[6] =3D sig;
+> > -    env->regs[7] =3D frame_addr + offsetof(struct target_rt_sigframe, =
+info);
+> > -    env->regs[8] =3D frame_addr + offsetof(struct target_rt_sigframe, =
+uc);
+> > +    abi_call0 =3D (env->sregs[PS] & PS_WOE) =3D=3D 0;
+>
+> Is this safe to rely on content of sregs[PS]?
 
-Fixing x86_64 is significantly harder, as support for fp exceptions
-is completely lacking in the code currently.
+It should be: PS is a privileged register, PS.WOE can only
+be changed explicitly and windowed registers are not supposed to work
+when PS.WOE is cleared.
 
--- =
+> Why don't you use xtensa_abi_call0()?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1841442
+I actually used it in early version of this change, but then
+decided that PS.WOE might be a better indicator for the call0 ABI.
 
-Title:
-  floating point emulation can fail to set FE_INEXACT
+> > +    env->sregs[PS] =3D PS_UM | (3 << PS_RING_SHIFT);
+> > +
+> > +    if (abi_call0) {
+> > +        base =3D 0;
+> > +        env->regs[base] =3D ra;
+> > +    } else {
+> > +        env->sregs[PS] |=3D PS_WOE | (1 << PS_CALLINC_SHIFT);
+> > +        base =3D 4;
+> > +        env->regs[base] =3D (ra & 0x3fffffff) | 0x40000000;
+> > +    }
+> > +    env->regs[base + 2] =3D sig;
+> > +    env->regs[base + 3] =3D frame_addr + offsetof(struct target_rt_sig=
+frame,
+> > +                                                info);
+> > +    env->regs[base + 4] =3D frame_addr + offsetof(struct target_rt_sig=
+frame, uc);
+> >      unlock_user_struct(frame, frame_addr, 1);
+> >      return;
+> >
+> > diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+> > index 76db1741a796..791c061880e7 100644
+> > --- a/target/xtensa/cpu.c
+> > +++ b/target/xtensa/cpu.c
+> > @@ -53,6 +53,18 @@ static bool xtensa_cpu_has_work(CPUState *cs)
+> >  #endif
+> >  }
+> >
+> > +#ifdef CONFIG_USER_ONLY
+> > +static int xtensa_abi_call0(void)
+> > +{
+> > +    static int abi_call0 =3D -1;
+> > +
+> > +    if (abi_call0 =3D=3D -1) {
+> > +        abi_call0 =3D getenv("QEMU_XTENSA_ABI_CALL0") !=3D NULL;
+>
+> Wouldn't it be cleaner to add this in the arg_table[] in
+> linux-user/main.c and then use directly the variable?
 
-Status in QEMU:
-  Confirmed
+Probably. Will do so in v2.
 
-Bug description:
-  Floating point emulation can fail to set FE_INEXACT in some
-  circumstances. This shows up quite often in glibc's "math" tests.  A
-  similar test is attached.
-
-  On ppc64le native:
-  --
-  $ gcc nextafter.c -o nextafter -lm
-  $ ./nextafter $(./nextafter)
-  0x0000000000000001 0.000000
-  0x0
-
-  0xa000000
-  FE_INEXACT FE_UNDERFLOW
-  0x0000000000000000 0.000000
-  --
-
-  On x86_64:
-  --
-  $ gcc nextafter.c -o nextafter -lm
-  $ ./nextafter $(./nextafter)
-  0x0000000000000001 0.000000
-  0x0
-
-  0x30
-  FE_INEXACT FE_UNDERFLOW =
-
-  0x0000000000000000 0.000000
-  --
-
-  Using qemu-system-ppc64
-  --
-  $ ./nextafter $(./nextafter)
-  0x0000000000000001 0.000000
-  0x0
-
-  0x8000000
-  FE_UNDERFLOW =
-
-  0x0000000000000000 0.000000
-  --
-
-  Using qemu-x86_64:
-  --
-  $ ./nextafter $(./nextafter)
-  0x0000000000000001 0.000000
-  0x0
-
-  0x0
-
-  0x0000000000000000 0.000000
-  --
-
-  QEMU versions vary, but not too much, and are pretty close to git HEAD:
-  - 586f3dced9 (HEAD -> master, origin/master, origin/HEAD) Merge remote-tr=
-acking branch 'remotes/cohuck/tags/s390x-20190822' into staging
-  - 864ab31 Update version for v4.1.0-rc4 release
-
-  Since the issue happens nearly identically on different targets, I
-  suspect the issue lies somewhere in fpu/softfloat.c.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1841442/+subscriptions
+--=20
+Thanks.
+-- Max
 
