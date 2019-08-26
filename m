@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BAA9D293
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 17:20:45 +0200 (CEST)
-Received: from localhost ([::1]:54652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2969D29B
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 17:21:35 +0200 (CEST)
+Received: from localhost ([::1]:54684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2GnU-0003yv-AJ
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 11:20:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54855)
+	id 1i2GoJ-00054a-1m
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 11:21:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55609)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i2Gie-0000wB-JH
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:15:45 -0400
+ (envelope-from <nirsof@gmail.com>) id 1i2Gmg-00045V-PV
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:19:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i2Gic-0008HK-Pg
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:15:44 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33644)
+ (envelope-from <nirsof@gmail.com>) id 1i2Gmf-0001kk-6t
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:19:54 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:36483)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i2Gic-0008Gh-Jc
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 11:15:42 -0400
-Received: by mail-pf1-x444.google.com with SMTP id g2so12008001pfq.0
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 08:15:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6Wc/MxLOr6YwXjgMWjLSNrJcZWJyujD788Ome0kD52E=;
- b=hJ+v5dbcFtjBPjywGUMdwsq0JFDTsk8lcqlIpKiI9Jbs6wtIi2u5EhjMTiz9qj449R
- w7de7pp1qO+0fTRSIzkHNrQUsBE4tLEVy53YyxyvVONEtp4G5/WtsLOoXsAnci7+u4ze
- L/rBLvmM/XxONMWD7RS+qBIYV9XAOOSMltGR0GRQq979ZmXcEzr3rUwCDt3caOTQVKct
- LrV9vU6ClbQ8Ceoz5OBZLmY5+O6GgY2sUgR45+g4wuYBs+/w5PvpRell2HKs8pCd/WOm
- w81c240uIb81WpkjARvloMgiEixfhiF7V9r/R+5wPmUynggoAHRlbjX06N3FrRs+0ZP/
- ruBw==
+ (Exim 4.71) (envelope-from <nirsof@gmail.com>)
+ id 1i2Gmf-0001kV-2b; Mon, 26 Aug 2019 11:19:53 -0400
+Received: by mail-io1-xd44.google.com with SMTP id o9so38175013iom.3;
+ Mon, 26 Aug 2019 08:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NtvB7jmh0tvli2E79VHxmPm+zatFlmL75lfW57MuVbE=;
+ b=t0vnUGtCHjk+QOhbthvo9GoTr4SzgPyPAY7bXCIgFuQcoG1PYvr2Yka8BAWqe8oamS
+ obMfdlP5Dz+RySb34dG3IgeFas7jS/UmQ5QkkUto2wUke4c1w7HQdv5Q/z1ZiQRYumlp
+ htnDpMGRwO+c+7myoopZXon+yrtK3YV7qQOZBx2F7ZmiVLUSSNGW+HDWUMFUAtGo/Cwj
+ 43C9MRBZ5lfKytAK9TmKDKXOOnXIxlHnH/Y9sZhUlADhy6FzryKx2TIRRrocPf4oENXa
+ 9Gu2UbncCrgIyqply42+GXFDmkpn8dQzz6a5f9Fr1GauHSRDtXUT2PsDhrnc9U8rMX7/
+ WDSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=6Wc/MxLOr6YwXjgMWjLSNrJcZWJyujD788Ome0kD52E=;
- b=JwwmU34YHyJg4u9KEB7dO5ThK5L/+LxMPNWk4mv5w+ONZWthXwFXl2Z3M33+9mErVq
- j8cxoGDqvNu7s7rDh/g4p3b87bgscRxJTxoB+qoB9gzdp6N+NnXtOokVHvDizPpd+x1+
- KZHCJUvWQYMF+zzSzZBYTTB8UW7Z5xUl7k8+nmxBD910s1fFPx1IhJtvXdsxnzalBwIP
- OXuep9ZTpzuHCfaxtj5Srk+8qJSUQ/MfQ/ACCDZBHHpJbn97fPsmc0qsJ/5qQqJfwLRw
- pIPOGFX73HDqRlKiXCsM/do10vlcdtyONQO9oQzgdoonLFvzJkiX+gZ0wYpLmlLKtqFf
- 6L/A==
-X-Gm-Message-State: APjAAAWJ8RSPqkGS9fz4OKz5DnrmfmyXs0svopOmov331keFq9J3YXaT
- OzhnQeD3rjFy96304wrMUeiO7rRDxOk=
-X-Google-Smtp-Source: APXvYqymnlkc5BW8Wz8R3XD4t1PV/DphGyD7RLUfEMeTMW8NwK/uyxI+08VFL9uja5Plx9VfES7VyA==
-X-Received: by 2002:a17:90a:cb88:: with SMTP id
- a8mr7557845pju.111.1566832541150; 
- Mon, 26 Aug 2019 08:15:41 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id q4sm13563612pff.183.2019.08.26.08.15.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Aug 2019 08:15:40 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Mon, 26 Aug 2019 08:15:36 -0700
-Message-Id: <20190826151536.6771-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190826151536.6771-1-richard.henderson@linaro.org>
-References: <20190826151536.6771-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NtvB7jmh0tvli2E79VHxmPm+zatFlmL75lfW57MuVbE=;
+ b=IC35LOLqE5IWcsrHYa1MZpUEUDqT2xYLq6HYzcPRhjzXKfzy1gELhWKR2efdr4QDI8
+ DfTqZefLgcsDfW+1RyyHV7pnjw19T6DnwPL4UXU7cLQTAGO7YsB0/mG43jF/Y32rbClc
+ TKQ/CY5NuzoBYVtqlmB4seF9DCH5JxnM4riwXabRY/bdcxvX9SuelQpKEkpAGKNby1z1
+ XA29Js5AUCgsG76jfq/PFgYxZVyNmraIT8yUxkLvirsrwPHHf5tODxTJgAuTv8uVvrKf
+ uXUdx3xXEa1VKIZ7u5kYqeFweAcddK6VZQatUqYNodrOfeUQ0cMwx4KPVJKJm7NOAkQU
+ Itaw==
+X-Gm-Message-State: APjAAAWNncNHfA+inwmo0cvOzp6EimNTNNiVohWNEMAZKfSFSAI/GbpO
+ zyPbqjH9AlXZPBk+gyAawFo6pLp7hGhqMOeFKFM=
+X-Google-Smtp-Source: APXvYqx3U6QsBzGcDy8Q0R41475pSVyOva+4yBAeCpZFMwTwogdRnUgJ2YucNbckA2DVrB+1Jg0K4GjYfruCTS0A0kM=
+X-Received: by 2002:a6b:8e8b:: with SMTP id q133mr3040191iod.165.1566832792102; 
+ Mon, 26 Aug 2019 08:19:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190825220329.7942-1-nsoffer@redhat.com>
+ <20190825220329.7942-2-nsoffer@redhat.com>
+ <65085dba-f180-8a4e-8464-65e91323b69b@redhat.com>
+In-Reply-To: <65085dba-f180-8a4e-8464-65e91323b69b@redhat.com>
+From: Nir Soffer <nirsof@gmail.com>
+Date: Mon, 26 Aug 2019 18:19:35 +0300
+Message-ID: <CAMr-obvapP0fcjrQafvdi+vDuyEDMnwG9cBC1HYmW1gwH=JrUw@mail.gmail.com>
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH 2/2] target/arm: Factor out
- unallocated_encoding for aarch32
+X-Received-From: 2607:f8b0:4864:20::d44
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] block: posix: Always allocate the
+ first block
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,103 +73,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent.desnogues@gmail.com, peter.maydell@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make this a static function private to translate.c.
-Thus we can use the same idiom between aarch64 and aarch32
-without actually sharing function implementations.
+On Mon, Aug 26, 2019 at 4:46 PM Eric Blake <eblake@redhat.com> wrote:
+>
+> On 8/25/19 5:03 PM, Nir Soffer wrote:
+> > When creating an image with preallocation "off" or "falloc", the first
+> > block of the image is typically not allocated. When using Gluster
+> > storage backed by XFS filesystem, reading this block using direct I/O
+> > succeeds regardless of request length, fooling alignment detection.
+> >
+> > In this case we fallback to a safe value (4096) instead of the optimal
+> > value (512), which may lead to unneeded data copying when aligning
+> > requests.  Allocating the first block avoids the fallback.
+> >
+>
+> > Here is a table comparing the total time spent:
+> >
+> > Type    Before(s)   After(s)    Diff(%)
+> > ---------------------------------------
+> > real      530.028    469.123      -11.4
+> > user       17.204     10.768      -37.4
+> > sys        17.881      7.011      -60.7
+> >
+> > We can see very clear improvement in CPU usage.
+>
+> Nice justification.
+>
+>
+> > +/*
+> > + * Help alignment probing by allocating the first block.
+> > + *
+>
+> > +    do {
+> > +        n = pwrite(fd, buf, write_size, 0);
+> > +    } while (n == -1 && errno == EINTR);
+> > +
+> > +    qemu_vfree(buf);
+>
+> qemu_vfree() can corrupt errno...
+>
+> > +
+> > +    return (n == -1) ? -errno : 0;
+>
+> ...which means you may be returning an unexpected value here.
+>
+> Either we should patch qemu_vfree() to guarantee that errno is
+> preserved, or you locally capture errno before calling it here.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate-vfp.inc.c |  3 +--
- target/arm/translate.c         | 22 ++++++++++++----------
- 2 files changed, 13 insertions(+), 12 deletions(-)
+qemu_vfree() returns void like free(), so changing errno is unexpected, but
+other code using it should not be effected, so preserving errno here seems
+like a better change.
 
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 5065d4524c..3e8ea80493 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -108,8 +108,7 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
- 
-     if (!s->vfp_enabled && !ignore_vfp_enabled) {
-         assert(!arm_dc_feature(s, ARM_FEATURE_M));
--        gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                           default_exception_el(s));
-+        unallocated_encoding(s);
-         return false;
-     }
- 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 2aac9aae68..66311580c0 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -1231,6 +1231,13 @@ static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syn)
-     s->base.is_jmp = DISAS_NORETURN;
- }
- 
-+static void unallocated_encoding(DisasContext *s)
-+{
-+    /* Unallocated and reserved encodings are uncategorized */
-+    gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
-+                       default_exception_el(s));
-+}
-+
- /* Force a TB lookup after an instruction that changes the CPU state.  */
- static inline void gen_lookup_tb(DisasContext *s)
- {
-@@ -1261,8 +1268,7 @@ static inline void gen_hlt(DisasContext *s, int imm)
-         return;
-     }
- 
--    gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                       default_exception_el(s));
-+    unallocated_encoding(s);
- }
- 
- static inline void gen_add_data_offset(DisasContext *s, unsigned int insn,
-@@ -7574,8 +7580,7 @@ static void gen_srs(DisasContext *s,
-     }
- 
-     if (undef) {
--        gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                           default_exception_el(s));
-+        unallocated_encoding(s);
-         return;
-     }
- 
-@@ -9196,8 +9201,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             break;
-         default:
-         illegal_op:
--            gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                               default_exception_el(s));
-+            unallocated_encoding(s);
-             break;
-         }
-     }
-@@ -10882,8 +10886,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-     }
-     return;
- illegal_op:
--    gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                       default_exception_el(s));
-+    unallocated_encoding(s);
- }
- 
- static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-@@ -11706,8 +11709,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-     return;
- illegal_op:
- undef:
--    gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                       default_exception_el(s));
-+    unallocated_encoding(s);
- }
- 
- static bool insn_crosses_page(CPUARMState *env, DisasContext *s)
--- 
-2.17.1
+Thanks!
 
+Nir
 
