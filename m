@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C6B9D6CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 21:33:11 +0200 (CEST)
-Received: from localhost ([::1]:56984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5FE9D6D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 21:34:46 +0200 (CEST)
+Received: from localhost ([::1]:57004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2Kjm-0000ki-12
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 15:33:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39423)
+	id 1i2KlJ-0002eY-Jz
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 15:34:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39585)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1i2Kbj-0000Xj-N7
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:24:53 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i2KcR-0001YJ-Er
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:25:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1i2Kbi-0000Zg-Ae
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:24:51 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:8008)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1i2Kbi-0000ZQ-0X
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:24:50 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d6432020000>; Mon, 26 Aug 2019 12:24:50 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Mon, 26 Aug 2019 12:24:48 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Mon, 26 Aug 2019 12:24:48 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Aug
- 2019 19:24:48 +0000
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Aug
- 2019 19:24:48 +0000
-Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 26 Aug 2019 19:24:42 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Date: Tue, 27 Aug 2019 00:25:51 +0530
-Message-ID: <1566845753-18993-12-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1566845753-18993-1-git-send-email-kwankhede@nvidia.com>
-References: <1566845753-18993-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
+ (envelope-from <peter.maydell@linaro.org>) id 1i2KcQ-00012D-37
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:25:35 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35266)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i2KcP-0000yE-TQ
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:25:34 -0400
+Received: by mail-oi1-x243.google.com with SMTP id a127so13037157oii.2
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 12:25:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0zxdry1BkfHAqau/H/9feepTNjFxh/DYdr86EaL4hL4=;
+ b=wYLgeuOgNwUBEs80yhYdzEJlrAL0AFCvpWHnH440DavpwdpKxO7IKTJIlYaW6MV2Co
+ pz+wm1y58HJ8mgKirsG1PiRNMYEu/9Dx7HhrE+ucAPJoGg+eaM2mks8eq9bWxs1ybhAf
+ sZNwUInTwIQvk9CZIveMxovLHQN7i7518R9fCUoIa+6KUAZYrhmbf4HXiv0SoTPptG6K
+ JtK1NHyqT+qffiXZXZSyWoAztAoEvhWlybY1USgg8s2BxJml8r/Pp+krbOENKpNeNvjA
+ mYo08V/eYQFhkSt9h16Ucn7m9D1UXmfYfd46GvOVRPrNcGhlv0B38Wd8IbvfNBEFIiLs
+ eKcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0zxdry1BkfHAqau/H/9feepTNjFxh/DYdr86EaL4hL4=;
+ b=XxX23lcPt0S+9YErQr5uWjZizwWVi+lYFKoZpLApvUbQtAqtNjo7CuFh0P30ln74gi
+ Hd2b6TsvaoAKI0zmo9SG/rCUBUrY/xvdaZYiin3viheNdqctXKpjF/9TVPdCLtiH7Jf6
+ o2zXLbQAAm1sHY/sILPz6pmUPgH5icuJOqFIX2bC4G/oGS3h9VJ0wklHm+OIor1DgOoT
+ l6LHjdg+1A4m1Tq6XiMxnB10lctCiSlVDnLs86i/DTdgRfKo4+H6pzxmIGcYMdhVQTd5
+ eWdfAnA+Lo9VxKyu90s59x7fGoC6YjYA6MtTRUHo9jraAI3nLqjRlelWiHbgqYbBosSS
+ wSQQ==
+X-Gm-Message-State: APjAAAWbAtOH6sT+yN/B8dODbcdU5z6O9AVk/+3iqy1jnA2MnoSs5pwM
+ nVq41ye2YzgPl3tGvayGevX0BINVj4/bTBzwoYKlvQ==
+X-Google-Smtp-Source: APXvYqxumVfsK7IqF94lFLxgQInGFf07s7VCLVGocRf6Lb53XQrGDCw+jRfFGhmrGyxs/LCncojifX3f/JGMJE9FGog=
+X-Received: by 2002:a54:4718:: with SMTP id k24mr13106294oik.146.1566847532685; 
+ Mon, 26 Aug 2019 12:25:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1566847490; bh=NwuR0TkehEcZoxqXKBOA2Ls3JpArCV3XrxkVSVtJzXk=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:X-NVConfidentiality:MIME-Version:
- Content-Type;
- b=DrOJzD62VOJz5YdfQ6jW30MumT6w5zRTCbt898R3SbRRazriodXmlh+DhJsaNCDtU
- 67GzdE6C75P0bB0m/MUaC/1zaOlaMgAr1A8auX4tPwaW5OCkAmjJi1TCXX7cSSO00y
- S1k+GEe7YB1erDEsvEPu58lXYzR4QJo4z6zzbHcGvapfL1BeMlZc6LTvhZ50XF6M2C
- aXqRONrGKs+aRxIUDe95QalqulTcmGxvMDJGEHAc5LYhpvSGEWn83qdeAr3xz6HDDt
- 9hftUPUB/lST9/bnHgTv8YDt0KPK6FJpBWk5yae8wt/yx5XE10p7Y5kAFFzniGTFQf
- FfC1SxVXjAzdQ==
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
-X-Received-From: 216.228.121.65
-Subject: [Qemu-devel] [PATCH v8 11/13] vfio: Add function to get dirty page
- list
+References: <20190819213755.26175-1-richard.henderson@linaro.org>
+ <20190819213755.26175-57-richard.henderson@linaro.org>
+In-Reply-To: <20190819213755.26175-57-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Aug 2019 20:25:21 +0100
+Message-ID: <CAFEAcA-9JAhPA44_PuoOgNFfhHZHTSxkCLbizN00GtaDKt=sxQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH v2 56/68] target/arm: Convert T16,
+ Change processor state
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,198 +73,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- yan.y.zhao@intel.com, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, Kirti Wankhede <kwankhede@nvidia.com>,
- eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
- changpeng.liu@intel.com, Ken.Xue@amd.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dirty page tracking (.log_sync) is part of RAM copying state, where
-vendor driver provides the bitmap of pages which are dirtied by vendor
-driver through migration region and as part of RAM copy, those pages
-gets copied to file stream.
+On Mon, 19 Aug 2019 at 22:39, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate.c | 85 ++++++++++++++++++++----------------------
+>  target/arm/t16.decode  | 12 ++++++
+>  2 files changed, 52 insertions(+), 45 deletions(-)
+>
+> diff --git a/target/arm/translate.c b/target/arm/translate.c
+> index 414c562fb3..368f0ab147 100644
+> --- a/target/arm/translate.c
+> +++ b/target/arm/translate.c
+> @@ -7474,6 +7474,11 @@ static int negate(DisasContext *s, int x)
+>      return -x;
+>  }
+>
+> +static int plus_2(DisasContext *s, int x)
+> +{
+> +    return x + 2;
+> +}
+> +
+>  static int times_2(DisasContext *s, int x)
+>  {
+>      return x * 2;
+> @@ -10152,6 +10157,9 @@ static bool trans_CPS(DisasContext *s, arg_CPS *a)
+>  {
+>      uint32_t mask, val;
+>
+> +    if (ENABLE_ARCH_6 && arm_dc_feature(s, ARM_FEATURE_M)) {
+> +        return false;
+> +    }
 
-To get dirty page bitmap:
-- write start address, page_size and pfn count.
-- read count of pfns copied. Vendor driver should take one of the below action:
-    - Vendor driver should return VFIO_DEVICE_DIRTY_PFNS_NONE if driver
-      doesn't have any page to report dirty in given range or rest of the range
-    - Vendor driver should return VFIO_DEVICE_DIRTY_PFNS_ALL to mark all pages
-      dirty for given range or rest of the range.
-    - Vendor driver should return copied_pfns and provide bitmap for copied_pfn
-      in migration region.
-- read data_offset, where vendor driver has written bitmap.
-- read bitmap from from the migration region from data_offset.
-- Iterate above steps till page bitmap for all requested pfns are copied.
+I don't think this condition is quite right. We want to
+do two things:
+ (1) this is the A/R-profile CPS, so it shouldn't
+be decoded for any ARM_FEATURE_M CPU
+ (2) for A/R-profile, all the CPS instructions are v6-or-better
 
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
----
- hw/vfio/migration.c           | 123 ++++++++++++++++++++++++++++++++++++++++++
- hw/vfio/trace-events          |   1 +
- include/hw/vfio/vfio-common.h |   2 +
- 3 files changed, 126 insertions(+)
+(All M-profile CPUs are at v6-or-better, which is why the
+legacy decoder gets away with doing its ARCH(6) check
+up front rather than only in the A/R-profile arm of its
+if statement.)
 
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 765015fdc2dd..eff4b2a4a6e8 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -276,6 +276,129 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
-     return qemu_file_get_error(f);
- }
- 
-+void vfio_get_dirty_page_list(VFIODevice *vbasedev,
-+                              uint64_t start_pfn,
-+                              uint64_t pfn_count,
-+                              uint64_t page_size)
-+{
-+    VFIOMigration *migration = vbasedev->migration;
-+    VFIORegion *region = &migration->region;
-+    uint64_t count = 0;
-+    int64_t copied_pfns = 0;
-+    int64_t total_pfns = pfn_count;
-+    int ret;
-+
-+    qemu_mutex_lock(&migration->lock);
-+
-+    while (total_pfns > 0) {
-+        uint64_t bitmap_size, data_offset = 0;
-+        uint64_t start = start_pfn + count;
-+        void *buf = NULL;
-+        bool buffer_mmaped = false;
-+
-+        ret = pwrite(vbasedev->fd, &start, sizeof(start),
-+                 region->fd_offset + offsetof(struct vfio_device_migration_info,
-+                                              start_pfn));
-+        if (ret < 0) {
-+            error_report("%s: Failed to set dirty pages start address %d %s",
-+                         vbasedev->name, ret, strerror(errno));
-+            goto dpl_unlock;
-+        }
-+
-+        ret = pwrite(vbasedev->fd, &page_size, sizeof(page_size),
-+                 region->fd_offset + offsetof(struct vfio_device_migration_info,
-+                                              page_size));
-+        if (ret < 0) {
-+            error_report("%s: Failed to set dirty page size %d %s",
-+                         vbasedev->name, ret, strerror(errno));
-+            goto dpl_unlock;
-+        }
-+
-+        ret = pwrite(vbasedev->fd, &total_pfns, sizeof(total_pfns),
-+                 region->fd_offset + offsetof(struct vfio_device_migration_info,
-+                                              total_pfns));
-+        if (ret < 0) {
-+            error_report("%s: Failed to set dirty page total pfns %d %s",
-+                         vbasedev->name, ret, strerror(errno));
-+            goto dpl_unlock;
-+        }
-+
-+        /* Read copied dirty pfns */
-+        ret = pread(vbasedev->fd, &copied_pfns, sizeof(copied_pfns),
-+                region->fd_offset + offsetof(struct vfio_device_migration_info,
-+                                             copied_pfns));
-+        if (ret < 0) {
-+            error_report("%s: Failed to get dirty pages bitmap count %d %s",
-+                         vbasedev->name, ret, strerror(errno));
-+            goto dpl_unlock;
-+        }
-+
-+        if (copied_pfns == VFIO_DEVICE_DIRTY_PFNS_NONE) {
-+            /*
-+             * copied_pfns could be 0 if driver doesn't have any page to
-+             * report dirty in given range
-+             */
-+            break;
-+        } else if (copied_pfns == VFIO_DEVICE_DIRTY_PFNS_ALL) {
-+            /* Mark all pages dirty for this range */
-+            cpu_physical_memory_set_dirty_range(start * page_size,
-+                                                total_pfns * page_size,
-+                                                DIRTY_MEMORY_MIGRATION);
-+            break;
-+        }
-+
-+        bitmap_size = BITS_TO_LONGS(copied_pfns) * sizeof(unsigned long);
-+
-+        ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
-+                region->fd_offset + offsetof(struct vfio_device_migration_info,
-+                                             data_offset));
-+        if (ret != sizeof(data_offset)) {
-+            error_report("%s: Failed to get migration buffer data offset %d",
-+                         vbasedev->name, ret);
-+            goto dpl_unlock;
-+        }
-+
-+        if (region->mmaps) {
-+            buf = find_data_region(region, data_offset, bitmap_size);
-+        }
-+
-+        buffer_mmaped = (buf != NULL) ? true : false;
-+
-+        if (!buffer_mmaped) {
-+            buf = g_try_malloc0(bitmap_size);
-+            if (!buf) {
-+                error_report("%s: Error allocating buffer ", __func__);
-+                goto dpl_unlock;
-+            }
-+
-+            ret = pread(vbasedev->fd, buf, bitmap_size,
-+                        region->fd_offset + data_offset);
-+            if (ret != bitmap_size) {
-+                error_report("%s: Failed to get dirty pages bitmap %d",
-+                             vbasedev->name, ret);
-+                g_free(buf);
-+                goto dpl_unlock;
-+            }
-+        }
-+
-+        cpu_physical_memory_set_dirty_lebitmap((unsigned long *)buf,
-+                                               start * page_size,
-+                                               copied_pfns);
-+        count      += copied_pfns;
-+        total_pfns -= copied_pfns;
-+
-+        if (!buffer_mmaped) {
-+            g_free(buf);
-+        }
-+    }
-+
-+    trace_vfio_get_dirty_page_list(vbasedev->name, start_pfn, pfn_count,
-+                                   page_size);
-+
-+dpl_unlock:
-+    qemu_mutex_unlock(&migration->lock);
-+}
-+
- /* ---------------------------------------------------------------------- */
- 
- static int vfio_save_setup(QEMUFile *f, void *opaque)
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index ac065b559f4e..414a5e69ec5e 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -160,3 +160,4 @@ vfio_save_complete_precopy(char *name) " (%s)"
- vfio_load_device_config_state(char *name) " (%s)"
- vfio_load_state(char *name, uint64_t data) " (%s) data 0x%"PRIx64
- vfio_load_state_device_data(char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
-+vfio_get_dirty_page_list(char *name, uint64_t start, uint64_t pfn_count, uint64_t page_size) " (%s) start 0x%"PRIx64" pfn_count 0x%"PRIx64 " page size 0x%"PRIx64
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index dcab8a4ae0f9..41ff5ebba27d 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -219,5 +219,7 @@ int vfio_spapr_remove_window(VFIOContainer *container,
- 
- int vfio_migration_probe(VFIODevice *vbasedev, Error **errp);
- void vfio_migration_finalize(VFIODevice *vbasedev);
-+void vfio_get_dirty_page_list(VFIODevice *vbasedev, uint64_t start_pfn,
-+                               uint64_t pfn_count, uint64_t page_size);
- 
- #endif /* HW_VFIO_VFIO_COMMON_H */
--- 
-2.7.0
+>      if (IS_USER(s)) {>          /* Implemented as NOP in user mode.  */
+>          return true;
+> @@ -10182,6 +10190,36 @@ static bool trans_CPS(DisasContext *s, arg_CPS *a)
+>      return true;
+>  }
+>
+> +static bool trans_CPS_v6m(DisasContext *s, arg_CPS_v6m *a)
+> +{
+> +    TCGv_i32 tmp, addr;
+> +
+> +    if (!(ENABLE_ARCH_6 && arm_dc_feature(s, ARM_FEATURE_M))) {
+> +        return false;
+> +    }
 
+Similarly, this one need not check ENABLE_ARCH_6.
+That is, this is the generic M-profile CPS, it's
+not specific to v6M, and FEATURE_M always implies
+ARCH_6 anyway. Usually we name M-profile specific
+functions _v7m, not _v6m, for mostly historical
+reasons relating to our having implemented v7m first,
+so maybe we should follow that here. I have made
+a bit of an inconsistent hash of this with the v8M
+support, where sometimes I use _v8m because the
+function is only in v8M and not v7M, and sometimes
+_v7m because it's an M-profile function even if it
+happens that it only kicks in or is called for
+v8M CPUs. But we do not curretly have any functions
+with a _v6m suffix so we should probably go with _v7m here.
+
+> +    if (IS_USER(s)) {
+> +        /* Implemented as NOP in user mode.  */
+> +        return true;
+> +    }
+> +
+> +    tmp = tcg_const_i32(a->im);
+> +    /* FAULTMASK */
+> +    if (a->F) {
+> +        addr = tcg_const_i32(19);
+> +        gen_helper_v7m_msr(cpu_env, addr, tmp);
+> +        tcg_temp_free_i32(addr);
+> +    }
+> +    /* PRIMASK */
+> +    if (a->I) {
+> +        addr = tcg_const_i32(16);
+> +        gen_helper_v7m_msr(cpu_env, addr, tmp);
+> +        tcg_temp_free_i32(addr);
+> +    }
+> +    tcg_temp_free_i32(tmp);
+> +    gen_lookup_tb(s);
+> +    return true;
+> +}
+
+thanks
+-- PMM
 
