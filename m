@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E009D7F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 23:12:28 +0200 (CEST)
-Received: from localhost ([::1]:57766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90A99D89A
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 23:39:46 +0200 (CEST)
+Received: from localhost ([::1]:57900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2MHq-0001LA-TY
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 17:12:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35124)
+	id 1i2MiH-0007zS-UV
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 17:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40745)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jkz@google.com>) id 1i2MGW-0000hf-HS
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 17:11:06 -0400
+ (envelope-from <alistair23@gmail.com>) id 1i2Mgc-00079S-Ne
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 17:38:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jkz@google.com>) id 1i2MGU-00063v-PJ
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 17:11:04 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:45048)
+ (envelope-from <alistair23@gmail.com>) id 1i2Mga-00069p-EY
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 17:38:02 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:46459)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jkz@google.com>) id 1i2MGU-000624-GZ
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 17:11:02 -0400
-Received: by mail-pg1-x544.google.com with SMTP id i18so11321171pgl.11
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 14:10:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1i2MgZ-000695-WF; Mon, 26 Aug 2019 17:38:00 -0400
+Received: by mail-lf1-x144.google.com with SMTP id n19so13422664lfe.13;
+ Mon, 26 Aug 2019 14:37:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z8ZIExFHtrlKt7DHcnRJlAw2R9efWUXORN53HJrWQMo=;
- b=cKdPB7auUFwld61wp0mwxwO0cvr++TE8t/Gbmh9rISkfSr5fiJzQvZGGaXse2GCLDN
- Ubyp4Nm0mp9eONSjbjZyrCVF3YsyWq0J2LVzF3Jll0NEmUVcP4gaxL7jmVT1cNrU9K5R
- 6kNdaiRru/1AU88aSPbylC3hbdUqO0Z9+37idDrx7qS3DOZvRNMUb2nCcbocBpyN6HVx
- GUQTBmIPhR5OiI9LF/Dc0m2dmDvI9GAb+xgChsPIX7EOTMaNamcvme4IVQZ4f5PC+aBe
- HChp53Sz4paSko7jdSVexZhfzGU0Wia5PWJRTHW6ebFHtG0RxvFICZrrorS5JczI9Cmt
- sY/Q==
+ :cc; bh=3Rq7L7ilQxNbqdFyMjnApckz9Tkj2P/y4nOMdJya2Bw=;
+ b=WOJOoBdsKmOIXlep6e51OjmzTdCI8oPdwuQmA7YWUce9lRlgwjT5nCOQYpdHTmG8rR
+ s79vXwzEoh5HqxoDCUIc8lHVw4s7Efr5QPaYmkeLQrMuyBO7F64JgzwQZ5Uc2KXGVBm0
+ G6IjevwOhT6VOdux46s8q2w5ODixryX6X8XRv5ZoBEf3SREUukjcv2ljNAqcy7TVljj8
+ Hj/xIMBussAdxvQWDB3dfA75uEz1ie5+e8joDz3W2cMhcW8v3IBCRbxcyvi16sTkG62D
+ Lq3cyRy5KapJCc0jY8y5rQIumbkkB6zauvtBmft5wzRKISWyy3wALzO+4SvzxL2gByCk
+ T7Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Z8ZIExFHtrlKt7DHcnRJlAw2R9efWUXORN53HJrWQMo=;
- b=RYy6V1v2t5F3/90/ZsSns4bdSevsuYDTi1t8h0gKG+wD1NPWgIF4zdl7DMXeddqOXx
- MzphOSj8TP9DWcV5Fl9UF+KNDytKi/fzLgJlB0vg3j+RsF2L9fe2s2HmehAIvZ7GPP+D
- jnGdZUK9fbcHisRGdcgiWj8QW2YrQPIwMxO/MmVrC6vCfF0nJVxKOaWrja200sj+doCR
- FHWvafwpQkBo6UJdJ7JWP3NynDI+ojOEZEMzPDspjpxSEDFqvAx6R/kR7RNVAZEXGcwm
- 65evFP0CENVRaomToiviHcs8izjxXHsqyy6By7YRNm/IimS2pX38F9WBKjWkvFD6ebMk
- HTdg==
-X-Gm-Message-State: APjAAAXTaa/HdgkvnmyHlHi8lBHa/QyLpHVqa/THMbm6x0JO2ApTVwMe
- D9146EgDIS4vsPoGJfor3q0EEEHAs67GLW1OQ/01sA==
-X-Google-Smtp-Source: APXvYqyaDO6+AT99PLb3/AhO/c3C+gmncs7UQtnkvhT7sf4SrGLRO5s2T5lOxp2QwlRudWRzkunwnC76jHkMWxsG04Q=
-X-Received: by 2002:aa7:96b3:: with SMTP id g19mr21578265pfk.26.1566853857932; 
- Mon, 26 Aug 2019 14:10:57 -0700 (PDT)
+ bh=3Rq7L7ilQxNbqdFyMjnApckz9Tkj2P/y4nOMdJya2Bw=;
+ b=tf5upq7geX6ImTcahkROweeXpZpJmVplR6U6sT+D0Urm0ZpDvc5xkWeenuxupmKqzk
+ hlM44ZdpTm+yCTU2+Cqi9NalN6WX5scmKwBjIFxO0SvNn74+oIpDc800Alz384pUUFfh
+ uvtQpX7M/NbJzcCntaXp7MRlbIyyccwBdULXqISXdv925vHxNx2SQd+ulePh6YreBNHW
+ GQDjK8pEfKEFq20Jb7ezcVYMD7LnR4kMrCZVmplT+3eb1vc9yKooqvSE15NEAgrRG+aw
+ fWoIS5PkSyzPsLbeQ6Z8IVk5hJ208a5Z09dn4MtJeh0G8vp3Shl+uuxN5k51NxRJY3q4
+ Ra2g==
+X-Gm-Message-State: APjAAAX8uiPJq9cIJs/1FqvSh3s1dRUPqYHMH6ss044ecxDDBthGf4K+
+ n7cGXKlUZD/scPPGY53d5YPvU909g5BSUuCC9NQ=
+X-Google-Smtp-Source: APXvYqzq5FGo95PzTdJHpaQiZ2ww8UPqwUJMNi5c5T/ZCm45LmVvekCS2uhsdgQKf55at/wR8v21W1s4kSSrBGsyNIY=
+X-Received: by 2002:ac2:563c:: with SMTP id b28mr11965495lff.93.1566855478148; 
+ Mon, 26 Aug 2019 14:37:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <CADgy-2vznasvwaUwNSi96Sy=ucPC=-3e=O9irqc5DSpV_uhWUg@mail.gmail.com>
- <abf5f3b6-7c05-a85b-051f-9905b8f50041@vivier.eu>
-In-Reply-To: <abf5f3b6-7c05-a85b-051f-9905b8f50041@vivier.eu>
-Date: Mon, 26 Aug 2019 14:10:46 -0700
-Message-ID: <CADgy-2va2xVmO_a1gDwg+zkpNcLJTW5D1j=2kk1TnRMxyPaLMg@mail.gmail.com>
-To: Laurent Vivier <laurent@vivier.eu>
+References: <1566537069-22741-1-git-send-email-bmeng.cn@gmail.com>
+ <CAKmqyKOnEtyzW-=Lpe3kWPkQ2OwwPShtC7E=wmaUGRmns97D2w@mail.gmail.com>
+ <CAEUhbmXMdXgM15tfZ1eyUzxU4ycMzWa5hPsqLHnxvxQocjvT8A@mail.gmail.com>
+In-Reply-To: <CAEUhbmXMdXgM15tfZ1eyUzxU4ycMzWa5hPsqLHnxvxQocjvT8A@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 26 Aug 2019 14:33:53 -0700
+Message-ID: <CAKmqyKOxqgUec6u9DH1uB=i732vwDpmNB3Yw67p9cHV4JORzhw@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] patch to swap SIGRTMIN + 1 and SIGRTMAX - 1
+X-Received-From: 2a00:1450:4864:20::144
+Subject: Re: [Qemu-devel] [PATCH v5 00/30] riscv: sifive_u: Improve the
+ emulation fidelity of sifive_u machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,79 +73,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Josh Kunz via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Josh Kunz <jkz@google.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- riku.voipio@iki.fi, qemu-devel@nongnu.org,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, marlies.ruck@gmail.com,
- Aleksandar Markovic <amarkovic@wavecomp.com>, milos.stojanovic@rt-rk.com,
- Shu-Chun Weng <scw@google.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 21, 2019 at 2:28 AM Laurent Vivier <laurent@vivier.eu> wrote:
-
-> Le 19/08/2019 =C3=A0 23:46, Josh Kunz via Qemu-devel a =C3=A9crit :
-> > Hi all,
-> >
-> > I have also experienced issues with SIGRTMIN + 1, and am interested in
-> > moving this patch forwards. Anything I can do here to help? Would the
-> > maintainers prefer myself or Marli re-submit the patch?
-> >
-> > The Go issue here seems particularly sticky. Even if we update the Go
-> > runtime, users may try and run older binaries built with older versions
-> of
-> > Go for quite some time (months? years?). Would it be better to hide thi=
-s
-> > behind some kind of build-time flag (`--enable-sigrtmin-plus-one-proxy`
-> or
-> > something), so that some users can opt-in, but older binaries still wor=
-k
-> as
-> > expected?
-> >
-> > Also, here is a link to the original thread this message is in reply to
-> > in-case my mail-client doesn't set up the reply properly:
-> > https://lists.nongnu.org/archive/html/qemu-devel/2019-07/msg01303.html
+On Fri, Aug 23, 2019 at 10:08 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> The problem here is we break something to fix something else.
+> Hi Alistair,
 >
-> I'm wondering if the series from Aleksandar Markovic, "linux-user:
-> Support signal passing for targets having more signals than host" [1]
-> can fix the problem in a better way?
+> On Sat, Aug 24, 2019 at 1:29 AM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Thu, Aug 22, 2019 at 10:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > As of today, the QEMU 'sifive_u' machine is a special target that does
+> > > not boot the upstream OpenSBI/U-Boot firmware images built for the real
+> > > SiFive HiFive Unleashed board. Hence OpenSBI supports a special platform
+> > > "qemu/sifive_u". For U-Boot, the sifive_fu540_defconfig is referenced
+> > > in the OpenSBI doc as its payload, but that does not boot at all due
+> > > to various issues in current QEMU 'sifive_u' machine codes.
+> > >
+> > > This series aims to improve the emulation fidelity of sifive_u machine,
+> > > so that the upstream OpenSBI, U-Boot and kernel images built for the
+> > > SiFive HiFive Unleashed board can be used out of the box without any
+> > > special hack.
+> > >
+> > > The major changes include:
+> > > - Heterogeneous harts creation supported, so that we can create a CPU
+> > >   that exactly mirrors the real hardware: 1 E51 + 4 U54.
+> > > - Implemented a PRCI model for FU540
+> > > - Implemented an OTP model for FU540, primarily used for storing serial
+> > >   number of the board
+> > > - Fixed GEM support that was seriously broken on sifive_u
+> > > - Synced device tree with upstream Linux kernel on sifive_u
+> > >
+> > > OpenSBI v0.4 image built for sifive/fu540 is included as the default
+> > > bios image for 'sifive_u' machine.
+> > >
+> > > The series is tested against OpenSBI v0.4 image for sifive/fu540
+> > > paltform, U-Boot v2019.10-rc1 image for sifive_fu540_defconfig,
+> > > and Linux kernel v5.3-rc3 image with the following patch:
+> > >
+> > > macb: Update compatibility string for SiFive FU540-C000 [1]
+> > >
+> > > OpenSBI + U-Boot, ping/tftpboot with U-Boot MACB driver works well.
+> > > Boot Linux 64-bit defconfig image, verified that system console on
+> > > the serial 0 and ping host work pretty well.
+> > >
+> > > An OpenSBI patch [2] was sent to drop the special "qemu/sifive_u" platform
+> > > support in OpenSBI. The original plan was to get the drop patch applied
+> > > after this QEMU series is merged. However after discussion in the OpenSBI
+> > > mailing list, it seems the best option for us is to let OpenSBI continue
+> > > shipping the special "qemu/sifive_u" platform support to work with QEMU
+> > > version <= 4.1 and deprecate the support sometime in the future. A patch
+> > > will need to be sent to OpenSBI mailing list to update its document.
+> > >
+> > > v4 is now rebased on Palmer's QEMU RISC-V repo "for-master" branch.
+> > > Dropped the following v3 patch that was already done by someone else.
+> > > - riscv: sifive_u: Generate an aliases node in the device tree
+> > > - riscv: sifive_u: Support loading initramfs
+> > >
+> > > The following v3 patch was dropped too due to a different cluster approach
+> > > suggested by Richard Henderson is used in v4:
+> > > - riscv: hart: Support heterogeneous harts population
+> > >
+> > > [1]: https://patchwork.kernel.org/patch/11050003/
+> > > [2]: http://lists.infradead.org/pipermail/opensbi/2019-August/000335.html
+> > >
+> > > Changes in v5:
+> > > - new patch to change to use qemu_log_mask(LOG_GUEST_ERROR,...) instead
+> > >   in various sifive models
+> > > - new patch to remove the unnecessary include of target/riscv/cpu.h
+> > > - change to use defines instead of enums
+> > > - change to use qemu_log_mask(LOG_GUEST_ERROR,...) in sifive_u_prci
+> > > - creating a 32-bit val variable and using that instead of casting
+> > >   everywhere in sifive_u_prci_write()
+> > > - move all register initialization to sifive_u_prci_reset() function
+> > > - drop sifive_u_prci_create()
+> > > - s/codes that worked/code that works/g
+> > > - create sifive_u_prci block directly in the machine codes, instead
+> > >   of calling sifive_u_prci_create()
+> > > - change to use defines instead of enums
+> > > - change to use qemu_log_mask(LOG_GUEST_ERROR,...) in sifive_u_otp
+> > > - creating a 32-bit val variable and using that instead of casting
+> > >   everywhere in sifive_u_otp_write()
+> > > - move all register initialization to sifive_u_otp_reset() function
+> > > - drop sifive_u_otp_create()
+> > > - create sifive_u_otp block directly in the machine codes, instead
+> > >   of calling sifive_u_otp_create()
+> > > - add the missing "local-mac-address" property in the ethernet node
+> > >
+> > > Changes in v4:
+> > > - remove 2 more "linux,phandle" instances in sifive_u.c and spike.c
+> > >   after rebasing on Palmer's QEMU RISC-V tree
+> > > - change create_fdt() to return void in sifive_u.c too, after rebasing
+> > >   on Palmer's QEMU RISC-V tree
+> > > - new patch to remove executable attribute of opensbi images
+> > > - prefix all macros/variables/functions with SIFIVE_E/sifive_e
+> > >   in the sifive_e_prci driver
+> > > - new patch to add a "hartid-base" property to RISC-V hart array
+> > > - changed to create clusters for each cpu type
+> > > - prefix all macros/variables/functions with SIFIVE_U/sifive_u
+> > >   in the sifive_u_prci driver
+> > > - prefix all macros/variables/functions with SIFIVE_U/sifive_u
+> > >   in the sifive_u_otp driver
+> > > - new patch to remove handcrafted clock nodes for UART and ethernet
+> > >
+> > > Changes in v3:
+> > > - changed to use macros for management and compute cpu count
+> > > - use management cpu count + 1 for the min_cpus
+> > > - update IRQ numbers of both UARTs to match hardware as well
+> > >
+> > > Changes in v2:
+> > > - keep the PLIC compatible string unchanged as OpenSBI uses that
+> > >   for DT fix up
+> > > - drop patch "riscv: sifive: Move sifive_mmio_emulate() to a common place"
+> > > - new patch "riscv: sifive_e: Drop sifive_mmio_emulate()"
+> > > - fixed the "interrupts-extended" property size
+> > > - update the file header to indicate at least 2 harts are created
+> > > - use create_unimplemented_device() to create the GEM management
+> > >   block instead of sifive_mmio_emulate()
+> > > - add "phy-handle" property to the ethernet node
+> > >
+> > > Bin Meng (30):
+> > >   riscv: hw: Remove superfluous "linux,phandle" property
+> > >   riscv: hw: Use qemu_fdt_setprop_cell() for property with only 1 cell
+> > >   riscv: hw: Remove not needed PLIC properties in device tree
+> > >   riscv: hw: Change create_fdt() to return void
+> > >   riscv: hw: Change to use qemu_log_mask(LOG_GUEST_ERROR,...) instead
+> > >   riscv: hw: Remove the unnecessary include of target/riscv/cpu.h
+> > >   riscv: roms: Remove executable attribute of opensbi images
+> > >   riscv: sifive_u: Remove the unnecessary include of prci header
+> > >   riscv: sifive: Rename sifive_prci.{c,h} to sifive_e_prci.{c,h}
+> > >   riscv: sifive_e: prci: Fix a typo of hfxosccfg register programming
+> > >   riscv: sifive_e: prci: Update the PRCI register block size
+> > >   riscv: sifive_e: Drop sifive_mmio_emulate()
+> > >   riscv: Add a sifive_cpu.h to include both E and U cpu type defines
+> > >   riscv: hart: Extract hart realize to a separate routine
+> > >   riscv: hart: Add a "hartid-base" property to RISC-V hart array
+> > >   riscv: sifive_u: Update hart configuration to reflect the real FU540
+> > >     SoC
+> > >   riscv: sifive_u: Set the minimum number of cpus to 2
+> > >   riscv: sifive_u: Update PLIC hart topology configuration string
+> > >   riscv: sifive: Implement PRCI model for FU540
+> > >   riscv: sifive_u: Generate hfclk and rtcclk nodes
+> > >   riscv: sifive_u: Add PRCI block to the SoC
+> > >   riscv: sifive_u: Reference PRCI clocks in UART and ethernet nodes
+> > >   riscv: sifive_u: Update UART base addresses and IRQs
+> > >   riscv: sifive_u: Change UART node name in device tree
+> > >   riscv: roms: Update default bios for sifive_u machine
+> > >   riscv: sifive: Implement a model for SiFive FU540 OTP
+> > >   riscv: sifive_u: Instantiate OTP memory with a serial number
+> > >   riscv: sifive_u: Fix broken GEM support
+> > >   riscv: sifive_u: Remove handcrafted clock nodes for UART and ethernet
+> > >   riscv: sifive_u: Update model and compatible strings in device tree
+> >
+> > I can't see patch 12 and it looks like it didn't make it to the list either:
+> >
+> > https://patchew.org/QEMU/1566537069-22741-1-git-send-email-bmeng.cn@gmail.com/
+> >
 >
+> Yes, it did not arrive at the mailing list for some weird unknown
+> reason. This was seen in previous version too. Suspect there is
+> something wrong with the QEMU mailing list.
+>
+> But I think you should be able to find that in your inbox. I "bcc"
+> another email address of mine when sending patches and confirmed all
+> the patches in the series were received.
 
-That patch[1] (which I'll refer to as the MUX patch to avoid confusion)
-does not directly fix the issue addressed by this patch (re-wiring
-SIGRTMIN+1), but since it basically implements generic signal multiplexing,
-it could be re-worked to address this case as well. The way it handles
-`si_code` spooks me a little bit. It could easily be broken by a kernel
-version change, and such a breakage could be hard to detect or lead to
-surprising results. Other than that, it looks like a reasonable
-implementation.
+Ah, you are right. I didn't check my work email for the patch.
 
-That said, overall, fixing the SIGRTMIN+1 issue using a more-generic
-signal-multiplexing mechanism doesn't seem *that* much better to me. It
-adds a lot of complexity, and only saves a single signal (assuming glibc
-doesn't add more reserved signals). The "big win" is additional emulation
-features, like those introduced in MUX patch (being able to utilize signals
-outside of the host range). If having those features in QEMU warrants the
-additional complexity, then re-working this patch on-top of that
-infrastructure seems like a good idea.
+I have reviewed the patch.
 
-If the maintainers want to go down that route, then I would be happy to
-re-work this patch utilizing the infrastructure from the MUX patch.
-Unfortunately it will require non-trivial changes, so it may be best to
-wait until that patch is merged. I could also provide a patch "on top of"
-the MUX patch, if that's desired/more convenient.
+Alistair
 
-Just one last note, if you do decide to merge the MUX patch, then it would
-be best to use SIGRTMAX (instead of SIGRTMAX-1) as the multiplexing signal
-if possible, to avoid breaking go binaries.
+>
+> Regards,
+> Bin
 
-Thanks again for taking a look at this issue.
-
-Cheers,
-Josh Kunz
-
-[1] http://patchwork.ozlabs.org/cover/1103565/
