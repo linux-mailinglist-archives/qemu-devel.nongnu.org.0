@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5F69D728
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 22:02:37 +0200 (CEST)
-Received: from localhost ([::1]:57326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60CD9D72E
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 22:05:32 +0200 (CEST)
+Received: from localhost ([::1]:57356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2LCG-0006mQ-4Q
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 16:02:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47133)
+	id 1i2LF5-0001GL-Tj
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 16:05:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i2L8w-0004rU-IH
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:59:11 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i2L8x-0004sx-JH
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:59:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1i2L8v-0000k1-GY
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:59:10 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:33257)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1i2L8w-0000kk-L3
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:59:11 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:46053)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1i2L8v-0000je-Ce
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:59:09 -0400
-Received: by mail-qk1-x741.google.com with SMTP id w18so15153254qki.0
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 12:59:09 -0700 (PDT)
+ id 1i2L8w-0000ka-HM
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 15:59:10 -0400
+Received: by mail-qk1-x741.google.com with SMTP id m2so15095708qki.12
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 12:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6vKc3KTMZLJZZmLzgCK03pmr6FwqF+2WsP7Qm1coCZg=;
- b=eshfaByV1dIgN+qbK35LY1YTWu5xITDr3OHBbFH/liNXxAnAh9kHbnj7llbgi8lbLj
- BrfE+171JvnoAdOaAps6gWh5sGHnA/XZpC4CIV6wjGmaLaknOqRRqbCNsJlfQzSi0I7f
- YyugO8PeIjYuVtuvj/5WY1cuEliRZZ+m8gP3xFvZaVgnu85emGsqIo8yjSAQ9zvdFnMI
- 3cwKjB8R7iuwqc0QvsBjE/UiVoMp4CYeEa45Wk8P1HE11xfLL64ia96a8LZhHle1ze7x
- 6mczqY+FYdis0PttDSuyisFq6+TQ/7wXq72jFAJ7rVPWk1lVNpk/WPBsYYz5vzt1QnDU
- PaKg==
+ bh=ZOgPcO45w+lAd8b5mAaLnclR6mwgfXcXmo8jMMQhxfA=;
+ b=L3/CHfOt8zgMPb93Ex2QfdJ+MiVLU1UxfH1qqA8z8C5/5Xr706RvoY1w9e3CHQhqk1
+ IBjlvsz2DioOTBoJAKR+zRuQ/X8ytfPXtsYttyvHVqXIQhXjW5cLWrCvKZLym5XsnrVA
+ mljtVPCDwFdpuRH0uVU1X/AeabGzXbon4RDEqEMeX14JELYquNGCgi4nUlu8o9kwKbO9
+ o4X+km2YgW/stjnYXVoEF7BC1MZuavY25ghc2/+64nq/gsiUQfwMp/uZBaqjexCcWlSL
+ XEpyrt9kY2I/R1YLVOFLHPs7M+G8jhxTCjeHLby2rifoR2Bsn4bppL63lPhi4XmXIR74
+ 4Brg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6vKc3KTMZLJZZmLzgCK03pmr6FwqF+2WsP7Qm1coCZg=;
- b=TLb+r9zWD+dNOAm3BcazdBSlVqoljeomLKSBd6/ZngZ1r+M7rY3UZWjvOAR5AmuXwG
- yXklO6SGzbiKMysAq6g9RQUilCRUHBrI4OV7Y6Nas/LCdwGP3eV2nGtSaG9uClZY3/BL
- Ai2Om5lSYkCiBRKYrkewXxAxs79QLv5QK4m6/SBh3/l+dc1VomlhXP+293bpgZ0e39zN
- eqZ/Wc4Za39DQrRyRlSm4oDQkDpNWrmm+LD1sNTPUDznVHnx8Gp3vMZ5T4dW0gttslf5
- byUrbJFx01PeDLTmplDuoDN9gPz3kGEcOi8HHYvoEZlGARkyb7UgUODNfMca7PHymt6p
- Zpug==
-X-Gm-Message-State: APjAAAUloKKt3oHyQMcQNUue/IBwbVBekxmG1dC/kk/YOKAe6H2vWenx
- Hlf7VA1Q7MIHNs/TlMvB1oeqt74UaVA=
-X-Google-Smtp-Source: APXvYqzaa22kZgnGLnDf+9v+3B1MLg0bzLxg1ecnhqVcmQmh9sM4VyJAqMwYZ/ky0KNQTzUVLSAkTw==
-X-Received: by 2002:a05:620a:137b:: with SMTP id
- d27mr18842173qkl.161.1566849548777; 
- Mon, 26 Aug 2019 12:59:08 -0700 (PDT)
+ bh=ZOgPcO45w+lAd8b5mAaLnclR6mwgfXcXmo8jMMQhxfA=;
+ b=troovqYq+9LD7T1LIQmJmcWq2poSKl0oTj3Sf2xJHVcBPJDbOu3VCwF8jyD5iZhtz3
+ FYXUHym5O0dUtOaavNEV4Rr1ZcLCE0tcfoHkHYMQzuejHpqwvvRR8z7TFXschr51c8G4
+ SzBFuUY2/aV/FnOcrLRwYEgQ0lARvoSEW+T1AXeLV/Sun8CuHtWnph87pBeNO2Fq5SnV
+ uy/Wcb3txsp+l4rSS9fdbWqjneWwf0GUfK0kHU0vOa8SPh+diT4omI3Zbh70cj+keD7j
+ npynCIH+dttodsaZxr0iYuZNGlCKIhBezC3Iiz+lxY1NqcfJUKEQfwXEe+rWlRU/Dh28
+ Wu+w==
+X-Gm-Message-State: APjAAAXW/mJ738QzApWl0diZPEnn1fMW7Z+GyF+Nd0oW5xs+/vmLhr6U
+ ojt4nEpQpmV2t8r6hvXXttrSz1RQTx0=
+X-Google-Smtp-Source: APXvYqyKXFCAch8fa4tAO5RdzHHmb1+iSHa6/gwPpvaP2/ZoSVBzXUx8EOMRxKdjkza1F3HfiPhSOw==
+X-Received: by 2002:a05:620a:7c8:: with SMTP id
+ 8mr17335619qkb.424.1566849550046; 
+ Mon, 26 Aug 2019 12:59:10 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-61b1-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:61b1::5])
- by smtp.gmail.com with ESMTPSA id v7sm6795459qte.86.2019.08.26.12.59.07
+ by smtp.gmail.com with ESMTPSA id v7sm6795459qte.86.2019.08.26.12.59.08
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 26 Aug 2019 12:59:08 -0700 (PDT)
+ Mon, 26 Aug 2019 12:59:09 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 26 Aug 2019 21:59:02 +0200
-Message-Id: <02d4328c33455742d01e0b62395013e95293c3ba.1566847960.git.DirtY.iCE.hu@gmail.com>
+Date: Mon, 26 Aug 2019 21:59:03 +0200
+Message-Id: <f7c0fa20f3ee3c10409bde0d474fc2a47177838d.1566847960.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1566847960.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1566847960.git.DirtY.iCE.hu@gmail.com>
@@ -72,8 +72,7 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::741
-Subject: [Qemu-devel] [PATCH v2 2/4] audio: omitting audiodev= parameter is
- only deprecated
+Subject: [Qemu-devel] [PATCH v2 3/4] audio: paaudio: fix client name
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,64 +84,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unfortunately, changes introduced in af2041ed2d "audio: audiodev=
-parameters no longer optional when -audiodev present" breaks backward
-compatibility.  This patch changes the error into a deprecation warning.
+pa_context_new expects a client name, not a server socket path.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- qemu-deprecated.texi | 7 +++++++
- audio/audio.c        | 8 ++++----
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ audio/paaudio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 00a4b6f350..9d74a1cfc0 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -72,6 +72,13 @@ backend settings instead of environment variables.  To ease migration to
- the new format, the ``-audiodev-help'' option can be used to convert
- the current values of the environment variables to ``-audiodev'' options.
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index bfef9acaad..777b8e4718 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -866,7 +866,7 @@ static void *qpa_conn_init(const char *server)
+     }
  
-+@subsection Creating sound card devices and vnc without audiodev= property (since 4.2)
-+
-+When not using the deprecated legacy audio config, each sound card
-+should specify an @code{audiodev=} property.  Additionally, when using
-+vnc, you should specify an @code{audiodev=} propery if you plan to
-+transmit audio through the VNC protocol.
-+
- @subsection -mon ...,control=readline,pretty=on|off (since 4.1)
- 
- The @code{pretty=on|off} switch has no effect for HMP monitors, but is
-diff --git a/audio/audio.c b/audio/audio.c
-index ae335dbebb..e99fcd0694 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -1412,8 +1412,9 @@ static AudioState *audio_init(Audiodev *dev, const char *name)
-         drvname = AudiodevDriver_str(dev->driver);
-     } else if (!QTAILQ_EMPTY(&audio_states)) {
-         if (!legacy_config) {
--            dolog("You must specify an audiodev= for the device %s\n", name);
--            exit(1);
-+            dolog("Device %s: audiodev default parameter is deprecated, please "
-+                  "specify audiodev=%s\n", name,
-+                  QTAILQ_FIRST(&audio_states)->dev->id);
-         }
-         return QTAILQ_FIRST(&audio_states);
-     } else {
-@@ -1548,8 +1549,7 @@ CaptureVoiceOut *AUD_add_capture(
- 
-     if (!s) {
-         if (!legacy_config) {
--            dolog("You must specify audiodev when trying to capture\n");
--            return NULL;
-+            dolog("Capturing without setting an audiodev is deprecated\n");
-         }
-         s = audio_init(NULL, NULL);
+     c->context = pa_context_new(pa_threaded_mainloop_get_api(c->mainloop),
+-                                server);
++                                "qemu");
+     if (!c->context) {
+         goto fail;
      }
 -- 
 2.22.0
