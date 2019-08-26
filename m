@@ -2,46 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02759D14D
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 16:05:00 +0200 (CEST)
-Received: from localhost ([::1]:53230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F099D15F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 16:09:05 +0200 (CEST)
+Received: from localhost ([::1]:53281 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2FcB-00023k-GO
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 10:04:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38439)
+	id 1i2Fg8-0005lL-5A
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 10:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40920)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i2FQJ-0000Vq-6y
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:52:44 -0400
+ (envelope-from <imammedo@redhat.com>) id 1i2FdK-00044E-3f
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 10:06:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i2FQH-0007Uw-UY
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 09:52:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45020)
+ (envelope-from <imammedo@redhat.com>) id 1i2FdE-0005DY-J8
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 10:06:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51064)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i2FQE-0007Pl-4d; Mon, 26 Aug 2019 09:52:38 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1i2FdB-00057r-VG; Mon, 26 Aug 2019 10:06:03 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7489D190C019;
- Mon, 26 Aug 2019 13:52:31 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4EEC55D6C8;
- Mon, 26 Aug 2019 13:52:27 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 26 Aug 2019 16:51:03 +0300
-Message-Id: <20190826135103.22410-14-mlevitsk@redhat.com>
-In-Reply-To: <20190826135103.22410-1-mlevitsk@redhat.com>
-References: <20190826135103.22410-1-mlevitsk@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Mon, 26 Aug 2019 13:52:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7F0EF3082B43;
+ Mon, 26 Aug 2019 14:05:58 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D029E600D1;
+ Mon, 26 Aug 2019 14:05:53 +0000 (UTC)
+Date: Mon, 26 Aug 2019 16:05:52 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20190826160552.77c35ac7@redhat.com>
+In-Reply-To: <20190816170750.23910-1-ehabkost@redhat.com>
+References: <20190816170750.23910-1-ehabkost@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Mon, 26 Aug 2019 14:05:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 13/13] qcrypto-luks: implement more rigorous
- header checking
+Subject: Re: [Qemu-devel] [PATCH v2] pc: Don't make die-id mandatory unless
+ necessary
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,93 +56,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Peter Krempa <pkrempa@redhat.com>,
+ Vanderson Martins do Rosario <vandersonmr2@gmail.com>,
+ Like Xu <like.xu@linux.intel.com>, Erik Skultety <eskultet@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Check that keyslots don't overlap with the data,
-and check that keyslots don't overlap with each other.
-(this is done using naive O(n^2) nested loops,
-but since there are just 8 keyslots, this doesn't really matter.
+On Fri, 16 Aug 2019 14:07:50 -0300
+Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- crypto/block-luks.c | 46 +++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 44 insertions(+), 2 deletions(-)
+> We have this issue reported when using libvirt to hotplug CPUs:
+> https://bugzilla.redhat.com/show_bug.cgi?id=1741451
+> 
+> Basically, libvirt is not copying die-id from
+> query-hotpluggable-cpus, but die-id is now mandatory.
+> 
+> We could blame libvirt and say it is not following the documented
+> interface, because we have this buried in the QAPI schema
+> documentation:
+> 
+> > Note: currently there are 5 properties that could be present
+> > but management should be prepared to pass through other
+> > properties with device_add command to allow for future
+> > interface extension. This also requires the filed names to be kept in
+> > sync with the properties passed to -device/device_add.  
+> 
+> But I don't think this would be reasonable from us.  We can just
+> make QEMU more flexible and let die-id to be omitted when there's
+> no ambiguity.  This will allow us to keep compatibility with
+> existing libvirt versions.
+> 
+> Test case included to ensure we don't break this again.
+> 
+> Fixes: commit 176d2cda0dee ("i386/cpu: Consolidate die-id validity in smp context")
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
-diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-index db0fb764b4..fdf4c41f8a 100644
---- a/crypto/block-luks.c
-+++ b/crypto/block-luks.c
-@@ -541,12 +541,12 @@ fail:
- static int
- qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
- {
--    int ret;
-+    int ret = -EINVAL;
-+    size_t i, j;
- 
-     if (memcmp(luks->header.magic, qcrypto_block_luks_magic,
-                QCRYPTO_BLOCK_LUKS_MAGIC_LEN) != 0) {
-         error_setg(errp, "Volume is not in LUKS format");
--        ret = -EINVAL;
-         goto fail;
-     }
- 
-@@ -557,6 +557,48 @@ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
-         goto fail;
-     }
- 
-+    /* Check all keyslots for corruption  */
-+    for (i = 0 ; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; i++) {
-+
-+        const QCryptoBlockLUKSKeySlot *slot1 = &luks->header.key_slots[i];
-+        unsigned int start1 = slot1->key_offset_sector;
-+        unsigned int len1 =
-+            qcrypto_block_luks_splitkeylen_sectors(luks, slot1->stripes);
-+
-+        if (slot1->stripes == 0) {
-+            error_setg(errp, "Keyslot %zu is corrupted (stripes == 0)", i);
-+            goto fail;
-+        }
-+
-+        if (slot1->active != QCRYPTO_BLOCK_LUKS_KEY_SLOT_DISABLED &&
-+                slot1->active != QCRYPTO_BLOCK_LUKS_KEY_SLOT_ENABLED) {
-+            error_setg(errp,
-+                       "Keyslot %zu state (active/disable) is corrupted", i);
-+            goto fail;
-+        }
-+
-+        if (start1 + len1 > luks->header.payload_offset_sector) {
-+            error_setg(errp,
-+                       "Keyslot %zu is overlapping with the encrypted payload",
-+                       i);
-+            goto fail;
-+        }
-+
-+        for (j = i + 1 ; j < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; j++) {
-+            const QCryptoBlockLUKSKeySlot *slot2 = &luks->header.key_slots[j];
-+            unsigned int start2 = slot2->key_offset_sector;
-+            unsigned int len2 =
-+                qcrypto_block_luks_splitkeylen_sectors(luks, slot2->stripes);
-+
-+            if (start1 + len1 > start2 && start2 + len2 > start1) {
-+                error_setg(errp,
-+                           "Keyslots %zu and %zu are overlapping in the header",
-+                           i, j);
-+                goto fail;
-+            }
-+        }
-+
-+    }
-     return 0;
- fail:
-     return ret;
--- 
-2.17.2
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+> Changes v1 -> v2:
+> * v1 was "pc: Don't make CPU properties mandatory unless necessary"
+> * Make only die-id optional (Igor Mammedov)
+> ---
+>  hw/i386/pc.c                             |  8 ++++++
+>  tests/acceptance/pc_cpu_hotplug_props.py | 35 ++++++++++++++++++++++++
+>  2 files changed, 43 insertions(+)
+>  create mode 100644 tests/acceptance/pc_cpu_hotplug_props.py
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 3ab4bcb3ca..9c3f6ae828 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -2406,6 +2406,14 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+>          int max_socket = (ms->smp.max_cpus - 1) /
+>                                  smp_threads / smp_cores / pcms->smp_dies;
+>  
+> +        /*
+> +         * die-id was optional in QEMU 4.0 and older, so keep it optional
+> +         * if there's only one die per socket.
+> +         */
+> +        if (cpu->die_id < 0 && pcms->smp_dies == 1) {
+> +            cpu->die_id = 0;
+> +        }
+> +
+>          if (cpu->socket_id < 0) {
+>              error_setg(errp, "CPU socket-id is not set");
+>              return;
+> diff --git a/tests/acceptance/pc_cpu_hotplug_props.py b/tests/acceptance/pc_cpu_hotplug_props.py
+> new file mode 100644
+> index 0000000000..08b7e632c6
+> --- /dev/null
+> +++ b/tests/acceptance/pc_cpu_hotplug_props.py
+> @@ -0,0 +1,35 @@
+> +#
+> +# Ensure CPU die-id can be omitted on -device
+> +#
+> +#  Copyright (c) 2019 Red Hat Inc
+> +#
+> +# Author:
+> +#  Eduardo Habkost <ehabkost@redhat.com>
+> +#
+> +# This library is free software; you can redistribute it and/or
+> +# modify it under the terms of the GNU Lesser General Public
+> +# License as published by the Free Software Foundation; either
+> +# version 2 of the License, or (at your option) any later version.
+> +#
+> +# This library is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> +# Lesser General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU Lesser General Public
+> +# License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> +#
+> +
+> +from avocado_qemu import Test
+> +
+> +class OmittedCPUProps(Test):
+> +    """
+> +    :avocado: tags=arch:x86_64
+> +    """
+> +    def test_no_die_id(self):
+> +        self.vm.add_args('-nodefaults', '-S')
+> +        self.vm.add_args('-smp', '1,sockets=2,cores=2,threads=2,maxcpus=8')
+> +        self.vm.add_args('-cpu', 'qemu64')
+> +        self.vm.add_args('-device', 'qemu64-x86_64-cpu,socket-id=1,core-id=0,thread-id=0')
+> +        self.vm.launch()
+> +        self.assertEquals(len(self.vm.command('query-cpus')), 2)
 
 
