@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B869D4D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 19:22:53 +0200 (CEST)
-Received: from localhost ([::1]:56118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926359D4D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Aug 2019 19:22:52 +0200 (CEST)
+Received: from localhost ([::1]:56116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2Ihg-00036U-4J
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 13:22:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48162)
+	id 1i2Ihf-00034g-3A
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 13:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48164)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i2Ifd-0001s9-0S
+ (envelope-from <bounces@canonical.com>) id 1i2Ifd-0001sC-99
  for qemu-devel@nongnu.org; Mon, 26 Aug 2019 13:20:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i2Ifb-0002t8-QW
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 13:20:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36842)
+ (envelope-from <bounces@canonical.com>) id 1i2Ifc-0002tM-5p
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 13:20:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36862)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i2Ifb-0002sM-K9
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 13:20:43 -0400
+ id 1i2Ifc-0002se-0O
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 13:20:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i2Ifa-0000nx-Ez
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 17:20:42 +0000
+ id 1i2Ifb-0000nx-2K
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 17:20:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6F8042E80CB
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 17:20:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 007962E80CC
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 17:20:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Aug 2019 17:06:53 -0000
+Date: Mon, 26 Aug 2019 17:09:29 -0000
 From: Richard Henderson <rth@twiddle.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,13 +44,13 @@ X-Launchpad-Bug-Commenters: 7-pc ajbennee rth
 X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
 X-Launchpad-Bug-Modifier: Richard Henderson (rth)
 References: <156683160080.31851.8159878323909291412.malonedeb@soybean.canonical.com>
-Message-Id: <156683921353.7001.14242262226758703609.malone@gac.canonical.com>
+Message-Id: <156683936980.3485.7001675352238859641.malone@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19031";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: ad6fd9a80e32f63f4fcdf5db687423752d23d79e
+X-Launchpad-Hash: fe77f86e085c9caefeb7c920f962d03cad3f649f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1841442] Re: floating point emulation can fail to
@@ -69,24 +69,11 @@ Reply-To: Bug 1841442 <1841442@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Interesting. Did you run qemu-aarch64 on aarch64? If so, it may have been
-> using "hardfloat". I ran "qemu-system-ppc64" on x86_64 and "qemu-x86_64"
-> on ppc64le to ensure I was using "softfloat".
+Patch for ppc:
+https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg05532.html
 
-That's not how that works.  Indeed, the point of the hardfloat path is to
-accelerate fpu emulation for a non-native guest.
-
-That said, qemu-system-ppc64 will *never* use hardfloat, because ppc always
-need the current and correct result of inexact for emulation of the FI bit,
-which requires that we use the softfloat path.
-
-Also, use of the hardfloat path requires normal inputs.  For this test case
-we're passing the minimum denormal input: 0x0000_0000_0000_0001.  So we will
-always use the softfloat path for this.
-
-
-** Changed in: qemu
-       Status: New =3D> Confirmed
+Fixing x86_64 is significantly harder, as support for fp exceptions
+is completely lacking in the code currently.
 
 -- =
 
