@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5F69EF2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 17:41:11 +0200 (CEST)
-Received: from localhost ([::1]:52946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E931E9EF41
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 17:44:52 +0200 (CEST)
+Received: from localhost ([::1]:53056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2dao-0003xM-Kt
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 11:41:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53653)
+	id 1i2deO-0007KQ-2K
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 11:44:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i2dX4-0000f9-Fk
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:37:19 -0400
+ (envelope-from <rjones@redhat.com>) id 1i2ddA-0006U4-9q
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:43:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i2dX3-0006d9-0P
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:37:18 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46317)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i2dX2-0006cm-Px
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:37:16 -0400
-Received: by mail-oi1-x242.google.com with SMTP id t24so15259635oij.13
- for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 08:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=t5I3HKsguqHeB727TvHpayH/w/G2mmJD9HCQWuDpFC0=;
- b=cQRvZ4+ElY5CWnkv4GxSJqqTeKSnzToVRc6Ez414WNgQsfrYnqu7GgpxKJEcdd7PMJ
- JZSJ6Z5HVY9CGoNjXU6sd/uCvOAcDIM/jw65poN98s3+OZsPnu1499aHryP9+rnIkVJh
- NyY+LqgImCSJRtdvz6l9Mc7h+0sYA70XF/do1Wz7pFmpr6jBezXJyoo2poSA3O/jZYUb
- sQMhOVvTgfl1ZhSGJvFo3NXKe89vBp+TkPC66tn5MdtujLGy/ulFaHEzGugCfhQX3ni7
- U4tGZqvkoKRTp7SKchGvQXrVfeOs5uu4tuDFK0BPcpTKu9lhvMrjH3/HvVc7F7OEiPVg
- wN8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=t5I3HKsguqHeB727TvHpayH/w/G2mmJD9HCQWuDpFC0=;
- b=FKdW1rno2dMSE6E/Qk4cYVTDqgi/kL0HVdbAQu9ZYwBqTiOEPYEcn0K9FZCMC6OulT
- nPd+ngogUWRFcNtzx+EyOAuipcl7s6c91dD4oFBNLOlvuM7vFwa2TKhiLf11QQawm7IO
- wFWxFSxoHwve4hZybyDxJj+r/NMIPj1Kv1PTt6714kh0Zf3D5MvwxZB0q5ytaH9CZ1+C
- xSv6Xau1JlzxJXhEwikSdFRkwZtIASgn2J/CpRpQe+a+YTWDaSL2eI+AYvF94hu5M+te
- YJA9l2CMEAByosHzRbF7MFNeuc6jwVfQHBhlkedopdSkBwxDCRpQWA2DI6bSiMBNecrD
- YbUQ==
-X-Gm-Message-State: APjAAAUvm1T+jmB7o5t9AJP7dhccfgA64JKc79wSmT/MBtRneyR/gjgJ
- 5cu3Exn+GsyKV/8/zTHWP3MyVQJxw3d3i/shkJxwMw==
-X-Google-Smtp-Source: APXvYqyZH/h9akaN8che0lajVeoWjeRlK6CWKCx8L7FNL3d1y+DS+w6Ky7ahxH5rVUcWwWTAcQhqd3y2DuBSFOQct0U=
-X-Received: by 2002:aca:4814:: with SMTP id v20mr16737854oia.98.1566920235745; 
- Tue, 27 Aug 2019 08:37:15 -0700 (PDT)
+ (envelope-from <rjones@redhat.com>) id 1i2dd9-0002HG-1S
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:43:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35864)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <rjones@redhat.com>)
+ id 1i2dd5-0002FV-Br; Tue, 27 Aug 2019 11:43:31 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AB0294D2E6;
+ Tue, 27 Aug 2019 15:43:30 +0000 (UTC)
+Received: from localhost (ovpn-116-117.ams2.redhat.com [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F6D41001B09;
+ Tue, 27 Aug 2019 15:43:27 +0000 (UTC)
+Date: Tue, 27 Aug 2019 16:43:27 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Message-ID: <20190827154327.GA7304@redhat.com>
+References: <25ead363-4f37-5450-b985-1876374e314d@redhat.com>
+ <20190823144054.27420-1-eblake@redhat.com>
+ <20190823144054.27420-4-eblake@redhat.com>
 MIME-Version: 1.0
-References: <20190704055150.4899-1-clg@kaod.org>
- <cd1f8a48-27cb-5cc5-1fd2-46f1597a7094@redhat.com>
- <20190704101345.GC1609@stefanha-x1.localdomain>
- <b304e4bd-1315-b1be-6c48-add99df92626@redhat.com>
- <CACPK8XdFUO6+Fx17Dry0D2QFhM885DugdvOkWnhgjxPc9VgG2Q@mail.gmail.com>
- <CACPK8XfZq1FvMBXLgS-WHoJy4s_L9k19hLW-XgBNoiY-DhGhWA@mail.gmail.com>
- <f5ed785c-027d-66fe-aba2-d03001b44162@redhat.com>
- <CACPK8XcG4JRq0hAUPu4+vv-j1TFNwwsu5iv6X9M-qAgm0atTRA@mail.gmail.com>
-In-Reply-To: <CACPK8XcG4JRq0hAUPu4+vv-j1TFNwwsu5iv6X9M-qAgm0atTRA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Aug 2019 16:37:04 +0100
-Message-ID: <CAFEAcA_zt-=BKZa3CnnP0XNjurxwd1svsda5LnsJ+YsKHdRL_Q@mail.gmail.com>
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH for 4.1] aspeed/timer: Provide
- back-pressure information for short periods
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190823144054.27420-4-eblake@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Tue, 27 Aug 2019 15:43:30 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Libguestfs] [nbdkit PATCH 3/3] plugins: Add
+ .can_fast_zero hook
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,61 +59,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, libguestfs@redhat.com,
+ nbd@other.debian.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 21 Aug 2019 at 04:16, Joel Stanley <joel@jms.id.au> wrote:
->
-> On Tue, 16 Jul 2019 at 07:02, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com> wrote:
-> > On 7/16/19 9:00 AM, Joel Stanley wrote:
-> > > On Tue, 16 Jul 2019 at 06:54, Joel Stanley <joel@jms.id.au> wrote:
-> > >> On Thu, 4 Jul 2019 at 12:26, Paolo Bonzini <pbonzini@redhat.com> wro=
-te:
-> > >>> On 04/07/19 12:13, Stefan Hajnoczi wrote:
-> > >>>> On Thu, Jul 04, 2019 at 11:26:53AM +0200, Philippe Mathieu-Daud=C3=
-=A9 wrote:
-> > >>>>> CC'ing Stefan & Paolo for a non-ARM view on this...
-> > >>>>
-> > >>>> I'm not familiar with the various clock smoothing techniques imple=
-mented
-> > >>>> in QEMU and KVM, but this looks okay given that Linux guests expec=
-t
-> > >>>> this.
-> > >>>
-> > >>> Yeah, even KVM applies a minimum period of 200us to the x86 LAPIC t=
-imer.
-> > >>
-> > >> Can we please merge this so guests can boot on 4.1?
-> > >
-> > > C=C3=A9dric pointed out this lacks my reviewed by. I had not provided=
- it in
-> > > the past as I wondered if we could come up with a better fix. However=
-,
-> > > I consider this a good fix for 4.1, and if sometime finds time to
-> > > further rework the timer model in the future then we can do that work
-> > > later.
-> >
-> > Agreed.
-> >
-> > >
-> > > Reviewed-by: Joel Stanley <joel@jms.id.au>
-> > > Tested-by: Joel Stanley <joel@jms.id.au>
-> >
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
-> HI Peter,
->
-> Is this one still in your queue?
 
+The nbdkit series looks fine too, so ACK again.
 
+Rich.
 
-Applied to target-arm.next, thanks.
-
--- PMM
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-p2v converts physical machines to virtual machines.  Boot with a
+live CD or over the network (PXE) and turn machines into KVM guests.
+http://libguestfs.org/virt-v2v
 
