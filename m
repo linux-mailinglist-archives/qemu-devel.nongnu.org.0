@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450E19DCAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:35:48 +0200 (CEST)
-Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0166B9DCAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:38:12 +0200 (CEST)
+Received: from localhost ([::1]:46510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2TCt-00013f-Cb
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:35:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34083)
+	id 1i2TFE-0002lG-0e
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:38:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34158)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shorne@gmail.com>) id 1i2TA7-00082d-AC
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:32:56 -0400
+ (envelope-from <shorne@gmail.com>) id 1i2TAe-0008Iz-FX
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:33:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shorne@gmail.com>) id 1i2TA6-0000pp-EY
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:32:55 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:38692)
+ (envelope-from <shorne@gmail.com>) id 1i2TAd-00010z-Ca
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:33:28 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36825)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <shorne@gmail.com>) id 1i2TA6-0000pd-8o
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:32:54 -0400
-Received: by mail-pg1-x543.google.com with SMTP id e11so11891201pga.5
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 21:32:54 -0700 (PDT)
+ (Exim 4.71) (envelope-from <shorne@gmail.com>) id 1i2TAd-00010b-6w
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:33:27 -0400
+Received: by mail-pf1-x443.google.com with SMTP id w2so13254614pfi.3
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 21:33:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=8NmA8Q1+89tPYw2sZCFOrJl5qw3W/Le0NdVzuajMIzw=;
- b=mSWN3+oNSzRtrjLHEo3RdMf6bNpP03pqTauT7K5AdF6MaqeFk1GIXolnTJSFKU3lP8
- x4Aue+5xiaMJ5mbdf0C5D6rIMyLZg2Vd7VER/U0Aa7x3nLdL/wKbDyeo33w5PG4Oq+Ww
- MlpEHAnMPT8r5IDfV2+R37o1uleQCgH/ctC+f+76Y6TumI71Fg30spRzOY3kmNoU2ipZ
- OpNFduV9dKTvSd+zIZa9AvYHLpxw7pM1crC7KMnVOuzGTPnj6CcjtW+V2OxY5AXUUx0s
- CYNzk+cepNYhiAEM1C60vyOaYGr53YtzRuHaqSNuZ2/a7gS3Gh003cluGJJvndMli+Xb
- rK+g==
+ bh=7gTt3/gVPOsWwnwWxSBRpBhAFfVeYOpEluck8DqlXuE=;
+ b=P1e6orx54C4mWsRkwHExuk9e9/qBi9eQizE8lb5auKdxV/6cGkKDJyEBla6vhGGsEt
+ zXR3tZySuqgyAIjp/OyvHtVzsLljDzaRv+loLilrwY2cCzZAWJzQLCm8zSu+7HL1hJ2J
+ Zrhufv1dgViwBC4zqsuKFPI6Oawx6K6fu7w7rPcPxPXFn0jbWgpA3TOp+eoxh95eHN56
+ RK8Cq5GRU1ImMqTwkq95FQeiTCxsgNekzhRdo6pcgKZQ5JhXMVcKTAWv6zVzH3ydv97N
+ eUuJzIRXDWt5KzAJ7mL8aGBoe8IW8BqKhZwQaS6tTUDglyzei4tNb8QSRmJOfXJOt6XK
+ 1j2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=8NmA8Q1+89tPYw2sZCFOrJl5qw3W/Le0NdVzuajMIzw=;
- b=SuZK6Y302xRCaVdIAUW5hiJYrUtuB+/dqgwE8H0RWAoYvEawZkT42gqEq+0+CSn6X1
- bhPG+WbZWqR+bIUwAS4yd/YLO7Lb+D7PU1N0aHYZr4OzX6lPtfI3eyaeSHkIJeyinxlM
- GBByBT0j6PTO4JwdbTXgwOFCShLbta+kKobnKwjck3QKUO2kde6xJlcvbc7CKsnkDgB2
- 4iUUVc43qXmkzkGMiRnMb4We71I7tBU7S9g8rV4EdKHxa2Ae/1Tzgz6VBzG+sJLgsaSa
- FQDNDoYW8TmfuPA+OwTULRJgwE3FmmndkfA0/VpIMYJnr9ba1a2A9G+UTzeSJiXMiges
- Fs2g==
-X-Gm-Message-State: APjAAAVn1g6dUc+vct7kSTNcnBmZWEhunJaPZPLZaAq9LWdFpvZ+fjT3
- hP5pAQPrw48Soln/J2UY/Dg=
-X-Google-Smtp-Source: APXvYqz4N2uwgAE53WLPosW7J1maFUV2j0hlZqop4Jrnrkk6ptJv7gDnRHRfVY/xnVVIEcRP7IfllA==
-X-Received: by 2002:a17:90a:b393:: with SMTP id
- e19mr7418097pjr.118.1566880373357; 
- Mon, 26 Aug 2019 21:32:53 -0700 (PDT)
+ bh=7gTt3/gVPOsWwnwWxSBRpBhAFfVeYOpEluck8DqlXuE=;
+ b=Z2ZustMxAhNWfbQ451XlWUMowlLcSkoLpX+1equRKiKiojkFe9pGQvNmiuzzuW+4m0
+ hWiZjeZsT6s7qP/nKmUuZyq2tIugdkrp7f3KHGpXo8UMavML11QDljZyyCgWO9c5JGxZ
+ kiFEfQ103kov6VQPO86jMPzt4gKYqEFJdajmbP+rtThU2BRTMsWcjHHl6SQVeDZEhnh1
+ roNuBDL2m1h8Ymy5UJdpgdMZefiNMKqLY7NMCK6hnZnrfPF8W6iLKXdFJNUuLPEynZqt
+ puU3gFw2sqZ2cTGhpzuwX5donxHRVoBaUe+6729DigaIRe1uwDRAMqWwuQl2bEgsScZO
+ ekeA==
+X-Gm-Message-State: APjAAAWc2ac6Czm+sRaGT4IZjUkDc271eHDakU09m21x0JOlHpN+V2z5
+ 6YwC0NG6CiXtbYzcybf3yrP73IZ6
+X-Google-Smtp-Source: APXvYqw7d38n5kota04YO6w5v6h0oY690tj7CGwoYfdtE55zeuM4YYmJ5iN7ZoQqnhL8YbgQgNm94A==
+X-Received: by 2002:a63:de07:: with SMTP id f7mr9452010pgg.213.1566880405913; 
+ Mon, 26 Aug 2019 21:33:25 -0700 (PDT)
 Received: from localhost (g75.222-224-160.ppp.wakwak.ne.jp. [222.224.160.75])
  by smtp.gmail.com with ESMTPSA id
- e189sm12122304pgc.15.2019.08.26.21.32.52
+ v66sm20618516pfv.79.2019.08.26.21.33.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Aug 2019 21:32:52 -0700 (PDT)
-Date: Tue, 27 Aug 2019 13:32:50 +0900
+ Mon, 26 Aug 2019 21:33:25 -0700 (PDT)
+Date: Tue, 27 Aug 2019 13:33:23 +0900
 From: Stafford Horne <shorne@gmail.com>
 To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190827043250.GH24874@lianli.shorne-pla.net>
+Message-ID: <20190827043323.GI24874@lianli.shorne-pla.net>
 References: <20190827000745.19645-1-richard.henderson@linaro.org>
- <20190827000745.19645-3-richard.henderson@linaro.org>
+ <20190827000745.19645-5-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190827000745.19645-3-richard.henderson@linaro.org>
+In-Reply-To: <20190827000745.19645-5-richard.henderson@linaro.org>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: Re: [Qemu-devel] [PATCH 02/13] target/openrisc: Replace cpu
- register array with a function
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH 04/13] target/openrisc: Make VR and PPC
+ read-only
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,13 +84,12 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 26, 2019 at 05:07:34PM -0700, Richard Henderson wrote:
-> The writes to cpu_R[0] are now a race across threads, now that we
-> do code generation in parallel.  Stage the change by introducing
-> a function to return the temp for R0.
+On Mon, Aug 26, 2019 at 05:07:36PM -0700, Richard Henderson wrote:
+> These SPRs are read-only.  The writes can simply be ignored,
+> as we already do for other read-only (or missing) registers.
+> There is no reason to mask the value in env->vr.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Stafford Horne <shorne@gmail.com>
- 
 
