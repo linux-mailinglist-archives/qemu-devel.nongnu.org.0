@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091F09E9A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 15:40:44 +0200 (CEST)
-Received: from localhost ([::1]:51624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13AF09E9C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 15:44:41 +0200 (CEST)
+Received: from localhost ([::1]:51716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2biF-00031N-5z
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 09:40:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32980)
+	id 1i2bm4-0006Ji-72
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 09:44:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33835)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1i2bgl-0002W1-Ol
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:39:12 -0400
+ (envelope-from <mlureau@redhat.com>) id 1i2bl0-0005i9-Vl
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:43:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1i2bgi-0006yj-Ov
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:39:09 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40961)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1i2bgi-0006y4-H2
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:39:08 -0400
-Received: by mail-wr1-x443.google.com with SMTP id j16so18834165wrr.8
- for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 06:39:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6nMO4AGoGhQn6/ZJr8niYpnNPKzJXRd82lgEZJBb4zo=;
- b=nkNZAi3iGsF3VMuFZg2gkxudAFZw0YINbrgnkmFzG0c0Erdf1xMFVqCcvvyEqw5M0M
- rreSkhxBuYtZFwOvLA0jrAPkFVGS+nuxNWcX+G/5qvJmOyUYyvjFZMTlM7gkhEIs+qiz
- BynxS8OXJ4byuM7SIu4eLbAm0moVosFYIX6csfunTPUrGZ/nIJoZXplGptd70OpCPJK8
- 6cesAjKjlssTW7TSPS4kAYQMkSugYU57KQQ8xsBTJMU4FnpY0UISjA0dJkPZr0zFWVde
- qB+0/T0f5l6xjeMK9V7WWVr63cwVTSGDaXqYdUbajuQurDpMXeQhWcHCHzPCT7NllZWr
- Xgqw==
+ (envelope-from <mlureau@redhat.com>) id 1i2bky-0000ty-Lt
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:43:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56430)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1i2bky-0000sh-Ee
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:43:32 -0400
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5CC0E91762
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 13:43:30 +0000 (UTC)
+Received: by mail-ot1-f71.google.com with SMTP id c25so11905362otp.15
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 06:43:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6nMO4AGoGhQn6/ZJr8niYpnNPKzJXRd82lgEZJBb4zo=;
- b=nNztbhqQ1vgr4hNjiLq/wXLl+lzOgFhj7cpcv1hcgqpCjO/8bBQ/E3JWtHlRxFd/uX
- e5BgMDZdUwZ+SOY2McTIUAg+czQvXBZnl6ijapvghKeqHQcTbwEaPdctWMrZk9EKfcZt
- 5rdcBt4CXc35lmFSxj3JY0Ht+/q+Oxi0uB+qJ4b350IxnbXflHVLREzHNmJ8OjYwIV+1
- r9uws1hEQOHzbza3mPKhXs4XdMxvZveQU7chNNiyICc1HcE7DfjkhpwC6/stnB1IlRv7
- msiorSyOsrkQuDzxfb3RbcPQQ/aEOBDp0bF5CZgnpQSh/PH/cmNXJyxuyQsfFncF3DeC
- 7o8g==
-X-Gm-Message-State: APjAAAUH2L2qrqqV0aNeIB1LwspFfcF3WA9d6IsFtr4yvipL6CIVHEat
- DQEGIEq8LDsJTMWvz9xztNKB9cOdOSxZYad63Cs=
-X-Google-Smtp-Source: APXvYqxNi4q36BxQDA4jV6TrzINmle1VvIm1Eecvi503fyUCGDRVUH5hku+4Ra7EEFBBp7aSIIu6yXKHke3qOgfPIH0=
-X-Received: by 2002:a05:6000:1284:: with SMTP id
- f4mr30500555wrx.89.1566913147055; 
- Tue, 27 Aug 2019 06:39:07 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=exJLbOqq35XiPgsDG6Umhc0CpHyNr+XZvpR88d8Lwug=;
+ b=PAe/sdx5sXt1G97kT7lq7+cTBogAM8xhpUq9M+sXhYAqrucDabDWrBAjPW4Fua57bl
+ Vs8UIoN+jOKxevIykzlnFmA4Dz6f7fjMkivAhYYlBkvWeCCWWqCHvw5tGcAAvY94sNd+
+ 0c5EV950JIUE97RwdBm6W+FLDxSQuYT2L76bvn98sXqvzI2VXx55/+66BBa+H5VgN+gx
+ /zyd+ej3qkxcA7JoJ4zgOV84ynwxsBxtetdoR5EZ544lf7c6xdF7gqziuKTqBuqhkD7/
+ QDPUAhLryu9b9GhLHsBAa8fENCHOGIxR/yE8riygEKbBhabN6cu7sNhP4dQaxDdWRE9+
+ d2MQ==
+X-Gm-Message-State: APjAAAWL4M2mbm3RehyP9k8+TxqmYIUjcGRfWAdLeAcdJvbBAyxmNB6W
+ n+b+DFN5arykRZCFjIEWu2v2t1mpj7LchgN2Cqvb2wnVYIu2VjUBVyfG5tItWr5Iu1ziMp0MDV5
+ ssVf5hZppZq8uoJuu/zUrIVMQJxcPyZY=
+X-Received: by 2002:a05:6830:1e96:: with SMTP id
+ n22mr4833476otr.368.1566913409841; 
+ Tue, 27 Aug 2019 06:43:29 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzTR4a42jWAhocWSTVj73zrZzY0rQC0XM4GaXqgyreaCfODVG5g9+46KyV9HADEXxCRySI4n4ySPNw1TGil/pg=
+X-Received: by 2002:a05:6830:1e96:: with SMTP id
+ n22mr4833461otr.368.1566913409567; 
+ Tue, 27 Aug 2019 06:43:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <1566495734-23297-1-git-send-email-pbonzini@redhat.com>
- <9492af41-2125-9543-203a-312f0cd9087c@redhat.com>
- <CAFEAcA__BNnW4oSyv4iTAd7rsMUfcjyNJgk0nOwbkRQtmLj9jQ@mail.gmail.com>
- <dd473e9b-716d-cd9f-47bd-433d2b17687d@redhat.com>
- <CAFEAcA81qUSMqpMTCrs9-vgj7Wmji2dCDkYrQ91wxmhTiP83Xw@mail.gmail.com>
- <dd60f779-8349-1d0d-eb86-645e2e1b0808@redhat.com>
- <CAFEAcA9i1p6XR8Bc83uHD88EWrtmU-aN_PsuZYNAAFgpgWoZgQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA9i1p6XR8Bc83uHD88EWrtmU-aN_PsuZYNAAFgpgWoZgQ@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 27 Aug 2019 17:38:54 +0400
-Message-ID: <CAJ+F1CL6dXxH2MgZU=DaCeqHFu2LtDiYsve+gwsJym5APDH9kw@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190827124909.16824-1-johannes@sipsolutions.net>
+In-Reply-To: <20190827124909.16824-1-johannes@sipsolutions.net>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 27 Aug 2019 17:43:18 +0400
+Message-ID: <CAMxuvaykLW7U5gppHe8Z2zCg6bcGxeVuBMrkKk8Eh9V3oQAY6w@mail.gmail.com>
+To: Johannes Berg <johannes@sipsolutions.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH] modules-test: fix const cast
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3] libvhost-user-glib: fix VugDev main fd
+ cleanup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,64 +72,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Johannes Berg <johannes.berg@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi
 
-On Tue, Aug 27, 2019 at 4:02 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
+On Tue, Aug 27, 2019 at 4:49 PM Johannes Berg <johannes@sipsolutions.net> wrote:
 >
-> On Fri, 23 Aug 2019 at 13:10, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > On 23/08/19 14:07, Peter Maydell wrote:
-> > >> Are you going to apply this and "[PATCH] modules-test: ui-spice-app =
-is
-> > >> not built as module" to qemu.git directly?
-> > > Is the other one also needed as a build fix ?
-> >
-> > Yes, otherwise the test fails (it didn't fail in the meson tree).
+> From: Johannes Berg <johannes.berg@intel.com>
 >
-> Both this fix and the ui-spice-app one are now in master, but
-> the 'enable-modules' Travis build still seems to be consistently
-> failing -- could somebody take a look, please?
+> If you try to make a device implementation that can handle multiple
+> connections and allow disconnections (which requires overriding the
+> VHOST_USER_NONE handling), then glib will warn that we remove a src
+> while it's still on the mainloop, and will poll() an FD that doesn't
+> exist anymore.
 >
+> Fix this by making vug_source_new() require pairing with the new
+> vug_source_destroy() so we can keep the GSource referenced in the
+> meantime.
+>
+> Note that this requires calling the new API in vhost-user-input.
+> vhost-user-gpu also uses vug_source_new(), but never seems to free
+> the result at all, so I haven't changed anything there.
+>
+> Fixes: 8bb7ddb78a1c ("libvhost-user: add glib source helper")
+> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+> ---
+>  contrib/libvhost-user/libvhost-user-glib.c | 15 ++++++++++++---
+>  contrib/libvhost-user/libvhost-user-glib.h |  1 +
+>  contrib/vhost-user-input/main.c            |  6 ++----
+>  3 files changed, 15 insertions(+), 7 deletions(-)
+>
+> diff --git a/contrib/libvhost-user/libvhost-user-glib.c b/contrib/libvhost-user/libvhost-user-glib.c
+> index 99edd2f3de45..eaf88b8aa749 100644
+> --- a/contrib/libvhost-user/libvhost-user-glib.c
+> +++ b/contrib/libvhost-user/libvhost-user-glib.c
+> @@ -91,7 +91,6 @@ vug_source_new(VugDev *gdev, int fd, GIOCondition cond,
+>      g_source_add_poll(gsrc, &src->gfd);
+>      id = g_source_attach(gsrc, NULL);
+>      g_assert(id);
+> -    g_source_unref(gsrc);
+>
+>      return gsrc;
+>  }
+> @@ -131,6 +130,16 @@ static void vug_watch(VuDev *dev, int condition, void *data)
+>      }
+>  }
+>
+> +void vug_source_destroy(GSource *src)
+> +{
+> +    if (!src) {
+> +        return;
+> +    }
+> +
+> +    g_source_unref(src);
+> +    g_source_destroy(src);
 
-I am looking at, it seems to be related to default machine
+I would call destroy() (detach) before unref().
 
-MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_BINARY=3Daarch64-softmmu/qemu-system-aarch64
-QTEST_QEMU_IMG=3Dqemu-img tests/modules-test -m=3Dquick -k --tap <
-/dev/null | ./scripts/tap-driver.pl --test-name=3D"modules-test"
+> +}
+> +
+>  bool
+>  vug_init(VugDev *dev, uint16_t max_queues, int socket,
+>           vu_panic_cb panic, const VuDevIface *iface)
+> @@ -144,7 +153,7 @@ vug_init(VugDev *dev, uint16_t max_queues, int socket,
+>      }
+>
+>      dev->fdmap = g_hash_table_new_full(NULL, NULL, NULL,
+> -                                       (GDestroyNotify) g_source_destroy);
+> +                                       (GDestroyNotify) vug_source_destroy);
+>
+>      dev->src = vug_source_new(dev, socket, G_IO_IN, vug_watch, NULL);
+>
+> @@ -157,5 +166,5 @@ vug_deinit(VugDev *dev)
+>      g_assert(dev);
+>
+>      g_hash_table_unref(dev->fdmap);
+> -    g_source_unref(dev->src);
+> +    vug_source_destroy(dev->src);
+>  }
+> diff --git a/contrib/libvhost-user/libvhost-user-glib.h b/contrib/libvhost-user/libvhost-user-glib.h
+> index 64d539d93aba..1a79a4916ef2 100644
+> --- a/contrib/libvhost-user/libvhost-user-glib.h
+> +++ b/contrib/libvhost-user/libvhost-user-glib.h
+> @@ -31,5 +31,6 @@ void vug_deinit(VugDev *dev);
+>
+>  GSource *vug_source_new(VugDev *dev, int fd, GIOCondition cond,
+>                          vu_watch_cb vu_cb, gpointer data);
+> +void vug_source_destroy(GSource *src);
+>
+>  #endif /* LIBVHOST_USER_GLIB_H */
+> diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/main.c
+> index 449fd2171a5a..7d6b0f9d80cc 100644
+> --- a/contrib/vhost-user-input/main.c
+> +++ b/contrib/vhost-user-input/main.c
+> @@ -187,7 +187,7 @@ vi_queue_set_started(VuDev *dev, int qidx, bool started)
+>      }
+>
+>      if (!started && vi->evsrc) {
+> -        g_source_destroy(vi->evsrc);
+> +        vug_source_destroy(vi->evsrc);
+>          vi->evsrc = NULL;
+>      }
+>  }
+> @@ -401,9 +401,7 @@ main(int argc, char *argv[])
+>
+>      vug_deinit(&vi.dev);
+>
+> -    if (vi.evsrc) {
+> -        g_source_unref(vi.evsrc);
+> -    }
+> +    vugg_source_destroy(vi.evsrc);
 
-qemu-system-aarch64: -machine accel=3Dqtest: No machine specified, and
-there is no default
+typo
 
-Use -machine help to list supported machines
+>      g_array_free(vi.config, TRUE);
+>      g_free(vi.queue);
+>      return 0;
 
-  TEST    iotest-qcow2: 159
+vhost-user-input calls g_source_destroy(), please replace it too with
+vug_source_destroy().
 
-socket_accept failed: Resource temporarily unavailable
-
-**
-
-ERROR:tests/libqtest.c:268:qtest_init_without_qmp_handshake: assertion
-failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
-
-tests/libqtest.c:137: kill_qemu() tried to terminate QEMU process but
-encountered exit status 1
-
-Aborted (core dumped)
-
-ERROR - too few tests run (expected 9, got 0)
-
-/home/travis/build/elmarco/qemu/tests/Makefile.include:900: recipe for
-target 'check-qtest-arm' failed
-
-
-
---=20
-Marc-Andr=C3=A9 Lureau
+vhost-user-gpu "renderer_source" leaks, not this patch fault, but
+worth to mention in the commit. Feel free to add a second commit to
+fix that too.
 
