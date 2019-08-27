@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25CC9EC41
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 17:18:47 +0200 (CEST)
-Received: from localhost ([::1]:52542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6869EC17
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 17:11:36 +0200 (CEST)
+Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2dF7-0004vw-Sw
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 11:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46948)
+	id 1i2d8A-0006Wi-KV
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 11:11:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i2cwS-0003PR-6i
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 10:59:31 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1i2cwL-0003NP-FH
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 10:59:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i2cwP-0003pR-Vl
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 10:59:27 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:44079)
+ (envelope-from <bmeng.cn@gmail.com>) id 1i2cwH-0003mC-T6
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 10:59:19 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:38403)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1i2cwL-0003jg-Q8; Tue, 27 Aug 2019 10:59:22 -0400
-Received: by mail-pl1-x644.google.com with SMTP id t14so11904690plr.11;
- Tue, 27 Aug 2019 07:59:08 -0700 (PDT)
+ id 1i2cwE-0003kj-KR; Tue, 27 Aug 2019 10:59:14 -0400
+Received: by mail-pl1-x641.google.com with SMTP id w11so11460134plp.5;
+ Tue, 27 Aug 2019 07:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=V2DW5myB/686B3BuCfQ3PMfCTq1gYnWsm27tMr5svLY=;
- b=XPYJZIPkDzAzX+hv7AKMuh2Q/qvMZULI+Pw0NTXuXIaezxnf+aN/3Y2+/HVOQH+RH3
- jfQJtDx3XoVPz8k0jrPd9H+h4HqpH7CMVABOVVyof2GWI9clxcAPyYOyabqFiFqYx/I8
- aZGSBRT1ZXPKz++h1KlK39itEflUUhVnSsKKz1WzkQFISck2Va74c53LgN7bV+xZKFOe
- x47rlame1RhO5DnrWq/9cV2o6SqAIcX6wQxlyc88rlGoZ7R+uyIrvLx7RfLXUlcoWku4
- 7998RY5qalGKvVhOHLhLYGOmHzu65BZLppsc4pY5IV/AvvFPGNISBaipEtELxhkEkz6b
- 3WfA==
+ bh=4iYtTwKnL9L1t7ZggPRWTntToQMd8o1RWJMYHgQ22bs=;
+ b=lFwnrJBus6x+S1p8pp3GS4L56iXiSkFEMKj501XEo0FJoAGvY6j1aDZsTQaQ0vYgLf
+ RovRvgcj5UkViYGZsni2hHpaSxi2VIY8E1gpKnW1y+BjTQusimHI+Xhc3W8pw1UGZGfp
+ +AY8/XtBonGZ7Xl2PrfZPoztdcaZ8G3rjitkamNC43Dnb7oTC9f0MLY+Hi1J4XP4sst4
+ 4+DVgAB6/Ujv6CuvHENG4CkiEb/8X+77uwvJjSHg0zWYZU5wD3LVPwnOclTbZrap7vVb
+ iGjjc4d8It1rCoQyVDVlUZiMMQNW+9zwowUTnunCoUq6MbXmCAgJ9VgBMRoHOd0yU1Nb
+ qBfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=V2DW5myB/686B3BuCfQ3PMfCTq1gYnWsm27tMr5svLY=;
- b=czG3Mh8lXl2UPEnvonVx7yS0bsqkYeiSjgCm3aezkoPLigcBZ83r7gzsE84M6XT3L1
- 2FX6MnSIioaJM43rQ6UrdT3x5Nje+JeytnKbTAzRmWvBMh5VD9PCm54QhdPXJEWCRChX
- sSP194Pelszj2vH5i4aCA7X578SZXEWnqVnDNQDvRMJCc12Fya6veAoC6rGOGOi9C4af
- e1O65UlWQHLX4dWQ9TM8DqA/devHBfm/NHVdn1iphhmeph3VkFWPU04b5/eSlMWv+YTx
- ltQSH9GZI7J/rP6nuZexyzz6fn+TBN5/8korPq4wFGA6fQy5lRyNEN6AVt+yuJ9/Xyov
- h8wg==
-X-Gm-Message-State: APjAAAW37UDYw+OJldeavVbz+gBhUfCcuYZnRtUGskBPGE1t/KtRlTLo
- e4g6LzfWuvkxZ/+/z8jt2ms=
-X-Google-Smtp-Source: APXvYqzv5NzAfFDEWN6xAxrc8woW0dD3g9iSENyIb5/17tOgJBEnKkyJKgGv+ulLgeySH0hmecwOcw==
-X-Received: by 2002:a17:902:8302:: with SMTP id
- bd2mr24226159plb.9.1566917948229; 
- Tue, 27 Aug 2019 07:59:08 -0700 (PDT)
+ bh=4iYtTwKnL9L1t7ZggPRWTntToQMd8o1RWJMYHgQ22bs=;
+ b=eQmsdXfYEnLjuKCPqneSXGOJ1cMbVTwUGyIvTD8Wbyf4MSkIn1sPyzNmUbwsEhgnFX
+ BC6/0XvwMrtpsLR7XiOzwjSYr/jhj9kh5JVfJ0I3NG9Pw75MnrlTJhZiEdgBbI3yLaZl
+ 7JpSEbk3AZf0yRyc/kAdoFHyZeLvUGrux3VpvwwQORaZ1zFsN7/j3AoL/7zo9NiE4a8s
+ ohOtETYSwIk5E4Iz0DHbqItKWtO1z8L/ic9Lxkjov3haQUosQ1IRRQV/Sb8ianFuKVWl
+ qm1K/Sc6xqhEaDDWhCMLNU1emKC4ps7cdB0mKuQJazegKrLd/9ljcdS8cCy3M6/iVCj5
+ 5eLg==
+X-Gm-Message-State: APjAAAUQ+2YGhHfwqnXRZ5i6+jQa5n1sAXf8q9TJrRoOG9J6qyINSJd8
+ g5jjtzE/gc8Px3ZjONyj/Oc=
+X-Google-Smtp-Source: APXvYqw+sMiN/1l03sByPMRgYQc/sV8+Co3t17fAF65whGNoaMQFXuQgvfKIrqcaBFc0jPxSKB7HLw==
+X-Received: by 2002:a17:902:8345:: with SMTP id
+ z5mr9710660pln.29.1566917952650; 
+ Tue, 27 Aug 2019 07:59:12 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id j15sm14839344pfr.146.2019.08.27.07.59.06
+ by smtp.gmail.com with ESMTPSA id j15sm14839344pfr.146.2019.08.27.07.59.11
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Tue, 27 Aug 2019 07:59:07 -0700 (PDT)
+ Tue, 27 Aug 2019 07:59:12 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Tue, 27 Aug 2019 07:58:29 -0700
-Message-Id: <1566917919-25381-21-git-send-email-bmeng.cn@gmail.com>
+Date: Tue, 27 Aug 2019 07:58:33 -0700
+Message-Id: <1566917919-25381-25-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1566917919-25381-1-git-send-email-bmeng.cn@gmail.com>
 References: <1566917919-25381-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH v6 20/30] riscv: sifive_u: Generate hfclk and
- rtcclk nodes
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: [Qemu-devel] [PATCH v6 24/30] riscv: sifive_u: Change UART node
+ name in device tree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,8 +81,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To keep in sync with Linux kernel device tree, generate hfclk and
-rtcclk nodes in the device tree, to be referenced by PRCI node.
+OpenSBI for fu540 does DT fix up (see fu540_modify_dt()) by updating
+chosen "stdout-path" to point to "/soc/serial@...", and U-Boot will
+use this information to locate the serial node and probe its driver.
+However currently we generate the UART node name as "/soc/uart@...",
+causing U-Boot fail to find the serial node in DT.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -94,64 +97,22 @@ Changes in v4: None
 Changes in v3: None
 Changes in v2: None
 
- hw/riscv/sifive_u.c         | 23 +++++++++++++++++++++++
- include/hw/riscv/sifive_u.h |  2 ++
- 2 files changed, 25 insertions(+)
+ hw/riscv/sifive_u.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 24ae3d1..f048806 100644
+index c7b9f96..d970037 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -79,6 +79,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     char ethclk_names[] = "pclk\0hclk\0tx_clk";
-     uint32_t plic_phandle, ethclk_phandle, phandle = 1;
-     uint32_t uartclk_phandle;
-+    uint32_t hfclk_phandle, rtcclk_phandle;
+@@ -286,7 +286,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     uartclk_phandle = qemu_fdt_get_phandle(fdt, nodename);
+     g_free(nodename);
  
-     fdt = s->fdt = create_device_tree(&s->fdt_size);
-     if (!fdt) {
-@@ -97,6 +98,28 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     qemu_fdt_setprop_cell(fdt, "/soc", "#size-cells", 0x2);
-     qemu_fdt_setprop_cell(fdt, "/soc", "#address-cells", 0x2);
- 
-+    hfclk_phandle = phandle++;
-+    nodename = g_strdup_printf("/hfclk");
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_cell(fdt, nodename, "phandle", hfclk_phandle);
-+    qemu_fdt_setprop_string(fdt, nodename, "clock-output-names", "hfclk");
-+    qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
-+        SIFIVE_U_HFCLK_FREQ);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "fixed-clock");
-+    qemu_fdt_setprop_cell(fdt, nodename, "#clock-cells", 0x0);
-+    g_free(nodename);
-+
-+    rtcclk_phandle = phandle++;
-+    nodename = g_strdup_printf("/rtcclk");
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_cell(fdt, nodename, "phandle", rtcclk_phandle);
-+    qemu_fdt_setprop_string(fdt, nodename, "clock-output-names", "rtcclk");
-+    qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
-+        SIFIVE_U_RTCCLK_FREQ);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "fixed-clock");
-+    qemu_fdt_setprop_cell(fdt, nodename, "#clock-cells", 0x0);
-+    g_free(nodename);
-+
-     nodename = g_strdup_printf("/memory@%lx",
-         (long)memmap[SIFIVE_U_DRAM].base);
+-    nodename = g_strdup_printf("/soc/uart@%lx",
++    nodename = g_strdup_printf("/soc/serial@%lx",
+         (long)memmap[SIFIVE_U_UART0].base);
      qemu_fdt_add_subnode(fdt, nodename);
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 7a1a4f3..debbf28 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -68,6 +68,8 @@ enum {
- 
- enum {
-     SIFIVE_U_CLOCK_FREQ = 1000000000,
-+    SIFIVE_U_HFCLK_FREQ = 33333333,
-+    SIFIVE_U_RTCCLK_FREQ = 1000000,
-     SIFIVE_U_GEM_CLOCK_FREQ = 125000000
- };
- 
+     qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,uart0");
 -- 
 2.7.4
 
