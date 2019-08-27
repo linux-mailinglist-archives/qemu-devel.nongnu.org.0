@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1E749EF09
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 17:36:35 +0200 (CEST)
-Received: from localhost ([::1]:52838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D99459EF1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 17:38:37 +0200 (CEST)
+Received: from localhost ([::1]:52908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2dWM-0007Ts-VI
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 11:36:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48696)
+	id 1i2dYK-0001dN-O2
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 11:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51124)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nsoffer@redhat.com>) id 1i2d32-0001b4-Od
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:06:19 -0400
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1i2dJg-0002kb-8a
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:23:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nsoffer@redhat.com>) id 1i2d31-0007zA-0e
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:06:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53276)
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1i2dJc-0000HB-JN
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:23:25 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:43170)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1i2d30-0007yR-Ne
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:06:14 -0400
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4FCB38830F
- for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 15:06:13 +0000 (UTC)
-Received: by mail-ot1-f72.google.com with SMTP id c25so12031381otp.15
- for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 08:06:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1oF5hqBWB/BlGTMhdyOGW4VxX7aY/MGz3/mARbGBTF8=;
- b=Dh7a/hxWaJHybK9HCl4fT9G9XTn3pEvTKfaoIdTH+zsDtkQMY9DlnzjfGwToLq3n9b
- VMuz9Zm7TzkiWJlPXP79ZRjaeLXKHeKBQlvHLxGVWq4WY26p7KlLOyopB1YabsdQzLSo
- 6ilvZaieBDZVNHvjx8o19zTFdTta3/POu03TLf+KB6sE2X79MAtfM+MGE11QYDJ2oXrj
- /HZS6jFLUsWt1KEZbCW4lTYmZxJEYtKA1ZbUjMwOT/Cc9HodcZ4j4YLhEqMxqo9HWHIk
- cxYgkXP7lbMPAdnZgSkg75HHb4RNywgIe25XghBO4r2M1jv3kRaGt7Sw2mIpjPlyJCfp
- 0h/Q==
-X-Gm-Message-State: APjAAAUQQKPpKCIBZ0snKFtmUYdlFBbjUqKPH7n0h4hfCzT6cxVuCmvP
- cCnX0yOQPL7MzgGgkwu0lzbhN6Ckhk7cJbHGDPxFPnv6JCZEmiyBQaVlXfgOkhrfelXOYDOG1xB
- kNKtxnOQasuiPXbqaFCcKv5/2gCN42JY=
-X-Received: by 2002:aca:b20b:: with SMTP id b11mr16604719oif.16.1566918372716; 
- Tue, 27 Aug 2019 08:06:12 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyIQ6g/FePSvwFc3kkvgta964mVCymxepQHfH7e10I3DdEskCMvd9XlTTWO/iWlxCzi8stWhA/ixLsCUMRfVVQ=
-X-Received: by 2002:aca:b20b:: with SMTP id b11mr16604693oif.16.1566918372454; 
- Tue, 27 Aug 2019 08:06:12 -0700 (PDT)
+ (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
+ id 1i2dJb-0000FE-GP
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:23:24 -0400
+Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
+ [IPv6:2a02:6b8:0:1402::301])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id DC7612E1482;
+ Tue, 27 Aug 2019 18:23:17 +0300 (MSK)
+Received: from localhost (localhost [::1])
+ by mxbackcorp1g.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
+ TxfTe3gQQo-NHJqLlgu; Tue, 27 Aug 2019 18:23:17 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1566919397; bh=+0IZVpOZ2cdcfZ8j9t6KXzXTSh315nNZ1gmaVBnPyOg=;
+ h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
+ b=fgW8lbUX03s3IndBG3dj1fItUv5sNMupoSSkMveZIwlMiTkjt+4MhbwDgqg1aS6ba
+ 7e+b51eHlas3GPLXQ0MFLqB5nRE/C1RIKEj/w9k8ZegAsK/3/kjOfkBfLq8tcJC5F2
+ ah7IuzcCIbAFXeLdRwUgiKBanJjLFAKk91dWkKcw=
+Authentication-Results: mxbackcorp1g.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+X-Yandex-Sender-Uid: 1120000000071945
+X-Yandex-Avir: 1
+Received: from mxbackcorp2j.mail.yandex.net (localhost [::1])
+ by mxbackcorp2j.mail.yandex.net with LMTP id LxhNhjRzjy-4IriKeO1
+ for <yury-kotov@yandex-team.ru>; Tue, 27 Aug 2019 18:23:06 +0300
+Received: by sas1-fc7737ec834f.qloud-c.yandex.net with HTTP;
+ Tue, 27 Aug 2019 18:23:06 +0300
+From: Yury Kotov <yury-kotov@yandex-team.ru>
+To: =?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+In-Reply-To: <CAJ+F1C+hfru6+hOv5=mdJuTMQnPngahZr7ukzfgvkufWgDZjcw@mail.gmail.com>
+References: <20190827120221.15725-1-yury-kotov@yandex-team.ru>
+ <20190827120221.15725-3-yury-kotov@yandex-team.ru>
+ <CAJ+F1C+hfru6+hOv5=mdJuTMQnPngahZr7ukzfgvkufWgDZjcw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190827010528.8818-1-nsoffer@redhat.com>
-In-Reply-To: <20190827010528.8818-1-nsoffer@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Tue, 27 Aug 2019 18:06:00 +0300
-Message-ID: <CAMRbyysA=MxE2cADm_AcNsPdiPR2+Q6UXvDr6tS9iXb=-dK3_A@mail.gmail.com>
-To: Nir Soffer <nirsof@gmail.com>
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Tue, 27 Aug 2019 18:23:16 +0300
+Message-Id: <865911566919386@sas1-fc7737ec834f.qloud-c.yandex.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v3 0/2] Optimize alignment probing
+ [fuzzy]
+X-Received-From: 77.88.29.217
+Subject: Re: [Qemu-devel] [PATCH 2/3] tests/libqtest: Allow to set expected
+ exit status
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,75 +72,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding Eric
+27.08.2019, 16:53, "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@gmail.com>:
+> Hi
+>
+> On Tue, Aug 27, 2019 at 4:09 PM Yury Kotov <yury-kotov@yandex-team.ru> =
+wrote:
+>> =C2=A0Add qtest_set_expected_status function to set expected exit stat=
+us of
+>> =C2=A0child process. By default expected exit status is 0.
+>>
+>> =C2=A0Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+>> =C2=A0---
+>> =C2=A0=C2=A0tests/libqtest.c | 14 +++++++++++---
+>> =C2=A0=C2=A0tests/libqtest.h | 9 +++++++++
+>> =C2=A0=C2=A02 files changed, 20 insertions(+), 3 deletions(-)
+>
+> I sent a vary similar patch with v1 of dbus-vmstate, and dropped it
+> because it no longer needs it in v2 (for now) "tests: add
+> qtest_set_exit_status()".
+>
+> Your function is better named already.
+>
 
-On Tue, Aug 27, 2019 at 4:05 AM Nir Soffer <nirsof@gmail.com> wrote:
+Thanks, I'll look at this realization
 
-> When probing unallocated area on remote XFS filesystem we cannot detect
-> request
-> alignment and we fallback to safe value which may not be optimal. Avoid
-> this
-> fallback by always allocating the first block when creating a new image or
-> resizing empty image.
+>> =C2=A0diff --git a/tests/libqtest.c b/tests/libqtest.c
+>> =C2=A0index 2713b86cf7..118d779c1b 100644
+>> =C2=A0--- a/tests/libqtest.c
+>> =C2=A0+++ b/tests/libqtest.c
+>> =C2=A0@@ -43,6 +43,7 @@ struct QTestState
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int qmp_fd;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pid_t qemu_pid; /* our child QEMU =
+process */
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int wstatus;
+>> =C2=A0+ int expected_status;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bool big_endian;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bool irq_level[MAX_IRQ];
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0GString *rx;
+>> =C2=A0@@ -113,6 +114,11 @@ bool qtest_probe_child(QTestState *s)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return false;
+>> =C2=A0=C2=A0}
+>>
+>> =C2=A0+void qtest_set_expected_status(QTestState *s, int status)
+>> =C2=A0+{
+>> =C2=A0+ s->expected_status =3D status;
+>> =C2=A0+}
+>> =C2=A0+
+>> =C2=A0=C2=A0static void kill_qemu(QTestState *s)
+>> =C2=A0=C2=A0{
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pid_t pid =3D s->qemu_pid;
+>> =C2=A0@@ -130,11 +136,12 @@ static void kill_qemu(QTestState *s)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* fishy and should be logged=
+ with as much detail as possible.
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0*/
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0wstatus =3D s->wstatus;
+>> =C2=A0- if (wstatus) {
+>> =C2=A0+ if (WEXITSTATUS(wstatus) !=3D s->expected_status) {
 >
-> Tested with all formats:
+> Shouldn't it check WEXITSTATUS value only when WIFEXITED ?
 >
->     for fmt in raw bochs cloop parallels qcow qcow2 qed vdi vpc vhdx vmdk
-> luks dmg; do
->         ./check -$fmt
->     done
->
-> Changes in v3:
-> - Allocating first block works now when 512 <= size < 4096, storage sector
-> size
->   is 512 bytes, and using block_resize with O_DIRECT (Max)
-> - Fix return value on errors if qemu_vfree() modified errno (Eric)
-> - Improve comment about using allocate_first_block in FALLOC mode (Max)
-> - Remove unneeded $(()) in _filter_block (Max)
-> - Add _default_cache_mode and _supported_cache_mode to new test (Max)
-> - Fix disk size in vmdk tests
->
-> v2 was here:
-> https://lists.nongnu.org/archive/html/qemu-block/2019-08/msg01265.html
->
-> Changes in v2:
-> - Support file descriptor opened with O_DIRECT (e.g. in block_resize) (Max)
-> - Remove unneeded change in 160 (Max)
-> - Fix block filter in 175 on filesystem allocating extra blocks (Max)
-> - Comment why we ignore errors in allocte_first_block() (Max)
-> - Comment why allocate_first_block() is needed in FALLOC mode (Max)
-> - Clarify commit message about user visible changes (Maxim)
-> - Fix 178.out.qcow2
-> - Fix 150.out with -qcow2 by splitting to 150.out.{raw,qcow2}
-> - Add test for allocate_first_block() with block_resize (Max)
-> - Drop provisioning tests results since I ran them only once
->
-> v1 was here:
-> https://lists.nongnu.org/archive/html/qemu-block/2019-08/msg00821.html
->
-> Nir Soffer (2):
->   block: posix: Always allocate the first block
->   iotests: Test allocate_first_block() with O_DIRECT
->
->  block/file-posix.c                            | 51 +++++++++++++++++++
->  tests/qemu-iotests/059.out                    |  2 +-
->  tests/qemu-iotests/{150.out => 150.out.qcow2} |  0
->  tests/qemu-iotests/150.out.raw                | 12 +++++
->  tests/qemu-iotests/175                        | 47 ++++++++++++++---
->  tests/qemu-iotests/175.out                    | 16 ++++--
->  tests/qemu-iotests/178.out.qcow2              |  4 +-
->  tests/qemu-iotests/221.out                    | 12 +++--
->  tests/qemu-iotests/253.out                    | 12 +++--
->  9 files changed, 135 insertions(+), 21 deletions(-)
->  rename tests/qemu-iotests/{150.out => 150.out.qcow2} (100%)
->  create mode 100644 tests/qemu-iotests/150.out.raw
+
+Oh, it seems that you're right. I'll fix it in v2
+
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (WIFEXI=
+TED(wstatus)) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU "
+>> =C2=A0- "process but encountered exit status %d\n",
+>> =C2=A0- __FILE__, __LINE__, WEXITSTATUS(wstatus));
+>> =C2=A0+ "process but encountered exit status %d (expected %d)\n",
+>> =C2=A0+ __FILE__, __LINE__, WEXITSTATUS(wstatus),
+>> =C2=A0+ s->expected_status);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0} else if =
+(WIFSIGNALED(wstatus)) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0int sig =3D WTERMSIG(wstatus);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0const char *signame =3D strsignal(sig) ?: "unknown ???";
+>> =C2=A0@@ -248,6 +255,7 @@ QTestState *qtest_init_without_qmp_handshake=
+(const char *extra_args)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0g_test_message("starting QEMU: %s"=
+, command);
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0s->wstatus =3D 0;
+>> =C2=A0+ s->expected_status =3D 0;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0s->qemu_pid =3D fork();
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (s->qemu_pid =3D=3D 0) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0setenv("QE=
+MU_AUDIO_DRV", "none", true);
+>> =C2=A0diff --git a/tests/libqtest.h b/tests/libqtest.h
+>> =C2=A0index 07ea35867c..c00bca94af 100644
+>> =C2=A0--- a/tests/libqtest.h
+>> =C2=A0+++ b/tests/libqtest.h
+>> =C2=A0@@ -997,4 +997,13 @@ void qmp_assert_error_class(QDict *rsp, con=
+st char *class);
+>> =C2=A0=C2=A0=C2=A0*/
+>> =C2=A0=C2=A0bool qtest_probe_child(QTestState *s);
+>>
+>> =C2=A0+/**
+>> =C2=A0+ * qtest_set_expected_status:
+>> =C2=A0+ * @s: QTestState instance to operate on.
+>> =C2=A0+ * @status: an expected exit status.
+>> =C2=A0+ *
+>> =C2=A0+ * Set expected exit status of the child.
+>> =C2=A0+ */
+>> =C2=A0+void qtest_set_expected_status(QTestState *s, int status);
+>> =C2=A0+
+>> =C2=A0=C2=A0#endif
+>> =C2=A0--
+>> =C2=A02.22.0
 >
 > --
-> 2.20.1
->
->
+> Marc-Andr=C3=A9 Lureau
+
+Regards,
+Yury
+
