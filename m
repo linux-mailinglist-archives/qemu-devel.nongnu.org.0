@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4954B9F25F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 20:32:28 +0200 (CEST)
-Received: from localhost ([::1]:55496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8202C9F275
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 20:38:35 +0200 (CEST)
+Received: from localhost ([::1]:55670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2gGY-0000S0-I3
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 14:32:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53305)
+	id 1i2gMU-0005mn-0o
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 14:38:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53324)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i2g80-0002qe-Gg
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 14:23:37 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i2g81-0002sd-SX
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 14:23:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i2g7y-0005Rg-Nq
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 14:23:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58584)
+ (envelope-from <mreitz@redhat.com>) id 1i2g80-0005TI-Hf
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 14:23:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51692)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i2g7v-0005Oa-4w; Tue, 27 Aug 2019 14:23:31 -0400
+ id 1i2g7x-0005QF-F2; Tue, 27 Aug 2019 14:23:33 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 76F1881F18;
- Tue, 27 Aug 2019 18:23:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C17B1C049E36;
+ Tue, 27 Aug 2019 18:23:32 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D467D60600;
- Tue, 27 Aug 2019 18:23:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 59EA3608C1;
+ Tue, 27 Aug 2019 18:23:32 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 27 Aug 2019 20:23:04 +0200
-Message-Id: <20190827182313.25983-7-mreitz@redhat.com>
+Date: Tue, 27 Aug 2019 20:23:05 +0200
+Message-Id: <20190827182313.25983-8-mreitz@redhat.com>
 In-Reply-To: <20190827182313.25983-1-mreitz@redhat.com>
 References: <20190827182313.25983-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Tue, 27 Aug 2019 18:23:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Tue, 27 Aug 2019 18:23:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 06/15] vmdk: Use bdrv_dirname() for relative
+Subject: [Qemu-devel] [PULL 07/15] iotests: Keep testing broken relative
  extent paths
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,200 +60,88 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes iotest 033 pass with e.g. subformat=3DmonolithicFlat.  It also
-turns a former error in 059 into success.
+We had a test for a case where relative extent paths did not work, but
+unfortunately we just fixed the underlying problem, so it works now.
+This patch adds a new test case that still fails.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190815153638.4600-3-mreitz@redhat.com
+Reviewed-by: John Snow <jsnow@redhat.com>
+Message-id: 20190815153638.4600-4-mreitz@redhat.com
 Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/vmdk.c               | 54 ++++++++++++++++++++++++--------------
- tests/qemu-iotests/059     |  7 +++--
- tests/qemu-iotests/059.out |  4 ++-
- 3 files changed, 42 insertions(+), 23 deletions(-)
+ tests/qemu-iotests/059     | 27 +++++++++++++++++++++++++++
+ tests/qemu-iotests/059.out |  4 ++++
+ 2 files changed, 31 insertions(+)
 
-diff --git a/block/vmdk.c b/block/vmdk.c
-index fd78fd0ccf..a7f82e665e 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -1076,8 +1076,7 @@ static const char *next_line(const char *s)
- }
-=20
- static int vmdk_parse_extents(const char *desc, BlockDriverState *bs,
--                              const char *desc_file_path, QDict *options=
-,
--                              Error **errp)
-+                              QDict *options, Error **errp)
- {
-     int ret;
-     int matches;
-@@ -1087,6 +1086,7 @@ static int vmdk_parse_extents(const char *desc, Blo=
-ckDriverState *bs,
-     const char *p, *np;
-     int64_t sectors =3D 0;
-     int64_t flat_offset;
-+    char *desc_file_dir =3D NULL;
-     char *extent_path;
-     BdrvChild *extent_file;
-     BDRVVmdkState *s =3D bs->opaque;
-@@ -1130,16 +1130,23 @@ static int vmdk_parse_extents(const char *desc, B=
-lockDriverState *bs,
-             continue;
-         }
-=20
--        if (!path_is_absolute(fname) && !path_has_protocol(fname) &&
--            !desc_file_path[0])
--        {
--            bdrv_refresh_filename(bs->file->bs);
--            error_setg(errp, "Cannot use relative extent paths with VMDK=
- "
--                       "descriptor file '%s'", bs->file->bs->filename);
--            return -EINVAL;
--        }
-+        if (path_is_absolute(fname)) {
-+            extent_path =3D g_strdup(fname);
-+        } else {
-+            if (!desc_file_dir) {
-+                desc_file_dir =3D bdrv_dirname(bs->file->bs, errp);
-+                if (!desc_file_dir) {
-+                    bdrv_refresh_filename(bs->file->bs);
-+                    error_prepend(errp, "Cannot use relative paths with =
-VMDK "
-+                                  "descriptor file '%s': ",
-+                                  bs->file->bs->filename);
-+                    ret =3D -EINVAL;
-+                    goto out;
-+                }
-+            }
-=20
--        extent_path =3D path_combine(desc_file_path, fname);
-+            extent_path =3D g_strconcat(desc_file_dir, fname, NULL);
-+        }
-=20
-         ret =3D snprintf(extent_opt_prefix, 32, "extents.%d", s->num_ext=
-ents);
-         assert(ret < 32);
-@@ -1149,7 +1156,8 @@ static int vmdk_parse_extents(const char *desc, Blo=
-ckDriverState *bs,
-         g_free(extent_path);
-         if (local_err) {
-             error_propagate(errp, local_err);
--            return -EINVAL;
-+            ret =3D -EINVAL;
-+            goto out;
-         }
-=20
-         /* save to extents array */
-@@ -1160,7 +1168,7 @@ static int vmdk_parse_extents(const char *desc, Blo=
-ckDriverState *bs,
-                             0, 0, 0, 0, 0, &extent, errp);
-             if (ret < 0) {
-                 bdrv_unref_child(bs, extent_file);
--                return ret;
-+                goto out;
-             }
-             extent->flat_start_offset =3D flat_offset << 9;
-         } else if (!strcmp(type, "SPARSE") || !strcmp(type, "VMFSSPARSE"=
-)) {
-@@ -1175,24 +1183,27 @@ static int vmdk_parse_extents(const char *desc, B=
-lockDriverState *bs,
-             g_free(buf);
-             if (ret) {
-                 bdrv_unref_child(bs, extent_file);
--                return ret;
-+                goto out;
-             }
-             extent =3D &s->extents[s->num_extents - 1];
-         } else if (!strcmp(type, "SESPARSE")) {
-             ret =3D vmdk_open_se_sparse(bs, extent_file, bs->open_flags,=
- errp);
-             if (ret) {
-                 bdrv_unref_child(bs, extent_file);
--                return ret;
-+                goto out;
-             }
-             extent =3D &s->extents[s->num_extents - 1];
-         } else {
-             error_setg(errp, "Unsupported extent type '%s'", type);
-             bdrv_unref_child(bs, extent_file);
--            return -ENOTSUP;
-+            ret =3D -ENOTSUP;
-+            goto out;
-         }
-         extent->type =3D g_strdup(type);
-     }
--    return 0;
-+
-+    ret =3D 0;
-+    goto out;
-=20
- invalid:
-     np =3D next_line(p);
-@@ -1201,7 +1212,11 @@ invalid:
-         np--;
-     }
-     error_setg(errp, "Invalid extent line: %.*s", (int)(np - p), p);
--    return -EINVAL;
-+    ret =3D -EINVAL;
-+
-+out:
-+    g_free(desc_file_dir);
-+    return ret;
- }
-=20
- static int vmdk_open_desc_file(BlockDriverState *bs, int flags, char *bu=
-f,
-@@ -1228,8 +1243,7 @@ static int vmdk_open_desc_file(BlockDriverState *bs=
-, int flags, char *buf,
-     }
-     s->create_type =3D g_strdup(ct);
-     s->desc_offset =3D 0;
--    ret =3D vmdk_parse_extents(buf, bs, bs->file->bs->exact_filename, op=
-tions,
--                             errp);
-+    ret =3D vmdk_parse_extents(buf, bs, options, errp);
- exit:
-     return ret;
- }
 diff --git a/tests/qemu-iotests/059 b/tests/qemu-iotests/059
-index 279aee6815..fbed5f9483 100755
+index fbed5f9483..10bfbaecec 100755
 --- a/tests/qemu-iotests/059
 +++ b/tests/qemu-iotests/059
-@@ -114,9 +114,12 @@ $QEMU_IMG convert -f qcow2 -O vmdk -o subformat=3Dst=
-reamOptimized "$TEST_IMG.qcow2
+@@ -114,6 +114,8 @@ $QEMU_IMG convert -f qcow2 -O vmdk -o subformat=3Dstr=
+eamOptimized "$TEST_IMG.qcow2
 =20
  echo
  echo "=3D=3D=3D Testing monolithicFlat with internally generated JSON fi=
 le name =3D=3D=3D"
-+# Should work, because bdrv_dirname() works fine with blkdebug
++
++echo '--- blkdebug ---'
+ # Should work, because bdrv_dirname() works fine with blkdebug
  IMGOPTS=3D"subformat=3DmonolithicFlat" _make_test_img 64M
--$QEMU_IO -c "open -o driver=3D$IMGFMT,file.driver=3Dblkdebug,file.image.=
-filename=3D$TEST_IMG,file.inject-error.0.event=3Dread_aio" 2>&1 \
--    | _filter_testdir | _filter_imgfmt
-+$QEMU_IO -c "open -o driver=3D$IMGFMT,file.driver=3Dblkdebug,file.image.=
+ $QEMU_IO -c "open -o driver=3D$IMGFMT,file.driver=3Dblkdebug,file.image.=
 filename=3D$TEST_IMG,file.inject-error.0.event=3Dread_aio" \
-+         -c info \
-+    2>&1 \
-+    | _filter_testdir | _filter_imgfmt | _filter_img_info
+@@ -122,6 +124,31 @@ $QEMU_IO -c "open -o driver=3D$IMGFMT,file.driver=3D=
+blkdebug,file.image.filename=3D$TE
+     | _filter_testdir | _filter_imgfmt | _filter_img_info
  _cleanup_test_img
 =20
++echo '--- quorum ---'
++# Should not work, because bdrv_dirname() does not work with quorum
++IMGOPTS=3D"subformat=3DmonolithicFlat" _make_test_img 64M
++cp "$TEST_IMG" "$TEST_IMG.orig"
++
++filename=3D"json:{
++    \"driver\": \"$IMGFMT\",
++    \"file\": {
++        \"driver\": \"quorum\",
++        \"children\": [ {
++            \"driver\": \"file\",
++            \"filename\": \"$TEST_IMG\"
++        }, {
++            \"driver\": \"file\",
++            \"filename\": \"$TEST_IMG.orig\"
++        } ],
++        \"vote-threshold\": 1
++    } }"
++
++filename=3D$(echo "$filename" | tr '\n' ' ' | sed -e 's/\s\+/ /g')
++$QEMU_IMG info "$filename" 2>&1 \
++    | sed -e "s/'json:[^']*'/\$QUORUM_FILE/g" \
++    | _filter_testdir | _filter_imgfmt | _filter_img_info
++
++
  echo
+ echo "=3D=3D=3D Testing version 3 =3D=3D=3D"
+ _use_sample_img iotest-version3.vmdk.bz2
 diff --git a/tests/qemu-iotests/059.out b/tests/qemu-iotests/059.out
-index b2e718d29f..a51b571d27 100644
+index a51b571d27..39bf7e211d 100644
 --- a/tests/qemu-iotests/059.out
 +++ b/tests/qemu-iotests/059.out
-@@ -2050,7 +2050,9 @@ wrote 512/512 bytes at offset 10240
+@@ -2049,10 +2049,14 @@ wrote 512/512 bytes at offset 10240
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 =20
  =3D=3D=3D Testing monolithicFlat with internally generated JSON file nam=
 e =3D=3D=3D
++--- blkdebug ---
  Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
--qemu-io: can't open: Cannot use relative extent paths with VMDK descript=
-or file 'json:{"image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT=
-"}, "driver": "blkdebug", "inject-error.0.event": "read_aio"}'
-+format name: IMGFMT
-+cluster size: 0 bytes
-+vm state offset: 0 bytes
+ format name: IMGFMT
+ cluster size: 0 bytes
+ vm state offset: 0 bytes
++--- quorum ---
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
++qemu-img: Could not open $QUORUM_FILE: Cannot use relative paths with VM=
+DK descriptor file $QUORUM_FILE: Cannot generate a base directory for quo=
+rum nodes
 =20
  =3D=3D=3D Testing version 3 =3D=3D=3D
  image: TEST_DIR/iotest-version3.IMGFMT
