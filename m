@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5999DCAE
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:38:38 +0200 (CEST)
-Received: from localhost ([::1]:46512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A449DCB5
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:42:40 +0200 (CEST)
+Received: from localhost ([::1]:46538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2TFd-0003T5-Cl
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:38:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34450)
+	id 1i2TJX-0006cE-Ai
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34474)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shorne@gmail.com>) id 1i2TDZ-0002AG-B2
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:36:30 -0400
+ (envelope-from <shorne@gmail.com>) id 1i2TDo-0002Rc-5g
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:36:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shorne@gmail.com>) id 1i2TDY-0002KY-BJ
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:36:29 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:37297)
+ (envelope-from <shorne@gmail.com>) id 1i2TDn-0002Op-8O
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:36:44 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:44106)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <shorne@gmail.com>) id 1i2TDY-0002KA-1S
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:36:28 -0400
-Received: by mail-pl1-x642.google.com with SMTP id bj8so11123804plb.4
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 21:36:27 -0700 (PDT)
+ (Exim 4.71) (envelope-from <shorne@gmail.com>) id 1i2TDn-0002OK-2Q
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:36:43 -0400
+Received: by mail-pg1-x544.google.com with SMTP id i18so11887600pgl.11
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 21:36:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=JjyXuznrUXTpIzsRGiqaRxGZNkGydyzvX8Sjm6QnC6A=;
- b=loLyld9F6qMR8/mTWE9nZWmPoIApXkWLEhvSyxHq5MFVCt2TZkRFhzO8UzBDhzBV0y
- qfod/iyGtTRl1XP1Q7JZq41UTL5M7Xo0HiFrac48Ww3UokCBRWA4eifhJlgjAKoueoWm
- SgbfmyY1AynNDABc5BBPbDY7lFeePHR73RLgfG1qVugKPFsBYaQow58x16ZkGsPBC+6e
- dP+xr3hf8RBNkn7UWWNK7uq/0wH6Cj1mbGSoeSb5dIkh8k+ifv0+ZlJb+OOoZv1Epfj6
- oxsYk+v+gRP7WoSJFs8JWLnrjsNgGzVpFfzyWQ2k6RxD8IWirINWnr79trkTT9XxH+xx
- W6cA==
+ bh=rqgTbmgCiR6/L3BFdrze6asCXgQcS0IHA+OvYhqvKlc=;
+ b=BrWsfhEqHW1+5ZX5wm5NjiRM0Gc4Be+9UBxRcf2e8aEyPJ/dcyrHTeamiKXECxg6hd
+ 8AceLixyssrodMbWF+2gg8OHEUbX79Y73Us/9/MO++DdmzTo5maLfrGeqJbOh7P+5/1V
+ 1cWIV/zLyYPpqPs+fF47v9DZF5KtqtaczGIZiDsUgnwuAi+juWgljXgH0rC4RC9E9kMb
+ cxtHvRqbvhu7JoO5YVMr6EBNjWkmqUv+XEcMOv6fs02a/cXyT1VeSArdH8yPtvokKDSn
+ SWrVyOW8NYs59HL/QWCTc9uRkJUw9VJox2qNoab3SLXLBT+8AFJwQRYw/a5N7+ciHmYw
+ EKdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=JjyXuznrUXTpIzsRGiqaRxGZNkGydyzvX8Sjm6QnC6A=;
- b=MyIw47nbF/AMWiuPY8c27vViRVXnbxxHcwZiy2vlw7SbjncGt18ZCs4FHSYqb6TyUk
- NOYfG9pN/01FGEkaKYKjCDVyh8F0/9yDxDE3Qb4D8E7a4zGN8nyro+VUunRou3oxMPA6
- xqO2ExmVrZuvlWFW/0pYtsalTbgc83Q5/eseLTRyzxQ/MBOKo/xQYWSwxuq2h2h6Riui
- 5e3zb6u9fXJWtF67C0i/nOYbRfmHy5Z/krsfKDrqp6T857lj/1QEuJsTnM+WeerCEby3
- amAI2xgjiYGB4M++tn9QMAYw5U5yAIvRR6OXoauxCAiMHmVDoJWPY2lflUmSaxb/aDNV
- RIyw==
-X-Gm-Message-State: APjAAAXObgNWPVuUNovfi0/4LH4rh11idthG6Voo4OBEHglxKoeNndm1
- 01UQg1WxvaN1AtSA23dLrAA=
-X-Google-Smtp-Source: APXvYqywULAXi3xzE0P+BjrxDAMsWdjoU//hWxa9F8R8IgRyGjdFlk0DVBxF5GxhytpWJGtQsEaVNg==
-X-Received: by 2002:a17:902:3064:: with SMTP id
- u91mr22369825plb.244.1566880587082; 
- Mon, 26 Aug 2019 21:36:27 -0700 (PDT)
+ bh=rqgTbmgCiR6/L3BFdrze6asCXgQcS0IHA+OvYhqvKlc=;
+ b=FnYVr+00onT1v3Xr9TfndtlvGb45jaonWmS7Y+V7byDHUI49At5xKnIlxPRr/ERhpE
+ g2O7ZVW7Mt66KH0TQhVogpBjFb/s8t4ux2gRvpqVmrC6C9/4BFvIWJNYoq8tlUWz7x0L
+ uCxfKImrR4JgcMHVMh3w3/qWX5GYyTAGNrjzCN69hBZOb73mjyV9JXSJrT3dV2a1IV4w
+ dFCuMzgy0Z4XNf9QOmnLxttym8m0Dshow4ndlpd/D505ZLBxfC8M18fVfJcIc5VO2/YR
+ xnjOAGMvivQtJ9Xk7y26jIjlfv5EqbiNAUCr4Lr/xhdNlFm3QqqVdUEqJZbmcYTHYLgE
+ pZMA==
+X-Gm-Message-State: APjAAAWfgAnqtL/keLfbHiOwYAN5G/qkOa9xtDl23T4ZJEJp5+GIvIwU
+ pbASP6/01ExaoZAH1QBWeyE=
+X-Google-Smtp-Source: APXvYqyM+OylzPfetZo7zkfQETnmhAttIfjRRCv4iF7JTnP4lB6DSYhUBl4fZIlQhAWswQsjQG6sOQ==
+X-Received: by 2002:aa7:9524:: with SMTP id c4mr24692538pfp.225.1566880601976; 
+ Mon, 26 Aug 2019 21:36:41 -0700 (PDT)
 Received: from localhost (g75.222-224-160.ppp.wakwak.ne.jp. [222.224.160.75])
  by smtp.gmail.com with ESMTPSA id
- y188sm13708788pfy.57.2019.08.26.21.36.26
+ v66sm20630737pfv.79.2019.08.26.21.36.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Aug 2019 21:36:26 -0700 (PDT)
-Date: Tue, 27 Aug 2019 13:36:24 +0900
+ Mon, 26 Aug 2019 21:36:41 -0700 (PDT)
+Date: Tue, 27 Aug 2019 13:36:39 +0900
 From: Stafford Horne <shorne@gmail.com>
 To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190827043624.GK24874@lianli.shorne-pla.net>
+Message-ID: <20190827043639.GL24874@lianli.shorne-pla.net>
 References: <20190827000745.19645-1-richard.henderson@linaro.org>
- <20190827000745.19645-7-richard.henderson@linaro.org>
+ <20190827000745.19645-8-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190827000745.19645-7-richard.henderson@linaro.org>
+In-Reply-To: <20190827000745.19645-8-richard.henderson@linaro.org>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: Re: [Qemu-devel] [PATCH 06/13] target/openrisc: Add VR2 and AVR
- special processor registers
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: Re: [Qemu-devel] [PATCH 07/13] target/openrisc: Fix lf.ftoi.s
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,45 +83,31 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 26, 2019 at 05:07:38PM -0700, Richard Henderson wrote:
-> Update the CPUCFG bits to arch v1.3.
-> Include support for AVRP for cpu "any".
+On Mon, Aug 26, 2019 at 05:07:39PM -0700, Richard Henderson wrote:
+> The specification of this insn is round-to-zero.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Stafford Horne <shorne@gmail.com>
+
 > ---
->  target/openrisc/cpu.h        | 11 +++++++----
->  target/openrisc/cpu.c        |  8 ++++++--
->  target/openrisc/sys_helper.c |  6 ++++++
->  3 files changed, 19 insertions(+), 6 deletions(-)
+>  target/openrisc/fpu_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-> index 18d7445e74..71c5959828 100644
-> --- a/target/openrisc/cpu.h
-> +++ b/target/openrisc/cpu.h
-> @@ -96,11 +96,12 @@ enum {
->      CPUCFGR_OF32S = (1 << 7),
->      CPUCFGR_OF64S = (1 << 8),
->      CPUCFGR_OV64S = (1 << 9),
-> -    /* CPUCFGR_ND = (1 << 10), */
-> -    /* CPUCFGR_AVRP = (1 << 11), */
-> +    CPUCFGR_ND = (1 << 10),
-> +    CPUCFGR_AVRP = (1 << 11),
->      CPUCFGR_EVBARP = (1 << 12),
-> -    /* CPUCFGR_ISRP = (1 << 13), */
-> -    /* CPUCFGR_AECSRP = (1 << 14), */
-> +    CPUCFGR_ISRP = (1 << 13),
-> +    CPUCFGR_AECSRP = (1 << 14),
-> +    CPUCFGR_OF64A32S = (1 << 15),
->  };
+> diff --git a/target/openrisc/fpu_helper.c b/target/openrisc/fpu_helper.c
+> index b9d2ebbb8c..4cc5b297c5 100644
+> --- a/target/openrisc/fpu_helper.c
+> +++ b/target/openrisc/fpu_helper.c
+> @@ -78,7 +78,7 @@ uint64_t HELPER(ftoid)(CPUOpenRISCState *env, uint64_t val)
 >  
->  /* DMMU configure register */
-> @@ -280,6 +281,8 @@ typedef struct CPUOpenRISCState {
+>  uint32_t HELPER(ftois)(CPUOpenRISCState *env, uint32_t val)
+>  {
+> -    return float32_to_int32(val, &env->fp_status);
+> +    return float32_to_int32_round_to_zero(val, &env->fp_status);
+>  }
 >  
->      /* Fields from here on are preserved across CPU reset. */
->      uint32_t vr;              /* Version register */
-> +    uint32_t vr2;             /* Version register 2 */
-> +    uint32_t avr;             /* Architecture version register */
-
-Do you need to update the serialization in machine.c?
-
+>  #define FLOAT_CALC(name)                                                  \
+> -- 
+> 2.17.1
+> 
 
