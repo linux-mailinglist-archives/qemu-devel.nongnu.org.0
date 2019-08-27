@@ -2,44 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EDC9E49E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 11:41:11 +0200 (CEST)
-Received: from localhost ([::1]:48812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7D29E4AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 11:43:47 +0200 (CEST)
+Received: from localhost ([::1]:48856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2XyQ-0002xH-DL
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 05:41:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50534)
+	id 1i2Y0x-0006Yq-3i
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 05:43:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50682)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1i2XwJ-0001dK-Lp
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 05:39:01 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i2XxP-0002pq-1v
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 05:40:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1i2XwI-000509-1o
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 05:38:59 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:54779 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
- id 1i2XwH-0004eR-O5
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 05:38:57 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id AC4B31A1E52;
- Tue, 27 Aug 2019 11:37:52 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
- [10.10.13.132])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 823911A204B;
- Tue, 27 Aug 2019 11:37:52 +0200 (CEST)
-From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 27 Aug 2019 11:37:43 +0200
-Message-Id: <1566898663-25858-4-git-send-email-stefan.brankovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1566898663-25858-1-git-send-email-stefan.brankovic@rt-rk.com>
-References: <1566898663-25858-1-git-send-email-stefan.brankovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v6 3/3] target/ppc: Refactor emulation of
- vmrgew and vmrgow instructions
+ (envelope-from <peter.maydell@linaro.org>) id 1i2XxN-0005Dr-Vv
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 05:40:06 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34433)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i2XxN-0005CK-Qe
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 05:40:05 -0400
+Received: by mail-oi1-x241.google.com with SMTP id g128so14471512oib.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 02:40:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=53esGyujJRuHZyT+DpRlIP9dK5qVt+dzLS4r6AGzimY=;
+ b=E49CJOPT+Sr+e+FwXAssfLIxdPSYIRjmNBIf9H1Dfn53O6OFvPGCXDORLFuumqgNqp
+ oIRXmEFqEMwWslupVoK6sdvlBdT4ooB9AwyU3SMzGtbj9xSzx2MxjuoAsIfPE8FItFt2
+ CXr59dpaIX/9rxDGiUxnR1BQDXcbqbZhVNx3oUhxqejpkfkh8Sg4M2UY6ZEJ6jkgTpeO
+ rLLXAsxeCSN+mMuhC2DMtPyL5oeUcIrRFkBLGTB5k2lbh3XIntsiw7hw98ju6dTBMD63
+ 4Dp/iMH0d+mjkhT+qh+7/Z5sCTe1KkDO70ExcBVSpDZjIeBiNny5JkFaG1qlJy/XegkS
+ suHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=53esGyujJRuHZyT+DpRlIP9dK5qVt+dzLS4r6AGzimY=;
+ b=alcumXieUIW0Jrdo7apf3tI6chSzVLwqctPXS47UuaBBUuzD3p2Wb0D8S97RtWT5Kv
+ FhCywy78IDSHYDxai33/7Mvr0LNVDM5zUwbKPKFJa+7r4rlpt2zFs3AJl1l+Gl3sjrlf
+ NxxJSxqr86H9WldtJ4OkNJNqpFBiftItnV0Yx7GJ3JoineAiR6gRV0PcDYL7QK3QDAp6
+ YFn6t89jZjlslN65aCQrKrVaadSRgg5Pws8DmkiUuzn24U50WyTNB7zjy3KbSneDLB5s
+ XDu5J7xBxXSkkA0zVtIgzb+1lIFqSxopXsjZTqvhEsfo541Bw4HhTzDPLfQRLXnzsg0r
+ ig+w==
+X-Gm-Message-State: APjAAAUrfZI6kXcxuER1AFCL2k9gOV8Tu4JIx2w8DvZ97XSzRyalZ/4D
+ 5Gh6n9yIUHlKqLn/yoYOJRE12OgzRT+Hk+PiklE1La6kDiU=
+X-Google-Smtp-Source: APXvYqx2LKWTGjPhlfY8+woMScJDhz4yI+8PVa1Vnb3cH8hiJUyY2udhgqpJoVVh59XkP0IdUcmPWc5G7VV6TrVTF+Y=
+X-Received: by 2002:aca:4b86:: with SMTP id
+ y128mr15510966oia.163.1566898804926; 
+ Tue, 27 Aug 2019 02:40:04 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190819213755.26175-1-richard.henderson@linaro.org>
+ <20190819213755.26175-69-richard.henderson@linaro.org>
+In-Reply-To: <20190819213755.26175-69-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 27 Aug 2019 10:39:54 +0100
+Message-ID: <CAFEAcA9dJ_5ZxXwoH3ngRGxzmrkrev1BgjpSz2zBzi23ABGCpg@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH v2 68/68] target/arm: Inline gen_bx_im into
+ callers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,130 +74,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, david@gibson.dropbear.id.au
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since I found this two instructions implemented with tcg, I refactored
-them so they are consistent with other similar implementations that
-I introduced in this patch.
+On Mon, 19 Aug 2019 at 22:39, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> There are only two remaining uses of gen_bx_im.  In each case, we
+> know the destination mode -- not changing in the case of gen_jmp
+> or changing in the case of trans_BLX_i.  Use this to simplify the
+> surrounding code.
+>
+> For trans_BLX_i, use gen_jmp for the actual branch.  For gen_jmp,
+> use gen_set_pc_im to set up the single-step.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-Also, a new dual macro GEN_VXFORM_TRANS_DUAL is added. This macro is
-used if one instruction is realized with direct translation, and second
-one with a helper.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
----
- target/ppc/translate/vmx-impl.inc.c | 66 +++++++++++++++++++++----------------
- 1 file changed, 37 insertions(+), 29 deletions(-)
-
-diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
-index e8a0fb6..6af9c73 100644
---- a/target/ppc/translate/vmx-impl.inc.c
-+++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -350,6 +350,28 @@ static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
-     }                                                                  \
- }
- 
-+/*
-+ * We use this macro if one instruction is realized with direct
-+ * translation, and second one with helper.
-+ */
-+#define GEN_VXFORM_TRANS_DUAL(name0, flg0, flg2_0, name1, flg1, flg2_1)\
-+static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
-+{                                                                      \
-+    if ((Rc(ctx->opcode) == 0) &&                                      \
-+        ((ctx->insns_flags & flg0) || (ctx->insns_flags2 & flg2_0))) { \
-+        if (unlikely(!ctx->altivec_enabled)) {                         \
-+            gen_exception(ctx, POWERPC_EXCP_VPU);                      \
-+            return;                                                    \
-+        }                                                              \
-+        trans_##name0(ctx);                                            \
-+    } else if ((Rc(ctx->opcode) == 1) &&                               \
-+        ((ctx->insns_flags & flg1) || (ctx->insns_flags2 & flg2_1))) { \
-+        gen_##name1(ctx);                                              \
-+    } else {                                                           \
-+        gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);            \
-+    }                                                                  \
-+}
-+
- /* Adds support to provide invalid mask */
- #define GEN_VXFORM_DUAL_EXT(name0, flg0, flg2_0, inval0,                \
-                             name1, flg1, flg2_1, inval1)                \
-@@ -431,20 +453,13 @@ GEN_VXFORM(vmrglb, 6, 4);
- GEN_VXFORM(vmrglh, 6, 5);
- GEN_VXFORM(vmrglw, 6, 6);
- 
--static void gen_vmrgew(DisasContext *ctx)
-+static void trans_vmrgew(DisasContext *ctx)
- {
--    TCGv_i64 tmp;
--    TCGv_i64 avr;
--    int VT, VA, VB;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    VT = rD(ctx->opcode);
--    VA = rA(ctx->opcode);
--    VB = rB(ctx->opcode);
--    tmp = tcg_temp_new_i64();
--    avr = tcg_temp_new_i64();
-+    int VT = rD(ctx->opcode);
-+    int VA = rA(ctx->opcode);
-+    int VB = rB(ctx->opcode);
-+    TCGv_i64 tmp = tcg_temp_new_i64();
-+    TCGv_i64 avr = tcg_temp_new_i64();
- 
-     get_avr64(avr, VB, true);
-     tcg_gen_shri_i64(tmp, avr, 32);
-@@ -462,21 +477,14 @@ static void gen_vmrgew(DisasContext *ctx)
-     tcg_temp_free_i64(avr);
- }
- 
--static void gen_vmrgow(DisasContext *ctx)
-+static void trans_vmrgow(DisasContext *ctx)
- {
--    TCGv_i64 t0, t1;
--    TCGv_i64 avr;
--    int VT, VA, VB;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    VT = rD(ctx->opcode);
--    VA = rA(ctx->opcode);
--    VB = rB(ctx->opcode);
--    t0 = tcg_temp_new_i64();
--    t1 = tcg_temp_new_i64();
--    avr = tcg_temp_new_i64();
-+    int VT = rD(ctx->opcode);
-+    int VA = rA(ctx->opcode);
-+    int VB = rB(ctx->opcode);
-+    TCGv_i64 t0 = tcg_temp_new_i64();
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-+    TCGv_i64 avr = tcg_temp_new_i64();
- 
-     get_avr64(t0, VB, true);
-     get_avr64(t1, VA, true);
-@@ -1165,14 +1173,14 @@ GEN_VXFORM_ENV(vminfp, 5, 17);
- GEN_VXFORM_HETRO(vextublx, 6, 24)
- GEN_VXFORM_HETRO(vextuhlx, 6, 25)
- GEN_VXFORM_HETRO(vextuwlx, 6, 26)
--GEN_VXFORM_DUAL(vmrgow, PPC_NONE, PPC2_ALTIVEC_207,
-+GEN_VXFORM_TRANS_DUAL(vmrgow, PPC_NONE, PPC2_ALTIVEC_207,
-                 vextuwlx, PPC_NONE, PPC2_ISA300)
- GEN_VXFORM_HETRO(vextubrx, 6, 28)
- GEN_VXFORM_HETRO(vextuhrx, 6, 29)
- GEN_VXFORM_HETRO(vextuwrx, 6, 30)
- GEN_VXFORM_TRANS(lvsl, 6, 31)
- GEN_VXFORM_TRANS(lvsr, 6, 32)
--GEN_VXFORM_DUAL(vmrgew, PPC_NONE, PPC2_ALTIVEC_207, \
-+GEN_VXFORM_TRANS_DUAL(vmrgew, PPC_NONE, PPC2_ALTIVEC_207,
-                 vextuwrx, PPC_NONE, PPC2_ISA300)
- 
- #define GEN_VXRFORM1(opname, name, str, opc2, opc3)                     \
--- 
-2.7.4
-
+thanks
+-- PMM
 
