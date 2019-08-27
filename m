@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3679F18D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 19:26:21 +0200 (CEST)
-Received: from localhost ([::1]:54286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E269F19C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 19:32:17 +0200 (CEST)
+Received: from localhost ([::1]:54308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2fEa-00069a-Ur
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 13:26:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41519)
+	id 1i2fKK-0007gG-Oi
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 13:32:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42342)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i2fDF-0005Qh-OD
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 13:24:58 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i2fIg-0007DU-3X
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 13:30:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i2fDE-0006UV-NB
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 13:24:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35564)
+ (envelope-from <mreitz@redhat.com>) id 1i2fIe-0008Dp-VL
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 13:30:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34952)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i2fDC-0006S8-2P; Tue, 27 Aug 2019 13:24:54 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1i2fIc-0008BV-7l; Tue, 27 Aug 2019 13:30:30 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 50C1918012FA;
- Tue, 27 Aug 2019 17:24:53 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5E1893087958;
+ Tue, 27 Aug 2019 17:30:29 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E30560468;
- Tue, 27 Aug 2019 17:24:49 +0000 (UTC)
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20190827101328.4062-1-stefanha@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A2AD60C5D;
+ Tue, 27 Aug 2019 17:30:27 +0000 (UTC)
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
+References: <20190823133552.11680-1-thuth@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -57,21 +57,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <21c580bc-c4c7-ede5-b35b-701391697063@redhat.com>
-Date: Tue, 27 Aug 2019 19:24:47 +0200
+Message-ID: <f34d5940-db14-45ea-51a7-1bd308ff07ac@redhat.com>
+Date: Tue, 27 Aug 2019 19:30:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190827101328.4062-1-stefanha@redhat.com>
+In-Reply-To: <20190823133552.11680-1-thuth@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="KQ7dUPPCLCUen2DSNFZ3gsXbuRtjGLSdq"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Tue, 27 Aug 2019 17:24:53 +0000 (UTC)
+ boundary="KdwXDLZSOGVTrrhvsQAo7cpVZMpQvxA5b"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Tue, 27 Aug 2019 17:30:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] file-posix: fix request_alignment typo
+Subject: Re: [Qemu-devel] [PATCH v2] iotests: Check for enabled drivers
+ before testing them
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,36 +84,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-trivial@nongnu.org,
- qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---KQ7dUPPCLCUen2DSNFZ3gsXbuRtjGLSdq
-Content-Type: multipart/mixed; boundary="kEPR9glWcdyS3Hw4a0UY4nWIPS2QP7EwB";
+--KdwXDLZSOGVTrrhvsQAo7cpVZMpQvxA5b
+Content-Type: multipart/mixed; boundary="ohq5uJf2Z8lHCc9FZYCkBGIEpeF2chbhb";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- qemu-trivial@nongnu.org
-Message-ID: <21c580bc-c4c7-ede5-b35b-701391697063@redhat.com>
-Subject: Re: [PATCH] file-posix: fix request_alignment typo
-References: <20190827101328.4062-1-stefanha@redhat.com>
-In-Reply-To: <20190827101328.4062-1-stefanha@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
+Message-ID: <f34d5940-db14-45ea-51a7-1bd308ff07ac@redhat.com>
+Subject: Re: [PATCH v2] iotests: Check for enabled drivers before testing them
+References: <20190823133552.11680-1-thuth@redhat.com>
+In-Reply-To: <20190823133552.11680-1-thuth@redhat.com>
 
---kEPR9glWcdyS3Hw4a0UY4nWIPS2QP7EwB
+--ohq5uJf2Z8lHCc9FZYCkBGIEpeF2chbhb
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 27.08.19 12:13, Stefan Hajnoczi wrote:
-> Fixes: a6b257a08e3d72219f03e461a52152672fec0612
->        ("file-posix: Handle undetectable alignment")
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On 23.08.19 15:35, Thomas Huth wrote:
+> It is possible to enable only a subset of the block drivers with the
+> "--block-drv-rw-whitelist" option of the "configure" script. All other
+> drivers are marked as unusable (or only included as read-only with the
+> "--block-drv-ro-whitelist" option). If an iotest is now using such a
+> disabled block driver, it is failing - which is bad, since at least the=
+
+> tests in the "auto" group should be able to deal with this situation.
+> Thus let's introduce a "_require_drivers" function that can be used by
+> the shell tests to check for the availability of certain drivers first,=
+
+> and marks the test as "not run" if one of the drivers is missing.
+>=20
+> This patch mainly targets the test in the "auto" group which should
+> never fail in such a case, but also improves some of the other tests
+> along the way. Note that we also assume that the "qcow2" and "file"
+> drivers are always available - otherwise it does not make sense to
+> run "make check-block" at all (which only tests with qcow2 by default).=
+
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  block/file-posix.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  v2:
+>  - Update the check in _require_drivers() according to Max' suggestion
+>  - Remove superfluous check in test 081
+>  - Mark 120 to require "raw"
+>  - Replaced the check in 162 to use the new _require_drivers() function=
+
+>  - Mark 186 to require "null-co"
+>=20
+>  tests/qemu-iotests/071       |  1 +
+>  tests/qemu-iotests/081       |  4 +---
+>  tests/qemu-iotests/099       |  1 +
+>  tests/qemu-iotests/120       |  1 +
+>  tests/qemu-iotests/162       |  4 +---
+>  tests/qemu-iotests/184       |  1 +
+>  tests/qemu-iotests/186       |  1 +
+>  tests/qemu-iotests/common.rc | 14 ++++++++++++++
+>  8 files changed, 21 insertions(+), 6 deletions(-)
 
 Thanks, applied to my block branch:
 
@@ -121,24 +152,24 @@ https://git.xanclic.moe/XanClic/qemu/commits/branch/block
 Max
 
 
---kEPR9glWcdyS3Hw4a0UY4nWIPS2QP7EwB--
+--ohq5uJf2Z8lHCc9FZYCkBGIEpeF2chbhb--
 
---KQ7dUPPCLCUen2DSNFZ3gsXbuRtjGLSdq
+--KdwXDLZSOGVTrrhvsQAo7cpVZMpQvxA5b
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1lZ18ACgkQ9AfbAGHV
-z0A6xQf+IUxK0oOHYAjx4vY3Gx2eFcgQGS8PiE0LA8wGc1EReivmi048FOalq883
-yOcKQ1bBHMp53dhTzcNpTNbkqcIgDRiLh66mbwPna5NnuQ5+aNUfd/rF1jkxE5BT
-Exnr1SCCjjfLyiBzBPJjM+9z4ovlVdgrwqfHdLLS83sq/iZiiWReZSgkkuxm8ImV
-dfd7h8eu/qQVT1uRVyBdyjDiWA8ypfUTm12wwg9AQdlzIQZkZJNMC4TjkYK2aCzc
-0ZTn2o34CU6vv/jkZmKVSqV5JkOoa73zZTNP/9hdp62uszTJNDvNvuux8N6lHuzU
-7NY5PkLtzPJQapzLz2npEvNOQmCupQ==
-=W6/Q
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1laLIACgkQ9AfbAGHV
+z0DpCAf9EIKqnZp34lyxs1sqV1+3EHV5Xr1DfunHIPZh3u8mw6WK9J0qbbImC2/Z
+NYfOcQrwNQq7uYh2RQS93Z9JkdakoNQ7jxuS2lYh2cz5/pIGLh2GGQqrnP1dpDvF
+h9tlFoF38E9EuG3ShPYoP/k63T+1nfFq38Qg7aZ64AaTkZZubec6sI/KeGb/hfD/
+469RVjiK33JHuHjriKHLOzRwzP1hV+b1GuCEcq20iVp7YM2qbbyLz2s2tQ6OCK4F
+MoMy0HEbI0F3CtJ71Jjesh6T8Q6nyqbY4qi80BB8tLMF3RMjsHlL4meDZTdfHS6e
+9d/+y2mUOXq3B9Qzsy6BV2lAj3SGjw==
+=sfe3
 -----END PGP SIGNATURE-----
 
---KQ7dUPPCLCUen2DSNFZ3gsXbuRtjGLSdq--
+--KdwXDLZSOGVTrrhvsQAo7cpVZMpQvxA5b--
 
