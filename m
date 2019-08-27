@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56BD99EC12
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 17:10:18 +0200 (CEST)
-Received: from localhost ([::1]:52470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1DE9EC1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 17:14:11 +0200 (CEST)
+Received: from localhost ([::1]:52504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2d6u-0005NR-Jg
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 11:10:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46854)
+	id 1i2dAf-0000sO-QG
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 11:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i2cwL-0003Ni-Hq
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 10:59:24 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1i2cwQ-0003OT-9n
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 10:59:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i2cwJ-0003nB-Sl
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 10:59:21 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:38403)
+ (envelope-from <bmeng.cn@gmail.com>) id 1i2cwL-0003o7-GW
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 10:59:23 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:39514)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1i2cwH-0003eW-S5; Tue, 27 Aug 2019 10:59:18 -0400
-Received: by mail-pl1-x643.google.com with SMTP id w11so11459917plp.5;
- Tue, 27 Aug 2019 07:59:03 -0700 (PDT)
+ id 1i2cwJ-0003hl-Gb; Tue, 27 Aug 2019 10:59:21 -0400
+Received: by mail-pl1-x642.google.com with SMTP id z3so11950714pln.6;
+ Tue, 27 Aug 2019 07:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=XIkLolLkHu2jtT+JdqJX9hnPTa5guiQoqfo7x+mU4Yw=;
- b=QdZpBD0qOg6+gXhZpguix95v7EsDQzrDKkcOdyOJP+xh2rsqZ+26TNDbf8U4P4mvQ0
- TQoK19PqMED1mv066dvcbJpepJanmAzmcM4JZL5Qy2qOZuMuAsd9mjeBQR6RYVvhnpj6
- Z1hKSl5c9lrRSnQiMHDuGZKldSLFwkOtprGWytqEtj2eb4lFvzkZdXbOrvc+pbqlUAXz
- sLF7VvyfEET+1dn+cE1uUElJpcxNCq5ZQFrMapaj7+lW9zh95HBGvvkftoATg8dihp/s
- TqZqweEoR3k4pltUBEXQ+zbURtGsrA4zHXCRaMCDQgeqHPFOPyHTXH8jR7eECECgOKRe
- ZOuw==
+ bh=F6B4x3xsQ3LrE7zY0k6hhCP8/PfH3NI3sEzMOKRn1i4=;
+ b=U/ib/eEkHr5c84XKn4ipowSS2JNM1dcTy8P/bLaXcchh3YaFML8TYu2N8trKnyMLq1
+ lKrfu9PD6rw7cVyOq0/qdsv2VtJIb3L1p3/2UCKkgkj7pjc9xzMBFpj8AxiUKpM7ri5I
+ OMqkcvkmkdIgyZQ5adAhP40hFghyxpBD65WyeeRGL5Kws3m0CAw+8KfiLGISXAzmoKQX
+ Nhh2bdBZpXx/aokfFpmx5ssrx/7OHwZQq7flA0/i2fBLTedaVl6ACi7mfJfOXlBJEtVg
+ tWSh9Xbil2EKxRLZF2uA+3niDHvSAaVgOQUnE7NzxY1QcZxXoYOYbPSdv8wxPbSi7BJm
+ Uq7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=XIkLolLkHu2jtT+JdqJX9hnPTa5guiQoqfo7x+mU4Yw=;
- b=PQMpChmVPoOsz9Q67xhoLpjbbGqCX0ZtNoMIX5YQ5AoGkB0UYaE9uBLKC8HRf8YhHA
- I6MPYOJqCDajFwlth8K0qhG/pNshrPjI/m/ytcOgVthlI2Uw1zD3MwYl8+cnXE/6c+Ce
- DqmSIlMYAU+2t+scRi7G0tXimogP5Ojxc1XSsN3Gn2kopOIlxGYD2LwJgkrag0JcDXs7
- EZwMP1UaZm/SQxTIYNw1rdOofAFBK/0uE46L0q13T0TlfO0iuh6rzIa0FxzQq6bm7NTP
- aLsBnr8kcU5E2ZhkGm9zRCKtIP0tbxhJ2KhHXJVmG1/KsNueMJU3djwRKIfUOjrVvxEI
- KYLA==
-X-Gm-Message-State: APjAAAWdI1LrlvDwFZl2jUQQj7ruW/s4miJtLgD/QysSl22LlztdtXy5
- hzeI3jJVIqoUVEfNiEFMV10=
-X-Google-Smtp-Source: APXvYqxpj4NoFAbmdDXXuZXzHAU07bDFTy6Rfe39g1fr+U/tNaDEbdmqdhZ2YXwzjXDnpauzunP2ZQ==
-X-Received: by 2002:a17:902:720a:: with SMTP id
- ba10mr22858949plb.231.1566917943031; 
- Tue, 27 Aug 2019 07:59:03 -0700 (PDT)
+ bh=F6B4x3xsQ3LrE7zY0k6hhCP8/PfH3NI3sEzMOKRn1i4=;
+ b=I0aUmVaFxw+mya9q9ZFOjx7agOXJ0WJ8pK/R3QuamO/NzhMtKTGO8LQZ8G9UDuAh4g
+ ImKiyLqmKdA7SBymCZ+kTVllf9hD0aP40BgcaP9dFHCXbnrg5Ci52X6txHzSSKb0k3Er
+ NfP5RHfsZCFoEdCz9guPh/6Bp8KmGVZa63Cvygu1bPzuNKG6UCqYWy8b7v54MRvU9eCn
+ 9+0G7YSuVXc88BcUl1rXX43Yk5/OMlBkJzbhXmT7TZnacXmggtOiN29yX0+V6D1qQDu4
+ gZMg9i5iUh0TWeBIkW4CWffVUFmRGM0Jgj9AyGFcSoomXn8VUtcRlvMj2YpVIX1dB0+l
+ JfHA==
+X-Gm-Message-State: APjAAAU5+4zZzyjp0iFGwp8VrJMGxYm2vyFY2d/ryKUv6xktV0BwBCg/
+ mtcpLS1TGDosZWY5v/O33rA=
+X-Google-Smtp-Source: APXvYqytxNl5YAOykxVuMCHQhSWQZTBAAnyjdFasAMzqfAEKwM9kQr4RfctFBAkSw0SyOkG+k+nzCA==
+X-Received: by 2002:a17:902:8609:: with SMTP id
+ f9mr24460307plo.112.1566917945763; 
+ Tue, 27 Aug 2019 07:59:05 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id j15sm14839344pfr.146.2019.08.27.07.59.01
+ by smtp.gmail.com with ESMTPSA id j15sm14839344pfr.146.2019.08.27.07.59.04
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Tue, 27 Aug 2019 07:59:02 -0700 (PDT)
+ Tue, 27 Aug 2019 07:59:04 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Tue, 27 Aug 2019 07:58:25 -0700
-Message-Id: <1566917919-25381-17-git-send-email-bmeng.cn@gmail.com>
+Date: Tue, 27 Aug 2019 07:58:27 -0700
+Message-Id: <1566917919-25381-19-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1566917919-25381-1-git-send-email-bmeng.cn@gmail.com>
 References: <1566917919-25381-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: [Qemu-devel] [PATCH v6 16/30] riscv: sifive_u: Set the minimum
- number of cpus to 2
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v6 18/30] riscv: sifive_u: Update PLIC hart
+ topology configuration string
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,61 +81,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is not useful if we only have one management CPU.
+With heterogeneous harts config, the PLIC hart topology configuration
+string are "M,MS,.." because of the monitor hart #0.
 
+Suggested-by: Fabien Chouteau <chouteau@adacore.com>
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
 ---
 
 Changes in v6: None
 Changes in v5: None
 Changes in v4: None
-Changes in v3:
-- use management cpu count + 1 for the min_cpus
+Changes in v3: None
+Changes in v2: None
 
-Changes in v2:
-- update the file header to indicate at least 2 harts are created
-
- hw/riscv/sifive_u.c         | 4 +++-
- include/hw/riscv/sifive_u.h | 2 ++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ hw/riscv/sifive_u.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 3f58f61..67b503a 100644
+index 7f51d9d..24ae3d1 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -10,7 +10,8 @@
-  * 1) CLINT (Core Level Interruptor)
-  * 2) PLIC (Platform Level Interrupt Controller)
-  *
-- * This board currently uses a hardcoded devicetree that indicates one hart.
-+ * This board currently generates devicetree dynamically that indicates at least
-+ * two harts.
-  *
-  * This program is free software; you can redistribute it and/or modify it
-  * under the terms and conditions of the GNU General Public License,
-@@ -433,6 +434,7 @@ static void riscv_sifive_u_machine_init(MachineClass *mc)
-      * management CPU.
-      */
-     mc->max_cpus = 4;
-+    mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
- }
+@@ -424,10 +424,11 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     plic_hart_config = g_malloc0(plic_hart_config_len);
+     for (i = 0; i < ms->smp.cpus; i++) {
+         if (i != 0) {
+-            strncat(plic_hart_config, ",", plic_hart_config_len);
++            strncat(plic_hart_config, "," SIFIVE_U_PLIC_HART_CONFIG,
++                    plic_hart_config_len);
++        } else {
++            strncat(plic_hart_config, "M", plic_hart_config_len);
+         }
+-        strncat(plic_hart_config, SIFIVE_U_PLIC_HART_CONFIG,
+-                plic_hart_config_len);
+         plic_hart_config_len -= (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1);
+     }
  
- DEFINE_MACHINE("sifive_u", riscv_sifive_u_machine_init)
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 4abc621..32d680c 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -68,6 +68,8 @@ enum {
-     SIFIVE_U_GEM_CLOCK_FREQ = 125000000
- };
- 
-+#define SIFIVE_U_MANAGEMENT_CPU_COUNT   1
-+
- #define SIFIVE_U_PLIC_HART_CONFIG "MS"
- #define SIFIVE_U_PLIC_NUM_SOURCES 54
- #define SIFIVE_U_PLIC_NUM_PRIORITIES 7
 -- 
 2.7.4
 
