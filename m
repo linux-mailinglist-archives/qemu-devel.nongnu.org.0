@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2004D9E258
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 10:26:55 +0200 (CEST)
-Received: from localhost ([::1]:48066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB68F9E2AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 10:29:51 +0200 (CEST)
+Received: from localhost ([::1]:48102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2WoX-0006BD-Ha
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 04:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36579)
+	id 1i2WrO-0001Dx-IZ
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 04:29:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36618)
  by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
- <3yehkXQYKCiAO6IAE9CKKCHA.8KIMAIQ-9ARAHJKJCJQ.KNC@flex--sameid.bounces.google.com>)
- id 1i2WmS-0004Vn-Se
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:24:46 -0400
+ <30OhkXQYKCicVDPHLGJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--sameid.bounces.google.com>)
+ id 1i2WmY-0004cH-O4
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:24:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from
- <3yehkXQYKCiAO6IAE9CKKCHA.8KIMAIQ-9ARAHJKJCJQ.KNC@flex--sameid.bounces.google.com>)
- id 1i2WmR-0007jh-F2
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:24:44 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:42887)
+ <30OhkXQYKCicVDPHLGJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--sameid.bounces.google.com>)
+ id 1i2WmX-0007li-JP
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:24:50 -0400
+Received: from mail-yw1-xc49.google.com ([2607:f8b0:4864:20::c49]:53639)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from
- <3yehkXQYKCiAO6IAE9CKKCHA.8KIMAIQ-9ARAHJKJCJQ.KNC@flex--sameid.bounces.google.com>)
- id 1i2WmR-0007jA-2V
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:24:43 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id l8so4993040ybm.9
- for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 01:24:42 -0700 (PDT)
+ <30OhkXQYKCicVDPHLGJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--sameid.bounces.google.com>)
+ id 1i2WmX-0007lU-EO
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:24:49 -0400
+Received: by mail-yw1-xc49.google.com with SMTP id c199so14467415ywb.20
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 01:24:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=oPzGYCfz6fB+LQmTo0GVew/IPrjI9h3/dbHxHOhwq/Y=;
- b=AgAjgUXGhwvJpVzQCVsyeyVV88SpqvLv1YnaY7G5S9Zmi0U/n3D5KmZjTB6GW8aN4/
- 5TEFk2zPVaM5s7P3VozcbXlBJIM9dfFDh/Px5ZMcZpczNkRlwav/16mS7dW+KJ5zI2ye
- c5iFepzJQ2B6Xo+ZX6kn/ERiMV6ndWHss0xqjOVuz7LKl+wKe8aOZd0GUQlPf+XKoTy5
- pU87pgB6NtEtr4zdnhX+M2/os4QKuoF7Ef4jU0bDFMAEPJ1HnwEY2HGLFNTp/w59NUbR
- BNXSJGzcthB1l40QQJYtIMsPTQryTwagQevsZtLWVJ1Jp/R65QU1lek89a7uvVYnT2ZA
- QLVw==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=mnC+MT0EWE3I8fOBTcQ2N9AqdBzn+92Zu9jnhpTsMuE=;
+ b=DDwDhD0YXeUSFsn3sVNu1s5mqtuPZDRWp00A0WqIe54ydnAgjidn6NHQ6wfVXF4lR7
+ qy5XFJjXfSoVEBYNtqX11NUJ42TAdCEWU6QmnSR91uoAuIQxlw1m+P99pHxXYWz1CiPX
+ ofaqwn3E7ZDLhjR9lbUhoolTXTwPww+bd4QAMkcsc8GOuGIMci1j7aQdYH4wGRW+V7QC
+ Zqzp6NVtFHI1oRNnLibPEPegukvPMyNxWZAUis7bF/daQRqRzo49YjhLQgBUhQ7I2hPU
+ ieIRGQl9XKDG/Gy+hUisHZqGdpP/vrH2sJpwz8xE8YpveE+WJrll/gxm2APmRxQ2d6Lk
+ ieQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=oPzGYCfz6fB+LQmTo0GVew/IPrjI9h3/dbHxHOhwq/Y=;
- b=YJhC291Ybtj4wxavnLbaMrkNxOsC10jWJw42/EQiJ0XwBHH30IfwJQlYph2luQa5eT
- D+vPNCegU9soE+XTME+nqJAM6yjn/rFIIH7tWM68V79S/H9vukAC3xfLov9Dg4svGKWz
- ZTgFuK7BNS/e5Lb0NcEFxRSYaDfYJY4ftRJ5lEkkmMtPQTJQf77V2ajgKp/2znr2tONQ
- fxYL1NtOTUF8KkBstmPIHs+Vsp6fbr3AkCXwuqMczD+xtW4ofa1sjHNwfYx4Zrr5Jl3T
- a1WQricoyHn2TsZx26POMpUPZniPoCRnPWewinWK6QBBXV3EV52TCenHKxRNDzntwoCo
- TUBw==
-X-Gm-Message-State: APjAAAWUJqiw43nzp7daiOWEQOMrO74Ii7z16w22GfswuxeL8D/fOWGG
- SmeZmVc6DscB/5+44RyVJPMQoyQ16e2VgPLOV26mDG/fsaywqOdDl2LMb81+0e+PXF2gTx17Bwh
- 8VUbNcz3M7RoVskYWtC01x0iRfZxmoJadN8t50z+FXwnXkuRROm7P3BwFEoIa
-X-Google-Smtp-Source: APXvYqxcnKrr8OWQgYIsiWQ7avk5ef1k4lh6igl1m+oAnkE3RtzEQdLtPk6uHmMqbWD6SJKykDuEF3cGrvE=
-X-Received: by 2002:a81:7a06:: with SMTP id v6mr14651442ywc.450.1566894281951; 
- Tue, 27 Aug 2019 01:24:41 -0700 (PDT)
-Date: Tue, 27 Aug 2019 11:24:19 +0300
-Message-Id: <20190827082427.64280-1-sameid@google.com>
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=mnC+MT0EWE3I8fOBTcQ2N9AqdBzn+92Zu9jnhpTsMuE=;
+ b=JJpqVylKUwaTZTFJGx0U1AS2+uv2PrQ4V1Q32jAVtwd0BKcUJCt4xaXsczDrMEwmuw
+ fU4rMRTWHUHi4mYIvls/xNHhhO4Udi/hVJKdyhc9Kgit77lbh5GcSpetKmLrgsY27hQ7
+ NuNVbpaNXKk0gOkGvjoZWLfcehAiYTcYydsLnYvLSUsUNk1A5ukJS5KSMlTfGzRDkSCi
+ JWJx8I+UYhjQQLomBI4zr9JakKb9ukQB4VN2yd98BsRbVAg7YDvnEETYosjPGii3REFQ
+ +4oytM7fNS1Qr3oZ96ZY/cQ2GHcKSPrVSlukVUqwnKs6cI2Um5Gc0ROrXLV0v53/j5tN
+ pw8w==
+X-Gm-Message-State: APjAAAU2+QJBipjiiY/+1tjpKIz7u1JBIwsigNJsa4DdfHnykkLmh3ys
+ /0BqfbyEjyXdAHLxgX3BCyDE92XYOJzYI13FV/siS14rkOM+pUQehvP9aTn6ZF3VG0Yaoh6rJlM
+ k7+qbIQIuOrXLIS5qnZa6ZPNQLE1IOvMpk5qD7gSqhKaoujWI67MuMYn2a+Cz
+X-Google-Smtp-Source: APXvYqzi8ekgmecfMPl2IqzfpRITXbSbqWc/XSUvBl6sfHg569OeKCapBtkMaAhRQX3Xj5AwjED0Uodh0vA=
+X-Received: by 2002:a25:768c:: with SMTP id r134mr15316699ybc.32.1566894288527; 
+ Tue, 27 Aug 2019 01:24:48 -0700 (PDT)
+Date: Tue, 27 Aug 2019 11:24:20 +0300
+In-Reply-To: <20190827082427.64280-1-sameid@google.com>
+Message-Id: <20190827082427.64280-2-sameid@google.com>
 Mime-Version: 1.0
+References: <20190827082427.64280-1-sameid@google.com>
 X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
 To: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b4a
-Subject: [Qemu-devel] [PATCH v6 0/8] Add Qemu to SeaBIOS LCHS interface
+X-Received-From: 2607:f8b0:4864:20::c49
+Subject: [Qemu-devel] [PATCH v6 1/8] block: Refactor macros - fix tabbing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,85 +78,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 From: Sam Eiderman via Qemu-devel <qemu-devel@nongnu.org>
 Reply-To: Sam Eiderman <sameid@google.com>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, seabios@seabios.org,
- kevin@koconnor.net, liran.alon@oracle.com, kraxel@redhat.com,
- sameid@google.com, karl.heubaum@oracle.com
+Cc: kwolf@redhat.com, qemu-block@nongnu.org,
+ Arbel Moshe <arbel.moshe@oracle.com>, seabios@seabios.org, kevin@koconnor.net,
+ liran.alon@oracle.com, kraxel@redhat.com,
+ Sam Eiderman <shmuel.eiderman@oracle.com>, sameid@google.com,
+ karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1:
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-Non-standard logical geometries break under QEMU.
+Fixing tabbing in block related macros.
 
-A virtual disk which contains an operating system which depends on
-logical geometries (consistent values being reported from BIOS INT13
-AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
-logical geometries - for example 56 SPT (sectors per track).
-No matter what QEMU will guess - SeaBIOS, for large enough disks - will
-use LBA translation, which will report 63 SPT instead.
+Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+---
+ hw/ide/qdev.c            |  2 +-
+ include/hw/block/block.h | 16 ++++++++--------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-In addition we can not enforce SeaBIOS to rely on phyiscal geometries at
-all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
-report more than 16 physical heads when moved to an IDE controller, the
-ATA spec allows a maximum of 16 heads - this is an artifact of
-virtualization.
-
-By supplying the logical geometies directly we are able to support such
-"exotic" disks.
-
-We will use fw_cfg to do just that.
-
-v2:
-
-Fix missing parenthesis check in
-    "hd-geo-test: Add tests for lchs override"
-
-v3:
-
-* Rename fw_cfg key to "bios-geometry".
-* Remove "extendible" interface.
-* Add cpu_to_le32 fix as Laszlo suggested or big endian hosts
-* Fix last qtest commit - automatic docker tester for some reason does not have qemu-img set
-
-v4:
-
-* Change fw_cfg interface from mixed textual/binary to textual only
-
-v5:
-
-* Fix line > 80 chars in tests/hd-geo-test.c
-
-v6:
-
-* Small fixes for issues pointed by Max
-* (&conf->conf)->lcyls to conf->conf.lcyls and so on
-* Remove scsi_unrealize from everything other than scsi-hd
-* Add proper include to sysemu.h
-* scsi_device_unrealize() after scsi_device_purge_requests()
-
-Sam Eiderman (8):
-  block: Refactor macros - fix tabbing
-  block: Support providing LCHS from user
-  bootdevice: Add interface to gather LCHS
-  scsi: Propagate unrealize() callback to scsi-hd
-  bootdevice: Gather LCHS from all relevant devices
-  bootdevice: Refactor get_boot_devices_list
-  bootdevice: FW_CFG interface for LCHS values
-  hd-geo-test: Add tests for lchs override
-
- bootdevice.c             | 148 ++++++++--
- hw/block/virtio-blk.c    |   6 +
- hw/ide/qdev.c            |   7 +-
- hw/nvram/fw_cfg.c        |  14 +-
- hw/scsi/scsi-bus.c       |  16 ++
- hw/scsi/scsi-disk.c      |  12 +
- include/hw/block/block.h |  22 +-
- include/hw/scsi/scsi.h   |   1 +
- include/sysemu/sysemu.h  |   4 +
- tests/Makefile.include   |   2 +-
- tests/hd-geo-test.c      | 582 +++++++++++++++++++++++++++++++++++++++
- 11 files changed, 773 insertions(+), 41 deletions(-)
-
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 6fba6b62b8..6dd219944f 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -290,7 +290,7 @@ static void ide_drive_realize(IDEDevice *dev, Error **errp)
+     DEFINE_BLOCK_PROPERTIES(IDEDrive, dev.conf),        \
+     DEFINE_BLOCK_ERROR_PROPERTIES(IDEDrive, dev.conf),  \
+     DEFINE_PROP_STRING("ver",  IDEDrive, dev.version),  \
+-    DEFINE_PROP_UINT64("wwn",  IDEDrive, dev.wwn, 0),    \
++    DEFINE_PROP_UINT64("wwn",  IDEDrive, dev.wwn, 0),   \
+     DEFINE_PROP_STRING("serial",  IDEDrive, dev.serial),\
+     DEFINE_PROP_STRING("model", IDEDrive, dev.model)
+ 
+diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+index 607539057a..fd55a30bca 100644
+--- a/include/hw/block/block.h
++++ b/include/hw/block/block.h
+@@ -50,21 +50,21 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
+                           _conf.logical_block_size),                    \
+     DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                \
+                           _conf.physical_block_size),                   \
+-    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),  \
++    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),    \
+     DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, 0),    \
+-    DEFINE_PROP_UINT32("discard_granularity", _state, \
+-                       _conf.discard_granularity, -1), \
+-    DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce, \
+-                            ON_OFF_AUTO_AUTO), \
++    DEFINE_PROP_UINT32("discard_granularity", _state,                   \
++                       _conf.discard_granularity, -1),                  \
++    DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce,           \
++                            ON_OFF_AUTO_AUTO),                          \
+     DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false)
+ 
+ #define DEFINE_BLOCK_PROPERTIES(_state, _conf)                          \
+     DEFINE_PROP_DRIVE("drive", _state, _conf.blk),                      \
+     DEFINE_BLOCK_PROPERTIES_BASE(_state, _conf)
+ 
+-#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)      \
+-    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),  \
+-    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0), \
++#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)                      \
++    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),                  \
++    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0),                \
+     DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0)
+ 
+ #define DEFINE_BLOCK_ERROR_PROPERTIES(_state, _conf)                    \
 -- 
 2.23.0.187.g17f5b7556c-goog
 
