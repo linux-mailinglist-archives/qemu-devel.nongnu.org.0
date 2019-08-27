@@ -2,49 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91D59E75A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 14:09:24 +0200 (CEST)
-Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365C89E7A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 14:15:36 +0200 (CEST)
+Received: from localhost ([::1]:50662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2aHr-0007Jk-NY
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 08:09:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
+	id 1i2aNr-0002ip-68
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 08:15:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48025)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <johannes@sipsolutions.net>) id 1i2aE8-0004bs-12
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 08:05:33 -0400
+ (envelope-from <johannes@sipsolutions.net>) id 1i2aMB-000205-Hc
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 08:13:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <johannes@sipsolutions.net>) id 1i2aE5-0004SS-VR
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 08:05:31 -0400
-Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:44938
+ (envelope-from <johannes@sipsolutions.net>) id 1i2aMA-000774-BI
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 08:13:51 -0400
+Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:45208
  helo=sipsolutions.net)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
- id 1i2aE5-0004P2-Lp
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 08:05:29 -0400
+ id 1i2aMA-00076D-52
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 08:13:50 -0400
 Received: by sipsolutions.net with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <johannes@sipsolutions.net>)
- id 1i2aE3-0007RV-EZ; Tue, 27 Aug 2019 14:05:27 +0200
-Message-ID: <6bc59e7805274911b87850442bebf124d586ac71.camel@sipsolutions.net>
+ id 1i2aM4-0007h2-R0; Tue, 27 Aug 2019 14:13:44 +0200
 From: Johannes Berg <johannes@sipsolutions.net>
-To: =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Date: Tue, 27 Aug 2019 14:05:26 +0200
-In-Reply-To: <CAJ+F1CKay50ZPhEORdY4N1OzBM6+-Dr9uzZwxTvRFJsFYb5qCA@mail.gmail.com>
- (sfid-20190827_134449_376172_CFE2EE59)
-References: <20190827083124.30791-1-johannes@sipsolutions.net>
- <CAJ+F1CJo+oo74_Y6c1PGKq4uULUKXwky3cxSpopxLVmcow-9_w@mail.gmail.com>
- <06c72fcfdafa1028439e10ad6cbf15434f11764f.camel@sipsolutions.net>
- <CAJ+F1CKay50ZPhEORdY4N1OzBM6+-Dr9uzZwxTvRFJsFYb5qCA@mail.gmail.com>
- (sfid-20190827_134449_376172_CFE2EE59)
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+To: qemu-devel@nongnu.org
+Date: Tue, 27 Aug 2019 15:13:39 +0300
+Message-Id: <20190827121339.15815-1-johannes@sipsolutions.net>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a01:4f8:191:4433::2
-Subject: Re: [Qemu-devel] [PATCH] libvhost-user-glib: fix VugDev main fd
+Subject: [Qemu-devel] [PATCH v2] libvhost-user-glib: fix VugDev main fd
  cleanup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,27 +49,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Johannes Berg <johannes.berg@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Johannes Berg <johannes.berg@intel.com>
 
-> What other problems? Sure we need the caller to unref.
+If you try to make a device implementation that can handle multiple
+connections and allow disconnections (which requires overriding the
+VHOST_USER_NONE handling), then glib will warn that we remove a src
+while it's still on the mainloop, and will poll() an FD that doesn't
+exist anymore.
 
-Don't recall, and now I can't reproduce it, sorry.
+Fix this by making vug_source_new() require pairing with the new
+vug_source_destroy() so we can keep the GSource referenced in the
+meantime.
 
-> > > Imho, we should change the behaviour of the function to return a ref
-> > > source.
-> > 
-> > Which "the function" do you mean?
-> 
-> The vug_source_new() function.
-[...]
-> Sure we can add the socket to the hashtable, but it's better to avoid
-> since we can.
+Note that this requires calling the new API in vhost-user-input.
+vhost-user-gpu also uses vug_source_new(), but never seems to free
+the result at all, so I haven't changed anything there.
 
-Ok, that works. Does this seem better to you?
+Fixes: 8bb7ddb78a1c ("libvhost-user: add glib source helper")
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+---
+ contrib/libvhost-user/libvhost-user-glib.c | 14 +++++++++++---
+ contrib/libvhost-user/libvhost-user-glib.h |  1 +
+ contrib/vhost-user-input/main.c            |  6 ++----
+ 3 files changed, 14 insertions(+), 7 deletions(-)
 
 diff --git a/contrib/libvhost-user/libvhost-user-glib.c b/contrib/libvhost-user/libvhost-user-glib.c
 index 99edd2f3de45..3e902ccd2efb 100644
@@ -158,5 +157,7 @@ index 449fd2171a5a..7d6b0f9d80cc 100644
      g_array_free(vi.config, TRUE);
      g_free(vi.queue);
      return 0;
+-- 
+2.23.0
 
 
