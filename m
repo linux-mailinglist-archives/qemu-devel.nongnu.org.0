@@ -2,76 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109F99DC46
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:04:02 +0200 (CEST)
-Received: from localhost ([::1]:46332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1719DC5D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:18:33 +0200 (CEST)
+Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2Si8-0004Ta-W4
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:04:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59089)
+	id 1i2SwC-0002Sn-BD
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:18:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60629)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rashmica.g@gmail.com>) id 1i2Sfu-00031z-A6
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:01:44 -0400
+ (envelope-from <bounces@canonical.com>) id 1i2StP-0000ui-3X
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:15:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rashmica.g@gmail.com>) id 1i2Sfs-0005DW-6U
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:01:42 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:37455)
+ (envelope-from <bounces@canonical.com>) id 1i2StN-0002gu-VV
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:15:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40386)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <rashmica.g@gmail.com>)
- id 1i2Sfo-0005Bi-5m; Tue, 27 Aug 2019 00:01:36 -0400
-Received: by mail-pf1-x441.google.com with SMTP id y9so12827601pfl.4;
- Mon, 26 Aug 2019 21:01:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Wx0QXMMVAe/TNPx0w41yI07oDkfJzFDrF94qeXw+obg=;
- b=hCHGeFY7MWncHH2gRt6Rg2fFn9ZrSjyTBbXxVGkJZ7YKqTJMzyWT2bQ92S5VSG9SyG
- We4Cub/P3NHdSpnsDCSzD7uATe2vDS0x6+PEBbdyESUXjJgu7N5p/72tFL7DwlUBZMn0
- 58/FsaS2ghA07iscHoxS9F0LlPu5bUdPArmJ+GWDu+cVY+pLeV0tKYm+2iBML76ZTwtU
- QR5yzCeXWsU+U94N3RZBD/2/DT/hJzfR/t2FLb634s48rdAquwsMU7AiROO2bVE8K48X
- ldCh+SMsYdS88vuI5QdB4tajHepHu8kwLOqhCXfW/BVBD3PMaSXmgxkE23f4n+ihviMY
- s7mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Wx0QXMMVAe/TNPx0w41yI07oDkfJzFDrF94qeXw+obg=;
- b=t8mgrR+UVbMLO53jZZ4WAMAkp8yvciZiKYgAADr9k2n5MzJYM1OobpDLfQy7OygO0p
- VV7/xkw24iafMOoVgqmFlSQI/JDPrjdFXDD+iuHtsz0yld3/43070CqUHU5t0oVY9BLF
- +Oprw62ydfBHLPxe01otGFDfsdXGxp3xD/2gD7JcVcy6uLfXWx+w22ms47CaAMF22XZH
- PLc+EYSRyu6biudLBt8+O6WXtx5QOV/yE3MHyb8/aUgsJ6Qp5qoKxO9b/XGYtbFVYNl4
- hos5fmTqoajWLMfvPmZbf6T1hELhdh+oNjSonAH3W59iwtiZO1KVusyrPwxtThiqx+ix
- mUJQ==
-X-Gm-Message-State: APjAAAUtWjPSN57mlLQgJdHSMCaaBqZAxwqdQyOPbdr8yjWnoyVpyjZ8
- F58wBRgqhacoYE37w9D6ngHTUHhXaUY=
-X-Google-Smtp-Source: APXvYqw9a490iYOWvSn5QzIvhN87ZCc0GKvlR/LhwMAWroBYLYgPISYktJa7j2d6Z6ghnmc1ujEEOA==
-X-Received: by 2002:a17:90a:fa8f:: with SMTP id
- cu15mr23406385pjb.119.1566878495142; 
- Mon, 26 Aug 2019 21:01:35 -0700 (PDT)
-Received: from rashmica.ozlabs.ibm.com ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id s11sm12004814pgv.13.2019.08.26.21.01.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Aug 2019 21:01:34 -0700 (PDT)
-From: Rashmica Gupta <rashmica.g@gmail.com>
-To: peter.maydell@linaro.org,
-	qemu-arm@nongnu.org
-Date: Tue, 27 Aug 2019 14:01:14 +1000
-Message-Id: <20190827040114.23390-4-rashmica.g@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190827040114.23390-1-rashmica.g@gmail.com>
-References: <20190827040114.23390-1-rashmica.g@gmail.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i2StN-0002gV-Q5
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:15:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i2StL-0002Fl-U8
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 04:15:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E26912E802D
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 04:15:35 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH v6 3/3] hw/gpio: Add in AST2600 specific
- implementation
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Aug 2019 04:06:38 -0000
+From: Paul Clarke <pc@us.ibm.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
+References: <156686849716.6431.16425651381928336460.malonedeb@gac.canonical.com>
+Message-Id: <156687879834.4807.16452132471732559890.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19031";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 4419450b03b43853c35b62e962bb01e32683f001
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1841491] Re: floating point emulation can fail to
+ set FE_UNDERFLOW
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,228 +64,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: andrew@aj.id.au, qemu-devel@nongnu.org, aik@ozlabs.ru, joel@jms.id.au,
- Rashmica Gupta <rashmica.g@gmail.com>, clg@kaod.org
+Reply-To: Bug 1841491 <1841491@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AST2600 has the same sets of 3.6v gpios as the AST2400 plus an
-addtional two sets of 1.8V gpios.
+Responding to the patch https://lists.nongnu.org/archive/html/qemu-
+ppc/2019-08/msg00404.html, it seems to work for "double", but not for
+"float". Test case attached.
 
-Signed-off-by: Rashmica Gupta <rashmica.g@gmail.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
----
- hw/gpio/aspeed_gpio.c | 142 ++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 137 insertions(+), 5 deletions(-)
+** Attachment added: "float testcase"
+   https://bugs.launchpad.net/qemu/+bug/1841491/+attachment/5284810/+files/=
+test-ffma.c
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index d9e92f0a67..dd21065d4e 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -167,6 +167,48 @@
- #define GPIO_3_6V_MEM_SIZE         0x1F0
- #define GPIO_3_6V_REG_ARRAY_SIZE   (GPIO_3_6V_MEM_SIZE >> 2)
- 
-+/* AST2600 only - 1.8V gpios */
-+/*
-+ * The AST2600 has same 3.6V gpios as the AST2400 (memory offsets 0x0-0x198)
-+ * and addtional 1.8V gpios (memory offsets 0x800-0x9D4).
-+ */
-+#define GPIO_1_8V_REG_OFFSET          0x800
-+#define GPIO_1_8V_ABCD_DATA_VALUE     ((0x800 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_DIRECTION      ((0x804 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INT_ENABLE     ((0x808 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INT_SENS_0     ((0x80C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INT_SENS_1     ((0x810 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INT_SENS_2     ((0x814 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INT_STATUS     ((0x818 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_RESET_TOLERANT ((0x81C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_DATA_VALUE        ((0x820 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_DIRECTION         ((0x824 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INT_ENABLE        ((0x828 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INT_SENS_0        ((0x82C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INT_SENS_1        ((0x830 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INT_SENS_2        ((0x834 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INT_STATUS        ((0x838 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_RESET_TOLERANT    ((0x83C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_DEBOUNCE_1     ((0x840 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_DEBOUNCE_2     ((0x844 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_DEBOUNCE_1        ((0x848 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_DEBOUNCE_2        ((0x84C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_DEBOUNCE_TIME_1     ((0x850 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_DEBOUNCE_TIME_2     ((0x854 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_DEBOUNCE_TIME_3     ((0x858 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_COMMAND_SRC_0  ((0x860 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_COMMAND_SRC_1  ((0x864 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_COMMAND_SRC_0     ((0x868 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_COMMAND_SRC_1     ((0x86C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_DATA_READ      ((0x8C0 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_DATA_READ         ((0x8C4 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INPUT_MASK     ((0x9D0 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INPUT_MASK        ((0x9D4 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_MEM_SIZE            0x9D8
-+#define GPIO_1_8V_REG_ARRAY_SIZE      ((GPIO_1_8V_MEM_SIZE - \
-+                                      GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_MAX_MEM_SIZE           MAX(GPIO_3_6V_MEM_SIZE, GPIO_1_8V_MEM_SIZE)
-+
- static int aspeed_evaluate_irq(GPIOSets *regs, int gpio_prev_high, int gpio)
- {
-     uint32_t falling_edge = 0, rising_edge = 0;
-@@ -463,6 +505,39 @@ static const AspeedGPIOReg aspeed_3_6v_gpios[GPIO_3_6V_REG_ARRAY_SIZE] = {
-     [GPIO_AC_INPUT_MASK] =         { 7, gpio_reg_input_mask },
- };
- 
-+static const AspeedGPIOReg aspeed_1_8v_gpios[GPIO_1_8V_REG_ARRAY_SIZE] = {
-+    /* 1.8V Set ABCD */
-+    [GPIO_1_8V_ABCD_DATA_VALUE] =     {0, gpio_reg_data_value},
-+    [GPIO_1_8V_ABCD_DIRECTION] =      {0, gpio_reg_direction},
-+    [GPIO_1_8V_ABCD_INT_ENABLE] =     {0, gpio_reg_int_enable},
-+    [GPIO_1_8V_ABCD_INT_SENS_0] =     {0, gpio_reg_int_sens_0},
-+    [GPIO_1_8V_ABCD_INT_SENS_1] =     {0, gpio_reg_int_sens_1},
-+    [GPIO_1_8V_ABCD_INT_SENS_2] =     {0, gpio_reg_int_sens_2},
-+    [GPIO_1_8V_ABCD_INT_STATUS] =     {0, gpio_reg_int_status},
-+    [GPIO_1_8V_ABCD_RESET_TOLERANT] = {0, gpio_reg_reset_tolerant},
-+    [GPIO_1_8V_ABCD_DEBOUNCE_1] =     {0, gpio_reg_debounce_1},
-+    [GPIO_1_8V_ABCD_DEBOUNCE_2] =     {0, gpio_reg_debounce_2},
-+    [GPIO_1_8V_ABCD_COMMAND_SRC_0] =  {0, gpio_reg_cmd_source_0},
-+    [GPIO_1_8V_ABCD_COMMAND_SRC_1] =  {0, gpio_reg_cmd_source_1},
-+    [GPIO_1_8V_ABCD_DATA_READ] =      {0, gpio_reg_data_read},
-+    [GPIO_1_8V_ABCD_INPUT_MASK] =     {0, gpio_reg_input_mask},
-+    /* 1.8V Set E */
-+    [GPIO_1_8V_E_DATA_VALUE] =     {1, gpio_reg_data_value},
-+    [GPIO_1_8V_E_DIRECTION] =      {1, gpio_reg_direction},
-+    [GPIO_1_8V_E_INT_ENABLE] =     {1, gpio_reg_int_enable},
-+    [GPIO_1_8V_E_INT_SENS_0] =     {1, gpio_reg_int_sens_0},
-+    [GPIO_1_8V_E_INT_SENS_1] =     {1, gpio_reg_int_sens_1},
-+    [GPIO_1_8V_E_INT_SENS_2] =     {1, gpio_reg_int_sens_2},
-+    [GPIO_1_8V_E_INT_STATUS] =     {1, gpio_reg_int_status},
-+    [GPIO_1_8V_E_RESET_TOLERANT] = {1, gpio_reg_reset_tolerant},
-+    [GPIO_1_8V_E_DEBOUNCE_1] =     {1, gpio_reg_debounce_1},
-+    [GPIO_1_8V_E_DEBOUNCE_2] =     {1, gpio_reg_debounce_2},
-+    [GPIO_1_8V_E_COMMAND_SRC_0] =  {1, gpio_reg_cmd_source_0},
-+    [GPIO_1_8V_E_COMMAND_SRC_1] =  {1, gpio_reg_cmd_source_1},
-+    [GPIO_1_8V_E_DATA_READ] =      {1, gpio_reg_data_read},
-+    [GPIO_1_8V_E_INPUT_MASK] =     {1, gpio_reg_input_mask},
-+};
-+
- static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
- {
-     AspeedGPIOState *s = ASPEED_GPIO(opaque);
-@@ -661,8 +736,11 @@ static void aspeed_gpio_get_pin(Object *obj, Visitor *v, const char *name,
-     int set_idx, group_idx = 0;
- 
-     if (sscanf(name, "gpio%2[A-Z]%1d", group, &pin) != 2) {
--        error_setg(errp, "%s: error reading %s", __func__, name);
--        return;
-+        /* 1.8V gpio */
-+        if (sscanf(name, "gpio%3s%1d", group, &pin) != 2) {
-+            error_setg(errp, "%s: error reading %s", __func__, name);
-+            return;
-+        }
-     }
-     set_idx = get_set_idx(s, group, &group_idx);
-     if (set_idx == -1) {
-@@ -690,8 +768,11 @@ static void aspeed_gpio_set_pin(Object *obj, Visitor *v, const char *name,
-         return;
-     }
-     if (sscanf(name, "gpio%2[A-Z]%1d", group, &pin) != 2) {
--        error_setg(errp, "%s: error reading %s", __func__, name);
--        return;
-+        /* 1.8V gpio */
-+        if (sscanf(name, "gpio%3s%1d", group, &pin) != 2) {
-+            error_setg(errp, "%s: error reading %s", __func__, name);
-+            return;
-+        }
-     }
-     set_idx = get_set_idx(s, group, &group_idx);
-     if (set_idx == -1) {
-@@ -724,6 +805,21 @@ static const GPIOSetProperties ast2500_set_props[] = {
-     [7] = {0x000000ff,  0x000000ff,  {"AC"} },
- };
- 
-+static GPIOSetProperties ast2600_3_6v_set_props[] = {
-+    [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
-+    [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
-+    [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
-+    [3] = {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
-+    [4] = {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
-+    [5] = {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
-+    [6] = {0xffff0000,  0x0fff0000,  {"Y", "Z", "", ""} },
-+};
-+
-+static GPIOSetProperties ast2600_1_8v_set_props[] = {
-+    [0] = {0xffffffff,  0xffffffff,  {"18A", "18B", "18C", "18D"} },
-+    [1] = {0x0000000f,  0x0000000f,  {"18E"} },
-+};
-+
- static const MemoryRegionOps aspeed_gpio_ops = {
-     .read       = aspeed_gpio_read,
-     .write      = aspeed_gpio_write,
-@@ -756,7 +852,7 @@ static void aspeed_gpio_realize(DeviceState *dev, Error **errp)
-     }
- 
-     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_gpio_ops, s,
--            TYPE_ASPEED_GPIO, GPIO_3_6V_MEM_SIZE);
-+            TYPE_ASPEED_GPIO, GPIO_MAX_MEM_SIZE);
- 
-     sysbus_init_mmio(sbd, &s->iomem);
- }
-@@ -849,6 +945,26 @@ static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
-     agc->reg_table = aspeed_3_6v_gpios;
- }
- 
-+static void aspeed_gpio_ast2600_3_6v_class_init(ObjectClass *klass, void *data)
-+{
-+    AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
-+
-+    agc->props = ast2600_3_6v_set_props;
-+    agc->nr_gpio_pins = 208;
-+    agc->nr_gpio_sets = 7;
-+    agc->reg_table = aspeed_3_6v_gpios;
-+}
-+
-+static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void *data)
-+{
-+    AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
-+
-+    agc->props = ast2600_1_8v_set_props;
-+    agc->nr_gpio_pins = 36;
-+    agc->nr_gpio_sets = 2;
-+    agc->reg_table = aspeed_1_8v_gpios;
-+}
-+
- static const TypeInfo aspeed_gpio_info = {
-     .name           = TYPE_ASPEED_GPIO,
-     .parent         = TYPE_SYS_BUS_DEVICE,
-@@ -872,11 +988,27 @@ static const TypeInfo aspeed_gpio_ast2500_info = {
-     .instance_init  = aspeed_gpio_init,
- };
- 
-+static const TypeInfo aspeed_gpio_ast2600_3_6v_info = {
-+    .name           = TYPE_ASPEED_GPIO "-ast2600",
-+    .parent         = TYPE_ASPEED_GPIO,
-+    .class_init     = aspeed_gpio_ast2600_3_6v_class_init,
-+    .instance_init  = aspeed_gpio_init,
-+};
-+
-+static const TypeInfo aspeed_gpio_ast2600_1_8v_info = {
-+    .name           = TYPE_ASPEED_GPIO "-ast2600-1_8v",
-+    .parent         = TYPE_ASPEED_GPIO,
-+    .class_init     = aspeed_gpio_ast2600_1_8v_class_init,
-+    .instance_init  = aspeed_gpio_init,
-+};
-+
- static void aspeed_gpio_register_types(void)
- {
-     type_register_static(&aspeed_gpio_info);
-     type_register_static(&aspeed_gpio_ast2400_info);
-     type_register_static(&aspeed_gpio_ast2500_info);
-+    type_register_static(&aspeed_gpio_ast2600_3_6v_info);
-+    type_register_static(&aspeed_gpio_ast2600_1_8v_info);
- }
- 
- type_init(aspeed_gpio_register_types);
--- 
-2.20.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841491
+
+Title:
+  floating point emulation can fail to set FE_UNDERFLOW
+
+Status in QEMU:
+  New
+
+Bug description:
+  Floating point emulation can fail to set FE_UNDERFLOW in some
+  circumstances. This shows up often in glibc's "math" tests. A similar
+  test is attached.
+
+  This is similar to bug #1841442, but not the same problem, and I don't
+  think the fix will be in the same code.
+
+  On ppc64le native:
+  --
+  $ gcc -c -O2 fma.c
+  $ gcc -O2 test-fma.c fma.o -lm -o test-fma
+  $ ./test-fma $(./test-fma)
+  fma(0x1.ffffffffffffcp-1022, 0x1.0000000000001p-1, 0x0.0000000000001p-102=
+2)
+  0x0
+
+  0xa000000
+  FE_INEXACT FE_UNDERFLOW =
+
+  0x1p-1022
+  --
+
+  On qemu-system-ppc64:
+  --
+  $ ./test-fma $(./test-fma)
+  fma(0x1.ffffffffffffcp-1022, 0x1.0000000000001p-1, 0x0.0000000000001p-102=
+2)
+  0x0
+
+  0x2000000
+  FE_INEXACT =
+
+  0x1p-1022
+  --
+
+  QEMU versions vary, but not too much, and are pretty close to git HEAD:
+  - 586f3dced9 (HEAD -> master, origin/master, origin/HEAD) Merge remote-tr=
+acking branch 'remotes/cohuck/tags/s390x-20190822' into staging
+  - 864ab31 Update version for v4.1.0-rc4 release
+
+  There are worse symptoms on qemu-x86_64, but this is apparently not
+  surprising per
+  https://bugs.launchpad.net/qemu/+bug/1841442/comments/6.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841491/+subscriptions
 
