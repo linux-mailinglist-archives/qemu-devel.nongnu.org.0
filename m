@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA479DA84
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 02:17:07 +0200 (CEST)
-Received: from localhost ([::1]:58696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 363349DA81
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 02:16:39 +0200 (CEST)
+Received: from localhost ([::1]:58688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2PAX-0000Ej-Tm
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 20:17:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33633)
+	id 1i2PA5-0008LO-Me
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 20:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i2P1h-00082L-G4
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:58 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i2P1i-00083l-Be
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i2P1g-00075N-9s
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:57 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38487)
+ (envelope-from <richard.henderson@linaro.org>) id 1i2P1h-00075w-C1
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:58 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44882)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i2P1g-00074z-43
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:56 -0400
-Received: by mail-pg1-x541.google.com with SMTP id e11so11560083pga.5
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 17:07:56 -0700 (PDT)
+ id 1i2P1h-00075b-6N
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:57 -0400
+Received: by mail-pg1-x541.google.com with SMTP id i18so11552109pgl.11
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 17:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ddiXQUCU6+mV9b5HLraEW0nl5fo+95ic0hgqPUZ1sNk=;
- b=OOpq+gNF/SyLvs5tMKr1GXdkFGiQW1YEnYNFCU2trdRjnRN+EoGm7QuCN6D99/4MXu
- u7hiDZXQzfs6wCLgMRE9hodUgn/7WMjqHWy/hYQKFa3+8+Yly/SnX8+vl9fTRGbo7nJT
- tpT8dyY1EglE0Ij2xC4Hni6Dz2pVHa+NCyzmVDyDO4hCarhKnHdREPOHRUWkR70rLs8t
- qUySnNv4mVodg0qvlR53kPMWONTVzDoJJ8CPM17wVoGc7dbnvkQmRSpmxSxT+PAWUGov
- mfEg9J70pcRRFBmO+dn/imP5WKocLsdNDhZx9JlJpPMPHNVxk494W5EwrjFXmWIxUX1b
- QNmg==
+ bh=3NfLm6NXnIjoUElBfRuvMC+OA+QWlwc3LpGafv9TLcg=;
+ b=WP77n55Ki+4NcBuky87luuVBaS82eXlW7thfzpdWPx/p4+9nyRN+BRRQRFwJzCXTOF
+ pq1DwPyddGS4GdD79NMRJzXHdXrPOZ7O8KNuZTFNQ5jRq3Dr601ZDBZUiqyTNmVNgRXg
+ 9osWZw//pLQfrvfsvX2KI/VqEAbOJANEgLtjI8OSdH+xOviZE0TsdStDMzlS4+1cMBn+
+ vT+pCvh1yMbW7FFzlzjfoyvbXa1Th2yzsdceeUTQSz7ybMtp/j8aPa8JZaczRALVCeo3
+ RWVKSz5wPbZ7TgP3tSxNeVsNvMuny3B7fD1r/eki9z8wcvEgI83wSlkKkH9OekLzkLi0
+ QZ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=ddiXQUCU6+mV9b5HLraEW0nl5fo+95ic0hgqPUZ1sNk=;
- b=ZXGve59psdGPaaa6MqYWQqPn/RxryA3tbEpMAz81q63iGSPXq1PJCvP5VNc9bKnakI
- GDCjYXS+Y777rc9pFyv8Y1cHJF7PIx5S0LAnqigQjJlN0xtSTOg29wWFok69kY1t5bC7
- EFc7mhNE0aSj3ns/m4RincpgDhGH+ALvPspy4oVuhnjTldjsSSkBCazT0VUWBzYK+VrR
- hhknU6ctjA1/K50FHaWnaUrWmpWI1B3IZRwqg2qr1D8Z7eycByIO30yt2ZxQf2epSkS+
- cFr+e2KJF9d+gplz4MxdAa2eFL0+3dNX5BUyvzzSwEEhR2o4zeOAZJ4ZREivXgu7KguY
- TKAg==
-X-Gm-Message-State: APjAAAXqrfcZCdjJmpZZ+42O/AjX6h1b+PxXTblNGw0yOMdz5qbNvhtT
- jXzKkKML0C/yxFhPAJpj7cnm3ei9TYI=
-X-Google-Smtp-Source: APXvYqz7m4vUR+rPdGVj9/qpb6+V18CMG7C+JakJ0mwRc5IE9DzxNqXMqBodj++UuEjwmqmCe589cw==
-X-Received: by 2002:a63:24a:: with SMTP id 71mr18502088pgc.273.1566864474643; 
- Mon, 26 Aug 2019 17:07:54 -0700 (PDT)
+ bh=3NfLm6NXnIjoUElBfRuvMC+OA+QWlwc3LpGafv9TLcg=;
+ b=EM3Q0CfISLnBhFtaHaIyfI9qqLc0WhjnHNHQtz4ja9GYQKpmOE6GU8al8+0OJhN868
+ M46QD2ObXmBvKLtL8xodyxp6ugu1g06uekBvyAgjAZ308sOvMwX082xhQbCkST09H0Ck
+ o+ldbPo8d/9lN0oddzvFTDkhm5wBBG6sHXKBpKtVzohxv4lXClM7y8SvP9RxiqGxsyCw
+ U3e1Hyf6OikHZKFoZLRFQHCKhMIUpJxO3BSPDVTF+31QbYejRh5UE2XktIVJRIALxG5X
+ w14QdlpJ5buGoGMfDZK9nDyIbcWHMuhK8ULYV9AP35hjiNpTZwAoieV4tfeIJ0Su56mh
+ Slsg==
+X-Gm-Message-State: APjAAAXyTM6SoArrsagdQjlwtheiHcjs2tM1CzF+lUtXsbAront+GVby
+ acYRtT9SbeM/r4/FjP7A4hYAe95u9YU=
+X-Google-Smtp-Source: APXvYqyWm+53IhN8EAFqzx8XaaJK6Lps0I8KzZjb2Ovz3xgQahtvdWQRUpE3M7H1E20Pi4k4lPe7NA==
+X-Received: by 2002:a63:9e56:: with SMTP id r22mr18765436pgo.221.1566864475882; 
+ Mon, 26 Aug 2019 17:07:55 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id e189sm11691067pgc.15.2019.08.26.17.07.53
+ by smtp.gmail.com with ESMTPSA id e189sm11691067pgc.15.2019.08.26.17.07.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Aug 2019 17:07:54 -0700 (PDT)
+ Mon, 26 Aug 2019 17:07:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 26 Aug 2019 17:07:38 -0700
-Message-Id: <20190827000745.19645-7-richard.henderson@linaro.org>
+Date: Mon, 26 Aug 2019 17:07:39 -0700
+Message-Id: <20190827000745.19645-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190827000745.19645-1-richard.henderson@linaro.org>
 References: <20190827000745.19645-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH 06/13] target/openrisc: Add VR2 and AVR special
- processor registers
+Subject: [Qemu-devel] [PATCH 07/13] target/openrisc: Fix lf.ftoi.s
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,83 +79,26 @@ Cc: shorne@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the CPUCFG bits to arch v1.3.
-Include support for AVRP for cpu "any".
+The specification of this insn is round-to-zero.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/openrisc/cpu.h        | 11 +++++++----
- target/openrisc/cpu.c        |  8 ++++++--
- target/openrisc/sys_helper.c |  6 ++++++
- 3 files changed, 19 insertions(+), 6 deletions(-)
+ target/openrisc/fpu_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-index 18d7445e74..71c5959828 100644
---- a/target/openrisc/cpu.h
-+++ b/target/openrisc/cpu.h
-@@ -96,11 +96,12 @@ enum {
-     CPUCFGR_OF32S = (1 << 7),
-     CPUCFGR_OF64S = (1 << 8),
-     CPUCFGR_OV64S = (1 << 9),
--    /* CPUCFGR_ND = (1 << 10), */
--    /* CPUCFGR_AVRP = (1 << 11), */
-+    CPUCFGR_ND = (1 << 10),
-+    CPUCFGR_AVRP = (1 << 11),
-     CPUCFGR_EVBARP = (1 << 12),
--    /* CPUCFGR_ISRP = (1 << 13), */
--    /* CPUCFGR_AECSRP = (1 << 14), */
-+    CPUCFGR_ISRP = (1 << 13),
-+    CPUCFGR_AECSRP = (1 << 14),
-+    CPUCFGR_OF64A32S = (1 << 15),
- };
+diff --git a/target/openrisc/fpu_helper.c b/target/openrisc/fpu_helper.c
+index b9d2ebbb8c..4cc5b297c5 100644
+--- a/target/openrisc/fpu_helper.c
++++ b/target/openrisc/fpu_helper.c
+@@ -78,7 +78,7 @@ uint64_t HELPER(ftoid)(CPUOpenRISCState *env, uint64_t val)
  
- /* DMMU configure register */
-@@ -280,6 +281,8 @@ typedef struct CPUOpenRISCState {
- 
-     /* Fields from here on are preserved across CPU reset. */
-     uint32_t vr;              /* Version register */
-+    uint32_t vr2;             /* Version register 2 */
-+    uint32_t avr;             /* Architecture version register */
-     uint32_t upr;             /* Unit presence register */
-     uint32_t cpucfgr;         /* CPU configure register */
-     uint32_t dmmucfgr;        /* DMMU configure register */
-diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index d9f447e90c..9f566ad883 100644
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -126,9 +126,13 @@ static void openrisc_any_initfn(Object *obj)
+ uint32_t HELPER(ftois)(CPUOpenRISCState *env, uint32_t val)
  {
-     OpenRISCCPU *cpu = OPENRISC_CPU(obj);
+-    return float32_to_int32(val, &env->fp_status);
++    return float32_to_int32_round_to_zero(val, &env->fp_status);
+ }
  
--    cpu->env.vr = 0x13000000;
-+    cpu->env.vr = 0x13000040;   /* Obsolete VER + UVRP for new SPRs */
-+    cpu->env.vr2 = 0;           /* No version specific id */
-+    cpu->env.avr = 0x01010000;  /* Architecture v1.1 */
-+
-     cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP | UPR_PMP;
--    cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S | CPUCFGR_EVBARP;
-+    cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S |
-+                       CPUCFGR_AVRP | CPUCFGR_EVBARP;
- 
-     /* 1Way, TLB_SIZE entries.  */
-     cpu->env.dmmucfgr = (DMMUCFGR_NTW & (0 << 2))
-diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
-index a2b1f52294..cf8e637b08 100644
---- a/target/openrisc/sys_helper.c
-+++ b/target/openrisc/sys_helper.c
-@@ -210,6 +210,12 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
-     case TO_SPR(0, 4): /* IMMUCFGR */
-         return env->immucfgr;
- 
-+    case TO_SPR(0, 9): /* VR2 */
-+        return env->vr2;
-+
-+    case TO_SPR(0, 10): /* AVR */
-+        return env->avr;
-+
-     case TO_SPR(0, 11): /* EVBAR */
-         return env->evbar;
- 
+ #define FLOAT_CALC(name)                                                  \
 -- 
 2.17.1
 
