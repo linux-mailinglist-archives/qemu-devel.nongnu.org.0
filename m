@@ -2,50 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E4E9DC66
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:24:10 +0200 (CEST)
-Received: from localhost ([::1]:46458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DC69DC62
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:22:14 +0200 (CEST)
+Received: from localhost ([::1]:46438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2T1d-0005gA-VB
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:24:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60929)
+	id 1i2Szl-0004Ba-Rz
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:22:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60928)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i2SyD-00037T-DE
+ (envelope-from <dgibson@ozlabs.org>) id 1i2SyD-00037S-DK
  for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:20:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i2SyB-0003qK-R9
+ (envelope-from <dgibson@ozlabs.org>) id 1i2SyB-0003q9-Pr
  for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:20:37 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44997 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:44991 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i2SyB-0003pL-47; Tue, 27 Aug 2019 00:20:35 -0400
+ id 1i2SyA-0003pJ-IN; Tue, 27 Aug 2019 00:20:35 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46HbJY4lrrz9sML; Tue, 27 Aug 2019 14:20:29 +1000 (AEST)
+ id 46HbJY3YP3z9sBp; Tue, 27 Aug 2019 14:20:29 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1566879629;
- bh=1tAsRpLk3yYA321boYuACIl6sJMqX7Kh+pRfd9XjYOI=;
+ bh=OYz68tk1JX1UxE1vRSPi6VOjfRxeQr4mWC4mDkVQvFA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=l/9LSm7/YGY3Bw6wOYXbwgZRZwn/0HVYSimnvH2UnOIbWoUllv8/r7rqCCfYTkpqS
- sX9M2IWsNyUQWnlSSQyDEYxFFWp8ihxD4reTXdzFRUwfCe0VWhxi+i6eu/jNeQKNU4
- u8zcQZI8WqPBqufmRWpucguo8SuXvLf4/YlDAEm0=
-Date: Tue, 27 Aug 2019 13:42:37 +1000
+ b=Ko1as5jj9urdn+8br6Ljo37qUQRo/6GEu3mpbMs8o+3ZCVBx2c2JEVKRhn1T789Mg
+ R2rlbTrkTz2bKAoyrYuMCXqD7fWtUJ2XKZmMAQmM5teMpoLv0nhMu1yDtc3glGRf1M
+ hxtzj0ucq620is1r6cYFjdbVCMVNRu27F1lrgXpM=
+Date: Tue, 27 Aug 2019 13:45:19 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190827034237.GA10107@umbus.fritz.box>
-References: <20190826165434.18403-1-richard.henderson@linaro.org>
- <20190826165434.18403-2-richard.henderson@linaro.org>
+To: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <20190827034519.GB10107@umbus.fritz.box>
+References: <20190826090812.19080-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
+ protocol="application/pgp-signature"; boundary="1LKvkjL3sHcu1TtY"
 Content-Disposition: inline
-In-Reply-To: <20190826165434.18403-2-richard.henderson@linaro.org>
+In-Reply-To: <20190826090812.19080-1-lvivier@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH 1/1] target/ppc: Fix do_float_check_status
- vs inexact
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH] pseries: Fix compat_pvr on reset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,57 +54,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, pc@us.ibm.com
+Cc: groug@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---gKMricLos+KVdGMg
+--1LKvkjL3sHcu1TtY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 26, 2019 at 09:54:34AM -0700, Richard Henderson wrote:
-> The underflow and inexact exceptions are not mutually exclusive.
-> Check for both of them.  Tidy the reset of FPSCR[FI].
+On Mon, Aug 26, 2019 at 11:08:12AM +0200, Laurent Vivier wrote:
+> If we a migrate P8 machine to a P9 machine, the migration fails on
+> destination with:
 >=20
-> Fixes: https://bugs.launchpad.net/bugs/1841442
-> Reported-by: Paul Clarke <pc@us.ibm.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>   error while loading state for instance 0x1 of device 'cpu'
+>   load of migration failed: Operation not permitted
+>=20
+> This is caused because the compat_pvr field is only present for the first
+> CPU.
+> Originally, spapr_machine_reset() calls ppc_set_compat() to set the value
+> max_compat_pvr for the first cpu and this was propagated to all CPUs by
+> spapr_cpu_reset().  Now, as spapr_cpu_reset() is called before that, the
+> value is not propagated to all CPUs and the migration fails.
+>=20
+> To fix that, propagate the new value to all CPUs in spapr_machine_reset().
+>=20
+> Fixes: 25c9780d38d4 ("spapr: Reset CAS & IRQ subsystem after devices")
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 
 Applied to ppc-for-4.2, thanks.
 
 > ---
->  target/ppc/fpu_helper.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
+>  hw/ppc/spapr.c          | 8 +++++++-
+>  hw/ppc/spapr_cpu_core.c | 2 ++
+>  2 files changed, 9 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index 07bc9051b0..2e023c5204 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -630,19 +630,15 @@ static void do_float_check_status(CPUPPCState *env,=
- uintptr_t raddr)
->  {
->      CPUState *cs =3D env_cpu(env);
->      int status =3D get_float_exception_flags(&env->fp_status);
-> -    bool inexact_happened =3D false;
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index baedadf20b8c..d063312a3b2a 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1752,7 +1752,13 @@ static void spapr_machine_reset(MachineState *mach=
+ine)
+>          spapr_ovec_cleanup(spapr->ov5_cas);
+>          spapr->ov5_cas =3D spapr_ovec_new();
 > =20
->      if (status & float_flag_overflow) {
->          float_overflow_excp(env);
->      } else if (status & float_flag_underflow) {
->          float_underflow_excp(env);
-> -    } else if (status & float_flag_inexact) {
-> -        float_inexact_excp(env);
-> -        inexact_happened =3D true;
+> -        ppc_set_compat(first_ppc_cpu, spapr->max_compat_pvr, &error_fata=
+l);
+> +        /*
+> +         * reset compat_pvr for all CPUs
+> +         * as qemu_devices_reset() is called before this,
+> +         * it can't be propagated by spapr_cpu_reset()
+> +         * from the first CPU to all the others
+> +         */
+> +        ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
 >      }
-> -
-> -    /* if the inexact flag was not set */
-> -    if (inexact_happened =3D=3D false) {
-> +    if (status & float_flag_inexact) {
-> +        float_inexact_excp(env);
-> +    } else {
->          env->fpscr &=3D ~(1 << FPSCR_FI); /* clear the FPSCR[FI] bit */
->      }
+> =20
+>      /*
+> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> index bf47fbdf6f7f..45e2f2747ffc 100644
+> --- a/hw/ppc/spapr_cpu_core.c
+> +++ b/hw/ppc/spapr_cpu_core.c
+> @@ -43,6 +43,8 @@ static void spapr_cpu_reset(void *opaque)
+> =20
+>      /* Set compatibility mode to match the boot CPU, which was either set
+>       * by the machine reset code or by CAS. This should never fail.
+> +     * At startup the value is already set for all the CPUs
+> +     * but we need this when we hotplug a new CPU
+>       */
+>      ppc_set_compat(cpu, POWERPC_CPU(first_cpu)->compat_pvr, &error_abort=
+);
 > =20
 
 --=20
@@ -116,25 +132,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---gKMricLos+KVdGMg
+--1LKvkjL3sHcu1TtY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1kpq0ACgkQbDjKyiDZ
-s5K1vg/7BAUJRJSPDoWXKykxNofji2F+m8LvOOEx0i8RFBnzIrj+3awsIuIm/tCn
-+TUpV3OWCLmT5spP06uu3vBD6FECPdhpCYs3R3M3IN63+tsB7gMXvDS3T5ggAlsr
-nXDGeUmxpxv0E0oX5eBQ9oSqBmeEuoZNoLkk4jfOKrVBgL13vF9Fki8xoWMJZvp5
-i5+MT7iFTiLIvW81x7Lout/n9bb+4mHACofJInkFXV9tieqP0T6kSe0aQUKQ7KkM
-vr9tm0UGx/0soKqXbOu5JyMmE78+ymIjip/wXdXlGMY63mQXKq3C4mZjJl8uII92
-uR/tStYAONojG4vi8XUQpq8p4bCNwVKuNO9gYtPFYBBUV03JM0in2pXQt/NwDMSL
-JaMCAVnDacK9oEMyTThnhH5CMRkNwu3AGTM9uDOiUMFamYdiVf1W+UdL7K4HfubX
-FOfKvtsNL4uUU41fO+2RA13Fs2RcVMSB+HR5kpgVSfHY6dcA17d4KRS2634FL0cx
-el6rXrjm7c4jBiiAvsZLK0bNid/ENNYcFceGsOjXQFhRvoRfWcDQtWR9UR3LgdNJ
-kMdGS8+fg0lveLA9TBMLZydODkTBvtSyl6Ik2GAxbtyx4v1zl80q0KwLrCSL/hE/
-Wa29igX5QfFYPft7bQ+4BvE9/YWNEcBX+5jjXK6k8jr+5sthHmw=
-=VHx0
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1kp04ACgkQbDjKyiDZ
+s5JjChAAhbYHCU59+LwKTC6bWcsC9VlRLESFIigKB4WyreUA0xiVT+bMWpn2iHSZ
+zni9Oicn6yYLyMObVbxjFWTQLRs1YvurNRwYTJ0XiJ+FSFQntESeiq7lV9xcSGhG
+ds0gbWlMUPkoFmadBmnLDXGrHMVVLIFFdJbOvlVpvmP/uaS3JSe7nYt4k26sF8d4
+dUJVJx8NtpGBau0vCk4wVJO+pM6G7yc81wO633Tip3PcTBCrrTidDxZtpkdErvOk
+6XBRNAb1JwBkh7iIkTIkhvMhYBPopK/7tlPfaXvVEblVmZydq0LvFHhYeSMkhbPB
+4/U0rIPxM65HnFZpkbPJEqHcEziBOPBZjODaBRnK1wMrm2kRxrngfqa5hmas3k2V
+TTNoZBaLYsRPXpNd6LGbw++SvThX8TY/iyw9U0Db9RI+8KQWQsMWiIwbM0SGE8DE
+eX9d9J7vg+N+u+2gYzlwXEEbhdTMHyRGCLVCTj9anXgC6LUZ6ufwBzkDD/zf2hEo
+WsfxiQafr5TIzRcWKnoM3L4hVvMoIYTSREKs1n676XMyU/A5vsbMLpPq+6ZVfD4d
+mTI5OPqlp5XXJKHMC3oGa/MbE3SKflzl7wk03lm6UKz+dvpihNxeHQt/H8OeIyXH
+izUfWFlAkvnwhT5NLqbPEp9IbFeKM2/BCYvAdaY5x3MdF6wSI1s=
+=SaA0
 -----END PGP SIGNATURE-----
 
---gKMricLos+KVdGMg--
+--1LKvkjL3sHcu1TtY--
 
