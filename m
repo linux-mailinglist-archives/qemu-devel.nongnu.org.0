@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDD29F28C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 20:42:10 +0200 (CEST)
-Received: from localhost ([::1]:55752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873049F283
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 20:40:32 +0200 (CEST)
+Received: from localhost ([::1]:55719 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2gPx-0002Km-L5
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 14:42:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53574)
+	id 1i2gON-0008Tp-5r
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 14:40:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53617)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i2g8G-0003E3-SS
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 14:23:54 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i2g8K-0003If-0o
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 14:23:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i2g8F-0005gy-4l
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 14:23:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55904)
+ (envelope-from <mreitz@redhat.com>) id 1i2g8I-0005kf-Nq
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 14:23:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38902)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i2g8B-0005cQ-LG; Tue, 27 Aug 2019 14:23:47 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1i2g8G-0005hS-5f; Tue, 27 Aug 2019 14:23:52 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DD92A18C4266;
- Tue, 27 Aug 2019 18:23:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 815D88AC6FF;
+ Tue, 27 Aug 2019 18:23:51 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 762FA5D6B0;
- Tue, 27 Aug 2019 18:23:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C0A95C1D6;
+ Tue, 27 Aug 2019 18:23:50 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 27 Aug 2019 20:23:11 +0200
-Message-Id: <20190827182313.25983-14-mreitz@redhat.com>
+Date: Tue, 27 Aug 2019 20:23:13 +0200
+Message-Id: <20190827182313.25983-16-mreitz@redhat.com>
 In-Reply-To: <20190827182313.25983-1-mreitz@redhat.com>
 References: <20190827182313.25983-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Tue, 27 Aug 2019 18:23:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.69]); Tue, 27 Aug 2019 18:23:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 13/15] iotests: Check for enabled drivers before
- testing them
+Subject: [Qemu-devel] [PULL 15/15] iotests: Unify cache mode quoting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,162 +59,81 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Nir Soffer <nirsof@gmail.com>
 
-It is possible to enable only a subset of the block drivers with the
-"--block-drv-rw-whitelist" option of the "configure" script. All other
-drivers are marked as unusable (or only included as read-only with the
-"--block-drv-ro-whitelist" option). If an iotest is now using such a
-disabled block driver, it is failing - which is bad, since at least the
-tests in the "auto" group should be able to deal with this situation.
-Thus let's introduce a "_require_drivers" function that can be used by
-the shell tests to check for the availability of certain drivers first,
-and marks the test as "not run" if one of the drivers is missing.
+Quoting cache mode is not needed, and most tests use unquoted values.
+Unify all test to use the same style.
 
-This patch mainly targets the test in the "auto" group which should
-never fail in such a case, but also improves some of the other tests
-along the way. Note that we also assume that the "qcow2" and "file"
-drivers are always available - otherwise it does not make sense to
-run "make check-block" at all (which only tests with qcow2 by default).
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20190823133552.11680-1-thuth@redhat.com
+Message-id: 20190827173432.7656-1-nsoffer@redhat.com
+Signed-off-by: Nir Soffer <nsoffer@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/071       |  1 +
- tests/qemu-iotests/081       |  4 +---
- tests/qemu-iotests/099       |  1 +
- tests/qemu-iotests/120       |  1 +
- tests/qemu-iotests/162       |  4 +---
- tests/qemu-iotests/184       |  1 +
- tests/qemu-iotests/186       |  1 +
- tests/qemu-iotests/common.rc | 14 ++++++++++++++
- 8 files changed, 21 insertions(+), 6 deletions(-)
+ tests/qemu-iotests/026 | 4 ++--
+ tests/qemu-iotests/039 | 4 ++--
+ tests/qemu-iotests/052 | 2 +-
+ tests/qemu-iotests/091 | 4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/tests/qemu-iotests/071 b/tests/qemu-iotests/071
-index 1cca9233d0..fab526666b 100755
---- a/tests/qemu-iotests/071
-+++ b/tests/qemu-iotests/071
-@@ -38,6 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
-=20
+diff --git a/tests/qemu-iotests/026 b/tests/qemu-iotests/026
+index e30243608b..ffb18ab6b5 100755
+--- a/tests/qemu-iotests/026
++++ b/tests/qemu-iotests/026
+@@ -41,8 +41,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ # Currently only qcow2 supports rebasing
  _supported_fmt qcow2
  _supported_proto file
-+_require_drivers blkdebug blkverify
-=20
- do_run_qemu()
- {
-diff --git a/tests/qemu-iotests/081 b/tests/qemu-iotests/081
-index c418bab093..85acdf76d4 100755
---- a/tests/qemu-iotests/081
-+++ b/tests/qemu-iotests/081
-@@ -41,6 +41,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt raw
- _supported_proto file
- _supported_os Linux
-+_require_drivers quorum
-=20
- do_run_qemu()
- {
-@@ -55,9 +56,6 @@ run_qemu()
-                           | _filter_qemu_io | _filter_generated_node_ids
- }
-=20
--test_quorum=3D$($QEMU_IMG --help|grep quorum)
--[ "$test_quorum" =3D "" ] && _supported_fmt quorum
--
- quorum=3D"driver=3Draw,file.driver=3Dquorum,file.vote-threshold=3D2"
- quorum=3D"$quorum,file.children.0.file.filename=3D$TEST_DIR/1.raw"
- quorum=3D"$quorum,file.children.1.file.filename=3D$TEST_DIR/2.raw"
-diff --git a/tests/qemu-iotests/099 b/tests/qemu-iotests/099
-index ae02f27afe..c3cf66798a 100755
---- a/tests/qemu-iotests/099
-+++ b/tests/qemu-iotests/099
-@@ -42,6 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow qcow2 qed vdi vhdx vmdk vpc
- _supported_proto file
- _supported_os Linux
-+_require_drivers blkdebug blkverify
- _unsupported_imgopts "subformat=3DmonolithicFlat" "subformat=3DtwoGbMaxE=
-xtentFlat" \
-     "subformat=3DtwoGbMaxExtentSparse"
-=20
-diff --git a/tests/qemu-iotests/120 b/tests/qemu-iotests/120
-index e9b4fbb009..2931a7550f 100755
---- a/tests/qemu-iotests/120
-+++ b/tests/qemu-iotests/120
-@@ -40,6 +40,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt generic
- _supported_proto file
- _unsupported_fmt luks
-+_require_drivers raw
-=20
- _make_test_img 64M
-=20
-diff --git a/tests/qemu-iotests/162 b/tests/qemu-iotests/162
-index 4e5ed74fd5..2d719afbed 100755
---- a/tests/qemu-iotests/162
-+++ b/tests/qemu-iotests/162
-@@ -39,9 +39,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- . ./common.filter
-=20
- _supported_fmt generic
--
--test_ssh=3D$($QEMU_IMG --help | grep '^Supported formats:.* ssh\( \|$\)'=
-)
--[ "$test_ssh" =3D "" ] && _notrun "ssh support required"
-+_require_drivers ssh
-=20
- echo
- echo '=3D=3D=3D NBD =3D=3D=3D'
-diff --git a/tests/qemu-iotests/184 b/tests/qemu-iotests/184
-index cb0c181228..33dd8d2a4f 100755
---- a/tests/qemu-iotests/184
-+++ b/tests/qemu-iotests/184
-@@ -33,6 +33,7 @@ trap "exit \$status" 0 1 2 3 15
- . ./common.filter
-=20
- _supported_os Linux
-+_require_drivers throttle
-=20
- do_run_qemu()
- {
-diff --git a/tests/qemu-iotests/186 b/tests/qemu-iotests/186
-index 5f6b18c150..3ea0442d44 100755
---- a/tests/qemu-iotests/186
-+++ b/tests/qemu-iotests/186
-@@ -38,6 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
-=20
+-_default_cache_mode "writethrough"
+-_supported_cache_modes "writethrough" "none"
++_default_cache_mode writethrough
++_supported_cache_modes writethrough none
+ # The refcount table tests expect a certain minimum width for refcount e=
+ntries
+ # (so that the refcount table actually needs to grow); that minimum is 1=
+6 bits,
+ # being the default refcount entry width.
+diff --git a/tests/qemu-iotests/039 b/tests/qemu-iotests/039
+index 0d4e963bd4..7c730d94a7 100755
+--- a/tests/qemu-iotests/039
++++ b/tests/qemu-iotests/039
+@@ -42,8 +42,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
  _supported_fmt qcow2
  _supported_proto file
-+_require_drivers null-co
+ _supported_os Linux
+-_default_cache_mode "writethrough"
+-_supported_cache_modes "writethrough"
++_default_cache_mode writethrough
++_supported_cache_modes writethrough
 =20
- if [ "$QEMU_DEFAULT_MACHINE" !=3D "pc" ]; then
-     _notrun "Requires a PC machine"
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 5502c3da2f..ee20be8920 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -520,5 +520,19 @@ _require_command()
-     [ -x "$c" ] || _notrun "$1 utility required, skipped this test"
- }
+ size=3D128M
 =20
-+# Check that a set of drivers has been whitelisted in the QEMU binary
-+#
-+_require_drivers()
-+{
-+    available=3D$($QEMU -drive format=3Dhelp | \
-+                sed -e '/Supported formats:/!d' -e 's/Supported formats:=
-//')
-+    for driver
-+    do
-+        if ! echo "$available" | grep -q " $driver\( \|$\)"; then
-+            _notrun "$driver not available"
-+        fi
-+    done
-+}
-+
- # make sure this script returns success
- true
+diff --git a/tests/qemu-iotests/052 b/tests/qemu-iotests/052
+index 6e2ecbfe21..45a140910d 100755
+--- a/tests/qemu-iotests/052
++++ b/tests/qemu-iotests/052
+@@ -40,7 +40,7 @@ _supported_fmt generic
+ _supported_proto file
+=20
+ # Don't do O_DIRECT on tmpfs
+-_supported_cache_modes "writeback" "writethrough" "unsafe"
++_supported_cache_modes writeback writethrough unsafe
+=20
+ size=3D128M
+ _make_test_img $size
+diff --git a/tests/qemu-iotests/091 b/tests/qemu-iotests/091
+index d62ef18a02..f4b44659ae 100755
+--- a/tests/qemu-iotests/091
++++ b/tests/qemu-iotests/091
+@@ -46,8 +46,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+-_default_cache_mode "none"
+-_supported_cache_modes "writethrough" "none" "writeback"
++_default_cache_mode none
++_supported_cache_modes writethrough none writeback
+=20
+ size=3D1G
+=20
 --=20
 2.21.0
 
