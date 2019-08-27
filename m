@@ -2,71 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77C89ECB3
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 17:30:54 +0200 (CEST)
-Received: from localhost ([::1]:52720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA0A9EF19
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 17:38:10 +0200 (CEST)
+Received: from localhost ([::1]:52904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2dQr-0001BX-AM
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 11:30:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47113)
+	id 1i2dXt-0000uZ-Dt
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 11:38:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48519)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i2cwY-0003av-PN
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 10:59:40 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i2d2O-0000qF-Bl
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:05:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i2cwS-0003rQ-T9
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 10:59:34 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41543)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1i2cwS-0003ly-BY; Tue, 27 Aug 2019 10:59:28 -0400
-Received: by mail-pl1-x641.google.com with SMTP id m9so11910160pls.8;
- Tue, 27 Aug 2019 07:59:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references;
- bh=nIJLB67fMjf3JVrvsxTrjVPXmzF4BcbsoumjXEkQX4M=;
- b=SPSwl+6FEb8CghA9OTTqWnC1R6rKXExNMamFx34rVjQBmM3+j7zlhJYgfGyNVMMMnR
- EF9itirMsEQI7ITV0KTDps5LBIzBabJ5wnPkSubO5aaBDOZquuZVGiXzcs2Gpt4IotrC
- GuJGTZvdfacKSLcVZ+DbVr1TUPj4aRaGHsAWusS2lsGgqboaCFOUoiqKTvIMUMUkgk5i
- VuwKR1u/cvFeAvagFQBQWKV6gETRY1dKWM/Vg8yxjliAqonceXybp1arNms0i1IEP/tU
- hDgr6LvcYN7paMlWgVk0jBDF6pexdPCtlPpRbw9ReuVqOU5ZCzG55heavjKbTFq0Op+z
- /tsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references;
- bh=nIJLB67fMjf3JVrvsxTrjVPXmzF4BcbsoumjXEkQX4M=;
- b=tKWjog1CMKfZkyr/pzwBBuXuMxgPRQ7afuYvg3THZeQolzeWJaXXg2/BrHqV/FjNxI
- doIIflTZ+at4YdL6npFoAzrvsqmWX0nMNKZ2UN7GVax6FDZboL6baY/v+3ycAW/LuPjL
- luYZEghMTtrG/B1g4pthFcnz9ehQZv9HQSQVYTc9bkxqsSXTa5YfZzgGMlsZWlGG2ssm
- YCwWSsz7XI3xManJNRTQ4ed94tH9qfEuFWBzPlkb1fdi5N/xn86ezKaSau0S2n7oFP9X
- T9yW5JU021Eoe0mOjbSo4wWZQ33VcUAcR08pEQ6558XsL0EYP8m1IyRsLJuwwBmN8BR6
- tiDg==
-X-Gm-Message-State: APjAAAVq6nKjkkSOXfNOMySVsuL79HQOD2cmwOw6/ENsowNGJP52iaAO
- 4lPGh4gVKmyB8bOgC9fh4N8=
-X-Google-Smtp-Source: APXvYqwtTtgplIH6h5Y8YBJQBvK8ZsqoRMW4VvVa0hzk/wacMa7m9OetqmZK4pHjyw/rLB9jlRHI6w==
-X-Received: by 2002:a17:902:d24:: with SMTP id
- 33mr6090007plu.133.1566917957514; 
- Tue, 27 Aug 2019 07:59:17 -0700 (PDT)
-Received: from localhost.localdomain (unknown-224-80.windriver.com.
- [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id j15sm14839344pfr.146.2019.08.27.07.59.16
- (version=TLS1 cipher=AES128-SHA bits=128/128);
- Tue, 27 Aug 2019 07:59:16 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Date: Tue, 27 Aug 2019 07:58:37 -0700
-Message-Id: <1566917919-25381-29-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <1566917919-25381-1-git-send-email-bmeng.cn@gmail.com>
-References: <1566917919-25381-1-git-send-email-bmeng.cn@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH v6 28/30] riscv: sifive_u: Fix broken GEM
- support
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i2d2M-0007hK-8c
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:05:35 -0400
+Received: from mail-eopbgr140131.outbound.protection.outlook.com
+ ([40.107.14.131]:19845 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1i2d2L-0007gV-Ez
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 11:05:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g3ALg1/A3fxPQswwO1FCLPX62H0sG4cpb69mnCBGnEefKyVmnWfUGu4pSnh39HtfiweLi5gY4yqsrnRG9h3Iun0hessMsVucRRggZg4PHgXgwHO4IYV5FdWifwU5Z/BiLIYW16TLteUWjxfWPRTJ2ouRhHSyjWG4pt5D/iChPnDNfgSC0IRbcX/bfoA9yM6ptICWwLE13HVsZkCvxDsFwQokQuzLqaN3Qq3h2df97q89DQyIJwS2/+lR3MD4E1GHCvvvA5zvwsy6JMYKje4j0d7IFRPRyq9qTsUDZ+TksAPhFN9R/JapxislwzJXPL7ugNYNLXgs3O+99wIhZL4Afg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=felU5XkuWfAypGYjMeFGbuMv868JhHGXNv5+wq0OD1k=;
+ b=FyKyXVYJivRRRgasETXW1cCEWtzMjUwmVho346sqH9aY1+pQB0qoIydmB4ml2pqBgSi7AKHNm3imsH27poY9cdK2K3TUxDQdxtIVVWZfGVaOswFt+T0kH/exqvY5ThudT+CmQfqlM5Kk2VUgJabiGudH4/a00ydkGjKvnXH/EcmtXkU90IcGO42jaDlNgFSOIGtaX9S1xbEr3T4tM8zjgxyDXDjnqebhg+2dTze8TKNoSzBZf4Bwg7dhEU3xAes7ik8aGummz7y7zp3DzCi4B1T2KDv9ivo15DkEZ01Lkg1o/l6JJ5WJ5/+TENqAfPFcFog43QhOkUX5OMNbH9fmJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=felU5XkuWfAypGYjMeFGbuMv868JhHGXNv5+wq0OD1k=;
+ b=S6kc84e87DtD15jcW8i7kApNIAizde3TahtBCGaO/nyJNW7PB5sJtLWmXWj+6VdRV+vW3THdeuX/O7lFbtBxTJ0uVJj8bsIMbXA8Ne9DGQ3Phu0LyGxsMo36kjBbqjJ2xKkYeAehhkTHKcIHIfD1pkHKViIQ+nxOK4d+lonIscw=
+Received: from VI1PR08MB4399.eurprd08.prod.outlook.com (20.179.28.141) by
+ VI1PR08MB3024.eurprd08.prod.outlook.com (52.133.14.141) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2199.21; Tue, 27 Aug 2019 15:05:31 +0000
+Received: from VI1PR08MB4399.eurprd08.prod.outlook.com
+ ([fe80::5542:8398:f1bd:f8c7]) by VI1PR08MB4399.eurprd08.prod.outlook.com
+ ([fe80::5542:8398:f1bd:f8c7%6]) with mapi id 15.20.2199.021; Tue, 27 Aug 2019
+ 15:05:30 +0000
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Thread-Topic: [Qemu-devel] [PATCH] Fix: fp-test uninitialized member
+ floatX::exp
+Thread-Index: AQHVRr9xspCki27n+kGlF3NZYO6Lkab5QwaA///S3QCAC4DUgIAKrYMA
+Date: Tue, 27 Aug 2019 15:05:30 +0000
+Message-ID: <f2e1122c-8221-7c7c-9c2b-a34ce8112008@virtuozzo.com>
+References: <1564481593-776647-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <573f907d-5016-60c1-c727-c5444a418e1b@virtuozzo.com>
+ <8736i5ntlp.fsf@linaro.org>
+ <af72d680-f169-bdba-3b6e-d2da6b820aea@virtuozzo.com>
+In-Reply-To: <af72d680-f169-bdba-3b6e-d2da6b820aea@virtuozzo.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0206.eurprd05.prod.outlook.com
+ (2603:10a6:3:f9::30) To VI1PR08MB4399.eurprd08.prod.outlook.com
+ (2603:10a6:803:102::13)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d23458cc-1f5a-452a-e1eb-08d72b00008f
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:VI1PR08MB3024; 
+x-ms-traffictypediagnostic: VI1PR08MB3024:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR08MB30244DC054E39A710A6AB5AFF4A00@VI1PR08MB3024.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
+x-forefront-prvs: 0142F22657
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(376002)(39850400004)(396003)(346002)(366004)(189003)(199004)(6116002)(3846002)(64756008)(2906002)(31686004)(446003)(36756003)(81156014)(229853002)(8676002)(54906003)(66556008)(102836004)(8936002)(305945005)(7736002)(14454004)(66066001)(478600001)(26005)(44832011)(99286004)(53936002)(52116002)(6506007)(25786009)(386003)(19627235002)(53546011)(71190400001)(71200400001)(66574012)(6246003)(256004)(316002)(6486002)(86362001)(4326008)(81166006)(6512007)(2616005)(66946007)(11346002)(76176011)(66446008)(6436002)(5660300002)(476003)(31696002)(486006)(6916009)(66476007)(186003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB3024;
+ H:VI1PR08MB4399.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: fsGKlh8Ag69ALLAyrXItEL6UmnWcjf5xEHRT3Yj+fUKhgzkqzBq8qshYS3DgUfb4f6ysIEOKSbUzbe+0Fqx8wsD15AMEuu67fMe33uzwhGpOm7wQvbCSg7vbMhGQTJ1HzYgUQmBL7wKXkVEtw6ogFwueLSK9/cKhSTUuUCYlRFN6aybIg7EwQ0mq2TUymkMb1RpBLmYTUVWMJoNCSTgy3Sn0K0xA6kJuKKEmjPgcV0K/KjFJRsIKKJo92fRNf/0K6dNnnz+bj3cwyU5wOJ14zKWoC9nsBLVSBg3B0yO2DTsPgqwGChny0D89slC/OVntAdA3oS4d0lK/G/JAohP0bSt5wca7ltLmh+MU+O6rx7rZ/gK2KMRoJiLxnQvIS01khSIVjlkNqSIKtFOLVnibTjbi5Wp1B0DpYFlwyxt3n/g=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <DA11C119655253468E63660B66E0AC91@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d23458cc-1f5a-452a-e1eb-08d72b00008f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Aug 2019 15:05:30.7307 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kvg4knfB2bTeTFl4NcUvmiHQTl5j8FMNAvTP0g+IOVOsVFYVC/+gdl5jnXvlYd71L9wohwwzs/KLx8Cc/YNtVkXF5QTn8whhS+FTgPQNtFk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3024
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.14.131
+Subject: Re: [Qemu-devel] [PATCH] Fix: fp-test uninitialized member
+ floatX::exp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,163 +114,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "jhauser@eecs.berkeley.edu" <jhauser@eecs.berkeley.edu>,
+ Denis Lunev <den@virtuozzo.com>, "cota@braap.org" <cota@braap.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At present the GEM support in sifive_u machine is seriously broken.
-The GEM block register base was set to a weird number (0x100900FC),
-which for no way could work with the cadence_gem model in QEMU.
-
-Not like other GEM variants, the FU540-specific GEM has a management
-block to control 10/100/1000Mbps link speed changes, that is mapped
-to 0x100a0000. We can simply map it into MMIO space without special
-handling using create_unimplemented_device().
-
-Update the GEM node compatible string to use the official name used
-by the upstream Linux kernel, and add the management block reg base
-& size to the <reg> property encoding.
-
-Tested with upstream U-Boot and Linux kernel MACB drivers.
-
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
----
-
-Changes in v6: None
-Changes in v5:
-- add the missing "local-mac-address" property in the ethernet node
-
-Changes in v4: None
-Changes in v3: None
-Changes in v2:
-- use create_unimplemented_device() to create the GEM management
-  block instead of sifive_mmio_emulate()
-- add "phy-handle" property to the ethernet node
-
- hw/riscv/sifive_u.c         | 24 ++++++++++++++++++++----
- include/hw/riscv/sifive_u.h |  3 ++-
- 2 files changed, 22 insertions(+), 5 deletions(-)
-
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 516093e..a7225f9 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -3,6 +3,7 @@
-  *
-  * Copyright (c) 2016-2017 Sagar Karandikar, sagark@eecs.berkeley.edu
-  * Copyright (c) 2017 SiFive, Inc.
-+ * Copyright (c) 2019 Bin Meng <bmeng.cn@gmail.com>
-  *
-  * Provides a board compatible with the SiFive Freedom U SDK:
-  *
-@@ -11,6 +12,7 @@
-  * 2) PLIC (Platform Level Interrupt Controller)
-  * 3) PRCI (Power, Reset, Clock, Interrupt)
-  * 4) OTP (One-Time Programmable) memory with stored serial number
-+ * 5) GEM (Gigabit Ethernet Controller) and management block
-  *
-  * This board currently generates devicetree dynamically that indicates at least
-  * two harts and up to five harts.
-@@ -38,6 +40,7 @@
- #include "hw/sysbus.h"
- #include "hw/char/serial.h"
- #include "hw/cpu/cluster.h"
-+#include "hw/misc/unimp.h"
- #include "target/riscv/cpu.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/sifive_plic.h"
-@@ -46,6 +49,7 @@
- #include "hw/riscv/sifive_u.h"
- #include "hw/riscv/boot.h"
- #include "chardev/char.h"
-+#include "net/eth.h"
- #include "sysemu/arch_init.h"
- #include "sysemu/device_tree.h"
- #include "exec/address-spaces.h"
-@@ -67,7 +71,8 @@ static const struct MemmapEntry {
-     [SIFIVE_U_UART1] =    { 0x10011000,     0x1000 },
-     [SIFIVE_U_OTP] =      { 0x10070000,     0x1000 },
-     [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
--    [SIFIVE_U_GEM] =      { 0x100900FC,     0x2000 },
-+    [SIFIVE_U_GEM] =      { 0x10090000,     0x2000 },
-+    [SIFIVE_U_GEM_MGMT] = { 0x100a0000,     0x1000 },
- };
- 
- #define OTP_SERIAL          1
-@@ -84,7 +89,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     char ethclk_names[] = "pclk\0hclk";
-     uint32_t plic_phandle, prci_phandle, ethclk_phandle, phandle = 1;
-     uint32_t uartclk_phandle;
--    uint32_t hfclk_phandle, rtcclk_phandle;
-+    uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
- 
-     fdt = s->fdt = create_device_tree(&s->fdt_size);
-     if (!fdt) {
-@@ -254,21 +259,28 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     ethclk_phandle = qemu_fdt_get_phandle(fdt, nodename);
-     g_free(nodename);
- 
-+    phy_phandle = phandle++;
-     nodename = g_strdup_printf("/soc/ethernet@%lx",
-         (long)memmap[SIFIVE_U_GEM].base);
-     qemu_fdt_add_subnode(fdt, nodename);
--    qemu_fdt_setprop_string(fdt, nodename, "compatible", "cdns,macb");
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible",
-+        "sifive,fu540-c000-gem");
-     qemu_fdt_setprop_cells(fdt, nodename, "reg",
-         0x0, memmap[SIFIVE_U_GEM].base,
--        0x0, memmap[SIFIVE_U_GEM].size);
-+        0x0, memmap[SIFIVE_U_GEM].size,
-+        0x0, memmap[SIFIVE_U_GEM_MGMT].base,
-+        0x0, memmap[SIFIVE_U_GEM_MGMT].size);
-     qemu_fdt_setprop_string(fdt, nodename, "reg-names", "control");
-     qemu_fdt_setprop_string(fdt, nodename, "phy-mode", "gmii");
-+    qemu_fdt_setprop_cell(fdt, nodename, "phy-handle", phy_phandle);
-     qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
-     qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_GEM_IRQ);
-     qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-         prci_phandle, PRCI_CLK_GEMGXLPLL, prci_phandle, PRCI_CLK_GEMGXLPLL);
-     qemu_fdt_setprop(fdt, nodename, "clock-names", ethclk_names,
-         sizeof(ethclk_names));
-+    qemu_fdt_setprop(fdt, nodename, "local-mac-address",
-+        s->soc.gem.conf.macaddr.a, ETH_ALEN);
-     qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
-     qemu_fdt_setprop_cell(fdt, nodename, "#size-cells", 0);
-     g_free(nodename);
-@@ -276,6 +288,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     nodename = g_strdup_printf("/soc/ethernet@%lx/ethernet-phy@0",
-         (long)memmap[SIFIVE_U_GEM].base);
-     qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_cell(fdt, nodename, "phandle", phy_phandle);
-     qemu_fdt_setprop_cell(fdt, nodename, "reg", 0x0);
-     g_free(nodename);
- 
-@@ -525,6 +538,9 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->gem), 0, memmap[SIFIVE_U_GEM].base);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem), 0,
-                        plic_gpios[SIFIVE_U_GEM_IRQ]);
-+
-+    create_unimplemented_device("riscv.sifive.u.gem-mgmt",
-+        memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
- }
- 
- static void riscv_sifive_u_machine_init(MachineClass *mc)
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 7d9d901..d2b9d99 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -63,7 +63,8 @@ enum {
-     SIFIVE_U_UART1,
-     SIFIVE_U_OTP,
-     SIFIVE_U_DRAM,
--    SIFIVE_U_GEM
-+    SIFIVE_U_GEM,
-+    SIFIVE_U_GEM_MGMT
- };
- 
- enum {
--- 
-2.7.4
-
+SSBqdXN0IHdvcnJ5IGFib3V0IHRoaXMgc2ltcGxlIHBhdGNoIHRvIGJlIGxvc3QgYmVjYXVzZSBJ
+IGdvdCBzb21lIG1lc3MgDQp3aXRoIGl0IGluIG15IFRodW5kZXJiaXJkIGVtYWlsIHRocmVhZHMu
+DQoNCkFuZHJleQ0KDQpPbiAyMC8wOC8yMDE5IDIwOjAxLCBBbmRyZXkgU2hpbmtldmljaCB3cm90
+ZToNCj4gT24gMTMvMDgvMjAxOSAxNToyMSwgQWxleCBCZW5uw6llIHdyb3RlOg0KPj4NCj4+IEFu
+ZHJleSBTaGlua2V2aWNoIDxhbmRyZXkuc2hpbmtldmljaEB2aXJ0dW96em8uY29tPiB3cml0ZXM6
+DQo+Pg0KPj4+IFBJTkdJTkcuLi4NCj4+DQo+PiBTb3JyeSBhYm91dCB0aGUgZGVsYXkuIEkgZGlk
+IGF0dGVtcHQgc2VlIGlmIHRoZSBleGlzdGluZyBjb2RlIHRocmV3IHVwDQo+PiBhbnkgZXJyb3Jz
+IHdoZW4gYnVpbHQgd2l0aCBjbGFuZydzIHVuZGVmaW5lZCBzYW5pdGl6ZXIuIEkgdGhpbmsgdGhp
+cyBpcw0KPj4gYmVjYXVzZSB4UHRyLT5leHAgd2lsbCBvbmx5IGdldCByZWFkIGlmIG5vbmUgb2Yg
+dGhlIHhQdHItPmlzRk9PIHJldHVybnMNCj4+IGZhbHNlLiBJbiBhbGwgdGhvc2UgY2FzZXMgeFB0
+ci0+ZXhwIGlzIHNldC4NCj4+DQo+PiBXaGF0IHBvaW50ZWQgeW91IHRvd2FyZHMgdGhpcyBtaXNz
+aW5nIGluaXRpYWxpc2F0aW9ucz8NCj4+DQo+IA0KPiBJIGFtIHNvcnJ5IGFib3V0IG1pc3Npbmcg
+dGhlIG1lc3NhZ2UuIEl0IGFwcGVhcmVkIGluIG90aGVyIGVtYWlsIHRocmVhZA0KPiB3aGVyZSBJ
+IGRpZG4ndCBleHBlY3QuIFNvLCBJIG1pc3NlZCB0aGUgcmVzcG9uc2UuDQo+IFdoZW4gSSByYW4g
+dGhlIGZwLXRlc3RzIHVuZGVyIHRoZSBWYWxncmluZCwgSSBnb3QgbG90cyBvZiByZXBvcnRzIGFi
+b3V0DQo+IHVzaW5nIHVuaW5pdGlhbGl6ZWQgbWVtb3J5LiBUaGV5IGFsbCBkaXNhcHBlYXJlZCBh
+ZnRlciBhcHBseWluZyB0aGlzDQo+IHBhdGNoLiBJIGNvbmNsdWRlZCB0aGF0IHRoZXJlIGFyZSBw
+YXRocyB0aGF0IHVzZSB4UHRyLT5leHAgdW5pbml0aWFsaXplZC4NCj4gDQo+ICQgL3Vzci9iaW4v
+dmFsZ3JpbmQgLS1sZWFrLWNoZWNrPW5vIC0tdHJhY2UtY2hpbGRyZW49eWVzDQo+IC0ta2VlcC1z
+dGFja3RyYWNlcz1hbGxvYy1hbmQtZnJlZSAtLXRyYWNrLW9yaWdpbnM9eWVzDQo+IC0tbG9nLWZp
+bGU9bXlxZW11LSVwLmxvZyBtYWtlIGNoZWNrLXNvZnRmbG9hdA0KPiANCj4gPT03MjAyNjg9PSBD
+b25kaXRpb25hbCBqdW1wIG9yIG1vdmUgZGVwZW5kcyBvbiB1bmluaXRpYWxpc2VkIHZhbHVlKHMp
+DQo+ID09NzIwMjY4PT0gICAgYXQgMHgxMTJDNzI6IGZsb2F0WFJvdW5kVG9JbnQgKHNsb3dmbG9h
+dC5jOjEzNzEpDQo+ID09NzIwMjY4PT0gICAgYnkgMHgxMTU5MjA6IHNsb3dfZjE2X3JvdW5kVG9J
+bnQgKHNsb3dmbG9hdC5jOjI0MDgpDQo+ID09NzIwMjY4PT0gICAgYnkgMHgxMzNBODc6IHRlc3Rf
+YXpfZjE2X3J4ICh0ZXN0X2F6X2YxNl9yeC5jOjczKQ0KPiA9PTcyMDI2OD09ICAgIGJ5IDB4MTBF
+NjM1OiBkb190ZXN0ZmxvYXQgKGZwLXRlc3QuYzozMDQpDQo+ID09NzIwMjY4PT0gICAgYnkgMHgx
+MEZEMDI6IHJ1bl90ZXN0IChmcC10ZXN0LmM6MTAwMykNCj4gPT03MjAyNjg9PSAgICBieSAweDEw
+RkRBNDogbWFpbiAoZnAtdGVzdC5jOjEwMTcpDQo+ID09NzIwMjY4PT0gIFVuaW5pdGlhbGlzZWQg
+dmFsdWUgd2FzIGNyZWF0ZWQgYnkgYSBzdGFjayBhbGxvY2F0aW9uDQo+ID09NzIwMjY4PT0gICAg
+YXQgMHgxMTU4RDM6IHNsb3dfZjE2X3JvdW5kVG9JbnQgKHNsb3dmbG9hdC5jOjI0MDQpDQo+IA0K
+PiA9PTcyMDMxMT09IENvbmRpdGlvbmFsIGp1bXAgb3IgbW92ZSBkZXBlbmRzIG9uIHVuaW5pdGlh
+bGlzZWQgdmFsdWUocykNCj4gPT03MjAzMTE9PSAgICBhdCAweDExMkU1NDogZmxvYXRYQWRkIChz
+bG93ZmxvYXQuYzoxNDExKQ0KPiA9PTcyMDMxMT09ICAgIGJ5IDB4MTE1QTJEOiBzbG93X2YxNl9z
+dWIgKHNsb3dmbG9hdC5jOjI0MzEpDQo+ID09NzIwMzExPT0gICAgYnkgMHgxMzNDRUM6IHRlc3Rf
+YWJ6X2YxNiAodGVzdF9hYnpfZjE2LmM6NzApDQo+ID09NzIwMzExPT0gICAgYnkgMHgxMEU2RDU6
+IGRvX3Rlc3RmbG9hdCAoZnAtdGVzdC5jOjMyNikNCj4gPT03MjAzMTE9PSAgICBieSAweDEwRkQw
+MjogcnVuX3Rlc3QgKGZwLXRlc3QuYzoxMDAzKQ0KPiA9PTcyMDMxMT09ICAgIGJ5IDB4MTBGREE0
+OiBtYWluIChmcC10ZXN0LmM6MTAxNykNCj4gPT03MjAzMTE9PSAgVW5pbml0aWFsaXNlZCB2YWx1
+ZSB3YXMgY3JlYXRlZCBieSBhIHN0YWNrIGFsbG9jYXRpb24NCj4gPT03MjAzMTE9PSAgICBhdCAw
+eDExNTlDMDogc2xvd19mMTZfc3ViIChzbG93ZmxvYXQuYzoyNDI1KQ0KPiANCj4gPT03MjAyNzM9
+PSBDb25kaXRpb25hbCBqdW1wIG9yIG1vdmUgZGVwZW5kcyBvbiB1bmluaXRpYWxpc2VkIHZhbHVl
+KHMpDQo+ID09NzIwMjczPT0gICAgYXQgMHgxMTNENTQ6IGZsb2F0WEVxIChzbG93ZmxvYXQuYzox
+NjYxKQ0KPiA9PTcyMDI3Mz09ICAgIGJ5IDB4MTE1RUFEOiBzbG93X2YxNl9lcV9zaWduYWxpbmcg
+KHNsb3dmbG9hdC5jOjI1MzgpDQo+ID09NzIwMjczPT0gICAgYnkgMHgxMzQxRDM6IHRlc3RfYWJf
+ZjE2X3pfYm9vbCAodGVzdF9hYl9mMTZfel9ib29sLmM6NzEpDQo+ID09NzIwMjczPT0gICAgYnkg
+MHgxMEU3REU6IGRvX3Rlc3RmbG9hdCAoZnAtdGVzdC5jOjM1OCkNCj4gPT03MjAyNzM9PSAgICBi
+eSAweDEwRkQwMjogcnVuX3Rlc3QgKGZwLXRlc3QuYzoxMDAzKQ0KPiA9PTcyMDI3Mz09ICAgIGJ5
+IDB4MTBGREE0OiBtYWluIChmcC10ZXN0LmM6MTAxNykNCj4gPT03MjAyNzM9PSAgVW5pbml0aWFs
+aXNlZCB2YWx1ZSB3YXMgY3JlYXRlZCBieSBhIHN0YWNrIGFsbG9jYXRpb24NCj4gPT03MjAyNzM9
+PSAgICBhdCAweDExNUUzODogc2xvd19mMTZfZXFfc2lnbmFsaW5nIChzbG93ZmxvYXQuYzoyNTMw
+KQ0KPiANCj4gRXZlbiBpZiBWYWxncmluZCBpcyB3cm9uZywgdGhlIHB1cnBvc2Ugb2YgdGhlIHBh
+dGNoIGlzIHRvIHJlZHVjZSB0aGUNCj4gbnVtYmVyIG9mIGVycm9yIHJlcG9ydHMgZnJvbSB0aGUg
+VmFsZ3JpbmQgdG8gbG9jYXRlIG90aGVyIG1lbW9yeSBzZXJpb3VzDQo+IGlzc3VlcywgaWYgYW55
+Lg0KPiANCj4gQW5kcmV5DQo+IA0KPj4+DQo+Pj4gT24gMzAvMDcvMjAxOSAxMzoxMywgQW5kcmV5
+IFNoaW5rZXZpY2ggd3JvdGU6DQo+Pj4+IE5vdCBhbGwgdGhlIHBhdGhzIGluIHRoZSBmdW5jdGlv
+bnMsIHN1Y2ggYXMgZjE2VG9GbG9hdFgoKSwgaW5pdGlhbGl6ZQ0KPj4+PiB0aGUgbWVtYmVyICdl
+eHAnIG9mIHRoZSBzdHJ1Y3R1cmUgZmxvYXRYLg0KPj4+Pg0KPj4+PiBTaWduZWQtb2ZmLWJ5OiBB
+bmRyZXkgU2hpbmtldmljaCA8YW5kcmV5LnNoaW5rZXZpY2hAdmlydHVvenpvLmNvbT4NCj4+Pj4g
+LS0tDQo+Pj4+ICAgICBzb3VyY2Uvc2xvd2Zsb2F0LmMgfCA0ICsrKysNCj4+Pj4gICAgIDEgZmls
+ZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykNCj4+Pj4NCj4+Pj4gZGlmZiAtLWdpdCBhL3Rlc3Rz
+L2ZwL2JlcmtlbGV5LXRlc3RmbG9hdC0zL3NvdXJjZS9zbG93ZmxvYXQuYyBiL3Rlc3RzL2ZwL2Jl
+cmtlbGV5LXRlc3RmbG9hdC0zL3NvdXJjZS9zbG93ZmxvYXQuYw0KPj4+PiBpbmRleCA0ZTg0NjU2
+Li42ZTBmMGE2IDEwMDY0NA0KPj4+PiAtLS0gYS90ZXN0cy9mcC9iZXJrZWxleS10ZXN0ZmxvYXQt
+My9zb3VyY2Uvc2xvd2Zsb2F0LmMNCj4+Pj4gKysrIGIvdGVzdHMvZnAvYmVya2VsZXktdGVzdGZs
+b2F0LTMvc291cmNlL3Nsb3dmbG9hdC5jDQo+Pj4+IEBAIC02MjMsNiArNjIzLDcgQEAgc3RhdGlj
+IHZvaWQgZjE2VG9GbG9hdFgoIGZsb2F0MTZfdCBhLCBzdHJ1Y3QgZmxvYXRYICp4UHRyICkNCj4+
+Pj4gICAgICAgICB4UHRyLT5pc0luZiA9IGZhbHNlOw0KPj4+PiAgICAgICAgIHhQdHItPmlzWmVy
+byA9IGZhbHNlOw0KPj4+PiAgICAgICAgIHhQdHItPnNpZ24gPSAoKHVpQSAmIDB4ODAwMCkgIT0g
+MCk7DQo+Pj4+ICsgICAgeFB0ci0+ZXhwID0gMDsNCj4+Pj4gICAgICAgICBleHAgPSB1aUE+PjEw
+ICYgMHgxRjsNCj4+Pj4gICAgICAgICBzaWc2NCA9IHVpQSAmIDB4MDNGRjsNCj4+Pj4gICAgICAg
+ICBzaWc2NCA8PD0gNDU7DQo+Pj4+IEBAIC03NTksNiArNzYwLDcgQEAgc3RhdGljIHZvaWQgZjMy
+VG9GbG9hdFgoIGZsb2F0MzJfdCBhLCBzdHJ1Y3QgZmxvYXRYICp4UHRyICkNCj4+Pj4gICAgICAg
+ICB4UHRyLT5pc0luZiA9IGZhbHNlOw0KPj4+PiAgICAgICAgIHhQdHItPmlzWmVybyA9IGZhbHNl
+Ow0KPj4+PiAgICAgICAgIHhQdHItPnNpZ24gPSAoKHVpQSAmIDB4ODAwMDAwMDApICE9IDApOw0K
+Pj4+PiArICAgIHhQdHItPmV4cCA9IDA7DQo+Pj4+ICAgICAgICAgZXhwID0gdWlBPj4yMyAmIDB4
+RkY7DQo+Pj4+ICAgICAgICAgc2lnNjQgPSB1aUEgJiAweDAwN0ZGRkZGOw0KPj4+PiAgICAgICAg
+IHNpZzY0IDw8PSAzMjsNCj4+Pj4gQEAgLTg5NSw2ICs4OTcsNyBAQCBzdGF0aWMgdm9pZCBmNjRU
+b0Zsb2F0WCggZmxvYXQ2NF90IGEsIHN0cnVjdCBmbG9hdFggKnhQdHIgKQ0KPj4+PiAgICAgICAg
+IHhQdHItPmlzSW5mID0gZmFsc2U7DQo+Pj4+ICAgICAgICAgeFB0ci0+aXNaZXJvID0gZmFsc2U7
+DQo+Pj4+ICAgICAgICAgeFB0ci0+c2lnbiA9ICgodWlBICYgVUlOVDY0X0MoIDB4ODAwMDAwMDAw
+MDAwMDAwMCApKSAhPSAwKTsNCj4+Pj4gKyAgICB4UHRyLT5leHAgPSAwOw0KPj4+PiAgICAgICAg
+IGV4cCA9IHVpQT4+NTIgJiAweDdGRjsNCj4+Pj4gICAgICAgICBzaWc2NCA9IHVpQSAmIFVJTlQ2
+NF9DKCAweDAwMEZGRkZGRkZGRkZGRkYgKTsNCj4+Pj4gICAgICAgICBpZiAoIGV4cCA9PSAweDdG
+RiApIHsNCj4+Pj4gQEAgLTEyMjAsNiArMTIyMyw3IEBAIHN0YXRpYyB2b2lkIGYxMjhNVG9GbG9h
+dFgoIGNvbnN0IGZsb2F0MTI4X3QgKmFQdHIsIHN0cnVjdCBmbG9hdFggKnhQdHIgKQ0KPj4+PiAg
+ICAgICAgIHhQdHItPmlzWmVybyA9IGZhbHNlOw0KPj4+PiAgICAgICAgIHVpQTY0ID0gdWlBUHRy
+LT52NjQ7DQo+Pj4+ICAgICAgICAgeFB0ci0+c2lnbiA9ICgodWlBNjQgJiBVSU5UNjRfQyggMHg4
+MDAwMDAwMDAwMDAwMDAwICkpICE9IDApOw0KPj4+PiArICAgIHhQdHItPmV4cCA9IDA7DQo+Pj4+
+ICAgICAgICAgZXhwID0gdWlBNjQ+PjQ4ICYgMHg3RkZGOw0KPj4+PiAgICAgICAgIHNpZy52NjQg
+PSB1aUE2NCAmIFVJTlQ2NF9DKCAweDAwMDBGRkZGRkZGRkZGRkYgKTsNCj4+Pj4gICAgICAgICBz
+aWcudjAgID0gdWlBUHRyLT52MDsNCj4+Pj4NCj4+DQo+Pg0KPj4gLS0NCj4+IEFsZXggQmVubsOp
+ZQ0KPj4NCj4gDQoNCi0tIA0KV2l0aCB0aGUgYmVzdCByZWdhcmRzLA0KQW5kcmV5IFNoaW5rZXZp
+Y2gNCg0K
 
