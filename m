@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E615B9E2B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 10:33:02 +0200 (CEST)
-Received: from localhost ([::1]:48140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2339E2AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 10:30:26 +0200 (CEST)
+Received: from localhost ([::1]:48106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2WuT-00046k-Ne
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 04:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36657)
+	id 1i2Wrx-0001uU-NP
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 04:30:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36729)
  by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
- <31OhkXQYKCisZHTLPKNVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--sameid.bounces.google.com>)
- id 1i2Wmd-0004j2-S4
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:24:57 -0400
+ <33uhkXQYKCjUjRdVZUXffXcV.TfdhVdl-UVmVcefeXel.fiX@flex--sameid.bounces.google.com>)
+ id 1i2Wmn-0004xm-5c
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:25:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from
- <31OhkXQYKCisZHTLPKNVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--sameid.bounces.google.com>)
- id 1i2Wmc-0007nQ-Q1
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:24:55 -0400
-Received: from mail-vk1-xa4a.google.com ([2607:f8b0:4864:20::a4a]:48033)
+ <33uhkXQYKCjUjRdVZUXffXcV.TfdhVdl-UVmVcefeXel.fiX@flex--sameid.bounces.google.com>)
+ id 1i2Wml-0007rJ-VI
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:25:05 -0400
+Received: from mail-vs1-xe4a.google.com ([2607:f8b0:4864:20::e4a]:54520)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from
- <31OhkXQYKCisZHTLPKNVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--sameid.bounces.google.com>)
- id 1i2Wmc-0007ms-Mb
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:24:54 -0400
-Received: by mail-vk1-xa4a.google.com with SMTP id n185so8756041vkf.14
- for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 01:24:53 -0700 (PDT)
+ <33uhkXQYKCjUjRdVZUXffXcV.TfdhVdl-UVmVcefeXel.fiX@flex--sameid.bounces.google.com>)
+ id 1i2Wml-0007qu-QM
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 04:25:03 -0400
+Received: by mail-vs1-xe4a.google.com with SMTP id x20so4629511vsq.21
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 01:25:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=FVd1PFIeVFll6+dyMcyTHlqBKcnOQa+GKOSlsKMvxhU=;
- b=HWwmL1UpfDGN341vc1Zjy1tfdObT0V33VvW2TsMd7ql/ZA/CmN6gvnXr991eusT6r/
- kq7bYSWuTFHaQdkdM6hUFAJVSqLCfTzIUDkg9IUbaj+JJH4MjkSP85HMQWzUPBXEOMRV
- nY0MaySOP4+DRRfbfYcvx6EpXDRnv8b/oNlI38w54q3RvdFb4ZsTxnmykr/HVWi2dK/D
- YfK7solvBt0XDwRY1Nkc/I9NvIgMEQB+jEkf6Ot/mpCjw9Jt4Rna2pQfgFhMMJsEM6Gx
- /VmyLnU8M/h2gxlVJAMpdoIAwl5pgA632HQG0BvAlj3apvxd7pLiwJE9VutJquSs08/r
- Hhog==
+ :cc; bh=ouYipv769+h8e/fgBXMjwvu10/GoLSDxKV1jgFaYSYQ=;
+ b=OZK5x3Fd1PnNWB8XFa6+t0GhQSAafiN3+wjVjpeVDi82xq4mw3BznjsdOwaui7Q7FU
+ /lby9N/5iPWEcXuyRDwjzSf24JHG3nShNi3t6a1xTnwhRn5Bo+JCxcau9EgC5qVynjO2
+ kSprrOVI3zOMz/5UlkH/hEqKy0lBAfsAwLcrqb1+4tRv+4cKjo0l96sHSDQ6BW1eGexF
+ Gdrs9e/Eyixb7Y+Z5ZgCSmL+MQW2ftfDTKT1xVGnd3s+FS3xL81htHf+ZkPFWPiG3Ch+
+ ner1i4lcC4B/2jKVkeK8sCdiCpDQTO1+FfvNZVG88pH6FJOS3ZKKtw5KcI3OU6Ac9C4A
+ oC9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=FVd1PFIeVFll6+dyMcyTHlqBKcnOQa+GKOSlsKMvxhU=;
- b=doKVsP7nwBNJXiQhT2iGIyA2FxevJDTnkoRsk1An82qxDzmN6gtI1APTWQpM18JIUE
- r2MARhdL2BSrI1ajd371+H3Gum7sFBjVJ8W0e18kVa2pxBJgOX4Zn5aF9ZKKIWzPXnyt
- n/QQTKXJN4+U7Oh5qOsRXN3YpcCQodWuqU/YsAdtJmIk16RcG8/O5IryZwH8fVTNbpLu
- wF2AJnqFv1W9Sysv56cLjq2axPLYn5ca1JfNUEB+HsB4Uw/ngi/qImqBYNNUjv4Mvm4R
- CI7K+x77PEZWNTCr6d8YqeaWfn75eRFO+xIEZzVkDn5C2ROB3REXqS44bP4Qi5Pik3QQ
- Rc7Q==
-X-Gm-Message-State: APjAAAXsAtW0AtgUdZ/2AmzcGmDpYHRJqMsmZmIw28BrFED4N34WOVn+
- C2uAfkSveGvZw5+rfhlSlhQqOwcXOqpSFC22wezi/LvAh6VfttpACmkoDFMngdesR0hjYFEGItI
- DCgz1/W6S4+CDLpsRnkezkEWljA0XezZXYq00jiZqpqaKjZPBlvqmEvnh8cvG
-X-Google-Smtp-Source: APXvYqzoCKMgHI1WnRC/weBOvJdgtiFj95SoXzEqQaiYEW50PPzAw7Y/xt/6i/fxJNE2xikB86QsbFehTAw=
-X-Received: by 2002:a1f:b511:: with SMTP id e17mr9407857vkf.86.1566894292959; 
- Tue, 27 Aug 2019 01:24:52 -0700 (PDT)
-Date: Tue, 27 Aug 2019 11:24:21 +0300
+ bh=ouYipv769+h8e/fgBXMjwvu10/GoLSDxKV1jgFaYSYQ=;
+ b=Y4pNhFJ1CssR22CG0xPHU8dw/IhU2YUAUJPEbVyATmORY6cIDzFtNwomvEU0UrelfI
+ fcTL8NWTxVpQhdlSMD2nUBqg+/sLJ+pbGvOwqaYYZokQgEs/VKKqnLA7DoHBHrmcUmqt
+ AlyemV8YBJ2AUBKUjo4229mNf1FyvpP7W7YsBE0cnGvFbo278GzWKvAi5xGQLYi3oM5I
+ HBsfSGy+csCNKfy6BlxfPlGOxQMsQPfAkaZApFAmaTgneNf84Yl6tkdmguCO6jbeRpDY
+ PlBG/rwdrNC+i0Sz/rBz1/S9xFVXsxZdN3Wj30GS3wsCPhjig2gaA3LaMOvjY4j0HVEW
+ 7D+A==
+X-Gm-Message-State: APjAAAVLpnKwCIlHZwXNVCiDwfhp2h/lWjjpBcrM+WrgnSRO6Tr2bwF9
+ g+zIHwHf19cmJJCMO36iMa1eUKE3jXhtisUzk8kuArZOOCW1gSwhzW/34FHSqT1nblVXYBHmfYs
+ KLhZ07HGVCwanvYF+Gj4rrmAr71csQJl7VDDiDLpEOKmyBWn7c6NxVEA/eIHI
+X-Google-Smtp-Source: APXvYqxJyxCreTVb4T4qwuVvr8uxbPKYUuU2j7I64MDeyOlT2mUoUzmHr++PAL4FJTRHEHXfj5RPdgjIiZk=
+X-Received: by 2002:ab0:73da:: with SMTP id m26mr10195338uaq.119.1566894302143; 
+ Tue, 27 Aug 2019 01:25:02 -0700 (PDT)
+Date: Tue, 27 Aug 2019 11:24:23 +0300
 In-Reply-To: <20190827082427.64280-1-sameid@google.com>
-Message-Id: <20190827082427.64280-3-sameid@google.com>
+Message-Id: <20190827082427.64280-5-sameid@google.com>
 Mime-Version: 1.0
 References: <20190827082427.64280-1-sameid@google.com>
 X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
@@ -63,8 +63,9 @@ To: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::a4a
-Subject: [Qemu-devel] [PATCH v6 2/8] block: Support providing LCHS from user
+X-Received-From: 2607:f8b0:4864:20::e4a
+Subject: [Qemu-devel] [PATCH v6 4/8] scsi: Propagate unrealize() callback to
+ scsi-hd
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,50 +89,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-Add logical geometry variables to BlockConf.
+We will need to add LCHS removal logic to scsi-hd's unrealize() in the
+next commit.
 
-A user can now supply "lcyls", "lheads" & "lsecs" for any HD device
-that supports CHS ("cyls", "heads", "secs").
-
-These devices include:
-    * ide-hd
-    * scsi-hd
-    * virtio-blk-pci
-
-In future commits we will use the provided LCHS and pass it to the BIOS
-through fw_cfg to be supplied using INT13 routines.
-
+Signed-off-by: Sam Eiderman <sameid@google.com>
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
 ---
- include/hw/block/block.h | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/scsi/scsi-bus.c     | 16 ++++++++++++++++
+ include/hw/scsi/scsi.h |  1 +
+ 2 files changed, 17 insertions(+)
 
-diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-index fd55a30bca..d7246f3862 100644
---- a/include/hw/block/block.h
-+++ b/include/hw/block/block.h
-@@ -26,6 +26,7 @@ typedef struct BlockConf {
-     uint32_t discard_granularity;
-     /* geometry, not all devices use this */
-     uint32_t cyls, heads, secs;
-+    uint32_t lcyls, lheads, lsecs;
-     OnOffAuto wce;
-     bool share_rw;
-     BlockdevOnError rerror;
-@@ -65,7 +66,10 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
- #define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)                      \
-     DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),                  \
-     DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0),                \
--    DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0)
-+    DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0),                  \
-+    DEFINE_PROP_UINT32("lcyls", _state, _conf.lcyls, 0),                \
-+    DEFINE_PROP_UINT32("lheads", _state, _conf.lheads, 0),              \
-+    DEFINE_PROP_UINT32("lsecs", _state, _conf.lsecs, 0)
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index bccb7cc4c6..359d50d6d0 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -59,6 +59,14 @@ static void scsi_device_realize(SCSIDevice *s, Error **errp)
+     }
+ }
  
- #define DEFINE_BLOCK_ERROR_PROPERTIES(_state, _conf)                    \
-     DEFINE_PROP_BLOCKDEV_ON_ERROR("rerror", _state, _conf.rerror,       \
++static void scsi_device_unrealize(SCSIDevice *s, Error **errp)
++{
++    SCSIDeviceClass *sc = SCSI_DEVICE_GET_CLASS(s);
++    if (sc->unrealize) {
++        sc->unrealize(s, errp);
++    }
++}
++
+ int scsi_bus_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+                        void *hba_private)
+ {
+@@ -217,12 +225,20 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
+ static void scsi_qdev_unrealize(DeviceState *qdev, Error **errp)
+ {
+     SCSIDevice *dev = SCSI_DEVICE(qdev);
++    Error *local_err = NULL;
+ 
+     if (dev->vmsentry) {
+         qemu_del_vm_change_state_handler(dev->vmsentry);
+     }
+ 
+     scsi_device_purge_requests(dev, SENSE_CODE(NO_SENSE));
++
++    scsi_device_unrealize(dev, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
+     blockdev_mark_auto_del(dev->conf.blk);
+ }
+ 
+diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+index d77a92361b..332ef602f4 100644
+--- a/include/hw/scsi/scsi.h
++++ b/include/hw/scsi/scsi.h
+@@ -59,6 +59,7 @@ struct SCSIRequest {
+ typedef struct SCSIDeviceClass {
+     DeviceClass parent_class;
+     void (*realize)(SCSIDevice *dev, Error **errp);
++    void (*unrealize)(SCSIDevice *dev, Error **errp);
+     int (*parse_cdb)(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+                      void *hba_private);
+     SCSIRequest *(*alloc_req)(SCSIDevice *s, uint32_t tag, uint32_t lun,
 -- 
 2.23.0.187.g17f5b7556c-goog
 
