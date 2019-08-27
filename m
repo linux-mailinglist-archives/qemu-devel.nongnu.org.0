@@ -2,51 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68DB89E60B
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 12:47:38 +0200 (CEST)
-Received: from localhost ([::1]:49432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFED9E614
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 12:50:08 +0200 (CEST)
+Received: from localhost ([::1]:49490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2Z0j-0002an-9i
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 06:47:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34183)
+	id 1i2Z39-0004WJ-0C
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 06:50:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1i2YyL-0001H2-H4
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 06:45:10 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i2Yzu-0002m0-Ly
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 06:46:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1i2YyJ-0001AU-6S
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 06:45:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43348)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i2YyJ-0001AG-0f
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 06:45:07 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E72A510C696B;
- Tue, 27 Aug 2019 10:45:05 +0000 (UTC)
-Received: from localhost (ovpn-116-148.ams2.redhat.com [10.36.116.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 767991001DC0;
- Tue, 27 Aug 2019 10:45:05 +0000 (UTC)
-Date: Tue, 27 Aug 2019 11:45:04 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jan Bobek <jan.bobek@gmail.com>
-Message-ID: <20190827104504.GB4290@stefanha-x1.localdomain>
-References: <9d60daf6-f4e3-37cd-799f-9f840b1b7ba1@gmail.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1i2Yzt-00025p-GO
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 06:46:46 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38220)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i2Yzt-00025W-AJ
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 06:46:45 -0400
+Received: by mail-ot1-x344.google.com with SMTP id r20so18196078ota.5
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 03:46:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fMdFblafD94Pg7EdUX7Bt3ViF3OCQnoMFCqUfT0Ylhc=;
+ b=OYzdmrQ7NUlZI5AHNhnQeSe/nXlwYW7SgwRsA3b4L3D4bw/w+K2BVF3cPycscudlKe
+ GhDWhkO4j2ZHqXOKB7/2/WQKWA01ljQ1bX14B36OvJiuRfL3kF7S2R4Tn2RHdtN3yyJ0
+ nsUGlQ7F/hUWGIK2GQAQ+NdtrsQTESXKUmZQB1BGfB3/a5brBesXKgsJxKK5LDKBVxce
+ e7I7SWNNu2NXn7hDYWAI/IznuRR3XVEpLZ7Z4FDTVFnqaiFnFMun72vRstwJ49MJvN+g
+ ij0DnBFyy5WO7hEQwmNnUvEEp6g2+rLIbV/KUIfCST9sJa4ajKzHEYzzcjUcSLE8nXv1
+ 60Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fMdFblafD94Pg7EdUX7Bt3ViF3OCQnoMFCqUfT0Ylhc=;
+ b=DyiBRd8i21A3MsBPx60MAzFaL4DveqlutHLwbFXP60R7XM6+EhWaq5w4eFoWDIJSqA
+ Bjr1jkG9M+EbKNWneuJLbVcpgjO8eH5KARANRia1DXe+t1AqwU38bD43145KOKMLkbFk
+ 9tLyNqdQwGEs4D5cFpRH5sVd+uUmWT/EQsl68ZriMSGTuP6DJYiNKVnl9LROPGg602/T
+ S+KOxUrrZSY/7fVRk3hCiECf2D/8xqZ47PHiYnz8/PmFLt98c/PharfYZmrG08ndaR/2
+ aydYbZ+TKX5nzvo+E2Y/gMnjZnPzV9tCuQGjiPh2OXCgd+fFLT6llMjGG2ibw0yhyuWi
+ jbtg==
+X-Gm-Message-State: APjAAAWDxZ9+7C/T1uhJB7LWa9g1/HefvM8vYsn7W+hqR9eTugOG4MwG
+ LUi64xlF2NQd7CkaITgdlo1lUpoRiqX/rcr669g1SA==
+X-Google-Smtp-Source: APXvYqz+qr6DbHrCGeKO5sjiN6LXB+EVCMhdO0GKn3itELiX0QcqmzRdd+Lr8HFEZ5rPidZsJyQKwYJJ99++ILl2Exc=
+X-Received: by 2002:a9d:4817:: with SMTP id c23mr1098975otf.97.1566902804446; 
+ Tue, 27 Aug 2019 03:46:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wq9mPyueHGvFACwf"
-Content-Disposition: inline
-In-Reply-To: <9d60daf6-f4e3-37cd-799f-9f840b1b7ba1@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Tue, 27 Aug 2019 10:45:06 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [GSOC] Support for AVX within TCG: Work Product
- Submission
+References: <20190819213755.26175-1-richard.henderson@linaro.org>
+ <20190819213755.26175-22-richard.henderson@linaro.org>
+ <CAFEAcA8saD6zkOA7-6nF5jQBMgKPLv0L3WXV2m0Y4WtHwVqWgw@mail.gmail.com>
+In-Reply-To: <CAFEAcA8saD6zkOA7-6nF5jQBMgKPLv0L3WXV2m0Y4WtHwVqWgw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 27 Aug 2019 11:46:33 +0100
+Message-ID: <CAFEAcA-PG1Jd2F-DLp7yKQest3aWqb3pv4FjUB9movDf4VgWgA@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v2 21/68] target/arm: Convert
+ Synchronization primitives
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,53 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 27 Aug 2019 at 11:44, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 19 Aug 2019 at 22:38, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> >  target/arm/translate.c | 560 ++++++++++++++++++++++-------------------
+> >  target/arm/a32.decode  |  48 ++++
+> >  target/arm/t32.decode  |  46 ++++
+> >  3 files changed, 396 insertions(+), 258 deletions(-)
+>
+> > +static bool trans_STREXD_a32(DisasContext *s, arg_STREX *a)
+> > +{
+> > +    if (!ENABLE_ARCH_6K || (a->rt & 1)) {
+> > +        return false;
+> > +    }
+> > +    a->rt2 = a->rt + 1;
+> > +    return op_strex(s, a, MO_64, false);
+> > +}
+>
+> I've just noticed that there's a bug in these checks -- the
+> M-profile CPUs don't have the V6K feature, but they should
+> still have STREXB/STREXH/STREXD, and with this test they'll
+> incorrectly UNDEF them.
 
---wq9mPyueHGvFACwf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+...OK, not this specific function, as I just noticed it's the _a32
+one, but trans_STREXB(), trans_STREXH(), etc are wrong.
 
-On Sun, Aug 25, 2019 at 03:30:49PM -0400, Jan Bobek wrote:
-> Hi folks,
->=20
-> those of you who have been keeping up with Google Summer of Code
-> this year might know that it's nearly over -- meaning that it's
-> time for me to summarize all the work that I have done as a
-> participant. Without further ado, you can find the summary
-> attached below.
->=20
-> Huge thanks to everyone who made this possible!
->=20
-> Best,
-> -Jan Bobek
-
-Thanks for your contributions, Jan!
-
-If you have the opportunity to attend KVM Forum 2019 in Lyon, France it
-would allow you to meet many members of the QEMU community:
-https://events.linuxfoundation.org/events/kvm-forum-2019/
-
-Stefan
-
---wq9mPyueHGvFACwf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1lCbAACgkQnKSrs4Gr
-c8jlywf+Napeh+uvoYFpnRAvKdVvZSI+qc/dpr5qQ9bje+NmD5y5DU1b+LjPryuG
-EZnXBWyhNVdPtw6QHKY77qV+E2f+9blOMFIspxF01e9QjM11Z8T6mofs4Viq6Yi4
-4DBrOycLH+AOYGsRAn9OuXRR7Ffy9WW24XfcDIQLhKzrdfvu6yHcT6lk5NjZKCaz
-jZpM9jkBdH5Cu1YIdK/Njd+ZKTHqrRXC9id3R4t+yDA7yjod50Z1QUaGfQQD/M+e
-EKJyj4UCPA4DdO6FfGtnthuEaQskkm7LMa5Zi+bl/88Kwka8hGvb1icnMvjJ4JJw
-4zgxsbylI3muy7Bld3o6Y3kJ3H+y2A==
-=kq7H
------END PGP SIGNATURE-----
-
---wq9mPyueHGvFACwf--
+thanks
+-- PMM
 
