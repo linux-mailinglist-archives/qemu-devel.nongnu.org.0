@@ -2,52 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C9E9E613
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 12:50:06 +0200 (CEST)
-Received: from localhost ([::1]:49488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707959E62C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 12:52:47 +0200 (CEST)
+Received: from localhost ([::1]:49516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2Z37-0004VF-ES
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 06:50:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34648)
+	id 1i2Z5i-0006No-9B
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 06:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34801)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tony.nguyen@bt.com>) id 1i2Z0J-000358-EM
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 06:47:12 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1i2Z1C-0003ks-J1
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 06:48:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1i2Z0G-0002N0-Lg
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 06:47:10 -0400
-Received: from nsstlmta27p.bpe.bigpond.com ([203.38.21.27]:41403)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1i2Z0F-0002F4-Ko; Tue, 27 Aug 2019 06:47:08 -0400
-Received: from smtp.telstra.com ([10.10.24.4])
- by nsstlfep27p-svc.bpe.nexus.telstra.com.au with ESMTP id
- <20190827104659.YENC27545.nsstlfep27p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
- Tue, 27 Aug 2019 20:46:59 +1000
-X-RG-Spam: Unknown
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduvddrudehjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfupfevtfgpvffgnffuvffttedpqfgfvfenuceurghilhhouhhtmecugedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfhfgggtuggjfgesthdtredttdervdenucfhrhhomhepvfhonhihucfpghhuhigvnhcuoehtohhnhidrnhhguhihvghnsegsthdrtghomheqnecukfhppeehkedrudejfedrleekrdeikeenucfrrghrrghmpehhvghlohepihhmrggtrdhlohgtrghlpdhinhgvthepheekrddujeefrdelkedrieekpdhmrghilhhfrhhomhepoehtohhnhidrnhhguhihvghnsegsthdrtghomheqpdhrtghpthhtohepoegrrhhmsghruhesrhgvughhrghtrdgtohhmqedprhgtphhtthhopeeosggvrhhrrghnghgvsehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoehfrghmsegvuhhphhhonhdrnhgvtheqpdhrtghpthhtohepoehkfiholhhfsehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoehmlhgvvhhithhskhesrhgvughhrghtrdgtohhmqedprhgtphhtthhopeeomhhrvghithiisehrvgguhhgrthdrtghomheqpdhrtghpthhtohepoehqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgqedprhgtphhtthhopeeoqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgheqpdhrtghpthhtohepoehsthgvfhgrnhhhrgesrhgv
- ughhrghtrdgtohhmqeenucevlhhushhtvghrufhiiigvpedt
-X-RazorGate-Vade-Verdict: clean 0
-X-RazorGate-Vade-Classification: clean
-X-RG-VS-CLASS: clean
-X-Authentication-Info: Submitted using ID tony.nguyen.git@bigpond.com
-Received: from imac.local (58.173.98.68) by smtp.telstra.com (5.8.335)
- (authenticated as tony.nguyen.git@bigpond.com)
- id 5D3581440E3A0E39; Tue, 27 Aug 2019 20:46:59 +1000
-Date: Tue, 27 Aug 2019 20:46:53 +1000
-From: Tony Nguyen <tony.nguyen@bt.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Message-ID: <20190827104653.GA73303@imac.local>
-References: <20190826135103.22410-1-mlevitsk@redhat.com>
- <20190826135103.22410-2-mlevitsk@redhat.com>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1i2Z1A-0003AP-Qa
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 06:48:06 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40710)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1i2Z1A-00035L-9C
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 06:48:04 -0400
+Received: by mail-wm1-x344.google.com with SMTP id c5so2482996wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 03:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=G6Xz5b9mQGLHmuLuTvASA++wPnpdR1LdTE7PleJrzho=;
+ b=hHtKB1bZRDBbewFTrp9jG8GS1+x5NruohJAm09biCTrhouQjfPK9kv1ExzGDrltrwN
+ tPHURRpwOX/CNLRottPBbpEZO+KUddOmVvZoNj7RftPWSEW7UhWGdJiGNaHJewPtU5hU
+ EXugG86AeF/wuaJxj/0yCb/p0VChJFGO5/n5VIiF8tH2cy5hii1JfbAGlbHumfYxhIvU
+ pNJYKD+/8PhZZrAzcIYV01+AejZ8srin6JXmjaORurFP77CbUKX2/rn1YEyBfrgQoauW
+ ATe07+9L67KrEcxZm5JgX8VAnR/AfSopkkIAkicNqamXIi/sFjlhvNp21clSid76UwrQ
+ yTJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=G6Xz5b9mQGLHmuLuTvASA++wPnpdR1LdTE7PleJrzho=;
+ b=UA0iTcnZ8ZK0WomoRhD2wFH3qmFL6WeCko3mINaD8x+VNwZHY+oHKfKZ6e+Pwys0N7
+ Gi2i5tLg6FdyoW1HdFzMc6+ZnUDxWi+xZ2JOuW1cm0c5ws3UxI6SSEfA5jDJpA3QsJ7B
+ eTHq7orYjmxkuM5M1T/2CMY3tpLwtoUyWK0b/9H7wsx6H5FbXv1QwV3ikjQ98QYDp+VD
+ hD5zEUokqVKwv8tgTV9hSJ7AnQKAodR738MY1i0vdXoLanX2meYcVUxe0J9AGdBws2Gz
+ 67eQWJCn+gYH6eGEKftUGuO2g2R44XSKQ77al5hwfpdMg1B2/9lOStbqNV1xT4ITB5IB
+ iE7w==
+X-Gm-Message-State: APjAAAX39evtCdU9uBhdfc29p+a1ao5aB/Mk5NEnIbHQzDAmmONlS0Ul
+ y3AW3R2hjP4ytZRw3DdCFm71gcEFPLiEC6Z6y3I=
+X-Google-Smtp-Source: APXvYqwbfKJSCRtpviQIApT5V5ttEz9jPijxivzoO6vqMd/szPHHAQK+QgusVF55UeVmdLhLOxZWTO/j9obMU2/FXDc=
+X-Received: by 2002:a05:600c:22c6:: with SMTP id
+ 6mr27666268wmg.5.1566902881030; 
+ Tue, 27 Aug 2019 03:48:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190826135103.22410-2-mlevitsk@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 203.38.21.27
-Subject: Re: [Qemu-devel] [PATCH v2 01/13] introduce g_autowipe
+References: <20190827083124.30791-1-johannes@sipsolutions.net>
+In-Reply-To: <20190827083124.30791-1-johannes@sipsolutions.net>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 27 Aug 2019 14:47:48 +0400
+Message-ID: <CAJ+F1CJo+oo74_Y6c1PGKq4uULUKXwky3cxSpopxLVmcow-9_w@mail.gmail.com>
+To: Johannes Berg <johannes@sipsolutions.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH] libvhost-user-glib: fix VugDev main fd
+ cleanup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,31 +75,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Johannes Berg <johannes.berg@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Maxim,
+Hi
 
-On Mon, Aug 26, 2019 at 04:50:51PM +0300, Maxim Levitsky wrote:
-> 2. is it portable enought for us to use malloc_usable_size
-> to get the size of malloced pointer in the autofree callback?
-> This function is aviable in glibc (but no wrapper in glib).
+On Tue, Aug 27, 2019 at 12:32 PM Johannes Berg
+<johannes@sipsolutions.net> wrote:
+>
+> From: Johannes Berg <johannes.berg@intel.com>
+>
+> If you try to make a device implementation that can handle multiple
+> connections and allow disconnections (which requires overriding the
+> VHOST_USER_NONE handling), then glib will warn that we remove a src
+> while it's still on the mainloop, and will poll() an FD that doesn't
+> exist anymore.
+>
+> Fix this by just using the internal add_watch() function that has
+> all necessary cleanups built in via the hashtable, rather than
+> treating the "main" fd of a device specially.
 
-We will also need to consider host portability: malloc_usable_size
-for Linux, malloc_size for MacOS, _msize for Windows, etc.
+It would be easier to see a backtrace of the error (under gdb with
+G_DEBUG=3Dfatal_criticals)
 
-[...]
+>
+> Fixes: 8bb7ddb78a1c ("libvhost-user: add glib source helper")
+> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+> ---
+>  contrib/libvhost-user/libvhost-user-glib.c | 3 +--
+>  contrib/libvhost-user/libvhost-user-glib.h | 1 -
+>  2 files changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/contrib/libvhost-user/libvhost-user-glib.c b/contrib/libvhos=
+t-user/libvhost-user-glib.c
+> index 99edd2f3de45..a092a55c1d57 100644
+> --- a/contrib/libvhost-user/libvhost-user-glib.c
+> +++ b/contrib/libvhost-user/libvhost-user-glib.c
+> @@ -146,7 +146,7 @@ vug_init(VugDev *dev, uint16_t max_queues, int socket=
+,
+>      dev->fdmap =3D g_hash_table_new_full(NULL, NULL, NULL,
+>                                         (GDestroyNotify) g_source_destroy=
+);
+>
+> -    dev->src =3D vug_source_new(dev, socket, G_IO_IN, vug_watch, NULL);
+> +    set_watch(&dev->parent, socket, VU_WATCH_IN, vug_watch, NULL);
+>
+>      return true;
+>  }
+> @@ -157,5 +157,4 @@ vug_deinit(VugDev *dev)
+>      g_assert(dev);
+>
+>      g_hash_table_unref(dev->fdmap);
+> -    g_source_unref(dev->src);
 
-> +#include <stddef.h>
-> +#include <malloc.h>
+I think the main problem here is that src is not owned, since
+vug_source_new() does g_source_unref(). This is looks unfortunate.
 
-Again host portability, <malloc.h> is not present on MacOS.
+However, the source should be destroyed (detached from the main
+context). I think this is ultimately what your change is about.
 
-Regards,
-Tony
+Imho, we should change the behaviour of the function to return a ref
+source. This needs fixing the hashtable destroy callback. It will be
+more consistent with other usages of the functions that also need
+fixing in contrib/vhost-user-input/main.c for example.
+
+
+>  }
+> diff --git a/contrib/libvhost-user/libvhost-user-glib.h b/contrib/libvhos=
+t-user/libvhost-user-glib.h
+> index 64d539d93aba..32a6ec6df063 100644
+> --- a/contrib/libvhost-user/libvhost-user-glib.h
+> +++ b/contrib/libvhost-user/libvhost-user-glib.h
+> @@ -22,7 +22,6 @@ typedef struct VugDev {
+>      VuDev parent;
+>
+>      GHashTable *fdmap; /* fd -> gsource */
+> -    GSource *src;
+>  } VugDev;
+>
+>  bool vug_init(VugDev *dev, uint16_t max_queues, int socket,
+> --
+> 2.23.0
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
