@@ -2,54 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17209F403
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 22:25:27 +0200 (CEST)
-Received: from localhost ([::1]:58138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F5D9F430
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 22:35:03 +0200 (CEST)
+Received: from localhost ([::1]:58382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2i1u-0006Se-Pk
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 16:25:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51918)
+	id 1i2iBC-0004uf-Up
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 16:35:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i2hvV-0007TP-6G
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 16:18:50 -0400
+ (envelope-from <stefanha@redhat.com>) id 1i2i9z-00045v-R7
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 16:33:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i2hvT-0001Io-Bt
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 16:18:48 -0400
-Resent-Date: Tue, 27 Aug 2019 16:18:48 -0400
-Resent-Message-Id: <E1i2hvT-0001Io-Bt@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21500)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i2hvT-0001IU-4N
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 16:18:47 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1566937114; cv=none; d=zoho.com; s=zohoarc; 
- b=LHudhouFyQbEtY4v/WwMWjCt+VngRzjTaCXCuzzZQEPICdfBP028gpMKIuyoLBeKVEgG0SJI5R8GT212IRo0drYXia6nD/34xcnaUJ17VH0LM6m0hYoBcxY5RswJe7N+oxtmIj/OIAjRnLc54r61pwDBjlA82+5AkoU3v/Xmjec=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1566937114;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=xoTIpnxovAd01fK+2+0ElNZaTL3CN3qiE5d7ZbRraIQ=; 
- b=jvmmfieyELfjYYH9799KdiE6YsqYdikzAgrFAc9RNemt+PrFxgwUXPIECn/9L+vgK6TGMYtCMVmJwU00BAoX1xB4GzSzYdskaca4jzmYejbcFjkFs+pkobgge9g4kJACy8/JYDwy8AToWGEaxschFWBgUNflpNIdNELX2BbRPkY=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1566937113789321.95494974541054;
- Tue, 27 Aug 2019 13:18:33 -0700 (PDT)
-In-Reply-To: <20190827194849.7076-1-sandra@codesourcery.com>
-Message-ID: <156693711258.19632.14897118875137435674@5dec9699b7de>
+ (envelope-from <stefanha@redhat.com>) id 1i2i9x-0008MJ-Hy
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 16:33:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52142)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i2i9x-0008Lx-Ch
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 16:33:45 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 64C792CD7E5;
+ Tue, 27 Aug 2019 20:33:44 +0000 (UTC)
+Received: from localhost (ovpn-116-148.ams2.redhat.com [10.36.116.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E07B5C220;
+ Tue, 27 Aug 2019 20:33:40 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 27 Aug 2019 21:33:39 +0100
+Message-Id: <20190827203340.31195-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: sandra@codesourcery.com
-Date: Tue, 27 Aug 2019 13:18:33 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Tue, 27 Aug 2019 20:33:44 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH] gdbstub: Fix handler for 'F' packet
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/1] Tracing patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,36 +53,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, philmd@redhat.com, qemu-devel@nongnu.org,
- arilou@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDgyNzE5NDg0OS43MDc2
-LTEtc2FuZHJhQGNvZGVzb3VyY2VyeS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwODI3MTk0ODQ5LjcwNzYtMS1zYW5kcmFA
-Y29kZXNvdXJjZXJ5LmNvbQpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRD
-SF0gZ2Ric3R1YjogRml4IGhhbmRsZXIgZm9yICdGJyBwYWNrZXQKCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4
-aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1s
-b2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0g
-aGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBU
-RVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0
-NGJkODg4NzEzMzg0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKMDc0NGI0YiBnZGJz
-dHViOiBGaXggaGFuZGxlciBmb3IgJ0YnIHBhY2tldAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJS
-T1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiMz
-NzogRklMRTogZ2Ric3R1Yi5jOjE4Mjc6CisgICAgICAgIGlmIChnZGJfY3R4LT5udW1fcGFyYW1z
-ID49IDIgKSB7Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDE3IGxpbmVzIGNoZWNrZWQK
-CkNvbW1pdCAwNzQ0YjRiNGIwNmIgKGdkYnN0dWI6IEZpeCBoYW5kbGVyIGZvciAnRicgcGFja2V0
-KSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
-b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
-ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
-bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
-dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDgyNzE5NDg0OS43MDc2LTEtc2FuZHJhQGNvZGVz
-b3VyY2VyeS5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
-ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
-ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+The following changes since commit dac03af5d5482ec7ee9c23db467bb7230b33c0=
+d9:
+
+  Merge remote-tracking branch 'remotes/rth/tags/pull-axp-20190825' into =
+staging (2019-08-27 10:00:51 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/stefanha/qemu.git tags/tracing-pull-request
+
+for you to fetch changes up to 9f591a5d95e1969969632ab44cf35e505c8ddc3b:
+
+  trace: Clarify DTrace/SystemTap help message (2019-08-27 15:12:36 +0100=
+)
+
+----------------------------------------------------------------
+Pull request
+
+----------------------------------------------------------------
+
+Philippe Mathieu-Daud=C3=A9 (1):
+  trace: Clarify DTrace/SystemTap help message
+
+ trace/control.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+--=20
+2.21.0
 
 
