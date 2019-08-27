@@ -2,60 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E829E9B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 15:42:32 +0200 (CEST)
-Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126659E974
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 15:33:13 +0200 (CEST)
+Received: from localhost ([::1]:51522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2bk0-0004WO-2b
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 09:42:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33313)
+	id 1i2bax-0005mN-Vy
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 09:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59862)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i2biO-0003Wi-Dw
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:40:53 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i2bZO-0005Jl-3V
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:31:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i2biN-0007mN-9V
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:40:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46212)
+ (envelope-from <alex.bennee@linaro.org>) id 1i2bZM-0004AK-3B
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:31:33 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37278)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i2biN-0007ly-34
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:40:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i2biM-0000Kv-Bl
- for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 13:40:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 57C4B2E80C7
- for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 13:40:50 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Aug 2019 13:26:40 -0000
-From: Paul Clarke <pc@us.ibm.com>
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i2bZL-00048H-QW
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:31:32 -0400
+Received: by mail-wm1-x341.google.com with SMTP id d16so3060384wme.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 06:31:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=M0M6shkvkyuQl6x9JyXrGtyzGJCvsxTALaLL9u58TCk=;
+ b=ydj6hCWo6Q6UpRjSeKaZku0z5cpVqEK2/UNNH/QanEk/uBzoNlxauXNbpRAuKjq4vL
+ 73Q6/AiTk4e4C+dJz6cMicYJ4nuwmF6LOPRpKjPHruMlSVyVT2z9Rf1wSNfDvs1UZ/NC
+ AvlEoi5YzBX5zpth32JgWt6eRhPX8taBegny2X8xhEyXzsnPelsPL1hfaWq5z7N2KyDC
+ 8TBF4MCnkceCR7SJvD3QJa+RqxID1qYPROv3mAtf716ylYoIVVrTQ/rcZzPZp7RlhhJ1
+ sDnauCTAf9Rx56oUdDFnf3bvuva7oJP+8ubHj/Xle8Ge2YgsE0ZKyLnPAnJr5ItiLGMI
+ OcOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=M0M6shkvkyuQl6x9JyXrGtyzGJCvsxTALaLL9u58TCk=;
+ b=Y1wV2GIJ3FWZduLmO3EWbZGh9ruCVZGrhGwJ6KVocVHuB74DiLfcttTM7q7eMTonGp
+ Uy3rBY4lE1ddU/Zw19OTf8ihx6rdlfHEoa4Igd9BvEHmXTzuKth+D3rc7BdtJsnz98B9
+ 32AzZEdxsLCl9bDAbaD/4JZAjupW8VX3Rzsums6JqRsmnnuDFRKOxW1EpMYkzFQpgjWf
+ lVNoppMMmbC+3TIVEHnkqSg6XBXAjcrQKtgrBJxJIA1oZlVHFL+zhlQo8f9835g0drFZ
+ cZ8/rIEwgqgUJA7DJ3BJxn9s7RqMqlrr+whVnf1DzGBqsSThsTiUrLRJKd+8keo5efM3
+ 2oIQ==
+X-Gm-Message-State: APjAAAUDmNb3+/VkDD8Iveog89DqcfT8Aa5jGIKAUaiVpRnHK5We/V3I
+ TKSesxT6LQp4Iaxi3YUwP/vXYQ==
+X-Google-Smtp-Source: APXvYqyKSioe+MuwGNzAQ+PSIPf0uOpCsOUUTYcE8zwkD3Ppn+NXbR2qyDLzmRGmAKbR451I9Z+vbw==
+X-Received: by 2002:a1c:5402:: with SMTP id i2mr28330891wmb.41.1566912683131; 
+ Tue, 27 Aug 2019 06:31:23 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f192sm2760484wmg.30.2019.08.27.06.31.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Aug 2019 06:31:22 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C25D91FF87;
+ Tue, 27 Aug 2019 14:31:21 +0100 (BST)
+References: <20190821172329.2062-1-vandersonmr2@gmail.com>
+ <20190821172329.2062-7-vandersonmr2@gmail.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 7-pc
-X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
-X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
-References: <156691209320.18814.746226319480624520.malonedeb@soybean.canonical.com>
-Message-Id: <156691240007.5168.326712007969197233.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19034";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 14db4dc359edb0fad579e2bad29532ccfdfd3c67
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1841592] Re: ppc: softfloat float implementation
- issues
+In-reply-to: <20190821172329.2062-7-vandersonmr2@gmail.com>
+Date: Tue, 27 Aug 2019 14:31:21 +0100
+Message-ID: <87o90a68gm.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v6 06/10] log: adding -d tb_stats to
+ control tbstats
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,59 +83,246 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1841592 <1841592@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
--- ppc64le native:
-$ gcc -c -O2 ffma.c
-$ gcc -O2 test-ffma.c ffma.o -lm -o test-ffma
-$ ./test-ffma $(./test-ffma)
-ffma(0x1p-149, 0x1p-149, 0x1p-149)
-0x0
 
-0xa000000
-FE_INEXACT FE_UNDERFLOW =
+vandersonmr <vandersonmr2@gmail.com> writes:
 
-0x1p-149
+> Adding -d tb_stats to control TBStatistics collection:
+>
+>  -d tb_stats[[,level=3D(+all+jit+exec+time)][,dump_limit=3D<number>]]
+>
+> "dump_limit" is used to limit the number of dumped TBStats in
+> linux-user mode.
+>
+> [all+jit+exec+time] control the profilling level used
+> by the TBStats. Can be used as follow:
+>
+> -d tb_stats
+> -d tb_stats,level=3Djit+time
+> -d tb_stats,dump_limit=3D15
+> ...
+>
+> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+> ---
+>  accel/tcg/tb-stats.c      |  1 +
+>  accel/tcg/translator.c    |  1 +
+>  include/exec/gen-icount.h |  1 +
+>  include/exec/tb-stats.h   | 15 ---------------
+>  include/qemu-common.h     | 15 +++++++++++++++
+>  include/qemu/log.h        |  1 +
+>  tcg/tcg.c                 |  1 +
+>  util/log.c                | 35 +++++++++++++++++++++++++++++++++++
+>  8 files changed, 55 insertions(+), 15 deletions(-)
+>
+> diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
+> index e0ac254fc1..8554174360 100644
+> --- a/accel/tcg/tb-stats.c
+> +++ b/accel/tcg/tb-stats.c
+> @@ -3,6 +3,7 @@
+>  #include "disas/disas.h"
+>  #include "exec/exec-all.h"
+>  #include "tcg.h"
+> +#include "qemu-common.h"
+>
+>  #include "qemu/qemu-print.h"
+>
+> diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+> index 834265d5be..ea7c3a9f77 100644
+> --- a/accel/tcg/translator.c
+> +++ b/accel/tcg/translator.c
+> @@ -16,6 +16,7 @@
+>  #include "exec/gen-icount.h"
+>  #include "exec/log.h"
+>  #include "exec/translator.h"
+> +#include "qemu-common.h"
+>
+>  /* Pairs with tcg_clear_temp_count.
+>     To be called by #TranslatorOps.{translate_insn,tb_stop} if
+> diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
+> index b3efe41894..6f54586dd6 100644
+> --- a/include/exec/gen-icount.h
+> +++ b/include/exec/gen-icount.h
+> @@ -2,6 +2,7 @@
+>  #define GEN_ICOUNT_H
+>
+>  #include "qemu/timer.h"
+> +#include "qemu-common.h"
+>
+>  /* Helpers for instruction counting code generation.  */
+>
+> diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
+> index 0ea2639fd2..a607ceaa53 100644
+> --- a/include/exec/tb-stats.h
+> +++ b/include/exec/tb-stats.h
+> @@ -79,21 +79,6 @@ void init_tb_stats_htable_if_not(void);
+>  void dump_jit_profile_info(TCGProfile *s);
+>
+>  /* TBStatistic collection controls */
+> -enum TBStatsStatus {
+> -    TB_STATS_DISABLED =3D 0,
+> -    TB_STATS_RUNNING,
+> -    TB_STATS_PAUSED,
+> -    TB_STATS_STOPPED
+> -};
+> -
+> -#define TB_NOTHING    (1 << 0)
+> -#define TB_EXEC_STATS (1 << 1)
+> -#define TB_JIT_STATS  (1 << 2)
+> -#define TB_JIT_STATS  (1 << 3)
+> -
+> -extern int tcg_collect_tb_stats;
+> -extern uint32_t default_tbstats_flag;
+> -
+>  void enable_collect_tb_stats(void);
+>  void disable_collect_tb_stats(void);
+>  void pause_collect_tb_stats(void);
+> diff --git a/include/qemu-common.h b/include/qemu-common.h
+> index 0235cd3b91..3930b61ec0 100644
+> --- a/include/qemu-common.h
+> +++ b/include/qemu-common.h
+> @@ -130,4 +130,19 @@ void page_size_init(void);
+>   * returned. */
+>  bool dump_in_progress(void);
+>
+> +enum TBStatsStatus {
+> +    TB_STATS_DISABLED =3D 0,
+> +    TB_STATS_RUNNING,
+> +    TB_STATS_PAUSED,
+> +    TB_STATS_STOPPED
+> +};
+> +
+> +#define TB_NOTHING    (1 << 0)
+> +#define TB_EXEC_STATS (1 << 1)
+> +#define TB_JIT_STATS  (1 << 2)
+> +#define TB_JIT_TIME   (1 << 3)
+> +
+> +extern int tcg_collect_tb_stats;
+> +extern uint32_t default_tbstats_flag;
+> +
 
--- qemu-system-ppc64:
-$ ./test-ffma $(./test-ffma)
-ffma(0x1p-149, 0x1p-149, 0x1p-149)
-0x0
+This seems like a regression, why move from tb-stats.h? We should
+certainly resist dumping more stuff in qemu-common.h.
 
-0x2000000
-FE_INEXACT =
+>  #endif
+> diff --git a/include/qemu/log.h b/include/qemu/log.h
+> index b097a6cae1..a8d1997cde 100644
+> --- a/include/qemu/log.h
+> +++ b/include/qemu/log.h
+> @@ -45,6 +45,7 @@ static inline bool qemu_log_separate(void)
+>  /* LOG_TRACE (1 << 15) is defined in log-for-trace.h */
+>  #define CPU_LOG_TB_OP_IND  (1 << 16)
+>  #define CPU_LOG_TB_FPU     (1 << 17)
+> +#define CPU_LOG_TB_STATS   (1 << 18)
+>
+>  /* Lock output for a series of related logs.  Since this is not needed
+>   * for a single qemu_log / qemu_log_mask / qemu_log_mask_and_addr, we
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 1a306e1ec9..08f3d50199 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -35,6 +35,7 @@
+>  #include "qemu/host-utils.h"
+>  #include "qemu/qemu-print.h"
+>  #include "qemu/timer.h"
+> +#include "qemu-common.h"
+>
+>  /* Note: the long term plan is to reduce the dependencies on the QEMU
+>     CPU definitions. Currently they are used for qemu_ld/st
+> diff --git a/util/log.c b/util/log.c
+> index 29021a4584..09cfb13b45 100644
+> --- a/util/log.c
+> +++ b/util/log.c
+> @@ -19,17 +19,20 @@
+>
+>  #include "qemu/osdep.h"
+>  #include "qemu/log.h"
+> +#include "qemu/qemu-print.h"
+>  #include "qemu/range.h"
+>  #include "qemu/error-report.h"
+>  #include "qapi/error.h"
+>  #include "qemu/cutils.h"
+>  #include "trace/control.h"
+> +#include "qemu-common.h"
 
-0x1p-149
+So the root problem you are trying to get around is we can't pollute
+common code like logging with CPU definitions (which are required for
+ram_addr_t stuff).
+
+The solution for this is to split the enums and "common code facing" API
+functions into another header (tb-stats-flags.h?) which doesn't need to
+pull in the target specific bits.
+
+>
+>  static char *logfilename;
+>  FILE *qemu_logfile;
+>  int qemu_loglevel;
+>  static int log_append =3D 0;
+>  static GArray *debug_regions;
+> +int32_t max_num_hot_tbs_to_dump;
+>
+>  int tcg_collect_tb_stats;
+>  uint32_t default_tbstats_flag;
+> @@ -276,6 +279,9 @@ const QEMULogItem qemu_log_items[] =3D {
+>      { CPU_LOG_TB_NOCHAIN, "nochain",
+>        "do not chain compiled TBs so that \"exec\" and \"cpu\" show\n"
+>        "complete traces" },
+> +    { CPU_LOG_TB_STATS, "tb_stats[[,level=3D(+all+jit+exec+time)][,dump_=
+limit=3D<number>]]",
+> +      "enable collection of TBs statistics"
+> +      "(and dump until given a limit if in user mode).\n" },
+>      { 0, NULL, NULL },
+>  };
+>
+> @@ -297,6 +303,35 @@ int qemu_str_to_log_mask(const char *str)
+>              trace_enable_events((*tmp) + 6);
+>              mask |=3D LOG_TRACE;
+>  #endif
+> +        } else if (g_str_has_prefix(*tmp, "tb_stats")) {
+> +            mask |=3D CPU_LOG_TB_STATS;
+> +            default_tbstats_flag =3D TB_JIT_STATS | TB_EXEC_STATS | TB_J=
+IT_TIME;
+> +            tcg_collect_tb_stats =3D TB_STATS_RUNNING;
+> +        } else if (tcg_collect_tb_stats =3D=3D TB_STATS_RUNNING &&
+> +                g_str_has_prefix(*tmp, "dump_limit=3D")) {
+> +
+> +            max_num_hot_tbs_to_dump =3D atoi((*tmp) + 11);
+> +        } else if (tcg_collect_tb_stats =3D=3D TB_STATS_RUNNING &&
+> +                g_str_has_prefix(*tmp, "level=3D")) {
+> +
+> +            default_tbstats_flag =3D 0;
+> +            char **level_parts =3D g_strsplit(*tmp + 6, "+", 0);
+> +            char **level_tmp;
+> +            for (level_tmp =3D level_parts; level_tmp && *level_tmp; lev=
+el_tmp++) {
+> +                if (g_str_equal(*level_tmp, "jit")) {
+> +                    default_tbstats_flag |=3D TB_JIT_STATS;
+> +                } else if (g_str_equal(*level_tmp, "exec")) {
+> +                    default_tbstats_flag |=3D TB_EXEC_STATS;
+> +                } else if (g_str_equal(*level_tmp, "time")) {
+> +                    default_tbstats_flag |=3D TB_JIT_TIME;
+> +                } else if (g_str_equal(*level_tmp, "all")) {
+> +                    default_tbstats_flag |=3D TB_JIT_STATS | TB_EXEC_STA=
+TS | TB_JIT_TIME;
+> +                } else {
+> +                    fprintf(stderr, "no option level=3D%s, valid options=
+ are:"
+> +                            "all, jit, exec or/and time\n", *level_tmp);
+> +                    exit(1);
+> +                }
+> +            }
+
+I'm pretty sure the string vector needs freeing once your done (g_strfreev(=
+))
+
+>          } else {
+>              for (item =3D qemu_log_items; item->mask !=3D 0; item++) {
+>                  if (g_str_equal(*tmp, item->name)) {
 
 
-** Attachment added: "2nd file of float test case"
-   https://bugs.launchpad.net/qemu/+bug/1841592/+attachment/5284931/+files/=
-ffma.c
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1841592
-
-Title:
-  ppc: softfloat float implementation issues
-
-Status in QEMU:
-  New
-
-Bug description:
-  Per bug #1841491, Richard Henderson (rth) said:
-  > The float test failure is part of a larger problem for target/powerpc
-  > in which all float routines are implemented incorrectly. They are all
-  > implemented as double operations with rounding to float as a second
-  > step. Which not only produces incorrect exceptions, as in this case,
-  > but incorrect numerical results from the double rounding.
-  >
-  > This should probably be split to a separate bug...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1841592/+subscriptions
+--
+Alex Benn=C3=A9e
 
