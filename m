@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49FE9F070
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 18:40:08 +0200 (CEST)
-Received: from localhost ([::1]:54018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADCA9F06D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 18:39:49 +0200 (CEST)
+Received: from localhost ([::1]:54016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2eVr-0007w2-Q2
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 12:40:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35005)
+	id 1i2eVY-0007sU-5j
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 12:39:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35042)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i2eQp-0003Wy-Av
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 12:34:56 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i2eQv-0003ed-1a
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 12:35:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i2eQm-0000Gt-QI
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 12:34:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:28706)
+ (envelope-from <mreitz@redhat.com>) id 1i2eQt-0000KM-Nc
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 12:35:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:64120)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i2eQk-0000FH-BN; Tue, 27 Aug 2019 12:34:50 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1i2eQq-0000IC-Gh; Tue, 27 Aug 2019 12:34:56 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8F15F66C46;
- Tue, 27 Aug 2019 16:34:49 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D2733106E299;
+ Tue, 27 Aug 2019 16:34:55 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2821D196AE;
- Tue, 27 Aug 2019 16:34:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6A295D772;
+ Tue, 27 Aug 2019 16:34:53 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 27 Aug 2019 18:34:36 +0200
-Message-Id: <20190827163439.16686-4-mreitz@redhat.com>
+Date: Tue, 27 Aug 2019 18:34:38 +0200
+Message-Id: <20190827163439.16686-6-mreitz@redhat.com>
 In-Reply-To: <20190827163439.16686-1-mreitz@redhat.com>
 References: <20190827163439.16686-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 27 Aug 2019 16:34:49 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Tue, 27 Aug 2019 16:34:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/6] curl: Pass CURLSocket to curl_multi_{do,
- read}()
+Subject: [Qemu-devel] [PATCH 5/6] curl: Handle success in
+ multi_check_completion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,90 +60,147 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-curl_multi_do_locked() currently marks all sockets as ready.  That is
-not only inefficient, but in fact unsafe (the loop is).  A follow-up
-patch will change that, but to do so, curl_multi_do_locked() needs to
-know exactly which socket is ready; and that is accomplished by this
-patch here.
+Background: As of cURL 7.59.0, it verifies that several functions are
+not called from within a callback.  Among these functions is
+curl_multi_add_handle().
 
+curl_read_cb() is a callback from cURL and not a coroutine.  Waking up
+acb->co will lead to entering it then and there, which means the current
+request will settle and the caller (if it runs in the same coroutine)
+may then issue the next request.  In such a case, we will enter
+curl_setup_preadv() effectively from within curl_read_cb().
+
+Calling curl_multi_add_handle() will then fail and the new request will
+not be processed.
+
+Fix this by not letting curl_read_cb() wake up acb->co.  Instead, leave
+the whole business of settling the AIOCB objects to
+curl_multi_check_completion() (which is called from our timer callback
+and our FD read handler, so not from any cURL callbacks).
+
+Reported-by: Natalie Gavrielov <ngavrilo@redhat.com>
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1740193
 Cc: qemu-stable@nongnu.org
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/curl.c | 29 ++++++++++++++++-------------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+ block/curl.c | 69 ++++++++++++++++++++++------------------------------
+ 1 file changed, 29 insertions(+), 40 deletions(-)
 
 diff --git a/block/curl.c b/block/curl.c
-index 8a45b371cc..05f77a38c2 100644
+index bc70f39fcb..5e0cca601d 100644
 --- a/block/curl.c
 +++ b/block/curl.c
-@@ -189,15 +189,15 @@ static int curl_sock_cb(CURL *curl, curl_socket_t f=
-d, int action,
-     switch (action) {
-         case CURL_POLL_IN:
-             aio_set_fd_handler(s->aio_context, fd, false,
--                               curl_multi_read, NULL, NULL, state);
-+                               curl_multi_read, NULL, NULL, socket);
-             break;
-         case CURL_POLL_OUT:
-             aio_set_fd_handler(s->aio_context, fd, false,
--                               NULL, curl_multi_do, NULL, state);
-+                               NULL, curl_multi_do, NULL, socket);
-             break;
-         case CURL_POLL_INOUT:
-             aio_set_fd_handler(s->aio_context, fd, false,
--                               curl_multi_read, curl_multi_do, NULL, sta=
-te);
-+                               curl_multi_read, curl_multi_do, NULL, soc=
-ket);
-             break;
-         case CURL_POLL_REMOVE:
-             aio_set_fd_handler(s->aio_context, fd, false,
-@@ -394,9 +394,10 @@ static void curl_multi_check_completion(BDRVCURLStat=
-e *s)
- }
-=20
- /* Called with s->mutex held.  */
--static void curl_multi_do_locked(CURLState *s)
-+static void curl_multi_do_locked(CURLSocket *ready_socket)
+@@ -231,7 +231,6 @@ static size_t curl_read_cb(void *ptr, size_t size, si=
+ze_t nmemb, void *opaque)
  {
-     CURLSocket *socket, *next_socket;
-+    CURLState *s =3D socket->state;
-     int running;
-     int r;
+     CURLState *s =3D ((CURLState*)opaque);
+     size_t realsize =3D size * nmemb;
+-    int i;
 =20
-@@ -415,21 +416,23 @@ static void curl_multi_do_locked(CURLState *s)
+     trace_curl_read_cb(realsize);
 =20
- static void curl_multi_do(void *arg)
- {
--    CURLState *s =3D (CURLState *)arg;
-+    CURLSocket *socket =3D arg;
-+    BDRVCURLState *s =3D socket->state->s;
+@@ -247,32 +246,6 @@ static size_t curl_read_cb(void *ptr, size_t size, s=
+ize_t nmemb, void *opaque)
+     memcpy(s->orig_buf + s->buf_off, ptr, realsize);
+     s->buf_off +=3D realsize;
 =20
--    qemu_mutex_lock(&s->s->mutex);
--    curl_multi_do_locked(s);
--    qemu_mutex_unlock(&s->s->mutex);
-+    qemu_mutex_lock(&s->mutex);
-+    curl_multi_do_locked(socket);
-+    qemu_mutex_unlock(&s->mutex);
- }
+-    for(i=3D0; i<CURL_NUM_ACB; i++) {
+-        CURLAIOCB *acb =3D s->acb[i];
+-
+-        if (!acb)
+-            continue;
+-
+-        if ((s->buf_off >=3D acb->end)) {
+-            size_t request_length =3D acb->bytes;
+-
+-            qemu_iovec_from_buf(acb->qiov, 0, s->orig_buf + acb->start,
+-                                acb->end - acb->start);
+-
+-            if (acb->end - acb->start < request_length) {
+-                size_t offset =3D acb->end - acb->start;
+-                qemu_iovec_memset(acb->qiov, offset, 0,
+-                                  request_length - offset);
+-            }
+-
+-            acb->ret =3D 0;
+-            s->acb[i] =3D NULL;
+-            qemu_mutex_unlock(&s->s->mutex);
+-            aio_co_wake(acb->co);
+-            qemu_mutex_lock(&s->s->mutex);
+-        }
+-    }
+-
+ read_end:
+     /* curl will error out if we do not return this value */
+     return size * nmemb;
+@@ -353,13 +326,14 @@ static void curl_multi_check_completion(BDRVCURLSta=
+te *s)
+             break;
 =20
- static void curl_multi_read(void *arg)
- {
--    CURLState *s =3D (CURLState *)arg;
-+    CURLSocket *socket =3D arg;
-+    BDRVCURLState *s =3D socket->state->s;
+         if (msg->msg =3D=3D CURLMSG_DONE) {
++            int i;
+             CURLState *state =3D NULL;
++            bool error =3D msg->data.result !=3D CURLE_OK;
++
+             curl_easy_getinfo(msg->easy_handle, CURLINFO_PRIVATE,
+                               (char **)&state);
 =20
--    qemu_mutex_lock(&s->s->mutex);
--    curl_multi_do_locked(s);
--    curl_multi_check_completion(s->s);
--    qemu_mutex_unlock(&s->s->mutex);
-+    qemu_mutex_lock(&s->mutex);
-+    curl_multi_do_locked(socket);
-+    curl_multi_check_completion(s);
-+    qemu_mutex_unlock(&s->mutex);
- }
+-            /* ACBs for successful messages get completed in curl_read_c=
+b */
+-            if (msg->data.result !=3D CURLE_OK) {
+-                int i;
++            if (error) {
+                 static int errcount =3D 100;
 =20
- static void curl_multi_timeout_do(void *arg)
+                 /* Don't lose the original error message from curl, sinc=
+e
+@@ -371,20 +345,35 @@ static void curl_multi_check_completion(BDRVCURLSta=
+te *s)
+                         error_report("curl: further errors suppressed");
+                     }
+                 }
++            }
+=20
+-                for (i =3D 0; i < CURL_NUM_ACB; i++) {
+-                    CURLAIOCB *acb =3D state->acb[i];
++            for (i =3D 0; i < CURL_NUM_ACB; i++) {
++                CURLAIOCB *acb =3D state->acb[i];
+=20
+-                    if (acb =3D=3D NULL) {
+-                        continue;
+-                    }
++                if (acb =3D=3D NULL) {
++                    continue;
++                }
++
++                if (!error) {
++                    /* Assert that we have read all data */
++                    assert(state->buf_off >=3D acb->end);
++
++                    qemu_iovec_from_buf(acb->qiov, 0,
++                                        state->orig_buf + acb->start,
++                                        acb->end - acb->start);
+=20
+-                    acb->ret =3D -EIO;
+-                    state->acb[i] =3D NULL;
+-                    qemu_mutex_unlock(&s->mutex);
+-                    aio_co_wake(acb->co);
+-                    qemu_mutex_lock(&s->mutex);
++                    if (acb->end - acb->start < acb->bytes) {
++                        size_t offset =3D acb->end - acb->start;
++                        qemu_iovec_memset(acb->qiov, offset, 0,
++                                          acb->bytes - offset);
++                    }
+                 }
++
++                acb->ret =3D error ? -EIO : 0;
++                state->acb[i] =3D NULL;
++                qemu_mutex_unlock(&s->mutex);
++                aio_co_wake(acb->co);
++                qemu_mutex_lock(&s->mutex);
+             }
+=20
+             curl_clean_state(state);
 --=20
 2.21.0
 
