@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1719DC5D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:18:33 +0200 (CEST)
-Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23549DC5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:17:15 +0200 (CEST)
+Received: from localhost ([::1]:46418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2SwC-0002Sn-BD
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60629)
+	id 1i2Suv-0001QM-0u
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:17:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60627)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i2StP-0000ui-3X
+ (envelope-from <bounces@canonical.com>) id 1i2StP-0000uY-0P
  for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:15:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i2StN-0002gu-VV
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:15:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40386)
+ (envelope-from <bounces@canonical.com>) id 1i2StN-0002gn-Ow
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:15:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40398)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i2StN-0002gV-Q5
+ id 1i2StN-0002gY-JF
  for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:15:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i2StL-0002Fl-U8
- for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 04:15:35 +0000
+ id 1i2StM-0002Hf-GJ
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 04:15:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E26912E802D
- for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 04:15:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 723492E80C7
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 04:15:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Aug 2019 04:06:38 -0000
+Date: Tue, 27 Aug 2019 04:08:07 -0000
 From: Paul Clarke <pc@us.ibm.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,13 +43,13 @@ X-Launchpad-Bug-Commenters: 7-pc
 X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
 X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
 References: <156686849716.6431.16425651381928336460.malonedeb@gac.canonical.com>
-Message-Id: <156687879834.4807.16452132471732559890.malone@wampee.canonical.com>
+Message-Id: <156687888782.6965.1367413426931573379.malone@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19031";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 4419450b03b43853c35b62e962bb01e32683f001
+X-Launchpad-Hash: 69fb8119a49652948b4117b4153cdd156350d889
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1841491] Re: floating point emulation can fail to
@@ -68,13 +68,9 @@ Reply-To: Bug 1841491 <1841491@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Responding to the patch https://lists.nongnu.org/archive/html/qemu-
-ppc/2019-08/msg00404.html, it seems to work for "double", but not for
-"float". Test case attached.
-
-** Attachment added: "float testcase"
-   https://bugs.launchpad.net/qemu/+bug/1841491/+attachment/5284810/+files/=
-test-ffma.c
+** Attachment added: "2nd file of float testcase"
+   https://bugs.launchpad.net/qemu/+bug/1841491/+attachment/5284821/+files/=
+ffma.c
 
 -- =
 
