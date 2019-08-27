@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C557B9DCAC
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:37:50 +0200 (CEST)
-Received: from localhost ([::1]:46508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5999DCAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:38:38 +0200 (CEST)
+Received: from localhost ([::1]:46512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2TEr-0002FK-GB
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:37:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34357)
+	id 1i2TFd-0003T5-Cl
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shorne@gmail.com>) id 1i2TCg-0001NL-0f
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:35:34 -0400
+ (envelope-from <shorne@gmail.com>) id 1i2TDZ-0002AG-B2
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:36:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shorne@gmail.com>) id 1i2TCf-0001mS-1y
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:35:33 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46993)
+ (envelope-from <shorne@gmail.com>) id 1i2TDY-0002KY-BJ
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:36:29 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:37297)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <shorne@gmail.com>) id 1i2TCe-0001lv-S3
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:35:33 -0400
-Received: by mail-pf1-x444.google.com with SMTP id q139so13226123pfc.13
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 21:35:32 -0700 (PDT)
+ (Exim 4.71) (envelope-from <shorne@gmail.com>) id 1i2TDY-0002KA-1S
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:36:28 -0400
+Received: by mail-pl1-x642.google.com with SMTP id bj8so11123804plb.4
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 21:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=QSmbtUEjqqJ7N49ucH99eHLtO6korQ3ly0i20ZBrvak=;
- b=W9a4HOLOQ0nKqt5s43i68U9Ke2KKcKvdDculQwY/GaJBMdD4srdkrZIkqFL/OpucbH
- RUmXmn1aHLl7wkoKxxBG34FNq8DJi+iB2ihCHT8Ep4Gv5PxDuhNOCoFUzdXbkK7C05de
- Ti1ubCQlx9TSNILoc3vWdtendHjznujp7Lbk+ge2o62E58J5ZTRyYL5SUxsBY00kTkPJ
- iLj0m4t0+LkiOkbplbP5B6jfG45F4swyxFmNMefnRS/RT2poEOCeCtlGjj4sSwTT8qW0
- kalR0teszANDAh5I70W5ansIdCR7wJHBV79amE6dIwqeKdWUb08VQ8APkCbQgWYl8fNx
- 2GaQ==
+ bh=JjyXuznrUXTpIzsRGiqaRxGZNkGydyzvX8Sjm6QnC6A=;
+ b=loLyld9F6qMR8/mTWE9nZWmPoIApXkWLEhvSyxHq5MFVCt2TZkRFhzO8UzBDhzBV0y
+ qfod/iyGtTRl1XP1Q7JZq41UTL5M7Xo0HiFrac48Ww3UokCBRWA4eifhJlgjAKoueoWm
+ SgbfmyY1AynNDABc5BBPbDY7lFeePHR73RLgfG1qVugKPFsBYaQow58x16ZkGsPBC+6e
+ dP+xr3hf8RBNkn7UWWNK7uq/0wH6Cj1mbGSoeSb5dIkh8k+ifv0+ZlJb+OOoZv1Epfj6
+ oxsYk+v+gRP7WoSJFs8JWLnrjsNgGzVpFfzyWQ2k6RxD8IWirINWnr79trkTT9XxH+xx
+ W6cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=QSmbtUEjqqJ7N49ucH99eHLtO6korQ3ly0i20ZBrvak=;
- b=b+zx+wr6gUBaeY7BSZIHYyxkLI36BYOSvnAfpk7WmECwh4hHuyNFoojJjic68rIsKT
- ThojFHyHi74F3b9CVviRmwuW7CM3KCm8hN7jmQkzMSulbgw6/TpVr4s5kbNwlAs6Npci
- YrP2JtMJyj2WCgQ3QqLDj/2kS1mZcz7AVRhjfgPBMKDEfhUvK2fnAdW6yw+m6C9ldNHo
- wEIWNIGj2HPPRv2C+c8zHbz8LBj0iz0FCqKPxmBKVreI9vrZi6gfXfdqvy3X5UacCoZJ
- DpuF17d4ig3WkJwgzmNGn78aUikweC2PEpIWblSVBL5QSD+rpfzIyD1goOUZCPF9OU7n
- pNJg==
-X-Gm-Message-State: APjAAAVWQn/Eqf/g0ieavrSkbmH7N//8FhOpuyy0yceBqC8vFpIKGkaA
- ZxzOI45RjbBQ4gl549HrmU3SGL/3
-X-Google-Smtp-Source: APXvYqyzxiADcTnXczcLo6kvec+yBLDM8WVtcq1Q9KJPEljzWdvMXsTl4jrgwI0smJDGPZjPmpq8Lg==
-X-Received: by 2002:a63:6a4a:: with SMTP id f71mr19202438pgc.409.1566880531490; 
- Mon, 26 Aug 2019 21:35:31 -0700 (PDT)
+ bh=JjyXuznrUXTpIzsRGiqaRxGZNkGydyzvX8Sjm6QnC6A=;
+ b=MyIw47nbF/AMWiuPY8c27vViRVXnbxxHcwZiy2vlw7SbjncGt18ZCs4FHSYqb6TyUk
+ NOYfG9pN/01FGEkaKYKjCDVyh8F0/9yDxDE3Qb4D8E7a4zGN8nyro+VUunRou3oxMPA6
+ xqO2ExmVrZuvlWFW/0pYtsalTbgc83Q5/eseLTRyzxQ/MBOKo/xQYWSwxuq2h2h6Riui
+ 5e3zb6u9fXJWtF67C0i/nOYbRfmHy5Z/krsfKDrqp6T857lj/1QEuJsTnM+WeerCEby3
+ amAI2xgjiYGB4M++tn9QMAYw5U5yAIvRR6OXoauxCAiMHmVDoJWPY2lflUmSaxb/aDNV
+ RIyw==
+X-Gm-Message-State: APjAAAXObgNWPVuUNovfi0/4LH4rh11idthG6Voo4OBEHglxKoeNndm1
+ 01UQg1WxvaN1AtSA23dLrAA=
+X-Google-Smtp-Source: APXvYqywULAXi3xzE0P+BjrxDAMsWdjoU//hWxa9F8R8IgRyGjdFlk0DVBxF5GxhytpWJGtQsEaVNg==
+X-Received: by 2002:a17:902:3064:: with SMTP id
+ u91mr22369825plb.244.1566880587082; 
+ Mon, 26 Aug 2019 21:36:27 -0700 (PDT)
 Received: from localhost (g75.222-224-160.ppp.wakwak.ne.jp. [222.224.160.75])
  by smtp.gmail.com with ESMTPSA id
- y13sm19661364pfb.48.2019.08.26.21.35.30
+ y188sm13708788pfy.57.2019.08.26.21.36.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Aug 2019 21:35:31 -0700 (PDT)
-Date: Tue, 27 Aug 2019 13:35:29 +0900
+ Mon, 26 Aug 2019 21:36:26 -0700 (PDT)
+Date: Tue, 27 Aug 2019 13:36:24 +0900
 From: Stafford Horne <shorne@gmail.com>
 To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190827043529.GJ24874@lianli.shorne-pla.net>
+Message-ID: <20190827043624.GK24874@lianli.shorne-pla.net>
 References: <20190827000745.19645-1-richard.henderson@linaro.org>
- <20190827000745.19645-6-richard.henderson@linaro.org>
+ <20190827000745.19645-7-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190827000745.19645-6-richard.henderson@linaro.org>
+In-Reply-To: <20190827000745.19645-7-richard.henderson@linaro.org>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH 05/13] target/openrisc: Move VR, UPR,
- DMMCFGR, IMMCFGR to cpu init
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: Re: [Qemu-devel] [PATCH 06/13] target/openrisc: Add VR2 and AVR
+ special processor registers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,47 +85,45 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 26, 2019 at 05:07:37PM -0700, Richard Henderson wrote:
-> These registers are read-only and implementation specific.
-> Initiailize VR for the first time; take the OR1200 values
-> from the verilog source.
+On Mon, Aug 26, 2019 at 05:07:38PM -0700, Richard Henderson wrote:
+> Update the CPUCFG bits to arch v1.3.
+> Include support for AVRP for cpu "any".
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Stafford Horne <shorne@gmail.com>
-
 > ---
->  target/openrisc/cpu.h        |  8 ++++----
->  target/openrisc/cpu.c        | 23 ++++++++++++++++-------
->  target/openrisc/sys_helper.c |  4 ++--
->  3 files changed, 22 insertions(+), 13 deletions(-)
+>  target/openrisc/cpu.h        | 11 +++++++----
+>  target/openrisc/cpu.c        |  8 ++++++--
+>  target/openrisc/sys_helper.c |  6 ++++++
+>  3 files changed, 19 insertions(+), 6 deletions(-)
 > 
 > diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-> index 755282f95d..18d7445e74 100644
+> index 18d7445e74..71c5959828 100644
 > --- a/target/openrisc/cpu.h
 > +++ b/target/openrisc/cpu.h
-> @@ -260,10 +260,6 @@ typedef struct CPUOpenRISCState {
->      target_ulong sr_cy;       /* the SR_CY bit, values 0, 1.  */
->      target_long  sr_ov;       /* the SR_OV bit (in the sign bit only) */
->      uint32_t sr;              /* Supervisor register, without SR_{F,CY,OV} */
-> -    uint32_t vr;              /* Version register */
-> -    uint32_t upr;             /* Unit presence register */
-> -    uint32_t dmmucfgr;        /* DMMU configure register */
-> -    uint32_t immucfgr;        /* IMMU configure register */
->      uint32_t esr;             /* Exception supervisor register */
->      uint32_t evbar;           /* Exception vector base address register */
->      uint32_t pmr;             /* Power Management Register */
-> @@ -283,7 +279,11 @@ typedef struct CPUOpenRISCState {
->      struct {} end_reset_fields;
+> @@ -96,11 +96,12 @@ enum {
+>      CPUCFGR_OF32S = (1 << 7),
+>      CPUCFGR_OF64S = (1 << 8),
+>      CPUCFGR_OV64S = (1 << 9),
+> -    /* CPUCFGR_ND = (1 << 10), */
+> -    /* CPUCFGR_AVRP = (1 << 11), */
+> +    CPUCFGR_ND = (1 << 10),
+> +    CPUCFGR_AVRP = (1 << 11),
+>      CPUCFGR_EVBARP = (1 << 12),
+> -    /* CPUCFGR_ISRP = (1 << 13), */
+> -    /* CPUCFGR_AECSRP = (1 << 14), */
+> +    CPUCFGR_ISRP = (1 << 13),
+> +    CPUCFGR_AECSRP = (1 << 14),
+> +    CPUCFGR_OF64A32S = (1 << 15),
+>  };
+>  
+>  /* DMMU configure register */
+> @@ -280,6 +281,8 @@ typedef struct CPUOpenRISCState {
 >  
 >      /* Fields from here on are preserved across CPU reset. */
-> +    uint32_t vr;              /* Version register */
-> +    uint32_t upr;             /* Unit presence register */
->      uint32_t cpucfgr;         /* CPU configure register */
-> +    uint32_t dmmucfgr;        /* DMMU configure register */
-> +    uint32_t immucfgr;        /* IMMU configure register */
+>      uint32_t vr;              /* Version register */
+> +    uint32_t vr2;             /* Version register 2 */
+> +    uint32_t avr;             /* Architecture version register */
 
-Note for me, others, just moving these doesn't require updating the machine
-serialization.
- 
+Do you need to update the serialization in machine.c?
+
 
