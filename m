@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4049E8D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 15:13:37 +0200 (CEST)
-Received: from localhost ([::1]:51378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795CD9E9B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 15:42:21 +0200 (CEST)
+Received: from localhost ([::1]:51654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2bI0-0000lJ-C8
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 09:13:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57018)
+	id 1i2bjo-0004Qw-IA
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 09:42:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33315)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1i2bGf-0008Lz-IG
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:12:15 -0400
+ (envelope-from <bounces@canonical.com>) id 1i2biO-0003Wp-Gp
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:40:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1i2bGc-00034D-Pt
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:12:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60378)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1i2bGc-00033x-I9
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:12:10 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B705630832C0;
- Tue, 27 Aug 2019 13:12:09 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E7C095D713;
- Tue, 27 Aug 2019 13:12:07 +0000 (UTC)
-Date: Tue, 27 Aug 2019 15:12:06 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Tao Xu <tao3.xu@intel.com>
-Message-ID: <20190827151206.7b2ddce5@redhat.com>
-In-Reply-To: <b0a958d6-2e2c-ab4b-36b7-b1fc13e0c2e3@intel.com>
-References: <20190809065731.9097-1-tao3.xu@intel.com>
- <20190809065731.9097-6-tao3.xu@intel.com>
- <20190813170027.0617b129@redhat.com>
- <CAPcyv4j=wBtBcscJBtrMNDDz=d6+HYYDF=4QLU69d0EPMkTTqg@mail.gmail.com>
- <a73f7c81-0363-c10f-8ae1-9344abc55449@intel.com>
- <CAPcyv4jCuy6zvM8NcacXhvpUBUyp_BYMcEtBuA_ck3AhkyGNsQ@mail.gmail.com>
- <789df028-9dd9-884a-2493-aecc9a646e63@intel.com>
- <CAPcyv4h-WmFPSsPMfPz5AALm=MyxGzyU5Ju0iSKsxORVh1wV7Q@mail.gmail.com>
- <20190816165758.47042712@redhat.com>
- <b0a958d6-2e2c-ab4b-36b7-b1fc13e0c2e3@intel.com>
+ (envelope-from <bounces@canonical.com>) id 1i2biN-0007mA-7a
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:40:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46202)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i2biN-0007lv-2A
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:40:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i2biL-0000L2-LG
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 13:40:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9787A2E80CC
+ for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 13:40:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 27 Aug 2019 13:12:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Aug 2019 13:21:33 -0000
+From: Paul Clarke <pc@us.ibm.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
+Message-Id: <156691209320.18814.746226319480624520.malonedeb@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19034";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 408cc6b25026592ba29db07b19bb1f5ecfb810e8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v9 05/11] numa: Extend CLI to provide
- initiator information for numa nodes
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1841592] [NEW] ppc: softfloat float
+ implementation issues
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,120 +63,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, "Liu, Jingqi" <jingqi.liu@intel.com>,
- "Du, Fan" <fan.du@intel.com>, Qemu Developers <qemu-devel@nongnu.org>,
- "daniel@linux.ibm.com" <daniel@linux.ibm.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dan Williams <dan.j.williams@intel.com>
+Reply-To: Bug 1841592 <1841592@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Aug 2019 16:34:44 +0800
-Tao Xu <tao3.xu@intel.com> wrote:
+Public bug reported:
 
-> On 8/16/2019 10:57 PM, Igor Mammedov wrote:
-> > On Wed, 14 Aug 2019 19:31:27 -0700
-> > Dan Williams <dan.j.williams@intel.com> wrote:
-> >   
-> >> On Wed, Aug 14, 2019 at 6:57 PM Tao Xu <tao3.xu@intel.com> wrote:  
-> >>>
-> >>> On 8/15/2019 5:29 AM, Dan Williams wrote:  
-> >>>> On Tue, Aug 13, 2019 at 10:14 PM Tao Xu <tao3.xu@intel.com> wrote:  
-> >>>>>
-> >>>>> On 8/14/2019 10:39 AM, Dan Williams wrote:  
-> >>>>>> On Tue, Aug 13, 2019 at 8:00 AM Igor Mammedov <imammedo@redhat.com> wrote:  
-> >>>>>>>
-> >>>>>>> On Fri,  9 Aug 2019 14:57:25 +0800
-> >>>>>>> Tao <tao3.xu@intel.com> wrote:
-> >>>>>>>     
-> >>>>>>>> From: Tao Xu <tao3.xu@intel.com>
-> >>>>>>>>     
-> >>> [...]  
-> >>>>>>>> +    for (i = 0; i < machine->numa_state->num_nodes; i++) {
-> >>>>>>>> +        if (numa_info[i].initiator_valid &&
-> >>>>>>>> +            !numa_info[numa_info[i].initiator].has_cpu) {  
-> >>>>>>>                              ^^^^^^^^^^^^^^^^^^^^^^ possible out of bounds read, see bellow
-> >>>>>>>     
-> >>>>>>>> +            error_report("The initiator-id %"PRIu16 " of NUMA node %d"
-> >>>>>>>> +                         " does not exist.", numa_info[i].initiator, i);
-> >>>>>>>> +            error_printf("\n");
-> >>>>>>>> +
-> >>>>>>>> +            exit(1);
-> >>>>>>>> +        }  
-> >>>>>>> it takes care only about nodes that have cpus or memory-only ones that have
-> >>>>>>> initiator explicitly provided on CLI. And leaves possibility to have
-> >>>>>>> memory-only nodes without initiator mixed with nodes that have initiator.
-> >>>>>>> Is it valid to have mixed configuration?
-> >>>>>>> Should we forbid it?  
-> >>>>>>
-> >>>>>> The spec talks about the "Proximity Domain for the Attached Initiator"
-> >>>>>> field only being valid if the memory controller for the memory can be
-> >>>>>> identified by an initiator id in the SRAT. So I expect the only way to
-> >>>>>> define a memory proximity domain without this local initiator is to
-> >>>>>> allow specifying a node-id that does not have an entry in the SRAT.
-> >>>>>>     
-> >>>>> Hi Dan,
-> >>>>>
-> >>>>> So there may be a situation for the Attached Initiator field is not
-> >>>>> valid? If true, I would allow user to input Initiator invalid.  
-> >>>>
-> >>>> Yes it's something the OS needs to consider because the platform may
-> >>>> not be able to meet the constraint that a single initiator is
-> >>>> associated with the memory controller for a given memory target. In
-> >>>> retrospect it would have been nice if the spec reserved 0xffffffff for
-> >>>> this purpose, but it seems "not in SRAT" is the only way to identify
-> >>>> memory that is not attached to any single initiator.
-> >>>>     
-> >>> But As far as I konw, QEMU can't emulate a NUMA node "not in SRAT". I am
-> >>> wondering if it is effective only set Initiator invalid?  
-> >>
-> >> You don't need to emulate a NUMA node not in SRAT. Just put a number
-> >> in this HMAT entry larger than the largest proximity domain number
-> >> found in the SRAT.  
-> >>>     
-> >>  
-> > 
-> > So behavior is really not defined in the spec
-> > (well I wasn't able to convince myself that above behavior is in the spec).
-> > 
-> > In this case I'd go with a strict check for now not allowing invalid initiator
-> > (we can easily relax check and allow it point to nonsense later but no other way around)
-> >   
-> 
-> So let me summarize the solution, in order to avoid misunderstanding, if 
-> there are something wrong, pls tell me:
-> 
-> 1)
-> -machine,hmat=yes
-> -object memory-backend-ram,size=1G,id=m0 \
-> -object memory-backend-ram,size=1G,id=m1 \
-> -object memory-backend-ram,size=1G,id=m2 \
-> -numa node,nodeid=0,memdev=m0 \
-> -numa node,nodeid=1,memdev=m1,initiator=0 \
-> -numa node,nodeid=2,memdev=m2,initiator=0 \
-> -numa cpu,node-id=0,socket-id=0 \
-> -numa cpu,node-id=0,socket-id=1
-> 
-> then qemu can use HMAT.
-> 
-> 2)
-> if initiator this case:
-> 
-> -numa node,nodeid=0,memdev=m0 \
-> -numa node,nodeid=1,memdev=m1,initiator=0 \
-> -numa node,nodeid=2,memdev=m2
-> 
-> then qemu can't boot and show error message.
-> 
-> 3)
-> if initiator this case:
-> 
-> -numa node,nodeid=0,memdev=m0 \
-> -numa node,nodeid=1,memdev=m1,initiator=0 \
-> -numa node,nodeid=2,memdev=m2,initiator=1
-> 
-> then qemu can boot and the initiator of nodeid=2 is invalid.
-In this last case I'd error out instead of booting with invalid config.
+Per bug #1841491, Richard Henderson (rth) said:
+> The float test failure is part of a larger problem for target/powerpc
+> in which all float routines are implemented incorrectly. They are all
+> implemented as double operations with rounding to float as a second
+> step. Which not only produces incorrect exceptions, as in this case,
+> but incorrect numerical results from the double rounding.
+>
+> This should probably be split to a separate bug...
 
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
+** Attachment added: "float test case"
+   https://bugs.launchpad.net/bugs/1841592/+attachment/5284928/+files/test-=
+ffma.c
+
+** Description changed:
+
+  Per bug #1841491, Richard Henderson (rth) said:
+- > The float test failure is part of a larger problem for target/powerpc i=
+n which all float =
+
+- > routines are implemented incorrectly. They are all implemented as doubl=
+e operations with
+- > rounding to float as a second step. Which not only produces incorrect e=
+xceptions, as in
+- > this case, but incorrect > numerical results from the double rounding.
+- > =
+
++ > The float test failure is part of a larger problem for target/powerpc
++ > in which all float routines are implemented incorrectly. They are all
++ > implemented as double operations with rounding to float as a second
++ > step. Which not only produces incorrect exceptions, as in this case,
++ > but incorrect > numerical results from the double rounding.
++ >
+  > This should probably be split to a separate bug...
+
+** Description changed:
+
+  Per bug #1841491, Richard Henderson (rth) said:
+  > The float test failure is part of a larger problem for target/powerpc
+  > in which all float routines are implemented incorrectly. They are all
+  > implemented as double operations with rounding to float as a second
+  > step. Which not only produces incorrect exceptions, as in this case,
+- > but incorrect > numerical results from the double rounding.
++ > but incorrect numerical results from the double rounding.
+  >
+  > This should probably be split to a separate bug...
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841592
+
+Title:
+  ppc: softfloat float implementation issues
+
+Status in QEMU:
+  New
+
+Bug description:
+  Per bug #1841491, Richard Henderson (rth) said:
+  > The float test failure is part of a larger problem for target/powerpc
+  > in which all float routines are implemented incorrectly. They are all
+  > implemented as double operations with rounding to float as a second
+  > step. Which not only produces incorrect exceptions, as in this case,
+  > but incorrect numerical results from the double rounding.
+  >
+  > This should probably be split to a separate bug...
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841592/+subscriptions
 
