@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD2A9E97F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 15:35:20 +0200 (CEST)
-Received: from localhost ([::1]:51548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B47B9E991
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 15:36:49 +0200 (CEST)
+Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2bd1-0007Cc-BP
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 09:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60174)
+	id 1i2beS-0000aK-K6
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 09:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60195)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1i2bb2-0006Cn-8g
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:33:17 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1i2bb2-0006DM-Um
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:33:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1i2bb0-0004tD-W0
+ (envelope-from <anthony.perard@citrix.com>) id 1i2bb1-0004ta-LI
  for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:33:16 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:9216)
+Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:9223)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1i2bb0-0004rj-Nz
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:33:14 -0400
+ id 1i2bb1-0004sx-9t
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 09:33:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1566912794;
+ d=citrix.com; s=securemail; t=1566912795;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=il5wHWdG08K/WwVCv6LOoDJJTxpyyVsB6uhiMfXgDN0=;
- b=ZvbvAt6jzfftZJAoXN9qd5v18dj/RfKveihD+7scmzaJy1L2ABKAGJd4
- wbGiDLBU6HVGnFixDWRu2FkzWB8rukzZ4KzJnRJR8OPmkFhyFDsQzcU16
- gCkFViVgNqf8YI2+xfg32Z5k2TBQI+AOSg6ZBq3PFFaG952uZSMd02g4b 0=;
+ bh=5CoqJCQiLnVu+dsWN0Ou8DoSb81hsrlnHmMIXfN/N8w=;
+ b=ZLFL1U95gLimvzb0QRhojrU4DY+2HuTZsH4IpwGLLvOmi1QJFJtWYeTK
+ 3X0upGqAsXPb16Jwm8mAEwPy+fl8PkbnpdTCj8ko/DgX/aglj+jENB8L/
+ Kn58QZ7ejLyiFxYuipvESKZ5U8VzZ22SYR6wO43CbSSL1k4RpF6oN6uCr w=;
 Authentication-Results: esa6.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
@@ -59,22 +59,22 @@ Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: k6cQQl2ZxP20PgYhA2iJRLQBKsMiG/cpdwY4VI7aZXr7LYb+lz0iDggO69NpK4QXvFBfAMN1eP
- k5Xt+z58a2WzEyMwvPAXnVaAk7i1KUszcvLD4r3UBsLE1qwsHyV+7n9W0MYKVgkyRPkfEIDXZQ
- Hdh8lJhkkMFnG+7wH3dc2ChLnANfrea81ibnrQ9CWVML0DRFY3BWa161Wo3RuTZX/v2hx5cySp
- J9ixesfwyLaxc3faogJ9oUc0McjszPNSnLiyGpsJv6KnZBv2Wq6C2Gd85xseKS2XGPBE0nNF2t
- bQU=
+IronPort-SDR: GW8W5dlZtUCLO1Vzx2t4NsAYwjqY6hvEaixyskr+gUrAyyxApEOGhLt2RAvLY7lTiU3ZQ2ZK1U
+ PzWSQGmayvN9+al2cizXAQiZhOvKvLOaSx+YeesjOCyRNFnP7kAaShNhuqDMhEFkl0Va1hYMwj
+ 6eHsNra41WDXZCmwUkvTe/EkkMiyqCCY6NkrYNQ2UJJwhpUrvVAF44rSOxifUwyHBeVmiEWDmx
+ KAfcLAlTc2MyXw5fe1VdsnCtmSoXLjLpDhARvUAAYYDjGYS6kHuX5xLyBvc08GHm312dPB+Swn
+ k4A=
 X-SBRS: 2.7
-X-MesageID: 4987741
+X-MesageID: 4987743
 X-Ironport-Server: esa6.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.64,437,1559534400"; 
-   d="scan'208";a="4987741"
+   d="scan'208";a="4987743"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Date: Tue, 27 Aug 2019 14:32:57 +0100
-Message-ID: <20190827133259.32084-3-anthony.perard@citrix.com>
+Date: Tue, 27 Aug 2019 14:32:58 +0100
+Message-ID: <20190827133259.32084-4-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190827133259.32084-1-anthony.perard@citrix.com>
 References: <20190827133259.32084-1-anthony.perard@citrix.com>
@@ -83,7 +83,8 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 216.71.155.175
-Subject: [Qemu-devel] [PULL 2/4] xen: cleanup IOREQ server on exit
+Subject: [Qemu-devel] [PULL 3/4] xen-bus: Fix backend state transition on
+ device reset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,31 +101,71 @@ Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Druzhinin <igor.druzhinin@citrix.com>
+When a frontend wants to reset its state and the backend one, it
+starts with setting "Closing", then waits for the backend (QEMU) to do
+the same.
 
-Device model is supposed to destroy IOREQ server for itself.
+But when QEMU is setting "Closing" to its state, it triggers an event
+(xenstore watch) that re-execute xen_device_backend_changed() and set
+the backend state to "Closed". QEMU should wait for the frontend to
+set "Closed" before doing the same.
 
-Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
-Acked-by: Paul Durrant <paul.durrant@citrix.com>
-Message-Id: <1564428563-1006-1-git-send-email-igor.druzhinin@citrix.com>
+Before setting "Closed" to the backend_state, we are also going to
+check if there is a frontend. If that the case, when the backend state
+is set to "Closing" the frontend should react and sets its state to
+"Closing" then "Closed". The backend should wait for that to happen.
+
+Fixes: b6af8926fb858c4f1426e5acb2cfc1f0580ec98a
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+Reviewed-by: Paul Durrant <paul.durrant@citrix.com>
+Message-Id: <20190823101534.465-2-anthony.perard@citrix.com>
 ---
- hw/i386/xen/xen-hvm.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/xen/xen-bus.c | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index 5d3e4750e6..6b5e5bb7f5 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -1247,6 +1247,8 @@ static void xen_exit_notifier(Notifier *n, void *data)
- {
-     XenIOState *state = container_of(n, XenIOState, exit);
- 
-+    xen_destroy_ioreq_server(xen_domid, state->ioservid);
-+
-     xenevtchn_close(state->xce_handle);
-     xs_daemon_close(state->xenstore);
+diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
+index e40500242d..62c127b926 100644
+--- a/hw/xen/xen-bus.c
++++ b/hw/xen/xen-bus.c
+@@ -516,6 +516,23 @@ static void xen_device_backend_set_online(XenDevice *xendev, bool online)
+     xen_device_backend_printf(xendev, "online", "%u", online);
  }
+ 
++/*
++ * Tell from the state whether the frontend is likely alive,
++ * i.e. it will react to a change of state of the backend.
++ */
++static bool xen_device_state_is_active(enum xenbus_state state)
++{
++    switch (state) {
++    case XenbusStateInitWait:
++    case XenbusStateInitialised:
++    case XenbusStateConnected:
++    case XenbusStateClosing:
++        return true;
++    default:
++        return false;
++    }
++}
++
+ static void xen_device_backend_changed(void *opaque)
+ {
+     XenDevice *xendev = opaque;
+@@ -539,11 +556,11 @@ static void xen_device_backend_changed(void *opaque)
+ 
+     /*
+      * If the toolstack (or unplug request callback) has set the backend
+-     * state to Closing, but there is no active frontend (i.e. the
+-     * state is not Connected) then set the backend state to Closed.
++     * state to Closing, but there is no active frontend then set the
++     * backend state to Closed.
+      */
+     if (xendev->backend_state == XenbusStateClosing &&
+-        xendev->frontend_state != XenbusStateConnected) {
++        !xen_device_state_is_active(state)) {
+         xen_device_backend_set_state(xendev, XenbusStateClosed);
+     }
+ 
 -- 
 Anthony PERARD
 
