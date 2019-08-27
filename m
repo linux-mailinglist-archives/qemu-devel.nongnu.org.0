@@ -2,78 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C289DC59
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:15:25 +0200 (CEST)
-Received: from localhost ([::1]:46402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 115A19DC63
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 06:22:16 +0200 (CEST)
+Received: from localhost ([::1]:46440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2StA-0000FH-6d
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:15:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60482)
+	id 1i2Szn-0004E4-5J
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 00:22:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60927)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pc@us.ibm.com>) id 1i2Ss1-00089n-Mz
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:14:15 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i2SyD-00037R-DK
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:20:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pc@us.ibm.com>) id 1i2Ss0-0002Dy-Kn
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:14:13 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18726
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pc@us.ibm.com>)
- id 1i2Srv-0002BU-ML; Tue, 27 Aug 2019 00:14:07 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x7R4CWAR015863; Tue, 27 Aug 2019 00:14:00 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2umt9qwgj3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Aug 2019 00:14:00 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7R4BhYo002128;
- Tue, 27 Aug 2019 04:13:59 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 2umpct8nac-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Aug 2019 04:13:59 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x7R4DwqC53412314
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 27 Aug 2019 04:13:58 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 81DB72805A;
- Tue, 27 Aug 2019 04:13:58 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2DDB828058;
- Tue, 27 Aug 2019 04:13:58 +0000 (GMT)
-Received: from oc3272150783.ibm.com (unknown [9.85.174.130])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTPS;
- Tue, 27 Aug 2019 04:13:58 +0000 (GMT)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+ (envelope-from <dgibson@ozlabs.org>) id 1i2SyB-0003qF-Px
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 00:20:37 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59517 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1i2SyB-0003pK-2a; Tue, 27 Aug 2019 00:20:35 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46HbJY2L4yz9sDB; Tue, 27 Aug 2019 14:20:29 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1566879629;
+ bh=SUGGDKg6EXvOhHn+O0d/xw6obG3Q4nOgrKhf2B8rHyE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BnQnXq/9umy0W47f2EKcmpf23ppSRFZNx4EtIfrOkk2CVk92nSA4HBL9iAQF2GXse
+ 2GKU3c6PxkykoGIzf/MHkYnvmBIDCsldTz4c43Vb9MSnNrvAIQui9WtK3sfeCJkp9C
+ aMPDwEcDv9l75mogaK3UbZ4GCRG1v91uJS6+rRrg=
+Date: Tue, 27 Aug 2019 13:41:38 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190827034138.GF28081@umbus.fritz.box>
 References: <20190827020013.27154-1-richard.henderson@linaro.org>
-From: Paul Clarke <pc@us.ibm.com>
-Message-ID: <9cecc98f-59dc-0abf-b537-ef41ad0c08c5@us.ibm.com>
-Date: Mon, 26 Aug 2019 23:13:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="SxgehGEc6vB0cZwN"
+Content-Disposition: inline
 In-Reply-To: <20190827020013.27154-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-08-26_08:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908270046
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 Subject: Re: [Qemu-devel] [PATCH] target/ppc: Set
  float_tininess_before_rounding at cpu reset
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,40 +56,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, pc@us.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/19 9:00 PM, Richard Henderson wrote:
+
+--SxgehGEc6vB0cZwN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Aug 26, 2019 at 07:00:13PM -0700, Richard Henderson wrote:
 > As defined in Power 3.0 section 4.4.4 "Underflow Exception",
 > a tiny result is detected before rounding.
-
-Responded in the bug:
-https://bugs.launchpad.net/qemu/+bug/1841491/comments/3
-
-In my testing, this works for "double", but not "float".
-
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1841491 
+>=20
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1841491
 > Reported-by: Paul Clarke <pc@us.ibm.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Applied to ppc-for-4.2, thanks.
+
 > ---
 >  target/ppc/translate_init.inc.c | 4 ++++
 >  1 file changed, 4 insertions(+)
-> 
-> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+>=20
+> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
 > index 4a21ed7289..023138c2f9 100644
 > --- a/target/ppc/translate_init.inc.c
 > +++ b/target/ppc/translate_init.inc.c
 > @@ -10461,6 +10461,10 @@ static void ppc_cpu_reset(CPUState *s)
->      s->exception_index = POWERPC_EXCP_NONE;
->      env->error_code = 0;
->  
+>      s->exception_index =3D POWERPC_EXCP_NONE;
+>      env->error_code =3D 0;
+> =20
 > +    /* tininess for underflow is detected before rounding */
 > +    set_float_detect_tininess(float_tininess_before_rounding,
 > +                              &env->fp_status);
 > +
->      for (i = 0; i < ARRAY_SIZE(env->spr_cb); i++) {
->          ppc_spr_t *spr = &env->spr_cb[i];
+>      for (i =3D 0; i < ARRAY_SIZE(env->spr_cb); i++) {
+>          ppc_spr_t *spr =3D &env->spr_cb[i];
+> =20
 
-PC
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--SxgehGEc6vB0cZwN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1kpnAACgkQbDjKyiDZ
+s5JvUw//dYjufLDP2ATZxQqw1VMsKz71UiCkaXCwSE3ioyfcKJwy3XWz9pXFPkUF
+hmmozOp3rfYqLkfJrowKUFUVHi3ICWZZGX2YHZ8HRsKK5aiuVkiTlLHULTB1adMu
+iSOl2knSa5JeaXx6BTFakgT6N1xupNHgBwbcpDu8CJW4kFXNWYQftsUa70VgUvBA
+EYdHaAtTQS/wzTvXj9GC1/+HDERg3OmtPX5qRSfXB17SKYtfLwsrwvXEg932qSEf
+Rrt1/gR46Jr5x7p+N7motxBgM9huLe1Vxu4T/akySCVApC0gt67MALE2iXNFhdAV
+76GbBtpIt1HyALbSnjxBELt4HSdnqrGSaTNb8LjCx0OGW+4ImYyHFIbIOgXhIxYP
+dbBi2xL/clsTJuepU960IPFN5JWiQ5mr+mYqBeA+vVqBzFweUz2XNrZ6W8VS0Bck
+TU7cNpdKLMyNTtf7GNcUKNnL342r1MA91SgDzPWvjvggaBmv8hXolLbyzdIV2zaV
+T++Tkdbjw22CnrgasQuA+0mEHQux0LOA7NS/GwDa+xFDos3Inmni930Ye6BRDQ09
+awjM07cppssgAtHeHEiBmOtuaLg+1QUt6W5VO/Ixs5e8Q/kwAQiW2ZyiPt+RuYsc
+xhsJoOx9a9Pr9fWRdvqddIM4spZfCxCBaNQfgoy5aLQgMdC0nKc=
+=7fx4
+-----END PGP SIGNATURE-----
+
+--SxgehGEc6vB0cZwN--
 
