@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4249DA61
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 02:10:20 +0200 (CEST)
-Received: from localhost ([::1]:58594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA479DA84
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 02:17:07 +0200 (CEST)
+Received: from localhost ([::1]:58696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2P3y-0001In-US
-	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 20:10:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33611)
+	id 1i2PAX-0000Ej-Tm
+	for lists+qemu-devel@lfdr.de; Mon, 26 Aug 2019 20:17:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33633)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i2P1g-00080c-B8
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:57 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i2P1h-00082L-G4
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i2P1e-00074j-UR
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:56 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40323)
+ (envelope-from <richard.henderson@linaro.org>) id 1i2P1g-00075N-9s
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:57 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38487)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i2P1e-00074S-NT
- for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:54 -0400
-Received: by mail-pf1-x442.google.com with SMTP id w16so12864405pfn.7
- for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 17:07:54 -0700 (PDT)
+ id 1i2P1g-00074z-43
+ for qemu-devel@nongnu.org; Mon, 26 Aug 2019 20:07:56 -0400
+Received: by mail-pg1-x541.google.com with SMTP id e11so11560083pga.5
+ for <qemu-devel@nongnu.org>; Mon, 26 Aug 2019 17:07:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=1Zuq0tlzGGwhy0svpkvA02+v0ve2QXCamXjAcXS3hRU=;
- b=wz3vRxuBD6UPQTIhRv7cdTw+9ujVORoAZhJmq+jpyxfZughOoKdbZzLP/R1nAUATun
- a6VZv2ybBw+lnFk4wMLsImrQpCJo2rIa8dmYEDSkzpAhcDMZBnXmWyfHUQk7+y0GmIHC
- uxxPgmJmVozTYbm5qO7bAEequ2ztCVouBaxipivrIh0FPUSACpJiScKgwtMFOYpc14kq
- jUJFsnbcHMXExYKQ1v429ptQdhiwcLqmt+TxzVDT1vCDtQ1UZVUdPC+A3xfIFyY7HshD
- kiGJadOBVEKSsc7HPrYKxve6Sx0a9BOZt2HSo8XR8o+sabdsyhJUpzMOjP2Hd14KUA8h
- QyFg==
+ bh=ddiXQUCU6+mV9b5HLraEW0nl5fo+95ic0hgqPUZ1sNk=;
+ b=OOpq+gNF/SyLvs5tMKr1GXdkFGiQW1YEnYNFCU2trdRjnRN+EoGm7QuCN6D99/4MXu
+ u7hiDZXQzfs6wCLgMRE9hodUgn/7WMjqHWy/hYQKFa3+8+Yly/SnX8+vl9fTRGbo7nJT
+ tpT8dyY1EglE0Ij2xC4Hni6Dz2pVHa+NCyzmVDyDO4hCarhKnHdREPOHRUWkR70rLs8t
+ qUySnNv4mVodg0qvlR53kPMWONTVzDoJJ8CPM17wVoGc7dbnvkQmRSpmxSxT+PAWUGov
+ mfEg9J70pcRRFBmO+dn/imP5WKocLsdNDhZx9JlJpPMPHNVxk494W5EwrjFXmWIxUX1b
+ QNmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=1Zuq0tlzGGwhy0svpkvA02+v0ve2QXCamXjAcXS3hRU=;
- b=LYRllQee8VyEAGTxIFq+0zguIcZcwAJsK/CT06gHGVbhNdOgQtq0AjkbfBCPrflUNL
- af6cpObsv2hL/CGEqce8baPh32P/WaQfsCl5N+LhKFy/k9aiG61jJQIXNtFSGQabILfT
- tgupubMKXo11EeVymtBiw/pRktJ6oY6bS4VJ5ov/2+HK8AD0qj/erSlNveAx9cgt5/Dt
- zHNzKCv/yeJm6lHYnid0bJXRaYv/6T4TfTMO6tJ0q9+2+tpZpvBfKViM0wN5CQmjXf/k
- 76/eagkg1eRczwSSaeEhA2w+HG8lv+QrkyKbHEUu84/S5/GSFDQB9J3EPI05bMKXXyW5
- /Sgg==
-X-Gm-Message-State: APjAAAWzbi2NbNTXhEF79gdJl/cPtvcbLlbjn0BbVPVIv3DXAnSWIOcL
- mJ5pSDHx3ImmtGYnWXYtiRU/hlZRWIM=
-X-Google-Smtp-Source: APXvYqyqWnwTnLZux5wbhmEpedsLP3KWy0c9pXzKdxR2xU7DKli48jpXYV4Y46NR1mEZAONkpWWr/A==
-X-Received: by 2002:a63:553:: with SMTP id 80mr18211538pgf.280.1566864473428; 
- Mon, 26 Aug 2019 17:07:53 -0700 (PDT)
+ bh=ddiXQUCU6+mV9b5HLraEW0nl5fo+95ic0hgqPUZ1sNk=;
+ b=ZXGve59psdGPaaa6MqYWQqPn/RxryA3tbEpMAz81q63iGSPXq1PJCvP5VNc9bKnakI
+ GDCjYXS+Y777rc9pFyv8Y1cHJF7PIx5S0LAnqigQjJlN0xtSTOg29wWFok69kY1t5bC7
+ EFc7mhNE0aSj3ns/m4RincpgDhGH+ALvPspy4oVuhnjTldjsSSkBCazT0VUWBzYK+VrR
+ hhknU6ctjA1/K50FHaWnaUrWmpWI1B3IZRwqg2qr1D8Z7eycByIO30yt2ZxQf2epSkS+
+ cFr+e2KJF9d+gplz4MxdAa2eFL0+3dNX5BUyvzzSwEEhR2o4zeOAZJ4ZREivXgu7KguY
+ TKAg==
+X-Gm-Message-State: APjAAAXqrfcZCdjJmpZZ+42O/AjX6h1b+PxXTblNGw0yOMdz5qbNvhtT
+ jXzKkKML0C/yxFhPAJpj7cnm3ei9TYI=
+X-Google-Smtp-Source: APXvYqz7m4vUR+rPdGVj9/qpb6+V18CMG7C+JakJ0mwRc5IE9DzxNqXMqBodj++UuEjwmqmCe589cw==
+X-Received: by 2002:a63:24a:: with SMTP id 71mr18502088pgc.273.1566864474643; 
+ Mon, 26 Aug 2019 17:07:54 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id e189sm11691067pgc.15.2019.08.26.17.07.52
+ by smtp.gmail.com with ESMTPSA id e189sm11691067pgc.15.2019.08.26.17.07.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Aug 2019 17:07:52 -0700 (PDT)
+ Mon, 26 Aug 2019 17:07:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 26 Aug 2019 17:07:37 -0700
-Message-Id: <20190827000745.19645-6-richard.henderson@linaro.org>
+Date: Mon, 26 Aug 2019 17:07:38 -0700
+Message-Id: <20190827000745.19645-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190827000745.19645-1-richard.henderson@linaro.org>
 References: <20190827000745.19645-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH 05/13] target/openrisc: Move VR, UPR, DMMCFGR,
- IMMCFGR to cpu init
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH 06/13] target/openrisc: Add VR2 and AVR special
+ processor registers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,114 +80,83 @@ Cc: shorne@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These registers are read-only and implementation specific.
-Initiailize VR for the first time; take the OR1200 values
-from the verilog source.
+Update the CPUCFG bits to arch v1.3.
+Include support for AVRP for cpu "any".
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/openrisc/cpu.h        |  8 ++++----
- target/openrisc/cpu.c        | 23 ++++++++++++++++-------
- target/openrisc/sys_helper.c |  4 ++--
- 3 files changed, 22 insertions(+), 13 deletions(-)
+ target/openrisc/cpu.h        | 11 +++++++----
+ target/openrisc/cpu.c        |  8 ++++++--
+ target/openrisc/sys_helper.c |  6 ++++++
+ 3 files changed, 19 insertions(+), 6 deletions(-)
 
 diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-index 755282f95d..18d7445e74 100644
+index 18d7445e74..71c5959828 100644
 --- a/target/openrisc/cpu.h
 +++ b/target/openrisc/cpu.h
-@@ -260,10 +260,6 @@ typedef struct CPUOpenRISCState {
-     target_ulong sr_cy;       /* the SR_CY bit, values 0, 1.  */
-     target_long  sr_ov;       /* the SR_OV bit (in the sign bit only) */
-     uint32_t sr;              /* Supervisor register, without SR_{F,CY,OV} */
--    uint32_t vr;              /* Version register */
--    uint32_t upr;             /* Unit presence register */
--    uint32_t dmmucfgr;        /* DMMU configure register */
--    uint32_t immucfgr;        /* IMMU configure register */
-     uint32_t esr;             /* Exception supervisor register */
-     uint32_t evbar;           /* Exception vector base address register */
-     uint32_t pmr;             /* Power Management Register */
-@@ -283,7 +279,11 @@ typedef struct CPUOpenRISCState {
-     struct {} end_reset_fields;
+@@ -96,11 +96,12 @@ enum {
+     CPUCFGR_OF32S = (1 << 7),
+     CPUCFGR_OF64S = (1 << 8),
+     CPUCFGR_OV64S = (1 << 9),
+-    /* CPUCFGR_ND = (1 << 10), */
+-    /* CPUCFGR_AVRP = (1 << 11), */
++    CPUCFGR_ND = (1 << 10),
++    CPUCFGR_AVRP = (1 << 11),
+     CPUCFGR_EVBARP = (1 << 12),
+-    /* CPUCFGR_ISRP = (1 << 13), */
+-    /* CPUCFGR_AECSRP = (1 << 14), */
++    CPUCFGR_ISRP = (1 << 13),
++    CPUCFGR_AECSRP = (1 << 14),
++    CPUCFGR_OF64A32S = (1 << 15),
+ };
+ 
+ /* DMMU configure register */
+@@ -280,6 +281,8 @@ typedef struct CPUOpenRISCState {
  
      /* Fields from here on are preserved across CPU reset. */
-+    uint32_t vr;              /* Version register */
-+    uint32_t upr;             /* Unit presence register */
+     uint32_t vr;              /* Version register */
++    uint32_t vr2;             /* Version register 2 */
++    uint32_t avr;             /* Architecture version register */
+     uint32_t upr;             /* Unit presence register */
      uint32_t cpucfgr;         /* CPU configure register */
-+    uint32_t dmmucfgr;        /* DMMU configure register */
-+    uint32_t immucfgr;        /* IMMU configure register */
- 
- #ifndef CONFIG_USER_ONLY
-     QEMUTimer *timer;
+     uint32_t dmmucfgr;        /* DMMU configure register */
 diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index f19e482a55..d9f447e90c 100644
+index d9f447e90c..9f566ad883 100644
 --- a/target/openrisc/cpu.c
 +++ b/target/openrisc/cpu.c
-@@ -56,13 +56,6 @@ static void openrisc_cpu_reset(CPUState *s)
-     cpu->env.lock_addr = -1;
-     s->exception_index = -1;
- 
--    cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP |
--                   UPR_PMP;
--    cpu->env.dmmucfgr = (DMMUCFGR_NTW & (0 << 2))
--                      | (DMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
--    cpu->env.immucfgr = (IMMUCFGR_NTW & (0 << 2))
--                      | (IMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
--
- #ifndef CONFIG_USER_ONLY
-     cpu->env.picmr = 0x00000000;
-     cpu->env.picsr = 0x00000000;
-@@ -117,15 +110,31 @@ static void or1200_initfn(Object *obj)
+@@ -126,9 +126,13 @@ static void openrisc_any_initfn(Object *obj)
  {
      OpenRISCCPU *cpu = OPENRISC_CPU(obj);
  
-+    cpu->env.vr = 0x13000008;
-+    cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP | UPR_PMP;
-     cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S | CPUCFGR_OF32S |
-                        CPUCFGR_EVBARP;
+-    cpu->env.vr = 0x13000000;
++    cpu->env.vr = 0x13000040;   /* Obsolete VER + UVRP for new SPRs */
++    cpu->env.vr2 = 0;           /* No version specific id */
++    cpu->env.avr = 0x01010000;  /* Architecture v1.1 */
 +
-+    /* 1Way, TLB_SIZE entries.  */
-+    cpu->env.dmmucfgr = (DMMUCFGR_NTW & (0 << 2))
-+                      | (DMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
-+    cpu->env.immucfgr = (IMMUCFGR_NTW & (0 << 2))
-+                      | (IMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
- }
+     cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP | UPR_PMP;
+-    cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S | CPUCFGR_EVBARP;
++    cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S |
++                       CPUCFGR_AVRP | CPUCFGR_EVBARP;
  
- static void openrisc_any_initfn(Object *obj)
- {
-     OpenRISCCPU *cpu = OPENRISC_CPU(obj);
- 
-+    cpu->env.vr = 0x13000000;
-+    cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP | UPR_PMP;
-     cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S | CPUCFGR_EVBARP;
-+
-+    /* 1Way, TLB_SIZE entries.  */
-+    cpu->env.dmmucfgr = (DMMUCFGR_NTW & (0 << 2))
-+                      | (DMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
-+    cpu->env.immucfgr = (IMMUCFGR_NTW & (0 << 2))
-+                      | (IMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
- }
- 
- static void openrisc_cpu_class_init(ObjectClass *oc, void *data)
+     /* 1Way, TLB_SIZE entries.  */
+     cpu->env.dmmucfgr = (DMMUCFGR_NTW & (0 << 2))
 diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
-index d20f48b659..a2b1f52294 100644
+index a2b1f52294..cf8e637b08 100644
 --- a/target/openrisc/sys_helper.c
 +++ b/target/openrisc/sys_helper.c
-@@ -199,13 +199,13 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
-         return env->vr;
- 
-     case TO_SPR(0, 1): /* UPR */
--        return env->upr;    /* TT, DM, IM, UP present */
-+        return env->upr;
- 
-     case TO_SPR(0, 2): /* CPUCFGR */
-         return env->cpucfgr;
- 
-     case TO_SPR(0, 3): /* DMMUCFGR */
--        return env->dmmucfgr;    /* 1Way, 64 entries */
-+        return env->dmmucfgr;
- 
+@@ -210,6 +210,12 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
      case TO_SPR(0, 4): /* IMMUCFGR */
          return env->immucfgr;
+ 
++    case TO_SPR(0, 9): /* VR2 */
++        return env->vr2;
++
++    case TO_SPR(0, 10): /* AVR */
++        return env->avr;
++
+     case TO_SPR(0, 11): /* EVBAR */
+         return env->evbar;
+ 
 -- 
 2.17.1
 
