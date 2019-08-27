@@ -2,65 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A039F01E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 18:27:04 +0200 (CEST)
-Received: from localhost ([::1]:53900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577379F04F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Aug 2019 18:37:03 +0200 (CEST)
+Received: from localhost ([::1]:53988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2eJD-00023U-7t
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 12:27:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33679)
+	id 1i2eSs-0004sA-3P
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 12:37:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i2eI4-0001VP-Jf
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 12:25:53 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i2eQh-0003MT-WC
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 12:34:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i2eI3-00038N-Dq
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 12:25:52 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:37985)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i2eI3-00037r-7t
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 12:25:51 -0400
-Received: by mail-oi1-x242.google.com with SMTP id q8so15143284oij.5
- for <qemu-devel@nongnu.org>; Tue, 27 Aug 2019 09:25:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sRF+hAhA5e8NbtJEE/PY94rIOMBkfkunaVAvvB9zB1c=;
- b=iCl+IQdnlktuumEmS1ho/bYHAegxh26LMJqqut9a2u4E8KF2KjF3ps/ZW6qusCIRZe
- KaUzDONEKZD+R/lBc3WtxugO7XG4xXH8gqlPR7fwuUtwu6k2QChYjuC7dfsJrC86aYca
- lm49qVSohePbXECxNEg0CWcbjxvFOZbStaefES3W3zO2X+dIBlW+Ayw0Tlnqc/HeR+Sr
- KMord5RKOqKzpraZXQARgC87SEE/+xEiIeWYP+/5WMls1dl2CW9dXivDm0BPdv3Zx80c
- hqMHA/MtLJ62/zgLNxJ0cnyriPuRalYfKeUFjCsG6CLJXBTug+3zYTs1aBWy1Vd97Bp2
- xTQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sRF+hAhA5e8NbtJEE/PY94rIOMBkfkunaVAvvB9zB1c=;
- b=YXpeXKh/B9p2iK/dz01MpqavCrs++xwlxaOFrMbFM57AZ/3D7ROcu8jF+1Ztd3yEzJ
- w5Cad/D5uKJogut30X6f7EIeQ45Z93bNGf9//vLqOdOWDUP9U5keVGPKr3pFrpkwi2Ys
- qpeRkWnO6D9el0c6Sg3JHScCB1j3KH3ohcmd/CJ2lL3nRkL9dHtdA1/uZVhMYVfv4gX5
- YhlXvECoSFA+6IEpSZOmCQgux26kfF2LMmIQlJTDmmBi3VfKHcVisBRIbDKU0FMyoJ5T
- 6HSk6D8L1PXowfi5/JFwSyqVVn0JWexBdaBJFrS4PO+qdE/yigOcn5civ3+5MQPPdtsJ
- iT9g==
-X-Gm-Message-State: APjAAAUQ3w/NM0l+ApSGlnM9XbzRmWS7RPxqoUv1ma+cKVFu/63wORy6
- 2p9EZm6KaWfLiFp7385RtUhD/angEfT0GpdWwg9dQg==
-X-Google-Smtp-Source: APXvYqwX6tB3VjbMzJhGn5KzishO0WeftVQbUF1q8tzMfDOO8thTsTtqvROvmft+b7uuzB7kPU7VWSyWPzhUlAO/a3M=
-X-Received: by 2002:aca:50cb:: with SMTP id e194mr15606956oib.48.1566923150027; 
- Tue, 27 Aug 2019 09:25:50 -0700 (PDT)
+ (envelope-from <mreitz@redhat.com>) id 1i2eQg-0000CF-NW
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 12:34:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46716)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1i2eQd-00005N-Lj; Tue, 27 Aug 2019 12:34:43 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 94DB08AC6FB;
+ Tue, 27 Aug 2019 16:34:42 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 501805D6B0;
+ Tue, 27 Aug 2019 16:34:41 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Tue, 27 Aug 2019 18:34:33 +0200
+Message-Id: <20190827163439.16686-1-mreitz@redhat.com>
 MIME-Version: 1.0
-References: <20190822172350.12008-1-eric.auger@redhat.com>
-In-Reply-To: <20190822172350.12008-1-eric.auger@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Aug 2019 17:25:39 +0100
-Message-ID: <CAFEAcA-TDGTXrj5M=DXWm5woFOiLKdibueqczS7Yz3kZPRMWpQ@mail.gmail.com>
-To: Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v4 0/5] ARM SMMUv3: Fix spurious
- notification errors and fail with VFIO
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Tue, 27 Aug 2019 16:34:42 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/6] block/curl: Fix hang and potential crash
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,41 +53,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Aug 2019 at 18:24, Eric Auger <eric.auger@redhat.com> wrote:
->
-> As of today when a guest is assigned with a host PCI device and
-> an SMMUv3, VFIO calls memory_region_iommu_replay() default
-> implementation. This translates the whole address range and
-> completely stalls the execution. As VFIO/SMMUv3 integration
-> is not supported yet (it requires SMMUv3 HW nested paging), let's
-> recognize this situation and fail.
->
-> Also the series silences some spurious translation configuration
-> decoding errors (STE out of span or invalid STE) that may happen
-> on guest IOVA invalidation notifications.
->
-> Best Regards
->
-> Eric
->
-> This series can be found at:
-> https://github.com/eauger/qemu/tree/v4.1.0_smmu_vfio_fail_v4
+Hi,
 
-> Eric Auger (5):
->   memory: Remove unused memory_region_iommu_replay_all()
->   memory: Add IOMMU_ATTR_HW_NESTED_PAGING IOMMU memory region attribute
->   hw/vfio/common: Fail on VFIO/HW nested paging detection
->   hw/arm/smmuv3: Log a guest error when decoding an invalid STE
->   hw/arm/smmuv3: Remove spurious error messages on IOVA invalidations
+As reported in https://bugzilla.redhat.com/show_bug.cgi?id=3D1740193, our
+curl block driver can spontaneously hang.  This becomes visible e.g.
+when reading compressed qcow2 images:
 
-I've added patches 1, 4 and 5 to target-arm.next.
+$ qemu-img convert -p -O raw -n \
+  https://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img \
+  null-co://
 
-thanks
--- PMM
+(Hangs at 74.21 %, usually.)
+
+A more direct way is:
+
+$ qemu-img bench -f raw http://download.qemu.org/qemu-4.1.0.tar.xz \
+    -d 1 -S 524288 -c 2
+
+(Which simply performs two requests, and the second one hangs.  You can
+use any HTTP resource (probably FTP, too) you=E2=80=99d like that is at l=
+east
+1 MB in size.)
+
+It turns out that this is because cURL 7.59.0 has added a protective
+feature against some misuse we had in our code: curl_multi_add_handle()
+must not be called from within a cURL callback, but in some cases we
+did.  As of 7.59.0, this fails, our new request is not registered and
+the I/O request stalls.  This is fixed by patch 5.
+
+Patch 6 makes us check for curl_multi_add_handle()=E2=80=99s return code,
+because if we had done that before, debugging would have been much
+simpler.
+
+
+On the way to fixing it, I had a look over the whole cURL code and found
+a suspicious QLIST_FOREACH_SAFE() loop that actually does not seem very
+safe at all.  I think this may lead to crashes, although I have never
+seen any myself.  https://bugzilla.redhat.com/show_bug.cgi?id=3D1744602#c=
+5
+shows one in exactly the function in question, so I think it actually is
+a problem.
+
+This is fixed by patch 4, patches 1 through 3 prepare for it.
+
+
+Max Reitz (6):
+  curl: Keep pointer to the CURLState in CURLSocket
+  curl: Keep *socket until the end of curl_sock_cb()
+  curl: Pass CURLSocket to curl_multi_{do,read}()
+  curl: Report only ready sockets
+  curl: Handle success in multi_check_completion
+  curl: Check curl_multi_add_handle()'s return code
+
+ block/curl.c | 129 +++++++++++++++++++++++++--------------------------
+ 1 file changed, 63 insertions(+), 66 deletions(-)
+
+--=20
+2.21.0
+
 
