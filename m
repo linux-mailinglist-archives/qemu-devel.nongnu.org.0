@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669DCA07F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 18:59:11 +0200 (CEST)
-Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E84A07E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 18:56:19 +0200 (CEST)
+Received: from localhost ([::1]:38714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i31Hq-0004wF-8Y
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 12:59:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42349)
+	id 1i31F3-0001SV-V4
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 12:56:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i31C7-0007es-HA
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:18 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i31CE-0007in-2A
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i31C3-0000py-FR
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:14 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40179)
+ (envelope-from <alex.bennee@linaro.org>) id 1i31CC-0000yN-0i
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:21 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38574)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i31C3-0000oY-4r
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:11 -0400
-Received: by mail-wr1-x441.google.com with SMTP id c3so510795wrd.7
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 09:53:11 -0700 (PDT)
+ id 1i31C7-0000qo-1E
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:18 -0400
+Received: by mail-wm1-x344.google.com with SMTP id o184so794115wme.3
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 09:53:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AnLfjJ532pnrQLEmB2HlY+ej0qh5jfVOAVC2UPBUj4M=;
- b=WfbUbqj16CnAz/CEkYfPWA1keOmaBBfTX527aWNTS/xEcaL+eD3EYrQ9F19uvOTOzV
- TbCT/0lqk0y1GvwYlFRJH5DxnZV3vLSNsg4od3tmoBWbxN2EKLLB7LL8Njy35/gbWY9E
- L7yF3+X3ViwEw9zgqX6/1TI3bG3mr1dY4PHcy1ako0BTgDu3GjpgL0xWde/e2VJcQX3D
- imJ3inP32Pzg8F2LQX55Yf+o7SrqGXKbNPOmxSZ3gX3/WAd7RT1bKQjIBPL8Mgn4XoAB
- FcRHoZkPtAtGqFTD2egFKK73uYhFDKaKOyQR1RDhmz1CraVk9EoeYIUsabELxkrzpkaJ
- OrZg==
+ bh=XYDil4p7u1BVyZvi3vGSRuZatnO0Tk5MNRsRKlBY+Xo=;
+ b=KG6G42amMcs/3rRJ3gU2YP8WFdCEfyvNT9hc3pW5f7YxUqssWebEjiQv1Jen6KXAkD
+ k7JUtKzbbF6JFZ9zyG4GkWYoeqIRgX86+TJ3MXcQusmskWnC4mPfIIthmeL7Et6/QsfF
+ w3z22DvOxsw1yW4Gew3c/EcjzAYlcdpulwLAdynzEi2DsFLY7aMETuxOPwJ9CQBAW8eA
+ WTH6cnFyjCjrshRPfc2P8P0wyO+S1pgD2ZHfqUpuB9pL4w2vulPlil2Y0kagHVkMROsE
+ Y70Ut2mMEo/l2+6T8yxOmxx9LUchnfPWsiIjjVWzSJ4kv8up5RwCpVwoCQm6+BV0Ki5+
+ 7wJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AnLfjJ532pnrQLEmB2HlY+ej0qh5jfVOAVC2UPBUj4M=;
- b=PSrFxH1fwjZby6DjFO/DMFP1DYUBF9ek9jqCn2kXMJxzZ4+FsdqeupO2MIqmZssguM
- jvetFe33/NsK0pSmWwJEIQrH2P1rt0aN0sgm1Gu3XZZ6FxPooVZIY821tI0FuKebgYVn
- pAl19FgFUZc68kPb92Jf5B4Z2d4o9FBUvYc1T8APzrlnpD+0yCzRDQvH/RB9RQCCedSF
- ZQS3kNMekn58yju5+LxwhGi/O7N+12R3kQ+rPuGw/9xWpcBqdDmbUD0zfRGMAsu/7tbh
- 19F1N2AidHnxqEkJhJiaMR7VheFlMOHFZ5GZgb8St/jtFQ4xDomiup9aW0WFqsTTjNUl
- psTQ==
-X-Gm-Message-State: APjAAAXrtrZn201N6kEAr33nJ+vaDE5CGY9oksBGQlVhXQ3e4WduwIya
- GgmN3qlmK1rUr8cIurrz06I0GQ==
-X-Google-Smtp-Source: APXvYqxCAP62wNcILBT5WJZLrIKQRjeW0ovq81NK0fCq5HeidRyR7V2/L2jQkey/QlW/cImFYQ3uAg==
-X-Received: by 2002:adf:a415:: with SMTP id d21mr2253900wra.94.1567011190025; 
- Wed, 28 Aug 2019 09:53:10 -0700 (PDT)
+ bh=XYDil4p7u1BVyZvi3vGSRuZatnO0Tk5MNRsRKlBY+Xo=;
+ b=Uo2WWRrpr2znGa1cmtowGJqeNm6nwQtFoDYfeuj2orQwfP+g3zjzqxHvDC92x3giFn
+ SSAsikw7wQ4lnw4ewdbv36SC6y2FOZGPIQ/7wN58dJ3JCrtmE/KaSrXK0VwLGln5+5hw
+ +1pJc1icYwz9XwKghPyb/K3C9Ignp9owoMSfUEaRJcDw/GGWMaouDE7S/vyJs/Kdr52X
+ rvXLE4ZCcXA9p/AguOf6MMZBaL6c5WHoDleVwK4WI6LGTKaZxThjsJbzSbTozfVqm5Nz
+ mvFqbYUY3JdMfyhJjG47oz5oyxaxRjo7kgM92wzz6g3LWzKBYKSc+c2yiFGxEUX1elsn
+ N8Kw==
+X-Gm-Message-State: APjAAAUhNO6RTuhMspSqQCsXmHzO0hpO3p3dooBjv2vrt1+PSBI2yS/m
+ /VMKZtwtYmXG5Sc+IFHYVcdLe9dRpi0=
+X-Google-Smtp-Source: APXvYqw8anfacmi//HxUPIasSq4QPtCmADIH8zvHKx1RIoIg89USUKN2SUKqPRBISQgVxn1PUb9Vyw==
+X-Received: by 2002:a1c:f007:: with SMTP id a7mr4465376wmb.172.1567011191456; 
+ Wed, 28 Aug 2019 09:53:11 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n12sm3391799wmc.24.2019.08.28.09.53.07
+ by smtp.gmail.com with ESMTPSA id a192sm302176wma.1.2019.08.28.09.53.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 09:53:08 -0700 (PDT)
+ Wed, 28 Aug 2019 09:53:10 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 908201FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id CABC61FF92;
  Wed, 28 Aug 2019 17:53:07 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 17:53:00 +0100
-Message-Id: <20190828165307.18321-3-alex.bennee@linaro.org>
+Date: Wed, 28 Aug 2019 17:53:03 +0100
+Message-Id: <20190828165307.18321-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190828165307.18321-1-alex.bennee@linaro.org>
 References: <20190828165307.18321-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v1 2/9] target/arm: handle A-profile T32
- semihosting at translate time
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH v1 5/9] includes: remove stale [smp|max]_cpus
+ externs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,64 +82,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Like Xu <like.xu@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As for the other semihosting calls we can resolve this at translate
-time.
+Commit a5e0b3311 removed these in favour of querying machine
+properties. Remove the extern declarations as well.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: Like Xu <like.xu@linux.intel.com>
+Message-Id: <20190711130546.18578-1-alex.bennee@linaro.org>
 ---
- target/arm/translate.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+ include/sysemu/sysemu.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 259c4669b4c..6157e9f52fc 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -10907,6 +10907,24 @@ static inline void gen_thumb_bkpt(DisasContext *s, int imm8)
-     gen_exception_bkpt_insn(s, syn_aa32_bkpt(imm8, true));
- }
- 
-+/*
-+ * Thumb SWI. On A-profile CPUs this may be a semihosting call.
-+ */
-+static inline void gen_thumb_swi(DisasContext *s, int imm8)
-+{
-+    if (semihosting_enabled() &&
-+#ifndef CONFIG_USER_ONLY
-+        s->current_el != 0 &&
-+#endif
-+        (imm8 == 0xab)) {
-+        gen_exception_internal_insn(s, 0, EXCP_SEMIHOST);
-+        return;
-+    }
-+    gen_set_pc_im(s, s->base.pc_next);
-+    s->svc_imm = imm8;
-+    s->base.is_jmp = DISAS_SWI;
-+}
-+
- static void disas_thumb_insn(DisasContext *s, uint32_t insn)
- {
-     uint32_t val, op, rm, rn, rd, shift, cond;
-@@ -11658,10 +11676,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-             goto undef;
- 
-         if (cond == 0xf) {
--            /* swi */
--            gen_set_pc_im(s, s->base.pc_next);
--            s->svc_imm = extract32(insn, 0, 8);
--            s->base.is_jmp = DISAS_SWI;
-+            /* swi/svc  */
-+            gen_thumb_swi(s, extract32(insn, 0, 8));
-             break;
-         }
-         /* generate a conditional jump to next instruction */
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index d2c38f611a3..44f18eb7394 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -42,8 +42,6 @@ extern const char *keyboard_layout;
+ extern int win2k_install_hack;
+ extern int alt_grab;
+ extern int ctrl_grab;
+-extern int smp_cpus;
+-extern unsigned int max_cpus;
+ extern int cursor_hide;
+ extern int graphic_rotate;
+ extern int no_quit;
 -- 
 2.20.1
 
