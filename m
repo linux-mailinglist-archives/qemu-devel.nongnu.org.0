@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35907A0190
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:24:35 +0200 (CEST)
-Received: from localhost ([::1]:35824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D900A0188
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:22:58 +0200 (CEST)
+Received: from localhost ([::1]:35788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2x06-0004cs-3N
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47140)
+	id 1i2wyW-0002r0-R4
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:22:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47187)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i2wlS-0002GU-5G
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:27 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i2wlV-0002K8-7J
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i2wlR-0004D3-2X
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:26 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33227)
+ (envelope-from <alex.bennee@linaro.org>) id 1i2wlT-0004E3-Bi
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:29 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38326)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i2wlQ-0004Cf-TV
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:25 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id u16so2278289wrr.0
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:09:24 -0700 (PDT)
+ id 1i2wlT-0004Df-68
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:27 -0400
+Received: by mail-wr1-x431.google.com with SMTP id e16so2249700wro.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:09:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aUExrHFNvDDWB8ZI7TeI5fqa+GiUSS9y/dm2gcc+xvU=;
- b=e8dFbzdEmq2cCEbobonZYtdQ+QnUt+wzcZuxuAZ5H4Oqg/+e4qC8wOLd+Ud+VZ30E3
- NQ8mptg+8pk59ylhumhfV55Ag2wEZjyyl0TQtJEWsTnLReoBqs3Ejl2N4FIntaJ/L7cB
- Kpc8Y8TY1InC4nhn1vDA02Jhluw2FhjgIjXsZpJ3gxtfiKo0eK+j8An26Ua3OygnKlpL
- 8IUkKHyI3yjwJGC3kar4jsLIt4/XDEHZ2+cKnhC3QmbFWc3JlXCkScmdvUE55NwZxRyI
- qgLheJkha5qNOpgri+rPHfwatwIOwnyUp6t8wrv92VMYnZP85zu6OtR+jsrkGiZytw88
- cicA==
+ bh=ZPlBiunhfKpTczKApGa0BHboWJTJ/S0U2B+sG6MNmqU=;
+ b=H9s7mKtaUqlA4NE6VRWAV3aAXOQmGnzggq5Qlfgh3qAe+LDz1CJE15bvVCxGLS+BzG
+ 4ERDvdnKa6mwRPovOsEnweYcz8VhDlz3r06PL8TX0l5SsUDDirNnIAsZH20FwuGEoi05
+ KF/p/zGQuSyw34K58NxTBp7EVglEbXPWwTgpz+bMCZntrLsScbrC06DUXdlxNyRJ8P0v
+ /g5r9XrRsmS4QCf9nWxYw/SGFRWRfhVPwkfg27JHsofp2CRIrZ3rbXzd/1W+lrdaTSri
+ ypw2pnXdkfj5VEEXwIdeejed6oxRK/91AljFITtRI8xC2Ugd9dCo0P+mRcYVFhd0DFuK
+ w0TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aUExrHFNvDDWB8ZI7TeI5fqa+GiUSS9y/dm2gcc+xvU=;
- b=Rii0iFya6DUrjs+5VUOaGpg4tRBe9qG0whXMh5yeyunAgtaqZYUIJk2Z+fhrk3JmXQ
- F0R6btmZPzuN3BGlaQiqcO3wcSeuwFKH7BJUJRXhU19CVH3I6Vl5QTVzbQj5JijXIodQ
- IfoD/bepoEqFGMBSv5FVUKcApLmmV0bziGwp9G2sJTbH9VUpakfDRjMUxfzgev+0NRIy
- 9K6lbS7xiqp5YVOefZRhx71ykQ8yTxhAqqJoajImETZ5Nzx1Rz3+d9AUk7rUrGHnhxNv
- k2p0PXS6EokpRVUZmKMyEfKrZPvouLF3Ks7tx0VxzPATy9Lu8AzCIh6FEqreIuqXqGdU
- i4FQ==
-X-Gm-Message-State: APjAAAW45uekBs/+9shAKi+ow6vvR0Mbxt+qXDpc4hHdZ57agzaDzh71
- 04+3dvhIGWC2Ld7Y4/8E12emVuGkNgs=
-X-Google-Smtp-Source: APXvYqzJ4kF8gidT/VP/c1e+iNj3/Xps2UQ/iIqA17w3RwCwa9n6D7BbVSs2SdV7P58seOhYIk3Hzw==
-X-Received: by 2002:a5d:4250:: with SMTP id s16mr4265026wrr.318.1566994163898; 
- Wed, 28 Aug 2019 05:09:23 -0700 (PDT)
+ bh=ZPlBiunhfKpTczKApGa0BHboWJTJ/S0U2B+sG6MNmqU=;
+ b=TVp3NtjeEtv2pURVnom0+8byYGS95NR56Zbg/vsuqqsbcmUPW81VhtHCbBKbUyFudw
+ odoRq9sJqdbwgOIDbv99EOWAII+k+jKLN4io82RWvhSS+jbvFxvtySvttNoVEayTv9tD
+ 6SAr2E58zU5/zGSjknnc8IU6hXHj3pwj+uyL0r6S1cHDyiRhWsHrAldeGR8hxTggglXe
+ oyVM3wsNpd5DP1dqaHk0oH4ZjoZ+c2PNT8zUM2qFG6QIcZY0E9DDUiYtEY8ZECvknrW9
+ VY0bWzoV47aXU6fH1KgNhP4TecNz3wcuF9PCADWlThFxSdEvk4z4IunIvf+MMy5nKFIK
+ 4aYw==
+X-Gm-Message-State: APjAAAU5JLjti2N47vuSkECWoLT8BDssdPiyLyvyTUUVHurnpHdmJcG2
+ wCYFOShF6YIdZIKFYJTMVdqOHw==
+X-Google-Smtp-Source: APXvYqxhdfntArWRUpC//M/W990Ugknj0QBPTOAiJ3GD2jq+pDzcbK8CFswk2EoiEwjZZ6Yh9E1hVA==
+X-Received: by 2002:adf:8444:: with SMTP id 62mr1061710wrf.202.1566994166189; 
+ Wed, 28 Aug 2019 05:09:26 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m7sm4502844wmi.18.2019.08.28.05.09.22
+ by smtp.gmail.com with ESMTPSA id i5sm2902577wrn.48.2019.08.28.05.09.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 05:09:22 -0700 (PDT)
+ Wed, 28 Aug 2019 05:09:23 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F03B01FF8C;
- Wed, 28 Aug 2019 13:09:21 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 239961FF90;
+ Wed, 28 Aug 2019 13:09:22 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 13:09:14 +0100
-Message-Id: <20190828120921.9586-2-alex.bennee@linaro.org>
+Date: Wed, 28 Aug 2019 13:09:16 +0100
+Message-Id: <20190828120921.9586-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190828120921.9586-1-alex.bennee@linaro.org>
 References: <20190828120921.9586-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
-Subject: [Qemu-devel] [PATCH v1 1/8] contrib/gitdm: filetype interface is
- not in order, fix
+X-Received-From: 2a00:1450:4864:20::431
+Subject: [Qemu-devel] [PATCH  v1 3/8] mailmap: Reorder by sections
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,36 +82,67 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-gitm prints the rather cryptic message "interface not found, appended
-to the last order".  This is because filetypes.txt has filetype
-interface, but neglects to mention it in order.  Fix that.
+Our mailmap currently has 4 sections somehow documented.
+Reorder few entries not related to "addresses from the original
+git import" into the 3rd section, and add a comment to describe
+it.
 
-Fixes: 2f28271d807edfcdc47a280c06999dd866dcae10
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190822122350.29852-2-armbru@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Message-Id: <20190822230916.576-2-philmd@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- contrib/gitdm/filetypes.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .mailmap | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/contrib/gitdm/filetypes.txt b/contrib/gitdm/filetypes.txt
-index 165b71b3f9a..2d5002fea0c 100644
---- a/contrib/gitdm/filetypes.txt
-+++ b/contrib/gitdm/filetypes.txt
-@@ -34,7 +34,7 @@
- #   If there is an filetype which is not in order but has values, it will
- #   be added at the end.
- #
--order build,tests,code,documentation,devel-doc,blobs
-+order build,interface,tests,code,documentation,devel-doc,blobs
+diff --git a/.mailmap b/.mailmap
+index b8e08297c90..e1fdc88d25d 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -4,20 +4,12 @@
+ # into proper addresses so that they are counted properly by git shortlog.
+ Andrzej Zaborowski <balrogg@gmail.com> balrog <balrog@c046a42c-6fe2-441c-8c8c-71466251a162>
+ Anthony Liguori <anthony@codemonkey.ws> aliguori <aliguori@c046a42c-6fe2-441c-8c8c-71466251a162>
+-Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+ Aurelien Jarno <aurelien@aurel32.net> aurel32 <aurel32@c046a42c-6fe2-441c-8c8c-71466251a162>
+ Blue Swirl <blauwirbel@gmail.com> blueswir1 <blueswir1@c046a42c-6fe2-441c-8c8c-71466251a162>
+ Edgar E. Iglesias <edgar.iglesias@gmail.com> edgar_igl <edgar_igl@c046a42c-6fe2-441c-8c8c-71466251a162>
+ Fabrice Bellard <fabrice@bellard.org> bellard <bellard@c046a42c-6fe2-441c-8c8c-71466251a162>
+-James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
+ Jocelyn Mayer <l_indien@magic.fr> j_mayer <j_mayer@c046a42c-6fe2-441c-8c8c-71466251a162>
+ Paul Brook <paul@codesourcery.com> pbrook <pbrook@c046a42c-6fe2-441c-8c8c-71466251a162>
+-Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
+-Aleksandar Markovic <amarkovic@wavecomp.com> <aleksandar.markovic@mips.com>
+-Aleksandar Markovic <amarkovic@wavecomp.com> <aleksandar.markovic@imgtec.com>
+-Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
+-Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
+-Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
+ Thiemo Seufer <ths@networkno.de> ths <ths@c046a42c-6fe2-441c-8c8c-71466251a162>
+ malc <av1474@comtv.ru> malc <malc@c046a42c-6fe2-441c-8c8c-71466251a162>
  
- #
- #
+@@ -32,6 +24,15 @@ Ian McKellar <ianloic@google.com> Ian McKellar via Qemu-devel <qemu-devel@nongnu
+ Julia Suvorova <jusual@mail.ru> Julia Suvorova via Qemu-devel <qemu-devel@nongnu.org>
+ Justin Terry (VM) <juterry@microsoft.com> Justin Terry (VM) via Qemu-devel <qemu-devel@nongnu.org>
+ 
++# Next, replace old addresses by a more recent one.
++Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
++James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
++Aleksandar Markovic <amarkovic@wavecomp.com> <aleksandar.markovic@mips.com>
++Aleksandar Markovic <amarkovic@wavecomp.com> <aleksandar.markovic@imgtec.com>
++Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
++Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
++Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
++Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
+ 
+ # Also list preferred name forms where people have changed their
+ # git author config, or had utf8/latin1 encoding issues.
 -- 
 2.20.1
 
