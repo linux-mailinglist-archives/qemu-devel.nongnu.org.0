@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14A0A0770
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 18:34:30 +0200 (CEST)
-Received: from localhost ([::1]:38384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0209EA077F
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 18:37:37 +0200 (CEST)
+Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i30tx-00047f-Hu
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 12:34:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34414)
+	id 1i30wx-0007hU-Kf
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 12:37:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34481)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i30mn-0006ti-2I
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:07 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i30mp-0006u2-IZ
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i30ml-0007lW-F7
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:04 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:55127 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i30mm-0007np-Sj
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:07 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:55247 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1i30ml-0007kY-2l
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:03 -0400
+ id 1i30mm-0007lm-DX
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:04 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 03FA21A22BA;
+ by mail.rt-rk.com (Postfix) with ESMTP id 0BD7F1A22BD;
  Wed, 28 Aug 2019 18:27:00 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id BF0A61A2285;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id C6E791A22A6;
  Wed, 28 Aug 2019 18:26:59 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 18:26:28 +0200
-Message-Id: <1567009614-12438-5-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Wed, 28 Aug 2019 18:26:29 +0200
+Message-Id: <1567009614-12438-6-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1567009614-12438-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1567009614-12438-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v2 04/30] target/mips: Clean up handling of CP0
- register 3
+Subject: [Qemu-devel] [PATCH v2 05/30] target/mips: Clean up handling of CP0
+ register 4
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,108 +57,146 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Clean up handling of CP0 register 3.
+Clean up handling of CP0 register 4.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- target/mips/cpu.h       |  1 +
- target/mips/translate.c | 20 ++++++++++----------
- 2 files changed, 11 insertions(+), 10 deletions(-)
+ target/mips/cpu.h       |  2 ++
+ target/mips/translate.c | 44 ++++++++++++++++++++++++--------------------
+ 2 files changed, 26 insertions(+), 20 deletions(-)
 
 diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index eebdc9f..c2ef942 100644
+index c2ef942..04d4b09 100644
 --- a/target/mips/cpu.h
 +++ b/target/mips/cpu.h
-@@ -304,6 +304,7 @@ typedef struct mips_def_t mips_def_t;
- /* CP0 Register 03 */
- #define CP0_REG03__ENTRYLO1        0
- #define CP0_REG03__GLOBALNUM       1
-+#define CP0_REG03__TCOPT           7
+@@ -307,7 +307,9 @@ typedef struct mips_def_t mips_def_t;
+ #define CP0_REG03__TCOPT           7
  /* CP0 Register 04 */
  #define CP0_REG04__CONTEXT         0
++#define CP0_REG04__CONTEXTCONFIG   1
  #define CP0_REG04__USERLOCAL       2
++#define CP0_REG04__XCONTEXTCONFIG  3
+ #define CP0_REG04__DBGCONTEXTID    4
+ #define CP0_REG04__MEMORYMAPID     5
+ /* CP0 Register 05 */
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 6e65312..013dd53 100644
+index 013dd53..677a2d0 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -6649,7 +6649,7 @@ static void gen_mfhc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+@@ -7015,23 +7015,24 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_03:
+     case CP0_REGISTER_04:
          switch (sel) {
 -        case 0:
-+        case CP0_REG03__ENTRYLO1:
-             CP0_CHECK(ctx->hflags & MIPS_HFLAG_ELPA);
-             gen_mfhc0_entrylo(arg, offsetof(CPUMIPSState, CP0_EntryLo1));
-             register_name = "EntryLo1";
-@@ -6749,7 +6749,7 @@ static void gen_mthc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_03:
-         switch (sel) {
--        case 0:
-+        case CP0_REG03__ENTRYLO1:
-             CP0_CHECK(ctx->hflags & MIPS_HFLAG_ELPA);
-             tcg_gen_andi_tl(arg, arg, mask);
-             gen_mthc0_entrylo(arg, offsetof(CPUMIPSState, CP0_EntryLo1));
-@@ -6987,7 +6987,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_03:
-         switch (sel) {
--        case 0:
-+        case CP0_REG03__ENTRYLO1:
-             {
-                 TCGv_i64 tmp = tcg_temp_new_i64();
-                 tcg_gen_ld_i64(tmp, cpu_env,
-@@ -7004,7 +7004,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             }
-             register_name = "EntryLo1";
++        case CP0_REG04__CONTEXT:
+             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_Context));
+             tcg_gen_ext32s_tl(arg, arg);
+             register_name = "Context";
              break;
 -        case 1:
-+        case CP0_REG03__GLOBALNUM:
-             CP0_CHECK(ctx->vp);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_GlobalNumber));
-             register_name = "GlobalNumber";
-@@ -7743,11 +7743,11 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+-            /* gen_helper_mfc0_contextconfig(arg); - SmartMIPS ASE */
++        case CP0_REG04__CONTEXTCONFIG:
++            /* SmartMIPS ASE */
++            /* gen_helper_mfc0_contextconfig(arg); */
+             register_name = "ContextConfig";
+             goto cp0_unimplemented;
+-        case 2:
++        case CP0_REG04__USERLOCAL:
+             CP0_CHECK(ctx->ulri);
+             tcg_gen_ld_tl(arg, cpu_env,
+                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
+             tcg_gen_ext32s_tl(arg, arg);
+             register_name = "UserLocal";
+             break;
+-        case 5:
++        case CP0_REG04__MEMORYMAPID:
+             CP0_CHECK(ctx->mi);
+             gen_helper_mtc0_memorymapid(cpu_env, arg);
+             register_name = "MemoryMapID";
+@@ -7758,21 +7759,22 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_03:
+     case CP0_REGISTER_04:
          switch (sel) {
 -        case 0:
-+        case CP0_REG03__ENTRYLO1:
-             gen_helper_mtc0_entrylo1(cpu_env, arg);
-             register_name = "EntryLo1";
++        case CP0_REG04__CONTEXT:
+             gen_helper_mtc0_context(cpu_env, arg);
+             register_name = "Context";
              break;
 -        case 1:
-+        case CP0_REG03__GLOBALNUM:
-             CP0_CHECK(ctx->vp);
-             /* ignored */
-             register_name = "GlobalNumber";
-@@ -8494,11 +8494,11 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+-//            gen_helper_mtc0_contextconfig(cpu_env, arg); /* SmartMIPS ASE */
++        case CP0_REG04__CONTEXTCONFIG:
++            /* SmartMIPS ASE */
++            /* gen_helper_mtc0_contextconfig(cpu_env, arg); */
+             register_name = "ContextConfig";
+             goto cp0_unimplemented;
+-        case 2:
++        case CP0_REG04__USERLOCAL:
+             CP0_CHECK(ctx->ulri);
+             tcg_gen_st_tl(arg, cpu_env,
+                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
+             register_name = "UserLocal";
+             break;
+-        case 5:
++        case CP0_REG04__MEMORYMAPID:
+             CP0_CHECK(ctx->mi);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_MemoryMapID));
+             register_name = "MemoryMapID";
+@@ -8509,21 +8511,22 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_03:
+     case CP0_REGISTER_04:
          switch (sel) {
 -        case 0:
-+        case CP0_REG03__ENTRYLO1:
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_EntryLo1));
-             register_name = "EntryLo1";
++        case CP0_REG04__CONTEXT:
+             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_Context));
+             register_name = "Context";
              break;
 -        case 1:
-+        case CP0_REG03__GLOBALNUM:
-             CP0_CHECK(ctx->vp);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_GlobalNumber));
-             register_name = "GlobalNumber";
-@@ -9215,11 +9215,11 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+-//            gen_helper_dmfc0_contextconfig(arg); /* SmartMIPS ASE */
++        case CP0_REG04__CONTEXTCONFIG:
++            /* SmartMIPS ASE */
++            /* gen_helper_dmfc0_contextconfig(arg); */
+             register_name = "ContextConfig";
+             goto cp0_unimplemented;
+-        case 2:
++        case CP0_REG04__USERLOCAL:
+             CP0_CHECK(ctx->ulri);
+             tcg_gen_ld_tl(arg, cpu_env,
+                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
+             register_name = "UserLocal";
+             break;
+-        case 5:
++        case CP0_REG04__MEMORYMAPID:
+             CP0_CHECK(ctx->mi);
+             gen_helper_mtc0_memorymapid(cpu_env, arg);
+             register_name = "MemoryMapID";
+@@ -9230,21 +9233,22 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_03:
+     case CP0_REGISTER_04:
          switch (sel) {
 -        case 0:
-+        case CP0_REG03__ENTRYLO1:
-             gen_helper_dmtc0_entrylo1(cpu_env, arg);
-             register_name = "EntryLo1";
++        case CP0_REG04__CONTEXT:
+             gen_helper_mtc0_context(cpu_env, arg);
+             register_name = "Context";
              break;
 -        case 1:
-+        case CP0_REG03__GLOBALNUM:
-             CP0_CHECK(ctx->vp);
-             /* ignored */
-             register_name = "GlobalNumber";
+-//           gen_helper_mtc0_contextconfig(cpu_env, arg); /* SmartMIPS ASE */
++        case CP0_REG04__CONTEXTCONFIG:
++            /* SmartMIPS ASE */
++            /* gen_helper_mtc0_contextconfig(cpu_env, arg); */
+             register_name = "ContextConfig";
+             goto cp0_unimplemented;
+-        case 2:
++        case CP0_REG04__USERLOCAL:
+             CP0_CHECK(ctx->ulri);
+             tcg_gen_st_tl(arg, cpu_env,
+                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
+             register_name = "UserLocal";
+             break;
+-        case 5:
++        case CP0_REG04__MEMORYMAPID:
+             CP0_CHECK(ctx->mi);
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_MemoryMapID));
+             register_name = "MemoryMapID";
 -- 
 2.7.4
 
