@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9B8A0A0A
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 20:56:29 +0200 (CEST)
-Received: from localhost ([::1]:39938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30AABA0A2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 21:09:16 +0200 (CEST)
+Received: from localhost ([::1]:40890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i337M-0000Yk-Ss
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 14:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35698)
+	id 1i33Jh-0005tZ-Hr
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 15:09:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i335G-0007Us-Mk
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 14:54:20 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i33Fd-0002vd-J1
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i335E-0001tJ-MD
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 14:54:18 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46539)
+ (envelope-from <richard.henderson@linaro.org>) id 1i33Fc-00083T-3y
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:01 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:38750)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i335E-0001sg-BG
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 14:54:16 -0400
-Received: by mail-pf1-x442.google.com with SMTP id q139so347804pfc.13
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 11:54:15 -0700 (PDT)
+ id 1i33Fb-00082q-Tt
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:00 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id o70so391440pfg.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:04:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6dG1k3rZPWGgz878zZ1jswE9fsDu5sR7vVeCz4rLvnE=;
- b=keOKydypuklhIPzssD8MHNAcvbxBIPOIbiPqVfaljvMDGpmTNENvp7l2JufMkVMwln
- QIOyFJcqJ7GrC9MLFVuwLQaKP60Z9OgInfDp1EL9TmEvHH3NZLpOthOuFYhyCbtyJKBr
- qfNdJFAn/bckNa1vNQD6zjvZzhgXZkzKYyMJpXk92cL0e9I7vLEF/H3dL6PsClW3G8kH
- trDkO8Gsam+xDQxzUjraWj9FoLRc/x2sliG7PF3NL1RG6l2wNnzcKYdj2OigAy55IkI6
- grGyrmvYpaAhHYuddl0TZFcwa8NIANaXEbqQVhfsf/exXExVdp7dcltcbNIz6yGqz1hX
- xFVA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=s9P79p8xzPBZXs21e7DuKNHBq2BT565iMYq602qI4uw=;
+ b=rSZxPhVIhE5L+RcsaqHafjyR15yPAtyZleMvpvOBsJeZ+JXGlTjpWSdHG5ZLrSSTEo
+ PGvsQnqVFXC8wj7aOP/3S1EiUO3Ysn2yJn+KNscLfexOFRP7r8UNrZtKaqLYNvJK7tWG
+ FKhTEUnTPFB6wYNPXKBKc42AGOb60ZKGnENr5lpiBveAaDPJlRIz92DXRdTa7UpD/A2i
+ y7N4fAZFXYRs9kCv69P7WVPcxwENz7wPALG7lL50c1YT4fm+HypsSM1zhjCrUIz/TsTg
+ mcpvSbRlV5izbAVCcKMK+quM/V6jC0jffyvV18Um9hRSVj719jW++KQm947OwnPM4GV6
+ hv4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=6dG1k3rZPWGgz878zZ1jswE9fsDu5sR7vVeCz4rLvnE=;
- b=kLjwXvTpJqBDOp08nWyEfYimGlkQ8Y4AoxtPXTNO1U/5sooi134jIPNkBX/3XstPT/
- 8bK5JMrIev/5P5M9rJisH/ANK8V3Jr6KpIU0SjlkfQsEN+6r4FsAZ5+DqNi6AdL4EHAF
- R1UzVp1CzhT+LVflR4Ygy5ySxpDj5UOASW3Y/CqRi8ssjl7jhZmceak5H0R/QwuXdQSM
- 7v75C+7DUiMeV4DU8cPDnSfNxIB4pkjKD42cqwmE1XeJzva3GkFYndpFekTB8w2hDO1K
- edB9kSivxf+/BYJMte+f5ApXiqwh45koEjf3U+LqDGf2Iz6klxfuTXK+X8P5O6Tc5nZ9
- K9Ng==
-X-Gm-Message-State: APjAAAXmE/M8DfaTu8NE2ruZxy6XQfgKmIRNj5Va2O3/eQuW6j5RIYC8
- q2a4ypy0gJXPQlgOne/+5psEPQ==
-X-Google-Smtp-Source: APXvYqwyp9bcoCdV0gDpcXzeOLPvl9m5j9w3dYbrlgruDVQGM8ptKsuNvZ2KkCG/Cm06AaN2DuxyfQ==
-X-Received: by 2002:aa7:8c4c:: with SMTP id e12mr6499181pfd.258.1567018454824; 
- Wed, 28 Aug 2019 11:54:14 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id e6sm100387pfl.37.2019.08.28.11.54.13
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 28 Aug 2019 11:54:14 -0700 (PDT)
-To: liuzhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <1566959818-38369-1-git-send-email-zhiwei_liu@c-sky.com>
+ bh=s9P79p8xzPBZXs21e7DuKNHBq2BT565iMYq602qI4uw=;
+ b=tgoRxQFH3+jB5ak8h/2QxdytCWECmy9lBw4srOpLZoRpVzu7hKEbAG5tXvTAW1fPYm
+ VLB54+sz2oXvYlzN6zvJph0qk6fmiXM7QBncl3irokoCwSSCUuZ9QdTZ1Eku1PHYMBgr
+ KIgCe4bUqQDS2zmVX4iS1mW38EG5613oJM2lasdOzEHpDhPcWypWNq7at6v0iHq337OK
+ S2D+6zmYTgSgAtPvpgXI6hHoAtkEYE1dapHb/svZFxGBi6tcJaqBbMjJSnkaFl74dFW5
+ uQIgQZyifwcvpskJo8kHItgDan1uABvVrk5HmqkQ26QsHdS6ADLzZ4IZqHew1cqrdnHJ
+ 3jIA==
+X-Gm-Message-State: APjAAAXLp+hcnuiprYO71q8aOV4TWx5dZch/rQLnA1+ifGSXOjzm36ZV
+ sGvXg4gT8XiTVBE+W8G8//F/z2lSc3w=
+X-Google-Smtp-Source: APXvYqzdE2GkU3EUPVb99uVvD0dCnrU+kdPuj64/cTrdK4nqK+Oke2LFEBJZzTpYkoDldl23RFqAOg==
+X-Received: by 2002:a62:1858:: with SMTP id 85mr6647818pfy.120.1567019098356; 
+ Wed, 28 Aug 2019 12:04:58 -0700 (PDT)
+Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
+ [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.04.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Aug 2019 12:04:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <ba8c7451-b0a7-0405-f881-0c6d0d8574fb@linaro.org>
-Date: Wed, 28 Aug 2019 11:54:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+To: qemu-devel@nongnu.org
+Date: Wed, 28 Aug 2019 12:03:47 -0700
+Message-Id: <20190828190456.30315-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <1566959818-38369-1-git-send-email-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: Re: [Qemu-devel] [PATCH] RISCV: support riscv vector extension 0.7.1
+X-Received-From: 2607:f8b0:4864:20::42c
+Subject: [Qemu-devel] [PATCH v3 00/69] target/arm: Convert aa32 base isa to
+ decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,298 +78,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, palmer@sifive.com, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, riku.voipio@iki.fi, laurent@vivier.eu,
- Alistair.Francis@wdc.com, alex.bennee@linaro.org, aurelien@aurel32.net
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/27/19 7:36 PM, liuzhiwei wrote:
-> Change-Id: I3cf891bc400713b95f47ecca82b1bf773f3dcb25
-> Signed-off-by: liuzhiwei <zhiwei_liu@c-sky.com>
-> ---
->  fpu/softfloat.c                         |   119 +
->  include/fpu/softfloat.h                 |     4 +
->  linux-user/riscv/cpu_loop.c             |     8 +-
->  target/riscv/Makefile.objs              |     2 +-
->  target/riscv/cpu.h                      |    30 +
->  target/riscv/cpu_bits.h                 |    15 +
->  target/riscv/cpu_helper.c               |     7 +
->  target/riscv/csr.c                      |    65 +-
->  target/riscv/helper.h                   |   354 +
->  target/riscv/insn32.decode              |   374 +-
->  target/riscv/insn_trans/trans_rvv.inc.c |   484 +
->  target/riscv/translate.c                |     1 +
->  target/riscv/vector_helper.c            | 26563 ++++++++++++++++++++++++++++++
->  13 files changed, 28017 insertions(+), 9 deletions(-)
+This unifies the implementation of the actual instructions for
+a32, t32, and t16.
 
-As Alex mentioned, this is *far* too big to be presented as a single patch.
+There are a number of changes from v2, mostly from review feedback.
+I think that I've annotated them all via "v3:" tags after the commit,
+but I may have missed some.
 
-> diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-> index 3ff3fa5..3b0754c 100644
-> --- a/include/fpu/softfloat.h
-> +++ b/include/fpu/softfloat.h
-> @@ -293,6 +293,10 @@ float16 float16_maxnummag(float16, float16, float_status *status);
->  float16 float16_sqrt(float16, float_status *status);
->  int float16_compare(float16, float16, float_status *status);
->  int float16_compare_quiet(float16, float16, float_status *status);
-> +int float16_unordered_quiet(float16, float16, float_status *status);
-> +int float16_le(float16, float16, float_status *status);
-> +int float16_lt(float16, float16, float_status *status);
-> +int float16_eq_quiet(float16, float16, float_status *status);
+The patches without Reviewed-by are:
 
-As Alex mentioned, none of these changes are required, as all
-functionality is provided by float16_compare{,_quiet}.
-
-> diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-> index 12aa3c0..b01548a 100644
-> --- a/linux-user/riscv/cpu_loop.c
-> +++ b/linux-user/riscv/cpu_loop.c
-> @@ -40,7 +40,13 @@ void cpu_loop(CPURISCVState *env)
->          signum = 0;
->          sigcode = 0;
->          sigaddr = 0;
-> -
-> +        if (env->foflag) {
-> +            if (env->vfp.vl != 0) {
-> +                env->foflag = false;
-> +                env->pc += 4;
-> +                continue;
-> +            }
-
-This is most definitely not the correct way to implement first-fault.
-
-You need to have a look at target/arm/sve_helper.c, e.g. sve_ldff1_r,
-where we test pages for validity with tlb_vaddr_to_host.
-
-> +    /* vector coprocessor state.  */
-> +    struct {
-> +        union VECTOR {
-> +            float64  f64[VUNIT(64)];
-> +            float32  f32[VUNIT(32)];
-> +            float16  f16[VUNIT(16)];
-> +            target_ulong ul[VUNIT(sizeof(target_ulong))];
-> +            uint64_t u64[VUNIT(64)];
-> +            int64_t  s64[VUNIT(64)];
-> +            uint32_t u32[VUNIT(32)];
-> +            int32_t  s32[VUNIT(32)];
-> +            uint16_t u16[VUNIT(16)];
-> +            int16_t  s16[VUNIT(16)];
-> +            uint8_t  u8[VUNIT(8)];
-> +            int8_t   s8[VUNIT(8)];
-> +        } vreg[32];
-> +        target_ulong vxrm;
-> +        target_ulong vxsat;
-> +        target_ulong vl;
-> +        target_ulong vstart;
-> +        target_ulong vtype;
-> +        float_status fp_status;
-> +    } vfp;
-
-You've obviously copied "vfp" from target/arm.  Drop that.  It makes no sense
-in the context of risc-v.
-
-I'm not sure that vreg[].element[] really makes the most sense in the context
-of how risc-v rearranges its elements.  It will almost certainly fail clang
-validators, if enabled, since you'll be indexing beyond the end of vreg[n] into
-vreg[n+1].
-
-It might be best to have a single array:
-
-    union {
-        uint64_t u64[32 * VLEN / 64];
-        ...
-        uint8_t u8[32 * VLEN / 8];
-    } velt;
-
-This is clearer to the compiler that this is a single block of memory that we
-can index as we please.
-
-Note that float64/float32/float16 are legacy.  They will always be equivalent
-to the unsigned integer types of the same size.
-
-Is there really any vector operation at all that is dependent on XLEN?  If not,
-then there is no reason to confuse things by including target_ulong.
-
-
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index e32b612..405caf6 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -521,6 +521,13 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->          [PRV_H] = RISCV_EXCP_H_ECALL,
->          [PRV_M] = RISCV_EXCP_M_ECALL
->      };
-> +    if (env->foflag) {
-> +        if (env->vfp.vl != 0) {
-> +            env->foflag = false;
-> +            env->pc += 4;
-> +            return;
-> +        }
-> +    }
-
-Again, not the way to implement first-fault.
-
-In particular, you haven't even verified that do_interrupt has been called on
-behalf of a RISCV_EXCP_LOAD_PAGE_FAULT.  This could be a timer tick.
-
-> +#define MAX_U8      ((uint8_t)0xff)
-> +#define MIN_U8      ((uint8_t)0x0)
-> +#define MAX_S8      ((int8_t)0x7f)
-> +#define MIN_S8      ((int8_t)0x80)
-> +#define SIGNBIT16   (1 << 15)
-> +#define MAX_U16     ((uint16_t)0xffff)
-> +#define MIN_U16     ((uint16_t)0x0)
-> +#define MAX_S16     ((int16_t)0x7fff)
-> +#define MIN_S16     ((int16_t)0x8000)
-> +#define SIGNBIT32   (1 << 31)
-> +#define MAX_U32     ((uint32_t)0xffffffff)
-> +#define MIN_U32     ((uint32_t)0x0)
-> +#define MAX_S32     ((int32_t)0x7fffffff)
-> +#define MIN_S32     ((int32_t)0x80000000)
-> +#define SIGNBIT64   ((uint64_t)1 << 63)
-> +#define MAX_U64     ((uint64_t)0xffffffffffffffff)
-> +#define MIN_U64     ((uint64_t)0x0)
-> +#define MAX_S64     ((int64_t)0x7fffffffffffffff)
-> +#define MIN_S64     ((int64_t)0x8000000000000000)
-
-Why are you replicating INT8_MIN et al?
-
-
-> +static target_ulong vector_get_index(CPURISCVState *env, int rs1, int rs2,
-> +    int index, int mem, int width, int nf)
-> +{
-> +    target_ulong abs_off, base = env->gpr[rs1];
-> +    target_long offset;
-> +    switch (width) {
-> +    case 8:
-> +        offset = sign_extend(env->vfp.vreg[rs2].s8[index], 8) + nf * mem;
-> +        break;
-> +    case 16:
-> +        offset = sign_extend(env->vfp.vreg[rs2].s16[index], 16) + nf * mem;
-> +        break;
-> +    case 32:
-> +        offset = sign_extend(env->vfp.vreg[rs2].s32[index], 32) + nf * mem;
-> +        break;
-> +    case 64:
-> +        offset = env->vfp.vreg[rs2].s64[index] + nf * mem;
-> +        break;
-> +    default:
-> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-
-This is broken.  You cannot use GETPC() anywhere except in the outermost
-HELPER().  Otherwise you're not computing the return address back into the
-code_gen_buffer, which is what is required to properly unwind the guest state.
-
-
-> +static inline bool vector_vtype_ill(CPURISCVState *env)
-> +{
-> +    if ((env->vfp.vtype >> (sizeof(target_ulong) - 1)) & 0x1) {
-> +        return true;
-> +    }
-> +    return false;
-> +}
-> +
-> +static inline void vector_vtype_set_ill(CPURISCVState *env)
-> +{
-> +    env->vfp.vtype = ((target_ulong)1) << (sizeof(target_ulong) - 1);
-> +    return;
-> +}
-> +
-> +static inline int vector_vtype_get_sew(CPURISCVState *env)
-> +{
-> +    return (env->vfp.vtype >> 2) & 0x7;
-> +}
-> +
-> +static inline int vector_get_width(CPURISCVState *env)
-> +{
-> +    return  8 * (1 << vector_vtype_get_sew(env));
-> +}
-> +
-> +static inline int vector_get_lmul(CPURISCVState *env)
-> +{
-> +    return 1 << (env->vfp.vtype & 0x3);
-> +}
-> +
-> +static inline int vector_get_vlmax(CPURISCVState *env)
-> +{
-> +    return vector_get_lmul(env) * VLEN / vector_get_width(env);
-> +}
-> +
-> +static inline int vector_elem_mask(CPURISCVState *env, uint32_t vm, int width,
-> +    int lmul, int index)
-> +{
-> +    int mlen = width / lmul;
-> +    int idx = (index * mlen) / 8;
-> +    int pos = (index * mlen) % 8;
-> +
-> +    return vm || ((env->vfp.vreg[0].u8[idx] >> pos) & 0x1);
-> +}
-
-I would strongly encourage you place the components of vtype within tb_flags
-via cpu_get_tb_cpu_state.  This would allow you to move quite a few checks from
-run-time to translation-time.
-
-Recall that translation happens once (per configuration), whereas execution
-happens many times.  Obviously, the more configurations that we create, the
-more translation that must happen.
-
-But the vtypei argument to vsetvli is a good choice, because it is constant,
-relates directly to the compiled code, and is unrelated to the length of the
-data being processed.
-
-With that, you can verify at translation:
-
-(1) vill
-(2) v[n], for (n % lmul) != 0
-(3) v[n] overlapping v[0] for masked/carry operations, with lmul > 1
-
-and
-
-(4) you can arrange the helpers so that instead of 1 helper that has to
-    handle all SEW, you have N helpers, each handling a different SEW.
-
-And with all of this done, I believe you no longer need to pass the register
-number to the helper.  You can pass the address of v[n], which is much more
-like how the tcg generic vector support works.
-
-Whether or not to include VL in tb_flags is a harder choice.  Certainly not the
-exact value of VL, as that would lead to different translations for every loop
-tail.  But it might be reasonable to include (VSTART == 0 && VL == VLMAX) as a
-single bit.  Knowing that this condition is true would allow some use of the
-tcg generic vector support.
-
-E.g. vadd.vv could be
-
-    if (masked) {
-        switch (SEW) {
-        case MO_8:
-            gen_helper_vadd8_mask(...);
-            break;
-        ...
-        }
-    } else if (vl_eq_vlmax) {
-        tcg_gen_gvec_add(SEW, vreg_ofs(vd), vreg_ofs(vs2), vreg_ofs(vs1),
-                         VLEN * LMUL, VLEN * LMUL);
-    } else {
-        switch (SEW) {
-        case MO_8:
-            gen_helper_vadd8(...);
-            break;
-        ...
-        }
-    }
-
-Or, equivalently, pack pointers to the actual generator functions into a
-structure so that this code structure can be shared between many instructions.
-
-Bear in mind that all tcg gvec operations operate strictly upon lanes.  I.e.
-
-   vd[x] = vs1[x] op vs2[x]
-
-thus the actual arrangement of the elements in storage is irrelevant and SLEN
-need not be considered here.
+0019-target-arm-Convert-T32-ADDW-SUBW.patch
+0022-target-arm-Diagnose-UNPREDICTABLE-ldrex-strex-cas.patch
+0035-target-arm-Convert-Clear-Exclusive-Barriers.patch
+0057-target-arm-Convert-T16-Change-processor-state.patch
 
 
 r~
+
+
+Richard Henderson (69):
+  target/arm: Use store_reg_from_load in thumb2 code
+  target/arm: Add stubs for aa32 decodetree
+  target/arm: Convert Data Processing (register)
+  target/arm: Convert Data Processing (reg-shifted-reg)
+  target/arm: Convert Data Processing (immediate)
+  target/arm: Convert multiply and multiply accumulate
+  target/arm: Simplify UMAAL
+  target/arm: Convert Saturating addition and subtraction
+  target/arm: Convert Halfword multiply and multiply accumulate
+  target/arm: Simplify op_smlaxxx for SMLAL*
+  target/arm: Simplify op_smlawx for SMLAW*
+  target/arm: Convert MSR (immediate) and hints
+  target/arm: Convert MRS/MSR (banked, register)
+  target/arm: Convert Cyclic Redundancy Check
+  target/arm: Convert BX, BXJ, BLX (register)
+  target/arm: Convert CLZ
+  target/arm: Convert ERET
+  target/arm: Convert the rest of A32 Miscelaneous instructions
+  target/arm: Convert T32 ADDW/SUBW
+  target/arm: Convert load/store (register, immediate, literal)
+  target/arm: Convert Synchronization primitives
+  target/arm: Diagnose UNPREDICTABLE ldrex/strex cases
+  target/arm: Convert USAD8, USADA8, SBFX, UBFX, BFC, BFI, UDF
+  target/arm: Convert Parallel addition and subtraction
+  target/arm: Convert packing, unpacking, saturation, and reversal
+  target/arm: Convert Signed multiply, signed and unsigned divide
+  target/arm: Convert MOVW, MOVT
+  target/arm: Convert LDM, STM
+  target/arm: Diagnose writeback register in list for LDM for v7
+  target/arm: Diagnose too few registers in list for LDM/STM
+  target/arm: Diagnose base == pc for LDM/STM
+  target/arm: Convert B, BL, BLX (immediate)
+  target/arm: Convert SVC
+  target/arm: Convert RFE and SRS
+  target/arm: Convert Clear-Exclusive, Barriers
+  target/arm: Convert CPS (privileged)
+  target/arm: Convert SETEND
+  target/arm: Convert PLI, PLD, PLDW
+  target/arm: Convert Unallocated memory hint
+  target/arm: Convert Table Branch
+  target/arm: Convert SG
+  target/arm: Convert TT
+  target/arm: Simplify disas_thumb2_insn
+  target/arm: Simplify disas_arm_insn
+  target/arm: Add skeleton for T16 decodetree
+  target/arm: Convert T16 data-processing (two low regs)
+  target/arm: Convert T16 load/store (register offset)
+  target/arm: Convert T16 load/store (immediate offset)
+  target/arm: Convert T16 add pc/sp (immediate)
+  target/arm: Convert T16 load/store multiple
+  target/arm: Convert T16 add/sub (3 low, 2 low and imm)
+  target/arm: Convert T16 one low register and immediate
+  target/arm: Convert T16 branch and exchange
+  target/arm: Convert T16 add, compare, move (two high registers)
+  target/arm: Convert T16 adjust sp (immediate)
+  target/arm: Convert T16, extract
+  target/arm: Convert T16, Change processor state
+  target/arm: Convert T16, Reverse bytes
+  target/arm: Convert T16, nop hints
+  target/arm: Split gen_nop_hint
+  target/arm: Convert T16, push and pop
+  target/arm: Convert T16, Conditional branches, Supervisor call
+  target/arm: Convert T16, Miscellaneous 16-bit instructions
+  target/arm: Convert T16, shift immediate
+  target/arm: Convert T16, load (literal)
+  target/arm: Convert T16, Unconditional branch
+  target/arm: Convert T16, long branches
+  target/arm: Clean up disas_thumb_insn
+  target/arm: Inline gen_bx_im into callers
+
+ target/arm/translate.c       | 7166 +++++++++++++++-------------------
+ target/arm/Makefile.objs     |   24 +
+ target/arm/a32-uncond.decode |   74 +
+ target/arm/a32.decode        |  534 +++
+ target/arm/t16.decode        |  281 ++
+ target/arm/t32.decode        |  631 +++
+ 6 files changed, 4641 insertions(+), 4069 deletions(-)
+ create mode 100644 target/arm/a32-uncond.decode
+ create mode 100644 target/arm/a32.decode
+ create mode 100644 target/arm/t16.decode
+ create mode 100644 target/arm/t32.decode
+
+-- 
+2.17.1
+
 
