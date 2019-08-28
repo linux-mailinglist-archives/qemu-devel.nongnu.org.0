@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BED8A0B52
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:25:01 +0200 (CEST)
-Received: from localhost ([::1]:42290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C834A0B69
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:28:05 +0200 (CEST)
+Received: from localhost ([::1]:42352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i34V2-0008OW-5r
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:25:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38845)
+	id 1i34Y0-0003m3-1P
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i33Gu-0003ze-Mu
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:22 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i33H0-000438-Vv
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i33Gs-0000ix-23
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:19 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:38703)
+ (envelope-from <richard.henderson@linaro.org>) id 1i33Gz-0000nH-87
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:26 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:36817)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i33Gp-0000gV-8T
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:15 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id e11so224308pga.5
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:06:14 -0700 (PDT)
+ id 1i33Gw-0000kk-Pz
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:23 -0400
+Received: by mail-pf1-x431.google.com with SMTP id w2so400411pfi.3
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:06:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=xx52JC6MANGMEBBAfqEp/mRO3ZRBD9ucqNlmZ54oyt8=;
- b=CgZsatjTMnGY6El4ng2xbpq1IVLnbLN6zm0b5U6wzXR5EQY5ssnXPpWI747kkrLX9r
- yKtJGuMsEa/8ecuZnRM3c569t7zNqKpDLKW/uSjZ7TRWVAlDpULv1Q7sKsqUPxGRKfq4
- blvTw2xX+7rxfuNExyoYiJ8eE+DmnSYu9RzYax8Vk2G/2XR4vrxdIuYC4XYflmi3DEqc
- e4+fE2Ksq0/LdITyOrxrrJY53PJDakVzJeAJwQfoJJxWJlpLeVjWo87BWer8U7THUW0l
- OqDK6EFMseTIYS4rYEF3epvZgPTYwBOLK1NiW9LVDHHV9Vr/kxM4Ghjt7HrIOrnGZDsT
- +xCQ==
+ bh=2MBl6t7fQ79zFUU8tID/KaTtAuG5wuFc4KjmST5JIXA=;
+ b=J1SVYWC6O+5LMr/nog7k+yMdGYHf2GPrGz8HlPCj7AspXnRxU6r7aEmtPciJPNQZMj
+ Uv6c5+fOnFCWBKMFugK9WUpgts9e4XUWJ4SAlPxrFzmOzObFbvqos2qBwee6x+bM4iQm
+ pmcwUC++EbL4lMKb8vmWvbhiOdugnXfJPZ/3SY8p4MMDf4muk+u5jLHjf7JjL1ZA4gN+
+ s7fzhTR2KE3Sf0o0WRr2Z0lR7dt9+XtW/Dcr/lLngWcBtsrOH7sQo6O7zuU3MJ1KLj3K
+ KRa0v+/IRmWb7Yb6ZWvHAmevysEGnIdSK1NAE3XMgaPkzGXphVlOU0j3IQaYkmlNTq4t
+ mx1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=xx52JC6MANGMEBBAfqEp/mRO3ZRBD9ucqNlmZ54oyt8=;
- b=UatXHAdHWI1iosdjLFHS5MVWManOWZuAaCL+9jptSMI9DljsuXrUdnOJaA+LeNdNfx
- eHhGWjhVvzpPWMHSLtTbwHy0bE4Cxq166X6Ea/JFWEjXiOoYCAMU0hTFBWwxy17kYjsf
- VcgBPqTY0l3N1+oTXIL+nj/PmfpOdUhpaFWQ9W4019h8k4FioLnxjQM6WwKH5y4mdnBe
- 0VVNTpgPFgfb40VNy4MFjBaQvhpSFl7TIO2RkexY08Lp3dwO1gXzokIhfvq/utP4KpWz
- Q+Uzy5tOmAIUioIz/vlC37QyR8u7WVDgGup4sEiGM2CIBlkyrOCNJUAYLbKy5/k9LIc2
- +1Yg==
-X-Gm-Message-State: APjAAAVUxS76WuIyK3CnqENfZXMaiWSPy/dWjjPVz4iU+b/YYZah3BO1
- mnu7NbJwEAGOpu1uCfplGrjJD2yB4eY=
-X-Google-Smtp-Source: APXvYqwRq1U0npGr+GpkVh0BTsCcaV3wmqgb+iBcKSHfw56hX7ZvuUc0V+W3ku3yfDyvvP66WenAEQ==
-X-Received: by 2002:a65:6846:: with SMTP id q6mr4827170pgt.150.1567019173561; 
- Wed, 28 Aug 2019 12:06:13 -0700 (PDT)
+ bh=2MBl6t7fQ79zFUU8tID/KaTtAuG5wuFc4KjmST5JIXA=;
+ b=ZJ/YBmoZv9jfaiJVG7iZ+FpsgVC02ZJwgMgGcoWopWOOwaWZrBSNP3hIuNLj/avS0z
+ KkVuUCmdb4vMpFtuO4NwPRp5Q8GUxiU6hWXWHsa77e5th2F1GarA9+SJgl4sJC8snyr8
+ hG7FYAGU6ghb9gze1rnmqcTMCp5hRQfCXJQ5gKq+VHF6oeTEySHDN3T5qCCP3uMINtZ5
+ 0uZ4vZcEUtIofUCBL5XT85cdgA4Wge02d+SS5hdYggWwqlElzudE48ecfsgZfzKhKzsA
+ +1cctIqfmJGh/oCJW31nEN/jJ1FdgherpeCoV40oBXu2dkvbc8kOFEO+mqGY8cgA9ueH
+ Gt2w==
+X-Gm-Message-State: APjAAAXRaynYqMZDompEh1CDIc7zKHLwhjK1DQA0T8+LqFrhjEwk/yPI
+ 7S7OP3sgBiMdOzdt2otbqEkmsO+by5c=
+X-Google-Smtp-Source: APXvYqyvigOVIAOoTD+DG8qEI/vRALTF2gglxhGvd8C5x/p8bfQMHRfDJ8WR9h0EOs+0+hr8qqQQFg==
+X-Received: by 2002:a62:f204:: with SMTP id m4mr6714467pfh.7.1567019179701;
+ Wed, 28 Aug 2019 12:06:19 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.06.12
+ by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.06.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 12:06:12 -0700 (PDT)
+ Wed, 28 Aug 2019 12:06:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 12:04:45 -0700
-Message-Id: <20190828190456.30315-59-richard.henderson@linaro.org>
+Date: Wed, 28 Aug 2019 12:04:50 -0700
+Message-Id: <20190828190456.30315-64-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190828190456.30315-1-richard.henderson@linaro.org>
 References: <20190828190456.30315-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52d
-Subject: [Qemu-devel] [PATCH v3 58/69] target/arm: Convert T16, Reverse bytes
+X-Received-From: 2607:f8b0:4864:20::431
+Subject: [Qemu-devel] [PATCH v3 63/69] target/arm: Convert T16,
+ Miscellaneous 16-bit instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,70 +83,200 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 18 +++---------------
- target/arm/t16.decode  |  9 +++++++++
- 2 files changed, 12 insertions(+), 15 deletions(-)
+v3: Split firstcond & mask within trans_IT.
+---
+ target/arm/translate.c | 111 +++++++++++++----------------------------
+ target/arm/t16.decode  |  29 +++++++----
+ 2 files changed, 54 insertions(+), 86 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 1dacae1a5b..ec5b095bd1 100644
+index 854c9fe10d..5fb0e2066b 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -10707,7 +10707,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+@@ -10163,6 +10163,18 @@ static bool trans_TBH(DisasContext *s, arg_tbranch *a)
+     return op_tbranch(s, a, true);
+ }
  
- static void disas_thumb_insn(DisasContext *s, uint32_t insn)
- {
--    uint32_t val, op, rm, rn, rd, shift, cond;
-+    uint32_t val, op, rm, rd, shift, cond;
-     int32_t offset;
-     int i;
-     TCGv_i32 tmp;
-@@ -10904,20 +10904,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-                 break;
-             }
++static bool trans_CBZ(DisasContext *s, arg_CBZ *a)
++{
++    TCGv_i32 tmp = load_reg(s, a->rn);
++
++    arm_gen_condlabel(s);
++    tcg_gen_brcondi_i32(a->nz ? TCG_COND_EQ : TCG_COND_NE,
++                        tmp, 0, s->condlabel);
++    tcg_temp_free_i32(tmp);
++    gen_jmp(s, read_pc(s) + a->imm);
++    return true;
++}
++
+ /*
+  * Supervisor call
+  */
+@@ -10394,6 +10406,27 @@ static bool trans_PLI(DisasContext *s, arg_PLD *a)
+     return ENABLE_ARCH_7;
+ }
  
--            /* Otherwise this is rev */
--            ARCH(6);
--            rn = (insn >> 3) & 0x7;
--            rd = insn & 0x7;
--            tmp = load_reg(s, rn);
--            switch (op1) {
--            case 0: tcg_gen_bswap32_i32(tmp, tmp); break;
--            case 1: gen_rev16(tmp, tmp); break;
--            case 3: gen_revsh(tmp, tmp); break;
--            default:
--                g_assert_not_reached();
--            }
--            store_reg(s, rd, tmp);
++/*
++ * If-then
++ */
++
++static bool trans_IT(DisasContext *s, arg_IT *a)
++{
++    int cond_mask = a->cond_mask;
++
++    /*
++     * No actual code generated for this insn, just setup state.
++     *
++     * Combinations of firstcond and mask which set up an 0b1111
++     * condition are UNPREDICTABLE; we take the CONSTRAINED
++     * UNPREDICTABLE choice to treat 0b1111 the same as 0b1110,
++     * i.e. both meaning "execute always".
++     */
++    s->condexec_cond = (cond_mask >> 4) & 0xe;
++    s->condexec_mask = cond_mask & 0x1f;
++    return true;
++}
++
+ /*
+  * Legacy decoder.
+  */
+@@ -10760,83 +10793,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+     case 8: /* load/store halfword immediate offset, in decodetree */
+     case 9: /* load/store from stack, in decodetree */
+     case 10: /* add PC/SP (immediate), in decodetree */
++    case 11: /* misc, in decodetree */
+     case 12: /* load/store multiple, in decodetree */
+-        goto illegal_op;
+-
+-    case 11:
+-        /* misc */
+-        op = (insn >> 8) & 0xf;
+-        switch (op) {
+-        case 0: /* add/sub (sp, immediate), in decodetree */
+-        case 2: /* sign/zero extend, in decodetree */
+-            goto illegal_op;
+-
+-        case 4: case 5: case 0xc: case 0xd:
+-            /* push/pop, in decodetree */
+-            goto illegal_op;
+-
+-        case 1: case 3: case 9: case 11: /* czb */
+-            rm = insn & 7;
+-            tmp = load_reg(s, rm);
+-            arm_gen_condlabel(s);
+-            if (insn & (1 << 11))
+-                tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, s->condlabel);
+-            else
+-                tcg_gen_brcondi_i32(TCG_COND_NE, tmp, 0, s->condlabel);
+-            tcg_temp_free_i32(tmp);
+-            offset = ((insn & 0xf8) >> 2) | (insn & 0x200) >> 3;
+-            gen_jmp(s, read_pc(s) + offset);
 -            break;
-+            /* Otherwise this is rev, in decodetree */
-+            goto illegal_op;
-         }
+-
+-        case 15: /* IT, nop-hint.  */
+-            if ((insn & 0xf) == 0) {
+-                goto illegal_op; /* nop hint, in decodetree */
+-            }
+-            /*
+-             * IT (If-Then)
+-             *
+-             * Combinations of firstcond and mask which set up an 0b1111
+-             * condition are UNPREDICTABLE; we take the CONSTRAINED
+-             * UNPREDICTABLE choice to treat 0b1111 the same as 0b1110,
+-             * i.e. both meaning "execute always".
+-             */
+-            s->condexec_cond = (insn >> 4) & 0xe;
+-            s->condexec_mask = insn & 0x1f;
+-            /* No actual code generated for this insn, just setup state.  */
+-            break;
+-
+-        case 0xe: /* bkpt */
+-        {
+-            int imm8 = extract32(insn, 0, 8);
+-            ARCH(5);
+-            gen_exception_bkpt_insn(s, syn_aa32_bkpt(imm8, true));
+-            break;
+-        }
+-
+-        case 0xa: /* rev, and hlt */
+-        {
+-            int op1 = extract32(insn, 6, 2);
+-
+-            if (op1 == 2) {
+-                /* HLT */
+-                int imm6 = extract32(insn, 0, 6);
+-
+-                gen_hlt(s, imm6);
+-                break;
+-            }
+-
+-            /* Otherwise this is rev, in decodetree */
+-            goto illegal_op;
+-        }
+-
+-        case 6: /* setend, cps; in decodetree */
+-            goto illegal_op;
+-
+-        default:
+-            goto undef;
+-        }
+-        break;
+-
+     case 13: /* conditional branch or swi, in decodetree */
+         goto illegal_op;
  
-         case 6: /* setend, cps; in decodetree */
+@@ -10892,7 +10850,6 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+     }
+     return;
+ illegal_op:
+-undef:
+     unallocated_encoding(s);
+ }
+ 
 diff --git a/target/arm/t16.decode b/target/arm/t16.decode
-index 032902a1f4..19a442b894 100644
+index cbc64f4e48..f128110dee 100644
 --- a/target/arm/t16.decode
 +++ b/target/arm/t16.decode
-@@ -24,6 +24,7 @@
- &s_rri_rot       !extern s rn rd imm rot
- &s_rrrr          !extern s rd rn rm ra
- &rrr_rot         !extern rd rn rm rot
-+&rr              !extern rd rm
- &ri              !extern rd imm
- &r               !extern rm
- &ldst_rr         !extern p w u rn rt rm shimm shtype
-@@ -195,3 +196,11 @@ SETEND          1011 0110 010 1 E:1 000         &setend
-   CPS           1011 0110 011 . 0 A:1 I:1 F:1   &cps mode=0 M=0 %imod
-   CPS_v7m       1011 0110 011 im:1 00 I:1 F:1
+@@ -211,19 +211,30 @@ REVSH           1011 1010 11 ... ...            @rdm
+ # Hints
+ 
+ {
+-  YIELD         1011 1111 0001 0000
+-  WFE           1011 1111 0010 0000
+-  WFI           1011 1111 0011 0000
++  {
++    YIELD       1011 1111 0001 0000
++    WFE         1011 1111 0010 0000
++    WFI         1011 1111 0011 0000
+ 
+-  # TODO: Implement SEV, SEVL; may help SMP performance.
+-  # SEV         1011 1111 0100 0000
+-  # SEVL        1011 1111 0101 0000
++    # TODO: Implement SEV, SEVL; may help SMP performance.
++    # SEV       1011 1111 0100 0000
++    # SEVL      1011 1111 0101 0000
+ 
+-  # The canonical nop has the second nibble as 0000, but the whole of the
+-  # rest of the space is a reserved hint, behaves as nop.
+-  NOP           1011 1111 ---- 0000
++    # The canonical nop has the second nibble as 0000, but the whole of the
++    # rest of the space is a reserved hint, behaves as nop.
++    NOP         1011 1111 ---- 0000
++  }
++  IT            1011 1111 cond_mask:8
  }
+ 
++# Miscellaneous 16-bit instructions
 +
-+# Reverse bytes
++%imm6_9_3       9:1 3:5 !function=times_2
 +
-+@rdm            .... .... .. rm:3 rd:3          &rr
++HLT             1011 1010 10 imm:6              &i
++BKPT            1011 1110 imm:8                 &i
++CBZ             1011 nz:1 0.1 ..... rn:3        imm=%imm6_9_3
 +
-+REV             1011 1010 00 ... ...            @rdm
-+REV16           1011 1010 01 ... ...            @rdm
-+REVSH           1011 1010 11 ... ...            @rdm
+ # Push and Pop
+ 
+ %push_list      0:9 !function=t16_push_list
 -- 
 2.17.1
 
