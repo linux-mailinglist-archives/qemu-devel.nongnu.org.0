@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB66A435A58
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 07:29:28 +0200 (CEST)
-Received: from localhost ([::1]:35548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A920435C62
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 09:49:09 +0200 (CEST)
+Received: from localhost ([::1]:60874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdQdr-00036n-QA
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 01:29:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52834)
+	id 1mdSp2-00065S-K5
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 03:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdQRe-0000IQ-1u
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 01:16:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41540)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mdSm7-0002Wh-Os
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 03:46:08 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:47798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mdQRX-0001RE-Ou
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 01:16:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634793401;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ttSSyKzfEDz9z2VhQ6mMeLTu4fngFiUuCrwFApNL+uA=;
- b=EGvL1STNMkTInaZofSzUtK6sFcx6/LSZQLvNXGO/Ig4fALHyjCXGj2TGUg/005d6urY9Qc
- FgNShS11yZSy/PCUhTPwII7jiC2pFNzVPr81paqOInUzp5kAkqa1U4EJy2hIO9EJwBM7lJ
- L2ek39qTwOSlYJXl2GA+8jPrv1MIbjU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-FnRqn_XINHK_0AYW8rB_vg-1; Thu, 21 Oct 2021 01:16:40 -0400
-X-MC-Unique: FnRqn_XINHK_0AYW8rB_vg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mdSlz-00023L-DV
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 03:46:07 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2FEE80A5C0;
- Thu, 21 Oct 2021 05:16:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C94226A908;
- Thu, 21 Oct 2021 05:16:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7C66011380AA; Thu, 21 Oct 2021 07:16:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [PATCH v6 4/5] qapi/monitor: only allow 'keep'
- SetPasswordAction for VNC and deprecate
-References: <20211020135500.2384930-1-s.reiter@proxmox.com>
- <20211020135500.2384930-5-s.reiter@proxmox.com>
-Date: Thu, 21 Oct 2021 07:16:23 +0200
-In-Reply-To: <20211020135500.2384930-5-s.reiter@proxmox.com> (Stefan Reiter's
- message of "Wed, 20 Oct 2021 15:54:59 +0200")
-Message-ID: <87pmrzez4o.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 1EC9D4037D
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 07:45:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1634802346;
+ bh=hwzDTGnxQi/jewag3Xw8WvGCJZ0NtHaBWjMJLTk3UIM=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=CWO4hGT5IvN8tUvAmcS+sKbbYwp0AgWkEA7vk6Sa5YwqlFCb0M73a601GBXLsEie/
+ bpNdwsOOydD6ccFOg9yDxwD8640baGmZOyiGpZUKM1gVyRm+gjnWVpikaE/nJOJld4
+ 3ijTmCdgReSRFY7DsiqvihCfbTgg7S5t3zcCI+K8m9IPXe2FNQYo/TU9av5jO652iz
+ TeIffomEnty51Ogha44tc6Oath/hXAgb5lIkNn2TzT1wzVSulBD4h4h9TMC1Qs35am
+ uk/58pjjpnN7MNtns3nrcvUTwCpK18gt8VPdGiIHQlnEFGsxQ31AIAYxpn4/mFWJxR
+ T9+QZTqvs8NHA==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6386C2E819B
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 07:45:45 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 28 Aug 2019 02:55:41 -0000
+From: sirswa <1769053@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=libvirt; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=libvirt; component=main;
+ status=Triaged; importance=High; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Invalid; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: amd64 apport-bug bionic
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange daxtens ddstreet dgilbert-h
+ ehabkost-redhat-bugs kraxel-redhat paelzer paelzer-redhat-bugs
+ raistlin-redhat-bugs sirswa-redhat-bugs
+X-Launchpad-Bug-Reporter: Daniel Axtens (daxtens)
+X-Launchpad-Bug-Modifier: sirswa (sirswa-redhat-bugs)
+References: <152541524728.557.4600864098110042577.malonedeb@gac.canonical.com>
+Message-Id: <163480218292.25993.6641977935235444413.launchpad@loganberry.canonical.com>
+Subject: [Bug 1769053] 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="077cd577c00fa794e72ab856f950ae412860db5f"; Instance="production"
+X-Launchpad-Hash: 8346b8a879ce17a2caf9bcb25fdc8aa11b2b64d9
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,25 +92,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
+Reply-To: Bug 1769053 <1769053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Reiter <s.reiter@proxmox.com> writes:
+Hi
 
-> VNC only supports 'keep' here, enforce this via a seperate
-> SetPasswordActionVnc enum and mark the option 'deprecated' (as it is
-> useless with only one value possible).
->
-> Suggested-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+We are hitting this bug. We have specialist hardwares including hi-
+memory hypervisors to run HPC workload on virtualised environment. This
+bug is affecting us at the machines which has more than 1TB of memory.
 
-With the next patch squashed in:
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1769053
+
+Title:
+  Ability to control phys-bits through libvirt
+
+Status in libvirt:
+  Confirmed
+Status in QEMU:
+  Invalid
+Status in libvirt package in Ubuntu:
+  Triaged
+Status in qemu package in Ubuntu:
+  Invalid
+
+Bug description:
+  Attempting to start a KVM guest with more than 1TB of RAM fails.
+
+  It looks like we might need some extra patches:
+  https://lists.gnu.org/archive/html/qemu-discuss/2017-12/msg00005.html
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 18.04
+  Package: qemu-system-x86 1:2.11+dfsg-1ubuntu7
+  ProcVersionSignature: Ubuntu 4.15.0-20.21-generic 4.15.17
+  Uname: Linux 4.15.0-20-generic x86_64
+  ApportVersion: 2.20.9-0ubuntu7
+  Architecture: amd64
+  CurrentDesktop: Unity:Unity7:ubuntu
+  Date: Fri May  4 16:21:14 2018
+  InstallationDate: Installed on 2017-04-05 (393 days ago)
+  InstallationMedia: Ubuntu 16.10 "Yakkety Yak" - Release amd64 (20161012.2)
+  MachineType: Dell Inc. XPS 13 9360
+  ProcKernelCmdLine: BOOT_IMAGE=3D/vmlinuz-4.15.0-20-generic root=3D/dev/ma=
+pper/ubuntu--vg-root ro quiet splash transparent_hugepage=3Dmadvise vt.hand=
+off=3D1
+  SourcePackage: qemu
+  UpgradeStatus: Upgraded to bionic on 2018-04-30 (3 days ago)
+  dmi.bios.date: 02/26/2018
+  dmi.bios.vendor: Dell Inc.
+  dmi.bios.version: 2.6.2
+  dmi.board.name: 0PF86Y
+  dmi.board.vendor: Dell Inc.
+  dmi.board.version: A00
+  dmi.chassis.type: 9
+  dmi.chassis.vendor: Dell Inc.
+  dmi.modalias: dmi:bvnDellInc.:bvr2.6.2:bd02/26/2018:svnDellInc.:pnXPS1393=
+60:pvr:rvnDellInc.:rn0PF86Y:rvrA00:cvnDellInc.:ct9:cvr:
+  dmi.product.family: XPS
+  dmi.product.name: XPS 13 9360
+  dmi.sys.vendor: Dell Inc.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/libvirt/+bug/1769053/+subscriptions
 
 
