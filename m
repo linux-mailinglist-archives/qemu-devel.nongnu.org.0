@@ -2,52 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5100A0BF3
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 23:02:04 +0200 (CEST)
-Received: from localhost ([::1]:42802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CC2A0C35
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 23:13:29 +0200 (CEST)
+Received: from localhost ([::1]:42962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i354s-0001Au-Vz
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 17:02:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56523)
+	id 1i35Fv-0007HW-QZ
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 17:13:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59117)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1i351L-00080U-DY
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:58:25 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i35Ex-0006fc-4N
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 17:12:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1i351J-0003tq-Or
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:58:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37612)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1i351J-0003rs-Fw
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:58:21 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C2D3C44BD7;
- Wed, 28 Aug 2019 20:58:17 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-123-242.rdu2.redhat.com
- [10.10.123.242])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B1D82600CD;
- Wed, 28 Aug 2019 20:58:16 +0000 (UTC)
-Date: Wed, 28 Aug 2019 16:58:14 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-Message-ID: <20190828205749.GA11512@localhost.localdomain>
-References: <1564760158-27536-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1564760158-27536-2-git-send-email-aleksandar.markovic@rt-rk.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1i35Eu-0002Vi-U7
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 17:12:26 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39406)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i35Er-0002SU-Px
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 17:12:22 -0400
+Received: by mail-pg1-x543.google.com with SMTP id u17so370775pgi.6
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 14:12:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mxFK9Jg6tc1xBJM545UmyeNtwpYh5rHWr5WX30nzQsM=;
+ b=Hdf2Jq3w3beOUQn4NLrl3lmXAlm9mNh2U6rpeVIwtibJMb7A2VzXkTkJLuOZ11QaCR
+ kQEELY3hJVnLEk2/JXXTlpbysEQ5h1dpHS1OzyIai2MXw+Z6E3L+R71cQkOMFpWS6jJ/
+ UAnuZn0xRzfy1ejqh/OxDP9zeo51PPOBkCRjChqJPFoeQBSXtJZJaaLugIf7OyFgeS+R
+ kmhgzoQCgFEqh//zhABNUzCEkNCtPhUMDYierhcMmMzUJyCnzXsOpiHxexwgimY008Hn
+ vMab3bIsp1sGS7+4qMOZW7mKOveXOshgw3pK+PFfvMxIIIxSNmqTT9rBfduG3fVn7K2U
+ sRxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mxFK9Jg6tc1xBJM545UmyeNtwpYh5rHWr5WX30nzQsM=;
+ b=gvaKeke4uohPo8mDS18vt/3Jv42nmj6La1gOR+2km9zG+EccbLYMQH3LJYk58aKX6W
+ 1K+t0ejSiqnyEAztfplpNPHA9RKif1XRc/VHg62NqEZx8xkmUp/ZNBWUTzED3xmVgYgi
+ l/WP30SblF0+Wu0IJz/QPa6frxiPpwGehuGUVCaJphGt+ntU4myHwSajnwcbG/CJWTq5
+ QXC73p/phzHZoBJd2TLP+OBVZZWdr9PCNVcaDXsbLNHYERLv2Sztcz/aB5gBV9f6y/bM
+ LxYKF+7DYIVMd2N/Ge5JNM7tHF1qWefUxdMniRw+Hod9BGcplJOzuA9A4TzuRFIl6cQc
+ xBPA==
+X-Gm-Message-State: APjAAAV3AyvSnjEftPNOJ0W/x0Rz7CqDbn7WJJq6yPGl7vwQpKEb9jfL
+ 2zwq218Vfz0HDP4GNzQ8AJHC1g==
+X-Google-Smtp-Source: APXvYqwkq2YMStdsa8bM5S4tRjBO67CZbeKpTydKac1gTOa3Ta9IBo4g0tUQf9qXnJb2NBGnxbloLw==
+X-Received: by 2002:a17:90a:d793:: with SMTP id
+ z19mr6194069pju.36.1567026740557; 
+ Wed, 28 Aug 2019 14:12:20 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id v145sm324772pfc.31.2019.08.28.14.12.19
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 28 Aug 2019 14:12:19 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190828165307.18321-1-alex.bennee@linaro.org>
+ <20190828165307.18321-5-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <a46f7e41-ce51-e467-859c-eacbc64b4568@linaro.org>
+Date: Wed, 28 Aug 2019 14:12:17 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1564760158-27536-2-git-send-email-aleksandar.markovic@rt-rk.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Wed, 28 Aug 2019 20:58:17 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/2] tests/acceptance: Refactor and improve
- reporting in linux_ssh_mips_malta.py
+In-Reply-To: <20190828165307.18321-5-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: Re: [Qemu-devel] [PATCH v1 4/9] target/arm: remove run time
+ semihosting checks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,93 +86,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, f4bug@amsat.org, qemu-devel@nongnu.org,
- amarkovic@wavecomp.com, ehabkost@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 02, 2019 at 05:35:57PM +0200, Aleksandar Markovic wrote:
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On 8/28/19 9:53 AM, Alex Bennée wrote:
+> Now we do all our checking and use a common EXCP_SEMIHOST for
+> semihosting operations we can make helper code a lot simpler.
 > 
-> This patch restructures code organization around the test case
-> executions. At the same time, rather than outputing a cryptic message:
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > 
-> FAIL: True not found in [False],
-> 
-> the following will be reported too, if the command output does not meet
-> specified expectations:
-> 
-> 'lspci -d 11ab:4620' output doesn't contain the word 'GT-64120'
-> 
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 > ---
->  tests/acceptance/linux_ssh_mips_malta.py | 36 +++++++++++++++++++-------------
->  1 file changed, 21 insertions(+), 15 deletions(-)
-> 
-> diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-> index aafb0c3..8368e1f 100644
-> --- a/tests/acceptance/linux_ssh_mips_malta.py
-> +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> @@ -145,27 +145,33 @@ class LinuxSSH(Test):
->          self.ssh_disconnect_vm()
->          self.wait_for_console_pattern('Power down')
->  
-> -    def run_common_commands(self):
-> -        stdout, stderr = self.ssh_command('lspci -d 11ab:4620')
-> -        self.assertIn(True, ["GT-64120" in line for line in stdout])
-> -
-> -        stdout, stderr = self.ssh_command('cat /sys/bus/i2c/devices/i2c-0/name')
-> -        self.assertIn(True, ["SMBus PIIX4 adapter" in line
-> -                             for line in stdout])
-> -
-> -        stdout, stderr = self.ssh_command('cat /proc/mtd')
-> -        self.assertIn(True, ["YAMON" in line
-> -                             for line in stdout])
-> +    def ssh_command_output_contains(self, cmd, exp):
-> +        stdout, _ = self.ssh_command(cmd)
-> +        for line in stdout:
-> +            if exp in line:
-> +                break
-> +        else:
-> +            self.fail('"%s" output does not contain "%s"' % (cmd, exp))
->  
-> +    def run_common_commands(self):
-> +        self.ssh_command_output_contains(
-> +            'lspci -d 11ab:4620',
-> +            'GT-64120')
-> +        self.ssh_command_output_contains(
-> +            'cat /sys/bus/i2c/devices/i2c-0/name',
-> +            'SMBus PIIX4 adapter')
-> +        self.ssh_command_output_contains(
-> +            'cat /proc/mtd',
-> +            'YAMON')
->          # Empty 'Board Config'
-> -        stdout, stderr = self.ssh_command('md5sum /dev/mtd2ro')
-> -        self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in line
-> -                             for line in stdout])
-> +        self.ssh_command_output_contains(
-> +            'md5sum /dev/mtd2ro',
-> +            '0dfbe8aa4c20b52e1b8bf3cb6cbdf193')
->  
->      def do_test_mips_malta(self, endianess, kernel_path, uname_m):
->          self.boot_debian_wheezy_image_and_ssh_login(endianess, kernel_path)
->  
-> -        stdout, stderr = self.ssh_command('uname -a')
-> +        stdout, _ = self.ssh_command('uname -a')
->          self.assertIn(True, [uname_m + " GNU/Linux" in line for line in stdout])
+> v2
+>   - fix re-base conflicts
+>   - hoist EXCP_SEMIHOST check
+>   - comment cleanups
+> v5
+>   - move CONFIG_TCG ifdefs
+> ---
+>  target/arm/helper.c | 96 +++++++++++----------------------------------
+>  1 file changed, 22 insertions(+), 74 deletions(-)
 
-This should also make use of ssh_command_output_contains(), that is:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-        self.ssh_command_output_contains('uname -a',
-                                         uname_m + " GNU/Linux")
 
-Other than that, it LGTM.
-
-- Cleber.
-
->  
->          self.run_common_commands()
-> -- 
-> 2.7.4
-> 
+r~
 
