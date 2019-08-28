@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63021A035A
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 15:37:32 +0200 (CEST)
-Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62FFA0384
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 15:40:10 +0200 (CEST)
+Received: from localhost ([::1]:36454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2y8h-0000uh-GA
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 09:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39158)
+	id 1i2yBF-0002NU-T2
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 09:40:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40348)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1i2y5t-0007z9-JP
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:34:38 -0400
+ (envelope-from <chmeeedalf@gmail.com>) id 1i2y9q-0001i1-1i
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:38:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1i2y5s-0002z1-DW
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:34:37 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43440)
+ (envelope-from <chmeeedalf@gmail.com>) id 1i2y9p-0007DK-2q
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:38:41 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:39656)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1i2y5q-0002wg-P4
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:34:36 -0400
-Received: by mail-ot1-x341.google.com with SMTP id e12so2723586otp.10
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 06:34:32 -0700 (PDT)
+ (Exim 4.71) (envelope-from <chmeeedalf@gmail.com>)
+ id 1i2y9o-0007Cy-Sd
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:38:41 -0400
+Received: by mail-io1-xd43.google.com with SMTP id l7so5899216ioj.6
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 06:38:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=yBiz3wJbIDASM2OERTQCRyvc2KI22k5CUBY5WAkJkus=;
- b=FKUlMVsh8HzzKyGwTri5FrGpom+dHmWrUn9oFKuzIbksWZfwOWzJkU1BeBClOJS8g6
- lmG6QbEIB7GnbuVE872OWedzkweZiltwRzDW7wh2wqIrXUwewMcVEZ5lhSubnnoCFQ6j
- dPm/vbNgODTsDZQwLU7W7Q7QlXkVnN1pbhx/FhgNAtIYJHaRjPA7gzDmoNz6dsm8gs4F
- U7toi1zyb27obKX5a+/VdkQVTPqLMohIOrS8TVLtypBYmpBJAdSeKSlCNii9f48Jkm5Q
- HkNDXFIpNZFmYw1wcXC/AmeP4efWewJdRIoaOEAIFh/itRgK+FmTtrK+VDUdUIMFXvgu
- ltZQ==
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=azcl882/GAyeOD6HVhSHzybbPZYHtCGBSzH49KriDQk=;
+ b=bQO6PRVDUPppOerAeKfsPV2WtQ+BPxc9hvzTD91otx/8YWmu7x3PPaWuywiVmggNay
+ RFPYRBo+j60PbRDK783Oqa2KuFAiqgsAyyYvMkjdw6/u5YJHx8vvkh3b2eubDp056dV+
+ mYWIPHw75cF9FVmOAhsiHQdrruILwIWtJ/2Imw5+bGpsjp03QhLna8EdIDwrccfDehT/
+ /rK2UDQxwPAncz2NeHs6zDlfsSmu53MxR6e2AfOhX4wg+CiwD0kATzyoTqz8Wp1XzC3M
+ teGWYRZ7xqjx4CUkH7vm4yirYmasdP5c670A1lBZdVK9eNAFUNLJ1kDIbMm1ocGBu3GZ
+ GvSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=yBiz3wJbIDASM2OERTQCRyvc2KI22k5CUBY5WAkJkus=;
- b=TYmfoT57CUVIWOt06olczTadbhgpJbu+KE32MthkGUpo1GlD/EYd/caqklar/fmxbT
- +I/iTo733o5RGDvE0ThGTPt4CuUgo0h4fDa+pAD2qIQdnRgl/NyMnjk/gj2ZtIT0sZqb
- v51iOm4bE6BCMmXrzDNLLDxO/F4Kl1PlHd6TKcl2VGwVImXIhbamj7e3CmPtPRVDVjWp
- 2zFsNmo0J4DN7DpQLVW4qge3gnpYVwvqXnZnzkR/6t8N9pSnPRIcOKJxfAOldfACqSZg
- mI3CQnP127xt2o5JP9YodyqcYIvuNlWsNha2NKcmaRWqZ8vNfHKObDuNQruIpAqcJ//1
- E3cA==
-X-Gm-Message-State: APjAAAUddDuJzykfC+YABVaWbrL5p1BMZ0BJfA3YEmBeMhf+t9hKVKS1
- igD0z2pFwmXMIAqFNz1FQodx7YMN7sMIvLGgn7g=
-X-Google-Smtp-Source: APXvYqy2Q3P6ISnr1tmAy+oPDngtKs5amyYIZ8SeS5v0KgVMJg7Rdmn32bJN9Epfq/c4+dLaKybZTrdHwnZK/YQyl7Y=
-X-Received: by 2002:a9d:1288:: with SMTP id g8mr3226364otg.306.1566999271396; 
- Wed, 28 Aug 2019 06:34:31 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=azcl882/GAyeOD6HVhSHzybbPZYHtCGBSzH49KriDQk=;
+ b=q5V0tPy37X0l5F23h6utHQIvIIYOM/6/+6/BfJIBTGMZXILMoMaBMP1BswPQd2kZB1
+ rwtSxFKJiqJ5tOzqd5wF8RwUkQX+TbyApnNQrACPZPOp9t6mJ+YUMizbXQuzF5YGLjsb
+ pXL70y1tgTKIPRAPdA6L1eFZzd++ZtmlIKeaJOMZ9faZUSyKW/hGoI5avT4zIIzNoHI4
+ y5NkpOqxff4d/FB15aa/WMnBwtFJLv3oc946wgEabRmPow2BRbQUpyikkgowsuAkOvNu
+ NmoWFXedGEm5/+lXVDEnEorUXhGZEVEjyJS2POrqLMyggsKEFuE5ztHE3WZ6DWIf0Ki6
+ ws/A==
+X-Gm-Message-State: APjAAAV57VJ15tAeHckvMa15+xoJcaI7WKjuXdaQ8nco0FhFqlIPmLqp
+ FKZsM0z1eL1iP/Y2hkD7gWI=
+X-Google-Smtp-Source: APXvYqyRzJaJFyjySzrXi2LT0OSs3S+3RAF77B3em9aF2mJiv2e+tgi08kixztphP9otAFQjvUxfig==
+X-Received: by 2002:a05:6638:3af:: with SMTP id
+ z15mr4376797jap.39.1566999519929; 
+ Wed, 28 Aug 2019 06:38:39 -0700 (PDT)
+Received: from ralga.knownspace (173-25-245-129.client.mchsi.com.
+ [173.25.245.129])
+ by smtp.gmail.com with ESMTPSA id q3sm2081013ios.70.2019.08.28.06.38.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Aug 2019 06:38:39 -0700 (PDT)
+Date: Wed, 28 Aug 2019 08:38:34 -0500
+From: Justin Hibbits <chmeeedalf@gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <20190828083834.09e01232@ralga.knownspace>
+In-Reply-To: <20190821082546.5252-1-laurent@vivier.eu>
+References: <20190821082546.5252-1-laurent@vivier.eu>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; powerpc64-portbld-freebsd13.0)
 MIME-Version: 1.0
-Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Wed, 28 Aug 2019 06:34:29
- -0700 (PDT)
-Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Wed, 28 Aug 2019 06:34:29
- -0700 (PDT)
-In-Reply-To: <20190828120832.9208-2-alex.bennee@linaro.org>
-References: <20190828120832.9208-1-alex.bennee@linaro.org>
- <20190828120832.9208-2-alex.bennee@linaro.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Wed, 28 Aug 2019 15:34:29 +0200
-Message-ID: <CAL1e-=htByDFYtzVFnjyxLB6QLBxT9MeKEh48HR97fp_cMaq5A@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v1 1/8] contrib/gitdm: filetype interface
- is not in order, fix
+X-Received-From: 2607:f8b0:4864:20::d43
+Subject: Re: [Qemu-devel] [PATCH 0/1] Fix cacheline detection on
+ FreeBSD/powerpc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,44 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-28.08.2019. 14.09, "Alex Benn=C3=A9e" <alex.bennee@linaro.org> =D1=98=D0=B5=
- =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> From: Markus Armbruster <armbru@redhat.com>
->
-> gitm prints the rather cryptic message "interface not found, appended
-> to the last order".  This is because filetypes.txt has filetype
-> interface, but neglects to mention it in order.  Fix that.
->
-> Fixes: 2f28271d807edfcdc47a280c06999dd866dcae10
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Message-Id: <20190822122350.29852-2-armbru@redhat.com>
-> ---
+On Wed, 21 Aug 2019 10:25:45 +0200
+Laurent Vivier <laurent@vivier.eu> wrote:
 
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> This is the patch originally sent by Justin, modified
+> to change the parameter size on FreeBSD only.
+> 
+> Justin, could you review and test on FreeBSD?
+> Peter, could you run "make check" on your MacOS X host?
+> 
+> Thanks,
+> Laurent
+> 
+> Justin Hibbits (1):
+>   Fix cacheline detection on FreeBSD/powerpc.
+> 
+>  util/cacheinfo.c | 23 +++++++++++++----------
+>  1 file changed, 13 insertions(+), 10 deletions(-)
+> 
 
->  contrib/gitdm/filetypes.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/contrib/gitdm/filetypes.txt b/contrib/gitdm/filetypes.txt
-> index 165b71b3f9a..2d5002fea0c 100644
-> --- a/contrib/gitdm/filetypes.txt
-> +++ b/contrib/gitdm/filetypes.txt
-> @@ -34,7 +34,7 @@
->  #   If there is an filetype which is not in order but has values, it wil=
-l
->  #   be added at the end.
->  #
-> -order build,tests,code,documentation,devel-doc,blobs
-> +order build,interface,tests,code,documentation,devel-doc,blobs
->
->  #
->  #
-> --
-> 2.20.1
->
->
+Hi Laurent,
+
+I applied the patch against the FreeBSD emulators/qemu-devel (qemu
+3.1.0) port, and it was successful.
+
+All good on this end!
+
+- Justin
+
