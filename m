@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522FEA018F
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:24:29 +0200 (CEST)
-Received: from localhost ([::1]:35820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7AFA0196
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:27:46 +0200 (CEST)
+Received: from localhost ([::1]:35874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2x00-0004Y2-8Q
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:24:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47062)
+	id 1i2x3A-0007eU-U1
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:27:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47137)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i2wki-0001Rs-1x
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:08:41 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i2wlR-0002GB-Sq
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i2wkg-00041N-QZ
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:08:39 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39188)
+ (envelope-from <alex.bennee@linaro.org>) id 1i2wlQ-0004Cs-Rq
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:25 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40165)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i2wkg-000412-KV
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:08:38 -0400
-Received: by mail-wr1-x431.google.com with SMTP id t16so2254003wra.6
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:08:38 -0700 (PDT)
+ id 1i2wlQ-0004CZ-MR
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:24 -0400
+Received: by mail-wm1-x342.google.com with SMTP id t9so1443056wmi.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:09:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KSEgW/RlIiuzqLmIOofMJWxF7Te87Mr+srbDIEOWTAs=;
- b=h5O45xVMIE/aXUkqO5qAyhAgGRse5ewMDIdqI+Vahx3q0FDwg50rI0w7IIfsf7F1wW
- aKXcfRfYNxfz9v9+2jeO0itagNxgCzTsPP3ThFbisdBS0STjMoVjDllOsscbeAL8q0Z1
- bmo+8atk4TaunVHAwEM5VyuVl5Ur39zircQ0NhY8MG2BdghXx0yP1yYHoLHJtlw+KfG5
- LfCLPbgWRIfCsNMF68ET7PDTeesY1WirOMZCFc8dGnNSOeytQD85P10YmhbT6a4KZ/jQ
- sbVkOEjnNLUHRfQQAfTkaqkktXyN664ZZY9MSdKMNEzyMeqKjbe8vWzssvnMKt7SmSRr
- Mc3A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XcTHFRC9i2WFejx4BecSd/XK7WjxEFySMuLBYAt9kJQ=;
+ b=aluBQY7Tn7B3/AM+mWKCSjt2exv75JGoipB3JPHQjZ3hesFr/ul+S39l5Gt3CCtuk/
+ Vh6AZHWSlIaBRdq8ltml33gdXocJS38oCaANe7TKAo5qaSP7FOP7Kwh8tI+Xs1laVvIE
+ n5sbJxXPgbrp4fK6PJYsf/k3S/vxKjKHBowoL8DIwu3E6STmhwYJNSP20rxlr5cuYTZg
+ Jf1h00uVYvUp3icNBxmHlREIFfv4z70CeiMypOHp9E0bm3TxDGbMgo8Q76AU3kAMPPiX
+ 3Bur6c1IJeH2GOVYFLv54L2TG79deaUIfWsgXNOqo1/MN5lUq86/i9zwO/UhslNh0ctA
+ C+GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KSEgW/RlIiuzqLmIOofMJWxF7Te87Mr+srbDIEOWTAs=;
- b=c76iKRSZNYLN76Inoj16oJSsjvqrd47jgr6Ycislvy6xOCnp/0vOSTFHjuBAYAdol1
- H7NO2Nwu0om0RuDx4w2wIIfCO5JvJEgyaXxF7F4fWtg5bzE03zf8CIYNcGydjVIFhqki
- DroUfqH/orJ3J9bQegeGN1NGVV32WUw223/0/hgYLhuKX1Tk8DYog//DvMLzIW0BjekJ
- pjOVrYnRJbkqaz7vbjWqzE6JE+/jVoG6NVFqs6+yOKN/LhgdbGut15PdTlUXNeUXD4Yb
- B+PaLSdpyUDAaOuo+k60GLJ+bWqXZ+jQXmuKT3X+uIs9bgojpymofSbbeyLRB/9L2oZO
- 04Dw==
-X-Gm-Message-State: APjAAAXpjA+HDbNQLctb0SqCqcZ9Narohn/7oFE+/B5Ho65QN/qXNaWu
- /cmiBqB2AmgHbdO+ZLE82aHAMg==
-X-Google-Smtp-Source: APXvYqxj8wPQIBI1C/MYMctXtG9Kb3Kbk2LYjlqca+98OaopOkHYc4/BMq+TMpp/j5bUZBDarE+SXQ==
-X-Received: by 2002:a5d:4f8e:: with SMTP id d14mr4378575wru.207.1566994117512; 
- Wed, 28 Aug 2019 05:08:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XcTHFRC9i2WFejx4BecSd/XK7WjxEFySMuLBYAt9kJQ=;
+ b=X5l5Hz6FkFEyvJYYWvrLiUmSHhCckuVHOruYwQbHJ/dayi/FCdPxtmrgicsmygmGbF
+ JpWzQ73seoJnaK8OctQ6sINNBI6w14G51adF4K5Ge7bvLbwhvWX15djCRIPcsPY2fPEa
+ 1za3eQThL6HhoD73E569QLxd9ltVch9ehQzydr1uhF7FWYmjT/n3xVLaWgH5axXAhnHD
+ Q/kTIRWeZuxtlip7MH03sCxyJAg8mXI28tf/Ov8+GU1LSxnbFpsfTKsJbl/x+cNJKdSW
+ UvSh4F74Lj9N11gPOTU/LJbJ6GcmaUx3i/ycbX+GzVJLz2+prTh5sMMCI+UcmlvCDfCd
+ ftbA==
+X-Gm-Message-State: APjAAAVISnds2H4bsU0cZGotOGboI9ElIZhVrid18fwT1Fp1gADaiT2r
+ ohMbAfq2s0tgK7F+nPLP51fl5fWymnA=
+X-Google-Smtp-Source: APXvYqyMrRk2zZBZdgo9t/wSL1hZOYfnJzGNSMxVeDvv6grZSTc//2T0H6+rRuicmLP8UHTLFltyjA==
+X-Received: by 2002:a05:600c:21c1:: with SMTP id
+ x1mr4235249wmj.37.1566994163433; 
+ Wed, 28 Aug 2019 05:09:23 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e13sm2599327wmh.44.2019.08.28.05.08.34
+ by smtp.gmail.com with ESMTPSA id i5sm2902547wrn.48.2019.08.28.05.09.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 05:08:35 -0700 (PDT)
+ Wed, 28 Aug 2019 05:09:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 043E81FF93;
- Wed, 28 Aug 2019 13:08:33 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id D9EC31FF87;
+ Wed, 28 Aug 2019 13:09:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 13:08:30 +0100
-Message-Id: <20190828120832.9208-7-alex.bennee@linaro.org>
+Date: Wed, 28 Aug 2019 13:09:13 +0100
+Message-Id: <20190828120921.9586-1-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190828120832.9208-1-alex.bennee@linaro.org>
-References: <20190828120832.9208-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
-Subject: [Qemu-devel] [PATCH v1 6/8] .mailmap/aliases: add some further
- commentary
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH  v1 0/8] various gitdm and mailmap updates
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,84 +84,38 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The two files are not interchangeable but a change to one *might*
-require a change to the other so lets flag that up with an explanation
-of what both files are trying to achieve. While we are at it document
-the many forms .mailmap can take in the header.
+Hi,
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .mailmap                            | 14 ++++++++++++++
- contrib/gitdm/aliases               | 20 ++++++++++++++++++--
- contrib/gitdm/group-map-individuals |  3 ++-
- 3 files changed, 34 insertions(+), 3 deletions(-)
+With another release out of the door and KVM Forum approaching it is a
+good time to clean up our gitdm stats. As usual updates for academic
+institutions and individual contributors involve a bit of guess work
+so I have CC'd those affected for their confirmation. There is also a
+large amount of verbiage added to the mailmap and aliases files to
+(hopefully) better explain what they are trying to do.
 
-diff --git a/.mailmap b/.mailmap
-index d0fc1d793c6..0756a0bf66d 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -1,4 +1,18 @@
- # This mailmap fixes up author names/addresses.
-+#
-+# If you are adding to this file consider if a similar change needs to
-+# be made to contrib/gitdm/aliases. They are not however completely
-+# analogous. .mailmap is concerned with fixing up damaged author
-+# fields where as the gitdm equivalent is more concerned with making
-+# sure multiple email addresses get mapped onto the same author.
-+#
-+# From man git-shortlog the forms are:
-+#
-+#  Proper Name <commit@email.xx>
-+#  <proper@email.xx> <commit@email.xx>
-+#  Proper Name <proper@email.xx> <commit@email.xx>
-+#  Proper Name <proper@email.xx> Commit Name <commit@email.xx>
-+#
- 
- # The first section translates weird addresses from the original git import
- # into proper addresses so that they are counted properly by git shortlog.
-diff --git a/contrib/gitdm/aliases b/contrib/gitdm/aliases
-index 07fd3391a56..c1e744312f5 100644
---- a/contrib/gitdm/aliases
-+++ b/contrib/gitdm/aliases
-@@ -1,6 +1,22 @@
- #
--# This is the email aliases file, mapping secondary addresses
--# onto a single, canonical address. Duplicates some info from .mailmap
-+# This is the email aliases file, mapping secondary addresses onto a
-+# single, canonical address. It duplicates some info from .mailmap so
-+# if you are adding something here also consider if the .mailmap needs
-+# updating.
-+#
-+# If you just want to avoid gitdm complaining about author fields
-+# which are actually email addresses with the message:
-+#
-+#   "...is an author name, probably not what you want"
-+#
-+# you can just apply --use-mailmap to you git-log command, e.g:
-+#
-+#   git log --use-mailmap --numstat --since "last 2 years" | $GITDM
-+#
-+# however that will have the effect of squashing multiple addresses to
-+# a canonical address which will distort the stats of those who
-+# contribute in both personal and professional capacities from
-+# different addresses.
- #
- 
- # weird commits
-diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-index 05e355d30ec..1c847174380 100644
---- a/contrib/gitdm/group-map-individuals
-+++ b/contrib/gitdm/group-map-individuals
-@@ -2,7 +2,8 @@
- # Individual and personal contributors
- #
- # This is simply to allow prolific developers with no company
--# affiliations to be grouped together in the summary stats.
-+# affiliations (or non-company related personal work) to be grouped
-+# together in the summary stats.
- #
- 
- f4bug@amsat.org
+Alex Bennée (3):
+  .mailmap/aliases: add some further commentary
+  contrib/gitdm: add RT-RK to domain-map
+  contrib/gitdm: add more entries individuals and academics
+
+Markus Armbruster (2):
+  contrib/gitdm: filetype interface is not in order, fix
+  contrib/gitdm: Add armbru@pond.sub.org to group-map-redhat
+
+Philippe Mathieu-Daudé (3):
+  mailmap: Reorder by sections
+  mailmap: Update philmd email address
+  mailmap: Add many entries to improve 'git shortlog' statistics
+
+ .mailmap                            | 137 ++++++++++++++++++++++++++--
+ contrib/gitdm/aliases               |  20 +++-
+ contrib/gitdm/domain-map            |   1 +
+ contrib/gitdm/filetypes.txt         |   2 +-
+ contrib/gitdm/group-map-academics   |   3 +
+ contrib/gitdm/group-map-individuals |   7 +-
+ contrib/gitdm/group-map-redhat      |   1 +
+ 7 files changed, 159 insertions(+), 12 deletions(-)
+
 -- 
 2.20.1
 
