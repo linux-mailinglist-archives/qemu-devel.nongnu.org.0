@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD77DA080C
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 19:03:25 +0200 (CEST)
-Received: from localhost ([::1]:38820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FF7A0819
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 19:06:09 +0200 (CEST)
+Received: from localhost ([::1]:38866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i31Lw-0000Ac-H2
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 13:03:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34811)
+	id 1i31Oa-0003Ms-Ar
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 13:06:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i30nF-0007HB-1L
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i30nF-0007HC-41
  for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i30nC-0008Ed-Vw
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i30nD-0008Eq-1g
  for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:32 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:57947 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:57921 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1i30n9-00080E-2F
+ id 1i30n9-0007zu-0e
  for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:29 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id F1CF81A22D4;
+ by mail.rt-rk.com (Postfix) with ESMTP id E81B51A22AD;
  Wed, 28 Aug 2019 18:27:00 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 9E9F21A22C7;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id AFA961A22C5;
  Wed, 28 Aug 2019 18:27:00 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 18:26:49 +0200
-Message-Id: <1567009614-12438-26-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Wed, 28 Aug 2019 18:26:51 +0200
+Message-Id: <1567009614-12438-28-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1567009614-12438-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1567009614-12438-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v2 25/30] target/mips: Clean up handling of CP0
- register 26
+Subject: [Qemu-devel] [PATCH v2 27/30] target/mips: Clean up handling of CP0
+ register 28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,67 +57,168 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Clean up handling of CP0 register 26.
+Clean up handling of CP0 register 28.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- target/mips/cpu.h       | 2 +-
- target/mips/translate.c | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ target/mips/cpu.h       | 24 +++++++++++--------
+ target/mips/translate.c | 64 ++++++++++++++++++++++++-------------------------
+ 2 files changed, 46 insertions(+), 42 deletions(-)
 
 diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 19a1b78..9b15b09 100644
+index 9b15b09..b71b6f4 100644
 --- a/target/mips/cpu.h
 +++ b/target/mips/cpu.h
-@@ -425,7 +425,7 @@ typedef struct mips_def_t mips_def_t;
- #define CP0_REG25__PERFCTL3        6
- #define CP0_REG25__PERFCNT3        7
- /* CP0 Register 26 */
--#define CP0_REG00__ERRCTL          0
-+#define CP0_REG26__ERRCTL          0
+@@ -235,12 +235,12 @@ typedef struct mips_def_t mips_def_t;
+  *
+  * 0   DataLo            DataHi            ErrorEPC          DESAVE
+  * 1   TagLo             TagHi
+- * 2   DataLo            DataHi                              KScratch<n>
+- * 3   TagLo             TagHi                               KScratch<n>
+- * 4   DataLo            DataHi                              KScratch<n>
+- * 5   TagLo             TagHi                               KScratch<n>
+- * 6   DataLo            DataHi                              KScratch<n>
+- * 7   TagLo             TagHi                               KScratch<n>
++ * 2   DataLo1           DataHi                              KScratch<n>
++ * 3   TagLo1            TagHi                               KScratch<n>
++ * 4   DataLo2           DataHi                              KScratch<n>
++ * 5   TagLo2            TagHi                               KScratch<n>
++ * 6   DataLo3           DataHi                              KScratch<n>
++ * 7   TagLo3            TagHi                               KScratch<n>
+  *
+  */
+ #define CP0_REGISTER_00     0
+@@ -429,10 +429,14 @@ typedef struct mips_def_t mips_def_t;
  /* CP0 Register 27 */
  #define CP0_REG27__CACHERR         0
  /* CP0 Register 28 */
+-#define CP0_REG28__ITAGLO          0
+-#define CP0_REG28__IDATALO         1
+-#define CP0_REG28__DTAGLO          2
+-#define CP0_REG28__DDATALO         3
++#define CP0_REG28__TAGLO           0
++#define CP0_REG28__DATALO          1
++#define CP0_REG28__TAGLO1          2
++#define CP0_REG28__DATALO1         3
++#define CP0_REG28__TAGLO2          4
++#define CP0_REG28__DATALO2         5
++#define CP0_REG28__TAGLO3          6
++#define CP0_REG28__DATALO3         7
+ /* CP0 Register 29 */
+ #define CP0_REG29__IDATAHI         1
+ #define CP0_REG29__DDATAHI         3
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index df6aa9e..d7776fa 100644
+index 2e5df0b..807151b 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -7504,7 +7504,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+@@ -7524,10 +7524,10 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_26:
+     case CP0_REGISTER_28:
          switch (sel) {
 -        case 0:
-+        case CP0_REG26__ERRCTL:
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_ErrCtl));
-             register_name = "ErrCtl";
+-        case 2:
+-        case 4:
+-        case 6:
++        case CP0_REG28__TAGLO:
++        case CP0_REG28__TAGLO1:
++        case CP0_REG28__TAGLO2:
++        case CP0_REG28__TAGLO3:
+             {
+                 TCGv_i64 tmp = tcg_temp_new_i64();
+                 tcg_gen_ld_i64(tmp, cpu_env, offsetof(CPUMIPSState, CP0_TagLo));
+@@ -7536,10 +7536,10 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+             }
+             register_name = "TagLo";
              break;
-@@ -8266,7 +8266,7 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+-        case 1:
+-        case 3:
+-        case 5:
+-        case 7:
++        case CP0_REG28__DATALO:
++        case CP0_REG28__DATALO1:
++        case CP0_REG28__DATALO2:
++        case CP0_REG28__DATALO3:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_DataLo));
+             register_name = "DataLo";
+             break;
+@@ -8284,17 +8284,17 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
         break;
-     case CP0_REGISTER_26:
+     case CP0_REGISTER_28:
          switch (sel) {
 -        case 0:
-+        case CP0_REG26__ERRCTL:
-             gen_helper_mtc0_errctl(cpu_env, arg);
-             ctx->base.is_jmp = DISAS_STOP;
-             register_name = "ErrCtl";
-@@ -9006,7 +9006,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_26:
-         switch (sel) {
--        case 0:
-+        case CP0_REG26__ERRCTL:
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_ErrCtl));
-             register_name = "ErrCtl";
+-        case 2:
+-        case 4:
+-        case 6:
++        case CP0_REG28__TAGLO:
++        case CP0_REG28__TAGLO1:
++        case CP0_REG28__TAGLO2:
++        case CP0_REG28__TAGLO3:
+             gen_helper_mtc0_taglo(cpu_env, arg);
+             register_name = "TagLo";
              break;
-@@ -9750,7 +9750,7 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+-        case 1:
+-        case 3:
+-        case 5:
+-        case 7:
++        case CP0_REG28__DATALO:
++        case CP0_REG28__DATALO1:
++        case CP0_REG28__DATALO2:
++        case CP0_REG28__DATALO3:
+             gen_helper_mtc0_datalo(cpu_env, arg);
+             register_name = "DataLo";
+             break;
+@@ -9021,17 +9021,17 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_26:
+     case CP0_REGISTER_28:
          switch (sel) {
 -        case 0:
-+        case CP0_REG26__ERRCTL:
-             gen_helper_mtc0_errctl(cpu_env, arg);
-             ctx->base.is_jmp = DISAS_STOP;
-             register_name = "ErrCtl";
+-        case 2:
+-        case 4:
+-        case 6:
++        case CP0_REG28__TAGLO:
++        case CP0_REG28__TAGLO1:
++        case CP0_REG28__TAGLO2:
++        case CP0_REG28__TAGLO3:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_TagLo));
+             register_name = "TagLo";
+             break;
+-        case 1:
+-        case 3:
+-        case 5:
+-        case 7:
++        case CP0_REG28__DATALO:
++        case CP0_REG28__DATALO1:
++        case CP0_REG28__DATALO2:
++        case CP0_REG28__DATALO3:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_DataLo));
+             register_name = "DataLo";
+             break;
+@@ -9762,17 +9762,17 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+         break;
+     case CP0_REGISTER_28:
+         switch (sel) {
+-        case 0:
+-        case 2:
+-        case 4:
+-        case 6:
++        case CP0_REG28__TAGLO:
++        case CP0_REG28__TAGLO1:
++        case CP0_REG28__TAGLO2:
++        case CP0_REG28__TAGLO3:
+             gen_helper_mtc0_taglo(cpu_env, arg);
+             register_name = "TagLo";
+             break;
+-        case 1:
+-        case 3:
+-        case 5:
+-        case 7:
++        case CP0_REG28__DATALO:
++        case CP0_REG28__DATALO1:
++        case CP0_REG28__DATALO2:
++        case CP0_REG28__DATALO3:
+             gen_helper_mtc0_datalo(cpu_env, arg);
+             register_name = "DataLo";
+             break;
 -- 
 2.7.4
 
