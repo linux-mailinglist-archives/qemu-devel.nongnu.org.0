@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3087AA01D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:34:08 +0200 (CEST)
-Received: from localhost ([::1]:35924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA20A01F8
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:39:04 +0200 (CEST)
+Received: from localhost ([::1]:35964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2x9L-00020J-Al
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:34:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49257)
+	id 1i2xE7-0004gq-Jf
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:39:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52149)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i2wtb-0000Lb-O4
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:17:54 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i2x5h-0001Iw-Io
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:30:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i2wtU-0001D3-Sl
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:17:47 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52433)
+ (envelope-from <alex.bennee@linaro.org>) id 1i2x5f-0008OS-1H
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:30:21 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35823)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i2wtT-0001AT-KZ
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:17:43 -0400
-Received: by mail-wm1-x330.google.com with SMTP id t17so1552982wmi.2
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:17:43 -0700 (PDT)
+ id 1i2x5e-0008NQ-MM
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:30:18 -0400
+Received: by mail-wm1-x342.google.com with SMTP id l2so2682314wmg.0
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=SO/+ZxrrXNaUWmQQTIrNTUOGXFIFu5F/dnetblKU2kE=;
- b=r5Donwk5NZaWRIjw2rihu98vBFVsoAweWLPorPcVsEU5a4hpbhNkTfJ3Dbk6QsVSMV
- JUWLrbVcxVJrVM8vJp4dd+21MI3IY1Bf8wYe5Y38TB5NQcJlXDkDfX7MepYC8T+Rzzyb
- g1z080/EXEtPMsZMI5oWhK+flwrmDx7bE2YXHOKpriTtXNzNMQxb8Gs1YUhaoQ79H8PA
- XyE00jcjBgCiiTxuu+zz3ahihtRb+Wz+TSCjCQiN2x5C/xXo0KubglaHLArys02LbhmK
- RetIgqlfGISUdVDD0wb0hEStq56lNoghtQcoaBmQYsOzhYijCfQRsSw8tuUVo9obzgZX
- fRUg==
+ bh=lyysIg4GJOARFaGAm4FYDnsFBX7G7Ukw8pHIpA8GdVk=;
+ b=pC4h2h/XBY1Sc40b3wTOGe/hdTB+PbsOzKyfvnRM/20sir+f7Lq0RvHVrC4GqW8NEm
+ u5Kv2CxGOaMvbQENCkZHEqyP1elEixHhsP+mzhWTFm1r4gqo5Y2qtvjQEGWU1bSWokd9
+ P6vUDzqSW6Gddv18/v3wKhQjwIaWiaDnF3QAHgo9ICGvHcaCWVwjlyx3kP49cq18SFZt
+ Fvif2pbzp0SeT/oL9GlVFE3PXvd43LCzg1ffedbE3HJyHpA6rOus7/V85YvEtYbp1qbA
+ xiR5YXVUn+QNA6qpYroWJNJ3vkp8Jk3lAxxQy26JP8dzCMcYOQ4eweqMqec5fRYgbw7Y
+ eFmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=SO/+ZxrrXNaUWmQQTIrNTUOGXFIFu5F/dnetblKU2kE=;
- b=qGsgAI8GVNwW5EsAxjRcIMqa5TXTuE1VzTbHoJiEZsgk/qOmlh7XujkDgwx+rep7xL
- zNdsE1zG3dB1J+Wi7MUq6PsquKF7UKny0CBPtMU48QBXjdcPYA6BOrx0hpbzbcuhOy04
- d72ct73wV0l8aRkM2TYeYZMg4mffXuNQnNuhPuTUyQHEH8OTeN/IKZHWB4VCzHZPzcJ+
- JlBFuzR4XeQD5HUPBdObiDNFay/JzFtty9EzMIX0kJIjdo8+bowCZlb3KSdaDdaTkS8h
- jP/q7gHRvP5pcRGv9bEVYYGC0fZDnMTRQSMh8mkfWfmt44FhGnL6C+x1Dq2zlxzT2EpP
- n5tQ==
-X-Gm-Message-State: APjAAAW7VAwlC+1nVRd6X9TiFcgAMCANVRmiuoPYHqpVA0el6e6PXlfc
- QDMey0QD4EIUaMPf5XDjBlYjNPuumEQ=
-X-Google-Smtp-Source: APXvYqwnXdmU5BqBMg/mJC9oku4d9bYLA5xPpy9GUU/B+V9N2Aef08vCI6H/nfq0pEg51ct/ovwunA==
-X-Received: by 2002:a1c:107:: with SMTP id 7mr4602380wmb.84.1566994661800;
- Wed, 28 Aug 2019 05:17:41 -0700 (PDT)
+ bh=lyysIg4GJOARFaGAm4FYDnsFBX7G7Ukw8pHIpA8GdVk=;
+ b=cg34kbAbYmt6CKqP4pTFawmAJ6gii3KRglup/1g0YrwW+CONJn1T05EllNWTDDGJA7
+ 3xWouuj0oInj28s+HRREJb+Hpn33CXw/vug4WoioowbTdVUqYBJCizya4YE5Hxhdx5hA
+ BVONtE6lfFQj36ZVY41y9AlppWdW1uaxzvJ3BCRoxuAVNb7lG6igyAH/bCxB1wVw5nWf
+ NZSxScvtNF0AL8vFhLWY8jVBAUsPMGHRa2/ev92b2nqLzHB04NLEkVq9W+4xp2YMhqif
+ wqa6F03QsOGlGHRrQD1+cVdsMBc3W/JTsqEU2Lax9Vr7K9CkyWS1LLAd9VnkKjHihz4m
+ szgQ==
+X-Gm-Message-State: APjAAAWA7yo6FbliljgDbaLuCWgXn5f+qPsatyZrE06y7hRl8wXEiWFv
+ k1xjRvMeyDJneKJqJ0NVbIwrXXyigWs=
+X-Google-Smtp-Source: APXvYqx9+M73U4Vf4HRvdSaXLIJIUNIsukmcuucKz95uErD6NTcHWynzF2eVhkmYZhS66Z1m5gTFZA==
+X-Received: by 2002:a1c:4d06:: with SMTP id o6mr4726488wmh.43.1566995417083;
+ Wed, 28 Aug 2019 05:30:17 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s64sm6538507wmf.16.2019.08.28.05.17.40
+ by smtp.gmail.com with ESMTPSA id f10sm2739264wrs.22.2019.08.28.05.30.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 05:17:41 -0700 (PDT)
+ Wed, 28 Aug 2019 05:30:16 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 695C91FF87;
- Wed, 28 Aug 2019 13:17:40 +0100 (BST)
-References: <20190822231231.1306-1-philmd@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id EF0451FF87;
+ Wed, 28 Aug 2019 13:30:15 +0100 (BST)
+References: <20190823163931.7442-1-berrange@redhat.com>
+ <CAJ+F1CJsYQDAMwD9pHifGzFT=vPanBeKrCDvYmzqO522MeLhgg@mail.gmail.com>
 User-agent: mu4e 1.3.4; emacs 27.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-In-reply-to: <20190822231231.1306-1-philmd@redhat.com>
-Date: Wed, 28 Aug 2019 13:17:40 +0100
-Message-ID: <87ftll5vrv.fsf@linaro.org>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+In-reply-to: <CAJ+F1CJsYQDAMwD9pHifGzFT=vPanBeKrCDvYmzqO522MeLhgg@mail.gmail.com>
+Date: Wed, 28 Aug 2019 13:30:15 +0100
+Message-ID: <87d0gp5v6w.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
-Subject: Re: [Qemu-devel] [PATCH] contrib/gitdm: Add RT-RK to the domain-map
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH 0/4] docs: add docs about use of automatic
+ cleanup functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,35 +83,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
 
-> This company has at least 7 contributors, add a domain-map entry.
+> Hi
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Opps I missed this one and added my own version this morning.
-
-> ---
->  contrib/gitdm/domain-map | 1 +
->  1 file changed, 1 insertion(+)
+> On Fri, Aug 23, 2019 at 8:41 PM Daniel P. Berrang=C3=A9 <berrange@redhat.=
+com> wrote:
+>>
+>> This is ostensibly about adding docs for the g_autofree/g_autoptr
+>> macros. As part of doing that, however, the existing HACKING doc
+>> is merged into the CODING_STYLE doc and the text is converted to
+>> markdown with a table of contents.
 >
-> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-> index fa9d454473..9efe066ec9 100644
-> --- a/contrib/gitdm/domain-map
-> +++ b/contrib/gitdm/domain-map
-> @@ -18,6 +18,7 @@ nokia.com       Nokia
->  oracle.com      Oracle
->  proxmox.com     Proxmox
->  redhat.com      Red Hat
-> +rt-rk.com       RT-RK
->  siemens.com     Siemens
->  sifive.com      SiFive
->  suse.de         SUSE
+> Why not rst, so it can integrate with the rest of qemu sphinx doc?
+>
+> (markdown is quite poor when it comes to documenting code or
+> cross-referencing etc)
+
+I was going to say markdown does have the advantage of being renderable
+on the fly on code hosting sites but it appears it works on
+gitlab/github so that is an argument for being consistent with the rest
+of the docs.
+
+Does anyone know what is left to get the publishing pipeline up and
+running and the results linked to from www.qemu.org?
+
+>
+>
+>
+>>
+>> Daniel P. Berrang=C3=A9 (4):
+>>   docs: convert CODING_STYLE and HACKING to markdown syntax
+>>   docs: merge HACKING.md contents into CODING_STYLE.md
+>>   docs: document use of automatic cleanup functions in glib
+>>   docs: add table of contents to CODING_STYLE.md
+>>
+>>  CODING_STYLE    | 216 -----------------
+>>  CODING_STYLE.md | 613 ++++++++++++++++++++++++++++++++++++++++++++++++
+>>  HACKING         | 257 --------------------
+>>  README          |   2 +-
+>>  4 files changed, 614 insertions(+), 474 deletions(-)
+>>  delete mode 100644 CODING_STYLE
+>>  create mode 100644 CODING_STYLE.md
+>>  delete mode 100644 HACKING
+>>
+>> --
+>> 2.21.0
+>>
+>>
 
 
 --
