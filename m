@@ -2,75 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC10DA07F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 18:59:34 +0200 (CEST)
-Received: from localhost ([::1]:38780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD77DA080C
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 19:03:25 +0200 (CEST)
+Received: from localhost ([::1]:38820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i31IC-0005XE-Vz
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 12:59:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42500)
+	id 1i31Lw-0000Ac-H2
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 13:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34811)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i31CH-0007mK-Qd
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:26 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i30nF-0007HB-1L
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i31CE-00010K-1l
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:23 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39830)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i31CC-0000uK-1L
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:21 -0400
-Received: by mail-wr1-x429.google.com with SMTP id t16so515821wra.6
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 09:53:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xJKTf83Fi+RIXDJqcB6eYqb17WqVXupOn4gsH5fbN8M=;
- b=rK23+Fsok4aQ6bzSQKkw32xGCJRE8f5yWevl5C5P3QYoMlvdRfqJ4sfdHK7C6Ir0vf
- wr5AkX+ZuqiNVyEXv3S1dnb6/iGP2gYxuD1Zb1vhYj8QLCY6agz0MuT4qGFhxzP2M+3W
- Wi0httWSsrlimF69cqLGcl2B5RNQugkvTYumKT64pgVeCKFZhahRSbaPZntqgn3uKWaI
- c6qqk6Iahw/WEVRHziWmeSnieoAHAR01DurgVFC7RRYJZ50V7T934PFNv4z+/22SIOjf
- QaC0Pi97gwO9VG3WeT5UkRCOVyKDiMFFGq9B3ozyUlNeltlzSFYTjuY6gl0L+aaCd/bI
- c6eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xJKTf83Fi+RIXDJqcB6eYqb17WqVXupOn4gsH5fbN8M=;
- b=O/h8H43w6cQ2eRm3eyIkJw0EYgT9DIKQj8tcZo03ZYzoX2TrCretuIBJhSprIXIFjq
- jBVx/VCB/OVh0jBCg5Ik2oyjCzPWPQTBaSgRA4xebgEw3kvTyJ4k3EObtBgAWh5P961A
- ikkHWXkX482Kl3n7mEdJi6/DVjrVuuYz61FQgD6Ox+/TzERFCWC7gRs9EnoqH8GXPB1F
- 80+Bs3AnLJhbJDVJ/besGOEoZn7sLI3SfA/SsyEKco5hX3pbGp94qCUk8vFmhFFsvBAQ
- 1Q1FMZ/yl4EgyjAguq+spjpAsrEaiGB6SxWrR/HPIDFXDaWWBUB62SCQc9ns9UzGKG6j
- /8zw==
-X-Gm-Message-State: APjAAAUG2MulBPkNXO+MdEEn9KVxToRjqWZLDxmlKGne0bVsB+P0Mt54
- s2nKSDCNnGhC/FJxdgyOCaqIJw==
-X-Google-Smtp-Source: APXvYqy5BuSzzQc7rY+JX5Krz3Z4+i5dRPW8sKK3pSKUthBpRp62tlWLq7JRd1Ncan63j6YsrFylBA==
-X-Received: by 2002:adf:f0ce:: with SMTP id x14mr5917017wro.31.1567011194603; 
- Wed, 28 Aug 2019 09:53:14 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e13sm3283315wmh.44.2019.08.28.09.53.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 09:53:10 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 118861FF98;
- Wed, 28 Aug 2019 17:53:08 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i30nC-0008Ed-Vw
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:32 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:57947 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1i30n9-00080E-2F
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:27:29 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id F1CF81A22D4;
+ Wed, 28 Aug 2019 18:27:00 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 9E9F21A22C7;
+ Wed, 28 Aug 2019 18:27:00 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 17:53:06 +0100
-Message-Id: <20190828165307.18321-9-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190828165307.18321-1-alex.bennee@linaro.org>
-References: <20190828165307.18321-1-alex.bennee@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::429
-Subject: [Qemu-devel] [PATCH v1 8/9] accel/stubs: reduce headers from
- tcg-stub
+Date: Wed, 28 Aug 2019 18:26:49 +0200
+Message-Id: <1567009614-12438-26-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1567009614-12438-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1567009614-12438-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH v2 25/30] target/mips: Clean up handling of CP0
+ register 26
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,38 +51,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need much for these. However I do wonder why these aren't
-just null inlines in exec-all.h
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Clean up handling of CP0 register 26.
+
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- accel/stubs/tcg-stub.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/mips/cpu.h       | 2 +-
+ target/mips/translate.c | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index e2d23edafe0..75b10ab54be 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -11,10 +11,8 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "tcg/tcg.h"
--#include "exec/exec-all.h"
- 
- void tb_flush(CPUState *cpu)
- {
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 19a1b78..9b15b09 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -425,7 +425,7 @@ typedef struct mips_def_t mips_def_t;
+ #define CP0_REG25__PERFCTL3        6
+ #define CP0_REG25__PERFCNT3        7
+ /* CP0 Register 26 */
+-#define CP0_REG00__ERRCTL          0
++#define CP0_REG26__ERRCTL          0
+ /* CP0 Register 27 */
+ #define CP0_REG27__CACHERR         0
+ /* CP0 Register 28 */
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index df6aa9e..d7776fa 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -7504,7 +7504,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+         break;
+     case CP0_REGISTER_26:
+         switch (sel) {
+-        case 0:
++        case CP0_REG26__ERRCTL:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_ErrCtl));
+             register_name = "ErrCtl";
+             break;
+@@ -8266,7 +8266,7 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+        break;
+     case CP0_REGISTER_26:
+         switch (sel) {
+-        case 0:
++        case CP0_REG26__ERRCTL:
+             gen_helper_mtc0_errctl(cpu_env, arg);
+             ctx->base.is_jmp = DISAS_STOP;
+             register_name = "ErrCtl";
+@@ -9006,7 +9006,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+         break;
+     case CP0_REGISTER_26:
+         switch (sel) {
+-        case 0:
++        case CP0_REG26__ERRCTL:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_ErrCtl));
+             register_name = "ErrCtl";
+             break;
+@@ -9750,7 +9750,7 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+         break;
+     case CP0_REGISTER_26:
+         switch (sel) {
+-        case 0:
++        case CP0_REG26__ERRCTL:
+             gen_helper_mtc0_errctl(cpu_env, arg);
+             ctx->base.is_jmp = DISAS_STOP;
+             register_name = "ErrCtl";
 -- 
-2.20.1
+2.7.4
 
 
