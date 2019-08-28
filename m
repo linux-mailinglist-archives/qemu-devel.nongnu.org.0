@@ -2,58 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3859F7F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 03:43:46 +0200 (CEST)
-Received: from localhost ([::1]:60150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D0E9F874
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 04:52:01 +0200 (CEST)
+Received: from localhost ([::1]:60438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2mzx-0006Yr-5K
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 21:43:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36616)
+	id 1i2o40-0006z9-1l
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 22:52:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43707)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Sandra_Loosemore@mentor.com>) id 1i2mz7-0006AD-9D
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 21:42:54 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i2o1k-0005D3-1h
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 22:49:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Sandra_Loosemore@mentor.com>) id 1i2mz4-0005zy-57
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 21:42:51 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:43072)
+ (envelope-from <dgibson@ozlabs.org>) id 1i2o1g-00073e-TV
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 22:49:39 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:47745 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Sandra_Loosemore@mentor.com>)
- id 1i2mz3-0005z3-Rg
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 21:42:50 -0400
-IronPort-SDR: bif7Sfe0QrtnWsFx1bJKEhIvnvvjzutZvau/0OGNykYhHAbQChJ40a8x69GgeTTMnmS/9SQjIq
- 2Znrsy4o6sUpWzcLWf4c8RMmidD6H9VdqbrQHXPMmR4u8RLUxeRKHeKscMm+N9R0chpeSeaP3S
- 14X8nbb93wiSD+7CPgv2YFjo7rn8H6pA9OJsm/k0JsqVlVfjWLhqhbHKrNbOwIJPctxWB5LsIh
- ByMf7EF+rU8EbVlMe9n6ciIVJT/LobvX+RVYdiP669OlnDcmBjOwzoAcaZyztDr7xOmnDlxGN/
- ZYA=
-X-IronPort-AV: E=Sophos;i="5.64,439,1559548800"; d="scan'208";a="40818456"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa3.mentor.iphmx.com with ESMTP; 27 Aug 2019 17:42:46 -0800
-IronPort-SDR: cowbsD11yLjGQL88dAOaUKoneP5msA2CEYSCDLBEKXEi21aKH9O2X2ktxQNJPi/McbybE/pyiw
- 86/YiFLyhatXRaTVQXm344AZAcE1qa95IkM9OoE9OEThjl/DRa85nClYKmSZQmoWZj5aAmMDXY
- Ike1DFQiWVVzia2LcDkPiykP8sA+z9Qnzmd0z/ssEuXoTEKRAF6hq547NU2XBKzc5PNRO5nP6i
- cTWilqvY227nr7AmUUJl3pfPPVlbtP7wXxdE+uS8f31iBcbtq482KDAd+dg8K/ximIpqUSvXmf
- /eI=
-To: Richard Henderson <richard.henderson@linaro.org>, QEMU Developers
- <qemu-devel@nongnu.org>
-References: <81a8c0ca-c5fb-fc3d-cc7b-00c4da31d621@codesourcery.com>
- <6ee9f4b4-39ff-f36a-9430-3e7a5de7a2de@linaro.org>
-From: Sandra Loosemore <sandra@codesourcery.com>
-Message-ID: <49104914-988e-d446-6b38-3ff26b7da7fa@codesourcery.com>
-Date: Tue, 27 Aug 2019 19:42:40 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1i2o1f-0006zs-SS
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 22:49:36 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46J9F43g31z9sDQ; Wed, 28 Aug 2019 12:49:28 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1566960568;
+ bh=fTkqhxsU8PeUq+BVtY08ySvLoyu1zZEIXzelypJWMXE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fge0hFn3Wi4UeT4FX3DXslc0g7aLUFrUzReCGLyL+zyZCtF2bUHEvUSaoYZ+ffZtA
+ QT7fj/y4wRnqPpKh3XvTlAYTHLiqake5HPyBPI/HAt0y7JtwCSh0NH6uPZP/vEz97o
+ KoZBPT/yx+/VJ7jZJfHcKSEPWaIwUIWEd6r8sIBM=
+Date: Wed, 28 Aug 2019 10:42:55 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190828004255.GA16825@umbus.fritz.box>
+References: <1566898663-25858-1-git-send-email-stefan.brankovic@rt-rk.com>
+ <1566898663-25858-4-git-send-email-stefan.brankovic@rt-rk.com>
+ <bc4e313b-9454-62d2-de82-3887f5d59a64@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <6ee9f4b4-39ff-f36a-9430-3e7a5de7a2de@linaro.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SVR-ORW-MBX-09.mgc.mentorg.com (147.34.90.209) To
- svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 68.232.137.180
-Subject: Re: [Qemu-devel] libvhost-user: undefined reference to
- MADV_NOHUGEPAGE
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/04w6evG8XlLl3ft"
+Content-Disposition: inline
+In-Reply-To: <bc4e313b-9454-62d2-de82-3887f5d59a64@linaro.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v6 3/3] target/ppc: Refactor emulation of
+ vmrgew and vmrgow instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,29 +57,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefan Brankovic <stefan.brankovic@rt-rk.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/27/19 6:39 PM, Richard Henderson wrote:
-> On 8/27/19 5:26 PM, Sandra Loosemore wrote:
->> Yesterday I tried to build the recent 4.1 release system-mode QEMU for
->> aarch64-none-elf and ran into a compilation error in
->> ./contrib/libvhost-user/libvhost-user.c.
-> 
-> Why are you attempting to compile qemu for a non-hosted (aka bare metal)
-> configuration?  That is certainly not a supported thing to do.  We require
-> POSIX (or Win32) at a minimum.
-> 
-> I can only presume that you're intending a hosted configuration, and using a
-> cross-compiler that doesn't actually match up.  What is the intended host (and
-> libc if this is for Linux, since there are at least 3)?
 
-Sorry if that was not clear.  The target is aarch64-none-elf with the 
-provided semihosting facilities in QEMU.  The host is x86_64-linux-gnu. 
-We deliberately link against a pretty old glibc sysroot (looks like 
-version 2.11.1), but we did that for last year's 3.0 release as well, 
-and haven't made any other changes in the configure options etc that we 
-use to build QEMU for this target.
+--/04w6evG8XlLl3ft
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--Sandra
+On Tue, Aug 27, 2019 at 12:19:27PM -0700, Richard Henderson wrote:
+> On 8/27/19 2:37 AM, Stefan Brankovic wrote:
+> > Since I found this two instructions implemented with tcg, I refactored
+> > them so they are consistent with other similar implementations that
+> > I introduced in this patch.
+> >=20
+> > Also, a new dual macro GEN_VXFORM_TRANS_DUAL is added. This macro is
+> > used if one instruction is realized with direct translation, and second
+> > one with a helper.
+> >=20
+> > Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
+> > ---
+> >  target/ppc/translate/vmx-impl.inc.c | 66 +++++++++++++++++++++--------=
+--------
+> >  1 file changed, 37 insertions(+), 29 deletions(-)
+>=20
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+Applied to ppc-for-4.2, thanks.
+
+>=20
+>=20
+> r~
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--/04w6evG8XlLl3ft
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1lzgwACgkQbDjKyiDZ
+s5LA1RAAtdGDFta1s21T49UYQWAunXEBas+NC64cDI+fSZzU0s6cXBqABM2lI/E5
+iINhBHxb82NIBqXtA3+a5rs4jqxA0s162+6r+qMiWQYdhFoBZ/hEjdhemt/TdhYO
+r+hFUk1MhjLkHxvfmwDrcbB0IbevTCh1X8VKh9+TnPsWrbje34FwP7MDDGJfRZZa
+SLu7DGqQWihpLESLCGDQwLoyGIEm13oXluWTXU8gVtui84MQhtUMJL3+EoWUn2yp
+L6SuHdx0ymWdP3hgLxjZiUzZAzhpBh4CriYzXEE5zyZ8Qg5c9aMF6PSTxKwsgJB5
+s9Yl3BrLcbiCb6Bs9Lgsbtm1QyndlCZW/J/kVE+4rSBgOORLQwnvBF+ZUie1EJUi
+K7UdAKZDdbyq0MKq9hXpv5A5odJnnuXsjliah8TzZR5HlihHb5rk1GZ0vEnZW+rf
+s2tU9C84d615+8H1QqSg1vNPE1QE99eOUsOAmIffGyorjJ0DCxCDNoatcaX/fUze
+pKGzuStj5BkJYSpkVnh2eV73VEar7OgLoXgKoCCIoFr9aqyJNB7Fly6NDvRfc7EC
+p1iqQCsMjJTaUj72lj4+cw4cipMVL+Ei+7MmK6lzMIaqS3keeBinvLP1lHzCJtlj
+Wsx73yQYD0Kqe6JrmUAs+sVCHCguE48rnP03Zdq8o3Q+hC7kv2s=
+=C7+6
+-----END PGP SIGNATURE-----
+
+--/04w6evG8XlLl3ft--
 
