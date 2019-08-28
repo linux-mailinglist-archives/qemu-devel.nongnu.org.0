@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B63A011A
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 13:55:46 +0200 (CEST)
-Received: from localhost ([::1]:35054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54869A011D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 13:57:50 +0200 (CEST)
+Received: from localhost ([::1]:35078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2wYC-0004k7-Op
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 07:55:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43920)
+	id 1i2waD-0006gs-Dy
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 07:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43951)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1i2wW9-0003WN-R5
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 07:53:38 -0400
+ (envelope-from <kraxel@redhat.com>) id 1i2wWJ-0003cl-Cq
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 07:53:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1i2wW8-0005xb-Rs
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 07:53:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50756)
+ (envelope-from <kraxel@redhat.com>) id 1i2wWI-000605-Ag
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 07:53:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:24483)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i2wW8-0005xK-KH
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 07:53:36 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i2wWI-0005z8-5U
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 07:53:46 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E699330842B5
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 11:53:35 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 408A583F3D;
+ Wed, 28 Aug 2019 11:53:41 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-95.ams2.redhat.com
  [10.36.116.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39017600D1;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F7CF60C80;
  Wed, 28 Aug 2019 11:53:33 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7C87B31E7F; Wed, 28 Aug 2019 13:53:32 +0200 (CEST)
+ id 8565E31E84; Wed, 28 Aug 2019 13:53:32 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 13:53:30 +0200
-Message-Id: <20190828115332.28760-1-kraxel@redhat.com>
+Date: Wed, 28 Aug 2019 13:53:31 +0200
+Message-Id: <20190828115332.28760-2-kraxel@redhat.com>
+In-Reply-To: <20190828115332.28760-1-kraxel@redhat.com>
+References: <20190828115332.28760-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Wed, 28 Aug 2019 11:53:35 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Wed, 28 Aug 2019 11:53:41 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/2] Audio 20190828 patches
+Subject: [Qemu-devel] [PULL 1/2] audio: fix invalid malloc size in
+ audio_create_pdos
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,38 +59,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
+Cc: libvir-list@redhat.com, Kővágó@redhat.com, Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?q?Zolt=C3=A1n?= <DirtY.iCE.hu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 23919ddfd56135cad3cb468a8f54d5a595f024=
-f4:
+From: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail.com>
 
-  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20190827' i=
-nto staging (2019-08-27 15:52:36 +0100)
+The code used sizeof(AudiodevAlsaPerDirectionOptions) instead of the
+appropriate per direction options for the audio backend.  If the size of
+the actual audiodev's per direction options are larger than alsa's, it
+could cause a buffer overflow.
 
-are available in the Git repository at:
+However, alsa has three fields in per direction options: a string, an
+uint32 and a bool.  Oss has the same fields, coreaudio has a single
+uint32, paaudio has a string and an uint32, all other backends only use
+the common options, so currently no per direction options struct should
+be larger than alsa's.
 
-  git://git.kraxel.org/qemu tags/audio-20190828-pull-request
+Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com=
+>
+Message-Id: <7808bc816ba7da8b8de8a214713444d85f7af3c6.1566847960.git.Dirt=
+Y.iCE.hu@gmail.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ audio/audio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-for you to fetch changes up to 4b3b7793e18e1e3edb90bbc21112e875f9ff826d:
-
-  audio: omitting audiodev=3D parameter is only deprecated (2019-08-28 11=
-:57:45 +0200)
-
-----------------------------------------------------------------
-audio: two little fixes.
-
-----------------------------------------------------------------
-
-K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n (2):
-  audio: fix invalid malloc size in audio_create_pdos
-  audio: omitting audiodev=3D parameter is only deprecated
-
- audio/audio.c        | 10 +++++-----
- qemu-deprecated.texi |  7 +++++++
- 2 files changed, 12 insertions(+), 5 deletions(-)
-
+diff --git a/audio/audio.c b/audio/audio.c
+index 7d715332c993..ae335dbebb1e 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1685,7 +1685,7 @@ void audio_create_pdos(Audiodev *dev)
+         }                                                           \
+         if (!dev->u.driver.has_out) {                               \
+             dev->u.driver.out =3D g_malloc0(                          \
+-                sizeof(AudiodevAlsaPerDirectionOptions));           \
++                sizeof(Audiodev##pdo_name##PerDirectionOptions));   \
+             dev->u.driver.has_out =3D true;                           \
+         }                                                           \
+         break
 --=20
 2.18.1
 
