@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB93AA0E2F
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 01:22:58 +0200 (CEST)
-Received: from localhost ([::1]:43660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871B9A0E2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 01:22:49 +0200 (CEST)
+Received: from localhost ([::1]:43652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i37HF-0001Ua-Kl
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 19:22:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52327)
+	id 1i37H6-0001Fz-CS
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 19:22:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52344)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i37BW-0004EM-6C
+ (envelope-from <richard.henderson@linaro.org>) id 1i37BW-0004FK-S3
  for qemu-devel@nongnu.org; Wed, 28 Aug 2019 19:17:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i37BU-0008Ga-My
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 19:17:01 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:34188)
+ (envelope-from <richard.henderson@linaro.org>) id 1i37BV-0008H5-Uo
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 19:17:02 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38780)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i37BU-0008GK-HL
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 19:17:00 -0400
-Received: by mail-pg1-x542.google.com with SMTP id n9so527977pgc.1
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 16:17:00 -0700 (PDT)
+ id 1i37BV-0008Gn-Oc
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 19:17:01 -0400
+Received: by mail-pg1-x541.google.com with SMTP id e11so516530pga.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 16:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=g2Ys6FT3dAIWRm2+sxUDBYBh9aclrTTCcmC9pqtLRPs=;
- b=STphK/P731J0GmYktFaMQOTVo3Pflb9IUOw8II6nZn6jbPbD6UKAZ3OWJrb4oo3Ve+
- y/bZALj+aPVbczYOkNHDntHtdUhLS6HHb9Pdblrtdzb4wXtffLaFW/E2moJ/fm99xIZ6
- LeGeT1xZm31FxGtaWJNZ5yaVT5wuux56zhdBmAR4XuWUcj2j5imCTvmgX4hVWrhZ1RsE
- d9ekp8cvrKOMhnHR5L9kvtIogAeU3Fe2+NSNKbXjXPF1nv1SOmS0mo7psfCa5XVDEjZ9
- fnB57d2H0nLUrfsGU6TR2wuQiX52JJxQNlK1PlWbTl1bs9wus/4tHfB0jO+ctPHY3Eud
- rZww==
+ bh=Gm01TIX2dgmE2RJ8CmJz1CGP7nGYi+1YuaceKCL3Jzs=;
+ b=orlrpns2pUjBuMAHKF+faUFWHNQVF3WdegcMszTxlLr2nXp0hsLQ2IMUCoxy56T5GL
+ gXfV+6fhHvTTfsDMLurG0ZWuoVflCrBHeaN6Dpq5ShbfLfrPYdzk07NoMaAxWPSCe8FE
+ dk7qnKC/SDU1vi4/zJRoe+cAgit/sXFpk0851sxCTWSgo/fSzQm6JpVEB6G8OmRlO48O
+ LLCiqZo3juMV1Tf/LvYXvlPf4v475mE4wvcA5LLsQisW/ybuapygUwA30P7ISW6MP9JX
+ aXLntQ5Ffa+9/UOCHTifLlE9UxhViphb52IUvXDzFm7xbmDxixULjaPpQ963U4OE4bON
+ fDTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=g2Ys6FT3dAIWRm2+sxUDBYBh9aclrTTCcmC9pqtLRPs=;
- b=DXUjKYw+GskDLpbb4saDFCIwuEJ5xWezQSp06WHP2oCGIIu+sHMoCe3ac58ACnPTw3
- efbh8sr+KPLjAHDkl1X4YTJS/SLS3fwwWBy/3L5fQQwE9otPTD7pSRmcKsCoLpUEMOCQ
- Lq7bZ9RWHbnn3xqHXxrC/XrogL7hEG8Pe6F8a4EROI6LZsfoEwjxEE7T6Q1OTJO0vZAO
- 5qkh41/16K48BT149FoN8WT/8bx6MBYWOeVdHqPhODhlZeVEZcO0Q44UgDJEUAYPI3QN
- efe/cIStMzGmjrlWsoEYxSkoou7M/0VVc38yYeJIJTrQP204K/ngbGCwMOh5Ie737YSc
- /99w==
-X-Gm-Message-State: APjAAAVdqwN27r4f+p1h9seTeLMOEGJIZy69RbGdLFwl3jRi7LHOC+sB
- aXTS7aLoZVnFMa29yvNHq+yB0IM0esY=
-X-Google-Smtp-Source: APXvYqyhZQiiEP5ypT+SjIzunCjNc5KtTSdQQGWBRcctQByz8zmDXd/UGqNRhqwufrf2akmJsoonQw==
-X-Received: by 2002:a17:90a:f011:: with SMTP id
- bt17mr6700083pjb.21.1567034219275; 
- Wed, 28 Aug 2019 16:16:59 -0700 (PDT)
+ bh=Gm01TIX2dgmE2RJ8CmJz1CGP7nGYi+1YuaceKCL3Jzs=;
+ b=a4BibgxAnsSsSPyb/Qsz3M7dgmEKoiVjdesxKl04DGS/MyetPtIfl7laIauaJf86Ur
+ omIcUDmKoRnsgxukKMjKUHWL3Zb/H21ywOX2GKoiDVZobYRgk7foQHWmX+U3vNykgkfl
+ NCTdZLiat/uOW/lcCg47qhZaVjod/vea+lpLToEq0DVpWqvfC8IqlDdh7VTEnjfGMEpY
+ /RLnzfiDWPFfxgzxlkQeNbF4ZAQngBh/pU6W7458x96dG3bhcI0hEbin87V3RJlUUDwK
+ 04HztF/4J0BLa9GfLNN7EVjeE3A1WPdH4d1hkF3NhJo1tFOpj6Xbjf6XgCr/8tp/eex2
+ JTkw==
+X-Gm-Message-State: APjAAAVYDVK4zg4DjoqJ7tNTstmrRFtRMlH3LFtMlYfytTljKf98aqqZ
+ guxoxdmzV+OJ64TYT7hi3mHD7z7WWbY=
+X-Google-Smtp-Source: APXvYqx8C/yfNoMPnwNHRygwbs14sIiKP8AhiXoS/PAwo2fp0UKjB7PF7tuLeIfwZzOZuGDFPaQ4gg==
+X-Received: by 2002:a63:ed50:: with SMTP id m16mr5525536pgk.209.1567034220394; 
+ Wed, 28 Aug 2019 16:17:00 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id s5sm485197pfm.97.2019.08.28.16.16.58
+ by smtp.gmail.com with ESMTPSA id s5sm485197pfm.97.2019.08.28.16.16.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 16:16:58 -0700 (PDT)
+ Wed, 28 Aug 2019 16:16:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 16:16:48 -0700
-Message-Id: <20190828231651.17176-6-richard.henderson@linaro.org>
+Date: Wed, 28 Aug 2019 16:16:49 -0700
+Message-Id: <20190828231651.17176-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190828231651.17176-1-richard.henderson@linaro.org>
 References: <20190828231651.17176-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH v2 5/8] cputlb: Fix size operand for tlb_fill
- on unaligned store
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v2 6/8] cputlb: Remove double-alignment in
+ store_helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,50 +80,28 @@ Cc: david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are currently passing the size of the full write to
-the tlb_fill for the second page.  Instead pass the real
-size of the write to that page.
-
-This argument is unused within all tlb_fill, except to be
-logged via tracing, so in practice this makes no difference.
-
-But in a moment we'll need the value of size2 for watchpoints,
-and if we've computed the value we might as well use it.
+We have already aligned page2 to the start of the next page.
+There is no reason to do that a second time.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ accel/tcg/cputlb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index c9576bebcf..7fb67d2f05 100644
+index 7fb67d2f05..d0f8db33a2 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -1504,6 +1504,8 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-         uintptr_t index2;
-         CPUTLBEntry *entry2;
-         target_ulong page2, tlb_addr2;
-+        size_t size2;
-+
-     do_unaligned_access:
-         /*
-          * Ensure the second page is in the TLB.  Note that the first page
-@@ -1511,13 +1513,14 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-          * cannot evict the first.
-          */
-         page2 = (addr + size) & TARGET_PAGE_MASK;
-+        size2 = (addr + size) & ~TARGET_PAGE_MASK;
-         index2 = tlb_index(env, mmu_idx, page2);
+@@ -1518,8 +1518,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
          entry2 = tlb_entry(env, mmu_idx, page2);
          tlb_addr2 = tlb_addr_write(entry2);
          if (!tlb_hit_page(tlb_addr2, page2)
-             && !victim_tlb_hit(env, mmu_idx, index2, tlb_off,
-                                page2 & TARGET_PAGE_MASK)) {
--            tlb_fill(env_cpu(env), page2, size, MMU_DATA_STORE,
-+            tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
+-            && !victim_tlb_hit(env, mmu_idx, index2, tlb_off,
+-                               page2 & TARGET_PAGE_MASK)) {
++            && !victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) {
+             tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
                       mmu_idx, retaddr);
          }
- 
 -- 
 2.17.1
 
