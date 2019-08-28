@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E6B9F876
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 04:53:23 +0200 (CEST)
-Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559399F873
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 04:52:01 +0200 (CEST)
+Received: from localhost ([::1]:60436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2o5K-000183-Pq
-	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 22:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43690)
+	id 1i2o3z-0006xs-Rh
+	for lists+qemu-devel@lfdr.de; Tue, 27 Aug 2019 22:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43694)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i2o1i-0005Cz-5y
+ (envelope-from <dgibson@ozlabs.org>) id 1i2o1i-0005D0-9U
  for qemu-devel@nongnu.org; Tue, 27 Aug 2019 22:49:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i2o1g-00073Z-TG
- for qemu-devel@nongnu.org; Tue, 27 Aug 2019 22:49:37 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:55925)
+ (envelope-from <dgibson@ozlabs.org>) id 1i2o1g-00073p-TO
+ for qemu-devel@nongnu.org; Tue, 27 Aug 2019 22:49:38 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:41331 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i2o1g-000700-66; Tue, 27 Aug 2019 22:49:36 -0400
+ id 1i2o1f-0006zv-OX; Tue, 27 Aug 2019 22:49:36 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46J9F45HLnz9sN6; Wed, 28 Aug 2019 12:49:28 +1000 (AEST)
+ id 46J9F44XzPz9sBp; Wed, 28 Aug 2019 12:49:28 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1566960568;
- bh=rVWe3RaYZcno4etKutHxIkb/uQtL4gwqCtQe4h2S2xU=;
+ bh=xpgSvcOIDkGTfDo+00WDn/TOlXQYtIofgm0w6Qc4Ijk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=THNfhBDGMgrHn8SQJUvJ8WoGauJ3z4WJURRfF3hQEwfhZagC5djgIf9QqvKS8P9DI
- bMv8XnfdMA1wYbzpd69muyrueBPQPwVlidbzd/xr4VndZepLURuhEkos6Uqkmpfp6C
- qpxzbF6BCp3Cwz9WeoPnSykTUGJ0re7UwhmRRzN8=
-Date: Wed, 28 Aug 2019 10:46:34 +1000
+ b=UjUj1sg8Er5ux7HHD1pWbiSB1j6XWDJGinSHXOkFukTNr7X1w1RvScvOR5c82c20C
+ EtzlJniebCJ87WuZmvK3Dr5zN96bCcbfNGSqS8YdiyOjITYspGo3TgE+PUoX2o5V4T
+ +gURtJbohrb9zWJ9vnz/RbS+Fujpd2LxbG9jGho4=
+Date: Wed, 28 Aug 2019 11:00:32 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-ID: <20190828004634.GB16825@umbus.fritz.box>
-References: <20190827065650.107319-1-aik@ozlabs.ru>
+To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+Message-ID: <20190828010032.GC16825@umbus.fritz.box>
+References: <20190827045751.22123-1-sjitindarsingh@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1UWUbFP1cBYEclgG"
+ protocol="application/pgp-signature"; boundary="NU0Ex4SbNnrxsi6C"
 Content-Disposition: inline
-In-Reply-To: <20190827065650.107319-1-aik@ozlabs.ru>
+In-Reply-To: <20190827045751.22123-1-sjitindarsingh@gmail.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [GIT PULL for qemu-pseries] spapr: Render full FDT
- on ibm, client-architecture-support
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH V4] powerpc/spapr: Add host
+ threads parameter to ibm, get_system_parameter
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,39 +60,123 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---1UWUbFP1cBYEclgG
+--NU0Ex4SbNnrxsi6C
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 27, 2019 at 04:56:50PM +1000, Alexey Kardashevskiy wrote:
-> The following changes since commit d6bb8b27204eaa58f1da948b65454e3a598ab2=
-a4:
+On Tue, Aug 27, 2019 at 02:57:51PM +1000, Suraj Jitindar Singh wrote:
+> The ibm,get_system_parameter rtas call is used by the guest to retrieve
+> data relating to certain parameters of the system. The SPLPAR
+> characteristics option (token 20) is used to determine characteristics of
+> the environment in which the lpar will run.
 >=20
->   pseries: Update SLOF firmware image (2019-08-27 16:47:04 +1000)
+> It may be useful for a guest to know the number of physical host threads
+> present on the underlying system where it is being run. Add the
+> characteristic "HostThrs" to the SPLPAR Characteristics
+> ibm,get_system_parameter rtas call to expose this information to a
+> guest. Add a n_host_threads property to the processor class which is
+> then used to retrieve this information and define it for POWER8 and
+> POWER9. Other processors will default to 0 and the charateristic won't
+> be added.
 >=20
-> are available in the Git repository at:
->=20
->   git@github.com:aik/qemu.git tags/qemu-slof-20190827
->=20
-> for you to fetch changes up to da9960a5aaa25d27c9798c3d94c7b4c2d8af31ac:
->=20
->   spapr: Render full FDT on ibm,client-architecture-support (2019-08-27 1=
-6:47:46 +1000)
->=20
-> ----------------------------------------------------------------
-> Alexey Kardashevskiy (1):
->       spapr: Render full FDT on ibm,client-architecture-support
->=20
->  hw/ppc/spapr.c | 90 +++++++---------------------------------------------=
-------
->  1 file changed, 10 insertions(+), 80 deletions(-)
->=20
->=20
-> *** Note: this is not for master, this is for pseries
->=20
+> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
-Merged, thanks.
+Applied, thanks.
+
+>=20
+> ---
+>=20
+> V1 -> V2:
+> - Take into account that the core may be operating in split core mode
+>   meaning a single core may be split into multiple subcores.
+> V2 -> V3:
+> - Add curly braces for single line if statements
+> V3 -> V4;
+> - Add a host threads property to the processor class and use this to
+>   derive the information rather than the device tree.
+> ---
+>  hw/ppc/spapr_rtas.c             | 15 +++++++++++++++
+>  target/ppc/cpu-qom.h            |  1 +
+>  target/ppc/translate_init.inc.c |  2 ++
+>  3 files changed, 18 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 526b489297..bee3835214 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -266,6 +266,7 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU =
+*cpu,
+>                                            target_ulong args,
+>                                            uint32_t nret, target_ulong re=
+ts)
+>  {
+> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+>      MachineState *ms =3D MACHINE(qdev_get_machine());
+>      unsigned int max_cpus =3D ms->smp.max_cpus;
+>      target_ulong parameter =3D rtas_ld(args, 0);
+> @@ -283,6 +284,20 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU=
+ *cpu,
+>                                            current_machine->ram_size / Mi=
+B,
+>                                            ms->smp.cpus,
+>                                            max_cpus);
+> +        if (pcc->n_host_threads > 0) {
+> +            char *hostthr_val, *old =3D param_val;
+> +
+> +            /*
+> +             * Add HostThrs property. This property is not present in PA=
+PR but
+> +             * is expected by some guests to communicate the number of p=
+hysical
+> +             * host threads per core on the system so that they can scale
+> +             * information which varies based on the thread configuratio=
+n.
+> +             */
+> +            hostthr_val =3D g_strdup_printf(",HostThrs=3D%d", pcc->n_hos=
+t_threads);
+> +            param_val =3D g_strconcat(param_val, hostthr_val, NULL);
+> +            g_free(hostthr_val);
+> +            g_free(old);
+> +        }
+>          ret =3D sysparm_st(buffer, length, param_val, strlen(param_val) =
++ 1);
+>          g_free(param_val);
+>          break;
+> diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+> index 7ffdb0a706..e499575dc8 100644
+> --- a/target/ppc/cpu-qom.h
+> +++ b/target/ppc/cpu-qom.h
+> @@ -191,6 +191,7 @@ typedef struct PowerPCCPUClass {
+>      const PPCHash64Options *hash64_opts;
+>      struct ppc_radix_page_info *radix_page_info;
+>      uint32_t lrg_decr_bits;
+> +    int n_host_threads;
+>      void (*init_proc)(CPUPPCState *env);
+>      int  (*check_pow)(CPUPPCState *env);
+>      int (*handle_mmu_fault)(PowerPCCPU *cpu, vaddr eaddr, int rwx, int m=
+mu_idx);
+> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+> index 4a21ed7289..41f77b7ef8 100644
+> --- a/target/ppc/translate_init.inc.c
+> +++ b/target/ppc/translate_init.inc.c
+> @@ -8770,6 +8770,7 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
+>      pcc->handle_mmu_fault =3D ppc_hash64_handle_mmu_fault;
+>      pcc->hash64_opts =3D &ppc_hash64_opts_POWER7;
+>      pcc->lrg_decr_bits =3D 32;
+> +    pcc->n_host_threads =3D 8;
+>  #endif
+>      pcc->excp_model =3D POWERPC_EXCP_POWER8;
+>      pcc->bus_model =3D PPC_FLAGS_INPUT_POWER7;
+> @@ -8981,6 +8982,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+>      pcc->hash64_opts =3D &ppc_hash64_opts_POWER7;
+>      pcc->radix_page_info =3D &POWER9_radix_page_info;
+>      pcc->lrg_decr_bits =3D 56;
+> +    pcc->n_host_threads =3D 4;
+>  #endif
+>      pcc->excp_model =3D POWERPC_EXCP_POWER9;
+>      pcc->bus_model =3D PPC_FLAGS_INPUT_POWER9;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -101,25 +184,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---1UWUbFP1cBYEclgG
+--NU0Ex4SbNnrxsi6C
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1lzukACgkQbDjKyiDZ
-s5KBFBAA1hlZVSB+SjMBhdz6vtXWUme305CMCDdEqHunI3po7BKzGNM5itL8AbCj
-QvoWcvLSGqpfdvvQNG1l3XQ3JpbBHjJj8R6DRGpoLunMrG3lF+JBCuIFTgSI0GiX
-l4Jba8kP/UDBrk3hSLxbrY5DUOMciW8c8zGD88FGDsdbOJG8YcSdcMuBdQylbvDW
-xNf2q4tGphqKvvhtBzStH0GGkyjAa7EISTYZE+xs3q33EhYOBLPkgw0QNllA417O
-Zo01Jki89mKRtttroFvyhG0hiiVNIYLMz4gWD/QlhmMMYtrcGMTi7HYV6tiRToDg
-31QEg9uOsh7jed4ynNl+bI9r9/OIHcNKWSzbzeKipmvKCu76WpasrxlWy4h25g4p
-kW2GqakB+/e3rSk4qNlQuN/BlGrbMsEr4wxUBw/Ta4A1K+CPkHi2hTbtpN+eBK/f
-Hc/F2GlLpVEJJ7o+1Kxm9TLryTIDTTD+aKLEJPOB8QEqcF3A3zD4x0Cex5D/7UHo
-URAu2vFJCic/eOc9w51DJDav65vrRCjmQWRC4i1Aj4t/l8B4V1jU+lmzM+x/aDkB
-UPqWz0mzChwUGXvRAE/QfLzj7j50DAd3JV1tyeL0P6gt+YglDIiy12E9Wa03RWU5
-ytgKgI8rxgyq0TPTSu6a0/Zh1rqWZYFJkBmq4SQzhH0dLo3ILXc=
-=SUQY
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1l0i0ACgkQbDjKyiDZ
+s5LebhAAsSzSkdad5/49Th7KTiqHSqbhpA12+GF3LjUCkKMTjDBeWKEbcpu6iDdZ
+tpRJ+1sbuKva36hMdk57BFx7gQH3uK0RObR6knzKsYzHJxfRH+6rgAV2teiEnwNf
+rjFJzZKtlYVPI/Tjf8nKYPqh1/pgL8zCajLpN6AY79iPPen2X6kiiLaU3qG2wx/r
+abW454gcOwsmecBbCAV8si3rhlqDQMcYn+JbxaT2DSLobueq5PCodOEYIIUDYmVW
+K1MXehqjDtClGeEXIl1R9S37vD1IFQWWaa2rejWCRorV8ezhP/yDUD8dZoMBPGTp
+X+5Ke8XUtsWQl/+E0qFQ8ro5Bb9l0wOAKPiobyQ8T020abkrevPlMt3oTklsqYiG
+SMoAwF3vw6iLMoLwm46HwLte1KmoxLLm/uOPpaLi7kN1NXoEJaSE4WSfy0SxEz6N
+gaUKCXGJFn8bDvkGXZbyLZbpz1l0MrPRQh3LeN529OLzLxEQmkNLGVCW8jlK3Vdz
+iSbPgeNtNk8lrQ+uJbbXJwPTo3/FfnTT7d4R88LtvpuWiOfqfy2hHCRkYaIJZiH8
+v1CJDz8g60rAmOoiyyaYf/pci6R+SvIcws/ZzGraqQugce7pIW3VCwq2ANw4SUyX
+/djqXgDz1fVGvsa927gWqO+0KfkkyiQtCAuoo0x3X34taxBavgM=
+=b0Cg
 -----END PGP SIGNATURE-----
 
---1UWUbFP1cBYEclgG--
+--NU0Ex4SbNnrxsi6C--
 
