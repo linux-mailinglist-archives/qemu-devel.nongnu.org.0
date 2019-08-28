@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BAEA0A78
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 21:29:12 +0200 (CEST)
-Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BD1A0A98
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 21:39:58 +0200 (CEST)
+Received: from localhost ([::1]:41444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i33d1-0001BB-4a
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 15:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38166)
+	id 1i33nR-00027w-8x
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 15:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37922)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i33GQ-0003kg-El
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:52 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i33GB-0003a4-Oh
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i33GK-0000JJ-KO
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:48 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:45248)
+ (envelope-from <richard.henderson@linaro.org>) id 1i33G4-00009T-Cc
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:34 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:33711)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i33GK-0000IQ-8g
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:44 -0400
-Received: by mail-pl1-x630.google.com with SMTP id y8so379312plr.12
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:05:43 -0700 (PDT)
+ id 1i33G3-00008J-Tn
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:28 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id go14so410471plb.0
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:05:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=2z7Ln/9N4XB/zpfp9+WV/L8Yn7I2nO4gdCcvWAyiB/s=;
- b=Zmt8tJW6frf8+peKagExJljxGKBy66T4l+AJH6ShMG5qztZr/oLtAwEiWJ53LuqFN+
- x+klBSvLmEPL1SSe/G2bjs27s3W8PlorfOLoolAeqTaaZnTbdDSxlWeq4Nf4IVUo62ag
- Ozyh2/5+i2NtkHznMbshJXxNOE6teMxUgHCalAZfngVy0P1+BjR6FRVhBkJ7Tmqrl8tI
- XL+gEGrX1gf5Vr9wo9CQkfq00G5N3YJLD8orAjAh+rbbEJuylGTDoFkIr2iu47x93t6D
- GFcpI6AMzR1cSb607R48wp9ncbkpqZFFcRX1a66710t3Gc6PqyNoqSIGqmUT1oq5TPno
- W+yw==
+ bh=dSu/WI2p7Zu7RkNmlaDDRF7EyRvRP4Vvqe5rGiQe2vs=;
+ b=p/BhHqjZHOPJyMdMdckx+94f40E7jPf36UVf4OpPatgQolpznftse2rtl0Ln2Cg07J
+ EWHN4W0iC1Gr7H1WPqawUYwQGqNqOznYIVCkxX4i/osWGjx72ByR4p3tgutJmgueTgof
+ cyVx4mxTRKYr4WNC2GkXgIJiOC/4Dkw3PznBMFffMoZryHJZNXoDFF1A/UmERT1LlM5O
+ wlDdYGFNP67ONkps5bOcY0FUZ0oNpJAe1ZdiTmmdwyvTObSQU2LeRiA6SxcvIbgSuDjB
+ 1ccrSodTBkwywdf0WShmJ7FLJbjhvhm+FRYBnujAtR9fdkx4TTD8Lr6dch4HFMRbLMlr
+ q1ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=2z7Ln/9N4XB/zpfp9+WV/L8Yn7I2nO4gdCcvWAyiB/s=;
- b=OUA+WVpxF8Y8GHcLa8JB+FO6laDpL08qacgrp3Y7L2eJddXaHr8sZARt4/LBomnSnn
- h/NhyNiz+ml7sXFE6ERCIWPJzw9IIEhgAb/lgke+esdGDVErXJiMjXB1gNLP3eqHXI0F
- E1rXmbeEf8s+oitWVbcc4jWB5zt8hOkGGkUZL7rpBKp8Xi2IkfVmJfrnYCINQUiNFQ/R
- lw+okAsP5WXG/hC8vH7+3RKg8x4PZkZfwSpH/UcFtfctxTov2wy7L72rdqk8rs1iikxC
- XZ5jYh1f18NimeufGp9+S8wU8Phq8dnp1jRqcukzb0UfsodDjOoZzEURYQhGI3vxNrJI
- utfw==
-X-Gm-Message-State: APjAAAWf0fEf3frJ6tLbLKdcfXYH2mNMluns8G7uVhb0TpAkpXGXakXg
- xjOqogYfzaFbBUiot76yjt/CORPwJ18=
-X-Google-Smtp-Source: APXvYqxYqvXKAzZMCBQ01YDrbv7SOCjuQgQ/6yjBMbKWPdUF9L6evTC//ITdF4g5zjjQF908xgN1xA==
-X-Received: by 2002:a17:902:bcc2:: with SMTP id
- o2mr5891739pls.127.1567019141391; 
- Wed, 28 Aug 2019 12:05:41 -0700 (PDT)
+ bh=dSu/WI2p7Zu7RkNmlaDDRF7EyRvRP4Vvqe5rGiQe2vs=;
+ b=spxm23j2jUq+gQ74uv9hKllHV5A6fIzPCcD0+TNIEVi/u/UsA6CAY8YZa8KSHiqSag
+ qvEMpPs3DzRzpUstGACSfcXJH2E8G1F6jjwynzHhzeYLy0Y0XXSYf8NWFGM8nxz0Y7ID
+ 88emWCC90faJANAuVZ1907lxuZkhz20F6BY7qgIuPSYxINorMMBxiOrlhgwbiH0M7fKS
+ /ker20MsVo5KYR5TXyazOBJ2HEpZkzBGUY9zAiYoc7rwtHSh/0kGl3Z6kjJQjRuygDzL
+ 5OwI3Oli3b40K95NVFcCabWdHw9wti06LTWTnXeuG+5vIKXAvgYNS6ZlMUf4JITNzYnE
+ 0+EQ==
+X-Gm-Message-State: APjAAAVD9f1ywmTFbNFiy6pPZGlN8WESHLo8w7VVxtUhebkgec6RQpKi
+ baa+7y0PH2V5xARa8I9vz0bCSlHLEtY=
+X-Google-Smtp-Source: APXvYqyyV+tSBce6753p+5ZPOiqz8jxnDGUjf4I03UFn2MAGRuUpp63MsWRiqfueks3l05ASs8wGnA==
+X-Received: by 2002:a17:902:b18b:: with SMTP id
+ s11mr6000876plr.1.1567019125732; 
+ Wed, 28 Aug 2019 12:05:25 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.05.40
+ by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.05.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 12:05:40 -0700 (PDT)
+ Wed, 28 Aug 2019 12:05:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 12:04:19 -0700
-Message-Id: <20190828190456.30315-33-richard.henderson@linaro.org>
+Date: Wed, 28 Aug 2019 12:04:07 -0700
+Message-Id: <20190828190456.30315-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190828190456.30315-1-richard.henderson@linaro.org>
 References: <20190828190456.30315-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::630
-Subject: [Qemu-devel] [PATCH v3 32/69] target/arm: Convert B, BL,
- BLX (immediate)
+X-Received-From: 2607:f8b0:4864:20::62a
+Subject: [Qemu-devel] [PATCH v3 20/69] target/arm: Convert load/store
+ (register, immediate, literal)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,336 +84,1168 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c       | 133 +++++++++++++++--------------------
- target/arm/a32-uncond.decode |   8 +++
- target/arm/a32.decode        |   8 +++
- target/arm/t32.decode        |  81 ++++++++++++---------
- 4 files changed, 123 insertions(+), 107 deletions(-)
+v3: Use unallocated_encoding for RT odd
+---
+ target/arm/translate.c | 805 ++++++++++++++++++-----------------------
+ target/arm/a32.decode  | 120 ++++++
+ target/arm/t32.decode  | 141 ++++++++
+ 3 files changed, 623 insertions(+), 443 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 812ce5037f..fb0e875917 100644
+index 257ee6b5ea..a92b90a4e3 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -7519,6 +7519,14 @@ static int t32_expandimm_imm(DisasContext *s, int x)
-     return imm;
+@@ -1246,62 +1246,6 @@ static inline void gen_hlt(DisasContext *s, int imm)
+     unallocated_encoding(s);
  }
  
-+static int t32_branch24(DisasContext *s, int x)
+-static inline void gen_add_data_offset(DisasContext *s, unsigned int insn,
+-                                       TCGv_i32 var)
+-{
+-    int val, rm, shift, shiftop;
+-    TCGv_i32 offset;
+-
+-    if (!(insn & (1 << 25))) {
+-        /* immediate */
+-        val = insn & 0xfff;
+-        if (!(insn & (1 << 23)))
+-            val = -val;
+-        if (val != 0)
+-            tcg_gen_addi_i32(var, var, val);
+-    } else {
+-        /* shift/register */
+-        rm = (insn) & 0xf;
+-        shift = (insn >> 7) & 0x1f;
+-        shiftop = (insn >> 5) & 3;
+-        offset = load_reg(s, rm);
+-        gen_arm_shift_im(offset, shiftop, shift, 0);
+-        if (!(insn & (1 << 23)))
+-            tcg_gen_sub_i32(var, var, offset);
+-        else
+-            tcg_gen_add_i32(var, var, offset);
+-        tcg_temp_free_i32(offset);
+-    }
+-}
+-
+-static inline void gen_add_datah_offset(DisasContext *s, unsigned int insn,
+-                                        int extra, TCGv_i32 var)
+-{
+-    int val, rm;
+-    TCGv_i32 offset;
+-
+-    if (insn & (1 << 22)) {
+-        /* immediate */
+-        val = (insn & 0xf) | ((insn >> 4) & 0xf0);
+-        if (!(insn & (1 << 23)))
+-            val = -val;
+-        val += extra;
+-        if (val != 0)
+-            tcg_gen_addi_i32(var, var, val);
+-    } else {
+-        /* register */
+-        if (extra)
+-            tcg_gen_addi_i32(var, var, extra);
+-        rm = (insn) & 0xf;
+-        offset = load_reg(s, rm);
+-        if (!(insn & (1 << 23)))
+-            tcg_gen_sub_i32(var, var, offset);
+-        else
+-            tcg_gen_add_i32(var, var, offset);
+-        tcg_temp_free_i32(offset);
+-    }
+-}
+-
+ static TCGv_ptr get_fpstatus_ptr(int neon)
+ {
+     TCGv_ptr statusptr = tcg_temp_new_ptr();
+@@ -7632,6 +7576,11 @@ static int times_2(DisasContext *s, int x)
+     return x * 2;
+ }
+ 
++static int times_4(DisasContext *s, int x)
 +{
-+    /* Convert J1:J2 at x[22:21] to I2:I1, which involves I=J^~S.  */
-+    x ^= !(x < 0) * (3 << 21);
-+    /* Append the final zero.  */
-+    return x << 1;
++    return x * 4;
 +}
 +
- /*
-  * Include the generated decoders.
-  */
-@@ -9997,13 +10005,56 @@ static bool trans_LDM_t32(DisasContext *s, arg_ldst_block *a)
-     return do_ldm(s, a, 2);
+ /* Return only the rotation part of T32ExpandImm.  */
+ static int t32_expandimm_rot(DisasContext *s, int x)
+ {
+@@ -8550,6 +8499,353 @@ static bool trans_SMC(DisasContext *s, arg_SMC *a)
+     return true;
  }
  
 +/*
-+ * Branch, branch with link
++ * Load/store register index
 + */
 +
-+static bool trans_B(DisasContext *s, arg_i *a)
++static ISSInfo make_issinfo(DisasContext *s, int rd, bool p, bool w)
 +{
-+    gen_jmp(s, read_pc(s) + a->imm);
++    ISSInfo ret;
++
++    /* ISS not valid if writeback */
++    if (p && !w) {
++        ret = rd;
++    } else {
++        ret = ISSInvalid;
++    }
++    return ret;
++}
++
++static TCGv_i32 op_addr_rr_pre(DisasContext *s, arg_ldst_rr *a)
++{
++    TCGv_i32 addr = load_reg(s, a->rn);
++
++    if (s->v8m_stackcheck && a->rn == 13 && a->w) {
++        gen_helper_v8m_stackcheck(cpu_env, addr);
++    }
++
++    if (a->p) {
++        TCGv_i32 ofs = load_reg(s, a->rm);
++        gen_arm_shift_im(ofs, a->shtype, a->shimm, 0);
++        if (a->u) {
++            tcg_gen_add_i32(addr, addr, ofs);
++        } else {
++            tcg_gen_sub_i32(addr, addr, ofs);
++        }
++        tcg_temp_free_i32(ofs);
++    }
++    return addr;
++}
++
++static void op_addr_rr_post(DisasContext *s, arg_ldst_rr *a,
++                            TCGv_i32 addr, int address_offset)
++{
++    if (!a->p) {
++        TCGv_i32 ofs = load_reg(s, a->rm);
++        gen_arm_shift_im(ofs, a->shtype, a->shimm, 0);
++        if (a->u) {
++            tcg_gen_add_i32(addr, addr, ofs);
++        } else {
++            tcg_gen_sub_i32(addr, addr, ofs);
++        }
++        tcg_temp_free_i32(ofs);
++    } else if (!a->w) {
++        tcg_temp_free_i32(addr);
++        return;
++    }
++    tcg_gen_addi_i32(addr, addr, address_offset);
++    store_reg(s, a->rn, addr);
++}
++
++static bool op_load_rr(DisasContext *s, arg_ldst_rr *a,
++                       TCGMemOp mop, int mem_idx)
++{
++    ISSInfo issinfo = make_issinfo(s, a->rt, a->p, a->w);
++    TCGv_i32 addr, tmp;
++
++    addr = op_addr_rr_pre(s, a);
++
++    tmp = tcg_temp_new_i32();
++    gen_aa32_ld_i32(s, tmp, addr, mem_idx, mop | s->be_data);
++    disas_set_da_iss(s, mop, issinfo);
++
++    /*
++     * Perform base writeback before the loaded value to
++     * ensure correct behavior with overlapping index registers.
++     */
++    op_addr_rr_post(s, a, addr, 0);
++    store_reg_from_load(s, a->rt, tmp);
 +    return true;
 +}
 +
-+static bool trans_B_cond_thumb(DisasContext *s, arg_ci *a)
++static bool op_store_rr(DisasContext *s, arg_ldst_rr *a,
++                        TCGMemOp mop, int mem_idx)
 +{
-+    /* This has cond from encoding, required to be outside IT block.  */
-+    if (a->cond >= 0xe) {
++    ISSInfo issinfo = make_issinfo(s, a->rt, a->p, a->w) | ISSIsWrite;
++    TCGv_i32 addr, tmp;
++
++    addr = op_addr_rr_pre(s, a);
++
++    tmp = load_reg(s, a->rt);
++    gen_aa32_st_i32(s, tmp, addr, mem_idx, mop | s->be_data);
++    disas_set_da_iss(s, mop, issinfo);
++    tcg_temp_free_i32(tmp);
++
++    op_addr_rr_post(s, a, addr, 0);
++    return true;
++}
++
++static bool trans_LDRD_rr(DisasContext *s, arg_ldst_rr *a)
++{
++    int mem_idx = get_mem_index(s);
++    TCGv_i32 addr, tmp;
++
++    if (!ENABLE_ARCH_5TE) {
 +        return false;
 +    }
-+    if (s->condexec_mask) {
++    if (a->rt & 1) {
 +        unallocated_encoding(s);
 +        return true;
 +    }
-+    arm_skip_unless(s, a->cond);
-+    gen_jmp(s, read_pc(s) + a->imm);
++    addr = op_addr_rr_pre(s, a);
++
++    tmp = tcg_temp_new_i32();
++    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
++    store_reg(s, a->rt, tmp);
++
++    tcg_gen_addi_i32(addr, addr, 4);
++
++    tmp = tcg_temp_new_i32();
++    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
++    store_reg(s, a->rt + 1, tmp);
++
++    /* LDRD w/ base writeback is undefined if the registers overlap.  */
++    op_addr_rr_post(s, a, addr, -4);
 +    return true;
 +}
 +
-+static bool trans_BL(DisasContext *s, arg_i *a)
++static bool trans_STRD_rr(DisasContext *s, arg_ldst_rr *a)
 +{
-+    tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
-+    gen_jmp(s, read_pc(s) + a->imm);
-+    return true;
-+}
++    int mem_idx = get_mem_index(s);
++    TCGv_i32 addr, tmp;
 +
-+static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
-+{
-+    /* For A32, ARCH(5) is checked near the start of the uncond block. */
-+    if (s->thumb && (a->imm & 2)) {
++    if (!ENABLE_ARCH_5TE) {
 +        return false;
 +    }
-+    tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
-+    gen_bx_im(s, (read_pc(s) & ~3) + a->imm + !s->thumb);
++    if (a->rt & 1) {
++        unallocated_encoding(s);
++        return true;
++    }
++    addr = op_addr_rr_pre(s, a);
++
++    tmp = load_reg(s, a->rt);
++    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
++    tcg_temp_free_i32(tmp);
++
++    tcg_gen_addi_i32(addr, addr, 4);
++
++    tmp = load_reg(s, a->rt + 1);
++    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
++    tcg_temp_free_i32(tmp);
++
++    op_addr_rr_post(s, a, addr, -4);
 +    return true;
 +}
++
++/*
++ * Load/store immediate index
++ */
++
++static TCGv_i32 op_addr_ri_pre(DisasContext *s, arg_ldst_ri *a)
++{
++    int ofs = a->imm;
++
++    if (!a->u) {
++        ofs = -ofs;
++    }
++
++    if (s->v8m_stackcheck && a->rn == 13 && a->w) {
++        /*
++         * Stackcheck. Here we know 'addr' is the current SP;
++         * U is set if we're moving SP up, else down. It is
++         * UNKNOWN whether the limit check triggers when SP starts
++         * below the limit and ends up above it; we chose to do so.
++         */
++        if (!a->u) {
++            TCGv_i32 newsp = tcg_temp_new_i32();
++            tcg_gen_addi_i32(newsp, cpu_R[13], ofs);
++            gen_helper_v8m_stackcheck(cpu_env, newsp);
++            tcg_temp_free_i32(newsp);
++        } else {
++            gen_helper_v8m_stackcheck(cpu_env, cpu_R[13]);
++        }
++    }
++
++    return add_reg_for_lit(s, a->rn, a->p ? ofs : 0);
++}
++
++static void op_addr_ri_post(DisasContext *s, arg_ldst_ri *a,
++                            TCGv_i32 addr, int address_offset)
++{
++    if (!a->p) {
++        if (a->u) {
++            address_offset += a->imm;
++        } else {
++            address_offset -= a->imm;
++        }
++    } else if (!a->w) {
++        tcg_temp_free_i32(addr);
++        return;
++    }
++    tcg_gen_addi_i32(addr, addr, address_offset);
++    store_reg(s, a->rn, addr);
++}
++
++static bool op_load_ri(DisasContext *s, arg_ldst_ri *a,
++                       TCGMemOp mop, int mem_idx)
++{
++    ISSInfo issinfo = make_issinfo(s, a->rt, a->p, a->w);
++    TCGv_i32 addr, tmp;
++
++    addr = op_addr_ri_pre(s, a);
++
++    tmp = tcg_temp_new_i32();
++    gen_aa32_ld_i32(s, tmp, addr, mem_idx, mop | s->be_data);
++    disas_set_da_iss(s, mop, issinfo);
++
++    /*
++     * Perform base writeback before the loaded value to
++     * ensure correct behavior with overlapping index registers.
++     */
++    op_addr_ri_post(s, a, addr, 0);
++    store_reg_from_load(s, a->rt, tmp);
++    return true;
++}
++
++static bool op_store_ri(DisasContext *s, arg_ldst_ri *a,
++                        TCGMemOp mop, int mem_idx)
++{
++    ISSInfo issinfo = make_issinfo(s, a->rt, a->p, a->w) | ISSIsWrite;
++    TCGv_i32 addr, tmp;
++
++    addr = op_addr_ri_pre(s, a);
++
++    tmp = load_reg(s, a->rt);
++    gen_aa32_st_i32(s, tmp, addr, mem_idx, mop | s->be_data);
++    disas_set_da_iss(s, mop, issinfo);
++    tcg_temp_free_i32(tmp);
++
++    op_addr_ri_post(s, a, addr, 0);
++    return true;
++}
++
++static bool op_ldrd_ri(DisasContext *s, arg_ldst_ri *a, int rt2)
++{
++    int mem_idx = get_mem_index(s);
++    TCGv_i32 addr, tmp;
++
++    addr = op_addr_ri_pre(s, a);
++
++    tmp = tcg_temp_new_i32();
++    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
++    store_reg(s, a->rt, tmp);
++
++    tcg_gen_addi_i32(addr, addr, 4);
++
++    tmp = tcg_temp_new_i32();
++    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
++    store_reg(s, rt2, tmp);
++
++    /* LDRD w/ base writeback is undefined if the registers overlap.  */
++    op_addr_ri_post(s, a, addr, -4);
++    return true;
++}
++
++static bool trans_LDRD_ri_a32(DisasContext *s, arg_ldst_ri *a)
++{
++    if (!ENABLE_ARCH_5TE || (a->rt & 1)) {
++        return false;
++    }
++    return op_ldrd_ri(s, a, a->rt + 1);
++}
++
++static bool trans_LDRD_ri_t32(DisasContext *s, arg_ldst_ri2 *a)
++{
++    arg_ldst_ri b = {
++        .u = a->u, .w = a->w, .p = a->p,
++        .rn = a->rn, .rt = a->rt, .imm = a->imm
++    };
++    return op_ldrd_ri(s, &b, a->rt2);
++}
++
++static bool op_strd_ri(DisasContext *s, arg_ldst_ri *a, int rt2)
++{
++    int mem_idx = get_mem_index(s);
++    TCGv_i32 addr, tmp;
++
++    addr = op_addr_ri_pre(s, a);
++
++    tmp = load_reg(s, a->rt);
++    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
++    tcg_temp_free_i32(tmp);
++
++    tcg_gen_addi_i32(addr, addr, 4);
++
++    tmp = load_reg(s, rt2);
++    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
++    tcg_temp_free_i32(tmp);
++
++    op_addr_ri_post(s, a, addr, -4);
++    return true;
++}
++
++static bool trans_STRD_ri_a32(DisasContext *s, arg_ldst_ri *a)
++{
++    if (!ENABLE_ARCH_5TE || (a->rt & 1)) {
++        return false;
++    }
++    return op_strd_ri(s, a, a->rt + 1);
++}
++
++static bool trans_STRD_ri_t32(DisasContext *s, arg_ldst_ri2 *a)
++{
++    arg_ldst_ri b = {
++        .u = a->u, .w = a->w, .p = a->p,
++        .rn = a->rn, .rt = a->rt, .imm = a->imm
++    };
++    return op_strd_ri(s, &b, a->rt2);
++}
++
++#define DO_LDST(NAME, WHICH, MEMOP) \
++static bool trans_##NAME##_ri(DisasContext *s, arg_ldst_ri *a)        \
++{                                                                     \
++    return op_##WHICH##_ri(s, a, MEMOP, get_mem_index(s));            \
++}                                                                     \
++static bool trans_##NAME##T_ri(DisasContext *s, arg_ldst_ri *a)       \
++{                                                                     \
++    return op_##WHICH##_ri(s, a, MEMOP, get_a32_user_mem_index(s));   \
++}                                                                     \
++static bool trans_##NAME##_rr(DisasContext *s, arg_ldst_rr *a)        \
++{                                                                     \
++    return op_##WHICH##_rr(s, a, MEMOP, get_mem_index(s));            \
++}                                                                     \
++static bool trans_##NAME##T_rr(DisasContext *s, arg_ldst_rr *a)       \
++{                                                                     \
++    return op_##WHICH##_rr(s, a, MEMOP, get_a32_user_mem_index(s));   \
++}
++
++DO_LDST(LDR, load, MO_UL)
++DO_LDST(LDRB, load, MO_UB)
++DO_LDST(LDRH, load, MO_UW)
++DO_LDST(LDRSB, load, MO_SB)
++DO_LDST(LDRSH, load, MO_SW)
++
++DO_LDST(STR, store, MO_UL)
++DO_LDST(STRB, store, MO_UB)
++DO_LDST(STRH, store, MO_UW)
++
++#undef DO_LDST
 +
  /*
   * Legacy decoder.
   */
- 
- static void disas_arm_insn(DisasContext *s, unsigned int insn)
- {
--    unsigned int cond, val, op1, i, rn;
-+    unsigned int cond, op1, i, rn;
-     TCGv_i32 tmp;
-     TCGv_i32 tmp2;
-     TCGv_i32 addr;
-@@ -10171,21 +10222,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             }
-             gen_rfe(s, tmp, tmp2);
-             return;
--        } else if ((insn & 0x0e000000) == 0x0a000000) {
--            /* branch link and change to thumb (blx <offset>) */
--            int32_t offset;
+@@ -9007,100 +9303,9 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                     }
+                 }
+             } else {
+-                int address_offset;
+-                bool load = insn & (1 << 20);
+-                bool wbit = insn & (1 << 21);
+-                bool pbit = insn & (1 << 24);
+-                bool doubleword = false;
+-                ISSInfo issinfo;
 -
--            tmp = tcg_temp_new_i32();
--            tcg_gen_movi_i32(tmp, s->base.pc_next);
--            store_reg(s, 14, tmp);
--            /* Sign-extend the 24-bit offset */
--            offset = (((int32_t)insn) << 8) >> 8;
--            val = read_pc(s);
--            /* offset * 4 + bit24 * 2 + (thumb bit) */
--            val += (offset << 2) | ((insn >> 23) & 2) | 1;
--            /* protected by ARCH(5); above, near the start of uncond block */
--            gen_bx_im(s, val);
--            return;
-         } else if ((insn & 0x0e000f00) == 0x0c000100) {
-             if (arm_dc_feature(s, ARM_FEATURE_IWMMXT)) {
-                 /* iWMMXt register transfer.  */
-@@ -10277,23 +10313,10 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-         case 0x7:
-         case 0x08:
-         case 0x09:
--            /* All done in decodetree.  Reach here for illegal ops.  */
--            goto illegal_op;
-         case 0xa:
-         case 0xb:
--            {
--                int32_t offset;
+-                /* Misc load/store */
+-                rn = (insn >> 16) & 0xf;
+-                rd = (insn >> 12) & 0xf;
 -
--                /* branch (and link) */
--                if (insn & (1 << 24)) {
--                    tmp = tcg_temp_new_i32();
--                    tcg_gen_movi_i32(tmp, s->base.pc_next);
--                    store_reg(s, 14, tmp);
+-                /* ISS not valid if writeback */
+-                issinfo = (pbit & !wbit) ? rd : ISSInvalid;
+-
+-                if (!load && (sh & 2)) {
+-                    /* doubleword */
+-                    ARCH(5TE);
+-                    if (rd & 1) {
+-                        /* UNPREDICTABLE; we choose to UNDEF */
+-                        goto illegal_op;
+-                    }
+-                    load = (sh & 1) == 0;
+-                    doubleword = true;
 -                }
--                offset = sextract32(insn << 2, 0, 26);
--                gen_jmp(s, read_pc(s) + offset);
+-
+-                addr = load_reg(s, rn);
+-                if (pbit) {
+-                    gen_add_datah_offset(s, insn, 0, addr);
+-                }
+-                address_offset = 0;
+-
+-                if (doubleword) {
+-                    if (!load) {
+-                        /* store */
+-                        tmp = load_reg(s, rd);
+-                        gen_aa32_st32(s, tmp, addr, get_mem_index(s));
+-                        tcg_temp_free_i32(tmp);
+-                        tcg_gen_addi_i32(addr, addr, 4);
+-                        tmp = load_reg(s, rd + 1);
+-                        gen_aa32_st32(s, tmp, addr, get_mem_index(s));
+-                        tcg_temp_free_i32(tmp);
+-                    } else {
+-                        /* load */
+-                        tmp = tcg_temp_new_i32();
+-                        gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
+-                        store_reg(s, rd, tmp);
+-                        tcg_gen_addi_i32(addr, addr, 4);
+-                        tmp = tcg_temp_new_i32();
+-                        gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
+-                        rd++;
+-                    }
+-                    address_offset = -4;
+-                } else if (load) {
+-                    /* load */
+-                    tmp = tcg_temp_new_i32();
+-                    switch (sh) {
+-                    case 1:
+-                        gen_aa32_ld16u_iss(s, tmp, addr, get_mem_index(s),
+-                                           issinfo);
+-                        break;
+-                    case 2:
+-                        gen_aa32_ld8s_iss(s, tmp, addr, get_mem_index(s),
+-                                          issinfo);
+-                        break;
+-                    default:
+-                    case 3:
+-                        gen_aa32_ld16s_iss(s, tmp, addr, get_mem_index(s),
+-                                           issinfo);
+-                        break;
+-                    }
+-                } else {
+-                    /* store */
+-                    tmp = load_reg(s, rd);
+-                    gen_aa32_st16_iss(s, tmp, addr, get_mem_index(s), issinfo);
+-                    tcg_temp_free_i32(tmp);
+-                }
+-                /* Perform base writeback before the loaded value to
+-                   ensure correct behavior with overlapping index registers.
+-                   ldrd with base writeback is undefined if the
+-                   destination and index registers overlap.  */
+-                if (!pbit) {
+-                    gen_add_datah_offset(s, insn, address_offset, addr);
+-                    store_reg(s, rn, addr);
+-                } else if (wbit) {
+-                    if (address_offset)
+-                        tcg_gen_addi_i32(addr, addr, address_offset);
+-                    store_reg(s, rn, addr);
+-                } else {
+-                    tcg_temp_free_i32(addr);
+-                }
+-                if (load) {
+-                    /* Complete the load.  */
+-                    store_reg(s, rd, tmp);
+-                }
++                /* Extra load/store (register) instructions */
++                /* All done in decodetree.  Reach here for illegal ops.  */
++                goto illegal_op;
+             }
+             break;
+         case 0x4:
+@@ -9408,58 +9613,8 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                 break;
+             }
+         do_ldst:
+-            /* Check for undefined extension instructions
+-             * per the ARM Bible IE:
+-             * xxxx 0111 1111 xxxx  xxxx xxxx 1111 xxxx
+-             */
+-            sh = (0xf << 20) | (0xf << 4);
+-            if (op1 == 0x7 && ((insn & sh) == sh))
+-            {
+-                goto illegal_op;
+-            }
+-            /* load/store byte/word */
+-            rn = (insn >> 16) & 0xf;
+-            rd = (insn >> 12) & 0xf;
+-            tmp2 = load_reg(s, rn);
+-            if ((insn & 0x01200000) == 0x00200000) {
+-                /* ldrt/strt */
+-                i = get_a32_user_mem_index(s);
+-            } else {
+-                i = get_mem_index(s);
+-            }
+-            if (insn & (1 << 24))
+-                gen_add_data_offset(s, insn, tmp2);
+-            if (insn & (1 << 20)) {
+-                /* load */
+-                tmp = tcg_temp_new_i32();
+-                if (insn & (1 << 22)) {
+-                    gen_aa32_ld8u_iss(s, tmp, tmp2, i, rd);
+-                } else {
+-                    gen_aa32_ld32u_iss(s, tmp, tmp2, i, rd);
+-                }
+-            } else {
+-                /* store */
+-                tmp = load_reg(s, rd);
+-                if (insn & (1 << 22)) {
+-                    gen_aa32_st8_iss(s, tmp, tmp2, i, rd);
+-                } else {
+-                    gen_aa32_st32_iss(s, tmp, tmp2, i, rd);
+-                }
+-                tcg_temp_free_i32(tmp);
+-            }
+-            if (!(insn & (1 << 24))) {
+-                gen_add_data_offset(s, insn, tmp2);
+-                store_reg(s, rn, tmp2);
+-            } else if (insn & (1 << 21)) {
+-                store_reg(s, rn, tmp2);
+-            } else {
+-                tcg_temp_free_i32(tmp2);
+-            }
+-            if (insn & (1 << 20)) {
+-                /* Complete the load.  */
+-                store_reg_from_load(s, rd, tmp);
 -            }
 -            break;
 +            /* All done in decodetree.  Reach here for illegal ops.  */
 +            goto illegal_op;
-         case 0xc:
-         case 0xd:
-         case 0xe:
-@@ -10660,32 +10683,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-         if (insn & (1 << 15)) {
-             /* Branches, misc control.  */
-             if (insn & 0x5000) {
--                /* Unconditional branch.  */
--                /* signextend(hw1[10:0]) -> offset[:12].  */
--                offset = ((int32_t)insn << 5) >> 9 & ~(int32_t)0xfff;
--                /* hw1[10:0] -> offset[11:1].  */
--                offset |= (insn & 0x7ff) << 1;
--                /* (~hw2[13, 11] ^ offset[24]) -> offset[23,22]
--                   offset[24:22] already have the same value because of the
--                   sign extension above.  */
--                offset ^= ((~insn) & (1 << 13)) << 10;
--                offset ^= ((~insn) & (1 << 11)) << 11;
--
--                if (insn & (1 << 14)) {
--                    /* Branch and link.  */
--                    tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | 1);
--                }
--
--                offset += read_pc(s);
--                if (insn & (1 << 12)) {
--                    /* b/bl */
--                    gen_jmp(s, offset);
--                } else {
--                    /* blx */
--                    offset &= ~(uint32_t)2;
--                    /* thumb2 bx, no need to check */
--                    gen_bx_im(s, offset);
--                }
-+                /* Unconditional branch, in decodetree */
-+                goto illegal_op;
-             } else if (((insn >> 23) & 7) == 7) {
-                 /* Misc control */
-                 if (insn & (1 << 13))
-@@ -10771,24 +10770,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                     }
+         case 0x08:
+         case 0x09:
+             {
+@@ -9760,75 +9915,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                     s->condexec_mask = 0;
                  }
-             } else {
--                /* Conditional branch.  */
--                op = (insn >> 22) & 0xf;
--                /* Generate a conditional jump to next instruction.  */
--                arm_skip_unless(s, op);
+             } else if (insn & 0x01200000) {
+-                /* 0b1110_1000_x11x_xxxx_xxxx_xxxx_xxxx_xxxx
+-                 *  - load/store dual (post-indexed)
+-                 * 0b1111_1001_x10x_xxxx_xxxx_xxxx_xxxx_xxxx
+-                 *  - load/store dual (literal and immediate)
+-                 * 0b1111_1001_x11x_xxxx_xxxx_xxxx_xxxx_xxxx
+-                 *  - load/store dual (pre-indexed)
+-                 */
+-                bool wback = extract32(insn, 21, 1);
 -
--                /* offset[11:1] = insn[10:0] */
--                offset = (insn & 0x7ff) << 1;
--                /* offset[17:12] = insn[21:16].  */
--                offset |= (insn & 0x003f0000) >> 4;
--                /* offset[31:20] = insn[26].  */
--                offset |= ((int32_t)((insn << 5) & 0x80000000)) >> 11;
--                /* offset[18] = insn[13].  */
--                offset |= (insn & (1 << 13)) << 5;
--                /* offset[19] = insn[11].  */
--                offset |= (insn & (1 << 11)) << 8;
+-                if (rn == 15 && (insn & (1 << 21))) {
+-                    /* UNPREDICTABLE */
+-                    goto illegal_op;
+-                }
 -
--                /* jump to the offset */
--                gen_jmp(s, read_pc(s) + offset);
-+                /* Conditional branch, in decodetree */
+-                addr = add_reg_for_lit(s, rn, 0);
+-                offset = (insn & 0xff) * 4;
+-                if ((insn & (1 << 23)) == 0) {
+-                    offset = -offset;
+-                }
+-
+-                if (s->v8m_stackcheck && rn == 13 && wback) {
+-                    /*
+-                     * Here 'addr' is the current SP; if offset is +ve we're
+-                     * moving SP up, else down. It is UNKNOWN whether the limit
+-                     * check triggers when SP starts below the limit and ends
+-                     * up above it; check whichever of the current and final
+-                     * SP is lower, so QEMU will trigger in that situation.
+-                     */
+-                    if ((int32_t)offset < 0) {
+-                        TCGv_i32 newsp = tcg_temp_new_i32();
+-
+-                        tcg_gen_addi_i32(newsp, addr, offset);
+-                        gen_helper_v8m_stackcheck(cpu_env, newsp);
+-                        tcg_temp_free_i32(newsp);
+-                    } else {
+-                        gen_helper_v8m_stackcheck(cpu_env, addr);
+-                    }
+-                }
+-
+-                if (insn & (1 << 24)) {
+-                    tcg_gen_addi_i32(addr, addr, offset);
+-                    offset = 0;
+-                }
+-                if (insn & (1 << 20)) {
+-                    /* ldrd */
+-                    tmp = tcg_temp_new_i32();
+-                    gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
+-                    store_reg(s, rs, tmp);
+-                    tcg_gen_addi_i32(addr, addr, 4);
+-                    tmp = tcg_temp_new_i32();
+-                    gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
+-                    store_reg(s, rd, tmp);
+-                } else {
+-                    /* strd */
+-                    tmp = load_reg(s, rs);
+-                    gen_aa32_st32(s, tmp, addr, get_mem_index(s));
+-                    tcg_temp_free_i32(tmp);
+-                    tcg_gen_addi_i32(addr, addr, 4);
+-                    tmp = load_reg(s, rd);
+-                    gen_aa32_st32(s, tmp, addr, get_mem_index(s));
+-                    tcg_temp_free_i32(tmp);
+-                }
+-                if (wback) {
+-                    /* Base writeback.  */
+-                    tcg_gen_addi_i32(addr, addr, offset - 4);
+-                    store_reg(s, rn, addr);
+-                } else {
+-                    tcg_temp_free_i32(addr);
+-                }
++                /* load/store dual, in decodetree */
 +                goto illegal_op;
+             } else if ((insn & (1 << 23)) == 0) {
+                 /* 0b1110_1000_010x_xxxx_xxxx_xxxx_xxxx_xxxx
+                  * - load/store exclusive word
+@@ -10704,184 +10792,15 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
              }
-         } else {
-             /*
-diff --git a/target/arm/a32-uncond.decode b/target/arm/a32-uncond.decode
-index 8dee26d3b6..573ac2cf8e 100644
---- a/target/arm/a32-uncond.decode
-+++ b/target/arm/a32-uncond.decode
-@@ -21,3 +21,11 @@
- # All insns that have 0xf in insn[31:28] are decoded here.
- # All of those that have a COND field in insn[31:28] are in a32.decode
- #
-+
-+&i               !extern imm
-+
-+# Branch with Link and Exchange
-+
-+%imm24h          0:s24 24:1 !function=times_2
-+
-+BLX_i            1111 101 . ........................          &i imm=%imm24h
+         }
+         break;
+-    case 12: /* Load/store single data item.  */
+-        {
+-        int postinc = 0;
+-        int writeback = 0;
+-        int memidx;
+-        ISSInfo issinfo;
+-
++    case 12:
+         if ((insn & 0x01100000) == 0x01000000) {
+             if (disas_neon_ls_insn(s, insn)) {
+                 goto illegal_op;
+             }
+             break;
+         }
+-        op = ((insn >> 21) & 3) | ((insn >> 22) & 4);
+-        if (rs == 15) {
+-            if (!(insn & (1 << 20))) {
+-                goto illegal_op;
+-            }
+-            if (op != 2) {
+-                /* Byte or halfword load space with dest == r15 : memory hints.
+-                 * Catch them early so we don't emit pointless addressing code.
+-                 * This space is a mix of:
+-                 *  PLD/PLDW/PLI,  which we implement as NOPs (note that unlike
+-                 *     the ARM encodings, PLDW space doesn't UNDEF for non-v7MP
+-                 *     cores)
+-                 *  unallocated hints, which must be treated as NOPs
+-                 *  UNPREDICTABLE space, which we NOP or UNDEF depending on
+-                 *     which is easiest for the decoding logic
+-                 *  Some space which must UNDEF
+-                 */
+-                int op1 = (insn >> 23) & 3;
+-                int op2 = (insn >> 6) & 0x3f;
+-                if (op & 2) {
+-                    goto illegal_op;
+-                }
+-                if (rn == 15) {
+-                    /* UNPREDICTABLE, unallocated hint or
+-                     * PLD/PLDW/PLI (literal)
+-                     */
+-                    return;
+-                }
+-                if (op1 & 1) {
+-                    return; /* PLD/PLDW/PLI or unallocated hint */
+-                }
+-                if ((op2 == 0) || ((op2 & 0x3c) == 0x30)) {
+-                    return; /* PLD/PLDW/PLI or unallocated hint */
+-                }
+-                /* UNDEF space, or an UNPREDICTABLE */
+-                goto illegal_op;
+-            }
+-        }
+-        memidx = get_mem_index(s);
+-        imm = insn & 0xfff;
+-        if (insn & (1 << 23)) {
+-            /* PC relative or Positive offset.  */
+-            addr = add_reg_for_lit(s, rn, imm);
+-        } else if (rn == 15) {
+-            /* PC relative with negative offset.  */
+-            addr = add_reg_for_lit(s, rn, -imm);
+-        } else {
+-            addr = load_reg(s, rn);
+-            imm = insn & 0xff;
+-            switch ((insn >> 8) & 0xf) {
+-            case 0x0: /* Shifted Register.  */
+-                shift = (insn >> 4) & 0xf;
+-                if (shift > 3) {
+-                    tcg_temp_free_i32(addr);
+-                    goto illegal_op;
+-                }
+-                tmp = load_reg(s, rm);
+-                tcg_gen_shli_i32(tmp, tmp, shift);
+-                tcg_gen_add_i32(addr, addr, tmp);
+-                tcg_temp_free_i32(tmp);
+-                break;
+-            case 0xc: /* Negative offset.  */
+-                tcg_gen_addi_i32(addr, addr, -imm);
+-                break;
+-            case 0xe: /* User privilege.  */
+-                tcg_gen_addi_i32(addr, addr, imm);
+-                memidx = get_a32_user_mem_index(s);
+-                break;
+-            case 0x9: /* Post-decrement.  */
+-                imm = -imm;
+-                /* Fall through.  */
+-            case 0xb: /* Post-increment.  */
+-                postinc = 1;
+-                writeback = 1;
+-                break;
+-            case 0xd: /* Pre-decrement.  */
+-                imm = -imm;
+-                /* Fall through.  */
+-            case 0xf: /* Pre-increment.  */
+-                writeback = 1;
+-                break;
+-            default:
+-                tcg_temp_free_i32(addr);
+-                goto illegal_op;
+-            }
+-        }
+-
+-        issinfo = writeback ? ISSInvalid : rs;
+-
+-        if (s->v8m_stackcheck && rn == 13 && writeback) {
+-            /*
+-             * Stackcheck. Here we know 'addr' is the current SP;
+-             * if imm is +ve we're moving SP up, else down. It is
+-             * UNKNOWN whether the limit check triggers when SP starts
+-             * below the limit and ends up above it; we chose to do so.
+-             */
+-            if ((int32_t)imm < 0) {
+-                TCGv_i32 newsp = tcg_temp_new_i32();
+-
+-                tcg_gen_addi_i32(newsp, addr, imm);
+-                gen_helper_v8m_stackcheck(cpu_env, newsp);
+-                tcg_temp_free_i32(newsp);
+-            } else {
+-                gen_helper_v8m_stackcheck(cpu_env, addr);
+-            }
+-        }
+-
+-        if (writeback && !postinc) {
+-            tcg_gen_addi_i32(addr, addr, imm);
+-        }
+-
+-        if (insn & (1 << 20)) {
+-            /* Load.  */
+-            tmp = tcg_temp_new_i32();
+-            switch (op) {
+-            case 0:
+-                gen_aa32_ld8u_iss(s, tmp, addr, memidx, issinfo);
+-                break;
+-            case 4:
+-                gen_aa32_ld8s_iss(s, tmp, addr, memidx, issinfo);
+-                break;
+-            case 1:
+-                gen_aa32_ld16u_iss(s, tmp, addr, memidx, issinfo);
+-                break;
+-            case 5:
+-                gen_aa32_ld16s_iss(s, tmp, addr, memidx, issinfo);
+-                break;
+-            case 2:
+-                gen_aa32_ld32u_iss(s, tmp, addr, memidx, issinfo);
+-                break;
+-            default:
+-                tcg_temp_free_i32(tmp);
+-                tcg_temp_free_i32(addr);
+-                goto illegal_op;
+-            }
+-            store_reg_from_load(s, rs, tmp);
+-        } else {
+-            /* Store.  */
+-            tmp = load_reg(s, rs);
+-            switch (op) {
+-            case 0:
+-                gen_aa32_st8_iss(s, tmp, addr, memidx, issinfo);
+-                break;
+-            case 1:
+-                gen_aa32_st16_iss(s, tmp, addr, memidx, issinfo);
+-                break;
+-            case 2:
+-                gen_aa32_st32_iss(s, tmp, addr, memidx, issinfo);
+-                break;
+-            default:
+-                tcg_temp_free_i32(tmp);
+-                tcg_temp_free_i32(addr);
+-                goto illegal_op;
+-            }
+-            tcg_temp_free_i32(tmp);
+-        }
+-        if (postinc)
+-            tcg_gen_addi_i32(addr, addr, imm);
+-        if (writeback) {
+-            store_reg(s, rn, addr);
+-        } else {
+-            tcg_temp_free_i32(addr);
+-        }
+-        }
+-        break;
++        /* Load/store single data item, in decodetree */
++        goto illegal_op;
+     default:
+         goto illegal_op;
+     }
 diff --git a/target/arm/a32.decode b/target/arm/a32.decode
-index 1267a689e2..62c6f8562e 100644
+index aac991664d..f7742deaee 100644
 --- a/target/arm/a32.decode
 +++ b/target/arm/a32.decode
-@@ -520,3 +520,11 @@ SMMLSR           .... 0111 0101 .... .... .... 1111 ....      @rdamn
+@@ -37,6 +37,8 @@
+ &mrs_reg         rd r
+ &msr_bank        rn r sysm
+ &mrs_bank        rd r sysm
++&ldst_rr         p w u rn rt rm shimm shtype
++&ldst_ri         p w u rn rt imm
  
- STM              ---- 100 b:1 i:1 u:1 w:1 0 rn:4 list:16   &ldst_block
- LDM_a32          ---- 100 b:1 i:1 u:1 w:1 1 rn:4 list:16   &ldst_block
+ # Data-processing (register)
+ 
+@@ -222,3 +224,121 @@ HLT              .... 0001 0000 .... .... .... 0111 ....      @i16
+ BKPT             .... 0001 0010 .... .... .... 0111 ....      @i16
+ HVC              .... 0001 0100 .... .... .... 0111 ....      @i16
+ SMC              ---- 0001 0110 0000 0000 0000 0111 imm:4     &i
 +
-+# Branch, branch with link
++# Load/Store Dual, Half, Signed Byte (register)
 +
-+%imm26           0:s24  !function=times_4
-+@branch          ---- .... ........................           &i imm=%imm26
++@ldst_rr_p1w     ---- ...1 u:1 . w:1 . rn:4 rt:4 .... .... rm:4 \
++                 &ldst_rr p=1 shimm=0 shtype=0
++@ldst_rr_pw0     ---- ...0 u:1 . 0   . rn:4 rt:4 .... .... rm:4 \
++                 &ldst_rr p=0 w=0 shimm=0 shtype=0
 +
-+B                .... 1010 ........................           @branch
-+BL               .... 1011 ........................           @branch
++STRH_rr          .... 000. .0.0 .... .... 0000 1011 ....      @ldst_rr_pw0
++STRH_rr          .... 000. .0.0 .... .... 0000 1011 ....      @ldst_rr_p1w
++
++LDRD_rr          .... 000. .0.0 .... .... 0000 1101 ....      @ldst_rr_pw0
++LDRD_rr          .... 000. .0.0 .... .... 0000 1101 ....      @ldst_rr_p1w
++
++STRD_rr          .... 000. .0.0 .... .... 0000 1111 ....      @ldst_rr_pw0
++STRD_rr          .... 000. .0.0 .... .... 0000 1111 ....      @ldst_rr_p1w
++
++LDRH_rr          .... 000. .0.1 .... .... 0000 1011 ....      @ldst_rr_pw0
++LDRH_rr          .... 000. .0.1 .... .... 0000 1011 ....      @ldst_rr_p1w
++
++LDRSB_rr         .... 000. .0.1 .... .... 0000 1101 ....      @ldst_rr_pw0
++LDRSB_rr         .... 000. .0.1 .... .... 0000 1101 ....      @ldst_rr_p1w
++
++LDRSH_rr         .... 000. .0.1 .... .... 0000 1111 ....      @ldst_rr_pw0
++LDRSH_rr         .... 000. .0.1 .... .... 0000 1111 ....      @ldst_rr_p1w
++
++# Note the unpriv load/stores use the previously invalid P=0, W=1 encoding,
++# and act as normal post-indexed (P=0, W=0).
++@ldst_rr_p0w1    ---- ...0 u:1 . 1   . rn:4 rt:4 .... .... rm:4 \
++                 &ldst_rr p=0 w=0 shimm=0 shtype=0
++
++STRHT_rr         .... 000. .0.0 .... .... 0000 1011 ....      @ldst_rr_p0w1
++LDRHT_rr         .... 000. .0.1 .... .... 0000 1011 ....      @ldst_rr_p0w1
++LDRSBT_rr        .... 000. .0.1 .... .... 0000 1101 ....      @ldst_rr_p0w1
++LDRSHT_rr        .... 000. .0.1 .... .... 0000 1111 ....      @ldst_rr_p0w1
++
++# Load/Store word and unsigned byte (register)
++
++@ldst_rs_p1w     ---- ...1 u:1 . w:1 . rn:4 rt:4 shimm:5 shtype:2 . rm:4 \
++                 &ldst_rr p=1
++@ldst_rs_pw0     ---- ...0 u:1 . 0   . rn:4 rt:4 shimm:5 shtype:2 . rm:4 \
++                 &ldst_rr p=0 w=0
++
++STR_rr           .... 011. .0.0 .... .... .... ...0 ....      @ldst_rs_pw0
++STR_rr           .... 011. .0.0 .... .... .... ...0 ....      @ldst_rs_p1w
++STRB_rr          .... 011. .1.0 .... .... .... ...0 ....      @ldst_rs_pw0
++STRB_rr          .... 011. .1.0 .... .... .... ...0 ....      @ldst_rs_p1w
++
++LDR_rr           .... 011. .0.1 .... .... .... ...0 ....      @ldst_rs_pw0
++LDR_rr           .... 011. .0.1 .... .... .... ...0 ....      @ldst_rs_p1w
++LDRB_rr          .... 011. .1.1 .... .... .... ...0 ....      @ldst_rs_pw0
++LDRB_rr          .... 011. .1.1 .... .... .... ...0 ....      @ldst_rs_p1w
++
++@ldst_rs_p0w1    ---- ...0 u:1 . 1   . rn:4 rt:4 shimm:5 shtype:2 . rm:4 \
++                 &ldst_rr p=0 w=0
++
++STRT_rr          .... 011. .0.0 .... .... .... ...0 ....      @ldst_rs_p0w1
++STRBT_rr         .... 011. .1.0 .... .... .... ...0 ....      @ldst_rs_p0w1
++LDRT_rr          .... 011. .0.1 .... .... .... ...0 ....      @ldst_rs_p0w1
++LDRBT_rr         .... 011. .1.1 .... .... .... ...0 ....      @ldst_rs_p0w1
++
++# Load/Store Dual, Half, Signed Byte (immediate)
++
++%imm8s_8_0       8:4 0:4
++@ldst_ri8_p1w    ---- ...1 u:1 . w:1 . rn:4 rt:4 .... .... .... \
++                 &ldst_ri imm=%imm8s_8_0 p=1
++@ldst_ri8_pw0    ---- ...0 u:1 . 0   . rn:4 rt:4 .... .... .... \
++                 &ldst_ri imm=%imm8s_8_0 p=0 w=0
++
++STRH_ri          .... 000. .1.0 .... .... .... 1011 ....      @ldst_ri8_pw0
++STRH_ri          .... 000. .1.0 .... .... .... 1011 ....      @ldst_ri8_p1w
++
++LDRD_ri_a32      .... 000. .1.0 .... .... .... 1101 ....      @ldst_ri8_pw0
++LDRD_ri_a32      .... 000. .1.0 .... .... .... 1101 ....      @ldst_ri8_p1w
++
++STRD_ri_a32      .... 000. .1.0 .... .... .... 1111 ....      @ldst_ri8_pw0
++STRD_ri_a32      .... 000. .1.0 .... .... .... 1111 ....      @ldst_ri8_p1w
++
++LDRH_ri          .... 000. .1.1 .... .... .... 1011 ....      @ldst_ri8_pw0
++LDRH_ri          .... 000. .1.1 .... .... .... 1011 ....      @ldst_ri8_p1w
++
++LDRSB_ri         .... 000. .1.1 .... .... .... 1101 ....      @ldst_ri8_pw0
++LDRSB_ri         .... 000. .1.1 .... .... .... 1101 ....      @ldst_ri8_p1w
++
++LDRSH_ri         .... 000. .1.1 .... .... .... 1111 ....      @ldst_ri8_pw0
++LDRSH_ri         .... 000. .1.1 .... .... .... 1111 ....      @ldst_ri8_p1w
++
++# Note the unpriv load/stores use the previously invalid P=0, W=1 encoding,
++# and act as normal post-indexed (P=0, W=0).
++@ldst_ri8_p0w1   ---- ...0 u:1 . 1   . rn:4 rt:4 .... .... .... \
++                 &ldst_ri imm=%imm8s_8_0 p=0 w=0
++
++STRHT_ri         .... 000. .1.0 .... .... .... 1011 ....      @ldst_ri8_p0w1
++LDRHT_ri         .... 000. .1.1 .... .... .... 1011 ....      @ldst_ri8_p0w1
++LDRSBT_ri        .... 000. .1.1 .... .... .... 1101 ....      @ldst_ri8_p0w1
++LDRSHT_ri        .... 000. .1.1 .... .... .... 1111 ....      @ldst_ri8_p0w1
++
++# Load/Store word and unsigned byte (immediate)
++
++@ldst_ri12_p1w   ---- ...1 u:1 . w:1 . rn:4 rt:4 imm:12       &ldst_ri p=1
++@ldst_ri12_pw0   ---- ...0 u:1 . 0   . rn:4 rt:4 imm:12       &ldst_ri p=0 w=0
++
++STR_ri           .... 010. .0.0 .... .... ............        @ldst_ri12_p1w
++STR_ri           .... 010. .0.0 .... .... ............        @ldst_ri12_pw0
++STRB_ri          .... 010. .1.0 .... .... ............        @ldst_ri12_p1w
++STRB_ri          .... 010. .1.0 .... .... ............        @ldst_ri12_pw0
++
++LDR_ri           .... 010. .0.1 .... .... ............        @ldst_ri12_p1w
++LDR_ri           .... 010. .0.1 .... .... ............        @ldst_ri12_pw0
++LDRB_ri          .... 010. .1.1 .... .... ............        @ldst_ri12_p1w
++LDRB_ri          .... 010. .1.1 .... .... ............        @ldst_ri12_pw0
++
++@ldst_ri12_p0w1  ---- ...0 u:1 . 1 . rn:4 rt:4 imm:12         &ldst_ri p=0 w=0
++
++STRT_ri          .... 010. .0.0 .... .... ............        @ldst_ri12_p0w1
++STRBT_ri         .... 010. .1.0 .... .... ............        @ldst_ri12_p0w1
++LDRT_ri          .... 010. .0.1 .... .... ............        @ldst_ri12_p0w1
++LDRBT_ri         .... 010. .1.1 .... .... ............        @ldst_ri12_p0w1
 diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index f1e2b934f8..ebc92f2c28 100644
+index be4e5f087c..a86597562b 100644
 --- a/target/arm/t32.decode
 +++ b/target/arm/t32.decode
-@@ -284,47 +284,55 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
- %msr_sysm        4:1 8:4
- %mrs_sysm        4:1 16:4
- %imm16_16_0      16:4 0:12
-+%imm21           26:s1 11:1 13:1 16:6 0:11 !function=times_2
-+&ci              cond imm
+@@ -34,6 +34,8 @@
+ &mrs_reg         !extern rd r
+ &msr_bank        !extern rn r sysm
+ &mrs_bank        !extern rd r sysm
++&ldst_rr         !extern p w u rn rt rm shimm shtype
++&ldst_ri         !extern p w u rn rt imm
  
- {
-+  # Group insn[25:23] = 111, which is cond=111x for the branch below,
-+  # or unconditional, which would be illegal for the branch.
-   {
--    YIELD        1111 0011 1010 1111 1000 0000 0000 0001
--    WFE          1111 0011 1010 1111 1000 0000 0000 0010
--    WFI          1111 0011 1010 1111 1000 0000 0000 0011
-+    # Hints
-+    {
-+      YIELD      1111 0011 1010 1111 1000 0000 0000 0001
-+      WFE        1111 0011 1010 1111 1000 0000 0000 0010
-+      WFI        1111 0011 1010 1111 1000 0000 0000 0011
+ # Data-processing (register)
  
--    # TODO: Implement SEV, SEVL; may help SMP performance.
--    # SEV        1111 0011 1010 1111 1000 0000 0000 0100
--    # SEVL       1111 0011 1010 1111 1000 0000 0000 0101
-+      # TODO: Implement SEV, SEVL; may help SMP performance.
-+      # SEV      1111 0011 1010 1111 1000 0000 0000 0100
-+      # SEVL     1111 0011 1010 1111 1000 0000 0000 0101
- 
--    # The canonical nop ends in 0000 0000, but the whole rest
--    # of the space is "reserved hint, behaves as nop".
--    NOP          1111 0011 1010 1111 1000 0000 ---- ----
--  }
--  # Note that the v7m insn overlaps both the normal and banked insn.
--  {
--    MRS_bank     1111 0011 111 r:1 .... 1000 rd:4   001. 0000  \
-+      # The canonical nop ends in 0000 0000, but the whole rest
-+      # of the space is "reserved hint, behaves as nop".
-+      NOP        1111 0011 1010 1111 1000 0000 ---- ----
-+    }
-+    # Note that the v7m insn overlaps both the normal and banked insn.
-+    {
-+      MRS_bank   1111 0011 111 r:1 .... 1000 rd:4   001. 0000  \
-                  &mrs_bank sysm=%mrs_sysm
--    MRS_reg      1111 0011 111 r:1 1111 1000 rd:4   0000 0000  &mrs_reg
--    MRS_v7m      1111 0011 111 0   1111 1000 rd:4   sysm:8
--  }
--  {
--    MSR_bank     1111 0011 100 r:1 rn:4 1000 ....   001. 0000  \
-+      MRS_reg    1111 0011 111 r:1 1111 1000 rd:4   0000 0000  &mrs_reg
-+      MRS_v7m    1111 0011 111 0   1111 1000 rd:4   sysm:8
-+    }
-+    {
-+      MSR_bank   1111 0011 100 r:1 rn:4 1000 ....   001. 0000  \
-                  &msr_bank sysm=%msr_sysm
--    MSR_reg      1111 0011 100 r:1 rn:4 1000 mask:4 0000 0000  &msr_reg
--    MSR_v7m      1111 0011 100 0   rn:4 1000 mask:2 00 sysm:8
--  }
--  BXJ            1111 0011 1100 rm:4 1000 1111 0000 0000      &r
--  {
--    # At v6T2, this is the T5 encoding of SUBS PC, LR, #IMM, and works as for
--    # every other encoding of SUBS.  With v7VE, IMM=0 is redefined as ERET.
--    # The distinction between the two only matters for Hyp mode.
--    ERET         1111 0011 1101 1110 1000 1111 0000 0000
--    SUB_rri      1111 0011 1101 1110 1000 1111 imm:8 \
-+      MSR_reg    1111 0011 100 r:1 rn:4 1000 mask:4 0000 0000  &msr_reg
-+      MSR_v7m    1111 0011 100 0   rn:4 1000 mask:2 00 sysm:8
-+    }
-+    BXJ          1111 0011 1100 rm:4 1000 1111 0000 0000      &r
-+    {
-+      # At v6T2, this is the T5 encoding of SUBS PC, LR, #IMM, and works as for
-+      # every other encoding of SUBS.  With v7VE, IMM=0 is redefined as ERET.
-+      # The distinction between the two only matters for Hyp mode.
-+      ERET       1111 0011 1101 1110 1000 1111 0000 0000
-+      SUB_rri    1111 0011 1101 1110 1000 1111 imm:8 \
-                  &s_rri_rot rot=0 s=1 rd=15 rn=14
--  }
--  SMC            1111 0111 1111 imm:4 1000 0000 0000 0000     &i
--  HVC            1111 0111 1110 ....  1000 .... .... ....     \
-+    }
-+    SMC          1111 0111 1111 imm:4 1000 0000 0000 0000     &i
-+    HVC          1111 0111 1110 ....  1000 .... .... ....     \
+@@ -251,3 +253,142 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+   HVC            1111 0111 1110 ....  1000 .... .... ....     \
                   &i imm=%imm16_16_0
--  UDF            1111 0111 1111 ---- 1010 ---- ---- ----
-+    UDF          1111 0111 1111 ----  1010 ---- ---- ----
-+  }
-+  B_cond_thumb   1111 0. cond:4 ...... 10.0 ............      &ci imm=%imm21
  }
- 
- # Load/store (register, immediate, literal)
-@@ -573,3 +581,12 @@ STM_t32          1110 1000 10.0 .... ................         @ldstm i=1 b=0
- STM_t32          1110 1001 00.0 .... ................         @ldstm i=0 b=1
- LDM_t32          1110 1000 10.1 .... ................         @ldstm i=1 b=0
- LDM_t32          1110 1001 00.1 .... ................         @ldstm i=0 b=1
 +
-+# Branches
++# Load/store (register, immediate, literal)
 +
-+%imm24           26:s1 13:1 11:1 16:10 0:11 !function=t32_branch24
-+@branch24        ................................             &i imm=%imm24
++@ldst_rr         .... .... .... rn:4 rt:4 ...... shimm:2 rm:4 \
++                 &ldst_rr p=1 w=0 u=1 shtype=0
++@ldst_ri_idx     .... .... .... rn:4 rt:4 . p:1 u:1 . imm:8 \
++                 &ldst_ri w=1
++@ldst_ri_neg     .... .... .... rn:4 rt:4 .... imm:8 \
++                 &ldst_ri p=1 w=0 u=0
++@ldst_ri_unp     .... .... .... rn:4 rt:4 .... imm:8 \
++                 &ldst_ri p=1 w=0 u=1
++@ldst_ri_pos     .... .... .... rn:4 rt:4 imm:12 \
++                 &ldst_ri p=1 w=0 u=1
++@ldst_ri_lit     .... .... u:1 ... .... rt:4 imm:12 \
++                 &ldst_ri p=1 w=0 rn=15
 +
-+B                1111 0. .......... 10.1 ............         @branch24
-+BL               1111 0. .......... 11.1 ............         @branch24
-+BLX_i            1111 0. .......... 11.0 ............         @branch24
++STRB_rr          1111 1000 0000 .... .... 000000 .. ....      @ldst_rr
++STRB_ri          1111 1000 0000 .... .... 1..1 ........       @ldst_ri_idx
++STRB_ri          1111 1000 0000 .... .... 1100 ........       @ldst_ri_neg
++STRBT_ri         1111 1000 0000 .... .... 1110 ........       @ldst_ri_unp
++STRB_ri          1111 1000 1000 .... .... ............        @ldst_ri_pos
++
++STRH_rr          1111 1000 0010 .... .... 000000 .. ....      @ldst_rr
++STRH_ri          1111 1000 0010 .... .... 1..1 ........       @ldst_ri_idx
++STRH_ri          1111 1000 0010 .... .... 1100 ........       @ldst_ri_neg
++STRHT_ri         1111 1000 0010 .... .... 1110 ........       @ldst_ri_unp
++STRH_ri          1111 1000 1010 .... .... ............        @ldst_ri_pos
++
++STR_rr           1111 1000 0100 .... .... 000000 .. ....      @ldst_rr
++STR_ri           1111 1000 0100 .... .... 1..1 ........       @ldst_ri_idx
++STR_ri           1111 1000 0100 .... .... 1100 ........       @ldst_ri_neg
++STRT_ri          1111 1000 0100 .... .... 1110 ........       @ldst_ri_unp
++STR_ri           1111 1000 1100 .... .... ............        @ldst_ri_pos
++
++# Note that Load, unsigned (literal) overlaps all other load encodings.
++{
++  {
++    NOP          1111 1000 -001 1111 1111 ------------        # PLD
++    LDRB_ri      1111 1000 .001 1111 .... ............        @ldst_ri_lit
++  }
++  {
++    NOP          1111 1000 1001 ---- 1111 ------------        # PLD
++    LDRB_ri      1111 1000 1001 .... .... ............        @ldst_ri_pos
++  }
++  LDRB_ri        1111 1000 0001 .... .... 1..1 ........       @ldst_ri_idx
++  {
++    NOP          1111 1000 0001 ---- 1111 1100 --------       # PLD
++    LDRB_ri      1111 1000 0001 .... .... 1100 ........       @ldst_ri_neg
++  }
++  LDRBT_ri       1111 1000 0001 .... .... 1110 ........       @ldst_ri_unp
++  {
++    NOP          1111 1000 0001 ---- 1111 000000 -- ----      # PLD
++    LDRB_rr      1111 1000 0001 .... .... 000000 .. ....      @ldst_rr
++  }
++}
++{
++  {
++    NOP          1111 1000 -011 1111 1111 ------------        # PLD
++    LDRH_ri      1111 1000 .011 1111 .... ............        @ldst_ri_lit
++  }
++  {
++    NOP          1111 1000 1011 ---- 1111 ------------        # PLDW
++    LDRH_ri      1111 1000 1011 .... .... ............        @ldst_ri_pos
++  }
++  LDRH_ri        1111 1000 0011 .... .... 1..1 ........       @ldst_ri_idx
++  {
++    NOP          1111 1000 0011 ---- 1111 1100 --------       # PLDW
++    LDRH_ri      1111 1000 0011 .... .... 1100 ........       @ldst_ri_neg
++  }
++  LDRHT_ri       1111 1000 0011 .... .... 1110 ........       @ldst_ri_unp
++  {
++    NOP          1111 1000 0011 ---- 1111 000000 -- ----      # PLDW
++    LDRH_rr      1111 1000 0011 .... .... 000000 .. ....      @ldst_rr
++  }
++}
++{
++  LDR_ri         1111 1000 .101 1111 .... ............        @ldst_ri_lit
++  LDR_ri         1111 1000 1101 .... .... ............        @ldst_ri_pos
++  LDR_ri         1111 1000 0101 .... .... 1..1 ........       @ldst_ri_idx
++  LDR_ri         1111 1000 0101 .... .... 1100 ........       @ldst_ri_neg
++  LDRT_ri        1111 1000 0101 .... .... 1110 ........       @ldst_ri_unp
++  LDR_rr         1111 1000 0101 .... .... 000000 .. ....      @ldst_rr
++}
++# NOPs here are PLI.
++{
++  {
++    NOP          1111 1001 -001 1111 1111 ------------
++    LDRSB_ri     1111 1001 .001 1111 .... ............        @ldst_ri_lit
++  }
++  {
++    NOP          1111 1001 1001 ---- 1111 ------------
++    LDRSB_ri     1111 1001 1001 .... .... ............        @ldst_ri_pos
++  }
++  LDRSB_ri       1111 1001 0001 .... .... 1..1 ........       @ldst_ri_idx
++  {
++    NOP          1111 1001 0001 ---- 1111 1100 --------
++    LDRSB_ri     1111 1001 0001 .... .... 1100 ........       @ldst_ri_neg
++  }
++  LDRSBT_ri      1111 1001 0001 .... .... 1110 ........       @ldst_ri_unp
++  {
++    NOP          1111 1001 0001 ---- 1111 000000 -- ----
++    LDRSB_rr     1111 1001 0001 .... .... 000000 .. ....      @ldst_rr
++  }
++}
++# NOPs here are unallocated memory hints, treated as NOP.
++{
++  {
++    NOP          1111 1001 -011 1111 1111 ------------
++    LDRSH_ri     1111 1001 .011 1111 .... ............        @ldst_ri_lit
++  }
++  {
++    NOP          1111 1001 1011 ---- 1111 ------------
++    LDRSH_ri     1111 1001 1011 .... .... ............        @ldst_ri_pos
++  }
++  LDRSH_ri       1111 1001 0011 .... .... 1..1 ........       @ldst_ri_idx
++  {
++    NOP          1111 1001 0011 ---- 1111 1100 --------
++    LDRSH_ri     1111 1001 0011 .... .... 1100 ........       @ldst_ri_neg
++  }
++  LDRSHT_ri      1111 1001 0011 .... .... 1110 ........       @ldst_ri_unp
++  {
++    NOP          1111 1001 0011 ---- 1111 000000 -- ----
++    LDRSH_rr     1111 1001 0011 .... .... 000000 .. ....      @ldst_rr
++  }
++}
++
++%imm8x4          0:8 !function=times_4
++&ldst_ri2        p w u rn rt rt2 imm
++@ldstd_ri8       .... .... u:1 ... rn:4 rt:4 rt2:4 ........   \
++                 &ldst_ri2 imm=%imm8x4
++
++STRD_ri_t32      1110 1000 .110 .... .... .... ........    @ldstd_ri8 w=1 p=0
++LDRD_ri_t32      1110 1000 .111 .... .... .... ........    @ldstd_ri8 w=1 p=0
++
++STRD_ri_t32      1110 1001 .100 .... .... .... ........    @ldstd_ri8 w=0 p=1
++LDRD_ri_t32      1110 1001 .101 .... .... .... ........    @ldstd_ri8 w=0 p=1
++
++STRD_ri_t32      1110 1001 .110 .... .... .... ........    @ldstd_ri8 w=1 p=1
++LDRD_ri_t32      1110 1001 .111 .... .... .... ........    @ldstd_ri8 w=1 p=1
 -- 
 2.17.1
 
