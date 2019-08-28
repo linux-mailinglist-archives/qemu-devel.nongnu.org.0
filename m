@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E53A0A99
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 21:40:00 +0200 (CEST)
-Received: from localhost ([::1]:41452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4D8A0A80
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 21:34:11 +0200 (CEST)
+Received: from localhost ([::1]:41348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i33nT-0002Ks-CS
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 15:39:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38144)
+	id 1i33hq-00051Q-3V
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 15:34:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i33GP-0003kc-Lh
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:52 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i33GU-0003oD-Vq
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i33GI-0000II-HG
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:47 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:36254)
+ (envelope-from <richard.henderson@linaro.org>) id 1i33GS-0000Ot-S9
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:54 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41815)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i33GH-0000HX-SH
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:42 -0400
-Received: by mail-pl1-x643.google.com with SMTP id f19so404613plr.3
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:05:41 -0700 (PDT)
+ id 1i33GS-0000Lg-FX
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:52 -0400
+Received: by mail-pf1-x442.google.com with SMTP id 196so383047pfz.8
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:05:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=VWPLfRHZRw0RKor1YnAoLBlyaxXRqknq8DXuCG18/ZI=;
- b=Sj/JLM41doP0b6Im247Oh2934+pcd7CxM6+x2kZ4gm0v5hATARvOeHHCraiycrJFil
- PFW9l82pDwBcbIe2MVIoonKZw4WF2aisrLAtUxHvpO8vcmyEYxP1zbLUOctTivDE85Ok
- 4PVJ9VU3DrVtYa4GHk05jOzNr3OrQQxWhWGM//rctDzKfnVo6RmN7GNO6gqrU6aUSmC9
- 5lE8QvXlJCx9y+jU9CJebiZjDTkNEjcIvado98W8wa1L/qHnHeypRcebUAL+y2lB2NzA
- RIgoqxpFZy5GzDeuJdzAKXqeLE3AeTEIHM6XPSma8+n5NreZ1WTIXaB5RTU6z8+iFy/o
- ssSA==
+ bh=0UvFhmNUqeBm7S5PhfAWHzrVJNihnGpoWwY5zvTyQDs=;
+ b=EuZDt+IatzaWgfhJhmSkmKy0ATcSDm4jLpqyZEuVA3aDJrnwSPtsHRHq4FuMGhpYDk
+ Y+IEWriZzphYgE8T30UOQt5hUQbyG8Bx5/1EEXSGcq3oI75Bg+gmcYxV4d/qa83A4o/G
+ ZcMEzr3YwngwUYoRFDYv0oGhPTAUzz4DOCXtxXtivxg7fVgQJpp7d7Z3UeL/BhmhkliM
+ hY0VTvoIVf+ZIU21alKPuPsthyP3JUxbIEOzeeI3nb/JOaRA/UENtjqrtYnJ8DwT/odq
+ 6TRvAc9Y3jIHE46XR5Aw9o1crMpUy1ADkHZVTZwqgZ8z+FssHm1pXJqgtXYa5DqFyrAI
+ PmVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=VWPLfRHZRw0RKor1YnAoLBlyaxXRqknq8DXuCG18/ZI=;
- b=aBBlq2q9+4tJxk9VbnoLQDyY4yP70c0tGpwD8Y0UwJ02F2zdWomrtTlyi0k9wcrmYg
- 8TxU/OhlJSCZRTsM0m+sZR7+6myIcUpcLj6o+MLJuMZlD0H7JQPXaIlZDHQzHYj1Ku+W
- ltK328/E/163t0C7yf5yibYeseUIAvUr5m07fUlrfBgeW3MmvlZTP5jgoyyygd5WyqRr
- RrivauE9cNVNj4H7OAq97lYFQHdQHBk3AEdMnzpstoNOFP7rZ/IUDz4RxK5A4YepWvIA
- sSsSvux0SaqHe2Q/i7audH0/I0jr2Qnw7Oo67EwLGJg8x1Yovx0lw/w6bU9MT/hIjXA9
- xRAg==
-X-Gm-Message-State: APjAAAW0QNOBarsaQMtM60YoXzj+q/lBr8UaiV7SNrTdkUQtZFAVnq43
- N6XC88jaGza3wB/D0QMtBPAn4B1FBHw=
-X-Google-Smtp-Source: APXvYqx4FXk/w/xwZA1x1IDzrqK6hNYJSeEgoqaS9LicVB7r+8RSRWzAYuuugcLqxEUEp01NGRSyiw==
-X-Received: by 2002:a17:902:7b97:: with SMTP id
- w23mr5838844pll.283.1567019140318; 
- Wed, 28 Aug 2019 12:05:40 -0700 (PDT)
+ bh=0UvFhmNUqeBm7S5PhfAWHzrVJNihnGpoWwY5zvTyQDs=;
+ b=g2oy7BmG1fT8PEHunm4UyxzvkD0KsqHWgGT+fH/+zoIRbtShO7vvtbgaHUTY3JKEIR
+ d8CWqLQZeqPZD4chAnbVec49aEHq3tc3b+wnjOrtsQ7FBju9vtxGT+145GRsp4TL3qM8
+ pBfoRiPBeyZPeWElvKXihmzhVTjzqlQDh6JshZY8hmKH/5kFj2EHSp9nycElQsx5EL4N
+ 750V6bXOLLXh6Ueh3Mb/8JVWy81DSdEusZQEKq7PbTZM+NRaMDsrwkhH3FVxPrc52tEC
+ hPi/r6GETanDBYnaLYliAyp3+KLP9aqFY6UgFIaokEEAzA2yglBRsnrKvTFItX2q70Pl
+ 38/Q==
+X-Gm-Message-State: APjAAAX12IDWf1VYCDp+glaC9hcUhSwrqvy6qkbjT5OcOcMqCslMovlZ
+ xit7ubojShu72KpdHIkXGi42VuWQRDw=
+X-Google-Smtp-Source: APXvYqwwfmCxA6nxq4geT+4G2n5D36xEhSf6Asbe8O8FHJ4Mf4mgNJsYf9t2LHdkMgdsOlHs67i7HQ==
+X-Received: by 2002:a17:90a:feb:: with SMTP id 98mr5455811pjz.55.1567019146203; 
+ Wed, 28 Aug 2019 12:05:46 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.05.39
+ by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.05.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 12:05:39 -0700 (PDT)
+ Wed, 28 Aug 2019 12:05:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 12:04:18 -0700
-Message-Id: <20190828190456.30315-32-richard.henderson@linaro.org>
+Date: Wed, 28 Aug 2019 12:04:23 -0700
+Message-Id: <20190828190456.30315-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190828190456.30315-1-richard.henderson@linaro.org>
 References: <20190828190456.30315-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: [Qemu-devel] [PATCH v3 31/69] target/arm: Diagnose base == pc for
- LDM/STM
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v3 36/69] target/arm: Convert CPS (privileged)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,46 +79,180 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have been using store_reg and not store_reg_for_load when writing
-back a loaded value into the base register.  At first glance this is
-incorrect when base == pc, however that case is UNPREDICTABLE.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+v3: Reject for m-profile; add TODO for unpredictable arguments.
+    Sort the T32 decode adjacent to the hint space.
+---
+ target/arm/translate.c       | 91 ++++++++++++++++--------------------
+ target/arm/a32-uncond.decode |  3 ++
+ target/arm/t32.decode        |  5 ++
+ 3 files changed, 48 insertions(+), 51 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index bfc4508321..812ce5037f 100644
+index 003b8ac414..e8764a88ae 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -9830,7 +9830,7 @@ static bool op_stm(DisasContext *s, arg_ldst_block *a, int min_n)
+@@ -10122,6 +10122,44 @@ static bool trans_SRS(DisasContext *s, arg_SRS *a)
+     return true;
+ }
  
-     list = a->list;
-     n = ctpop16(list);
--    if (n < min_n) {
-+    if (n < min_n || a->rn == 15) {
-         unallocated_encoding(s);
-         return true;
++static bool trans_CPS(DisasContext *s, arg_CPS *a)
++{
++    uint32_t mask, val;
++
++    if (arm_dc_feature(s, ARM_FEATURE_M)) {
++        return false;
++    }
++    if (IS_USER(s)) {
++        /* Implemented as NOP in user mode.  */
++        return true;
++    }
++    /* TODO: There are quite a lot of UNPREDICTABLE argument combinations. */
++
++    mask = val = 0;
++    if (a->imod & 2) {
++        if (a->A) {
++            mask |= CPSR_A;
++        }
++        if (a->I) {
++            mask |= CPSR_I;
++        }
++        if (a->F) {
++            mask |= CPSR_F;
++        }
++        if (a->imod & 1) {
++            val |= mask;
++        }
++    }
++    if (a->M) {
++        mask |= CPSR_M;
++        val |= a->mode;
++    }
++    if (mask) {
++        gen_set_psr_im(s, mask, 0, val);
++    }
++    return true;
++}
++
+ /*
+  * Clear-Exclusive, Barriers
+  */
+@@ -10298,31 +10336,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+             ARCH(5TE);
+         } else if ((insn & 0x0f000010) == 0x0e000010) {
+             /* Additional coprocessor register transfer.  */
+-        } else if ((insn & 0x0ff10020) == 0x01000000) {
+-            uint32_t mask;
+-            uint32_t val;
+-            /* cps (privileged) */
+-            if (IS_USER(s))
+-                return;
+-            mask = val = 0;
+-            if (insn & (1 << 19)) {
+-                if (insn & (1 << 8))
+-                    mask |= CPSR_A;
+-                if (insn & (1 << 7))
+-                    mask |= CPSR_I;
+-                if (insn & (1 << 6))
+-                    mask |= CPSR_F;
+-                if (insn & (1 << 18))
+-                    val |= mask;
+-            }
+-            if (insn & (1 << 17)) {
+-                mask |= CPSR_M;
+-                val |= (insn & 0x1f);
+-            }
+-            if (mask) {
+-                gen_set_psr_im(s, mask, 0, val);
+-            }
+-            return;
+         }
+         goto illegal_op;
      }
-@@ -9910,7 +9910,7 @@ static bool do_ldm(DisasContext *s, arg_ldst_block *a, int min_n)
+@@ -10431,7 +10444,6 @@ static bool thumb_insn_is_16bit(DisasContext *s, uint32_t pc, uint32_t insn)
+ /* Translate a 32-bit thumb instruction. */
+ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+ {
+-    uint32_t imm, offset;
+     uint32_t rd, rn, rm, rs;
+     TCGv_i32 tmp;
+     TCGv_i32 addr;
+@@ -10707,31 +10719,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                     case 0: /* msr cpsr, in decodetree  */
+                     case 1: /* msr spsr, in decodetree  */
+                         goto illegal_op;
+-                    case 2: /* cps, nop-hint.  */
+-                        /* nop hints in decodetree */
+-                        /* Implemented as NOP in user mode.  */
+-                        if (IS_USER(s))
+-                            break;
+-                        offset = 0;
+-                        imm = 0;
+-                        if (insn & (1 << 10)) {
+-                            if (insn & (1 << 7))
+-                                offset |= CPSR_A;
+-                            if (insn & (1 << 6))
+-                                offset |= CPSR_I;
+-                            if (insn & (1 << 5))
+-                                offset |= CPSR_F;
+-                            if (insn & (1 << 9))
+-                                imm = CPSR_A | CPSR_I | CPSR_F;
+-                        }
+-                        if (insn & (1 << 8)) {
+-                            offset |= 0x1f;
+-                            imm |= (insn & 0x1f);
+-                        }
+-                        if (offset) {
+-                            gen_set_psr_im(s, offset, 0, imm);
+-                        }
+-                        break;
++                    case 2: /* cps, nop-hint, in decodetree */
++                        goto illegal_op;
+                     case 3: /* Special control operations, in decodetree */
+                     case 4: /* bxj, in decodetree */
+                         goto illegal_op;
+diff --git a/target/arm/a32-uncond.decode b/target/arm/a32-uncond.decode
+index c7e9df8030..de611e8aff 100644
+--- a/target/arm/a32-uncond.decode
++++ b/target/arm/a32-uncond.decode
+@@ -35,9 +35,12 @@ BLX_i            1111 101 . ........................          &i imm=%imm24h
  
-     list = a->list;
-     n = ctpop16(list);
--    if (n < min_n) {
-+    if (n < min_n || a->rn == 15) {
-         unallocated_encoding(s);
-         return true;
+ &rfe             rn w pu
+ &srs             mode w pu
++&cps             mode imod M A I F
+ 
+ RFE              1111 100 pu:2 0 w:1 1 rn:4 0000 1010 0000 0000   &rfe
+ SRS              1111 100 pu:2 1 w:1 0 1101 0000 0101 000 mode:5  &srs
++CPS              1111 0001 0000 imod:2 M:1 0 0000 000 A:1 I:1 F:1 0 mode:5 \
++                 &cps
+ 
+ # Clear-Exclusive, Barriers
+ 
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index 18c268e712..fc3e7db4b5 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -44,6 +44,7 @@
+ &bfi             !extern rd rn lsb msb
+ &sat             !extern rd rn satimm imm sh
+ &pkh             !extern rd rn rm imm tb
++&cps             !extern mode imod M A I F
+ 
+ # Data-processing (register)
+ 
+@@ -306,6 +307,10 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+       NOP        1111 0011 1010 1111 1000 0000 ---- ----
      }
-@@ -9950,6 +9950,7 @@ static bool do_ldm(DisasContext *s, arg_ldst_block *a, int min_n)
-     op_addr_block_post(s, a, addr, n);
  
-     if (loaded_base) {
-+        /* Note that we reject base == pc above.  */
-         store_reg(s, a->rn, loaded_var);
-     }
- 
++    # If imod == '00' && M == '0' then SEE "Hint instructions", above.
++    CPS          1111 0011 1010 1111 1000 0 imod:2 M:1 A:1 I:1 F:1 mode:5 \
++                 &cps
++
+     # Miscelaneous control
+     {
+       CLREX      1111 0011 1011 1111 1000 1111 0010 1111
 -- 
 2.17.1
 
