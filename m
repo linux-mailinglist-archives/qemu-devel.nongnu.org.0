@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29601A0818
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 19:06:09 +0200 (CEST)
-Received: from localhost ([::1]:38868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D34A0824
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 19:08:48 +0200 (CEST)
+Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i31OZ-0003OG-SZ
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 13:06:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41222)
+	id 1i31R9-0006hp-Lu
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 13:08:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42274)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i319s-00050S-NS
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:50:57 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i31C3-0007cP-Rf
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i319r-0007J7-Qv
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:50:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39060)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i319p-0007FG-Eo; Wed, 28 Aug 2019 12:50:53 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F24C31089041;
- Wed, 28 Aug 2019 16:50:51 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-32.brq.redhat.com
- [10.40.204.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 47C7B1001925;
- Wed, 28 Aug 2019 16:50:44 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20190826161312.489398-1-vsementsov@virtuozzo.com>
- <20190826161312.489398-9-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <1edc4112-8eef-2a7f-1ea8-6ce0c05fd0ff@redhat.com>
-Date: Wed, 28 Aug 2019 18:50:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <alex.bennee@linaro.org>) id 1i31C2-0000og-HY
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:11 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40856)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i31C2-0000nT-AJ
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:10 -0400
+Received: by mail-wm1-x330.google.com with SMTP id t9so779614wmi.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 09:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pefR7nFPk8DjAjuJAmFv11EX8F/m/CQNr4qIm+iK9Ug=;
+ b=BINih3F9kZf9Nxxs+HhsX/VWBHwBwppQMzzccCaewDt1zzmc3Az0/leiWtCdp2Qsgh
+ pxODCrKMDVUppU0zHF5FbZAjGLEtriM7xquGgJk9R9lGbHQYsiHTRgQz+i82ebb+o1an
+ U7GefnVHh96Mh+Exa7eF7/wlphUvNw2D6iJ7k2jB1EP+7TJWXYyJP4pH1VBrwQpO9UwR
+ NXLT9AGYtdFi4UFZztcSOUvad0Zdu1udGKZyTUNzk5EL263ERp6/VCQd1AggsHXT/tVg
+ 0knR+vv/KmJ/C1Xdj+A7zIPB6Oi6F5he/2ae7QuR1s6buLxFVISqV93LFse64QnCM9BV
+ jMkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pefR7nFPk8DjAjuJAmFv11EX8F/m/CQNr4qIm+iK9Ug=;
+ b=ZfQ/oZeF9LBvJQOx+JH9UFQoaP4QIAW7u+YeovnJTfS8kSP2Az1y1PfXIyQu1keT5d
+ 4u9mMtsPKzgDtqb4ffJSjUc5Qs0g+GJC7FaOqt0U1WZYLdpTHXwOfj4FDW/8VRmoniDa
+ Z+wBq4kHoHImCIVZT7Ph/viBhnMuszC40r+Bd0pbHZ04MCnZnozhtP5ApXNwr9nEryCm
+ Ft+f6oL+s8mAZ/Zwzhjvq8YvoNTWi5053Vh53dCGobypouK52IHgJM1abkO9EMHM7Kxa
+ ZFsC0ooi6clGK1dIeg6JBdjZtjNntQijei66kO92GKT8crc0klEGSMdULYCLRBnEN9bb
+ X8bg==
+X-Gm-Message-State: APjAAAXL6rc4Cnh7KrOzwamm6Mf1wqFFdLuDX6DejtN7AH6Au2Fn/PqI
+ rAd4bZ3pA8COVAhV0SqoFAcOrA==
+X-Google-Smtp-Source: APXvYqyRz04/yGm/5QZl0Dg6xYbo70nARCnORmTIag//51up+cShIhmJJdVc5THS2DXgKq2Y76xDfA==
+X-Received: by 2002:a1c:6782:: with SMTP id b124mr6395855wmc.143.1567011188670; 
+ Wed, 28 Aug 2019 09:53:08 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f17sm4281480wmj.27.2019.08.28.09.53.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Aug 2019 09:53:08 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 690821FF87;
+ Wed, 28 Aug 2019 17:53:07 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Wed, 28 Aug 2019 17:52:58 +0100
+Message-Id: <20190828165307.18321-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190826161312.489398-9-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="AkBYDBO8mwNXoJPvRrxkAw1roX27kBnDo"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Wed, 28 Aug 2019 16:50:52 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v9 08/13] iotests: 257: drop unused
- Drive.device field
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::330
+Subject: [Qemu-devel] [PATCH v1 0/9] arm semih-hosting cleanups and other
+ misc cleanups
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,65 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, wencongyang2@huawei.com,
- xiechanglong.d@gmail.com, qemu-devel@nongnu.org, armbru@redhat.com,
- jsnow@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---AkBYDBO8mwNXoJPvRrxkAw1roX27kBnDo
-Content-Type: multipart/mixed; boundary="cPJn0b2x8NuP8mqWmGsB8lzeIWq46kQAS";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
- xiechanglong.d@gmail.com, wencongyang2@huawei.com, fam@euphon.net,
- stefanha@redhat.com, jsnow@redhat.com, kwolf@redhat.com, den@openvz.org
-Message-ID: <1edc4112-8eef-2a7f-1ea8-6ce0c05fd0ff@redhat.com>
-Subject: Re: [PATCH v9 08/13] iotests: 257: drop unused Drive.device field
-References: <20190826161312.489398-1-vsementsov@virtuozzo.com>
- <20190826161312.489398-9-vsementsov@virtuozzo.com>
-In-Reply-To: <20190826161312.489398-9-vsementsov@virtuozzo.com>
+Hi Peter,
 
---cPJn0b2x8NuP8mqWmGsB8lzeIWq46kQAS
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Here are the ARM semi-hosting cleanup patches and a small selection of
+miscellaneous TCG clean-ups. If your happy taking them all through
+your tree please do otherwise I'll poke Richard. I'm just trying to
+reduce the delta for my next iteration of the plugin series.
 
-On 26.08.19 18:13, Vladimir Sementsov-Ogievskiy wrote:
-> After previous commit Drive.device is actually unused. Drop it together=
+The following patches need review
+   04 - target arm remove run time semihosting checks
+   05 - includes remove stale smp max _cpus externs
 
-> with .name property.  While being here reuse .node in qmp commands
-> instead of writing 'drive0' twice.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/257 | 37 +++++++++++++++----------------------
->  1 file changed, 15 insertions(+), 22 deletions(-)
+The first is the result of review comments, moving CONFIG_TCG ifdefs
+around and the second is pretty trivial.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Alex Bennée (7):
+  target/arm: handle M-profile semihosting at translate time
+  target/arm: handle A-profile T32 semihosting at translate time
+  target/arm: handle A-profile A32 semihosting at translate time
+  target/arm: remove run time semihosting checks
+  includes: remove stale [smp|max]_cpus externs
+  accel/stubs: reduce headers from tcg-stub
+  include/exec/cpu-defs.h: fix typo
 
+Emilio G. Cota (2):
+  tcg/README: fix typo s/afterwise/afterwards/
+  atomic_template: fix indentation in GEN_ATOMIC_HELPER
 
---cPJn0b2x8NuP8mqWmGsB8lzeIWq46kQAS--
+ accel/stubs/tcg-stub.c      |  2 -
+ accel/tcg/atomic_template.h |  2 +-
+ include/exec/cpu-defs.h     |  2 +-
+ include/sysemu/sysemu.h     |  2 -
+ target/arm/helper.c         | 96 +++++++++----------------------------
+ target/arm/m_helper.c       | 18 +++----
+ target/arm/translate.c      | 64 +++++++++++++++++++++----
+ tcg/README                  |  2 +-
+ 8 files changed, 87 insertions(+), 101 deletions(-)
 
---AkBYDBO8mwNXoJPvRrxkAw1roX27kBnDo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+-- 
+2.20.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1msOIACgkQ9AfbAGHV
-z0BGvgf/f/mZe2bNevWeiixQNFFBC1sQiYyF7g9iZwdG+3mmo4j1V8Ef8sDlzPpD
-vlg6RoWfVCNeqPRM5tdbWj3LzS5ca7ZjgkSTw3AbCffnpAq9t1oExsXPkb/Ps7ZH
-mp2NVY8P8eW3kSiHT5ReaTuzc/rW4qlmNfSXpKbiJVTOBkX/YhzbdphTIy33csfA
-KEvs8Lqe3rNvdRx7h5tihAQ6b9/WOZHmP0UH7cOCz1LRFVXwm9NQJHn1C4q3bm93
-j0KZnH08l4+vTyPssTjcLb99QkBrLaCbAiyyb9+kNDXFpFvhpE+zNRQOmlrd0D4Q
-czeN3vGs5TEXw2/Amnh2JcEBdURY7A==
-=srdZ
------END PGP SIGNATURE-----
-
---AkBYDBO8mwNXoJPvRrxkAw1roX27kBnDo--
 
