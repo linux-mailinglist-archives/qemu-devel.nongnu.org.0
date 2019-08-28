@@ -2,69 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BFB4A0B2A
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:17:29 +0200 (CEST)
-Received: from localhost ([::1]:42162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30580A0B2D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:18:28 +0200 (CEST)
+Received: from localhost ([::1]:42174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i34Nj-00087h-SI
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:17:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39080)
+	id 1i34Oh-00010m-8o
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41072)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i33H6-00048y-Kv
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:34 -0400
+ (envelope-from <rjones@redhat.com>) id 1i33SU-0007Kf-4R
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:18:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i33H2-0000qV-JO
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:30 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:42129)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i33H1-0000oj-Hm
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:28 -0400
-Received: by mail-pg1-x542.google.com with SMTP id p3so211844pgb.9
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:06:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=AjmucdomfKxGM6hnf1R57zZqrIKHMIhApG2eFqmaHBc=;
- b=hD/ClnCCAfC+KrJCN3zA1EKEPJN/d9DDbG8Bp84tKpcHJTnJsIwyao2XyYMTIg2y/3
- evkaafRRRCoL/ipAI5gLnCAtGxPunDFIBR8dxFDtIYT0a+oLEZWYKJTLWnPNhMlDutH7
- /JAo2o7sdp9qddEo6PuDZX2+SPpubW7pIHPY/4TRhfO9LiVCkMyukUxiOpXAXxa1P0xi
- FgpkGIAV8m+XYbnDxSY2dUVVygxGsBedLTerZkSZEMwTtYpPVEc1GEJ/CpLkl17ZLj3Y
- pz9PA+IJ3RPv/3yyhaAEzk0LFE8L1GJGPWEcNQ6kdG5vQGeI9oZaY0cuJ6kaRUud2PVQ
- FWOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=AjmucdomfKxGM6hnf1R57zZqrIKHMIhApG2eFqmaHBc=;
- b=p+GB5kHYeA8wj1b48DR9ALiHGXdqXusnwyP1LZ2Szr3A6E4pTQ0bwdb9Yz6FrWXnCD
- qlffQ/+RLP7vlJu1syg6h7MzW6831uynIhLr6icnC37rdTdzth+phI9VnJOkHkcvNlB/
- OtrkNgAWMCSSBrZkzBODk8VmQAGhU1lOLw+7ncMC5Am9BvDTtCvR2FWPfCgp6sqSPz3r
- 0vY70F5OL1YKLH2RtFUtzqp15VLnAD8oiAk40EDzC6OJg9CJ5Uci3gxzidWSI2MkeBlQ
- D9qV649DH9SbHtCSyuC1ZZ47DPjSyDIsnsW2oRqehbDIlaBHvjYpIvoTvN0Fi7WsbbOF
- k5ew==
-X-Gm-Message-State: APjAAAVulD13Xs9mtm04nFLUmm7/0asjLi0RVRJBSBVLcsNzbtWMplro
- +do7dSrvPf35kKTjgKdwvkbdWKBd7fU=
-X-Google-Smtp-Source: APXvYqxZstl043K3i1YM53QVjxhJ2OOre9QAQtxBfwVJ8KjRmQqtEBzdNXTTgCRuKfLxbINefEebKg==
-X-Received: by 2002:a17:90a:b395:: with SMTP id
- e21mr5788048pjr.76.1567019185680; 
- Wed, 28 Aug 2019 12:06:25 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.06.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 12:06:25 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 12:04:55 -0700
-Message-Id: <20190828190456.30315-69-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190828190456.30315-1-richard.henderson@linaro.org>
-References: <20190828190456.30315-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH v3 68/69] target/arm: Clean up disas_thumb_insn
+ (envelope-from <rjones@redhat.com>) id 1i33SS-0007qa-HM
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:18:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36830)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <rjones@redhat.com>) id 1i33SS-0007pg-93
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:18:16 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D88ACC049D62;
+ Wed, 28 Aug 2019 19:18:14 +0000 (UTC)
+Received: from localhost (ovpn-116-117.ams2.redhat.com [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF9654139;
+ Wed, 28 Aug 2019 19:18:09 +0000 (UTC)
+Date: Wed, 28 Aug 2019 20:18:08 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: qemu-devel@nongnu.org, nbd@other.debian.org, libguestfs@redhat.com,
+ virt-tools-list@redhat.com
+Message-ID: <20190828191808.GC7304@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Wed, 28 Aug 2019 19:18:14 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] ANNOUNCE: libnbd 1.0 & nbdkit 1.14 - high performance
+ NBD client and server
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,59 +57,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that everything is converted, remove the rest of
-the legacy decode.
+I'm pleased to announce the joint release of libnbd 1.0 and nbdkit 1.14.
+These are a high performance NBD client library and server.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate.c | 27 ++-------------------------
- 1 file changed, 2 insertions(+), 25 deletions(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 424a8354c1..5a9a6d3a1e 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -10747,32 +10747,9 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
- 
- static void disas_thumb_insn(DisasContext *s, uint32_t insn)
- {
--    if (disas_t16(s, insn)) {
--        return;
-+    if (!disas_t16(s, insn)) {
-+        unallocated_encoding(s);
-     }
--    /* fall back to legacy decoder */
--
--    switch (insn >> 12) {
--    case 0: case 1: /* add/sub (3reg, 2reg imm), shift imm; in decodetree */
--    case 2: case 3: /* add, sub, cmp, mov (reg, imm), in decodetree */
--    case 4: /* ldr lit, data proc (2reg), data proc ext, bx; in decodetree */
--    case 5: /* load/store register offset, in decodetree */
--    case 6: /* load/store word immediate offset, in decodetree */
--    case 7: /* load/store byte immediate offset, in decodetree */
--    case 8: /* load/store halfword immediate offset, in decodetree */
--    case 9: /* load/store from stack, in decodetree */
--    case 10: /* add PC/SP (immediate), in decodetree */
--    case 11: /* misc, in decodetree */
--    case 12: /* load/store multiple, in decodetree */
--    case 13: /* conditional branch or swi, in decodetree */
--    case 14:
--    case 15:
--        /* branches, in decodetree */
--        goto illegal_op;
--    }
--    return;
--illegal_op:
--    unallocated_encoding(s);
- }
- 
- static bool insn_crosses_page(CPUARMState *env, DisasContext *s)
--- 
-2.17.1
+Key features of libnbd:
 
+ * Synchronous API for ease of use.
+ * Asynchronous API for writing non-blocking, multithreaded clients.
+   You can mix both APIs freely.
+ * High performance.
+ * Minimal dependencies for the basic library.
+ * Well-documented, stable API.
+ * Bindings in several programming languages.
+ * Shell (nbdsh) for command line and scripting.
+
+Git: https://github.com/libguestfs/libnbd
+Download: http://download.libguestfs.org/libnbd/1.0-stable/
+Fedora: https://koji.fedoraproject.org/koji/packageinfo?packageID=3D28807
+
+
+Key features of nbdkit:
+
+ * Multithreaded NBD server written in C with good performance.
+ * Minimal dependencies for the basic server.
+ * Liberal license (BSD) allows nbdkit to be linked to proprietary
+   libraries or included in proprietary code.
+ * Well-documented, simple plugin API with a stable ABI guarantee.
+   Lets you export =E2=80=9Cunconventional=E2=80=9D block devices easily.
+ * You can write plugins in C, Lua, Perl, Python, OCaml, Ruby, Rust,
+   shell script or Tcl.
+ * Filters can be stacked in front of plugins to transform the output.
+
+Git: https://github.com/libguestfs/nbdkit
+Download: http://download.libguestfs.org/nbdkit/1.14-stable/
+Fedora: https://koji.fedoraproject.org/koji/packageinfo?packageID=3D16469
+
+Release notes for nbdkit 1.14:
+
+Server performance improvements: Nagle's algorithm is disabled;
+instead MSG_MORE is used to control when outgoing packets are sent.
+Ramdisk plugins now support more efficient zeroing.  (Eric Blake).
+
+Plugins can now select their thread model at run time.  Thread model
+selection is not finalized until after the config stage (Eric Blake).
+
+The server supports NBD_CMD_CACHE for prefetching.  Plugins and
+filters have been updated to implement this where it makes sense (Eric
+Blake).
+
+Low level pthread lock failures now call abort().  This should never
+happen in real situations (Eric Blake).
+
+The server will not advertize multi-conn support if the internal
+thread model is serialized, avoiding a possible deadlock in some
+clients (Eric Blake).
+
+New server option =E2=80=98--no-sr=E2=80=99 can be used to disable struct=
+ured replies
+(Eric Blake).
+
+The server will now refuse to start if stdin/stdout/stderr are closed,
+to avoid potential issues with file descriptor handling in plugins
+(Eric Blake).
+
+=E2=80=98$uri=E2=80=99 can be used to specify an NBD URI in =E2=80=98--ru=
+n=E2=80=99 parameters (Eric
+Blake).
+
+New =E2=80=98stats=E2=80=99 filter displays elapsed statistics about NBD =
+operations,
+such as the number of bytes read and written.
+
+New =E2=80=98nocache=E2=80=99 filter which disables cache requests, used =
+to determine
+how effective they are (Eric Blake).
+
+New =E2=80=98noparallel=E2=80=99 filter which can be used to override the=
+ plugin=E2=80=99s own
+choice of thread model.  Used to determine how the thread model
+affects performance, or to serialize plugins if required (Eric Blake).
+
+New =E2=80=98cacheextents=E2=80=99 filter to cache extents requests, espe=
+cially useful
+with VDDK which has a slow implementation of extents (Martin
+Kletzander).
+
+In the =E2=80=98full=E2=80=99, =E2=80=98memory=E2=80=99, =E2=80=98null=E2=
+=80=99, =E2=80=98pattern=E2=80=99 and =E2=80=98random=E2=80=99 plugins, t=
+he
+size=3D prefix can be omitted, ie: nbdkit memory 1G (instead of size=3D1G=
+)
+
+The =E2=80=98nbd=E2=80=99 plugin has multiple enhancements: It may be bui=
+lt using
+libnbd instead of constructing raw NBD packets; NBD_OPT_GO is
+supported; add structured reads; implement NBD_CMD_BLOCK_STATUS;
+support TCP sockets; forward NBD_CMD_CACHE; retry connections; shared
+connections; magic =E2=80=98uri=E2=80=99 parameter; TLS support (Eric Bla=
+ke).
+
+The =E2=80=98vddk=E2=80=99 plugin now reports hole extents correctly when=
+ using the
+=E2=80=98single-link=E2=80=99 flag (Martin Kletzander).
+
+The =E2=80=98cache=E2=80=99 and =E2=80=98cow=E2=80=99 filters now avoid c=
+opying data through a bounce
+buffer when it is already sufficiently aligned (Eric Blake).
+
+Filters (such as the delay and rate filter) which sleep no longer
+cause long delays when the server is shut down (Eric Blake).
+
+Multiple fixes to the =E2=80=98rust=E2=80=99 plugin (Martin Kletzander).
+
+Multiple enhancements and clean ups to the test suite which should
+make tests better and more reliable.
+
+OCaml plugins can now use =E2=80=98parse_size=E2=80=99, =E2=80=98parse_bo=
+ol=E2=80=99, =E2=80=98read_password=E2=80=99
+calls, and there is also a new example plugin.
+
+On platforms which lack atomic O_CLOEXEC support the most serialized
+thread model is always selected to avoid leaking file descriptors
+(Eric Blake).
+
+
+
+--=20
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rj=
+ones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-builder quickly builds VMs from scratch
+http://libguestfs.org/virt-builder.1.html
 
