@@ -2,99 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DA4A0BED
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:58:29 +0200 (CEST)
-Received: from localhost ([::1]:42758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA806A0BE3
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:53:07 +0200 (CEST)
+Received: from localhost ([::1]:42708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i351Q-0007Xt-Js
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:58:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52994)
+	id 1i34wE-0003L0-Pd
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:53:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55626)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i34eY-00040y-VP
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:34:51 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1i34uC-0002FP-RN
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:51:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i34eX-0008ST-Vp
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:34:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55508)
+ (envelope-from <alex.williamson@redhat.com>) id 1i34u9-0007vy-Kd
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:50:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45392)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i34eX-0008SA-OQ; Wed, 28 Aug 2019 16:34:49 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1i34u9-0007uM-CY
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:50:57 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 09C5210C696D;
- Wed, 28 Aug 2019 20:34:49 +0000 (UTC)
-Received: from [10.36.117.166] (ovpn-117-166.ams2.redhat.com [10.36.117.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EEBAB19D70;
- Wed, 28 Aug 2019 20:34:46 +0000 (UTC)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190828111004.28013-1-david@redhat.com>
- <20190828111004.28013-2-david@redhat.com>
- <07f892a0-c8d8-9960-1536-082121cf2618@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <d3fad340-1ed1-fa9c-483f-7762b423d564@redhat.com>
-Date: Wed, 28 Aug 2019 22:34:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 6E6EA107DD00;
+ Wed, 28 Aug 2019 20:50:55 +0000 (UTC)
+Received: from x1.home (ovpn-116-131.phx2.redhat.com [10.3.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 36ABE600CD;
+ Wed, 28 Aug 2019 20:50:50 +0000 (UTC)
+Date: Wed, 28 Aug 2019 14:50:45 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190828145045.20f2a7b3@x1.home>
+In-Reply-To: <1566845753-18993-2-git-send-email-kwankhede@nvidia.com>
+References: <1566845753-18993-1-git-send-email-kwankhede@nvidia.com>
+ <1566845753-18993-2-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-In-Reply-To: <07f892a0-c8d8-9960-1536-082121cf2618@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Wed, 28 Aug 2019 20:34:49 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.64]); Wed, 28 Aug 2019 20:50:55 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v1 1/2] tcg: Make probe_write() return a
- pointer to the host page
+Subject: Re: [Qemu-devel] [PATCH v8 01/13] vfio: KABI for migration interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,39 +58,317 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28.08.19 16:44, Richard Henderson wrote:
-> On 8/28/19 4:10 AM, David Hildenbrand wrote:
->> + * If the access is permitted, returns the host address similar to
->> + * tlb_vaddr_to_host(). Returns NULL in case direct access to the host page
->> + * is not allowed or if the size is 0.
+On Tue, 27 Aug 2019 00:25:41 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
+
+> - Defined MIGRATION region type and sub-type.
+> - Used 3 bits to define VFIO device states.
+>     Bit 0 => _RUNNING
+>     Bit 1 => _SAVING
+>     Bit 2 => _RESUMING
+>     Combination of these bits defines VFIO device's state during migration
+>     _STOPPED => All bits 0 indicates VFIO device stopped.
+>     _RUNNING => Normal VFIO device running state.
+>     _SAVING | _RUNNING => vCPUs are running, VFIO device is running but start
+>                           saving state of device i.e. pre-copy state
+>     _SAVING  => vCPUs are stoppped, VFIO device should be stopped, and
+>                           save device state,i.e. stop-n-copy state
+>     _RESUMING => VFIO device resuming state.
+>     _SAVING | _RESUMING => Invalid state if _SAVING and _RESUMING bits are set
+>     Bits 3 - 31 are reserved for future use. User should perform
+>     read-modify-write operation on this field.
+> - Defined vfio_device_migration_info structure which will be placed at 0th
+>   offset of migration region to get/set VFIO device related information.
+>   Defined members of structure and usage on read/write access:
+>     * device_state: (read/write)
+>         To convey VFIO device state to be transitioned to. Only 3 bits are used
+>         as of now, Bits 3 - 31 are reserved for future use.
+>     * pending bytes: (read only)
+>         To get pending bytes yet to be migrated for VFIO device.
+>     * data_offset: (read only)
+>         To get data offset in migration region from where data exist during
+>         _SAVING, from where data should be written by user space application
+>         during _RESUMING state and while read dirty pages bitmap.
+>     * data_size: (read/write)
+>         To get and set size of data copied in migration region during _SAVING
+>         and _RESUMING state.
+>     * start_pfn, page_size, total_pfns: (write only)
+>         To get bitmap of dirty pages from vendor driver from given
+>         start address for total_pfns.
+>     * copied_pfns: (read only)
+>         To get number of pfns bitmap copied in migration region.
+>         Vendor driver should copy the bitmap with bits set only for
+>         pages to be marked dirty in migration region. Vendor driver
+>         should return VFIO_DEVICE_DIRTY_PFNS_NONE if there are 0 pages dirty in
+>         requested range. Vendor driver should return VFIO_DEVICE_DIRTY_PFNS_ALL
+>         to mark all pages in the section as dirty.
 > 
-> Maybe we can find some better language -- "not allowed" sounds like a
-> permissions check, and we longjmp out on permission check failures.
+> Migration region looks like:
+>  ------------------------------------------------------------------
+> |vfio_device_migration_info|    data section                      |
+> |                          |     ///////////////////////////////  |
+>  ------------------------------------------------------------------
+>  ^                              ^                              ^
+>  offset 0-trapped part        data_offset                 data_size
 > 
-> Perhaps "if the page requires i/o access"?
-
-Yeah, and NOTDIRTY, emulated via i/o access. I will rephrase.
-
+> Data section is always followed by vfio_device_migration_info
+> structure in the region, so data_offset will always be non-0.
+> Offset from where data is copied is decided by kernel driver, data
+> section can be trapped or mapped depending on how kernel driver
+> defines data section. If mmapped, then data_offset should be page
+> aligned, where as initial section which contain vfio_device_migration_info
+> structure might not end at offset which is page aligned.
+> Data_offset can be same or different for device data and dirty pages bitmap.
+> Vendor driver should decide whether to partition data section and how to
+> partition the data section. Vendor driver should return data_offset
+> accordingly.
 > 
-> Why are you returning NULL for size 0?  Just because the caller hasn't
-> committed to a size and thus we haven't checked watchpoints?
+> For user application, data is opaque. User should write data in the same
+> order as received.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> ---
+>  linux-headers/linux/vfio.h | 148 +++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 148 insertions(+)
+> 
+> diff --git a/linux-headers/linux/vfio.h b/linux-headers/linux/vfio.h
+> index 24f505199f83..4bc0236b0898 100644
+> --- a/linux-headers/linux/vfio.h
+> +++ b/linux-headers/linux/vfio.h
+> @@ -372,6 +372,154 @@ struct vfio_region_gfx_edid {
+>   */
+>  #define VFIO_REGION_SUBTYPE_IBM_NVLINK2_ATSD	(1)
+>  
+> +/* Migration region type and sub-type */
+> +#define VFIO_REGION_TYPE_MIGRATION	        (3)
+> +#define VFIO_REGION_SUBTYPE_MIGRATION	        (1)
+> +
+> +/**
+> + * Structure vfio_device_migration_info is placed at 0th offset of
+> + * VFIO_REGION_SUBTYPE_MIGRATION region to get/set VFIO device related migration
+> + * information. Field accesses from this structure are only supported at their
+> + * native width and alignment, otherwise the result is undefined and vendor
+> + * drivers should return an error.
+> + *
+> + * device_state: (read/write)
+> + *      To indicate vendor driver the state VFIO device should be transitioned
+> + *      to. If device state transition fails, write on this field return error.
+> + *      It consists of 3 bits:
+> + *      - If bit 0 set, indicates _RUNNING state. When its reset, that indicates
+> + *        _STOPPED state. When device is changed to _STOPPED, driver should stop
+> + *        device before write() returns.
+> + *      - If bit 1 set, indicates _SAVING state.
+> + *      - If bit 2 set, indicates _RESUMING state.
+> + *      Bits 3 - 31 are reserved for future use. User should perform
+> + *      read-modify-write operation on this field.
+> + *      _SAVING and _RESUMING bits set at the same time is invalid state.
+> + *
+> + * pending bytes: (read only)
+> + *      Number of pending bytes yet to be migrated from vendor driver
+> + *
+> + * data_offset: (read only)
+> + *      User application should read data_offset in migration region from where
+> + *      user application should read device data during _SAVING state or write
+> + *      device data during _RESUMING state or read dirty pages bitmap. See below
+> + *      for detail of sequence to be followed.
+> + *
+> + * data_size: (read/write)
+> + *      User application should read data_size to get size of data copied in
+> + *      migration region during _SAVING state and write size of data copied in
+> + *      migration region during _RESUMING state.
+> + *
+> + * start_pfn: (write only)
+> + *      Start address pfn to get bitmap of dirty pages from vendor driver duing
+> + *      _SAVING state.
+> + *
+> + * page_size: (write only)
+> + *      User application should write the page_size of pfn.
+> + *
+> + * total_pfns: (write only)
+> + *      Total pfn count from start_pfn for which dirty bitmap is requested.
+> + *
+> + * copied_pfns: (read only)
+> + *      pfn count for which dirty bitmap is copied to migration region.
+> + *      Vendor driver should copy the bitmap with bits set only for pages to be
+> + *      marked dirty in migration region.
+> + *      - Vendor driver should return VFIO_DEVICE_DIRTY_PFNS_NONE if none of the
+> + *        pages are dirty in requested range or rest of the range.
+> + *      - Vendor driver should return VFIO_DEVICE_DIRTY_PFNS_ALL to mark all
+> + *        pages dirty in the given range or rest of the range.
+> + *      - Vendor driver should return pfn count for which bitmap is written in
+> + *        the region.
+> + *
+> + * Migration region looks like:
+> + *  ------------------------------------------------------------------
+> + * |vfio_device_migration_info|    data section                      |
+> + * |                          |     ///////////////////////////////  |
+> + * ------------------------------------------------------------------
+> + *   ^                              ^                             ^
+> + *  offset 0-trapped part        data_offset                 data_size
+> + *
+> + * Data section is always followed by vfio_device_migration_info structure
+> + * in the region, so data_offset will always be non-0. Offset from where data
+> + * is copied is decided by kernel driver, data section can be trapped or
+> + * mapped or partitioned, depending on how kernel driver defines data section.
+> + * Data section partition can be defined as mapped by sparse mmap capability.
+> + * If mmapped, then data_offset should be page aligned, where as initial section
+> + * which contain vfio_device_migration_info structure might not end at offset
+> + * which is page aligned.
+> + * Data_offset can be same or different for device data and dirty pages bitmap.
+> + * Vendor driver should decide whether to partition data section and how to
+> + * partition the data section. Vendor driver should return data_offset
+> + * accordingly.
+> + *
+> + * Sequence to be followed for _SAVING|_RUNNING device state or pre-copy phase
+> + * and for _SAVING device state or stop-and-copy phase:
+> + * a. read pending_bytes. If pending_bytes > 0, go through below steps.
+> + * b. read data_offset, indicates kernel driver to write data to staging buffer.
+> + * c. read data_size, amount of data in bytes written by vendor driver in
+> + *    migration region.
+> + * d. read data_size bytes of data from data_offset in the migration region.
+> + * e. process data.
+> + * f. Loop through a to e.
 
-Yes, I think it's the right thing to do. Watchpoints are one part of the
-story, the other part is TLB_RECHECK (a.k.a. TLB_INVALID_MASK or
-"subpage protection"). Allowing access could lead to hidden BUGs.
+Something needs to be said here about the availability of the data, for
+example, what indicates to the vendor driver that the above operation is
+complete?  Is the data immutable?
 
-I consider somebody wanting to get access to a host page with an access
-size of zero an interface violation.
+> + *
+> + * To copy system memory content during migration, vendor driver should be able
+> + * to report system memory pages which are dirtied by that driver. For such
+> + * dirty page reporting, user application should query for a range of GFNs
+> + * relative to device address space (IOVA), then vendor driver should provide
+> + * the bitmap of pages from this range which are dirtied by him through
+> + * migration region where each bit represents a page and bit set to 1 represents
+> + * that the page is dirty.
+> + * User space application should take care of copying content of system memory
+> + * for those pages.
 
--- 
+Can we say that device state and dirty pfn operations on the data
+area may be intermixed in any order the user chooses?
 
-Thanks,
+Should we specify that bits accumulate since EITHER a) _SAVING state is
+enabled or b) a given pfn was last reported via the below sequence (ie.
+dirty bits are cleared once reported)?
 
-David / dhildenb
+How does QEMU handle the fact that IOVAs are potentially dynamic while
+performing the live portion of a migration?  For example, each time a
+guest driver calls dma_map_page() or dma_unmap_page(), a
+MemoryRegionSection pops in or out of the AddressSpace for the device
+(I'm assuming a vIOMMU where the device AddressSpace is not
+system_memory).  I don't see any QEMU code that intercepts that change
+in the AddressSpace such that the IOVA dirty pfns could be recorded and
+translated to GFNs.  The vendor driver can't track these beyond getting
+an unmap notification since it only knows the IOVA pfns, which can be
+re-used with different GFN backing.  Once the DMA mapping is torn down,
+it seems those dirty pfns are lost in the ether.  If this works in QEMU,
+please help me find the code that handles it.
+
+> + *
+> + * Steps to get dirty page bitmap:
+> + * a. write start_pfn, page_size and total_pfns.
+
+This is not well specified.  Is it intended that the user write all
+three of these on every iteration, or could they write start_pfn=0,
+page_size=4K, total_pfns=1, complete the steps below, then write
+start_pfn=1 and immediately begin the next iteration?  They've written
+all three, though not all on the current iteration, does that count?
+Furthermore, could the user simple re-read copied_pfns to determine if
+anything in the previously setup range has been re-dirtied?
+
+IOW, are these three "registers" sticky or do the below operations
+invalidate them?  If they're invalidated, then there needs to be a
+mechanism to generate an error, such as below.
+
+> + * b. read copied_pfns. Vendor driver should take one of the below action:
+> + *     - Vendor driver should return VFIO_DEVICE_DIRTY_PFNS_NONE if driver
+> + *       doesn't have any page to report dirty in given range or rest of the
+> + *       range. Exit the loop.
+> + *     - Vendor driver should return VFIO_DEVICE_DIRTY_PFNS_ALL to mark all
+> + *       pages dirty for given range or rest of the range. User space
+> + *       application mark all pages in the range as dirty and exit the loop.
+> + *     - Vendor driver should return copied_pfns and provide bitmap for
+> + *       copied_pfn in migration region.
+
+Read returns errno if the pre-requisite registers are not valid?
+
+> + * c. read data_offset, where vendor driver has written bitmap.
+> + * d. read bitmap from the migration region from data_offset.
+> + * e. Iterate through steps a to d while (total copied_pfns < total_pfns)
+
+It seems like the intent here is that the user effectively does:
+
+start_pfn += copied_pfns
+total_pfns -= copied_pfns
+page_size = page_size?
+
+But are they under any obligation to do so?
+
+Also same question above regarding data availability/life-cycle.  Is
+the vendor driver responsible for making the data available
+indefinitely?  Seems it's only released at the next iteration, or
+re-use of the data area for another operation, or clearing of the
+_SAVING state bit.
+
+> + * Sequence to be followed while _RESUMING device state:
+> + * While data for this device is available, repeat below steps:
+> + * a. read data_offset from where user application should write data.
+> + * b. write data of data_size to migration region from data_offset.
+> + * c. write data_size which indicates vendor driver that data is written in
+> + *    staging buffer.
+> + *
+> + * For user application, data is opaque. User should write data in the same
+> + * order as received.
+
+Additionally, implicit synchronization between _SAVING and _RESUMING
+ends within the vendor driver is assumed.
+
+Are there any assumptions we haven't covered with respect to mmaps?
+For instance, can the user setup mmaps at any time or only during
+certain device states?  Are there recommended best practices for users
+to only setup mmaps during _SAVING or _RESUMING?  If we had a revoke
+mechanism, it might be nice to use it when either of these bits are
+cleared.  Thanks,
+
+Alex
+
+> + */
+> +
+> +struct vfio_device_migration_info {
+> +        __u32 device_state;         /* VFIO device state */
+> +#define VFIO_DEVICE_STATE_RUNNING   (1 << 0)
+> +#define VFIO_DEVICE_STATE_SAVING    (1 << 1)
+> +#define VFIO_DEVICE_STATE_RESUMING  (1 << 2)
+> +#define VFIO_DEVICE_STATE_MASK      (VFIO_DEVICE_STATE_RUNNING | \
+> +                                     VFIO_DEVICE_STATE_SAVING | \
+> +                                     VFIO_DEVICE_STATE_RESUMING)
+> +#define VFIO_DEVICE_STATE_INVALID   (VFIO_DEVICE_STATE_SAVING | \
+> +                                     VFIO_DEVICE_STATE_RESUMING)
+> +        __u32 reserved;
+> +        __u64 pending_bytes;
+> +        __u64 data_offset;
+> +        __u64 data_size;
+> +        __u64 start_pfn;
+> +        __u64 page_size;
+> +        __u64 total_pfns;
+> +        __u64 copied_pfns;
+> +#define VFIO_DEVICE_DIRTY_PFNS_NONE     (0)
+> +#define VFIO_DEVICE_DIRTY_PFNS_ALL      (~0ULL)
+> +} __attribute__((packed));
+> +
+>  /*
+>   * The MSIX mappable capability informs that MSIX data of a BAR can be mmapped
+>   * which allows direct access to non-MSIX registers which happened to be within
+
 
