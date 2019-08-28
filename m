@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1288A07EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 18:58:57 +0200 (CEST)
-Received: from localhost ([::1]:38770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6259A07E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 18:55:37 +0200 (CEST)
+Received: from localhost ([::1]:38702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i31Hc-0004lW-91
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 12:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37934)
+	id 1i31EO-0000c1-Pa
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 12:55:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i30yo-0002ba-BX
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:39:31 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i310T-0004bq-E4
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:41:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i30yn-0008JW-9x
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:39:30 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:42518)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i30yn-0008IZ-0P
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:39:29 -0400
-Received: by mail-pl1-x644.google.com with SMTP id y1so216366plp.9
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 09:39:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LUxprBBpjSfP1xthe+RhtRb0rOXCjhNnZp26xv1bGd8=;
- b=uN2PodegvmJGj4MK+vH56c78Gc7gyJqfDqFB2y4u452Tu+0NXfJVu0FyNc0yrMYxbd
- pRfGkQXKiIJjGIWH0IIvuRssm8cekYGCvp8Pe5gZPuxlFvJU3bGscl/tJ1IxpZPrblsI
- 4qtqa1/Nj8kW6dx9pxqepmo7JvnYBJCrUCJRmGowaSpJmgTb9qgxSUvBH9A4zV/A3GIM
- 6zn7CNw4l+4b4FTbzkPPUtzw36S42Z5F5wpgCfoGLdjzll/M9KT9JhB7qbJMCQU2y9Eu
- wemjDZDsXkQYnWrATdRxMYd+6/CdRIh15iKr6X9+1aYnsoouBVDfzqceBPZtqEU8PTOR
- kINQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LUxprBBpjSfP1xthe+RhtRb0rOXCjhNnZp26xv1bGd8=;
- b=uUWBLquq6fyKoUNR9p4ShvhqHMWLOIaycn7Ti1/fqqFvK6CSGRoIJQGHvgvSS/rTtt
- E4tvy6cvbXMcjBQDY9lF2LAwg0CYKg3i9omUEmxAdGAPGvqEGnGXrk+chlLvFN4ezfSs
- AZHxCIQB9U4vcC6D8Y7e9jrh1DUX7jhY8N2GFqak1aec47aqeegG+ogvA8xz7dtaYD7O
- eIQMXiFLvSzm2ynWSR/ZLmW+ZyAdr+XJSJ9pk9J4Mauy8FPpHkgPVEcoOUlmJn7LIMM0
- OTKLPrzizudoduFBTF1ESzUnYF7yp2xnSYLJ+zzfBHRf7mhuMnwjjC33kG63NZcz9MHv
- mvXg==
-X-Gm-Message-State: APjAAAXzHp/bbvc/LOb5Owd2389FI4p+wYy8NT6eAUThMHSXvktWd6GI
- 3v89p10F9dpxkqeND2pUD8C+lQ==
-X-Google-Smtp-Source: APXvYqwL9qVcLXwyeG2srmzf0Kfhw/Tux0mgs+ZEl8vi+wFaaprA/aBFzNMA6srIZBK5xyvtOXEkUw==
-X-Received: by 2002:a17:902:b718:: with SMTP id
- d24mr5142759pls.204.1567010367263; 
- Wed, 28 Aug 2019 09:39:27 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id x10sm2628081pjo.4.2019.08.28.09.39.25
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 28 Aug 2019 09:39:26 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- liuzhiwei <zhiwei_liu@c-sky.com>
-References: <1566959818-38369-1-git-send-email-zhiwei_liu@c-sky.com>
- <87k1ax64io.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1i310S-0000wk-5Q
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:41:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57172)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1i310N-0000u3-El; Wed, 28 Aug 2019 12:41:07 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8DB1CC04959E;
+ Wed, 28 Aug 2019 16:41:06 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-32.brq.redhat.com
+ [10.40.204.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D843E6012D;
+ Wed, 28 Aug 2019 16:40:58 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20190826161312.489398-1-vsementsov@virtuozzo.com>
+ <20190826161312.489398-8-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <876d43a4-7e57-b1c0-11b4-db20798d2098@linaro.org>
-Date: Wed, 28 Aug 2019 09:39:24 -0700
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <8700abe3-01a0-9395-59fb-ca78d9f05a30@redhat.com>
+Date: Wed, 28 Aug 2019 18:40:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <87k1ax64io.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: Re: [Qemu-devel] [PATCH] RISCV: support riscv vector extension 0.7.1
+In-Reply-To: <20190826161312.489398-8-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Q7xZIY48ugaM74Hc1P5pUnQdwly5ITro5"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Wed, 28 Aug 2019 16:41:06 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v9 07/13] iotests: prepare 124 and 257
+ bitmap querying for backup-top filter
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,23 +87,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, palmer@sifive.com, qemu-riscv@nongnu.org,
- sagark@eecs.berkeley.edu, kbastian@mail.uni-paderborn.de, riku.voipio@iki.fi,
- qemu-devel@nongnu.org, laurent@vivier.eu, Alistair.Francis@wdc.com,
- aurelien@aurel32.net
+Cc: fam@euphon.net, kwolf@redhat.com, wencongyang2@huawei.com,
+ xiechanglong.d@gmail.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ jsnow@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/28/19 2:08 AM, Alex Bennée wrote:
-> If you want to do vectors I suggest you look at the TCGvec types for
-> passing pointers to vector registers to helpers. In this case you will
-> want to ensure your vector registers are properly aligned.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Q7xZIY48ugaM74Hc1P5pUnQdwly5ITro5
+Content-Type: multipart/mixed; boundary="JXWQCGFSBq2jnpQ2O4TC3fh7XxzcJxJk5";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
+ xiechanglong.d@gmail.com, wencongyang2@huawei.com, fam@euphon.net,
+ stefanha@redhat.com, jsnow@redhat.com, kwolf@redhat.com, den@openvz.org
+Message-ID: <8700abe3-01a0-9395-59fb-ca78d9f05a30@redhat.com>
+Subject: Re: [PATCH v9 07/13] iotests: prepare 124 and 257 bitmap querying for
+ backup-top filter
+References: <20190826161312.489398-1-vsementsov@virtuozzo.com>
+ <20190826161312.489398-8-vsementsov@virtuozzo.com>
+In-Reply-To: <20190826161312.489398-8-vsementsov@virtuozzo.com>
 
-The risc-v vector extension is very different from any other existing vector
-extension.  In particular, the locations of the vector elements vary
-dynamically.  Except for certain special cases I doubt that risc-v can make
-direct use of the generic TCG vector support.
+--JXWQCGFSBq2jnpQ2O4TC3fh7XxzcJxJk5
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 26.08.19 18:13, Vladimir Sementsov-Ogievskiy wrote:
+> After backup-top filter appearing it's not possible to see dirty
+> bitmaps in top node, so use node-name instead.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  tests/qemu-iotests/124        |   3 +-
+>  tests/qemu-iotests/257        |  39 +---
+>  tests/qemu-iotests/257.out    | 364 +++++++++++++---------------------=
+
+>  tests/qemu-iotests/iotests.py |  22 ++
+>  4 files changed, 173 insertions(+), 255 deletions(-)
+>=20
+> diff --git a/tests/qemu-iotests/124 b/tests/qemu-iotests/124
+> index 3440f54781..8b6024769c 100755
+> --- a/tests/qemu-iotests/124
+> +++ b/tests/qemu-iotests/124
+> @@ -749,8 +749,7 @@ class TestIncrementalBackupBlkdebug(TestIncremental=
+BackupBase):
+> =20
+>          # Bitmap Status Check
+>          query =3D self.vm.qmp('query-block')
+> -        ret =3D [bmap for bmap in query['return'][0]['dirty-bitmaps']
+> -               if bmap.get('name') =3D=3D bitmap.name][0]
+> +        ret =3D self.vm.get_bitmap(None, drive0['id'], bitmap.name)
+>          self.assert_qmp(ret, 'count', 458752)
+>          self.assert_qmp(ret, 'granularity', 65536)
+>          self.assert_qmp(ret, 'status', 'frozen')
+
+I see a couple more instances of querying the bitmaps through
+query-block here.  Wouldn=E2=80=99t it make sense to replace them all wit=
+h
+get_bitmap()?
+
+[...]
+
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests=
+=2Epy
+> index 84438e837c..9381964d9f 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -643,6 +643,28 @@ class VM(qtest.QEMUQtestMachine):
+>                  return x
+>          return None
+> =20
+> +    def query_bitmaps(self):
+> +        res =3D self.qmp("query-named-block-nodes")
+> +        return {"bitmaps": {device['node-name']: device['dirty-bitmaps=
+']
+> +                                for device in res['return']
+> +                                    if 'dirty-bitmaps' in device}}
+
+I=E2=80=99d leave the wrapping in {"bitmaps": x} to the callers, if they =
+need it.
+
+> +
+> +    def get_bitmap(self, bitmaps, node_name, name, recording=3DNone):
+> +        """
+> +        get a specific bitmap from the object returned by query_bitmap=
+s.
+> +        :param recording: If specified, filter results by the specifie=
+d value.
+> +        """
+> +        if bitmaps is None:
+> +            bitmaps =3D self.query_bitmaps()
+> +
+> +        for bitmap in bitmaps['bitmaps'][node_name]:
+> +            if bitmap.get('name', '') =3D=3D name:
+> +                if recording is None:
+> +                    return bitmap
+> +                elif bitmap.get('recording') =3D=3D recording:
+> +                    return bitmap
+
+Maybe add a =E2=80=9Cbreak=E2=80=9D or =E2=80=9Creturn None=E2=80=9D here=
+?
+
+(Yes, yes, you just moved existing code.  Still.)
+
+Max
+
+> +        return None
+> +
+> =20
+>  index_re =3D re.compile(r'([^\[]+)\[([^\]]+)\]')
+> =20
+>=20
 
 
-r~
+
+--JXWQCGFSBq2jnpQ2O4TC3fh7XxzcJxJk5--
+
+--Q7xZIY48ugaM74Hc1P5pUnQdwly5ITro5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1mrpkACgkQ9AfbAGHV
+z0DlUQf+LyB6pC19Jf+0wdUyeBlsUkr7TCHwvvE8hXLHklLoAoXeR2de3LVG0I8y
+EzB+kffdlG7w3P0i4lYdX+uGov4i6/pbbWVAw7p1pls62t5L3CpkEcbRC68dATXR
+ZoHWcTOZGhIp0d2t8LknH0AFAcGfHs4Mo2zLk38SjXs4UVzEPKgkF624qYXoKVvJ
+ulT5nwPogwC1sw35/GQDBiJYsfH6HsoO3JUjQkVB10bkc+XpX88yFRkiFWgUJ8+S
+Z/9DB4gz2TyYrLnQKE+XlA9ThStaf2RaV8eWo98iT+3AT5m7e5CwkOT1wjUn9tTG
+yjbJxt0khg2Oz98limCEEfF1l3oXWQ==
+=VOhO
+-----END PGP SIGNATURE-----
+
+--Q7xZIY48ugaM74Hc1P5pUnQdwly5ITro5--
 
