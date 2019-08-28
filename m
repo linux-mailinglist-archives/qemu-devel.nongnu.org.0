@@ -2,55 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8396FA0BEC
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:57:37 +0200 (CEST)
-Received: from localhost ([::1]:42756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50099A0BF4
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 23:03:08 +0200 (CEST)
+Received: from localhost ([::1]:42824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i350a-0006so-M6
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56329)
+	id 1i355v-0002nf-D1
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 17:03:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56551)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1i34zP-000601-K8
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:56:25 -0400
+ (envelope-from <laurent@vivier.eu>) id 1i351O-00082B-LM
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:58:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1i34zN-0002ZK-8V
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:56:22 -0400
-Resent-Date: Wed, 28 Aug 2019 16:56:22 -0400
-Resent-Message-Id: <E1i34zN-0002ZK-8V@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21412)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1i34zI-0002X4-EZ
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:56:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1567025765; cv=none; d=zoho.com; s=zohoarc; 
- b=X+c0lBibFUULt5ywFolFsC6FDfvJR9iurk8EKunQEh7VFLT+XOnjzMXS6NImWSBAENTZb+gY3YakxyQJMIgsxIVGGWweEcK+xLT7FNLzlonpWQ310V8l0T1Sekd8IJNf4kHwSmUtVRu6w0csJefLQdGtuLcnXTkoQEhBF2LKEn4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1567025765;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=3YqoaWwP/XS0orBb0M/cksXtiXDK8NhJnygpFVACygw=; 
- b=Cw7jLv8wdqZSzv/gB5r0MjK3CDAj+18/MbrLzRh1PtwLBSyHTxhbLMYyic3V9p66cjDUNZNlmiRsCgCnQ29btTKnTNgvrP5mD8fMe6x04MCXX2FvrfiVeAJ2i4yE0xFvbKiU3uvoDLt7EQp7uPMRtECl5UY58mVSTx8zomcCMdc=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1567025764418638.4416941810907;
- Wed, 28 Aug 2019 13:56:04 -0700 (PDT)
-In-Reply-To: <20190828193628.7687-1-crosa@redhat.com>
-Message-ID: <156702576316.26945.12238021410252316609@5dec9699b7de>
+ (envelope-from <laurent@vivier.eu>) id 1i351N-0003vg-Gn
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:58:26 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:60101)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i351M-0003rk-QO
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:58:25 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MzQbw-1iOtAD1Ilk-00vPn0; Wed, 28 Aug 2019 22:58:13 +0200
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20190827192526.21780-1-laurent@vivier.eu>
+ <20190828061103.u4l4inomwfvbodtn@sirius.home.kraxel.org>
+ <79ea4476-f2ae-4b6f-1f65-48de3b0ffebd@vivier.eu>
+ <20190828090753.ho2stm7ppzej4zcb@sirius.home.kraxel.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Openpgp: preference=signencrypt
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <9f4c6ccd-ab3a-3d9e-a41f-8c9e3cc854db@vivier.eu>
+Date: Wed, 28 Aug 2019 22:58:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: crosa@redhat.com
-Date: Wed, 28 Aug 2019 13:56:04 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <20190828090753.ho2stm7ppzej4zcb@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:katOH2WRS4mPrpzR4i7SLMswkbV2GU3c5Cy94y7exqXHHuQu9S1
+ ylZ4712Wz8gXVWAsthfKZ59Rr4tWoxtV8t7p0hfiUS1K3w59jCM2zYvgoPw5zfPugyVDJ5J
+ yOF58bSgWOBva90kFDb75yXJ9MtvzMD2P1tIynqimZY0FC1BtS8ggh9/Nsh2Hm3Ky6YMD8q
+ O+gzUR6qjAs0v2+FNWelA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yYIoGBpfTv0=:pqeT4aEW7XaGdGC+wpfWCh
+ xZIy00LhU0j+H0CwORtW3ull1XdasXZ/QarWM2ZUUQIXL+zU6kUgKXtOLqajWEXYeVFLhnbTy
+ cSGXx48zO7DAv56zW7JoOZX4CWJV97uSLdEH5sQ/O4xnRU3/dmXCj/IwAAssUCWSCTzvpCAJn
+ /W73AkC71PPHYFPOreYW5vS9Gd2PR7b0YfwXvt29YGYaq6q8mJw8Ujg3nAc6K4Kwby6VsbZTg
+ GuCzUB0WlPaeXXWBVNEINcjFOO0UthUx93FYJcCnXa0E8Fv2FtuQCBwRnZvGpwQF4cVRuMFDA
+ JWRz4EmzO3pctVmZM/dxLSk7fGbX4LiHKmHx1vCFQz41YxPXj/04+A+nN7urC0QO1tM7PM5uV
+ 2g2Q9JUILiyIXcZFVQzEauGootOc1DIe4QQguAP3y+jj2PJCnsbMdX68IWpkI0wjT6VzZ3+Fl
+ VqVoH5dHfcvTFeQsDKfPHbgBdct7MWzw6HvD3uy7mjbkIPvqT30rVJKt5KAuCQu/Vfnr1Eh/a
+ hqP2KHgeYy2nBk9BjIaeIBUfxgZvQwAnEJ93/iuuX+Ve/E8zMwfVA5/rpztgjV3E9SXvmUqMK
+ YmQLhNUxU0iHVaXpRZbOHrluK/WM6P7JVCLl3TvlTI9hhhEBLDq3NP5qyQ+0JIhi/y0jh3g4z
+ EpVM4HkYVQLPPNT2kpecTRfG8APBt/FnIigaO8Wz5t0Lc/6pf1Dem1SDbLaY3lIchEtZogF4l
+ s5NeF6BgAmRLA6A+oONV3EziHrrdcSojqC5GWT/J5oCDuWv+j8x21EoR8uzXZdRHwMNzpBCIT
+ ZIDmDaZPefuxMFN36TqscLrE78qxw==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH 0/3] Acceptance test
- x86_cpu_model_versions: fixes and minor improvements
+X-Received-From: 212.227.126.135
+Subject: Re: [Qemu-devel] [RFC,Draft] ui: add an embedded Barrier client
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,52 +112,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: ehabkost@redhat.com, qemu-devel@nongnu.org, wainersm@redhat.com,
- wrampazz@redhat.com, crosa@redhat.com, philmd@redhat.com
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDgyODE5MzYyOC43Njg3
-LTEtY3Jvc2FAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
-bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
-bWF0aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCAwLzNdIEFjY2VwdGFuY2UgdGVz
-dCB4ODZfY3B1X21vZGVsX3ZlcnNpb25zOiBmaXhlcyBhbmQgbWlub3IgaW1wcm92ZW1lbnRzCk1l
-c3NhZ2UtaWQ6IDIwMTkwODI4MTkzNjI4Ljc2ODctMS1jcm9zYUByZWRoYXQuY29tClR5cGU6IHNl
-cmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNl
-IGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
-ZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcg
-LS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwg
-LS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNm
-NWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKU3dpdGNoZWQgdG8gYSBuZXcgYnJh
-bmNoICd0ZXN0JwoyYTU3MTQ3IEFjY2VwdGFuY2UgdGVzdCB4ODZfY3B1X21vZGVsX3ZlcnNpb25z
-OiBzcGxpdCBpbnRvIHNtYWxsZXIgdGVzdHMKMzBjNjc4MiBBY2NlcHRhbmNlIHRlc3QgeDg2X2Nw
-dV9tb2RlbF92ZXJzaW9uczogZml4IG1pc21hdGNoZXMgYmV0d2VlbiB0ZXN0IGFuZCBtZXNzYWdl
-cwpmNjNiNjBmIEFjY2VwdGFuY2UgdGVzdCB4ODZfY3B1X21vZGVsX3ZlcnNpb25zOiBzaHV0ZG93
-biBWTXMKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMyBDaGVja2luZyBjb21taXQgZjYzYjYwZjQ5
-ZTdhIChBY2NlcHRhbmNlIHRlc3QgeDg2X2NwdV9tb2RlbF92ZXJzaW9uczogc2h1dGRvd24gVk1z
-KQoyLzMgQ2hlY2tpbmcgY29tbWl0IDMwYzY3ODI3NzAwMSAoQWNjZXB0YW5jZSB0ZXN0IHg4Nl9j
-cHVfbW9kZWxfdmVyc2lvbnM6IGZpeCBtaXNtYXRjaGVzIGJldHdlZW4gdGVzdCBhbmQgbWVzc2Fn
-ZXMpCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMjI6IEZJTEU6IHRlc3RzL2FjY2Vw
-dGFuY2UveDg2X2NwdV9tb2RlbF92ZXJzaW9ucy5weToyODM6CisgICAgICAgICAgICAgICAgICAg
-ICAgICAgJ3BjLWk0NDBmeC00LjAgKyBDYXNjYWRlbGFrZS1TZXJ2ZXItdjEgc2hvdWxkIG5vdCBo
-YXZlIGFyY2gtY2FwYWJpbGl0aWVzJykKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwoj
-MzE6IEZJTEU6IHRlc3RzL2FjY2VwdGFuY2UveDg2X2NwdV9tb2RlbF92ZXJzaW9ucy5weToyOTI6
-CisgICAgICAgICAgICAgICAgICAgICAgICAgJ3BjLWk0NDBmeC00LjAgKyBDYXNjYWRlbGFrZS1T
-ZXJ2ZXItdjIgc2hvdWxkIGhhdmUgYXJjaC1jYXBhYmlsaXRpZXMnKQoKRVJST1I6IGxpbmUgb3Zl
-ciA5MCBjaGFyYWN0ZXJzCiMzOTogRklMRTogdGVzdHMvYWNjZXB0YW5jZS94ODZfY3B1X21vZGVs
-X3ZlcnNpb25zLnB5OjI5OToKKyAgICAgICAgdm0uYWRkX2FyZ3MoJy1jcHUnLCAnQ2FzY2FkZWxh
-a2UtU2VydmVyLXYxLHgtZm9yY2UtZmVhdHVyZXM9b24sY2hlY2s9b2ZmLGVuZm9yY2U9b2ZmLCth
-cmNoLWNhcGFiaWxpdGllcycpCgp0b3RhbDogMyBlcnJvcnMsIDAgd2FybmluZ3MsIDI0IGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDIvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy8zIENoZWNr
-aW5nIGNvbW1pdCAyYTU3MTQ3YTg2MmIgKEFjY2VwdGFuY2UgdGVzdCB4ODZfY3B1X21vZGVsX3Zl
-cnNpb25zOiBzcGxpdCBpbnRvIHNtYWxsZXIgdGVzdHMpCj09PSBPVVRQVVQgRU5EID09PQoKVGVz
-dCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxl
-IGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwODI4MTkzNjI4Ljc2ODctMS1jcm9zYUBy
-ZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2Vu
-ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQ
-bGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Le 28/08/2019 à 11:07, Gerd Hoffmann a écrit :
+...
+>> I will try to add a keyboard remapping as we have with VNC because it
+>> doesn't work well with my french keyboard (AZERTY). Or perhaps I can use
+>> the "button" id instead of the keyid but I don't now how to map the
+>> value to a qcode.
+> 
+> Depends on how the button id is defined.  If it is one of the usual
+> keycodes it should be easy and should work better than reverse mapping.
+
+Yes, it's an Xkb keycode and qemu_input_map_xorgkbd_to_qcode[] works
+like a charm.
+
+Thanks,
+Laurent
 
 
