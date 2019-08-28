@@ -2,53 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B32A0628
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 17:22:08 +0200 (CEST)
-Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 573A7A063D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 17:25:12 +0200 (CEST)
+Received: from localhost ([::1]:37668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2zlw-0001DT-0R
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 11:22:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41622)
+	id 1i2zot-0003Lr-Fl
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 11:25:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i2zkQ-0000Kn-OP
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 11:20:35 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i2zns-0002kk-5L
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 11:24:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i2zkP-00081y-0h
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 11:20:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34260)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i2zkO-00080z-RR
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 11:20:32 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 233E418B3D87;
- Wed, 28 Aug 2019 15:20:32 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.17.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 689C560C5D;
- Wed, 28 Aug 2019 15:20:30 +0000 (UTC)
-Date: Wed, 28 Aug 2019 16:20:28 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Message-ID: <20190828152028.GM2991@redhat.com>
-References: <20190823163931.7442-1-berrange@redhat.com>
- <20190823163931.7442-4-berrange@redhat.com>
- <878srd5nlz.fsf@linaro.org>
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i2znr-0001j5-4b
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 11:24:08 -0400
+Received: from mail-eopbgr130103.outbound.protection.outlook.com
+ ([40.107.13.103]:6118 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1i2znn-0001dj-IL; Wed, 28 Aug 2019 11:24:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H9RYDasKoG1Pwctevftn4GqkH6D5KsqqrWIR8Mf/InLl+Zlb41dg2md1ZnzVpdp2B9+Z0MmNZ3d3fm709XKxnJm/EhZjZTbGazeYpi2unW1nqBfxVZZHAyUJp49Ni2sruF8qzf28QLtBvqo8nUNWbtIVYq7diw32gEQJDq+95uAYubr1GY6r7xnFkru6nFysFSMjDmWmKBR9zeruhSNUeqZrxGBiQrMoJTaDxtaQJduIEn50yjHy2gLTgDcWaf0Cww/IRdoRf5d83k5ucIU3+77wNyuYEEgilelVGwDVi+3jf6jTBRZM4Q6hlsrcTfKxx6lNqY/JRJoS81jinvBJ/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RsmlJ168AcjhjPmFMZFe5W03H/GyxF80nxzNEi7erAI=;
+ b=NByBe+3ISt3CimJ+MMolRs3PGQYpU7LNayhUBgD0UTgSAqPzKMb/pZn8KuYi5XEMcEmQdr4qoKXRenBBuPT4LpCpefhuuViIte0/qPzU01ilAsMU8C0IBB0D3/POL7bQF/82Qd1QwhFHGXTq9ig6+bM/CUtj/Ko+cu8eV3wB+TtcFv9WMyQIKo2PrmDwQqrYYVemOMVU/KZwXisX4qizgUJKboElwHEaTRod9HZj2+jvtdqH1lPFi1vAkNy7kI23Apqxu/2n/jTUgTB9DlNNBXOiJAz41LtpVtC9bCaju5okZs53MpkPVB+91xlizOP1Ps485OemCG2QN5rZMbaqSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RsmlJ168AcjhjPmFMZFe5W03H/GyxF80nxzNEi7erAI=;
+ b=arFTXj+qWh0IK86/6Tw3vNufhjJSRTAZ6RF8SDIiL3P3RUs13UWhSv8P3fV90mICqhvlJKVQAR42c0GBDyiu574lZqBH2gFOUNFeB7YMzilWoVcA5o3AWlqtrVA86MJ6C1spK1qyHP29lGE7xybR5P8apR9c1Pd8/QeVrCb6ziI=
+Received: from VI1PR08MB4399.eurprd08.prod.outlook.com (20.179.28.141) by
+ VI1PR08MB4526.eurprd08.prod.outlook.com (20.179.26.14) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2199.21; Wed, 28 Aug 2019 15:24:00 +0000
+Received: from VI1PR08MB4399.eurprd08.prod.outlook.com
+ ([fe80::5542:8398:f1bd:f8c7]) by VI1PR08MB4399.eurprd08.prod.outlook.com
+ ([fe80::5542:8398:f1bd:f8c7%6]) with mapi id 15.20.2199.021; Wed, 28 Aug 2019
+ 15:24:00 +0000
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: John Snow <jsnow@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@virtuozzo.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Thread-Topic: [Qemu-block] [PATCH v5 6/6] iotests: extend sleeping time under
+ Valgrind
+Thread-Index: AQHVPk9L+aGW2bt4m0G0OQXEvFC84qb9H8GAgAvyDoCABpDSgIABSfkA
+Date: Wed, 28 Aug 2019 15:24:00 +0000
+Message-ID: <421d92ed-0eb1-6e45-f080-0198c1739e17@virtuozzo.com>
+References: <1563553816-148827-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1563553816-148827-7-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <083ece64-0178-fe4a-45df-331257a115fb@redhat.com>
+ <350a5dee-7bc7-cfa0-e5b4-0c0f2202d119@virtuozzo.com>
+ <27a1a3e5-3ebd-2e64-a36e-e8e4728b2b6d@redhat.com>
+In-Reply-To: <27a1a3e5-3ebd-2e64-a36e-e8e4728b2b6d@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0502CA0006.eurprd05.prod.outlook.com
+ (2603:10a6:3:e3::16) To VI1PR08MB4399.eurprd08.prod.outlook.com
+ (2603:10a6:803:102::13)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ab559526-a405-44fa-16f7-08d72bcbc06a
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:VI1PR08MB4526; 
+x-ms-traffictypediagnostic: VI1PR08MB4526:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR08MB4526384E26E90F5D6DDAFBF3F4A30@VI1PR08MB4526.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:386;
+x-forefront-prvs: 014304E855
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(346002)(396003)(39850400004)(376002)(366004)(199004)(189003)(3846002)(305945005)(6116002)(2501003)(186003)(7736002)(11346002)(478600001)(31696002)(2906002)(14454004)(446003)(99286004)(52116002)(486006)(76176011)(86362001)(66066001)(2616005)(476003)(229853002)(316002)(26005)(44832011)(31686004)(110136005)(54906003)(2201001)(386003)(81166006)(8936002)(25786009)(14444005)(81156014)(256004)(64756008)(66446008)(66946007)(66476007)(102836004)(8676002)(66556008)(6506007)(107886003)(6486002)(5660300002)(4326008)(53546011)(36756003)(53936002)(6512007)(71190400001)(71200400001)(6246003)(6436002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB4526;
+ H:VI1PR08MB4399.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: BxgVFZQc959RBi9wF0NH7eXFvGvoclPV0zv4IfoxtXuSh7fcsfaJI4miOOWl04+vvklYqS330/GO2pC5733Ci9dnFVtu7Xpl0GTyOHjg6TCZJ22WczM2ocGu2j6xBNs3TrW9ABthCrSmNkkD2ZOp9CxmumTwYkoyVzvbIesm5LuQ/ctBn8bPUAwEnqzd93/CSH9/K5FU5N3/XfjG87lPpgUKKD+U5IqnR2nkO2Egzlxq8/4Mh0JxMoiOY4FpFQIaTVaNvONx4wlScN4T5N/FYSiy2xOL5kgMXntMY0G7Bq5O0dSqn/mF7X1oHVThjry+KA/aA5sOroYucoXoiihufQlCAoiwEy6MW+NB0KlHvy3qXPLY4vuolP+Rt1iQ0CCCXCOJr+OxfbvRegHBatx4u+HXasm0OelLfA+3YqrIWIs=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9893305C2703164E873BB84600321CD9@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <878srd5nlz.fsf@linaro.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Wed, 28 Aug 2019 15:20:32 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/4] docs: document use of automatic
- cleanup functions in glib
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab559526-a405-44fa-16f7-08d72bcbc06a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2019 15:24:00.4347 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NbXaxfs68/sXWuVbYovsztrXAtvg9sI45ukDTl95mkrh/VY88a7sFKCJp5eKSfbc3s+KloOap+WmqPtbgxcFiMcrdDq0nv6o/0XKLwT4oBU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4526
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.13.103
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v5 6/6] iotests: extend
+ sleeping time under Valgrind
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,63 +116,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 28, 2019 at 04:14:00PM +0100, Alex Benn=C3=A9e wrote:
-> > +The cleanup functions are not restricted to simply free'ing memory. =
-The
-> > +GMutexLocker class is a variant of GMutex that has automatic locking=
- and
-> > +unlocking at start and end of the enclosing scope
-> > +
-> > +In the following example, the `lock` in `MyObj` will be held for the
-> > +precise duration of the `somefunc` function
-> > +
-> > +    typedef struct {
-> > +        GMutex lock;
-> > +    } MyObj;
-> > +
-> > +    char *somefunc(MyObj *obj) {
-> > +        g_autofree GMutexLocker *locker =3D g_mutex_locker_new(&obj-=
->lock)
-> > +        g_autofree char *foo =3D g_strdup_printf("foo%", "wibble");
-> > +        g_autoptr (GList) bar =3D .....
-> > +
-> > +        if (eek) {
-> > +           return NULL;
-> > +        }
-> > +
-> > +        return g_steal_pointer(&foo);
-> > +    }
->=20
-> I would personally prefer we get some RFC patches for auto-unlocking un=
-der our
-> belt before we codify it's usage in our developer docs. Locking is a
-> fickle beast at the best of times and I'd like to see where it benefits
-> us before there is a rush to covert to the new style.
->=20
-> For one thing the only uses I see of g_mutex_lock is in our tests, the
-> main code base uses qemu_mutex_lock. How would we go about registering
-> the clean-up functions for those in the code base?
-
-Ideally we could just relpace qemu_mutex with g_mutex, but if that's
-not possible we would have to create a clone of GMutexLocker as
-QemuMutexLocker doing exactly the same thing. It is a shame to reinvent
-the wheel with our threading code though.
-
-/me tries to remember what it was that we can do with QEMU's threads
-that we can't do with GLib's threads.
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+DQoNCk9uIDI3LzA4LzIwMTkgMjI6NDIsIEpvaG4gU25vdyB3cm90ZToNCj4gDQo+IA0KPiBPbiA4
+LzIzLzE5IDExOjI3IEFNLCBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IHdyb3RlOg0KPj4g
+MTYuMDguMjAxOSA0OjAxLCBKb2huIFNub3cgd3JvdGU6DQo+Pj4NCj4+Pg0KPj4+IE9uIDcvMTkv
+MTkgMTI6MzAgUE0sIEFuZHJleSBTaGlua2V2aWNoIHdyb3RlOg0KPj4+PiBUbyBzeW5jaHJvbml6
+ZSB0aGUgdGltZSB3aGVuIFFFTVUgaXMgcnVubmluZyBsb25nZXIgdW5kZXIgdGhlIFZhbGdyaW5k
+LA0KPj4+PiBpbmNyZWFzZSB0aGUgc2xlZXBpbmcgdGltZSBpbiB0aGUgdGVzdCAyNDcuDQo+Pj4+
+DQo+Pj4+IFNpZ25lZC1vZmYtYnk6IEFuZHJleSBTaGlua2V2aWNoIDxhbmRyZXkuc2hpbmtldmlj
+aEB2aXJ0dW96em8uY29tPg0KPj4+PiBSZXZpZXdlZC1ieTogVmxhZGltaXIgU2VtZW50c292LU9n
+aWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPg0KPj4+PiAtLS0NCj4+Pj4gICAgdGVz
+dHMvcWVtdS1pb3Rlc3RzLzI0NyB8IDYgKysrKystDQo+Pj4+ICAgIDEgZmlsZSBjaGFuZ2VkLCA1
+IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4+Pj4NCj4+Pj4gZGlmZiAtLWdpdCBhL3Rl
+c3RzL3FlbXUtaW90ZXN0cy8yNDcgYi90ZXN0cy9xZW11LWlvdGVzdHMvMjQ3DQo+Pj4+IGluZGV4
+IDU0NmE3OTQuLmM4NTNiNzMgMTAwNzU1DQo+Pj4+IC0tLSBhL3Rlc3RzL3FlbXUtaW90ZXN0cy8y
+NDcNCj4+Pj4gKysrIGIvdGVzdHMvcWVtdS1pb3Rlc3RzLzI0Nw0KPj4+PiBAQCAtNTcsNyArNTcs
+MTEgQEAgVEVTVF9JTUc9IiRURVNUX0lNRy40IiBfbWFrZV90ZXN0X2ltZyAkc2l6ZQ0KPj4+PiAg
+ICB7ImV4ZWN1dGUiOiJibG9jay1jb21taXQiLA0KPj4+PiAgICAgImFyZ3VtZW50cyI6eyJkZXZp
+Y2UiOiJmb3JtYXQtNCIsICJ0b3Atbm9kZSI6ICJmb3JtYXQtMiIsICJiYXNlLW5vZGUiOiJmb3Jt
+YXQtMCIsICJqb2ItaWQiOiJqb2IwIn19DQo+Pj4+ICAgIEVPRg0KPj4+PiAtc2xlZXAgMQ0KPj4+
+PiAraWYgWyAiJHtWQUxHUklORF9RRU1VfSIgPT0gInkiIF07IHRoZW4NCj4+Pj4gKyAgICBzbGVl
+cCAxMA0KPj4+PiArZWxzZQ0KPj4+PiArICAgIHNsZWVwIDENCj4+Pj4gK2ZpDQo+Pj4+ICAgIGVj
+aG8gJ3siZXhlY3V0ZSI6InF1aXQifScNCj4+Pj4gICAgKSB8ICRRRU1VIC1xbXAgc3RkaW8gLW5v
+Z3JhcGhpYyAtbm9kZWZhdWx0cyBcDQo+Pj4+ICAgICAgICAtYmxvY2tkZXYgZmlsZSxub2RlLW5h
+bWU9ZmlsZS0wLGZpbGVuYW1lPSRURVNUX0lNRy4wLGF1dG8tcmVhZC1vbmx5PW9uIFwNCj4+Pj4N
+Cj4+Pg0KPj4+IFRoaXMgbWFrZXMgbWUgbmVydm91cywgdGhvdWdoLiBXb24ndCB0aGlzIHJhY2Ug
+dGVycmlibHk/IChXYWl0LCB3aHkNCj4+PiBkb2Vzbid0IGl0IHJhY2UgYWxyZWFkeT8pDQo+Pj4N
+Cj4+DQo+PiBIbW0sIGhvd2V2ZXIgaXQgd29ya3Mgc29tZWhvdy4gSSdtIGFmcmFpZCB0aGF0IGV2
+ZXJ5dGhpbmcgd2l0aCAic2xlZXAiIGlzIGRlZmluaXRlbHkgcmFjeS4uDQo+PiBPciB3aGF0IGRv
+IHlvdSBtZWFuPw0KPj4NCj4gDQo+IFJpZ2h0IC0tIGFueXRoaW5nIHdpdGggYSBzbGVlcCBpcyBh
+bHJlYWR5IGF0IHJpc2sgZm9yIHJhY2luZy4NCj4gDQo+IFdoYXQgSSBhbSBwaWNraW5nIHVwIG9u
+IGhlcmUgaXMgdGhhdCB3aXRoIHZhbGdyaW5kLCB0aGVyZSBpcyBhbiBldmVuDQo+IGdyZWF0ZXIg
+Y29tcHV0YXRpb25hbCBvdmVyaGVhZCB0aGF0J3MgbXVjaCBoYXJkZXIgdG8gcHJlZGljdCwgc28g
+SSB3YXMNCj4gd29uZGVyaW5nIGhvdyB0aGVzZSB2YWx1ZXMgd2VyZSBkZXRlcm1pbmVkLg0KPiAN
+Cg0KSSBqdXN0IGZvbGxvd2VkIHRoZSB0cmVuZCBhbmQgZXh0ZW5kZWQgdGhlIHNsZWVwaW5nIHRp
+bWUgd2l0aCBhIGdyYXRlciANCnRvbGVyYW5jZSBzbyB0aGF0IHRoZSB0ZXN0IGNvdWxkIHBhc3Mg
+b24gc3lzdGVtcyB3aGVyZSB0aGUgJ3NsZWVwIDEnIA0KY29tbWFuZCBoZWxwcyB0byBwYXNzIHdp
+dGhvdXQgVmFsZ3JpbmQuIFdlIGNvdWxkIHJld3JpdGUgdGhlIHRlc3QgMjQ3IGluIA0KUHl0aG9u
+IGluIGEgc2VwYXJhdGUgc2VyaWVzLCBzaGFsbCB3ZT8NCg0KQW5kcmV5DQoNCj4gKEkgd291bGRu
+J3Qgd2l0aGhvbGQgYW4gUkIgZm9yIHRoYXQgYWxvbmUgLS0gdGhlIHNsZWVwcyBhcmUgZXhpc3Rp
+bmcNCj4gcHJvYmxlbXMuKQ0KPiANCj4gV2hhdCBJIG1vdmVkIG9uIHRvIHdvbmRlcmluZyBpbiBw
+YXJ0aWN1bGFyIGlzIHdoeSB0ZXN0IDI0NyBkb2Vzbid0DQo+IGFscmVhZHkgaGF2ZSByYWNlIHBy
+b2JsZW1zLCBiZWNhdXNlIGl0IGxvb2tzIHF1aXRlIGZyYWdpbGUuDQo+IA0KPiBOZWl0aGVyIG9m
+IHRoZXNlIGFyZSByZWFsbHkgQW5kcmV5J3MgcHJvYmxlbXM7IEkgd2FzIGp1c3Qgc3VycHJpc2Vk
+DQo+IG1vbWVudGFyaWx5IHRoYXQgSSBkb24ndCBzZWUgMjQ3IGZhaWwgbW9yZSBvZnRlbiBhbHJl
+YWR5LCBhcy1pcy4NCj4gDQo+IC0tanMNCj4gDQoNCi0tIA0KV2l0aCB0aGUgYmVzdCByZWdhcmRz
+LA0KQW5kcmV5IFNoaW5rZXZpY2gNCg==
 
