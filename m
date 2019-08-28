@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642BBA0B5C
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:27:17 +0200 (CEST)
-Received: from localhost ([::1]:42326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0AFA0B81
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:29:52 +0200 (CEST)
+Received: from localhost ([::1]:42374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i34XE-000301-Fx
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:27:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44192)
+	id 1i34Zj-0005NV-5B
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:29:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51802)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1i33kK-0000AE-E4
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:36:45 -0400
+ (envelope-from <armbru@redhat.com>) id 1i34Wk-0003cK-KV
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:26:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1i33kJ-0001pP-1r
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:36:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52524)
+ (envelope-from <armbru@redhat.com>) id 1i34Wi-0002lt-ST
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:26:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50740)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1i33kI-0001p4-QX
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:36:43 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1i34Wi-0002l7-Mx
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:26:44 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 290EE308FC20
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 19:36:42 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-123-242.rdu2.redhat.com
- [10.10.123.242])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A7D6260F82;
- Wed, 28 Aug 2019 19:36:38 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 32E52793E5;
+ Wed, 28 Aug 2019 20:26:43 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
+ [10.36.117.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F39BE19D70;
+ Wed, 28 Aug 2019 20:26:42 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6BB141165361; Wed, 28 Aug 2019 22:26:41 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 15:36:28 -0400
-Message-Id: <20190828193628.7687-4-crosa@redhat.com>
-In-Reply-To: <20190828193628.7687-1-crosa@redhat.com>
-References: <20190828193628.7687-1-crosa@redhat.com>
+Date: Wed, 28 Aug 2019 22:26:32 +0200
+Message-Id: <20190828202641.24752-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Wed, 28 Aug 2019 19:36:42 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Wed, 28 Aug 2019 20:26:43 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/3] Acceptance test x86_cpu_model_versions:
- split into smaller tests
+Subject: [Qemu-devel] [PATCH 0/9] qapi: Schema language cleanups & doc
+ improvements
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,135 +56,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The justifications being automatic destruction of the vm instances
-when no longer needed and more compact test naming under a common
-class.
+Markus Armbruster (9):
+  qapi: Drop check_type()'s redundant parameter @allow_optional
+  qapi: Drop support for boxed alternate for commands, events
+  docs/devel/qapi-code-gen: Minor specification fixes
+  qapi: Outlaw control characters in strings
+  tests/qapi-schema: Consistently name string tests string-FOO
+  docs/devel/qapi-code-gen: Reorder sections for readability
+  docs/devel/qapi-code-gen: Rewrite compatibility considerations
+  docs/devel/qapi-code-gen: Rewrite introduction to schema
+  docs/devel/qapi-code-gen: Improve QAPI schema language doc
 
-Besides those, a smaller test makes the one and only assertion rather
-obvious, which suggests that we could even get rid of the more verbose
-(and manual) error messages (to be decided).
+ docs/devel/qapi-code-gen.txt                  | 1048 ++++++++++-------
+ tests/qapi-schema/qapi-schema-test.json       |    2 +-
+ tests/qapi-schema/string-control.json         |    2 +
+ ...losed-string.json =3D> string-unclosed.json} |    0
+ .../{unicode-str.json =3D> string-unicode.json} |    0
+ scripts/qapi/common.py                        |   27 +-
+ tests/Makefile.include                        |    5 +-
+ tests/qapi-schema/qapi-schema-test.out        |    2 +-
+ tests/qapi-schema/string-control.err          |    1 +
+ ...closed-string.exit =3D> string-control.exit} |    0
+ ...unclosed-string.out =3D> string-control.out} |    0
+ tests/qapi-schema/string-unclosed.err         |    1 +
+ ...{unicode-str.exit =3D> string-unclosed.exit} |    0
+ .../{unicode-str.out =3D> string-unclosed.out}  |    0
+ tests/qapi-schema/string-unicode.err          |    1 +
+ tests/qapi-schema/string-unicode.exit         |    1 +
+ tests/qapi-schema/string-unicode.out          |    0
+ tests/qapi-schema/unclosed-string.err         |    1 -
+ tests/qapi-schema/unicode-str.err             |    1 -
+ 19 files changed, 622 insertions(+), 470 deletions(-)
+ create mode 100644 tests/qapi-schema/string-control.json
+ rename tests/qapi-schema/{unclosed-string.json =3D> string-unclosed.json=
+} (100%)
+ rename tests/qapi-schema/{unicode-str.json =3D> string-unicode.json} (10=
+0%)
+ create mode 100644 tests/qapi-schema/string-control.err
+ rename tests/qapi-schema/{unclosed-string.exit =3D> string-control.exit}=
+ (100%)
+ rename tests/qapi-schema/{unclosed-string.out =3D> string-control.out} (=
+100%)
+ create mode 100644 tests/qapi-schema/string-unclosed.err
+ rename tests/qapi-schema/{unicode-str.exit =3D> string-unclosed.exit} (1=
+00%)
+ rename tests/qapi-schema/{unicode-str.out =3D> string-unclosed.out} (100=
+%)
+ create mode 100644 tests/qapi-schema/string-unicode.err
+ create mode 100644 tests/qapi-schema/string-unicode.exit
+ create mode 100644 tests/qapi-schema/string-unicode.out
+ delete mode 100644 tests/qapi-schema/unclosed-string.err
+ delete mode 100644 tests/qapi-schema/unicode-str.err
 
-Naming of the tests tries to follow the following pattern:
-
- test_($cpu_version)_($no_arch_capabitilies_set_or_unset)_($machine_versi=
-on)
-
-The presence of each naming component is optional, depending on
-whether the test manually sets it or not.
-
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
----
- tests/acceptance/x86_cpu_model_versions.py | 23 ++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
-
-diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptanc=
-e/x86_cpu_model_versions.py
-index 220d18f68d..5fc9ca4bc6 100644
---- a/tests/acceptance/x86_cpu_model_versions.py
-+++ b/tests/acceptance/x86_cpu_model_versions.py
-@@ -234,7 +234,14 @@ class X86CPUModelAliases(avocado_qemu.Test):
-=20
-         self.validate_aliases(cpus)
-=20
--    def test_Cascadelake_arch_capabilities_result(self):
-+
-+class CascadelakeArchCapabilities(avocado_qemu.Test):
-+    """
-+    Validation of Cascadelake arch-capabilities
-+
-+    :avocado: tags=3Darch:x86_64
-+    """
-+    def test_4_1(self):
-         # machine-type only:
-         vm =3D self.get_vm()
-         vm.add_args('-S')
-@@ -243,8 +250,8 @@ class X86CPUModelAliases(avocado_qemu.Test):
-         vm.launch()
-         self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-                          'pc-i440fx-4.1 + Cascadelake-Server should not =
-have arch-capabilities')
--        vm.shutdown()
-=20
-+    def test_4_0(self):
-         vm =3D self.get_vm()
-         vm.add_args('-S')
-         vm.set_machine('pc-i440fx-4.0')
-@@ -252,8 +259,8 @@ class X86CPUModelAliases(avocado_qemu.Test):
-         vm.launch()
-         self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-                          'pc-i440fx-4.0 + Cascadelake-Server should not =
-have arch-capabilities')
--        vm.shutdown()
-=20
-+    def test_set_4_0(self):
-         # command line must override machine-type if CPU model is not ve=
-rsioned:
-         vm =3D self.get_vm()
-         vm.add_args('-S')
-@@ -262,8 +269,8 @@ class X86CPUModelAliases(avocado_qemu.Test):
-         vm.launch()
-         self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
-                         'pc-i440fx-4.0 + Cascadelake-Server,+arch-capabi=
-lities should have arch-capabilities')
--        vm.shutdown()
-=20
-+    def test_unset_4_1(self):
-         vm =3D self.get_vm()
-         vm.add_args('-S')
-         vm.set_machine('pc-i440fx-4.1')
-@@ -271,8 +278,8 @@ class X86CPUModelAliases(avocado_qemu.Test):
-         vm.launch()
-         self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-                          'pc-i440fx-4.1 + Cascadelake-Server,-arch-capab=
-ilities should not have arch-capabilities')
--        vm.shutdown()
-=20
-+    def test_v1_4_0(self):
-         # versioned CPU model overrides machine-type:
-         vm =3D self.get_vm()
-         vm.add_args('-S')
-@@ -281,8 +288,8 @@ class X86CPUModelAliases(avocado_qemu.Test):
-         vm.launch()
-         self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-                          'pc-i440fx-4.0 + Cascadelake-Server-v1 should n=
-ot have arch-capabilities')
--        vm.shutdown()
-=20
-+    def test_v2_4_0(self):
-         vm =3D self.get_vm()
-         vm.add_args('-S')
-         vm.set_machine('pc-i440fx-4.0')
-@@ -290,8 +297,8 @@ class X86CPUModelAliases(avocado_qemu.Test):
-         vm.launch()
-         self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
-                          'pc-i440fx-4.0 + Cascadelake-Server-v2 should h=
-ave arch-capabilities')
--        vm.shutdown()
-=20
-+    def test_v1_set_4_0(self):
-         # command line must override machine-type and versioned CPU mode=
-l:
-         vm =3D self.get_vm()
-         vm.add_args('-S')
-@@ -300,8 +307,8 @@ class X86CPUModelAliases(avocado_qemu.Test):
-         vm.launch()
-         self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
-                          'pc-i440fx-4.0 + Cascadelake-Server-v1,+arch-ca=
-pabilities should have arch-capabilities')
--        vm.shutdown()
-=20
-+    def test_v2_unset_4_1(self):
-         vm =3D self.get_vm()
-         vm.add_args('-S')
-         vm.set_machine('pc-i440fx-4.1')
 --=20
 2.21.0
 
