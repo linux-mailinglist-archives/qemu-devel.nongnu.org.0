@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4255CA02AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 15:09:26 +0200 (CEST)
-Received: from localhost ([::1]:36204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D89DA02B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 15:10:01 +0200 (CEST)
+Received: from localhost ([::1]:36208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2xhV-0008WH-A7
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 09:09:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32990)
+	id 1i2xi3-0000tN-Kr
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 09:10:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i2xfz-0007e2-Mt
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:07:53 -0400
+ (envelope-from <berrange@redhat.com>) id 1i2xgO-0007tH-3e
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:08:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i2xfy-0000g5-Ad
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:07:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34402)
+ (envelope-from <berrange@redhat.com>) id 1i2xgI-0000w6-SC
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:08:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39100)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i2xfy-0000ei-48
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:07:50 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i2xgI-0000uj-MO
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 09:08:10 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1AA3F3083391;
- Wed, 28 Aug 2019 13:07:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id EB830C0021D3;
+ Wed, 28 Aug 2019 13:08:09 +0000 (UTC)
 Received: from redhat.com (unknown [10.42.17.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6231D194B2;
- Wed, 28 Aug 2019 13:07:47 +0000 (UTC)
-Date: Wed, 28 Aug 2019 14:07:45 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 614A16061E;
+ Wed, 28 Aug 2019 13:08:09 +0000 (UTC)
+Date: Wed, 28 Aug 2019 14:08:07 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Message-ID: <20190828130745.GH2991@redhat.com>
+Message-ID: <20190828130807.GI2991@redhat.com>
 References: <20190823163931.7442-1-berrange@redhat.com>
- <CAJ+F1CJsYQDAMwD9pHifGzFT=vPanBeKrCDvYmzqO522MeLhgg@mail.gmail.com>
- <87d0gp5v6w.fsf@linaro.org>
+ <20190823163931.7442-2-berrange@redhat.com>
+ <87ef155vev.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87d0gp5v6w.fsf@linaro.org>
+In-Reply-To: <87ef155vev.fsf@linaro.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Wed, 28 Aug 2019 13:07:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Wed, 28 Aug 2019 13:08:09 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/4] docs: add docs about use of automatic
- cleanup functions
+Subject: Re: [Qemu-devel] [PATCH 1/4] docs: convert CODING_STYLE and HACKING
+ to markdown syntax
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,42 +61,40 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 28, 2019 at 01:30:15PM +0100, Alex Benn=C3=A9e wrote:
+On Wed, Aug 28, 2019 at 01:25:28PM +0100, Alex Benn=C3=A9e wrote:
 >=20
-> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
+> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 >=20
-> > Hi
-> >
-> > On Fri, Aug 23, 2019 at 8:41 PM Daniel P. Berrang=C3=A9 <berrange@red=
-hat.com> wrote:
-> >>
-> >> This is ostensibly about adding docs for the g_autofree/g_autoptr
-> >> macros. As part of doing that, however, the existing HACKING doc
-> >> is merged into the CODING_STYLE doc and the text is converted to
-> >> markdown with a table of contents.
-> >
-> > Why not rst, so it can integrate with the rest of qemu sphinx doc?
-> >
-> > (markdown is quite poor when it comes to documenting code or
-> > cross-referencing etc)
+> > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 >=20
-> I was going to say markdown does have the advantage of being renderable
-> on the fly on code hosting sites but it appears it works on
-> gitlab/github so that is an argument for being consistent with the rest
-> of the docs.
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>=20
+> > diff --git a/README b/README
+> > index 441c33eb2f..374b8f1486 100644
+> > --- a/README
+> > +++ b/README
+> > @@ -60,7 +60,7 @@ When submitting patches, one common approach is to =
+use 'git
+> >  format-patch' and/or 'git send-email' to format & send the mail to t=
+he
+> >  qemu-devel@nongnu.org mailing list. All patches submitted must conta=
+in
+> >  a 'Signed-off-by' line from the author. Patches should follow the
+> > -guidelines set out in the HACKING and CODING_STYLE files.
+> > +guidelines set out in the HACKING.md and CODING_STYLE.md files.
+> >
+> >  Additional information on submitting patches can be found online via
+> >  the QEMU website
+>=20
+> It's tempting to suggest we go the whole hog and convert the README as
+> well. We could then add CI buttons which would render nicely on the
+> github/gitlab mirrors.
 
-I picked markdown because most projects seem to use a README.md
-and CONTRIBUTING.md file with github/gitlab, but if those sites
-cope with .rst for those files too, there's no reason not to use
-.rst.
-
-> Does anyone know what is left to get the publishing pipeline up and
-> running and the results linked to from www.qemu.org?
+Yeah, I was actually thinking that too while I did this.
 
 
 Regards,
