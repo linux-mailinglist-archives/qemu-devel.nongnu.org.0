@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D311A0AEC
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 21:57:32 +0200 (CEST)
-Received: from localhost ([::1]:41812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 465FDA0AFD
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:00:15 +0200 (CEST)
+Received: from localhost ([::1]:41872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i344Q-0004mi-IM
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 15:57:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38920)
+	id 1i3473-0007eN-NW
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:00:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38373)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i33Gz-00041W-E7
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:27 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i33GX-0003q5-Tl
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i33Gu-0000l2-Rm
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:23 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:39448)
+ (envelope-from <richard.henderson@linaro.org>) id 1i33GT-0000PP-67
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:57 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:38268)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i33Gt-0000iv-Id
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:20 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id y200so390956pfb.6
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:06:18 -0700 (PDT)
+ id 1i33GS-0000KS-RZ
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:52 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id w11so400403plp.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:05:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Zg8dzU0/CFYfa/kdfJbWaGoOPylTikiwN65K71SZiLc=;
- b=uKQHazugJxEVXAFBp+BiR4/sgmEW8QSorrKeZ3Yx2yLLK2xwROlnI+wVUtKN/TVEcp
- bnH4EhcPwQ3RixW0GhMFALQKMo5BN77kFGvP6M/igpGBDvIQAmb9k6DHWVlJyKKwrLU3
- Xs+jUFddsX3OTH16kbVnFS4vB002s/BZIm9mVwMis9Urie68HkNYUDCKS8rzB/rYK8pi
- Z02WsIG30NfYrlgyP6WLBrd6Vbun8dhMFnmR4CYCxUL1FuFynjo2UnaNQUv54v8Ajnzk
- zdgE8qAqTgs5rBIeOF/GjBVMGaW8vGRAPygFLWMOL8ZUkxA13GeKOok+SNhaGP6HgBYo
- RbPQ==
+ bh=Fhqpr1ZM66JaZ1pn92il8bSyyclZ16JqoBnLn1JZUIU=;
+ b=M3WlVDKIPbZwvn6YFjebxm5TvA0Uk9i9lcquKa8GF1oTzf9U+FbExZKWY3ixDj5dKI
+ 2dPf+CDEqxhaO/hfOo7+6cMEgcfvA+ULqt3klTGY/5iWEZWM9JSvBFqVazFnPpviDZkC
+ lYwAYeHVUTvtro4Vkr33fr6GA2wHJnr8kgskuQkI9rs9qiyThcq2L6s6Dso3salQsQtK
+ CYoa3kCyf2RmB0UpVFCS7TY6uIionGp72syXgwoKlbAtqiOJZBkMqJQrxWBNuclbKdg5
+ o6+To+3yxK8WkWvxPdbyFlAwYhCP2yJID6FIT781d8BE9/d3qSTx34SHmRjq39WoRj/i
+ G2mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Zg8dzU0/CFYfa/kdfJbWaGoOPylTikiwN65K71SZiLc=;
- b=TK7ka90ep5P6YWjZO+3gXfVO6sqp1noQA4x1l8iAVTtoBfeoyMIOUdW84raUrVoAln
- 6Qj5wL63oUBpLTkV7eH3TTov53tvqY5gMAOZhPx5xIprsOS1n5ez2dB1pyAidKhYLty2
- J2bHg6GprT8oo/hdogx/iP2ucgCqTQnogyOu+/tLTpKKTKWKaVZkv+EZKmpsC6zYPTQO
- lJpTT/PfOiKqAsBaCXEklAcnMs2Uukuv6YdcBS3ddhSXCPCGDCzVcCejiXW6aReff7zg
- yzEOUZpCjcjNa54uUQSGYE50z2Rd3bPtqMVhx0VkfTSXy1hHN9bcuHGBXlE5VbwxRuHg
- eolQ==
-X-Gm-Message-State: APjAAAVkCROqPdfH+Sfnoy3CK/12pBXiCCxmMF5sE/TNgvGoOBYChQrj
- Wx4PofoJFq8Ghy9nHSLAbhYPLDMMk2E=
-X-Google-Smtp-Source: APXvYqzWWT+x1KVF+KeBlpIAeF8AHxpkNBPFKPF2QIEAEywdaKurEwAhxLdPSY0WKFFY/G/3ydhVJQ==
-X-Received: by 2002:a62:7996:: with SMTP id u144mr6564180pfc.228.1567019177273; 
- Wed, 28 Aug 2019 12:06:17 -0700 (PDT)
+ bh=Fhqpr1ZM66JaZ1pn92il8bSyyclZ16JqoBnLn1JZUIU=;
+ b=I333Yj4t/+b7Ff+g6b4I3edPYLF7xLYmXSk9UAjy1GtEc0C9glcE3ER3GCAszIUxkT
+ yVUIDIr0xIMGSEU6Xhdo1nsxyOFwplVVemr8rZ9yZKdnBlBNEC69hmfig8rUyY+/gJ5o
+ 6wC2DIxSMbdG2ats3nYXT/tseT8LDJc+B02Mwbd6nHTUgYugKCTR6GZjdFZEmDPc7/bK
+ 2uPBYU0aZ4eyxUixbANcrpZp3qixm/zGPEDudJ/my1FgpeEnb+vk2q272EKkzeV51SOf
+ Nk41l48a6JO/FrNfIb1Igmt4FUdYfJhMZz/SWvMYPMgfDAnohsgcayDP8GmCwiD4t9so
+ YHEQ==
+X-Gm-Message-State: APjAAAW8goKw+aDYo6T/opKtMDc+WglJlOj9b/i2C+ZZ8NvwyPMEQiiJ
+ dBX8OD4tISjlcyd+B6hTzM50Psrf/50=
+X-Google-Smtp-Source: APXvYqzjRbJCFqf8XgtAs7KOpF+O/tg0Mmdl3Yq3ypfhunWqvkgbEF82GG9vgW5wRov9hRoZ3fZq0g==
+X-Received: by 2002:a17:902:788b:: with SMTP id
+ q11mr5863834pll.308.1567019144866; 
+ Wed, 28 Aug 2019 12:05:44 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.06.16
+ by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.05.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 12:06:16 -0700 (PDT)
+ Wed, 28 Aug 2019 12:05:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 12:04:48 -0700
-Message-Id: <20190828190456.30315-62-richard.henderson@linaro.org>
+Date: Wed, 28 Aug 2019 12:04:22 -0700
+Message-Id: <20190828190456.30315-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190828190456.30315-1-richard.henderson@linaro.org>
 References: <20190828190456.30315-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::42a
-Subject: [Qemu-devel] [PATCH v3 61/69] target/arm: Convert T16, push and pop
+X-Received-From: 2607:f8b0:4864:20::62a
+Subject: [Qemu-devel] [PATCH v3 35/69] target/arm: Convert Clear-Exclusive,
+ Barriers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,139 +81,214 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 83 ++++++------------------------------------
- target/arm/t16.decode  | 10 +++++
- 2 files changed, 22 insertions(+), 71 deletions(-)
+v3: Check m-profile for all; fix missing isa check for ISB;
+fix thumb isa check for CLREX and DSB.
+---
+ target/arm/translate.c       | 127 ++++++++++++++++-------------------
+ target/arm/a32-uncond.decode |  10 +++
+ target/arm/t32.decode        |  10 +++
+ 3 files changed, 78 insertions(+), 69 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index c7d7834440..5ee4dfe3a2 100644
+index 46e3f946d5..003b8ac414 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -7490,6 +7490,16 @@ static int t16_setflags(DisasContext *s)
-     return s->condexec_mask == 0;
+@@ -10122,6 +10122,63 @@ static bool trans_SRS(DisasContext *s, arg_SRS *a)
+     return true;
  }
  
-+static int t16_push_list(DisasContext *s, int x)
++/*
++ * Clear-Exclusive, Barriers
++ */
++
++static bool trans_CLREX(DisasContext *s, arg_CLREX *a)
 +{
-+    return (x & 0xff) | (x & 0x100) << (14 - 8);
++    if (s->thumb
++        ? !ENABLE_ARCH_7 && !arm_dc_feature(s, ARM_FEATURE_M)
++        : !ENABLE_ARCH_6K) {
++        return false;
++    }
++    gen_clrex(s);
++    return true;
 +}
 +
-+static int t16_pop_list(DisasContext *s, int x)
++static bool trans_DSB(DisasContext *s, arg_DSB *a)
 +{
-+    return (x & 0xff) | (x & 0x100) << (15 - 8);
++    if (!ENABLE_ARCH_7 && !arm_dc_feature(s, ARM_FEATURE_M)) {
++        return false;
++    }
++    tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
++    return true;
++}
++
++static bool trans_DMB(DisasContext *s, arg_DMB *a)
++{
++    return trans_DSB(s, NULL);
++}
++
++static bool trans_ISB(DisasContext *s, arg_ISB *a)
++{
++    if (!ENABLE_ARCH_7 && !arm_dc_feature(s, ARM_FEATURE_M)) {
++        return false;
++    }
++    /*
++     * We need to break the TB after this insn to execute
++     * self-modifying code correctly and also to take
++     * any pending interrupts immediately.
++     */
++    gen_goto_tb(s, 0, s->base.pc_next);
++    return true;
++}
++
++static bool trans_SB(DisasContext *s, arg_SB *a)
++{
++    if (!dc_isar_feature(aa32_sb, s)) {
++        return false;
++    }
++    /*
++     * TODO: There is no speculation barrier opcode
++     * for TCG; MB and end the TB instead.
++     */
++    tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
++    gen_goto_tb(s, 0, s->base.pc_next);
++    return true;
 +}
 +
  /*
-  * Include the generated decoders.
+  * Legacy decoder.
   */
-@@ -10690,7 +10700,6 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
- {
-     uint32_t val, op, rm, rd, shift, cond;
-     int32_t offset;
--    int i;
-     TCGv_i32 tmp;
-     TCGv_i32 tmp2;
-     TCGv_i32 addr;
-@@ -10763,76 +10772,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-             goto illegal_op;
- 
-         case 4: case 5: case 0xc: case 0xd:
--            /*
--             * 0b1011_x10x_xxxx_xxxx
--             *  - push/pop
--             */
--            addr = load_reg(s, 13);
--            if (insn & (1 << 8))
--                offset = 4;
--            else
--                offset = 0;
--            for (i = 0; i < 8; i++) {
--                if (insn & (1 << i))
--                    offset += 4;
--            }
--            if ((insn & (1 << 11)) == 0) {
--                tcg_gen_addi_i32(addr, addr, -offset);
--            }
--
--            if (s->v8m_stackcheck) {
--                /*
--                 * Here 'addr' is the lower of "old SP" and "new SP";
--                 * if this is a pop that starts below the limit and ends
--                 * above it, it is UNKNOWN whether the limit check triggers;
--                 * we choose to trigger.
+@@ -10215,38 +10272,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                 s->base.is_jmp = DISAS_UPDATE;
+             }
+             return;
+-        } else if ((insn & 0x0fffff00) == 0x057ff000) {
+-            switch ((insn >> 4) & 0xf) {
+-            case 1: /* clrex */
+-                ARCH(6K);
+-                gen_clrex(s);
+-                return;
+-            case 4: /* dsb */
+-            case 5: /* dmb */
+-                ARCH(7);
+-                tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
+-                return;
+-            case 6: /* isb */
+-                /* We need to break the TB after this insn to execute
+-                 * self-modifying code correctly and also to take
+-                 * any pending interrupts immediately.
 -                 */
--                gen_helper_v8m_stackcheck(cpu_env, addr);
--            }
--
--            for (i = 0; i < 8; i++) {
--                if (insn & (1 << i)) {
--                    if (insn & (1 << 11)) {
--                        /* pop */
--                        tmp = tcg_temp_new_i32();
--                        gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
--                        store_reg(s, i, tmp);
--                    } else {
--                        /* push */
--                        tmp = load_reg(s, i);
--                        gen_aa32_st32(s, tmp, addr, get_mem_index(s));
--                        tcg_temp_free_i32(tmp);
--                    }
--                    /* advance to the next address.  */
--                    tcg_gen_addi_i32(addr, addr, 4);
+-                gen_goto_tb(s, 0, s->base.pc_next);
+-                return;
+-            case 7: /* sb */
+-                if ((insn & 0xf) || !dc_isar_feature(aa32_sb, s)) {
+-                    goto illegal_op;
 -                }
+-                /*
+-                 * TODO: There is no speculation barrier opcode
+-                 * for TCG; MB and end the TB instead.
+-                 */
+-                tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
+-                gen_goto_tb(s, 0, s->base.pc_next);
+-                return;
+-            default:
+-                goto illegal_op;
 -            }
--            tmp = NULL;
--            if (insn & (1 << 8)) {
--                if (insn & (1 << 11)) {
--                    /* pop pc */
--                    tmp = tcg_temp_new_i32();
--                    gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
--                    /* don't set the pc until the rest of the instruction
--                       has completed */
--                } else {
--                    /* push lr */
--                    tmp = load_reg(s, 14);
--                    gen_aa32_st32(s, tmp, addr, get_mem_index(s));
--                    tcg_temp_free_i32(tmp);
--                }
--                tcg_gen_addi_i32(addr, addr, 4);
--            }
--            if ((insn & (1 << 11)) == 0) {
--                tcg_gen_addi_i32(addr, addr, -offset);
--            }
--            /* write back the new stack pointer */
--            store_reg(s, 13, addr);
--            /* set the new PC value */
--            if ((insn & 0x0900) == 0x0900) {
--                store_reg_from_load(s, 15, tmp);
--            }
--            break;
-+            /* push/pop, in decodetree */
-+            goto illegal_op;
+         } else if ((insn & 0x0e000f00) == 0x0c000100) {
+             if (arm_dc_feature(s, ARM_FEATURE_IWMMXT)) {
+                 /* iWMMXt register transfer.  */
+@@ -10707,43 +10732,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                             gen_set_psr_im(s, offset, 0, imm);
+                         }
+                         break;
+-                    case 3: /* Special control operations.  */
+-                        if (!arm_dc_feature(s, ARM_FEATURE_V7) &&
+-                            !arm_dc_feature(s, ARM_FEATURE_M)) {
+-                            goto illegal_op;
+-                        }
+-                        op = (insn >> 4) & 0xf;
+-                        switch (op) {
+-                        case 2: /* clrex */
+-                            gen_clrex(s);
+-                            break;
+-                        case 4: /* dsb */
+-                        case 5: /* dmb */
+-                            tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
+-                            break;
+-                        case 6: /* isb */
+-                            /* We need to break the TB after this insn
+-                             * to execute self-modifying code correctly
+-                             * and also to take any pending interrupts
+-                             * immediately.
+-                             */
+-                            gen_goto_tb(s, 0, s->base.pc_next);
+-                            break;
+-                        case 7: /* sb */
+-                            if ((insn & 0xf) || !dc_isar_feature(aa32_sb, s)) {
+-                                goto illegal_op;
+-                            }
+-                            /*
+-                             * TODO: There is no speculation barrier opcode
+-                             * for TCG; MB and end the TB instead.
+-                             */
+-                            tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
+-                            gen_goto_tb(s, 0, s->base.pc_next);
+-                            break;
+-                        default:
+-                            goto illegal_op;
+-                        }
+-                        break;
++                    case 3: /* Special control operations, in decodetree */
+                     case 4: /* bxj, in decodetree */
+                         goto illegal_op;
+                     case 5: /* Exception return.  */
+diff --git a/target/arm/a32-uncond.decode b/target/arm/a32-uncond.decode
+index 64548a93e2..c7e9df8030 100644
+--- a/target/arm/a32-uncond.decode
++++ b/target/arm/a32-uncond.decode
+@@ -22,6 +22,7 @@
+ # All of those that have a COND field in insn[31:28] are in a32.decode
+ #
  
-         case 1: case 3: case 9: case 11: /* czb */
-             rm = insn & 7;
-diff --git a/target/arm/t16.decode b/target/arm/t16.decode
-index 5829b9a58c..55fadce223 100644
---- a/target/arm/t16.decode
-+++ b/target/arm/t16.decode
-@@ -221,3 +221,13 @@ REVSH           1011 1010 11 ... ...            @rdm
-   # rest of the space is a reserved hint, behaves as nop.
-   NOP           1011 1111 ---- 0000
- }
++&empty           !extern
+ &i               !extern imm
+ 
+ # Branch with Link and Exchange
+@@ -37,3 +38,12 @@ BLX_i            1111 101 . ........................          &i imm=%imm24h
+ 
+ RFE              1111 100 pu:2 0 w:1 1 rn:4 0000 1010 0000 0000   &rfe
+ SRS              1111 100 pu:2 1 w:1 0 1101 0000 0101 000 mode:5  &srs
 +
-+# Push and Pop
++# Clear-Exclusive, Barriers
 +
-+%push_list      0:9 !function=t16_push_list
-+%pop_list       0:9 !function=t16_pop_list
++# QEMU does not require the option field for the barriers.
++CLREX            1111 0101 0111 1111 1111 0000 0001 1111
++DSB              1111 0101 0111 1111 1111 0000 0100 ----
++DMB              1111 0101 0111 1111 1111 0000 0101 ----
++ISB              1111 0101 0111 1111 1111 0000 0110 ----
++SB               1111 0101 0111 1111 1111 0000 0111 0000
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index c8a8aeceee..18c268e712 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -305,6 +305,16 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+       # of the space is "reserved hint, behaves as nop".
+       NOP        1111 0011 1010 1111 1000 0000 ---- ----
+     }
 +
-+STM             1011 010 ......... \
-+                &ldst_block i=0 b=1 u=0 w=1 rn=13 list=%push_list
-+LDM_t16         1011 110 ......... \
-+                &ldst_block i=1 b=0 u=0 w=1 rn=13 list=%pop_list
++    # Miscelaneous control
++    {
++      CLREX      1111 0011 1011 1111 1000 1111 0010 1111
++      DSB        1111 0011 1011 1111 1000 1111 0100 ----
++      DMB        1111 0011 1011 1111 1000 1111 0101 ----
++      ISB        1111 0011 1011 1111 1000 1111 0110 ----
++      SB         1111 0011 1011 1111 1000 1111 0111 0000
++    }
++
+     # Note that the v7m insn overlaps both the normal and banked insn.
+     {
+       MRS_bank   1111 0011 111 r:1 .... 1000 rd:4   001. 0000  \
 -- 
 2.17.1
 
