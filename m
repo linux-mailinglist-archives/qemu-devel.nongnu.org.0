@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F12BA016E
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:16:39 +0200 (CEST)
-Received: from localhost ([::1]:35702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078A9A015D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:11:43 +0200 (CEST)
+Received: from localhost ([::1]:35654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2wsP-0006ih-TE
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:16:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47057)
+	id 1i2wnd-00030H-Ha
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:11:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47048)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i2wkh-0001Rh-PD
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:08:41 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i2wkh-0001RI-A7
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:08:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i2wkf-00040c-46
+ (envelope-from <alex.bennee@linaro.org>) id 1i2wkg-000418-9Q
  for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:08:39 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:34807)
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38315)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i2wke-00040F-UB
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:08:37 -0400
-Received: by mail-wm1-x336.google.com with SMTP id e8so4703235wme.1
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:08:36 -0700 (PDT)
+ id 1i2wkg-00040q-3q
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:08:38 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id e16so2246882wro.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:08:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZPlBiunhfKpTczKApGa0BHboWJTJ/S0U2B+sG6MNmqU=;
- b=m2mffISPOOdNCIUy7ok5x/SZqXWmZ6YoDO85lVQTQXW439SM4fGKjE9hDqEFrbCnoX
- vYJYWHatRIc2bpeiSO0vCIVw/lZ3lBlYRbakJm6vbOZh3SMfnEogCFhKNrGs/Ouj653j
- Wp0yV9Ql4NS0F/PhFfk9mbDZhX2AVW2PvDXE1XwZlf4mqAYk4v8meZQ9fszybgd2aS3m
- e2bpN6xJZ3SY/9TWhlMXWwqzokMek31w6+/akk6CH77J5U2lBeSxvaPy8wqTokIxV4Rv
- V6P3piq6rceqXt+rSW+lqGzVi0k0qAnA9UVUTvXuJ4LhS9mpnmufkviDegE0mUwEKKLJ
- /9Yw==
+ bh=mfUWe7KQQj1p8swLDmsNZv29S//p51ZE3T5ORSYbWOA=;
+ b=Z1+mqSdPxXlMvVtBnN5UCLeiG+YaDeIbQh1gwHkxmvM3ytWV7Gj0dAIJuujhfaMlp6
+ Jg99IcNf7SMn0KUqgxTa4+9wYxz45h4TIrQoN3QdVPDeKELmlOPb2eGhhobztHCck2+b
+ 978vsWzGyC1v332RoPwEY+gIkpuFMPD3X8ZKB48RApJeZT0m5VIJzDMwtQoxUQ0uCweL
+ FNitqpd6OLcg19m/cgaNoFCy7t/MNl3jvIPTURyMJcZ4cTX9J2uva544/q9y23D79Djk
+ 50UDTj+A046ktbRZgE++uf/bEab9uwbEIni+c8VsS+AnFDlJ7WUXbLNCh6UYyo/Dfamc
+ iW1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZPlBiunhfKpTczKApGa0BHboWJTJ/S0U2B+sG6MNmqU=;
- b=rpxdn/WHxxoDkUQ//x74/TuCVJis+FZKpFcwfOp2g/sMqF68gGHEnoc3pVH2gEYixc
- WQdXBRsvD/YDFZRgqvVCB9BGpoecu64X6GVXW1FDXdi7rq4EaN6uZYhWVFx78SRpO161
- qsFwfDx05xtwqZHTfE/xwYBJe6yxuQWS4LpWZQ4bLB5PJ9jrKIO3ghLfB04stG+lWCdz
- wRDkrwnPAzC+VTJRe4nC/DTCSHGL8e6rLHP4tCDUoRKjxP+6PWKaJe4C5RW1IDwfKxpP
- JKY7TbecKzU6JjoJHsYfdX7vgEijdEtLjwAe9szhbm6vwcBt/HmS99gQC4uNkkAMYknq
- 6kiQ==
-X-Gm-Message-State: APjAAAU1XL0rKLxNhAHaHGOI0fHh1Qt0Wj7FEYKXVrdPkwjTxnj32TjQ
- D1Tt6x3Ecz/WeLqZSzrePgbRCwD5pSU=
-X-Google-Smtp-Source: APXvYqzMj1Agrb00hTj6bRbRovw9355x5LdHuCGIO+FbJIpMYQwLIGKU6XLhgI7WtLoWM4ndKIympA==
-X-Received: by 2002:a1c:e710:: with SMTP id e16mr4668315wmh.38.1566994115814; 
- Wed, 28 Aug 2019 05:08:35 -0700 (PDT)
+ bh=mfUWe7KQQj1p8swLDmsNZv29S//p51ZE3T5ORSYbWOA=;
+ b=Bin4m7Ywwhn6R9C0kCEQIZ/jN2nwOiF5OhgDXuzk+hPnD+/WxChi9zVXa3UFlxGYaU
+ 886uH5aZNZ0x+V/aoimGckrfDKA0/vzL4jn9O7Qf8uqi7QwnwE84CjvjZmEqQKIQXnLh
+ e1ZxKOJWrfS9jbZ5swhrau8T7EVmZ4NuAlUrxhA/eb1pf/+9rJ1rlpfvK5xyD0bwpSkP
+ IYuPvorTxWLMs7u04zLi8t7qBAxGwAx/ZP/Ygzmzph/XGnTSOOLzP8CZOJbiqGjyG5wx
+ gZu3xaRwWmF7JTzsWm0dA58q0Q52TYdPOJgF/+RnsMmFhG5ShXOid5+3KnI35VshoJnh
+ gG5w==
+X-Gm-Message-State: APjAAAWslsSpPn79vbEDFyLV+EP3S9rOwcDclR0XLI0ZXMXVUn6BoxeQ
+ FTQj/3tbiYepX4k5RHF+MIqgQg==
+X-Google-Smtp-Source: APXvYqzpUSa3gwQRENcUrwtM8gk5I6SN1U0JtPTIkNH7EfgHHBf2ez02As+ORNgKS6zAbSi//ewtzg==
+X-Received: by 2002:a5d:55d1:: with SMTP id i17mr4250539wrw.139.1566994117014; 
+ Wed, 28 Aug 2019 05:08:37 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i5sm2898925wrn.48.2019.08.28.05.08.33
+ by smtp.gmail.com with ESMTPSA id y7sm1670911wmm.19.2019.08.28.05.08.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 05:08:33 -0700 (PDT)
+ Wed, 28 Aug 2019 05:08:35 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BB25D1FF90;
+ by zen.linaroharston (Postfix) with ESMTP id CE56F1FF91;
  Wed, 28 Aug 2019 13:08:32 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 13:08:27 +0100
-Message-Id: <20190828120832.9208-4-alex.bennee@linaro.org>
+Date: Wed, 28 Aug 2019 13:08:28 +0100
+Message-Id: <20190828120832.9208-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190828120832.9208-1-alex.bennee@linaro.org>
 References: <20190828120832.9208-1-alex.bennee@linaro.org>
@@ -68,8 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
-Subject: [Qemu-devel] [PATCH  v1 3/8] mailmap: Reorder by sections
+X-Received-From: 2a00:1450:4864:20::42e
+Subject: [Qemu-devel] [PATCH  v1 4/8] mailmap: Update philmd email address
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,6 +82,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -89,60 +90,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Our mailmap currently has 4 sections somehow documented.
-Reorder few entries not related to "addresses from the original
-git import" into the 3rd section, and add a comment to describe
-it.
+Use the email address where I spend most of my time.
 
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <20190822230916.576-2-philmd@redhat.com>
+Message-Id: <20190822230916.576-3-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .mailmap | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ .mailmap | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/.mailmap b/.mailmap
-index b8e08297c90..e1fdc88d25d 100644
+index e1fdc88d25d..e68ddd26e67 100644
 --- a/.mailmap
 +++ b/.mailmap
-@@ -4,20 +4,12 @@
- # into proper addresses so that they are counted properly by git shortlog.
- Andrzej Zaborowski <balrogg@gmail.com> balrog <balrog@c046a42c-6fe2-441c-8c8c-71466251a162>
- Anthony Liguori <anthony@codemonkey.ws> aliguori <aliguori@c046a42c-6fe2-441c-8c8c-71466251a162>
--Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
- Aurelien Jarno <aurelien@aurel32.net> aurel32 <aurel32@c046a42c-6fe2-441c-8c8c-71466251a162>
- Blue Swirl <blauwirbel@gmail.com> blueswir1 <blueswir1@c046a42c-6fe2-441c-8c8c-71466251a162>
- Edgar E. Iglesias <edgar.iglesias@gmail.com> edgar_igl <edgar_igl@c046a42c-6fe2-441c-8c8c-71466251a162>
- Fabrice Bellard <fabrice@bellard.org> bellard <bellard@c046a42c-6fe2-441c-8c8c-71466251a162>
--James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
- Jocelyn Mayer <l_indien@magic.fr> j_mayer <j_mayer@c046a42c-6fe2-441c-8c8c-71466251a162>
- Paul Brook <paul@codesourcery.com> pbrook <pbrook@c046a42c-6fe2-441c-8c8c-71466251a162>
--Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
--Aleksandar Markovic <amarkovic@wavecomp.com> <aleksandar.markovic@mips.com>
--Aleksandar Markovic <amarkovic@wavecomp.com> <aleksandar.markovic@imgtec.com>
--Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
--Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
--Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
- Thiemo Seufer <ths@networkno.de> ths <ths@c046a42c-6fe2-441c-8c8c-71466251a162>
- malc <av1474@comtv.ru> malc <malc@c046a42c-6fe2-441c-8c8c-71466251a162>
- 
-@@ -32,6 +24,15 @@ Ian McKellar <ianloic@google.com> Ian McKellar via Qemu-devel <qemu-devel@nongnu
- Julia Suvorova <jusual@mail.ru> Julia Suvorova via Qemu-devel <qemu-devel@nongnu.org>
- Justin Terry (VM) <juterry@microsoft.com> Justin Terry (VM) via Qemu-devel <qemu-devel@nongnu.org>
- 
-+# Next, replace old addresses by a more recent one.
-+Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
-+James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
-+Aleksandar Markovic <amarkovic@wavecomp.com> <aleksandar.markovic@mips.com>
-+Aleksandar Markovic <amarkovic@wavecomp.com> <aleksandar.markovic@imgtec.com>
-+Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
-+Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
-+Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
-+Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
+@@ -32,6 +32,7 @@ Aleksandar Markovic <amarkovic@wavecomp.com> <aleksandar.markovic@imgtec.com>
+ Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
+ Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
+ Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
++Philippe Mathieu-Daudé <philmd@redhat.com> <f4bug@amsat.org>
+ Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
  
  # Also list preferred name forms where people have changed their
- # git author config, or had utf8/latin1 encoding issues.
 -- 
 2.20.1
 
