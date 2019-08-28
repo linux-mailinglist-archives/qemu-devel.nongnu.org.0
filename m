@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B084A0E04
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 01:03:17 +0200 (CEST)
-Received: from localhost ([::1]:43486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE562A0E06
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 01:03:48 +0200 (CEST)
+Received: from localhost ([::1]:43488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i36yC-0000ce-AX
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 19:03:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49796)
+	id 1i36yh-0001FU-RI
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 19:03:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50092)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1i36w2-0008IY-81
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 19:01:03 -0400
+ (envelope-from <jsnow@redhat.com>) id 1i36x7-0000Ny-Pk
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 19:02:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1i36w1-00011v-3i
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 19:01:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32886)
+ (envelope-from <jsnow@redhat.com>) id 1i36x6-0001by-Qh
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 19:02:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49068)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1i36vw-0000yL-3l; Wed, 28 Aug 2019 19:00:58 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1i36x4-0001YS-EF; Wed, 28 Aug 2019 19:02:06 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D3BDC3B707;
- Wed, 28 Aug 2019 23:00:53 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B2244107DD00;
+ Wed, 28 Aug 2019 23:02:05 +0000 (UTC)
 Received: from [10.18.17.85] (dhcp-17-85.bos.redhat.com [10.18.17.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 057D0600F8;
- Wed, 28 Aug 2019 23:00:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D2CF119D70;
+ Wed, 28 Aug 2019 23:02:04 +0000 (UTC)
 To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <1566834628-485525-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1566834628-485525-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1566834628-485525-7-git-send-email-andrey.shinkevich@virtuozzo.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -109,22 +109,22 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <8e60380e-ac31-1b9f-b077-2acff3133f16@redhat.com>
-Date: Wed, 28 Aug 2019 19:00:52 -0400
+Message-ID: <28190ff2-9a46-da3e-5578-c2055093bcb3@redhat.com>
+Date: Wed, 28 Aug 2019 19:02:04 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1566834628-485525-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+In-Reply-To: <1566834628-485525-7-git-send-email-andrey.shinkevich@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Wed, 28 Aug 2019 23:00:53 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Wed, 28 Aug 2019 23:02:05 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 2/6] iotests: exclude killed processes
- from running under Valgrind
+Subject: Re: [Qemu-devel] [PATCH v6 6/6] iotests: extend sleeping time under
+ Valgrind
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -144,18 +144,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 8/26/19 11:50 AM, Andrey Shinkevich wrote:
->  The Valgrind tool fails to manage its termination in multi-threaded
->  processes when they raise the signal SIGKILL. The bug has been reported
->  to the Valgrind maintainers and was registered as the bug #409141:
->  https://bugs.kde.org/show_bug.cgi?id=409141
->  Let's exclude such test cases from running under the Valgrind until a
->  new version with the bug fix is released because checking for the
->  memory issues is covered by  other test cases.
+> To synchronize the time when QEMU is running longer under the Valgrind,
+> increase the sleeping time in the test 247.
 > 
-> Suggested-by: John Snow <jsnow@redhat.com>
 > Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Seems clear now, thanks.
+Probably fine, as discussed. We can work on eliminating sleeps and other
+pauses of indeterminate length as an ongoing process.
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 
