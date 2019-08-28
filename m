@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B116A0AAB
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 21:46:24 +0200 (CEST)
-Received: from localhost ([::1]:41572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91CAFA0AA1
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 21:42:51 +0200 (CEST)
+Received: from localhost ([::1]:41500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i33tf-0008La-7C
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 15:46:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38263)
+	id 1i33qE-0004q9-3b
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 15:42:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i33GV-0003oG-03
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:59 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i33Ga-0003qI-UF
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i33GS-0000P1-Vp
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:54 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:38454)
+ (envelope-from <richard.henderson@linaro.org>) id 1i33GY-0000U2-9h
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:06:00 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38456)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i33GS-0000Ms-GI
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:52 -0400
-Received: by mail-pf1-x442.google.com with SMTP id o70so392768pfg.5
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:05:50 -0700 (PDT)
+ id 1i33GX-0000SS-Rx
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:58 -0400
+Received: by mail-pf1-x444.google.com with SMTP id o70so392977pfg.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=U00Zb093z+hXOMnaNizAdzZJk8lMkRiGoOKwHfvrSvk=;
- b=OyOOI8lXMBHwRm2Akw2bT40UBK9uvuraCgICZ2ejQoxP1HWKfw4W+9+YhQKKRBNgrS
- RukDgSM3RI8Lg4TW4WqhbO69lv6URPRPtlG57CHgeyiyR2weaonlx7eiOzUlO7fdcqnr
- 3qIiN7x+fhpdCiP5HDBr/drzH4QRRKfihta2+iYeHpP0rP93cmmZuPfG2auf8yP/E2N8
- 4MJFqUTL5/RPN7jbFDbH527THyMZt2VeCemXgZTl714h3kj4rpjpHgPf+HCtF8i/c537
- fzqc9jrsZRAgzsekFTz9JmE+iE/UFPCVzIGYaT7aJK3blR5yjphoYdjeEaPw32pTkep1
- e3DA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=KXE4hVmZacLzuX33iQjpmlKGdB6TuKckRZ/72v9bQQk=;
+ b=aZgHwgh+b1xKZZtQAGid0XF1L78eoFZxH2DTxeTOIsYWoJP2Y0opJz/1ZYDqzw78Jz
+ nAEOvqRuJm+03kz1scei3OiHgYQrIYetucMk1sNcgyqsWOKSJUzdcKAsecDOXBlhnion
+ ettg6m91Ugt1fPOPck2h1RPCAALyTpkEV+5cdfUFzykq2aM9bXrhn6oYUNFYHrS0MPXS
+ qd6hSbuo0FFYtP6HW2ocz6pfGqpstxmvVCyOK0Hp64EBiI8c1cZm+JpWdlGUCkmGEW+S
+ h8uF7Q+bgraJcDcpbhBuLzKEGCcdZPPXJMO834wUOoSRpAaLjP70uwjPe4LUw5CfpNu7
+ aa3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=U00Zb093z+hXOMnaNizAdzZJk8lMkRiGoOKwHfvrSvk=;
- b=hi21YRmLrq0W1fF7KUXrYeO9cOExNlNrp5ovAWaLrsMLdWTh/4kxQv9lzgwczjbSJ4
- 7yhIsmiOMWHACi+kh3xxpTgDrJOkccUzanMIK6JV2QadwPUu7Ua0ftGe9lF2kDY4nqez
- ioKGLuaPTTjkxgVJSx2qAJ7nTKB0d9cwBr1IzfhJ2gJs5uxNpIMrneR5xCtYhUn6x3zz
- 9NhIrH1XkG8i4ruMBGmIyYr9iJ5DDUYSW9pyKiTJUKFPqwBwh2Tcz81CeWQDx4puywDb
- R/zk9SMBBi05i816PNw1uoZX4B9dgGRdVfm93mXwJ/h2/UvAV+55yB2o/suRN7G6brzb
- dg0Q==
-X-Gm-Message-State: APjAAAUkfUqWPdN5s4zrij7Yh2KKdX0LXJjPQEnJZxyyqOzjPqP+T8FB
- HdIe5EajvAUdblGq7OYFvMpN08r55vg=
-X-Google-Smtp-Source: APXvYqw0MKY8VphMIGtM3QC35F5Th/yNrB4dKS5qIJFij0JHjsikSKYyMZiUvejTPQv0HIo1kuSUSQ==
-X-Received: by 2002:a17:90a:f995:: with SMTP id
- cq21mr5895568pjb.27.1567019148754; 
- Wed, 28 Aug 2019 12:05:48 -0700 (PDT)
+ :references;
+ bh=KXE4hVmZacLzuX33iQjpmlKGdB6TuKckRZ/72v9bQQk=;
+ b=GiP1ZSOsGvXV9ZLd0F5JNdxiYsgss/9Ov+HlSQCn/tIcHExPT7JNjSD2B0YpsTPpTB
+ Cca7/Efg3ztF+WFQFb6A8jX6iI1fkjRKTAwwUIr/YzyT7y9E1AAeeo7l9Q9USuAiTqvi
+ oInkoZiypa1G6iaKzhewJsrN9p/R/L77u8tXNumJhor4iHANxEGMppQWlhrILO+SzSJF
+ CInSGroV/CbQH1aWZB9g6RZ7OvjfxwKp8dwjQ5eqGuw6pmlqM2Yupn4XVr1byliEZ6Vt
+ OFO0QprnEifcILCVzMS3XcyqvxzDqMOJ1yonkC2n7v+vz+bX8DKbdRAVcqZXjBacnnIy
+ YaKA==
+X-Gm-Message-State: APjAAAWg+44MRTwoWkQXtSbd+vx1vw4eWiaJW7Wxv5kcypb7iZrBgn0a
+ Dsz8y1itoIvFnNbP5dAAyngyUXN9ci0=
+X-Google-Smtp-Source: APXvYqwn1bfRjNrpkAJArOeHbpgYgvViSdiUyreUxGNpm2zdvqSG7IlxwGFSygl+NebHGRJBrq/OYg==
+X-Received: by 2002:aa7:9516:: with SMTP id b22mr6494250pfp.106.1567019156208; 
+ Wed, 28 Aug 2019 12:05:56 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.05.47
+ by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.05.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 12:05:47 -0700 (PDT)
+ Wed, 28 Aug 2019 12:05:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 12:04:25 -0700
-Message-Id: <20190828190456.30315-39-richard.henderson@linaro.org>
+Date: Wed, 28 Aug 2019 12:04:31 -0700
+Message-Id: <20190828190456.30315-45-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190828190456.30315-1-richard.henderson@linaro.org>
 References: <20190828190456.30315-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v3 38/69] target/arm: Convert PLI, PLD, PLDW
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v3 44/69] target/arm: Simplify disas_arm_insn
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,86 +79,119 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Fold away all of the cases that now just goto illegal_op,
+because all of their internal bits are now in decodetree.
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c       | 37 +++++++++++++++++++-----------------
- target/arm/a32-uncond.decode | 10 ++++++++++
- 2 files changed, 30 insertions(+), 17 deletions(-)
+ target/arm/translate.c | 69 ++++++++++--------------------------------
+ 1 file changed, 16 insertions(+), 53 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index f81f369544..c55bd1e563 100644
+index 5bb1d13a3d..defbcf68db 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -10229,6 +10229,26 @@ static bool trans_SETEND(DisasContext *s, arg_SETEND *a)
-     return true;
- }
+@@ -10341,7 +10341,7 @@ static bool trans_PLI(DisasContext *s, arg_PLD *a)
  
-+/*
-+ * Preload instructions
-+ * All are nops, contingent on the appropriate arch level.
-+ */
-+
-+static bool trans_PLD(DisasContext *s, arg_PLD *a)
-+{
-+    return ENABLE_ARCH_5TE;
-+}
-+
-+static bool trans_PLDW(DisasContext *s, arg_PLD *a)
-+{
-+    return arm_dc_feature(s, ARM_FEATURE_V7MP);
-+}
-+
-+static bool trans_PLI(DisasContext *s, arg_PLD *a)
-+{
-+    return ENABLE_ARCH_7;
-+}
-+
- /*
-  * Legacy decoder.
-  */
-@@ -10289,23 +10309,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+ {
+-    unsigned int cond, op1;
++    unsigned int cond = insn >> 28;
+ 
+     /* M variants do not implement ARM mode; this must raise the INVSTATE
+      * UsageFault exception.
+@@ -10351,7 +10351,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                            default_exception_el(s));
+         return;
+     }
+-    cond = insn >> 28;
+ 
+     if (cond == 0xf) {
+         /* In ARMv3 and v4 the NV condition is UNPREDICTABLE; we
+@@ -10416,11 +10415,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                 goto illegal_op;
              }
              return;
+-        } else if ((insn & 0x0fe00000) == 0x0c400000) {
+-            /* Coprocessor double register transfer.  */
+-            ARCH(5TE);
+-        } else if ((insn & 0x0f000010) == 0x0e000010) {
+-            /* Additional coprocessor register transfer.  */
          }
--        if (((insn & 0x0f30f000) == 0x0510f000) ||
--            ((insn & 0x0f30f010) == 0x0710f000)) {
--            if ((insn & (1 << 22)) == 0) {
--                /* PLDW; v7MP */
--                if (!arm_dc_feature(s, ARM_FEATURE_V7MP)) {
+         goto illegal_op;
+     }
+@@ -10435,55 +10429,24 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+     }
+     /* fall back to legacy decoder */
+ 
+-    if ((insn & 0x0f900000) == 0x03000000) {
+-        /* All done in decodetree.  Illegal ops reach here.  */
+-        goto illegal_op;
+-    } else if ((insn & 0x0f900000) == 0x01000000
+-               && (insn & 0x00000090) != 0x00000090) {
+-        /* miscellaneous instructions */
+-        /* All done in decodetree.  Illegal ops reach here.  */
+-        goto illegal_op;
+-    } else if (((insn & 0x0e000000) == 0 &&
+-                (insn & 0x00000090) != 0x90) ||
+-               ((insn & 0x0e000000) == (1 << 25))) {
+-        /* Data-processing (reg, reg-shift-reg, imm).  */
+-        /* All done in decodetree.  Reach here for illegal ops.  */
+-        goto illegal_op;
+-    } else {
+-        /* other instructions */
+-        op1 = (insn >> 24) & 0xf;
+-        switch(op1) {
+-        case 0x0:
+-        case 0x1:
+-        case 0x4:
+-        case 0x5:
+-        case 0x6:
+-        case 0x7:
+-        case 0x08:
+-        case 0x09:
+-        case 0xa:
+-        case 0xb:
+-        case 0xf:
+-            /* All done in decodetree.  Reach here for illegal ops.  */
+-            goto illegal_op;
+-        case 0xc:
+-        case 0xd:
+-        case 0xe:
+-            if (((insn >> 8) & 0xe) == 10) {
+-                /* VFP.  */
+-                if (disas_vfp_insn(s, insn)) {
 -                    goto illegal_op;
 -                }
--            }
--            /* Otherwise PLD; v5TE+ */
--            ARCH(5TE);
--            return;
--        }
--        if (((insn & 0x0f70f000) == 0x0450f000) ||
--            ((insn & 0x0f70f010) == 0x0650f000)) {
--            ARCH(7);
--            return; /* PLI; V7 */
--        }
-         if (((insn & 0x0f700000) == 0x04100000) ||
-             ((insn & 0x0f700010) == 0x06100000)) {
-             if (!arm_dc_feature(s, ARM_FEATURE_V7MP)) {
-diff --git a/target/arm/a32-uncond.decode b/target/arm/a32-uncond.decode
-index 32253b4f9a..ddc5edfa5e 100644
---- a/target/arm/a32-uncond.decode
-+++ b/target/arm/a32-uncond.decode
-@@ -54,3 +54,13 @@ SB               1111 0101 0111 1111 1111 0000 0111 0000
+-            } else if (disas_coproc_insn(s, insn)) {
+-                /* Coprocessor.  */
++    switch ((insn >> 24) & 0xf) {
++    case 0xc:
++    case 0xd:
++    case 0xe:
++        if (((insn >> 8) & 0xe) == 10) {
++            /* VFP.  */
++            if (disas_vfp_insn(s, insn)) {
+                 goto illegal_op;
+             }
+-            break;
+-        default:
+-        illegal_op:
+-            unallocated_encoding(s);
+-            break;
++        } else if (disas_coproc_insn(s, insn)) {
++            /* Coprocessor.  */
++            goto illegal_op;
+         }
++        break;
++    default:
++    illegal_op:
++        unallocated_encoding(s);
++        break;
+     }
+ }
  
- # Set Endianness
- SETEND           1111 0001 0000 0001 0000 00 E:1 0 0000 0000  &setend
-+
-+# Preload instructions
-+
-+PLD              1111 0101 -101 ---- 1111 ---- ---- ----    # (imm, lit) 5te
-+PLDW             1111 0101 -001 ---- 1111 ---- ---- ----    # (imm, lit) 7mp
-+PLI              1111 0100 -101 ---- 1111 ---- ---- ----    # (imm, lit) 7
-+
-+PLD              1111 0111 -101 ---- 1111 ----- -- 0 ----   # (register) 5te
-+PLDW             1111 0111 -001 ---- 1111 ----- -- 0 ----   # (register) 7mp
-+PLI              1111 0110 -101 ---- 1111 ----- -- 0 ----   # (register) 7
 -- 
 2.17.1
 
