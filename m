@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A920435C62
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 09:49:09 +0200 (CEST)
-Received: from localhost ([::1]:60874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9A9435C63
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 09:49:10 +0200 (CEST)
+Received: from localhost ([::1]:32864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdSp2-00065S-K5
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 03:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
+	id 1mdSp3-0006Gy-P7
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 03:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mdSm7-0002Wh-Os
+ id 1mdSm6-0002WC-Vt
  for qemu-devel@nongnu.org; Thu, 21 Oct 2021 03:46:08 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:47798)
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:47902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mdSlz-00023L-DV
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 03:46:07 -0400
+ id 1mdSlz-00025W-Dg
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 03:46:06 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 1EC9D4037D
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 07:45:46 +0000 (UTC)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id BEFB13F656
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 07:45:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1634802346;
- bh=hwzDTGnxQi/jewag3Xw8WvGCJZ0NtHaBWjMJLTk3UIM=;
+ s=20210803; t=1634802347;
+ bh=O55kF+q08O30jPvZ384XxrTFETFn5vFtVgBVbEy2Vrc=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=CWO4hGT5IvN8tUvAmcS+sKbbYwp0AgWkEA7vk6Sa5YwqlFCb0M73a601GBXLsEie/
- bpNdwsOOydD6ccFOg9yDxwD8640baGmZOyiGpZUKM1gVyRm+gjnWVpikaE/nJOJld4
- 3ijTmCdgReSRFY7DsiqvihCfbTgg7S5t3zcCI+K8m9IPXe2FNQYo/TU9av5jO652iz
- TeIffomEnty51Ogha44tc6Oath/hXAgb5lIkNn2TzT1wzVSulBD4h4h9TMC1Qs35am
- uk/58pjjpnN7MNtns3nrcvUTwCpK18gt8VPdGiIHQlnEFGsxQ31AIAYxpn4/mFWJxR
- T9+QZTqvs8NHA==
+ b=hwn7+AbBd5wFVhq1qxRseiMDv1hIX2BaPGlZWm+LE5z3BxUplVxGdLwbXukHGFb63
+ rUBRA/CA9h5VbN6Qkq5PV0ATdcRYtAk9lyAWdJtan7keVlvoKbeBT0tJZno6ICW+28
+ hp+MShUjzuyFDuWBVYRr8DYVsQgXJlQHG/yMf8vwl0mrk6u8QqTkFdbdrhfNymJUM3
+ +4U4B1qu4khu1maaTOPBh6WgkkNnP/RbEOxoQwY5rEpO2dYFPXIe8vvNT42dZQYbTz
+ YlE/Z+lYCQ5OSs64kiPkXe/BEQx4yNeBfYQvqsVTTAS3JRRu6TjjsP8hyzww7+Jjzn
+ COGDj36ayYJSQ==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6386C2E819B
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 07:45:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E22582E8196
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 07:45:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Aug 2019 02:55:41 -0000
-From: sirswa <1769053@bugs.launchpad.net>
+Date: Wed, 28 Aug 2019 14:16:31 -0000
+From: ehabkost <1769053@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=libvirt; status=Confirmed; importance=Undecided;
@@ -62,16 +62,16 @@ X-Launchpad-Bug-Commenters: berrange daxtens ddstreet dgilbert-h
  ehabkost-redhat-bugs kraxel-redhat paelzer paelzer-redhat-bugs
  raistlin-redhat-bugs sirswa-redhat-bugs
 X-Launchpad-Bug-Reporter: Daniel Axtens (daxtens)
-X-Launchpad-Bug-Modifier: sirswa (sirswa-redhat-bugs)
+X-Launchpad-Bug-Modifier: ehabkost (ehabkost-redhat-bugs)
 References: <152541524728.557.4600864098110042577.malonedeb@gac.canonical.com>
-Message-Id: <163480218292.25993.6641977935235444413.launchpad@loganberry.canonical.com>
+Message-Id: <163480218302.25993.8312046571390461613.launchpad@loganberry.canonical.com>
 Subject: [Bug 1769053] 
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="077cd577c00fa794e72ab856f950ae412860db5f"; Instance="production"
-X-Launchpad-Hash: 8346b8a879ce17a2caf9bcb25fdc8aa11b2b64d9
+X-Launchpad-Hash: 0201198ba981f656d7fd64a9cbacc9a3edb2beed
 Received-SPF: pass client-ip=185.125.188.251;
  envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
 X-Spam_score_int: -8
@@ -96,11 +96,19 @@ Reply-To: Bug 1769053 <1769053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+(In reply to sirswa@gmail.com from comment #1)
+> Hi
+>=20
+> We are hitting this bug. We have specialist hardwares including hi-memory
+> hypervisors to run HPC workload on virtualised environment. This bug is
+> affecting us at the machines which has more than 1TB of memory.
 
-We are hitting this bug. We have specialist hardwares including hi-
-memory hypervisors to run HPC workload on virtualised environment. This
-bug is affecting us at the machines which has more than 1TB of memory.
+This bz# is not a bug, but a feature planned to make live migration
+ability more flexible.  The option might be useful to work around bugs
+or other limitations, though.
+
+If you are seeing a bug related to large guests or large hosts, please
+send more details so we can investigate it.
 
 --=20
 You received this bug notification because you are a member of qemu-
