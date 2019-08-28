@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC22AA0A70
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 21:26:20 +0200 (CEST)
-Received: from localhost ([::1]:41220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA37A0A6D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 21:25:17 +0200 (CEST)
+Received: from localhost ([::1]:41208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i33aF-0006G1-41
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 15:26:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37693)
+	id 1i33ZE-0005Fw-DW
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 15:25:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37770)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i33Fy-0003H6-7r
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:24 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i33G3-0003NY-9H
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i33Fw-0008RD-Jv
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:22 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:40932)
+ (envelope-from <richard.henderson@linaro.org>) id 1i33G0-0008UP-Cf
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:26 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38451)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i33Fw-0008Qf-DJ
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:20 -0400
-Received: by mail-pg1-x543.google.com with SMTP id w10so216880pgj.7
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:05:20 -0700 (PDT)
+ id 1i33G0-0008TA-5u
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:05:24 -0400
+Received: by mail-pf1-x444.google.com with SMTP id o70so392086pfg.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 12:05:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4BlHSKKgCoxdyyhEVII1opm34EFeT9rrl5mK0jjuq2M=;
- b=dIZQrwjTiTx3SgRVTJH6mdPA656tRn1XAECyK8OETWjgX/qUooFw5ZDQuExf4DWy+Q
- O7uAlZBLKivbgGj12tFuvEEIqt0QVWTAwtsrs0Jgb5ZyE6zXf6MeznN6BXUIcJshBRcU
- 6WbL5Z5hTMXfBodpynZUp6xN8zoWPoy1Y7OP97YkL1EmM5nYmibpZ2X3XAwprHZPj5Eq
- GXOWs2wH81oviaF6/DFlrkWv50t9XGQPA50Lq60X3sd5NuPK02uxwDi9Bu8bCPF9hNrw
- jaZOaW9npr3/lR2lDwLRVN7Vs9Hkmwu0fq70/qATGN8Zp/riTWFQRJYZRN1ficm5IpoZ
- pozw==
+ bh=QCVrNyP4aQ0jX7CvYJg0KqtkiSJELZNM0Q5/bhu0tlI=;
+ b=L9ub4gFlnNTqqoViMGHLAPW95jwbeBVCJHQKC9zmbl44JbKBUXlk+U//kLRnbD7ueb
+ MKFRR9CgFUJkuzs9ndYooe9WfLqDKc51fPjs0R3ilQ8W4cdGCRpsrv/7XB8SlAouY11T
+ htYvPnUyfPdrj5g/IuBSu9s9Y4MtpvfDH9ghirN5LqjEbpSFyTj5X6AL71QeYO6VDBUY
+ 1uTrGJWgsY+2TidYV6c19vgxUBdclHrQY2glQZaTYdS6gmggWl2a10i5tbNmHQc+Q7y+
+ YNOc9WIZPjtHUbTbt9OelhWuIOsa6E1JcGs78sZu6RAFwXeDCZoLbb8Glijh750CMWfD
+ yRiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=4BlHSKKgCoxdyyhEVII1opm34EFeT9rrl5mK0jjuq2M=;
- b=Cvl6QCXTX3qJjQ20gsyTM96qGsqtMvxzVyEHpdO6UQXcG2kVz/t+BB6/ab2un2t62w
- ArJcEO2WJZVx+fx9oSb/flHNs4czliohW/BWojIWy3D/56Rfk1pHHzfINHMcFj/8r4cT
- eHiLTJ9//w7TlZIGk8MZ4euWo/14iKcJKX3pgHVFFa1DR7UWEvKz6vSrq182jijxTvH1
- WBf1BDVSYVtniNT8NJk5Y9NIZIeT1bbbXQf9uSol9R7ykbD9f9odsu/ds3qvE9Vo8tDA
- iMCzBODAiuBG12r8Qrmvp7G8Y8oTN9rJYBTettMiTLhgfLfedfgl3VfTgxivLYKtKFoH
- eLpQ==
-X-Gm-Message-State: APjAAAVGS2KbLRC53sjbH90pf05OeAOw26QmcRx8I9FvTwWNl3kQxkoP
- FbZeMQr3DFvnLF10R2AAI/VaaA2uspM=
-X-Google-Smtp-Source: APXvYqxKHDSXXYpv3YJuY7m7kVqRAxmPZ39mVcI5otPpjd4OurkWhPc62CkvHWi+lrSHibO1nq4gkw==
-X-Received: by 2002:aa7:908b:: with SMTP id i11mr4165351pfa.199.1567019119118; 
- Wed, 28 Aug 2019 12:05:19 -0700 (PDT)
+ bh=QCVrNyP4aQ0jX7CvYJg0KqtkiSJELZNM0Q5/bhu0tlI=;
+ b=t0vY/HC7u6kOZutaW1Y+qE4KTC36wLNP4Cj27FERKG+jXZ6LASpMPbzYQM+FOxor2q
+ xjdCHfCle6HFZrcgBAC7w7/vanyvPicIJD+rsCDOQamNVFXsExsf5gOMz5RaBiQYVSIJ
+ /txM4OSZTeI7nq9xu5ycODTI9OPU//LukppxCrtAtmS6EocIc4blRn9PsueNIrVP0fKS
+ QxbQyriPkNvI9gfApUU5Pl7Ey5CamFJwBrYF6AL0B3GMpCCbhm9F3J2VakVOu8zasFjI
+ GRJO24fcdpFFh/p41JIxS99z5k/j3njn0SUliXoQTwXV43isZOLj1544jG2PVOfTvfns
+ +HhA==
+X-Gm-Message-State: APjAAAX+I1uTvmLJtE2VnDLYDoE67eYnCZg3m3jaiZE1lUXojysScKNr
+ +1X9s8tdp+sMEcUtvJ139CwxhGPPfgA=
+X-Google-Smtp-Source: APXvYqwiZ+NvHZReUAqRyp3P3GxdXs6Xq2kT29kecjwWXeJIOUuozlMU8CvVjm6OY4XLPyjALmFgnA==
+X-Received: by 2002:a17:90a:342d:: with SMTP id
+ o42mr5916292pjb.27.1567019121835; 
+ Wed, 28 Aug 2019 12:05:21 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.05.17
+ by smtp.gmail.com with ESMTPSA id f27sm2967944pgm.60.2019.08.28.12.05.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 12:05:18 -0700 (PDT)
+ Wed, 28 Aug 2019 12:05:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 12:04:02 -0700
-Message-Id: <20190828190456.30315-16-richard.henderson@linaro.org>
+Date: Wed, 28 Aug 2019 12:04:04 -0700
+Message-Id: <20190828190456.30315-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190828190456.30315-1-richard.henderson@linaro.org>
 References: <20190828190456.30315-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: [Qemu-devel] [PATCH v3 15/69] target/arm: Convert BX, BXJ,
- BLX (register)
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v3 17/69] target/arm: Convert ERET
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,168 +80,135 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Pass the T5 encoding of SUBS PC, LR, #IMM through the normal SUBS path
+to make it clear exactly what's happening -- we hit ALUExceptionReturn
+along that path.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 78 ++++++++++++++++++++----------------------
- target/arm/a32.decode  |  7 ++++
- target/arm/t32.decode  |  2 ++
- 3 files changed, 47 insertions(+), 40 deletions(-)
+v3: Use unallocated_encoding for IS_USER check.
+---
+ target/arm/translate.c | 62 ++++++++++++++++--------------------------
+ target/arm/a32.decode  |  2 ++
+ target/arm/t32.decode  |  8 ++++++
+ 3 files changed, 33 insertions(+), 39 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index c2420ff45e..d60e859624 100644
+index c285d4f882..203b6160da 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8432,6 +8432,38 @@ static bool trans_MSR_v7m(DisasContext *s, arg_MSR_v7m *a)
+@@ -8477,6 +8477,27 @@ static bool trans_CLZ(DisasContext *s, arg_CLZ *a)
      return true;
  }
  
-+static bool trans_BX(DisasContext *s, arg_BX *a)
-+{
-+    if (!ENABLE_ARCH_4T) {
-+        return false;
-+    }
-+    gen_bx(s, load_reg(s, a->rm));
-+    return true;
-+}
-+
-+static bool trans_BXJ(DisasContext *s, arg_BXJ *a)
-+{
-+    if (!ENABLE_ARCH_5J || arm_dc_feature(s, ARM_FEATURE_M)) {
-+        return false;
-+    }
-+    /* Trivial implementation equivalent to bx.  */
-+    gen_bx(s, load_reg(s, a->rm));
-+    return true;
-+}
-+
-+static bool trans_BLX_r(DisasContext *s, arg_BLX_r *a)
++static bool trans_ERET(DisasContext *s, arg_ERET *a)
 +{
 +    TCGv_i32 tmp;
 +
-+    if (!ENABLE_ARCH_5) {
++    if (!arm_dc_feature(s, ARM_FEATURE_V7VE)) {
 +        return false;
 +    }
-+    tmp = load_reg(s, a->rm);
-+    tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
-+    gen_bx(s, tmp);
++    if (IS_USER(s)) {
++        unallocated_encoding(s);
++        return true;
++    }
++    if (s->current_el == 2) {
++        /* ERET from Hyp uses ELR_Hyp, not LR */
++        tmp = load_cpu_field(elr_el[2]);
++    } else {
++        tmp = load_reg(s, 14);
++    }
++    gen_exception_return(s, tmp);
 +    return true;
 +}
 +
  /*
   * Legacy decoder.
   */
-@@ -8721,12 +8753,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             /* All done in decodetree.  Illegal ops already signalled.  */
-             g_assert_not_reached();
-         case 0x1:
--            if (op1 == 1) {
--                /* branch/exchange thumb (bx).  */
--                ARCH(4T);
--                tmp = load_reg(s, rm);
--                gen_bx(s, tmp);
--            } else if (op1 == 3) {
-+            if (op1 == 3) {
-                 /* clz */
-                 ARCH(5);
-                 rd = (insn >> 12) & 0xf;
-@@ -8737,30 +8764,9 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-                 goto illegal_op;
-             }
-             break;
--        case 0x2:
--            if (op1 == 1) {
--                ARCH(5J); /* bxj */
--                /* Trivial implementation equivalent to bx.  */
--                tmp = load_reg(s, rm);
--                gen_bx(s, tmp);
--            } else {
--                goto illegal_op;
--            }
--            break;
--        case 0x3:
--            if (op1 != 1)
--              goto illegal_op;
--
--            ARCH(5);
--            /* branch link/exchange thumb (blx) */
--            tmp = load_reg(s, rm);
--            tmp2 = tcg_temp_new_i32();
--            tcg_gen_movi_i32(tmp2, s->base.pc_next);
--            store_reg(s, 14, tmp2);
--            gen_bx(s, tmp);
--            break;
--        case 0x4:
--            /* crc32 */
-+        case 0x2: /* bxj */
-+        case 0x3: /* blx */
-+        case 0x4: /* crc32 */
+@@ -8771,29 +8792,10 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+         case 0x4: /* crc32 */
              /* All done in decodetree.  Illegal ops reach here.  */
              goto illegal_op;
-         case 0x5:
-@@ -10578,16 +10584,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                             goto illegal_op;
-                         }
-                         break;
--                    case 4: /* bxj */
--                        /* Trivial implementation equivalent to bx.
--                         * This instruction doesn't exist at all for M-profile.
--                         */
--                        if (arm_dc_feature(s, ARM_FEATURE_M)) {
+-        case 0x5:
+-            /* Saturating addition and subtraction.  */
++        case 0x5: /* Saturating addition and subtraction.  */
++        case 0x6: /* ERET */
+             /* All done in decodetree.  Reach here for illegal ops.  */
+             goto illegal_op;
+-        case 0x6: /* ERET */
+-            if (op1 != 3) {
+-                goto illegal_op;
+-            }
+-            if (!arm_dc_feature(s, ARM_FEATURE_V7VE)) {
+-                goto illegal_op;
+-            }
+-            if ((insn & 0x000fff0f) != 0x0000000e) {
+-                /* UNPREDICTABLE; we choose to UNDEF */
+-                goto illegal_op;
+-            }
+-
+-            if (s->current_el == 2) {
+-                tmp = load_cpu_field(elr_el[2]);
+-            } else {
+-                tmp = load_reg(s, 14);
+-            }
+-            gen_exception_return(s, tmp);
+-            break;
+         case 7:
+         {
+             int imm16 = extract32(insn, 0, 4) | (extract32(insn, 8, 12) << 4);
+@@ -10586,24 +10588,6 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                     case 4: /* bxj, in decodetree */
+                         goto illegal_op;
+                     case 5: /* Exception return.  */
+-                        if (IS_USER(s)) {
 -                            goto illegal_op;
 -                        }
--                        tmp = load_reg(s, rn);
--                        gen_bx(s, tmp);
+-                        if (rn != 14 || rd != 15) {
+-                            goto illegal_op;
+-                        }
+-                        if (s->current_el == 2) {
+-                            /* ERET from Hyp uses ELR_Hyp, not LR */
+-                            if (insn & 0xff) {
+-                                goto illegal_op;
+-                            }
+-                            tmp = load_cpu_field(elr_el[2]);
+-                        } else {
+-                            tmp = load_reg(s, rn);
+-                            tcg_gen_subi_i32(tmp, tmp, insn & 0xff);
+-                        }
+-                        gen_exception_return(s, tmp);
 -                        break;
-+                    case 4: /* bxj, in decodetree */
-+                        goto illegal_op;
-                     case 5: /* Exception return.  */
-                         if (IS_USER(s)) {
-                             goto illegal_op;
+                     case 6: /* MRS, in decodetree */
+                     case 7: /* MSR, in decodetree */
+                         goto illegal_op;
 diff --git a/target/arm/a32.decode b/target/arm/a32.decode
-index a8ef435b15..6cb9c16e2f 100644
+index 182f2b6725..52a66dd1d5 100644
 --- a/target/arm/a32.decode
 +++ b/target/arm/a32.decode
-@@ -29,6 +29,7 @@
- &s_rrrr          s rd rn rm ra
- &rrrr            rd rn rm ra
- &rrr             rd rn rm
-+&r               rm
- &msr_reg         rn r mask
- &mrs_reg         rd r
- &msr_bank        rn r sysm
-@@ -195,8 +196,14 @@ CRC32CW          .... 0001 0100 .... .... 0010 0100 ....      @rndm
+@@ -211,3 +211,5 @@ BXJ              .... 0001 0010 1111 1111 1111 0010 ....      @rm
+ BLX_r            .... 0001 0010 1111 1111 1111 0011 ....      @rm
  
- %sysm            8:1 16:4
- 
-+@rm              ---- .... .... .... .... .... .... rm:4      &r
+ CLZ              .... 0001 0110 1111 .... 1111 0001 ....      @rdm
 +
- MRS_bank         ---- 0001 0 r:1 00 .... rd:4 001. 0000 0000  &mrs_bank %sysm
- MSR_bank         ---- 0001 0 r:1 10 .... 1111 001. 0000 rn:4  &msr_bank %sysm
- 
- MRS_reg          ---- 0001 0 r:1 00 1111   rd:4 0000 0000 0000  &mrs_reg
- MSR_reg          ---- 0001 0 r:1 10 mask:4 1111 0000 0000 rn:4  &msr_reg
-+
-+BX               .... 0001 0010 1111 1111 1111 0001 ....      @rm
-+BXJ              .... 0001 0010 1111 1111 1111 0010 ....      @rm
-+BLX_r            .... 0001 0010 1111 1111 1111 0011 ....      @rm
++ERET             ---- 0001 0110 0000 0000 0000 0110 1110
 diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 261db100ff..337706ebbe 100644
+index 67724efe4b..6236d28b99 100644
 --- a/target/arm/t32.decode
 +++ b/target/arm/t32.decode
-@@ -26,6 +26,7 @@
- &s_rrrr          !extern s rd rn rm ra
- &rrrr            !extern rd rn rm ra
- &rrr             !extern rd rn rm
-+&r               !extern rm
- &msr_reg         !extern rn r mask
- &mrs_reg         !extern rd r
- &msr_bank        !extern rn r sysm
-@@ -211,4 +212,5 @@ CRC32CW          1111 1010 1101 .... 1111 .... 1010 ....      @rndm
-     MSR_reg      1111 0011 100 r:1 rn:4 1000 mask:4 0000 0000  &msr_reg
+@@ -218,4 +218,12 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
      MSR_v7m      1111 0011 100 0   rn:4 1000 mask:2 00 sysm:8
    }
-+  BXJ            1111 0011 1100 rm:4 1000 1111 0000 0000      &r
+   BXJ            1111 0011 1100 rm:4 1000 1111 0000 0000      &r
++  {
++    # At v6T2, this is the T5 encoding of SUBS PC, LR, #IMM, and works as for
++    # every other encoding of SUBS.  With v7VE, IMM=0 is redefined as ERET.
++    # The distinction between the two only matters for Hyp mode.
++    ERET         1111 0011 1101 1110 1000 1111 0000 0000
++    SUB_rri      1111 0011 1101 1110 1000 1111 imm:8 \
++                 &s_rri_rot rot=0 s=1 rd=15 rn=14
++  }
  }
 -- 
 2.17.1
