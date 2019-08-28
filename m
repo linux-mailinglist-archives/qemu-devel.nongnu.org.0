@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6259A07E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 18:55:37 +0200 (CEST)
-Received: from localhost ([::1]:38702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669DCA07F1
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 18:59:11 +0200 (CEST)
+Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i31EO-0000c1-Pa
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 12:55:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38470)
+	id 1i31Hq-0004wF-8Y
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 12:59:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42349)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i310T-0004bq-E4
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:41:15 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i31C7-0007es-HA
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i310S-0000wk-5Q
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:41:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57172)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i310N-0000u3-El; Wed, 28 Aug 2019 12:41:07 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8DB1CC04959E;
- Wed, 28 Aug 2019 16:41:06 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-32.brq.redhat.com
- [10.40.204.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D843E6012D;
- Wed, 28 Aug 2019 16:40:58 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20190826161312.489398-1-vsementsov@virtuozzo.com>
- <20190826161312.489398-8-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <8700abe3-01a0-9395-59fb-ca78d9f05a30@redhat.com>
-Date: Wed, 28 Aug 2019 18:40:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <alex.bennee@linaro.org>) id 1i31C3-0000py-FR
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:14 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40179)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i31C3-0000oY-4r
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 12:53:11 -0400
+Received: by mail-wr1-x441.google.com with SMTP id c3so510795wrd.7
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 09:53:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=AnLfjJ532pnrQLEmB2HlY+ej0qh5jfVOAVC2UPBUj4M=;
+ b=WfbUbqj16CnAz/CEkYfPWA1keOmaBBfTX527aWNTS/xEcaL+eD3EYrQ9F19uvOTOzV
+ TbCT/0lqk0y1GvwYlFRJH5DxnZV3vLSNsg4od3tmoBWbxN2EKLLB7LL8Njy35/gbWY9E
+ L7yF3+X3ViwEw9zgqX6/1TI3bG3mr1dY4PHcy1ako0BTgDu3GjpgL0xWde/e2VJcQX3D
+ imJ3inP32Pzg8F2LQX55Yf+o7SrqGXKbNPOmxSZ3gX3/WAd7RT1bKQjIBPL8Mgn4XoAB
+ FcRHoZkPtAtGqFTD2egFKK73uYhFDKaKOyQR1RDhmz1CraVk9EoeYIUsabELxkrzpkaJ
+ OrZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=AnLfjJ532pnrQLEmB2HlY+ej0qh5jfVOAVC2UPBUj4M=;
+ b=PSrFxH1fwjZby6DjFO/DMFP1DYUBF9ek9jqCn2kXMJxzZ4+FsdqeupO2MIqmZssguM
+ jvetFe33/NsK0pSmWwJEIQrH2P1rt0aN0sgm1Gu3XZZ6FxPooVZIY821tI0FuKebgYVn
+ pAl19FgFUZc68kPb92Jf5B4Z2d4o9FBUvYc1T8APzrlnpD+0yCzRDQvH/RB9RQCCedSF
+ ZQS3kNMekn58yju5+LxwhGi/O7N+12R3kQ+rPuGw/9xWpcBqdDmbUD0zfRGMAsu/7tbh
+ 19F1N2AidHnxqEkJhJiaMR7VheFlMOHFZ5GZgb8St/jtFQ4xDomiup9aW0WFqsTTjNUl
+ psTQ==
+X-Gm-Message-State: APjAAAXrtrZn201N6kEAr33nJ+vaDE5CGY9oksBGQlVhXQ3e4WduwIya
+ GgmN3qlmK1rUr8cIurrz06I0GQ==
+X-Google-Smtp-Source: APXvYqxCAP62wNcILBT5WJZLrIKQRjeW0ovq81NK0fCq5HeidRyR7V2/L2jQkey/QlW/cImFYQ3uAg==
+X-Received: by 2002:adf:a415:: with SMTP id d21mr2253900wra.94.1567011190025; 
+ Wed, 28 Aug 2019 09:53:10 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n12sm3391799wmc.24.2019.08.28.09.53.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Aug 2019 09:53:08 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 908201FF8F;
+ Wed, 28 Aug 2019 17:53:07 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Wed, 28 Aug 2019 17:53:00 +0100
+Message-Id: <20190828165307.18321-3-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190828165307.18321-1-alex.bennee@linaro.org>
+References: <20190828165307.18321-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190826161312.489398-8-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Q7xZIY48ugaM74Hc1P5pUnQdwly5ITro5"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Wed, 28 Aug 2019 16:41:06 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v9 07/13] iotests: prepare 124 and 257
- bitmap querying for backup-top filter
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH v1 2/9] target/arm: handle A-profile T32
+ semihosting at translate time
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,141 +82,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, wencongyang2@huawei.com,
- xiechanglong.d@gmail.com, qemu-devel@nongnu.org, armbru@redhat.com,
- jsnow@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Q7xZIY48ugaM74Hc1P5pUnQdwly5ITro5
-Content-Type: multipart/mixed; boundary="JXWQCGFSBq2jnpQ2O4TC3fh7XxzcJxJk5";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
- xiechanglong.d@gmail.com, wencongyang2@huawei.com, fam@euphon.net,
- stefanha@redhat.com, jsnow@redhat.com, kwolf@redhat.com, den@openvz.org
-Message-ID: <8700abe3-01a0-9395-59fb-ca78d9f05a30@redhat.com>
-Subject: Re: [PATCH v9 07/13] iotests: prepare 124 and 257 bitmap querying for
- backup-top filter
-References: <20190826161312.489398-1-vsementsov@virtuozzo.com>
- <20190826161312.489398-8-vsementsov@virtuozzo.com>
-In-Reply-To: <20190826161312.489398-8-vsementsov@virtuozzo.com>
+As for the other semihosting calls we can resolve this at translate
+time.
 
---JXWQCGFSBq2jnpQ2O4TC3fh7XxzcJxJk5
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/translate.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
-On 26.08.19 18:13, Vladimir Sementsov-Ogievskiy wrote:
-> After backup-top filter appearing it's not possible to see dirty
-> bitmaps in top node, so use node-name instead.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/124        |   3 +-
->  tests/qemu-iotests/257        |  39 +---
->  tests/qemu-iotests/257.out    | 364 +++++++++++++---------------------=
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 259c4669b4c..6157e9f52fc 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -10907,6 +10907,24 @@ static inline void gen_thumb_bkpt(DisasContext *s, int imm8)
+     gen_exception_bkpt_insn(s, syn_aa32_bkpt(imm8, true));
+ }
+ 
++/*
++ * Thumb SWI. On A-profile CPUs this may be a semihosting call.
++ */
++static inline void gen_thumb_swi(DisasContext *s, int imm8)
++{
++    if (semihosting_enabled() &&
++#ifndef CONFIG_USER_ONLY
++        s->current_el != 0 &&
++#endif
++        (imm8 == 0xab)) {
++        gen_exception_internal_insn(s, 0, EXCP_SEMIHOST);
++        return;
++    }
++    gen_set_pc_im(s, s->base.pc_next);
++    s->svc_imm = imm8;
++    s->base.is_jmp = DISAS_SWI;
++}
++
+ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+ {
+     uint32_t val, op, rm, rn, rd, shift, cond;
+@@ -11658,10 +11676,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+             goto undef;
+ 
+         if (cond == 0xf) {
+-            /* swi */
+-            gen_set_pc_im(s, s->base.pc_next);
+-            s->svc_imm = extract32(insn, 0, 8);
+-            s->base.is_jmp = DISAS_SWI;
++            /* swi/svc  */
++            gen_thumb_swi(s, extract32(insn, 0, 8));
+             break;
+         }
+         /* generate a conditional jump to next instruction */
+-- 
+2.20.1
 
->  tests/qemu-iotests/iotests.py |  22 ++
->  4 files changed, 173 insertions(+), 255 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/124 b/tests/qemu-iotests/124
-> index 3440f54781..8b6024769c 100755
-> --- a/tests/qemu-iotests/124
-> +++ b/tests/qemu-iotests/124
-> @@ -749,8 +749,7 @@ class TestIncrementalBackupBlkdebug(TestIncremental=
-BackupBase):
-> =20
->          # Bitmap Status Check
->          query =3D self.vm.qmp('query-block')
-> -        ret =3D [bmap for bmap in query['return'][0]['dirty-bitmaps']
-> -               if bmap.get('name') =3D=3D bitmap.name][0]
-> +        ret =3D self.vm.get_bitmap(None, drive0['id'], bitmap.name)
->          self.assert_qmp(ret, 'count', 458752)
->          self.assert_qmp(ret, 'granularity', 65536)
->          self.assert_qmp(ret, 'status', 'frozen')
-
-I see a couple more instances of querying the bitmaps through
-query-block here.  Wouldn=E2=80=99t it make sense to replace them all wit=
-h
-get_bitmap()?
-
-[...]
-
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests=
-=2Epy
-> index 84438e837c..9381964d9f 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -643,6 +643,28 @@ class VM(qtest.QEMUQtestMachine):
->                  return x
->          return None
-> =20
-> +    def query_bitmaps(self):
-> +        res =3D self.qmp("query-named-block-nodes")
-> +        return {"bitmaps": {device['node-name']: device['dirty-bitmaps=
-']
-> +                                for device in res['return']
-> +                                    if 'dirty-bitmaps' in device}}
-
-I=E2=80=99d leave the wrapping in {"bitmaps": x} to the callers, if they =
-need it.
-
-> +
-> +    def get_bitmap(self, bitmaps, node_name, name, recording=3DNone):
-> +        """
-> +        get a specific bitmap from the object returned by query_bitmap=
-s.
-> +        :param recording: If specified, filter results by the specifie=
-d value.
-> +        """
-> +        if bitmaps is None:
-> +            bitmaps =3D self.query_bitmaps()
-> +
-> +        for bitmap in bitmaps['bitmaps'][node_name]:
-> +            if bitmap.get('name', '') =3D=3D name:
-> +                if recording is None:
-> +                    return bitmap
-> +                elif bitmap.get('recording') =3D=3D recording:
-> +                    return bitmap
-
-Maybe add a =E2=80=9Cbreak=E2=80=9D or =E2=80=9Creturn None=E2=80=9D here=
-?
-
-(Yes, yes, you just moved existing code.  Still.)
-
-Max
-
-> +        return None
-> +
-> =20
->  index_re =3D re.compile(r'([^\[]+)\[([^\]]+)\]')
-> =20
->=20
-
-
-
---JXWQCGFSBq2jnpQ2O4TC3fh7XxzcJxJk5--
-
---Q7xZIY48ugaM74Hc1P5pUnQdwly5ITro5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1mrpkACgkQ9AfbAGHV
-z0DlUQf+LyB6pC19Jf+0wdUyeBlsUkr7TCHwvvE8hXLHklLoAoXeR2de3LVG0I8y
-EzB+kffdlG7w3P0i4lYdX+uGov4i6/pbbWVAw7p1pls62t5L3CpkEcbRC68dATXR
-ZoHWcTOZGhIp0d2t8LknH0AFAcGfHs4Mo2zLk38SjXs4UVzEPKgkF624qYXoKVvJ
-ulT5nwPogwC1sw35/GQDBiJYsfH6HsoO3JUjQkVB10bkc+XpX88yFRkiFWgUJ8+S
-Z/9DB4gz2TyYrLnQKE+XlA9ThStaf2RaV8eWo98iT+3AT5m7e5CwkOT1wjUn9tTG
-yjbJxt0khg2Oz98limCEEfF1l3oXWQ==
-=VOhO
------END PGP SIGNATURE-----
-
---Q7xZIY48ugaM74Hc1P5pUnQdwly5ITro5--
 
