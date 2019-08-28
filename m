@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2016EA0171
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:16:48 +0200 (CEST)
-Received: from localhost ([::1]:35706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7167FA0184
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:21:43 +0200 (CEST)
+Received: from localhost ([::1]:35778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2wsY-0006su-TG
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:16:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47211)
+	id 1i2wxJ-0001ni-8F
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:21:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47010)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i2wlW-0002Ly-HR
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:31 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i2wke-0001Qi-Jp
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:08:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i2wlV-0004F6-DY
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:30 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38331)
+ (envelope-from <alex.bennee@linaro.org>) id 1i2wkd-0003zo-9V
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:08:36 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33605)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i2wlV-0004EX-84
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:09:29 -0400
-Received: by mail-wr1-x436.google.com with SMTP id e16so2249797wro.5
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:09:29 -0700 (PDT)
+ id 1i2wkd-0003zX-33
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:08:35 -0400
+Received: by mail-wm1-x343.google.com with SMTP id r17so1612459wme.0
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6n64Nbm4zcHPeK1V9SaqlIE5G/HdcRAqWB9Q6ja2DLc=;
- b=JsQihLIQN4xkP6edNT7ZHfjPd9CY4pkNo0cSSn8SI5qscreN4SfGPhS3j80+ay+0Jj
- iMrE5ri8Y0OEHX8L6QpI4z9N+NeKgYPQG57KqX8N8qA6GD/zvxkMfWqn+Pih96uCwD87
- rx3la33gEPhRBL/4CV1Z9JPGIJ0rdWd+SGHX05v+2nY2rR6gyF3UtaOu9j0NfmPTOT4k
- e19HV+uHn1LEI7bGhRPt1z01Pw+AW2HJaB8hTJWK5EF7RuI3guKmfJIZhGxf8Mu21OR6
- R7fI7c8o8wSt+u/ZSI4iu3u5Q2ouAKkehqpheNpiSOpO8gvXO6q+Iik9jjZAsP7xn3pj
- p0jw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XcTHFRC9i2WFejx4BecSd/XK7WjxEFySMuLBYAt9kJQ=;
+ b=DZI9OXY42PAd6R+x4opQLcD+BU62C1PjgmssAZ83ZQzzENTvu1uig7LDBlp9vWxuqd
+ vP7pNQTesWzKGFE1Xl3h4kf54z+S0B1Dn1fclQWD7ICxdtZMQHvTVzQYy6oY5/80tSya
+ 0h87PSkio49kLm1Vas46Scm3m+OBFFGwW1y+yzLS1KMPDHktNzxPiGNk4KjqC4GclMzk
+ NiRp+dlmpunH3O4WioeJPVSkMhWRXBibqJGgDalBo0+og024ypM8Hgw9lwwGJ8OzaivK
+ mTIq80pTYN+2jn5Df0u0z7d982YBtf6JUtVfKQshms+Dsl5zfVhcvGo9+ktKo1MFHfHN
+ eGTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6n64Nbm4zcHPeK1V9SaqlIE5G/HdcRAqWB9Q6ja2DLc=;
- b=b2rll+I4Ufy0zeCa4a1HX2oc8YckvQHrovJnzzCfXFlVSSs9JuejG/M9SvWQ3qtnde
- hrvv/Ls+spKgUaJbS6SIc3yXmoVVA6yeQs7fN4Q9tMq5Xcs+7Fv9OExICk5JyBHM4tqN
- ouHzTo4aLvd8TWGD8jtnxOcvfyZ3wEBLS9GQmUc32B2nTCs51PFPbpxm1buSWxPPRMpk
- M2T9VRIQZ1BZD2finptmZmGyk/zM3Wk21EjHpQqKcGw7Fl3bMwmLcdDbL5Cp3VMZReAQ
- a9Lk4cuDwbDyq7s+QkSe9gX55DEltH9KVAZ/u1vXjmbQPzz4dWzxwEDOQ4wJc0WIGmyu
- btcw==
-X-Gm-Message-State: APjAAAWz6PlbX++3LsIDKBHewmGXDOrBwMbDH6kVKV6RQ7bRhTJ8aHKc
- J/IYT8Hs9LPOIkF9R6/pHUbicA==
-X-Google-Smtp-Source: APXvYqzCnNG/OjDipz/wLmqfx+SZ8SIhRDwe6An3BWVIr/+49eq1hNLjRi+YBz2Md+QNIv+lUiX9rQ==
-X-Received: by 2002:adf:eb8c:: with SMTP id t12mr3109756wrn.84.1566994168128; 
- Wed, 28 Aug 2019 05:09:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XcTHFRC9i2WFejx4BecSd/XK7WjxEFySMuLBYAt9kJQ=;
+ b=Rxp7rOPsOlKTqtsiEKW0mGsgQxc7Xgsj2TxgVtI20jYQT1Bg2ukLhZAmAnH2pt1gdQ
+ Hw2C2gZsZQQGtFWdfYhqXpElLfT9mEg2VQs4/qebjiPJK9hUnM7x7AHTp6ko8bor87OZ
+ YiSK+ju2mZ1kUeTnhTJJtbUudrKCUNiFB/G40LPoEfqKPqzGnng6NVEXAGKWktl2RG50
+ rW6xseb6scmVTNEYFTUsb6TPurSvk5CKIZGCdViA4vKwrECBH4/rCwXZMDddAUMNgsqg
+ J31Z3amoM+Qos0khLIuOiwWezcegUDUkVfdJqd0kf7d9MaG5/iUl6BcEwBE8NcyVJ5w1
+ wmBQ==
+X-Gm-Message-State: APjAAAVKx81FT5MIBO+x/kOhVhLhOPgkbIeGN/UY7qKh4YG+4SSU2OHG
+ gU4iLxnMLAWzVeFbTig5mf0BNQ==
+X-Google-Smtp-Source: APXvYqzyuII1YrjrwA4Hd/9rmgRrupacevg1X/UktDc6jHMB1QWKviRJEPyQFWBgauklc47PYqBq3Q==
+X-Received: by 2002:a7b:c7c2:: with SMTP id z2mr4338763wmk.33.1566994113821;
+ Wed, 28 Aug 2019 05:08:33 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e6sm2411141wrw.35.2019.08.28.05.09.24
+ by smtp.gmail.com with ESMTPSA id p129sm3660276wme.9.2019.08.28.05.08.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 05:09:27 -0700 (PDT)
+ Wed, 28 Aug 2019 05:08:33 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 77C251FF96;
- Wed, 28 Aug 2019 13:09:22 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 7D7D31FF87;
+ Wed, 28 Aug 2019 13:08:32 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 28 Aug 2019 13:09:20 +0100
-Message-Id: <20190828120921.9586-8-alex.bennee@linaro.org>
+Date: Wed, 28 Aug 2019 13:08:24 +0100
+Message-Id: <20190828120832.9208-1-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190828120921.9586-1-alex.bennee@linaro.org>
-References: <20190828120921.9586-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
-Subject: [Qemu-devel] [PATCH v1 7/8] contrib/gitdm: add RT-RK to domain-map
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH  v1 0/8] various gitdm and mailmap updates
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,36 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Brankovic <stefan.brankovic@rt-rk.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Mateja Marjanovic <mateja.marjanovic@rt-rk.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I added this because Mateja is showing up in the top 10 stats for the
-last year. I have noticed a bunch of the Wavecomp guys have been
-sending messages from RT-RK but I'm assuming they are different
-entities.
+Hi,
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-Cc: Mateja Marjanovic <mateja.marjanovic@rt-rk.com>
----
- contrib/gitdm/domain-map | 1 +
- 1 file changed, 1 insertion(+)
+With another release out of the door and KVM Forum approaching it is a
+good time to clean up our gitdm stats. As usual updates for academic
+institutions and individual contributors involve a bit of guess work
+so I have CC'd those affected for their confirmation. There is also a
+large amount of verbiage added to the mailmap and aliases files to
+(hopefully) better explain what they are trying to do.
 
-diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index fa9d454473d..abee7e334b4 100644
---- a/contrib/gitdm/domain-map
-+++ b/contrib/gitdm/domain-map
-@@ -18,6 +18,7 @@ nokia.com       Nokia
- oracle.com      Oracle
- proxmox.com     Proxmox
- redhat.com      Red Hat
-+rt-rk.com       RT RK
- siemens.com     Siemens
- sifive.com      SiFive
- suse.de         SUSE
+Alex Bennée (3):
+  .mailmap/aliases: add some further commentary
+  contrib/gitdm: add RT-RK to domain-map
+  contrib/gitdm: add more entries individuals and academics
+
+Markus Armbruster (2):
+  contrib/gitdm: filetype interface is not in order, fix
+  contrib/gitdm: Add armbru@pond.sub.org to group-map-redhat
+
+Philippe Mathieu-Daudé (3):
+  mailmap: Reorder by sections
+  mailmap: Update philmd email address
+  mailmap: Add many entries to improve 'git shortlog' statistics
+
+ .mailmap                            | 137 ++++++++++++++++++++++++++--
+ contrib/gitdm/aliases               |  20 +++-
+ contrib/gitdm/domain-map            |   1 +
+ contrib/gitdm/filetypes.txt         |   2 +-
+ contrib/gitdm/group-map-academics   |   3 +
+ contrib/gitdm/group-map-individuals |   7 +-
+ contrib/gitdm/group-map-redhat      |   1 +
+ 7 files changed, 159 insertions(+), 12 deletions(-)
+
 -- 
 2.20.1
 
