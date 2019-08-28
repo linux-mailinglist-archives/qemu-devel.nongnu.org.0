@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163D0A0198
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:27:57 +0200 (CEST)
-Received: from localhost ([::1]:35878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3087AA01D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 14:34:08 +0200 (CEST)
+Received: from localhost ([::1]:35924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2x3M-0007pe-0Q
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51217)
+	id 1i2x9L-00020J-Al
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 08:34:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i2x14-0006MH-OF
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:25:36 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i2wtb-0000Lb-O4
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:17:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i2x12-0005VT-Ge
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:25:34 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53447)
+ (envelope-from <alex.bennee@linaro.org>) id 1i2wtU-0001D3-Sl
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:17:47 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52433)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i2x12-0005UO-9p
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:25:32 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 10so2569164wmp.3
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:25:31 -0700 (PDT)
+ id 1i2wtT-0001AT-KZ
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 08:17:43 -0400
+Received: by mail-wm1-x330.google.com with SMTP id t17so1552982wmi.2
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 05:17:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=Z8qJcsDf7RYf7QVInGtHPuol4fEvfRopoSlWm0kUn0U=;
- b=DU775Tk5u1DCvDkrIk6ZeTZTr1BTPhvPTOdGSuIeA95bZ6cZHdD0n3TPNzNf/o+iAB
- GAyAz/kn2qEG90DL5gp0P6kKz434edK3e0IMvwGrXKkEPG23A5amSuYsZ4CG24AvIv91
- eSr2a6GJxeM7VYjjDe/fGGluXNDuGq8HFfEEv+NktDL0IEgabP/AVPrZSM4P6vE0CxtB
- oXaCwOvA0ec3n82ZBoFmChVTiFlncA2rr5VMNee8N6Nq1oWD8BNJpMmule/HJrqSCUGY
- tEfFrfhUUs+qEwnMTWUJpM+Svb3ocfviDlWzQqGz7fAz0XFDu48Yk0xe+gn2yTC7QAHz
- 2Hbg==
+ bh=SO/+ZxrrXNaUWmQQTIrNTUOGXFIFu5F/dnetblKU2kE=;
+ b=r5Donwk5NZaWRIjw2rihu98vBFVsoAweWLPorPcVsEU5a4hpbhNkTfJ3Dbk6QsVSMV
+ JUWLrbVcxVJrVM8vJp4dd+21MI3IY1Bf8wYe5Y38TB5NQcJlXDkDfX7MepYC8T+Rzzyb
+ g1z080/EXEtPMsZMI5oWhK+flwrmDx7bE2YXHOKpriTtXNzNMQxb8Gs1YUhaoQ79H8PA
+ XyE00jcjBgCiiTxuu+zz3ahihtRb+Wz+TSCjCQiN2x5C/xXo0KubglaHLArys02LbhmK
+ RetIgqlfGISUdVDD0wb0hEStq56lNoghtQcoaBmQYsOzhYijCfQRsSw8tuUVo9obzgZX
+ fRUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Z8qJcsDf7RYf7QVInGtHPuol4fEvfRopoSlWm0kUn0U=;
- b=EO0hQGMb3rNXPeJ2QB9LB7EYY6WlXYX2g47EIPHg2fXxa6SMgcxfN0b7By9IRWLlTl
- eB3LdWUIv+LzDBvkHTLI05OUFN4j/m823XfOzcBZ3ji31LNh0uiazm2IR4IXQf2BsND2
- DHbSqj1AP7pe3H3DfjvhYO1XX4Ul9tRSPDPvdTWRwaClq1LVrHMqhv4Tne6B3A5yjr6e
- SLqWAPPeIz+ngwdHyia8TjaIYQHAUnROy9thkogP/n58faQBz2BKltQHVh6uh7eB3YxZ
- LhhMAHGPbHyO3G/h3xje5OjN+kdUIBjGEtD2OLdpmTWiRR6bMCsse281z9VZDJ1b40Ah
- nPqw==
-X-Gm-Message-State: APjAAAXh5HKhPADzgXSQuKfy2ygBwohreWDqtce1Wm5tSB5BBcQFGsYZ
- tCPX3VFVq/13LiMk9FqHw+mc60NwVso=
-X-Google-Smtp-Source: APXvYqxHU53mVxTXfFj2HT6QEAy7U7kI6WA83Rb/06JGmwzAqqbrwsCcmNmsoJs1g1jtMxnijlkOZg==
-X-Received: by 2002:a1c:790b:: with SMTP id l11mr4743983wme.3.1566995129888;
- Wed, 28 Aug 2019 05:25:29 -0700 (PDT)
+ bh=SO/+ZxrrXNaUWmQQTIrNTUOGXFIFu5F/dnetblKU2kE=;
+ b=qGsgAI8GVNwW5EsAxjRcIMqa5TXTuE1VzTbHoJiEZsgk/qOmlh7XujkDgwx+rep7xL
+ zNdsE1zG3dB1J+Wi7MUq6PsquKF7UKny0CBPtMU48QBXjdcPYA6BOrx0hpbzbcuhOy04
+ d72ct73wV0l8aRkM2TYeYZMg4mffXuNQnNuhPuTUyQHEH8OTeN/IKZHWB4VCzHZPzcJ+
+ JlBFuzR4XeQD5HUPBdObiDNFay/JzFtty9EzMIX0kJIjdo8+bowCZlb3KSdaDdaTkS8h
+ jP/q7gHRvP5pcRGv9bEVYYGC0fZDnMTRQSMh8mkfWfmt44FhGnL6C+x1Dq2zlxzT2EpP
+ n5tQ==
+X-Gm-Message-State: APjAAAW7VAwlC+1nVRd6X9TiFcgAMCANVRmiuoPYHqpVA0el6e6PXlfc
+ QDMey0QD4EIUaMPf5XDjBlYjNPuumEQ=
+X-Google-Smtp-Source: APXvYqwnXdmU5BqBMg/mJC9oku4d9bYLA5xPpy9GUU/B+V9N2Aef08vCI6H/nfq0pEg51ct/ovwunA==
+X-Received: by 2002:a1c:107:: with SMTP id 7mr4602380wmb.84.1566994661800;
+ Wed, 28 Aug 2019 05:17:41 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a11sm2377649wrx.59.2019.08.28.05.25.29
+ by smtp.gmail.com with ESMTPSA id s64sm6538507wmf.16.2019.08.28.05.17.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 05:25:29 -0700 (PDT)
+ Wed, 28 Aug 2019 05:17:41 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A502B1FF87;
- Wed, 28 Aug 2019 13:25:28 +0100 (BST)
-References: <20190823163931.7442-1-berrange@redhat.com>
- <20190823163931.7442-2-berrange@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id 695C91FF87;
+ Wed, 28 Aug 2019 13:17:40 +0100 (BST)
+References: <20190822231231.1306-1-philmd@redhat.com>
 User-agent: mu4e 1.3.4; emacs 27.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-In-reply-to: <20190823163931.7442-2-berrange@redhat.com>
-Date: Wed, 28 Aug 2019 13:25:28 +0100
-Message-ID: <87ef155vev.fsf@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+In-reply-to: <20190822231231.1306-1-philmd@redhat.com>
+Date: Wed, 28 Aug 2019 13:17:40 +0100
+Message-ID: <87ftll5vrv.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH 1/4] docs: convert CODING_STYLE and HACKING
- to markdown syntax
+X-Received-From: 2a00:1450:4864:20::330
+Subject: Re: [Qemu-devel] [PATCH] contrib/gitdm: Add RT-RK to the domain-map
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,35 +81,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> diff --git a/README b/README
-> index 441c33eb2f..374b8f1486 100644
-> --- a/README
-> +++ b/README
-> @@ -60,7 +60,7 @@ When submitting patches, one common approach is to use =
-'git
->  format-patch' and/or 'git send-email' to format & send the mail to the
->  qemu-devel@nongnu.org mailing list. All patches submitted must contain
->  a 'Signed-off-by' line from the author. Patches should follow the
-> -guidelines set out in the HACKING and CODING_STYLE files.
-> +guidelines set out in the HACKING.md and CODING_STYLE.md files.
+> This company has at least 7 contributors, add a domain-map entry.
 >
->  Additional information on submitting patches can be found online via
->  the QEMU website
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-It's tempting to suggest we go the whole hog and convert the README as
-well. We could then add CI buttons which would render nicely on the
-github/gitlab mirrors.
+Opps I missed this one and added my own version this morning.
+
+> ---
+>  contrib/gitdm/domain-map | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+> index fa9d454473..9efe066ec9 100644
+> --- a/contrib/gitdm/domain-map
+> +++ b/contrib/gitdm/domain-map
+> @@ -18,6 +18,7 @@ nokia.com       Nokia
+>  oracle.com      Oracle
+>  proxmox.com     Proxmox
+>  redhat.com      Red Hat
+> +rt-rk.com       RT-RK
+>  siemens.com     Siemens
+>  sifive.com      SiFive
+>  suse.de         SUSE
+
 
 --
 Alex Benn=C3=A9e
