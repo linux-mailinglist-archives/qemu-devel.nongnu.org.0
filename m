@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CABA061D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 17:20:28 +0200 (CEST)
-Received: from localhost ([::1]:37624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A7EA062A
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 17:22:17 +0200 (CEST)
+Received: from localhost ([::1]:37644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i2zkJ-0008GZ-7p
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 11:20:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41135)
+	id 1i2zm4-0001NW-1x
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 11:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41191)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i2zj1-0007nr-4z
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 11:19:08 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i2zjH-0007yo-ND
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 11:19:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i2zj0-0007Fs-3T
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 11:19:07 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51616)
+ (envelope-from <alex.bennee@linaro.org>) id 1i2zjG-0007NF-Ae
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 11:19:23 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36938)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i2ziz-0007FW-T7
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 11:19:06 -0400
-Received: by mail-wm1-x344.google.com with SMTP id k1so491608wmi.1
- for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 08:19:05 -0700 (PDT)
+ id 1i2zjG-0007Mj-3g
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 11:19:22 -0400
+Received: by mail-wr1-x442.google.com with SMTP id z11so220241wrt.4
+ for <qemu-devel@nongnu.org>; Wed, 28 Aug 2019 08:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=Oxzk18NFntYWQGsx62htSWbOLaVegiQxJmu/0qmLf+g=;
- b=eZL6rLwRZrALkAcTecJF/yrq0F05Ocri6GaDPE3ZT5b2nPe/qn4q2YAMQ6qBbiiynP
- Yg9FCY7XGAGSPFRfIK3ybV/HhyIS3TehHRP7C4+Rw4bq/0ZYPSdZri9E9M2H3oTyLNQ9
- uqOKl05xnPej9hhulmO7q9tP066hPL5lYUs3nGwZDVj1qEuRG2lKKUS/SXZnfdEICb9p
- ewAPkdS3cCGzw+8TrEM4wVEk5wQ3efFeCKNfZe/a2kbsEDYu9igCdaTV5g1dYKULyB79
- AeMdDrAnAdMPuDpjmY7R/IIA1GNhqI3JTeo8S7Yhf1XP9L/LuWtBrCHcBa8B/Ecph+rV
- laDg==
+ bh=cGcXZZOCaa/dul4QdYBlhFe3lUCL2IzRsHBFk/i6Z+k=;
+ b=Ly6cLXqFcfKu8VoH4CFJun1KRwam+ZZ3yWVhz+80m92KylgoajC1WB4vlDDrT0dULa
+ Jv7zLYrclr1+CClmgJc/JGuBKsrNNtx8Jak/RBErgtT/7FEcl1+rTV/5kFKlSaEIJE9P
+ gHZLs4k19eLUSrRMwE7WhrL1B9GsbVoZUl62NSh2Sk9cW4CJDr6v9pb1ALWcpnGqvPD3
+ /Om4t24ZoCJ3vF+BbGLXP6REuZoBctrmFMc4P8aE+W909nPtRlyMTLjoitP9yrW3EFrs
+ XsJXzgsGCKBOQdJmyhrtIJXC/S2QTTnQqYCiIoqe9+F5utdwbu9/iSCpMIZC2TmTD4ND
+ Mfrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Oxzk18NFntYWQGsx62htSWbOLaVegiQxJmu/0qmLf+g=;
- b=WprukvVu/8MHTcpj2IYe5PTEk1ueX/d0bwp7R+B5iui/tN22woVTxOoWSOwl5YVsQM
- Sqp7EnZdvzWC6GV0SaqXo2nHqMLRb3ZQRtKSDmlCNEiAJo+ISKVXcqteFrToC6xqnWLV
- aAEBywNMsi5KW+xeK6Wu3rzL4OrJvEM2EUjjzklDGqmqxuBnrgTL8nNeHOCxsr5QJMzh
- WHC2OIxbFb8sijFXufMz+GuTXFGBCmNmEoiCtfk96zl7b39aB95OsK3NRqdVsDs9pKzP
- OF5UCMtWa859OFk/jTR5ejbwQHwwYWOD8j8zO9NSORgO/v4UZOMZbUooivJkQfAzEO5x
- TN9g==
-X-Gm-Message-State: APjAAAXhKZDu/7EMlLLi+PBiQ7uzEMs5wYri8axLaSmw09qf5MloIkTt
- mEoy6eVevIB8of+cENNaleAjsA==
-X-Google-Smtp-Source: APXvYqzm+okQ3pflIki3YCgwOPV2y3r2DAF6/CuRLGBUXYcL6VR8fmIKwhPCxWweOVKF2R2LN0/02g==
-X-Received: by 2002:a7b:cf11:: with SMTP id l17mr5417262wmg.158.1567005544398; 
- Wed, 28 Aug 2019 08:19:04 -0700 (PDT)
+ bh=cGcXZZOCaa/dul4QdYBlhFe3lUCL2IzRsHBFk/i6Z+k=;
+ b=gfg2bwxv6rMlyzkx5YQuHtyOyCxt+zYZY8yGytpC6YtaC0lblkIsnrygtmKcay2Ywc
+ pwOoEQxtIwKSusFxzpMAeRq4BhtEzx4DO6geOPOBOoAdkI0bIeDmUKqrQvLnamfxKnhW
+ LLrFW20M4wP38hUHdDsWcn1DqW1m97/lk/RColUwFMrrVe6hea8MSf3nFh85mydaNx0b
+ mPvEgzfk1Iqicj4wdNyxV5Z+FIlFNQTZxD08RN2PqK+m+1sVsrtBdZZ+QiJMhCQZ7tbi
+ KWSN1sb7XU6HwOAmX99M9FPOFs0NozZYQ3L5lhHZG2yK4jnlOhFcBsprdfGcnNW3Hcwg
+ gigA==
+X-Gm-Message-State: APjAAAUNO3SPE6dHLkwOpZbVcb9ByNXqhAtZuMYh+BzD9Ycu3pZ3PupV
+ sRJ1ttjN/nSu/zAPPnPHh5KhGQ==
+X-Google-Smtp-Source: APXvYqwgETFhnIalvCxHkl8H15oIqRmZR4ZDsjnZfu0hbhhgvrcxmtYmncMLd7g5F065OxSozvRXUQ==
+X-Received: by 2002:adf:facc:: with SMTP id a12mr5359609wrs.205.1567005560941; 
+ Wed, 28 Aug 2019 08:19:20 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k9sm3930729wrq.15.2019.08.28.08.19.03
+ by smtp.gmail.com with ESMTPSA id c11sm3523455wrt.25.2019.08.28.08.19.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Aug 2019 08:19:03 -0700 (PDT)
+ Wed, 28 Aug 2019 08:19:20 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2DFD41FF87;
- Wed, 28 Aug 2019 16:19:03 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id EB09B1FF87;
+ Wed, 28 Aug 2019 16:19:19 +0100 (BST)
 References: <20190827140241.20818-1-marcandre.lureau@redhat.com>
+ <20190827140241.20818-2-marcandre.lureau@redhat.com>
 User-agent: mu4e 1.3.4; emacs 27.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-In-reply-to: <20190827140241.20818-1-marcandre.lureau@redhat.com>
-Date: Wed, 28 Aug 2019 16:19:03 +0100
-Message-ID: <877e6x5ndk.fsf@linaro.org>
+In-reply-to: <20190827140241.20818-2-marcandre.lureau@redhat.com>
+Date: Wed, 28 Aug 2019 16:19:19 +0100
+Message-ID: <875zmh5nd4.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH 1/2] build-sys: build ui-spice-app as a
- module
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [PATCH 2/2] tests: fix modules-test with no
+ default machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,8 +84,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, peter.maydell@linaro.org,
- Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?Mar?= =?utf-8?Q?c-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?M?= =?utf-8?Q?arc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -92,49 +93,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
 
-> This reverts commit 45db1ac157 ("modules-test: ui-spice-app is not
-> built as module") and fixes commit d8aec9d9f1 ("display: add -display
-> spice-app launching a Spice client").
->
+> Fixes: eb062cfa733 ("tests: add module loading test")
 > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 > ---
->  tests/modules-test.c | 3 +++
->  ui/Makefile.objs     | 4 +++-
->  2 files changed, 6 insertions(+), 1 deletion(-)
+>  tests/modules-test.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
 > diff --git a/tests/modules-test.c b/tests/modules-test.c
-> index f9de3afdb7..a8118e9042 100644
+> index a8118e9042..d1a6ace218 100644
 > --- a/tests/modules-test.c
 > +++ b/tests/modules-test.c
-> @@ -52,6 +52,9 @@ int main(int argc, char *argv[])
->  #endif
->  #ifdef CONFIG_SDL
->          "ui-", "sdl",
-> +#endif
-> +#if defined(CONFIG_SPICE) && defined(CONFIG_GIO)
-> +        "ui-", "spice-app",
->  #endif
->      };
->      int i;
-> diff --git a/ui/Makefile.objs b/ui/Makefile.objs
-> index cc2bf5b180..ba39080edb 100644
-> --- a/ui/Makefile.objs
-> +++ b/ui/Makefile.objs
-> @@ -49,7 +49,9 @@ curses.mo-objs :=3D curses.o
->  curses.mo-cflags :=3D $(CURSES_CFLAGS) $(ICONV_CFLAGS)
->  curses.mo-libs :=3D $(CURSES_LIBS) $(ICONV_LIBS)
+> @@ -1,12 +1,14 @@
+>  #include "qemu/osdep.h"
+>  #include "libqtest.h"
 >
-> -common-obj-$(call land,$(CONFIG_SPICE),$(CONFIG_GIO)) +=3D spice-app.mo
-> +ifeq ($(CONFIG_GIO)$(CONFIG_SPICE),yy)
-> +common-obj-$(if $(CONFIG_MODULES),m,y) +=3D spice-app.mo
-> +endif
->  spice-app.mo-objs :=3D spice-app.o
->  spice-app.mo-cflags :=3D $(GIO_CFLAGS)
->  spice-app.mo-libs :=3D $(GIO_LIBS)
+> +const char common_args[] =3D "-nodefaults -machine none";
+> +
+>  static void test_modules_load(const void *data)
+>  {
+>      QTestState *qts;
+>      const char **args =3D (const char **)data;
+>
+> -    qts =3D qtest_init(NULL);
+> +    qts =3D qtest_init(common_args);
+>      qtest_module_load(qts, args[0], args[1]);
+>      qtest_quit(qts);
+>  }
 
 
 --
