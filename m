@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E464AA0B49
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:24:34 +0200 (CEST)
-Received: from localhost ([::1]:42280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E025FA0B5D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:27:28 +0200 (CEST)
+Received: from localhost ([::1]:42328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i34Ub-0007hC-Q1
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40316)
+	id 1i34XP-000375-Ha
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1i33NP-0002aA-Oe
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:13:04 -0400
+ (envelope-from <jsnow@redhat.com>) id 1i33QB-0005Rs-KM
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:15:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1i33NN-0004G8-QR
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:13:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52964)
+ (envelope-from <jsnow@redhat.com>) id 1i33QA-0005nl-HY
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 15:15:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52928)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1i33NG-0004BI-Lh; Wed, 28 Aug 2019 15:12:54 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1i33Q2-0005e5-F5; Wed, 28 Aug 2019 15:15:46 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B0E4D309175F;
- Wed, 28 Aug 2019 19:12:53 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id BE0B28B5FF0;
+ Wed, 28 Aug 2019 19:15:45 +0000 (UTC)
 Received: from [10.18.17.85] (dhcp-17-85.bos.redhat.com [10.18.17.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFD6A5C21E;
- Wed, 28 Aug 2019 19:12:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDA91196B2;
+ Wed, 28 Aug 2019 19:15:42 +0000 (UTC)
 To: Nir Soffer <nirsof@gmail.com>, qemu-devel@nongnu.org
 References: <20190827185913.27427-1-nsoffer@redhat.com>
- <20190827185913.27427-3-nsoffer@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -108,22 +107,22 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <b3437d45-f212-6b77-66d5-183f2dab53f0@redhat.com>
-Date: Wed, 28 Aug 2019 15:12:46 -0400
+Message-ID: <f75165f2-7b48-560e-13aa-059fdb00a1c0@redhat.com>
+Date: Wed, 28 Aug 2019 15:15:41 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190827185913.27427-3-nsoffer@redhat.com>
+In-Reply-To: <20190827185913.27427-1-nsoffer@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Wed, 28 Aug 2019 19:12:53 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Wed, 28 Aug 2019 19:15:45 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2 2/2] block: Remove unused
- masks
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2 0/2] Alignment checks
+ cleanup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -145,62 +144,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 8/27/19 2:59 PM, Nir Soffer wrote:
-> Replace confusing usage:
+> While working on 4k support, I noticed that there is lot of code using
+> BDRV_SECTOR_SIZE (512) for checking alignment. I wonder how this can work with
+> 4k storage.
 > 
->     ~BDRV_SECTOR_MASK
+> Lets start by cleaning up to make the code easier to understand:
+> - Use QEMU_IS_ALIGNED macro to check alignment
+> - Remove unneeded masks based on BDRV_SECTOR_SIZE
 > 
-> With more clear:
+> Nir Soffer (2):
+>   block: Use QEMU_IS_ALIGNED
+>   block: Remove unused masks
 > 
->     (BDRV_SECTOR_SIZE - 1)
-> 
-> Remove BDRV_SECTOR_MASK and the unused BDRV_BLOCK_OFFSET_MASK which was
-> it's last user.
-> 
-
-Kind of lateral in my opinion, but if there was only ONE user across TWO
-definitions, then for sure it can go, especially because using the
-ALIGNED macros is indeed nicer and should be encouraged.
-
-Reviewed-by: John Snow <jsnow@redhat.com>
-
-> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-> ---
+>  block/bochs.c         | 4 ++--
+>  block/cloop.c         | 4 ++--
+>  block/dmg.c           | 4 ++--
+>  block/io.c            | 8 ++++----
+>  block/qcow2-cluster.c | 4 ++--
+>  block/qcow2.c         | 4 ++--
+>  block/vvfat.c         | 8 ++++----
 >  include/block/block.h | 2 --
 >  migration/block.c     | 2 +-
->  2 files changed, 1 insertion(+), 3 deletions(-)
+>  qemu-img.c            | 2 +-
+>  10 files changed, 20 insertions(+), 22 deletions(-)
 > 
-> diff --git a/include/block/block.h b/include/block/block.h
-> index 124ad40809..37c9de7446 100644
-> --- a/include/block/block.h
-> +++ b/include/block/block.h
-> @@ -143,7 +143,6 @@ typedef struct HDGeometry {
->  
->  #define BDRV_SECTOR_BITS   9
->  #define BDRV_SECTOR_SIZE   (1ULL << BDRV_SECTOR_BITS)
-> -#define BDRV_SECTOR_MASK   ~(BDRV_SECTOR_SIZE - 1)
->  
->  #define BDRV_REQUEST_MAX_SECTORS MIN(SIZE_MAX >> BDRV_SECTOR_BITS, \
->                                       INT_MAX >> BDRV_SECTOR_BITS)
-> @@ -195,7 +194,6 @@ typedef struct HDGeometry {
->  #define BDRV_BLOCK_ALLOCATED    0x10
->  #define BDRV_BLOCK_EOF          0x20
->  #define BDRV_BLOCK_RECURSE      0x40
-> -#define BDRV_BLOCK_OFFSET_MASK  BDRV_SECTOR_MASK
->  
->  typedef QSIMPLEQ_HEAD(BlockReopenQueue, BlockReopenQueueEntry) BlockReopenQueue;
->  
-> diff --git a/migration/block.c b/migration/block.c
-> index aa747b55fa..92c36b68ec 100644
-> --- a/migration/block.c
-> +++ b/migration/block.c
-> @@ -906,7 +906,7 @@ static int block_load(QEMUFile *f, void *opaque, int version_id)
->      do {
->          addr = qemu_get_be64(f);
->  
-> -        flags = addr & ~BDRV_SECTOR_MASK;
-> +        flags = addr & (BDRV_SECTOR_SIZE - 1);
->          addr >>= BDRV_SECTOR_BITS;
->  
->          if (flags & BLK_MIG_FLAG_DEVICE_BLOCK) {
-> 
+
+V2 changelog?
+
+(Looks like adding patch 2 as a result of changing away users from the
+BDRV_SECTOR_MASK.)
+
+Reviewed-by: John Snow <jsnow@redhat.com>
 
