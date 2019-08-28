@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66777A0BEB
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:56:38 +0200 (CEST)
-Received: from localhost ([::1]:42742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DA4A0BED
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 22:58:29 +0200 (CEST)
+Received: from localhost ([::1]:42758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i34zd-0005o4-Be
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:56:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52393)
+	id 1i351Q-0007Xt-Js
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 16:58:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52994)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i34ac-0007bT-NF
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:30:47 -0400
+ (envelope-from <david@redhat.com>) id 1i34eY-00040y-VP
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:34:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i34ab-00062L-EQ
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:30:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54430)
+ (envelope-from <david@redhat.com>) id 1i34eX-0008ST-Vp
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 16:34:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55508)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i34ab-00061q-75; Wed, 28 Aug 2019 16:30:45 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1i34eX-0008SA-OQ; Wed, 28 Aug 2019 16:34:49 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2C7A618C426B;
- Wed, 28 Aug 2019 20:30:44 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 09C5210C696D;
+ Wed, 28 Aug 2019 20:34:49 +0000 (UTC)
 Received: from [10.36.117.166] (ovpn-117-166.ams2.redhat.com [10.36.117.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13EF31001959;
- Wed, 28 Aug 2019 20:30:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEBAB19D70;
+ Wed, 28 Aug 2019 20:34:46 +0000 (UTC)
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190828111004.28013-1-david@redhat.com>
- <20190828111004.28013-3-david@redhat.com>
- <b9eb6e23-bcde-e987-048a-e174070d975c@linaro.org>
+ <20190828111004.28013-2-david@redhat.com>
+ <07f892a0-c8d8-9960-1536-082121cf2618@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -79,22 +79,22 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <c8402a95-7e09-481c-7aba-c9d425e5b71d@redhat.com>
-Date: Wed, 28 Aug 2019 22:30:41 +0200
+Message-ID: <d3fad340-1ed1-fa9c-483f-7762b423d564@redhat.com>
+Date: Wed, 28 Aug 2019 22:34:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <b9eb6e23-bcde-e987-048a-e174070d975c@linaro.org>
+In-Reply-To: <07f892a0-c8d8-9960-1536-082121cf2618@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Wed, 28 Aug 2019 20:30:44 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.65]); Wed, 28 Aug 2019 20:34:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v1 2/2] tcg: Factor out probe_write() logic
- into probe_access()
+Subject: Re: [Qemu-devel] [PATCH v1 1/2] tcg: Make probe_write() return a
+ pointer to the host page
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,22 +112,29 @@ Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28.08.19 16:52, Richard Henderson wrote:
+On 28.08.19 16:44, Richard Henderson wrote:
 > On 8/28/19 4:10 AM, David Hildenbrand wrote:
->> +void *probe_access(CPUArchState *env, target_ulong addr, int size,
->> +                   MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
->>  {
->>      CPUState *cpu = env_cpu(env);
->>      CPUClass *cc;
->> +    int flags;
->>  
->>      g_assert(-(addr | TARGET_PAGE_MASK) >= size);
->> +    g_assert(mmu_idx == MMU_USER_IDX);
+>> + * If the access is permitted, returns the host address similar to
+>> + * tlb_vaddr_to_host(). Returns NULL in case direct access to the host page
+>> + * is not allowed or if the size is 0.
 > 
-> We ignore mmu_idx pretty much everywhere else.
-> Why bother now?
+> Maybe we can find some better language -- "not allowed" sounds like a
+> permissions check, and we longjmp out on permission check failures.
+> 
+> Perhaps "if the page requires i/o access"?
 
-Also true, I can drop this and simply use MMU_USER_IDX below.
+Yeah, and NOTDIRTY, emulated via i/o access. I will rephrase.
+
+> 
+> Why are you returning NULL for size 0?  Just because the caller hasn't
+> committed to a size and thus we haven't checked watchpoints?
+
+Yes, I think it's the right thing to do. Watchpoints are one part of the
+story, the other part is TLB_RECHECK (a.k.a. TLB_INVALID_MASK or
+"subpage protection"). Allowing access could lead to hidden BUGs.
+
+I consider somebody wanting to get access to a host page with an access
+size of zero an interface violation.
 
 -- 
 
