@@ -2,57 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38D7A095E
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 20:23:33 +0200 (CEST)
-Received: from localhost ([::1]:39604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93021A09CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Aug 2019 20:42:47 +0200 (CEST)
+Received: from localhost ([::1]:39758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i32bV-0006b3-2Q
-	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 14:23:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58595)
+	id 1i32u6-0003OL-C8
+	for lists+qemu-devel@lfdr.de; Wed, 28 Aug 2019 14:42:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33183)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mtosatti@redhat.com>) id 1i32aR-0005td-Hl
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 14:22:28 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1i32rx-0001nc-Oa
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 14:40:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mtosatti@redhat.com>) id 1i32aP-0000fd-Di
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 14:22:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44726)
+ (envelope-from <ehabkost@redhat.com>) id 1i32rv-0003IK-5Y
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 14:40:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46662)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mtosatti@redhat.com>) id 1i32aP-0000d3-8s
- for qemu-devel@nongnu.org; Wed, 28 Aug 2019 14:22:25 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i32ru-0003HD-UD
+ for qemu-devel@nongnu.org; Wed, 28 Aug 2019 14:40:31 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5576F30821DF;
- Wed, 28 Aug 2019 18:22:23 +0000 (UTC)
-Received: from amt.cnet (ovpn-112-8.gru2.redhat.com [10.97.112.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 10A73100194E;
- Wed, 28 Aug 2019 18:22:23 +0000 (UTC)
-Received: from amt.cnet (localhost [127.0.0.1])
- by amt.cnet (Postfix) with ESMTP id 46A86105140;
- Wed, 28 Aug 2019 15:22:08 -0300 (BRT)
-Received: (from marcelo@localhost)
- by amt.cnet (8.14.7/8.14.7/Submit) id x7SIM3hP021933;
- Wed, 28 Aug 2019 15:22:03 -0300
-Date: Wed, 28 Aug 2019 15:22:03 -0300
-From: Marcelo Tosatti <mtosatti@redhat.com>
-To: Mark Kanda <mark.kanda@oracle.com>
-Message-ID: <20190828182202.GA21924@amt.cnet>
-References: <1563374298-17323-1-git-send-email-mark.kanda@oracle.com>
- <277b5916-4e46-1aef-6368-a414de4d2149@oracle.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 2492CCF19;
+ Wed, 28 Aug 2019 18:40:29 +0000 (UTC)
+Received: from localhost (ovpn-116-60.gru2.redhat.com [10.97.116.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FAFF5D9E2;
+ Wed, 28 Aug 2019 18:40:28 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <rth@twiddle.net>,
+ Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 28 Aug 2019 15:40:14 -0300
+Message-Id: <20190828184026.5840-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <277b5916-4e46-1aef-6368-a414de4d2149@oracle.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 28 Aug 2019 18:22:23 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Wed, 28 Aug 2019 18:40:29 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH-for-4.2 v2] Only enable the halt poll
- control MSR if it is supported by the host
+Subject: [Qemu-devel] [PULL v6 00/12] Machine + x86 queue, 2019-08-28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,44 +56,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 28, 2019 at 12:22:59PM -0500, Mark Kanda wrote:
-> Gentle ping - I would like to confirm this patch is acceptable.
-> 
-> Thanks/regards,
-> -Mark
+Sorry for taking so long after 4.1.0 to send this.  I had to sort
+out some conflicts with recent header cleanups.
 
-ACK
+The following changes since commit 23919ddfd56135cad3cb468a8f54d5a595f024=
+f4:
 
-> 
-> On 7/17/2019 9:38 AM, Mark Kanda wrote:
-> >The halt poll control MSR should only be enabled on hosts which
-> >support it.
-> >
-> >Fixes: ("kvm: i386: halt poll control MSR support")
-> >
-> >Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
-> >
-> >---
-> >v2: Remove unnecessary hunks which break migration with older hosts (Paolo)
-> >---
-> >  target/i386/cpu.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> >diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> >index a8bafdb8b9..543bc25f64 100644
-> >--- a/target/i386/cpu.c
-> >+++ b/target/i386/cpu.c
-> >@@ -2838,7 +2838,6 @@ static PropValue kvm_default_props[] = {
-> >      { "kvm-asyncpf", "on" },
-> >      { "kvm-steal-time", "on" },
-> >      { "kvm-pv-eoi", "on" },
-> >-    { "kvm-poll-control", "on" },
-> >      { "kvmclock-stable-bit", "on" },
-> >      { "x2apic", "on" },
-> >      { "acpi", "off" },
-> >
+  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20190827' i=
+nto staging (2019-08-27 15:52:36 +0100)
+
+are available in the Git repository at:
+
+  git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
+
+for you to fetch changes up to f4abcc0a75f1310dbe66b852ed97ec7caf2708d5:
+
+  i386/vmmouse: Properly reset state (2019-08-27 16:50:14 -0300)
+
+----------------------------------------------------------------
+Machine + x86 queue, 2019-08-28
+
+Bug fixes:
+* Fix die-id validation regression (Eduardo Habkost)
+* vmmouse: Properly reset state (Jan Kiszka)
+* hostmem-file: fix pmem file size check (Stefan Hajnoczi)
+
+Cleanups:
+* NUMA code cleanups (Tao Xu)
+* Remove stale externs from includes (Alex Benn=C3=A9e)
+
+Features:
+* qapi: report the default CPU type for each machine (Daniel P. Berrang=C3=
+=A9)
+
+----------------------------------------------------------------
+
+Queue for Machine Core patches
+
+
+Alex Benn=C3=A9e (1):
+  includes: remove stale [smp|max]_cpus externs
+
+Daniel P. Berrang=C3=A9 (1):
+  qapi: report the default CPU type for each machine
+
+Eduardo Habkost (3):
+  pc: Fix error message on die-id validation
+  pc: Improve error message when die-id is omitted
+  pc: Don't make die-id mandatory unless necessary
+
+Jan Kiszka (1):
+  i386/vmmouse: Properly reset state
+
+Stefan Hajnoczi (1):
+  hostmem-file: fix pmem file size check
+
+Tao Xu (5):
+  hw/arm: simplify arm_load_dtb
+  numa: move numa global variable nb_numa_nodes into MachineState
+  numa: move numa global variable have_numa_distance into MachineState
+  numa: move numa global variable numa_info into MachineState
+  numa: Introduce MachineClass::auto_enable_numa for implicit NUMA node
+
+ qapi/machine.json                        |  5 +-
+ include/hw/acpi/aml-build.h              |  2 +-
+ include/hw/arm/boot.h                    |  4 +-
+ include/hw/boards.h                      |  2 +
+ include/sysemu/numa.h                    | 17 +++--
+ include/sysemu/sysemu.h                  |  2 -
+ backends/hostmem-file.c                  |  4 +-
+ exec.c                                   |  5 +-
+ hw/acpi/aml-build.c                      | 10 ++-
+ hw/arm/aspeed.c                          |  5 +-
+ hw/arm/boot.c                            | 21 +++---
+ hw/arm/collie.c                          |  8 +--
+ hw/arm/cubieboard.c                      |  5 +-
+ hw/arm/exynos4_boards.c                  |  7 +-
+ hw/arm/highbank.c                        |  8 +--
+ hw/arm/imx25_pdk.c                       |  5 +-
+ hw/arm/integratorcp.c                    |  8 +--
+ hw/arm/kzm.c                             |  5 +-
+ hw/arm/mainstone.c                       |  5 +-
+ hw/arm/mcimx6ul-evk.c                    |  5 +-
+ hw/arm/mcimx7d-sabre.c                   |  5 +-
+ hw/arm/musicpal.c                        |  8 +--
+ hw/arm/nseries.c                         |  5 +-
+ hw/arm/omap_sx1.c                        |  5 +-
+ hw/arm/palm.c                            | 10 +--
+ hw/arm/raspi.c                           |  6 +-
+ hw/arm/realview.c                        |  5 +-
+ hw/arm/sabrelite.c                       |  5 +-
+ hw/arm/sbsa-ref.c                        | 12 ++--
+ hw/arm/spitz.c                           |  5 +-
+ hw/arm/tosa.c                            |  8 +--
+ hw/arm/versatilepb.c                     |  5 +-
+ hw/arm/vexpress.c                        |  5 +-
+ hw/arm/virt-acpi-build.c                 | 19 +++---
+ hw/arm/virt.c                            | 17 ++---
+ hw/arm/xilinx_zynq.c                     |  8 +--
+ hw/arm/xlnx-versal-virt.c                |  7 +-
+ hw/arm/xlnx-zcu102.c                     |  5 +-
+ hw/arm/z2.c                              |  8 +--
+ hw/core/machine-hmp-cmds.c               | 13 +++-
+ hw/core/machine-qmp-cmds.c               |  4 ++
+ hw/core/machine.c                        | 14 ++--
+ hw/core/numa.c                           | 87 ++++++++++++++----------
+ hw/i386/acpi-build.c                     |  4 +-
+ hw/i386/pc.c                             | 27 ++++++--
+ hw/i386/vmmouse.c                        |  1 +
+ hw/mem/pc-dimm.c                         |  2 +
+ hw/pci-bridge/pci_expander_bridge.c      |  9 ++-
+ hw/ppc/spapr.c                           | 36 ++++------
+ hw/ppc/spapr_pci.c                       |  4 +-
+ tests/acceptance/pc_cpu_hotplug_props.py | 35 ++++++++++
+ 51 files changed, 265 insertions(+), 252 deletions(-)
+ create mode 100644 tests/acceptance/pc_cpu_hotplug_props.py
+
+--=20
+2.21.0
+
 
