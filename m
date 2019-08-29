@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEE8A1798
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:59:29 +0200 (CEST)
-Received: from localhost ([::1]:48104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA12A16D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:51:47 +0200 (CEST)
+Received: from localhost ([::1]:47968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3I9I-0008T6-CD
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:59:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47519)
+	id 1i3I1q-0006Ws-0S
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47511)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hcp-0005Zd-9E
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:56 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hco-0005Yv-SH
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hcn-00066J-Ce
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:55 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:45746 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hcn-00065i-2B
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:54 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:45763 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1i3Hcm-0005ja-RT
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:53 -0400
+ id 1i3Hcm-0005lH-Nl
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:52 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id C54DC1A21FF;
+ by mail.rt-rk.com (Postfix) with ESMTP id C95261A2261;
  Thu, 29 Aug 2019 12:25:25 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 9868E1A224E;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id ABD5C1A21D6;
  Thu, 29 Aug 2019 12:25:25 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 29 Aug 2019 12:25:12 +0200
-Message-Id: <1567074313-22998-31-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Thu, 29 Aug 2019 12:25:13 +0200
+Message-Id: <1567074313-22998-32-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1567074313-22998-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1567074313-22998-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 30/31] target/mips: Clean up handling of CP0
- register 31
+Subject: [Qemu-devel] [PULL 31/31] target/mips: Fix emulation of ST.W in
+ system mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,140 +57,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Clean up handling of CP0 register 31.
+Order of arguments in helper_ret_stl_mmu() invocations was wrong,
+apparently caused by a misplaced multiline copy-and-paste.
 
-Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
+Fixes: 6decc57 ("target/mips: Fix MSA instructions ST.<B|H|W|D> on big endian host")
+
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1567009614-12438-31-git-send-email-aleksandar.markovic@rt-rk.com>
+Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
+Message-Id: <1567009239-11273-1-git-send-email-aleksandar.markovic@rt-rk.com>
 ---
- target/mips/cpu.h       |  2 +-
- target/mips/translate.c | 56 ++++++++++++++++++++++++-------------------------
- 2 files changed, 29 insertions(+), 29 deletions(-)
+ target/mips/op_helper.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 6defbea..ca00f41 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -613,7 +613,6 @@ struct CPUMIPSState {
-  * CP0 Register 4
-  */
-     target_ulong CP0_Context;
--    target_ulong CP0_KScratch[MIPS_KSCRATCH_NUM];
-     int32_t CP0_MemoryMapID;
- /*
-  * CP0 Register 5
-@@ -1024,6 +1023,7 @@ struct CPUMIPSState {
-  * CP0 Register 31
-  */
-     int32_t CP0_DESAVE;
-+    target_ulong CP0_KScratch[MIPS_KSCRATCH_NUM];
- 
-     /* We waste some space so we can handle shadow registers like TCs. */
-     TCState tcs[MIPS_SHADOW_SET_MAX];
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 93f7a20..f6d1424 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -7532,17 +7532,17 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_31:
-         switch (sel) {
--        case 0:
-+        case CP0_REG31__DESAVE:
-             /* EJTAG support */
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_DESAVE));
-             register_name = "DESAVE";
-             break;
--        case 2:
--        case 3:
--        case 4:
--        case 5:
--        case 6:
--        case 7:
-+        case CP0_REG31__KSCRATCH1:
-+        case CP0_REG31__KSCRATCH2:
-+        case CP0_REG31__KSCRATCH3:
-+        case CP0_REG31__KSCRATCH4:
-+        case CP0_REG31__KSCRATCH5:
-+        case CP0_REG31__KSCRATCH6:
-             CP0_CHECK(ctx->kscrexist & (1 << sel));
-             tcg_gen_ld_tl(arg, cpu_env,
-                           offsetof(CPUMIPSState, CP0_KScratch[sel-2]));
-@@ -8282,17 +8282,17 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_31:
-         switch (sel) {
--        case 0:
-+        case CP0_REG31__DESAVE:
-             /* EJTAG support */
-             gen_mtc0_store32(arg, offsetof(CPUMIPSState, CP0_DESAVE));
-             register_name = "DESAVE";
-             break;
--        case 2:
--        case 3:
--        case 4:
--        case 5:
--        case 6:
--        case 7:
-+        case CP0_REG31__KSCRATCH1:
-+        case CP0_REG31__KSCRATCH2:
-+        case CP0_REG31__KSCRATCH3:
-+        case CP0_REG31__KSCRATCH4:
-+        case CP0_REG31__KSCRATCH5:
-+        case CP0_REG31__KSCRATCH6:
-             CP0_CHECK(ctx->kscrexist & (1 << sel));
-             tcg_gen_st_tl(arg, cpu_env,
-                           offsetof(CPUMIPSState, CP0_KScratch[sel-2]));
-@@ -9009,17 +9009,17 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_31:
-         switch (sel) {
--        case 0:
-+        case CP0_REG31__DESAVE:
-             /* EJTAG support */
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_DESAVE));
-             register_name = "DESAVE";
-             break;
--        case 2:
--        case 3:
--        case 4:
--        case 5:
--        case 6:
--        case 7:
-+        case CP0_REG31__KSCRATCH1:
-+        case CP0_REG31__KSCRATCH2:
-+        case CP0_REG31__KSCRATCH3:
-+        case CP0_REG31__KSCRATCH4:
-+        case CP0_REG31__KSCRATCH5:
-+        case CP0_REG31__KSCRATCH6:
-             CP0_CHECK(ctx->kscrexist & (1 << sel));
-             tcg_gen_ld_tl(arg, cpu_env,
-                           offsetof(CPUMIPSState, CP0_KScratch[sel-2]));
-@@ -9746,17 +9746,17 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_31:
-         switch (sel) {
--        case 0:
-+        case CP0_REG31__DESAVE:
-             /* EJTAG support */
-             gen_mtc0_store32(arg, offsetof(CPUMIPSState, CP0_DESAVE));
-             register_name = "DESAVE";
-             break;
--        case 2:
--        case 3:
--        case 4:
--        case 5:
--        case 6:
--        case 7:
-+        case CP0_REG31__KSCRATCH1:
-+        case CP0_REG31__KSCRATCH2:
-+        case CP0_REG31__KSCRATCH3:
-+        case CP0_REG31__KSCRATCH4:
-+        case CP0_REG31__KSCRATCH5:
-+        case CP0_REG31__KSCRATCH6:
-             CP0_CHECK(ctx->kscrexist & (1 << sel));
-             tcg_gen_st_tl(arg, cpu_env,
-                           offsetof(CPUMIPSState, CP0_KScratch[sel - 2]));
+diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+index f88a3ab..5b8bb20 100644
+--- a/target/mips/op_helper.c
++++ b/target/mips/op_helper.c
+@@ -4692,15 +4692,15 @@ void helper_msa_st_w(CPUMIPSState *env, uint32_t wd,
+     ensure_writable_pages(env, addr, mmu_idx, GETPC());
+ #if !defined(CONFIG_USER_ONLY)
+ #if !defined(HOST_WORDS_BIGENDIAN)
+-    helper_ret_stl_mmu(env, addr + (0 << DF_WORD), oi, GETPC(), pwd->w[0]);
+-    helper_ret_stl_mmu(env, addr + (1 << DF_WORD), oi, GETPC(), pwd->w[1]);
+-    helper_ret_stl_mmu(env, addr + (2 << DF_WORD), oi, GETPC(), pwd->w[2]);
+-    helper_ret_stl_mmu(env, addr + (3 << DF_WORD), oi, GETPC(), pwd->w[3]);
++    helper_ret_stl_mmu(env, addr + (0 << DF_WORD), pwd->w[0], oi, GETPC());
++    helper_ret_stl_mmu(env, addr + (1 << DF_WORD), pwd->w[1], oi, GETPC());
++    helper_ret_stl_mmu(env, addr + (2 << DF_WORD), pwd->w[2], oi, GETPC());
++    helper_ret_stl_mmu(env, addr + (3 << DF_WORD), pwd->w[3], oi, GETPC());
+ #else
+-    helper_ret_stl_mmu(env, addr + (1 << DF_WORD), oi, GETPC(), pwd->w[0]);
+-    helper_ret_stl_mmu(env, addr + (0 << DF_WORD), oi, GETPC(), pwd->w[1]);
+-    helper_ret_stl_mmu(env, addr + (3 << DF_WORD), oi, GETPC(), pwd->w[2]);
+-    helper_ret_stl_mmu(env, addr + (2 << DF_WORD), oi, GETPC(), pwd->w[3]);
++    helper_ret_stl_mmu(env, addr + (1 << DF_WORD), pwd->w[0], oi, GETPC());
++    helper_ret_stl_mmu(env, addr + (0 << DF_WORD), pwd->w[1], oi, GETPC());
++    helper_ret_stl_mmu(env, addr + (3 << DF_WORD), pwd->w[2], oi, GETPC());
++    helper_ret_stl_mmu(env, addr + (2 << DF_WORD), pwd->w[3], oi, GETPC());
+ #endif
+ #else
+ #if !defined(HOST_WORDS_BIGENDIAN)
 -- 
 2.7.4
 
