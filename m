@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A833CA21C9
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:07:19 +0200 (CEST)
-Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68602A21D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:09:42 +0200 (CEST)
+Received: from localhost ([::1]:52272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3NtG-0001h0-74
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49600)
+	id 1i3NvZ-00052I-6F
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i3NlC-0001pE-5b
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:58:59 -0400
+ (envelope-from <philmd@redhat.com>) id 1i3Nm3-0002Yd-N0
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:59:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i3NlA-0003L3-Vy
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:58:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44060)
+ (envelope-from <philmd@redhat.com>) id 1i3Nm1-0003ay-T7
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:59:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51176)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i3NlA-0003Ko-Ob
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:58:56 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i3Nm1-0003ao-Lk
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:59:49 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C30232A09B3
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 16:58:55 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id v4so1412021wmh.9
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 09:58:55 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id D9EF983F3B
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 16:59:48 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id a17so2415019wrr.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 09:59:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oZDPIkMF/l6lea0HZB7P7CTwU6rQtBAG8KkUS5wwk80=;
- b=tcWIs9tRdbkp+B3nBuGkALHd2zc0ni+gptPL1TzqtnOdsdWUJNpYsTfxVX4wzk/JjE
- C7bcW4jscBUcYiMyWsk9yiVcisvyAOxowQZ34f9ZtvUk7HYX93x1h1spMMdl1SaHruWr
- geRyXy4QA6tVLBgrSazNIzQap9h9/wxVJIi/en7rzqWHfbDWhcee7J2pY6rGE/6Jr4aV
- nHybopYymYsOQrlF5GzWzj8rB1nV+2+YuqI2htVgyOlSQpkdoOnuyP9LX0L08ML999gm
- O7XqFxH04svp8P0RD2qA/otmt+0drrnws4na/GHqwVVEsv+GMe1gavYhPtKLPxwYrnTX
- Jtag==
-X-Gm-Message-State: APjAAAX1DuFOusGR5VSQvKjO4DAViQpI8STvOK2C2nc14PRF53vaMhdW
- lT9j1n+4bF9wlU5xBvWQbm9FRv66IWsI5wWCq/L8v2zrYOceGHhnkIc/lVLXZVGW5weaUYa9nEG
- XZitRyw4r19VEA/Q=
-X-Received: by 2002:adf:9e09:: with SMTP id u9mr12973120wre.169.1567097934579; 
- Thu, 29 Aug 2019 09:58:54 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw8xEsucy0ZVZunfk0bSXRYCodk/D5Qb4aInrjyMIwx/HLYJZ3lfiz/aojhlFqbILKojAI87Q==
-X-Received: by 2002:adf:9e09:: with SMTP id u9mr12973098wre.169.1567097934361; 
- Thu, 29 Aug 2019 09:58:54 -0700 (PDT)
+ bh=eEGoU+iD94WM4aSpU4Ojf6q3ar3cTDVScHm1zmN3BCA=;
+ b=mfxCBRYvifQle98gg3f4Pp/Aa4sI0Ts3n1+eTBeBvtFd/USnXv7VC/xAwPkZhdOP4g
+ fLy2z1JejuQHIpPyiHmIamj3rnb404ykq1SJGILtKzN4BGqpVaR2582lzWMo9Mv1HtMm
+ iMkm7DnfjoXoB99y0EXJHv6Sgt9XHHcKfrFO5hIgWbGjDmGdvi6sEakGUQV3/d8Br8tf
+ C6MK//dBZwlbWx5CguKNbcyqgRFQFRMtzlnxccfpRtdlP9Swgp+4BZ33jpElCU3O70Ke
+ N2VqP2sNGFzUk64KClt+Hn5xqXolPfDCD5BznliTbvC0u2ymTSGhb9NbWevshvcB7rDO
+ e0+Q==
+X-Gm-Message-State: APjAAAVS7a6/WPDn9OtP/fox/tqdReiSuJ8AC66w9Vl/mt9lrlKI81St
+ vWSIMmxnM5XcfZw5XYI3q0teE2UmyQV0PcKkY1ABz9gEG+d1JQKcC1fQ2jkrj1nUyiWC4vAPnrC
+ qCHtQ+lUonkZRdM8=
+X-Received: by 2002:a5d:6286:: with SMTP id k6mr2276137wru.83.1567097987420;
+ Thu, 29 Aug 2019 09:59:47 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxpgLRB5qTDVuGA44LbwnwnJOK9qZmknctg5g2fLlSI9Bb/MK73UIOa+e3WPG+t3PXxompuvA==
+X-Received: by 2002:a5d:6286:: with SMTP id k6mr2276123wru.83.1567097987269;
+ Thu, 29 Aug 2019 09:59:47 -0700 (PDT)
 Received: from [192.168.1.41] (251.red-88-10-102.dynamicip.rima-tde.net.
  [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id k9sm4522005wrq.15.2019.08.29.09.58.53
+ by smtp.gmail.com with ESMTPSA id t19sm4241543wmi.29.2019.08.29.09.59.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Aug 2019 09:58:53 -0700 (PDT)
+ Thu, 29 Aug 2019 09:59:46 -0700 (PDT)
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190828231651.17176-1-richard.henderson@linaro.org>
- <20190828231651.17176-2-richard.henderson@linaro.org>
+ <20190828231651.17176-6-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <841e3900-81ab-a3c9-b4f9-5fbd023a2259@redhat.com>
-Date: Thu, 29 Aug 2019 18:58:53 +0200
+Message-ID: <63d898b8-e369-c322-13e0-33bee726af82@redhat.com>
+Date: Thu, 29 Aug 2019 18:59:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190828231651.17176-2-richard.henderson@linaro.org>
+In-Reply-To: <20190828231651.17176-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 1/8] exec: Move user-only watchpoint
- stubs inline
+Subject: Re: [Qemu-devel] [PATCH v2 5/8] cputlb: Fix size operand for
+ tlb_fill on unaligned store
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,108 +88,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/29/19 1:16 AM, Richard Henderson wrote:
-> Let the user-only watchpoint stubs resolve to empty inline functions.
+> We are currently passing the size of the full write to
+> the tlb_fill for the second page.  Instead pass the real
+> size of the write to that page.
 >=20
-> Reviewed-by: David Hildenbrand <david@redhat.com>
+> This argument is unused within all tlb_fill, except to be
+> logged via tracing, so in practice this makes no difference.
+>=20
+> But in a moment we'll need the value of size2 for watchpoints,
+> and if we've computed the value we might as well use it.
+>=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 > ---
->  include/hw/core/cpu.h | 23 +++++++++++++++++++++++
->  exec.c                | 26 ++------------------------
->  2 files changed, 25 insertions(+), 24 deletions(-)
+>  accel/tcg/cputlb.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index 77fca95a40..6de688059d 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -1070,12 +1070,35 @@ static inline bool cpu_breakpoint_test(CPUState=
- *cpu, vaddr pc, int mask)
->      return false;
->  }
-> =20
-> +#ifdef CONFIG_USER_ONLY
-> +static inline int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vad=
-dr len,
-> +                                        int flags, CPUWatchpoint **wat=
-chpoint)
-> +{
-> +    return -ENOSYS;
-> +}
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index c9576bebcf..7fb67d2f05 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1504,6 +1504,8 @@ store_helper(CPUArchState *env, target_ulong addr=
+, uint64_t val,
+>          uintptr_t index2;
+>          CPUTLBEntry *entry2;
+>          target_ulong page2, tlb_addr2;
+> +        size_t size2;
 > +
-> +static inline int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
-> +                                        vaddr len, int flags)
-> +{
-> +    return -ENOSYS;
-> +}
-> +
-> +static inline void cpu_watchpoint_remove_by_ref(CPUState *cpu,
-> +                                                CPUWatchpoint *wp)
-> +{
-> +}
-> +
-> +static inline void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
-> +{
-> +}
-> +#else
->  int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
->                            int flags, CPUWatchpoint **watchpoint);
->  int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
->                            vaddr len, int flags);
->  void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchp=
-oint);
->  void cpu_watchpoint_remove_all(CPUState *cpu, int mask);
-> +#endif
+>      do_unaligned_access:
+>          /*
+>           * Ensure the second page is in the TLB.  Note that the first =
+page
+> @@ -1511,13 +1513,14 @@ store_helper(CPUArchState *env, target_ulong ad=
+dr, uint64_t val,
+>           * cannot evict the first.
+>           */
+>          page2 =3D (addr + size) & TARGET_PAGE_MASK;
+> +        size2 =3D (addr + size) & ~TARGET_PAGE_MASK;
+>          index2 =3D tlb_index(env, mmu_idx, page2);
+>          entry2 =3D tlb_entry(env, mmu_idx, page2);
+>          tlb_addr2 =3D tlb_addr_write(entry2);
+>          if (!tlb_hit_page(tlb_addr2, page2)
+>              && !victim_tlb_hit(env, mmu_idx, index2, tlb_off,
+>                                 page2 & TARGET_PAGE_MASK)) {
+> -            tlb_fill(env_cpu(env), page2, size, MMU_DATA_STORE,
+> +            tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
+>                       mmu_idx, retaddr);
+>          }
 > =20
->  /**
->   * cpu_get_address_space:
-> diff --git a/exec.c b/exec.c
-> index 53a15b7ad7..31fb75901f 100644
-> --- a/exec.c
-> +++ b/exec.c
-> @@ -1062,28 +1062,7 @@ static void breakpoint_invalidate(CPUState *cpu,=
- target_ulong pc)
->  }
->  #endif
-> =20
-> -#if defined(CONFIG_USER_ONLY)
-> -void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
-> -
-> -{
-> -}
-> -
-> -int cpu_watchpoint_remove(CPUState *cpu, vaddr addr, vaddr len,
-> -                          int flags)
-> -{
-> -    return -ENOSYS;
-> -}
-> -
-> -void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchp=
-oint)
-> -{
-> -}
-> -
-> -int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
-> -                          int flags, CPUWatchpoint **watchpoint)
-> -{
-> -    return -ENOSYS;
-> -}
-> -#else
-> +#ifndef CONFIG_USER_ONLY
->  /* Add a watchpoint.  */
->  int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
->                            int flags, CPUWatchpoint **watchpoint)
-> @@ -1173,8 +1152,7 @@ static inline bool cpu_watchpoint_address_matches=
-(CPUWatchpoint *wp,
-> =20
->      return !(addr > wpend || wp->vaddr > addrend);
->  }
-> -
-> -#endif
-> +#endif /* !CONFIG_USER_ONLY */
-> =20
->  /* Add a breakpoint.  */
->  int cpu_breakpoint_insert(CPUState *cpu, vaddr pc, int flags,
 >=20
 
