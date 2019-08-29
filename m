@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A72FA1261
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 09:12:58 +0200 (CEST)
-Received: from localhost ([::1]:46132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 154C0A1268
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 09:14:48 +0200 (CEST)
+Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3Ec1-00036I-IN
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 03:12:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43477)
+	id 1i3Edq-0005uw-1k
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 03:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43499)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1i3EZf-0001Ml-Kz
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 03:10:29 -0400
+ (envelope-from <kraxel@redhat.com>) id 1i3EZh-0001NY-53
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 03:10:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1i3EZd-00052F-5t
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 03:10:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48936)
+ (envelope-from <kraxel@redhat.com>) id 1i3EZf-000546-3R
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 03:10:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59212)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i3EZb-0004y4-5q
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 03:10:23 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i3EZb-000500-9z
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 03:10:25 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C9AB75AFDE;
- Thu, 29 Aug 2019 07:10:19 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3085F8980E2
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 07:10:22 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-95.ams2.redhat.com
  [10.36.116.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B1FD196B2;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D3FD60872;
  Thu, 29 Aug 2019 07:10:17 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5646031E84; Thu, 29 Aug 2019 09:10:16 +0200 (CEST)
+ id 6272E31E86; Thu, 29 Aug 2019 09:10:16 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 29 Aug 2019 09:10:15 +0200
-Message-Id: <20190829071016.16589-3-kraxel@redhat.com>
+Date: Thu, 29 Aug 2019 09:10:16 +0200
+Message-Id: <20190829071016.16589-4-kraxel@redhat.com>
 In-Reply-To: <20190829071016.16589-1-kraxel@redhat.com>
 References: <20190829071016.16589-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 29 Aug 2019 07:10:19 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Thu, 29 Aug 2019 07:10:22 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 2/3] xhci: Fix memory leak in xhci_kick_epctx
+Subject: [Qemu-devel] [PULL 3/3] usb-mtp: add sanity checks on rootdir
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,50 +55,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fangying <fangying1@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: fangying <fangying1@huawei.com>
+From: Bandan Das <bsd@redhat.com>
 
-Address Sanitizer shows memory leak in xhci_kick_epctx hw/usb/hcd-xhci.c:1912.
-A sglist is leaked when a packet is retired and returns USB_RET_NAK status.
-The leak stack is as bellow:
+Currently, we don't check if rootdir exists and is accessible.
+Furthermore, a trailing slash results in a null "desc" string which
+ends up in the share not visible in the guest. Add some simple
+sanity checks for appropriate permissions. Also, bail out if the
+user does not supply an absolute path.
 
-Direct leak of 2688 byte(s) in 168 object(s) allocated from:
-    #0 0xffffae8b11db in __interceptor_malloc (/lib64/libasan.so.4+0xd31db)
-    #1 0xffffae5c9163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
-    #2 0xaaaabb6fb3f7 in qemu_sglist_init dma-helpers.c:43
-    #3 0xaaaabba705a7 in pci_dma_sglist_init include/hw/pci/pci.h:837
-    #4 0xaaaabba705a7 in xhci_xfer_create_sgl hw/usb/hcd-xhci.c:1443
-    #5 0xaaaabba705a7 in xhci_setup_packet hw/usb/hcd-xhci.c:1615
-    #6 0xaaaabba77a6f in xhci_kick_epctx hw/usb/hcd-xhci.c:1912
-    #7 0xaaaabbdaad27 in timerlist_run_timers util/qemu-timer.c:592
-    #8 0xaaaabbdab19f in qemu_clock_run_timers util/qemu-timer.c:606
-    #9 0xaaaabbdab19f in qemu_clock_run_all_timers util/qemu-timer.c:692
-    #10 0xaaaabbdab9a3 in main_loop_wait util/main-loop.c:524
-    #11 0xaaaabb6ff5e7 in main_loop vl.c:1806
-    #12 0xaaaabb1e1453 in main vl.c:4488
-
-Signed-off-by: Ying Fang <fangying1@huawei.com>
-Message-id: 20190828062535.1573-1-fangying1@huawei.com
+Signed-off-by: Bandan Das <bsd@redhat.com>
+Message-id: jpga7bto3on.fsf@linux.bootlegged.copy
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/hcd-xhci.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/usb/dev-mtp.c | 38 ++++++++++++++++++++++++--------------
+ 1 file changed, 24 insertions(+), 14 deletions(-)
 
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 471759cd4cc0..80988bb305a1 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -1914,6 +1914,7 @@ static void xhci_kick_epctx(XHCIEPContext *epctx, unsigned int streamid)
-             }
-             usb_handle_packet(xfer->packet.ep->dev, &xfer->packet);
-             if (xfer->packet.status == USB_RET_NAK) {
-+                xhci_xfer_unmap(xfer);
-                 return;
-             }
-             xhci_try_complete_packet(xfer);
+diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
+index 9846e4b5130b..7c07295519d3 100644
+--- a/hw/usb/dev-mtp.c
++++ b/hw/usb/dev-mtp.c
+@@ -2038,26 +2038,36 @@ static void usb_mtp_realize(USBDevice *dev, Error **errp)
+ {
+     MTPState *s = USB_MTP(dev);
+ 
+-    usb_desc_create_serial(dev);
+-    usb_desc_init(dev);
+-    QTAILQ_INIT(&s->objects);
+-    if (s->desc == NULL) {
+-        if (s->root == NULL) {
+-            error_setg(errp, "usb-mtp: rootdir property must be configured");
+-            return;
+-        }
+-        s->desc = strrchr(s->root, '/');
+-        if (s->desc && s->desc[0]) {
+-            s->desc = g_strdup(s->desc + 1);
+-        } else {
+-            s->desc = g_strdup("none");
+-        }
++    if ((s->root == NULL) || !g_path_is_absolute(s->root)) {
++        error_setg(errp, "usb-mtp: rootdir must be configured and be an absolute path");
++        return;
+     }
++
++    if (access(s->root, R_OK) != 0) {
++        error_setg(errp, "usb-mtp: rootdir does not exist/not readable");
++        return;
++    } else if (!s->readonly && access(s->root, W_OK) != 0) {
++        error_setg(errp, "usb-mtp: rootdir does not have write permissions");
++        return;
++    }
++
+     /* Mark store as RW */
+     if (!s->readonly) {
+         s->flags |= (1 << MTP_FLAG_WRITABLE);
+     }
+ 
++    if (s->desc == NULL) {
++        /*
++         * This does not check if path exists
++         * but we have the checks above
++         */
++        s->desc = g_path_get_basename(s->root);
++    }
++
++    usb_desc_create_serial(dev);
++    usb_desc_init(dev);
++    QTAILQ_INIT(&s->objects);
++
+ }
+ 
+ static const VMStateDescription vmstate_usb_mtp = {
 -- 
 2.18.1
 
