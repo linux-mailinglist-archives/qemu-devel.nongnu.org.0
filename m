@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C30A156A
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:07:57 +0200 (CEST)
-Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39BA1A15D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:23:07 +0200 (CEST)
+Received: from localhost ([::1]:47732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3HLQ-0007al-F2
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44037)
+	id 1i3Ha6-0003o2-BB
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:23:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46328)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i3HJE-0005YA-FY
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:05:42 -0400
+ (envelope-from <groug@kaod.org>) id 1i3HYW-0002e2-Ov
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:21:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i3HJD-0008Up-IO
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:05:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46046)
+ (envelope-from <groug@kaod.org>) id 1i3HYV-0001Qq-8d
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:21:28 -0400
+Received: from 6.mo1.mail-out.ovh.net ([46.105.43.205]:52753)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1i3HJB-0008Qh-C6; Thu, 29 Aug 2019 06:05:37 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 881F118C4264;
- Thu, 29 Aug 2019 10:05:36 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 17C0C5D6B2;
- Thu, 29 Aug 2019 10:05:34 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: John Snow <jsnow@redhat.com>,
-	qemu-devel@nongnu.org
-Date: Thu, 29 Aug 2019 12:05:21 +0200
-Message-Id: <20190829100521.12143-3-philmd@redhat.com>
-In-Reply-To: <20190829100521.12143-1-philmd@redhat.com>
-References: <20190829100521.12143-1-philmd@redhat.com>
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i3HYV-0001G8-1t
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:21:27 -0400
+Received: from player788.ha.ovh.net (unknown [10.109.146.163])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 99FF918CE51
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 12:21:17 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player788.ha.ovh.net (Postfix) with ESMTPSA id 4A98E932D05A;
+ Thu, 29 Aug 2019 10:21:09 +0000 (UTC)
+Date: Thu, 29 Aug 2019 12:21:08 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Message-ID: <20190829122108.36c226c3@bahia.lan>
+In-Reply-To: <156576293464.29984.1631520917528142744.stgit@aravinda>
+References: <156576293464.29984.1631520917528142744.stgit@aravinda>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Thu, 29 Aug 2019 10:05:36 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 12041780980967643540
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudeivddgvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/2] scripts/git.orderfile: Order shell scripts
- before unordered files
+X-Received-From: 46.105.43.205
+Subject: Re: [Qemu-devel] [patch-for-4.2 PATCH v11 0/6] target-ppc/spapr:
+ Add FWNMI support in QEMU for PowerKVM guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,32 +56,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
+ qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Order shell scripts before the rest of unordered files.
-This helps in particular while reviewing iotests.
+On Wed, 14 Aug 2019 11:40:50 +0530
+Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- scripts/git.orderfile | 4 ++++
- 1 file changed, 4 insertions(+)
+> This patch set adds support for FWNMI in PowerKVM guests.
+> 
+> System errors such as SLB multihit and memory errors
+> that cannot be corrected by hardware is passed on to
+> the kernel for handling by raising machine check
+> exception (an NMI). Upon such machine check exceptions,
+> if the address in error belongs to guest then KVM
+> invokes guests' 0x200 interrupt vector if the guest
+> is not FWNMI capable. For FWNMI capable guest
+> KVM passes the control to QEMU by exiting the guest.
+> 
+> This patch series adds functionality to QEMU to pass
+> on such machine check exceptions to the FWNMI capable
+> guest kernel by building an error log and invoking
+> the guest registered machine check handling routine.
+> 
+> The KVM changes are now part of the upstream kernel
+> (commit e20bbd3d). This series contain QEMU changes.
+> 
+> Change Log v11:
+>   - Moved FWNMI SPAPR cap defaults to 4.2 class option
+>   - Fixed issues with handling fwnmi KVM capability
+> 
 
-diff --git a/scripts/git.orderfile b/scripts/git.orderfile
-index 0ad5b9b8a8..4d25153ea4 100644
---- a/scripts/git.orderfile
-+++ b/scripts/git.orderfile
-@@ -28,3 +28,7 @@ Makefile*
- *.c
- *.py
-=20
-+# shell scripts
-+*.rc
-+*.sh
-+
---=20
-2.20.1
+Hi Aravinda,
+
+I'm afraid this series needs rebasing. It doesn't apply
+cleanly on current ppc-for-4.2 (SHA1 b1e8156743).
+
+Cheers,
+
+--
+Greg
+
+> Change Log v10:
+>   - Reshuffled the patch sequence + minor fixes
+> 
+> Change Log v9:
+>   - Fixed kvm cap and spapr cap issues
+> 
+> Change Log v8:
+>   - Added functionality to check FWNMI capability during
+>     VM migration
+> ---
+> 
+> Aravinda Prasad (6):
+>       Wrapper function to wait on condition for the main loop mutex
+>       ppc: spapr: Introduce FWNMI capability
+>       target/ppc: Handle NMI guest exit
+>       target/ppc: Build rtas error log upon an MCE
+>       ppc: spapr: Handle "ibm,nmi-register" and "ibm,nmi-interlock" RTAS calls
+>       migration: Include migration support for machine check handling
+> 
+> 
+>  cpus.c                   |    5 +
+>  hw/ppc/spapr.c           |   78 +++++++++++++
+>  hw/ppc/spapr_caps.c      |   29 +++++
+>  hw/ppc/spapr_events.c    |  268 ++++++++++++++++++++++++++++++++++++++++++++++
+>  hw/ppc/spapr_rtas.c      |   78 +++++++++++++
+>  include/hw/ppc/spapr.h   |   25 ++++
+>  include/qemu/main-loop.h |    8 +
+>  target/ppc/cpu.h         |    1 
+>  target/ppc/kvm.c         |   38 +++++++
+>  target/ppc/kvm_ppc.h     |   13 ++
+>  target/ppc/trace-events  |    1 
+>  11 files changed, 542 insertions(+), 2 deletions(-)
+> 
+> --
+> Signature
 
 
