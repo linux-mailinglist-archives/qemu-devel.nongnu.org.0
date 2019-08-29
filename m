@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3EEA1677
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:42:54 +0200 (CEST)
-Received: from localhost ([::1]:47898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A15BA1683
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:46:25 +0200 (CEST)
+Received: from localhost ([::1]:47928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3HtE-0005NB-NJ
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:42:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47205)
+	id 1i3Hwe-0000WJ-7Y
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:46:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3HcU-0005LK-Fr
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:36 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hcb-0005Qy-RV
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3HcQ-0005PH-V8
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:34 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:45343 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hca-0005im-Ou
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:41 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:45368 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1i3HcQ-0005KN-9e
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:30 -0400
+ id 1i3Hca-0005Lr-Hs
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:40 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id C149F1A21CE;
- Thu, 29 Aug 2019 12:25:24 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTP id 105C51A1E16;
+ Thu, 29 Aug 2019 12:25:25 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 8F81B1A219B;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id C74071A21DA;
  Thu, 29 Aug 2019 12:25:24 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 29 Aug 2019 12:24:48 +0200
-Message-Id: <1567074313-22998-7-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Thu, 29 Aug 2019 12:24:54 +0200
+Message-Id: <1567074313-22998-13-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1567074313-22998-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1567074313-22998-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 06/31] target/mips: Clean up handling of CP0
- register 5
+Subject: [Qemu-devel] [PULL 12/31] target/mips: Clean up handling of CP0
+ register 11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,241 +57,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Clean up handling of CP0 register 5.
+Clean up handling of CP0 register 11.
 
 Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1567009614-12438-7-git-send-email-aleksandar.markovic@rt-rk.com>
+Message-Id: <1567009614-12438-13-git-send-email-aleksandar.markovic@rt-rk.com>
 ---
- target/mips/cpu.h       |  6 +++++
- target/mips/translate.c | 64 ++++++++++++++++++++++++-------------------------
- 2 files changed, 38 insertions(+), 32 deletions(-)
+ target/mips/translate.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 496872e..ed1a974 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -313,6 +313,12 @@ typedef struct mips_def_t mips_def_t;
- /* CP0 Register 05 */
- #define CP0_REG05__PAGEMASK        0
- #define CP0_REG05__PAGEGRAIN       1
-+#define CP0_REG05__SEGCTL0         2
-+#define CP0_REG05__SEGCTL1         3
-+#define CP0_REG05__SEGCTL2         4
-+#define CP0_REG05__PWBASE          5
-+#define CP0_REG05__PWFIELD         6
-+#define CP0_REG05__PWSIZE          7
- /* CP0 Register 06 */
- #define CP0_REG06__WIRED           0
- /* CP0 Register 07 */
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 9df59f1..19f86f2 100644
+index 50863cf..b5d5994 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -6998,44 +6998,44 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+@@ -7166,7 +7166,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_05:
+     case CP0_REGISTER_11:
          switch (sel) {
 -        case 0:
-+        case CP0_REG05__PAGEMASK:
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_PageMask));
-             register_name = "PageMask";
++        case CP0_REG11__COMPARE:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Compare));
+             register_name = "Compare";
              break;
--        case 1:
-+        case CP0_REG05__PAGEGRAIN:
-             check_insn(ctx, ISA_MIPS32R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_PageGrain));
-             register_name = "PageGrain";
-             break;
--        case 2:
-+        case CP0_REG05__SEGCTL0:
-             CP0_CHECK(ctx->sc);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_SegCtl0));
-             tcg_gen_ext32s_tl(arg, arg);
-             register_name = "SegCtl0";
-             break;
--        case 3:
-+        case CP0_REG05__SEGCTL1:
-             CP0_CHECK(ctx->sc);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_SegCtl1));
-             tcg_gen_ext32s_tl(arg, arg);
-             register_name = "SegCtl1";
-             break;
--        case 4:
-+        case CP0_REG05__SEGCTL2:
-             CP0_CHECK(ctx->sc);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_SegCtl2));
-             tcg_gen_ext32s_tl(arg, arg);
-             register_name = "SegCtl2";
-             break;
--        case 5:
-+        case CP0_REG05__PWBASE:
-             check_pw(ctx);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_PWBase));
-             register_name = "PWBase";
-             break;
--        case 6:
-+        case CP0_REG05__PWFIELD:
-             check_pw(ctx);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_PWField));
-             register_name = "PWField";
-             break;
--        case 7:
-+        case CP0_REG05__PWSIZE:
-             check_pw(ctx);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_PWSize));
-             register_name = "PWSize";
-@@ -7732,42 +7732,42 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+@@ -7882,7 +7882,7 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_05:
+     case CP0_REGISTER_11:
          switch (sel) {
 -        case 0:
-+        case CP0_REG05__PAGEMASK:
-             gen_helper_mtc0_pagemask(cpu_env, arg);
-             register_name = "PageMask";
++        case CP0_REG11__COMPARE:
+             gen_helper_mtc0_compare(cpu_env, arg);
+             register_name = "Compare";
              break;
--        case 1:
-+        case CP0_REG05__PAGEGRAIN:
-             check_insn(ctx, ISA_MIPS32R2);
-             gen_helper_mtc0_pagegrain(cpu_env, arg);
-             register_name = "PageGrain";
-             ctx->base.is_jmp = DISAS_STOP;
-             break;
--        case 2:
-+        case CP0_REG05__SEGCTL0:
-             CP0_CHECK(ctx->sc);
-             gen_helper_mtc0_segctl0(cpu_env, arg);
-             register_name = "SegCtl0";
-             break;
--        case 3:
-+        case CP0_REG05__SEGCTL1:
-             CP0_CHECK(ctx->sc);
-             gen_helper_mtc0_segctl1(cpu_env, arg);
-             register_name = "SegCtl1";
-             break;
--        case 4:
-+        case CP0_REG05__SEGCTL2:
-             CP0_CHECK(ctx->sc);
-             gen_helper_mtc0_segctl2(cpu_env, arg);
-             register_name = "SegCtl2";
-             break;
--        case 5:
-+        case CP0_REG05__PWBASE:
-             check_pw(ctx);
-             gen_mtc0_store32(arg, offsetof(CPUMIPSState, CP0_PWBase));
-             register_name = "PWBase";
-             break;
--        case 6:
-+        case CP0_REG05__PWFIELD:
-             check_pw(ctx);
-             gen_helper_mtc0_pwfield(cpu_env, arg);
-             register_name = "PWField";
-             break;
--        case 7:
-+        case CP0_REG05__PWSIZE:
-             check_pw(ctx);
-             gen_helper_mtc0_pwsize(cpu_env, arg);
-             register_name = "PWSize";
-@@ -8478,41 +8478,41 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+@@ -8641,7 +8641,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_05:
+     case CP0_REGISTER_11:
          switch (sel) {
 -        case 0:
-+        case CP0_REG05__PAGEMASK:
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_PageMask));
-             register_name = "PageMask";
++        case CP0_REG11__COMPARE:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Compare));
+             register_name = "Compare";
              break;
--        case 1:
-+        case CP0_REG05__PAGEGRAIN:
-             check_insn(ctx, ISA_MIPS32R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_PageGrain));
-             register_name = "PageGrain";
-             break;
--        case 2:
-+        case CP0_REG05__SEGCTL0:
-             CP0_CHECK(ctx->sc);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_SegCtl0));
-             register_name = "SegCtl0";
-             break;
--        case 3:
-+        case CP0_REG05__SEGCTL1:
-             CP0_CHECK(ctx->sc);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_SegCtl1));
-             register_name = "SegCtl1";
-             break;
--        case 4:
-+        case CP0_REG05__SEGCTL2:
-             CP0_CHECK(ctx->sc);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_SegCtl2));
-             register_name = "SegCtl2";
-             break;
--        case 5:
-+        case CP0_REG05__PWBASE:
-             check_pw(ctx);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_PWBase));
-             register_name = "PWBase";
-             break;
--        case 6:
-+        case CP0_REG05__PWFIELD:
-             check_pw(ctx);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_PWField));
-             register_name = "PWField";
-             break;
--        case 7:
-+        case CP0_REG05__PWSIZE:
-             check_pw(ctx);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_PWSize));
-             register_name = "PWSize";
-@@ -9192,41 +9192,41 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+@@ -9343,7 +9343,7 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_05:
+     case CP0_REGISTER_11:
          switch (sel) {
 -        case 0:
-+        case CP0_REG05__PAGEMASK:
-             gen_helper_mtc0_pagemask(cpu_env, arg);
-             register_name = "PageMask";
++        case CP0_REG11__COMPARE:
+             gen_helper_mtc0_compare(cpu_env, arg);
+             register_name = "Compare";
              break;
--        case 1:
-+        case CP0_REG05__PAGEGRAIN:
-             check_insn(ctx, ISA_MIPS32R2);
-             gen_helper_mtc0_pagegrain(cpu_env, arg);
-             register_name = "PageGrain";
-             break;
--        case 2:
-+        case CP0_REG05__SEGCTL0:
-             CP0_CHECK(ctx->sc);
-             gen_helper_mtc0_segctl0(cpu_env, arg);
-             register_name = "SegCtl0";
-             break;
--        case 3:
-+        case CP0_REG05__SEGCTL1:
-             CP0_CHECK(ctx->sc);
-             gen_helper_mtc0_segctl1(cpu_env, arg);
-             register_name = "SegCtl1";
-             break;
--        case 4:
-+        case CP0_REG05__SEGCTL2:
-             CP0_CHECK(ctx->sc);
-             gen_helper_mtc0_segctl2(cpu_env, arg);
-             register_name = "SegCtl2";
-             break;
--        case 5:
-+        case CP0_REG05__PWBASE:
-             check_pw(ctx);
-             tcg_gen_st_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_PWBase));
-             register_name = "PWBase";
-             break;
--        case 6:
-+        case CP0_REG05__PWFIELD:
-             check_pw(ctx);
-             gen_helper_mtc0_pwfield(cpu_env, arg);
-             register_name = "PWField";
-             break;
--        case 7:
-+        case CP0_REG05__PWSIZE:
-             check_pw(ctx);
-             gen_helper_mtc0_pwsize(cpu_env, arg);
-             register_name = "PWSize";
 -- 
 2.7.4
 
