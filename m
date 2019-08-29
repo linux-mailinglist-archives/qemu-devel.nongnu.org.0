@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C79C0A22D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:54:44 +0200 (CEST)
-Received: from localhost ([::1]:53054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57CD7A22DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:55:57 +0200 (CEST)
+Received: from localhost ([::1]:53062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3Od9-0003wK-Tt
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:54:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37881)
+	id 1i3OeK-0004w8-Do
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:55:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i3Oc1-0003Hn-RN
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:53:34 -0400
+ (envelope-from <vandersonmr2@gmail.com>) id 1i3OdG-0004JN-86
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:54:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i3Oc0-0006Y3-MB
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:53:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36928)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i3Oc0-0006XW-GL
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:53:32 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BB69A3D96D
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 17:53:30 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id a17so2487653wrr.10
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 10:53:30 -0700 (PDT)
+ (envelope-from <vandersonmr2@gmail.com>) id 1i3OdF-0007V0-0j
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:54:50 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:42871)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
+ id 1i3OdE-0007U9-GU
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:54:48 -0400
+Received: by mail-qt1-x844.google.com with SMTP id t12so4638125qtp.9
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 10:54:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DqzQGmzCpgwpDk05T5GyGmVoLSN0BcVik8Ui2PAaj64=;
+ b=J93/47+VV0YhlHsi9dA080jNVL7ndHYrw7h+A/d7WbWQ+uB7uCkxW3qKOSrAUzfG8O
+ erzYyJc6+uyCoI3ih5+GG1NCdhUVKFz087qhr3w/BiZnFPHcjN/ESwlPwRc2Z063G9Oz
+ 9ERLP8b5AeqHCQRfXXtGZTvZWumPQ9+gOB2tkJUp+jTPPr/dgf96KUfKC7YRxJwhXUwY
+ XrUObOHei4cm0pllUfZN56KNvU0NAZbMLoLfnmFpCTWtim/c1ncVKCJfnA3uQPtYx+vC
+ UetCPsJhoPsTLIvAyjrPt4n9AU/Lt1pegELrg9PlwU9RrepJazSriYHIZqzp5LkMdvRl
+ di/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OqMTtERx0hfympLsc9/vXNzhGmht04yyCyEBJNDtZKE=;
- b=YkvZ3JuinNDc84SUzmZo9hcuRQyQGgxCFYAX/QbWFtQwx/hfA0/kw9RG3KsZdtWLzj
- YZdjkzRk+DSt1Y/kfA3bMR4OPUOhNstdyQaT90F8DXKnmKxlkQfZDMH/n6hQp4PK8J6C
- DG+yBwDov98jn8fJOYPgwnnoLa1ktqszXC3yfqLO+q55CYdIJy58PIYGEJvyuUnUsIyu
- HJqg5HMiWvqIEkfMQ2cnQRNsTIIs4PS2MqJV/7wcrogQSN2RLr5/gMr/A5hJFWaNrm56
- a4G3BVZLUEHibltZU2z1by+SsPa7ooWc6YeQPGXA9x3ERG7e8mel6W5nzr9oQYtHW0tA
- lpdQ==
-X-Gm-Message-State: APjAAAXKbIHohc5w7pfDgOwtHAEZpUVvdtxuhlMBvx6M+tFrS+e9Dg9C
- +cyHGCtL3avJPI2SR+Otn91SqyHLtFUqCaKBngimEZdTAAsu7sKItaINOuZFZ95jtWk9IE+tPGq
- P4wImIAljsUACdp0=
-X-Received: by 2002:adf:de8a:: with SMTP id w10mr2513393wrl.276.1567101209529; 
- Thu, 29 Aug 2019 10:53:29 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxXc0pBI4fBHwjAXbSP8HJ8EEloUYk2ncjHbto5KAURIWwX/BV0Hfu0+zChyncee0YQABpLXw==
-X-Received: by 2002:adf:de8a:: with SMTP id w10mr2513380wrl.276.1567101209382; 
- Thu, 29 Aug 2019 10:53:29 -0700 (PDT)
-Received: from [192.168.1.41] (251.red-88-10-102.dynamicip.rima-tde.net.
- [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id g6sm1134506wrs.95.2019.08.29.10.53.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Aug 2019 10:53:28 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20190827121931.26836-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <008c33ee-0fcc-7166-630d-cdeda75dc40d@redhat.com>
-Date: Thu, 29 Aug 2019 19:53:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DqzQGmzCpgwpDk05T5GyGmVoLSN0BcVik8Ui2PAaj64=;
+ b=tOrdZhWcWm3gdxdiFJNTtsjiGbRpn9kbi0465lxf+2So56tMbKGbsa5MECC8+LOBy8
+ wGaJXvtQ5KXXvJvS5XBuFNfZAQg1+1591DvPIKGwETcNOlqRSqf9FIDjOK6fXEipC6j0
+ ByWFbszzBDW9yMgfWNV01EaxCrY3KrCSuyzScpUUD8rhzjUuHY/O2sMORsyuWo8tY7dV
+ vIdJT1cnwGv9Lx88nfJDHjB4GvhN27ahQymPFXUu9YIIgzlFvxN5dV76sLractdFFpGh
+ 0OrAjks/hpx5Pch4YGsNYKQ3WaMbyf0GmkKXajMk2EmkYUkaSg4hSH3VoxOAKBSW1iqB
+ YogQ==
+X-Gm-Message-State: APjAAAVzhipKxwv1XeQ/aVSKtv4DXVDypaYWS4/y8ZUkxdNCGvMI3apP
+ EtvQrJ37Kwf2S8urjzzy8CcFFfgURgtedAJegyAul7hEM30=
+X-Google-Smtp-Source: APXvYqyIL/GjDQOTSYFajDlUBh3u1ODNHKW6J02Dc+bt4MD6TG8QtCKZM1rd+s+HPCZRquOcSCFJ5b3cI3t27vI/+lw=
+X-Received: by 2002:ac8:7046:: with SMTP id y6mr11322960qtm.131.1567101287376; 
+ Thu, 29 Aug 2019 10:54:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190827121931.26836-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] target/arm: Free TCG temps in
- trans_VMOV_64_sp()
+References: <20190829173437.5926-1-vandersonmr2@gmail.com>
+ <20190829173437.5926-9-vandersonmr2@gmail.com>
+In-Reply-To: <20190829173437.5926-9-vandersonmr2@gmail.com>
+From: Vanderson Martins do Rosario <vandersonmr2@gmail.com>
+Date: Thu, 29 Aug 2019 14:54:35 -0300
+Message-ID: <CAMzYVD0JWptmFTswVz42zdoJu=WBzRgAJ_Ycdz+JkWO-+RYHew@mail.gmail.com>
+To: qemu-devel@nongnu.org
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::844
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v8 08/11] Adding tb_stats
+ [start|pause|stop|filter] command to hmp.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,38 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/27/19 2:19 PM, Peter Maydell wrote:
-> The function neon_store_reg32() doesn't free the TCG temp that it
-> is passed, so the caller must do that. We got this right in most
-> places but forgot to free the TCG temps in trans_VMOV_64_sp().
->=20
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Ops, this commit shouldn't exist. My mistake. The series still work though.
+I will remove this on v9.
+
+
+Vanderson M. Rosario
+
+
+On Thu, Aug 29, 2019 at 2:35 PM vandersonmr <vandersonmr2@gmail.com> wrote:
+
+> This allows controlling the collection of statistics.
+> It is also possible to set the level of collection:
+> all, jit, or exec.
+>
+> tb_stats filter allow to only collect statistics for the TB
+> in the last_search list.
+>
+> The goal of this command is to allow the dynamic exploration
+> of the TCG behavior and quality. Therefore, for now, a
+> corresponding QMP command is not worthwhile.
+>
+> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
 > ---
->  target/arm/translate-vfp.inc.c | 2 ++
+>  monitor/misc.c | 2 ++
 >  1 file changed, 2 insertions(+)
->=20
-> diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.=
-inc.c
-> index 3e8ea80493b..9ae980bef63 100644
-> --- a/target/arm/translate-vfp.inc.c
-> +++ b/target/arm/translate-vfp.inc.c
-> @@ -880,8 +880,10 @@ static bool trans_VMOV_64_sp(DisasContext *s, arg_=
-VMOV_64_sp *a)
->          /* gpreg to fpreg */
->          tmp =3D load_reg(s, a->rt);
->          neon_store_reg32(tmp, a->vm);
-> +        tcg_temp_free_i32(tmp);
->          tmp =3D load_reg(s, a->rt2);
->          neon_store_reg32(tmp, a->vm + 1);
-> +        tcg_temp_free_i32(tmp);
->      }
-> =20
->      return true;
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
+>
+> diff --git a/monitor/misc.c b/monitor/misc.c
+> index b389ca09a1..218263d29a 100644
+> --- a/monitor/misc.c
+> +++ b/monitor/misc.c
+> @@ -74,6 +74,8 @@
+>  #include "sysemu/cpus.h"
+>  #include "qemu/cutils.h"
+>  #include "tcg/tcg.h"
+> +#include "exec/tb-stats.h"
+> +#include "qemu-common.h"
+>
+>  #if defined(TARGET_S390X)
+>  #include "hw/s390x/storage-keys.h"
+> --
+> 2.22.0
+>
+>
