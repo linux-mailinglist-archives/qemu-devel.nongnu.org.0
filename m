@@ -2,78 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0628A175B
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:56:36 +0200 (CEST)
-Received: from localhost ([::1]:48078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E74A1789
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:58:40 +0200 (CEST)
+Received: from localhost ([::1]:48094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3I6W-0003tA-4Q
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49310)
+	id 1i3I8V-0007GX-U9
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:58:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49683)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i3Hps-0002Og-Oo
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:39:25 -0400
+ (envelope-from <stefanha@redhat.com>) id 1i3Hs9-00057J-Mr
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:41:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i3Hpr-0006E4-Qo
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:39:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40756)
+ (envelope-from <stefanha@redhat.com>) id 1i3Hs8-0008BV-As
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:41:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59922)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1i3Hpn-00069x-6g; Thu, 29 Aug 2019 06:39:19 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i3Hs8-0008A7-0K
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:41:44 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 802993DE0B;
- Thu, 29 Aug 2019 10:39:18 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 19AD1194B9;
- Thu, 29 Aug 2019 10:39:12 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20190829100521.12143-1-philmd@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <5fb4d5a8-4a10-3f94-9b29-7638ba74d2cc@redhat.com>
-Date: Thu, 29 Aug 2019 05:39:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id ADABC3001571
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 10:41:42 +0000 (UTC)
+Received: from localhost (ovpn-117-104.ams2.redhat.com [10.36.117.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D2DB060923;
+ Thu, 29 Aug 2019 10:41:34 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: virtio-fs@redhat.com,
+	qemu-devel@nongnu.org
+Date: Thu, 29 Aug 2019 11:41:33 +0100
+Message-Id: <20190829104133.17418-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190829100521.12143-1-philmd@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Q40vvsRMsrWNes7c1Qngfas5yDaHo7iQ1"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Thu, 29 Aug 2019 10:39:18 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Thu, 29 Aug 2019 10:41:42 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/2] git.orderfile: Order Python/shell
- scripts before unordered files
+Subject: [Qemu-devel] [PATCH] virtiofsd: add man page
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,69 +53,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Q40vvsRMsrWNes7c1Qngfas5yDaHo7iQ1
-Content-Type: multipart/mixed; boundary="E8mQQAbHcpg9aXbFGhh1Ch8dNfSy2b6Zf";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org
-Message-ID: <5fb4d5a8-4a10-3f94-9b29-7638ba74d2cc@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH 0/2] git.orderfile: Order Python/shell
- scripts before unordered files
-References: <20190829100521.12143-1-philmd@redhat.com>
-In-Reply-To: <20190829100521.12143-1-philmd@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ Makefile                         |  7 +++
+ contrib/virtiofsd/virtiofsd.texi | 85 ++++++++++++++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+ create mode 100644 contrib/virtiofsd/virtiofsd.texi
 
---E8mQQAbHcpg9aXbFGhh1Ch8dNfSy2b6Zf
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 8/29/19 5:05 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> This series update the git.orderfile to order Python and shell
-> scripts before unordered files.
-> This is particularly useful for changes in tests/qemu-iotests.
->=20
-> Regards,
->=20
-> Phil.
->=20
-> Philippe Mathieu-Daud=C3=A9 (2):
->   scripts/git.orderfile: Order Python files before unordered ones
->   scripts/git.orderfile: Order shell scripts before unordered files
->=20
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
+diff --git a/Makefile b/Makefile
+index a3dfdd6fa8..cc18025753 100644
+--- a/Makefile
++++ b/Makefile
+@@ -334,6 +334,9 @@ DOCS+=3Ddocs/qemu-cpu-models.7
+ ifdef CONFIG_VIRTFS
+ DOCS+=3Dfsdev/virtfs-proxy-helper.1
+ endif
++ifdef CONFIG_LINUX
++DOCS+=3Dcontrib/virtiofsd/virtiofsd.1
++endif
+ ifdef CONFIG_TRACE_SYSTEMTAP
+ DOCS+=3Dscripts/qemu-trace-stap.1
+ endif
+@@ -834,6 +837,9 @@ ifdef CONFIG_VIRTFS
+ 	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
+ 	$(INSTALL_DATA) fsdev/virtfs-proxy-helper.1 "$(DESTDIR)$(mandir)/man1"
+ endif
++ifdef CONFIG_LINUX
++	$(INSTALL_DATA) contrib/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
++endif
+=20
+ install-datadir:
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
+@@ -1018,6 +1024,7 @@ qemu.1: qemu-doc.texi qemu-options.texi qemu-monito=
+r.texi qemu-monitor-info.texi
+ qemu.1: qemu-option-trace.texi
+ qemu-img.1: qemu-img.texi qemu-option-trace.texi qemu-img-cmds.texi
+ fsdev/virtfs-proxy-helper.1: fsdev/virtfs-proxy-helper.texi
++contrib/virtiofsd/virtiofsd.1: contrib/virtiofsd/virtiofsd.texi
+ qemu-nbd.8: qemu-nbd.texi qemu-option-trace.texi
+ qemu-ga.8: qemu-ga.texi
+ docs/qemu-block-drivers.7: docs/qemu-block-drivers.texi
+diff --git a/contrib/virtiofsd/virtiofsd.texi b/contrib/virtiofsd/virtiof=
+sd.texi
+new file mode 100644
+index 0000000000..eec7fbf4e6
+--- /dev/null
++++ b/contrib/virtiofsd/virtiofsd.texi
+@@ -0,0 +1,85 @@
++@example
++@c man begin SYNOPSIS
++@command{virtiofsd} [OPTION] @option{--socket-path=3D}@var{path}|@option=
+{--fd=3D}@var{fdnum} @option{-o source=3D}@var{path}
++@c man end
++@end example
++
++@c man begin DESCRIPTION
++
++Share a host directory tree with a guest through a virtio-fs device.  Th=
+is
++program is a vhost-user backend that implements the virtio-fs device.  E=
+ach
++virtio-fs device instance requires its own virtiofsd process.
++
++This program is designed to work with QEMU's @code{--device vhost-user-f=
+s-pci}
++but should work with any virtual machine monitor (VMM) that supports
++vhost-user.  See the EXAMPLES section below.
++
++This program must be run as the root user.  Upon startup the program wil=
+l
++switch into a new file system namespace with the shared directory tree a=
+s its
++root.  This prevents "file system escapes" due to symlinks and other fil=
+e
++system objects that might lead to files outside the shared directory.  T=
+he
++program also sandboxes itself using seccomp(2) to prevent ptrace(2) and =
+other
++vectors that could allow an attacker to compromise the system after gain=
+ing
++control of the virtiofsd process.
++
++@c man end
++
++@c man begin OPTIONS
++@table @option
++@item -h, --help
++Print help.
++@item -V, --version
++Print version.
++@item -d, -o debug
++Enable debug output.
++@item --syslog
++Print log messages to syslog instead of stderr.
++@item -o log_level=3D@var{level}
++Print only log messages matching @var{level} or more severe.  @var{level=
+} is
++one of @code{err}, @code{warn}, @code{info}, or @code{debug}.  The defau=
+lt is
++@var{info}.
++@item -o source=3D@var{path}
++Share host directory tree located at @var{path}.  This option is require=
+d.
++@item --socket-path=3D@var{path}, -o vhost_user_socket=3D@var{path}
++Listen on vhost-user UNIX domain socket at @var{path}.
++@item --fd=3D@var{fdnum}
++Accept connections from vhost-user UNIX domain socket file descriptor @v=
+ar{fdnum}.  The file descriptor must already be listening for connections=
+.
++@item --thread-pool-size=3D@var{num}
++Restrict the number of worker threads per request queue to @var{num}.  T=
+he default is 64.
++@item --cache=3D@code{none}|@code{auto}|@code{always}
++Select the desired trade-off between coherency and performance.  @code{n=
+one}
++forbids the FUSE client from caching to achieve best coherency at the co=
+st of
++performance.  @code{auto} acts similar to NFS with a 1 second metadata c=
+ache
++timeout.  @code{always} sets a long cache lifetime at the expense of coh=
+erency.
++@item --writeback
++Enable writeback cache, allowing the FUSE client to buffer and merge wri=
+te requests.
++@end table
++@c man end
++
++@c man begin EXAMPLES
++Export @code{/var/lib/fs/vm001/} on vhost-user UNIX domain socket @code{=
+/var/run/vm001-vhost-fs.sock}:
++
++@example
++host# virtiofsd --socket-path=3D/var/run/vm001-vhost-fs.sock -o source=3D=
+/var/lib/fs/vm001
++host# qemu-system-x86_64 \
++    -chardev socket,id=3Dchar0,path=3D/var/run/vm001-vhost-fs.sock \
++    -device vhost-user-fs-pci,chardev=3Dchar0,tag=3Dmyfs \
++    -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,s=
+hare=3Don \
++    -numa node,memdev=3Dmem \
++    ...
++guest# mount -t virtio_fs \
++    -o default_permissions,allow_other,user_id=3D0,group_id=3D0,rootmode=
+=3D040000,dax \
++    myfs /mnt
++@end example
++@c man end
++
++@ignore
++@setfilename virtiofsd
++@settitle QEMU virtio-fs shared file system daemon
++
++@c man begin AUTHOR
++Copyright (C) 2019 Red Hat, Inc.
++This is free software; see the source for copying conditions.  There is =
+NO
++warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPO=
+SE.
++@c man end
++@end ignore
 --=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.21.0
 
-
---E8mQQAbHcpg9aXbFGhh1Ch8dNfSy2b6Zf--
-
---Q40vvsRMsrWNes7c1Qngfas5yDaHo7iQ1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1nq08ACgkQp6FrSiUn
-Q2oVbwf6At6GqcdT8sYJLhRdb4v2BbvvCvRA35a0DLFii9QpmrY9nVVgF4KKSds+
-Al8yqPj5QL7ixv4DFeydTLVlDkP5PU8yEutab0edwbUuOdbJqJ3b5ER5IIXqqLE0
-D+bfc+zMyuZVgbAs30s2RxX1WGEWCNtkiBDMMO+MECXmGbSF1iGvP6o2NMNpUu54
-U4O9LHj92RIbCY1rZg6n5cmrxuqZ8VN0hJ41BDp3+OLk4Qn26AyO+xet77Qwu2+V
-9SStvNmKm9U5hrgOphTc5FjBeMtkVAYCBOkdlzH/pB0AhTSu9e+uqfPQHW67pkCR
-V3fN2ZU2zLBtnpRU8LC5n7HZWcEtfg==
-=vUbr
------END PGP SIGNATURE-----
-
---Q40vvsRMsrWNes7c1Qngfas5yDaHo7iQ1--
 
