@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1878A11C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 08:28:02 +0200 (CEST)
-Received: from localhost ([::1]:45830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E109A11CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 08:31:25 +0200 (CEST)
+Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3Dub-0004xu-SJ
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 02:28:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35529)
+	id 1i3Dxs-0006nt-7C
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 02:31:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35542)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1i3DcM-0004kX-N8
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 02:09:12 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i3DcN-0004ld-Sk
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 02:09:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1i3DcL-0003u7-0i
+ (envelope-from <dgibson@ozlabs.org>) id 1i3DcL-0003uR-4E
  for qemu-devel@nongnu.org; Thu, 29 Aug 2019 02:09:10 -0400
-Received: from ozlabs.org ([203.11.71.1]:42731)
+Received: from ozlabs.org ([203.11.71.1]:54457)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1i3DcK-0003hN-BY; Thu, 29 Aug 2019 02:09:08 -0400
+ id 1i3DcK-0003hB-Dw; Thu, 29 Aug 2019 02:09:09 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46JscP3s7pz9sPp; Thu, 29 Aug 2019 16:08:37 +1000 (AEST)
+ id 46JscP0WMQz9sPg; Thu, 29 Aug 2019 16:08:36 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1567058917;
- bh=RBgHbhPx26tGG/QCPvEM4i2Bd9jCromG2Hg59zfhJ84=;
+ bh=+4/VGiM8L4S4+fxqsRINSodZQNe1QrZxc1fcAPmzxUU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=E2CSvOox5OLQiitL0qU+n2WtaIgX6prY94ibB1kp+zjsif6QpGiofOuo8/flu+vqj
- ygpdsKmVjodA05kd6auWsqm9WJFZz+qGPkSztBWpkdtgenYixQ4AnhnRoUvAfrVjEB
- viYkckrBsERBmoQB49BurrWGn8nioYos3dez6ETk=
+ b=f94vLA4id2c1ZuFEfUGQ9cE5lvJ2qJtUITOC0VXc5aEvIKl3Ovjco5dlwTVKSkJMU
+ HQJ1aXPohxvDWkvf5WmhrBzGtfWoCZz5ixrlgkP/N1NnKiYwQlAca5ZQXQTLzjwu8v
+ SmImZcGN0XJYHammPPO25V8kyHBnTwyim2xShcr8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Thu, 29 Aug 2019 16:08:27 +1000
-Message-Id: <20190829060827.25731-20-david@gibson.dropbear.id.au>
+Date: Thu, 29 Aug 2019 16:08:25 +1000
+Message-Id: <20190829060827.25731-18-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190829060827.25731-1-david@gibson.dropbear.id.au>
 References: <20190829060827.25731-1-david@gibson.dropbear.id.au>
@@ -40,8 +40,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 19/19] spapr: Set compat mode in
- spapr_core_plug()
+Subject: [Qemu-devel] [PULL 17/19] spapr_pci: Advertise BAR reallocation
+ capability
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,119 +58,110 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, groug@kaod.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-A recent change in spapr_machine_reset() showed that resetting the compat
-mode in spapr_machine_reset() for the boot vCPU and in spapr_cpu_reset()
-for all other vCPUs was fragile. The fix was thus to reset the compat mod=
-e
-for all vCPUs in spapr_machine_reset(), but we still have to propagate
-it to hot-plugged CPUs. This is still performed from spapr_cpu_reset(),
-hence resulting in ppc_set_compat() being called twice for every vCPU at
-machine reset. Apart from wasting cycles, which isn't really an issue
-during machine reset, this seems to indicate that spapr_cpu_reset() isn't
-the best place to set the compat mode.
+The pseries guests do not normally allocate PCI resources and rely on
+the system firmware doing so. Furthermore at least at some point in
+the past the pseries guests won't even allowed to change BARs, probably
+it is still the case for phyp. So since the initial commit we have [1]
+which prevents resource reallocation.
 
-A natural candidate for CPU-hotplug specific code is spapr_core_plug().
-Also, it sits in the same file as spapr_machine_reset() : this makes
-it easier for someone who wants to know when the compat PVR is set.
+This is not a problem until we want specific BAR alignments, for example,
+PAGE_SIZE=3D=3D64k to make sure we can still map MMIO BARs directly. For
+the boot time devices we handle this in SLOF [2] but since QEMU's RTAS
+does not allocate BARs, the guest does this instead and does not align
+BARs even if Linux is given pci=3Dresource_alignment=3D16@pci:0:0 as
+PCI_PROBE_ONLY makes Linux ignore alignment requests.
 
-Call ppc_set_compat() from there. This doesn't need to be done for
-initial vCPUs since the compat PVR is 0 and spapr_machine_reset() sets
-the appropriate value later. No need to do this on manually added vCPUS
-on the destination QEMU during migration since the compat PVR is
-part of the migrated vCPU state. Both conditions can be checked with
-spapr_drc_hotplugged().
+ARM folks added a dial to control PCI_PROBE_ONLY via the device tree [3].
+This makes use of the dial to advertise to the guest that we can handle
+BAR reassignments. This limits the change to the latest pseries machine
+to avoid old guests explosion.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <156701285312.499757.7807417667750711711.stgit@bahia.lan>
+We do not remove the flag from [1] as pseries guests are still supported
+under phyp so having that removed may cause problems.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/arch/powerpc/platforms/pseries/setup.c?h=3Dv5.1#n773
+[2] https://git.qemu.org/?p=3DSLOF.git;a=3Dblob;f=3Dboard-qemu/slof/pci-p=
+hb.fs;h=3D06729bcf77a0d4e900c527adcd9befe2a269f65d;hb=3DHEAD#l338
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
+mmit/?id=3Df81c11af
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-Id: <20190719043734.108462-1-aik@ozlabs.ru>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c          | 24 ++++++++++++++++--------
- hw/ppc/spapr_cpu_core.c |  7 -------
- 2 files changed, 16 insertions(+), 15 deletions(-)
+ hw/ppc/spapr.c         | 9 +++++++++
+ include/hw/ppc/spapr.h | 1 +
+ 2 files changed, 10 insertions(+)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 447fb5c4ea..ea56499b4b 100644
+index d063312a3b..447fb5c4ea 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -1758,12 +1758,6 @@ static void spapr_machine_reset(MachineState *mach=
-ine)
-         spapr_ovec_cleanup(spapr->ov5_cas);
-         spapr->ov5_cas =3D spapr_ovec_new();
-=20
--        /*
--         * reset compat_pvr for all CPUs
--         * as qemu_devices_reset() is called before this,
--         * it can't be propagated by spapr_cpu_reset()
--         * from the first CPU to all the others
--         */
-         ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
+@@ -1168,6 +1168,7 @@ static void spapr_dt_ov5_platform_support(SpaprMach=
+ineState *spapr, void *fdt,
+ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt)
+ {
+     MachineState *machine =3D MACHINE(spapr);
++    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(machine);
+     int chosen;
+     const char *boot_device =3D machine->boot_order;
+     char *stdout_path =3D spapr_vio_stdout_path(spapr->vio_bus);
+@@ -1225,6 +1226,11 @@ static void spapr_dt_chosen(SpaprMachineState *spa=
+pr, void *fdt)
+         _FDT(fdt_setprop_string(fdt, chosen, "stdout-path", stdout_path)=
+);
      }
 =20
-@@ -3841,6 +3835,7 @@ static void spapr_core_plug(HotplugHandler *hotplug=
-_dev, DeviceState *dev,
-     CPUArchId *core_slot;
-     int index;
-     bool hotplugged =3D spapr_drc_hotplugged(dev);
-+    int i;
-=20
-     core_slot =3D spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id,=
- &index);
-     if (!core_slot) {
-@@ -3874,13 +3869,26 @@ static void spapr_core_plug(HotplugHandler *hotpl=
-ug_dev, DeviceState *dev,
-     core_slot->cpu =3D OBJECT(dev);
-=20
-     if (smc->pre_2_10_has_unused_icps) {
--        int i;
--
-         for (i =3D 0; i < cc->nr_threads; i++) {
-             cs =3D CPU(core->threads[i]);
-             pre_2_10_vmstate_unregister_dummy_icp(cs->cpu_index);
-         }
-     }
-+
-+    /*
-+     * Set compatibility mode to match the boot CPU, which was either se=
-t
-+     * by the machine reset code or by CAS.
-+     */
-+    if (hotplugged) {
-+        for (i =3D 0; i < cc->nr_threads; i++) {
-+            ppc_set_compat(core->threads[i], POWERPC_CPU(first_cpu)->com=
-pat_pvr,
-+                           &local_err);
-+            if (local_err) {
-+                error_propagate(errp, local_err);
-+                return;
-+            }
-+        }
++    /* We can deal with BAR reallocation just fine, advertise it to the =
+guest */
++    if (smc->linux_pci_probe) {
++        _FDT(fdt_setprop_cell(fdt, chosen, "linux,pci-probe-only", 0));
 +    }
++
+     spapr_dt_ov5_platform_support(spapr, fdt, chosen);
+=20
+     g_free(stdout_path);
+@@ -4476,6 +4482,7 @@ static void spapr_machine_class_init(ObjectClass *o=
+c, void *data)
+     spapr_caps_add_properties(smc, &error_abort);
+     smc->irq =3D &spapr_irq_dual;
+     smc->dr_phb_enabled =3D true;
++    smc->linux_pci_probe =3D true;
  }
 =20
- static void spapr_core_pre_plug(HotplugHandler *hotplug_dev, DeviceState=
- *dev,
-diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index 45e2f2747f..1d93de8161 100644
---- a/hw/ppc/spapr_cpu_core.c
-+++ b/hw/ppc/spapr_cpu_core.c
-@@ -41,13 +41,6 @@ static void spapr_cpu_reset(void *opaque)
-      * using an RTAS call */
-     cs->halted =3D 1;
+ static const TypeInfo spapr_machine_info =3D {
+@@ -4535,12 +4542,14 @@ DEFINE_SPAPR_MACHINE(4_2, "4.2", true);
+  */
+ static void spapr_machine_4_1_class_options(MachineClass *mc)
+ {
++    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+     static GlobalProperty compat[] =3D {
+         /* Only allow 4kiB and 64kiB IOMMU pagesizes */
+         { TYPE_SPAPR_PCI_HOST_BRIDGE, "pgsz", "0x11000" },
+     };
 =20
--    /* Set compatibility mode to match the boot CPU, which was either se=
-t
--     * by the machine reset code or by CAS. This should never fail.
--     * At startup the value is already set for all the CPUs
--     * but we need this when we hotplug a new CPU
--     */
--    ppc_set_compat(cpu, POWERPC_CPU(first_cpu)->compat_pvr, &error_abort=
-);
--
-     env->spr[SPR_HIOR] =3D 0;
+     spapr_machine_4_2_class_options(mc);
++    smc->linux_pci_probe =3D false;
+     compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_len)=
+;
+     compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
+ }
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index fa7c380edb..03111fd55b 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -121,6 +121,7 @@ struct SpaprMachineClass {
+     bool legacy_irq_allocation;
+     bool broken_host_serial_model; /* present real host info to the gues=
+t */
+     bool pre_4_1_migration; /* don't migrate hpt-max-page-size */
++    bool linux_pci_probe;
 =20
-     lpcr =3D env->spr[SPR_LPCR];
+     void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+                           uint64_t *buid, hwaddr *pio,=20
 --=20
 2.21.0
 
