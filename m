@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667BCA1267
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 09:14:44 +0200 (CEST)
-Received: from localhost ([::1]:46160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A72FA1261
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 09:12:58 +0200 (CEST)
+Received: from localhost ([::1]:46132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3Edn-0005o3-Gw
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 03:14:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43498)
+	id 1i3Ec1-00036I-IN
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 03:12:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1i3EZh-0001NX-53
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 03:10:30 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1i3EZd-00052M-6f
+ (envelope-from <kraxel@redhat.com>) id 1i3EZf-0001Ml-Kz
  for qemu-devel@nongnu.org; Thu, 29 Aug 2019 03:10:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:5330)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <kraxel@redhat.com>) id 1i3EZd-00052F-5t
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 03:10:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48936)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i3EZb-0004yR-66
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1i3EZb-0004y4-5q
  for qemu-devel@nongnu.org; Thu, 29 Aug 2019 03:10:23 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 326D718B3D83;
- Thu, 29 Aug 2019 07:10:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C9AB75AFDE;
+ Thu, 29 Aug 2019 07:10:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-95.ams2.redhat.com
  [10.36.116.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1561A5C207;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B1FD196B2;
  Thu, 29 Aug 2019 07:10:17 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4794131E7F; Thu, 29 Aug 2019 09:10:16 +0200 (CEST)
+ id 5646031E84; Thu, 29 Aug 2019 09:10:16 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 29 Aug 2019 09:10:14 +0200
-Message-Id: <20190829071016.16589-2-kraxel@redhat.com>
+Date: Thu, 29 Aug 2019 09:10:15 +0200
+Message-Id: <20190829071016.16589-3-kraxel@redhat.com>
 In-Reply-To: <20190829071016.16589-1-kraxel@redhat.com>
 References: <20190829071016.16589-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Thu, 29 Aug 2019 07:10:20 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Thu, 29 Aug 2019 07:10:19 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 1/3] xhci: Fix memory leak in xhci_address_slot
+Subject: [Qemu-devel] [PULL 2/3] xhci: Fix memory leak in xhci_kick_epctx
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,55 +55,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ying Fang <fangying1@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>
+Cc: fangying <fangying1@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ying Fang <fangying1@huawei.com>
+From: fangying <fangying1@huawei.com>
 
-Address Sanitizer shows memory leak in xhci_address_slot
-hw/usb/hcd-xhci.c:2156 and the stack is as bellow:
+Address Sanitizer shows memory leak in xhci_kick_epctx hw/usb/hcd-xhci.c:1912.
+A sglist is leaked when a packet is retired and returns USB_RET_NAK status.
+The leak stack is as bellow:
 
-Direct leak of 64 byte(s) in 4 object(s) allocated from:
-    #0 0xffff91c6f5ab in realloc (/lib64/libasan.so.4+0xd35ab)
-    #1 0xffff91987243 in g_realloc (/lib64/libglib-2.0.so.0+0x57243)
-    #2 0xaaaab0b26a1f in qemu_iovec_add util/iov.c:296
-    #3 0xaaaab07e5ce3 in xhci_address_slot hw/usb/hcd-xhci.c:2156
-    #4 0xaaaab07e5ce3 in xhci_process_commands hw/usb/hcd-xhci.c:2493
-    #5 0xaaaab00058d7 in memory_region_write_accessor qemu/memory.c:507
-    #6 0xaaaab0000d87 in access_with_adjusted_size memory.c:573
-    #7 0xaaaab000abcf in memory_region_dispatch_write memory.c:1516
-    #8 0xaaaaaff59947 in flatview_write_continue exec.c:3367
-    #9 0xaaaaaff59c33 in flatview_write exec.c:3406
-    #10 0xaaaaaff63b3b in address_space_write exec.c:3496
-    #11 0xaaaab002f263 in kvm_cpu_exec accel/kvm/kvm-all.c:2288
-    #12 0xaaaaaffee427 in qemu_kvm_cpu_thread_fn cpus.c:1290
-    #13 0xaaaab0b1a943 in qemu_thread_start util/qemu-thread-posix.c:502
-    #14 0xffff908ce8bb in start_thread (/lib64/libpthread.so.0+0x78bb)
-    #15 0xffff908165cb in thread_start (/lib64/libc.so.6+0xd55cb)
+Direct leak of 2688 byte(s) in 168 object(s) allocated from:
+    #0 0xffffae8b11db in __interceptor_malloc (/lib64/libasan.so.4+0xd31db)
+    #1 0xffffae5c9163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
+    #2 0xaaaabb6fb3f7 in qemu_sglist_init dma-helpers.c:43
+    #3 0xaaaabba705a7 in pci_dma_sglist_init include/hw/pci/pci.h:837
+    #4 0xaaaabba705a7 in xhci_xfer_create_sgl hw/usb/hcd-xhci.c:1443
+    #5 0xaaaabba705a7 in xhci_setup_packet hw/usb/hcd-xhci.c:1615
+    #6 0xaaaabba77a6f in xhci_kick_epctx hw/usb/hcd-xhci.c:1912
+    #7 0xaaaabbdaad27 in timerlist_run_timers util/qemu-timer.c:592
+    #8 0xaaaabbdab19f in qemu_clock_run_timers util/qemu-timer.c:606
+    #9 0xaaaabbdab19f in qemu_clock_run_all_timers util/qemu-timer.c:692
+    #10 0xaaaabbdab9a3 in main_loop_wait util/main-loop.c:524
+    #11 0xaaaabb6ff5e7 in main_loop vl.c:1806
+    #12 0xaaaabb1e1453 in main vl.c:4488
 
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-id: 20190827080209.2365-1-fangying1@huawei.com
+Message-id: 20190828062535.1573-1-fangying1@huawei.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
  hw/usb/hcd-xhci.c | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index f5782649482b..471759cd4cc0 100644
+index 471759cd4cc0..80988bb305a1 100644
 --- a/hw/usb/hcd-xhci.c
 +++ b/hw/usb/hcd-xhci.c
-@@ -2161,6 +2161,7 @@ static TRBCCode xhci_address_slot(XHCIState *xhci, unsigned int slotid,
-                                   DeviceOutRequest | USB_REQ_SET_ADDRESS,
-                                   slotid, 0, 0, NULL);
-         assert(p.status != USB_RET_ASYNC);
-+        usb_packet_cleanup(&p);
-     }
- 
-     res = xhci_enable_ep(xhci, slotid, 1, octx+32, ep0_ctx);
+@@ -1914,6 +1914,7 @@ static void xhci_kick_epctx(XHCIEPContext *epctx, unsigned int streamid)
+             }
+             usb_handle_packet(xfer->packet.ep->dev, &xfer->packet);
+             if (xfer->packet.status == USB_RET_NAK) {
++                xhci_xfer_unmap(xfer);
+                 return;
+             }
+             xhci_try_complete_packet(xfer);
 -- 
 2.18.1
 
