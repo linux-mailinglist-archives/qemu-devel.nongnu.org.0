@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53533A21B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:04:25 +0200 (CEST)
-Received: from localhost ([::1]:52194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A833CA21C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:07:19 +0200 (CEST)
+Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3NqR-0006BI-Ts
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:04:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49363)
+	id 1i3NtG-0001h0-74
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:07:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49600)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i3NkK-0000kP-NC
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:58:06 -0400
+ (envelope-from <philmd@redhat.com>) id 1i3NlC-0001pE-5b
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:58:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i3NkI-0002uv-Fo
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:58:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48506)
+ (envelope-from <philmd@redhat.com>) id 1i3NlA-0003L3-Vy
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:58:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44060)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i3NkI-0002uR-6l
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:58:02 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i3NlA-0003Ko-Ob
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:58:56 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4DF4389AC4
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 16:58:01 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id v4so1411644wmh.9
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 09:58:01 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id C30232A09B3
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 16:58:55 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id v4so1412021wmh.9
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 09:58:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=H04R+1xO77L7IUYF2HZ4jY3ilsAS00sUi6DGpqZdS+k=;
- b=szB7EpTXG6EBFLzLQzHaZ2Gjz2FLNvuPAWHnLD2CvZNgOaix7c5nzkIYtNEOLLMv6m
- Td/1fQY05537+SnS6ut+oX6sF3+zPRk8vGFZzOFIQhVXkuakf5w6v0Tt7TiqPQSZWipJ
- WATUdx3D6e+oiYq9J75uop0UWFPmg9LcwX6tfaHbqWggmnVTuZF73tVhufnoeiEkTOpw
- RxHPgt52G0Ov3WgyLYY+HZPq1vnjP43LWhfxMTD03LrFxmfrXEBjhVauGvwGEQqM4SiW
- Bs+oQXTyT5nqr/1FC9breX7Ck5UCB6Jm7vOygT1CvwftlHtl33d/ffGF5u9Gv9gZNwsk
- VuFg==
-X-Gm-Message-State: APjAAAUv3mA89c76rdSRs0HYMWUWHIpds/xX39v8d0hMVB+WrjF/uXQh
- ijZfQwwtFnVpN9L6fRlmpTSaZCZCmZ5tuWCNxEtVU99d5+sXGz5IgC9qHleHRmPFcRY79uLhW1Q
- kQ1CNx0K4A6VPP5c=
-X-Received: by 2002:a5d:66d1:: with SMTP id k17mr1710691wrw.308.1567097879747; 
- Thu, 29 Aug 2019 09:57:59 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwgmzTr9mBHNEPBi+fsEerDM8PfcNgLdxF3x9l4fqazP1ljDj5vodEs5pJk5gBe6bmucAIxeA==
-X-Received: by 2002:a5d:66d1:: with SMTP id k17mr1710682wrw.308.1567097879591; 
- Thu, 29 Aug 2019 09:57:59 -0700 (PDT)
+ bh=oZDPIkMF/l6lea0HZB7P7CTwU6rQtBAG8KkUS5wwk80=;
+ b=tcWIs9tRdbkp+B3nBuGkALHd2zc0ni+gptPL1TzqtnOdsdWUJNpYsTfxVX4wzk/JjE
+ C7bcW4jscBUcYiMyWsk9yiVcisvyAOxowQZ34f9ZtvUk7HYX93x1h1spMMdl1SaHruWr
+ geRyXy4QA6tVLBgrSazNIzQap9h9/wxVJIi/en7rzqWHfbDWhcee7J2pY6rGE/6Jr4aV
+ nHybopYymYsOQrlF5GzWzj8rB1nV+2+YuqI2htVgyOlSQpkdoOnuyP9LX0L08ML999gm
+ O7XqFxH04svp8P0RD2qA/otmt+0drrnws4na/GHqwVVEsv+GMe1gavYhPtKLPxwYrnTX
+ Jtag==
+X-Gm-Message-State: APjAAAX1DuFOusGR5VSQvKjO4DAViQpI8STvOK2C2nc14PRF53vaMhdW
+ lT9j1n+4bF9wlU5xBvWQbm9FRv66IWsI5wWCq/L8v2zrYOceGHhnkIc/lVLXZVGW5weaUYa9nEG
+ XZitRyw4r19VEA/Q=
+X-Received: by 2002:adf:9e09:: with SMTP id u9mr12973120wre.169.1567097934579; 
+ Thu, 29 Aug 2019 09:58:54 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw8xEsucy0ZVZunfk0bSXRYCodk/D5Qb4aInrjyMIwx/HLYJZ3lfiz/aojhlFqbILKojAI87Q==
+X-Received: by 2002:adf:9e09:: with SMTP id u9mr12973098wre.169.1567097934361; 
+ Thu, 29 Aug 2019 09:58:54 -0700 (PDT)
 Received: from [192.168.1.41] (251.red-88-10-102.dynamicip.rima-tde.net.
  [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id u6sm2425204wmm.26.2019.08.29.09.57.58
+ by smtp.gmail.com with ESMTPSA id k9sm4522005wrq.15.2019.08.29.09.58.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Aug 2019 09:57:59 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20190828165307.18321-1-alex.bennee@linaro.org>
+ Thu, 29 Aug 2019 09:58:53 -0700 (PDT)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190828231651.17176-1-richard.henderson@linaro.org>
+ <20190828231651.17176-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <212d7178-1995-db25-73df-0868f0831163@redhat.com>
-Date: Thu, 29 Aug 2019 18:57:58 +0200
+Message-ID: <841e3900-81ab-a3c9-b4f9-5fbd023a2259@redhat.com>
+Date: Thu, 29 Aug 2019 18:58:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190828165307.18321-1-alex.bennee@linaro.org>
+In-Reply-To: <20190828231651.17176-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v1 0/9] arm semih-hosting cleanups and
- other misc cleanups
+Subject: Re: [Qemu-devel] [PATCH v2 1/8] exec: Move user-only watchpoint
+ stubs inline
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,39 +83,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/28/19 6:52 PM, Alex Benn=C3=A9e wrote:
-> Hi Peter,
+On 8/29/19 1:16 AM, Richard Henderson wrote:
+> Let the user-only watchpoint stubs resolve to empty inline functions.
 >=20
-> Here are the ARM semi-hosting cleanup patches and a small selection of
-> miscellaneous TCG clean-ups. If your happy taking them all through
-> your tree please do otherwise I'll poke Richard. I'm just trying to
-> reduce the delta for my next iteration of the plugin series.
->=20
-> The following patches need review
->    04 - target arm remove run time semihosting checks
->    05 - includes remove stale smp max _cpus externs
->=20
-> The first is the result of review comments, moving CONFIG_TCG ifdefs
-> around and the second is pretty trivial.
->=20
-> Alex Benn=C3=A9e (7):
->   target/arm: handle M-profile semihosting at translate time
->   target/arm: handle A-profile T32 semihosting at translate time
->   target/arm: handle A-profile A32 semihosting at translate time
->   target/arm: remove run time semihosting checks
->   includes: remove stale [smp|max]_cpus externs
->   accel/stubs: reduce headers from tcg-stub
->   include/exec/cpu-defs.h: fix typo
->=20
-> Emilio G. Cota (2):
->   tcg/README: fix typo s/afterwise/afterwards/
->   atomic_template: fix indentation in GEN_ATOMIC_HELPER
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Thanks for cleaning this!
-
-Series except patch #8 which you dropped:
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+> ---
+>  include/hw/core/cpu.h | 23 +++++++++++++++++++++++
+>  exec.c                | 26 ++------------------------
+>  2 files changed, 25 insertions(+), 24 deletions(-)
+>=20
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index 77fca95a40..6de688059d 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -1070,12 +1070,35 @@ static inline bool cpu_breakpoint_test(CPUState=
+ *cpu, vaddr pc, int mask)
+>      return false;
+>  }
+> =20
+> +#ifdef CONFIG_USER_ONLY
+> +static inline int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vad=
+dr len,
+> +                                        int flags, CPUWatchpoint **wat=
+chpoint)
+> +{
+> +    return -ENOSYS;
+> +}
+> +
+> +static inline int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
+> +                                        vaddr len, int flags)
+> +{
+> +    return -ENOSYS;
+> +}
+> +
+> +static inline void cpu_watchpoint_remove_by_ref(CPUState *cpu,
+> +                                                CPUWatchpoint *wp)
+> +{
+> +}
+> +
+> +static inline void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
+> +{
+> +}
+> +#else
+>  int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+>                            int flags, CPUWatchpoint **watchpoint);
+>  int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
+>                            vaddr len, int flags);
+>  void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchp=
+oint);
+>  void cpu_watchpoint_remove_all(CPUState *cpu, int mask);
+> +#endif
+> =20
+>  /**
+>   * cpu_get_address_space:
+> diff --git a/exec.c b/exec.c
+> index 53a15b7ad7..31fb75901f 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -1062,28 +1062,7 @@ static void breakpoint_invalidate(CPUState *cpu,=
+ target_ulong pc)
+>  }
+>  #endif
+> =20
+> -#if defined(CONFIG_USER_ONLY)
+> -void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
+> -
+> -{
+> -}
+> -
+> -int cpu_watchpoint_remove(CPUState *cpu, vaddr addr, vaddr len,
+> -                          int flags)
+> -{
+> -    return -ENOSYS;
+> -}
+> -
+> -void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchp=
+oint)
+> -{
+> -}
+> -
+> -int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+> -                          int flags, CPUWatchpoint **watchpoint)
+> -{
+> -    return -ENOSYS;
+> -}
+> -#else
+> +#ifndef CONFIG_USER_ONLY
+>  /* Add a watchpoint.  */
+>  int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+>                            int flags, CPUWatchpoint **watchpoint)
+> @@ -1173,8 +1152,7 @@ static inline bool cpu_watchpoint_address_matches=
+(CPUWatchpoint *wp,
+> =20
+>      return !(addr > wpend || wp->vaddr > addrend);
+>  }
+> -
+> -#endif
+> +#endif /* !CONFIG_USER_ONLY */
+> =20
+>  /* Add a breakpoint.  */
+>  int cpu_breakpoint_insert(CPUState *cpu, vaddr pc, int flags,
+>=20
 
