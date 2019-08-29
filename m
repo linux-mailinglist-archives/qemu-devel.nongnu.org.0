@@ -2,76 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC748A21BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:04:43 +0200 (CEST)
-Received: from localhost ([::1]:52196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42ADA21CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:08:25 +0200 (CEST)
+Received: from localhost ([::1]:52236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3Nqk-0006RK-Fc
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:04:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48500)
+	id 1i3NuK-0003Jz-Eb
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48681)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i3Nhc-0006MD-9r
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:55:20 -0400
+ (envelope-from <groug@kaod.org>) id 1i3Ni1-0006x2-Bb
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:55:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i3NhY-0001Ys-LN
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:55:16 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55208)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i3NhY-0001Xg-9R
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:55:12 -0400
-Received: by mail-wm1-x341.google.com with SMTP id k2so3028895wmj.4
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 09:55:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=lV7ny6VdRwZaSQE/CcoR9i+FdWjSPuo2nCcBovdFcEI=;
- b=NI70RfSXR5Kypfe+DWZDSlBVzpc2p3VaI56/Nq4SWBImgz/ubcW0ItuWHEYW6WX9A9
- 6r8pNpriVpdCO37X8Yu9a5PmiokR9fW9vk5Wqa78ncYoBJ2RaJy8WlCbNB466A6uIcOJ
- BGVTRpWDaDsHGwHLmQ8jttz4MA0GMVQ8jFtyXD5oSrxUijwBxFOdE5zY/YJ312Bs1RfZ
- M3DlePAO9umPX/m5ldYnZAvm2CsoxUOXRTICd31HK2xGGy9mz/yeRUQesSYEUTImP9mX
- GnahSwZtBOPAZ2WISf9wiT4gyQ84IIDg6/eHwqwLqb8MFJD/Ja0cGjnHpHU49jce4KVl
- IGzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=lV7ny6VdRwZaSQE/CcoR9i+FdWjSPuo2nCcBovdFcEI=;
- b=RqD+iFgnridk/mpjGSm6t9a5fF8G8N9eUZKw1KBDo3P3vaZhnSkdkkh/Xp2iAnO0jv
- vIjkr0pT5eDAjbG+Ib9iDcQVF6wE1PRjH77AcrOYwtSLiupnQOdWrEHx8d8Ytpeg8O3d
- nyrv+B4RHTRat6zMFDFEh0HLAG9WocVSUda2E54lha4yrteLlex5eU6+ar7OKUmQDbEr
- dC5HgAjNBKqHnXGin3PnVHDuntU4Ob6nOR6ArqjUnSpVjcHTnkqwP5D4EMLoNBotBFe7
- aoKr7Cyc6UaNSRG8HHtAN+UR9qMP7ZF1wuvkqu0XEFCW6wPic3RIa0s5haXkFvSWQdlR
- Ia5A==
-X-Gm-Message-State: APjAAAUZXZwr0+u14bpjF0k8PwThjMBU6r14yYBTitcL+gVlSMFbLXOZ
- fyzKAMMq99Thm1Lof5OFDsjTWQ==
-X-Google-Smtp-Source: APXvYqyf7nWV4WtCPBS8jaVvC6atnOuRUfZr/53Guk3ZjNiKYVD5M6S/mObWpaFRLxFc2v/B0lxQzA==
-X-Received: by 2002:a7b:c441:: with SMTP id l1mr12519867wmi.170.1567097710765; 
- Thu, 29 Aug 2019 09:55:10 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m12sm479823wro.32.2019.08.29.09.55.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Aug 2019 09:55:10 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AC5201FF87;
- Thu, 29 Aug 2019 17:55:09 +0100 (BST)
-References: <20190829160710.8792-1-berrange@redhat.com>
- <20190829160710.8792-3-berrange@redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-In-reply-to: <20190829160710.8792-3-berrange@redhat.com>
-Date: Thu, 29 Aug 2019 17:55:09 +0100
-Message-ID: <87y2zb52tu.fsf@linaro.org>
+ (envelope-from <groug@kaod.org>) id 1i3Nhy-0001oE-36
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:55:40 -0400
+Received: from 4.mo69.mail-out.ovh.net ([46.105.42.102]:34981)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i3Nhx-0001nC-NO
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:55:37 -0400
+Received: from player688.ha.ovh.net (unknown [10.108.57.50])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id 90B1367F42
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 18:55:35 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player688.ha.ovh.net (Postfix) with ESMTPSA id B262892AC92F;
+ Thu, 29 Aug 2019 16:55:29 +0000 (UTC)
+Date: Thu, 29 Aug 2019 18:55:28 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Message-ID: <20190829185528.1db6607e@bahia.lan>
+In-Reply-To: <50fc6fbbfd80c25d2ad1752fb945cdfc7d847f20.1566503584.git.qemu_oss@crudebyte.com>
+References: <cover.1566503584.git.qemu_oss@crudebyte.com>
+ <50fc6fbbfd80c25d2ad1752fb945cdfc7d847f20.1566503584.git.qemu_oss@crudebyte.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH v2 2/4] docs: merge HACKING.rst contents
- into CODING_STYLE.rst
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 254171905459525952
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudeivddguddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.42.102
+Subject: Re: [Qemu-devel] [PATCH v6 2/4] 9p: Added virtfs option
+ 'multidevs=remap|forbid|warn'
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,722 +58,542 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Antonios Motakis <antonios.motakis@huawei.com>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 22 Aug 2019 21:33:37 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-
-> The split of information between the two docs is rather arbitary and
-> unclear. It is simpler for contributors if all the information is in
-> one file.
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
+> 'warn' (default): Only log an error message (once) on host if more than one
+> device is shared by same export, except of that just ignore this config
+> error though. This is the default behaviour for not breaking existing
+> installations implying that they really know what they are doing.
+> 
+> 'forbid': Like 'warn', but except of just logging an error this
+> also denies access of guest to additional devices.
+> 
+> 'remap': Allows to share more than one device per export by remapping
+> inodes from host to guest appropriately. To support multiple devices on the
+> 9p share, and avoid qid path collisions we take the device id as input to
+> generate a unique QID path. The lowest 48 bits of the path will be set
+> equal to the file inode, and the top bits will be uniquely assigned based
+> on the top 16 bits of the inode and the device id.
+> 
+> Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
+> [CS: - Rebased to https://github.com/gkurz/qemu/commits/9p-next
+>        (SHA1 177fd3b6a8).
+>      - Updated hash calls to new xxhash API.
+>      - Added virtfs option 'multidevs', original patch simply did the inode
+>        remapping without being asked.
+>      - Updated docs for new option 'multidevs'.
+>      - Capture root_ino in v9fs_device_realize_common() as well, not just
+>        the device id.
+>      - Fixed v9fs_do_readdir() not having remapped inodes.
+>      - Log error message when running out of prefixes in
+>        qid_path_prefixmap().
+>      - Fixed definition of QPATH_INO_MASK.
+>      - Dropped unnecessary parantheses in qpp_lookup_func().
+>      - Dropped unnecessary g_malloc0() result checks. ]
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > ---
->  CODING_STYLE.rst | 296 ++++++++++++++++++++++++++++++++++++++++++++++
->  HACKING.rst      | 300 -----------------------------------------------
->  README.rst       |   2 +-
->  3 files changed, 297 insertions(+), 301 deletions(-)
->  delete mode 100644 HACKING.rst
->
-> diff --git a/CODING_STYLE.rst b/CODING_STYLE.rst
-> index 713357cb80..4501d87352 100644
-> --- a/CODING_STYLE.rst
-> +++ b/CODING_STYLE.rst
-> @@ -205,6 +205,302 @@ comment anyway.)
->  Rationale: Consistency, and ease of visually picking out a multiline
->  comment from the surrounding code.
->
-> +Preprocessor
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Variadic macros
-> +---------------
-> +
-> +For variadic macros, stick with this C99-like syntax:
-> +
-> +.. code-block:: c
-> +
-> +    #define DPRINTF(fmt, ...)                                       \
-> +        do { printf("IRQ: " fmt, ## __VA_ARGS__); } while (0)
-> +
-> +Include directives
-> +------------------
-> +
-> +Order include directives as follows:
-> +
-> +.. code-block:: c
-> +
-> +    #include "qemu/osdep.h"  /* Always first... */
-> +    #include <...>           /* then system headers... */
-> +    #include "..."           /* and finally QEMU headers. */
-> +
-> +The "qemu/osdep.h" header contains preprocessor macros that affect the b=
-ehavior
-> +of core system headers like <stdint.h>.  It must be the first include so=
- that
-> +core system headers included by external libraries get the preprocessor =
-macros
-> +that QEMU depends on.
-> +
-> +Do not include "qemu/osdep.h" from header files since the .c file will h=
-ave
-> +already included it.
-> +
-> +C types
-> +=3D=3D=3D=3D=3D=3D=3D
-> +
-> +It should be common sense to use the right type, but we have collected
-> +a few useful guidelines here.
-> +
-> +Scalars
-> +-------
-> +
-> +If you're using "int" or "long", odds are good that there's a better typ=
-e.
-> +If a variable is counting something, it should be declared with an
-> +unsigned type.
-> +
-> +If it's host memory-size related, size_t should be a good choice (use
-> +ssize_t only if required). Guest RAM memory offsets must use ram_addr_t,
-> +but only for RAM, it may not cover whole guest address space.
-> +
-> +If it's file-size related, use off_t.
-> +If it's file-offset related (i.e., signed), use off_t.
-> +If it's just counting small numbers use "unsigned int";
-> +(on all but oddball embedded systems, you can assume that that
-> +type is at least four bytes wide).
-> +
-> +In the event that you require a specific width, use a standard type
-> +like int32_t, uint32_t, uint64_t, etc.  The specific types are
-> +mandatory for VMState fields.
-> +
-> +Don't use Linux kernel internal types like u32, __u32 or __le32.
-> +
-> +Use hwaddr for guest physical addresses except pcibus_t
-> +for PCI addresses.  In addition, ram_addr_t is a QEMU internal address
-> +space that maps guest RAM physical addresses into an intermediate
-> +address space that can map to host virtual address spaces.  Generally
-> +speaking, the size of guest memory can always fit into ram_addr_t but
-> +it would not be correct to store an actual guest physical address in a
-> +ram_addr_t.
-> +
-> +For CPU virtual addresses there are several possible types.
-> +vaddr is the best type to use to hold a CPU virtual address in
-> +target-independent code. It is guaranteed to be large enough to hold a
-> +virtual address for any target, and it does not change size from target
-> +to target. It is always unsigned.
-> +target_ulong is a type the size of a virtual address on the CPU; this me=
-ans
-> +it may be 32 or 64 bits depending on which target is being built. It sho=
-uld
-> +therefore be used only in target-specific code, and in some
-> +performance-critical built-per-target core code such as the TLB code.
-> +There is also a signed version, target_long.
-> +abi_ulong is for the ``*``-user targets, and represents a type the size =
-of
-> +'void ``*``' in that target's ABI. (This may not be the same as the size=
- of a
-> +full CPU virtual address in the case of target ABIs which use 32 bit poi=
-nters
-> +on 64 bit CPUs, like sparc32plus.) Definitions of structures that must m=
-atch
-> +the target's ABI must use this type for anything that on the target is d=
-efined
-> +to be an 'unsigned long' or a pointer type.
-> +There is also a signed version, abi_long.
-> +
-> +Of course, take all of the above with a grain of salt.  If you're about
-> +to use some system interface that requires a type like size_t, pid_t or
-> +off_t, use matching types for any corresponding variables.
-> +
-> +Also, if you try to use e.g., "unsigned int" as a type, and that
-> +conflicts with the signedness of a related variable, sometimes
-> +it's best just to use the *wrong* type, if "pulling the thread"
-> +and fixing all related variables would be too invasive.
-> +
-> +Finally, while using descriptive types is important, be careful not to
-> +go overboard.  If whatever you're doing causes warnings, or requires
-> +casts, then reconsider or ask for help.
-> +
-> +Pointers
-> +--------
-> +
-> +Ensure that all of your pointers are "const-correct".
-> +Unless a pointer is used to modify the pointed-to storage,
-> +give it the "const" attribute.  That way, the reader knows
-> +up-front that this is a read-only pointer.  Perhaps more
-> +importantly, if we're diligent about this, when you see a non-const
-> +pointer, you're guaranteed that it is used to modify the storage
-> +it points to, or it is aliased to another pointer that is.
-> +
-> +Typedefs
-> +--------
-> +
-> +Typedefs are used to eliminate the redundant 'struct' keyword, since type
-> +names have a different style than other identifiers ("CamelCase" versus
-> +"snake_case").  Each named struct type should have a CamelCase name and a
-> +corresponding typedef.
-> +
-> +Since certain C compilers choke on duplicated typedefs, you should avoid
-> +them and declare a typedef only in one header file.  For common types,
-> +you can use "include/qemu/typedefs.h" for example.  However, as a matter
-> +of convenience it is also perfectly fine to use forward struct
-> +definitions instead of typedefs in headers and function prototypes; this
-> +avoids problems with duplicated typedefs and reduces the need to include
-> +headers from other headers.
-> +
-> +Reserved namespaces in C and POSIX
-> +----------------------------------
-> +
-> +Underscore capital, double underscore, and underscore 't' suffixes shoul=
-d be
-> +avoided.
-> +
-> +Low level memory management
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +
-> +Use of the malloc/free/realloc/calloc/valloc/memalign/posix_memalign
-> +APIs is not allowed in the QEMU codebase. Instead of these routines,
-> +use the GLib memory allocation routines g_malloc/g_malloc0/g_new/
-> +g_new0/g_realloc/g_free or QEMU's qemu_memalign/qemu_blockalign/qemu_vfr=
-ee
-> +APIs.
-> +
-> +Please note that g_malloc will exit on allocation failure, so there
-> +is no need to test for failure (as you would have to with malloc).
-> +Calling g_malloc with a zero size is valid and will return NULL.
-> +
-> +Prefer g_new(T, n) instead of g_malloc(sizeof(T) ``*`` n) for the follow=
-ing
-> +reasons:
-> +
-> +* It catches multiplication overflowing size_t;
-> +* It returns T ``*`` instead of void ``*``, letting compiler catch more =
-type errors.
-> +
-> +Declarations like
-> +
-> +.. code-block:: c
-> +
-> +    T *v =3D g_malloc(sizeof(*v))
-> +
-> +are acceptable, though.
-> +
-> +Memory allocated by qemu_memalign or qemu_blockalign must be freed with
-> +qemu_vfree, since breaking this will cause problems on Win32.
-> +
-> +String manipulation
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Do not use the strncpy function.  As mentioned in the man page, it does =
-*not*
-> +guarantee a NULL-terminated buffer, which makes it extremely dangerous t=
-o use.
-> +It also zeros trailing destination bytes out to the specified length.  I=
-nstead,
-> +use this similar function when possible, but note its different signatur=
-e:
-> +
-> +.. code-block:: c
-> +
-> +    void pstrcpy(char *dest, int dest_buf_size, const char *src)
-> +
-> +Don't use strcat because it can't check for buffer overflows, but:
-> +
-> +.. code-block:: c
-> +
-> +    char *pstrcat(char *buf, int buf_size, const char *s)
-> +
-> +The same limitation exists with sprintf and vsprintf, so use snprintf and
-> +vsnprintf.
-> +
-> +QEMU provides other useful string functions:
-> +
-> +.. code-block:: c
-> +
-> +    int strstart(const char *str, const char *val, const char **ptr)
-> +    int stristart(const char *str, const char *val, const char **ptr)
-> +    int qemu_strnlen(const char *s, int max_len)
-> +
-> +There are also replacement character processing macros for isxyz and tox=
-yz,
-> +so instead of e.g. isalnum you should use qemu_isalnum.
-> +
-> +Because of the memory management rules, you must use g_strdup/g_strndup
-> +instead of plain strdup/strndup.
-> +
-> +Printf-style functions
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Whenever you add a new printf-style function, i.e., one with a format
-> +string argument and following "..." in its prototype, be sure to use
-> +gcc's printf attribute directive in the prototype.
-> +
-> +This makes it so gcc's -Wformat and -Wformat-security options can do
-> +their jobs and cross-check format strings with the number and types
-> +of arguments.
-> +
-> +C standard, implementation defined and undefined behaviors
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +C code in QEMU should be written to the C99 language specification. A co=
-py
-> +of the final version of the C99 standard with corrigenda TC1, TC2, and T=
-C3
-> +included, formatted as a draft, can be downloaded from:
-> +
-> +    `<http://www.open-std.org/jtc1/sc22/WG14/www/docs/n1256.pdf>`_
-> +
-> +The C language specification defines regions of undefined behavior and
-> +implementation defined behavior (to give compiler authors enough leeway =
-to
-> +produce better code).  In general, code in QEMU should follow the langua=
-ge
-> +specification and avoid both undefined and implementation defined
-> +constructs. ("It works fine on the gcc I tested it with" is not a valid
-> +argument...) However there are a few areas where we allow ourselves to
-> +assume certain behaviors because in practice all the platforms we care a=
-bout
-> +behave in the same way and writing strictly conformant code would be
-> +painful. These are:
-> +
-> +* you may assume that integers are 2s complement representation
-> +* you may assume that right shift of a signed integer duplicates
-> +  the sign bit (ie it is an arithmetic shift, not a logical shift)
-> +
-> +In addition, QEMU assumes that the compiler does not use the latitude
-> +given in C99 and C11 to treat aspects of signed '<<' as undefined, as
-> +documented in the GNU Compiler Collection manual starting at version 4.0.
-> +
-> +Error handling and reporting
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +
-> +Reporting errors to the human user
-> +----------------------------------
-> +
-> +Do not use printf(), fprintf() or monitor_printf().  Instead, use
-> +error_report() or error_vreport() from error-report.h.  This ensures the
-> +error is reported in the right place (current monitor or stderr), and in
-> +a uniform format.
-> +
-> +Use error_printf() & friends to print additional information.
-> +
-> +error_report() prints the current location.  In certain common cases
-> +like command line parsing, the current location is tracked
-> +automatically.  To manipulate it manually, use the loc_``*``() from
-> +error-report.h.
-> +
-> +Propagating errors
-> +------------------
-> +
-> +An error can't always be reported to the user right where it's detected,
-> +but often needs to be propagated up the call chain to a place that can
-> +handle it.  This can be done in various ways.
-> +
-> +The most flexible one is Error objects.  See error.h for usage
-> +information.
-> +
-> +Use the simplest suitable method to communicate success / failure to
-> +callers.  Stick to common methods: non-negative on success / -1 on
-> +error, non-negative / -errno, non-null / null, or Error objects.
-> +
-> +Example: when a function returns a non-null pointer on success, and it
-> +can fail only in one way (as far as the caller is concerned), returning
-> +null on failure is just fine, and certainly simpler and a lot easier on
-> +the eyes than propagating an Error object through an Error ``*````*`` pa=
-rameter.
-> +
-> +Example: when a function's callers need to report details on failure
-> +only the function really knows, use Error ``*````*``, and set suitable e=
-rrors.
-> +
-> +Do not report an error to the user when you're also returning an error
-> +for somebody else to handle.  Leave the reporting to the place that
-> +consumes the error returned.
-> +
-> +Handling errors
-> +---------------
-> +
-> +Calling exit() is fine when handling configuration errors during
-> +startup.  It's problematic during normal operation.  In particular,
-> +monitor commands should never exit().
-> +
-> +Do not call exit() or abort() to handle an error that can be triggered
-> +by the guest (e.g., some unimplemented corner case in guest code
-> +translation or device emulation).  Guests should not be able to
-> +terminate QEMU.
-> +
-> +Note that &error_fatal is just another way to exit(1), and &error_abort
-> +is just another way to abort().
-> +
-> +
->  trace-events style
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> diff --git a/HACKING.rst b/HACKING.rst
-> deleted file mode 100644
-> index 668fc420c3..0000000000
-> --- a/HACKING.rst
-> +++ /dev/null
-> @@ -1,300 +0,0 @@
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -QEMU Hacking
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -
-> -.. contents:: Table of Contents
-> -
-> -Preprocessor
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -
-> -Variadic macros
-> ----------------
-> -
-> -For variadic macros, stick with this C99-like syntax:
-> -
-> -.. code-block:: c
-> -
-> -    #define DPRINTF(fmt, ...)                                       \
-> -        do { printf("IRQ: " fmt, ## __VA_ARGS__); } while (0)
-> -
-> -Include directives
-> -------------------
-> -
-> -Order include directives as follows:
-> -
-> -.. code-block:: c
-> -
-> -    #include "qemu/osdep.h"  /* Always first... */
-> -    #include <...>           /* then system headers... */
-> -    #include "..."           /* and finally QEMU headers. */
-> -
-> -The "qemu/osdep.h" header contains preprocessor macros that affect the b=
-ehavior
-> -of core system headers like <stdint.h>.  It must be the first include so=
- that
-> -core system headers included by external libraries get the preprocessor =
-macros
-> -that QEMU depends on.
-> -
-> -Do not include "qemu/osdep.h" from header files since the .c file will h=
-ave
-> -already included it.
-> -
-> -C types
-> -=3D=3D=3D=3D=3D=3D=3D
-> -
-> -It should be common sense to use the right type, but we have collected
-> -a few useful guidelines here.
-> -
-> -Scalars
-> --------
-> -
-> -If you're using "int" or "long", odds are good that there's a better typ=
-e.
-> -If a variable is counting something, it should be declared with an
-> -unsigned type.
-> -
-> -If it's host memory-size related, size_t should be a good choice (use
-> -ssize_t only if required). Guest RAM memory offsets must use ram_addr_t,
-> -but only for RAM, it may not cover whole guest address space.
-> -
-> -If it's file-size related, use off_t.
-> -If it's file-offset related (i.e., signed), use off_t.
-> -If it's just counting small numbers use "unsigned int";
-> -(on all but oddball embedded systems, you can assume that that
-> -type is at least four bytes wide).
-> -
-> -In the event that you require a specific width, use a standard type
-> -like int32_t, uint32_t, uint64_t, etc.  The specific types are
-> -mandatory for VMState fields.
-> -
-> -Don't use Linux kernel internal types like u32, __u32 or __le32.
-> -
-> -Use hwaddr for guest physical addresses except pcibus_t
-> -for PCI addresses.  In addition, ram_addr_t is a QEMU internal address
-> -space that maps guest RAM physical addresses into an intermediate
-> -address space that can map to host virtual address spaces.  Generally
-> -speaking, the size of guest memory can always fit into ram_addr_t but
-> -it would not be correct to store an actual guest physical address in a
-> -ram_addr_t.
-> -
-> -For CPU virtual addresses there are several possible types.
-> -vaddr is the best type to use to hold a CPU virtual address in
-> -target-independent code. It is guaranteed to be large enough to hold a
-> -virtual address for any target, and it does not change size from target
-> -to target. It is always unsigned.
-> -target_ulong is a type the size of a virtual address on the CPU; this me=
-ans
-> -it may be 32 or 64 bits depending on which target is being built. It sho=
-uld
-> -therefore be used only in target-specific code, and in some
-> -performance-critical built-per-target core code such as the TLB code.
-> -There is also a signed version, target_long.
-> -abi_ulong is for the ``*``-user targets, and represents a type the size =
-of
-> -'void ``*``' in that target's ABI. (This may not be the same as the size=
- of a
-> -full CPU virtual address in the case of target ABIs which use 32 bit poi=
-nters
-> -on 64 bit CPUs, like sparc32plus.) Definitions of structures that must m=
-atch
-> -the target's ABI must use this type for anything that on the target is d=
-efined
-> -to be an 'unsigned long' or a pointer type.
-> -There is also a signed version, abi_long.
-> -
-> -Of course, take all of the above with a grain of salt.  If you're about
-> -to use some system interface that requires a type like size_t, pid_t or
-> -off_t, use matching types for any corresponding variables.
-> -
-> -Also, if you try to use e.g., "unsigned int" as a type, and that
-> -conflicts with the signedness of a related variable, sometimes
-> -it's best just to use the *wrong* type, if "pulling the thread"
-> -and fixing all related variables would be too invasive.
-> -
-> -Finally, while using descriptive types is important, be careful not to
-> -go overboard.  If whatever you're doing causes warnings, or requires
-> -casts, then reconsider or ask for help.
-> -
-> -Pointers
-> ---------
-> -
-> -Ensure that all of your pointers are "const-correct".
-> -Unless a pointer is used to modify the pointed-to storage,
-> -give it the "const" attribute.  That way, the reader knows
-> -up-front that this is a read-only pointer.  Perhaps more
-> -importantly, if we're diligent about this, when you see a non-const
-> -pointer, you're guaranteed that it is used to modify the storage
-> -it points to, or it is aliased to another pointer that is.
-> -
-> -Typedefs
-> ---------
-> -
-> -Typedefs are used to eliminate the redundant 'struct' keyword, since type
-> -names have a different style than other identifiers ("CamelCase" versus
-> -"snake_case").  Each named struct type should have a CamelCase name and a
-> -corresponding typedef.
-> -
-> -Since certain C compilers choke on duplicated typedefs, you should avoid
-> -them and declare a typedef only in one header file.  For common types,
-> -you can use "include/qemu/typedefs.h" for example.  However, as a matter
-> -of convenience it is also perfectly fine to use forward struct
-> -definitions instead of typedefs in headers and function prototypes; this
-> -avoids problems with duplicated typedefs and reduces the need to include
-> -headers from other headers.
-> -
-> -Reserved namespaces in C and POSIX
-> -----------------------------------
-> -
-> -Underscore capital, double underscore, and underscore 't' suffixes shoul=
-d be
-> -avoided.
-> -
-> -Low level memory management
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> -
-> -Use of the malloc/free/realloc/calloc/valloc/memalign/posix_memalign
-> -APIs is not allowed in the QEMU codebase. Instead of these routines,
-> -use the GLib memory allocation routines g_malloc/g_malloc0/g_new/
-> -g_new0/g_realloc/g_free or QEMU's qemu_memalign/qemu_blockalign/qemu_vfr=
-ee
-> -APIs.
-> -
-> -Please note that g_malloc will exit on allocation failure, so there
-> -is no need to test for failure (as you would have to with malloc).
-> -Calling g_malloc with a zero size is valid and will return NULL.
-> -
-> -Prefer g_new(T, n) instead of g_malloc(sizeof(T) ``*`` n) for the follow=
-ing
-> -reasons:
-> -
-> -* It catches multiplication overflowing size_t;
-> -* It returns T ``*`` instead of void ``*``, letting compiler catch more =
-type errors.
-> -
-> -Declarations like
-> -
-> -.. code-block:: c
-> -
-> -    T *v =3D g_malloc(sizeof(*v))
-> -
-> -are acceptable, though.
-> -
-> -Memory allocated by qemu_memalign or qemu_blockalign must be freed with
-> -qemu_vfree, since breaking this will cause problems on Win32.
-> -
-> -String manipulation
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -
-> -Do not use the strncpy function.  As mentioned in the man page, it does =
-*not*
-> -guarantee a NULL-terminated buffer, which makes it extremely dangerous t=
-o use.
-> -It also zeros trailing destination bytes out to the specified length.  I=
-nstead,
-> -use this similar function when possible, but note its different signatur=
-e:
-> -
-> -.. code-block:: c
-> -
-> -    void pstrcpy(char *dest, int dest_buf_size, const char *src)
-> -
-> -Don't use strcat because it can't check for buffer overflows, but:
-> -
-> -.. code-block:: c
-> -
-> -    char *pstrcat(char *buf, int buf_size, const char *s)
-> -
-> -The same limitation exists with sprintf and vsprintf, so use snprintf and
-> -vsnprintf.
-> -
-> -QEMU provides other useful string functions:
-> -
-> -.. code-block:: c
-> -
-> -    int strstart(const char *str, const char *val, const char **ptr)
-> -    int stristart(const char *str, const char *val, const char **ptr)
-> -    int qemu_strnlen(const char *s, int max_len)
-> -
-> -There are also replacement character processing macros for isxyz and tox=
-yz,
-> -so instead of e.g. isalnum you should use qemu_isalnum.
-> -
-> -Because of the memory management rules, you must use g_strdup/g_strndup
-> -instead of plain strdup/strndup.
-> -
-> -Printf-style functions
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -
-> -Whenever you add a new printf-style function, i.e., one with a format
-> -string argument and following "..." in its prototype, be sure to use
-> -gcc's printf attribute directive in the prototype.
-> -
-> -This makes it so gcc's -Wformat and -Wformat-security options can do
-> -their jobs and cross-check format strings with the number and types
-> -of arguments.
-> -
-> -C standard, implementation defined and undefined behaviors
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -
-> -C code in QEMU should be written to the C99 language specification. A co=
-py
-> -of the final version of the C99 standard with corrigenda TC1, TC2, and T=
-C3
-> -included, formatted as a draft, can be downloaded from:
-> -
-> -    `<http://www.open-std.org/jtc1/sc22/WG14/www/docs/n1256.pdf>`_
-> -
-> -The C language specification defines regions of undefined behavior and
-> -implementation defined behavior (to give compiler authors enough leeway =
-to
-> -produce better code).  In general, code in QEMU should follow the langua=
-ge
-> -specification and avoid both undefined and implementation defined
-> -constructs. ("It works fine on the gcc I tested it with" is not a valid
-> -argument...) However there are a few areas where we allow ourselves to
-> -assume certain behaviors because in practice all the platforms we care a=
-bout
-> -behave in the same way and writing strictly conformant code would be
-> -painful. These are:
-> -
-> -* you may assume that integers are 2s complement representation
-> -* you may assume that right shift of a signed integer duplicates
-> -  the sign bit (ie it is an arithmetic shift, not a logical shift)
-> -
-> -In addition, QEMU assumes that the compiler does not use the latitude
-> -given in C99 and C11 to treat aspects of signed '<<' as undefined, as
-> -documented in the GNU Compiler Collection manual starting at version 4.0.
-> -
-> -Error handling and reporting
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> -
-> -Reporting errors to the human user
-> -----------------------------------
-> -
-> -Do not use printf(), fprintf() or monitor_printf().  Instead, use
-> -error_report() or error_vreport() from error-report.h.  This ensures the
-> -error is reported in the right place (current monitor or stderr), and in
-> -a uniform format.
-> -
-> -Use error_printf() & friends to print additional information.
-> -
-> -error_report() prints the current location.  In certain common cases
-> -like command line parsing, the current location is tracked
-> -automatically.  To manipulate it manually, use the loc_``*``() from
-> -error-report.h.
-> -
-> -Propagating errors
-> -------------------
-> -
-> -An error can't always be reported to the user right where it's detected,
-> -but often needs to be propagated up the call chain to a place that can
-> -handle it.  This can be done in various ways.
-> -
-> -The most flexible one is Error objects.  See error.h for usage
-> -information.
-> -
-> -Use the simplest suitable method to communicate success / failure to
-> -callers.  Stick to common methods: non-negative on success / -1 on
-> -error, non-negative / -errno, non-null / null, or Error objects.
-> -
-> -Example: when a function returns a non-null pointer on success, and it
-> -can fail only in one way (as far as the caller is concerned), returning
-> -null on failure is just fine, and certainly simpler and a lot easier on
-> -the eyes than propagating an Error object through an Error ``*````*`` pa=
-rameter.
-> -
-> -Example: when a function's callers need to report details on failure
-> -only the function really knows, use Error ``*````*``, and set suitable e=
-rrors.
-> -
-> -Do not report an error to the user when you're also returning an error
-> -for somebody else to handle.  Leave the reporting to the place that
-> -consumes the error returned.
-> -
-> -Handling errors
-> ----------------
-> -
-> -Calling exit() is fine when handling configuration errors during
-> -startup.  It's problematic during normal operation.  In particular,
-> -monitor commands should never exit().
-> -
-> -Do not call exit() or abort() to handle an error that can be triggered
-> -by the guest (e.g., some unimplemented corner case in guest code
-> -translation or device emulation).  Guests should not be able to
-> -terminate QEMU.
-> -
-> -Note that &error_fatal is just another way to exit(1), and &error_abort
-> -is just another way to abort().
-> diff --git a/README.rst b/README.rst
-> index 9ff2877416..7497709291 100644
-> --- a/README.rst
-> +++ b/README.rst
-> @@ -66,7 +66,7 @@ When submitting patches, one common approach is to use =
-'git
->  format-patch' and/or 'git send-email' to format & send the mail to the
->  qemu-devel@nongnu.org mailing list. All patches submitted must contain
->  a 'Signed-off-by' line from the author. Patches should follow the
-> -guidelines set out in the HACKING.rst and CODING_STYLE.rst files.
-> +guidelines set out in the CODING_STYLE.rst file.
->
->  Additional information on submitting patches can be found online via
->  the QEMU website
 
+Looks good but needs some more polishing. See below.
 
---
-Alex Benn=C3=A9e
+>  fsdev/file-op-9p.h      |   5 ++
+>  fsdev/qemu-fsdev-opts.c |   7 +-
+>  fsdev/qemu-fsdev.c      |  11 +++
+>  hw/9pfs/9p.c            | 182 ++++++++++++++++++++++++++++++++++++++++++------
+>  hw/9pfs/9p.h            |  13 ++++
+>  qemu-options.hx         |  33 +++++++--
+>  vl.c                    |   6 +-
+>  7 files changed, 229 insertions(+), 28 deletions(-)
+> 
+> diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+> index c757c8099f..f2f7772c86 100644
+> --- a/fsdev/file-op-9p.h
+> +++ b/fsdev/file-op-9p.h
+> @@ -59,6 +59,11 @@ typedef struct ExtendedOps {
+>  #define V9FS_RDONLY                 0x00000040
+>  #define V9FS_PROXY_SOCK_FD          0x00000080
+>  #define V9FS_PROXY_SOCK_NAME        0x00000100
+> +/*
+> + * multidevs option (either one of the two applies exclusively)
+> + */
+> +#define V9FS_REMAP_INODES           0x00000200
+> +#define V9FS_FORBID_MULTIDEVS       0x00000400
+>  
+>  #define V9FS_SEC_MASK               0x0000003C
+>  
+> diff --git a/fsdev/qemu-fsdev-opts.c b/fsdev/qemu-fsdev-opts.c
+> index 7c31ffffaf..07a18c6e48 100644
+> --- a/fsdev/qemu-fsdev-opts.c
+> +++ b/fsdev/qemu-fsdev-opts.c
+> @@ -31,7 +31,9 @@ static QemuOptsList qemu_fsdev_opts = {
+>          }, {
+>              .name = "readonly",
+>              .type = QEMU_OPT_BOOL,
+> -
+> +        }, {
+> +            .name = "multidevs",
+> +            .type = QEMU_OPT_STRING,
+>          }, {
+>              .name = "socket",
+>              .type = QEMU_OPT_STRING,
+> @@ -76,6 +78,9 @@ static QemuOptsList qemu_virtfs_opts = {
+>              .name = "readonly",
+>              .type = QEMU_OPT_BOOL,
+>          }, {
+> +            .name = "multidevs",
+> +            .type = QEMU_OPT_STRING,
+> +        }, {
+>              .name = "socket",
+>              .type = QEMU_OPT_STRING,
+>          }, {
+> diff --git a/fsdev/qemu-fsdev.c b/fsdev/qemu-fsdev.c
+> index 077a8c4e2b..ed03d559a9 100644
+> --- a/fsdev/qemu-fsdev.c
+> +++ b/fsdev/qemu-fsdev.c
+> @@ -58,6 +58,7 @@ static FsDriverTable FsDrivers[] = {
+>              "writeout",
+>              "fmode",
+>              "dmode",
+> +            "multidevs",
+
+So we only allow this for the "local" backend. Any reason not to
+add this to "proxy" as well ?
+
+I didn't do it for the "throttling" options because it is a
+feature I didn't care to support much, but "multidevs" is more
+a fix than a fancy feature.
+
+>              "throttling.bps-total",
+>              "throttling.bps-read",
+>              "throttling.bps-write",
+> @@ -121,6 +122,7 @@ int qemu_fsdev_add(QemuOpts *opts, Error **errp)
+>      const char *fsdev_id = qemu_opts_id(opts);
+>      const char *fsdriver = qemu_opt_get(opts, "fsdriver");
+>      const char *writeout = qemu_opt_get(opts, "writeout");
+> +    const char *multidevs = qemu_opt_get(opts, "multidevs");
+>      bool ro = qemu_opt_get_bool(opts, "readonly", 0);
+>  
+>      if (!fsdev_id) {
+> @@ -161,6 +163,15 @@ int qemu_fsdev_add(QemuOpts *opts, Error **errp)
+>      } else {
+>          fsle->fse.export_flags &= ~V9FS_RDONLY;
+>      }
+> +    if (multidevs) {
+> +        if (!strcmp(multidevs, "remap")) {
+> +            fsle->fse.export_flags &= ~V9FS_FORBID_MULTIDEVS;
+> +            fsle->fse.export_flags |= V9FS_REMAP_INODES;
+> +        } else if (!strcmp(multidevs, "forbid")) {
+> +            fsle->fse.export_flags &= ~V9FS_REMAP_INODES;
+> +            fsle->fse.export_flags |= V9FS_FORBID_MULTIDEVS;
+> +        }
+
+And...
+
+        } else if (!strcmp(multidevs, "warn")) {
+            fsle->fse.export_flags &= ~V9FS_FORBID_MULTIDEVS;
+            fsle->fse.export_flags &= ~V9FS_REMAP_INODES;
+        } else {
+            error_setg(errp, "invalid multidevs property '%s'", multidevs);
+            return -1;
+        }
+
+... because we're a bit pedantic for command line options :)
+
+> +    }
+>  
+>      if (fsle->fse.ops->parse_opts) {
+>          if (fsle->fse.ops->parse_opts(opts, &fsle->fse, errp)) {
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 8cc65c2c67..c96ea51116 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -25,6 +25,7 @@
+>  #include "trace.h"
+>  #include "migration/blocker.h"
+>  #include "sysemu/qtest.h"
+> +#include "qemu/xxhash.h"
+>  
+>  int open_fd_hw;
+>  int total_open_fd;
+> @@ -571,22 +572,109 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
+>                                  P9_STAT_MODE_NAMED_PIPE |   \
+>                                  P9_STAT_MODE_SOCKET)
+>  
+> -/* This is the algorithm from ufs in spfs */
+> +
+> +/* creative abuse of tb_hash_func7, which is based on xxhash */
+> +static uint32_t qpp_hash(QppEntry e)
+> +{
+> +    return qemu_xxhash7(e.ino_prefix, e.dev, 0, 0, 0);
+> +}
+> +
+> +static bool qpp_lookup_func(const void *obj, const void *userp)
+> +{
+> +    const QppEntry *e1 = obj, *e2 = userp;
+> +    return e1->dev == e2->dev && e1->ino_prefix == e2->ino_prefix;
+> +}
+> +
+> +static void qpp_table_remove(void *p, uint32_t h, void *up)
+> +{
+> +    g_free(p);
+> +}
+> +
+> +static void qpp_table_destroy(struct qht *ht)
+> +{
+> +    qht_iter(ht, qpp_table_remove, NULL);
+> +    qht_destroy(ht);
+> +}
+
+Ok to have a function for this instead of open-coding but I'd
+like to see qpp_table_init() for consistency.
+
+> +
+> +/* stat_to_qid needs to map inode number (64 bits) and device id (32 bits)
+> + * to a unique QID path (64 bits). To avoid having to map and keep track
+> + * of up to 2^64 objects, we map only the 16 highest bits of the inode plus
+> + * the device id to the 16 highest bits of the QID path. The 48 lowest bits
+> + * of the QID path equal to the lowest bits of the inode number.
+> + *
+> + * This takes advantage of the fact that inode number are usually not
+> + * random but allocated sequentially, so we have fewer items to keep
+> + * track of.
+> + */
+> +static int qid_path_prefixmap(V9fsPDU *pdu, const struct stat *stbuf,
+> +                                uint64_t *path)
+> +{
+> +    QppEntry lookup = {
+> +        .dev = stbuf->st_dev,
+> +        .ino_prefix = (uint16_t) (stbuf->st_ino >> 48)
+> +    }, *val;
+> +    uint32_t hash = qpp_hash(lookup);
+> +
+> +    val = qht_lookup(&pdu->s->qpp_table, &lookup, hash);
+> +
+> +    if (!val) {
+> +        if (pdu->s->qp_prefix_next == 0) {
+> +            /* we ran out of prefixes */
+> +            error_report_once(
+> +                "9p: No more prefixes available for remapping inodes from "
+> +                "host to guest."
+> +            );
+> +            return -ENFILE;
+> +        }
+> +
+> +        val = g_malloc0(sizeof(QppEntry));
+> +        *val = lookup;
+> +
+> +        /* new unique inode prefix and device combo */
+> +        val->qp_prefix = pdu->s->qp_prefix_next++;
+> +        qht_insert(&pdu->s->qpp_table, val, hash, NULL);
+> +    }
+> +
+> +    *path = ((uint64_t)val->qp_prefix << 48) | (stbuf->st_ino & QPATH_INO_MASK);
+> +    return 0;
+> +}
+> +
+>  static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
+>  {
+> +    int err;
+>      size_t size;
+>  
+> -    if (pdu->s->dev_id != stbuf->st_dev) {
+> -        error_report_once(
+> -            "9p: Multiple devices detected in same VirtFS export. "
+> -            "You must use a separate export for each device."
+> -        );
+> -        return -ENODEV;
+> +    if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
+> +        /* map inode+device to qid path (fast path) */
+> +        err = qid_path_prefixmap(pdu, stbuf, &qidp->path);
+> +        if (err) {
+> +            return err;
+> +        }
+> +    } else {
+> +        if (pdu->s->dev_id != stbuf->st_dev) {
+> +            if (pdu->s->ctx.export_flags & V9FS_FORBID_MULTIDEVS) {
+> +                error_report_once(
+> +                    "9p: Multiple devices detected in same VirtFS export. "
+> +                    "Access of guest to additional devices is (partly) "
+> +                    "denied due to virtfs option 'multidevs=forbid' being "
+> +                    "effective."
+> +                );
+> +                return -ENODEV;
+> +            } else {
+> +                error_report_once(
+
+Please use warn_report_once().
+
+> +                    "9p: Multiple devices detected in same VirtFS export, "
+> +                    "which might lead to file ID collisions and severe "
+> +                    "misbehaviours on guest! You should either use a "
+> +                    "separate export for each device shared from host or "
+> +                    "use virtfs option 'multidevs=remap'!"
+> +                );
+> +            }
+> +        }
+> +        memset(&qidp->path, 0, sizeof(qidp->path));
+> +        size = MIN(sizeof(stbuf->st_ino), sizeof(qidp->path));
+> +        memcpy(&qidp->path, &stbuf->st_ino, size);
+>      }
+>  
+> -    memset(&qidp->path, 0, sizeof(qidp->path));
+> -    size = MIN(sizeof(stbuf->st_ino), sizeof(qidp->path));
+> -    memcpy(&qidp->path, &stbuf->st_ino, size);
+>      qidp->version = stbuf->st_mtime ^ (stbuf->st_size << 8);
+>      qidp->type = 0;
+>      if (S_ISDIR(stbuf->st_mode)) {
+> @@ -616,6 +704,30 @@ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
+>      return 0;
+>  }
+>  
+> +static int coroutine_fn dirent_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
+> +                                      struct dirent *dent, V9fsQID *qidp)
+> +{
+> +    struct stat stbuf;
+> +    V9fsPath path;
+> +    int err;
+> +
+> +    v9fs_path_init(&path);
+> +
+> +    err = v9fs_co_name_to_path(pdu, &fidp->path, dent->d_name, &path);
+> +    if (err < 0) {
+> +        goto out;
+> +    }
+> +    err = v9fs_co_lstat(pdu, &path, &stbuf);
+> +    if (err < 0) {
+> +        goto out;
+> +    }
+> +    err = stat_to_qid(pdu, &stbuf, qidp);
+> +
+> +out:
+> +    v9fs_path_free(&path);
+> +    return err;
+> +}
+> +
+>  V9fsPDU *pdu_alloc(V9fsState *s)
+>  {
+>      V9fsPDU *pdu = NULL;
+> @@ -1964,16 +2076,39 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+>              v9fs_string_free(&name);
+>              return count;
+>          }
+> -        /*
+> -         * Fill up just the path field of qid because the client uses
+> -         * only that. To fill the entire qid structure we will have
+> -         * to stat each dirent found, which is expensive
+> -         */
+> -        size = MIN(sizeof(dent->d_ino), sizeof(qid.path));
+> -        memcpy(&qid.path, &dent->d_ino, size);
+> -        /* Fill the other fields with dummy values */
+> -        qid.type = 0;
+> -        qid.version = 0;
+> +
+> +        if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
+> +            /*
+> +             * dirent_to_qid() implies expensive stat call for each entry,
+> +             * we must do that here though since inode remapping requires
+> +             * the device id, which in turn might be different for
+> +             * different entries; we cannot make any assumption to avoid
+> +             * that here.
+> +             */
+> +            err = dirent_to_qid(pdu, fidp, dent, &qid);
+> +            if (err < 0) {
+> +                v9fs_readdir_unlock(&fidp->fs.dir);
+> +                v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
+> +                v9fs_string_free(&name);
+> +                return err;
+> +            }
+> +        } else {
+> +            /*
+> +             * Fill up just the path field of qid because the client uses
+> +             * only that. To fill the entire qid structure we will have
+> +             * to stat each dirent found, which is expensive. For the
+> +             * latter reason we don't call dirent_to_qid() here. Only drawback
+> +             * is that no multi-device export detection of stat_to_qid()
+> +             * would be done and provided as error to the user here. But
+> +             * user would get that error anyway when accessing those
+> +             * files/dirs through other ways.
+> +             */
+> +            size = MIN(sizeof(dent->d_ino), sizeof(qid.path));
+> +            memcpy(&qid.path, &dent->d_ino, size);
+> +            /* Fill the other fields with dummy values */
+> +            qid.type = 0;
+> +            qid.version = 0;
+> +        }
+>  
+>          /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
+>          len = pdu_marshal(pdu, 11 + count, "Qqbs",
+> @@ -3672,8 +3807,13 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+>          goto out;
+>      }
+>  
+> +    s->root_ino = stat.st_ino;
+>      s->dev_id = stat.st_dev;
+>  
+> +    /* QID path hash table. 1 entry ought to be enough for anybody ;) */
+> +    qht_init(&s->qpp_table, qpp_lookup_func, 1, QHT_MODE_AUTO_RESIZE);
+> +    s->qp_prefix_next = 1; /* reserve 0 to detect overflow */
+> +
+>      s->ctx.fst = &fse->fst;
+>      fsdev_throttle_init(s->ctx.fst);
+>  
+> @@ -3687,6 +3827,7 @@ out:
+>          }
+>          g_free(s->tag);
+>          g_free(s->ctx.fs_root);
+> +        qpp_table_destroy(&s->qpp_table);
+
+This causes QEMU to crash if we get there before qht_init() was called.
+This should be guarded by a s->qpp_table.map != NULL check.
+
+I've just posted a patch that simplifies error handling in this
+function, you in Cc. The patch is also in 9p-next. Please rebase
+on top of it.
+
+>          v9fs_path_free(&path);
+>      }
+>      return rc;
+> @@ -3699,6 +3840,7 @@ void v9fs_device_unrealize_common(V9fsState *s, Error **errp)
+>      }
+>      fsdev_throttle_cleanup(s->ctx.fst);
+>      g_free(s->tag);
+> +    qpp_table_destroy(&s->qpp_table);
+>      g_free(s->ctx.fs_root);
+>  }
+>  
+> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+> index 5e316178d5..a283b0193e 100644
+> --- a/hw/9pfs/9p.h
+> +++ b/hw/9pfs/9p.h
+> @@ -8,6 +8,7 @@
+>  #include "fsdev/9p-iov-marshal.h"
+>  #include "qemu/thread.h"
+>  #include "qemu/coroutine.h"
+> +#include "qemu/qht.h"
+>  
+>  enum {
+>      P9_TLERROR = 6,
+> @@ -235,6 +236,15 @@ struct V9fsFidState
+>      V9fsFidState *rclm_lst;
+>  };
+>  
+> +#define QPATH_INO_MASK        ((1ULL << 48) - 1)
+> +
+> +/* QID path prefix entry, see stat_to_qid */
+> +typedef struct {
+> +    dev_t dev;
+> +    uint16_t ino_prefix;
+> +    uint16_t qp_prefix;
+> +} QppEntry;
+> +
+>  struct V9fsState
+>  {
+>      QLIST_HEAD(, V9fsPDU) free_list;
+> @@ -256,7 +266,10 @@ struct V9fsState
+>      Error *migration_blocker;
+>      V9fsConf fsconf;
+>      V9fsQID root_qid;
+> +    ino_t root_ino;
+>      dev_t dev_id;
+> +    struct qht qpp_table;
+> +    uint16_t qp_prefix_next;
+>  };
+>  
+>  /* 9p2000.L open flags */
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 9621e934c0..603e5e8e15 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1335,17 +1335,17 @@ ETEXI
+>  
+>  DEF("virtfs", HAS_ARG, QEMU_OPTION_virtfs,
+>      "-virtfs local,path=path,mount_tag=tag,security_model=mapped-xattr|mapped-file|passthrough|none\n"
+> -    "        [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode]\n"
+> -    "-virtfs proxy,mount_tag=tag,socket=socket[,id=id][,writeout=immediate][,readonly]\n"
+> -    "-virtfs proxy,mount_tag=tag,sock_fd=sock_fd[,id=id][,writeout=immediate][,readonly]\n"
+> +    "        [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode][,multidevs=remap|forbid|warn]\n"
+> +    "-virtfs proxy,mount_tag=tag,socket=socket[,id=id][,writeout=immediate][,readonly][,multidevs=remap|forbid|warn]\n"
+> +    "-virtfs proxy,mount_tag=tag,sock_fd=sock_fd[,id=id][,writeout=immediate][,readonly][,multidevs=remap|forbid|warn]\n"
+
+Either enable support in "proxy" or don't update the "proxy" documentation :)
+
+>      "-virtfs synth,mount_tag=tag[,id=id][,readonly]\n",
+>      QEMU_ARCH_ALL)
+>  
+>  STEXI
+>  
+> -@item -virtfs local,path=@var{path},mount_tag=@var{mount_tag} ,security_model=@var{security_model}[,writeout=@var{writeout}][,readonly] [,fmode=@var{fmode}][,dmode=@var{dmode}]
+> -@itemx -virtfs proxy,socket=@var{socket},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly]
+> -@itemx -virtfs proxy,sock_fd=@var{sock_fd},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly]
+> +@item -virtfs local,path=@var{path},mount_tag=@var{mount_tag} ,security_model=@var{security_model}[,writeout=@var{writeout}][,readonly] [,fmode=@var{fmode}][,dmode=@var{dmode}][,multidevs=@var{multidevs}]
+> +@itemx -virtfs proxy,socket=@var{socket},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly][,multidevs=@var{multidevs}]
+> +@itemx -virtfs proxy,sock_fd=@var{sock_fd},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly][,multidevs=@var{multidevs}]
+
+Ditto.
+
+>  @itemx -virtfs synth,mount_tag=@var{mount_tag}
+>  @findex -virtfs
+>  
+> @@ -1399,6 +1399,27 @@ Specifies the default mode for newly created directories on the host. Works
+>  only with security models "mapped-xattr" and "mapped-file".
+>  @item mount_tag=@var{mount_tag}
+>  Specifies the tag name to be used by the guest to mount this export point.
+> +@item multidevs=@var{multidevs}
+> +Specifies how to deal with multiple devices being shared with a 9p export.
+> +Supported behaviours are either "remap", "forbid" or "warn". The latter is
+> +the default behaviour on which virtfs 9p expects only one device to be
+> +shared with the same export, and if more than one device is shared and
+> +accessed via the same 9p export then only a warning message is logged
+> +(once) by qemu on host side. In order to avoid file ID collisions on guest
+> +you should either create a separate virtfs export for each device to be
+> +shared with guests (recommended way) or you might use "remap" instead which
+> +allows you to share multiple devices with only one export instead, which is
+> +achieved by remapping the original inode numbers from host to guest in a
+> +way that would prevent such collisions. Remapping inodes in such use cases
+> +is required because the original device IDs from host are never passed and
+> +exposed on guest. Instead all files of an export shared with virtfs always
+> +share the same device id on guest. So two files with identical inode
+> +numbers but from actually different devices on host would otherwise cause a
+> +file ID collision and hence potential misbehaviours on guest. "forbid" on
+> +the other hand assumes like "warn" that only one device is shared by the
+> +same export, however it will not only log a warning message but also
+> +deny access to additional devices on guest. Note though that "forbid" does
+> +currently not block all possible file access operations.
+
+Maybe provide a list of such operations that won't be blocked ?
+
+>  @end table
+>  ETEXI
+>  
+> diff --git a/vl.c b/vl.c
+> index b426b32134..9cb29b483d 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -3320,7 +3320,7 @@ int main(int argc, char **argv, char **envp)
+>              case QEMU_OPTION_virtfs: {
+>                  QemuOpts *fsdev;
+>                  QemuOpts *device;
+> -                const char *writeout, *sock_fd, *socket, *path, *security_model;
+> +                const char *writeout, *sock_fd, *socket, *path, *security_model, *multidevs;
+>  
+>                  olist = qemu_find_opts("virtfs");
+>                  if (!olist) {
+> @@ -3380,6 +3380,10 @@ int main(int argc, char **argv, char **envp)
+>                  qemu_opt_set_bool(fsdev, "readonly",
+>                                    qemu_opt_get_bool(opts, "readonly", 0),
+>                                    &error_abort);
+> +                multidevs = qemu_opt_get(opts, "multidevs");
+> +                if (multidevs) {
+> +                    qemu_opt_set(fsdev, "multidevs", multidevs, &error_abort);
+> +                }
+>                  device = qemu_opts_create(qemu_find_opts("device"), NULL, 0,
+>                                            &error_abort);
+>                  qemu_opt_set(device, "driver", "virtio-9p-pci", &error_abort);
+
 
