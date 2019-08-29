@@ -2,107 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2053A197A
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 14:02:14 +0200 (CEST)
-Received: from localhost ([::1]:48996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B88B3A1993
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 14:07:26 +0200 (CEST)
+Received: from localhost ([::1]:49172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3J81-0005As-9B
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 08:02:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35046)
+	id 1i3JD3-0007y7-TV
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 08:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36427)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i3J61-000479-Lo
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 08:00:11 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1i3JBf-00073y-2G
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 08:06:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i3J5z-00015Z-9u
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 08:00:08 -0400
-Received: from mail-eopbgr70123.outbound.protection.outlook.com
- ([40.107.7.123]:14659 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i3J5y-00013U-Gx; Thu, 29 Aug 2019 08:00:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HTpwigMXbeoUU3v5gG0aAQSZBPgjyv6N2NQxlIp9oz/ky8S8I0CEZ2NABZ8X0BzeXpG94RJodsloeCqWqAjlkQ/ufjNulismexhQ0gsTNJEvCQiXIOX9zWB9+OcUtrqQuq04yP65CysLDITRvh2xMlb6Yuw0JctJlOyG+ygGNkmnJu5fSmZYsPryGbgCq2eSLrV4zg3JKI0fKGgLPgmwLTS6LmSoJH72t8LPSUGr62XayHOzcLesHc3HDBS2XH8xoOSHGUSuL6DcapiqX665kQw81y5Bt4Guq2dguDwwpBbsHXBSfyW0hLPtglG+NM9skjCvBpTLBjZ8t63pcVEj4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tX6efzL8b1MM1JSp9g2/8xrG7maoShAgjY8pdQr2aAs=;
- b=limZCUphrzu5TmHsDJ5HU+hoA7o9hZJ2MYoDDrGJ27Os7fBVSsafMklFkLH2KkK/Jk9OyhJjHMMfRnK6fGOGWw+bLH/7XgDkEK1lXyTLkSUsstn3bkaIJuv9vxyohpR35f4kf7RsUtEXlg/5DjJYimLrzJMzcnBALUXZZu+CsMDXtPUqrUa+VOzmpMZhNgIXbPJN+e8cOv7mWqxqpwEDuhyelKSRONqI0I6JNBBCx1wsPNZRq59DsVMeSyBHIwSGEV3CFJaA7ucq8kh1HOyCy+FAW1G8l+5NQlxRX9+95mLrOfI23101FkFSgCtc72E5thT7cXiBDHYxKaYZshM5Hw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tX6efzL8b1MM1JSp9g2/8xrG7maoShAgjY8pdQr2aAs=;
- b=oPs26WoJREJjwknqoucsIMIxhZhZgEzXxSYeB4HIDUbYmKcq9+/rI9MQ/9pI5HEfDHFskd4l61wiVAAfb8y3kWVTOahuZJf1RgVh1VtE/btjOJ3+iLOWvgvuT3X1AZ9g81VIgq6FlHWDn0zLGdPc+N69M3t3d0j64MI3epmfS1U=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5131.eurprd08.prod.outlook.com (10.255.4.13) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2199.20; Thu, 29 Aug 2019 12:00:01 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2199.021; Thu, 29 Aug 2019
- 12:00:01 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v9 05/13] block: move block_copy from block/backup.c to
- separate file
-Thread-Index: AQHVXCkyq9dXEHcWlEClY8WobU6z9KcQv5QAgAFKqAA=
-Date: Thu, 29 Aug 2019 12:00:01 +0000
-Message-ID: <ee0cfaa5-8b3a-2944-71e6-873a3ef8ff25@virtuozzo.com>
-References: <20190826161312.489398-1-vsementsov@virtuozzo.com>
- <20190826161312.489398-6-vsementsov@virtuozzo.com>
- <e43a3824-1b1f-98c4-b04e-fba1f4a4c188@redhat.com>
-In-Reply-To: <e43a3824-1b1f-98c4-b04e-fba1f4a4c188@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P190CA0017.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::27)
- To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190829145958928
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a93df141-720e-458f-6e3b-08d72c786be7
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600166)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:DB8PR08MB5131; 
-x-ms-traffictypediagnostic: DB8PR08MB5131:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR08MB51319EE78B8B3B5953743A3EC1A20@DB8PR08MB5131.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-forefront-prvs: 0144B30E41
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(979002)(346002)(39850400004)(136003)(366004)(376002)(396003)(189003)(199004)(81166006)(25786009)(99286004)(8676002)(81156014)(6512007)(486006)(476003)(54906003)(2616005)(229853002)(446003)(11346002)(316002)(66946007)(7736002)(110136005)(305945005)(107886003)(53936002)(66476007)(256004)(53546011)(4326008)(64756008)(66446008)(6486002)(386003)(6506007)(2501003)(76176011)(3846002)(6116002)(5660300002)(31696002)(4744005)(36756003)(186003)(66556008)(6246003)(6436002)(7416002)(8936002)(2906002)(86362001)(71190400001)(71200400001)(102836004)(66066001)(14454004)(26005)(478600001)(52116002)(31686004)(969003)(989001)(999001)(1009001)(1019001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5131;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 0hjASM6Rosh7Bn0Mmx1aX77z8sRdW8MyvjdK9RwwQ2Vr0YOWS/IYpHdixYm1kBmgxsIJyMkc013Igt/EoJ1uAYaY35yPZxX2dd4U8xN18l3aAq7a6SO2VpcCjn7pBXTFpFx0CTGyntA4sZO1rChpNSGW6Xvbf1V5qo93vVp9qfobx/P913qVRQwlYIdDybY/FgKSOAZPXogLKXne7h8KGJJPH/GwUXQKIqVikZ2814FR6VrwE5fPvSs/TTR6JzMl6xllqNhVsFvBApYpPt3m3ZiETGhYDI0O86RB/4JUZ2NKnBEHXCBngChhYdkn9Zd4EXdwIxXonKWUyMjduRooExe7xmSqLwIgSSSRij/uudtzEniiVfpRsfYVmNOp03DDCSVS40EFHdpFSJ5Sul/ULoaeQ+7Owhe/Mdx/IML76RM=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E3A433FB2140D543A6336279F7FA7F2F@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1i3JBc-0000vQ-IN
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 08:05:58 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:36290)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1i3JBa-0000rj-JF; Thu, 29 Aug 2019 08:05:55 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07271378|-1; CH=green;
+ DM=CONTINUE|CONTINUE|true|0.130802-0.0139632-0.855235; FP=0|0|0|0|0|-1|-1|-1;
+ HT=e01a16370; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=12; RT=12; SR=0;
+ TI=SMTPD_---.FL--YOH_1567080343; 
+Received: from 172.16.28.187(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.FL--YOH_1567080343)
+ by smtp.aliyun-inc.com(10.147.43.230);
+ Thu, 29 Aug 2019 20:05:46 +0800
+To: Alistair Francis <alistair23@gmail.com>
+References: <1566959818-38369-1-git-send-email-zhiwei_liu@c-sky.com>
+ <CAKmqyKMDmaABGWyLZD2R-4J8=jM6hry6Bfmu498+UZzQtxsTMA@mail.gmail.com>
+From: liuzhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <af15b620-1350-aa1a-0f02-2a46518f0ef2@c-sky.com>
+Date: Thu, 29 Aug 2019 20:00:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a93df141-720e-458f-6e3b-08d72c786be7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2019 12:00:01.6011 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: igGX2XNeJ+JkpEkMoBfCLPzFmv+ebfd6tIUY5J3BRFZGT5vFHSlRmdKKdnBrGMG5DTWHWpJLS7dGjeBYAL+9kTx7vKeoYwB+zWuzi0mFuyE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5131
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.7.123
-Subject: Re: [Qemu-devel] [PATCH v9 05/13] block: move block_copy from
- block/backup.c to separate file
+In-Reply-To: <CAKmqyKMDmaABGWyLZD2R-4J8=jM6hry6Bfmu498+UZzQtxsTMA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 121.197.200.217
+Subject: Re: [Qemu-devel] [PATCH] RISCV: support riscv vector extension 0.7.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,33 +55,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- Denis Lunev <den@virtuozzo.com>,
- "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
- "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjguMDguMjAxOSAxOToxNiwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAyNi4wOC4xOSAxODoxMywg
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IFNwbGl0IGJsb2NrX2NvcHkg
-dG8gc2VwYXJhdGUgZmlsZSwgdG8gYmUgY2xlYW5seSBzaGFyZWQgd2l0aCBiYWNrdXAtdG9wDQo+
-PiBmaWx0ZXIgZHJpdmVyIGluIGZ1cnRoZXIgY29tbWl0cy4NCj4+DQo+PiBJdCdzIGEgY2xlYW4g
-bW92ZW1lbnQsIHRoZSBvbmx5IGNoYW5nZSBpcyBkcm9wICJzdGF0aWMiIGZyb20gaW50ZXJmYWNl
-DQo+PiBmdW5jdGlvbnMuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVmxhZGltaXIgU2VtZW50c292
-LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPg0KPj4gLS0tDQo+PiAgIGluY2x1
-ZGUvYmxvY2svYmxvY2stY29weS5oIHwgIDU5ICsrKysrKysNCj4+ICAgYmxvY2svYmFja3VwLmMg
-ICAgICAgICAgICAgfCAzMTMgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
-Pj4gICBibG9jay9ibG9jay1jb3B5LmMgICAgICAgICB8IDMwNyArKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysNCj4+ICAgYmxvY2svTWFrZWZpbGUub2JqcyAgICAgICAgfCAgIDEg
-Kw0KPj4gICBibG9jay90cmFjZS1ldmVudHMgICAgICAgICB8ICAgMiArDQo+PiAgIDUgZmlsZXMg
-Y2hhbmdlZCwgMzcwIGluc2VydGlvbnMoKyksIDMxMiBkZWxldGlvbnMoLSkNCj4+ICAgY3JlYXRl
-IG1vZGUgMTAwNjQ0IGluY2x1ZGUvYmxvY2svYmxvY2stY29weS5oDQo+PiAgIGNyZWF0ZSBtb2Rl
-IDEwMDY0NCBibG9jay9ibG9jay1jb3B5LmMNCj4gDQo+IE1heSBjaGFuZ2UgZGVwZW5kaW5nIG9u
-IGNoYW5nZXMgdG8gdGhlIHByZWNlZGluZyBwYXRjaGVzLCBidXQgRldJVw0KPiANCj4gUmV2aWV3
-ZWQtYnk6IE1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+DQo+IA0KDQpJZiB5b3UgZG9uJ3Qg
-bWluZCwgSSdsbCBrZWVwIGl0IHVudGlsIHRoZSBwYXRjaCBkb2luZyBzaW1wbGUgbm9jaGFuZ2Ug
-bW92ZW1lbnQuDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+On 2019/8/29 上午5:34, Alistair Francis wrote:
+> On Wed, Aug 28, 2019 at 12:04 AM liuzhiwei <zhiwei_liu@c-sky.com> wrote:
+>> Change-Id: I3cf891bc400713b95f47ecca82b1bf773f3dcb25
+>> Signed-off-by: liuzhiwei <zhiwei_liu@c-sky.com>
+>> ---
+>>   fpu/softfloat.c                         |   119 +
+>>   include/fpu/softfloat.h                 |     4 +
+>>   linux-user/riscv/cpu_loop.c             |     8 +-
+>>   target/riscv/Makefile.objs              |     2 +-
+>>   target/riscv/cpu.h                      |    30 +
+>>   target/riscv/cpu_bits.h                 |    15 +
+>>   target/riscv/cpu_helper.c               |     7 +
+>>   target/riscv/csr.c                      |    65 +-
+>>   target/riscv/helper.h                   |   354 +
+>>   target/riscv/insn32.decode              |   374 +-
+>>   target/riscv/insn_trans/trans_rvv.inc.c |   484 +
+>>   target/riscv/translate.c                |     1 +
+>>   target/riscv/vector_helper.c            | 26563 ++++++++++++++++++++++++++++++
+>>   13 files changed, 28017 insertions(+), 9 deletions(-)
+>>   create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
+>>   create mode 100644 target/riscv/vector_helper.c
+>>
+> Hello,
+>
+> Thanks for the patch!
+>
+> As others have pointed out you will need to split the patch up into
+> multiple smaller patches, otherwise it is too hard to review almost
+> 30,000 lines of code.
+
+Hi, Alistair
+
+I'm so sorry for the inconvenience. It will be a patch set with a cover 
+letter in V2.
+
+> Can you also include a cover letter with your patch series describing
+> how you are testing this? AFAIK vector extension support isn't in any
+> compiler so I'm assuming you are handwriting the assembly or have
+> toolchain patches. Either way it will help if you can share that so
+> others can test your implementation.
+
+Yes, it's handwriting assembly. The assembler in Binutils has support 
+Vector extension.  First define an function test_vadd_vv_8 in assembly 
+and then it can be called from a C program.
+
+The function is something like
+
+/* vadd.vv */
+TEST_FUNC(test_vadd_vv_8)
+         vsetvli        t1, x0, e8, m2
+         vlb.v           v6, (a4)
+         vsb.v           v6, (a3)
+         vsetvli        t1, a0, e8, m2
+         vlb.v           v0, (a1)
+         vlb.v           v2, (a2)
+         vadd.vv     v4, v0, v2
+         vsb.v          v4, (a3)
+ret
+         .size   test_vadd_vv_8, .-test_vadd_vv_8
+
+It takes more time to test than to implement the instructions. Maybe 
+there is some better test method or some forced test cases in QEMU. 
+Could you give me some advice for testing?
+
+Best Regards,
+
+Zhiwei
+
+> Alex and Richard have kindly started the review. Once you have
+> addressed their comments and split this patch up into smaller patches
+> you can send a v2 and we can go from there.
+>
+> Once again thanks for doing this implementation for QEMU!
+>
+> Alistair
+>
 
