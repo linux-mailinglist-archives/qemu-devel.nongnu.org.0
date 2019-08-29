@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D5AA21CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:07:40 +0200 (CEST)
-Received: from localhost ([::1]:52226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B52BBA21E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:11:09 +0200 (CEST)
+Received: from localhost ([::1]:52338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3Nta-0002GP-NQ
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49849)
+	id 1i3Nwy-0007OB-Kl
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:11:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48749)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i3Nmn-0003Ap-Nc
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:00:40 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i3NiC-0007Bp-2J
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:55:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i3Nmm-0003yG-Pn
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:00:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35180)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i3Nmm-0003xz-KF
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:00:36 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A0E412BE94
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 17:00:35 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id l16so1981128wmg.2
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 10:00:35 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1i3NiA-0001wl-QT
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:55:51 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33657)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i3NiA-0001wD-Iu
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:55:50 -0400
+Received: by mail-wr1-x442.google.com with SMTP id u16so4209422wrr.0
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 09:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=FCpUQ9YsClgF4PcUE7Hce8uFYZKoJJ1UcHOaaE0v3Xc=;
+ b=hKdBec0Op3ztprQWjvM7XtWtfxFiQUAn9qJCs20r0NZZoClumASaY2gnLtPalJ1qjl
+ 6LgplT8LwNTi6a3VlfVTDSHX26sNp0kH/O1P8/0ZOmkj1x0X7qArKxTimjZTKJjhAz5k
+ 7AxE7pefbDaE0Z/tD5avN3ZP460MRTz+eMdkcJbpoQAe+6h/dySuTAidkfXSUreGc4bB
+ RFPO8+IgQyDXoMxkW3yZp57yIrGnMQQab2yI3X+rdxv31pRZskHsWhAeqXOtdbcLRDvL
+ skypz7rWjNib5Q86KK7E6RT3g0ZTHGF5J20LDZL2IB45mRWJae35v6bVlAaiDz3UMZcS
+ M9TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AkAUqRXuCNfRpGfsPBiD4amV1J23gRhXvSJJdpDQmNA=;
- b=sHou+jVW38zXAZ+vVnFXSXUGnUSJXG+Jcsg1kGAMEWDLmgiT5LFpeUUi1kxgthtRkA
- NwD0VOCcLRXhBR2wXzFiK1k2k+uMoOT4nEakeX2MUZgs1xeiqfr/zQyzvfspCtZx/Zhl
- uq6bsz1iuBA1P2SvAbugXm6Qzjwjq6hhHMqD/77xdfrWRR46euYwynwiJD0NdF+BzIch
- BFL3DD0GiUnNNYQ4aXcJP4jgopTH7xK+GwKyTRt8BFgV3WVdgDNtziGAcneFMIWnFBO4
- /DXNVzNW0IRptDKnqXr6WHrK71EUb0VaQPWA41mMsdLX1DDbQAYduyXSVteFxXRIa4Qt
- IL3w==
-X-Gm-Message-State: APjAAAVZRXF9nVEPPu7BE9pU1rJcHRLYs6ak81Cg2IqT2T7y+brgWF9r
- V/lpACQv5s14z/Llg0nBCksULf1v0Dg+df2v4rPjvTMP/xD++pBh3K1Xm0UAPSeN7sdgqLK16LS
- SxqQlyi+/cstBb6Q=
-X-Received: by 2002:a1c:1b14:: with SMTP id b20mr801147wmb.122.1567098034367; 
- Thu, 29 Aug 2019 10:00:34 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxKBvJfUKX0IPAvIm+VNwWBUg54c1L1rC7T3byIcQVAFXCL1l3iu3ktGqAPTYPNB3bjlNDUVQ==
-X-Received: by 2002:a1c:1b14:: with SMTP id b20mr801132wmb.122.1567098034196; 
- Thu, 29 Aug 2019 10:00:34 -0700 (PDT)
-Received: from [192.168.1.41] (251.red-88-10-102.dynamicip.rima-tde.net.
- [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id e9sm2080127wrt.69.2019.08.29.10.00.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Aug 2019 10:00:33 -0700 (PDT)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190828231651.17176-1-richard.henderson@linaro.org>
- <20190828231651.17176-7-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <83d1c716-c2ff-146e-6d9b-40960218acd6@redhat.com>
-Date: Thu, 29 Aug 2019 19:00:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=FCpUQ9YsClgF4PcUE7Hce8uFYZKoJJ1UcHOaaE0v3Xc=;
+ b=BWHR1vhXDa8ay/ZjAVBbR0398ECF9sbPPw55aHE6MIzl+YZlG7wtJUog9/LVvkgla3
+ lE4YIXsF/dNOfsPjkdwm92YH9k0+3zvAnqkESl6FGfGCn/vD/8PPmtdTh2JHBTbKB4jf
+ LEXZPaFeCYi7Em9qalqubN4Pa9qBPuIV2cc8eeZ6XWVnGBIGxlsL2qkDUhp6dJNs4Wle
+ lzhnSm7G/6DXHNXrvJmu26jV7AA4QcLhLg1/Ig12t/ILN9X0yhHkZL5RmoFgu6fAZ0eB
+ xQQPlL4oMIvW0uWkRbPcS8UG09Z8xuOgauW6nrnu1oqyW+fv4VxUV12DrmtJN5vbdtrv
+ ww6g==
+X-Gm-Message-State: APjAAAWB1EENQroZhskumYPK4ZeCtOT66AG3lkKfEVRADWf5Qfoudprr
+ YvPpQwwuLtlcOsTE/obZ98iNzgCUnJg=
+X-Google-Smtp-Source: APXvYqwZb+pAFQWYJ0rbMz2RS26kTy+4+6zuDxs7FPqkHNDI1rhfK6rL+IZUhmMvGaK10FzHTw36jQ==
+X-Received: by 2002:a5d:6192:: with SMTP id j18mr2686376wru.336.1567097749266; 
+ Thu, 29 Aug 2019 09:55:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o9sm3907884wrj.17.2019.08.29.09.55.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Aug 2019 09:55:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D45DA1FF87;
+ Thu, 29 Aug 2019 17:55:47 +0100 (BST)
+References: <20190829160710.8792-1-berrange@redhat.com>
+ <20190829160710.8792-4-berrange@redhat.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+In-reply-to: <20190829160710.8792-4-berrange@redhat.com>
+Date: Thu, 29 Aug 2019 17:55:47 +0100
+Message-ID: <87woev52ss.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190828231651.17176-7-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 6/8] cputlb: Remove double-alignment in
- store_helper
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [PATCH v2 3/4] docs: document use of automatic
+ cleanup functions in glib
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,37 +83,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/29/19 1:16 AM, Richard Henderson wrote:
-> We have already aligned page2 to the start of the next page.
-> There is no reason to do that a second time.
->=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+
+> Document the use of g_autofree and g_autoptr in glib for automatic
+> freeing of memory.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 > ---
->  accel/tcg/cputlb.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index 7fb67d2f05..d0f8db33a2 100644
-> --- a/accel/tcg/cputlb.c
-> +++ b/accel/tcg/cputlb.c
-> @@ -1518,8 +1518,7 @@ store_helper(CPUArchState *env, target_ulong addr=
-, uint64_t val,
->          entry2 =3D tlb_entry(env, mmu_idx, page2);
->          tlb_addr2 =3D tlb_addr_write(entry2);
->          if (!tlb_hit_page(tlb_addr2, page2)
-> -            && !victim_tlb_hit(env, mmu_idx, index2, tlb_off,
-> -                               page2 & TARGET_PAGE_MASK)) {
-> +            && !victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) =
-{
->              tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
->                       mmu_idx, retaddr);
->          }
->=20
+>  CODING_STYLE.rst | 85 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 85 insertions(+)
+>
+> diff --git a/CODING_STYLE.rst b/CODING_STYLE.rst
+> index 4501d87352..39397f0f6f 100644
+> --- a/CODING_STYLE.rst
+> +++ b/CODING_STYLE.rst
+> @@ -441,6 +441,91 @@ In addition, QEMU assumes that the compiler does not=
+ use the latitude
+>  given in C99 and C11 to treat aspects of signed '<<' as undefined, as
+>  documented in the GNU Compiler Collection manual starting at version 4.0.
+>
+> +Automatic memory deallocation
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> +
+> +QEMU has a mandatory dependency either the GCC or CLang compiler. As
+> +such it has the freedom to make use of a C language extension for
+> +automatically running a cleanup function when a stack variable goes
+> +out of scope. This can be used to simplify function cleanup paths,
+> +often allowing many goto jumps to be eliminated, through automatic
+> +free'ing of memory.
+> +
+> +The GLib2 library provides a number of functions/macros for enabling
+> +automatic cleanup:
+> +
+> +  `<https://developer.gnome.org/glib/stable/glib-Miscellaneous-Macros.ht=
+ml>`_
+> +
+> +Most notably:
+> +
+> +* g_autofree - will invoke g_free() on the variable going out of scope
+> +
+> +* g_autoptr - for structs / objects, will invoke the cleanup func created
+> +  by a previous use of G_DEFINE_AUTOPTR_CLEANUP_FUNC. This is
+> +  supported for most GLib data types and GObjects
+> +
+> +For example, instead of
+> +
+> +.. code-block:: c
+> +
+> +    int somefunc(void) {
+> +        int ret =3D -1;
+> +        char *foo =3D g_strdup_printf("foo%", "wibble");
+> +        GList *bar =3D .....
+> +
+> +        if (eek) {
+> +           goto cleanup;
+> +        }
+> +
+> +        ret =3D 0;
+> +
+> +      cleanup:
+> +        g_free(foo);
+> +        g_list_free(bar);
+> +        return ret;
+> +    }
+> +
+> +Using g_autofree/g_autoptr enables the code to be written as:
+> +
+> +.. code-block:: c
+> +
+> +    int somefunc(void) {
+> +        g_autofree char *foo =3D g_strdup_printf("foo%", "wibble");
+> +        g_autoptr (GList) bar =3D .....
+> +
+> +        if (eek) {
+> +           return -1;
+> +        }
+> +
+> +        return 0;
+> +    }
+> +
+> +While this generally results in simpler, less leak-prone code, there
+> +are still some caveats to beware of
+> +
+> +* Variables declared with g_auto* MUST always be initialized,
+> +  otherwise the cleanup function will use uninitialized stack memory
+> +
+> +* If a variable declared with g_auto* holds a value which must
+> +  live beyond the life of the function, that value must be saved
+> +  and the original variable NULL'd out. This can be simpler using
+> +  g_steal_pointer
+> +
+> +
+> +.. code-block:: c
+> +
+> +    char *somefunc(void) {
+> +        g_autofree char *foo =3D g_strdup_printf("foo%", "wibble");
+> +        g_autoptr (GList) bar =3D .....
+> +
+> +        if (eek) {
+> +           return NULL;
+> +        }
+> +
+> +        return g_steal_pointer(&foo);
+> +    }
+> +
+> +
+>  Error handling and reporting
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+
+
+--
+Alex Benn=C3=A9e
 
