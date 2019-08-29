@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B4AA1786
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:57:42 +0200 (CEST)
-Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78324A17A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 13:03:18 +0200 (CEST)
+Received: from localhost ([::1]:48178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3I7Z-0004zH-M8
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:57:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52192)
+	id 1i3ICz-0003tF-3s
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 07:03:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52845)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1i3I5f-0003dS-5Q
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:55:44 -0400
+ (envelope-from <sgarzare@redhat.com>) id 1i3IAS-0001uG-OJ
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 07:00:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1i3I5d-0001WD-M4
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:55:42 -0400
-Received: from 1.mo2.mail-out.ovh.net ([46.105.63.121]:58387)
+ (envelope-from <sgarzare@redhat.com>) id 1i3IAN-0004hk-M4
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 07:00:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60696)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i3I5d-0001Us-FI
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:55:41 -0400
-Received: from player726.ha.ovh.net (unknown [10.109.143.145])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id 4B2141A7DA7
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 12:55:39 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player726.ha.ovh.net (Postfix) with ESMTPSA id CF11E92910A7;
- Thu, 29 Aug 2019 10:55:31 +0000 (UTC)
-Date: Thu, 29 Aug 2019 12:55:30 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190829125530.7f79efc1@bahia.lan>
-In-Reply-To: <35775479-e5fe-fc90-cc19-d6b6f8f3a570@linux.vnet.ibm.com>
-References: <156576293464.29984.1631520917528142744.stgit@aravinda>
- <20190829122108.36c226c3@bahia.lan>
- <35775479-e5fe-fc90-cc19-d6b6f8f3a570@linux.vnet.ibm.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1i3IAN-0004es-D6
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 07:00:35 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8E1B280F83
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 11:00:33 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id a2so1912951wrs.8
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 04:00:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=FpMnTmb5EK3T59v0tQYnix1Jw97lGeI9LMYeRfZjh0I=;
+ b=WvwsweXOtG6MA+29DxEjpW7cEyknPqbQ7bKyE/sdbDwCr7K0AjHdnOs1vmz3t+q2Ga
+ QXjfMSW4/2Q0KQEkx6dcw9h08YZ3WWJeLwEDUVuID5DZ7zbn1vCQ8R33QJBUAu7EDEsD
+ 8+HqWn2+8PTFV+lmj6kZ+BTVQ+hTiVnhARs2poOFeeN9A31nsXgjmsUc6hWeeaUgvfSM
+ iLfN8/H0xsxg3ztsoFVnv2iz9PnwCbQ5+4y3HT5bmv37QGtzKXwcvAZFLaS3FUsyigeT
+ QvcnvGNFY29Lf4f00DGSEgE4t3BlSgPdXCjxViU/+qKRMQoTtW7pTL3VCA9wbjqDm/9C
+ zerg==
+X-Gm-Message-State: APjAAAWu+exZZjB02QC34dB25DUv7CafXjEwFqHXqKdthEpctezeTuql
+ ivf0e+tff69hUjWzuMkEbtdEvU/on8Xn0lzZnS65N7ZD3FxJbD+0Fmnq8N5nqcGRgaIRfL0OIKD
+ FN+HVaMKo3AjZNOY=
+X-Received: by 2002:a7b:c7c4:: with SMTP id z4mr10665767wmk.13.1567076431321; 
+ Thu, 29 Aug 2019 04:00:31 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwkm88hBb9dzkqkMHBLc1jNs6wV9uEEez66102RTb2itMKCp8Ql2Oo8gQZuAF6OoUPxV7zo8g==
+X-Received: by 2002:a7b:c7c4:: with SMTP id z4mr10665733wmk.13.1567076431059; 
+ Thu, 29 Aug 2019 04:00:31 -0700 (PDT)
+Received: from steredhat (host122-201-dynamic.13-79-r.retail.telecomitalia.it.
+ [79.13.201.122])
+ by smtp.gmail.com with ESMTPSA id 2sm3004575wmz.16.2019.08.29.04.00.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Aug 2019 04:00:30 -0700 (PDT)
+Date: Thu, 29 Aug 2019 13:00:28 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Message-ID: <20190829110028.35grhbtdnr7uvavq@steredhat>
+References: <20190829100521.12143-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 12621900906828831124
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudeivddgfedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20190829100521.12143-1-philmd@redhat.com>
+User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.63.121
-Subject: Re: [Qemu-devel] [Qemu-ppc] [patch-for-4.2 PATCH v11 0/6]
- target-ppc/spapr: Add FWNMI support in QEMU for PowerKVM guests
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 0/2] git.orderfile: Order
+ Python/shell scripts before unordered files
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,105 +79,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Aug 2019 16:08:53 +0530
-Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
-
-> 
-> 
-> On Thursday 29 August 2019 03:51 PM, Greg Kurz wrote:
-> > On Wed, 14 Aug 2019 11:40:50 +0530
-> > Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
-> > 
-> >> This patch set adds support for FWNMI in PowerKVM guests.
-> >>
-> >> System errors such as SLB multihit and memory errors
-> >> that cannot be corrected by hardware is passed on to
-> >> the kernel for handling by raising machine check
-> >> exception (an NMI). Upon such machine check exceptions,
-> >> if the address in error belongs to guest then KVM
-> >> invokes guests' 0x200 interrupt vector if the guest
-> >> is not FWNMI capable. For FWNMI capable guest
-> >> KVM passes the control to QEMU by exiting the guest.
-> >>
-> >> This patch series adds functionality to QEMU to pass
-> >> on such machine check exceptions to the FWNMI capable
-> >> guest kernel by building an error log and invoking
-> >> the guest registered machine check handling routine.
-> >>
-> >> The KVM changes are now part of the upstream kernel
-> >> (commit e20bbd3d). This series contain QEMU changes.
-> >>
-> >> Change Log v11:
-> >>   - Moved FWNMI SPAPR cap defaults to 4.2 class option
-> >>   - Fixed issues with handling fwnmi KVM capability
-> >>
-> > 
-> > Hi Aravinda,
-> > 
-> > I'm afraid this series needs rebasing. It doesn't apply
-> > cleanly on current ppc-for-4.2 (SHA1 b1e8156743).
-> 
-> This was based on the latest 4.2 at the time of posting (14th Aug).
-
-I was on vacation at that time but you're probably right.
-
-> Meanwhile may be due to changes to 4.2 it is not applying cleanly. I
-> will rebase it to the latest 4.2 and post it again.
-> 
-
-Thanks !
-
+On Thu, Aug 29, 2019 at 12:05:19PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> This series update the git.orderfile to order Python and shell
+> scripts before unordered files.
+> This is particularly useful for changes in tests/qemu-iotests.
+>=20
 > Regards,
-> Aravinda
-> 
-> > 
-> > Cheers,
-> > 
-> > --
-> > Greg
-> > 
-> >> Change Log v10:
-> >>   - Reshuffled the patch sequence + minor fixes
-> >>
-> >> Change Log v9:
-> >>   - Fixed kvm cap and spapr cap issues
-> >>
-> >> Change Log v8:
-> >>   - Added functionality to check FWNMI capability during
-> >>     VM migration
-> >> ---
-> >>
-> >> Aravinda Prasad (6):
-> >>       Wrapper function to wait on condition for the main loop mutex
-> >>       ppc: spapr: Introduce FWNMI capability
-> >>       target/ppc: Handle NMI guest exit
-> >>       target/ppc: Build rtas error log upon an MCE
-> >>       ppc: spapr: Handle "ibm,nmi-register" and "ibm,nmi-interlock" RTAS calls
-> >>       migration: Include migration support for machine check handling
-> >>
-> >>
-> >>  cpus.c                   |    5 +
-> >>  hw/ppc/spapr.c           |   78 +++++++++++++
-> >>  hw/ppc/spapr_caps.c      |   29 +++++
-> >>  hw/ppc/spapr_events.c    |  268 ++++++++++++++++++++++++++++++++++++++++++++++
-> >>  hw/ppc/spapr_rtas.c      |   78 +++++++++++++
-> >>  include/hw/ppc/spapr.h   |   25 ++++
-> >>  include/qemu/main-loop.h |    8 +
-> >>  target/ppc/cpu.h         |    1 
-> >>  target/ppc/kvm.c         |   38 +++++++
-> >>  target/ppc/kvm_ppc.h     |   13 ++
-> >>  target/ppc/trace-events  |    1 
-> >>  11 files changed, 542 insertions(+), 2 deletions(-)
-> >>
-> >> --
-> >> Signature
-> > 
-> > 
-> 
+>=20
+> Phil.
+>=20
+> Philippe Mathieu-Daud=E9 (2):
+>   scripts/git.orderfile: Order Python files before unordered ones
+>   scripts/git.orderfile: Order shell scripts before unordered files
+>=20
+>  scripts/git.orderfile | 5 +++++
+>  1 file changed, 5 insertions(+)
 
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+
+Thanks,
+Stefano
 
