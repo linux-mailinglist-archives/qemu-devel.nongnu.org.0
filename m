@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86E0A17C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 13:08:41 +0200 (CEST)
-Received: from localhost ([::1]:48252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1CCA16AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:50:35 +0200 (CEST)
+Received: from localhost ([::1]:47958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3IIC-0007nw-JJ
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 07:08:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52761)
+	id 1i3I0g-0004iG-4P
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:50:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Zhe.He@windriver.com>) id 1i3IAC-0001aT-LI
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 07:00:26 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hcg-0005SD-Po
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Zhe.He@windriver.com>) id 1i3IAB-0004Xu-98
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 07:00:24 -0400
-Received: from mail1.windriver.com ([147.11.146.13]:62681)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hcd-0005p4-NM
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:45 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:45424 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Zhe.He@windriver.com>)
- id 1i3IAB-0004Uq-1X
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 07:00:23 -0400
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
- by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7T8r6dO015078
- (version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
- Thu, 29 Aug 2019 01:53:06 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.468.0; Thu, 29 Aug 2019 01:53:05 -0700
-From: <zhe.he@windriver.com>
-To: <berrange@redhat.com>, <philmd@redhat.com>, <thuth@redhat.com>,
- <pbonzini@redhat.com>, <laurent@vivier.eu>, <qemu-devel@nongnu.org>,
- <zhe.he@windriver.com>
-Date: Thu, 29 Aug 2019 16:53:02 +0800
-Message-ID: <1567068782-371028-1-git-send-email-zhe.he@windriver.com>
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1i3Hcc-0005Pf-Hg
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:43 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 3FE721A2200;
+ Thu, 29 Aug 2019 12:25:25 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 0BF8A1A21B1;
+ Thu, 29 Aug 2019 12:25:25 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 29 Aug 2019 12:24:59 +0200
+Message-Id: <1567074313-22998-18-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: Solaris 10
-X-Received-From: 147.11.146.13
-Subject: [Qemu-devel] [PATCH] configure: Add pkg-config handling for
- libgcrypt
+In-Reply-To: <1567074313-22998-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1567074313-22998-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PULL 17/31] target/mips: Clean up handling of CP0
+ register 16
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,94 +51,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: He Zhe <zhe.he@windriver.com>
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-libgcrypt may also be controlled by pkg-config, this patch adds pkg-config
-handling for libgcrypt.
+Clean up handling of CP0 register 16.
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Message-Id: <1567009614-12438-18-git-send-email-aleksandar.markovic@rt-rk.com>
 ---
- configure | 48 ++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 40 insertions(+), 8 deletions(-)
+ target/mips/cpu.h       |  3 ++-
+ target/mips/translate.c | 60 ++++++++++++++++++++++++-------------------------
+ 2 files changed, 32 insertions(+), 31 deletions(-)
 
-diff --git a/configure b/configure
-index e44e454..0f362a7 100755
---- a/configure
-+++ b/configure
-@@ -2875,6 +2875,30 @@ has_libgcrypt() {
-     return 0
- }
- 
-+has_libgcrypt_pkgconfig() {
-+    if ! has $pkg_config ; then
-+        return 1
-+    fi
-+
-+    if ! $pkg_config --list-all | grep libgcrypt > /dev/null 2>&1 ; then
-+        return 1
-+    fi
-+
-+    if test -n "$cross_prefix" ; then
-+        host=$($pkg_config --variable=host libgcrypt)
-+        if test "${host%-gnu}-" != "${cross_prefix%-gnu}" ; then
-+            print_error "host($host) does not match cross_prefix($cross_prefix)"
-+            return 1
-+        fi
-+    fi
-+
-+    if ! $pkg_config --atleast-version=1.5.0 libgcrypt ; then
-+        print_error "libgcrypt version is $($pkg_config --modversion libgcrypt)"
-+        return 1
-+    fi
-+
-+    return 0
-+}
- 
- if test "$nettle" != "no"; then
-     pass="no"
-@@ -2902,7 +2926,14 @@ fi
- 
- if test "$gcrypt" != "no"; then
-     pass="no"
--    if has_libgcrypt; then
-+    if has_libgcrypt_pkgconfig; then
-+        gcrypt_cflags=$($pkg_config --cflags libgcrypt)
-+        if test "$static" = "yes" ; then
-+            gcrypt_libs=$($pkg_config --libs --static libgcrypt)
-+        else
-+            gcrypt_libs=$($pkg_config --libs libgcrypt)
-+        fi
-+    elif has_libgcrypt; then
-         gcrypt_cflags=$(libgcrypt-config --cflags)
-         gcrypt_libs=$(libgcrypt-config --libs)
-         # Debian has removed -lgpg-error from libgcrypt-config
-@@ -2912,15 +2943,16 @@ if test "$gcrypt" != "no"; then
-         then
-             gcrypt_libs="$gcrypt_libs -lgpg-error"
-         fi
-+    fi
- 
--        # Link test to make sure the given libraries work (e.g for static).
--        write_c_skeleton
--        if compile_prog "" "$gcrypt_libs" ; then
--            LIBS="$gcrypt_libs $LIBS"
--            QEMU_CFLAGS="$QEMU_CFLAGS $gcrypt_cflags"
--            pass="yes"
--        fi
-+    # Link test to make sure the given libraries work (e.g for static).
-+    write_c_skeleton
-+    if compile_prog "" "$gcrypt_libs" ; then
-+	    LIBS="$gcrypt_libs $LIBS"
-+	    QEMU_CFLAGS="$QEMU_CFLAGS $gcrypt_cflags"
-+	    pass="yes"
-     fi
-+
-     if test "$pass" = "yes"; then
-         gcrypt="yes"
-         cat > $TMPC << EOF
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 8ecfdb3..d6405ad 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -375,7 +375,8 @@ typedef struct mips_def_t mips_def_t;
+ #define CP0_REG16__CONFIG3         3
+ #define CP0_REG16__CONFIG4         4
+ #define CP0_REG16__CONFIG5         5
+-#define CP0_REG00__CONFIG7         7
++#define CP0_REG16__CONFIG6         6
++#define CP0_REG16__CONFIG7         7
+ /* CP0 Register 17 */
+ #define CP0_REG17__LLADDR          0
+ #define CP0_REG17__MAAR            1
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 238066f..4808640 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -7246,36 +7246,36 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+         break;
+     case CP0_REGISTER_16:
+         switch (sel) {
+-        case 0:
++        case CP0_REG16__CONFIG:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config0));
+             register_name = "Config";
+             break;
+-        case 1:
++        case CP0_REG16__CONFIG1:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config1));
+             register_name = "Config1";
+             break;
+-        case 2:
++        case CP0_REG16__CONFIG2:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config2));
+             register_name = "Config2";
+             break;
+-        case 3:
++        case CP0_REG16__CONFIG3:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config3));
+             register_name = "Config3";
+             break;
+-        case 4:
++        case CP0_REG16__CONFIG4:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config4));
+             register_name = "Config4";
+             break;
+-        case 5:
++        case CP0_REG16__CONFIG5:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config5));
+             register_name = "Config5";
+             break;
+         /* 6,7 are implementation dependent */
+-        case 6:
++        case CP0_REG16__CONFIG6:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config6));
+             register_name = "Config6";
+             break;
+-        case 7:
++        case CP0_REG16__CONFIG7:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config7));
+             register_name = "Config7";
+             break;
+@@ -7971,45 +7971,45 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+         break;
+     case CP0_REGISTER_16:
+         switch (sel) {
+-        case 0:
++        case CP0_REG16__CONFIG:
+             gen_helper_mtc0_config0(cpu_env, arg);
+             register_name = "Config";
+             /* Stop translation as we may have switched the execution mode */
+             ctx->base.is_jmp = DISAS_STOP;
+             break;
+-        case 1:
++        case CP0_REG16__CONFIG1:
+             /* ignored, read only */
+             register_name = "Config1";
+             break;
+-        case 2:
++        case CP0_REG16__CONFIG2:
+             gen_helper_mtc0_config2(cpu_env, arg);
+             register_name = "Config2";
+             /* Stop translation as we may have switched the execution mode */
+             ctx->base.is_jmp = DISAS_STOP;
+             break;
+-        case 3:
++        case CP0_REG16__CONFIG3:
+             gen_helper_mtc0_config3(cpu_env, arg);
+             register_name = "Config3";
+             /* Stop translation as we may have switched the execution mode */
+             ctx->base.is_jmp = DISAS_STOP;
+             break;
+-        case 4:
++        case CP0_REG16__CONFIG4:
+             gen_helper_mtc0_config4(cpu_env, arg);
+             register_name = "Config4";
+             ctx->base.is_jmp = DISAS_STOP;
+             break;
+-        case 5:
++        case CP0_REG16__CONFIG5:
+             gen_helper_mtc0_config5(cpu_env, arg);
+             register_name = "Config5";
+             /* Stop translation as we may have switched the execution mode */
+             ctx->base.is_jmp = DISAS_STOP;
+             break;
+         /* 6,7 are implementation dependent */
+-        case 6:
++        case CP0_REG16__CONFIG6:
+             /* ignored */
+             register_name = "Config6";
+             break;
+-        case 7:
++        case CP0_REG16__CONFIG7:
+             /* ignored */
+             register_name = "Config7";
+             break;
+@@ -8718,36 +8718,36 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+         break;
+     case CP0_REGISTER_16:
+         switch (sel) {
+-        case 0:
++        case CP0_REG16__CONFIG:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config0));
+             register_name = "Config";
+             break;
+-        case 1:
++        case CP0_REG16__CONFIG1:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config1));
+             register_name = "Config1";
+             break;
+-        case 2:
++        case CP0_REG16__CONFIG2:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config2));
+             register_name = "Config2";
+             break;
+-        case 3:
++        case CP0_REG16__CONFIG3:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config3));
+             register_name = "Config3";
+             break;
+-        case 4:
++        case CP0_REG16__CONFIG4:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config4));
+             register_name = "Config4";
+             break;
+-        case 5:
++        case CP0_REG16__CONFIG5:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config5));
+             register_name = "Config5";
+             break;
+        /* 6,7 are implementation dependent */
+-        case 6:
++        case CP0_REG16__CONFIG6:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config6));
+             register_name = "Config6";
+             break;
+-        case 7:
++        case CP0_REG16__CONFIG7:
+             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config7));
+             register_name = "Config7";
+             break;
+@@ -9434,33 +9434,33 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+         break;
+     case CP0_REGISTER_16:
+         switch (sel) {
+-        case 0:
++        case CP0_REG16__CONFIG:
+             gen_helper_mtc0_config0(cpu_env, arg);
+             register_name = "Config";
+             /* Stop translation as we may have switched the execution mode */
+             ctx->base.is_jmp = DISAS_STOP;
+             break;
+-        case 1:
++        case CP0_REG16__CONFIG1:
+             /* ignored, read only */
+             register_name = "Config1";
+             break;
+-        case 2:
++        case CP0_REG16__CONFIG2:
+             gen_helper_mtc0_config2(cpu_env, arg);
+             register_name = "Config2";
+             /* Stop translation as we may have switched the execution mode */
+             ctx->base.is_jmp = DISAS_STOP;
+             break;
+-        case 3:
++        case CP0_REG16__CONFIG3:
+             gen_helper_mtc0_config3(cpu_env, arg);
+             register_name = "Config3";
+             /* Stop translation as we may have switched the execution mode */
+             ctx->base.is_jmp = DISAS_STOP;
+             break;
+-        case 4:
++        case CP0_REG16__CONFIG4:
+             /* currently ignored */
+             register_name = "Config4";
+             break;
+-        case 5:
++        case CP0_REG16__CONFIG5:
+             gen_helper_mtc0_config5(cpu_env, arg);
+             register_name = "Config5";
+             /* Stop translation as we may have switched the execution mode */
 -- 
 2.7.4
 
