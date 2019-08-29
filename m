@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2337A219C
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 18:59:59 +0200 (CEST)
-Received: from localhost ([::1]:52136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B983A21A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:01:19 +0200 (CEST)
+Received: from localhost ([::1]:52146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3NmA-0001PR-CR
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 12:59:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48412)
+	id 1i3NnR-00028O-UV
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:01:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46636)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i3Nh9-0005mL-BB
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:54:50 -0400
+ (envelope-from <vandersonmr2@gmail.com>) id 1i3Nb9-0006XL-Nb
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:48:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i3Nh5-0001NO-BP
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:54:46 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43418)
+ (envelope-from <vandersonmr2@gmail.com>) id 1i3Nb5-0006Q8-Vz
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:48:35 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:37981)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i3Ngz-0001K3-QC
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:54:41 -0400
-Received: by mail-wr1-x442.google.com with SMTP id y8so4144454wrn.10
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 09:54:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=iNUqaHpkBDeOX1EV1sKtHIFxAdBU5geVHXll89AIcJw=;
- b=W9uzK9dq73MQ4YUtDu/NxotKS5mhTadJGTV5uepPxz9eA7KNPvPPhqWBTmLF0kcjpj
- 6PkhBlz4DCtdbxJY7FOdLRAnxQSq5iTsaCJr1EcSI2e9/E8aV2+QXpqYheomY461IOgC
- fjK4IScEUAuqLo8vq4tgFntys99OOMpFK90svhQUD8/RM7wdzfdaDzat/sUpE8J9d+XX
- YlIUgbrVjNs0nVO1n0Kz5+cL5rAqF5QJ5uLY5/ikA2PivLI6gVsS/ULBDMlLH2bUd51A
- vKbBLMNLpBJMCT1gZClgCCFzWz++prmNOSnmBWI/xBACZM2Qi53cLzZHMc6vSpd1P0sY
- audQ==
+ (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
+ id 1i3Nb5-0006P6-Pp
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:48:31 -0400
+Received: by mail-qk1-x744.google.com with SMTP id u190so3561982qkh.5
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 09:48:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=gldjjNeOXXLP+VPk84ZaCQqNJXol7qudw4JE7i3j1aU=;
+ b=IKocd4H2EJSbqlWsRnpPLI5Akly6A9K4i3pjsThzrKKpYVDbLYFBueCJ7ujacziqLt
+ VW1rmqgLEiGXfkEJXqSiQmXuDcz/IQi7Uzlz686ZioOVP38ITPYDU1Or9AyBWExQYqEF
+ S5lo/9OZujzPHgKzs3MzGsGahG1IhgbJwz4WOfOGN/GDmId+kzKoxdP/f1llisD5+HTB
+ Vq/iPeqlU+b9QueZ6Xi6H47fElT26Yzqb1TL6kAEFFMwLKrk+zY/ms4g5jQx6kvqhgKE
+ RykRVgSA+jYU2+IuzE17UO4T+nLXEm6j+LH7XY0GnlU6J42kvFQiuoh0MipKMqOnU7rp
+ ajxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=iNUqaHpkBDeOX1EV1sKtHIFxAdBU5geVHXll89AIcJw=;
- b=fwRgYts4oHlDeWY8YI/Y+8eMTTxd9Kq8Aub8IdM4lEptYYjXrFdX+foAn80YTFyIX+
- Th5dKVP+E03k1gcmekyurU2tviShKWQDguTkOqckPttTjaZD8E3vqnqCmm2mwEfZNx40
- K8u+ynpd7l8zDUurC3EN6+wwdbyQCD7+BOQfd7mCfgf4CLbuS1PJly/3FWXDISPM2aso
- 51Z1kf2QVO4nMFPg1DMpV0+UbmAUvSdhTWSY7Z60RTgyw5zYgRZTzdxvISp2Xts6FHYk
- iv5gilCrmpIaFgNeWDK28vsUHc6yWOLHeB3CmFYqOcHEw/+2+LIV+7tdg78yA7sIiNXV
- ktjw==
-X-Gm-Message-State: APjAAAXVwmyp7shjIDO0qYLY4BtrZWST9Vrqv9TzSpaAHGKZuwDCUNkP
- Q88aUCGxG+zJSX8O0+n+UWFM7A==
-X-Google-Smtp-Source: APXvYqxg0qPLku1V4G6zYK3vIfwMwfw/srwctdHzRSzMsDyRdOf5waYJjfH60VfKfn0Q0TB+1Ha8xw==
-X-Received: by 2002:adf:db01:: with SMTP id s1mr2787934wri.164.1567097674106; 
- Thu, 29 Aug 2019 09:54:34 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 39sm8736884wrc.45.2019.08.29.09.54.33
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=gldjjNeOXXLP+VPk84ZaCQqNJXol7qudw4JE7i3j1aU=;
+ b=Nk101FcXd9P5lpLbBMTUehc7OAHFRGQnvrh6vzZiXZsJ2nS7U+sdtj94TxKnQRJCGj
+ iz3MelzFtrm9LKDQODMzFEDcPEsq4fshY9vH55eoxfWCp6lhtEOTvSh4l+A+VRFNr0YI
+ Xo8cYL6nzjsWNl5TzC3if4DjSvPKsDGk1gRH3Vx1XRZHv4Axtrwrbh1MHULFS4ZbpM8a
+ FQaBElx54qT/RAI1qp71RiucOX1liiM4N20dgoTReZlirzZ479wHOjvjB+vCvEcEOWEp
+ GR4Q+hO8HU7xgFCVRPqtnWAHhxZHZf3i+/KHvkAAOuOyApzgNQTpYH1S5xYqKYe9J360
+ RaNw==
+X-Gm-Message-State: APjAAAXVX/hVr1wquZfSqvEVGMlOvvLje+frSjmH89ULArVskeJbKj1q
+ Usw+JJDqJu+ToXbPWfjtzdTx0V8WnGhFVA==
+X-Google-Smtp-Source: APXvYqyMn2VuBcWXEX2KIqhLf+cMGdVscyf4nlFQ/3DragFBBrAIzHyPlN0tYpwlUp8+quWAQ/5OaA==
+X-Received: by 2002:a05:620a:691:: with SMTP id
+ f17mr10639334qkh.470.1567097309679; 
+ Thu, 29 Aug 2019 09:48:29 -0700 (PDT)
+Received: from vanderson-lmcad.gw.lmcad.ic.unicamp.br (gw.lmcad.ic.unicamp.br.
+ [143.106.73.166])
+ by smtp.googlemail.com with ESMTPSA id g25sm1441024qkk.87.2019.08.29.09.48.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Aug 2019 09:54:33 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AD8C71FF87;
- Thu, 29 Aug 2019 17:54:32 +0100 (BST)
-References: <20190829160710.8792-1-berrange@redhat.com>
- <20190829160710.8792-2-berrange@redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-In-reply-to: <20190829160710.8792-2-berrange@redhat.com>
-Date: Thu, 29 Aug 2019 17:54:32 +0100
-Message-ID: <87zhjr52uv.fsf@linaro.org>
+ Thu, 29 Aug 2019 09:48:29 -0700 (PDT)
+From: vandersonmr <vandersonmr2@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 29 Aug 2019 13:47:52 -0300
+Message-Id: <20190829164754.3906-9-vandersonmr2@gmail.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190829164754.3906-1-vandersonmr2@gmail.com>
+References: <20190829164754.3906-1-vandersonmr2@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [PATCH v2 1/4] docs: convert README,
- CODING_STYLE and HACKING to RST syntax
+X-Received-From: 2607:f8b0:4864:20::744
+Subject: [Qemu-devel] [PATCH v7 08/10] Adding info [tb-list|tb|coverset]
+ commands to HMP.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,765 +80,925 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These commands allow the exploration of TBs
+generated by the TCG. Understand which one
+hotter, with more guest/host instructions...
+and examine their guest, host and IR code.
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+The goal of this command is to allow the dynamic exploration
+of TCG behavior and code quality. Therefore, for now, a
+corresponding QMP command is not worthwhile.
 
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Example of output:
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+TB id:1 | phys:0x34d54 virt:0x0000000000034d54 flags:0x0000f0
+	| exec:4828932/0 guest inst cov:16.38%
+	| trans:1 ints: g:3 op:82 op_opt:34 spills:3
+	| h/g (host bytes / guest insts): 90.666664
+	| time to gen at 2.4GHz => code:3150.83(ns) IR:712.08(ns)
+	| targets: 0x0000000000034d5e (id:11), 0x0000000000034d0d (id:2)
 
-> ---
->  CODING_STYLE =3D> CODING_STYLE.rst | 121 +++++++++++++++++++-----------
->  HACKING =3D> HACKING.rst           | 123 +++++++++++++++++++++----------
->  README =3D> README.rst             |  47 +++++++-----
->  3 files changed, 190 insertions(+), 101 deletions(-)
->  rename CODING_STYLE =3D> CODING_STYLE.rst (72%)
->  rename HACKING =3D> HACKING.rst (79%)
->  rename README =3D> README.rst (84%)
->
-> diff --git a/CODING_STYLE b/CODING_STYLE.rst
-> similarity index 72%
-> rename from CODING_STYLE
-> rename to CODING_STYLE.rst
-> index cb8edcbb36..713357cb80 100644
-> --- a/CODING_STYLE
-> +++ b/CODING_STYLE.rst
-> @@ -1,10 +1,14 @@
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  QEMU Coding Style
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> +.. contents:: Table of Contents
-> +
->  Please use the script checkpatch.pl in the scripts directory to check
->  patches before submitting.
->
-> -1. Whitespace
-> +Whitespace
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  Of course, the most important aspect in any coding style is whitespace.
->  Crusty old coders who have trouble spotting the glasses on their noses
-> @@ -16,26 +20,27 @@ QEMU indents are four spaces.  Tabs are never used, e=
-xcept in Makefiles
->  where they have been irreversibly coded into the syntax.
->  Spaces of course are superior to tabs because:
->
-> - - You have just one way to specify whitespace, not two.  Ambiguity bree=
-ds
-> -   mistakes.
-> - - The confusion surrounding 'use tabs to indent, spaces to justify' is =
-gone.
-> - - Tab indents push your code to the right, making your screen seriously
-> -   unbalanced.
-> - - Tabs will be rendered incorrectly on editors who are misconfigured not
-> -   to use tab stops of eight positions.
-> - - Tabs are rendered badly in patches, causing off-by-one errors in almo=
-st
-> -   every line.
-> - - It is the QEMU coding style.
-> +* You have just one way to specify whitespace, not two.  Ambiguity breeds
-> +  mistakes.
-> +* The confusion surrounding 'use tabs to indent, spaces to justify' is g=
-one.
-> +* Tab indents push your code to the right, making your screen seriously
-> +  unbalanced.
-> +* Tabs will be rendered incorrectly on editors who are misconfigured not
-> +  to use tab stops of eight positions.
-> +* Tabs are rendered badly in patches, causing off-by-one errors in almost
-> +  every line.
-> +* It is the QEMU coding style.
->
->  Do not leave whitespace dangling off the ends of lines.
->
-> -1.1 Multiline Indent
-> +Multiline Indent
-> +----------------
->
->  There are several places where indent is necessary:
->
-> - - if/else
-> - - while/for
-> - - function definition & call
-> +* if/else
-> +* while/for
-> +* function definition & call
->
->  When breaking up a long line to fit within line width, we need a proper =
-indent
->  for the following lines.
-> @@ -45,6 +50,8 @@ opening parenthesis of the first.
->
->  For example:
->
-> +.. code-block:: c
-> +
->      if (a =3D=3D 1 &&
->          b =3D=3D 2) {
->
-> @@ -53,12 +60,13 @@ For example:
->
->  In case of function, there are several variants:
->
-> -    * 4 spaces indent from the beginning
-> -    * align the secondary lines just after the opening parenthesis of the
-> -      first
-> +* 4 spaces indent from the beginning
-> +* align the secondary lines just after the opening parenthesis of the fi=
-rst
->
->  For example:
->
-> +.. code-block:: c
-> +
->      do_something(x, y,
->          z);
->
-> @@ -68,7 +76,8 @@ For example:
->      do_something(x, do_another(y,
->                                 z));
->
-> -2. Line width
-> +Line width
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  Lines should be 80 characters; try not to make them longer.
->
-> @@ -77,16 +86,18 @@ that use long function or symbol names.  Even in that=
- case, do not make
->  lines much longer than 80 characters.
->
->  Rationale:
-> - - Some people like to tile their 24" screens with a 6x4 matrix of 80x24
-> -   xterms and use vi in all of them.  The best way to punish them is to
-> -   let them keep doing it.
-> - - Code and especially patches is much more readable if limited to a sane
-> -   line length.  Eighty is traditional.
-> - - The four-space indentation makes the most common excuse ("But look
-> -   at all that white space on the left!") moot.
-> - - It is the QEMU coding style.
->
-> -3. Naming
-> +* Some people like to tile their 24" screens with a 6x4 matrix of 80x24
-> +  xterms and use vi in all of them.  The best way to punish them is to
-> +  let them keep doing it.
-> +* Code and especially patches is much more readable if limited to a sane
-> +  line length.  Eighty is traditional.
-> +* The four-space indentation makes the most common excuse ("But look
-> +  at all that white space on the left!") moot.
-> +* It is the QEMU coding style.
-> +
-> +Naming
-> +=3D=3D=3D=3D=3D=3D
->
->  Variables are lower_case_with_underscores; easy to type and read.  Struc=
-tured
->  type names are in CamelCase; harder to type but standing out.  Enum type
-> @@ -95,10 +106,11 @@ names are lower_case_with_underscores_ending_with_a_=
-t, like the POSIX
->  uint64_t and family.  Note that this last convention contradicts POSIX
->  and is therefore likely to be changed.
->
-> -When wrapping standard library functions, use the prefix qemu_ to alert
-> +When wrapping standard library functions, use the prefix ``qemu_`` to al=
-ert
->  readers that they are seeing a wrapped version; otherwise avoid this pre=
-fix.
->
-> -4. Block structure
-> +Block structure
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  Every indented statement is braced; even if the block contains just one
->  statement.  The opening brace is on the line that contains the control
-> @@ -106,6 +118,8 @@ flow statement that introduces the new block; the clo=
-sing brace is on the
->  same line as the else keyword, or on a line by itself if there is no else
->  keyword.  Example:
->
-> +.. code-block:: c
-> +
->      if (a =3D=3D 5) {
->          printf("a was 5.\n");
->      } else if (a =3D=3D 6) {
-> @@ -121,6 +135,8 @@ statement.
->  An exception is the opening brace for a function; for reasons of traditi=
-on
->  and clarity it comes on a line by itself:
->
-> +.. code-block:: c
-> +
->      void a_function(void)
->      {
->          do_something();
-> @@ -130,7 +146,8 @@ Rationale: a consistent (except for functions...) bra=
-cing style reduces
->  ambiguity and avoids needless churn when lines are added or removed.
->  Furthermore, it is the QEMU coding style.
->
-> -5. Declarations
-> +Declarations
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  Mixed declarations (interleaving statements and declarations within
->  blocks) are generally not allowed; declarations should be at the beginni=
-ng
-> @@ -142,11 +159,14 @@ be placed at the top of the block even if there are=
- statements above.
->  On the other hand, however, it's often best to move that #ifdef/#ifndef
->  block to a separate function altogether.
->
-> -6. Conditional statements
-> +Conditional statements
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  When comparing a variable for (in)equality with a constant, list the
->  constant on the right, as in:
->
-> +.. code-block:: c
-> +
->      if (a =3D=3D 1) {
->          /* Reads like: "If a equals 1" */
->          do_something();
-> @@ -156,19 +176,24 @@ Rationale: Yoda conditions (as in 'if (1 =3D=3D a)'=
-) are awkward to read.
->  Besides, good compilers already warn users when '=3D=3D' is mis-typed as=
- '=3D',
->  even when the constant is on the right.
->
-> -7. Comment style
-> +Comment style
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> -We use traditional C-style /* */ comments and avoid // comments.
-> +We use traditional C-style /``*`` ``*``/ comments and avoid // comments.
->
->  Rationale: The // form is valid in C99, so this is purely a matter of
->  consistency of style. The checkpatch script will warn you about this.
->
->  Multiline comment blocks should have a row of stars on the left,
-> -and the initial /* and terminating */ both on their own lines:
-> +and the initial /``*`` and terminating ``*``/ both on their own lines:
-> +
-> +.. code-block:: c
-> +
->      /*
->       * like
->       * this
->       */
-> +
->  This is the same format required by the Linux kernel coding style.
->
->  (Some of the existing comments in the codebase use the GNU Coding
-> @@ -180,24 +205,32 @@ comment anyway.)
->  Rationale: Consistency, and ease of visually picking out a multiline
->  comment from the surrounding code.
->
-> -8. trace-events style
-> +trace-events style
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> -8.1 0x prefix
-> +0x prefix
-> +---------
->
->  In trace-events files, use a '0x' prefix to specify hex numbers, as in:
->
-> -some_trace(unsigned x, uint64_t y) "x 0x%x y 0x" PRIx64
-> +.. code-block::
-> +
-> +    some_trace(unsigned x, uint64_t y) "x 0x%x y 0x" PRIx64
->
->  An exception is made for groups of numbers that are hexadecimal by
->  convention and separated by the symbols '.', '/', ':', or ' ' (such as
->  PCI bus id):
->
-> -another_trace(int cssid, int ssid, int dev_num) "bus id: %x.%x.%04x"
-> +.. code-block::
-> +
-> +    another_trace(int cssid, int ssid, int dev_num) "bus id: %x.%x.%04x"
->
->  However, you can use '0x' for such groups if you want. Anyway, be sure t=
-hat
->  it is obvious that numbers are in hex, ex.:
->
-> -data_dump(uint8_t c1, uint8_t c2, uint8_t c3) "bytes (in hex): %02x %02x=
- %02x"
-> +.. code-block::
-> +
-> +    data_dump(uint8_t c1, uint8_t c2, uint8_t c3) "bytes (in hex): %02x =
-%02x %02x"
->
->  Rationale: hex numbers are hard to read in logs when there is no 0x pref=
-ix,
->  especially when (occasionally) the representation doesn't contain any le=
-tters
-> @@ -205,12 +238,14 @@ and especially in one line with other decimal numbe=
-rs. Number groups are allowed
->  to not use '0x' because for some things notations like %x.%x.%x are used=
- not
->  only in Qemu. Also dumping raw data bytes with '0x' is less readable.
->
-> -8.2 '#' printf flag
-> +'#' printf flag
-> +---------------
->
->  Do not use printf flag '#', like '%#x'.
->
->  Rationale: there are two ways to add a '0x' prefix to printed number: '0=
-x%...'
->  and '%#...'. For consistency the only one way should be used. Arguments =
-for
->  '0x%' are:
-> - - it is more popular
-> - - '%#' omits the 0x for the value 0 which makes output inconsistent
-> +
-> +* it is more popular
-> +* '%#' omits the 0x for the value 0 which makes output inconsistent
-> diff --git a/HACKING b/HACKING.rst
-> similarity index 79%
-> rename from HACKING
-> rename to HACKING.rst
-> index 097d482603..668fc420c3 100644
-> --- a/HACKING
-> +++ b/HACKING.rst
-> @@ -1,19 +1,32 @@
-> -1. Preprocessor
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +QEMU Hacking
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> -1.1. Variadic macros
-> +.. contents:: Table of Contents
-> +
-> +Preprocessor
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Variadic macros
-> +---------------
->
->  For variadic macros, stick with this C99-like syntax:
->
-> -#define DPRINTF(fmt, ...)                                       \
-> -    do { printf("IRQ: " fmt, ## __VA_ARGS__); } while (0)
-> +.. code-block:: c
->
-> -1.2. Include directives
-> +    #define DPRINTF(fmt, ...)                                       \
-> +        do { printf("IRQ: " fmt, ## __VA_ARGS__); } while (0)
-> +
-> +Include directives
-> +------------------
->
->  Order include directives as follows:
->
-> -#include "qemu/osdep.h"  /* Always first... */
-> -#include <...>           /* then system headers... */
-> -#include "..."           /* and finally QEMU headers. */
-> +.. code-block:: c
-> +
-> +    #include "qemu/osdep.h"  /* Always first... */
-> +    #include <...>           /* then system headers... */
-> +    #include "..."           /* and finally QEMU headers. */
->
->  The "qemu/osdep.h" header contains preprocessor macros that affect the b=
-ehavior
->  of core system headers like <stdint.h>.  It must be the first include so=
- that
-> @@ -23,12 +36,14 @@ that QEMU depends on.
->  Do not include "qemu/osdep.h" from header files since the .c file will h=
-ave
->  already included it.
->
-> -2. C types
-> +C types
-> +=3D=3D=3D=3D=3D=3D=3D
->
->  It should be common sense to use the right type, but we have collected
->  a few useful guidelines here.
->
-> -2.1. Scalars
-> +Scalars
-> +-------
->
->  If you're using "int" or "long", odds are good that there's a better typ=
-e.
->  If a variable is counting something, it should be declared with an
-> @@ -68,8 +83,8 @@ it may be 32 or 64 bits depending on which target is be=
-ing built. It should
->  therefore be used only in target-specific code, and in some
->  performance-critical built-per-target core code such as the TLB code.
->  There is also a signed version, target_long.
-> -abi_ulong is for the *-user targets, and represents a type the size of
-> -'void *' in that target's ABI. (This may not be the same as the size of a
-> +abi_ulong is for the ``*``-user targets, and represents a type the size =
-of
-> +'void ``*``' in that target's ABI. (This may not be the same as the size=
- of a
->  full CPU virtual address in the case of target ABIs which use 32 bit poi=
-nters
->  on 64 bit CPUs, like sparc32plus.) Definitions of structures that must m=
-atch
->  the target's ABI must use this type for anything that on the target is d=
-efined
-> @@ -89,7 +104,8 @@ Finally, while using descriptive types is important, b=
-e careful not to
->  go overboard.  If whatever you're doing causes warnings, or requires
->  casts, then reconsider or ask for help.
->
-> -2.2. Pointers
-> +Pointers
-> +--------
->
->  Ensure that all of your pointers are "const-correct".
->  Unless a pointer is used to modify the pointed-to storage,
-> @@ -99,7 +115,8 @@ importantly, if we're diligent about this, when you se=
-e a non-const
->  pointer, you're guaranteed that it is used to modify the storage
->  it points to, or it is aliased to another pointer that is.
->
-> -2.3. Typedefs
-> +Typedefs
-> +--------
->
->  Typedefs are used to eliminate the redundant 'struct' keyword, since type
->  names have a different style than other identifiers ("CamelCase" versus
-> @@ -114,11 +131,14 @@ definitions instead of typedefs in headers and func=
-tion prototypes; this
->  avoids problems with duplicated typedefs and reduces the need to include
->  headers from other headers.
->
-> -2.4. Reserved namespaces in C and POSIX
-> +Reserved namespaces in C and POSIX
-> +----------------------------------
-> +
->  Underscore capital, double underscore, and underscore 't' suffixes shoul=
-d be
->  avoided.
->
-> -3. Low level memory management
-> +Low level memory management
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
->
->  Use of the malloc/free/realloc/calloc/valloc/memalign/posix_memalign
->  APIs is not allowed in the QEMU codebase. Instead of these routines,
-> @@ -130,36 +150,51 @@ Please note that g_malloc will exit on allocation f=
-ailure, so there
->  is no need to test for failure (as you would have to with malloc).
->  Calling g_malloc with a zero size is valid and will return NULL.
->
-> -Prefer g_new(T, n) instead of g_malloc(sizeof(T) * n) for the following
-> +Prefer g_new(T, n) instead of g_malloc(sizeof(T) ``*`` n) for the follow=
-ing
->  reasons:
->
-> -  a. It catches multiplication overflowing size_t;
-> -  b. It returns T * instead of void *, letting compiler catch more type
-> -     errors.
-> +* It catches multiplication overflowing size_t;
-> +* It returns T ``*`` instead of void ``*``, letting compiler catch more =
-type errors.
-> +
-> +Declarations like
-> +
-> +.. code-block:: c
-> +
-> +    T *v =3D g_malloc(sizeof(*v))
->
-> -Declarations like T *v =3D g_malloc(sizeof(*v)) are acceptable, though.
-> +are acceptable, though.
->
->  Memory allocated by qemu_memalign or qemu_blockalign must be freed with
->  qemu_vfree, since breaking this will cause problems on Win32.
->
-> -4. String manipulation
-> +String manipulation
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  Do not use the strncpy function.  As mentioned in the man page, it does =
-*not*
->  guarantee a NULL-terminated buffer, which makes it extremely dangerous t=
-o use.
->  It also zeros trailing destination bytes out to the specified length.  I=
-nstead,
->  use this similar function when possible, but note its different signatur=
-e:
-> -void pstrcpy(char *dest, int dest_buf_size, const char *src)
-> +
-> +.. code-block:: c
-> +
-> +    void pstrcpy(char *dest, int dest_buf_size, const char *src)
->
->  Don't use strcat because it can't check for buffer overflows, but:
-> -char *pstrcat(char *buf, int buf_size, const char *s)
-> +
-> +.. code-block:: c
-> +
-> +    char *pstrcat(char *buf, int buf_size, const char *s)
->
->  The same limitation exists with sprintf and vsprintf, so use snprintf and
->  vsnprintf.
->
->  QEMU provides other useful string functions:
-> -int strstart(const char *str, const char *val, const char **ptr)
-> -int stristart(const char *str, const char *val, const char **ptr)
-> -int qemu_strnlen(const char *s, int max_len)
-> +
-> +.. code-block:: c
-> +
-> +    int strstart(const char *str, const char *val, const char **ptr)
-> +    int stristart(const char *str, const char *val, const char **ptr)
-> +    int qemu_strnlen(const char *s, int max_len)
->
->  There are also replacement character processing macros for isxyz and tox=
-yz,
->  so instead of e.g. isalnum you should use qemu_isalnum.
-> @@ -167,7 +202,8 @@ so instead of e.g. isalnum you should use qemu_isalnu=
-m.
->  Because of the memory management rules, you must use g_strdup/g_strndup
->  instead of plain strdup/strndup.
->
-> -5. Printf-style functions
-> +Printf-style functions
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  Whenever you add a new printf-style function, i.e., one with a format
->  string argument and following "..." in its prototype, be sure to use
-> @@ -177,12 +213,14 @@ This makes it so gcc's -Wformat and -Wformat-securi=
-ty options can do
->  their jobs and cross-check format strings with the number and types
->  of arguments.
->
-> -6. C standard, implementation defined and undefined behaviors
-> +C standard, implementation defined and undefined behaviors
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  C code in QEMU should be written to the C99 language specification. A co=
-py
->  of the final version of the C99 standard with corrigenda TC1, TC2, and T=
-C3
->  included, formatted as a draft, can be downloaded from:
-> - http://www.open-std.org/jtc1/sc22/WG14/www/docs/n1256.pdf
-> +
-> +    `<http://www.open-std.org/jtc1/sc22/WG14/www/docs/n1256.pdf>`_
->
->  The C language specification defines regions of undefined behavior and
->  implementation defined behavior (to give compiler authors enough leeway =
-to
-> @@ -193,17 +231,20 @@ argument...) However there are a few areas where we=
- allow ourselves to
->  assume certain behaviors because in practice all the platforms we care a=
-bout
->  behave in the same way and writing strictly conformant code would be
->  painful. These are:
-> - * you may assume that integers are 2s complement representation
-> - * you may assume that right shift of a signed integer duplicates
-> -   the sign bit (ie it is an arithmetic shift, not a logical shift)
-> +
-> +* you may assume that integers are 2s complement representation
-> +* you may assume that right shift of a signed integer duplicates
-> +  the sign bit (ie it is an arithmetic shift, not a logical shift)
->
->  In addition, QEMU assumes that the compiler does not use the latitude
->  given in C99 and C11 to treat aspects of signed '<<' as undefined, as
->  documented in the GNU Compiler Collection manual starting at version 4.0.
->
-> -7. Error handling and reporting
-> +Error handling and reporting
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
->
-> -7.1 Reporting errors to the human user
-> +Reporting errors to the human user
-> +----------------------------------
->
->  Do not use printf(), fprintf() or monitor_printf().  Instead, use
->  error_report() or error_vreport() from error-report.h.  This ensures the
-> @@ -214,10 +255,11 @@ Use error_printf() & friends to print additional in=
-formation.
->
->  error_report() prints the current location.  In certain common cases
->  like command line parsing, the current location is tracked
-> -automatically.  To manipulate it manually, use the loc_*() from
-> +automatically.  To manipulate it manually, use the loc_``*``() from
->  error-report.h.
->
-> -7.2 Propagating errors
-> +Propagating errors
-> +------------------
->
->  An error can't always be reported to the user right where it's detected,
->  but often needs to be propagated up the call chain to a place that can
-> @@ -233,16 +275,17 @@ error, non-negative / -errno, non-null / null, or E=
-rror objects.
->  Example: when a function returns a non-null pointer on success, and it
->  can fail only in one way (as far as the caller is concerned), returning
->  null on failure is just fine, and certainly simpler and a lot easier on
-> -the eyes than propagating an Error object through an Error ** parameter.
-> +the eyes than propagating an Error object through an Error ``*````*`` pa=
-rameter.
->
->  Example: when a function's callers need to report details on failure
-> -only the function really knows, use Error **, and set suitable errors.
-> +only the function really knows, use Error ``*````*``, and set suitable e=
-rrors.
->
->  Do not report an error to the user when you're also returning an error
->  for somebody else to handle.  Leave the reporting to the place that
->  consumes the error returned.
->
-> -7.3 Handling errors
-> +Handling errors
-> +---------------
->
->  Calling exit() is fine when handling configuration errors during
->  startup.  It's problematic during normal operation.  In particular,
-> diff --git a/README b/README.rst
-> similarity index 84%
-> rename from README
-> rename to README.rst
-> index 441c33eb2f..9ff2877416 100644
-> --- a/README
-> +++ b/README.rst
-> @@ -1,5 +1,6 @@
-> -         QEMU README
-> -         =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +QEMU README
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  QEMU is a generic and open source machine & userspace emulator and
->  virtualizer.
-> @@ -37,6 +38,9 @@ QEMU is multi-platform software intended to be buildabl=
-e on all modern
->  Linux platforms, OS-X, Win32 (via the Mingw64 toolchain) and a variety
->  of other UNIX targets. The simple steps to build QEMU are:
->
-> +
-> +.. code-block:: shell
-> +
->    mkdir build
->    cd build
->    ../configure
-> @@ -44,9 +48,9 @@ of other UNIX targets. The simple steps to build QEMU a=
-re:
->
->  Additional information can also be found online via the QEMU website:
->
-> -  https://qemu.org/Hosts/Linux
-> -  https://qemu.org/Hosts/Mac
-> -  https://qemu.org/Hosts/W32
-> +* `<https://qemu.org/Hosts/Linux>`_
-> +* `<https://qemu.org/Hosts/Mac>`_
-> +* `<https://qemu.org/Hosts/W32>`_
->
->
->  Submitting patches
-> @@ -54,24 +58,29 @@ Submitting patches
->
->  The QEMU source code is maintained under the GIT version control system.
->
-> +.. code-block:: shell
-> +
->     git clone https://git.qemu.org/git/qemu.git
->
->  When submitting patches, one common approach is to use 'git
->  format-patch' and/or 'git send-email' to format & send the mail to the
->  qemu-devel@nongnu.org mailing list. All patches submitted must contain
->  a 'Signed-off-by' line from the author. Patches should follow the
-> -guidelines set out in the HACKING and CODING_STYLE files.
-> +guidelines set out in the HACKING.rst and CODING_STYLE.rst files.
->
->  Additional information on submitting patches can be found online via
->  the QEMU website
->
-> -  https://qemu.org/Contribute/SubmitAPatch
-> -  https://qemu.org/Contribute/TrivialPatches
-> +* `<https://qemu.org/Contribute/SubmitAPatch>`_
-> +* `<https://qemu.org/Contribute/TrivialPatches>`_
->
->  The QEMU website is also maintained under source control.
->
-> +.. code-block:: shell
-> +
->    git clone https://git.qemu.org/git/qemu-web.git
-> -  https://www.qemu.org/2017/02/04/the-new-qemu-website-is-up/
-> +
-> +* `<https://www.qemu.org/2017/02/04/the-new-qemu-website-is-up/>`_
->
->  A 'git-publish' utility was created to make above process less
->  cumbersome, and is highly recommended for making regular contributions,
-> @@ -82,10 +91,12 @@ manually for once.
->
->  For installation instructions, please go to
->
-> -  https://github.com/stefanha/git-publish
-> +*  `<https://github.com/stefanha/git-publish>`_
->
->  The workflow with 'git-publish' is:
->
-> +.. code-block:: shell
-> +
->    $ git checkout master -b my-feature
->    $ # work on new commits, add your 'Signed-off-by' lines to each
->    $ git publish
-> @@ -95,6 +106,8 @@ back to it in the future.
->
->  Sending v2:
->
-> +.. code-block:: shell
-> +
->    $ git checkout my-feature # same topic branch
->    $ # making changes to the commits (using 'git rebase', for example)
->    $ git publish
-> @@ -109,7 +122,7 @@ The QEMU project uses Launchpad as its primary upstre=
-am bug tracker. Bugs
->  found when running code built from QEMU git or upstream released sources
->  should be reported via:
->
-> -  https://bugs.launchpad.net/qemu/
-> +* `<https://bugs.launchpad.net/qemu/>`_
->
->  If using QEMU via an operating system vendor pre-built binary package, it
->  is preferable to report bugs to the vendor's own bug tracker first. If
-> @@ -118,7 +131,7 @@ reported via launchpad.
->
->  For additional information on bug reporting consult:
->
-> -  https://qemu.org/Contribute/ReportABug
-> +* `<https://qemu.org/Contribute/ReportABug>`_
->
->
->  Contact
-> @@ -127,13 +140,11 @@ Contact
->  The QEMU community can be contacted in a number of ways, with the two
->  main methods being email and IRC
->
-> - - qemu-devel@nongnu.org
-> -   https://lists.nongnu.org/mailman/listinfo/qemu-devel
-> - - #qemu on irc.oftc.net
-> +* `<mailto:qemu-devel@nongnu.org>`_
-> +* `<https://lists.nongnu.org/mailman/listinfo/qemu-devel>`_
-> +* #qemu on irc.oftc.net
->
->  Information on additional methods of contacting the community can be
->  found online via the QEMU website:
->
-> -  https://qemu.org/Contribute/StartHere
-> -
-> --- End
-> +* `<https://qemu.org/Contribute/StartHere>`_
+TB id:2 | phys:0x34d0d virt:0x0000000000034d0d flags:0x0000f0
+	| exec:4825842/0 guest inst cov:21.82%
+	| trans:1 ints: g:4 op:80 op_opt:38 spills:2
+	| h/g (host bytes / guest insts): 84.000000
+	| time to gen at 2.4GHz => code:3362.92(ns) IR:793.75(ns)
+	| targets: 0x0000000000034d19 (id:12), 0x0000000000034d54 (id:1)
 
+TB id:2 | phys:0x34d0d virt:0x0000000000034d0d flags:0x0000f0
+	| exec:6956495/0  guest inst cov:21.82%
+	| trans:2 ints: g:2 op:40 op_opt:19 spills:1
+	| h/g (host bytes / guest insts): 84.000000
+	| time to gen at 2.4GHz => code:3130.83(ns) IR:722.50(ns)
+	| targets: 0x0000000000034d19 (id:12), 0x0000000000034d54 (id:1)
 
---
-Alex Benn=C3=A9e
+----------------
+IN:
+0x00034d0d:  89 de                    movl     %ebx, %esi
+0x00034d0f:  26 8b 0e                 movl     %es:(%esi), %ecx
+0x00034d12:  26 f6 46 08 80           testb    $0x80, %es:8(%esi)
+0x00034d17:  75 3b                    jne      0x34d54
+
+------------------------------
+
+TB id:1 | phys:0x34d54 virt:0x0000000000034d54 flags:0x0000f0
+	| exec:5202686/0 guest inst cov:11.28%
+	| trans:1 ints: g:3 op:82 op_opt:34 spills:3
+	| h/g (host bytes / guest insts): 90.666664
+	| time to gen at 2.4GHz => code:2793.75(ns) IR:614.58(ns)
+	| targets: 0x0000000000034d5e (id:3), 0x0000000000034d0d (id:2)
+
+TB id:2 | phys:0x34d0d virt:0x0000000000034d0d flags:0x0000f0
+	| exec:5199468/0 guest inst cov:15.03%
+	| trans:1 ints: g:4 op:80 op_opt:38 spills:2
+	| h/g (host bytes / guest insts): 84.000000
+	| time to gen at 2.4GHz => code:2958.75(ns) IR:719.58(ns)
+	| targets: 0x0000000000034d19 (id:4), 0x0000000000034d54 (id:1)
+
+------------------------------
+2 TBs to reach 25% of guest inst exec coverage
+Total of guest insts exec: 138346727
+
+------------------------------
+
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+---
+ accel/tcg/tb-stats.c         | 421 ++++++++++++++++++++++++++++++++++-
+ accel/tcg/translate-all.c    |   2 +-
+ disas.c                      |  31 ++-
+ hmp-commands-info.hx         |  24 ++
+ include/exec/tb-stats.h      |  45 +++-
+ include/qemu/log-for-trace.h |   4 +
+ include/qemu/log.h           |   2 +
+ monitor/misc.c               |  74 ++++++
+ util/log.c                   |  52 ++++-
+ 9 files changed, 634 insertions(+), 21 deletions(-)
+
+diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
+index 9959477fbb..d588c551c9 100644
+--- a/accel/tcg/tb-stats.c
++++ b/accel/tcg/tb-stats.c
+@@ -34,9 +34,35 @@
+ 
+ /* only accessed in safe work */
+ static GList *last_search;
+-
++int id = 1; /* display_id increment counter */
+ uint64_t dev_time;
+ 
++static TBStatistics *get_tbstats_by_id(int id)
++{
++    GList *iter;
++
++    for (iter = last_search; iter; iter = g_list_next(iter)) {
++        TBStatistics *tbs = iter->data;
++        if (tbs && tbs->display_id == id) {
++            return tbs;
++            break;
++        }
++    }
++    return NULL;
++}
++
++static TBStatistics *get_tbstats_by_addr(target_ulong pc)
++{
++    GList *iter;
++    for (iter = last_search; iter; iter = g_list_next(iter)) {
++        TBStatistics *tbs = iter->data;
++        if (tbs && tbs->pc == pc) {
++            return tbs;
++        }
++    }
++    return NULL;
++}
++
+ struct jit_profile_info {
+     uint64_t translations;
+     uint64_t aborted;
+@@ -175,6 +201,7 @@ static void clean_tbstats(void)
+     qht_destroy(&tb_ctx.tb_stats);
+ }
+ 
++
+ void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd)
+ {
+     struct TbstatsCommand *cmdinfo = icmd.host_ptr;
+@@ -261,6 +288,398 @@ void init_tb_stats_htable_if_not(void)
+     }
+ }
+ 
++static void collect_tb_stats(void *p, uint32_t hash, void *userp)
++{
++    last_search = g_list_prepend(last_search, p);
++}
++
++static void dump_tb_targets(TBStatistics *tbs)
++{
++    if (tbs && tbs->tb) {
++        TBStatistics *valid_target_tbstats[2] = {NULL, NULL};
++
++        /*
++         * Check and ensure that targets' tbstats have a valid display_id and
++         * are in last_search list
++         */
++        for (int jmp_id = 0; jmp_id < 2; jmp_id++) {
++            qemu_spin_lock(&tbs->tb->jmp_lock);
++            TranslationBlock *tb_dst =
++                (TranslationBlock *) (atomic_read(&tbs->tb->jmp_dest[jmp_id]) & ~1);
++            qemu_spin_unlock(&tbs->tb->jmp_lock);
++
++            if (tb_dst) {
++                target_ulong pc = tb_dst ? tb_dst->pc : 0;
++
++                /* Check if tb_dst is on the last_search list */
++                TBStatistics *tbstats_pc = get_tbstats_by_addr(pc);
++
++                /* if not in the last_search list, then insert it */
++                if (!tbstats_pc) {
++                    last_search = g_list_append(last_search, tb_dst->tb_stats);
++                }
++
++                /* if the tb_stats does not have a valid display_id, then set one. */
++                if (tb_dst->tb_stats && tb_dst->tb_stats->display_id == 0) {
++                    tb_dst->tb_stats->display_id = id++;
++                    valid_target_tbstats[jmp_id] = tb_dst->tb_stats;
++                }
++            }
++        }
++
++        if (valid_target_tbstats[0] && !valid_target_tbstats[1]) {
++            qemu_log("\t| targets: 0x"TARGET_FMT_lx" (id:%d)\n",
++                    valid_target_tbstats[0]->pc, valid_target_tbstats[0]->display_id);
++        } else if (!valid_target_tbstats[0] && valid_target_tbstats[1]) {
++            qemu_log("\t| targets: 0x"TARGET_FMT_lx" (id:%d)\n",
++                    valid_target_tbstats[1]->pc, valid_target_tbstats[1]->display_id);
++        } else if (valid_target_tbstats[0] && valid_target_tbstats[1]) {
++            qemu_log("\t| targets: 0x"TARGET_FMT_lx" (id:%d), "
++                     "0x"TARGET_FMT_lx" (id:%d)\n",
++                    valid_target_tbstats[0]->pc, valid_target_tbstats[0]->display_id,
++                    valid_target_tbstats[1]->pc, valid_target_tbstats[1]->display_id);
++        } else {
++            qemu_log("\t| targets: no direct target\n");
++        }
++    }
++}
++
++static void dump_tb_header(TBStatistics *tbs)
++{
++    unsigned g = stat_per_translation(tbs, code.num_guest_inst);
++    unsigned ops = stat_per_translation(tbs, code.num_tcg_ops);
++    unsigned ops_opt = stat_per_translation(tbs, code.num_tcg_ops_opt);
++    unsigned spills = stat_per_translation(tbs, code.spills);
++    unsigned h = stat_per_translation(tbs, code.out_len);
++
++    float guest_host_prop = g ? ((float) h / g) : 0;
++
++    qemu_log("TB id:%d | phys:0x"TB_PAGE_ADDR_FMT" virt:0x"TARGET_FMT_lx
++             " flags:%#08x\n", tbs->display_id, tbs->phys_pc, tbs->pc, tbs->flags);
++
++    if (tbs_stats_enabled(tbs, TB_EXEC_STATS)) {
++        qemu_log("\t| exec:%lu/%lu guest inst cov:%.2f%%\n", tbs->executions.normal,
++                tbs->executions.atomic, tbs->executions.coverage / 100.0f);
++    }
++
++    if (tbs_stats_enabled(tbs, TB_JIT_STATS)) {
++        qemu_log("\t| trans:%lu ints: g:%u op:%u op_opt:%u spills:%d"
++             "\n\t| h/g (host bytes / guest insts): %f\n",
++             tbs->translations.total, g, ops, ops_opt, spills, guest_host_prop);
++    }
++
++    if (tbs_stats_enabled(tbs, TB_JIT_TIME)) {
++        qemu_log("\t| time to gen at 2.4GHz => code:%0.2lf(ns) IR:%0.2lf(ns)\n",
++             tbs->time.code / 2.4, tbs->time.interm / 2.4);
++    }
++
++    dump_tb_targets(tbs);
++    qemu_log("\n");
++}
++
++static gint
++inverse_sort_tbs(gconstpointer p1, gconstpointer p2, gpointer psort_by)
++{
++    const TBStatistics *tbs1 = (TBStatistics *) p1;
++    const TBStatistics *tbs2 = (TBStatistics *) p2;
++    int sort_by = *((int *) psort_by);
++    unsigned long c1 = 0;
++    unsigned long c2 = 0;
++
++    if (likely(sort_by == SORT_BY_SPILLS)) {
++        c1 = stat_per_translation(tbs1, code.spills);
++        c2 = stat_per_translation(tbs2, code.spills);
++    } else if (likely(sort_by == SORT_BY_HOTNESS)) {
++        c1 = stat_per_translation(tbs1, executions.normal);
++        c2 = stat_per_translation(tbs2, executions.normal);
++    } else if (likely(sort_by == SORT_BY_HG)) {
++        if (tbs1->code.num_guest_inst == 0) {
++            return -1;
++        }
++        if (tbs2->code.num_guest_inst == 0) {
++            return 1;
++        }
++
++        float a =
++            (float) stat_per_translation(tbs1, code.out_len) / tbs1->code.num_guest_inst;
++        float b =
++            (float) stat_per_translation(tbs2, code.out_len) / tbs2->code.num_guest_inst;
++        c1 = a <= b ? 0 : 1;
++        c2 = a <= b ? 1 : 0;
++    }
++
++    return c1 < c2 ? 1 : c1 == c2 ? 0 : -1;
++}
++
++static void dump_last_search_headers(int count)
++{
++    if (!last_search) {
++        qemu_log("No data collected yet\n");
++        return;
++    }
++
++    GList *l = last_search;
++    while (l != NULL && count--) {
++        TBStatistics *tbs = (TBStatistics *) l->data;
++        GList *next = l->next;
++        dump_tb_header(tbs);
++        l = next;
++    }
++}
++
++static uint64_t calculate_last_search_coverages(void)
++{
++    uint64_t total_exec_count = 0;
++    GList *i;
++
++    /* Compute total execution count for all tbs */
++    for (i = last_search; i; i = i->next) {
++        TBStatistics *tbs = (TBStatistics *) i->data;
++        total_exec_count +=
++            (tbs->executions.atomic + tbs->executions.normal) * tbs->code.num_guest_inst;
++    }
++
++    for (i = last_search; i; i = i->next) {
++        TBStatistics *tbs = (TBStatistics *) i->data;
++        uint64_t tb_total_execs =
++            (tbs->executions.atomic + tbs->executions.normal) * tbs->code.num_guest_inst;
++        tbs->executions.coverage = (10000 * tb_total_execs) / (total_exec_count + 1);
++    }
++
++    return total_exec_count;
++}
++
++static void do_dump_coverset_info(int percentage)
++{
++    mmap_lock();
++    uint16_t total_coverage = 0;
++    unsigned coverset_size = 0;
++    percentage *= 100;
++    id = 1;
++    GList *i;
++
++    g_list_free(last_search);
++    last_search = NULL;
++
++    qht_iter(&tb_ctx.tb_stats, collect_tb_stats, NULL);
++
++    int sort_by = SORT_BY_HOTNESS;
++    last_search = g_list_sort_with_data(last_search, inverse_sort_tbs, &sort_by);
++
++    if (!last_search) {
++        qemu_log("No data collected yet\n");
++        return;
++    }
++
++    uint64_t total_exec_count = calculate_last_search_coverages();
++
++    /* Iterate and tbs display_id until reach the coverage percentage count */
++    for (i = last_search; i && total_coverage < percentage; i = i->next) {
++        TBStatistics *tbs = (TBStatistics *) i->data;
++        tbs->display_id = id++;
++        coverset_size++;
++        total_coverage += tbs->executions.coverage;
++    }
++
++    /* free the unused bits */
++    if (i) {
++        if (i->next) {
++            i->next->prev = NULL;
++        }
++        g_list_free(i->next);
++        i->next = NULL;
++    }
++
++    dump_last_search_headers(coverset_size);
++    mmap_unlock();
++
++    qemu_log("------------------------------\n");
++    qemu_log("%u TBs to reach %d%% of guest inst exec coverage\n",
++                coverset_size, percentage / 100);
++    qemu_log("Total of guest insts exec: %lu", total_exec_count);
++    qemu_log("\n------------------------------\n");
++}
++
++static void do_dump_tbs_info(int total, int sort_by)
++{
++    id = 1;
++    GList *i;
++    int count = total;
++
++    g_list_free(last_search);
++    last_search = NULL;
++
++    qht_iter(&tb_ctx.tb_stats, collect_tb_stats, NULL);
++
++    last_search = g_list_sort_with_data(last_search, inverse_sort_tbs, &sort_by);
++
++    if (!last_search) {
++        qemu_printf("No data collected yet!\n");
++        return;
++    }
++
++    calculate_last_search_coverages();
++
++    for (i = last_search; i && count--; i = i->next) {
++        TBStatistics *tbs = (TBStatistics *) i->data;
++        tbs->display_id = id++;
++    }
++
++    /* free the unused bits */
++    if (i) {
++        if (i->next) {
++            i->next->prev = NULL;
++        }
++        g_list_free(i->next);
++        i->next = NULL;
++    }
++
++    dump_last_search_headers(total);
++}
++
++static void
++do_dump_coverset_info_safe(CPUState *cpu, run_on_cpu_data percentage)
++{
++    qemu_log_to_monitor(true);
++    do_dump_coverset_info(percentage.host_int);
++    qemu_log_to_monitor(false);
++}
++
++struct tbs_dump_info {
++    int count;
++    int sort_by;
++};
++
++static void do_dump_tbs_info_safe(CPUState *cpu, run_on_cpu_data tbdi)
++{
++    struct tbs_dump_info *info = tbdi.host_ptr;
++    qemu_log_to_monitor(true);
++    do_dump_tbs_info(info->count, info->sort_by);
++    qemu_log_to_monitor(false);
++    g_free(info);
++}
++
++/*
++ * When we dump_tbs_info on a live system via the HMP we want to
++ * ensure the system is quiessent before we start outputting stuff.
++ * Otherwise we could pollute the output with other logging output.
++ */
++void dump_coverset_info(int percentage, bool use_monitor)
++{
++    if (use_monitor) {
++        async_safe_run_on_cpu(first_cpu, do_dump_coverset_info_safe,
++                              RUN_ON_CPU_HOST_INT(percentage));
++    } else {
++        do_dump_coverset_info(percentage);
++    }
++}
++
++void dump_tbs_info(int count, int sort_by, bool use_monitor)
++{
++    if (use_monitor) {
++        struct tbs_dump_info *tbdi = g_new(struct tbs_dump_info, 1);
++        tbdi->count = count;
++        tbdi->sort_by = sort_by;
++        async_safe_run_on_cpu(first_cpu, do_dump_tbs_info_safe,
++                              RUN_ON_CPU_HOST_PTR(tbdi));
++    } else {
++        do_dump_tbs_info(count, sort_by);
++    }
++}
++
++static GString *get_code_string(TBStatistics *tbs, int log_flags)
++{
++    int old_log_flags = qemu_loglevel;
++
++    CPUState *cpu = first_cpu;
++    uint32_t cflags = curr_cflags() | CF_NOCACHE;
++    TranslationBlock *tb = NULL;
++
++    GString *code_s = g_string_new(NULL);
++    qemu_log_to_string(true, code_s);
++
++    qemu_set_log(log_flags);
++
++    if (sigsetjmp(cpu->jmp_env, 0) == 0) {
++        mmap_lock();
++        tb = tb_gen_code(cpu, tbs->pc, tbs->cs_base, tbs->flags, cflags);
++        tb_phys_invalidate(tb, -1);
++        mmap_unlock();
++    } else {
++        /*
++         * The mmap_lock is dropped by tb_gen_code if it runs out of
++         * memory.
++         */
++        fprintf(stderr, "%s: dbg failed!\n", __func__);
++        qemu_log("\ncould not gen code for this TB\n");
++        assert_no_pages_locked();
++    }
++
++    qemu_set_log(old_log_flags);
++    qemu_log_to_string(false, NULL);
++
++    if (tb) {
++        tcg_tb_remove(tb);
++    }
++
++    return code_s;
++}
++
++static void do_tb_dump_with_statistics(TBStatistics *tbs, int log_flags)
++{
++    qemu_log("\n------------------------------\n\n");
++    dump_tb_header(tbs);
++
++    GString *code_s = get_code_string(tbs, log_flags);
++    qemu_log("%s", code_s->str);
++    g_string_free(code_s, true);
++    qemu_log("------------------------------\n");
++}
++
++struct tb_dump_info {
++    int id;
++    int log_flags;
++    bool use_monitor;
++};
++
++static void do_dump_tb_info_safe(CPUState *cpu, run_on_cpu_data info)
++{
++    struct tb_dump_info *tbdi = (struct tb_dump_info *) info.host_ptr;
++
++    if (!last_search) {
++        qemu_log("no search on record\n");
++        return;
++    }
++
++    qemu_log_to_monitor(tbdi->use_monitor);
++
++    TBStatistics *tbs = get_tbstats_by_id(tbdi->id);
++    if (tbs) {
++        do_tb_dump_with_statistics(tbs, tbdi->log_flags);
++    } else {
++        qemu_log("no TB statitics found with id %d\n", tbdi->id);
++    }
++
++    qemu_log_to_monitor(false);
++
++    g_free(tbdi);
++}
++
++void dump_tb_info(int id, int log_mask, bool use_monitor)
++{
++    struct tb_dump_info *tbdi = g_new(struct tb_dump_info, 1);
++
++    tbdi->id = id;
++    tbdi->log_flags = log_mask;
++    tbdi->use_monitor = use_monitor;
++
++    async_safe_run_on_cpu(first_cpu, do_dump_tb_info_safe,
++                          RUN_ON_CPU_HOST_PTR(tbdi));
++
++    /* tbdi free'd by do_dump_tb_info_safe */
++}
++
++
+ void enable_collect_tb_stats(void)
+ {
+     init_tb_stats_htable_if_not();
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index a2e65bb85c..fa163440dc 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1778,7 +1778,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+      * generation so we can count interesting things about this
+      * generation.
+      */
+-    if (tb_stats_collection_enabled()) {
++    if (tb_stats_collection_enabled() && !(tb->cflags & CF_NOCACHE)) {
+         tb->tb_stats = tb_get_stats(phys_pc, pc, cs_base, flags, tb);
+         uint32_t flag = get_default_tbstats_flag();
+ 
+diff --git a/disas.c b/disas.c
+index 3e2bfa572b..d5292d4246 100644
+--- a/disas.c
++++ b/disas.c
+@@ -8,6 +8,8 @@
+ #include "disas/disas.h"
+ #include "disas/capstone.h"
+ 
++#include "qemu/log-for-trace.h"
++
+ typedef struct CPUDebug {
+     struct disassemble_info info;
+     CPUState *cpu;
+@@ -420,6 +422,22 @@ static bool cap_disas_monitor(disassemble_info *info, uint64_t pc, int count)
+ # define cap_disas_monitor(i, p, c)  false
+ #endif /* CONFIG_CAPSTONE */
+ 
++static int fprintf_log(struct _IO_FILE *a, const char *b, ...)
++{
++    va_list ap;
++    va_start(ap, b);
++
++    if (!to_string) {
++        vfprintf(a, b, ap);
++    } else {
++        qemu_vlog(b, ap);
++    }
++
++    va_end(ap);
++
++    return 1;
++}
++
+ /* Disassemble this for me please... (debugging).  */
+ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+                   target_ulong size)
+@@ -429,7 +447,7 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+     int count;
+     CPUDebug s;
+ 
+-    INIT_DISASSEMBLE_INFO(s.info, out, fprintf);
++    INIT_DISASSEMBLE_INFO(s.info, out, fprintf_log);
+ 
+     s.cpu = cpu;
+     s.info.read_memory_func = target_read_memory;
+@@ -460,11 +478,12 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+     }
+ 
+     for (pc = code; size > 0; pc += count, size -= count) {
+-	fprintf(out, "0x" TARGET_FMT_lx ":  ", pc);
+-	count = s.info.print_insn(pc, &s.info);
+-	fprintf(out, "\n");
+-	if (count < 0)
+-	    break;
++        fprintf_log(out, "0x" TARGET_FMT_lx ":  ", pc);
++        count = s.info.print_insn(pc, &s.info);
++        fprintf_log(out, "\n");
++        if (count < 0) {
++            break;
++        }
+         if (size < count) {
+             fprintf(out,
+                     "Disassembler disagrees with translator over instruction "
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index c59444c461..f415479011 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -289,6 +289,30 @@ ETEXI
+         .help       = "show dynamic compiler info",
+         .cmd        = hmp_info_jit,
+     },
++    {
++        .name       = "tb-list",
++        .args_type  = "number:i?,sortedby:s?",
++        .params     = "[number sortedby]",
++        .help       = "show a [number] translated blocks sorted by [sortedby]"
++                      "sortedby opts: hotness hg spills",
++        .cmd        = hmp_info_tblist,
++    },
++    {
++        .name       = "tb",
++        .args_type  = "id:i,flags:s?",
++        .params     = "id [flag1,flag2,...]",
++        .help       = "show information about one translated block by id."
++                      "dump flags can be used to set dump code level: out_asm in_asm op",
++        .cmd        = hmp_info_tb,
++    },
++    {
++        .name       = "coverset",
++        .args_type  = "coverage:i?",
++        .params     = "[coverage]",
++        .help       = "show hottest translated blocks neccesary to cover"
++                      "[coverage]% of the execution count",
++        .cmd        = hmp_info_coverset,
++    },
+ #endif
+ 
+ STEXI
+diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
+index 65063c52d7..51d73e1c5f 100644
+--- a/include/exec/tb-stats.h
++++ b/include/exec/tb-stats.h
+@@ -35,8 +35,11 @@
+ enum SortBy { SORT_BY_HOTNESS, SORT_BY_HG /* Host/Guest */, SORT_BY_SPILLS };
+ enum TbstatsCmd { START, PAUSE, STOP, FILTER };
+ 
++#define tbs_stats_enabled(tbs, JIT_STATS) \
++    (tbs && (tbs->stats_enabled & JIT_STATS))
++
+ #define tb_stats_enabled(tb, JIT_STATS) \
+-    (tb && tb->tb_stats && (tb->tb_stats->stats_enabled & JIT_STATS))
++    (tb && tb->tb_stats && tbs_stats_enabled(tb->tb_stats, JIT_STATS))
+ 
+ #define stat_per_translation(stat, name) \
+     (stat->translations.total ? stat->name / stat->translations.total : 0)
+@@ -64,6 +67,8 @@ struct TBStatistics {
+     struct {
+         unsigned long normal;
+         unsigned long atomic;
++        /* filled only when dumping x% cover set */
++        uint16_t coverage;
+     } executions;
+ 
+     struct {
+@@ -82,7 +87,6 @@ struct TBStatistics {
+ 
+     struct {
+         unsigned long total;
+-        unsigned long uncached;
+         unsigned long spanning;
+     } translations;
+ 
+@@ -95,6 +99,9 @@ struct TBStatistics {
+         int64_t la;
+     } time;
+ 
++    /* HMP information - used for referring to previous search */
++    int display_id;
++
+     /* current TB linked to this TBStatistics */
+     TranslationBlock *tb;
+ };
+@@ -115,6 +122,40 @@ struct TbstatsCommand {
+ 
+ void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd);
+ 
++/**
++ * dump_coverset_info: report the hottest blocks to cover n% of execution
++ *
++ * @percentage: cover set percentage
++ * @use_monitor: redirect output to monitor
++ *
++ * Report the hottest blocks to either the log or monitor
++ */
++void dump_coverset_info(int percentage, bool use_monitor);
++
++
++/**
++ * dump_tbs_info: report the hottest blocks
++ *
++ * @count: the limit of hotblocks
++ * @sort_by: property in which the dump will be sorted
++ * @use_monitor: redirect output to monitor
++ *
++ * Report the hottest blocks to either the log or monitor
++ */
++void dump_tbs_info(int count, int sort_by, bool use_monitor);
++
++/**
++ * dump_tb_info: dump information about one TB
++ *
++ * @id: the display id of the block (from previous search)
++ * @mask: the temporary logging mask
++ * @Use_monitor: redirect output to monitor
++ *
++ * Re-run a translation of a block at addr for the purposes of debug output
++ */
++void dump_tb_info(int id, int log_mask, bool use_monitor);
++
++
+ /* TBStatistic collection controls */
+ void enable_collect_tb_stats(void);
+ void disable_collect_tb_stats(void);
+diff --git a/include/qemu/log-for-trace.h b/include/qemu/log-for-trace.h
+index 2f0a5b080e..3de88484cb 100644
+--- a/include/qemu/log-for-trace.h
++++ b/include/qemu/log-for-trace.h
+@@ -20,6 +20,9 @@
+ 
+ /* Private global variable, don't use */
+ extern int qemu_loglevel;
++extern bool to_string;
++
++extern int32_t max_num_hot_tbs_to_dump;
+ 
+ #define LOG_TRACE          (1 << 15)
+ 
+@@ -31,5 +34,6 @@ static inline bool qemu_loglevel_mask(int mask)
+ 
+ /* main logging function */
+ int GCC_FMT_ATTR(1, 2) qemu_log(const char *fmt, ...);
++int qemu_vlog(const char *fmt, va_list va);
+ 
+ #endif
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index a8d1997cde..804cf90f0f 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -114,6 +114,8 @@ typedef struct QEMULogItem {
+ extern const QEMULogItem qemu_log_items[];
+ 
+ void qemu_set_log(int log_flags);
++void qemu_log_to_monitor(bool enable);
++void qemu_log_to_string(bool enable, GString *s);
+ void qemu_log_needs_buffers(void);
+ void qemu_set_log_filename(const char *filename, Error **errp);
+ void qemu_set_dfilter_ranges(const char *ranges, Error **errp);
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 218263d29a..b99c018124 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -504,6 +504,80 @@ static void hmp_tbstats(Monitor *mon, const QDict *qdict)
+ 
+ }
+ 
++static void hmp_info_tblist(Monitor *mon, const QDict *qdict)
++{
++    int number_int;
++    const char *sortedby_str = NULL;
++    if (!tcg_enabled()) {
++        error_report("TB information is only available with accel=tcg");
++        return;
++    }
++    if (!tb_ctx.tb_stats.map) {
++        error_report("no TB information recorded");
++        return;
++    }
++
++    number_int = qdict_get_try_int(qdict, "number", 10);
++    sortedby_str = qdict_get_try_str(qdict, "sortedby");
++
++    int sortedby = SORT_BY_HOTNESS;
++    if (sortedby_str == NULL || strcmp(sortedby_str, "hotness") == 0) {
++        sortedby = SORT_BY_HOTNESS;
++    } else if (strcmp(sortedby_str, "hg") == 0) {
++        sortedby = SORT_BY_HG;
++    } else if (strcmp(sortedby_str, "spills") == 0) {
++        sortedby = SORT_BY_SPILLS;
++    } else {
++        error_report("valid sort options are: hotness hg spills");
++        return;
++    }
++
++    dump_tbs_info(number_int, sortedby, true);
++}
++
++static void hmp_info_tb(Monitor *mon, const QDict *qdict)
++{
++    const int id = qdict_get_int(qdict, "id");
++    const char *flags = qdict_get_try_str(qdict, "flags");
++    int mask;
++
++    if (!tcg_enabled()) {
++        error_report("TB information is only available with accel=tcg");
++        return;
++    }
++
++    mask = flags ? qemu_str_to_log_mask(flags) : CPU_LOG_TB_IN_ASM;
++
++    if (!mask) {
++        error_report("Unable to parse log flags, see 'help log'");
++        return;
++    }
++
++    dump_tb_info(id, mask, true);
++}
++
++static void hmp_info_coverset(Monitor *mon, const QDict *qdict)
++{
++    int coverage;
++    if (!tcg_enabled()) {
++        error_report("TB information is only available with accel=tcg");
++        return;
++    }
++    if (!tb_stats_collection_enabled()) {
++        error_report("TB information not being recorded");
++        return;
++    }
++
++    coverage = qdict_get_try_int(qdict, "coverage", 90);
++
++    if (coverage < 0 || coverage > 100) {
++        error_report("Coverset percentage should be between 0 and 100");
++        return;
++    }
++
++    dump_coverset_info(coverage, true);
++}
++
+ static void hmp_info_jit(Monitor *mon, const QDict *qdict)
+ {
+     if (!tcg_enabled()) {
+diff --git a/util/log.c b/util/log.c
+index c3805b331b..698b48d083 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -33,28 +33,58 @@ int qemu_loglevel;
+ static int log_append = 0;
+ static GArray *debug_regions;
+ int32_t max_num_hot_tbs_to_dump;
++static bool to_monitor;
++bool to_string;
+ 
+ int tcg_collect_tb_stats;
+ uint32_t default_tbstats_flag;
+ 
+-/* Return the number of characters emitted.  */
+-int qemu_log(const char *fmt, ...)
++GString *string;
++
++int qemu_vlog(const char *fmt, va_list va)
+ {
+     int ret = 0;
+-    if (qemu_logfile) {
+-        va_list ap;
+-        va_start(ap, fmt);
+-        ret = vfprintf(qemu_logfile, fmt, ap);
+-        va_end(ap);
+-
+-        /* Don't pass back error results.  */
+-        if (ret < 0) {
+-            ret = 0;
++    if (to_string) {
++        if (string) {
++            g_string_append_vprintf(string, fmt, va);
+         }
++    } else if (to_monitor) {
++        ret = qemu_vprintf(fmt, va);
++    } else if (qemu_logfile) {
++        ret = vfprintf(qemu_logfile, fmt, va);
++    }
++
++    /* Don't pass back error results.  */
++    if (ret < 0) {
++        ret = 0;
+     }
+     return ret;
+ }
+ 
++/* Return the number of characters emitted.  */
++int qemu_log(const char *fmt, ...)
++{
++    int ret = 0;
++    va_list ap;
++    va_start(ap, fmt);
++
++    ret = qemu_vlog(fmt, ap);
++
++    va_end(ap);
++    return ret;
++}
++
++void qemu_log_to_monitor(bool enable)
++{
++    to_monitor = enable;
++}
++
++void qemu_log_to_string(bool enable, GString *s)
++{
++    to_string = enable;
++    string = s;
++}
++
+ static bool log_uses_own_buffers;
+ 
+ /* enable or disable low levels log */
+-- 
+2.22.0
+
 
