@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68602A21D2
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:09:42 +0200 (CEST)
-Received: from localhost ([::1]:52272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D5AA21CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 19:07:40 +0200 (CEST)
+Received: from localhost ([::1]:52226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3NvZ-00052I-6F
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:09:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49710)
+	id 1i3Nta-0002GP-NQ
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 13:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49849)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i3Nm3-0002Yd-N0
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:59:52 -0400
+ (envelope-from <philmd@redhat.com>) id 1i3Nmn-0003Ap-Nc
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:00:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i3Nm1-0003ay-T7
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:59:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51176)
+ (envelope-from <philmd@redhat.com>) id 1i3Nmm-0003yG-Pn
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:00:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35180)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i3Nm1-0003ao-Lk
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 12:59:49 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i3Nmm-0003xz-KF
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 13:00:36 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D9EF983F3B
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 16:59:48 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id a17so2415019wrr.10
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 09:59:48 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id A0E412BE94
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 17:00:35 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id l16so1981128wmg.2
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 10:00:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=eEGoU+iD94WM4aSpU4Ojf6q3ar3cTDVScHm1zmN3BCA=;
- b=mfxCBRYvifQle98gg3f4Pp/Aa4sI0Ts3n1+eTBeBvtFd/USnXv7VC/xAwPkZhdOP4g
- fLy2z1JejuQHIpPyiHmIamj3rnb404ykq1SJGILtKzN4BGqpVaR2582lzWMo9Mv1HtMm
- iMkm7DnfjoXoB99y0EXJHv6Sgt9XHHcKfrFO5hIgWbGjDmGdvi6sEakGUQV3/d8Br8tf
- C6MK//dBZwlbWx5CguKNbcyqgRFQFRMtzlnxccfpRtdlP9Swgp+4BZ33jpElCU3O70Ke
- N2VqP2sNGFzUk64KClt+Hn5xqXolPfDCD5BznliTbvC0u2ymTSGhb9NbWevshvcB7rDO
- e0+Q==
-X-Gm-Message-State: APjAAAVS7a6/WPDn9OtP/fox/tqdReiSuJ8AC66w9Vl/mt9lrlKI81St
- vWSIMmxnM5XcfZw5XYI3q0teE2UmyQV0PcKkY1ABz9gEG+d1JQKcC1fQ2jkrj1nUyiWC4vAPnrC
- qCHtQ+lUonkZRdM8=
-X-Received: by 2002:a5d:6286:: with SMTP id k6mr2276137wru.83.1567097987420;
- Thu, 29 Aug 2019 09:59:47 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxpgLRB5qTDVuGA44LbwnwnJOK9qZmknctg5g2fLlSI9Bb/MK73UIOa+e3WPG+t3PXxompuvA==
-X-Received: by 2002:a5d:6286:: with SMTP id k6mr2276123wru.83.1567097987269;
- Thu, 29 Aug 2019 09:59:47 -0700 (PDT)
+ bh=AkAUqRXuCNfRpGfsPBiD4amV1J23gRhXvSJJdpDQmNA=;
+ b=sHou+jVW38zXAZ+vVnFXSXUGnUSJXG+Jcsg1kGAMEWDLmgiT5LFpeUUi1kxgthtRkA
+ NwD0VOCcLRXhBR2wXzFiK1k2k+uMoOT4nEakeX2MUZgs1xeiqfr/zQyzvfspCtZx/Zhl
+ uq6bsz1iuBA1P2SvAbugXm6Qzjwjq6hhHMqD/77xdfrWRR46euYwynwiJD0NdF+BzIch
+ BFL3DD0GiUnNNYQ4aXcJP4jgopTH7xK+GwKyTRt8BFgV3WVdgDNtziGAcneFMIWnFBO4
+ /DXNVzNW0IRptDKnqXr6WHrK71EUb0VaQPWA41mMsdLX1DDbQAYduyXSVteFxXRIa4Qt
+ IL3w==
+X-Gm-Message-State: APjAAAVZRXF9nVEPPu7BE9pU1rJcHRLYs6ak81Cg2IqT2T7y+brgWF9r
+ V/lpACQv5s14z/Llg0nBCksULf1v0Dg+df2v4rPjvTMP/xD++pBh3K1Xm0UAPSeN7sdgqLK16LS
+ SxqQlyi+/cstBb6Q=
+X-Received: by 2002:a1c:1b14:: with SMTP id b20mr801147wmb.122.1567098034367; 
+ Thu, 29 Aug 2019 10:00:34 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxKBvJfUKX0IPAvIm+VNwWBUg54c1L1rC7T3byIcQVAFXCL1l3iu3ktGqAPTYPNB3bjlNDUVQ==
+X-Received: by 2002:a1c:1b14:: with SMTP id b20mr801132wmb.122.1567098034196; 
+ Thu, 29 Aug 2019 10:00:34 -0700 (PDT)
 Received: from [192.168.1.41] (251.red-88-10-102.dynamicip.rima-tde.net.
  [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id t19sm4241543wmi.29.2019.08.29.09.59.45
+ by smtp.gmail.com with ESMTPSA id e9sm2080127wrt.69.2019.08.29.10.00.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Aug 2019 09:59:46 -0700 (PDT)
+ Thu, 29 Aug 2019 10:00:33 -0700 (PDT)
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190828231651.17176-1-richard.henderson@linaro.org>
- <20190828231651.17176-6-richard.henderson@linaro.org>
+ <20190828231651.17176-7-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <63d898b8-e369-c322-13e0-33bee726af82@redhat.com>
-Date: Thu, 29 Aug 2019 18:59:45 +0200
+Message-ID: <83d1c716-c2ff-146e-6d9b-40960218acd6@redhat.com>
+Date: Thu, 29 Aug 2019 19:00:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190828231651.17176-6-richard.henderson@linaro.org>
+In-Reply-To: <20190828231651.17176-7-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 5/8] cputlb: Fix size operand for
- tlb_fill on unaligned store
+Subject: Re: [Qemu-devel] [PATCH v2 6/8] cputlb: Remove double-alignment in
+ store_helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,55 +88,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/29/19 1:16 AM, Richard Henderson wrote:
-> We are currently passing the size of the full write to
-> the tlb_fill for the second page.  Instead pass the real
-> size of the write to that page.
->=20
-> This argument is unused within all tlb_fill, except to be
-> logged via tracing, so in practice this makes no difference.
->=20
-> But in a moment we'll need the value of size2 for watchpoints,
-> and if we've computed the value we might as well use it.
+> We have already aligned page2 to the start of the next page.
+> There is no reason to do that a second time.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 > ---
->  accel/tcg/cputlb.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  accel/tcg/cputlb.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >=20
 > diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index c9576bebcf..7fb67d2f05 100644
+> index 7fb67d2f05..d0f8db33a2 100644
 > --- a/accel/tcg/cputlb.c
 > +++ b/accel/tcg/cputlb.c
-> @@ -1504,6 +1504,8 @@ store_helper(CPUArchState *env, target_ulong addr=
+> @@ -1518,8 +1518,7 @@ store_helper(CPUArchState *env, target_ulong addr=
 , uint64_t val,
->          uintptr_t index2;
->          CPUTLBEntry *entry2;
->          target_ulong page2, tlb_addr2;
-> +        size_t size2;
-> +
->      do_unaligned_access:
->          /*
->           * Ensure the second page is in the TLB.  Note that the first =
-page
-> @@ -1511,13 +1513,14 @@ store_helper(CPUArchState *env, target_ulong ad=
-dr, uint64_t val,
->           * cannot evict the first.
->           */
->          page2 =3D (addr + size) & TARGET_PAGE_MASK;
-> +        size2 =3D (addr + size) & ~TARGET_PAGE_MASK;
->          index2 =3D tlb_index(env, mmu_idx, page2);
 >          entry2 =3D tlb_entry(env, mmu_idx, page2);
 >          tlb_addr2 =3D tlb_addr_write(entry2);
 >          if (!tlb_hit_page(tlb_addr2, page2)
->              && !victim_tlb_hit(env, mmu_idx, index2, tlb_off,
->                                 page2 & TARGET_PAGE_MASK)) {
-> -            tlb_fill(env_cpu(env), page2, size, MMU_DATA_STORE,
-> +            tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
+> -            && !victim_tlb_hit(env, mmu_idx, index2, tlb_off,
+> -                               page2 & TARGET_PAGE_MASK)) {
+> +            && !victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) =
+{
+>              tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
 >                       mmu_idx, retaddr);
 >          }
-> =20
 >=20
 
