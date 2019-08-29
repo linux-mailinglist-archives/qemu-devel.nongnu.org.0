@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F157A2430
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 20:21:40 +0200 (CEST)
-Received: from localhost ([::1]:53234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 649F7A24AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 20:25:02 +0200 (CEST)
+Received: from localhost ([::1]:53278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3P3D-00007h-5x
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 14:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43395)
+	id 1i3P6T-0003PS-GP
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 14:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43512)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i3P1D-0007Z7-Ep
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 14:19:36 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i3P26-0008Mp-Ji
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 14:20:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i3P1C-0000Aw-7q
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 14:19:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46324)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i3P1B-0000AN-WA
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 14:19:34 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0FD752A09AF
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 18:19:33 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id j16so2520384wrn.5
- for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 11:19:32 -0700 (PDT)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1i3P22-0000qS-Hj
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 14:20:30 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:46633)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1i3P1y-0000na-Ok
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 14:20:24 -0400
+Received: by mail-ot1-x332.google.com with SMTP id z17so4319353otk.13
+ for <qemu-devel@nongnu.org>; Thu, 29 Aug 2019 11:20:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=j+d3yuyXe4/5R5NXiXJ69H+E32lgwoAq3r9uw55Ecos=;
+ b=a4CQ3GrAhh2qBWeFKYSEHrXDrNrTJAnIWaDCODRAFi8tMnTHzP9UPlqWdzBNXN9XcU
+ N+LR7x33qTJ/od25Lr2Br9hFOOeCQho4HgmjvCRBbe0DTGh6q7zazftw1FmUBUKL6py0
+ 1Uf+z29DaYLN5QArkDvDxN4nOgIPeS5nPsPyRgbb4TEmPWVGALN5toV6txuatZ3YfSyZ
+ aKwerAA8pmbkRAr6/vj+IgMxhKuyhfLKonyG2KMo/jyZWDmiUEPDU3mgdYuvmGtzXdkI
+ 5V+CszYgI0r5GbpCr9q8qPCkv8drJRaFor4hqqPWbewoWhOoCKWYHchYDgKS1oBctlo5
+ MO4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ft41ontdbYJfOC6ya31P4ldTQo622VBKEw+p0mV3ByI=;
- b=KUSPtw4yP8vHFmSmdlrbWsxNL+Ofo6TYfbrfXalmn+DPdNGQS7KFaix17iPnsbXr5L
- 4feOc/0/2wXmCkhPOFWctPfbENnw3D1EqZJ5lHxVchqfxYylpHdDdedSb8zEQqwLwjEU
- v1TUIUYhfl9OUhE6QeSm50KCOrCj50zgWApBDKIHtnEBPHjpJyhYrWkh1SGiINre3vlO
- 2Rb4EtUsafJNQ4sMtFfCYzC9mkgzonLsYeHD67kCTihnDQSVk3YvJ7z8HLE4uDCtjDvg
- CuLe/k/JpvMSbdm6+RFJQ7M8WSRC7XDF4vIDhGajTeO4PvJKySfQylpQDaXrvSVfJ+oz
- /X1A==
-X-Gm-Message-State: APjAAAVQ/y95bWbgQGEedt5nTpMLg5HdLQzgd8Jjme8bDJ83ATXlNjed
- W+NsnnIuOa93V5bymiFEVSlrfUgJcLPPXMRPPWI7K5SUQKvVJ2z4igl7fFjv2Uw+VtkNOG6pGVy
- 8xjEAnXLiQP2N1E4=
-X-Received: by 2002:a1c:96c6:: with SMTP id y189mr6826264wmd.160.1567102771753; 
- Thu, 29 Aug 2019 11:19:31 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqye6c4B1zQCdxcNrLuqm0uqj6oyu9Znl2lmRm7lH7QmwQTGDNzS0D+CsaGpBzEZv4+kL5TyCQ==
-X-Received: by 2002:a1c:96c6:: with SMTP id y189mr6826245wmd.160.1567102771530; 
- Thu, 29 Aug 2019 11:19:31 -0700 (PDT)
-Received: from [192.168.1.41] (251.red-88-10-102.dynamicip.rima-tde.net.
- [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id w15sm523972wru.53.2019.08.29.11.19.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Aug 2019 11:19:30 -0700 (PDT)
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20190823135811.13883-1-philmd@redhat.com>
- <20190823135811.13883-4-philmd@redhat.com>
- <98da7855-40eb-2d58-8f0a-b75a041aba4c@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <91b9cdcd-fe85-5283-8d03-c0e948f72f45@redhat.com>
-Date: Thu, 29 Aug 2019 20:19:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=j+d3yuyXe4/5R5NXiXJ69H+E32lgwoAq3r9uw55Ecos=;
+ b=oKPNzR5el25y3Xu3HoZSa7XgfpK3thyoGo4JWlVLfq0PDgHMbJdXZQmRhtQRoQDfOc
+ guVTZgPBe6qhsNXddYoe17ekf59YQxSQ/AEyJmKDyxtmS1JQ/5jp8Md4WcmpwojDk5GV
+ R/hfkqcToyWQXnH464INyr7PhCDHglG1PzwKKi2Z7Myoq4+OSdZOehH/nrIOmdXQag68
+ 7zdUUk5mPD4hYRtQWjPKnkSuSe17TfUJl4k4k3KP1MF/CbgppEWBNxDFjar0XdTJmgQ4
+ zIP9IW28Yte3G6TNZ0VY5ntQ6/1glWC16o3nG+7ok9VydqYMp2xhovYNhdJRkT+WyOBi
+ oMEw==
+X-Gm-Message-State: APjAAAUKdhErssUCXyqzBmCwOhAwvEv2bI4590gj335T2hl/njGTFNgP
+ fAFQhplKvbiBhMjNjCgzAD3T+EMVsFv5jzEl504=
+X-Google-Smtp-Source: APXvYqx+6ub5zb9nXW38jxVALg6XlpLCkUlX2V5OypIYNBBzcmTtAUUFVHyoeZrSUsCXWZnuYqEdA0mO4f68jE9bL/I=
+X-Received: by 2002:a05:6830:4d6:: with SMTP id
+ s22mr9233821otd.295.1567102821511; 
+ Thu, 29 Aug 2019 11:20:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <98da7855-40eb-2d58-8f0a-b75a041aba4c@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Thu, 29 Aug 2019 11:20:20
+ -0700 (PDT)
+Received: by 2002:a05:6830:10d7:0:0:0:0 with HTTP; Thu, 29 Aug 2019 11:20:20
+ -0700 (PDT)
+In-Reply-To: <20190828212425.GB11512@localhost.localdomain>
+References: <1564760158-27536-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <CAL1e-=hWc6G7Ob+LU7EWoY3LVBvABY2ky=RT28dSzqM=9O=OEA@mail.gmail.com>
+ <20190821210030.GH7077@habkost.net>
+ <CAL1e-=iZziwdyjJeaE-ZC2Rbjdmr_enYGBdK5zs4Lh0kN1DQOg@mail.gmail.com>
+ <CAL1e-=gf-DOrdfN__Bxbx+B5NKu71ZTCypGEekoFc05WDaQjbw@mail.gmail.com>
+ <20190828212425.GB11512@localhost.localdomain>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 29 Aug 2019 20:20:20 +0200
+Message-ID: <CAL1e-=h71qaPjD2teWBW4gwqX=1_tBqjwirWUEi-gcEK6=mS=w@mail.gmail.com>
+To: Cleber Rosa <crosa@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::332
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/4] RFC target/arm: Do not build pre-ARMv7
- cpus when using KVM
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH 0/2] tests/acceptance: Update MIPS Malta
+ ssh test
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,145 +84,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, cohuck@redhat.com,
+ qemu-devel@nongnu.org, f4bug@amsat.org,
+ Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
-
-On 8/23/19 4:28 PM, Thomas Huth wrote:
-> On 8/23/19 3:58 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->> A KVM-only build won't be able to run pre-ARMv7 cpus, disable them.
->>
->> If KVM is not enabled, they are enabled by default.
-> [...]
->>  config CHEETAH
->>      bool
->> +    select ARM_V4
->>      select OMAP
->>      select TSC210X
->=20
-> Are you sure about the "enabled by default" ? There is not "default y"
-> here, is it?
-
-What I mean is if you build with --disable-kvm, this selects
---enable-tcg which provides the pre-ARMv7 cpus. So to make no changes, I
-also added:
-
-  config ARM_V4
-      default y
-
-Which include the "default y".
-
->=20
-> Also I'm not sure whether it's such a good idea to always disable the
-> config switches in default-configs/arm-softmmu.mak ... if somebody want=
+28.08.2019. 23.24, "Cleber Rosa" <crosa@redhat.com> =D1=98=D0=B5 =D0=BD=D0=
+=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> On Thu, Aug 22, 2019 at 07:59:07PM +0200, Aleksandar Markovic wrote:
+> > 22.08.2019. 05.15, "Aleksandar Markovic" <aleksandar.m.mail@gmail.com>
+=D1=98=D0=B5
+> > =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> > >
+> > >
+> > > 21.08.2019. 23.00, "Eduardo Habkost" <ehabkost@redhat.com> =D1=98=D0=
+=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> > > >
+> > > > On Wed, Aug 21, 2019 at 10:27:11PM +0200, Aleksandar Markovic wrote=
+:
+> > > > > 02.08.2019. 17.37, "Aleksandar Markovic" <
+> > aleksandar.markovic@rt-rk.com> =D1=98=D0=B5
+> > > > > =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> > > > > >
+> > > > > > From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> > > > > >
+> > > > > > This little series improves linux_ssh_mips_malta.py, both in th=
+e
+> > sense
+> > > > > > of code organization and in the sense of quantity of executed
+tests.
+> > > > > >
+> > > > >
+> > > > > Hello, all.
+> > > > >
+> > > > > I am going to send a new version in few days, and I have a
+question
+> > for
+> > > > > test team:
+> > > > >
+> > > > > Currently, the outcome of the script execition is either PASS:1
+> > FAIL:0 or
+> > > > > PASS:0 FAIL:1. But the test actually consists of several
+subtests. Is
+> > there
+> > > > > any way that this single Python script considers these subtests a=
 s
-> to build such a restricted QEMU, don't they have to maintain their own
-> set of config files anyway?
+> > separate
+> > > > > tests (test cases), reporting something like PASS:12 FAIL:7? If
+yes,
+> > what
+> > > > > would be the best way to achieve that?
+> > > >
+> > > > If you are talking about each test_*() method, they are already
+> > > > treated like separate tests.  If you mean treating each
+> > > > ssh_command_output_contains() call as a separate test, this might
+> > > > be difficult.
+> > > >
+> > >
+> > > Yes, I meant the latter one, individual code segments involving an
+> > invocation of ssh_command_output_contains() instance being treated as
+> > separate tests.
+> > >
+> >
+> > Hello, Cleber,
+> >
+> > I am willing to rewamp python file structure if needed.
+> >
+> > The only thing I feel a little unconfortable is if I need to reboot the
+> > virtual machine for each case of ssh_command_output_contains().
+> >
+>
+> Hi Aleksandar,
+>
+> The short answer is that Avocado provides no way to report "subtest"
+> statuses (as a formal concept), neither does the current
+> "avocado_qemu" infrastructure allow for management of VMs across
+> tests.  The later is an Avocado-VT feature, and it to be honest it
+> brings a good deal of problems in itself, which we decided to avoid
+> here.
+>
+> About the lack of subtests, we (the autotest project, then the Avocado
+> project) found that this concept, to be well applied, need more than
+> we could deal with initially.  For instance, Avocado has the concept
+> of "pre_test" and "post_test" hooks, with that, should those be
+> applied to subtests as well?  Also, there's support for capturing
+> system information (a feature called sysinfo) before and after the
+> tests... again, should it be applied to subtests?  Avocado also stores
+> a well defined results directory, and we'd have to deal with something
+> like that for subtests.  With regards to the variants feature, should
+> they also be applied to subtests?  The list of questions goes on and
+> on.
+>
+> The fact that one test should not be able (as much as possible) to
+> influence another test also comes into play in our initial decision
+> to avoid subtests.
+>
+> IMO, the best way to handle this is to either keep a separate logger
+> with the test progress:
+>
+>
+https://avocado-framework.readthedocs.io/en/71.0/WritingTests.html#advanced=
+-logging-capabilities
+>
+> With a change similar to:
+>
+> ---
+> diff --git a/tests/acceptance/linux_ssh_mips_malta.py
+b/tests/acceptance/linux_ssh_mips_malta.py
+> index 509ff929cf..0683586c35 100644
+> --- a/tests/acceptance/linux_ssh_mips_malta.py
+> +++ b/tests/acceptance/linux_ssh_mips_malta.py
+> @@ -17,6 +17,7 @@ from avocado_qemu import Test
+>  from avocado.utils import process
+>  from avocado.utils import archive
+>
+> +progress_log =3D logging.getLogger("progress")
+>
+>  class LinuxSSH(Test):
+>
+> @@ -149,6 +150,7 @@ class LinuxSSH(Test):
+>          stdout, _ =3D self.ssh_command(cmd)
+>          for line in stdout:
+>              if exp in line:
+> +                progress_log.info('Check successful for "%s"', cmd)
+>                  break
+>          else:
+>              self.fail('"%s" output does not contain "%s"' % (cmd, exp))
+> ---
+>
+> You could run tests with:
+>
+>   $ ./tests/venv/bin/avocado --show=3Dconsole,progress run
+--store-logging-stream progress -- tests/acceptance/linux_ssh_mips_malta.py
+>
+> And at the same time:
+>
+>   $ tail -f ~/avocado/job-results/latest/progress.INFO
+>   17:20:44 INFO | Check successful for "uname -a"
+>   17:20:44 INFO | Check successful for "cat /proc/cpuinfo"
+>   ...
+>
+> I hope this helps somehow.
+>
+> Best regards,
+> - Cleber.
+>
 
-Ah... I followed your example:
+Thanks, Cleber, for your detailed response. I'll use whatever is available,
+along the lines you highligted. I will most likely gradually modify this
+test until I find the sweet spot where I am satisfied with test behavior
+and reporting, but also everything fits well into Avocado framework.
 
-$ git show 9e5c2056d1e
-commit 9e5c2056d1e80f344a0c412d7a3d847db1f4e034
-Author: Thomas Huth <thuth@redhat.com>
-Date:   Tue Jan 29 10:42:14 2019 +0100
+Thanks again, both to you and Eduardo,
+Aleksandar
 
-    s390x: express dependencies with Kconfig
-
-    Instead of hard-coding all config switches in the config file
-    default-configs/s390x-softmmu.mak, let's use the new Kconfig files
-    to express the necessary dependencies: The S390_CCW_VIRTIO config swi=
-tch
-    for the "s390-ccw-virtio" machine now selects all non-optional device=
-s.
-
-    And since we already have the VIRTIO_PCI and VIRTIO_MMIO config switc=
-hes
-    for the other two virtio transports, this patch also introduces a new
-    config switch VIRTIO_CCW for the third, s390x-specific virtio transpo=
-rt,
-    so that all three virtio transports are now handled in the same way.
-
-diff --git a/default-configs/s390x-softmmu.mak
-b/default-configs/s390x-softmmu.mak
-@@ -1,9 +1,13 @@
--CONFIG_PCI=3Dy
--CONFIG_VIRTIO_PCI=3Dy
--CONFIG_SCLPCONSOLE=3Dy
--CONFIG_TERMINAL3270=3Dy
--CONFIG_S390_FLIC=3Dy
--CONFIG_WDT_DIAG288=3Dy
-+# Default configuration for s390x-softmmu
-+
-+# Uncomment the following lines to disable these optional devices:
-+#
-+#CONFIG_TERMINAL3270=3Dn
-+#CONFIG_VFIO_AP=3Dn
-+#CONFIG_VFIO_CCW=3Dn
-+#CONFIG_VIRTIO_PCI=3Dn
-+#CONFIG_WDT_DIAG288=3Dn
-+
-+# Boards:
-+#
- CONFIG_S390_CCW_VIRTIO=3Dy
--CONFIG_VFIO_CCW=3Dy
--CONFIG_VFIO_AP=3Dy
-
-OK now I see, I should have added your comment and use the opposite form
-(because now these boards are all enabled) so 's/=3Dy/=3Dn' in my patch.
-
-> I think we should maybe rather rework the default-configs directory:
-> Rename the default to "config/default/" instead and then we can add
-> other subfolders with such special configurations, e.g. config/nemu/ or
-> config/lean-kvm/ or however you want to call it. Then add a new switch
-> to the configure script to be able to use the configs from such a
-> different folder.
-
-OK so if someone wants a special config, he'd know the config values to
-select, so it is pointless/confusing to keep them commented.
-Are you suggesting to simply remove the default entries? Such:
-
--- >8 --
-@@ -9,34 +9,33 @@ CONFIG_ARM_V7M=3Dy
- CONFIG_ARM_VIRT=3Dy
- CONFIG_CUBIEBOARD=3Dy
- CONFIG_EXYNOS4=3Dy
--CONFIG_HIGHBANK=3Dy
--CONFIG_INTEGRATOR=3Dy
- CONFIG_FSL_IMX31=3Dy
--CONFIG_MUSICPAL=3Dy
- CONFIG_MUSCA=3Dy
--CONFIG_CHEETAH=3Dy
--CONFIG_SX1=3Dy
--CONFIG_NSERIES=3Dy
- CONFIG_STELLARIS=3Dy
- CONFIG_REALVIEW=3Dy
--CONFIG_VERSATILE=3Dy
- CONFIG_VEXPRESS=3Dy
- CONFIG_ZYNQ=3Dy
--CONFIG_MAINSTONE=3Dy
--CONFIG_GUMSTIX=3Dy
--CONFIG_SPITZ=3Dy
--CONFIG_TOSA=3Dy
--CONFIG_Z2=3Dy
--CONFIG_COLLIE=3Dy
--CONFIG_ASPEED_SOC=3Dy
- CONFIG_NETDUINO2=3Dy
- CONFIG_MPS2=3Dy
- CONFIG_RASPI=3Dy
--CONFIG_DIGIC=3Dy
- CONFIG_SABRELITE=3Dy
- CONFIG_EMCRAFT_SF2=3Dy
--CONFIG_MICROBIT=3Dy
--CONFIG_FSL_IMX25=3Dy
- CONFIG_FSL_IMX7=3Dy
- CONFIG_FSL_IMX6UL=3Dy
- CONFIG_SEMIHOSTING=3Dy
----
-
-Thanks,
-
-Phil.
-
+> > Grateful in advance,
+> > Aleksandar
+> >
+> > > > Cleber, is there something already available in the Avocado API
+> > > > that would help us report more fine-grained results inside each
+> > > > test case?
+> > > >
+> > >
+> > > Thanks, that would be a better way of expressing my question.
+> > >
+> > > >
+> > > > >
+> > > > > Thanks in advance,
+> > > > > Aleksandar
+> > > > >
+> > > > > > Aleksandar Markovic (2):
+> > > > > >   tests/acceptance: Refactor and improve reporting in
+> > > > > >     linux_ssh_mips_malta.py
+> > > > > >   tests/acceptance: Add new test cases in
+linux_ssh_mips_malta.py
+> > > > > >
+> > > > > >  tests/acceptance/linux_ssh_mips_malta.py | 81
+> > > > > ++++++++++++++++++++++++++------
+> > > > > >  1 file changed, 66 insertions(+), 15 deletions(-)
+> > > > > >
+> > > > > > --
+> > > > > > 2.7.4
+> > > > > >
+> > > > > >
+> > > >
+> > > > --
+> > > > Eduardo
