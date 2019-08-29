@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B011A17A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 13:03:09 +0200 (CEST)
-Received: from localhost ([::1]:48174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A86E0A17C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 13:08:41 +0200 (CEST)
+Received: from localhost ([::1]:48252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3ICq-0003Y3-0v
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 07:03:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52759)
+	id 1i3IIC-0007nw-JJ
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 07:08:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52761)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Zhe.He@windriver.com>) id 1i3IAC-0001a5-KR
+ (envelope-from <Zhe.He@windriver.com>) id 1i3IAC-0001aT-LI
  for qemu-devel@nongnu.org; Thu, 29 Aug 2019 07:00:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Zhe.He@windriver.com>) id 1i3IAA-0004XZ-Qd
+ (envelope-from <Zhe.He@windriver.com>) id 1i3IAB-0004Xu-98
  for qemu-devel@nongnu.org; Thu, 29 Aug 2019 07:00:24 -0400
 Received: from mail1.windriver.com ([147.11.146.13]:62681)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <Zhe.He@windriver.com>)
- id 1i3IA8-0004Uq-M3
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 07:00:22 -0400
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
- by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7T8q3l8015075
+ id 1i3IAB-0004Uq-1X
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 07:00:23 -0400
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+ by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7T8r6dO015078
  (version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
- Thu, 29 Aug 2019 01:52:03 -0700 (PDT)
+ Thu, 29 Aug 2019 01:53:06 -0700 (PDT)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.468.0; Thu, 29 Aug 2019 01:52:02 -0700
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.468.0; Thu, 29 Aug 2019 01:53:05 -0700
 From: <zhe.he@windriver.com>
 To: <berrange@redhat.com>, <philmd@redhat.com>, <thuth@redhat.com>,
  <pbonzini@redhat.com>, <laurent@vivier.eu>, <qemu-devel@nongnu.org>,
  <zhe.he@windriver.com>
-Date: Thu, 29 Aug 2019 16:51:59 +0800
-Message-ID: <1567068719-359846-1-git-send-email-zhe.he@windriver.com>
+Date: Thu, 29 Aug 2019 16:53:02 +0800
+Message-ID: <1567068782-371028-1-git-send-email-zhe.he@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain
