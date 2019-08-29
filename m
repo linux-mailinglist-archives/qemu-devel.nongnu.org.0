@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1747A1758
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:55:42 +0200 (CEST)
-Received: from localhost ([::1]:48070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B020A16AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:50:38 +0200 (CEST)
+Received: from localhost ([::1]:47960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3I5d-0002sJ-Vn
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:55:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47405)
+	id 1i3I0i-0004l9-Ri
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:50:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hcf-0005SB-Vt
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:53 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hcf-0005S3-OX
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hcd-0005pK-OW
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i3Hcd-0005nG-11
  for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:45 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:45425 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:45430 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1i3Hcc-0005Pi-HO
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:43 -0400
+ id 1i3Hcc-0005Pt-E3
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:25:42 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 460C91A21EC;
+ by mail.rt-rk.com (Postfix) with ESMTP id 5C3081A21B1;
  Thu, 29 Aug 2019 12:25:25 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 15EDC1A21D6;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 281921A222E;
  Thu, 29 Aug 2019 12:25:25 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 29 Aug 2019 12:25:00 +0200
-Message-Id: <1567074313-22998-19-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Thu, 29 Aug 2019 12:25:02 +0200
+Message-Id: <1567074313-22998-21-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1567074313-22998-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1567074313-22998-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 18/31] target/mips: Clean up handling of CP0
- register 17
+Subject: [Qemu-devel] [PULL 20/31] target/mips: Clean up handling of CP0
+ register 19
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,132 +57,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Clean up handling of CP0 register 17.
+Clean up handling of CP0 register 19.
 
 Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1567009614-12438-19-git-send-email-aleksandar.markovic@rt-rk.com>
+Message-Id: <1567009614-12438-21-git-send-email-aleksandar.markovic@rt-rk.com>
 ---
- target/mips/translate.c | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ target/mips/cpu.h       |  4 ++++
+ target/mips/translate.c | 64 ++++++++++++++++++++++++-------------------------
+ 2 files changed, 36 insertions(+), 32 deletions(-)
 
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index d6ea111..b4866a5 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -395,6 +395,10 @@ typedef struct mips_def_t mips_def_t;
+ #define CP0_REG19__WATCHHI1        1
+ #define CP0_REG19__WATCHHI2        2
+ #define CP0_REG19__WATCHHI3        3
++#define CP0_REG19__WATCHHI4        4
++#define CP0_REG19__WATCHHI5        5
++#define CP0_REG19__WATCHHI6        6
++#define CP0_REG19__WATCHHI7        7
+ /* CP0 Register 20 */
+ #define CP0_REG20__XCONTEXT        0
+ /* CP0 Register 21 */
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 4808640..edeaaad 100644
+index 6a11e8d..6d617f4 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -6669,12 +6669,12 @@ static void gen_mfhc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+@@ -7323,14 +7323,14 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_17:
+     case CP0_REGISTER_19:
          switch (sel) {
 -        case 0:
-+        case CP0_REG17__LLADDR:
-             gen_mfhc0_load64(arg, offsetof(CPUMIPSState, CP0_LLAddr),
-                              ctx->CP0_LLAddr_shift);
-             register_name = "LLAddr";
-             break;
 -        case 1:
-+        case CP0_REG17__MAAR:
-             CP0_CHECK(ctx->mrp);
-             gen_helper_mfhc0_maar(arg, cpu_env);
-             register_name = "MAAR";
-@@ -6751,7 +6751,7 @@ static void gen_mthc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_17:
-         switch (sel) {
--        case 0:
-+        case CP0_REG17__LLADDR:
-             /*
-              * LLAddr is read-only (the only exception is bit 0 if LLB is
-              * supported); the CP0_LLAddr_rw_bitmask does not seem to be
-@@ -6760,7 +6760,7 @@ static void gen_mthc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-              */
-             register_name = "LLAddr";
-             break;
--        case 1:
-+        case CP0_REG17__MAAR:
-             CP0_CHECK(ctx->mrp);
-             gen_helper_mthc0_maar(cpu_env, arg);
-             register_name = "MAAR";
-@@ -7285,16 +7285,16 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-         break;
-     case CP0_REGISTER_17:
-         switch (sel) {
--        case 0:
-+        case CP0_REG17__LLADDR:
-             gen_helper_mfc0_lladdr(arg, cpu_env);
-             register_name = "LLAddr";
-             break;
--        case 1:
-+        case CP0_REG17__MAAR:
-             CP0_CHECK(ctx->mrp);
-             gen_helper_mfc0_maar(arg, cpu_env);
-             register_name = "MAAR";
-             break;
 -        case 2:
-+        case CP0_REG17__MAARI:
-             CP0_CHECK(ctx->mrp);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_MAARI));
-             register_name = "MAARI";
-@@ -8020,16 +8020,16 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+-        case 3:
+-        case 4:
+-        case 5:
+-        case 6:
+-        case 7:
++        case CP0_REG19__WATCHHI0:
++        case CP0_REG19__WATCHHI1:
++        case CP0_REG19__WATCHHI2:
++        case CP0_REG19__WATCHHI3:
++        case CP0_REG19__WATCHHI4:
++        case CP0_REG19__WATCHHI5:
++        case CP0_REG19__WATCHHI6:
++        case CP0_REG19__WATCHHI7:
+             CP0_CHECK(ctx->CP0_Config1 & (1 << CP0C1_WR));
+             gen_helper_1e0i(mfc0_watchhi, arg, sel);
+             register_name = "WatchHi";
+@@ -8058,14 +8058,14 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_17:
+     case CP0_REGISTER_19:
          switch (sel) {
 -        case 0:
-+        case CP0_REG17__LLADDR:
-             gen_helper_mtc0_lladdr(cpu_env, arg);
-             register_name = "LLAddr";
-             break;
 -        case 1:
-+        case CP0_REG17__MAAR:
-             CP0_CHECK(ctx->mrp);
-             gen_helper_mtc0_maar(cpu_env, arg);
-             register_name = "MAAR";
-             break;
 -        case 2:
-+        case CP0_REG17__MAARI:
-             CP0_CHECK(ctx->mrp);
-             gen_helper_mtc0_maari(cpu_env, arg);
-             register_name = "MAARI";
-@@ -8757,16 +8757,16 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+-        case 3:
+-        case 4:
+-        case 5:
+-        case 6:
+-        case 7:
++        case CP0_REG19__WATCHHI0:
++        case CP0_REG19__WATCHHI1:
++        case CP0_REG19__WATCHHI2:
++        case CP0_REG19__WATCHHI3:
++        case CP0_REG19__WATCHHI4:
++        case CP0_REG19__WATCHHI5:
++        case CP0_REG19__WATCHHI6:
++        case CP0_REG19__WATCHHI7:
+             CP0_CHECK(ctx->CP0_Config1 & (1 << CP0C1_WR));
+             gen_helper_0e1i(mtc0_watchhi, arg, sel);
+             register_name = "WatchHi";
+@@ -8795,14 +8795,14 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_17:
+     case CP0_REGISTER_19:
          switch (sel) {
 -        case 0:
-+        case CP0_REG17__LLADDR:
-             gen_helper_dmfc0_lladdr(arg, cpu_env);
-             register_name = "LLAddr";
-             break;
 -        case 1:
-+        case CP0_REG17__MAAR:
-             CP0_CHECK(ctx->mrp);
-             gen_helper_dmfc0_maar(arg, cpu_env);
-             register_name = "MAAR";
-             break;
 -        case 2:
-+        case CP0_REG17__MAARI:
-             CP0_CHECK(ctx->mrp);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_MAARI));
-             register_name = "MAARI";
-@@ -9474,16 +9474,16 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+-        case 3:
+-        case 4:
+-        case 5:
+-        case 6:
+-        case 7:
++        case CP0_REG19__WATCHHI0:
++        case CP0_REG19__WATCHHI1:
++        case CP0_REG19__WATCHHI2:
++        case CP0_REG19__WATCHHI3:
++        case CP0_REG19__WATCHHI4:
++        case CP0_REG19__WATCHHI5:
++        case CP0_REG19__WATCHHI6:
++        case CP0_REG19__WATCHHI7:
+             CP0_CHECK(ctx->CP0_Config1 & (1 << CP0C1_WR));
+             gen_helper_1e0i(mfc0_watchhi, arg, sel);
+             register_name = "WatchHi";
+@@ -9512,14 +9512,14 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
          break;
-     case CP0_REGISTER_17:
+     case CP0_REGISTER_19:
          switch (sel) {
 -        case 0:
-+        case CP0_REG17__LLADDR:
-             gen_helper_mtc0_lladdr(cpu_env, arg);
-             register_name = "LLAddr";
-             break;
 -        case 1:
-+        case CP0_REG17__MAAR:
-             CP0_CHECK(ctx->mrp);
-             gen_helper_mtc0_maar(cpu_env, arg);
-             register_name = "MAAR";
-             break;
 -        case 2:
-+        case CP0_REG17__MAARI:
-             CP0_CHECK(ctx->mrp);
-             gen_helper_mtc0_maari(cpu_env, arg);
-             register_name = "MAARI";
+-        case 3:
+-        case 4:
+-        case 5:
+-        case 6:
+-        case 7:
++        case CP0_REG19__WATCHHI0:
++        case CP0_REG19__WATCHHI1:
++        case CP0_REG19__WATCHHI2:
++        case CP0_REG19__WATCHHI3:
++        case CP0_REG19__WATCHHI4:
++        case CP0_REG19__WATCHHI5:
++        case CP0_REG19__WATCHHI6:
++        case CP0_REG19__WATCHHI7:
+             CP0_CHECK(ctx->CP0_Config1 & (1 << CP0C1_WR));
+             gen_helper_0e1i(mtc0_watchhi, arg, sel);
+             register_name = "WatchHi";
 -- 
 2.7.4
 
