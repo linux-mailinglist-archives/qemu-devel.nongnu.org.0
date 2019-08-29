@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3532A172D
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:53:49 +0200 (CEST)
-Received: from localhost ([::1]:48014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0628A175B
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Aug 2019 12:56:36 +0200 (CEST)
+Received: from localhost ([::1]:48078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3I3n-0000jV-4F
-	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49245)
+	id 1i3I6W-0003tA-4Q
+	for lists+qemu-devel@lfdr.de; Thu, 29 Aug 2019 06:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49310)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aravinda@linux.vnet.ibm.com>) id 1i3Hpg-00027f-La
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:39:14 -0400
+ (envelope-from <eblake@redhat.com>) id 1i3Hps-0002Og-Oo
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:39:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aravinda@linux.vnet.ibm.com>) id 1i3Hpf-00062H-7L
- for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:39:12 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17144
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
- id 1i3Hpc-0005yZ-Gd; Thu, 29 Aug 2019 06:39:08 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x7TAbk0o095475; Thu, 29 Aug 2019 06:38:58 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2upbudu30n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Aug 2019 06:38:58 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7TAYTWu004813;
- Thu, 29 Aug 2019 10:38:56 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 2umpctrbt9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Aug 2019 10:38:56 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x7TAcugt55116046
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 29 Aug 2019 10:38:56 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EE66C112066;
- Thu, 29 Aug 2019 10:38:55 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3F583112062;
- Thu, 29 Aug 2019 10:38:54 +0000 (GMT)
-Received: from [9.102.23.98] (unknown [9.102.23.98])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 29 Aug 2019 10:38:53 +0000 (GMT)
-To: Greg Kurz <groug@kaod.org>
-References: <156576293464.29984.1631520917528142744.stgit@aravinda>
- <20190829122108.36c226c3@bahia.lan>
-From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <35775479-e5fe-fc90-cc19-d6b6f8f3a570@linux.vnet.ibm.com>
-Date: Thu, 29 Aug 2019 16:08:53 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+ (envelope-from <eblake@redhat.com>) id 1i3Hpr-0006E4-Qo
+ for qemu-devel@nongnu.org; Thu, 29 Aug 2019 06:39:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40756)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1i3Hpn-00069x-6g; Thu, 29 Aug 2019 06:39:19 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 802993DE0B;
+ Thu, 29 Aug 2019 10:39:18 +0000 (UTC)
+Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 19AD1194B9;
+ Thu, 29 Aug 2019 10:39:12 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20190829100521.12143-1-philmd@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <5fb4d5a8-4a10-3f94-9b29-7638ba74d2cc@redhat.com>
+Date: Thu, 29 Aug 2019 05:39:11 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190829122108.36c226c3@bahia.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-08-29_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908290117
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: Re: [Qemu-devel] [Qemu-ppc] [patch-for-4.2 PATCH v11 0/6]
- target-ppc/spapr: Add FWNMI support in QEMU for PowerKVM guests
+In-Reply-To: <20190829100521.12143-1-philmd@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Q40vvsRMsrWNes7c1Qngfas5yDaHo7iQ1"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Thu, 29 Aug 2019 10:39:18 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/2] git.orderfile: Order Python/shell
+ scripts before unordered files
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,98 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Q40vvsRMsrWNes7c1Qngfas5yDaHo7iQ1
+Content-Type: multipart/mixed; boundary="E8mQQAbHcpg9aXbFGhh1Ch8dNfSy2b6Zf";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org
+Message-ID: <5fb4d5a8-4a10-3f94-9b29-7638ba74d2cc@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH 0/2] git.orderfile: Order Python/shell
+ scripts before unordered files
+References: <20190829100521.12143-1-philmd@redhat.com>
+In-Reply-To: <20190829100521.12143-1-philmd@redhat.com>
+
+--E8mQQAbHcpg9aXbFGhh1Ch8dNfSy2b6Zf
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 8/29/19 5:05 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> This series update the git.orderfile to order Python and shell
+> scripts before unordered files.
+> This is particularly useful for changes in tests/qemu-iotests.
+>=20
+> Regards,
+>=20
+> Phil.
+>=20
+> Philippe Mathieu-Daud=C3=A9 (2):
+>   scripts/git.orderfile: Order Python files before unordered ones
+>   scripts/git.orderfile: Order shell scripts before unordered files
+>=20
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
-On Thursday 29 August 2019 03:51 PM, Greg Kurz wrote:
-> On Wed, 14 Aug 2019 11:40:50 +0530
-> Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
-> 
->> This patch set adds support for FWNMI in PowerKVM guests.
->>
->> System errors such as SLB multihit and memory errors
->> that cannot be corrected by hardware is passed on to
->> the kernel for handling by raising machine check
->> exception (an NMI). Upon such machine check exceptions,
->> if the address in error belongs to guest then KVM
->> invokes guests' 0x200 interrupt vector if the guest
->> is not FWNMI capable. For FWNMI capable guest
->> KVM passes the control to QEMU by exiting the guest.
->>
->> This patch series adds functionality to QEMU to pass
->> on such machine check exceptions to the FWNMI capable
->> guest kernel by building an error log and invoking
->> the guest registered machine check handling routine.
->>
->> The KVM changes are now part of the upstream kernel
->> (commit e20bbd3d). This series contain QEMU changes.
->>
->> Change Log v11:
->>   - Moved FWNMI SPAPR cap defaults to 4.2 class option
->>   - Fixed issues with handling fwnmi KVM capability
->>
-> 
-> Hi Aravinda,
-> 
-> I'm afraid this series needs rebasing. It doesn't apply
-> cleanly on current ppc-for-4.2 (SHA1 b1e8156743).
+--E8mQQAbHcpg9aXbFGhh1Ch8dNfSy2b6Zf--
 
-This was based on the latest 4.2 at the time of posting (14th Aug).
-Meanwhile may be due to changes to 4.2 it is not applying cleanly. I
-will rebase it to the latest 4.2 and post it again.
+--Q40vvsRMsrWNes7c1Qngfas5yDaHo7iQ1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Regards,
-Aravinda
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> Cheers,
-> 
-> --
-> Greg
-> 
->> Change Log v10:
->>   - Reshuffled the patch sequence + minor fixes
->>
->> Change Log v9:
->>   - Fixed kvm cap and spapr cap issues
->>
->> Change Log v8:
->>   - Added functionality to check FWNMI capability during
->>     VM migration
->> ---
->>
->> Aravinda Prasad (6):
->>       Wrapper function to wait on condition for the main loop mutex
->>       ppc: spapr: Introduce FWNMI capability
->>       target/ppc: Handle NMI guest exit
->>       target/ppc: Build rtas error log upon an MCE
->>       ppc: spapr: Handle "ibm,nmi-register" and "ibm,nmi-interlock" RTAS calls
->>       migration: Include migration support for machine check handling
->>
->>
->>  cpus.c                   |    5 +
->>  hw/ppc/spapr.c           |   78 +++++++++++++
->>  hw/ppc/spapr_caps.c      |   29 +++++
->>  hw/ppc/spapr_events.c    |  268 ++++++++++++++++++++++++++++++++++++++++++++++
->>  hw/ppc/spapr_rtas.c      |   78 +++++++++++++
->>  include/hw/ppc/spapr.h   |   25 ++++
->>  include/qemu/main-loop.h |    8 +
->>  target/ppc/cpu.h         |    1 
->>  target/ppc/kvm.c         |   38 +++++++
->>  target/ppc/kvm_ppc.h     |   13 ++
->>  target/ppc/trace-events  |    1 
->>  11 files changed, 542 insertions(+), 2 deletions(-)
->>
->> --
->> Signature
-> 
-> 
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1nq08ACgkQp6FrSiUn
+Q2oVbwf6At6GqcdT8sYJLhRdb4v2BbvvCvRA35a0DLFii9QpmrY9nVVgF4KKSds+
+Al8yqPj5QL7ixv4DFeydTLVlDkP5PU8yEutab0edwbUuOdbJqJ3b5ER5IIXqqLE0
+D+bfc+zMyuZVgbAs30s2RxX1WGEWCNtkiBDMMO+MECXmGbSF1iGvP6o2NMNpUu54
+U4O9LHj92RIbCY1rZg6n5cmrxuqZ8VN0hJ41BDp3+OLk4Qn26AyO+xet77Qwu2+V
+9SStvNmKm9U5hrgOphTc5FjBeMtkVAYCBOkdlzH/pB0AhTSu9e+uqfPQHW67pkCR
+V3fN2ZU2zLBtnpRU8LC5n7HZWcEtfg==
+=vUbr
+-----END PGP SIGNATURE-----
 
--- 
-Regards,
-Aravinda
+--Q40vvsRMsrWNes7c1Qngfas5yDaHo7iQ1--
 
