@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33041A3F3E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 23:00:00 +0200 (CEST)
-Received: from localhost ([::1]:41068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C65BA3F40
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 23:00:14 +0200 (CEST)
+Received: from localhost ([::1]:41074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3nzy-0004hU-It
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 16:59:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47083)
+	id 1i3o0D-00057a-31
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 17:00:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47086)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i3nwV-0002y5-AB
+ (envelope-from <mlevitsk@redhat.com>) id 1i3nwV-0002yC-CC
  for qemu-devel@nongnu.org; Fri, 30 Aug 2019 16:56:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i3nwU-0001J9-1l
+ (envelope-from <mlevitsk@redhat.com>) id 1i3nwU-0001J3-1U
  for qemu-devel@nongnu.org; Fri, 30 Aug 2019 16:56:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44734)
+Received: from mx1.redhat.com ([209.132.183.28]:43762)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i3nwR-0001Gd-L0; Fri, 30 Aug 2019 16:56:19 -0400
+ id 1i3nwQ-0001EA-2X; Fri, 30 Aug 2019 16:56:18 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E10293001836;
- Fri, 30 Aug 2019 20:56:18 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 932485D9CA;
+ by mx1.redhat.com (Postfix) with ESMTPS id 34B8FA36EE3;
  Fri, 30 Aug 2019 20:56:16 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 774985DD6C;
+ Fri, 30 Aug 2019 20:56:11 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 30 Aug 2019 23:55:59 +0300
-Message-Id: <20190830205608.18192-2-mlevitsk@redhat.com>
-In-Reply-To: <20190830205608.18192-1-mlevitsk@redhat.com>
-References: <20190830205608.18192-1-mlevitsk@redhat.com>
+Date: Fri, 30 Aug 2019 23:55:58 +0300
+Message-Id: <20190830205608.18192-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 30 Aug 2019 20:56:18 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Fri, 30 Aug 2019 20:56:16 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 01/10] qcrypto: add suport for amend options
+Subject: [Qemu-devel] [PATCH 00/10] RFC crypto/luks: encryption key
+ managment using amend interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,111 +59,79 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds the qcrypto_amend_options and corresponding
-crypto driver callbacks for the  for encrypted
-key managedment
+This patch series is continuation of my work to add encryption
+key managment to luks/qcow2 with luks.
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- crypto/block.c         | 31 +++++++++++++++++++++++++++++++
- crypto/blockpriv.h     |  8 ++++++++
- include/crypto/block.h | 22 ++++++++++++++++++++++
- 3 files changed, 61 insertions(+)
+This patch series is based on patch series I sent earlier
+called 'RFC crypto/luks: preparation for encryption key managment'
 
-diff --git a/crypto/block.c b/crypto/block.c
-index 325752871c..14b684de7f 100644
---- a/crypto/block.c
-+++ b/crypto/block.c
-@@ -115,6 +115,37 @@ QCryptoBlock *qcrypto_block_create(QCryptoBlockCreateOptions *options,
- }
- 
- 
-+int qcrypto_block_amend_options(QCryptoBlock *block,
-+                                QCryptoBlockReadFunc readfunc,
-+                                QCryptoBlockWriteFunc writefunc,
-+                                void *opaque,
-+                                QCryptoBlockCreateOptions *options,
-+                                bool force,
-+                                Error **errp)
-+{
-+    if (options->format != block->format) {
-+        error_setg(errp,
-+                   "Its not possible to change encryption format with amend interface");
-+        return -1;
-+    }
-+
-+    if (!block->driver->amend) {
-+        error_setg(errp,
-+                   "Crypto format %s doesn't support format options amendment",
-+                   QCryptoBlockFormat_str(block->format));
-+        return -1;
-+    }
-+
-+    return block->driver->amend(block,
-+                                readfunc,
-+                                writefunc,
-+                                opaque,
-+                                options,
-+                                force,
-+                                errp);
-+}
-+
-+
- QCryptoBlockInfo *qcrypto_block_get_info(QCryptoBlock *block,
-                                          Error **errp)
- {
-diff --git a/crypto/blockpriv.h b/crypto/blockpriv.h
-index 71c59cb542..c18a4e0b43 100644
---- a/crypto/blockpriv.h
-+++ b/crypto/blockpriv.h
-@@ -62,6 +62,14 @@ struct QCryptoBlockDriver {
-                   void *opaque,
-                   Error **errp);
- 
-+    int (*amend)(QCryptoBlock *block,
-+                 QCryptoBlockReadFunc readfunc,
-+                 QCryptoBlockWriteFunc writefunc,
-+                 void *opaque,
-+                 QCryptoBlockCreateOptions *options,
-+                 bool force,
-+                 Error **errp);
-+
-     int (*get_info)(QCryptoBlock *block,
-                     QCryptoBlockInfo *info,
-                     Error **errp);
-diff --git a/include/crypto/block.h b/include/crypto/block.h
-index d49d2c2da9..777fd51ebe 100644
---- a/include/crypto/block.h
-+++ b/include/crypto/block.h
-@@ -144,6 +144,28 @@ QCryptoBlock *qcrypto_block_create(QCryptoBlockCreateOptions *options,
-                                    void *opaque,
-                                    Error **errp);
- 
-+/**
-+ * qcrypto_block_amend_options:
-+ * @block: the block encryption object
-+ *
-+ * @readfunc: callback for reading data from the volume header
-+ * @writefunc: callback for writing data to the volume header
-+ * @opaque: data to pass to @readfunc and @writefunc
-+ * @options: the new/amended encryption options
-+ * @force: hint for the driver to allow unsafe operation
-+ * @errp: error pointer
-+ *
-+ * Changes the crypto options of the encryption format
-+ *
-+ */
-+int qcrypto_block_amend_options(QCryptoBlock *block,
-+                                QCryptoBlockReadFunc readfunc,
-+                                QCryptoBlockWriteFunc writefunc,
-+                                void *opaque,
-+                                QCryptoBlockCreateOptions *options,
-+                                bool force,
-+                                Error **errp);
-+
- 
- /**
-  * qcrypto_block_get_info:
+Let me hear what you think. This is still an RFC, so please
+don't kill if I did something obviously wrong.
+
+I did run the iotests - all luks and qcow2 tests, including
+3 that I added.
+
+Only test 162 seems pretty much always to fail,regardless of my changes
+I suspect something nbd related / or an enviroment issue
+
+Best regards,
+	Maxim Levitsky
+
+Maxim Levitsky (10):
+  qcrypto: add suport for amend options
+  qcrypto-luks: extend the create options for upcoming encryption key
+    management
+  qcrypto-luks: implement the encryption key management
+  block: amend: add 'force' option
+  block/crypto: implement the encryption key management
+  qcow2: implement crypto amend options
+  block: add x-blockdev-amend qmp command
+  block/crypto: implement blockdev-amend
+  block/qcow2: implement blockdev-amend
+  iotests : add tests for encryption key management
+
+ block.c                          |   4 +-
+ block/Makefile.objs              |   2 +-
+ block/amend.c                    | 116 +++++++++
+ block/crypto.c                   | 154 +++++++++++-
+ block/crypto.h                   |  16 ++
+ block/qcow2.c                    | 153 ++++++++++--
+ crypto/block-luks.c              | 392 ++++++++++++++++++++++++++++++-
+ crypto/block.c                   |  31 +++
+ crypto/blockpriv.h               |   8 +
+ include/block/block.h            |   1 +
+ include/block/block_int.h        |  22 +-
+ include/crypto/block.h           |  22 ++
+ qapi/block-core.json             |  34 ++-
+ qapi/crypto.json                 |  19 ++
+ qapi/job.json                    |   4 +-
+ qemu-img-cmds.hx                 |   4 +-
+ qemu-img.c                       |   8 +-
+ qemu-img.texi                    |   6 +-
+ tests/qemu-iotests/082.out       |  54 +++++
+ tests/qemu-iotests/087.out       |   6 +-
+ tests/qemu-iotests/134.out       |   2 +-
+ tests/qemu-iotests/158.out       |   4 +-
+ tests/qemu-iotests/188.out       |   2 +-
+ tests/qemu-iotests/189.out       |   4 +-
+ tests/qemu-iotests/198.out       |   4 +-
+ tests/qemu-iotests/300           | 202 ++++++++++++++++
+ tests/qemu-iotests/300.out       |  98 ++++++++
+ tests/qemu-iotests/301           |  90 +++++++
+ tests/qemu-iotests/301.out       |  30 +++
+ tests/qemu-iotests/302           | 247 +++++++++++++++++++
+ tests/qemu-iotests/302.out       |  18 ++
+ tests/qemu-iotests/common.filter |   6 +-
+ tests/qemu-iotests/group         |   8 +
+ 33 files changed, 1717 insertions(+), 54 deletions(-)
+ create mode 100644 block/amend.c
+ create mode 100755 tests/qemu-iotests/300
+ create mode 100644 tests/qemu-iotests/300.out
+ create mode 100755 tests/qemu-iotests/301
+ create mode 100644 tests/qemu-iotests/301.out
+ create mode 100644 tests/qemu-iotests/302
+ create mode 100644 tests/qemu-iotests/302.out
+
 -- 
 2.17.2
 
