@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E138A3904
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 16:19:06 +0200 (CEST)
-Received: from localhost ([::1]:60146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB482A3913
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 16:22:22 +0200 (CEST)
+Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3hk0-0002xN-SR
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 10:19:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34384)
+	id 1i3hnB-0005qV-5A
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 10:22:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53177)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1i3hQs-0002dY-7v
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:59:21 -0400
+ (envelope-from <vandersonmr2@gmail.com>) id 1i3hXH-0005i3-OT
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:05:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1i3hQo-0006s5-AE
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:59:16 -0400
-Received: from 8.mo5.mail-out.ovh.net ([178.32.116.78]:54522)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i3hQn-0006m6-5f
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:59:13 -0400
-Received: from player761.ha.ovh.net (unknown [10.108.35.110])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id CC5E2249BFD
- for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 15:59:06 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player761.ha.ovh.net (Postfix) with ESMTPSA id 0D6DA94A3560;
- Fri, 30 Aug 2019 13:58:59 +0000 (UTC)
-Date: Fri, 30 Aug 2019 15:58:56 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190830155856.6b4ede14@bahia.lan>
-In-Reply-To: <156715642090.27761.17328167484986424722.stgit@aravinda>
-References: <156715632966.27761.8190459106519248668.stgit@aravinda>
- <156715642090.27761.17328167484986424722.stgit@aravinda>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <vandersonmr2@gmail.com>) id 1i3hXG-0002HK-Cp
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:05:55 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:43966)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
+ id 1i3hXG-00025Q-2j
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:05:54 -0400
+Received: by mail-qk1-x743.google.com with SMTP id m2so6181839qkd.10
+ for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 07:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=n5K+/jgCN5Vl1Y5P2Wq4YmrdggUNqrnMnKcI9mMTaeY=;
+ b=ItOKUmoiWbO4UHbsSe53u+ojH3OQfZ/XVbmKASjPTGpyao9wFSkDVGdW2Rp/t3NTrr
+ /8CqITuwIG7fpJ/ItpwpeOSbFfZS6vUVeSbav+CAUPwW3pk0UEdb1+1JORBo86uBuD0i
+ jcMh48YdMoDmEF+VFJbfZWb+LR0f+P5dLvcM1awLi5aqi4W0QHKFU08sSlpkNpp/CfgV
+ GzXh1dviLTv3awcCeYcwAZvZBmtDiZ97LIgpN1MTSLIAcY4byXjXK1wfW3yZQ8k0f2C/
+ NYxzHg//ju7um2vLkZ6Yp2Ct0OVvE+6IuqwNrcvlwPaYAFnj85O2FRjzmOFtxMicB5g5
+ Gmkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=n5K+/jgCN5Vl1Y5P2Wq4YmrdggUNqrnMnKcI9mMTaeY=;
+ b=EAsEmqnlP8gPkzZiMgR9gWI4JUmvRNujxWLl4xRvRei6HNb34G9+3qVI7UjyttOkP1
+ 6BgTVsiXj3qEl2QpIflaKRyOiMrJvEUK115lHBh6lJ7RNaYP7NT+Lob5f9aVaNIRf1Mv
+ iLUEPiBWxHIHTtFxTS7zRz4TImV9BdSoOcLR5aeC1irjhqxdu6QxhBBSBXMty8t3OWj/
+ jTrIhEu7n1em+os6RvqZ0khEkNfKSIiZX/08YlaI28otmqUNUFRubwBq3lNnWY7YyzQT
+ lmtES1U/CgIkqLkbtAL3Qf6W3IVtjxyeoihfehpL141WTaQOGMjWnVOEz8F1bIQUK2dg
+ XB0A==
+X-Gm-Message-State: APjAAAVrshF4QunnMszq3CFH3i3OVLUNSywZQzZNLhJO8dBbaCNHz1Mx
+ xf3PLOFoUR+4/Ay2jWAGyrGezqHAtBt0Kw==
+X-Google-Smtp-Source: APXvYqznWkG/Jjkq3oxJrlj9tfzP9mgk/N2vDo2OF72PpeOAWCUVUN2svd7q9Qlp/tkG8id5gSnRrA==
+X-Received: by 2002:a05:620a:142e:: with SMTP id
+ k14mr14669937qkj.336.1567167553472; 
+ Fri, 30 Aug 2019 05:19:13 -0700 (PDT)
+Received: from vanderson-lmcad.gw.lmcad.ic.unicamp.br (gw.lmcad.ic.unicamp.br.
+ [143.106.73.166]) by smtp.googlemail.com with ESMTPSA id
+ o127sm3001299qkd.104.2019.08.30.05.19.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Aug 2019 05:19:12 -0700 (PDT)
+From: vandersonmr <vandersonmr2@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 30 Aug 2019 09:19:01 -0300
+Message-Id: <20190830121903.17585-1-vandersonmr2@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 3146327290464410004
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudeigedgjeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.116.78
-Subject: Re: [Qemu-devel] [PATCH v12 2/6] ppc: spapr: Introduce FWNMI
- capability
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::743
+Subject: [Qemu-devel] [PATCH v2 0/2] Integrating qemu to Linux Perf
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,202 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, paulus@ozlabs.org,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: vandersonmr <vandersonmr2@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Aug 2019 14:43:40 +0530
-Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
+This patch is part of Google Summer of Code (GSoC) 2019.
+More about the project can be found in:
+https://wiki.qemu.org/Internships/ProjectIdeas/TCGCodeQuality
 
-> Introduce the KVM capability KVM_CAP_PPC_FWNMI so that
-> the KVM causes guest exit with NMI as exit reason
-> when it encounters a machine check exception on the
-> address belonging to a guest. Without this capability
-> enabled, KVM redirects machine check exceptions to
-> guest's 0x200 vector.
-> 
-> This patch also introduces fwnmi-mce capability to
-> deal with the case when a guest with the
-> KVM_CAP_PPC_FWNMI capability enabled is attempted
-> to migrate to a host that does not support this
-> capability.
-> 
-> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> ---
->  hw/ppc/spapr.c         |    1 +
->  hw/ppc/spapr_caps.c    |   29 +++++++++++++++++++++++++++++
->  include/hw/ppc/spapr.h |    4 +++-
->  target/ppc/kvm.c       |   22 ++++++++++++++++++++++
->  target/ppc/kvm_ppc.h   |   11 +++++++++++
->  5 files changed, 66 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index ea56499..8288e8b 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4487,6 +4487,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
->      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] = SPAPR_CAP_OFF;
->      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
->      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_OFF;
-> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_OFF;
->      spapr_caps_add_properties(smc, &error_abort);
->      smc->irq = &spapr_irq_dual;
->      smc->dr_phb_enabled = true;
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 481dfd2..c11ff87 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -496,6 +496,25 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
->      }
->  }
->  
-> +static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
-> +                                Error **errp)
-> +{
-> +    if (!val) {
-> +        return; /* Disabled by default */
-> +    }
-> +
-> +    if (tcg_enabled()) {
-> +        /*
-> +         * TCG support may not be correct in some conditions (e.g., in case
-> +         * of software injected faults like duplicate SLBs).
-> +         */
-> +        warn_report("Firmware Assisted Non-Maskable Interrupts not supported in TCG");
-> +    } else if (kvm_enabled() && !kvmppc_has_cap_ppc_fwnmi()) {
-> +        error_setg(errp,
-> +"Firmware Assisted Non-Maskable Interrupts not supported by KVM, try cap-fwnmi-mce=off");
-> +    }
-> +}
-> +
->  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
->      [SPAPR_CAP_HTM] = {
->          .name = "htm",
-> @@ -595,6 +614,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
->          .type = "bool",
->          .apply = cap_ccf_assist_apply,
->      },
-> +    [SPAPR_CAP_FWNMI_MCE] = {
-> +        .name = "fwnmi-mce",
-> +        .description = "Handle fwnmi machine check exceptions",
-> +        .index = SPAPR_CAP_FWNMI_MCE,
-> +        .get = spapr_cap_get_bool,
-> +        .set = spapr_cap_set_bool,
-> +        .type = "bool",
-> +        .apply = cap_fwnmi_mce_apply,
-> +    },
->  };
->  
->  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
-> @@ -734,6 +762,7 @@ SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
->  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
->  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
->  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-> +SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
->  
->  void spapr_caps_init(SpaprMachineState *spapr)
->  {
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 03111fd..66049ac 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -79,8 +79,10 @@ typedef enum {
->  #define SPAPR_CAP_LARGE_DECREMENTER     0x08
->  /* Count Cache Flush Assist HW Instruction */
->  #define SPAPR_CAP_CCF_ASSIST            0x09
-> +/* FWNMI machine check handling */
-> +#define SPAPR_CAP_FWNMI_MCE             0x0A
->  /* Num Caps */
-> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_CCF_ASSIST + 1)
-> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
->  
->  /*
->   * Capability Values
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 8c5b1f2..c055fc1 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -85,6 +85,7 @@ static int cap_ppc_safe_indirect_branch;
->  static int cap_ppc_count_cache_flush_assist;
->  static int cap_ppc_nested_kvm_hv;
->  static int cap_large_decr;
-> +static int cap_ppc_fwnmi;
->  
->  static uint32_t debug_inst_opcode;
->  
-> @@ -2055,6 +2056,22 @@ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
->      }
->  }
->  
-> +int kvmppc_set_fwnmi(void)
-> +{
-> +    PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
-> +    CPUState *cs = CPU(cpu);
-> +    int ret;
-> +
-> +    ret = kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
-> +    if (ret) {
-> +        error_report("This KVM version does not support FWNMI");
-> +        return ret;
-> +    }
-> +
-> +    cap_ppc_fwnmi = 1;
+This adds --perf command-line option to dump Linux Perf
+jitdump files. These files are used to enhant Perf report
+and to be able to analyze and dump JITed code with perf.
 
-Hmm... AFAICT the meaning of cap_ppc_fwnmi should just be "KVM knows about
-FWNMI", not "FWNMI was successfully enabled in KVM". Your v10 used to set
-cap_ppc_fwnmi in kvm_arch_init() just like the other guys... why this change ?
+Example of use:
+ perf record -k 1 qemu-x86_64 -perf ./a.out
+ perf inject -j -i perf.data -o perf.data.jitted
+ perf report -i perf.data.jitted
 
-> +    return ret;
-> +}
-> +
->  int kvmppc_smt_threads(void)
->  {
->      return cap_ppc_smt ? cap_ppc_smt : 1;
-> @@ -2355,6 +2372,11 @@ bool kvmppc_has_cap_mmu_hash_v3(void)
->      return cap_mmu_hash_v3;
->  }
->  
-> +bool kvmppc_has_cap_ppc_fwnmi(void)
-> +{
-> +    return cap_ppc_fwnmi;
-> +}
-> +
->  static bool kvmppc_power8_host(void)
->  {
->      bool ret = false;
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 98bd7d5..2990898 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -27,6 +27,8 @@ void kvmppc_enable_h_page_init(void);
->  void kvmppc_set_papr(PowerPCCPU *cpu);
->  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
->  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
-> +int kvmppc_set_fwnmi(void);
-> +bool kvmppc_has_cap_ppc_fwnmi(void);
->  int kvmppc_smt_threads(void);
->  void kvmppc_hint_smt_possible(Error **errp);
->  int kvmppc_set_smt_threads(int smt);
-> @@ -159,6 +161,15 @@ static inline void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
->  {
->  }
->  
-> +static inline int kvmppc_set_fwnmi(void)
-> +{
+vandersonmr (2):
+  accel/tcg: adding integration with linux perf
+  tb-stats: adding TBStatistics info into perf dump
 
-Missing return -1;
+ accel/tcg/Makefile.objs      |   1 +
+ accel/tcg/perf/Makefile.objs |   1 +
+ accel/tcg/perf/jitdump.c     | 206 +++++++++++++++++++++++++++++++++++
+ accel/tcg/perf/jitdump.h     |  36 ++++++
+ accel/tcg/translate-all.c    |  14 +++
+ include/qemu-common.h        |   3 +
+ linux-user/main.c            |   7 ++
+ os-posix.c                   |   3 +
+ qemu-options.hx              |  11 ++
+ 9 files changed, 282 insertions(+)
+ create mode 100644 accel/tcg/perf/Makefile.objs
+ create mode 100644 accel/tcg/perf/jitdump.c
+ create mode 100644 accel/tcg/perf/jitdump.h
 
-> +}
-> +
-> +static inline bool kvmppc_has_cap_ppc_fwnmi(void)
-> +{
-> +    return false;
-> +}
-> +
->  static inline int kvmppc_smt_threads(void)
->  {
->      return 1;
-> 
+-- 
+2.22.0
 
 
