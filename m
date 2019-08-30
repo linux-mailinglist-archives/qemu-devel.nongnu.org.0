@@ -2,54 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655A5A3907
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 16:20:01 +0200 (CEST)
-Received: from localhost ([::1]:60156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02308A3900
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 16:18:14 +0200 (CEST)
+Received: from localhost ([::1]:60136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3hku-000468-AY
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 10:20:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51884)
+	id 1i3hjA-00025G-Hb
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 10:18:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1i3hgL-0001fT-85
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:15:19 -0400
+ (envelope-from <bounces@canonical.com>) id 1i3hXF-0005gs-Fw
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:05:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1i3hgF-000122-2X
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:15:13 -0400
-Received: from 2.mo173.mail-out.ovh.net ([178.33.251.49]:34258)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i3hgE-0000N2-Pw
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:15:10 -0400
-Received: from player734.ha.ovh.net (unknown [10.108.57.153])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id C894E117DC5
- for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 13:48:32 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player734.ha.ovh.net (Postfix) with ESMTPSA id CB6319364678;
- Fri, 30 Aug 2019 11:48:28 +0000 (UTC)
-Date: Fri, 30 Aug 2019 13:48:27 +0200
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Message-ID: <20190830134827.326dc87a@bahia.lan>
-In-Reply-To: <5352483.8Ep87BTfyf@silver>
-References: <cover.1562154272.git.qemu_oss@crudebyte.com>
- <ec68cd4c68726f09cb340348f682265060d914d4.1562154272.git.qemu_oss@crudebyte.com>
- <5352483.8Ep87BTfyf@silver>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <bounces@canonical.com>) id 1i3hXC-00021V-3j
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:05:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44850)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i3hXB-0001tX-Si
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:05:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i3gpf-0001L4-Kw
+ for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 13:20:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E4E5C2E80D7
+ for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 13:20:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 941252326133111104
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudeigedggeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Aug 2019 13:14:33 -0000
+From: Paul Clarke <pc@us.ibm.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc64 testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc philmd
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
+References: <156711057074.6835.13599471410604217618.malonedeb@soybean.canonical.com>
+Message-Id: <156717087392.6513.16896358372487029830.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19044";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9465455d8b8b4b99e08ffd5cae18be3b1c7b9264
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.251.49
-Subject: Re: [Qemu-devel] [PATCH v5 3/5] 9p: Added virtfs option
- 'remap_inodes'
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1841990] Re: instruction 'denbcdq' misbehaving
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,100 +64,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Antonios Motakis <antonios.motakis@huawei.com>
+Reply-To: Bug 1841990 <1841990@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 06 Jul 2019 12:22:27 +0200
-Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org> wrote:
+@Philippe, thank you for spending the time to find a compiler that works wi=
+th the testcase. I've been operating on RHEL 8 primarily:
+gcc version 8.2.1 20180905 (Red Hat 8.2.1-3) (GCC)
 
-> On Mittwoch, 3. Juli 2019 13:13:26 CEST Christian Schoenebeck wrote:
-> > To support multiple devices on the 9p share, and avoid
-> > qid path collisions we take the device id as input
-> [snip]
-> >      - Fixed v9fs_do_readdir() having exposed info outside
-> >        export root with '..' entry.
-> [snip]
-> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > index 8cc65c2c67..39c6c2a894 100644
-> > --- a/hw/9pfs/9p.c
-> > +++ b/hw/9pfs/9p.c
-> [snip]
-> > @@ -1940,6 +2041,19 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu,
-> > V9fsFidState *fidp, int32_t count = 0;
-> >      off_t saved_dir_pos;
-> >      struct dirent *dent;
-> > +    struct stat stbuf;
-> > +    bool fidIsExportRoot;
-> > +
-> > +    /*
-> > +     * determine if fidp is the export root, which is required for safe
-> > +     * handling of ".." below
-> > +     */
-> > +    err = v9fs_co_lstat(pdu, &fidp->path, &stbuf);
-> > +    if (err < 0) {
-> > +        return err;
-> > +    }
-> > +    fidIsExportRoot = pdu->s->dev_id == stbuf.st_dev &&
-> > +                      pdu->s->root_ino == stbuf.st_ino;
-> > 
-> >      /* save the directory position */
-> >      saved_dir_pos = v9fs_co_telldir(pdu, fidp);
-> > @@ -1964,16 +2078,51 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU
-> > *pdu, V9fsFidState *fidp, v9fs_string_free(&name);
-> >              return count;
-> >          }
-> > -        /*
-> > -         * Fill up just the path field of qid because the client uses
-> > -         * only that. To fill the entire qid structure we will have
-> > -         * to stat each dirent found, which is expensive
-> > -         */
-> > -        size = MIN(sizeof(dent->d_ino), sizeof(qid.path));
-> > -        memcpy(&qid.path, &dent->d_ino, size);
-> > -        /* Fill the other fields with dummy values */
-> > -        qid.type = 0;
-> > -        qid.version = 0;
-> > +
-> > +        if (fidIsExportRoot && !strcmp("..", dent->d_name)) {
-> > +            /*
-> > +             * if "." is export root, then return qid of export root for
-> > +             * ".." to avoid exposing anything outside the export
-> > +             */
-> > +            err = fid_to_qid(pdu, fidp, &qid);
-> > +            if (err < 0) {
-> > +                v9fs_readdir_unlock(&fidp->fs.dir);
-> > +                v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
-> > +                v9fs_string_free(&name);
-> > +                return err;
-> > +            }
-> 
-> Hmm, I start to wonder whether I should postpone that particular bug fix and 
-> not make it part of that QID fix patch series (not even as separate patch 
-> there). Because that fix needs some more adjustments. E.g. I should adjust 
-> dent->d_type here as well; but more notably it should also distinguish between 
-> the case where the export root is mounted as / on guest or not and that's 
-> where this fix could become ugly and grow in size.
-> 
-> To make the case clear:  calling on guest	
-> 
-> 	readdir(pathOfSome9pExportRootOnGuest);
-> 
-> currently always returns for its ".." result entry the inode number and d_type 
-> of the export root's parent directory on host, so it exposes information of 
-> host outside the 9p export.
-> 
-> I don't see that as security issue, since the information revealed is limited 
-> to the inode number and d_type, but it is definitely incorrect behaviour.
-> 
+-- =
 
-Definitely. This should be fixed independently of this series. Maybe follow
-the same approach as commit 56f101ecce0e "9pfs: handle walk of ".." in the
-root directory", ie. basically make /.. an alias of /.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841990
 
-> Best regards,
-> Christian Schoenebeck
-> 
+Title:
+  instruction 'denbcdq' misbehaving
 
+Status in QEMU:
+  New
+
+Bug description:
+  Instruction 'denbcdq' appears to have no effect.  Test case attached.
+
+  On ppc64le native:
+  --
+  gcc -g -O -mcpu=3Dpower9 bcdcfsq.c test-denbcdq.c -o test-denbcdq
+  $ ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x22080000000000000000000000000000
+  $ ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x22080000000000000000000000000001
+  $ ./test-denbcdq $(seq 0 99)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x22080000000000000000000000000080
+  --
+
+  With "qemu-ppc64le -cpu power9"
+  --
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq
+  0x00000000000000000000000000000000
+  0x0000000000000000000000000000000c
+  0x0000000000000000000000000000000c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq 1
+  0x00000000000000000000000000000001
+  0x0000000000000000000000000000001c
+  0x0000000000000000000000000000001c
+  $ qemu-ppc64le -cpu power9 -L [...] ./test-denbcdq $(seq 100)
+  0x00000000000000000000000000000064
+  0x0000000000000000000000000000100c
+  0x0000000000000000000000000000100c
+  --
+
+  I started looking at the code, but I got confused rather quickly.
+  Could be related to endianness? I think denbcdq arrived on the scene
+  before little-endian was a big deal.  Maybe something to do with
+  utilizing implicit floating-point register pairs...  I don't think the
+  right data is getting to helper_denbcdq, which would point back to the
+  gen_fprp_ptr uses in dfp-impl.inc.c (GEN_DFP_T_FPR_I32_Rc).  (Maybe?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841990/+subscriptions
 
