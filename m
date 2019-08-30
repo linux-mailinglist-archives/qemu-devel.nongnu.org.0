@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8FEA37D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 15:36:40 +0200 (CEST)
-Received: from localhost ([::1]:58768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACEDBA37CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 15:32:08 +0200 (CEST)
+Received: from localhost ([::1]:58680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3h4x-0002g7-3A
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 09:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54033)
+	id 1i3h0X-0007Y1-Lm
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 09:32:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vandersonmr2@gmail.com>) id 1i3gxp-0006R9-Px
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:29:21 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i3gxD-0005qy-H1
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:28:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vandersonmr2@gmail.com>) id 1i3gxh-0002ui-N3
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:29:15 -0400
-Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734]:36160)
+ (envelope-from <alex.bennee@linaro.org>) id 1i3gxA-0001vt-9H
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:28:38 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53226)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
- id 1i3gxh-0002sj-1f
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:29:09 -0400
-Received: by mail-qk1-x734.google.com with SMTP id d23so6117685qko.3
- for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 06:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yfyGE+FNbrAIEiZJiPMjAsRKhvxpo+JwFp+DO5oZcN4=;
- b=FytNptYnBFQwbgY3GGnzqpvxYpjVVYldJosCDuWs3M/WGmgr412UWt8YRGpVa8U6FR
- 6dONmRskEsDva8bClSIngen1+FkVuqqTeE2TpaL7fML6Z/TKBKYApJETCRzKCImT7O2w
- LxE7WAPxJkx/96ZSNywUpZfi3GKkPO1yjOpvr75KbRYC6LArzoh40ovshDI78Mu3wXXA
- Yfh12KcoWbyts7C8zZR3FQpNOV6HBnT4U5AknQLenJCEu7SbZrSKysa6nxM1xPq1PrPP
- Ct68nJQcITld8VRGr8aFJ9LDftpuHNByGiNOkv2BURDNyeMSX4Mx+SwD2R4YlyAI2C+B
- YCoQ==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i3gx9-0001nz-Mv
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:28:36 -0400
+Received: by mail-wm1-x342.google.com with SMTP id t17so7336147wmi.2
+ for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 06:28:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=TjLDgIMhVUHJPVzEyQ17g0RGQo6p2C5WxoMNwt3HEmo=;
+ b=YvMy88S2Iz0aEj90iCwkZHDjy/pLQV9wts+TL672lTGR8rUXs47ZOctc3fdaICVgDE
+ mIZfUlsZs+xOrUWbrgtPxRqLK7y1CLl7RkkZ/tEdXdR0sxxFTio6LfIusiBgCoedn52H
+ 6PB6GwDPWdwJd/MKmeO4T1OKFHH+XLF7MQ98XmYxVnObVMaaGMG+NwX6de+C2Jwir9J7
+ k7fKc+6lYwtaYANlPX+jHROiIkCiYiVbL4ry2DCKp3OCsiJC4b7aOSUhxzUOjTu8gcDD
+ yC+B2Xo50TzIX8j6LJ8qZD5urjdbcDKaET5xkNvhJVwRSl+/SiLYy5SV44rQRn4f9uku
+ V0rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yfyGE+FNbrAIEiZJiPMjAsRKhvxpo+JwFp+DO5oZcN4=;
- b=N57SCsHp3BfjzlWWw8oK+UIYSe5mgnGmMcfrN9nD2sH0wX1qYwYYC1rVxbLBiqUSu4
- QoqVthxgqCPTBR0J6AKMF1DmAKJoKzvEidfsyPEJHcpEQ/DCxFy7iG/afOeI2ZXAyGfe
- yzTRzunfb1BuEPeXsKI3lcx2Ij41rHOdoxFbh8pWxD3WPo5YzXyLeiZcLqYlCs2ywx2d
- gIzYl9q1vmFRZ6fSgZcHf/5M8S7JrrcNgT/wQ6Nh2VPWVFUYsomJ6SIb8QhnRK6mGFRC
- vEQnyNrIP2JOXjJoIb3egYiRs6wWcS1zRmmkCg9y4SzoOAagmcY4UMJc41xMI3nBLE8X
- VAlQ==
-X-Gm-Message-State: APjAAAVcltyrg7qPCaY1el0pJQmXHK4FTIjz/VKOUWX2Gm3X83V1Ph0L
- giGUq24yqlEW/pHwib0TaB9sWt/KRPjdVw==
-X-Google-Smtp-Source: APXvYqwMwPS36frP/2cVFWmYLLfguhcDyM8sc/GKlKqGfI3GB9VJwA2Y/eOgnbh3Gr8vmo1HXkE5IA==
-X-Received: by 2002:a37:a305:: with SMTP id m5mr1541345qke.124.1567167555856; 
- Fri, 30 Aug 2019 05:19:15 -0700 (PDT)
-Received: from vanderson-lmcad.gw.lmcad.ic.unicamp.br (gw.lmcad.ic.unicamp.br.
- [143.106.73.166]) by smtp.googlemail.com with ESMTPSA id
- o127sm3001299qkd.104.2019.08.30.05.19.13
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=TjLDgIMhVUHJPVzEyQ17g0RGQo6p2C5WxoMNwt3HEmo=;
+ b=p5eITxcV28aXvFagKBrbPgleeMmZ6ciKkY2+qql7g03w5nddQm3OSMITkpy04j/fj3
+ mFf2WwCI06h9e11Os6OvGe+dkf15LpuMnfiTBBeci4ZiTUuKROkO5UCiJSpTXims4k1R
+ 2i5Mk9xrh3q/rperFaY7SdQ88qMtVY2T2tAzGkQbAWonYK4eCtlRiBzWAXSlYwV2ZYrS
+ 2dO6y/ti5N9x7N3TT/RZg/Jj/0mAAQ2+QsN2W04cqsGQYcXcpBF1gHeWFM/A51QGPeOx
+ hNmNeGLDrkYwjqiKu0n/TjdS0rveaB0f6lkpWUXDcmrGQ5rnzxy1KRTYB6obGifuzfKy
+ KYTg==
+X-Gm-Message-State: APjAAAXrVTDYNd/DQu5KxCTousFyUGplAgd2KngBv2WW0isCwzto9aD4
+ FcDUJauZ9fx/8kLMbAjOJy0T3bIBWN4=
+X-Google-Smtp-Source: APXvYqwawC6CC+w5EMzpsZ6uBonHOiQFbzrnFmk8qubR2kfBmGk0KmaDD51Sk9nEFLinH0pt25GvCg==
+X-Received: by 2002:a1c:a003:: with SMTP id j3mr18265727wme.42.1567169960360; 
+ Fri, 30 Aug 2019 05:59:20 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z10sm430630wrg.12.2019.08.30.05.59.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Aug 2019 05:19:15 -0700 (PDT)
-From: vandersonmr <vandersonmr2@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 30 Aug 2019 09:19:02 -0300
-Message-Id: <20190830121903.17585-2-vandersonmr2@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190830121903.17585-1-vandersonmr2@gmail.com>
-References: <20190830121903.17585-1-vandersonmr2@gmail.com>
+ Fri, 30 Aug 2019 05:59:19 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 01B7E1FF87;
+ Fri, 30 Aug 2019 13:59:19 +0100 (BST)
+References: <20190829173437.5926-1-vandersonmr2@gmail.com>
+ <20190829173437.5926-2-vandersonmr2@gmail.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: vandersonmr <vandersonmr2@gmail.com>
+In-reply-to: <20190829173437.5926-2-vandersonmr2@gmail.com>
+Date: Fri, 30 Aug 2019 13:59:18 +0100
+Message-ID: <874l1y95cp.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::734
-Subject: [Qemu-devel] [PATCH v2 1/2] accel/tcg: adding integration with
- linux perf
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v8 01/11] accel: introducing TBStatistics
+ structure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,414 +83,418 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- vandersonmr <vandersonmr2@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit adds support to Linux Perf in order
-to be able to analyze qemu jitted code and
-also to able to see the TBs PC in it.
 
-When using "-perf" qemu creates a jitdump file in
-the current working directory. The file format
-specification can be found in:
-https://github.com/torvalds/linux/blob/master/tools/perf/Documentation/jitdump-specification.tx
+vandersonmr <vandersonmr2@gmail.com> writes:
 
-Example of use:
- perf record -k 1 qemu-x86_64 -perf ./a.out
- perf inject -j -i perf.data -o perf.data.jitted
- perf report -i perf.data.jitted
+> To store statistics for each TB, we created a TBStatistics structure
+> which is linked with the TBs. TBStatistics can stay alive after
+> tb_flush and be relinked to a regenerated TB. So the statistics can
+> be accumulated even through flushes.
+>
+> The goal is to have all present and future qemu/tcg statistics and
+> meta-data stored in this new structure.
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+> ---
+>  accel/tcg/Makefile.objs   |  2 +-
+>  accel/tcg/tb-stats.c      | 63 ++++++++++++++++++++++++++++++++++++
+>  accel/tcg/translate-all.c | 57 +++++++++++++++++++++++++++++++++
+>  include/exec/exec-all.h   | 15 +++------
+>  include/exec/tb-context.h | 12 +++++++
+>  include/exec/tb-hash.h    |  7 ++++
+>  include/exec/tb-stats.h   | 67 +++++++++++++++++++++++++++++++++++++++
+>  util/log.c                |  2 ++
+>  8 files changed, 213 insertions(+), 12 deletions(-)
+>  create mode 100644 accel/tcg/tb-stats.c
+>  create mode 100644 include/exec/tb-stats.h
+>
+> diff --git a/accel/tcg/Makefile.objs b/accel/tcg/Makefile.objs
+> index d381a02f34..49ffe81b5d 100644
+> --- a/accel/tcg/Makefile.objs
+> +++ b/accel/tcg/Makefile.objs
+> @@ -2,7 +2,7 @@ obj-$(CONFIG_SOFTMMU) +=3D tcg-all.o
+>  obj-$(CONFIG_SOFTMMU) +=3D cputlb.o
+>  obj-y +=3D tcg-runtime.o tcg-runtime-gvec.o
+>  obj-y +=3D cpu-exec.o cpu-exec-common.o translate-all.o
+> -obj-y +=3D translator.o
+> +obj-y +=3D translator.o tb-stats.o
+>=20=20
+>  obj-$(CONFIG_USER_ONLY) +=3D user-exec.o
+>  obj-$(call lnot,$(CONFIG_SOFTMMU)) +=3D user-exec-stub.o
+> diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
+> new file mode 100644
+> index 0000000000..948b107e68
+> --- /dev/null
+> +++ b/accel/tcg/tb-stats.c
+> @@ -0,0 +1,63 @@
+> +/*
+> + * QEMU System Emulator, Code Quality Monitor System
+> + *
+> + * Copyright (c) 2019 Vanderson M. do Rosario <vandersonmr2@gmail.com>
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
+> + * of this software and associated documentation files (the "Software"),=
+ to deal
+> + * in the Software without restriction, including without limitation the=
+ rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be includ=
+ed in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +
+> +#include "disas/disas.h"
+> +
+> +#include "exec/tb-stats.h"
+> +
+> +void init_tb_stats_htable_if_not(void)
+> +{
+> +    if (tb_stats_collection_enabled() && !tb_ctx.tb_stats.map) {
+> +        qht_init(&tb_ctx.tb_stats, tb_stats_cmp,
+> +                CODE_GEN_HTABLE_SIZE, QHT_MODE_AUTO_RESIZE);
+> +    }
+> +}
+> +
+> +void enable_collect_tb_stats(void)
+> +{
+> +    init_tb_stats_htable_if_not();
+> +    tcg_collect_tb_stats =3D TB_STATS_RUNNING;
+> +}
+> +
+> +void disable_collect_tb_stats(void)
+> +{
+> +    tcg_collect_tb_stats =3D TB_STATS_PAUSED;
+> +}
+> +
+> +void pause_collect_tb_stats(void)
+> +{
+> +    tcg_collect_tb_stats =3D TB_STATS_STOPPED;
+> +}
+> +
+> +bool tb_stats_collection_enabled(void)
+> +{
+> +    return tcg_collect_tb_stats =3D=3D TB_STATS_RUNNING;
+> +}
+> +
+> +bool tb_stats_collection_paused(void)
+> +{
+> +    return tcg_collect_tb_stats =3D=3D TB_STATS_PAUSED;
+> +}
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index 5d1e08b169..b7bccacd3b 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -1118,6 +1118,23 @@ static inline void code_gen_alloc(size_t tb_size)
+>      }
+>  }
+>=20=20
+> +/*
+> + * This is the more or less the same compare as tb_cmp(), but the
+> + * data persists over tb_flush. We also aggregate the various
+> + * variations of cflags under one record and ignore the details of
+> + * page overlap (although we can count it).
+> + */
+> +bool tb_stats_cmp(const void *ap, const void *bp)
+> +{
+> +    const TBStatistics *a =3D ap;
+> +    const TBStatistics *b =3D bp;
+> +
+> +    return a->phys_pc =3D=3D b->phys_pc &&
+> +        a->pc =3D=3D b->pc &&
+> +        a->cs_base =3D=3D b->cs_base &&
+> +        a->flags =3D=3D b->flags;
+> +}
+> +
+>  static bool tb_cmp(const void *ap, const void *bp)
+>  {
+>      const TranslationBlock *a =3D ap;
+> @@ -1137,6 +1154,7 @@ static void tb_htable_init(void)
+>      unsigned int mode =3D QHT_MODE_AUTO_RESIZE;
+>=20=20
+>      qht_init(&tb_ctx.htable, tb_cmp, CODE_GEN_HTABLE_SIZE, mode);
+> +    init_tb_stats_htable_if_not();
+>  }
+>=20=20
+>  /* Must be called before using the QEMU cpus. 'tb_size' is the size
+> @@ -1666,6 +1684,34 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t =
+phys_pc,
+>      return tb;
+>  }
+>=20=20
+> +static TBStatistics *tb_get_stats(tb_page_addr_t phys_pc, target_ulong p=
+c,
+> +                                  target_ulong cs_base, uint32_t flags,
+> +                                  TranslationBlock *current_tb)
+> +{
+> +    TBStatistics *new_stats =3D g_new0(TBStatistics, 1);
+> +    uint32_t hash =3D tb_stats_hash_func(phys_pc, pc, flags);
+> +    void *existing_stats =3D NULL;
+> +    new_stats->phys_pc =3D phys_pc;
+> +    new_stats->pc =3D pc;
+> +    new_stats->cs_base =3D cs_base;
+> +    new_stats->flags =3D flags;
+> +    new_stats->tb =3D current_tb;
 
-Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
----
- accel/tcg/Makefile.objs      |   1 +
- accel/tcg/perf/Makefile.objs |   1 +
- accel/tcg/perf/jitdump.c     | 192 +++++++++++++++++++++++++++++++++++
- accel/tcg/perf/jitdump.h     |  36 +++++++
- accel/tcg/translate-all.c    |  14 +++
- include/qemu-common.h        |   3 +
- linux-user/main.c            |   7 ++
- os-posix.c                   |   3 +
- qemu-options.hx              |  11 ++
- 9 files changed, 268 insertions(+)
- create mode 100644 accel/tcg/perf/Makefile.objs
- create mode 100644 accel/tcg/perf/jitdump.c
- create mode 100644 accel/tcg/perf/jitdump.h
+Drop the current_tb and the field from TBStatistics - it's not used by
+anything else in this patch. Also see bellow:
 
-diff --git a/accel/tcg/Makefile.objs b/accel/tcg/Makefile.objs
-index d381a02f34..f393a7438f 100644
---- a/accel/tcg/Makefile.objs
-+++ b/accel/tcg/Makefile.objs
-@@ -3,6 +3,7 @@ obj-$(CONFIG_SOFTMMU) += cputlb.o
- obj-y += tcg-runtime.o tcg-runtime-gvec.o
- obj-y += cpu-exec.o cpu-exec-common.o translate-all.o
- obj-y += translator.o
-+obj-y += perf/
- 
- obj-$(CONFIG_USER_ONLY) += user-exec.o
- obj-$(call lnot,$(CONFIG_SOFTMMU)) += user-exec-stub.o
-diff --git a/accel/tcg/perf/Makefile.objs b/accel/tcg/perf/Makefile.objs
-new file mode 100644
-index 0000000000..ca9abb4f48
---- /dev/null
-+++ b/accel/tcg/perf/Makefile.objs
-@@ -0,0 +1 @@
-+obj-$(CONFIG_LINUX) += jitdump.o
-diff --git a/accel/tcg/perf/jitdump.c b/accel/tcg/perf/jitdump.c
-new file mode 100644
-index 0000000000..6fb464039d
---- /dev/null
-+++ b/accel/tcg/perf/jitdump.c
-@@ -0,0 +1,192 @@
-+/*
-+ * This code implements an interface to create and fill jitdump files. These files
-+ * store information used by Linux Perf to enhance the presentation of jitted
-+ * code and to allow the disassembly of jitted code.
-+ *
-+ * The jitdump file specification can be found in the Linux Kernel Source tree:
-+ *    linux/tools/perf/Documentation/jitdump-specification.txt
-+ *
-+ * https://github.com/torvalds/linux/blob/master/tools/perf/Documentation/jitdump-specification.txt
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include <sys/syscall.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <time.h>
-+#include <elf.h>
-+
-+#include "disas/disas.h"
-+#include "jitdump.h"
-+#include "qemu-common.h"
-+
-+struct jitheader {
-+    uint32_t magic;     /* characters "jItD" */
-+    uint32_t version;   /* header version */
-+    uint32_t total_size;/* total size of header */
-+    uint32_t elf_mach;  /* elf mach target */
-+    uint32_t pad1;      /* reserved */
-+    uint32_t pid;       /* JIT process id */
-+    uint64_t timestamp; /* timestamp */
-+    uint64_t flags;     /* flags */
-+};
-+
-+enum jit_record_type {
-+    JIT_CODE_LOAD       = 0,
-+    JIT_CODE_MOVE       = 1,
-+    JIT_CODE_DEBUG_INFO = 2,
-+    JIT_CODE_CLOSE      = 3,
-+
-+    JIT_CODE_MAX,
-+};
-+
-+/* record prefix (mandatory in each record) */
-+struct jr_prefix {
-+    uint32_t id;
-+    uint32_t total_size;
-+    uint64_t timestamp;
-+};
-+
-+struct jr_code_load {
-+    struct jr_prefix p;
-+
-+    uint32_t pid;
-+    uint32_t tid;
-+    uint64_t vma;
-+    uint64_t code_addr;
-+    uint64_t code_size;
-+    uint64_t code_index;
-+};
-+
-+struct jr_code_close {
-+    struct jr_prefix p;
-+};
-+
-+struct jr_code_move {
-+    struct jr_prefix p;
-+
-+    uint32_t pid;
-+    uint32_t tid;
-+    uint64_t vma;
-+    uint64_t old_code_addr;
-+    uint64_t new_code_addr;
-+    uint64_t code_size;
-+    uint64_t code_index;
-+};
-+
-+FILE *dumpfile;
-+void *perf_marker;
-+
-+static uint64_t get_timestamp(void)
-+{
-+    struct timespec ts;
-+    if (clock_gettime(CLOCK_MONOTONIC, &ts)) {
-+        fprintf(stderr, "No support for CLOCK_MONOTONIC! -perf cannot be used!\n");
-+        exit(1);
-+    }
-+    return (uint64_t) ts.tv_sec * 1000000000 + ts.tv_nsec;
-+}
-+
-+static uint32_t get_e_machine(void)
-+{
-+    uint32_t e_machine = EM_NONE;
-+    Elf64_Ehdr elf_header;
-+    FILE *exe = fopen("/proc/self/exe", "r");
-+
-+    if (exe == NULL) {
-+        return e_machine;
-+    }
-+
-+    if (fread(&elf_header, sizeof(Elf64_Ehdr), 1, exe) != 1) {
-+        goto end;
-+    }
-+
-+    e_machine = elf_header.e_machine;
-+
-+end:
-+    fclose(exe);
-+    return e_machine;
-+}
-+
-+void start_jitdump_file(void)
-+{
-+    gchar *dumpfile_name = g_strdup_printf("./jit-%d.dump", getpid());
-+    dumpfile = fopen(dumpfile_name, "w+");
-+
-+    /* 'Perf record' saves mmaped files during the execution of a program and
-+     * 'perf inject' iterate over them to reconstruct all used/executed binary.
-+     * So, we create a mmap with the path of our jitdump that is processed
-+     * and used by 'perf inject' to reconstruct jitted binaries.
-+     */
-+    perf_marker = mmap(NULL, sysconf(_SC_PAGESIZE),
-+                          PROT_READ | PROT_EXEC,
-+                          MAP_PRIVATE,
-+                          fileno(dumpfile), 0);
-+
-+    if (perf_marker == MAP_FAILED) {
-+        printf("Failed to create mmap marker file for perf %d\n", fileno(dumpfile));
-+        fclose(dumpfile);
-+        return;
-+    }
-+
-+    g_free(dumpfile_name);
-+
-+    struct jitheader header;
-+    header.magic = 0x4A695444;
-+    header.version = 1;
-+    header.elf_mach = get_e_machine();
-+    header.total_size = sizeof(struct jitheader);
-+    header.pid = getpid();
-+    header.timestamp = get_timestamp();
-+    header.flags = 0;
-+
-+    fwrite(&header, header.total_size, 1, dumpfile);
-+
-+    fflush(dumpfile);
-+}
-+
-+void append_load_in_jitdump_file(TranslationBlock *tb)
-+{
-+    gchar *func_name = g_strdup_printf("TB virt:0x"TARGET_FMT_lx, tb->pc);
-+
-+    struct jr_code_load load_event;
-+    load_event.p.id = JIT_CODE_LOAD;
-+    load_event.p.total_size =
-+        sizeof(struct jr_code_load) + strlen(func_name) + 1 + tb->tc.size;
-+    load_event.p.timestamp = get_timestamp();
-+    load_event.pid = getpid();
-+    load_event.tid = syscall(SYS_gettid);
-+    load_event.vma = tb->pc;
-+    load_event.code_addr = (uint64_t) tb->tc.ptr;
-+    load_event.code_size = tb->tc.size;
-+    load_event.code_index = tb->pc;
-+
-+    fwrite(&load_event, sizeof(struct jr_code_load), 1, dumpfile);
-+    fwrite(func_name, strlen(func_name) + 1, 1, dumpfile);
-+    fwrite(tb->tc.ptr, tb->tc.size, 1, dumpfile);
-+
-+    g_free(func_name);
-+    fflush(dumpfile);
-+}
-+
-+void close_jitdump_file(void)
-+{
-+    fclose(dumpfile);
-+    if (perf_marker != MAP_FAILED) {
-+        munmap(perf_marker, sysconf(_SC_PAGESIZE));
-+    }
-+}
-+
-+bool is_jitdump_enabled;
-+
-+void enable_jitdump(void)
-+{
-+    is_jitdump_enabled = true;
-+}
-+
-+bool jitdump_enabled(void)
-+{
-+    return is_jitdump_enabled;
-+}
-diff --git a/accel/tcg/perf/jitdump.h b/accel/tcg/perf/jitdump.h
-new file mode 100644
-index 0000000000..5d6df3ec91
---- /dev/null
-+++ b/accel/tcg/perf/jitdump.h
-@@ -0,0 +1,36 @@
-+/*
-+ * QEMU Linux Perf Support
-+ *
-+ * Copyright (c) 2019 Vanderson M. do Rosario (vandersonmr2@gmail.com)
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#ifndef JITDUMP_H
-+#define JITDUMP_H
-+
-+#include "exec/exec-all.h"
-+
-+void start_jitdump_file(void);
-+
-+void append_load_in_jitdump_file(TranslationBlock *tb);
-+void append_move_in_jitdump_file(TranslationBlock *tb);
-+
-+void close_jitdump_file(void);
-+
-+#endif
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 5d1e08b169..9b30d96af5 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -58,6 +58,10 @@
- #include "sysemu/cpus.h"
- #include "sysemu/tcg.h"
- 
-+#ifdef __linux__
-+#include "perf/jitdump.h"
-+#endif
-+
- /* #define DEBUG_TB_INVALIDATE */
- /* #define DEBUG_TB_FLUSH */
- /* make various TB consistency checks */
-@@ -1148,6 +1152,11 @@ void tcg_exec_init(unsigned long tb_size)
-     cpu_gen_init();
-     page_init();
-     tb_htable_init();
-+#ifdef __linux__
-+    if (jitdump_enabled()) {
-+        start_jitdump_file();
-+    }
-+#endif
-     code_gen_alloc(tb_size);
- #if defined(CONFIG_SOFTMMU)
-     /* There's no guest base to take into account, so go ahead and
-@@ -1877,6 +1886,11 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-         return existing_tb;
-     }
-     tcg_tb_insert(tb);
-+#ifdef __linux__
-+    if (jitdump_enabled()) {
-+        append_load_in_jitdump_file(tb);
-+    }
-+#endif
-     return tb;
- }
- 
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index 0235cd3b91..7ab796e4a3 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -130,4 +130,7 @@ void page_size_init(void);
-  * returned. */
- bool dump_in_progress(void);
- 
-+void enable_jitdump(void);
-+bool jitdump_enabled(void);
-+
- #endif
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 47917bbb20..f6618dd060 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -379,6 +379,11 @@ static void handle_arg_strace(const char *arg)
-     do_strace = 1;
- }
- 
-+static void handle_arg_perf(const char *arg)
-+{
-+    enable_jitdump();
-+}
-+
- static void handle_arg_version(const char *arg)
- {
-     printf("qemu-" TARGET_NAME " version " QEMU_FULL_VERSION
-@@ -444,6 +449,8 @@ static const struct qemu_argument arg_table[] = {
-      "",           "Seed for pseudo-random number generator"},
-     {"trace",      "QEMU_TRACE",       true,  handle_arg_trace,
-      "",           "[[enable=]<pattern>][,events=<file>][,file=<file>]"},
-+    {"perf",      "QEMU_PERF",         false, handle_arg_perf,
-+     "",           "dump jitdump files to help linux perf JIT code visualization"},
-     {"version",    "QEMU_VERSION",     false, handle_arg_version,
-      "",           "display version information and exit"},
-     {NULL, NULL, false, NULL, NULL, NULL}
-diff --git a/os-posix.c b/os-posix.c
-index 86cffd2c7d..2ddb1e6393 100644
---- a/os-posix.c
-+++ b/os-posix.c
-@@ -191,6 +191,9 @@ int os_parse_cmd_args(int index, const char *optarg)
-     case QEMU_OPTION_enablefips:
-         fips_set_state(true);
-         break;
-+    case QEMU_OPTION_perf:
-+        enable_jitdump();
-+        break;
- #endif
-     default:
-         return -1;
-diff --git a/qemu-options.hx b/qemu-options.hx
-index ea0638e92d..24ebfb910c 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4156,6 +4156,17 @@ STEXI
- Enable FIPS 140-2 compliance mode.
- ETEXI
- 
-+#ifdef __linux__
-+DEF("perf", 0, QEMU_OPTION_perf,
-+    "-perf  dump jitdump files to help linux perf JIT code visualization\n",
-+    QEMU_ARCH_ALL)
-+#endif
-+STEXI
-+@item -perf
-+@findex -perf
-+Dumps jitdump files to help linux perf JIT code visualization
-+ETEXI
-+
- HXCOMM Deprecated by -machine accel=tcg property
- DEF("no-kvm", 0, QEMU_OPTION_no_kvm, "", QEMU_ARCH_I386)
- 
--- 
-2.22.0
+> +
+> +    qht_insert(&tb_ctx.tb_stats, new_stats, hash, &existing_stats);
+> +
+> +    if (unlikely(existing_stats)) {
+> +        /*
+> +         * If there is already a TBStatistic for this TB from a previous=
+ flush
+> +         * then just make the new TB point to the older TBStatistic
+> +         */
+> +        g_free(new_stats);
+> +        return existing_stats;
+> +    } else {
+> +        return new_stats;
+> +    }
+> +}
+> +
+> +
+>  /* Called with mmap_lock held for user mode emulation.  */
+>  TranslationBlock *tb_gen_code(CPUState *cpu,
+>                                target_ulong pc, target_ulong cs_base,
+> @@ -1732,6 +1778,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>      ti =3D profile_getclock();
+>  #endif
+>=20=20
+> +    /*
+> +     * We want to fetch the stats structure before we start code
+> +     * generation so we can count interesting things about this
+> +     * generation.
+> +     */
+> +    if (tb_stats_collection_enabled()) {
+> +        tb->tb_stats =3D tb_get_stats(phys_pc, pc, cs_base, flags, tb);
+> +    } else {
+> +        tb->tb_stats =3D NULL;
+> +    }
+> +
+>      tcg_func_start(tcg_ctx);
+>=20=20
+>      tcg_ctx->cpu =3D env_cpu(env);
+> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> index 135aeaab0d..1e0bd4e147 100644
+> --- a/include/exec/exec-all.h
+> +++ b/include/exec/exec-all.h
+> @@ -23,21 +23,11 @@
+>  #include "cpu.h"
+>  #include "exec/tb-context.h"
+>  #include "sysemu/cpus.h"
+> +#include "exec/tb-stats.h"
+>=20=20
+>  /* allow to see translation results - the slowdown should be negligible,=
+ so we leave it */
+>  #define DEBUG_DISAS
+>=20=20
+> -/* Page tracking code uses ram addresses in system mode, and virtual
+> -   addresses in userspace mode.  Define tb_page_addr_t to be an appropri=
+ate
+> -   type.  */
+> -#if defined(CONFIG_USER_ONLY)
+> -typedef abi_ulong tb_page_addr_t;
+> -#define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
+> -#else
+> -typedef ram_addr_t tb_page_addr_t;
+> -#define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
+> -#endif
+> -
+>  #include "qemu/log.h"
+>=20=20
+>  void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_=
+insns);
+> @@ -404,6 +394,9 @@ struct TranslationBlock {
+>      uintptr_t jmp_list_head;
+>      uintptr_t jmp_list_next[2];
+>      uintptr_t jmp_dest[2];
+> +
+> +    /* Pointer to a struct where statistics from the TB is stored */
+> +    TBStatistics *tb_stats;
+>  };
+>=20=20
+>  extern bool parallel_cpus;
+> diff --git a/include/exec/tb-context.h b/include/exec/tb-context.h
+> index feb585e0a7..3cfb62a338 100644
+> --- a/include/exec/tb-context.h
+> +++ b/include/exec/tb-context.h
+> @@ -23,6 +23,17 @@
+>  #include "qemu/thread.h"
+>  #include "qemu/qht.h"
+>=20=20
+> +/* Page tracking code uses ram addresses in system mode, and virtual
+> +   addresses in userspace mode.  Define tb_page_addr_t to be an appropri=
+ate
+> +   type.  */
+> +#if defined(CONFIG_USER_ONLY)
+> +typedef abi_ulong tb_page_addr_t;
+> +#define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
+> +#else
+> +typedef ram_addr_t tb_page_addr_t;
+> +#define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
+> +#endif
+> +
+>  #define CODE_GEN_HTABLE_BITS     15
+>  #define CODE_GEN_HTABLE_SIZE     (1 << CODE_GEN_HTABLE_BITS)
+>=20=20
+> @@ -35,6 +46,7 @@ struct TBContext {
+>=20=20
+>      /* statistics */
+>      unsigned tb_flush_count;
+> +    struct qht tb_stats;
+>  };
+>=20=20
+>  extern TBContext tb_ctx;
+> diff --git a/include/exec/tb-hash.h b/include/exec/tb-hash.h
+> index 805235d321..dd8e8f252a 100644
+> --- a/include/exec/tb-hash.h
+> +++ b/include/exec/tb-hash.h
+> @@ -66,4 +66,11 @@ uint32_t tb_hash_func(tb_page_addr_t phys_pc, target_u=
+long pc, uint32_t flags,
+>      return qemu_xxhash7(phys_pc, pc, flags, cf_mask, trace_vcpu_dstate);
+>  }
+>=20=20
+> +static inline
+> +uint32_t tb_stats_hash_func(tb_page_addr_t phys_pc, target_ulong pc,
+> +                            uint32_t flags)
+> +{
+> +    return qemu_xxhash5(phys_pc, pc, flags);
+> +}
+> +
+>  #endif
+> diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
+> new file mode 100644
+> index 0000000000..898e05a36f
+> --- /dev/null
+> +++ b/include/exec/tb-stats.h
+> @@ -0,0 +1,67 @@
+> +/*
+> + * QEMU System Emulator, Code Quality Monitor System
+> + *
+> + * Copyright (c) 2019 Vanderson M. do Rosario <vandersonmr2@gmail.com>
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
+> + * of this software and associated documentation files (the "Software"),=
+ to deal
+> + * in the Software without restriction, including without limitation the=
+ rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be includ=
+ed in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#ifndef TB_STATS_H
+> +
+> +#define TB_STATS_H
+> +
+> +#include "exec/cpu-common.h"
+> +#include "exec/tb-context.h"
+> +#include "tcg.h"
+> +
+> +typedef struct TBStatistics TBStatistics;
+> +
+> +/*
+> + * This struct stores statistics such as execution count of the
+> + * TranslationBlocks. Each sets of TBs for a given phys_pc/pc/flags
+> + * has its own TBStatistics which will persist over tb_flush.
+> + *
+> + * We include additional counters to track number of translations as
+> + * well as variants for compile flags.
+> + */
+> +struct TBStatistics {
+> +    tb_page_addr_t phys_pc;
+> +    target_ulong pc;
+> +    uint32_t     flags;
+> +    /* cs_base isn't included in the hash but we do check for matches */
+> +    target_ulong cs_base;
+> +    /* current TB linked to this TBStatistics */
+> +    TranslationBlock *tb;
 
+This seems sketchy to me. The TBStats have a 1 to many relationship so
+I'm not sure what this information can be used for.
+
+> +};
+> +
+> +bool tb_stats_cmp(const void *ap, const void *bp);
+> +
+> +void init_tb_stats_htable_if_not(void);
+> +
+> +/* TBStatistic collection controls */
+> +enum TBStatsStatus { TB_STATS_RUNNING, TB_STATS_PAUSED, TB_STATS_STOPPED=
+ };
+> +extern int tcg_collect_tb_stats;
+> +
+> +void enable_collect_tb_stats(void);
+> +void disable_collect_tb_stats(void);
+> +void pause_collect_tb_stats(void);
+> +bool tb_stats_collection_enabled(void);
+> +bool tb_stats_collection_paused(void);
+> +
+> +#endif
+> diff --git a/util/log.c b/util/log.c
+> index 1d1b33f7d9..393a17115b 100644
+> --- a/util/log.c
+> +++ b/util/log.c
+> @@ -31,6 +31,8 @@ int qemu_loglevel;
+>  static int log_append =3D 0;
+>  static GArray *debug_regions;
+>=20=20
+> +int tcg_collect_tb_stats;
+> +
+>  /* Return the number of characters emitted.  */
+>  int qemu_log(const char *fmt, ...)
+>  {
+
+
+--=20
+Alex Benn=C3=A9e
 
