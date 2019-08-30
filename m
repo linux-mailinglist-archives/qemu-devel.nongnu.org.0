@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48A7A39AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 16:56:48 +0200 (CEST)
-Received: from localhost ([::1]:33222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D05B7A3A24
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 17:14:44 +0200 (CEST)
+Received: from localhost ([::1]:33572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3iKU-0002MN-Am
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 10:56:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47387)
+	id 1i3ibq-000080-GY
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 11:14:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1i3iCP-0006nt-Eq
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:48:27 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i3iYX-0007pk-F2
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 11:11:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1i3iCL-0000Mc-PF
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:48:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40278)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1i3iCC-0000A1-Jk
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:48:15 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C66243D96B;
- Fri, 30 Aug 2019 14:48:06 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E32A960623;
- Fri, 30 Aug 2019 14:48:03 +0000 (UTC)
-Date: Fri, 30 Aug 2019 16:48:02 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <20190830164802.1b17ff26@redhat.com>
-In-Reply-To: <033ced1a-1399-968e-cce6-6b15a20b0baf@redhat.com>
-References: <8091f6e8-b1ec-f017-1430-00b0255729f4@redhat.com>
- <D2A45071-A097-4642-A34C-6B7C5D7D2466@intel.com>
- <E92EE9817A31E24EB0585FDF735412F5B9D9C671@ORSMSX113.amr.corp.intel.com>
- <a76014e2-2f0a-afce-6d15-1c45c5c1e467@redhat.com>
- <b3907432-b149-3f96-6d93-f443f215e0f8@redhat.com>
- <2b4ba607-f0e3-efee-6712-6dcef129b310@redhat.com>
- <E92EE9817A31E24EB0585FDF735412F5B9DA209B@ORSMSX113.amr.corp.intel.com>
- <7f2d2f1e-2dd8-6914-c55e-61067e06b142@redhat.com>
- <E92EE9817A31E24EB0585FDF735412F5B9DA218F@ORSMSX113.amr.corp.intel.com>
- <3661c0c5-3da4-1453-a66a-3e4d4022e876@redhat.com>
- <E92EE9817A31E24EB0585FDF735412F5B9DA2346@ORSMSX113.amr.corp.intel.com>
- <74D8A39837DF1E4DA445A8C0B3885C503F76FDAF@shsmsx102.ccr.corp.intel.com>
- <E92EE9817A31E24EB0585FDF735412F5B9DA25CC@ORSMSX113.amr.corp.intel.com>
- <74D8A39837DF1E4DA445A8C0B3885C503F7728AB@shsmsx102.ccr.corp.intel.com>
- <20190827203102.56d0d048@redhat.com>
- <033ced1a-1399-968e-cce6-6b15a20b0baf@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1i3iYT-0003t4-4K
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 11:11:16 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55987)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i3iYL-0003eM-J4
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 11:11:07 -0400
+Received: by mail-wm1-x341.google.com with SMTP id g207so3742197wmg.5
+ for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 08:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=KVC/hb7g6XiKc2dH7ZBAp5SBOk4q6ThVkUo4iRKxflo=;
+ b=iB70I3rNg8EoSo3qyPucfWG7xyDuYcf+/em5PVeZK+QaCnCQUph33AEM+1rr/kLhvi
+ /GZzMFNlstz5NETzLPS8ZEFVF+XVDLmezEXQ9nPU0JJ7HL/4abKluhJ+f8UsFL38yEFF
+ ju76K98YOxcYDfiQlSkMbJmCjpKru++9LgAWFHjY6xiFqnMH4KK875WLC7ZtPXVbuehW
+ aPmLYZm+J0BsYEzlLUtmu76EIQTb7JHx7fb0bLZFxaZysmYjyNG5sD7NNd2jMeedLdyH
+ vhD94NdCVdAImmyh4+/dYd2G1gH74ve+oZL5XBISMre1ycEC3ijj6/5TCZeD7P4dlue1
+ uVBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=KVC/hb7g6XiKc2dH7ZBAp5SBOk4q6ThVkUo4iRKxflo=;
+ b=WVAHL867mhkSYB0PAmCYeNblJWoL83ivyqnD0OKnRjEZXL6FOUZwH9ZJm0zUG6w0TJ
+ TyBwrILQ7D+6yJrTuh7Bz3GVqeRyL//ajcEA3wL697zldjkuOoy4VHkWb8Vd2kEwc9km
+ kWhrFrXeA5kutvQkfU+jOezibYuNmItKzqNWrcgiJUO0tnBY7oj+Ki4ssvZv/lOWDNpT
+ XkD/IVMsqjpXmgU3OcApJQEabHJgneBio7dpk/ezCyRDGd2v1rjYVNps0whPyvbpfqeB
+ c6SVm+rOUrnj8dpD3W9UrZpCgOchk0piWg68JvXmdn9pyZERWVikePbHQ2GS43BtJr63
+ 3Jkg==
+X-Gm-Message-State: APjAAAUHz8Thi4lAjiNk/tl85PafZdLoRnZqapr1iU2ranlGT7eb6LFg
+ OvFIfpKIKuIvGs9KVvRGTTmHyQ==
+X-Google-Smtp-Source: APXvYqylU5QaHAqZp3WlGPetTjnqiNzJGbbCJYXVGuqIknyI3wh1KRp/M2U+ZCZ4CZ9BDCVRNt3DAA==
+X-Received: by 2002:a1c:cf4e:: with SMTP id f75mr11440827wmg.49.1567177862147; 
+ Fri, 30 Aug 2019 08:11:02 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e6sm5936313wrw.35.2019.08.30.08.11.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Aug 2019 08:11:01 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BA5351FF87;
+ Fri, 30 Aug 2019 16:11:00 +0100 (BST)
+References: <20190829173437.5926-1-vandersonmr2@gmail.com>
+ <20190829173437.5926-8-vandersonmr2@gmail.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+In-reply-to: <20190829173437.5926-8-vandersonmr2@gmail.com>
+Date: Fri, 30 Aug 2019 16:11:00 +0100
+Message-ID: <87tv9y7kor.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 30 Aug 2019 14:48:06 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [edk2-rfc] [edk2-devel] CPU hotplug using SMM with
- QEMU+OVMF
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v8 07/11] monitor: adding tb_stats hmp
+ command
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,147 +83,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Chen, Yingwen" <yingwen.chen@intel.com>,
- "devel@edk2.groups.io" <devel@edk2.groups.io>,
- Phillip Goerl <phillip.goerl@oracle.com>,
- qemu devel list <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>, "Yao,
- Jiewen" <jiewen.yao@intel.com>, "Nakajima, Jun" <jun.nakajima@intel.com>,
- "Kinney, Michael D" <michael.d.kinney@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- "rfc@edk2.groups.io" <rfc@edk2.groups.io>,
- Joao Marcal Lemos Martins <joao.m.martins@oracle.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ vandersonmr <vandersonmr2@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Aug 2019 19:01:35 +0200
-Laszlo Ersek <lersek@redhat.com> wrote:
 
-> On 08/27/19 20:31, Igor Mammedov wrote:
-> > On Sat, 24 Aug 2019 01:48:09 +0000
-> > "Yao, Jiewen" <jiewen.yao@intel.com> wrote:  
-> 
-> >> (05) Host CPU: (OS) Port 0xB2 write, all CPUs enter SMM (NOTE: New CPU
-> >>      will not enter CPU because SMI is disabled)  
-> > I think only CPU that does the write will enter SMM  
-> 
-> That used to be the case (and it is still the default QEMU behavior, if
-> broadcast SMI is not negotiated). However, OVMF does negotiate broadcast
-> SMI whenever QEMU offers the feature. Broadcast SMI is important for the
-> stability of the edk2 SMM infrastructure on QEMU/KVM, we've found.
-> 
-> https://bugzilla.redhat.com/show_bug.cgi?id=1412313
-> https://bugzilla.redhat.com/show_bug.cgi?id=1412327
-> 
-> > and we might not need to pull in all already initialized CPUs into SMM.  
-> 
-> That, on the other hand, could be a valid idea. But then the CPU should
-> use a different method for raising a synchronous SMI for itself (not a
-> write to IO port 0xB2). Is a "directed SMI for self" possible?
+vandersonmr <vandersonmr2@gmail.com> writes:
 
-theoretically depending on argument in 0xb3, it should be possible to
-rise directed SMI even if broadcast ones are negotiated.
+> Adding tb_stats [start|pause|stop|filter] command to hmp.
+> This allows controlling the collection of statistics.
+> It is also possible to set the level of collection:
+> all, jit, or exec.
+>
+> tb_stats filter allow to only collect statistics for the TB
+> in the last_search list.
+>
+> The goal of this command is to allow the dynamic exploration
+> of the TCG behavior and quality. Therefore, for now, a
+> corresponding QMP command is not worthwhile.
+>
+> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+<snip>
+> index 4203cc728c..dcb30eea8a 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -1796,11 +1796,17 @@ static bool main_loop_should_exit(void)
+>
+>  static void main_loop(void)
+>  {
+> +#ifdef CONFIG_TCG
+>      uint64_t ti;
+> +#endif
+>      while (!main_loop_should_exit()) {
+> +#ifdef CONFIG_TCG
+>          ti =3D profile_getclock();
+> +#endif
+>          main_loop_wait(false);
+> +#ifdef CONFIG_TCG
+>          dev_time +=3D profile_getclock() - ti;
+> +#endif
 
-> > [...]  
-> 
-> I've tried to read through the procedure with your suggested changes,
-> but I'm failing at composing a coherent mental image, in this email
-> response format.
-> 
-> If you have the time, can you write up the suggested list of steps in a
-> "flat" format? (I believe you are suggesting to eliminate some steps
-> completely.)
-if I'd sum it up:
+Shouldn't this have been s/CONFIG_PROFILER/CONFIG_TCG/ in the last
+patch? Otherwise we might have a broken build half way through.
 
-(01) On boot firmware maps and initializes SMI handler at default SMBASE (30000)
-     (using dedicated SMRAM at 30000 would allow us to avoid save/restore
-      steps and make SMM handler pointer not vulnerable to DMA attacks)
-
-(02) QEMU hotplugs a new CPU in reset-ed state and sends SCI
-
-(03) on receiving SCI, host CPU calls GPE cpu hotplug handler
-      which writes to IO port 0xB2 (broadcast SMI)
-
-(04) firmware waits for all existing CPUs rendezvous in SMM mode,
-     new CPU(s) have SMI pending but does nothing yet
-
-(05) host CPU wakes up one new CPU (INIT-INIT-SIPI)
-     SIPI vector points to RO flash HLT loop.
-     (how host CPU will know which new CPUs to relocate?
-      possibly reuse QEMU CPU hotplug MMIO interface???)
-
-(06) new CPU does relocation.
-     (in case of attacker sends SIPI to several new CPUs,
-      open question how to detect collision of several CPUs at the same default SMBASE)
-
-(07) once new CPU relocated host CPU completes initialization, returns
-     from IO port write and executes the rest of GPE handler, telling OS
-     to online new CPU.
+TBH I'm not even sure what dev_time is meant to represent. As we spend
+all our time in the main_loop until we quit is seems to be more a less
+wall clock time.
 
 
-> ... jumping to another point:
-> 
-> >> 2) Let trusted software (SMM and init code) guarantee SMREBASE one by one (include any code runs before SMREBASE)  
-> > that would mean pulling all present CPUs into SMM mode so no attack
-> > code could be executing before doing hotplug. With a lot of present CPUs
-> > it could be quite expensive and unlike physical hardware, guest's CPUs
-> > could be preempted arbitrarily long causing long delays.  
-> 
-> I agree with your analysis, but I slightly disagree about the impact:
-> 
-> - CPU hotplug is not a frequent administrative action, so the CPU load
-> should be temporary (it should be a spike). I don't worry that it would
-> trip up OS kernel code. (SMI handling is known to take long on physical
-> platforms oo.) In practice, all "normal" SMIs are broadcast already (for
-> example when calling the runtime UEFI variable services from the OS kernel).
-> 
-> - The fact that QEMU/KVM introduces some jitter into the execution of
-> multi-core code (including SMM code) has proved useful in the past, for
-> catching edk2 regressions.
-> 
-> Again, this is not a strong disagreement from my side. I'm open to
-> better ways for synching CPUs during muti-CPU-hotplug.
-> 
-> (Digression:
-> 
-> I expect someone could be curious why (a) I find it acceptable (even
-> beneficial) that "some jitter" injected by the QEMU/KVM scheduling
-> exposes multi-core regressions in edk2, but at the same time (b) I found
-> it really important to add broadcast SMI to QEMU and OVMF. After all,
-> both "jitter" and "unicast SMIs" are QEMU/KVM platform specifics, so why
-> the different treatment?
-> 
-> The reason is that the "jitter" does not interfere with normal
-> operation, and it has been good for catching *regressions*. IOW, there
-> is a working edk2 state, someone posts a patch, works on physical
-> hardware, but breaks on QEMU/KVM --> then we can still reject or rework
-> or revert the patch. And we're back to a working state again (in the
-> best case, with a fixed feature patch).
-> 
-> With the unicast SMIs however, it was impossible to enable the SMM stack
-> reliably in the first place. There was no functional state to return to.
-I don't really get the last statement, but the I know nothing about OVMF.
-I don't insist on unicast SMI being used, it's just some ideas about what
-we could do. It could be done later, broadcast SMI (might be not the best)
-is sufficient to implement CPU hotplug.
+>      }
+>  }
 
-> Digression ends.)
-> 
-> > lets first see if if we can ignore race  
-> 
-> Makes me uncomfortable, but if this is the consensus, I'll go along.
-same here, as mentioned in another reply as it's only possible in
-attack case (multiple SMIs + multiple SIPI) so it could be fine to just
-explode in case it happens (point is fw in not leaking anything from SMRAM
-and OS did something illegeal). 
 
-> > and if it's not then
-> > we probably end up with implementing some form of #1  
-> 
-> OK.
-> 
-> Thanks!
-> Laszlo
-
+--
+Alex Benn=C3=A9e
 
