@@ -2,46 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14910A37CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 15:35:08 +0200 (CEST)
-Received: from localhost ([::1]:58748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA611A37E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 15:38:17 +0200 (CEST)
+Received: from localhost ([::1]:58782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3h3S-0001SK-PF
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 09:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56079)
+	id 1i3h6W-0004Ni-QT
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 09:38:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56262)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mprivozn@redhat.com>) id 1i3gyb-0007EZ-QN
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:30:08 -0400
+ (envelope-from <mprivozn@redhat.com>) id 1i3gym-0007Ib-0H
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:30:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mprivozn@redhat.com>) id 1i3gyV-0004W5-W6
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:30:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47830)
+ (envelope-from <mprivozn@redhat.com>) id 1i3gyi-0004gi-CO
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:30:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53494)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mprivozn@redhat.com>) id 1i3gyV-0004Mz-Cf
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:29:59 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <mprivozn@redhat.com>) id 1i3gye-0004cQ-B0
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:30:09 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0898D7F75F;
- Fri, 30 Aug 2019 13:29:56 +0000 (UTC)
-Received: from moe.brq.redhat.com (unknown [10.43.2.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83B6960C80;
- Fri, 30 Aug 2019 13:29:52 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 907BCC05AA6A;
+ Fri, 30 Aug 2019 13:30:04 +0000 (UTC)
+Received: from [10.43.2.30] (unknown [10.43.2.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E1E9B5D9CA;
+ Fri, 30 Aug 2019 13:30:00 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>
+References: <f307829a5e64121b5cb8ad1aefff09f41cac9699.1567070002.git.mprivozn@redhat.com>
+ <87v9ugrx2k.fsf@dusky.pond.sub.org>
+ <f6ae646f-620d-964a-dd36-e6f636fc08da@redhat.com>
+ <a519150a-bf44-1144-e738-9d8c6cdf5dda@redhat.com>
+ <fb78b4ad-9cd5-4a25-8d55-c398bb508587@redhat.com>
+ <8736hiq394.fsf@dusky.pond.sub.org>
 From: Michal Privoznik <mprivozn@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 30 Aug 2019 15:29:45 +0200
-Message-Id: <faeb030e6a1044f0fd88208edfdb1c5fafe5def9.1567171655.git.mprivozn@redhat.com>
+Message-ID: <cdecc879-8ef7-d795-ccd4-58b98e4a5df8@redhat.com>
+Date: Fri, 30 Aug 2019 15:29:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Fri, 30 Aug 2019 13:29:56 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <8736hiq394.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Fri, 30 Aug 2019 13:30:04 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2] qapi/qmp-dispatch: Fix error class for
- reporting disabled commands
+Subject: Re: [Qemu-devel] [PATCH] qapi: Reintroduce CommandDisabled error
+ class
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,50 +64,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, mdroth@linux.vnet.ibm.com, lcapitulino@redhat.com
+Cc: qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com, lcapitulino@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a command is disabled an error is reported. But due to usage
-of error_setg() the class of the error is GenericError which does
-not help callers in distinguishing this case from a case where a
-qmp command fails regularly due to other reasons. Use
-CommandNotFound error class which is much closer to the actual
-root cause.
+On 8/30/19 1:52 PM, Markus Armbruster wrote:
+> Michal Privoznik <mprivozn@redhat.com> writes:
+> 
+>> On 8/29/19 3:12 PM, Eric Blake wrote:
+>>> On 8/29/19 8:04 AM, Michal Privoznik wrote:
+>>>
+>>>>>> A bit of background: up until very recently libvirt used qemu-ga
+>>>>>> in all or nothing way. It didn't care why a qemu-ga command
+>>>>>> failed. But very recently a new API was introduced which
+>>>>>> implements 'best effort' approach (in some cases) and thus
+>>>>>> libvirt must differentiate between: {CommandNotFound,
+>>>>>> CommandDisabled} and some generic error. While the former classes
+>>>>>> mean the API can issue some other commands the latter raises a
+>>>>>> red flag causing the API to fail.
+>>>>>
+>>>>> Why do you need to distinguish CommandNotFound from CommandDisabled?
+>>>>
+>>>> I don't. That's why I've put them both in curly braces. Perhaps this
+>>>> says its better:
+>>>>
+>>>> switch (klass) {
+>>>>     case CommandNotFound:
+>>>>     case CommandDisabled:
+>>>>           /* okay */
+>>>>           break;
+>>>>
+>>>
+>>> So the obvious counter-question - why not use class CommandNotFound for
+>>> a command that was disabled, rather than readding another class that has
+>>> no distinctive purpose?
+>>>
+>>>
+>>
+>> Because disabling a command is not the same as nonexistent
+>> command. While a command can be disabled by user/sysadmin, they are
+>> disabled at runtime by qemu-ga itself for a short period of time
+>> (e.g. on FS freeze some commands are disabled - typically those which
+>> require write disk access). And I guess reporting CommandNotFound for
+>> a command that does exist only is disabled temporarily doesn't reflect
+>> the reality, does it?
+>>
+>> On the other hand, CommandNotFound would fix the issue for libvirt, so
+>> if you don't want to invent a new error class, then that's the way to
+>> go.
+> 
+> I'm fine with changing the error to CommandNotFound.
+> 
+> I'm reluctant to add back CommandDisabled.  I doubt it's necessary.
+> 
+> To arrive at an informed opinion, I had to figure out how this command
+> disablement stuff works.  I can just as well send it out, so here goes.
+> 
+> Let's review our command disable feature.
+> 
+> Commands are enabled on registration, see qmp_register_command().
+> 
+> To disable, call qmp_disable_command().  Only qga/main.c does, in two
+> places:
+> 
+> * ga_disable_non_whitelisted(): disable all commands except for
+>    ga_freeze_whitelist[], which is documented as /* commands that are
+>    safe to issue while filesystems are frozen */
+> 
+> * initialize_agent(): disable blacklisted commands.  I figure these are
+>    the ones blacklisted with -b, plus commands blacklisted due to build
+>    configuration.  The latter feels inappropriate; we should use QAPI
+>    schema conditionals to compile them out instead (QAPI conditionals
+>    didn't exist when the blacklisting code was written).
+> 
+> Disabled commands can be re-enabled with qmp_enable_command().  Only
+> qga/main.c does, in ga_enable_non_blacklisted().  I figure it re-enables
+> the commands ga_disable_non_whitelisted() disables.  Gets called when
+> guest-fsfreeze-freeze freezes nothing[1], and when guest-fsfreeze-thaw
+> succeeds[2].
+> 
+> Command dispatch fails when the command is disabled, in
+> do_qmp_dispatch().  The proposed patch changes the error reply.
+> 
+> QGA's guest-info shows whether a command is disabled
+> (GuestAgentCommandInfo member @enabled, set in qmp_command_info()).
+> 
+> QMP's query-commands skips disabled commands, in query_commands_cb().
+> Dead, as nothing ever disables QMP commands.  Skipping feels like a bad
+> idea anyway.
+> 
+> Analysis:
+> 
+> There are three kinds of disabled commands: compile-time (should be
+> compiled out instead), permanently blacklisted with -b, temporarily
+> disabled while filesystems are frozen.
+> 
+> There are two states: thawed (first two kinds disabled) and frozen (all
+> three kinds disabled).
+> 
+> Command guest-fsfreeze-freeze[3] goes to state frozen or else fails.
+> 
+> Command guest-fsfreeze-thaw goes to state thawed or else fails.
+> 
+> guest-fsfreeze-status reports the state.
+> 
+> Note that the transition to frozen (and thus the temporary command
+> disablement) is under the control of the QGA client.  There is no
+> TOCTTOU between guest-info telling you which commands are disabled and
+> executing the next command.  My point is: the client can figure out
+> whether a command is disabled before executing it.
 
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
----
+Alright then, I'll respin with CommandNotFound. Both work for libvirt.
 
-This is a v2 of:
-
-https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg06327.html
-
-diff to v1:
-- Don't introduce new error class (CommandDisabled)
-- Use CommandNotFound error class
-
- qapi/qmp-dispatch.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 3037d353a4..bc264b3c9b 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -104,8 +104,9 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds,=
- QObject *request,
-         return NULL;
-     }
-     if (!cmd->enabled) {
--        error_setg(errp, "The command %s has been disabled for this inst=
-ance",
--                   command);
-+        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-+                  "The command %s has been disabled for this instance",
-+                  command);
-         return NULL;
-     }
-     if (oob && !(cmd->options & QCO_ALLOW_OOB)) {
---=20
-2.21.0
-
+Michal
 
