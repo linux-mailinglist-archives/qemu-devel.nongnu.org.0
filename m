@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACEDBA37CB
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 15:32:08 +0200 (CEST)
-Received: from localhost ([::1]:58680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB54DA37D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 15:37:22 +0200 (CEST)
+Received: from localhost ([::1]:58779 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3h0X-0007Y1-Lm
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 09:32:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52748)
+	id 1i3h5d-0003gD-Bs
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 09:37:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57694)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i3gxD-0005qy-H1
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:28:43 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i3h03-0007wo-Dr
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:31:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i3gxA-0001vt-9H
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:28:38 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53226)
+ (envelope-from <alex.bennee@linaro.org>) id 1i3h00-000625-1w
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:31:34 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:47001)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i3gx9-0001nz-Mv
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:28:36 -0400
-Received: by mail-wm1-x342.google.com with SMTP id t17so7336147wmi.2
- for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 06:28:34 -0700 (PDT)
+ id 1i3gzw-0005wN-Aw
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:31:29 -0400
+Received: by mail-wr1-x442.google.com with SMTP id h7so5650447wrt.13
+ for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 06:31:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=TjLDgIMhVUHJPVzEyQ17g0RGQo6p2C5WxoMNwt3HEmo=;
- b=YvMy88S2Iz0aEj90iCwkZHDjy/pLQV9wts+TL672lTGR8rUXs47ZOctc3fdaICVgDE
- mIZfUlsZs+xOrUWbrgtPxRqLK7y1CLl7RkkZ/tEdXdR0sxxFTio6LfIusiBgCoedn52H
- 6PB6GwDPWdwJd/MKmeO4T1OKFHH+XLF7MQ98XmYxVnObVMaaGMG+NwX6de+C2Jwir9J7
- k7fKc+6lYwtaYANlPX+jHROiIkCiYiVbL4ry2DCKp3OCsiJC4b7aOSUhxzUOjTu8gcDD
- yC+B2Xo50TzIX8j6LJ8qZD5urjdbcDKaET5xkNvhJVwRSl+/SiLYy5SV44rQRn4f9uku
- V0rw==
+ bh=8MNhdNWay9XECOW4+EoJHomOcPvMY82WnWpXTu887Mo=;
+ b=rD8j9g5M/yvxZ1hjXG2h9gd3HwUMFCqQnDIlVCjjsJeZaYoNBnGbsw5WHi7MnIXNEW
+ VC5o3MjwpZFRpRTy6fFvfikFNiK0EJUeCih+f0pN+Acb2uw4GFJSx5nbgRmGbmGfbLIF
+ pE/CZF33rKwZIOGibpLvu1+qbhYHRGOfCPROwGnCA6Ju3fqNKb8t/SgHEeyq3tt/APWJ
+ 3o4OjH8O2/adMlZ6r7PXTZ9Xl/OQQVNMZV9wqzx+tjGntUKcJOdypk4TXc4qwFXpXbvo
+ spWRKTWCcrcOXFPdxfCWVLlBCBx0H8UkfZUAF7mwvfsciO3aj4RPZmvaEyGohWZWA6V5
+ u7bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=TjLDgIMhVUHJPVzEyQ17g0RGQo6p2C5WxoMNwt3HEmo=;
- b=p5eITxcV28aXvFagKBrbPgleeMmZ6ciKkY2+qql7g03w5nddQm3OSMITkpy04j/fj3
- mFf2WwCI06h9e11Os6OvGe+dkf15LpuMnfiTBBeci4ZiTUuKROkO5UCiJSpTXims4k1R
- 2i5Mk9xrh3q/rperFaY7SdQ88qMtVY2T2tAzGkQbAWonYK4eCtlRiBzWAXSlYwV2ZYrS
- 2dO6y/ti5N9x7N3TT/RZg/Jj/0mAAQ2+QsN2W04cqsGQYcXcpBF1gHeWFM/A51QGPeOx
- hNmNeGLDrkYwjqiKu0n/TjdS0rveaB0f6lkpWUXDcmrGQ5rnzxy1KRTYB6obGifuzfKy
- KYTg==
-X-Gm-Message-State: APjAAAXrVTDYNd/DQu5KxCTousFyUGplAgd2KngBv2WW0isCwzto9aD4
- FcDUJauZ9fx/8kLMbAjOJy0T3bIBWN4=
-X-Google-Smtp-Source: APXvYqwawC6CC+w5EMzpsZ6uBonHOiQFbzrnFmk8qubR2kfBmGk0KmaDD51Sk9nEFLinH0pt25GvCg==
-X-Received: by 2002:a1c:a003:: with SMTP id j3mr18265727wme.42.1567169960360; 
- Fri, 30 Aug 2019 05:59:20 -0700 (PDT)
+ bh=8MNhdNWay9XECOW4+EoJHomOcPvMY82WnWpXTu887Mo=;
+ b=j7Ba1CLyPDvCNTmxYbgBc+RdLmY+MY6gGUGEtTUSjts6JrDe8SRxEg6aksiWAnGF52
+ gWiQ3lajLmNibZaAbHGPsU9uo3x4bk+D1OXNNLNIBhFUxfP9BgjMelJaJeAGzGT7AY/C
+ jZe6hM95OOiSqjzG1MEOGuhc5Z10GDwqfEB8DYMQ4WXeGBYB927pQHtupXqU9mWGbal1
+ sx7cuDPlixL7r19ezG2FoenwPOt34EzSI9ludYeCf2XRbj9MBTXo5ha598XGPyVVo7b+
+ lkXZqJBu7cMD2koMzhe+MN1Tg6leVKTm4XRTIEi+NdfyRNCwv35L42kMawLUUSpB2PYV
+ 0+3g==
+X-Gm-Message-State: APjAAAXrPedonnVFnIdiGnCYWy2QRQaJbyOky1MDZ5g1L9nw+H4NSXuL
+ V3qPfAbWicc7y9lo70SZ/F4zq4UeUis=
+X-Google-Smtp-Source: APXvYqyeoK9ert9G1dcgnQKSkAJQqQ0borZMkPk8aZZW+/oMCF+1UPawvZU7GKfXMDEOgXuo6ZkP6Q==
+X-Received: by 2002:adf:f204:: with SMTP id p4mr15950181wro.317.1567170603044; 
+ Fri, 30 Aug 2019 06:10:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z10sm430630wrg.12.2019.08.30.05.59.19
+ by smtp.gmail.com with ESMTPSA id i5sm7997797wrn.48.2019.08.30.06.10.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Aug 2019 05:59:19 -0700 (PDT)
+ Fri, 30 Aug 2019 06:10:02 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 01B7E1FF87;
- Fri, 30 Aug 2019 13:59:19 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id B21C81FF87;
+ Fri, 30 Aug 2019 14:10:01 +0100 (BST)
 References: <20190829173437.5926-1-vandersonmr2@gmail.com>
- <20190829173437.5926-2-vandersonmr2@gmail.com>
+ <20190829173437.5926-4-vandersonmr2@gmail.com>
 User-agent: mu4e 1.3.4; emacs 27.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: vandersonmr <vandersonmr2@gmail.com>
-In-reply-to: <20190829173437.5926-2-vandersonmr2@gmail.com>
-Date: Fri, 30 Aug 2019 13:59:18 +0100
-Message-ID: <874l1y95cp.fsf@linaro.org>
+In-reply-to: <20190829173437.5926-4-vandersonmr2@gmail.com>
+Date: Fri, 30 Aug 2019 14:10:01 +0100
+Message-ID: <871rx294uu.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v8 01/11] accel: introducing TBStatistics
- structure
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [PATCH v8 03/11] accel: collecting JIT statistics
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,410 +90,219 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 vandersonmr <vandersonmr2@gmail.com> writes:
 
-> To store statistics for each TB, we created a TBStatistics structure
-> which is linked with the TBs. TBStatistics can stay alive after
-> tb_flush and be relinked to a regenerated TB. So the statistics can
-> be accumulated even through flushes.
+> If a TB has a TBS (TBStatistics) with the TB_JIT_STATS
+> enabled then we collect statistics of its translation
+> processes and code translation.
 >
-> The goal is to have all present and future qemu/tcg statistics and
-> meta-data stored in this new structure.
+> Collecting the number of host instructions seems to be
+> not simple as it would imply in having to modify several
+> target source files. So, for now, we are only collecting
+> the size of the host gen code.
 >
 > Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
 > ---
->  accel/tcg/Makefile.objs   |  2 +-
->  accel/tcg/tb-stats.c      | 63 ++++++++++++++++++++++++++++++++++++
->  accel/tcg/translate-all.c | 57 +++++++++++++++++++++++++++++++++
->  include/exec/exec-all.h   | 15 +++------
->  include/exec/tb-context.h | 12 +++++++
->  include/exec/tb-hash.h    |  7 ++++
->  include/exec/tb-stats.h   | 67 +++++++++++++++++++++++++++++++++++++++
->  util/log.c                |  2 ++
->  8 files changed, 213 insertions(+), 12 deletions(-)
->  create mode 100644 accel/tcg/tb-stats.c
->  create mode 100644 include/exec/tb-stats.h
+>  accel/tcg/translate-all.c | 15 ++++++++++++++-
+>  accel/tcg/translator.c    |  4 ++++
+>  include/exec/tb-stats.h   | 15 +++++++++++++++
+>  tcg/tcg.c                 | 23 +++++++++++++++++++++++
+>  tcg/tcg.h                 |  2 ++
+>  5 files changed, 58 insertions(+), 1 deletion(-)
 >
-> diff --git a/accel/tcg/Makefile.objs b/accel/tcg/Makefile.objs
-> index d381a02f34..49ffe81b5d 100644
-> --- a/accel/tcg/Makefile.objs
-> +++ b/accel/tcg/Makefile.objs
-> @@ -2,7 +2,7 @@ obj-$(CONFIG_SOFTMMU) +=3D tcg-all.o
->  obj-$(CONFIG_SOFTMMU) +=3D cputlb.o
->  obj-y +=3D tcg-runtime.o tcg-runtime-gvec.o
->  obj-y +=3D cpu-exec.o cpu-exec-common.o translate-all.o
-> -obj-y +=3D translator.o
-> +obj-y +=3D translator.o tb-stats.o
->=20=20
->  obj-$(CONFIG_USER_ONLY) +=3D user-exec.o
->  obj-$(call lnot,$(CONFIG_SOFTMMU)) +=3D user-exec-stub.o
-> diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
-> new file mode 100644
-> index 0000000000..948b107e68
-> --- /dev/null
-> +++ b/accel/tcg/tb-stats.c
-> @@ -0,0 +1,63 @@
-> +/*
-> + * QEMU System Emulator, Code Quality Monitor System
-> + *
-> + * Copyright (c) 2019 Vanderson M. do Rosario <vandersonmr2@gmail.com>
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining=
- a copy
-> + * of this software and associated documentation files (the "Software"),=
- to deal
-> + * in the Software without restriction, including without limitation the=
- rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
-sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be includ=
-ed in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
-SS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
-TY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
-LL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
-OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
-NG FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN
-> + * THE SOFTWARE.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "disas/disas.h"
-> +
-> +#include "exec/tb-stats.h"
-> +
-> +void init_tb_stats_htable_if_not(void)
-> +{
-> +    if (tb_stats_collection_enabled() && !tb_ctx.tb_stats.map) {
-> +        qht_init(&tb_ctx.tb_stats, tb_stats_cmp,
-> +                CODE_GEN_HTABLE_SIZE, QHT_MODE_AUTO_RESIZE);
-> +    }
-> +}
-> +
-> +void enable_collect_tb_stats(void)
-> +{
-> +    init_tb_stats_htable_if_not();
-> +    tcg_collect_tb_stats =3D TB_STATS_RUNNING;
-> +}
-> +
-> +void disable_collect_tb_stats(void)
-> +{
-> +    tcg_collect_tb_stats =3D TB_STATS_PAUSED;
-> +}
-> +
-> +void pause_collect_tb_stats(void)
-> +{
-> +    tcg_collect_tb_stats =3D TB_STATS_STOPPED;
-> +}
-> +
-> +bool tb_stats_collection_enabled(void)
-> +{
-> +    return tcg_collect_tb_stats =3D=3D TB_STATS_RUNNING;
-> +}
-> +
-> +bool tb_stats_collection_paused(void)
-> +{
-> +    return tcg_collect_tb_stats =3D=3D TB_STATS_PAUSED;
-> +}
 > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index 5d1e08b169..b7bccacd3b 100644
+> index e72aeba682..fb2fe0fa1f 100644
 > --- a/accel/tcg/translate-all.c
 > +++ b/accel/tcg/translate-all.c
-> @@ -1118,6 +1118,23 @@ static inline void code_gen_alloc(size_t tb_size)
+> @@ -1705,6 +1705,7 @@ static TBStatistics *tb_get_stats(tb_page_addr_t ph=
+ys_pc, target_ulong pc,
+>           * then just make the new TB point to the older TBStatistic
+>           */
+>          g_free(new_stats);
+> +        ((TBStatistics *) existing_stats)->tb =3D current_tb;
+
+This seems out of place and again I can't see what we are doing with
+this information yet.
+
+>          return existing_stats;
+>      } else {
+>          return new_stats;
+> @@ -1785,13 +1786,18 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>       */
+>      if (tb_stats_collection_enabled()) {
+>          tb->tb_stats =3D tb_get_stats(phys_pc, pc, cs_base, flags, tb);
+> +        uint32_t flag =3D get_default_tbstats_flag();
+>
+>          if (qemu_log_in_addr_range(tb->pc)) {
+> -            uint32_t flag =3D get_default_tbstats_flag();
+>              if (flag & TB_EXEC_STATS) {
+>                  tb->tb_stats->stats_enabled |=3D TB_EXEC_STATS;
+>              }
+>          }
+> +
+> +        if (flag & TB_JIT_STATS) {
+> +            tb->tb_stats->stats_enabled |=3D TB_JIT_STATS;
+> +            atomic_inc(&tb->tb_stats->translations.total);
+> +        }
+>      } else {
+>          tb->tb_stats =3D NULL;
 >      }
->  }
->=20=20
-> +/*
-> + * This is the more or less the same compare as tb_cmp(), but the
-> + * data persists over tb_flush. We also aggregate the various
-> + * variations of cflags under one record and ignore the details of
-> + * page overlap (although we can count it).
-> + */
-> +bool tb_stats_cmp(const void *ap, const void *bp)
-> +{
-> +    const TBStatistics *a =3D ap;
-> +    const TBStatistics *b =3D bp;
-> +
-> +    return a->phys_pc =3D=3D b->phys_pc &&
-> +        a->pc =3D=3D b->pc &&
-> +        a->cs_base =3D=3D b->cs_base &&
-> +        a->flags =3D=3D b->flags;
-> +}
-> +
->  static bool tb_cmp(const void *ap, const void *bp)
->  {
->      const TranslationBlock *a =3D ap;
-> @@ -1137,6 +1154,7 @@ static void tb_htable_init(void)
->      unsigned int mode =3D QHT_MODE_AUTO_RESIZE;
->=20=20
->      qht_init(&tb_ctx.htable, tb_cmp, CODE_GEN_HTABLE_SIZE, mode);
-> +    init_tb_stats_htable_if_not();
->  }
->=20=20
->  /* Must be called before using the QEMU cpus. 'tb_size' is the size
-> @@ -1666,6 +1684,34 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t =
-phys_pc,
->      return tb;
->  }
->=20=20
-> +static TBStatistics *tb_get_stats(tb_page_addr_t phys_pc, target_ulong p=
-c,
-> +                                  target_ulong cs_base, uint32_t flags,
-> +                                  TranslationBlock *current_tb)
-> +{
-> +    TBStatistics *new_stats =3D g_new0(TBStatistics, 1);
-> +    uint32_t hash =3D tb_stats_hash_func(phys_pc, pc, flags);
-> +    void *existing_stats =3D NULL;
-> +    new_stats->phys_pc =3D phys_pc;
-> +    new_stats->pc =3D pc;
-> +    new_stats->cs_base =3D cs_base;
-> +    new_stats->flags =3D flags;
-> +    new_stats->tb =3D current_tb;
-
-Drop the current_tb and the field from TBStatistics - it's not used by
-anything else in this patch. Also see bellow:
-
-> +
-> +    qht_insert(&tb_ctx.tb_stats, new_stats, hash, &existing_stats);
-> +
-> +    if (unlikely(existing_stats)) {
-> +        /*
-> +         * If there is already a TBStatistic for this TB from a previous=
- flush
-> +         * then just make the new TB point to the older TBStatistic
-> +         */
-> +        g_free(new_stats);
-> +        return existing_stats;
-> +    } else {
-> +        return new_stats;
-> +    }
-> +}
-> +
-> +
->  /* Called with mmap_lock held for user mode emulation.  */
->  TranslationBlock *tb_gen_code(CPUState *cpu,
->                                target_ulong pc, target_ulong cs_base,
-> @@ -1732,6 +1778,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->      ti =3D profile_getclock();
+> @@ -1869,6 +1875,10 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>      atomic_set(&prof->search_out_len, prof->search_out_len + search_size=
+);
 >  #endif
->=20=20
-> +    /*
-> +     * We want to fetch the stats structure before we start code
-> +     * generation so we can count interesting things about this
-> +     * generation.
-> +     */
-> +    if (tb_stats_collection_enabled()) {
-> +        tb->tb_stats =3D tb_get_stats(phys_pc, pc, cs_base, flags, tb);
-> +    } else {
-> +        tb->tb_stats =3D NULL;
+>
+> +    if (tb_stats_enabled(tb, TB_JIT_STATS)) {
+> +        atomic_add(&tb->tb_stats->code.out_len, gen_code_size);
 > +    }
 > +
->      tcg_func_start(tcg_ctx);
->=20=20
->      tcg_ctx->cpu =3D env_cpu(env);
-> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> index 135aeaab0d..1e0bd4e147 100644
-> --- a/include/exec/exec-all.h
-> +++ b/include/exec/exec-all.h
-> @@ -23,21 +23,11 @@
->  #include "cpu.h"
->  #include "exec/tb-context.h"
->  #include "sysemu/cpus.h"
-> +#include "exec/tb-stats.h"
->=20=20
->  /* allow to see translation results - the slowdown should be negligible,=
- so we leave it */
->  #define DEBUG_DISAS
->=20=20
-> -/* Page tracking code uses ram addresses in system mode, and virtual
-> -   addresses in userspace mode.  Define tb_page_addr_t to be an appropri=
-ate
-> -   type.  */
-> -#if defined(CONFIG_USER_ONLY)
-> -typedef abi_ulong tb_page_addr_t;
-> -#define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
-> -#else
-> -typedef ram_addr_t tb_page_addr_t;
-> -#define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
-> -#endif
-> -
->  #include "qemu/log.h"
->=20=20
->  void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_=
-insns);
-> @@ -404,6 +394,9 @@ struct TranslationBlock {
->      uintptr_t jmp_list_head;
->      uintptr_t jmp_list_next[2];
->      uintptr_t jmp_dest[2];
+>  #ifdef DEBUG_DISAS
+>      if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM) &&
+>          qemu_log_in_addr_range(tb->pc)) {
+> @@ -1926,6 +1936,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>      phys_page2 =3D -1;
+>      if ((pc & TARGET_PAGE_MASK) !=3D virt_page2) {
+>          phys_page2 =3D get_page_addr_code(env, virt_page2);
+> +        if (tb_stats_enabled(tb, TB_JIT_STATS)) {
+> +            atomic_inc(&tb->tb_stats->translations.spanning);
+> +        }
+>      }
+>      /*
+>       * No explicit memory barrier is required -- tb_link_page() makes the
+> diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+> index ec6bd829a0..9b2e248b09 100644
+> --- a/accel/tcg/translator.c
+> +++ b/accel/tcg/translator.c
+> @@ -116,6 +116,10 @@ void translator_loop(const TranslatorOps *ops, Disas=
+ContextBase *db,
+>      db->tb->size =3D db->pc_next - db->pc_first;
+>      db->tb->icount =3D db->num_insns;
+>
+> +    if (tb_stats_enabled(tb, TB_JIT_STATS)) {
+> +        atomic_add(&db->tb->tb_stats->code.num_guest_inst, db->num_insns=
+);
+> +    }
 > +
-> +    /* Pointer to a struct where statistics from the TB is stored */
-> +    TBStatistics *tb_stats;
->  };
->=20=20
->  extern bool parallel_cpus;
-> diff --git a/include/exec/tb-context.h b/include/exec/tb-context.h
-> index feb585e0a7..3cfb62a338 100644
-> --- a/include/exec/tb-context.h
-> +++ b/include/exec/tb-context.h
-> @@ -23,6 +23,17 @@
->  #include "qemu/thread.h"
->  #include "qemu/qht.h"
->=20=20
-> +/* Page tracking code uses ram addresses in system mode, and virtual
-> +   addresses in userspace mode.  Define tb_page_addr_t to be an appropri=
-ate
-> +   type.  */
-> +#if defined(CONFIG_USER_ONLY)
-> +typedef abi_ulong tb_page_addr_t;
-> +#define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
-> +#else
-> +typedef ram_addr_t tb_page_addr_t;
-> +#define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
-> +#endif
-> +
->  #define CODE_GEN_HTABLE_BITS     15
->  #define CODE_GEN_HTABLE_SIZE     (1 << CODE_GEN_HTABLE_BITS)
->=20=20
-> @@ -35,6 +46,7 @@ struct TBContext {
->=20=20
->      /* statistics */
->      unsigned tb_flush_count;
-> +    struct qht tb_stats;
->  };
->=20=20
->  extern TBContext tb_ctx;
-> diff --git a/include/exec/tb-hash.h b/include/exec/tb-hash.h
-> index 805235d321..dd8e8f252a 100644
-> --- a/include/exec/tb-hash.h
-> +++ b/include/exec/tb-hash.h
-> @@ -66,4 +66,11 @@ uint32_t tb_hash_func(tb_page_addr_t phys_pc, target_u=
-long pc, uint32_t flags,
->      return qemu_xxhash7(phys_pc, pc, flags, cf_mask, trace_vcpu_dstate);
->  }
->=20=20
-> +static inline
-> +uint32_t tb_stats_hash_func(tb_page_addr_t phys_pc, target_ulong pc,
-> +                            uint32_t flags)
-> +{
-> +    return qemu_xxhash5(phys_pc, pc, flags);
-> +}
-> +
->  #endif
+>  #ifdef DEBUG_DISAS
+>      if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
+>          && qemu_log_in_addr_range(db->pc_first)) {
 > diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
-> new file mode 100644
-> index 0000000000..898e05a36f
-> --- /dev/null
+> index c4a8715400..b68edd5d24 100644
+> --- a/include/exec/tb-stats.h
 > +++ b/include/exec/tb-stats.h
-> @@ -0,0 +1,67 @@
-> +/*
-> + * QEMU System Emulator, Code Quality Monitor System
-> + *
-> + * Copyright (c) 2019 Vanderson M. do Rosario <vandersonmr2@gmail.com>
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining=
- a copy
-> + * of this software and associated documentation files (the "Software"),=
- to deal
-> + * in the Software without restriction, including without limitation the=
- rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
-sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be includ=
-ed in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
-SS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
-TY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
-LL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
-OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
-NG FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN
-> + * THE SOFTWARE.
-> + */
+> @@ -58,6 +58,20 @@ struct TBStatistics {
+>          unsigned long atomic;
+>      } executions;
+>
+> +    struct {
+> +        unsigned num_guest_inst;
+> +        unsigned num_tcg_ops;
+> +        unsigned num_tcg_ops_opt;
+> +        unsigned spills;
+> +        unsigned out_len;
+> +    } code;
 > +
-> +#ifndef TB_STATS_H
+> +    struct {
+> +        unsigned long total;
+> +        unsigned long uncached;
+> +        unsigned long spanning;
+> +    } translations;
 > +
-> +#define TB_STATS_H
+>      /* current TB linked to this TBStatistics */
+>      TranslationBlock *tb;
+>  };
+> @@ -71,6 +85,7 @@ enum TBStatsStatus { TB_STATS_RUNNING, TB_STATS_PAUSED,=
+ TB_STATS_STOPPED };
+>
+>  #define TB_NOTHING    (1 << 0)
+>  #define TB_EXEC_STATS (1 << 1)
+> +#define TB_JIT_STATS  (1 << 2)
+>
+>  extern int tcg_collect_tb_stats;
+>  extern uint32_t default_tbstats_flag;
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 0458eaec57..ae3e7a2217 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -3125,6 +3125,11 @@ static void temp_sync(TCGContext *s, TCGTemp *ts, =
+TCGRegSet allocated_regs,
+>          case TEMP_VAL_REG:
+>              tcg_out_st(s, ts->type, ts->reg,
+>                         ts->mem_base->reg, ts->mem_offset);
 > +
-> +#include "exec/cpu-common.h"
-> +#include "exec/tb-context.h"
-> +#include "tcg.h"
+> +            /* Count number of spills */
+> +            if (tb_stats_enabled(s->current_tb, TB_JIT_STATS)) {
+> +                atomic_inc(&s->current_tb->tb_stats->code.spills);
+> +            }
+>              break;
+>
+>          case TEMP_VAL_MEM:
+> @@ -3996,6 +4001,8 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *t=
+b)
+>      int i, num_insns;
+>      TCGOp *op;
+>
+> +    s->current_tb =3D tb;
 > +
-> +typedef struct TBStatistics TBStatistics;
+>  #ifdef CONFIG_PROFILER
+>      {
+>          int n =3D 0;
+> @@ -4027,6 +4034,14 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *=
+tb)
+>      }
+>  #endif
+>
+> +    if (tb_stats_enabled(tb, TB_JIT_STATS)) {
+> +        int n =3D 0;
+> +        QTAILQ_FOREACH(op, &s->ops, link) {
+> +            n++;
+> +        }
+> +        atomic_add(&tb->tb_stats->code.num_tcg_ops, n);
+> +    }
 > +
-> +/*
-> + * This struct stores statistics such as execution count of the
-> + * TranslationBlocks. Each sets of TBs for a given phys_pc/pc/flags
-> + * has its own TBStatistics which will persist over tb_flush.
-> + *
-> + * We include additional counters to track number of translations as
-> + * well as variants for compile flags.
-> + */
-> +struct TBStatistics {
-> +    tb_page_addr_t phys_pc;
-> +    target_ulong pc;
-> +    uint32_t     flags;
-> +    /* cs_base isn't included in the hash but we do check for matches */
-> +    target_ulong cs_base;
-> +    /* current TB linked to this TBStatistics */
-> +    TranslationBlock *tb;
+>  #ifdef CONFIG_DEBUG_TCG
+>      /* Ensure all labels referenced have been emitted.  */
+>      {
+> @@ -4093,6 +4108,14 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *=
+tb)
+>      }
+>  #endif
+>
+> +    if (tb_stats_enabled(tb, TB_JIT_STATS)) {
+> +        int n =3D 0;
+> +        QTAILQ_FOREACH(op, &s->ops, link) {
+> +            n++;
+> +        }
+> +        atomic_add(&tb->tb_stats->code.num_tcg_ops_opt, n);
+> +    }
+> +
+>      tcg_reg_alloc_start(s);
+>
+>      s->code_buf =3D tb->tc.ptr;
+> diff --git a/tcg/tcg.h b/tcg/tcg.h
+> index 529acb2ed8..b4601162f8 100644
+> --- a/tcg/tcg.h
+> +++ b/tcg/tcg.h
+> @@ -740,6 +740,8 @@ struct TCGContext {
+>
+>      uint16_t gen_insn_end_off[TCG_MAX_INSNS];
+>      target_ulong gen_insn_data[TCG_MAX_INSNS][TARGET_INSN_START_WORDS];
+> +
+> +    TranslationBlock *current_tb;
 
-This seems sketchy to me. The TBStats have a 1 to many relationship so
-I'm not sure what this information can be used for.
+As we are only using this to get to tb_stats why not skip the middle man
+and go directly to:
 
-> +};
-> +
-> +bool tb_stats_cmp(const void *ap, const void *bp);
-> +
-> +void init_tb_stats_htable_if_not(void);
-> +
-> +/* TBStatistic collection controls */
-> +enum TBStatsStatus { TB_STATS_RUNNING, TB_STATS_PAUSED, TB_STATS_STOPPED=
- };
-> +extern int tcg_collect_tb_stats;
-> +
-> +void enable_collect_tb_stats(void);
-> +void disable_collect_tb_stats(void);
-> +void pause_collect_tb_stats(void);
-> +bool tb_stats_collection_enabled(void);
-> +bool tb_stats_collection_paused(void);
-> +
-> +#endif
-> diff --git a/util/log.c b/util/log.c
-> index 1d1b33f7d9..393a17115b 100644
-> --- a/util/log.c
-> +++ b/util/log.c
-> @@ -31,6 +31,8 @@ int qemu_loglevel;
->  static int log_append =3D 0;
->  static GArray *debug_regions;
->=20=20
-> +int tcg_collect_tb_stats;
-> +
->  /* Return the number of characters emitted.  */
->  int qemu_log(const char *fmt, ...)
->  {
+       TBStatistics *current_stats;
+
+?
+
+You already have a tbs_stats_enabled() helper=20
+
+>  };
+>
+>  extern TCGContext tcg_init_ctx;
 
 
---=20
+--
 Alex Benn=C3=A9e
 
