@@ -2,78 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33540A338F
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 11:18:36 +0200 (CEST)
-Received: from localhost ([::1]:57378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBA7A3395
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 11:19:28 +0200 (CEST)
+Received: from localhost ([::1]:57382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3d3C-0005pk-62
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 05:18:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58571)
+	id 1i3d43-0006TL-Bm
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 05:19:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aravinda@linux.vnet.ibm.com>) id 1i3cys-0003TY-EQ
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 05:14:07 -0400
+ (envelope-from <zhlb29@foxmail.com>) id 1i3czS-0003zK-Ra
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 05:14:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aravinda@linux.vnet.ibm.com>) id 1i3cyp-00082P-Pg
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 05:14:05 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9878)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
- id 1i3cyl-0007n4-50; Fri, 30 Aug 2019 05:13:59 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x7U97L7m015943; Fri, 30 Aug 2019 05:13:48 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2uq0em9e25-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Aug 2019 05:13:47 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7U99PCD029185;
- Fri, 30 Aug 2019 09:13:46 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01dal.us.ibm.com with ESMTP id 2unb3tc7re-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Aug 2019 09:13:46 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x7U9DiRV60424618
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Aug 2019 09:13:44 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D0699C6059;
- Fri, 30 Aug 2019 09:13:44 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 57520C6055;
- Fri, 30 Aug 2019 09:13:42 +0000 (GMT)
-Received: from [127.0.1.1] (unknown [9.85.75.15])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 30 Aug 2019 09:13:41 +0000 (GMT)
-From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-To: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
-Date: Fri, 30 Aug 2019 14:43:40 +0530
-Message-ID: <156715642090.27761.17328167484986424722.stgit@aravinda>
-In-Reply-To: <156715632966.27761.8190459106519248668.stgit@aravinda>
-References: <156715632966.27761.8190459106519248668.stgit@aravinda>
-User-Agent: StGit/0.17.1-dirty
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-08-30_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=886 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908300099
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH v12 2/6] ppc: spapr: Introduce FWNMI capability
+ (envelope-from <zhlb29@foxmail.com>) id 1i3czM-00010O-Qq
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 05:14:39 -0400
+Received: from smtpbg511.qq.com ([203.205.250.109]:47895 helo=smtpbg.qq.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <zhlb29@foxmail.com>) id 1i3czK-0000h7-B9
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 05:14:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1567156461;
+ bh=S9xw0wZWsXwArUqxeaxP27F1gD+FLqmkJSzG/OX3vmI=;
+ h=From:To:Subject:Mime-Version:Date:Message-ID;
+ b=w+jZz7fUlcl8YQJKX7L4dq9IOVIwhjqB/3/nteWNXfYE0KqAVohlT5FjkGvTq6S5O
+ Au57JA2ZrxCrvEG5kAtceWjd+hAEAzUy7xs9A+c6wgfPGmw0dM6SO7c59a2jaxl4Dq
+ jSEnEZ/tVjCDdbvFyS3LjmGzQm96z2GJ0nhe5TPA=
+X-QQ-SSF: 000100000000006000000000000000G
+X-HAS-ATTACH: no
+X-QQ-BUSINESS-ORIGIN: 2
+X-Originating-IP: 124.200.70.7
+X-QQ-STYLE: 
+X-QQ-mid: webenglish1t1567156460t233245
+From: "=?gb18030?B?TGlibyBaaG91?=" <zhlb29@foxmail.com>
+To: "=?gb18030?B?QWxla3NhbmRhciBNYXJrb3ZpYw==?=" <aleksandar.m.mail@gmail.com>
+Mime-Version: 1.0
+Date: Fri, 30 Aug 2019 17:14:20 +0800
+X-Priority: 3
+Message-ID: <tencent_4D0D8A6738AA24B65B532FA1@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+X-QQ-SENDSIZE: 520
+Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
+ id ; Fri, 30 Aug 2019 17:14:20 +0800 (CST)
+Feedback-ID: webenglish:foxmail.com:bgweb:bgweb4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 203.205.250.109
+Content-Type: text/plain;
+	charset="gb18030"
+Content-Transfer-Encoding: base64
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] QEMU as ISS (Instruction Set Simulator)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,189 +64,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, aravinda@linux.vnet.ibm.com, groug@kaod.org
+Cc: =?gb18030?B?cWVtdS1kZXZlbA==?= <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the KVM capability KVM_CAP_PPC_FWNMI so that
-the KVM causes guest exit with NMI as exit reason
-when it encounters a machine check exception on the
-address belonging to a guest. Without this capability
-enabled, KVM redirects machine check exceptions to
-guest's 0x200 vector.
-
-This patch also introduces fwnmi-mce capability to
-deal with the case when a guest with the
-KVM_CAP_PPC_FWNMI capability enabled is attempted
-to migrate to a host that does not support this
-capability.
-
-Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
----
- hw/ppc/spapr.c         |    1 +
- hw/ppc/spapr_caps.c    |   29 +++++++++++++++++++++++++++++
- include/hw/ppc/spapr.h |    4 +++-
- target/ppc/kvm.c       |   22 ++++++++++++++++++++++
- target/ppc/kvm_ppc.h   |   11 +++++++++++
- 5 files changed, 66 insertions(+), 1 deletion(-)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index ea56499..8288e8b 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4487,6 +4487,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
-     smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] = SPAPR_CAP_OFF;
-     smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
-     smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_OFF;
-+    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_OFF;
-     spapr_caps_add_properties(smc, &error_abort);
-     smc->irq = &spapr_irq_dual;
-     smc->dr_phb_enabled = true;
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 481dfd2..c11ff87 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -496,6 +496,25 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
-     }
- }
- 
-+static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
-+                                Error **errp)
-+{
-+    if (!val) {
-+        return; /* Disabled by default */
-+    }
-+
-+    if (tcg_enabled()) {
-+        /*
-+         * TCG support may not be correct in some conditions (e.g., in case
-+         * of software injected faults like duplicate SLBs).
-+         */
-+        warn_report("Firmware Assisted Non-Maskable Interrupts not supported in TCG");
-+    } else if (kvm_enabled() && !kvmppc_has_cap_ppc_fwnmi()) {
-+        error_setg(errp,
-+"Firmware Assisted Non-Maskable Interrupts not supported by KVM, try cap-fwnmi-mce=off");
-+    }
-+}
-+
- SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
-     [SPAPR_CAP_HTM] = {
-         .name = "htm",
-@@ -595,6 +614,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
-         .type = "bool",
-         .apply = cap_ccf_assist_apply,
-     },
-+    [SPAPR_CAP_FWNMI_MCE] = {
-+        .name = "fwnmi-mce",
-+        .description = "Handle fwnmi machine check exceptions",
-+        .index = SPAPR_CAP_FWNMI_MCE,
-+        .get = spapr_cap_get_bool,
-+        .set = spapr_cap_set_bool,
-+        .type = "bool",
-+        .apply = cap_fwnmi_mce_apply,
-+    },
- };
- 
- static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
-@@ -734,6 +762,7 @@ SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
- SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
- SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
- SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-+SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
- 
- void spapr_caps_init(SpaprMachineState *spapr)
- {
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 03111fd..66049ac 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -79,8 +79,10 @@ typedef enum {
- #define SPAPR_CAP_LARGE_DECREMENTER     0x08
- /* Count Cache Flush Assist HW Instruction */
- #define SPAPR_CAP_CCF_ASSIST            0x09
-+/* FWNMI machine check handling */
-+#define SPAPR_CAP_FWNMI_MCE             0x0A
- /* Num Caps */
--#define SPAPR_CAP_NUM                   (SPAPR_CAP_CCF_ASSIST + 1)
-+#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
- 
- /*
-  * Capability Values
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 8c5b1f2..c055fc1 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -85,6 +85,7 @@ static int cap_ppc_safe_indirect_branch;
- static int cap_ppc_count_cache_flush_assist;
- static int cap_ppc_nested_kvm_hv;
- static int cap_large_decr;
-+static int cap_ppc_fwnmi;
- 
- static uint32_t debug_inst_opcode;
- 
-@@ -2055,6 +2056,22 @@ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
-     }
- }
- 
-+int kvmppc_set_fwnmi(void)
-+{
-+    PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
-+    CPUState *cs = CPU(cpu);
-+    int ret;
-+
-+    ret = kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
-+    if (ret) {
-+        error_report("This KVM version does not support FWNMI");
-+        return ret;
-+    }
-+
-+    cap_ppc_fwnmi = 1;
-+    return ret;
-+}
-+
- int kvmppc_smt_threads(void)
- {
-     return cap_ppc_smt ? cap_ppc_smt : 1;
-@@ -2355,6 +2372,11 @@ bool kvmppc_has_cap_mmu_hash_v3(void)
-     return cap_mmu_hash_v3;
- }
- 
-+bool kvmppc_has_cap_ppc_fwnmi(void)
-+{
-+    return cap_ppc_fwnmi;
-+}
-+
- static bool kvmppc_power8_host(void)
- {
-     bool ret = false;
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 98bd7d5..2990898 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -27,6 +27,8 @@ void kvmppc_enable_h_page_init(void);
- void kvmppc_set_papr(PowerPCCPU *cpu);
- int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
- void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
-+int kvmppc_set_fwnmi(void);
-+bool kvmppc_has_cap_ppc_fwnmi(void);
- int kvmppc_smt_threads(void);
- void kvmppc_hint_smt_possible(Error **errp);
- int kvmppc_set_smt_threads(int smt);
-@@ -159,6 +161,15 @@ static inline void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
- {
- }
- 
-+static inline int kvmppc_set_fwnmi(void)
-+{
-+}
-+
-+static inline bool kvmppc_has_cap_ppc_fwnmi(void)
-+{
-+    return false;
-+}
-+
- static inline int kvmppc_smt_threads(void)
- {
-     return 1;
-
-
+SGkgQWxla3NhbmRhciwNCg0KDQpUaGFua3MgZm9yIGV4cGxhaW5pbmcgIGhlbHBlciBmdW5j
+dGlvbnMgZm9yIG1lLiBCZWZvcmUgZ2V0dGluZyBteSBoYW5kcyBkaXJ0eSwgSSBoYXZlIHNv
+bWUgbW9yZSAgcXVlc3Rpb25zLiBBZnRlciBmaWd1cmluZyB0aGVtIG91dCwgSSBjYW4gZ2V0
+IHN0YXJ0ZWQuDQoNCg0KDQpJICBuZWVkIHRvIGFkZCBzb21lIG5ldyByZWdpc3RlcnMgdG8g
+dGhlIENQVS4gSW4gInRyYW5zbGF0ZS5jIiwgSSBmb3VuZCAgdGhhdCB0aGUgcmVnaXN0ZXJz
+IGFyZSBkZWNsYXJlZCBhcyBzdGF0aWMgVENHdiBhcnJheSAoZS5nLiBjcHVfZ3ByWzMyXSku
+ICBUaGVuLCBpbiBmdW5jdGlvbiBtaXBzX3RjZ19pbml0KCksIGNwdV9ncHJbaV0gaXMgY3Jl
+YXRlZCBvbmUgYnkgb25lICB3aXRoIHRjZ19nbG9iYWxfbWVtX25ldyguLi4pIGluIGEgZm9y
+IGxvb3AuIElzIHRoYXQgYWxsIEkgbmVlZCB0byBkbyB0byAgYWRkIG5ldyByZWdpc3RlcnMg
+dG8gdGhlIENQVT8gSSBub3RpY2VkIGFub3RoZXIgZmlsZSAiY3B1LmgiLCBkbyBJIGFsc28g
+IG5lZWQgdG8gYWRkIG15IG5ldyByZWdpc3RlcnMsIHNheSwgIm15X2dwclszMl0iIGluICJj
+cHUuaCI/DQoNCg0KTXkgIG5ldyBpbnN0cnVjdGlvbnMgYWxzbyBpbmNsdWRlIHNvbWUgbG9h
+ZCAmIHN0b3Jlcy4gSSBzZWUgSSBjYW4gIGltcGxlbWVudCB0aGVtIHdpdGggdGNnX2dlbl9x
+ZW11X2xkL3N0X3RsKC4uLikgaW4gdGhlIGRlY29kZSBmdW5jdGlvbidzICBzd2l0Y2gtY2Fz
+ZSBzdGF0ZW1lbnRzLCBidXQgSSBkb24ndCBzZWUgaG93IHRoZSAqdGFyZ2V0KiBtZW1vcnkg
+aXMgIGNyZWF0ZWQuIFNob3VsZG4ndCB0aGV5IGJlIGNyZWF0ZWQgd2l0aCB0Y2dfZ2xvYmFs
+X21lbV9uZXcoLi4uKSwganVzdCAgbGlrZSBob3cgdGhlIHJlZ2lzdGVycyBhcmUgY3JlYXRl
+ZD8gSSBjYW4gaGFjayB0aGUgbWVtb3J5IGJ5IGNyZWF0aW5nIGEgICpzdXBlciogbGFyZ2Vy
+IHJlZ2lzdGVyIGZpbGUsIGFuZCBoYWNrIHRoZSBsb2FkcyAmIHN0b3JlcyB3aXRoICByZWdp
+c3RlciBtb3ZlcywgYnV0IHRoYXQganVzdCBzb3VuZHMgdG9vIHNrZXRjaHkuDQoNCg0KT24g
+IHRoZSBvdGhlciBoYW5kLCBJIHdvdWxkIGxpa2UgdG8gZ2V0IGl0IHJ1bm5pbmcgZmlyc3Qs
+IHdpdGhvdXQgZG9pbmcgYW55ICBtb2RpZmljYXRpb24gdG8gdGhlIHNvdXJjZSBjb2RlLiBJ
+IGNhbiBidWlsZCB0aGUgdXNlciBzcGFjZSBlbXVsYXRpb24gIG9uIExpbnV4Lg0KDQouL2Nv
+bmZpZ3VyZSAtLXRhcmdldC1saXN0PW1pcHMtbGludXgtdXNlcg0KDQpUaGVuICBJIHdpbGwg
+d3JpdGUgYSB0ZXN0cHJvZ3JhbS5jLCBjcm9zcyBjb21waWxlIGl0IG9uIHg4NiBpbnRvIE1J
+UFMgdXNpbmcgIGdjYyhJIGFtIG5vdCBjbGVhciBvbiBob3cgdG8gZG8gaXQsIGJ1dCBteSB0
+ZWFtIGhhcyB0aGUgY29tcGlsZXIgZm9yIG91ciAgbmV3IElTQSwgSSBqdXN0IHdhbnQgdG8g
+dHJ5IHRoZSBNSVBTIHZlcnNpb24gZmlyc3QpLCBhbmQgcnVuIHRoZSB0ZXN0ICBwcm9ncmFt
+Lg0KDQoNCg0KLi9xZW11IHRlc3Rwcm9ncmFtDQoNCg0KSG93ICBkbyBJIGxvb2sgYXQgdGhl
+IGNvbnRlbnRzIGluIHRoZSB0YXJnZXQgcmVnaXN0ZXJzIGFuZCBtZW1vcnk/IEkgc2F3ICB0
+aGF0IGZ1bmN0aW9uICJtaXBzX2NwdV9kdW1wX3N0YXRlIiBpbiAidHJhbnNsYXRlLmMiIGRv
+ZXMgd2hhdCBJIG5lZWQsICBidXQgSSBkb24ndCBrbm93IGhvdyB0byBjYWxsIGl0IGluIHRo
+aXMgcHJvY2Vzcy4gU2hvdWxkIEkgdXNlIGdkYj8NCg0KDQpJICBhbSByZWFsbHkgc29ycnkg
+Zm9yIGFza2luZyB5b3Ugc28gbWFueSBxdWVzdGlvbnMsIGJ1dCBJIHRoaW5rIGFmdGVyICBn
+ZXR0aW5nIHRoZW0gZmlndXJlZCBvdXQsIEkgY2FuIHN0YXJ0IG15IHByb2plY3QuIFRoYW5r
+IHlvdSB2ZXJ5IG11Y2ggaW4gIGFkdmFuY2UsIGFuZCBoYXZlIGEgZ29vZCB3ZWVrZW5kIQ0K
+DQoNCkNoZWVycywNCg0KTGlibw0KDQoNCg0KLS0tLS0tLS0tLS0tLS0tLS0tIE9yaWdpbmFs
+IC0tLS0tLS0tLS0tLS0tLS0tLQ0KRnJvbTogICJBbGVrc2FuZGFyIE1hcmtvdmljIjs8YWxl
+a3NhbmRhci5tLm1haWxAZ21haWwuY29tPjsNClNlbmQgdGltZTogVGh1cnNkYXksIEF1ZyAy
+OSwgMjAxOSAxMDoyMiBQTQ0KVG86ICJMaWJvIFpob3UiPHpobGIyOUBmb3htYWlsLmNvbT47
+IA0KQ2M6ICJxZW11LWRldmVsIjxxZW11LWRldmVsQG5vbmdudS5vcmc+OyANClN1YmplY3Q6
+ICBSZTogW1FlbXUtZGV2ZWxdIFFFTVUgYXMgSVNTIChJbnN0cnVjdGlvbiBTZXQgU2ltdWxh
+dG9yKQ0KDQoNCg0KT24gV2VkLCBBdWcgMjgsIDIwMTkgYXQgNTo1NCBBTSBMaWJvIFpob3Ug
+PHpobGIyOUBmb3htYWlsLmNvbT4gd3JvdGU6DQoNCj4gSGkgQWxla3NhbmRhciwNCj4NCj4g
+VGhhbmsgeW91IGZvciB0aGUgbGluayB0byBMb29uZ3NvbjJGIGRvY3VtZW50YXRpb24uIEl0
+IGhhcyBiZWVuIHZlcnkNCj4gdXNlZnVsOikNCj4NCj4gSSBoYXZlIHNwZW50IHNldmVyYWwg
+ZGF5cyBpbW1lcnNpbmcgbXlzZWxmIGluIHRoZSBzb3VyY2UgY29kZSwgbm93IEkgdGhpbmsN
+Cj4gSSBoYXZlIGEgbW9yZSBzb2xpZCB1bmRlcnN0YW5kaW5nIGFib3V0IGl0LiBKdXN0IGxp
+a2UgTG9vbmdzb24gTXVsdGltZWRpYQ0KPiBJbnN0cnVjdGlvbnMsIEkgbmVlZCB0byBpbXBs
+ZW1lbnQgc29tZSBzb3J0IG9mIGNvbXBsZXggdmVjdG9yIGluc3RydWN0aW9ucywNCj4gYW5k
+IEkgbmVlZCB0byB3cml0ZSBzb21lIGhlbHBlciBmdW5jdGlvbnMgKGUuZy4gbXlfaGVscGVy
+LmMpLg0KPg0KPiBUaGUgUUVNVSB3aWtpIHdlYnNpdGUgaGFzIHZlcnkgdGhvcm91Z2ggZXhw
+bGFuYXRpb24gb24gVENHLCBidXQgSSBoYXZlbid0DQo+IGZvdW5kIGFueSBleHBsYW5hdGlv
+biBvbiB0aGUgcG9ydC1zcGVjaWZpYyBoZWxwZXJzLiBJcyB0aGVyZSBhbnkNCj4gZG9jdW1l
+bnRhdGlvbiBvbiBob3cgdGhlIGhlbHBlciBmdW5jdGlvbnMgYXJlIGdlbmVyYXRlZD8gSSB0
+aGluayBub3cgSQ0KPiAqbWlnaHQqIGtub3cgaG93IHRvIHdyaXRlIGEgd29ya2luZyBoZWxw
+ZXIgZnVuY3Rpb24sIGJ1dCBJIGp1c3QgZG9uJ3Qga25vdw0KPiBob3cgaXQgd29ya3MuDQo+
+DQo+DQpIZWxsbywgTGlibywNCg0KUHJlcmVxdWlzaXRlIGZvciB3cml0aW5nIGEgaGVscGVy
+IGlzIHRoYXQgeW91IGhhdmUgYSBjbGVhciBkZWZpbml0aW9uIG9mDQpuZXcgaW5zdHJ1Y3Rp
+b24gZnVuY3Rpb25hbGl0eSwgaW4gdGhlIHNlbnNlLCB3aGF0IG9wZXJhdGlvbiBpcyBkb25l
+IG9uIHdoYXQNCnJlc291cmNlcy4gIlJlc291cmNlcyIgYXJlIHJlZ2lzdGVycyAtIHRoZXkg
+Y291bGQgYmUgZ2VuZXJhbC1wdXJwb3NlIE1JUFMNCnJlZ2lzdGVycywgb3Igc29tZSBzcGVj
+aWFsIGFkZGl0aW9uYWwgcmVnaXN0ZXJzLiBEaWQgeW91IHVzZSBleGlzdGluZw0KcmVnaXN0
+ZXJzLCBvciBkaWQgeW91IGRlZmluZSBhIG5ldyBzZXQgb3IgcmVnaXN0ZXJzIGZvciB5b3Vy
+IG5ldw0KaW5zdHJ1Y3Rpb25zPyBSZWdpc3RlcnMgYXJlIG1vZGVsZWQgYXMgZmllbGRzIGlu
+IGEgc3RydWN0dXJlLCBhbmQgYm90aA0KaGVscGVycyBhbmQgVENHIGltcGxlbWVudGF0aW9u
+cyBtb2RpZnkgdGhvc2UgZmllbGRzIHdoaWxlIHBlcmZvcm1pbmcNCmluc3RydWN0aW9uIGVt
+dWxhdGlvbi4NCg0KSW4gYW55IGNhc2UsIHlvdSBwYXNzIHRvIHRoZSBoZWxwZXIgYWxsIGlu
+Zm9ybWF0aW9uIG5lZWRlZCBmb3IgdGhlDQppbnN0cnVjdGlvbiBpbiBxdWVzdGlvbiB0byBw
+ZXJmb3JtLiBUaGVzZSBhcmUgdXN1YWxseSBvcmRpbmFsIG51bWJlcnMgb2YNCmludm9sdmVk
+IHJlZ2lzdGVyLCBkZXJpdmVkIGZyb20gZGVjb2RpbmcgdGhlIG9wY29kZS4gQWx0ZXJuYXRp
+dmVseSwgeW91IGNhbg0KcGFzcyBwb2ludGVycyB0byB0aGUgcmVnaXN0ZXJzLCByYXRoZXIg
+dGhhbiBvcmRpbmFsIG51bWJlcnMuIEluIHR1cm4sIHRoZQ0KbWFpbiBwYXJ0IG9mIGZ1bmN0
+aW9uYWxpdHkgaXMgaW1wbGVtZW50ZWQuIEF0IHRoZSBlbmQgb2YgaGVscGVyLCB5b3UgbWF5
+DQp3YW50IHRvIHVwZGF0ZSwgbGV0J3Mgc2F5LCBhIHN0YXR1cyByZWdpc3RlciwgaWYgYW55
+IChkZXBlbmRpbmcgb24geW91cg0KZGVzaWduKS4NCg0KVGhlIGRlY2xhcmF0aW9uIG9mIGhl
+bHBlcnMgaXMgYSBsaXR0bGUgY29udHJpdmVkLCBhbmQgbWF5IHN0aWxsIGNvbmZ1c2UNCnlv
+dS4gQnV0IHRoaXMgaXMgbm90IGNydWNpYWwgdG8geW91LiBJIGFkdmlzZSB5b3UganVzdCB0
+byBjb3B5IGEgc29sdXRpb24NCmZvciBhIHNpbWlsYXIgZXhpc3RpbmcgaW5zdHJ1Y3Rpb24u
+DQoNCllvdXJzLA0KQWxla3NhbmRhcg0KDQoNCg0KPiBDaGVlcnMsDQo+IExpYm8NCj4NCj4N
+Cj4NCj4NCj4gLS0tLS0tLS0tLS0tLS0tLS0tIE9yaWdpbmFsIG1lc3NhZ2UgLS0tLS0tLS0t
+LS0tLS0tLS0tDQo+ICpGcm9tOiogIkFsZWtzYW5kYXIgTWFya292aWMiOw0KPiAqU2VuZHRp
+bWU6KiBUaHVyc2RheSwgQXVnIDIyLCAyMDE5IDY6NTMgUE0NCj4gKlRvOiogIkxpYm8gWmhv
+dSI7DQo+ICpDYzoqICJxZW11LWRldmVsIjsNCj4gKlN1YmplY3Q6KiBSZTogW1FlbXUtZGV2
+ZWxdIFFFTVUgYXMgSVNTIChJbnN0cnVjdGlvbiBTZXQgU2ltdWxhdG9yKQ0KPg0KPiBPbiBU
+aHUsIEF1ZyAyMiwgMjAxOSBhdCAxMjoyNCBQTSDBoiA8emhsYjI5QGZveG1haWwuY29tPiB3
+cm90ZToNCj4NCj4gPiBIaSBBbGVrc2FuZGFyLA0KPiA+DQo+ID4gVGhhbmsgeW91IHZlcnkg
+bXVjaCBmb3IgeW91ciBwYXRpZW50IGV4cGxhbmF0aW9uIGluIHRoZSBwcmV2aW91cyBwb3N0
+Lg0KPiBBbmQNCj4gPiB0aGFuayB5b3UgZm9yIGNoZWNraW5nLg0KPiA+IFlvdXIgYW5kIFBl
+dGVyJ3MgcmVwbGllcyBpbiB0aGUgcHJldmlvdXMgcG9zdCBjZXJ0YWlubHkgaGVscGVkIGEg
+bG90LiBJDQo+IGFtDQo+ID4gbm93IGxvb2tpbmcgYXQgYSBnaXQgY29tbWl0IDcgeWVhcnMg
+YWdvICgNCj4gPiBiZDI3N2ZhMTk2NmJjNDAwZjFiNDExZjg2OGYzOTEyNWNkYTBjNDAzKSwg
+aXQgd2FzIGEgTG9vbmdzb24gTXVsdGltZWRpYQ0KPiA+IEluc3RydWN0aW9uIGltcGxlbWVu
+dGF0aW9uIGRvbmUgbXkgUmljaGFyZCBIZW5kZXJzb24uDQo+ID4NCj4NCj4gQ29vbCwgdGhh
+dCBjb21taXQgaXMgYSB2ZXJ5IGdvb2Qgc3RhcmluZyBwb2ludCAtIGl0IGlzIGRlZmluaXRl
+bHkgbm90IHRvbw0KPiBzaW1wbGUsIGFuZCBpdCBpcyBub3QgdG9vIGNvbXBsZXggZWl0aGVy
+LiBBbmQgeW91IGNhbiBkaXNjb3ZlciBzZXZlcmFsDQo+IGRpZmZlcmVudCBjb25jZXB0cyBp
+biB0aGUgcHJvY2VzcyBvZiBleHBsb3JpbmcgdGhlIGNoYW5nZS4NCj4NCj4gRG9jdW1lbnRh
+dGlvbiBvbiBpbnN0cnVjdGlvbiBzZXQgZXh0ZW5zaW9uIHJlbGF0ZWQgdG8gdGhlIGNvbW1p
+dCAoZm91bmQgYnkNCj4gR29vZ2xlKToNCj4gaHR0cHM6Ly9maWxlcy5zb21uaWFmYWJ1bGFy
+dW0uY29tL2xvb25nc29uL2RvY3MvTG9vbmdzb24yRlVzZXJHdWlkZS5wZGYNCj4NCj4gQmUg
+cGVyc2lzdGVudCwgdGFrZSB5b3VyIHRpbWUsIHN0dWR5IHRoZSBkZXRhaWxzIGFuZCBoYW5k
+bGluZyBvZiBpbmRpdmlkdWFsDQo+IGluc3RydWN0aW9ucywgYW5kLCBvZiBjb3Vyc2UsIGxl
+dCB1cyBrbm93IGlmIHlvdSBlbmNvdW50ZXIgc29tZSBtYWpvcg0KPiBvYnN0YWNsZXMgb3Ig
+dGhvcm55IGRpbGVtbWFzLg0KPg0KPiBZb3VycywNCj4gQWxla3NhbmRhcg0KPg0KPg0KPiA+
+IEkgdGhpbmsgd2hhdCBoZSBkaWQgaXMgZXhhY3RseSB3aGF0IEkgd2FudCB0byBkbyBub3cu
+IEkgZ290IGEgdmFndWUgdmlldw0KPiA+IG9mIHRoZSBiaWcgcGljdHVyZSwgYnV0IEkgbmVl
+ZCBtb3JlIHRpbWUgdG8gZmlndXJlIG91dCB0aGUgZGV0YWlscy4gSQ0KPiB3aWxsDQo+ID4g
+Y2VydGFpbmx5IGFzayBtb3JlIHF1ZXN0aW9ucyBhYm91dCB0aGlzIGxhdGVyLCBidXQgYmVm
+b3JlIHRoYXQgSSBuZWVkIHRvDQo+ID4gbG9vayBhdCBzb21lIG90aGVyIHBhcnRzIG9mIHRo
+ZSBzb3VyY2UgY29kZTopIEFnYWluIHRoYW5rIHlvdSBmb3INCj4gY2hlY2tpbmchDQo+ID4N
+Cj4gPiBDaGVlcnMsDQo+ID4gTGlibw0KPiA+DQo+ID4NCj4gPiAtLS0tLS0tLS0tLS0tLS0t
+LS0gT3JpZ2luYWwgbWVzc2FnZSAtLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiAqRnJvbToqICJB
+bGVrc2FuZGFyIE1hcmtvdmljIjsNCj4gPiAqU2VuZHRpbWU6KiBUaHVyc2RheSwgQXVnIDIy
+LCAyMDE5IDQ6MjMgUE0NCj4gPiAqVG86KiAiwaIiOw0KPiA+ICpDYzoqICJxZW11LWRldmVs
+IjsNCj4gPiAqU3ViamVjdDoqIFJlOiBbUWVtdS1kZXZlbF0gUUVNVSBhcyBJU1MgKEluc3Ry
+dWN0aW9uIFNldCBTaW11bGF0b3IpDQo+ID4NCj4gPiBPbiBUdWUsIEF1ZyAyMCwgMjAxOSBh
+dCAxMjoxMiBQTSDBoiA8emhsYjI5QGZveG1haWwuY29tPiB3cm90ZToNCj4gPg0KPiA+ID4g
+SSBhbSB3b3JraW5nIG9uIGEgcHJvamVjdCB0aGF0IHJlcXVpcmVzIG1lIHRvIG1vZGlmeSB0
+aGUgSVNBIG9mIHRoZQ0KPiBNSVBTDQo+ID4gPiB0YXJnZXQuDQo+ID4NCj4gPg0KPiA+IEwu
+LA0KPiA+DQo+ID4gSG93IGlzIGl0IGdvaW5nPw0KPiA+DQo+ID4gQWxla3NhbmRhcg0KPiA+
+DQo+ID4NCj4gPg0KPiA+ID4gSSBoYXZlIGJlZW4gc3RhcmluZyBhdCB0aGUgc291cmNlIGNv
+ZGUgZm9yIGFib3V0IGEgd2VlaywgYnV0IGZvdW5kIGl0DQo+ID4gPiByZWFsbHkgZGlmZmlj
+dWx0IGR1ZSB0byBtZSBiZWluZyBhIHlvdW5nIHJvb2tpZSBhbmQgdGhlIHNwYXJzZQ0KPiBj
+b21tZW50cy4NCj4gPiA+IFNwZWNpZmljYWxseSwgSSBuZWVkIHRvIGV4dGVuZCBNSVBTLCBi
+eSBhZGRpbmcgc29tZSBuZXcgaW5zdHJ1Y3Rpb25zDQo+IGFuZA0KPiA+ID4gbmV3IENQVSBy
+ZWdpc3RlcnMgdG8gdGhlIGN1cnJlbnQgYXJjaGl0ZWN0dXJlLCBhbmQgdGhhdCBzb3VuZHMg
+cmVhbGx5DQo+ID4gZWFzeS4NCj4gPiA+IEkgdGhpbmsgdGhlIHBsYWNlIGZvciBtZSB0byBs
+b29rIGF0IHNob3VsZCBiZSBhdCB0aGUgZGlyZWN0b3J5DQo+ID4gPiAke3FlbXVfcm9vdH0v
+dGFyZ2V0L21pcHMvLiBXaXRoIGEgTUlQUyBJbnN0cnVjdGlvbiBTZXQgTWFudWFsIFJlbGVh
+c2UgNg0KPiA+ID4gaGFuZHksIEkgaGF2ZSBkaWZmaWN1bHR5IGZpbmRpbmcgdGhlIHNvdXJj
+ZSBjb2RlIHdoZXJlIHRoZSBJU0EgcmVzaWRlcy4NCj4gPiBJcw0KPiA+ID4gaXQgaW4gb3Bf
+aGVscGVyLmM/IE9yIHRyYW5zbGF0ZS5jPyBBbnkgZ3VpZGFuY2Ugd291bGQgYmUgcmVhbGx5
+DQo+ID4gPiBhcHByZWNpYXRlZC4gVGhhbmsgeW91IHZlcnkgbXVjaCBpbiBhZHZhbmNlLg0K
+PiA+ID4NCj4gPiA+DQo+ID4gPiBDaGVlcnMsDQo+ID4gPiBMLg0KPiA+DQo+
