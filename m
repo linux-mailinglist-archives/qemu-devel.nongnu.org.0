@@ -2,104 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FEEA39AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 16:58:33 +0200 (CEST)
-Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA2EA399A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 16:51:16 +0200 (CEST)
+Received: from localhost ([::1]:33012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3iMD-0002tK-0o
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 10:58:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53822)
+	id 1i3iF7-0007WP-Kb
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 10:51:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40109)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1i3i2Y-00009p-3A
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:38:16 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i3iA8-0005Bt-Lu
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:46:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1i3i2T-0004YK-04
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:38:11 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:51823)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1i3i2Q-0004NZ-Vc
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:38:08 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M8hR1-1i7olT04On-004hLN; Fri, 30 Aug 2019 16:37:50 +0200
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20190830143648.2967-1-alex.bennee@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <c8340803-34a7-ab53-7791-efdcb734db41@vivier.eu>
-Date: Fri, 30 Aug 2019 16:37:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <alex.bennee@linaro.org>) id 1i3i9b-0001QC-Gr
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:45:33 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36593)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i3i9b-0001Ky-41
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 10:45:31 -0400
+Received: by mail-wr1-x444.google.com with SMTP id y19so7263192wrd.3
+ for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 07:45:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=2TX+CsptW3pfviH7DKjQlYteCYje1wFcaKP7IlHfQY4=;
+ b=ThXYR2h1uxZ5sjCvHDi5RbbHM2FtFmWMD0wC7wA8omTOztJmajqY0jcJWduJSYap7P
+ LJ1uQxXMDCTrNNyoMNd7qI/CUTbazGMxe2eSqVH5183s9GYuyVpfPiw9FubCBCfLsPtY
+ uENzKuRMB7s4mOt33mTVv6Rq4S3Jw3wMc+9CiokY4Fe/fdxZdj/g0oV2/DfQD2Q19cfb
+ 7FQyhjsRSlMh2nfaOGpn8YYdJiXKwq1I9pTnD60q67IT99LNLC3maLIa4pqpH2qLVbg+
+ 0l4gX6mYbe4Z7BomosRTjPvnlmxbH3WaAdc3Kb99kQ2ilF+KpI7+IOqfZAGH8AFVknFB
+ 7Dgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=2TX+CsptW3pfviH7DKjQlYteCYje1wFcaKP7IlHfQY4=;
+ b=NF75Fx0gMUpbIprE40iOO3ISStXi24l6mPhaUQpjHNY4F7DdlQh4kbZ7cqsYBqWQ+h
+ rvEoGRfAWr8VXbHpbKt/aF7BXU2mVuCchfzxSgv0NO2CaDKEfmVXA+pHJy5lOCXtOsU+
+ wYNiqyWX4mRLFyX+z4xuYB1t2jAz5LNMyKnI8TrmdzUywY5aVRnWCRIqhb4IrgxpZ5fL
+ /bpzW/wIUQlJLNJSTOxHDYSzbjh1BsNRlC45wYRZTHcOoFKivR0GdS0nsU2ufF0fo7Jq
+ v6KMC/4Sd+JffHbcwzIRPpIJAP6iE3OYfSZb5g8ru01Ae/F9Jhn9MSKUVc+0kTt2F3t6
+ E0BA==
+X-Gm-Message-State: APjAAAV/AKOc8ginCBc6IPPprvqqTG6ADzbn74n2eWu/PEFnDXYhVZwB
+ NlOXlMZN0Yjr5KiD45JB2fsxow==
+X-Google-Smtp-Source: APXvYqw5AUaVIOTe8UDveQmTCPqbnQK4dydqSi1lcZAUgMStiqCOycv+cZLci9nuwU5ROASfQK+lEQ==
+X-Received: by 2002:a5d:438c:: with SMTP id i12mr3798474wrq.238.1567176328940; 
+ Fri, 30 Aug 2019 07:45:28 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f23sm8058484wmj.37.2019.08.30.07.45.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Aug 2019 07:45:28 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 752941FF87;
+ Fri, 30 Aug 2019 15:45:27 +0100 (BST)
+References: <20190829173437.5926-1-vandersonmr2@gmail.com>
+ <20190829173437.5926-7-vandersonmr2@gmail.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+In-reply-to: <20190829173437.5926-7-vandersonmr2@gmail.com>
+Date: Fri, 30 Aug 2019 15:45:27 +0100
+Message-ID: <87v9ue7lvc.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190830143648.2967-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:g/1VrzOuT8L8AcbUnPQTymNkBpyQbF2wLDT8ax6Zru0AqF8zRb8
- B7KHDSPQwXXNYI9V5OK4qUnbtYlXJEPDMTUFRcq0a6PPbKiejIdaFYfLZyJt4zc+RpVuPBh
- SPq/riu/kkjzyFjr/2nNSHxg08Rr4MHiAVLjpbJwIYFOku/o1sEfNxoTv2uc28r3/nUEZQn
- QgGTB7lfATU7lHO+DTH5A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Uavp6udqEtk=:gBL77zjb9oHgiXPnm/7gky
- KZTFI/D1OHlKZjFDNRjBxX+0lU0cGMZIF5knR6/iBTOTrARAT/5Y/hKVvAyl+LA5nr35nZmfD
- vuJ4CbB7zyHNfx3SO1+hU7rUqCK0tPkdOaDCqLID/ng8OaZOMjzn+SkybiKF5jA5jV0NGM7TR
- SLMW+3USbvINijI9OrMkXAwVugHPLxj2EYslh14WkLjZr5VZa66MOrAyp6cDpoW6z60h5ea25
- NJoCxPvHDYu54n9yfhIPtCFEDDnLXn5UJyvnEIXserySnhNNz/tNKSdsNETAoTafFC6o/Yhyt
- bYdst02vJs8B+5rvIVTCrW7dEMn5XCbjB3NmfVWlOOGaKL6h1E1VxDxp/SD8ZOG1wwZ6hG2zm
- /zn4/5RG1Rk4PLCvjq8DlUGlDfcod7ek96vVtCY8mDIAgdnB7CDf664RVIudR99Yy3cMaYtq5
- FFEQ14L2Zem/N20cxF+7Y8cQ3DPv5DdNmxH301Ph3IINV7h90sMZ5xlvkFEwMtLsIxJbHdUlZ
- HoQreFr0yo7MCkPrda1t4uaJL2rF3hYlCm+Vz9I+wjk/Ac+cjv2sV8WV9cNikPFbvPHa27I2d
- qpIh0b6rlY1atpsw2RdTbTiYZ5H16jr53LohNCqrWiemLBsk0OEHIagUGZXKFjrxbQUOuBc1C
- 6ruI6s1hEh63VSNcKB2EBSRs9OaVT/BH3twjzW3blYpPowsnb+oHdCWlSL47hpHgVWApqM0Nd
- IdeQodYuwSpnnib0A9KxlGsD4UL/Arss7p7ms9+ZzQ90sRQo3TjOtUjWkq+0CiQokpk3iwKdE
- B1gm1MFP35s6fbmvqzBJ9zBmA+tLw==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
-Subject: Re: [Qemu-devel] [PATCH] linux-user: fail and report on bad dfilter
- specs
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v8 06/11] Adding -d tb_stats to control
+ TBStatistics collection:
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,33 +83,265 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>
+Cc: vandersonmr <vandersonmr2@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 30/08/2019 à 16:36, Alex Bennée a écrit :
-> Just passing NULL means we end up ignoring the bad dfilter spec
-> instead of reporting it and exiting as we should.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  linux-user/main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index 47917bbb20f..50a031520ca 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -236,7 +236,7 @@ static void handle_arg_log(const char *arg)
->  
->  static void handle_arg_dfilter(const char *arg)
->  {
-> -    qemu_set_dfilter_ranges(arg, NULL);
-> +    qemu_set_dfilter_ranges(arg, &error_fatal);
->  }
->  
->  static void handle_arg_log_filename(const char *arg)
-> 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+vandersonmr <vandersonmr2@gmail.com> writes:
+
+>  -d tb_stats[[,level=3D(+all+jit+exec+time)][,dump_limit=3D<number>]]
+>
+> "dump_limit" is used to limit the number of dumped TBStats in
+> linux-user mode.
+>
+> [all+jit+exec+time] control the profilling level used
+> by the TBStats. Can be used as follow:
+>
+> -d tb_stats
+> -d tb_stats,level=3Djit+time
+> -d tb_stats,dump_limit=3D15
+> ...
+>
+> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+> ---
+>  include/exec/gen-icount.h     |  1 +
+>  include/exec/tb-stats-flags.h | 42 +++++++++++++++++++++++++++++++++++
+>  include/exec/tb-stats.h       | 18 +++------------
+>  include/qemu/log.h            |  1 +
+>  util/log.c                    | 35 +++++++++++++++++++++++++++++
+>  5 files changed, 82 insertions(+), 15 deletions(-)
+>  create mode 100644 include/exec/tb-stats-flags.h
+>
+> diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
+> index be006383b9..3987adfb0e 100644
+> --- a/include/exec/gen-icount.h
+> +++ b/include/exec/gen-icount.h
+> @@ -2,6 +2,7 @@
+>  #define GEN_ICOUNT_H
+>
+>  #include "qemu/timer.h"
+> +#include "tb-stats-flags.h"
+>
+>  /* Helpers for instruction counting code generation.  */
+>
+> diff --git a/include/exec/tb-stats-flags.h b/include/exec/tb-stats-flags.h
+> new file mode 100644
+> index 0000000000..c936ac1084
+> --- /dev/null
+> +++ b/include/exec/tb-stats-flags.h
+> @@ -0,0 +1,42 @@
+> +/*
+> + * QEMU System Emulator, Code Quality Monitor System
+> + *
+> + * Copyright (c) 2019 Vanderson M. do Rosario <vandersonmr2@gmail.com>
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
+> + * of this software and associated documentation files (the "Software"),=
+ to deal
+> + * in the Software without restriction, including without limitation the=
+ rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be includ=
+ed in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
+> + * THE SOFTWARE.
+
+Any reason not to use GPLv2 or later here?
+
+> + */
+> +#ifndef TB_STATS_FLAGS
+> +#define TB_STATS_FLAGS
+> +
+> +enum TBStatsStatus {
+> +    TB_STATS_DISABLED =3D 0,
+> +    TB_STATS_RUNNING,
+> +    TB_STATS_PAUSED,
+> +    TB_STATS_STOPPED
+> +};
+> +
+> +#define TB_NOTHING    (1 << 0)
+> +#define TB_EXEC_STATS (1 << 1)
+> +#define TB_JIT_STATS  (1 << 2)
+> +#define TB_JIT_TIME   (1 << 3)
+> +
+> +extern int tcg_collect_tb_stats;
+> +extern uint32_t default_tbstats_flag;
+> +
+> +#endif
+> diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
+> index 0b9a6e2f72..6a53bef31b 100644
+> --- a/include/exec/tb-stats.h
+> +++ b/include/exec/tb-stats.h
+> @@ -30,6 +30,8 @@
+>  #include "exec/tb-context.h"
+>  #include "tcg.h"
+>
+> +#include "exec/tb-stats-flags.h"
+> +
+>  #define tb_stats_enabled(tb, JIT_STATS) \
+>      (tb && tb->tb_stats && (tb->tb_stats->stats_enabled & JIT_STATS))
+>
+> @@ -98,26 +100,12 @@ bool tb_stats_cmp(const void *ap, const void *bp);
+>
+>  void dump_jit_exec_time_info(uint64_t dev_time);
+>
+> +void set_tbstats_flags(uint32_t flags);
+>  void init_tb_stats_htable_if_not(void);
+>
+>  void dump_jit_profile_info(TCGProfile *s);
+>
+>  /* TBStatistic collection controls */
+> -enum TBStatsStatus {
+> -    TB_STATS_DISABLED =3D 0,
+> -    TB_STATS_RUNNING,
+> -    TB_STATS_PAUSED,
+> -    TB_STATS_STOPPED
+> -};
+> -
+> -#define TB_NOTHING    (1 << 0)
+> -#define TB_EXEC_STATS (1 << 1)
+> -#define TB_JIT_STATS  (1 << 2)
+> -#define TB_JIT_TIME   (1 << 3)
+> -
+> -extern int tcg_collect_tb_stats;
+> -extern uint32_t default_tbstats_flag;
+> -
+>  void enable_collect_tb_stats(void);
+>  void disable_collect_tb_stats(void);
+>  void pause_collect_tb_stats(void);
+> diff --git a/include/qemu/log.h b/include/qemu/log.h
+> index b097a6cae1..a8d1997cde 100644
+> --- a/include/qemu/log.h
+> +++ b/include/qemu/log.h
+> @@ -45,6 +45,7 @@ static inline bool qemu_log_separate(void)
+>  /* LOG_TRACE (1 << 15) is defined in log-for-trace.h */
+>  #define CPU_LOG_TB_OP_IND  (1 << 16)
+>  #define CPU_LOG_TB_FPU     (1 << 17)
+> +#define CPU_LOG_TB_STATS   (1 << 18)
+>
+>  /* Lock output for a series of related logs.  Since this is not needed
+>   * for a single qemu_log / qemu_log_mask / qemu_log_mask_and_addr, we
+> diff --git a/util/log.c b/util/log.c
+> index 29021a4584..c3805b331b 100644
+> --- a/util/log.c
+> +++ b/util/log.c
+> @@ -19,17 +19,20 @@
+>
+>  #include "qemu/osdep.h"
+>  #include "qemu/log.h"
+> +#include "qemu/qemu-print.h"
+>  #include "qemu/range.h"
+>  #include "qemu/error-report.h"
+>  #include "qapi/error.h"
+>  #include "qemu/cutils.h"
+>  #include "trace/control.h"
+> +#include "exec/tb-stats-flags.h"
+>
+>  static char *logfilename;
+>  FILE *qemu_logfile;
+>  int qemu_loglevel;
+>  static int log_append =3D 0;
+>  static GArray *debug_regions;
+> +int32_t max_num_hot_tbs_to_dump;
+>
+>  int tcg_collect_tb_stats;
+>  uint32_t default_tbstats_flag;
+> @@ -276,6 +279,9 @@ const QEMULogItem qemu_log_items[] =3D {
+>      { CPU_LOG_TB_NOCHAIN, "nochain",
+>        "do not chain compiled TBs so that \"exec\" and \"cpu\" show\n"
+>        "complete traces" },
+> +    { CPU_LOG_TB_STATS, "tb_stats[[,level=3D(+all+jit+exec+time)][,dump_=
+limit=3D<number>]]",
+> +      "enable collection of TBs statistics"
+> +      "(and dump until given a limit if in user mode).\n" },
+>      { 0, NULL, NULL },
+>  };
+>
+> @@ -297,6 +303,35 @@ int qemu_str_to_log_mask(const char *str)
+>              trace_enable_events((*tmp) + 6);
+>              mask |=3D LOG_TRACE;
+>  #endif
+> +        } else if (g_str_has_prefix(*tmp, "tb_stats")) {
+> +            mask |=3D CPU_LOG_TB_STATS;
+> +            default_tbstats_flag =3D TB_JIT_STATS | TB_EXEC_STATS | TB_J=
+IT_TIME;
+> +            tcg_collect_tb_stats =3D TB_STATS_RUNNING;
+> +        } else if (tcg_collect_tb_stats =3D=3D TB_STATS_RUNNING &&
+> +                g_str_has_prefix(*tmp, "dump_limit=3D")) {
+> +
+> +            max_num_hot_tbs_to_dump =3D atoi((*tmp) + 11);
+> +        } else if (tcg_collect_tb_stats =3D=3D TB_STATS_RUNNING &&
+> +                g_str_has_prefix(*tmp, "level=3D")) {
+> +
+> +            default_tbstats_flag =3D 0;
+> +            char **level_parts =3D g_strsplit(*tmp + 6, "+", 0);
+> +            char **level_tmp;
+> +            for (level_tmp =3D level_parts; level_tmp && *level_tmp; lev=
+el_tmp++) {
+> +                if (g_str_equal(*level_tmp, "jit")) {
+> +                    default_tbstats_flag |=3D TB_JIT_STATS;
+> +                } else if (g_str_equal(*level_tmp, "exec")) {
+> +                    default_tbstats_flag |=3D TB_EXEC_STATS;
+> +                } else if (g_str_equal(*level_tmp, "time")) {
+> +                    default_tbstats_flag |=3D TB_JIT_TIME;
+> +                } else if (g_str_equal(*level_tmp, "all")) {
+> +                    default_tbstats_flag |=3D TB_JIT_STATS | TB_EXEC_STA=
+TS | TB_JIT_TIME;
+> +                } else {
+> +                    fprintf(stderr, "no option level=3D%s, valid options=
+ are:"
+> +                            "all, jit, exec or/and time\n", *level_tmp);
+> +                    exit(1);
+
+You can't exit here - for one thing a typo on the HMP will kill your
+machine. You should pass Error **err to the helper and use error_setg to
+report the failure.
+
+From vl.c/main.c you can pass &error_fatal and it will report and
+error out as you expect.
+
+From the HMP hooks:
+
+    Error *err =3D NULL;
+
+    ...
+    qemu_str_to_log_mask(flags, &err)
+    ...
+    if (err) {
+        hmp_handle_error(mon, &err);
+        return;
+    }
+
+You'll need to fix up the existing calls to do this instead of the if
+!mask error_report they currently do.
+
+
+> +                }
+> +            }
+>          } else {
+>              for (item =3D qemu_log_items; item->mask !=3D 0; item++) {
+>                  if (g_str_equal(*tmp, item->name)) {
+
+
+--
+Alex Benn=C3=A9e
 
