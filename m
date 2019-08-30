@@ -2,77 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64478A3A72
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 17:36:14 +0200 (CEST)
-Received: from localhost ([::1]:33894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49ADFA3BCB
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 18:18:52 +0200 (CEST)
+Received: from localhost ([::1]:35572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3iwd-0006K3-UX
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 11:36:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39971)
+	id 1i3jbu-00032H-Gb
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 12:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i3iqr-0004oF-NR
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 11:30:14 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i3jWB-00006k-9C
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 12:12:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i3iql-0007h3-Qj
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 11:30:11 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:37471)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i3iqh-0007Y0-HL
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 11:30:06 -0400
-Received: by mail-pl1-x643.google.com with SMTP id bj8so3530089plb.4
- for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 08:30:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=l1vrArjGjtuwQab5mDPZX2ho3//9hk2kxvy3b+lZc9I=;
- b=L9E6bQlmseF9ybyOcyEqSkJuKE3FrOhmOPbo9AesY2iGi0fCtXdTaiNQdtixd98peQ
- OwtwU9ZGBgQBMpgL3JD74+8AFeJTqFxuZrLIKhh0p7VUT5FM75Mon0ebcW6pQZAGLKsG
- VbaNs+rs/Ailscx9quFmWdbjM84pfHICp2bmM+0+DbZPbmdPLIY8KAo42/84q6SMAaFM
- ymegpnU1qqXrNTeNFz9JhrMF7Gr606LYF05DQMDDnKAQrW1Ct4gc+/8LrGhC93mmjWVv
- PkPIbUTTy5jp23/e0Z5fx8NVY1ziiFQXFN3rBoHxyPKDdHjnTY6+nH8HEzj3egMbpDgC
- lWGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=l1vrArjGjtuwQab5mDPZX2ho3//9hk2kxvy3b+lZc9I=;
- b=GvF7Z+gHDmN0Yb2r8faiHeNK77q9bRXwXWgrzISeFAQ+rVsog0f+GwSMuwH9pS+uZA
- esa0SWkITDQg+n7ulOukT5qEyLURjS9k/eelIIyLm4WkigHqMFVKZtSJcVuvY6ndjr7o
- G/bEYrrdinjCmbcixxAYtsuR4bildk1qRThT4MzLPrUNv5pXGRt0NJQSBgMg4zH5d9xa
- alXZi81foy+bxIpd1HNYAz55RVCeZokMMs0FPPu/Z4eMiOfOtCPqwhhygWrGKfRdId1A
- Ys8tSeOA97LKOvi1/EnqXaJR0AiqKOkqJ8LwEbXl0SsE5uthr+8kC4S8tMj2YPmeQuL+
- c0XQ==
-X-Gm-Message-State: APjAAAXRxlp3raeUcOVjjnrGJW6PX+lvbqzvJQ0zYlUAhubtEqhCbR24
- /ZlTsBG/aFyL7Jg597aC1L/9Fg==
-X-Google-Smtp-Source: APXvYqwQugazstH9Mrb/pmH0b9UEG4YemNe+g8UY68FWigC6sVi+nv7VcwSu73azgGuCmkloDMXGjQ==
-X-Received: by 2002:a17:902:860b:: with SMTP id
- f11mr16158527plo.48.1567179002029; 
- Fri, 30 Aug 2019 08:30:02 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id y16sm7104558pfn.173.2019.08.30.08.30.00
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 30 Aug 2019 08:30:00 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190830100959.26615-1-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <4e363e0d-a2f1-7257-9b77-a78f717abb15@linaro.org>
-Date: Fri, 30 Aug 2019 08:29:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190830100959.26615-1-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: Re: [Qemu-devel] [PATCH v2 0/2] tcg: Introduce probe_access() and
- return a host pointer
+ (envelope-from <vsementsov@virtuozzo.com>) id 1i3jW5-0004Uq-7a
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 12:12:52 -0400
+Received: from relay.sw.ru ([185.231.240.75]:60588)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1i3jVs-0004Ff-Q2; Fri, 30 Aug 2019 12:12:38 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1i3jVl-0001X0-3q; Fri, 30 Aug 2019 19:12:29 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Date: Fri, 30 Aug 2019 19:12:14 +0300
+Message-Id: <20190830161228.54238-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v10 00/14] backup-top filter driver for backup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,39 +43,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ wencongyang2@huawei.com, xiechanglong.d@gmail.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, jsnow@redhat.com, stefanha@redhat.com, den@openvz.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/30/19 3:09 AM, David Hildenbrand wrote:
-> Let's return a host pointer from probe_access() if possible and provide
-> probe_access(). s390x will soon make use of probe_access() and use the
-> provided host pointer.
-> 
-> v1 -> v2:
-> - Rebased to tcg-next
-> - "tcg: Make probe_write() return a pointer to the host page"
-> -- Rephrase documentation
-> - "tcg: Factor out probe_write() logic into probe_access()"
-> -- Don't check the MMU index
-> 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Riku Voipio <riku.voipio@iki.fi>
-> 
-> David Hildenbrand (2):
->   tcg: Make probe_write() return a pointer to the host page
->   tcg: Factor out probe_write() logic into probe_access()
-> 
->  accel/tcg/cputlb.c      | 60 +++++++++++++++++++++++++++++++----------
->  accel/tcg/user-exec.c   | 28 ++++++++++++++-----
->  include/exec/exec-all.h |  9 +++++--
->  3 files changed, 75 insertions(+), 22 deletions(-)
-> 
+Hi all!
 
-Queued to tcg-next.
+These series introduce backup-top driver. It's a filter-node, which
+do copy-before-write operation. Mirror uses filter-node for handling
+guest writes, let's move to filter-node (from write-notifiers) for
+backup too.
+
+v10 (mostly by Max's comments):
+
+01: - s/MIN(end - start, job->len - start)/MIN(end, job->len) - start
+    - Max's r-b
+02: s/offset/start/ and drop extra variable from backup_do_copy
+03: new
+04: - add job->source_bs
+    - use two progress callbacks instead of one combined
+    - add comment to skip_unallocated
+    - drop zeroing blk's in block_copy_state_free
+    - s/g_new0/g_new/ before compound literal
+    - add comment and assertion about aio context for block-copy source and target
+    - in backup_clean handle possibly executing in parallel backup_drain and check
+      only s->bcs pointer in backup_drain
+    - fix s/job/bcs in trace-events file
+05: partly new, now only fix comments style
+06: a lot of changes as rebased on above changes, but it's still a clean
+    code move, keep Max's r-b
+07: add Max's r-b
+08: deeper refactoring of tests
+09-11: add Max's r-b
+   [also, fix my email in 11]
+12: - drop bdrv_refresh_filename(bs->backing->bs) call
+    - drop assertion of taken permission
+    - active = false + refresh_perms in _drop() instead of _set_perm()
+13: - add comment about WRITE perm sharing
+    - add backup_top bs to job state
+    - fix cleanup on failure path in backup_job_create
+    - keep "fail:" path in block_copy_with_bounce_buffer
+    - in 56, collide on job-id instead of posix locks
 
 
-r~
+Vladimir Sementsov-Ogievskiy (14):
+  block/backup: fix backup_cow_with_offload for last cluster
+  block/backup: split shareable copying part from backup_do_cow
+  block/backup: improve comment about image fleecing
+  block/backup: introduce BlockCopyState
+  block/backup: fix block-comment style
+  block: move block_copy from block/backup.c to separate file
+  block: teach bdrv_debug_breakpoint skip filters with backing
+  iotests: prepare 124 and 257 bitmap querying for backup-top filter
+  iotests: 257: drop unused Drive.device field
+  iotests: 257: drop device_add
+  block/io: refactor wait_serialising_requests
+  block: add lock/unlock range functions
+  block: introduce backup-top filter driver
+  block/backup: use backup-top instead of write notifiers
+
+ qapi/block-core.json          |   8 +-
+ block/backup-top.h            |  37 ++
+ include/block/block-copy.h    |  75 ++++
+ include/block/block_int.h     |   5 +
+ block.c                       |  34 +-
+ block/backup-top.c            | 240 ++++++++++++
+ block/backup.c                | 454 +++++----------------
+ block/block-copy.c            | 337 ++++++++++++++++
+ block/io.c                    |  68 +++-
+ block/replication.c           |   2 +-
+ blockdev.c                    |   1 +
+ block/Makefile.objs           |   3 +
+ block/trace-events            |  14 +-
+ tests/qemu-iotests/056        |   8 +-
+ tests/qemu-iotests/124        |  83 ++--
+ tests/qemu-iotests/257        |  91 ++---
+ tests/qemu-iotests/257.out    | 714 ++++++++++++++--------------------
+ tests/qemu-iotests/iotests.py |  27 ++
+ 18 files changed, 1281 insertions(+), 920 deletions(-)
+ create mode 100644 block/backup-top.h
+ create mode 100644 include/block/block-copy.h
+ create mode 100644 block/backup-top.c
+ create mode 100644 block/block-copy.c
+
+-- 
+2.18.0
+
 
