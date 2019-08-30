@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295C4A381E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 15:54:08 +0200 (CEST)
-Received: from localhost ([::1]:59260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A800A38D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 16:08:47 +0200 (CEST)
+Received: from localhost ([::1]:59860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3hLr-00086c-6q
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 09:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54198)
+	id 1i3ha0-0005zu-Rw
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 10:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33827)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i3hHH-00057N-72
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:49:24 -0400
+ (envelope-from <vandersonmr2@gmail.com>) id 1i3hQQ-0002WL-DB
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:58:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i3hHF-0001yk-Ni
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:49:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39968)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i3hHF-0001v5-Bt
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:49:21 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 11B6B8796BC;
- Fri, 30 Aug 2019 13:49:20 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C7A294526;
- Fri, 30 Aug 2019 13:49:16 +0000 (UTC)
-To: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
-References: <faeb030e6a1044f0fd88208edfdb1c5fafe5def9.1567171655.git.mprivozn@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <18aef1bc-247c-1119-db02-7ebfece30591@redhat.com>
-Date: Fri, 30 Aug 2019 08:49:15 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <vandersonmr2@gmail.com>) id 1i3hQL-0006FD-C9
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:58:48 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:34655)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
+ id 1i3hQI-000698-FG
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:58:43 -0400
+Received: by mail-qt1-x843.google.com with SMTP id a13so7709770qtj.1
+ for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 06:58:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vRsyyffHf4GorTQg+zQERwHpgqAb86sdgRvKLpX2hVo=;
+ b=tZX5qUuJYJ0Ea6VqkNjzhXB73BPTxVBhlVzzTd6QWX4vlSB99CjD1bX82NuXCVz686
+ gTU2IYVoEf5EhZE4/zETBf8X1+U1rKMWXRWL38rjgZgGqTTGqN4rRRX/DcVlYRMeKKWH
+ 3DL8dceatJlIgw1G3+oxAEFdL8nvLfsMQdqhkEizO1Ng4lbfv0innvO2yUndkGbFoe2y
+ h1k7pwPJzC1kbO2DybE3n76WwZQ3G1/L7bZKUMQq1nKKFq8okRUZCYyNuk8jjSQ22MVY
+ yjLJZ2sMGrJ9OgMYionR3V6PO/quGENQaDOyBaGsxeVy34PgVnFC9ZMf2v548M2R4zz4
+ sCug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vRsyyffHf4GorTQg+zQERwHpgqAb86sdgRvKLpX2hVo=;
+ b=GPQ4csY9+Ky5JkZPjFfTHJkOxAPJTYaO3Q8nxNv1XPZ/KCtdDVWJ5ghYxC5LUk6DVI
+ 4zU+orhHv2zRbPpE0xjYhIDZWZr8m9Vz0UpC/uXHVzAxYxajoh0jUWZr/KP28rTQlzVB
+ JxtmF4VJ+g5GRncda/Z4TWwgMEOxbKIvGUpvsZzT/ZhWuAUzGC6BDsrzE532HGhfhVne
+ rz/ICPe82lpWVwxx+g97p7/kYLFaCJVhuSmTbTTwULJLQVQVHodBV3A3WKUn7TFuuEiB
+ IZQklLcS+sKHruut2YZlw7ztr+iMftdCSKy2GfdJQWGbXLgdMOasHwrl6yI3/tWkvA92
+ 1Ihw==
+X-Gm-Message-State: APjAAAXTCjNnikhIxHxetkVXQ0IL2/TL/hXkZ6KpL4uIcAGVb91t2uI1
+ p7AVhnl4WGmPRay14wNS7VkTr5e/3uNHsA==
+X-Google-Smtp-Source: APXvYqwwnvbl5mg2Y+KPhsT9qOAJddRvEMUaoXrL75H7dMCuT4BtWXGTuDouHSW6zWPpycz1cXJdUg==
+X-Received: by 2002:ac8:2d2c:: with SMTP id n41mr14934711qta.28.1567167557791; 
+ Fri, 30 Aug 2019 05:19:17 -0700 (PDT)
+Received: from vanderson-lmcad.gw.lmcad.ic.unicamp.br (gw.lmcad.ic.unicamp.br.
+ [143.106.73.166]) by smtp.googlemail.com with ESMTPSA id
+ o127sm3001299qkd.104.2019.08.30.05.19.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Aug 2019 05:19:17 -0700 (PDT)
+From: vandersonmr <vandersonmr2@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 30 Aug 2019 09:19:03 -0300
+Message-Id: <20190830121903.17585-3-vandersonmr2@gmail.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190830121903.17585-1-vandersonmr2@gmail.com>
+References: <20190830121903.17585-1-vandersonmr2@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <faeb030e6a1044f0fd88208edfdb1c5fafe5def9.1567171655.git.mprivozn@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="IGAsvbQ6vXZH2eocVUTJ9RCNPakAlwiyr"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Fri, 30 Aug 2019 13:49:20 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2] qapi/qmp-dispatch: Fix error class for
- reporting disabled commands
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::843
+Subject: [Qemu-devel] [PATCH v2 2/2] tb-stats: adding TBStatistics info into
+ perf dump
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,74 +79,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, mdroth@linux.vnet.ibm.com, lcapitulino@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---IGAsvbQ6vXZH2eocVUTJ9RCNPakAlwiyr
-Content-Type: multipart/mixed; boundary="daiaeNJaKaDrENmbcEMIG30B5XesdE2Rt";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
-Cc: mdroth@linux.vnet.ibm.com, lcapitulino@redhat.com, armbru@redhat.com
-Message-ID: <18aef1bc-247c-1119-db02-7ebfece30591@redhat.com>
-Subject: Re: [PATCH v2] qapi/qmp-dispatch: Fix error class for reporting
- disabled commands
-References: <faeb030e6a1044f0fd88208edfdb1c5fafe5def9.1567171655.git.mprivozn@redhat.com>
-In-Reply-To: <faeb030e6a1044f0fd88208edfdb1c5fafe5def9.1567171655.git.mprivozn@redhat.com>
+Adding TBStatistics information to linux perf TB's symbol names.
 
---daiaeNJaKaDrENmbcEMIG30B5XesdE2Rt
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This commit depends on the following PATCH:
+[PATCH v5 00/10] Measure Tiny Code Generation Quality
 
-On 8/30/19 8:29 AM, Michal Privoznik wrote:
-> If a command is disabled an error is reported. But due to usage
-> of error_setg() the class of the error is GenericError which does
-> not help callers in distinguishing this case from a case where a
-> qmp command fails regularly due to other reasons. Use
-> CommandNotFound error class which is much closer to the actual
-> root cause.
->=20
-> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-> ---
->=20
-> This is a v2 of:
->=20
-> https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg06327.html
->=20
-> diff to v1:
-> - Don't introduce new error class (CommandDisabled)
-> - Use CommandNotFound error class
->=20
+Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+---
+ accel/tcg/perf/jitdump.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+diff --git a/accel/tcg/perf/jitdump.c b/accel/tcg/perf/jitdump.c
+index 6fb464039d..6a7ca4cf06 100644
+--- a/accel/tcg/perf/jitdump.c
++++ b/accel/tcg/perf/jitdump.c
+@@ -21,6 +21,7 @@
+ #include "disas/disas.h"
+ #include "jitdump.h"
+ #include "qemu-common.h"
++#include "exec/tb-stats.h"
+ 
+ struct jitheader {
+     uint32_t magic;     /* characters "jItD" */
+@@ -149,7 +150,20 @@ void start_jitdump_file(void)
+ 
+ void append_load_in_jitdump_file(TranslationBlock *tb)
+ {
+-    gchar *func_name = g_strdup_printf("TB virt:0x"TARGET_FMT_lx, tb->pc);
++    gchar *func_name;
++    if (tb->tb_stats) {
++        TBStatistics *tbs = tb->tb_stats;
++        unsigned g = stat_per_translation(tbs, code.num_guest_inst);
++        unsigned ops = stat_per_translation(tbs, code.num_tcg_ops);
++        unsigned ops_opt = stat_per_translation(tbs, code.num_tcg_ops_opt);
++        unsigned spills = stat_per_translation(tbs, code.spills);
++
++        func_name = g_strdup_printf(func_name,
++                "TB virt:0x"TARGET_FMT_lx" (g:%u op:%u opt:%u spills:%d)",
++                tb->pc, g, ops, ops_opt, spills);
++    } else {
++        func_name = g_strdup_printf("TB virt:0x"TARGET_FMT_lx, tb->pc);
++    }
+ 
+     struct jr_code_load load_event;
+     load_event.p.id = JIT_CODE_LOAD;
+-- 
+2.22.0
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---daiaeNJaKaDrENmbcEMIG30B5XesdE2Rt--
-
---IGAsvbQ6vXZH2eocVUTJ9RCNPakAlwiyr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1pKVwACgkQp6FrSiUn
-Q2pHkgf/e11jtgJuvjfWOWRDxrEUvVbaqNNWvzMP/sJKe3kYVryG1gvAHgI+Xfix
-AbkD0SWzT7vkpwFv00fTSpub1Ws6mPc3Tps1MDE4cKcl25daeDWojyJzfXxTv81S
-ILMp5/CdGJFHknvWmH+8nQiEZuw35X1orqDHz4xrajvnBwo/P30usDajco5zu/9b
-KLYOi6q33sVLvnVc7APOx1HBZFGnBnbmhhxa3u7aLyCrKg5Enxg6demTiwZygPN+
-z2TYBTvDQAzH+LL8q5Kn1Hu69qKoT+A575edzSqO9CNlEl015eO4T8YcVC66fwjJ
-pbtnZ4VEhd4bXp+j8a8YCQaw4QJ7LA==
-=4/OQ
------END PGP SIGNATURE-----
-
---IGAsvbQ6vXZH2eocVUTJ9RCNPakAlwiyr--
 
