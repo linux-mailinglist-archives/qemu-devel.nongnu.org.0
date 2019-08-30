@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87CAA3800
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 15:49:43 +0200 (CEST)
-Received: from localhost ([::1]:58968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A7AA37EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 15:42:38 +0200 (CEST)
+Received: from localhost ([::1]:58846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3hHZ-0003zn-HN
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 09:49:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48798)
+	id 1i3hAj-0007W3-1q
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 09:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34068)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1i3h74-000615-B2
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:38:53 -0400
+ (envelope-from <vandersonmr2@gmail.com>) id 1i3h2G-0001bA-Jt
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:33:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1i3h70-00061h-Uv
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:38:49 -0400
-Received: from 4.mo178.mail-out.ovh.net ([46.105.49.171]:42150)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i3h70-0005hq-IG
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:38:46 -0400
-Received: from player158.ha.ovh.net (unknown [10.109.159.123])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id B32AB77262
- for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 14:22:45 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player158.ha.ovh.net (Postfix) with ESMTPSA id 6491292BFBE4;
- Fri, 30 Aug 2019 12:22:39 +0000 (UTC)
-Date: Fri, 30 Aug 2019 14:22:38 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-ID: <20190830142238.4dbf65c8@bahia.lan>
-In-Reply-To: <50fc6fbbfd80c25d2ad1752fb945cdfc7d847f20.1566503584.git.qemu_oss@crudebyte.com>
-References: <cover.1566503584.git.qemu_oss@crudebyte.com>
- <50fc6fbbfd80c25d2ad1752fb945cdfc7d847f20.1566503584.git.qemu_oss@crudebyte.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <vandersonmr2@gmail.com>) id 1i3h2D-00016E-1D
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:33:51 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:44242)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
+ id 1i3h2C-000133-Gl
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 09:33:48 -0400
+Received: by mail-qk1-x743.google.com with SMTP id i78so4664764qke.11
+ for <qemu-devel@nongnu.org>; Fri, 30 Aug 2019 06:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=U6ojGf3MP8Gs+Ld7Ak4+LtdP2GzCKp0FNQzXh4xQGaQ=;
+ b=c8ERfbuzu4UmvNUDSM7F83NeRRrwXtJHy4gvCp3FGih3KnkMsi75U5SE/gJwxdxctK
+ Ij3LGCJHwp299jpizzrzPPnbKvTEmEgiPkMzhbYaGEeqFHBbqgSx9AJOB8uU+CajnKff
+ RY/Qd9ZCHL1R39oBURwCnmBr9WtA9SAnS+GzuzZJ0qBVcpqUx3S2EuuIzjwAbSJwq8nb
+ 4L/8D/9Dz76+QJ9XLN5c9ASoD84Zc3EI4NgRgY1rfhLSBjOSCuAPmym9+DyHFeEccQqv
+ RblYfHP4XAg+fr0JaAM6JAxR1arCNFm/sH03NfTsFk2eDaW/h0SErNyeRkOzE2U0DsB8
+ qIHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=U6ojGf3MP8Gs+Ld7Ak4+LtdP2GzCKp0FNQzXh4xQGaQ=;
+ b=Rg0Dl0o3f4uoqMYSWKVvJsB+b4mHWLoUbNj/OkwcsrcPfol+6LeuHRFReOVdWXNWBD
+ /6Biq4iRFou6sUwUOMyCNxU8c39dq1McaZfF5eA8/ecrjb2ab1pkZZUh8GAw82hzYpVd
+ h3S1GFJPJAIDXuTwae2gI2cNSp2RDvWqAG8u+M0fc0KwLJmcx6lelFsLq+Cgs+0ZDTiQ
+ atuPXytZhSVHuxZqHYr3vpJfbZWdQdG1MaOZYD98qCZpOpqNv8OtEIvLgw3sB2bmvydd
+ DYcbDVKI263OC7vVup/K6qhQ1KH4n85+Hny6WrxAnaAc9H0O65Fc0rL+0NbL+YM6LZfa
+ /6Yw==
+X-Gm-Message-State: APjAAAU8AGY9ii+WZjFASxm3rMESYSICTt87Ctl7WLV8izavx9DQ3UEA
+ 9xGWC3H3rxTri+UD7kzUJ3i+41F2m+eCEgz8+npU1fA47as=
+X-Google-Smtp-Source: APXvYqw4LFz4r2dnhxQbESGT9lX/scLRIrIylvE9mCRDucLLpeWHDOd9mbfJ9WJWHAKj7//V6bXjOfD4E6yQVvf+luM=
+X-Received: by 2002:a37:4fcf:: with SMTP id
+ d198mr15007208qkb.394.1567168314266; 
+ Fri, 30 Aug 2019 05:31:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 1519120451097893184
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudeigedghedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.49.171
-Subject: Re: [Qemu-devel] [PATCH v6 2/4] 9p: Added virtfs option
- 'multidevs=remap|forbid|warn'
+References: <20190829173437.5926-1-vandersonmr2@gmail.com>
+ <20190829173437.5926-3-vandersonmr2@gmail.com>
+ <87sgpj3qdl.fsf@linaro.org>
+In-Reply-To: <87sgpj3qdl.fsf@linaro.org>
+From: Vanderson Martins do Rosario <vandersonmr2@gmail.com>
+Date: Fri, 30 Aug 2019 09:31:42 -0300
+Message-ID: <CAMzYVD2BVLbNo_q4s0CZYsoecp_NTUtfecM4zYe=Lx58nssJMA@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::743
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v8 02/11] accel: collecting TB execution
+ count
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,507 +77,243 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Antonios Motakis <antonios.motakis@huawei.com>, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Aug 2019 21:33:37 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Ok. I haven't change it before because I would like to be able to collect
+information for already translated TBs when I, for instance, remove the
+filter during execution. Having the TBStats already created guarantee this.
+To guarantee this in your approach, we would need to tb_flush when changing
+the filter. Does it make sense? Is that ok for you?
 
-> 'warn' (default): Only log an error message (once) on host if more than one
-> device is shared by same export, except of that just ignore this config
-> error though. This is the default behaviour for not breaking existing
-> installations implying that they really know what they are doing.
-> 
-> 'forbid': Like 'warn', but except of just logging an error this
-> also denies access of guest to additional devices.
-> 
-> 'remap': Allows to share more than one device per export by remapping
-> inodes from host to guest appropriately. To support multiple devices on the
-> 9p share, and avoid qid path collisions we take the device id as input to
-> generate a unique QID path. The lowest 48 bits of the path will be set
-> equal to the file inode, and the top bits will be uniquely assigned based
-> on the top 16 bits of the inode and the device id.
-> 
-> Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
-> [CS: - Rebased to https://github.com/gkurz/qemu/commits/9p-next
->        (SHA1 177fd3b6a8).
->      - Updated hash calls to new xxhash API.
->      - Added virtfs option 'multidevs', original patch simply did the inode
->        remapping without being asked.
->      - Updated docs for new option 'multidevs'.
->      - Capture root_ino in v9fs_device_realize_common() as well, not just
->        the device id.
->      - Fixed v9fs_do_readdir() not having remapped inodes.
->      - Log error message when running out of prefixes in
->        qid_path_prefixmap().
->      - Fixed definition of QPATH_INO_MASK.
->      - Dropped unnecessary parantheses in qpp_lookup_func().
->      - Dropped unnecessary g_malloc0() result checks. ]
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
-
-Some more comments below.
-
->  fsdev/file-op-9p.h      |   5 ++
->  fsdev/qemu-fsdev-opts.c |   7 +-
->  fsdev/qemu-fsdev.c      |  11 +++
->  hw/9pfs/9p.c            | 182 ++++++++++++++++++++++++++++++++++++++++++------
->  hw/9pfs/9p.h            |  13 ++++
->  qemu-options.hx         |  33 +++++++--
->  vl.c                    |   6 +-
->  7 files changed, 229 insertions(+), 28 deletions(-)
-> 
-> diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
-> index c757c8099f..f2f7772c86 100644
-> --- a/fsdev/file-op-9p.h
-> +++ b/fsdev/file-op-9p.h
-> @@ -59,6 +59,11 @@ typedef struct ExtendedOps {
->  #define V9FS_RDONLY                 0x00000040
->  #define V9FS_PROXY_SOCK_FD          0x00000080
->  #define V9FS_PROXY_SOCK_NAME        0x00000100
-> +/*
-> + * multidevs option (either one of the two applies exclusively)
-> + */
-> +#define V9FS_REMAP_INODES           0x00000200
-> +#define V9FS_FORBID_MULTIDEVS       0x00000400
->  
->  #define V9FS_SEC_MASK               0x0000003C
->  
-> diff --git a/fsdev/qemu-fsdev-opts.c b/fsdev/qemu-fsdev-opts.c
-> index 7c31ffffaf..07a18c6e48 100644
-> --- a/fsdev/qemu-fsdev-opts.c
-> +++ b/fsdev/qemu-fsdev-opts.c
-> @@ -31,7 +31,9 @@ static QemuOptsList qemu_fsdev_opts = {
->          }, {
->              .name = "readonly",
->              .type = QEMU_OPT_BOOL,
-> -
-> +        }, {
-> +            .name = "multidevs",
-> +            .type = QEMU_OPT_STRING,
->          }, {
->              .name = "socket",
->              .type = QEMU_OPT_STRING,
-> @@ -76,6 +78,9 @@ static QemuOptsList qemu_virtfs_opts = {
->              .name = "readonly",
->              .type = QEMU_OPT_BOOL,
->          }, {
-> +            .name = "multidevs",
-> +            .type = QEMU_OPT_STRING,
-> +        }, {
->              .name = "socket",
->              .type = QEMU_OPT_STRING,
->          }, {
-> diff --git a/fsdev/qemu-fsdev.c b/fsdev/qemu-fsdev.c
-> index 077a8c4e2b..ed03d559a9 100644
-> --- a/fsdev/qemu-fsdev.c
-> +++ b/fsdev/qemu-fsdev.c
-> @@ -58,6 +58,7 @@ static FsDriverTable FsDrivers[] = {
->              "writeout",
->              "fmode",
->              "dmode",
-> +            "multidevs",
->              "throttling.bps-total",
->              "throttling.bps-read",
->              "throttling.bps-write",
-> @@ -121,6 +122,7 @@ int qemu_fsdev_add(QemuOpts *opts, Error **errp)
->      const char *fsdev_id = qemu_opts_id(opts);
->      const char *fsdriver = qemu_opt_get(opts, "fsdriver");
->      const char *writeout = qemu_opt_get(opts, "writeout");
-> +    const char *multidevs = qemu_opt_get(opts, "multidevs");
->      bool ro = qemu_opt_get_bool(opts, "readonly", 0);
->  
->      if (!fsdev_id) {
-> @@ -161,6 +163,15 @@ int qemu_fsdev_add(QemuOpts *opts, Error **errp)
->      } else {
->          fsle->fse.export_flags &= ~V9FS_RDONLY;
->      }
-> +    if (multidevs) {
-> +        if (!strcmp(multidevs, "remap")) {
-> +            fsle->fse.export_flags &= ~V9FS_FORBID_MULTIDEVS;
-> +            fsle->fse.export_flags |= V9FS_REMAP_INODES;
-> +        } else if (!strcmp(multidevs, "forbid")) {
-> +            fsle->fse.export_flags &= ~V9FS_REMAP_INODES;
-> +            fsle->fse.export_flags |= V9FS_FORBID_MULTIDEVS;
-> +        }
-> +    }
->  
->      if (fsle->fse.ops->parse_opts) {
->          if (fsle->fse.ops->parse_opts(opts, &fsle->fse, errp)) {
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 8cc65c2c67..c96ea51116 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -25,6 +25,7 @@
->  #include "trace.h"
->  #include "migration/blocker.h"
->  #include "sysemu/qtest.h"
-> +#include "qemu/xxhash.h"
->  
->  int open_fd_hw;
->  int total_open_fd;
-> @@ -571,22 +572,109 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
->                                  P9_STAT_MODE_NAMED_PIPE |   \
->                                  P9_STAT_MODE_SOCKET)
->  
-> -/* This is the algorithm from ufs in spfs */
-> +
-> +/* creative abuse of tb_hash_func7, which is based on xxhash */
-> +static uint32_t qpp_hash(QppEntry e)
-> +{
-> +    return qemu_xxhash7(e.ino_prefix, e.dev, 0, 0, 0);
-> +}
-> +
-> +static bool qpp_lookup_func(const void *obj, const void *userp)
-> +{
-> +    const QppEntry *e1 = obj, *e2 = userp;
-> +    return e1->dev == e2->dev && e1->ino_prefix == e2->ino_prefix;
-> +}
-> +
-> +static void qpp_table_remove(void *p, uint32_t h, void *up)
-> +{
-> +    g_free(p);
-> +}
-> +
-> +static void qpp_table_destroy(struct qht *ht)
-> +{
-> +    qht_iter(ht, qpp_table_remove, NULL);
-> +    qht_destroy(ht);
-> +}
-> +
-> +/* stat_to_qid needs to map inode number (64 bits) and device id (32 bits)
-> + * to a unique QID path (64 bits). To avoid having to map and keep track
-> + * of up to 2^64 objects, we map only the 16 highest bits of the inode plus
-> + * the device id to the 16 highest bits of the QID path. The 48 lowest bits
-> + * of the QID path equal to the lowest bits of the inode number.
-> + *
-> + * This takes advantage of the fact that inode number are usually not
-> + * random but allocated sequentially, so we have fewer items to keep
-> + * track of.
-> + */
-> +static int qid_path_prefixmap(V9fsPDU *pdu, const struct stat *stbuf,
-> +                                uint64_t *path)
-> +{
-> +    QppEntry lookup = {
-> +        .dev = stbuf->st_dev,
-> +        .ino_prefix = (uint16_t) (stbuf->st_ino >> 48)
-> +    }, *val;
-> +    uint32_t hash = qpp_hash(lookup);
-> +
-> +    val = qht_lookup(&pdu->s->qpp_table, &lookup, hash);
-> +
-> +    if (!val) {
-> +        if (pdu->s->qp_prefix_next == 0) {
-> +            /* we ran out of prefixes */
-> +            error_report_once(
-> +                "9p: No more prefixes available for remapping inodes from "
-> +                "host to guest."
-> +            );
-> +            return -ENFILE;
-> +        }
-> +
-> +        val = g_malloc0(sizeof(QppEntry));
-> +        *val = lookup;
-> +
-> +        /* new unique inode prefix and device combo */
-> +        val->qp_prefix = pdu->s->qp_prefix_next++;
-> +        qht_insert(&pdu->s->qpp_table, val, hash, NULL);
-> +    }
-> +
-> +    *path = ((uint64_t)val->qp_prefix << 48) | (stbuf->st_ino & QPATH_INO_MASK);
-> +    return 0;
-> +}
-> +
->  static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
->  {
-> +    int err;
->      size_t size;
->  
-> -    if (pdu->s->dev_id != stbuf->st_dev) {
-> -        error_report_once(
-> -            "9p: Multiple devices detected in same VirtFS export. "
-> -            "You must use a separate export for each device."
-> -        );
-> -        return -ENODEV;
-> +    if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
-> +        /* map inode+device to qid path (fast path) */
-> +        err = qid_path_prefixmap(pdu, stbuf, &qidp->path);
-> +        if (err) {
-> +            return err;
-> +        }
-> +    } else {
-> +        if (pdu->s->dev_id != stbuf->st_dev) {
-> +            if (pdu->s->ctx.export_flags & V9FS_FORBID_MULTIDEVS) {
-> +                error_report_once(
-> +                    "9p: Multiple devices detected in same VirtFS export. "
-> +                    "Access of guest to additional devices is (partly) "
-> +                    "denied due to virtfs option 'multidevs=forbid' being "
-> +                    "effective."
-> +                );
-> +                return -ENODEV;
-> +            } else {
-> +                error_report_once(
-> +                    "9p: Multiple devices detected in same VirtFS export, "
-> +                    "which might lead to file ID collisions and severe "
-> +                    "misbehaviours on guest! You should either use a "
-> +                    "separate export for each device shared from host or "
-> +                    "use virtfs option 'multidevs=remap'!"
-> +                );
-> +            }
-> +        }
-> +        memset(&qidp->path, 0, sizeof(qidp->path));
-> +        size = MIN(sizeof(stbuf->st_ino), sizeof(qidp->path));
-> +        memcpy(&qidp->path, &stbuf->st_ino, size);
->      }
->  
-> -    memset(&qidp->path, 0, sizeof(qidp->path));
-> -    size = MIN(sizeof(stbuf->st_ino), sizeof(qidp->path));
-> -    memcpy(&qidp->path, &stbuf->st_ino, size);
->      qidp->version = stbuf->st_mtime ^ (stbuf->st_size << 8);
->      qidp->type = 0;
->      if (S_ISDIR(stbuf->st_mode)) {
-> @@ -616,6 +704,30 @@ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
->      return 0;
->  }
->  
-> +static int coroutine_fn dirent_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
-> +                                      struct dirent *dent, V9fsQID *qidp)
-> +{
-> +    struct stat stbuf;
-> +    V9fsPath path;
-> +    int err;
-> +
-> +    v9fs_path_init(&path);
-> +
-> +    err = v9fs_co_name_to_path(pdu, &fidp->path, dent->d_name, &path);
-> +    if (err < 0) {
-> +        goto out;
-> +    }
-> +    err = v9fs_co_lstat(pdu, &path, &stbuf);
-> +    if (err < 0) {
-> +        goto out;
-> +    }
-> +    err = stat_to_qid(pdu, &stbuf, qidp);
-> +
-> +out:
-> +    v9fs_path_free(&path);
-> +    return err;
-> +}
-> +
->  V9fsPDU *pdu_alloc(V9fsState *s)
->  {
->      V9fsPDU *pdu = NULL;
-> @@ -1964,16 +2076,39 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
->              v9fs_string_free(&name);
->              return count;
->          }
-> -        /*
-> -         * Fill up just the path field of qid because the client uses
-> -         * only that. To fill the entire qid structure we will have
-> -         * to stat each dirent found, which is expensive
-> -         */
-> -        size = MIN(sizeof(dent->d_ino), sizeof(qid.path));
-> -        memcpy(&qid.path, &dent->d_ino, size);
-> -        /* Fill the other fields with dummy values */
-> -        qid.type = 0;
-> -        qid.version = 0;
-> +
-> +        if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
-> +            /*
-> +             * dirent_to_qid() implies expensive stat call for each entry,
-> +             * we must do that here though since inode remapping requires
-> +             * the device id, which in turn might be different for
-> +             * different entries; we cannot make any assumption to avoid
-> +             * that here.
-> +             */
-> +            err = dirent_to_qid(pdu, fidp, dent, &qid);
-> +            if (err < 0) {
-> +                v9fs_readdir_unlock(&fidp->fs.dir);
-> +                v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
-> +                v9fs_string_free(&name);
-> +                return err;
-> +            }
-> +        } else {
-> +            /*
-> +             * Fill up just the path field of qid because the client uses
-> +             * only that. To fill the entire qid structure we will have
-> +             * to stat each dirent found, which is expensive. For the
-> +             * latter reason we don't call dirent_to_qid() here. Only drawback
-> +             * is that no multi-device export detection of stat_to_qid()
-> +             * would be done and provided as error to the user here. But
-> +             * user would get that error anyway when accessing those
-> +             * files/dirs through other ways.
-> +             */
-> +            size = MIN(sizeof(dent->d_ino), sizeof(qid.path));
-> +            memcpy(&qid.path, &dent->d_ino, size);
-> +            /* Fill the other fields with dummy values */
-> +            qid.type = 0;
-> +            qid.version = 0;
-> +        }
->  
->          /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
->          len = pdu_marshal(pdu, 11 + count, "Qqbs",
-> @@ -3672,8 +3807,13 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
->          goto out;
->      }
->  
-> +    s->root_ino = stat.st_ino;
-
-This isn't used anywhere. It looks like a leftover of the readdir fix
-in v5.
-
->      s->dev_id = stat.st_dev;
->  
-> +    /* QID path hash table. 1 entry ought to be enough for anybody ;) */
-> +    qht_init(&s->qpp_table, qpp_lookup_func, 1, QHT_MODE_AUTO_RESIZE);
-> +    s->qp_prefix_next = 1; /* reserve 0 to detect overflow */
-> +
->      s->ctx.fst = &fse->fst;
->      fsdev_throttle_init(s->ctx.fst);
->  
-> @@ -3687,6 +3827,7 @@ out:
->          }
->          g_free(s->tag);
->          g_free(s->ctx.fs_root);
-> +        qpp_table_destroy(&s->qpp_table);
->          v9fs_path_free(&path);
->      }
->      return rc;
-> @@ -3699,6 +3840,7 @@ void v9fs_device_unrealize_common(V9fsState *s, Error **errp)
->      }
->      fsdev_throttle_cleanup(s->ctx.fst);
->      g_free(s->tag);
-> +    qpp_table_destroy(&s->qpp_table);
->      g_free(s->ctx.fs_root);
->  }
->  
-> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> index 5e316178d5..a283b0193e 100644
-> --- a/hw/9pfs/9p.h
-> +++ b/hw/9pfs/9p.h
-> @@ -8,6 +8,7 @@
->  #include "fsdev/9p-iov-marshal.h"
->  #include "qemu/thread.h"
->  #include "qemu/coroutine.h"
-> +#include "qemu/qht.h"
->  
->  enum {
->      P9_TLERROR = 6,
-> @@ -235,6 +236,15 @@ struct V9fsFidState
->      V9fsFidState *rclm_lst;
->  };
->  
-> +#define QPATH_INO_MASK        ((1ULL << 48) - 1)
-> +
-> +/* QID path prefix entry, see stat_to_qid */
-> +typedef struct {
-> +    dev_t dev;
-> +    uint16_t ino_prefix;
-> +    uint16_t qp_prefix;
-> +} QppEntry;
-> +
->  struct V9fsState
->  {
->      QLIST_HEAD(, V9fsPDU) free_list;
-> @@ -256,7 +266,10 @@ struct V9fsState
->      Error *migration_blocker;
->      V9fsConf fsconf;
->      V9fsQID root_qid;
-> +    ino_t root_ino;
-
-Thinking again, I'm wondering if root_ino and dev_id could be used
-instead of root_qid in v9fs_walk()... Would you have a look at that
-if you decide to fix the readdir issue ?
-
->      dev_t dev_id;
-> +    struct qht qpp_table;
-> +    uint16_t qp_prefix_next;
->  };
->  
->  /* 9p2000.L open flags */
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 9621e934c0..603e5e8e15 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1335,17 +1335,17 @@ ETEXI
->  
->  DEF("virtfs", HAS_ARG, QEMU_OPTION_virtfs,
->      "-virtfs local,path=path,mount_tag=tag,security_model=mapped-xattr|mapped-file|passthrough|none\n"
-> -    "        [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode]\n"
-> -    "-virtfs proxy,mount_tag=tag,socket=socket[,id=id][,writeout=immediate][,readonly]\n"
-> -    "-virtfs proxy,mount_tag=tag,sock_fd=sock_fd[,id=id][,writeout=immediate][,readonly]\n"
-> +    "        [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode][,multidevs=remap|forbid|warn]\n"
-> +    "-virtfs proxy,mount_tag=tag,socket=socket[,id=id][,writeout=immediate][,readonly][,multidevs=remap|forbid|warn]\n"
-> +    "-virtfs proxy,mount_tag=tag,sock_fd=sock_fd[,id=id][,writeout=immediate][,readonly][,multidevs=remap|forbid|warn]\n"
->      "-virtfs synth,mount_tag=tag[,id=id][,readonly]\n",
->      QEMU_ARCH_ALL)
->  
->  STEXI
->  
-> -@item -virtfs local,path=@var{path},mount_tag=@var{mount_tag} ,security_model=@var{security_model}[,writeout=@var{writeout}][,readonly] [,fmode=@var{fmode}][,dmode=@var{dmode}]
-> -@itemx -virtfs proxy,socket=@var{socket},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly]
-> -@itemx -virtfs proxy,sock_fd=@var{sock_fd},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly]
-> +@item -virtfs local,path=@var{path},mount_tag=@var{mount_tag} ,security_model=@var{security_model}[,writeout=@var{writeout}][,readonly] [,fmode=@var{fmode}][,dmode=@var{dmode}][,multidevs=@var{multidevs}]
-> +@itemx -virtfs proxy,socket=@var{socket},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly][,multidevs=@var{multidevs}]
-> +@itemx -virtfs proxy,sock_fd=@var{sock_fd},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly][,multidevs=@var{multidevs}]
->  @itemx -virtfs synth,mount_tag=@var{mount_tag}
->  @findex -virtfs
->  
-> @@ -1399,6 +1399,27 @@ Specifies the default mode for newly created directories on the host. Works
->  only with security models "mapped-xattr" and "mapped-file".
->  @item mount_tag=@var{mount_tag}
->  Specifies the tag name to be used by the guest to mount this export point.
-> +@item multidevs=@var{multidevs}
-> +Specifies how to deal with multiple devices being shared with a 9p export.
-> +Supported behaviours are either "remap", "forbid" or "warn". The latter is
-> +the default behaviour on which virtfs 9p expects only one device to be
-> +shared with the same export, and if more than one device is shared and
-> +accessed via the same 9p export then only a warning message is logged
-> +(once) by qemu on host side. In order to avoid file ID collisions on guest
-> +you should either create a separate virtfs export for each device to be
-> +shared with guests (recommended way) or you might use "remap" instead which
-> +allows you to share multiple devices with only one export instead, which is
-> +achieved by remapping the original inode numbers from host to guest in a
-> +way that would prevent such collisions. Remapping inodes in such use cases
-> +is required because the original device IDs from host are never passed and
-> +exposed on guest. Instead all files of an export shared with virtfs always
-> +share the same device id on guest. So two files with identical inode
-> +numbers but from actually different devices on host would otherwise cause a
-> +file ID collision and hence potential misbehaviours on guest. "forbid" on
-> +the other hand assumes like "warn" that only one device is shared by the
-> +same export, however it will not only log a warning message but also
-> +deny access to additional devices on guest. Note though that "forbid" does
-> +currently not block all possible file access operations.
->  @end table
->  ETEXI
->  
-> diff --git a/vl.c b/vl.c
-> index b426b32134..9cb29b483d 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -3320,7 +3320,7 @@ int main(int argc, char **argv, char **envp)
->              case QEMU_OPTION_virtfs: {
->                  QemuOpts *fsdev;
->                  QemuOpts *device;
-> -                const char *writeout, *sock_fd, *socket, *path, *security_model;
-> +                const char *writeout, *sock_fd, *socket, *path, *security_model, *multidevs;
->  
->                  olist = qemu_find_opts("virtfs");
->                  if (!olist) {
-> @@ -3380,6 +3380,10 @@ int main(int argc, char **argv, char **envp)
->                  qemu_opt_set_bool(fsdev, "readonly",
->                                    qemu_opt_get_bool(opts, "readonly", 0),
->                                    &error_abort);
-> +                multidevs = qemu_opt_get(opts, "multidevs");
-> +                if (multidevs) {
-> +                    qemu_opt_set(fsdev, "multidevs", multidevs, &error_abort);
-> +                }
->                  device = qemu_opts_create(qemu_find_opts("device"), NULL, 0,
->                                            &error_abort);
->                  qemu_opt_set(device, "driver", "virtio-9p-pci", &error_abort);
+Vanderson M. Rosario
 
 
+On Fri, Aug 30, 2019 at 7:21 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+
+>
+> vandersonmr <vandersonmr2@gmail.com> writes:
+>
+> > If a TB has a TBS (TBStatistics) with the TB_EXEC_STATS
+> > enabled, then we instrument the start code of this TB
+> > to atomically count the number of times it is executed.
+> > We count both the number of "normal" executions and atomic
+> > executions of a TB.
+> >
+> > The execution count of the TB is stored in its respective
+> > TBS.
+> >
+> > All TBStatistics are created by default with the flags from
+> > default_tbstats_flag.
+> >
+> > Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+> > ---
+> >  accel/tcg/cpu-exec.c      |  4 ++++
+> >  accel/tcg/tb-stats.c      |  5 +++++
+> >  accel/tcg/tcg-runtime.c   |  7 +++++++
+> >  accel/tcg/tcg-runtime.h   |  2 ++
+> >  accel/tcg/translate-all.c |  7 +++++++
+> >  accel/tcg/translator.c    |  1 +
+> >  include/exec/gen-icount.h |  9 +++++++++
+> >  include/exec/tb-stats.h   | 19 +++++++++++++++++++
+> >  util/log.c                |  1 +
+> >  9 files changed, 55 insertions(+)
+> >
+> > diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> > index 48272c781b..9b2b7bff80 100644
+> > --- a/accel/tcg/cpu-exec.c
+> > +++ b/accel/tcg/cpu-exec.c
+> > @@ -251,6 +251,10 @@ void cpu_exec_step_atomic(CPUState *cpu)
+> >
+> >          start_exclusive();
+> >
+> > +        if (tb_stats_enabled(tb, TB_EXEC_STATS)) {
+> > +            tb->tb_stats->executions.atomic++;
+> > +        }
+> > +
+> >          /* Since we got here, we know that parallel_cpus must be true.
+> */
+> >          parallel_cpus =3D false;
+> >          in_exclusive_region =3D true;
+> > diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
+> > index 948b107e68..1db81d83e7 100644
+> > --- a/accel/tcg/tb-stats.c
+> > +++ b/accel/tcg/tb-stats.c
+> > @@ -61,3 +61,8 @@ bool tb_stats_collection_paused(void)
+> >  {
+> >      return tcg_collect_tb_stats =3D=3D TB_STATS_PAUSED;
+> >  }
+> > +
+> > +uint32_t get_default_tbstats_flag(void)
+> > +{
+> > +    return default_tbstats_flag;
+> > +}
+> > diff --git a/accel/tcg/tcg-runtime.c b/accel/tcg/tcg-runtime.c
+> > index 8a1e408e31..6f4aafba11 100644
+> > --- a/accel/tcg/tcg-runtime.c
+> > +++ b/accel/tcg/tcg-runtime.c
+> > @@ -167,3 +167,10 @@ void HELPER(exit_atomic)(CPUArchState *env)
+> >  {
+> >      cpu_loop_exit_atomic(env_cpu(env), GETPC());
+> >  }
+> > +
+> > +void HELPER(inc_exec_freq)(void *ptr)
+> > +{
+> > +    TBStatistics *stats =3D (TBStatistics *) ptr;
+> > +    g_assert(stats);
+> > +    atomic_inc(&stats->executions.normal);
+> > +}
+> > diff --git a/accel/tcg/tcg-runtime.h b/accel/tcg/tcg-runtime.h
+> > index 4fa61b49b4..bf0b75dbe8 100644
+> > --- a/accel/tcg/tcg-runtime.h
+> > +++ b/accel/tcg/tcg-runtime.h
+> > @@ -28,6 +28,8 @@ DEF_HELPER_FLAGS_1(lookup_tb_ptr, TCG_CALL_NO_WG_SE,
+> ptr, env)
+> >
+> >  DEF_HELPER_FLAGS_1(exit_atomic, TCG_CALL_NO_WG, noreturn, env)
+> >
+> > +DEF_HELPER_FLAGS_1(inc_exec_freq, TCG_CALL_NO_RWG, void, ptr)
+> > +
+> >  #ifdef CONFIG_SOFTMMU
+> >
+> >  DEF_HELPER_FLAGS_5(atomic_cmpxchgb, TCG_CALL_NO_WG,
+> > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> > index b7bccacd3b..e72aeba682 100644
+> > --- a/accel/tcg/translate-all.c
+> > +++ b/accel/tcg/translate-all.c
+> > @@ -1785,6 +1785,13 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+> >       */
+> >      if (tb_stats_collection_enabled()) {
+> >          tb->tb_stats =3D tb_get_stats(phys_pc, pc, cs_base, flags, tb)=
+;
+> > +
+> > +        if (qemu_log_in_addr_range(tb->pc)) {
+>
+> We can open this out because this test will always pass if no dfilter
+> has been set and there is no point creating a tb_stats record if we
+> won't fill it in. So
+>
+>   if (qemu_log_in_addr_range(tb->pc)) {
+>      tb->tb_stats =3D tb_get_stats(phys_pc, pc, cs_base, flags, tb);
+>      uint32_t flag =3D get_default_tbstats_flag();
+>
+>      if (flag & TB_EXEC_STATS) {
+>        ...
+>
+> And the additional tests that get added later. This way we'll only
+> create and collect stats for what we want.
+>
+> > +            uint32_t flag =3D get_default_tbstats_flag();
+> > +            if (flag & TB_EXEC_STATS) {
+> > +                tb->tb_stats->stats_enabled |=3D TB_EXEC_STATS;
+> > +            }
+> > +        }
+> >      } else {
+> >          tb->tb_stats =3D NULL;
+> >      }
+> > diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+> > index 70c66c538c..ec6bd829a0 100644
+> > --- a/accel/tcg/translator.c
+> > +++ b/accel/tcg/translator.c
+> > @@ -46,6 +46,7 @@ void translator_loop(const TranslatorOps *ops,
+> DisasContextBase *db,
+> >
+> >      ops->init_disas_context(db, cpu);
+> >      tcg_debug_assert(db->is_jmp =3D=3D DISAS_NEXT);  /* no early exit =
+*/
+> > +    gen_tb_exec_count(tb);
+> >
+> >      /* Reset the temp count so that we can identify leaks */
+> >      tcg_clear_temp_count();
+> > diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
+> > index 822c43cfd3..be006383b9 100644
+> > --- a/include/exec/gen-icount.h
+> > +++ b/include/exec/gen-icount.h
+> > @@ -32,6 +32,15 @@ static inline void gen_io_end(void)
+> >      tcg_temp_free_i32(tmp);
+> >  }
+> >
+> > +static inline void gen_tb_exec_count(TranslationBlock *tb)
+> > +{
+> > +    if (tb_stats_enabled(tb, TB_EXEC_STATS)) {
+> > +        TCGv_ptr ptr =3D tcg_const_ptr(tb->tb_stats);
+> > +        gen_helper_inc_exec_freq(ptr);
+> > +        tcg_temp_free_ptr(ptr);
+> > +    }
+> > +}
+> > +
+> >  static inline void gen_tb_start(TranslationBlock *tb)
+> >  {
+> >      TCGv_i32 count, imm;
+> > diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
+> > index 898e05a36f..c4a8715400 100644
+> > --- a/include/exec/tb-stats.h
+> > +++ b/include/exec/tb-stats.h
+> > @@ -30,6 +30,9 @@
+> >  #include "exec/tb-context.h"
+> >  #include "tcg.h"
+> >
+> > +#define tb_stats_enabled(tb, JIT_STATS) \
+> > +    (tb && tb->tb_stats && (tb->tb_stats->stats_enabled & JIT_STATS))
+> > +
+> >  typedef struct TBStatistics TBStatistics;
+> >
+> >  /*
+> > @@ -46,6 +49,15 @@ struct TBStatistics {
+> >      uint32_t     flags;
+> >      /* cs_base isn't included in the hash but we do check for matches =
+*/
+> >      target_ulong cs_base;
+> > +
+> > +    uint32_t stats_enabled;
+> > +
+> > +    /* Execution stats */
+> > +    struct {
+> > +        unsigned long normal;
+> > +        unsigned long atomic;
+> > +    } executions;
+> > +
+> >      /* current TB linked to this TBStatistics */
+> >      TranslationBlock *tb;
+> >  };
+> > @@ -56,7 +68,12 @@ void init_tb_stats_htable_if_not(void);
+> >
+> >  /* TBStatistic collection controls */
+> >  enum TBStatsStatus { TB_STATS_RUNNING, TB_STATS_PAUSED,
+> TB_STATS_STOPPED };
+> > +
+> > +#define TB_NOTHING    (1 << 0)
+> > +#define TB_EXEC_STATS (1 << 1)
+> > +
+> >  extern int tcg_collect_tb_stats;
+> > +extern uint32_t default_tbstats_flag;
+> >
+> >  void enable_collect_tb_stats(void);
+> >  void disable_collect_tb_stats(void);
+> > @@ -64,4 +81,6 @@ void pause_collect_tb_stats(void);
+> >  bool tb_stats_collection_enabled(void);
+> >  bool tb_stats_collection_paused(void);
+> >
+> > +uint32_t get_default_tbstats_flag(void);
+> > +
+> >  #endif
+> > diff --git a/util/log.c b/util/log.c
+> > index 393a17115b..29021a4584 100644
+> > --- a/util/log.c
+> > +++ b/util/log.c
+> > @@ -32,6 +32,7 @@ static int log_append =3D 0;
+> >  static GArray *debug_regions;
+> >
+> >  int tcg_collect_tb_stats;
+> > +uint32_t default_tbstats_flag;
+> >
+> >  /* Return the number of characters emitted.  */
+> >  int qemu_log(const char *fmt, ...)
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
