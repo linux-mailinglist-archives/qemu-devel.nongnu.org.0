@@ -2,69 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704ECA3DDC
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 20:44:45 +0200 (CEST)
-Received: from localhost ([::1]:40508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351B0A3DD7
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 20:42:13 +0200 (CEST)
+Received: from localhost ([::1]:40492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3lt6-0007it-Jm
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 14:44:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36015)
+	id 1i3lqd-0006Bm-Kh
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 14:42:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35562)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1i3ls7-0007If-Lc
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 14:43:45 -0400
+ (envelope-from <philmd@redhat.com>) id 1i3lpH-0005Eo-Et
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 14:40:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1i3ls6-00007Z-62
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 14:43:43 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:38856)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1i3ls5-00006y-UF; Fri, 30 Aug 2019 14:43:42 -0400
-Received: by mail-lf1-x143.google.com with SMTP id c12so6087570lfh.5;
- Fri, 30 Aug 2019 11:43:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kaOBQ4A7nBcUJgK5RMy0DpTWmFUVKRzfj7tcDVEsdks=;
- b=avb70JdrnjmpkoKSk9kUncNScnSVjmP9uxv5VBE4paN6rR8LpaPWAbSTSb+HMvUNyZ
- +uKho38U+AbvG7V/9Ufz935R/DY0HZLAdGy+2U0mOQwbBHj9FfoODEzzJihZeA6UDxWX
- sZI2DSRLvOI6crbAQalO+5oM2ZlfacejO/UNOq3bUs2jTr1egGW1idvlayZTbuhcDkjV
- rLbfLHmlRdpP4WWsB4Mc57tsrswfQ5TX/eQ7z8VL9je0xSiceCFK4B1+wkL4RWl1Muyg
- pkNp6Cj3FkU8L2qIupGZXwBSVOd26I5wAifFXh3QxOIUAgSTHP1iAyemEI8+PC3M5RV2
- QNRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kaOBQ4A7nBcUJgK5RMy0DpTWmFUVKRzfj7tcDVEsdks=;
- b=WomXetH2f3Ndl+ymCdK1ZWxVcmiknE6NtmtQoHx41nyt0y0CFEDi8YWsbMfHBmrhQE
- D3JuPRWOTBQxURIqOpETUl7A73wPeXixz9Ve7YSz8/GrGTgOaDCvqs+fyiexMn6lTu+G
- YNOO2GvNRFxI33PFlSyDfaTmSVP9q52zKPLXBamuk0N3X9GGT3OF5E7Yz+DAGrrn7PUQ
- hmUsZKuDtDlvP8Y928msI3BcYtXmxtoQKxmgPp8n7W6EYEJslveK4qsZv1vqirCTg+SQ
- 8APfqqZZimH5Lv4uv9n63sf/odsFNnXZoDqfEpA0ifW0eITIMo5xt0e0amhVoDT1T540
- qGtw==
-X-Gm-Message-State: APjAAAVCYqvvOlaex7qNqx3JOM0yiZCOT5/js4dNaGdFPS7SdTPLnLnf
- k13/C6OkvV680Ns08WVbZKYVIA8wMaxSzZE8WPU=
-X-Google-Smtp-Source: APXvYqzq3Oe+PetVFVU1PxUX1vrCzP6Flqe5+pFsL5YMXpajrof7yw1CkN5WoHlhSOSHYGl5tf2elAiwH5ls7+Ldmv0=
-X-Received: by 2002:ac2:4a69:: with SMTP id q9mr4097753lfp.86.1567190619998;
- Fri, 30 Aug 2019 11:43:39 -0700 (PDT)
+ (envelope-from <philmd@redhat.com>) id 1i3lpF-0007Xv-58
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 14:40:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47064)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i3lpE-0007XU-Tr
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 14:40:45 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 708F0300CB2B;
+ Fri, 30 Aug 2019 18:40:43 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.205.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F3312A214;
+ Fri, 30 Aug 2019 18:40:36 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+Date: Fri, 30 Aug 2019 20:40:33 +0200
+Message-Id: <20190830184033.7630-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <1566959818-38369-1-git-send-email-zhiwei_liu@c-sky.com>
- <CAKmqyKMDmaABGWyLZD2R-4J8=jM6hry6Bfmu498+UZzQtxsTMA@mail.gmail.com>
- <af15b620-1350-aa1a-0f02-2a46518f0ef2@c-sky.com>
- <CAKmqyKPUxyMZnnOd896aK4ZRoG+6iiBQ0E3MJbEqRv9KudbN7Q@mail.gmail.com>
- <87tv9z3tvg.fsf@linaro.org>
-In-Reply-To: <87tv9z3tvg.fsf@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 30 Aug 2019 11:39:29 -0700
-Message-ID: <CAKmqyKMf=gTvFrk+ndsXQPmO1dVGGXNJ8ByFrKu=jokA+LC8iA@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Fri, 30 Aug 2019 18:40:43 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::143
-Subject: Re: [Qemu-devel] [PATCH] RISCV: support riscv vector extension 0.7.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] tests/acceptance: Do not install paramiko
+ module by default
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,160 +56,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>,
- Alistair Francis <Alistair.Francis@wdc.com>, liuzhiwei <zhiwei_liu@c-sky.com>,
+Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 30, 2019 at 2:06 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
->
-> Alistair Francis <alistair23@gmail.com> writes:
->
-> > On Thu, Aug 29, 2019 at 5:05 AM liuzhiwei <zhiwei_liu@c-sky.com> wrote:
-> >>
-> >> On 2019/8/29 =E4=B8=8A=E5=8D=885:34, Alistair Francis wrote:
-> >> > On Wed, Aug 28, 2019 at 12:04 AM liuzhiwei <zhiwei_liu@c-sky.com> wr=
-ote:
-> >> >> Change-Id: I3cf891bc400713b95f47ecca82b1bf773f3dcb25
-> >> >> Signed-off-by: liuzhiwei <zhiwei_liu@c-sky.com>
-> >> >> ---
-> >> >>   fpu/softfloat.c                         |   119 +
-> >> >>   include/fpu/softfloat.h                 |     4 +
-> >> >>   linux-user/riscv/cpu_loop.c             |     8 +-
-> >> >>   target/riscv/Makefile.objs              |     2 +-
-> >> >>   target/riscv/cpu.h                      |    30 +
-> >> >>   target/riscv/cpu_bits.h                 |    15 +
-> >> >>   target/riscv/cpu_helper.c               |     7 +
-> >> >>   target/riscv/csr.c                      |    65 +-
-> >> >>   target/riscv/helper.h                   |   354 +
-> >> >>   target/riscv/insn32.decode              |   374 +-
-> >> >>   target/riscv/insn_trans/trans_rvv.inc.c |   484 +
-> >> >>   target/riscv/translate.c                |     1 +
-> >> >>   target/riscv/vector_helper.c            | 26563 +++++++++++++++++=
-+++++++++++++
-> >> >>   13 files changed, 28017 insertions(+), 9 deletions(-)
-> >> >>   create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
-> >> >>   create mode 100644 target/riscv/vector_helper.c
-> >> >>
-> >> > Hello,
-> >> >
-> >> > Thanks for the patch!
-> >> >
-> >> > As others have pointed out you will need to split the patch up into
-> >> > multiple smaller patches, otherwise it is too hard to review almost
-> >> > 30,000 lines of code.
-> >>
-> >> Hi, Alistair
-> >>
-> >> I'm so sorry for the inconvenience. It will be a patch set with a cove=
-r
-> >> letter in V2.
-> >
-> > No worries.
-> >
-> >>
-> >> > Can you also include a cover letter with your patch series describin=
-g
-> >> > how you are testing this? AFAIK vector extension support isn't in an=
-y
-> >> > compiler so I'm assuming you are handwriting the assembly or have
-> >> > toolchain patches. Either way it will help if you can share that so
-> >> > others can test your implementation.
-> >>
-> >> Yes, it's handwriting assembly. The assembler in Binutils has support
-> >> Vector extension.  First define an function test_vadd_vv_8 in assembly
-> >> and then it can be called from a C program.
-> >>
-> >> The function is something like
-> >>
-> >> /* vadd.vv */
-> >> TEST_FUNC(test_vadd_vv_8)
-> >>          vsetvli        t1, x0, e8, m2
-> >>          vlb.v           v6, (a4)
-> >>          vsb.v           v6, (a3)
-> >>          vsetvli        t1, a0, e8, m2
-> >>          vlb.v           v0, (a1)
-> >>          vlb.v           v2, (a2)
-> >>          vadd.vv     v4, v0, v2
-> >>          vsb.v          v4, (a3)
-> >> ret
-> >>          .size   test_vadd_vv_8, .-test_vadd_vv_8
-> >
-> > If possible it might be worth releasing the code that you are using for=
- testing.
-> >
-> >>
-> >> It takes more time to test than to implement the instructions. Maybe
-> >> there is some better test method or some forced test cases in QEMU.
-> >> Could you give me some advice for testing?
-> >
-> > Richard's idea of risu seems like a good option.
-> >
-> > Thinking about it a bit more we are going to have other extensions in
-> > the future that will need assembly testing so setting up a test
-> > framework seems like a good idea. I am happy to help try and get this
-> > going as well.
+The paramiko Python module has many dependencies. Some of them
+are not pure Python, such cryptography module which requires to
+be built and linked with OpenSSL.
 
-Ah, I looked into this more and it compares it to hardware running the
-same binary. In this case there is no hardware so that doesn't work
-too well.
+When native libraries and header are missing on the host, the
+error reported is not very helpful:
 
-What we could do though, is compare it to Spike (which I think has the
-vector instructions?) which would have the same effect.
+  $ make check-venv
+  VENV    tests/venv
+  PIP     tests/requirements.txt
+  Command "tests/venv/bin/python -u -c "import setuptools, tokenize;__fil=
+e__=3D'/tmp/pip-build-la4el5r5/cryptography/setup.py';f=3Dgetattr(tokeniz=
+e, 'open', open)(__file__);code=3Df.read().replace('\r\n', '\n');f.close(=
+);exec(compile(code, __file__, 'exec'))" install --record /tmp/pip-1efs22=
+iz-record/install-record.txt --single-version-externally-managed --compil=
+e --install-headers tests/venv/include/site/python3.6/cryptography" faile=
+d with error code 1 in /tmp/pip-build-la4el5r5/cryptography/
 
->
-> tests/tcg already has the bits you need for both linux-user and system
-> based testing. The main problem is getting a version of gcc that is new
-> enough to emit the newer instructions. I recently updated the images to
-> buster so gcc is pretty recent now (8.3).
+Since currently the tests depending on paramiko are targetting
+very specific uses, we can avoid the strong dependency on the
+paramiko module, to let systems where it does not build properly
+work the rest of the tests.
+If paramiko is manually installed, the tests using it will be
+automatically run.
 
-In this case there is no GCC with the new instructions.
+Fixes: c47c336e870
+Reported-by: David Gibson <david@gibson.dropbear.id.au>
+Suggested-by: Cleber Rosa <crosa@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ tests/acceptance/linux_ssh_mips_malta.py | 13 +++++++++++--
+ tests/requirements.txt                   |  1 -
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
->
-> I did start down the road of a general "op" test frame work which tried
-> to come up with a common framework/boilerplate so all you needed to do
-> was supply a new function (possible with a hex encoded instruction) and
-> a list of expected inputs and outputs:
->
->   https://github.com/stsquad/qemu/commits/testing/generic-op-tester
->
-> I suspect it was over engineered but perhaps it would be worth reviving
-> it (or something like it) to make adding a simple single instruction
-> test case with minimal additional verbiage?
+diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/=
+linux_ssh_mips_malta.py
+index aafb0c39f6..dbcdc03a80 100644
+--- a/tests/acceptance/linux_ssh_mips_malta.py
++++ b/tests/acceptance/linux_ssh_mips_malta.py
+@@ -9,14 +9,19 @@ import os
+ import re
+ import base64
+ import logging
+-import paramiko
+ import time
+=20
+-from avocado import skipIf
++from avocado import skipIf, skipUnless
+ from avocado_qemu import Test
+ from avocado.utils import process
+ from avocado.utils import archive
+=20
++PARAMIKO_AVAILABLE =3D True
++try:
++    import paramiko
++except ImportError:
++    PARAMIKO_AVAILABLE =3D False
++
+=20
+ class LinuxSSH(Test):
+=20
+@@ -171,6 +176,7 @@ class LinuxSSH(Test):
+         self.run_common_commands()
+         self.shutdown_via_ssh()
+=20
++    @skipUnless(PARAMIKO_AVAILABLE, "paramiko module not available")
+     @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
+     def test_mips_malta32eb_kernel3_2_0(self):
+         """
+@@ -186,6 +192,7 @@ class LinuxSSH(Test):
+=20
+         self.do_test_mips_malta('be', kernel_path, 'mips')
+=20
++    @skipUnless(PARAMIKO_AVAILABLE, "paramiko module not available")
+     @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
+     def test_mips_malta32el_kernel3_2_0(self):
+         """
+@@ -201,6 +208,7 @@ class LinuxSSH(Test):
+=20
+         self.do_test_mips_malta('le', kernel_path, 'mips')
+=20
++    @skipUnless(PARAMIKO_AVAILABLE, "paramiko module not available")
+     @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
+     def test_mips_malta64eb_kernel3_2_0(self):
+         """
+@@ -215,6 +223,7 @@ class LinuxSSH(Test):
+         kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
+         self.do_test_mips_malta('be', kernel_path, 'mips64')
+=20
++    @skipUnless(PARAMIKO_AVAILABLE, "paramiko module not available")
+     @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
+     def test_mips_malta64el_kernel3_2_0(self):
+         """
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index 3ae0e29ad7..002ded6a22 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -2,4 +2,3 @@
+ # in the tests/venv Python virtual environment. For more info,
+ # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+ avocado-framework=3D=3D68.0
+-paramiko
+--=20
+2.20.1
 
-That would be interesting, I'll take a look.
-
-Alistair
-
->
-> >
-> > Alistair
-> >
-> >>
-> >> Best Regards,
-> >>
-> >> Zhiwei
-> >>
-> >> > Alex and Richard have kindly started the review. Once you have
-> >> > addressed their comments and split this patch up into smaller patche=
-s
-> >> > you can send a v2 and we can go from there.
-> >> >
-> >> > Once again thanks for doing this implementation for QEMU!
-> >> >
-> >> > Alistair
-> >> >
->
->
-> --
-> Alex Benn=C3=A9e
 
