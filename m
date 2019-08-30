@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEB0A3F43
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 23:00:44 +0200 (CEST)
-Received: from localhost ([::1]:41076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B39A3F6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Aug 2019 23:06:54 +0200 (CEST)
+Received: from localhost ([::1]:41154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3o0h-0005Wd-DF
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 17:00:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47421)
+	id 1i3o6f-0002tw-PM
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 17:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1i3nwn-0003FJ-BY
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 16:56:42 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i3nwq-0003JR-1j
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 16:56:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1i3nwl-0001VH-Rw
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 16:56:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33900)
+ (envelope-from <mlevitsk@redhat.com>) id 1i3nwo-0001Xn-LZ
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 16:56:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58968)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1i3nwi-0001Rz-TN; Fri, 30 Aug 2019 16:56:37 -0400
+ id 1i3nwl-0001UQ-Ly; Fri, 30 Aug 2019 16:56:39 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3C7B3102700C;
- Fri, 30 Aug 2019 20:56:36 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E4F80898102;
+ Fri, 30 Aug 2019 20:56:38 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A97585D9CA;
- Fri, 30 Aug 2019 20:56:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99F735D9CA;
+ Fri, 30 Aug 2019 20:56:36 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 30 Aug 2019 23:56:03 +0300
-Message-Id: <20190830205608.18192-6-mlevitsk@redhat.com>
+Date: Fri, 30 Aug 2019 23:56:04 +0300
+Message-Id: <20190830205608.18192-7-mlevitsk@redhat.com>
 In-Reply-To: <20190830205608.18192-1-mlevitsk@redhat.com>
 References: <20190830205608.18192-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Fri, 30 Aug 2019 20:56:36 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.67]); Fri, 30 Aug 2019 20:56:38 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 05/10] block/crypto: implement the encryption
- key management
+Subject: [Qemu-devel] [PATCH 06/10] qcow2: implement crypto amend options
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,166 +60,152 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This implements the encryption key management
-using the generic code in qcrypto layer
-(currently only for qemu-img amend)
-
-This code adds another 'write_func' because the initialization
-write_func works directly on the underlying file,
-because during the creation, there is no open instance
-of the luks driver, but during regular use, we have it,
-and should use it instead.
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- block/crypto.c | 106 +++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 103 insertions(+), 3 deletions(-)
+ block/qcow2.c | 79 ++++++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 63 insertions(+), 16 deletions(-)
 
-diff --git a/block/crypto.c b/block/crypto.c
-index a6a3e1f1d8..dbd95a99ba 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -36,6 +36,7 @@ typedef struct BlockCrypto BlockCrypto;
- 
- struct BlockCrypto {
-     QCryptoBlock *block;
-+    bool updating_keys;
- };
- 
- 
-@@ -70,6 +71,24 @@ static ssize_t block_crypto_read_func(QCryptoBlock *block,
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 376bb416fd..8dff4c6b5f 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -171,6 +171,25 @@ static ssize_t qcow2_crypto_hdr_write_func(QCryptoBlock *block, size_t offset,
      return ret;
  }
  
-+static ssize_t block_crypto_write_func(QCryptoBlock *block,
-+                                      size_t offset,
-+                                      const uint8_t *buf,
-+                                      size_t buflen,
-+                                      void *opaque,
-+                                      Error **errp)
++static QCryptoBlockCreateOptions*
++qcow2_extract_crypto_create_opts(QemuOpts *opts, const char *fmt, Error **errp)
 +{
-+    BlockDriverState *bs = opaque;
-+    ssize_t ret;
++    QDict *cryptoopts_qdict;
++    QCryptoBlockCreateOptions *cryptoopts;
++    QDict *opts_qdict;
 +
-+    ret = bdrv_pwrite(bs->file, offset, buf, buflen);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "Could not write encryption header");
-+        return ret;
-+    }
-+    return ret;
++    /* Extract "encrypt." options into a qdict */
++    opts_qdict = qemu_opts_to_qdict(opts, NULL);
++    qdict_extract_subqdict(opts_qdict, &cryptoopts_qdict, "encrypt.");
++    qobject_unref(opts_qdict);
++
++    /* Build QCryptoBlockCreateOptions object from qdict */
++    qdict_put_str(cryptoopts_qdict, "format", "luks");
++    cryptoopts = block_crypto_create_opts_init(cryptoopts_qdict, errp);
++    qobject_unref(cryptoopts_qdict);
++    return cryptoopts;
 +}
 +
  
- struct BlockCryptoCreateData {
-     BlockBackend *blk;
-@@ -647,6 +666,88 @@ block_crypto_get_specific_info_luks(BlockDriverState *bs, Error **errp)
-     return spec_info;
- }
+ /* 
+  * read qcow2 extension and fill bs
+@@ -4366,20 +4385,10 @@ static ssize_t qcow2_measure_crypto_hdr_write_func(QCryptoBlock *block,
+ static bool qcow2_measure_luks_headerlen(QemuOpts *opts, size_t *len,
+                                          Error **errp)
+ {
+-    QDict *opts_qdict;
+-    QDict *cryptoopts_qdict;
+     QCryptoBlockCreateOptions *cryptoopts;
+     QCryptoBlock *crypto;
  
+-    /* Extract "encrypt." options into a qdict */
+-    opts_qdict = qemu_opts_to_qdict(opts, NULL);
+-    qdict_extract_subqdict(opts_qdict, &cryptoopts_qdict, "encrypt.");
+-    qobject_unref(opts_qdict);
+-
+-    /* Build QCryptoBlockCreateOptions object from qdict */
+-    qdict_put_str(cryptoopts_qdict, "format", "luks");
+-    cryptoopts = block_crypto_create_opts_init(cryptoopts_qdict, errp);
+-    qobject_unref(cryptoopts_qdict);
++    cryptoopts = qcow2_extract_crypto_create_opts(opts, "luks", errp);
+     if (!cryptoopts) {
+         return false;
+     }
+@@ -4756,6 +4765,7 @@ typedef enum Qcow2AmendOperation {
+      * invocation from an operation change */
+     QCOW2_NO_OPERATION = 0,
+ 
++    QCOW2_UPDATING_ENCRYPTION,
+     QCOW2_CHANGING_REFCOUNT_ORDER,
+     QCOW2_DOWNGRADING,
+ } Qcow2AmendOperation;
+@@ -4840,6 +4850,7 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+     int ret;
+     QemuOptDesc *desc = opts->list->desc;
+     Qcow2AmendHelperCBInfo helper_cb_info;
++    bool encryption_update = false;
+ 
+     while (desc && desc->name) {
+         if (!qemu_opt_find(opts, desc->name)) {
+@@ -4888,9 +4899,22 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+                 return -ENOTSUP;
+             }
+         } else if (g_str_has_prefix(desc->name, "encrypt.")) {
+-            error_setg(errp,
+-                       "Changing the encryption parameters is not supported");
+-            return -ENOTSUP;
 +
-+static int
-+block_crypto_amend_options(BlockDriverState *bs,
-+                           QemuOpts *opts,
-+                           BlockDriverAmendStatusCB *status_cb,
-+                           void *cb_opaque,
-+                           bool force,
-+                           Error **errp)
-+{
-+    BlockCrypto *crypto = bs->opaque;
-+    QDict *cryptoopts = NULL;
-+    QCryptoBlockCreateOptions *amend_options = NULL;
-+    int ret;
++            if (!s->crypto) {
++                error_setg(errp,
++                           "Can't amend encryption options - encryption not supported");
++                return -ENOTSUP;
 +
-+    assert(crypto);
-+    assert(crypto->block);
++            }
 +
-+    crypto->updating_keys = true;
++            if (s->crypt_method_header != QCOW_CRYPT_LUKS) {
++                error_setg(errp,
++                           "Only LUKS encryption options can be amended");
++                return -ENOTSUP;
++            }
 +
-+    ret = bdrv_child_refresh_perms(bs, bs->file, errp);
-+    if (ret) {
-+        goto cleanup;
++            encryption_update = true;
++
+         } else if (!strcmp(desc->name, BLOCK_OPT_CLUSTER_SIZE)) {
+             cluster_size = qemu_opt_get_size(opts, BLOCK_OPT_CLUSTER_SIZE,
+                                              cluster_size);
+@@ -4927,7 +4951,7 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+                                  "images");
+                 return -EINVAL;
+             }
+-        } else {
++        } else  {
+             /* if this point is reached, this probably means a new option was
+              * added without having it covered here */
+             abort();
+@@ -4940,7 +4964,8 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+         .original_status_cb = status_cb,
+         .original_cb_opaque = cb_opaque,
+         .total_operations = (new_version < old_version)
+-                          + (s->refcount_bits != refcount_bits)
++                          + (s->refcount_bits != refcount_bits) +
++                          (encryption_update == true)
+     };
+ 
+     /* Upgrade first (some features may require compat=1.1) */
+@@ -4954,6 +4979,28 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+         }
+     }
+ 
++    if (encryption_update) {
++
++        QCryptoBlockCreateOptions *cryptoopts;
++
++        cryptoopts = qcow2_extract_crypto_create_opts(opts, "luks", errp);
++        if (!cryptoopts)
++            return -EINVAL;
++
++        helper_cb_info.current_operation = QCOW2_UPDATING_ENCRYPTION;
++
++        ret = qcrypto_block_amend_options(s->crypto,
++                                          qcow2_crypto_hdr_read_func,
++                                          qcow2_crypto_hdr_write_func,
++                                          bs,
++                                          cryptoopts,
++                                          force,
++                                          errp);
++        if (ret) {
++            return ret;
++        }
 +    }
 +
-+    cryptoopts = qemu_opts_to_qdict_filtered(opts, NULL,
-+                                             &block_crypto_create_opts_luks,
-+                                             true);
-+
-+    qdict_put_str(cryptoopts, "format", "luks");
-+    amend_options = block_crypto_create_opts_init(cryptoopts, errp);
-+    if (!amend_options) {
-+        ret = -EINVAL;
-+        goto cleanup;
-+    }
-+
-+    ret = qcrypto_block_amend_options(crypto->block,
-+                                      block_crypto_read_func,
-+                                      block_crypto_write_func,
-+                                      bs,
-+                                      amend_options,
-+                                      force,
-+                                      errp);
-+cleanup:
-+    crypto->updating_keys = false;
-+    bdrv_child_refresh_perms(bs, bs->file, errp);
-+    qapi_free_QCryptoBlockCreateOptions(amend_options);
-+    qobject_unref(cryptoopts);
-+    return ret;
-+}
-+
-+
-+static void
-+block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
-+                         const BdrvChildRole *role,
-+                         BlockReopenQueue *reopen_queue,
-+                         uint64_t perm, uint64_t shared,
-+                         uint64_t *nperm, uint64_t *nshared)
-+{
-+
-+    BlockCrypto *crypto = bs->opaque;
-+
-+    /*
-+     * This driver doesn't modify LUKS metadata except
-+     * when updating the encryption slots.
-+     * Allow share-rw=on as a special case.
-+     *
-+     * Encryption update will set the crypto->updating_keys
-+     * during that period and refresh permissions
-+     *
-+     * */
-+
-+    if (crypto->updating_keys) {
-+        /*need exclusive write access for header update  */
-+        perm |= BLK_PERM_WRITE;
-+        shared &= ~BLK_PERM_WRITE;
-+    }
-+
-+    bdrv_filter_default_perms(bs, c, role, reopen_queue,
-+            perm, shared, nperm, nshared);
-+}
-+
-+
- static const char *const block_crypto_strong_runtime_opts[] = {
-     BLOCK_CRYPTO_OPT_LUKS_KEY_SECRET,
+     if (s->refcount_bits != refcount_bits) {
+         int refcount_order = ctz32(refcount_bits);
  
-@@ -659,9 +760,7 @@ static BlockDriver bdrv_crypto_luks = {
-     .bdrv_probe         = block_crypto_probe_luks,
-     .bdrv_open          = block_crypto_open_luks,
-     .bdrv_close         = block_crypto_close,
--    /* This driver doesn't modify LUKS metadata except when creating image.
--     * Allow share-rw=on as a special case. */
--    .bdrv_child_perm    = bdrv_filter_default_perms,
-+    .bdrv_child_perm    = block_crypto_child_perms,
-     .bdrv_co_create     = block_crypto_co_create_luks,
-     .bdrv_co_create_opts = block_crypto_co_create_opts_luks,
-     .bdrv_co_truncate   = block_crypto_co_truncate,
-@@ -674,6 +773,7 @@ static BlockDriver bdrv_crypto_luks = {
-     .bdrv_getlength     = block_crypto_getlength,
-     .bdrv_get_info      = block_crypto_get_info_luks,
-     .bdrv_get_specific_info = block_crypto_get_specific_info_luks,
-+    .bdrv_amend_options = block_crypto_amend_options,
- 
-     .strong_runtime_opts = block_crypto_strong_runtime_opts,
- };
 -- 
 2.17.2
 
