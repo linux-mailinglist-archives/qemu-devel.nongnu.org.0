@@ -2,50 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D154DA41B2
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Aug 2019 04:25:14 +0200 (CEST)
-Received: from localhost ([::1]:42242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDA6A41C4
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Aug 2019 04:46:18 +0200 (CEST)
+Received: from localhost ([::1]:42298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3t4i-00037n-JE
-	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 22:25:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33946)
+	id 1i3tP6-00065Y-Iz
+	for lists+qemu-devel@lfdr.de; Fri, 30 Aug 2019 22:46:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50843)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1i3t3J-0002jE-Tx
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 22:23:46 -0400
+ (envelope-from <liq3ea@163.com>) id 1i3tNR-0005VZ-1s
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 22:44:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1i3t3G-0002Kz-Jb
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 22:23:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32940)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1i3t3G-0002HQ-EL
- for qemu-devel@nongnu.org; Fri, 30 Aug 2019 22:23:42 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C5B4E83F42;
- Sat, 31 Aug 2019 02:23:40 +0000 (UTC)
-Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75C9660BE1;
- Sat, 31 Aug 2019 02:23:40 +0000 (UTC)
-Date: Fri, 30 Aug 2019 20:23:40 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Li Qiang <liq3ea@163.com>
-Message-ID: <20190830202340.3815dde8@x1.home>
-In-Reply-To: <5D69CE0F.011DCE.26140@m12-11.163.com>
-References: <5D69CE0F.011DCE.26140@m12-11.163.com>
-Organization: Red Hat
+ (envelope-from <liq3ea@163.com>) id 1i3tNO-000336-8w
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 22:44:31 -0400
+Received: from m12-11.163.com ([220.181.12.11]:54452)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <liq3ea@163.com>) id 1i3tNM-0002rb-2t
+ for qemu-devel@nongnu.org; Fri, 30 Aug 2019 22:44:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=MIME-Version:From:Subject:Date:Message-Id; bh=+6Uix
+ 7AwjX2mZXtpIQ2/UYjvB8gPno+EIQrFLclxWpc=; b=C62sukx8x+D4UAHNXFlw8
+ watYdo+/dWt3Dgcq3XKK6sy2HcRx+81k1RsPz+lgRolHwEwTTFtDOPJJW8wnQekw
+ AY9KZPl5ZIw5nOl9k6u0BF/FJTSeUZ5vKnMVZDJ9hx2b07szwTcxPI9R+jewMYe4
+ EJ1u/oxORrQhtnb7pyiKP4=
+Received: from [IPv6:::ffff:192.168.0.5] (unknown [183.158.152.47])
+ by smtp7 (Coremail) with SMTP id C8CowAAHhxsE32ldnHecLA--.48889S3;
+ Sat, 31 Aug 2019 10:44:21 +0800 (CST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+To: Alex Williamson <alex.williamson@redhat.com>
+From: Li Qiang <liq3ea@163.com>
+Date: Sat, 31 Aug 2019 10:44:22 +0800
+Importance: normal
+X-Priority: 3
+In-Reply-To: <20190830202340.3815dde8@x1.home>
+References: <5D69CE0F.011DCE.26140@m12-11.163.com>
+ <20190830202340.3815dde8@x1.home>
+X-CM-TRANSID: C8CowAAHhxsE32ldnHecLA--.48889S3
+Message-Id: <5D69DF05.02B605.26140@m12-11.163.com>
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Ww4fAr1UWryrKFy8Xr1rXrb_yoW8Kr13p3
+ y3uFy3JryDZr15tr45XrWxJFW8ZFsrtrWrZFy5XFySkr15GFyxXr4qgFy5J3ZrJrZ7ArWF
+ vrZ5KF97Way3ZrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U_cTdUUUUU=
+X-Originating-IP: [183.158.152.47]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiTwUibVsGRD9WxwAAsy
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 220.181.12.11
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Sat, 31 Aug 2019 02:23:40 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Questions about 'emulated_config_bits' in vfio pci
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: [Qemu-devel] =?utf-8?b?562U5aSNOiAgUXVlc3Rpb25zIGFib3V0ICdlbXVs?=
+ =?utf-8?q?ated=5Fconfig=5Fbits=27_in_vfio_pci?=
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,6 +68,21 @@ Cc: Alex Williamson <alex.l.williamson@gmail.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+So detailed explanation, I got the point.
+
+Thank you Alex!
+
+Li Qiang
+
+
+=E5=8F=91=E4=BB=B6=E4=BA=BA: Alex Williamson
+=E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2019=E5=B9=B48=E6=9C=8831=E6=97=A5 10=
+:23
+=E6=94=B6=E4=BB=B6=E4=BA=BA: Li Qiang
+=E6=8A=84=E9=80=81: Alex Williamson; qemu-devel@nongnu.org
+=E4=B8=BB=E9=A2=98: Re: [Qemu-devel] Questions about 'emulated_config_bits'=
+ in vfio pci
 
 On Sat, 31 Aug 2019 09:31:59 +0800
 Li Qiang <liq3ea@163.com> wrote:
@@ -78,7 +100,8 @@ sk the
 
 Yes.
 
-> But there are two places I got confused in =E2=80=98vfio_realize=E2=80=99.
+> But there are two places I got confused in =E2=80=98vfio_realize=E2=80=99=
+.
 >=20
 > Here in =E2=80=98vfio_realize=E2=80=99
 >     /* QEMU can change multi-function devices to single function, or
