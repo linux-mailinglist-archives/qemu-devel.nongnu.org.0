@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13862A432A
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Aug 2019 09:49:31 +0200 (CEST)
-Received: from localhost ([::1]:42942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9637A4331
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Aug 2019 09:52:56 +0200 (CEST)
+Received: from localhost ([::1]:42970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i3y8X-0002ki-F2
-	for lists+qemu-devel@lfdr.de; Sat, 31 Aug 2019 03:49:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37378)
+	id 1i3yBs-0006vj-2p
+	for lists+qemu-devel@lfdr.de; Sat, 31 Aug 2019 03:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37328)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <th.huth@gmail.com>) id 1i3y4z-00010b-Kn
- for qemu-devel@nongnu.org; Sat, 31 Aug 2019 03:45:50 -0400
+ (envelope-from <th.huth@gmail.com>) id 1i3y4v-0000yz-M5
+ for qemu-devel@nongnu.org; Sat, 31 Aug 2019 03:45:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <th.huth@gmail.com>) id 1i3y4x-0005zu-L1
- for qemu-devel@nongnu.org; Sat, 31 Aug 2019 03:45:49 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51471)
+ (envelope-from <th.huth@gmail.com>) id 1i3y4r-0005ld-PA
+ for qemu-devel@nongnu.org; Sat, 31 Aug 2019 03:45:43 -0400
+Received: from mail-wm1-f47.google.com ([209.85.128.47]:54082)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1i3y4v-0005YG-HE
- for qemu-devel@nongnu.org; Sat, 31 Aug 2019 03:45:46 -0400
-Received: by mail-wm1-f68.google.com with SMTP id k1so9551423wmi.1
- for <qemu-devel@nongnu.org>; Sat, 31 Aug 2019 00:45:36 -0700 (PDT)
+ (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1i3y4j-0005Sd-CJ
+ for qemu-devel@nongnu.org; Sat, 31 Aug 2019 03:45:35 -0400
+Received: by mail-wm1-f47.google.com with SMTP id q19so741025wmc.3
+ for <qemu-devel@nongnu.org>; Sat, 31 Aug 2019 00:45:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zL4SPv+ECjSYJDHITbd1llRChd+Y2mQbn5Ro1plp/SU=;
- b=jUX88+6XAbsXstHCec94VP3TqydYMz1BK33a/m2PCQ+UXiiPsB/dIyhyvMnXTE908F
- qcnvdMpJK68pbEX8PmFLc1idOGqGIchbuendy6pTTVr3SELuhKLe7QE+n7BCqubtzduk
- BiHK/Q1BO0p6In85aYkMV/0iO+S5RYNYwJxuk5U1xzobjG/qR7U5sjXJ2vvbRWiV4zFH
- FD3CLm7H7JxjPju9k7wGxNkbJevwmrHzd4t+EhBZUGZOonEcz+qwGf/ks6f/Ft+gWYM5
- BFsrLI1BWu/1WOQYJM/+cTzTpHpOv3VkDjvFjRe3iuPwLwAxZpEa5HsIA4JTVLQZInDm
- yUuQ==
-X-Gm-Message-State: APjAAAUhhSAWGM8Mwvj3736Z7zop2uY/Tt1vdt6c9uj+gIyA1Bj77abr
- Gfhx+HILszNsiXUnxl24Yu1Pt0/qF1Y=
-X-Google-Smtp-Source: APXvYqzY+H/euiYF7jaaO6fQl/9K0xEHGL+rFjZHhjgTkPGq8W62rrm/u4LxGMSyohrT8QHj8spf0w==
-X-Received: by 2002:a1c:1d84:: with SMTP id d126mr8395528wmd.58.1567237535647; 
- Sat, 31 Aug 2019 00:45:35 -0700 (PDT)
+ bh=gGiAO5p7k3xFjuRUbGuIdQXsbmq6Zo+CXx6qkmiP6DU=;
+ b=CULgBa/tg3gdokOvLiGyZYzIJuqWvEjKT22Sf3KeVw7GypeNh1I//DYI4L5Z9c4L2m
+ r+PBquyC3s4ArRBusv01suZA+XOaSpCOUOtq5UDrsJK0s7nfBQt8proBC6T+tQK1OU20
+ 5gQ3DEyLciWzuEkUQInDiDod0kDIGoen3OOnH4pqwb0n8HjXPk4fsrWqfWZsmZcNQrlg
+ QPpvdTBVTHiBET5Km7ySYpESsbXKu5soVQt0IjR0yyJ0sDo6r0brBtcRmZyqYwnRjr3n
+ NJztxB+TdVk5N0ROCOIpA+pUtcQHQFQkG5/I/8mWltCKediF5m80/FqKzJNlcCX69mee
+ aQ9A==
+X-Gm-Message-State: APjAAAUc9sw1I4uhc79mDZTO5H/BN9YEyjOy0A09FjsJU4Ew2oG8hyOR
+ PZUCmFFoHt4CGnAoHaS0Mx6xBOcDVe4=
+X-Google-Smtp-Source: APXvYqzQukkDj7Nrz/M2jarN2oXK33ThdlhdiLcl4rIzoz/ipXLIWB/iu+J4xofFHCU0IvTtDiyTXg==
+X-Received: by 2002:a1c:810a:: with SMTP id c10mr22308110wmd.72.1567237529539; 
+ Sat, 31 Aug 2019 00:45:29 -0700 (PDT)
 Received: from thl530.multi.box (pD9E83624.dip0.t-ipconnect.de.
  [217.232.54.36])
- by smtp.gmail.com with ESMTPSA id w1sm7546650wrm.38.2019.08.31.00.45.34
+ by smtp.gmail.com with ESMTPSA id w1sm7546650wrm.38.2019.08.31.00.45.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Aug 2019 00:45:35 -0700 (PDT)
+ Sat, 31 Aug 2019 00:45:29 -0700 (PDT)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org
-Date: Sat, 31 Aug 2019 09:45:19 +0200
-Message-Id: <20190831074519.32613-7-huth@tuxfamily.org>
+Date: Sat, 31 Aug 2019 09:45:14 +0200
+Message-Id: <20190831074519.32613-2-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190831074519.32613-1-huth@tuxfamily.org>
 References: <20190831074519.32613-1-huth@tuxfamily.org>
@@ -55,9 +55,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: [Qemu-devel] [PATCH v5 6/6] m68k: Add an entry for the NeXTcube
- machine to the MAINTAINERS file
+X-Received-From: 209.85.128.47
+Subject: [Qemu-devel] [PATCH v5 1/6] m68k: Add NeXTcube framebuffer device
+ emulation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,35 +77,226 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don't have much clue about the NeXT hardware, but at least I know now
-the source files a little bit, so I volunteer to pick up patches and send
-PULL requests for them until someone else with more knowledge steps up
-to do this job instead.
+The NeXTcube uses a linear framebuffer with 4 greyscale colors and
+a fixed resolution of 1120 * 832.
+This code has been taken from Bryce Lanham's GSoC 2011 NeXT branch at
+
+ https://github.com/blanham/qemu-NeXT/blob/next-cube/hw/next-fb.c
+
+and altered to fit the latest interface of the current QEMU (e.g.
+the device has been "qdev"-ified etc.).
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+ default-configs/m68k-softmmu.mak |   1 +
+ hw/display/Makefile.objs         |   1 +
+ hw/display/next-fb.c             | 146 +++++++++++++++++++++++++++++++
+ hw/m68k/Kconfig                  |   4 +
+ include/hw/m68k/next-cube.h      |   7 ++
+ 5 files changed, 159 insertions(+)
+ create mode 100644 hw/display/next-fb.c
+ create mode 100644 include/hw/m68k/next-cube.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ef6c01084b..56d6c75f72 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -910,6 +910,13 @@ F: hw/char/mcf_uart.c
- F: hw/net/mcf_fec.c
- F: include/hw/m68k/mcf*.h
+diff --git a/default-configs/m68k-softmmu.mak b/default-configs/m68k-softmmu.mak
+index 4049a8f2ba..d67ab8b96d 100644
+--- a/default-configs/m68k-softmmu.mak
++++ b/default-configs/m68k-softmmu.mak
+@@ -6,3 +6,4 @@ CONFIG_SEMIHOSTING=y
+ #
+ CONFIG_AN5206=y
+ CONFIG_MCF5208=y
++CONFIG_NEXTCUBE=y
+diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
+index 0f11d55b14..5a4066383b 100644
+--- a/hw/display/Makefile.objs
++++ b/hw/display/Makefile.objs
+@@ -38,6 +38,7 @@ common-obj-$(CONFIG_RASPI) += bcm2835_fb.o
+ common-obj-$(CONFIG_SM501) += sm501.o
+ common-obj-$(CONFIG_TCX) += tcx.o
+ common-obj-$(CONFIG_CG3) += cg3.o
++common-obj-$(CONFIG_NEXTCUBE) += next-fb.o
  
-+NeXTcube
-+M: Thomas Huth <huth@tuxfamily.org>
-+S: Odd Fixes
-+F: hw/m68k/next-*.c
-+F: hw/display/next-fb.c
-+F: include/hw/m68k/next-cube.h
+ obj-$(CONFIG_VGA) += vga.o
+ 
+diff --git a/hw/display/next-fb.c b/hw/display/next-fb.c
+new file mode 100644
+index 0000000000..2b726a10f8
+--- /dev/null
++++ b/hw/display/next-fb.c
+@@ -0,0 +1,146 @@
++/*
++ * NeXT Cube/Station Framebuffer Emulation
++ *
++ * Copyright (c) 2011 Bryce Lanham
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "ui/console.h"
++#include "hw/hw.h"
++#include "hw/boards.h"
++#include "hw/loader.h"
++#include "hw/display/framebuffer.h"
++#include "ui/pixel_ops.h"
++#include "hw/m68k/next-cube.h"
 +
- MicroBlaze Machines
- -------------------
- petalogix_s3adsp1800
++#define NEXTFB(obj) OBJECT_CHECK(NeXTFbState, (obj), TYPE_NEXTFB)
++
++struct NeXTFbState {
++    SysBusDevice parent_obj;
++
++    MemoryRegion fb_mr;
++    MemoryRegionSection fbsection;
++    QemuConsole *con;
++
++    uint32_t cols;
++    uint32_t rows;
++    int invalidate;
++};
++typedef struct NeXTFbState NeXTFbState;
++
++static void nextfb_draw_line(void *opaque, uint8_t *d, const uint8_t *s,
++                             int width, int pitch)
++{
++    NeXTFbState *nfbstate = NEXTFB(opaque);
++    static const uint32_t pal[4] = {
++        0xFFFFFFFF, 0xFFAAAAAA, 0xFF555555, 0xFF000000
++    };
++    uint32_t *buf = (uint32_t *)d;
++    int i = 0;
++
++    for (i = 0; i < nfbstate->cols / 4; i++) {
++        int j = i * 4;
++        uint8_t src = s[i];
++        buf[j + 3] = pal[src & 0x3];
++        src >>= 2;
++        buf[j + 2] = pal[src & 0x3];
++        src >>= 2;
++        buf[j + 1] = pal[src & 0x3];
++        src >>= 2;
++        buf[j + 0] = pal[src & 0x3];
++    }
++}
++
++static void nextfb_update(void *opaque)
++{
++    NeXTFbState *s = NEXTFB(opaque);
++    int dest_width = 4;
++    int src_width;
++    int first = 0;
++    int last  = 0;
++    DisplaySurface *surface = qemu_console_surface(s->con);
++
++    src_width = s->cols / 4 + 8;
++    dest_width = s->cols * 4;
++
++    if (s->invalidate) {
++        framebuffer_update_memory_section(&s->fbsection, &s->fb_mr, 0,
++                                          s->cols, src_width);
++        s->invalidate = 0;
++    }
++
++    framebuffer_update_display(surface, &s->fbsection, s->cols, s->rows,
++                               src_width, dest_width, 0, 1, nextfb_draw_line,
++                               s, &first, &last);
++
++    dpy_gfx_update(s->con, 0, 0, s->cols, s->rows);
++}
++
++static void nextfb_invalidate(void *opaque)
++{
++    NeXTFbState *s = NEXTFB(opaque);
++    s->invalidate = 1;
++}
++
++static const GraphicHwOps nextfb_ops = {
++    .invalidate  = nextfb_invalidate,
++    .gfx_update  = nextfb_update,
++};
++
++static void nextfb_realize(DeviceState *dev, Error **errp)
++{
++    NeXTFbState *s = NEXTFB(dev);
++
++    memory_region_init_ram(&s->fb_mr, OBJECT(dev), "next-video", 0x1CB100,
++                           &error_fatal);
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->fb_mr);
++
++    s->invalidate = 1;
++    s->cols = 1120;
++    s->rows = 832;
++
++    s->con = graphic_console_init(dev, 0, &nextfb_ops, s);
++    qemu_console_resize(s->con, s->cols, s->rows);
++}
++
++static void nextfb_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
++    dc->realize = nextfb_realize;
++
++    /* Note: This device does not any state that we have to reset or migrate */
++}
++
++static const TypeInfo nextfb_info = {
++    .name          = TYPE_NEXTFB,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(NeXTFbState),
++    .class_init    = nextfb_class_init,
++};
++
++static void nextfb_register_types(void)
++{
++    type_register_static(&nextfb_info);
++}
++
++type_init(nextfb_register_types)
+diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
+index 49ef0b3f6d..ec58a2eb06 100644
+--- a/hw/m68k/Kconfig
++++ b/hw/m68k/Kconfig
+@@ -7,3 +7,7 @@ config MCF5208
+     bool
+     select COLDFIRE
+     select PTIMER
++
++config NEXTCUBE
++    bool
++    select FRAMEBUFFER
+diff --git a/include/hw/m68k/next-cube.h b/include/hw/m68k/next-cube.h
+new file mode 100644
+index 0000000000..090c7c51aa
+--- /dev/null
++++ b/include/hw/m68k/next-cube.h
+@@ -0,0 +1,7 @@
++
++#ifndef NEXT_CUBE_H
++#define NEXT_CUBE_H
++
++#define TYPE_NEXTFB "next-fb"
++
++#endif /* NEXT_CUBE_H */
 -- 
 2.21.0
 
