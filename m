@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C0BA46F2
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 05:17:31 +0200 (CEST)
-Received: from localhost ([::1]:47414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 280A6A46F5
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 05:19:34 +0200 (CEST)
+Received: from localhost ([::1]:47450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4GMs-0006TQ-27
-	for lists+qemu-devel@lfdr.de; Sat, 31 Aug 2019 23:17:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48123)
+	id 1i4GOr-0000lN-4R
+	for lists+qemu-devel@lfdr.de; Sat, 31 Aug 2019 23:19:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48158)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i4G00-0007uQ-FQ
- for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:53 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1i4G01-0007wB-VJ
+ for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzy-0006zE-KG
- for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:52 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41563)
+ (envelope-from <bmeng.cn@gmail.com>) id 1i4G00-00072l-Nq
+ for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:53 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:41469)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1i4Fzy-0006yP-DY; Sat, 31 Aug 2019 22:53:50 -0400
-Received: by mail-pf1-x442.google.com with SMTP id b13so283924pfo.8;
- Sat, 31 Aug 2019 19:53:50 -0700 (PDT)
+ id 1i4G00-00071g-Hc; Sat, 31 Aug 2019 22:53:52 -0400
+Received: by mail-pl1-x643.google.com with SMTP id m9so5052696pls.8;
+ Sat, 31 Aug 2019 19:53:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=OX1vOyRJzY5uDzEAj2CWUjL/wDotAaD68uabDqgxcZQ=;
- b=o52Pz5OicajImESQ3ikXs4HQoC1FQZ1+TyAKLyiQRyWBiyxUjxnjsRIVmKVwb7vy/x
- X7DqlYoxYoJ4IccPyiZ27WjryQ+UL0wIse9uOsAdtsNancq+W4Sb/I4S6JUUBl+zvh65
- X5tPzT77yczSayYwunA74y5+3/5HD689OTdJasBH+6KtQ3kW/Xj4HjXoHGyRO2UX+/31
- f+BKfNvtyZY+fCuEbVz2sLt0BKEhXYNAAAopq746EZBHUPXMjVPWLX8ZkOcG8SFzvba/
- WpYiMxghbo2rUsiYMtp2qG0PBKYYlMWAuS8cRf+Le++gagMhhMi9Lc9OTT97M3SdrzG1
- NyvQ==
+ bh=eYDHIIbYQJpyAy/bT7aeh6kA5/PLSsHgdEanCdj3s9Y=;
+ b=NPmt6OcN80zzOFfoQ5MoBcj9ZH3O+3y5AAfrMmQwb9rn6hT58VwJagqh5yBf8Hrzly
+ z68feNYflfW6RTDbRyJ279uMHQ0QE+wnA14OqepJCd7t+w7HYA5R5/JuTJQUiR6On/rM
+ nikn09iImxMISKzK3kim/mjj7rZPV4gkGsay8gni9Fo0iEskHifgPwLB3Vg0l/8O+DoN
+ PuTlRwCRJOGxKRHSrObQdeTZGdTVV4tkrDn9/sjR+VV9jvhreeqmPiqEKb1xIzquJ0Sx
+ KYPMtz+3/V4Yb/Bfshx9dRXYx5T9QwmEm9HhNFISn/gnoMv1slM4hO89NOdNdk8UpfzX
+ QREg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=OX1vOyRJzY5uDzEAj2CWUjL/wDotAaD68uabDqgxcZQ=;
- b=i++H6l24tVjtIKiSqdXCwJVngZ4QL8sW4G/bUUBUXawxCsCWtegG6r7leN+NnJdHvy
- LY95x5AD4df833n7TLsrDJen6rBl4sEBQIytgVBMUtbMWI4L9X6EAF9W3Y5TMF94srU3
- fNFmJ3oybRIh7HlC0BGxfBV7K3uoCKdji5/R7PFNQx0fr4ES2Gys5WFwMa2DHSE/CzU0
- kbtDwX+IbpYnnvT54XDqnWvsRD9EQPlik/aR44fqiiKe8CeImvjrAB/+FcdOosPeWUb8
- 0VoKThejrgQaP0ZS+Fi9qkia90/XZoHeTGubWyjFlUNMnzQPilTukqzcfc/9RiUDBIeT
- CJ0A==
-X-Gm-Message-State: APjAAAXo5WZqTQuujiFkiZx9h2mvR2Zy4E1NNkXCAJeP4cgI7Jo9huWG
- 6wfy/nDp1j2rEDbos3PgCR9hvjNI
-X-Google-Smtp-Source: APXvYqy7/AxvLnrtf4MgpjQh1YKY+JrW1Lbd6Y15ywKN0SCJNE5NLmHKwd9KLyBRO7SGVojCvAH7vQ==
-X-Received: by 2002:a65:6454:: with SMTP id s20mr19402197pgv.15.1567306429579; 
- Sat, 31 Aug 2019 19:53:49 -0700 (PDT)
+ bh=eYDHIIbYQJpyAy/bT7aeh6kA5/PLSsHgdEanCdj3s9Y=;
+ b=Jurfpkm2D8ne/xkuRmB1Vyezi1yrTC1ZeNjmoS3AFvkGOb0oJLJArq+o9W1X03k4sw
+ jMgq/LVIseKDasMbUkNOFfVLZmGo8tvVkdRxycxVC6hDUi8xH/8NH/AwBrspvLbYej70
+ L2QZB6sdYfI8pQ9y3HPGCSHcoTTK4smb9csEqGdFmq6Pf1Nqj/6WFXMasFCy7FALWz8E
+ FAMebGc3SkNv9hQhhO/WZOyy9+BgVd1dCSuipaHKmBdkJxrhVB0ZmF7H1qsk1HEL8CWV
+ 7MdgrCc8r8FdsfPW3XgtXrQumSDEhSmOZ1DNbG+5Aud6W9WBVmmZf4H9MOpCa6cXKZor
+ JQEQ==
+X-Gm-Message-State: APjAAAXJAeL422Apxg79tyJHeO2lRnQY3YmbM+LPTQ2nnEU/WADCGKWO
+ pyT8hChz2+p355oJO6LWnbCG1h2U
+X-Google-Smtp-Source: APXvYqxgrSY6l/z25Zkjpi9s/nFquIT0Vi9eTCnFBBCh6CXvI2gUzdGEC6IYhEwCMfAJDs+6LoPXiA==
+X-Received: by 2002:a17:902:b718:: with SMTP id
+ d24mr22983258pls.204.1567306431818; 
+ Sat, 31 Aug 2019 19:53:51 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id p10sm11453307pff.132.2019.08.31.19.53.48
+ by smtp.gmail.com with ESMTPSA id p10sm11453307pff.132.2019.08.31.19.53.50
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Sat, 31 Aug 2019 19:53:48 -0700 (PDT)
+ Sat, 31 Aug 2019 19:53:51 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Sat, 31 Aug 2019 19:53:09 -0700
-Message-Id: <1567306391-2682-29-git-send-email-bmeng.cn@gmail.com>
+Date: Sat, 31 Aug 2019 19:53:11 -0700
+Message-Id: <1567306391-2682-31-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1567306391-2682-1-git-send-email-bmeng.cn@gmail.com>
 References: <1567306391-2682-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v7 28/30] riscv: sifive_u: Fix broken GEM
- support
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: [Qemu-devel] [PATCH v7 30/30] riscv: sifive_u: Update model and
+ compatible strings in device tree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,20 +81,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At present the GEM support in sifive_u machine is seriously broken.
-The GEM block register base was set to a weird number (0x100900FC),
-which for no way could work with the cadence_gem model in QEMU.
-
-Not like other GEM variants, the FU540-specific GEM has a management
-block to control 10/100/1000Mbps link speed changes, that is mapped
-to 0x100a0000. We can simply map it into MMIO space without special
-handling using create_unimplemented_device().
-
-Update the GEM node compatible string to use the official name used
-by the upstream Linux kernel, and add the management block reg base
-& size to the <reg> property encoding.
-
-Tested with upstream U-Boot and Linux kernel MACB drivers.
+This updates model and compatible strings to use the same strings
+as used in the Linux kernel device tree (hifive-unleashed-a00.dts).
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -102,138 +91,30 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Changes in v7: None
 Changes in v6: None
-Changes in v5:
-- add the missing "local-mac-address" property in the ethernet node
-
+Changes in v5: None
 Changes in v4: None
 Changes in v3: None
-Changes in v2:
-- use create_unimplemented_device() to create the GEM management
-  block instead of sifive_mmio_emulate()
-- add "phy-handle" property to the ethernet node
+Changes in v2: None
 
- hw/riscv/sifive_u.c         | 24 ++++++++++++++++++++----
- include/hw/riscv/sifive_u.h |  3 ++-
- 2 files changed, 22 insertions(+), 5 deletions(-)
+ hw/riscv/sifive_u.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 516093e..a7225f9 100644
+index f14217c..c7f7c2c 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -3,6 +3,7 @@
-  *
-  * Copyright (c) 2016-2017 Sagar Karandikar, sagark@eecs.berkeley.edu
-  * Copyright (c) 2017 SiFive, Inc.
-+ * Copyright (c) 2019 Bin Meng <bmeng.cn@gmail.com>
-  *
-  * Provides a board compatible with the SiFive Freedom U SDK:
-  *
-@@ -11,6 +12,7 @@
-  * 2) PLIC (Platform Level Interrupt Controller)
-  * 3) PRCI (Power, Reset, Clock, Interrupt)
-  * 4) OTP (One-Time Programmable) memory with stored serial number
-+ * 5) GEM (Gigabit Ethernet Controller) and management block
-  *
-  * This board currently generates devicetree dynamically that indicates at least
-  * two harts and up to five harts.
-@@ -38,6 +40,7 @@
- #include "hw/sysbus.h"
- #include "hw/char/serial.h"
- #include "hw/cpu/cluster.h"
-+#include "hw/misc/unimp.h"
- #include "target/riscv/cpu.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/sifive_plic.h"
-@@ -46,6 +49,7 @@
- #include "hw/riscv/sifive_u.h"
- #include "hw/riscv/boot.h"
- #include "chardev/char.h"
-+#include "net/eth.h"
- #include "sysemu/arch_init.h"
- #include "sysemu/device_tree.h"
- #include "exec/address-spaces.h"
-@@ -67,7 +71,8 @@ static const struct MemmapEntry {
-     [SIFIVE_U_UART1] =    { 0x10011000,     0x1000 },
-     [SIFIVE_U_OTP] =      { 0x10070000,     0x1000 },
-     [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
--    [SIFIVE_U_GEM] =      { 0x100900FC,     0x2000 },
-+    [SIFIVE_U_GEM] =      { 0x10090000,     0x2000 },
-+    [SIFIVE_U_GEM_MGMT] = { 0x100a0000,     0x1000 },
- };
+@@ -96,8 +96,9 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+         exit(1);
+     }
  
- #define OTP_SERIAL          1
-@@ -84,7 +89,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     char ethclk_names[] = "pclk\0hclk";
-     uint32_t plic_phandle, prci_phandle, ethclk_phandle, phandle = 1;
-     uint32_t uartclk_phandle;
--    uint32_t hfclk_phandle, rtcclk_phandle;
-+    uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
+-    qemu_fdt_setprop_string(fdt, "/", "model", "ucbbar,spike-bare,qemu");
+-    qemu_fdt_setprop_string(fdt, "/", "compatible", "ucbbar,spike-bare-dev");
++    qemu_fdt_setprop_string(fdt, "/", "model", "SiFive HiFive Unleashed A00");
++    qemu_fdt_setprop_string(fdt, "/", "compatible",
++                            "sifive,hifive-unleashed-a00");
+     qemu_fdt_setprop_cell(fdt, "/", "#size-cells", 0x2);
+     qemu_fdt_setprop_cell(fdt, "/", "#address-cells", 0x2);
  
-     fdt = s->fdt = create_device_tree(&s->fdt_size);
-     if (!fdt) {
-@@ -254,21 +259,28 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     ethclk_phandle = qemu_fdt_get_phandle(fdt, nodename);
-     g_free(nodename);
- 
-+    phy_phandle = phandle++;
-     nodename = g_strdup_printf("/soc/ethernet@%lx",
-         (long)memmap[SIFIVE_U_GEM].base);
-     qemu_fdt_add_subnode(fdt, nodename);
--    qemu_fdt_setprop_string(fdt, nodename, "compatible", "cdns,macb");
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible",
-+        "sifive,fu540-c000-gem");
-     qemu_fdt_setprop_cells(fdt, nodename, "reg",
-         0x0, memmap[SIFIVE_U_GEM].base,
--        0x0, memmap[SIFIVE_U_GEM].size);
-+        0x0, memmap[SIFIVE_U_GEM].size,
-+        0x0, memmap[SIFIVE_U_GEM_MGMT].base,
-+        0x0, memmap[SIFIVE_U_GEM_MGMT].size);
-     qemu_fdt_setprop_string(fdt, nodename, "reg-names", "control");
-     qemu_fdt_setprop_string(fdt, nodename, "phy-mode", "gmii");
-+    qemu_fdt_setprop_cell(fdt, nodename, "phy-handle", phy_phandle);
-     qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
-     qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_GEM_IRQ);
-     qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-         prci_phandle, PRCI_CLK_GEMGXLPLL, prci_phandle, PRCI_CLK_GEMGXLPLL);
-     qemu_fdt_setprop(fdt, nodename, "clock-names", ethclk_names,
-         sizeof(ethclk_names));
-+    qemu_fdt_setprop(fdt, nodename, "local-mac-address",
-+        s->soc.gem.conf.macaddr.a, ETH_ALEN);
-     qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
-     qemu_fdt_setprop_cell(fdt, nodename, "#size-cells", 0);
-     g_free(nodename);
-@@ -276,6 +288,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     nodename = g_strdup_printf("/soc/ethernet@%lx/ethernet-phy@0",
-         (long)memmap[SIFIVE_U_GEM].base);
-     qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_cell(fdt, nodename, "phandle", phy_phandle);
-     qemu_fdt_setprop_cell(fdt, nodename, "reg", 0x0);
-     g_free(nodename);
- 
-@@ -525,6 +538,9 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->gem), 0, memmap[SIFIVE_U_GEM].base);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem), 0,
-                        plic_gpios[SIFIVE_U_GEM_IRQ]);
-+
-+    create_unimplemented_device("riscv.sifive.u.gem-mgmt",
-+        memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
- }
- 
- static void riscv_sifive_u_machine_init(MachineClass *mc)
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 7d9d901..d2b9d99 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -63,7 +63,8 @@ enum {
-     SIFIVE_U_UART1,
-     SIFIVE_U_OTP,
-     SIFIVE_U_DRAM,
--    SIFIVE_U_GEM
-+    SIFIVE_U_GEM,
-+    SIFIVE_U_GEM_MGMT
- };
- 
- enum {
 -- 
 2.7.4
 
