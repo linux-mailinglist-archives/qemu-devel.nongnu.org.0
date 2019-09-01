@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D240A46DE
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 05:05:28 +0200 (CEST)
-Received: from localhost ([::1]:47278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C270A46EF
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 05:15:26 +0200 (CEST)
+Received: from localhost ([::1]:47364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4GBC-0000ZO-TU
-	for lists+qemu-devel@lfdr.de; Sat, 31 Aug 2019 23:05:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47927)
+	id 1i4GKr-0003x2-1m
+	for lists+qemu-devel@lfdr.de; Sat, 31 Aug 2019 23:15:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzt-0007jk-3K
- for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:46 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzi-0007fx-Hu
+ for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzq-0006kG-CB
- for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:44 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39895)
+ (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzg-0006S7-3T
+ for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:34 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:43015)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1i4Fzp-0006hj-FQ; Sat, 31 Aug 2019 22:53:42 -0400
-Received: by mail-pg1-x543.google.com with SMTP id u17so5487271pgi.6;
- Sat, 31 Aug 2019 19:53:41 -0700 (PDT)
+ id 1i4Fzf-0006Os-TG; Sat, 31 Aug 2019 22:53:32 -0400
+Received: by mail-pf1-x442.google.com with SMTP id v12so6916866pfn.10;
+ Sat, 31 Aug 2019 19:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references;
- bh=GthrvH1LkVdcK8KBj7aYI0/CcEbUQ3ynDxDO/AyoHIc=;
- b=V+jXebONHtjYrl9UXbLTu+dO/bO/oLqk66LUc2bKXM1dG3+GFhEGLNPkAFDE6pt863
- UrE4cqIC3/WqMqGzldQILPeP/KmxOCH56o2kKHcZflJg12GaVyZ2z0l4S8yA5VPX5ghp
- aHNO5UhXu66+hg8RoEJX8jMo8nyRKuWNcf1oAgCv3M7g/JTdxdZuY8gWATIONiU7mEpK
- TT4aqc3rkZG5UKahDBO6sYQ9cBgqm98hAHRqAVvDebrISLXuCLdTEsB8pfUxT4IOI6bL
- Fec1qmxk3bQKt+sDJ+mpgSlbEtB+xiIiPTp++RpwXruhgJ4Rkhkm5voQnQAcTopBk3Cz
- Pptg==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=InrNd1kY5fhWv6+wZr4U5uOiCT/8aoXjdZ+OCAfAKeQ=;
+ b=XgfWw3kh6Psrc8p8Vd/pjMdHSdXfYacZEiqAtomgbkrnIEPILFfKtKTMUg3lUUdory
+ ovyFBiVkN0XHEdIO1eHqaleXv9sHaFI2DHNMb7+ASMWuGXYY5CfykU4hGCuv0SXBfc+b
+ kDFo9t/mrSJy334nyghb3neH8fvzkPn2VdOXeP0g9PVZl2N+z9X8BjxhdUInYPw5vIMG
+ WND/FFDZf9dXt5yCd9zCX0RTKFoJdoKp4Yh/2V8Dujt/vSQxZ3bWFz0lddsbuoje78AM
+ qWdt5zKjQe0cuUzWZ12i0Rc6F2N7PZqz8xeU1IG2nR45D2NrOufLdiyy7tz7JIzwlBdB
+ 0oKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references;
- bh=GthrvH1LkVdcK8KBj7aYI0/CcEbUQ3ynDxDO/AyoHIc=;
- b=dU4vPuzcNUiizF4wCHrVOwyLDEvlYR1PNP2tuOMsgwJJYOviD1Rpi6/YWPHcCX8PZ8
- de+d1cchceFQ6Svek526gDrYzBZwyTT6IgsuD4GC/ds/x5Twb9Nd37/M7KnLikVHhZF7
- 0pviz+Uu6/FprrtZUV0P7Qo10Y3DgjKk8yoyb6/kON6jxL73NNk7Mk8RBckVC1C0p3/4
- T2YExXQxzS9r+LoDllpByg1ggy7kCWjHyXTuyQ6Bk59gmMO+h8j8y03TTUV+F9GBdskg
- 2Zenh8tfWcTyilLzBq9PJvRmmQUpKhhCLdmEDzryVh5xC+51H1lTBBwOPvlQaN7E0XGk
- YhvA==
-X-Gm-Message-State: APjAAAWiU6u6otryeJa6baxubaUqGGvfjfluC03tSeFW2essq2h9/hKI
- imPh19FOLpsm+PbLPm4PsTg=
-X-Google-Smtp-Source: APXvYqxfHIwy9bnviPMbV/MfC1INR3qMrRMnSbUKTpmOAMapQgHO5lGdF/CPQgwoet89mIKOYyPlEg==
-X-Received: by 2002:a17:90a:1a1a:: with SMTP id
- 26mr6602971pjk.118.1567306420653; 
- Sat, 31 Aug 2019 19:53:40 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=InrNd1kY5fhWv6+wZr4U5uOiCT/8aoXjdZ+OCAfAKeQ=;
+ b=WubggYuppXLC4Rty9Cu3crNpY8AT8j/dD6V2ypUF93nuGsGQabril2KdmY3CNToV0c
+ +V/N6OjRuvtjAkvN1Y6gca7kescLXqdUij+NDJwrZgnO3q5kz0WTqS7BmwocD7rb7rkY
+ 8kTvERk+K0mqBGU8lwiOH0BEBojatoz8RK34BlnT83lLpWVF9383/7saMXwYjk5L4xL/
+ sBTMtpSOMjvnYNB/lNMzfY+khH+RX2CivJ9B1DlxYzYsSh38mkyY+pdGpgRAKhvbRIJF
+ BiMriu5XZn+0uvad5SJSnL/TdAQUt7su1bNJXw3jGiJD5TrpKtvr6LUcq3VKIwmkWJ/A
+ TqXg==
+X-Gm-Message-State: APjAAAWH124lsEIeNure2oxeLlS/KTCdZvRdVgNwnboH2OevnnkvOU3F
+ pDN119tReZ/TyB4NiFFYDqE=
+X-Google-Smtp-Source: APXvYqwg3q6z95pIWksWT2neqNj3WRlHEWKqlyFy1+sb4RSTXLhaklbuzbiKpCK2gdz0/L3IPMhxFQ==
+X-Received: by 2002:aa7:9e42:: with SMTP id z2mr14657069pfq.2.1567306409628;
+ Sat, 31 Aug 2019 19:53:29 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id p10sm11453307pff.132.2019.08.31.19.53.39
+ by smtp.gmail.com with ESMTPSA id p10sm11453307pff.132.2019.08.31.19.53.28
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Sat, 31 Aug 2019 19:53:40 -0700 (PDT)
+ Sat, 31 Aug 2019 19:53:29 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Sat, 31 Aug 2019 19:53:01 -0700
-Message-Id: <1567306391-2682-21-git-send-email-bmeng.cn@gmail.com>
+Date: Sat, 31 Aug 2019 19:52:51 -0700
+Message-Id: <1567306391-2682-11-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1567306391-2682-1-git-send-email-bmeng.cn@gmail.com>
 References: <1567306391-2682-1-git-send-email-bmeng.cn@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: [Qemu-devel] [PATCH v7 20/30] riscv: sifive_u: Generate hfclk and
- rtcclk nodes
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v7 10/30] riscv: sifive_e: prci: Fix a typo of
+ hfxosccfg register programming
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,11 +84,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To keep in sync with Linux kernel device tree, generate hfclk and
-rtcclk nodes in the device tree, to be referenced by PRCI node.
+For hfxosccfg register programming, SIFIVE_E_PRCI_HFXOSCCFG_RDY and
+SIFIVE_E_PRCI_HFXOSCCFG_EN should be used.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
 
 Changes in v7: None
@@ -95,64 +100,22 @@ Changes in v4: None
 Changes in v3: None
 Changes in v2: None
 
- hw/riscv/sifive_u.c         | 23 +++++++++++++++++++++++
- include/hw/riscv/sifive_u.h |  2 ++
- 2 files changed, 25 insertions(+)
+ hw/riscv/sifive_e_prci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 24ae3d1..f048806 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -79,6 +79,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     char ethclk_names[] = "pclk\0hclk\0tx_clk";
-     uint32_t plic_phandle, ethclk_phandle, phandle = 1;
-     uint32_t uartclk_phandle;
-+    uint32_t hfclk_phandle, rtcclk_phandle;
+diff --git a/hw/riscv/sifive_e_prci.c b/hw/riscv/sifive_e_prci.c
+index c514032..71de089 100644
+--- a/hw/riscv/sifive_e_prci.c
++++ b/hw/riscv/sifive_e_prci.c
+@@ -90,7 +90,7 @@ static void sifive_e_prci_init(Object *obj)
+     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
  
-     fdt = s->fdt = create_device_tree(&s->fdt_size);
-     if (!fdt) {
-@@ -97,6 +98,28 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     qemu_fdt_setprop_cell(fdt, "/soc", "#size-cells", 0x2);
-     qemu_fdt_setprop_cell(fdt, "/soc", "#address-cells", 0x2);
- 
-+    hfclk_phandle = phandle++;
-+    nodename = g_strdup_printf("/hfclk");
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_cell(fdt, nodename, "phandle", hfclk_phandle);
-+    qemu_fdt_setprop_string(fdt, nodename, "clock-output-names", "hfclk");
-+    qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
-+        SIFIVE_U_HFCLK_FREQ);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "fixed-clock");
-+    qemu_fdt_setprop_cell(fdt, nodename, "#clock-cells", 0x0);
-+    g_free(nodename);
-+
-+    rtcclk_phandle = phandle++;
-+    nodename = g_strdup_printf("/rtcclk");
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_cell(fdt, nodename, "phandle", rtcclk_phandle);
-+    qemu_fdt_setprop_string(fdt, nodename, "clock-output-names", "rtcclk");
-+    qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
-+        SIFIVE_U_RTCCLK_FREQ);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "fixed-clock");
-+    qemu_fdt_setprop_cell(fdt, nodename, "#clock-cells", 0x0);
-+    g_free(nodename);
-+
-     nodename = g_strdup_printf("/memory@%lx",
-         (long)memmap[SIFIVE_U_DRAM].base);
-     qemu_fdt_add_subnode(fdt, nodename);
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 7a1a4f3..debbf28 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -68,6 +68,8 @@ enum {
- 
- enum {
-     SIFIVE_U_CLOCK_FREQ = 1000000000,
-+    SIFIVE_U_HFCLK_FREQ = 33333333,
-+    SIFIVE_U_RTCCLK_FREQ = 1000000,
-     SIFIVE_U_GEM_CLOCK_FREQ = 125000000
- };
- 
+     s->hfrosccfg = (SIFIVE_E_PRCI_HFROSCCFG_RDY | SIFIVE_E_PRCI_HFROSCCFG_EN);
+-    s->hfxosccfg = (SIFIVE_E_PRCI_HFROSCCFG_RDY | SIFIVE_E_PRCI_HFROSCCFG_EN);
++    s->hfxosccfg = (SIFIVE_E_PRCI_HFXOSCCFG_RDY | SIFIVE_E_PRCI_HFXOSCCFG_EN);
+     s->pllcfg = (SIFIVE_E_PRCI_PLLCFG_REFSEL | SIFIVE_E_PRCI_PLLCFG_BYPASS |
+                  SIFIVE_E_PRCI_PLLCFG_LOCK);
+     s->plloutdiv = SIFIVE_E_PRCI_PLLOUTDIV_DIV1;
 -- 
 2.7.4
 
