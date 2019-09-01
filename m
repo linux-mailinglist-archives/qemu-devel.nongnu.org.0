@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8EC4A46E6
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 05:08:59 +0200 (CEST)
-Received: from localhost ([::1]:47304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD06A46D7
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 05:00:22 +0200 (CEST)
+Received: from localhost ([::1]:47228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4GEc-00057K-BK
-	for lists+qemu-devel@lfdr.de; Sat, 31 Aug 2019 23:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47761)
+	id 1i4G6H-0004uh-0w
+	for lists+qemu-devel@lfdr.de; Sat, 31 Aug 2019 23:00:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47789)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzk-0007gO-B8
- for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:38 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzm-0007gb-9u
+ for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzi-0006VI-7B
- for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:36 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38741)
+ (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzk-0006Ye-DB
+ for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:38 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:35665)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1i4Fzg-0006Sp-Pu; Sat, 31 Aug 2019 22:53:34 -0400
-Received: by mail-pf1-x444.google.com with SMTP id h195so373063pfe.5;
- Sat, 31 Aug 2019 19:53:32 -0700 (PDT)
+ id 1i4Fzk-0006XD-7l; Sat, 31 Aug 2019 22:53:36 -0400
+Received: by mail-pg1-x541.google.com with SMTP id n4so5504361pgv.2;
+ Sat, 31 Aug 2019 19:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=iJz2oy3/r4Vo4pDQEeE5a6lFCZ/MoVnft6l4RWY5HAQ=;
- b=VGgoaQ1P9Nz+qpw7DRhKxSbuA041JOUA8mLtvpO6EvAwwhdW8+9n0kGj879mjVfPLD
- s7e+h7/dt2Su6WHtnq9jyjmM2mJ3TspbXu4GgjrSv7HTPFKk1qRHR2PhXcLD8T7Kml0v
- lTewORYY1aNDbQRgnw8Pfe/n0jnZ/cmdhsApmn+KVN+Fcf9OOjTWLHvABaA4gXT3buPj
- fTbuxA97u97nzFEKKAH6k9TjV4apjO5H9/7p07mjG3eO0TvHzW5klnDfuiDNg2PRSDy4
- l+Y7mRM9JFWyHxc/bQdwdTXmt4YdEKONUv/JofoLLasV3wfYXfU6jmWFFP5uYF+bQhaI
- ZZrA==
+ bh=Q/abYtrK+JkHer8RFeR3LhMg9DVMnKBW29F73+2gOzk=;
+ b=PgGzwvMGgFfzNTrdAs6YY82PNS3C5tBnyyf5KKztqaXiKymQqSZwNrQmwIA7JEP2ga
+ Mdpd0YgiR0P1KCr6rfV3yxwE2Enx+IQ15Iy21R2G25NO85xgVp69Z8Id/Sm9tZ7AT6L3
+ xnlEHZpqK2wLnRlWe5r2JiyotCaJ59psN+18wR3mk7MtTIUtZdAIRHHw+PyUH2taGCpS
+ s4mdlKpaoNHjfk5w0ANWCz9i+ECeu8mcWF201Xgi8v5f3wiX1IkqprzQWWs0hDE37L9v
+ eQuIqRnJmg1kEMBmOORVXgxHfcdz59UiEPm2YCPeQ0N7ExnYWskYLsAmAifmGGyo57kc
+ I6Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=iJz2oy3/r4Vo4pDQEeE5a6lFCZ/MoVnft6l4RWY5HAQ=;
- b=UtgvKu4caBTQpYm0XHmDVhIzNmiHfdaWv0AQRF7VfUb6FQ2U1a1UN0c6dRZ845kxth
- 4LnNHCSAYg+pSwTRrW4Zs+dxK5vRX3vlC97fdxYapzz/VkC90yLlA7NNxfL6TF2RDRqd
- nWDxqgVNI/PPXsOBii1E1aaVXkobRWx8yLRBPWm4DU5g+XfplUNUl2NrrBdpYXd39KS/
- PQfxYI29dDz0AZroRo1cr9ba7ZoIl2duGzsxICR1iePfC2MjliJQCAeuagZzTGAdxtyg
- VUZgaM7L4Q1/vxy2AhroRV0W/3AkHdAbogUJVGEpwIO7Eyhx6wLfSer7ujzEw+QvoYnm
- 1DLA==
-X-Gm-Message-State: APjAAAV02rMK6fpAlu6cm4L0VcPd+lxmuVYdl1x12bjcTpFVtANzs0CL
- DLfo6qUFMETMQNdDfB75uUM=
-X-Google-Smtp-Source: APXvYqz5EOvp3/zDhxdifwKtr2wdKFb0M6AW40Jk0HpSE71tO2ZDpIMHYoai/tVz0hezNn7du2LGIA==
-X-Received: by 2002:a17:90a:1b62:: with SMTP id
- q89mr6431944pjq.80.1567306411971; 
- Sat, 31 Aug 2019 19:53:31 -0700 (PDT)
+ bh=Q/abYtrK+JkHer8RFeR3LhMg9DVMnKBW29F73+2gOzk=;
+ b=iVZNcZXud2dTeeHSpB0MsACHRdr6wg5eqTOMlSXZ5Vnl3Ca2BAdz0KSRwe96AmbVj9
+ bw9Z+9XKG77Jb0fvQhIXVf+tZALfgck1HemAQ5Qlu+pPCdwG7XIr+AcUyy61YgV0i3W7
+ EVgHBJzlgNkq9lL2p+F7yAb8ZOPEWMZJ/n9thSyqacGIeqy5ryR/vtUJdreC+SrYgvi6
+ 0c3DFA1d6URW9/vOrhSrho+XSFsW8Ve8IiPqlNQNzrxVZFFvuTtn7T7SYuVKeUo0EDD+
+ 3UKTUrjfaYJkHN5E3zpY4/fMi/I6c6wRt5JF0TNQWpwiFkdHOxY+4MrEUie5qStY5gh0
+ FsGA==
+X-Gm-Message-State: APjAAAVoNbKLcIKd0vW7pLJbolbCsRbgFFtCQtJMAAfWJDbCHPipIc/D
+ FzhjUwe4ZWclVkiIy9BBCok=
+X-Google-Smtp-Source: APXvYqywYVK5PQ9hcNI2R4F1gqSj8ZUW+XlhFpMCOdkNVHQ3jKNMe1oxXx+6lgcJ8p6bLs2Ru0hLsg==
+X-Received: by 2002:a17:90a:ae15:: with SMTP id
+ t21mr6501066pjq.50.1567306415206; 
+ Sat, 31 Aug 2019 19:53:35 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id p10sm11453307pff.132.2019.08.31.19.53.30
+ by smtp.gmail.com with ESMTPSA id p10sm11453307pff.132.2019.08.31.19.53.34
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Sat, 31 Aug 2019 19:53:31 -0700 (PDT)
+ Sat, 31 Aug 2019 19:53:34 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Sat, 31 Aug 2019 19:52:53 -0700
-Message-Id: <1567306391-2682-13-git-send-email-bmeng.cn@gmail.com>
+Date: Sat, 31 Aug 2019 19:52:56 -0700
+Message-Id: <1567306391-2682-16-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1567306391-2682-1-git-send-email-bmeng.cn@gmail.com>
 References: <1567306391-2682-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v7 12/30] riscv: sifive_e: Drop
- sifive_mmio_emulate()
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v7 15/30] riscv: hart: Add a "hartid-base"
+ property to RISC-V hart array
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,87 +81,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use create_unimplemented_device() instead.
+At present each hart's hartid in a RISC-V hart array is assigned
+the same value of its index in the hart array. But for a system
+that has multiple hart arrays, this is not the case any more.
+
+Add a new "hartid-base" property so that hartid number can be
+assigned based on the property value.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 ---
 
-Changes in v7: None
-Changes in v6: None
+Changes in v7:
+- use `s->hartid_base + idx` directly
+
+Changes in v6:
+- use s->hartid_base directly, instead of an extra variable
+
 Changes in v5: None
-Changes in v4: None
+Changes in v4:
+- new patch to add a "hartid-base" property to RISC-V hart array
+
 Changes in v3: None
-Changes in v2:
-- drop patch "riscv: sifive: Move sifive_mmio_emulate() to a common place"
-- new patch "riscv: sifive_e: Drop sifive_mmio_emulate()"
+Changes in v2: None
 
- hw/riscv/sifive_e.c | 23 ++++++++---------------
- 1 file changed, 8 insertions(+), 15 deletions(-)
+ hw/riscv/riscv_hart.c         | 3 ++-
+ include/hw/riscv/riscv_hart.h | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 2d67670..040d59f 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -37,6 +37,7 @@
- #include "hw/loader.h"
- #include "hw/sysbus.h"
- #include "hw/char/serial.h"
-+#include "hw/misc/unimp.h"
- #include "target/riscv/cpu.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/sifive_plic.h"
-@@ -74,14 +75,6 @@ static const struct MemmapEntry {
-     [SIFIVE_E_DTIM] =     { 0x80000000,     0x4000 }
+diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
+index 9deef869..e28db80 100644
+--- a/hw/riscv/riscv_hart.c
++++ b/hw/riscv/riscv_hart.c
+@@ -27,6 +27,7 @@
+ 
+ static Property riscv_harts_props[] = {
+     DEFINE_PROP_UINT32("num-harts", RISCVHartArrayState, num_harts, 1),
++    DEFINE_PROP_UINT32("hartid-base", RISCVHartArrayState, hartid_base, 0),
+     DEFINE_PROP_STRING("cpu-type", RISCVHartArrayState, cpu_type),
+     DEFINE_PROP_END_OF_LIST(),
  };
+@@ -45,7 +46,7 @@ static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
+     object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx],
+                             sizeof(RISCVCPU), cpu_type,
+                             &error_abort, NULL);
+-    s->harts[idx].env.mhartid = idx;
++    s->harts[idx].env.mhartid = s->hartid_base + idx;
+     qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
+     object_property_set_bool(OBJECT(&s->harts[idx]), true,
+                              "realized", &err);
+diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.h
+index 0671d88..1984e30 100644
+--- a/include/hw/riscv/riscv_hart.h
++++ b/include/hw/riscv/riscv_hart.h
+@@ -32,6 +32,7 @@ typedef struct RISCVHartArrayState {
  
--static void sifive_mmio_emulate(MemoryRegion *parent, const char *name,
--                             uintptr_t offset, uintptr_t length)
--{
--    MemoryRegion *mock_mmio = g_new(MemoryRegion, 1);
--    memory_region_init_ram(mock_mmio, NULL, name, length, &error_fatal);
--    memory_region_add_subregion(parent, offset, mock_mmio);
--}
--
- static void riscv_sifive_e_init(MachineState *machine)
- {
-     const struct MemmapEntry *memmap = sifive_e_memmap;
-@@ -172,7 +165,7 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
-     sifive_clint_create(memmap[SIFIVE_E_CLINT].base,
-         memmap[SIFIVE_E_CLINT].size, ms->smp.cpus,
-         SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
--    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.aon",
-+    create_unimplemented_device("riscv.sifive.e.aon",
-         memmap[SIFIVE_E_AON].base, memmap[SIFIVE_E_AON].size);
-     sifive_e_prci_create(memmap[SIFIVE_E_PRCI].base);
- 
-@@ -199,19 +192,19 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
- 
-     sifive_uart_create(sys_mem, memmap[SIFIVE_E_UART0].base,
-         serial_hd(0), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_E_UART0_IRQ));
--    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.qspi0",
-+    create_unimplemented_device("riscv.sifive.e.qspi0",
-         memmap[SIFIVE_E_QSPI0].base, memmap[SIFIVE_E_QSPI0].size);
--    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.pwm0",
-+    create_unimplemented_device("riscv.sifive.e.pwm0",
-         memmap[SIFIVE_E_PWM0].base, memmap[SIFIVE_E_PWM0].size);
-     sifive_uart_create(sys_mem, memmap[SIFIVE_E_UART1].base,
-         serial_hd(1), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_E_UART1_IRQ));
--    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.qspi1",
-+    create_unimplemented_device("riscv.sifive.e.qspi1",
-         memmap[SIFIVE_E_QSPI1].base, memmap[SIFIVE_E_QSPI1].size);
--    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.pwm1",
-+    create_unimplemented_device("riscv.sifive.e.pwm1",
-         memmap[SIFIVE_E_PWM1].base, memmap[SIFIVE_E_PWM1].size);
--    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.qspi2",
-+    create_unimplemented_device("riscv.sifive.e.qspi2",
-         memmap[SIFIVE_E_QSPI2].base, memmap[SIFIVE_E_QSPI2].size);
--    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.pwm2",
-+    create_unimplemented_device("riscv.sifive.e.pwm2",
-         memmap[SIFIVE_E_PWM2].base, memmap[SIFIVE_E_PWM2].size);
- 
-     /* Flash memory */
+     /*< public >*/
+     uint32_t num_harts;
++    uint32_t hartid_base;
+     char *cpu_type;
+     RISCVCPU *harts;
+ } RISCVHartArrayState;
 -- 
 2.7.4
 
