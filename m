@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD06A46D7
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 05:00:22 +0200 (CEST)
-Received: from localhost ([::1]:47228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEA1A46DB
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 05:04:33 +0200 (CEST)
+Received: from localhost ([::1]:47274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4G6H-0004uh-0w
-	for lists+qemu-devel@lfdr.de; Sat, 31 Aug 2019 23:00:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47789)
+	id 1i4GAJ-0008UK-B5
+	for lists+qemu-devel@lfdr.de; Sat, 31 Aug 2019 23:04:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47825)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzm-0007gb-9u
- for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:40 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzo-0007hK-9J
+ for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzk-0006Ye-DB
- for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:38 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:35665)
+ (envelope-from <bmeng.cn@gmail.com>) id 1i4Fzm-0006be-6i
+ for qemu-devel@nongnu.org; Sat, 31 Aug 2019 22:53:40 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:42368)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1i4Fzk-0006XD-7l; Sat, 31 Aug 2019 22:53:36 -0400
-Received: by mail-pg1-x541.google.com with SMTP id n4so5504361pgv.2;
- Sat, 31 Aug 2019 19:53:35 -0700 (PDT)
+ id 1i4Fzl-0006Z1-3D; Sat, 31 Aug 2019 22:53:38 -0400
+Received: by mail-pf1-x441.google.com with SMTP id 26so4563397pfp.9;
+ Sat, 31 Aug 2019 19:53:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=Q/abYtrK+JkHer8RFeR3LhMg9DVMnKBW29F73+2gOzk=;
- b=PgGzwvMGgFfzNTrdAs6YY82PNS3C5tBnyyf5KKztqaXiKymQqSZwNrQmwIA7JEP2ga
- Mdpd0YgiR0P1KCr6rfV3yxwE2Enx+IQ15Iy21R2G25NO85xgVp69Z8Id/Sm9tZ7AT6L3
- xnlEHZpqK2wLnRlWe5r2JiyotCaJ59psN+18wR3mk7MtTIUtZdAIRHHw+PyUH2taGCpS
- s4mdlKpaoNHjfk5w0ANWCz9i+ECeu8mcWF201Xgi8v5f3wiX1IkqprzQWWs0hDE37L9v
- eQuIqRnJmg1kEMBmOORVXgxHfcdz59UiEPm2YCPeQ0N7ExnYWskYLsAmAifmGGyo57kc
- I6Vg==
+ bh=UM+Y7KDLzrYTrBk4xhqiDKoDDPO9EnMtwCiqmXP8L+I=;
+ b=AZJOoEmD0DE8rVsQPM+Wouwynw8xPiad1jt3NbNulX9XJ/669cQFi7GPo0VX21pxrG
+ VMUA2rNlFYGMo/O2EVsu/SdeOiZzC0u99zj8gZHXwk/pOxBTPFk0FLohFH1egiHpsDH/
+ EBEzhdJPwa0hLl214hNr8TpifZHe7LKKugyKfMBFrPCvIf1spv8UNLGrZTmAsVSECWEc
+ kIpZ9LGpugsQPB+DSXt/Fhl93fe5ZrtkB5VIG6unremn8iLLOQihxIoWGuq/W9iQAAip
+ uTAAWFdSr83L+gD+BybGN3g19lbg53+bCLk89xcZxfOiQDypa5OAt58IndPRZ4OtH8Yx
+ t0kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=Q/abYtrK+JkHer8RFeR3LhMg9DVMnKBW29F73+2gOzk=;
- b=iVZNcZXud2dTeeHSpB0MsACHRdr6wg5eqTOMlSXZ5Vnl3Ca2BAdz0KSRwe96AmbVj9
- bw9Z+9XKG77Jb0fvQhIXVf+tZALfgck1HemAQ5Qlu+pPCdwG7XIr+AcUyy61YgV0i3W7
- EVgHBJzlgNkq9lL2p+F7yAb8ZOPEWMZJ/n9thSyqacGIeqy5ryR/vtUJdreC+SrYgvi6
- 0c3DFA1d6URW9/vOrhSrho+XSFsW8Ve8IiPqlNQNzrxVZFFvuTtn7T7SYuVKeUo0EDD+
- 3UKTUrjfaYJkHN5E3zpY4/fMi/I6c6wRt5JF0TNQWpwiFkdHOxY+4MrEUie5qStY5gh0
- FsGA==
-X-Gm-Message-State: APjAAAVoNbKLcIKd0vW7pLJbolbCsRbgFFtCQtJMAAfWJDbCHPipIc/D
- FzhjUwe4ZWclVkiIy9BBCok=
-X-Google-Smtp-Source: APXvYqywYVK5PQ9hcNI2R4F1gqSj8ZUW+XlhFpMCOdkNVHQ3jKNMe1oxXx+6lgcJ8p6bLs2Ru0hLsg==
-X-Received: by 2002:a17:90a:ae15:: with SMTP id
- t21mr6501066pjq.50.1567306415206; 
- Sat, 31 Aug 2019 19:53:35 -0700 (PDT)
+ bh=UM+Y7KDLzrYTrBk4xhqiDKoDDPO9EnMtwCiqmXP8L+I=;
+ b=owBiQewBLHNyNZXesRFiyABPpHWBywIvICjChcyMpsYZsq43lnyJ4Jk011UHPnam2w
+ mSrfphQ4LnWc87izk1qP9N7Oibxnv4S3h2F5ZNRB9vMBXb4ZF4TGRdQ8gy4qpwJakfHv
+ scoqMdDm10yQ30HW5LBcb1GNo/RU9BXZmcGFTkDn3a9ety3OAvR0HS88rWEFOtbymMTE
+ hF8L5cR7q+gGUVsTHanvYpM++ctyeryU6TZAVMBjAXeXJwrZWvSnXyv4kAzYBl1D1IBV
+ cOOqwslKzxTNO0A1i/jQ6lF4WSYWhichkzoEZwcEsKwSmqpdOR0BGJWDBLh2cxQEzWNv
+ ApPQ==
+X-Gm-Message-State: APjAAAVV7HWBjtPj3slau0XPwt1GE7wtnS8rSPvTvaK20WwYvuNE1Mgk
+ M/AvIEwsySctrJSFgkPKzRw=
+X-Google-Smtp-Source: APXvYqzL6uJ8DVN39RWoZzi89h1ABF9kYIveRrvaRboz1b+214hgzJK/9tT8u8wpVxJuZrqXeeE8bQ==
+X-Received: by 2002:a65:640d:: with SMTP id a13mr19253235pgv.256.1567306416267; 
+ Sat, 31 Aug 2019 19:53:36 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id p10sm11453307pff.132.2019.08.31.19.53.34
+ by smtp.gmail.com with ESMTPSA id p10sm11453307pff.132.2019.08.31.19.53.35
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Sat, 31 Aug 2019 19:53:34 -0700 (PDT)
+ Sat, 31 Aug 2019 19:53:35 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Sat, 31 Aug 2019 19:52:56 -0700
-Message-Id: <1567306391-2682-16-git-send-email-bmeng.cn@gmail.com>
+Date: Sat, 31 Aug 2019 19:52:57 -0700
+Message-Id: <1567306391-2682-17-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1567306391-2682-1-git-send-email-bmeng.cn@gmail.com>
 References: <1567306391-2682-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH v7 15/30] riscv: hart: Add a "hartid-base"
- property to RISC-V hart array
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: [Qemu-devel] [PATCH v7 16/30] riscv: sifive_u: Set the minimum
+ number of cpus to 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,67 +80,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At present each hart's hartid in a RISC-V hart array is assigned
-the same value of its index in the hart array. But for a system
-that has multiple hart arrays, this is not the case any more.
-
-Add a new "hartid-base" property so that hartid number can be
-assigned based on the property value.
+It is not useful if we only have one management CPU.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 ---
 
-Changes in v7:
-- use `s->hartid_base + idx` directly
-
-Changes in v6:
-- use s->hartid_base directly, instead of an extra variable
-
+Changes in v7: None
+Changes in v6: None
 Changes in v5: None
-Changes in v4:
-- new patch to add a "hartid-base" property to RISC-V hart array
+Changes in v4: None
+Changes in v3:
+- use management cpu count + 1 for the min_cpus
 
-Changes in v3: None
-Changes in v2: None
+Changes in v2:
+- update the file header to indicate at least 2 harts are created
 
- hw/riscv/riscv_hart.c         | 3 ++-
- include/hw/riscv/riscv_hart.h | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ hw/riscv/sifive_u.c         | 4 +++-
+ include/hw/riscv/sifive_u.h | 2 ++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-index 9deef869..e28db80 100644
---- a/hw/riscv/riscv_hart.c
-+++ b/hw/riscv/riscv_hart.c
-@@ -27,6 +27,7 @@
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 3f58f61..67b503a 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -10,7 +10,8 @@
+  * 1) CLINT (Core Level Interruptor)
+  * 2) PLIC (Platform Level Interrupt Controller)
+  *
+- * This board currently uses a hardcoded devicetree that indicates one hart.
++ * This board currently generates devicetree dynamically that indicates at least
++ * two harts.
+  *
+  * This program is free software; you can redistribute it and/or modify it
+  * under the terms and conditions of the GNU General Public License,
+@@ -433,6 +434,7 @@ static void riscv_sifive_u_machine_init(MachineClass *mc)
+      * management CPU.
+      */
+     mc->max_cpus = 4;
++    mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
+ }
  
- static Property riscv_harts_props[] = {
-     DEFINE_PROP_UINT32("num-harts", RISCVHartArrayState, num_harts, 1),
-+    DEFINE_PROP_UINT32("hartid-base", RISCVHartArrayState, hartid_base, 0),
-     DEFINE_PROP_STRING("cpu-type", RISCVHartArrayState, cpu_type),
-     DEFINE_PROP_END_OF_LIST(),
+ DEFINE_MACHINE("sifive_u", riscv_sifive_u_machine_init)
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index 4abc621..32d680c 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -68,6 +68,8 @@ enum {
+     SIFIVE_U_GEM_CLOCK_FREQ = 125000000
  };
-@@ -45,7 +46,7 @@ static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
-     object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx],
-                             sizeof(RISCVCPU), cpu_type,
-                             &error_abort, NULL);
--    s->harts[idx].env.mhartid = idx;
-+    s->harts[idx].env.mhartid = s->hartid_base + idx;
-     qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
-     object_property_set_bool(OBJECT(&s->harts[idx]), true,
-                              "realized", &err);
-diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.h
-index 0671d88..1984e30 100644
---- a/include/hw/riscv/riscv_hart.h
-+++ b/include/hw/riscv/riscv_hart.h
-@@ -32,6 +32,7 @@ typedef struct RISCVHartArrayState {
  
-     /*< public >*/
-     uint32_t num_harts;
-+    uint32_t hartid_base;
-     char *cpu_type;
-     RISCVCPU *harts;
- } RISCVHartArrayState;
++#define SIFIVE_U_MANAGEMENT_CPU_COUNT   1
++
+ #define SIFIVE_U_PLIC_HART_CONFIG "MS"
+ #define SIFIVE_U_PLIC_NUM_SOURCES 54
+ #define SIFIVE_U_PLIC_NUM_PRIORITIES 7
 -- 
 2.7.4
 
