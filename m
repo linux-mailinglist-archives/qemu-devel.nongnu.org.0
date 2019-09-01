@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E3BA48FD
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 13:56:02 +0200 (CEST)
-Received: from localhost ([::1]:56706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED673A4903
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 13:59:55 +0200 (CEST)
+Received: from localhost ([::1]:56752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4OSf-0004y9-73
-	for lists+qemu-devel@lfdr.de; Sun, 01 Sep 2019 07:56:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50224)
+	id 1i4OWR-0001Gy-3s
+	for lists+qemu-devel@lfdr.de; Sun, 01 Sep 2019 07:59:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50223)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i4OQ7-0003MA-5H
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i4OQ7-0003M9-5P
  for qemu-devel@nongnu.org; Sun, 01 Sep 2019 07:53:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i4OQ5-0004RD-OR
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i4OQ5-0004RT-Pp
  for qemu-devel@nongnu.org; Sun, 01 Sep 2019 07:53:22 -0400
-Received: from relay.sw.ru ([185.231.240.75]:52460)
+Received: from relay.sw.ru ([185.231.240.75]:52470)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1i4OQ5-0004Ms-Fo; Sun, 01 Sep 2019 07:53:21 -0400
+ id 1i4OQ5-0004Mv-GA; Sun, 01 Sep 2019 07:53:21 -0400
 Received: from [172.16.25.136] (helo=dhcp-172-16-25-136.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1i4OQ2-0000CW-4N; Sun, 01 Sep 2019 14:53:18 +0300
+ id 1i4OQ2-0000CW-7x; Sun, 01 Sep 2019 14:53:18 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Sun,  1 Sep 2019 14:53:03 +0300
-Message-Id: <1567338786-586124-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+Date: Sun,  1 Sep 2019 14:53:04 +0300
+Message-Id: <1567338786-586124-5-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1567338786-586124-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1567338786-586124-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v7 3/6] iotests: Add casenotrun report to bash
- tests
+Subject: [Qemu-devel] [PATCH v7 4/6] iotests: Valgrind fails with
+ nonexistent directory
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,39 +52,32 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The new function _casenotrun() is to be invoked if a test case cannot
-be run for some reason. The user will be notified by a message passed
-to the function. It is the caller's responsibility to make skipped a
-particular test.
+The Valgrind uses the exported variable TMPDIR and fails if the
+directory does not exist. Let us exclude such a test case from
+being run under the Valgrind and notify the user of it.
 
 Suggested-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/qemu-iotests/common.rc | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ tests/qemu-iotests/051 | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index be2e84b..663c168 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -455,6 +455,15 @@ _notrun()
-     exit
- }
+diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
+index ce942a5..f8141ca 100755
+--- a/tests/qemu-iotests/051
++++ b/tests/qemu-iotests/051
+@@ -377,6 +377,10 @@ printf %b "qemu-io $device_id \"write -P 0x33 0 4k\"\ncommit $device_id\n" |
+ $QEMU_IO -c "read -P 0x33 0 4k" "$TEST_IMG" | _filter_qemu_io
  
-+# bail out, setting up .casenotrun file
-+# The function _casenotrun() is used as a notifier. It is the
-+# caller's responsibility to make skipped a particular test.
-+#
-+_casenotrun()
-+{
-+    echo "    [case not run] $*" >>"$OUTPUT_DIR/$seq.casenotrun"
-+}
-+
- # just plain bail out
- #
- _fail()
+ # Using snapshot=on with a non-existent TMPDIR
++if [ "${VALGRIND_QEMU}" == "y" ]; then
++    _casenotrun "Valgrind needs a valid TMPDIR for itself"
++fi
++VALGRIND_QEMU="" \
+ TMPDIR=/nonexistent run_qemu -drive driver=null-co,snapshot=on
+ 
+ # Using snapshot=on together with read-only=on
 -- 
 1.8.3.1
 
