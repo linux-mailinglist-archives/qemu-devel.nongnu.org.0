@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FF8A49D9
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 16:31:50 +0200 (CEST)
-Received: from localhost ([::1]:57808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 321A7A49E1
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Sep 2019 16:45:47 +0200 (CEST)
+Received: from localhost ([::1]:57876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4QtQ-0005CU-R0
-	for lists+qemu-devel@lfdr.de; Sun, 01 Sep 2019 10:31:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39593)
+	id 1i4R6v-0003CG-RV
+	for lists+qemu-devel@lfdr.de; Sun, 01 Sep 2019 10:45:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42184)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1i4Qjn-0004o4-El
- for qemu-devel@nongnu.org; Sun, 01 Sep 2019 10:21:52 -0400
+ (envelope-from <liq3ea@gmail.com>) id 1i4R5Z-0002dJ-Mr
+ for qemu-devel@nongnu.org; Sun, 01 Sep 2019 10:44:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1i4Qjl-0004y0-Dl
- for qemu-devel@nongnu.org; Sun, 01 Sep 2019 10:21:51 -0400
-Received: from mga12.intel.com ([192.55.52.136]:16719)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1i4Qjj-0004jJ-Au
- for qemu-devel@nongnu.org; Sun, 01 Sep 2019 10:21:47 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2019 07:21:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,455,1559545200"; d="scan'208";a="211453146"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by fmsmga002.fm.intel.com with ESMTP; 01 Sep 2019 07:21:45 -0700
-From: Tao Xu <tao3.xu@intel.com>
-To: imammedo@redhat.com,
-	eblake@redhat.com,
-	ehabkost@redhat.com
-Date: Sun,  1 Sep 2019 22:21:19 +0800
-Message-Id: <20190901142119.20482-12-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190901142119.20482-1-tao3.xu@intel.com>
-References: <20190901142119.20482-1-tao3.xu@intel.com>
+ (envelope-from <liq3ea@gmail.com>) id 1i4R5Y-0005e4-0X
+ for qemu-devel@nongnu.org; Sun, 01 Sep 2019 10:44:21 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:43960)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1i4R5X-0005c7-Od
+ for qemu-devel@nongnu.org; Sun, 01 Sep 2019 10:44:19 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id y8so8746112oih.10
+ for <qemu-devel@nongnu.org>; Sun, 01 Sep 2019 07:44:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cKMltYeBi6dzYKA5CbWu6tyUS+T0ysZLFaTPqlj9B7k=;
+ b=m/bUQEjM0WoSarXjH8xKx8iYGeLB9Psq7SBfKtRnXXQ9+Yo4g2tc5yvv1rAem1CP/I
+ UuOoXdSzLQayVRGuHtOYc3SDiqxIzPu1/u0+d9BCe4pm51u44u1soJe+W0hFVAw1IxQw
+ JeUDhmnxbgu2wF0MtZT2A5XDoYwwmqIafbP2mDHRBTJyQh0ZPcRWS1gKEWJGgygCwmB2
+ mJCXY+nbSxSX/58FVodBuB14BxUP669a3q49I4jtFK57m/+YhqzCy9h1pnuhjNarKMzt
+ ZDTRHBy6+ScPEYdxRqQdZgSm/YrPcfDkESj4Nn/SFyFwsABfSOz1hsLJIoqqYoCJCvKh
+ 9IKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cKMltYeBi6dzYKA5CbWu6tyUS+T0ysZLFaTPqlj9B7k=;
+ b=t1x6YQE7U5FUkvo+a8DJHUoswrR1+W6JMqj/GE52qq0C/QqTETlF3vpEcoKFG8Rb1I
+ syabbDZXyuJonvOPFpnnLldoI0VkgK+VDpkLCUZB+xl1UOruHgMDXxvr7CQj6dx6EaO7
+ kRZeloyXPWNq4DuRpYK617+xQBaaqlWoRbG0dtIIH1HcllSF1hI0nHWbC/pqrgnvm3AQ
+ HOHBFr6v8p2zKZE8zOcb9gq78pZQE7t7+ysWNgzNLrhNQ7a4YHWAePHSPV7Z1IuHM63K
+ hlN3dBIo/5XWaileUz+sTc8PwuVSy+BgFSTC1KKgErchmlXY7BwgiNNWCz7b1SNzPup9
+ JSMg==
+X-Gm-Message-State: APjAAAUQnztgdF9rLEaR8hVf0KFQtcgNIRJ014CCCR4H7KZB8nCLsmoF
+ Ob3KUN4k8DV8SvmMisOzNLntL1GUjwaBFczRg6o=
+X-Google-Smtp-Source: APXvYqwHVJmqan3EWU/xxER7Lg1PbPJ2zQcWSQ/tCvRK3vt/4p9eNqVIk0wx7zwO0xX0FP4T8WIOt/kL4vzdVGMhfcI=
+X-Received: by 2002:aca:1a08:: with SMTP id a8mr15957107oia.150.1567349058698; 
+ Sun, 01 Sep 2019 07:44:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <7d22c299-29fe-8479-ee14-17d521bb9d6b@huawei.com>
+ <CAKXe6SL+LC4RVRy+4oAKnuS=qMFDG4A0iyoL0hqg_f76gSrmBA@mail.gmail.com>
+ <43E932EA88344C498D975E4FF00CF41E2EAB29A5@dggeml529-mbx.china.huawei.com>
+In-Reply-To: <43E932EA88344C498D975E4FF00CF41E2EAB29A5@dggeml529-mbx.china.huawei.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Sun, 1 Sep 2019 22:43:42 +0800
+Message-ID: <CAKXe6SJB4fc_2a0gz8JJ_LD6Qh65DDXaFVhJSspTHQxxn4=UQg@mail.gmail.com>
+To: fangying <fangying1@huawei.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.136
-Subject: [Qemu-devel] [PATCH v10 11/11] tests/bios-tables-test: add test
- cases for ACPI HMAT
+X-Received-From: 2607:f8b0:4864:20::22e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] Discussion: vnc: memory leak in zrle_compress_data
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,98 +74,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <Jingqi.liu@intel.com>, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, daniel@linux.ibm.com, jonathan.cameron@huawei.com,
- dan.j.williams@intel.com
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, zhouyibo <zhouyibo3@huawei.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ACPI table HMAT has been introduced, QEMU now builds HMAT tables for
-Heterogeneous Memory with boot option '-numa node'.
+fangying <fangying1@huawei.com> =E4=BA=8E2019=E5=B9=B49=E6=9C=881=E6=97=A5=
+=E5=91=A8=E6=97=A5 =E4=B8=8B=E5=8D=888:29=E5=86=99=E9=81=93=EF=BC=9A
 
-Add test cases on PC and Q35 machines with 2 numa nodes.
-Because HMAT is generated when system enable numa, the
-following tables need to be added for this test:
-  tests/acpi-test-data/pc/*.acpihmat
-  tests/acpi-test-data/pc/HMAT.*
-  tests/acpi-test-data/q35/*.acpihmat
-  tests/acpi-test-data/q35/HMAT.*
+> Nice work, your patch does fix this issue in my test.
+>
+> I think we should make VncState.zlib to be a pointer type as well.
+>
+> Since we are going to use pointers instead of copy, we must make sure tha=
+t
+> there=E2=80=99s no race condition of pointer members between the local vs=
+ (vnc
+> worker thread) and origin vs (main thread).
+>
+>
 
-Reviewed-by: Daniel Black <daniel@linux.ibm.com>
-Reviewed-by: Jingqi Liu <Jingqi.liu@intel.com>
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
----
+Yes, there is a race between the main thread and vnc thread. Maybe we
+should add a lock just like the 'vs->output_mutex'.
+Let's wait for Gerd's (or others) comments whether there is a better way
+than using pointer before sending the revision.
 
-Changes in v10:
-    - Update test case, add "-machine hmat=on"
----
- tests/bios-tables-test.c | 44 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
-
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index a356ac3489..633efd959b 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -871,6 +871,48 @@ static void test_acpi_piix4_tcg_dimm_pxm(void)
-     test_acpi_tcg_dimm_pxm(MACHINE_PC);
- }
- 
-+static void test_acpi_tcg_acpi_hmat(const char *machine)
-+{
-+    test_data data;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine = machine;
-+    data.variant = ".acpihmat";
-+    test_acpi_one(" -machine hmat=on"
-+                  " -smp 2,sockets=2"
-+                  " -m 128M,slots=2,maxmem=1G"
-+                  " -object memory-backend-ram,size=64M,id=m0"
-+                  " -object memory-backend-ram,size=64M,id=m1"
-+                  " -numa node,nodeid=0,memdev=m0"
-+                  " -numa node,nodeid=1,memdev=m1,initiator=0"
-+                  " -numa cpu,node-id=0,socket-id=0"
-+                  " -numa cpu,node-id=0,socket-id=1"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-latency,latency=5ns"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=500M"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-latency,latency=10ns"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=100M"
-+                  " -numa hmat-cache,node-id=0,size=0x20000,total=1,level=1"
-+                  ",assoc=direct,policy=write-back,line=8"
-+                  " -numa hmat-cache,node-id=1,size=0x20000,total=1,level=1"
-+                  ",assoc=direct,policy=write-back,line=8",
-+                  &data);
-+    free_test_data(&data);
-+}
-+
-+static void test_acpi_q35_tcg_acpi_hmat(void)
-+{
-+    test_acpi_tcg_acpi_hmat(MACHINE_Q35);
-+}
-+
-+static void test_acpi_piix4_tcg_acpi_hmat(void)
-+{
-+    test_acpi_tcg_acpi_hmat(MACHINE_PC);
-+}
-+
- static void test_acpi_virt_tcg(void)
- {
-     test_data data = {
-@@ -915,6 +957,8 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
-         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-+        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-+        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
-     } else if (strcmp(arch, "aarch64") == 0) {
-         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-     }
--- 
-2.20.1
+Thanks,
+Li Qiang
 
 
+>
+> Thanks.
+> Ying Fang
+> *=E5=8F=91=E4=BB=B6=E4=BA=BA=EF=BC=9A *Li Qiang<liq3ea@gmail.com>
+> *=E6=94=B6=E4=BB=B6=E4=BA=BA=EF=BC=9A *fangying<fangying1@huawei.com>
+> *=E6=8A=84=E9=80=81=EF=BC=9A *Gerd Hoffmann<kraxel@redhat.com>;qemu-devel=
+<qemu-devel@nongnu.org>;Daniel
+> P. Berrange<berrange@redhat.com>;zhouyibo<zhouyibo3@huawei.com>
+> *=E4=B8=BB=E9=A2=98=EF=BC=9A *Re: [Qemu-devel] Discussion: vnc: memory le=
+ak in zrle_compress_data
+> *=E6=97=B6=E9=97=B4=EF=BC=9A *2019-08-31 23:48:10
+>
+>
+>
+> fangying <fangying1@huawei.com> =E4=BA=8E2019=E5=B9=B48=E6=9C=8831=E6=97=
+=A5=E5=91=A8=E5=85=AD =E4=B8=8A=E5=8D=888:45=E5=86=99=E9=81=93=EF=BC=9A
+>
+>> Hi Gerd,
+>>
+>> Memory leak is observed in zrle_compress_data when we are doing some
+>> AddressSanitizer tests. The leak stack is as bellow:
+>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> =3D=3D47887=3D=3DERROR: LeakSanitizer: detected memory leaks
+>>
+>> Direct leak of 29760 byte(s) in 5 object(s) allocated from:
+>>      #0 0xffffa67ef3c3 in __interceptor_calloc
+>> (/lib64/libasan.so.4+0xd33c3)
+>>      #1 0xffffa65071cb in g_malloc0 (/lib64/libglib-2.0.so.0+0x571cb)
+>>      #2 0xffffa5e968f7 in deflateInit2_ (/lib64/libz.so.1+0x78f7)
+>>      #3 0xaaaacec58613 in zrle_compress_data ui/vnc-enc-zrle.c:87
+>>      #4 0xaaaacec58613 in zrle_send_framebuffer_update
+>> ui/vnc-enc-zrle.c:344
+>>      #5 0xaaaacec34e77 in vnc_send_framebuffer_update ui/vnc.c:919
+>>      #6 0xaaaacec5e023 in vnc_worker_thread_loop ui/vnc-jobs.c:271
+>>      #7 0xaaaacec5e5e7 in vnc_worker_thread ui/vnc-jobs.c:340
+>>      #8 0xaaaacee4d3c3 in qemu_thread_start util/qemu-thread-posix.c:502
+>>      #9 0xffffa544e8bb in start_thread (/lib64/libpthread.so.0+0x78bb)
+>>      #10 0xffffa53965cb in thread_start (/lib64/libc.so.6+0xd55cb)
+>>
+>> This leak stack can be easily reproduced in the case that a client
+>> repeatedly
+>> does vnc connect/disconnect .
+>>
+>> To get the leak stack, we can compile qemu with
+>> --extra-ldflags=3D-Wl,--build-id -Wl,-z,relro -Wl,-z,now -lasan'
+>> '--extra-cflags=3D-O0 -g -fno-omit-frame-pointer -fno-stack-protector
+>> -fsanitize=3Daddress -fsanitize=3Dleak' using gcc that supports asan.
+>>
+>> It is obvious that there may be memory leak in the zlib/zrle compress
+>> stuff.
+>> IIUC, *deflateInit2* is called with the local VncState vs->zrle.stream
+>> when a
+>> client is connected the vnc server. And then *deflate* is called to do
+>> the
+>> encoding. Finally *deflateEnd* is called in vnc_zrle_clear when a
+>> connection is
+>> closed.
+>>
+>> I had not think it out why this memory leak could happen here.
+>> It is noticed that deflateInit2 is called with the local vs,
+>> however deflateEnd is called with the origin vs.
+>> The local vs is copied to the origin vs in vnc_async_encoding_start and
+>> vnc_async_encoding_end on the contrary.
+>>
+>> Have you got any idea on this issue ?
+>>
+>>
+> Hello Ying,
+>
+> I have posted a patch for this issue:
+> --> https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg06675.html
+>
+> Please check whether the patch can address this issue.
+>
+> Thanks,
+> Li Qiang
+>
+>
+>
+>
+>
+>> Thanks.
+>> Ying Fang
+>>
+>>
+>>
