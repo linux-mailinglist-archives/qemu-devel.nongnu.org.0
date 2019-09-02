@@ -2,67 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9833CA5793
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 15:20:10 +0200 (CEST)
-Received: from localhost ([::1]:36446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E38D2A578A
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 15:17:39 +0200 (CEST)
+Received: from localhost ([::1]:36400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4mFd-0003h1-Oh
-	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 09:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56702)
+	id 1i4mDC-0001WD-1e
+	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 09:17:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49883)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jeff@codyprime.org>) id 1i4jgh-000093-BD
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 06:35:56 -0400
+ (envelope-from <pl@kamp.de>) id 1i4mBV-0000sK-3e
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 09:15:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jeff@codyprime.org>) id 1i4jgf-0004Xc-VB
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 06:35:55 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:38722)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jeff@codyprime.org>) id 1i4jgf-0004VP-HN
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 06:35:53 -0400
-Received: by mail-lj1-x241.google.com with SMTP id h3so5553920ljb.5
- for <qemu-devel@nongnu.org>; Mon, 02 Sep 2019 03:35:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=codyprime-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FM6ZJLlJRM5u33MEB9CGkhMZke21GuuxxpB1m2wcl8Q=;
- b=B4DMUfDS/ok79QAB00d82Sqnu2kuWHlOTao5oPFdxK7LepLYI4juv+IfEYSiJ/uM1/
- pMsCRpB1/ZU22+fQ7X5BnmBHICpvfsPb3+N+0CKk1kgS612Z+tNtStzGzKuwOvbIS7To
- pzLSx+zf+lCbixMHjZOAVC/x03tv7w+MmLRbkDbRFoGN0SlxXQoF+mVvNJkaL/BtuYtH
- EPrPiCZ9VC/fGZLNyMiGPUqRr7mr8WC7bYmQ7LdnGH2a9h5KcyfT9xQkciyPBK9nFAvf
- 1Ua47tjaBLwMAAkS/ofJFIgKKRjL+EPQTZllbi4EfgVelk2ygz/XHgiI8xohTAPQZiud
- ccXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FM6ZJLlJRM5u33MEB9CGkhMZke21GuuxxpB1m2wcl8Q=;
- b=MD3gxZeg+/9cY3lfo4My/eOpT30BcRBF5e7/rNCh1twXT0EaXxp6ytJPDvuDJ9PzqO
- bRzl9A10DDD0KaNCDmVOTlX3aMorq1h28igci4ApbHCSU4zTQ2x2f79dCqbzfVbm1XAx
- y9lUXI2uJ2QZdra/S1gH8wa615/Rr+rOe1g3GJrKg14hBtmeF6ajfT/ohCKwB4irqws9
- ufRpFP229SwvWvxw6wTmBiNqhs76gPj//lpO4Aoh2YUidqn2uVxoRzmibZWnC8/WcsEk
- PAyWEMASHcecEztOFDclLaC8eABlXURXsn7Vcl6ooX1u8RGM0k+dMGv19d0G5LOoIIi5
- 0HKQ==
-X-Gm-Message-State: APjAAAUgBdulrFoXeWjsmhAjBEs5dN0Cz3OivMMOs5BJz4q39TISFnXT
- Bllo8HtrAuQqzyW4dHYXoWrXskHCu5ZCSKeKCg7juA==
-X-Google-Smtp-Source: APXvYqzDHFyWXYUrZflI90oJLimNGVJpgaJlmMvzurFbybJVAl0rc4RtmnLIiLnueYG553401Yi5vX1UBEKmPAsMjec=
-X-Received: by 2002:a2e:3109:: with SMTP id x9mr7836685ljx.19.1567420551411;
- Mon, 02 Sep 2019 03:35:51 -0700 (PDT)
+ (envelope-from <pl@kamp.de>) id 1i4mBT-00058R-Jx
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 09:15:52 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:34015)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pl@kamp.de>)
+ id 1i4mBT-0004va-Dc; Mon, 02 Sep 2019 09:15:51 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
+ by kerio.kamp.de with ESMTPSA
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
+ Mon, 2 Sep 2019 15:15:38 +0200
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190829133615.29873-1-pl@kamp.de>
+ <20190902130701.GE13140@localhost.localdomain>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <7992af97-086e-b1c1-2b1a-fa72727e04c1@kamp.de>
+Date: Mon, 2 Sep 2019 15:15:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190829154851.GA26717@stefanha-x1.localdomain>
- <3fce8d5a5fcccbff8f27f681eb685167d2c0845f.camel@redhat.com>
- <20190902092509.GC9069@stefanha-x1.localdomain>
-In-Reply-To: <20190902092509.GC9069@stefanha-x1.localdomain>
-From: Jeff Cody <jeff@codyprime.org>
-Date: Mon, 2 Sep 2019 06:35:40 -0400
-Message-ID: <CAGwXPVpN0ndzAEpDtV+-mAgmGZOv5gL2_=5sBka0iHRg6drCrA@mail.gmail.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::241
-X-Mailman-Approved-At: Mon, 02 Sep 2019 09:18:00 -0400
-Subject: Re: [Qemu-devel] git.qemu.org gitweb misrenders on git/ URLs
+In-Reply-To: <20190902130701.GE13140@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 195.62.97.192
+Subject: Re: [Qemu-devel] [PATCH] block/vhdx: add check for truncated image
+ files
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,57 +53,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-devel@nongnu.org
+Cc: codyprime@gmail.com, Jan-Hendrik Frintrop <jhf@kamp.de>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 2, 2019 at 5:25 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+Am 02.09.19 um 15:07 schrieb Kevin Wolf:
+> Am 29.08.2019 um 15:36 hat Peter Lieven geschrieben:
+>> qemu is currently not able to detect truncated vhdx image files.
+>> Add a basic check if all allocated blocks are reachable to vhdx_co_check.
+>>
+>> Signed-off-by: Jan-Hendrik Frintrop <jhf@kamp.de>
+>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>> ---
+>>   block/vhdx.c | 19 +++++++++++++++++++
+>>   1 file changed, 19 insertions(+)
+>>
+>> diff --git a/block/vhdx.c b/block/vhdx.c
+>> index 6a09d0a55c..4382b1375d 100644
+>> --- a/block/vhdx.c
+>> +++ b/block/vhdx.c
+>> @@ -2068,10 +2068,29 @@ static int coroutine_fn vhdx_co_check(BlockDriverState *bs,
+>>                                         BdrvCheckMode fix)
+>>   {
+>>       BDRVVHDXState *s = bs->opaque;
+>> +    VHDXSectorInfo sinfo;
+>> +    int64_t file_size = bdrv_get_allocated_file_size(bs);
+> Don't you mean bdrv_getlength()?
 >
-> On Thu, Aug 29, 2019 at 06:13:34PM +0200, Andrea Bolognani wrote:
-> > On Thu, 2019-08-29 at 16:48 +0100, Stefan Hajnoczi wrote:
-> > > Hi Jeff,
-> > > Philippe noticed that the git HTTPS clone URL
-> > > https://git.qemu.org/git/libslirp.git renders a gitweb page that looks
-> > > right but has broken links.  The correct gitweb URL listed on
-> > > https://git.qemu.org/ is https://git.qemu.org/?p=libslirp.git;a=summary,
-> > > but there's a chance that people will open the HTTPS clone URL in their
-> > > browser and expect to see gitweb working.
-> > >
-> > > Is it possible to tweak the Apache configuration so that
-> > > https://git.qemu.org/git/libslirp.git[/] redirects to the working gitweb
-> > > URL?
-> > >
-> > > The tricky part is not breaking HTTPS git clone, which accesses URLs
-> > > below https://git.qemu.org/git/libslirp.git/ :).
-> >
-> > I know that's not quite the answer to your question, but if you look
-> > for example at
-> >
-> >   https://git.zx2c4.com/cgit
-> >
-> > you'll see that the same URL can be used both for viewing with a
-> > browser *and* cloning.
-> >
-> > Basically with cgit all requests go through the CGI script, and an
-> > advantage of that is that you don't even need to call
-> >
-> >   git update-server-info
-> >
-> > to make the repository accessible via HTTPs. It's also pretty fast
-> > and extremely easy to setup. Maybe consider switching from gitweb
-> > to it?
->
-> Thanks, switching to cgit is an option.  Let's see what Jeff thinks.
->
+> bdrv_get_allocated_file_size() is only the allocated size, i.e. without
+> holes. So a higher offset may actually be present.
 
-Hi Stefan & Andrea,
 
-I'm not familiar with cgit, but I am happy to investigate it as an
-option if it looks to be a better fit.  I can't get to it until this weekend
-however (Sept 7), as I'm traveling right now.   Is that soon enough?
+Isn't bdrv_getlength the virtual disk size? I need to check if a block
+
+points to a location after EOF of the underlying physical file.
+
+
+>
+>> +    int64_t sector_num;
+>>   
+>>       if (s->log_replayed_on_open) {
+>>           result->corruptions_fixed++;
+>>       }
+>> +
+>> +    for (sector_num = 0; sector_num < bs->total_sectors;
+>> +         sector_num += s->block_size / BDRV_SECTOR_SIZE) {
+>> +        int nb_sectors = MIN(bs->total_sectors - sector_num,
+>> +                             s->block_size / BDRV_SECTOR_SIZE);
+>> +        vhdx_block_translate(s, sector_num, nb_sectors, &sinfo);
+>> +        if ((s->bat[sinfo.bat_idx] & VHDX_BAT_STATE_BIT_MASK) ==
+>> +            PAYLOAD_BLOCK_FULLY_PRESENT) {
+>> +            if (sinfo.file_offset +
+>> +                sinfo.sectors_avail * BDRV_SECTOR_SIZE > file_size) {
+> Do we need to protect against integer overflows here? I think
+> sinfo.file_offset comes directly from the image file and might be
+> corrupted.
+>
+> Or has it already been check somewhere?
+
+
+The headers are being checked in vhdx_open.  sinfo.file_offset + sinfo.sectors_avail * BDRV_SECTOR_SIZE
+
+is exactly what is being passed to bdrv_pread when reading from the image file.
+
+
+>
+>> +                /* block is past the end of file, image has been truncated. */
+>> +                result->corruptions++;
+> I think we should print an error message like other formats do, so that
+> the user knows which kind of corruption 'qemu-img check' found (include
+> the guest and host offset of the invalid block).
+
+
+What would be the appropriate way to do this? There is no errp in the
+
+check funtion. Inclunde headers so that error_report() is available?
+
 
 Thanks,
-Jeff
+
+Peter
+
+
+
 
