@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08D9A5D46
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 23:03:16 +0200 (CEST)
-Received: from localhost ([::1]:39990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A5CA5D4D
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 23:05:24 +0200 (CEST)
+Received: from localhost ([::1]:40014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4tTn-0000Cf-Dv
-	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 17:03:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33429)
+	id 1i4tVr-00020n-IJ
+	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 17:05:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33442)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1i4tPf-0005rz-Bo
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 16:59:00 -0400
+ (envelope-from <danielhb413@gmail.com>) id 1i4tPg-0005ts-OC
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 16:59:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1i4tPd-0004Mu-QL
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 16:58:59 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:44465)
+ (envelope-from <danielhb413@gmail.com>) id 1i4tPf-0004PJ-BX
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 16:59:00 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:46060)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1i4tPd-0004MG-Mb
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 16:58:57 -0400
-Received: by mail-qk1-x742.google.com with SMTP id i78so12180622qke.11
- for <qemu-devel@nongnu.org>; Mon, 02 Sep 2019 13:58:57 -0700 (PDT)
+ id 1i4tPf-0004Om-84
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 16:58:59 -0400
+Received: by mail-qk1-x731.google.com with SMTP id z67so744942qkb.12
+ for <qemu-devel@nongnu.org>; Mon, 02 Sep 2019 13:58:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cqXvzeH9JGbK13wh2PF5LuHVAWopqM5fCsamJ7eRinw=;
- b=oPaHINxnFgmuXrpWzFMhoyWEZXP+9V2pMbLQt9juEQ88tbDdeStkCgOqZIcYdW+orD
- CIbrakIBSQjjsBvmbwlC9KEao2dwXRt9mxLuBW2cJkfTwRstrxA9ernAs1MKo/Jx7r7d
- 6PH6rsYw9p4DFgbgfKyXv4qDtuPsCRgY8+Mb9kLIPjk7wu9rSakfbzjQfKnigw8lmGtL
- X24rt/3b9zB2K60gr/qUcyrVefExVBS0FPPmofGjoj8/+OiqizSo7fp0O4+mdwmSoY/W
- /qoyk/kcFwYZMosNeEtE4m29fZkQ583HrkpeC1SH2Q85vwJ+9dgpXY59crw3kI8MtdqD
- N85A==
+ bh=u9G4IYIbYDj0k9bcX3iHzHaFezRpdzekc5r3iFKBM9A=;
+ b=FXOea6Fzqk8z9B82LH0nnAtVHBnHVinX6vqaEqZ2ZhZ7/cOw1Qble8mDEWbI5Nkb8M
+ 5n8zvoSgOK5AVggmbwMFBqsISZgeqGyjkLtqCAHPK71FI1XMC8ho16x27/KzGI0TJ2ca
+ R5+gIF2JqsOxb/FXmV/u/EFTGI+LSjdDYhUdLWDYDoagqz10xJqJwsmOrYjBZ+JFrOkv
+ qXvJ4rFZHixcMHKQTq1s79Ek3VP07J+QmworPEVaMn6JRfU+tOy1oihEf8/rHjW2dQOg
+ vLHjRXSKqydePUxklvjU1+7v8t3Hlq4mEpMjrLc1unawAv3cOWemr5FXKVqoxNi8viLu
+ vQCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cqXvzeH9JGbK13wh2PF5LuHVAWopqM5fCsamJ7eRinw=;
- b=jzqoXrg4/PexmC1ZJjWFjUgYMatMhn90w/5uMSiVRBhKdAJRVDNkr+Ik8zsmryLGIh
- oYZ5tXag2e2WwPxLQKDrOJB3TmmGWnB8+ZjNSbLWZvZTX74lgE5pFXlUIYbzGmvgrmb1
- RS5qbDbbZfxdmgPpzqH8vljJKffjG6duHiibfsXuxY0/VVknzX7BLpFY899Z8wW/ggMy
- 31qh8YeHRCT2xyuZe1NZgaGVXXhKcycbgssDKzthcSqfTS1BGvTudLLx7QXgjwmQa81T
- wyvzO7tbiDigFdlQ5OrWizYupJjKpSPJ4n6u4Tgf48d7xsngOhdszyzlpOv/b/iHI09V
- 1rvA==
-X-Gm-Message-State: APjAAAWFXysf6wYj7zGdUTd+un6JhJF8yXYlV5XaRHs63tEDP6jLB2yR
- zx78NSSiQwaAbqzO7VFV+MFtrQm2
-X-Google-Smtp-Source: APXvYqyUMmVcYv1AW3X0C4NXs+rGJKFZRlm1deAqpvJmqASPdVJt/nrfzUtC7PLBHdyNMrAAR3YBpg==
-X-Received: by 2002:a05:620a:1e4:: with SMTP id
- x4mr16266606qkn.150.1567457937206; 
- Mon, 02 Sep 2019 13:58:57 -0700 (PDT)
+ bh=u9G4IYIbYDj0k9bcX3iHzHaFezRpdzekc5r3iFKBM9A=;
+ b=rEQIHoTa0If+zpkH2Cv9KCFiYvN9Rc1jJC1hEZIVaDm5QvfBTxXccHs7xfYCz4wGL0
+ lGP49dvHgwuNCsNAV0aEsvr4QdZDaVJ2bvYMvjQqoSFMRgUB5Dyj5ZmxaueHSkJm986b
+ u5WWivhqcXzY6olSboKCzxYu5x26XKKwUhVvOXyUol7dvxGIOXTNIvc91Zp94vtN619S
+ n09xIDuQHPEtyLpRSF15S6j8qm8yWgkdEDheb/xSlxt5jsM6NaxncQD3uuKSK0P6A7/e
+ WzI/d1sGkP1cil/4dRfs+dFfvyCRbnrZoLIzvOGukcyTwjtHypp3drmg6UWafY9RK0B4
+ 2kcw==
+X-Gm-Message-State: APjAAAXxrjclQe0rpYCbfu2sLuzTfqMiy4hb8xVOSTDg0uMKOUpdAp1y
+ KzBoY1GJkxLHeaKDw1lnPmcdqN/y
+X-Google-Smtp-Source: APXvYqyxXl+g/BVjWlYYEzchUJPbT8zY/ID1e/zOPzQ5T3wbW2QCRDwL5MrDDSKDdwuNLDExCOFL1g==
+X-Received: by 2002:ae9:f707:: with SMTP id s7mr3749476qkg.195.1567457938646; 
+ Mon, 02 Sep 2019 13:58:58 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:9589:1351:c7eb:87b:c9d5])
- by smtp.gmail.com with ESMTPSA id w80sm4604038qka.62.2019.09.02.13.58.55
+ by smtp.gmail.com with ESMTPSA id w80sm4604038qka.62.2019.09.02.13.58.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Sep 2019 13:58:56 -0700 (PDT)
+ Mon, 02 Sep 2019 13:58:58 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  2 Sep 2019 17:58:41 -0300
-Message-Id: <20190902205842.1884-4-danielhb413@gmail.com>
+Date: Mon,  2 Sep 2019 17:58:42 -0300
+Message-Id: <20190902205842.1884-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190902205842.1884-1-danielhb413@gmail.com>
 References: <20190902205842.1884-1-danielhb413@gmail.com>
@@ -65,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::742
-Subject: [Qemu-devel] [PATCH v6 3/4] crypto.c: cleanup created file when
- block_crypto_co_create_opts_luks fails
+X-Received-From: 2607:f8b0:4864:20::731
+Subject: [Qemu-devel] [PATCH v6 4/4] qemu-iotests: adding LUKS cleanup for
+ non-UTF8 secret error
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,88 +78,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Srikanth Aithal <bssrikanth@in.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, jsnow@redhat.com
+Cc: kwolf@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using a non-UTF8 secret to create a volume using qemu-img, the
-following error happens:
+This patch adds a new test file, 257, to exercise the case where
+qemu-img fails to complete for the LUKS format when a non-UTF8
+secret is used.
 
-$ qemu-img create -f luks --object secret,id=vol_1_encrypt0,file=vol_resize_pool.vol_1.secret.qzVQrI -o key-secret=vol_1_encrypt0 /var/tmp/pool_target/vol_1 10240K
-
-Formatting '/var/tmp/pool_target/vol_1', fmt=luks size=10485760 key-secret=vol_1_encrypt0
-qemu-img: /var/tmp/pool_target/vol_1: Data from secret vol_1_encrypt0 is not valid UTF-8
-
-However, the created file '/var/tmp/pool_target/vol_1' is left behind in the
-file system after the failure. This behavior can be observed when creating
-the volume using Libvirt, via 'virsh vol-create', and then getting "volume
-target path already exist" errors when trying to re-create the volume.
-
-The volume file is created inside block_crypto_co_create_opts_luks(), in
-block/crypto.c. If the bdrv_create_file() call is successful but any
-succeeding step fails*, the existing 'fail' label does not take into
-account the created file, leaving it behind.
-
-This patch changes block_crypto_co_create_opts_luks() to delete
-'filename' in case of failure. A failure in this point means that
-the volume is now truncated/corrupted, so even if 'filename' was an
-existing volume before calling qemu-img, it is now unusable. Deleting
-the file it is not much worse than leaving it in the filesystem in
-this scenario, and we don't have to deal with checking the file
-pre-existence in the code.
-
-* in our case, block_crypto_co_create_generic calls qcrypto_block_create,
-which calls qcrypto_block_luks_create, and this function fails when
-calling qcrypto_secret_lookup_as_utf8.
-
-Reported-by: Srikanth Aithal <bssrikanth@in.ibm.com>
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- block/crypto.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ tests/qemu-iotests/259     | 67 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/259.out | 11 +++++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 79 insertions(+)
+ create mode 100755 tests/qemu-iotests/259
+ create mode 100644 tests/qemu-iotests/259.out
 
-diff --git a/block/crypto.c b/block/crypto.c
-index 7eb698774e..fe2f0c42b0 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -30,6 +30,7 @@
- #include "qapi/error.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
-+#include "qemu/cutils.h"
- #include "crypto.h"
- 
- typedef struct BlockCrypto BlockCrypto;
-@@ -599,6 +600,27 @@ fail:
-     bdrv_unref(bs);
-     qapi_free_QCryptoBlockCreateOptions(create_opts);
-     qobject_unref(cryptoopts);
+diff --git a/tests/qemu-iotests/259 b/tests/qemu-iotests/259
+new file mode 100755
+index 0000000000..cb362598b4
+--- /dev/null
++++ b/tests/qemu-iotests/259
+@@ -0,0 +1,67 @@
++#!/usr/bin/env bash
++#
++# Test qemu-img file cleanup for LUKS when using a non-UTF8 secret
++#
++# Copyright (C) 2019, IBM Corporation.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+    /*
-+     * If an error occurred, delete the file. Even if the file existed
-+     * beforehand, it has been truncated and corrupted in the process.
-+     */
-+    if (ret) {
-+        Error *local_err;
-+        int r_del = bdrv_delete_file(filename, &local_err);
-+        /*
-+         * ENOTSUP will happen if the block driver doesn't support
-+         * 'bdrv_co_delete_file'. ENOENT will be fired by
-+         * 'raw_co_delete_file' if the file doesn't exist. Both are
-+         * predictable (we're not verifying if the driver supports
-+         * file deletion or if the file was created), thus we
-+         * shouldn't report this back to the user.
-+         */
-+        if ((r_del < 0) && (r_del != -ENOTSUP) && (r_del != -ENOENT)) {
-+            error_reportf_err(local_err, "%s: ", bs->filename);
-+        }
-+    }
++seq=`basename $0`
++echo "QA output created by $seq"
 +
-     return ret;
- }
- 
++status=1	# failure is the default!
++TEST_IMAGE_FILE='vol.img'
++
++_cleanup()
++{
++  _cleanup_test_img
++  rm non_utf8_secret
++  rm -f $TEST_IMAGE_FILE
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++_supported_fmt luks
++_supported_proto generic
++_unsupported_proto vxhs
++
++echo "== Create non-UTF8 secret =="
++echo -n -e '\x3a\x3c\x3b\xff' > non_utf8_secret
++SECRET="secret,id=sec0,file=non_utf8_secret"
++
++echo "== Throws an error because of invalid UTF-8 secret =="
++$QEMU_IMG create -f $IMGFMT --object $SECRET -o "key-secret=sec0" $TEST_IMAGE_FILE 4M
++
++echo "== Image file should not exist after the error =="
++if test -f "$TEST_IMAGE_FILE"; then
++    exit 1
++fi
++
++echo "== Create a stub image file and run qemu-img again =="
++touch $TEST_IMAGE_FILE
++$QEMU_IMG create -f $IMGFMT --object $SECRET -o "key-secret=sec0" $TEST_IMAGE_FILE 4M
++
++echo "== Pre-existing image file should also be deleted after the error =="
++if test -f "$TEST_IMAGE_FILE"; then
++    exit 1
++fi
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/259.out b/tests/qemu-iotests/259.out
+new file mode 100644
+index 0000000000..6b0188111c
+--- /dev/null
++++ b/tests/qemu-iotests/259.out
+@@ -0,0 +1,11 @@
++QA output created by 259
++== Create non-UTF8 secret ==
++== Throws an error because of invalid UTF-8 secret ==
++qemu-img: vol.img: Data from secret sec0 is not valid UTF-8
++Formatting 'vol.img', fmt=luks size=4194304 key-secret=sec0
++== Image file should not exist after the error ==
++== Create a stub image file and run qemu-img again ==
++qemu-img: vol.img: Data from secret sec0 is not valid UTF-8
++Formatting 'vol.img', fmt=luks size=4194304 key-secret=sec0
++== Pre-existing image file should also be deleted after the error ==
++ *** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index d95d556414..67c3faf80f 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -273,4 +273,5 @@
+ 256 rw quick
+ 257 rw
+ 258 rw quick
++259 rw auto quick
+ 262 rw quick migration
 -- 
 2.21.0
 
