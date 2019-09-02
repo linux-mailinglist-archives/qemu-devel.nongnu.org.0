@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208E4A53FA
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 12:28:28 +0200 (CEST)
-Received: from localhost ([::1]:34766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E13A0A53F0
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 12:24:03 +0200 (CEST)
+Received: from localhost ([::1]:34726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4jZS-0000ow-KQ
-	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 06:28:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54789)
+	id 1i4jVB-0005x8-JL
+	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 06:24:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54786)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i4jSh-0004dI-54
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 06:21:29 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i4jSh-0004dE-2M
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 06:21:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i4jSf-0004FI-U1
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 06:21:27 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54011)
+ (envelope-from <alex.bennee@linaro.org>) id 1i4jSf-0004FN-U3
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 06:21:26 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54519)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i4jSf-0004Es-Me
+ id 1i4jSf-0004EW-MG
  for qemu-devel@nongnu.org; Mon, 02 Sep 2019 06:21:25 -0400
-Received: by mail-wm1-x334.google.com with SMTP id q19so5132290wmc.3
+Received: by mail-wm1-x335.google.com with SMTP id k2so12496633wmj.4
  for <qemu-devel@nongnu.org>; Mon, 02 Sep 2019 03:21:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oBLLvltDhED+jd/bHDb3y9MsQHiUdeO1F4Z0MYK9IEU=;
- b=DUct8k5TmT3mX1J4giqFg50y5PT53wGVs2oFheun7t/xI8+epshTMfl4pysClgqhLj
- eGbirDvSYiEIlHqkTD/lu9FdNg4pp+I+nA9gOJ8h1AMpiF2vP112YN228w5NHK/QANZ8
- B9oQKBq46Icq7sfkZNhEXHiDwbKBH2pi/QBziFOHMFU1OROm7N5Mr6EfuK64KIzdvwhy
- YdPYZy8KVn6lvMt9tVTY/kJIA0FUJNkkAHgSDUs2StNwcU3Vv64z1urefY8+Z1Pd9kIi
- WaP01x7GWcUds8Q7BDMSV+KFFUDAgckc3aQmtzjOVhfbbcz5ilz2gCSVospMV6WkswzS
- fMgw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=LerAiTk+RHTNAwomwqqVsvMK0Yfd9IxxuCZGECaCdYo=;
+ b=ZhsEyGI5NhReaA1qVILVR1iil7nhfx2NSzpzTnimcgJbrMQ3dBEYnv4wvbwZPzLEXk
+ zywro4zM2eDoYUpJiVMAoKFEMKrUoebOeVdMBPwQKfZqfFtpWkPD+Ktqb21bUO2sbbR6
+ /i2EXF87BjwuEMqHUognfBb8dhBRTs1tdUC9dseQqPxc9GWzVHLb39gyVJQzOdFNP5SU
+ 6Q7gWf+M743d521hiQdRzbkY6oL+6zvNvJDxGQaQtUDGVr29szniDqU9d5ZwDa3B7TCi
+ 1jJFUZIihX8xKR1V3SYR2vlAIM1cKSrQv9Qzcp859/FZife1MECgHy7bTs1TtZgKhD17
+ jZSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oBLLvltDhED+jd/bHDb3y9MsQHiUdeO1F4Z0MYK9IEU=;
- b=DVBStpcHgnh0yFCePHGLzyWwldWOZw6pdXQhd9ayl/2IxIi0rA0JgbFHFBw+/9uaTz
- oAMvqDAumNBY1ij5f/NmfDarU/B1X1eWfhWjVCNftloZuUbph8wCSUL+EYHJ43Gz0Jw5
- Uft6VG1MsylH6WJOkrdOrnFw+mBkGbG54qDnEM7xVK7Y1NerucU0L+rsMBuc7+fz8XsG
- +7Q1M9tnhLeHgyd17Dfd1mdGjioDO2LawyyEXe2ZNgAfCHOmX1gCqQrtFBa0J31Ujohi
- iEpcqHOgeXwTkVaXBikbWbJKux6FUAqV3VOrAH5VNPacsALQDnixU+zBAuXe9ejgSqer
- gj9w==
-X-Gm-Message-State: APjAAAVsaoTfxiDOCIt+Es9cbTXoN68aIH9xLsKXxo5+fW+xuAMllhIf
- RmfJDOm1C/ErMceGmoEvk6KpOdnsAqM=
-X-Google-Smtp-Source: APXvYqyFvLSyMyQKsj5CMMGTs+HNKI97sQN9dq7THEf4y82fOo/Huvw1pivo+1QRzYBrlkg8QR9fhQ==
-X-Received: by 2002:a1c:4b14:: with SMTP id y20mr2186069wma.10.1567419683962; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=LerAiTk+RHTNAwomwqqVsvMK0Yfd9IxxuCZGECaCdYo=;
+ b=g9D01JYIeoME3O2p5fQRA9czDN4JFQb5nO+043TMYPUaGDKhgwIfx04DOa30Eo8keM
+ ud2BErHV+e1TjN7Lx1Rr9kFK5CC/Un2unM5C2jdE3F+CM5fIYSM7XOZXpadIvVXB0VZX
+ zhWTV6P3+g/FCdVKRWhOYlEqmCq6fZEY2LvaLrKOdQpe0oZVSVCFL3JiRwaDFHo2rLPk
+ 3o9M4Mbl3MJ9kmftYVp1SEghbng/ld4qWRORYhHn1Utzfnkdxq7/gjrysyPXWuVnOTMZ
+ luWEUUj4g2KkkrQaArv0/ePLo9rmE5hNOwzEGPIGQIa+ggt6Id/0Xjw2npEYLpcvRH/k
+ WgMA==
+X-Gm-Message-State: APjAAAXkrwycsB5SqrQEMVD6q/S64spCxLmRRHpAPFkk6+FUtukyeEQ7
+ o81CcOwA3Td8BNafNUVfNS6z/CBVkyw=
+X-Google-Smtp-Source: APXvYqwwg3+ZxalXXOvfCpUhLXGm7l0g4LPVyoDewMelomOeMsmhgDXcreECmz+D1Epu6hoQ2F6bfQ==
+X-Received: by 2002:a1c:6a0b:: with SMTP id f11mr32436446wmc.87.1567419683475; 
  Mon, 02 Sep 2019 03:21:23 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d78sm5952269wmd.47.2019.09.02.03.21.22
+ by smtp.gmail.com with ESMTPSA id g26sm11849821wmh.32.2019.09.02.03.21.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 02 Sep 2019 03:21:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3C5DC1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 51E271FF8C;
  Mon,  2 Sep 2019 11:21:22 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Mon,  2 Sep 2019 11:21:10 +0100
-Message-Id: <20190902102122.1128-1-alex.bennee@linaro.org>
+Date: Mon,  2 Sep 2019 11:21:11 +0100
+Message-Id: <20190902102122.1128-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190902102122.1128-1-alex.bennee@linaro.org>
+References: <20190902102122.1128-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
-Subject: [Qemu-devel] [PULL 00/12] fixes for gdbstub, gitdm and testing
+X-Received-From: 2a00:1450:4864:20::335
+Subject: [Qemu-devel] [PULL 01/12] gdbstub: Fix handling of '!' packet with
+ new infra
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,68 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Ramiro Polla <ramiro.polla@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 23919ddfd56135cad3cb468a8f54d5a595f024f4:
+From: Ramiro Polla <ramiro.polla@gmail.com>
 
-  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20190827' into staging (2019-08-27 15:52:36 +0100)
+Since the '!' packet is not handled by the new infrastructure,
+gdb_handle_packet() would call run_cmd_parser() with a NULL cmd_parser
+value, which would lead to an unsupported packet ("$#00") being sent,
+which could confuse the gdb client.
 
-are available in the Git repository at:
+This also has a side-effect of speeding up the initial connection with
+gdb.
 
-  https://github.com/stsquad/qemu.git tags/pull-gdbstub-gitdm-testing-020919-1
+Fixes: 3e2c12615b52 ("gdbstub: Implement deatch (D pkt) with new infra")
+Signed-off-by: Ramiro Polla <ramiro.polla@gmail.com>
+Message-Id: <20190805190901.14072-1-ramiro.polla@gmail.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-for you to fetch changes up to 4112aff7cdd932f273e920911a45a5d5a2d5d299:
-
-  tests/docker: upgrade docker.py to python3 (2019-09-02 10:52:22 +0100)
-
-----------------------------------------------------------------
-Various maintainer updates
-
-   - fixes for gdbstub regressions
-   - bunch of gitdm/mailmap updates
-   - module fixes for Travis
-   - docker fixes for shippable
-
-----------------------------------------------------------------
-Alex Bennée (2):
-      .mailmap/aliases: add some further commentary
-      tests/docker: upgrade docker.py to python3
-
-Marc-André Lureau (2):
-      build-sys: build ui-spice-app as a module
-      tests: fix modules-test with no default machine
-
-Markus Armbruster (2):
-      contrib/gitdm: filetype interface is not in order, fix
-      contrib/gitdm: Add armbru@pond.sub.org to group-map-redhat
-
-Philippe Mathieu-Daudé (4):
-      mailmap: Reorder by sections
-      mailmap: Update philmd email address
-      mailmap: Add many entries to improve 'git shortlog' statistics
-      contrib/gitdm: Add RT-RK to the domain-map
-
-Ramiro Polla (1):
-      gdbstub: Fix handling of '!' packet with new infra
-
-Sandra Loosemore (1):
-      gdbstub: Fix handler for 'F' packet
-
- .mailmap                            | 137 +++++++++++++++++++++++++++++++++---
- contrib/gitdm/aliases               |  20 +++++-
- contrib/gitdm/domain-map            |   1 +
- contrib/gitdm/filetypes.txt         |   2 +-
- contrib/gitdm/group-map-individuals |   3 +-
- contrib/gitdm/group-map-redhat      |   1 +
- gdbstub.c                           |  12 +++-
- tests/docker/docker.py              |  27 +++----
- tests/modules-test.c                |   7 +-
- ui/Makefile.objs                    |   4 +-
- 10 files changed, 184 insertions(+), 30 deletions(-)
-
+diff --git a/gdbstub.c b/gdbstub.c
+index b92ba59e4df..5c067594bae 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -2588,7 +2588,9 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
+         break;
+     }
+ 
+-    run_cmd_parser(s, line_buf, cmd_parser);
++    if (cmd_parser) {
++        run_cmd_parser(s, line_buf, cmd_parser);
++    }
+ 
+     return RS_IDLE;
+ }
 -- 
 2.20.1
 
