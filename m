@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8669AA5CC1
+	by mail.lfdr.de (Postfix) with ESMTPS id A648AA5CC2
 	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 21:36:52 +0200 (CEST)
-Received: from localhost ([::1]:39516 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:39518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4s8A-0005uu-CW
-	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 15:36:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51161)
+	id 1i4s8B-00062K-5Y
+	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 15:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51188)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i4s4x-000445-9N
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 15:33:32 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i4s4z-00045K-5P
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 15:33:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i4s4w-0006uv-2y
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 15:33:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37550)
+ (envelope-from <mreitz@redhat.com>) id 1i4s4y-0006wP-7s
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 15:33:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54016)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i4s4s-0006rJ-7Q; Mon, 02 Sep 2019 15:33:26 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1i4s4w-0006ua-4n; Mon, 02 Sep 2019 15:33:30 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E3EA8C057F31;
- Mon,  2 Sep 2019 19:33:24 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7A08E30001EB;
+ Mon,  2 Sep 2019 19:33:29 +0000 (UTC)
 Received: from localhost (ovpn-204-221.brq.redhat.com [10.40.204.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD0235D9CC;
- Mon,  2 Sep 2019 19:33:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C7C3E10018F9;
+ Mon,  2 Sep 2019 19:33:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon,  2 Sep 2019 21:33:15 +0200
-Message-Id: <20190902193320.32233-1-mreitz@redhat.com>
+Date: Mon,  2 Sep 2019 21:33:16 +0200
+Message-Id: <20190902193320.32233-2-mreitz@redhat.com>
+In-Reply-To: <20190902193320.32233-1-mreitz@redhat.com>
+References: <20190902193320.32233-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Mon, 02 Sep 2019 19:33:24 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Mon, 02 Sep 2019 19:33:29 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 0/5] vpc: Return 0 from vpc_co_create() on
+Subject: [Qemu-devel] [PATCH v2 1/5] vpc: Return 0 from vpc_co_create() on
  success
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,121 +61,48 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(v2 for =E2=80=9Cblock: Let blockdev-create return 0 on success=E2=80=9D)
+blockdev_create_run() directly uses .bdrv_co_create()'s return value as
+the job's return value.  Jobs must return 0 on success, not just any
+nonnegative value.  Therefore, using blockdev-create for VPC images may
+currently fail as the vpc driver may return a positive integer.
 
-Jobs are expected to return 0 on success, so this extends to
-.bdrv_co_create().  After some inspection, it turns out that vpc is the
-only block driver that may return a positive value instead (to indicate
-success).  Fix that.
+Because there is no point in returning a positive integer anywhere in
+the block layer (all non-negative integers are generally treated as
+complete success), we probably do not want to add more such cases.
+Therefore, fix this problem by making the vpc driver always return 0 in
+case of success.
 
-Without this patch, blockdev-create is likely to fail for VPC images.
-Hence patch 5.
+Suggested-by: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/vpc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-John indicated his preference for me to use iotests.script_main().  I
-did that; but I still wanted to retain some form of verify_protocol().
-Patch 2 adds @supported_protocols to execute_test() (and thus to
-iotests.script_main() and iotests.main()).  Then I noticed we should
-probably make all Python tests (that use either script_main() or main())
-pass something for that parameter, because it=E2=80=99s a bit silly to ru=
-n all
-Python tests for raw when you just want to run the nbd tests (which are
-five or so).  Enter patches 3 and 4.
-
-(There are two Python tests (093 and 136) which I didn=E2=80=99t change t=
-o pass
-supported_protocols, because they use null-{co,aio} as their protocol.
-As these are not actually testee protocols for the iotests, I decided to
-just keep running these tests for any protocol.)
-
-
-For completeness=E2=80=99 sake[1]:
-
-git-backport-diff against v1:
-
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream pat=
-ch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
-tively
-
-001/5:[down] 'vpc: Return 0 from vpc_co_create() on success'
-002/5:[down] 'iotests: Add supported protocols to execute_test()'
-003/5:[down] 'iotests: Restrict file Python tests to file'
-004/5:[down] 'iotests: Restrict nbd Python tests to nbd'
-005/5:[0204] [FC] 'iotests: Test blockdev-create for vpc'
-
-
-[1]
-Please vote on the correct spelling:
-(A) =E2=80=9CFor completeness sake=E2=80=9D
-(B) =E2=80=9CFor completeness=E2=80=99 sake=E2=80=9D
-(C) =E2=80=9CFor completeness=E2=80=99s sake=E2=80=9D
-
-By participating, you become eligible to receive mention in the git log.
-
-To give you mention, we need your full name and email address.
-Therefore, please cast your vote by replying to this mail as follows:
-> I vote for ${letter}${reason:=3D.}
->
-> Reviewed-by: $name <$email_address>
-
-(Set the =E2=80=9Cletter=E2=80=9D variable to be any of A, B, or C; =E2=80=
-=9Creason=E2=80=9D to be a
-justification (optional; should be prefixed by =E2=80=9C, because =E2=80=9D=
- and end with
-a full stop); =E2=80=9Cname=E2=80=9D to be your name; and =E2=80=9Cemail_=
-address=E2=80=9D to be your
-email address.)
-
-Thank you for doing your part in saving democracy!
-
-
-Max Reitz (5):
-  vpc: Return 0 from vpc_co_create() on success
-  iotests: Add supported protocols to execute_test()
-  iotests: Restrict file Python tests to file
-  iotests: Restrict nbd Python tests to nbd
-  iotests: Test blockdev-create for vpc
-
- block/vpc.c                   |   3 +-
- tests/qemu-iotests/030        |   3 +-
- tests/qemu-iotests/040        |   3 +-
- tests/qemu-iotests/041        |   3 +-
- tests/qemu-iotests/044        |   3 +-
- tests/qemu-iotests/045        |   3 +-
- tests/qemu-iotests/055        |   3 +-
- tests/qemu-iotests/056        |   3 +-
- tests/qemu-iotests/057        |   3 +-
- tests/qemu-iotests/065        |   3 +-
- tests/qemu-iotests/096        |   3 +-
- tests/qemu-iotests/118        |   3 +-
- tests/qemu-iotests/124        |   3 +-
- tests/qemu-iotests/129        |   3 +-
- tests/qemu-iotests/132        |   3 +-
- tests/qemu-iotests/139        |   3 +-
- tests/qemu-iotests/147        |   5 +-
- tests/qemu-iotests/148        |   3 +-
- tests/qemu-iotests/151        |   3 +-
- tests/qemu-iotests/152        |   3 +-
- tests/qemu-iotests/155        |   3 +-
- tests/qemu-iotests/163        |   3 +-
- tests/qemu-iotests/165        |   3 +-
- tests/qemu-iotests/169        |   3 +-
- tests/qemu-iotests/196        |   3 +-
- tests/qemu-iotests/199        |   3 +-
- tests/qemu-iotests/205        |   3 +-
- tests/qemu-iotests/245        |   3 +-
- tests/qemu-iotests/257        |   3 +-
- tests/qemu-iotests/266        | 153 ++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/266.out    | 137 ++++++++++++++++++++++++++++++
- tests/qemu-iotests/group      |   1 +
- tests/qemu-iotests/iotests.py |   4 +-
- 33 files changed, 352 insertions(+), 32 deletions(-)
- create mode 100755 tests/qemu-iotests/266
- create mode 100644 tests/qemu-iotests/266.out
-
+diff --git a/block/vpc.c b/block/vpc.c
+index b25aab0425..5cd3890780 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -885,6 +885,7 @@ static int create_dynamic_disk(BlockBackend *blk, uin=
+t8_t *buf,
+         goto fail;
+     }
+=20
++    ret =3D 0;
+  fail:
+     return ret;
+ }
+@@ -908,7 +909,7 @@ static int create_fixed_disk(BlockBackend *blk, uint8=
+_t *buf,
+         return ret;
+     }
+=20
+-    return ret;
++    return 0;
+ }
+=20
+ static int calculate_rounded_image_size(BlockdevCreateOptionsVpc *vpc_op=
+ts,
 --=20
 2.21.0
 
