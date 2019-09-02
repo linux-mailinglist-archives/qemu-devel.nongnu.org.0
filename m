@@ -2,59 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B54A5584
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 14:05:24 +0200 (CEST)
-Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF2AA55AE
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 14:14:34 +0200 (CEST)
+Received: from localhost ([::1]:35932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4l5H-0005EE-M3
-	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 08:05:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40100)
+	id 1i4lE9-0007rq-8k
+	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 08:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41191)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1i4l4L-0004jA-7r
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 08:04:26 -0400
+ (envelope-from <johannes@sipsolutions.net>) id 1i4lCS-0006yF-EC
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 08:12:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1i4l4J-0001kF-Up
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 08:04:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50324)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1i4l4G-0001g7-Nb; Mon, 02 Sep 2019 08:04:20 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5F85C3082129;
- Mon,  2 Sep 2019 12:04:19 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-189.ams2.redhat.com
- [10.36.116.189])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C6FF60166;
- Mon,  2 Sep 2019 12:04:16 +0000 (UTC)
-Date: Mon, 2 Sep 2019 14:04:15 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Message-ID: <20190902120415.GB13140@localhost.localdomain>
-References: <20190814100735.24234-1-vsementsov@virtuozzo.com>
- <20190814100735.24234-3-vsementsov@virtuozzo.com>
- <3eded188-0161-d494-194c-9d67da644eb1@redhat.com>
- <20190815104928.GC7415@linux.fritz.box>
- <20190815114553.GQ300@andariel.pipo.sk>
- <87d0h6zfrt.fsf@dusky.pond.sub.org> <m1lfvbex92.fsf@redhat.com>
- <eba518d8-0104-fb41-8ed5-d59ebdb211c9@redhat.com>
- <m1k1avdkzu.fsf@redhat.com>
- <1b7887f1-41e9-8de3-8e92-fc6d6815f20f@redhat.com>
+ (envelope-from <johannes@sipsolutions.net>) id 1i4lCR-000260-4A
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 08:12:48 -0400
+Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:60442
+ helo=sipsolutions.net)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
+ id 1i4lCQ-00023g-U1
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 08:12:47 -0400
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.92.1) (envelope-from <johannes@sipsolutions.net>)
+ id 1i4lCL-0003Ne-V9; Mon, 02 Sep 2019 14:12:42 +0200
+From: Johannes Berg <johannes@sipsolutions.net>
+To: qemu-devel@nongnu.org
+Date: Mon,  2 Sep 2019 14:12:31 +0200
+Message-Id: <20190902121233.13382-1-johannes@sipsolutions.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1b7887f1-41e9-8de3-8e92-fc6d6815f20f@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Mon, 02 Sep 2019 12:04:19 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [libvirt] [PATCH 2/2] qapi: deprecate implicit
- filters
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a01:4f8:191:4433::2
+Subject: [Qemu-devel] [RFC] vhost-user simulation extension
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,127 +48,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, Christophe de Dinechin <dinechin@redhat.com>,
- den@openvz.org
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 30.08.2019 um 20:11 hat John Snow geschrieben:
-> 
-> 
-> On 8/30/19 6:07 AM, Christophe de Dinechin wrote:
-> > Without having looked at the code much, I think I would
-> > 
-> > 1. extend the existing QAPI error to support warnings, deprecations and
-> >    info messages. The first problem I see is that there is no error, so
-> >    we may sometimes need to create one when there was none before. And
-> >    of course make sure that this does not ultimately show as an error,
-> >    but as a success with additional annotations.
-> > 
-> 
-> I assume this might be a chance to consolidate all of the methodologies
-> we use for actually checking if there was an error or not. There have
-> been many and I am sure Markus can give us a history lesson if it's
-> warranted.
-> 
-> Generally, there's a few paradigms I see a lot:
-> 
-> 1. Rely on an error return code being produced by the called function.
-> The caller trusts that errp was set. This is one of my favorite methods,
-> because it has the least scaffolding.
+Hi all,
 
-This one is convenient to use, but the problem is that nobody enforces
-that errp is always set if ret < 0, and that it's not set for ret == 0.
-So in a way it is error-prone because it allows inconsistencies.
+First of all, I'm not sure if QEMU actually maintains the master copy of
+this document and it isn't like virtio? It *looks* like it does, given
+that the updates are "do something" rather than "sync to some version",
+but please let me know if I need to send this elsewhere.
 
-> 2. Pass errp directly to the called function, and check for null after
-> return. I don't like this method very much, because of confusion with:
+Secondly, I'm not sure how amenable you are to changes that are likely
+to not be of "production" use. There are many people using Linux for
+simulation, but you don't necessarily have to make it easy for them :-)
 
-I mainly don't like this very much because it's simply wrong.
+Third, if this is accepted I'm not sure we'd currently implement it in
+QEMU itself. We're currently working on user-mode-Linux because I haven't
+found a really good way to control time in QEMU simulation (though other
+people have, e.g. VMSimInt[1] has implemented this, AFAICT though only
+in full simulation, not with KVM.) So again, this may or may not be a
+show-stopper, let me know. The UML patch[2] to implement vhost-user has
+been posted to the list but we expect to be making revisions to it before
+it can be integrated.
 
-Callers can pass errp = NULL if they aren't interested in error
-information. If you directly pass errp, you can't check *errp because
-errp could be NULL.
+With all that said, let me explain a bit more what this is about. In a
+simulation system like VMSimInt or what we're working on, you have what
+the VMSimInt paper[3] calls the "simulation calendar", where each of the
+simulated components adds an entry and then gets told when (and for how
+much simulated time) to run. This is necessary to ensure the simulation
+will run the different components in the proper timeline, and if none of
+the components has anything to do, time can just skip forward, similar to
+the time-travel mode I implemented in UML[4].
 
-So directly passing errp makes the code simpler, but only use it in
-functions where you don't intend to check whether an error is set.
+Now, of course it's not very useful if you have multiple VMs that can be
+on the same simulation time, if they cannot exchange data. VMSimInt has
+its own network hooks in the code changes[5], but I'm also interested in
+simulating devices (using the same simulation calendar), not just networks.
 
-> 3. Create a local error object; check THAT for null, and propagate the
-> error to the common error object. I think Markus has explained why we
-> have this code 50 times, and I forget again minutes later.
+The obvious way of integrating devices seemed to be virtio/vhost-user, and
+that's why we already implemented vhost-user in UML. Now, a bit later, I
+realized that due to the asynchronous nature of kick/call on vrings, the
+simulation calendar update cannot be guaranteed properly without some extra
+synchronisation.
 
-local_err exists for those cases where you need to check the error
-object before passing it to the caller. (And obviously for those cases
-where you don't want to pass it to the caller, but do something like
-error_report_err().)
+I haven't implemented it yet, but I'm convinced that the proposed addition
+to the vhost-user spec would let us implement this properly, as we could
+have the vring update message (VHOST_USER_VQ_KICK) put an entry on the
+simulation calendar for actually processing the message before sending an
+ACK reply back, and the same for VHOST_USER_VQ_CALL in the other direction.
+The actual processing of the message on the vring would then happen when
+the simulation calendar told that component to run, i.e. when the event
+on the calendar actually gets scheduled.
 
-> If we want to expand the concept of the error object into something that
-> encompasses hints, warnings and deprecations*, checking for null is no
-> longer appropriate. It might be a good chance to make our error
-> propagation story more consistent, too.
-> 
-> We could unify with a helper like this, I think, if I'm not forgetting
-> some crucial usage detail:
-> 
-> subroutine(foo, bar, errp);
-> if (failure(errp)) {
->     error_append_hint(errp, "Lorem ipsum, ...");
->     cleanup();
->     return;
-> }
-> 
-> We would then always use this pattern that operates directly on the
-> caller's errp instead of creating local error objects to allow hints and
-> warnings to accumulate.
+There are obviously other ways of implementing this, for instance I could
+use vhost-user polling mode, and then not really implement polling but
+have an out-of-band message (e.g. through the communcation channel that's
+also used for the simulation time/calendar [6]) to indiciate kick/call.
+However, this is uglier in the code, extending the protocol in this way
+would just require me to configure the drivers/devices to negotiate these
+extensions and hook the interrupt handling on both sides to the simulation
+calendar, the latter of which is necessary anyway.
 
-There are two parts to the change that you imply:
+Hopefully I've managed to explain what I'm trying to do here, questions or
+suggestions are always welcome :-)
 
-1. Forbid passing errp = NULL to any function so that *errp can always
-   be checked. This gets rid of local_err in the intermediate function,
-   but may require the introduction of new local_err variables in
-   top-level callers which ignore the error information.
+johannes
 
-2. Introduce failure(errp) to replace errp != NULL because we want Error
-   to contain warnings and notes, too. Currently, it can contain only
-   exactly one error, so this would be a major change.
+[1] http://www.ikr.uni-stuttgart.de/INDSimLib/
+[2] https://patchwork.ozlabs.org/patch/1140033/
+[3] http://www.ikr.uni-stuttgart.de/Content/Publications/Archive/We_SIMUTools_2014_40209.pdf
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=065038706f77a56754e8f0c2556dab7e22dfe577
+[5] I've extracted them from their sources as a diff against QEMU v1.6.0:
+    https://p.sipsolutions.net/af9a68ded948c07e.txt
+[6] which I'm currently planning to implement using a separate virtio device
+    with an appropriate driver that hooks into low-level UML things
 
-   Note that the change wouldn't make the existing 'if (errp)' checks
-   build failures, so getting confident that we found and replaced all
-   of them is going to be hard.
-
-Essentially, you'd probably want to replace Error with a new type so
-that the compiler will at least be able to tell which places have been
-converted and which haven't.
-
-And then, you'd have to touch every single function that does something
-with errors. This is a huge change across the whole source tree.
-
-I doubt it's worth the effort.
-
-> > Second, why not report the use of deprecated features? I don't fully buy
-> > the rationale that libvirt engages the features, because it does not do
-> > it on its own, it does it because the user made some specific request.
-> 
-> Because the user didn't request those specific QMP features, they asked
-> for the VM to start, or to stop, or they asked for a backup, or a snapshot.
-> 
-> On my desktop, I am not really too interested in knowing if XFCE is
-> using deprecated features of xorg or wayland. I didn't tell it to use
-> them and I have no real power or control over that. It's nice if I'm a
-> developer, but as a user, it's noise.
-> 
-> So a development log seems right for these, but not user-visible
-> interruptions.
-
-I agree, it's not the high-level operation the user requested that is
-deprecated, but just the specific implementation libvirt uses to perform
-the operation on a QEMU VM.
-
-The expected response to a deprecation notice is that a libvirt update
-makes it go away by using more modern interfaces, not that the user
-changes their workflow.
-
-Kevin
 
