@@ -2,74 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D77DA5427
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 12:37:09 +0200 (CEST)
-Received: from localhost ([::1]:34914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DDDCA54A9
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 13:13:22 +0200 (CEST)
+Received: from localhost ([::1]:35246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4jhs-0000it-2E
-	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 06:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55838)
+	id 1i4kGu-0001cZ-QJ
+	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 07:13:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i4ja6-0002jc-SA
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 06:29:12 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1i4kFr-00018z-BY
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 07:12:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i4ja5-0000Lb-C2
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 06:29:06 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45507)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i4ja5-0000L9-5b
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 06:29:05 -0400
-Received: by mail-wr1-x444.google.com with SMTP id q12so13413205wrj.12
- for <qemu-devel@nongnu.org>; Mon, 02 Sep 2019 03:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BwBZji+5Tt15dNYdrMynPgEvZVN3UGmmOt0ukLNN0s4=;
- b=hNhkz+UrkyVCEgoaNtzioElv610aS3SDbzuMRXLHncK9BDg8nxYWupssBI7cm7oaMS
- zc3Mj9rCWDK02wm72MbmmExpW5SeCR64vAVHaE7521xin1g7vvZ5pMAxSkFHUzrZmwaI
- D7FCrZ36Wvv7iABsD0hm1QOB/0pRKGu0KkArkArD6ipuld75z8lK0FJaDG/506oRwY/U
- +Cn1gKwpWLEYggRpoLLfacuGm/Tn4+S23ooTYN79ktflXm4NmuXiEKMxGKY87Q5w4n9X
- 7SSEJQss32wBY9c+tqOiybltnxLnrsCO3ZhnPmPRnFrLy7hTjzEI9rxPp/XvCGGZTBP8
- ubiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BwBZji+5Tt15dNYdrMynPgEvZVN3UGmmOt0ukLNN0s4=;
- b=uJ6mDoNaaZ/gS35Wj89H996YnWCkb5IEyO4bXY3DzTI/6mlD9q0uDq8NZEpWikucJy
- DDQlCJRlfAuMfLCZFeUIn2FfIM8G0hIJl8WhD0Gqkf3G4TAMrSVp7Iuo46WXewBlMPYD
- JozQwoQsvtm3fQ/7tVsINh9ZJK6Mw0vecCeX2j+kDU9VeEaUqkju2I2g2FDSuZ3ImP6V
- BiJPm59GxS/m8GgvS4mLd76gwEv+m35gs1Ub2pQ9Os36bHEBBTpLsUDkZwIQgZmymHu7
- do73ORmAY1mvXxw/JfOfCh7gnmCeiSjk2nh1z3lllkPjIHCkLVZbptmfhU9yMlpLNq8t
- o0QQ==
-X-Gm-Message-State: APjAAAW61eFMXHRYxUEA5yYCnXFH+807KnU+/H9i9oAuzHqnR4W+JCJm
- gjzXW2AmLH0+NPCnsKl9mvpKAA==
-X-Google-Smtp-Source: APXvYqzSPbterrNbPATqhvjwlBUH7ngIVpAJ3pFEPbHvcQ6/FXXrGQnJVWvmeUFrX9yhVhoTmVx6JQ==
-X-Received: by 2002:adf:f482:: with SMTP id l2mr15786055wro.103.1567420143530; 
- Mon, 02 Sep 2019 03:29:03 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d18sm16556973wra.91.2019.09.02.03.29.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Sep 2019 03:29:02 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 481001FF9C;
- Mon,  2 Sep 2019 11:21:23 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Mon,  2 Sep 2019 11:21:22 +0100
-Message-Id: <20190902102122.1128-13-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190902102122.1128-1-alex.bennee@linaro.org>
-References: <20190902102122.1128-1-alex.bennee@linaro.org>
+ (envelope-from <dgibson@ozlabs.org>) id 1i4kFp-0000aE-OC
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 07:12:15 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:48507 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1i4kFn-0000PS-9q; Mon, 02 Sep 2019 07:12:13 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46MS8l26vRz9sDQ; Mon,  2 Sep 2019 21:12:07 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1567422727;
+ bh=K1bYLC+UyHqiOVfioDCOAx7SO3Do6c00TTgBnw+4rAs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=N4ZMP07+/NxcXhLqsubn/ARiAwJKOf5T8A6aecq27mQj5jhFGAW1DVYkav/3CWo3k
+ WF+W+buSorBEiLeCcw9ZUxA+WUbMrkqvFf+dYaob/mA/IfDjg5Ft54O/Fj/F2JPu3c
+ 1rKiMjgjvgfNyHj6qD3D7KpUziRWpfh/ltLIzX50=
+Date: Mon, 2 Sep 2019 20:28:44 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Message-ID: <20190902102844.GD30674@umbus.fritz.box>
+References: <20190902092932.20200-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PULL 12/12] tests/docker: upgrade docker.py to python3
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="AkbCVLjbJ9qUtAXD"
+Content-Disposition: inline
+In-Reply-To: <20190902092932.20200-1-clg@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH] ppc/pnv: fix "bmc" node name in DT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,134 +54,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The recent podman changes (9459f754134bb) imported enum which is part
-of the python3 standard library but only available as an external
-library for python2. This causes problems on the fairly restricted
-environment such as shippable. Lets bite the bullet and make the
-script a fully python3 one. To that end:
 
-  - drop the from __future__ import (we are there now ;-)
-  - avoid the StringIO import hack
-  - be consistent with the mode we read/write dockerfiles
-  - s/iteritems/items/
-  - ensure check_output returns strings for processing
+--AkbCVLjbJ9qUtAXD
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Mon, Sep 02, 2019 at 11:29:32AM +0200, C=E9dric Le Goater wrote:
+> Fixes the dtc output :
+>=20
+> ERROR (node_name_chars): //bmc: Bad character '/' in node name
+> Warning (avoid_unnecessary_addr_size): /bmc: unnecessary #address-cells/#=
+size-cells without "ranges" or child "reg" property
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index ac5baab4cad..4bba29e104e 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python2
-+#!/usr/bin/env python3
- #
- # Docker controlling module
- #
-@@ -11,7 +11,6 @@
- # or (at your option) any later version. See the COPYING file in
- # the top-level directory.
- 
--from __future__ import print_function
- import os
- import sys
- import subprocess
-@@ -25,10 +24,7 @@ import tempfile
- import re
- import signal
- from tarfile import TarFile, TarInfo
--try:
--    from StringIO import StringIO
--except ImportError:
--    from io import StringIO
-+from io import StringIO
- from shutil import copy, rmtree
- from pwd import getpwuid
- from datetime import datetime, timedelta
-@@ -62,11 +58,13 @@ USE_ENGINE = EngineEnum.AUTO
- 
- def _text_checksum(text):
-     """Calculate a digest string unique to the text content"""
--    return hashlib.sha1(text).hexdigest()
-+    return hashlib.sha1(text.encode('utf-8')).hexdigest()
- 
-+def _read_dockerfile(path):
-+    return open(path, 'rt', encoding='utf-8').read()
- 
- def _file_checksum(filename):
--    return _text_checksum(open(filename, 'rb').read())
-+    return _text_checksum(_read_dockerfile(filename))
- 
- 
- def _guess_engine_command():
-@@ -192,7 +190,7 @@ def _read_qemu_dockerfile(img_name):
- 
-     df = os.path.join(os.path.dirname(__file__), "dockerfiles",
-                       img_name + ".docker")
--    return open(df, "r").read()
-+    return _read_dockerfile(df)
- 
- 
- def _dockerfile_preprocess(df):
-@@ -262,6 +260,7 @@ class Docker(object):
-     def _output(self, cmd, **kwargs):
-         return subprocess.check_output(self._command + cmd,
-                                        stderr=subprocess.STDOUT,
-+                                       encoding='utf-8',
-                                        **kwargs)
- 
-     def inspect_tag(self, tag):
-@@ -283,7 +282,9 @@ class Docker(object):
-         if argv is None:
-             argv = []
- 
--        tmp_df = tempfile.NamedTemporaryFile(dir=docker_dir, suffix=".docker")
-+        tmp_df = tempfile.NamedTemporaryFile(mode="w+t",
-+                                             encoding='utf-8',
-+                                             dir=docker_dir, suffix=".docker")
-         tmp_df.write(dockerfile)
- 
-         if user:
-@@ -396,7 +397,7 @@ class BuildCommand(SubCommand):
-                             help="Dockerfile name")
- 
-     def run(self, args, argv):
--        dockerfile = open(args.dockerfile, "rb").read()
-+        dockerfile = _read_dockerfile(args.dockerfile)
-         tag = args.tag
- 
-         dkr = Docker()
-@@ -442,7 +443,7 @@ class BuildCommand(SubCommand):
-                 cksum += [(filename, _file_checksum(filename))]
- 
-             argv += ["--build-arg=" + k.lower() + "=" + v
--                     for k, v in os.environ.iteritems()
-+                     for k, v in os.environ.items()
-                      if k.lower() in FILTERED_ENV_NAMES]
-             dkr.build_image(tag, docker_dir, dockerfile,
-                             quiet=args.quiet, user=args.user, argv=argv,
-@@ -611,7 +612,7 @@ class CheckCommand(SubCommand):
-                 print("Need a dockerfile for tag:%s" % (tag))
-                 return 1
- 
--            dockerfile = open(args.dockerfile, "rb").read()
-+            dockerfile = _read_dockerfile(args.dockerfile)
- 
-             if dkr.image_matches_dockerfile(tag, dockerfile):
-                 if not args.quiet:
--- 
-2.20.1
+Applied to ppc-for-4.2, thanks.
 
+> ---
+>  hw/ppc/pnv_bmc.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>=20
+> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+> index e5eb6e5a70da..dc5e918cb79e 100644
+> --- a/hw/ppc/pnv_bmc.c
+> +++ b/hw/ppc/pnv_bmc.c
+> @@ -77,13 +77,10 @@ void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt)
+>      const struct ipmi_sdr_compact *sdr;
+>      uint16_t nextrec;
+> =20
+> -    offset =3D fdt_add_subnode(fdt, 0, "/bmc");
+> +    offset =3D fdt_add_subnode(fdt, 0, "bmc");
+>      _FDT(offset);
+> =20
+>      _FDT((fdt_setprop_string(fdt, offset, "name", "bmc")));
+> -    _FDT((fdt_setprop_cell(fdt, offset, "#address-cells", 0x1)));
+> -    _FDT((fdt_setprop_cell(fdt, offset, "#size-cells", 0x0)));
+> -
+>      offset =3D fdt_add_subnode(fdt, offset, "sensors");
+>      _FDT(offset);
+> =20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--AkbCVLjbJ9qUtAXD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1s7toACgkQbDjKyiDZ
+s5L06RAAvrjCD0rxbVRRoTisGN/HonURG8yqSwOgAjHvmAopZFoFJz6K3fL3XXSu
+GQ2nn/9wgj5JAE2Z/fwpjC/yeawWX0rMPvpF4xfm2sl1GK87AvezARMdZXoE6tIe
+kG8N+Tp06XA6UVVd8E/0mOry10n3D6JqO5mLtcUFR/+lqi2QhLbmusiI0UBT0wiZ
+xRtMCtrbfLvnYZJe2eNkoPPSur/AnbEPQBQPt6UwsFcucr5dhA+DM2E797xT3bxM
+NDeXo8ao9gQeUzLRBNg7B+9K0OyCKw+rbf1seAEI3CaAE9rdWvLW7tsjEMzn/p4I
+LpeesYUGvSSFJm2/RnqkvNNUZXZIXTJjPw1qmGIh7YQZsNHDXX40VkbWpK0fT+YI
+wb0vdZBvNHbBdV8xA4EwpPCSJIpXAzf45OFWZzLE4w4MagzZtojXNaTkj4vun5AC
+gVMfGzZNzkiUZOtLj3GR0vBtXohM6iH/dRGiDXXxIMfmuQM4iyEKksnTcpeodpb+
+5Rnyj75lXaNPq9f9xFdFBL9NEUTENQZthAjXvLllI4gLlSchUPO/cIcbX/+3BrOT
+rLXP2z22iqUbOF5HQ6lXEqgt8qPmyq5IQrTfwH+mRHGm4Nsgt5MxQWw2PZgk2eEJ
+8X+kyiNTsHdS7o+fkb8IN1l1tK7N0fdVv4c1kWEfz30itTQNAk8=
+=9ybz
+-----END PGP SIGNATURE-----
+
+--AkbCVLjbJ9qUtAXD--
 
