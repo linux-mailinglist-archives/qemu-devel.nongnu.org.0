@@ -2,52 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243EBA58AD
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 16:00:24 +0200 (CEST)
-Received: from localhost ([::1]:36868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A8DA58BB
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 16:05:13 +0200 (CEST)
+Received: from localhost ([::1]:36924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4msY-0002GA-Jz
-	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 10:00:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55470)
+	id 1i4mxE-00052s-9v
+	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 10:05:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55879)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1i4mrL-0001iw-3X
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 09:59:08 -0400
+ (envelope-from <mrolnik@gmail.com>) id 1i4mtq-0003DM-Ci
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 10:01:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1i4mrJ-0003nc-6F
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 09:59:06 -0400
-Received: from 5.mo68.mail-out.ovh.net ([46.105.62.179]:56187)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1i4mrI-0003hx-Ve
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 09:59:05 -0400
-Received: from player772.ha.ovh.net (unknown [10.109.146.19])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id E1B9B141C0A
- for <qemu-devel@nongnu.org>; Mon,  2 Sep 2019 15:59:01 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player772.ha.ovh.net (Postfix) with ESMTPSA id 22B9B953A064;
- Mon,  2 Sep 2019 13:58:56 +0000 (UTC)
-Date: Mon, 2 Sep 2019 15:58:53 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Message-ID: <20190902155853.5ecb42e2@bahia.lan>
-In-Reply-To: <20190902062718.GG415@umbus.fritz.box>
-References: <20190830161345.22436-1-lvivier@redhat.com>
- <20190830163413.GH4674@redhat.com>
- <20190830194543.6c1f5776@bahia.lan>
- <20190902062718.GG415@umbus.fritz.box>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <mrolnik@gmail.com>) id 1i4mto-0007qU-4M
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 10:01:42 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:34167)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1i4mtn-0007nF-Qb
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 10:01:40 -0400
+Received: by mail-pf1-x442.google.com with SMTP id b24so9082435pfp.1
+ for <qemu-devel@nongnu.org>; Mon, 02 Sep 2019 07:01:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Cl9qLHbnfw4lSPHD3zTdphR3DEYNpN8YvRxEaacYtWk=;
+ b=UWhITh7b4f0HQX5Ux6V4iJpP5HCoLg4SD7jYF4hkE7tPsLw6EHk9+aXZMw69742EnT
+ 8kPeDhko5urHUDP2ZMOU4gfwVNBCQo8kVUpv7zQx7pPTZEp0Lc2/ZGdTrc2RXXP7JS1Q
+ WBRnIFzcTyUWzsDFecBHBArmaFCVFwMq6dNpYoijxREGArSVsKOMXEfy/Lqsh1Px9nnM
+ AlU1YeG4VGlZUnAfVt2KiPzmbSenp3iNTwgeyWpAsfK8g/83FmkaJOa3GYE7SLZdEHG5
+ n7/wJ4dc0yFYFSgfn8QH4KTmjskTB57eaYJzfGuzI+XJ7IG1R39jKUvsq0rxOyxwJUEs
+ tHWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Cl9qLHbnfw4lSPHD3zTdphR3DEYNpN8YvRxEaacYtWk=;
+ b=AKMr8QuBGmD6ht+D+UMBqLEyZGDhmdGrxihwTbc5fUKlhv1MrHVV4R1mJi1zg6t6N3
+ AUzJcrvY8y//7eOtrfp+p9gIsnuW+VuCVFH4wNjbwi5SUEyApXt4c25YiVrTq9ySj2ts
+ 9hqdBAv3lcOU+s4EWkcaHXzbJX8lk7OiTF/YfQvq7MVVtiH9D0c5ucsDNfiSDOYF2NT4
+ 9GYb5Wv/lQJz6r8Kfw2tEdn1xV7fKKJTwoQ+x7wwgmKi5PBMK8SFxRuan+teBPyxlQA3
+ 1rSy4/5MWegAk5/TQLLaz+dVhB2e6cpcexbQ+IwinJjbURWbuTWCjH23u+9Vx4iM4qH7
+ DXXQ==
+X-Gm-Message-State: APjAAAWzrlyWFHVEP+N/DLfuFtTj5jniZGu2sAb3Z1gPjhG9G2YXjWFF
+ 93kJiso4rKk6Ah+iix5MoUOutne84jLB6w==
+X-Google-Smtp-Source: APXvYqxDWTXPA8dKpmcyDOaHTDj0+jjgCh5Ky1lMlt13Wl9/kSmyETsSg0yuIMVKN8S5+UpNTP3YHw==
+X-Received: by 2002:aa7:8b01:: with SMTP id f1mr2503274pfd.173.1567432897269; 
+ Mon, 02 Sep 2019 07:01:37 -0700 (PDT)
+Received: from 8c859074c0ff.ant.amazon.com.com ([206.81.201.98])
+ by smtp.gmail.com with ESMTPSA id v18sm4562020pfn.24.2019.09.02.07.01.36
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Mon, 02 Sep 2019 07:01:36 -0700 (PDT)
+From: Michael Rolnik <mrolnik@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Mon,  2 Sep 2019 17:01:26 +0300
+Message-Id: <20190902140134.74081-1-mrolnik@gmail.com>
+X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/eoCZJ0azhYVyda96Lo4O4.B"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 2316257584540522982
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudejtddgjeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.62.179
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH] pseries: do not allow
- memory-less/cpu-less NUMA node
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v30 0/8] QEMU AVR 8 bit cores
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,254 +75,304 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-ppc@nongnu.org,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: thuth@redhat.com, dovgaluk@ispras.ru, richard.henderson@linaro.org,
+ Michael Rolnik <mrolnik@gmail.com>, imammedo@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/eoCZJ0azhYVyda96Lo4O4.B
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+This series of patches adds 8bit AVR cores to QEMU.
+All instruction, except BREAK/DES/SPM/SPMX, are implemented. Not fully tested yet.
+However I was able to execute simple code with functions. e.g fibonacci calculation.
+This series of patches include a non real, sample board.
+No fuses support yet. PC is set to 0 at reset.
 
-On Mon, 2 Sep 2019 16:27:18 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+the patches include the following
+1. just a basic 8bit AVR CPU, without instruction decoding or translation
+2. CPU features which allow define the following 8bit AVR cores
+     avr1
+     avr2 avr25
+     avr3 avr31 avr35
+     avr4
+     avr5 avr51
+     avr6
+     xmega2 xmega4 xmega5 xmega6 xmega7
+3. a definition of sample machine with SRAM, FLASH and CPU which allows to execute simple code
+4. encoding for all AVR instructions
+5. interrupt handling
+6. helpers for IN, OUT, SLEEP, WBR & unsupported instructions
+7. a decoder which given an opcode decides what istruction it is
+8. translation of AVR instruction into TCG
+9. all features together
 
-> On Fri, Aug 30, 2019 at 07:45:43PM +0200, Greg Kurz wrote:
-> > On Fri, 30 Aug 2019 17:34:13 +0100
-> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> >=20
-> > > On Fri, Aug 30, 2019 at 06:13:45PM +0200, Laurent Vivier wrote:
-> > > > When we hotplug a CPU on memory-less/cpu-less node, the linux kernel
-> > > > crashes.
-> > > >=20
-> > > > This happens because linux kernel needs to know the NUMA topology at
-> > > > start to be able to initialize the distance lookup table.
-> > > >=20
-> > > > On pseries, the topology is provided by the firmware via the existi=
-ng
-> > > > CPUs and memory information. Thus a node without memory and CPU can=
-not be
-> > > > discovered by the kernel.
-> > > >=20
-> > > > To avoid the kernel crash, do not allow to start pseries with empty
-> > > > nodes.
-> > >=20
-> > > This describes one possible guest OS. Is there any reasonable chance
-> > > that a non-Linux guest might be able to handle this situation correct=
-ly,
-> > > or do you expect any guest to have the same restriction ?
->=20
-> That's... a more complicated question than you'd think.
->=20
-> The problem here is it's not really obvious in PAPR how topology
-> information for nodes without memory should be described in the device
-> tree (which is the only way we given that information to the guest).
->=20
+changes since v3
+1. rampD/X/Y/Z registers are encoded as 0x00ff0000 (instead of 0x000000ff) for faster address manipulaton
+2. ffs changed to ctz32
+3. duplicate code removed at avr_cpu_do_interrupt
+4. using andc instead of not + and
+5. fixing V flag calculation in varios instructions
+6. freeing local variables in PUSH
+7. tcg_const_local_i32 -> tcg_const_i32
+8. using sextract32 instead of my implementation
+9. fixing BLD instruction
+10.xor(r) instead of 0xff - r at COM
+11.fixing MULS/MULSU not to modify inputs' content
+12.using SUB for NEG
+13.fixing tcg_gen_qemu_ld/st call in XCH
 
-The reported issue is to have a node without memory AND without cpu.
+changes since v4
+1. target is now defined as big endian in order to optimize push_ret/pop_ret
+2. all style warnings are fixed
+3. adding cpu_set/get_sreg functions
+4. simplifying gen_goto_tb as there is no real paging
+5. env->pc -> env->pc_w
+6. making flag dump more compact
+7. more spacing
+8. renaming CODE/DATA_INDEX -> MMU_CODE/DATA_IDX
+9. removing avr_set_feature
+10. SPL/SPH set bug fix
+11. switching stb_phys to cpu_stb_data
+12. cleaning up avr_decode
+13. saving sreg, rampD/X/Y/Z, eind in HW format (savevm)
+14. saving CPU features (savevm)
 
-> It's possible there's some way to encode this information that would
-> make AIX happy and we just need to fix Linux to cope with that, but
-> it's not really clear what it would be.
->=20
-> > I can try to grab an AIX image and give a try, but anyway this looks li=
-ke
-> > a very big hammer to me... :-\
->=20
-> I'm not really sure why everyone seems to think losing zero-memory
-> node capability is such a big deal.  It's never worked in practice on
-> POWER and we can always put it back if we figure out a sensible way to
-> do it.
->=20
+changes since v5
+1. BLD bug fix
+2. decoder generator is added
 
-It isn't really about losing the memory-less/cpu-less node capability, but
-more about finding the appropriate fix. The changelog doesn't give much
-clues on what's happening exactly: QEMU command line ? linux call stack ?
+chages since v6
+1. using cpu_get_sreg/cpu_set_sreg in avr_cpu_gdb_read_register/avr_cpu_gdb_write_register
+2. configure the target as little endian because otherwise GDB does not work
+3. fixing and testing gen_push_ret/gen_pop_ret
 
-For example, I could hit a crash with the following command line:
+changes since v7
+1. folding back v6
+2. logging at helper_outb and helper_inb are done for non supported yet registers only
+3. MAINTAINERS updated
 
--smp 1,maxcpus=3D2 \
--object memory-backend-ram,size=3D512M,id=3Dnode0 \
--numa node,nodeid=3D0,memdev=3Dnode0 \
--numa node,nodeid=3D1
+changes since v8
+1. removing hw/avr from hw/Makefile.obj as it should not be built for all
+2. making linux compilable
+3. testing on
+    a. Mac, Apple LLVM version 7.0.0
+    b. Ubuntu 12.04, gcc 4.9.2
+    c. Fedora 23, gcc 5.3.1
+4. folding back some patches
+5. translation bug fixes for ORI, CPI, XOR instructions
+6. propper handling of cpu register writes though memory
 
-(qemu) info numa=20
-2 nodes
-node 0 cpus: 0
-node 0 size: 512 MB
-node 0 plugged: 0 MB
-node 1 cpus:
-node 1 size: 0 MB
-node 1 plugged: 0 MB
-(qemu) device_add host-spapr-cpu-core,core-id=3D1
+changes since v9
+1. removing forward declarations of static functions
+2. disabling debug prints
+3. switching to case range instead of if else if ...
+4. LD/ST IN/OUT accessing CPU maintainder registers are not routed to any device
+5. commenst about sample board and sample IO device added
+6. sample board description is more descriptive now
+7. memory_region_allocate_system_memory is used to create RAM
+8. now there are helper_fullrd & helper_fullwr when LD/ST try to access registers
 
-[   24.507552] Built 1 zonelists, mobility grouping on.  Total pages: 7656
-[   24.507592] Policy zone: Normal
-[   24.553481] WARNING: workqueue cpumask: online intersect > possible inte=
-rsect
-[   24.608814] BUG: Unable to handle kernel data access at 0x14e13da04c5bc3=
-7e
-[   24.608875] Faulting instruction address: 0xc000000000175650
-[   24.608931] Oops: Kernel access of bad area, sig: 11 [#1]
-[   24.608976] LE PAGE_SIZE=3D64K MMU=3DRadix MMU=3DHash SMP NR_CPUS=3D1024=
- NUMA pSeries
-[   24.609042] Modules linked in: virtio_net vmx_crypto net_failover failov=
-er crct10dif_vpmsum ip_tables xfs libcrc32c crc32c_vpmsum virtio_blk kvm rp=
-adlpar_io rpaphp 9p fscache 9pnet_virtio 9pnet
-[   24.609222] CPU: 1 PID: 0 Comm: swapper/1 Not tainted 5.1.17-300.fc30.pp=
-c64le #1
-[   24.609286] NIP:  c000000000175650 LR: c000000000175310 CTR: 00000000000=
-00000
-[   24.609351] REGS: c00000001e597210 TRAP: 0380   Not tainted  (5.1.17-300=
-.fc30.ppc64le)
-[   24.609414] MSR:  8000000000009033 <SF,EE,ME,IR,DR,RI,LE>  CR: 44444248 =
- XER: 00000000
-[   24.609482] CFAR: c000000000175528 IRQMASK: 0=20
-[   24.609482] GPR00: c000000000175310 c00000001e5974a0 c0000000015fc400 00=
-00000000000002=20
-[   24.609482] GPR04: 0000000000000001 0000000000000001 0000000000000001 00=
-00000000000400=20
-[   24.609482] GPR08: 14e13da04c5bc37e 0000000000000000 0000000000000000 00=
-00000000000000=20
-[   24.609482] GPR12: 0000000024022248 c00000000fffee00 0000000000000007 c0=
-0000001e0e8fb0=20
-[   24.609482] GPR16: c00000000162dc70 0000000000000008 c00000001e5976d8 00=
-00000020000000=20
-[   24.609482] GPR20: 0000000100000003 0000000000000001 0000000000000000 14=
-e13da04c5bc35e=20
-[   24.609482] GPR24: c000000001630164 0000000000000010 14e13da04c5bc37e 00=
-00000000000000=20
-[   24.609482] GPR28: 0000000000000002 c0000000142a0e00 c00000001ff25d80 c0=
-0000001e5975a8=20
-[   24.610052] NIP [c000000000175650] find_busiest_group+0x510/0xe10
-[   24.610107] LR [c000000000175310] find_busiest_group+0x1d0/0xe10
-[   24.610169] Call Trace:
-[   24.610203] [c00000001e5974a0] [c000000000175310] find_busiest_group+0x1=
-d0/0xe10 (unreliable)
-[   24.610304] [c00000001e597680] [c000000000176110] load_balance+0x1c0/0xe=
-80
-[   24.610377] [c00000001e5977d0] [c000000000176ff8] rebalance_domains+0x22=
-8/0x380
-[   24.610467] [c00000001e597880] [c000000000c7c170] __do_softirq+0x170/0x4=
-04
-[   24.610542] [c00000001e597980] [c000000000124368] irq_exit+0xd8/0x110
-[   24.610617] [c00000001e5979a0] [c000000000028778] timer_interrupt+0x128/=
-0x2e0
-[   24.610706] [c00000001e597a00] [c000000000009314] decrementer_common+0x1=
-54/0x160
-[   24.610799] --- interrupt: 901 at plpar_hcall_norets+0x1c/0x28
-[   24.610799]     LR =3D check_and_cede_processor+0x48/0x60
-[   24.610915] [c00000001e597d00] [c00000001e597d60] 0xc00000001e597d60 (un=
-reliable)
-[   24.611004] [c00000001e597d60] [c0000000009e22a8] shared_cede_loop+0x68/=
-0x180
-[   24.611096] [c00000001e597da0] [c0000000009dec64] cpuidle_enter_state+0x=
-a4/0x660
-[   24.611191] [c00000001e597e30] [c0000000001647a0] call_cpuidle+0x50/0xa0
-[   24.611270] [c00000001e597e50] [c000000000164d6c] do_idle+0x2cc/0x3b0
-[   24.611350] [c00000001e597ec0] [c00000000016508c] cpu_startup_entry+0x3c=
-/0x50
-[   24.611445] [c00000001e597ef0] [c000000000051dd0] start_secondary+0x630/=
-0x660
-[   24.611539] [c00000001e597f90] [c00000000000b25c] start_secondary_prolog=
-+0x10/0x14
-[   24.611632] Instruction dump:
-[   24.611680] 7c374800 41820234 e8920016 3b570020 8152002c 7c893670 7d2901=
-94 548506be=20
-[   24.611775] 788606a0 7d2907b4 79291f24 7d1a4a14 <7cfa482a> 7ce72c36 78e7=
-07e0 2d270000=20
-[   24.611871] ---[ end trace 0e5e3ed14d31f59d ]---
-[   24.617852]=20
-[   25.617885] Kernel panic - not syncing: Aiee, killing interrupt handler!
+changes since v10
+1. movig back fullwr & fullrd into the commit where outb and inb were introduced
+2. changing tlb_fill function signature
+3. adding empty line between functions
+4. adding newline on the last line of the file
+5. using tb->flags to generae full access ST/LD instructions
+6. fixing SBRC bug
+7. folding back 10th commit
+8. whenever a new file is introduced it's added to Makefile.objs
 
-(qemu) info numa=20
-2 nodes
-node 0 cpus: 0
-node 0 size: 512 MB
-node 0 plugged: 0 MB
-node 1 cpus: 1
-node 1 size: 0 MB
-node 1 plugged: 0 MB
+changes since v11
+1. updating to v2.7.0-rc
+2. removing assignment to env->fullacc from gen_intermediate_code
 
-but the crash doesn't occur with:
+changes since v12
+1. fixing spacing
+2. fixing get/put_segment functions
+3. removing target-avr/machine.h file
+4. VMSTATE_SINGLE_TEST -> VMSTATE_SINGLE
+5. comment spelling
+6. removing hw/avr/sample_io.c
+7. char const* -> const char*
+8. proper ram allocation
+9. fixing breakpoint functionality.
+10.env1 -> env
+11.fixing avr_cpu_gdb_write_register & avr_cpu_gdb_read_register functions
+12.any cpu is removed
+12.feature bits are not saved into vm state
 
--smp 1,maxcpus=3D2 \
--object memory-backend-ram,size=3D512M,id=3Dnode0 \
--numa node,nodeid=3D0,memdev=3Dnode0 \
--numa node,nodeid=3D1 \
--device spapr-pci-host-bridge,index=3D1,id=3Dphb1,numa_node=3D1
+changes since v13
+1. rebasing to v2.7.0-rc1
 
-(qemu) info numa=20
-2 nodes
-node 0 cpus: 0
-node 0 size: 512 MB
-node 0 plugged: 0 MB
-node 1 cpus:
-node 1 size: 0 MB
-node 1 plugged: 0 MB
-(qemu) device_add host-spapr-cpu-core,core-id=3D1
+changes since v14
+1. I made self review with git gui tool. (I did not know such a thing exists)
+2. removing all double/tripple spaces
+3. removing comment reference to SampleIO
+4. folding back some changes, so there is not deleted lines in my code
+5. moving avr configuration, within configure file, before chris
 
-[  154.637304] Policy zone: Normal
-[  154.665463] WARNING: workqueue cpumask: online intersect > possible inte=
-rsect
+changes since v15
+1. removing IO registers cache from CPU
+2. implementing CBI/SBI as read(helper_inb), modify, write(helper_outb)
+3. implementing CBIC/SBIC as read(helper_inb), check, branch
+4. adding missing tcg_temp_free_i32 for tcg_const_i32
 
-(qemu) info numa=20
-2 nodes
-node 0 cpus: 0
-node 0 size: 512 MB
-node 0 plugged: 0 MB
-node 1 cpus: 1
-node 1 size: 0 MB
-node 1 plugged: 0 MB
+changes since v16
+1. removing EXT IO registers knoledge from CPU. These registers are accessible
+   by LD/ST only. CPU has no interest in them
 
+changes since v17 (by Richard Henderson)
+This is Michael's v17, with some adjustments of my own:
 
-nor with:
+1. Fix the whitespace errors reported by "git am",
+2. Replace the utf-8 characters with normal ascii,
+3. Ditch the separate compilation of translate.c.
 
--smp 1,maxcpus=3D2 \
--object memory-backend-ram,size=3D512M,id=3Dnode0 \
--numa node,nodeid=3D0,memdev=3Dnode0,cpus=3D0 \
--numa node,nodeid=3D1
+I retained the two separate files that could be regenerated
+from the included cpugen program, but merged in translate-insn.c.
+Not that it matters, but the code generated is about 3k smaller.
 
-qemu-system-ppc64: warning: CPU(s) not present in any NUMA nodes: CPU 1 [co=
-re-id: 1]
-qemu-system-ppc64: warning: All CPU(s) up to maxcpus should be described in=
- NUMA config, ability to start up with partial NUMA mappings is obsoleted a=
-nd will be removed in future
-(qemu) device_add host-spapr-cpu-core,core-id=3D1
-(qemu) info numa=20
-2 nodes
-node 0 cpus: 0 1
-node 0 size: 512 MB
-node 0 plugged: 0 MB
-node 1 cpus:
-node 1 size: 0 MB
-node 1 plugged: 0 MB
+changes since v18
+1.  moving target-avr into target/avr
+2.  do not call cpu_exec_initfn function from avr_cpu_initfn
+3.  call cpu_exec_realizefn avr_cpu_realizefn
+4.  do not fail sample machine creation if no rom is suplied
+5.  add tcg_gen_exit_tb(0) for BS_BRANCH in gen_intermediate_code
+6.  fix a register getters/setters in machine.c
+7.  changing QEMU_ARCH_AVR from 1<<17 to 1<<18
 
-so I don't know why linux crashes, but it isn't exactly because of having
-a cpu-less/memory-less node and this patch catches the non-crashing cases
-anyway.
+changes since v19
+1.  use decodetree.py tool to decode instructions
+2.  adding USART
+3.  adding 16 bit timer peripherals
+4.  changing QEMU_ARCH_AVR from 1<<18 to 1<<20
+5.  renaming tlb_fill to avr_cpu_tlb_fill
 
---Sig_/eoCZJ0azhYVyda96Lo4O4.B
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+changes since v20
+1.  use one CPU naming convention
+2.  merging insn16.decode & insn32.decode files
+3.  modifying skip next instruction mechanizm
+4.  translate BREAK as NOP for now
 
------BEGIN PGP SIGNATURE-----
+changes since v21
+1.  Reorganize bstate.
+    This will make transition to <exec/translator.h> easier, and fixes a couple of bugs wrt single stepping
+    by richard.henderson@linaro.org
+2.  Drop cpc and fix page cross condition.
+    by richard.henderson@linaro.org
+3.  Refactor checking supported/unsupported instructions
+4.  Add gdb-xml/avr-cpu.xml
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl1tIB0ACgkQcdTV5YIv
-c9Y4Kw//TxMMNuMdoX+CO7A9pLMF+73tq02Sfst4Y4hOqmcWGD/CDPVT9LTSfKmi
-oVLx9v+qYCmJ2roO/evlYCHdVfQOUbhyUqOYTqTlyvs7OFBNGZJ96Kxkz6+OJZLc
-LSjwZmvYB74TQdTzjYlscHFUYjtsu3TI583nsLF5J6rlXLBrhJ3Thyo1GYb02zM8
-C4caJj2PGnuqlXEK4dJFOVZMmNC+Hd66y+LuBfJC7UrHz4I1MhuDDNyki8yPQCj+
-0tGbM9rmkr2fA5rscTxjVxXo+iHVFc3wOznhM+TkesaFM51aM1bqqsni1+N02Thl
-eJSUN8WzeVtdvRr+JoISj8bCNJITfG2HUnfb/vooMr/gztABAye/HklkEpRgNVKa
-Pa3MJYEfdQTJE9k/aYYnvzjXeSvA+TILmdGDMtTLWm1f5856IoJ9owxJOdRfGBMM
-1CarFXVuaotMYSUrDolkM7voMVQWDaMJYstGQLaVjS/peTck+LHD9EfCI0CUXjmN
-o1VUdMeJrYALmAI7XLCoYxZPPsdi3CLKYJhWaaO8TpxFiKCwzNOuqHrgDyjzuryZ
-jyRlYjDv2ugG7/H6A8Hscj0g9eVp4N9su9cQD/9YiP6eEMCGBKtpxUYbJQbMLAii
-TMYY7DF5VvUt+EkV4V+PHFYWAwJrFpmgBwj9Eeto+Pu/OIW6MAM=
-=G+LF
------END PGP SIGNATURE-----
+changes since v22
+1.  Rebase
+2.  Split long comment
 
---Sig_/eoCZJ0azhYVyda96Lo4O4.B--
+changes since v23
+1.  remove avr_cpu_list_compare function
+2.  modify avr_cpu_class_by_name function
+3.  modify avr_cpu_list_entry function
+4.  modify avr_cpu_list function
+
+changes since v24
+1.  remove AVR_CPU_TYPE_NAME macro
+
+changes since v25
+1.  fix patches. every file belong to one patch only
+2.  change copyright year from 2016 to 2019
+3.  create mask device to emulate prr0/prr1
+
+changes since v26
+1.  add avocado acceptence test
+2.  add boot serial test
+
+changes since v27
+1.  list atmel2560 devices as unimplemented
+2.  fix sram base/size 
+
+changes since v28
+1.  rebase
+2.  fix includes & build
+
+changes since v29
+1.  fixing ownership
+2.  using 'since' instread of 'added in'
+
+Michael Rolnik (7):
+  target/avr: Add outward facing interfaces and core CPU logic
+  target/avr: Add instruction helpers
+  target/avr: Add instruction decoding
+  target/avr: Add instruction translation
+  target/avr: Add example board configuration
+  target/avr: Register AVR support with the rest of QEMU, the build
+    system, and the MAINTAINERS file
+  target/avr: Add tests
+
+Sarah Harris (1):
+  target/avr: Add limited support for USART and 16 bit timer peripherals
+
+ MAINTAINERS                      |    6 +
+ arch_init.c                      |    2 +
+ configure                        |   93 +-
+ default-configs/avr-softmmu.mak  |    5 +
+ gdb-xml/avr-cpu.xml              |   49 +
+ hw/Kconfig                       |    1 +
+ hw/avr/Kconfig                   |    6 +
+ hw/avr/Makefile.objs             |    1 +
+ hw/avr/sample.c                  |  282 +++
+ hw/char/Kconfig                  |    3 +
+ hw/char/Makefile.objs            |    1 +
+ hw/char/avr_usart.c              |  324 ++++
+ hw/misc/Kconfig                  |    3 +
+ hw/misc/Makefile.objs            |    2 +
+ hw/misc/avr_mask.c               |  112 ++
+ hw/timer/Kconfig                 |    3 +
+ hw/timer/Makefile.objs           |    1 +
+ hw/timer/avr_timer16.c           |  605 +++++++
+ include/disas/dis-asm.h          |    6 +
+ include/hw/char/avr_usart.h      |   97 +
+ include/hw/misc/avr_mask.h       |   47 +
+ include/hw/timer/avr_timer16.h   |   97 +
+ include/sysemu/arch_init.h       |    1 +
+ qapi/machine.json                |    3 +-
+ target/avr/Makefile.objs         |   33 +
+ target/avr/cpu-param.h           |   37 +
+ target/avr/cpu-qom.h             |   54 +
+ target/avr/cpu.c                 |  576 ++++++
+ target/avr/cpu.h                 |  254 +++
+ target/avr/gdbstub.c             |   85 +
+ target/avr/helper.c              |  354 ++++
+ target/avr/helper.h              |   29 +
+ target/avr/insn.decode           |  175 ++
+ target/avr/machine.c             |  121 ++
+ target/avr/translate.c           | 2888 ++++++++++++++++++++++++++++++
+ tests/Makefile.include           |    2 +
+ tests/acceptance/machine_avr6.py |   36 +
+ tests/boot-serial-test.c         |   10 +
+ tests/machine-none-test.c        |    1 +
+ 39 files changed, 6361 insertions(+), 44 deletions(-)
+ create mode 100644 default-configs/avr-softmmu.mak
+ create mode 100644 gdb-xml/avr-cpu.xml
+ create mode 100644 hw/avr/Kconfig
+ create mode 100644 hw/avr/Makefile.objs
+ create mode 100644 hw/avr/sample.c
+ create mode 100644 hw/char/avr_usart.c
+ create mode 100644 hw/misc/avr_mask.c
+ create mode 100644 hw/timer/avr_timer16.c
+ create mode 100644 include/hw/char/avr_usart.h
+ create mode 100644 include/hw/misc/avr_mask.h
+ create mode 100644 include/hw/timer/avr_timer16.h
+ create mode 100644 target/avr/Makefile.objs
+ create mode 100644 target/avr/cpu-param.h
+ create mode 100644 target/avr/cpu-qom.h
+ create mode 100644 target/avr/cpu.c
+ create mode 100644 target/avr/cpu.h
+ create mode 100644 target/avr/gdbstub.c
+ create mode 100644 target/avr/helper.c
+ create mode 100644 target/avr/helper.h
+ create mode 100644 target/avr/insn.decode
+ create mode 100644 target/avr/machine.c
+ create mode 100644 target/avr/translate.c
+ create mode 100644 tests/acceptance/machine_avr6.py
+
+-- 
+2.17.2 (Apple Git-113)
+
 
