@@ -2,50 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81ADA58E5
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 16:12:35 +0200 (CEST)
-Received: from localhost ([::1]:37010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38366A591E
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Sep 2019 16:19:52 +0200 (CEST)
+Received: from localhost ([::1]:37062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i4n4M-0004Tk-Mv
-	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 10:12:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57071)
+	id 1i4nBP-0007n1-1S
+	for lists+qemu-devel@lfdr.de; Mon, 02 Sep 2019 10:19:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58182)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1i4n2X-0003Ba-WB
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 10:10:42 -0400
+ (envelope-from <pl@kamp.de>) id 1i4n9h-0007Gl-Vl
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 10:18:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1i4n2X-000568-2z
- for qemu-devel@nongnu.org; Mon, 02 Sep 2019 10:10:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42090)
+ (envelope-from <pl@kamp.de>) id 1i4n9g-00057n-KR
+ for qemu-devel@nongnu.org; Mon, 02 Sep 2019 10:18:05 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:34613)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1i4n2U-0004zV-01; Mon, 02 Sep 2019 10:10:38 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2A85A3003715;
- Mon,  2 Sep 2019 14:10:36 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-189.ams2.redhat.com
- [10.36.116.189])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 91CDD5F7C0;
- Mon,  2 Sep 2019 14:10:33 +0000 (UTC)
-Date: Mon, 2 Sep 2019 16:10:32 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190902141032.GI13140@localhost.localdomain>
-References: <20190822133846.10923-1-armbru@redhat.com>
+ (Exim 4.71) (envelope-from <pl@kamp.de>)
+ id 1i4n9g-000514-9p; Mon, 02 Sep 2019 10:18:04 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
+ by kerio.kamp.de with ESMTPSA
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
+ Mon, 2 Sep 2019 16:17:55 +0200
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190829133615.29873-1-pl@kamp.de>
+ <20190902130701.GE13140@localhost.localdomain>
+ <7992af97-086e-b1c1-2b1a-fa72727e04c1@kamp.de>
+ <20190902134622.GH13140@localhost.localdomain>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <644e6e56-828a-120f-35de-1e738327a8bd@kamp.de>
+Date: Mon, 2 Sep 2019 16:17:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190822133846.10923-1-armbru@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 02 Sep 2019 14:10:36 +0000 (UTC)
+In-Reply-To: <20190902134622.GH13140@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] pr-manager: Fix invalid g_free() crash bug
+X-Received-From: 195.62.97.192
+Subject: Re: [Qemu-devel] [PATCH] block/vhdx: add check for truncated image
+ files
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,22 +55,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, pbonzini@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, qemu-stable@nongnu.org
+Cc: codyprime@gmail.com, Jan-Hendrik Frintrop <jhf@kamp.de>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 22.08.2019 um 15:38 hat Markus Armbruster geschrieben:
-> pr_manager_worker() passes its @opaque argument to g_free().  Wrong;
-> it points to pr_manager_worker()'s automatic @data.  Broken when
-> commit 2f3a7ab39be converted @data from heap- to stack-allocated.  Fix
-> by deleting the g_free().
-> 
-> Fixes: 2f3a7ab39bec4ba8022dc4d42ea641165b004e3e
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Am 02.09.19 um 15:46 schrieb Kevin Wolf:
+> Am 02.09.2019 um 15:15 hat Peter Lieven geschrieben:
+>> Am 02.09.19 um 15:07 schrieb Kevin Wolf:
+>>> Am 29.08.2019 um 15:36 hat Peter Lieven geschrieben:
+>>>> qemu is currently not able to detect truncated vhdx image files.
+>>>> Add a basic check if all allocated blocks are reachable to vhdx_co_check.
+>>>>
+>>>> Signed-off-by: Jan-Hendrik Frintrop <jhf@kamp.de>
+>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>>>> ---
+>>>>    block/vhdx.c | 19 +++++++++++++++++++
+>>>>    1 file changed, 19 insertions(+)
+>>>>
+>>>> diff --git a/block/vhdx.c b/block/vhdx.c
+>>>> index 6a09d0a55c..4382b1375d 100644
+>>>> --- a/block/vhdx.c
+>>>> +++ b/block/vhdx.c
+>>>> @@ -2068,10 +2068,29 @@ static int coroutine_fn vhdx_co_check(BlockDriverState *bs,
+>>>>                                          BdrvCheckMode fix)
+>>>>    {
+>>>>        BDRVVHDXState *s = bs->opaque;
+>>>> +    VHDXSectorInfo sinfo;
+>>>> +    int64_t file_size = bdrv_get_allocated_file_size(bs);
+>>> Don't you mean bdrv_getlength()?
+>>>
+>>> bdrv_get_allocated_file_size() is only the allocated size, i.e. without
+>>> holes. So a higher offset may actually be present.
+>>
+>> Isn't bdrv_getlength the virtual disk size? I need to check if a block
+>> points to a location after EOF of the underlying physical file.
+> Yes, it would have to be bdrv_getlength(bs->file->bs), i.e. call it on
+> the protocol layer, not on the format layer.
+>
+>>>> +    int64_t sector_num;
+>>>>        if (s->log_replayed_on_open) {
+>>>>            result->corruptions_fixed++;
+>>>>        }
+>>>> +
+>>>> +    for (sector_num = 0; sector_num < bs->total_sectors;
+>>>> +         sector_num += s->block_size / BDRV_SECTOR_SIZE) {
+>>>> +        int nb_sectors = MIN(bs->total_sectors - sector_num,
+>>>> +                             s->block_size / BDRV_SECTOR_SIZE);
+>>>> +        vhdx_block_translate(s, sector_num, nb_sectors, &sinfo);
+>>>> +        if ((s->bat[sinfo.bat_idx] & VHDX_BAT_STATE_BIT_MASK) ==
+>>>> +            PAYLOAD_BLOCK_FULLY_PRESENT) {
+>>>> +            if (sinfo.file_offset +
+>>>> +                sinfo.sectors_avail * BDRV_SECTOR_SIZE > file_size) {
+>>> Do we need to protect against integer overflows here? I think
+>>> sinfo.file_offset comes directly from the image file and might be
+>>> corrupted.
+>>>
+>>> Or has it already been check somewhere?
+>>
+>> The headers are being checked in vhdx_open.  sinfo.file_offset +
+>> sinfo.sectors_avail * BDRV_SECTOR_SIZE is exactly what is being passed
+>> to bdrv_pread when reading from the image file.
+> Fair enough, though if I'm not missing anything, we only check that BAT
+> entries don't overlap with other regions, not that they aren't too high.
+> And vhdx_block_translate() doesn't seem to check for overflows either
+> before it sets sinfo->sectors_avail.
+>
+> So maybe this is actually a bug that should be fixed in
+> vhdx_block_translate() so that normal accesses get the fix, too.
 
-Thanks, applied to the block branch.
 
-Kevin
+Or maybe already or also check in vhdx_open when we already iterate over all BAT entries?
+
+vhdx_block_translate cannot return an error at the moment.
+
+
+Peter
+
+
+
 
