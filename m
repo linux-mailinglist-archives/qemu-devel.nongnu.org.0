@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E39FA6D26
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:42:50 +0200 (CEST)
-Received: from localhost ([::1]:47726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4207A6D28
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:42:53 +0200 (CEST)
+Received: from localhost ([::1]:47734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5AxF-0008FH-7k
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:42:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59140)
+	id 1i5AxI-0008Lk-JT
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:42:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59164)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArK-0002h8-Jn
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:43 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArM-0002jV-Ez
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArJ-0005sB-8f
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:42 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53451)
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArK-0005tB-Oo
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:44 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40916)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5ArJ-0005ra-2M
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:41 -0400
-Received: by mail-wm1-x341.google.com with SMTP id q19so9923449wmc.3
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:36:40 -0700 (PDT)
+ id 1i5ArK-0005sc-I9
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:42 -0400
+Received: by mail-wm1-x344.google.com with SMTP id t9so18798834wmi.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bIBiqHwLNlw6akaBX7exBs2n/dBWc3wYnn3LUfBBjxw=;
- b=bJj/rovfgKg8U81FEH4qt3vzVDA/yiq2X0ciAAwJsr0WM1L697GLHT1lvL/+It5ndd
- CfoG4ejG3laP3spJI9yywP8PV4wTHXEq/8Rh4Bqul7PAVJAPCW65nTDoL1UTlCZaXSW8
- A4TpQDaF/j/BUWH/JBBG5Orx2Eel7cQUVTNOJWfyNSVBi6kCMgcrNGthcqLZbCXE1PJt
- 601FSERVzMYasqGCS3P8Aix1f+oQC1FX1uEcj8K0aF6Axt5Xl2PN210Z1OFSmoVbXVBr
- yK4cw6AwUnvHCP8qbdskAW3O3/DXY9C7yUDJa8nHkmdfU28oHBnx/LxLfV02bo3Eq5fV
- 6+NA==
+ bh=JQypItX8vVnzNLFYqeVXMmrdJt6+8bMgnIYYXwlAvtw=;
+ b=bJs6LA08bqP5ftuPRxpDtb0slhHLgwpBH2VVAGhrLOJvuZpXxIGwk/daq2fUPolO5g
+ 0DwM5DLd+SJywhzrercwbI93wp1tzNiTHCL7w90VnkrObll1LeI9yxHp6B6mdRpwI/FR
+ kn4kGyKquxXtajnL1g3vYP0vv3wZnVBSl5lAc99goJ9xnDCvmnafxO/V7MhaIGNVa8Ka
+ DVdnL0uTQeknD570j1LSj6i0PT6IbcUUl+5C+vU9cTDI4njawdks3Oyl7/dM96yTo/98
+ Ve3gkZq1fAFSbo6h3uAbyPSfBipCZQqhGRU+/c1k8iRhOpWRHcnlhliaLLOY3pDlT3vM
+ yr0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bIBiqHwLNlw6akaBX7exBs2n/dBWc3wYnn3LUfBBjxw=;
- b=k5XS7UF7uAf7XV+UhP5in61d5l8CTcia9RVxmv3+iBhWR30mHMkV9Spmd33c+VTGGF
- 8mG3ahLo2dgWb92zziVge6c44O0o7zhtLz9po5Yie17ZLUlgaUxybcew+RHGjmlT6Hfd
- 3QDZ5umiI8nP4v2TcPMuhWAH8mz0znpyikMyGbpeyLuVFPPsw0Q/fCCOQn63999F10UG
- okt4+o/o6rsQVlQoxeUYegx218dRYDE4KklDGAMqJUUXx80atd35OnA+0O8PX4kMbk97
- I1Dv4JwpCMjxxCYlaYllFS6wIK0MevwWm9Q0236HMj6Mt7vvrbAAxSJP+YEwyQQOGkIW
- CUWQ==
-X-Gm-Message-State: APjAAAVW9EJfsxNg/cORue9eo9DU1xWoBiMdZaI5o+qKf85HSRZiTgFN
- q0vLxks7VH5FUCGm93ba+lzHt3iabee8Ew==
-X-Google-Smtp-Source: APXvYqwgEbh/y8Q2TLB5tRj2LQL1Igw6Rz+iAkN43LOFNFzZwmRIGBiNG4ons3R72Hd8YaHlzKwDQA==
-X-Received: by 2002:a1c:a404:: with SMTP id n4mr796752wme.41.1567524999788;
- Tue, 03 Sep 2019 08:36:39 -0700 (PDT)
+ bh=JQypItX8vVnzNLFYqeVXMmrdJt6+8bMgnIYYXwlAvtw=;
+ b=GGZdGf3g5l7otKKWjIHmbusuBxubHW2Nps0/lHM3M5d9cu8JEzSS5IfIuDaQp7G2WA
+ EfDdxlTlGLYwW3D2d2vCoYzKHh7G6fsN0/sQ75DEj0h7cZ18f8ztcBbvGNLyrGF6cJFu
+ w8Kbsuc+t3Bi6CUTp+l0ngXPT63tUVa245nCn+cT6+pOTO+NIZQppBriop00I1cIn+iP
+ hYVU3mYcWHLeyL+edk8XRCEHRcZYtIusmWbZa0rqUoJPCm/F6nAWbJvs20r60uNHmSbK
+ +iquNpZhGujqr5o2yQloShKuiwszThlQPXs42kW8UlY/Q4Evqf0Dx31ASzQChE7MQFWv
+ /XPw==
+X-Gm-Message-State: APjAAAUhpTFg5z74broaKKMeFS65+kmK1hiLEge2pdYDrrphjgrF/5eZ
+ nNWG+gmDx7GmmrXE+SkE0ihFoDyFHPjzHg==
+X-Google-Smtp-Source: APXvYqzh7r8lQXijCe8tAtNgjhiyNguSkYI3wvkX8dHcJCM4vCq+Z0r4HDlDn8feCC2Vw/c2SNbkHQ==
+X-Received: by 2002:a1c:eb0a:: with SMTP id j10mr789696wmh.125.1567525001136; 
+ Tue, 03 Sep 2019 08:36:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.38
+ by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 08:36:39 -0700 (PDT)
+ Tue, 03 Sep 2019 08:36:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:36:15 +0100
-Message-Id: <20190903153633.6651-4-peter.maydell@linaro.org>
+Date: Tue,  3 Sep 2019 16:36:16 +0100
+Message-Id: <20190903153633.6651-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190903153633.6651-1-peter.maydell@linaro.org>
 References: <20190903153633.6651-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PULL 03/21] target/arm: Allow ARMCPRegInfo read/write
- functions to throw exceptions
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PULL 04/21] target/arm: Take exceptions on ATS
+ instructions when needed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,104 +82,195 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the only part of an ARMCPRegInfo which is allowed to cause
-a CPU exception is the access function, which returns a value indicating
-that some flavour of UNDEF should be generated.
+The translation table walk for an ATS instruction can result in
+various faults.  In general these are just reported back via the
+PAR_EL1 fault status fields, but in some cases the architecture
+requires that the fault is turned into an exception:
+ * synchronous stage 2 faults of any kind during AT S1E0* and
+   AT S1E1* instructions executed from NS EL1 fault to EL2 or EL3
+ * synchronous external aborts are taken as Data Abort exceptions
 
-For the ATS system instructions, we would like to conditionally
-generate exceptions as part of the writefn, because some faults
-during the page table walk (like external aborts) should cause
-an exception to be raised rather than returning a value.
-
-There are several ways we could do this:
- * plumb the GETPC() value from the top level set_cp_reg/get_cp_reg
-   helper functions through into the readfn and writefn hooks
- * add extra readfn_with_ra/writefn_with_ra hooks that take the GETPC()
-   value
- * require the ATS instructions to provide a dummy accessfn,
-   which serves no purpose except to cause the code generation
-   to emit TCG ops to sync the CPU state
- * add an ARM_CP_ flag to mark the ARMCPRegInfo as possibly
-   throwing an exception in its read/write hooks, and make the
-   codegen sync the CPU state before calling the hooks if the
-   flag is set
-
-This patch opts for the last of these, as it is fairly simple
-to implement and doesn't require invasive changes like updating
-the readfn/writefn hook function prototype signature.
+(This is documented in the v8A Arm ARM DDI0487A.e D5.2.11 and
+G5.13.4.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20190816125802.25877-2-peter.maydell@linaro.org
+Message-id: 20190816125802.25877-3-peter.maydell@linaro.org
 ---
- target/arm/cpu.h           | 6 +++++-
- target/arm/translate-a64.c | 6 ++++++
- target/arm/translate.c     | 7 +++++++
- 3 files changed, 18 insertions(+), 1 deletion(-)
+ target/arm/helper.c | 107 +++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 92 insertions(+), 15 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 0981303170a..297ad5e47ad 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2212,6 +2212,9 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
-  * IO indicates that this register does I/O and therefore its accesses
-  * need to be surrounded by gen_io_start()/gen_io_end(). In particular,
-  * registers which implement clocks or timers require this.
-+ * RAISES_EXC is for when the read or write hook might raise an exception;
-+ * the generated code will synchronize the CPU state before calling the hook
-+ * so that it is safe for the hook to call raise_exception().
-  */
- #define ARM_CP_SPECIAL           0x0001
- #define ARM_CP_CONST             0x0002
-@@ -2230,10 +2233,11 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
- #define ARM_CP_FPU               0x1000
- #define ARM_CP_SVE               0x2000
- #define ARM_CP_NO_GDB            0x4000
-+#define ARM_CP_RAISES_EXC        0x8000
- /* Used only as a terminator for ARMCPRegInfo lists */
- #define ARM_CP_SENTINEL          0xffff
- /* Mask of only the flag bits in a type field */
--#define ARM_CP_FLAG_MASK         0x70ff
-+#define ARM_CP_FLAG_MASK         0xf0ff
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 7e0d5398ab8..507026c9154 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2946,6 +2946,73 @@ static uint64_t do_ats_write(CPUARMState *env, uint64_t value,
+     ret = get_phys_addr(env, value, access_type, mmu_idx, &phys_addr, &attrs,
+                         &prot, &page_size, &fi, &cacheattrs);
  
- /* Valid values for ARMCPRegInfo state field, indicating which of
-  * the AArch32 and AArch64 execution states this register is visible in.
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 9183f89ba39..4d09ae6f424 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1714,6 +1714,12 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
-         tcg_temp_free_ptr(tmpptr);
-         tcg_temp_free_i32(tcg_syn);
-         tcg_temp_free_i32(tcg_isread);
-+    } else if (ri->type & ARM_CP_RAISES_EXC) {
++    if (ret) {
 +        /*
-+         * The readfn or writefn might raise an exception;
-+         * synchronize the CPU state in case it does.
++         * Some kinds of translation fault must cause exceptions rather
++         * than being reported in the PAR.
 +         */
-+        gen_a64_set_pc_im(s->pc_curr);
-     }
- 
-     /* Handle special cases first */
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 66311580c05..78d93f63cab 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -7191,6 +7191,13 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
-             tcg_temp_free_ptr(tmpptr);
-             tcg_temp_free_i32(tcg_syn);
-             tcg_temp_free_i32(tcg_isread);
-+        } else if (ri->type & ARM_CP_RAISES_EXC) {
++        int current_el = arm_current_el(env);
++        int target_el;
++        uint32_t syn, fsr, fsc;
++        bool take_exc = false;
++
++        if (fi.s1ptw && current_el == 1 && !arm_is_secure(env)
++            && (mmu_idx == ARMMMUIdx_S1NSE1 || mmu_idx == ARMMMUIdx_S1NSE0)) {
 +            /*
-+             * The readfn or writefn might raise an exception;
-+             * synchronize the CPU state in case it does.
++             * Synchronous stage 2 fault on an access made as part of the
++             * translation table walk for AT S1E0* or AT S1E1* insn
++             * executed from NS EL1. If this is a synchronous external abort
++             * and SCR_EL3.EA == 1, then we take a synchronous external abort
++             * to EL3. Otherwise the fault is taken as an exception to EL2,
++             * and HPFAR_EL2 holds the faulting IPA.
 +             */
-+            gen_set_condexec(s);
-+            gen_set_pc_im(s, s->pc_curr);
-         }
- 
-         /* Handle special cases first */
++            if (fi.type == ARMFault_SyncExternalOnWalk &&
++                (env->cp15.scr_el3 & SCR_EA)) {
++                target_el = 3;
++            } else {
++                env->cp15.hpfar_el2 = extract64(fi.s2addr, 12, 47) << 4;
++                target_el = 2;
++            }
++            take_exc = true;
++        } else if (fi.type == ARMFault_SyncExternalOnWalk) {
++            /*
++             * Synchronous external aborts during a translation table walk
++             * are taken as Data Abort exceptions.
++             */
++            if (fi.stage2) {
++                if (current_el == 3) {
++                    target_el = 3;
++                } else {
++                    target_el = 2;
++                }
++            } else {
++                target_el = exception_target_el(env);
++            }
++            take_exc = true;
++        }
++
++        if (take_exc) {
++            /* Construct FSR and FSC using same logic as arm_deliver_fault() */
++            if (target_el == 2 || arm_el_is_aa64(env, target_el) ||
++                arm_s1_regime_using_lpae_format(env, mmu_idx)) {
++                fsr = arm_fi_to_lfsc(&fi);
++                fsc = extract32(fsr, 0, 6);
++            } else {
++                fsr = arm_fi_to_sfsc(&fi);
++                fsc = 0x3f;
++            }
++            /*
++             * Report exception with ESR indicating a fault due to a
++             * translation table walk for a cache maintenance instruction.
++             */
++            syn = syn_data_abort_no_iss(current_el == target_el,
++                                        fi.ea, 1, fi.s1ptw, 1, fsc);
++            env->exception.vaddress = value;
++            env->exception.fsr = fsr;
++            raise_exception(env, EXCP_DATA_ABORT, syn, target_el);
++        }
++    }
++
+     if (is_a64(env)) {
+         format64 = true;
+     } else if (arm_feature(env, ARM_FEATURE_LPAE)) {
+@@ -3150,7 +3217,7 @@ static const ARMCPRegInfo vapa_cp_reginfo[] = {
+     /* This underdecoding is safe because the reginfo is NO_RAW. */
+     { .name = "ATS", .cp = 15, .crn = 7, .crm = 8, .opc1 = 0, .opc2 = CP_ANY,
+       .access = PL1_W, .accessfn = ats_access,
+-      .writefn = ats_write, .type = ARM_CP_NO_RAW },
++      .writefn = ats_write, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC },
+ #endif
+     REGINFO_SENTINEL
+ };
+@@ -4283,35 +4350,45 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
+     /* 64 bit address translation operations */
+     { .name = "AT_S1E1R", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 8, .opc2 = 0,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++      .writefn = ats_write64 },
+     { .name = "AT_S1E1W", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 8, .opc2 = 1,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++      .writefn = ats_write64 },
+     { .name = "AT_S1E0R", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 8, .opc2 = 2,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++      .writefn = ats_write64 },
+     { .name = "AT_S1E0W", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 8, .opc2 = 3,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++      .writefn = ats_write64 },
+     { .name = "AT_S12E1R", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 4, .crn = 7, .crm = 8, .opc2 = 4,
+-      .access = PL2_W, .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .access = PL2_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++      .writefn = ats_write64 },
+     { .name = "AT_S12E1W", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 4, .crn = 7, .crm = 8, .opc2 = 5,
+-      .access = PL2_W, .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .access = PL2_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++      .writefn = ats_write64 },
+     { .name = "AT_S12E0R", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 4, .crn = 7, .crm = 8, .opc2 = 6,
+-      .access = PL2_W, .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .access = PL2_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++      .writefn = ats_write64 },
+     { .name = "AT_S12E0W", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 4, .crn = 7, .crm = 8, .opc2 = 7,
+-      .access = PL2_W, .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .access = PL2_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++      .writefn = ats_write64 },
+     /* AT S1E2* are elsewhere as they UNDEF from EL3 if EL2 is not present */
+     { .name = "AT_S1E3R", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 6, .crn = 7, .crm = 8, .opc2 = 0,
+-      .access = PL3_W, .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .access = PL3_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++      .writefn = ats_write64 },
+     { .name = "AT_S1E3W", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 6, .crn = 7, .crm = 8, .opc2 = 1,
+-      .access = PL3_W, .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .access = PL3_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++      .writefn = ats_write64 },
+     { .name = "PAR_EL1", .state = ARM_CP_STATE_AA64,
+       .type = ARM_CP_ALIAS,
+       .opc0 = 3, .opc1 = 0, .crn = 7, .crm = 4, .opc2 = 0,
+@@ -4893,11 +4970,11 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+     { .name = "AT_S1E2R", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 4, .crn = 7, .crm = 8, .opc2 = 0,
+       .access = PL2_W, .accessfn = at_s1e2_access,
+-      .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC, .writefn = ats_write64 },
+     { .name = "AT_S1E2W", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 4, .crn = 7, .crm = 8, .opc2 = 1,
+       .access = PL2_W, .accessfn = at_s1e2_access,
+-      .type = ARM_CP_NO_RAW, .writefn = ats_write64 },
++      .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC, .writefn = ats_write64 },
+     /* The AArch32 ATS1H* operations are CONSTRAINED UNPREDICTABLE
+      * if EL2 is not implemented; we choose to UNDEF. Behaviour at EL3
+      * with SCR.NS == 0 outside Monitor mode is UNPREDICTABLE; we choose
+@@ -4905,10 +4982,10 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+      */
+     { .name = "ATS1HR", .cp = 15, .opc1 = 4, .crn = 7, .crm = 8, .opc2 = 0,
+       .access = PL2_W,
+-      .writefn = ats1h_write, .type = ARM_CP_NO_RAW },
++      .writefn = ats1h_write, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC },
+     { .name = "ATS1HW", .cp = 15, .opc1 = 4, .crn = 7, .crm = 8, .opc2 = 1,
+       .access = PL2_W,
+-      .writefn = ats1h_write, .type = ARM_CP_NO_RAW },
++      .writefn = ats1h_write, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC },
+     { .name = "CNTHCTL_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 14, .crm = 1, .opc2 = 0,
+       /* ARMv7 requires bit 0 and 1 to reset to 1. ARMv8 defines the
 -- 
 2.20.1
 
