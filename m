@@ -2,49 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B73A7687
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:51:35 +0200 (CEST)
-Received: from localhost ([::1]:52070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95910A7716
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 00:34:54 +0200 (CEST)
+Received: from localhost ([::1]:52186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Gi6-0005si-LT
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36524)
+	id 1i5HO1-0004rt-5x
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 18:34:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42566)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1i5GhB-0005Ml-E4
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:50:38 -0400
+ (envelope-from <crosa@redhat.com>) id 1i5HMo-0004Oa-Bj
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 18:33:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1i5Gh8-0004bC-VY
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:50:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46692)
+ (envelope-from <crosa@redhat.com>) id 1i5HMm-0007YZ-6u
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 18:33:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55506)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>)
- id 1i5Gh8-0004X0-PF; Tue, 03 Sep 2019 17:50:34 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1i5HMm-0007Y5-0o
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 18:33:36 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 402AD308219F;
- Tue,  3 Sep 2019 21:50:33 +0000 (UTC)
-Received: from localhost (ovpn-116-55.gru2.redhat.com [10.97.116.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54096600C1;
- Tue,  3 Sep 2019 21:50:32 +0000 (UTC)
-Date: Tue, 3 Sep 2019 18:50:30 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190903215030.GA20093@habkost.net>
-References: <20190830110723.15096-1-imammedo@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 96BC5190C01B;
+ Tue,  3 Sep 2019 22:33:34 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-123-245.rdu2.redhat.com
+ [10.10.123.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BFE1B100195C;
+ Tue,  3 Sep 2019 22:33:30 +0000 (UTC)
+Date: Tue, 3 Sep 2019 18:33:28 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20190903223328.GA448@localhost.localdomain>
+References: <20190829013125.GG16342@umbus.fritz.box>
+ <20190829015117.GH16342@umbus.fritz.box>
+ <20190829032746.GA488@localhost.localdomain>
+ <24d0d5be-d206-33a0-cd8c-29825e2f8516@redhat.com>
+ <ecfc63f3-d208-4a79-c26c-3d8fa031b3d3@redhat.com>
+ <20190903150824.GA14836@localhost.localdomain>
+ <20190903172758.GR3694@habkost.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190830110723.15096-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 03 Sep 2019 21:50:33 +0000 (UTC)
+In-Reply-To: <20190903172758.GR3694@habkost.net>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Tue, 03 Sep 2019 22:33:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/2] tests: cpu-plug-test: fix x86
- device_add cpu-foo test cases
+Subject: Re: [Qemu-devel] Cryptic errors from PIP install if missing
+ openssl-devel
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,17 +64,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-s390x@nongnu.org, dhildenb@redhat.com,
- qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: ldoktor@redhat.com,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 30, 2019 at 07:07:21AM -0400, Igor Mammedov wrote:
-> Fixes bc1fb850a3 (vl.c deprecate incorrect CPUs topology) that introduced
-> regression.
+On Tue, Sep 03, 2019 at 02:27:58PM -0300, Eduardo Habkost wrote:
+> This would stop working as soon as a file named 'p@ssw0rD' gets
+> created.  Can the API be more explicit somehow?
+> 
+> Is there anything that prevents us from using keyword arguments?
+> e.g.:
+> 
+>   Session(..., username='root', password='p@ssw0rD')
+>
 
-Queued on machine-next.  Thanks!
+OK, we have enough fair criticism of the approach that would keep the
+API compatible, so let's implement a better, not non-backwards
+compatible version, like suggested here.
 
--- 
-Eduardo
+Thanks for the feedback!
+- Cleber.
 
