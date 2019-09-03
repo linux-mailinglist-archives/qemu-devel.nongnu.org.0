@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C29EA6F69
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:32:58 +0200 (CEST)
-Received: from localhost ([::1]:48998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E60B3A7031
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:38:32 +0200 (CEST)
+Received: from localhost ([::1]:49100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Bjk-0000xV-Mk
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:32:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37313)
+	id 1i5Bp9-0007GM-TV
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:38:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37357)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BN2-0001MU-BW
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:29 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN5-0001Re-JO
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BN1-0003rf-1P
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:28 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:42859)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN4-0003uL-Bp
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:31 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44486)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BN0-0003rB-S3
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:26 -0400
-Received: by mail-pl1-x641.google.com with SMTP id y1so8063944plp.9
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:26 -0700 (PDT)
+ id 1i5BN4-0003te-5d
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:30 -0400
+Received: by mail-pl1-x642.google.com with SMTP id k1so730247pls.11
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0RIrW/AM/FRCh/5tYMiTNVCjB9dqNOvdf51jrirTikc=;
- b=ZQflvHP2t4RygJOZhx0JN7SS3dQHOq4ACt9/Cfl2uRjYSbxatxpla9hJzc4pKh3VFf
- bY/i/qtg8/RWuz1E28jeXHSAE13J+/6Za1U+jPW6Ys6H/ZNMbTsIIDEMC50AXi7nvS3F
- ArZwZY8iYFc3m9utcSvh/PCpUWnkgUkHfDVmF3EWvALJln3Yxkoi7H8mUAjGGTYdSfUv
- xn0BXaEo/z2dDgDAQkpaY49t3xT94zOvHmGF/+lYuVX0CAbxjGtEyPxhhWlatEsiurV/
- SdXU648lve1Pgv0pic3sisVo3meB2odqGP3PrLMyOtp9bDvJwAAnmVL1zeD6tDwGqQLv
- XC2w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=goOolIueQxF4ldrHBZeQkgOys0U39zehwPxKYyDrcRk=;
+ b=ttvwd2oWzrFgh/mKGaAnap2RblGYKFgoxuByAZxl7oP+OF8/LGpJJNCtq729Gu5Zn+
+ LR3+Fq/qJ/0wG9hMEQGYXZAZYG2SUEI4Dn4ENh8fxUS0cXcZmuMQzPupt5VvqHWmDRU/
+ OpIZdHPrAXS7xW7o61wZFN9Ic7uJp8N42xQLddgSuxtro0ab6QhlwJ6KQX9Q5MT00hFx
+ +95i7tOVEQq3MvWNYOQ8eSiraXAeqi1j6Roqee1kbnVsq/nmz+WirXA38yxMhIZCl9jj
+ gmdVuaebv9r7LvdoNfkXRXuls2eC/JsXx6rjnfZQLTplYvRNwdeIlqrS6xOAyyoSmjOh
+ Uc2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0RIrW/AM/FRCh/5tYMiTNVCjB9dqNOvdf51jrirTikc=;
- b=Tjml4WpQG04fL2o3zwLbAtLH05M3iLvpdd8vz4cQnBkiAWNDaS9+QpCWNCmc+Z7hdc
- oWNj67yEom7vvdh6nrC3XHmBo0IcpF7ALbrFJAhMeTvjBg+/WPWRb1VWA8gI6Vsf7uU3
- ATr+FWx38am9ZuIOiDf9Jkdls8Ytf4D/cnPMiv6MavtZT9xSKInUj1P4sdHtPGHV8SHO
- vPwiUi0oBR4t+JBf4UNaAOfDZJNj3RhULEOk1h0y9PSIgGARgh9TC5PYpzANeFu8dre8
- uGk/VHTiYo54b6BIFGsnJ0HTesB9NA1pDhPViI1DYWKBMhzwID4wv+JHsdYY/21PsC1P
- qrpA==
-X-Gm-Message-State: APjAAAWsP1mcFGR0Wb31pi/0BR6Sl5zmSu3VW/iLTCWQlEVerSLgCzCf
- MO3NvATbzuxJr0ZzzoKKfUxWto4/3Co=
-X-Google-Smtp-Source: APXvYqwlQ0w67R4AeKAkixU4N4xUi2UsQglWGDL+BdVhFz4NmmozIcBT7dnTV3fMJL01bzPcLjNaBA==
-X-Received: by 2002:a17:902:fe93:: with SMTP id
- x19mr7982879plm.337.1567526965670; 
- Tue, 03 Sep 2019 09:09:25 -0700 (PDT)
+ :references;
+ bh=goOolIueQxF4ldrHBZeQkgOys0U39zehwPxKYyDrcRk=;
+ b=lNDRDBf14GR+6NvhFVDbbAXBFcV3pdXIN5ebJ4vLDsF/rRZ+4XHAhpYX4ZVxDgUIl1
+ kVK5UC3lusfReykrb5TgVFlQk6wN4/FSeqdwLxBBljKqe2sdp7wdflmvw7O5bG0jaNbK
+ cnM8mwD2mUN0ab/8I+FcJ0P0QjIP9y3l9A5++/e2mpe6vYEbIofRSBWo34g9uFiPw6wH
+ HebVw8iS5wHUk+cqbwcEbJ+ykLLY5SF+1OcBTTRANWmqcBFxaVgf7L8/p3WLhRtnEFju
+ q6oNa2A/H4KirOg9rmW5+OVbZn3XYuf4lioYKXt3hP5utktWYRwHxa7y64aphMu05ax3
+ Imhg==
+X-Gm-Message-State: APjAAAVgAWuNHIE9u/poDPivuNZ+8gmkXjTcaY0hESGnFuMFeZgJxdQl
+ LFKgyuYMKrYLohWctKnQoAIjVIrv8Q0=
+X-Google-Smtp-Source: APXvYqzju40s75jbz2ukUSKdYyw+7glzT7UKOEkUOQ1+Cg1HmWGNo0+gwMqfRDzo9tlXtgWAyPpSuw==
+X-Received: by 2002:a17:902:4201:: with SMTP id
+ g1mr36235927pld.300.1567526968954; 
+ Tue, 03 Sep 2019 09:09:28 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.24
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:25 -0700 (PDT)
+ Tue, 03 Sep 2019 09:09:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:42 -0700
-Message-Id: <20190903160858.5296-21-richard.henderson@linaro.org>
+Date: Tue,  3 Sep 2019 09:08:45 -0700
+Message-Id: <20190903160858.5296-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
 References: <20190903160858.5296-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH 20/36] exec: Move user-only watchpoint stubs
- inline
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH 23/36] exec: Factor out
+ cpu_watchpoint_address_matches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,100 +81,130 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let the user-only watchpoint stubs resolve to empty inline functions.
+We want to move the check for watchpoints from
+memory_region_section_get_iotlb to tlb_set_page_with_attrs.
+Isolate the loop over watchpoints to an exported function.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Rename the existing cpu_watchpoint_address_matches to
+watchpoint_address_matches, since it doesn't actually
+have a cpu argument.
+
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h | 23 +++++++++++++++++++++++
- exec.c                | 26 ++------------------------
- 2 files changed, 25 insertions(+), 24 deletions(-)
+ include/hw/core/cpu.h |  7 +++++++
+ exec.c                | 45 ++++++++++++++++++++++++++++---------------
+ 2 files changed, 36 insertions(+), 16 deletions(-)
 
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 77fca95a40..6de688059d 100644
+index 7bd8bed5b2..c7cda65c66 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -1070,12 +1070,35 @@ static inline bool cpu_breakpoint_test(CPUState *cpu, vaddr pc, int mask)
-     return false;
+@@ -1096,6 +1096,12 @@ static inline void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+                                         MemTxAttrs atr, int fl, uintptr_t ra)
+ {
  }
- 
-+#ifdef CONFIG_USER_ONLY
-+static inline int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
-+                                        int flags, CPUWatchpoint **watchpoint)
-+{
-+    return -ENOSYS;
-+}
 +
-+static inline int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
-+                                        vaddr len, int flags)
++static inline int cpu_watchpoint_address_matches(CPUState *cpu,
++                                                 vaddr addr, vaddr len)
 +{
-+    return -ENOSYS;
++    return 0;
 +}
-+
-+static inline void cpu_watchpoint_remove_by_ref(CPUState *cpu,
-+                                                CPUWatchpoint *wp)
-+{
-+}
-+
-+static inline void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
-+{
-+}
-+#else
+ #else
  int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
                            int flags, CPUWatchpoint **watchpoint);
- int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
-                           vaddr len, int flags);
- void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint);
+@@ -1105,6 +1111,7 @@ void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint);
  void cpu_watchpoint_remove_all(CPUState *cpu, int mask);
-+#endif
- 
- /**
-  * cpu_get_address_space:
-diff --git a/exec.c b/exec.c
-index 53a15b7ad7..31fb75901f 100644
---- a/exec.c
-+++ b/exec.c
-@@ -1062,28 +1062,7 @@ static void breakpoint_invalidate(CPUState *cpu, target_ulong pc)
- }
+ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+                           MemTxAttrs attrs, int flags, uintptr_t ra);
++int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len);
  #endif
  
--#if defined(CONFIG_USER_ONLY)
--void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
--
--{
--}
--
--int cpu_watchpoint_remove(CPUState *cpu, vaddr addr, vaddr len,
--                          int flags)
--{
--    return -ENOSYS;
--}
--
--void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint)
--{
--}
--
--int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
--                          int flags, CPUWatchpoint **watchpoint)
--{
--    return -ENOSYS;
--}
--#else
-+#ifndef CONFIG_USER_ONLY
- /* Add a watchpoint.  */
- int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
-                           int flags, CPUWatchpoint **watchpoint)
-@@ -1173,8 +1152,7 @@ static inline bool cpu_watchpoint_address_matches(CPUWatchpoint *wp,
+ /**
+diff --git a/exec.c b/exec.c
+index cb6f5763dc..8575ce51ad 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1138,9 +1138,8 @@ void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
+  * partially or completely with the address range covered by the
+  * access).
+  */
+-static inline bool cpu_watchpoint_address_matches(CPUWatchpoint *wp,
+-                                                  vaddr addr,
+-                                                  vaddr len)
++static inline bool watchpoint_address_matches(CPUWatchpoint *wp,
++                                              vaddr addr, vaddr len)
+ {
+     /* We know the lengths are non-zero, but a little caution is
+      * required to avoid errors in the case where the range ends
+@@ -1152,6 +1151,20 @@ static inline bool cpu_watchpoint_address_matches(CPUWatchpoint *wp,
  
      return !(addr > wpend || wp->vaddr > addrend);
  }
--
--#endif
-+#endif /* !CONFIG_USER_ONLY */
++
++/* Return flags for watchpoints that match addr + prot.  */
++int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len)
++{
++    CPUWatchpoint *wp;
++    int ret = 0;
++
++    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
++        if (watchpoint_address_matches(wp, addr, TARGET_PAGE_SIZE)) {
++            ret |= wp->flags;
++        }
++    }
++    return ret;
++}
+ #endif /* !CONFIG_USER_ONLY */
  
  /* Add a breakpoint.  */
- int cpu_breakpoint_insert(CPUState *cpu, vaddr pc, int flags,
+@@ -1459,7 +1472,7 @@ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
+                                        target_ulong *address)
+ {
+     hwaddr iotlb;
+-    CPUWatchpoint *wp;
++    int flags, match;
+ 
+     if (memory_region_is_ram(section->mr)) {
+         /* Normal RAM.  */
+@@ -1477,17 +1490,17 @@ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
+         iotlb += xlat;
+     }
+ 
+-    /* Make accesses to pages with watchpoints go via the
+-       watchpoint trap routines.  */
+-    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+-        if (cpu_watchpoint_address_matches(wp, vaddr, TARGET_PAGE_SIZE)) {
+-            /* Avoid trapping reads of pages with a write breakpoint. */
+-            if ((prot & PAGE_WRITE) || (wp->flags & BP_MEM_READ)) {
+-                iotlb = PHYS_SECTION_WATCH + paddr;
+-                *address |= TLB_MMIO;
+-                break;
+-            }
+-        }
++    /* Avoid trapping reads of pages with a write breakpoint. */
++    match = (prot & PAGE_READ ? BP_MEM_READ : 0)
++          | (prot & PAGE_WRITE ? BP_MEM_WRITE : 0);
++    flags = cpu_watchpoint_address_matches(cpu, vaddr, TARGET_PAGE_SIZE);
++    if (flags & match) {
++        /*
++         * Make accesses to pages with watchpoints go via the
++         * watchpoint trap routines.
++         */
++        iotlb = PHYS_SECTION_WATCH + paddr;
++        *address |= TLB_MMIO;
+     }
+ 
+     return iotlb;
+@@ -2806,7 +2819,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+ 
+     addr = cc->adjust_watchpoint_address(cpu, addr, len);
+     QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+-        if (cpu_watchpoint_address_matches(wp, addr, len)
++        if (watchpoint_address_matches(wp, addr, len)
+             && (wp->flags & flags)) {
+             if (flags == BP_MEM_READ) {
+                 wp->flags |= BP_WATCHPOINT_HIT_READ;
 -- 
 2.17.1
 
