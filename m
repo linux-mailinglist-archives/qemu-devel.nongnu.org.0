@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C090A6A4F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 15:46:29 +0200 (CEST)
-Received: from localhost ([::1]:46378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAFFA6A5B
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 15:50:11 +0200 (CEST)
+Received: from localhost ([::1]:46426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i598e-0005vw-0p
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 09:46:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55877)
+	id 1i59CD-00015t-Eh
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 09:50:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55959)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i58yn-0002Ni-41
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:18 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i58yu-0002XN-11
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i58yl-0006NP-Pk
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52468)
+ (envelope-from <mreitz@redhat.com>) id 1i58ys-0006WO-Gq
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59896)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i58yi-0006K6-Ul; Tue, 03 Sep 2019 09:36:13 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1i58yp-0006UW-Vj; Tue, 03 Sep 2019 09:36:20 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 47DB9300D209;
- Tue,  3 Sep 2019 13:36:12 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4BF5F3001ACB;
+ Tue,  3 Sep 2019 13:36:19 +0000 (UTC)
 Received: from localhost (ovpn-204-98.brq.redhat.com [10.40.204.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D620A194B2;
- Tue,  3 Sep 2019 13:36:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D8BC45DA5B;
+ Tue,  3 Sep 2019 13:36:18 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue,  3 Sep 2019 15:35:44 +0200
-Message-Id: <20190903133553.6500-8-mreitz@redhat.com>
+Date: Tue,  3 Sep 2019 15:35:47 +0200
+Message-Id: <20190903133553.6500-11-mreitz@redhat.com>
 In-Reply-To: <20190903133553.6500-1-mreitz@redhat.com>
 References: <20190903133553.6500-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 03 Sep 2019 13:36:12 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Tue, 03 Sep 2019 13:36:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 07/16] iotests: Keep testing broken relative
- extent paths
+Subject: [Qemu-devel] [PULL v2 10/16] iotests: Disable 110 for
+ vmdk.twoGbMaxExtentSparse
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,91 +60,38 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We had a test for a case where relative extent paths did not work, but
-unfortunately we just fixed the underlying problem, so it works now.
-This patch adds a new test case that still fails.
+The error message for the test case where we have a quorum node for
+which no directory name can be generated is different: For
+twoGbMaxExtentSparse, it complains that it cannot open the extent file.
+For other (sub)formats, it just notes that it cannot determine the
+backing file path.  Both are fine, but just disable twoGbMaxExtentSparse
+for simplicity's sake.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
-Message-id: 20190815153638.4600-4-mreitz@redhat.com
+Message-id: 20190815153638.4600-7-mreitz@redhat.com
 Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/059     | 27 +++++++++++++++++++++++++++
- tests/qemu-iotests/059.out |  4 ++++
- 2 files changed, 31 insertions(+)
+ tests/qemu-iotests/110 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/059 b/tests/qemu-iotests/059
-index fbed5f9483..10bfbaecec 100755
---- a/tests/qemu-iotests/059
-+++ b/tests/qemu-iotests/059
-@@ -114,6 +114,8 @@ $QEMU_IMG convert -f qcow2 -O vmdk -o subformat=3Dstr=
-eamOptimized "$TEST_IMG.qcow2
+diff --git a/tests/qemu-iotests/110 b/tests/qemu-iotests/110
+index 2cdc7c8a72..2ef516baf1 100755
+--- a/tests/qemu-iotests/110
++++ b/tests/qemu-iotests/110
+@@ -40,7 +40,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ # Any format supporting backing files
+ _supported_fmt qed qcow qcow2 vmdk
+ _supported_proto file
+-_unsupported_imgopts "subformat=3DmonolithicFlat" "subformat=3DtwoGbMaxE=
+xtentFlat"
++_unsupported_imgopts "subformat=3DmonolithicFlat" "subformat=3DtwoGbMaxE=
+xtentFlat" \
++                     "subformat=3DtwoGbMaxExtentSparse"
 =20
- echo
- echo "=3D=3D=3D Testing monolithicFlat with internally generated JSON fi=
-le name =3D=3D=3D"
-+
-+echo '--- blkdebug ---'
- # Should work, because bdrv_dirname() works fine with blkdebug
- IMGOPTS=3D"subformat=3DmonolithicFlat" _make_test_img 64M
- $QEMU_IO -c "open -o driver=3D$IMGFMT,file.driver=3Dblkdebug,file.image.=
-filename=3D$TEST_IMG,file.inject-error.0.event=3Dread_aio" \
-@@ -122,6 +124,31 @@ $QEMU_IO -c "open -o driver=3D$IMGFMT,file.driver=3D=
-blkdebug,file.image.filename=3D$TE
-     | _filter_testdir | _filter_imgfmt | _filter_img_info
- _cleanup_test_img
+ TEST_IMG_REL=3D$(basename "$TEST_IMG")
 =20
-+echo '--- quorum ---'
-+# Should not work, because bdrv_dirname() does not work with quorum
-+IMGOPTS=3D"subformat=3DmonolithicFlat" _make_test_img 64M
-+cp "$TEST_IMG" "$TEST_IMG.orig"
-+
-+filename=3D"json:{
-+    \"driver\": \"$IMGFMT\",
-+    \"file\": {
-+        \"driver\": \"quorum\",
-+        \"children\": [ {
-+            \"driver\": \"file\",
-+            \"filename\": \"$TEST_IMG\"
-+        }, {
-+            \"driver\": \"file\",
-+            \"filename\": \"$TEST_IMG.orig\"
-+        } ],
-+        \"vote-threshold\": 1
-+    } }"
-+
-+filename=3D$(echo "$filename" | tr '\n' ' ' | sed -e 's/\s\+/ /g')
-+$QEMU_IMG info "$filename" 2>&1 \
-+    | sed -e "s/'json:[^']*'/\$QUORUM_FILE/g" \
-+    | _filter_testdir | _filter_imgfmt | _filter_img_info
-+
-+
- echo
- echo "=3D=3D=3D Testing version 3 =3D=3D=3D"
- _use_sample_img iotest-version3.vmdk.bz2
-diff --git a/tests/qemu-iotests/059.out b/tests/qemu-iotests/059.out
-index a51b571d27..39bf7e211d 100644
---- a/tests/qemu-iotests/059.out
-+++ b/tests/qemu-iotests/059.out
-@@ -2049,10 +2049,14 @@ wrote 512/512 bytes at offset 10240
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-=20
- =3D=3D=3D Testing monolithicFlat with internally generated JSON file nam=
-e =3D=3D=3D
-+--- blkdebug ---
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
- format name: IMGFMT
- cluster size: 0 bytes
- vm state offset: 0 bytes
-+--- quorum ---
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
-+qemu-img: Could not open $QUORUM_FILE: Cannot use relative paths with VM=
-DK descriptor file $QUORUM_FILE: Cannot generate a base directory for quo=
-rum nodes
-=20
- =3D=3D=3D Testing version 3 =3D=3D=3D
- image: TEST_DIR/iotest-version3.IMGFMT
 --=20
 2.21.0
 
