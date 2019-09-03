@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8EDBA6142
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 08:21:54 +0200 (CEST)
-Received: from localhost ([::1]:41964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D630A6150
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 08:23:45 +0200 (CEST)
+Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i52CP-0000c0-Bn
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 02:21:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57017)
+	id 1i52EC-0003Io-4I
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 02:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57034)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1i529h-0007CJ-DJ
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:19:06 -0400
+ (envelope-from <thuth@redhat.com>) id 1i529i-0007EL-RS
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:19:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1i529f-0003Z2-GW
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:19:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46992)
+ (envelope-from <thuth@redhat.com>) id 1i529h-0003aH-Hr
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:19:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34076)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1i529e-0003YB-VA
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:19:03 -0400
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1i529h-0003ZG-AF
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:19:05 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EFEF418C4267
- for <qemu-devel@nongnu.org>; Tue,  3 Sep 2019 06:19:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C8D5FC054C52
+ for <qemu-devel@nongnu.org>; Tue,  3 Sep 2019 06:19:03 +0000 (UTC)
 Received: from thuth.com (ovpn-116-80.ams2.redhat.com [10.36.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D532600C6;
- Tue,  3 Sep 2019 06:19:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57B2460127;
+ Tue,  3 Sep 2019 06:19:02 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Laurent Vivier <lvivier@redhat.com>,
 	qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 08:18:45 +0200
-Message-Id: <20190903061849.21493-3-thuth@redhat.com>
+Date: Tue,  3 Sep 2019 08:18:46 +0200
+Message-Id: <20190903061849.21493-4-thuth@redhat.com>
 In-Reply-To: <20190903061849.21493-1-thuth@redhat.com>
 References: <20190903061849.21493-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Tue, 03 Sep 2019 06:19:01 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Tue, 03 Sep 2019 06:19:03 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/6] tests/libqos/e1000e: Make e1000e libqos
- functions independent from global_qtest
+Subject: [Qemu-devel] [PATCH 3/6] tests/libqos: Replace clock_step with
+ qtest_clock_step in virtio code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,67 +58,146 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-libqos library functions should never depend on functions (like memread(),
-memwrite() or clock_step()) that require global_qtest to be set, since
-library functions might get used in qtests that track multiple states, too.
-Thus let's replace the global_qtest-related functions with their independent
-counterparts.
+Library functions should not rely on functions that require global_qtest
+(since they might get used in tests that deal with multiple states).
+Commit 1999a70a05ad603d ("Make generic virtio code independent from
+global_qtest") already tried to clean the libqos virtio code, but I
+missed to replace the clock_step() function. Thus change it now to
+qtest_clock_step() instead.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/libqos/e1000e.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ tests/libqos/virtio.c   | 15 ++++++++-------
+ tests/libqos/virtio.h   |  5 +++--
+ tests/virtio-blk-test.c |  8 +++++---
+ 3 files changed, 16 insertions(+), 12 deletions(-)
 
-diff --git a/tests/libqos/e1000e.c b/tests/libqos/e1000e.c
-index 1d0592974e..560e7a2bb2 100644
---- a/tests/libqos/e1000e.c
-+++ b/tests/libqos/e1000e.c
-@@ -85,26 +85,32 @@ static uint32_t e1000e_macreg_read(QE1000E *d, uint32_t reg)
- 
- void e1000e_tx_ring_push(QE1000E *d, void *descr)
- {
-+    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
-     uint32_t tail = e1000e_macreg_read(d, E1000E_TDT);
-     uint32_t len = e1000e_macreg_read(d, E1000E_TDLEN) / E1000E_TXD_LEN;
- 
--    memwrite(d->tx_ring + tail * E1000E_TXD_LEN, descr, E1000E_TXD_LEN);
-+    qtest_memwrite(d_pci->pci_dev.bus->qts, d->tx_ring + tail * E1000E_TXD_LEN,
-+                   descr, E1000E_TXD_LEN);
-     e1000e_macreg_write(d, E1000E_TDT, (tail + 1) % len);
- 
-     /* Read WB data for the packet transmitted */
--    memread(d->tx_ring + tail * E1000E_TXD_LEN, descr, E1000E_TXD_LEN);
-+    qtest_memread(d_pci->pci_dev.bus->qts, d->tx_ring + tail * E1000E_TXD_LEN,
-+                  descr, E1000E_TXD_LEN);
+diff --git a/tests/libqos/virtio.c b/tests/libqos/virtio.c
+index 91ce06954b..5a2ed7a1a5 100644
+--- a/tests/libqos/virtio.c
++++ b/tests/libqos/virtio.c
+@@ -82,13 +82,13 @@ void qvirtio_set_driver_ok(QVirtioDevice *d)
+                     VIRTIO_CONFIG_S_DRIVER | VIRTIO_CONFIG_S_ACKNOWLEDGE);
  }
  
- void e1000e_rx_ring_push(QE1000E *d, void *descr)
+-void qvirtio_wait_queue_isr(QVirtioDevice *d,
++void qvirtio_wait_queue_isr(QTestState *qts, QVirtioDevice *d,
+                             QVirtQueue *vq, gint64 timeout_us)
  {
-+    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
-     uint32_t tail = e1000e_macreg_read(d, E1000E_RDT);
-     uint32_t len = e1000e_macreg_read(d, E1000E_RDLEN) / E1000E_RXD_LEN;
+     gint64 start_time = g_get_monotonic_time();
  
--    memwrite(d->rx_ring + tail * E1000E_RXD_LEN, descr, E1000E_RXD_LEN);
-+    qtest_memwrite(d_pci->pci_dev.bus->qts, d->rx_ring + tail * E1000E_RXD_LEN,
-+                   descr, E1000E_RXD_LEN);
-     e1000e_macreg_write(d, E1000E_RDT, (tail + 1) % len);
- 
-     /* Read WB data for the packet received */
--    memread(d->rx_ring + tail * E1000E_RXD_LEN, descr, E1000E_RXD_LEN);
-+    qtest_memread(d_pci->pci_dev.bus->qts, d->rx_ring + tail * E1000E_RXD_LEN,
-+                  descr, E1000E_RXD_LEN);
- }
- 
- static void e1000e_foreach_callback(QPCIDevice *dev, int devfn, void *data)
-@@ -123,7 +129,7 @@ void e1000e_wait_isr(QE1000E *d, uint16_t msg_id)
-         if (qpci_msix_pending(&d_pci->pci_dev, msg_id)) {
+     for (;;) {
+-        clock_step(100);
++        qtest_clock_step(qts, 100);
+         if (d->bus->get_queue_isr_status(d, vq)) {
              return;
          }
--        clock_step(10000);
-+        qtest_clock_step(d_pci->pci_dev.bus->qts, 10000);
-     } while (g_get_monotonic_time() < end_time);
+@@ -109,8 +109,8 @@ uint8_t qvirtio_wait_status_byte_no_isr(QTestState *qts, QVirtioDevice *d,
+     gint64 start_time = g_get_monotonic_time();
+     uint8_t val;
  
-     g_error("Timeout expired");
+-    while ((val = readb(addr)) == 0xff) {
+-        clock_step(100);
++    while ((val = qtest_readb(qts, addr)) == 0xff) {
++        qtest_clock_step(qts, 100);
+         g_assert(!d->bus->get_queue_isr_status(d, vq));
+         g_assert(g_get_monotonic_time() - start_time <= timeout_us);
+     }
+@@ -137,7 +137,7 @@ void qvirtio_wait_used_elem(QTestState *qts, QVirtioDevice *d,
+     for (;;) {
+         uint32_t got_desc_idx;
+ 
+-        clock_step(100);
++        qtest_clock_step(qts, 100);
+ 
+         if (d->bus->get_queue_isr_status(d, vq) &&
+             qvirtqueue_get_buf(qts, vq, &got_desc_idx, len)) {
+@@ -149,12 +149,13 @@ void qvirtio_wait_used_elem(QTestState *qts, QVirtioDevice *d,
+     }
+ }
+ 
+-void qvirtio_wait_config_isr(QVirtioDevice *d, gint64 timeout_us)
++void qvirtio_wait_config_isr(QTestState *qts, QVirtioDevice *d,
++                             gint64 timeout_us)
+ {
+     gint64 start_time = g_get_monotonic_time();
+ 
+     for (;;) {
+-        clock_step(100);
++        qtest_clock_step(qts, 100);
+         if (d->bus->get_config_isr_status(d)) {
+             return;
+         }
+diff --git a/tests/libqos/virtio.h b/tests/libqos/virtio.h
+index 037176dbd8..1a93f9b1de 100644
+--- a/tests/libqos/virtio.h
++++ b/tests/libqos/virtio.h
+@@ -112,7 +112,7 @@ void qvirtio_set_acknowledge(QVirtioDevice *d);
+ void qvirtio_set_driver(QVirtioDevice *d);
+ void qvirtio_set_driver_ok(QVirtioDevice *d);
+ 
+-void qvirtio_wait_queue_isr(QVirtioDevice *d,
++void qvirtio_wait_queue_isr(QTestState *qts, QVirtioDevice *d,
+                             QVirtQueue *vq, gint64 timeout_us);
+ uint8_t qvirtio_wait_status_byte_no_isr(QTestState *qts, QVirtioDevice *d,
+                                         QVirtQueue *vq,
+@@ -123,7 +123,8 @@ void qvirtio_wait_used_elem(QTestState *qts, QVirtioDevice *d,
+                             uint32_t desc_idx,
+                             uint32_t *len,
+                             gint64 timeout_us);
+-void qvirtio_wait_config_isr(QVirtioDevice *d, gint64 timeout_us);
++void qvirtio_wait_config_isr(QTestState *qts, QVirtioDevice *d,
++                             gint64 timeout_us);
+ QVirtQueue *qvirtqueue_setup(QVirtioDevice *d,
+                              QGuestAllocator *alloc, uint16_t index);
+ void qvirtqueue_cleanup(const QVirtioBus *bus, QVirtQueue *vq,
+diff --git a/tests/virtio-blk-test.c b/tests/virtio-blk-test.c
+index 982ff1538c..247fef0b0f 100644
+--- a/tests/virtio-blk-test.c
++++ b/tests/virtio-blk-test.c
+@@ -435,6 +435,7 @@ static void config(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtioDevice *dev = blk_if->vdev;
+     int n_size = TEST_IMAGE_SIZE / 2;
+     uint64_t capacity;
++    QTestState *qts = global_qtest;
+ 
+     capacity = qvirtio_config_readq(dev, 0);
+     g_assert_cmpint(capacity, ==, TEST_IMAGE_SIZE / 512);
+@@ -444,7 +445,7 @@ static void config(void *obj, void *data, QGuestAllocator *t_alloc)
+     qmp_discard_response("{ 'execute': 'block_resize', "
+                          " 'arguments': { 'device': 'drive0', "
+                          " 'size': %d } }", n_size);
+-    qvirtio_wait_config_isr(dev, QVIRTIO_BLK_TIMEOUT_US);
++    qvirtio_wait_config_isr(qts, dev, QVIRTIO_BLK_TIMEOUT_US);
+ 
+     capacity = qvirtio_config_readq(dev, 0);
+     g_assert_cmpint(capacity, ==, n_size / 512);
+@@ -494,7 +495,7 @@ static void msix(void *obj, void *u_data, QGuestAllocator *t_alloc)
+                          " 'arguments': { 'device': 'drive0', "
+                          " 'size': %d } }", n_size);
+ 
+-    qvirtio_wait_config_isr(dev, QVIRTIO_BLK_TIMEOUT_US);
++    qvirtio_wait_config_isr(qts, dev, QVIRTIO_BLK_TIMEOUT_US);
+ 
+     capacity = qvirtio_config_readq(dev, 0);
+     g_assert_cmpint(capacity, ==, n_size / 512);
+@@ -737,6 +738,7 @@ static void resize(void *obj, void *data, QGuestAllocator *t_alloc)
+     int n_size = TEST_IMAGE_SIZE / 2;
+     uint64_t capacity;
+     QVirtQueue *vq;
++    QTestState *qts = global_qtest;
+ 
+     vq = qvirtqueue_setup(dev, t_alloc, 0);
+ 
+@@ -746,7 +748,7 @@ static void resize(void *obj, void *data, QGuestAllocator *t_alloc)
+                          " 'arguments': { 'device': 'drive0', "
+                          " 'size': %d } }", n_size);
+ 
+-    qvirtio_wait_queue_isr(dev, vq, QVIRTIO_BLK_TIMEOUT_US);
++    qvirtio_wait_queue_isr(qts, dev, vq, QVIRTIO_BLK_TIMEOUT_US);
+ 
+     capacity = qvirtio_config_readq(dev, 0);
+     g_assert_cmpint(capacity, ==, n_size / 512);
 -- 
 2.18.1
 
