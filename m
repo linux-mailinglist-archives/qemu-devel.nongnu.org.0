@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7274A761E
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:24:01 +0200 (CEST)
-Received: from localhost ([::1]:51702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42150A7625
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:27:11 +0200 (CEST)
+Received: from localhost ([::1]:51750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5GHQ-0005Iw-96
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54285)
+	id 1i5GKT-0008OG-OI
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:27:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55712)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1i5FcY-0001kB-77
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:41:47 -0400
+ (envelope-from <eblake@redhat.com>) id 1i5Fnh-0004F4-8N
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:53:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1i5FcW-0003Nz-Sc
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:41:46 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:59980)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1i5FcW-0003NT-KI
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:41:44 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83Kfc7Z059938;
- Tue, 3 Sep 2019 20:41:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : in-reply-to :
- references; s=corp-2019-08-05;
- bh=EYAzeaVP/SXNXnkqG9utwSGLQ8673c7bclN594zH3ig=;
- b=bGhH486QfjL0WU25EWhsW1+Fd0qmAggVRuQFoxIdAkreCapGVcqaeostiR5gM3CexBBj
- 81Nzwh/YeSl4YsoOS/7rv5EZv/coYeo27TmXTeo806OOWH1XzUXLIychpsqpjnRgQ8+x
- 38ES8BSpinewXc776GixMnS0oArLPPUqT0BaWS0RiAYb2H3iHlmRDex4Q/P1mIofrCUj
- StSVwpNuN+GMSa0dKCT5+apyAZBDzNGNfWfpN2/5pXhpNftXfDwJRo4REmjT2y//wyqj
- GmlEffH9WUXhk+YjLfG3KMQ++kB/g+j4mrv2w8cw9WHXO4kzZ1poHv9D1OBsK37lZdVg Tw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2usy6n02bh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:41:38 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83Kc9wp025372;
- Tue, 3 Sep 2019 20:39:38 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2us5pha116-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:39:37 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x83Kda4I029155;
- Tue, 3 Sep 2019 20:39:36 GMT
-Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 03 Sep 2019 13:39:35 -0700
-From: Jagannathan Raman <jag.raman@oracle.com>
-To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:38:11 -0400
-Message-Id: <0cef793b85d14a3ca56925488126eb3de6979b57.1567534653.git.jag.raman@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
-References: <cover.1567534653.git.jag.raman@oracle.com>
-In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
-References: <cover.1567534653.git.jag.raman@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9369
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1906280000 definitions=main-1909030207
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9369
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
- definitions=main-1909030207
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [RFC v3 PATCH 45/45] multi-process: add configure and
- usage information
+ (envelope-from <eblake@redhat.com>) id 1i5Fng-0006ue-5j
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:53:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38604)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1i5Fnc-0006tc-Ht; Tue, 03 Sep 2019 16:53:12 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 740658553F;
+ Tue,  3 Sep 2019 20:53:11 +0000 (UTC)
+Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1731B5D6B2;
+ Tue,  3 Sep 2019 20:53:06 +0000 (UTC)
+To: nbd@other.debian.org
+References: <25ead363-4f37-5450-b985-1876374e314d@redhat.com>
+ <20190823143426.26838-1-eblake@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <e16c427a-c36f-617c-ac58-9941c44c75af@redhat.com>
+Date: Tue, 3 Sep 2019 15:53:05 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190823143426.26838-1-eblake@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="XkOpqTHiHrgU7AgsgAXKCXtkXNMzzSVye"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Tue, 03 Sep 2019 20:53:11 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Libguestfs] [PATCH 0/1] NBD protocol change to
+ add fast zero support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,123 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
- kraxel@redhat.com, jag.raman@oracle.com, quintela@redhat.com, mst@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, stefanha@redhat.com, rth@twiddle.net, kwolf@redhat.com,
- berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
- marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--XkOpqTHiHrgU7AgsgAXKCXtkXNMzzSVye
+Content-Type: multipart/mixed; boundary="Au85QEo7zJWdZXIMLAUXw1Y6P6MJZR3F3";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: nbd@other.debian.org
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, libguestfs@redhat.com
+Message-ID: <e16c427a-c36f-617c-ac58-9941c44c75af@redhat.com>
+Subject: Re: [Libguestfs] [PATCH 0/1] NBD protocol change to add fast zero
+ support
+References: <25ead363-4f37-5450-b985-1876374e314d@redhat.com>
+ <20190823143426.26838-1-eblake@redhat.com>
+In-Reply-To: <20190823143426.26838-1-eblake@redhat.com>
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
----
-Changes in v3:
- - since the changes were made to use existing device/drive options,
-the document was modified to reflect this.
----
- docs/qemu-multiprocess.txt | 86 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
- create mode 100644 docs/qemu-multiprocess.txt
+--Au85QEo7zJWdZXIMLAUXw1Y6P6MJZR3F3
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/docs/qemu-multiprocess.txt b/docs/qemu-multiprocess.txt
-new file mode 100644
-index 0000000..c29f4df
---- /dev/null
-+++ b/docs/qemu-multiprocess.txt
-@@ -0,0 +1,86 @@
-+Multi-process QEMU
-+==================
-+
-+This document describes how to configure and use multi-process qemu.
-+For the design document refer to docs/devel/qemu-multiprocess.
-+
-+1) Configuration
-+----------------
-+
-+To enable support for multi-process add --enable-mpqemu
-+to the list of options for the "configure" script.
-+
-+
-+2) Usage
-+--------
-+
-+To start qemu with devices intended to run in a separate emulation
-+process without libvirtd support, the following should be used on QEMU
-+command line. As of now, we only support the emulation of lsi53c895a
-+in a separate process
-+
-+* Since parts of the RAM are shared between QEMU & remote process, a
-+  memory-backend-file is required to facilitate this, as follows:
-+
-+  -object memory-backend-file,id=mem,mem-path=/dev/shm/,size=4096M,share=on
-+
-+* The devices to be emulated in the separate process are defined as
-+  before with addition of "rid" suboption that serves as a remote group
-+  identificator.
-+
-+  -device <device options>,rid="remote process id"
-+
-+  For exmaple, for non multi-process qemu:
-+    -device lsi53c895a,id=scsi0 device
-+    -device scsi-hd,drive=drive0,bus=scsi0.0,scsi-id=0
-+    -drive id=drive0,file=data-disk.img
-+
-+  and for multi-process qemu and no libvirt
-+  support (i.e. QEMU forks child processes):
-+    -device lsi53c895a,id=scsi0,rid=0
-+    -device scsi-hd,drive=drive0,bus=scsi0.0,scsi-id=0,rid="0"
-+
-+* The command-line options for the remote process is added to the "command"
-+  suboption of the newly added "-remote" option. 
-+
-+   -remote [socket],rid=,command="..."
-+
-+  The drives to be emulated by the remote process are specified as part of
-+  this command sub-option. The device to be used to connect to the monitor
-+  is also specified as part of this suboption.
-+
-+  For example, the following option adds a drive and monitor to the remote
-+  process:
-+  -remote rid=0,command="-drive id=drive0,,file=data-disk.img -monitor unix:/home/qmp-sock,,server,,nowait"
-+
-+  Note: There's an issue with this "command" subtion which we are in the
-+  process of fixing. To work around this issue, it requires additional
-+  "comma" characters as illustrated above, and in the example below.
-+
-+* Example QEMU command-line to launch lsi53c895a in a remote process
-+
-+  #/bin/sh
-+  qemu-system-x86_64 \
-+  -name "OL7.4" \
-+  -machine q35,accel=kvm \
-+  -smp sockets=1,cores=1,threads=1 \
-+  -cpu host \
-+  -m 2048 \
-+  -object memory-backend-file,id=mem,mem-path=/dev/shm/,size=2G,share=on \
-+  -numa node,memdev=mem \
-+  -device virtio-scsi-pci,id=virtio_scsi_pci0 \
-+  -drive id=drive_image1,if=none,format=raw,file=/root/ol7.qcow2 \
-+  -device scsi-hd,id=image1,drive=drive_image1,bus=virtio_scsi_pci0.0 \
-+  -boot d \
-+  -monitor stdio \
-+  -vnc :0 \
-+  -device lsi53c895a,id=lsi0,remote,rid=8,command="qemu-scsi-dev" \
-+  -device scsi-hd,id=drive2,drive=drive_image2,bus=lsi0.0,scsi-id=0,remote,rid=8,command="qemu-scsi-dev"\
-+  -remote rid=8,command="-drive id=drive_image2,,file=/root/remote-process-disk.img -monitor unix:/home/qmp-sock,,server,,nowait"
-+
-+  We could connect to the monitor using the following command:
-+  socat /home/qmp-sock stdio
-+
-+  After hotplugging disks to the remote process, please execute the
-+  following command in the guest to refresh the list of storage devices:
-+  rescan_scsi_bus.sh -a
--- 
-1.8.3.1
+On 8/23/19 9:34 AM, Eric Blake wrote:
+> See the cross-post cover letter for details:
+> https://www.redhat.com/archives/libguestfs/2019-August/msg00322.html
+>=20
+> Eric Blake (1):
+>   protocol: Add NBD_CMD_FLAG_FAST_ZERO
+>=20
+>  doc/proto.md | 50 +++++++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 49 insertions(+), 1 deletion(-)
 
+I think we've had enough review time with no major objections to this.
+Therefore, I've gone ahead and incorporated the wording changes that
+were mentioned in discussion on this patch, as well as Rich's URI
+specification, into the NBD project.  We can still amend the
+specifications if any problems turn up.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--Au85QEo7zJWdZXIMLAUXw1Y6P6MJZR3F3--
+
+--XkOpqTHiHrgU7AgsgAXKCXtkXNMzzSVye
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1u0rEACgkQp6FrSiUn
+Q2pkhggAppXccOt2dvbTxyqyorY05DhCRbQVlzhrWwFtzK8NMG7Ixk540ABgPqAA
+iaQ8cGLZm1//ymQPNWADH/ZtCkfdNSAKXdKt1eOQ0/w1E0/IZvmQL9efMJBWk0ee
+WHDkyjVXP9vJNmXhV4CTJblbebH4lbEIwGor1NoHbS5glzBje/LnR59l2Ijk0rrq
+Bw/t72LpNo6Dy/qFJwKva3SUwV4hZeXa5lDbc72He3hOybFb96avOyObEWRCw54b
+WzumYX21v2NYZq8gdayOipSW1z1R0jT4Bz5HsAL67jnspuREuEz7P4PCLp2+lLVw
+MwMy85KggVoVIxhCj5FzAczuugPXkg==
+=nCrj
+-----END PGP SIGNATURE-----
+
+--XkOpqTHiHrgU7AgsgAXKCXtkXNMzzSVye--
 
