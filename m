@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F69EA6688
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 12:27:32 +0200 (CEST)
-Received: from localhost ([::1]:43690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE85BA66AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 12:39:12 +0200 (CEST)
+Received: from localhost ([::1]:43768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5627-0003PO-99
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 06:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43442)
+	id 1i56DP-0007Gh-Pf
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 06:39:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44919)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i560Q-0002VJ-TP
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:25:47 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i56Bj-0006pf-KS
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:37:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i560M-0001e8-4n
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:25:46 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41590)
+ (envelope-from <peter.maydell@linaro.org>) id 1i56Bi-0006Gg-AU
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:37:27 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40927)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i560L-0001dP-WE
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:25:42 -0400
-Received: by mail-ot1-x342.google.com with SMTP id o101so16164574ota.8
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 03:25:40 -0700 (PDT)
+ id 1i56Bi-0006GE-4L
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:37:26 -0400
+Received: by mail-ot1-x344.google.com with SMTP id y39so6190839ota.7
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 03:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wrLda6CkJGVbYigl3YrxHXHPYa2bBy5MGfdKFA2GJ5g=;
- b=lbpD4uFeD79mVNr7db0BKg7jtU1dpuybJhw5DKbzmZah7//F/wre2zVG8HoEDF5A9k
- MxLkxX0JWttALsjJcqNIOvGaGx66St2blZQIg7zCYH/fcj+BrFzZcL1rWTAnLuHLnbUA
- ETxT3/LeODJVIxCzYG3RS0h2pu+EcaSlhVfUElLZ6Kjq0bR8TATm8M9ZzKsdlU8Vlz+s
- bOj+HKo3/cC0DpPX5hTHfhJogkO1L+6Dle2gq0gPBCnkpvQPDfm6b9E7r0HcsUffH6+g
- u5t8s2Kpnno92tBE1/a663ZlDkgykI3bhfHPMDV1XuWcHXvJW6MdalZiN81iX4IY10NI
- Uvlg==
+ :cc:content-transfer-encoding;
+ bh=p8qzKcOboRQBd+uq9Q6i85Z9I7cScvE50vGzLleiZLE=;
+ b=evntCF+cOQ5ObInf1VFlzHlnVk5EP1OHzZvhMPDAnrkGVKnAaYpGrdej1Pg0cO5hEl
+ sFBz3Z9fPXCLGE6u+vZyZ8ITVLiXEEQrtcuVmL+hig/zO0KmziCdFhRd0nxSMBa4ULY/
+ egsAJ7j5IurQbX7V8oNbm+FoYRoi+6za5AilU2Avjt5zpB0e05Cwl6HIFzkCqIxXlttY
+ yBIkoYsvqf67ury0YH9rz/UzB4SqQU5Dpt4uo5JsvOWUc7C3vW6rjK0TeeNVlwUb9nJy
+ Zf2ViiMj+REaIviNZo7sIJxeB77jGh3QUIJIdK+26g0Mbepanz6P+JdkN3VZeWeZanLS
+ WISw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wrLda6CkJGVbYigl3YrxHXHPYa2bBy5MGfdKFA2GJ5g=;
- b=IVdzOzS/cy2m+bDsvURukM5jlqz41yRPRkCBlhLDF6Pp0ooIAs9i9aQdX2zs248HX0
- K2I57yDsuzJ987VPR6Kzfc0XfLLZ2ozpZyigD+lHVZZ24VVGiN2hqTubAxh05BtPdEUk
- MdFEhz9B5Jic0h444ErryVCkVmdbJvLAe3IpndXAzYFGGsTE7cx6jt2DzFlDtcl8VANr
- B36P9eQT8SZHJEZIpHp/+MKS5MgFjRDo5cdr7VHuLpZoH7BVJyUPe4ONw6nDQ9HEBAy7
- VNS7eU15OotsyJ1WvGZSNMhLyus8zmogttQjqmLYOf3NnlWuQgr/CK6PL2Y0vJN4A8L8
- m1kg==
-X-Gm-Message-State: APjAAAXTza9emfLgg2OpH5k+joKyLdtVhnSWQWqDhqKUx+egsHaBsteB
- r2xNBzpcwVSgL4HFzwGpKa2slKowPuukJnI8oV7H6w==
-X-Google-Smtp-Source: APXvYqxp4NyBJuYPBMTX9bfwl2xPbjWX54UVTSBo5HZSDNSMg0T5LBB8ziO7+8n0qYk+8qsWWsKBP143gcVMDhOEyLg=
-X-Received: by 2002:a05:6830:1bc3:: with SMTP id
- v3mr8666847ota.97.1567506339602; 
- Tue, 03 Sep 2019 03:25:39 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=p8qzKcOboRQBd+uq9Q6i85Z9I7cScvE50vGzLleiZLE=;
+ b=j9rrU1V4/M7nedndZu01ZhOZlnh6OV8GXeJf90pz+rNHzd8muq68ShGx81B7KnoEAN
+ 0ATQqbZMV2Ai4hhsfHcJoIgDpFkPxZTEoDoA0OH/+hsndfSs+SE7pEElft7toIe7dosZ
+ 7n33stiKO2czEGzUT43zBF1uQDpUYQN55kzO/oTZPyWsYMvlssoBKepb2zN+oBp+A8BU
+ ffWxNh6GZ6PDzbeFF4vBqSJPPom380oPLH44tCV7m8bmmEhWfMaRepZIb4JegoRgFGfC
+ LyB3ygccZVNI0kwGh7ShHH6Jo/pyYqaiPFtFivK/viaJc6dpk6nEuYRMZ1/JeXJ/ZEl4
+ P3Kw==
+X-Gm-Message-State: APjAAAU/+Z3uLs07tctAqgGdnhnkm6uNkSp5qBFsYCqGnD0wzK7fOYoY
+ ujM39BpUzSzSXvXuqlL7vyE9+2YTH1vvwviBOPoNlg==
+X-Google-Smtp-Source: APXvYqzAoQgp+5hTXMZM0X01A68OOaZIklfURECOGMFOCI+1cMMXGjAe/WfcpvdU/ghmBHY+3EAOhxyQrRsqK8MDvzE=
+X-Received: by 2002:a9d:5e11:: with SMTP id d17mr28386708oti.135.1567507045091; 
+ Tue, 03 Sep 2019 03:37:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190902012647.1761-1-tony.nguyen@bt.com>
-In-Reply-To: <20190902012647.1761-1-tony.nguyen@bt.com>
+References: <20190828165307.18321-1-alex.bennee@linaro.org>
+In-Reply-To: <20190828165307.18321-1-alex.bennee@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 Sep 2019 11:25:28 +0100
-Message-ID: <CAFEAcA-4Tpa4qTCBXMTX+1n3fDK48d3ZFYn5CckOD7weqAWrcA@mail.gmail.com>
-To: Tony Nguyen <tony.nguyen@bt.com>
+Date: Tue, 3 Sep 2019 11:37:14 +0100
+Message-ID: <CAFEAcA9zTL2Cn7dpibW9aVk7ev3XPPtF00YUL09uZbhm2X6-2g@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH] memory: Set notdirty_mem_ops validator
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v1 0/9] arm semih-hosting cleanups and
+ other misc cleanups
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,20 +74,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2 Sep 2019 at 02:36, Tony Nguyen <tony.nguyen@bt.com> wrote:
+On Wed, 28 Aug 2019 at 18:08, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> Existing read rejecting validator was mistakenly cleared.
+> Hi Peter,
 >
-> Reads dispatched to io_mem_notdirty then segfaults as there is no read
-> handler.
+> Here are the ARM semi-hosting cleanup patches and a small selection of
+> miscellaneous TCG clean-ups. If your happy taking them all through
+> your tree please do otherwise I'll poke Richard. I'm just trying to
+> reduce the delta for my next iteration of the plugin series.
+>
+> The following patches need review
+>    04 - target arm remove run time semihosting checks
+>    05 - includes remove stale smp max _cpus externs
+>
+> The first is the result of review comments, moving CONFIG_TCG ifdefs
+> around and the second is pretty trivial.
+>
+> Alex Benn=C3=A9e (7):
+>   target/arm: handle M-profile semihosting at translate time
+>   target/arm: handle A-profile T32 semihosting at translate time
+>   target/arm: handle A-profile A32 semihosting at translate time
 
-Do you have the commit hash for where we introduced the
-bug that this is fixing?
+On closer testing, this patch breaks the semihosting test suite:
+
+$ /home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang//arm-linux-us=
+er/qemu-arm
+ usertest-a32
+hello world via semi_write0
+qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+Segmentation fault (core dumped)
+
+so I'm unqueueing the first 4 patches (but have kept the
+misc unrelated other fixes).
 
 thanks
 -- PMM
