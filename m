@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18500A6FD8
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:36:37 +0200 (CEST)
-Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C29EA6F69
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:32:58 +0200 (CEST)
+Received: from localhost ([::1]:48998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5BnH-0004Lb-Up
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:36:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37315)
+	id 1i5Bjk-0000xV-Mk
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37313)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BN2-0001NG-O7
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN2-0001MU-BW
  for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BMx-0003nH-NK
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN1-0003rf-1P
  for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:28 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:33807)
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:42859)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BMx-0003mh-At
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:23 -0400
-Received: by mail-pf1-x442.google.com with SMTP id b24so11104664pfp.1
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:23 -0700 (PDT)
+ id 1i5BN0-0003rB-S3
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:26 -0400
+Received: by mail-pl1-x641.google.com with SMTP id y1so8063944plp.9
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=UDEsommlp5Tab22dPIHKjp2gMshSz3MUBWQaZCgvboo=;
- b=wMxYU2TVR+/N+cFAu+ZWfu2EiT+FNcmCP/29gZwhHxnnvJvOCLfsD14sZS1D7oSwR8
- tOpF2N/OL25vantNPfPbD/O7CwLsdAGmRpwJQwQXvF7YnzviP6OQtxNfolKhDDl3BuWZ
- +IxP3YR8lcjewgb4u4NsNnyrrRheonZJGM0NhkvLJ/BHZ7k9F/BjKT9RZu+uA+0V7/W5
- NnK+eYfsHtJI0rb2V1DFXW0FGcViDTqeQD3FPWUUdf055C+ywoCfVpmTfyci5W1g0AVl
- Invud/P0O/XLOSMSGUJ570JNDXlyEpCvOl60hF31WE98gRG11NYeZp5fvwzKCeQwXfha
- G/4w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0RIrW/AM/FRCh/5tYMiTNVCjB9dqNOvdf51jrirTikc=;
+ b=ZQflvHP2t4RygJOZhx0JN7SS3dQHOq4ACt9/Cfl2uRjYSbxatxpla9hJzc4pKh3VFf
+ bY/i/qtg8/RWuz1E28jeXHSAE13J+/6Za1U+jPW6Ys6H/ZNMbTsIIDEMC50AXi7nvS3F
+ ArZwZY8iYFc3m9utcSvh/PCpUWnkgUkHfDVmF3EWvALJln3Yxkoi7H8mUAjGGTYdSfUv
+ xn0BXaEo/z2dDgDAQkpaY49t3xT94zOvHmGF/+lYuVX0CAbxjGtEyPxhhWlatEsiurV/
+ SdXU648lve1Pgv0pic3sisVo3meB2odqGP3PrLMyOtp9bDvJwAAnmVL1zeD6tDwGqQLv
+ XC2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=UDEsommlp5Tab22dPIHKjp2gMshSz3MUBWQaZCgvboo=;
- b=YE1bQ8+aGF9ywt+L9ruPhFeuF036jzDtly9p4Z9J79T2jm8qkq9l3pVCC/XltTPpDf
- ZzyCuvS5/1aNLS+zEJLmlJ8gea0DiJJz2ChyxoCh962HJgMb9wvCjBsCU54tO+ZE6/w7
- QIpR1h1mUC9dtVCrGx7KaGU71LOv4RgaBgl666pMJSqazJozkylfz9uJaJ3SDid7/cQq
- EtbzMxzQAdHtTI5upjpeKctsPTgIzJQ+Wb1DfF5iSG3NPBtX0sbL4nv+6MAXVb2OOAq1
- +wMisJu3p9AUQKf+l2UzLeTuJ/9Ktex/36XDvJQg/rpk3etrXNyxrO8kn+uH5SiKn1dr
- Cnvg==
-X-Gm-Message-State: APjAAAXHo+1pgdVqdfbuY6vTZUFTXhhVhjMwPwOtThfmx4xIicYRibkL
- UdyoNE+l12lBfVL4lnkI7sdiHd5Noak=
-X-Google-Smtp-Source: APXvYqxDhWBb3a6wYia8kIh55NXgWTtM0kaS2PNGv41I0rk9iwiqv/d8uhOPjj518RZKbAv3xUCQEw==
-X-Received: by 2002:aa7:98d2:: with SMTP id e18mr3764639pfm.188.1567526962121; 
- Tue, 03 Sep 2019 09:09:22 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=0RIrW/AM/FRCh/5tYMiTNVCjB9dqNOvdf51jrirTikc=;
+ b=Tjml4WpQG04fL2o3zwLbAtLH05M3iLvpdd8vz4cQnBkiAWNDaS9+QpCWNCmc+Z7hdc
+ oWNj67yEom7vvdh6nrC3XHmBo0IcpF7ALbrFJAhMeTvjBg+/WPWRb1VWA8gI6Vsf7uU3
+ ATr+FWx38am9ZuIOiDf9Jkdls8Ytf4D/cnPMiv6MavtZT9xSKInUj1P4sdHtPGHV8SHO
+ vPwiUi0oBR4t+JBf4UNaAOfDZJNj3RhULEOk1h0y9PSIgGARgh9TC5PYpzANeFu8dre8
+ uGk/VHTiYo54b6BIFGsnJ0HTesB9NA1pDhPViI1DYWKBMhzwID4wv+JHsdYY/21PsC1P
+ qrpA==
+X-Gm-Message-State: APjAAAWsP1mcFGR0Wb31pi/0BR6Sl5zmSu3VW/iLTCWQlEVerSLgCzCf
+ MO3NvATbzuxJr0ZzzoKKfUxWto4/3Co=
+X-Google-Smtp-Source: APXvYqwlQ0w67R4AeKAkixU4N4xUi2UsQglWGDL+BdVhFz4NmmozIcBT7dnTV3fMJL01bzPcLjNaBA==
+X-Received: by 2002:a17:902:fe93:: with SMTP id
+ x19mr7982879plm.337.1567526965670; 
+ Tue, 03 Sep 2019 09:09:25 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.20
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:21 -0700 (PDT)
+ Tue, 03 Sep 2019 09:09:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:39 -0700
-Message-Id: <20190903160858.5296-18-richard.henderson@linaro.org>
+Date: Tue,  3 Sep 2019 09:08:42 -0700
+Message-Id: <20190903160858.5296-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
 References: <20190903160858.5296-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH 17/36] cputlb: Byte swap memory transaction
- attribute
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: [Qemu-devel] [PATCH 20/36] exec: Move user-only watchpoint stubs
+ inline
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,78 +81,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Tony Nguyen <tony.nguyen@bt.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tony Nguyen <tony.nguyen@bt.com>
+Let the user-only watchpoint stubs resolve to empty inline functions.
 
-Notice new attribute, byte swap, and force the transaction through the
-memory slow path.
-
-Required by architectures that can invert endianness of memory
-transaction, e.g. SPARC64 has the Invert Endian TTE bit.
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <2a10a1f1c00a894af1212c8f68ef09c2966023c1.1566466906.git.tony.nguyen@bt.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/memattrs.h |  2 ++
- accel/tcg/cputlb.c      | 12 ++++++++++++
- 2 files changed, 14 insertions(+)
+ include/hw/core/cpu.h | 23 +++++++++++++++++++++++
+ exec.c                | 26 ++------------------------
+ 2 files changed, 25 insertions(+), 24 deletions(-)
 
-diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
-index d4a3477d71..95f2d20d55 100644
---- a/include/exec/memattrs.h
-+++ b/include/exec/memattrs.h
-@@ -37,6 +37,8 @@ typedef struct MemTxAttrs {
-     unsigned int user:1;
-     /* Requester ID (for MSI for example) */
-     unsigned int requester_id:16;
-+    /* Invert endianness for this page */
-+    unsigned int byte_swap:1;
-     /*
-      * The following are target-specific page-table bits.  These are not
-      * related to actual memory transactions at all.  However, this structure
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 3c9e634d99..d9787cc893 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -738,6 +738,10 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
-          */
-         address |= TLB_RECHECK;
-     }
-+    if (attrs.byte_swap) {
-+        /* Force the access through the I/O slow path.  */
-+        address |= TLB_MMIO;
-+    }
-     if (!memory_region_is_ram(section->mr) &&
-         !memory_region_is_romd(section->mr)) {
-         /* IO memory case */
-@@ -891,6 +895,10 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     bool locked = false;
-     MemTxResult r;
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 77fca95a40..6de688059d 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -1070,12 +1070,35 @@ static inline bool cpu_breakpoint_test(CPUState *cpu, vaddr pc, int mask)
+     return false;
+ }
  
-+    if (iotlbentry->attrs.byte_swap) {
-+        op ^= MO_BSWAP;
-+    }
++#ifdef CONFIG_USER_ONLY
++static inline int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
++                                        int flags, CPUWatchpoint **watchpoint)
++{
++    return -ENOSYS;
++}
 +
-     section = iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attrs);
-     mr = section->mr;
-     mr_offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-@@ -933,6 +941,10 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     bool locked = false;
-     MemTxResult r;
++static inline int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
++                                        vaddr len, int flags)
++{
++    return -ENOSYS;
++}
++
++static inline void cpu_watchpoint_remove_by_ref(CPUState *cpu,
++                                                CPUWatchpoint *wp)
++{
++}
++
++static inline void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
++{
++}
++#else
+ int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+                           int flags, CPUWatchpoint **watchpoint);
+ int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
+                           vaddr len, int flags);
+ void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint);
+ void cpu_watchpoint_remove_all(CPUState *cpu, int mask);
++#endif
  
-+    if (iotlbentry->attrs.byte_swap) {
-+        op ^= MO_BSWAP;
-+    }
-+
-     section = iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attrs);
-     mr = section->mr;
-     mr_offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
+ /**
+  * cpu_get_address_space:
+diff --git a/exec.c b/exec.c
+index 53a15b7ad7..31fb75901f 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1062,28 +1062,7 @@ static void breakpoint_invalidate(CPUState *cpu, target_ulong pc)
+ }
+ #endif
+ 
+-#if defined(CONFIG_USER_ONLY)
+-void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
+-
+-{
+-}
+-
+-int cpu_watchpoint_remove(CPUState *cpu, vaddr addr, vaddr len,
+-                          int flags)
+-{
+-    return -ENOSYS;
+-}
+-
+-void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint)
+-{
+-}
+-
+-int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+-                          int flags, CPUWatchpoint **watchpoint)
+-{
+-    return -ENOSYS;
+-}
+-#else
++#ifndef CONFIG_USER_ONLY
+ /* Add a watchpoint.  */
+ int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+                           int flags, CPUWatchpoint **watchpoint)
+@@ -1173,8 +1152,7 @@ static inline bool cpu_watchpoint_address_matches(CPUWatchpoint *wp,
+ 
+     return !(addr > wpend || wp->vaddr > addrend);
+ }
+-
+-#endif
++#endif /* !CONFIG_USER_ONLY */
+ 
+ /* Add a breakpoint.  */
+ int cpu_breakpoint_insert(CPUState *cpu, vaddr pc, int flags,
 -- 
 2.17.1
 
