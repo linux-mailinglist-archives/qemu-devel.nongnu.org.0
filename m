@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18160A70D0
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:44:05 +0200 (CEST)
-Received: from localhost ([::1]:49192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E570A70EC
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:46:51 +0200 (CEST)
+Received: from localhost ([::1]:49236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5BuV-000693-W5
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:44:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37333)
+	id 1i5BxC-00013N-4U
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:46:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37386)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BN4-0001PV-6x
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:31 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN7-0001WT-RR
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BN2-0003tH-Te
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:30 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:39315)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN6-0003w4-QZ
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:33 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40537)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BN2-0003sv-Mr
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:28 -0400
-Received: by mail-pl1-x632.google.com with SMTP id bd8so1767124plb.6
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:28 -0700 (PDT)
+ id 1i5BN6-0003vd-Kr
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:32 -0400
+Received: by mail-pf1-x441.google.com with SMTP id w16so11073115pfn.7
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4hy82QgJUYjjhSQJRivLUVd+yZYge9fg7c759/kiQtk=;
- b=BAc1hO9froJH+HxamFXVaI4SCfXzyOVFPo6PFjPs0jp7nyiWDttIK2ubV+kb7P6vMe
- ltMzs6LUQi009lBuD2KVUyn8/WF4CQhJ3Tzs5FGy1whzev8sNm5J8V1tC77APM90PEgn
- Srsxff8WOTRwmnaK0XrdqJSFJD9ObRkKzCE17iUvC4fC67qiVOHwDi+xUi4oZg6ECSDU
- XXypujcyaLIyUNgPUeIhGUkbGirlj81KyfUKnIB8A6SwoCrlNUewWbE68zzqH5tA9f2y
- rn5HVyBwvLA0bfAjT2CdOZ9kklxQbSX8GLIdFmY6HMa+3Cl2wud6UWpMgEfPrPjHCwLl
- itzA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=v5bX0Qu6fPtjHexOST5RQ9GuryzWs151hGBl2Znri/Q=;
+ b=ivbX7TAjXrWmYN8hdkfTzUZBJBQ1uY38DQs1aSaHc6ZdyGfJUyJ9kgvtXiTr/+nFGU
+ 7AddlUn+phr6it8v1OVKbGlFmrLdReRPlAP2OI25fOeCY7++M9mUmWBcHQytU3ARu3aX
+ g4dyHSThyMa6qftPUER4f4v5MG07JV6R+tNyJczR1vWzPx1KFum5qxO219HdhvOFPDXc
+ SqrEhxQJd3x6dPSnh3kkO9Jd4zW9YiHANgcxD8JzOyXZvzIx0BRNqoPMdcj7Xc4xeMuT
+ 6Ecmv34YKLDhGBZ3b6uURh+mf8GdvkO8ArbEzPE1TIjXOUvfPWcGCBHbSpYFEJH6QZIi
+ XjjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=4hy82QgJUYjjhSQJRivLUVd+yZYge9fg7c759/kiQtk=;
- b=UxMe1HDL/wjeTQ8y9oJzqRfaOUKXGPvPDVxDk1s+zkj98EbqnmiL9lSEZSZYkEPyf7
- cT5xdHlV3VjbNoQ+PrQV5+n7E/BUl6HikI8OX3mFyYyfuS+bol/25mKiQtVJ/7QpDJ5o
- 9Hu2MSyyc9XAxS2A1pwrWPmwgd65klH84mjrzuj8ixeGS5p3fhZaa5qhuhYrg0IOGnr8
- 12AeODLcxwT/Z3JvylrvNwEALmXCO5+LPJEivQOhKkH00DX6S/eT7jCvA/WD5lJic+rb
- u6HbF8yWZVOeSXW3BhKgkyC7ubMSVtXy1F7yCSTDl8bT6GUgehPNB2iimzdbscwDG4oZ
- 5QMA==
-X-Gm-Message-State: APjAAAWlzv4/NWI8pnHABJOht7N7PDd9Iu8QNFNxTvvI8B7mMvSqu8cT
- M9L9FnrQyNnKTA18aQEvyh7YoVXiskE=
-X-Google-Smtp-Source: APXvYqzRcEvIv0Vxqpi4Gka84XhFj00jfTiNAp1lhh1icycoRlmDsN4hjMLT8uUng/C42dBlNSkzTw==
-X-Received: by 2002:a17:902:aa02:: with SMTP id
- be2mr10797954plb.172.1567526966733; 
- Tue, 03 Sep 2019 09:09:26 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=v5bX0Qu6fPtjHexOST5RQ9GuryzWs151hGBl2Znri/Q=;
+ b=UrncdSLd8KTc1InH7A1zu62ca03f/tq3iSNw3qXmldt/f+9sebnJ8xZcP+fLMyByGW
+ W9EX0KFWzkn5NAiP8nRhpobaIgRSX6brGdOf6NZJ8fAiXD+xGtX+MUit2QGpD1k8YX0K
+ ED7YVWZLufgEQggDIdRyTqDp/1EVM2PMQNe0v2yXAb9YAlGLL0ghl8hCPrS4vo6yYVzV
+ 2/vv3hbPcBeBB9LWlIt2WVc8UEGf74rD8Ma4TrHihhRkS+3hPvdmJ2bd4tklTDZ5R0Pb
+ 5Bm2VYkw9l94OEIwZScf8fFfzcc083hBPiAvRBDoZrL/TCla6RDDDOM4tiESrcLC2y/L
+ jhmg==
+X-Gm-Message-State: APjAAAWR2lXrZbSI+m2TgVhJecooAXiKDiSIHHDcX4MgDkFcFP/OTHcV
+ 09oOtva0RcD/OXKi4Ef1R6DxYVFmTho=
+X-Google-Smtp-Source: APXvYqzU9u55hcxuSE1C6Tt+uenR5W+2bhFMVxmWJ4i/DWJRXdhag523OTAe4W293rYSZ8IPe5DgZQ==
+X-Received: by 2002:a62:4e09:: with SMTP id c9mr15053192pfb.152.1567526971340; 
+ Tue, 03 Sep 2019 09:09:31 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.25
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:26 -0700 (PDT)
+ Tue, 03 Sep 2019 09:09:30 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:43 -0700
-Message-Id: <20190903160858.5296-22-richard.henderson@linaro.org>
+Date: Tue,  3 Sep 2019 09:08:47 -0700
+Message-Id: <20190903160858.5296-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
 References: <20190903160858.5296-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::632
-Subject: [Qemu-devel] [PATCH 21/36] exec: Factor out core logic of
- check_watchpoint()
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: [Qemu-devel] [PATCH 25/36] cputlb: Remove double-alignment in
+ store_helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,122 +80,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, David Hildenbrand <david@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+We have already aligned page2 to the start of the next page.
+There is no reason to do that a second time.
 
-We want to perform the same checks in probe_write() to trigger a cpu
-exit before doing any modifications. We'll have to pass a PC.
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20190823100741.9621-9-david@redhat.com>
-[rth: Use vaddr for len, like other watchpoint functions;
-Move user-only stub to static inline.]
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h |  7 +++++++
- exec.c                | 26 ++++++++++++++++++--------
- 2 files changed, 25 insertions(+), 8 deletions(-)
+ accel/tcg/cputlb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 6de688059d..7bd8bed5b2 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -1091,6 +1091,11 @@ static inline void cpu_watchpoint_remove_by_ref(CPUState *cpu,
- static inline void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
- {
- }
-+
-+static inline void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-+                                        MemTxAttrs atr, int fl, uintptr_t ra)
-+{
-+}
- #else
- int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
-                           int flags, CPUWatchpoint **watchpoint);
-@@ -1098,6 +1103,8 @@ int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
-                           vaddr len, int flags);
- void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint);
- void cpu_watchpoint_remove_all(CPUState *cpu, int mask);
-+void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-+                          MemTxAttrs attrs, int flags, uintptr_t ra);
- #endif
- 
- /**
-diff --git a/exec.c b/exec.c
-index 31fb75901f..cb6f5763dc 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2789,11 +2789,10 @@ static const MemoryRegionOps notdirty_mem_ops = {
- };
- 
- /* Generate a debug exception if a watchpoint has been hit.  */
--static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
-+void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-+                          MemTxAttrs attrs, int flags, uintptr_t ra)
- {
--    CPUState *cpu = current_cpu;
-     CPUClass *cc = CPU_GET_CLASS(cpu);
--    target_ulong vaddr;
-     CPUWatchpoint *wp;
- 
-     assert(tcg_enabled());
-@@ -2804,17 +2803,17 @@ static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
-         cpu_interrupt(cpu, CPU_INTERRUPT_DEBUG);
-         return;
-     }
--    vaddr = (cpu->mem_io_vaddr & TARGET_PAGE_MASK) + offset;
--    vaddr = cc->adjust_watchpoint_address(cpu, vaddr, len);
-+
-+    addr = cc->adjust_watchpoint_address(cpu, addr, len);
-     QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
--        if (cpu_watchpoint_address_matches(wp, vaddr, len)
-+        if (cpu_watchpoint_address_matches(wp, addr, len)
-             && (wp->flags & flags)) {
-             if (flags == BP_MEM_READ) {
-                 wp->flags |= BP_WATCHPOINT_HIT_READ;
-             } else {
-                 wp->flags |= BP_WATCHPOINT_HIT_WRITE;
-             }
--            wp->hitaddr = vaddr;
-+            wp->hitaddr = MAX(addr, wp->vaddr);
-             wp->hitattrs = attrs;
-             if (!cpu->watchpoint_hit) {
-                 if (wp->flags & BP_CPU &&
-@@ -2829,11 +2828,14 @@ static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
-                 if (wp->flags & BP_STOP_BEFORE_ACCESS) {
-                     cpu->exception_index = EXCP_DEBUG;
-                     mmap_unlock();
--                    cpu_loop_exit(cpu);
-+                    cpu_loop_exit_restore(cpu, ra);
-                 } else {
-                     /* Force execution of one insn next time.  */
-                     cpu->cflags_next_tb = 1 | curr_cflags();
-                     mmap_unlock();
-+                    if (ra) {
-+                        cpu_restore_state(cpu, ra, true);
-+                    }
-                     cpu_loop_exit_noexc(cpu);
-                 }
-             }
-@@ -2843,6 +2845,14 @@ static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
-     }
- }
- 
-+static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
-+{
-+    CPUState *cpu = current_cpu;
-+    vaddr addr = (cpu->mem_io_vaddr & TARGET_PAGE_MASK) + offset;
-+
-+    cpu_check_watchpoint(cpu, addr, len, attrs, flags, 0);
-+}
-+
- /* Watchpoint access routines.  Watchpoints are inserted using TLB tricks,
-    so these check for a hit then pass through to the normal out-of-line
-    phys routines.  */
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 7fb67d2f05..d0f8db33a2 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1518,8 +1518,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+         entry2 = tlb_entry(env, mmu_idx, page2);
+         tlb_addr2 = tlb_addr_write(entry2);
+         if (!tlb_hit_page(tlb_addr2, page2)
+-            && !victim_tlb_hit(env, mmu_idx, index2, tlb_off,
+-                               page2 & TARGET_PAGE_MASK)) {
++            && !victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) {
+             tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
+                      mmu_idx, retaddr);
+         }
 -- 
 2.17.1
 
