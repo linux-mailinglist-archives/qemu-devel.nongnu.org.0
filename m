@@ -2,55 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC9EA71A8
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 19:29:11 +0200 (CEST)
-Received: from localhost ([::1]:49750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09513A71B2
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 19:30:57 +0200 (CEST)
+Received: from localhost ([::1]:49770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5CcA-0000Cs-6t
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 13:29:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50251)
+	id 1i5Cds-00028F-2m
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 13:30:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50496)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1i5Cb7-0007oe-KP
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:28:06 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1i5Ccl-0001eQ-78
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:29:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1i5Cb6-00050p-F5
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:28:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50940)
+ (envelope-from <dgilbert@redhat.com>) id 1i5Cck-0005lo-6K
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:29:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59056)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i5Cb6-00050D-9l
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:28:04 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i5Cck-0005lZ-1O
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:29:46 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D7A97300413D;
- Tue,  3 Sep 2019 17:28:02 +0000 (UTC)
-Received: from localhost (ovpn-116-55.gru2.redhat.com [10.97.116.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 044005D6B2;
- Tue,  3 Sep 2019 17:27:59 +0000 (UTC)
-Date: Tue, 3 Sep 2019 14:27:58 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Message-ID: <20190903172758.GR3694@habkost.net>
-References: <20190829013125.GG16342@umbus.fritz.box>
- <20190829015117.GH16342@umbus.fritz.box>
- <20190829032746.GA488@localhost.localdomain>
- <24d0d5be-d206-33a0-cd8c-29825e2f8516@redhat.com>
- <ecfc63f3-d208-4a79-c26c-3d8fa031b3d3@redhat.com>
- <20190903150824.GA14836@localhost.localdomain>
+ by mx1.redhat.com (Postfix) with ESMTPS id 84F387F74A
+ for <qemu-devel@nongnu.org>; Tue,  3 Sep 2019 17:29:45 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D0A65DA8C;
+ Tue,  3 Sep 2019 17:29:32 +0000 (UTC)
+Date: Tue, 3 Sep 2019 18:29:30 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <20190903172930.GT2744@work-vm>
+References: <20190827095437.18819-1-stefanha@redhat.com>
+ <20190827095437.18819-4-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190903150824.GA14836@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Tue, 03 Sep 2019 17:28:03 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190827095437.18819-4-stefanha@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Tue, 03 Sep 2019 17:29:45 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Cryptic errors from PIP install if missing
- openssl-devel
+Subject: Re: [Qemu-devel] [PATCH 3/4] virtiofsd: install virtiofsd in libexec
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,63 +57,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ldoktor@redhat.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: virtio-fs@redhat.com,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 03, 2019 at 11:08:24AM -0400, Cleber Rosa wrote:
-> On Thu, Aug 29, 2019 at 11:46:15AM +0200, Philippe Mathieu-Daud=E9 wrot=
-e:
-> >=20
-> > class avocado.utils.ssh.Session(address, credentials)
-> >=20
-> >   Parameters:=09
-> >=20
-> >     credentials (tuple)
-> >          username and path to a key for authentication purposes
-> >=20
-> > The current test uses username + password.
-> > Can we use this credentials with the Avocado module?
-> > (The image used is prebuilt).
-> >=20
->=20
-> I'm working on adding password based authentication.  To keep the API
-> the same, I'm thinking of checking if the second credential item is an
-> existing file, if it is, assume one containing a key.  If not, assume
-> it's a password.
->=20
-> This should make the use simple in the case of keys:
->=20
->   with Session(('hostname', port),
->                ('username', '/path/to/key')) as session:
->       session.cmd('cmd')
->=20
-> And passwords:
->=20
->   with Session(('hostname', port),
->                ('username', 'p@ssw0rD')) as session:
->       session.cmd('cmd')
+* Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> Build and install virtiofsd on Linux hosts.  This is also how
+> vhost-user-gpu is handled.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-This would stop working as soon as a file named 'p@ssw0rD' gets
-created.  Can the API be more explicit somehow?
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Is there anything that prevents us from using keyword arguments?
-e.g.:
-
-  Session(..., username=3D'root', password=3D'p@ssw0rD')
-
->=20
-> It's being tracked here:
->   https://trello.com/c/uetpIgML/1517-avocadoutilssh-implement-password-=
-based-auth
->=20
-> I'll try to have it in Avocado's 72.0 release due next week.
->=20
-> Let me know how that sounds, and thanks for the feedback.
-> - Cleber.
-
---=20
-Eduardo
+> ---
+>  Makefile | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Makefile b/Makefile
+> index a3dfdd6fa8..ef6eca07cc 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -317,6 +317,8 @@ HELPERS-y =
+>  HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = qemu-bridge-helper$(EXESUF)
+>  
+>  ifdef CONFIG_LINUX
+> +HELPERS-y += virtiofsd$(EXESUF)
+> +
+>  ifdef CONFIG_VIRGL
+>  ifdef CONFIG_GBM
+>  HELPERS-y += vhost-user-gpu$(EXESUF)
+> -- 
+> 2.21.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
