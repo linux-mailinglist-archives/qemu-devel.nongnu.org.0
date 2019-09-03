@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7335EA7664
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:42:29 +0200 (CEST)
-Received: from localhost ([::1]:51934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E14A7670
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:44:29 +0200 (CEST)
+Received: from localhost ([::1]:51950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5GZI-0007Pj-F7
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:42:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57009)
+	id 1i5GbD-0000id-Tx
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:44:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57022)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1i5Fwg-0004R7-5N
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:35 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1i5Fwh-0004St-U0
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1i5Fwe-0001SN-Uz
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39588)
+ (envelope-from <ehabkost@redhat.com>) id 1i5Fwg-0001TL-MT
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53002)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i5Fwe-0001S3-QA
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:32 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i5Fwg-0001Sn-Ez
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:34 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E321B3175293;
- Tue,  3 Sep 2019 21:02:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id BC23E8980EA;
+ Tue,  3 Sep 2019 21:02:33 +0000 (UTC)
 Received: from localhost (ovpn-116-55.gru2.redhat.com [10.97.116.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76420100195C;
- Tue,  3 Sep 2019 21:02:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53BC319D70;
+ Tue,  3 Sep 2019 21:02:33 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <rth@twiddle.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 18:01:59 -0300
-Message-Id: <20190903210201.14627-12-ehabkost@redhat.com>
+Date: Tue,  3 Sep 2019 18:02:00 -0300
+Message-Id: <20190903210201.14627-13-ehabkost@redhat.com>
 In-Reply-To: <20190903210201.14627-1-ehabkost@redhat.com>
 References: <20190903210201.14627-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 03 Sep 2019 21:02:31 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Tue, 03 Sep 2019 21:02:33 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 11/13] i386/vmmouse: Properly reset state
+Subject: [Qemu-devel] [PULL v2 12/13] x86: do not advertise die-id in
+ query-hotpluggbale-cpus if '-smp dies' is not set
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,38 +58,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jan Kiszka <jan.kiszka@siemens.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-nb_queue was not zeroed so that we no longer delivered events if a
-previous guest left the device in an overflow state.
+Commit 176d2cda0 (i386/cpu: Consolidate die-id validity in smp context) a=
+dded
+new 'die-id' topology property to CPUs and exposed it via QMP command
+query-hotpluggable-cpus, which broke -device/device_add cpu-foo for exist=
+ing
+users that do not support die-id/dies yet. That's would be fine if it hap=
+pened
+to new machine type only but it also happened to old machine types,
+which breaks migration from old QEMU to the new one, for example followin=
+g CLI:
 
-The state of absolute does not matter as the next vmmouse_update_handler
-call will align it again.
+  OLD-QEMU -M pc-i440fx-4.0 -smp 1,max_cpus=3D2 \
+           -device qemu64-x86_64-cpu,socket-id=3D1,core-id=3D0,thread-id
+is not able to start with new QEMU, complaining about invalid die-id.
 
-Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-Message-Id: <f056c7e5-fa74-469c-87f8-0f0925301b2d@web.de>
+After discovering regression, the patch
+   "pc: Don't make die-id mandatory unless necessary"
+makes die-id optional so old CLI would work.
+
+However it's not enough as new QEMU still exposes die-id via query-hotplu=
+ggbale-cpus
+QMP command, so the users that started old machine type on new QEMU, usin=
+g all
+properties (including die-id) received from QMP command (as required), wo=
+n't be
+able to start old QEMU using the same properties since it doesn't support=
+ die-id.
+
+Fix it by hiding die-id in query-hotpluggbale-cpus for all machine types =
+in case
+'-smp dies' is not provided on CLI or -smp dies =3D 1', in which case smp=
+_dies =3D=3D 1
+and APIC ID is calculated in default way (as it was before DIE support) s=
+o we won't
+need compat code as in both cases the topology provided to guest via CPUI=
+D is the same.
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20190902120222.6179-1-imammedo@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/i386/vmmouse.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/i386/pc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
-index 012ab90396..41ad91ad53 100644
---- a/hw/i386/vmmouse.c
-+++ b/hw/i386/vmmouse.c
-@@ -258,6 +258,7 @@ static void vmmouse_reset(DeviceState *d)
-     VMMouseState *s =3D VMMOUSE(d);
-=20
-     s->queue_size =3D VMMOUSE_QUEUE_SIZE;
-+    s->nb_queue =3D 0;
-=20
-     vmmouse_disable(s);
- }
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index c7200b0b54..bad866fe44 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -2916,8 +2916,10 @@ static const CPUArchIdList *pc_possible_cpu_arch_i=
+ds(MachineState *ms)
+                                  ms->smp.threads, &topo);
+         ms->possible_cpus->cpus[i].props.has_socket_id =3D true;
+         ms->possible_cpus->cpus[i].props.socket_id =3D topo.pkg_id;
+-        ms->possible_cpus->cpus[i].props.has_die_id =3D true;
+-        ms->possible_cpus->cpus[i].props.die_id =3D topo.die_id;
++        if (pcms->smp_dies > 1) {
++            ms->possible_cpus->cpus[i].props.has_die_id =3D true;
++            ms->possible_cpus->cpus[i].props.die_id =3D topo.die_id;
++        }
+         ms->possible_cpus->cpus[i].props.has_core_id =3D true;
+         ms->possible_cpus->cpus[i].props.core_id =3D topo.core_id;
+         ms->possible_cpus->cpus[i].props.has_thread_id =3D true;
 --=20
 2.21.0
 
