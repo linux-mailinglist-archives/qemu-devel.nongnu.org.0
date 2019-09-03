@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F2CA6A1C
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 15:39:41 +0200 (CEST)
-Received: from localhost ([::1]:46286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73329A6A33
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 15:42:09 +0200 (CEST)
+Received: from localhost ([::1]:46312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5924-0005CH-1o
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 09:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55791)
+	id 1i594R-0008SD-S7
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 09:42:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51527)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i58yf-0002CB-U3
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:11 -0400
+ (envelope-from <philmd@redhat.com>) id 1i58qI-0002Pe-QA
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:27:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i58ye-0006G5-HP
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54532)
+ (envelope-from <philmd@redhat.com>) id 1i58qH-0000on-HS
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:27:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50879)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i58yb-0006Cb-VB; Tue, 03 Sep 2019 09:36:06 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i58qH-0000oi-8F
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:27:29 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 421D189810B;
- Tue,  3 Sep 2019 13:36:05 +0000 (UTC)
-Received: from localhost (ovpn-204-98.brq.redhat.com [10.40.204.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCA3E60C63;
- Tue,  3 Sep 2019 13:36:04 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Tue,  3 Sep 2019 15:35:41 +0200
-Message-Id: <20190903133553.6500-5-mreitz@redhat.com>
-In-Reply-To: <20190903133553.6500-1-mreitz@redhat.com>
-References: <20190903133553.6500-1-mreitz@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 92A99308FE8D;
+ Tue,  3 Sep 2019 13:27:28 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-102.brq.redhat.com [10.40.204.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 607995C25B;
+ Tue,  3 Sep 2019 13:27:26 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue,  3 Sep 2019 15:26:48 +0200
+Message-Id: <20190903132649.20226-10-philmd@redhat.com>
+In-Reply-To: <20190903132649.20226-1-philmd@redhat.com>
+References: <20190903132649.20226-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Tue, 03 Sep 2019 13:36:05 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Tue, 03 Sep 2019 13:27:28 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 04/16] iotests: Test allocate_first_block()
- with O_DIRECT
+Subject: [Qemu-devel] [PATCH 09/10] .travis.yml: Cache Linux/GCC 'non-debug
+ profile' jobs together
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,107 +56,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nir Soffer <nirsof@gmail.com>
+These jobs build different components but use the same
+host features. Put them in the same cache bucket.
 
-Using block_resize we can test allocate_first_block() with file
-descriptor opened with O_DIRECT, ensuring that it works for any size
-larger than 4096 bytes.
-
-Testing smaller sizes is tricky as the result depends on the filesystem
-used for testing. For example on NFS any size will work since O_DIRECT
-does not require any alignment.
-
-Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190827010528.8818-3-nsoffer@redhat.com
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/qemu-iotests/175     | 28 ++++++++++++++++++++++++++++
- tests/qemu-iotests/175.out |  8 ++++++++
- 2 files changed, 36 insertions(+)
+ .travis.yml | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
-index 7ba28b3c1b..55db2803ed 100755
---- a/tests/qemu-iotests/175
-+++ b/tests/qemu-iotests/175
-@@ -49,6 +49,23 @@ _filter_blocks()
-         -e "s/blocks=3D$((extra_blocks + img_size / 512))\\(\$\\|[^0-9]\=
-\)/max allocation/"
- }
+diff --git a/.travis.yml b/.travis.yml
+index e362c3fe02..7132cf8fba 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -101,15 +101,18 @@ matrix:
+   include:
+     - env:
+         - CONFIG=3D"--disable-system --static"
++        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
 =20
-+# Resize image using block_resize.
-+# Parameter 1: image path
-+# Parameter 2: new size
-+_block_resize()
-+{
-+    local path=3D$1
-+    local size=3D$2
-+
-+    $QEMU -qmp stdio -nographic -nodefaults \
-+        -blockdev file,node-name=3Dfile,filename=3D$path,cache.direct=3D=
-on \
-+        <<EOF
-+{'execute': 'qmp_capabilities'}
-+{'execute': 'block_resize', 'arguments': {'node-name': 'file', 'size': $=
-size}}
-+{'execute': 'quit'}
-+EOF
-+}
-+
- # get standard environment, filters and checks
- . ./common.rc
- . ./common.filter
-@@ -57,6 +74,9 @@ _supported_fmt raw
- _supported_proto file
- _supported_os Linux
 =20
-+_default_cache_mode none
-+_supported_cache_modes none directsync
-+
- size=3D$((1 * 1024 * 1024))
+     # we split the system builds as it takes a while to build them all
+     - env:
+         - CONFIG=3D"--disable-user --target-list=3D${MAIN_SOFTMMU_TARGET=
+S}"
++        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
 =20
- touch "$TEST_DIR/empty"
-@@ -79,6 +99,14 @@ for mode in off full falloc; do
-     stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_b=
-locks $min_blocks $size
- done
 =20
-+for new_size in 4096 1048576; do
-+    echo
-+    echo "=3D=3D resize empty image with block_resize =3D=3D"
-+    _make_test_img 0 | _filter_imgfmt
-+    _block_resize $TEST_IMG $new_size >/dev/null
-+    stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_b=
-locks $min_blocks $new_size
-+done
+     - env:
+         - CONFIG=3D"--disable-user --target-list-exclude=3D${MAIN_SOFTMM=
+U_TARGETS}"
++        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+=20
+=20
+     # Just build tools and run minimal unit and softfloat checks
+@@ -117,6 +120,8 @@ matrix:
+         - BASE_CONFIG=3D"--enable-tools"
+         - CONFIG=3D"--disable-user --disable-system"
+         - TEST_CMD=3D"make check-unit check-softfloat -j3"
++        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
 +
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/175.out b/tests/qemu-iotests/175.out
-index 263e521262..39c2ee0f62 100644
---- a/tests/qemu-iotests/175.out
-+++ b/tests/qemu-iotests/175.out
-@@ -15,4 +15,12 @@ size=3D1048576, max allocation
- =3D=3D creating image with preallocation falloc =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 preallocatio=
-n=3Dfalloc
- size=3D1048576, max allocation
+=20
+     - env:
+         - CONFIG=3D"--enable-debug --enable-debug-tcg --disable-user"
+@@ -136,6 +141,7 @@ matrix:
+     # Module builds are mostly of interest to major distros
+     - env:
+         - CONFIG=3D"--enable-modules --target-list=3D${MAIN_SOFTMMU_TARG=
+ETS}"
++        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+=20
+=20
+     # Alternate coroutines implementations are only really of interest t=
+o KVM users
+@@ -155,6 +161,7 @@ matrix:
+         - BUILD_DIR=3D"out-of-tree/build/dir" SRC_DIR=3D"../../.."
+         - BASE_CONFIG=3D"--enable-tools --enable-docs"
+         - CONFIG=3D"--target-list=3Dx86_64-softmmu,aarch64-linux-user"
++        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+       addons:
+         apt:
+           packages:
+@@ -196,6 +203,7 @@ matrix:
+     # We manually include builds which we disable "make check" for
+     - env:
+         - CONFIG=3D"--without-default-devices --disable-user"
++        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+         - TEST_CMD=3D""
+=20
+=20
+@@ -239,6 +247,7 @@ matrix:
+     # Python builds
+     - env:
+         - CONFIG=3D"--target-list=3Dx86_64-softmmu"
++        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+       language: python
+       python:
+         - "3.4"
+@@ -246,6 +255,7 @@ matrix:
+=20
+     - env:
+         - CONFIG=3D"--target-list=3Dx86_64-softmmu"
++        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+       language: python
+       python:
+         - "3.6"
+@@ -312,8 +322,11 @@ matrix:
+     - env:
+         - CONFIG=3D"--disable-system"
+         - TEST_CMD=3D"make -j3 check-tcg V=3D1"
++        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
 +
-+=3D=3D resize empty image with block_resize =3D=3D
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D0
-+size=3D4096, min allocation
-+
-+=3D=3D resize empty image with block_resize =3D=3D
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D0
-+size=3D1048576, min allocation
-  *** done
+=20
+     # Run check-tcg against softmmu targets
+     - env:
+         - CONFIG=3D"--target-list=3Dxtensa-softmmu,arm-softmmu,aarch64-s=
+oftmmu,alpha-softmmu"
+         - TEST_CMD=3D"make -j3 check-tcg V=3D1"
++        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
 --=20
-2.21.0
+2.20.1
 
 
