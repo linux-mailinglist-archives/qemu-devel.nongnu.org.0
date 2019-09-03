@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E60B3A7031
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:38:32 +0200 (CEST)
-Received: from localhost ([::1]:49100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11426A6F6C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:33:45 +0200 (CEST)
+Received: from localhost ([::1]:49012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Bp9-0007GM-TV
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37357)
+	id 1i5BkV-0001h6-C7
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:33:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39736)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BN5-0001Re-JO
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:32 -0400
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1i5BaD-0007SO-Uu
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:23:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BN4-0003uL-Bp
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:31 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44486)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BN4-0003te-5d
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:30 -0400
-Received: by mail-pl1-x642.google.com with SMTP id k1so730247pls.11
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=goOolIueQxF4ldrHBZeQkgOys0U39zehwPxKYyDrcRk=;
- b=ttvwd2oWzrFgh/mKGaAnap2RblGYKFgoxuByAZxl7oP+OF8/LGpJJNCtq729Gu5Zn+
- LR3+Fq/qJ/0wG9hMEQGYXZAZYG2SUEI4Dn4ENh8fxUS0cXcZmuMQzPupt5VvqHWmDRU/
- OpIZdHPrAXS7xW7o61wZFN9Ic7uJp8N42xQLddgSuxtro0ab6QhlwJ6KQX9Q5MT00hFx
- +95i7tOVEQq3MvWNYOQ8eSiraXAeqi1j6Roqee1kbnVsq/nmz+WirXA38yxMhIZCl9jj
- gmdVuaebv9r7LvdoNfkXRXuls2eC/JsXx6rjnfZQLTplYvRNwdeIlqrS6xOAyyoSmjOh
- Uc2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=goOolIueQxF4ldrHBZeQkgOys0U39zehwPxKYyDrcRk=;
- b=lNDRDBf14GR+6NvhFVDbbAXBFcV3pdXIN5ebJ4vLDsF/rRZ+4XHAhpYX4ZVxDgUIl1
- kVK5UC3lusfReykrb5TgVFlQk6wN4/FSeqdwLxBBljKqe2sdp7wdflmvw7O5bG0jaNbK
- cnM8mwD2mUN0ab/8I+FcJ0P0QjIP9y3l9A5++/e2mpe6vYEbIofRSBWo34g9uFiPw6wH
- HebVw8iS5wHUk+cqbwcEbJ+ykLLY5SF+1OcBTTRANWmqcBFxaVgf7L8/p3WLhRtnEFju
- q6oNa2A/H4KirOg9rmW5+OVbZn3XYuf4lioYKXt3hP5utktWYRwHxa7y64aphMu05ax3
- Imhg==
-X-Gm-Message-State: APjAAAVgAWuNHIE9u/poDPivuNZ+8gmkXjTcaY0hESGnFuMFeZgJxdQl
- LFKgyuYMKrYLohWctKnQoAIjVIrv8Q0=
-X-Google-Smtp-Source: APXvYqzju40s75jbz2ukUSKdYyw+7glzT7UKOEkUOQ1+Cg1HmWGNo0+gwMqfRDzo9tlXtgWAyPpSuw==
-X-Received: by 2002:a17:902:4201:: with SMTP id
- g1mr36235927pld.300.1567526968954; 
- Tue, 03 Sep 2019 09:09:28 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:28 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:45 -0700
-Message-Id: <20190903160858.5296-24-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
-References: <20190903160858.5296-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: [Qemu-devel] [PATCH 23/36] exec: Factor out
- cpu_watchpoint_address_matches
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1i5BaA-00038h-Ti
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:23:04 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:59092)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
+ id 1i5BaA-00037n-Do
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:23:02 -0400
+Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::119])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id B629E2E1A62;
+ Tue,  3 Sep 2019 19:22:58 +0300 (MSK)
+Received: from smtpcorp1j.mail.yandex.net (smtpcorp1j.mail.yandex.net
+ [2a02:6b8:0:1619::137])
+ by mxbackcorp2j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
+ J6jqIXOprU-MwHCePmU; Tue, 03 Sep 2019 19:22:58 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1567527778; bh=RfLaBlEPI6MnPWvGLruW14dFethPiRdLhIDC3oOifJM=;
+ h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
+ b=S3Sut9hLZXZdg/ExTBWZ4I2zju1AQ9rKizg+MwpvFzl0IGYq3EdgW7HUvr+cvGpTZ
+ xL1caVpA6bHOEff2GHg+kM+dT7U34nRUxsrK+gfK0aBU6X9bAV0dnepbZlAgEaBHdE
+ JR7x08ln9+1Y3F6WMgmt/zwAWFDwzeXWv2hfa1w0=
+Authentication-Results: mxbackcorp2j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net
+ [2a02:6b8:0:408:c43c:5d37:585c:b5d6])
+ by smtpcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id
+ YFfYaDvJaP-MvfaZnfX; Tue, 03 Sep 2019 19:22:58 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Yury Kotov <yury-kotov@yandex-team.ru>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Date: Tue,  3 Sep 2019 19:22:44 +0300
+Message-Id: <20190903162246.18524-2-yury-kotov@yandex-team.ru>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190903162246.18524-1-yury-kotov@yandex-team.ru>
+References: <20190903162246.18524-1-yury-kotov@yandex-team.ru>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 95.108.205.193
+Subject: [Qemu-devel] [PATCH v2 1/3] migration: Add validate-uuid capability
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,135 +72,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to move the check for watchpoints from
-memory_region_section_get_iotlb to tlb_set_page_with_attrs.
-Isolate the loop over watchpoints to an exported function.
+This capability realizes simple source validation by UUID.
+It's useful for live migration between hosts.
 
-Rename the existing cpu_watchpoint_address_matches to
-watchpoint_address_matches, since it doesn't actually
-have a cpu argument.
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
 ---
- include/hw/core/cpu.h |  7 +++++++
- exec.c                | 45 ++++++++++++++++++++++++++++---------------
- 2 files changed, 36 insertions(+), 16 deletions(-)
+ migration/migration.c |  9 +++++++++
+ migration/migration.h |  1 +
+ migration/savevm.c    | 45 +++++++++++++++++++++++++++++++++++++++++++
+ qapi/migration.json   |  5 ++++-
+ 4 files changed, 59 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 7bd8bed5b2..c7cda65c66 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -1096,6 +1096,12 @@ static inline void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-                                         MemTxAttrs atr, int fl, uintptr_t ra)
- {
+diff --git a/migration/migration.c b/migration/migration.c
+index 8b9f2fe30a..2391a8d418 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2140,6 +2140,15 @@ bool migrate_ignore_shared(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_X_IGNORE_SHARED]=
+;
  }
-+
-+static inline int cpu_watchpoint_address_matches(CPUState *cpu,
-+                                                 vaddr addr, vaddr len)
+=20
++bool migrate_validate_uuid(void)
 +{
++    MigrationState *s;
++
++    s =3D migrate_get_current();
++
++    return s->enabled_capabilities[MIGRATION_CAPABILITY_VALIDATE_UUID];
++}
++
+ bool migrate_use_events(void)
+ {
+     MigrationState *s;
+diff --git a/migration/migration.h b/migration/migration.h
+index 3e1ea2b5dc..4f2fe193dc 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -290,6 +290,7 @@ bool migrate_postcopy_ram(void);
+ bool migrate_zero_blocks(void);
+ bool migrate_dirty_bitmaps(void);
+ bool migrate_ignore_shared(void);
++bool migrate_validate_uuid(void);
+=20
+ bool migrate_auto_converge(void);
+ bool migrate_use_multifd(void);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 4a86128ac4..493dc24fd2 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -256,6 +256,7 @@ typedef struct SaveState {
+     uint32_t target_page_bits;
+     uint32_t caps_count;
+     MigrationCapability *capabilities;
++    QemuUUID uuid;
+ } SaveState;
+=20
+ static SaveState savevm_state =3D {
+@@ -307,6 +308,7 @@ static int configuration_pre_save(void *opaque)
+             state->capabilities[j++] =3D i;
+         }
+     }
++    state->uuid =3D qemu_uuid;
+=20
+     return 0;
+ }
+@@ -464,6 +466,48 @@ static const VMStateDescription vmstate_capabilites =
+=3D {
+     }
+ };
+=20
++static bool vmstate_uuid_needed(void *opaque)
++{
++    return qemu_uuid_set && migrate_validate_uuid();
++}
++
++static int vmstate_uuid_post_load(void *opaque, int version_id)
++{
++    SaveState *state =3D opaque;
++    char uuid_src[UUID_FMT_LEN + 1];
++    char uuid_dst[UUID_FMT_LEN + 1];
++
++    if (!qemu_uuid_set) {
++        /*
++         * It's warning because user might not know UUID in some cases,
++         * e.g. load an old snapshot
++         */
++        qemu_uuid_unparse(&state->uuid, uuid_src);
++        warn_report("UUID is received %s, but local uuid isn't set",
++                     uuid_src);
++        return 0;
++    }
++    if (!qemu_uuid_is_equal(&state->uuid, &qemu_uuid)) {
++        qemu_uuid_unparse(&state->uuid, uuid_src);
++        qemu_uuid_unparse(&qemu_uuid, uuid_dst);
++        error_report("UUID received is %s and local is %s", uuid_src, uu=
+id_dst);
++        return -EINVAL;
++    }
 +    return 0;
 +}
- #else
- int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
-                           int flags, CPUWatchpoint **watchpoint);
-@@ -1105,6 +1111,7 @@ void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint);
- void cpu_watchpoint_remove_all(CPUState *cpu, int mask);
- void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-                           MemTxAttrs attrs, int flags, uintptr_t ra);
-+int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len);
- #endif
- 
- /**
-diff --git a/exec.c b/exec.c
-index cb6f5763dc..8575ce51ad 100644
---- a/exec.c
-+++ b/exec.c
-@@ -1138,9 +1138,8 @@ void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
-  * partially or completely with the address range covered by the
-  * access).
-  */
--static inline bool cpu_watchpoint_address_matches(CPUWatchpoint *wp,
--                                                  vaddr addr,
--                                                  vaddr len)
-+static inline bool watchpoint_address_matches(CPUWatchpoint *wp,
-+                                              vaddr addr, vaddr len)
- {
-     /* We know the lengths are non-zero, but a little caution is
-      * required to avoid errors in the case where the range ends
-@@ -1152,6 +1151,20 @@ static inline bool cpu_watchpoint_address_matches(CPUWatchpoint *wp,
- 
-     return !(addr > wpend || wp->vaddr > addrend);
- }
 +
-+/* Return flags for watchpoints that match addr + prot.  */
-+int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len)
-+{
-+    CPUWatchpoint *wp;
-+    int ret = 0;
-+
-+    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
-+        if (watchpoint_address_matches(wp, addr, TARGET_PAGE_SIZE)) {
-+            ret |= wp->flags;
-+        }
++static const VMStateDescription vmstate_uuid =3D {
++    .name =3D "configuration/uuid",
++    .version_id =3D 1,
++    .minimum_version_id =3D 1,
++    .needed =3D vmstate_uuid_needed,
++    .post_load =3D vmstate_uuid_post_load,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_UINT8_ARRAY_V(uuid.data, SaveState, sizeof(QemuUUID), 1)=
+,
++        VMSTATE_END_OF_LIST()
 +    }
-+    return ret;
-+}
- #endif /* !CONFIG_USER_ONLY */
- 
- /* Add a breakpoint.  */
-@@ -1459,7 +1472,7 @@ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
-                                        target_ulong *address)
- {
-     hwaddr iotlb;
--    CPUWatchpoint *wp;
-+    int flags, match;
- 
-     if (memory_region_is_ram(section->mr)) {
-         /* Normal RAM.  */
-@@ -1477,17 +1490,17 @@ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
-         iotlb += xlat;
++};
++
+ static const VMStateDescription vmstate_configuration =3D {
+     .name =3D "configuration",
+     .version_id =3D 1,
+@@ -478,6 +522,7 @@ static const VMStateDescription vmstate_configuration=
+ =3D {
+     .subsections =3D (const VMStateDescription*[]) {
+         &vmstate_target_page_bits,
+         &vmstate_capabilites,
++        &vmstate_uuid,
+         NULL
      }
- 
--    /* Make accesses to pages with watchpoints go via the
--       watchpoint trap routines.  */
--    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
--        if (cpu_watchpoint_address_matches(wp, vaddr, TARGET_PAGE_SIZE)) {
--            /* Avoid trapping reads of pages with a write breakpoint. */
--            if ((prot & PAGE_WRITE) || (wp->flags & BP_MEM_READ)) {
--                iotlb = PHYS_SECTION_WATCH + paddr;
--                *address |= TLB_MMIO;
--                break;
--            }
--        }
-+    /* Avoid trapping reads of pages with a write breakpoint. */
-+    match = (prot & PAGE_READ ? BP_MEM_READ : 0)
-+          | (prot & PAGE_WRITE ? BP_MEM_WRITE : 0);
-+    flags = cpu_watchpoint_address_matches(cpu, vaddr, TARGET_PAGE_SIZE);
-+    if (flags & match) {
-+        /*
-+         * Make accesses to pages with watchpoints go via the
-+         * watchpoint trap routines.
-+         */
-+        iotlb = PHYS_SECTION_WATCH + paddr;
-+        *address |= TLB_MMIO;
-     }
- 
-     return iotlb;
-@@ -2806,7 +2819,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
- 
-     addr = cc->adjust_watchpoint_address(cpu, addr, len);
-     QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
--        if (cpu_watchpoint_address_matches(wp, addr, len)
-+        if (watchpoint_address_matches(wp, addr, len)
-             && (wp->flags & flags)) {
-             if (flags == BP_MEM_READ) {
-                 wp->flags |= BP_WATCHPOINT_HIT_READ;
--- 
+ };
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 9cfbaf8c6c..82feb5bd39 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -415,6 +415,9 @@
+ #
+ # @x-ignore-shared: If enabled, QEMU will not migrate shared memory (sin=
+ce 4.0)
+ #
++# @validate-uuid: Send the UUID of the source to allow the destination
++#                 to ensure it is the same. (since 4.2)
++#
+ # Since: 1.2
+ ##
+ { 'enum': 'MigrationCapability',
+@@ -422,7 +425,7 @@
+            'compress', 'events', 'postcopy-ram', 'x-colo', 'release-ram'=
+,
+            'block', 'return-path', 'pause-before-switchover', 'multifd',
+            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+-           'x-ignore-shared' ] }
++           'x-ignore-shared', 'validate-uuid' ] }
+=20
+ ##
+ # @MigrationCapabilityStatus:
+--=20
 2.17.1
 
 
