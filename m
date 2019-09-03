@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C3DA7109
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:52:44 +0200 (CEST)
-Received: from localhost ([::1]:49362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E86A7118
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:54:47 +0200 (CEST)
+Received: from localhost ([::1]:49386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5C2t-0000YH-Ve
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:52:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41983)
+	id 1i5C4s-0002ba-GO
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:54:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43900)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1i5BqG-0001BE-9w
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:39:41 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i5C1O-0007e4-A5
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:51:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1i5BqE-0003Zb-4l
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:39:39 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:53602)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
- id 1i5BqD-0003Xo-Oi
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:39:38 -0400
-Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
- [IPv6:2a02:6b8:0:1402::301])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id E5EC62E14E7;
- Tue,  3 Sep 2019 19:39:33 +0300 (MSK)
-Received: from localhost (localhost [::1])
- by mxbackcorp1g.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
- I8RybooL9R-dXq4PZXn; Tue, 03 Sep 2019 19:39:33 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1567528773; bh=2szCSgLlIWabVJKgtNdCtPaq6C+ksw4hrE1w0AcSqzA=;
- h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
- b=efiDnadEh36UroyDWutgM3cPJavz7TG1oj8sQgiw5GWHxZD5azVKJUNOi7dKw1HGF
- ha7XjTbX6CddxidRnb5WIh2c/2a1cwbspuYb2zdCSNxefrSYwyvwMjTnsrdHM/V8+c
- 0LffYQJOyyMy7p/dRLCq+ZykynrS2vGMnoSvvSEE=
-Authentication-Results: mxbackcorp1g.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-X-Yandex-Sender-Uid: 1120000000071945
-X-Yandex-Avir: 1
-Received: from mxbackcorp1g.mail.yandex.net (localhost [::1])
- by mxbackcorp1g.mail.yandex.net with LMTP id LEfJgzei1Q-bWm1jA4X
- for <yury-kotov@yandex-team.ru>; Tue, 03 Sep 2019 19:39:23 +0300
-Received: by iva5-c4dd0484b46b.qloud-c.yandex.net with HTTP;
- Tue, 03 Sep 2019 19:39:23 +0300
-From: Yury Kotov <yury-kotov@yandex-team.ru>
-To: Dr. David Alan Gilbert <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>
-In-Reply-To: <20190903112548.GF2744@work-vm>
-References: <20190827120221.15725-1-yury-kotov@yandex-team.ru>
- <20190827120221.15725-2-yury-kotov@yandex-team.ru>
- <fb324ab9-b7a2-d56e-a0d1-9f4ae86791ce@redhat.com>
- <1097381566920178@vla1-6bb9290e4d68.qloud-c.yandex.net>
- <ff0428a4-6600-7b41-e246-7858e58e5507@redhat.com>
- <20190903112548.GF2744@work-vm>
+ (envelope-from <peter.maydell@linaro.org>) id 1i5C1N-00029K-4e
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:51:09 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:46624)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i5C1N-00028d-0B
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:51:09 -0400
+Received: by mail-oi1-x241.google.com with SMTP id t24so13274321oij.13
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:51:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YZqwi0aq+endEwrYnx1rYuf1Fjf4SeGrg361AKCqgXo=;
+ b=wV9SaMOY6QXjf1U1U7+5YURAL+kLo5JXLd1hHTF0tpxX8OLTw2rU0FDSdIJc72EhjJ
+ T437tQiP6EnlTOZQ3WG1J7EtwFDkjW6s9NMArz2kTNUAfLC/Tno+3xak/oeIWren9B46
+ OsgT3pwJC4jFru0+HrPxpJ8T3JhWewqyL9Fv9+9lQY99w/ZtfeqYZ8YzgVb7ipl8ejQO
+ IntBm0DP06TTOv4Q0FOV23jaUSqQ0vfDyqEN0SzYrXcA6cSR2YhhRRaang2GB9jBQK52
+ GOQ+cwjBIqKS8ETX1gyxrmvYFf7M+CS/MFGq4HTKe6oP9FhFuft9a5KLwQELcmv2TzT1
+ LlDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YZqwi0aq+endEwrYnx1rYuf1Fjf4SeGrg361AKCqgXo=;
+ b=IC5BMdqzkHxr1og0wEVINvsk58VmGQRLygQWp602H3hrFtWbr1eVLYcz4FUXFYzqso
+ 7rQJJxu3kRS+c9qn4zGeXv3Vi64PC7nFRjR/KDeNpB4TL26WmSbH6GMRXuXwOs48V/8H
+ NVNm8F9tqO+JGybdtqyAluP1iw1Ump8F3/FXUiEpV7ClrLDVDvIjNRgCChatgJjAJSW3
+ FSwv5mJsfRd7jIp85OhRd9kXTHEo6ij06OKA6UesIFv0fU6NZes/Pdtz9z1+5IGbkf8x
+ 7esL6VcMMajK8ZU/NjzHP5fkXQdZAAYtvJE+v4ouYv4zCNSfwuQttRHZ90YTEurhiyQK
+ 8Guw==
+X-Gm-Message-State: APjAAAVNPMK95A11Aviy2XmCBQ1qIWPHUGjSjZBG8CPYahXmEgZbe0dE
+ fjHI1N5EduGkmjh4KKJsIyOTRQ+HKfvlyQBoMAEV0Q==
+X-Google-Smtp-Source: APXvYqx30iv1NUjlPQ3nd+KV6kXa3QDXchfULRkvrzxlZaRNrbfPNQQxpaDv7ckies1qTzKKPUpdDfIx7DnFCYFcZMU=
+X-Received: by 2002:aca:50d8:: with SMTP id e207mr197089oib.48.1567529467757; 
+ Tue, 03 Sep 2019 09:51:07 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Tue, 03 Sep 2019 19:39:33 +0300
-Message-Id: <2870661567528763@iva5-c4dd0484b46b.qloud-c.yandex.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 77.88.29.217
-Subject: Re: [Qemu-devel] [PATCH 1/3] migration: Add x-validate-uuid
- capability
+References: <20190902012647.1761-1-tony.nguyen@bt.com>
+ <CAFEAcA-4Tpa4qTCBXMTX+1n3fDK48d3ZFYn5CckOD7weqAWrcA@mail.gmail.com>
+ <20190903164712.GA85777@imac.local>
+In-Reply-To: <20190903164712.GA85777@imac.local>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 3 Sep 2019 17:50:56 +0100
+Message-ID: <CAFEAcA-FAJV1XEAZ7bcrstOWPv6wpAuZ4WjVo8bf+ewiWQYopA@mail.gmail.com>
+To: Tony Nguyen <tony.nguyen@bt.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH] memory: Set notdirty_mem_ops validator
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,111 +73,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-03.09.2019, 14:25, "Dr. David Alan Gilbert" <dgilbert@redhat.com>:
-> * Eric Blake (eblake@redhat.com) wrote:
->> =C2=A0On 8/27/19 10:36 AM, Yury Kotov wrote:
->> =C2=A0> 27.08.2019, 17:02, "Eric Blake" <eblake@redhat.com>:
->> =C2=A0>> On 8/27/19 7:02 AM, Yury Kotov wrote:
->> =C2=A0>>> =C2=A0This capability realizes simple source validation by U=
-UID.
->> =C2=A0>>> =C2=A0It's useful for live migration between hosts.
->> =C2=A0>>>
->>
->> =C2=A0>>
->> =C2=A0>> Any reason why this is marked experimental? It seems useful e=
-nough that
->> =C2=A0>> we could probably just add it as a fully-supported feature (d=
-ropping the
->> =C2=A0>> x- prefix) - but I'll leave that up to the migration maintain=
-ers.
->> =C2=A0>>
->> =C2=A0>
->> =C2=A0> I thought that all new capabilities have x- prefix... May be i=
-t's really
->> =C2=A0> unnecessary here, I'm not sure.
->>
->> =C2=A0New features that need some testing or possible changes to behav=
-ior need
->> =C2=A0x- to mark them as experimental, so we can make those changes wi=
-thout
->> =C2=A0worrying about breaking back-compat. But new features that are o=
-utright
->> =C2=A0useful and presumably in their final form, with no further
->> =C2=A0experimentation needed, can skip going through an x- phase.
->>
->> =C2=A0>
->> =C2=A0>> In fact, do we even need this to be a tunable feature? Why no=
-t just
->> =C2=A0>> always enable it? As long as the UUID is sent in a way that n=
-ew->old
->> =C2=A0>> doesn't break the old qemu from receiving the migration strea=
-m, and that
->> =C2=A0>> old->new copes with UUID being absent, then new->new will alw=
-ays benefit
->> =C2=A0>> from the additional safety check.
->> =C2=A0>>
->> =C2=A0>
->> =C2=A0> In such case we couldn't migrate from e.g. 4.2 to 3.1
->>
->> =C2=A0I don't know the migration format enough to know if there is a w=
-ay for
->> =C2=A04.2 to unconditionally send a UUID as a subsection such that a r=
-eceiving
->> =C2=A03.1 will ignore the unknown subsection. If so, then you don't ne=
-ed a
->> =C2=A0knob; if not, then you need something to say whether sending the
->> =C2=A0subsection is safe (perhaps default on in new machine types, but=
- default
->> =C2=A0off for machine types that might still be migrated back to 3.1).=
- That's
->> =C2=A0where I'm hoping the migration experts will chime in.
+On Tue, 3 Sep 2019 at 17:47, Tony Nguyen <tony.nguyen@bt.com> wrote:
 >
-> Right; the migration format can't ignore chunks of data; so it does nee=
-d
-> to know somehow; the choice is either a capability or wiring it to the
-> machine type; my preference is to wire it to the machine type; the
-> arguments are:
-> =C2=A0=C2=A0=C2=A0=C2=A0a) Machine type
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Pro: libvirt doesn't need to =
-do anything
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Con: It doesn't protect old m=
-achine types
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-It's not really part of the guest state
+> On Tue, Sep 03, 2019 at 11:25:28AM +0100, Peter Maydell wrote:
+> > On Mon, 2 Sep 2019 at 02:36, Tony Nguyen <tony.nguyen@bt.com> wrote:
+> > >
+> > > Existing read rejecting validator was mistakenly cleared.
+> > >
+> > > Reads dispatched to io_mem_notdirty then segfaults as there is no read
+> > > handler.
+> >
+> > Do you have the commit hash for where we introduced the
+> > bug that this is fixing?
+> >
+> > thanks
+> > -- PMM
+> >
 >
-> =C2=A0=C2=A0=C2=A0=C2=A0b) Capability
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Pro: Works on all machine typ=
-es
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Con: Libvirt needs to enable =
-it
+> ad52878f97610757390148fe5d5b4cc5ad15c585.
 >
-> So, no strong preference but I think I prefer (a).
+> Please feel free to amend my commit message.
 
-IIUC the (a) option requires to add a piece of code to every machine type=
-.
-This is much more complicated than adding a capability.
-If you don't mind, I suggest to keep the current version.
+Thanks.
 
->
-> Dave
->
->> =C2=A0--
->> =C2=A0Eric Blake, Principal Software Engineer
->> =C2=A0Red Hat, Inc. +1-919-301-3226
->> =C2=A0Virtualization: qemu.org | libvirt.org
->
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> I do not understand why sun4u booting Solaris 10 triggers the bug.
 
-Regards,
-Yury
+Do you have a backtrace of QEMU from the segfault? I'm having trouble
+thinking of what the situation is when we'd try to invoke the
+read handler on io_mem_notdirty...
+
+thanks
+-- PMM
 
