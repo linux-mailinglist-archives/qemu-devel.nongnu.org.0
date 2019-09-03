@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BAB7A75CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 22:57:02 +0200 (CEST)
-Received: from localhost ([::1]:51340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA01AA759C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 22:51:01 +0200 (CEST)
+Received: from localhost ([::1]:51236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5FrJ-0007K4-2i
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 16:57:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53218)
+	id 1i5FlU-0008LD-8I
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 16:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53251)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1i5FZk-0007DP-0G
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:38:53 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1i5FZo-0007Iy-38
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:38:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1i5FZi-0000Ad-MR
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:38:51 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:36500)
+ (envelope-from <jag.raman@oracle.com>) id 1i5FZm-0000I3-PU
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:38:55 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:56830)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1i5FZi-0000A0-EN
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:38:50 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KXeWR066085;
- Tue, 3 Sep 2019 20:38:43 GMT
+ id 1i5FZm-0000HI-Ix
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:38:54 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KXpvk053643;
+ Tue, 3 Sep 2019 20:38:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=GeV5ssJ4jjBW2Dn4aWTPWs+tYCKrZ+I98ssnh1cdZMo=;
- b=F/FqvYnw+FGDr8+Cca2MonpSr/ymk7CrinQ4MNIEIwT7YYnEpyjRfnj8fwSuni1UOrGX
- ZnpMvM+totep2RepkP6MyeHe2n2vmoTyT4TbEjxmtBsfVXJr5bQIIO1EXzeLSL6Vv+Lc
- ynCF3KpjoJpUZEJS2Qbxg1MrXm+w1Z83FWjz2DTV/gR1Ww0OFh9nOsfPHbC1XtQYHbV9
- H68uvS/+w6Kow8HbMg71TAOCSOechP5n1y9Oowplmu7JeZKrEcw6jAlcSDgUjk+SSi+A
- vtb4U+ODsTNePaU8HzxqsZKvaqA5iiQmqoeF9jxJixY8hYFmaYwMDg+0zwr2Svdukf8+ 2w== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 2usy4u82yv-1
+ bh=7zDGOIXoDOxm5PMB7Fr+f1SykrhndE2bHYknbic9f8o=;
+ b=Rji2O74kPUr1gv2wAdaFaV9Uo7pEl6cIit35ruyk8sOT32yg6hc8xbX09a52XEmTRrKs
+ FvcThNs68szBU2RLD8hIqg/I+YypO45oJJ+ZOkbJTJLaOlqCxxmnofq54g9dXXcqb2IR
+ jU5tthB4KTHNCtQcH9YCTCtvmWMLSH7zkzd9DEs+Z2R1pZA8t8btAmAzyi/sh7ixZ5nm
+ i44JG/fEYcJnlTjzVQydIO2SHD+ffD34Z2lHFIdFj6YSGQgcb4OZBA/lN6ACQzHOfqtZ
+ NCjWEdepCv1Pyo60UpNSY7QEXMzK7OSztV0ae1Go412xI//bWBSqz5hNUHLXHHkclLGq IA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 2usy6n01ys-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:38:43 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KcInq094718;
- Tue, 3 Sep 2019 20:38:43 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 2usu51u1pw-1
+ Tue, 03 Sep 2019 20:38:47 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KcZ6j178259;
+ Tue, 3 Sep 2019 20:38:47 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 2us4wegqab-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:38:43 +0000
+ Tue, 03 Sep 2019 20:38:46 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x83KcgDQ017439;
- Tue, 3 Sep 2019 20:38:42 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x83Kcjxe012307;
+ Tue, 3 Sep 2019 20:38:45 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 03 Sep 2019 13:38:41 -0700
+ with ESMTP ; Tue, 03 Sep 2019 13:38:44 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:37:38 -0400
-Message-Id: <7fd01deff75662e371e48c5eec677e79e9096967.1567534653.git.jag.raman@oracle.com>
+Date: Tue,  3 Sep 2019 16:37:40 -0400
+Message-Id: <b299af7f81ff976a7f9facd8758231b17691e7ec.1567534653.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
 References: <cover.1567534653.git.jag.raman@oracle.com>
@@ -76,9 +76,9 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
  definitions=main-1909030206
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.86
-Subject: [Qemu-devel] [RFC v3 PATCH 12/45] multi-process: remote process
- initialization
+X-Received-From: 141.146.126.78
+Subject: [Qemu-devel] [RFC v3 PATCH 14/45] mutli-process: build remote
+ command line args
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,129 +100,177 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds the handler to process message from QEMU,
-Initialize remote process main loop, handles SYNC_SYSMEM
-message by updating its "system_memory" container using
-shared file descriptors received from QEMU.
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 ---
- v1 -> v2:
-   - Separate thread for message processing is removed
+ New patch in v3
 
- v2 -> v3:
-   - Added multi-channel support in the remote end
+ hw/proxy/qemu-proxy.c         | 80 +++++++++++++++++++++++++++++++++----------
+ include/hw/proxy/qemu-proxy.h |  2 +-
+ 2 files changed, 62 insertions(+), 20 deletions(-)
 
- remote/remote-main.c | 81 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 81 insertions(+)
-
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 97dd832..72866ec 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -23,6 +23,8 @@
-  */
+diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
+index 0ec7bb6..e5fd4bb 100644
+--- a/hw/proxy/qemu-proxy.c
++++ b/hw/proxy/qemu-proxy.c
+@@ -45,47 +45,89 @@
  
- #include <stdio.h>
-+#include <glib.h>
-+#include <unistd.h>
+ static void pci_proxy_dev_realize(PCIDevice *dev, Error **errp);
  
- #include "qemu/osdep.h"
- #include "qemu/module.h"
-@@ -31,12 +33,91 @@
- #include "hw/boards.h"
- #include "hw/qdev-core.h"
- #include "qemu/main-loop.h"
-+#include "remote/memory.h"
-+#include "io/proxy-link.h"
-+#include "qapi/error.h"
-+#include "qemu/main-loop.h"
-+#include "sysemu/cpus.h"
-+#include "qemu-common.h"
-+#include "hw/pci/pci.h"
-+#include "qemu/thread.h"
-+#include "qemu/main-loop.h"
-+#include "qemu/config-file.h"
-+#include "sysemu/sysemu.h"
-+#include "block/block.h"
-+
-+static ProxyLinkState *proxy_link;
-+PCIDevice *remote_pci_dev;
-+
-+static void process_msg(GIOCondition cond, ProcChannel *chan)
++static int add_argv(char *command_str, char **argv, int argc)
 +{
-+    ProcMsg *msg = NULL;
-+    Error *err = NULL;
++    int max_args = 64;
 +
-+    if ((cond & G_IO_HUP) || (cond & G_IO_ERR)) {
-+        error_setg(&err, "socket closed, cond is %d", cond);
-+        goto finalize_loop;
++    if (argc < max_args - 1) {
++        argv[argc++] = command_str;
++        argv[argc] = 0;
++    } else {
++        return 0;
 +    }
 +
-+    msg = g_malloc0(sizeof(ProcMsg));
-+
-+    if (proxy_proc_recv(proxy_link, msg, chan) < 0) {
-+        error_setg(&err, "Failed to receive message");
-+        goto finalize_loop;
-+    }
-+
-+    switch (msg->cmd) {
-+    case INIT:
-+        break;
-+    case CONF_WRITE:
-+        break;
-+    case CONF_READ:
-+        break;
-+    default:
-+        error_setg(&err, "Unknown command");
-+        goto finalize_loop;
-+    }
-+
-+    g_free(msg);
-+
-+    return;
-+
-+finalize_loop:
-+    error_report_err(err);
-+    g_free(msg);
-+    proxy_link_finalize(proxy_link);
-+    proxy_link = NULL;
++    return argc;
 +}
- 
- int main(int argc, char *argv[])
++
++static int make_argv(char *command_str, char **argv, int argc)
++{
++    int max_args = 64;
++
++    char *p2 = strtok(command_str, " ");
++    while (p2 && argc < max_args - 1) {
++        argv[argc++] = p2;
++        p2 = strtok(0, " ");
++    }
++    argv[argc] = 0;
++
++    return argc;
++}
++
+ int remote_spawn(PCIProxyDev *pdev, const char *command, Error **errp)
  {
-+    Error *err = NULL;
-+
-     module_call_init(MODULE_INIT_QOM);
+-    char *args[3];
+     pid_t rpid;
+     int fd[2] = {-1, -1};
+     Error *local_error = NULL;
++    char *argv[64];
++    int argc = 0, _argc;
++    char *sfd;
++    char *exec_dir;
++    int rc = -EINVAL;
  
-+    bdrv_init_with_whitelist();
+     if (pdev->managed) {
+         /* Child is forked by external program (such as libvirt). */
+-        return -1;
++        return rc;
+     }
+ 
+     if (socketpair(AF_UNIX, SOCK_STREAM, 0, fd)) {
+         error_setg(errp, "Unable to create unix socket.");
+-        return -1;
++        return rc;
+     }
++    exec_dir = g_strdup_printf("%s/%s", qemu_get_exec_dir(), "qemu-scsi-dev");
++    argc = add_argv(exec_dir, argv, argc);
++    sfd = g_strdup_printf("%d", fd[1]);
++    argc = add_argv(sfd, argv, argc);
++    _argc = argc;
++    argc = make_argv((char *)command, argv, argc);
 +
-+    if (qemu_init_main_loop(&err)) {
-+        error_report_err(err);
-+        return -EBUSY;
+     /* TODO: Restrict the forked process' permissions and capabilities. */
+     rpid = qemu_fork(&local_error);
+ 
+     if (rpid == -1) {
+         error_setg(errp, "Unable to spawn emulation program.");
+         close(fd[0]);
+-        close(fd[1]);
+-        return -1;
++        goto fail;
+     }
+ 
+     if (rpid == 0) {
+         close(fd[0]);
+-
+-        args[0] = g_strdup(command);
+-        args[1] = g_strdup_printf("%d", fd[1]);
+-        args[2] = NULL;
+-        execvp(args[0], (char *const *)args);
++        execvp(argv[0], (char *const *)argv);
+         exit(1);
+     }
+     pdev->remote_pid = rpid;
+-    pdev->rsocket = fd[0];
++    pdev->rsocket = fd[1];
++    pdev->socket = fd[0];
+ 
++    rc = 0;
++
++fail:
+     close(fd[1]);
+ 
+-    return 0;
++    for (int i = 0; i < _argc; i++) {
++        g_free(argv[i]);
 +    }
 +
-+    qemu_init_cpu_loop();
-+
-+    page_size_init();
-+
-     current_machine = MACHINE(REMOTE_MACHINE(object_new(TYPE_REMOTE_MACHINE)));
- 
-+    proxy_link = proxy_link_create();
-+    if (!proxy_link) {
-+        printf("Could not create proxy link\n");
-+        return -1;
-+    }
-+
-+    proxy_link_init_channel(proxy_link, &proxy_link->com, STDIN_FILENO);
-+    proxy_link_set_callback(proxy_link, process_msg);
-+
-+    start_handler(proxy_link);
-+
-     return 0;
++    return rc;
  }
+ 
+ static int get_proxy_sock(PCIDevice *dev)
+@@ -94,7 +136,7 @@ static int get_proxy_sock(PCIDevice *dev)
+ 
+     pdev = PCI_PROXY_DEV(dev);
+ 
+-    return pdev->rsocket;
++    return pdev->socket;
+ }
+ 
+ static void set_proxy_sock(PCIDevice *dev, int socket)
+@@ -103,7 +145,7 @@ static void set_proxy_sock(PCIDevice *dev, int socket)
+ 
+     pdev = PCI_PROXY_DEV(dev);
+ 
+-    pdev->rsocket = socket;
++    pdev->socket = socket;
+     pdev->managed = true;
+ 
+ }
+@@ -198,16 +240,16 @@ static void pci_proxy_dev_register_types(void)
+ 
+ type_init(pci_proxy_dev_register_types)
+ 
+-static void init_proxy(PCIDevice *dev, char *command, Error **errp)
++static void init_proxy(PCIDevice *dev, char *command, bool need_spawn, Error **errp)
+ {
+     PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
+     Error *local_error = NULL;
+ 
+     if (!pdev->managed) {
+-        if (command) {
+-            remote_spawn(pdev, command, &local_error);
+-        } else {
+-            return;
++        if (need_spawn) {
++            if (!remote_spawn(pdev, command, &local_error)) {
++                return;
++            }
+         }
+     } else {
+         pdev->remote_pid = atoi(pdev->rid);
+diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
+index ee21818..3b37b65 100644
+--- a/include/hw/proxy/qemu-proxy.h
++++ b/include/hw/proxy/qemu-proxy.h
+@@ -63,7 +63,7 @@ typedef struct PCIProxyDev {
+ 
+     void (*set_remote_opts) (PCIDevice *dev, QDict *qdict, unsigned int cmd);
+     void (*proxy_ready) (PCIDevice *dev);
+-    void (*init_proxy) (PCIDevice *pdev, char *command, Error **errp);
++    void (*init_proxy) (PCIDevice *dev, char *command, bool need_spawn, Error **errp);
+ 
+ } PCIProxyDev;
+ 
 -- 
 1.8.3.1
 
