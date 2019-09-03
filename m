@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3BB1A712E
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:57:58 +0200 (CEST)
-Received: from localhost ([::1]:49460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2C5A7133
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:59:37 +0200 (CEST)
+Received: from localhost ([::1]:49496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5C7x-0006VQ-SV
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:57:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39293)
+	id 1i5C9Y-0008J4-Tg
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5BXU-0003dC-3m
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:17 -0400
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1i5BaD-0007S9-Ui
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:23:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5BXR-0000mQ-W1
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:15 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:46014)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5BXQ-0000kQ-1w
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:13 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id g16so5486064otp.12
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:20:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KluHt6gEpdKAIyMimk8QXrZrU/Xi8beJk4v/RxcDABs=;
- b=eOGwp0fT68Jr7gIbHsfMgllRrU1Fg6Tn0fwLYKZLjpglrsOmBV2y7UOEbUI2s63Rax
- NeFaan+ynHqHhOvt0vXhbJTEvB1AgnXeWxDiM3C0Ch75r1bQcFGn2BM16iFv+gWt9HwU
- ZS4KLlKjtRmrxqYRDz4b2rBY4sbY4e+6EGQdhog0wPQwDofSYcWeIMGegWk9ghHBYSjd
- FSKVg45gMRH0n7WCrZioFLlKT2dqjkJnFBJkcBwgWqLP2oydbZqD7H+VlpKh44j8ZuF2
- 7A04WeQMB3C1a4/joclAnUL1K+jgCoTN1dooa0RqH7frN684TuMpXHRUihdTxn4qYFNy
- jH3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KluHt6gEpdKAIyMimk8QXrZrU/Xi8beJk4v/RxcDABs=;
- b=JuY4rRI87fx/B8Xc4ytDOgre1wSZkNolDmm4rscAXX4Lcv29A3KKkrv+CZDO2OsWBl
- kbiC+2QKgvYcOYFr6p4YEGphA7LZHy1i+39MYkM26ATKHuEF+D6624raueTeIvS8cnBM
- jWJgSerC6ZyhnRJGwLg5OCn5gtfeET24oKaAOOfHT6iOehLdEKmcHQwFLT7OxFUOBPZv
- jWrxRLS1kiB3e/0Sdtp3Xy/gyoW7/kkuF8K3psbL+coIlUGplEJlnD45fQ3ueFGBF16H
- 4XfFTU2ZFU/I6ZUBJsMrMV3GsoeXaABy4VMrKIHxrPZDce2xI80qp4YK8Eoyb+JfcC7D
- qL+A==
-X-Gm-Message-State: APjAAAVOJU71kAJUjq/5n7DShaM2F11yR06MsvjxO0amDjJlPhmKFG7W
- 2JiXQ94QxkvzQGHaC6eRG7qjjLT28jHurl/2zwhWUA==
-X-Google-Smtp-Source: APXvYqz1AE02q4qmvHVf+xSBkQZh4TFzGlPHj8aB9zOaGLHaM/tnIOwPOE03B3NF52zNM6rro+TQ4knsXmoQczqSdw0=
-X-Received: by 2002:a05:6830:1bc3:: with SMTP id
- v3mr10050097ota.97.1567527610680; 
- Tue, 03 Sep 2019 09:20:10 -0700 (PDT)
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1i5BaA-00039j-VZ
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:23:03 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:42924)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
+ id 1i5BaA-00037g-DS
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:23:02 -0400
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::162])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id C593F2E1A63;
+ Tue,  3 Sep 2019 19:22:57 +0300 (MSK)
+Received: from smtpcorp1j.mail.yandex.net (smtpcorp1j.mail.yandex.net
+ [2a02:6b8:0:1619::137])
+ by mxbackcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
+ cGNnAwq6R9-MvvqSHIW; Tue, 03 Sep 2019 19:22:57 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1567527777; bh=KCUeoaNqnQu/WiD9KqkTvm8fZPyB8ZNH0dHpI5COUjs=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=LAARk3ncrGRyjRY1ldszKxusHbESjVoSOIqXteIiwZGEjK2j0jB8Y9Wx3LPkWPi2d
+ xIo1wZb3K+HUwLjhtsTybYTDiLruIBEXOa1o8dpYeHi0xBR8S3yiNueDX3VUYOQvmY
+ 52nlBs1UKopRQ1NsBgZhAFJHQWBoz06N0lUDY9p0=
+Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net
+ [2a02:6b8:0:408:c43c:5d37:585c:b5d6])
+ by smtpcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id
+ YFfYaDvJaP-MufacASv; Tue, 03 Sep 2019 19:22:56 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Yury Kotov <yury-kotov@yandex-team.ru>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Date: Tue,  3 Sep 2019 19:22:43 +0300
+Message-Id: <20190903162246.18524-1-yury-kotov@yandex-team.ru>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20190829010340.28873-1-crosa@redhat.com>
-In-Reply-To: <20190829010340.28873-1-crosa@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 Sep 2019 17:19:59 +0100
-Message-ID: <CAFEAcA96Weh0YwEN5ak20ro_PXPYeJqZsVnA92+7bf31xd6vfQ@mail.gmail.com>
-To: Cleber Rosa <crosa@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::32c
-Subject: Re: [Qemu-devel] [PULL 0/5] Python (acceptance tests) queue,
- 2019-08-28
+X-Received-From: 2a02:6b8:0:1a2d::193
+Subject: [Qemu-devel] [PATCH v2 0/3] UUID validation during migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,44 +70,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Aug 2019 at 02:04, Cleber Rosa <crosa@redhat.com> wrote:
->
-> The following changes since commit 23919ddfd56135cad3cb468a8f54d5a595f024f4:
->
->   Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20190827' into staging (2019-08-27 15:52:36 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/clebergnu/qemu.git tags/python-next-pull-request
->
-> for you to fetch changes up to d19818e50e5286f878a76a286b76d29e57140dd4:
->
->   VNC Acceptance test: simplify test names (2019-08-28 20:42:16 -0400)
->
-> ----------------------------------------------------------------
->
-> Cleber Rosa (4):
->   tests/requirements.txt: pin paramiko version requirement
->   Acceptance tests: drop left over usage of ":avocado: enable"
->   Boot Linux Console Test: add a test for ppc64 + pseries
->   VNC Acceptance test: simplify test names
->
-> Satheesh Rajendran (1):
->   tests.acceptance.avocado_qemu: Add support for powerpc
+Hi,
 
+V2:
+* Remove x- prefix from capability name
+* Fix expected status checking
+* Fix description of capability
 
+This series adds an UUID validation at the start of the migration
+on the target side. The idea is to identify the source of migration.
 
-Applied, thanks.
+Possible case of problem:
+1. There are 3 servers: A, B and C
+2. Server A has a VM 1, server B has a VM 2
+3. VM 1 and VM 2 want to migrate to the server C
+4. Target of VM 1 starts on the server C and dies too quickly for some re=
+ason
+5. Target of VM 2 starts just after that and listen the same tcp port X, =
+which
+   the target of VM 1 wanted to use
+6. Source of VM 1 connects to the tcp port X, and migrates to VM 2 source
+7. It's possible that migration might be successful (e.g., devices are th=
+e same)
+8. So, the target of VM 2 is in undefined state
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+The series adds a capability to prevent successful (by mistake) migration=
+.
 
--- PMM
+The new capability validate-uuid only affects the source so that it sends
+its UUID to the target. The target will validate the received UUID and st=
+op
+the migration if UUIDs are not equal.
+
+Regards,
+Yury
+
+Yury Kotov (3):
+  migration: Add validate-uuid capability
+  tests/libqtest: Allow setting expected exit status
+  tests/migration: Add a test for validate-uuid capability
+
+ migration/migration.c  |   9 +++
+ migration/migration.h  |   1 +
+ migration/savevm.c     |  45 +++++++++++++
+ qapi/migration.json    |   5 +-
+ tests/libqtest.c       |  36 ++++++-----
+ tests/libqtest.h       |   9 +++
+ tests/migration-test.c | 140 ++++++++++++++++++++++++++++++++---------
+ 7 files changed, 199 insertions(+), 46 deletions(-)
+
+--=20
+2.17.1
+
 
