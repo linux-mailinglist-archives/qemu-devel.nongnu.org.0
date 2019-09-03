@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2C5A7133
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:59:37 +0200 (CEST)
-Received: from localhost ([::1]:49496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FEB6A7122
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:56:41 +0200 (CEST)
+Received: from localhost ([::1]:49442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5C9Y-0008J4-Tg
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:59:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39734)
+	id 1i5C6h-00050q-Su
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:56:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39744)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1i5BaD-0007S9-Ui
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1i5BaD-0007T8-U7
  for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:23:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1i5BaA-00039j-VZ
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:23:03 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:42924)
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1i5BaB-0003A7-I6
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:23:04 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:45046)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
- id 1i5BaA-00037g-DS
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:23:02 -0400
-Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::162])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id C593F2E1A63;
- Tue,  3 Sep 2019 19:22:57 +0300 (MSK)
+ id 1i5BaB-000387-72
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:23:03 -0400
+Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net
+ [IPv6:2a02:6b8:0:1a2d::301])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id C0F3A2E1533;
+ Tue,  3 Sep 2019 19:22:59 +0300 (MSK)
 Received: from smtpcorp1j.mail.yandex.net (smtpcorp1j.mail.yandex.net
  [2a02:6b8:0:1619::137])
- by mxbackcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
- cGNnAwq6R9-MvvqSHIW; Tue, 03 Sep 2019 19:22:57 +0300
+ by mxbackcorp1o.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
+ mRGa1WauMs-MxIaUBAv; Tue, 03 Sep 2019 19:22:59 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1567527777; bh=KCUeoaNqnQu/WiD9KqkTvm8fZPyB8ZNH0dHpI5COUjs=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=LAARk3ncrGRyjRY1ldszKxusHbESjVoSOIqXteIiwZGEjK2j0jB8Y9Wx3LPkWPi2d
- xIo1wZb3K+HUwLjhtsTybYTDiLruIBEXOa1o8dpYeHi0xBR8S3yiNueDX3VUYOQvmY
- 52nlBs1UKopRQ1NsBgZhAFJHQWBoz06N0lUDY9p0=
-Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ t=1567527779; bh=OzYzDUl2ej0rQaG+Yi94pCPWjiFGmhtGq4xX1lU8F84=;
+ h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
+ b=uSXe3MzV5AlVY5jpWL+fe+Qh0BK2wi7itcRbJ1u+dBeWAtGBA94Vf2oSyQIPS0Juo
+ 7s1Kqa7sJxoLcul2JWernRgkJqM0FQMgSuS7QUUC4GDQMeFKmNMXguLC7QWA3Vt7hR
+ sd/9B3oFy5+XoqXga4+TqN1hx2yRPgnhbyu6Igv4=
+Authentication-Results: mxbackcorp1o.mail.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net
  [2a02:6b8:0:408:c43c:5d37:585c:b5d6])
  by smtpcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id
- YFfYaDvJaP-MufacASv; Tue, 03 Sep 2019 19:22:56 +0300
+ YFfYaDvJaP-MwfauTO4; Tue, 03 Sep 2019 19:22:58 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Yury Kotov <yury-kotov@yandex-team.ru>
@@ -51,15 +51,18 @@ To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Date: Tue,  3 Sep 2019 19:22:43 +0300
-Message-Id: <20190903162246.18524-1-yury-kotov@yandex-team.ru>
+Date: Tue,  3 Sep 2019 19:22:45 +0300
+Message-Id: <20190903162246.18524-3-yury-kotov@yandex-team.ru>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190903162246.18524-1-yury-kotov@yandex-team.ru>
+References: <20190903162246.18524-1-yury-kotov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a02:6b8:0:1a2d::193
-Subject: [Qemu-devel] [PATCH v2 0/3] UUID validation during migration
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 5.45.199.163
+Subject: [Qemu-devel] [PATCH v2 2/3] tests/libqtest: Allow setting expected
+ exit status
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -74,55 +77,112 @@ Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Add qtest_set_expected_status function to set expected exit status of
+child process. By default expected exit status is 0.
 
-V2:
-* Remove x- prefix from capability name
-* Fix expected status checking
-* Fix description of capability
+Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+---
+ tests/libqtest.c | 36 +++++++++++++++++++++---------------
+ tests/libqtest.h |  9 +++++++++
+ 2 files changed, 30 insertions(+), 15 deletions(-)
 
-This series adds an UUID validation at the start of the migration
-on the target side. The idea is to identify the source of migration.
-
-Possible case of problem:
-1. There are 3 servers: A, B and C
-2. Server A has a VM 1, server B has a VM 2
-3. VM 1 and VM 2 want to migrate to the server C
-4. Target of VM 1 starts on the server C and dies too quickly for some re=
-ason
-5. Target of VM 2 starts just after that and listen the same tcp port X, =
-which
-   the target of VM 1 wanted to use
-6. Source of VM 1 connects to the tcp port X, and migrates to VM 2 source
-7. It's possible that migration might be successful (e.g., devices are th=
-e same)
-8. So, the target of VM 2 is in undefined state
-
-The series adds a capability to prevent successful (by mistake) migration=
-.
-
-The new capability validate-uuid only affects the source so that it sends
-its UUID to the target. The target will validate the received UUID and st=
-op
-the migration if UUIDs are not equal.
-
-Regards,
-Yury
-
-Yury Kotov (3):
-  migration: Add validate-uuid capability
-  tests/libqtest: Allow setting expected exit status
-  tests/migration: Add a test for validate-uuid capability
-
- migration/migration.c  |   9 +++
- migration/migration.h  |   1 +
- migration/savevm.c     |  45 +++++++++++++
- qapi/migration.json    |   5 +-
- tests/libqtest.c       |  36 ++++++-----
- tests/libqtest.h       |   9 +++
- tests/migration-test.c | 140 ++++++++++++++++++++++++++++++++---------
- 7 files changed, 199 insertions(+), 46 deletions(-)
-
+diff --git a/tests/libqtest.c b/tests/libqtest.c
+index 2713b86cf7..a79d4887ae 100644
+--- a/tests/libqtest.c
++++ b/tests/libqtest.c
+@@ -43,6 +43,7 @@ struct QTestState
+     int qmp_fd;
+     pid_t qemu_pid;  /* our child QEMU process */
+     int wstatus;
++    int expected_status;
+     bool big_endian;
+     bool irq_level[MAX_IRQ];
+     GString *rx;
+@@ -113,6 +114,11 @@ bool qtest_probe_child(QTestState *s)
+     return false;
+ }
+=20
++void qtest_set_expected_status(QTestState *s, int status)
++{
++    s->expected_status =3D status;
++}
++
+ static void kill_qemu(QTestState *s)
+ {
+     pid_t pid =3D s->qemu_pid;
+@@ -126,24 +132,23 @@ static void kill_qemu(QTestState *s)
+     }
+=20
+     /*
+-     * We expect qemu to exit with status 0; anything else is
++     * Check whether qemu exited with expected exit status; anything els=
+e is
+      * fishy and should be logged with as much detail as possible.
+      */
+     wstatus =3D s->wstatus;
+-    if (wstatus) {
+-        if (WIFEXITED(wstatus)) {
+-            fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU =
+"
+-                    "process but encountered exit status %d\n",
+-                    __FILE__, __LINE__, WEXITSTATUS(wstatus));
+-        } else if (WIFSIGNALED(wstatus)) {
+-            int sig =3D WTERMSIG(wstatus);
+-            const char *signame =3D strsignal(sig) ?: "unknown ???";
+-            const char *dump =3D WCOREDUMP(wstatus) ? " (core dumped)" :=
+ "";
+-
+-            fprintf(stderr, "%s:%d: kill_qemu() detected QEMU death "
+-                    "from signal %d (%s)%s\n",
+-                    __FILE__, __LINE__, sig, signame, dump);
+-        }
++    if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) !=3D s->expected_stat=
+us) {
++        fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU "
++                "process but encountered exit status %d (expected %d)\n"=
+,
++                __FILE__, __LINE__, WEXITSTATUS(wstatus), s->expected_st=
+atus);
++        abort();
++    } else if (WIFSIGNALED(wstatus)) {
++        int sig =3D WTERMSIG(wstatus);
++        const char *signame =3D strsignal(sig) ?: "unknown ???";
++        const char *dump =3D WCOREDUMP(wstatus) ? " (core dumped)" : "";
++
++        fprintf(stderr, "%s:%d: kill_qemu() detected QEMU death "
++                "from signal %d (%s)%s\n",
++                __FILE__, __LINE__, sig, signame, dump);
+         abort();
+     }
+ }
+@@ -248,6 +253,7 @@ QTestState *qtest_init_without_qmp_handshake(const ch=
+ar *extra_args)
+     g_test_message("starting QEMU: %s", command);
+=20
+     s->wstatus =3D 0;
++    s->expected_status =3D 0;
+     s->qemu_pid =3D fork();
+     if (s->qemu_pid =3D=3D 0) {
+         setenv("QEMU_AUDIO_DRV", "none", true);
+diff --git a/tests/libqtest.h b/tests/libqtest.h
+index 07ea35867c..c00bca94af 100644
+--- a/tests/libqtest.h
++++ b/tests/libqtest.h
+@@ -997,4 +997,13 @@ void qmp_assert_error_class(QDict *rsp, const char *=
+class);
+  */
+ bool qtest_probe_child(QTestState *s);
+=20
++/**
++ * qtest_set_expected_status:
++ * @s: QTestState instance to operate on.
++ * @status: an expected exit status.
++ *
++ * Set expected exit status of the child.
++ */
++void qtest_set_expected_status(QTestState *s, int status);
++
+ #endif
 --=20
 2.17.1
 
