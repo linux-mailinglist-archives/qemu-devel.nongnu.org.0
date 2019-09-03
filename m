@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319E7A71AC
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 19:29:38 +0200 (CEST)
-Received: from localhost ([::1]:49752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC9EA71A8
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 19:29:11 +0200 (CEST)
+Received: from localhost ([::1]:49750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Ccb-00011r-DB
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 13:29:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50139)
+	id 1i5CcA-0000Cs-6t
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 13:29:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50251)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i5Ca5-0006vE-5T
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:27:02 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1i5Cb7-0007oe-KP
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:28:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i5Ca3-0004ho-2p
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:27:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59600)
+ (envelope-from <ehabkost@redhat.com>) id 1i5Cb6-00050p-F5
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:28:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50940)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i5Ca2-0004hS-Qk
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:26:59 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i5Cb6-00050D-9l
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 13:28:04 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E9D0B3082133
- for <qemu-devel@nongnu.org>; Tue,  3 Sep 2019 17:26:57 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CD315C220;
- Tue,  3 Sep 2019 17:26:46 +0000 (UTC)
-Date: Tue, 3 Sep 2019 18:26:44 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <20190903172644.GS2744@work-vm>
-References: <20190827095437.18819-1-stefanha@redhat.com>
- <20190827095437.18819-3-stefanha@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id D7A97300413D;
+ Tue,  3 Sep 2019 17:28:02 +0000 (UTC)
+Received: from localhost (ovpn-116-55.gru2.redhat.com [10.97.116.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 044005D6B2;
+ Tue,  3 Sep 2019 17:27:59 +0000 (UTC)
+Date: Tue, 3 Sep 2019 14:27:58 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Message-ID: <20190903172758.GR3694@habkost.net>
+References: <20190829013125.GG16342@umbus.fritz.box>
+ <20190829015117.GH16342@umbus.fritz.box>
+ <20190829032746.GA488@localhost.localdomain>
+ <24d0d5be-d206-33a0-cd8c-29825e2f8516@redhat.com>
+ <ecfc63f3-d208-4a79-c26c-3d8fa031b3d3@redhat.com>
+ <20190903150824.GA14836@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20190827095437.18819-3-stefanha@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20190903150824.GA14836@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 03 Sep 2019 17:26:57 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Tue, 03 Sep 2019 17:28:03 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/4] virtiofsd: add --print-capabilities
- option
+Subject: Re: [Qemu-devel] Cryptic errors from PIP install if missing
+ openssl-devel
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,117 +62,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: ldoktor@redhat.com,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> Add the --print-capabilities option as per vhost-user.rst "Backend
-> programs conventions".  Currently there are no advertised features.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On Tue, Sep 03, 2019 at 11:08:24AM -0400, Cleber Rosa wrote:
+> On Thu, Aug 29, 2019 at 11:46:15AM +0200, Philippe Mathieu-Daud=E9 wrot=
+e:
+> >=20
+> > class avocado.utils.ssh.Session(address, credentials)
+> >=20
+> >   Parameters:=09
+> >=20
+> >     credentials (tuple)
+> >          username and path to a key for authentication purposes
+> >=20
+> > The current test uses username + password.
+> > Can we use this credentials with the Avocado module?
+> > (The image used is prebuilt).
+> >=20
+>=20
+> I'm working on adding password based authentication.  To keep the API
+> the same, I'm thinking of checking if the second credential item is an
+> existing file, if it is, assume one containing a key.  If not, assume
+> it's a password.
+>=20
+> This should make the use simple in the case of keys:
+>=20
+>   with Session(('hostname', port),
+>                ('username', '/path/to/key')) as session:
+>       session.cmd('cmd')
+>=20
+> And passwords:
+>=20
+>   with Session(('hostname', port),
+>                ('username', 'p@ssw0rD')) as session:
+>       session.cmd('cmd')
 
-That looks OK to me, but can someone who understands the json
-requirement explain what says whether a 'features' entry is optional?
+This would stop working as soon as a file named 'p@ssw0rD' gets
+created.  Can the API be more explicit somehow?
 
-Dave
+Is there anything that prevents us from using keyword arguments?
+e.g.:
 
-> ---
->  docs/interop/vhost-user.json       |  4 +++-
->  contrib/virtiofsd/fuse_lowlevel.h  |  1 +
->  contrib/virtiofsd/helper.c         |  2 ++
->  contrib/virtiofsd/passthrough_ll.c | 12 ++++++++++++
->  4 files changed, 18 insertions(+), 1 deletion(-)
-> 
-> diff --git a/docs/interop/vhost-user.json b/docs/interop/vhost-user.json
-> index da6aaf51c8..d4ea1f7ac5 100644
-> --- a/docs/interop/vhost-user.json
-> +++ b/docs/interop/vhost-user.json
-> @@ -31,6 +31,7 @@
->  # @rproc-serial: virtio remoteproc serial link
->  # @scsi: virtio scsi
->  # @vsock: virtio vsock transport
-> +# @fs: virtio fs (since 4.2)
->  #
->  # Since: 4.0
->  ##
-> @@ -50,7 +51,8 @@
->        'rpmsg',
->        'rproc-serial',
->        'scsi',
-> -      'vsock'
-> +      'vsock',
-> +      'fs'
->    ]
->  }
->  
-> diff --git a/contrib/virtiofsd/fuse_lowlevel.h b/contrib/virtiofsd/fuse_lowlevel.h
-> index b441d3dfed..e3d8747571 100644
-> --- a/contrib/virtiofsd/fuse_lowlevel.h
-> +++ b/contrib/virtiofsd/fuse_lowlevel.h
-> @@ -1796,6 +1796,7 @@ struct fuse_cmdline_opts {
->  	int nodefault_subtype;
->  	int show_version;
->  	int show_help;
-> +	int print_capabilities;
->  	int clone_fd;
->  	int syslog;
->  	int log_level;
-> diff --git a/contrib/virtiofsd/helper.c b/contrib/virtiofsd/helper.c
-> index 8d8bca889b..84bf1c834d 100644
-> --- a/contrib/virtiofsd/helper.c
-> +++ b/contrib/virtiofsd/helper.c
-> @@ -35,6 +35,7 @@ static const struct fuse_opt fuse_helper_opts[] = {
->  	FUSE_HELPER_OPT("--help",	show_help),
->  	FUSE_HELPER_OPT("-V",		show_version),
->  	FUSE_HELPER_OPT("--version",	show_version),
-> +	FUSE_HELPER_OPT("--print-capabilities", print_capabilities),
->  	FUSE_HELPER_OPT("-d",		debug),
->  	FUSE_HELPER_OPT("debug",	debug),
->  	FUSE_HELPER_OPT("-d",		foreground),
-> @@ -137,6 +138,7 @@ void fuse_cmdline_help(void)
->  {
->  	printf("    -h   --help                print help\n"
->  	       "    -V   --version             print version\n"
-> +	       "    --print-capabilities       print vhost-user.json\n"
->  	       "    -d   -o debug              enable debug output (implies -f)\n"
->  	       "    --syslog                   log to syslog (default stderr)\n"
->  	       "    -f                         foreground operation\n"
-> diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
-> index 0ef01b7e3f..e2e20f22cd 100644
-> --- a/contrib/virtiofsd/passthrough_ll.c
-> +++ b/contrib/virtiofsd/passthrough_ll.c
-> @@ -2879,6 +2879,14 @@ static void fuse_lo_data_cleanup(struct lo_data *lo)
->          free((char *)lo->source);
->  }
->  
-> +/* Print vhost-user.json backend program capabilities */
-> +static void print_capabilities(void)
-> +{
-> +	printf("{\n");
-> +	printf("  \"type\": \"fs\"\n");
-> +	printf("}\n");
-> +}
-> +
->  int main(int argc, char *argv[])
->  {
->  	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
-> @@ -2931,6 +2939,10 @@ int main(int argc, char *argv[])
->  		fuse_lowlevel_version();
->  		ret = 0;
->  		goto err_out1;
-> +	} else if (opts.print_capabilities) {
-> +		print_capabilities();
-> +		ret = 0;
-> +		goto err_out1;
->  	}
->  
->  	if (fuse_opt_parse(&args, &lo, lo_opts, NULL)== -1)
-> -- 
-> 2.21.0
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+  Session(..., username=3D'root', password=3D'p@ssw0rD')
+
+>=20
+> It's being tracked here:
+>   https://trello.com/c/uetpIgML/1517-avocadoutilssh-implement-password-=
+based-auth
+>=20
+> I'll try to have it in Avocado's 72.0 release due next week.
+>=20
+> Let me know how that sounds, and thanks for the feedback.
+> - Cleber.
+
+--=20
+Eduardo
 
