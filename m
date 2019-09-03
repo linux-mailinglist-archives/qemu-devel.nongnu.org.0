@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D143A7101
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:50:23 +0200 (CEST)
-Received: from localhost ([::1]:49294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2647A710C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:53:49 +0200 (CEST)
+Received: from localhost ([::1]:49380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5C0c-0005CK-24
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:50:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37504)
+	id 1i5C3x-0001jU-2V
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:53:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37528)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BNI-0001m2-Bd
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:45 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BNK-0001pf-TC
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BNH-000479-83
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:44 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:35448)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BNJ-00049T-Fd
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:46 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40541)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BNH-00046F-2T
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:43 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id 205so8619790pfw.2
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:43 -0700 (PDT)
+ id 1i5BNJ-000490-8p
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:45 -0400
+Received: by mail-pf1-x441.google.com with SMTP id w16so11073524pfn.7
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=rllUpWe62ZsfU+30fAApU6qKY3XDd69Sp3kh5Sw9sOs=;
- b=qZ0vUAelF0LSqC6ZaXDi4av155T2gRPVH15s3jA40kwgJLa6rzAl3dv4rT+BbU+/O4
- Un+h8pynsM41v6I4TFGwTU8vU+zfSOEHw107k0jorvZh5GjQfcsNCXF7wFFz/84aqNXS
- yW76dsqeP/XIihETGnaQRex5aZzTKCt0Hy/k58YizaxaeTHn95vo/jzRamTXXALG5VHo
- tGE2eYy3ABKIEPCCcm3ArMmQx01rXbT78n/uf8wNBfjzUKhlWn89+5bCs+wVNbeHZqOf
- nPTmtOGN5Pi00PT8u6Slj47VVAdTspeInA6i+exD+JGEgLaS9tGypj8q92oXPgGyMJeZ
- XKow==
+ bh=N5NztJfh5BzMOtf9h7VP/IFXxLeIqYtsDkIeRVHhk+A=;
+ b=C2QMifnvGVofYTbNdgkO7I1yucfD5L8BtHvzazYLRiKoaR+qZ9ux8gBcOf4IL3KydI
+ QNd2jWTAWl/+oSXdjLh2uhChmDLIBZuXgdITOzIvM3rj0DTVwKNCuZi6FG9dPM20Z8ua
+ w5Lm4FdxESz2OnFM70R8mu8P+DUjpX6XsU3eXRGxknXD4KrBnfZ7K34eUHDWXZ5+SZIK
+ x4Tc2UWjvSSyGyp0CUtiDLEoOVZUa60S76MrV1JotogPiyrJHjzwd53KxpEcuPnlD6v9
+ tNbknqYCV641yOBeFAcAyZKQFZeI4PtpwLFC0hnG2OM3sQ1meJu7QK58y+xbm8JhRLpR
+ souw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=rllUpWe62ZsfU+30fAApU6qKY3XDd69Sp3kh5Sw9sOs=;
- b=AyMk2wTJaC85mQVPZZw1ti0Tag1YL9pXZNIILnkDfJE/x9EZ7oFQThtoY2Cw7dZoiL
- VdnSkq3Wbat5fjumD64xYkj0IAtGmDpra8dL6KFJUkuUky5/vKSzJGJnyPx2W+iJwHUY
- moU3K6rqQOyfxz5OXwNIB11coB0/MEsQMUj0ZPMJv/VlG9HlmFJgnPptoXGcalHcMqFe
- VBVAQNVfITiwmW3za193VBTRDdZ+nLYE+7NTGeuAWXIX1PNP6206nZ2NeEMFHPeOmezi
- iARFKJRvPn4QiUXm9izjHrbnwpKuzqzgZH3hY/bUpz40O+D2KLuWWR+PiJi1yB/7aaNi
- JM/g==
-X-Gm-Message-State: APjAAAW+KVhF5PKtfgQJy+vmQ2FMJoq8Qfnz+VvTr/7NmVOhnXKjw9GF
- K7wpDuPk75e4R6oMu7D2Irl0zfKg5O8=
-X-Google-Smtp-Source: APXvYqyCvWzXnNgPS5bTAtulEqc0A+SdUsuo4b3IydeF9baCoFmjiEI6S0G3ekPUSpsgmM45btIxRQ==
-X-Received: by 2002:a63:4846:: with SMTP id x6mr19144731pgk.332.1567526981618; 
- Tue, 03 Sep 2019 09:09:41 -0700 (PDT)
+ bh=N5NztJfh5BzMOtf9h7VP/IFXxLeIqYtsDkIeRVHhk+A=;
+ b=Y6g7WyIqNEEuujN/r7NepwTd+B9PDPS0YNqYZaIWszdkcJ7ejleBDkwjcCxIE91fFd
+ qRgsKMfSBjDhCOxnpe2xq4P1EYH2ii2CLKscAnkfN8GwBuOE+cCDy5GMILSRsAgI07sv
+ YotQ9yZvAbdyyOWfY7US9X/grCsBzs1soL8b2CxlFRC/hGcOADpv5h2ffWPkFJ8TIfOC
+ MEYbt1RjYyU8OhM6hTTnjgVZdoGBrtCwNUx9l9jPHRZdwRxwkhv+ktiVZthAtzLTt87C
+ 8INOBWEaoAEVGppJB05icVExm3MHX5wqGX7BM7zdYVTWE73dLw1VZ0cZ0yP2UXoe/sFe
+ 5ogQ==
+X-Gm-Message-State: APjAAAUr/rUgAHLyMBXaA9WiT0ngauAOogxXf7+5IcO1nZNrM4gTaj+L
+ HSXWZ+CmN4u4fMyn5hK3o9ll5RXZgF4=
+X-Google-Smtp-Source: APXvYqxRcnbh20fX6NrtvimoWg5A5oABqsa5FuK7QL/Fxt2TI0r4mK0/MU1L+fKB9JgnpVXUE1aBPQ==
+X-Received: by 2002:a62:7911:: with SMTP id u17mr25834847pfc.162.1567526984070; 
+ Tue, 03 Sep 2019 09:09:44 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.40
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:41 -0700 (PDT)
+ Tue, 03 Sep 2019 09:09:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:56 -0700
-Message-Id: <20190903160858.5296-35-richard.henderson@linaro.org>
+Date: Tue,  3 Sep 2019 09:08:58 -0700
+Message-Id: <20190903160858.5296-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
 References: <20190903160858.5296-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::42b
-Subject: [Qemu-devel] [PATCH 34/36] s390x/tcg: Pass a size to probe_write()
- in do_csst()
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: [Qemu-devel] [PATCH 36/36] tcg: Factor out probe_write() logic into
+ probe_access()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,36 +82,156 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-... and also call it for CONFIG_USER_ONLY. This function probably will
-also need some refactoring in regards to probing, however, we'll have to
-come back to that later, once cleaning up the other mem helpers.
-
-The alignment check always makes sure that the write access falls into a
-single page.
+Let's also allow to probe other access types.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20190826075112.25637-8-david@redhat.com>
+Message-Id: <20190830100959.26615-3-david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/mem_helper.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ include/exec/exec-all.h | 10 ++++++++--
+ accel/tcg/cputlb.c      | 43 ++++++++++++++++++++++++++++++-----------
+ accel/tcg/user-exec.c   | 26 +++++++++++++++++++------
+ 3 files changed, 60 insertions(+), 19 deletions(-)
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index fdff60ce5d..29fcce426e 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -1443,9 +1443,7 @@ static uint32_t do_csst(CPUS390XState *env, uint32_t r3, uint64_t a1,
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index a7893ed16b..81b02eb2fe 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -310,8 +310,14 @@ static inline void tlb_flush_by_mmuidx_all_cpus_synced(CPUState *cpu,
+ {
+ }
+ #endif
+-void *probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
+-                  uintptr_t retaddr);
++void *probe_access(CPUArchState *env, target_ulong addr, int size,
++                   MMUAccessType access_type, int mmu_idx, uintptr_t retaddr);
++
++static inline void *probe_write(CPUArchState *env, target_ulong addr, int size,
++                                int mmu_idx, uintptr_t retaddr)
++{
++    return probe_access(env, addr, size, MMU_DATA_STORE, mmu_idx, retaddr);
++}
+ 
+ #define CODE_GEN_ALIGN           16 /* must be >= of the size of a icache line */
+ 
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index cb969d8372..abae79650c 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1075,30 +1075,51 @@ tb_page_addr_t get_page_addr_code(CPUArchState *env, target_ulong addr)
+     return qemu_ram_addr_from_host_nofail(p);
+ }
+ 
+-/* Probe for whether the specified guest write access is permitted.
+- * If it is not permitted then an exception will be taken in the same
+- * way as if this were a real write access (and we will not return).
++/*
++ * Probe for whether the specified guest access is permitted. If it is not
++ * permitted then an exception will be taken in the same way as if this
++ * were a real access (and we will not return).
+  * If the size is 0 or the page requires I/O access, returns NULL; otherwise,
+  * returns the address of the host page similar to tlb_vaddr_to_host().
+  */
+-void *probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
+-                  uintptr_t retaddr)
++void *probe_access(CPUArchState *env, target_ulong addr, int size,
++                   MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+ {
+     uintptr_t index = tlb_index(env, mmu_idx, addr);
+     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
+-    target_ulong tlb_addr = tlb_addr_write(entry);
++    target_ulong tlb_addr;
++    size_t elt_ofs;
++    int wp_access;
+ 
+     g_assert(-(addr | TARGET_PAGE_MASK) >= size);
+ 
++    switch (access_type) {
++    case MMU_DATA_LOAD:
++        elt_ofs = offsetof(CPUTLBEntry, addr_read);
++        wp_access = BP_MEM_READ;
++        break;
++    case MMU_DATA_STORE:
++        elt_ofs = offsetof(CPUTLBEntry, addr_write);
++        wp_access = BP_MEM_WRITE;
++        break;
++    case MMU_INST_FETCH:
++        elt_ofs = offsetof(CPUTLBEntry, addr_code);
++        wp_access = BP_MEM_READ;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    tlb_addr = tlb_read_ofs(entry, elt_ofs);
++
+     if (unlikely(!tlb_hit(tlb_addr, addr))) {
+-        if (!VICTIM_TLB_HIT(addr_write, addr)) {
+-            tlb_fill(env_cpu(env), addr, size, MMU_DATA_STORE,
+-                     mmu_idx, retaddr);
++        if (!victim_tlb_hit(env, mmu_idx, index, elt_ofs,
++                            addr & TARGET_PAGE_MASK)) {
++            tlb_fill(env_cpu(env), addr, size, access_type, mmu_idx, retaddr);
+             /* TLB resize via tlb_fill may have moved the entry. */
+             index = tlb_index(env, mmu_idx, addr);
+             entry = tlb_entry(env, mmu_idx, addr);
+         }
+-        tlb_addr = tlb_addr_write(entry);
++        tlb_addr = tlb_read_ofs(entry, elt_ofs);
      }
  
-     /* Sanity check writability of the store address.  */
--#ifndef CONFIG_USER_ONLY
--    probe_write(env, a2, 0, mem_idx, ra);
--#endif
-+    probe_write(env, a2, 1 << sc, mem_idx, ra);
+     if (!size) {
+@@ -1109,7 +1130,7 @@ void *probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
+     if (tlb_addr & TLB_WATCHPOINT) {
+         cpu_check_watchpoint(env_cpu(env), addr, size,
+                              env_tlb(env)->d[mmu_idx].iotlb[index].attrs,
+-                             BP_MEM_WRITE, retaddr);
++                             wp_access, retaddr);
+     }
  
-     /*
-      * Note that the compare-and-swap is atomic, and the store is atomic,
+     if (tlb_addr & (TLB_NOTDIRTY | TLB_MMIO)) {
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 5720bf8056..71c4bf6477 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -188,17 +188,31 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+     g_assert_not_reached();
+ }
+ 
+-void *probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
+-                  uintptr_t retaddr)
++void *probe_access(CPUArchState *env, target_ulong addr, int size,
++                   MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+ {
++    int flags;
++
+     g_assert(-(addr | TARGET_PAGE_MASK) >= size);
+ 
+-    if (!guest_addr_valid(addr) ||
+-        page_check_range(addr, size, PAGE_WRITE) < 0) {
++    switch (access_type) {
++    case MMU_DATA_STORE:
++        flags = PAGE_WRITE;
++        break;
++    case MMU_DATA_LOAD:
++        flags = PAGE_READ;
++        break;
++    case MMU_INST_FETCH:
++        flags = PAGE_EXEC;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    if (!guest_addr_valid(addr) || page_check_range(addr, size, flags) < 0) {
+         CPUState *cpu = env_cpu(env);
+         CPUClass *cc = CPU_GET_CLASS(cpu);
+-
+-        cc->tlb_fill(cpu, addr, size, MMU_DATA_STORE, MMU_USER_IDX, false,
++        cc->tlb_fill(cpu, addr, size, access_type, MMU_USER_IDX, false,
+                      retaddr);
+         g_assert_not_reached();
+     }
 -- 
 2.17.1
 
