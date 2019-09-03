@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53DBAA6D3A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:48:33 +0200 (CEST)
-Received: from localhost ([::1]:47792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E73AA6D19
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:41:16 +0200 (CEST)
+Received: from localhost ([::1]:47686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5B2l-0003gf-ML
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:48:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59205)
+	id 1i5Avi-0005wP-Sp
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59228)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArP-0002nR-5C
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:47 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArR-0002pv-3X
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArO-0005vv-5g
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:47 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45771)
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArP-0005x7-Tp
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:48 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44856)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5ArN-0005vJ-Vl
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:46 -0400
-Received: by mail-wr1-x434.google.com with SMTP id q12so17957733wrj.12
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:36:45 -0700 (PDT)
+ id 1i5ArP-0005wa-NC
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:47 -0400
+Received: by mail-wr1-x429.google.com with SMTP id 30so7041727wrk.11
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:36:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=E0RGpyIRgwmsLzuSGhRDQK2g3xA+f5Ux3QZOYd+L+vg=;
- b=X4G4gp8m/dRjAgt1k5efuDP/+c9i7NpnRDsQ+twFKARzuZdh0km3Z2irpoePe6FlRE
- A9xLtELAlj0dMrnsXoaeFelhlhOKQbhqn+5ABS9EgNubAnliCyQStjaFnkCAP4X4QXxm
- xm0l7KgoJ6dznlJPrBckf0Fctk8Ppup+xqjNqL5hHBglIKZapLJK7X1qG9d4j4hLtsAF
- X+6e28XIbhGr/R+Piy3ydaNeeFr0uK7GHaHvr6HZM5hlkO8RCIRManIgeBFv6+jQeYuC
- CLovrIL+PwYVxpQgEmeXQtuif8HHrkMygfjlwJ3Ae0JeSv5cVnedjEIKA7NfWrN9xGnW
- yWRQ==
+ bh=NjtHLR890FdwVKLAyT2SN75yV6fIIwqW8EkRht8FO+8=;
+ b=Zkenw7tNFlOyNSkp/8WXRNoHFBds3lE5LyDaCVMd6npQSpLsd3o9s9jpezofycxckc
+ Wj3C0pebOoZn8zSnl7+fFpOuM2nc3bB/yqG1zsAP1U4DyrVKopmJG1oouphdNSNwbaFW
+ 4hvDUvzIeXLKuvYds7EXep+nmrlanzREhcDbc6ESEVVeCW3Rke3IoCNn6gcJ0pne93fh
+ RoPA7GMiHcC593stot8qLwt1XGi1BXK8xxJOohF3vWzmnW3/z3DmHMa0gw7nrC66qlbb
+ gUBS/tNp9PL0Snrt2WhGuusvyF5cuV52DhTXjaqZX00Mj8jAbS2S/QG5h+pxSowxcMR6
+ iojg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=E0RGpyIRgwmsLzuSGhRDQK2g3xA+f5Ux3QZOYd+L+vg=;
- b=XCrYTjcCeyEQq+1tQfNeGMe77SsqyPTH8l4nL10V9WldmTIWiGYABauHj9CW4yk32f
- +mibetzfhwBNxqYubiv2FWr8gnv8XFlri7GvHGNolc13oG/iDReEaQllDzObU7NRZw6b
- NuXmUu+7lburbvZIQsvM0QelTYUkk52W+LPfT3sInMUcrWJwtdyYhmXqSN4QZwKLPOrY
- zyMuiwE3INi2NgHcZwz7I/BzmIkNfoof/NMGyJDj+vv6E6UBJR3+iLhuieKeS/E+uNN3
- nJNJFdczM3vKxfbXv8RQnhz+6lo6omRLYqUsXOge10HzPHLhOK9lpJNpVjL/KHf4vSFZ
- 5afQ==
-X-Gm-Message-State: APjAAAX8iAB92VrzovuCwQ/2bAJxj11LY4D7mFpAZDu5aQ25sobCmaZy
- v4BAbhTG3wobyKmiWHoQg0Bjr8vm+n0RTQ==
-X-Google-Smtp-Source: APXvYqziS/zUaErAykrJsh4T6V3eVocFrUbB5SoimfCSHwnE9r/WtMKUQecf//kvkNXvPT96Wiiv8A==
-X-Received: by 2002:adf:e30e:: with SMTP id b14mr44404450wrj.168.1567525004735; 
- Tue, 03 Sep 2019 08:36:44 -0700 (PDT)
+ bh=NjtHLR890FdwVKLAyT2SN75yV6fIIwqW8EkRht8FO+8=;
+ b=YpCpFhCfHPurJvz5iV+24NOKE0ExS3HaNAQXIelL/fz8h/t94c/d8aH6AuWesKtlpI
+ nuWYDplSlgFyolOxbkLwLvjNs2MC4hltULL/aj4A2/kuedq1wPj3T9jyljulHyvROvqB
+ imS7yE0vnWuCgozkGST8TQxexGjX2yf1T3wmpr22sB4CNGJW29akb1kPhzvz29uP3TqJ
+ tCDA863X2GQ4xHAIpXxE5SJGsUYC7G5KLF6TGEjMAO45EC+952wtSd0rGbinA18udCH/
+ IrGxQhGUUNjZQfWfGnAA7IStMxTC2fl7MbgNg23gFAFfZvBXHJbClFrb+dJZq7k3q5Ef
+ hvoQ==
+X-Gm-Message-State: APjAAAXE3OnzAdb1Hyj3S8b5yj1hrGfmwp3231tHryK6zDAa6zbHkju5
+ 9zmVUhlyphfKZ6yMEo+t+sap4zkNseRWqA==
+X-Google-Smtp-Source: APXvYqzwUqSRA3G8z5bDpYA/Gt+dmvzvMGR+qWtX0CBwaF6rG8YmpTS5NklKX4w+QX7R1PJJYIDDYw==
+X-Received: by 2002:adf:f00b:: with SMTP id j11mr27073913wro.298.1567525006490; 
+ Tue, 03 Sep 2019 08:36:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.43
+ by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 08:36:44 -0700 (PDT)
+ Tue, 03 Sep 2019 08:36:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:36:19 +0100
-Message-Id: <20190903153633.6651-8-peter.maydell@linaro.org>
+Date: Tue,  3 Sep 2019 16:36:21 +0100
+Message-Id: <20190903153633.6651-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190903153633.6651-1-peter.maydell@linaro.org>
 References: <20190903153633.6651-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
-Subject: [Qemu-devel] [PULL 07/21] hw/arm/smmuv3: Log a guest error when
- decoding an invalid STE
+X-Received-From: 2a00:1450:4864:20::429
+Subject: [Qemu-devel] [PULL 09/21] target/arm: Fix SMMLS argument order
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,30 +81,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Log a guest error when encountering an invalid STE.
+The previous simplification got the order of operands to the
+subtraction wrong.  Since the 64-bit product is the subtrahend,
+we must use a 64-bit subtract to properly compute the borrow
+from the low-part of the product.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190822172350.12008-5-eric.auger@redhat.com
+Fixes: 5f8cd06ebcf5 ("target/arm: Simplify SMMLA, SMMLAR, SMMLS, SMMLSR")
+Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+Message-id: 20190829013258.16102-1-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/smmuv3.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/arm/translate.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 2eaf07fb5f6..31ac4b15c30 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -320,6 +320,7 @@ static int decode_ste(SMMUv3State *s, SMMUTransCfg *cfg,
-     uint32_t config;
- 
-     if (!STE_VALID(ste)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "invalid STE\n");
-         goto bad_ste;
-     }
- 
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 78d93f63cab..cfebd35d268 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -8831,7 +8831,16 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                         if (rd != 15) {
+                             tmp3 = load_reg(s, rd);
+                             if (insn & (1 << 6)) {
+-                                tcg_gen_sub_i32(tmp, tmp, tmp3);
++                                /*
++                                 * For SMMLS, we need a 64-bit subtract.
++                                 * Borrow caused by a non-zero multiplicand
++                                 * lowpart, and the correct result lowpart
++                                 * for rounding.
++                                 */
++                                TCGv_i32 zero = tcg_const_i32(0);
++                                tcg_gen_sub2_i32(tmp2, tmp, zero, tmp3,
++                                                 tmp2, tmp);
++                                tcg_temp_free_i32(zero);
+                             } else {
+                                 tcg_gen_add_i32(tmp, tmp, tmp3);
+                             }
+@@ -10075,7 +10084,14 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                     if (insn & (1 << 20)) {
+                         tcg_gen_add_i32(tmp, tmp, tmp3);
+                     } else {
+-                        tcg_gen_sub_i32(tmp, tmp, tmp3);
++                        /*
++                         * For SMMLS, we need a 64-bit subtract.
++                         * Borrow caused by a non-zero multiplicand lowpart,
++                         * and the correct result lowpart for rounding.
++                         */
++                        TCGv_i32 zero = tcg_const_i32(0);
++                        tcg_gen_sub2_i32(tmp2, tmp, zero, tmp3, tmp2, tmp);
++                        tcg_temp_free_i32(zero);
+                     }
+                     tcg_temp_free_i32(tmp3);
+                 }
 -- 
 2.20.1
 
