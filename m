@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42DB9A75EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:06:59 +0200 (CEST)
-Received: from localhost ([::1]:51496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8810CA7604
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:14:42 +0200 (CEST)
+Received: from localhost ([::1]:51592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5G0v-0006V5-Pm
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53696)
+	id 1i5G8P-0005Yw-0y
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:14:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53833)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1i5FaL-0007xW-MD
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:30 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1i5FaY-0008Ga-7Y
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1i5FaK-0000mq-L0
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:29 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:57550)
+ (envelope-from <jag.raman@oracle.com>) id 1i5FaW-0000x6-Qs
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:42 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:36250)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1i5FaJ-0000lK-Aw
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:28 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KXev8053247;
- Tue, 3 Sep 2019 20:39:21 GMT
+ id 1i5FaW-0008Kc-Ix
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:40 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KXrZc066205;
+ Tue, 3 Sep 2019 20:38:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=MutKmP+OHj02p9DHj3xH7q24SrwjpKc0Y4265jCiEAM=;
- b=fLokqer8pP9v1rESLwsR0hQouEgaY9GAxfvTJddV1ZR8cqtD9frA/8LCYo+6dsAjajPD
- 89zahY7vCdg0paWn530PvzTyKAtYF19/xFPjBvFjystxwKwCABO9KgGw0SyZSb6xZNOL
- FrdovZxgRjHO5HTxb4AE4VP9e25lr0kRcCjPyxxHE9t+s+O9kd2X7HLynqZGwCd1ZtEC
- XB4YsGfZmnm16DXoI2NxXHTMYqu6cTYJoaR6xErN6GALo0yCxoDcwNveNSzdF1HtTg7v
- JLLbDxxb/z2F4+a2wkBQgwfKj7Cdg60JbeX+yD0Gs2XPdU6FnikENbv5KxU/v0dAH9eX vw== 
+ bh=+cmQtnJ2pLifyfm9PwUnhsvXEovk9HO1gEsy8i2T2fk=;
+ b=GExoKsT1v6ngAcrg4Nyrw+tZDP6OtPoCO34yUeQdM3SSs+tfCkGVz54XPfs+K1QB+yD7
+ DnQa8aakWWsd6PflZ1raka033w1vPVnScJRScQj5Oj+gG7iGrNTHuWMMpYA3jayTiEb5
+ UdWFIh1j5GaaEM4CVs+tOkbmpG+EgSJ9LHYZipUH5H3RbMpMciLegW1ge/IxRMHMINOE
+ 5vDLLpKvZL7LNqCur6NS9iYp/sPQ2LKtydOP8zBZ0uLO75SXVypnxE05fb3hzJSxTy18
+ MzDmBz1ObBZYZAUOZVs77XEmsIUy12Qmu6RulvcT9E8oFbcXXBZsUo/OeIPg0wRc65qG 9Q== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 2usy6n0221-1
+ by userp2130.oracle.com with ESMTP id 2usy4u82xe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:39:21 +0000
+ Tue, 03 Sep 2019 20:38:26 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KcKYb188137;
- Tue, 3 Sep 2019 20:39:21 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 2usu5118h6-1
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KcKQq188117;
+ Tue, 3 Sep 2019 20:38:25 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 2usu5117eh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:39:21 +0000
+ Tue, 03 Sep 2019 20:38:25 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x83KdJLw017788;
- Tue, 3 Sep 2019 20:39:19 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x83KcP1P022759;
+ Tue, 3 Sep 2019 20:38:25 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 03 Sep 2019 13:39:18 -0700
+ with ESMTP ; Tue, 03 Sep 2019 13:38:24 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:38:01 -0400
-Message-Id: <9342dcc0fccdbb5e23024e55c7127ab6ecc4e269.1567534653.git.jag.raman@oracle.com>
+Date: Tue,  3 Sep 2019 16:37:27 -0400
+Message-Id: <3bf3631115123d4a6a360b41ef0aaa47b40ff08d.1567534653.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
 References: <cover.1567534653.git.jag.raman@oracle.com>
@@ -62,7 +62,7 @@ In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
 References: <cover.1567534653.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9369
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3
  malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -71,14 +71,14 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9369
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
  definitions=main-1909030206
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [RFC v3 PATCH 35/45] multi-process: handle heartbeat
- messages in remote process
+X-Received-From: 156.151.31.86
+Subject: [Qemu-devel] [RFC v3 PATCH 01/45] multi-process: memory: alloc RAM
+ from file at offset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,41 +100,158 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-
-and reply back to proxy object.
+Allow RAM MemoryRegion to be created from an offset in a file, instead
+of allocating at offset of 0 by default. This is needed to synchronize
+RAM between QEMU & remote process.
+This will be needed for the following patches.
 
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- remote/remote-main.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ exec.c                    | 11 +++++++----
+ include/exec/ram_addr.h   |  2 +-
+ include/qemu/mmap-alloc.h |  3 ++-
+ memory.c                  |  2 +-
+ util/mmap-alloc.c         |  7 ++++---
+ util/oslib-posix.c        |  2 +-
+ 6 files changed, 16 insertions(+), 11 deletions(-)
 
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 5552712..f0a4de9 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -420,6 +420,7 @@ static void process_msg(GIOCondition cond, ProcChannel *chan)
-     ProcMsg *msg = NULL;
-     Error *err = NULL;
-     remote_pci_devs *r = NULL;
-+    int wait;
+diff --git a/exec.c b/exec.c
+index 3e78de3..b3f1aa9 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1885,6 +1885,7 @@ static void *file_ram_alloc(RAMBlock *block,
+                             ram_addr_t memory,
+                             int fd,
+                             bool truncate,
++                            off_t offset,
+                             Error **errp)
+ {
+     MachineState *ms = MACHINE(qdev_get_machine());
+@@ -1936,7 +1937,8 @@ static void *file_ram_alloc(RAMBlock *block,
+     }
  
-     if ((cond & G_IO_HUP) || (cond & G_IO_ERR)) {
-         error_setg(&err, "socket closed, cond is %d", cond);
-@@ -513,6 +514,11 @@ static void process_msg(GIOCondition cond, ProcChannel *chan)
-     case DEVICE_DEL:
-         process_device_del_msg(msg);
-         break;
-+    case PROXY_PING:
-+        wait = msg->fds[0];
-+        notify_proxy(wait, (uint32_t)getpid());
-+        PUT_REMOTE_WAIT(wait);
-+        break;
-     default:
-         error_setg(&err, "Unknown command");
-         goto finalize_loop;
+     area = qemu_ram_mmap(fd, memory, block->mr->align,
+-                         block->flags & RAM_SHARED, block->flags & RAM_PMEM);
++                         block->flags & RAM_SHARED, block->flags & RAM_PMEM,
++                         offset);
+     if (area == MAP_FAILED) {
+         error_setg_errno(errp, errno,
+                          "unable to map backing store for guest RAM");
+@@ -2325,7 +2327,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
+ #ifdef CONFIG_POSIX
+ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+                                  uint32_t ram_flags, int fd,
+-                                 Error **errp)
++                                 off_t offset, Error **errp)
+ {
+     RAMBlock *new_block;
+     Error *local_err = NULL;
+@@ -2370,7 +2372,8 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+     new_block->used_length = size;
+     new_block->max_length = size;
+     new_block->flags = ram_flags;
+-    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, errp);
++    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, offset,
++                                     errp);
+     if (!new_block->host) {
+         g_free(new_block);
+         return NULL;
+@@ -2400,7 +2403,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
+         return NULL;
+     }
+ 
+-    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, errp);
++    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, 0, errp);
+     if (!block) {
+         if (created) {
+             unlink(mem_path);
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index b7b2e60..15837a1 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -164,7 +164,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
+                                    Error **errp);
+ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+                                  uint32_t ram_flags, int fd,
+-                                 Error **errp);
++                                 off_t offset, Error **errp);
+ 
+ RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
+                                   MemoryRegion *mr, Error **errp);
+diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
+index e786266..4f57985 100644
+--- a/include/qemu/mmap-alloc.h
++++ b/include/qemu/mmap-alloc.h
+@@ -25,7 +25,8 @@ void *qemu_ram_mmap(int fd,
+                     size_t size,
+                     size_t align,
+                     bool shared,
+-                    bool is_pmem);
++                    bool is_pmem,
++                    off_t start);
+ 
+ void qemu_ram_munmap(int fd, void *ptr, size_t size);
+ 
+diff --git a/memory.c b/memory.c
+index 5d8c9a9..debed5e 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1622,7 +1622,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+     mr->destructor = memory_region_destructor_ram;
+     mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
+                                            share ? RAM_SHARED : 0,
+-                                           fd, &err);
++                                           fd, 0, &err);
+     mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+     if (err) {
+         mr->size = int128_zero();
+diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+index f7f177d..4b727bd 100644
+--- a/util/mmap-alloc.c
++++ b/util/mmap-alloc.c
+@@ -86,7 +86,8 @@ void *qemu_ram_mmap(int fd,
+                     size_t size,
+                     size_t align,
+                     bool shared,
+-                    bool is_pmem)
++                    bool is_pmem,
++                    off_t start)
+ {
+     int flags;
+     int map_sync_flags = 0;
+@@ -147,7 +148,7 @@ void *qemu_ram_mmap(int fd,
+     offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guardptr;
+ 
+     ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
+-               flags | map_sync_flags, fd, 0);
++               flags | map_sync_flags, fd, start);
+ 
+     if (ptr == MAP_FAILED && map_sync_flags) {
+         if (errno == ENOTSUP) {
+@@ -172,7 +173,7 @@ void *qemu_ram_mmap(int fd,
+          * we will remove these flags to handle compatibility.
+          */
+         ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
+-                   flags, fd, 0);
++                   flags, fd, start);
+     }
+ 
+     if (ptr == MAP_FAILED) {
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index fe0309c..f6a243f 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -204,7 +204,7 @@ void *qemu_memalign(size_t alignment, size_t size)
+ void *qemu_anon_ram_alloc(size_t size, uint64_t *alignment, bool shared)
+ {
+     size_t align = QEMU_VMALLOC_ALIGN;
+-    void *ptr = qemu_ram_mmap(-1, size, align, shared, false);
++    void *ptr = qemu_ram_mmap(-1, size, align, shared, false, 0);
+ 
+     if (ptr == MAP_FAILED) {
+         return NULL;
 -- 
 1.8.3.1
 
