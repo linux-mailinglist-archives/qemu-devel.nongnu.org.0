@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DF9A707F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:40:36 +0200 (CEST)
-Received: from localhost ([::1]:49140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1972BA70BF
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:43:15 +0200 (CEST)
+Received: from localhost ([::1]:49184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Br9-0001T8-EB
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:40:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37408)
+	id 1i5Bti-0004h2-38
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:43:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37420)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BNA-0001aW-7L
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:37 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BNB-0001c8-AL
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BN9-0003xb-5Z
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:36 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:42530)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BNA-0003yn-AC
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:37 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36995)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BN9-0003xA-08
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:35 -0400
-Received: by mail-pg1-x536.google.com with SMTP id p3so9387936pgb.9
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:34 -0700 (PDT)
+ id 1i5BNA-0003y2-2t
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:36 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id d1so9401843pgp.4
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=7dARXMfy5m/YnyllejYFpw51kHS2wq0N+31r2HBVYEo=;
- b=BsfNrrieMqEkKeIZJ0S210hTrX2/yOWEJfg3+2Dqj+T6z+6WhORWt2mrf8m9n3XrZs
- RAYGnwFGskJyXtGWRtA1nyljGUnEe3ILbL+rnK9HH8bvfPCRXy4KRn4hV/MEOkkxky0r
- dGI/D/EO9zoF2h41VbTpGgkGsjOk8A8vHIGlVOR7m81/NCe7bg9HsJEVffuiW/UDxiOI
- Gt+wbiAjF+K3TZo8um+nMPT7T4vhnawAJ4M4Kgghoq7NsGp/LWoPAKxYAia6r0Y+ZKar
- Psqj8zXn22tF9cDvoaCgITZ/855bFhLzmwjbeDfacP23e1WFIfJlOV/gOpa+SQK7GXSK
- tH5w==
+ bh=ojSV1KHJRFOmyFtfduQlUjdioBteKBK+7oTZZ6njL2U=;
+ b=WVuL41hg93slnIHJ4d59nc6vn4MZqQJ1LislX2APCainrVYohko0MQ52VI1h7l14oo
+ lutgHvTi0fzxZ39XminusWgPeRq1FBYSaRgKCt6bQxOsAs1B3s6uypcRKJi8+CHHfgdO
+ aPXFmacJHuyMOdT1O5O86yn9pud64U7o6iDCjCDjkfSPr3PBvSz7gmgQTYOMvjOvjtp0
+ YGSazNS0W+Rjy/S9ZmxObkNYHlbRZE/LSIeoqdQs+RURCdHMowXRoKYVmD8dhzBVJH1B
+ 9xKHkvuykLLmAHmhAXQj278s+/89tQriHX7bUSKQCY/qDRB6CYm2UinB0NpAXwfns7S9
+ c9yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=7dARXMfy5m/YnyllejYFpw51kHS2wq0N+31r2HBVYEo=;
- b=BEiMJFwZWuLTWqczQtroMk0IdLR/rAf0HRwOXe78wXD7kEG+Msg8tOZ9vyd9q+pw9w
- j/zb3Sjkerpi4gANjPcYoWoE5XZU7ohWvjNAZPEay/e5Sdc77N+7gTH2YID2OwVX7J+X
- s/olUbuUm7wzm32P1p4zIg4iX+W24J8Xzzfjvor3m4TvAOL5f3bVMDuY+xFVupoee/Mz
- TaEeSJF0SRU2JY/oEgjodKiLDpjgBHUzShVEf/4F4QVfl5MMsSG8BhKQEx50JxbS8vl3
- /Na5fTtfydieNVjLUAQfuyYkhNLeYEwAzZOtQZoH4O59S++ZX7h4e5r9wjYzpJ/NGHhk
- xdsg==
-X-Gm-Message-State: APjAAAWRxbzNURw5NvASscw8JvrFojU5xc8HjnB02JvYstcLdhU7a6a6
- SYDYSiTA2ih66G8tO3/WZWx5fCsJBlM=
-X-Google-Smtp-Source: APXvYqy7qWTiK7XPvt7I7qlR2wJK2W7m7RfpRWhPBMIgeTmaEX1cj1FDT7r7/urCOsq1OtwJCrcx8w==
-X-Received: by 2002:aa7:9aa5:: with SMTP id x5mr5209710pfi.16.1567526973716;
- Tue, 03 Sep 2019 09:09:33 -0700 (PDT)
+ bh=ojSV1KHJRFOmyFtfduQlUjdioBteKBK+7oTZZ6njL2U=;
+ b=N4YHEAfdwKXpw2T3Yg7elGsOnsV7VFTcPTIVEeRhgjzGMKTlti6v4MOSR/ifuVAbkn
+ 897/8nwgjL9xuvbIFaeB8wX0HEgARAC6TKwaNHSQC1VeqVwY+fuo6eATL5eINQFfHSgC
+ 1JUY+YPpQp+u6NXtGYVXmCz97B73/R1lktgqRibG04m/b0PHRWXnRXdvqbg6cZTNXBk6
+ GCrjANC8qvP/dRDXCI62MICqJ8A129gWR8b8osoEuOWDz7POaR7/+Uitf0khXniLlKgx
+ lgo62//4Ayw2+LZUI+l2coV1IyfyMMrgVzIwB0KN61Efq4Vj4/dF+wXqBEkERpJVKU7n
+ OCOg==
+X-Gm-Message-State: APjAAAU84I1PnZ4AeIsDDhdiVNWChY0kUZR/n/AHcjDnwfjT6ECHbKAP
+ m4Wquuzl/mlGO8Enoap6Ya93AWQRxak=
+X-Google-Smtp-Source: APXvYqyN3s/lM8igUZj5PgEYf1fastHASscWUTgzm4mN3IYd7+bnTWs/EY+N2BSTblmT0WxsLvHf7Q==
+X-Received: by 2002:a62:6045:: with SMTP id u66mr40214582pfb.261.1567526974873; 
+ Tue, 03 Sep 2019 09:09:34 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.32
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:33 -0700 (PDT)
+ Tue, 03 Sep 2019 09:09:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:49 -0700
-Message-Id: <20190903160858.5296-28-richard.henderson@linaro.org>
+Date: Tue,  3 Sep 2019 09:08:50 -0700
+Message-Id: <20190903160858.5296-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
 References: <20190903160858.5296-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::536
-Subject: [Qemu-devel] [PATCH 27/36] tcg: Check for watchpoints in
- probe_write()
+X-Received-From: 2607:f8b0:4864:20::52e
+Subject: [Qemu-devel] [PATCH 28/36] s390x/tcg: Use guest_addr_valid()
+ instead of h2g_valid() in probe_write_access()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,50 +82,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let size > 0 indicate a promise to write to those bytes.
-Check for write watchpoints in the probed range.
+If I'm not completely wrong, we are dealing with guest addresses here
+and not with host addresses. Use the right check.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Fixes: c5a7392cfb96 ("s390x/tcg: Provide probe_write_access helper")
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20190823100741.9621-10-david@redhat.com>
-[rth: Recompute index after tlb_fill; check TLB_WATCHPOINT.]
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20190826075112.25637-2-david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ target/s390x/mem_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 9a9a626938..010c4c6e3c 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1086,13 +1086,24 @@ void probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
+diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+index 91ba2e03d9..7819aca15d 100644
+--- a/target/s390x/mem_helper.c
++++ b/target/s390x/mem_helper.c
+@@ -2616,7 +2616,7 @@ void probe_write_access(CPUS390XState *env, uint64_t addr, uint64_t len,
+                         uintptr_t ra)
  {
-     uintptr_t index = tlb_index(env, mmu_idx, addr);
-     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
-+    target_ulong tlb_addr = tlb_addr_write(entry);
- 
--    if (!tlb_hit(tlb_addr_write(entry), addr)) {
--        /* TLB entry is for a different page */
-+    if (unlikely(!tlb_hit(tlb_addr, addr))) {
-         if (!VICTIM_TLB_HIT(addr_write, addr)) {
-             tlb_fill(env_cpu(env), addr, size, MMU_DATA_STORE,
-                      mmu_idx, retaddr);
-+            /* TLB resize via tlb_fill may have moved the entry. */
-+            index = tlb_index(env, mmu_idx, addr);
-+            entry = tlb_entry(env, mmu_idx, addr);
-         }
-+        tlb_addr = tlb_addr_write(entry);
-+    }
-+
-+    /* Handle watchpoints.  */
-+    if ((tlb_addr & TLB_WATCHPOINT) && size > 0) {
-+        cpu_check_watchpoint(env_cpu(env), addr, size,
-+                             env_tlb(env)->d[mmu_idx].iotlb[index].attrs,
-+                             BP_MEM_WRITE, retaddr);
+ #ifdef CONFIG_USER_ONLY
+-    if (!h2g_valid(addr) || !h2g_valid(addr + len - 1) ||
++    if (!guest_addr_valid(addr) || !guest_addr_valid(addr + len - 1) ||
+         page_check_range(addr, len, PAGE_WRITE) < 0) {
+         s390_program_interrupt(env, PGM_ADDRESSING, ILEN_AUTO, ra);
      }
- }
- 
 -- 
 2.17.1
 
