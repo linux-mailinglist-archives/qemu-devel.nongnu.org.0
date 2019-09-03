@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707BEA6D49
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:51:47 +0200 (CEST)
-Received: from localhost ([::1]:47870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB8AA6D55
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:54:29 +0200 (CEST)
+Received: from localhost ([::1]:47938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5B5u-0007SG-11
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:51:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59220)
+	id 1i5B8W-0002hD-KT
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArQ-0002ov-7f
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:49 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArS-0002rr-Et
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArO-0005wO-Uf
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:48 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37757)
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArR-0005xp-10
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:50 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:53092)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5ArO-0005w0-ON
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:46 -0400
-Received: by mail-wr1-x434.google.com with SMTP id z11so17998295wrt.4
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:36:46 -0700 (PDT)
+ id 1i5ArQ-0005xJ-Qs
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:48 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id t17so18753385wmi.2
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:36:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=zwgsbRC7S/9tqfeU7JxypMKTOKpf8DEKt23oGutI3as=;
- b=o91Y+kEZ9ekJhZ76S0+e42h5hPE+3kvnLpVzMB6dhI+DFwhhNUYHILeaREJX1UJzKl
- oVdSpgzLxEAdhulwoDfUTWicwSlMXkWsMT2J3OZ1oKmi2FAQsaeluiatxD5Y4+Lvyqi1
- o+7XHPB8iWqEEeefzKQpvmudreDJ0UYXfrviw+EAFct0zrOG/YgMUE39nhZ59LuxPzdu
- TSC+g8j1KOtChSr1V97Im4Q6/VH0bsaeyKkHc+Og7rYiXBy8KGEndtSfJFPZ3hZNZQWO
- Cac6bQVFLX9jwi9BkBMufl5/48Nm9zMN3P5PLzMbqSgrSfsfzUYU9Lr0GmZHEzA7Ll27
- mhaA==
+ bh=9p80byA17XEFVio6ya05QPInVcwQ5DP56dNO6ng3AT0=;
+ b=aY3Iwa0IPpMgFuDem7h7q9Yd6/QHPHQRkcyeBGIGJxwFOvqHi++WsU+qnwxMVZR7oM
+ jpCNuhBujQzwtGseGD3GHGSGr4cc5RfR/SK7MkuVUsFYoPiRWs+TRCsmI3H8mpAbgI0W
+ x2zJbQHBd0JgKE3CWcWcERQ7RKT5fR/sJ/ONjzhT6wR05LzgY4TfDj9x825ApsiTwHqT
+ aGzJr12zD1NJvKtHuOjWT1gWIdpOTMMirpWqU5yNH5vR4CWRE+Apx0WHiopNG/OFCQe+
+ dYmuTOMsZ5xE1nt5bOVCwGsm/VFCwWpTGyVMqaXbrJ6WoxxpfWL/gqgcb+2bVPTSeHXi
+ wE3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zwgsbRC7S/9tqfeU7JxypMKTOKpf8DEKt23oGutI3as=;
- b=pr77NqenQARtAYF08SKV+iOuYlFHnHYmfSwD8OpdULhQIQPBk3dARc59ZF1oyagKzl
- IoUxhIGD3E4xMC8c8e/IfOqPaZ9I9aSE+uv7FrMzCpE8PUrKKlHHtuC+H3Q9Nbxvwy8m
- Yxa0XOBXKHS0buCydCAo28ulLFjORpz+pcL79ptcBx2nj+QLpNj7AhMaDctD58FG4fxy
- w/Zh7WckMQg+1EvlRU4kTvD5uf5mnosiZfOuWFiHzFCJYaH8z1bmN+8/wBtEhC9MMSjy
- 8iVpnqz7weKI5ka694nkEXgH4EugBh7PGIvrIOYL0fUVuZuq16Ft65YqNxSK86UNN8p3
- VaCQ==
-X-Gm-Message-State: APjAAAV3XaOlFuu1trcJckr0Lb+CPcVmyRWJM3Lap5nv6q3PeofBlL/G
- OBHyFeu/lagQDQMIAdUeXciyWUHHF5E2AA==
-X-Google-Smtp-Source: APXvYqyxfhmZVOQC6h9j4JCQgWAc0MfurL2rR1HUFR01uHr0B+cMRjQK22n2NqCkoEvzI/hStjA4tg==
-X-Received: by 2002:adf:fb11:: with SMTP id c17mr1500573wrr.0.1567525005632;
- Tue, 03 Sep 2019 08:36:45 -0700 (PDT)
+ bh=9p80byA17XEFVio6ya05QPInVcwQ5DP56dNO6ng3AT0=;
+ b=Xivv2d/t/GadDWtPeFH5mK0tY3aRvKz+GHXkt5988822W2HAfgdr+AMNgxrOgq+YmR
+ oWIe2NpgzLTnysAMtVXjMOpougsqPl4Vpjb+BTmc/uGJIaCNvamSeanRPtT6A5hbMUdz
+ 4nJMZf5eAM7CmcbBjqut5wtFWJntH9OP6Sifh2DGV2e2yRgBiqBkhClA5V9MRtKbbP5F
+ +SNRhZMAGq+O0hXNPMHxAotnuUAEBtPeFavVImtaGTNjts980+7MUaUYGimBisW+t7Ew
+ WNLktpKw0YpLB2H0zDXhZfx52EL71BFLbUcTXsf9HaevA7d4m8TPrbGdcHYazErWaXY5
+ wogA==
+X-Gm-Message-State: APjAAAUAJmCsmpfg+t7TsNerED6NSkzqQR7Ic7WiQFR2DAQTWwDyPIaC
+ iZMozwOIA2GXS9OYsCFLEnKnHr51PMiIWQ==
+X-Google-Smtp-Source: APXvYqzl8aX9vCb23CuSJJW9F6LHxnlvFgzn42gDXM+j8c0XiAGGFntqC94sF7E520yW1igtDXA2Yw==
+X-Received: by 2002:a05:600c:22c9:: with SMTP id
+ 9mr778520wmg.133.1567525007631; 
+ Tue, 03 Sep 2019 08:36:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.44
+ by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 08:36:45 -0700 (PDT)
+ Tue, 03 Sep 2019 08:36:47 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:36:20 +0100
-Message-Id: <20190903153633.6651-9-peter.maydell@linaro.org>
+Date: Tue,  3 Sep 2019 16:36:22 +0100
+Message-Id: <20190903153633.6651-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190903153633.6651-1-peter.maydell@linaro.org>
 References: <20190903153633.6651-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
-Subject: [Qemu-devel] [PULL 08/21] hw/arm/smmuv3: Remove spurious error
- messages on IOVA invalidations
+X-Received-From: 2a00:1450:4864:20::32d
+Subject: [Qemu-devel] [PULL 10/21] hw/arm: Use ARM_CPU_TYPE_NAME() macro
+ when appropriate
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,108 +84,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-An IOVA/ASID invalidation is notified to all IOMMU Memory Regions
-through smmuv3_inv_notifiers_iova/smmuv3_notify_iova.
+Commit ba1ba5cca introduce the ARM_CPU_TYPE_NAME() macro.
+Unify the code base by use it in all places.
 
-When the notification occurs it is possible that some of the
-PCIe devices associated to the notified regions do not have a
-valid stream table entry. In that case we output a LOG_GUEST_ERROR
-message, for example:
-
-invalid sid=<SID> (L1STD span=0)
-"smmuv3_notify_iova error decoding the configuration for iommu mr=<MR>
-
-This is unfortunate as the user gets the impression that there
-are some translation decoding errors whereas there are not.
-
-This patch adds a new field in SMMUEventInfo that tells whether
-the detection of an invalid STE must lead to an error report.
-invalid_ste_allowed is set before doing the invalidations and
-kept unset on actual translation.
-
-The other configuration decoding error messages are kept since if the
-STE is valid then the rest of the config must be correct.
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20190822172350.12008-6-eric.auger@redhat.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20190823143249.8096-2-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/smmuv3-internal.h |  1 +
- hw/arm/smmuv3.c          | 19 +++++++++++--------
- 2 files changed, 12 insertions(+), 8 deletions(-)
+ hw/arm/allwinner-a10.c | 3 ++-
+ hw/arm/cubieboard.c    | 3 ++-
+ hw/arm/digic.c         | 3 ++-
+ hw/arm/fsl-imx25.c     | 2 +-
+ hw/arm/fsl-imx31.c     | 2 +-
+ hw/arm/fsl-imx6.c      | 3 ++-
+ hw/arm/fsl-imx6ul.c    | 2 +-
+ hw/arm/xlnx-zynqmp.c   | 8 ++++----
+ 8 files changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-index b160289cd12..d190181ef1b 100644
---- a/hw/arm/smmuv3-internal.h
-+++ b/hw/arm/smmuv3-internal.h
-@@ -381,6 +381,7 @@ typedef struct SMMUEventInfo {
-     uint32_t sid;
-     bool recorded;
-     bool record_trans_faults;
-+    bool inval_ste_allowed;
-     union {
-         struct {
-             uint32_t ssid;
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 31ac4b15c30..db051dcac87 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -320,7 +320,9 @@ static int decode_ste(SMMUv3State *s, SMMUTransCfg *cfg,
-     uint32_t config;
+diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+index 73810a44402..118032c8c72 100644
+--- a/hw/arm/allwinner-a10.c
++++ b/hw/arm/allwinner-a10.c
+@@ -30,7 +30,8 @@ static void aw_a10_init(Object *obj)
+     AwA10State *s = AW_A10(obj);
  
-     if (!STE_VALID(ste)) {
--        qemu_log_mask(LOG_GUEST_ERROR, "invalid STE\n");
-+        if (!event->inval_ste_allowed) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "invalid STE\n");
-+        }
-         goto bad_ste;
-     }
+     object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
+-                            "cortex-a8-" TYPE_ARM_CPU, &error_abort, NULL);
++                            ARM_CPU_TYPE_NAME("cortex-a8"),
++                            &error_abort, NULL);
  
-@@ -407,8 +409,10 @@ static int smmu_find_ste(SMMUv3State *s, uint32_t sid, STE *ste,
+     sysbus_init_child_obj(obj, "intc", &s->intc, sizeof(s->intc),
+                           TYPE_AW_A10_PIC);
+diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
+index 38e0ca0f533..ed8d2333a07 100644
+--- a/hw/arm/cubieboard.c
++++ b/hw/arm/cubieboard.c
+@@ -81,7 +81,8 @@ static void cubieboard_init(MachineState *machine)
  
-         if (!span) {
-             /* l2ptr is not valid */
--            qemu_log_mask(LOG_GUEST_ERROR,
--                          "invalid sid=%d (L1STD span=0)\n", sid);
-+            if (!event->inval_ste_allowed) {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                              "invalid sid=%d (L1STD span=0)\n", sid);
-+            }
-             event->type = SMMU_EVT_C_BAD_STREAMID;
-             return -EINVAL;
-         }
-@@ -603,7 +607,9 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-     SMMUDevice *sdev = container_of(mr, SMMUDevice, iommu);
-     SMMUv3State *s = sdev->smmu;
-     uint32_t sid = smmu_get_sid(sdev);
--    SMMUEventInfo event = {.type = SMMU_EVT_NONE, .sid = sid};
-+    SMMUEventInfo event = {.type = SMMU_EVT_NONE,
-+                           .sid = sid,
-+                           .inval_ste_allowed = false};
-     SMMUPTWEventInfo ptw_info = {};
-     SMMUTranslationStatus status;
-     SMMUState *bs = ARM_SMMU(s);
-@@ -796,16 +802,13 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
-                                dma_addr_t iova)
+ static void cubieboard_machine_init(MachineClass *mc)
  {
-     SMMUDevice *sdev = container_of(mr, SMMUDevice, iommu);
--    SMMUEventInfo event = {};
-+    SMMUEventInfo event = {.inval_ste_allowed = true};
-     SMMUTransTableInfo *tt;
-     SMMUTransCfg *cfg;
-     IOMMUTLBEntry entry;
+-    mc->desc = "cubietech cubieboard";
++    mc->desc = "cubietech cubieboard (Cortex-A9)";
++    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a9");
+     mc->init = cubieboard_init;
+     mc->block_default_type = IF_IDE;
+     mc->units_per_default_bus = 1;
+diff --git a/hw/arm/digic.c b/hw/arm/digic.c
+index 4f524658756..22434a65a28 100644
+--- a/hw/arm/digic.c
++++ b/hw/arm/digic.c
+@@ -37,7 +37,8 @@ static void digic_init(Object *obj)
+     int i;
  
-     cfg = smmuv3_get_config(sdev, &event);
-     if (!cfg) {
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s error decoding the configuration for iommu mr=%s\n",
--                      __func__, mr->parent_obj.name);
-         return;
+     object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
+-                            "arm946-" TYPE_ARM_CPU, &error_abort, NULL);
++                            ARM_CPU_TYPE_NAME("arm946"),
++                            &error_abort, NULL);
+ 
+     for (i = 0; i < DIGIC4_NB_TIMERS; i++) {
+ #define DIGIC_TIMER_NAME_MLEN    11
+diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
+index 532d088298b..2b2fdb203a2 100644
+--- a/hw/arm/fsl-imx25.c
++++ b/hw/arm/fsl-imx25.c
+@@ -36,7 +36,7 @@ static void fsl_imx25_init(Object *obj)
+     FslIMX25State *s = FSL_IMX25(obj);
+     int i;
+ 
+-    object_initialize(&s->cpu, sizeof(s->cpu), "arm926-" TYPE_ARM_CPU);
++    object_initialize(&s->cpu, sizeof(s->cpu), ARM_CPU_TYPE_NAME("arm926"));
+ 
+     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
+                           TYPE_IMX_AVIC);
+diff --git a/hw/arm/fsl-imx31.c b/hw/arm/fsl-imx31.c
+index 1a37a7b997c..6760de3c8c1 100644
+--- a/hw/arm/fsl-imx31.c
++++ b/hw/arm/fsl-imx31.c
+@@ -33,7 +33,7 @@ static void fsl_imx31_init(Object *obj)
+     FslIMX31State *s = FSL_IMX31(obj);
+     int i;
+ 
+-    object_initialize(&s->cpu, sizeof(s->cpu), "arm1136-" TYPE_ARM_CPU);
++    object_initialize(&s->cpu, sizeof(s->cpu), ARM_CPU_TYPE_NAME("arm1136"));
+ 
+     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
+                           TYPE_IMX_AVIC);
+diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
+index 8c397ef04ba..552145b24ec 100644
+--- a/hw/arm/fsl-imx6.c
++++ b/hw/arm/fsl-imx6.c
+@@ -43,7 +43,8 @@ static void fsl_imx6_init(Object *obj)
+     for (i = 0; i < MIN(ms->smp.cpus, FSL_IMX6_NUM_CPUS); i++) {
+         snprintf(name, NAME_SIZE, "cpu%d", i);
+         object_initialize_child(obj, name, &s->cpu[i], sizeof(s->cpu[i]),
+-                                "cortex-a9-" TYPE_ARM_CPU, &error_abort, NULL);
++                                ARM_CPU_TYPE_NAME("cortex-a9"),
++                                &error_abort, NULL);
      }
  
+     sysbus_init_child_obj(obj, "a9mpcore", &s->a9mpcore, sizeof(s->a9mpcore),
+diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+index b074177a71d..c405b68d1dd 100644
+--- a/hw/arm/fsl-imx6ul.c
++++ b/hw/arm/fsl-imx6ul.c
+@@ -34,7 +34,7 @@ static void fsl_imx6ul_init(Object *obj)
+     int i;
+ 
+     object_initialize_child(obj, "cpu0", &s->cpu, sizeof(s->cpu),
+-                            "cortex-a7-" TYPE_ARM_CPU, &error_abort, NULL);
++                            ARM_CPU_TYPE_NAME("cortex-a7"), &error_abort, NULL);
+ 
+     /*
+      * A7MPCORE
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index 0f587e63d35..fb03c60ebb8 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -196,8 +196,8 @@ static void xlnx_zynqmp_create_rpu(MachineState *ms, XlnxZynqMPState *s,
+ 
+         object_initialize_child(OBJECT(&s->rpu_cluster), "rpu-cpu[*]",
+                                 &s->rpu_cpu[i], sizeof(s->rpu_cpu[i]),
+-                                "cortex-r5f-" TYPE_ARM_CPU, &error_abort,
+-                                NULL);
++                                ARM_CPU_TYPE_NAME("cortex-r5f"),
++                                &error_abort, NULL);
+ 
+         name = object_get_canonical_path_component(OBJECT(&s->rpu_cpu[i]));
+         if (strcmp(name, boot_cpu)) {
+@@ -237,8 +237,8 @@ static void xlnx_zynqmp_init(Object *obj)
+     for (i = 0; i < num_apus; i++) {
+         object_initialize_child(OBJECT(&s->apu_cluster), "apu-cpu[*]",
+                                 &s->apu_cpu[i], sizeof(s->apu_cpu[i]),
+-                                "cortex-a53-" TYPE_ARM_CPU, &error_abort,
+-                                NULL);
++                                ARM_CPU_TYPE_NAME("cortex-a53"),
++                                &error_abort, NULL);
+     }
+ 
+     sysbus_init_child_obj(obj, "gic", &s->gic, sizeof(s->gic),
 -- 
 2.20.1
 
