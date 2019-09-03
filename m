@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B65A6627
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 11:58:11 +0200 (CEST)
-Received: from localhost ([::1]:43454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD3DA6629
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 11:59:13 +0200 (CEST)
+Received: from localhost ([::1]:43464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i55Zi-0006X2-U3
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 05:58:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38791)
+	id 1i55ai-0007WX-SX
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 05:59:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38822)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i55YR-0005qK-1d
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:56:51 -0400
+ (envelope-from <danielhb413@gmail.com>) id 1i55YX-0005w4-Al
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:56:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i55YP-0001er-UC
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:56:50 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45362)
+ (envelope-from <danielhb413@gmail.com>) id 1i55YW-0001hS-4e
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:56:57 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:36831)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i55YP-0001eV-Oi
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:56:49 -0400
-Received: by mail-ot1-x344.google.com with SMTP id g16so4240290otp.12
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 02:56:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=L/R10hJmIBoUj9rWMDbbGfLuh6SRQU1iZkJR2aZvYgo=;
- b=DYy0mPZWYp0ZrACEyNMrANPcn+dY4JYrVSW72hlO7+1nIArPzFXisIvQJNDF9uKn79
- OOVXknqC5N4AWJqlufsIeCJo1Z71NvrX0C0IEor2dK5Tv30NwV7S3I9iUr+pS9lxhyda
- IWz3UZos7rWFtQjRDNw9nExsy1iJxfYPUTtczSYRK45b7fN1x9V68CXvbCtlYFQeVDUZ
- Fy3N+5/7+hLfGCnDfUBzM5b5KhFL9ghMkn6JTg2br6C7aoqr0dDlfhaiS+afgZprgJUd
- N13qOpTqcwsTmZgPeAwY6TvfTXU1IsQVJZKzYTd7S3TmBC+ubPiREx3h2kPae5tmDTG+
- u23w==
+ (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
+ id 1i55YV-0001hB-Ve
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:56:56 -0400
+Received: by mail-qt1-x842.google.com with SMTP id o12so7440732qtf.3
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 02:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language;
+ bh=txXxcdVcEhNz+yLM/minDvL7t1RUbWB/sTGnSDsHuxc=;
+ b=RsdSwWPSdAE67YwbdSBQTiWQfzmD64Ctp64hz6gs30Os3Td3WtMFv/GIXq1OdP/mNm
+ xdyJJj/sfqIcLzX60XJ9wWluNd3UExQOIfc1TjgH8obXP1rIw62u5zyXV12RUFeCvy3x
+ GreUVLwSogF8PbRyPdi4bUxrUwLScn1onoZLafnBd10Db5PYpcP+pobx+ke24hilDDhp
+ YqG9w0OaRxrFnJjcBjbNIaaL2lG20TWi5IiUGOe4sxqEwhk5K3v3drpzeQPVl77/KVsw
+ 4wfK0lInsNFJPjSQTlXPIUKUkSgsCQTSnJh1cuBRS/gko1vyU+ev5qngiLxbtdQHjiH9
+ VKHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L/R10hJmIBoUj9rWMDbbGfLuh6SRQU1iZkJR2aZvYgo=;
- b=nM1Jq/fOQvEVFttXEKoF93noEF/YaoK8YB7Dx2apQs8b+LjVbVe0GwdbyZO06qEJWY
- 6symBqaxqU2+ko2vBahBk0FM8Y0vllDjWHfvunsfvmiMsxCWIl+KTyVXk+Z0TD2YgKa5
- saUogSh9/kgEA5s2fjVxgDwEzK3zld0FfyqRfY9K+AvifdEIrZNcD/zY/UkAL7nQGwhn
- 9iigufP7qTbHFi88pOXAHCq6H0E3vJZRqegNRcR2WyWcvxWzf9ETpOe6Regc7g0BcQcX
- U8MfqpORJAmQpbojuFkk0KqliODY4klgwmKG4oFb7ZCkM4JOCoXNz/U1L/zwsPAPsrB9
- 4XWg==
-X-Gm-Message-State: APjAAAX9cUC3tjU/omLF+nCQrQdWXzEJnef9wOna51VarqnId32xkV3p
- tJISH7xL7sgpUM88PYDqAVafFOwQYtVgbzz6FuK+ZQ==
-X-Google-Smtp-Source: APXvYqyWrJCqHLRWcvk+oaVIvd2bAAMgZgAkwVFzIuy3yyuKaIB9PF2xNk80M8fGUTFx/5YBraiLHK2+hiLymU/BJOo=
-X-Received: by 2002:a9d:7504:: with SMTP id r4mr9990905otk.221.1567504608764; 
- Tue, 03 Sep 2019 02:56:48 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language;
+ bh=txXxcdVcEhNz+yLM/minDvL7t1RUbWB/sTGnSDsHuxc=;
+ b=R8Pr/04mgUWt2M8rwTMIn5kWxHiE49ME4wkJ6Ngr9M7T+98jdI104y35VWpHgAhcHK
+ DFeHZFrexUDVfek4NKqWUJn2hbaT/Nl7cvPJMbuZGS2+UJNhVN8lqkqzRwy2UehYlyKw
+ R5qWqesWUHfVDnciEC3jzf2TaQSRt82yiorss/2hgDz9o1A3VoHfViucELAon8+gX3qi
+ kvHW5SKSuulLfd0mNKPStHSHai7mi4gDOnLr5HfAMgG/CWiALpJqO5vezzrvJoufuNAo
+ dSm2mykpYLkc+nNUxDb9H0P+apvUJrEC/9txqLKlgHkPAVdnaGqPTcPrXWgkl1E1IXqK
+ CcYg==
+X-Gm-Message-State: APjAAAWaXRxLMTVMfYP75YsbanlLMvvqCZUW++fOjhU1o/HNo3ceTqOB
+ 4X4j+tKZb53qiaIpO+9xIRs=
+X-Google-Smtp-Source: APXvYqyQWOkOBOLpswqQ3Mi/b7lgtlu7euyAUR0+/ElHfISc+/M8z2f7QmDaRmVpzo8TRdeNArWOGg==
+X-Received: by 2002:ac8:2d09:: with SMTP id n9mr8768334qta.10.1567504615248;
+ Tue, 03 Sep 2019 02:56:55 -0700 (PDT)
+Received: from ?IPv6:2804:431:c7c6:9589:1351:c7eb:87b:c9d5?
+ ([2804:431:c7c6:9589:1351:c7eb:87b:c9d5])
+ by smtp.gmail.com with ESMTPSA id h4sm8251596qkf.126.2019.09.03.02.56.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Sep 2019 02:56:54 -0700 (PDT)
+To: qemu-devel@nongnu.org
+References: <20190902205842.1884-1-danielhb413@gmail.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <4903f3cb-8ece-15b6-3d34-24fdc864566c@gmail.com>
+Date: Tue, 3 Sep 2019 06:56:52 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190829013258.16102-1-richard.henderson@linaro.org>
-In-Reply-To: <20190829013258.16102-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 Sep 2019 10:56:37 +0100
-Message-ID: <CAFEAcA_vXKQhfXM8NRmefHc2gFhOrCOQARqJc6EHbVj9sAdVhA@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190902205842.1884-1-danielhb413@gmail.com>
+Content-Language: en-US
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH] target/arm: Fix SMMLS argument order
+X-Received-From: 2607:f8b0:4864:20::842
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v6 0/4] delete created files when
+ block_crypto_co_create_opts_luks fails
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,26 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Aug 2019 at 02:34, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+Please ignore this series. I'll respin a v7 to actually do what
+Kevin suggested in the v4 review.
+
+Thanks,
+
+
+DHB
+
+On 9/2/19 5:58 PM, Daniel Henrique Barboza wrote:
+> Changes from previous version 5 [1] suggested by John Snow:
+> - patch 2: return ENOMEDIUM with !drv, return negative error
+> codes in bdrv_delete_file
+> - patch 3: clarify the meaning of returning ENOENT in the
+> comment
 >
-> The previous simplification got the order of operands to the
-> subtraction wrong.  Since the 64-bit product is the subtrahend,
-> we must use a 64-bit subtract to properly compute the borrow
-> from the low-part of the product.
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg01173.html
 >
-> Fixes: 5f8cd06ebcf5 ("target/arm: Simplify SMMLA, SMMLAR, SMMLS, SMMLSR")
-> Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-
-Applied to target-arm.next, thanks.
-
--- PMM
+>
+> Daniel Henrique Barboza (4):
+>    block: introducing 'bdrv_co_delete_file' interface
+>    block.c: adding bdrv_delete_file
+>    crypto.c: cleanup created file when block_crypto_co_create_opts_luks
+>      fails
+>    qemu-iotests: adding LUKS cleanup for non-UTF8 secret error
+>
+>   block.c                    | 78 ++++++++++++++++++++++++++++++++++++++
+>   block/crypto.c             | 22 +++++++++++
+>   block/file-posix.c         | 28 ++++++++++++++
+>   include/block/block.h      |  1 +
+>   include/block/block_int.h  |  6 +++
+>   tests/qemu-iotests/259     | 67 ++++++++++++++++++++++++++++++++
+>   tests/qemu-iotests/259.out | 11 ++++++
+>   tests/qemu-iotests/group   |  1 +
+>   8 files changed, 214 insertions(+)
+>   create mode 100755 tests/qemu-iotests/259
+>   create mode 100644 tests/qemu-iotests/259.out
+>
 
