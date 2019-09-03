@@ -2,47 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F378A6143
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 08:22:01 +0200 (CEST)
-Received: from localhost ([::1]:41966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6D3A620A
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 08:58:45 +0200 (CEST)
+Received: from localhost ([::1]:42156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i52CW-0000mg-7X
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 02:22:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57073)
+	id 1i52m4-0002G9-JV
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 02:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35510)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1i529p-0007Lr-B5
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:19:15 -0400
+ (envelope-from <kevin.tian@intel.com>) id 1i52l0-0001qB-6U
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:57:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1i529m-0003e2-Az
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:19:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41158)
+ (envelope-from <kevin.tian@intel.com>) id 1i52kx-00071Q-W0
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:57:37 -0400
+Received: from mga03.intel.com ([134.134.136.65]:60247)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1i529m-0003dV-3F
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:19:10 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6F91D308A968
- for <qemu-devel@nongnu.org>; Tue,  3 Sep 2019 06:19:09 +0000 (UTC)
-Received: from thuth.com (ovpn-116-80.ams2.redhat.com [10.36.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1CEE4600C6;
- Tue,  3 Sep 2019 06:19:07 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>,
-	qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 08:18:49 +0200
-Message-Id: <20190903061849.21493-7-thuth@redhat.com>
-In-Reply-To: <20190903061849.21493-1-thuth@redhat.com>
-References: <20190903061849.21493-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 03 Sep 2019 06:19:09 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 6/6] tests/libqtest: Use libqtest-single.h in
- tests that require global_qtest
+ (Exim 4.71) (envelope-from <kevin.tian@intel.com>)
+ id 1i52kx-00070H-OA
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 02:57:35 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2019 23:57:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,462,1559545200"; d="scan'208";a="194253034"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by orsmga002.jf.intel.com with ESMTP; 02 Sep 2019 23:57:30 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 2 Sep 2019 23:57:30 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 2 Sep 2019 23:57:30 -0700
+Received: from shsmsx107.ccr.corp.intel.com (10.239.4.96) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Mon, 2 Sep 2019 23:57:29 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.32]) by
+ SHSMSX107.ccr.corp.intel.com ([169.254.9.89]) with mapi id 14.03.0439.000;
+ Tue, 3 Sep 2019 14:57:28 +0800
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Thread-Topic: [PATCH v8 01/13] vfio: KABI for migration interface
+Thread-Index: AQHVXEPM6Ds11z4g1kGhkyVJXk+n4qcQheKAgAKxOUCAABvDkIAAD6EAgAYgQnA=
+Date: Tue, 3 Sep 2019 06:57:27 +0000
+Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D560D74@SHSMSX104.ccr.corp.intel.com>
+References: <1566845753-18993-1-git-send-email-kwankhede@nvidia.com>
+ <1566845753-18993-2-git-send-email-kwankhede@nvidia.com>
+ <20190828145045.20f2a7b3@x1.home>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D553133@SHSMSX104.ccr.corp.intel.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D553184@SHSMSX104.ccr.corp.intel.com>
+ <20190830103252.2b427144@x1.home>
+In-Reply-To: <20190830103252.2b427144@x1.home>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiM2QzYWRhZDYtYTdmZi00Y2U0LWExZGItNmI2NmZhZWIyODFkIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiWUpCVmQxSEdKa2ozMjVSbVlEVHVZVXlLbStQOU40QWJJSUtLRDdqVUV6NHREUFY1MGNDbXhZczRFSldHR0xDWiJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.65
+Subject: Re: [Qemu-devel] [PATCH v8 01/13] vfio: KABI for migration interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,453 +85,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Liu,
+ Yi L" <yi.l.liu@intel.com>, "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang, 
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Zhao,
+ Yan Y" <yan.y.zhao@intel.com>, "Liu, Changpeng" <changpeng.liu@intel.com>,
+ "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tests that require global_qtest or the related wrapper functions now
-use the libqtest-single.h header that is dedicated for everything
-related to global_qtest. The core libqtest.c and libqtest.h files are
-now completely indepedent from global_qtest, so that the core library
-is now not depending on a global state anymore.
+> From: Alex Williamson [mailto:alex.williamson@redhat.com]
+> Sent: Saturday, August 31, 2019 12:33 AM
+>=20
+> On Fri, 30 Aug 2019 08:06:32 +0000
+> "Tian, Kevin" <kevin.tian@intel.com> wrote:
+>=20
+> > > From: Tian, Kevin
+> > > Sent: Friday, August 30, 2019 3:26 PM
+> > >
+> > [...]
+> > > > How does QEMU handle the fact that IOVAs are potentially dynamic
+> while
+> > > > performing the live portion of a migration?  For example, each time=
+ a
+> > > > guest driver calls dma_map_page() or dma_unmap_page(), a
+> > > > MemoryRegionSection pops in or out of the AddressSpace for the devi=
+ce
+> > > > (I'm assuming a vIOMMU where the device AddressSpace is not
+> > > > system_memory).  I don't see any QEMU code that intercepts that
+> change
+> > > > in the AddressSpace such that the IOVA dirty pfns could be recorded=
+ and
+> > > > translated to GFNs.  The vendor driver can't track these beyond get=
+ting
+> > > > an unmap notification since it only knows the IOVA pfns, which can =
+be
+> > > > re-used with different GFN backing.  Once the DMA mapping is torn
+> down,
+> > > > it seems those dirty pfns are lost in the ether.  If this works in =
+QEMU,
+> > > > please help me find the code that handles it.
+> > >
+> > > I'm curious about this part too. Interestingly, I didn't find any log=
+_sync
+> > > callback registered by emulated devices in Qemu. Looks dirty pages
+> > > by emulated DMAs are recorded in some implicit way. But KVM always
+> > > reports dirty page in GFN instead of IOVA, regardless of the presence=
+ of
+> > > vIOMMU. If Qemu also tracks dirty pages in GFN for emulated DMAs
+> > >  (translation can be done when DMA happens), then we don't need
+> > > worry about transient mapping from IOVA to GFN. Along this way we
+> > > also want GFN-based dirty bitmap being reported through VFIO,
+> > > similar to what KVM does. For vendor drivers, it needs to translate
+> > > from IOVA to HVA to GFN when tracking DMA activities on VFIO
+> > > devices. IOVA->HVA is provided by VFIO. for HVA->GFN, it can be
+> > > provided by KVM but I'm not sure whether it's exposed now.
+> > >
+> >
+> > HVA->GFN can be done through hva_to_gfn_memslot in kvm_host.h.
+>=20
+> I thought it was bad enough that we have vendor drivers that depend on
+> KVM, but designing a vfio interface that only supports a KVM interface
+> is more undesirable.  I also note without comment that gfn_to_memslot()
+> is a GPL symbol.  Thanks,
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/cpu-plug-test.c         | 2 +-
- tests/display-vga-test.c      | 2 +-
- tests/e1000e-test.c           | 2 +-
- tests/fdc-test.c              | 2 +-
- tests/i440fx-test.c           | 2 +-
- tests/i82801b11-test.c        | 2 +-
- tests/intel-hda-test.c        | 2 +-
- tests/ioh3420-test.c          | 2 +-
- tests/ipmi-kcs-test.c         | 3 +--
- tests/libqtest-single.h       | 4 ++++
- tests/libqtest.c              | 2 --
- tests/libqtest.h              | 4 ----
- tests/qos-test.c              | 2 +-
- tests/rtc-test.c              | 2 +-
- tests/rtl8139-test.c          | 2 +-
- tests/test-netfilter.c        | 2 +-
- tests/test-x86-cpuid-compat.c | 2 +-
- tests/tmp105-test.c           | 2 +-
- tests/tpm-crb-test.c          | 2 +-
- tests/tpm-tests.c             | 2 +-
- tests/tpm-tis-test.c          | 2 +-
- tests/usb-hcd-ohci-test.c     | 2 +-
- tests/usb-hcd-uhci-test.c     | 2 +-
- tests/usb-hcd-xhci-test.c     | 2 +-
- tests/vhost-user-test.c       | 2 +-
- tests/virtio-blk-test.c       | 2 +-
- tests/virtio-ccw-test.c       | 2 +-
- tests/virtio-net-test.c       | 2 +-
- tests/virtio-scsi-test.c      | 2 +-
- tests/virtio-serial-test.c    | 2 +-
- 30 files changed, 31 insertions(+), 34 deletions(-)
+yes it is bad, but sometimes inevitable. If you recall our discussions
+back to 3yrs (when discussing the 1st mdev framework), there were similar
+hypervisor dependencies in GVT-g, e.g. querying gpa->hpa when
+creating some shadow structures. gpa->hpa is definitely hypervisor
+specific knowledge, which is easy in KVM (gpa->hva->hpa), but needs
+hypercall in Xen. but VFIO already makes assumption based on KVM-
+only flavor when implementing vfio_{un}pin_page_external. So GVT-g
+has to maintain an internal abstraction layer to support both Xen and
+KVM. Maybe someday we will re-consider introducing some hypervisor
+abstraction layer in VFIO, if this issue starts to hurt other devices and
+Xen guys are willing to support VFIO.
 
-diff --git a/tests/cpu-plug-test.c b/tests/cpu-plug-test.c
-index 3049620854..776407e1b6 100644
---- a/tests/cpu-plug-test.c
-+++ b/tests/cpu-plug-test.c
-@@ -10,7 +10,7 @@
- #include "qemu/osdep.h"
- 
- #include "qemu-common.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qapi/qmp/qdict.h"
- 
- struct PlugTestData {
-diff --git a/tests/display-vga-test.c b/tests/display-vga-test.c
-index bd176dcf3a..ace3bb28e0 100644
---- a/tests/display-vga-test.c
-+++ b/tests/display-vga-test.c
-@@ -8,7 +8,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- 
- static void pci_cirrus(void)
- {
-diff --git a/tests/e1000e-test.c b/tests/e1000e-test.c
-index 93628c588d..1a232a663a 100644
---- a/tests/e1000e-test.c
-+++ b/tests/e1000e-test.c
-@@ -26,7 +26,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu-common.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qemu-common.h"
- #include "libqos/pci-pc.h"
- #include "qemu/sockets.h"
-diff --git a/tests/fdc-test.c b/tests/fdc-test.c
-index 31cd3295c1..26b69f7c5c 100644
---- a/tests/fdc-test.c
-+++ b/tests/fdc-test.c
-@@ -25,7 +25,7 @@
- #include "qemu/osdep.h"
- 
- 
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qapi/qmp/qdict.h"
- #include "qemu-common.h"
- 
-diff --git a/tests/i440fx-test.c b/tests/i440fx-test.c
-index 69205b58a8..1f57d9684b 100644
---- a/tests/i440fx-test.c
-+++ b/tests/i440fx-test.c
-@@ -14,7 +14,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "libqos/pci.h"
- #include "libqos/pci-pc.h"
- #include "hw/pci/pci_regs.h"
-diff --git a/tests/i82801b11-test.c b/tests/i82801b11-test.c
-index a6e31594c9..4345da338b 100644
---- a/tests/i82801b11-test.c
-+++ b/tests/i82801b11-test.c
-@@ -8,7 +8,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- 
- /* Tests only initialization so far. TODO: Replace with functional tests */
- static void nop(void)
-diff --git a/tests/intel-hda-test.c b/tests/intel-hda-test.c
-index b782b2e944..fc25ccc33c 100644
---- a/tests/intel-hda-test.c
-+++ b/tests/intel-hda-test.c
-@@ -8,7 +8,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- 
- #define HDA_ID "hda0"
- #define CODEC_DEVICES " -device hda-output,bus=" HDA_ID ".0" \
-diff --git a/tests/ioh3420-test.c b/tests/ioh3420-test.c
-index b54c4b9f11..f6ca43cca7 100644
---- a/tests/ioh3420-test.c
-+++ b/tests/ioh3420-test.c
-@@ -8,7 +8,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- 
- /* Tests only initialization so far. TODO: Replace with functional tests */
- static void nop(void)
-diff --git a/tests/ipmi-kcs-test.c b/tests/ipmi-kcs-test.c
-index a2354c10c7..693a6aacb5 100644
---- a/tests/ipmi-kcs-test.c
-+++ b/tests/ipmi-kcs-test.c
-@@ -24,8 +24,7 @@
- 
- #include "qemu/osdep.h"
- 
--
--#include "libqtest.h"
-+#include "libqtest-single.h"
- 
- #define IPMI_IRQ        5
- 
-diff --git a/tests/libqtest-single.h b/tests/libqtest-single.h
-index 49259558a5..6f1bb1331c 100644
---- a/tests/libqtest-single.h
-+++ b/tests/libqtest-single.h
-@@ -11,6 +11,10 @@
- #ifndef LIBQTEST_SINGLE_H
- #define LIBQTEST_SINGLE_H
- 
-+#include "libqtest.h"
-+
-+QTestState *global_qtest __attribute__((common, weak));
-+
- /**
-  * qtest_start:
-  * @args: other arguments to pass to QEMU
-diff --git a/tests/libqtest.c b/tests/libqtest.c
-index e5101d9d3a..0a6b91737e 100644
---- a/tests/libqtest.c
-+++ b/tests/libqtest.c
-@@ -35,8 +35,6 @@
- #define SOCKET_TIMEOUT 50
- #define SOCKET_MAX_FDS 16
- 
--QTestState *global_qtest;
--
- struct QTestState
- {
-     int fd;
-diff --git a/tests/libqtest.h b/tests/libqtest.h
-index 6a7d7e41ad..c8cffe5d68 100644
---- a/tests/libqtest.h
-+++ b/tests/libqtest.h
-@@ -22,8 +22,6 @@
- 
- typedef struct QTestState QTestState;
- 
--extern QTestState *global_qtest;
--
- /**
-  * qtest_initf:
-  * @fmt...: Format for creating other arguments to pass to QEMU, formatted
-@@ -641,8 +639,6 @@ void qtest_add_abrt_handler(GHookFunc fn, const void *data);
- void qtest_qmp_assert_success(QTestState *qts, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
- 
--#include "libqtest-single.h"
--
- QDict *qmp_fd_receive(int fd);
- void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-                       const char *fmt, va_list ap) GCC_FMT_ATTR(4, 0);
-diff --git a/tests/qos-test.c b/tests/qos-test.c
-index 3c0071b3b7..fd70d73ea5 100644
---- a/tests/qos-test.c
-+++ b/tests/qos-test.c
-@@ -18,7 +18,7 @@
- 
- #include "qemu/osdep.h"
- #include <getopt.h>
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qbool.h"
- #include "qapi/qmp/qstring.h"
-diff --git a/tests/rtc-test.c b/tests/rtc-test.c
-index 509be707e3..6309b0ef6c 100644
---- a/tests/rtc-test.c
-+++ b/tests/rtc-test.c
-@@ -13,7 +13,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qemu/timer.h"
- #include "hw/timer/mc146818rtc_regs.h"
- 
-diff --git a/tests/rtl8139-test.c b/tests/rtl8139-test.c
-index d6d0c24909..4506049264 100644
---- a/tests/rtl8139-test.c
-+++ b/tests/rtl8139-test.c
-@@ -8,7 +8,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "libqos/pci-pc.h"
- #include "qemu/timer.h"
- #include "qemu-common.h"
-diff --git a/tests/test-netfilter.c b/tests/test-netfilter.c
-index e47075dd06..22927ee6ab 100644
---- a/tests/test-netfilter.c
-+++ b/tests/test-netfilter.c
-@@ -9,7 +9,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qapi/qmp/qdict.h"
- 
- /* add a netfilter to a netdev and then remove it */
-diff --git a/tests/test-x86-cpuid-compat.c b/tests/test-x86-cpuid-compat.c
-index e75b959950..772287bdb4 100644
---- a/tests/test-x86-cpuid-compat.c
-+++ b/tests/test-x86-cpuid-compat.c
-@@ -4,7 +4,7 @@
- #include "qapi/qmp/qlist.h"
- #include "qapi/qmp/qnum.h"
- #include "qapi/qmp/qbool.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- 
- static char *get_cpu0_qom_path(void)
- {
-diff --git a/tests/tmp105-test.c b/tests/tmp105-test.c
-index f599309a4a..f930a96b83 100644
---- a/tests/tmp105-test.c
-+++ b/tests/tmp105-test.c
-@@ -9,7 +9,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "libqos/qgraph.h"
- #include "libqos/i2c.h"
- #include "qapi/qmp/qdict.h"
-diff --git a/tests/tpm-crb-test.c b/tests/tpm-crb-test.c
-index a139caa51d..632fb7fbd8 100644
---- a/tests/tpm-crb-test.c
-+++ b/tests/tpm-crb-test.c
-@@ -15,7 +15,7 @@
- 
- #include "hw/acpi/tpm.h"
- #include "io/channel-socket.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qemu/module.h"
- #include "tpm-emu.h"
- 
-diff --git a/tests/tpm-tests.c b/tests/tpm-tests.c
-index e640777aa9..6e45a0ba85 100644
---- a/tests/tpm-tests.c
-+++ b/tests/tpm-tests.c
-@@ -15,7 +15,7 @@
- #include "qemu/osdep.h"
- #include <glib/gstdio.h>
- 
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "tpm-tests.h"
- 
- static bool
-diff --git a/tests/tpm-tis-test.c b/tests/tpm-tis-test.c
-index 92a7e95aad..dcf30e05b7 100644
---- a/tests/tpm-tis-test.c
-+++ b/tests/tpm-tis-test.c
-@@ -17,7 +17,7 @@
- 
- #include "hw/acpi/tpm.h"
- #include "io/channel-socket.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qemu/module.h"
- #include "tpm-emu.h"
- 
-diff --git a/tests/usb-hcd-ohci-test.c b/tests/usb-hcd-ohci-test.c
-index 0cd73b7363..19d760f3fb 100644
---- a/tests/usb-hcd-ohci-test.c
-+++ b/tests/usb-hcd-ohci-test.c
-@@ -8,7 +8,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qemu/module.h"
- #include "libqos/usb.h"
- #include "libqos/qgraph.h"
-diff --git a/tests/usb-hcd-uhci-test.c b/tests/usb-hcd-uhci-test.c
-index 2eef8e3d1c..7a117b64d9 100644
---- a/tests/usb-hcd-uhci-test.c
-+++ b/tests/usb-hcd-uhci-test.c
-@@ -8,7 +8,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "libqos/libqos.h"
- #include "libqos/usb.h"
- #include "libqos/libqos-pc.h"
-diff --git a/tests/usb-hcd-xhci-test.c b/tests/usb-hcd-xhci-test.c
-index 01845371f9..10ef9d2a91 100644
---- a/tests/usb-hcd-xhci-test.c
-+++ b/tests/usb-hcd-xhci-test.c
-@@ -8,7 +8,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "libqos/usb.h"
- 
- 
-diff --git a/tests/vhost-user-test.c b/tests/vhost-user-test.c
-index 6ae8a23688..91ea373ba5 100644
---- a/tests/vhost-user-test.c
-+++ b/tests/vhost-user-test.c
-@@ -10,7 +10,7 @@
- 
- #include "qemu/osdep.h"
- 
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qdict.h"
- #include "qemu/config-file.h"
-diff --git a/tests/virtio-blk-test.c b/tests/virtio-blk-test.c
-index 247fef0b0f..b41d907dc3 100644
---- a/tests/virtio-blk-test.c
-+++ b/tests/virtio-blk-test.c
-@@ -9,7 +9,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qemu/bswap.h"
- #include "qemu/module.h"
- #include "standard-headers/linux/virtio_blk.h"
-diff --git a/tests/virtio-ccw-test.c b/tests/virtio-ccw-test.c
-index 9f445ef4ad..d05236407b 100644
---- a/tests/virtio-ccw-test.c
-+++ b/tests/virtio-ccw-test.c
-@@ -14,7 +14,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "libqos/virtio.h"
- 
- static void virtio_balloon_nop(void)
-diff --git a/tests/virtio-net-test.c b/tests/virtio-net-test.c
-index 840875aaae..a08e2ffe12 100644
---- a/tests/virtio-net-test.c
-+++ b/tests/virtio-net-test.c
-@@ -9,7 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu-common.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qemu/iov.h"
- #include "qemu/module.h"
- #include "qapi/qmp/qdict.h"
-diff --git a/tests/virtio-scsi-test.c b/tests/virtio-scsi-test.c
-index 09348765d7..7c8f9b27f8 100644
---- a/tests/virtio-scsi-test.c
-+++ b/tests/virtio-scsi-test.c
-@@ -9,7 +9,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qemu/module.h"
- #include "scsi/constants.h"
- #include "libqos/libqos-pc.h"
-diff --git a/tests/virtio-serial-test.c b/tests/virtio-serial-test.c
-index e584ad76e8..2541034822 100644
---- a/tests/virtio-serial-test.c
-+++ b/tests/virtio-serial-test.c
-@@ -8,7 +8,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "libqtest.h"
-+#include "libqtest-single.h"
- #include "qemu/module.h"
- #include "libqos/virtio-serial.h"
- 
--- 
-2.18.1
+Back to this IOVA issue, I discussed with Yan and we found another=20
+hypervisor-agnostic alternative, by learning from vhost. vhost is very
+similar to VFIO - DMA also happens in the kernel, while it already=20
+supports vIOMMU.
+
+Generally speaking, there are three paths of dirty page collection
+in Qemu so far (as previously noted, Qemu always tracks the dirty
+bitmap in GFN):
+
+1) Qemu-tracked memory writes (e.g. emulated DMAs). Dirty bitmaps=20
+are updated directly when the guest memory is being updated. For=20
+example, PCI writes are completed through pci_dma_write, which=20
+goes through vIOMMU to translate IOVA into GPA and then update=20
+the bitmap through cpu_physical_memory_set_dirty_range.
+
+2) Memory writes that are not tracked by Qemu are collected by
+registering .log_sync() callback, which is invoked in the dirty logging
+process. Now there are two users: kvm and vhost.
+
+  2.1) KVM tracks CPU-side memory writes, through write-protection
+or EPT A/D bits (+PML). This part is always based on GFN and returned
+to Qemu when kvm_log_sync is invoked;
+
+  2.2) vhost tracks kernel-side DMA writes, by interpreting vring
+data structure. It maintains an internal iotlb which is synced with
+Qemu vIOMMU through a specific interface:
+	- new vhost message type (VHOST_IOTLB_UPDATE/INVALIDATE)
+for Qemu to keep vhost iotlb in sync
+	- new VHOST_IOTLB_MISS message to notify Qemu in case of
+a miss in vhost iotlb.
+	- Qemu registers a log buffer to kernel vhost driver. The latter
+update the buffer (using internal iotlb to get GFN) when serving vring
+descriptor.
+
+VFIO could also implement an internal iotlb, so vendor drivers can
+utilize the iotlb to update the GFN-based dirty bitmap. Ideally we
+don't need re-invent another iotlb protocol as vhost does. vIOMMU
+already sends map/unmap ioctl cmds upon any change of IOVA
+mapping. We may introduce a v2 map/unmap interface, allowing
+Qemu to pass both {iova, gpa, hva} together to keep internal iotlb
+in-sync. But we may also need a iotlb_miss_upcall interface, if VFIO
+doesn't want to cache full-size vIOMMU mappings.=20
+
+Definitely this alternative needs more work and possibly less=20
+performant (if maintaining a small size iotlb) than straightforward
+calling into KVM interface. But the gain is also obvious, since it
+is fully constrained with VFIO.
+
+Thoughts? :-)
+
+Thanks
+Kevin
+
+>=20
+> Alex
+>=20
+> > Above flow works for software-tracked dirty mechanism, e.g. in
+> > KVMGT, where GFN-based 'dirty' is marked when a guest page is
+> > mapped into device mmu. IOVA->HPA->GFN translation is done
+> > at that time, thus immune from further IOVA->GFN changes.
+> >
+> > When hardware IOMMU supports D-bit in 2nd level translation (e.g.
+> > VT-d rev3.0), there are two scenarios:
+> >
+> > 1) nested translation: guest manages 1st-level translation (IOVA->GPA)
+> > and host manages 2nd-level translation (GPA->HPA). The 2nd-level
+> > is not affected by guest mapping operations. So it's OK for IOMMU
+> > driver to retrieve GFN-based dirty pages by directly scanning the 2nd-
+> > level structure, upon request from user space.
+> >
+> > 2) shadowed translation (IOVA->HPA) in 2nd level: in such case the dirt=
+y
+> > information is tied to IOVA. the IOMMU driver is expected to maintain
+> > an internal dirty bitmap. Upon any change of IOVA->GPA notification
+> > from VFIO, the IOMMU driver should flush dirty status of affected 2nd-l=
+evel
+> > entries to the internal GFN-based bitmap. At this time, again IOVA->HVA
+> > ->GPA translation required for GFN-based recording. When userspace
+> > queries dirty bitmap, the IOMMU driver needs to flush latest 2nd-level
+> > dirty status to internal bitmap, which is then copied to user space.
+> >
+> > Given the trickiness of 2), we aim to enable 1) on intel-iommu driver.
+> >
+> > Thanks
+> > Kevin
 
 
