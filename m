@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEE4A70BD
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:41:49 +0200 (CEST)
-Received: from localhost ([::1]:49154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18160A70D0
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:44:05 +0200 (CEST)
+Received: from localhost ([::1]:49192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5BsK-0002gg-Lp
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:41:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37294)
+	id 1i5BuV-000693-W5
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37333)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BN1-0001Kx-4v
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:28 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN4-0001PV-6x
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BMz-0003qe-S6
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:26 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38771)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN2-0003tH-Te
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:30 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:39315)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BMz-0003pp-MQ
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:25 -0400
-Received: by mail-pl1-x644.google.com with SMTP id w11so8120771plp.5
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:25 -0700 (PDT)
+ id 1i5BN2-0003sv-Mr
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:28 -0400
+Received: by mail-pl1-x632.google.com with SMTP id bd8so1767124plb.6
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=LJRcqdYb3KvBP4qjKS/2RBPcCRmkfX7I427R88Z1k+U=;
- b=OeTCn8CPM3vXPBjvPE1+xu4yY6r0/bx/cms433UMqVJqebzYSoE8HG2ohsG7F5L+ew
- y1NAON3+ur98J99dhvWMBQ6M+g/mIIZD8Tu1bXfe7d4jp0zfdMNhwZPey0IW4py1Pa00
- QRjiPwLgnc7Wc5cZtcXT6drU1gUSMyTLfxDU/iJnvNS7LGqB7t+ccRKRZfW5YnqWQPIt
- 9tc6FqckkgpVwSqS1CwHrzvKU2gaEEoV3vzT8AxiTmW6LwUKBpPLNdYiaYMxe4tPWijU
- fpRi87FF5yXvln0tdkbYeq180c6MZECi70KnEyvS/nPm13gKph1KgVVhpFREoiSZ2KAC
- FcXg==
+ bh=4hy82QgJUYjjhSQJRivLUVd+yZYge9fg7c759/kiQtk=;
+ b=BAc1hO9froJH+HxamFXVaI4SCfXzyOVFPo6PFjPs0jp7nyiWDttIK2ubV+kb7P6vMe
+ ltMzs6LUQi009lBuD2KVUyn8/WF4CQhJ3Tzs5FGy1whzev8sNm5J8V1tC77APM90PEgn
+ Srsxff8WOTRwmnaK0XrdqJSFJD9ObRkKzCE17iUvC4fC67qiVOHwDi+xUi4oZg6ECSDU
+ XXypujcyaLIyUNgPUeIhGUkbGirlj81KyfUKnIB8A6SwoCrlNUewWbE68zzqH5tA9f2y
+ rn5HVyBwvLA0bfAjT2CdOZ9kklxQbSX8GLIdFmY6HMa+3Cl2wud6UWpMgEfPrPjHCwLl
+ itzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=LJRcqdYb3KvBP4qjKS/2RBPcCRmkfX7I427R88Z1k+U=;
- b=CRmOUGzgzmOxglocEtM+kEUgYPk/KYVwSZ9WtM7mrSAG7Aa0EVRV8ytZru9J5ovzY2
- pBfSqHcqy4SIOATX1qiBq+2VhoQcKEAj+5Aduh346bL35W7jMcQQuVsQ9v41v3aJlo1W
- JyMeq7FfDJeyzJzXKOMLdFF1VtG/0G6uH3r5aHhkqAgKKUKi5C0awwHQl2J0lHdWFu13
- 0pimYdMRnvab/jhCKkDHFjEo967mpJOijx9+pEkm0wEF/EcxTzMissD3x8pfb8swt590
- TDa7MsQpRKzQPDOwT0aGcRyfVJLS8kgJFjaMOeogm9ZP8GOqRu88BJNViEkmjY7+avpN
- sRGQ==
-X-Gm-Message-State: APjAAAXJ9eB4GSwpMiUse2r9n0JJkLk+ehy22hHWuZ4yxfOYTEcxY2ya
- clgE3/BoHxryfWpNcVVx3Qx2B+eGYCQ=
-X-Google-Smtp-Source: APXvYqzYBvniDvl7EQtzUGzEKOLiuBTVsvLA5gXsT3Mdu3kVq85DwezRtMj1JU/6bsl6ay6CJ6G5eQ==
-X-Received: by 2002:a17:902:441:: with SMTP id
- 59mr36800764ple.62.1567526964476; 
- Tue, 03 Sep 2019 09:09:24 -0700 (PDT)
+ bh=4hy82QgJUYjjhSQJRivLUVd+yZYge9fg7c759/kiQtk=;
+ b=UxMe1HDL/wjeTQ8y9oJzqRfaOUKXGPvPDVxDk1s+zkj98EbqnmiL9lSEZSZYkEPyf7
+ cT5xdHlV3VjbNoQ+PrQV5+n7E/BUl6HikI8OX3mFyYyfuS+bol/25mKiQtVJ/7QpDJ5o
+ 9Hu2MSyyc9XAxS2A1pwrWPmwgd65klH84mjrzuj8ixeGS5p3fhZaa5qhuhYrg0IOGnr8
+ 12AeODLcxwT/Z3JvylrvNwEALmXCO5+LPJEivQOhKkH00DX6S/eT7jCvA/WD5lJic+rb
+ u6HbF8yWZVOeSXW3BhKgkyC7ubMSVtXy1F7yCSTDl8bT6GUgehPNB2iimzdbscwDG4oZ
+ 5QMA==
+X-Gm-Message-State: APjAAAWlzv4/NWI8pnHABJOht7N7PDd9Iu8QNFNxTvvI8B7mMvSqu8cT
+ M9L9FnrQyNnKTA18aQEvyh7YoVXiskE=
+X-Google-Smtp-Source: APXvYqzRcEvIv0Vxqpi4Gka84XhFj00jfTiNAp1lhh1icycoRlmDsN4hjMLT8uUng/C42dBlNSkzTw==
+X-Received: by 2002:a17:902:aa02:: with SMTP id
+ be2mr10797954plb.172.1567526966733; 
+ Tue, 03 Sep 2019 09:09:26 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.23
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:23 -0700 (PDT)
+ Tue, 03 Sep 2019 09:09:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:41 -0700
-Message-Id: <20190903160858.5296-20-richard.henderson@linaro.org>
+Date: Tue,  3 Sep 2019 09:08:43 -0700
+Message-Id: <20190903160858.5296-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
 References: <20190903160858.5296-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH 19/36] target/sparc: sun4u Invert Endian TTE bit
+X-Received-From: 2607:f8b0:4864:20::632
+Subject: [Qemu-devel] [PATCH 21/36] exec: Factor out core logic of
+ check_watchpoint()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,83 +77,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Tony Nguyen <tony.nguyen@bt.com>
+Cc: peter.maydell@linaro.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tony Nguyen <tony.nguyen@bt.com>
+From: David Hildenbrand <david@redhat.com>
 
-This bit configures endianness of PCI MMIO devices. It is used by
-Solaris and OpenBSD sunhme drivers.
+We want to perform the same checks in probe_write() to trigger a cpu
+exit before doing any modifications. We'll have to pass a PC.
 
-Tested working on OpenBSD.
-
-Unfortunately Solaris 10 had a unrelated keyboard issue blocking
-testing... another inch towards Solaris 10 on SPARC64 =)
-
-Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <3c8d5181a584f1b3712d3d8d66801b13cecb4b88.1566466906.git.tony.nguyen@bt.com>
+Message-Id: <20190823100741.9621-9-david@redhat.com>
+[rth: Use vaddr for len, like other watchpoint functions;
+Move user-only stub to static inline.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sparc/cpu.h        | 2 ++
- target/sparc/mmu_helper.c | 8 +++++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ include/hw/core/cpu.h |  7 +++++++
+ exec.c                | 26 ++++++++++++++++++--------
+ 2 files changed, 25 insertions(+), 8 deletions(-)
 
-diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index 694d7139cf..490e14dfcf 100644
---- a/target/sparc/cpu.h
-+++ b/target/sparc/cpu.h
-@@ -275,6 +275,7 @@ enum {
- 
- #define TTE_VALID_BIT       (1ULL << 63)
- #define TTE_NFO_BIT         (1ULL << 60)
-+#define TTE_IE_BIT          (1ULL << 59)
- #define TTE_USED_BIT        (1ULL << 41)
- #define TTE_LOCKED_BIT      (1ULL <<  6)
- #define TTE_SIDEEFFECT_BIT  (1ULL <<  3)
-@@ -291,6 +292,7 @@ enum {
- 
- #define TTE_IS_VALID(tte)   ((tte) & TTE_VALID_BIT)
- #define TTE_IS_NFO(tte)     ((tte) & TTE_NFO_BIT)
-+#define TTE_IS_IE(tte)      ((tte) & TTE_IE_BIT)
- #define TTE_IS_USED(tte)    ((tte) & TTE_USED_BIT)
- #define TTE_IS_LOCKED(tte)  ((tte) & TTE_LOCKED_BIT)
- #define TTE_IS_SIDEEFFECT(tte) ((tte) & TTE_SIDEEFFECT_BIT)
-diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index 826e14b6f0..77dc86ac5c 100644
---- a/target/sparc/mmu_helper.c
-+++ b/target/sparc/mmu_helper.c
-@@ -537,6 +537,10 @@ static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
-         if (ultrasparc_tag_match(&env->dtlb[i], address, context, physical)) {
-             int do_fault = 0;
- 
-+            if (TTE_IS_IE(env->dtlb[i].tte)) {
-+                attrs->byte_swap = true;
-+            }
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 6de688059d..7bd8bed5b2 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -1091,6 +1091,11 @@ static inline void cpu_watchpoint_remove_by_ref(CPUState *cpu,
+ static inline void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
+ {
+ }
 +
-             /* access ok? */
-             /* multiple bits in SFSR.FT may be set on TT_DFAULT */
-             if (TTE_IS_PRIV(env->dtlb[i].tte) && is_user) {
-@@ -792,7 +796,7 @@ void dump_mmu(CPUSPARCState *env)
++static inline void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
++                                        MemTxAttrs atr, int fl, uintptr_t ra)
++{
++}
+ #else
+ int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+                           int flags, CPUWatchpoint **watchpoint);
+@@ -1098,6 +1103,8 @@ int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
+                           vaddr len, int flags);
+ void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint);
+ void cpu_watchpoint_remove_all(CPUState *cpu, int mask);
++void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
++                          MemTxAttrs attrs, int flags, uintptr_t ra);
+ #endif
+ 
+ /**
+diff --git a/exec.c b/exec.c
+index 31fb75901f..cb6f5763dc 100644
+--- a/exec.c
++++ b/exec.c
+@@ -2789,11 +2789,10 @@ static const MemoryRegionOps notdirty_mem_ops = {
+ };
+ 
+ /* Generate a debug exception if a watchpoint has been hit.  */
+-static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
++void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
++                          MemTxAttrs attrs, int flags, uintptr_t ra)
+ {
+-    CPUState *cpu = current_cpu;
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+-    target_ulong vaddr;
+     CPUWatchpoint *wp;
+ 
+     assert(tcg_enabled());
+@@ -2804,17 +2803,17 @@ static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
+         cpu_interrupt(cpu, CPU_INTERRUPT_DEBUG);
+         return;
+     }
+-    vaddr = (cpu->mem_io_vaddr & TARGET_PAGE_MASK) + offset;
+-    vaddr = cc->adjust_watchpoint_address(cpu, vaddr, len);
++
++    addr = cc->adjust_watchpoint_address(cpu, addr, len);
+     QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+-        if (cpu_watchpoint_address_matches(wp, vaddr, len)
++        if (cpu_watchpoint_address_matches(wp, addr, len)
+             && (wp->flags & flags)) {
+             if (flags == BP_MEM_READ) {
+                 wp->flags |= BP_WATCHPOINT_HIT_READ;
+             } else {
+                 wp->flags |= BP_WATCHPOINT_HIT_WRITE;
              }
-             if (TTE_IS_VALID(env->dtlb[i].tte)) {
-                 qemu_printf("[%02u] VA: %" PRIx64 ", PA: %llx"
--                            ", %s, %s, %s, %s, ctx %" PRId64 " %s\n",
-+                            ", %s, %s, %s, %s, ie %s, ctx %" PRId64 " %s\n",
-                             i,
-                             env->dtlb[i].tag & (uint64_t)~0x1fffULL,
-                             TTE_PA(env->dtlb[i].tte),
-@@ -801,6 +805,8 @@ void dump_mmu(CPUSPARCState *env)
-                             TTE_IS_W_OK(env->dtlb[i].tte) ? "RW" : "RO",
-                             TTE_IS_LOCKED(env->dtlb[i].tte) ?
-                             "locked" : "unlocked",
-+                            TTE_IS_IE(env->dtlb[i].tte) ?
-+                            "yes" : "no",
-                             env->dtlb[i].tag & (uint64_t)0x1fffULL,
-                             TTE_IS_GLOBAL(env->dtlb[i].tte) ?
-                             "global" : "local");
+-            wp->hitaddr = vaddr;
++            wp->hitaddr = MAX(addr, wp->vaddr);
+             wp->hitattrs = attrs;
+             if (!cpu->watchpoint_hit) {
+                 if (wp->flags & BP_CPU &&
+@@ -2829,11 +2828,14 @@ static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
+                 if (wp->flags & BP_STOP_BEFORE_ACCESS) {
+                     cpu->exception_index = EXCP_DEBUG;
+                     mmap_unlock();
+-                    cpu_loop_exit(cpu);
++                    cpu_loop_exit_restore(cpu, ra);
+                 } else {
+                     /* Force execution of one insn next time.  */
+                     cpu->cflags_next_tb = 1 | curr_cflags();
+                     mmap_unlock();
++                    if (ra) {
++                        cpu_restore_state(cpu, ra, true);
++                    }
+                     cpu_loop_exit_noexc(cpu);
+                 }
+             }
+@@ -2843,6 +2845,14 @@ static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
+     }
+ }
+ 
++static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
++{
++    CPUState *cpu = current_cpu;
++    vaddr addr = (cpu->mem_io_vaddr & TARGET_PAGE_MASK) + offset;
++
++    cpu_check_watchpoint(cpu, addr, len, attrs, flags, 0);
++}
++
+ /* Watchpoint access routines.  Watchpoints are inserted using TLB tricks,
+    so these check for a hit then pass through to the normal out-of-line
+    phys routines.  */
 -- 
 2.17.1
 
