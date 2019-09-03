@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8568A7105
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:50:56 +0200 (CEST)
-Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BB1A712E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:57:58 +0200 (CEST)
+Received: from localhost ([::1]:49460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5C19-0006Nf-R6
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39232)
+	id 1i5C7x-0006VQ-SV
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i5BXI-0003W4-7Q
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:05 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i5BXU-0003dC-3m
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i5BXF-0000fu-Qv
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44392)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i5BXF-0000fU-JP
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:01 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2D5EEC04D293
- for <qemu-devel@nongnu.org>; Tue,  3 Sep 2019 16:20:00 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id f10so20126wmh.8
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:20:00 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1i5BXR-0000mQ-W1
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:15 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:46014)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1i5BXQ-0000kQ-1w
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:13 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id g16so5486064otp.12
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:20:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KluHt6gEpdKAIyMimk8QXrZrU/Xi8beJk4v/RxcDABs=;
+ b=eOGwp0fT68Jr7gIbHsfMgllRrU1Fg6Tn0fwLYKZLjpglrsOmBV2y7UOEbUI2s63Rax
+ NeFaan+ynHqHhOvt0vXhbJTEvB1AgnXeWxDiM3C0Ch75r1bQcFGn2BM16iFv+gWt9HwU
+ ZS4KLlKjtRmrxqYRDz4b2rBY4sbY4e+6EGQdhog0wPQwDofSYcWeIMGegWk9ghHBYSjd
+ FSKVg45gMRH0n7WCrZioFLlKT2dqjkJnFBJkcBwgWqLP2oydbZqD7H+VlpKh44j8ZuF2
+ 7A04WeQMB3C1a4/joclAnUL1K+jgCoTN1dooa0RqH7frN684TuMpXHRUihdTxn4qYFNy
+ jH3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hw27mxT6ObZtqvKoETGQ5lY6IQyW7gki2ry6rOYqd9E=;
- b=A9t7vZR3tdC+KZFQ58/hnqPdDQBzQ0vUeks0gOdWwuysQM9SjAyVshI2xxwq5BKYef
- swOmns8DIuRMILkz8C4FTzLihtrrskDiho8IDM/XT1nnSQBnbdtNrADqzmK7ui+AqWmW
- ufoOY5HUgXoI0kY8ZmkEOtpVGSfvIEgcGcaIxdXVHbkJJAqJtq1saCF7/KVoo2bYRVrv
- g5MmiGaMvbeSTKtynWS9l2LawdMqLkrlXBIU72OJyvBZNjHi/6qvez4i2r2cI/iJN2Gs
- Zy1bMov3NYEF90Mypp97P9yNN+b3w9M60FF62dnALzXLGpcBwJxQ/BHiPh1pwHfOhS/m
- A/Rg==
-X-Gm-Message-State: APjAAAVYbdXZ+cN06rbz4eUC4TI+KncHzzW8YbYedxuBJ4gINPsUsBlS
- 89ziSqJhYzGkzZSDFx6UPhmhyfwPf3La/wV0dzdt4op4EVmRgfTYIz9vCiaKNEQh4PtwZINqjD+
- Qsn/rkP2+eHHWcsA=
-X-Received: by 2002:adf:9083:: with SMTP id i3mr998825wri.310.1567527598979;
- Tue, 03 Sep 2019 09:19:58 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyKfJBkxrl7Pk0Dzbo7ETG3LOHeZMaLKLe9+0jDYrUbY5UZ4wMk7bcclMt+7S+AsZA5s14y5Q==
-X-Received: by 2002:adf:9083:: with SMTP id i3mr998793wri.310.1567527598716;
- Tue, 03 Sep 2019 09:19:58 -0700 (PDT)
-Received: from [192.168.1.41] (251.red-88-10-102.dynamicip.rima-tde.net.
- [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id h32sm24187879wrh.62.2019.09.03.09.19.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Sep 2019 09:19:58 -0700 (PDT)
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20190903154810.27365-1-thuth@redhat.com>
- <20190903154810.27365-4-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <bb6eb994-532e-7afc-bb27-aa5d56080b50@redhat.com>
-Date: Tue, 3 Sep 2019 18:19:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KluHt6gEpdKAIyMimk8QXrZrU/Xi8beJk4v/RxcDABs=;
+ b=JuY4rRI87fx/B8Xc4ytDOgre1wSZkNolDmm4rscAXX4Lcv29A3KKkrv+CZDO2OsWBl
+ kbiC+2QKgvYcOYFr6p4YEGphA7LZHy1i+39MYkM26ATKHuEF+D6624raueTeIvS8cnBM
+ jWJgSerC6ZyhnRJGwLg5OCn5gtfeET24oKaAOOfHT6iOehLdEKmcHQwFLT7OxFUOBPZv
+ jWrxRLS1kiB3e/0Sdtp3Xy/gyoW7/kkuF8K3psbL+coIlUGplEJlnD45fQ3ueFGBF16H
+ 4XfFTU2ZFU/I6ZUBJsMrMV3GsoeXaABy4VMrKIHxrPZDce2xI80qp4YK8Eoyb+JfcC7D
+ qL+A==
+X-Gm-Message-State: APjAAAVOJU71kAJUjq/5n7DShaM2F11yR06MsvjxO0amDjJlPhmKFG7W
+ 2JiXQ94QxkvzQGHaC6eRG7qjjLT28jHurl/2zwhWUA==
+X-Google-Smtp-Source: APXvYqz1AE02q4qmvHVf+xSBkQZh4TFzGlPHj8aB9zOaGLHaM/tnIOwPOE03B3NF52zNM6rro+TQ4knsXmoQczqSdw0=
+X-Received: by 2002:a05:6830:1bc3:: with SMTP id
+ v3mr10050097ota.97.1567527610680; 
+ Tue, 03 Sep 2019 09:20:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190903154810.27365-4-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH 3/3] target/arm: Make m_helper.c
- optional via CONFIG_ARM_V7M
+References: <20190829010340.28873-1-crosa@redhat.com>
+In-Reply-To: <20190829010340.28873-1-crosa@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 3 Sep 2019 17:19:59 +0100
+Message-ID: <CAFEAcA96Weh0YwEN5ak20ro_PXPYeJqZsVnA92+7bf31xd6vfQ@mail.gmail.com>
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32c
+Subject: Re: [Qemu-devel] [PULL 0/5] Python (acceptance tests) queue,
+ 2019-08-28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,106 +73,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/19 5:48 PM, Thomas Huth wrote:
-> We've already got the CONFIG_ARM_V7M switch, but it currently can
-> not be disabled yet. The m_helper.c code should not be compiled
-> into the binary if the switch is not enabled. We also have to
-> provide some stubs in a separate file to make sure that we still
-> can link the other code without CONFIG_ARM_V7M.
+On Thu, 29 Aug 2019 at 02:04, Cleber Rosa <crosa@redhat.com> wrote:
+>
+> The following changes since commit 23919ddfd56135cad3cb468a8f54d5a595f024f4:
+>
+>   Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20190827' into staging (2019-08-27 15:52:36 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/clebergnu/qemu.git tags/python-next-pull-request
+>
+> for you to fetch changes up to d19818e50e5286f878a76a286b76d29e57140dd4:
+>
+>   VNC Acceptance test: simplify test names (2019-08-28 20:42:16 -0400)
+>
+> ----------------------------------------------------------------
+>
+> Cleber Rosa (4):
+>   tests/requirements.txt: pin paramiko version requirement
+>   Acceptance tests: drop left over usage of ":avocado: enable"
+>   Boot Linux Console Test: add a test for ppc64 + pseries
+>   VNC Acceptance test: simplify test names
+>
+> Satheesh Rajendran (1):
+>   tests.acceptance.avocado_qemu: Add support for powerpc
 
-If there is no M support, the translate code shouldn't even generate M
-calls, so the stub shouldn't be necessary.
-Anyhow I guess this code will be simplified by the ongoing decodetree
-conversion from Richard.
 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  target/arm/Makefile.objs   |  3 +-
->  target/arm/m_helper-stub.c | 58 ++++++++++++++++++++++++++++++++++++++
->  2 files changed, 60 insertions(+), 1 deletion(-)
->  create mode 100644 target/arm/m_helper-stub.c
-> 
-> diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-> index 5cafc1eb6c..225e7a70a9 100644
-> --- a/target/arm/Makefile.objs
-> +++ b/target/arm/Makefile.objs
-> @@ -36,7 +36,8 @@ obj-y += tlb_helper.o debug_helper.o
->  obj-y += translate.o op_helper.o
->  obj-y += crypto_helper.o
->  obj-y += iwmmxt_helper.o vec_helper.o neon_helper.o
-> -obj-y += m_helper.o
-> +obj-$(CONFIG_ARM_V7M) += m_helper.o
-> +obj-$(call lnot,$(CONFIG_ARM_V7M)) += m_helper-stub.o
->  
->  obj-$(CONFIG_SOFTMMU) += psci.o
->  
-> diff --git a/target/arm/m_helper-stub.c b/target/arm/m_helper-stub.c
-> new file mode 100644
-> index 0000000000..8ec9de0fb6
-> --- /dev/null
-> +++ b/target/arm/m_helper-stub.c
-> @@ -0,0 +1,58 @@
-> +/*
-> + * ARM V7M related stubs.
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "exec/helper-proto.h"
-> +
-> +void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
-> +{
-> +    abort();
-> +}
-> +
-> +void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-> +{
-> +    abort();
-> +}
-> +
-> +uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
-> +{
-> +    abort();
-> +}
-> +
-> +void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
-> +{
-> +    abort();
-> +}
-> +
-> +uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
-> +{
-> +    abort();
-> +}
-> +
-> +void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
-> +{
-> +    abort();
-> +}
-> +
-> +void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
-> +{
-> +    abort();
-> +}
-> +
-> +void HELPER(v7m_vlldm)(CPUARMState *env, uint32_t fptr)
-> +{
-> +    abort();
-> +}
-> +
-> +void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
-> +{
-> +    abort();
-> +}
-> +
-> +ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
-> +{
-> +    abort();
-> +}
-> 
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
