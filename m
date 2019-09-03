@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F5BA6EC0
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:28:49 +0200 (CEST)
-Received: from localhost ([::1]:48932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97687A6DFC
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:22:58 +0200 (CEST)
+Received: from localhost ([::1]:48760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Bfk-0005AD-2O
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37283)
+	id 1i5Ba5-0005uq-6R
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37374)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BN0-0001Jc-7w
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:27 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN6-0001TV-Tz
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BMy-0003pP-S6
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:26 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:34635)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN5-0003vT-Mk
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:32 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:44929)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BMy-0003ne-K9
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:24 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id d3so8112931plr.1
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:24 -0700 (PDT)
+ id 1i5BN5-0003us-Gb
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:31 -0400
+Received: by mail-pg1-x543.google.com with SMTP id i18so9387529pgl.11
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=pmK/xWcM59CiLHjrswu0qpYJ6H89YdF0u2aabjfZ4J8=;
- b=YPYbG/ih0pNQDHGTQg9qd3wVebnH319WU4GbIWujsrsj2rQEoIDeaa/R++WF3qZe7X
- aDlFAEa5xxRC6gRsfgP1kGGJ2Z1futisJbjDP9dazvM/QhXrcV2aS+pMEiW7QCrGF1sv
- 2ouLN58xX6piLXG7FTfPp3OJ/2INFj0XCPhB+KvQpaPTTAgCPe2p+N831rutYA+6WyCD
- Vj0Y2LGb2W8t9sr4se8iV9QYvSuZOEVKXLvpCjmJG7EYoJ/zqDx6ElVvf8dP2foMvBZC
- 6YHyrOeqA3xm8wDpInIJXpWkc3c8Ig+4YAqYKLUzHsiFdMA/31oaBZfiz1Y/F7e01s+J
- waeA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=bqopH4IHC6JwFjvyUE21txeIhpfHSXwxJEKmWcLZGEA=;
+ b=hCG4En9/lls3POlFLDUIBv+WFRva2oYKDZUEkbP38DxL3jMVR270pJ8bERazBDsF8o
+ ylzOvrw2Ixl3Pv3ZpZ1oURxynJR6Cu6Ge7d2tzTWeSoPYyDwbPurXWySG1G4y6AeoXbO
+ hL6PpiWLpbyCPDpIhxfIIjIbDo7ljv6hS2GgkQ8s30VKC/Ww3ZYmANjKhhu4HLxAtUvX
+ NBtjmpID1wTFA4E9SKQjWcBvKBLe8kgHW/V9gebkcff82wVX6wDw3hKJOLz2oH2TUTh6
+ hsQLKYvEJJxpurZQIhltFh7Zcn/1ODYLfHJCwmltvixGXwOh/ZZ0TujqM8nC6fXtDP2f
+ MnTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=pmK/xWcM59CiLHjrswu0qpYJ6H89YdF0u2aabjfZ4J8=;
- b=nQjzZEgTzK9cVtnm8vy8sG5h+THca9Oqb1IvgE50TsRm5iM9Rx6mabtkRpw7f/pl+2
- bII9rMwFC/GWKn3zSFagkcgfbDevuj7iBRhWhNXrdTiGvVEBlrUHflwvrhxCMiC23Hoa
- dNVYj0ULtC3kT154pp8OqwLPIQNsodZkGtka87GSSd4JIxIeYoqYLdY/qFtUNkZlNLtM
- IkzHdmixljnfLXkR4yy8nsgRfPE17C3ndtQNQqH2ASYl7m5U/rH7IFVTQrB5fpfiJ1WK
- dfx2lETSV7WJ4an/a630uUjMgWQiMnpKHQl91SmgsOzPF7FDlLRJ6Ub7FF/QSBO1YfiI
- qW7Q==
-X-Gm-Message-State: APjAAAUePlatxPAzlEdFPh5VowogGhuSCBOpN2IUJ5ggW1rarwGP7nym
- Su1UhtlNF947QbZoTzabkx/DhFbR+w0=
-X-Google-Smtp-Source: APXvYqzW6nPADjMzpLOfrWk52cI4VPUheYI+iSOXGX/DcvZyf905PRbn7PShyMhK+o5rRaSXrxWx4Q==
-X-Received: by 2002:a17:902:9b86:: with SMTP id
- y6mr36109791plp.217.1567526963207; 
- Tue, 03 Sep 2019 09:09:23 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=bqopH4IHC6JwFjvyUE21txeIhpfHSXwxJEKmWcLZGEA=;
+ b=P3ulD6FhDkdCBKvrdqI1XyJF9+V3bAn3Pm49TExChpOAaFQXj4sm8IPIAgR1IrIZUb
+ 0Y9OwKMr03nHOP2lKamYP188CARIKH5x+Pmc1WUhx6IIZOyTuhsszYVQshZq60aLH9QP
+ YAn/aJ0+E5tN4u5ebmuEE6+arIAcK+YNxu+WydxjgwY/CX7oI5WPjy6awhs3klZQWOzQ
+ tHKIWkW8zNRdgagXh3Tq4L/waEjjZDsO4KG5FqBWIh2V7teBOPcyRWqpmRqTRerwaK3p
+ BgTTMaL2vsmiaYJ1eEqSpeETHPtaPGlsYXrQOxnvJxWTmjw/Gfqy0p2yLZo3fUTJD4qI
+ XdBg==
+X-Gm-Message-State: APjAAAUMS3idBYIQ+XDpN+vtOwPNpGWO8wfZk9Syof+iyipI9JxF+xeg
+ efB1lS0UQC52i+n+gvL18B193piLe0E=
+X-Google-Smtp-Source: APXvYqznJY27MalcuN8Xh8BrzUL6r3gpRVCBmoU/6JpYmUW1XgZNui/frUOd2gb/BjAcUWTTCuHDvQ==
+X-Received: by 2002:a63:e20a:: with SMTP id q10mr30395763pgh.24.1567526970256; 
+ Tue, 03 Sep 2019 09:09:30 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.22
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:22 -0700 (PDT)
+ Tue, 03 Sep 2019 09:09:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:40 -0700
-Message-Id: <20190903160858.5296-19-richard.henderson@linaro.org>
+Date: Tue,  3 Sep 2019 09:08:46 -0700
+Message-Id: <20190903160858.5296-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
 References: <20190903160858.5296-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62c
-Subject: [Qemu-devel] [PATCH 18/36] target/sparc: Add TLB entry with
- attributes
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH 24/36] cputlb: Fix size operand for tlb_fill on
+ unaligned store
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,135 +80,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Tony Nguyen <tony.nguyen@bt.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tony Nguyen <tony.nguyen@bt.com>
+We are currently passing the size of the full write to
+the tlb_fill for the second page.  Instead pass the real
+size of the write to that page.
 
-Append MemTxAttrs to interfaces so we can pass along up coming Invert
-Endian TTE bit on SPARC64.
+This argument is unused within all tlb_fill, except to be
+logged via tracing, so in practice this makes no difference.
 
-Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <f8fcc3138570c460ef289a6b34ba7715ba36f99e.1566466906.git.tony.nguyen@bt.com>
+But in a moment we'll need the value of size2 for watchpoints,
+and if we've computed the value we might as well use it.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sparc/mmu_helper.c | 32 ++++++++++++++++++--------------
- 1 file changed, 18 insertions(+), 14 deletions(-)
+ accel/tcg/cputlb.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index cbd1e91179..826e14b6f0 100644
---- a/target/sparc/mmu_helper.c
-+++ b/target/sparc/mmu_helper.c
-@@ -88,7 +88,7 @@ static const int perm_table[2][8] = {
- };
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index c9576bebcf..7fb67d2f05 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1504,6 +1504,8 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+         uintptr_t index2;
+         CPUTLBEntry *entry2;
+         target_ulong page2, tlb_addr2;
++        size_t size2;
++
+     do_unaligned_access:
+         /*
+          * Ensure the second page is in the TLB.  Note that the first page
+@@ -1511,13 +1513,14 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+          * cannot evict the first.
+          */
+         page2 = (addr + size) & TARGET_PAGE_MASK;
++        size2 = (addr + size) & ~TARGET_PAGE_MASK;
+         index2 = tlb_index(env, mmu_idx, page2);
+         entry2 = tlb_entry(env, mmu_idx, page2);
+         tlb_addr2 = tlb_addr_write(entry2);
+         if (!tlb_hit_page(tlb_addr2, page2)
+             && !victim_tlb_hit(env, mmu_idx, index2, tlb_off,
+                                page2 & TARGET_PAGE_MASK)) {
+-            tlb_fill(env_cpu(env), page2, size, MMU_DATA_STORE,
++            tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
+                      mmu_idx, retaddr);
+         }
  
- static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
--                                int *prot, int *access_index,
-+                                int *prot, int *access_index, MemTxAttrs *attrs,
-                                 target_ulong address, int rw, int mmu_idx,
-                                 target_ulong *page_size)
- {
-@@ -219,6 +219,7 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     target_ulong vaddr;
-     target_ulong page_size;
-     int error_code = 0, prot, access_index;
-+    MemTxAttrs attrs = {};
- 
-     /*
-      * TODO: If we ever need tlb_vaddr_to_host for this target,
-@@ -229,7 +230,7 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     assert(!probe);
- 
-     address &= TARGET_PAGE_MASK;
--    error_code = get_physical_address(env, &paddr, &prot, &access_index,
-+    error_code = get_physical_address(env, &paddr, &prot, &access_index, &attrs,
-                                       address, access_type,
-                                       mmu_idx, &page_size);
-     vaddr = address;
-@@ -490,8 +491,8 @@ static inline int ultrasparc_tag_match(SparcTLBEntry *tlb,
-     return 0;
- }
- 
--static int get_physical_address_data(CPUSPARCState *env,
--                                     hwaddr *physical, int *prot,
-+static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
-+                                     int *prot, MemTxAttrs *attrs,
-                                      target_ulong address, int rw, int mmu_idx)
- {
-     CPUState *cs = env_cpu(env);
-@@ -608,8 +609,8 @@ static int get_physical_address_data(CPUSPARCState *env,
-     return 1;
- }
- 
--static int get_physical_address_code(CPUSPARCState *env,
--                                     hwaddr *physical, int *prot,
-+static int get_physical_address_code(CPUSPARCState *env, hwaddr *physical,
-+                                     int *prot, MemTxAttrs *attrs,
-                                      target_ulong address, int mmu_idx)
- {
-     CPUState *cs = env_cpu(env);
-@@ -686,7 +687,7 @@ static int get_physical_address_code(CPUSPARCState *env,
- }
- 
- static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
--                                int *prot, int *access_index,
-+                                int *prot, int *access_index, MemTxAttrs *attrs,
-                                 target_ulong address, int rw, int mmu_idx,
-                                 target_ulong *page_size)
- {
-@@ -716,11 +717,11 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
-     }
- 
-     if (rw == 2) {
--        return get_physical_address_code(env, physical, prot, address,
-+        return get_physical_address_code(env, physical, prot, attrs, address,
-                                          mmu_idx);
-     } else {
--        return get_physical_address_data(env, physical, prot, address, rw,
--                                         mmu_idx);
-+        return get_physical_address_data(env, physical, prot, attrs, address,
-+                                         rw, mmu_idx);
-     }
- }
- 
-@@ -734,10 +735,11 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     target_ulong vaddr;
-     hwaddr paddr;
-     target_ulong page_size;
-+    MemTxAttrs attrs = {};
-     int error_code = 0, prot, access_index;
- 
-     address &= TARGET_PAGE_MASK;
--    error_code = get_physical_address(env, &paddr, &prot, &access_index,
-+    error_code = get_physical_address(env, &paddr, &prot, &access_index, &attrs,
-                                       address, access_type,
-                                       mmu_idx, &page_size);
-     if (likely(error_code == 0)) {
-@@ -747,7 +749,8 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                                    env->dmmu.mmu_primary_context,
-                                    env->dmmu.mmu_secondary_context);
- 
--        tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, page_size);
-+        tlb_set_page_with_attrs(cs, vaddr, paddr, attrs, prot, mmu_idx,
-+                                page_size);
-         return true;
-     }
-     if (probe) {
-@@ -849,9 +852,10 @@ static int cpu_sparc_get_phys_page(CPUSPARCState *env, hwaddr *phys,
- {
-     target_ulong page_size;
-     int prot, access_index;
-+    MemTxAttrs attrs = {};
- 
--    return get_physical_address(env, phys, &prot, &access_index, addr, rw,
--                                mmu_idx, &page_size);
-+    return get_physical_address(env, phys, &prot, &access_index, &attrs, addr,
-+                                rw, mmu_idx, &page_size);
- }
- 
- #if defined(TARGET_SPARC64)
 -- 
 2.17.1
 
