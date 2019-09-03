@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1260A6D27
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:42:51 +0200 (CEST)
-Received: from localhost ([::1]:47730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DECDA6D39
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:48:30 +0200 (CEST)
+Received: from localhost ([::1]:47788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5AxG-0008I7-77
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:42:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59181)
+	id 1i5B2i-0003c2-FL
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArN-0002l1-Iu
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:46 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArO-0002mQ-KR
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArM-0005uN-58
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:45 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38082)
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArN-0005vE-9x
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:46 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35654)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5ArL-0005tZ-UC
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:44 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id l11so9174222wrx.5
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:36:43 -0700 (PDT)
+ id 1i5ArN-0005uc-3i
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:45 -0400
+Received: by mail-wr1-x435.google.com with SMTP id g7so18034427wrx.2
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:36:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=m+TKKTWvRC4vo5fFotjFs4jfzAaPam+tpeNKcBhEHyY=;
- b=LtU2+jemSfwD3cFVVwWrgxblNdAATqWm5NFyBMUO6CWtPZvCewtBisJiMdHSqzzjxd
- UEJ3i0QHH/mEmLlCjO1W4QbnEqyc2TWnWCCk2CtJKTgLXykZmG8vRJzSJbYTMe44UE4A
- UYI3R87slDe5vJSYkR6YMLu15Z9SH4wFhzv5SW8MtDP3bvoc5gi+6JH00Pm7ZHSda10b
- sMrZKgTKjP3BEzm+mgiFUgHZKCD/fYv5aF6qqccxO0iHYvFEVjHURZjkJFsmg3Kui8sS
- Z5fUZMwTGC0tE2d9d/BLdXI0itzL0SxecOj05oGsC48vpjxGDd2O4GQ5JFd9UQD48fm5
- rNIg==
+ bh=NH3h4g6hlFhS6RKG3sIpGzTOMf5SCVInEe1V7vBG3qg=;
+ b=jtOX8o8auFMGzcrCxB3sDZjE0P/pUUOUS1eLpjgznJPW5k+JqxaO6x2RwfJ/E9XU72
+ FL8x8XUij3JXYpngGMtEFf5D8XXrW95TgEyT56ekRn84SHWAb38/s1E1CblICNayx/s9
+ ma95EjmuUy8NTc72TpJT/mtfkhWOPdRRcAEHqADf8ZrvuHSfcK8QxIGwKXR5R+/sO+wI
+ xDAiF62eokHL/Y8zFvDY0LcXgcfVY4C38l+k875wHUrJGyhAi/dHYTXAj8GDwABntoL1
+ MTrFSEQzkgynUAbRfNC9YsOG/YsH2RnjEi4XnSCBo/bqqo9E1LMsP6m53NC0RGrH/cY/
+ CEeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m+TKKTWvRC4vo5fFotjFs4jfzAaPam+tpeNKcBhEHyY=;
- b=PbM8eYg3Uz2yIWQ5kC9h+WFGwz+EtRUgnVOzc7Dxn9C7I24c6gelXZJJq7WB8dRdRh
- tQrP5nBXRbhUkdSo5UmLjCNBpD2KYzxO2tSDouawXJQ8kj9CXMSQ6g5wj5taXmeWUgUL
- c5F8DOB5U4A+ZRNt8760ZiAQzIrnvyUmOluHOwU6cn3XwcgWVef/x54shm+Uimu06Mw6
- JxvbptKhUMbP6O/Pnj+9M4IdYHRWERlaGpLvifHb0ABcodOV0UpbdL0b2JXwAgml7RR1
- 51DKvit7hkcnva1QR5ra+Cf54Gy/fjQ4FjWBVWkEpaXKqRNgcRiB/TKQSkm2wZjK4Ymm
- RXKA==
-X-Gm-Message-State: APjAAAWj84vPMT2sivmoBmB5xkI2I8YoPoLAR0bHyaMglc+UdFUb8rpL
- rCiphZWSG15tR1ATTZjXuSHkoazTv4u5Og==
-X-Google-Smtp-Source: APXvYqxhjK5DkqNH5wtFReeiGX3+PCjtlmg7w0+jK7tirA/FbpzrLooG1gzfrcPwZ7Lv6UMt8tBf5Q==
-X-Received: by 2002:a5d:6ac8:: with SMTP id u8mr7732013wrw.104.1567525002604; 
- Tue, 03 Sep 2019 08:36:42 -0700 (PDT)
+ bh=NH3h4g6hlFhS6RKG3sIpGzTOMf5SCVInEe1V7vBG3qg=;
+ b=C1dwUBkhTPeC6nmE84kgwL9om0X2r59McqkDj0WObhTKPV9ipDVK0AVdb6CicBs7ps
+ SqevrnOUqyDKlZ95cRmwfncxs4Nh4qRi4UkXEw3q++4aXGz8MsHcLMloSoUj2Jsp686f
+ xWip/CVM5ZHNZyvIkS8ixUA3sztqWwC9D7fA+j+7wFPVYk1fu7ipOtRRdXY/lO6YS/pm
+ b2t1mmoqFKAcVSUvt69/wTn31KSnAJv7p9aFpQKtyIkc2NpaXOUj0iZ0YKrx9lY38Mrb
+ BblRSHMOxnpvCqnJg6NP7P9WZA5x411XD77vmH4y2M3vSnYCs6dIp8f+w6xoySWhDE5q
+ agGQ==
+X-Gm-Message-State: APjAAAUipdff4vSWdZWfqZMnBRgmM/dG/nyUwEO2nBOf3x1hxZag5Mb/
+ jaf9v46MU+rqs2hhZCtLBKlkZPQs+XOd4A==
+X-Google-Smtp-Source: APXvYqwCMgmyCLGLfOq74oSrV6xyF0mt1fKoM5Es+YOSXm8R+uQv2qRzjaeagkArVyZV0zmgj6l2HA==
+X-Received: by 2002:adf:e74c:: with SMTP id c12mr7481836wrn.173.1567525003715; 
+ Tue, 03 Sep 2019 08:36:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.41
+ by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 08:36:41 -0700 (PDT)
+ Tue, 03 Sep 2019 08:36:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:36:17 +0100
-Message-Id: <20190903153633.6651-6-peter.maydell@linaro.org>
+Date: Tue,  3 Sep 2019 16:36:18 +0100
+Message-Id: <20190903153633.6651-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190903153633.6651-1-peter.maydell@linaro.org>
 References: <20190903153633.6651-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
-Subject: [Qemu-devel] [PULL 05/21] aspeed/timer: Provide back-pressure
- information for short periods
+X-Received-From: 2a00:1450:4864:20::435
+Subject: [Qemu-devel] [PULL 06/21] memory: Remove unused
+ memory_region_iommu_replay_all()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,93 +83,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jeffery <andrew@aj.id.au>
+From: Eric Auger <eric.auger@redhat.com>
 
-First up: This is not the way the hardware behaves.
+memory_region_iommu_replay_all is not used. Remove it.
 
-However, it helps resolve real-world problems with short periods being
-used under Linux. Commit 4451d3f59f2a ("clocksource/drivers/fttmr010:
-Fix set_next_event handler") in Linux fixed the timer driver to
-correctly schedule the next event for the Aspeed controller, and in
-combination with 5daa8212c08e ("ARM: dts: aspeed: Describe random number
-device") Linux will now set a timer with a period as low as 1us.
-
-Configuring a qemu timer with such a short period results in spending
-time handling the interrupt in the model rather than executing guest
-code, leading to noticeable "sticky" behaviour in the guest.
-
-The behaviour of Linux is correct with respect to the hardware, so we
-need to improve our handling under emulation. The approach chosen is to
-provide back-pressure information by calculating an acceptable minimum
-number of ticks to be set on the model. Under Linux an additional read
-is added in the timer configuration path to detect back-pressure, which
-will never occur on hardware. However if back-pressure is observed, the
-driver alerts the clock event subsystem, which then performs its own
-next event dilation via a config option - d1748302f70b ("clockevents:
-Make minimum delay adjustments configurable")
-
-A minimum period of 5us was experimentally determined on a Lenovo
-T480s, which I've increased to 20us for "safety".
-
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20190704055150.4899-1-clg@kaod.org
-[clg: - changed the computation of min_ticks to be done each time the
-        timer value is reloaded. It removes the ordering issue of the
-        timer and scu reset handlers but is slightly slower ]
-      - introduced TIMER_MIN_NS
-      - introduced calculate_min_ticks() ]
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Message-id: 20190822172350.12008-2-eric.auger@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/timer/aspeed_timer.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ include/exec/memory.h | 10 ----------
+ memory.c              |  9 ---------
+ 2 files changed, 19 deletions(-)
 
-diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
-index ed81d5c44c7..59c2bbeee60 100644
---- a/hw/timer/aspeed_timer.c
-+++ b/hw/timer/aspeed_timer.c
-@@ -44,6 +44,13 @@ enum timer_ctrl_op {
-     op_pulse_enable
- };
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index fddc2ff48a7..ecca388e69d 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1086,16 +1086,6 @@ void memory_region_register_iommu_notifier(MemoryRegion *mr,
+  */
+ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n);
  
-+/*
-+ * Minimum value of the reload register to filter out short period
-+ * timers which have a noticeable impact in emulation. 5us should be
-+ * enough, use 20us for "safety".
-+ */
-+#define TIMER_MIN_NS (20 * SCALE_US)
-+
+-/**
+- * memory_region_iommu_replay_all: replay existing IOMMU translations
+- * to all the notifiers registered.
+- *
+- * Note: this is not related to record-and-replay functionality.
+- *
+- * @iommu_mr: the memory region to observe
+- */
+-void memory_region_iommu_replay_all(IOMMUMemoryRegion *iommu_mr);
+-
  /**
-  * Avoid mutual references between AspeedTimerCtrlState and AspeedTimer
-  * structs, as it's a waste of memory. The ptimer BH callback needs to know
-@@ -98,6 +105,14 @@ static inline uint32_t calculate_ticks(struct AspeedTimer *t, uint64_t now_ns)
-     return t->reload - MIN(t->reload, ticks);
+  * memory_region_unregister_iommu_notifier: unregister a notifier for
+  * changes to IOMMU translation entries.
+diff --git a/memory.c b/memory.c
+index 7fd93b1d42d..a23ff3cc2ac 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1922,15 +1922,6 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
+     }
  }
  
-+static uint32_t calculate_min_ticks(AspeedTimer *t, uint32_t value)
-+{
-+    uint32_t rate = calculate_rate(t);
-+    uint32_t min_ticks = muldiv64(TIMER_MIN_NS, rate, NANOSECONDS_PER_SECOND);
-+
-+    return  value < min_ticks ? min_ticks : value;
-+}
-+
- static inline uint64_t calculate_time(struct AspeedTimer *t, uint32_t ticks)
+-void memory_region_iommu_replay_all(IOMMUMemoryRegion *iommu_mr)
+-{
+-    IOMMUNotifier *notifier;
+-
+-    IOMMU_NOTIFIER_FOREACH(notifier, iommu_mr) {
+-        memory_region_iommu_replay(iommu_mr, notifier);
+-    }
+-}
+-
+ void memory_region_unregister_iommu_notifier(MemoryRegion *mr,
+                                              IOMMUNotifier *n)
  {
-     uint64_t delta_ns;
-@@ -261,7 +276,7 @@ static void aspeed_timer_set_value(AspeedTimerCtrlState *s, int timer, int reg,
-     switch (reg) {
-     case TIMER_REG_RELOAD:
-         old_reload = t->reload;
--        t->reload = value;
-+        t->reload = calculate_min_ticks(t, value);
- 
-         /* If the reload value was not previously set, or zero, and
-          * the current value is valid, try to start the timer if it is
 -- 
 2.20.1
 
