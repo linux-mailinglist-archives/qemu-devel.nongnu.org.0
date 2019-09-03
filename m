@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFEAA6DBE
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:15:27 +0200 (CEST)
-Received: from localhost ([::1]:48650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05AF8A6DF3
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:20:01 +0200 (CEST)
+Received: from localhost ([::1]:48702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5BSn-0006av-Lj
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:15:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37143)
+	id 1i5BXD-0002Av-5J
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:19:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37177)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BMp-00013C-WA
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:16 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BMr-00016G-Vd
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BMo-0003hd-Ot
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:15 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:42533)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BMq-0003j2-Lp
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:17 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:41629)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BMo-0003gK-IL
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:14 -0400
-Received: by mail-pg1-x542.google.com with SMTP id p3so9387372pgb.9
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:12 -0700 (PDT)
+ id 1i5BMp-0003hq-Fc
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:16 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id x15so9393537pgg.8
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=kAhciq3n7FNXsC9Uw/vvM8E58dLHruQP1ECC6wNwlOw=;
- b=UlVVfaA6/BkVsIavZ5j+LRDxjD1YD5gONKILYeC82lW2p2aL/7IMU2P0D4yOevWmdQ
- Ts1oVAHLRdGQ4o8rScpOfWQqqwp0fRcTfjXeWexy+03WWsHhI4mzIbmzU0ipW6CKUnMI
- vTJOD4lMjUVcL2EHTl8Ma0fUWK8kvSnE9PuIa0l0nEg1/UajkGkNs7nx/soUsOqpML/i
- I649z9OnBl7J1WAPKYEzIzwigOrMPsXKf+EpmSVIwPS9g7zV5JfADMnI1n9rehHtkrb5
- KgUI5+WVmp8oBv8MyrtcPTsA6odyY7+GdZlegdV5wOBhVLYFVCSqmNGnCPJdwgjTKBJu
- 7Y6g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=fzo/4dCtD9XDozJ1PtMm7FQw18sTkDVFqteJc2ZqQUI=;
+ b=PDNKcL9QMs0N1Zjuav+LT+t/d4gvbLwlUefrlpigEapZkn9iuFsM/rsmwsCHxvLeVp
+ 9nKZ+UMFobhWdaTkXdDDAx7T1cvUGVifiP4SgWns8BX6NyfPqc8OQ6XrU3GxNmJlr1pr
+ fnKGKX3ryh+Lqc+YUpg8+yydds9h6rL+gijC9vZkKWtMk0paspVKacQSEbaabcvc0wPy
+ pEJwFYgkEouJBZv1MyZJLu6ia6cX3zCxnqkCG468fYhrHrr7oDLLv54Q/JYjwuEIbMnG
+ eWwYEQaXR8b63jNyOi1gka+vctIua3gKNc63SfbTwBRKmHJWWtM5OJx2a/uzv4JyLXQo
+ j0MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=kAhciq3n7FNXsC9Uw/vvM8E58dLHruQP1ECC6wNwlOw=;
- b=d/GEOXCRQgrNpH9WSTUj2OnTnsWNCPAxHJhVePHIg9dsQ0JVbj2f3tKPEEjXT7lrMH
- ed4JcqJ9ft4KlISaJvTKIKa5zYCiHfnc4uaXd4ApRreonydT5i6wJ9of8QKQBX7fCr7N
- FQW1gkEKwWo9zCWqwNGaVOu27dRhIlRTbXv37h/Q6M9x9GDScv5AafkGHR0wkvAyWq0G
- PccM8GQ8/dVnIqsgcxGKD3R9b+6NF0bfDNV8eJmCmpz6bRLqnlGMqVvPI0PXM5lZPINM
- fOpaOaeg+j77+EMLHUC/XxPdVUfTGjKC2RuMKNY3t8+wFtN71z5k7jlWuTiq1ViGj8Xl
- XDeQ==
-X-Gm-Message-State: APjAAAXXlK/HGqx+GfvZTgOKglKI/BmtJLhNXWKMQhvfHdZkmSyQaOeF
- 84/Z3qoAGNvHgKsRVsJBOpH2wYHhbEM=
-X-Google-Smtp-Source: APXvYqwYFP8pU8SUCHxWHtwi2s0wo0E5vBuM885ODjOk6gxpv9s2HvFzYkldjhn60jpwmNse1PlhaA==
-X-Received: by 2002:a17:90a:33e7:: with SMTP id n94mr35016pjb.15.1567526951793; 
- Tue, 03 Sep 2019 09:09:11 -0700 (PDT)
+ :references;
+ bh=fzo/4dCtD9XDozJ1PtMm7FQw18sTkDVFqteJc2ZqQUI=;
+ b=TMDbp3Ge+/+9WMhvEbCNAk4dkuld6995OgfjfQ2kbSyV8wiHqrQXkmhaAdzk6N0h29
+ crc5kqJ4WExhIYTB13QKoM+rGfkbpvBlZsvg/khCyzguC+LbIQKNTqFDuhXMptRrkZ5M
+ zTGe7vV4q6gqYz0JLM3F3+ZGnXdPaifw95HJHusNwHxABAw1P81eKjqM2Eb18ic2gYmV
+ 8fahoY6jbXRg/FNJS1unXNpRBqdZbBQ1fvzdbB/QdTFpZwOFAtF1B77+ix7LkBqq7TGk
+ GYM+d0MSUWqwR2Pu2lELP3C/BMajpxaaB5GKX3SeOpLT+MoCqXHP9zcVpqBozpaX5wpz
+ /9KA==
+X-Gm-Message-State: APjAAAUzprbWEfubkkLpxNjfiFbpU4YLc0e99PiIhZFcZ2XZbxAUW9iR
+ ir8F5duwUuP3BkQ/t4xIo3thXyYYvdA=
+X-Google-Smtp-Source: APXvYqwc+RusrwFns0zy5JxXIIFTdq2iq6vgrVUGp077n5OCCQ7O4hJjGgP23k24timwTqQuiMLcIQ==
+X-Received: by 2002:a17:90a:bb92:: with SMTP id v18mr59534pjr.78.1567526954161; 
+ Tue, 03 Sep 2019 09:09:14 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.10
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:11 -0700 (PDT)
+ Tue, 03 Sep 2019 09:09:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:31 -0700
-Message-Id: <20190903160858.5296-10-richard.henderson@linaro.org>
+Date: Tue,  3 Sep 2019 09:08:33 -0700
+Message-Id: <20190903160858.5296-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
 References: <20190903160858.5296-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH 09/36] cputlb: Access MemoryRegion with MemOp
+X-Received-From: 2607:f8b0:4864:20::52d
+Subject: [Qemu-devel] [PATCH 11/36] hw/s390x: Hard code size with
+ MO_{8|16|32|64}
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,52 +82,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tony Nguyen <tony.nguyen@bt.com>
 
-The memory_region_dispatch_{read|write} operand "unsigned size" is
-being converted into a "MemOp op".
+Temporarily no-op size_memop was introduced to aid the conversion of
+memory_region_dispatch_{read|write} operand "unsigned size" into
+"MemOp op".
 
-Convert interfaces by using no-op size_memop.
-
-After all interfaces are converted, size_memop will be implemented
-and the memory_region_dispatch_{read|write} operand "unsigned size"
-will be converted into a "MemOp op".
-
-As size_memop is a no-op, this patch does not change any behaviour.
+Now size_memop is implemented, again hard coded size but with
+MO_{8|16|32|64}. This is more expressive and avoids size_memop calls.
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <c4571c76467ade83660970f7ef9d7292297f1908.1566466906.git.tony.nguyen@bt.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <76dc97273a8eb5e10170ffc16526863df808f487.1566466906.git.tony.nguyen@bt.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/s390x/s390-pci-inst.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 523be4c848..6c83878f73 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -906,8 +906,8 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-         qemu_mutex_lock_iothread();
-         locked = true;
-     }
--    r = memory_region_dispatch_read(mr, mr_offset,
--                                    &val, size, iotlbentry->attrs);
-+    r = memory_region_dispatch_read(mr, mr_offset, &val, size_memop(size),
-+                                    iotlbentry->attrs);
-     if (r != MEMTX_OK) {
-         hwaddr physaddr = mr_offset +
-             section->offset_within_address_space -
-@@ -947,8 +947,8 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-         qemu_mutex_lock_iothread();
-         locked = true;
-     }
--    r = memory_region_dispatch_write(mr, mr_offset,
--                                     val, size, iotlbentry->attrs);
-+    r = memory_region_dispatch_write(mr, mr_offset, val, size_memop(size),
-+                                     iotlbentry->attrs);
-     if (r != MEMTX_OK) {
-         hwaddr physaddr = mr_offset +
-             section->offset_within_address_space -
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index 0c958fc391..0e92a372ca 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -782,8 +782,7 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
+     for (i = 0; i < len / 8; i++) {
+         result = memory_region_dispatch_write(mr, offset + i * 8,
+                                               ldq_p(buffer + i * 8),
+-                                              size_memop(8),
+-                                              MEMTXATTRS_UNSPECIFIED);
++                                              MO_64, MEMTXATTRS_UNSPECIFIED);
+         if (result != MEMTX_OK) {
+             s390_program_interrupt(env, PGM_OPERAND, 6, ra);
+             return 0;
 -- 
 2.17.1
 
