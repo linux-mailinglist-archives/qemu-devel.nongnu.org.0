@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8895A667D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 12:24:43 +0200 (CEST)
-Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02BF8A6681
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 12:25:16 +0200 (CEST)
+Received: from localhost ([::1]:43646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i55zO-0000N4-LA
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 06:24:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42877)
+	id 1i55zv-00017g-1d
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 06:25:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42971)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i55x9-0007Rf-6T
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:22:24 -0400
+ (envelope-from <slp@redhat.com>) id 1i55xZ-0007wA-VG
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:22:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i55x8-00080n-3J
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:22:22 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45631)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i55x7-00080J-Tq
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:22:22 -0400
-Received: by mail-ot1-x341.google.com with SMTP id g16so4305638otp.12
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 03:22:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zrVQ4/E6b0Lr7iXKEzS4TcnTZH+wGoeBrsP14wGD13M=;
- b=sLu60Tkc9Ilrt4U/MszyIApJCXPbLm4ota9uiRuyYD6ZPyRL4iuRzqukUEuwwzShVP
- YafbmoDdmdW6z+BsxyCA7TVy6S5X5crW4x/nC4hq0zmVT20Y+X+CKXB4Ikxr8B687X96
- zAXudu4JyuCM7vL9TbzDPceDXRJ3ZpCJlyghG02gZrppfmBwhXpR9oqSxTFtMbywyk28
- tdwhSm90GOdwg/gB71Y1eZxwjlU5v/mfyy6SpdXUcbdqLVATnFo08AamhI5VToOhVfDH
- g16yFkmfLpzLxHqJdBQunR3bYKQ9w1aqIW1PpuRusC6fBL7kfY3Mo6SP9jOMyGvpCZkB
- 4gYQ==
+ (envelope-from <slp@redhat.com>) id 1i55xY-0008O7-QO
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:22:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56516)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1i55xY-0008MA-IJ
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:22:48 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 342CEC028320
+ for <qemu-devel@nongnu.org>; Tue,  3 Sep 2019 10:22:47 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id l6so6025936wrn.2
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 03:22:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zrVQ4/E6b0Lr7iXKEzS4TcnTZH+wGoeBrsP14wGD13M=;
- b=YgPwHQwdeNj5/HUbgHHAKEDMNah+qbF7G2Gi5AO4RKF19V76cw+X3bqY9GtB96l7NP
- ktd8Gbl/JXhGZXBHJI7sN7iBI9pEYbFY6971bgPu0nU5i/PPCWNFHOzu9pK4CTGgdbYQ
- Drjugnt5uuIM+NlXUivgw3wbk2JIWRdx+n8STeOrhMoMSqL8/Yo5LBHOAqAmUKZ1uTG5
- M8eqkkq3AjKPMYVwDU7xX40GaK3SIlwY3yqI1coQWGTR93bSZalF5xpQoBHWtnwyvbrW
- dhu/idt7fgzztab1ykATpwSR3NldXQU10QRNj9iyxNbxsjWvCnXlRuh4pJ+ZtbawoDKc
- Njfw==
-X-Gm-Message-State: APjAAAU4byQ+fManPdTz3soQrbXPGR+y3CMox1WOFcJX/AbCTsUFz+ca
- k/O4Ye2/co066vAsAcvfrrLPVCCVHyCaJd1WEsJfVA==
-X-Google-Smtp-Source: APXvYqzE3XCVcbsvumK7qT+0VTmTGH9aTErub8+uTFqJa2/W5PPfZvKo6Eu/BCcuSbybY/g6knoRZ0aAgVHXvdaaM/I=
-X-Received: by 2002:a9d:7504:: with SMTP id r4mr10082305otk.221.1567506141048; 
- Tue, 03 Sep 2019 03:22:21 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version;
+ bh=sqPo8Wybb3JmFx9L/VjPXMzZInKTyk0Co7XsqnbhqvM=;
+ b=DYqrg+GpsPvgr3E6D1u2YdvOoHbsZLImH5otQXN2jYa7QFQ4Bug0IYryW8TIZWyhJK
+ pcs5CoZ+3J7KllnKNOkO2w46jo8WyRJEKsiauk8nSo/hsTvm/ZeJORo/nA84iMZuEcAh
+ U008nJZURJQ58+2Wpck8m2ycrXo34tEIlbi/VFhzJtUwMxdlOxxKGeVx7Do9Ocdu7a7f
+ qUIDlZAoVstphcuVORBzjjUL5fZ5qvOQOKs77cPgQQwmbA2C4/sE4xVoD+7lkWWvSqN3
+ RIZC7xIMf6WHA9y/TmcbGFn3jEUE5nW3xOIaqunLvmUFQphoMKwr4zK8Id/F4FRYszqz
+ O1nQ==
+X-Gm-Message-State: APjAAAUnkgDnoBX94croARmgYeQWy+SLhyZPcDgeWTOydX56Sff5q+28
+ tgIiqH0wtJjPNi+Iqk7gKq9JWDSJpi8358jgMpqT0vTWqLG8sfIFe0nf2mmQsv8OwINNuz45LAB
+ R8AHZBgvlCvVxHIc=
+X-Received: by 2002:a05:600c:145:: with SMTP id
+ w5mr31719830wmm.75.1567506165754; 
+ Tue, 03 Sep 2019 03:22:45 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzJwoT1LOefnrOklGAO/DXpwh9eQn0Qy+KD3998DEhVW2xscVMEjr4EIsH2TnDcmFKDe1ToaA==
+X-Received: by 2002:a05:600c:145:: with SMTP id
+ w5mr31719793wmm.75.1567506165441; 
+ Tue, 03 Sep 2019 03:22:45 -0700 (PDT)
+Received: from dritchie.redhat.com (139.red-95-120-215.dynamicip.rima-tde.net.
+ [95.120.215.139])
+ by smtp.gmail.com with ESMTPSA id s22sm8554813wmc.7.2019.09.03.03.22.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Sep 2019 03:22:44 -0700 (PDT)
+References: <20190829165026.225173-1-slp@redhat.com>
+ <20190902154135.39043595.cohuck@redhat.com>
+User-agent: mu4e 1.2.0; emacs 26.2
+From: Sergio Lopez <slp@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+In-reply-to: <20190902154135.39043595.cohuck@redhat.com>
+Date: Tue, 03 Sep 2019 12:22:41 +0200
+Message-ID: <87muflisr2.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20190828165307.18321-1-alex.bennee@linaro.org>
-In-Reply-To: <20190828165307.18321-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 Sep 2019 11:22:10 +0100
-Message-ID: <CAFEAcA-fKh2n=mvV+Q9quOsQ1H7rwXf0Wr4kR18qdpMy6Uk6ew@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH v1 0/9] arm semih-hosting cleanups and
- other misc cleanups
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2] virtio-mmio: implement modern (v2)
+ personality (virtio-1)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,42 +80,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: stefanha@gmail.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ abologna@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 28 Aug 2019 at 18:08, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> Hi Peter,
->
-> Here are the ARM semi-hosting cleanup patches and a small selection of
-> miscellaneous TCG clean-ups. If your happy taking them all through
-> your tree please do otherwise I'll poke Richard. I'm just trying to
-> reduce the delta for my next iteration of the plugin series.
->
-> The following patches need review
->    04 - target arm remove run time semihosting checks
->    05 - includes remove stale smp max _cpus externs
->
-> The first is the result of review comments, moving CONFIG_TCG ifdefs
-> around and the second is pretty trivial.
->
-> Alex Benn=C3=A9e (7):
->   target/arm: handle M-profile semihosting at translate time
->   target/arm: handle A-profile T32 semihosting at translate time
->   target/arm: handle A-profile A32 semihosting at translate time
->   target/arm: remove run time semihosting checks
->   includes: remove stale [smp|max]_cpus externs
->   accel/stubs: reduce headers from tcg-stub
->   include/exec/cpu-defs.h: fix typo
->
-> Emilio G. Cota (2):
->   tcg/README: fix typo s/afterwise/afterwards/
->   atomic_template: fix indentation in GEN_ATOMIC_HELPER
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Series, except for patch 8, applied to target-arm.next.
 
-thanks
--- PMM
+Cornelia Huck <cohuck@redhat.com> writes:
+
+> On Thu, 29 Aug 2019 18:50:27 +0200
+> Sergio Lopez <slp@redhat.com> wrote:
+>
+>> Implement the modern (v2) personality, according to the VirtIO 1.0
+>> specification.
+>>=20
+>> Support for v2 among guests is not as widespread as it'd be
+>> desirable. While the Linux driver has had it for a while, support is
+>> missing, at least, from Tianocore EDK II, NetBSD and FreeBSD.
+>>=20
+>> For this reason, the v2 personality is disabled, keeping the legacy
+>> behavior as default. Machine types willing to use v2, can enable it
+>> using MachineClass's compat_props.
+>>=20
+>> Signed-off-by: Sergio Lopez <slp@redhat.com>
+>> ---
+>> Changelog:
+>>=20
+>> v2:
+>>  - Switch from RFC to PATCH.
+>>  - Avoid the modern vs. legacy dichotomy. Use legacy or non-legacy
+>>    instead. (Andrea Bolognani, Cornelia Huck)
+>>  - Include the register offset in the warning messages. (Stefan
+>>    Hajnoczi)
+>>  - Fix device endianness for the non-legacy mode. (Michael S. Tsirkin)
+>>  - Honor the specs in VIRTIO_MMIO_QUEUE_READY. (Michael S. Tsirkin)
+>> ---
+>>  hw/virtio/virtio-mmio.c | 296 +++++++++++++++++++++++++++++++++++++---
+>>  1 file changed, 279 insertions(+), 17 deletions(-)
+>>=20
+>
+>> @@ -146,28 +163,51 @@ static uint64_t virtio_mmio_read(void *opaque, hwa=
+ddr offset, unsigned size)
+>>      case VIRTIO_MMIO_MAGIC_VALUE:
+>>          return VIRT_MAGIC;
+>>      case VIRTIO_MMIO_VERSION:
+>> -        return VIRT_VERSION;
+>> +        if (proxy->legacy) {
+>> +            return VIRT_VERSION_LEGACY;
+>> +        } else {
+>> +            return VIRT_VERSION;
+>> +        }
+>>      case VIRTIO_MMIO_DEVICE_ID:
+>>          return vdev->device_id;
+>>      case VIRTIO_MMIO_VENDOR_ID:
+>>          return VIRT_VENDOR;
+>>      case VIRTIO_MMIO_DEVICE_FEATURES:
+>> -        if (proxy->host_features_sel) {
+>> -            return 0;
+>> -        }
+>> -        return vdev->host_features;
+>> +        return vdev->host_features >> (32 * proxy->host_features_sel);
+>
+> Hm... I think you want to return 0 for host_features_sel > 0 on legacy
+> devices.
+
+You're right, better play safe here.
+
+> Also, there's VirtIODeviceClass->legacy_features, which probably should
+> be masked out for non-legacy devices?
+
+Good point.
+
+>> @@ -229,17 +275,33 @@ static void virtio_mmio_write(void *opaque, hwaddr=
+ offset, uint64_t value,
+>>      }
+>>      switch (offset) {
+>>      case VIRTIO_MMIO_DEVICE_FEATURES_SEL:
+>> -        proxy->host_features_sel =3D value;
+>> +        if (value) {
+>> +            proxy->host_features_sel =3D 1;
+>> +        } else {
+>> +            proxy->host_features_sel =3D 0;
+>> +        }
+>>          break;
+>>      case VIRTIO_MMIO_DRIVER_FEATURES:
+>> -        if (!proxy->guest_features_sel) {
+>> +        if (!proxy->legacy) {
+>> +            proxy->guest_features[proxy->guest_features_sel] =3D value;
+>> +        } else if (!proxy->guest_features_sel) {
+>>              virtio_set_features(vdev, value);
+>
+> If the guest tries to set something !0 for guest_features_sel > 0 on a
+> legacy device, should that be logged as a guest bug?
+
+We already have some warnings for unexpected guest behavior, so I agree
+we should add this one for completeness.
+
+>>          }
+>>          break;
+>
+> (...)
+>
+> Otherwise, looks good to me.
+
+Thanks!
+Sergio.
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl1uPvEACgkQ9GknjS8M
+AjWv1w/9GCgCC8KN8xFVawyb75SbFycwW2w3TEteC2QLkJXTAu8xJrUXOF41yGfZ
+gqXF3GJLD8TFfVACx0CgZnl6120a0H9IhTmB4YkCzUvJJw5bEt6fad4ktcXDAQN3
+G2chsx06818gIPXj5XcXQFf37FCAwHbIwbPkc4ETLoIrt0x4Lzl3qVp705n3LvpG
+m7nZQr704wtjRAmqpNYT58aC1Ugc/FtfiQB4ms4Puzn/I9cOoH7VfpFiOdLtHdcl
+n+QRki4eMDkfWPvXUCftGTNqa8gLb1Ee9+iLXntYwDtItSqqg60LlMZDIYYJA6NA
+bpWuqvC0F95Yr1mxaB7+TcwDb3HAz6aYmACuQPipOw3+PHjybi1+ee7JrA+mMxJM
+vvyzbRbdouMzOsUmKdD/vYSrXMovDRB3943a6TtMqBjslxjbmdXlRVsQf9a3I4Ll
+hw1wSQqAco3pd3QDXjQyl4EEC46d/UPyCOLLW/T7dqYC361ArJpCVFwGYkLZrTzN
+hNX+VhDzoA/CvKNM1bUbE8t3NA4s7e8M78fFAzbUSI4C5JmZbb1Mmha2XV2YVsn2
+0+tKKcNSctu1IKJiBZKkBqYj1zu4g324YHls5dhlSq83VHc5JaLMuWyOBFONug9H
+xkA257XJAPRQKuc1AWIWbojGi4Vtlr7JHILvQ52WUhccGTEmOX4=
+=49cg
+-----END PGP SIGNATURE-----
+--=-=-=--
 
