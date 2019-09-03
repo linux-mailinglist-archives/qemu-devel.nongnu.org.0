@@ -2,72 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5DFA6D71
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:02:09 +0200 (CEST)
-Received: from localhost ([::1]:48036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF6BA6D91
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:07:57 +0200 (CEST)
+Received: from localhost ([::1]:48280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5BFw-00010A-8t
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:02:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59385)
+	id 1i5BLY-0007s4-C2
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33047)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5Are-0003B2-0q
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:37:03 -0400
+ (envelope-from <thuth@redhat.com>) id 1i5B2i-0004uI-Nk
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:48:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5Arc-000668-IE
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:37:01 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46451)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5Arc-00065U-BR
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:37:00 -0400
-Received: by mail-wr1-x443.google.com with SMTP id h7so16669879wrt.13
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:37:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=ajJo8M0JKSN4/WIzHMm40PvDhk2VCRR0BAjSpMU/81k=;
- b=P4QFAkZQ0uPKN9bmnYswYYaDaeqzSk3Kd6jvJn7CT+qdusrc1gJxROdlmQITrBdLma
- S+pewE9V4UF4QfRPzghDME6hBwVf6/se0pOWMcpQfDvttaZUExuPk79DgrUBXZt3BOna
- C+n5iXtcS7jK9kzrr+W2dwBG1B3iT01lfZvSFMMz7GjWG4Ezvr1n02ECuYgeHtNZaBMc
- rOlK3H0XLGII0EpKnLZtAlhyE18qgcV5O9AILyZfKxEa/hdqcNjuusQJGsnA+5rhPXHf
- D7qUbqRX+nFf0kpZckGlRFKudms75YmjvU1/pEfPo0L8PpaM/xLlWFkutJERp/JeIhQ5
- IcJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ajJo8M0JKSN4/WIzHMm40PvDhk2VCRR0BAjSpMU/81k=;
- b=cfYpRKZzBIBQWe7DsEssCnZNgpWQNxa5mpy+9OBUPZbVy/38s+9fHxYfaVHKg181Xf
- 59IzRdO/iWcsGN3yLC9aD2by3q9HX9x4oIsqK18kqc82MGTPhdMSa6/V6i4R+cVeD5aZ
- 2tTczPVAJNOf9HzTXPqqY5Hq33lnIAcCsfdSokdFCkfHIrWYZM6afRKrFlDWb8pV59HH
- JvMPfK8ebzzHGMm4BMzDqmwsaVlBcsigwfTVNi2UjrP7KRNn5m/TqlVjc+Gu7dh+crvw
- DivAZpIjebyQwkwgnBG+Tp64ts31q8UTYvmOlAKZzf+I5s5+mgpfiW2+AMZwUApC2h8X
- JWOg==
-X-Gm-Message-State: APjAAAUfb5mhTx87qKh+XYOiMIydC5FBeQlI/1SUDjskj3LeI2cWQzTv
- 8RRYNqHL4/+dRGgYUi+HpDEPk9Dtu9gdLg==
-X-Google-Smtp-Source: APXvYqxxpHq0YVSRLmNmMQh1+Fs3gEcwzmEU65xBoVMiSBtxJGqUzk0xEx4O3tOmymtgroue2D70sg==
-X-Received: by 2002:adf:eec5:: with SMTP id a5mr43743729wrp.352.1567525019151; 
- Tue, 03 Sep 2019 08:36:59 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.58
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 08:36:58 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:36:33 +0100
-Message-Id: <20190903153633.6651-22-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190903153633.6651-1-peter.maydell@linaro.org>
-References: <20190903153633.6651-1-peter.maydell@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PULL 21/21] target/arm: Don't abort on M-profile
- exception return in linux-user mode
+ (envelope-from <thuth@redhat.com>) id 1i5B2h-0005Y1-E4
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:48:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40734)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1i5B2e-0005Ra-6j; Tue, 03 Sep 2019 11:48:24 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6BDCE3083394;
+ Tue,  3 Sep 2019 15:48:21 +0000 (UTC)
+Received: from thuth.com (ovpn-117-51.ams2.redhat.com [10.36.117.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F315194B2;
+ Tue,  3 Sep 2019 15:48:20 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Date: Tue,  3 Sep 2019 17:48:10 +0200
+Message-Id: <20190903154810.27365-4-thuth@redhat.com>
+In-Reply-To: <20190903154810.27365-1-thuth@redhat.com>
+References: <20190903154810.27365-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Tue, 03 Sep 2019 15:48:21 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [RFC PATCH 3/3] target/arm: Make m_helper.c optional
+ via CONFIG_ARM_V7M
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,103 +54,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An attempt to do an exception-return (branch to one of the magic
-addresses) in linux-user mode for M-profile should behave like
-a normal branch, because linux-user mode is always going to be
-in 'handler' mode. This used to work, but we broke it when we added
-support for the M-profile security extension in commit d02a8698d7ae2bfed.
+We've already got the CONFIG_ARM_V7M switch, but it currently can
+not be disabled yet. The m_helper.c code should not be compiled
+into the binary if the switch is not enabled. We also have to
+provide some stubs in a separate file to make sure that we still
+can link the other code without CONFIG_ARM_V7M.
 
-In that commit we allowed even handler-mode calls to magic return
-values to be checked for and dealt with by causing an
-EXCP_EXCEPTION_EXIT exception to be taken, because this is
-needed for the FNC_RETURN return-from-non-secure-function-call
-handling. For system mode we added a check in do_v7m_exception_exit()
-to make any spurious calls from Handler mode behave correctly, but
-forgot that linux-user mode would also be affected.
-
-How an attempted return-from-non-secure-function-call in linux-user
-mode should be handled is not clear -- on real hardware it would
-result in return to secure code (not to the Linux kernel) which
-could then handle the error in any way it chose. For QEMU we take
-the simple approach of treating this erroneous return the same way
-it would be handled on a CPU without the security extensions --
-treat it as a normal branch.
-
-The upshot of all this is that for linux-user mode we should never
-do any of the bx_excret magic, so the code change is simple.
-
-This ought to be a weird corner case that only affects broken guest
-code (because Linux user processes should never be attempting to do
-exception returns or NS function returns), except that the code that
-assigns addresses in RAM for the process and stack in our linux-user
-code does not attempt to avoid this magic address range, so
-legitimate code attempting to return to a trampoline routine on the
-stack can fall into this case. This change fixes those programs,
-but we should also look at restricting the range of memory we
-use for M-profile linux-user guests to the area that would be
-real RAM in hardware.
-
-Cc: qemu-stable@nongnu.org
-Reported-by: Christophe Lyon <christophe.lyon@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20190822131534.16602-1-peter.maydell@linaro.org
-Fixes: https://bugs.launchpad.net/qemu/+bug/1840922
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/arm/translate.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ target/arm/Makefile.objs   |  3 +-
+ target/arm/m_helper-stub.c | 58 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 60 insertions(+), 1 deletion(-)
+ create mode 100644 target/arm/m_helper-stub.c
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index cfebd35d268..615859e23c5 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -915,10 +915,27 @@ static inline void gen_bx(DisasContext *s, TCGv_i32 var)
-     store_cpu_field(var, thumb);
- }
+diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
+index 5cafc1eb6c..225e7a70a9 100644
+--- a/target/arm/Makefile.objs
++++ b/target/arm/Makefile.objs
+@@ -36,7 +36,8 @@ obj-y += tlb_helper.o debug_helper.o
+ obj-y += translate.o op_helper.o
+ obj-y += crypto_helper.o
+ obj-y += iwmmxt_helper.o vec_helper.o neon_helper.o
+-obj-y += m_helper.o
++obj-$(CONFIG_ARM_V7M) += m_helper.o
++obj-$(call lnot,$(CONFIG_ARM_V7M)) += m_helper-stub.o
  
--/* Set PC and Thumb state from var. var is marked as dead.
+ obj-$(CONFIG_SOFTMMU) += psci.o
+ 
+diff --git a/target/arm/m_helper-stub.c b/target/arm/m_helper-stub.c
+new file mode 100644
+index 0000000000..8ec9de0fb6
+--- /dev/null
++++ b/target/arm/m_helper-stub.c
+@@ -0,0 +1,58 @@
 +/*
-+ * Set PC and Thumb state from var. var is marked as dead.
-  * For M-profile CPUs, include logic to detect exception-return
-  * branches and handle them. This is needed for Thumb POP/LDM to PC, LDR to PC,
-  * and BX reg, and no others, and happens only for code in Handler mode.
-+ * The Security Extension also requires us to check for the FNC_RETURN
-+ * which signals a function return from non-secure state; this can happen
-+ * in both Handler and Thread mode.
-+ * To avoid having to do multiple comparisons in inline generated code,
-+ * we make the check we do here loose, so it will match for EXC_RETURN
-+ * in Thread mode. For system emulation do_v7m_exception_exit() checks
-+ * for these spurious cases and returns without doing anything (giving
-+ * the same behaviour as for a branch to a non-magic address).
++ * ARM V7M related stubs.
 + *
-+ * In linux-user mode it is unclear what the right behaviour for an
-+ * attempted FNC_RETURN should be, because in real hardware this will go
-+ * directly to Secure code (ie not the Linux kernel) which will then treat
-+ * the error in any way it chooses. For QEMU we opt to make the FNC_RETURN
-+ * attempt behave the way it would on a CPU without the security extension,
-+ * which is to say "like a normal branch". That means we can simply treat
-+ * all branches as normal with no magic address behaviour.
-  */
- static inline void gen_bx_excret(DisasContext *s, TCGv_i32 var)
- {
-@@ -926,10 +943,12 @@ static inline void gen_bx_excret(DisasContext *s, TCGv_i32 var)
-      * s->base.is_jmp that we need to do the rest of the work later.
-      */
-     gen_bx(s, var);
-+#ifndef CONFIG_USER_ONLY
-     if (arm_dc_feature(s, ARM_FEATURE_M_SECURITY) ||
-         (s->v7m_handler_mode && arm_dc_feature(s, ARM_FEATURE_M))) {
-         s->base.is_jmp = DISAS_BX_EXCRET;
-     }
-+#endif
- }
- 
- static inline void gen_bx_excret_final_code(DisasContext *s)
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/helper-proto.h"
++
++void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
++{
++    abort();
++}
++
++void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
++{
++    abort();
++}
++
++uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
++{
++    abort();
++}
++
++void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
++{
++    abort();
++}
++
++uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
++{
++    abort();
++}
++
++void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
++{
++    abort();
++}
++
++void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
++{
++    abort();
++}
++
++void HELPER(v7m_vlldm)(CPUARMState *env, uint32_t fptr)
++{
++    abort();
++}
++
++void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
++{
++    abort();
++}
++
++ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
++{
++    abort();
++}
 -- 
-2.20.1
+2.18.1
 
 
