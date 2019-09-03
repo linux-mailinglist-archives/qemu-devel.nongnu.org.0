@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22871A75DB
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:01:27 +0200 (CEST)
-Received: from localhost ([::1]:51398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0604EA75EB
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:06:46 +0200 (CEST)
+Received: from localhost ([::1]:51488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5FvZ-0002R4-HT
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:01:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53273)
+	id 1i5G0i-0006E3-3J
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:06:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1i5FZp-0007Kx-Fb
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:38:58 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1i5FZs-0007Pm-VM
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1i5FZn-0000JD-Uh
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:38:57 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:59864)
+ (envelope-from <jag.raman@oracle.com>) id 1i5FZr-0000My-Oj
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:00 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:36640)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1i5FZn-0000IZ-Mq
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:38:55 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KXqVD062439;
- Tue, 3 Sep 2019 20:38:49 GMT
+ id 1i5FZr-0000L5-FZ
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:38:59 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KXnAZ066152;
+ Tue, 3 Sep 2019 20:38:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=hUkMbLInRYnGpWuGCRLtrqZcj9Se8FIP4xcY/vwdo2E=;
- b=VOld4uj2kL90H4rukUx6/D/Oy6HUSC1tXMo3w6hZCFZLKaXzE6irRXi30FWb5oscdoO6
- JyjnrN9o6iRsytf8NV3znGqU4GB7X5sVCh/BWiTmxJnCzYxv3+wO5FkAFIYm80RotxU1
- oAsoh5JSX3krxKoApDGilhZidYHllXpe4aUHqd693lOr7jgXhBqsi0pmn/TulW41XLuD
- geQe3VA/Pauh13xxoDf4IF/Dzzboqug3qvS1ZHMG2di0LlRvNMFRx2hFnbTwVoeG8ikJ
- cKtPIPi9gGG855zffpbCWC7iIofFCvfIA6JNpTfYKn7jMYmMaHmCz8j95iVFzfJVdR4r ig== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 2usy66r2e2-1
+ bh=GUtOh6uWmy5bBzOxxzJ1uCCKmTjk2dTU82Y4WxCFH9g=;
+ b=N0z9o2PlxKEEX+lSRQaazjyIsUChKHzY4WuqMFBQBr3rmiwNqoza8SiCDrksLdkxK7T+
+ Nh3HunISNjzXo1dFTl7deGUgPMM4+tWUd/V/RkHDhGV8rKsKmFxjtuRnX42SQcTkISA2
+ Knydyu2Tavf9vP8YXx+a8h7KvuDEN9JTH1T0QH5xoup+drdb+F4sigwC8EGS7KXKtzxq
+ D1EljkCVXY4KJ7Gyj1hkngwjqeTHcF4GqlBv6iGDLao4fxwGGpVdmLyccerCj8MSp+EF
+ ijz5As/nMwuwNwCkRRMzrnf5RRrI1lii4wlUljYzJyScDNFafj7XwrEM3lQhDyQVFyTa MA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 2usy4u830w-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:38:49 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KcLHf188207;
- Tue, 3 Sep 2019 20:38:48 GMT
+ Tue, 03 Sep 2019 20:38:53 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KcMJf095268;
+ Tue, 3 Sep 2019 20:38:52 GMT
 Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 2usu51182h-1
+ by userp3030.oracle.com with ESMTP id 2usu51u1u6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:38:48 +0000
+ Tue, 03 Sep 2019 20:38:52 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x83Kcm1L012337;
- Tue, 3 Sep 2019 20:38:48 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x83Kcpj9012358;
+ Tue, 3 Sep 2019 20:38:51 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 03 Sep 2019 13:38:47 -0700
+ with ESMTP ; Tue, 03 Sep 2019 13:38:50 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:37:42 -0400
-Message-Id: <c47dcdb7ddfe7b274ddc5305921f0b7d7f4aed05.1567534653.git.jag.raman@oracle.com>
+Date: Tue,  3 Sep 2019 16:37:44 -0400
+Message-Id: <74468c1d1d6d7ff7afb08d367edb6979ea5e3a31.1567534653.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
 References: <cover.1567534653.git.jag.raman@oracle.com>
@@ -62,7 +62,7 @@ In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
 References: <cover.1567534653.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9369
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=4
  malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -71,14 +71,14 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9369
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ suspectscore=4 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
  definitions=main-1909030206
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.85
-Subject: [Qemu-devel] [RFC v3 PATCH 16/45] multi-process: PCI BAR read/write
- handling for proxy & remote endpoints
+X-Received-From: 156.151.31.86
+Subject: [Qemu-devel] [RFC v3 PATCH 18/45] multi-process: support dev id in
+ config read/write
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,236 +100,76 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Proxy device object implements handler for PCI BAR writes and reads. The handler
-uses BAR_WRITE/BAR_READ message to communicate to the remote process with the BAR address and
-value to be written/read.
-The remote process implements handler for BAR_WRITE/BAR_READ message.
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 ---
- hw/proxy/qemu-proxy.c         | 50 +++++++++++++++++++++++++++++
- include/hw/proxy/qemu-proxy.h |  5 +++
- include/io/proxy-link.h       | 12 +++++++
- remote/remote-main.c          | 73 +++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 140 insertions(+)
+ New patch in v3
+
+ hw/proxy/qemu-proxy.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-index e5fd4bb..44668bf 100644
+index 1021045..789f39a 100644
 --- a/hw/proxy/qemu-proxy.c
 +++ b/hw/proxy/qemu-proxy.c
-@@ -287,3 +287,53 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
-     dev->get_proxy_sock = get_proxy_sock;
-     dev->init_proxy = init_proxy;
- }
-+
-+static void send_bar_access_msg(ProxyLinkState *proxy_link, MemoryRegion *mr,
-+                                bool write, hwaddr addr, uint64_t *val,
-+                                unsigned size, bool memory)
-+{
-+    ProcMsg msg;
-+    int wait;
-+
-+    memset(&msg, 0, sizeof(ProcMsg));
-+
-+    msg.bytestream = 0;
-+    msg.size = sizeof(msg.data1);
-+    msg.data1.bar_access.addr = mr->addr + addr;
-+    msg.data1.bar_access.size = size;
-+    msg.data1.bar_access.memory = memory;
-+
-+    if (write) {
-+        msg.cmd = BAR_WRITE;
-+        msg.data1.bar_access.val = *val;
-+    } else {
-+        wait = GET_REMOTE_WAIT;
-+
-+        msg.cmd = BAR_READ;
-+        msg.num_fds = 1;
-+        msg.fds[0] = wait;
-+    }
-+
-+    proxy_proc_send(proxy_link, &msg, proxy_link->com);
-+
-+    if (!write) {
-+        *val = wait_for_remote(wait);
-+        PUT_REMOTE_WAIT(wait);
-+    }
-+}
-+
-+void proxy_default_bar_write(PCIProxyDev *dev, MemoryRegion *mr, hwaddr addr,
-+                             uint64_t val, unsigned size, bool memory)
-+{
-+    send_bar_access_msg(dev->proxy_link, mr, true, addr, &val, size, memory);
-+}
-+
-+uint64_t proxy_default_bar_read(PCIProxyDev *dev, MemoryRegion *mr, hwaddr addr,
-+                                unsigned size, bool memory)
-+{
-+    uint64_t val;
-+
-+    send_bar_access_msg(dev->proxy_link, mr, false, addr, &val, size, memory);
-+
-+    return val;
-+}
-diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
-index 3b37b65..a951570 100644
---- a/include/hw/proxy/qemu-proxy.h
-+++ b/include/hw/proxy/qemu-proxy.h
-@@ -77,5 +77,10 @@ typedef struct PCIProxyDevClass {
- 
- int remote_spawn(PCIProxyDev *pdev, const char *command, Error **errp);
- 
-+void proxy_default_bar_write(PCIProxyDev *dev, MemoryRegion *mr, hwaddr addr,
-+                             uint64_t val, unsigned size, bool memory);
-+
-+uint64_t proxy_default_bar_read(PCIProxyDev *dev, MemoryRegion *mr, hwaddr addr,
-+                                unsigned size, bool memory);
- 
- #endif /* QEMU_PROXY_H */
-diff --git a/include/io/proxy-link.h b/include/io/proxy-link.h
-index 0785394..2c290b2 100644
---- a/include/io/proxy-link.h
-+++ b/include/io/proxy-link.h
-@@ -56,6 +56,8 @@ typedef struct ProxyLinkState ProxyLinkState;
-  * CONF_READ        PCI config. space read
-  * CONF_WRITE       PCI config. space write
-  * SYNC_SYSMEM      Shares QEMU's RAM with remote device's RAM
-+ * BAR_WRITE        Writes to PCI BAR region
-+ * BAR_READ         Reads from PCI BAR region
-  *
-  */
- typedef enum {
-@@ -63,6 +65,8 @@ typedef enum {
-     CONF_READ,
-     CONF_WRITE,
-     SYNC_SYSMEM,
-+    BAR_WRITE,
-+    BAR_READ,
-     MAX,
- } proc_cmd_t;
- 
-@@ -85,6 +89,13 @@ typedef struct {
- } sync_sysmem_msg_t;
- 
- typedef struct {
-+    hwaddr addr;
-+    uint64_t val;
-+    unsigned size;
-+    bool memory;
-+} bar_access_msg_t;
-+
-+typedef struct {
-     proc_cmd_t cmd;
-     int bytestream;
-     size_t size;
-@@ -93,6 +104,7 @@ typedef struct {
-     union {
-         uint64_t u64;
-         sync_sysmem_msg_t sync_sysmem;
-+        bar_access_msg_t bar_access;
-     } data1;
- 
-     int fds[REMOTE_MAX_FDS];
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 93b2d36..43fe50a 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -45,6 +45,7 @@
- #include "qemu/config-file.h"
- #include "sysemu/sysemu.h"
- #include "block/block.h"
-+#include "exec/memattrs.h"
- 
- static ProxyLinkState *proxy_link;
- PCIDevice *remote_pci_dev;
-@@ -75,6 +76,66 @@ static void process_config_read(ProcMsg *msg)
-     PUT_REMOTE_WAIT(wait);
+@@ -151,12 +151,16 @@ static void set_proxy_sock(PCIDevice *dev, int socket)
  }
  
-+/* TODO: confirm memtx attrs. */
-+static void process_bar_write(ProcMsg *msg, Error **errp)
-+{
-+    bar_access_msg_t *bar_access = &msg->data1.bar_access;
-+    AddressSpace *as =
-+        bar_access->memory ? &address_space_memory : &address_space_io;
-+    MemTxResult res;
-+
-+    res = address_space_rw(as, bar_access->addr, MEMTXATTRS_UNSPECIFIED,
-+                           (uint8_t *)&bar_access->val, bar_access->size, true);
-+
-+    if (res != MEMTX_OK) {
-+        error_setg(errp, "Could not perform address space write operation,"
-+                   " inaccessible address: %lx.", bar_access->addr);
-+    }
-+}
-+
-+static void process_bar_read(ProcMsg *msg, Error **errp)
-+{
-+    bar_access_msg_t *bar_access = &msg->data1.bar_access;
-+    AddressSpace *as;
-+    int wait = msg->fds[0];
-+    MemTxResult res;
-+    uint64_t val = 0;
-+
-+    as = bar_access->memory ? &address_space_memory : &address_space_io;
-+
-+    assert(bar_access->size <= sizeof(uint64_t));
-+
-+    res = address_space_rw(as, bar_access->addr, MEMTXATTRS_UNSPECIFIED,
-+                           (uint8_t *)&val, bar_access->size, false);
-+
-+    if (res != MEMTX_OK) {
-+        error_setg(errp, "Could not perform address space read operation,"
-+                   " inaccessible address: %lx.", bar_access->addr);
-+        val = (uint64_t)-1;
-+        goto fail;
-+    }
-+
-+    switch (bar_access->size) {
-+    case 4:
-+        val = *((uint32_t *)&val);
-+        break;
-+    case 2:
-+        val = *((uint16_t *)&val);
-+        break;
-+    case 1:
-+        val = *((uint8_t *)&val);
-+        break;
-+    default:
-+        error_setg(errp, "Invalid PCI BAR read size");
-+        return;
-+    }
-+
-+fail:
-+    notify_proxy(wait, val);
-+
-+    PUT_REMOTE_WAIT(wait);
-+}
-+
- static void process_msg(GIOCondition cond, ProcChannel *chan)
+ static int config_op_send(PCIProxyDev *dev, uint32_t addr, uint32_t *val, int l,
+-                          unsigned int op)
++                          char *id, unsigned int op)
  {
-     ProcMsg *msg = NULL;
-@@ -101,6 +162,18 @@ static void process_msg(GIOCondition cond, ProcChannel *chan)
-     case CONF_READ:
-         process_config_read(msg);
-         break;
-+    case BAR_WRITE:
-+        process_bar_write(msg, &err);
-+        if (err) {
-+            goto finalize_loop;
-+        }
-+        break;
-+    case BAR_READ:
-+        process_bar_read(msg, &err);
-+        if (err) {
-+            goto finalize_loop;
-+        }
-+        break;
-     default:
-         error_setg(&err, "Unknown command");
-         goto finalize_loop;
+     ProcMsg msg;
+     struct conf_data_msg conf_data;
+     int wait;
+ 
++    if (!id) {
++        return -EINVAL;
++    }
++
+     memset(&msg, 0, sizeof(ProcMsg));
+     conf_data.addr = addr;
+     conf_data.val = (op == CONF_WRITE) ? *val : 0;
+@@ -171,6 +175,8 @@ static int config_op_send(PCIProxyDev *dev, uint32_t addr, uint32_t *val, int l,
+     msg.size = sizeof(conf_data);
+     msg.cmd = op;
+     msg.bytestream = 1;
++    msg.id = (uint8_t *)g_strdup(dev->dev_id);
++    msg.size_id = strlen(dev->dev_id) + 1;
+ 
+     if (op == CONF_WRITE) {
+         msg.num_fds = 0;
+@@ -188,6 +194,7 @@ static int config_op_send(PCIProxyDev *dev, uint32_t addr, uint32_t *val, int l,
+     }
+ 
+     free(msg.data2);
++    free(msg.id);
+ 
+     return 0;
+ }
+@@ -198,7 +205,8 @@ static uint32_t pci_proxy_read_config(PCIDevice *d, uint32_t addr, int len)
+ 
+     (void)pci_default_read_config(d, addr, len);
+ 
+-    config_op_send(PCI_PROXY_DEV(d), addr, &val, len, CONF_READ);
++    config_op_send(PCI_PROXY_DEV(d), addr, &val, len,
++                   PCI_PROXY_DEV(d)->dev_id, CONF_READ);
+ 
+     return val;
+ }
+@@ -208,7 +216,8 @@ static void pci_proxy_write_config(PCIDevice *d, uint32_t addr, uint32_t val,
+ {
+     pci_default_write_config(d, addr, val, l);
+ 
+-    config_op_send(PCI_PROXY_DEV(d), addr, &val, l, CONF_WRITE);
++    config_op_send(PCI_PROXY_DEV(d), addr, &val, l,
++                   PCI_PROXY_DEV(d)->dev_id, CONF_WRITE);
+ }
+ 
+ static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
 -- 
 1.8.3.1
 
