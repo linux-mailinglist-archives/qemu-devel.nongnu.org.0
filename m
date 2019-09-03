@@ -2,105 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C1EA64FC
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 11:19:43 +0200 (CEST)
-Received: from localhost ([::1]:43206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B47A6515
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 11:25:11 +0200 (CEST)
+Received: from localhost ([::1]:43240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i54yU-0007Ju-C6
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 05:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33165)
+	id 1i553m-0001U0-2G
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 05:25:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33519)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i54xU-0006qS-Of
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:18:41 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1i54zU-00081Y-4i
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:20:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i54xT-000153-7b
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:18:40 -0400
-Received: from mail-eopbgr130123.outbound.protection.outlook.com
- ([40.107.13.123]:60036 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i54xS-000141-Ju; Tue, 03 Sep 2019 05:18:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gTim+7LwQqkokKDNgQP6QOC+tM0zjMT8WCxr6EX95DMnSBHCMFycp7qxmZAoasdOznIhCHFK84tU1lCqeIoOATq12jYzfVLIPjuE7JntIHJgdw+h9SCP4WRQ+GYnn1lo1h6P8UKFhYni3CGBFF8uPjn9M8WpdV6mWJJI+Q8ZsWLZZbRrplitmrTXphh9jm64kq2dbm566RoQ9A96Yuoe+r9RneSXnBHPL1p3NzQuz6LrhUT7Kxc3SZTWuYTLziHu2OB192FXo241c1u9mbdNzN/iD8Y0Czj8gmvxsMZirs1XIbg2D+cfjQKE8ggzhg0MHMg6UDHZmdXgD+sdOpBvCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WOx5qVWoVLcGKQw7VsZgRD5w+iAP/LDh6/liGPJqgsU=;
- b=f3yeycl7txIVibzXuuD1tlZ46RHnhInMPv58UCVnclJlE/x7dGpv+enD/fTT39rTQTWB1w6BbzKy7c0btY1Be/vh2m0eYoTFKaVkDb0FgLCpUYhqsllB64ihPutfKn/YnMl7m6vTrMhARWW2+1D/nZOd6CbpuMCG0LjJK/R9AiXOAsSgGc9apDH236I6bd3NuV1GWlOHk2MFOczoqhAvlENr2LGBZ/Ij8agNIiwzsD8nxIMuUEpyU1ZaDFH2OdSAkYfq/CcTBEy9VnNJ97m9sceDObLhBPwiXDkWkPsiZ07H8uiN1OLDjfMzEWXgnO8CHYFobZh8BfX97T5R1ZSPVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WOx5qVWoVLcGKQw7VsZgRD5w+iAP/LDh6/liGPJqgsU=;
- b=kd+xs2+f0+b3fDNqUdpCjoq8fVLQXdFxIva8IlZP9L6pdJ9E2PorCQP0le/oAR5aAMqkCuy1DnWwyvAqHf33llRlEu6bF1utPA/isEGIsvZxCO4CcKtI5uH9cl87bjWkmKXG5gAYTJml0cNyOjMffM8tiefEjoo3gzUzZSegPNo=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB4089.eurprd08.prod.outlook.com (20.179.9.203) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2220.20; Tue, 3 Sep 2019 09:18:35 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2220.022; Tue, 3 Sep 2019
- 09:18:35 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v6 42/42] iotests: Test committing to overridden backing
-Thread-Index: AQHVTs26rO86bLu8zUqMBjZ9yxtWZKcZ04AA
-Date: Tue, 3 Sep 2019 09:18:35 +0000
-Message-ID: <8220a2b6-ce22-c14a-8feb-e66e6737209c@virtuozzo.com>
-References: <20190809161407.11920-1-mreitz@redhat.com>
- <20190809161407.11920-43-mreitz@redhat.com>
-In-Reply-To: <20190809161407.11920-43-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0344.eurprd05.prod.outlook.com
- (2603:10a6:7:92::39) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190903121832107
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a3366d98-822a-4a83-ea92-08d7304fb273
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB4089; 
-x-ms-traffictypediagnostic: DB8PR08MB4089:
-x-microsoft-antispam-prvs: <DB8PR08MB4089BAF5BE68D747EEFA03D0C1B90@DB8PR08MB4089.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:400;
-x-forefront-prvs: 01494FA7F7
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39840400004)(346002)(376002)(396003)(136003)(366004)(199004)(189003)(6436002)(4326008)(66946007)(8936002)(26005)(99286004)(76176011)(110136005)(3846002)(316002)(66476007)(66556008)(64756008)(6246003)(81166006)(81156014)(53936002)(8676002)(66446008)(52116002)(6116002)(6486002)(54906003)(31686004)(5660300002)(186003)(25786009)(486006)(71190400001)(446003)(31696002)(86362001)(478600001)(14454004)(2501003)(2616005)(66066001)(6506007)(558084003)(6512007)(2906002)(386003)(7736002)(305945005)(256004)(476003)(102836004)(11346002)(71200400001)(36756003)(229853002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB4089;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Kwi8zMs5i621IL1hpQAMxJFdPm/TE6SRkeUMSezd6PSzaobRVON7ynxaX8JB/Rr0u5MP2uDWqnMgOqejlELMhqXtCP6xvQ5oqIPviX1MP00ESKZ3mF+fqR/NjPmWCWkIi1fxtiO7bL0maiMiXn4mm69HL4E7ypvBBBPPxyqQxKIXjOuz3hsAtV31l1/LTbVZWGaqtZ90MEYZxwPP+4y0pYeHXoF1u7iATaV1wjMhuxYLEGB5II8gN0Tno+nTcPsajy8jROcTQ4MES2OYEEBeGspa/wTvx33CZV9ol/3HYV5clZw5sBg2ecApi5h8dwUBs7sppdxHZt5uewuoMQSL7xWbqFf+7qk+nnn9K94c4fz/6XAH6nXCnGrIQ37XiXQQ9hurVGuiihOnNEHTQ7W9c2+LwZJX1cqYYbuse/UTN9k=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F819B84E4597C94098A9CDF3B9BDBE07@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <lukasstraub2@web.de>) id 1i54zS-0002NX-Vn
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:20:44 -0400
+Received: from mout.web.de ([212.227.15.3]:37479)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1i54zS-0002MX-JK
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:20:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1567502419;
+ bh=+LLNjVW6G5lvrZbMtDNdr8Ub+UdOtixoID9Yia6Hj80=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=a/Dgma1N1B0PBriVobYWKtHy50QjUgBGP+0BReYbC5KkWqrM5rDrbiGO8dUkwDa8A
+ MWheTr56Ci8MEAoW4FrP08KpdSNu2ZQPku84DOPY5GQ3aFKreHeXJa7jaHBx6vc/GB
+ V8dpZnfC7GSKeOduAa8od1WX2h4Hcz0pfEdnxQDU=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([88.130.61.78]) by smtp.web.de (mrweb002
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0Lw189-1iFQH13JFd-017n4s; Tue, 03
+ Sep 2019 11:20:18 +0200
+Date: Tue, 3 Sep 2019 11:20:16 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Message-ID: <cover.1567500411.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3366d98-822a-4a83-ea92-08d7304fb273
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2019 09:18:35.3317 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: O7qIAVvs3hVOS8MQKEeYaz4RSwsxqoBh3GgV6MCFrZhh4J/4bVhz4U4qpJnKNeg9SrnKPVxdOXWTX8y98mpHN5hw29dYv/dRZWDJAq0JrLE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4089
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.13.123
-Subject: Re: [Qemu-devel] [PATCH v6 42/42] iotests: Test committing to
- overridden backing
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:gkGyd9mgMUEtyXMJb3+DMrGasPQzSdshnH61ddm1XlJssDJ+Z7/
+ C58G/mqTEOv6UwSFZh8W+nLFUIHVHkLbJUHdr5T6heFJoookrpggZjuwtSD+6KnepaxuFXB
+ 3E0038ZIHRMLuK/ZfkxKraeenC/MtmGxQkGo5U5GRabAHya0JUh9PYVMgL5z59INZyEIPmG
+ Bzbv8xg4RgD/WtrD+7ikg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vNeMjFUnX3o=:LTpdA/IkqVeRkiKo0ozvNJ
+ aSZ+56DvBM4H0teMAq4BeIAFDAxhCDuJSMo2vTXqRav8qOCNJ4dDVRepxKVY16X2UJpft+O4J
+ 1/XFQzmTtY8jsKwBYIHVZwonUjE5RJHNdvkt3hDHuceJ4sjAinF+PbQRkTzdWIA9R5G/uvW5p
+ QRHmKwE4i+2USs7WJrg5dZTF9tKAN9G9EahODuRYcXshz/nUzD5AqWo3ZgsE/CSM553gdzbro
+ HfAIIHAW64m0ezqs2rd6o+XGLeMJFBhLIRMxGpK0xsF70yFfktK4+IgyoL7gAaWPzmelBkZuZ
+ 6NIugfUYtja0PJe1DQ1ezfH1B46K3IzQAWD+029oeYU4C07A6UWhdnkparscolXuQRXc836Tb
+ POdFZd/9zDJU2OQ2HCFxX9rxXCFH5nqgRyHPT2WEQpd6O2cf+EzOR3zlll2SfuMvcz3PDMqv+
+ MnrUqMBMiZGldTb0ZVVNwTOK8GorKnzwJPb21g5cAhibzMvs5obrBSL3KRvhwo9FGEG2DH0Zn
+ g8xLBMUqgJFv6Aq7KdlmovXKH+TrsB6PbRZyri4HbjavrXvVqi0OUffTr4IrXyY6zTmAMI6xd
+ TKIwdw6CVpGq/FcH8dBl+tIE90byYURyoJuZBIoDl7d6uufMsgjyweProuqCgMEhKnCbWMkiY
+ KzxBxgUXPd0B3U0kTXKKy02s5L3cnfysmhIp4oqfjwj2Ly8JfpxfPVQRn+bkOexxi1RqwfzV7
+ bXXfVoiYOKt4jPJZSSv40U3grbr9n07Bzk7ZBFomNhNbFPMe2TRhh6zgWSAlXR3x6lWWyoSQO
+ 7V+zBcsC05/2Thlua35DqLNpZDhTYN7sbxEXa9hdmAmDY2qcKwpBess4a9KzAcZckoHhBFEL5
+ UUjeUsQvK6ZNCs6rLGcCKzfJM5ixCx1vdFrCm7rXLjHJ6xmmSapQ/ZfLccBfDp2DnVHEVLUAa
+ ZKYx0dXuLFHFhnCdc/ZyMBr8o8lFyBnzf64Chevhfjzy9Jvg8R6VvNJhBU1IwGyZqy/3MRUq1
+ KXFB8ZVVwF4YxNTWthLqgTUfqCf4RianIbjbozYBDuOOCbyfUjTA39tvJLYsZifpk40XaIvRS
+ zhR6QLRheKQcKNDiBchLo9bM6smq6N4KaJG6xXPSTmQu5/Cq8la8BJImwkxKRivXbS+yRDoxo
+ cUcsTIn9hry9NY7XNMXnzQ4yGQila2F/KBed6MV1StxXCqLw==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.15.3
+Subject: [Qemu-devel] [PATCH v3 0/4] colo: Add support for continious
+ replication
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,13 +75,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, Wen Congyang <wencongyang2@huawei.com>,
+ Jason Wang <jasowang@redhat.com>, mreitz@redhat.com,
+ Zhang Chen <chen.zhang@intel.com>, Xie Changlong <xiechanglong.d@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDkuMDguMjAxOSAxOToxNCwgTWF4IFJlaXR6IHdyb3RlOg0KPiBTaWduZWQtb2ZmLWJ5OiBNYXgg
-UmVpdHo8bXJlaXR6QHJlZGhhdC5jb20+DQoNClJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1lbnRz
-b3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6by5jb20+DQoNCi0tIA0KQmVzdCByZWdh
-cmRzLA0KVmxhZGltaXINCg==
+Hello Everyone,
+These Patches add support for continious replication to colo. This means
+that after the Primary fails and the Secondary did a failover, the Seconda=
+ry
+can then become Primary and resume replication to a new Secondary.
+
+On a side note, I wrote a Pacemaker Resource Agent for colo which I will
+post when its ready.
+I have to say it's quite fun to randomly kill a Node, wait for resync
+and repeat and see how the VM stays alive all the time. :)
+
+Regards,
+Lukas Straub
+
+v3:
+ - add test for replication changes
+ - check if the filter to be inserted before/behind belongs to the same in=
+terface
+ - fix the error message for the position=3D parameter
+ - rename term "after" -> "behind" and variable "insert_before" -> "insert=
+_before_flag"
+ - document the quorum node on the secondary side
+ - simplify quorum parameters in documentation
+ - remove trailing spaces in documentation
+ - clarify the testing procedure in documentation
+
+v2:
+ - fix email formating
+ - fix checkpatch.pl warnings
+ - fix patchew error
+ - clearer commit messages
+
+Lukas Straub (4):
+  block/replication.c: Ignore requests after failover
+  tests/test-replication.c: Add test for ignoring requests after
+    failover
+  net/filter.c: Add Options to insert filters anywhere in the filter
+    list
+  colo: Update Documentation for continious replication
+
+ block/replication.c        |  38 ++++++-
+ docs/COLO-FT.txt           | 212 +++++++++++++++++++++++++++----------
+ docs/block-replication.txt |  26 +++--
+ include/net/filter.h       |   2 +
+ net/filter.c               |  78 +++++++++++++-
+ qemu-options.hx            |  10 +-
+ tests/test-replication.c   |  52 +++++++++
+ 7 files changed, 343 insertions(+), 75 deletions(-)
+
+=2D-
+2.20.1
 
