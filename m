@@ -2,53 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E72BA69F2
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 15:36:19 +0200 (CEST)
-Received: from localhost ([::1]:46158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F2CA6A1C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 15:39:41 +0200 (CEST)
+Received: from localhost ([::1]:46286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i58yn-00012d-TS
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 09:36:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51375)
+	id 1i5924-0005CH-1o
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 09:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55791)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1i58q6-00029D-Fn
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:27:19 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i58yf-0002CB-U3
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1i58q5-0000iF-7X
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:27:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:8524)
+ (envelope-from <mreitz@redhat.com>) id 1i58ye-0006G5-HP
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54532)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1i58q1-0000fm-KM; Tue, 03 Sep 2019 09:27:13 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1i58yb-0006Cb-VB; Tue, 03 Sep 2019 09:36:06 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E7F4F308FC22;
- Tue,  3 Sep 2019 13:27:12 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-195.ams2.redhat.com
- [10.36.116.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FC9160166;
- Tue,  3 Sep 2019 13:27:11 +0000 (UTC)
-Date: Tue, 3 Sep 2019 15:27:09 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Peter Lieven <pl@kamp.de>
-Message-ID: <20190903132709.GH4582@localhost.localdomain>
-References: <20190902152413.14070-1-pl@kamp.de>
- <20190903130254.GG4582@localhost.localdomain>
- <95ed6572-b423-ddf2-c2a1-53ae09d9f767@kamp.de>
+ by mx1.redhat.com (Postfix) with ESMTPS id 421D189810B;
+ Tue,  3 Sep 2019 13:36:05 +0000 (UTC)
+Received: from localhost (ovpn-204-98.brq.redhat.com [10.40.204.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCA3E60C63;
+ Tue,  3 Sep 2019 13:36:04 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Tue,  3 Sep 2019 15:35:41 +0200
+Message-Id: <20190903133553.6500-5-mreitz@redhat.com>
+In-Reply-To: <20190903133553.6500-1-mreitz@redhat.com>
+References: <20190903133553.6500-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <95ed6572-b423-ddf2-c2a1-53ae09d9f767@kamp.de>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 03 Sep 2019 13:27:13 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Tue, 03 Sep 2019 13:36:05 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH V2] block/vhdx: add check for truncated
- image files
+Subject: [Qemu-devel] [PULL v2 04/16] iotests: Test allocate_first_block()
+ with O_DIRECT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,94 +55,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: codyprime@gmail.com, mreitz@redhat.com, jhf@kamp.de, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 03.09.2019 um 15:10 hat Peter Lieven geschrieben:
-> Am 03.09.19 um 15:02 schrieb Kevin Wolf:
-> > Am 02.09.2019 um 17:24 hat Peter Lieven geschrieben:
-> > > qemu is currently not able to detect truncated vhdx image files.
-> > > Add a basic check if all allocated blocks are reachable at open and
-> > > report all errors during bdrv_co_check.
-> > > 
-> > > Signed-off-by: Peter Lieven <pl@kamp.de>
-> > > ---
-> > > V2: - add error reporting [Kevin]
-> > >      - use bdrv_getlength instead of bdrv_get_allocated_file_size [Kevin]
-> > >      - factor out BAT entry check and add error reporting for region
-> > >        overlaps
-> > >      - already check on vhdx_open
-> > > 
-> > >   block/vhdx.c | 85 +++++++++++++++++++++++++++++++++++++++++-----------
-> > >   1 file changed, 68 insertions(+), 17 deletions(-)
-> > > 
-> > > diff --git a/block/vhdx.c b/block/vhdx.c
-> > > index 6a09d0a55c..6afba5e8c2 100644
-> > > --- a/block/vhdx.c
-> > > +++ b/block/vhdx.c
-> > > @@ -24,6 +24,7 @@
-> > >   #include "qemu/option.h"
-> > >   #include "qemu/crc32c.h"
-> > >   #include "qemu/bswap.h"
-> > > +#include "qemu/error-report.h"
-> > >   #include "vhdx.h"
-> > >   #include "migration/blocker.h"
-> > >   #include "qemu/uuid.h"
-> > > @@ -235,6 +236,9 @@ static int vhdx_region_check(BDRVVHDXState *s, uint64_t start, uint64_t length)
-> > >       end = start + length;
-> > >       QLIST_FOREACH(r, &s->regions, entries) {
-> > >           if (!((start >= r->end) || (end <= r->start))) {
-> > > +            error_report("VHDX region %" PRIu64 "-%" PRIu64 " overlaps with "
-> > > +                         "region %" PRIu64 "-%." PRIu64, start, end, r->start,
-> > > +                         r->end);
-> > >               ret = -EINVAL;
-> > >               goto exit;
-> > >           }
-> > > @@ -877,6 +881,60 @@ static void vhdx_calc_bat_entries(BDRVVHDXState *s)
-> > >   }
-> > > +static int vhdx_check_bat_entries(BlockDriverState *bs, int *errcnt)
-> > > +{
-> > > +    BDRVVHDXState *s = bs->opaque;
-> > > +    int64_t image_file_size = bdrv_getlength(bs->file->bs);
-> > > +    uint64_t payblocks = s->chunk_ratio;
-> > > +    int i, ret = 0;
-> > bdrv_getlength() can fail. It's probably better to error out immediately
-> > instead of reporting that every BAT entry is > -1.
-> > 
-> > > +    for (i = 0; i < s->bat_entries; i++) {
-> > s->bat_entries is uint32_t, so i should probably be the same.
-> > 
-> > > +        if ((s->bat[i] & VHDX_BAT_STATE_BIT_MASK) ==
-> > > +            PAYLOAD_BLOCK_FULLY_PRESENT) {
-> > > +            /*
-> > > +             * Check if fully allocated BAT entries do not reside after
-> > > +             * end of the image file.
-> > > +             */
-> > > +            if ((s->bat[i] & VHDX_BAT_FILE_OFF_MASK) + s->block_size >
-> > > +                image_file_size) {
-> > Didn't we want to introduce an overflow check before making this check?
-> > Something like if (bat_offset > UINT64_MAX - s->block_size)?
-> 
-> Sorry, i missed that.
-> 
-> The bat entries are UINT64_T so this check will always be false for the
-> default block size of 1MB. In fact we should check for
-> 
-> bat_offset > INT64_MAX - s->block_size
-> 
-> right?
+From: Nir Soffer <nirsof@gmail.com>
 
-Hm, VHDX_BAT_FILE_OFF_MASK is 0xFFFFFFFFFFF00000ULL, so 2^64 - 1 MB.
-With a block size of 1 MB, this check would trigger because the offset
-would be one byte higher than allowed (because offset + block_size
-would be 0). For larger block sizes, it's more obvious that we can run
-into this case.
+Using block_resize we can test allocate_first_block() with file
+descriptor opened with O_DIRECT, ensuring that it works for any size
+larger than 4096 bytes.
 
-As for INT64_MAX, I'm not sure if it's strictly necessary because the
-code seems to use unsigned variables everywhere. But it feels safer and
-shouldn't make any difference in practice, so I agree with using it.
+Testing smaller sizes is tricky as the result depends on the filesystem
+used for testing. For example on NFS any size will work since O_DIRECT
+does not require any alignment.
 
-Kevin
+Signed-off-by: Nir Soffer <nsoffer@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20190827010528.8818-3-nsoffer@redhat.com
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/175     | 28 ++++++++++++++++++++++++++++
+ tests/qemu-iotests/175.out |  8 ++++++++
+ 2 files changed, 36 insertions(+)
+
+diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
+index 7ba28b3c1b..55db2803ed 100755
+--- a/tests/qemu-iotests/175
++++ b/tests/qemu-iotests/175
+@@ -49,6 +49,23 @@ _filter_blocks()
+         -e "s/blocks=3D$((extra_blocks + img_size / 512))\\(\$\\|[^0-9]\=
+\)/max allocation/"
+ }
+=20
++# Resize image using block_resize.
++# Parameter 1: image path
++# Parameter 2: new size
++_block_resize()
++{
++    local path=3D$1
++    local size=3D$2
++
++    $QEMU -qmp stdio -nographic -nodefaults \
++        -blockdev file,node-name=3Dfile,filename=3D$path,cache.direct=3D=
+on \
++        <<EOF
++{'execute': 'qmp_capabilities'}
++{'execute': 'block_resize', 'arguments': {'node-name': 'file', 'size': $=
+size}}
++{'execute': 'quit'}
++EOF
++}
++
+ # get standard environment, filters and checks
+ . ./common.rc
+ . ./common.filter
+@@ -57,6 +74,9 @@ _supported_fmt raw
+ _supported_proto file
+ _supported_os Linux
+=20
++_default_cache_mode none
++_supported_cache_modes none directsync
++
+ size=3D$((1 * 1024 * 1024))
+=20
+ touch "$TEST_DIR/empty"
+@@ -79,6 +99,14 @@ for mode in off full falloc; do
+     stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_b=
+locks $min_blocks $size
+ done
+=20
++for new_size in 4096 1048576; do
++    echo
++    echo "=3D=3D resize empty image with block_resize =3D=3D"
++    _make_test_img 0 | _filter_imgfmt
++    _block_resize $TEST_IMG $new_size >/dev/null
++    stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_b=
+locks $min_blocks $new_size
++done
++
+ # success, all done
+ echo "*** done"
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/175.out b/tests/qemu-iotests/175.out
+index 263e521262..39c2ee0f62 100644
+--- a/tests/qemu-iotests/175.out
++++ b/tests/qemu-iotests/175.out
+@@ -15,4 +15,12 @@ size=3D1048576, max allocation
+ =3D=3D creating image with preallocation falloc =3D=3D
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 preallocatio=
+n=3Dfalloc
+ size=3D1048576, max allocation
++
++=3D=3D resize empty image with block_resize =3D=3D
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D0
++size=3D4096, min allocation
++
++=3D=3D resize empty image with block_resize =3D=3D
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D0
++size=3D1048576, min allocation
+  *** done
+--=20
+2.21.0
+
 
