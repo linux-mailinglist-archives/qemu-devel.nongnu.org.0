@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC9CA6D11
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:39:48 +0200 (CEST)
-Received: from localhost ([::1]:47670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E39FA6D26
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:42:50 +0200 (CEST)
+Received: from localhost ([::1]:47726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5AuJ-0004XD-75
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:39:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59128)
+	id 1i5AxF-0008FH-7k
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59140)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArJ-0002fy-JQ
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:42 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArK-0002h8-Jn
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArI-0005rS-D8
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:41 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53098)
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArJ-0005sB-8f
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:42 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53451)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5ArI-0005qz-60
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:40 -0400
-Received: by mail-wm1-x335.google.com with SMTP id t17so18752788wmi.2
+ id 1i5ArJ-0005ra-2M
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:41 -0400
+Received: by mail-wm1-x341.google.com with SMTP id q19so9923449wmc.3
  for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:36:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iVd97GidBnX5EUA8NaXSsqaoChyZrHqE7AWsprcf0W4=;
- b=j7c2bezUysApzjxiKA1Fg7+q3USAOjs+uU7jDbWLIO1nkbGrmjw+e3NY9b9YWP3NPt
- p8tQLFHOnfsdBxoEnvopKY9JysQAg6567lwGFqFixxrQYQceSpDNxfPx0ISIp+XW2eso
- BC4x2r20vCfdHCYg5oTUAzxGEDI54cp05piDa0xVrcvvAjaHyOKEDJINMBIlPne7Q4my
- oRkui4Cel/5Bk2U/czKhnCp60/ZOlnTEy4TpQL/nuhi5Pta7CsCHzN/WrVGr8EO8Abqm
- PyyN/xozzV+qgd0v4rsSbCw+06FFSCA5IvkCxuGjYMppZZVJC7hgBlvEeNcL1shi0w4A
- 9Wzg==
+ bh=bIBiqHwLNlw6akaBX7exBs2n/dBWc3wYnn3LUfBBjxw=;
+ b=bJj/rovfgKg8U81FEH4qt3vzVDA/yiq2X0ciAAwJsr0WM1L697GLHT1lvL/+It5ndd
+ CfoG4ejG3laP3spJI9yywP8PV4wTHXEq/8Rh4Bqul7PAVJAPCW65nTDoL1UTlCZaXSW8
+ A4TpQDaF/j/BUWH/JBBG5Orx2Eel7cQUVTNOJWfyNSVBi6kCMgcrNGthcqLZbCXE1PJt
+ 601FSERVzMYasqGCS3P8Aix1f+oQC1FX1uEcj8K0aF6Axt5Xl2PN210Z1OFSmoVbXVBr
+ yK4cw6AwUnvHCP8qbdskAW3O3/DXY9C7yUDJa8nHkmdfU28oHBnx/LxLfV02bo3Eq5fV
+ 6+NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iVd97GidBnX5EUA8NaXSsqaoChyZrHqE7AWsprcf0W4=;
- b=MXfmpe5U0e4IplgE1GmYwJ9K8OeXdUqzJzrhmvPMAck5baq5/Uhypsfbqpio/nmCV1
- +dSQWu9kmpWUunGwNb+fStJiw5xWPcOKVv+rLtX/p3/VzodLT/xmBm7v0mDT0vmO7FOW
- W0hIqvBbzTejVv24CMPN3sz0QEGWS5CdSFQjF6US6gRC4eSz4KFKy5fmpZ+5rMj3YG1D
- FZ0taZs8Z8DczujGAE6wkEH6iL6X8z3kq0kaGiPYeKDYGNhjEABGD6JaV4ckZilDmCfE
- 8RGFts0saVZK2Qa3J3XQiRgF0uEnNqFu9SbZu0tikoVbGli+2PSazna1xpj+gbgRUIeN
- /20Q==
-X-Gm-Message-State: APjAAAWEQ8ixD1GElhv393fEhI/sEmbQDUz/Jmi5d0AbF5MH3oSLla0/
- dG0vN0oXoN+kEhjzaTBrVO8BgtSuvaNODw==
-X-Google-Smtp-Source: APXvYqy5wzA1bCrwY4kV6qFpW6BoItEQH4GJ9UEVqJnCuElphjJ75fTKXKo5UfS50+7vA5wqmStyJg==
-X-Received: by 2002:a1c:d142:: with SMTP id i63mr814468wmg.53.1567524998687;
- Tue, 03 Sep 2019 08:36:38 -0700 (PDT)
+ bh=bIBiqHwLNlw6akaBX7exBs2n/dBWc3wYnn3LUfBBjxw=;
+ b=k5XS7UF7uAf7XV+UhP5in61d5l8CTcia9RVxmv3+iBhWR30mHMkV9Spmd33c+VTGGF
+ 8mG3ahLo2dgWb92zziVge6c44O0o7zhtLz9po5Yie17ZLUlgaUxybcew+RHGjmlT6Hfd
+ 3QDZ5umiI8nP4v2TcPMuhWAH8mz0znpyikMyGbpeyLuVFPPsw0Q/fCCOQn63999F10UG
+ okt4+o/o6rsQVlQoxeUYegx218dRYDE4KklDGAMqJUUXx80atd35OnA+0O8PX4kMbk97
+ I1Dv4JwpCMjxxCYlaYllFS6wIK0MevwWm9Q0236HMj6Mt7vvrbAAxSJP+YEwyQQOGkIW
+ CUWQ==
+X-Gm-Message-State: APjAAAVW9EJfsxNg/cORue9eo9DU1xWoBiMdZaI5o+qKf85HSRZiTgFN
+ q0vLxks7VH5FUCGm93ba+lzHt3iabee8Ew==
+X-Google-Smtp-Source: APXvYqwgEbh/y8Q2TLB5tRj2LQL1Igw6Rz+iAkN43LOFNFzZwmRIGBiNG4ons3R72Hd8YaHlzKwDQA==
+X-Received: by 2002:a1c:a404:: with SMTP id n4mr796752wme.41.1567524999788;
+ Tue, 03 Sep 2019 08:36:39 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.37
+ by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 08:36:37 -0700 (PDT)
+ Tue, 03 Sep 2019 08:36:39 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:36:14 +0100
-Message-Id: <20190903153633.6651-3-peter.maydell@linaro.org>
+Date: Tue,  3 Sep 2019 16:36:15 +0100
+Message-Id: <20190903153633.6651-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190903153633.6651-1-peter.maydell@linaro.org>
 References: <20190903153633.6651-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
-Subject: [Qemu-devel] [PULL 02/21] target/arm: Factor out
- unallocated_encoding for aarch32
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PULL 03/21] target/arm: Allow ARMCPRegInfo read/write
+ functions to throw exceptions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,103 +82,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Currently the only part of an ARMCPRegInfo which is allowed to cause
+a CPU exception is the access function, which returns a value indicating
+that some flavour of UNDEF should be generated.
 
-Make this a static function private to translate.c.
-Thus we can use the same idiom between aarch64 and aarch32
-without actually sharing function implementations.
+For the ATS system instructions, we would like to conditionally
+generate exceptions as part of the writefn, because some faults
+during the page table walk (like external aborts) should cause
+an exception to be raised rather than returning a value.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-Message-id: 20190826151536.6771-3-richard.henderson@linaro.org
+There are several ways we could do this:
+ * plumb the GETPC() value from the top level set_cp_reg/get_cp_reg
+   helper functions through into the readfn and writefn hooks
+ * add extra readfn_with_ra/writefn_with_ra hooks that take the GETPC()
+   value
+ * require the ATS instructions to provide a dummy accessfn,
+   which serves no purpose except to cause the code generation
+   to emit TCG ops to sync the CPU state
+ * add an ARM_CP_ flag to mark the ARMCPRegInfo as possibly
+   throwing an exception in its read/write hooks, and make the
+   codegen sync the CPU state before calling the hooks if the
+   flag is set
+
+This patch opts for the last of these, as it is fairly simple
+to implement and doesn't require invasive changes like updating
+the readfn/writefn hook function prototype signature.
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Message-id: 20190816125802.25877-2-peter.maydell@linaro.org
 ---
- target/arm/translate-vfp.inc.c |  3 +--
- target/arm/translate.c         | 22 ++++++++++++----------
- 2 files changed, 13 insertions(+), 12 deletions(-)
+ target/arm/cpu.h           | 6 +++++-
+ target/arm/translate-a64.c | 6 ++++++
+ target/arm/translate.c     | 7 +++++++
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 5065d4524cd..3e8ea80493b 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -108,8 +108,7 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 0981303170a..297ad5e47ad 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2212,6 +2212,9 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
+  * IO indicates that this register does I/O and therefore its accesses
+  * need to be surrounded by gen_io_start()/gen_io_end(). In particular,
+  * registers which implement clocks or timers require this.
++ * RAISES_EXC is for when the read or write hook might raise an exception;
++ * the generated code will synchronize the CPU state before calling the hook
++ * so that it is safe for the hook to call raise_exception().
+  */
+ #define ARM_CP_SPECIAL           0x0001
+ #define ARM_CP_CONST             0x0002
+@@ -2230,10 +2233,11 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
+ #define ARM_CP_FPU               0x1000
+ #define ARM_CP_SVE               0x2000
+ #define ARM_CP_NO_GDB            0x4000
++#define ARM_CP_RAISES_EXC        0x8000
+ /* Used only as a terminator for ARMCPRegInfo lists */
+ #define ARM_CP_SENTINEL          0xffff
+ /* Mask of only the flag bits in a type field */
+-#define ARM_CP_FLAG_MASK         0x70ff
++#define ARM_CP_FLAG_MASK         0xf0ff
  
-     if (!s->vfp_enabled && !ignore_vfp_enabled) {
-         assert(!arm_dc_feature(s, ARM_FEATURE_M));
--        gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                           default_exception_el(s));
-+        unallocated_encoding(s);
-         return false;
+ /* Valid values for ARMCPRegInfo state field, indicating which of
+  * the AArch32 and AArch64 execution states this register is visible in.
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 9183f89ba39..4d09ae6f424 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1714,6 +1714,12 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+         tcg_temp_free_ptr(tmpptr);
+         tcg_temp_free_i32(tcg_syn);
+         tcg_temp_free_i32(tcg_isread);
++    } else if (ri->type & ARM_CP_RAISES_EXC) {
++        /*
++         * The readfn or writefn might raise an exception;
++         * synchronize the CPU state in case it does.
++         */
++        gen_a64_set_pc_im(s->pc_curr);
      }
  
+     /* Handle special cases first */
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 2aac9aae681..66311580c05 100644
+index 66311580c05..78d93f63cab 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1231,6 +1231,13 @@ static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syn)
-     s->base.is_jmp = DISAS_NORETURN;
- }
- 
-+static void unallocated_encoding(DisasContext *s)
-+{
-+    /* Unallocated and reserved encodings are uncategorized */
-+    gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
-+                       default_exception_el(s));
-+}
-+
- /* Force a TB lookup after an instruction that changes the CPU state.  */
- static inline void gen_lookup_tb(DisasContext *s)
- {
-@@ -1261,8 +1268,7 @@ static inline void gen_hlt(DisasContext *s, int imm)
-         return;
-     }
- 
--    gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                       default_exception_el(s));
-+    unallocated_encoding(s);
- }
- 
- static inline void gen_add_data_offset(DisasContext *s, unsigned int insn,
-@@ -7574,8 +7580,7 @@ static void gen_srs(DisasContext *s,
-     }
- 
-     if (undef) {
--        gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                           default_exception_el(s));
-+        unallocated_encoding(s);
-         return;
-     }
- 
-@@ -9196,8 +9201,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             break;
-         default:
-         illegal_op:
--            gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                               default_exception_el(s));
-+            unallocated_encoding(s);
-             break;
+@@ -7191,6 +7191,13 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
+             tcg_temp_free_ptr(tmpptr);
+             tcg_temp_free_i32(tcg_syn);
+             tcg_temp_free_i32(tcg_isread);
++        } else if (ri->type & ARM_CP_RAISES_EXC) {
++            /*
++             * The readfn or writefn might raise an exception;
++             * synchronize the CPU state in case it does.
++             */
++            gen_set_condexec(s);
++            gen_set_pc_im(s, s->pc_curr);
          }
-     }
-@@ -10882,8 +10886,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-     }
-     return;
- illegal_op:
--    gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                       default_exception_el(s));
-+    unallocated_encoding(s);
- }
  
- static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-@@ -11706,8 +11709,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-     return;
- illegal_op:
- undef:
--    gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
--                       default_exception_el(s));
-+    unallocated_encoding(s);
- }
- 
- static bool insn_crosses_page(CPUARMState *env, DisasContext *s)
+         /* Handle special cases first */
 -- 
 2.20.1
 
