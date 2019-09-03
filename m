@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434B3A7624
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:26:54 +0200 (CEST)
-Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7274A761E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:24:01 +0200 (CEST)
+Received: from localhost ([::1]:51702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5GKC-0007td-Hs
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53792)
+	id 1i5GHQ-0005Iw-96
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:24:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54285)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1i5FaV-0008DQ-Tt
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:40 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1i5FcY-0001kB-77
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:41:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1i5FaU-0000tQ-Ne
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:39 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:60880)
+ (envelope-from <jag.raman@oracle.com>) id 1i5FcW-0003Nz-Sc
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:41:46 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:59980)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1i5FaU-0000so-F4
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:38 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KdXVW067263;
- Tue, 3 Sep 2019 20:39:33 GMT
+ id 1i5FcW-0003NT-KI
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:41:44 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83Kfc7Z059938;
+ Tue, 3 Sep 2019 20:41:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=Ua0BS30lSDPp5MEUWWufTVVG+lPd8WUQahGgCFpVYD0=;
- b=KxeBPd+VNuCRbQLVjOSv9FjSbU25ds76SpQHmfmMv7EClqHa9kPNugojjZcpIkTiV0nI
- pzymaKawOgp1p0kOdYxp43MeTERT/FjEEFsckvyc+T7Co8bRWZn5voaIrEriwPBd4tiD
- G1qneA/oPC91/XxMnDb5mnmeA5B068dGFNYkDnFwcFmmjvb8UgVSPK0Rjqm+q0bZm0lv
- s6l8fHPFD8uwoUws0mZqtRJyKxmSmvOkuFyg+b8zeBAO74107ntzXZLxHnW5GL4Ncr/j
- /fd2H1H9ZkUO2iuLG9iqtxK8FTW5hesWeVjco3cW6duOOIVXMy+wSQsgPCM4VUg558ON Jw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 2usy66r2je-1
+ bh=EYAzeaVP/SXNXnkqG9utwSGLQ8673c7bclN594zH3ig=;
+ b=bGhH486QfjL0WU25EWhsW1+Fd0qmAggVRuQFoxIdAkreCapGVcqaeostiR5gM3CexBBj
+ 81Nzwh/YeSl4YsoOS/7rv5EZv/coYeo27TmXTeo806OOWH1XzUXLIychpsqpjnRgQ8+x
+ 38ES8BSpinewXc776GixMnS0oArLPPUqT0BaWS0RiAYb2H3iHlmRDex4Q/P1mIofrCUj
+ StSVwpNuN+GMSa0dKCT5+apyAZBDzNGNfWfpN2/5pXhpNftXfDwJRo4REmjT2y//wyqj
+ GmlEffH9WUXhk+YjLfG3KMQ++kB/g+j4mrv2w8cw9WHXO4kzZ1poHv9D1OBsK37lZdVg Tw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 2usy6n02bh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:39:33 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KcIcr094739;
- Tue, 3 Sep 2019 20:39:32 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 2usu51u2d4-1
+ Tue, 03 Sep 2019 20:41:38 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83Kc9wp025372;
+ Tue, 3 Sep 2019 20:39:38 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 2us5pha116-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:39:32 +0000
+ Tue, 03 Sep 2019 20:39:37 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x83KdVFb017870;
- Tue, 3 Sep 2019 20:39:31 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x83Kda4I029155;
+ Tue, 3 Sep 2019 20:39:36 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 03 Sep 2019 13:39:30 -0700
+ with ESMTP ; Tue, 03 Sep 2019 13:39:35 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:38:08 -0400
-Message-Id: <e650db79c118ad5f0fb68426340d2b9e7e0690e4.1567534653.git.jag.raman@oracle.com>
+Date: Tue,  3 Sep 2019 16:38:11 -0400
+Message-Id: <0cef793b85d14a3ca56925488126eb3de6979b57.1567534653.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
 References: <cover.1567534653.git.jag.raman@oracle.com>
@@ -76,9 +76,9 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
  definitions=main-1909030207
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.85
-Subject: [Qemu-devel] [RFC v3 PATCH 42/45] multi-process/mon: Initialize QMP
- module for remote processes
+X-Received-From: 141.146.126.78
+Subject: [Qemu-devel] [RFC v3 PATCH 45/45] multi-process: add configure and
+ usage information
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,80 +100,112 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 ---
- New patch in v3
+Changes in v3:
+ - since the changes were made to use existing device/drive options,
+the document was modified to reflect this.
+---
+ docs/qemu-multiprocess.txt | 86 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
+ create mode 100644 docs/qemu-multiprocess.txt
 
- remote/remote-main.c | 11 +++++++++++
- remote/remote-opts.c | 10 ++++++++++
- 2 files changed, 21 insertions(+)
-
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index a6ff338..41da405 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -68,6 +68,7 @@
- 
- #include "monitor/monitor.h"
- #include "sysemu/reset.h"
-+#include "vl.h"
- 
- static ProxyLinkState *proxy_link;
- 
-@@ -562,6 +563,8 @@ int main(int argc, char *argv[], char **envp)
- 
-     module_call_init(MODULE_INIT_QOM);
- 
-+    monitor_init_globals();
+diff --git a/docs/qemu-multiprocess.txt b/docs/qemu-multiprocess.txt
+new file mode 100644
+index 0000000..c29f4df
+--- /dev/null
++++ b/docs/qemu-multiprocess.txt
+@@ -0,0 +1,86 @@
++Multi-process QEMU
++==================
 +
-     bdrv_init_with_whitelist();
- 
-     if (qemu_init_main_loop(&err)) {
-@@ -577,6 +580,8 @@ int main(int argc, char *argv[], char **envp)
- 
-     qemu_add_opts(&qemu_device_opts);
-     qemu_add_opts(&qemu_drive_opts);
-+    qemu_add_opts(&qemu_chardev_opts);
-+    qemu_add_opts(&qemu_mon_opts);
-     qemu_add_drive_opts(&qemu_legacy_drive_opts);
-     qemu_add_drive_opts(&qemu_common_drive_opts);
-     qemu_add_drive_opts(&qemu_drive_opts);
-@@ -609,6 +614,12 @@ int main(int argc, char *argv[], char **envp)
- 
-     proxy_link_set_callback(proxy_link, process_msg);
- 
-+    qemu_opts_foreach(qemu_find_opts("chardev"),
-+                      chardev_init_func, NULL, &error_fatal);
++This document describes how to configure and use multi-process qemu.
++For the design document refer to docs/devel/qemu-multiprocess.
 +
-+    qemu_opts_foreach(qemu_find_opts("mon"),
-+                      mon_init_func, NULL, &error_fatal);
++1) Configuration
++----------------
 +
-     start_handler(proxy_link);
- 
-     return 0;
-diff --git a/remote/remote-opts.c b/remote/remote-opts.c
-index 416ff59..7ddfe5c 100644
---- a/remote/remote-opts.c
-+++ b/remote/remote-opts.c
-@@ -95,6 +95,16 @@ void parse_cmdline(int argc, char **argv, char **envp)
-                     exit(1);
-                 }
-                 break;
-+            case QEMU_OPTION_qmp:
-+                monitor_parse(optarg, "control", false);
-+                break;
-+            case QEMU_OPTION_monitor:
-+                if (!strncmp(optarg, "stdio", 5)) {
-+                    warn_report("STDIO not supported in remote process");
-+                } else if (strncmp(optarg, "none", 4)) {
-+                    monitor_parse(optarg, "readline", false);
-+                }
-+                break;
-             default:
-                 break;
-             }
++To enable support for multi-process add --enable-mpqemu
++to the list of options for the "configure" script.
++
++
++2) Usage
++--------
++
++To start qemu with devices intended to run in a separate emulation
++process without libvirtd support, the following should be used on QEMU
++command line. As of now, we only support the emulation of lsi53c895a
++in a separate process
++
++* Since parts of the RAM are shared between QEMU & remote process, a
++  memory-backend-file is required to facilitate this, as follows:
++
++  -object memory-backend-file,id=mem,mem-path=/dev/shm/,size=4096M,share=on
++
++* The devices to be emulated in the separate process are defined as
++  before with addition of "rid" suboption that serves as a remote group
++  identificator.
++
++  -device <device options>,rid="remote process id"
++
++  For exmaple, for non multi-process qemu:
++    -device lsi53c895a,id=scsi0 device
++    -device scsi-hd,drive=drive0,bus=scsi0.0,scsi-id=0
++    -drive id=drive0,file=data-disk.img
++
++  and for multi-process qemu and no libvirt
++  support (i.e. QEMU forks child processes):
++    -device lsi53c895a,id=scsi0,rid=0
++    -device scsi-hd,drive=drive0,bus=scsi0.0,scsi-id=0,rid="0"
++
++* The command-line options for the remote process is added to the "command"
++  suboption of the newly added "-remote" option. 
++
++   -remote [socket],rid=,command="..."
++
++  The drives to be emulated by the remote process are specified as part of
++  this command sub-option. The device to be used to connect to the monitor
++  is also specified as part of this suboption.
++
++  For example, the following option adds a drive and monitor to the remote
++  process:
++  -remote rid=0,command="-drive id=drive0,,file=data-disk.img -monitor unix:/home/qmp-sock,,server,,nowait"
++
++  Note: There's an issue with this "command" subtion which we are in the
++  process of fixing. To work around this issue, it requires additional
++  "comma" characters as illustrated above, and in the example below.
++
++* Example QEMU command-line to launch lsi53c895a in a remote process
++
++  #/bin/sh
++  qemu-system-x86_64 \
++  -name "OL7.4" \
++  -machine q35,accel=kvm \
++  -smp sockets=1,cores=1,threads=1 \
++  -cpu host \
++  -m 2048 \
++  -object memory-backend-file,id=mem,mem-path=/dev/shm/,size=2G,share=on \
++  -numa node,memdev=mem \
++  -device virtio-scsi-pci,id=virtio_scsi_pci0 \
++  -drive id=drive_image1,if=none,format=raw,file=/root/ol7.qcow2 \
++  -device scsi-hd,id=image1,drive=drive_image1,bus=virtio_scsi_pci0.0 \
++  -boot d \
++  -monitor stdio \
++  -vnc :0 \
++  -device lsi53c895a,id=lsi0,remote,rid=8,command="qemu-scsi-dev" \
++  -device scsi-hd,id=drive2,drive=drive_image2,bus=lsi0.0,scsi-id=0,remote,rid=8,command="qemu-scsi-dev"\
++  -remote rid=8,command="-drive id=drive_image2,,file=/root/remote-process-disk.img -monitor unix:/home/qmp-sock,,server,,nowait"
++
++  We could connect to the monitor using the following command:
++  socat /home/qmp-sock stdio
++
++  After hotplugging disks to the remote process, please execute the
++  following command in the guest to refresh the list of storage devices:
++  rescan_scsi_bus.sh -a
 -- 
 1.8.3.1
 
