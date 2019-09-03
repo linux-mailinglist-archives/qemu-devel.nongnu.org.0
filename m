@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2647A710C
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:53:49 +0200 (CEST)
-Received: from localhost ([::1]:49380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8568A7105
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:50:56 +0200 (CEST)
+Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5C3x-0001jU-2V
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:53:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37528)
+	id 1i5C19-0006Nf-R6
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:50:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BNK-0001pf-TC
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:48 -0400
+ (envelope-from <philmd@redhat.com>) id 1i5BXI-0003W4-7Q
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BNJ-00049T-Fd
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:46 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40541)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BNJ-000490-8p
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:45 -0400
-Received: by mail-pf1-x441.google.com with SMTP id w16so11073524pfn.7
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=N5NztJfh5BzMOtf9h7VP/IFXxLeIqYtsDkIeRVHhk+A=;
- b=C2QMifnvGVofYTbNdgkO7I1yucfD5L8BtHvzazYLRiKoaR+qZ9ux8gBcOf4IL3KydI
- QNd2jWTAWl/+oSXdjLh2uhChmDLIBZuXgdITOzIvM3rj0DTVwKNCuZi6FG9dPM20Z8ua
- w5Lm4FdxESz2OnFM70R8mu8P+DUjpX6XsU3eXRGxknXD4KrBnfZ7K34eUHDWXZ5+SZIK
- x4Tc2UWjvSSyGyp0CUtiDLEoOVZUa60S76MrV1JotogPiyrJHjzwd53KxpEcuPnlD6v9
- tNbknqYCV641yOBeFAcAyZKQFZeI4PtpwLFC0hnG2OM3sQ1meJu7QK58y+xbm8JhRLpR
- souw==
+ (envelope-from <philmd@redhat.com>) id 1i5BXF-0000fu-Qv
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44392)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i5BXF-0000fU-JP
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:20:01 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2D5EEC04D293
+ for <qemu-devel@nongnu.org>; Tue,  3 Sep 2019 16:20:00 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id f10so20126wmh.8
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:20:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=N5NztJfh5BzMOtf9h7VP/IFXxLeIqYtsDkIeRVHhk+A=;
- b=Y6g7WyIqNEEuujN/r7NepwTd+B9PDPS0YNqYZaIWszdkcJ7ejleBDkwjcCxIE91fFd
- qRgsKMfSBjDhCOxnpe2xq4P1EYH2ii2CLKscAnkfN8GwBuOE+cCDy5GMILSRsAgI07sv
- YotQ9yZvAbdyyOWfY7US9X/grCsBzs1soL8b2CxlFRC/hGcOADpv5h2ffWPkFJ8TIfOC
- MEYbt1RjYyU8OhM6hTTnjgVZdoGBrtCwNUx9l9jPHRZdwRxwkhv+ktiVZthAtzLTt87C
- 8INOBWEaoAEVGppJB05icVExm3MHX5wqGX7BM7zdYVTWE73dLw1VZ0cZ0yP2UXoe/sFe
- 5ogQ==
-X-Gm-Message-State: APjAAAUr/rUgAHLyMBXaA9WiT0ngauAOogxXf7+5IcO1nZNrM4gTaj+L
- HSXWZ+CmN4u4fMyn5hK3o9ll5RXZgF4=
-X-Google-Smtp-Source: APXvYqxRcnbh20fX6NrtvimoWg5A5oABqsa5FuK7QL/Fxt2TI0r4mK0/MU1L+fKB9JgnpVXUE1aBPQ==
-X-Received: by 2002:a62:7911:: with SMTP id u17mr25834847pfc.162.1567526984070; 
- Tue, 03 Sep 2019 09:09:44 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:43 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:58 -0700
-Message-Id: <20190903160858.5296-37-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
-References: <20190903160858.5296-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH 36/36] tcg: Factor out probe_write() logic into
- probe_access()
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hw27mxT6ObZtqvKoETGQ5lY6IQyW7gki2ry6rOYqd9E=;
+ b=A9t7vZR3tdC+KZFQ58/hnqPdDQBzQ0vUeks0gOdWwuysQM9SjAyVshI2xxwq5BKYef
+ swOmns8DIuRMILkz8C4FTzLihtrrskDiho8IDM/XT1nnSQBnbdtNrADqzmK7ui+AqWmW
+ ufoOY5HUgXoI0kY8ZmkEOtpVGSfvIEgcGcaIxdXVHbkJJAqJtq1saCF7/KVoo2bYRVrv
+ g5MmiGaMvbeSTKtynWS9l2LawdMqLkrlXBIU72OJyvBZNjHi/6qvez4i2r2cI/iJN2Gs
+ Zy1bMov3NYEF90Mypp97P9yNN+b3w9M60FF62dnALzXLGpcBwJxQ/BHiPh1pwHfOhS/m
+ A/Rg==
+X-Gm-Message-State: APjAAAVYbdXZ+cN06rbz4eUC4TI+KncHzzW8YbYedxuBJ4gINPsUsBlS
+ 89ziSqJhYzGkzZSDFx6UPhmhyfwPf3La/wV0dzdt4op4EVmRgfTYIz9vCiaKNEQh4PtwZINqjD+
+ Qsn/rkP2+eHHWcsA=
+X-Received: by 2002:adf:9083:: with SMTP id i3mr998825wri.310.1567527598979;
+ Tue, 03 Sep 2019 09:19:58 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyKfJBkxrl7Pk0Dzbo7ETG3LOHeZMaLKLe9+0jDYrUbY5UZ4wMk7bcclMt+7S+AsZA5s14y5Q==
+X-Received: by 2002:adf:9083:: with SMTP id i3mr998793wri.310.1567527598716;
+ Tue, 03 Sep 2019 09:19:58 -0700 (PDT)
+Received: from [192.168.1.41] (251.red-88-10-102.dynamicip.rima-tde.net.
+ [88.10.102.251])
+ by smtp.gmail.com with ESMTPSA id h32sm24187879wrh.62.2019.09.03.09.19.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Sep 2019 09:19:58 -0700 (PDT)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20190903154810.27365-1-thuth@redhat.com>
+ <20190903154810.27365-4-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <bb6eb994-532e-7afc-bb27-aa5d56080b50@redhat.com>
+Date: Tue, 3 Sep 2019 18:19:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190903154810.27365-4-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC PATCH 3/3] target/arm: Make m_helper.c
+ optional via CONFIG_ARM_V7M
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,163 +83,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, David Hildenbrand <david@redhat.com>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+On 9/3/19 5:48 PM, Thomas Huth wrote:
+> We've already got the CONFIG_ARM_V7M switch, but it currently can
+> not be disabled yet. The m_helper.c code should not be compiled
+> into the binary if the switch is not enabled. We also have to
+> provide some stubs in a separate file to make sure that we still
+> can link the other code without CONFIG_ARM_V7M.
 
-Let's also allow to probe other access types.
+If there is no M support, the translate code shouldn't even generate M
+calls, so the stub shouldn't be necessary.
+Anyhow I guess this code will be simplified by the ongoing decodetree
+conversion from Richard.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20190830100959.26615-3-david@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/exec/exec-all.h | 10 ++++++++--
- accel/tcg/cputlb.c      | 43 ++++++++++++++++++++++++++++++-----------
- accel/tcg/user-exec.c   | 26 +++++++++++++++++++------
- 3 files changed, 60 insertions(+), 19 deletions(-)
-
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index a7893ed16b..81b02eb2fe 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -310,8 +310,14 @@ static inline void tlb_flush_by_mmuidx_all_cpus_synced(CPUState *cpu,
- {
- }
- #endif
--void *probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
--                  uintptr_t retaddr);
-+void *probe_access(CPUArchState *env, target_ulong addr, int size,
-+                   MMUAccessType access_type, int mmu_idx, uintptr_t retaddr);
-+
-+static inline void *probe_write(CPUArchState *env, target_ulong addr, int size,
-+                                int mmu_idx, uintptr_t retaddr)
-+{
-+    return probe_access(env, addr, size, MMU_DATA_STORE, mmu_idx, retaddr);
-+}
- 
- #define CODE_GEN_ALIGN           16 /* must be >= of the size of a icache line */
- 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index cb969d8372..abae79650c 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1075,30 +1075,51 @@ tb_page_addr_t get_page_addr_code(CPUArchState *env, target_ulong addr)
-     return qemu_ram_addr_from_host_nofail(p);
- }
- 
--/* Probe for whether the specified guest write access is permitted.
-- * If it is not permitted then an exception will be taken in the same
-- * way as if this were a real write access (and we will not return).
-+/*
-+ * Probe for whether the specified guest access is permitted. If it is not
-+ * permitted then an exception will be taken in the same way as if this
-+ * were a real access (and we will not return).
-  * If the size is 0 or the page requires I/O access, returns NULL; otherwise,
-  * returns the address of the host page similar to tlb_vaddr_to_host().
-  */
--void *probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
--                  uintptr_t retaddr)
-+void *probe_access(CPUArchState *env, target_ulong addr, int size,
-+                   MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
- {
-     uintptr_t index = tlb_index(env, mmu_idx, addr);
-     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
--    target_ulong tlb_addr = tlb_addr_write(entry);
-+    target_ulong tlb_addr;
-+    size_t elt_ofs;
-+    int wp_access;
- 
-     g_assert(-(addr | TARGET_PAGE_MASK) >= size);
- 
-+    switch (access_type) {
-+    case MMU_DATA_LOAD:
-+        elt_ofs = offsetof(CPUTLBEntry, addr_read);
-+        wp_access = BP_MEM_READ;
-+        break;
-+    case MMU_DATA_STORE:
-+        elt_ofs = offsetof(CPUTLBEntry, addr_write);
-+        wp_access = BP_MEM_WRITE;
-+        break;
-+    case MMU_INST_FETCH:
-+        elt_ofs = offsetof(CPUTLBEntry, addr_code);
-+        wp_access = BP_MEM_READ;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+    tlb_addr = tlb_read_ofs(entry, elt_ofs);
-+
-     if (unlikely(!tlb_hit(tlb_addr, addr))) {
--        if (!VICTIM_TLB_HIT(addr_write, addr)) {
--            tlb_fill(env_cpu(env), addr, size, MMU_DATA_STORE,
--                     mmu_idx, retaddr);
-+        if (!victim_tlb_hit(env, mmu_idx, index, elt_ofs,
-+                            addr & TARGET_PAGE_MASK)) {
-+            tlb_fill(env_cpu(env), addr, size, access_type, mmu_idx, retaddr);
-             /* TLB resize via tlb_fill may have moved the entry. */
-             index = tlb_index(env, mmu_idx, addr);
-             entry = tlb_entry(env, mmu_idx, addr);
-         }
--        tlb_addr = tlb_addr_write(entry);
-+        tlb_addr = tlb_read_ofs(entry, elt_ofs);
-     }
- 
-     if (!size) {
-@@ -1109,7 +1130,7 @@ void *probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
-     if (tlb_addr & TLB_WATCHPOINT) {
-         cpu_check_watchpoint(env_cpu(env), addr, size,
-                              env_tlb(env)->d[mmu_idx].iotlb[index].attrs,
--                             BP_MEM_WRITE, retaddr);
-+                             wp_access, retaddr);
-     }
- 
-     if (tlb_addr & (TLB_NOTDIRTY | TLB_MMIO)) {
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 5720bf8056..71c4bf6477 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -188,17 +188,31 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-     g_assert_not_reached();
- }
- 
--void *probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
--                  uintptr_t retaddr)
-+void *probe_access(CPUArchState *env, target_ulong addr, int size,
-+                   MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
- {
-+    int flags;
-+
-     g_assert(-(addr | TARGET_PAGE_MASK) >= size);
- 
--    if (!guest_addr_valid(addr) ||
--        page_check_range(addr, size, PAGE_WRITE) < 0) {
-+    switch (access_type) {
-+    case MMU_DATA_STORE:
-+        flags = PAGE_WRITE;
-+        break;
-+    case MMU_DATA_LOAD:
-+        flags = PAGE_READ;
-+        break;
-+    case MMU_INST_FETCH:
-+        flags = PAGE_EXEC;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    if (!guest_addr_valid(addr) || page_check_range(addr, size, flags) < 0) {
-         CPUState *cpu = env_cpu(env);
-         CPUClass *cc = CPU_GET_CLASS(cpu);
--
--        cc->tlb_fill(cpu, addr, size, MMU_DATA_STORE, MMU_USER_IDX, false,
-+        cc->tlb_fill(cpu, addr, size, access_type, MMU_USER_IDX, false,
-                      retaddr);
-         g_assert_not_reached();
-     }
--- 
-2.17.1
-
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  target/arm/Makefile.objs   |  3 +-
+>  target/arm/m_helper-stub.c | 58 ++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 60 insertions(+), 1 deletion(-)
+>  create mode 100644 target/arm/m_helper-stub.c
+> 
+> diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
+> index 5cafc1eb6c..225e7a70a9 100644
+> --- a/target/arm/Makefile.objs
+> +++ b/target/arm/Makefile.objs
+> @@ -36,7 +36,8 @@ obj-y += tlb_helper.o debug_helper.o
+>  obj-y += translate.o op_helper.o
+>  obj-y += crypto_helper.o
+>  obj-y += iwmmxt_helper.o vec_helper.o neon_helper.o
+> -obj-y += m_helper.o
+> +obj-$(CONFIG_ARM_V7M) += m_helper.o
+> +obj-$(call lnot,$(CONFIG_ARM_V7M)) += m_helper-stub.o
+>  
+>  obj-$(CONFIG_SOFTMMU) += psci.o
+>  
+> diff --git a/target/arm/m_helper-stub.c b/target/arm/m_helper-stub.c
+> new file mode 100644
+> index 0000000000..8ec9de0fb6
+> --- /dev/null
+> +++ b/target/arm/m_helper-stub.c
+> @@ -0,0 +1,58 @@
+> +/*
+> + * ARM V7M related stubs.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "exec/helper-proto.h"
+> +
+> +void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
+> +{
+> +    abort();
+> +}
+> +
+> +void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
+> +{
+> +    abort();
+> +}
+> +
+> +uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+> +{
+> +    abort();
+> +}
+> +
+> +void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
+> +{
+> +    abort();
+> +}
+> +
+> +uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
+> +{
+> +    abort();
+> +}
+> +
+> +void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
+> +{
+> +    abort();
+> +}
+> +
+> +void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
+> +{
+> +    abort();
+> +}
+> +
+> +void HELPER(v7m_vlldm)(CPUARMState *env, uint32_t fptr)
+> +{
+> +    abort();
+> +}
+> +
+> +void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
+> +{
+> +    abort();
+> +}
+> +
+> +ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
+> +{
+> +    abort();
+> +}
+> 
 
