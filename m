@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297F9A6AAB
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 16:02:52 +0200 (CEST)
-Received: from localhost ([::1]:46602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2650A6AD1
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 16:07:42 +0200 (CEST)
+Received: from localhost ([::1]:46726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i59OV-0000hV-4a
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 10:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33803)
+	id 1i59TB-0005xN-OR
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 10:07:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1i59JK-0003Nm-GV
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:57:32 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i59Lk-0006xV-MG
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 10:00:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1i59JJ-0005mA-1C
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:57:30 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:43315)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1i59JF-0005kg-88
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:57:27 -0400
-Received: by mail-qt1-x836.google.com with SMTP id l22so7767263qtp.10
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 06:57:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3vBr1n1UsZgU8PgLgokhaXnjo/VGwWwRQ5hmljwJgVU=;
- b=Y6e6daJV9/1SfIAKAh6wC8Ew44SuR4x4sVPSyc1oyjfnPOXEbPpQYh6zhck3LCzwpr
- p/cTN2RXOe2Yr0mus4bA3xXKH+6eXU9l8uNJpw37V3aiyuh9uQ/979fy30spg1mGTAyK
- U3Ub3ZHx/2f95RLOP/1l4KA+hD9sRn4hEutd246RYOI7KCp92X0y6qkxDtFcGo6nPr/g
- 6bskxi5ZAhB5eF188URXfRQAJyhbQMKbY2MVHxtNmPdDQwaG3wmUgX0Kn7OyWV6daYc7
- QiQSgpifsR9ofRrIXgZgN3jaZILdJ7Rzy+shim3fafqVTzTGgKifdQLeeQNyqq+4m0x8
- iarA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3vBr1n1UsZgU8PgLgokhaXnjo/VGwWwRQ5hmljwJgVU=;
- b=e8K4Hu0gkA6Y9j3/KMVMvqtDJMEyIRGkGf7cKQJQbuv5h3r7Z37hzgdRlFSgHL5p78
- A2JYdfvdfpLpl8/4Eiw2YI7t1oJ2J53cis5z0jveUSIViI8wsWClevyVnzdFTywBBew6
- lNBTIar30J9j55EvpCNrIDgBD3CGpvFmXMHJkf+i+x8QExZLEQV4BHIi/qnIJsLBIwRh
- i2htPpvTGv9+t3XRzAbRTfMZQGXNUjqPGK7G+z6OO3CXOg6tO2baUZGJeUerkq0bvTMT
- dgrYxWNfVDD6uz2epzi31/esLllkz6azR15rKlO+W4hljrEVD+ymChT7R9DsX/buJgl8
- +yrA==
-X-Gm-Message-State: APjAAAUVjIKXkOLA9V+Ll9f/jsJTm+cYsiOYKBHrbmWEHRLfxTleM49w
- L7e3uBI5tNeQ5TR8zdApOtSjmXvE69E=
-X-Google-Smtp-Source: APXvYqwXqOzBobl+pwRFr7qAODjHZA419uA0lOXicNZIejbA58jkHlKMMTwpaNSzT2Ce59gT/8MKbw==
-X-Received: by 2002:ac8:6ce:: with SMTP id j14mr33704693qth.373.1567519044204; 
- Tue, 03 Sep 2019 06:57:24 -0700 (PDT)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:5c9f:9471:e230:52b:8c93])
- by smtp.gmail.com with ESMTPSA id k49sm9211158qtc.9.2019.09.03.06.57.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 06:57:23 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 10:57:08 -0300
-Message-Id: <20190903135708.21624-5-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190903135708.21624-1-danielhb413@gmail.com>
-References: <20190903135708.21624-1-danielhb413@gmail.com>
+ (envelope-from <kwolf@redhat.com>) id 1i59Lj-0006hO-Bl
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 10:00:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37124)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i59Lf-0006er-12; Tue, 03 Sep 2019 09:59:55 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 48BCCA36F09;
+ Tue,  3 Sep 2019 13:59:54 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-195.ams2.redhat.com
+ [10.36.116.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5CA6D5C21A;
+ Tue,  3 Sep 2019 13:59:50 +0000 (UTC)
+Date: Tue, 3 Sep 2019 15:59:48 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-ID: <20190903135948.GK4582@localhost.localdomain>
+References: <20190828125654.10544-1-dplotnikov@virtuozzo.com>
+ <20190828125654.10544-3-dplotnikov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::836
-Subject: [Qemu-devel] [PATCH v7 4/4] qemu-iotests: adding LUKS cleanup for
- non-UTF8 secret error
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190828125654.10544-3-dplotnikov@virtuozzo.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Tue, 03 Sep 2019 13:59:54 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 2/3] qcow2: rework the cluster
+ compression routine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,125 +59,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- jsnow@redhat.com
+Cc: vsementsov@virtuozzo.com, den@virtuozzo.com, qemu-block@nongnu.org,
+ armbru@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a new test file, 257, to exercise the case where
-qemu-img fails to complete for the LUKS format when a non-UTF8
-secret is used.
+Am 28.08.2019 um 14:56 hat Denis Plotnikov geschrieben:
+> The patch allow to process image compression type defined
+> in the image header and choose an appropriate method for
+> image clusters (de)compression.
+> 
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> ---
+>  block/qcow2-threads.c | 78 +++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 64 insertions(+), 14 deletions(-)
+> 
+> diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
+> index 3b1e63fe41..14b5bd76fb 100644
+> --- a/block/qcow2-threads.c
+> +++ b/block/qcow2-threads.c
+> @@ -73,8 +73,11 @@ typedef struct Qcow2CompressData {
+>      Qcow2CompressFunc func;
+>  } Qcow2CompressData;
+>  
+> +
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- tests/qemu-iotests/259     | 67 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/259.out | 11 +++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 79 insertions(+)
- create mode 100755 tests/qemu-iotests/259
- create mode 100644 tests/qemu-iotests/259.out
+Accidentally added newline?
 
-diff --git a/tests/qemu-iotests/259 b/tests/qemu-iotests/259
-new file mode 100755
-index 0000000000..cb362598b4
---- /dev/null
-+++ b/tests/qemu-iotests/259
-@@ -0,0 +1,67 @@
-+#!/usr/bin/env bash
-+#
-+# Test qemu-img file cleanup for LUKS when using a non-UTF8 secret
-+#
-+# Copyright (C) 2019, IBM Corporation.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=`basename $0`
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+TEST_IMAGE_FILE='vol.img'
-+
-+_cleanup()
-+{
-+  _cleanup_test_img
-+  rm non_utf8_secret
-+  rm -f $TEST_IMAGE_FILE
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt luks
-+_supported_proto generic
-+_unsupported_proto vxhs
-+
-+echo "== Create non-UTF8 secret =="
-+echo -n -e '\x3a\x3c\x3b\xff' > non_utf8_secret
-+SECRET="secret,id=sec0,file=non_utf8_secret"
-+
-+echo "== Throws an error because of invalid UTF-8 secret =="
-+$QEMU_IMG create -f $IMGFMT --object $SECRET -o "key-secret=sec0" $TEST_IMAGE_FILE 4M
-+
-+echo "== Image file should not exist after the error =="
-+if test -f "$TEST_IMAGE_FILE"; then
-+    exit 1
-+fi
-+
-+echo "== Create a stub image file and run qemu-img again =="
-+touch $TEST_IMAGE_FILE
-+$QEMU_IMG create -f $IMGFMT --object $SECRET -o "key-secret=sec0" $TEST_IMAGE_FILE 4M
-+
-+echo "== Pre-existing image file should also be deleted after the error =="
-+if test -f "$TEST_IMAGE_FILE"; then
-+    exit 1
-+fi
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/259.out b/tests/qemu-iotests/259.out
-new file mode 100644
-index 0000000000..6b0188111c
---- /dev/null
-+++ b/tests/qemu-iotests/259.out
-@@ -0,0 +1,11 @@
-+QA output created by 259
-+== Create non-UTF8 secret ==
-+== Throws an error because of invalid UTF-8 secret ==
-+qemu-img: vol.img: Data from secret sec0 is not valid UTF-8
-+Formatting 'vol.img', fmt=luks size=4194304 key-secret=sec0
-+== Image file should not exist after the error ==
-+== Create a stub image file and run qemu-img again ==
-+qemu-img: vol.img: Data from secret sec0 is not valid UTF-8
-+Formatting 'vol.img', fmt=luks size=4194304 key-secret=sec0
-+== Pre-existing image file should also be deleted after the error ==
-+ *** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index d95d556414..8f50bd91e5 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -273,4 +273,5 @@
- 256 rw quick
- 257 rw
- 258 rw quick
-+259 rw img quick
- 262 rw quick migration
--- 
-2.21.0
+>  /*
+> - * qcow2_compress()
+> + * qcow2_zlib_compress()
+> + *
+> + * Compress @src_size bytes of data using zlib compression method
+>   *
+>   * @dest - destination buffer, @dest_size bytes
+>   * @src - source buffer, @src_size bytes
+> @@ -83,8 +86,8 @@ typedef struct Qcow2CompressData {
+>   *          -ENOMEM destination buffer is not enough to store compressed data
+>   *          -EIO    on any other error
+>   */
+> -static ssize_t qcow2_compress(void *dest, size_t dest_size,
+> -                              const void *src, size_t src_size)
+> +static ssize_t qcow2_zlib_compress(void *dest, size_t dest_size,
+> +                                   const void *src, size_t src_size)
+>  {
+>      ssize_t ret;
+>      z_stream strm;
+> @@ -119,19 +122,19 @@ static ssize_t qcow2_compress(void *dest, size_t dest_size,
+>  }
+>  
+>  /*
+> - * qcow2_decompress()
+> + * qcow2_zlib_decompress()
+>   *
+>   * Decompress some data (not more than @src_size bytes) to produce exactly
+> - * @dest_size bytes.
+> + * @dest_size bytes using zlib compression method
+>   *
+>   * @dest - destination buffer, @dest_size bytes
+>   * @src - source buffer, @src_size bytes
+>   *
+>   * Returns: 0 on success
+> - *          -1 on fail
+> + *          -EIO on fail
+>   */
+> -static ssize_t qcow2_decompress(void *dest, size_t dest_size,
+> -                                const void *src, size_t src_size)
+> +static ssize_t qcow2_zlib_decompress(void *dest, size_t dest_size,
+> +                                     const void *src, size_t src_size)
+>  {
+>      int ret = 0;
+>      z_stream strm;
+> @@ -144,7 +147,7 @@ static ssize_t qcow2_decompress(void *dest, size_t dest_size,
+>  
+>      ret = inflateInit2(&strm, -12);
+>      if (ret != Z_OK) {
+> -        return -1;
+> +        return -EIO;
+>      }
+>  
+>      ret = inflate(&strm, Z_FINISH);
+> @@ -154,7 +157,7 @@ static ssize_t qcow2_decompress(void *dest, size_t dest_size,
+>           * @src buffer may be processed partly (because in qcow2 we know size of
+>           * compressed data with precision of one sector)
+>           */
+> -        ret = -1;
+> +        ret = -EIO;
+>      }
+>  
+>      inflateEnd(&strm);
+> @@ -189,20 +192,67 @@ qcow2_co_do_compress(BlockDriverState *bs, void *dest, size_t dest_size,
+>      return arg.ret;
+>  }
+>  
+> +/*
+> + * qcow2_co_compress()
+> + *
+> + * Compress @src_size bytes of data using the compression
+> + * method defined by the image compression type
+> + *
+> + * @dest - destination buffer, @dest_size bytes
+> + * @src - source buffer, @src_size bytes
+> + *
+> + * Returns: 0 on success
+> + *          a negative error code on fail
 
+on failure
+
+> + */
+>  ssize_t coroutine_fn
+>  qcow2_co_compress(BlockDriverState *bs, void *dest, size_t dest_size,
+>                    const void *src, size_t src_size)
+>  {
+> -    return qcow2_co_do_compress(bs, dest, dest_size, src, src_size,
+> -                                qcow2_compress);
+> +    BDRVQcow2State *s = bs->opaque;
+> +    Qcow2CompressFunc fn;
+> +
+> +    switch (s->compression_type) {
+> +    case QCOW2_COMPRESSION_TYPE_ZLIB:
+> +        fn = qcow2_zlib_compress;
+> +        break;
+> +
+> +    default:
+> +        return -ENOTSUP;
+> +    }
+> +
+> +    return qcow2_co_do_compress(bs, dest, dest_size, src, src_size, fn);
+>  }
+>  
+> +/*
+> + * qcow2_co_decompress()
+> + *
+> + * Decompress some data (not more than @src_size bytes) to produce exactly
+> + * @dest_size bytes using the compression method defined by the image
+> + * compression type
+> + *
+> + * @dest - destination buffer, @dest_size bytes
+> + * @src - source buffer, @src_size bytes
+> + *
+> + * Returns: 0 on success
+> + *          a negative error code on fail
+
+on failure
+
+> + */
+>  ssize_t coroutine_fn
+>  qcow2_co_decompress(BlockDriverState *bs, void *dest, size_t dest_size,
+>                      const void *src, size_t src_size)
+>  {
+> -    return qcow2_co_do_compress(bs, dest, dest_size, src, src_size,
+> -                                qcow2_decompress);
+> +    BDRVQcow2State *s = bs->opaque;
+> +    Qcow2CompressFunc fn;
+> +
+> +    switch (s->compression_type) {
+> +    case QCOW2_COMPRESSION_TYPE_ZLIB:
+> +        fn = qcow2_zlib_decompress;
+> +        break;
+> +
+> +    default:
+> +        return -ENOTSUP;
+> +    }
+> +
+> +    return qcow2_co_do_compress(bs, dest, dest_size, src, src_size, fn);
+>  }
+
+Kevin
 
