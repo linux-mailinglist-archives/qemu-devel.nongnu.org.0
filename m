@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1CBA6A7F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 15:55:00 +0200 (CEST)
-Received: from localhost ([::1]:46482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0798CA6A91
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 15:57:59 +0200 (CEST)
+Received: from localhost ([::1]:46512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i59Gt-0007NK-8X
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 09:54:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55774)
+	id 1i59Jl-0002jf-E3
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 09:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i58ye-0002A4-OE
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:09 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i58yp-0002QW-5V
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i58yd-0006DS-BM
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60640)
+ (envelope-from <mreitz@redhat.com>) id 1i58yn-0006QE-Lu
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47068)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i58yX-00067X-5s; Tue, 03 Sep 2019 09:36:01 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1i58yl-0006Mg-7s; Tue, 03 Sep 2019 09:36:15 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7DCFA18C8939;
- Tue,  3 Sep 2019 13:36:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8EE597F76C;
+ Tue,  3 Sep 2019 13:36:14 +0000 (UTC)
 Received: from localhost (ovpn-204-98.brq.redhat.com [10.40.204.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 17F791001947;
- Tue,  3 Sep 2019 13:35:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 286B019D7A;
+ Tue,  3 Sep 2019 13:36:13 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue,  3 Sep 2019 15:35:39 +0200
-Message-Id: <20190903133553.6500-3-mreitz@redhat.com>
+Date: Tue,  3 Sep 2019 15:35:45 +0200
+Message-Id: <20190903133553.6500-9-mreitz@redhat.com>
 In-Reply-To: <20190903133553.6500-1-mreitz@redhat.com>
 References: <20190903133553.6500-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Tue, 03 Sep 2019 13:36:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.71]); Tue, 03 Sep 2019 13:36:14 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 02/16] block: fix permission update in
- bdrv_replace_node
+Subject: [Qemu-devel] [PULL v2 08/16] vmdk: Reject invalid compressed writes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,49 +59,70 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Compressed writes generally have to write full clusters, not just in
+theory but also in practice when it comes to vmdk's streamOptimized
+subformat.  It currently is just silently broken for writes with
+non-zero in-cluster offsets:
 
-It's wrong to OR shared permissions. It may lead to crash on further
-permission updates.
-Also, no needs to consider previously calculated permissions, as at
-this point we already bind all new parents and bdrv_get_cumulative_perm
-result is enough. So fix the bug by just set permissions by
-bdrv_get_cumulative_perm result.
+$ qemu-img create -f vmdk -o subformat=3DstreamOptimized foo.vmdk 1M
+$ qemu-io -c 'write 4k 4k' -c 'read 4k 4k' foo.vmdk
+wrote 4096/4096 bytes at offset 4096
+4 KiB, 1 ops; 00.01 sec (443.724 KiB/sec and 110.9309 ops/sec)
+read failed: Invalid argument
 
-Bug was introduced in long ago 234ac1a9025, in 2.9.
+(The technical reason is that vmdk_write_extent() just writes the
+incomplete compressed data actually to offset 4k.  When reading the
+data, vmdk_read_extent() looks at offset 0 and finds the compressed data
+size to be 0, because that is what it reads from there.  This yields an
+error.)
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190824100740.61635-1-vsementsov@virtuozzo.com
+For incomplete writes with zero in-cluster offsets, the error path when
+reading the rest of the cluster is a bit different, but the result is
+the same:
+
+$ qemu-img create -f vmdk -o subformat=3DstreamOptimized foo.vmdk 1M
+$ qemu-io -c 'write 0k 4k' -c 'read 4k 4k' foo.vmdk
+wrote 4096/4096 bytes at offset 0
+4 KiB, 1 ops; 00.01 sec (362.641 KiB/sec and 90.6603 ops/sec)
+read failed: Invalid argument
+
+(Here, vmdk_read_extent() finds the data and then sees that the
+uncompressed data is short.)
+
+It is better to reject invalid writes than to make the user believe they
+might have succeeded and then fail when trying to read it back.
+
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Message-id: 20190815153638.4600-5-mreitz@redhat.com
+Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ block/vmdk.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/block.c b/block.c
-index 874a29a983..5944124845 100644
---- a/block.c
-+++ b/block.c
-@@ -4165,7 +4165,6 @@ void bdrv_replace_node(BlockDriverState *from, Bloc=
-kDriverState *to,
- {
-     BdrvChild *c, *next;
-     GSList *list =3D NULL, *p;
--    uint64_t old_perm, old_shared;
-     uint64_t perm =3D 0, shared =3D BLK_PERM_ALL;
-     int ret;
+diff --git a/block/vmdk.c b/block/vmdk.c
+index a7f82e665e..fed3b50c8a 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -1734,6 +1734,16 @@ static int vmdk_write_extent(VmdkExtent *extent, i=
+nt64_t cluster_offset,
+     if (extent->compressed) {
+         void *compressed_data;
 =20
-@@ -4211,8 +4210,8 @@ void bdrv_replace_node(BlockDriverState *from, Bloc=
-kDriverState *to,
-         bdrv_unref(from);
-     }
-=20
--    bdrv_get_cumulative_perm(to, &old_perm, &old_shared);
--    bdrv_set_perm(to, old_perm | perm, old_shared | shared);
-+    bdrv_get_cumulative_perm(to, &perm, &shared);
-+    bdrv_set_perm(to, perm, shared);
-=20
- out:
-     g_slist_free(list);
++        /* Only whole clusters */
++        if (offset_in_cluster ||
++            n_bytes > (extent->cluster_sectors * SECTOR_SIZE) ||
++            (n_bytes < (extent->cluster_sectors * SECTOR_SIZE) &&
++             offset + n_bytes !=3D extent->end_sector * SECTOR_SIZE))
++        {
++            ret =3D -EINVAL;
++            goto out;
++        }
++
+         if (!extent->has_marker) {
+             ret =3D -EINVAL;
+             goto out;
 --=20
 2.21.0
 
