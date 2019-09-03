@@ -2,70 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E703A667A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 12:22:07 +0200 (CEST)
-Received: from localhost ([::1]:43594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56281A667E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 12:24:49 +0200 (CEST)
+Received: from localhost ([::1]:43644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i55wr-00071A-SU
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 06:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42632)
+	id 1i55zU-0000a9-37
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 06:24:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42855)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1i55w1-0006Zh-Um
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:21:15 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i55wy-0007PP-Bs
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:22:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1i55w0-0007Sj-9b
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:21:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46072)
+ (envelope-from <kwolf@redhat.com>) id 1i55wx-0007t1-9T
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:22:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35976)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1i55w0-0007S6-3X
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 06:21:12 -0400
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1i55wu-0007qv-By; Tue, 03 Sep 2019 06:22:08 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A8238811BF
- for <qemu-devel@nongnu.org>; Tue,  3 Sep 2019 10:21:10 +0000 (UTC)
-Received: by mail-pg1-f197.google.com with SMTP id k20so10650424pgg.15
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 03:21:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=z/99HzLodMDN2umkuTyQvgZPQhz/lGissm15dvu6AGw=;
- b=G6dzQxZb0Q6XIHNcHwUCHpS7jfMHyikFQFkIWGUOIyh0xlKrGgJT+U8gLrGvz+H6Wj
- KWPkNG2G/p+ArRQ/tol7t1nHe1qcMH853hIG2iEnMuwaRDnqE7toe/+xNaS1mgp+LEqo
- LjUNbo55veD74VpvX6hB+JyiO5M157xQz5gnPXxEf+b5wQhCa0err1lgOfJCPDPT0N/o
- G6K7JcjLfME//zzY2dDAeS3ChJw8YDcDVa4rUkdgnU2mvalNjwo3To5Hqfcl1X5lU6c9
- R+ItYNWEYPNLiGLYijIqB+FQO66Ivel9y31malmF8Yp7KxHEbgYNuBfnLNXUy6dRUako
- y+8w==
-X-Gm-Message-State: APjAAAUEPIfg0cuo5v5pkFYHVOCVHo+LgRTVEqpP7le5F5PEvm60OQS6
- HCgFpj9kUOf7A5IW9rIcWVCpZLcjHfNHa3hJrcfzjRYKGpRgBkz7U9gx9DtU5aG17G0CPgRfxXz
- Gp7xu1SFTLRl8z0A=
-X-Received: by 2002:a17:90a:b38a:: with SMTP id
- e10mr6764003pjr.91.1567506070243; 
- Tue, 03 Sep 2019 03:21:10 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx2DB4e3i2KGzNRghz64Qu0XqH0182aakmk87i/hG4O17Uf6lreb4HUGJywASaR9o24mTgZnw==
-X-Received: by 2002:a17:90a:b38a:: with SMTP id
- e10mr6763985pjr.91.1567506070008; 
- Tue, 03 Sep 2019 03:21:10 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id l124sm21896901pgl.54.2019.09.03.03.21.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 03:21:09 -0700 (PDT)
-Date: Tue, 3 Sep 2019 18:21:00 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Tony Nguyen <tony.nguyen@bt.com>
-Message-ID: <20190903102100.GA30402@xz-x1>
-References: <20190902012647.1761-1-tony.nguyen@bt.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 990F0307D915;
+ Tue,  3 Sep 2019 10:22:07 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-195.ams2.redhat.com
+ [10.36.116.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 232C01001956;
+ Tue,  3 Sep 2019 10:22:05 +0000 (UTC)
+Date: Tue, 3 Sep 2019 12:22:04 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Li Qiang <liq3ea@163.com>
+Message-ID: <20190903102204.GF4582@localhost.localdomain>
+References: <20190831020432.61473-1-liq3ea@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190902012647.1761-1-tony.nguyen@bt.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190831020432.61473-1-liq3ea@163.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Tue, 03 Sep 2019 10:22:07 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] memory: Set notdirty_mem_ops validator
+Subject: Re: [Qemu-devel] [PATCH] block: qcow2: free 'refcount_table' in
+ error path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,21 +58,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: liq3ea@gmail.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 02, 2019 at 11:26:47AM +1000, Tony Nguyen wrote:
-> Existing read rejecting validator was mistakenly cleared.
+Am 31.08.2019 um 04:04 hat Li Qiang geschrieben:
+> Currently, when doing './check -qcow2 098'. We can get following
+> asan output:
 > 
-> Reads dispatched to io_mem_notdirty then segfaults as there is no read
-> handler.
+> qemu-img: Could not empty blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
+> +
+> +=================================================================
+> +==60365==ERROR: LeakSanitizer: detected memory leaks
+> +
+> +Direct leak of 65536 byte(s) in 1 object(s) allocated from:
+> +    #0 0x7f3ed729fd38 in __interceptor_calloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xded38)
+> +    #1 0x56274517fe66 in make_completely_empty block/IMGFMT.c:4219
+> +    #2 0x562745180e51 in IMGFMT_make_empty block/IMGFMT.c:4313
+> +    #3 0x56274509b14e in img_commit /home/test/qemu5/qemu/qemu-img.c:1053
+> +    #4 0x5627450b4b74 in main /home/test/qemu5/qemu/qemu-img.c:5097
+> +    #5 0x7f3ed4f2fb96 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x21b96)
 > 
-> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
+> This is because the logic of clean resource in 'make_completely_empty' is
+> wrong. The patch frees the 's->refcount_table' in error path.
+> 
+> Signed-off-by: Li Qiang <liq3ea@163.com>
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+This is wrong. You can never free s->refcount_table and leave it as a
+dangling pointer. It is state that is only supposed to be freed in
+qcow2_close() -> qcow2_refcount_close().
 
--- 
-Peter Xu
+The only reason why it doesn't crash with your change is that you also
+make the error fatal (bs->drv = NULL) so that any further I/O on the
+image will fail anyway. But there is no good reason to make these errors
+fatal.
+
+Kevin
+
+>  block/qcow2.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 7c5a4859f7..23fe713d4c 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+> @@ -4243,7 +4243,7 @@ static int make_completely_empty(BlockDriverState *bs)
+>      ret = bdrv_pwrite_sync(bs->file, s->cluster_size,
+>                             &rt_entry, sizeof(rt_entry));
+>      if (ret < 0) {
+> -        goto fail_broken_refcounts;
+> +        goto fail;
+>      }
+>      s->refcount_table[0] = 2 * s->cluster_size;
+>  
+> @@ -4252,7 +4252,7 @@ static int make_completely_empty(BlockDriverState *bs)
+>      offset = qcow2_alloc_clusters(bs, 3 * s->cluster_size + l1_size2);
+>      if (offset < 0) {
+>          ret = offset;
+> -        goto fail_broken_refcounts;
+> +        goto fail;
+>      } else if (offset > 0) {
+>          error_report("First cluster in emptied image is in use");
+>          abort();
+> @@ -4274,6 +4274,9 @@ static int make_completely_empty(BlockDriverState *bs)
+>  
+>      return 0;
+>  
+> +fail:
+> +    g_free(s->refcount_table);
+> +
+>  fail_broken_refcounts:
+>      /* The BDS is unusable at this point. If we wanted to make it usable, we
+>       * would have to call qcow2_refcount_close(), qcow2_refcount_init(),
+> @@ -4283,8 +4286,6 @@ fail_broken_refcounts:
+>       * that that sequence will fail as well. Therefore, just eject the BDS. */
+>      bs->drv = NULL;
+>  
+> -fail:
+> -    g_free(new_reftable);
+>      return ret;
+>  }
+>  
+> -- 
+> 2.17.1
+> 
+> 
 
