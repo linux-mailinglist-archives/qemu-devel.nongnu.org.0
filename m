@@ -2,99 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CE7A6525
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 11:27:14 +0200 (CEST)
-Received: from localhost ([::1]:43264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BD2A6513
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 11:24:17 +0200 (CEST)
+Received: from localhost ([::1]:43244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i555l-0004pB-V0
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 05:27:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33786)
+	id 1i552t-0002DJ-Rd
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 05:24:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33952)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1i550a-0000jE-D2
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:21:53 -0400
+ (envelope-from <kwolf@redhat.com>) id 1i551g-0001Pb-PP
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:23:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1i550X-0003CS-ON
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:21:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53534)
+ (envelope-from <kwolf@redhat.com>) id 1i551f-0003fh-Fm
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:23:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53804)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1i550X-0003Bj-H2
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:21:49 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1i551f-0003fR-7i
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 05:22:59 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5561B877A66;
- Tue,  3 Sep 2019 09:21:48 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-117-51.ams2.redhat.com [10.36.117.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57F7C5F7E4;
- Tue,  3 Sep 2019 09:21:46 +0000 (UTC)
-To: qemu-devel@nongnu.org
-References: <20190709073222.26370-1-huth@tuxfamily.org>
- <20190709073222.26370-3-huth@tuxfamily.org>
- <CAFEAcA9uech2_Uc1XnxSm8Dk2rEAuyvxtnH74e_oCgw7ovVCaw@mail.gmail.com>
- <20190831071857.5e3f53dc@thl530.multi.box>
- <CAFEAcA-EAZUL48-WVfrHLb6ONgW+VbV8RtppM_nAAHua+rH36g@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat
-Message-ID: <6c78f2dd-69f3-1f6e-bb88-6e83d78f2c36@redhat.com>
-Date: Tue, 3 Sep 2019 11:21:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 8017F8AC6E1;
+ Tue,  3 Sep 2019 09:22:58 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-195.ams2.redhat.com
+ [10.36.116.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48CDE60127;
+ Tue,  3 Sep 2019 09:22:54 +0000 (UTC)
+Date: Tue, 3 Sep 2019 11:22:53 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Message-ID: <20190903092253.GB4582@localhost.localdomain>
+References: <20190807142114.17569-1-danielhb413@gmail.com>
+ <20190807142114.17569-3-danielhb413@gmail.com>
+ <a3b0480c-da0e-d182-335d-77568efb8121@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-EAZUL48-WVfrHLb6ONgW+VbV8RtppM_nAAHua+rH36g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <a3b0480c-da0e-d182-335d-77568efb8121@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Tue, 03 Sep 2019 09:21:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.69]); Tue, 03 Sep 2019 09:22:58 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 2/6] m68k: Add NeXTcube keyboard device
+Subject: Re: [Qemu-devel] [PATCH v5 2/4] block.c: adding bdrv_delete_file
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,54 +60,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, berrange@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/2019 11.12, Peter Maydell wrote:
-> On Sat, 31 Aug 2019 at 06:19, Thomas Huth <huth@tuxfamily.org> wrote:
->>
->> Am Tue, 13 Aug 2019 11:16:44 +0100
->> schrieb Peter Maydell <peter.maydell@linaro.org>:
->>
->>> On Tue, 9 Jul 2019 at 08:35, Thomas Huth <huth@tuxfamily.org> wrote:
->>>>
->>>> It is likely still quite incomplete (e.g. mouse and interrupts are
->>>> not implemented yet), but it is good enough for keyboard input at
->>>> the firmware monitor.
->>>> This code has been taken from Bryce Lanham's GSoC 2011 NeXT branch
->>>> at
->>>>
->>>>  https://github.com/blanham/qemu-NeXT/blob/next-cube/hw/next-kbd.c
->>>>
->>>> and altered to fit the latest interface of the current QEMU (e.g.
->>>> to use memory_region_init_io() instead of
->>>> cpu_register_physical_memory()).
->>>>
->>>> Signed-off-by: Thomas Huth <huth@tuxfamily.org>
->>>> +static void nextkbd_class_init(ObjectClass *oc, void *data)
->>>> +{
->>>> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
->>>> +
->>>> +    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
->>>> +    dc->realize =3D nextkbd_realize;
->>>> +    dc->reset =3D nextkbd_reset;
->>>> +}
->>>
->>> This one definitely needs migration state...
->>
->> m68k machines are currently unmigratable - see vmstate_m68k_cpu in
->> target/m68k/cpu.c. So I assume it's currently enough if I add a
->> ".unmigratable =3D 1" here, too?
+Am 29.08.2019 um 04:07 hat John Snow geschrieben:
 >=20
-> Well, if you insist I guess. But personally I find it's just
-> as easy to simply implement migration state.
+>=20
+> On 8/7/19 10:21 AM, Daniel Henrique Barboza wrote:
+> > Using the new 'bdrv_co_delete_file' interface, bdrv_delete_file
+> > can be used in a way similar of the existing bdrv_create_file to
+> > to clean up a created file.
+> >=20
+> > The logic is also similar to what is already done in bdrv_create_file=
+:
+> > a qemu_coroutine is created if needed, a specialized function
+> > bdrv_delete_co_entry is used to call the bdrv_co_delete_file
+> > co-routine of the driver, if the driver implements it.
+> >=20
+> > Suggested-by: Daniel P. Berrang=E9 <berrange@redhat.com>
+> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> > ---
+> >  block.c               | 77 +++++++++++++++++++++++++++++++++++++++++=
+++
+> >  include/block/block.h |  1 +
+> >  2 files changed, 78 insertions(+)
+> >=20
+> > diff --git a/block.c b/block.c
+> > index cbd8da5f3b..1e20250627 100644
+> > --- a/block.c
+> > +++ b/block.c
+> > @@ -547,6 +547,83 @@ int bdrv_create_file(const char *filename, QemuO=
+pts *opts, Error **errp)
+> >      return ret;
+> >  }
+> > =20
+> > +typedef struct DeleteCo {
+> > +    BlockDriver *drv;
+> > +    BlockDriverState *bs;
+> > +    int ret;
+> > +    Error *err;
+> > +} DeleteCo;
+> > +
+> > +static void coroutine_fn bdrv_delete_co_entry(void *opaque)
+> > +{
+> > +    Error *local_err =3D NULL;
+> > +    DeleteCo *dco =3D opaque;
+> > +
+> > +    assert(dco->bs);
+> > +
+> > +    dco->ret =3D dco->drv->bdrv_co_delete_file(dco->bs, &local_err);
+> > +    error_propagate(&dco->err, local_err);
+> > +}
+> > +
+> > +int bdrv_delete_file(const char *filename, Error **errp)
+> > +{
+> > +    BlockDriver *drv =3D bdrv_find_protocol(filename, true, NULL);
+> > +    BlockDriverState *bs =3D bdrv_open(filename, NULL, NULL,
+> > +                                     BDRV_O_RDWR | BDRV_O_PROTOCOL, =
+NULL);
+> > +    DeleteCo dco =3D {
+> > +        .drv =3D drv,
+> > +        .bs =3D bs,
+> > +        .ret =3D NOT_DONE,
+> > +        .err =3D NULL,
+> > +    };
+> > +    Coroutine *co;
+> > +    int ret;
+> > +
+> > +    if (!drv) {
+> > +        error_setg(errp, "File '%s' has unknown format", filename);
+> > +        ret =3D -ENOENT;
+> > +        goto out;
+> > +    }
+> > +
+>=20
+> I was going to say that ENOENT is a weird error here, but I see it used
+> for !drv a few other places in block.c too, alongside EINVAL and
+> ENOMEDIUM. ENOMEDIUM loks like the most popular.
+>=20
+> > +    if (!drv->bdrv_co_delete_file) {
+> > +        error_setg(errp, "Driver '%s' does not support image delete"=
+,
+> > +                   drv->format_name);
+> > +        ret =3D -ENOTSUP;
+> > +        goto out;
+> > +    }
+> > +
+> > +    if (!bs) {
+> > +        error_setg(errp, "Could not open image '%s' for erasing",
+> > +                   filename);
+> > +        ret =3D 1;
+>=20
+> Please keep all errors negative (or at least consistent within a functi=
+on).
+>=20
+>=20
+> I'm also wondering if we want a version of delete that doesn't try to
+> open a file directly -- i.e. a version that exists like this:
+>=20
+> bdrv_co_delete_file(BlockDriverState *bs, Error **errp);
+>=20
+> That simply dispatches based on bs->drv to the correct routine.
+>=20
+> Then, you are free to have bdrv_delete_file handle the open (and let th=
+e
+> opening figure out what driver it needs), and just hand off the bds to
+> bdrv_co_delete_file.
+>=20
+> I'm not the authority for block.c, though, so maaaybe I'm giving you ba=
+d
+> advice here. Kevin's away on PTO for a bit and gave you advice most
+> recently, so I might try to gently ask him for more feedback next week.
 
-My main concern is testing - if there is no way to test it, I can only
-implement this in a hit-or-miss style, which I really don't like (though
-it might be easy for such a simple device). So for the time being,
-marking it with ".unmigratable =3D 1" and a proper TODO comments sounds
-like the best solution to me.
+Yes, this was definitely the idea I had in mind when I suggested that
+bdrv_co_delete_file() should take a BDS.
 
- Thomas
+And I think the callers that want to call this function (for failures
+during image creation) all already have a BDS pointer, so nobody will
+actually need the additional open.
+
+const char *filename only works for the local filesystem (and even then
+I think not for all filenames) and some URLs, so this is not what we
+want to have in a public interface to identify an image file.
+
+Kevin
 
