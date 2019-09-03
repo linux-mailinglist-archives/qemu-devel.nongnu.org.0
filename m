@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505A1A6FD9
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:36:59 +0200 (CEST)
-Received: from localhost ([::1]:49054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 029E3A7033
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:39:00 +0200 (CEST)
+Received: from localhost ([::1]:49104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Bnd-0004mk-WC
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:36:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36848)
+	id 1i5Bpb-0007sN-67
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:38:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37034)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5BKz-0007gt-S5
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:07:22 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BMd-0000vI-Qr
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5BKy-0002xK-HQ
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:07:21 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45930)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BMc-0003ae-A3
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:03 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:39204)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5BKy-0002ww-Bq
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:07:20 -0400
-Received: by mail-ot1-x341.google.com with SMTP id g16so5437449otp.12
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:07:20 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i5BMc-0003Zo-2O
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:02 -0400
+Received: by mail-pg1-x541.google.com with SMTP id u17so9393876pgi.6
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BQiQNF8dhJP8ox+hPSxrVvY+j3aOupN7cxNiycpUbKY=;
- b=Rxpv7pGcWDNK+CdEuWb268IZZHigB1Eyk/td3dKpdFgZbUxuJUyowoMvfxQYOnCoRY
- pH7u0x1oeK5zW3YJhWsHMF5PZKAjY7KBIc98UD6iM+/pWR7DAFze7kvIb9jZ4gpfgXtj
- nRXYNzGl/96XbMtXiggWG8aAIPzD1O7ZPreuObTNPF3CLaiUjrXMe90FmolysjI47duP
- HO5Qz5p3niL0vtcoVsYBz3gp1r1Dj7Q/ijwyXw8vZovFJEofo5IuysyJRzo3Ym+bakbM
- 54DGR2H0TdPmlIPYhaLQg+lrMxaEuCw6cubH0mM13Jj6IiUfEcEI0cqCgoN7NohZ7P+u
- ITfw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HFt+SNoHxnXsKubH38yPgmAkrGKo2nrflpCUOr6pM2U=;
+ b=a7u21qfKLWizLCq3qD8HlqRhSDNytMzhWCE9NsNeup9DXGQaRyDPudu82tBfqx/M7n
+ frWGulfU/tDDg7ruBuIyeLNYg2/f+yclzFl2YhdsUAkvc57eJ5uAYYboVqDw4nMeVSPV
+ XfdLYE1z1EMbyWrGzmlOP78cjTOeyBBVWt0fJ0OEGaPyypMCThmAQs8YKOJdo7UoSM7z
+ OC0iwBkVHYLYoje/z4MZygAIovsJ2byolM6GD0O+r1c3PmZQKySyq6JeqpPi6iW/8Aot
+ gy1PpoDfwN6FRLA+OlegFJmRrAgr0YwJ6CZK7xf0m4hfj51wFL/bCKieOY8KMotw8X+u
+ 9Pbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BQiQNF8dhJP8ox+hPSxrVvY+j3aOupN7cxNiycpUbKY=;
- b=PqrGTe9lk+/wQCRL0NaK4rrxmRkSiEUkOIBPY/BHMT9oWviKxNYow8meerki4lAZJb
- VWjPPr7Xwk6uoW0TyBK+Zb8bmPy+BYx77J+KqxK2sWPo5tVSn3RDMBCkd75OowSzz0D5
- kgClFXKSvewgXbVBMID4pgqz5HwNCoSgNPqRN7A6r8BcrZJBOku8g8OMYvOOSONIezMP
- eT91/yiJELPBdrelB8t+bS3fpEFb58c0Z4KDXql3ODI6hEc24t2V7iAJ24HxI8G5T+Xp
- xwlXn6XlQIec+DIn6gYOqgzNhIUgMEpgwYIn6mKQB4BuXirF6FyED3ZgQYU0YF31GnjN
- V+3w==
-X-Gm-Message-State: APjAAAXswkBriKNXtxP0JSt4ndzscoxFaQs7lSMk3MOgGeJhCuMQKCIy
- NYl15pvlKAXnj1fFwP9iwqXSbs49mO/oXMG/cHBHRw==
-X-Google-Smtp-Source: APXvYqy89wKkOvIlDNXg009GC/VT4E0DTTTsctm+Bd1kfoaZlGj8VSuDNTen12DjbX1PjN6LAujp9u5KDCWsU2g41Zk=
-X-Received: by 2002:a9d:5e10:: with SMTP id d16mr29562669oti.91.1567526839521; 
- Tue, 03 Sep 2019 09:07:19 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HFt+SNoHxnXsKubH38yPgmAkrGKo2nrflpCUOr6pM2U=;
+ b=MM/FS0HiYkZDppSYnyBEKCKYAYN8t2nkLkP6QzLwrakGKy7RCrBEE2J4KB+bBMEfpI
+ 8mEKo+AiL84IffHjh/qqn0eGOjSYUVxZeik1xXalWb+lhN90bpq6QwKoPOQLbBW6XaJA
+ 6cta9o8/t2xfZ55d0h2L2mAG1o/CIn6IDwtmA4u1VIgHt6LnWJM0q/otaYzR7+mj8oVh
+ sz7q1kFmAHMcTrxVsWSdUFLSdhHX/Fcd0X/6hou+CY0uX8etyAlWnyvjam16rXKlp2V+
+ +72koHUT/B1RvRqPWIcjZpHKfokDTTBtdWtmhQtotA4VdwVGQrd9sHlZEe1a2v84YU0K
+ tZ5Q==
+X-Gm-Message-State: APjAAAXW6kvkju1doqdFEaizZoIqc/wIpphF6dZSevVw4mw05TDwhqd6
+ m3ZLO+oC39KcVG3K2245oENVx1OfDj8=
+X-Google-Smtp-Source: APXvYqwYOli+FIM5fjmh9RzbkcSMBJsGbro1SHnFxZc8M0K0d5jNxcXtBbrX9zJ26X7DpNG6dck0jw==
+X-Received: by 2002:a17:90a:ba96:: with SMTP id
+ t22mr53409pjr.104.1567526940324; 
+ Tue, 03 Sep 2019 09:09:00 -0700 (PDT)
+Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
+ [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.08.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Sep 2019 09:08:59 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Tue,  3 Sep 2019 09:08:22 -0700
+Message-Id: <20190903160858.5296-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20190903154810.27365-1-thuth@redhat.com>
- <20190903154810.27365-2-thuth@redhat.com>
-In-Reply-To: <20190903154810.27365-2-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 Sep 2019 17:07:08 +0100
-Message-ID: <CAFEAcA-HyrDKoW0ja8NNQURu46eY-vN1RNMpC1R8U2Th=qPB-Q@mail.gmail.com>
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [RFC PATCH 1/3] target/arm: Make cpu_register()
- and set_feature() available for other files
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH 00/36] tcg patch queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,54 +78,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Sep 2019 at 16:54, Thomas Huth <thuth@redhat.com> wrote:
->
-> Move the common set_feature() and unset_feature() functions from cpu.c and
-> cpu64.c to cpu.h, and make cpu_register() (renamed to arm_cpu_register())
-> available from there, too, so we can register CPUs also from other files
-> in the future.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  target/arm/cpu.c   | 20 ++------------------
->  target/arm/cpu.h   | 18 ++++++++++++++++++
->  target/arm/cpu64.c | 16 ----------------
->  3 files changed, 20 insertions(+), 34 deletions(-)
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 0981303170..c5007edf1f 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -3600,4 +3600,22 @@ static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
->  #define cpu_isar_feature(name, cpu) \
->      ({ ARMCPU *cpu_ = (cpu); isar_feature_##name(&cpu_->isar); })
->
-> +static inline void set_feature(CPUARMState *env, int feature)
-> +{
-> +    env->features |= 1ULL << feature;
-> +}
-> +
-> +static inline void unset_feature(CPUARMState *env, int feature)
-> +{
-> +    env->features &= ~(1ULL << feature);
-> +}
+The following changes since commit fec105c2abda8567ec15230429c41429b5ee307c:
 
-I think these function names are too generic to have in a header
-like cpu.h which is used all across the codebase. (For instance
-target/arm/kvm64.c now has both a local set_feature() function
-and this one from the header.)
+  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20190828-pull-request' into staging (2019-09-03 14:03:15 +0100)
 
-Can they go in target/arm/internals.h instead?
-The set of code that should be caring about setting
-feature bits should be pretty small.
+are available in the Git repository at:
 
-Maybe also they should be renamed.
+  https://github.com/rth7680/qemu.git tags/pull-tcg-20190903
 
-thanks
--- PMM
+for you to fetch changes up to c25c283df0f08582df29f1d5d7be1516b851532d:
+
+  tcg: Factor out probe_write() logic into probe_access() (2019-09-03 08:34:18 -0700)
+
+----------------------------------------------------------------
+Allow page table bit to swap endianness.
+Reorganize watchpoints out of i/o path.
+Return host address from probe_write / probe_access.
+
+----------------------------------------------------------------
+David Hildenbrand (11):
+      exec: Factor out core logic of check_watchpoint()
+      tcg: Check for watchpoints in probe_write()
+      s390x/tcg: Use guest_addr_valid() instead of h2g_valid() in probe_write_access()
+      s390x/tcg: Fix length calculation in probe_write_access()
+      tcg: Factor out CONFIG_USER_ONLY probe_write() from s390x code
+      tcg: Enforce single page access in probe_write()
+      mips/tcg: Call probe_write() for CONFIG_USER_ONLY as well
+      hppa/tcg: Call probe_write() also for CONFIG_USER_ONLY
+      s390x/tcg: Pass a size to probe_write() in do_csst()
+      tcg: Make probe_write() return a pointer to the host page
+      tcg: Factor out probe_write() logic into probe_access()
+
+Richard Henderson (6):
+      exec: Move user-only watchpoint stubs inline
+      cputlb: Fold TLB_RECHECK into TLB_INVALID_MASK
+      exec: Factor out cpu_watchpoint_address_matches
+      cputlb: Fix size operand for tlb_fill on unaligned store
+      cputlb: Remove double-alignment in store_helper
+      cputlb: Handle watchpoints via TLB_WATCHPOINT
+
+Tony Nguyen (19):
+      tcg: TCGMemOp is now accelerator independent MemOp
+      memory: Introduce size_memop
+      target/mips: Access MemoryRegion with MemOp
+      hw/s390x: Access MemoryRegion with MemOp
+      hw/intc/armv7m_nic: Access MemoryRegion with MemOp
+      hw/virtio: Access MemoryRegion with MemOp
+      hw/vfio: Access MemoryRegion with MemOp
+      exec: Access MemoryRegion with MemOp
+      cputlb: Access MemoryRegion with MemOp
+      memory: Access MemoryRegion with MemOp
+      hw/s390x: Hard code size with MO_{8|16|32|64}
+      target/mips: Hard code size with MO_{8|16|32|64}
+      exec: Hard code size with MO_{8|16|32|64}
+      memory: Access MemoryRegion with endianness
+      cputlb: Replace size and endian operands for MemOp
+      memory: Single byte swap along the I/O path
+      cputlb: Byte swap memory transaction attribute
+      target/sparc: Add TLB entry with attributes
+      target/sparc: sun4u Invert Endian TTE bit
+
+ include/exec/cpu-all.h                  |   8 +-
+ include/exec/exec-all.h                 |  10 +-
+ include/exec/memattrs.h                 |   2 +
+ include/exec/memop.h                    | 134 +++++++++++
+ include/exec/memory.h                   |  12 +-
+ include/hw/core/cpu.h                   |  37 +++
+ target/arm/translate-a64.h              |   2 +-
+ target/arm/translate.h                  |   2 +-
+ target/sparc/cpu.h                      |   2 +
+ tcg/tcg-op.h                            |  80 +++---
+ tcg/tcg.h                               | 101 +-------
+ trace/mem-internal.h                    |   4 +-
+ trace/mem.h                             |   4 +-
+ accel/tcg/cputlb.c                      | 414 ++++++++++++++++++--------------
+ accel/tcg/user-exec.c                   |  32 +++
+ exec.c                                  | 177 +++-----------
+ hw/intc/armv7m_nvic.c                   |  13 +-
+ hw/s390x/s390-pci-inst.c                |  11 +-
+ hw/vfio/pci-quirks.c                    |   7 +-
+ hw/virtio/virtio-pci.c                  |  15 +-
+ memory.c                                |  58 +++--
+ memory_ldst.inc.c                       |  81 ++-----
+ target/alpha/translate.c                |   2 +-
+ target/arm/translate-a64.c              |  48 ++--
+ target/arm/translate-sve.c              |   2 +-
+ target/arm/translate.c                  |  32 +--
+ target/hppa/op_helper.c                 |   2 -
+ target/hppa/translate.c                 |  14 +-
+ target/i386/translate.c                 | 132 +++++-----
+ target/m68k/translate.c                 |   2 +-
+ target/microblaze/translate.c           |   4 +-
+ target/mips/op_helper.c                 |  13 +-
+ target/mips/translate.c                 |   8 +-
+ target/openrisc/translate.c             |   4 +-
+ target/ppc/translate.c                  |  12 +-
+ target/riscv/insn_trans/trans_rva.inc.c |   8 +-
+ target/riscv/insn_trans/trans_rvi.inc.c |   4 +-
+ target/s390x/mem_helper.c               |  13 +-
+ target/s390x/translate.c                |   6 +-
+ target/s390x/translate_vx.inc.c         |  10 +-
+ target/sparc/mmu_helper.c               |  40 +--
+ target/sparc/translate.c                |  14 +-
+ target/tilegx/translate.c               |  10 +-
+ target/tricore/translate.c              |   8 +-
+ tcg/aarch64/tcg-target.inc.c            |  26 +-
+ tcg/arm/tcg-target.inc.c                |  26 +-
+ tcg/i386/tcg-target.inc.c               |  24 +-
+ tcg/mips/tcg-target.inc.c               |  16 +-
+ tcg/optimize.c                          |   2 +-
+ tcg/ppc/tcg-target.inc.c                |  12 +-
+ tcg/riscv/tcg-target.inc.c              |  20 +-
+ tcg/s390/tcg-target.inc.c               |  14 +-
+ tcg/sparc/tcg-target.inc.c              |   6 +-
+ tcg/tcg-op.c                            |  38 +--
+ tcg/tcg.c                               |   2 +-
+ MAINTAINERS                             |   1 +
+ tcg/README                              |   2 +-
+ 57 files changed, 918 insertions(+), 865 deletions(-)
+ create mode 100644 include/exec/memop.h
 
