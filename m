@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D11A75F6
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:10:07 +0200 (CEST)
-Received: from localhost ([::1]:51528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF6CA75DF
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:01:41 +0200 (CEST)
+Received: from localhost ([::1]:51410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5G3x-0000ua-Bx
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:10:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53683)
+	id 1i5Fvo-0002h5-CD
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:01:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53684)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1i5FaK-0007w5-LX
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:30 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1i5FaK-0007w7-LV
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1i5FaI-0000l6-HL
+ (envelope-from <jag.raman@oracle.com>) id 1i5FaI-0000kv-BX
  for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:28 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:57472)
+Received: from userp2130.oracle.com ([156.151.31.86]:37190)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1i5FaI-0000jS-Ad
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:26 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KXfoH053264;
- Tue, 3 Sep 2019 20:39:17 GMT
+ id 1i5FaG-0000hN-AD
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:25 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KYEoK066594;
+ Tue, 3 Sep 2019 20:39:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2019-08-05;
- bh=+GqUQTP3syTnZL0HKNUj9XLZIiMtRF+GrHU4Fhq+gWg=;
- b=fjrSjClN4InS8TTreo+jjt3nG9ZLxKi/Oc1asSz/XPL+LGHhX/kum7NRSwLcGo2dDIOX
- 2JoAZDRgEwfAryfmLhPER88OlVGeiUcZDpeI/fJOuwJTmwGVc0T5JbZMrCPh8UwEW8Q8
- x3gAtQJmsg50P8geydrdq24FjPpKiBkEISw5n39xptB9NBYi8Qqdxfjk+vsULturVYb9
- ttTPoi7RkEIA/xH9C9ZyetZIFyk2ZupuCBwOLUh1EXDH23QBjG4wec6du2Hni/90UQb5
- icaIVUOb+jKv3rF7E8hUUb4P66KgfdMiUaSo9y43iIotHBy9TUOqXce0yS3JWyoz5yMk Fw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 2usy6n021r-1
+ bh=VQ9r5agpFPvXZaIGif5pk3x4EE+3DdMUY+fVfpqcJ6s=;
+ b=HnimO1EZrxUVtVAsN0RNGWek6HEny0kSgTOGvxFo6PIvvidcVhRMKhT+AXRn24Ck4hfD
+ dDo5rCdHo0jpWOrbe5g3LGv1B85xGiCVlpR2/pXZTWLQ/bmecmL2uJskaOHa6FEq5x5H
+ e6sfbbNoD7JqjaSvwLBcVEv7TT1j6+Y4MIXsdRfADQLZGSOCBFmwJWOXakVvdBIPBezQ
+ 3Nycpu7iF1SlEwZfiNA+5LSAcPwdmE0E+038rowP6oFWHaJqeMztwHHzTXd45rF0KhpE
+ wADdBLO4twnNhfatmboBc35zVfg9vN4uyWsEme4aWjirH9R4FQSVhHpGiaboMScu3lK/ nQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 2usy4u8338-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:39:17 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KcHVF094690;
- Tue, 3 Sep 2019 20:39:16 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 2usu51u25x-1
+ Tue, 03 Sep 2019 20:39:18 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83Kcb0T178493;
+ Tue, 3 Sep 2019 20:39:18 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 2us4wegr80-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:39:16 +0000
+ Tue, 03 Sep 2019 20:39:18 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x83KdFgp024737;
- Tue, 3 Sep 2019 20:39:15 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x83KdHpr012834;
+ Tue, 3 Sep 2019 20:39:17 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 03 Sep 2019 13:39:15 -0700
+ with ESMTP ; Tue, 03 Sep 2019 13:39:16 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:37:59 -0400
-Message-Id: <b23b3242d95ab04919af4e2e7012577b1142ab9b.1567534653.git.jag.raman@oracle.com>
+Date: Tue,  3 Sep 2019 16:38:00 -0400
+Message-Id: <65301af8f70273575a6757580e282ef5401b47af.1567534653.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
 References: <cover.1567534653.git.jag.raman@oracle.com>
@@ -76,9 +76,9 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
  definitions=main-1909030206
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [RFC v3 PATCH 33/45] multi-process: add support for
- multiple devices
+X-Received-From: 156.151.31.86
+Subject: [Qemu-devel] [RFC v3 PATCH 34/45] multi-process: add heartbeat
+ timer and signal handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,274 +102,162 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Add suport for multiple devices in one remote process.
+Add a signal handler for launched remote processes and set up
+the heartbeat timer for remote processes.
 
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 ---
- New patch in v3
+ hw/proxy/qemu-proxy.c   | 101 ++++++++++++++++++++++++++++++++++++++++++++++++
+ include/io/proxy-link.h |   1 +
+ 2 files changed, 102 insertions(+)
 
- remote/remote-main.c | 140 ++++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 115 insertions(+), 25 deletions(-)
-
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 416b8a1..5552712 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -67,19 +67,83 @@
- #include "remote-opts.h"
+diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
+index 61808c5..699a0b1 100644
+--- a/hw/proxy/qemu-proxy.c
++++ b/hw/proxy/qemu-proxy.c
+@@ -53,14 +53,96 @@
+ #include "hw/boards.h"
+ #include "include/qemu/log.h"
  
- static ProxyLinkState *proxy_link;
--PCIDevice *remote_pci_dev;
--bool create_done;
- 
--static void process_config_write(ProcMsg *msg)
-+typedef struct remote_pci_devs {
-+    char *id;
-+    DeviceState *ds;
-+    unsigned int created;
-+    QLIST_ENTRY(remote_pci_devs) next;
-+} remote_pci_devs;
-+typedef struct pci_devs_listhead pci_devs_listhead;
++QEMUTimer *hb_timer;
+ static void pci_proxy_dev_realize(PCIDevice *dev, Error **errp);
+ static void setup_irqfd(PCIProxyDev *dev);
++static void pci_dev_exit(PCIDevice *dev);
++static void start_heartbeat_timer(void);
++static void stop_heartbeat_timer(void);
++static void childsig_handler(int sig, siginfo_t *siginfo, void *ctx);
++static void broadcast_msg(ProcMsg *msg, bool need_reply);
 +
-+QLIST_HEAD(pci_devs_listhead, remote_pci_devs) pci_devs_head;
-+/* This is needed to distinguish between different devices being initialized. */
-+
-+QemuMutex remote_ds_lock;
-+static bool done_init;
-+
-+
-+static remote_pci_devs *get_ds_from_list(const char *id, unsigned int size_id)
++static void childsig_handler(int sig, siginfo_t *siginfo, void *ctx)
 +{
-+    remote_pci_devs *d;
++    /* TODO: Add proper handler. */
++    printf("Child (pid %d) is dead? Signal is %d, Exit code is %d.\n",
++           siginfo->si_pid, siginfo->si_signo, siginfo->si_code);
++}
 +
-+    qemu_mutex_lock(&remote_ds_lock);
-+    QLIST_FOREACH(d, &pci_devs_head, next) {
-+        if (id && d->id) {
-+            if (strncmp(id, d->id, size_id) == 0) {
-+                qemu_mutex_unlock(&remote_ds_lock);
-+                return d;
++static void broadcast_msg(ProcMsg *msg, bool need_reply)
++{
++    PCIProxyDev *entry;
++    unsigned int pid;
++    int wait;
++
++    QLIST_FOREACH(entry, &proxy_dev_list.devices, next) {
++        if (need_reply) {
++            wait = GET_REMOTE_WAIT;
++            msg->num_fds = 1;
++            msg->fds[0] = wait;
++        }
++
++        proxy_proc_send(entry->proxy_link, msg, entry->proxy_link->com);
++        if (need_reply) {
++            pid = (uint32_t)wait_for_remote(wait);
++            PUT_REMOTE_WAIT(wait);
++            /* TODO: Add proper handling. */
++            if (pid) {
++                need_reply = 0;
 +            }
-+       }
++        }
 +    }
-+    qemu_mutex_unlock(&remote_ds_lock);
-+
-+    return NULL;
 +}
 +
-+static void add_to_pci_devs_list(DeviceState *dev)
++#define NOP_INTERVAL 1000000
++
++static void remote_ping(void *opaque)
 +{
-+   remote_pci_devs *d;
++    ProcMsg msg;
 +
-+   if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-+        d = g_malloc(sizeof(remote_pci_devs));
-+        d->ds = dev;
-+        d->id = g_strdup(dev->id);
-+        if (!d->id) {
-+            return;
-+        }
-+        qemu_mutex_lock(&remote_ds_lock);
-+        QLIST_INSERT_HEAD(&pci_devs_head, d, next);
-+        qemu_mutex_unlock(&remote_ds_lock);
++    memset(&msg, 0, sizeof(ProcMsg));
 +
-+    }
++    msg.num_fds = 0;
++    msg.cmd = PROXY_PING;
++    msg.bytestream = 0;
++    msg.size = 0;
++
++    broadcast_msg(&msg, true);
++    timer_mod(hb_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + NOP_INTERVAL);
++
 +}
 +
-+static void del_from_pci_devs_list(const char *id)
++void start_heartbeat_timer(void)
 +{
-+    remote_pci_devs *d;
++    hb_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
++                                            remote_ping,
++                                            &proxy_dev_list);
++    timer_mod(hb_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + NOP_INTERVAL);
 +
-+    d = get_ds_from_list((char *)id, strlen((char *)id));
-+    if (!d) {
-+        return;
-+    }
-+    g_free(d->id);
-+    qemu_mutex_lock(&remote_ds_lock);
-+    QLIST_REMOVE(d, next);
-+    qemu_mutex_unlock(&remote_ds_lock);
-+    g_free(d);
 +}
 +
-+static void process_config_write(ProcMsg *msg, DeviceState *ds)
- {
-     struct conf_data_msg *conf = (struct conf_data_msg *)msg->data2;
++static void stop_heartbeat_timer(void)
++{
++    timer_del(hb_timer);
++    timer_free(hb_timer);
++}
++
++static void set_sigchld_handler(void)
++{
++    struct sigaction sa_sigterm;
++    memset(&sa_sigterm, 0, sizeof(sa_sigterm));
++    sa_sigterm.sa_sigaction = childsig_handler;
++    sa_sigterm.sa_flags = SA_SIGINFO | SA_NOCLDWAIT | SA_NOCLDSTOP;
++    sigaction(SIGCHLD, &sa_sigterm, NULL);
++}
  
-     qemu_mutex_lock_iothread();
--    pci_default_write_config(remote_pci_dev, conf->addr, conf->val, conf->l);
-+    pci_default_write_config(PCI_DEVICE(ds), conf->addr, conf->val, conf->l);
-     qemu_mutex_unlock_iothread();
+ static void proxy_ready(PCIDevice *dev)
+ {
+     PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
+ 
+     setup_irqfd(pdev);
++    set_sigchld_handler();
++    start_heartbeat_timer();
  }
  
--static void process_config_read(ProcMsg *msg)
-+static void process_config_read(ProcMsg *msg, DeviceState *ds)
- {
-     struct conf_data_msg *conf = (struct conf_data_msg *)msg->data2;
-     uint32_t val;
-@@ -88,7 +152,7 @@ static void process_config_read(ProcMsg *msg)
-     wait = msg->fds[0];
+ static void set_remote_opts(PCIDevice *dev, QDict *qdict, unsigned int cmd)
+@@ -272,6 +354,7 @@ static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
  
-     qemu_mutex_lock_iothread();
--    val = pci_default_read_config(remote_pci_dev, conf->addr, conf->l);
-+    val = pci_default_read_config(PCI_DEVICE(ds), conf->addr, conf->l);
-     qemu_mutex_unlock_iothread();
- 
-     notify_proxy(wait, val);
-@@ -233,6 +297,8 @@ fail:
-     notify_proxy(wait, 1);
- 
-     PUT_REMOTE_WAIT(wait);
-+
-+    del_from_pci_devs_list((const char *)msg->id);
+     k->realize = pci_proxy_dev_realize;
++    k->exit = pci_dev_exit;
+     k->config_read = pci_proxy_read_config;
+     k->config_write = pci_proxy_write_config;
+ }
+@@ -408,6 +491,24 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
+     dev->proxy_ready = proxy_ready;
  }
  
- static int init_drive(QDict *rqdict, Error **errp)
-@@ -313,7 +379,7 @@ static int setup_device(ProcMsg *msg, Error **errp)
-     qstr = qstring_from_str((char *)msg->data2);
-     obj = qobject_from_json(qstring_get_str(qstr), &local_error);
-     if (!obj) {
--        error_setg(errp, "Could not get object!");
-+        error_setg(errp, "Could not get object");
-         return rc;
-     }
- 
-@@ -338,13 +404,12 @@ static int setup_device(ProcMsg *msg, Error **errp)
- 
-     dev = qdev_device_add(opts, &local_error);
-     if (!dev) {
--        error_setg(errp, "Could not add device %s.",
-+        error_setg(errp, "Could not add device %s",
-                    qstring_get_str(qobject_to_json(QOBJECT(qdict))));
-         return rc;
-     }
--    if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
--        remote_pci_dev = PCI_DEVICE(dev);
--    }
++static void pci_dev_exit(PCIDevice *pdev)
++{
++    PCIProxyDev *entry, *sentry;
++    PCIProxyDev *dev = PCI_PROXY_DEV(pdev);
 +
-+    add_to_pci_devs_list(dev);
-     qemu_opts_del(opts);
- 
-     return 0;
-@@ -354,10 +419,13 @@ static void process_msg(GIOCondition cond, ProcChannel *chan)
- {
-     ProcMsg *msg = NULL;
-     Error *err = NULL;
-+    remote_pci_devs *r = NULL;
- 
-     if ((cond & G_IO_HUP) || (cond & G_IO_ERR)) {
-         error_setg(&err, "socket closed, cond is %d", cond);
--        goto finalize_loop;
-+        proxy_link_finalize(proxy_link);
-+        proxy_link = NULL;
-+        return;
-     }
- 
-     msg = g_malloc0(sizeof(ProcMsg));
-@@ -367,23 +435,32 @@ static void process_msg(GIOCondition cond, ProcChannel *chan)
-         goto finalize_loop;
-     }
- 
-+    if (msg->cmd != DEV_OPTS && msg->cmd != DRIVE_OPTS &&
-+        msg->cmd != SYNC_SYSMEM) {
-+        r = get_ds_from_list((const char *)msg->id, msg->size_id);
-+        if (!r) {
-+            error_setg(&err, "Message was received for unknown device");
-+            goto exit_loop;
++    stop_heartbeat_timer();
++
++    QLIST_FOREACH_SAFE(entry, &proxy_dev_list.devices, next, sentry) {
++        if (entry->remote_pid == dev->remote_pid) {
++            QLIST_REMOVE(entry, next);
 +        }
 +    }
 +
-     switch (msg->cmd) {
-     case INIT:
-         break;
-     case CONF_WRITE:
--        if (create_done) {
--            process_config_write(msg);
-+        if (r->created) {
-+            process_config_write(msg, r->ds);
-         }
- 
-         break;
-     case CONF_READ:
--        if (create_done) {
--            process_config_read(msg);
-+        if (r->created) {
-+            process_config_read(msg, r->ds);
-         }
- 
-         break;
-     case BAR_WRITE:
--        if (create_done) {
-+        if (r->created) {
-             process_bar_write(msg, &err);
-             if (err) {
-                 error_report_err(err);
-@@ -391,7 +468,7 @@ static void process_msg(GIOCondition cond, ProcChannel *chan)
-         }
-         break;
-     case BAR_READ:
--        if (create_done) {
-+        if (r->created) {
-             process_bar_read(msg, &err);
-             if (err) {
-                 error_report_err(err);
-@@ -410,12 +487,15 @@ static void process_msg(GIOCondition cond, ProcChannel *chan)
-         }
-         break;
-     case SET_IRQFD:
--        process_set_irqfd_msg(remote_pci_dev, msg);
--        qdev_machine_creation_done();
--        qemu_mutex_lock_iothread();
--        qemu_run_machine_init_done_notifiers();
--        qemu_mutex_unlock_iothread();
--        create_done = true;
-+        process_set_irqfd_msg(PCI_DEVICE(r->ds), msg);
-+        r->created = true;
-+        if (!done_init) {
-+            qdev_machine_creation_done();
-+            qemu_mutex_lock_iothread();
-+            qemu_run_machine_init_done_notifiers();
-+            qemu_mutex_unlock_iothread();
-+            done_init = true;
-+        }
-         break;
-     case DRIVE_OPTS:
-         if (setup_drive(msg, &err)) {
-@@ -438,18 +518,26 @@ static void process_msg(GIOCondition cond, ProcChannel *chan)
-         goto finalize_loop;
-     }
- 
-+exit_loop:
-+    if (msg->id) {
-+        free(msg->id);
++    if (!QLIST_EMPTY(&proxy_dev_list.devices)) {
++        start_heartbeat_timer();
 +    }
-     g_free(msg);
- 
-     return;
- 
- finalize_loop:
-     error_report_err(err);
-+    if (msg->id) {
-+        free(msg->id);
-+    }
-     g_free(msg);
++}
 +
-     proxy_link_finalize(proxy_link);
-     proxy_link = NULL;
- }
- 
--int main(int argc, char *argv[])
-+int main(int argc, char *argv[], char **envp)
- {
-     Error *err = NULL;
-     int fd = -1;
-@@ -491,6 +579,8 @@ int main(int argc, char *argv[])
-     proxy_link_init_channel(proxy_link, &proxy_link->com, fd);
- 
-     parse_cmdline(argc - 2, argv + 2, NULL);
-+    qemu_mutex_init(&remote_ds_lock);
-+    QLIST_INIT(&pci_devs_head);
- 
-     proxy_link_set_callback(proxy_link, process_msg);
+ static void send_bar_access_msg(PCIProxyDev *dev, MemoryRegion *mr,
+                                 bool write, hwaddr addr, uint64_t *val,
+                                 unsigned size, bool memory)
+diff --git a/include/io/proxy-link.h b/include/io/proxy-link.h
+index 13fb312..ae98eac 100644
+--- a/include/io/proxy-link.h
++++ b/include/io/proxy-link.h
+@@ -74,6 +74,7 @@ typedef enum {
+     DRIVE_OPTS,
+     DEVICE_ADD,
+     DEVICE_DEL,
++    PROXY_PING,
+     MAX,
+ } proc_cmd_t;
  
 -- 
 1.8.3.1
