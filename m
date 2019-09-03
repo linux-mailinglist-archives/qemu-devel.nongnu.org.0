@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE93AA6E09
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:24:50 +0200 (CEST)
-Received: from localhost ([::1]:48798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFB6A6EC4
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:29:21 +0200 (CEST)
+Received: from localhost ([::1]:48936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Bbt-0008Lc-M7
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:24:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34452)
+	id 1i5BgG-0005kJ-7I
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:29:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ldoktor@redhat.com>) id 1i5BAX-0006bK-2B
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:56:34 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BFs-0002Jq-NX
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:02:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ldoktor@redhat.com>) id 1i5BAV-0003AU-CC
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:56:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53184)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ldoktor@redhat.com>) id 1i5BAV-00039p-37
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:56:31 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 74236A2861;
- Tue,  3 Sep 2019 15:56:29 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-204-32.brq.redhat.com
- [10.40.204.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0487B19D7A;
- Tue,  3 Sep 2019 15:56:27 +0000 (UTC)
-To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <20190829013125.GG16342@umbus.fritz.box>
- <20190829015117.GH16342@umbus.fritz.box>
- <20190829032746.GA488@localhost.localdomain>
- <24d0d5be-d206-33a0-cd8c-29825e2f8516@redhat.com>
- <ecfc63f3-d208-4a79-c26c-3d8fa031b3d3@redhat.com>
- <20190903150824.GA14836@localhost.localdomain>
- <db34f470-5983-7965-c5b4-2b624fbe8e1b@redhat.com>
- <20190903154702.GA16524@localhost.localdomain>
-From: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BFn-0008W1-VQ
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:02:04 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39160)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i5BFn-0008VU-OF
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:01:59 -0400
+Received: by mail-pg1-x543.google.com with SMTP id u17so9383680pgi.6
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:01:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=SJGTeZae2hswjIgZLpujzH5TpXpJTXB+oKJPPXtp5Uw=;
+ b=LrMdf56nfe8vjGpq2vPjJI0+HtO6Cqohy89QIPG814wEBb84tIdzwbfXSPCpeq2ukC
+ 96lMaiAoGNXucAl+2mqI4I7zK3vNT1f95VSnX3swJ71Hrqr9bbTqCT4LIBJJrqRkB3MF
+ 670SjEj5Q+PwTQL7LhIN+rX4ClEHKaaAFm+z0Uy0Y4SqmcMRq/PM3L5qGaJEYbAA2jrm
+ sVbIUqcX7OFbF7xq72Ym22n1VZm9697f3oVOW/kQvlxkDEnddORRVdFTGSoXU1DPSPBK
+ 2bAwJbsLvdMSLKDhBFI/HBiijOTivW0kPqOVoHZa9ZZFV3eOr+j46a6cSEvQpMDwHPQI
+ EcnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SJGTeZae2hswjIgZLpujzH5TpXpJTXB+oKJPPXtp5Uw=;
+ b=WLvKY3XRB/COvvKQW2j7ufQO12ZVDwBiC+yxWtmAVGntFmOYoCujnRqlbF9/8RZxTW
+ XUm3mkxn/t7j05qKSwXtzVM2MQTLI54Lohha8ijnf/WFiNjATxmqo1LLQLJBBj8KsdBn
+ F9gQ5LJ3mBUz3ynUlfDml0u+FJSM93kCNIXN515kBL9NVxeQuZjJgjTb+EL+bEgvJcM3
+ Aoq/x01Uqb6BM1nOuHw8aiBlAyWERuia3HbNmVXK/ilaCsUEqh8KUTCtNJSaOp44Zwk0
+ CRa7AWSPpsiwoY8ftTIzs8NTBf2wgV4mRV0SJ6jddYaUcx0aieStjJ0CmhY+cJ9qBl6K
+ IQ9A==
+X-Gm-Message-State: APjAAAUvYtaWMlNPn2l0RMYjXQIDz5IyY7kUPcyd1M1uivqWwADM+310
+ BJDQQZQpwykuIA1kZvcg/8aKig==
+X-Google-Smtp-Source: APXvYqxUORW2QKxQiPdwTEWIUeGI/vKznHuvyjt+yX/kEbW4l7BQZJK33ahyxo45Bjhkp6uaIJXj9Q==
+X-Received: by 2002:a63:4c46:: with SMTP id m6mr32064094pgl.59.1567526518187; 
+ Tue, 03 Sep 2019 09:01:58 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id a18sm21928397pfn.156.2019.09.03.09.01.57
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 03 Sep 2019 09:01:57 -0700 (PDT)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20190903154810.27365-1-thuth@redhat.com>
+ <20190903154810.27365-2-thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Autocrypt: addr=ldoktor@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFcV6vsBCADa8NUYov+a+AmCEEUB3stiiMM0NQc1WwlcxGoMxKHcqqIj/kdPhUDvFS32
- V94V7en1Lx+cpXKRMZP3n+3WG+VZWLwaktJgqrECZ161zE7xF5d1H3CLmwStbe6Cw1oR4LYQ
- HBpuqFEA5znoLuTTsP1uXs9h1cYNzX7hmOTvPCLJfDJ1iv954FsgCGtoVvl4CoxaR3u2VNOs
- hXsTTVyJM6gDTsyqn0uvLOHGWGIGVhDkLV4hv6pSdiKrtQKWIUji3Z8x41MbZybmJxHkpOVz
- Jl3jnNE3CbiEq77Is9LMI4yTF2CESs3V4XMBLfZPLrQBC0gzjeRxwCnbdOZRwY5KI457ABEB
- AAG0K0x1a2FzIERva3RvciAoUmVkIEhhdCkgPGxkb2t0b3JAcmVkaGF0LmNvbT6JAVUEEwEC
- AD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEF
- AlqVjq0FCQdCCrIACgkQJrNi5H/PIsFF1Qf+K23kB5iOvsbe/swQda9nJZSgKkbXLCF3KCdw
- jCY3qdneHzro696qosRhWn+tpLQ6Mp8sgnXuJk96qaptXtx0R1Ci2oHFo01WfcSLZ1f99/0q
- dWGWJhTt2TPNP6A5rrw//FZlQOYNTYG9vn7euLE0el32ZQp/0HCO7XpLiujEX48fWdlaPmDO
- nalJEpzzJJNu8WnHIG2eLS8lGrNdnPbkxHyeERxPuWDAmHmWyZSaDMtMd40XVKfLfkyY83jz
- +uq8uMxPMzq116YvFygsXqJPgWGYX39BdasEssr/GABHqgKY54dtTdMnFZZFVowkoCSh2Al/
- X/OSk5wpyYZrEYeKNLkBDQRXFer7AQgAw8JIK9pZUfZWNZirBIwOevkdZu1aLhgH84EfXw40
- ynMEFa1t/c0baOiuLNcVbdnHLGvUAQJ2oN/+rdGpEWITVSjDxFYf3JOnySZJhLnQgGMG4j3m
- dFZMubPG1GJEuubPAAB0huRfjQTvOvpIK03J2H5cMoug862OHOnT+mfonGruTkSO0PBq3wtf
- P+Z3gLCuEDkmEZSh4IKxs0CoLU4KxWRQHpoTOxcAiHzj8cm5qbu3Cb1KrXz8dEmYhCq2fpFf
- /h+GfEO8gU/ICJD8WQUHYcVK0bbiZskCcSOGtStjwq0QqitZMbcsPEset/2L3z44MLPuVApv
- c9wORs/3iT9BhwARAQABiQE8BBgBAgAmAhsMFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAlqV
- j3sFCQdCC4AACgkQJrNi5H/PIsG+JAf/emslPCAW4gmn3Ep1ON0V0xPGxFOUbH2m+f079pVP
- Jo3dGT6ZFF8q00GEsqxjpxO/c0opsTFrAN3qyTS3Kr4435ua66J5eP+TBkjN+vljmRi3T9Xg
- h/dHp0JkZQCtcnmNsm/9F0/GzMvc7CnsptDp4aT0KGMfpvv7XrQOkprSr2wgWeAdNVhCP2ZQ
- y+yAzLmHe5OGPW1qPmIBBvEnU2C8av0ONGKIxIAUCF8UCm+YJzPwIwJLhkzrhANiqNwQXwfn
- j8HaEsOCIX26S4GYYmIaY1+GBeHkeh0R/GzERRPh6jfhg2JiCE6ftgZ+DKRjsK3o1uw40aYe
- s/q9jwLlkaqraQ==
-Message-ID: <0e4a9880-5669-af44-a122-65dc6072e406@redhat.com>
-Date: Tue, 3 Sep 2019 17:56:26 +0200
+Message-ID: <69233989-78d6-716f-210a-0372fd4881a0@linaro.org>
+Date: Tue, 3 Sep 2019 09:01:55 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190903154702.GA16524@localhost.localdomain>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="eFyfHn98vnTbd6qvXDcHzOv2EApVtDakd"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 03 Sep 2019 15:56:29 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Cryptic errors from PIP install if missing
- openssl-devel
+In-Reply-To: <20190903154810.27365-2-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: Re: [Qemu-devel] [RFC PATCH 1/3] target/arm: Make cpu_register()
+ and set_feature() available for other files
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,139 +85,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, ehabkost@redhat.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---eFyfHn98vnTbd6qvXDcHzOv2EApVtDakd
-Content-Type: multipart/mixed; boundary="z2iyEmLuErWpUUpWMpTzXWuToNfuUK9uk";
- protected-headers="v1"
-From: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>, ehabkost@redhat.com,
- qemu-devel@nongnu.org
-Message-ID: <0e4a9880-5669-af44-a122-65dc6072e406@redhat.com>
-Subject: Re: [Qemu-devel] Cryptic errors from PIP install if missing
- openssl-devel
-References: <20190829013125.GG16342@umbus.fritz.box>
- <20190829015117.GH16342@umbus.fritz.box>
- <20190829032746.GA488@localhost.localdomain>
- <24d0d5be-d206-33a0-cd8c-29825e2f8516@redhat.com>
- <ecfc63f3-d208-4a79-c26c-3d8fa031b3d3@redhat.com>
- <20190903150824.GA14836@localhost.localdomain>
- <db34f470-5983-7965-c5b4-2b624fbe8e1b@redhat.com>
- <20190903154702.GA16524@localhost.localdomain>
-In-Reply-To: <20190903154702.GA16524@localhost.localdomain>
+On 9/3/19 8:48 AM, Thomas Huth wrote:
+> Move the common set_feature() and unset_feature() functions from cpu.c and
+> cpu64.c to cpu.h, and make cpu_register() (renamed to arm_cpu_register())
+> available from there, too, so we can register CPUs also from other files
+> in the future.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  target/arm/cpu.c   | 20 ++------------------
+>  target/arm/cpu.h   | 18 ++++++++++++++++++
+>  target/arm/cpu64.c | 16 ----------------
+>  3 files changed, 20 insertions(+), 34 deletions(-)
 
---z2iyEmLuErWpUUpWMpTzXWuToNfuUK9uk
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+internals.h would be better, since presumably the uses will not leave target/arm/.
 
-Dne 03. 09. 19 v 17:47 Cleber Rosa napsal(a):
-> On Tue, Sep 03, 2019 at 05:22:48PM +0200, Philippe Mathieu-Daud=C3=A9 w=
-rote:
->> On 9/3/19 5:08 PM, Cleber Rosa wrote:
->>> On Thu, Aug 29, 2019 at 11:46:15AM +0200, Philippe Mathieu-Daud=C3=A9=
- wrote:
->>>>
->>>> class avocado.utils.ssh.Session(address, credentials)
->>>>
->>>>   Parameters:=09
->>>>
->>>>     credentials (tuple)
->>>>          username and path to a key for authentication purposes
->>>>
->>>> The current test uses username + password.
->>>> Can we use this credentials with the Avocado module?
->>>> (The image used is prebuilt).
->>>>
->>>
->>> I'm working on adding password based authentication.  To keep the API=
-
->>> the same, I'm thinking of checking if the second credential item is a=
-n
->>> existing file, if it is, assume one containing a key.  If not, assume=
-
->>> it's a password.
->>
->> Why not use a dictionary? Keys would be explicit.
->>
->=20
-> Now it's clear that a dict would've been the best option from the
-> beginning, but I was wrongly optimistic, and biased by the
-> "avocado.utils.vmimage" + "avocado.utils.cloudinit" combination, that
-> we'd only have to deal with key based auth.
->=20
-> So the question now is really how to evolve the API, either breaking
-> the current version or not.  At this time, I'd try to keep the API
-> unchanged, given that it still feels logical that the tuple is about
-> credentials, just that the second item can be either a path to a key
-> or password.
->=20
-> Thoughts?
-> - Cleber.
->=20
-
-How old is this feature? I guess it's not yet widely used so it's probabl=
-y better to change it now than suffer the consequences when hundreds of p=
-eople rely on it...
-
-Regards,
-Luk=C3=A1=C5=A1
-
-PS: My favorited solution would be:
-
-    with Session(addr=3D(hostname, port), username=3D"user", key=3D"/path=
-/to/key", password=3D"pass"):
-        ...
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
->>> This should make the use simple in the case of keys:
->>>
->>>   with Session(('hostname', port),
->>>                ('username', '/path/to/key')) as session:
->>>       session.cmd('cmd')
->>>
->>> And passwords:
->>>
->>>   with Session(('hostname', port),
->>>                ('username', 'p@ssw0rD')) as session:
->>>       session.cmd('cmd')
->>>
->>> It's being tracked here:
->>>   https://trello.com/c/uetpIgML/1517-avocadoutilssh-implement-passwor=
-d-based-auth
->>>
->>> I'll try to have it in Avocado's 72.0 release due next week.
->>>
->>> Let me know how that sounds, and thanks for the feedback.
->>> - Cleber.
->>>
-
-
-
---z2iyEmLuErWpUUpWMpTzXWuToNfuUK9uk--
-
---eFyfHn98vnTbd6qvXDcHzOv2EApVtDakd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEpApMRcQDTeAqWtSDJrNi5H/PIsEFAl1ujSoACgkQJrNi5H/P
-IsEw4Af+MoHZBhFlYEvsMOxWeHMPMEOIrsGUUR7JL168GrmBBvnTixSZHNPLyAk3
-91jjFCbhhK2QcJeunsRGxUjzzntAf/uKUSbPTvEkteALVBtBZk4A5Yint/VAfdTf
-GoTAuSDeNJVXysqh7T8g0GDQ5wF7sFgPPus8RFfwVEQyVEaTUrYcY0JaayD02H8X
-jrnU6bbXW1tUZ9puE7Sgl4DcwyYUDeee6DCgOeeEV0atgnR/5CuehHMf/hQ9ZFlL
-nJ7idr8DKwM67kZE3m4mQmREPjTkZRMQcI+ffVpf5ewqmUtX+Q2v7WvqhJt4prZ+
-2VUhK6F6wfMYshHeyA/wJmFx0JVLhw==
-=gowm
------END PGP SIGNATURE-----
-
---eFyfHn98vnTbd6qvXDcHzOv2EApVtDakd--
+r~
 
