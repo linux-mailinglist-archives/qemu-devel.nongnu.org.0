@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FFB7A6DBD
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:15:25 +0200 (CEST)
-Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0215EA6DF2
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:19:59 +0200 (CEST)
+Received: from localhost ([::1]:48698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5BSl-0006aJ-EK
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:15:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37251)
+	id 1i5BXB-00027n-4R
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:19:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37343)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BMy-0001H3-KN
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:26 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN5-0001Ql-2y
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BMw-0003mI-EZ
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:24 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34605)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BN3-0003tV-AL
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:30 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44927)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BMw-0003m0-5Z
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:22 -0400
-Received: by mail-pg1-x541.google.com with SMTP id n9so9412623pgc.1
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:22 -0700 (PDT)
+ id 1i5BN3-0003t6-2m
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:29 -0400
+Received: by mail-pg1-x541.google.com with SMTP id i18so9387464pgl.11
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Az8hNURiT8a2aDI/T//C3RWVnEQ5RkhCnH3eqPY68M8=;
- b=AX0R8Ofpda4zzML9Oiy3yQdHXE65C6ZD7jw1rVlN65OH4+p/HAf8WAgF+DKODcQfEH
- RxU/jnuKFSLWkjflZmwW5mpQJDf5fYFLll5luWrDLTtk0C1GSypoN7PcjjnLG1KQA2pl
- CsMCrDR0PMQiiyB1tec1Kipp9xbjCeS57d9KQo7c8GF2KOGjyEt0w3jFqYluLCd3KPyx
- 3m8jvKchAnEt0njfyvCVC97U+Ozszlfxy03CUn05g6oZK1ApD/Rbs7VBMUJ4jnPAZlxm
- YT75oXdH1pMpApCSODe5p0GAQkvIiIAEaRW7U5cH92cV2+cGUcxoUcXYUysOfseGUstZ
- +s8Q==
+ bh=Skix+hAgqMkCzdxrRQp/gwNaGRFVNBB95exG932vdjo=;
+ b=TpBdmGv+5MkNpu9HvgSnqMGezjjxtUG7IbwCXvaNUvm7cuNgdW8F5V64tMRFQ94R64
+ ZugxkV1tGUTK1D7cv3yUqDk1fkXj9fUn6oEsLFAC5L3ROxhyl0mtweMA4X1v5VgFSCQ5
+ ehyHvceNQStg+ilWq34uoY5kVrijlHHre3Kb5LGQUZ2mFM8cPxqxoVENk0NMWmvv8rYL
+ DTscR4DOUuX6qEV044XTFN9G/qczbXiiav0EZgeaMM3XrqBTe0lNQ9G6EaYAxs48cyH6
+ v5xG5fDtpCXl1mpXCRiFViw6fA7jeSf+reruHCHM+530QeYmhccp4TbFtPzPytk55zgf
+ 1lnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Az8hNURiT8a2aDI/T//C3RWVnEQ5RkhCnH3eqPY68M8=;
- b=fi1/68sIes6h4K+Ipan5hPCDli9mCOL9eGqKjqk4utCRQiVawWtyMjLnvsv9JFNMTI
- KVl1r+s+ETPMwtFGp3+3BwOj5lKjL9TZF7qFdXBik6gwPn0+KFxucMWToTVJ4HxAogmr
- 9UEryV3CT6elH8C/0Ug1TsE0sbrMb4AoApPUhYBMaSKxFp+eOWCZ/DH5ueWxF3sXZTSD
- zullvy2E7gEVm0pVsuC4YoxaSvQfpDch888LrXMPMb5mpe0WSvcIlpj3nsQGW9z5wd1/
- 9BV9l/EeEttHngSwGtLlxQQ1e/urI/uOiL1xy9VY3U+fk4uR9SPxOtOeFQzHv+qDd2tM
- DJ6g==
-X-Gm-Message-State: APjAAAX9Lv1st7tM53Xk4nVtNET4byeqh7CWHDvwKPRH8dB7vAeFOwOy
- 4Vrcli7jnpTIr7O2rbuFQTRTWLagUp4=
-X-Google-Smtp-Source: APXvYqyB1SmI5+9zVuPQ9cyTaNUP3qnqF1EhrAEzNrqNlN6B48PO8iK4gK6LSRvlGQ+4yLZ/k6U2pA==
-X-Received: by 2002:aa7:84ce:: with SMTP id x14mr13283544pfn.89.1567526960896; 
- Tue, 03 Sep 2019 09:09:20 -0700 (PDT)
+ bh=Skix+hAgqMkCzdxrRQp/gwNaGRFVNBB95exG932vdjo=;
+ b=TZMmCvPXIMEK4FbkP49rH8/KgUtydl/aN8eFndHNBjinSsw/rwLH8QraFCrzW04bCd
+ c1/tgYw0eBdJObyh+3y6BjcgzmyUYrvo1rmvVPolSk78GjXRFfnVLezChOaXks2g5ql9
+ O0njKkN38ax/k8hLtp3Mr+Tld8+9NsPyv45G1sZDmLv07Vh9HtQ3nexBRv7TbwNRxDPK
+ RKFocuvJCsuUT8rt0snyILTgYqnneqD22foQ/nD/seEo3PQRXvaLz8l4vv57gch7Y7Y6
+ X1XxYGdSAWTn3tSms88eXX21DOLAVAbtX1bDq63g6AdLu6z4eMHCuD7Xoc3ChzFfM3cE
+ sQeg==
+X-Gm-Message-State: APjAAAUYbNbg7nVLDG84RW6L8QA+38f6183MCUwnoE7cvgLFKE0bvbMI
+ ovJjirGrh9LbR4X+7g2mqjXoRhVOT40=
+X-Google-Smtp-Source: APXvYqwTehH+hCcmP6gtMLMABypvbti0Y9oTCRg3+Te4PbU9YGru5AD1GYLHaKjoBoWL/pPRnCB7+w==
+X-Received: by 2002:a17:90a:734a:: with SMTP id j10mr20125pjs.63.1567526967815; 
+ Tue, 03 Sep 2019 09:09:27 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.19
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:20 -0700 (PDT)
+ Tue, 03 Sep 2019 09:09:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:38 -0700
-Message-Id: <20190903160858.5296-17-richard.henderson@linaro.org>
+Date: Tue,  3 Sep 2019 09:08:44 -0700
+Message-Id: <20190903160858.5296-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
 References: <20190903160858.5296-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH 16/36] memory: Single byte swap along the I/O
- path
+Subject: [Qemu-devel] [PATCH 22/36] cputlb: Fold TLB_RECHECK into
+ TLB_INVALID_MASK
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,379 +76,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Tony Nguyen <tony.nguyen@bt.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tony Nguyen <tony.nguyen@bt.com>
+We had two different mechanisms to force a recheck of the tlb.
 
-Now that MemOp has been pushed down into the memory API, and
-callers are encoding endianness, we can collapse byte swaps
-along the I/O path into the accelerator and target independent
-adjust_endianness.
+Before TLB_RECHECK was introduced, we had a PAGE_WRITE_INV bit
+that would immediate set TLB_INVALID_MASK, which automatically
+means that a second check of the tlb entry fails.
 
-Collapsing byte swaps along the I/O path enables additional endian
-inversion logic, e.g. SPARC64 Invert Endian TTE bit, with redundant
-byte swaps cancelling out.
+We can use the same mechanism to handle small pages.
+Conserve TLB_* bits by removing TLB_RECHECK.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-Message-Id: <911ff31af11922a9afba9b7ce128af8b8b80f316.1566466906.git.tony.nguyen@bt.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c     | 42 ++--------------------------
- exec.c                 | 17 +++---------
- hw/virtio/virtio-pci.c | 10 +++----
- memory.c               | 33 ++++++++--------------
- memory_ldst.inc.c      | 63 ------------------------------------------
- 5 files changed, 23 insertions(+), 142 deletions(-)
+ include/exec/cpu-all.h |  5 +--
+ accel/tcg/cputlb.c     | 86 +++++++++++-------------------------------
+ 2 files changed, 24 insertions(+), 67 deletions(-)
 
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index 8323094648..8d07ae23a5 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -329,14 +329,11 @@ CPUArchState *cpu_copy(CPUArchState *env);
+ #define TLB_NOTDIRTY        (1 << (TARGET_PAGE_BITS - 2))
+ /* Set if TLB entry is an IO callback.  */
+ #define TLB_MMIO            (1 << (TARGET_PAGE_BITS - 3))
+-/* Set if TLB entry must have MMU lookup repeated for every access */
+-#define TLB_RECHECK         (1 << (TARGET_PAGE_BITS - 4))
+ 
+ /* Use this mask to check interception with an alignment mask
+  * in a TCG backend.
+  */
+-#define TLB_FLAGS_MASK  (TLB_INVALID_MASK | TLB_NOTDIRTY | TLB_MMIO \
+-                         | TLB_RECHECK)
++#define TLB_FLAGS_MASK  (TLB_INVALID_MASK | TLB_NOTDIRTY | TLB_MMIO)
+ 
+ /**
+  * tlb_hit_page: return true if page aligned @addr is a hit against the
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 5c12eef292..3c9e634d99 100644
+index d9787cc893..c9576bebcf 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -1200,38 +1200,6 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
-     cpu_loop_exit_atomic(env_cpu(env), retaddr);
- }
+@@ -732,11 +732,8 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
  
--#ifdef TARGET_WORDS_BIGENDIAN
--#define NEED_BE_BSWAP 0
--#define NEED_LE_BSWAP 1
--#else
--#define NEED_BE_BSWAP 1
--#define NEED_LE_BSWAP 0
--#endif
--
--/*
-- * Byte Swap Helper
-- *
-- * This should all dead code away depending on the build host and
-- * access type.
-- */
--
--static inline uint64_t handle_bswap(uint64_t val, MemOp op)
--{
--    if ((memop_big_endian(op) && NEED_BE_BSWAP) ||
--        (!memop_big_endian(op) && NEED_LE_BSWAP)) {
--        switch (op & MO_SIZE) {
--        case MO_8: return val;
--        case MO_16: return bswap16(val);
--        case MO_32: return bswap32(val);
--        case MO_64: return bswap64(val);
--        default:
--            g_assert_not_reached();
--        }
--    } else {
--        return val;
--    }
--}
--
- /*
-  * Load Helpers
-  *
-@@ -1306,10 +1274,8 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
-             }
-         }
- 
--        /* TODO: Merge bswap into io_readx -> memory_region_dispatch_read.  */
--        res = io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
--                       mmu_idx, addr, retaddr, access_type, op);
--        return handle_bswap(res, op);
-+        return io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
-+                        mmu_idx, addr, retaddr, access_type, op);
+     address = vaddr_page;
+     if (size < TARGET_PAGE_SIZE) {
+-        /*
+-         * Slow-path the TLB entries; we will repeat the MMU check and TLB
+-         * fill on every access.
+-         */
+-        address |= TLB_RECHECK;
++        /* Repeat the MMU check and TLB fill on every access.  */
++        address |= TLB_INVALID_MASK;
      }
+     if (attrs.byte_swap) {
+         /* Force the access through the I/O slow path.  */
+@@ -1026,10 +1023,15 @@ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
+   victim_tlb_hit(env, mmu_idx, index, offsetof(CPUTLBEntry, TY), \
+                  (ADDR) & TARGET_PAGE_MASK)
  
-     /* Handle slow unaligned access (it spans two pages or IO).  */
-@@ -1552,10 +1518,8 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-             }
-         }
- 
--        /* TODO: Merge bswap into io_writex -> memory_region_dispatch_write.  */
-         io_writex(env, &env_tlb(env)->d[mmu_idx].iotlb[index], mmu_idx,
--                  handle_bswap(val, op),
--                  addr, retaddr, op);
-+                  val, addr, retaddr, op);
-         return;
-     }
- 
-diff --git a/exec.c b/exec.c
-index e4652c0e75..53a15b7ad7 100644
---- a/exec.c
-+++ b/exec.c
-@@ -3363,14 +3363,9 @@ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
-             l = memory_access_size(mr, l, addr1);
-             /* XXX: could force current_cpu to NULL to avoid
-                potential bugs */
--            val = ldn_p(buf, l);
--            /*
--             * TODO: Merge bswap from ldn_p into memory_region_dispatch_write
--             * by using ldn_he_p and dropping MO_TE to get a host-endian value.
--             */
-+            val = ldn_he_p(buf, l);
-             result |= memory_region_dispatch_write(mr, addr1, val,
--                                                   size_memop(l) | MO_TE,
--                                                   attrs);
-+                                                   size_memop(l), attrs);
-         } else {
-             /* RAM case */
-             ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
-@@ -3431,13 +3426,9 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
-             /* I/O case */
-             release_lock |= prepare_mmio_access(mr);
-             l = memory_access_size(mr, l, addr1);
--            /*
--             * TODO: Merge bswap from stn_p into memory_region_dispatch_read
--             * by using stn_he_p and dropping MO_TE to get a host-endian value.
--             */
-             result |= memory_region_dispatch_read(mr, addr1, &val,
--                                                  size_memop(l) | MO_TE, attrs);
--            stn_p(buf, l, val);
-+                                                  size_memop(l), attrs);
-+            stn_he_p(buf, l, val);
-         } else {
-             /* RAM case */
-             ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index d89a85bb33..ffb03728f9 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -544,16 +544,15 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy, hwaddr addr,
-         val = pci_get_byte(buf);
-         break;
-     case 2:
--        val = cpu_to_le16(pci_get_word(buf));
-+        val = pci_get_word(buf);
-         break;
-     case 4:
--        val = cpu_to_le32(pci_get_long(buf));
-+        val = pci_get_long(buf);
-         break;
-     default:
-         /* As length is under guest control, handle illegal values. */
-         return;
-     }
--    /* TODO: Merge bswap from cpu_to_leXX into memory_region_dispatch_write.  */
-     memory_region_dispatch_write(mr, addr, val, size_memop(len) | MO_LE,
-                                  MEMTXATTRS_UNSPECIFIED);
- }
-@@ -578,7 +577,6 @@ virtio_address_space_read(VirtIOPCIProxy *proxy, hwaddr addr,
-     /* Make sure caller aligned buf properly */
-     assert(!(((uintptr_t)buf) & (len - 1)));
- 
--    /* TODO: Merge bswap from leXX_to_cpu into memory_region_dispatch_read.  */
-     memory_region_dispatch_read(mr, addr, &val, size_memop(len) | MO_LE,
-                                 MEMTXATTRS_UNSPECIFIED);
-     switch (len) {
-@@ -586,10 +584,10 @@ virtio_address_space_read(VirtIOPCIProxy *proxy, hwaddr addr,
-         pci_set_byte(buf, val);
-         break;
-     case 2:
--        pci_set_word(buf, le16_to_cpu(val));
-+        pci_set_word(buf, val);
-         break;
-     case 4:
--        pci_set_long(buf, le32_to_cpu(val));
-+        pci_set_long(buf, val);
-         break;
-     default:
-         /* As length is under guest control, handle illegal values. */
-diff --git a/memory.c b/memory.c
-index d72143a18f..7cdf4fe556 100644
---- a/memory.c
-+++ b/memory.c
-@@ -351,32 +351,23 @@ static bool memory_region_big_endian(MemoryRegion *mr)
- #endif
- }
- 
--static bool memory_region_wrong_endianness(MemoryRegion *mr)
-+static void adjust_endianness(MemoryRegion *mr, uint64_t *data, MemOp op)
+-/* NOTE: this function can trigger an exception */
+-/* NOTE2: the returned address is not exactly the physical address: it
+- * is actually a ram_addr_t (in system mode; the user mode emulation
+- * version of this function returns a guest virtual address).
++/*
++ * Return a ram_addr_t for the virtual address for execution.
++ *
++ * Return -1 if we can't translate and execute from an entire page
++ * of RAM.  This will force us to execute by loading and translating
++ * one insn at a time, without caching.
++ *
++ * NOTE: This function will trigger an exception if the page is
++ * not executable.
+  */
+ tb_page_addr_t get_page_addr_code(CPUArchState *env, target_ulong addr)
  {
--#ifdef TARGET_WORDS_BIGENDIAN
--    return mr->ops->endianness == DEVICE_LITTLE_ENDIAN;
--#else
--    return mr->ops->endianness == DEVICE_BIG_ENDIAN;
--#endif
--}
--
--static void adjust_endianness(MemoryRegion *mr, uint64_t *data, unsigned size)
--{
--    if (memory_region_wrong_endianness(mr)) {
--        switch (size) {
--        case 1:
-+    if ((op & MO_BSWAP) != devend_memop(mr->ops->endianness)) {
-+        switch (op & MO_SIZE) {
-+        case MO_8:
-             break;
--        case 2:
-+        case MO_16:
-             *data = bswap16(*data);
-             break;
--        case 4:
-+        case MO_32:
-             *data = bswap32(*data);
-             break;
--        case 8:
-+        case MO_64:
-             *data = bswap64(*data);
-             break;
-         default:
--            abort();
-+            g_assert_not_reached();
+@@ -1043,19 +1045,20 @@ tb_page_addr_t get_page_addr_code(CPUArchState *env, target_ulong addr)
+             tlb_fill(env_cpu(env), addr, 0, MMU_INST_FETCH, mmu_idx, 0);
+             index = tlb_index(env, mmu_idx, addr);
+             entry = tlb_entry(env, mmu_idx, addr);
++
++            if (unlikely(entry->addr_code & TLB_INVALID_MASK)) {
++                /*
++                 * The MMU protection covers a smaller range than a target
++                 * page, so we must redo the MMU check for every insn.
++                 */
++                return -1;
++            }
          }
-     }
- }
-@@ -1458,7 +1449,7 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
+         assert(tlb_hit(entry->addr_code, addr));
      }
  
-     r = memory_region_dispatch_read1(mr, addr, pval, size, attrs);
--    adjust_endianness(mr, pval, size);
-+    adjust_endianness(mr, pval, op);
-     return r;
- }
- 
-@@ -1501,7 +1492,7 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
-         return MEMTX_DECODE_ERROR;
+-    if (unlikely(entry->addr_code & (TLB_RECHECK | TLB_MMIO))) {
+-        /*
+-         * Return -1 if we can't translate and execute from an entire
+-         * page of RAM here, which will cause us to execute by loading
+-         * and translating one insn at a time, without caching:
+-         *  - TLB_RECHECK: means the MMU protection covers a smaller range
+-         *    than a target page, so we must redo the MMU check every insn
+-         *  - TLB_MMIO: region is not backed by RAM
+-         */
++    if (unlikely(entry->addr_code & TLB_MMIO)) {
++        /* The region is not backed by RAM.  */
+         return -1;
      }
  
--    adjust_endianness(mr, &data, size);
-+    adjust_endianness(mr, &data, op);
- 
-     if ((!kvm_eventfds_enabled()) &&
-         memory_region_dispatch_write_eventfds(mr, addr, data, size, attrs)) {
-@@ -2350,7 +2341,7 @@ void memory_region_add_eventfd(MemoryRegion *mr,
+@@ -1180,7 +1183,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
      }
  
-     if (size) {
--        adjust_endianness(mr, &mrfd.data, size);
-+        adjust_endianness(mr, &mrfd.data, size_memop(size) | MO_TE);
+     /* Notice an IO access or a needs-MMU-lookup access */
+-    if (unlikely(tlb_addr & (TLB_MMIO | TLB_RECHECK))) {
++    if (unlikely(tlb_addr & TLB_MMIO)) {
+         /* There's really nothing that can be done to
+            support this apart from stop-the-world.  */
+         goto stop_the_world;
+@@ -1258,6 +1261,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+             entry = tlb_entry(env, mmu_idx, addr);
+         }
+         tlb_addr = code_read ? entry->addr_code : entry->addr_read;
++        tlb_addr &= ~TLB_INVALID_MASK;
      }
-     memory_region_transaction_begin();
-     for (i = 0; i < mr->ioeventfd_nb; ++i) {
-@@ -2385,7 +2376,7 @@ void memory_region_del_eventfd(MemoryRegion *mr,
-     unsigned i;
  
-     if (size) {
--        adjust_endianness(mr, &mrfd.data, size);
-+        adjust_endianness(mr, &mrfd.data, size_memop(size) | MO_TE);
-     }
-     memory_region_transaction_begin();
-     for (i = 0; i < mr->ioeventfd_nb; ++i) {
-diff --git a/memory_ldst.inc.c b/memory_ldst.inc.c
-index 809a7e8389..c54aee4a95 100644
---- a/memory_ldst.inc.c
-+++ b/memory_ldst.inc.c
-@@ -38,18 +38,8 @@ static inline uint32_t glue(address_space_ldl_internal, SUFFIX)(ARG1_DECL,
-         release_lock |= prepare_mmio_access(mr);
- 
-         /* I/O case */
--        /* TODO: Merge bswap32 into memory_region_dispatch_read.  */
-         r = memory_region_dispatch_read(mr, addr1, &val,
-                                         MO_32 | devend_memop(endian), attrs);
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian == DEVICE_LITTLE_ENDIAN) {
--            val = bswap32(val);
--        }
--#else
--        if (endian == DEVICE_BIG_ENDIAN) {
--            val = bswap32(val);
--        }
--#endif
-     } else {
-         /* RAM case */
-         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -116,18 +106,8 @@ static inline uint64_t glue(address_space_ldq_internal, SUFFIX)(ARG1_DECL,
-         release_lock |= prepare_mmio_access(mr);
- 
-         /* I/O case */
--        /* TODO: Merge bswap64 into memory_region_dispatch_read.  */
-         r = memory_region_dispatch_read(mr, addr1, &val,
-                                         MO_64 | devend_memop(endian), attrs);
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian == DEVICE_LITTLE_ENDIAN) {
--            val = bswap64(val);
--        }
--#else
--        if (endian == DEVICE_BIG_ENDIAN) {
--            val = bswap64(val);
--        }
--#endif
-     } else {
-         /* RAM case */
-         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -228,18 +208,8 @@ static inline uint32_t glue(address_space_lduw_internal, SUFFIX)(ARG1_DECL,
-         release_lock |= prepare_mmio_access(mr);
- 
-         /* I/O case */
--        /* TODO: Merge bswap16 into memory_region_dispatch_read.  */
-         r = memory_region_dispatch_read(mr, addr1, &val,
-                                         MO_16 | devend_memop(endian), attrs);
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian == DEVICE_LITTLE_ENDIAN) {
--            val = bswap16(val);
--        }
--#else
--        if (endian == DEVICE_BIG_ENDIAN) {
--            val = bswap16(val);
--        }
--#endif
-     } else {
-         /* RAM case */
-         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -342,17 +312,6 @@ static inline void glue(address_space_stl_internal, SUFFIX)(ARG1_DECL,
-     mr = TRANSLATE(addr, &addr1, &l, true, attrs);
-     if (l < 4 || !memory_access_is_direct(mr, true)) {
-         release_lock |= prepare_mmio_access(mr);
+     /* Handle an IO access.  */
+@@ -1265,27 +1269,6 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+         if ((addr & (size - 1)) != 0) {
+             goto do_unaligned_access;
+         }
 -
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian == DEVICE_LITTLE_ENDIAN) {
--            val = bswap32(val);
--        }
--#else
--        if (endian == DEVICE_BIG_ENDIAN) {
--            val = bswap32(val);
--        }
--#endif
--        /* TODO: Merge bswap32 into memory_region_dispatch_write.  */
-         r = memory_region_dispatch_write(mr, addr1, val,
-                                          MO_32 | devend_memop(endian), attrs);
-     } else {
-@@ -449,17 +408,6 @@ static inline void glue(address_space_stw_internal, SUFFIX)(ARG1_DECL,
-     mr = TRANSLATE(addr, &addr1, &l, true, attrs);
-     if (l < 2 || !memory_access_is_direct(mr, true)) {
-         release_lock |= prepare_mmio_access(mr);
+-        if (tlb_addr & TLB_RECHECK) {
+-            /*
+-             * This is a TLB_RECHECK access, where the MMU protection
+-             * covers a smaller range than a target page, and we must
+-             * repeat the MMU check here. This tlb_fill() call might
+-             * longjump out if this access should cause a guest exception.
+-             */
+-            tlb_fill(env_cpu(env), addr, size,
+-                     access_type, mmu_idx, retaddr);
+-            index = tlb_index(env, mmu_idx, addr);
+-            entry = tlb_entry(env, mmu_idx, addr);
 -
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian == DEVICE_LITTLE_ENDIAN) {
--            val = bswap16(val);
+-            tlb_addr = code_read ? entry->addr_code : entry->addr_read;
+-            tlb_addr &= ~TLB_RECHECK;
+-            if (!(tlb_addr & ~TARGET_PAGE_MASK)) {
+-                /* RAM access */
+-                goto do_aligned_access;
+-            }
 -        }
--#else
--        if (endian == DEVICE_BIG_ENDIAN) {
--            val = bswap16(val);
--        }
--#endif
--        /* TODO: Merge bswap16 into memory_region_dispatch_write.  */
-         r = memory_region_dispatch_write(mr, addr1, val,
-                                          MO_16 | devend_memop(endian), attrs);
-     } else {
-@@ -524,17 +472,6 @@ static void glue(address_space_stq_internal, SUFFIX)(ARG1_DECL,
-     mr = TRANSLATE(addr, &addr1, &l, true, attrs);
-     if (l < 8 || !memory_access_is_direct(mr, true)) {
-         release_lock |= prepare_mmio_access(mr);
 -
--#if defined(TARGET_WORDS_BIGENDIAN)
--        if (endian == DEVICE_LITTLE_ENDIAN) {
--            val = bswap64(val);
+         return io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
+                         mmu_idx, addr, retaddr, access_type, op);
+     }
+@@ -1314,7 +1297,6 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+         return res & MAKE_64BIT_MASK(0, size * 8);
+     }
+ 
+- do_aligned_access:
+     haddr = (void *)((uintptr_t)addr + entry->addend);
+     switch (op) {
+     case MO_UB:
+@@ -1509,27 +1491,6 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+         if ((addr & (size - 1)) != 0) {
+             goto do_unaligned_access;
+         }
+-
+-        if (tlb_addr & TLB_RECHECK) {
+-            /*
+-             * This is a TLB_RECHECK access, where the MMU protection
+-             * covers a smaller range than a target page, and we must
+-             * repeat the MMU check here. This tlb_fill() call might
+-             * longjump out if this access should cause a guest exception.
+-             */
+-            tlb_fill(env_cpu(env), addr, size, MMU_DATA_STORE,
+-                     mmu_idx, retaddr);
+-            index = tlb_index(env, mmu_idx, addr);
+-            entry = tlb_entry(env, mmu_idx, addr);
+-
+-            tlb_addr = tlb_addr_write(entry);
+-            tlb_addr &= ~TLB_RECHECK;
+-            if (!(tlb_addr & ~TARGET_PAGE_MASK)) {
+-                /* RAM access */
+-                goto do_aligned_access;
+-            }
 -        }
--#else
--        if (endian == DEVICE_BIG_ENDIAN) {
--            val = bswap64(val);
--        }
--#endif
--        /* TODO: Merge bswap64 into memory_region_dispatch_write.  */
-         r = memory_region_dispatch_write(mr, addr1, val,
-                                          MO_64 | devend_memop(endian), attrs);
-     } else {
+-
+         io_writex(env, &env_tlb(env)->d[mmu_idx].iotlb[index], mmu_idx,
+                   val, addr, retaddr, op);
+         return;
+@@ -1579,7 +1540,6 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+         return;
+     }
+ 
+- do_aligned_access:
+     haddr = (void *)((uintptr_t)addr + entry->addend);
+     switch (op) {
+     case MO_UB:
 -- 
 2.17.1
 
