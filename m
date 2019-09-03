@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DDC5A764D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:35:10 +0200 (CEST)
-Received: from localhost ([::1]:51854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3E2A7656
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:38:49 +0200 (CEST)
+Received: from localhost ([::1]:51888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5GSC-0007dD-FG
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:35:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56910)
+	id 1i5GVk-00039Q-Fv
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:38:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56937)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1i5FwU-0004HX-V7
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:24 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1i5FwW-0004J0-Hj
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1i5FwS-0001Hf-CN
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40922)
+ (envelope-from <ehabkost@redhat.com>) id 1i5FwV-0001KQ-Aa
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52420)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i5FwQ-0001G5-Sq
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:19 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1i5FwU-0001JM-VL
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 17:02:23 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0CADA8553F;
- Tue,  3 Sep 2019 21:02:18 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2E5411056FB1;
+ Tue,  3 Sep 2019 21:02:22 +0000 (UTC)
 Received: from localhost (ovpn-116-55.gru2.redhat.com [10.97.116.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D22319C78;
- Tue,  3 Sep 2019 21:02:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7229E5DAAD;
+ Tue,  3 Sep 2019 21:02:19 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <rth@twiddle.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 18:01:54 -0300
-Message-Id: <20190903210201.14627-7-ehabkost@redhat.com>
+Date: Tue,  3 Sep 2019 18:01:55 -0300
+Message-Id: <20190903210201.14627-8-ehabkost@redhat.com>
 In-Reply-To: <20190903210201.14627-1-ehabkost@redhat.com>
 References: <20190903210201.14627-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 03 Sep 2019 21:02:18 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Tue, 03 Sep 2019 21:02:22 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 06/13] pc: Fix error message on die-id
- validation
+Subject: [Qemu-devel] [PULL v2 07/13] pc: Improve error message when die-id
+ is omitted
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,44 +63,48 @@ Cc: "Vanderson M . do Rosario" <vandersonmr2@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The error message for die-id range validation is incorrect.  Example:
+The error message when die-id is omitted doesn't make sense:
 
   $ qemu-system-x86_64 -smp 1,sockets=3D6,maxcpus=3D6 \
-    -device qemu64-x86_64-cpu,socket-id=3D1,die-id=3D1,core-id=3D0,thread=
--id=3D0
-  qemu-system-x86_64: -device qemu64-x86_64-cpu,socket-id=3D1,die-id=3D1,=
-core-id=3D0,thread-id=3D0: \
-    Invalid CPU die-id: 1 must be in range 0:5
+    -device qemu64-x86_64-cpu,socket-id=3D1,core-id=3D0,thread-id=3D0
+  qemu-system-x86_64: -device qemu64-x86_64-cpu,socket-id=3D1,core-id=3D0=
+,thread-id=3D0: \
+    Invalid CPU die-id: 4294967295 must be in range 0:0
 
-The actual range for die-id in this example is 0:0.
+Fix it, so it will now read:
 
-Fix the error message to use smp_dies and print the correct range.
+  qemu-system-x86_64: -device qemu64-x86_64-cpu,socket-id=3D1,core-id=3D0=
+,thread-id=3D0: \
+    CPU die-id is not set
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190815183803.13346-2-ehabkost@redhat.com>
+Message-Id: <20190815183803.13346-3-ehabkost@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/i386/pc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/pc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 985e9261b0..584cd3ed0a 100644
+index 584cd3ed0a..3494423d63 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -2430,7 +2430,7 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug=
-_dev,
+@@ -2428,6 +2428,10 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplu=
+g_dev,
+             error_setg(errp, "Invalid CPU socket-id: %u must be in range=
+ 0:%u",
+                        cpu->socket_id, max_socket);
              return;
++        }
++        if (cpu->die_id < 0) {
++            error_setg(errp, "CPU die-id is not set");
++            return;
          } else if (cpu->die_id > pcms->smp_dies - 1) {
              error_setg(errp, "Invalid CPU die-id: %u must be in range 0:=
 %u",
--                       cpu->die_id, max_socket);
-+                       cpu->die_id, pcms->smp_dies - 1);
-             return;
-         }
-         if (cpu->core_id < 0) {
+                        cpu->die_id, pcms->smp_dies - 1);
 --=20
 2.21.0
 
