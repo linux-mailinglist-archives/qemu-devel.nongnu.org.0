@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 792E3A70D9
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:44:42 +0200 (CEST)
-Received: from localhost ([::1]:49204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94409A70F2
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:47:39 +0200 (CEST)
+Received: from localhost ([::1]:49252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Bv7-0006sU-CR
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:44:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37460)
+	id 1i5Bxy-0001pC-Gt
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:47:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BNF-0001hJ-7j
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:42 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BNG-0001iq-HI
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BND-00042T-Hk
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:41 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:44179)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BNF-00044q-7x
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:42 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:37703)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BND-00041P-Bt
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:39 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id i18so9387712pgl.11
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:39 -0700 (PDT)
+ id 1i5BNF-00043R-28
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:41 -0400
+Received: by mail-pg1-x543.google.com with SMTP id d1so9401959pgp.4
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=C13i/X6uJZDwcnVhjZoMCIfnOZdw0d+2p6DUGgXSKUw=;
- b=uPGdGnGVygXv9BzXdeIe2EVY6OOzHRjNpUxhXHc8ddGvW6GmqKQ6eP78f/wLS/7Fno
- uNeN+Wqo2Sj02wkqFurAy80j/2A4aSMOzP+I7EscwNgucUiXHNXjmv68ohFYOBkXQXaJ
- tUirD72KsiddYIr6Kx9jiv439MvO/2H53tc55/RYu7VpaPzSAA7jTbvDjvs3FHT4pHqD
- 0NH8FvSUkRvZ3VxbVtaAw4Mijt/OQcnR5q1J/AKjo1P04PTrVNYxX87qsweu4jAleXGe
- SnV9boh8y7Z/w5zup6CbNzV27JO8yKy7RREgH4fH4CtQQ+afjRSpQYwsw9UsAaZ2/UEE
- AA1g==
+ bh=ASZrnUVNw1EnObJqzoqrzFIEtS3wN2N/5E4ps5Lqe9o=;
+ b=zvfjo5sYhkdyjbZXsCQqzQI06vNlQLyxCL6wsheClkvO9XYP806S/26y3uC/n6N2yX
+ 7zoxztX0ErHjY20eS+woLGII9ptmmJtjkJIVVQH5tfYc5V/Fs6LUoct1GjVLv0/3vihD
+ M5vNxNvE27nVn2oMj+/UeiYq3iecJ+o9AZ9OU0hB1NgBgmUVQLmvE4GOT/jn1KqsmT0V
+ uhJHe39og0Q+6tBn9FVCLgv7JOMaKQYOVlmumYLraorXFk5Y4eRbLjsN5cu/AZE10wBE
+ y+BFB8isoiEYRmXW4gN+LseS38OmtmQ9yvLVcSao0bFRP08taI6XCFuFHtN23gawcGX7
+ LLqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=C13i/X6uJZDwcnVhjZoMCIfnOZdw0d+2p6DUGgXSKUw=;
- b=tcx0mV2utUcjZxoYZqsjjQfofH4yIW1NBnGL6eriCFpy78Ap3UtcQbYUzxQFuDc4yO
- HCU0OhRop1/zhsXlWPITFo6DIwjY7bN6VzxXIHKKWF3Pu+LFYmXwPUrD1ebyZWKhph+3
- Y51piLimDYnq+kP5DcU2+Pvrj9Kj/ykNlh+O2oLUCx+7z0iWqJanfZugX/8kKHWgtLb8
- BbTvx8WH6gAIRP/4SJyypf//XKgVMfiE+bIgpyXpKv9xzfL0ebxYrjI/sTkN3dyvR0dG
- Nok3aZAl2D0S1kV3GN4EsAZ0anyoj/6h2lSTKDaXr+AmyNN7cl7BlPCPTXKxx234jYf9
- yRVw==
-X-Gm-Message-State: APjAAAVCbNE31TmgkzMtmalfgN4lWyA7bp0KjsbvL5UOLbM60BVvsbZ9
- 1L+VtDJdJviGM+w7VeuvpHuix5gbrUw=
-X-Google-Smtp-Source: APXvYqyJm+SSzZFuHximgAJkHKJS/eH9RTK3SGsDSfl3ti93BL1/Nzu9NnTgdww10O9117I1XcXTLQ==
-X-Received: by 2002:a62:e205:: with SMTP id a5mr41561506pfi.137.1567526978092; 
- Tue, 03 Sep 2019 09:09:38 -0700 (PDT)
+ bh=ASZrnUVNw1EnObJqzoqrzFIEtS3wN2N/5E4ps5Lqe9o=;
+ b=KVc9lhYvuu10+GOU4IXvnN5wXHQUOhl+aEaHSxvfuOhIn6Eb8hDEHsUNH3+8xbGOTx
+ r4IAmkcUTzo1/0FVk1osQe80/rXi/2lha+YdqFU35IICIgX8mhYIi8j8wSekdeVv+dVV
+ wc0HXOEyA0G+saioPs64Uhj8KvuY0C/T+ax/8eA2+oI0ubFmCNA1hGVu5uJXdQhWOdes
+ AkVfPmYZsLATt4NWF1tgmTJjJjWfhN2J24VGds8avkHqZWLZhPgJfpSzUdDONaHzrNJJ
+ T3doVZwnnAUMoZNvUpB7t24/ePG5N14rC+TMKUlAnJ5x7DW+AqnDdiIqSoYXeg5xVcHf
+ N0cA==
+X-Gm-Message-State: APjAAAV5/Ra5NJ2Rxhc0z2tLJiqfJFsFISwWMGsaTzd0Ra1w+IlLSc02
+ I0FKTArhPQ3JlZawXE3zkuCVEHuF0SU=
+X-Google-Smtp-Source: APXvYqwgaae8XFw9JDoSWQY05X7PcNI7q3o+M7CyVk+mhNZRBuNx5Y60/1JEv6gw/iiF/NNu6+8CSw==
+X-Received: by 2002:a65:62cd:: with SMTP id m13mr30803106pgv.437.1567526979192; 
+ Tue, 03 Sep 2019 09:09:39 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.36
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:37 -0700 (PDT)
+ Tue, 03 Sep 2019 09:09:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:53 -0700
-Message-Id: <20190903160858.5296-32-richard.henderson@linaro.org>
+Date: Tue,  3 Sep 2019 09:08:54 -0700
+Message-Id: <20190903160858.5296-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
 References: <20190903160858.5296-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52b
-Subject: [Qemu-devel] [PATCH 31/36] tcg: Enforce single page access in
- probe_write()
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH 32/36] mips/tcg: Call probe_write() for
+ CONFIG_USER_ONLY as well
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,43 +82,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's enforce the interface restriction.
+Let's call it also for CONFIG_USER_ONLY. While at it, add a FIXME and get
+rid of one local variable.
+
+MIPS code probably needs a bigger refactoring in regards of
+ensure_writable_pages(), similar to s390x, so for example, watchpoints
+can be handled reliably later. The actually accessed addresses should
+be probed only, not full pages.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20190826075112.25637-5-david@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Message-Id: <20190826075112.25637-6-david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c    | 2 ++
- accel/tcg/user-exec.c | 2 ++
- 2 files changed, 4 insertions(+)
+ target/mips/op_helper.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 010c4c6e3c..707adf7631 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1088,6 +1088,8 @@ void probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
-     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
-     target_ulong tlb_addr = tlb_addr_write(entry);
- 
-+    g_assert(-(addr | TARGET_PAGE_MASK) >= size);
-+
-     if (unlikely(!tlb_hit(tlb_addr, addr))) {
-         if (!VICTIM_TLB_HIT(addr_write, addr)) {
-             tlb_fill(env_cpu(env), addr, size, MMU_DATA_STORE,
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 86e6827201..625c33f893 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -191,6 +191,8 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
- void probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
-                  uintptr_t retaddr)
+diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+index 34bcc8d884..08d9a4f9f1 100644
+--- a/target/mips/op_helper.c
++++ b/target/mips/op_helper.c
+@@ -4537,16 +4537,14 @@ static inline void ensure_writable_pages(CPUMIPSState *env,
+                                          int mmu_idx,
+                                          uintptr_t retaddr)
  {
-+    g_assert(-(addr | TARGET_PAGE_MASK) >= size);
-+
-     if (!guest_addr_valid(addr) ||
-         page_check_range(addr, size, PAGE_WRITE) < 0) {
-         CPUState *cpu = env_cpu(env);
+-#if !defined(CONFIG_USER_ONLY)
+-    target_ulong page_addr;
++    /* FIXME: Probe the actual accesses (pass and use a size) */
+     if (unlikely(MSA_PAGESPAN(addr))) {
+         /* first page */
+         probe_write(env, addr, 0, mmu_idx, retaddr);
+         /* second page */
+-        page_addr = (addr & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
+-        probe_write(env, page_addr, 0, mmu_idx, retaddr);
++        addr = (addr & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
++        probe_write(env, addr, 0, mmu_idx, retaddr);
+     }
+-#endif
+ }
+ 
+ void helper_msa_st_b(CPUMIPSState *env, uint32_t wd,
 -- 
 2.17.1
 
