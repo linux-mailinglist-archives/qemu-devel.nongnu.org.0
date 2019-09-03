@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB45A6AA2
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 16:00:24 +0200 (CEST)
-Received: from localhost ([::1]:46562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BF1A6AAC
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 16:02:56 +0200 (CEST)
+Received: from localhost ([::1]:46604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i59M7-00067D-41
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 10:00:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55901)
+	id 1i59OZ-0000sk-2r
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 10:02:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1i58yp-0002Qu-E1
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:20 -0400
+ (envelope-from <mreitz@redhat.com>) id 1i58yu-0002YE-B0
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1i58yn-0006QT-Nq
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:12336)
+ (envelope-from <mreitz@redhat.com>) id 1i58ys-0006WJ-Er
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 09:36:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59876)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1i58yg-0006Hc-ML; Tue, 03 Sep 2019 09:36:10 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1i58yn-0006OT-Mn; Tue, 03 Sep 2019 09:36:17 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F3E383090FD1;
- Tue,  3 Sep 2019 13:36:09 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 042F23001ACB;
+ Tue,  3 Sep 2019 13:36:17 +0000 (UTC)
 Received: from localhost (ovpn-204-98.brq.redhat.com [10.40.204.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F6D55D9E1;
- Tue,  3 Sep 2019 13:36:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 66C7560C18;
+ Tue,  3 Sep 2019 13:36:16 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue,  3 Sep 2019 15:35:43 +0200
-Message-Id: <20190903133553.6500-7-mreitz@redhat.com>
+Date: Tue,  3 Sep 2019 15:35:46 +0200
+Message-Id: <20190903133553.6500-10-mreitz@redhat.com>
 In-Reply-To: <20190903133553.6500-1-mreitz@redhat.com>
 References: <20190903133553.6500-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 03 Sep 2019 13:36:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Tue, 03 Sep 2019 13:36:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 06/16] vmdk: Use bdrv_dirname() for relative
- extent paths
+Subject: [Qemu-devel] [PULL v2 09/16] iotests: Disable broken
+ streamOptimized tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,203 +60,313 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes iotest 033 pass with e.g. subformat=3DmonolithicFlat.  It also
-turns a former error in 059 into success.
+streamOptimized does not support writes that do not span exactly one
+cluster.  Furthermore, it cannot rewrite already allocated clusters.
+As such, many iotests do not work with it.  Disable them.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190815153638.4600-3-mreitz@redhat.com
+Message-id: 20190815153638.4600-6-mreitz@redhat.com
 Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/vmdk.c               | 54 ++++++++++++++++++++++++--------------
- tests/qemu-iotests/059     |  7 +++--
- tests/qemu-iotests/059.out |  4 ++-
- 3 files changed, 42 insertions(+), 23 deletions(-)
+ tests/qemu-iotests/002 | 1 +
+ tests/qemu-iotests/003 | 1 +
+ tests/qemu-iotests/005 | 3 ++-
+ tests/qemu-iotests/009 | 1 +
+ tests/qemu-iotests/010 | 1 +
+ tests/qemu-iotests/011 | 1 +
+ tests/qemu-iotests/017 | 3 ++-
+ tests/qemu-iotests/018 | 3 ++-
+ tests/qemu-iotests/019 | 3 ++-
+ tests/qemu-iotests/020 | 3 ++-
+ tests/qemu-iotests/027 | 1 +
+ tests/qemu-iotests/032 | 1 +
+ tests/qemu-iotests/033 | 1 +
+ tests/qemu-iotests/034 | 3 ++-
+ tests/qemu-iotests/037 | 3 ++-
+ tests/qemu-iotests/063 | 3 ++-
+ tests/qemu-iotests/072 | 1 +
+ tests/qemu-iotests/105 | 3 ++-
+ tests/qemu-iotests/197 | 1 +
+ tests/qemu-iotests/215 | 1 +
+ tests/qemu-iotests/251 | 1 +
+ 21 files changed, 30 insertions(+), 9 deletions(-)
 
-diff --git a/block/vmdk.c b/block/vmdk.c
-index fd78fd0ccf..a7f82e665e 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -1076,8 +1076,7 @@ static const char *next_line(const char *s)
- }
+diff --git a/tests/qemu-iotests/002 b/tests/qemu-iotests/002
+index fd413bce48..1a0d411df5 100755
+--- a/tests/qemu-iotests/002
++++ b/tests/qemu-iotests/002
+@@ -38,6 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
 =20
- static int vmdk_parse_extents(const char *desc, BlockDriverState *bs,
--                              const char *desc_file_path, QDict *options=
-,
--                              Error **errp)
-+                              QDict *options, Error **errp)
- {
-     int ret;
-     int matches;
-@@ -1087,6 +1086,7 @@ static int vmdk_parse_extents(const char *desc, Blo=
-ckDriverState *bs,
-     const char *p, *np;
-     int64_t sectors =3D 0;
-     int64_t flat_offset;
-+    char *desc_file_dir =3D NULL;
-     char *extent_path;
-     BdrvChild *extent_file;
-     BDRVVmdkState *s =3D bs->opaque;
-@@ -1130,16 +1130,23 @@ static int vmdk_parse_extents(const char *desc, B=
-lockDriverState *bs,
-             continue;
-         }
+ _supported_fmt generic
+ _supported_proto generic
++_unsupported_imgopts "subformat=3DstreamOptimized"
 =20
--        if (!path_is_absolute(fname) && !path_has_protocol(fname) &&
--            !desc_file_path[0])
--        {
--            bdrv_refresh_filename(bs->file->bs);
--            error_setg(errp, "Cannot use relative extent paths with VMDK=
- "
--                       "descriptor file '%s'", bs->file->bs->filename);
--            return -EINVAL;
--        }
-+        if (path_is_absolute(fname)) {
-+            extent_path =3D g_strdup(fname);
-+        } else {
-+            if (!desc_file_dir) {
-+                desc_file_dir =3D bdrv_dirname(bs->file->bs, errp);
-+                if (!desc_file_dir) {
-+                    bdrv_refresh_filename(bs->file->bs);
-+                    error_prepend(errp, "Cannot use relative paths with =
-VMDK "
-+                                  "descriptor file '%s': ",
-+                                  bs->file->bs->filename);
-+                    ret =3D -EINVAL;
-+                    goto out;
-+                }
-+            }
 =20
--        extent_path =3D path_combine(desc_file_path, fname);
-+            extent_path =3D g_strconcat(desc_file_dir, fname, NULL);
-+        }
+ size=3D128M
+diff --git a/tests/qemu-iotests/003 b/tests/qemu-iotests/003
+index ccd3a39dfb..33eeade0de 100755
+--- a/tests/qemu-iotests/003
++++ b/tests/qemu-iotests/003
+@@ -38,6 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
 =20
-         ret =3D snprintf(extent_opt_prefix, 32, "extents.%d", s->num_ext=
-ents);
-         assert(ret < 32);
-@@ -1149,7 +1156,8 @@ static int vmdk_parse_extents(const char *desc, Blo=
-ckDriverState *bs,
-         g_free(extent_path);
-         if (local_err) {
-             error_propagate(errp, local_err);
--            return -EINVAL;
-+            ret =3D -EINVAL;
-+            goto out;
-         }
+ _supported_fmt generic
+ _supported_proto generic
++_unsupported_imgopts "subformat=3DstreamOptimized"
 =20
-         /* save to extents array */
-@@ -1160,7 +1168,7 @@ static int vmdk_parse_extents(const char *desc, Blo=
-ckDriverState *bs,
-                             0, 0, 0, 0, 0, &extent, errp);
-             if (ret < 0) {
-                 bdrv_unref_child(bs, extent_file);
--                return ret;
-+                goto out;
-             }
-             extent->flat_start_offset =3D flat_offset << 9;
-         } else if (!strcmp(type, "SPARSE") || !strcmp(type, "VMFSSPARSE"=
-)) {
-@@ -1175,24 +1183,27 @@ static int vmdk_parse_extents(const char *desc, B=
-lockDriverState *bs,
-             g_free(buf);
-             if (ret) {
-                 bdrv_unref_child(bs, extent_file);
--                return ret;
-+                goto out;
-             }
-             extent =3D &s->extents[s->num_extents - 1];
-         } else if (!strcmp(type, "SESPARSE")) {
-             ret =3D vmdk_open_se_sparse(bs, extent_file, bs->open_flags,=
- errp);
-             if (ret) {
-                 bdrv_unref_child(bs, extent_file);
--                return ret;
-+                goto out;
-             }
-             extent =3D &s->extents[s->num_extents - 1];
-         } else {
-             error_setg(errp, "Unsupported extent type '%s'", type);
-             bdrv_unref_child(bs, extent_file);
--            return -ENOTSUP;
-+            ret =3D -ENOTSUP;
-+            goto out;
-         }
-         extent->type =3D g_strdup(type);
-     }
--    return 0;
-+
-+    ret =3D 0;
-+    goto out;
+ size=3D128M
+ offset=3D67M
+diff --git a/tests/qemu-iotests/005 b/tests/qemu-iotests/005
+index 9c7681c19b..58442762fe 100755
+--- a/tests/qemu-iotests/005
++++ b/tests/qemu-iotests/005
+@@ -43,7 +43,8 @@ _supported_fmt generic
+ _supported_proto generic
+ _supported_os Linux
+ _unsupported_imgopts "subformat=3DtwoGbMaxExtentFlat" \
+-                     "subformat=3DtwoGbMaxExtentSparse"
++                     "subformat=3DtwoGbMaxExtentSparse" \
++                     "subformat=3DstreamOptimized"
 =20
- invalid:
-     np =3D next_line(p);
-@@ -1201,7 +1212,11 @@ invalid:
-         np--;
-     }
-     error_setg(errp, "Invalid extent line: %.*s", (int)(np - p), p);
--    return -EINVAL;
-+    ret =3D -EINVAL;
-+
-+out:
-+    g_free(desc_file_dir);
-+    return ret;
- }
+ # vpc is limited to 127GB, so we can't test it here
+ if [ "$IMGFMT" =3D "vpc" ]; then
+diff --git a/tests/qemu-iotests/009 b/tests/qemu-iotests/009
+index 51b200db1d..4dc7d210f9 100755
+--- a/tests/qemu-iotests/009
++++ b/tests/qemu-iotests/009
+@@ -38,6 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
 =20
- static int vmdk_open_desc_file(BlockDriverState *bs, int flags, char *bu=
-f,
-@@ -1228,8 +1243,7 @@ static int vmdk_open_desc_file(BlockDriverState *bs=
-, int flags, char *buf,
-     }
-     s->create_type =3D g_strdup(ct);
-     s->desc_offset =3D 0;
--    ret =3D vmdk_parse_extents(buf, bs, bs->file->bs->exact_filename, op=
-tions,
--                             errp);
-+    ret =3D vmdk_parse_extents(buf, bs, options, errp);
- exit:
-     return ret;
- }
-diff --git a/tests/qemu-iotests/059 b/tests/qemu-iotests/059
-index 279aee6815..fbed5f9483 100755
---- a/tests/qemu-iotests/059
-+++ b/tests/qemu-iotests/059
-@@ -114,9 +114,12 @@ $QEMU_IMG convert -f qcow2 -O vmdk -o subformat=3Dst=
-reamOptimized "$TEST_IMG.qcow2
+ _supported_fmt generic
+ _supported_proto generic
++_unsupported_imgopts "subformat=3DstreamOptimized"
 =20
- echo
- echo "=3D=3D=3D Testing monolithicFlat with internally generated JSON fi=
-le name =3D=3D=3D"
-+# Should work, because bdrv_dirname() works fine with blkdebug
- IMGOPTS=3D"subformat=3DmonolithicFlat" _make_test_img 64M
--$QEMU_IO -c "open -o driver=3D$IMGFMT,file.driver=3Dblkdebug,file.image.=
-filename=3D$TEST_IMG,file.inject-error.0.event=3Dread_aio" 2>&1 \
--    | _filter_testdir | _filter_imgfmt
-+$QEMU_IO -c "open -o driver=3D$IMGFMT,file.driver=3Dblkdebug,file.image.=
-filename=3D$TEST_IMG,file.inject-error.0.event=3Dread_aio" \
-+         -c info \
-+    2>&1 \
-+    | _filter_testdir | _filter_imgfmt | _filter_img_info
- _cleanup_test_img
+=20
+ size=3D6G
+diff --git a/tests/qemu-iotests/010 b/tests/qemu-iotests/010
+index 48c533f632..df809b3088 100755
+--- a/tests/qemu-iotests/010
++++ b/tests/qemu-iotests/010
+@@ -38,6 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
+ _supported_fmt generic
+ _supported_proto generic
++_unsupported_imgopts "subformat=3DstreamOptimized"
+=20
+=20
+ size=3D6G
+diff --git a/tests/qemu-iotests/011 b/tests/qemu-iotests/011
+index 56f704b5b9..57b99ae4a9 100755
+--- a/tests/qemu-iotests/011
++++ b/tests/qemu-iotests/011
+@@ -38,6 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
+ _supported_fmt generic
+ _supported_proto generic
++_unsupported_imgopts "subformat=3DstreamOptimized"
+=20
+=20
+ size=3D6G
+diff --git a/tests/qemu-iotests/017 b/tests/qemu-iotests/017
+index 79875de454..0a4b854e65 100755
+--- a/tests/qemu-iotests/017
++++ b/tests/qemu-iotests/017
+@@ -41,7 +41,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow qcow2 vmdk qed
+ _supported_proto generic
+ _unsupported_proto vxhs
+-_unsupported_imgopts "subformat=3DmonolithicFlat" "subformat=3DtwoGbMaxE=
+xtentFlat"
++_unsupported_imgopts "subformat=3DmonolithicFlat" "subformat=3DtwoGbMaxE=
+xtentFlat" \
++                     "subformat=3DstreamOptimized"
+=20
+ TEST_OFFSETS=3D"0 4294967296"
+=20
+diff --git a/tests/qemu-iotests/018 b/tests/qemu-iotests/018
+index 78169838ba..c69ce09209 100755
+--- a/tests/qemu-iotests/018
++++ b/tests/qemu-iotests/018
+@@ -41,7 +41,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow qcow2 vmdk qed
+ _supported_proto file
+ _supported_os Linux
+-_unsupported_imgopts "subformat=3DmonolithicFlat" "subformat=3DtwoGbMaxE=
+xtentFlat"
++_unsupported_imgopts "subformat=3DmonolithicFlat" "subformat=3DtwoGbMaxE=
+xtentFlat" \
++                     "streamOptimized"
+=20
+ TEST_OFFSETS=3D"0 4294967296"
+=20
+diff --git a/tests/qemu-iotests/019 b/tests/qemu-iotests/019
+index a56dd30bed..b4f5234609 100755
+--- a/tests/qemu-iotests/019
++++ b/tests/qemu-iotests/019
+@@ -47,7 +47,8 @@ _supported_proto file
+ _supported_os Linux
+ _unsupported_imgopts "subformat=3DmonolithicFlat" \
+                      "subformat=3DtwoGbMaxExtentFlat" \
+-                     "subformat=3DtwoGbMaxExtentSparse"
++                     "subformat=3DtwoGbMaxExtentSparse" \
++                     "subformat=3DstreamOptimized"
+=20
+ TEST_OFFSETS=3D"0 4294967296"
+ CLUSTER_SIZE=3D65536
+diff --git a/tests/qemu-iotests/020 b/tests/qemu-iotests/020
+index 6b0ebb37d2..f41b92f35f 100755
+--- a/tests/qemu-iotests/020
++++ b/tests/qemu-iotests/020
+@@ -44,7 +44,8 @@ _supported_fmt qcow qcow2 vmdk qed
+ _supported_proto file
+ _unsupported_imgopts "subformat=3DmonolithicFlat" \
+                      "subformat=3DtwoGbMaxExtentFlat" \
+-                     "subformat=3DtwoGbMaxExtentSparse"
++                     "subformat=3DtwoGbMaxExtentSparse" \
++                     "subformat=3DstreamOptimized"
+=20
+ TEST_OFFSETS=3D"0 4294967296"
+=20
+diff --git a/tests/qemu-iotests/027 b/tests/qemu-iotests/027
+index 4cb638022a..494be0921f 100755
+--- a/tests/qemu-iotests/027
++++ b/tests/qemu-iotests/027
+@@ -38,6 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
+ _supported_fmt vmdk qcow qcow2 qed
+ _supported_proto generic
++_unsupported_imgopts "subformat=3DstreamOptimized"
+=20
+=20
+ size=3D128M
+diff --git a/tests/qemu-iotests/032 b/tests/qemu-iotests/032
+index 988a8c5d8f..8337a4d825 100755
+--- a/tests/qemu-iotests/032
++++ b/tests/qemu-iotests/032
+@@ -42,6 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ # This works for any image format (though unlikely to segfault for raw)
+ _supported_fmt generic
+ _supported_proto generic
++_unsupported_imgopts "subformat=3DstreamOptimized"
 =20
  echo
-diff --git a/tests/qemu-iotests/059.out b/tests/qemu-iotests/059.out
-index b2e718d29f..a51b571d27 100644
---- a/tests/qemu-iotests/059.out
-+++ b/tests/qemu-iotests/059.out
-@@ -2050,7 +2050,9 @@ wrote 512/512 bytes at offset 10240
+ echo =3D=3D=3D Prepare image =3D=3D=3D
+diff --git a/tests/qemu-iotests/033 b/tests/qemu-iotests/033
+index 362a48c0a0..8b40991d55 100755
+--- a/tests/qemu-iotests/033
++++ b/tests/qemu-iotests/033
+@@ -38,6 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
 =20
- =3D=3D=3D Testing monolithicFlat with internally generated JSON file nam=
-e =3D=3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
--qemu-io: can't open: Cannot use relative extent paths with VMDK descript=
-or file 'json:{"image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT=
-"}, "driver": "blkdebug", "inject-error.0.event": "read_aio"}'
-+format name: IMGFMT
-+cluster size: 0 bytes
-+vm state offset: 0 bytes
+ _supported_fmt generic
+ _supported_proto generic
++_unsupported_imgopts "subformat=3DstreamOptimized"
 =20
- =3D=3D=3D Testing version 3 =3D=3D=3D
- image: TEST_DIR/iotest-version3.IMGFMT
+=20
+ size=3D128M
+diff --git a/tests/qemu-iotests/034 b/tests/qemu-iotests/034
+index 324bed28c6..da4cea1571 100755
+--- a/tests/qemu-iotests/034
++++ b/tests/qemu-iotests/034
+@@ -41,7 +41,8 @@ _supported_proto file
+ _supported_os Linux
+ _unsupported_imgopts "subformat=3DmonolithicFlat" \
+                      "subformat=3DtwoGbMaxExtentFlat" \
+-                     "subformat=3DtwoGbMaxExtentSparse"
++                     "subformat=3DtwoGbMaxExtentSparse" \
++                     "subformat=3DstreamOptimized"
+=20
+ CLUSTER_SIZE=3D4k
+ size=3D128M
+diff --git a/tests/qemu-iotests/037 b/tests/qemu-iotests/037
+index 4946b9be92..e6517acbd4 100755
+--- a/tests/qemu-iotests/037
++++ b/tests/qemu-iotests/037
+@@ -40,7 +40,8 @@ _supported_fmt qcow qcow2 vmdk qed
+ _supported_proto file
+ _unsupported_imgopts "subformat=3DmonolithicFlat" \
+                      "subformat=3DtwoGbMaxExtentFlat" \
+-                     "subformat=3DtwoGbMaxExtentSparse"
++                     "subformat=3DtwoGbMaxExtentSparse" \
++                     "subformat=3DstreamOptimized"
+=20
+ CLUSTER_SIZE=3D4k
+ size=3D128M
+diff --git a/tests/qemu-iotests/063 b/tests/qemu-iotests/063
+index fe4892e467..7cf0427af4 100755
+--- a/tests/qemu-iotests/063
++++ b/tests/qemu-iotests/063
+@@ -43,7 +43,8 @@ _supported_fmt qcow qcow2 vmdk qed raw
+ _supported_proto file
+ _unsupported_imgopts "subformat=3DmonolithicFlat" \
+                      "subformat=3DtwoGbMaxExtentFlat" \
+-                     "subformat=3DtwoGbMaxExtentSparse"
++                     "subformat=3DtwoGbMaxExtentSparse" \
++                     "subformat=3DstreamOptimized"
+=20
+ _make_test_img 4M
+=20
+diff --git a/tests/qemu-iotests/072 b/tests/qemu-iotests/072
+index 661b36da2d..f0b73e7e65 100755
+--- a/tests/qemu-iotests/072
++++ b/tests/qemu-iotests/072
+@@ -38,6 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
+ _supported_fmt vpc vmdk vhdx vdi qed qcow2 qcow
+ _supported_proto file
++_unsupported_imgopts "subformat=3DstreamOptimized"
+=20
+ IMG_SIZE=3D64M
+=20
+diff --git a/tests/qemu-iotests/105 b/tests/qemu-iotests/105
+index 3346e8cb25..4d55a2d3ef 100755
+--- a/tests/qemu-iotests/105
++++ b/tests/qemu-iotests/105
+@@ -39,7 +39,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2 vmdk vhdx qed
+ _supported_proto generic
+ _unsupported_imgopts "subformat=3DtwoGbMaxExtentFlat" \
+-                     "subformat=3DtwoGbMaxExtentSparse"
++                     "subformat=3DtwoGbMaxExtentSparse" \
++                     "subformat=3DstreamOptimized"
+=20
+ echo
+ echo "creating large image"
+diff --git a/tests/qemu-iotests/197 b/tests/qemu-iotests/197
+index 383d7d7f61..1d4f6786db 100755
+--- a/tests/qemu-iotests/197
++++ b/tests/qemu-iotests/197
+@@ -53,6 +53,7 @@ _supported_fmt generic
+ _supported_proto generic
+ # LUKS support may be possible, but it complicates things.
+ _unsupported_fmt luks
++_unsupported_imgopts "subformat=3DstreamOptimized"
+=20
+ echo
+ echo '=3D=3D=3D Copy-on-read =3D=3D=3D'
+diff --git a/tests/qemu-iotests/215 b/tests/qemu-iotests/215
+index 958c14f5a0..2eb377d682 100755
+--- a/tests/qemu-iotests/215
++++ b/tests/qemu-iotests/215
+@@ -50,6 +50,7 @@ _supported_fmt generic
+ _supported_proto generic
+ # LUKS support may be possible, but it complicates things.
+ _unsupported_fmt luks
++_unsupported_imgopts "subformat=3DstreamOptimized"
+=20
+ echo
+ echo '=3D=3D=3D Copy-on-read =3D=3D=3D'
+diff --git a/tests/qemu-iotests/251 b/tests/qemu-iotests/251
+index 13f85de9cd..7918ba3559 100755
+--- a/tests/qemu-iotests/251
++++ b/tests/qemu-iotests/251
+@@ -40,6 +40,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt generic
+ _supported_proto file
+ _supported_os Linux
++_unsupported_imgopts "subformat=3DstreamOptimized"
+=20
+ if [ "$IMGOPTSSYNTAX" =3D "true" ]; then
+     # We use json:{} filenames here, so we cannot work with additional o=
+ptions.
 --=20
 2.21.0
 
