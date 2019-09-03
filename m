@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842B5A7613
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:18:34 +0200 (CEST)
-Received: from localhost ([::1]:51640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 884A2A7615
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 23:19:57 +0200 (CEST)
+Received: from localhost ([::1]:51648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5GC8-0008GO-JR
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53724)
+	id 1i5GDU-000181-7t
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 17:19:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53871)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1i5FaR-00086w-12
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:37 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1i5Faf-0008QM-JB
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1i5FaO-0000p3-OC
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:34 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:60718)
+ (envelope-from <jag.raman@oracle.com>) id 1i5Fab-00010o-Rw
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:49 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:32800)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1i5FaO-0000oS-FV
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:32 -0400
+ id 1i5Fab-00010E-GM
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 16:39:45 -0400
 Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KdQVm067201;
- Tue, 3 Sep 2019 20:39:27 GMT
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KdaR1067287;
+ Tue, 3 Sep 2019 20:39:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
- references; s=corp-2019-08-05;
- bh=xLCTaxuvRZZlI92L6U6kSPhOvCb9uW2usqynrCxGCI8=;
- b=aQAc5vdUZWIaU15yszrzDK0R+q1JhLDtV0Lj6iKe9i0vPfy5AecLNKXW3EVTlW/Nfofj
- GODFyFsQ5SIFodAu5wz3h7Qy50YT/yv4nuRkkbQSIDWX8OAeBk2Zdb9bznzErKyPiDLc
- ubV0vbdhihV2N6/wQVBTmnC0At7oa1yUgKTREWwsw10PhsAE1VLZvNHAcuStKAbPpgcI
- Q+rDwgMK9NujM8fGCsWWj6e3/+Lqbiw45lSVAKKcCH7tZDvUJ+nVU8D1xNSfSjQr6AT/
- PifqqFVVZeWck93PvDgpz4Kt1Y1BiSTRXWnEKkYneUVhvqY+GaVybIlEWENbDtXg/780 kw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 2usy66r2j0-1
+ references : mime-version : content-type : content-transfer-encoding;
+ s=corp-2019-08-05; bh=hxeKK/qh9ZE+ORb7l8efNgDV+/6JxPDwkO6gyQ0/c4M=;
+ b=R/d0dGkcmia69JtABjjUBj7TVlg2AvkW3p4dfAeB5KZikCi2NcYJ0GMeutSOFZGB8nCS
+ HXXDKSSxbWt96y1rUn4zzxXm8Appr56O+hndtQunWwEv5mQhqjGxPLNEdAr0BhJhitNz
+ Pk/2N6JumPcejLNx0ipTD+2PxI7nkuIwOYOQq82jpe20cisxQFdELCsqy10LNEOlEQ7o
+ foRJqNNKrxH3WoeThYmIAHqX87geDranz7aZIhkxce/vRRJT2P5FNpuJ/YeyHLYyp3Ci
+ 6YV7xPTDdsElL8k25zXSSTqEWw3yJedUrSVI3Q3GDtkWH/xfekObhqWaeMSTEMw8pSYt Tw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 2usy66r2jt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:39:27 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KcIx1094748;
- Tue, 3 Sep 2019 20:39:26 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 2usu51u2a4-1
+ Tue, 03 Sep 2019 20:39:37 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x83KcAlB025388;
+ Tue, 3 Sep 2019 20:39:37 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 2us5pha10m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Sep 2019 20:39:25 +0000
+ Tue, 03 Sep 2019 20:39:36 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x83KdO23024778;
- Tue, 3 Sep 2019 20:39:25 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x83KdYIN029143;
+ Tue, 3 Sep 2019 20:39:34 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 03 Sep 2019 13:39:23 -0700
+ with ESMTP ; Tue, 03 Sep 2019 13:39:33 -0700
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:38:04 -0400
-Message-Id: <6d610b663225ed2552277156dd852f123ce45d67.1567534653.git.jag.raman@oracle.com>
+Date: Tue,  3 Sep 2019 16:38:10 -0400
+Message-Id: <59cb496983f03b05f6da87af73bc2a2ac0bb7f81.1567534653.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
 References: <cover.1567534653.git.jag.raman@oracle.com>
 In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
 References: <cover.1567534653.git.jag.raman@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9369
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
@@ -75,10 +77,13 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
  definitions=main-1909030207
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by userp2120.oracle.com id
+ x83KdaR1067287
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 156.151.31.85
-Subject: [Qemu-devel] [RFC v3 PATCH 38/45] multi-process/mon: stub functions
- to enable QMP module for remote process
+Subject: [Qemu-devel] [RFC v3 PATCH 44/45] multi-process: add the concept
+ description to docs/devel/qemu-multiprocess
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,824 +105,702 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QMP module doesn't need some functions to run independently on the
-remote processes. However, these functions are necessary for
-compilation. Therefore, these functions are stub'ed out. The
-stub functions raise an assert if QEMU is built in debug mode
-(--enable-debug).
+From: John G Johnson <john.g.johnson@oracle.com>
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- New patch in v3
+ v2 -> v3:
+   - Updated with latest design of this project
 
- accel/stubs/tcg-stub.c |  10 +++
- configure              |   4 ++
- include/qemu-common.h  |   8 +++
- stubs/gdbstub.c        |  21 +++++++
- stubs/migration.c      | 162 +++++++++++++++++++++++++++++++++++++++++++++++++
- stubs/monitor.c        |  32 ++++++++++
- stubs/net-stub.c       |  69 +++++++++++++++++++++
- stubs/qapi-misc.c      |  41 +++++++++++++
- stubs/qapi-target.c    |  49 +++++++++++++++
- stubs/ui-stub.c        | 130 +++++++++++++++++++++++++++++++++++++++
- stubs/vl-stub.c        |  92 ++++++++++++++++++++++++++++
- 11 files changed, 618 insertions(+)
- create mode 100644 stubs/migration.c
- create mode 100644 stubs/qapi-misc.c
- create mode 100644 stubs/qapi-target.c
- create mode 100644 stubs/ui-stub.c
+ docs/devel/qemu-multiprocess.txt | 627 +++++++++++++++++++++++++++++++++=
+++++++
+ 1 file changed, 627 insertions(+)
+ create mode 100644 docs/devel/qemu-multiprocess.txt
 
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index 52722c7..37e035b 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -109,3 +109,13 @@ page_collection_lock(tb_page_addr_t start, tb_page_addr_t end)
- void page_collection_unlock(struct page_collection *set)
- {
- }
-+
-+void dump_exec_info(void)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void dump_opcount_info(void)
-+{
-+    qemu_debug_assert(0);
-+}
-diff --git a/configure b/configure
-index b467441..5ee2438 100755
---- a/configure
-+++ b/configure
-@@ -7290,6 +7290,10 @@ if test "$mpqemu" = "yes" ; then
-   echo "CONFIG_MPQEMU=y" >> $config_host_mak
- fi
- 
-+if test "$debug" = "yes" ; then
-+  echo "CONFIG_DEBUG=y" >> $config_host_mak
-+fi
-+
- if test "$bochs" = "yes" ; then
-   echo "CONFIG_BOCHS=y" >> $config_host_mak
- fi
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index 0235cd3..9f33af3 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -10,6 +10,8 @@
- #ifndef QEMU_COMMON_H
- #define QEMU_COMMON_H
- 
-+#include <assert.h>
-+
- #define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
- 
- /* Copyright string for -version arguments, About dialogs, etc */
-@@ -130,4 +132,10 @@ void page_size_init(void);
-  * returned. */
- bool dump_in_progress(void);
- 
-+#ifdef CONFIG_DEBUG
-+#define qemu_debug_assert(x) assert(x)
-+#else
-+#define qemu_debug_assert(x)
-+#endif
-+
- #endif
-diff --git a/stubs/gdbstub.c b/stubs/gdbstub.c
-index 2b7aee5..28c574a 100644
---- a/stubs/gdbstub.c
-+++ b/stubs/gdbstub.c
-@@ -1,6 +1,27 @@
- #include "qemu/osdep.h"
-+#include "qemu-common.h"
- #include "exec/gdbstub.h"       /* xml_builtin */
- 
- const char *const xml_builtin[][2] = {
-   { NULL, NULL }
- };
-+
-+#ifdef CONFIG_USER_ONLY
-+
-+int gdbserver_start(int port)
-+{
-+    qemu_debug_assert(0);
-+
-+    return -ENOSYS;
-+}
-+
-+#else
-+
-+int gdbserver_start(const char *device)
-+{
-+    qemu_debug_assert(0);
-+
-+    return -ENOSYS;
-+}
-+
-+#endif
-diff --git a/stubs/migration.c b/stubs/migration.c
+diff --git a/docs/devel/qemu-multiprocess.txt b/docs/devel/qemu-multiproc=
+ess.txt
 new file mode 100644
-index 0000000..28ccf80
+index 0000000..5b94c8d
 --- /dev/null
-+++ b/stubs/migration.c
-@@ -0,0 +1,162 @@
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "migration/misc.h"
-+#include "migration/snapshot.h"
-+#include "qapi/qapi-types-migration.h"
-+#include "qapi/qapi-commands-migration.h"
-+#include "qapi/qapi-types-net.h"
-+
-+MigrationInfo *qmp_query_migrate(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+void qmp_migrate_set_capabilities(MigrationCapabilityStatusList *params,
-+                                  Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+MigrationCapabilityStatusList *qmp_query_migrate_capabilities(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+void qmp_migrate_set_parameters(MigrateSetParameters *params, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+MigrationParameters *qmp_query_migrate_parameters(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+void qmp_migrate_start_postcopy(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_migrate_cancel(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_migrate_continue(MigrationStatus state, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_migrate_set_downtime(double value, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_migrate_set_speed(int64_t value, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_migrate_set_cache_size(int64_t value, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+int64_t qmp_query_migrate_cache_size(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return 0;
-+}
-+
-+void qmp_migrate(const char *uri, bool has_blk, bool blk,
-+                 bool has_inc, bool inc, bool has_detach, bool detach,
-+                 bool has_resume, bool resume, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_migrate_incoming(const char *uri, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_migrate_recover(const char *uri, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_migrate_pause(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_x_colo_lost_heartbeat(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
-+                                Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_xen_set_replication(bool enable, bool primary,
-+                             bool has_failover, bool failover,
-+                             Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+ReplicationStatus *qmp_query_xen_replication_status(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+void qmp_xen_colo_do_checkpoint(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+COLOStatus *qmp_query_colo_status(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+void migration_global_dump(Monitor *mon)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+int load_snapshot(const char *name, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return -ENOSYS;
-+}
-+
-+int save_snapshot(const char *name, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return -ENOSYS;
-+}
-+
-+AnnounceParameters *migrate_announce_params(void)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-diff --git a/stubs/monitor.c b/stubs/monitor.c
-index 75dafce..0dcbe09 100644
---- a/stubs/monitor.c
-+++ b/stubs/monitor.c
-@@ -1,4 +1,5 @@
- #include "qemu/osdep.h"
-+#include "qemu-common.h"
- #include "qapi/error.h"
- #include "qapi/qapi-emit-events.h"
- #include "monitor/monitor.h"
-@@ -8,16 +9,37 @@
- #include "qapi/qapi-commands-qdev.h"
- #include "hw/qdev-core.h"
- #include "sysemu/sysemu.h"
-+#include "monitor/qdev.h"
-+#include "sysemu/blockdev.h"
-+#include "sysemu/sysemu.h"
-+#include "monitor/hmp.h"
-+
-+#include "qapi/qapi-types-block-core.h"
-+#include "qapi/qapi-commands-block-core.h"
-+
-+#pragma weak cur_mon
-+#pragma weak monitor_vprintf
-+#pragma weak monitor_get_fd
-+#pragma weak monitor_init
-+#pragma weak qapi_event_emit
-+#pragma weak monitor_get_cpu_index
-+#pragma weak monitor_printf
-+#pragma weak monitor_cur_is_qmp
-+#pragma weak qmp_device_list_properties
-+#pragma weak monitor_init_qmp
-+#pragma weak monitor_init_hmp
- 
- __thread Monitor *cur_mon;
- 
- int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
- {
-+    qemu_debug_assert(0);
-     abort();
- }
- 
- int monitor_get_fd(Monitor *mon, const char *name, Error **errp)
- {
-+    qemu_debug_assert(0);
-     error_setg(errp, "only QEMU supports file descriptor passing");
-     return -1;
- }
-@@ -28,29 +50,39 @@ void monitor_init_qmp(Chardev *chr, bool pretty)
- 
- void monitor_init_hmp(Chardev *chr, bool use_readline)
- {
-+    qemu_debug_assert(0);
- }
- 
- void qapi_event_emit(QAPIEvent event, QDict *qdict)
- {
-+    qemu_debug_assert(0);
- }
- 
- int monitor_get_cpu_index(void)
- {
-+    qemu_debug_assert(0);
-+
-     return -ENOSYS;
- }
- int monitor_printf(Monitor *mon, const char *fmt, ...)
- {
-+    qemu_debug_assert(0);
-+
-     return -ENOSYS;
- }
- 
- bool monitor_cur_is_qmp(void)
- {
-+    qemu_debug_assert(0);
-+
-     return false;
- }
- 
- ObjectPropertyInfoList *qmp_device_list_properties(const char *typename,
-                                                    Error **errp)
- {
-+    qemu_debug_assert(0);
-+
-     return NULL;
- }
- 
-diff --git a/stubs/net-stub.c b/stubs/net-stub.c
-index cb2274b..962827e 100644
---- a/stubs/net-stub.c
-+++ b/stubs/net-stub.c
-@@ -2,6 +2,9 @@
- #include "qemu-common.h"
- #include "net/net.h"
- 
-+#include "qapi/qapi-commands-net.h"
-+#include "qapi/qapi-commands-rocker.h"
-+
- int qemu_find_net_clients_except(const char *id, NetClientState **ncs,
-                                  NetClientDriver type, int max)
- {
-@@ -29,3 +32,69 @@ int qemu_find_nic_model(NICInfo *nd, const char * const *models,
-     return -ENOSYS;
- }
- 
-+void qmp_set_link(const char *name, bool up, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_netdev_del(const char *id, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+RxFilterInfoList *qmp_query_rx_filter(bool has_name, const char *name,
-+                                      Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+void qmp_announce_self(AnnounceParameters *params, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+RockerSwitch *qmp_query_rocker(const char *name, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+RockerPortList *qmp_query_rocker_ports(const char *name, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+RockerOfDpaFlowList *qmp_query_rocker_of_dpa_flows(const char *name,
-+                                                   bool has_tbl_id,
-+                                                   uint32_t tbl_id,
-+                                                   Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+RockerOfDpaGroupList *qmp_query_rocker_of_dpa_groups(const char *name,
-+                                                     bool has_type,
-+                                                     uint8_t type,
-+                                                     Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+void qmp_netdev_add(QDict *qdict, QObject **ret, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void netdev_add(QemuOpts *opts, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-diff --git a/stubs/qapi-misc.c b/stubs/qapi-misc.c
-new file mode 100644
-index 0000000..3eeedd9
---- /dev/null
-+++ b/stubs/qapi-misc.c
-@@ -0,0 +1,41 @@
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "qapi/qapi-commands-misc.h"
-+#include "./qapi/qapi-types-dump.h"
-+#include "qapi/qapi-commands-dump.h"
-+
-+void qmp_dump_guest_memory(bool paging, const char *file,
-+                           bool has_detach, bool detach,
-+                           bool has_begin, int64_t begin, bool has_length,
-+                           int64_t length, bool has_format,
-+                           DumpGuestMemoryFormat format, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+DumpQueryResult *qmp_query_dump(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+DumpGuestMemoryCapability *qmp_query_dump_guest_memory_capability(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+void qmp_xen_load_devices_state(const char *filename, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+bool dump_in_progress(void)
-+{
-+    qemu_debug_assert(0);
-+
-+    return FALSE;
-+}
-diff --git a/stubs/qapi-target.c b/stubs/qapi-target.c
-new file mode 100644
-index 0000000..b3a3ffc
---- /dev/null
-+++ b/stubs/qapi-target.c
-@@ -0,0 +1,49 @@
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "qapi/qapi-types-misc-target.h"
-+#include "qapi/qapi-commands-misc-target.h"
-+#include "qapi/qapi-types-machine-target.h"
-+#include "qapi/qapi-commands-machine-target.h"
-+
-+void qmp_rtc_reset_reinjection(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+SevInfo *qmp_query_sev(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+SevLaunchMeasureInfo *qmp_query_sev_launch_measure(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+SevCapability *qmp_query_sev_capabilities(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
-+                                                     CpuModelInfo *model,
-+                                                     Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-diff --git a/stubs/ui-stub.c b/stubs/ui-stub.c
-new file mode 100644
-index 0000000..a5a63ea
---- /dev/null
-+++ b/stubs/ui-stub.c
-@@ -0,0 +1,130 @@
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "ui/console.h"
-+#include "ui/input.h"
-+#include "ui/qemu-spice.h"
-+
-+#include "qapi/qapi-types-ui.h"
-+#include "qapi/qapi-commands-ui.h"
-+
-+void qmp_screendump(const char *filename, bool has_device, const char *device,
-+                    bool has_head, int64_t head, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+VncInfo *qmp_query_vnc(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+VncInfo2List *qmp_query_vnc_servers(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+MouseInfoList *qmp_query_mice(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+void qmp_send_key(KeyValueList *keys, bool has_hold_time, int64_t hold_time,
-+                  Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qmp_input_send_event(bool has_device, const char *device,
-+                          bool has_head, int64_t head,
-+                          InputEventList *events, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void vnc_display_open(const char *id, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void vnc_display_add_client(const char *id, int csock, bool skipauth)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qemu_input_queue_rel(QemuConsole *src, InputAxis axis, int value)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qemu_input_queue_btn(QemuConsole *src, InputButton btn, bool down)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qemu_input_event_sync(void)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qemu_input_update_buttons(QemuConsole *src, uint32_t *button_map,
-+                               uint32_t button_old, uint32_t button_new)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+#ifdef CONFIG_SPICE
-+
-+int using_spice;
-+
-+SpiceInfo *qmp_query_spice(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
-+                            const char *subject)
-+{
-+    qemu_debug_assert(0);
-+
-+    return -ENOSYS;
-+}
-+
-+int qemu_spice_display_add_client(int csock, int skipauth, int tls)
-+{
-+    qemu_debug_assert(0);
-+
-+    return -ENOSYS;
-+}
-+
-+int qemu_spice_set_passwd(const char *passwd, bool fail_if_conn,
-+                          bool disconnect_if_conn)
-+{
-+    qemu_debug_assert(0);
-+
-+    return -ENOSYS;
-+}
-+
-+int qemu_spice_set_pw_expire(time_t expires)
-+{
-+    qemu_debug_assert(0);
-+
-+    return -ENOSYS;
-+}
-+
-+#endif
-+
-+int index_from_key(const char *key, size_t key_length)
-+{
-+    qemu_debug_assert(0);
-+
-+    return -ENOSYS;
-+}
-diff --git a/stubs/vl-stub.c b/stubs/vl-stub.c
-index 89db36c..4415990 100644
---- a/stubs/vl-stub.c
-+++ b/stubs/vl-stub.c
-@@ -7,6 +7,12 @@
- #include "sysemu/replay.h"
- #include "disas/disas.h"
- 
-+#include "qapi/qapi-commands-ui.h"
-+#include "qapi/qapi-commands-run-state.h"
-+#include "sysemu/watchdog.h"
-+#include "disas/disas.h"
-+#include "audio/audio.h"
-+
- bool tcg_allowed;
- bool xen_allowed;
- bool boot_strict;
-@@ -19,6 +25,8 @@ int smp_threads = 1;
- int icount_align_option;
- int boot_menu;
- 
-+#pragma weak arch_type
-+
- unsigned int max_cpus;
- const uint32_t arch_type;
- const char *mem_path;
-@@ -31,6 +39,11 @@ ram_addr_t ram_size;
- MachineState *current_machine;
- QemuUUID qemu_uuid;
- 
-+int singlestep;
-+const char *qemu_name;
-+int no_shutdown;
-+int autostart;
-+
- int runstate_is_running(void)
- {
-     return 0;
-@@ -75,3 +88,82 @@ void x86_cpu_list(void)
- {
- }
- #endif
-+
-+void qemu_system_shutdown_request(ShutdownCause reason)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qemu_system_reset_request(ShutdownCause reason)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qemu_system_powerdown_request(void)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+void qemu_exit_preconfig_request(void)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+bool runstate_needs_reset(void)
-+{
-+    qemu_debug_assert(0);
-+
-+    return FALSE;
-+}
-+
-+bool qemu_wakeup_suspend_enabled(void)
-+{
-+    qemu_debug_assert(0);
-+
-+    return FALSE;
-+}
-+
-+void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+DisplayOptions *qmp_query_display_options(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+StatusInfo *qmp_query_status(Error **errp)
-+{
-+    qemu_debug_assert(0);
-+
-+    return NULL;
-+}
-+
-+void qmp_watchdog_set_action(WatchdogAction action, Error **errp)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+int select_watchdog_action(const char *p)
-+{
-+    qemu_debug_assert(0);
-+
-+    return -1;
-+}
-+
-+void monitor_disas(Monitor *mon, CPUState *cpu,
-+                   target_ulong pc, int nb_insn, int is_physical)
-+{
-+    qemu_debug_assert(0);
-+}
-+
-+int wav_start_capture(CaptureState *s, const char *path, int freq,
-+                      int bits, int nchannels)
-+{
-+    qemu_debug_assert(0);
-+
-+    return -1;
-+}
--- 
++++ b/docs/devel/qemu-multiprocess.txt
+@@ -0,0 +1,627 @@
++Disaggregating QEMU
++
++This document describes implementation details of multi-process
++qemu.
++
++QEMU can be broadly described as providing three main services. One is a
++VM control point, where VMs can be created, migrated, re-configured, and
++destroyed. A second is to emulate the CPU instructions within the VM,
++often accelerated by HW virtualization features such as Intel=E2=80=99s =
+VT
++extensions. Finally, it provides IO services to the VM by emulating HW
++IO devices, such as disk and network devices.
++
++A disaggregated QEMU
++
++A disaggregated QEMU involves separating QEMU services into separate
++host processes. Each of these processes can be given only the privileges
++it needs to provide its service, e.g., a disk service could be given
++access only the the disk images it provides, and not be allowed to
++access other files, or any network devices. An attacker who compromised
++this service would not be able to use this exploit to access files or
++devices beyond what the disk service was given access to.
++
++A QEMU control process would remain, but in disaggregated mode, it would
++be a control point that executes the processes needed to support the VM
++being created, but have no direct interfaces to the VM. During VM
++execution, it would still provide the user interface to hot-plug devices
++or live migrate the VM.
++
++A first step in creating a disaggregated QEMU is to separate IO services
++from the main QEMU program, which would continue to provide CPU
++emulation. i.e., the control process would also be the CPU emulation
++process. In a later phase, CPU emulation could be separated from the
++control process.
++
++
++Disaggregating IO services
++
++Disaggregating IO services is a good place to begin QEMU disaggregating
++for a couple of reasons. One is the sheer number of IO devices QEMU can
++emulate provides a large surface of interfaces which could potentially
++be exploited, and, indeed, have been a source of exploits in the past.
++Another is the modular nature of QEMU device emulation code provides
++interface points where the QEMU functions that perform device emulation
++can be separated from the QEMU functions that manage the emulation of
++guest CPU instructions.
++
++QEMU device emulation
++
++QEMU uses a object oriented SW architecture for device emulation code.
++Configured objects are all compiled into the QEMU binary, then objects
++are instantiated by name when used by the guest VM. For example, the
++code to emulate a device named =E2=80=9Cfoo=E2=80=9D is always present i=
+n QEMU, but its
++instantiation code is only run when the device is included in the target
++VM. (e.g., via the QEMU command line as _-device foo_)
++
++The object model is hierarchical, so device emulation code names its
++parent object (such as =E2=80=9Cpci-device=E2=80=9D for a PCI device) an=
+d QEMU will
++instantiate a parent object before calling the device=E2=80=99s instanti=
+ation
++code.
++
++Current separation models
++
++In order to separate the device emulation code from the CPU emulation
++code, the device object code must run in a different process. There are
++a couple of existing QEMU features that can run emulation code
++separately from the main QEMU process. These are examined below.
++
++vhost user model
++
++Virtio guest device drivers can be connected to vhost user applications
++in order to perform their IO operations. This model uses special virtio
++device drivers in the guest and vhost user device objects in QEMU, but
++once the QEMU vhost user code has configured the vhost user application,
++mission-mode IO is performed by the application. The vhost user
++application is a daemon process that can be contacted via a known UNIX
++domain socket.
++
++vhost socket
++
++As mentioned above, one of the tasks of the vhost device object within
++QEMU is to contact the vhost application and send it configuration
++information about this device instance. As part of the configuration
++process, the application can also be sent other file descriptors over
++the socket, which then can be used by the vhost user application in
++various ways, some of which are described below.
++
++vhost MMIO store acceleration
++
++VMs are often run using HW virtualization features via the KVM kernel
++driver. This driver allows QEMU to accelerate the emulation of guest CPU
++instructions by running the guest in a virtual HW mode. When the guest
++executes instructions that cannot be executed by virtual HW mode,
++execution returns to the KVM driver so it can inform QEMU to emulate the
++instructions in SW.
++
++One of the events that can cause a return to QEMU is when a guest device
++driver accesses an IO location. QEMU then dispatches the memory
++operation to the corresponding QEMU device object. In the case of a
++vhost user device, the memory operation would need to be sent over a
++socket to the vhost application. This path is accelerated by the QEMU
++virtio code by setting up an eventfd file descriptor that the vhost
++application can directly receive MMIO store notifications from the KVM
++driver, instead of needing them to be sent to the QEMU process first.
++
++vhost interrupt acceleration
++
++Another optimization used by the vhost application is the ability to
++directly inject interrupts into the VM via the KVM driver, again,
++bypassing the need to send the interrupt back to the QEMU process first.
++The QEMU virtio setup code configures the KVM driver with an eventfd
++that triggers the device interrupt in the guest when the eventfd is
++written. This irqfd file descriptor is then passed to the vhost user
++application program.
++
++vhost access to guest memory
++
++The vhost application is also allowed to directly access guest memory,
++instead of needing to send the data as messages to QEMU. This is also
++done with file descriptors sent to the vhost user application by QEMU.
++These descriptors can be passed to mmap() by the vhost application to
++map the guest address space into the vhost application.
++
++IOMMUs introduce another level of complexity, since the address given to
++the guest virtio device to DMA to or from is not a guest physical
++address. This case is handled by having vhost code within QEMU register
++as a listener for IOMMU mapping changes. The vhost application maintains
++a cache of IOMMMU translations: sending translation requests back to
++QEMU on cache misses, and in turn receiving flush requests from QEMU
++when mappings are purged.
++
++applicability to device separation
++
++Much of the vhost model can be re-used by separated device emulation. In
++particular, the ideas of using a socket between QEMU and the device
++emulation application, using a file descriptor to inject interrupts into
++the VM via KVM, and allowing the application to mmap() the guest should
++be re used.
++
++There are, however, some notable differences between how a vhost
++application works and the needs of separated device emulation. The most
++basic is that vhost uses custom virtio device drivers which always
++trigger IO with MMIO stores. A separated device emulation model must
++work with existing IO device models and guest device drivers. MMIO loads
++break vhost store acceleration since they are synchronous - guest
++progress cannot continue until the load has been emulated. By contrast,
++stores are asynchronous, the guest can continue after the store event
++has been sent to the vhost application.
++
++Another difference is that in the vhost user model, a single daemon can
++support multiple QEMU instances. This is contrary to the security regime
++desired, in which the emulation application should only be allowed to
++access the files or devices the VM it=E2=80=99s running on behalf of can=
+ access.
++
++
++New separation model based on proxy objects
++
++A different model based on proxy objects in the QEMU program
++communicating with remote emulation programs could provide separation
++while minimizing the changes needed to the device emulation code. The
++rest of this section is a discussion of how a proxy object model would
++work.
++
++
++Remote emulation processes
++
++The remote emulation process will run the QEMU object hierarchy without
++modification. The device emulation objects will be also be based on the
++QEMU code, because for anything but the simplest device, it would not be
++a tractable to re-implement both the object model and the many device
++backends that QEMU has.
++
++The processes will communicate with the QEMU process over UNIX domain
++sockets. The processes can be executed either as standalone processes,
++or be executed by QEMU. In both cases, the host backends the emulation
++processes will provide are specified on its command line, as they would
++be for QEMU. For example:
++
++    disk-proc -blockdev driver=3Dfile,node-name=3Dfile0,filename=3Ddisk-=
+file0  \
++    -blockdev driver=3Dqcow2,node-name=3Ddrive0,file=3Dfile0
++
++would indicate process _disk-proc_ uses a qcow2 emulated disk named
++_file0_ as its backend.
++
++Emulation processes may emulate more than one guest controller. A common
++configuration might be to put all controllers of the same device class
++(e.g., disk, network, etc.) in a single process, so that all backends of
++the same type can be managed by a single QMP monitor.
++
++communication with QEMU
++
++Remote emulation processes will recognize a _-socket_ argument that
++specifies the path of a UNIX domain socket used to communicate with the
++QEMU process. If no _-socket_ argument is present, the process will use
++file descriptor 0 to communicate with QEMU. For example,
++
++    disk-proc -socket /tmp/disk0-sock <backend list>
++
++will communicate with QEMU using the socket path _/tmp/disk0-sock_.
++
++remote process QMP monitor
++
++Remote emulation processes can be monitored via QMP, similar to QEMU
++itself. The QMP monitor socket is specified the same as for a QEMU
++process:
++
++    disk-proc -qmp unix:/tmp/disk-mon,server
++
++can be monitored over the UNIX socket path _/tmp/disk-mon_.
++
++QEMU command line
++
++The QEMU command line options will need to be modified to indicate which
++items are emulated by a separate program, and which remain emulated by
++QEMU itself.
++
++identifying remote emulation processes
++
++Remote emulation processes will be identified to QEMU using a _-remote_
++command line option. This option can either specify a command that QEMU
++will execute, or can specify a UNIX domain socket that QEMU can use to
++connect to an existing process. Both forms require a =E2=80=9Cid=E2=80=9D=
+ option that
++identifies the process to later _-device_ options. The process version
++is:
++
++    -remote id=3Ddisk-proc,command=3D"disk-proc <backend list>"
++
++And the socket version is:
++
++    -remote id=3Ddisk-proc,socket=3D"/tmp/disk0-sock"
++
++In the latter case, the remote process must be given the same socket on
++its command line when it is executed:
++
++    disk-proc -socket /tmp/disk0-sock <backend list>
++
++identifying devices emulated remotely
++
++Devices that are to be emulated in a separate process will be identify
++the remote process with a =E2=80=9Cremote=E2=80=9D option on their _-dev=
+ice_ command
++line specification. e.g., an LSI SCSI controller and disk can be
++specified as:
++
++    -device lsi53c895a,id=3Dscsi0
++    -device scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,scsi-id=3D0
++
++If these devices are emulated by remote process =E2=80=9Cdisk-proc,=E2=80=
+=9D as
++described in the previous section, the QEMU command line would be:
++
++    -device lsi53c895a,id=3Dscsi0,remote=3Ddisk-proc
++    -device scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,scsi-id=3D0,remote=3Ddi=
+sk-proc
++
++Some devices are implicitly created by the machine object. e.g., the q35
++machine object will create its PCI bus, and attach an ich9-ahci IDE
++controller to it. In this case, options will need to be added to the
++_-machine_ command line. e.g.,
++
++    -machine pc-q35,ide-remote=3Ddisk-proc
++
++will use the remote process with an =E2=80=9Cid=E2=80=9D of =E2=80=9Cdis=
+k-proc=E2=80=9D to emulate the
++IDE controller and its disks.
++
++The disks themselves still need to be specified with _-remote_ option,
++as in the example above. e.g.,
++
++    -device ide-hd,drive=3Ddrive0,bus=3Dide.0,unit=3D0,remote=3Ddisk-pro=
+c
++
++
++QEMU management of remote processes
++
++Each _-remote_ instance on the QEMU command line will create a remote
++process proxy instance in QEMU. They will be held on a _QList_ that can
++be searched for by its =E2=80=9Cid=E2=80=9D property. The remote process=
+ proxy will also
++establish a communication channel between QEMU and the remote process.
++This can be done in one of two methods: direction execution of the
++process by QEMU with fork() and exec() system calls, or by connecting to
++an existing process.
++
++direct execution
++
++When the remote process is directly executed, the remote process proxy
++will setup a communication channel between itself and the emulation
++process. This channel will be created using socketpair() and the remote
++process side of the pair will be given to the process as file descriptor
++0.
++
++connecting to an existing process
++
++Some environments wish to deny QEMU the ability to execute fork() and
++exec() In these case, emulation processes will be started before QEMU,
++and a UNIX domain socket will be given to each emulation process to
++communicate with QEMU over. After communication is established, the
++socket will be unlinked from the file system space by the QEMU process.
++
++communication with emulation process
++
++primary socket
++
++Whether the process was executed by QEMU or externally, there will be a
++primary socket for communication between QEMU and the remote process.
++This channel will handle configuration commands from QEMU to the
++process, either from the QEMU command line, or from QMP commands that
++affect the devices being emulated by the process. This channel will only
++allow one message to be pending at a time; if additional messages
++arrive, they must wait for previous ones to be acknowledged from the
++remote side.
++
++secondary sockets
++
++The primary socket can pass the file descriptors of secondary sockets
++for operations that occur in parallel with commands on the primary
++channel. These include MMIO operations generated by the guest, interrupt
++notifications generated by the devices being emulated, or _vmstate_ for
++live migration. These secondary sockets will be created at the behest of
++the device proxies that require them. A disk device proxy wouldn=E2=80=99=
+t need
++any secondary sockets, but a disk controller device proxy may need both
++an MMIO socket and an interrupt socket.
++
++emulation process attached via QMP command
++
++There will be a new =E2=80=9Cattach-process=E2=80=9D QMP command to faci=
+litate device
++hot-plug. This command=E2=80=99s arguments will be the same as the _-rem=
+ote_
++command line when it=E2=80=99s used to attach to a remote process. i.e.,=
+ it will
++need an =E2=80=9Cid=E2=80=9D argument so that hot-plugged devices can la=
+ter find it, and
++a =E2=80=9Csocket=E2=80=9D argument to identify the UNIX domain socket t=
+hat will be used
++to communicate with QEMU.
++
++
++QEMU device proxy objects
++
++QEMU has an object model based on sub-classes inherited from the
++=E2=80=9Cobject=E2=80=9D super-class. The sub-classes that are of intere=
+st here are the
++=E2=80=9Cdevice=E2=80=9D and =E2=80=9Cbus=E2=80=9D sub-classes whose chi=
+ld sub-classes make up the
++device tree of a QEMU emulated system.
++
++The proxy object model will use device proxy objects to replace the
++device emulation code within the QEMU process. These objects will live
++in the same place in the object and bus hierarchies as the objects they
++replace. i.e., the proxy object for an LSI SCSI controller will be a
++sub-class of the =E2=80=9Cpci-device=E2=80=9D class, and will have the s=
+ame PCI bus
++parent and the same SCSI bus child objects as the LSI controller object
++it replaces.
++
++After the QEMU command line has been parsed, the remote devices will be
++instantiated in the same manner as local devices are. (i.e.,
++qdev_device_add()). In order to distinguish them from regular _-device_
++device objects, their class name will be the name of the class it
++replaces, with =E2=80=9C-proxy=E2=80=9D appended. e.g., the =E2=80=9Clsi=
+53c895a=E2=80=9D proxy class
++will be =E2=80=9Clsi53c895a-proxy.=E2=80=9D
++
++device JSON description
++
++The remote process needs a JSON representation of the command line
++options used to create the object. This JSON representation is used to
++create the corresponding object in the emulation process. e.g., for an
++LSI SCSI controller invoked as:
++
++     -device lsi53c895a,id=3Dscsi0,remote=3Dlsi-scsi
++
++the proxy object would create a
++
++    { "driver" : "lsi53c895a", "id" : "scsi0" }
++
++JSON description. The =E2=80=9Cdriver=E2=80=9D option is assigned to the=
+ device name
++when the command line is parsed, so the =E2=80=9C-proxy=E2=80=9D appende=
+d by the command
++line parsing code is removed. The =E2=80=9Cremote=E2=80=9D option isn=E2=
+=80=99t needed in the
++JSON description since it only applies to the proxy object in the QEMU
++process.
++
++device object whitelist
++
++Some device objects may not need a proxy. These are devices with no
++direct guest interfaces. (e.g., no MMIO, PIO, or interrupts). There will
++be a whitelist of such devices, and any devices on this list will not be
++instantiated in QEMU. Their JSON representation will still be sent to
++the remote process, so the object can be created there.
++
++object initialization
++
++QEMU object initialization occurs in two phases. The first
++initialization happens once per object class. (i.e., there can be many
++SCSI disks in an emulated system, but the =E2=80=9Cscsi-hd=E2=80=9D clas=
+s has its
++class_init() function called only once) The second phase happens when
++each object=E2=80=99s instance_init() function is called to initialize e=
+ach
++instance of the object.
++
++All device objects are sub-classes of the =E2=80=9Cdevice=E2=80=9D class=
+, so they also
++have a realize() function that is called after instance_init() is called
++and after the object=E2=80=99s static properties have been initialized. =
+Many
++device objects don=E2=80=99t even provide an instance_init() function, a=
+nd do
++all their per-instance work in realize().
++
++class_init
++
++The class_init() method of a proxy object will, in general behave
++similarly to the object it replaces, including setting any static
++properties and methods needed by the proxy.
++
++instance_init / realize
++
++The instance_init() and realize() functions would only need to perform
++tasks related to being a proxy, such are registering its own MMIO
++handlers, or creating a child bus that other proxy devices can be
++attached to later.
++
++Other tasks will are device-specific. For example, PCI device objects
++will initialize the PCI config space in order to make a valid PCI device
++tree within the QEMU process.
++
++address space registration
++
++Most devices are driven by guest device driver accesses to IO addresses
++or ports. The QEMU device emulation code uses QEMU=E2=80=99s memory regi=
+on
++function calls (such as memory_region_init_io()) to add callback
++functions that QEMU will invoke when the guest accesses the device=E2=80=
+=99s
++areas of the IO address space. When a guest driver does access the
++device, the VM will exit HW virtualization mode and return to QEMU,
++which will then lookup and execute the corresponding callback function.
++
++A proxy object would need to mirror the memory region calls the actual
++device emulator would perform in its initialization code, but with its
++own callbacks. When invoked by QEMU as a result of a guest IO operation,
++they will forward the operation to the device emulation process.
++
++PCI config space
++
++PCI devices also have a configuration space that can be accessed by the
++guest driver. Guest accesses to this space is not handled by the device
++emulation object, but by its PCI parent object. Much of this space is
++read-only, but certain registers (especially BAR and MSI-related ones)
++need to be propagated to the emulation process.
++
++PCI parent proxy
++
++One way to propagate guest PCI config accesses is to create a
++=E2=80=9Cpci-device-proxy=E2=80=9D class that can serve as the parent of=
+ a PCI device
++proxy object. This class=E2=80=99s parent would be =E2=80=9Cpci-device=E2=
+=80=9D and it would
++override the PCI parent=E2=80=99s config_read() and config_write() metho=
+ds with
++ones that forward these operations to the emulation program.
++
++interrupt receipt
++
++A proxy for a device that generates interrupts will need to create a
++socket to receive interrupt indications from the emulation process. An
++incoming interrupt indication would then be sent up to its bus parent to
++be injected into the guest. For example, a PCI device object may use
++pci_set_irq().
++
++live migration
++
++The proxy will register to save and restore any _vmstate_ it needs over
++a live migration event. The device proxy does not need to manage the
++remote device=E2=80=99s _vmstate_; that will be handled by the remote pr=
+ocess
++proxy (see below).
++
++
++QEMU remote device operation
++
++Generic device operations, such as DMA, will be performs by the remote
++process proxy by sending messages to the remote process.
++
++DMA operations
++
++DMA operations would be handled much like vhost applications do. One of
++the initial messages sent to the emulation process is a guest memory
++table. Each entry in this table consists of a file descriptor and size
++that the emulation process can mmap() to directly access guest memory,
++similar to vhost_user_set_mem_table(). Note guest memory must be backed
++by file descriptors, such as when QEMU is given the _-mem-path_ command
++line option.
++
++IOMMU operations
++
++When the emulated system includes an IOMMU, the remote process proxy in
++QEMU will need to create a socket for IOMMU requests from the emulation
++process. It will handle those requests with an
++address_space_get_iotlb_entry() call. In order to handle IOMMU unmaps,
++the remote process proxy will also register as a listener on the
++device=E2=80=99s DMA address space. When an IOMMU memory region is creat=
+ed
++within the DMA address space, an IOMMU notifier for unmaps will be added
++to the memory region that will forward unmaps to the emulation process
++over the IOMMU socket.
++
++device hot-plug via QMP
++
++An QMP =E2=80=9Cdevice_add=E2=80=9D command can add a device emulated by=
+ a remote
++process. It needs to add a =E2=80=9Cremote=E2=80=9D option to the comman=
+d, just as the
++_-device_ command line option does. The remote process may either be one
++started at QEMU startup, or be one added by the =E2=80=9Cadd-process=E2=80=
+=9D QMP
++command described above. In either case, the remote process proxy will
++forward the new device=E2=80=99s JSON description to the corresponding e=
+mulation
++process.
++
++live migration
++
++The remote process proxy will also register for live migration
++notifications with vmstate_register(). When called to save state, the
++proxy will send the remote process a secondary socket file descriptor to
++save the remote process=E2=80=99s device _vmstate_ over. The incoming by=
+te
++stream length and data will be saved as the proxy=E2=80=99s _vmstate_. W=
+hen the
++proxy is resumed on its new host, this _vmstate_ will be extracted, and
++a secondary socket file descriptor will be sent to the new remote
++process through which it receives the _vmstate_ in order to restore the
++devices there.
++
++device emulation in remote process
++
++The parts of QEMU that the emulation program will need include the
++object model; the memory emulation objects; the device emulation objects
++of the targeted device, and any dependent devices; and, the device=E2=80=
+=99s
++backends. It will also need code to setup the machine environment,
++handle requests from the QEMU process, and route machine-level requests
++(such as interrupts or IOMMU mappings) back to the QEMU process.
++
++initialization
++
++The process initialization sequence will follow the same sequence
++followed by QEMU. It will first initialize the backend objects, then
++device emulation objects. The JSON descriptions sent by the QEMU process
++will drive which objects need to be created.
++
++-   address spaces
++
++    Before the device objects are created, the initial address spaces
++    and memory regions must be configured with memory_map_init(). This
++    creates a RAM memory region object (_system_memory_) and an IO
++    memory region object (_system_io_).
++
++-   RAM
++
++    RAM memory region creation will follow how pc_memory_init() creates
++    them, but must use memory_region_init_ram_from_fd() instead of
++    memory_region_allocate_system_memory(). The file descriptors needed
++    will be supplied by the guest memory table from above. Those RAM
++    regions would then be added to the _system_memory_ memory region
++    with memory_region_add_subregion().
++
++-   PCI
++
++    IO initialization will be driven by the JSON descriptions sent from
++    the QEMU process. For a PCI device, a PCI bus will need to be
++    created with pci_root_bus_new(), and a PCI memory region will need
++    to be created and added to the _system_memory_ memory region with
++    memory_region_add_subregion_overlap(). The overlap version is
++    required for architectures where PCI memory overlaps with RAM
++    memory.
++
++MMIO handling
++
++The device emulation objects will use memory_region_init_io() to install
++their MMIO handlers, and pci_register_bar() to associate those handlers
++with a PCI BAR, as they do within QEMU currently.
++
++In order to use address_space_rw() in the emulation process to handle
++MMIO requests from QEMU, the PCI physical addresses must be the same in
++the QEMU process and the device emulation process. In order to
++accomplish that, guest BAR programming must also be forwarded from QEMU
++to the emulation process.
++
++interrupt injection
++
++When device emulation wants to inject an interrupt into the VM, the
++request climbs the device=E2=80=99s bus object hierarchy until the point=
+ where a
++bus object knows how to signal the interrupt to the guest. The details
++depend on the type of interrupt being raised.
++
++-   PCI pin interrupts
++
++    On x86 systems, there is an emulated IOAPIC object attached to the
++    root PCI bus object, and the root PCI object forwards interrupt
++    requests to it. The IOAPIC object, in turn, calls the KVM driver to
++    inject the corresponding interrupt into the VM. The simplest way to
++    handle this in an emulation process would be to setup the root PCI
++    bus driver (via pci_bus_irqs()) to send a interrupt request back to
++    the QEMU process, and have the device proxy object reflect it up the
++    PCI tree there.
++
++-   PCI MSI/X interrupts
++
++    PCI MSI/X interrupts are implemented in HW as DMA writes to a
++    CPU-specific PCI address. In QEMU on x86, a KVM APIC object receives
++    these DMA writes, then calls into the KVM driver to inject the
++    interrupt into the VM. A simple emulation process implementation
++    would be to send the MSI DMA address from QEMU as a message at
++    initialization, then install an address space handler at that
++    address which forwards the MSI message back to QEMU.
++
++DMA operations
++
++When a emulation object wants to DMA into or out of guest memory, it
++first must use dma_memory_map() to convert the DMA address to a local
++virtual address. The emulation process memory region objects setup above
++will be used to translate the DMA address to a local virtual address the
++device emulation code can access.
++
++IOMMU
++
++When an IOMMU is in use in QEMU, DMA translation uses IOMMU memory
++regions to translate the DMA address to a guest physical address before
++that physical address can be translated to a local virtual address. The
++emulation process will need similar functionality.
++
++-   IOTLB cache
++
++    The emulation process will maintain a cache of recent IOMMU
++    translations (the IOTLB). When the translate() callback of an IOMMU
++    memory region is invoked, the IOTLB cache will be searched for an
++    entry that will map the DMA address to a guest PA. On a cache miss,
++    a message will be sent back to QEMU requesting the corresponding
++    translation entry, which be both be used to return a guest address
++    and be added to the cache.
++
++-   IOTLB purge
++
++    The IOMMU emulation will also need to act on unmap requests from
++    QEMU. These happen when the guest IOMMU driver purges an entry from
++    the guest=E2=80=99s translation table.
++
++live migration
++
++When a remote process receives a live migration indication from QEMU, it
++will set up a channel using the received file descriptor with
++qio_channel_socket_new_fd(). This channel will be used to create a
++_QEMUfile_ that can be passed to qemu_save_device_state() to send the
++process=E2=80=99s device state back to QEMU. This method will be reverse=
+d on
++restore - the channel will be passed to qemu_loadvm_state() to restore
++the device state.
++
+--=20
 1.8.3.1
 
 
