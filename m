@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340BCA6D34
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:44:17 +0200 (CEST)
-Received: from localhost ([::1]:47742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB074A6D41
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 17:50:03 +0200 (CEST)
+Received: from localhost ([::1]:47832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Ayd-0001Db-LU
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:44:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
+	id 1i5B4E-00058D-8n
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 11:50:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59311)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArW-0002yB-Hy
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:56 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArY-00031y-Im
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ArV-00060q-CY
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:54 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53089)
+ (envelope-from <peter.maydell@linaro.org>) id 1i5ArW-00061W-El
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:56 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53094)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5ArV-00060F-6C
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:53 -0400
-Received: by mail-wm1-x329.google.com with SMTP id t17so18753650wmi.2
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:36:53 -0700 (PDT)
+ id 1i5ArW-000610-8C
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 11:36:54 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id t17so18753733wmi.2
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 08:36:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Jh428xFMZspE9pzmT4T/vs6lA+3UmLCdDqsT/xMT5PA=;
- b=rPK2hf4Tm3a3xnzX1tqtxXub5x15pPJcI11sH/pYEdjJd7Vy+LC5W4UsULfAUXDnMD
- G60b3LkNc7BxVSKh2wjvodE/SxtrWKQhWuyGChggHeundz6Zhkv555z0VDhAgviIjzSY
- DYgjsNFXUYpomxw1k1zXyySCTj01a9XGQ5j9WqqEYTfQRYqh0FkwT0rsKmaF6gIVXqW5
- /5Zp4/1G1BO/q6vz2BWnxbzL64E3xCvOyyhoKDUJwPzbt0A/61+lsNQxfWadS5P7qMZd
- 6g/3sB31q74KZft20MC/cxOCiBoZIuZUtO3XErk/v2xjspGEqs+k1KEY3dlpIGG4lmgV
- mZPw==
+ bh=8/T9mmX0W7AG1ACKL4IcYUCZwX8sRH9ZWIp1nKl2B4A=;
+ b=AAuRoDL5j9IeKmGoUhmWSkrEBwvKGYGZmNtP9QXU8QRBQUgG6gJbMWvUNyTs2H7k2w
+ xEV3vizI4J5IvwXnHZ2sStnmedl1bfca6A+bRqefbt3hG1BLw/S5nWyZ7wO0RGJno5d7
+ 5ZiKFECXa3cBp+reT0uNLDDdKAFhCAVbznL/jWhaXQBuz+gRnpP3APpQ2fZIhycx5CIS
+ bH8hgXx/vJJi49f1ShLcE5FBxdvKvDQsHOL0W7Hlbs1ofU6hMJnrlUxAJ2u8jfg0GIp1
+ Q3ZDQAEq1/LttU3zXDPNzxqCJwIp63OxUTnEAMeYRwlAPyc1sRQz++YoT1cFs0GmoWM0
+ gPBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Jh428xFMZspE9pzmT4T/vs6lA+3UmLCdDqsT/xMT5PA=;
- b=p5VEyZiz7aoHEgMYLuNYtcv702FQIuiVZAEmDqdnw5mecESQbkYfsxNUOtHaPV9Zwi
- 7mc1ff1y+0suyy3ItHV/tNcCmYlpVLBSUFzjzqagwYrkNW1hu7bBR2C2WuaGQ2dJMjKf
- iTMniYzfgti4yQ78j+P2AeDRsEAkPPCLyZzVQTKYjXxA7EjxwIfaXQDnYO8iBkhflmEE
- yT04S5/HtGyASC9Q6OiF05FDSmmtKBwvzAmQHzOT1n1IQBi6K/h7/RWVjJOxAXBFYEsA
- 0eBwgF2EJdmgC1/OE79CmbaTgfiL/32s12Fp7XjumOK/dA76sQBS/KzaF/OzbnxxsYWl
- 2NNw==
-X-Gm-Message-State: APjAAAXsO08f4iuQaAyBOakIkveWDvNTU6vJA6bubhSRbpDjnfAUHUc/
- Edh4Qq5e6w+5k2JAGDW1aSMDYqq895Vlbw==
-X-Google-Smtp-Source: APXvYqy8me/hDC390Sh1q3+M3E44cZXcICos3F3vPTxp5U4Lf6XsePitp2aUfG99oU/gDPD6vyvLTA==
-X-Received: by 2002:a7b:cb0f:: with SMTP id u15mr717576wmj.173.1567525011888; 
- Tue, 03 Sep 2019 08:36:51 -0700 (PDT)
+ bh=8/T9mmX0W7AG1ACKL4IcYUCZwX8sRH9ZWIp1nKl2B4A=;
+ b=ixboqM44FQsMjTIhrhpHOnSfL/cAXmbbePiPRFcUNNaA2c0O2EJHbQufEkLL9PQdBA
+ L+jYcWheA9KLBlnDDgBudR8SVTOGWzrdWN9xC9aDPpNyBfyeu8cbx5fEIOBZUydILBrv
+ u43+hpRcSQO8S4t3CKjyiuaIh5/aBssht/Go70DPCtChIwe0TDmL3ghOv2Nrnm1L+el0
+ fiKI6PILCCXAKCp4P0al/ZY/7iUy16eTnioEi6vCHmC9KAgUWIgc9BCmARYKcS1HSE/A
+ TZE9viSNd0K1WsCtYoTfdscoCR5XB5mkWFR99e6Sg8453NHf3BrNhhD0XQSKuSeKwOrP
+ +MQg==
+X-Gm-Message-State: APjAAAUprlKRcfcEf4VYAPrFGqtAieJ8NrWtEhy2litQza35X1JlDrIz
+ g07WM89/a+XxG8WZqM43a8dH4QOX3zP7TA==
+X-Google-Smtp-Source: APXvYqzudDbzpjH8QAPCM+sKkDIKxsvcQU5S602XH/po1ze53H7lxE2O0jukDpSEqU4iS0YIvXrB9A==
+X-Received: by 2002:a1c:f009:: with SMTP id a9mr760170wmb.151.1567525012984;
+ Tue, 03 Sep 2019 08:36:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id a18sm24435188wrt.18.2019.09.03.08.36.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 08:36:51 -0700 (PDT)
+ Tue, 03 Sep 2019 08:36:52 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 16:36:26 +0100
-Message-Id: <20190903153633.6651-15-peter.maydell@linaro.org>
+Date: Tue,  3 Sep 2019 16:36:27 +0100
+Message-Id: <20190903153633.6651-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190903153633.6651-1-peter.maydell@linaro.org>
 References: <20190903153633.6651-1-peter.maydell@linaro.org>
@@ -66,8 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
-Subject: [Qemu-devel] [PULL 14/21] hw/dma/xilinx_axi: Use
+X-Received-From: 2a00:1450:4864:20::32e
+Subject: [Qemu-devel] [PULL 15/21] hw/net/xilinx_axi: Use
  object_initialize_child for correct ref. counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,39 +99,40 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190823143249.8096-6-philmd@redhat.com
+Message-id: 20190823143249.8096-7-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/dma/xilinx_axidma.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ hw/net/xilinx_axienet.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
-index d176df6d449..a254275b64e 100644
---- a/hw/dma/xilinx_axidma.c
-+++ b/hw/dma/xilinx_axidma.c
-@@ -566,14 +566,14 @@ static void xilinx_axidma_init(Object *obj)
-     XilinxAXIDMA *s = XILINX_AXI_DMA(obj);
+diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
+index d8716a1f737..2c8c065401a 100644
+--- a/hw/net/xilinx_axienet.c
++++ b/hw/net/xilinx_axienet.c
+@@ -994,15 +994,14 @@ static void xilinx_enet_init(Object *obj)
+     XilinxAXIEnet *s = XILINX_AXI_ENET(obj);
      SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
  
 -    object_initialize(&s->rx_data_dev, sizeof(s->rx_data_dev),
--                      TYPE_XILINX_AXI_DMA_DATA_STREAM);
+-                      TYPE_XILINX_AXI_ENET_DATA_STREAM);
 -    object_initialize(&s->rx_control_dev, sizeof(s->rx_control_dev),
--                      TYPE_XILINX_AXI_DMA_CONTROL_STREAM);
+-                      TYPE_XILINX_AXI_ENET_CONTROL_STREAM);
 -    object_property_add_child(OBJECT(s), "axistream-connected-target",
 -                              (Object *)&s->rx_data_dev, &error_abort);
 -    object_property_add_child(OBJECT(s), "axistream-control-connected-target",
 -                              (Object *)&s->rx_control_dev, &error_abort);
+-
 +    object_initialize_child(OBJECT(s), "axistream-connected-target",
 +                            &s->rx_data_dev, sizeof(s->rx_data_dev),
-+                            TYPE_XILINX_AXI_DMA_DATA_STREAM, &error_abort,
++                            TYPE_XILINX_AXI_ENET_DATA_STREAM, &error_abort,
 +                            NULL);
 +    object_initialize_child(OBJECT(s), "axistream-control-connected-target",
 +                            &s->rx_control_dev, sizeof(s->rx_control_dev),
-+                            TYPE_XILINX_AXI_DMA_CONTROL_STREAM, &error_abort,
++                            TYPE_XILINX_AXI_ENET_CONTROL_STREAM, &error_abort,
 +                            NULL);
+     sysbus_init_irq(sbd, &s->irq);
  
-     sysbus_init_irq(sbd, &s->streams[0].irq);
-     sysbus_init_irq(sbd, &s->streams[1].irq);
+     memory_region_init_io(&s->iomem, OBJECT(s), &enet_ops, s, "enet", 0x40000);
 -- 
 2.20.1
 
