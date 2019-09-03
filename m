@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFC7A7103
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:50:37 +0200 (CEST)
-Received: from localhost ([::1]:49298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F60A7106
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Sep 2019 18:52:06 +0200 (CEST)
+Received: from localhost ([::1]:49358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5C0q-0005e9-Lg
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37436)
+	id 1i5C2H-0008Ev-Pg
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 12:52:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37449)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BNC-0001dk-B0
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:39 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BND-0001fd-MJ
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5BNB-0003zi-9J
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:38 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:46267)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5BNC-00040x-Cg
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:39 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:38881)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5BNB-0003z4-3v
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:37 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id m3so9372502pgv.13
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:37 -0700 (PDT)
+ id 1i5BNC-000405-6n
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 12:09:38 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id h195so4519430pfe.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 09:09:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=qb+ujYL2F+DwauWM58yFrqxB8nQIAn+bvj1URM0E/1A=;
- b=izdtibyB5ELd5XFmw6SM8+8NHJ9yQFyZQYQiOZuXek3o0WFC2VT07MLoBK+MrJD/Yo
- IsRwHWkRBj/qpnpuCh4HD5yXJIwHKlplGFWdIri8MsEXpYoJXkwXw5Szv0WUop5qzSTk
- TCTrZ2Zk9Rat7GU7slX0zSVm2jmBuUWNNv/VntvnHF7yEqx7zjdvLtUQ2UeJGRICwsUG
- K90LjedCbYBskr1fSW7vBMUkhUtCs0R1JFH4aG4X89KBh3axYRWR4D3vcJFKr01CWc5Y
- oc/ns6fRz7KY1/DZJJOQUm9NZAZeP/btqCkfEx4stW2UIEuGs9RYUpA54FvJ3/xGNXLG
- kqyg==
+ bh=7AiiEg4xJiOqmmYYjoxw79QoYQMGZfk7FrNe3RqLABM=;
+ b=AXdCSoED4045SCexaDvftDHizMTfRMOzM2xBMi29VKAzpIIA7iRVER8jpoIjNcZJBe
+ hk4Jsi4/ob7oICO/dWc6NlMQu42qqXX7RzVlFqpsrGKClWrEYlrK6BLAIlDY64kXwNst
+ sSTtji3LUfDFluySHvLRZhK2Up0sRfMoMM4K2Ps5EMpU5aCkclGYqNv7jyvcAKiMnQsT
+ np9LFcm97chTCIB04tIkckLTtE9OnbBhwQk2urslYvhmOtO8P4ghuPFYPRmULmO+j7Tu
+ cL8+EhmSkCfNWQFj3m431jR9fITOYnkVdYeMHJbU4P0mMT7CfC7CCRk3djnHSF6u5507
+ HVvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=qb+ujYL2F+DwauWM58yFrqxB8nQIAn+bvj1URM0E/1A=;
- b=ljGl3OkPlHMC61wfPXKiDRWULcoIxwf9M32gUz8SJvE01UW7pQvpVAJ2s6oQD4UEP9
- 6vvUYEVlo6JkI9cieX3ivQYgwnoB+d52EPgJNpUSjOnaJt2QavBQHTreug73qqHqcEwn
- YiH3qGh/4GWz4Jr7fekMvyxSJfP/Pned/YDaPMAELRsklLC8INOPAjXrurIcXtEU7KzP
- 43Z8UygZahWBX8/YH+RxUscd11u0yssUpb8/pmtW0R4O0AJ463PZ1MGTAtyNIhUReWu4
- IMk/yMKLRqFYatFWDVdEIVNFB9bdqB08jmhnOQIPG81tW6ozrM6740sJZ+Y98yE2ulWG
- XkSA==
-X-Gm-Message-State: APjAAAUmTffbjAgsUsQFEkiWsoOfPvm6Omn7xyb//Jshrm5ccd6vy2ku
- 329E/j4vJ+wi9wbHHR2aObC3ecQTWpk=
-X-Google-Smtp-Source: APXvYqzpPp1qH+2CIXsNm7nDfyHHt5+4j9fu1ZjcBmzOEBtuy7Crldz/KjnOnK/2VdLwg5ODQgL4Aw==
-X-Received: by 2002:a62:f80a:: with SMTP id d10mr2891158pfh.98.1567526975855; 
- Tue, 03 Sep 2019 09:09:35 -0700 (PDT)
+ bh=7AiiEg4xJiOqmmYYjoxw79QoYQMGZfk7FrNe3RqLABM=;
+ b=AS8p14hudP/pEt8nHU7sPe0c5BRCcpe/uy5DbygDV7xw/o+GEejLdx3osqMNZ1FqFx
+ GzjuUAUs2GbKNIR58ItFx7ih6LN2rPhH36PRDcJmFdCG6RPs9Egyqjar1owxoSgawnWZ
+ 7G38slujCfBcL0LCDQMhTle8enhb64NW7EAleifWU5ddgxwrFRaHHi3QqRtyetcfgMsc
+ VxEIXeIXXWgsW4AzEpyT6czrrnkj3E1eHdg85MOGpqxx2pfrnhPOk4xpq0P/7ad+Hb5l
+ 5nJ1Ojilk6WYR8LTw1/lvldkUWlJUWzL6/hUH6R0q5ID3o1lmFhzWBAdywougdTwmoOH
+ AvzQ==
+X-Gm-Message-State: APjAAAUxUI5iGm8uOSk1hcjpCChLrAZkVTL59Dbe6bzNlPV4PUM3ssB/
+ d4ZC4Ng2so9Q+Wo8nOQ1/oBvj6skJec=
+X-Google-Smtp-Source: APXvYqwk+STxX87GZZBa0ONUSTcIxO0BCnF6D1jPi89kUaMUJxpXXMaAEol9j4eRnkEkY35XP0OTRg==
+X-Received: by 2002:a62:60c7:: with SMTP id u190mr41656514pfb.54.1567526976905; 
+ Tue, 03 Sep 2019 09:09:36 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.34
+ by smtp.gmail.com with ESMTPSA id 127sm28089711pfy.56.2019.09.03.09.09.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 09:09:35 -0700 (PDT)
+ Tue, 03 Sep 2019 09:09:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  3 Sep 2019 09:08:51 -0700
-Message-Id: <20190903160858.5296-30-richard.henderson@linaro.org>
+Date: Tue,  3 Sep 2019 09:08:52 -0700
+Message-Id: <20190903160858.5296-31-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190903160858.5296-1-richard.henderson@linaro.org>
 References: <20190903160858.5296-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52f
-Subject: [Qemu-devel] [PATCH 29/36] s390x/tcg: Fix length calculation in
- probe_write_access()
+X-Received-From: 2607:f8b0:4864:20::42c
+Subject: [Qemu-devel] [PATCH 30/36] tcg: Factor out CONFIG_USER_ONLY
+ probe_write() from s390x code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,33 +82,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Hm... how did that "-" slip in (-TAGRET_PAGE_SIZE would be correct). This
-currently makes us exceed one page in a single probe_write() call,
-essentially leaving some memory unchecked.
+Factor it out into common code. Similar to the !CONFIG_USER_ONLY variant,
+let's not allow to cross page boundaries.
 
-Fixes: c5a7392cfb96 ("s390x/tcg: Provide probe_write_access helper")
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20190826075112.25637-3-david@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20190826075112.25637-4-david@redhat.com>
+[rth: Move cpu & cc variables inside if block.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/mem_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/exec/exec-all.h   |  4 ++--
+ accel/tcg/user-exec.c     | 14 ++++++++++++++
+ target/s390x/mem_helper.c |  7 -------
+ 3 files changed, 16 insertions(+), 9 deletions(-)
 
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 135aeaab0d..cbcc85add3 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -260,8 +260,6 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+ void tlb_set_page(CPUState *cpu, target_ulong vaddr,
+                   hwaddr paddr, int prot,
+                   int mmu_idx, target_ulong size);
+-void probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
+-                 uintptr_t retaddr);
+ #else
+ static inline void tlb_init(CPUState *cpu)
+ {
+@@ -312,6 +310,8 @@ static inline void tlb_flush_by_mmuidx_all_cpus_synced(CPUState *cpu,
+ {
+ }
+ #endif
++void probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
++                 uintptr_t retaddr);
+ 
+ #define CODE_GEN_ALIGN           16 /* must be >= of the size of a icache line */
+ 
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 897d1571c4..86e6827201 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -188,6 +188,20 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+     g_assert_not_reached();
+ }
+ 
++void probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
++                 uintptr_t retaddr)
++{
++    if (!guest_addr_valid(addr) ||
++        page_check_range(addr, size, PAGE_WRITE) < 0) {
++        CPUState *cpu = env_cpu(env);
++        CPUClass *cc = CPU_GET_CLASS(cpu);
++
++        cc->tlb_fill(cpu, addr, size, MMU_DATA_STORE, MMU_USER_IDX, false,
++                     retaddr);
++        g_assert_not_reached();
++    }
++}
++
+ #if defined(__i386__)
+ 
+ #if defined(__NetBSD__)
 diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 7819aca15d..4b43440e89 100644
+index 4b43440e89..fdff60ce5d 100644
 --- a/target/s390x/mem_helper.c
 +++ b/target/s390x/mem_helper.c
-@@ -2623,7 +2623,7 @@ void probe_write_access(CPUS390XState *env, uint64_t addr, uint64_t len,
- #else
+@@ -2615,12 +2615,6 @@ uint32_t HELPER(cu42)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t m3)
+ void probe_write_access(CPUS390XState *env, uint64_t addr, uint64_t len,
+                         uintptr_t ra)
+ {
+-#ifdef CONFIG_USER_ONLY
+-    if (!guest_addr_valid(addr) || !guest_addr_valid(addr + len - 1) ||
+-        page_check_range(addr, len, PAGE_WRITE) < 0) {
+-        s390_program_interrupt(env, PGM_ADDRESSING, ILEN_AUTO, ra);
+-    }
+-#else
      /* test the actual access, not just any access to the page due to LAP */
      while (len) {
--        const uint64_t pagelen = -(addr | -TARGET_PAGE_MASK);
-+        const uint64_t pagelen = -(addr | TARGET_PAGE_MASK);
-         const uint64_t curlen = MIN(pagelen, len);
+         const uint64_t pagelen = -(addr | TARGET_PAGE_MASK);
+@@ -2630,7 +2624,6 @@ void probe_write_access(CPUS390XState *env, uint64_t addr, uint64_t len,
+         addr = wrap_address(env, addr + curlen);
+         len -= curlen;
+     }
+-#endif
+ }
  
-         probe_write(env, addr, curlen, cpu_mmu_index(env, false), ra);
+ void HELPER(probe_write_access)(CPUS390XState *env, uint64_t addr, uint64_t len)
 -- 
 2.17.1
 
