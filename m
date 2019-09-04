@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD44A94DB
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:21:29 +0200 (CEST)
-Received: from localhost ([::1]:40050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED1BA951F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:25:53 +0200 (CEST)
+Received: from localhost ([::1]:40140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5ciV-00018K-N5
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:21:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52888)
+	id 1i5cml-0006rA-Rz
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:25:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52901)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9c-0006Ht-QG
+ (envelope-from <richard.henderson@linaro.org>) id 1i5c9d-0006Je-UJ
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9a-0006qh-7L
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:24 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:46606)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5c9b-0006sI-Dg
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:25 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:36736)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5c9Z-0006ou-Ua
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:22 -0400
-Received: by mail-pl1-x635.google.com with SMTP id t1so71357plq.13
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:21 -0700 (PDT)
+ id 1i5c9b-0006rb-4w
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:23 -0400
+Received: by mail-pf1-x430.google.com with SMTP id y22so42968pfr.3
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=IWUivciiEyIw5h23RCVrBi2UZhIQIIAcE0cBZIKJOZg=;
- b=d3oH9TLaCZO/zio1uZr+YOyY8auAfEZwBJFDmZbEn/XqQCppVuwzO0HQwzfkXoS8ki
- iOZAkhWMVCdZX7UH1IhJtMBHPwUm5QEx10l83erw1zY9z7LpV0UGAgsNfFbzM7zYWzy1
- ASRIXZtcGNQTZxCxIvFMyludOIuOZVW/CJj6mKrsUVYLDv/6ys14oqI8KME8kERBK2kd
- v+4uVLA+i9orjQqFBu5mCftu7EiFDYzg4PNJJSbqAJANHkzytSlFZ7SBouY/cT1F4Xqu
- zs9xIo8h35geD3yerWIoUiuPBCbQWw4wb2FgFNSuIHAHIOaKVt+g9CaQapZf8SNbokjJ
- Cwkw==
+ bh=slEwt35AByzjU9Ubr6zMEmDVhlGjx8ZzwD/PYybphKw=;
+ b=UMnStrVYvd/RNYanNLDF9REk42LeewIj8RBhxFMm9wS+KyxQXrllGOm/d7j+khGdLg
+ dPbbRfM+mqAjUsJzOQ8HOrZHxnlo4VMvUlFc7ju/SfaQ3FuDCt4d6cpJ0qKL84GKPOc9
+ INq0MxB/BJENzLalp6LH7QTtPhz9QPksOOaViLI+gO/Lf/swUphHGUqptg7Qsgj56BZF
+ qeVnN0WsCKz3jwM9M648Vj4WYIYPnMEQU6f7fA0zLgbAsxnKGLZlXwaVR2PK0JDlHTgZ
+ MRClU4ITUO+s2WhBE3PwfU4pBOqQ4wCQyXJliw+IGVnMDI7Jx5t9Es7lDIYZ1WAmfKS+
+ uaBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=IWUivciiEyIw5h23RCVrBi2UZhIQIIAcE0cBZIKJOZg=;
- b=bJcCw9J2KMCVcjOjx2rTReRe0LB5uoNT1AJEz09B9aDRwZCvpAsXq+j1E2BWKXZKKa
- /7Dl1EAy+FUItqUnszQ70/sIjFgrbebx0e/RmSx3Ya9hcEP/qnYWosZv6iwsl7//QbR5
- ltBwnS06NXXtvqFYtUHCU06v/c4GQsp4l+Ztv6Icu6Ivn5LB3XpdMoHMP4mZFnqgPkjt
- AaD2rly+3DyEo3CsR4rNl0wnRuIPbQicqjzSUjPEMqFFh2CtTxg6bNIjIAB5zFZXP/b+
- X+GBBj2Mxr+LrBfGehHMD62vzuT1uR6Be7zykKzdaV4yg3eAi+iE9TJumV/L0+hDzt/y
- Iakg==
-X-Gm-Message-State: APjAAAUiEF7exTda+L75XFAdGr1GDDG4G9ykH9B2YfQCA/N+No2V2fTu
- qRvK8whXB8Pi5o8OYddcBoYP6UGvrf4=
-X-Google-Smtp-Source: APXvYqz9jFlhcYuXuqx0S0DiU3lwJtwwvFcpuRw8InD6Z3Sq/7p7s1OBEUFqxXqT9dFdkZgRgNw8DQ==
-X-Received: by 2002:a17:902:788b:: with SMTP id
- q11mr42609133pll.308.1567629920532; 
- Wed, 04 Sep 2019 13:45:20 -0700 (PDT)
+ bh=slEwt35AByzjU9Ubr6zMEmDVhlGjx8ZzwD/PYybphKw=;
+ b=eSF20GWxQknqJ217zn8c32mqd2CGA+2HxjgycFceHZRMvIke5uTLcxWNJSUeLsP0J8
+ iaHnkwsJXCF8N6OFHuWoW6HNwytivk+qsvCydNwpj6s9FLoBjVdZ32LU2JLqaAJSMwO+
+ DuDWF4moFz457ya3zoSF3ALY9Bf4Wej0NhcGXJRY62LZapK3Wm/G71e8t26AgPz60urj
+ w/zC1MQhkqNDsW0JZHksExzL5veEprncOggJBnhd7hTqeHc577PHXfcDHcQ71k28nztD
+ UxFhVN2399GU+rVxg6HydhO+hg/cLjEmbQH/8dDjL8tBz51wXaNCGyZ5I27z3G/yhWnN
+ NQAA==
+X-Gm-Message-State: APjAAAWg3JJpQ7jP0S01NtR7HR9BNkddlsFmDxy5s9FkdUhr9dRP0ITf
+ w4OQlOiboxBpPLSZhDnzPP7rKunOWIc=
+X-Google-Smtp-Source: APXvYqyyA0nIi9efCgUCgecygo2myZ3ti58mF5EZbcBFW6PnwpSrP4aFvHTyEhdB6avFnLMV7AAbqg==
+X-Received: by 2002:aa7:93a8:: with SMTP id x8mr15781391pff.151.1567629921841; 
+ Wed, 04 Sep 2019 13:45:21 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.19
+ by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:45:19 -0700 (PDT)
+ Wed, 04 Sep 2019 13:45:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 13:45:03 -0700
-Message-Id: <20190904204507.32457-10-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 13:45:04 -0700
+Message-Id: <20190904204507.32457-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904204507.32457-1-richard.henderson@linaro.org>
 References: <20190904204507.32457-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::635
-Subject: [Qemu-devel] [PULL 09/13] target/openrisc: Add support for
- ORFPX64A32
+X-Received-From: 2607:f8b0:4864:20::430
+Subject: [Qemu-devel] [PULL 10/13] target/openrisc: Implement unordered fp
+ comparisons
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,458 +80,253 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is hardware support for double-precision floating-point using
-pairs of 32-bit registers.  Fix latent bugs in the heretofore unused
-helper_itofd and helper_ftoid.  Include the bit for cpu "any".
-Change the default cpu for linux-user to "any".
+These were added to the 1.3 spec.  For OF32S, validate AVR.
+But OF64A32 is itself new to 1.3 so no extra check needed.
 
 Reviewed-by: Stafford Horne <shorne@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/openrisc/target_elf.h |   2 +-
- target/openrisc/helper.h         |   2 +
- target/openrisc/cpu.c            |   2 +-
- target/openrisc/disas.c          |  56 ++++++++
- target/openrisc/fpu_helper.c     |  14 +-
- target/openrisc/translate.c      | 230 +++++++++++++++++++++++++++++++
- target/openrisc/insns.decode     |  31 +++++
- 7 files changed, 333 insertions(+), 4 deletions(-)
+ target/openrisc/helper.h     |  4 ++
+ target/openrisc/disas.c      | 24 ++++++++++
+ target/openrisc/fpu_helper.c | 20 +++++++++
+ target/openrisc/translate.c  | 85 ++++++++++++++++++++++++++++++++++++
+ target/openrisc/insns.decode | 12 +++++
+ 5 files changed, 145 insertions(+)
 
-diff --git a/linux-user/openrisc/target_elf.h b/linux-user/openrisc/target_elf.h
-index 40ceb025c9..265ecd3079 100644
---- a/linux-user/openrisc/target_elf.h
-+++ b/linux-user/openrisc/target_elf.h
-@@ -9,6 +9,6 @@
- #define OPENRISC_TARGET_ELF_H
- static inline const char *cpu_get_model(uint32_t eflags)
- {
--    return "or1200";
-+    return "any";
- }
- #endif
 diff --git a/target/openrisc/helper.h b/target/openrisc/helper.h
-index 96d79a8113..94b823580e 100644
+index 94b823580e..d847814a28 100644
 --- a/target/openrisc/helper.h
 +++ b/target/openrisc/helper.h
-@@ -30,6 +30,8 @@ DEF_HELPER_FLAGS_2(itofd, TCG_CALL_NO_RWG, i64, env, i64)
- DEF_HELPER_FLAGS_2(itofs, TCG_CALL_NO_RWG, i32, env, i32)
- DEF_HELPER_FLAGS_2(ftoid, TCG_CALL_NO_RWG, i64, env, i64)
- DEF_HELPER_FLAGS_2(ftois, TCG_CALL_NO_RWG, i32, env, i32)
-+DEF_HELPER_FLAGS_2(stod, TCG_CALL_NO_RWG, i64, env, i32)
-+DEF_HELPER_FLAGS_2(dtos, TCG_CALL_NO_RWG, i32, env, i64)
+@@ -52,6 +52,10 @@ DEF_HELPER_FLAGS_3(float_ ## op ## _d, TCG_CALL_NO_RWG, tl, env, i64, i64)
+ FOP_CMP(eq)
+ FOP_CMP(lt)
+ FOP_CMP(le)
++FOP_CMP(un)
++FOP_CMP(ueq)
++FOP_CMP(ule)
++FOP_CMP(ult)
+ #undef FOP_CMP
  
- DEF_HELPER_FLAGS_4(float_madd_s, TCG_CALL_NO_RWG, i32, env, i32, i32, i32)
- DEF_HELPER_FLAGS_4(float_madd_d, TCG_CALL_NO_RWG, i64, env, i64, i64, i64)
-diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index f3c8134531..b931605e62 100644
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -132,7 +132,7 @@ static void openrisc_any_initfn(Object *obj)
- 
-     cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP | UPR_PMP;
-     cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S | CPUCFGR_OF32S |
--                       CPUCFGR_AVRP | CPUCFGR_EVBARP;
-+                       CPUCFGR_AVRP | CPUCFGR_EVBARP | CPUCFGR_OF64A32S;
- 
-     /* 1Way, TLB_SIZE entries.  */
-     cpu->env.dmmucfgr = (DMMUCFGR_NTW & (0 << 2))
+ /* interrupt */
 diff --git a/target/openrisc/disas.c b/target/openrisc/disas.c
-index 7091832347..4de5c632de 100644
+index 4de5c632de..e51cbb24c6 100644
 --- a/target/openrisc/disas.c
 +++ b/target/openrisc/disas.c
-@@ -166,3 +166,59 @@ FP_INSN(sfgt, s, "r%d, r%d", a->a, a->b)
+@@ -166,6 +166,12 @@ FP_INSN(sfgt, s, "r%d, r%d", a->a, a->b)
  FP_INSN(sfge, s, "r%d, r%d", a->a, a->b)
  FP_INSN(sflt, s, "r%d, r%d", a->a, a->b)
  FP_INSN(sfle, s, "r%d, r%d", a->a, a->b)
-+
-+FP_INSN(add, d,  "r%d,r%d, r%d,r%d, r%d,r%d",
-+        a->d, a->d + a->dp + 1,
++FP_INSN(sfun, s, "r%d, r%d", a->a, a->b)
++FP_INSN(sfueq, s, "r%d, r%d", a->a, a->b)
++FP_INSN(sfuge, s, "r%d, r%d", a->a, a->b)
++FP_INSN(sfugt, s, "r%d, r%d", a->a, a->b)
++FP_INSN(sfule, s, "r%d, r%d", a->a, a->b)
++FP_INSN(sfult, s, "r%d, r%d", a->a, a->b)
+ 
+ FP_INSN(add, d,  "r%d,r%d, r%d,r%d, r%d,r%d",
+         a->d, a->d + a->dp + 1,
+@@ -222,3 +228,21 @@ FP_INSN(sflt, d, "r%d,r%d, r%d,r%d",
+ FP_INSN(sfle, d, "r%d,r%d, r%d,r%d",
+         a->a, a->a + a->ap + 1,
+         a->b, a->b + a->bp + 1)
++FP_INSN(sfun, d, "r%d,r%d, r%d,r%d",
 +        a->a, a->a + a->ap + 1,
 +        a->b, a->b + a->bp + 1)
-+FP_INSN(sub, d,  "r%d,r%d, r%d,r%d, r%d,r%d",
-+        a->d, a->d + a->dp + 1,
++FP_INSN(sfueq, d, "r%d,r%d, r%d,r%d",
 +        a->a, a->a + a->ap + 1,
 +        a->b, a->b + a->bp + 1)
-+FP_INSN(mul, d,  "r%d,r%d, r%d,r%d, r%d,r%d",
-+        a->d, a->d + a->dp + 1,
++FP_INSN(sfuge, d, "r%d,r%d, r%d,r%d",
 +        a->a, a->a + a->ap + 1,
 +        a->b, a->b + a->bp + 1)
-+FP_INSN(div, d,  "r%d,r%d, r%d,r%d, r%d,r%d",
-+        a->d, a->d + a->dp + 1,
++FP_INSN(sfugt, d, "r%d,r%d, r%d,r%d",
 +        a->a, a->a + a->ap + 1,
 +        a->b, a->b + a->bp + 1)
-+FP_INSN(rem, d,  "r%d,r%d, r%d,r%d, r%d,r%d",
-+        a->d, a->d + a->dp + 1,
++FP_INSN(sfule, d, "r%d,r%d, r%d,r%d",
 +        a->a, a->a + a->ap + 1,
 +        a->b, a->b + a->bp + 1)
-+FP_INSN(madd, d, "r%d,r%d, r%d,r%d, r%d,r%d",
-+        a->d, a->d + a->dp + 1,
-+        a->a, a->a + a->ap + 1,
-+        a->b, a->b + a->bp + 1)
-+
-+FP_INSN(itof, d, "r%d,r%d, r%d,r%d",
-+        a->d, a->d + a->dp + 1,
-+        a->a, a->a + a->ap + 1)
-+FP_INSN(ftoi, d, "r%d,r%d, r%d,r%d",
-+        a->d, a->d + a->dp + 1,
-+        a->a, a->a + a->ap + 1)
-+
-+FP_INSN(stod, d, "r%d,r%d, r%d",
-+        a->d, a->d + a->dp + 1, a->a)
-+FP_INSN(dtos, d, "r%d r%d,r%d",
-+        a->d, a->a, a->a + a->ap + 1)
-+
-+FP_INSN(sfeq, d, "r%d,r%d, r%d,r%d",
-+        a->a, a->a + a->ap + 1,
-+        a->b, a->b + a->bp + 1)
-+FP_INSN(sfne, d, "r%d,r%d, r%d,r%d",
-+        a->a, a->a + a->ap + 1,
-+        a->b, a->b + a->bp + 1)
-+FP_INSN(sfgt, d, "r%d,r%d, r%d,r%d",
-+        a->a, a->a + a->ap + 1,
-+        a->b, a->b + a->bp + 1)
-+FP_INSN(sfge, d, "r%d,r%d, r%d,r%d",
-+        a->a, a->a + a->ap + 1,
-+        a->b, a->b + a->bp + 1)
-+FP_INSN(sflt, d, "r%d,r%d, r%d,r%d",
-+        a->a, a->a + a->ap + 1,
-+        a->b, a->b + a->bp + 1)
-+FP_INSN(sfle, d, "r%d,r%d, r%d,r%d",
++FP_INSN(sfult, d, "r%d,r%d, r%d,r%d",
 +        a->a, a->a + a->ap + 1,
 +        a->b, a->b + a->bp + 1)
 diff --git a/target/openrisc/fpu_helper.c b/target/openrisc/fpu_helper.c
-index 4cc5b297c5..9d7dfc0fb9 100644
+index 9d7dfc0fb9..7bcef9dc53 100644
 --- a/target/openrisc/fpu_helper.c
 +++ b/target/openrisc/fpu_helper.c
-@@ -63,7 +63,7 @@ void HELPER(update_fpcsr)(CPUOpenRISCState *env)
- 
- uint64_t HELPER(itofd)(CPUOpenRISCState *env, uint64_t val)
- {
--    return int32_to_float64(val, &env->fp_status);
-+    return int64_to_float64(val, &env->fp_status);
- }
- 
- uint32_t HELPER(itofs)(CPUOpenRISCState *env, uint32_t val)
-@@ -73,7 +73,7 @@ uint32_t HELPER(itofs)(CPUOpenRISCState *env, uint32_t val)
- 
- uint64_t HELPER(ftoid)(CPUOpenRISCState *env, uint64_t val)
- {
--    return float32_to_int64(val, &env->fp_status);
-+    return float64_to_int64_round_to_zero(val, &env->fp_status);
- }
- 
- uint32_t HELPER(ftois)(CPUOpenRISCState *env, uint32_t val)
-@@ -81,6 +81,16 @@ uint32_t HELPER(ftois)(CPUOpenRISCState *env, uint32_t val)
-     return float32_to_int32_round_to_zero(val, &env->fp_status);
- }
- 
-+uint64_t HELPER(stod)(CPUOpenRISCState *env, uint32_t val)
-+{
-+    return float32_to_float64(val, &env->fp_status);
+@@ -135,4 +135,24 @@ target_ulong helper_float_ ## name ## _s(CPUOpenRISCState *env,           \
+ FLOAT_CMP(le, le)
+ FLOAT_CMP(lt, lt)
+ FLOAT_CMP(eq, eq_quiet)
++FLOAT_CMP(un, unordered_quiet)
+ #undef FLOAT_CMP
++
++#define FLOAT_UCMP(name, expr) \
++target_ulong helper_float_ ## name ## _d(CPUOpenRISCState *env,           \
++                                         uint64_t fdt0, uint64_t fdt1)    \
++{                                                                         \
++    int r = float64_compare_quiet(fdt0, fdt1, &env->fp_status);           \
++    return expr;                                                          \
++}                                                                         \
++target_ulong helper_float_ ## name ## _s(CPUOpenRISCState *env,           \
++                                         uint32_t fdt0, uint32_t fdt1)    \
++{                                                                         \
++    int r = float32_compare_quiet(fdt0, fdt1, &env->fp_status);           \
++    return expr;                                                          \
 +}
 +
-+uint32_t HELPER(dtos)(CPUOpenRISCState *env, uint64_t val)
-+{
-+    return float64_to_float32(val, &env->fp_status);
-+}
-+
- #define FLOAT_CALC(name)                                                  \
- uint64_t helper_float_ ## name ## _d(CPUOpenRISCState *env,               \
-                                      uint64_t fdt0, uint64_t fdt1)        \
++FLOAT_UCMP(ueq, r == float_relation_equal || r == float_relation_unordered)
++FLOAT_UCMP(ult, r == float_relation_less || r == float_relation_unordered)
++FLOAT_UCMP(ule, r != float_relation_greater)
++#undef FLOAT_UCMP
 diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
-index 2f5c969f21..b8ef485903 100644
+index b8ef485903..6e8bc23568 100644
 --- a/target/openrisc/translate.c
 +++ b/target/openrisc/translate.c
-@@ -146,6 +146,11 @@ static bool check_of32s(DisasContext *dc)
-     return dc->cpucfgr & CPUCFGR_OF32S;
+@@ -46,6 +46,7 @@ typedef struct DisasContext {
+     uint32_t tb_flags;
+     uint32_t delayed_branch;
+     uint32_t cpucfgr;
++    uint32_t avr;
+ 
+     /* If not -1, jmp_pc contains this value and so is a direct jump.  */
+     target_ulong jmp_pc_imm;
+@@ -141,6 +142,11 @@ static void gen_illegal_exception(DisasContext *dc)
+     dc->base.is_jmp = DISAS_NORETURN;
  }
  
-+static bool check_of64a32s(DisasContext *dc)
++static bool check_v1_3(DisasContext *dc)
 +{
-+    return dc->cpucfgr & CPUCFGR_OF64A32S;
++    return dc->avr >= 0x01030000;
 +}
 +
- static TCGv cpu_R(DisasContext *dc, int reg)
+ static bool check_of32s(DisasContext *dc)
  {
-     if (reg == 0) {
-@@ -1260,6 +1265,231 @@ static bool trans_lf_sfle_s(DisasContext *dc, arg_ab *a)
+     return dc->cpucfgr & CPUCFGR_OF32S;
+@@ -1265,6 +1271,54 @@ static bool trans_lf_sfle_s(DisasContext *dc, arg_ab *a)
      return do_fpcmp(dc, a, gen_helper_float_le_s, false, false);
  }
  
-+static bool check_pair(DisasContext *dc, int r, int p)
++static bool trans_lf_sfueq_s(DisasContext *dc, arg_ab *a)
 +{
-+    return r + 1 + p < 32;
-+}
-+
-+static void load_pair(DisasContext *dc, TCGv_i64 t, int r, int p)
-+{
-+    tcg_gen_concat_i32_i64(t, cpu_R(dc, r + 1 + p), cpu_R(dc, r));
-+}
-+
-+static void save_pair(DisasContext *dc, TCGv_i64 t, int r, int p)
-+{
-+    tcg_gen_extr_i64_i32(cpu_R(dc, r + 1 + p), cpu_R(dc, r), t);
-+}
-+
-+static bool do_dp3(DisasContext *dc, arg_dab_pair *a,
-+                   void (*fn)(TCGv_i64, TCGv_env, TCGv_i64, TCGv_i64))
-+{
-+    TCGv_i64 t0, t1;
-+
-+    if (!check_of64a32s(dc) ||
-+        !check_pair(dc, a->a, a->ap) ||
-+        !check_pair(dc, a->b, a->bp) ||
-+        !check_pair(dc, a->d, a->dp)) {
++    if (!check_v1_3(dc)) {
 +        return false;
 +    }
-+    check_r0_write(dc, a->d);
-+
-+    t0 = tcg_temp_new_i64();
-+    t1 = tcg_temp_new_i64();
-+    load_pair(dc, t0, a->a, a->ap);
-+    load_pair(dc, t1, a->b, a->bp);
-+    fn(t0, cpu_env, t0, t1);
-+    save_pair(dc, t0, a->d, a->dp);
-+    tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
-+
-+    gen_helper_update_fpcsr(cpu_env);
-+    return true;
++    return do_fpcmp(dc, a, gen_helper_float_ueq_s, false, false);
 +}
 +
-+static bool do_dp2(DisasContext *dc, arg_da_pair *a,
-+                   void (*fn)(TCGv_i64, TCGv_env, TCGv_i64))
++static bool trans_lf_sfult_s(DisasContext *dc, arg_ab *a)
 +{
-+    TCGv_i64 t0;
-+
-+    if (!check_of64a32s(dc) ||
-+        !check_pair(dc, a->a, a->ap) ||
-+        !check_pair(dc, a->d, a->dp)) {
++    if (!check_v1_3(dc)) {
 +        return false;
 +    }
-+    check_r0_write(dc, a->d);
-+
-+    t0 = tcg_temp_new_i64();
-+    load_pair(dc, t0, a->a, a->ap);
-+    fn(t0, cpu_env, t0);
-+    save_pair(dc, t0, a->d, a->dp);
-+    tcg_temp_free_i64(t0);
-+
-+    gen_helper_update_fpcsr(cpu_env);
-+    return true;
++    return do_fpcmp(dc, a, gen_helper_float_ult_s, false, false);
 +}
 +
-+static bool do_dpcmp(DisasContext *dc, arg_ab_pair *a,
-+                     void (*fn)(TCGv, TCGv_env, TCGv_i64, TCGv_i64),
-+                     bool inv, bool swap)
++static bool trans_lf_sfugt_s(DisasContext *dc, arg_ab *a)
 +{
-+    TCGv_i64 t0, t1;
-+
-+    if (!check_of64a32s(dc) ||
-+        !check_pair(dc, a->a, a->ap) ||
-+        !check_pair(dc, a->b, a->bp)) {
++    if (!check_v1_3(dc)) {
 +        return false;
 +    }
-+
-+    t0 = tcg_temp_new_i64();
-+    t1 = tcg_temp_new_i64();
-+    load_pair(dc, t0, a->a, a->ap);
-+    load_pair(dc, t1, a->b, a->bp);
-+    if (swap) {
-+        fn(cpu_sr_f, cpu_env, t1, t0);
-+    } else {
-+        fn(cpu_sr_f, cpu_env, t0, t1);
-+    }
-+    tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
-+
-+    if (inv) {
-+        tcg_gen_xori_tl(cpu_sr_f, cpu_sr_f, 1);
-+    }
-+    gen_helper_update_fpcsr(cpu_env);
-+    return true;
++    return do_fpcmp(dc, a, gen_helper_float_ult_s, false, true);
 +}
 +
-+static bool trans_lf_add_d(DisasContext *dc, arg_dab_pair *a)
++static bool trans_lf_sfule_s(DisasContext *dc, arg_ab *a)
 +{
-+    return do_dp3(dc, a, gen_helper_float_add_d);
-+}
-+
-+static bool trans_lf_sub_d(DisasContext *dc, arg_dab_pair *a)
-+{
-+    return do_dp3(dc, a, gen_helper_float_sub_d);
-+}
-+
-+static bool trans_lf_mul_d(DisasContext *dc, arg_dab_pair *a)
-+{
-+    return do_dp3(dc, a, gen_helper_float_mul_d);
-+}
-+
-+static bool trans_lf_div_d(DisasContext *dc, arg_dab_pair *a)
-+{
-+    return do_dp3(dc, a, gen_helper_float_div_d);
-+}
-+
-+static bool trans_lf_rem_d(DisasContext *dc, arg_dab_pair *a)
-+{
-+    return do_dp3(dc, a, gen_helper_float_rem_d);
-+}
-+
-+static bool trans_lf_itof_d(DisasContext *dc, arg_da_pair *a)
-+{
-+    return do_dp2(dc, a, gen_helper_itofd);
-+}
-+
-+static bool trans_lf_ftoi_d(DisasContext *dc, arg_da_pair *a)
-+{
-+    return do_dp2(dc, a, gen_helper_ftoid);
-+}
-+
-+static bool trans_lf_stod_d(DisasContext *dc, arg_lf_stod_d *a)
-+{
-+    TCGv_i64 t0;
-+
-+    if (!check_of64a32s(dc) ||
-+        !check_pair(dc, a->d, a->dp)) {
++    if (!check_v1_3(dc)) {
 +        return false;
 +    }
-+    check_r0_write(dc, a->d);
-+
-+    t0 = tcg_temp_new_i64();
-+    gen_helper_stod(t0, cpu_env, cpu_R(dc, a->a));
-+    save_pair(dc, t0, a->d, a->dp);
-+    tcg_temp_free_i64(t0);
-+
-+    gen_helper_update_fpcsr(cpu_env);
-+    return true;
++    return do_fpcmp(dc, a, gen_helper_float_ule_s, false, false);
 +}
 +
-+static bool trans_lf_dtos_d(DisasContext *dc, arg_lf_dtos_d *a)
++static bool trans_lf_sfuge_s(DisasContext *dc, arg_ab *a)
 +{
-+    TCGv_i64 t0;
-+
-+    if (!check_of64a32s(dc) ||
-+        !check_pair(dc, a->a, a->ap)) {
++    if (!check_v1_3(dc)) {
 +        return false;
 +    }
-+    check_r0_write(dc, a->d);
-+
-+    t0 = tcg_temp_new_i64();
-+    load_pair(dc, t0, a->a, a->ap);
-+    gen_helper_dtos(cpu_R(dc, a->d), cpu_env, t0);
-+    tcg_temp_free_i64(t0);
-+
-+    gen_helper_update_fpcsr(cpu_env);
-+    return true;
++    return do_fpcmp(dc, a, gen_helper_float_ule_s, false, true);
 +}
 +
-+static bool trans_lf_madd_d(DisasContext *dc, arg_dab_pair *a)
++static bool trans_lf_sfun_s(DisasContext *dc, arg_ab *a)
 +{
-+    TCGv_i64 t0, t1, t2;
-+
-+    if (!check_of64a32s(dc) ||
-+        !check_pair(dc, a->a, a->ap) ||
-+        !check_pair(dc, a->b, a->bp) ||
-+        !check_pair(dc, a->d, a->dp)) {
++    if (!check_v1_3(dc)) {
 +        return false;
 +    }
-+    check_r0_write(dc, a->d);
-+
-+    t0 = tcg_temp_new_i64();
-+    t1 = tcg_temp_new_i64();
-+    t2 = tcg_temp_new_i64();
-+    load_pair(dc, t0, a->d, a->dp);
-+    load_pair(dc, t1, a->a, a->ap);
-+    load_pair(dc, t2, a->b, a->bp);
-+    gen_helper_float_madd_d(t0, cpu_env, t0, t1, t2);
-+    save_pair(dc, t0, a->d, a->dp);
-+    tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
-+    tcg_temp_free_i64(t2);
-+
-+    gen_helper_update_fpcsr(cpu_env);
-+    return true;
++    return do_fpcmp(dc, a, gen_helper_float_un_s, false, false);
 +}
 +
-+static bool trans_lf_sfeq_d(DisasContext *dc, arg_ab_pair *a)
+ static bool check_pair(DisasContext *dc, int r, int p)
+ {
+     return r + 1 + p < 32;
+@@ -1490,6 +1544,36 @@ static bool trans_lf_sfle_d(DisasContext *dc, arg_ab_pair *a)
+     return do_dpcmp(dc, a, gen_helper_float_le_d, false, false);
+ }
+ 
++static bool trans_lf_sfueq_d(DisasContext *dc, arg_ab_pair *a)
 +{
-+    return do_dpcmp(dc, a, gen_helper_float_eq_d, false, false);
++    return do_dpcmp(dc, a, gen_helper_float_ueq_d, false, false);
 +}
 +
-+static bool trans_lf_sfne_d(DisasContext *dc, arg_ab_pair *a)
++static bool trans_lf_sfule_d(DisasContext *dc, arg_ab_pair *a)
 +{
-+    return do_dpcmp(dc, a, gen_helper_float_eq_d, true, false);
++    return do_dpcmp(dc, a, gen_helper_float_ule_d, false, false);
 +}
 +
-+static bool trans_lf_sfgt_d(DisasContext *dc, arg_ab_pair *a)
++static bool trans_lf_sfuge_d(DisasContext *dc, arg_ab_pair *a)
 +{
-+    return do_dpcmp(dc, a, gen_helper_float_lt_d, false, true);
++    return do_dpcmp(dc, a, gen_helper_float_ule_d, false, true);
 +}
 +
-+static bool trans_lf_sfge_d(DisasContext *dc, arg_ab_pair *a)
++static bool trans_lf_sfult_d(DisasContext *dc, arg_ab_pair *a)
 +{
-+    return do_dpcmp(dc, a, gen_helper_float_le_d, false, true);
++    return do_dpcmp(dc, a, gen_helper_float_ult_d, false, false);
 +}
 +
-+static bool trans_lf_sflt_d(DisasContext *dc, arg_ab_pair *a)
++static bool trans_lf_sfugt_d(DisasContext *dc, arg_ab_pair *a)
 +{
-+    return do_dpcmp(dc, a, gen_helper_float_lt_d, false, false);
++    return do_dpcmp(dc, a, gen_helper_float_ult_d, false, true);
 +}
 +
-+static bool trans_lf_sfle_d(DisasContext *dc, arg_ab_pair *a)
++static bool trans_lf_sfun_d(DisasContext *dc, arg_ab_pair *a)
 +{
-+    return do_dpcmp(dc, a, gen_helper_float_le_d, false, false);
++    return do_dpcmp(dc, a, gen_helper_float_un_d, false, false);
 +}
 +
  static void openrisc_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
  {
      DisasContext *dc = container_of(dcb, DisasContext, base);
+@@ -1500,6 +1584,7 @@ static void openrisc_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
+     dc->tb_flags = dc->base.tb->flags;
+     dc->delayed_branch = (dc->tb_flags & TB_FLAGS_DFLAG) != 0;
+     dc->cpucfgr = env->cpucfgr;
++    dc->avr = env->avr;
+     dc->jmp_pc_imm = -1;
+ 
+     bound = -(dc->base.pc_first | TARGET_PAGE_MASK) / 4;
 diff --git a/target/openrisc/insns.decode b/target/openrisc/insns.decode
-index 7df81c1f22..334d4e9668 100644
+index 334d4e9668..71e0d740db 100644
 --- a/target/openrisc/insns.decode
 +++ b/target/openrisc/insns.decode
-@@ -22,6 +22,9 @@
- &ab             a b
- &dal            d a l
- &ai             a i
-+&dab_pair       d a b dp ap bp
-+&ab_pair        a b ap bp
-+&da_pair        d a dp ap
- 
- ####
- # System Instructions
-@@ -187,3 +190,31 @@ lf_sfgt_s       110010 ----- a:5 b:5 --- 00001010
+@@ -190,6 +190,12 @@ lf_sfgt_s       110010 ----- a:5 b:5 --- 00001010
  lf_sfge_s       110010 ----- a:5 b:5 --- 00001011
  lf_sflt_s       110010 ----- a:5 b:5 --- 00001100
  lf_sfle_s       110010 ----- a:5 b:5 --- 00001101
-+
-+####
-+# DP Instructions
-+####
-+
-+@dab_pair       ...... d:5   a:5 b:5   dp:1 ap:1 bp:1 ........  &dab_pair
-+@ab_pair        ...... ..... a:5 b:5   .    ap:1 bp:1 ........  &ab_pair
-+@da_pair        ...... d:5   a:5 ..... dp:1 ap:1 .    ........  &da_pair
-+
-+lf_add_d        110010 ..... ..... ..... ... 00010000  @dab_pair
-+lf_sub_d        110010 ..... ..... ..... ... 00010001  @dab_pair
-+lf_mul_d        110010 ..... ..... ..... ... 00010010  @dab_pair
-+lf_div_d        110010 ..... ..... ..... ... 00010011  @dab_pair
-+lf_rem_d        110010 ..... ..... ..... ... 00010110  @dab_pair
-+lf_madd_d       110010 ..... ..... ..... ... 00010111  @dab_pair
-+
-+lf_itof_d       110010 ..... ..... 00000 ..0 00010100  @da_pair
-+lf_ftoi_d       110010 ..... ..... 00000 ..0 00010101  @da_pair
-+
-+lf_stod_d       110010 d:5 a:5 00000 dp:1 0 0 00110100
-+lf_dtos_d       110010 d:5 a:5 00000 0 ap:1 0 00110101
-+
-+lf_sfeq_d       110010 00000 ..... ..... 0.. 00011000  @ab_pair
-+lf_sfne_d       110010 00000 ..... ..... 0.. 00011001  @ab_pair
-+lf_sfgt_d       110010 00000 ..... ..... 0.. 00011010  @ab_pair
-+lf_sfge_d       110010 00000 ..... ..... 0.. 00011011  @ab_pair
-+lf_sflt_d       110010 00000 ..... ..... 0.. 00011100  @ab_pair
-+lf_sfle_d       110010 00000 ..... ..... 0.. 00011101  @ab_pair
++lf_sfueq_s      110010 ----- a:5 b:5 --- 00101000
++lf_sfuge_s      110010 ----- a:5 b:5 --- 00101011
++lf_sfugt_s      110010 ----- a:5 b:5 --- 00101010
++lf_sfule_s      110010 ----- a:5 b:5 --- 00101101
++lf_sfult_s      110010 ----- a:5 b:5 --- 00101100
++lf_sfun_s       110010 ----- a:5 b:5 --- 00101110
+ 
+ ####
+ # DP Instructions
+@@ -218,3 +224,9 @@ lf_sfgt_d       110010 00000 ..... ..... 0.. 00011010  @ab_pair
+ lf_sfge_d       110010 00000 ..... ..... 0.. 00011011  @ab_pair
+ lf_sflt_d       110010 00000 ..... ..... 0.. 00011100  @ab_pair
+ lf_sfle_d       110010 00000 ..... ..... 0.. 00011101  @ab_pair
++lf_sfueq_d      110010 00000 ..... ..... 0.. 00111000  @ab_pair
++lf_sfuge_d      110010 00000 ..... ..... 0.. 00111011  @ab_pair
++lf_sfugt_d      110010 00000 ..... ..... 0.. 00111010  @ab_pair
++lf_sfule_d      110010 00000 ..... ..... 0.. 00111101  @ab_pair
++lf_sfult_d      110010 00000 ..... ..... 0.. 00111100  @ab_pair
++lf_sfun_d       110010 00000 ..... ..... 0.. 00111110  @ab_pair
 -- 
 2.17.1
 
