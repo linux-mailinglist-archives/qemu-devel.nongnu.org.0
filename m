@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74F9A9550
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:40:05 +0200 (CEST)
-Received: from localhost ([::1]:40360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A25A953D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:36:54 +0200 (CEST)
+Received: from localhost ([::1]:40294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5d0W-0006C0-9a
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:40:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52869)
+	id 1i5cxQ-00021A-D1
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:36:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52906)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9a-0006Ec-Kr
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:24 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5c9e-0006Jp-5R
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9Y-0006nK-RQ
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:22 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:39602)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5c9c-0006uA-FT
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:25 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:44663)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5c9Y-0006m5-IX
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:20 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id bd8so95431plb.6
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:20 -0700 (PDT)
+ id 1i5c9c-0006t2-6o
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:24 -0400
+Received: by mail-pl1-x630.google.com with SMTP id k1so76790pls.11
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=2GGld3+nyB6RGdDPwst4M2bW/fcpfjsi762a3svN9NQ=;
- b=Z+SNo1wQyA7Jh9KTwQTDa0Yn97hxRYfVBnO2a2HeEa9+B0baYabNxPUDzs/hXdRL+h
- W9H7qrvdyOfy0fB+gRKIL92Gh3jk+X0SE7p/nxEhjZlNHjVhPJpw2kSm3em8LqGalscP
- hv/Nl7gisyCf+2TRufDdiKM7ly3f9srfFm2Qbv6xRPoWlyr+P9F6Z3mp9GuzVHJqPV8j
- QrAjtYRNzQWUreGTLBsTnONNdBRA6r659ohCjBLdFVJP6yp5Hy1X6gB8RWxetptBXjSC
- uZ2/CvAt2PPtuclOck0C+tz+3imOQC2MhPS9JsFEHYqBYxLa6/xvZTTv1Ur3cLQSFWrt
- G5Zg==
+ bh=5HAooVFLsWGcsosw6Q3OZtvuZFTGrXxCMoBP6XCwIK8=;
+ b=R9rKGZKanh3PSjw2Xqc7ae9yWdK8ys8c4rZs+VEqCu7tzLHaKGbJynSXPfnp+zQ3P7
+ Dtl94ZWuGPezGl6LfT/xuyeChltCOItwg5o1/6vVDb+iWMv9qt9IrudHvUP9GbVCI+O6
+ fTpFfccMsnLAKclm2cMHfxl75ZPdDzarj/BmWsAqKQTuBn+9bL0J5hukCZGjZcS4Eg+f
+ CXAoovQ/16ePNkkhpMaQx61VdB9CihQLiiMk3jyO15gkMKZp4BqLr9b8tQly7oBl8R4e
+ 5INroTjndK+iRr7zeKvy8qc4gCxfpvNHB3SVFQc/BzYln0Xdg0zekBEZVDCvGqcjSJPZ
+ p2AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=2GGld3+nyB6RGdDPwst4M2bW/fcpfjsi762a3svN9NQ=;
- b=pwAHwZMsmt3FUx+onxGxinB+o2BStTdBlqpLRlCH1Mn2aZZYDWEW2vJoqXcbhpykJc
- uLSk7dB+4p1tvEly/bYLGVmSaeHvzV4UlVlC/z/hycOc5rhguy9C53AJl+UZUjkoSh94
- et2w/gf4Le14OnOAo6cHP1/415Va9WfhoY3PxY8/yeuaDlxE2fzQbpOmVl+geMI8ae+e
- IbPdhxU6EVfR36dfg5Dz1Zdo5HIz6fhadHMjPRjq7YCX7xX4E2z3ItDvwAtP4XJL/Ha0
- 5A1qtem7CXz4gqW0RD4swr9b5DRcm7WcdKzDIUccD+1VLCWGggqiabVeCfbwhR6wG34B
- GipQ==
-X-Gm-Message-State: APjAAAXgZ+2cExkBwI+0mW51lLu+UPtbVhu0zqC1IPJ9L7hDZdXx5WvM
- H9zOWJL+Jig5U++toE1OClyaiT3AFrs=
-X-Google-Smtp-Source: APXvYqyOfhts/Q6lFkYINDoNBbvgXEvqOv+hDoryAFpeQZoi1j8mp0qZD9wkZiWM6r7vTUM5Xevn2A==
-X-Received: by 2002:a17:902:9347:: with SMTP id g7mr7611218plp.0.1567629919179; 
- Wed, 04 Sep 2019 13:45:19 -0700 (PDT)
+ bh=5HAooVFLsWGcsosw6Q3OZtvuZFTGrXxCMoBP6XCwIK8=;
+ b=TM4ePpjtZ6MR/iMyzgHLV8Y0CQejwawZH0PyahLotAnx3qWN5mxq3Ufr0oeN47xplm
+ OaTNIJNUax0MVBQ/7l4b5IvkDr6/LvRcAa5AXF5QuwCfQGuthmlx2BJRGkmjJyVSke9x
+ FMqpZLWyQLbGoZtMQ8Bwyy8hHbCovB43lmIoNEkLuus2UPpaGCNFiOW5V+KtgUEMJ1yu
+ +6ygClnM9TM3U0GWGVYiEiE7AA3AqwaI0K5XNSgBPvfMDwz4xbHTYSFRhy3ZU3m/7LIT
+ p1zHA79luOiDO+L9ClL0yOgj8tdZTgtU65nUWZZ79pF2sIWh6PuSW5dweTwFEAvhiSfy
+ Bgtw==
+X-Gm-Message-State: APjAAAWSzkYOIDNOqWvcZGhwDPQeN4W1oWFedL8Fd0LD1WuoWLj1blZO
+ INVSFa4u9fxysoBKY38ZvHSAjw3kJQI=
+X-Google-Smtp-Source: APXvYqzvRaybbFaX94wSkelSrqDemr08vBTALICn0z1VQ3Tqg6ZgzGXjOZtTzGWpXXjUb8iioiGKrQ==
+X-Received: by 2002:a17:902:7441:: with SMTP id
+ e1mr43091517plt.332.1567629923016; 
+ Wed, 04 Sep 2019 13:45:23 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.18
+ by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:45:18 -0700 (PDT)
+ Wed, 04 Sep 2019 13:45:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 13:45:02 -0700
-Message-Id: <20190904204507.32457-9-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 13:45:05 -0700
+Message-Id: <20190904204507.32457-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904204507.32457-1-richard.henderson@linaro.org>
 References: <20190904204507.32457-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62d
-Subject: [Qemu-devel] [PULL 08/13] target/openrisc: Check CPUCFG_OF32S for
- float insns
+X-Received-From: 2607:f8b0:4864:20::630
+Subject: [Qemu-devel] [PULL 11/13] target/openrisc: Implement move to/from
+ FPCSR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,232 +81,149 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make sure the OF32S insns are enabled before allowing execution.
-Include the missing bit for cpu "any".
-
 Reviewed-by: Stafford Horne <shorne@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/openrisc/cpu.c       |  2 +-
- target/openrisc/translate.c | 84 ++++++++++++++++---------------------
- 2 files changed, 36 insertions(+), 50 deletions(-)
+ target/openrisc/cpu.h        |  2 ++
+ target/openrisc/cpu.c        |  1 +
+ target/openrisc/fpu_helper.c | 13 +++++++++++++
+ target/openrisc/machine.c    | 11 +++++++++++
+ target/openrisc/sys_helper.c | 18 ++++++++++++------
+ 5 files changed, 39 insertions(+), 6 deletions(-)
 
+diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+index 71c5959828..0ad02eab79 100644
+--- a/target/openrisc/cpu.h
++++ b/target/openrisc/cpu.h
+@@ -413,6 +413,8 @@ static inline void cpu_set_sr(CPUOpenRISCState *env, uint32_t val)
+     env->sr = (val & ~(SR_F | SR_CY | SR_OV)) | SR_FO;
+ }
+ 
++void cpu_set_fpcsr(CPUOpenRISCState *env, uint32_t val);
++
+ #define CPU_INTERRUPT_TIMER   CPU_INTERRUPT_TGT_INT_0
+ 
+ #endif /* OPENRISC_CPU_H */
 diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index 9f566ad883..f3c8134531 100644
+index b931605e62..f96a69e278 100644
 --- a/target/openrisc/cpu.c
 +++ b/target/openrisc/cpu.c
-@@ -131,7 +131,7 @@ static void openrisc_any_initfn(Object *obj)
-     cpu->env.avr = 0x01010000;  /* Architecture v1.1 */
+@@ -55,6 +55,7 @@ static void openrisc_cpu_reset(CPUState *s)
+     cpu->env.sr = SR_FO | SR_SM;
+     cpu->env.lock_addr = -1;
+     s->exception_index = -1;
++    cpu_set_fpcsr(&cpu->env, 0);
  
-     cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP | UPR_PMP;
--    cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S |
-+    cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S | CPUCFGR_OF32S |
-                        CPUCFGR_AVRP | CPUCFGR_EVBARP;
- 
-     /* 1Way, TLB_SIZE entries.  */
-diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
-index 341f923864..2f5c969f21 100644
---- a/target/openrisc/translate.c
-+++ b/target/openrisc/translate.c
-@@ -45,6 +45,7 @@ typedef struct DisasContext {
-     uint32_t mem_idx;
-     uint32_t tb_flags;
-     uint32_t delayed_branch;
-+    uint32_t cpucfgr;
- 
-     /* If not -1, jmp_pc contains this value and so is a direct jump.  */
-     target_ulong jmp_pc_imm;
-@@ -140,30 +141,11 @@ static void gen_illegal_exception(DisasContext *dc)
-     dc->base.is_jmp = DISAS_NORETURN;
- }
- 
--/* not used yet, open it when we need or64.  */
--/*#ifdef TARGET_OPENRISC64
--static void check_ob64s(DisasContext *dc)
-+static bool check_of32s(DisasContext *dc)
- {
--    if (!(dc->flags & CPUCFGR_OB64S)) {
--        gen_illegal_exception(dc);
--    }
-+    return dc->cpucfgr & CPUCFGR_OF32S;
- }
- 
--static void check_of64s(DisasContext *dc)
--{
--    if (!(dc->flags & CPUCFGR_OF64S)) {
--        gen_illegal_exception(dc);
--    }
--}
--
--static void check_ov64s(DisasContext *dc)
--{
--    if (!(dc->flags & CPUCFGR_OV64S)) {
--        gen_illegal_exception(dc);
--    }
--}
--#endif*/
--
- static TCGv cpu_R(DisasContext *dc, int reg)
- {
-     if (reg == 0) {
-@@ -1157,26 +1139,37 @@ static bool trans_l_rfe(DisasContext *dc, arg_l_rfe *a)
-     return true;
- }
- 
--static void do_fp2(DisasContext *dc, arg_da *a,
-+static bool do_fp2(DisasContext *dc, arg_da *a,
-                    void (*fn)(TCGv, TCGv_env, TCGv))
- {
-+    if (!check_of32s(dc)) {
-+        return false;
-+    }
-     check_r0_write(dc, a->d);
-     fn(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->a));
-     gen_helper_update_fpcsr(cpu_env);
-+    return true;
- }
- 
--static void do_fp3(DisasContext *dc, arg_dab *a,
-+static bool do_fp3(DisasContext *dc, arg_dab *a,
-                    void (*fn)(TCGv, TCGv_env, TCGv, TCGv))
- {
-+    if (!check_of32s(dc)) {
-+        return false;
-+    }
-     check_r0_write(dc, a->d);
-     fn(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->a), cpu_R(dc, a->b));
-     gen_helper_update_fpcsr(cpu_env);
-+    return true;
- }
- 
--static void do_fpcmp(DisasContext *dc, arg_ab *a,
-+static bool do_fpcmp(DisasContext *dc, arg_ab *a,
-                      void (*fn)(TCGv, TCGv_env, TCGv, TCGv),
-                      bool inv, bool swap)
- {
-+    if (!check_of32s(dc)) {
-+        return false;
-+    }
-     if (swap) {
-         fn(cpu_sr_f, cpu_env, cpu_R(dc, a->b), cpu_R(dc, a->a));
-     } else {
-@@ -1186,52 +1179,50 @@ static void do_fpcmp(DisasContext *dc, arg_ab *a,
-         tcg_gen_xori_tl(cpu_sr_f, cpu_sr_f, 1);
+ #ifndef CONFIG_USER_ONLY
+     cpu->env.picmr = 0x00000000;
+diff --git a/target/openrisc/fpu_helper.c b/target/openrisc/fpu_helper.c
+index 7bcef9dc53..59e1413279 100644
+--- a/target/openrisc/fpu_helper.c
++++ b/target/openrisc/fpu_helper.c
+@@ -61,6 +61,19 @@ void HELPER(update_fpcsr)(CPUOpenRISCState *env)
      }
-     gen_helper_update_fpcsr(cpu_env);
-+    return true;
  }
  
- static bool trans_lf_add_s(DisasContext *dc, arg_dab *a)
++void cpu_set_fpcsr(CPUOpenRISCState *env, uint32_t val)
++{
++    static const int rm_to_sf[] = {
++        float_round_nearest_even,
++        float_round_to_zero,
++        float_round_up,
++        float_round_down
++    };
++
++    env->fpcsr = val & 0x7ff;
++    set_float_rounding_mode(rm_to_sf[extract32(val, 1, 2)], &env->fp_status);
++}
++
+ uint64_t HELPER(itofd)(CPUOpenRISCState *env, uint64_t val)
  {
--    do_fp3(dc, a, gen_helper_float_add_s);
--    return true;
-+    return do_fp3(dc, a, gen_helper_float_add_s);
+     return int64_to_float64(val, &env->fp_status);
+diff --git a/target/openrisc/machine.c b/target/openrisc/machine.c
+index 0a96404dc6..b92985d99b 100644
+--- a/target/openrisc/machine.c
++++ b/target/openrisc/machine.c
+@@ -121,10 +121,21 @@ static const VMStateDescription vmstate_env = {
+     }
+ };
+ 
++static int cpu_post_load(void *opaque, int version_id)
++{
++    OpenRISCCPU *cpu = opaque;
++    CPUOpenRISCState *env = &cpu->env;
++
++    /* Update env->fp_status to match env->fpcsr.  */
++    cpu_set_fpcsr(env, env->fpcsr);
++    return 0;
++}
++
+ const VMStateDescription vmstate_openrisc_cpu = {
+     .name = "cpu",
+     .version_id = 1,
+     .minimum_version_id = 1,
++    .post_load = cpu_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_CPU(),
+         VMSTATE_STRUCT(env, OpenRISCCPU, 1, vmstate_env, CPUOpenRISCState),
+diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
+index cf8e637b08..d9fe6c5948 100644
+--- a/target/openrisc/sys_helper.c
++++ b/target/openrisc/sys_helper.c
+@@ -37,8 +37,10 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
+     CPUState *cs = env_cpu(env);
+     target_ulong mr;
+     int idx;
++#endif
+ 
+     switch (spr) {
++#ifndef CONFIG_USER_ONLY
+     case TO_SPR(0, 11): /* EVBAR */
+         env->evbar = rb;
+         break;
+@@ -179,10 +181,12 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
+         }
+         cpu_openrisc_timer_update(cpu);
+         break;
+-    default:
++#endif
++
++    case TO_SPR(0, 20): /* FPCSR */
++        cpu_set_fpcsr(env, rb);
+         break;
+     }
+-#endif
  }
  
- static bool trans_lf_sub_s(DisasContext *dc, arg_dab *a)
- {
--    do_fp3(dc, a, gen_helper_float_sub_s);
--    return true;
-+    return do_fp3(dc, a, gen_helper_float_sub_s);
- }
+ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
+@@ -193,8 +197,10 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
+     OpenRISCCPU *cpu = env_archcpu(env);
+     CPUState *cs = env_cpu(env);
+     int idx;
++#endif
  
- static bool trans_lf_mul_s(DisasContext *dc, arg_dab *a)
- {
--    do_fp3(dc, a, gen_helper_float_mul_s);
--    return true;
-+    return do_fp3(dc, a, gen_helper_float_mul_s);
- }
+     switch (spr) {
++#ifndef CONFIG_USER_ONLY
+     case TO_SPR(0, 0): /* VR */
+         return env->vr;
  
- static bool trans_lf_div_s(DisasContext *dc, arg_dab *a)
- {
--    do_fp3(dc, a, gen_helper_float_div_s);
--    return true;
-+    return do_fp3(dc, a, gen_helper_float_div_s);
- }
+@@ -303,12 +309,12 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
+     case TO_SPR(10, 1): /* TTCR */
+         cpu_openrisc_count_update(cpu);
+         return cpu_openrisc_count_get(cpu);
+-
+-    default:
+-        break;
+-    }
+ #endif
  
- static bool trans_lf_rem_s(DisasContext *dc, arg_dab *a)
- {
--    do_fp3(dc, a, gen_helper_float_rem_s);
-+    return do_fp3(dc, a, gen_helper_float_rem_s);
-     return true;
- }
- 
- static bool trans_lf_itof_s(DisasContext *dc, arg_da *a)
- {
--    do_fp2(dc, a, gen_helper_itofs);
--    return true;
-+    return do_fp2(dc, a, gen_helper_itofs);
- }
- 
- static bool trans_lf_ftoi_s(DisasContext *dc, arg_da *a)
- {
--    do_fp2(dc, a, gen_helper_ftois);
--    return true;
-+    return do_fp2(dc, a, gen_helper_ftois);
- }
- 
- static bool trans_lf_madd_s(DisasContext *dc, arg_dab *a)
- {
-+    if (!check_of32s(dc)) {
-+        return false;
++    case TO_SPR(0, 20): /* FPCSR */
++        return env->fpcsr;
 +    }
-     check_r0_write(dc, a->d);
-     gen_helper_float_madd_s(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->d),
-                             cpu_R(dc, a->a), cpu_R(dc, a->b));
-@@ -1241,38 +1232,32 @@ static bool trans_lf_madd_s(DisasContext *dc, arg_dab *a)
- 
- static bool trans_lf_sfeq_s(DisasContext *dc, arg_ab *a)
- {
--    do_fpcmp(dc, a, gen_helper_float_eq_s, false, false);
--    return true;
-+    return do_fpcmp(dc, a, gen_helper_float_eq_s, false, false);
++
+     /* for rd is passed in, if rd unchanged, just keep it back.  */
+     return rd;
  }
- 
- static bool trans_lf_sfne_s(DisasContext *dc, arg_ab *a)
- {
--    do_fpcmp(dc, a, gen_helper_float_eq_s, true, false);
--    return true;
-+    return do_fpcmp(dc, a, gen_helper_float_eq_s, true, false);
- }
- 
- static bool trans_lf_sfgt_s(DisasContext *dc, arg_ab *a)
- {
--    do_fpcmp(dc, a, gen_helper_float_lt_s, false, true);
--    return true;
-+    return do_fpcmp(dc, a, gen_helper_float_lt_s, false, true);
- }
- 
- static bool trans_lf_sfge_s(DisasContext *dc, arg_ab *a)
- {
--    do_fpcmp(dc, a, gen_helper_float_le_s, false, true);
--    return true;
-+    return do_fpcmp(dc, a, gen_helper_float_le_s, false, true);
- }
- 
- static bool trans_lf_sflt_s(DisasContext *dc, arg_ab *a)
- {
--    do_fpcmp(dc, a, gen_helper_float_lt_s, false, false);
--    return true;
-+    return do_fpcmp(dc, a, gen_helper_float_lt_s, false, false);
- }
- 
- static bool trans_lf_sfle_s(DisasContext *dc, arg_ab *a)
- {
--    do_fpcmp(dc, a, gen_helper_float_le_s, false, false);
--    return true;
-+    return do_fpcmp(dc, a, gen_helper_float_le_s, false, false);
- }
- 
- static void openrisc_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
-@@ -1284,6 +1269,7 @@ static void openrisc_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
-     dc->mem_idx = cpu_mmu_index(env, false);
-     dc->tb_flags = dc->base.tb->flags;
-     dc->delayed_branch = (dc->tb_flags & TB_FLAGS_DFLAG) != 0;
-+    dc->cpucfgr = env->cpucfgr;
-     dc->jmp_pc_imm = -1;
- 
-     bound = -(dc->base.pc_first | TARGET_PAGE_MASK) / 4;
 -- 
 2.17.1
 
