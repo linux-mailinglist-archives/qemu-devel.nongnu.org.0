@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F935A8759
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 20:58:01 +0200 (CEST)
-Received: from localhost ([::1]:36404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B687EA875B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 20:59:21 +0200 (CEST)
+Received: from localhost ([::1]:36414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5aTg-00023x-27
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 14:58:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34537)
+	id 1i5aUy-0003pX-SI
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 14:59:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34594)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1i5aOS-0006JD-M3
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:52:37 -0400
+ (envelope-from <stefanha@redhat.com>) id 1i5aOs-0006o6-8t
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:53:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1i5aOR-0005bu-Py
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:52:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38444)
+ (envelope-from <stefanha@redhat.com>) id 1i5aOr-0005mH-3m
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:53:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56608)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i5aOR-0005ba-KB
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:52:35 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i5aOq-0005m5-UC
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:53:01 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EE3ED1DAD
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 18:52:34 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 42D076412F
+ for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 18:53:00 +0000 (UTC)
 Received: from localhost (ovpn-116-88.ams2.redhat.com [10.36.116.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8301560BFB;
- Wed,  4 Sep 2019 18:52:34 +0000 (UTC)
-Date: Wed, 4 Sep 2019 19:52:33 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA8731000343;
+ Wed,  4 Sep 2019 18:52:59 +0000 (UTC)
+Date: Wed, 4 Sep 2019 19:52:58 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
-Message-ID: <20190904185233.GJ26826@stefanha-x1.localdomain>
+Message-ID: <20190904185258.GK26826@stefanha-x1.localdomain>
 References: <20190904130047.25808-1-thuth@redhat.com>
- <20190904130047.25808-3-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/0U0QBNx7JIUZLHm"
+ protocol="application/pgp-signature"; boundary="OOq1TgGhe8eTwFBO"
 Content-Disposition: inline
-In-Reply-To: <20190904130047.25808-3-thuth@redhat.com>
+In-Reply-To: <20190904130047.25808-1-thuth@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Wed, 04 Sep 2019 18:52:34 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Wed, 04 Sep 2019 18:53:00 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 2/6] tests/libqos/e1000e: Make e1000e
- libqos functions independent from global_qtest
+Subject: Re: [Qemu-devel] [PATCH v2 0/6] Make the core libqtest library
+ independe from global_qtest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,42 +64,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---/0U0QBNx7JIUZLHm
+--OOq1TgGhe8eTwFBO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 04, 2019 at 03:00:43PM +0200, Thomas Huth wrote:
-> libqos library functions should never depend on functions (like memread(),
-> memwrite() or clock_step()) that require global_qtest to be set, since
-> library functions might get used in qtests that track multiple states, to=
-o.
-> Thus let's replace the global_qtest-related functions with their independ=
-ent
-> counterparts.
+On Wed, Sep 04, 2019 at 03:00:41PM +0200, Thomas Huth wrote:
+> global_qtest and the related wrapper functions often caused trouble in
+> the past - if they are used somewhere in the libqtest or libqos library
+> code, it's hard to write tests that properly track multiple test states
+> (like migration tests).
 >=20
-> Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/libqos/e1000e.c | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
+> This patch series finally gets rid of the remaining global_qtest
+> dependencies in the core libqtest code. The first patches are used to
+> clean up some files that should not use global_qtest anymore, then the
+> wrapper functions and the global_qtest definition get moved to a separate
+> header file called libqtest-single.h - which then should only be used in
+> tests that track only a single test state.
+>=20
+> v2:
+>  - Do not add parameter to qvirtio_wait_config_isr(), but push the logic
+>    into virtio-mmio.c and virtio-pci.c instead since we have access to
+>    the test state here (as suggested by Laurent).
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Looks good overall.  I posted one comment on a patch.
 
---/0U0QBNx7JIUZLHm
+Stefan
+
+--OOq1TgGhe8eTwFBO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1wB/EACgkQnKSrs4Gr
-c8ikFwf/SGusm73C0JIBIPQ/rh/fNDgcIrwVfRqukXDSeHYgl08AgnrP0aD7fFEe
-yDgvq3e64XS4y2Rc2cBSMlBHQmY0NdAouh0YZAaE891fCsnhEFbJ0EL/yfsO7hQy
-T7h0KsOsArnVdCEex1mOND0Vz3WLIJm7A+zVhekjl2UXvDo8ZxFEk0Qi6GsIXbOF
-uJWJom5Dnjw6le4pl+cgskdrOrrN2+2oFv2K60CGCALcKv8hI0e3LtfnEzhVRNf7
-TjZKEgZ1ojuE4obrgF9nOKDTWFo1S9wM5nj7fe5ur53Z+tsRySEHFP3NIuhh4OBv
-lPJS1Cmb15ffamvlMHl6/rUvRbkFwA==
-=0iMs
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1wCAoACgkQnKSrs4Gr
+c8hYMgf/YcyEhesvvTau85qVP1LXgA1tBHd+rtzyK0T3w8FZkJpFXaeuwp4FvkQh
+IkVsVVmstc9Eq5MVq3dB3syJe9AcrmR/uhYIxzhGQBnYncdQxB4Y0SD2J86XLzaE
+BbzEhPPSJs//YEfkCj1Nzh0LEa2xUtb10dIKbXU8jVefb4l4zZYgB6YJoMmbcoQd
+qHoRCjRVykpXJ8cTXFXweJjFYRmIdcTdSkF8q03OBSci2iQJ81KVemqpITP9JqcQ
+2DcpIOx7DSwEfNFbPnYLCE8aUWhrYzAkeaZPH3bNCLY3mbfDyhJLQORSb0RDXCSo
+cX+ZQHkk0xHy23wKd9t3qcROnr35Vg==
+=vJWo
 -----END PGP SIGNATURE-----
 
---/0U0QBNx7JIUZLHm--
+--OOq1TgGhe8eTwFBO--
 
