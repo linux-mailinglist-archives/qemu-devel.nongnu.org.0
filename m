@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6183FA81BD
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:06:36 +0200 (CEST)
-Received: from localhost ([::1]:57060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A61A81B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:04:56 +0200 (CEST)
+Received: from localhost ([::1]:57028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5U3X-0001cG-BY
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:06:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43375)
+	id 1i5U1u-0007Qv-L0
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:04:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43320)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1i5TyW-0006Dy-3E
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:25 -0400
+ (envelope-from <mst@redhat.com>) id 1i5TyS-0006AZ-Nb
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1i5TyQ-0002R7-LF
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:61625)
+ (envelope-from <mst@redhat.com>) id 1i5TyQ-0002QO-9B
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43676)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1i5TyQ-0002Fn-4C
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1i5TyP-0002K6-SY
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:18 -0400
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A30D010F09
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 12:01:04 +0000 (UTC)
-Received: by mail-qt1-f197.google.com with SMTP id e2so22500269qtm.19
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 05:01:04 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id C0349C034E71
+ for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 12:01:09 +0000 (UTC)
+Received: by mail-qk1-f198.google.com with SMTP id o133so22807529qke.4
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 05:01:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=bIAuvi4Ln9+QYeHNXGil+9sg538izwdTjP2B+V2uOjs=;
- b=r1q/mzzD93reRKJWT/vc5NHB1BPxmiesgYz8RvZEDt8zOpEtWzbmdd1PU1JSXaNMVM
- vaG5i0A55Aia4hKUmRfGo7JM5DK+wGwsbOZMhY5N6zfP2YefxYP2o/JAMQ68EDqmyfVM
- sFDEf0ggpC6dvX+C9yrmpHUf+F91OgC1w7BrlHPMNYYlovKTiFvnTK+XcRFhVN0Ankxp
- wmAdmAV7bWRxqr1xKCwj5nQBLj3owEVfC8KwymbWoIX6KKYDL6ZP8Qf0SkaLel/+8WbS
- 2dWBOdXf7LctCfv0xkxjaaN4Rtg1N8qKINCkIAMMXJzcEraUGEi+PfuhTWe6PA0+bkxM
- wyXw==
-X-Gm-Message-State: APjAAAXWziamGM2wxv+Hda4Zh0wqQ2ibadv/9CRGQoSBPOxXogAIZN/T
- Fg8hwiNdSD7wuQaWkOt9S2xjWHbUcrt24D9Wut5iqafpnlrRdc2accx+ayvuXuFcqiDhYOk5Q0H
- hMS0+L/aL2zYj7Ik=
-X-Received: by 2002:a37:8f86:: with SMTP id
- r128mr13257282qkd.392.1567598463439; 
- Wed, 04 Sep 2019 05:01:03 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxIopgUx6uVM5GmQOUHYDgw9XnLVa7XMRqwP6our91vRpByD5/kE52ZJl+OG4nStAp4e9pbzA==
-X-Received: by 2002:a37:8f86:: with SMTP id
- r128mr13257254qkd.392.1567598463241; 
- Wed, 04 Sep 2019 05:01:03 -0700 (PDT)
+ bh=X9XmHG9IenejdNjceVKSVG6airvhvIr2qQFz1tJGSd0=;
+ b=J9Gdgza+VRFxqpSASq2lQ3NOmIzTCsVSCWZUL4DxMqTnoqj/WIa7DtFUVKbVmAvAef
+ j/jbcLEqCnUB8sikN2buZMPwYf5xHjW51FNiOwX4FCBnVK4swPDVC01JTWZO6oUvSOPX
+ 4bLm0Nd1n7FZgdc55sz49htgyZWM7jx4SO31XLf0XWNaFz4OqX8kjNGpyf2mlQ6RCR35
+ brJJ5VUNZJH++l0j95v0skB7F3A8aybD7UDiXpeWEK+m5e9zkN7/dtKsFAMZDWmwsbl4
+ MayY1Od80JOOhE3WfEFZ1kvjZI0Ze+ICX8m3v8DTZAaS32K/HNruMx1oyfD0QeHVWPrN
+ GQRQ==
+X-Gm-Message-State: APjAAAVSg6MfaV1aiTmsUd0PNwZ3phc3W+QhoH/jpldVfx/hgxDpjozq
+ XziW9dVCElLKEutcoPLjS3xl6NdsGMc1uqzqC0lUTx7n1qH9qbRvGW/TagLk58e13AWJJrZz4Ou
+ 93bSqqJlWyVwtilE=
+X-Received: by 2002:a37:ef17:: with SMTP id j23mr10993842qkk.426.1567598468543; 
+ Wed, 04 Sep 2019 05:01:08 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxBS/ElY7imbNqpgfKMgIzTfl7so2XQ9nZ5HW9eTjBYQZC3o3c/X0/VXbut+xJn3VEgJRpmdA==
+X-Received: by 2002:a37:ef17:: with SMTP id j23mr10993822qkk.426.1567598468376; 
+ Wed, 04 Sep 2019 05:01:08 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id y207sm6479361qkb.41.2019.09.04.05.01.00
+ by smtp.gmail.com with ESMTPSA id d19sm2023498qkk.101.2019.09.04.05.01.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 05:01:02 -0700 (PDT)
-Date: Wed, 4 Sep 2019 08:00:58 -0400
+ Wed, 04 Sep 2019 05:01:07 -0700 (PDT)
+Date: Wed, 4 Sep 2019 08:01:03 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190820160615.14616-4-lvivier@redhat.com>
+Message-ID: <20190820163005.1880-1-jusual@redhat.com>
 References: <20190904120026.3220-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -66,8 +64,7 @@ X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 3/6] virtio-rng: change default backend to
- rng-builtin
+Subject: [Qemu-devel] [PULL 4/6] virtio-pci: Add Function Level Reset support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,83 +76,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Amit Shah <amit@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Julia Suvorova <jusual@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Julia Suvorova <jusual@redhat.com>
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20190820160615.14616-4-lvivier@redhat.com>
+Using FLR becomes convenient in cases where resetting the bus is
+impractical, for example, when debugging the behavior of individual
+functions.
+
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+Message-Id: <20190820163005.1880-1-jusual@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- backends/rng-builtin.c | 1 -
- hw/virtio/virtio-rng.c | 3 +--
- include/sysemu/rng.h   | 2 ++
- qemu-options.hx        | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ hw/core/machine.c      |  4 +++-
+ hw/virtio/virtio-pci.c | 10 ++++++++++
+ hw/virtio/virtio-pci.h |  4 ++++
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/backends/rng-builtin.c b/backends/rng-builtin.c
-index 3381d47174..ba1b8d66b8 100644
---- a/backends/rng-builtin.c
-+++ b/backends/rng-builtin.c
-@@ -10,7 +10,6 @@
- #include "qemu/main-loop.h"
- #include "qemu/guest-random.h"
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 83cd1bfeec..829ada099e 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -27,7 +27,9 @@
+ #include "hw/pci/pci.h"
+ #include "hw/mem/nvdimm.h"
  
--#define TYPE_RNG_BUILTIN "rng-builtin"
- #define RNG_BUILTIN(obj) OBJECT_CHECK(RngBuiltin, (obj), TYPE_RNG_BUILTIN)
+-GlobalProperty hw_compat_4_1[] = {};
++GlobalProperty hw_compat_4_1[] = {
++    { "virtio-pci", "x-pcie-flr-init", "off" },
++};
+ const size_t hw_compat_4_1_len = G_N_ELEMENTS(hw_compat_4_1);
  
- typedef struct RngBuiltin {
-diff --git a/hw/virtio/virtio-rng.c b/hw/virtio/virtio-rng.c
-index fcf3b2e329..e93bed020f 100644
---- a/hw/virtio/virtio-rng.c
-+++ b/hw/virtio/virtio-rng.c
-@@ -19,7 +19,6 @@
- #include "hw/virtio/virtio-rng.h"
- #include "sysemu/rng.h"
- #include "sysemu/runstate.h"
--#include "sysemu/rng-random.h"
- #include "qom/object_interfaces.h"
- #include "trace.h"
+ GlobalProperty hw_compat_4_0[] = {
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 8babd92e59..0075b3e2af 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -601,6 +601,10 @@ static void virtio_write_config(PCIDevice *pci_dev, uint32_t address,
  
-@@ -193,7 +192,7 @@ static void virtio_rng_device_realize(DeviceState *dev, Error **errp)
-     }
+     pci_default_write_config(pci_dev, address, val, len);
  
-     if (vrng->conf.rng == NULL) {
--        Object *default_backend = object_new(TYPE_RNG_RANDOM);
-+        Object *default_backend = object_new(TYPE_RNG_BUILTIN);
- 
-         user_creatable_complete(USER_CREATABLE(default_backend),
-                                 &local_err);
-diff --git a/include/sysemu/rng.h b/include/sysemu/rng.h
-index 9b22c156f8..fa6eada78c 100644
---- a/include/sysemu/rng.h
-+++ b/include/sysemu/rng.h
-@@ -24,6 +24,8 @@
- #define RNG_BACKEND_CLASS(klass) \
-     OBJECT_CLASS_CHECK(RngBackendClass, (klass), TYPE_RNG_BACKEND)
- 
-+#define TYPE_RNG_BUILTIN "rng-builtin"
++    if (proxy->flags & VIRTIO_PCI_FLAG_INIT_FLR) {
++        pcie_cap_flr_write_config(pci_dev, address, val, len);
++    }
 +
- typedef struct RngRequest RngRequest;
- typedef struct RngBackendClass RngBackendClass;
- typedef struct RngBackend RngBackend;
-diff --git a/qemu-options.hx b/qemu-options.hx
-index a8b70d946f..b2ba7c501d 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4337,7 +4337,7 @@ The @option{share} boolean option is @var{on} by default with memfd.
- Creates a random number generator backend which obtains entropy from
- QEMU builtin functions. The @option{id} parameter is a unique ID that
- will be used to reference this entropy backend from the @option{virtio-rng}
--device.
-+device. By default, the @option{virtio-rng} device uses this RNG backend.
+     if (range_covers_byte(address, len, PCI_COMMAND) &&
+         !(pci_dev->config[PCI_COMMAND] & PCI_COMMAND_MASTER)) {
+         virtio_pci_stop_ioeventfd(proxy);
+@@ -1777,6 +1781,10 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+             pcie_ats_init(pci_dev, 256);
+         }
  
- @item -object rng-random,id=@var{id},filename=@var{/dev/random}
++        if (proxy->flags & VIRTIO_PCI_FLAG_INIT_FLR) {
++            /* Set Function Level Reset capability bit */
++            pcie_cap_flr_init(pci_dev);
++        }
+     } else {
+         /*
+          * make future invocations of pci_is_express() return false
+@@ -1844,6 +1852,8 @@ static Property virtio_pci_properties[] = {
+                     VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT, true),
+     DEFINE_PROP_BIT("x-pcie-pm-init", VirtIOPCIProxy, flags,
+                     VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
++    DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
++                    VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
+diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
+index 292275acb1..e2eaaa9182 100644
+--- a/hw/virtio/virtio-pci.h
++++ b/hw/virtio/virtio-pci.h
+@@ -44,6 +44,7 @@ enum {
+     VIRTIO_PCI_FLAG_INIT_DEVERR_BIT,
+     VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
+     VIRTIO_PCI_FLAG_INIT_PM_BIT,
++    VIRTIO_PCI_FLAG_INIT_FLR_BIT,
+ };
+ 
+ /* Need to activate work-arounds for buggy guests at vmstate load. */
+@@ -80,6 +81,9 @@ enum {
+ /* Init Power Management */
+ #define VIRTIO_PCI_FLAG_INIT_PM (1 << VIRTIO_PCI_FLAG_INIT_PM_BIT)
+ 
++/* Init Function Level Reset capability */
++#define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
++
+ typedef struct {
+     MSIMessage msg;
+     int virq;
 -- 
 MST
 
