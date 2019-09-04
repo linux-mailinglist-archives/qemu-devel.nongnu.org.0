@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53D0A92D7
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:11:48 +0200 (CEST)
-Received: from localhost ([::1]:38488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57882A92DE
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:15:46 +0200 (CEST)
+Received: from localhost ([::1]:38548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5bd5-0005OP-Rd
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:11:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41173)
+	id 1i5bgu-0000gm-Sf
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:15:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41273)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0t-0005V7-Lo
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:22 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0w-0005XO-2x
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0r-000391-NG
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:19 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:45024)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0s-00039q-4l
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:21 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:38893)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5b0r-00036P-8U
+ id 1i5b0r-00037J-MU
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:17 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id k1so2686615pls.11
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:32:15 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id h195so7362906pfe.5
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:32:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=hGHY6IsJM30Hyd1TOf3r4ZHdVokWmEQOpc5BWJnbF8A=;
- b=onMzxY+oCQs5KCsSNrpCHR3g/bkRgznJcy/vV5Ikpusi3H8nSvyIOEuaPgZB+H9FJt
- 3fJf0F0AZ5LaGak8Zz8vSr8Dk13gdbfmxHieg6uniOhd0lv+BEYOlY3q6iMuvIk55bQL
- x1/NiYKuLpjKGecOupyBQRszNmBSwQ7xzlgKX+mnl7QWS2RZULZvNv+PufMWmINKcpDi
- wBup9iuMD71jfgVtP/kgaE6I6Vg7E23LAxbtq5I72JTrVCDDD6mdD/AkWLU4tLkAfvPY
- NnmgYc50p06ILrQis06aAcXdofo1IbqHyx5Pw6FOqIXswEYZnzw+u9q3QATm8eqlhcQ5
- 8oUA==
+ bh=NK+hQjn74sTmmQoYkWqtZ1EbyzqY+R+jJ+p0UyW4OS0=;
+ b=fIYOgT14ZAqAaSw448/XmZtYxW6nZHFwCUzpJYoRotX4XVCDuardpm99QiJcH9i6Ot
+ FMH6y36BvG8K5t21zMeAjo1Dx4YcWMX1Aoc9s7hsy0aPTTWdcH+YPP+6T2D5sTlzbiKG
+ +qF2AM73RHRWNnwqaLJAs7fyPmC0kvY0yPfKQfIN/rpjaCeN7Fl39P983ClaeyNec6lw
+ ySAtuZTB5y+uggk4pzeoKvKEMYdu0iMoHM0rkYF65HZTQlepPJKFogkXAE2sksMt7tz/
+ r7X8/Le47AsoJxMbDI4SuQpa81FRJp+ch3MptNea7Qvi5AWWgmLKig2loxdo2dEK6vVK
+ th4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=hGHY6IsJM30Hyd1TOf3r4ZHdVokWmEQOpc5BWJnbF8A=;
- b=Ca4NovejqF8kJ6J7pPzCNwlnhvCpw9UkYqGsP0thVhjpFRkaTipnMHQHjHK0j/agMI
- A0hHfMxRwvsWUlZNjckd+iwFwayNPY/1/SCK/bR5BXLl0xYkV30J4JEpRk3/LR+mkU/u
- KmNcfewkQJpSnteDMj+PsoSrRBEjkfIrWsA6HGcBs0u8My3l/a/o2VWgCJx3BGU6C04V
- cHzOHTmZLhfVNN4YNHKvQ3uZ8Zl0Z35MSBaFiWJ80F5rukVo8MXD6Ulx7DTyqSqQ/y2d
- 2b72PAG/Zzh2bWMxwGJ5WIEKoMJcvwi7zaetTjDYOyfxhcjm/yvqMIejQ43O0Ut7Jt0P
- Z9ow==
-X-Gm-Message-State: APjAAAUhteSYiQSTTj0NA7bAygiAaerwru8qITCe8nHnb8wO1VXNOE7d
- tAxyItNjliZ7xL8G/F2TbScEnbE9jbs=
-X-Google-Smtp-Source: APXvYqzHhJDwTFPBhT2PDzczLJOPzqa3uQfz3g6Svn+MPdJLap9cOXsezRdcxXghpxjYbtNt+lkfEw==
-X-Received: by 2002:a17:902:33a5:: with SMTP id
- b34mr41846656plc.286.1567625534794; 
- Wed, 04 Sep 2019 12:32:14 -0700 (PDT)
+ bh=NK+hQjn74sTmmQoYkWqtZ1EbyzqY+R+jJ+p0UyW4OS0=;
+ b=gEoTWJUGUAgpVDFPMT7QauGToBDRlTU/oXzNQ7+GggRQXeY3pwJbaRfB9IeGfcytYL
+ OHINFi7GTp2HvNXyk1VoqLPNjAtE5rKulajpnEEUCApjcXaus95DPl/XNWSajZTLZvfQ
+ Z9f9N3FlUuL9vreMKwcEptjmMNIc4rwNnK/p/AXcFQR/wdu/DxDXx9oSc4KH/6/KULmy
+ zzKeaGTvOayVr2GupikD83jEff+YUTT0U6fiEVrsU9SJA4ZCwNlf7JW3XEYm/YwzQXD4
+ GOsZEt5y4wB/zhoR6NbyaphYQcPq5CGiGt4bdg7OhQ689Z+5TLQms+SzIgtyUPZYA7Ws
+ +wlw==
+X-Gm-Message-State: APjAAAVkeNIpRQTNPshvLcUwEe3pfPO3CTHsqytUSLajCHd0J0ye8Hn2
+ ZhP4/9sI+8ZX4k15qSl3idYqpbzFZOk=
+X-Google-Smtp-Source: APXvYqztzCBe+ITN5zDplXdZLYN73se3dYg7jiAIgcy7qT5FF9Ip0D57UcTTdSEwDCeX2Gf1xG7cZg==
+X-Received: by 2002:aa7:8498:: with SMTP id u24mr48839331pfn.61.1567625536067; 
+ Wed, 04 Sep 2019 12:32:16 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.32.13
+ by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.32.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 12:32:14 -0700 (PDT)
+ Wed, 04 Sep 2019 12:32:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 12:30:48 -0700
-Message-Id: <20190904193059.26202-59-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 12:30:49 -0700
+Message-Id: <20190904193059.26202-60-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904193059.26202-1-richard.henderson@linaro.org>
 References: <20190904193059.26202-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62d
-Subject: [Qemu-devel] [PATCH v4 58/69] target/arm: Convert T16, Reverse bytes
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v4 59/69] target/arm: Convert T16, nop hints
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,70 +82,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 18 +++---------------
- target/arm/t16.decode  |  9 +++++++++
- 2 files changed, 12 insertions(+), 15 deletions(-)
+ target/arm/translate.c |  3 +--
+ target/arm/t16.decode  | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index ce394ddb00..b70491d39e 100644
+index b70491d39e..69092c12c3 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -10730,7 +10730,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+@@ -10891,8 +10891,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
  
- static void disas_thumb_insn(DisasContext *s, uint32_t insn)
- {
--    uint32_t val, op, rm, rn, rd, shift, cond;
-+    uint32_t val, op, rm, rd, shift, cond;
-     int32_t offset;
-     int i;
-     TCGv_i32 tmp;
-@@ -10927,20 +10927,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-                 break;
+         case 15: /* IT, nop-hint.  */
+             if ((insn & 0xf) == 0) {
+-                gen_nop_hint(s, (insn >> 4) & 0xf);
+-                break;
++                goto illegal_op; /* nop hint, in decodetree */
              }
- 
--            /* Otherwise this is rev */
--            ARCH(6);
--            rn = (insn >> 3) & 0x7;
--            rd = insn & 0x7;
--            tmp = load_reg(s, rn);
--            switch (op1) {
--            case 0: tcg_gen_bswap32_i32(tmp, tmp); break;
--            case 1: gen_rev16(tmp, tmp); break;
--            case 3: gen_revsh(tmp, tmp); break;
--            default:
--                g_assert_not_reached();
--            }
--            store_reg(s, rd, tmp);
--            break;
-+            /* Otherwise this is rev, in decodetree */
-+            goto illegal_op;
-         }
- 
-         case 6: /* setend, cps; in decodetree */
+             /*
+              * IT (If-Then)
 diff --git a/target/arm/t16.decode b/target/arm/t16.decode
-index 032902a1f4..19a442b894 100644
+index 19a442b894..5829b9a58c 100644
 --- a/target/arm/t16.decode
 +++ b/target/arm/t16.decode
-@@ -24,6 +24,7 @@
+@@ -19,6 +19,7 @@
+ # This file is processed by scripts/decodetree.py
+ #
+ 
++&empty           !extern
+ &s_rrr_shi       !extern s rd rn rm shim shty
+ &s_rrr_shr       !extern s rn rd rm rs shty
  &s_rri_rot       !extern s rn rd imm rot
- &s_rrrr          !extern s rd rn rm ra
- &rrr_rot         !extern rd rn rm rot
-+&rr              !extern rd rm
- &ri              !extern rd imm
- &r               !extern rm
- &ldst_rr         !extern p w u rn rt rm shimm shtype
-@@ -195,3 +196,11 @@ SETEND          1011 0110 010 1 E:1 000         &setend
-   CPS           1011 0110 011 . 0 A:1 I:1 F:1   &cps mode=0 M=0 %imod
-   CPS_v7m       1011 0110 011 im:1 00 I:1 F:1
- }
+@@ -204,3 +205,19 @@ SETEND          1011 0110 010 1 E:1 000         &setend
+ REV             1011 1010 00 ... ...            @rdm
+ REV16           1011 1010 01 ... ...            @rdm
+ REVSH           1011 1010 11 ... ...            @rdm
 +
-+# Reverse bytes
++# Hints
 +
-+@rdm            .... .... .. rm:3 rd:3          &rr
++{
++  YIELD         1011 1111 0001 0000
++  WFE           1011 1111 0010 0000
++  WFI           1011 1111 0011 0000
 +
-+REV             1011 1010 00 ... ...            @rdm
-+REV16           1011 1010 01 ... ...            @rdm
-+REVSH           1011 1010 11 ... ...            @rdm
++  # TODO: Implement SEV, SEVL; may help SMP performance.
++  # SEV         1011 1111 0100 0000
++  # SEVL        1011 1111 0101 0000
++
++  # The canonical nop has the second nibble as 0000, but the whole of the
++  # rest of the space is a reserved hint, behaves as nop.
++  NOP           1011 1111 ---- 0000
++}
 -- 
 2.17.1
 
