@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A61A81B7
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:04:56 +0200 (CEST)
-Received: from localhost ([::1]:57028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4890CA81DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:08:43 +0200 (CEST)
+Received: from localhost ([::1]:57084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5U1u-0007Qv-L0
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:04:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43320)
+	id 1i5U5a-0003wl-BM
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1i5TyS-0006AZ-Nb
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:22 -0400
+ (envelope-from <mst@redhat.com>) id 1i5TyS-0006AV-RW
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1i5TyQ-0002QO-9B
+ (envelope-from <mst@redhat.com>) id 1i5TyQ-0002QH-8w
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43676)
+Received: from mx1.redhat.com ([209.132.183.28]:61460)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1i5TyP-0002K6-SY
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1i5TyP-0002Ns-Rv
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:18 -0400
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C0349C034E71
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 12:01:09 +0000 (UTC)
-Received: by mail-qk1-f198.google.com with SMTP id o133so22807529qke.4
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 05:01:09 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3353281DF7
+ for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 12:01:15 +0000 (UTC)
+Received: by mail-qt1-f197.google.com with SMTP id k13so22469672qtp.15
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 05:01:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=X9XmHG9IenejdNjceVKSVG6airvhvIr2qQFz1tJGSd0=;
- b=J9Gdgza+VRFxqpSASq2lQ3NOmIzTCsVSCWZUL4DxMqTnoqj/WIa7DtFUVKbVmAvAef
- j/jbcLEqCnUB8sikN2buZMPwYf5xHjW51FNiOwX4FCBnVK4swPDVC01JTWZO6oUvSOPX
- 4bLm0Nd1n7FZgdc55sz49htgyZWM7jx4SO31XLf0XWNaFz4OqX8kjNGpyf2mlQ6RCR35
- brJJ5VUNZJH++l0j95v0skB7F3A8aybD7UDiXpeWEK+m5e9zkN7/dtKsFAMZDWmwsbl4
- MayY1Od80JOOhE3WfEFZ1kvjZI0Ze+ICX8m3v8DTZAaS32K/HNruMx1oyfD0QeHVWPrN
- GQRQ==
-X-Gm-Message-State: APjAAAVSg6MfaV1aiTmsUd0PNwZ3phc3W+QhoH/jpldVfx/hgxDpjozq
- XziW9dVCElLKEutcoPLjS3xl6NdsGMc1uqzqC0lUTx7n1qH9qbRvGW/TagLk58e13AWJJrZz4Ou
- 93bSqqJlWyVwtilE=
-X-Received: by 2002:a37:ef17:: with SMTP id j23mr10993842qkk.426.1567598468543; 
- Wed, 04 Sep 2019 05:01:08 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxBS/ElY7imbNqpgfKMgIzTfl7so2XQ9nZ5HW9eTjBYQZC3o3c/X0/VXbut+xJn3VEgJRpmdA==
-X-Received: by 2002:a37:ef17:: with SMTP id j23mr10993822qkk.426.1567598468376; 
- Wed, 04 Sep 2019 05:01:08 -0700 (PDT)
+ bh=S/wdHeehpc8LTayuXzoK+l1PfYDr/hOA256Q3HmfrYY=;
+ b=CH/ZKBlY9YKdg4Ox2O9dKxou4HYAmuIQDbpqIk5Xu/xIL3FMkJNpGJh/d+n5pIEj6I
+ wfIq7xn8Ld5XQWOWp/lo07YjGMVwbAVA961ZMbxcIWl7KX6NCr84dQKn2tVMTt1k7ZMu
+ tQ7LTfxK5LstwGgzJ6GyAD6wcZ/bGmTODH7RuKizCSn8yxx6WgFzkVgkLQcb/+gb7OKi
+ 1x7cJ6hgH0n1X1XdsSq9ZUnU88feDf07mKtvVrGUKCV/20F15WNiYcZznlznWTnrR9S3
+ r4F7F36JgebSG4frheEqHrX6SZgjV4kP+5G2KUDphYjkfHH9HfGlZCbgRMV5mWFL9u2a
+ fXlg==
+X-Gm-Message-State: APjAAAWM6fBLmZ9tEiWI+JCY934p039XU2BHLH6yKAHmgJbfw1gl17jr
+ wjFQBchskx5AmG6W315x9TtwSrqdGnKdVjwi/OwLqrvOZQPtBDaPzCpQH8i6A2Dw9Jfsi9u42TU
+ u/ims7/QUnjOAFx0=
+X-Received: by 2002:a37:a00f:: with SMTP id j15mr36063552qke.335.1567598474005; 
+ Wed, 04 Sep 2019 05:01:14 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqz8MBFFJqwJQfDSBDFalW+O9MqYhUMvhhihL1zNDlGRc8tVQX0CM0JKAAsFTzJQmIIKFWKjLQ==
+X-Received: by 2002:a37:a00f:: with SMTP id j15mr36063527qke.335.1567598473849; 
+ Wed, 04 Sep 2019 05:01:13 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id d19sm2023498qkk.101.2019.09.04.05.01.06
+ by smtp.gmail.com with ESMTPSA id j80sm5052776qke.94.2019.09.04.05.01.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 05:01:07 -0700 (PDT)
-Date: Wed, 4 Sep 2019 08:01:03 -0400
+ Wed, 04 Sep 2019 05:01:13 -0700 (PDT)
+Date: Wed, 4 Sep 2019 08:01:08 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190820163005.1880-1-jusual@redhat.com>
+Message-ID: <20190903200422.11693-1-johannes@sipsolutions.net>
 References: <20190904120026.3220-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -64,7 +64,7 @@ X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 4/6] virtio-pci: Add Function Level Reset support
+Subject: [Qemu-devel] [PULL 5/6] libvhost-user: fix SLAVE_SEND_FD handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,98 +77,48 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Julia Suvorova <jusual@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+ Johannes Berg <johannes.berg@intel.com>, Tiwei Bie <tiwei.bie@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Xie Yongji <xieyongji@baidu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Julia Suvorova <jusual@redhat.com>
+From: Johannes Berg <johannes.berg@intel.com>
 
-Using FLR becomes convenient in cases where resetting the bus is
-impractical, for example, when debugging the behavior of individual
-functions.
+It doesn't look like this could possibly work properly since
+VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD is defined to 10, but the
+dev->protocol_features has a bitmap. I suppose the peer this
+was tested with also supported VHOST_USER_PROTOCOL_F_LOG_SHMFD,
+in which case the test would always be false, but nevertheless
+the code seems wrong.
 
-Signed-off-by: Julia Suvorova <jusual@redhat.com>
-Message-Id: <20190820163005.1880-1-jusual@redhat.com>
+Use has_feature() to fix this.
+
+Fixes: d84599f56c82 ("libvhost-user: support host notifier")
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+Message-Id: <20190903200422.11693-1-johannes@sipsolutions.net>
+Reviewed-by: Tiwei Bie <tiwei.bie@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/core/machine.c      |  4 +++-
- hw/virtio/virtio-pci.c | 10 ++++++++++
- hw/virtio/virtio-pci.h |  4 ++++
- 3 files changed, 17 insertions(+), 1 deletion(-)
+ contrib/libvhost-user/libvhost-user.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 83cd1bfeec..829ada099e 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -27,7 +27,9 @@
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
+index 4b36e35a82..cb5f5770e4 100644
+--- a/contrib/libvhost-user/libvhost-user.c
++++ b/contrib/libvhost-user/libvhost-user.c
+@@ -1097,7 +1097,8 @@ bool vu_set_queue_host_notifier(VuDev *dev, VuVirtq *vq, int fd,
  
--GlobalProperty hw_compat_4_1[] = {};
-+GlobalProperty hw_compat_4_1[] = {
-+    { "virtio-pci", "x-pcie-flr-init", "off" },
-+};
- const size_t hw_compat_4_1_len = G_N_ELEMENTS(hw_compat_4_1);
+     vmsg.fd_num = fd_num;
  
- GlobalProperty hw_compat_4_0[] = {
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 8babd92e59..0075b3e2af 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -601,6 +601,10 @@ static void virtio_write_config(PCIDevice *pci_dev, uint32_t address,
+-    if ((dev->protocol_features & VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD) == 0) {
++    if (!has_feature(dev->protocol_features,
++                     VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD)) {
+         return false;
+     }
  
-     pci_default_write_config(pci_dev, address, val, len);
- 
-+    if (proxy->flags & VIRTIO_PCI_FLAG_INIT_FLR) {
-+        pcie_cap_flr_write_config(pci_dev, address, val, len);
-+    }
-+
-     if (range_covers_byte(address, len, PCI_COMMAND) &&
-         !(pci_dev->config[PCI_COMMAND] & PCI_COMMAND_MASTER)) {
-         virtio_pci_stop_ioeventfd(proxy);
-@@ -1777,6 +1781,10 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
-             pcie_ats_init(pci_dev, 256);
-         }
- 
-+        if (proxy->flags & VIRTIO_PCI_FLAG_INIT_FLR) {
-+            /* Set Function Level Reset capability bit */
-+            pcie_cap_flr_init(pci_dev);
-+        }
-     } else {
-         /*
-          * make future invocations of pci_is_express() return false
-@@ -1844,6 +1852,8 @@ static Property virtio_pci_properties[] = {
-                     VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT, true),
-     DEFINE_PROP_BIT("x-pcie-pm-init", VirtIOPCIProxy, flags,
-                     VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
-+    DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
-+                    VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-index 292275acb1..e2eaaa9182 100644
---- a/hw/virtio/virtio-pci.h
-+++ b/hw/virtio/virtio-pci.h
-@@ -44,6 +44,7 @@ enum {
-     VIRTIO_PCI_FLAG_INIT_DEVERR_BIT,
-     VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
-     VIRTIO_PCI_FLAG_INIT_PM_BIT,
-+    VIRTIO_PCI_FLAG_INIT_FLR_BIT,
- };
- 
- /* Need to activate work-arounds for buggy guests at vmstate load. */
-@@ -80,6 +81,9 @@ enum {
- /* Init Power Management */
- #define VIRTIO_PCI_FLAG_INIT_PM (1 << VIRTIO_PCI_FLAG_INIT_PM_BIT)
- 
-+/* Init Function Level Reset capability */
-+#define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
-+
- typedef struct {
-     MSIMessage msg;
-     int virq;
 -- 
 MST
 
