@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3005FA9483
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:10:02 +0200 (CEST)
-Received: from localhost ([::1]:39880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A731FA9474
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:05:50 +0200 (CEST)
+Received: from localhost ([::1]:39806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5cXQ-0006RB-Em
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49897)
+	id 1i5cTI-0000oT-1r
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:05:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51640)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i5bvT-0008DM-Cl
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:49 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i5c3z-00012j-3U
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i5bvJ-0006kM-K7
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:41 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54796)
+ (envelope-from <alex.bennee@linaro.org>) id 1i5c3x-0003YB-NK
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:34 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:32874)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i5bvD-0006fk-7i
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:32 -0400
-Received: by mail-wm1-x344.google.com with SMTP id k2so190360wmj.4
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:30:30 -0700 (PDT)
+ id 1i5c3x-0003Xa-Gh
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:33 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id r17so3372465wme.0
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:39:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ugB33z9NULKx/y//kwM5sEJ+zrs1rMaIgZwF0Y1O2S8=;
- b=ONZrdF/ke7J58UfmcBcLGVufiSjJNdkGTluszm70JwS9xFifXl1NzJYycYGlzENQby
- HEvIn3vBN2ZddS8fh6PcSVe7wlwLbDjGNKjL0slBfrJd3/MIlfqC79DHeOC1+y/X0vPk
- QOibbXE3K1RLT3xduUojvFa441lXeVKF672z9lhWUpcdU8vhylBIU6F9ePcSv/aFfY0H
- iLXiCFb9YA5fOhvLH+Jaq1QN9Lr/FyyHL02U1rHmt+vWW91CwJuIK+fItX1oH0xQfPbR
- q6gVSSMddMJfeFwDZj9/NtR/TK47XD2tJkg+cKwS3wxOjwIQJvLIhgungBr5nqcI4UeH
- IFGg==
+ bh=3YyKCQsfgzvXKSHDv5mJ/Ups/NVidIa51ccen10JgYE=;
+ b=ttPaSj+pg0CsO+J+ADN+B9sIbM2YYgljcdeFQGiiPsYypwqS+dkCGm9wG0TEiGnv4R
+ hnROhgSeJRT56ul6B1hpTeikKX7cC3PmvCoK3n0icuSKoQNw2vKcLaNFsv39lr5zhvNO
+ LQdpAZswinUdUOdc5MQFnZFx2C/VN0mz7y2mbfWJ2uWuiYDcaUHhCu4YA+8g8tIlDoe2
+ fHPbNt+rwybRzdBRGcyT8wlWaCmebAcDRDh99cBxAVvleejUOcAIJReDkaf+bU+Cn7uj
+ 6pe0LzymFdkXdGiOaT8ASNA4OwhVNugh618r25pZJKn7jsY/dwhbbJ0i8gBov129qfI+
+ opdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ugB33z9NULKx/y//kwM5sEJ+zrs1rMaIgZwF0Y1O2S8=;
- b=thgflFZp0j52JfXETpK9BsIIb+Yye0AgQwKO8xgi3u8f6sV5ERQ6aSpB8QhF+3+gqN
- +SJ/1AHSE7xTRe9c8ecFOQXpmfx824FWcsggm3vWP3cpWpUbYlx3X+5iV1+yTwQLn5cn
- hQL+1b+zBGxMkx4bXn8ELOUYFO0ch+omYf9jyPAhT5u9jzE543D1c1fcib6MTyvFG4dC
- 7OxxFvJ/7z6mP5QNAhTzDGCI8jeiVwoT0s9MH2V7LH6NvHRyqkdUqTNG20l4SsFya/k6
- eI4GU1/7heCfgJ5StnU9fcN+Aw8Y2g52xl3o6MX7+yhDHCGPHOdZZ+PmgIAaift9K8Os
- ZwPg==
-X-Gm-Message-State: APjAAAWE4TgtNv388So3fUEDOnikXz10dCzz0XQUEdjc3ITu414uBduI
- qZdmOx5i+Ao9ECyZgdAbXur6SA==
-X-Google-Smtp-Source: APXvYqxf0PY9pgCmAZnCgGQcyJ3uDQVpKOubt7FP2/eVPA+e3CFN2pWznZiZWVj04j3eTrse5Q1PZQ==
-X-Received: by 2002:a1c:3bd6:: with SMTP id i205mr72432wma.135.1567629029318; 
- Wed, 04 Sep 2019 13:30:29 -0700 (PDT)
+ bh=3YyKCQsfgzvXKSHDv5mJ/Ups/NVidIa51ccen10JgYE=;
+ b=FqH2kzE+xWVQqNMJUWvnsuyHLi+Rm8P6hGS3UWgfevULAFXn1atuu8nRjnqfBnLweg
+ XE2BORq+aEze6TLHUgj5LOKtFnDQ9GjJwNQ0Ie3aFChjjPVLNvI58eRKXRjJxrNqA/MW
+ F93x/v6TIS44Nks8v1V901gGoZDf4uD3N+ADQOAfdHp2fhNXMoQZLq7KU8lu03Ivtbg0
+ e8xsaHszaEVIu/8qBqMfZj2rhYmD5ENkhRe0I7GEiw0TrcnLVC39F0tTn8iY23F17xEQ
+ gzPQuqbEVi5cmpTvJZUP7J8232qCtkQ991uYKlG4NBDoOFx562hOINcTBypLd2JZylAf
+ Kw6w==
+X-Gm-Message-State: APjAAAUPQPr0+md1GtprxTtTQRo51s3/DVo0czag3SoE2rFAq2NV/CrO
+ oucevjvGBl/rJIbCdmuQeoy6+g==
+X-Google-Smtp-Source: APXvYqzjKjzJG1aCTK6brZfIaFla0XtWTIP6rpRTHuDLrakmnP7ZCsY1NsmKBInyuRYDSy/u9FLajg==
+X-Received: by 2002:a1c:9e0b:: with SMTP id h11mr123107wme.144.1567629572522; 
+ Wed, 04 Sep 2019 13:39:32 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y72sm281324wmc.26.2019.09.04.13.30.20
+ by smtp.gmail.com with ESMTPSA id t13sm26606401wra.70.2019.09.04.13.39.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:30:25 -0700 (PDT)
+ Wed, 04 Sep 2019 13:39:31 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1BB421FFB4;
+ by zen.linaroharston (Postfix) with ESMTP id A95F71FFBD;
  Wed,  4 Sep 2019 21:30:16 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 21:30:00 +0100
-Message-Id: <20190904203013.9028-30-alex.bennee@linaro.org>
+Date: Wed,  4 Sep 2019 21:30:07 +0100
+Message-Id: <20190904203013.9028-37-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
 References: <20190904203013.9028-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v1 29/42] configure: check if --no-pie is
- supported first
+X-Received-From: 2a00:1450:4864:20::32e
+Subject: [Qemu-devel] [PATCH v1 36/42] .travis.yml: Document how the build
+ matrix use caches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,51 +83,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
  stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For whatever reason this doesn't trigger normally but because
-compile_prog uses QEMU_CFLAGS we end up trying to build a -pie
---no-pie build which confuses compilers on some non-x86 hosts.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+We will set the CACHE_NAME variable to improve the caching
+of various jobs using the same characteristics. Document it
+first.
+
+See https://docs.travis-ci.com/user/caching/#caches-and-build-matrices
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- configure | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ .travis.yml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/configure b/configure
-index 7860bbc3121..30aad233d17 100755
---- a/configure
-+++ b/configure
-@@ -2021,6 +2021,12 @@ static THREAD int tls_var;
- int main(void) { return tls_var; }
- 
- EOF
-+  # check we support --no-pie first...
-+  if compile_prog "-Werror -fno-pie" "-no-pie"; then
-+    CFLAGS_NOPIE="-fno-pie"
-+    LDFLAGS_NOPIE="-nopie"
-+  fi
-+
-   if compile_prog "-fPIE -DPIE" "-pie"; then
-     QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
-     LDFLAGS="-pie $LDFLAGS"
-@@ -2036,11 +2042,6 @@ EOF
-       pie="no"
-     fi
-   fi
--
--  if compile_prog "-Werror -fno-pie" "-nopie"; then
--    CFLAGS_NOPIE="-fno-pie"
--    LDFLAGS_NOPIE="-nopie"
--  fi
- fi
- 
- ##########################################
+diff --git a/.travis.yml b/.travis.yml
+index 2dd26486abc..ab3e4ebaadf 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -6,6 +6,12 @@ language: c
+ compiler:
+   - gcc
+ cache:
++  # There is one cache per branch and compiler version.
++  # characteristics of each job are used to identify the cache:
++  # - OS name (currently, linux, osx, or windows)
++  # - OS distribution (for Linux, xenial, trusty, or precise)
++  # - macOS image name (e.g., xcode7.2)
++  # - Names and values of visible environment variables set in .travis.yml or Settings panel
+   timeout: 1200
+   ccache: true
+   pip: true
 -- 
 2.20.1
 
