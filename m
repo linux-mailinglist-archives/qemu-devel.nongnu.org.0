@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BD4A816F
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 13:51:46 +0200 (CEST)
-Received: from localhost ([::1]:56530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C721A81BE
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:07:40 +0200 (CEST)
+Received: from localhost ([::1]:57072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5TpA-0004Dz-Q7
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 07:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41472)
+	id 1i5U4Z-0002zu-1R
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:07:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43327)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5To4-0003oQ-4h
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 07:50:37 -0400
+ (envelope-from <mst@redhat.com>) id 1i5TyS-0006Aa-RW
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5To2-0002eJ-4U
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 07:50:35 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:37739)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5To1-0002dn-Uz
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 07:50:34 -0400
-Received: by mail-oi1-x236.google.com with SMTP id v7so1480374oib.4
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 04:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=Xo2C27fPYSUSHDwOxRgYQnm/cD5jjZDzWbpPHN2McV4=;
- b=OY0BnNFPPkwWPu8rUdBHjfOy69biepYKUAToCoNuduqjNH5kyxgG7xXGczTIaom2TS
- 1sQ54M0LYMAKYFHFGG2bJIpKDmep1XqqE1fryOdPbNPtRXeEg+QFnagoUTTFeYbY2YO9
- AwhUEG1NbLlrkKtmjETv1Z+nGnwGmb0Nm75dRmaF8LUqachJJhHjInibehG3s5qEzyrF
- PtsH0aqW7DdT7uiSkLOOSpVwVS9ekwXVN4whuCDC0uKDl0apFkcuDHSPSvek1ByOolQY
- 31Q0r5/PHsMaQf2EYV2FHtLvohvD7dGXbsEWY0NXieFmYtXFeCTiwjiZqO7W06AQEIlH
- 71AA==
+ (envelope-from <mst@redhat.com>) id 1i5TyQ-0002Qd-Cs
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39166)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1i5TyP-00026a-W0
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:18 -0400
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0C56689ACA
+ for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 12:00:50 +0000 (UTC)
+Received: by mail-qk1-f200.google.com with SMTP id b143so22790885qkg.9
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 05:00:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=Xo2C27fPYSUSHDwOxRgYQnm/cD5jjZDzWbpPHN2McV4=;
- b=UNbpfX5qYZmyjOHuO3QYBk2fvv/HSYKvQQeVKHm2wV7cxXWQW4ZITg7cUirLsP8tLn
- wcefueAgiH3jXBwVBh3bKWeCZbtC5oLkGkHJLQhWvBxk2p15gxaeN5MxdhmlT+o/Pqhx
- v2otYyi6b7B/KKvN0bKUzc6wLltXoS2Lrm0tH+G8X0yC5RgG+QKk8mzXE2OFoMFn7O+9
- jSEwI4c0TfxJ0X2xN7HnOPol/mMqzF6Hlax/EGK3cGe7hjMOTRm64GVf4JRQojHCLmmU
- lU/9QsPQ2F36rzIlChMJkEo29UDpJJtKUfLwEanPBKwUKfTmDW0c3nEYsCKqFryCzMly
- FS/A==
-X-Gm-Message-State: APjAAAUyCQKWJ6E89rSqwLHOx/12eMeFYCq0L985d8mm873RybJ0L784
- iBqBD3n0uML1dRVqwE3679S85DD6lGvwH+f2YcGZBSRkC2Q=
-X-Google-Smtp-Source: APXvYqxgEgfeoJX/yCq2Pm63Wn2sm5J8EZj0EMG7Ybt6emCZslGUgj1Bv4iv+hRxM3154MRjATcqSgvaRe0cWeNUyAA=
-X-Received: by 2002:aca:50d8:: with SMTP id e207mr2805578oib.48.1567597832402; 
- Wed, 04 Sep 2019 04:50:32 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=QbH+SiWofwKrzqAIlJFnrSFE2cKXcuOyn4vUrnhdR9Q=;
+ b=awcYgFDXK4bIJZv5l14ukzZNJaIoh2LoedRwyYUTq+h1UQy1DnAAgEoJyL/3A/vNbT
+ ZTJyoI8OBur08+OblhKphk4HzcdrQQW9UIF655w8cEgeFSTfQEqqx8sqb0NWZtRPBTIK
+ 3/em1Y9JwxH0NF9E+OLmgNp+YhL4F/3JP8ksjcskrlaWZuitN7HoDQAY90p2o0qKoREt
+ F4tM9YQef4bypjKlBwPpIiNgLgWCv1wO1vKJvJM98VlioRwmqpqCiIo9lMFl0JoSwHii
+ +h8QWJz6DmZpotGH1GBcmSsqmRnETfyayKIrEZYotvSm9dGz9awsb3KpkqerU7QzHM/H
+ N2+w==
+X-Gm-Message-State: APjAAAUVIQhUQyW/HrdWoc5KmFNM0G6/LTGOoH/LtbOhZnl+v/vcRFak
+ tYL7UP8QcUkaFBPNwBG1BTjoChDbB86wfXz6/SFTmZcfFtq1+tmULZn7n0qzp6Bcmg+7WOmHm4J
+ YqXPlXoas48TN4UM=
+X-Received: by 2002:a37:714:: with SMTP id 20mr38787129qkh.32.1567598448825;
+ Wed, 04 Sep 2019 05:00:48 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwX7MmTAs/H8oRGs8k/mncUrfgCnHW5MsT8/2cZPfBW/62fEKduUpzz4FOG44BcK73T5cPpDQ==
+X-Received: by 2002:a37:714:: with SMTP id 20mr38787114qkh.32.1567598448667;
+ Wed, 04 Sep 2019 05:00:48 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
+ by smtp.gmail.com with ESMTPSA id q5sm8970766qte.38.2019.09.04.05.00.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Sep 2019 05:00:47 -0700 (PDT)
+Date: Wed, 4 Sep 2019 08:00:44 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Message-ID: <20190904120026.3220-1-mst@redhat.com>
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Sep 2019 12:50:21 +0100
-Message-ID: <CAFEAcA88YR0mU2N=-immpWVFCnnU6fJsorZYHSyerfMO72iZaA@mail.gmail.com>
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::236
-Subject: [Qemu-devel] test-aio-multithread assertion
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.22.0.678.g13338e74b8
+X-Mutt-Fcc: =sent
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/6] virtio,vhost: fixes, features, cleanups.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,31 +74,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi; I've been seeing intermittently on the BSDs this assertion
-running test-aio-multithread as part of 'make check':
+The following changes since commit 379d83f2c92879f4418aa9c57fd1fcbc3c82d384:
 
-MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-tests/test-aio-multithread -m=quick -k --tap < /dev/null |
-./scripts/tap-drive
-r.pl --test-name="test-aio-multithread"
-PASS 1 test-aio-multithread /aio/multi/lifecycle
-PASS 2 test-aio-multithread /aio/multi/schedule
-ERROR - too few tests run (expected 5, got 2)
-Assertion failed: (!qemu_lockcnt_count(&ctx->list_lock)), function
-aio_ctx_finalize, file /home/qemu/qemu-test.kaRA0o/src/util/async.c,
-line 283.
-Abort trap (core dumped)
-gmake: *** [/home/qemu/qemu-test.kaRA0o/src/tests/Makefile.include:905:
-check-unit] Error 1
+  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-aug-29-2019' into staging (2019-09-04 10:16:00 +0100)
 
-Anybody got any ideas?
+are available in the Git repository at:
 
-(this is with the tests/vm setups; I've seen this on FreeBSD
-and NetBSD.)
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-thanks
--- PMM
+for you to fetch changes up to eeb39263aa9b05b4ac3f8d8e957958071834a7b6:
+
+  libvhost-user: introduce and use vu_has_protocol_feature() (2019-09-04 07:53:12 -0400)
+
+----------------------------------------------------------------
+virtio,vhost: fixes, features, cleanups.
+
+FLR support.
+Misc fixes, cleanups.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Johannes Berg (2):
+      libvhost-user: fix SLAVE_SEND_FD handling
+      libvhost-user: introduce and use vu_has_protocol_feature()
+
+Julia Suvorova (1):
+      virtio-pci: Add Function Level Reset support
+
+Laurent Vivier (2):
+      rng-builtin: add an RNG backend that uses qemu_guest_getrandom()
+      virtio-rng: change default backend to rng-builtin
+
+Markus Armbruster (1):
+      virtio-rng: Keep the default backend out of VirtIORNGConf
+
+ hw/virtio/virtio-pci.h                |  4 ++
+ include/hw/virtio/virtio-rng.h        |  2 -
+ include/sysemu/rng.h                  |  2 +
+ backends/rng-builtin.c                | 77 +++++++++++++++++++++++++++++++++++
+ contrib/libvhost-user/libvhost-user.c | 19 +++++----
+ hw/core/machine.c                     |  4 +-
+ hw/virtio/virtio-pci.c                | 10 +++++
+ hw/virtio/virtio-rng.c                | 19 ++++-----
+ backends/Makefile.objs                |  2 +-
+ qemu-options.hx                       |  7 ++++
+ 10 files changed, 122 insertions(+), 24 deletions(-)
+ create mode 100644 backends/rng-builtin.c
+
 
