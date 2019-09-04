@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B67A92A0
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 21:54:19 +0200 (CEST)
-Received: from localhost ([::1]:37932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7E1A92B5
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 21:58:41 +0200 (CEST)
+Received: from localhost ([::1]:38068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5bMA-0002SJ-36
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 15:54:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40286)
+	id 1i5bQN-0008Vj-3D
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 15:58:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40337)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0D-0004kR-1m
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:42 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0G-0004pT-Qp
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b09-0002Tm-BB
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:36 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:44635)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0E-0002XU-1D
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:40 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:36130)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5b08-0002Si-U1
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:33 -0400
-Received: by mail-pl1-x643.google.com with SMTP id k1so2685007pls.11
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:31:32 -0700 (PDT)
+ id 1i5b0D-0002Wj-Kg
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:37 -0400
+Received: by mail-pl1-x643.google.com with SMTP id f19so7524plr.3
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:31:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=8O9yVa1OdaQBLBtEP/sB66vbD+5ooxIYXjeV2VOkFhs=;
- b=kguO3AG/5YwVV4r2PmvWdd7TjGxdZnp4R6GaBrpZzl1lhlta0iZowB54f3Wnge16mm
- XOjTxiRabsj4CdMv/I1MOHANJSR9avdMmtPL5j+9mIF0RlGY8u3tHUnbuU2i2ooOavMW
- oxTZmISxBhYPX+LiA602RgR1enPvinvyULyI/KypUJFKmtYS9+CcyeIrmUFzsi78onwX
- FW0m3HJ5qzh5M6BUETOcLJ0YvWs1iVxh7uF9aHlrmXZcqf/W/fts2jinuGM06bDVv2aB
- uxRId3oPVS0IlI8k/k6quc6tm8eKx0Inp1Yqx1mZrTwWpl0njo9HtmyQsnKQ26M3Oc+6
- ypJw==
+ bh=g/QDb2kvmqcOm71+AOuMbvaZW1g+/6rTDU0HkFA7so8=;
+ b=EE+5fAWrJbdaUB+8b9wkCmqR6WzEPJ+vHmw1zHyCeAjQ5I4FxnmF+Ejod0TAAyN9ru
+ q/b5vAoqMPI167hBWEKK3DEV/5ZCfEkkyPljC3KLhoecJUFSO5ZQ3g+p64kNnCtyw+aM
+ DuhApSZ0mwVgjKz1TE85P+rU1yweAsf23RyUH21U8Q02rwNB3/m/0JkEUdA6RM2NWB7B
+ M8TTdl7hs5rfw89zai4aOk7HRxEYjWFfvZWmcpzR8Rr9luaoretfzUxHgm0UXXjjcZb/
+ voGsMS+quwR2OOQfTZHxY7oZxRcZv0Es5gT2Uuw2TwFeRzDDtTqgRnMlOR9dOpaG/96U
+ wpvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=8O9yVa1OdaQBLBtEP/sB66vbD+5ooxIYXjeV2VOkFhs=;
- b=fUrrU4fwx8PKG9zJ+YoZw6xtWcIxtua0T2gZX/SGCPY4PEZq11BclxTfSFm3GftLfe
- I91wyg8DCTkJN78G0oih2wCV58VgKTfPHIvECpV71Entqgwjqwf5ojJI2IA5KndmPfPs
- wtaB08A7LuZafiDyzBhaOUJyfHBjPrSIDPZ9uJ+4QqqT12C8NKRFZOgy2YgOcEXNaZvj
- xKOIu50FQXQkCqeY+7BB0pmxX5oTvEPj2NigJWTgUoiqGAF0VcJyqNab1q62sG+wF7a5
- NeI8jckcP0wp94YFNYz5/1bhHJFXj88uaH0oY9iblVgFVDcyPm/SfeNZUFCNFmGk9/Ea
- RFdQ==
-X-Gm-Message-State: APjAAAWvEXt66Wbm4EdZsBvvG/pAzmB2Voop+GvpAM7OzE4HAHGKs2qD
- m6pyWTlq6UaITucjhycOIGSUOFTAfqI=
-X-Google-Smtp-Source: APXvYqxFyieuXM7VHV+JsobstH/5EZKtddm5gijyFENn25rhX+ZjOVFwxwKVkULdDgefDxMbLmau0w==
-X-Received: by 2002:a17:902:9a41:: with SMTP id
- x1mr43370078plv.88.1567625491470; 
- Wed, 04 Sep 2019 12:31:31 -0700 (PDT)
+ bh=g/QDb2kvmqcOm71+AOuMbvaZW1g+/6rTDU0HkFA7so8=;
+ b=frcXLqbj4HqtLtdcarKQqFJBQJt0ieBZK3TCIX/hj0FgOaQWxFE2dc0qO5/TcPhmYs
+ zLpeZGZHQkwfslNG7FdejprlK//LW2OnUKNJETEBQUpnUzdLWLADV253gATcFXwTBwzo
+ gZ3Z+khtyGoy+CV0fGninSoBTsM38ywHYbd+Toluw+HFtgOf4KcDnGYPZgS+9O4E343M
+ zpwiPA65HcfUeCn49Vnt/XtGZKD/t/9+wzuYQ+WDlrGzJQNaV4x/b+4mlC1ecVhbdda+
+ ge06P8YHfgr2GTUiQTzKDYgRMaEzSIpTYqRmKynjuyl96nx2oFPZCJ1lv68jHlFtSPbs
+ 1XWg==
+X-Gm-Message-State: APjAAAW9Ity7qyUTh5l4Vtn8QzaAH71lxuOY14Ri4zIUgE0SH7Hah3+v
+ eIY6JFwvnU5Q9abx6vebAqDhQgsT9aI=
+X-Google-Smtp-Source: APXvYqzpfnT1WpntHOq0zIF7YjaKnKhdHqXofmcwypY3XxNa1Gq5LaeuGt0gxGtTA6+7cwhQLGzK8w==
+X-Received: by 2002:a17:902:244:: with SMTP id
+ 62mr42104077plc.243.1567625496164; 
+ Wed, 04 Sep 2019 12:31:36 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.31.30
+ by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.31.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 12:31:30 -0700 (PDT)
+ Wed, 04 Sep 2019 12:31:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 12:30:14 -0700
-Message-Id: <20190904193059.26202-25-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 12:30:17 -0700
+Message-Id: <20190904193059.26202-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904193059.26202-1-richard.henderson@linaro.org>
 References: <20190904193059.26202-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::643
-Subject: [Qemu-devel] [PATCH v4 24/69] target/arm: Convert Parallel addition
- and subtraction
+Subject: [Qemu-devel] [PATCH v4 27/69] target/arm: Convert MOVW, MOVT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,376 +83,170 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 229 ++++++++++++++++++++---------------------
- target/arm/a32.decode  |  44 ++++++++
- target/arm/t32.decode  |  44 ++++++++
- 3 files changed, 200 insertions(+), 117 deletions(-)
+ target/arm/translate.c | 89 ++++++++++++++++--------------------------
+ target/arm/a32.decode  |  6 +++
+ target/arm/t32.decode  |  9 +++++
+ 3 files changed, 48 insertions(+), 56 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 1c50ea232a..181d3d77f0 100644
+index 5b9b303467..b7d26f7cc8 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -648,99 +648,6 @@ static inline void gen_arm_shift_reg(TCGv_i32 var, int shiftop,
-     tcg_temp_free_i32(shift);
- }
- 
--#define PAS_OP(pfx) \
--    switch (op2) {  \
--    case 0: gen_pas_helper(glue(pfx,add16)); break; \
--    case 1: gen_pas_helper(glue(pfx,addsubx)); break; \
--    case 2: gen_pas_helper(glue(pfx,subaddx)); break; \
--    case 3: gen_pas_helper(glue(pfx,sub16)); break; \
--    case 4: gen_pas_helper(glue(pfx,add8)); break; \
--    case 7: gen_pas_helper(glue(pfx,sub8)); break; \
--    }
--static void gen_arm_parallel_addsub(int op1, int op2, TCGv_i32 a, TCGv_i32 b)
--{
--    TCGv_ptr tmp;
--
--    switch (op1) {
--#define gen_pas_helper(name) glue(gen_helper_,name)(a, a, b, tmp)
--    case 1:
--        tmp = tcg_temp_new_ptr();
--        tcg_gen_addi_ptr(tmp, cpu_env, offsetof(CPUARMState, GE));
--        PAS_OP(s)
--        tcg_temp_free_ptr(tmp);
--        break;
--    case 5:
--        tmp = tcg_temp_new_ptr();
--        tcg_gen_addi_ptr(tmp, cpu_env, offsetof(CPUARMState, GE));
--        PAS_OP(u)
--        tcg_temp_free_ptr(tmp);
--        break;
--#undef gen_pas_helper
--#define gen_pas_helper(name) glue(gen_helper_,name)(a, a, b)
--    case 2:
--        PAS_OP(q);
--        break;
--    case 3:
--        PAS_OP(sh);
--        break;
--    case 6:
--        PAS_OP(uq);
--        break;
--    case 7:
--        PAS_OP(uh);
--        break;
--#undef gen_pas_helper
--    }
--}
--#undef PAS_OP
--
--/* For unknown reasons Arm and Thumb-2 use arbitrarily different encodings.  */
--#define PAS_OP(pfx) \
--    switch (op1) {  \
--    case 0: gen_pas_helper(glue(pfx,add8)); break; \
--    case 1: gen_pas_helper(glue(pfx,add16)); break; \
--    case 2: gen_pas_helper(glue(pfx,addsubx)); break; \
--    case 4: gen_pas_helper(glue(pfx,sub8)); break; \
--    case 5: gen_pas_helper(glue(pfx,sub16)); break; \
--    case 6: gen_pas_helper(glue(pfx,subaddx)); break; \
--    }
--static void gen_thumb2_parallel_addsub(int op1, int op2, TCGv_i32 a, TCGv_i32 b)
--{
--    TCGv_ptr tmp;
--
--    switch (op2) {
--#define gen_pas_helper(name) glue(gen_helper_,name)(a, a, b, tmp)
--    case 0:
--        tmp = tcg_temp_new_ptr();
--        tcg_gen_addi_ptr(tmp, cpu_env, offsetof(CPUARMState, GE));
--        PAS_OP(s)
--        tcg_temp_free_ptr(tmp);
--        break;
--    case 4:
--        tmp = tcg_temp_new_ptr();
--        tcg_gen_addi_ptr(tmp, cpu_env, offsetof(CPUARMState, GE));
--        PAS_OP(u)
--        tcg_temp_free_ptr(tmp);
--        break;
--#undef gen_pas_helper
--#define gen_pas_helper(name) glue(gen_helper_,name)(a, a, b)
--    case 1:
--        PAS_OP(q);
--        break;
--    case 2:
--        PAS_OP(sh);
--        break;
--    case 5:
--        PAS_OP(uq);
--        break;
--    case 6:
--        PAS_OP(uh);
--        break;
--#undef gen_pas_helper
--    }
--}
--#undef PAS_OP
--
- /*
-  * Generate a conditional based on ARM condition code cc.
-  * This is common between ARM and Aarch64 targets.
-@@ -9318,6 +9225,114 @@ static bool trans_UDF(DisasContext *s, arg_UDF *a)
+@@ -7870,6 +7870,34 @@ static bool trans_ADR(DisasContext *s, arg_ri *a)
      return true;
  }
  
-+/*
-+ * Parallel addition and subtraction
-+ */
-+
-+static bool op_par_addsub(DisasContext *s, arg_rrr *a,
-+                          void (*gen)(TCGv_i32, TCGv_i32, TCGv_i32))
++static bool trans_MOVW(DisasContext *s, arg_MOVW *a)
 +{
-+    TCGv_i32 t0, t1;
++    TCGv_i32 tmp;
 +
-+    if (s->thumb
-+        ? !arm_dc_feature(s, ARM_FEATURE_THUMB_DSP)
-+        : !ENABLE_ARCH_6) {
++    if (!ENABLE_ARCH_6T2) {
 +        return false;
 +    }
 +
-+    t0 = load_reg(s, a->rn);
-+    t1 = load_reg(s, a->rm);
-+
-+    gen(t0, t0, t1);
-+
-+    tcg_temp_free_i32(t1);
-+    store_reg(s, a->rd, t0);
++    tmp = tcg_const_i32(a->imm);
++    store_reg(s, a->rd, tmp);
 +    return true;
 +}
 +
-+static bool op_par_addsub_ge(DisasContext *s, arg_rrr *a,
-+                             void (*gen)(TCGv_i32, TCGv_i32,
-+                                         TCGv_i32, TCGv_ptr))
++static bool trans_MOVT(DisasContext *s, arg_MOVW *a)
 +{
-+    TCGv_i32 t0, t1;
-+    TCGv_ptr ge;
++    TCGv_i32 tmp;
 +
-+    if (s->thumb
-+        ? !arm_dc_feature(s, ARM_FEATURE_THUMB_DSP)
-+        : !ENABLE_ARCH_6) {
++    if (!ENABLE_ARCH_6T2) {
 +        return false;
 +    }
 +
-+    t0 = load_reg(s, a->rn);
-+    t1 = load_reg(s, a->rm);
-+
-+    ge = tcg_temp_new_ptr();
-+    tcg_gen_addi_ptr(ge, cpu_env, offsetof(CPUARMState, GE));
-+    gen(t0, t0, t1, ge);
-+
-+    tcg_temp_free_ptr(ge);
-+    tcg_temp_free_i32(t1);
-+    store_reg(s, a->rd, t0);
++    tmp = load_reg(s, a->rd);
++    tcg_gen_ext16u_i32(tmp, tmp);
++    tcg_gen_ori_i32(tmp, tmp, a->imm << 16);
++    store_reg(s, a->rd, tmp);
 +    return true;
 +}
-+
-+#define DO_PAR_ADDSUB(NAME, helper) \
-+static bool trans_##NAME(DisasContext *s, arg_rrr *a)   \
-+{                                                       \
-+    return op_par_addsub(s, a, helper);                 \
-+}
-+
-+#define DO_PAR_ADDSUB_GE(NAME, helper) \
-+static bool trans_##NAME(DisasContext *s, arg_rrr *a)   \
-+{                                                       \
-+    return op_par_addsub_ge(s, a, helper);              \
-+}
-+
-+DO_PAR_ADDSUB_GE(SADD16, gen_helper_sadd16)
-+DO_PAR_ADDSUB_GE(SASX, gen_helper_saddsubx)
-+DO_PAR_ADDSUB_GE(SSAX, gen_helper_ssubaddx)
-+DO_PAR_ADDSUB_GE(SSUB16, gen_helper_ssub16)
-+DO_PAR_ADDSUB_GE(SADD8, gen_helper_sadd8)
-+DO_PAR_ADDSUB_GE(SSUB8, gen_helper_ssub8)
-+
-+DO_PAR_ADDSUB_GE(UADD16, gen_helper_uadd16)
-+DO_PAR_ADDSUB_GE(UASX, gen_helper_uaddsubx)
-+DO_PAR_ADDSUB_GE(USAX, gen_helper_usubaddx)
-+DO_PAR_ADDSUB_GE(USUB16, gen_helper_usub16)
-+DO_PAR_ADDSUB_GE(UADD8, gen_helper_uadd8)
-+DO_PAR_ADDSUB_GE(USUB8, gen_helper_usub8)
-+
-+DO_PAR_ADDSUB(QADD16, gen_helper_qadd16)
-+DO_PAR_ADDSUB(QASX, gen_helper_qaddsubx)
-+DO_PAR_ADDSUB(QSAX, gen_helper_qsubaddx)
-+DO_PAR_ADDSUB(QSUB16, gen_helper_qsub16)
-+DO_PAR_ADDSUB(QADD8, gen_helper_qadd8)
-+DO_PAR_ADDSUB(QSUB8, gen_helper_qsub8)
-+
-+DO_PAR_ADDSUB(UQADD16, gen_helper_uqadd16)
-+DO_PAR_ADDSUB(UQASX, gen_helper_uqaddsubx)
-+DO_PAR_ADDSUB(UQSAX, gen_helper_uqsubaddx)
-+DO_PAR_ADDSUB(UQSUB16, gen_helper_uqsub16)
-+DO_PAR_ADDSUB(UQADD8, gen_helper_uqadd8)
-+DO_PAR_ADDSUB(UQSUB8, gen_helper_uqsub8)
-+
-+DO_PAR_ADDSUB(SHADD16, gen_helper_shadd16)
-+DO_PAR_ADDSUB(SHASX, gen_helper_shaddsubx)
-+DO_PAR_ADDSUB(SHSAX, gen_helper_shsubaddx)
-+DO_PAR_ADDSUB(SHSUB16, gen_helper_shsub16)
-+DO_PAR_ADDSUB(SHADD8, gen_helper_shadd8)
-+DO_PAR_ADDSUB(SHSUB8, gen_helper_shsub8)
-+
-+DO_PAR_ADDSUB(UHADD16, gen_helper_uhadd16)
-+DO_PAR_ADDSUB(UHASX, gen_helper_uhaddsubx)
-+DO_PAR_ADDSUB(UHSAX, gen_helper_uhsubaddx)
-+DO_PAR_ADDSUB(UHSUB16, gen_helper_uhsub16)
-+DO_PAR_ADDSUB(UHADD8, gen_helper_uhadd8)
-+DO_PAR_ADDSUB(UHSUB8, gen_helper_uhsub8)
-+
-+#undef DO_PAR_ADDSUB
-+#undef DO_PAR_ADDSUB_GE
 +
  /*
-  * Legacy decoder.
+  * Multiply and multiply accumulate
   */
-@@ -9630,16 +9645,8 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-                 rs = (insn >> 8) & 0xf;
-                 switch ((insn >> 23) & 3) {
-                 case 0: /* Parallel add/subtract.  */
--                    op1 = (insn >> 20) & 7;
--                    tmp = load_reg(s, rn);
--                    tmp2 = load_reg(s, rm);
--                    sh = (insn >> 5) & 7;
--                    if ((op1 & 3) == 0 || sh == 5 || sh == 6)
+@@ -9762,7 +9790,7 @@ static bool trans_UDIV(DisasContext *s, arg_rrr *a)
+ 
+ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+ {
+-    unsigned int cond, val, op1, i, rn, rd;
++    unsigned int cond, val, op1, i, rn;
+     TCGv_i32 tmp;
+     TCGv_i32 tmp2;
+     TCGv_i32 addr;
+@@ -10011,26 +10039,8 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+     /* fall back to legacy decoder */
+ 
+     if ((insn & 0x0f900000) == 0x03000000) {
+-        if ((insn & (1 << 21)) == 0) {
+-            ARCH(6T2);
+-            rd = (insn >> 12) & 0xf;
+-            val = ((insn >> 4) & 0xf000) | (insn & 0xfff);
+-            if ((insn & (1 << 22)) == 0) {
+-                /* MOVW */
+-                tmp = tcg_temp_new_i32();
+-                tcg_gen_movi_i32(tmp, val);
+-            } else {
+-                /* MOVT */
+-                tmp = load_reg(s, rd);
+-                tcg_gen_ext16u_i32(tmp, tmp);
+-                tcg_gen_ori_i32(tmp, tmp, val << 16);
+-            }
+-            store_reg(s, rd, tmp);
+-        } else {
+-            /* MSR (immediate) and hints */
+-            /* All done in decodetree.  Illegal ops already signalled.  */
+-            g_assert_not_reached();
+-        }
++        /* All done in decodetree.  Illegal ops reach here.  */
++        goto illegal_op;
+     } else if ((insn & 0x0f900000) == 0x01000000
+                && (insn & 0x00000090) != 0x00000090) {
+         /* miscellaneous instructions */
+@@ -10765,42 +10775,9 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+             /*
+              * 0b1111_0xxx_xxxx_0xxx_xxxx_xxxx
+              *  - Data-processing (modified immediate, plain binary immediate)
++             * All in decodetree.
+              */
+-            if (insn & (1 << 25)) {
+-                /*
+-                 * 0b1111_0x1x_xxxx_0xxx_xxxx_xxxx
+-                 *  - Data-processing (plain binary immediate)
+-                 */
+-                if (insn & (1 << 24)) {
+-                    /* Bitfield/Saturate, in decodetree */
+-                    goto illegal_op;
+-                } else {
+-                    imm = ((insn & 0x04000000) >> 15)
+-                          | ((insn & 0x7000) >> 4) | (insn & 0xff);
+-                    if (insn & (1 << 22)) {
+-                        /* 16-bit immediate.  */
+-                        imm |= (insn >> 4) & 0xf000;
+-                        if (insn & (1 << 23)) {
+-                            /* movt */
+-                            tmp = load_reg(s, rd);
+-                            tcg_gen_ext16u_i32(tmp, tmp);
+-                            tcg_gen_ori_i32(tmp, tmp, imm << 16);
+-                        } else {
+-                            /* movw */
+-                            tmp = tcg_temp_new_i32();
+-                            tcg_gen_movi_i32(tmp, imm);
+-                        }
+-                        store_reg(s, rd, tmp);
+-                    } else {
+-                        /* Add/sub 12-bit immediate, in decodetree */
 -                        goto illegal_op;
--                    gen_arm_parallel_addsub(op1, sh, tmp, tmp2);
--                    tcg_temp_free_i32(tmp2);
--                    store_reg(s, rd, tmp);
--                    break;
-+                    /* Done by decodetree */
-+                    goto illegal_op;
-                 case 1:
-                     if ((insn & 0x00700020) == 0) {
-                         /* Halfword pack.  */
-@@ -10432,20 +10439,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-             }
-             store_reg(s, rd, tmp);
-             break;
--        case 2: /* SIMD add/subtract.  */
--            if (!arm_dc_feature(s, ARM_FEATURE_THUMB_DSP)) {
+-                    }
+-                }
+-            } else {
+-                /* Data-processing (modified immediate) */
+-                /* All done in decodetree.  Reach here for illegal ops.  */
 -                goto illegal_op;
 -            }
--            op = (insn >> 20) & 7;
--            shift = (insn >> 4) & 7;
--            if ((op & 3) == 3 || (shift & 3) == 3)
--                goto illegal_op;
--            tmp = load_reg(s, rn);
--            tmp2 = load_reg(s, rm);
--            gen_thumb2_parallel_addsub(op, shift, tmp, tmp2);
--            tcg_temp_free_i32(tmp2);
--            store_reg(s, rd, tmp);
--            break;
-+        case 2: /* SIMD add/subtract, in decodetree */
 +            goto illegal_op;
-         case 3: /* Other data processing.  */
-             op = ((insn >> 17) & 0x38) | ((insn >> 4) & 7);
-             if (op < 4) {
+         }
+         break;
+     case 12:
 diff --git a/target/arm/a32.decode b/target/arm/a32.decode
-index 285c08ca22..4dfd8133f7 100644
+index d7a333b90b..341882e637 100644
 --- a/target/arm/a32.decode
 +++ b/target/arm/a32.decode
-@@ -410,3 +410,47 @@ BFCI             ---- 0111 110 msb:5 rd:4 lsb:5 001 rn:4      &bfi
- # While we could get UDEF by not including this, add the pattern for
- # documentation and to conflict with any other typos in this file.
- UDF              1110 0111 1111 ---- ---- ---- 1111 ----
+@@ -73,6 +73,12 @@ MOV_rxri         .... 000 1101 . 0000 .... ..... .. 0 ....    @s_rxr_shi
+ BIC_rrri         .... 000 1110 . .... .... ..... .. 0 ....    @s_rrr_shi
+ MVN_rxri         .... 000 1111 . 0000 .... ..... .. 0 ....    @s_rxr_shi
+ 
++%imm16           16:4 0:12
++@mov16           ---- .... .... .... rd:4 ............        &ri imm=%imm16
 +
-+# Parallel addition and subtraction
++MOVW             .... 0011 0000 .... .... ............        @mov16
++MOVT             .... 0011 0100 .... .... ............        @mov16
 +
-+SADD16           .... 0110 0001 .... .... 1111 0001 ....      @rndm
-+SASX             .... 0110 0001 .... .... 1111 0011 ....      @rndm
-+SSAX             .... 0110 0001 .... .... 1111 0101 ....      @rndm
-+SSUB16           .... 0110 0001 .... .... 1111 0111 ....      @rndm
-+SADD8            .... 0110 0001 .... .... 1111 1001 ....      @rndm
-+SSUB8            .... 0110 0001 .... .... 1111 1111 ....      @rndm
-+
-+QADD16           .... 0110 0010 .... .... 1111 0001 ....      @rndm
-+QASX             .... 0110 0010 .... .... 1111 0011 ....      @rndm
-+QSAX             .... 0110 0010 .... .... 1111 0101 ....      @rndm
-+QSUB16           .... 0110 0010 .... .... 1111 0111 ....      @rndm
-+QADD8            .... 0110 0010 .... .... 1111 1001 ....      @rndm
-+QSUB8            .... 0110 0010 .... .... 1111 1111 ....      @rndm
-+
-+SHADD16          .... 0110 0011 .... .... 1111 0001 ....      @rndm
-+SHASX            .... 0110 0011 .... .... 1111 0011 ....      @rndm
-+SHSAX            .... 0110 0011 .... .... 1111 0101 ....      @rndm
-+SHSUB16          .... 0110 0011 .... .... 1111 0111 ....      @rndm
-+SHADD8           .... 0110 0011 .... .... 1111 1001 ....      @rndm
-+SHSUB8           .... 0110 0011 .... .... 1111 1111 ....      @rndm
-+
-+UADD16           .... 0110 0101 .... .... 1111 0001 ....      @rndm
-+UASX             .... 0110 0101 .... .... 1111 0011 ....      @rndm
-+USAX             .... 0110 0101 .... .... 1111 0101 ....      @rndm
-+USUB16           .... 0110 0101 .... .... 1111 0111 ....      @rndm
-+UADD8            .... 0110 0101 .... .... 1111 1001 ....      @rndm
-+USUB8            .... 0110 0101 .... .... 1111 1111 ....      @rndm
-+
-+UQADD16          .... 0110 0110 .... .... 1111 0001 ....      @rndm
-+UQASX            .... 0110 0110 .... .... 1111 0011 ....      @rndm
-+UQSAX            .... 0110 0110 .... .... 1111 0101 ....      @rndm
-+UQSUB16          .... 0110 0110 .... .... 1111 0111 ....      @rndm
-+UQADD8           .... 0110 0110 .... .... 1111 1001 ....      @rndm
-+UQSUB8           .... 0110 0110 .... .... 1111 1111 ....      @rndm
-+
-+UHADD16          .... 0110 0111 .... .... 1111 0001 ....      @rndm
-+UHASX            .... 0110 0111 .... .... 1111 0011 ....      @rndm
-+UHSAX            .... 0110 0111 .... .... 1111 0101 ....      @rndm
-+UHSUB16          .... 0110 0111 .... .... 1111 0111 ....      @rndm
-+UHADD8           .... 0110 0111 .... .... 1111 1001 ....      @rndm
-+UHSUB8           .... 0110 0111 .... .... 1111 1111 ....      @rndm
+ # Data-processing (register-shifted register)
+ 
+ @s_rrr_shr       ---- ... .... s:1 rn:4 rd:4 rs:4 . shty:2 . rm:4 \
 diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 682fc5c2c4..c899c56766 100644
+index 677acb698d..f315fde0f4 100644
 --- a/target/arm/t32.decode
 +++ b/target/arm/t32.decode
-@@ -457,3 +457,47 @@ LDAEXD_t32       1110 1000 1101 .... .... .... 1111 1111      @ldrex_d
- LDA              1110 1000 1101 .... .... 1111 1010 1111      @ldrex_0
- LDAB             1110 1000 1101 .... .... 1111 1000 1111      @ldrex_0
- LDAH             1110 1000 1101 .... .... 1111 1001 1111      @ldrex_0
+@@ -150,6 +150,15 @@ RSB_rri          1111 0.0 1110 . .... 0 ... .... ........     @s_rri_rot
+   SUB_rri        1111 0.1 0101 0 .... 0 ... .... ........     @s0_rri_12
+ }
+ 
++# Move Wide
 +
-+# Parallel addition and subtraction
++%imm16_26_16_12_0 16:4 26:1 12:3 0:8
++@mov16           .... .... .... .... .... rd:4 .... .... \
++                 &ri imm=%imm16_26_16_12_0
 +
-+SADD8            1111 1010 1000 .... 1111 .... 0000 ....      @rndm
-+QADD8            1111 1010 1000 .... 1111 .... 0001 ....      @rndm
-+SHADD8           1111 1010 1000 .... 1111 .... 0010 ....      @rndm
-+UADD8            1111 1010 1000 .... 1111 .... 0100 ....      @rndm
-+UQADD8           1111 1010 1000 .... 1111 .... 0101 ....      @rndm
-+UHADD8           1111 1010 1000 .... 1111 .... 0110 ....      @rndm
++MOVW             1111 0.10 0100 .... 0 ... .... ........      @mov16
++MOVT             1111 0.10 1100 .... 0 ... .... ........      @mov16
 +
-+SADD16           1111 1010 1001 .... 1111 .... 0000 ....      @rndm
-+QADD16           1111 1010 1001 .... 1111 .... 0001 ....      @rndm
-+SHADD16          1111 1010 1001 .... 1111 .... 0010 ....      @rndm
-+UADD16           1111 1010 1001 .... 1111 .... 0100 ....      @rndm
-+UQADD16          1111 1010 1001 .... 1111 .... 0101 ....      @rndm
-+UHADD16          1111 1010 1001 .... 1111 .... 0110 ....      @rndm
-+
-+SASX             1111 1010 1010 .... 1111 .... 0000 ....      @rndm
-+QASX             1111 1010 1010 .... 1111 .... 0001 ....      @rndm
-+SHASX            1111 1010 1010 .... 1111 .... 0010 ....      @rndm
-+UASX             1111 1010 1010 .... 1111 .... 0100 ....      @rndm
-+UQASX            1111 1010 1010 .... 1111 .... 0101 ....      @rndm
-+UHASX            1111 1010 1010 .... 1111 .... 0110 ....      @rndm
-+
-+SSUB8            1111 1010 1100 .... 1111 .... 0000 ....      @rndm
-+QSUB8            1111 1010 1100 .... 1111 .... 0001 ....      @rndm
-+SHSUB8           1111 1010 1100 .... 1111 .... 0010 ....      @rndm
-+USUB8            1111 1010 1100 .... 1111 .... 0100 ....      @rndm
-+UQSUB8           1111 1010 1100 .... 1111 .... 0101 ....      @rndm
-+UHSUB8           1111 1010 1100 .... 1111 .... 0110 ....      @rndm
-+
-+SSUB16           1111 1010 1101 .... 1111 .... 0000 ....      @rndm
-+QSUB16           1111 1010 1101 .... 1111 .... 0001 ....      @rndm
-+SHSUB16          1111 1010 1101 .... 1111 .... 0010 ....      @rndm
-+USUB16           1111 1010 1101 .... 1111 .... 0100 ....      @rndm
-+UQSUB16          1111 1010 1101 .... 1111 .... 0101 ....      @rndm
-+UHSUB16          1111 1010 1101 .... 1111 .... 0110 ....      @rndm
-+
-+SSAX             1111 1010 1110 .... 1111 .... 0000 ....      @rndm
-+QSAX             1111 1010 1110 .... 1111 .... 0001 ....      @rndm
-+SHSAX            1111 1010 1110 .... 1111 .... 0010 ....      @rndm
-+USAX             1111 1010 1110 .... 1111 .... 0100 ....      @rndm
-+UQSAX            1111 1010 1110 .... 1111 .... 0101 ....      @rndm
-+UHSAX            1111 1010 1110 .... 1111 .... 0110 ....      @rndm
+ # Saturate, bitfield
+ 
+ @sat             .... .... .. sh:1 . rn:4 . ... rd:4 .. . satimm:5 \
 -- 
 2.17.1
 
