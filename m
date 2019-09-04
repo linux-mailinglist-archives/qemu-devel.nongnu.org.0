@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF8CA94E3
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:22:47 +0200 (CEST)
-Received: from localhost ([::1]:40080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F528A9521
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:28:17 +0200 (CEST)
+Received: from localhost ([::1]:40180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5cjl-0002yS-Uz
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51566)
+	id 1i5cp5-0001E9-LM
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:28:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51663)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i5c3u-0000tx-Ck
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:32 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i5c40-00014e-9Q
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i5c3s-0003Sw-Rk
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:30 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:34897)
+ (envelope-from <alex.bennee@linaro.org>) id 1i5c3y-0003ZE-W6
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:36 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:34614)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i5c3s-0003SH-K4
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:28 -0400
-Received: by mail-wm1-x330.google.com with SMTP id n10so249370wmj.0
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:39:28 -0700 (PDT)
+ id 1i5c3y-0003YX-M5
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:34 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id y135so3360195wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:39:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zp2HTd9MlExt3qm/dUKdQzcVkIb7wY5T3E7kKCEGd2M=;
- b=XY0znVtUJ3AiLRz5SacDhW9wVilqHGBCl3Pr3DKz5biFCZyDPBmj+09OPgh0M+IHoM
- Gydh9rjzHTdHfVEMupaZhPmo7gWtdJTUN0gMPFcg0YDAvOoW05O4RZnVC6dM40Rk0wpD
- y3Oh0Gm1LkXkdcQ7YF9WDa675JLVTrYuWPDvowYMTeGoUatHrU53vfkN2CaHdhCV5fP0
- P2ksvOmYnvNBGQe5Cf15NIyFDLWhER51E99kk8yhQ+dsMOxEV7i3SYpaJQG6/HpvUieV
- a3R4eAWqZHVDe9SQkHIYv2E9ZqzF0O5h5NKFAk+DKuSlKYZs1UzuyBy/OWMUN3MI5m6c
- OjQA==
+ bh=7DN2Mz1jlphjeBD6Hgfr/tcOfOE2X7DGMlU3BQxiSxE=;
+ b=cAnDLgN4AEjP9y/AdcF7Qad0MexMWbLi1FxkPzh9cRZnESXJki8NPyezG2BsNCb3M3
+ jWfhihJNGNNHMwhNx+ccV003tzJRxqy+r5hlDET37Gve1DGLbN1eLBGkLtbdphMtTyIU
+ SBXJRRl1ec4eoTmYp7KMWY9PATyjKc0aW5u3qP1gV1lf+4p4LcQtcr/rNXMMRmh4IA8V
+ n/vy+ptkxGP3qjBcUMia/RX+1xUuVXSNV84+khTdnGpH9I3imoXbh/ZxOR4SWyot9BQT
+ oNu7zAPjAXGUULtyOLRj7oRnQSibj7NiZyNETobSnQEa2mDnmvtcjjWDG8EvYwnVRTIC
+ swxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zp2HTd9MlExt3qm/dUKdQzcVkIb7wY5T3E7kKCEGd2M=;
- b=CfrwO5IVrVfZ8ROi/nmJeMWrixDbATe7MOpyUnFd4+eWm+pNNZ5nKZ0GzqNmVkgFFt
- AUh/xkHYhuN6VWYoMKFqPEvEFcdgXolcT/SjXi5xyhyvIX/T52nIZPHSi9v3br6hR8Zo
- mH0pU1sbVMfla9IHfxt3fm2qfLltHg8TJzn1HdiQWTYQ7IyXitTdyfSY5uegqcFpDoyq
- 98SIiMMHave6MQGJdKKI47fYGGZxpqUKKhdlZneci5nL6wJWTmLSXaGzjxGE0pJJv33Y
- ObxOc7cm6OnFfcFASpJBqi13wlQSwWeqvQGHCkyq2vEMtIX3B/bKVYIf8bfZD1VPxrcT
- synQ==
-X-Gm-Message-State: APjAAAXeRuqzYuOJrAqelLoRJnBs+0M9LMbM1+a9Zj2VbVufsm2z9D/f
- HJRix1+2wHF49FZa0c22NBt19r/ADuA=
-X-Google-Smtp-Source: APXvYqxpZrijrmHWwC+Xpw8QRjye7gYqsjYy/UTE9tyQKbsZSlyE+5HZ/JRhZoKpgEMuMo1xjCtpeQ==
-X-Received: by 2002:a1c:23d7:: with SMTP id j206mr111917wmj.57.1567629567453; 
- Wed, 04 Sep 2019 13:39:27 -0700 (PDT)
+ bh=7DN2Mz1jlphjeBD6Hgfr/tcOfOE2X7DGMlU3BQxiSxE=;
+ b=GrG2Hlxjl9w3+sezSFLcr6pDilDIRxAk5aA2YkmxN55y1pTXnGs3uh+bApzozK/IAW
+ 0Pg7l1GzOjqMoDi2231s4DaSwkUJdGTu8wnvQnL9tK1pOWmuEsiWsGgJxO0iuJJvMNQL
+ Jch5+cnKyRCmXpLDxJGs57GlLzaS9RhiJjo/hgvP3aw92OA/ID6QdYF8qYjy++XdrL2p
+ 4a9e0S/CyMjkOtpujUbtlEsTDm0pGLhCR0FCFt44Hwp7U7Nu015TTTX9ZnniuT1MgmgR
+ jkQQ+PLIc+118ZNV2dxI9J+5WL5uoj6mWhYgLzBT+rH00m6PLzBaNl0H0BG4TlVeOuBk
+ JzpA==
+X-Gm-Message-State: APjAAAXdp+HqhPWxkxtUY7LVRQH6NB4JEi6wGc7Z0uNvr51q/2Ht7bP9
+ b2kCa72aFaZ5viq55rkn0ZFibw==
+X-Google-Smtp-Source: APXvYqwxZ/3qH4xAUQVEL6xftra8LeqVUoazzpo1a3ZpbXlrwkniQHVStG3lkhotvwZbI17u2RKSuA==
+X-Received: by 2002:a7b:c7cc:: with SMTP id z12mr132592wmk.80.1567629573695;
+ Wed, 04 Sep 2019 13:39:33 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e15sm23134875wrj.74.2019.09.04.13.39.24
+ by smtp.gmail.com with ESMTPSA id a18sm4336262wrh.25.2019.09.04.13.39.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:39:26 -0700 (PDT)
+ Wed, 04 Sep 2019 13:39:31 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 620AA1FFAA;
+ by zen.linaroharston (Postfix) with ESMTP id CAD6E1FF8C;
  Wed,  4 Sep 2019 21:30:15 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 21:29:52 +0100
-Message-Id: <20190904203013.9028-22-alex.bennee@linaro.org>
+Date: Wed,  4 Sep 2019 21:29:57 +0100
+Message-Id: <20190904203013.9028-27-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
 References: <20190904203013.9028-1-alex.bennee@linaro.org>
@@ -68,8 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
-Subject: [Qemu-devel] [PATCH v1 21/42] tests/docker: drop debian-sid image
+X-Received-From: 2a00:1450:4864:20::32e
+Subject: [Qemu-devel] [PATCH v1 26/42] tests/docker: add debian-amd64-cross
+ for non-x86 hosts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,77 +91,62 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Debian Sid was only ever a stop gap and thanks to the much better
-cross compiler in the Buster release we don't need it any more. Send
-it on its merry way.
+When building on a non-x86 host we need to setup the x86 build like
+any other cross compiler.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include              |  2 +-
- tests/docker/dockerfiles/debian-sid.docker | 41 ----------------------
- 2 files changed, 1 insertion(+), 42 deletions(-)
- delete mode 100644 tests/docker/dockerfiles/debian-sid.docker
+ tests/docker/Makefile.include                 |  6 +++++
+ .../dockerfiles/debian-amd64-cross.docker     | 22 +++++++++++++++++++
+ 2 files changed, 28 insertions(+)
+ create mode 100644 tests/docker/dockerfiles/debian-amd64-cross.docker
 
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index b6c04059502..59fbebbe2e6 100644
+index 2c8cb790ad0..cb0961a69e4 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -6,7 +6,7 @@ DOCKER_SUFFIX := .docker
- DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
- DOCKER_DEPRECATED_IMAGES := debian
- # we don't run tests on intermediate images (used as base by another image)
--DOCKER_PARTIAL_IMAGES := debian debian8 debian9 debian10 debian8-mxe debian-ports debian-sid debian-bootstrap
-+DOCKER_PARTIAL_IMAGES := debian debian8 debian9 debian10 debian8-mxe debian-ports debian-bootstrap
- DOCKER_IMAGES := $(filter-out $(DOCKER_DEPRECATED_IMAGES),$(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
- DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
- # Use a global constant ccache directory to speed up repetitive builds
-diff --git a/tests/docker/dockerfiles/debian-sid.docker b/tests/docker/dockerfiles/debian-sid.docker
-deleted file mode 100644
-index 513459ca7f8..00000000000
---- a/tests/docker/dockerfiles/debian-sid.docker
-+++ /dev/null
-@@ -1,41 +0,0 @@
--#
--# Debian Sid Base
--#
--# A number of our guests exist as ports only. We can either use the
--# ports repo or get everything from Sid. However Sid is a rolling
--# distro which may be broken at any particular time. If you are
--# unlucky and try and build your images while gcc is in the process of
--# being uploaded this can fail. Your only recourse is to try again in
--# a few hours when the repos have re-synced. Once built however you
--# won't be affected by repo changes unless the docker recipies are
--# updated and trigger a re-build.
--#
--
--# This must be earlier than the snapshot date we are aiming for
--FROM debian:sid-20181011-slim
--
--# Use a snapshot known to work (see http://snapshot.debian.org/#Usage)
--ENV DEBIAN_SNAPSHOT_DATE "20181030"
--RUN sed -i "s%^deb \(https\?://\)deb.debian.org/debian/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian/${DEBIAN_SNAPSHOT_DATE} \2%" /etc/apt/sources.list
--
--# Use a snapshot known to work (see http://snapshot.debian.org/#Usage)
--ENV DEBIAN_SNAPSHOT_DATE "20181030"
--RUN sed -i "s%^deb \(https\?://\)deb.debian.org/debian/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian/${DEBIAN_SNAPSHOT_DATE} \2%" /etc/apt/sources.list
--
--# Duplicate deb line as deb-src
--RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
--
--# Install common build utilities
--RUN apt update && \
--    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
--    DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt install -y --no-install-recommends \
--        bison \
--        build-essential \
--        ca-certificates \
--        flex \
--        git \
--        pkg-config \
--        psmisc \
--        python \
--        texinfo || { echo "Failed to build - see debian-sid.docker notes"; exit 1; }
+@@ -87,7 +87,13 @@ endif
+ 
+ # Enforce dependencies for composite images
+ docker-image-debian9-mxe: docker-image-debian9
++ifeq ($(ARCH),x86_64)
+ docker-image-debian-amd64: docker-image-debian9
++DOCKER_PARTIAL_IMAGES += debian-amd64-cross
++else
++docker-image-debian-amd64-cross: docker-image-debian10
++DOCKER_PARTIAL_IMAGES += debian-amd64
++endif
+ docker-image-debian-armel-cross: docker-image-debian9
+ docker-image-debian-armhf-cross: docker-image-debian9
+ docker-image-debian-mips-cross: docker-image-debian9
+diff --git a/tests/docker/dockerfiles/debian-amd64-cross.docker b/tests/docker/dockerfiles/debian-amd64-cross.docker
+new file mode 100644
+index 00000000000..5d890419251
+--- /dev/null
++++ b/tests/docker/dockerfiles/debian-amd64-cross.docker
+@@ -0,0 +1,22 @@
++#
++# Docker x86_64 cross target
++#
++# This docker target is used on non-x86_64 machines which need the
++# x86_64 cross compilers installed.
++#
++FROM qemu:debian10
++MAINTAINER Alex Bennée <alex.bennee@linaro.org>
++
++# Add the foreign architecture we want and install dependencies
++RUN dpkg --add-architecture amd64
++RUN apt update && \
++    DEBIAN_FRONTEND=noninteractive eatmydata \
++    apt install -y --no-install-recommends \
++        crossbuild-essential-amd64
++RUN apt update && \
++    DEBIAN_FRONTEND=noninteractive eatmydata \
++    apt build-dep -yy -a amd64 --arch-only qemu
++
++# Specify the cross prefix for this image (see tests/docker/common.rc)
++ENV QEMU_CONFIGURE_OPTS --cross-prefix=x86_64-linux-gnu-
++ENV DEF_TARGET_LIST x86_64-softmmu,x86_64-linux-user,i386-softmmu,i386-linux-user
 -- 
 2.20.1
 
