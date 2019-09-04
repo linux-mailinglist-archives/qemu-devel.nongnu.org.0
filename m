@@ -2,74 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00768A94D3
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:18:50 +0200 (CEST)
-Received: from localhost ([::1]:40018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B540A94B5
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:12:42 +0200 (CEST)
+Received: from localhost ([::1]:39932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5cfu-0006nG-UR
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:18:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51533)
+	id 1i5ca1-0001XE-7b
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:12:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52457)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i5c3s-0000qy-5Z
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:29 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1i5c8A-0004wJ-KD
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:43:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i5c3r-0003RZ-0O
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:28 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38213)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i5c3q-0003Qy-QS
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:26 -0400
-Received: by mail-wr1-x430.google.com with SMTP id l11so211189wrx.5
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RZ6UCCmDQGiaJqZTOCfEgLv5zu9MkUOibodewE9UvRo=;
- b=v30EqjJMH8BmvMqwQKLEiqct6fZkZnpWRILVtdxfe0kfH6Y/Xw2F3HKVQQ9QQjLu+8
- Hdim7zvcT6sebcUjHfDN/fBnwEHa38G4f6hotyxaFQcUwIvfpGrfbZaEZUpVWL0AzvF/
- QDdNkz5MLGESvSFJpIDEqdSsMcGX7nAsgCZAJuMd3JmCrqG+ZQlXQKKjZn1ui+R3UJNk
- iqCFf8rKBjE3nUFLKk0sGeBZHr8paXg8YLASibM+IybugiLQzbfJVHJy8hdteBeoNiUW
- FGxIfXx+pajWzCKeh9bO1DIB/8T3tyt05Gez3TRcjzmU8SuL2fG2gKvO2blxtvyBRNy3
- 1wxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RZ6UCCmDQGiaJqZTOCfEgLv5zu9MkUOibodewE9UvRo=;
- b=jWWGU95E6cxgJcbNVlluHhTh9U7RlD/hIAeFLek1zd17d27E+XK8Kib764Z1gO+f9K
- 0SEkMI+SOOmtzH1Jj6iNNZJF2FYwl5sZNmJUgrLEd5SXRsbkDLnKYDFcYQMcCBNgh/E8
- J6HYtkqb2NLhmE4HqNrvX7/u5wZolz1tTgD9/cMjDA56yIq1do8pNzm481PBU8h5hMMU
- b/2R5HnCbvp5lWFwSk5xigrME1ZlBrQi4zoQ52wz/6tEbsdoL9kB0cHMIv3jyzJBuDIP
- 17rkLbSPVAU1mo31ZskIHdEV04PFRXHVonYucxXhfzZ/S0a1o3GbT5dUm8OA4jf2nVeg
- qzVg==
-X-Gm-Message-State: APjAAAXQJY4uRz0eao8AYGTid1sRBnG1b+fuXiWUvWPLyJky7uQ3mmpS
- DGjKyhiOLmOU7YabDaeGYH/ECA==
-X-Google-Smtp-Source: APXvYqxKaRuRcWc+tfRStHN53vgfGH0Q2mNj3OmYBeVDoHSAQQtrca4aHWi2EspJT1PpGsmwcpD73A==
-X-Received: by 2002:a5d:5444:: with SMTP id w4mr33955790wrv.180.1567629565690; 
- Wed, 04 Sep 2019 13:39:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r65sm263483wmr.9.2019.09.04.13.39.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:39:23 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 94E6B1FFBC;
- Wed,  4 Sep 2019 21:30:16 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 21:30:06 +0100
-Message-Id: <20190904203013.9028-36-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
-References: <20190904203013.9028-1-alex.bennee@linaro.org>
+ (envelope-from <ehabkost@redhat.com>) id 1i5c88-0005sU-29
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:43:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37112)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>)
+ id 1i5c87-0005re-T3; Wed, 04 Sep 2019 16:43:52 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0363BC059B6F;
+ Wed,  4 Sep 2019 20:43:50 +0000 (UTC)
+Received: from localhost (ovpn-116-55.gru2.redhat.com [10.97.116.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51C331001281;
+ Wed,  4 Sep 2019 20:43:49 +0000 (UTC)
+Date: Wed, 4 Sep 2019 17:43:47 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Message-ID: <20190904204347.GC4617@habkost.net>
+References: <20190805071302.6260-1-tao3.xu@intel.com>
+ <20190903175258.GS3694@habkost.net>
+ <428a67b2-4bf4-b9ab-b06e-f06bc12e721d@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::430
-Subject: [Qemu-devel] [PATCH  v1 35/42] .travis.yml: Enable ccache on OSX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <428a67b2-4bf4-b9ab-b06e-f06bc12e721d@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Wed, 04 Sep 2019 20:43:50 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] numa: Introduce
+ MachineClass::auto_enable_numa for implicit NUMA node
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,47 +58,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: "imammedo@redhat.com" <imammedo@redhat.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Wed, Sep 04, 2019 at 02:22:39PM +0800, Tao Xu wrote:
+> On 9/4/2019 1:52 AM, Eduardo Habkost wrote:
+> > On Mon, Aug 05, 2019 at 03:13:02PM +0800, Tao Xu wrote:
+> > > Add MachineClass::auto_enable_numa field. When it is true, a NUMA node
+> > > is expected to be created implicitly.
+> > > 
+> > > Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> > > Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> > > Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+> > > Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> > 
+> > This introduces spurious warnings when running qemu-system-ppc64.
+> > See: https://lore.kernel.org/qemu-devel/CAFEAcA-AvFS2cbDH-t5SxgY9hA=LGL81_8dn-vh193vtV9W1Lg@mail.gmail.com/
+> > 
+> > To reproduce it, just run 'qemu-system-ppc64 -machine pseries'
+> > without any -numa arguments.
+> > 
+> > I have removed this patch from machine-next so it won't block the
+> > existing pull request.
+> > 
+> I got it. If default splitting of RAM between nodes is
+> deprecated, this patch can't reuse the splitting code. I agree with droping
+> this patch.
 
-By default, ccache is not installed on macOS environments.
+Probably all we need to fix this issue is to replace
+  NumaNodeOptions node = { };
+with
+  NumaNodeOptions node = { .size = ram_size };
+in the auto_enable_numa block.
 
-See https://docs.travis-ci.com/user/caching/#ccache-on-macos
+Do you plan to send v2?
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- .travis.yml | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/.travis.yml b/.travis.yml
-index 5a878ae6ae9..2dd26486abc 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -45,6 +45,7 @@ addons:
-       - gcovr
-   homebrew:
-     packages:
-+      - ccache
-       - glib
-       - pixman
-       - gnu-sed
-@@ -80,6 +81,7 @@ git:
- 
- 
- before_script:
-+  - if [ "$TRAVIS_OS_NAME" == "osx" ] ; then export PATH="/usr/local/opt/ccache/libexec:$PATH" ; fi
-   - command -v ccache && ccache --zero-stats
-   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-   - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
 -- 
-2.20.1
-
+Eduardo
 
