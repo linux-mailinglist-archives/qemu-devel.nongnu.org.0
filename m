@@ -2,65 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07C3A8364
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:10:34 +0200 (CEST)
-Received: from localhost ([::1]:57644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2BBA8367
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:13:07 +0200 (CEST)
+Received: from localhost ([::1]:57674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5V3R-0002Bm-O8
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54367)
+	id 1i5V5u-00041s-MP
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:13:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54841)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5UsE-0000bb-AQ
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:58:59 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i5Utt-0001cm-TA
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:00:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5UsB-00076M-Nr
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:58:57 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42235)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5Us9-00074s-SF
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:58:55 -0400
-Received: by mail-ot1-x342.google.com with SMTP id c10so9106534otd.9
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 05:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w67Y/hjv3SDUD8pc7dRKF/jV+ea1IS4S+jZMIoqrqW8=;
- b=OFDQ0kWo3AKYHk12fsuWeRKLGtoZyEGwTZTPuH2OSCGvFcjIJRp4A8Evq4uHdco822
- thwtjRznv4OEHRJNOituhtoWD90c3FSbPhMFKDXuyu2mEB2Wp5dBYbMd6cn3LEmEc7T1
- 2ILJOol+Buyc0pJPsPlOU76SilP/tZ+FdRuXlVKA42MyoyRfY1Ul1wvFTqF1MqUWa1Sa
- bl6mvFERFmyu9YnBaQTpC18JnEdiWEruLTJMxww/jP3pXmHUvj+pZGPf+N/j/J2SsGl7
- fzDjUPdSleB5VPBGZPCGEywvCKMkDQ/eZOAlrI1resjZsdw8W+f3IO6gxmDeEGcBK2wR
- aPYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w67Y/hjv3SDUD8pc7dRKF/jV+ea1IS4S+jZMIoqrqW8=;
- b=Wql8efpYN1CmLyo+vvnyNAhrSm2Wn4th3jJ9U26UvIQiNxCtmXz4o4RWBxBXDkq9Kt
- 4sptwkRfUeaqTcGdophQjYM5/H5rbQqojR/Bfvpj129rJTDlygUjlhuOVF3dudL873vk
- 7dOa+SoRE+stjuw1IUHmUTxvaP0YPgBNJyIrcfsN5ZlQWUm0K0lMmBSqsTKMKhLmDo9j
- Ihc3nBcuMcBgUxJF5ESeIdJkLImBA1fMiBPeQ9IYDJEBPN3CCwIR4Suvg2h+EqIpfwlE
- IFMaImbPTOs1xVAp0x7dmV6QkAyiBLDVJQH4VILhKflZWXaXio713UEmEyLVDqGSNv+7
- iguA==
-X-Gm-Message-State: APjAAAWds0aGXxDjAgGlCUN9aFQW2eefUK/a4uA10fKfTFAnFSziyB+F
- 2iOejYWbfZnu0dAARTwpqnjkYRKy0P9/4R7NaXFlfA==
-X-Google-Smtp-Source: APXvYqzzHHRgnnc31FKeAGwjFcf/cEMv0iH7bXYjLOcn5pjT5GMe1CbreYr7Cxk2T1pMZQOsIW53bIuoC2YYDyAUKtU=
-X-Received: by 2002:a05:6830:1bc3:: with SMTP id
- v3mr13397880ota.97.1567601932126; 
- Wed, 04 Sep 2019 05:58:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190903133553.6500-1-mreitz@redhat.com>
-In-Reply-To: <20190903133553.6500-1-mreitz@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Sep 2019 13:58:41 +0100
-Message-ID: <CAFEAcA9zHZfid7peCvNhAqPe3Hbm9HynW5raQk5PkX9gArdX2A@mail.gmail.com>
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PULL v2 00/16] Block patches
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1i5Utr-00087s-Vo
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:00:41 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:44143 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1i5Utr-0007RK-M6
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:00:39 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 43BBE1A218B;
+ Wed,  4 Sep 2019 14:59:34 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 22E151A1DCC;
+ Wed,  4 Sep 2019 14:59:34 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  4 Sep 2019 14:59:21 +0200
+Message-Id: <1567601968-26946-2-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1567601968-26946-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1567601968-26946-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH v6 1/8] linux-user: Add support for
+ semtimedop() syscall
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,42 +51,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: riku.voipio@iki.fi, laurent@vivier.eu, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Sep 2019 at 14:35, Max Reitz <mreitz@redhat.com> wrote:
->
-> The following changes since commit 54b89db5309d5fa8b5d3fe5fe56f81704e2f9706:
->
->   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-09-03 09:43:26 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/XanClic/qemu.git tags/pull-block-2019-09-03
->
-> for you to fetch changes up to 755c5fe79d88717600356d3edf04835bba43dcb6:
->
->   iotests: Unify cache mode quoting (2019-09-03 14:56:06 +0200)
->
-> ----------------------------------------------------------------
-> Block patches:
-> - qemu-io now accepts a file to read a write pattern from
-> - Ensure that raw files have their first block allocated so we can probe
->   the O_DIRECT alignment if necessary
-> - Various fixes
->
-> ----------------------------------------------------------------
-> v2:
-> - Added a patch we already had on the list to keep the iotests passing
->   when $DISPLAY is not set
->
+From: Aleksandar Rikalo <arikalo@wavecomp.com>
 
+Add support for semtimedop() emulation. It is based on invocation
+of safe_semtimedop().
 
-Applied, thanks.
+Conversion is left out of safe_semtimedop(), since other safe_xxx()
+usually don't contain similar conversions.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+Signed-off-by: Aleksandar Rikalo <arikalo@wavecomp.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+---
+ linux-user/syscall.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
--- PMM
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 8367cb1..b5bc6e4 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -6649,7 +6649,43 @@ static inline abi_long host_to_target_statx(struct target_statx *host_stx,
+     return 0;
+ }
+ #endif
++#ifdef TARGET_NR_semtimedop
++static inline abi_long do_semtimedop(int semid, abi_long ptr, unsigned nsops,
++                                     abi_long timeout)
++{
++    struct sembuf *sops;
++    struct timespec ts, *pts;
++    abi_long ret;
++
++    if (timeout) {
++        pts = &ts;
++        if (target_to_host_timespec(pts, timeout)) {
++            return -TARGET_EFAULT;
++        }
++    } else {
++        pts = NULL;
++    }
+ 
++    sops = g_malloc(sizeof(struct sembuf) * nsops);
++    if (sops == NULL) {
++        return -TARGET_EFAULT;
++    }
++
++    if (target_to_host_sembuf(sops, ptr, nsops)) {
++        g_free(sops);
++        return -TARGET_EFAULT;
++    }
++
++#ifdef __NR_semtimedop
++    ret = get_errno(safe_semtimedop(semid, sops, nsops, pts));
++#else
++    ret = -TARGET_ENOSYS;
++#endif
++    g_free(sops);
++
++    return ret;
++}
++#endif
+ 
+ /* ??? Using host futex calls even when target atomic operations
+    are not really atomic probably breaks things.  However implementing
+@@ -9193,6 +9229,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+     case TARGET_NR_semop:
+         return do_semop(arg1, arg2, arg3);
+ #endif
++#ifdef TARGET_NR_semtimedop
++    case TARGET_NR_semtimedop:
++        return do_semtimedop(arg1, arg2, arg3, arg4);
++#endif
+ #ifdef TARGET_NR_semctl
+     case TARGET_NR_semctl:
+         return do_semctl(arg1, arg2, arg3, arg4);
+-- 
+2.7.4
+
 
