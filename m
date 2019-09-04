@@ -2,47 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EDA8A83B6
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:27:26 +0200 (CEST)
-Received: from localhost ([::1]:57902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F02A83AE
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:21:44 +0200 (CEST)
+Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5VJl-0001Am-BW
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:27:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55079)
+	id 1i5VEE-0002tI-Jm
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:21:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1i5UuH-00027Y-Da
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:01:10 -0400
+ (envelope-from <qemu_oss@crudebyte.com>) id 1i5Uvl-0002wx-6y
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:02:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1i5UuF-0008Kz-Qv
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:01:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56226)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1i5UuF-0008Kf-J6
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:01:03 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CE13FC050E12
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 13:01:02 +0000 (UTC)
-Received: from thuth.com (ovpn-116-69.ams2.redhat.com [10.36.116.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 848B91001B02;
- Wed,  4 Sep 2019 13:01:01 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>,
-	qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 15:00:45 +0200
-Message-Id: <20190904130047.25808-5-thuth@redhat.com>
-In-Reply-To: <20190904130047.25808-1-thuth@redhat.com>
-References: <20190904130047.25808-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Wed, 04 Sep 2019 13:01:02 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 4/6] tests: Remove unnecessary global_qtest
- references
+ (envelope-from <qemu_oss@crudebyte.com>) id 1i5Uvi-0000l8-K9
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:02:36 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:57297)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1i5Uvi-0000ji-2R
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:02:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=zMsqznVlY7oTgNONFBZhZJ8J7V5CuSYQ397rZhTg6lw=; b=cb5TFzoMHiJKZ6gh6Q91VXTUEM
+ Nh7DhN2Wh4QTiqf6MI6S4UdLtKASpnrIRI1LN6oj8PVKW6QCwldEEan7lIexSQbBNDFQ1lEcNgagD
+ EDWhJVQjcpKFc2qVySH3/yuwwfDKwOP0tUigW5b4I3xIIfr6tLUPFyfZImoNTiLhpMajZOu/1dYDq
+ TKVGAyfZsVv364FYT2QCQLQ/Pn0VKZrO05q/X/SX8rFcj3Nz9oqvVbC5o/CnxJ+LkojL4wgP3S/pD
+ y7t2aBW0MK8ktmKocAWAAXE3nlTrlQ7TYdHU7X9yKIt1QEaoI4cWZvkzv4PPSW4/u3K6pN2HcOw8R
+ CW1QWeFQxy9nGlG4P4tjLXiTztfba4YcI0E5d+tcnRwpDG//QyqQrDgTTxehOMW5Z7DExyP0WIyO+
+ l2+xL8hQ6dkghb9NXBhDtFtfbfiZj1/B6WAIbZPZ/Ybu3bWEW2/NNac9wo5QIQll6QsEUOZniIXT/
+ uO1JoPg/C87r7tq/PWoaASRlM+Lc+GZLAisiaDMtmfWg/5/rZmoHfi6Pa8qpscS+dV9nfPMIwjGTd
+ vHhsJpQzd7HaU3aotyudToyS+RYQ0JZDB01Vvmm8VFHhqBDO7JiTnYSDzRztjUR+BrRphvYQEJKPH
+ dLWOLvpXTAP7zKp5sPyypX+m8mjb5ygPrUajhbcxo=;
+To: qemu-devel@nongnu.org
+Date: Wed, 04 Sep 2019 15:02:30 +0200
+Message-ID: <4642438.ai5u8AxThJ@silver>
+In-Reply-To: <46fe6c73-961f-d72a-77de-88491b6f223c@redhat.com>
+References: <cover.1566503584.git.qemu_oss@crudebyte.com>
+ <2734436.Mu773bgsdE@silver> <46fe6c73-961f-d72a-77de-88491b6f223c@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Received-From: 5.189.157.229
+Subject: Re: [Qemu-devel] [PATCH v6 0/4] 9p: Fix file ID collisions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,87 +61,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: berrange@redhat.com, stefanha@gmail.com,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ dgilbert@redhat.com, antonios.motakis@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to remove global_qtest from the main libqtest library
-soon, so tests that do not urgently need global_qtest anymore
-should be cleaned from the unnecessary references.
+On Dienstag, 3. September 2019 21:38:15 CEST Eric Blake wrote:
+> On 9/2/19 5:29 PM, Christian Schoenebeck via Qemu-devel wrote:
+> >>>>> === OUTPUT BEGIN ===
+> >>>>> 1/4 Checking commit bb69de63f788 (9p: Treat multiple devices on one
+> >>>>> export
+> >>>>> as an error) ERROR: Author email address is mangled by the mailing
+> >>>>> list
+> >>>>> #2:
+> >>>>> Author: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+> >>>> 
+> >>>> This is problematic since it ends up in the Author: field in git.
+> >>>> Please
+> >>>> find a way to fix that.
+> >>> 
+> >>> Like in which way do you imagine that? And where is the actual practical
+> >>> problem? I mean every patch still has my signed-off-by tag with the
+> >>> correct
+> >>> email address ending up in git history.
+> >> 
+> >> Yes, this only breaks Author: if the patch is applied from the list.
+> 
+> Except that many maintainers DO apply mail from the list (thanks to 'git
+> am').  Fixing patchew to unmunge things is an appealing idea, but would
+> not fix the problem for maintainers not cloning from patchew, so even if
+> patchew avoids the problem locally, it should still continue to warn
+> about the problem.
+> 
+> >>> The cause for this issue is that the domain is configured to require
+> >>> DKIM
+> >>> signatures for all outgoing emails. That's why mailman replaces my
+> >>> address
+> >>> by "Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>"
+> >>> placeholder since it could not provide a valid signature.
+> 
+> And when you know that mailman is going to munge your address, the fix
+> is to configure git to output 'From: correct name <correct@example.com>'
+> as the first line of the BODY of the message, since 'git am' favors the
+> unmunged From: from the body over the munged From: from the headers.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/ahci-test.c        | 1 -
- tests/bios-tables-test.c | 1 -
- tests/ivshmem-test.c     | 3 ---
- tests/rtas-test.c        | 1 -
- 4 files changed, 6 deletions(-)
+Ah I see, I will try that with the next 9p patch set round (probably 
+tomorrow). Thanks for the hint!
 
-diff --git a/tests/ahci-test.c b/tests/ahci-test.c
-index 086811e602..c8d42ceea0 100644
---- a/tests/ahci-test.c
-+++ b/tests/ahci-test.c
-@@ -200,7 +200,6 @@ static void ahci_shutdown(AHCIQState *ahci)
- {
-     QOSState *qs = ahci->parent;
- 
--    assert(!global_qtest);
-     ahci_clean_mem(ahci);
-     free_ahci_device(ahci->dev);
-     g_free(ahci);
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index a356ac3489..9b3d8b0d1b 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -626,7 +626,6 @@ static void test_acpi_one(const char *params, test_data *data)
-         test_smbios_structs(data);
-     }
- 
--    assert(!global_qtest);
-     qtest_quit(data->qts);
-     g_free(args);
- }
-diff --git a/tests/ivshmem-test.c b/tests/ivshmem-test.c
-index b76457948b..be9aa92a61 100644
---- a/tests/ivshmem-test.c
-+++ b/tests/ivshmem-test.c
-@@ -100,7 +100,6 @@ static inline void write_mem(IVState *s, uint64_t off,
- 
- static void cleanup_vm(IVState *s)
- {
--    assert(!global_qtest);
-     g_free(s->dev);
-     qtest_shutdown(s->qs);
- }
-@@ -388,7 +387,6 @@ static void test_ivshmem_hotplug(void)
- 
-     qts = qtest_init("-object memory-backend-ram,size=1M,id=mb1");
- 
--    global_qtest = qts;  /* TODO: Get rid of global_qtest here */
-     qtest_qmp_device_add(qts, "ivshmem-plain", "iv1",
-                          "{'addr': %s, 'memdev': 'mb1'}",
-                          stringify(PCI_SLOT_HP));
-@@ -397,7 +395,6 @@ static void test_ivshmem_hotplug(void)
-     }
- 
-     qtest_quit(qts);
--    global_qtest = NULL;
- }
- 
- static void test_ivshmem_memdev(void)
-diff --git a/tests/rtas-test.c b/tests/rtas-test.c
-index ee888676ed..167b42db38 100644
---- a/tests/rtas-test.c
-+++ b/tests/rtas-test.c
-@@ -14,7 +14,6 @@ static void test_rtas_get_time_of_day(void)
-     time_t t1, t2;
- 
-     qs = qtest_spapr_boot("-machine pseries");
--    global_qtest = qs->qts;
- 
-     t1 = time(NULL);
-     ret = qrtas_get_time_of_day(qs->qts, &qs->alloc, &tm, &ns);
--- 
-2.18.1
+I actually had a quick glimpse on the patchew sources yesterday to see if 
+there was some undocumented alternative header like "X-git-author:" or 
+something like that, but could not find one.
+
+> > Well, mailman is handling this correctly. It replaces the "From:" field
+> > with a placeholder and instead adds my actual email address as
+> > "Reply-To:" field. That's the common way to handle this on mailing lists,
+> > as also mentioned here:
+> > https://en.wikipedia.org/wiki/DMARC#From:_rewriting
+> > 
+> > So IMO patchew should automatically use the value of "Reply-To:" in that
+> > case as author of patches instead.
+> > 
+> > Reducing security cannot be the solution.
+> 
+> No, there's no need to reduce security.  Just change your local git
+> configuration to produce a 'From:' line in the commit body..
+
+Got it. :)
+
+> >> How are you sending patches ? With git send-email ? If so, maybe you can
+> >> pass something like --from='"Christian Schoenebeck"
+> >> <qemu_oss@crudebyte.com>'. Since this is a different string, git will
+> >> assume you're sending someone else's patch : it will automatically add an
+> >> extra From: made out of the commit Author as recorded in the git tree.
+> 
+> I think it is probably as simple as a 'git config' command to tell git
+> to always put a 'From:' in the body of self-authored patches when using
+> git format-patch; however, as I don't suffer from munged emails, I
+> haven't actually tested what that setting would be.
+> 
+> > I use "git format-patch ..." to dump the invidiual emails as raw email
+> > sources and then I'll send those raw emails from the command line. So I
+> > have even more control of what is exactly sent out and could of course
+> > also add custom email header fields if required, if that would solve the
+> > situation somehow, i.e. manually as first test and later in automated
+> > way. That's not the issue here.
+> Working around the problem does not require munging email headers, but
+> adding a line to the email body.
+
+
 
 
