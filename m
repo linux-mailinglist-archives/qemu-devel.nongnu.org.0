@@ -2,67 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD410A83E6
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:44:16 +0200 (CEST)
-Received: from localhost ([::1]:59080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B0EA83E0
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:41:09 +0200 (CEST)
+Received: from localhost ([::1]:58718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Va3-00019r-RL
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:44:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58523)
+	id 1i5VX2-0006py-BJ
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:41:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58939)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1i5V9E-00087n-6T
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:16:33 -0400
+ (envelope-from <quintela@redhat.com>) id 1i5VC8-0001iJ-5r
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:19:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1i5V9B-0002bT-Al
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:16:31 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43692)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1i5V9B-0002a6-5B
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:16:29 -0400
-Received: by mail-ot1-x342.google.com with SMTP id b2so1166433otq.10
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 06:16:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XcIFrR8q9TBnn9EQbn2c9eGHujiMtazLJVMVukr6j5g=;
- b=pmP4dKz2GFg+mdM1b60DoGHZUjyYpgH0nl0Yf7a7tTcqukmL5JY0BgLAc/ObI6ZxUw
- NRmlT2vTXLkWYk8OGEvPaHBMbRoIWzZpKiz7oMIOStq54ZWdA05zi5QEu9bONNkumaPy
- JmLVgvHhvg8+GHmnbZNOThc4HkGmeq5L5sXFsHpxOmNi465VQG7CN8Ds5dj1s3B3lijD
- 0HPdDWjKzXSECU+XH+RYSKH972AQ/ZzER4Wo4BG8DOaAASieEDyaKLk3GV4+WYWM/rp5
- hcmr+bcBBan2uzSPEY4VKC/WnUIHJ9c81gfBJajz6JfFeIKtS6QGaE+RlR5tzAG/k/ns
- Gkgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XcIFrR8q9TBnn9EQbn2c9eGHujiMtazLJVMVukr6j5g=;
- b=eeIQ+rp1xAClTrw/rCFVQi6jubs4OCCaqJILsT6Zg4mzuATTf8xRowLfH2nuczs3Vo
- OKRdluGG1CLA66FFJL+5+hmLQqJUNyVBdNK7DzMlvMfZa0cbHWexxc2Xe/Q0R1AOCFt0
- S9vBtwd5LAfcamiY+E93jOkPZg5eoeN0QoKAZo3kuTujI/IRDov+1lbxlSVg8nOjsjX6
- 3etUs2s3Z+3pDJPUpEFCiVvUA15JJaNnRtnxoiK8/giTYOm8X61FGHdO2Q1WYpDgxlIY
- PWmVgb9ydgBWboxeDRAbhawZZoYmp/CDLTGMS6v4eCj0rXWx2esZ3VurwYfrQu/ybGHm
- YIYQ==
-X-Gm-Message-State: APjAAAVfatV2BKnEPEDDl0gABlr4V5/S4t4T3uuHc5LBsK/sBXAwO+RI
- toZ6K9ETmD9fthQ91jTK5Lv2Km0wQN7NwIZnlHU=
-X-Google-Smtp-Source: APXvYqwtFuhtvRO/3QmMcKhKUFDDkjQQGcK3HKyd21kUkmREpo2aha8qbevTL1206KghuTgqxs3fPZ7+ebL8OxLzn74=
-X-Received: by 2002:a9d:7d11:: with SMTP id v17mr1515417otn.306.1567602988197; 
- Wed, 04 Sep 2019 06:16:28 -0700 (PDT)
+ (envelope-from <quintela@redhat.com>) id 1i5VC6-0004cs-U3
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:19:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60222)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>)
+ id 1i5VC3-0004Zh-QZ; Wed, 04 Sep 2019 09:19:28 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0F1C418C8929;
+ Wed,  4 Sep 2019 13:19:27 +0000 (UTC)
+Received: from redhat.com (ovpn-117-170.ams2.redhat.com [10.36.117.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 811096060D;
+ Wed,  4 Sep 2019 13:19:23 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+In-Reply-To: <22efeb99-70d7-13dc-407e-b6fcbce31797@redhat.com> (Eric Blake's
+ message of "Wed, 4 Sep 2019 07:39:01 -0500")
+References: <20190820104836.3093-1-quintela@redhat.com>
+ <20190820104836.3093-5-quintela@redhat.com>
+ <22efeb99-70d7-13dc-407e-b6fcbce31797@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+Date: Wed, 04 Sep 2019 15:19:21 +0200
+Message-ID: <87blw0kxly.fsf@trasno.org>
 MIME-Version: 1.0
-References: <1567601968-26946-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1567601968-26946-2-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1567601968-26946-2-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Wed, 4 Sep 2019 15:16:16 +0200
-Message-ID: <CAL1e-=j6S=-6WtgGyuxSMSY2+qqPX98C6mfgFpnd1rpcYNLfEw@mail.gmail.com>
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v6 1/8] linux-user: Add support for
- semtimedop() syscall
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Wed, 04 Sep 2019 13:19:27 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 4/5] socket: Add num connections to
+ qio_net_listener_open_sync()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,109 +60,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Laurent Vivier <laurent@vivier.eu>
+Reply-To: quintela@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 4, 2019 at 3:11 PM Aleksandar Markovic <
-aleksandar.markovic@rt-rk.com> wrote:
+Eric Blake <eblake@redhat.com> wrote:
+> On 8/20/19 5:48 AM, Juan Quintela wrote:
+>> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>  blockdev-nbd.c            | 2 +-
+>>  chardev/char-socket.c     | 2 +-
+>>  include/io/net-listener.h | 2 ++
+>>  io/net-listener.c         | 3 ++-
+>>  migration/socket.c        | 2 +-
+>>  qemu-nbd.c                | 2 +-
+>>  ui/vnc.c                  | 4 ++--
+>>  7 files changed, 10 insertions(+), 7 deletions(-)
+>
+> Just now noticing this one, even though the pull request is already sent.=
+..
+>
+>>=20
+>> diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+>> index 7a71da447f..c621686131 100644
+>> --- a/blockdev-nbd.c
+>> +++ b/blockdev-nbd.c
+>> @@ -101,7 +101,7 @@ void nbd_server_start(SocketAddress *addr, const cha=
+r *tls_creds,
+>>      qio_net_listener_set_name(nbd_server->listener,
+>>                                "nbd-listener");
+>>=20=20
+>> -    if (qio_net_listener_open_sync(nbd_server->listener, addr, errp) < =
+0) {
+>> +    if (qio_net_listener_open_sync(nbd_server->listener, addr, 1, errp)=
+ < 0) {
+>>          goto error;
+>>      }
+>
+> Does this interfere with the ability to have more than one client
+> connect to an NBD server during pull-mode incremental backup?  Or can
+> you still have multiple simultaneous clients, provided that the server
+> has finished accepting the connection from the first before the second
+> one starts?
 
-> From: Aleksandar Rikalo <arikalo@wavecomp.com>
->
-> Add support for semtimedop() emulation. It is based on invocation
-> of safe_semtimedop().
->
-> Conversion is left out of safe_semtimedop(), since other safe_xxx()
-> usually don't contain similar conversions.
->
-> Signed-off-by: Aleksandar Rikalo <arikalo@wavecomp.com>
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> ---
->
+It is exactly the same than the old code.  Old code always use one.  We
+need to have more than one for multifd.
 
-Hi, Laurent.
-
-Please note that Aleksandar R. proposed also a code segment mentioned
-in this message:
-
-https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg07080.html
-
-... but wasn't sure if he got all bits and peaces right. Please provide your
-judgement - and I will modify the patch accordingly.
-
-Thanks,
-aleksandar
+Once told that, if the connections don't start "very" simultaneosly
+(i..e. With multifd we start <num channels> connections in paraller),
+you will never notice that the backlog is one (sie of queue of pending
+connections nowadays).
 
 
->  linux-user/syscall.c | 40 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 40 insertions(+)
 >
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 8367cb1..b5bc6e4 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -6649,7 +6649,43 @@ static inline abi_long host_to_target_statx(struct
-> target_statx *host_stx,
->      return 0;
->  }
->  #endif
-> +#ifdef TARGET_NR_semtimedop
-> +static inline abi_long do_semtimedop(int semid, abi_long ptr, unsigned
-> nsops,
-> +                                     abi_long timeout)
-> +{
-> +    struct sembuf *sops;
-> +    struct timespec ts, *pts;
-> +    abi_long ret;
-> +
-> +    if (timeout) {
-> +        pts = &ts;
-> +        if (target_to_host_timespec(pts, timeout)) {
-> +            return -TARGET_EFAULT;
-> +        }
-> +    } else {
-> +        pts = NULL;
-> +    }
+>> +++ b/qemu-nbd.c
+>> @@ -1054,7 +1054,7 @@ int main(int argc, char **argv)
+>>      server =3D qio_net_listener_new();
+>>      if (socket_activation =3D=3D 0) {
+>>          saddr =3D nbd_build_socket_address(sockpath, bindto, port);
+>> -        if (qio_net_listener_open_sync(server, saddr, &local_err) < 0) {
+>> +        if (qio_net_listener_open_sync(server, saddr, 1, &local_err) < =
+0) {
 >
-> +    sops = g_malloc(sizeof(struct sembuf) * nsops);
-> +    if (sops == NULL) {
-> +        return -TARGET_EFAULT;
-> +    }
-> +
-> +    if (target_to_host_sembuf(sops, ptr, nsops)) {
-> +        g_free(sops);
-> +        return -TARGET_EFAULT;
-> +    }
-> +
-> +#ifdef __NR_semtimedop
-> +    ret = get_errno(safe_semtimedop(semid, sops, nsops, pts));
-> +#else
-> +    ret = -TARGET_ENOSYS;
-> +#endif
-> +    g_free(sops);
-> +
-> +    return ret;
-> +}
-> +#endif
+> Here, 'qemu-nbd -e $n' allows up to $n simultaneous clients.  Should we
+> be feeding in that number, instead of a hard-coded 1, to make it easier
+> for those clients to connect simultaneously?
 >
->  /* ??? Using host futex calls even when target atomic operations
->     are not really atomic probably breaks things.  However implementing
-> @@ -9193,6 +9229,10 @@ static abi_long do_syscall1(void *cpu_env, int num,
-> abi_long arg1,
->      case TARGET_NR_semop:
->          return do_semop(arg1, arg2, arg3);
->  #endif
-> +#ifdef TARGET_NR_semtimedop
-> +    case TARGET_NR_semtimedop:
-> +        return do_semtimedop(arg1, arg2, arg3, arg4);
-> +#endif
->  #ifdef TARGET_NR_semctl
->      case TARGET_NR_semctl:
->          return do_semctl(arg1, arg2, arg3, arg4);
-> --
-> 2.7.4
->
->
->
+> We can make such changes as a followup patch.
+
+From the man page:
+
+       The backlog argument defines the maximum length to which the  queue =
+ of
+       pending  connections  for  sockfd  may  grow.
+
+So, except if you plan to start multiples connections at the same time,
+you don't care.  And if the old code worked, this one makes no
+difference.
+
+To explain multifd problem, I was creating 10 threads, and each launched
+a connect.  On the receiving side, I only got 8 connections, 2 of them
+were missing.
+
+Later, Juan.
+
