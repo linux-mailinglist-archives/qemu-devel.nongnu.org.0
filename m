@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD672A9434
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:56:29 +0200 (CEST)
-Received: from localhost ([::1]:39612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90368A9441
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:59:28 +0200 (CEST)
+Received: from localhost ([::1]:39676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5cKK-0008Mf-7w
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49739)
+	id 1i5cND-0003Pa-8r
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49820)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i5bvA-00088V-Kh
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:37 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i5bvJ-0008Bh-LC
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i5bv7-0006cM-GM
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:28 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:50207)
+ (envelope-from <alex.bennee@linaro.org>) id 1i5bv9-0006dY-8Q
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:31 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51754)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i5bv7-0006VL-7f
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:25 -0400
-Received: by mail-wm1-x330.google.com with SMTP id c10so210720wmc.0
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:30:19 -0700 (PDT)
+ id 1i5bv7-0006Wc-Fn
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:26 -0400
+Received: by mail-wm1-x331.google.com with SMTP id k1so205155wmi.1
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:30:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HEMOxdR8sWTXFxNsuCTbT1Ih44COKmCRkMbmTbJ7YXE=;
- b=FhUaeGM70uKRCvJLf4PhrNgTkqs2nipOly7UYdwyjkAKeuzv86wo5aGXjXzwzPz/tR
- xF/9BHsi3cPDex9iQKN1b6ZVdlQcld2eNoY3nd7sTE6xfdoKzmvjGbW8uD2WJuG44UyN
- tPkPtDWo0/FKfOZonEiyCCtZ27GeWi6fknWvzFumkM7ZZRgZjNrQD9q6vjTeBhkNcClr
- wVrpPdOlzMjm0O1rE09ShrqvW/ntbIEZZ57mNqYTokjbGSsuzBOpY5JzWKQ4O0BN7jEe
- 85xijmYf7JYJV+XBcbtkNR3f+PeTyY9Pu5ZHt0kGZsolb81D9KPzGq8oXOHR2pJuyCRb
- BLZg==
+ bh=p3y2eX+7FONDbDZLCLCZxdBeIEWMh8ZiPOEtCXfGU9A=;
+ b=mUAKJXnz8UhhFcroaGb1tuken8Ra0GlXgXT5Eq8B0VlfDrLuNKq+Zy51oxh18yWqBL
+ 1RXdhXlrtJLlTD89vxCashJe67dN7NbZAeBpQvr0MvCNNRpxtBTVM4fmoJyvTnkxyIBm
+ bDI6BiZVsXZcNI3yU2TmUlPN1w/8+6H0afwz0t1vVo8bknclKfdI4r9ePV5+2fpFZ8BW
+ m5+DQYCUpo9orD/YHvl2dxtMhgEVgNAtnBqw+gBepAYCZ0ygoC6S5OBAL37xgAmM3i7k
+ JKcXZWvIg5Bh2aC02Co8iJbD+1PCNrtMlppLoHoj2m0PTIH6eHO6c+12IaophsaVRRBz
+ zwuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HEMOxdR8sWTXFxNsuCTbT1Ih44COKmCRkMbmTbJ7YXE=;
- b=nVxKYRiQZNFrKLdE9OxggX0V0sfZtyTUb7a46y3SkGdC8GEe+P0s+gN0q8Nlbjsn5J
- E29Gu/inMyGYfmMusU+xDd3HRtfhyS6Jx70mEJ984rMjia+XOBAfyQOYcqUmeZinGQEj
- kI4EOe5TeQtGXncFe0xX9U3Se4w5rcvPNmQA5m0MZqG27loBUzVa+gYDmm1zp+XNn+FW
- GnDgtE3F25ISDUDW1a5WqMHJwEvQCVNDv5jOSlIOyn6yQDNnRn/DJt90ikNjjSLWlo2f
- +CPR3hV3sWGpTosG5NKYbPhqjiCGqPluf3waXP2BrYdzWk0v+EE6O0HUIV27+mCMjRqS
- trHA==
-X-Gm-Message-State: APjAAAV2D1GHshwN8caTBOaDDAVslgHB5ERXLGOkpmJQx7Exc3qo4Mgw
- bQ00z0bB1hjcZ90fqxS0y30M1Q==
-X-Google-Smtp-Source: APXvYqzxA+8yHQHEJJT8fuiqnv0Rf8lvGik68HNmmIMK6qMMoNV4Bf39fcmed18ehmN99R1YZ7DQPQ==
-X-Received: by 2002:a7b:cc94:: with SMTP id p20mr69074wma.171.1567629017945;
- Wed, 04 Sep 2019 13:30:17 -0700 (PDT)
+ bh=p3y2eX+7FONDbDZLCLCZxdBeIEWMh8ZiPOEtCXfGU9A=;
+ b=SnlnS+jsLKUUwuETEfycCLqNSBNUBmi3ZSJ9Y7xHETAyRN/Z+JtjI8ZteTeacA91JS
+ Ib9+N9ABDpl8sY28t+X/GoPKg5BEuLXGb4kMeGcc4tUYE5Ze3CmHrirxPnhJRDytRoCn
+ wNSNvM8lbb1fbQts8l4EZ2Tl42vpjuCsUMzt+ZacX9HFqV6pwVx9FI+oQUEBRVLFHLmB
+ oHhKw1BwMqF4JJ2GOwA39Bwlaubtb15Ta+b3TNKRQ5w58c7BvlNXAZfCMfbpNXlz6YZ3
+ oBj01vGoqlc6m8lBtRplbAH1YnWkwyaWFQEBeXf7N8o961HmF4493FFTGV07ByHCUIC6
+ ONcA==
+X-Gm-Message-State: APjAAAUgNTBjjgijvpiaODzwgNCZiHfTOf9u2yS6aQdEuqPg2UXgHT1y
+ hCU4H8NpAVrvxgj4qcoQIbu0fg==
+X-Google-Smtp-Source: APXvYqy/i8dCPHdiTXO0t1LYi3UM0WPFv0ZPZ3TNihK4CVus5rSZvXnwaBsBUUaR7yyKrW1bg3CLdw==
+X-Received: by 2002:a7b:ca50:: with SMTP id m16mr93152wml.158.1567629021269;
+ Wed, 04 Sep 2019 13:30:21 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 74sm165778wma.15.2019.09.04.13.30.14
+ by smtp.gmail.com with ESMTPSA id e15sm12493544wru.93.2019.09.04.13.30.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:30:14 -0700 (PDT)
+ Wed, 04 Sep 2019 13:30:18 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B799D1FF91;
- Wed,  4 Sep 2019 21:30:13 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 530611FF99;
+ Wed,  4 Sep 2019 21:30:14 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 21:29:35 +0100
-Message-Id: <20190904203013.9028-5-alex.bennee@linaro.org>
+Date: Wed,  4 Sep 2019 21:29:40 +0100
+Message-Id: <20190904203013.9028-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
 References: <20190904203013.9028-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
-Subject: [Qemu-devel] [PATCH v1 04/42] tests/tcg: use EXTRA_CFLAGS everywhere
+X-Received-From: 2a00:1450:4864:20::331
+Subject: [Qemu-devel] [PATCH v1 09/42] tests/docker: set DEF_TARGET_LIST for
+ some containers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,127 +82,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- berrange@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- stefanb@linux.vnet.ibm.com, richard.henderson@linaro.org, f4bug@amsat.org,
- Max Filippov <jcmvbkbc@gmail.com>, cota@braap.org, stefanha@redhat.com,
- marcandre.lureau@redhat.com, pbonzini@redhat.com,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, aurelien@aurel32.net,
- Richard Henderson <rth@twiddle.net>
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+You can assume the failures most people are interested in are the
+cross-compile failures that are specific to the cross compile target.
+Set DEF_TARGET_LIST based on what we use for shippable, the user can
+always override by calling with TARGET_LIST set.
 
-For i386 specifically, this allows using the host GCC
-to compile the i386 tests.  But, it should really be
-done for all targets, unless we want to pass $(EXTRA_CFLAGS)
-directly as part of $(CC).
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20190807143523.15917-2-pbonzini@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/aarch64/Makefile.softmmu-target | 4 ++--
- tests/tcg/alpha/Makefile.softmmu-target   | 4 ++--
- tests/tcg/arm/Makefile.softmmu-target     | 2 +-
- tests/tcg/i386/Makefile.softmmu-target    | 4 ++--
- tests/tcg/minilib/Makefile.target         | 2 +-
- tests/tcg/xtensa/Makefile.softmmu-target  | 4 ++--
- 6 files changed, 10 insertions(+), 10 deletions(-)
+ tests/docker/dockerfiles/debian-arm64-cross.docker    | 1 +
+ tests/docker/dockerfiles/debian-armel-cross.docker    | 1 +
+ tests/docker/dockerfiles/debian-armhf-cross.docker    | 1 +
+ tests/docker/dockerfiles/debian-mips-cross.docker     | 1 +
+ tests/docker/dockerfiles/debian-mips64el-cross.docker | 1 +
+ tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 1 +
+ tests/docker/dockerfiles/debian-s390x-cross.docker    | 1 +
+ 7 files changed, 7 insertions(+)
 
-diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
-index 2e560e4d08e..4c4aaf61dd3 100644
---- a/tests/tcg/aarch64/Makefile.softmmu-target
-+++ b/tests/tcg/aarch64/Makefile.softmmu-target
-@@ -22,11 +22,11 @@ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
- .PRECIOUS: $(CRT_OBJS)
+diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/docker/dockerfiles/debian-arm64-cross.docker
+index 7c2cc93daf8..6b59ef0843a 100644
+--- a/tests/docker/dockerfiles/debian-arm64-cross.docker
++++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
+@@ -17,6 +17,7 @@ RUN apt update && \
  
- %.o: $(CRT_PATH)/%.S
--	$(CC) $(CFLAGS) -x assembler-with-cpp -c $< -o $@
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=aarch64-linux-gnu-
++ENV DEF_TARGET_LIST aarch64-softmmu,aarch64-linux-user
  
- # Build and link the tests
- %: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
--	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
+index d866fe5d75b..363a162a253 100644
+--- a/tests/docker/dockerfiles/debian-armel-cross.docker
++++ b/tests/docker/dockerfiles/debian-armel-cross.docker
+@@ -15,6 +15,7 @@ RUN dpkg --add-architecture armel && \
  
- memory: CFLAGS+=-DCHECK_UNALIGNED=1
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabi-
++ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user,armeb-linux-user
  
-diff --git a/tests/tcg/alpha/Makefile.softmmu-target b/tests/tcg/alpha/Makefile.softmmu-target
-index 3c0f34cc692..09193a62d68 100644
---- a/tests/tcg/alpha/Makefile.softmmu-target
-+++ b/tests/tcg/alpha/Makefile.softmmu-target
-@@ -22,11 +22,11 @@ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
- .PRECIOUS: $(CRT_OBJS)
+ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
+index 2b8627673c3..d5365881e79 100644
+--- a/tests/docker/dockerfiles/debian-armhf-cross.docker
++++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
+@@ -17,6 +17,7 @@ RUN apt update && \
  
- %.o: $(CRT_PATH)/%.S
--	$(CC) $(CFLAGS) -x assembler-with-cpp -c $< -o $@
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabihf-
++ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user,armeb-linux-user
  
- # Build and link the tests
- %: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
--	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+diff --git a/tests/docker/dockerfiles/debian-mips-cross.docker b/tests/docker/dockerfiles/debian-mips-cross.docker
+index 3c4d6f9ec1f..a54efa7253a 100644
+--- a/tests/docker/dockerfiles/debian-mips-cross.docker
++++ b/tests/docker/dockerfiles/debian-mips-cross.docker
+@@ -20,6 +20,7 @@ RUN apt update && \
  
- memory: CFLAGS+=-DCHECK_UNALIGNED=0
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=mips-linux-gnu-
++ENV DEF_TARGET_LIST mips-softmmu,mipsel-linux-user
  
-diff --git a/tests/tcg/arm/Makefile.softmmu-target b/tests/tcg/arm/Makefile.softmmu-target
-index 49d48d8a1c3..2deb06e6e46 100644
---- a/tests/tcg/arm/Makefile.softmmu-target
-+++ b/tests/tcg/arm/Makefile.softmmu-target
-@@ -18,7 +18,7 @@ CFLAGS+=-Wl,--build-id=none -x assembler-with-cpp
- LDFLAGS+=-nostdlib -N -static
+ # Install extra libraries to increase code coverage
+ RUN apt update && \
+diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+index 34b0b828957..a1481e16e2c 100644
+--- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+@@ -21,6 +21,7 @@ RUN apt update && \
  
- %: %.S %.ld
--	$(CC) $(CFLAGS) $(ASFLAGS) $< -o $@ $(LDFLAGS) -T $(ARM_SRC)/$@.ld
-+	$(CC) $(CFLAGS) $(ASFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS) -T $(ARM_SRC)/$@.ld
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=mips64el-linux-gnuabi64-
++ENV DEF_TARGET_LIST mips64el-softmmu,mips64el-linux-user
  
- # Specific Test Rules
+ # Install extra libraries to increase code coverage
+ RUN apt update && \
+diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+index fc056d7bc35..f10883c8188 100644
+--- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
++++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+@@ -16,6 +16,7 @@ RUN apt update && \
  
-diff --git a/tests/tcg/i386/Makefile.softmmu-target b/tests/tcg/i386/Makefile.softmmu-target
-index 0a4364868ce..cee342017e5 100644
---- a/tests/tcg/i386/Makefile.softmmu-target
-+++ b/tests/tcg/i386/Makefile.softmmu-target
-@@ -32,11 +32,11 @@ TESTS+=$(MULTIARCH_TESTS)
- .PRECIOUS: $(CRT_OBJS)
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=powerpc64le-linux-gnu-
++ENV DEF_TARGET_LIST ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
  
- %.o: $(CRT_PATH)/%.S
--	$(CC) $(CFLAGS) -c $< -o $@
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
+ # Install extra libraries to increase code coverage
+ RUN apt update && \
+diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/docker/dockerfiles/debian-s390x-cross.docker
+index 6732f9ec789..efa346007d6 100644
+--- a/tests/docker/dockerfiles/debian-s390x-cross.docker
++++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
+@@ -21,6 +21,7 @@ RUN apt update && \
  
- # Build and link the tests
- %: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
--	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=s390x-linux-gnu-
++ENV DEF_TARGET_LIST s390x-softmmu,s390x-linux-user
  
- memory: CFLAGS+=-DCHECK_UNALIGNED=1
- 
-diff --git a/tests/tcg/minilib/Makefile.target b/tests/tcg/minilib/Makefile.target
-index 3ed8077d0f9..c821d2806a9 100644
---- a/tests/tcg/minilib/Makefile.target
-+++ b/tests/tcg/minilib/Makefile.target
-@@ -18,4 +18,4 @@ MINILIB_INC=-isystem $(SYSTEM_MINILIB_SRC)
- .PRECIOUS: $(MINILIB_OBJS)
- 
- %.o: $(SYSTEM_MINILIB_SRC)/%.c
--	$(CC) $(CFLAGS) -c $< -o $@
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
-diff --git a/tests/tcg/xtensa/Makefile.softmmu-target b/tests/tcg/xtensa/Makefile.softmmu-target
-index 8212d96b81d..9530cac2ad9 100644
---- a/tests/tcg/xtensa/Makefile.softmmu-target
-+++ b/tests/tcg/xtensa/Makefile.softmmu-target
-@@ -34,9 +34,9 @@ $(XTENSA_USABLE_TESTS): linker.ld macros.inc $(CRT) Makefile.softmmu-target
- 
- # special rule for common blobs
- %.o: %.S
--	$(CC) $(XTENSA_INC) $($*_ASFLAGS) $(ASFLAGS) -c $< -o $@
-+	$(CC) $(XTENSA_INC) $($*_ASFLAGS) $(ASFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
- 
- %: %.S
--	$(CC) $(XTENSA_INC) $(ASFLAGS) $< -o $@ $(LDFLAGS) $(NOSTDFLAGS) $(CRT)
-+	$(CC) $(XTENSA_INC) $(ASFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS) $(NOSTDFLAGS) $(CRT)
- 
- endif
+ # Install extra libraries to increase code coverage
+ RUN apt update && \
 -- 
 2.20.1
 
