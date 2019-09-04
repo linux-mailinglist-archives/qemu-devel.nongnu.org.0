@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFDBA94D6
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:19:53 +0200 (CEST)
-Received: from localhost ([::1]:40034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF8CA94E3
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:22:47 +0200 (CEST)
+Received: from localhost ([::1]:40080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5cgx-00080B-JK
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:19:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52835)
+	id 1i5cjl-0002yS-Uz
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51566)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9X-0006A1-Vn
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:21 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i5c3u-0000tx-Ck
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9W-0006lB-B0
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:19 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:42625)
+ (envelope-from <alex.bennee@linaro.org>) id 1i5c3s-0003Sw-Rk
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:30 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:34897)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5c9W-0006kd-3P
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:18 -0400
-Received: by mail-pl1-x630.google.com with SMTP id y1so84045plp.9
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:18 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i5c3s-0003SH-K4
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:28 -0400
+Received: by mail-wm1-x330.google.com with SMTP id n10so249370wmj.0
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ddiXQUCU6+mV9b5HLraEW0nl5fo+95ic0hgqPUZ1sNk=;
- b=MSddaqDmsvrs+IxiQ14B8VDMy7wNo0Vt2EYZJek1dggV55FDVT0x5GlL6VdgzTMJbF
- MZ6ITu1ZxAt5wF9NnqfKZpC6cXe4iABpMf06vO7spIL72gfM9Lc6mRq/0qL5rz7Zta8o
- uU/E/rUhTLzMwppzep0CN4Jr40qIEdDorlKLqkavJ17VNaBxRLyhEXDlQGvmDKc3Vcw3
- ktnpyndyd+qQQ53KAKQZScG1vw2/ljECNAYMposijavMiD6+tdYUJ52B/bxkPVy8195T
- fgPqz5owYB9BVfwXfz7Dri6xE9W0MTkUMexTNelWBJOjUo8Gh078podmqKKDxF5PGfwp
- HvEg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=zp2HTd9MlExt3qm/dUKdQzcVkIb7wY5T3E7kKCEGd2M=;
+ b=XY0znVtUJ3AiLRz5SacDhW9wVilqHGBCl3Pr3DKz5biFCZyDPBmj+09OPgh0M+IHoM
+ Gydh9rjzHTdHfVEMupaZhPmo7gWtdJTUN0gMPFcg0YDAvOoW05O4RZnVC6dM40Rk0wpD
+ y3Oh0Gm1LkXkdcQ7YF9WDa675JLVTrYuWPDvowYMTeGoUatHrU53vfkN2CaHdhCV5fP0
+ P2ksvOmYnvNBGQe5Cf15NIyFDLWhER51E99kk8yhQ+dsMOxEV7i3SYpaJQG6/HpvUieV
+ a3R4eAWqZHVDe9SQkHIYv2E9ZqzF0O5h5NKFAk+DKuSlKYZs1UzuyBy/OWMUN3MI5m6c
+ OjQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=ddiXQUCU6+mV9b5HLraEW0nl5fo+95ic0hgqPUZ1sNk=;
- b=pj1aJHC05FpLTjxWuJVl0gt2t60+F516VfNwyPv1L79maAOPcGm893l0K+h8ZGwIIl
- etFkfO1qb6GB52a49Lk4uVgXGSLF6Pl/mw6T5sFiDjpLw/owAW4K6b0W7VSR21/gLciW
- 5F+Ve0L0QSdwWJJ6j1SzBbymcSqaTQMy8JGKGaaAYqAmYSKYJTqpggaW5o0NdlGq1DE5
- GZFLIOZzcIpZ4IaTFr/TgOdEV2ig5LZl3rfMJdR3nNk5fEZ4dmefVxEAtkGHyQj7ApCU
- 7xBeMyExOAiA2/NN84IpPAW3hgda8/N6TJQFx1V/z9CsDiVJQPgC5uB6sQEkWFPXsQcJ
- 2WpQ==
-X-Gm-Message-State: APjAAAVxuVCRGAQHVLz2r1eIbjZ1uaASHYjg0mrfa2gCLW+ms5in0VtU
- SkVkG5UFp+JbWTQ4FEo7SLlh3SE1KUg=
-X-Google-Smtp-Source: APXvYqwkZjoiyyWMGTdG56oMaWgURYtLJW7ZrM7zvQcaTbXF+PbxrKS8lAM0gaOySDvqIJp7lpZ+pQ==
-X-Received: by 2002:a17:902:ab96:: with SMTP id
- f22mr43907220plr.147.1567629916793; 
- Wed, 04 Sep 2019 13:45:16 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.15
+ :references:mime-version:content-transfer-encoding;
+ bh=zp2HTd9MlExt3qm/dUKdQzcVkIb7wY5T3E7kKCEGd2M=;
+ b=CfrwO5IVrVfZ8ROi/nmJeMWrixDbATe7MOpyUnFd4+eWm+pNNZ5nKZ0GzqNmVkgFFt
+ AUh/xkHYhuN6VWYoMKFqPEvEFcdgXolcT/SjXi5xyhyvIX/T52nIZPHSi9v3br6hR8Zo
+ mH0pU1sbVMfla9IHfxt3fm2qfLltHg8TJzn1HdiQWTYQ7IyXitTdyfSY5uegqcFpDoyq
+ 98SIiMMHave6MQGJdKKI47fYGGZxpqUKKhdlZneci5nL6wJWTmLSXaGzjxGE0pJJv33Y
+ ObxOc7cm6OnFfcFASpJBqi13wlQSwWeqvQGHCkyq2vEMtIX3B/bKVYIf8bfZD1VPxrcT
+ synQ==
+X-Gm-Message-State: APjAAAXeRuqzYuOJrAqelLoRJnBs+0M9LMbM1+a9Zj2VbVufsm2z9D/f
+ HJRix1+2wHF49FZa0c22NBt19r/ADuA=
+X-Google-Smtp-Source: APXvYqxpZrijrmHWwC+Xpw8QRjye7gYqsjYy/UTE9tyQKbsZSlyE+5HZ/JRhZoKpgEMuMo1xjCtpeQ==
+X-Received: by 2002:a1c:23d7:: with SMTP id j206mr111917wmj.57.1567629567453; 
+ Wed, 04 Sep 2019 13:39:27 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e15sm23134875wrj.74.2019.09.04.13.39.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:45:16 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Wed, 04 Sep 2019 13:39:26 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 620AA1FFAA;
+ Wed,  4 Sep 2019 21:30:15 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 13:45:00 -0700
-Message-Id: <20190904204507.32457-7-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190904204507.32457-1-richard.henderson@linaro.org>
-References: <20190904204507.32457-1-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 21:29:52 +0100
+Message-Id: <20190904203013.9028-22-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
+References: <20190904203013.9028-1-alex.bennee@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::630
-Subject: [Qemu-devel] [PULL 06/13] target/openrisc: Add VR2 and AVR special
- processor registers
+X-Received-From: 2a00:1450:4864:20::330
+Subject: [Qemu-devel] [PATCH v1 21/42] tests/docker: drop debian-sid image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,88 +81,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the CPUCFG bits to arch v1.3.
-Include support for AVRP for cpu "any".
+Debian Sid was only ever a stop gap and thanks to the much better
+cross compiler in the Buster release we don't need it any more. Send
+it on its merry way.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/openrisc/cpu.h        | 11 +++++++----
- target/openrisc/cpu.c        |  8 ++++++--
- target/openrisc/sys_helper.c |  6 ++++++
- 3 files changed, 19 insertions(+), 6 deletions(-)
+ tests/docker/Makefile.include              |  2 +-
+ tests/docker/dockerfiles/debian-sid.docker | 41 ----------------------
+ 2 files changed, 1 insertion(+), 42 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian-sid.docker
 
-diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-index 18d7445e74..71c5959828 100644
---- a/target/openrisc/cpu.h
-+++ b/target/openrisc/cpu.h
-@@ -96,11 +96,12 @@ enum {
-     CPUCFGR_OF32S = (1 << 7),
-     CPUCFGR_OF64S = (1 << 8),
-     CPUCFGR_OV64S = (1 << 9),
--    /* CPUCFGR_ND = (1 << 10), */
--    /* CPUCFGR_AVRP = (1 << 11), */
-+    CPUCFGR_ND = (1 << 10),
-+    CPUCFGR_AVRP = (1 << 11),
-     CPUCFGR_EVBARP = (1 << 12),
--    /* CPUCFGR_ISRP = (1 << 13), */
--    /* CPUCFGR_AECSRP = (1 << 14), */
-+    CPUCFGR_ISRP = (1 << 13),
-+    CPUCFGR_AECSRP = (1 << 14),
-+    CPUCFGR_OF64A32S = (1 << 15),
- };
- 
- /* DMMU configure register */
-@@ -280,6 +281,8 @@ typedef struct CPUOpenRISCState {
- 
-     /* Fields from here on are preserved across CPU reset. */
-     uint32_t vr;              /* Version register */
-+    uint32_t vr2;             /* Version register 2 */
-+    uint32_t avr;             /* Architecture version register */
-     uint32_t upr;             /* Unit presence register */
-     uint32_t cpucfgr;         /* CPU configure register */
-     uint32_t dmmucfgr;        /* DMMU configure register */
-diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index d9f447e90c..9f566ad883 100644
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -126,9 +126,13 @@ static void openrisc_any_initfn(Object *obj)
- {
-     OpenRISCCPU *cpu = OPENRISC_CPU(obj);
- 
--    cpu->env.vr = 0x13000000;
-+    cpu->env.vr = 0x13000040;   /* Obsolete VER + UVRP for new SPRs */
-+    cpu->env.vr2 = 0;           /* No version specific id */
-+    cpu->env.avr = 0x01010000;  /* Architecture v1.1 */
-+
-     cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP | UPR_PMP;
--    cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S | CPUCFGR_EVBARP;
-+    cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S |
-+                       CPUCFGR_AVRP | CPUCFGR_EVBARP;
- 
-     /* 1Way, TLB_SIZE entries.  */
-     cpu->env.dmmucfgr = (DMMUCFGR_NTW & (0 << 2))
-diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
-index a2b1f52294..cf8e637b08 100644
---- a/target/openrisc/sys_helper.c
-+++ b/target/openrisc/sys_helper.c
-@@ -210,6 +210,12 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
-     case TO_SPR(0, 4): /* IMMUCFGR */
-         return env->immucfgr;
- 
-+    case TO_SPR(0, 9): /* VR2 */
-+        return env->vr2;
-+
-+    case TO_SPR(0, 10): /* AVR */
-+        return env->avr;
-+
-     case TO_SPR(0, 11): /* EVBAR */
-         return env->evbar;
- 
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index b6c04059502..59fbebbe2e6 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -6,7 +6,7 @@ DOCKER_SUFFIX := .docker
+ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ DOCKER_DEPRECATED_IMAGES := debian
+ # we don't run tests on intermediate images (used as base by another image)
+-DOCKER_PARTIAL_IMAGES := debian debian8 debian9 debian10 debian8-mxe debian-ports debian-sid debian-bootstrap
++DOCKER_PARTIAL_IMAGES := debian debian8 debian9 debian10 debian8-mxe debian-ports debian-bootstrap
+ DOCKER_IMAGES := $(filter-out $(DOCKER_DEPRECATED_IMAGES),$(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+ # Use a global constant ccache directory to speed up repetitive builds
+diff --git a/tests/docker/dockerfiles/debian-sid.docker b/tests/docker/dockerfiles/debian-sid.docker
+deleted file mode 100644
+index 513459ca7f8..00000000000
+--- a/tests/docker/dockerfiles/debian-sid.docker
++++ /dev/null
+@@ -1,41 +0,0 @@
+-#
+-# Debian Sid Base
+-#
+-# A number of our guests exist as ports only. We can either use the
+-# ports repo or get everything from Sid. However Sid is a rolling
+-# distro which may be broken at any particular time. If you are
+-# unlucky and try and build your images while gcc is in the process of
+-# being uploaded this can fail. Your only recourse is to try again in
+-# a few hours when the repos have re-synced. Once built however you
+-# won't be affected by repo changes unless the docker recipies are
+-# updated and trigger a re-build.
+-#
+-
+-# This must be earlier than the snapshot date we are aiming for
+-FROM debian:sid-20181011-slim
+-
+-# Use a snapshot known to work (see http://snapshot.debian.org/#Usage)
+-ENV DEBIAN_SNAPSHOT_DATE "20181030"
+-RUN sed -i "s%^deb \(https\?://\)deb.debian.org/debian/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian/${DEBIAN_SNAPSHOT_DATE} \2%" /etc/apt/sources.list
+-
+-# Use a snapshot known to work (see http://snapshot.debian.org/#Usage)
+-ENV DEBIAN_SNAPSHOT_DATE "20181030"
+-RUN sed -i "s%^deb \(https\?://\)deb.debian.org/debian/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian/${DEBIAN_SNAPSHOT_DATE} \2%" /etc/apt/sources.list
+-
+-# Duplicate deb line as deb-src
+-RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
+-
+-# Install common build utilities
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends \
+-        bison \
+-        build-essential \
+-        ca-certificates \
+-        flex \
+-        git \
+-        pkg-config \
+-        psmisc \
+-        python \
+-        texinfo || { echo "Failed to build - see debian-sid.docker notes"; exit 1; }
 -- 
-2.17.1
+2.20.1
 
 
