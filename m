@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB1CA86F0
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:24:55 +0200 (CEST)
-Received: from localhost ([::1]:35782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39512A86EC
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:22:17 +0200 (CEST)
+Received: from localhost ([::1]:35734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Z1a-0002b1-1X
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:24:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48417)
+	id 1i5Yz1-0007cI-Nm
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:22:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48433)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqX-0001PF-Gc
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:30 -0400
+ id 1i5YqY-0001RE-TA
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqW-00071w-0s
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:29 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38761)
+ id 1i5YqX-00072i-MZ
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:30 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45878)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqV-00071Y-Pi; Wed, 04 Sep 2019 13:13:27 -0400
-Received: by mail-wm1-x344.google.com with SMTP id o184so4695504wme.3;
- Wed, 04 Sep 2019 10:13:27 -0700 (PDT)
+ id 1i5YqX-00072B-FN; Wed, 04 Sep 2019 13:13:29 -0400
+Received: by mail-wr1-x441.google.com with SMTP id l16so3792997wrv.12;
+ Wed, 04 Sep 2019 10:13:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ELAbj/wA1Xj60eRjG4YFXEUkK6OU0pIolX6z3Dq1NCw=;
- b=nwKwH1efKkXbYgo8Eru3f23GBHkTNejzA+XTuYBSjrKYDl9b2zMugd8Eu7+5Wt/QwK
- DZNRmD6mvrTIevcuoVfqlPJn9Mf56eG5dkDt/GhI2oMdzr88nhlMg/58vgE0sfPNz1EY
- 25btbWkoWUF+sUPGqm98pUqIYqJGqjWINZMf1e5sLR5DZWpYDHfryYwuzcodZh79KinP
- E6sXHoDghvXQzS25O4QMEYnk1WRiOph+DMOcomxoxx9rlSFdauCCOhDw5EmJGQpzBtMw
- PSElOzQXTpTeWHqfFaANauJwneyEfCR5Qk4xytpAZANO80UAuxbltLIg72ejsdqr3pFH
- SdDQ==
+ bh=1eynEPflF1e1UUeOg/DcqC+CT8yj8xk66WHwIPsvafI=;
+ b=VJrJq6GTewwRk9jGNCp+yxTdikKnPNc1rf1niLHL8r3agvwLJbtqOXuZHEN6JUdGvY
+ inluAryNWD/heqaXwr02jlJxeM2NFNObbscUYHi4yGvoR4Q3SbWvsf3wDkZFOqZ9y2ny
+ um8aOTfAw2y8epiFPxlIF6q98xgYxQ4sDR/7ffw+TvVP/x6zeVbxjUbJCjk44RAfyua2
+ ve5DZUyHeGMwJwzNPic2AK3hCH+EeZ3m+YEgKRhF32bDGYTaRyxB4XEGz+a6STmuq41/
+ 6+q/ypSYV1KXeZNiDNjOBm3InswiSOKxSgiLBcp+aAWRWrNn5YJsgPUAXhPMLFpqb0BQ
+ zIxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ELAbj/wA1Xj60eRjG4YFXEUkK6OU0pIolX6z3Dq1NCw=;
- b=kKLM6ctoQ4a61KhMjYYyYsz82V6NwMEy16rJ3WnNq3M6l9Y0aVzLrDF/7TZBdB0B5B
- OEJeeSVRekKSeFKo3u90dCwumVzi7dz6sSUk9/i/4urknUw1SHRxZowdbn3VlyD16EdS
- IitOyc35rm7uWfZ20UGF0UMEavbUE4QULDiRFsf3HsQ9g5Pz39/J+IfZOBBQJ7IY8Y1g
- GBNWpnDS0nzN8JLEXAxOU53snDcv5LtejyjXQRLigR7bXjJEieZhmIrWsi4sEiNZhAwa
- cVb4GcSwSKrd5QluSXA54STK3mj0EdGBVKvakTLYuy3cvKxnor7XvgyCGXSzbm1ss51z
- ckWw==
-X-Gm-Message-State: APjAAAXygmmqiMlTYnNdbquhgMJEQy7aPvc9Vs5W5o7JptBCs3WzAS3+
- icQUkqKcy7xTY7t1vI7bNzM=
-X-Google-Smtp-Source: APXvYqx691vttX6XS0mJd5gNajfoQTff1JFfR4mzVdzCMpp9ghKtvOufxI/5T54ASFdhFw/VJdQzlQ==
-X-Received: by 2002:a05:600c:12:: with SMTP id
- g18mr5461628wmc.95.1567617206828; 
- Wed, 04 Sep 2019 10:13:26 -0700 (PDT)
+ bh=1eynEPflF1e1UUeOg/DcqC+CT8yj8xk66WHwIPsvafI=;
+ b=So6CpoFraA6ty3usiZw7/AMio7ZXCM9a2eeQBJlu1dZh8exC0JMxItoSELJZw/7zX4
+ qtlFoW8xcsOfzyMjxLpdS4kPZpQc9NIlzEIPR7TDNGAK6ouamqfZW8Z+G86FGCHNLmbJ
+ NAA2cGuu0G/JXL14ODw6o+qHXuLej0XKDqSIsVwp8tKWwmPVG0I8ZBPRZsxu9OLaAiUe
+ uarOOwplSIyUNNsul3JtIx5U7sJ29eNuYJpMS/jGvrexx6bxIaJeu6mnVF/eh7kirshc
+ Xk0vwBUm5yROpfdNm7Bf/NBsH9ERu4qRgMK25Z83K2UdxMUtAwoWuWauqREVj+8m24Xx
+ K9Bg==
+X-Gm-Message-State: APjAAAUlAstgfvOp785WN4/Otk1WQAbaWL8wEBgVt53wgN4XaKPGjSt/
+ NnPfI22eEdsHuW5xaoJekoM=
+X-Google-Smtp-Source: APXvYqweDvge05OfkFn6VpTh3kWu8MIrRmDSBzbKOdRwEqMAl8rDBQu/7YQHq4LNVVg/7ak/mwygsw==
+X-Received: by 2002:a05:6000:12:: with SMTP id
+ h18mr14702283wrx.156.1567617208542; 
+ Wed, 04 Sep 2019 10:13:28 -0700 (PDT)
 Received: from x1w.redhat.com ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.25
+ by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 10:13:26 -0700 (PDT)
+ Wed, 04 Sep 2019 10:13:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Esteban Bosse <estebanbosse@gmail.com>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-devel@nongnu.org,
  Pekka Enberg <penberg@iki.fi>,
  =?UTF-8?q?Zolt=C3=A1n=20Baldaszti?= <bztemail@gmail.com>
-Date: Wed,  4 Sep 2019 19:13:06 +0200
-Message-Id: <20190904171315.8354-6-f4bug@amsat.org>
+Date: Wed,  4 Sep 2019 19:13:07 +0200
+Message-Id: <20190904171315.8354-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190904171315.8354-1-f4bug@amsat.org>
 References: <20190904171315.8354-1-f4bug@amsat.org>
@@ -72,9 +72,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH 05/14] hw/arm/bcm2835_peripherals: Name various
- address spaces
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH 06/14] hw/arm/bcm2835: Rename some definitions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,120 +94,66 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various address spaces from the BCM2835 are reported as
-'anonymous' in memory tree:
+The UART1 is part of the AUX peripheral,
+the PCM_CLOCK (yet unimplemented) is part of the CPRMAN.
 
-  (qemu) info mtree
-
-  address-space: anonymous
-    0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
-      0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
-      0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
-
-  address-space: anonymous
-    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
-      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
-      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-
-  [...]
-
-Since the address_space_init() function takes a 'name' argument,
-set it to correctly describe each address space:
-
-  (qemu) info mtree
-
-  address-space: bcm2835-mbox-memory
-    0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
-      0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
-      0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
-
-  address-space: bcm2835-fb-memory
-    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
-      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
-      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-
-  address-space: bcm2835-property-memory
-    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
-      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
-      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-
-  address-space: bcm2835-dma-memory
-    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
-      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
-      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/display/bcm2835_fb.c    | 2 +-
- hw/dma/bcm2835_dma.c       | 2 +-
- hw/misc/bcm2835_mbox.c     | 2 +-
- hw/misc/bcm2835_property.c | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ hw/arm/bcm2835_peripherals.c    | 4 ++--
+ include/hw/arm/raspi_platform.h | 8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
-index 8f856878cd..85aaa54330 100644
---- a/hw/display/bcm2835_fb.c
-+++ b/hw/display/bcm2835_fb.c
-@@ -425,7 +425,7 @@ static void bcm2835_fb_realize(DeviceState *dev, Error **errp)
-     s->initial_config.base = s->vcram_base + BCM2835_FB_OFFSET;
- 
-     s->dma_mr = MEMORY_REGION(obj);
--    address_space_init(&s->dma_as, s->dma_mr, NULL);
-+    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_FB "-memory");
- 
-     bcm2835_fb_reset(dev);
- 
-diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
-index 6acc2b644e..1e458d7fba 100644
---- a/hw/dma/bcm2835_dma.c
-+++ b/hw/dma/bcm2835_dma.c
-@@ -383,7 +383,7 @@ static void bcm2835_dma_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index 8984e2e91f..270357b5a8 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -175,7 +175,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+         return;
      }
  
-     s->dma_mr = MEMORY_REGION(obj);
--    address_space_init(&s->dma_as, s->dma_mr, NULL);
-+    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_DMA "-memory");
- 
-     bcm2835_dma_reset(dev);
- }
-diff --git a/hw/misc/bcm2835_mbox.c b/hw/misc/bcm2835_mbox.c
-index 7690b9afaf..77285624c9 100644
---- a/hw/misc/bcm2835_mbox.c
-+++ b/hw/misc/bcm2835_mbox.c
-@@ -311,7 +311,7 @@ static void bcm2835_mbox_realize(DeviceState *dev, Error **errp)
+-    memory_region_add_subregion(&s->peri_mr, UART1_OFFSET,
++    memory_region_add_subregion(&s->peri_mr, AUX_OFFSET,
+                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->aux), 0));
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->aux), 0,
+         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
+@@ -268,7 +268,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+         return;
      }
  
-     s->mbox_mr = MEMORY_REGION(obj);
--    address_space_init(&s->mbox_as, s->mbox_mr, NULL);
-+    address_space_init(&s->mbox_as, s->mbox_mr, TYPE_BCM2835_MBOX "-memory");
-     bcm2835_mbox_reset(dev);
- }
+-    memory_region_add_subregion(&s->peri_mr, EMMC_OFFSET,
++    memory_region_add_subregion(&s->peri_mr, EMMC1_OFFSET,
+                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->sdhci), 0));
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdhci), 0,
+         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
+diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
+index 10083d33df..6f7db85bab 100644
+--- a/include/hw/arm/raspi_platform.h
++++ b/include/hw/arm/raspi_platform.h
+@@ -39,7 +39,7 @@
+                                                       * Doorbells & Mailboxes */
+ #define PM_OFFSET               0x100000 /* Power Management, Reset controller
+                                           * and Watchdog registers */
+-#define PCM_CLOCK_OFFSET        0x101098
++#define CPRMAN_OFFSET           0x101000 /* Clock Management */
+ #define RNG_OFFSET              0x104000
+ #define GPIO_OFFSET             0x200000
+ #define UART0_OFFSET            0x201000
+@@ -47,11 +47,11 @@
+ #define I2S_OFFSET              0x203000
+ #define SPI0_OFFSET             0x204000
+ #define BSC0_OFFSET             0x205000 /* BSC0 I2C/TWI */
+-#define UART1_OFFSET            0x215000
+-#define EMMC_OFFSET             0x300000
++#define AUX_OFFSET              0x215000 /* AUX: UART1/SPI1/SPI2 */
++#define EMMC1_OFFSET            0x300000
+ #define SMI_OFFSET              0x600000
+ #define BSC1_OFFSET             0x804000 /* BSC1 I2C/TWI */
+-#define USB_OFFSET              0x980000 /* DTC_OTG USB controller */
++#define USB_OTG_OFFSET          0x980000 /* DTC_OTG USB controller */
+ #define DMA15_OFFSET            0xE05000 /* DMA controller, channel 15 */
  
-diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
-index ab66d3572e..3dff5a7157 100644
---- a/hw/misc/bcm2835_property.c
-+++ b/hw/misc/bcm2835_property.c
-@@ -417,7 +417,7 @@ static void bcm2835_property_realize(DeviceState *dev, Error **errp)
-     }
- 
-     s->dma_mr = MEMORY_REGION(obj);
--    address_space_init(&s->dma_as, s->dma_mr, NULL);
-+    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_PROPERTY "-memory");
- 
-     /* TODO: connect to MAC address of USB NIC device, once we emulate it */
-     qemu_macaddr_default_if_unset(&s->macaddr);
+ /* GPU interrupts */
 -- 
 2.20.1
 
