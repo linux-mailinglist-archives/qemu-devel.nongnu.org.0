@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E62A8752
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 20:52:49 +0200 (CEST)
-Received: from localhost ([::1]:36360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B06FA8758
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 20:56:14 +0200 (CEST)
+Received: from localhost ([::1]:36388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5aOd-0005zD-Oe
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 14:52:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34276)
+	id 1i5aRw-0008Iw-Rk
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 14:56:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34410)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1i5aNU-0005aG-L9
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:51:37 -0400
+ (envelope-from <stefanha@redhat.com>) id 1i5aO6-00065F-5k
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:52:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1i5aNS-0004yT-Ad
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:51:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41904)
+ (envelope-from <stefanha@redhat.com>) id 1i5aO5-0005Jd-7H
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:52:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38056)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i5aNS-0004xu-4n
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:51:34 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1i5aO4-0005JJ-VB
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 14:52:13 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B421C51EE9
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 18:51:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3C0AB8980EF
+ for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 18:52:12 +0000 (UTC)
 Received: from localhost (ovpn-116-88.ams2.redhat.com [10.36.116.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 11D361001959;
- Wed,  4 Sep 2019 18:51:31 +0000 (UTC)
-Date: Wed, 4 Sep 2019 19:51:30 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C51105D6D0;
+ Wed,  4 Sep 2019 18:52:11 +0000 (UTC)
+Date: Wed, 4 Sep 2019 19:52:10 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
-Message-ID: <20190904185130.GE26826@stefanha-x1.localdomain>
+Message-ID: <20190904185210.GF26826@stefanha-x1.localdomain>
 References: <20190904130047.25808-1-thuth@redhat.com>
- <20190904130047.25808-6-thuth@redhat.com>
+ <20190904130047.25808-7-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UnaWdueM1EBWVRzC"
+ protocol="application/pgp-signature"; boundary="4f28nU6agdXSinmL"
 Content-Disposition: inline
-In-Reply-To: <20190904130047.25808-6-thuth@redhat.com>
+In-Reply-To: <20190904130047.25808-7-thuth@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Wed, 04 Sep 2019 18:51:32 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Wed, 04 Sep 2019 18:52:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 5/6] tests/libqtest: Move global_test
- wrapper function into a separate header
+Subject: Re: [Qemu-devel] [PATCH v2 6/6] tests/libqtest: Use
+ libqtest-single.h in tests that require global_qtest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,65 +65,70 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---UnaWdueM1EBWVRzC
+--4f28nU6agdXSinmL
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 04, 2019 at 03:00:46PM +0200, Thomas Huth wrote:
-> diff --git a/tests/libqtest-single.h b/tests/libqtest-single.h
-> new file mode 100644
-> index 0000000000..49259558a5
-> --- /dev/null
-> +++ b/tests/libqtest-single.h
-> @@ -0,0 +1,311 @@
-> +/*
-> + * QTest - wrappers for test with single QEMU instances
-> + *
-> + * Copyright IBM, Corp. 2012
-> + * Copyright Red Hat, Inc. 2012
-> + * Copyright SUSE LINUX Products GmbH 2013
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +#ifndef LIBQTEST_SINGLE_H
-> +#define LIBQTEST_SINGLE_H
-> +
-> +/**
-> + * qtest_start:
-> + * @args: other arguments to pass to QEMU
-> + *
-> + * Start QEMU and assign the resulting #QTestState to a global variable.
-> + * The global variable is used by "shortcut" functions documented below.
-> + *
-> + * Returns: #QTestState instance.
-> + */
-> +static inline QTestState *qtest_start(const char *args)
-> +{
-> +    global_qtest = qtest_init(args);
+On Wed, Sep 04, 2019 at 03:00:47PM +0200, Thomas Huth wrote:
+> Tests that require global_qtest or the related wrapper functions now
+> use the libqtest-single.h header that is dedicated for everything
+> related to global_qtest. The core libqtest.c and libqtest.h files are
+> now completely indepedent from global_qtest, so that the core library
+> is now not depending on a global state anymore.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/cpu-plug-test.c         | 2 +-
+>  tests/display-vga-test.c      | 2 +-
+>  tests/e1000e-test.c           | 2 +-
+>  tests/fdc-test.c              | 2 +-
+>  tests/i440fx-test.c           | 2 +-
+>  tests/i82801b11-test.c        | 2 +-
+>  tests/intel-hda-test.c        | 2 +-
+>  tests/ioh3420-test.c          | 2 +-
+>  tests/ipmi-kcs-test.c         | 3 +--
+>  tests/libqtest-single.h       | 4 ++++
+>  tests/libqtest.c              | 2 --
+>  tests/libqtest.h              | 4 ----
+>  tests/m25p80-test.c           | 2 +-
+>  tests/qos-test.c              | 2 +-
+>  tests/rtc-test.c              | 2 +-
+>  tests/rtl8139-test.c          | 2 +-
+>  tests/test-arm-mptimer.c      | 2 +-
+>  tests/test-netfilter.c        | 2 +-
+>  tests/test-x86-cpuid-compat.c | 2 +-
+>  tests/tmp105-test.c           | 2 +-
+>  tests/tpm-crb-test.c          | 2 +-
+>  tests/tpm-tests.c             | 2 +-
+>  tests/tpm-tis-test.c          | 2 +-
+>  tests/usb-hcd-ohci-test.c     | 2 +-
+>  tests/usb-hcd-uhci-test.c     | 2 +-
+>  tests/usb-hcd-xhci-test.c     | 2 +-
+>  tests/vhost-user-test.c       | 2 +-
+>  tests/virtio-blk-test.c       | 2 +-
+>  tests/virtio-ccw-test.c       | 2 +-
+>  tests/virtio-net-test.c       | 2 +-
+>  tests/virtio-scsi-test.c      | 2 +-
+>  tests/virtio-serial-test.c    | 2 +-
+>  32 files changed, 33 insertions(+), 36 deletions(-)
 
-Where are global_qtest and qtest_init() declared?  I would expect
-compilation to fail if a .c file included just "libqtest-single.h".
-Missing #include?
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-If this header is not supposed to be included by .c files, please
-include at least a comment or use a magic #define + #ifdef to prevent
-inclusion.
-
---UnaWdueM1EBWVRzC
+--4f28nU6agdXSinmL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1wB7IACgkQnKSrs4Gr
-c8gPoQf9GrgvT1FLJgP07EWWv4o6fuH+AcVXcXGQINNRt5wkLm0yvl2kH6ljR9Mi
-7f0v5Qxcsj4h5yuaSWnTfsEuCXUE2D6pu0Ur0QK80OFMjdBtFbN9yTQ2EMDCJncR
-WDyrrNF/gvWkUrmAE3420utjegT9Y7rKPcjaP+GMyEcN6jeQQ88lmV1Mq60V+3l+
-Hd+yvjsLnNdOvOkf/CKHBHrwWeQnIgfFDcFUzx6BXqmnPaGBti5regQX2So2RxOK
-a6iLDs8QUE7KOIXaKauIR9ZGbTw222WrM06MDH+43fxbTmhck6oz4U8qW92Wo4Iv
-rKIx1qJJIyBX4Hc4kp+6ZXNe84jfCA==
-=s7Nw
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl1wB9oACgkQnKSrs4Gr
+c8jwOQgAvlNY3hW5RnEyfmUFkKaamyO2FBl6XZED4oUU4WcmEPdNclgXVmK3PU26
+ykZuULSPLK2bncpWRPSVNaROA41B3uxH5OhnBg2QFA7g65KaEP/HdL2Q9+vAXQt5
+wsrNsK16/48OMrq4GI4rZVqhLkd/Mhs8SS0Gb+XAr1rZV28Jzmkummy/v2Wu2ih/
+oyx8Vrb4vmtojyk2XL0MckZ4a5RO6I5s1kUBvbjBm17g5S76nVK6k1shGmumjxXZ
+2U2bPqL7yJ6KkrMTOBGEFyWJ+w2mJ8YtFQ1SsmbRuQhfMP8/51WveS+64F5XlNRi
+c3EO2iSCohFG14c9qwfQI84BX9zLyQ==
+=Q2Jm
 -----END PGP SIGNATURE-----
 
---UnaWdueM1EBWVRzC--
+--4f28nU6agdXSinmL--
 
