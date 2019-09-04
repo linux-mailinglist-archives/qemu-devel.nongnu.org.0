@@ -2,69 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0E7A954E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:39:43 +0200 (CEST)
-Received: from localhost ([::1]:40356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B96A9526
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:30:24 +0200 (CEST)
+Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5d0A-0005kn-64
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:39:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52946)
+	id 1i5cr8-0003nS-Iw
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:30:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53347)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9f-0006Lo-VV
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:29 -0400
+ (envelope-from <clg@kaod.org>) id 1i5cBj-0008ND-63
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:47:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9e-0006wr-6O
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:27 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36738)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5c9d-0006uS-Rr
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:26 -0400
-Received: by mail-pf1-x432.google.com with SMTP id y22so43020pfr.3
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=NowncHpSDSkPNMutAvoqlBrylOrG45DqZfrkIkTwcGo=;
- b=U7dq5PIApEKMxfyC3GQLtXN64XNtz7tZ0YKauAe1qs31PFMxrzyRzGbyhkJtqIt+q1
- R0NVD6GMI/TyJzv0Y8X2LROpA+PFNuUEEjg/XccJxKfXIcwzMyVj78fsdVDJ4F1sSZ9x
- 9Dp8WO5Qb9+MnWLnkWOu8SrNud9mkxZDyCOK5ppBY1M2hKF7UG3bAea/frFi+lLIYrB1
- tc6X5w3keVpPfWyYU0acsyZMtvnwqcN0VawP1qzf+WNxqOYvA18XlRq2msw9/6JTCAVS
- Ki+HpdGrGcgjA8QXUln7Ti0Bs8SWwKFlgS4ablsJgtSE1gNw+K22m7H4grcDzGvdEHax
- tIMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=NowncHpSDSkPNMutAvoqlBrylOrG45DqZfrkIkTwcGo=;
- b=KoAs6dmrIJE6CD9BpH0HnCDFMweRmuTD7T9t/rOs7YUHFhH0tb9Ylmnk2kRKJSPFy1
- RfpQdwpijZSBSWnp4lqd2FmGurPFin6qogPuPV9g8l6Pv/m/oyWw3W9vjeTsOY6w1nbn
- AAzqtlAIFO00AL8tUss7l+OkdaHhgYM4eBh6ix2gnVs1heu5TFG6uGOkSY5FtFQBlg8S
- Dw0isHSTMoXmVCcXzSRyyOhXtDOQowIC52EIi3hAFVDtkc36FwKUT8b8JsVo5JdW4dF1
- GDEWcXF/2W/vOg9TlRRD4SFSdfJB+P5e4rl4HYUwusmK0QywyekgPBg4Le6DLZQPwHey
- 1Amg==
-X-Gm-Message-State: APjAAAUtXnDS4qSn0iHW9EiUKPwh0i6qOkEKTNYO1IwQaY6lMbRZ4Pfj
- tSLwfK2kMiJRoP/NpcAPT27JducvHeM=
-X-Google-Smtp-Source: APXvYqyp3kBv11Aqqp+e7O1pfnBQWxooid3mIazeAY/dh2AOB0dEPlt2PzuitzvVJioRsOeislviqA==
-X-Received: by 2002:a17:90a:f0c9:: with SMTP id
- fa9mr120822pjb.137.1567629924024; 
- Wed, 04 Sep 2019 13:45:24 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:45:23 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 13:45:06 -0700
-Message-Id: <20190904204507.32457-13-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190904204507.32457-1-richard.henderson@linaro.org>
-References: <20190904204507.32457-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::432
-Subject: [Qemu-devel] [PULL 12/13] target/openrisc: Implement l.adrp
+ (envelope-from <clg@kaod.org>) id 1i5cBh-0000q3-Tg
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:47:35 -0400
+Received: from 3.mo7.mail-out.ovh.net ([46.105.34.113]:59746)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1i5cBh-0000ow-M9
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:47:33 -0400
+Received: from player691.ha.ovh.net (unknown [10.109.160.230])
+ by mo7.mail-out.ovh.net (Postfix) with ESMTP id 30EC31305D1
+ for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 22:47:32 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player691.ha.ovh.net (Postfix) with ESMTPSA id 763CD98B27EF;
+ Wed,  4 Sep 2019 20:47:25 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed,  4 Sep 2019 22:46:47 +0200
+Message-Id: <20190904204659.13878-4-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190904204659.13878-1-clg@kaod.org>
+References: <20190904204659.13878-1-clg@kaod.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 2513853021181676305
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudejhedgudehudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.34.113
+Subject: [Qemu-devel] [RFC PATCH 03/15] aspeed/timer: Add support for
+ control register 3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,70 +56,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This was added to the 1.3 spec.
+The AST2500 timer has a third control register that is used to
+implement a set-to-clear feature for the main control register.
 
-Reviewed-by: Stafford Horne <shorne@gmail.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+This models the behaviour expected by the AST2500 while maintaining
+the same behaviour for the AST2400.
+
+Based on previous work from Joel Stanley.
+
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/openrisc/disas.c      |  1 +
- target/openrisc/translate.c  | 13 +++++++++++++
- target/openrisc/insns.decode |  2 ++
- 3 files changed, 16 insertions(+)
+ include/hw/timer/aspeed_timer.h |  1 +
+ hw/timer/aspeed_timer.c         | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/target/openrisc/disas.c b/target/openrisc/disas.c
-index e51cbb24c6..ce112640b9 100644
---- a/target/openrisc/disas.c
-+++ b/target/openrisc/disas.c
-@@ -98,6 +98,7 @@ INSN(sw,     "%d(r%d), r%d", a->i, a->a, a->b)
- INSN(sb,     "%d(r%d), r%d", a->i, a->a, a->b)
- INSN(sh,     "%d(r%d), r%d", a->i, a->a, a->b)
- INSN(nop,    "")
-+INSN(adrp,   "r%d, %d", a->d, a->i)
- INSN(addi,   "r%d, r%d, %d", a->d, a->a, a->i)
- INSN(addic,  "r%d, r%d, %d", a->d, a->a, a->i)
- INSN(muli,   "r%d, r%d, %d", a->d, a->a, a->i)
-diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
-index 6e8bc23568..6addbac8d6 100644
---- a/target/openrisc/translate.c
-+++ b/target/openrisc/translate.c
-@@ -799,6 +799,19 @@ static bool trans_l_nop(DisasContext *dc, arg_l_nop *a)
-     return true;
- }
- 
-+static bool trans_l_adrp(DisasContext *dc, arg_l_adrp *a)
-+{
-+    if (!check_v1_3(dc)) {
-+        return false;
-+    }
-+    check_r0_write(dc, a->d);
-+
-+    tcg_gen_movi_i32(cpu_R(dc, a->d),
-+                     (dc->base.pc_next & TARGET_PAGE_MASK) +
-+                     ((target_long)a->i << TARGET_PAGE_BITS));
-+    return true;
-+}
-+
- static bool trans_l_addi(DisasContext *dc, arg_rri *a)
+diff --git a/include/hw/timer/aspeed_timer.h b/include/hw/timer/aspeed_ti=
+mer.h
+index a791fee276f4..1e0288ebc49f 100644
+--- a/include/hw/timer/aspeed_timer.h
++++ b/include/hw/timer/aspeed_timer.h
+@@ -58,6 +58,7 @@ typedef struct AspeedTimerCtrlState {
+=20
+     uint32_t ctrl;
+     uint32_t ctrl2;
++    uint32_t ctrl3;
+     AspeedTimer timers[ASPEED_TIMER_NR_TIMERS];
+=20
+     AspeedSCUState *scu;
+diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
+index c78bc1bd2d25..d70e78a0293e 100644
+--- a/hw/timer/aspeed_timer.c
++++ b/hw/timer/aspeed_timer.c
+@@ -498,6 +498,8 @@ static uint64_t aspeed_2500_timer_read(AspeedTimerCtr=
+lState *s, hwaddr offset)
+=20
+     switch (offset) {
+     case 0x38:
++        value =3D s->ctrl3 & BIT(0);
++        break;
+     case 0x3C:
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx =
+"\n",
+@@ -511,9 +513,24 @@ static uint64_t aspeed_2500_timer_read(AspeedTimerCt=
+rlState *s, hwaddr offset)
+ static void aspeed_2500_timer_write(AspeedTimerCtrlState *s, hwaddr offs=
+et,
+                                     uint64_t value)
  {
-     TCGv t0;
-diff --git a/target/openrisc/insns.decode b/target/openrisc/insns.decode
-index 71e0d740db..0d6f7c29f8 100644
---- a/target/openrisc/insns.decode
-+++ b/target/openrisc/insns.decode
-@@ -102,6 +102,8 @@ l_maci          010011 ----- a:5 i:s16
- l_movhi         000110 d:5 ----0 k:16
- l_macrc         000110 d:5 ----1 00000000 00000000
- 
-+l_adrp          000010 d:5 i:s21
++    const uint32_t tv =3D (uint32_t)(value & 0xFFFFFFFF);
++    uint8_t command;
 +
- ####
- # Arithmetic Instructions
- ####
--- 
-2.17.1
+     switch (offset) {
+     case 0x38:
++        command =3D (value >> 1) & 0xFF;
++        if (command =3D=3D 0xAE) {
++            s->ctrl3 =3D 0x1;
++        } else if (command =3D=3D 0xEA) {
++            s->ctrl3 =3D 0x0;
++        }
++        break;
+     case 0x3C:
++        if (s->ctrl3 & BIT(0)) {
++            aspeed_timer_set_ctrl(s, s->ctrl & ~tv);
++        }
++        break;
++
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx =
+"\n",
+                 __func__, offset);
+@@ -574,6 +591,7 @@ static void aspeed_timer_reset(DeviceState *dev)
+     }
+     s->ctrl =3D 0;
+     s->ctrl2 =3D 0;
++    s->ctrl3 =3D 0;
+ }
+=20
+ static const VMStateDescription vmstate_aspeed_timer =3D {
+@@ -597,6 +615,7 @@ static const VMStateDescription vmstate_aspeed_timer_=
+state =3D {
+     .fields =3D (VMStateField[]) {
+         VMSTATE_UINT32(ctrl, AspeedTimerCtrlState),
+         VMSTATE_UINT32(ctrl2, AspeedTimerCtrlState),
++        VMSTATE_UINT32(ctrl3, AspeedTimerCtrlState),
+         VMSTATE_STRUCT_ARRAY(timers, AspeedTimerCtrlState,
+                              ASPEED_TIMER_NR_TIMERS, 1, vmstate_aspeed_t=
+imer,
+                              AspeedTimer),
+--=20
+2.21.0
 
 
