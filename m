@@ -2,64 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6063A7F3A
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 11:22:56 +0200 (CEST)
-Received: from localhost ([::1]:55056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54060A7F2D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 11:20:51 +0200 (CEST)
+Received: from localhost ([::1]:55000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5RVA-0007Qn-0Z
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 05:22:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41727)
+	id 1i5RT8-0004ea-Co
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 05:20:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ROS-0008Nm-GV
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:16:01 -0400
+ (envelope-from <berrange@redhat.com>) id 1i5RR7-0002RK-Kt
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:18:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5ROR-0006lh-21
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:16:00 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:34453)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5ROQ-0006lT-SJ
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:15:59 -0400
-Received: by mail-ot1-x335.google.com with SMTP id c7so19935969otp.1
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 02:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5202wWqMhcjrZ2T5M46VXo9W3WUwT+15a5glYrw4PuQ=;
- b=mnQHayLNbTgXBAYa66DTA/rtXRL/zjYGBOz06dhDfdti4SMtzuW+URZQoHmpEAPTzs
- tduxj8kuRyYpz/GuBcKO2M7tV3o7uutKBaVZUsdaFhQsnqk08xhfM6cR4v9JeRzmEHLO
- 1tVH3avglZ57tep1IitbXE2haKV37W3oF9RFXkIpJ1X2ozowJK/sz5/3eyYEUHZLW43z
- I/vjpAhAXTqyh8ohcdtvFbS4azvJYiVmVqSRs3MZswAcYFCsibsVKEd81IGI3KCSjq6W
- txmb/nIfsIPqSJOhiw+rIDI+Jf0AB+PIW8kcUZy93KVzmpC1+G2DXZ/P271BgNmCtZ6s
- YikA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5202wWqMhcjrZ2T5M46VXo9W3WUwT+15a5glYrw4PuQ=;
- b=W8V99nm3ztKeuLfjN7gbIr0+HnJDV9SfcNI7d6PcZd9qIBZQfdY24KKXAzpNJzuJh/
- fPoUbwOVEW3mzC9TDFVCbyMvxysGGf63Docp1EyFHt+qDxnB5IVZonc4eqTx2yb9Z0/s
- RXs7sp+IH8h/7qfSTe9/w0JRZQ13g/NtLvR5LPgUWHDZMh6iYlhCbC8YssJDQFAlUDID
- QlcyGXgnPU115Kc6Om+8Z4q36FafpKfuTf6b+MdEYQ6ew+4nkIFVX6OlHdJ0T0utMAAx
- x6OPoLzZqo3MGbE12+DecyFRdW3KbRfgTDrgOA3/xtf/ZSAuLBeG0SFskC057b2Fv/Ed
- ZYhQ==
-X-Gm-Message-State: APjAAAU2ApKU1lfDLz97Y71Nh2yqjknpOaVHiK68VutohkO/5iYyEs6v
- 6p44PlBeasrSyTOxu7OH5UHnmgmhqrNFALQP6tTcig==
-X-Google-Smtp-Source: APXvYqwaI54CzoRjm+FIbgo86vUR8lNe2/4LjTfsa273z6ax68NIluMpyU9z8ycMXLty7HIS1CFkUtU+kfKcpHQKeUk=
-X-Received: by 2002:a9d:5e10:: with SMTP id d16mr32587182oti.91.1567588557854; 
- Wed, 04 Sep 2019 02:15:57 -0700 (PDT)
+ (envelope-from <berrange@redhat.com>) id 1i5RR6-0000u5-7b
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:18:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54602)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1i5RR6-0000ti-2K
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:18:44 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4A3F1CF19;
+ Wed,  4 Sep 2019 09:18:43 +0000 (UTC)
+Received: from redhat.com (ovpn-112-33.ams2.redhat.com [10.36.112.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A91D31001284;
+ Wed,  4 Sep 2019 09:18:20 +0000 (UTC)
+Date: Wed, 4 Sep 2019 10:18:17 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Message-ID: <20190904091817.GE19582@redhat.com>
+References: <cover.1567534653.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-References: <20190829071016.16589-1-kraxel@redhat.com>
-In-Reply-To: <20190829071016.16589-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Sep 2019 10:15:47 +0100
-Message-ID: <CAFEAcA86UrdAt0hVVk_BHDDFK3EO_b04CCrGxYjOwpcNvr-8tw@mail.gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::335
-Subject: Re: [Qemu-devel] [PULL 0/3] Usb 20190829 patches
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cover.1567534653.git.jag.raman@oracle.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Wed, 04 Sep 2019 09:18:43 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC v3 PATCH 00/45] Initial support of
+ multi-process qemu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,43 +57,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, mst@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com, quintela@redhat.com,
+ armbru@redhat.com, kanth.ghatraju@oracle.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, stefanha@redhat.com, rth@twiddle.net, kwolf@redhat.com,
+ john.g.johnson@oracle.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Aug 2019 at 08:12, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 23919ddfd56135cad3cb468a8f54d5a595f024f4:
->
->   Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20190827' into staging (2019-08-27 15:52:36 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/usb-20190829-pull-request
->
-> for you to fetch changes up to e4c1c64112565a9be50008e6f28dbc41b53da740:
->
->   usb-mtp: add sanity checks on rootdir (2019-08-29 07:31:12 +0200)
->
-> ----------------------------------------------------------------
-> usb: bugfixes for xhci and mtp.
->
-> ----------------------------------------------------------------
->
-> Bandan Das (1):
->   usb-mtp: add sanity checks on rootdir
->
-> Ying Fang (1):
->   xhci: Fix memory leak in xhci_address_slot
->
-> fangying (1):
->   xhci: Fix memory leak in xhci_kick_epctx
+On Tue, Sep 03, 2019 at 04:37:26PM -0400, Jagannathan Raman wrote:
+> Started with the presentation in October 2017 made by Marc-Andre (Red Hat)
+> and Konrad Wilk (Oracle) [1], and continued by Jag's BoF at KVM Forum 2018,
+> the multi-process project is now a prototype and presented in this patchset.
+> 
+> This first series enables the emulation of lsi53c895a in a separate process.
+> 
+> We posted the Proof Of Concept patches [2] before the BoF session in 2018.
+> Subsequently, we posted RFC v1 [3] & RFC v2 [4] of this series. 
+> 
+> Thanks to the v1 & v2 review, we were able to incorporate the feedback into
+> our goals.
+> 
+> In the summer of 2019, we participated in a conference with folks at RedHat,
+> who provided us with feedback to improve the design of this project. 
+> 
+> We want to present version 3 of this series which incorporates the feedback
+> we received for v2 & the enhancements suggested in the conference. Following
+> are the improvements made in this series:
 
+This patch series fails to apply to git master when I attempt and confirmed
+by patchew's failed attempt too
 
-Applied, thanks.
+  https://patchew.org/QEMU/cover.1567534653.git.jag.raman@oracle.com/
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+Can you do one of the following
 
--- PMM
+ - Tell us what git hash it was based on instead of master
+or
+ - provide a pointer to a publically accessible git repo with it applied
+or
+ - Repost with based on current git master
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
