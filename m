@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFEFA86E3
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:16:59 +0200 (CEST)
-Received: from localhost ([::1]:35524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFE6A86E1
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:16:58 +0200 (CEST)
+Received: from localhost ([::1]:35520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Ytu-0003JR-2a
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48323)
+	id 1i5Ytt-0003Ee-AB
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:16:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48325)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqP-0001IO-Pk
+ id 1i5YqQ-0001IP-4J
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqO-0006yN-J1
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:21 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38168)
+ id 1i5YqP-0006yc-4O
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:22 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37643)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqO-0006xq-AH; Wed, 04 Sep 2019 13:13:20 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id l11so13287194wrx.5;
- Wed, 04 Sep 2019 10:13:19 -0700 (PDT)
+ id 1i5YqO-0006yF-U7; Wed, 04 Sep 2019 13:13:21 -0400
+Received: by mail-wm1-x342.google.com with SMTP id r195so4717309wme.2;
+ Wed, 04 Sep 2019 10:13:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HKqL9ZWZyoX9rq8jSewYQgNwV5pak8csw5WRGNU8fT4=;
- b=MAKIsy0b4kNQoSVuI8b4dWYgKCHioDrLYFEBmlWnfzZBlRAscFbRjM0biwqimEi/tf
- 1ZR4mSsRMh17EiCTf2ouO244s+TnZYY5p/tddCo8FWFUxZMlCznQTLSCcDZ9BQIEJTjp
- kcP/rdWAV1QBwnbT0GGvO2YAUwyT/6lmb5v/b60Yap3TGinxldvknJL/zysE5xG9Nba3
- OBQLZosuO1mtScjeHFNpUvTBidAi4wx6KXEBmrmayIHNKYGW9D/Ya1l4NPhLmjPfxRF1
- 4vAYYAwnsp6dqA0ynB0hlJyFZ/z3l1g0Cg2aIsgKuQ6OQQLsXBsSEvKVpLFdw+QqMGp3
- B/9Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=voiG7DWCSdFTStaEL19HrjsIseLBzBfq9/zOs+pAh+4=;
+ b=F5QoSQQn9lWthvpWyrS2ePfhHwzA6EJHxfekKenJN0c18EnLqz3KAhcG3ZIBCf4E/q
+ xE1skhSM/IMpFgWWUFs6xfJEiucb/V7b6gjmdxWvq7iTPq/XHo5HY40sx0s31zf3m/oh
+ 02Bb2Sj29VaQ288BVZ75cPJewS39PX3o2fSqNUE1ZVDDaJAnoDBKnQ5gtWJlDGI/x5GX
+ DcaVwU+lRM2nnrDj/re8zdzLBXfgY46FkrqxRAXTZwbQwmvDRhnQk0GIrs4aUHd6Jp7Y
+ PIBPD2F+nKER7Esxkn58oJH6ALphmkjExJ417wAsJrf66NJyaMpVmmbUypjpIh6kprfc
+ Lywg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=HKqL9ZWZyoX9rq8jSewYQgNwV5pak8csw5WRGNU8fT4=;
- b=KSOOR0NYZ63xFliLnqj2M3toTPxbxjImsClGXw6wHuS4EyCYkn8QFi8nu9GvkPMfve
- gBUQNEu7kDJNItegURyXS0MsWXyDZo60tbGYS5ed836bUCreh9sdFKhSS2onTaYoHBL5
- D3H1NGEykjtqTDIH5GZoxoCM7AW3CgB7CJP9GtfruWxJFXMG+9GXbngGGvPWp5mn3nU0
- vvPyr2vLSfIC7+EvDlaZObRB4dGecKFotxhJMs/eg5D26mtAX4Qgo0tcv0HAGGlKUW6P
- +9u+iaMFzDKRHthbHrrg6MYrzzt5FuGQ9hOr4cubYyHgBf1awLWtt3SuQdy3UjlDxnL5
- Mu1w==
-X-Gm-Message-State: APjAAAUtfWNm5xHpfTzv2TyCYDHAP10XnsfdVVit8JKM7mFrKGzBNVDt
- P80Dz7Ef2Uc7DWt8p5JnxpI=
-X-Google-Smtp-Source: APXvYqxQZOkt6h6QuO2t1OCqM53dErrR1xVza4kJQmJKgeridEXyn71exmK35BwWnUlfBZR5cwMLfg==
-X-Received: by 2002:a5d:4382:: with SMTP id i2mr33855811wrq.297.1567617198245; 
- Wed, 04 Sep 2019 10:13:18 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=voiG7DWCSdFTStaEL19HrjsIseLBzBfq9/zOs+pAh+4=;
+ b=OvS4Kxx+Q1skfZ+WPy+a1/ee1TAOxQ2pIV2aREpA0qepmha6SQ0ui5SltW6WorgeXe
+ xcBbAeVgtOgVmEzsZJys9RT8l23SsQTHhltJ6l1WYgtd8I0kGkX2Kml+ww+jjPXri5Kc
+ aiFlWYs8RvSXJQ3zhCg/kaOxBAVCXJDVeqiZtblmBhRSYq14GeXBQUOcGCosZOtkOsaB
+ DXkYHcj85jT8v6IQi2D+GcS+X3+99B9hPbUKSSKxCX0/rlEyqrtITyW1DfxqzMe5mitl
+ XE0rj9nC3PSYRFrbDoW9CaQpDRrbVQLTYiOZowljGfEsWZ4t+RV1dVHo34qrOdsJiA1B
+ uDCg==
+X-Gm-Message-State: APjAAAVTtczqZHj/5bpqqUJ51VZ4Vd+FpELB9sCIbrHIZDKl67Q4BwcR
+ 59OQOiJp9yInwJ0vgAzDC10=
+X-Google-Smtp-Source: APXvYqzBwRWU4J7GwgmLjJBorifDNzYqwpTh/zahtmZ1lnkaaK3FcvFf1OQKRni6r+6xIZqi+Nl43A==
+X-Received: by 2002:a1c:7f86:: with SMTP id a128mr5520752wmd.104.1567617199881; 
+ Wed, 04 Sep 2019 10:13:19 -0700 (PDT)
 Received: from x1w.redhat.com ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.16
+ by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 10:13:17 -0700 (PDT)
+ Wed, 04 Sep 2019 10:13:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Esteban Bosse <estebanbosse@gmail.com>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-devel@nongnu.org,
  Pekka Enberg <penberg@iki.fi>,
  =?UTF-8?q?Zolt=C3=A1n=20Baldaszti?= <bztemail@gmail.com>
-Date: Wed,  4 Sep 2019 19:13:01 +0200
-Message-Id: <20190904171315.8354-1-f4bug@amsat.org>
+Date: Wed,  4 Sep 2019 19:13:02 +0200
+Message-Id: <20190904171315.8354-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190904171315.8354-1-f4bug@amsat.org>
+References: <20190904171315.8354-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
-Subject: [Qemu-devel] [RFC PATCH 00/14] hw/arm: Add the Raspberry Pi 4B
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH 01/14] hw/arm/raspi: Use the IEC binary prefix
+ definitions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,56 +94,35 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Esteban wrote me over the weekend asking about raspi4 progress.
-I cleaned up my patches/notes to pass him. Other help is also welcomed :)
-I got scared trying to understand how to use the GIC, and wire the various
-IRQs.
+IEC binary prefixes ease code review: the unit is explicit.
 
-Most important notes about testing are in patch #12:
-"Add the BCM2838 which uses a GICv2"
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/arm/raspi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Not much works yet, it only runs a bit until configuring the GIC.
-
-branch pushed at https://gitlab.com/philmd/qemu/commits/raspi4_wip
-
-Regards,
-
-Phil.
-
-based-on: 20190903120555.7551-1-philmd@redhat.com
-cutils: Move size_to_str() from "qemu-common.h" to "qemu/cutils.h"
-https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg00229.html
-
-Philippe Mathieu-Daudé (14):
-  hw/arm/raspi: Use the IEC binary prefix definitions
-  hw/misc/bcm2835_property: Add FIXME comment for uninitialized memory
-  hw/misc/bcm2835_property: Handle the 'domain state' property
-  hw/arm/bcm2835_peripherals: Improve logging
-  hw/arm/bcm2835_peripherals: Name various address spaces
-  hw/arm/bcm2835: Rename some definitions
-  hw/arm/bcm2835: Add various unimplemented peripherals
-  hw/arm/bcm2836: Make the SoC code modular
-  hw/arm/raspi: Make the board code modular
-  hw/arm/raspi: Define various blocks base addresses
-  hw/arm/bcm2835_peripherals: Map various BCM2838 blocks
-  hw/arm/bcm2836: Add the BCM2838 which uses a GICv2
-  hw/arm/bcm2838: Map the PCIe memory space
-  hw/arm/raspi: Add the Raspberry Pi 4B board
-
- hw/arm/bcm2835_peripherals.c         |  49 ++++++++-
- hw/arm/bcm2836.c                     | 103 +++++++++++++++++--
- hw/arm/raspi.c                       | 142 ++++++++++++++++++++++++---
- hw/char/bcm2835_aux.c                |   5 +-
- hw/display/bcm2835_fb.c              |   2 +-
- hw/dma/bcm2835_dma.c                 |  10 +-
- hw/intc/bcm2836_control.c            |   7 +-
- hw/misc/bcm2835_mbox.c               |   9 +-
- hw/misc/bcm2835_property.c           |  28 ++++--
- include/hw/arm/bcm2835_peripherals.h |  18 ++++
- include/hw/arm/bcm2836.h             |   3 +
- include/hw/arm/raspi_platform.h      |  79 ++++++++++++---
- 12 files changed, 393 insertions(+), 62 deletions(-)
-
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 74c062d05e..615d755879 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -230,7 +230,7 @@ static void raspi2_machine_init(MachineClass *mc)
+     mc->max_cpus = BCM283X_NCPUS;
+     mc->min_cpus = BCM283X_NCPUS;
+     mc->default_cpus = BCM283X_NCPUS;
+-    mc->default_ram_size = 1024 * 1024 * 1024;
++    mc->default_ram_size = 1 * GiB;
+     mc->ignore_memory_transaction_failures = true;
+ };
+ DEFINE_MACHINE("raspi2", raspi2_machine_init)
+@@ -252,7 +252,7 @@ static void raspi3_machine_init(MachineClass *mc)
+     mc->max_cpus = BCM283X_NCPUS;
+     mc->min_cpus = BCM283X_NCPUS;
+     mc->default_cpus = BCM283X_NCPUS;
+-    mc->default_ram_size = 1024 * 1024 * 1024;
++    mc->default_ram_size = 1 * GiB;
+ }
+ DEFINE_MACHINE("raspi3", raspi3_machine_init)
+ #endif
 -- 
 2.20.1
 
