@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FEAA956C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:45:31 +0200 (CEST)
-Received: from localhost ([::1]:40464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E96CA9577
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:49:02 +0200 (CEST)
+Received: from localhost ([::1]:40498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5d5m-0004I3-MH
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:45:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54174)
+	id 1i5d9A-0007Wk-SO
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:49:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54201)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i5cDY-0001xc-Ah
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:29 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i5cDZ-0001zM-IG
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i5cDX-0002Se-56
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:28 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50208)
+ (envelope-from <alex.bennee@linaro.org>) id 1i5cDY-0002Te-Bw
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:29 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53326)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i5cDW-0002S7-VI
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:27 -0400
-Received: by mail-wm1-x343.google.com with SMTP id c10so258786wmc.0
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:49:26 -0700 (PDT)
+ id 1i5cDY-0002Ss-5u
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:28 -0400
+Received: by mail-wm1-x341.google.com with SMTP id q19so242207wmc.3
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:49:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ct8GRVkho5bZaPQ+r0/dd0wEzdlz65fQJcg/sMTvk3E=;
- b=raR5C9aIXdekox5/6ORleuMBMP/O4fIzdlei2ifybFuJggDG/v5VmIjYHHyrdTfPdE
- SvDqEU/bjQpjCAtPzO8o1eb/98uhJUfz7aU6ZAn5+3ISG/cfr9eeI7NRrq/5AsgIlax/
- NUrAbwN7i/V5TrjhOfl+kYWQa5ZDNu/q4k9yPZWuYwKpIgXasq+degGhnKjUdNfLnuu1
- PBN4xV/2Rm7wBRbkEyZVa44jz6cTjbxPLvqseDIpJ+K5X/QgmcpCvL5jKbKiR6M6ZrDx
- 4JtDnR018fQRqmsa2iyuTxNyOXnT6EIDCr/7Jj2+yz0mZQM7jnjE1pdOXSwDwUOI5U9G
- 2f2A==
+ bh=IMcXjKEwyw5C8Npir5bad9GD9TTDcpBdgpA+xbrkFvs=;
+ b=ashEI3xbDEuVDTdbUssnl8Kp6Ym2gIzoexmNLh940pCW3oqTK3EH7NhBBzlhkTZ/Jd
+ m9cLdsXpuPNSNMgWmVoXcJYbT5n1HHPWUwu2R2nuLUVWBdGk52RVZKPJvUWSXB+GNvVU
+ XycKdh2in7GeGRB7J7lUqYLiZHIdGGwHpRCnc1oiqA6Uyx/JdktyWSRb/tTV6x+NdWHD
+ tcUJxXUmB0meEDVf9SsOESp+9Vl5rKluEjpr19G5Lo3/39x5/THVotgXU2i5twrhs+ac
+ ZM7QjEZEQDEB259IN5HGaEq4dP7JGIGYC7i/VW6iDD7P3wsb9JksBJacsQL4sR8rqKQo
+ LP+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ct8GRVkho5bZaPQ+r0/dd0wEzdlz65fQJcg/sMTvk3E=;
- b=qKEf9Id/oqQKz4ATQYumoa62EruTMAWCnxtCINgKy3Th+wUUQyDYiGSCWsd0657qKS
- EqE2p211ypSEU7IJBHFfz57IRngXPe5VNVeo6M63hJemOacckkHcQIYmJG7ug1J/JuYO
- dzbzwkbR+EBFMlft8z3sC/vnLAATnFrhV1pnOwEz9TmTnTONmH3fKcCVXvgWRCMbBVx5
- OjoYubNek8CqZ7pDu9n1DFtVwSLxNlHbEuYaxdKig6UbiXjltgF8bzJGr+HXf3RTdBQy
- KvCGUU5eyjwzZqZayqddKK1JnZfBNRsoOESlZ3Ewhzss1Gth9SXFpUfYvmrjKvj4Tw5Y
- idUA==
-X-Gm-Message-State: APjAAAWOdoKuyyJobMnZu92Aa7ySwr5nkSD02SzscSftBlOj99b4jZyB
- WWRkG9RoOX/hePEd2Be29sBNQw==
-X-Google-Smtp-Source: APXvYqyJWS0GcjQa64yh1HXIAnDwZsWTMu4fnQfbr5hoiHvZrjW7gf9ve3I/k1wE8BDSmwBZVsIYqg==
-X-Received: by 2002:a05:600c:2111:: with SMTP id
- u17mr177161wml.64.1567630165938; 
- Wed, 04 Sep 2019 13:49:25 -0700 (PDT)
+ bh=IMcXjKEwyw5C8Npir5bad9GD9TTDcpBdgpA+xbrkFvs=;
+ b=W8ZmGhLNBDmM0kdpRVReNwbjWCIouELxlnRWsvJDo/6B1tRJUgioWWEAeoAD3rGjnZ
+ VMnvGE1w6Uv1d5d2RzhqcabFic5J42nfOgbp/Z3MMI+xkjngDpEGQHd1fCHjLMXAj4v/
+ S0udiJb5Hoe6h8rkSvI9J+eTXK+Uqej3OnuSvGBpDU85LxpsLUcqdE7nEQB7P5LD51Su
+ Qm98EQYwzQJUBTZLAv+q29EefN3cP33e7QrjYnrQnaOUXSaw/LOhME3pk/juZqEvHS1Z
+ lbo56ydufs4Gh8sQo/hJENhdBlQE2VbtlOeKVufwxJFtAYr6wOtHfRb4hFmP0STfPL5E
+ opzA==
+X-Gm-Message-State: APjAAAWL3wTRuI24eRnRiG+NUkJEXLZyZHe8MQH1Pse7lVcXnrcUS+er
+ j7wkuy4bqW1IeB7f2YBNmEaJ6A==
+X-Google-Smtp-Source: APXvYqwubXV4X0rQ8f0pwest8nMQubPD1SrQ5/lhRjPoSykpUBZCgdAOTnU4acsRNTXnGcd1wZupIA==
+X-Received: by 2002:a1c:770c:: with SMTP id t12mr130088wmi.91.1567630167108;
+ Wed, 04 Sep 2019 13:49:27 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g15sm212099wmk.17.2019.09.04.13.49.23
+ by smtp.gmail.com with ESMTPSA id u68sm350497wmu.12.2019.09.04.13.49.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 04 Sep 2019 13:49:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8B3261FFAC;
- Wed,  4 Sep 2019 21:30:15 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 201941FFC1;
+ Wed,  4 Sep 2019 21:30:17 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 21:29:54 +0100
-Message-Id: <20190904203013.9028-24-alex.bennee@linaro.org>
+Date: Wed,  4 Sep 2019 21:30:12 +0100
+Message-Id: <20190904203013.9028-42-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
 References: <20190904203013.9028-1-alex.bennee@linaro.org>
@@ -69,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH v1 23/42] tests/docker: add debian-xtensa-cross
- to DEBIAN_PARTIAL_IMAGES
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH v1 41/42] tests/docker: --disable-libssh on
+ ubuntu1804 builds
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,39 +91,29 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This should have been marked when the docker recipe was added to
-prevent it being used for cross compiling QEMU. Sort the
-DEBIAN_PARTIAL_IMAGE list while we are at it.
+Currently this stops the mega:
+
+  make docker-test-build
+
+from working. Once the source is patched to deal with the case this
+workaround can be removed.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ tests/docker/dockerfiles/ubuntu1804.docker | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index f4e9dfc0120..8d7f9376578 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -115,10 +115,15 @@ docker-image-travis: NOUSER=1
- docker-image-tricore-cross: docker-image-debian9
- 
- # These images may be good enough for building tests but not for test builds
--DOCKER_PARTIAL_IMAGES += debian-alpha-cross debian-hppa-cross debian-m68k-cross debian-sh4-cross
--DOCKER_PARTIAL_IMAGES += debian-sparc64-cross debian-mips64-cross debian-riscv64-cross
--DOCKER_PARTIAL_IMAGES += debian-tricore-cross debian-powerpc-cross debian-ppc64-cross fedora-i386-cross
--DOCKER_PARTIAL_IMAGES += fedora-cris-cross
-+DOCKER_PARTIAL_IMAGES += debian-alpha-cross
-+DOCKER_PARTIAL_IMAGES += debian-hppa-cross
-+DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
-+DOCKER_PARTIAL_IMAGES += debian-powerpc-cross debian-ppc64-cross
-+DOCKER_PARTIAL_IMAGES += debian-riscv64-cross
-+DOCKER_PARTIAL_IMAGES += debian-sh4-cross debian-sparc64-cross
-+DOCKER_PARTIAL_IMAGES += debian-tricore-cross
-+DOCKER_PARTIAL_IMAGES += debian-xtensa-cross
-+DOCKER_PARTIAL_IMAGES += fedora-i386-cross fedora-cris-cross
- 
- # Rules for building linux-user powered images
- #
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 44bbf0f77ae..883f9bcf31c 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -56,3 +56,6 @@ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+ RUN dpkg -l $PACKAGES | sort > /packages.txt
+ ENV FEATURES clang pyyaml sdl2
++
++# https://bugs.launchpad.net/qemu/+bug/1838763
++ENV QEMU_CONFIGURE_OPTS --disable-libssh
 -- 
 2.20.1
 
