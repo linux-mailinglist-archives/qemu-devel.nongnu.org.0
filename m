@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4372CA86F3
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:25:30 +0200 (CEST)
-Received: from localhost ([::1]:35786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2174BA86FC
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:28:59 +0200 (CEST)
+Received: from localhost ([::1]:35914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Z28-0003Ij-F8
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:25:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48631)
+	id 1i5Z5V-0007Ks-O3
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:28:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49389)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5Yqo-0001lf-0N
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:47 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5Yvn-0006AW-An
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:18:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5Yql-0007BO-Rz
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:45 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54461)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5Yvm-0001am-89
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:18:55 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34417)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5Yql-0007Am-EV; Wed, 04 Sep 2019 13:13:43 -0400
-Received: by mail-wm1-x344.google.com with SMTP id k2so4122799wmj.4;
- Wed, 04 Sep 2019 10:13:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=S7qhLshgv8PC8yoBGkMqEzXE2knLg4gMrxiA4d+K3Q4=;
- b=dGyo3sSR6uVtDir2QlRv6W4C/7BKr7vf0E/P/R5Hn4SRjQZ1GWlLhy9QRhIhMzIUZB
- izQwPHqe+gcqBElAT5hxOlkorLat4II+sM5Gh0Vgcu2WUwky+JK1gDzDXCLmRPi7leeA
- zcynqY2BObh8zN1IKSa7NxVtUknIf81gMd2K9qwTB8IQUjBNsYE23LWiK4NDIsTDYBVB
- IoIr2Ws3dF5KsI2S3Une0Go/ZPahwWsg1yq42Ynr3NqqVntsbWc4qyHNCmGhxZIurVDi
- z9q2sDDDyRy74iMnvVV9x5N7kZdQ+S/5nD8LnbzewYdgV0yKxp9Gmu1MHr3+unbqx6op
- 38hA==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i5Yvl-0001aT-Vq
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:18:54 -0400
+Received: by mail-pf1-x441.google.com with SMTP id r12so1494900pfh.1
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 10:18:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HZKykcNZxXcY3cKLw/MppXmJdweuYpGmfcth7o7jcFE=;
+ b=Re0RZQrR6zoxR1qI+8kAh8RKYAxLFdvXZJ7a5YQuQmp2eWuJosY27Hw7zUjK2h7asy
+ Fu4P9/lpwpgD9FQsfDIiQvrmx1drl++/WUOdLGyzug3k4Kms3sk1uzaluAHqlelp3pXs
+ RXv7CuSv2bonUOrDiRNvyunFtcMy5imRLGtXi+5sJko1jRFhI8gtLlHvkLl+ZC29DnGs
+ u1cSzEzphXEQwFHb5kTvCwgr6ObiogU+y+kLQPdmJzHfdNIVBsHPKVUa6ckt9NhaljHD
+ TYdl8SIVFYeUVH9hrAcElA2hq2B0u42pQqAv+/fv95WM43YfGkgsB6pKXjDu20Dia3Ip
+ 2H5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=S7qhLshgv8PC8yoBGkMqEzXE2knLg4gMrxiA4d+K3Q4=;
- b=bvDCGagMDdahgpiONJdAS5PT7BwwNXDY8xi/tQNkGg10nMZvyCINMNjgrL+MUJO7Sj
- OEt2+RQ+7TN6YErPKphl9ZnzmiG8Y8ActoSeMIbi+0KiaRcCvHXtsfxq/66rmlNd3CV2
- RqTP+IFxj6NTzPDOz3ySp9W1hNRd1AGgZbvx3nuvBuH9ZrvPgUEHuQkGUKHHbGQxgNjj
- Ec9jUFPuMNZJl5mh6f1vgZMmNil9v5V2hpviDv1cyFo6Ry4YvZNgszyXp+h9FTtv1mAG
- WfiJRhQlsgxJHTLzUBMlVVwvDDDyh4xT0mRr+U7b6ejDfwF3e2V383JgIFvekqFDzs9J
- mqOQ==
-X-Gm-Message-State: APjAAAWxNRhWS5JdMmJft1707mIHtkc9xslysXTAGv/2qSaxXQhsyiG9
- UrlUqAUpsfQt7TZMN8Xlfi4=
-X-Google-Smtp-Source: APXvYqwb+qEXd9UBIbhWFdBp7a2PntQMMVxI+YBAKS6LSrEv/iCIhobmuvObBkPJ5JNlXx4E0J5IRg==
-X-Received: by 2002:a1c:4b11:: with SMTP id y17mr5254736wma.2.1567617222530;
- Wed, 04 Sep 2019 10:13:42 -0700 (PDT)
-Received: from x1w.redhat.com ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 10:13:41 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Esteban Bosse <estebanbosse@gmail.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-devel@nongnu.org,
- Pekka Enberg <penberg@iki.fi>,
- =?UTF-8?q?Zolt=C3=A1n=20Baldaszti?= <bztemail@gmail.com>
-Date: Wed,  4 Sep 2019 19:13:15 +0200
-Message-Id: <20190904171315.8354-15-f4bug@amsat.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190904171315.8354-1-f4bug@amsat.org>
-References: <20190904171315.8354-1-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HZKykcNZxXcY3cKLw/MppXmJdweuYpGmfcth7o7jcFE=;
+ b=Tfqiddbm8hIo2a4a/R2NeL79gc3vmjlhf8bQwO3TA4q+X1gikLG4X2J/2i3JCXZcKs
+ XGHyykBjtUSJvxIa2jf37wjzj6pwJZW6i4jQ9D+LaDtusU39Nai7jafJQ5AIgXdgFRMr
+ RouvcWDnfNXCLVTj1dCKd9ks2FaIdDgMclmNqj681MS3JTzkGVYzlKhH5B7Y5iDJ8MeB
+ 6TOO4DrxXNvshPSe9g65MBcV7bqDG6z3JKKU1aZjL71Lg/U6RSVcDFzkD4OVH6oS5tfO
+ FV7r5n2++W//L9FV8WNrmintJ/ev5weIe1atGA5Vc+QLdd7L9Sv5fG/hEJw1Hrz7cSGw
+ r2Yw==
+X-Gm-Message-State: APjAAAUYtw434Mp7i4TqqBd5oA1gx+Ydwe8kfOiwmI/SF6Otaf8Uu2/V
+ M/DCj9XxAM1qcKfP5vwAOp5gqA==
+X-Google-Smtp-Source: APXvYqxIeKOZbkxswBYBSyjqd+mecnqQEsV+L7Odq50C6WUm9Nxyg7EboiMzBCN/Z2RwcYCiLcyCBQ==
+X-Received: by 2002:a63:5550:: with SMTP id f16mr37481886pgm.426.1567617532681; 
+ Wed, 04 Sep 2019 10:18:52 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id q21sm10276337pfh.18.2019.09.04.10.18.51
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 04 Sep 2019 10:18:51 -0700 (PDT)
+To: Andrew Jones <drjones@redhat.com>
+References: <20190802122540.26385-1-drjones@redhat.com>
+ <20190810013112.28732-1-richard.henderson@linaro.org>
+ <20190904083252.7pmmjvbynik7dk33@kamzik.brq.redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <727fa9aa-762a-432f-a183-7cade2266f70@linaro.org>
+Date: Wed, 4 Sep 2019 10:18:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190904083252.7pmmjvbynik7dk33@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [RFC PATCH 14/14] hw/arm/raspi: Add the Raspberry Pi
- 4B board
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH] HACK: Centralize sve property checks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,90 +84,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, Clement Deschamps <clement.deschamps@antfield.fr>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, imammedo@redhat.com,
+ alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Raspberry Pi 4 uses a BCM2711 SoC (based on a BCM2838).
-The SoC can handle up to 8GiB of SDRAM, but we limit it to 4GiB
-(no 8GiB models in the market yet).
+On 9/4/19 1:32 AM, Andrew Jones wrote:
+> Should we already introduce a function that will collect all
+> finalizers together now, rather than sprinkling around 
+> arm_cpu_sve_finalize() calls? Something like
+> 
+> void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+> {
+>   arm_cpu_sve_finalize(cpu, errp);
+> }
+> 
+> Of course we can introduce it when/if we add other finalizers
+> later, but I guess the vfp-neon finalizer should be coming
+> soon anyway.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/raspi.c | 31 ++++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+That sounds reasonable.
 
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index b4db39661f..59ee2f82b4 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -39,11 +39,13 @@ enum BoardIdChip {
-     C_BCM2835 = 0,
-     C_BCM2836 = 1,
-     C_BCM2837 = 2,
-+    C_BCM2711 = 3,
- };
- 
- enum BoardIdType {
-     T_2B = 0x04,
-     T_3B = 0x08,
-+    T_4B = 0x11,
- };
- 
- enum BoardIdRevision {
-@@ -56,6 +58,7 @@ enum BoardIdRevision {
- static const char *processor_typename[] = {
-     [C_BCM2836] = TYPE_BCM2836,
-     [C_BCM2837] = TYPE_BCM2837,
-+    [C_BCM2711] = TYPE_BCM2838,
- };
- 
- typedef struct BoardInfo BoardInfo;
-@@ -90,6 +93,12 @@ static const BoardInfo bcm283x_boards[] = {
-         .ram_size_min = 1 * GiB,
-         .ram_size_max = 1 * GiB,
-     },
-+    [4] = {
-+        .board_id = 0xc42,
-+        .board_rev = { T_4B, R_1_1, C_BCM2711, M_SONY_UK },
-+        .ram_size_min = 1 * GiB,
-+        .ram_size_max = 4 * GiB,
-+    },
- };
- 
- typedef struct RasPiState {
-@@ -336,4 +345,24 @@ static void raspi3_machine_init(MachineClass *mc)
-     mc->default_ram_size = 1 * GiB;
- }
- DEFINE_MACHINE("raspi3", raspi3_machine_init)
--#endif
-+
-+static void raspi4_init(MachineState *machine)
-+{
-+    raspi_init(machine, 4);
-+}
-+
-+static void raspi4_machine_init(MachineClass *mc)
-+{
-+    mc->desc = "Raspberry Pi 4B";
-+    mc->init = raspi4_init;
-+    mc->block_default_type = IF_SD;
-+    mc->no_parallel = 1;
-+    mc->no_floppy = 1;
-+    mc->no_cdrom = 1;
-+    mc->max_cpus = BCM283X_NCPUS;
-+    mc->min_cpus = BCM283X_NCPUS;
-+    mc->default_cpus = BCM283X_NCPUS;
-+    mc->default_ram_size = 1 * GiB;
-+}
-+DEFINE_MACHINE("raspi4", raspi4_machine_init)
-+#endif /* TARGET_AARCH64 */
--- 
-2.20.1
 
+r~
 
