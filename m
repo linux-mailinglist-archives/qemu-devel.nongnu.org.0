@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB212A83DD
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:39:50 +0200 (CEST)
-Received: from localhost ([::1]:58560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F54A83D2
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:35:50 +0200 (CEST)
+Received: from localhost ([::1]:58068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5VVl-0005bK-RV
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:39:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57884)
+	id 1i5VRt-0000qK-8Y
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:35:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33506)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i5V6F-00058L-RP
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:13:30 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i5VPD-0007b6-GS
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:33:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i5V6E-0007XY-4o
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:13:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43842)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i5V6D-0007Wz-To
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:13:26 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4C72D641C2
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 13:13:24 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id g2so757826wmk.5
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 06:13:24 -0700 (PDT)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1i5VPB-0003Q0-Cm
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:33:03 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:44289)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1i5VP7-0003MW-HM
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:33:00 -0400
+Received: by mail-qt1-x843.google.com with SMTP id u40so15746836qth.11
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 06:32:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=redhat-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ceeIGKVFh0XdwW26L6qvRjcU41Jt7b+hs5MlypX8YIY=;
+ b=fmSgrfLyq9NkHoW/YeQRZ9z0R9j8gjBFKvaRRPG/mqhWA2xz0+Ow7LJZaWwMjar9Xw
+ QIa1etF9L/B3vZD9nKTNC95HaHQogajgdZmeDg5OdHxrJW3y/A7BJtArC+hUY+7pgkRr
+ CQFdaty59nhC4r2nzxXKzQKOMuLhupn9+QuqDPIM62TIB5+sx2obuqxyYbTL2RKF3qr/
+ O8PUwucACO4QNim4Vv7TqmZ1Ue/Mq50yJTTRvopC8XuE4MSejIYW8wDJ5Ds0pxXXG0Yb
+ sMfAiYAvJMz34aCS2R734LITuHF2HpiOzFO7htisOtOzhNyEfq+8A9RXLlAFWzpYBgCR
+ qWBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=34lGvCBEes50QxProvXYAUO/YjszUbBzHY34WbUGDnk=;
- b=ewm0y7udmWj56k65+5b02/hPHfgbMckpVDXMB/MZMLL4MHE9/aEdx6Iu9Dl2cWWzl7
- +F/di6I9W9CrUOisxSnbrkcFV8e+i0eHG5QQxc01426JRg56gu+3re3HxSAtG37Skk82
- c4bdl+iF+2Jo6RgVlFKEkn06+HBwJ+C5d/b3oXbXo1z7tI4kRYqKfc28WyYnpgZLB1Nt
- pFsrr+UUYU8leWzd8RJTY1oad+oczMIiM6gU4Yp3D+yW3H3NgoVZpK6Bw8rbKzvlSPI/
- nyz1XnObceuswKH5ZsS2nXu7aH4ennLzr19K5UScXzWVp1rJsIiuXuAF3enjC66g0hJC
- PmGA==
-X-Gm-Message-State: APjAAAVdDE6tnJDZWxka4QSuajh+zkXGmu554Hz7K/eRfAK+lWHAfk+q
- VIdkpoKKT81gZiKdqeIMk2D5pXYoSMrV9htUkh0l8NYlGnK+/dKtZPveJBhRwvx+TeGY4KGnebH
- QS6CmJeOkDj2BmT0=
-X-Received: by 2002:a05:6000:2:: with SMTP id h2mr5690530wrx.309.1567602802804; 
- Wed, 04 Sep 2019 06:13:22 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxbM/6Fj1XFOJ/hGtyuMZMSZ+OvXwv4mW1sIDB01ZjQ4dhT5ovxra4WeuoLHjCOaVH1HZmKAQ==
-X-Received: by 2002:a05:6000:2:: with SMTP id h2mr5690515wrx.309.1567602802637; 
- Wed, 04 Sep 2019 06:13:22 -0700 (PDT)
-Received: from [10.201.33.84] ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id q26sm3148719wmf.45.2019.09.04.06.13.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Sep 2019 06:13:22 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20190903153633.6651-1-peter.maydell@linaro.org>
- <20190903153633.6651-13-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <eebc49ff-47a8-368d-f10f-8f5c1fef1060@redhat.com>
-Date: Wed, 4 Sep 2019 15:13:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ceeIGKVFh0XdwW26L6qvRjcU41Jt7b+hs5MlypX8YIY=;
+ b=PjrdaVtOZhmeMKNGH0FoHrk7GndrvuJQ8WfMm6Wp/fiwVOOqORSEaImFOxttH0T0Px
+ 6bhDTHMdKVPMOyqrmUsKDq0Ss2MrJdxe3ApmPxpddiJ9PfW83yDBFNeidU6O7P+OSwht
+ V8s3ntoedbxnfUvwq78BvbaPJ+DRPLXkjvvESFRstNYEm3wAzK2MDuEjM2KqwyMOsuaH
+ XgxBugot3yaECPTaipFiW4RuMmN9zMsOZORdCAbSuKX2xK8l7g3Bf+4Q/SthC077kd9w
+ 1nxMEHSYe6G9MT2K8/pLY3R5xicbBc4FQtX6qq4kc/9Z7aHSxKemQD2/ZfWhhiBJHQQa
+ 7/Mw==
+X-Gm-Message-State: APjAAAVX/TFxlcI3l0fId/3npeDhLzhM0/HYA+lnqJdP0J3xaPRegB8F
+ /9/zYpGbqvk9SuzZgZ4OyO/2+qN9/HtUcKzHHmZQFg==
+X-Google-Smtp-Source: APXvYqzekI8g4TyIJGeXYf8lWW9PMYAxfukIGaarB8ENzStTTVOZFPsDWMInfJzJKb8n9aTkOdX2QJMTw1EOJ/esFOM=
+X-Received: by 2002:ac8:60d6:: with SMTP id i22mr6098225qtm.250.1567603970897; 
+ Wed, 04 Sep 2019 06:32:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190903153633.6651-13-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 12/21] hw/arm: Use sysbus_init_child_obj for
- correct reference counting
+References: <20190807143523.15917-1-pbonzini@redhat.com>
+In-Reply-To: <20190807143523.15917-1-pbonzini@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 4 Sep 2019 15:32:37 +0200
+Message-ID: <CAHFMJ7tA08jsVVJCCcMp3Q+FA3PBKcYNq+yFS7y6Sw5f_K4_oA@mail.gmail.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::843
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v2 0/3] tests/tcg: disentangle makefiles
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,46 +73,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/19 5:36 PM, Peter Maydell wrote:
-> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
-> Both object_initialize() and qdev_set_parent_bus() increase the
-> reference counter of the new object, so one of the references has
-> to be dropped afterwards to get the reference counting right.
-> In machine model code this refcount leak is not particularly
-> problematic because (unlike devices) machines will never be
-> created on demand via QMP, and they are never destroyed.
-> But in any case let's use the new sysbus_init_child_obj() instead
-> to get the reference counting here right.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-id: 20190823143249.8096-4-philmd@redhat.com
-> [PMM: rewrote commit message]
+Ping?
 
-Thank you very much Peter!
+Paolo
 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/arm/exynos4_boards.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/arm/exynos4_boards.c b/hw/arm/exynos4_boards.c
-> index f69358a5ba8..2781d8bd419 100644
-> --- a/hw/arm/exynos4_boards.c
-> +++ b/hw/arm/exynos4_boards.c
-> @@ -131,8 +131,8 @@ exynos4_boards_init_common(MachineState *machine,
->      exynos4_boards_init_ram(s, get_system_memory(),
->                              exynos4_board_ram_size[board_type]);
-> =20
-> -    object_initialize(&s->soc, sizeof(s->soc), TYPE_EXYNOS4210_SOC);
-> -    qdev_set_parent_bus(DEVICE(&s->soc), sysbus_get_default());
-> +    sysbus_init_child_obj(OBJECT(machine), "soc",
-> +                          &s->soc, sizeof(s->soc), TYPE_EXYNOS4210_SOC=
-);
->      object_property_set_bool(OBJECT(&s->soc), true, "realized",
->                               &error_fatal);
 
+Il mer 7 ago 2019, 16:35 Paolo Bonzini <pbonzini@redhat.com> ha scritto:
+
+> The tests/tcg rely a lot on per-target informations from
+> the QEMU makefiles, but most of the definitions in there
+> aren't really relevant to TCG tests.
+>
+> This series is just a cleanup, but it could also be
+> a useful start in making it possible to compile tests/tcg
+> out of QEMU's tree, and/or making it a submodule, and/or
+> unifying the system emulation tests with kvm-unit-tests.
+>
+> Paolo
+>
+> v1->v2: fix configure from fresh directory, do not use $SHELL
+>
+> Paolo Bonzini (3):
+>   tests/tcg: use EXTRA_CFLAGS everywhere
+>   tests/tcg: cleanup Makefile inclusions
+>   tests/tcg: move configuration to a sub-shell script
+>
+>  Makefile                                  |   1 +
+>  Makefile.target                           |   3 -
+>  configure                                 | 155 ++-------------
+>  tests/Makefile.include                    |  25 +--
+>  tests/tcg/Makefile.include                |  88 ---------
+>  tests/tcg/Makefile.prereqs                |  18 ++
+>  tests/tcg/Makefile.probe                  |  31 ---
+>  tests/tcg/Makefile.qemu                   |  95 +++++++++
+>  tests/tcg/{Makefile => Makefile.target}   |  15 +-
+>  tests/tcg/aarch64/Makefile.include        |   8 -
+>  tests/tcg/aarch64/Makefile.softmmu-target |   4 +-
+>  tests/tcg/aarch64/Makefile.target         |  12 +-
+>  tests/tcg/alpha/Makefile.include          |   2 -
+>  tests/tcg/alpha/Makefile.softmmu-target   |   4 +-
+>  tests/tcg/arm/Makefile.include            |   8 -
+>  tests/tcg/arm/Makefile.softmmu-target     |   6 +-
+>  tests/tcg/configure.sh                    | 228 ++++++++++++++++++++++
+>  tests/tcg/cris/Makefile.include           |   6 -
+>  tests/tcg/hppa/Makefile.include           |   2 -
+>  tests/tcg/i386/Makefile.include           |   9 -
+>  tests/tcg/i386/Makefile.softmmu-target    |  12 +-
+>  tests/tcg/i386/Makefile.target            |  13 +-
+>  tests/tcg/m68k/Makefile.include           |   2 -
+>  tests/tcg/minilib/Makefile.target         |   2 +-
+>  tests/tcg/mips/Makefile.include           |  20 --
+>  tests/tcg/ppc/Makefile.include            |  10 -
+>  tests/tcg/riscv/Makefile.include          |  10 -
+>  tests/tcg/s390x/Makefile.include          |   2 -
+>  tests/tcg/sh4/Makefile.include            |   4 -
+>  tests/tcg/sparc64/Makefile.include        |   2 -
+>  tests/tcg/x86_64/Makefile.softmmu-target  |  36 ++++
+>  tests/tcg/x86_64/Makefile.target          |   7 +-
+>  tests/tcg/xtensa/Makefile.include         |  11 --
+>  tests/tcg/xtensa/Makefile.softmmu-target  |   4 +-
+>  34 files changed, 435 insertions(+), 420 deletions(-)
+>  delete mode 100644 tests/tcg/Makefile.include
+>  create mode 100644 tests/tcg/Makefile.prereqs
+>  delete mode 100644 tests/tcg/Makefile.probe
+>  create mode 100644 tests/tcg/Makefile.qemu
+>  rename tests/tcg/{Makefile => Makefile.target} (90%)
+>  delete mode 100644 tests/tcg/aarch64/Makefile.include
+>  delete mode 100644 tests/tcg/alpha/Makefile.include
+>  delete mode 100644 tests/tcg/arm/Makefile.include
+>  create mode 100644 tests/tcg/configure.sh
+>  delete mode 100644 tests/tcg/cris/Makefile.include
+>  delete mode 100644 tests/tcg/hppa/Makefile.include
+>  delete mode 100644 tests/tcg/i386/Makefile.include
+>  delete mode 100644 tests/tcg/m68k/Makefile.include
+>  delete mode 100644 tests/tcg/mips/Makefile.include
+>  delete mode 100644 tests/tcg/ppc/Makefile.include
+>  delete mode 100644 tests/tcg/riscv/Makefile.include
+>  delete mode 100644 tests/tcg/s390x/Makefile.include
+>  delete mode 100644 tests/tcg/sh4/Makefile.include
+>  delete mode 100644 tests/tcg/sparc64/Makefile.include
+>  create mode 100644 tests/tcg/x86_64/Makefile.softmmu-target
+>  delete mode 100644 tests/tcg/xtensa/Makefile.include
+>
+> --
+> 2.21.0
+>
+>
