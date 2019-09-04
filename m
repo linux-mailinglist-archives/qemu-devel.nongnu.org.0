@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F54A83D2
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:35:50 +0200 (CEST)
-Received: from localhost ([::1]:58068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804D1A83DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:40:16 +0200 (CEST)
+Received: from localhost ([::1]:58462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5VRt-0000qK-8Y
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:35:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33506)
+	id 1i5VWB-00051Q-F2
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:40:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55998)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i5VPD-0007b6-GS
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:33:05 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1i5Uxq-00059g-FH
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:04:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1i5VPB-0003Q0-Cm
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:33:03 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:44289)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1i5VP7-0003MW-HM
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:33:00 -0400
-Received: by mail-qt1-x843.google.com with SMTP id u40so15746836qth.11
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 06:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ceeIGKVFh0XdwW26L6qvRjcU41Jt7b+hs5MlypX8YIY=;
- b=fmSgrfLyq9NkHoW/YeQRZ9z0R9j8gjBFKvaRRPG/mqhWA2xz0+Ow7LJZaWwMjar9Xw
- QIa1etF9L/B3vZD9nKTNC95HaHQogajgdZmeDg5OdHxrJW3y/A7BJtArC+hUY+7pgkRr
- CQFdaty59nhC4r2nzxXKzQKOMuLhupn9+QuqDPIM62TIB5+sx2obuqxyYbTL2RKF3qr/
- O8PUwucACO4QNim4Vv7TqmZ1Ue/Mq50yJTTRvopC8XuE4MSejIYW8wDJ5Ds0pxXXG0Yb
- sMfAiYAvJMz34aCS2R734LITuHF2HpiOzFO7htisOtOzhNyEfq+8A9RXLlAFWzpYBgCR
- qWBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ceeIGKVFh0XdwW26L6qvRjcU41Jt7b+hs5MlypX8YIY=;
- b=PjrdaVtOZhmeMKNGH0FoHrk7GndrvuJQ8WfMm6Wp/fiwVOOqORSEaImFOxttH0T0Px
- 6bhDTHMdKVPMOyqrmUsKDq0Ss2MrJdxe3ApmPxpddiJ9PfW83yDBFNeidU6O7P+OSwht
- V8s3ntoedbxnfUvwq78BvbaPJ+DRPLXkjvvESFRstNYEm3wAzK2MDuEjM2KqwyMOsuaH
- XgxBugot3yaECPTaipFiW4RuMmN9zMsOZORdCAbSuKX2xK8l7g3Bf+4Q/SthC077kd9w
- 1nxMEHSYe6G9MT2K8/pLY3R5xicbBc4FQtX6qq4kc/9Z7aHSxKemQD2/ZfWhhiBJHQQa
- 7/Mw==
-X-Gm-Message-State: APjAAAVX/TFxlcI3l0fId/3npeDhLzhM0/HYA+lnqJdP0J3xaPRegB8F
- /9/zYpGbqvk9SuzZgZ4OyO/2+qN9/HtUcKzHHmZQFg==
-X-Google-Smtp-Source: APXvYqzekI8g4TyIJGeXYf8lWW9PMYAxfukIGaarB8ENzStTTVOZFPsDWMInfJzJKb8n9aTkOdX2QJMTw1EOJ/esFOM=
-X-Received: by 2002:ac8:60d6:: with SMTP id i22mr6098225qtm.250.1567603970897; 
- Wed, 04 Sep 2019 06:32:50 -0700 (PDT)
+ (envelope-from <damien.hedde@greensocs.com>) id 1i5Uxo-0001vJ-Jm
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:04:46 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:46398)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1i5Uxi-0001pc-7k; Wed, 04 Sep 2019 09:04:38 -0400
+Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 56FD296F65;
+ Wed,  4 Sep 2019 13:04:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1567602275;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=azQBI/68e6QFd1ohvuIkRp8dnRdTdZtTAqRXho1rwls=;
+ b=AqCDIFCaPrZQy0thlJqLVz/iYL8I36kWr+t9smBFItX9xErfI6mc9A6g0kZi7VafwJIgXb
+ t2TRE1HbQkJ+7p/CNCPqD7iak0GXQOyQo1Xsq1lrJTer7XoUkjN70syMLdAJTZ3EWiWUik
+ G+6Xf/eEidzAwsOmLHoBJa/45KJ5D2U=
+To: qemu-devel@nongnu.org
+References: <20190904093843.8765-1-damien.hedde@greensocs.con>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <6df157cb-cdb4-a019-3463-e1468d410f4e@greensocs.com>
+Date: Wed, 4 Sep 2019 15:04:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190807143523.15917-1-pbonzini@redhat.com>
-In-Reply-To: <20190807143523.15917-1-pbonzini@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 4 Sep 2019 15:32:37 +0200
-Message-ID: <CAHFMJ7tA08jsVVJCCcMp3Q+FA3PBKcYNq+yFS7y6Sw5f_K4_oA@mail.gmail.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::843
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v2 0/3] tests/tcg: disentangle makefiles
+In-Reply-To: <20190904093843.8765-1-damien.hedde@greensocs.con>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1567602275;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=azQBI/68e6QFd1ohvuIkRp8dnRdTdZtTAqRXho1rwls=;
+ b=RILxfyyRHtm/oYc8z7bKBYqlotwKPgNmL8U42Jbu38pEehlqvTw8mepuxgqfdGKpb2llV5
+ yKdsbwPDx3YmqH7x8fc5oBAijB1BRAe2l+2dS+w0nppqHxrrqbrf/ecAc6WCz3WwHBmx60
+ WwHyUoy1WoLgbMgktETzEXrdeSrWchE=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1567602275; a=rsa-sha256; cv=none;
+ b=zchS1JlCEKvpsc/pEUO5mOED74Po1oumUD54rB2dMpyQeSUe5qfcI0e3RWgvZ0zUfsi9GB
+ OutXzO58SAnKHMM0oilQe7s4ysveuqc08wmso93s1BVH9Tt/xTPeUckhjZMJy6rML8UI4b
+ oT4yU2bZFJKbhbtCTES1reA2waFM1VY=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 5.135.226.135
+Subject: Re: [Qemu-devel] [PATCH v6 0/9] Clock framework API
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,93 +75,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
+ alistair@alistair23.me, mark.burton@greensocs.com, qemu-arm@nongnu.org,
+ marcandre.lureau@redhat.com, pbonzini@redhat.com, philmd@redhat.com,
+ edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping?
+I did a typo in the reply-to address. I just resent the series with the
+proper one.
 
-Paolo
+Sorry for that...
+Damien
 
+On 9/4/19 11:38 AM, damien.hedde@greensocs.con wrote:
+> From: Damien Hedde <damien.hedde@greensocs.com>
+> 
+> This series aims to add a way to model clock distribution in qemu. This allows
+> to model the clock tree of a platform allowing us to inspect clock
+> configuration and detect problems such as disabled clock or bad configured
+> pll.
+> 
+> The added clock api is very similar the the gpio api for devices. We can add
+> input and output and connect them together.
+> 
+> Very few changes since v5 in the core patches: we were waiting for multi phase
+> ability to allow proper initialization of the clock tree. So this is almost a
+> simple rebase on top of the current "Multi-phase reset mechanism" series.
+> Based-on: <20190821163341.16309-1-damien.hedde@greensocs.com>
+> 
+> Changes since v5:
+>  - drop the "-port" in file names
+>  - new patch 2, extracted from patch 1 (to fix some problem with linux-user builds)
+>  - patch 3, minor modification to better match gpios api and allow non device-related clock
+>    (I've dropped the reviewed-by, see the patch message for the details of what has changed).
+>  - patch 6, Philippe's comments and various improvement
+>  - patches 7/8/9, multi-phase reset addition and scope reduced to uart ref clocks
+> 
+> The patches are organised as follows:
+> + Patches 1 to 5 adds the clock support in qemu (1, 4 and 5 are already reviewed and
+>   also a big part of the 3)
+> + Patch 6 add some documentation in docs/devel
+> + Patches 7 to 9 adds the uart's clocks to the xilinx_zynq platform as an
+> example for this framework. It updates the zynq's slcr clock controller, the 
+> cadence_uart device, and the zynq toplevel platform.
+> 
+> I've tested this patchset on the xilinx-zynq-a9 machine with the buildroot's
+> zynq_zc706_defconfig which package the Xilinx's Linux.
+> Clocks are correctly updated and we ends up with a configured baudrate of 115601
+> on the console uart (for a theoretical 115200) which is nice. "cadence_uart*" and
+> "clock*" traces can be enabled to see what's going on in this platform.
+> 
+> Any comments and suggestion are welcomed.
+> 
+> Thanks to the Xilinx QEMU team who sponsored this development.
+> 
+> Damien Hedde (9):
+>   hw/core/clock: introduce clock objects
+>   hw/core/clock-vmstate: define a vmstate entry for clock state
+>   qdev: add clock input&output support to devices.
+>   qdev-monitor: print the device's clock with info qtree
+>   qdev-clock: introduce an init array to ease the device construction
+>   docs/clocks: add device's clock documentation
+>   hw/misc/zynq_slcr: add clock generation for uarts
+>   hw/char/cadence_uart: add clock support
+>   hw/arm/xilinx_zynq: connect uart clocks to slcr
+> 
+>  Makefile.objs                  |   1 +
+>  docs/devel/clock.txt           | 246 +++++++++++++++++++++++++++++++++
+>  hw/arm/xilinx_zynq.c           |  64 +++++++--
+>  hw/char/cadence_uart.c         |  85 ++++++++++--
+>  hw/char/trace-events           |   3 +
+>  hw/core/Makefile.objs          |   4 +-
+>  hw/core/clock-vmstate.c        |  25 ++++
+>  hw/core/clock.c                | 144 +++++++++++++++++++
+>  hw/core/qdev-clock.c           | 181 ++++++++++++++++++++++++
+>  hw/core/qdev.c                 |  32 +++++
+>  hw/core/trace-events           |   6 +
+>  hw/misc/zynq_slcr.c            | 145 ++++++++++++++++++-
+>  include/hw/char/cadence_uart.h |   1 +
+>  include/hw/clock.h             | 133 ++++++++++++++++++
+>  include/hw/qdev-clock.h        | 134 ++++++++++++++++++
+>  include/hw/qdev-core.h         |  14 ++
+>  qdev-monitor.c                 |  13 ++
+>  tests/Makefile.include         |   1 +
+>  18 files changed, 1210 insertions(+), 22 deletions(-)
+>  create mode 100644 docs/devel/clock.txt
+>  create mode 100644 hw/core/clock-vmstate.c
+>  create mode 100644 hw/core/clock.c
+>  create mode 100644 hw/core/qdev-clock.c
+>  create mode 100644 include/hw/clock.h
+>  create mode 100644 include/hw/qdev-clock.h
+> 
 
-Il mer 7 ago 2019, 16:35 Paolo Bonzini <pbonzini@redhat.com> ha scritto:
-
-> The tests/tcg rely a lot on per-target informations from
-> the QEMU makefiles, but most of the definitions in there
-> aren't really relevant to TCG tests.
->
-> This series is just a cleanup, but it could also be
-> a useful start in making it possible to compile tests/tcg
-> out of QEMU's tree, and/or making it a submodule, and/or
-> unifying the system emulation tests with kvm-unit-tests.
->
-> Paolo
->
-> v1->v2: fix configure from fresh directory, do not use $SHELL
->
-> Paolo Bonzini (3):
->   tests/tcg: use EXTRA_CFLAGS everywhere
->   tests/tcg: cleanup Makefile inclusions
->   tests/tcg: move configuration to a sub-shell script
->
->  Makefile                                  |   1 +
->  Makefile.target                           |   3 -
->  configure                                 | 155 ++-------------
->  tests/Makefile.include                    |  25 +--
->  tests/tcg/Makefile.include                |  88 ---------
->  tests/tcg/Makefile.prereqs                |  18 ++
->  tests/tcg/Makefile.probe                  |  31 ---
->  tests/tcg/Makefile.qemu                   |  95 +++++++++
->  tests/tcg/{Makefile => Makefile.target}   |  15 +-
->  tests/tcg/aarch64/Makefile.include        |   8 -
->  tests/tcg/aarch64/Makefile.softmmu-target |   4 +-
->  tests/tcg/aarch64/Makefile.target         |  12 +-
->  tests/tcg/alpha/Makefile.include          |   2 -
->  tests/tcg/alpha/Makefile.softmmu-target   |   4 +-
->  tests/tcg/arm/Makefile.include            |   8 -
->  tests/tcg/arm/Makefile.softmmu-target     |   6 +-
->  tests/tcg/configure.sh                    | 228 ++++++++++++++++++++++
->  tests/tcg/cris/Makefile.include           |   6 -
->  tests/tcg/hppa/Makefile.include           |   2 -
->  tests/tcg/i386/Makefile.include           |   9 -
->  tests/tcg/i386/Makefile.softmmu-target    |  12 +-
->  tests/tcg/i386/Makefile.target            |  13 +-
->  tests/tcg/m68k/Makefile.include           |   2 -
->  tests/tcg/minilib/Makefile.target         |   2 +-
->  tests/tcg/mips/Makefile.include           |  20 --
->  tests/tcg/ppc/Makefile.include            |  10 -
->  tests/tcg/riscv/Makefile.include          |  10 -
->  tests/tcg/s390x/Makefile.include          |   2 -
->  tests/tcg/sh4/Makefile.include            |   4 -
->  tests/tcg/sparc64/Makefile.include        |   2 -
->  tests/tcg/x86_64/Makefile.softmmu-target  |  36 ++++
->  tests/tcg/x86_64/Makefile.target          |   7 +-
->  tests/tcg/xtensa/Makefile.include         |  11 --
->  tests/tcg/xtensa/Makefile.softmmu-target  |   4 +-
->  34 files changed, 435 insertions(+), 420 deletions(-)
->  delete mode 100644 tests/tcg/Makefile.include
->  create mode 100644 tests/tcg/Makefile.prereqs
->  delete mode 100644 tests/tcg/Makefile.probe
->  create mode 100644 tests/tcg/Makefile.qemu
->  rename tests/tcg/{Makefile => Makefile.target} (90%)
->  delete mode 100644 tests/tcg/aarch64/Makefile.include
->  delete mode 100644 tests/tcg/alpha/Makefile.include
->  delete mode 100644 tests/tcg/arm/Makefile.include
->  create mode 100644 tests/tcg/configure.sh
->  delete mode 100644 tests/tcg/cris/Makefile.include
->  delete mode 100644 tests/tcg/hppa/Makefile.include
->  delete mode 100644 tests/tcg/i386/Makefile.include
->  delete mode 100644 tests/tcg/m68k/Makefile.include
->  delete mode 100644 tests/tcg/mips/Makefile.include
->  delete mode 100644 tests/tcg/ppc/Makefile.include
->  delete mode 100644 tests/tcg/riscv/Makefile.include
->  delete mode 100644 tests/tcg/s390x/Makefile.include
->  delete mode 100644 tests/tcg/sh4/Makefile.include
->  delete mode 100644 tests/tcg/sparc64/Makefile.include
->  create mode 100644 tests/tcg/x86_64/Makefile.softmmu-target
->  delete mode 100644 tests/tcg/xtensa/Makefile.include
->
-> --
-> 2.21.0
->
->
