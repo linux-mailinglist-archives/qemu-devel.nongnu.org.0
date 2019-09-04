@@ -2,46 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E980A8341
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:56:22 +0200 (CEST)
-Received: from localhost ([::1]:57456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95ED9A82E7
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:51:43 +0200 (CEST)
+Received: from localhost ([::1]:57400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Upg-0005aT-Qc
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:56:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47893)
+	id 1i5UlB-0000M8-P3
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59827)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.con>) id 1i5Rqt-0004rh-EC
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:45:24 -0400
+ (envelope-from <bounces@canonical.com>) id 1i5SsK-0001vq-Li
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 06:50:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.con>) id 1i5Rqr-00007m-FJ
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:45:23 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:40560)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.con>)
- id 1i5Rqm-0008Pk-PN; Wed, 04 Sep 2019 05:45:17 -0400
-Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
- [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id 0C9BD96F61;
- Wed,  4 Sep 2019 09:38:56 +0000 (UTC)
-From: damien.hedde@greensocs.con
-To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 11:38:43 +0200
-Message-Id: <20190904093843.8765-10-damien.hedde@greensocs.con>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190904093843.8765-1-damien.hedde@greensocs.con>
-References: <20190904093843.8765-1-damien.hedde@greensocs.con>
+ (envelope-from <bounces@canonical.com>) id 1i5SsJ-0002zn-Bf
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 06:50:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56778)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i5SsI-0002vH-Hv
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 06:50:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i5SsE-0001W0-1x
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 10:50:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E6B7A2E80CB
+ for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 10:50:49 +0000 (UTC)
 MIME-Version: 1.0
-X-Spam: Yes
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Sep 2019 10:37:18 -0000
+From: Felipe Franciosi <felipe@paradoxo.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: hvf macos
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: felipe-1 smartrejames
+X-Launchpad-Bug-Reporter: James Smart (smartrejames)
+X-Launchpad-Bug-Modifier: Felipe Franciosi (felipe-1)
+References: <156448241864.18390.18158373201974266058.malonedeb@gac.canonical.com>
+Message-Id: <156759343837.17462.17652029820495872531.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19044";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d05713b9767cb1646b603417d5d44958a9e6f4ff
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
+X-Received-From: 91.189.90.7
 X-Mailman-Approved-At: Wed, 04 Sep 2019 08:47:47 -0400
-Subject: [Qemu-devel] [PATCH v6 9/9] hw/arm/xilinx_zynq: connect uart clocks
- to slcr
+Subject: [Qemu-devel] [Bug 1838390] Re: vmx_write_mem: mmu_gva_to_gpa failed
+ when using hvf
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -50,162 +66,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- berrange@redhat.com, ehabkost@redhat.com, alistair@alistair23.me,
- mark.burton@greensocs.com, pbonzini@redhat.com, qemu-arm@nongnu.org,
- marcandre.lureau@redhat.com, edgar.iglesias@gmail.com, philmd@redhat.com
+Reply-To: Bug 1838390 <1838390@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Damien Hedde <damien.hedde@greensocs.com>
+Also happens to me on a freshly built Qemu master (tip 23919ddfd561).
+MBP15,2 OSX 10.14.6
 
-Add the connection between the slcr's output clocks and the uarts inputs.
+Qemu command line:
+qemu/x86_64-softmmu/qemu-system-x86_64 -cpu host -accel hvf -m 4G -smp 8 -v=
+ga std -nographic -vnc :1 -netdev user,id=3Dnet0 -device e1000e,netdev=3Dne=
+t0 buster.qcow
 
-Also add the main board clock 'ps_clk', which is hard-coded to 33.33MHz
-(the default frequency). This clock is used to feed the slcr's input
-clock.
+Guest works fine until I try to build a linux-stable tree with "make
+-j8".
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
----
- hw/arm/xilinx_zynq.c | 64 ++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 56 insertions(+), 8 deletions(-)
+-- =
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 89da34808b..4d5d214ea9 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -33,6 +33,15 @@
- #include "hw/char/cadence_uart.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/cpu/a9mpcore.h"
-+#include "hw/qdev-clock.h"
-+#include "sysemu/reset.h"
-+
-+#define TYPE_ZYNQ_MACHINE MACHINE_TYPE_NAME("xilinx-zynq-a9")
-+#define ZYNQ_MACHINE(obj) \
-+    OBJECT_CHECK(ZynqMachineState, (obj), TYPE_ZYNQ_MACHINE)
-+
-+/* board base frequency: 33.333333 MHz */
-+#define PS_CLK_FREQUENCY (100 * 1000 * 1000 / 3)
-=20
- #define NUM_SPI_FLASHES 4
- #define NUM_QSPI_FLASHES 2
-@@ -73,6 +82,11 @@ static const int dma_irqs[8] =3D {
-     0xe3401000 + ARMV7_IMM16(extract32((val), 16, 16)), /* movt r1 ... *=
-/ \
-     0xe5801000 + (addr)
-=20
-+typedef struct ZynqMachineState {
-+    MachineState parent;
-+    ClockOut *ps_clk;
-+} ZynqMachineState;
-+
- static void zynq_write_board_setup(ARMCPU *cpu,
-                                    const struct arm_boot_info *info)
- {
-@@ -157,6 +171,7 @@ static inline void zynq_init_spi_flashes(uint32_t bas=
-e_addr, qemu_irq irq,
-=20
- static void zynq_init(MachineState *machine)
- {
-+    ZynqMachineState *zynq_machine =3D ZYNQ_MACHINE(machine);
-     ram_addr_t ram_size =3D machine->ram_size;
-     const char *kernel_filename =3D machine->kernel_filename;
-     const char *kernel_cmdline =3D machine->kernel_cmdline;
-@@ -165,7 +180,7 @@ static void zynq_init(MachineState *machine)
-     MemoryRegion *address_space_mem =3D get_system_memory();
-     MemoryRegion *ext_ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *ocm_ram =3D g_new(MemoryRegion, 1);
--    DeviceState *dev;
-+    DeviceState *dev, *slcr;
-     SysBusDevice *busdev;
-     qemu_irq pic[64];
-     int n;
-@@ -210,9 +225,17 @@ static void zynq_init(MachineState *machine)
-                           1, 0x0066, 0x0022, 0x0000, 0x0000, 0x0555, 0x2=
-aa,
-                           0);
-=20
--    dev =3D qdev_create(NULL, "xilinx,zynq_slcr");
--    qdev_init_nofail(dev);
--    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xF8000000);
-+    /* Create slcr, keep a pointer to connect clocks */
-+    slcr =3D qdev_create(NULL, "xilinx,zynq_slcr");
-+    qdev_init_nofail(slcr);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(slcr), 0, 0xF8000000);
-+
-+    /* Create the main clock source, and feed slcr with it */
-+    zynq_machine->ps_clk =3D CLOCK_OUT(object_new(TYPE_CLOCK_OUT));
-+    object_property_add_child(OBJECT(zynq_machine), "ps_clk",
-+                              OBJECT(zynq_machine->ps_clk), &error_abort=
-);
-+    object_unref(OBJECT(zynq_machine->ps_clk));
-+    clock_connect(qdev_get_clock_in(slcr, "ps_clk"), zynq_machine->ps_cl=
-k);
-=20
-     dev =3D qdev_create(NULL, TYPE_A9MPCORE_PRIV);
-     qdev_prop_set_uint32(dev, "num-cpu", 1);
-@@ -233,8 +256,12 @@ static void zynq_init(MachineState *machine)
-     sysbus_create_simple("xlnx,ps7-usb", 0xE0002000, pic[53-IRQ_OFFSET])=
-;
-     sysbus_create_simple("xlnx,ps7-usb", 0xE0003000, pic[76-IRQ_OFFSET])=
-;
-=20
--    cadence_uart_create(0xE0000000, pic[59 - IRQ_OFFSET], serial_hd(0));
--    cadence_uart_create(0xE0001000, pic[82 - IRQ_OFFSET], serial_hd(1));
-+    dev =3D cadence_uart_create(0xE0000000, pic[59 - IRQ_OFFSET], serial=
-_hd(0));
-+    qdev_connect_clock_out(slcr, "uart0_ref_clk",
-+                           qdev_get_clock_in(dev, "refclk"), &error_abor=
-t);
-+    dev =3D cadence_uart_create(0xE0001000, pic[82 - IRQ_OFFSET], serial=
-_hd(1));
-+    qdev_connect_clock_out(slcr, "uart1_ref_clk",
-+                           qdev_get_clock_in(dev, "refclk"), &error_abor=
-t);
-=20
-     sysbus_create_varargs("cadence_ttc", 0xF8001000,
-             pic[42-IRQ_OFFSET], pic[43-IRQ_OFFSET], pic[44-IRQ_OFFSET], =
-NULL);
-@@ -315,14 +342,35 @@ static void zynq_init(MachineState *machine)
-     arm_load_kernel(ARM_CPU(first_cpu), &zynq_binfo);
- }
-=20
--static void zynq_machine_init(MachineClass *mc)
-+static void zynq_reset(MachineState *machine)
-+{
-+    ZynqMachineState *zynq_machine =3D ZYNQ_MACHINE(machine);
-+    qemu_devices_reset();
-+    clock_set_frequency(zynq_machine->ps_clk, PS_CLK_FREQUENCY);
-+}
-+
-+static void zynq_machine_class_init(ObjectClass *oc, void *data)
- {
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-     mc->desc =3D "Xilinx Zynq Platform Baseboard for Cortex-A9";
-     mc->init =3D zynq_init;
-+    mc->reset =3D zynq_reset;
-     mc->max_cpus =3D 1;
-     mc->no_sdcard =3D 1;
-     mc->ignore_memory_transaction_failures =3D true;
-     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a9");
- }
-=20
--DEFINE_MACHINE("xilinx-zynq-a9", zynq_machine_init)
-+static const TypeInfo zynq_machine_type =3D {
-+    .name =3D TYPE_ZYNQ_MACHINE,
-+    .parent =3D TYPE_MACHINE,
-+    .class_init =3D zynq_machine_class_init,
-+    .instance_size =3D sizeof(ZynqMachineState),
-+};
-+
-+static void zynq_machine_register_types(void)
-+{
-+    type_register_static(&zynq_machine_type);
-+}
-+
-+type_init(zynq_machine_register_types)
---=20
-2.22.0
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838390
 
+Title:
+  vmx_write_mem: mmu_gva_to_gpa failed when using hvf
+
+Status in QEMU:
+  New
+
+Bug description:
+  Installed qemu 4.0.0 by homebrew, used below commands:
+
+  1. qemu-img create -f raw arch-vm.img 100G
+  2. qemu-system-x86_64 -show-cursor -only-migratable -nodefaults -boot ord=
+er=3Dd -cdrom archlinux-2019.07.01-x86_64.iso -cpu host -device virtio-keyb=
+oard -device virtio-mouse -device virtio-tablet -drive file=3Darch-vm.img,f=
+ormat=3Draw,if=3Dvirtio -m 4096 -machine q35,accel=3Dhvf,vmport=3Doff -nic =
+user,ipv6=3Doff,model=3Dvirtio -smp 4,sockets=3D1,cores=3D2,threads=3D2 -so=
+undhw hda -vga virtio
+
+  Displayed bootloader menu successfully, select "Boot Arch Linux" then
+  crashed with message: vmx_write_mem: mmu_gva_to_gpa ffff91953b540000
+  failed.
+
+  Use tcg accelerator has no problem but very slow.
+
+  See attachment for full crash report.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838390/+subscriptions
 
