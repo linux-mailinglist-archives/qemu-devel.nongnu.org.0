@@ -2,43 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537D1A81B8
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:05:16 +0200 (CEST)
-Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF90A8291
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:38:17 +0200 (CEST)
+Received: from localhost ([::1]:57280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5U2E-0007um-Ud
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:05:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43463)
+	id 1i5UYB-0003UX-9h
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:38:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49067)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <f.gruenbichler@proxmox.com>) id 1i5Typ-0006VO-KQ
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:48 -0400
+ (envelope-from <wainersm@redhat.com>) id 1i5UWl-0002tB-O1
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:36:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <f.gruenbichler@proxmox.com>) id 1i5Tyn-0002lP-O8
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:43 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:28941)
+ (envelope-from <wainersm@redhat.com>) id 1i5UWi-0000Zo-Mh
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:36:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43402)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <f.gruenbichler@proxmox.com>)
- id 1i5Tyb-0002U2-Se; Wed, 04 Sep 2019 08:01:30 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id CBBA04683B;
- Wed,  4 Sep 2019 14:01:19 +0200 (CEST)
-Date: Wed, 04 Sep 2019 14:01:15 +0200
-From: Fabian =?iso-8859-1?q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>
-To: John Snow <jsnow@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <5777a218-1ba4-78e0-ef73-bdfeecf04b25@redhat.com>
- <436c161e-fe05-da2c-835c-562da489ba82@virtuozzo.com>
- <2cd9d887-0a14-771a-3cee-64f9a50056d1@redhat.com>
-In-Reply-To: <2cd9d887-0a14-771a-3cee-64f9a50056d1@redhat.com>
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1i5UWi-0000YD-Dt
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:36:44 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9026A30860A5;
+ Wed,  4 Sep 2019 12:36:42 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-39.gru2.redhat.com
+ [10.97.116.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D46C41001947;
+ Wed,  4 Sep 2019 12:36:39 +0000 (UTC)
+To: Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ qemu-devel@nongnu.org
+References: <20190904005218.12536-1-crosa@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <4fab585b-3fc0-9add-534e-0f477370b074@redhat.com>
+Date: Wed, 4 Sep 2019 09:36:38 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.5.2
 MIME-Version: 1.0
-User-Agent: astroid/0.15.0 (https://github.com/astroidmail/astroid)
-Message-Id: <1567596886.bl8mxp5grx.astroid@nora.none>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190904005218.12536-1-crosa@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Wed, 04 Sep 2019 12:36:42 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.186.127.180
-Subject: Re: [Qemu-devel] QEMU bitmap backup usability FAQ
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] Fedora images: use URLs from stable
+ "archives.fedoraproject.org"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,100 +61,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "libvir-list@redhat.com" <libvir-list@redhat.com>,
- Nir Soffer <nsoffer@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Yash Mankad <ymankad@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On August 21, 2019 11:19 pm, John Snow wrote:
->=20
->=20
-> On 8/21/19 10:21 AM, Vladimir Sementsov-Ogievskiy wrote:
->> [CC Nikolay]
->>=20
->> 21.08.2019 1:25, John Snow wrote:
->>> Hi, downstream here at Red Hat I've been fielding some questions about
->>> the usability and feature readiness of Bitmaps (and related features) i=
-n
->>> QEMU.
->>>
->>> Here are some questions I answered internally that I am copying to the
->>> list for two reasons:
->>>
->>> (1) To make sure my answers are actually correct, and
->>> (2) To share this pseudo-reference with the community at large.
->>>
->>> This is long, and mostly for reference. There's a summary at the bottom
->>> with some todo items and observations about the usability of the featur=
-e
->>> as it exists in QEMU.
->>>
->>> Before too long, I intend to send a more summarized "roadmap" mail whic=
-h
->>> details all of the current and remaining work to be done in and around
->>> the bitmaps feature in QEMU.
->>>
->>>
->>> Questions:
->>>
->>>> "What format(s) is/are required for this functionality?"
->>>
->>>  From the QEMU API, any format can be used to create and author
->>> incremental backups. The only known format limitations are:
->>>
->>> 1. Persistent bitmaps cannot be created on any format except qcow2,
->>> although there are hooks to add support to other formats at a later dat=
-e
->>> if desired.
->>>
->>> DANGER CAVEAT #1: Adding bitmaps to QEMU by default creates transient
->>> bitmaps instead of persistent ones.
->>>
->>> Possible TODO: Allow users to 'upgrade' transient bitmaps to persistent
->>> ones in case they made a mistake.
->>=20
->> I doubt, as in my opinion real users of Qemu are not people but libvirt,=
- which
->> should never make such mistake.
->>=20
->=20
-> Right, that's largely been the consensus here; but there is some concern
-> that libvirt might not be the only user of QEMU, so I felt it was worth
-> documenting some of the crucial moments where it was "easy" to get it wro=
-ng.
->=20
-> I think like it or not, the API that QEMU presents has to be considered
-> on its own without libvirt because it's not a given that libvirt will
-> forever and always be the only user of QEMU.
->=20
-> I do think that any problems of this kind that can be solved in libvirt
-> are not immediate, crucial action items. libvirt WILL be the major user
-> of these features.
+Hi Cleber,
 
-Chiming in with a bit of vacation-induced delay - libvirt is definitely=20
-not the only user of QEMU's QMP interface - we at Proxmox use QEMU=20
-directly in our Proxmox VE product (usually a rather recent version,=20
-currently 4.0 with some cherry-picks and custom patches) and have been=20
-doing so for quite a while (the earliest reference in git that I can=20
-find is for QEMU 0.11.1, but there was SVN before that..).
+On 09/03/2019 09:52 PM, Cleber Rosa wrote:
+> The LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4_16 test,
+> from tests/acceptance/linux_initrd.py, is currently failing to fetch
+> the "vmlinuz" file.  The reason for the failure is that the Fedora
+> project retires older versions from the "dl.fedoraproject.org" URL,
+> and keeps them in "archives.fedoraproject.org".  As an added note,
+> that test uses a Fedora 28 image, because of the specific Linux kernel
+> version requirements of the test.
+>
+> For the sake of stability, let's use URLs from the archived and
+> supposedely ever stable URLs.  The good news is that the currently
+> supported versions are also hosted on the later.  This change limits
+> itself to change the URLs, while keeping the fetched files the same
+> (as can be evidenced by the unchanged hashes).
+>
+> Documentation and the "vm tests" fedora definition were also updated.
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>   qemu-doc.texi                          |  6 +++---
+>   tests/acceptance/boot_linux_console.py | 25 +++++++++++++++----------
+>   tests/acceptance/linux_initrd.py       |  5 +++--
+>   tests/vm/fedora                        |  2 +-
+>   4 files changed, 22 insertions(+), 16 deletions(-)
+>
+> diff --git a/qemu-doc.texi b/qemu-doc.texi
+> index 577d1e8376..37795f86fb 100644
+> --- a/qemu-doc.texi
+> +++ b/qemu-doc.texi
+> @@ -440,15 +440,15 @@ of <protocol>.
+>   
+>   Example: boot from a remote Fedora 20 live ISO image
+>   @example
+> -qemu-system-x86_64 --drive media=cdrom,file=http://dl.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+> +qemu-system-x86_64 --drive media=cdrom,file=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+>   
+> -qemu-system-x86_64 --drive media=cdrom,file.driver=http,file.url=http://dl.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+> +qemu-system-x86_64 --drive media=cdrom,file.driver=http,file.url=http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+>   @end example
+>   
+>   Example: boot from a remote Fedora 20 cloud image using a local overlay for
+>   writes, copy-on-read, and a readahead of 64k
+>   @example
+> -qemu-img create -f qcow2 -o backing_file='json:@{"file.driver":"http",, "file.url":"https://dl.fedoraproject.org/pub/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2",, "file.readahead":"64k"@}' /tmp/Fedora-x86_64-20-20131211.1-sda.qcow2
+> +qemu-img create -f qcow2 -o backing_file='json:@{"file.driver":"http",, "file.url":"http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2",, "file.readahead":"64k"@}' /tmp/Fedora-x86_64-20-20131211.1-sda.qcow2
+>   
+>   qemu-system-x86_64 -drive file=/tmp/Fedora-x86_64-20-20131211.1-sda.qcow2,copy-on-read=on
+>   @end example
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+> index 2504ef0150..8a9a314ab4 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -76,8 +76,9 @@ class BootLinuxConsole(Test):
+>           :avocado: tags=arch:x86_64
+>           :avocado: tags=machine:pc
+>           """
+> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
+> -                      'releases/29/Everything/x86_64/os/images/pxeboot/vmlinuz')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+> +                      '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
+> +                      '/vmlinuz')
+>           kernel_hash = '23bebd2680757891cf7adedb033532163a792495'
+>           kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>   
+> @@ -250,8 +251,9 @@ class BootLinuxConsole(Test):
+>           :avocado: tags=arch:aarch64
+>           :avocado: tags=machine:virt
+>           """
+> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
+> -                      'releases/29/Everything/aarch64/os/images/pxeboot/vmlinuz')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+> +                      '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
+> +                      '/vmlinuz')
+>           kernel_hash = '8c73e469fc6ea06a58dc83a628fc695b693b8493'
+>           kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>   
+> @@ -271,8 +273,9 @@ class BootLinuxConsole(Test):
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:virt
+>           """
+> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
+> -                      'releases/29/Everything/armhfp/os/images/pxeboot/vmlinuz')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+> +                      '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
+> +                      '/vmlinuz')
+>           kernel_hash = 'e9826d741b4fb04cadba8d4824d1ed3b7fb8b4d4'
+>           kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>   
+> @@ -318,8 +321,9 @@ class BootLinuxConsole(Test):
+>           :avocado: tags=arch:s390x
+>           :avocado: tags=machine:s390_ccw_virtio
+>           """
+> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora-secondary/'
+> -                      'releases/29/Everything/s390x/os/images/kernel.img')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+> +                      '/fedora-secondary/releases/29/Everything/s390x/os/images'
+> +                      '/kernel.img')
+>           kernel_hash = 'e8e8439103ef8053418ef062644ffd46a7919313'
+>           kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>   
+> @@ -360,8 +364,9 @@ class BootLinuxConsole(Test):
+>           :avocado: tags=arch:ppc64
+>           :avocado: tags=machine:pseries
+>           """
+> -        kernel_url = ('https://download.fedoraproject.org/pub/fedora-secondary/'
+> -                      'releases/29/Everything/ppc64le/os/ppc/ppc64/vmlinuz')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+> +                      '/fedora-secondary/releases/29/Everything/ppc64le/os'
+> +                      '/ppc/ppc64/vmlinuz')
+>           kernel_hash = '3fe04abfc852b66653b8c3c897a59a689270bc77'
+>           kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>   
+> diff --git a/tests/acceptance/linux_initrd.py b/tests/acceptance/linux_initrd.py
+> index 23be5a63aa..c61d9826a4 100644
+> --- a/tests/acceptance/linux_initrd.py
+> +++ b/tests/acceptance/linux_initrd.py
+> @@ -54,8 +54,9 @@ class LinuxInitrd(Test):
+>           QEMU has supported up to 4 GiB initrd for recent kernel
+>           Expect guest can reach 'Unpacking initramfs...'
+>           """
+> -        kernel_url = ('https://mirrors.kernel.org/fedora/releases/28/'
+> -                      'Everything/x86_64/os/images/pxeboot/vmlinuz')
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+> +                      '/linux/releases/28/Everything/x86_64/os/images/pxeboot/'
+> +                      'vmlinuz')
+>           kernel_hash = '238e083e114c48200f80d889f7e32eeb2793e02a'
+>           kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>           max_size = 2 * (1024 ** 3) + 1
+> diff --git a/tests/vm/fedora b/tests/vm/fedora
+> index e8fa5bf0d2..7fec1479fb 100755
+> --- a/tests/vm/fedora
+> +++ b/tests/vm/fedora
+> @@ -23,7 +23,7 @@ class FedoraVM(basevm.BaseVM):
+>       name = "fedora"
+>       arch = "x86_64"
+>   
+> -    base = "http://dl.fedoraproject.org/pub/fedora/linux/releases/30/"
+> +    base = "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/30/"
+>       link = base + "Server/x86_64/iso/Fedora-Server-netinst-x86_64-30-1.2.iso"
+>       repo = base + "Server/x86_64/os/"
+>       full = base + "Everything/x86_64/os/"
 
-IIRC, we currently only use the bitmap features for our own custom=20
-backup jobs (shipped in our patched QEMU packages[1]), and are planning=20
-to integrate differential mirroring on top of storage-level/ZFS=20
-snapshots once that has stabilized upstream.
+Currently it has just a few test cases that boot a Linux kernel. At this 
+point maintain the urls to fetch the files across a few source file is 
+manageable but it can get complex as it increases in number of tests. 
+While ago I started to work on the introduction of a "kernel provider" 
+mechanism to replace this "fetch a kernel" boilerplate. Unfortunately I 
+didn't time to complete its implementation, now If you think it is 
+valuable then I can manage to resume the work. Find the draft 
+implementation here: 
+https://github.com/wainersm/qemu/tree/acceptance_boot_linux
 
-That being said, the same basic guidelines apply to us that apply to=20
-libvirt - our users are (normally) also not talking QMP manually, our=20
-stack does it for them. Misuse of QMP interfaces is thus a bug in our=20
-software, and not a mistake made by its user. We do expose HMP over our=20
-API, but that is more for convenience of power users than any real use=20
-case that I am aware of.
+An alternate approach would be to extend Avocado by mimic the 
+avocado.utils.vmimage module [1], but rather have kernel providers.
 
-1: patches #20-24 from https://git.proxmox.com/?p=3Dpve-qemu.git;a=3Dtree;f=
-=3Ddebian/patches/pve;h=3D46bd31d60fe2c03571d9d29c7ee80f208206d37e;hb=3Dref=
-s/heads/master
-=
+[1] 
+https://avocado-framework.readthedocs.io/en/71.0/api/utils/avocado.utils.html#module-avocado.utils.vmimage
 
+Anyway, the changes proposed on this patch looks good to me.
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+Thanks,
+
+Wainer
 
