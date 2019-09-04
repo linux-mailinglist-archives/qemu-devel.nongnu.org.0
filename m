@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22333A947E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:08:26 +0200 (CEST)
-Received: from localhost ([::1]:39858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49FD2A946B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:03:44 +0200 (CEST)
+Received: from localhost ([::1]:39774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5cVs-0004aC-Dc
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:08:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49832)
+	id 1i5cRK-00078p-Hv
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:03:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49836)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i5bvJ-0008CD-RD
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:42 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i5bvJ-0008CK-T9
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i5bv9-0006dr-EG
+ (envelope-from <alex.bennee@linaro.org>) id 1i5bv9-0006dq-Ej
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:37 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39838)
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35662)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i5bv7-0006a6-JL
+ id 1i5bv7-0006b0-Ib
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:26 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id t16so182509wra.6
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:30:24 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id n10so224762wmj.0
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:30:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RQ+w2ffSJd/RpKk495uXzETqMFts2Vn6aZXPqkkPBt0=;
- b=OVP3wva9bR2vV66E8RVzSY7NYpmJTsi6K1D3L7Mz09nk0M46aNd7L1KzRLv6et2n/x
- UF2s/S67ygCcrgYNqCP86t6Hf+Eyto/MNdvPmvy1Y+FH5gVl1DfmaRxs/GZJ0kBZaNLk
- 2K0TsHg121+aFmeD9Y7U6CKL39RB3DIKx653SfKMjQpm995NupcPOkw2t1N5Z1Epbrhl
- ypREV9M4rdlz/6TC4jUT9h9lRLcQdOvWTJVpz0jveflDDZBgE3xZHGuunegVRXGcSTWM
- zX1MRF7iW1IflGV2kzqAdzytShYwS7vlTdrP4csdXi8nyQn26LVpbgBcozk83VCL5jZq
- wxKg==
+ bh=DowzcpHFxYQS1l03Cm9hViM/2yroo56W0ONqHBhViLQ=;
+ b=eBFteteNCsfTclxGSLUdxQb4usyz3xnxpoDXDWeH/Ilp1g+IkAYwEqeOf85xfCtkwx
+ 0ljULBATtzBF5Qw1bkItogglmwpWQUkFs1Bv5xl0iwlGNIIZTUqMRhbA8X8f7aGn6Wep
+ /oGbYqfe5sSN8fs/+2aepoaMEk/1RGnpPKX9xMJfrFgiBnnvHW3LgzlvZVTXL3+dtgx8
+ gRHYIRA30BW60ihlw0RlnRBr5z53c0yZUUmTTwMXe5D6zYyBc9b2JJ1FQQqoywXxS77y
+ sa+NtBWSHQZoNnL/2YkpS0KK26GZTI7ONV1nERf4Obm3mo/QWHdQc90opypym4J604gj
+ SoKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RQ+w2ffSJd/RpKk495uXzETqMFts2Vn6aZXPqkkPBt0=;
- b=nGBumpclwSAYfqAT8sfzQD/Mx81MTgM23ppd1rDIXeii6waOv2ogRWmf47GZG2Wj+c
- 8BwNqJB1UDE1EIIr6nQddxZTclcxTN/0Xiyy0xci5BwGx1vfJVmLhbW/Cqy6bIIrj31X
- sZ5GsYmfI0MTfYf/UO37S050VwA6dVaoOp5q+oC0Sb/GN4nPWFrJJu3ebTUx55lD18Xo
- JK899LIa4axyq54GErLPXf7XptxoONtIyhK/UpuDZNxn9qVAh/MzhLf3xlBpiXvtDBhf
- lBOGgyo0HmxseHI0GEefuyBZ6CeyImWdRH9teFyGN1LDDy+Zu6YDYTXx97ta5Ut2alkR
- YsuQ==
-X-Gm-Message-State: APjAAAVkz6sYMAI/XCuU1t5TfUqb+IlYZd/JbFlcdHJBLUMAmUbxbckL
- +0o/Pvrl0bSpw/6sgxy3kg/elw==
-X-Google-Smtp-Source: APXvYqyIsTqFlvK5kpnz2KXdlMfdAi56Q5sCladsKxsQzi/Wnfx3osFTwEGBwKSswreaAxwq6jAG0Q==
-X-Received: by 2002:adf:e30e:: with SMTP id b14mr50437707wrj.168.1567629022880; 
- Wed, 04 Sep 2019 13:30:22 -0700 (PDT)
+ bh=DowzcpHFxYQS1l03Cm9hViM/2yroo56W0ONqHBhViLQ=;
+ b=ul7WWgnCxN6VcAll7xbI+sLDBR3RXkdZvEBw5FSf+HY6VBHMYz4DrPo3sND4GrFAY1
+ U8DUaXiFihDzhrcqwp5uCbkDuNge/GJn3NHmELL4ZoIK+S3Fe63h4D3hse8MnQ3VAuYq
+ ighFkkjzLhGXz1EDfmaqxrDTqom9Yvdg7J30H0cmm1zBSNwo+aYBUp1wz3TsDc24riXX
+ +wTvhyOWV+3Y76sm6YtUvAuLcuFfpjb1vbOh3nf4OLh+321ZYVNYJf7EGhIo867qCkMx
+ LXyianrczk/uDiQX9qp54NIhPTLbNwY84EMSpLzPghbgFTM/fX3Obyg6dYEHHHtOxnp5
+ bZXA==
+X-Gm-Message-State: APjAAAXsz37n+JnRtsAsyUiUB2JgSQ8lDcCP+Fe1l5HrEBT/ECCDEeau
+ xpCR7yIBkay8TP2NTH4gHMkO6Q==
+X-Google-Smtp-Source: APXvYqyG71WNMlRqMy10wesz17QPjpg2/uhBcyXCP4zmQc2RRJWGruI8lsMPmYgRFi+Fma5ts8EQpQ==
+X-Received: by 2002:a7b:ce99:: with SMTP id q25mr67009wmj.163.1567629023659;
+ Wed, 04 Sep 2019 13:30:23 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v11sm39461709wrv.54.2019.09.04.13.30.15
+ by smtp.gmail.com with ESMTPSA id h17sm334093wme.6.2019.09.04.13.30.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 04 Sep 2019 13:30:18 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DC12F1FF92;
- Wed,  4 Sep 2019 21:30:13 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 09E901FF93;
+ Wed,  4 Sep 2019 21:30:14 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 21:29:36 +0100
-Message-Id: <20190904203013.9028-6-alex.bennee@linaro.org>
+Date: Wed,  4 Sep 2019 21:29:37 +0100
+Message-Id: <20190904203013.9028-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
 References: <20190904203013.9028-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
-Subject: [Qemu-devel] [PATCH v1 05/42] tests/tcg: cleanup Makefile inclusions
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH v1 06/42] tests/tcg: move configuration to a
+ sub-shell script
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,472 +82,1171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- berrange@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- stefanb@linux.vnet.ibm.com,
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, aurelien@aurel32.net,
- Richard Henderson <rth@twiddle.net>
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Rename Makefile.probe to Makefile.prereqs and make it actually
-define rules for the tests.
-
-Rename Makefile to Makefile.target, since it is not a toplevel
-makefile.
-
-Rename Makefile.include to Makefile.qemu and disentangle it
-from the QEMU Makefile.target, so that it is invoked recursively
-by tests/Makefile.include.  Tests are now placed in
-tests/tcg/$(TARGET).
-
-Drop the usage of TARGET_BASE_ARCH, which is ignored by everything except
-x86_64 and aarch64.  Fix x86 tests by using -cpu max and, while
-at it, standardize on QEMU_OPTS for aarch64 tests too.
+Avoid the repeated inclusions of config-target.mak, which have
+risks of namespace pollution, and instead build minimal configuration
+files in a configuration script.  The same configuration files can
+also be included in Makefile and Makefile.qemu
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20190807143523.15917-3-pbonzini@redhat.com>
+Message-Id: <20190807143523.15917-4-pbonzini@redhat.com>
+[AJB: s/docker/container/, rm last bits from configure]
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- Makefile.target                               |  3 --
- tests/Makefile.include                        | 23 +++++----
- .../tcg/{Makefile.probe => Makefile.prereqs}  |  5 +-
- tests/tcg/{Makefile.include => Makefile.qemu} | 48 +++++++++++--------
- tests/tcg/{Makefile => Makefile.target}       | 13 ++---
- tests/tcg/aarch64/Makefile.target             | 12 +++--
- tests/tcg/arm/Makefile.softmmu-target         |  4 --
- tests/tcg/i386/Makefile.softmmu-target        |  8 ----
- tests/tcg/i386/Makefile.target                | 13 ++---
- tests/tcg/x86_64/Makefile.softmmu-target      | 36 ++++++++++++++
- tests/tcg/x86_64/Makefile.target              |  7 +--
- 11 files changed, 100 insertions(+), 72 deletions(-)
- rename tests/tcg/{Makefile.probe => Makefile.prereqs} (92%)
- rename tests/tcg/{Makefile.include => Makefile.qemu} (52%)
- rename tests/tcg/{Makefile => Makefile.target} (92%)
- create mode 100644 tests/tcg/x86_64/Makefile.softmmu-target
+ Makefile                           |   1 +
+ configure                          | 157 ++-----------------
+ tests/Makefile.include             |   8 +-
+ tests/tcg/Makefile.prereqs         |  18 +--
+ tests/tcg/Makefile.qemu            |  51 +++----
+ tests/tcg/Makefile.target          |   8 +-
+ tests/tcg/aarch64/Makefile.include |   8 -
+ tests/tcg/alpha/Makefile.include   |   2 -
+ tests/tcg/arm/Makefile.include     |   8 -
+ tests/tcg/configure.sh             | 234 +++++++++++++++++++++++++++++
+ tests/tcg/cris/Makefile.include    |   6 -
+ tests/tcg/hppa/Makefile.include    |   2 -
+ tests/tcg/i386/Makefile.include    |   9 --
+ tests/tcg/m68k/Makefile.include    |   2 -
+ tests/tcg/mips/Makefile.include    |  20 ---
+ tests/tcg/ppc/Makefile.include     |  10 --
+ tests/tcg/riscv/Makefile.include   |  10 --
+ tests/tcg/s390x/Makefile.include   |   2 -
+ tests/tcg/sh4/Makefile.include     |   4 -
+ tests/tcg/sparc64/Makefile.include |   2 -
+ tests/tcg/xtensa/Makefile.include  |  11 --
+ 21 files changed, 282 insertions(+), 291 deletions(-)
+ delete mode 100644 tests/tcg/aarch64/Makefile.include
+ delete mode 100644 tests/tcg/alpha/Makefile.include
+ delete mode 100644 tests/tcg/arm/Makefile.include
+ create mode 100755 tests/tcg/configure.sh
+ delete mode 100644 tests/tcg/cris/Makefile.include
+ delete mode 100644 tests/tcg/hppa/Makefile.include
+ delete mode 100644 tests/tcg/i386/Makefile.include
+ delete mode 100644 tests/tcg/m68k/Makefile.include
+ delete mode 100644 tests/tcg/mips/Makefile.include
+ delete mode 100644 tests/tcg/ppc/Makefile.include
+ delete mode 100644 tests/tcg/riscv/Makefile.include
+ delete mode 100644 tests/tcg/s390x/Makefile.include
+ delete mode 100644 tests/tcg/sh4/Makefile.include
+ delete mode 100644 tests/tcg/sparc64/Makefile.include
+ delete mode 100644 tests/tcg/xtensa/Makefile.include
 
-diff --git a/Makefile.target b/Makefile.target
-index 933b27453a1..5e916230c43 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -39,9 +39,6 @@ endif
- PROGS=$(QEMU_PROG) $(QEMU_PROGW)
- STPFILES=
+diff --git a/Makefile b/Makefile
+index ae17a830678..b3528617e48 100644
+--- a/Makefile
++++ b/Makefile
+@@ -717,6 +717,7 @@ endef
  
--# Makefile Tests
--include $(SRC_PATH)/tests/tcg/Makefile.include
+ distclean: clean
+ 	rm -f config-host.mak config-host.h* config-host.ld $(DOCS) qemu-options.texi qemu-img-cmds.texi qemu-monitor.texi qemu-monitor-info.texi
++	rm -f tests/tcg/config-*.mak
+ 	rm -f config-all-devices.mak config-all-disas.mak config.status
+ 	rm -f $(SUBDIR_DEVICES_MAK)
+ 	rm -f po/*.mo tests/qemu-iotests/common.env
+diff --git a/configure b/configure
+index 94845fc5101..7860bbc3121 100755
+--- a/configure
++++ b/configure
+@@ -495,27 +495,10 @@ qed="yes"
+ parallels="yes"
+ sheepdog="yes"
+ libxml2=""
+-container="no"
+ debug_mutex="no"
+ libpmem=""
+ default_devices="yes"
+ 
+-# cross compilers defaults, can be overridden with --cross-cc-ARCH
+-cross_cc_aarch64="aarch64-linux-gnu-gcc"
+-cross_cc_aarch64_be="$cross_cc_aarch64"
+-cross_cc_cflags_aarch64_be="-mbig-endian"
+-cross_cc_arm="arm-linux-gnueabihf-gcc"
+-cross_cc_cflags_armeb="-mbig-endian"
+-cross_cc_i386="i386-pc-linux-gnu-gcc"
+-cross_cc_cflags_i386=""
+-cross_cc_ppc="powerpc-linux-gnu-gcc"
+-cross_cc_cflags_ppc="-m32"
+-cross_cc_ppc64="powerpc-linux-gnu-gcc"
+-cross_cc_cflags_ppc64="-m64"
+-cross_cc_ppc64le="powerpc64le-linux-gnu-gcc"
 -
- config-target.h: config-target.h-timestamp
- config-target.h-timestamp: config-target.mak
+-enabled_cross_compilers=""
+-
+ supported_cpu="no"
+ supported_os="no"
+ bogus_os="no"
+@@ -548,9 +531,12 @@ for opt do
+   ;;
+   --cross-cc-cflags-*) cc_arch=${opt#--cross-cc-flags-}; cc_arch=${cc_arch%%=*}
+                       eval "cross_cc_cflags_${cc_arch}=\$optarg"
++                      cross_cc_vars="$cross_cc_vars cross_cc_cflags_${cc_arch}"
+   ;;
+   --cross-cc-*) cc_arch=${opt#--cross-cc-}; cc_arch=${cc_arch%%=*}
++                cc_archs="$cc_archs $cc_arch"
+                 eval "cross_cc_${cc_arch}=\$optarg"
++                cross_cc_vars="$cross_cc_vars cross_cc_${cc_arch}"
+   ;;
+   esac
+ done
+@@ -745,42 +731,34 @@ ARCH=
+ case "$cpu" in
+   ppc|ppc64|s390|s390x|sparc64|x32|riscv32|riscv64)
+     supported_cpu="yes"
+-    eval "cross_cc_${cpu}=\$host_cc"
+   ;;
+   ppc64le)
+     ARCH="ppc64"
+     supported_cpu="yes"
+-    cross_cc_ppc64le=$host_cc
+   ;;
+   i386|i486|i586|i686|i86pc|BePC)
+     cpu="i386"
+     supported_cpu="yes"
+-    cross_cc_i386=$host_cc
+   ;;
+   x86_64|amd64)
+     cpu="x86_64"
+     supported_cpu="yes"
+-    cross_cc_x86_64=$host_cc
+   ;;
+   armv*b|armv*l|arm)
+     cpu="arm"
+     supported_cpu="yes"
+-    cross_cc_arm=$host_cc
+   ;;
+   aarch64)
+     cpu="aarch64"
+     supported_cpu="yes"
+-    cross_cc_aarch64=$host_cc
+   ;;
+   mips*)
+     cpu="mips"
+     supported_cpu="yes"
+-    cross_cc_mips=$host_cc
+   ;;
+   sparc|sun4[cdmuv])
+     cpu="sparc"
+     supported_cpu="yes"
+-    cross_cc_sparc=$host_cc
+   ;;
+   *)
+     # This will result in either an error or falling back to TCI later
+@@ -1555,44 +1533,30 @@ case "$cpu" in
+     ppc)
+            CPU_CFLAGS="-m32"
+            LDFLAGS="-m32 $LDFLAGS"
+-           cross_cc_ppc=$cc
+-           cross_cc_cflags_ppc="$CPU_CFLAGS"
+            ;;
+     ppc64)
+            CPU_CFLAGS="-m64"
+            LDFLAGS="-m64 $LDFLAGS"
+-           cross_cc_ppc64=$cc
+-           cross_cc_cflags_ppc64="$CPU_CFLAGS"
+            ;;
+     sparc)
+            CPU_CFLAGS="-m32 -mv8plus -mcpu=ultrasparc"
+            LDFLAGS="-m32 -mv8plus $LDFLAGS"
+-           cross_cc_sparc=$cc
+-           cross_cc_cflags_sparc="$CPU_CFLAGS"
+            ;;
+     sparc64)
+            CPU_CFLAGS="-m64 -mcpu=ultrasparc"
+            LDFLAGS="-m64 $LDFLAGS"
+-           cross_cc_sparc64=$cc
+-           cross_cc_cflags_sparc64="$CPU_CFLAGS"
+            ;;
+     s390)
+            CPU_CFLAGS="-m31"
+            LDFLAGS="-m31 $LDFLAGS"
+-           cross_cc_s390=$cc
+-           cross_cc_cflags_s390="$CPU_CFLAGS"
+            ;;
+     s390x)
+            CPU_CFLAGS="-m64"
+            LDFLAGS="-m64 $LDFLAGS"
+-           cross_cc_s390x=$cc
+-           cross_cc_cflags_s390x="$CPU_CFLAGS"
+            ;;
+     i386)
+            CPU_CFLAGS="-m32"
+            LDFLAGS="-m32 $LDFLAGS"
+-           cross_cc_i386=$cc
+-           cross_cc_cflags_i386="$CPU_CFLAGS"
+            ;;
+     x86_64)
+            # ??? Only extremely old AMD cpus do not have cmpxchg16b.
+@@ -1600,18 +1564,16 @@ case "$cpu" in
+            # runtime and generate the fallback to serial emulation.
+            CPU_CFLAGS="-m64 -mcx16"
+            LDFLAGS="-m64 $LDFLAGS"
+-           cross_cc_x86_64=$cc
+-           cross_cc_cflags_x86_64="$CPU_CFLAGS"
+            ;;
+     x32)
+            CPU_CFLAGS="-mx32"
+            LDFLAGS="-mx32 $LDFLAGS"
+-           cross_cc_i386=$cc
+-           cross_cc_cflags_i386="$CPU_CFLAGS"
+            ;;
+     # No special flags required for other host CPUs
+ esac
  
++eval "cross_cc_${cpu}=\$host_cc"
++cross_cc_vars="$cross_cc_vars cross_cc_${cpu}"
+ QEMU_CFLAGS="$CPU_CFLAGS $QEMU_CFLAGS"
+ 
+ # For user-mode emulation the host arch has to be one we explicitly
+@@ -5893,17 +5855,6 @@ EOF
+   fi
+ fi
+ 
+-##########################################
+-# Container based cross-compiler support
+-#
+-# This is specifically for building test
+-# cases for foreign architectures, not
+-# cross-compiling QEMU itself.
+-
+-if has "docker" || has "podman"; then
+-    container=$($python $source_path/tests/docker/docker.py probe)
+-fi
+-
+ ##########################################
+ # check for libpmem
+ 
+@@ -6474,7 +6425,6 @@ echo "qed support       $qed"
+ echo "parallels support $parallels"
+ echo "sheepdog support  $sheepdog"
+ echo "capstone          $capstone"
+-echo "container support $container"
+ echo "libpmem support   $libpmem"
+ echo "libudev           $libudev"
+ echo "default devices   $default_devices"
+@@ -7384,10 +7334,6 @@ if test "$gcov" = "yes" ; then
+   echo "GCOV=$gcov_tool" >> $config_host_mak
+ fi
+ 
+-if test "$docker" != "no"; then
+-    echo "HAVE_USER_DOCKER=y" >> $config_host_mak
+-fi
+-
+ if test "$libudev" != "no"; then
+     echo "CONFIG_LIBUDEV=y" >> $config_host_mak
+     echo "LIBUDEV_LIBS=$libudev_libs" >> $config_host_mak
+@@ -7461,10 +7407,6 @@ case "$target" in
+     ;;
+ esac
+ 
+-target_compiler=""
+-target_compiler_static=""
+-target_compiler_cflags=""
+-
+ mkdir -p $target_dir
+ echo "# Automatically generated by configure - do not modify" > $config_target_mak
+ 
+@@ -7481,26 +7423,20 @@ case "$target_name" in
+   i386)
+     mttcg="yes"
+ 	gdb_xml_files="i386-32bit.xml"
+-    target_compiler=$cross_cc_i386
+-    target_compiler_cflags=$cross_cc_ccflags_i386
+   ;;
+   x86_64)
+     TARGET_BASE_ARCH=i386
+     mttcg="yes"
+ 	gdb_xml_files="i386-64bit.xml"
+-    target_compiler=$cross_cc_x86_64
+   ;;
+   alpha)
+     mttcg="yes"
+-    target_compiler=$cross_cc_alpha
+   ;;
+   arm|armeb)
+     TARGET_ARCH=arm
+     bflt="yes"
+     mttcg="yes"
+     gdb_xml_files="arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
+-    target_compiler=$cross_cc_arm
+-    eval "target_compiler_cflags=\$cross_cc_cflags_${target_name}"
+   ;;
+   aarch64|aarch64_be)
+     TARGET_ARCH=aarch64
+@@ -7508,41 +7444,32 @@ case "$target_name" in
+     bflt="yes"
+     mttcg="yes"
+     gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
+-    target_compiler=$cross_cc_aarch64
+-    eval "target_compiler_cflags=\$cross_cc_cflags_${target_name}"
+   ;;
+   cris)
+-    target_compiler=$cross_cc_cris
+   ;;
+   hppa)
+     mttcg="yes"
+-    target_compiler=$cross_cc_hppa
+   ;;
+   lm32)
+-    target_compiler=$cross_cc_lm32
+   ;;
+   m68k)
+     bflt="yes"
+     gdb_xml_files="cf-core.xml cf-fp.xml m68k-fp.xml"
+-    target_compiler=$cross_cc_m68k
+   ;;
+   microblaze|microblazeel)
+     TARGET_ARCH=microblaze
+     bflt="yes"
+     echo "TARGET_ABI32=y" >> $config_target_mak
+-    target_compiler=$cross_cc_microblaze
+   ;;
+   mips|mipsel)
+     mttcg="yes"
+     TARGET_ARCH=mips
+-    target_compiler=$cross_cc_mips
+     echo "TARGET_ABI_MIPSO32=y" >> $config_target_mak
+   ;;
+   mipsn32|mipsn32el)
+     mttcg="yes"
+     TARGET_ARCH=mips64
+     TARGET_BASE_ARCH=mips
+-    target_compiler=$cross_cc_mipsn32
+     echo "TARGET_ABI_MIPSN32=y" >> $config_target_mak
+     echo "TARGET_ABI32=y" >> $config_target_mak
+   ;;
+@@ -7550,32 +7477,24 @@ case "$target_name" in
+     mttcg="yes"
+     TARGET_ARCH=mips64
+     TARGET_BASE_ARCH=mips
+-    target_compiler=$cross_cc_mips64
+     echo "TARGET_ABI_MIPSN64=y" >> $config_target_mak
+   ;;
+   moxie)
+-    target_compiler=$cross_cc_moxie
+   ;;
+   nios2)
+-    target_compiler=$cross_cc_nios2
+   ;;
+   or1k)
+-    target_compiler=$cross_cc_or1k
+     TARGET_ARCH=openrisc
+     TARGET_BASE_ARCH=openrisc
+   ;;
+   ppc)
+     gdb_xml_files="power-core.xml power-fpu.xml power-altivec.xml power-spe.xml"
+-    target_compiler=$cross_cc_ppc
+-    target_compiler_cflags="$cross_cc_cflags_ppc"
+   ;;
+   ppc64)
+     TARGET_BASE_ARCH=ppc
+     TARGET_ABI_DIR=ppc
+     mttcg=yes
+     gdb_xml_files="power64-core.xml power-fpu.xml power-altivec.xml power-spe.xml power-vsx.xml"
+-    target_compiler=$cross_cc_ppc64
+-    target_compiler_cflags="$cross_cc_cflags_ppc64"
+   ;;
+   ppc64le)
+     TARGET_ARCH=ppc64
+@@ -7583,7 +7502,6 @@ case "$target_name" in
+     TARGET_ABI_DIR=ppc
+     mttcg=yes
+     gdb_xml_files="power64-core.xml power-fpu.xml power-altivec.xml power-spe.xml power-vsx.xml"
+-    target_compiler=$cross_cc_ppc64le
+   ;;
+   ppc64abi32)
+     TARGET_ARCH=ppc64
+@@ -7591,60 +7509,48 @@ case "$target_name" in
+     TARGET_ABI_DIR=ppc
+     echo "TARGET_ABI32=y" >> $config_target_mak
+     gdb_xml_files="power64-core.xml power-fpu.xml power-altivec.xml power-spe.xml power-vsx.xml"
+-    target_compiler=$cross_cc_ppc64abi32
+   ;;
+   riscv32)
+     TARGET_BASE_ARCH=riscv
+     TARGET_ABI_DIR=riscv
+     mttcg=yes
+     gdb_xml_files="riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-32bit-csr.xml"
+-    target_compiler=$cross_cc_riscv32
+   ;;
+   riscv64)
+     TARGET_BASE_ARCH=riscv
+     TARGET_ABI_DIR=riscv
+     mttcg=yes
+     gdb_xml_files="riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit-csr.xml"
+-    target_compiler=$cross_cc_riscv64
+   ;;
+   sh4|sh4eb)
+     TARGET_ARCH=sh4
+     bflt="yes"
+-    target_compiler=$cross_cc_sh4
+   ;;
+   sparc)
+-    target_compiler=$cross_cc_sparc
+   ;;
+   sparc64)
+     TARGET_BASE_ARCH=sparc
+-    target_compiler=$cross_cc_sparc64
+   ;;
+   sparc32plus)
+     TARGET_ARCH=sparc64
+     TARGET_BASE_ARCH=sparc
+     TARGET_ABI_DIR=sparc
+-    target_compiler=$cross_cc_sparc32plus
+     echo "TARGET_ABI32=y" >> $config_target_mak
+   ;;
+   s390x)
+     mttcg=yes
+     gdb_xml_files="s390x-core64.xml s390-acr.xml s390-fpr.xml s390-vx.xml s390-cr.xml s390-virt.xml s390-gs.xml"
+-    target_compiler=$cross_cc_s390x
+   ;;
+   tilegx)
+-    target_compiler=$cross_cc_tilegx
+   ;;
+   tricore)
+-    target_compiler=$cross_cc_tricore
+   ;;
+   unicore32)
+-    target_compiler=$cross_cc_unicore32
+   ;;
+   xtensa|xtensaeb)
+     TARGET_ARCH=xtensa
+     bflt="yes"
+     mttcg="yes"
+-    target_compiler=$cross_cc_xtensa
+   ;;
+   *)
+     error_exit "Unsupported target CPU"
+@@ -7655,27 +7561,6 @@ if [ "$TARGET_BASE_ARCH" = "" ]; then
+   TARGET_BASE_ARCH=$TARGET_ARCH
+ fi
+ 
+-# Do we have a cross compiler for this target?
+-if has $target_compiler; then
+-
+-    write_c_skeleton
+-
+-    if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE $TMPC -static ; then
+-        # For host systems we might get away with building without -static
+-        if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE $TMPC ; then
+-            target_compiler=""
+-        else
+-            enabled_cross_compilers="${enabled_cross_compilers} '${target_compiler}'"
+-            target_compiler_static="n"
+-        fi
+-    else
+-        enabled_cross_compilers="${enabled_cross_compilers} '${target_compiler}'"
+-        target_compiler_static="y"
+-    fi
+-else
+-    target_compiler=""
+-fi
+-
+ symlink "$source_path/Makefile.target" "$target_dir/Makefile"
+ 
+ upper() {
+@@ -7752,18 +7637,6 @@ if test "$target_bsd_user" = "yes" ; then
+   echo "CONFIG_BSD_USER=y" >> $config_target_mak
+ fi
+ 
+-if test -n "$target_compiler"; then
+-  echo "CROSS_CC_GUEST=\"$target_compiler\"" >> $config_target_mak
+-
+-  if test -n "$target_compiler_static"; then
+-      echo "CROSS_CC_GUEST_STATIC=$target_compiler_static" >> $config_target_mak
+-  fi
+-
+-  if test -n "$target_compiler_cflags"; then
+-      echo "CROSS_CC_GUEST_CFLAGS=$target_compiler_cflags" >> $config_target_mak
+-  fi
+-fi
+-
+ 
+ # generate QEMU_CFLAGS/LDFLAGS for targets
+ 
+@@ -7894,11 +7767,6 @@ done # for target in $targets
+ echo "PIXMAN_CFLAGS=$pixman_cflags" >> $config_host_mak
+ echo "PIXMAN_LIBS=$pixman_libs" >> $config_host_mak
+ 
+-if test -n "$enabled_cross_compilers"; then
+-    echo
+-    echo "NOTE: cross-compilers enabled: $enabled_cross_compilers"
+-fi
+-
+ if [ "$fdt" = "git" ]; then
+   echo "config-host.h: dtc/all" >> $config_host_mak
+ fi
+@@ -7927,15 +7795,14 @@ fi
+ # so the build tree will be missing the link back to the new file, and
+ # tests might fail. Prefer to keep the relevant files in their own
+ # directory and symlink the directory instead.
+-DIRS="tests tests/tcg tests/tcg/cris tests/tcg/lm32 tests/libqos tests/qapi-schema tests/tcg/xtensa tests/qemu-iotests tests/vm"
++DIRS="tests tests/tcg tests/tcg/lm32 tests/libqos tests/qapi-schema tests/qemu-iotests tests/vm"
+ DIRS="$DIRS tests/fp tests/qgraph"
+ DIRS="$DIRS docs docs/interop fsdev scsi"
+ DIRS="$DIRS pc-bios/optionrom pc-bios/spapr-rtas pc-bios/s390-ccw"
+ DIRS="$DIRS roms/seabios roms/vgabios"
+-LINKS="Makefile tests/tcg/Makefile"
+-LINKS="$LINKS tests/tcg/cris/Makefile tests/tcg/cris/.gdbinit"
+-LINKS="$LINKS tests/tcg/lm32/Makefile tests/tcg/xtensa/Makefile po/Makefile"
+-LINKS="$LINKS tests/fp/Makefile"
++LINKS="Makefile"
++LINKS="$LINKS tests/tcg/lm32/Makefile po/Makefile"
++LINKS="$LINKS tests/tcg/Makefile.target tests/fp/Makefile"
+ LINKS="$LINKS pc-bios/optionrom/Makefile pc-bios/keymaps"
+ LINKS="$LINKS pc-bios/spapr-rtas/Makefile"
+ LINKS="$LINKS pc-bios/s390-ccw/Makefile"
+@@ -7965,6 +7832,12 @@ for f in $LINKS ; do
+     fi
+ done
+ 
++(for i in $cross_cc_vars; do
++  export $i
++done
++export target_list source_path
++$source_path/tests/tcg/configure.sh)
++
+ # temporary config to build submodules
+ for rom in seabios vgabios ; do
+     config_mak=roms/$rom/config.mak
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index f5ac09549ca..8400656b9d3 100644
+index 8400656b9d3..9380b9eb666 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -1062,23 +1062,28 @@ RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGET_DIRS))
- ifeq ($(HAVE_USER_DOCKER),y)
+@@ -1059,30 +1059,28 @@ BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGET_DIRS))
+ CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TARGET_DIRS))
+ RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGET_DIRS))
+ 
+-ifeq ($(HAVE_USER_DOCKER),y)
  # Probe for the Docker Builds needed for each build
  $(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
--	$(eval -include $(SRC_PATH)/tests/tcg/Makefile.probe) 	\
--	$(if $(DOCKER_PREREQ), 					\
--		$(eval build-tcg-tests-$(PROBE_TARGET): $(DOCKER_PREREQ))))
-+	$(eval -include $(SRC_PATH)/tests/tcg/Makefile.prereqs))
- endif
+ 	$(eval -include $(SRC_PATH)/tests/tcg/Makefile.prereqs))
+-endif
  
  build-tcg-tests-%:
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $* V="$(V)" \
--		SKIP_DOCKER_BUILD=1 TARGET_DIR="$*/" guest-tests, \
-+	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
-+		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
-+		SRC_PATH=$(SRC_PATH) \
-+	       	V="$(V)" TARGET_DIR="$*/" guest-tests, \
+ 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
+ 		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
+ 		SRC_PATH=$(SRC_PATH) \
+-	       	V="$(V)" TARGET_DIR="$*/" guest-tests, \
++	       	V="$(V)" TARGET="$*" guest-tests, \
  		"BUILD", "TCG tests for $*")
  
--run-tcg-tests-%: % build-tcg-tests-%
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $* V="$(V)" \
--		SKIP_DOCKER_BUILD=1 TARGET_DIR="$*/" run-guest-tests, \
-+run-tcg-tests-%: build-tcg-tests-% %/all
-+	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
-+		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
-+		SRC_PATH=$(SRC_PATH) SPEED="$(SPEED)" \
-+		V="$(V)" TARGET_DIR="$*/" run-guest-tests, \
+ run-tcg-tests-%: build-tcg-tests-% %/all
+ 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
+ 		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
+ 		SRC_PATH=$(SRC_PATH) SPEED="$(SPEED)" \
+-		V="$(V)" TARGET_DIR="$*/" run-guest-tests, \
++		V="$(V)" TARGET="$*" run-guest-tests, \
  		"RUN", "TCG tests for $*")
  
  clean-tcg-tests-%:
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $* V="$(V)" TARGET_DIR="$*/" clean-guest-tests,)
-+	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
-+		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
-+		SRC_PATH=$(SRC_PATH) TARGET_DIR="$*/" clean-guest-tests, \
-+		"RUN", "TCG tests for $*")
+ 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
+ 		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
+-		SRC_PATH=$(SRC_PATH) TARGET_DIR="$*/" clean-guest-tests, \
++		SRC_PATH=$(SRC_PATH) TARGET="$*" clean-guest-tests, \
+ 		"RUN", "TCG tests for $*")
  
  .PHONY: build-tcg
- build-tcg: $(BUILD_TCG_TARGET_RULES)
-diff --git a/tests/tcg/Makefile.probe b/tests/tcg/Makefile.prereqs
-similarity index 92%
-rename from tests/tcg/Makefile.probe
-rename to tests/tcg/Makefile.prereqs
-index 9dc654663d6..53b01962e1d 100644
---- a/tests/tcg/Makefile.probe
+diff --git a/tests/tcg/Makefile.prereqs b/tests/tcg/Makefile.prereqs
+index 53b01962e1d..7494b31b952 100644
+--- a/tests/tcg/Makefile.prereqs
 +++ b/tests/tcg/Makefile.prereqs
-@@ -8,20 +8,19 @@
+@@ -7,24 +7,12 @@
+ # selection of required docker targets before we invoke a sub-make for
  # each target.
  
- # First we need the target makefile which tells us the target architecture
-+CROSS_CC_GUEST:=
- -include $(BUILD_DIR)/$(PROBE_TARGET)/config-target.mak
- 
- # Then we load up the target architecture makefiles which tell us
- # about the compilers
+-# First we need the target makefile which tells us the target architecture
 -CROSS_CC_GUEST:=
+--include $(BUILD_DIR)/$(PROBE_TARGET)/config-target.mak
+-
+-# Then we load up the target architecture makefiles which tell us
+-# about the compilers
  DOCKER_IMAGE:=
--DOCKER_PREREQ:=
- 
- -include $(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.include
- -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.include
- 
- ifndef CROSS_CC_GUEST
- ifneq ($(DOCKER_IMAGE),)
--DOCKER_PREREQ:=docker-image-$(DOCKER_IMAGE)
-+build-tcg-tests-$(PROBE_TARGET): docker-image-$(DOCKER_IMAGE)
- endif
- endif
- 
-diff --git a/tests/tcg/Makefile.include b/tests/tcg/Makefile.qemu
-similarity index 52%
-rename from tests/tcg/Makefile.include
-rename to tests/tcg/Makefile.qemu
-index 210f8428237..7eff11d434e 100644
---- a/tests/tcg/Makefile.include
-+++ b/tests/tcg/Makefile.qemu
-@@ -2,20 +2,23 @@
- #
- # TCG tests (per-target rules)
- #
--# This Makefile fragment is included from the per-target
--# Makefile.target so will be invoked for each linux-user program we
--# build. We have two options for compiling, either using a configured
--# guest compiler or calling one of our docker images to do it for us.
-+# This Makefile fragment is included from the build-tcg target, once
-+# for each target we build. We have two options for compiling, either
-+# using a configured guest compiler or calling one of our docker images
-+# to do it for us.
- #
- 
- # The per ARCH makefile, if it exists, holds extra information about
- # useful docker images or alternative compiler flags.
  
 --include $(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.include
 --include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.include
-+include $(TARGET_DIR)config-target.mak
++-include $(BUILD_DIR)/tests/tcg/config-$(PROBE_TARGET).mak
+ 
+-ifndef CROSS_CC_GUEST
+ ifneq ($(DOCKER_IMAGE),)
+ build-tcg-tests-$(PROBE_TARGET): docker-image-$(DOCKER_IMAGE)
++$(BUILD_DIR)/tests/tcg/config_$(PROBE_TARGET).mak: config-host.mak
++config-host.mak: $(SRC_PATH)/tests/tcg/configure.sh
+ endif
+-endif
+-
+-# Clean-up
+-# undefine TARGET_NAME
+-# undefine TARGET_BASE_ARCH
+-# undefine TARGET_ABI_DIR
+diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
+index 7eff11d434e..9c23aeaa2a6 100644
+--- a/tests/tcg/Makefile.qemu
++++ b/tests/tcg/Makefile.qemu
+@@ -8,17 +8,22 @@
+ # to do it for us.
+ #
+ 
+-# The per ARCH makefile, if it exists, holds extra information about
 +include $(SRC_PATH)/rules.mak
-+include $(wildcard \
-+	$(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.include \
-+	$(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.include)
++
++# The configure script fills in extra information about
+ # useful docker images or alternative compiler flags.
+ 
+-include $(TARGET_DIR)config-target.mak
+-include $(SRC_PATH)/rules.mak
+-include $(wildcard \
+-	$(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.include \
+-	$(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.include)
++CROSS_CC_GUEST:=
++DOCKER_IMAGE:=
++-include $(BUILD_DIR)/tests/tcg/config-$(TARGET).mak
  
  GUEST_BUILD=
--TCG_MAKE=$(SRC_PATH)/tests/tcg/Makefile
-+TCG_MAKE=../Makefile.target
+ TCG_MAKE=../Makefile.target
++
++# We also need the Docker make rules to depend on
++SKIP_DOCKER_BUILD=1
++include $(SRC_PATH)/tests/docker/Makefile.include
++
  # Support installed Cross Compilers
  
  ifdef CROSS_CC_GUEST
-@@ -23,9 +26,9 @@ ifdef CROSS_CC_GUEST
+@@ -26,11 +31,11 @@ ifdef CROSS_CC_GUEST
  .PHONY: cross-build-guest-tests
  cross-build-guest-tests:
  	$(call quiet-command, \
--	   (mkdir -p tests && cd tests && \
--	    $(MAKE) -f $(TCG_MAKE) CC=$(CROSS_CC_GUEST) \
--			BUILD_STATIC=$(CROSS_CC_GUEST_STATIC) \
-+	   (mkdir -p tests/tcg/$(TARGET_DIR) && cd tests/tcg/$(TARGET_DIR) && \
-+	    $(MAKE) -f $(TCG_MAKE) TARGET_DIR="$(TARGET_DIR)" CC="$(CROSS_CC_GUEST)" \
-+			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=$(CROSS_CC_GUEST_STATIC) \
- 			EXTRA_CFLAGS=$(CROSS_CC_GUEST_CFLAGS)), \
- 	"BUILD","$(TARGET_NAME) guest-tests with $(CROSS_CC_GUEST)")
+-	   (mkdir -p tests/tcg/$(TARGET_DIR) && cd tests/tcg/$(TARGET_DIR) && \
+-	    $(MAKE) -f $(TCG_MAKE) TARGET_DIR="$(TARGET_DIR)" CC="$(CROSS_CC_GUEST)" \
++	   (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
++	    $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC="$(CROSS_CC_GUEST)" \
+ 			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=$(CROSS_CC_GUEST_STATIC) \
+-			EXTRA_CFLAGS=$(CROSS_CC_GUEST_CFLAGS)), \
+-	"BUILD","$(TARGET_NAME) guest-tests with $(CROSS_CC_GUEST)")
++			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
++	"BUILD","$(TARGET) guest-tests with $(CROSS_CC_GUEST)")
  
-@@ -39,20 +42,20 @@ ifeq ($(HAVE_USER_DOCKER)$(GUEST_BUILD),y)
+ GUEST_BUILD=cross-build-guest-tests
+ 
+@@ -38,30 +43,24 @@ endif
+ 
+ # Support building with Docker
+ 
+-ifeq ($(HAVE_USER_DOCKER)$(GUEST_BUILD),y)
  ifneq ($(DOCKER_IMAGE),)
  
- # We also need the Docker make rules to depend on
-+SKIP_DOCKER_BUILD=1
- include $(SRC_PATH)/tests/docker/Makefile.include
- 
+-# We also need the Docker make rules to depend on
+-SKIP_DOCKER_BUILD=1
+-include $(SRC_PATH)/tests/docker/Makefile.include
+-
  DOCKER_COMPILE_CMD="$(DOCKER_SCRIPT) cc \
- 		--cc $(DOCKER_CROSS_COMPILER) \
+-		--cc $(DOCKER_CROSS_COMPILER) \
++		--cc $(DOCKER_CROSS_CC_GUEST) \
  		-i qemu:$(DOCKER_IMAGE) \
  		-s $(SRC_PATH) -- "
--DOCKER_PREREQ=docker-image-$(DOCKER_IMAGE)
  
  .PHONY: docker-build-guest-tests
--docker-build-guest-tests: $(DOCKER_PREREQ)
-+docker-build-guest-tests: docker-image-$(DOCKER_IMAGE)
+ docker-build-guest-tests: docker-image-$(DOCKER_IMAGE)
  	$(call quiet-command, \
--	  (mkdir -p tests && cd tests && \
--	   $(MAKE) -f $(TCG_MAKE) CC=$(DOCKER_COMPILE_CMD) \
--			BUILD_STATIC=y \
-+	  (mkdir -p tests/tcg/$(TARGET_DIR) && cd tests/tcg/$(TARGET_DIR) && \
-+	   $(MAKE) -f $(TCG_MAKE) TARGET_DIR="$(TARGET_DIR)" CC=$(DOCKER_COMPILE_CMD) \
-+			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=y \
- 			EXTRA_CFLAGS=$(DOCKER_CROSS_COMPILER_CFLAGS)), \
- 	"BUILD","$(TARGET_NAME) guest-tests with docker qemu:$(DOCKER_IMAGE)")
+-	  (mkdir -p tests/tcg/$(TARGET_DIR) && cd tests/tcg/$(TARGET_DIR) && \
+-	   $(MAKE) -f $(TCG_MAKE) TARGET_DIR="$(TARGET_DIR)" CC=$(DOCKER_COMPILE_CMD) \
++	  (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
++	   $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC=$(DOCKER_COMPILE_CMD) \
+ 			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=y \
+-			EXTRA_CFLAGS=$(DOCKER_CROSS_COMPILER_CFLAGS)), \
+-	"BUILD","$(TARGET_NAME) guest-tests with docker qemu:$(DOCKER_IMAGE)")
++			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
++	"BUILD","$(TARGET) guest-tests with docker qemu:$(DOCKER_IMAGE)")
  
-@@ -62,27 +65,32 @@ endif
+ GUEST_BUILD=docker-build-guest-tests
+ 
+-endif
  endif
  
  # Final targets
-+all:
-+	@echo "Do not invoke this Makefile directly"; exit 1
-+
- .PHONY: guest-tests
+@@ -75,22 +74,22 @@ guest-tests: $(GUEST_BUILD)
  
- ifneq ($(GUEST_BUILD),)
- guest-tests: $(GUEST_BUILD)
- 
--run-guest-tests: guest-tests qemu-$(subst y,system-,$(CONFIG_SOFTMMU))$(TARGET_NAME)
-+run-guest-tests: guest-tests
+ run-guest-tests: guest-tests
  	$(call quiet-command, \
--	(cd tests && $(MAKE) -f $(TCG_MAKE) SPEED=$(SPEED) run), \
-+	(cd tests/tcg/$(TARGET_DIR) && \
-+	 $(MAKE) -f $(TCG_MAKE) TARGET_DIR="$(TARGET_DIR)" \
-+	 		SRC_PATH="$(SRC_PATH)" SPEED=$(SPEED) run), \
+-	(cd tests/tcg/$(TARGET_DIR) && \
+-	 $(MAKE) -f $(TCG_MAKE) TARGET_DIR="$(TARGET_DIR)" \
++	(cd tests/tcg/$(TARGET) && \
++	 $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" \
+ 	 		SRC_PATH="$(SRC_PATH)" SPEED=$(SPEED) run), \
  	"RUN", "tests for $(TARGET_NAME)")
  
  else
  guest-tests:
  	$(call quiet-command, /bin/true, "BUILD", \
--		"$(TARGET_NAME) guest-tests SKIPPED")
-+		"$(TARGET_DIR) guest-tests SKIPPED")
+-		"$(TARGET_DIR) guest-tests SKIPPED")
++		"$(TARGET) guest-tests SKIPPED")
  
  run-guest-tests:
  	$(call quiet-command, /bin/true, "RUN", \
--		"tests for $(TARGET_NAME) SKIPPED")
-+		"tests for $(TARGET_DIR) SKIPPED")
+-		"tests for $(TARGET_DIR) SKIPPED")
++		"tests for $(TARGET) SKIPPED")
  endif
  
  # It doesn't matter if these don't exits
  .PHONY: clean-guest-tests
  clean-guest-tests:
--	rm -rf tests || echo "no $(TARGET_NAME) tests to remove"
-+	rm -rf tests/tcg/$(TARGET_DIR)
-diff --git a/tests/tcg/Makefile b/tests/tcg/Makefile.target
-similarity index 92%
-rename from tests/tcg/Makefile
-rename to tests/tcg/Makefile.target
-index 9f567686240..8dbcba4474f 100644
---- a/tests/tcg/Makefile
+-	rm -rf tests/tcg/$(TARGET_DIR)
++	rm -rf tests/tcg/$(TARGET)
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index 8dbcba4474f..8808beaf74b 100644
+--- a/tests/tcg/Makefile.target
 +++ b/tests/tcg/Makefile.target
-@@ -29,8 +29,9 @@
- # We also expect to be in the tests build dir for the FOO-(linux-user|softmmu).
- #
+@@ -31,7 +31,7 @@
  
-+all:
+ all:
  -include ../../config-host.mak
---include ../config-target.mak
-+-include ../../../$(TARGET_DIR)/config-target.mak
+--include ../../../$(TARGET_DIR)/config-target.mak
++-include ../config-$(TARGET).mak
  
  # for including , in command strings
  COMMA := ,
-@@ -64,9 +65,9 @@ LDFLAGS=
+@@ -63,12 +63,6 @@ CFLAGS=
+ QEMU_CFLAGS=
+ LDFLAGS=
  
- # The QEMU for this TARGET
- ifdef CONFIG_USER_ONLY
--QEMU=../qemu-$(TARGET_NAME)
-+QEMU=../../../$(TARGET_DIR)/qemu-$(TARGET_NAME)
- else
--QEMU=../qemu-system-$(TARGET_NAME)
-+QEMU=../../../$(TARGET_DIR)/qemu-system-$(TARGET_NAME)
- endif
+-# The QEMU for this TARGET
+-ifdef CONFIG_USER_ONLY
+-QEMU=../../../$(TARGET_DIR)/qemu-$(TARGET_NAME)
+-else
+-QEMU=../../../$(TARGET_DIR)/qemu-system-$(TARGET_NAME)
+-endif
  QEMU_OPTS=
  
-@@ -82,10 +83,7 @@ ifdef CONFIG_USER_ONLY
- # The order we include is important. We include multiarch, base arch
- # and finally arch if it's not the same as base arch.
- -include $(SRC_PATH)/tests/tcg/multiarch/Makefile.target
---include $(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.target
--ifneq ($(TARGET_BASE_ARCH),$(TARGET_NAME))
- -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.target
--endif
  
- # Add the common build options
- CFLAGS+=-Wall -O0 -g -fno-strict-aliasing
-@@ -101,10 +99,7 @@ else
- # are expected to provide their own build recipes.
- -include $(SRC_PATH)/tests/tcg/minilib/Makefile.target
- -include $(SRC_PATH)/tests/tcg/multiarch/system/Makefile.softmmu-target
---include $(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.softmmu-target
--ifneq ($(TARGET_BASE_ARCH),$(TARGET_NAME))
- -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.softmmu-target
--endif
- 
- endif
- 
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index 31ba9cfcaa1..e763dd9da37 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -2,12 +2,14 @@
- #
- # AArch64 specific tweaks
- 
-+ARM_SRC=$(SRC_PATH)/tests/tcg/arm
-+VPATH 		+= $(ARM_SRC)
-+
- AARCH64_SRC=$(SRC_PATH)/tests/tcg/aarch64
- VPATH 		+= $(AARCH64_SRC)
- 
--# we don't build any of the ARM tests
--AARCH64_TESTS=$(filter-out $(ARM_TESTS), $(TESTS))
--AARCH64_TESTS+=fcvt
-+# we don't build any other ARM test
-+AARCH64_TESTS=fcvt
- 
- fcvt: LDFLAGS+=-lm
- 
-@@ -16,6 +18,6 @@ run-fcvt: fcvt
- 	$(call diff-out,$<,$(AARCH64_SRC)/fcvt.ref)
- 
- AARCH64_TESTS += pauth-1 pauth-2
--run-pauth-%: QEMU += -cpu max
-+run-pauth-%: QEMU_OPTS += -cpu max
- 
--TESTS:=$(AARCH64_TESTS)
-+TESTS += $(AARCH64_TESTS)
-diff --git a/tests/tcg/arm/Makefile.softmmu-target b/tests/tcg/arm/Makefile.softmmu-target
-index 2deb06e6e46..231e9a57b48 100644
---- a/tests/tcg/arm/Makefile.softmmu-target
-+++ b/tests/tcg/arm/Makefile.softmmu-target
-@@ -3,8 +3,6 @@
- # ARM SoftMMU tests - included from tests/tcg/Makefile
- #
- 
--ifeq ($(TARGET_ABI_DIR),arm)
+diff --git a/tests/tcg/aarch64/Makefile.include b/tests/tcg/aarch64/Makefile.include
+deleted file mode 100644
+index 5d4e4c6f99b..00000000000
+--- a/tests/tcg/aarch64/Makefile.include
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# Makefile.include for AArch64 targets
+-#
+-# We don't have any bigendian build tools so we only use this for AArch64
 -
- ARM_SRC=$(SRC_PATH)/tests/tcg/arm
- 
- # Set search path for all sources
-@@ -25,5 +23,3 @@ LDFLAGS+=-nostdlib -N -static
- test-armv6m-undef: EXTRA_CFLAGS+=-mcpu=cortex-m0
- 
- run-test-armv6m-undef: QEMU_OPTS+=-semihosting -M microbit -kernel
+-ifeq ($(TARGET_NAME),aarch64)
+-DOCKER_IMAGE=debian-buster-arm64-cross
+-DOCKER_CROSS_COMPILER=aarch64-linux-gnu-gcc
+-endif
+diff --git a/tests/tcg/alpha/Makefile.include b/tests/tcg/alpha/Makefile.include
+deleted file mode 100644
+index c7dc48eadb0..00000000000
+--- a/tests/tcg/alpha/Makefile.include
++++ /dev/null
+@@ -1,2 +0,0 @@
+-DOCKER_IMAGE=debian-alpha-cross
+-DOCKER_CROSS_COMPILER=alpha-linux-gnu-gcc
+diff --git a/tests/tcg/arm/Makefile.include b/tests/tcg/arm/Makefile.include
+deleted file mode 100644
+index 8e7eac008f9..00000000000
+--- a/tests/tcg/arm/Makefile.include
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# Makefile.include for all ARM targets
+-#
+-# We don't have any bigendian build tools so we only use this for armhf
 -
+-ifeq ($(TARGET_NAME),arm)
+-DOCKER_IMAGE=debian-armhf-cross
+-DOCKER_CROSS_COMPILER=arm-linux-gnueabihf-gcc
 -endif
-diff --git a/tests/tcg/i386/Makefile.softmmu-target b/tests/tcg/i386/Makefile.softmmu-target
-index cee342017e5..1c8790eecd2 100644
---- a/tests/tcg/i386/Makefile.softmmu-target
-+++ b/tests/tcg/i386/Makefile.softmmu-target
-@@ -12,17 +12,9 @@ X64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/x86_64/system
- # These objects provide the basic boot code and helper functions for all tests
- CRT_OBJS=boot.o
- 
--ifeq ($(TARGET_X86_64), y)
--CRT_PATH=$(X64_SYSTEM_SRC)
--CFLAGS=-march=x86-64
--LINK_SCRIPT=$(X64_SYSTEM_SRC)/kernel.ld
--LDFLAGS=-Wl,-T$(LINK_SCRIPT) -Wl,-melf_x86_64
--else
- CRT_PATH=$(I386_SYSTEM_SRC)
--CFLAGS+=-m32
- LINK_SCRIPT=$(I386_SYSTEM_SRC)/kernel.ld
- LDFLAGS=-Wl,-T$(LINK_SCRIPT) -Wl,-melf_i386
--endif
- CFLAGS+=-nostdlib -ggdb -O0 $(MINILIB_INC)
- LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
- 
-diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
-index d0eb7023e52..08c5736a4d4 100644
---- a/tests/tcg/i386/Makefile.target
-+++ b/tests/tcg/i386/Makefile.target
-@@ -6,14 +6,11 @@ I386_SRC=$(SRC_PATH)/tests/tcg/i386
- VPATH 		+= $(I386_SRC)
- 
- I386_SRCS=$(notdir $(wildcard $(I386_SRC)/*.c))
--I386_TESTS=$(I386_SRCS:.c=)
--I386_ONLY_TESTS=$(filter-out test-i386-ssse3, $(I386_TESTS))
-+ALL_X86_TESTS=$(I386_SRCS:.c=)
-+I386_TESTS:=$(filter-out test-i386-ssse3, $(ALL_X86_TESTS))
-+X86_64_TESTS:=$(filter test-i386-ssse3, $(ALL_X86_TESTS))
- # Update TESTS
--TESTS+=$(I386_ONLY_TESTS)
--
--ifneq ($(TARGET_NAME),x86_64)
--CFLAGS+=-m32
--endif
-+TESTS=$(MULTIARCH_TESTS) $(I386_TESTS)
- 
- #
- # hello-i386 is a barebones app
-@@ -26,7 +23,7 @@ hello-i386: LDFLAGS+=-nostdlib
- #
- 
- test-i386: test-i386.c test-i386-code16.S test-i386-vm86.S test-i386.h test-i386-shift.h test-i386-muldiv.h
--	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ \
-+	$(CC) $(CFLAGS) $(LDFLAGS) $(EXTRA_CFLAGS) -o $@ \
- 	   $(<D)/test-i386.c $(<D)/test-i386-code16.S $(<D)/test-i386-vm86.S -lm
- 
- ifeq ($(SPEED), slow)
-diff --git a/tests/tcg/x86_64/Makefile.softmmu-target b/tests/tcg/x86_64/Makefile.softmmu-target
-new file mode 100644
-index 00000000000..df252e761cd
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+new file mode 100755
+index 00000000000..5f794b664b8
 --- /dev/null
-+++ b/tests/tcg/x86_64/Makefile.softmmu-target
-@@ -0,0 +1,36 @@
-+#
-+# x86 system tests
-+#
-+# This currently builds only for i386. The common C code is built
-+# with standard compiler flags however so we can support both by
-+# adding additional boot files for x86_64.
-+#
++++ b/tests/tcg/configure.sh
+@@ -0,0 +1,234 @@
++#! /bin/sh
 +
-+I386_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/i386/system
-+X64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/x86_64/system
++if test -z "$source_path"; then
++  echo Do not invoke this script directly.  It is called
++  echo automatically by configure.
++  exit 1
++fi
 +
-+# These objects provide the basic boot code and helper functions for all tests
-+CRT_OBJS=boot.o
++write_c_skeleton() {
++    cat > $TMPC <<EOF
++int main(void) { return 0; }
++EOF
++}
 +
-+CRT_PATH=$(X64_SYSTEM_SRC)
-+LINK_SCRIPT=$(X64_SYSTEM_SRC)/kernel.ld
-+LDFLAGS=-Wl,-T$(LINK_SCRIPT) -Wl,-melf_x86_64
-+CFLAGS+=-nostdlib -ggdb -O0 $(MINILIB_INC)
-+LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
++has() {
++  command -v "$1" >/dev/null 2>&1
++}
 +
-+TESTS+=$(MULTIARCH_TESTS)
++do_compiler() {
++  # Run the compiler, capturing its output to the log. First argument
++  # is compiler binary to execute.
++  local compiler="$1"
++  shift
++  if test -n "$BASH_VERSION"; then eval '
++      echo >>config.log "
++funcs: ${FUNCNAME[*]}
++lines: ${BASH_LINENO[*]}"
++  '; fi
++  echo $compiler "$@" >> config.log
++  $compiler "$@" >> config.log 2>&1 || return $?
++}
 +
-+# building head blobs
-+.PRECIOUS: $(CRT_OBJS)
 +
-+%.o: $(CRT_PATH)/%.S
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
++TMPDIR1="config-temp"
++TMPC="${TMPDIR1}/qemu-conf.c"
++TMPE="${TMPDIR1}/qemu-conf.exe"
 +
-+# Build and link the tests
-+%: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
++container="no"
++if has "docker" || has "podman"; then
++  container=$($python $source_path/tests/docker/docker.py probe)
++fi
 +
-+memory: CFLAGS+=-DCHECK_UNALIGNED=1
++# cross compilers defaults, can be overridden with --cross-cc-ARCH
++: ${cross_cc_aarch64="aarch64-linux-gnu-gcc"}
++: ${cross_cc_aarch64_be="$cross_cc_aarch64"}
++: ${cross_cc_cflags_aarch64_be="-mbig-endian"}
++: ${cross_cc_arm="arm-linux-gnueabihf-gcc"}
++: ${cross_cc_cflags_armeb="-mbig-endian"}
++: ${cross_cc_i386="i386-pc-linux-gnu-gcc"}
++: ${cross_cc_cflags_i386="-m32"}
++: ${cross_cc_x86_64="x86_64-pc-linux-gnu-gcc"}
++: ${cross_cc_cflags_x86_64="-m64"}
++: ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
++: ${cross_cc_cflags_ppc="-m32"}
++: ${cross_cc_ppc64="powerpc-linux-gnu-gcc"}
++: ${cross_cc_cflags_ppc64="-m64"}
++: ${cross_cc_ppc64le="powerpc64le-linux-gnu-gcc"}
++: ${cross_cc_cflags_s390x="-m64"}
++: ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
++: ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
 +
-+# Running
-+QEMU_OPTS+=-device isa-debugcon,chardev=output -device isa-debug-exit,iobase=0xf4,iosize=0x4 -kernel
-diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
-index 74f170b9ede..20bf96202ad 100644
---- a/tests/tcg/x86_64/Makefile.target
-+++ b/tests/tcg/x86_64/Makefile.target
-@@ -6,9 +6,10 @@
- # $(SRC)/tests/tcg/i386/
- #
- 
--X86_64_TESTS=$(filter-out $(I386_ONLY_TESTS), $(TESTS))
--X86_64_TESTS+=test-x86_64
--TESTS:=$(X86_64_TESTS)
-+include $(SRC_PATH)/tests/tcg/i386/Makefile.target
++for target in $target_list; do
++  arch=${target%%-*}
++  case $arch in
++    arm|armeb)
++      arches=arm
++      ;;
++    aarch64|aarch64_be)
++      arches="aarch64 arm"
++      ;;
++    mips*)
++      arches=mips
++      ;;
++    ppc*)
++      arches=ppc
++      ;;
++    sh4|sh4eb)
++      arches=sh4
++      ;;
++    x86_64)
++      arches="x86_64 i386"
++      ;;
++    xtensa|xtensaeb)
++      arches=xtensa
++      ;;
++    alpha|cris|hppa|i386|lm32|m68k|openrisc|riscv64|s390x|sh4|sparc64)
++      arches=$target
++      ;;
++    *)
++      continue
++      ;;
++  esac
 +
-+TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
-+QEMU_OPTS += -cpu max
- 
- test-x86_64: LDFLAGS+=-lm -lc
- test-x86_64: test-i386.c test-i386.h test-i386-shift.h test-i386-muldiv.h
++  container_image=
++  case $target in
++    aarch64-*)
++      # We don't have any bigendian build tools so we only use this for AArch64
++      container_image=debian-buster-arm64-cross
++      container_cross_cc=aarch64-linux-gnu-gcc
++      ;;
++    alpha-*)
++      container_image=debian-alpha-cross
++      container_cross_cc=alpha-linux-gnu-gcc
++      ;;
++    arm-*)
++      # We don't have any bigendian build tools so we only use this for AArch64
++      container_image=debian-armhf-cross
++      container_cross_cc=arm-linux-gnueabihf-gcc
++      ;;
++    cris-*)
++      container_image=fedora-cris-cross
++      container_cross_cc=cris-linux-gnu-gcc
++      ;;
++    hppa-*)
++      container_image=debian-hppa-cross
++      container_cross_cc=hppa-linux-gnu-gcc
++      ;;
++    i386-*)
++      container_image=fedora-i386-cross
++      container_cross_cc=gcc
++      ;;
++    m68k-*)
++      container_image=debian-m68k-cross
++      container_cross_cc=m68k-linux-gnu-gcc
++      ;;
++    mips64el-*)
++      container_image=debian-mips64el-cross
++      container_cross_cc=mips64el-linux-gnuabi64-gcc
++      ;;
++    mips64-*)
++      container_image=debian-mips64-cross
++      container_cross_cc=mips64-linux-gnuabi64-gcc
++      ;;
++    mipsel-*)
++      container_image=debian-mipsel-cross
++      container_cross_cc=mipsel-linux-gnu-gcc
++      ;;
++    mips-*)
++      container_image=debian-mips-cross
++      container_cross_cc=mips-linux-gnu-gcc
++      ;;
++    ppc-*)
++      container_image=debian-powerpc-cross
++      container_cross_cc=powerpc-linux-gnu-gcc
++      ;;
++    ppc64-*)
++      container_image=debian-ppc64-cross
++      container_cross_cc=powerpc64-linux-gnu-gcc
++      ;;
++    ppc64le-*)
++      container_image=debian-ppc64el-cross
++      container_cross_cc=powerpc64le-linux-gnu-gcc
++      ;;
++    riscv64-*)
++      container_image=debian-riscv64-cross
++      container_cross_cc=riscv64-linux-gnu-gcc
++      ;;
++    s390x-*)
++      container_image=debian-s390x-cross
++      container_cross_cc=s390x-linux-gnu-gcc
++      ;;
++    sh4-*)
++      container_image=debian-sh4-cross
++      container_cross_cc=sh4-linux-gnu-gcc
++      ;;
++    sparc64-*)
++      container_image=debian-sparc64-cross
++      container_cross_cc=sparc64-linux-gnu-gcc
++      ;;
++    xtensa*-softmmu)
++      container_image=debian-xtensa-cross
++
++      # default to the dc232b cpu
++      container_cross_cc=/opt/2018.02/xtensa-dc232b-elf/bin/xtensa-dc232b-elf-gcc
++      ;;
++  esac
++
++  config_target_mak=tests/tcg/config-$target.mak
++
++  echo "# Automatically generated by configure - do not modify" > $config_target_mak
++  echo "TARGET_NAME=$arch" >> $config_target_mak
++  case $target in
++    *-linux-user | *-bsd-user)
++      echo "CONFIG_USER_ONLY=y" >> $config_target_mak
++      echo "QEMU=\$(BUILD_DIR)/$target/qemu-$arch" >> $config_target_mak
++      ;;
++    *-softmmu)
++      echo "CONFIG_SOFTMMU=y" >> $config_target_mak
++      echo "QEMU=\$(BUILD_DIR)/$target/qemu-system-$arch" >> $config_target_mak
++      ;;
++  esac
++
++  eval "target_compiler_cflags=\${cross_cc_cflags_$arch}"
++  echo "CROSS_CC_GUEST_CFLAGS=$target_compiler_cflags" >> $config_target_mak
++
++  got_cross_cc=no
++  for i in $arch $arches; do
++    if eval test "x\${cross_cc_$i+yes}" != xyes; then
++      continue
++    fi
++
++    eval "target_compiler=\${cross_cc_$i}"
++    if ! has $target_compiler; then
++      continue
++    fi
++    write_c_skeleton
++    if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE $TMPC -static ; then
++      # For host systems we might get away with building without -static
++      if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE $TMPC ; then
++        continue
++      fi
++      echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
++    else
++      echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
++    fi
++    echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
++    enabled_cross_compilers="$enabled_cross_compilers $target_compiler"
++    got_cross_cc=yes
++    break
++  done
++
++  if test $got_cross_cc = no && test "$docker" != no && test -n "$container_image"; then
++    echo "DOCKER_IMAGE=$container_image" >> $config_target_mak
++    echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> $config_target_mak
++  fi
++done
++
++# report container support state
++echo "cross containers  $container"
++
++if test -n "$enabled_cross_compilers"; then
++    echo
++    echo "NOTE: guest cross-compilers enabled:$enabled_cross_compilers"
++fi
+diff --git a/tests/tcg/cris/Makefile.include b/tests/tcg/cris/Makefile.include
+deleted file mode 100644
+index 1c037824bff..00000000000
+--- a/tests/tcg/cris/Makefile.include
++++ /dev/null
+@@ -1,6 +0,0 @@
+-#
+-# Makefile.include for all CRIS targets
+-#
+-
+-DOCKER_IMAGE=fedora-cris-cross
+-DOCKER_CROSS_COMPILER=cris-linux-gnu-gcc
+diff --git a/tests/tcg/hppa/Makefile.include b/tests/tcg/hppa/Makefile.include
+deleted file mode 100644
+index da2353430e2..00000000000
+--- a/tests/tcg/hppa/Makefile.include
++++ /dev/null
+@@ -1,2 +0,0 @@
+-DOCKER_IMAGE=debian-hppa-cross
+-DOCKER_CROSS_COMPILER=hppa-linux-gnu-gcc
+diff --git a/tests/tcg/i386/Makefile.include b/tests/tcg/i386/Makefile.include
+deleted file mode 100644
+index be1c3008dd7..00000000000
+--- a/tests/tcg/i386/Makefile.include
++++ /dev/null
+@@ -1,9 +0,0 @@
+-#
+-# Makefile.include for all i386
+-#
+-# There is enough brokeness in x86_64 compilers that we don't default
+-# to using the x86_64 system compiler for i386 binaries.
+-#
+-
+-DOCKER_IMAGE=fedora-i386-cross
+-DOCKER_CROSS_COMPILER=gcc
+diff --git a/tests/tcg/m68k/Makefile.include b/tests/tcg/m68k/Makefile.include
+deleted file mode 100644
+index cd7c6bf50d7..00000000000
+--- a/tests/tcg/m68k/Makefile.include
++++ /dev/null
+@@ -1,2 +0,0 @@
+-DOCKER_IMAGE=debian-m68k-cross
+-DOCKER_CROSS_COMPILER=m68k-linux-gnu-gcc
+diff --git a/tests/tcg/mips/Makefile.include b/tests/tcg/mips/Makefile.include
+deleted file mode 100644
+index 4a14fc078d2..00000000000
+--- a/tests/tcg/mips/Makefile.include
++++ /dev/null
+@@ -1,20 +0,0 @@
+-#
+-# Makefile.include for all MIPs targets
+-#
+-# As Debian doesn't support mip64 in big endian mode the only way to
+-# build BE is to pass a working cross compiler to ./configure
+-#
+-
+-ifeq ($(TARGET_NAME),mips64el)
+-DOCKER_IMAGE=debian-mips64el-cross
+-DOCKER_CROSS_COMPILER=mips64el-linux-gnuabi64-gcc
+-else ifeq ($(TARGET_NAME),mips64)
+-DOCKER_IMAGE=debian-mips64-cross
+-DOCKER_CROSS_COMPILER=mips64-linux-gnuabi64-gcc
+-else ifeq ($(TARGET_NAME),mipsel)
+-DOCKER_IMAGE=debian-mipsel-cross
+-DOCKER_CROSS_COMPILER=mipsel-linux-gnu-gcc
+-else ifeq ($(TARGET_NAME),mips)
+-DOCKER_IMAGE=debian-mips-cross
+-DOCKER_CROSS_COMPILER=mips-linux-gnu-gcc
+-endif
+diff --git a/tests/tcg/ppc/Makefile.include b/tests/tcg/ppc/Makefile.include
+deleted file mode 100644
+index ae01fb8fadd..00000000000
+--- a/tests/tcg/ppc/Makefile.include
++++ /dev/null
+@@ -1,10 +0,0 @@
+-ifeq ($(TARGET_NAME),ppc)
+-DOCKER_IMAGE=debian-powerpc-cross
+-DOCKER_CROSS_COMPILER=powerpc-linux-gnu-gcc
+-else ifeq ($(TARGET_NAME),ppc64)
+-DOCKER_IMAGE=debian-ppc64-cross
+-DOCKER_CROSS_COMPILER=powerpc64-linux-gnu-gcc
+-else ifeq ($(TARGET_NAME),ppc64le)
+-DOCKER_IMAGE=debian-ppc64el-cross
+-DOCKER_CROSS_COMPILER=powerpc64le-linux-gnu-gcc
+-endif
+diff --git a/tests/tcg/riscv/Makefile.include b/tests/tcg/riscv/Makefile.include
+deleted file mode 100644
+index d92ac6c89f0..00000000000
+--- a/tests/tcg/riscv/Makefile.include
++++ /dev/null
+@@ -1,10 +0,0 @@
+-#
+-# Makefile.include for all RISCV targets
+-#
+-# Debian only really cares about 64 bit going forward
+-#
+-
+-ifeq ($(TARGET_NAME),riscv64)
+-DOCKER_IMAGE=debian-riscv64-cross
+-DOCKER_CROSS_COMPILER=riscv64-linux-gnu-gcc
+-endif
+diff --git a/tests/tcg/s390x/Makefile.include b/tests/tcg/s390x/Makefile.include
+deleted file mode 100644
+index 1f58115d961..00000000000
+--- a/tests/tcg/s390x/Makefile.include
++++ /dev/null
+@@ -1,2 +0,0 @@
+-DOCKER_IMAGE=debian-s390x-cross
+-DOCKER_CROSS_COMPILER=s390x-linux-gnu-gcc
+diff --git a/tests/tcg/sh4/Makefile.include b/tests/tcg/sh4/Makefile.include
+deleted file mode 100644
+index ad21594d9d8..00000000000
+--- a/tests/tcg/sh4/Makefile.include
++++ /dev/null
+@@ -1,4 +0,0 @@
+-ifneq ($(TARGET_NAME), sh4eb)
+-DOCKER_IMAGE=debian-sh4-cross
+-DOCKER_CROSS_COMPILER=sh4-linux-gnu-gcc
+-endif
+diff --git a/tests/tcg/sparc64/Makefile.include b/tests/tcg/sparc64/Makefile.include
+deleted file mode 100644
+index 95fc8dee9f4..00000000000
+--- a/tests/tcg/sparc64/Makefile.include
++++ /dev/null
+@@ -1,2 +0,0 @@
+-DOCKER_IMAGE=debian-sparc64-cross
+-DOCKER_CROSS_COMPILER=sparc64-linux-gnu-gcc
+diff --git a/tests/tcg/xtensa/Makefile.include b/tests/tcg/xtensa/Makefile.include
+deleted file mode 100644
+index 423c00a5d31..00000000000
+--- a/tests/tcg/xtensa/Makefile.include
++++ /dev/null
+@@ -1,11 +0,0 @@
+-# Makefile.include for xtensa targets
+-#
+-# The compilers can only be used for building system tests
+-
+-ifeq ($(CONFIG_SOFTMMU),y)
+-DOCKER_IMAGE=debian-xtensa-cross
+-
+-# default to the dc232b cpu
+-DOCKER_CROSS_COMPILER=/opt/2018.02/xtensa-dc232b-elf/bin/xtensa-dc232b-elf-gcc
+-DOCKER_CROSS_LINKER=/opt/2018.02/xtensa-dc232b-elf/bin/xtensa-dc232b-elf-ld
+-endif
 -- 
 2.20.1
 
