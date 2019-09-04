@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01073A9406
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:46:26 +0200 (CEST)
-Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E9AA9421
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:53:36 +0200 (CEST)
+Received: from localhost ([::1]:39544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5cAa-0005zi-Ko
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49773)
+	id 1i5cHW-0004rZ-Co
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:53:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41474)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i5bvC-00088l-JM
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:37 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b13-0005cv-Cd
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i5bv9-0006dj-Bd
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:30 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35471)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b10-0003KG-Um
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:29 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43224)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i5bv7-0006WO-JQ
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:26 -0400
-Received: by mail-wr1-x431.google.com with SMTP id g7so204759wrx.2
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:30:21 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1i5b0y-0003HU-U1
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:25 -0400
+Received: by mail-pf1-x444.google.com with SMTP id d15so4402143pfo.10
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=XbPV2t+F7ljq0HCAxTum9zmKwOphxxVJo57tiv6WLRU=;
- b=PoXG7lu5Oz9qsutsTGqexR+n94adVB9Cvp2O5KYtgi9bmhrzCAqC1h2z3fg3ZZgaRR
- 9qKc8FGYOCaSF1YxfOrlWKdh88cGQl6Cp0Zt35evBgWNU94XyN2b/PgJ++j8JrVEYeqe
- whXdP8BabODG7g8EliCsevvB5+uRBjsCeRU1l4lRsD/R8GizVGfzVUS7T3sHvIKOByJY
- g+IzvC7sXNfLvrLsfcv2sWxyY4gVzszT1DXnWYCYYiNgDaxxwHt6NCnEvS08cmx6/wDt
- fw53oOzZFQb5++car1NBAtTqDjBIzT0RpEvRQZi5ymsRIV1192Oz9pTi9csrUr6sAzgz
- psHA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=VYZV/zdp2JerFG4ZPo6G3uzAjb1Br+I2f89wbKWVC8A=;
+ b=V/9uNM7qgsoR3NIi+cKH/0++FBpIoU7LmUYFtCBnsCivHLFAoFyZvz8Xi9t13wXIOo
+ zk5QT+QED/Gi12rPWf8pk1t+RDrb4Z5jdKeTDrbCxjKHAB5APwkudCtjk/7mbsbL+9TS
+ hovgJo/08r60d46E2eQA53GE9ILADG1Ua8GlfkSbPlIxfj94g1olSsXbejOJKcCoGm50
+ nOydBviW8XZCkhZnQUIIQ8cBHP8fyOQhe79qGfj/8KNek5mZqJTFezL7A6Othtp7Ci/2
+ QeJEe2WV383jfgWUQQKvCaKvxqHxmGimlLfM3g2FmLrkyOdH/YUT+m77bwufpDuotqBu
+ 8pYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XbPV2t+F7ljq0HCAxTum9zmKwOphxxVJo57tiv6WLRU=;
- b=ZPf/HaWcOxw0parWYXNas2QKM2UmjuJMXfVVXxIKWuoZ3csn0vmhCyVU3BnVT9bo3S
- 7RRKIG78PctfL4SgUxvGeJNycxj9iIRCfIz967dzHGuvNanCnlcwDhCTuTnts4ruCbpp
- QyhrHEipl6rzaMTkxqUs0p4XOxWnYkVE5gNNAZn5ODp0pdZLoJxwCZLiYFE1NidoZ3Yc
- zGjLoknIVSou4AJTulwclSbyIB8hZNM1+u3aVkCQaLVOV/uvF9ZSfBH1fdmbnIQxqI3N
- GoEnotj8uB020iZpEw8v5veCrdkiXfVYGCRe3YD3676APMW+fYXj3dOu/aLFos8q/U4J
- 9qgQ==
-X-Gm-Message-State: APjAAAW/FhJ/7EGBB7IOEZPrunDVKAhPX64iUtyusWkXPioz9k7Bdpm8
- 7E4S/HIEZ/wtXBajsgbcOAnL5w==
-X-Google-Smtp-Source: APXvYqwf7JmH0Jhs3SOglng5XJEjXvXdOgb9UD+oUX3yn8ujuIQRy2oY39OEI39nWf0/qBRj9WpyjA==
-X-Received: by 2002:a05:6000:49:: with SMTP id k9mr2235236wrx.21.1567629020700; 
- Wed, 04 Sep 2019 13:30:20 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d18sm31755088wra.91.2019.09.04.13.30.16
+ :references;
+ bh=VYZV/zdp2JerFG4ZPo6G3uzAjb1Br+I2f89wbKWVC8A=;
+ b=W1srCzv3J0LlDMUdS3IAkGBO4eTEh+7d7a7DbiOz839zzpaG7P069EVCzZW5fhuqDO
+ yKODmSN0Wv8ED/dXIDQvlRDjflopP0T4lfB30zLwv23+5Iva1smd/GN5+idCny9X4xEA
+ TW8prSx21MZ/ziKamI/ySH/WvNjw8lORp+TlLEYlqq7jpvx6Sls9OHpq3xcsahwhwiw7
+ pwJvNy1UOqmUzNR00cWZG22L9KI9yzgHmx6zrJfP1/OMB49Fm51cTuDurKhhGwcxTYWw
+ BSSIAb3TPRLoKcLeZ66nykk1ebWSkk5/BWTHeRqveyY1WF9sTO6+PTm2CeVEYowVXuuI
+ JwFw==
+X-Gm-Message-State: APjAAAVt8DwoPYe1HIC7CoDGud7Rz6NgdH+obb00VzqrTKJcE1Ovbj2E
+ WoS7GieC1lA8jra4fR97bGl0l0vIoCg=
+X-Google-Smtp-Source: APXvYqySDzkV5npXSlDRhOHpZ05cCNarJctNDMRf4t/NRtUTQAbT5HSqFfm1xpBSR7RpPKKAd0VIOw==
+X-Received: by 2002:a62:e802:: with SMTP id c2mr12575057pfi.212.1567625543381; 
+ Wed, 04 Sep 2019 12:32:23 -0700 (PDT)
+Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
+ [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.32.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:30:18 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 361241FF98;
- Wed,  4 Sep 2019 21:30:14 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Wed, 04 Sep 2019 12:32:22 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 21:29:39 +0100
-Message-Id: <20190904203013.9028-9-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
-References: <20190904203013.9028-1-alex.bennee@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Wed,  4 Sep 2019 12:30:55 -0700
+Message-Id: <20190904193059.26202-66-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190904193059.26202-1-richard.henderson@linaro.org>
+References: <20190904193059.26202-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
-Subject: [Qemu-devel] [PATCH v1 08/42] tests/docker: move DEF_TARGET_LIST
- setting to common.rc
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v4 65/69] target/arm: Convert T16,
+ load (literal)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,79 +76,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We might as well not repeat ourselves. At the same time allow it to be
-overridden which we will use later from docker targets.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/docker/common.rc  | 4 ++++
- tests/docker/test-build | 1 -
- tests/docker/test-mingw | 1 -
- tests/docker/test-quick | 1 -
- 4 files changed, 4 insertions(+), 3 deletions(-)
+ target/arm/translate.c | 42 ++----------------------------------------
+ target/arm/t16.decode  |  4 ++++
+ 2 files changed, 6 insertions(+), 40 deletions(-)
 
-diff --git a/tests/docker/common.rc b/tests/docker/common.rc
-index 4011561587a..512202b0a19 100755
---- a/tests/docker/common.rc
-+++ b/tests/docker/common.rc
-@@ -11,6 +11,10 @@
- # or (at your option) any later version. See the COPYING file in
- # the top-level directory.
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index d409afd55f..4f4c77fc89 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -982,14 +982,6 @@ static inline void gen_aa32_ld##SUFF(DisasContext *s, TCGv_i32 val,      \
+                                      TCGv_i32 a32, int index)            \
+ {                                                                        \
+     gen_aa32_ld_i32(s, val, a32, index, OPC | s->be_data);               \
+-}                                                                        \
+-static inline void gen_aa32_ld##SUFF##_iss(DisasContext *s,              \
+-                                           TCGv_i32 val,                 \
+-                                           TCGv_i32 a32, int index,      \
+-                                           ISSInfo issinfo)              \
+-{                                                                        \
+-    gen_aa32_ld##SUFF(s, val, a32, index);                               \
+-    disas_set_da_iss(s, OPC, issinfo);                                   \
+ }
  
-+# This might be set by ENV of a docker container... it is always
-+# overriden by TARGET_LIST if the user sets it.
-+DEF_TARGET_LIST=${DEF_TARGET_LIST:-"x86_64-softmmu,aarch64-softmmu"}
-+
- requires()
+ #define DO_GEN_ST(SUFF, OPC)                                             \
+@@ -997,14 +989,6 @@ static inline void gen_aa32_st##SUFF(DisasContext *s, TCGv_i32 val,      \
+                                      TCGv_i32 a32, int index)            \
+ {                                                                        \
+     gen_aa32_st_i32(s, val, a32, index, OPC | s->be_data);               \
+-}                                                                        \
+-static inline void gen_aa32_st##SUFF##_iss(DisasContext *s,              \
+-                                           TCGv_i32 val,                 \
+-                                           TCGv_i32 a32, int index,      \
+-                                           ISSInfo issinfo)              \
+-{                                                                        \
+-    gen_aa32_st##SUFF(s, val, a32, index);                               \
+-    disas_set_da_iss(s, OPC, issinfo | ISSIsWrite);                      \
+ }
+ 
+ static inline void gen_aa32_frob64(DisasContext *s, TCGv_i64 val)
+@@ -1053,9 +1037,7 @@ static inline void gen_aa32_st64(DisasContext *s, TCGv_i64 val,
+     gen_aa32_st_i64(s, val, a32, index, MO_Q | s->be_data);
+ }
+ 
+-DO_GEN_LD(8s, MO_SB)
+ DO_GEN_LD(8u, MO_UB)
+-DO_GEN_LD(16s, MO_SW)
+ DO_GEN_LD(16u, MO_UW)
+ DO_GEN_LD(32u, MO_UL)
+ DO_GEN_ST(8, MO_UB)
+@@ -10754,11 +10736,10 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+ 
+ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
  {
-     for c in $@; do
-diff --git a/tests/docker/test-build b/tests/docker/test-build
-index 22766cfacc0..2b2a7832f15 100755
---- a/tests/docker/test-build
-+++ b/tests/docker/test-build
-@@ -15,7 +15,6 @@
+-    uint32_t val, rd;
++    uint32_t val;
+     int32_t offset;
+     TCGv_i32 tmp;
+     TCGv_i32 tmp2;
+-    TCGv_i32 addr;
  
- cd "$BUILD_DIR"
+     if (disas_t16(s, insn)) {
+         return;
+@@ -10768,26 +10749,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+     switch (insn >> 12) {
+     case 0: case 1: /* add/sub (3reg, 2reg imm), shift imm; in decodetree */
+     case 2: case 3: /* add, sub, cmp, mov (reg, imm), in decodetree */
+-        goto illegal_op;
+-    case 4:
+-        if (insn & (1 << 11)) {
+-            rd = (insn >> 8) & 7;
+-            /* load pc-relative.  Bit 1 of PC is ignored.  */
+-            addr = add_reg_for_lit(s, 15, (insn & 0xff) * 4);
+-            tmp = tcg_temp_new_i32();
+-            gen_aa32_ld32u_iss(s, tmp, addr, get_mem_index(s),
+-                               rd | ISSIs16Bit);
+-            tcg_temp_free_i32(addr);
+-            store_reg(s, rd, tmp);
+-            break;
+-        }
+-
+-        /*
+-         * - Data-processing (two low registers), in decodetree
+-         * - data processing extended, branch and exchange, in decodetree
+-         */
+-        goto illegal_op;
+-
++    case 4: /* ldr lit, data proc (2reg), data proc ext, bx; in decodetree */
+     case 5: /* load/store register offset, in decodetree */
+     case 6: /* load/store word immediate offset, in decodetree */
+     case 7: /* load/store byte immediate offset, in decodetree */
+diff --git a/target/arm/t16.decode b/target/arm/t16.decode
+index 79a1d66d6c..0b4da411e0 100644
+--- a/target/arm/t16.decode
++++ b/target/arm/t16.decode
+@@ -113,6 +113,10 @@ LDRH_ri         10001 ..... ... ...             @ldst_ri_2
+ STR_ri          10010 ... ........              @ldst_spec_i rn=13
+ LDR_ri          10011 ... ........              @ldst_spec_i rn=13
  
--DEF_TARGET_LIST="x86_64-softmmu,aarch64-softmmu"
- TARGET_LIST=${TARGET_LIST:-$DEF_TARGET_LIST} \
- build_qemu
- install_qemu
-diff --git a/tests/docker/test-mingw b/tests/docker/test-mingw
-index fdb1c2c879d..c30eb654eb7 100755
---- a/tests/docker/test-mingw
-+++ b/tests/docker/test-mingw
-@@ -16,7 +16,6 @@
- requires mingw dtc
++# Load (PC-relative)
++
++LDR_ri          01001 ... ........              @ldst_spec_i rn=15
++
+ # Add PC/SP (immediate)
  
- cd "$BUILD_DIR"
--DEF_TARGET_LIST="x86_64-softmmu,aarch64-softmmu"
- 
- for prefix in x86_64-w64-mingw32- i686-w64-mingw32-; do
-     TARGET_LIST=${TARGET_LIST:-$DEF_TARGET_LIST} \
-diff --git a/tests/docker/test-quick b/tests/docker/test-quick
-index eee59c55fba..feee44b2476 100755
---- a/tests/docker/test-quick
-+++ b/tests/docker/test-quick
-@@ -15,7 +15,6 @@
- 
- cd "$BUILD_DIR"
- 
--DEF_TARGET_LIST="x86_64-softmmu,aarch64-softmmu"
- TARGET_LIST=${TARGET_LIST:-$DEF_TARGET_LIST} \
- build_qemu
- check_qemu
+ ADR             10100 rd:3 ........             imm=%imm8_0x4
 -- 
-2.20.1
+2.17.1
 
 
