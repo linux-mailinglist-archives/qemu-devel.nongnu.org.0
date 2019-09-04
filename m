@@ -2,75 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7368BA95AB
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:57:30 +0200 (CEST)
-Received: from localhost ([::1]:40614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0788A9589
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:50:35 +0200 (CEST)
+Received: from localhost ([::1]:40510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5dHN-0008Ek-8m
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54152)
+	id 1i5dAg-0000Q8-JW
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:50:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53414)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i5cDX-0001wQ-83
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:28 -0400
+ (envelope-from <clg@kaod.org>) id 1i5cBw-0000EF-IB
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:47:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i5cDV-0002Rg-Pf
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:26 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38999)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i5cDV-0002R1-JF
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:25 -0400
-Received: by mail-wm1-x343.google.com with SMTP id q12so255943wmj.4
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:49:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qKLxOOykUq5mR0vUYJUVr2Z+HnNQRrDR3i+FrJMMXro=;
- b=A7XkMm8uP4pO1m8nNBXRV4F2LExqjnwmiGjtX8u32IEggqbdU7mh/BG3HQ2Vavn3wn
- 4/La5P85lnJQPhOr4V165XPgGY6mtMxl+aruh1dA/M4elqqoSModGiwhpgKv1wKDej1v
- Kn8lUESJRQuCYDUZAiax44j/LR5aDOAgknxcxfhOYlfXgdNCzNCaC8LWmhB8EUwEf4jL
- DhzTylpU2NVlxZf/gfB2oaemQG+xivru30arFXw5A/aZEIthQtajabxVuFDggf9LphCi
- hvWBwaF7jvQ4WWjwGo4hIisVXdbT1egEpyBUGBP2TMRmZlIO/qYZEh3YagJCtggoS8Hv
- ElOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=qKLxOOykUq5mR0vUYJUVr2Z+HnNQRrDR3i+FrJMMXro=;
- b=P2vDkd68Jr2k4J75OHXX//xU1SIC06jkxd4vvkVCJH+qVtfLaGa9AfEO2OEET10uBI
- 9RRuYusP5UfzgWT3h2eR79bLMq5YSokBjFpPv/NXf+I5DW45qwjhO78I3v4xMRIzNIqi
- c4eMFfJ7Rr315jV3yoQcAMYleS9ZlGvcBImeDbKzjhqRgEN/Nlq7iQ2rFouQxnek6Dxq
- JAoXmP5CveBYRjz2UlesVhWeTh3RX8OFyAXAmTMkq2zF1cwfqMRrcQ5NkT0YqT8Ar6K7
- orAAkjQzvY/Qg7aQ6pUT6Jd7lBTT/G9LR7GgBtgaleSba/shsbURRD/tHuUatMvJ5UC9
- IsHQ==
-X-Gm-Message-State: APjAAAURr8IDpo3sgfh111RogWlt6jmuxLoumGWe1MThyPNUcttL9vKI
- h/fFtT8V9z1ORyHWEYPhGWRgig==
-X-Google-Smtp-Source: APXvYqysDg041UkV6HZxUNpL9qAnb8g+jAG1tekGysCxM6NsTuGNosJCOvick3WyLdm3UgpqGJOXOw==
-X-Received: by 2002:a1c:7407:: with SMTP id p7mr150655wmc.31.1567630164472;
- Wed, 04 Sep 2019 13:49:24 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o3sm23527653wrv.90.2019.09.04.13.49.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:49:22 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BEF3D1FF87;
- Wed,  4 Sep 2019 21:30:16 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 21:30:08 +0100
-Message-Id: <20190904203013.9028-38-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
-References: <20190904203013.9028-1-alex.bennee@linaro.org>
+ (envelope-from <clg@kaod.org>) id 1i5cBv-0001C5-53
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:47:48 -0400
+Received: from 11.mo7.mail-out.ovh.net ([87.98.173.157]:52808)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1i5cBu-0001Ap-SV
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:47:47 -0400
+Received: from player691.ha.ovh.net (unknown [10.108.54.36])
+ by mo7.mail-out.ovh.net (Postfix) with ESMTP id 86560130AAC
+ for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 22:47:45 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player691.ha.ovh.net (Postfix) with ESMTPSA id 1555398B282E;
+ Wed,  4 Sep 2019 20:47:39 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed,  4 Sep 2019 22:46:49 +0200
+Message-Id: <20190904204659.13878-6-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190904204659.13878-1-clg@kaod.org>
+References: <20190904204659.13878-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH v1 37/42] .travis.yml: Cache Linux/GCC 'debug
- profile' jobs together
+X-Ovh-Tracer-Id: 2517793669831625489
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudejhedgudehudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 87.98.173.157
+Subject: [Qemu-devel] [RFC PATCH 05/15] aspeed/timer: Add support for IRQ
+ status register on the AST2600
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,44 +56,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+The AST2600 timer replaces control register 2 with a interrupt status
+register. It is set by hardware when an IRQ occurs and cleared by
+software.
 
-These jobs build different components but use the same
-host features. Put them in the same cache bucket.
+Based on previous work from Joel Stanley.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- .travis.yml | 2 ++
- 1 file changed, 2 insertions(+)
+ include/hw/timer/aspeed_timer.h |  1 +
+ hw/timer/aspeed_timer.c         | 32 ++++++++++++++++++++++++++------
+ 2 files changed, 27 insertions(+), 6 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index ab3e4ebaadf..ab4ee425e4f 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -120,11 +120,13 @@ matrix:
- 
-     - env:
-         - CONFIG="--enable-debug --enable-debug-tcg --disable-user"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
- 
- 
-     # TCG debug can be run just on it's own and is mostly agnostic to user/softmmu distinctions
-     - env:
-         - CONFIG="--enable-debug-tcg --disable-system"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
- 
- 
-     - env:
--- 
-2.20.1
+diff --git a/include/hw/timer/aspeed_timer.h b/include/hw/timer/aspeed_ti=
+mer.h
+index 69b1377af01e..948329893c0b 100644
+--- a/include/hw/timer/aspeed_timer.h
++++ b/include/hw/timer/aspeed_timer.h
+@@ -60,6 +60,7 @@ typedef struct AspeedTimerCtrlState {
+     uint32_t ctrl;
+     uint32_t ctrl2;
+     uint32_t ctrl3;
++    uint32_t irq_sts;
+     AspeedTimer timers[ASPEED_TIMER_NR_TIMERS];
+=20
+     AspeedSCUState *scu;
+diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
+index 7f73d0c75337..dbf8143f0457 100644
+--- a/hw/timer/aspeed_timer.c
++++ b/hw/timer/aspeed_timer.c
+@@ -160,7 +160,9 @@ static uint64_t calculate_next(struct AspeedTimer *t)
+     timer_del(&t->timer);
+=20
+     if (timer_overflow_interrupt(t)) {
++        AspeedTimerCtrlState *s =3D timer_to_ctrl(t);
+         t->level =3D !t->level;
++        s->irq_sts |=3D BIT(t->id);
+         qemu_set_irq(t->irq, t->level);
+     }
+=20
+@@ -199,7 +201,9 @@ static void aspeed_timer_expire(void *opaque)
+     }
+=20
+     if (interrupt) {
++        AspeedTimerCtrlState *s =3D timer_to_ctrl(t);
+         t->level =3D !t->level;
++        s->irq_sts |=3D BIT(t->id);
+         qemu_set_irq(t->irq, t->level);
+     }
+=20
+@@ -244,9 +248,6 @@ static uint64_t aspeed_timer_read(void *opaque, hwadd=
+r offset, unsigned size)
+     case 0x30: /* Control Register */
+         value =3D s->ctrl;
+         break;
+-    case 0x34: /* Control Register 2 */
+-        value =3D s->ctrl2;
+-        break;
+     case 0x00 ... 0x2c: /* Timers 1 - 4 */
+         value =3D aspeed_timer_get_value(&s->timers[(offset >> 4)], reg)=
+;
+         break;
+@@ -438,9 +439,6 @@ static void aspeed_timer_write(void *opaque, hwaddr o=
+ffset, uint64_t value,
+     case 0x30:
+         aspeed_timer_set_ctrl(s, tv);
+         break;
+-    case 0x34:
+-        aspeed_timer_set_ctrl2(s, tv);
+-        break;
+     /* Timer Registers */
+     case 0x00 ... 0x2c:
+         aspeed_timer_set_value(s, (offset >> TIMER_NR_REGS), reg, tv);
+@@ -468,6 +466,9 @@ static uint64_t aspeed_2400_timer_read(AspeedTimerCtr=
+lState *s, hwaddr offset)
+     uint64_t value;
+=20
+     switch (offset) {
++    case 0x34:
++        value =3D s->ctrl2;
++        break;
+     case 0x38:
+     case 0x3C:
+     default:
+@@ -482,7 +483,12 @@ static uint64_t aspeed_2400_timer_read(AspeedTimerCt=
+rlState *s, hwaddr offset)
+ static void aspeed_2400_timer_write(AspeedTimerCtrlState *s, hwaddr offs=
+et,
+                                     uint64_t value)
+ {
++    const uint32_t tv =3D (uint32_t)(value & 0xFFFFFFFF);
++
+     switch (offset) {
++    case 0x34:
++        aspeed_timer_set_ctrl2(s, tv);
++        break;
+     case 0x38:
+     case 0x3C:
+     default:
+@@ -497,6 +503,9 @@ static uint64_t aspeed_2500_timer_read(AspeedTimerCtr=
+lState *s, hwaddr offset)
+     uint64_t value;
+=20
+     switch (offset) {
++    case 0x34:
++        value =3D s->ctrl2;
++        break;
+     case 0x38:
+         value =3D s->ctrl3 & BIT(0);
+         break;
+@@ -517,6 +526,9 @@ static void aspeed_2500_timer_write(AspeedTimerCtrlSt=
+ate *s, hwaddr offset,
+     uint8_t command;
+=20
+     switch (offset) {
++    case 0x34:
++        aspeed_timer_set_ctrl2(s, tv);
++        break;
+     case 0x38:
+         command =3D (value >> 1) & 0xFF;
+         if (command =3D=3D 0xAE) {
+@@ -543,6 +555,9 @@ static uint64_t aspeed_2600_timer_read(AspeedTimerCtr=
+lState *s, hwaddr offset)
+     uint64_t value;
+=20
+     switch (offset) {
++    case 0x34:
++        value =3D s->irq_sts;
++        break;
+     case 0x38:
+     case 0x3C:
+     default:
+@@ -560,6 +575,9 @@ static void aspeed_2600_timer_write(AspeedTimerCtrlSt=
+ate *s, hwaddr offset,
+     const uint32_t tv =3D (uint32_t)(value & 0xFFFFFFFF);
+=20
+     switch (offset) {
++    case 0x34:
++        s->irq_sts &=3D tv;
++        break;
+     case 0x3C:
+         aspeed_timer_set_ctrl(s, s->ctrl & ~tv);
+         break;
+@@ -626,6 +644,7 @@ static void aspeed_timer_reset(DeviceState *dev)
+     s->ctrl =3D 0;
+     s->ctrl2 =3D 0;
+     s->ctrl3 =3D 0;
++    s->irq_sts =3D 0;
+ }
+=20
+ static const VMStateDescription vmstate_aspeed_timer =3D {
+@@ -650,6 +669,7 @@ static const VMStateDescription vmstate_aspeed_timer_=
+state =3D {
+         VMSTATE_UINT32(ctrl, AspeedTimerCtrlState),
+         VMSTATE_UINT32(ctrl2, AspeedTimerCtrlState),
+         VMSTATE_UINT32(ctrl3, AspeedTimerCtrlState),
++        VMSTATE_UINT32(irq_sts, AspeedTimerCtrlState),
+         VMSTATE_STRUCT_ARRAY(timers, AspeedTimerCtrlState,
+                              ASPEED_TIMER_NR_TIMERS, 1, vmstate_aspeed_t=
+imer,
+                              AspeedTimer),
+--=20
+2.21.0
 
 
