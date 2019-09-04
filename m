@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D37A9360
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:22:32 +0200 (CEST)
-Received: from localhost ([::1]:38672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4851A93AB
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:26:31 +0200 (CEST)
+Received: from localhost ([::1]:38728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5bnS-0007Kr-NU
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:22:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41299)
+	id 1i5brK-0002hK-8x
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:26:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0x-0005Ys-5p
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:26 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b11-0005b3-6A
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0t-0003B8-15
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:22 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39060)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0w-0003Fz-P3
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:26 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44954)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5b0s-00039G-GB
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:18 -0400
-Received: by mail-pl1-x641.google.com with SMTP id bd8so3713619plb.6
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:32:18 -0700 (PDT)
+ id 1i5b0w-0003E3-6P
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:22 -0400
+Received: by mail-pg1-x536.google.com with SMTP id i18so11770437pgl.11
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=QO3IBs61SUEB1dyssLo6yzRJXGICvl8lJuuHe5SABa4=;
- b=nKLxRsbD9qVwU7AV2bUR2h5Flog47pBDBLggJR/s4mautgkbdP7gh3jngNlkJDF4I0
- gK3CB9GvbaAvnfHoujqVwMEEU63KNcI50Ty9Q+Dwy4ismaU9WbL4erabtcjtzjbrHRLW
- TLBVQvPuYH/oDnAsOoa8ARU8jBak+bSmQbJiPbLx70mw8QN0qBJUwYQ1MVvHxUESGhrR
- 0FzL6WYcBAnq6d73Ypc+kkkYV5ASNqPg4JyuEcS7V+QJ3ePgTlNjVzd45QskXg80uq2x
- m1q8kQ45CYcOxmNhoRqsX/xyTOYLhqVhu9e1C5vbyUOLlM/YDQW4WHEAdRm3Opd3/k1Q
- sl6Q==
+ bh=U5HqQQCoMgATbAeqUvsvbzJcESqlSaZ4tMjdZ5JSZUU=;
+ b=rg66FiXwzjtDftCtNFJ4YJDuBUc/6V3ZWoM2DefZWq0T9YmKlK6qzbxYRKt4hGvyJW
+ wu7zalGol+sQqyFXQ8O56YuSNt9DXWNJK1IXzzdYPjBUcABZ71GZbYl4bs2klBvUel4I
+ XX5WcA7CdqUWiUl5Mlss0U2KUM4uIdLH6vojI3iFeM5oJLaitsA6Jv9xkShER6Inw0oH
+ lCRZ9JagDV5oetezCBS7Lz/8caiz/t5aVWHaTsRBjfoWm8SuBXfJk11FgCA+LacOcx/e
+ 1iEY8ATKg7+ZPUoNgEj73olSaULRh8w4GZ+GXKeHJNDmtfpmR+UfSJwGj1dfOKx7aknI
+ zljg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=QO3IBs61SUEB1dyssLo6yzRJXGICvl8lJuuHe5SABa4=;
- b=Q5JKsnQAUIF3xjsuSJZERf38u2GpvfszVne+raByBuHQKlZHE0l667+CPrq3g8pLHE
- 72VT/D0IE8aqDcP4DuKIPqNyZwOVvlUaUKbbe79EueD2SlN6Xcv1pF1A3vu10/PDaSqV
- 3lKb/of5WlualTIVRFInprV/DjS4mDsjyWbQ/U5K8gpJZPQ3PPla9UpD9mnHOQ6YFiB0
- 76woEypkZRn4RQbIXaxOLHQckSllrd9+7DApdU0soiFgU9Zo3zRmMv6ECpmjJtU2iIPu
- exvSjf4OnGuV48PHjwwH+VouoO9/4QYAtFcHlRyfNRmSN1M9KYIuM+bhZAPIOZkqL3cg
- uC6w==
-X-Gm-Message-State: APjAAAU9+VITpgR6lYK4LUqwM7gTq6BQ3KTDXgYz1BXNroxvTlIlz2QF
- p0b5j1m8+Map2vw/q0RP/X7Ms/kd2is=
-X-Google-Smtp-Source: APXvYqyh+UJy/tO+k6FJ1Kn/ThVhBjk35MFpIp/M4lwmBno2tRRuPBvFXZakRY4mXlcdQaM+bEmwmA==
-X-Received: by 2002:a17:902:848c:: with SMTP id
- c12mr42247324plo.47.1567625537068; 
- Wed, 04 Sep 2019 12:32:17 -0700 (PDT)
+ bh=U5HqQQCoMgATbAeqUvsvbzJcESqlSaZ4tMjdZ5JSZUU=;
+ b=ny/aRsUnbzTmY3CvvB15AC1CdTr/26SkOT9eK7dsydldI73zmHrxdj6lAF4TodCjPu
+ Q47GOvkEdlQN+eyDy0PZTJZ+1oBS8WSgfNBR+RLWKWtuFsayRyG7IEu8r2RuNR4dWXJI
+ iv+6ADZk+23Xb2n1VwSpdB5/DRpN4zejeJMVzESIg/3N2XaldroZ8jsjgB6DsiKzwe1u
+ lNkDQlbsyRDKqjJcuazaJXVdj4wZYqB2l74R+ezzcHfb11GTy/7aWEKrcw6RKxnM1wJz
+ wwkkAHrUPtiYDlt9DCvEdLeJKDEMiak0wgDeUuT2rcgzqu9rntlaXbqm/8J5L0c8BQUv
+ sYwQ==
+X-Gm-Message-State: APjAAAU47wsPc1Qr9Mwn67PjyU1NECQmjs1TFqcFcqm++dHoC/tsYuP4
+ d7pd+I16W9tGFWADexlodXXiVE6j9Rc=
+X-Google-Smtp-Source: APXvYqyeFs+tGWAQ/ypUDtn/fWP0Y6SAxmco3+c6XjZY9qDyuPZIgKUnOKQPEa1GV0NuPC0EU14FKQ==
+X-Received: by 2002:aa7:9a84:: with SMTP id w4mr21243579pfi.244.1567625540736; 
+ Wed, 04 Sep 2019 12:32:20 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.32.16
+ by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.32.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 12:32:16 -0700 (PDT)
+ Wed, 04 Sep 2019 12:32:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 12:30:50 -0700
-Message-Id: <20190904193059.26202-61-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 12:30:53 -0700
+Message-Id: <20190904193059.26202-64-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904193059.26202-1-richard.henderson@linaro.org>
 References: <20190904193059.26202-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH v4 60/69] target/arm: Split gen_nop_hint
+X-Received-From: 2607:f8b0:4864:20::536
+Subject: [Qemu-devel] [PATCH v4 63/69] target/arm: Convert T16,
+ Miscellaneous 16-bit instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,110 +80,203 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that all callers pass a constant value, split the switch
-statement into the individual trans_* functions.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 67 +++++++++++++++---------------------------
- 1 file changed, 24 insertions(+), 43 deletions(-)
+v3: Split firstcond & mask within trans_IT.
+---
+ target/arm/translate.c | 111 +++++++++++++----------------------------
+ target/arm/t16.decode  |  29 +++++++----
+ 2 files changed, 54 insertions(+), 86 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 69092c12c3..d076c962ea 100644
+index a4844992d5..48ed6f6b5d 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -3061,46 +3061,6 @@ static void gen_exception_return(DisasContext *s, TCGv_i32 pc)
-     gen_rfe(s, pc, load_cpu_field(spsr));
+@@ -10196,6 +10196,18 @@ static bool trans_TBH(DisasContext *s, arg_tbranch *a)
+     return op_tbranch(s, a, true);
  }
  
--/*
-- * For WFI we will halt the vCPU until an IRQ. For WFE and YIELD we
-- * only call the helper when running single threaded TCG code to ensure
-- * the next round-robin scheduled vCPU gets a crack. In MTTCG mode we
-- * just skip this instruction. Currently the SEV/SEVL instructions
-- * which are *one* of many ways to wake the CPU from WFE are not
-- * implemented so we can't sleep like WFI does.
-- */
--static void gen_nop_hint(DisasContext *s, int val)
--{
--    switch (val) {
--        /* When running in MTTCG we don't generate jumps to the yield and
--         * WFE helpers as it won't affect the scheduling of other vCPUs.
--         * If we wanted to more completely model WFE/SEV so we don't busy
--         * spin unnecessarily we would need to do something more involved.
--         */
--    case 1: /* yield */
--        if (!(tb_cflags(s->base.tb) & CF_PARALLEL)) {
--            gen_set_pc_im(s, s->base.pc_next);
--            s->base.is_jmp = DISAS_YIELD;
--        }
--        break;
--    case 3: /* wfi */
--        gen_set_pc_im(s, s->base.pc_next);
--        s->base.is_jmp = DISAS_WFI;
--        break;
--    case 2: /* wfe */
--        if (!(tb_cflags(s->base.tb) & CF_PARALLEL)) {
--            gen_set_pc_im(s, s->base.pc_next);
--            s->base.is_jmp = DISAS_WFE;
--        }
--        break;
--    case 4: /* sev */
--    case 5: /* sevl */
--        /* TODO: Implement SEV, SEVL and WFE.  May help SMP performance.  */
--    default: /* nop */
--        break;
--    }
--}
++static bool trans_CBZ(DisasContext *s, arg_CBZ *a)
++{
++    TCGv_i32 tmp = load_reg(s, a->rn);
++
++    arm_gen_condlabel(s);
++    tcg_gen_brcondi_i32(a->nz ? TCG_COND_EQ : TCG_COND_NE,
++                        tmp, 0, s->condlabel);
++    tcg_temp_free_i32(tmp);
++    gen_jmp(s, read_pc(s) + a->imm);
++    return true;
++}
++
+ /*
+  * Supervisor call
+  */
+@@ -10417,6 +10429,27 @@ static bool trans_PLI(DisasContext *s, arg_PLD *a)
+     return ENABLE_ARCH_7;
+ }
+ 
++/*
++ * If-then
++ */
++
++static bool trans_IT(DisasContext *s, arg_IT *a)
++{
++    int cond_mask = a->cond_mask;
++
++    /*
++     * No actual code generated for this insn, just setup state.
++     *
++     * Combinations of firstcond and mask which set up an 0b1111
++     * condition are UNPREDICTABLE; we take the CONSTRAINED
++     * UNPREDICTABLE choice to treat 0b1111 the same as 0b1110,
++     * i.e. both meaning "execute always".
++     */
++    s->condexec_cond = (cond_mask >> 4) & 0xe;
++    s->condexec_mask = cond_mask & 0x1f;
++    return true;
++}
++
+ /*
+  * Legacy decoder.
+  */
+@@ -10783,83 +10816,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+     case 8: /* load/store halfword immediate offset, in decodetree */
+     case 9: /* load/store from stack, in decodetree */
+     case 10: /* add PC/SP (immediate), in decodetree */
++    case 11: /* misc, in decodetree */
+     case 12: /* load/store multiple, in decodetree */
+-        goto illegal_op;
 -
- #define CPU_V001 cpu_V0, cpu_V0, cpu_V1
+-    case 11:
+-        /* misc */
+-        op = (insn >> 8) & 0xf;
+-        switch (op) {
+-        case 0: /* add/sub (sp, immediate), in decodetree */
+-        case 2: /* sign/zero extend, in decodetree */
+-            goto illegal_op;
+-
+-        case 4: case 5: case 0xc: case 0xd:
+-            /* push/pop, in decodetree */
+-            goto illegal_op;
+-
+-        case 1: case 3: case 9: case 11: /* czb */
+-            rm = insn & 7;
+-            tmp = load_reg(s, rm);
+-            arm_gen_condlabel(s);
+-            if (insn & (1 << 11))
+-                tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, s->condlabel);
+-            else
+-                tcg_gen_brcondi_i32(TCG_COND_NE, tmp, 0, s->condlabel);
+-            tcg_temp_free_i32(tmp);
+-            offset = ((insn & 0xf8) >> 2) | (insn & 0x200) >> 3;
+-            gen_jmp(s, read_pc(s) + offset);
+-            break;
+-
+-        case 15: /* IT, nop-hint.  */
+-            if ((insn & 0xf) == 0) {
+-                goto illegal_op; /* nop hint, in decodetree */
+-            }
+-            /*
+-             * IT (If-Then)
+-             *
+-             * Combinations of firstcond and mask which set up an 0b1111
+-             * condition are UNPREDICTABLE; we take the CONSTRAINED
+-             * UNPREDICTABLE choice to treat 0b1111 the same as 0b1110,
+-             * i.e. both meaning "execute always".
+-             */
+-            s->condexec_cond = (insn >> 4) & 0xe;
+-            s->condexec_mask = insn & 0x1f;
+-            /* No actual code generated for this insn, just setup state.  */
+-            break;
+-
+-        case 0xe: /* bkpt */
+-        {
+-            int imm8 = extract32(insn, 0, 8);
+-            ARCH(5);
+-            gen_exception_bkpt_insn(s, syn_aa32_bkpt(imm8, true));
+-            break;
+-        }
+-
+-        case 0xa: /* rev, and hlt */
+-        {
+-            int op1 = extract32(insn, 6, 2);
+-
+-            if (op1 == 2) {
+-                /* HLT */
+-                int imm6 = extract32(insn, 0, 6);
+-
+-                gen_hlt(s, imm6);
+-                break;
+-            }
+-
+-            /* Otherwise this is rev, in decodetree */
+-            goto illegal_op;
+-        }
+-
+-        case 6: /* setend, cps; in decodetree */
+-            goto illegal_op;
+-
+-        default:
+-            goto undef;
+-        }
+-        break;
+-
+     case 13: /* conditional branch or swi, in decodetree */
+         goto illegal_op;
  
- static inline void gen_neon_add(int size, TCGv_i32 t0, TCGv_i32 t1)
-@@ -8194,19 +8154,40 @@ DO_SMLAWX(SMLAWT, 1, 1)
- 
- static bool trans_YIELD(DisasContext *s, arg_YIELD *a)
- {
--    gen_nop_hint(s, 1);
-+    /*
-+     * When running single-threaded TCG code, use the helper to ensure that
-+     * the next round-robin scheduled vCPU gets a crack.  When running in
-+     * MTTCG we don't generate jumps to the helper as it won't affect the
-+     * scheduling of other vCPUs.
-+     */
-+    if (!(tb_cflags(s->base.tb) & CF_PARALLEL)) {
-+        gen_set_pc_im(s, s->base.pc_next);
-+        s->base.is_jmp = DISAS_YIELD;
-+    }
-     return true;
+@@ -10915,7 +10873,6 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+     }
+     return;
+ illegal_op:
+-undef:
+     unallocated_encoding(s);
  }
  
- static bool trans_WFE(DisasContext *s, arg_WFE *a)
+diff --git a/target/arm/t16.decode b/target/arm/t16.decode
+index cbc64f4e48..f128110dee 100644
+--- a/target/arm/t16.decode
++++ b/target/arm/t16.decode
+@@ -211,19 +211,30 @@ REVSH           1011 1010 11 ... ...            @rdm
+ # Hints
+ 
  {
--    gen_nop_hint(s, 2);
-+    /*
-+     * When running single-threaded TCG code, use the helper to ensure that
-+     * the next round-robin scheduled vCPU gets a crack.  In MTTCG mode we
-+     * just skip this instruction.  Currently the SEV/SEVL instructions,
-+     * which are *one* of many ways to wake the CPU from WFE, are not
-+     * implemented so we can't sleep like WFI does.
-+     */
-+    if (!(tb_cflags(s->base.tb) & CF_PARALLEL)) {
-+        gen_set_pc_im(s, s->base.pc_next);
-+        s->base.is_jmp = DISAS_WFE;
-+    }
-     return true;
+-  YIELD         1011 1111 0001 0000
+-  WFE           1011 1111 0010 0000
+-  WFI           1011 1111 0011 0000
++  {
++    YIELD       1011 1111 0001 0000
++    WFE         1011 1111 0010 0000
++    WFI         1011 1111 0011 0000
+ 
+-  # TODO: Implement SEV, SEVL; may help SMP performance.
+-  # SEV         1011 1111 0100 0000
+-  # SEVL        1011 1111 0101 0000
++    # TODO: Implement SEV, SEVL; may help SMP performance.
++    # SEV       1011 1111 0100 0000
++    # SEVL      1011 1111 0101 0000
+ 
+-  # The canonical nop has the second nibble as 0000, but the whole of the
+-  # rest of the space is a reserved hint, behaves as nop.
+-  NOP           1011 1111 ---- 0000
++    # The canonical nop has the second nibble as 0000, but the whole of the
++    # rest of the space is a reserved hint, behaves as nop.
++    NOP         1011 1111 ---- 0000
++  }
++  IT            1011 1111 cond_mask:8
  }
  
- static bool trans_WFI(DisasContext *s, arg_WFI *a)
- {
--    gen_nop_hint(s, 3);
-+    /* For WFI, halt the vCPU until an IRQ. */
-+    gen_set_pc_im(s, s->base.pc_next);
-+    s->base.is_jmp = DISAS_WFI;
-     return true;
- }
++# Miscellaneous 16-bit instructions
++
++%imm6_9_3       9:1 3:5 !function=times_2
++
++HLT             1011 1010 10 imm:6              &i
++BKPT            1011 1110 imm:8                 &i
++CBZ             1011 nz:1 0.1 ..... rn:3        imm=%imm6_9_3
++
+ # Push and Pop
  
+ %push_list      0:9 !function=t16_push_list
 -- 
 2.17.1
 
