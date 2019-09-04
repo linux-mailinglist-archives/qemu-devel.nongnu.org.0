@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5DA3A9528
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:33:18 +0200 (CEST)
-Received: from localhost ([::1]:40244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74F9A9550
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:40:05 +0200 (CEST)
+Received: from localhost ([::1]:40360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5ctw-0006j3-QT
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52826)
+	id 1i5d0W-0006C0-9a
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:40:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52869)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9X-00068U-7C
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:20 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5c9a-0006Ec-Kr
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9V-0006kY-Cr
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:18 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:43598)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5c9Y-0006nK-RQ
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:22 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:39602)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5c9V-0006jK-1W
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:17 -0400
-Received: by mail-pf1-x436.google.com with SMTP id d15so20792pfo.10
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:16 -0700 (PDT)
+ id 1i5c9Y-0006m5-IX
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:20 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id bd8so95431plb.6
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=X84RCb73PaG8DYKiAA5H6xWmANPHPCwHIMuwva50q5I=;
- b=pNzuBxGZqrLq9bInFa6+M5/RLw6wnLbVE0xKvLdxGmzWOqhkYmjaTSw5G4vHuj5HhH
- yNyT3qJPb6yyZeH3+VcTZOtCacIkIsThtGNnsHNjv9z+WodiyXY5khA3bKtRdhCvbyzl
- 9HL+hKEhGq1VapTU7t2e9ToOlpFDsjlNGYMvOIfTCtDCnRnHRKasdHw56ySu8nnOCaAG
- 7dNXDPYJYlQ/i4oTmmmB0GvaNvVPu0NG50z+Ykv0yBivpQGiED9RS3/ES8KQMfq54hbh
- MnL2S8gauIGw2U7F9cR06+HcvTZkmQID8onsJ/bzzgVO6ZWHdfX6MGCze+8gvegLKHty
- plxg==
+ bh=2GGld3+nyB6RGdDPwst4M2bW/fcpfjsi762a3svN9NQ=;
+ b=Z+SNo1wQyA7Jh9KTwQTDa0Yn97hxRYfVBnO2a2HeEa9+B0baYabNxPUDzs/hXdRL+h
+ W9H7qrvdyOfy0fB+gRKIL92Gh3jk+X0SE7p/nxEhjZlNHjVhPJpw2kSm3em8LqGalscP
+ hv/Nl7gisyCf+2TRufDdiKM7ly3f9srfFm2Qbv6xRPoWlyr+P9F6Z3mp9GuzVHJqPV8j
+ QrAjtYRNzQWUreGTLBsTnONNdBRA6r659ohCjBLdFVJP6yp5Hy1X6gB8RWxetptBXjSC
+ uZ2/CvAt2PPtuclOck0C+tz+3imOQC2MhPS9JsFEHYqBYxLa6/xvZTTv1Ur3cLQSFWrt
+ G5Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=X84RCb73PaG8DYKiAA5H6xWmANPHPCwHIMuwva50q5I=;
- b=b9o2lNg4iZiv9f00kr/kcUimAIztl2cKkLvDFohpEKPIQmwwK/ObtmGwSmYvRoD+mA
- smZFvx34jmFqoyVH3zBHJEijWgGD5P1PXDO0LeO3qBWl/R6EKifRZHiVx9oK5gQ7/fsj
- 7lVgXzna96SgJtt2U7xid9eEBXWZQM0VpYPF4TfG+63ACCqMkXftcgAfVBo/B1P7DNKP
- TJUhz8TjoCStA93amSUIk5qt6PkaWP7LL2+RnILF6e1TMt1hBcYEQM7PlA2bzGKoS9Sg
- zkAhOpjBt2EqJjwB4HzXCs05XwodjXudAzSqEQLIseyeHph1UqyDUwcu5Id2lIqSSH1g
- zCrg==
-X-Gm-Message-State: APjAAAWMhg35OOaFFEh34PomPqvySGKYHEuqWEH/2sKLxc9mbYCzbNI8
- b5ItG02AHmxtUCee1XnZNyLS+3VMygw=
-X-Google-Smtp-Source: APXvYqz2BLlXUHLeKO2V3Etx6n7EpxOH5+nrlzfVb8a+qaZohPfdEYcbi/de2gd2//VTYDPzM0oDPg==
-X-Received: by 2002:a63:6c46:: with SMTP id h67mr67660pgc.248.1567629915524;
- Wed, 04 Sep 2019 13:45:15 -0700 (PDT)
+ bh=2GGld3+nyB6RGdDPwst4M2bW/fcpfjsi762a3svN9NQ=;
+ b=pwAHwZMsmt3FUx+onxGxinB+o2BStTdBlqpLRlCH1Mn2aZZYDWEW2vJoqXcbhpykJc
+ uLSk7dB+4p1tvEly/bYLGVmSaeHvzV4UlVlC/z/hycOc5rhguy9C53AJl+UZUjkoSh94
+ et2w/gf4Le14OnOAo6cHP1/415Va9WfhoY3PxY8/yeuaDlxE2fzQbpOmVl+geMI8ae+e
+ IbPdhxU6EVfR36dfg5Dz1Zdo5HIz6fhadHMjPRjq7YCX7xX4E2z3ItDvwAtP4XJL/Ha0
+ 5A1qtem7CXz4gqW0RD4swr9b5DRcm7WcdKzDIUccD+1VLCWGggqiabVeCfbwhR6wG34B
+ GipQ==
+X-Gm-Message-State: APjAAAXgZ+2cExkBwI+0mW51lLu+UPtbVhu0zqC1IPJ9L7hDZdXx5WvM
+ H9zOWJL+Jig5U++toE1OClyaiT3AFrs=
+X-Google-Smtp-Source: APXvYqyOfhts/Q6lFkYINDoNBbvgXEvqOv+hDoryAFpeQZoi1j8mp0qZD9wkZiWM6r7vTUM5Xevn2A==
+X-Received: by 2002:a17:902:9347:: with SMTP id g7mr7611218plp.0.1567629919179; 
+ Wed, 04 Sep 2019 13:45:19 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.14
+ by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:45:14 -0700 (PDT)
+ Wed, 04 Sep 2019 13:45:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 13:44:59 -0700
-Message-Id: <20190904204507.32457-6-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 13:45:02 -0700
+Message-Id: <20190904204507.32457-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904204507.32457-1-richard.henderson@linaro.org>
 References: <20190904204507.32457-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::436
-Subject: [Qemu-devel] [PULL 05/13] target/openrisc: Move VR, UPR, DMMCFGR,
- IMMCFGR to cpu init
+X-Received-From: 2607:f8b0:4864:20::62d
+Subject: [Qemu-devel] [PULL 08/13] target/openrisc: Check CPUCFG_OF32S for
+ float insns
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,118 +80,232 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These registers are read-only and implementation specific.
-Initiailize VR for the first time; take the OR1200 values
-from the verilog source.
-
-Note that moving fields within CPUOpenRISCState does not
-affect migration.
+Make sure the OF32S insns are enabled before allowing execution.
+Include the missing bit for cpu "any".
 
 Reviewed-by: Stafford Horne <shorne@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/openrisc/cpu.h        |  8 ++++----
- target/openrisc/cpu.c        | 23 ++++++++++++++++-------
- target/openrisc/sys_helper.c |  4 ++--
- 3 files changed, 22 insertions(+), 13 deletions(-)
+ target/openrisc/cpu.c       |  2 +-
+ target/openrisc/translate.c | 84 ++++++++++++++++---------------------
+ 2 files changed, 36 insertions(+), 50 deletions(-)
 
-diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-index 755282f95d..18d7445e74 100644
---- a/target/openrisc/cpu.h
-+++ b/target/openrisc/cpu.h
-@@ -260,10 +260,6 @@ typedef struct CPUOpenRISCState {
-     target_ulong sr_cy;       /* the SR_CY bit, values 0, 1.  */
-     target_long  sr_ov;       /* the SR_OV bit (in the sign bit only) */
-     uint32_t sr;              /* Supervisor register, without SR_{F,CY,OV} */
--    uint32_t vr;              /* Version register */
--    uint32_t upr;             /* Unit presence register */
--    uint32_t dmmucfgr;        /* DMMU configure register */
--    uint32_t immucfgr;        /* IMMU configure register */
-     uint32_t esr;             /* Exception supervisor register */
-     uint32_t evbar;           /* Exception vector base address register */
-     uint32_t pmr;             /* Power Management Register */
-@@ -283,7 +279,11 @@ typedef struct CPUOpenRISCState {
-     struct {} end_reset_fields;
- 
-     /* Fields from here on are preserved across CPU reset. */
-+    uint32_t vr;              /* Version register */
-+    uint32_t upr;             /* Unit presence register */
-     uint32_t cpucfgr;         /* CPU configure register */
-+    uint32_t dmmucfgr;        /* DMMU configure register */
-+    uint32_t immucfgr;        /* IMMU configure register */
- 
- #ifndef CONFIG_USER_ONLY
-     QEMUTimer *timer;
 diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index f19e482a55..d9f447e90c 100644
+index 9f566ad883..f3c8134531 100644
 --- a/target/openrisc/cpu.c
 +++ b/target/openrisc/cpu.c
-@@ -56,13 +56,6 @@ static void openrisc_cpu_reset(CPUState *s)
-     cpu->env.lock_addr = -1;
-     s->exception_index = -1;
+@@ -131,7 +131,7 @@ static void openrisc_any_initfn(Object *obj)
+     cpu->env.avr = 0x01010000;  /* Architecture v1.1 */
  
--    cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP |
--                   UPR_PMP;
--    cpu->env.dmmucfgr = (DMMUCFGR_NTW & (0 << 2))
--                      | (DMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
--    cpu->env.immucfgr = (IMMUCFGR_NTW & (0 << 2))
--                      | (IMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
+     cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP | UPR_PMP;
+-    cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S |
++    cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S | CPUCFGR_OF32S |
+                        CPUCFGR_AVRP | CPUCFGR_EVBARP;
+ 
+     /* 1Way, TLB_SIZE entries.  */
+diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+index 341f923864..2f5c969f21 100644
+--- a/target/openrisc/translate.c
++++ b/target/openrisc/translate.c
+@@ -45,6 +45,7 @@ typedef struct DisasContext {
+     uint32_t mem_idx;
+     uint32_t tb_flags;
+     uint32_t delayed_branch;
++    uint32_t cpucfgr;
+ 
+     /* If not -1, jmp_pc contains this value and so is a direct jump.  */
+     target_ulong jmp_pc_imm;
+@@ -140,30 +141,11 @@ static void gen_illegal_exception(DisasContext *dc)
+     dc->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+-/* not used yet, open it when we need or64.  */
+-/*#ifdef TARGET_OPENRISC64
+-static void check_ob64s(DisasContext *dc)
++static bool check_of32s(DisasContext *dc)
+ {
+-    if (!(dc->flags & CPUCFGR_OB64S)) {
+-        gen_illegal_exception(dc);
+-    }
++    return dc->cpucfgr & CPUCFGR_OF32S;
+ }
+ 
+-static void check_of64s(DisasContext *dc)
+-{
+-    if (!(dc->flags & CPUCFGR_OF64S)) {
+-        gen_illegal_exception(dc);
+-    }
+-}
 -
- #ifndef CONFIG_USER_ONLY
-     cpu->env.picmr = 0x00000000;
-     cpu->env.picsr = 0x00000000;
-@@ -117,15 +110,31 @@ static void or1200_initfn(Object *obj)
+-static void check_ov64s(DisasContext *dc)
+-{
+-    if (!(dc->flags & CPUCFGR_OV64S)) {
+-        gen_illegal_exception(dc);
+-    }
+-}
+-#endif*/
+-
+ static TCGv cpu_R(DisasContext *dc, int reg)
  {
-     OpenRISCCPU *cpu = OPENRISC_CPU(obj);
- 
-+    cpu->env.vr = 0x13000008;
-+    cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP | UPR_PMP;
-     cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S | CPUCFGR_OF32S |
-                        CPUCFGR_EVBARP;
-+
-+    /* 1Way, TLB_SIZE entries.  */
-+    cpu->env.dmmucfgr = (DMMUCFGR_NTW & (0 << 2))
-+                      | (DMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
-+    cpu->env.immucfgr = (IMMUCFGR_NTW & (0 << 2))
-+                      | (IMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
+     if (reg == 0) {
+@@ -1157,26 +1139,37 @@ static bool trans_l_rfe(DisasContext *dc, arg_l_rfe *a)
+     return true;
  }
  
- static void openrisc_any_initfn(Object *obj)
+-static void do_fp2(DisasContext *dc, arg_da *a,
++static bool do_fp2(DisasContext *dc, arg_da *a,
+                    void (*fn)(TCGv, TCGv_env, TCGv))
  {
-     OpenRISCCPU *cpu = OPENRISC_CPU(obj);
- 
-+    cpu->env.vr = 0x13000000;
-+    cpu->env.upr = UPR_UP | UPR_DMP | UPR_IMP | UPR_PICP | UPR_TTP | UPR_PMP;
-     cpu->env.cpucfgr = CPUCFGR_NSGF | CPUCFGR_OB32S | CPUCFGR_EVBARP;
-+
-+    /* 1Way, TLB_SIZE entries.  */
-+    cpu->env.dmmucfgr = (DMMUCFGR_NTW & (0 << 2))
-+                      | (DMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
-+    cpu->env.immucfgr = (IMMUCFGR_NTW & (0 << 2))
-+                      | (IMMUCFGR_NTS & (ctz32(TLB_SIZE) << 2));
++    if (!check_of32s(dc)) {
++        return false;
++    }
+     check_r0_write(dc, a->d);
+     fn(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->a));
+     gen_helper_update_fpcsr(cpu_env);
++    return true;
  }
  
- static void openrisc_cpu_class_init(ObjectClass *oc, void *data)
-diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
-index d20f48b659..a2b1f52294 100644
---- a/target/openrisc/sys_helper.c
-+++ b/target/openrisc/sys_helper.c
-@@ -199,13 +199,13 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
-         return env->vr;
+-static void do_fp3(DisasContext *dc, arg_dab *a,
++static bool do_fp3(DisasContext *dc, arg_dab *a,
+                    void (*fn)(TCGv, TCGv_env, TCGv, TCGv))
+ {
++    if (!check_of32s(dc)) {
++        return false;
++    }
+     check_r0_write(dc, a->d);
+     fn(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->a), cpu_R(dc, a->b));
+     gen_helper_update_fpcsr(cpu_env);
++    return true;
+ }
  
-     case TO_SPR(0, 1): /* UPR */
--        return env->upr;    /* TT, DM, IM, UP present */
-+        return env->upr;
+-static void do_fpcmp(DisasContext *dc, arg_ab *a,
++static bool do_fpcmp(DisasContext *dc, arg_ab *a,
+                      void (*fn)(TCGv, TCGv_env, TCGv, TCGv),
+                      bool inv, bool swap)
+ {
++    if (!check_of32s(dc)) {
++        return false;
++    }
+     if (swap) {
+         fn(cpu_sr_f, cpu_env, cpu_R(dc, a->b), cpu_R(dc, a->a));
+     } else {
+@@ -1186,52 +1179,50 @@ static void do_fpcmp(DisasContext *dc, arg_ab *a,
+         tcg_gen_xori_tl(cpu_sr_f, cpu_sr_f, 1);
+     }
+     gen_helper_update_fpcsr(cpu_env);
++    return true;
+ }
  
-     case TO_SPR(0, 2): /* CPUCFGR */
-         return env->cpucfgr;
+ static bool trans_lf_add_s(DisasContext *dc, arg_dab *a)
+ {
+-    do_fp3(dc, a, gen_helper_float_add_s);
+-    return true;
++    return do_fp3(dc, a, gen_helper_float_add_s);
+ }
  
-     case TO_SPR(0, 3): /* DMMUCFGR */
--        return env->dmmucfgr;    /* 1Way, 64 entries */
-+        return env->dmmucfgr;
+ static bool trans_lf_sub_s(DisasContext *dc, arg_dab *a)
+ {
+-    do_fp3(dc, a, gen_helper_float_sub_s);
+-    return true;
++    return do_fp3(dc, a, gen_helper_float_sub_s);
+ }
  
-     case TO_SPR(0, 4): /* IMMUCFGR */
-         return env->immucfgr;
+ static bool trans_lf_mul_s(DisasContext *dc, arg_dab *a)
+ {
+-    do_fp3(dc, a, gen_helper_float_mul_s);
+-    return true;
++    return do_fp3(dc, a, gen_helper_float_mul_s);
+ }
+ 
+ static bool trans_lf_div_s(DisasContext *dc, arg_dab *a)
+ {
+-    do_fp3(dc, a, gen_helper_float_div_s);
+-    return true;
++    return do_fp3(dc, a, gen_helper_float_div_s);
+ }
+ 
+ static bool trans_lf_rem_s(DisasContext *dc, arg_dab *a)
+ {
+-    do_fp3(dc, a, gen_helper_float_rem_s);
++    return do_fp3(dc, a, gen_helper_float_rem_s);
+     return true;
+ }
+ 
+ static bool trans_lf_itof_s(DisasContext *dc, arg_da *a)
+ {
+-    do_fp2(dc, a, gen_helper_itofs);
+-    return true;
++    return do_fp2(dc, a, gen_helper_itofs);
+ }
+ 
+ static bool trans_lf_ftoi_s(DisasContext *dc, arg_da *a)
+ {
+-    do_fp2(dc, a, gen_helper_ftois);
+-    return true;
++    return do_fp2(dc, a, gen_helper_ftois);
+ }
+ 
+ static bool trans_lf_madd_s(DisasContext *dc, arg_dab *a)
+ {
++    if (!check_of32s(dc)) {
++        return false;
++    }
+     check_r0_write(dc, a->d);
+     gen_helper_float_madd_s(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->d),
+                             cpu_R(dc, a->a), cpu_R(dc, a->b));
+@@ -1241,38 +1232,32 @@ static bool trans_lf_madd_s(DisasContext *dc, arg_dab *a)
+ 
+ static bool trans_lf_sfeq_s(DisasContext *dc, arg_ab *a)
+ {
+-    do_fpcmp(dc, a, gen_helper_float_eq_s, false, false);
+-    return true;
++    return do_fpcmp(dc, a, gen_helper_float_eq_s, false, false);
+ }
+ 
+ static bool trans_lf_sfne_s(DisasContext *dc, arg_ab *a)
+ {
+-    do_fpcmp(dc, a, gen_helper_float_eq_s, true, false);
+-    return true;
++    return do_fpcmp(dc, a, gen_helper_float_eq_s, true, false);
+ }
+ 
+ static bool trans_lf_sfgt_s(DisasContext *dc, arg_ab *a)
+ {
+-    do_fpcmp(dc, a, gen_helper_float_lt_s, false, true);
+-    return true;
++    return do_fpcmp(dc, a, gen_helper_float_lt_s, false, true);
+ }
+ 
+ static bool trans_lf_sfge_s(DisasContext *dc, arg_ab *a)
+ {
+-    do_fpcmp(dc, a, gen_helper_float_le_s, false, true);
+-    return true;
++    return do_fpcmp(dc, a, gen_helper_float_le_s, false, true);
+ }
+ 
+ static bool trans_lf_sflt_s(DisasContext *dc, arg_ab *a)
+ {
+-    do_fpcmp(dc, a, gen_helper_float_lt_s, false, false);
+-    return true;
++    return do_fpcmp(dc, a, gen_helper_float_lt_s, false, false);
+ }
+ 
+ static bool trans_lf_sfle_s(DisasContext *dc, arg_ab *a)
+ {
+-    do_fpcmp(dc, a, gen_helper_float_le_s, false, false);
+-    return true;
++    return do_fpcmp(dc, a, gen_helper_float_le_s, false, false);
+ }
+ 
+ static void openrisc_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
+@@ -1284,6 +1269,7 @@ static void openrisc_tr_init_disas_context(DisasContextBase *dcb, CPUState *cs)
+     dc->mem_idx = cpu_mmu_index(env, false);
+     dc->tb_flags = dc->base.tb->flags;
+     dc->delayed_branch = (dc->tb_flags & TB_FLAGS_DFLAG) != 0;
++    dc->cpucfgr = env->cpucfgr;
+     dc->jmp_pc_imm = -1;
+ 
+     bound = -(dc->base.pc_first | TARGET_PAGE_MASK) / 4;
 -- 
 2.17.1
 
