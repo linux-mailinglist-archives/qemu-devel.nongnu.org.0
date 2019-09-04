@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0060DA92CB
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:06:55 +0200 (CEST)
-Received: from localhost ([::1]:38366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1B8A92C6
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:05:41 +0200 (CEST)
+Received: from localhost ([::1]:38290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5bYM-0008LS-H3
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:06:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40658)
+	id 1i5bXA-0006QC-4J
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:05:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40664)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0T-00057A-Em
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:57 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0T-00057Q-LS
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0P-0002is-S4
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0R-0002ke-CA
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:53 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33368)
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:34378)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5b0P-0002ht-Fi
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:49 -0400
-Received: by mail-pf1-x444.google.com with SMTP id q10so8854499pfl.0
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:31:49 -0700 (PDT)
+ id 1i5b0Q-0002j0-W2
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:51 -0400
+Received: by mail-pf1-x442.google.com with SMTP id r12so1751751pfh.1
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=mFp920jQZpixU7k16+FPmF8mjjZjYKv6xPjZ8lwU3rc=;
- b=WkZkgncCy1bCptYA67zENFoWSR6EsbMHBSOm/4l4vmYZWsGkyhX+AezDUcKEGUKAxR
- rsWehwFYif1ijPQU49lwTABy4XfyMpxDIAP8IVbwQPvrZFVtzU1AEVDuAAnjevtc9WCR
- oUjDuioklvnUFzKkRC6faVr9E2bw98VR9/yClw1NUbrtlyI6BTMqWW6Z1deYV6BbE9hn
- 2c+kgFha0xDt2mSBK0NWSn7UjttxqCvfwhWEt5qe2ItzZAQ6XvWWIiEyFIvV+o4DjhdH
- l0uaQAVWQRoa/7QHM6aPcjOoOsehsqTcw2qDkPeuAlo7t4Juimak4oaOGqnFgESg6Rcj
- WxPg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uBQvYz8IHxhp6JSRYx+eAJLbYd/WxV5+vKoQFHwhKKE=;
+ b=nP0gy5CA8F+hMVqR1RfqRCtQOYZtv4ByApFNWYu5Y7QSKSC84dP0ezc6vrzChPerie
+ Qtvl0whj6iiKAoO2qPoOOv/F0M/kX5kHKwDKSw3Yrr5HZGXs006i5s1UsZh2oKdHNrTq
+ sYNJcGaRKkWlY4NR7xiVn5Y9W2HvQFBzdr5Nbf+GTa+wory0Ud6cTdKFpISgDG2WYM1y
+ FTXYewj4ikPmdcS1fc2OnwM5z/UMC1KA10K2RcNQhbIpDTntUoCgS0aUbm2MwbCSuojY
+ yguEVQBlmL4KnPkpcG1yZ1c0CRI/TsRDBt19uulMMZLC6klP1nCaFEDl5Al88k8oS7Df
+ YeNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=mFp920jQZpixU7k16+FPmF8mjjZjYKv6xPjZ8lwU3rc=;
- b=fpUxUaHltn2zeYLtciyIabiuecLGdxoYzcPev1losRIh4U/jqynetxD9spLniYsdhi
- GNRvpzyBEMuUrKkj0HhHf8hlH42JgPlwIxMUvfMqs1kBgAQ2DNTPy5kJ51+g4myQX0eI
- RPapBO/X9b6Ge0/T291Jnxb+JUwlakHWZa+jeSmp/RObzLGfhU5jmLU4+kWuYrP48ctY
- TZ426J9JsPL9QpkQc+XTca00ORw3tLQkcNlYg18TPsLZseAhc7rmWEoieIbcVbDSPgZr
- EergT8gKtyvMSxuHJPjwjBMruhtAOTeOtqlNc02oG9TKXKUgzoZaGOz4tv3ila5LkKU2
- x2qg==
-X-Gm-Message-State: APjAAAWnD99p7c1Ax6ArV2qYFIMUoVHIcuAxLc9zA90Fo5/fGQtkRXlL
- ZoZwG5S8xJr22TUAjXWHRvWDy7SUeQE=
-X-Google-Smtp-Source: APXvYqzgZiwXgnqkD175o64aPLxv789WlGHi0PHvjp25fzYlL2O2Xwm51LGhRfGrXWptnQc4kXYGGA==
-X-Received: by 2002:a62:1d8a:: with SMTP id
- d132mr48056973pfd.187.1567625508165; 
- Wed, 04 Sep 2019 12:31:48 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=uBQvYz8IHxhp6JSRYx+eAJLbYd/WxV5+vKoQFHwhKKE=;
+ b=uU/v+0g939z3eJdObCw6cBR5oH5GprYz/rOQjFQQnHcU5B0iMdrKTZ3Xbr7SrgjZ6P
+ C0VjRKDidXmRLWV2ZQ6kVG0DjP3ewzM8J7pNNwZrfwWFnqaSN6tiIoCPM7ZsnCnW+wug
+ yDM6eW+NOHPbS2D+jnyoM01vqdEZxNm1CemiZKUnsxI3y6zuw1J0riBFc6IIFjOjVdbB
+ RFFbAg5uNMQpKy6Yl/BGTpoB3C9KrDAsO79GGMLQujcZsQcdJeLo8+cW5OT+Uboe7+Da
+ jxFKWKezZH35B5k6OgFHZOyJgWepJsm/cp15e2k0CCDWpHM5YcNBBRezM1+cBJJKjCzB
+ i1gQ==
+X-Gm-Message-State: APjAAAXpAnwbq1qbOrvsMEfB6uYiWGDxb1u75/FOjDsdfSs+Q7r2aPLN
+ WScbdhtnVLW2yubSwxDLSPFbUug+EDc=
+X-Google-Smtp-Source: APXvYqxj0zaZOYoa9oLkmHv6q9vEuIy2XsuijlGAOeejWknllDPpB40oFQGPOmNiZgbNMJFPMTAYMw==
+X-Received: by 2002:a17:90a:a40e:: with SMTP id
+ y14mr6414114pjp.83.1567625509182; 
+ Wed, 04 Sep 2019 12:31:49 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.31.46
+ by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.31.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 12:31:47 -0700 (PDT)
+ Wed, 04 Sep 2019 12:31:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 12:30:26 -0700
-Message-Id: <20190904193059.26202-37-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 12:30:27 -0700
+Message-Id: <20190904193059.26202-38-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904193059.26202-1-richard.henderson@linaro.org>
 References: <20190904193059.26202-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v4 36/69] target/arm: Convert CPS (privileged)
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v4 37/69] target/arm: Convert SETEND
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,180 +84,72 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v3: Reject for m-profile; add TODO for unpredictable arguments.
-    Sort the T32 decode adjacent to the hint space.
----
- target/arm/translate.c       | 91 ++++++++++++++++--------------------
- target/arm/a32-uncond.decode |  3 ++
- target/arm/t32.decode        |  5 ++
- 3 files changed, 48 insertions(+), 51 deletions(-)
+ target/arm/translate.c       | 22 +++++++++++++---------
+ target/arm/a32-uncond.decode |  4 ++++
+ 2 files changed, 17 insertions(+), 9 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 364b51c2a6..664ea281f8 100644
+index 664ea281f8..a599da96e1 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -10145,6 +10145,44 @@ static bool trans_SRS(DisasContext *s, arg_SRS *a)
+@@ -10240,6 +10240,18 @@ static bool trans_SB(DisasContext *s, arg_SB *a)
      return true;
  }
  
-+static bool trans_CPS(DisasContext *s, arg_CPS *a)
++static bool trans_SETEND(DisasContext *s, arg_SETEND *a)
 +{
-+    uint32_t mask, val;
-+
-+    if (arm_dc_feature(s, ARM_FEATURE_M)) {
++    if (!ENABLE_ARCH_6) {
 +        return false;
 +    }
-+    if (IS_USER(s)) {
-+        /* Implemented as NOP in user mode.  */
-+        return true;
-+    }
-+    /* TODO: There are quite a lot of UNPREDICTABLE argument combinations. */
-+
-+    mask = val = 0;
-+    if (a->imod & 2) {
-+        if (a->A) {
-+            mask |= CPSR_A;
-+        }
-+        if (a->I) {
-+            mask |= CPSR_I;
-+        }
-+        if (a->F) {
-+            mask |= CPSR_F;
-+        }
-+        if (a->imod & 1) {
-+            val |= mask;
-+        }
-+    }
-+    if (a->M) {
-+        mask |= CPSR_M;
-+        val |= a->mode;
-+    }
-+    if (mask) {
-+        gen_set_psr_im(s, mask, 0, val);
++    if (a->E != (s->be_data == MO_BE)) {
++        gen_helper_setend(cpu_env);
++        s->base.is_jmp = DISAS_UPDATE;
 +    }
 +    return true;
 +}
 +
  /*
-  * Clear-Exclusive, Barriers
+  * Legacy decoder.
   */
-@@ -10321,31 +10359,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             ARCH(5TE);
-         } else if ((insn & 0x0f000010) == 0x0e000010) {
-             /* Additional coprocessor register transfer.  */
--        } else if ((insn & 0x0ff10020) == 0x01000000) {
--            uint32_t mask;
--            uint32_t val;
--            /* cps (privileged) */
--            if (IS_USER(s))
--                return;
--            mask = val = 0;
--            if (insn & (1 << 19)) {
--                if (insn & (1 << 8))
--                    mask |= CPSR_A;
--                if (insn & (1 << 7))
--                    mask |= CPSR_I;
--                if (insn & (1 << 6))
--                    mask |= CPSR_F;
--                if (insn & (1 << 18))
--                    val |= mask;
--            }
--            if (insn & (1 << 17)) {
--                mask |= CPSR_M;
--                val |= (insn & 0x1f);
--            }
--            if (mask) {
--                gen_set_psr_im(s, mask, 0, val);
+@@ -10325,15 +10337,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+             return; /* v7MP: Unallocated memory hint: must NOP */
+         }
+ 
+-        if ((insn & 0x0ffffdff) == 0x01010000) {
+-            ARCH(6);
+-            /* setend */
+-            if (((insn >> 9) & 1) != !!(s->be_data == MO_BE)) {
+-                gen_helper_setend(cpu_env);
+-                s->base.is_jmp = DISAS_UPDATE;
 -            }
 -            return;
-         }
-         goto illegal_op;
-     }
-@@ -10454,7 +10467,6 @@ static bool thumb_insn_is_16bit(DisasContext *s, uint32_t pc, uint32_t insn)
- /* Translate a 32-bit thumb instruction. */
- static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
- {
--    uint32_t imm, offset;
-     uint32_t rd, rn, rm, rs;
-     TCGv_i32 tmp;
-     TCGv_i32 addr;
-@@ -10730,31 +10742,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                     case 0: /* msr cpsr, in decodetree  */
-                     case 1: /* msr spsr, in decodetree  */
-                         goto illegal_op;
--                    case 2: /* cps, nop-hint.  */
--                        /* nop hints in decodetree */
--                        /* Implemented as NOP in user mode.  */
--                        if (IS_USER(s))
--                            break;
--                        offset = 0;
--                        imm = 0;
--                        if (insn & (1 << 10)) {
--                            if (insn & (1 << 7))
--                                offset |= CPSR_A;
--                            if (insn & (1 << 6))
--                                offset |= CPSR_I;
--                            if (insn & (1 << 5))
--                                offset |= CPSR_F;
--                            if (insn & (1 << 9))
--                                imm = CPSR_A | CPSR_I | CPSR_F;
--                        }
--                        if (insn & (1 << 8)) {
--                            offset |= 0x1f;
--                            imm |= (insn & 0x1f);
--                        }
--                        if (offset) {
--                            gen_set_psr_im(s, offset, 0, imm);
--                        }
--                        break;
-+                    case 2: /* cps, nop-hint, in decodetree */
-+                        goto illegal_op;
-                     case 3: /* Special control operations, in decodetree */
-                     case 4: /* bxj, in decodetree */
-                         goto illegal_op;
+-        } else if ((insn & 0x0e000f00) == 0x0c000100) {
++        if ((insn & 0x0e000f00) == 0x0c000100) {
+             if (arm_dc_feature(s, ARM_FEATURE_IWMMXT)) {
+                 /* iWMMXt register transfer.  */
+                 if (extract32(s->c15_cpar, 1, 1)) {
 diff --git a/target/arm/a32-uncond.decode b/target/arm/a32-uncond.decode
-index c7e9df8030..de611e8aff 100644
+index de611e8aff..32253b4f9a 100644
 --- a/target/arm/a32-uncond.decode
 +++ b/target/arm/a32-uncond.decode
-@@ -35,9 +35,12 @@ BLX_i            1111 101 . ........................          &i imm=%imm24h
+@@ -24,6 +24,7 @@
  
- &rfe             rn w pu
- &srs             mode w pu
-+&cps             mode imod M A I F
+ &empty           !extern
+ &i               !extern imm
++&setend          E
  
- RFE              1111 100 pu:2 0 w:1 1 rn:4 0000 1010 0000 0000   &rfe
- SRS              1111 100 pu:2 1 w:1 0 1101 0000 0101 000 mode:5  &srs
-+CPS              1111 0001 0000 imod:2 M:1 0 0000 000 A:1 I:1 F:1 0 mode:5 \
-+                 &cps
+ # Branch with Link and Exchange
  
- # Clear-Exclusive, Barriers
- 
-diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 63bca82575..11a9a2ef58 100644
---- a/target/arm/t32.decode
-+++ b/target/arm/t32.decode
-@@ -44,6 +44,7 @@
- &bfi             !extern rd rn lsb msb
- &sat             !extern rd rn satimm imm sh
- &pkh             !extern rd rn rm imm tb
-+&cps             !extern mode imod M A I F
- 
- # Data-processing (register)
- 
-@@ -306,6 +307,10 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
-       NOP        1111 0011 1010 1111 1000 0000 ---- ----
-     }
- 
-+    # If imod == '00' && M == '0' then SEE "Hint instructions", above.
-+    CPS          1111 0011 1010 1111 1000 0 imod:2 M:1 A:1 I:1 F:1 mode:5 \
-+                 &cps
+@@ -50,3 +51,6 @@ DSB              1111 0101 0111 1111 1111 0000 0100 ----
+ DMB              1111 0101 0111 1111 1111 0000 0101 ----
+ ISB              1111 0101 0111 1111 1111 0000 0110 ----
+ SB               1111 0101 0111 1111 1111 0000 0111 0000
 +
-     # Miscellaneous control
-     {
-       CLREX      1111 0011 1011 1111 1000 1111 0010 1111
++# Set Endianness
++SETEND           1111 0001 0000 0001 0000 00 E:1 0 0000 0000  &setend
 -- 
 2.17.1
 
