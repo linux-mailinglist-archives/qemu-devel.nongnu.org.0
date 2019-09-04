@@ -2,48 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A877BA7860
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 04:10:27 +0200 (CEST)
-Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC22A78A9
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 04:18:14 +0200 (CEST)
+Received: from localhost ([::1]:52728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Kkc-00054g-9H
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 22:10:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39680)
+	id 1i5Ks9-0007T9-85
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 22:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40552)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tiwei.bie@intel.com>) id 1i5Kjl-0004dm-9C
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 22:09:34 -0400
+ (envelope-from <peterx@redhat.com>) id 1i5KqU-0006O1-Ay
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 22:16:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tiwei.bie@intel.com>) id 1i5Kjj-0004Cl-Pg
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 22:09:32 -0400
-Received: from mga09.intel.com ([134.134.136.24]:57871)
+ (envelope-from <peterx@redhat.com>) id 1i5KqO-00089I-LF
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 22:16:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45888)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tiwei.bie@intel.com>) id 1i5Kjj-000497-I4
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 22:09:31 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2019 19:09:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,465,1559545200"; d="scan'208";a="198911868"
-Received: from dpdk-virtio-tbie-2.sh.intel.com (HELO ___) ([10.67.104.71])
- by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2019 19:09:22 -0700
-Date: Wed, 4 Sep 2019 10:06:55 +0800
-From: Tiwei Bie <tiwei.bie@intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>
-Message-ID: <20190904020655.GA30746@___>
-References: <20190903200422.11693-1-johannes@sipsolutions.net>
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1i5KqI-00085Z-6n
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 22:16:21 -0400
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 364DE8553A
+ for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 02:16:16 +0000 (UTC)
+Received: by mail-pf1-f197.google.com with SMTP id t24so5264737pfe.23
+ for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 19:16:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=LczehYJriNMVPyBcXcSRQNzVxF3xXTD0Ti3R2yiPpDY=;
+ b=JLYPsuhyvmwi9dqCSpAviww8zPPFtWJf8t5VXEPS/LgzybTUXqta5Cd+HEIvcs9BpT
+ 7sjCLZgGX7X02R92vDOREwtAv2Nu/b5VD6kSf7uuBRRcDcYdH7CeGl3oW+7Ldy+Pi/3B
+ fAaj7gflFXFsGt31mAIMBOtLB+/+e2ZCHdXItAKFQrX3VV+6p9UqaYdkF0Qr5bq3mRLA
+ H5M78Q3XERkeJGzP8BxXok5X7Om9T2GwrKwSsdgCBlUCzUmcAtXkOCqrZ695V8xsJH3+
+ 2n1z/PNCgZifhcyqoEwQb8eepZZH8C+mUhRfs5dg23aST8cyw/QvQc1CJPccT50waTQh
+ IEZA==
+X-Gm-Message-State: APjAAAVDfhSbYe26GHd7jaFpqNbYtygJqyqu5Wnp3Z8Q1DaWZoboN6C8
+ 7Fw+JuovUT1wbgesVAdBSNMbkJAjlEdWl1vF33/Pj+VfbvuNGjZdXQ2U00UhlmM0Wf8IEaoRxnY
+ PQL+U84vRD2nsCeU=
+X-Received: by 2002:a17:90a:c386:: with SMTP id
+ h6mr2490053pjt.122.1567563375574; 
+ Tue, 03 Sep 2019 19:16:15 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw4+b2xmgNn8cn709RXMhSigvaxqkBQWmtcSVTB48MZEdD9fyVEhF7/8oAnKdBrZYv1Bk4zVQ==
+X-Received: by 2002:a17:90a:c386:: with SMTP id
+ h6mr2490040pjt.122.1567563375370; 
+ Tue, 03 Sep 2019 19:16:15 -0700 (PDT)
+Received: from xz-x1 ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id f27sm16778884pgm.60.2019.09.03.19.16.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Sep 2019 19:16:14 -0700 (PDT)
+Date: Wed, 4 Sep 2019 10:16:03 +0800
+From: Peter Xu <peterx@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Message-ID: <20190904021603.GD30402@xz-x1>
+References: <20190903120555.7551-1-philmd@redhat.com>
+ <6aca73a4-1567-4952-14eb-ecd3c115acad@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190903200422.11693-1-johannes@sipsolutions.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.24
-Subject: Re: [Qemu-devel] [PATCH v2] libvhost-user: fix SLAVE_SEND_FD
- handling
+In-Reply-To: <6aca73a4-1567-4952-14eb-ecd3c115acad@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] cutils: Move size_to_str()
+ from "qemu-common.h" to "qemu/cutils.h"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,61 +79,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, Johannes Berg <johannes.berg@intel.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 03, 2019 at 11:04:22PM +0300, Johannes Berg wrote:
-> From: Johannes Berg <johannes.berg@intel.com>
-> 
-> It doesn't look like this could possibly work properly since
-> VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD is defined to 10, but the
-> dev->protocol_features has a bitmap. I suppose the peer this
-> was tested with also supported VHOST_USER_PROTOCOL_F_LOG_SHMFD,
-> in which case the test would always be false, but nevertheless
-> the code seems wrong.
+On Tue, Sep 03, 2019 at 02:57:31PM -0400, John Snow wrote:
 
-Ooops.. I tested `tests/vhost-user-bridge -H`. But as you
-said it worked because VHOST_USER_PROTOCOL_F_LOG_SHMFD has
-been negotiated. Thanks for spotting this!
+[...]
+
+> Seems proper. It must be an oversight to begin with that we declared it
+> in qemu-common but defined it in cutils.
+
+Porbably true..
 
 > 
-> Use has_feature() to fix this.
-> 
-> Fixes: d84599f56c82 ("libvhost-user: support host notifier")
+> Reviewed-by: John Snow <jsnow@redhat.com>
 
-Cc: qemu-stable@nongnu.org
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-> ---
->  contrib/libvhost-user/libvhost-user.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-> index 6a02eaffc672..fcf4a8a00ed2 100644
-> --- a/contrib/libvhost-user/libvhost-user.c
-> +++ b/contrib/libvhost-user/libvhost-user.c
-> @@ -1097,7 +1097,8 @@ bool vu_set_queue_host_notifier(VuDev *dev, VuVirtq *vq, int fd,
->  
->      vmsg.fd_num = fd_num;
->  
-> -    if ((dev->protocol_features & VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD) == 0) {
-> +    if (!has_feature(dev->protocol_features,
-> +                     VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD)) {
+Thanks,
 
-We have both of has_feature() and vu_has_feature() called by
-other code in this file directly. Not sure which one is preferred..
-Personally, I think vu_has_feature() might be better.
-
-Thanks!
-Tiwei
-
->          return false;
->      }
->  
-> -- 
-> 2.23.0
-> 
+-- 
+Peter Xu
 
