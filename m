@@ -2,48 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF18AA9545
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:37:32 +0200 (CEST)
-Received: from localhost ([::1]:40308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 990F2A9558
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:42:34 +0200 (CEST)
+Received: from localhost ([::1]:40418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5cy3-00034E-Aq
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53986)
+	id 1i5d2v-0000gg-K2
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54169)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1i5cD4-0001MB-NH
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:48:59 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i5cDX-0001xL-V6
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1i5cD3-0002AY-DZ
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:48:58 -0400
-Received: from 1.mo173.mail-out.ovh.net ([178.33.111.180]:60614)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1i5cD3-00029t-7q
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:48:57 -0400
-Received: from player691.ha.ovh.net (unknown [10.109.146.53])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 5E4B4117E70
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 22:48:56 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player691.ha.ovh.net (Postfix) with ESMTPSA id CCAF698B2A19;
- Wed,  4 Sep 2019 20:48:49 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed,  4 Sep 2019 22:46:59 +0200
-Message-Id: <20190904204659.13878-16-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190904204659.13878-1-clg@kaod.org>
-References: <20190904204659.13878-1-clg@kaod.org>
+ (envelope-from <alex.bennee@linaro.org>) id 1i5cDW-0002SI-Ju
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:27 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35565)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i5cDW-0002Rk-Dj
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:26 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id g7so248696wrx.2
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:49:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=nQUAtVsslkJ4r9+COAvvl/ujYC8YWVWBFis/DB41CnY=;
+ b=pMvsKvq5smTCin/K1Ykk3d+3kVQgmNwEbNJat9rPEjBt1YYOLMLJAV5af9qWHjByvO
+ sEZYKqqLPCIzgaZ7tzB1hzrxAEDVIZeNzHJJkvavpIduO2pvicZHsel9MkFcvhYe7cd6
+ Fms+Aog14ZltZ0v4ATjM7RceHfwrDSZgRtT2uuCpJR7oPCUqB3uBTHv3FJZ0ivfrKPA2
+ fpgznL/rcNYEeKMtBOEQHfiyvx4lPc2d6aJLfH/05dJhRfHd6BHeEyjycu/EsWLCTxtO
+ AeiWZQJHw5/Pmy0DudxXtZIxFCKnuSfduOIkU2l89yu2ytx6a3hmKBifETpGj9cn7FDG
+ UQ4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=nQUAtVsslkJ4r9+COAvvl/ujYC8YWVWBFis/DB41CnY=;
+ b=FbTNZrAI2aRg3gsy5y3ZE6Nv81KygRnlxAEpFomP49Q8GfHVpT67/VTE9yQPnxgtQ9
+ c0vnSheH2YHb3HpPc2qdZbAK+CQdLpEbPk43vCFpw6NjgHvKhNltIEB05N3+vuhd/NfQ
+ LJiBcugBljj3puZ8oSooIPR0SoGCfjz/PqdVqcQOji/thMAwL/bWORINsQWelGtseYMM
+ eaRnuTSFHU2083VZ78/MvWGfQKVSd2KTM5bw2yTpbPQoUVimL0Jai6JA3jagNia7LGP5
+ V/9HVt0gsjtfXGWkp9Qi63yzJhwHgwF7OwGWOm1vFYwZdPvY2BrEd+QXaytbaRmCOSl4
+ YOag==
+X-Gm-Message-State: APjAAAVA1xB5hoNVY2LV54Atcqapy8Yic1fqYmSZVwGwPaNwr1ubwC9A
+ frVKuIOykmR+ekF43Goo08qtWA==
+X-Google-Smtp-Source: APXvYqylPZMG7Oc4vXhAxniVkCJvVhmzRHlHlvr8tT2fIyCWxEp+X0PQeEDa//BUMWOZfs42d41fcQ==
+X-Received: by 2002:adf:e48f:: with SMTP id i15mr21475361wrm.26.1567630165274; 
+ Wed, 04 Sep 2019 13:49:25 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r17sm22396419wrt.68.2019.09.04.13.49.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Sep 2019 13:49:22 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4D34A1FFA9;
+ Wed,  4 Sep 2019 21:30:15 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Wed,  4 Sep 2019 21:29:51 +0100
+Message-Id: <20190904203013.9028-21-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
+References: <20190904203013.9028-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 2537778391939910417
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudejhedgudehudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.111.180
-Subject: [Qemu-devel] [RFC PATCH 15/15] aspeed/soc: Add ASPEED Video stub
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42a
+Subject: [Qemu-devel] [PATCH v1 20/42] tests/docker: move our ppc64 cross
+ compile to Buster
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,60 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+Now Buster is released we can stop relying on the movable feast that
+is Sid for our cross-compiler for building tests.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/hw/arm/aspeed_soc.h | 1 +
- hw/arm/aspeed_soc.c         | 5 +++++
- 2 files changed, 6 insertions(+)
+ tests/docker/Makefile.include                      | 4 ++--
+ tests/docker/dockerfiles/debian-ppc64-cross.docker | 7 +++----
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 9e06a6ad4fbd..ef5b93e5e9cf 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -99,6 +99,7 @@ enum {
-     ASPEED_SDMC,
-     ASPEED_SCU,
-     ASPEED_ADC,
-+    ASPEED_VIDEO,
-     ASPEED_SRAM,
-     ASPEED_SDHCI,
-     ASPEED_GPIO,
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index c3f99849b7f0..b9da49e16f2d 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -102,6 +102,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] =3D {
-     [ASPEED_SCU]       =3D 0x1E6E2000,
-     [ASPEED_XDMA]      =3D 0x1E6E7000,
-     [ASPEED_ADC]       =3D 0x1E6E9000,
-+    [ASPEED_VIDEO]     =3D 0x1E700000,
-     [ASPEED_SDHCI]     =3D 0x1E740000,
-     [ASPEED_GPIO]      =3D 0x1E780000,
-     [ASPEED_GPIO_1_8V] =3D 0x1E780800,
-@@ -371,6 +372,10 @@ static void aspeed_soc_realize(DeviceState *dev, Err=
-or **errp)
-     create_unimplemented_device("aspeed_soc.io", sc->info->memmap[ASPEED=
-_IOMEM],
-                                 ASPEED_SOC_IOMEM_SIZE);
-=20
-+    /* Video engine stub */
-+    create_unimplemented_device("aspeed.video", sc->info->memmap[ASPEED_=
-VIDEO],
-+                                0x1000);
-+
-     if (s->num_cpus > sc->info->num_cpus) {
-         warn_report("%s: invalid number of CPUs %d, using default %d",
-                     sc->info->name, s->num_cpus, sc->info->num_cpus);
---=20
-2.21.0
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 93190b1e2a2..b6c04059502 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -104,11 +104,11 @@ docker-image-debian-hppa-cross: docker-image-debian10
+ docker-image-debian-m68k-cross: docker-image-debian10
+ docker-image-debian-mips64-cross: docker-image-debian10
+ docker-image-debian-powerpc-cross: docker-image-debian10
++docker-image-debian-ppc64-cross: docker-image-debian10
+ docker-image-debian-riscv64-cross: docker-image-debian10
+ docker-image-debian-sh4-cross: docker-image-debian10
+ docker-image-debian-sparc64-cross: docker-image-debian10
+ 
+-docker-image-debian-ppc64-cross: docker-image-debian-sid
+ docker-image-travis: NOUSER=1
+ 
+ # Specialist build images, sometimes very limited tools
+@@ -117,7 +117,7 @@ docker-image-tricore-cross: docker-image-debian9
+ # These images may be good enough for building tests but not for test builds
+ DOCKER_PARTIAL_IMAGES += debian-alpha-cross debian-hppa-cross debian-m68k-cross debian-sh4-cross
+ DOCKER_PARTIAL_IMAGES += debian-sparc64-cross debian-mips64-cross debian-riscv64-cross
+-DOCKER_PARTIAL_IMAGES += debian-tricore-cross debian-powerpc-cross fedora-i386-cross
++DOCKER_PARTIAL_IMAGES += debian-tricore-cross debian-powerpc-cross debian-ppc64-cross fedora-i386-cross
+ DOCKER_PARTIAL_IMAGES += fedora-cris-cross
+ 
+ # Rules for building linux-user powered images
+diff --git a/tests/docker/dockerfiles/debian-ppc64-cross.docker b/tests/docker/dockerfiles/debian-ppc64-cross.docker
+index e5757fe46ee..4bf88ab02dd 100644
+--- a/tests/docker/dockerfiles/debian-ppc64-cross.docker
++++ b/tests/docker/dockerfiles/debian-ppc64-cross.docker
+@@ -1,12 +1,11 @@
+ #
+ # Docker ppc64 cross-compiler target
+ #
+-# This docker target builds on the debian sid base image which
+-# contains cross compilers for Debian "ports" targets.
+-FROM qemu:debian-sid
++# This docker target builds on the debian Buster base image.
++FROM qemu:debian10
+ 
+ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+     apt install -y --no-install-recommends \
+        gcc-powerpc64-linux-gnu \
+-       libc6-dev-ppc64-cross || { echo "Failed to build - see debian-sid.docker notes"; exit 1; }
++       libc6-dev-ppc64-cross
+-- 
+2.20.1
 
 
