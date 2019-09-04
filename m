@@ -2,49 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E3BA956E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:46:26 +0200 (CEST)
-Received: from localhost ([::1]:40478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3AFA95AD
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:58:09 +0200 (CEST)
+Received: from localhost ([::1]:40618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5d6f-0005TA-1B
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:46:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53517)
+	id 1i5dI0-0000NR-Ow
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54139)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1i5cCI-0000dW-Am
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:48:11 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i5cDW-0001vY-Hv
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1i5cCG-0001fN-Ee
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:48:10 -0400
-Received: from 1.mo179.mail-out.ovh.net ([178.33.111.220]:45700)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1i5cCG-0001ex-8S
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:48:08 -0400
-Received: from player691.ha.ovh.net (unknown [10.109.159.90])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id C9B131408D2
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 22:48:06 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player691.ha.ovh.net (Postfix) with ESMTPSA id 4F5B098B286B;
- Wed,  4 Sep 2019 20:47:59 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed,  4 Sep 2019 22:46:52 +0200
-Message-Id: <20190904204659.13878-9-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190904204659.13878-1-clg@kaod.org>
-References: <20190904204659.13878-1-clg@kaod.org>
+ (envelope-from <alex.bennee@linaro.org>) id 1i5cDV-0002RH-6x
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:26 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52372)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i5cDV-0002Qe-0M
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:25 -0400
+Received: by mail-wm1-x334.google.com with SMTP id t17so246052wmi.2
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:49:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=eex9C7ku7qLfjN/PN3lyTLs+AN2XoVsX1psapATGztk=;
+ b=VNV9avIS44htgTf6d22q1L8b91Xr7ylE4pmd79JEDm8z42TxMKy+4wm2hkSbhJLBwB
+ 366+y/s0wBW/4E04rXWp3dT1eSMerwzZSLyb1nAWP78FEFPNImdl6Q7xvbOXF0tdYgb6
+ 5sc5sC3TRgGU640Mpfzg7KRZNUdZHJHoOM8Gg6cNX2HGVlVQNnrbaDMsvVpWGY/XUFBU
+ JZpwsow8dHFqevMjTOmzaEx7AY/GZlAy8ZwUpVaxcwnUjp2nq4Y936EdrsLAKiCya7QT
+ VP1VdzEHUayXFPTvIfQqUduptKJsQzhNg866gWVikfmakgiaHJ5gCtxAFDwcxLG+K91j
+ 1lSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=eex9C7ku7qLfjN/PN3lyTLs+AN2XoVsX1psapATGztk=;
+ b=f573VrB3z6MmPGnU38pXMvM9+d327MccN01l7eSmEw6RFlVR7YSk7+s2T4IDpMaB2D
+ Pgw5BPZsOCEpIB3unQ7uFHC7Q75yuItCFrzSFm72jvP3eWExBFRhpWkBaiDmy0X4vv0L
+ LB68dx+XZwOi25ZX4JP/c/JJ14ifoFlSzd/sbSlA/UV2B3Tv4/qdt6qIhDtfzpv8+ooZ
+ bsVOwoNSWJrW1c0W9J0VvOwryj7PhOOoSDhLnyP4QAYlGTP/zNCZl1w2BczPJpFE/e5r
+ nA/DDBb9UebDq8sc734kStc0MJZ9QmfYIhH7j9uc4a0oNjvXLBQEki72ELWfwD7x3aNd
+ 0Gig==
+X-Gm-Message-State: APjAAAWmb/3mH4czR/C+YhZun0OxcfOZ9aVyjW4LpCt/oHUsnauc4IqG
+ heTFrZbrInVCrt+wh14/ehOsQw==
+X-Google-Smtp-Source: APXvYqwz+ZQWRTNTWoJL/Ha66PNITQW0Z3bQ3Ilu3/L/TwogQ5bipVmJ133u9hMfE1drfqVvfzSOMw==
+X-Received: by 2002:a05:600c:1087:: with SMTP id
+ e7mr143646wmd.19.1567630163863; 
+ Wed, 04 Sep 2019 13:49:23 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n7sm18017391wrx.42.2019.09.04.13.49.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Sep 2019 13:49:22 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 775B61FFAB;
+ Wed,  4 Sep 2019 21:30:15 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Wed,  4 Sep 2019 21:29:53 +0100
+Message-Id: <20190904203013.9028-23-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
+References: <20190904203013.9028-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 2523704641194855185
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudejhedgudehudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.111.220
-Subject: [Qemu-devel] [RFC PATCH 08/15] watchdog/aspeed: Introduce an object
- class per SoC
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::334
+Subject: [Qemu-devel] [PATCH v1 22/42] tests/docker: drop powerpc-user image
+ for QEMU cross builds
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,300 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It cleanups the current models for the Aspeed AST2400 and AST2500 SoCs
-and prepares ground for future SoCs.
+Now Jessie has entered LTS the powerpc architecture has been dropped
+so we can no longer build the image from scratch. We will still
+support a minimal powerpc-cross image for building testcases.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: David Gibson <david@gibson.dropbear.id.au>
 ---
- include/hw/watchdog/wdt_aspeed.h |  18 ++++-
- hw/arm/aspeed_soc.c              |   9 ++-
- hw/watchdog/wdt_aspeed.c         | 122 ++++++++++++++++---------------
- 3 files changed, 86 insertions(+), 63 deletions(-)
+ tests/docker/Makefile.include                     |  8 --------
+ .../dockerfiles/debian-powerpc-user-cross.docker  | 15 ---------------
+ 2 files changed, 23 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian-powerpc-user-cross.docker
 
-diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_a=
-speed.h
-index 8c5691ce2047..796342764e2e 100644
---- a/include/hw/watchdog/wdt_aspeed.h
-+++ b/include/hw/watchdog/wdt_aspeed.h
-@@ -16,6 +16,8 @@
- #define TYPE_ASPEED_WDT "aspeed.wdt"
- #define ASPEED_WDT(obj) \
-     OBJECT_CHECK(AspeedWDTState, (obj), TYPE_ASPEED_WDT)
-+#define TYPE_ASPEED_2400_WDT TYPE_ASPEED_WDT "-ast2400"
-+#define TYPE_ASPEED_2500_WDT TYPE_ASPEED_WDT "-ast2500"
-=20
- #define ASPEED_WDT_REGS_MAX        (0x20 / 4)
-=20
-@@ -30,8 +32,20 @@ typedef struct AspeedWDTState {
-=20
-     AspeedSCUState *scu;
-     uint32_t pclk_freq;
--    uint32_t silicon_rev;
--    uint32_t ext_pulse_width_mask;
- } AspeedWDTState;
-=20
-+#define ASPEED_WDT_CLASS(klass) \
-+     OBJECT_CLASS_CHECK(AspeedWDTClass, (klass), TYPE_ASPEED_WDT)
-+#define ASPEED_WDT_GET_CLASS(obj) \
-+     OBJECT_GET_CLASS(AspeedWDTClass, (obj), TYPE_ASPEED_WDT)
-+
-+typedef struct AspeedWDTClass {
-+    SysBusDeviceClass parent_class;
-+
-+    uint32_t offset;
-+    uint32_t ext_pulse_width_mask;
-+    uint32_t reset_ctrl_reg;
-+    void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
-+}  AspeedWDTClass;
-+
- #endif /* WDT_ASPEED_H */
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index aaf18d3e42f1..5c5fcb810944 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -214,10 +214,9 @@ static void aspeed_soc_init(Object *obj)
-                               "max-ram-size", &error_abort);
-=20
-     for (i =3D 0; i < sc->info->wdts_num; i++) {
-+        snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
-         sysbus_init_child_obj(obj, "wdt[*]", OBJECT(&s->wdt[i]),
--                              sizeof(s->wdt[i]), TYPE_ASPEED_WDT);
--        qdev_prop_set_uint32(DEVICE(&s->wdt[i]), "silicon-rev",
--                                    sc->info->silicon_rev);
-+                              sizeof(s->wdt[i]), typename);
-         object_property_add_const_link(OBJECT(&s->wdt[i]), "scu",
-                                        OBJECT(&s->scu), &error_abort);
-     }
-@@ -384,13 +383,15 @@ static void aspeed_soc_realize(DeviceState *dev, Er=
-ror **errp)
-=20
-     /* Watch dog */
-     for (i =3D 0; i < sc->info->wdts_num; i++) {
-+        AspeedWDTClass *awc =3D ASPEED_WDT_GET_CLASS(&s->wdt[i]);
-+
-         object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized", &=
-err);
-         if (err) {
-             error_propagate(errp, err);
-             return;
-         }
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0,
--                        sc->info->memmap[ASPEED_WDT] + i * 0x20);
-+                        sc->info->memmap[ASPEED_WDT] + i * awc->offset);
-     }
-=20
-     /* Net */
-diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index 9b932134172c..9e241b7c8da4 100644
---- a/hw/watchdog/wdt_aspeed.c
-+++ b/hw/watchdog/wdt_aspeed.c
-@@ -54,21 +54,6 @@ static bool aspeed_wdt_is_enabled(const AspeedWDTState=
- *s)
-     return s->regs[WDT_CTRL] & WDT_CTRL_ENABLE;
- }
-=20
--static bool is_ast2500(const AspeedWDTState *s)
--{
--    switch (s->silicon_rev) {
--    case AST2500_A0_SILICON_REV:
--    case AST2500_A1_SILICON_REV:
--        return true;
--    case AST2400_A0_SILICON_REV:
--    case AST2400_A1_SILICON_REV:
--    default:
--        break;
--    }
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 59fbebbe2e6..f4e9dfc0120 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -126,14 +126,6 @@ DOCKER_PARTIAL_IMAGES += fedora-cris-cross
+ # work around issues with poorly working multi-arch systems and broken
+ # packages.
+ 
+-# Jessie is the last supported release for powerpc, but multi-arch is
+-# broken so we need a qemu-linux-user for this target
+-docker-binfmt-image-debian-powerpc-user: DEB_ARCH = powerpc
+-docker-binfmt-image-debian-powerpc-user: DEB_TYPE = jessie
+-docker-binfmt-image-debian-powerpc-user: EXECUTABLE = ${BUILD_DIR}/ppc-linux-user/qemu-ppc
+-docker-image-debian-powerpc-user-cross: docker-binfmt-image-debian-powerpc-user
+-DOCKER_USER_IMAGES += debian-powerpc-user
 -
--    return false;
--}
+ # Expand all the pre-requistes for each docker image and test combination
+ $(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES) $(DOCKER_DEPRECATED_IMAGES)), \
+ 	$(foreach t,$(DOCKER_TESTS) $(DOCKER_TOOLS), \
+diff --git a/tests/docker/dockerfiles/debian-powerpc-user-cross.docker b/tests/docker/dockerfiles/debian-powerpc-user-cross.docker
+deleted file mode 100644
+index 6938a845ee2..00000000000
+--- a/tests/docker/dockerfiles/debian-powerpc-user-cross.docker
++++ /dev/null
+@@ -1,15 +0,0 @@
+-#
+-# Docker powerpc cross-compiler target for QEMU
+-#
+-# We can't use current Debian stable cross-compilers to build powerpc
+-# as it has been dropped as a release architecture. Using Debian Sid
+-# is just far too sketchy a build environment. This leaves us the
+-# final option of using linux-user. This image is based of the
+-# debootstrapped qemu:debian-powerpc-user but doesn't need any extra
+-# magic once it is setup.
+-#
+-FROM qemu:debian-powerpc-user
 -
- static uint64_t aspeed_wdt_read(void *opaque, hwaddr offset, unsigned si=
-ze)
- {
-     AspeedWDTState *s =3D ASPEED_WDT(opaque);
-@@ -124,6 +109,7 @@ static void aspeed_wdt_write(void *opaque, hwaddr off=
-set, uint64_t data,
-                              unsigned size)
- {
-     AspeedWDTState *s =3D ASPEED_WDT(opaque);
-+    AspeedWDTClass *awc =3D ASPEED_WDT_GET_CLASS(s);
-     bool enable =3D data & WDT_CTRL_ENABLE;
-=20
-     offset >>=3D 2;
-@@ -153,24 +139,13 @@ static void aspeed_wdt_write(void *opaque, hwaddr o=
-ffset, uint64_t data,
-         }
-         break;
-     case WDT_RESET_WIDTH:
--    {
--        uint32_t property =3D data & WDT_POLARITY_MASK;
--
--        if (property && is_ast2500(s)) {
--            if (property =3D=3D WDT_ACTIVE_HIGH_MAGIC) {
--                s->regs[WDT_RESET_WIDTH] |=3D WDT_RESET_WIDTH_ACTIVE_HIG=
-H;
--            } else if (property =3D=3D WDT_ACTIVE_LOW_MAGIC) {
--                s->regs[WDT_RESET_WIDTH] &=3D ~WDT_RESET_WIDTH_ACTIVE_HI=
-GH;
--            } else if (property =3D=3D WDT_PUSH_PULL_MAGIC) {
--                s->regs[WDT_RESET_WIDTH] |=3D WDT_RESET_WIDTH_PUSH_PULL;
--            } else if (property =3D=3D WDT_OPEN_DRAIN_MAGIC) {
--                s->regs[WDT_RESET_WIDTH] &=3D ~WDT_RESET_WIDTH_PUSH_PULL=
-;
--            }
-+        if (awc->reset_pulse) {
-+            awc->reset_pulse(s, data & WDT_POLARITY_MASK);
-         }
--        s->regs[WDT_RESET_WIDTH] &=3D ~s->ext_pulse_width_mask;
--        s->regs[WDT_RESET_WIDTH] |=3D data & s->ext_pulse_width_mask;
-+        s->regs[WDT_RESET_WIDTH] &=3D ~awc->ext_pulse_width_mask;
-+        s->regs[WDT_RESET_WIDTH] |=3D data & awc->ext_pulse_width_mask;
-         break;
--    }
-+
-     case WDT_TIMEOUT_STATUS:
-     case WDT_TIMEOUT_CLEAR:
-         qemu_log_mask(LOG_UNIMP,
-@@ -226,9 +201,10 @@ static void aspeed_wdt_reset(DeviceState *dev)
- static void aspeed_wdt_timer_expired(void *dev)
- {
-     AspeedWDTState *s =3D ASPEED_WDT(dev);
-+    uint32_t reset_ctrl_reg =3D ASPEED_WDT_GET_CLASS(s)->reset_ctrl_reg;
-=20
-     /* Do not reset on SDRAM controller reset */
--    if (s->scu->regs[SCU_RESET_CONTROL1] & SCU_RESET_SDRAM) {
-+    if (s->scu->regs[reset_ctrl_reg] & SCU_RESET_SDRAM) {
-         timer_del(s->timer);
-         s->regs[WDT_CTRL] =3D 0;
-         return;
-@@ -256,25 +232,6 @@ static void aspeed_wdt_realize(DeviceState *dev, Err=
-or **errp)
-     }
-     s->scu =3D ASPEED_SCU(obj);
-=20
--    if (!is_supported_silicon_rev(s->silicon_rev)) {
--        error_setg(errp, "Unknown silicon revision: 0x%" PRIx32,
--                s->silicon_rev);
--        return;
--    }
--
--    switch (s->silicon_rev) {
--    case AST2400_A0_SILICON_REV:
--    case AST2400_A1_SILICON_REV:
--        s->ext_pulse_width_mask =3D 0xff;
--        break;
--    case AST2500_A0_SILICON_REV:
--    case AST2500_A1_SILICON_REV:
--        s->ext_pulse_width_mask =3D 0xfffff;
--        break;
--    default:
--        g_assert_not_reached();
--    }
--
-     s->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, aspeed_wdt_timer_expir=
-ed, dev);
-=20
-     /* FIXME: This setting should be derived from the SCU hw strapping
-@@ -287,20 +244,15 @@ static void aspeed_wdt_realize(DeviceState *dev, Er=
-ror **errp)
-     sysbus_init_mmio(sbd, &s->iomem);
- }
-=20
--static Property aspeed_wdt_properties[] =3D {
--    DEFINE_PROP_UINT32("silicon-rev", AspeedWDTState, silicon_rev, 0),
--    DEFINE_PROP_END_OF_LIST(),
--};
--
- static void aspeed_wdt_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-=20
-+    dc->desc =3D "ASPEED Watchdog Controller";
-     dc->realize =3D aspeed_wdt_realize;
-     dc->reset =3D aspeed_wdt_reset;
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     dc->vmsd =3D &vmstate_aspeed_wdt;
--    dc->props =3D aspeed_wdt_properties;
- }
-=20
- static const TypeInfo aspeed_wdt_info =3D {
-@@ -308,12 +260,68 @@ static const TypeInfo aspeed_wdt_info =3D {
-     .name  =3D TYPE_ASPEED_WDT,
-     .instance_size  =3D sizeof(AspeedWDTState),
-     .class_init =3D aspeed_wdt_class_init,
-+    .class_size    =3D sizeof(AspeedWDTClass),
-+    .abstract      =3D true,
-+};
-+
-+static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedWDTClass *awc =3D ASPEED_WDT_CLASS(klass);
-+
-+    dc->desc =3D "ASPEED 2400 Watchdog Controller";
-+    awc->offset =3D 0x20;
-+    awc->ext_pulse_width_mask =3D 0xff;
-+    awc->reset_ctrl_reg =3D SCU_RESET_CONTROL1;
-+}
-+
-+static const TypeInfo aspeed_2400_wdt_info =3D {
-+    .name =3D TYPE_ASPEED_2400_WDT,
-+    .parent =3D TYPE_ASPEED_WDT,
-+    .instance_size =3D sizeof(AspeedWDTState),
-+    .class_init =3D aspeed_2400_wdt_class_init,
-+};
-+
-+static void aspeed_2500_wdt_reset_pulse(AspeedWDTState *s, uint32_t prop=
-erty)
-+{
-+    if (property) {
-+        if (property =3D=3D WDT_ACTIVE_HIGH_MAGIC) {
-+            s->regs[WDT_RESET_WIDTH] |=3D WDT_RESET_WIDTH_ACTIVE_HIGH;
-+        } else if (property =3D=3D WDT_ACTIVE_LOW_MAGIC) {
-+            s->regs[WDT_RESET_WIDTH] &=3D ~WDT_RESET_WIDTH_ACTIVE_HIGH;
-+        } else if (property =3D=3D WDT_PUSH_PULL_MAGIC) {
-+            s->regs[WDT_RESET_WIDTH] |=3D WDT_RESET_WIDTH_PUSH_PULL;
-+        } else if (property =3D=3D WDT_OPEN_DRAIN_MAGIC) {
-+            s->regs[WDT_RESET_WIDTH] &=3D ~WDT_RESET_WIDTH_PUSH_PULL;
-+        }
-+    }
-+}
-+
-+static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedWDTClass *awc =3D ASPEED_WDT_CLASS(klass);
-+
-+    dc->desc =3D "ASPEED 2500 Watchdog Controller";
-+    awc->offset =3D 0x20;
-+    awc->ext_pulse_width_mask =3D 0xfffff;
-+    awc->reset_ctrl_reg =3D SCU_RESET_CONTROL1;
-+    awc->reset_pulse =3D aspeed_2500_wdt_reset_pulse;
-+}
-+
-+static const TypeInfo aspeed_2500_wdt_info =3D {
-+    .name =3D TYPE_ASPEED_2500_WDT,
-+    .parent =3D TYPE_ASPEED_WDT,
-+    .instance_size =3D sizeof(AspeedWDTState),
-+    .class_init =3D aspeed_2500_wdt_class_init,
- };
-=20
- static void wdt_aspeed_register_types(void)
- {
-     watchdog_add_model(&model);
-     type_register_static(&aspeed_wdt_info);
-+    type_register_static(&aspeed_2400_wdt_info);
-+    type_register_static(&aspeed_2500_wdt_info);
- }
-=20
- type_init(wdt_aspeed_register_types)
---=20
-2.21.0
+-RUN echo man-db man-db/auto-update boolean false | debconf-set-selections
+-RUN apt-get update && \
+-    DEBIAN_FRONTEND=noninteractive apt-get build-dep -yy qemu
+-- 
+2.20.1
 
 
