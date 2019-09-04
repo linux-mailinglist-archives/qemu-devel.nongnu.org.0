@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE9DA86ED
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:22:18 +0200 (CEST)
-Received: from localhost ([::1]:35736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB1CA86F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:24:55 +0200 (CEST)
+Received: from localhost ([::1]:35782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Yz2-0007hS-Ou
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48403)
+	id 1i5Z1a-0002b1-1X
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:24:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48417)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqW-0001NQ-16
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:29 -0400
+ id 1i5YqX-0001PF-Gc
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqU-000717-60
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:27 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37492)
+ id 1i5YqW-00071w-0s
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:29 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38761)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqT-00070i-V9; Wed, 04 Sep 2019 13:13:26 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id r195so4717584wme.2;
- Wed, 04 Sep 2019 10:13:25 -0700 (PDT)
+ id 1i5YqV-00071Y-Pi; Wed, 04 Sep 2019 13:13:27 -0400
+Received: by mail-wm1-x344.google.com with SMTP id o184so4695504wme.3;
+ Wed, 04 Sep 2019 10:13:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6rorF+6pSO7+RuiUxEvvJ3ZwjSNHy/kVt8m9gQNTqTU=;
- b=Qi9aqFqQZ7k44awhU7HIqhTWjc7w+4Ic5LcYatzsadA0Crt8pUjdLBq29i7atvJRJg
- cfOwTk2Kle1xmkGePh3jdc72UXmGhToHojGP2jHJk05DiQhOhF1686p8O8tcMhUhzu74
- TUdONdXIj1E5VugwCSxxe+V+9Ubsg1zki8aeiht90THlBnKcKRZFggIXEm9ruM9ll+dW
- VogKfpo76oFw/qTJnCyY6Mm7CJhpGdJjgyLqfW01QiDR+gF5G9H5gxXxel5qMGLDuvld
- 1vOJUrN3ZCopwIi7w0a2CZh4uq/SR8RVMvgt4DSBBiNcdqNgJ53kqOI3VXhxwb3v9NmJ
- MbiQ==
+ bh=ELAbj/wA1Xj60eRjG4YFXEUkK6OU0pIolX6z3Dq1NCw=;
+ b=nwKwH1efKkXbYgo8Eru3f23GBHkTNejzA+XTuYBSjrKYDl9b2zMugd8Eu7+5Wt/QwK
+ DZNRmD6mvrTIevcuoVfqlPJn9Mf56eG5dkDt/GhI2oMdzr88nhlMg/58vgE0sfPNz1EY
+ 25btbWkoWUF+sUPGqm98pUqIYqJGqjWINZMf1e5sLR5DZWpYDHfryYwuzcodZh79KinP
+ E6sXHoDghvXQzS25O4QMEYnk1WRiOph+DMOcomxoxx9rlSFdauCCOhDw5EmJGQpzBtMw
+ PSElOzQXTpTeWHqfFaANauJwneyEfCR5Qk4xytpAZANO80UAuxbltLIg72ejsdqr3pFH
+ SdDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6rorF+6pSO7+RuiUxEvvJ3ZwjSNHy/kVt8m9gQNTqTU=;
- b=pwSdlgKAJuSuOIUlojxA2CjTOY/3Rp1PgALeaOiz5cc8jI3XXdIn8V9dgG7oQkj5mA
- cnfgLzdIoATx0jX3ps2SsVHbMdCPdoQTGNkC8uc+iAA4rqQDHHB+3+mbcKaQ2CdCxk0z
- uwBp2e7tmT7qng6nzW0TYHuzivf+56l0UgKnKvg+598aj9U2AnVeinzMpPU0biW6fZ7o
- ypgdW/sqErhofM6YDpA9yJB5DQxemDkMAvKxitBj0LwrQbe8IuSAQ7Cljk+KF/BCRPv+
- jGtRdJXnH1xfvDGT8CrNiqn1juEYP3tcLWe6D/N6SHRbDjqmj8N+ydEgLn/a3Zb3A9zr
- W/hg==
-X-Gm-Message-State: APjAAAVnBWup+rCAMEOzmqmwlxEiVjVR2G9vBIVd2rk4/FRHLWj+CvBM
- zFKs+abkU6OJ5u2jIHheeMw=
-X-Google-Smtp-Source: APXvYqxSolMghHBuvwWf7ZiLU3NMG6tMvnJ4BkpULmGAvUnEJICp5OeDgRnmvbAhdh2qMR4DJhLgSg==
-X-Received: by 2002:a1c:a8d8:: with SMTP id r207mr5225450wme.135.1567617204984; 
- Wed, 04 Sep 2019 10:13:24 -0700 (PDT)
+ bh=ELAbj/wA1Xj60eRjG4YFXEUkK6OU0pIolX6z3Dq1NCw=;
+ b=kKLM6ctoQ4a61KhMjYYyYsz82V6NwMEy16rJ3WnNq3M6l9Y0aVzLrDF/7TZBdB0B5B
+ OEJeeSVRekKSeFKo3u90dCwumVzi7dz6sSUk9/i/4urknUw1SHRxZowdbn3VlyD16EdS
+ IitOyc35rm7uWfZ20UGF0UMEavbUE4QULDiRFsf3HsQ9g5Pz39/J+IfZOBBQJ7IY8Y1g
+ GBNWpnDS0nzN8JLEXAxOU53snDcv5LtejyjXQRLigR7bXjJEieZhmIrWsi4sEiNZhAwa
+ cVb4GcSwSKrd5QluSXA54STK3mj0EdGBVKvakTLYuy3cvKxnor7XvgyCGXSzbm1ss51z
+ ckWw==
+X-Gm-Message-State: APjAAAXygmmqiMlTYnNdbquhgMJEQy7aPvc9Vs5W5o7JptBCs3WzAS3+
+ icQUkqKcy7xTY7t1vI7bNzM=
+X-Google-Smtp-Source: APXvYqx691vttX6XS0mJd5gNajfoQTff1JFfR4mzVdzCMpp9ghKtvOufxI/5T54ASFdhFw/VJdQzlQ==
+X-Received: by 2002:a05:600c:12:: with SMTP id
+ g18mr5461628wmc.95.1567617206828; 
+ Wed, 04 Sep 2019 10:13:26 -0700 (PDT)
 Received: from x1w.redhat.com ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.23
+ by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 10:13:24 -0700 (PDT)
+ Wed, 04 Sep 2019 10:13:26 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Esteban Bosse <estebanbosse@gmail.com>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-devel@nongnu.org,
  Pekka Enberg <penberg@iki.fi>,
  =?UTF-8?q?Zolt=C3=A1n=20Baldaszti?= <bztemail@gmail.com>
-Date: Wed,  4 Sep 2019 19:13:05 +0200
-Message-Id: <20190904171315.8354-5-f4bug@amsat.org>
+Date: Wed,  4 Sep 2019 19:13:06 +0200
+Message-Id: <20190904171315.8354-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190904171315.8354-1-f4bug@amsat.org>
 References: <20190904171315.8354-1-f4bug@amsat.org>
@@ -71,9 +72,9 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
-Subject: [Qemu-devel] [PATCH 04/14] hw/arm/bcm2835_peripherals: Improve
- logging
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH 05/14] hw/arm/bcm2835_peripherals: Name various
+ address spaces
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,183 +95,120 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various logging improvements as once:
-- Use 0x prefix for hex numbers
-- Display value written during write accesses
-- Move some logs from GUEST_ERROR to UNIMP
+Various address spaces from the BCM2835 are reported as
+'anonymous' in memory tree:
+
+  (qemu) info mtree
+
+  address-space: anonymous
+    0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
+      0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
+      0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
+
+  address-space: anonymous
+    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+
+  [...]
+
+Since the address_space_init() function takes a 'name' argument,
+set it to correctly describe each address space:
+
+  (qemu) info mtree
+
+  address-space: bcm2835-mbox-memory
+    0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
+      0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
+      0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
+
+  address-space: bcm2835-fb-memory
+    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+
+  address-space: bcm2835-property-memory
+    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+
+  address-space: bcm2835-dma-memory
+    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v2: Use PRIx64 format (pm215)
----
- hw/char/bcm2835_aux.c      |  5 +++--
- hw/dma/bcm2835_dma.c       |  8 ++++----
- hw/intc/bcm2836_control.c  |  7 ++++---
- hw/misc/bcm2835_mbox.c     |  7 ++++---
- hw/misc/bcm2835_property.c | 16 ++++++++++------
- 5 files changed, 25 insertions(+), 18 deletions(-)
+ hw/display/bcm2835_fb.c    | 2 +-
+ hw/dma/bcm2835_dma.c       | 2 +-
+ hw/misc/bcm2835_mbox.c     | 2 +-
+ hw/misc/bcm2835_property.c | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/char/bcm2835_aux.c b/hw/char/bcm2835_aux.c
-index 3f855196e3..a6fc1bf152 100644
---- a/hw/char/bcm2835_aux.c
-+++ b/hw/char/bcm2835_aux.c
-@@ -162,8 +162,9 @@ static void bcm2835_aux_write(void *opaque, hwaddr offset, uint64_t value,
-     switch (offset) {
-     case AUX_ENABLES:
-         if (value != 1) {
--            qemu_log_mask(LOG_UNIMP, "%s: unsupported attempt to enable SPI "
--                          "or disable UART\n", __func__);
-+            qemu_log_mask(LOG_UNIMP, "%s: unsupported attempt to enable SPI"
-+                                     " or disable UART: 0x%"PRIx64"\n",
-+                          __func__, value);
-         }
-         break;
+diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
+index 8f856878cd..85aaa54330 100644
+--- a/hw/display/bcm2835_fb.c
++++ b/hw/display/bcm2835_fb.c
+@@ -425,7 +425,7 @@ static void bcm2835_fb_realize(DeviceState *dev, Error **errp)
+     s->initial_config.base = s->vcram_base + BCM2835_FB_OFFSET;
+ 
+     s->dma_mr = MEMORY_REGION(obj);
+-    address_space_init(&s->dma_as, s->dma_mr, NULL);
++    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_FB "-memory");
+ 
+     bcm2835_fb_reset(dev);
  
 diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
-index 192bd377a0..6acc2b644e 100644
+index 6acc2b644e..1e458d7fba 100644
 --- a/hw/dma/bcm2835_dma.c
 +++ b/hw/dma/bcm2835_dma.c
-@@ -180,7 +180,7 @@ static uint64_t bcm2835_dma_read(BCM2835DMAState *s, hwaddr offset,
-         res = ch->debug;
-         break;
-     default:
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%"HWADDR_PRIx"\n",
-                       __func__, offset);
-         break;
-     }
-@@ -228,7 +228,7 @@ static void bcm2835_dma_write(BCM2835DMAState *s, hwaddr offset,
-         ch->debug = value;
-         break;
-     default:
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%"HWADDR_PRIx"\n",
-                       __func__, offset);
-         break;
-     }
-@@ -247,7 +247,7 @@ static uint64_t bcm2835_dma0_read(void *opaque, hwaddr offset, unsigned size)
-         case BCM2708_DMA_ENABLE:
-             return s->enable;
-         default:
--            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%"HWADDR_PRIx"\n",
-                           __func__, offset);
-             return 0;
-         }
-@@ -274,7 +274,7 @@ static void bcm2835_dma0_write(void *opaque, hwaddr offset, uint64_t value,
-             s->enable = (value & 0xffff);
-             break;
-         default:
--            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%"HWADDR_PRIx"\n",
-                           __func__, offset);
-         }
-     }
-diff --git a/hw/intc/bcm2836_control.c b/hw/intc/bcm2836_control.c
-index 04229b8a17..61f884ff9e 100644
---- a/hw/intc/bcm2836_control.c
-+++ b/hw/intc/bcm2836_control.c
-@@ -264,7 +264,7 @@ static uint64_t bcm2836_control_read(void *opaque, hwaddr offset, unsigned size)
-     } else if (offset >= REG_MBOX0_RDCLR && offset < REG_LIMIT) {
-         return s->mailboxes[(offset - REG_MBOX0_RDCLR) >> 2];
-     } else {
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
-+        qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx"\n",
-                       __func__, offset);
-         return 0;
-     }
-@@ -293,8 +293,9 @@ static void bcm2836_control_write(void *opaque, hwaddr offset,
-     } else if (offset >= REG_MBOX0_RDCLR && offset < REG_LIMIT) {
-         s->mailboxes[(offset - REG_MBOX0_RDCLR) >> 2] &= ~val;
-     } else {
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
--                      __func__, offset);
-+        qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx
-+                                 " value 0x%"PRIx64"\n",
-+                      __func__, offset, val);
-         return;
+@@ -383,7 +383,7 @@ static void bcm2835_dma_realize(DeviceState *dev, Error **errp)
      }
  
+     s->dma_mr = MEMORY_REGION(obj);
+-    address_space_init(&s->dma_as, s->dma_mr, NULL);
++    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_DMA "-memory");
+ 
+     bcm2835_dma_reset(dev);
+ }
 diff --git a/hw/misc/bcm2835_mbox.c b/hw/misc/bcm2835_mbox.c
-index 79bad11631..7690b9afaf 100644
+index 7690b9afaf..77285624c9 100644
 --- a/hw/misc/bcm2835_mbox.c
 +++ b/hw/misc/bcm2835_mbox.c
-@@ -176,7 +176,7 @@ static uint64_t bcm2835_mbox_read(void *opaque, hwaddr offset, unsigned size)
-         break;
- 
-     default:
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
-+        qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx"\n",
-                       __func__, offset);
-         return 0;
+@@ -311,7 +311,7 @@ static void bcm2835_mbox_realize(DeviceState *dev, Error **errp)
      }
-@@ -228,8 +228,9 @@ static void bcm2835_mbox_write(void *opaque, hwaddr offset,
-         break;
  
-     default:
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
--                      __func__, offset);
-+        qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx
-+                                 " value 0x%"PRIx64"\n",
-+                      __func__, offset, value);
-         return;
-     }
+     s->mbox_mr = MEMORY_REGION(obj);
+-    address_space_init(&s->mbox_as, s->mbox_mr, NULL);
++    address_space_init(&s->mbox_as, s->mbox_mr, TYPE_BCM2835_MBOX "-memory");
+     bcm2835_mbox_reset(dev);
+ }
  
 diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
-index d8eb28f267..ab66d3572e 100644
+index ab66d3572e..3dff5a7157 100644
 --- a/hw/misc/bcm2835_property.c
 +++ b/hw/misc/bcm2835_property.c
-@@ -56,7 +56,8 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
-             break;
-         case 0x00010001: /* Get board model */
-             qemu_log_mask(LOG_UNIMP,
--                          "bcm2835_property: %x get board model NYI\n", tag);
-+                          "bcm2835_property: 0x%08x get board model NYI\n",
-+                          tag);
-             /* FIXME returning uninitialized memory */
-             resplen = 4;
-             break;
-@@ -70,7 +71,8 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
-             break;
-         case 0x00010004: /* Get board serial */
-             qemu_log_mask(LOG_UNIMP,
--                          "bcm2835_property: %x get board serial NYI\n", tag);
-+                          "bcm2835_property: 0x%08x get board serial NYI\n",
-+                          tag);
-             /* FIXME returning uninitialized memory */
-             resplen = 8;
-             break;
-@@ -106,7 +108,8 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
+@@ -417,7 +417,7 @@ static void bcm2835_property_realize(DeviceState *dev, Error **errp)
+     }
  
-         case 0x00038001: /* Set clock state */
-             qemu_log_mask(LOG_UNIMP,
--                          "bcm2835_property: %x set clock state NYI\n", tag);
-+                          "bcm2835_property: 0x%08x set clock state NYI\n",
-+                          tag);
-             resplen = 8;
-             break;
+     s->dma_mr = MEMORY_REGION(obj);
+-    address_space_init(&s->dma_as, s->dma_mr, NULL);
++    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_PROPERTY "-memory");
  
-@@ -139,7 +142,8 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
-         case 0x00038004: /* Set max clock rate */
-         case 0x00038007: /* Set min clock rate */
-             qemu_log_mask(LOG_UNIMP,
--                          "bcm2835_property: %x set clock rates NYI\n", tag);
-+                          "bcm2835_property: 0x%08x set clock rate NYI\n",
-+                          tag);
-             resplen = 8;
-             break;
- 
-@@ -284,8 +288,8 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
-             break;
- 
-         default:
--            qemu_log_mask(LOG_GUEST_ERROR,
--                          "bcm2835_property: unhandled tag %08x\n", tag);
-+            qemu_log_mask(LOG_UNIMP,
-+                          "bcm2835_property: unhandled tag 0x%08x\n", tag);
-             break;
-         }
- 
+     /* TODO: connect to MAC address of USB NIC device, once we emulate it */
+     qemu_macaddr_default_if_unset(&s->macaddr);
 -- 
 2.20.1
 
