@@ -2,78 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B701AA82AB
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:40:49 +0200 (CEST)
-Received: from localhost ([::1]:57320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B58A833A
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:52:46 +0200 (CEST)
+Received: from localhost ([::1]:57408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Uae-00052H-TA
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:40:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49772)
+	id 1i5UmC-0001hR-NZ
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:52:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47831)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i5UZB-00044l-2m
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:39:18 -0400
+ (envelope-from <damien.hedde@greensocs.con>) id 1i5Rqq-0004qT-SG
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:45:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i5UZ9-0002Zt-Kp
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:39:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52668)
+ (envelope-from <damien.hedde@greensocs.con>) id 1i5Rqp-0008V1-Fl
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:45:20 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:40544)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1i5UZ6-0002Vi-2h; Wed, 04 Sep 2019 08:39:12 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 379927BDA5;
- Wed,  4 Sep 2019 12:39:11 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A346B5D9C9;
- Wed,  4 Sep 2019 12:39:04 +0000 (UTC)
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-References: <20190820104836.3093-1-quintela@redhat.com>
- <20190820104836.3093-5-quintela@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <22efeb99-70d7-13dc-407e-b6fcbce31797@redhat.com>
-Date: Wed, 4 Sep 2019 07:39:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.con>)
+ id 1i5Rql-0008Mz-KR; Wed, 04 Sep 2019 05:45:15 -0400
+Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
+ [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPS id 4B2B096F54;
+ Wed,  4 Sep 2019 09:38:51 +0000 (UTC)
+From: damien.hedde@greensocs.con
+To: qemu-devel@nongnu.org
+Date: Wed,  4 Sep 2019 11:38:36 +0200
+Message-Id: <20190904093843.8765-3-damien.hedde@greensocs.con>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190904093843.8765-1-damien.hedde@greensocs.con>
+References: <20190904093843.8765-1-damien.hedde@greensocs.con>
 MIME-Version: 1.0
-In-Reply-To: <20190820104836.3093-5-quintela@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="WpWgAv0NLnUufyZqvquEll8tWTnOWWblw"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Wed, 04 Sep 2019 12:39:11 +0000 (UTC)
+X-Spam: Yes
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 4/5] socket: Add num connections to
- qio_net_listener_open_sync()
+X-Received-From: 5.135.226.135
+X-Mailman-Approved-At: Wed, 04 Sep 2019 08:47:47 -0400
+Subject: [Qemu-devel] [PATCH v6 2/9] hw/core/clock-vmstate: define a vmstate
+ entry for clock state
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,123 +50,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
+ berrange@redhat.com, ehabkost@redhat.com, alistair@alistair23.me,
+ mark.burton@greensocs.com, pbonzini@redhat.com, qemu-arm@nongnu.org,
+ marcandre.lureau@redhat.com, edgar.iglesias@gmail.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WpWgAv0NLnUufyZqvquEll8tWTnOWWblw
-Content-Type: multipart/mixed; boundary="hPPYsnKPGTJqjOkmA1l4P96hrrtkz28DQ";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Max Reitz <mreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
- Fam Zheng <fam@euphon.net>
-Message-ID: <22efeb99-70d7-13dc-407e-b6fcbce31797@redhat.com>
-Subject: Re: [PATCH v3 4/5] socket: Add num connections to
- qio_net_listener_open_sync()
-References: <20190820104836.3093-1-quintela@redhat.com>
- <20190820104836.3093-5-quintela@redhat.com>
-In-Reply-To: <20190820104836.3093-5-quintela@redhat.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
 
---hPPYsnKPGTJqjOkmA1l4P96hrrtkz28DQ
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+---
+This was in the previous reviewed commit. But it can't be in the
+clock.c file in order to allow linux-user builds.
+---
+ hw/core/Makefile.objs   |  1 +
+ hw/core/clock-vmstate.c | 25 +++++++++++++++++++++++++
+ include/hw/clock.h      |  9 +++++++++
+ 3 files changed, 35 insertions(+)
+ create mode 100644 hw/core/clock-vmstate.c
 
-On 8/20/19 5:48 AM, Juan Quintela wrote:
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->  blockdev-nbd.c            | 2 +-
->  chardev/char-socket.c     | 2 +-
->  include/io/net-listener.h | 2 ++
->  io/net-listener.c         | 3 ++-
->  migration/socket.c        | 2 +-
->  qemu-nbd.c                | 2 +-
->  ui/vnc.c                  | 4 ++--
->  7 files changed, 10 insertions(+), 7 deletions(-)
-
-Just now noticing this one, even though the pull request is already sent.=
-=2E.
-
->=20
-> diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-> index 7a71da447f..c621686131 100644
-> --- a/blockdev-nbd.c
-> +++ b/blockdev-nbd.c
-> @@ -101,7 +101,7 @@ void nbd_server_start(SocketAddress *addr, const ch=
-ar *tls_creds,
->      qio_net_listener_set_name(nbd_server->listener,
->                                "nbd-listener");
-> =20
-> -    if (qio_net_listener_open_sync(nbd_server->listener, addr, errp) <=
- 0) {
-> +    if (qio_net_listener_open_sync(nbd_server->listener, addr, 1, errp=
-) < 0) {
->          goto error;
->      }
-
-Does this interfere with the ability to have more than one client
-connect to an NBD server during pull-mode incremental backup?  Or can
-you still have multiple simultaneous clients, provided that the server
-has finished accepting the connection from the first before the second
-one starts?
-
-> +++ b/qemu-nbd.c
-> @@ -1054,7 +1054,7 @@ int main(int argc, char **argv)
->      server =3D qio_net_listener_new();
->      if (socket_activation =3D=3D 0) {
->          saddr =3D nbd_build_socket_address(sockpath, bindto, port);
-> -        if (qio_net_listener_open_sync(server, saddr, &local_err) < 0)=
- {
-> +        if (qio_net_listener_open_sync(server, saddr, 1, &local_err) <=
- 0) {
-
-Here, 'qemu-nbd -e $n' allows up to $n simultaneous clients.  Should we
-be feeding in that number, instead of a hard-coded 1, to make it easier
-for those clients to connect simultaneously?
-
-We can make such changes as a followup patch.
-
+diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
+index c66a5b2c6b..8fcebf2e67 100644
+--- a/hw/core/Makefile.objs
++++ b/hw/core/Makefile.objs
+@@ -4,6 +4,7 @@ common-obj-y +=3D bus.o reset.o
+ common-obj-y +=3D resettable.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D qdev-fw.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D fw-path-provider.o
++common-obj-$(CONFIG_SOFTMMU) +=3D clock-vmstate.o
+ # irq.o needed for qdev GPIO handling:
+ common-obj-y +=3D irq.o
+ common-obj-y +=3D hotplug.o
+diff --git a/hw/core/clock-vmstate.c b/hw/core/clock-vmstate.c
+new file mode 100644
+index 0000000000..c781369c15
+--- /dev/null
++++ b/hw/core/clock-vmstate.c
+@@ -0,0 +1,25 @@
++/*
++ * Clock migration structure
++ *
++ * Copyright GreenSocs 2019
++ *
++ * Authors:
++ *  Damien Hedde <damien.hedde@greensocs.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "migration/vmstate.h"
++#include "hw/clock.h"
++
++const VMStateDescription vmstate_clockin =3D {
++    .name =3D "clock",
++    .version_id =3D 0,
++    .minimum_version_id =3D 0,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_UINT64(frequency, ClockIn),
++        VMSTATE_END_OF_LIST()
++    }
++};
+diff --git a/include/hw/clock.h b/include/hw/clock.h
+index fd11202ba4..e7efb6ad17 100644
+--- a/include/hw/clock.h
++++ b/include/hw/clock.h
+@@ -34,6 +34,15 @@ struct ClockOut {
+     QLIST_HEAD(, ClockIn) followers; /* list of registered clocks */
+ };
+=20
++/*
++ * vmstate description entry to be added in device vmsd.
++ */
++extern const VMStateDescription vmstate_clockin;
++#define VMSTATE_CLOCKIN(_field, _state) \
++    VMSTATE_CLOCKIN_V(_field, _state, 0)
++#define VMSTATE_CLOCKIN_V(_field, _state, _version) \
++    VMSTATE_STRUCT_POINTER_V(_field, _state, _version, vmstate_clockin, =
+ClockIn)
++
+ /**
+  * clock_out_setup_canonical_path:
+  * @clk: clock
 --=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.22.0
 
-
---hPPYsnKPGTJqjOkmA1l4P96hrrtkz28DQ--
-
---WpWgAv0NLnUufyZqvquEll8tWTnOWWblw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1vsGcACgkQp6FrSiUn
-Q2r7uQgAoshFe247zfB+2w/3Ej+tbcYX9JNxht/gHRNmMZqIh73XXXdTDvk8x4cY
-YQ9Px/62TKghE1L5HxTYy7Jcy1kVJQXSoTRxyyXlmqMqjl5GWsG97XXu6lpjCTyN
-M2GHUaGJBvsUlFWbvNYel30QT4TSDV/NlKMeF+vY3FUbLkdYQiqbjrzegKOpIX62
-XsYGr69LvNAjVzgJeGLffnvXaJmSgqvI7nO0oTptCpQ5fsmh5cc/tyISaZqPq0Zr
-ohym96wvB6P2VoU/lkwE4qJ+iYI6w+eDYPjdrtAwXDpFCXUwkyn5jGBbfraeH3XK
-Jg8z74hKeY0R9xb6i2MRpsjtex/B3A==
-=a1yw
------END PGP SIGNATURE-----
-
---WpWgAv0NLnUufyZqvquEll8tWTnOWWblw--
 
