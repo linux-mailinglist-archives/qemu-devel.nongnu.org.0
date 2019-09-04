@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0788A9589
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:50:35 +0200 (CEST)
-Received: from localhost ([::1]:40510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBDF0A9596
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:52:43 +0200 (CEST)
+Received: from localhost ([::1]:40554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5dAg-0000Q8-JW
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:50:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53414)
+	id 1i5dCk-0002q6-KD
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:52:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53565)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1i5cBw-0000EF-IB
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:47:49 -0400
+ (envelope-from <clg@kaod.org>) id 1i5cCO-0000kB-3x
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:48:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1i5cBv-0001C5-53
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:47:48 -0400
-Received: from 11.mo7.mail-out.ovh.net ([87.98.173.157]:52808)
+ (envelope-from <clg@kaod.org>) id 1i5cCM-0001j8-S9
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:48:15 -0400
+Received: from 2.mo2.mail-out.ovh.net ([188.165.53.149]:33973)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1i5cBu-0001Ap-SV
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:47:47 -0400
-Received: from player691.ha.ovh.net (unknown [10.108.54.36])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 86560130AAC
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 22:47:45 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1i5cCM-0001iQ-M2
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:48:14 -0400
+Received: from player691.ha.ovh.net (unknown [10.109.159.224])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id 53A671AB3A5
+ for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 22:48:13 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player691.ha.ovh.net (Postfix) with ESMTPSA id 1555398B282E;
- Wed,  4 Sep 2019 20:47:39 +0000 (UTC)
+ by player691.ha.ovh.net (Postfix) with ESMTPSA id A2E0998B289E;
+ Wed,  4 Sep 2019 20:48:06 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed,  4 Sep 2019 22:46:49 +0200
-Message-Id: <20190904204659.13878-6-clg@kaod.org>
+Date: Wed,  4 Sep 2019 22:46:53 +0200
+Message-Id: <20190904204659.13878-10-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190904204659.13878-1-clg@kaod.org>
 References: <20190904204659.13878-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 2517793669831625489
+X-Ovh-Tracer-Id: 2525674966197504785
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudejhedgudehudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.173.157
-Subject: [Qemu-devel] [RFC PATCH 05/15] aspeed/timer: Add support for IRQ
- status register on the AST2600
+X-Received-From: 188.165.53.149
+Subject: [Qemu-devel] [RFC PATCH 09/15] hw: wdt_aspeed: Add AST2600 support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,166 +61,123 @@ Cc: Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AST2600 timer replaces control register 2 with a interrupt status
-register. It is set by hardware when an IRQ occurs and cleared by
-software.
+From: Joel Stanley <joel@jms.id.au>
 
-Based on previous work from Joel Stanley.
+The AST2600 has four watchdogs, and they each have a 0x40 of registers.
 
+When running as part of an ast2600 system we must check a different
+offset for the system reset control register in the SCU.
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+[clg: - reworked mode integration into new objet class ]
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/timer/aspeed_timer.h |  1 +
- hw/timer/aspeed_timer.c         | 32 ++++++++++++++++++++++++++------
- 2 files changed, 27 insertions(+), 6 deletions(-)
+ include/hw/arm/aspeed_soc.h      |  2 +-
+ include/hw/watchdog/wdt_aspeed.h |  1 +
+ hw/watchdog/wdt_aspeed.c         | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/timer/aspeed_timer.h b/include/hw/timer/aspeed_ti=
-mer.h
-index 69b1377af01e..948329893c0b 100644
---- a/include/hw/timer/aspeed_timer.h
-+++ b/include/hw/timer/aspeed_timer.h
-@@ -60,6 +60,7 @@ typedef struct AspeedTimerCtrlState {
-     uint32_t ctrl;
-     uint32_t ctrl2;
-     uint32_t ctrl3;
-+    uint32_t irq_sts;
-     AspeedTimer timers[ASPEED_TIMER_NR_TIMERS];
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index ba5bbb53e1a1..b427f2668a8a 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -27,7 +27,7 @@
+ #include "hw/sd/aspeed_sdhci.h"
 =20
-     AspeedSCUState *scu;
-diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
-index 7f73d0c75337..dbf8143f0457 100644
---- a/hw/timer/aspeed_timer.c
-+++ b/hw/timer/aspeed_timer.c
-@@ -160,7 +160,9 @@ static uint64_t calculate_next(struct AspeedTimer *t)
-     timer_del(&t->timer);
+ #define ASPEED_SPIS_NUM  2
+-#define ASPEED_WDTS_NUM  3
++#define ASPEED_WDTS_NUM  4
+ #define ASPEED_CPUS_NUM  2
+ #define ASPEED_MACS_NUM  2
 =20
-     if (timer_overflow_interrupt(t)) {
-+        AspeedTimerCtrlState *s =3D timer_to_ctrl(t);
-         t->level =3D !t->level;
-+        s->irq_sts |=3D BIT(t->id);
-         qemu_set_irq(t->irq, t->level);
-     }
+diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_a=
+speed.h
+index 796342764e2e..dfedd7662dd1 100644
+--- a/include/hw/watchdog/wdt_aspeed.h
++++ b/include/hw/watchdog/wdt_aspeed.h
+@@ -18,6 +18,7 @@
+     OBJECT_CHECK(AspeedWDTState, (obj), TYPE_ASPEED_WDT)
+ #define TYPE_ASPEED_2400_WDT TYPE_ASPEED_WDT "-ast2400"
+ #define TYPE_ASPEED_2500_WDT TYPE_ASPEED_WDT "-ast2500"
++#define TYPE_ASPEED_2600_WDT TYPE_ASPEED_WDT "-ast2600"
 =20
-@@ -199,7 +201,9 @@ static void aspeed_timer_expire(void *opaque)
-     }
+ #define ASPEED_WDT_REGS_MAX        (0x20 / 4)
 =20
-     if (interrupt) {
-+        AspeedTimerCtrlState *s =3D timer_to_ctrl(t);
-         t->level =3D !t->level;
-+        s->irq_sts |=3D BIT(t->id);
-         qemu_set_irq(t->irq, t->level);
-     }
+diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+index 9e241b7c8da4..6870dcf0c107 100644
+--- a/hw/watchdog/wdt_aspeed.c
++++ b/hw/watchdog/wdt_aspeed.c
+@@ -40,12 +40,14 @@
+ #define     WDT_DRIVE_TYPE_MASK         (0xFF << 24)
+ #define     WDT_PUSH_PULL_MAGIC         (0xA8 << 24)
+ #define     WDT_OPEN_DRAIN_MAGIC        (0x8A << 24)
++#define WDT_RESET_MASK1                 (0x1c / 4)
 =20
-@@ -244,9 +248,6 @@ static uint64_t aspeed_timer_read(void *opaque, hwadd=
-r offset, unsigned size)
-     case 0x30: /* Control Register */
-         value =3D s->ctrl;
+ #define WDT_TIMEOUT_STATUS              (0x10 / 4)
+ #define WDT_TIMEOUT_CLEAR               (0x14 / 4)
+=20
+ #define WDT_RESTART_MAGIC               0x4755
+=20
++#define AST2600_SCU_RESET_CONTROL1      (0x40 / 4)
+ #define SCU_RESET_CONTROL1              (0x04 / 4)
+ #define    SCU_RESET_SDRAM              BIT(0)
+=20
+@@ -74,6 +76,8 @@ static uint64_t aspeed_wdt_read(void *opaque, hwaddr of=
+fset, unsigned size)
+         return s->regs[WDT_CTRL];
+     case WDT_RESET_WIDTH:
+         return s->regs[WDT_RESET_WIDTH];
++    case WDT_RESET_MASK1:
++        return s->regs[WDT_RESET_MASK1];
+     case WDT_TIMEOUT_STATUS:
+     case WDT_TIMEOUT_CLEAR:
+         qemu_log_mask(LOG_UNIMP,
+@@ -146,6 +150,11 @@ static void aspeed_wdt_write(void *opaque, hwaddr of=
+fset, uint64_t data,
+         s->regs[WDT_RESET_WIDTH] |=3D data & awc->ext_pulse_width_mask;
          break;
--    case 0x34: /* Control Register 2 */
--        value =3D s->ctrl2;
--        break;
-     case 0x00 ... 0x2c: /* Timers 1 - 4 */
-         value =3D aspeed_timer_get_value(&s->timers[(offset >> 4)], reg)=
-;
-         break;
-@@ -438,9 +439,6 @@ static void aspeed_timer_write(void *opaque, hwaddr o=
-ffset, uint64_t value,
-     case 0x30:
-         aspeed_timer_set_ctrl(s, tv);
-         break;
--    case 0x34:
--        aspeed_timer_set_ctrl2(s, tv);
--        break;
-     /* Timer Registers */
-     case 0x00 ... 0x2c:
-         aspeed_timer_set_value(s, (offset >> TIMER_NR_REGS), reg, tv);
-@@ -468,6 +466,9 @@ static uint64_t aspeed_2400_timer_read(AspeedTimerCtr=
-lState *s, hwaddr offset)
-     uint64_t value;
 =20
-     switch (offset) {
-+    case 0x34:
-+        value =3D s->ctrl2;
++    case WDT_RESET_MASK1:
++        /* TODO: implement */
++        s->regs[WDT_RESET_MASK1] =3D data;
 +        break;
-     case 0x38:
-     case 0x3C:
-     default:
-@@ -482,7 +483,12 @@ static uint64_t aspeed_2400_timer_read(AspeedTimerCt=
-rlState *s, hwaddr offset)
- static void aspeed_2400_timer_write(AspeedTimerCtrlState *s, hwaddr offs=
-et,
-                                     uint64_t value)
- {
-+    const uint32_t tv =3D (uint32_t)(value & 0xFFFFFFFF);
 +
-     switch (offset) {
-+    case 0x34:
-+        aspeed_timer_set_ctrl2(s, tv);
-+        break;
-     case 0x38:
-     case 0x3C:
-     default:
-@@ -497,6 +503,9 @@ static uint64_t aspeed_2500_timer_read(AspeedTimerCtr=
-lState *s, hwaddr offset)
-     uint64_t value;
+     case WDT_TIMEOUT_STATUS:
+     case WDT_TIMEOUT_CLEAR:
+         qemu_log_mask(LOG_UNIMP,
+@@ -316,12 +325,32 @@ static const TypeInfo aspeed_2500_wdt_info =3D {
+     .class_init =3D aspeed_2500_wdt_class_init,
+ };
 =20
-     switch (offset) {
-+    case 0x34:
-+        value =3D s->ctrl2;
-+        break;
-     case 0x38:
-         value =3D s->ctrl3 & BIT(0);
-         break;
-@@ -517,6 +526,9 @@ static void aspeed_2500_timer_write(AspeedTimerCtrlSt=
-ate *s, hwaddr offset,
-     uint8_t command;
-=20
-     switch (offset) {
-+    case 0x34:
-+        aspeed_timer_set_ctrl2(s, tv);
-+        break;
-     case 0x38:
-         command =3D (value >> 1) & 0xFF;
-         if (command =3D=3D 0xAE) {
-@@ -543,6 +555,9 @@ static uint64_t aspeed_2600_timer_read(AspeedTimerCtr=
-lState *s, hwaddr offset)
-     uint64_t value;
-=20
-     switch (offset) {
-+    case 0x34:
-+        value =3D s->irq_sts;
-+        break;
-     case 0x38:
-     case 0x3C:
-     default:
-@@ -560,6 +575,9 @@ static void aspeed_2600_timer_write(AspeedTimerCtrlSt=
-ate *s, hwaddr offset,
-     const uint32_t tv =3D (uint32_t)(value & 0xFFFFFFFF);
-=20
-     switch (offset) {
-+    case 0x34:
-+        s->irq_sts &=3D tv;
-+        break;
-     case 0x3C:
-         aspeed_timer_set_ctrl(s, s->ctrl & ~tv);
-         break;
-@@ -626,6 +644,7 @@ static void aspeed_timer_reset(DeviceState *dev)
-     s->ctrl =3D 0;
-     s->ctrl2 =3D 0;
-     s->ctrl3 =3D 0;
-+    s->irq_sts =3D 0;
++static void aspeed_2600_wdt_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc =3D DEVICE_CLASS(klass);
++    AspeedWDTClass *awc =3D ASPEED_WDT_CLASS(klass);
++
++    dc->desc =3D "ASPEED 2600 Watchdog Controller";
++    awc->offset =3D 0x40;
++    awc->ext_pulse_width_mask =3D 0xfffff; /* TODO */
++    awc->reset_ctrl_reg =3D AST2600_SCU_RESET_CONTROL1;
++    awc->reset_pulse =3D aspeed_2500_wdt_reset_pulse;
++}
++
++static const TypeInfo aspeed_2600_wdt_info =3D {
++    .name =3D TYPE_ASPEED_2600_WDT,
++    .parent =3D TYPE_ASPEED_WDT,
++    .instance_size =3D sizeof(AspeedWDTState),
++    .class_init =3D aspeed_2600_wdt_class_init,
++};
++
+ static void wdt_aspeed_register_types(void)
+ {
+     watchdog_add_model(&model);
+     type_register_static(&aspeed_wdt_info);
+     type_register_static(&aspeed_2400_wdt_info);
+     type_register_static(&aspeed_2500_wdt_info);
++    type_register_static(&aspeed_2600_wdt_info);
  }
 =20
- static const VMStateDescription vmstate_aspeed_timer =3D {
-@@ -650,6 +669,7 @@ static const VMStateDescription vmstate_aspeed_timer_=
-state =3D {
-         VMSTATE_UINT32(ctrl, AspeedTimerCtrlState),
-         VMSTATE_UINT32(ctrl2, AspeedTimerCtrlState),
-         VMSTATE_UINT32(ctrl3, AspeedTimerCtrlState),
-+        VMSTATE_UINT32(irq_sts, AspeedTimerCtrlState),
-         VMSTATE_STRUCT_ARRAY(timers, AspeedTimerCtrlState,
-                              ASPEED_TIMER_NR_TIMERS, 1, vmstate_aspeed_t=
-imer,
-                              AspeedTimer),
+ type_init(wdt_aspeed_register_types)
 --=20
 2.21.0
 
