@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0130AA93F1
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:43:13 +0200 (CEST)
-Received: from localhost ([::1]:39256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE11AA9410
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:47:43 +0200 (CEST)
+Received: from localhost ([::1]:39412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5c7T-00038U-SS
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:43:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41058)
+	id 1i5cBq-00077t-4G
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41146)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0p-0005QE-8K
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:17 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0s-0005TY-QD
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0n-00034A-3p
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:15 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37432)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0r-00037a-21
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:18 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35004)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5b0l-0002yr-21
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:11 -0400
-Received: by mail-pf1-x444.google.com with SMTP id y9so13912269pfl.4
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:32:05 -0700 (PDT)
+ id 1i5b0n-00033Q-7B
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:15 -0400
+Received: by mail-pl1-x644.google.com with SMTP id gn20so12566plb.2
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:32:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=w0yZvSWJxMpGMZQus1AoRlEpuCLgbCFvsCSBHnvLgJY=;
- b=oAWMyx+OInAyeHVBRTYQ0211CU9f7YQQu7eHhi0OtBesm6zLBmEq4gf0IAnKFOltPU
- FKqnJxVRtrbo0daKSFCCZxQHxGDhHrvx0UwxrpjDBHWNdI50D9d4+Okda5HrDKAlRBAa
- XCNHiXgJS0RaUzzpBG6aMA4PvDSaUmgY61v0ysv2xMJAP443bsF8l6TmdKYeIGbiIVKh
- BJ487Djgb1nLzYlDBW/Y6mfmewyiEIlU5m7YHGwrB6yAcgOlTqLcVCx/AbOQj4k3kqs7
- vP38dqCyHKO54mAMSc225E7JzZ5IGQlDoCVCYyvU+Svt4po73TMEDYbt0CFoJxXJR1c1
- 71Zw==
+ bh=RL68ZjIe5eYQCwpJOU1fJcxAoSZgrEZ6K/Zv64QpDaE=;
+ b=lTWfIa2pWo2pbpDe4pKDm6+5ng3WPcvQoomnpn10Z5+lnjJSvGRsjZZLg7k3yIZQ8O
+ uSEQeU8szEGbE2vnejP1A3nN0obosyYzhaUqazOMa4ty3TXXFBAH24Tk8NXy0BmHSqhp
+ S74Ic3fKz5gXaDGfPEh94FZtDdL9oZjV2STV5YJGVcDpokqw463lUAI9WjqqeDVhe1Ii
+ XNezTwdbDr98Mb+vAFSgu+QTgPvJyK0O2RSnjCC2sOC7EcQkvUnfk+9TZwKK/U0VPTzX
+ trRrBujBNBtBWV0MIO4EQ7aQPrah0V6lH8yqYPqdRV0ceHDnXuPyGx0IPDkkDtocMJ8Y
+ Wppg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=w0yZvSWJxMpGMZQus1AoRlEpuCLgbCFvsCSBHnvLgJY=;
- b=LaUY3Z5uL8gq1a+J2B5o0EudKMjVZDoMGlZ0621aYz7pDnin2C0pyn4hwe1x/nNofZ
- 2jDy0mlI0+vRb1sckcR8ZVV9FswChvEB8Bqgc7LxneJHTJfTR6aWY7DrGBOietn+kBeX
- FHtMjDV343EerWYVa2qEi6YvJW2iCyZbKQBXxvBtibVX27t/giwVkpAKC3MTkzrM4EeQ
- lZfBMgMowWb94Uyp4UUWxqKSHSE66Gss4xCt71O1BkFtAtkhyg7FO9Ih5jHv5+NIglI1
- p3jgAuJZ33PIikFhLQ+mI5pfBg0QQHn57KqmSdxRHTm6e9BFZnaXTkS8NH4b9OU8AdlP
- iz7Q==
-X-Gm-Message-State: APjAAAUbyBWHTgadpo8Asck02BLzw7xPh8/clGlrcwMe3RLYKwKUXJa9
- XdMH92sFc2lqQp9LmRa01DSNEBpg1Yg=
-X-Google-Smtp-Source: APXvYqzDmzn2ArF2IUTIOfAmxP6op311GEPsnDAViWTSHhSS5FOzm+s1OKHauysgb9jGLdn0Ju6heQ==
-X-Received: by 2002:a63:b346:: with SMTP id x6mr36949199pgt.218.1567625524723; 
- Wed, 04 Sep 2019 12:32:04 -0700 (PDT)
+ bh=RL68ZjIe5eYQCwpJOU1fJcxAoSZgrEZ6K/Zv64QpDaE=;
+ b=NMoQinaLZvg3erbnr7Z6nugGv0fScX9E6BjhmuLlYoHVulctp/Zpe/ley7C4ToTnX2
+ WoaArBRh2x+vZWKXrc0FeJugZKb0wr0OAahos+spLG8gmfibd5TfmzEsY5zXQMLJtbur
+ jXXmjmAwshYkWQjxmjDUd1sZH7RZqPs7xLow1M5Xc+nQaX3h3pLI5gDnK5Jr/CL9ZU4C
+ ug2XyDh8EMUbInZ6m32P1SYz8Vj4sFjSKdmXjWKz2EhCrObgJLw4bJ/lA6VlKU6JdX95
+ ML3Vu+JP1Qu4qrFb4hTwRBdsaC+kyzhZmzd2vulUIjpQcOYAaO8kCT+pcNHu14p1Udpg
+ ZMAw==
+X-Gm-Message-State: APjAAAXlsG9bGjirg3yG2O+AmrH6GRGlFi1QbIITkj6xBLmRs0PTFR/8
+ 4AXJshGVhju/OqsD4CikwJwFdRlO3CE=
+X-Google-Smtp-Source: APXvYqx9SzLbM7rNnNEN1Li9ZRvI/ttiopHp++wr5doGmlC/SoAD2lJDqZuUtWOs4OYN42ilq8PJbw==
+X-Received: by 2002:a17:902:6842:: with SMTP id
+ f2mr43503402pln.39.1567625531017; 
+ Wed, 04 Sep 2019 12:32:11 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.32.03
+ by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.32.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 12:32:03 -0700 (PDT)
+ Wed, 04 Sep 2019 12:32:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 12:30:40 -0700
-Message-Id: <20190904193059.26202-51-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 12:30:45 -0700
+Message-Id: <20190904193059.26202-56-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904193059.26202-1-richard.henderson@linaro.org>
 References: <20190904193059.26202-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v4 50/69] target/arm: Convert T16 load/store
- multiple
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: [Qemu-devel] [PATCH v4 55/69] target/arm: Convert T16 adjust sp
+ (immediate)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,106 +84,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 48 ++++++++----------------------------------
- target/arm/t16.decode  |  8 +++++++
- 2 files changed, 17 insertions(+), 39 deletions(-)
+ target/arm/translate.c | 15 ++-------------
+ target/arm/t16.decode  |  9 +++++++++
+ 2 files changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index d8a4c7bf99..f9d4b619fa 100644
+index 73c8863134..8399a2c1f6 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -10092,6 +10092,14 @@ static bool trans_LDM_t32(DisasContext *s, arg_ldst_block *a)
-     return do_ldm(s, a, 2);
- }
+@@ -10765,19 +10765,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+         /* misc */
+         op = (insn >> 8) & 0xf;
+         switch (op) {
+-        case 0:
+-            /*
+-             * 0b1011_0000_xxxx_xxxx
+-             *  - ADD (SP plus immediate)
+-             *  - SUB (SP minus immediate)
+-             */
+-            tmp = load_reg(s, 13);
+-            val = (insn & 0x7f) * 4;
+-            if (insn & (1 << 7))
+-                val = -(int32_t)val;
+-            tcg_gen_addi_i32(tmp, tmp, val);
+-            store_sp_checked(s, tmp);
+-            break;
++        case 0: /* add/sub (sp, immediate), in decodetree */
++            goto illegal_op;
  
-+static bool trans_LDM_t16(DisasContext *s, arg_ldst_block *a)
-+{
-+    /* Writeback is conditional on the base register not being loaded.  */
-+    a->w = !(a->list & (1 << a->rn));
-+    /* BitCount(list) < 1 is UNPREDICTABLE */
-+    return do_ldm(s, a, 1);
-+}
-+
- /*
-  * Branch, branch with link
-  */
-@@ -10869,6 +10877,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-     case 8: /* load/store halfword immediate offset, in decodetree */
-     case 9: /* load/store from stack, in decodetree */
-     case 10: /* add PC/SP (immediate), in decodetree */
-+    case 12: /* load/store multiple, in decodetree */
-         goto illegal_op;
- 
-     case 11:
-@@ -11092,45 +11101,6 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-         }
-         break;
- 
--    case 12:
--    {
--        /* load/store multiple */
--        TCGv_i32 loaded_var = NULL;
--        rn = (insn >> 8) & 0x7;
--        addr = load_reg(s, rn);
--        for (i = 0; i < 8; i++) {
--            if (insn & (1 << i)) {
--                if (insn & (1 << 11)) {
--                    /* load */
--                    tmp = tcg_temp_new_i32();
--                    gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
--                    if (i == rn) {
--                        loaded_var = tmp;
--                    } else {
--                        store_reg(s, i, tmp);
--                    }
--                } else {
--                    /* store */
--                    tmp = load_reg(s, i);
--                    gen_aa32_st32(s, tmp, addr, get_mem_index(s));
--                    tcg_temp_free_i32(tmp);
--                }
--                /* advance to the next address */
--                tcg_gen_addi_i32(addr, addr, 4);
--            }
--        }
--        if ((insn & (1 << rn)) == 0) {
--            /* base reg not in list: base register writeback */
--            store_reg(s, rn, addr);
--        } else {
--            /* base reg in list: if load, complete it now */
--            if (insn & (1 << 11)) {
--                store_reg(s, rn, loaded_var);
--            }
--            tcg_temp_free_i32(addr);
--        }
--        break;
--    }
-     case 13:
-         /* conditional branch or swi */
-         cond = (insn >> 8) & 0xf;
+         case 2: /* sign/zero extend.  */
+             ARCH(6);
 diff --git a/target/arm/t16.decode b/target/arm/t16.decode
-index 71b3e8f02e..a7a437f930 100644
+index 5a570484e3..b425b86795 100644
 --- a/target/arm/t16.decode
 +++ b/target/arm/t16.decode
-@@ -26,6 +26,7 @@
- &ri              !extern rd imm
- &ldst_rr         !extern p w u rn rt rm shimm shtype
- &ldst_ri         !extern p w u rn rt imm
-+&ldst_block      !extern rn i b u w list
+@@ -156,6 +156,15 @@ ADD_rrri        0100 0100 . .... ...            @addsub_2h s=0
+ CMP_xrri        0100 0101 . .... ...            @addsub_2h s=1
+ MOV_rxri        0100 0110 . .... ...            @addsub_2h s=0
  
- # Set S if the instruction is outside of an IT block.
- %s               !function=t16_setflags
-@@ -109,3 +110,10 @@ LDR_ri          10011 ... ........              @ldst_spec_i rn=13
- ADR             10100 rd:3 ........             imm=%imm8_0x4
- ADD_rri         10101 rd:3 ........ \
-                 &s_rri_rot rn=13 s=0 rot=0 imm=%imm8_0x4  # SP
++# Adjust SP (immediate)
 +
-+# Load/store multiple
++%imm7_0x4       0:7 !function=times_4
++@addsub_sp_i    .... .... . ....... \
++                &s_rri_rot s=0 rd=13 rn=13 rot=0 imm=%imm7_0x4
 +
-+@ldstm          ..... rn:3 list:8               &ldst_block i=1 b=0 u=0 w=1
++ADD_rri         1011 0000 0 .......             @addsub_sp_i
++SUB_rri         1011 0000 1 .......             @addsub_sp_i
 +
-+STM             11000 ... ........              @ldstm
-+LDM_t16         11001 ... ........              @ldstm
+ # Branch and exchange
+ 
+ @branchr        .... .... . rm:4 ...            &r
 -- 
 2.17.1
 
