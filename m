@@ -2,82 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59848A833E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:54:54 +0200 (CEST)
-Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D772EA8355
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:03:18 +0200 (CEST)
+Received: from localhost ([::1]:57532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5UoH-0003wf-Cg
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
+	id 1i5UwP-0002kC-Oc
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:03:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47903)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i5Ujz-0000nP-84
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:50:29 -0400
+ (envelope-from <damien.hedde@greensocs.con>) id 1i5Rqt-0004rv-ND
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:45:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i5Ujy-00023c-3V
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:50:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32896)
+ (envelope-from <damien.hedde@greensocs.con>) id 1i5Rqr-00007d-B7
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:45:23 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:40564)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1i5Ujt-00020Q-80; Wed, 04 Sep 2019 08:50:21 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 18465301899A;
- Wed,  4 Sep 2019 12:50:20 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 399FA60920;
- Wed,  4 Sep 2019 12:50:09 +0000 (UTC)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>
-References: <20190903145634.20237-1-eblake@redhat.com>
- <9bde61cf-b4a7-fb11-7b8d-12cf8a2dc558@redhat.com>
- <a49c5a8d-b77a-a2fe-fb02-673971ccd70b@redhat.com>
- <e7d1f571-9e0b-9fd0-5921-e182a2bc92ca@redhat.com>
- <20190904081809.GB19582@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <1238dfef-a3e1-4b07-5dd4-6e925d98196f@redhat.com>
-Date: Wed, 4 Sep 2019 07:50:08 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.con>)
+ id 1i5Rqm-0008Pl-VK; Wed, 04 Sep 2019 05:45:17 -0400
+Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
+ [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPS id 8219896F50;
+ Wed,  4 Sep 2019 09:38:45 +0000 (UTC)
+From: damien.hedde@greensocs.con
+To: qemu-devel@nongnu.org
+Date: Wed,  4 Sep 2019 11:38:34 +0200
+Message-Id: <20190904093843.8765-1-damien.hedde@greensocs.con>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20190904081809.GB19582@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="UYjwqpU3c29dUcptpBkoSv9YwiFNZViqZ"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 04 Sep 2019 12:50:20 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] docs: Update preferred NBD
- device syntax
+X-Received-From: 5.135.226.135
+X-Mailman-Approved-At: Wed, 04 Sep 2019 08:47:47 -0400
+Subject: [Qemu-devel] [PATCH v6 0/9] Clock framework API
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,95 +47,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- libvirt-list@redhat.com
+Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
+ berrange@redhat.com, ehabkost@redhat.com, alistair@alistair23.me,
+ mark.burton@greensocs.com, pbonzini@redhat.com, qemu-arm@nongnu.org,
+ marcandre.lureau@redhat.com, edgar.iglesias@gmail.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---UYjwqpU3c29dUcptpBkoSv9YwiFNZViqZ
-Content-Type: multipart/mixed; boundary="myW2zeMR5ke1XZXLUpsLtjj2yoTaJvkQb";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, libvirt-list@redhat.com,
- qemu-block@nongnu.org
-Message-ID: <1238dfef-a3e1-4b07-5dd4-6e925d98196f@redhat.com>
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] docs: Update preferred NBD
- device syntax
-References: <20190903145634.20237-1-eblake@redhat.com>
- <9bde61cf-b4a7-fb11-7b8d-12cf8a2dc558@redhat.com>
- <a49c5a8d-b77a-a2fe-fb02-673971ccd70b@redhat.com>
- <e7d1f571-9e0b-9fd0-5921-e182a2bc92ca@redhat.com>
- <20190904081809.GB19582@redhat.com>
-In-Reply-To: <20190904081809.GB19582@redhat.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
 
---myW2zeMR5ke1XZXLUpsLtjj2yoTaJvkQb
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This series aims to add a way to model clock distribution in qemu. This a=
+llows
+to model the clock tree of a platform allowing us to inspect clock
+configuration and detect problems such as disabled clock or bad configure=
+d
+pll.
 
-On 9/4/19 3:18 AM, Daniel P. Berrang=C3=A9 wrote:
+The added clock api is very similar the the gpio api for devices. We can =
+add
+input and output and connect them together.
 
->>>>> -Syntax for specifying a NBD device using TCP
->>>>> +Syntax for specifying a NBD device using TCP, in preferred URI for=
-m:
->>>>> +``nbd://<server-ip>[:<port>]/[<export>]''
->>>>> +
+Very few changes since v5 in the core patches: we were waiting for multi =
+phase
+ability to allow proper initialization of the clock tree. So this is almo=
+st a
+simple rebase on top of the current "Multi-phase reset mechanism" series.
+Based-on: <20190821163341.16309-1-damien.hedde@greensocs.com>
 
->>>>>  ``nbd:<server-ip>:<port>[:exportname=3D<export>]''
->>>>>
+Changes since v5:
+ - drop the "-port" in file names
+ - new patch 2, extracted from patch 1 (to fix some problem with linux-us=
+er builds)
+ - patch 3, minor modification to better match gpios api and allow non de=
+vice-related clock
+   (I've dropped the reviewed-by, see the patch message for the details o=
+f what has changed).
+ - patch 6, Philippe's comments and various improvement
+ - patches 7/8/9, multi-phase reset addition and scope reduced to uart re=
+f clocks
 
->=20
-> In general libvirt should never use the psuedo-URI/URI syntax for
-> anything. We're moving towards use of blockdev, so will have the
-> dot separated key syntax on the cli and equiv in QMP.
+The patches are organised as follows:
++ Patches 1 to 5 adds the clock support in qemu (1, 4 and 5 are already r=
+eviewed and
+  also a big part of the 3)
++ Patch 6 add some documentation in docs/devel
++ Patches 7 to 9 adds the uart's clocks to the xilinx_zynq platform as an
+example for this framework. It updates the zynq's slcr clock controller, =
+the=20
+cadence_uart device, and the zynq toplevel platform.
 
-There's a difference between '-drive' (which sort of implies the
-file=3DURI... syntax) and '-blockdev + -device' (where you use the
-dot-separated syntax).  Yes, we should document and encourage the use of
--blockdev even more (at which point URIs are not needed, whether or not
-they are the preferred URI or the old form); but as long as -drive can
-only take a non-dotted representation, we should still be choosing the
-non-dotted representation that is at least reusable among other projects
-that also use URI syntax for NBD drives.
+I've tested this patchset on the xilinx-zynq-a9 machine with the buildroo=
+t's
+zynq_zc706_defconfig which package the Xilinx's Linux.
+Clocks are correctly updated and we ends up with a configured baudrate of=
+ 115601
+on the console uart (for a theoretical 115200) which is nice. "cadence_ua=
+rt*" and
+"clock*" traces can be enabled to see what's going on in this platform.
 
->=20
-> I hope this means we'll stop using the URIs in migration, but will
-> defer to peter for specifics.
->=20
-> I always think it is a shame that QEMU has done so much work on
-> blockdev, but all QEMU's docs still largely use the many legacy
-> syntaxes. IOW, we should make these NBD examples use the modern
-> non-URI syntax too.
+Any comments and suggestion are welcomed.
 
-Agreed, but that is separate patches to this one.
+Thanks to the Xilinx QEMU team who sponsored this development.
+
+Damien Hedde (9):
+  hw/core/clock: introduce clock objects
+  hw/core/clock-vmstate: define a vmstate entry for clock state
+  qdev: add clock input&output support to devices.
+  qdev-monitor: print the device's clock with info qtree
+  qdev-clock: introduce an init array to ease the device construction
+  docs/clocks: add device's clock documentation
+  hw/misc/zynq_slcr: add clock generation for uarts
+  hw/char/cadence_uart: add clock support
+  hw/arm/xilinx_zynq: connect uart clocks to slcr
+
+ Makefile.objs                  |   1 +
+ docs/devel/clock.txt           | 246 +++++++++++++++++++++++++++++++++
+ hw/arm/xilinx_zynq.c           |  64 +++++++--
+ hw/char/cadence_uart.c         |  85 ++++++++++--
+ hw/char/trace-events           |   3 +
+ hw/core/Makefile.objs          |   4 +-
+ hw/core/clock-vmstate.c        |  25 ++++
+ hw/core/clock.c                | 144 +++++++++++++++++++
+ hw/core/qdev-clock.c           | 181 ++++++++++++++++++++++++
+ hw/core/qdev.c                 |  32 +++++
+ hw/core/trace-events           |   6 +
+ hw/misc/zynq_slcr.c            | 145 ++++++++++++++++++-
+ include/hw/char/cadence_uart.h |   1 +
+ include/hw/clock.h             | 133 ++++++++++++++++++
+ include/hw/qdev-clock.h        | 134 ++++++++++++++++++
+ include/hw/qdev-core.h         |  14 ++
+ qdev-monitor.c                 |  13 ++
+ tests/Makefile.include         |   1 +
+ 18 files changed, 1210 insertions(+), 22 deletions(-)
+ create mode 100644 docs/devel/clock.txt
+ create mode 100644 hw/core/clock-vmstate.c
+ create mode 100644 hw/core/clock.c
+ create mode 100644 hw/core/qdev-clock.c
+ create mode 100644 include/hw/clock.h
+ create mode 100644 include/hw/qdev-clock.h
 
 --=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.22.0
 
-
---myW2zeMR5ke1XZXLUpsLtjj2yoTaJvkQb--
-
---UYjwqpU3c29dUcptpBkoSv9YwiFNZViqZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1vswAACgkQp6FrSiUn
-Q2rP/Qf/RrKelF5fdyk7A5WDCmXChtY97+fIk95rWcFsl8zkJHQ36LUQ1ghvOZIC
-wG74xqO1f79EObeo6gC4tXsuxe8f5kbVIZb6URrTiUi6Irb4ixaLQGV3regs5WeA
-I2KvQl7rbCr58Gq+tdynFX4+k2n2lkXplUnAEgvhG+BYjGJ2PnqENqZLhprokep6
-naWPRduD6tsD2PH2jAibX+ofIFD1J1TQBRIs5b0m1VkuDU+MMTi+Mlad8xn9aT7/
-LKDPJ+5TU7ug99slVJv4LfO+ZwncOH8AjU9QQwNFRxUGWHq7b6xDtRTQsl/GuS57
-MvUcwLmS3BDcx9yF68Mt6zcZ3A/SSw==
-=dhSu
------END PGP SIGNATURE-----
-
---UYjwqpU3c29dUcptpBkoSv9YwiFNZViqZ--
 
