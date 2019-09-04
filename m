@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF654A9523
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:29:39 +0200 (CEST)
-Received: from localhost ([::1]:40194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F53A94E4
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:22:59 +0200 (CEST)
+Received: from localhost ([::1]:40088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5cqQ-0002jQ-7b
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:29:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52772)
+	id 1i5cjy-0003Ac-Eu
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:22:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52844)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9S-0005zq-Jz
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:17 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5c9Y-0006Av-MD
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9Q-0006fU-4I
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:14 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:38780)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5c9X-0006li-C4
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:20 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:46604)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5c9P-0006f0-SB
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:12 -0400
-Received: by mail-pf1-x442.google.com with SMTP id h195so36729pfe.5
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:11 -0700 (PDT)
+ id 1i5c9X-0006lF-3l
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:19 -0400
+Received: by mail-pl1-x633.google.com with SMTP id t1so71297plq.13
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ahxD9fosMvb1g5phzerFB+P0cZoPHlkyqtQ2Wc64cSg=;
- b=fQ9FYqH0+U7b2+59Xv0YlyCWmlmeVKSyKcAKW+mIO17JQL4fX7nyAh7Z7BJkBbTtb/
- KlSgoGbFQBU3zmyx78NTo0bKVaG5SZZKVSjasbysVpXjAle8ai5UIRWppS5d1truVhlL
- vpRvkTYyI+ISAEA9Ni1c28nAACxWclFvPe5wO7osJTpsBBRl5c55LSpmTFPEyBi7a+2g
- dFQK0dGFRS9iljNoPCTPXwTQ6a74LC9ZT1Yb9tyLOdCJz2C/bcNM46MjKj8HNcF1jvx4
- s0s8zY98+Qtxeyww/Xo+OsxOFhJb8WypaaRClK4WzJekivVbQNIzurcwjCdeKuuKl0pD
- lrYQ==
+ bh=DCUh3pxo77uhgP+ZJoHLASbE9LI4j7qaNhsFo5dJ8X8=;
+ b=X2bi62r7E6W+ANGD6dXapnAAlHBs1N3/il/xLnEE7kwqaqLsgvdMHhI2V1TnDsM9ch
+ Gaz9tPsxLcbwTnHCZ40PstdFNm7Xcer9TwuSq/UAaZmbLXOM+Y2wKxaULda82NniwX3J
+ qKsVxJROJUlSrkl+Uca9oK/RPc5d4U/u9TyzA9rN/LEfMVoWRA3IIwG29DYGnRbcdtcd
+ ZWnSlctUGaRdwj4vNgjEy2VnQL99SbYwBBbvotgGzbseMv/9ZvIvBbC6UvxEl9zdPOCq
+ Rjh3RyW84hJ2Fc5Tr0Ylhs0wSdGOMFHZeAS9GalIvjXSMsi7Rbv9fz+3yQSUWegjROaq
+ 9vHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=ahxD9fosMvb1g5phzerFB+P0cZoPHlkyqtQ2Wc64cSg=;
- b=CcKNdCoeqh7N9U9GCaWOskDtKJpeWmdsR38mApjGMTmrEi0G+owOyN3Ld0maPiDSgE
- t4rNqoqCIrEPMFd1qC3HiudLnZBoU3EgLguZG7KXqn3fymZ1yhNfsiVUYESOh4NCtFR9
- rMVMOFo96fA9FOraIADK1vEogdKcs9LIndUKNIJb7sE/FB5qWyKEYbzOC5KK45deFsjJ
- QCkKcgmmKKWX4UAXhOOTyfuZnNWMaDeXwKEh3VreQum8ac3s+vquXuIjjJjRYg0hNIWB
- AaVZ7Gxvi5yIK9mGqqXZdnpeUlJqZMBS6bvatI9lV8t8jaqeFrjccinv/HqdOsNrthDQ
- CLWw==
-X-Gm-Message-State: APjAAAWwOl/VNfEGmyA4b5Kgkuwoa0yapFKDylIyM+eQPYeHMF48cwAh
- HQ3/pNJNRbCe4LyTysqCaQ31wMpETi4=
-X-Google-Smtp-Source: APXvYqzVDdznNGhxI6HXwg8kfm6VmFGRRxG0mAalqnGeV3RgS++n1NGZ5gqgvODJnLVuTLnRXrHaig==
-X-Received: by 2002:a62:e80e:: with SMTP id c14mr47206pfi.4.1567629910311;
- Wed, 04 Sep 2019 13:45:10 -0700 (PDT)
+ bh=DCUh3pxo77uhgP+ZJoHLASbE9LI4j7qaNhsFo5dJ8X8=;
+ b=ghMnbdi0RMyMqytOgqdXpAn162jqyj3tjU21KMajXIG3P/sX/Gz8WowsVCxyW3g5n6
+ CNObnsrOu7zX1qpAKSbs4Jy+3wiBWI+ypJijAv909BQMWFlcT5Scol12gAhpavbKMK9V
+ TQg/ul5yvAUViur9t0OYY+zzaHxmA/hyYgc6YjcZ20dTvgjNIsBXEFbK4pDxi5lQkOq5
+ 9RfdKF4PrkUg7VZ1Bp+DVO9lYWuBwp1Yc1nuXV7Rd46jKofxSnhcZYLyZcF/7lmhTlpG
+ nHTe6VAFAsVfhaW5qI7lYz/JrmUok/seFYxEcXt9bKQAHznRJDXHs/+nxSWekzRDu9GL
+ jsJg==
+X-Gm-Message-State: APjAAAX0ud7aSvVk4rw8Ou2Vmyy8uZZOFZyhe3Z5+lAK3vhD5xY4OrjV
+ hPppApSW4jc15TCD2E1mKHi87eOqiRI=
+X-Google-Smtp-Source: APXvYqx5v94WzMwOFVmCtMSSiRpoGce2IzOWju5lW9w/pBOonHhRzFJ9SKEqlCDzxaIuqdxUHSVIlQ==
+X-Received: by 2002:a17:902:44c:: with SMTP id
+ 70mr41774517ple.225.1567629917984; 
+ Wed, 04 Sep 2019 13:45:17 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.09
+ by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:45:09 -0700 (PDT)
+ Wed, 04 Sep 2019 13:45:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 13:44:55 -0700
-Message-Id: <20190904204507.32457-2-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 13:45:01 -0700
+Message-Id: <20190904204507.32457-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904204507.32457-1-richard.henderson@linaro.org>
 References: <20190904204507.32457-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PULL 01/13] target/openrisc: Add DisasContext
- parameter to check_r0_write
+X-Received-From: 2607:f8b0:4864:20::633
+Subject: [Qemu-devel] [PULL 07/13] target/openrisc: Fix lf.ftoi.s
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,370 +80,27 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will need this context in the next patch.
+The specification of this insn is round-to-zero.
 
 Reviewed-by: Stafford Horne <shorne@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/openrisc/translate.c | 96 +++++++++++++++++++------------------
- 1 file changed, 49 insertions(+), 47 deletions(-)
+ target/openrisc/fpu_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
-index b189c506c5..8d72edf9b7 100644
---- a/target/openrisc/translate.c
-+++ b/target/openrisc/translate.c
-@@ -163,14 +163,16 @@ static void check_ov64s(DisasContext *dc)
- }
- #endif*/
+diff --git a/target/openrisc/fpu_helper.c b/target/openrisc/fpu_helper.c
+index b9d2ebbb8c..4cc5b297c5 100644
+--- a/target/openrisc/fpu_helper.c
++++ b/target/openrisc/fpu_helper.c
+@@ -78,7 +78,7 @@ uint64_t HELPER(ftoid)(CPUOpenRISCState *env, uint64_t val)
  
--/* We're about to write to REG.  On the off-chance that the user is
--   writing to R0, re-instate the architectural register.  */
--#define check_r0_write(reg)             \
--    do {                                \
--        if (unlikely(reg == 0)) {       \
--            cpu_R[0] = cpu_R0;          \
--        }                               \
--    } while (0)
-+/*
-+ * We're about to write to REG.  On the off-chance that the user is
-+ * writing to R0, re-instate the architectural register.
-+ */
-+static void check_r0_write(DisasContext *dc, int reg)
-+{
-+    if (unlikely(reg == 0)) {
-+        cpu_R[0] = cpu_R0;
-+    }
-+}
- 
- static void gen_ove_cy(DisasContext *dc)
+ uint32_t HELPER(ftois)(CPUOpenRISCState *env, uint32_t val)
  {
-@@ -436,98 +438,98 @@ static void gen_msbu(DisasContext *dc, TCGv srca, TCGv srcb)
- 
- static bool trans_l_add(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     gen_add(dc, cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
+-    return float32_to_int32(val, &env->fp_status);
++    return float32_to_int32_round_to_zero(val, &env->fp_status);
  }
  
- static bool trans_l_addc(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     gen_addc(dc, cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_sub(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     gen_sub(dc, cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_and(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_and_tl(cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_or(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_or_tl(cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_xor(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_xor_tl(cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_sll(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_shl_tl(cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_srl(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_shr_tl(cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_sra(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_sar_tl(cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_ror(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_rotr_tl(cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_exths(DisasContext *dc, arg_da *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_ext16s_tl(cpu_R[a->d], cpu_R[a->a]);
-     return true;
- }
- 
- static bool trans_l_extbs(DisasContext *dc, arg_da *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_ext8s_tl(cpu_R[a->d], cpu_R[a->a]);
-     return true;
- }
- 
- static bool trans_l_exthz(DisasContext *dc, arg_da *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_ext16u_tl(cpu_R[a->d], cpu_R[a->a]);
-     return true;
- }
- 
- static bool trans_l_extbz(DisasContext *dc, arg_da *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_ext8u_tl(cpu_R[a->d], cpu_R[a->a]);
-     return true;
- }
-@@ -536,7 +538,7 @@ static bool trans_l_cmov(DisasContext *dc, arg_dab *a)
- {
-     TCGv zero;
- 
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     zero = tcg_const_tl(0);
-     tcg_gen_movcond_tl(TCG_COND_NE, cpu_R[a->d], cpu_sr_f, zero,
-                        cpu_R[a->a], cpu_R[a->b]);
-@@ -546,7 +548,7 @@ static bool trans_l_cmov(DisasContext *dc, arg_dab *a)
- 
- static bool trans_l_ff1(DisasContext *dc, arg_da *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_ctzi_tl(cpu_R[a->d], cpu_R[a->a], -1);
-     tcg_gen_addi_tl(cpu_R[a->d], cpu_R[a->d], 1);
-     return true;
-@@ -554,7 +556,7 @@ static bool trans_l_ff1(DisasContext *dc, arg_da *a)
- 
- static bool trans_l_fl1(DisasContext *dc, arg_da *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_clzi_tl(cpu_R[a->d], cpu_R[a->a], TARGET_LONG_BITS);
-     tcg_gen_subfi_tl(cpu_R[a->d], TARGET_LONG_BITS, cpu_R[a->d]);
-     return true;
-@@ -562,28 +564,28 @@ static bool trans_l_fl1(DisasContext *dc, arg_da *a)
- 
- static bool trans_l_mul(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     gen_mul(dc, cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_mulu(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     gen_mulu(dc, cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_div(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     gen_div(dc, cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
- 
- static bool trans_l_divu(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     gen_divu(dc, cpu_R[a->d], cpu_R[a->a], cpu_R[a->b]);
-     return true;
- }
-@@ -671,7 +673,7 @@ static bool trans_l_lwa(DisasContext *dc, arg_load *a)
- {
-     TCGv ea;
- 
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     ea = tcg_temp_new();
-     tcg_gen_addi_tl(ea, cpu_R[a->a], a->i);
-     tcg_gen_qemu_ld_tl(cpu_R[a->d], ea, dc->mem_idx, MO_TEUL);
-@@ -685,7 +687,7 @@ static void do_load(DisasContext *dc, arg_load *a, MemOp mop)
- {
-     TCGv ea;
- 
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     ea = tcg_temp_new();
-     tcg_gen_addi_tl(ea, cpu_R[a->a], a->i);
-     tcg_gen_qemu_ld_tl(cpu_R[a->d], ea, dc->mem_idx, mop);
-@@ -798,7 +800,7 @@ static bool trans_l_addi(DisasContext *dc, arg_rri *a)
- {
-     TCGv t0;
- 
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     t0 = tcg_const_tl(a->i);
-     gen_add(dc, cpu_R[a->d], cpu_R[a->a], t0);
-     tcg_temp_free(t0);
-@@ -809,7 +811,7 @@ static bool trans_l_addic(DisasContext *dc, arg_rri *a)
- {
-     TCGv t0;
- 
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     t0 = tcg_const_tl(a->i);
-     gen_addc(dc, cpu_R[a->d], cpu_R[a->a], t0);
-     tcg_temp_free(t0);
-@@ -820,7 +822,7 @@ static bool trans_l_muli(DisasContext *dc, arg_rri *a)
- {
-     TCGv t0;
- 
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     t0 = tcg_const_tl(a->i);
-     gen_mul(dc, cpu_R[a->d], cpu_R[a->a], t0);
-     tcg_temp_free(t0);
-@@ -839,28 +841,28 @@ static bool trans_l_maci(DisasContext *dc, arg_l_maci *a)
- 
- static bool trans_l_andi(DisasContext *dc, arg_rrk *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_andi_tl(cpu_R[a->d], cpu_R[a->a], a->k);
-     return true;
- }
- 
- static bool trans_l_ori(DisasContext *dc, arg_rrk *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_ori_tl(cpu_R[a->d], cpu_R[a->a], a->k);
-     return true;
- }
- 
- static bool trans_l_xori(DisasContext *dc, arg_rri *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_xori_tl(cpu_R[a->d], cpu_R[a->a], a->i);
-     return true;
- }
- 
- static bool trans_l_mfspr(DisasContext *dc, arg_l_mfspr *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
- 
-     if (is_user(dc)) {
-         gen_illegal_exception(dc);
-@@ -927,42 +929,42 @@ static bool trans_l_msbu(DisasContext *dc, arg_ab *a)
- 
- static bool trans_l_slli(DisasContext *dc, arg_dal *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_shli_tl(cpu_R[a->d], cpu_R[a->a], a->l & (TARGET_LONG_BITS - 1));
-     return true;
- }
- 
- static bool trans_l_srli(DisasContext *dc, arg_dal *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_shri_tl(cpu_R[a->d], cpu_R[a->a], a->l & (TARGET_LONG_BITS - 1));
-     return true;
- }
- 
- static bool trans_l_srai(DisasContext *dc, arg_dal *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_sari_tl(cpu_R[a->d], cpu_R[a->a], a->l & (TARGET_LONG_BITS - 1));
-     return true;
- }
- 
- static bool trans_l_rori(DisasContext *dc, arg_dal *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_rotri_tl(cpu_R[a->d], cpu_R[a->a], a->l & (TARGET_LONG_BITS - 1));
-     return true;
- }
- 
- static bool trans_l_movhi(DisasContext *dc, arg_l_movhi *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_movi_tl(cpu_R[a->d], a->k << 16);
-     return true;
- }
- 
- static bool trans_l_macrc(DisasContext *dc, arg_l_macrc *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     tcg_gen_trunc_i64_tl(cpu_R[a->d], cpu_mac);
-     tcg_gen_movi_i64(cpu_mac, 0);
-     return true;
-@@ -1134,7 +1136,7 @@ static bool trans_l_rfe(DisasContext *dc, arg_l_rfe *a)
- static void do_fp2(DisasContext *dc, arg_da *a,
-                    void (*fn)(TCGv, TCGv_env, TCGv))
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     fn(cpu_R[a->d], cpu_env, cpu_R[a->a]);
-     gen_helper_update_fpcsr(cpu_env);
- }
-@@ -1142,7 +1144,7 @@ static void do_fp2(DisasContext *dc, arg_da *a,
- static void do_fp3(DisasContext *dc, arg_dab *a,
-                    void (*fn)(TCGv, TCGv_env, TCGv, TCGv))
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     fn(cpu_R[a->d], cpu_env, cpu_R[a->a], cpu_R[a->b]);
-     gen_helper_update_fpcsr(cpu_env);
- }
-@@ -1206,7 +1208,7 @@ static bool trans_lf_ftoi_s(DisasContext *dc, arg_da *a)
- 
- static bool trans_lf_madd_s(DisasContext *dc, arg_dab *a)
- {
--    check_r0_write(a->d);
-+    check_r0_write(dc, a->d);
-     gen_helper_float_madd_s(cpu_R[a->d], cpu_env, cpu_R[a->d],
-                             cpu_R[a->a], cpu_R[a->b]);
-     gen_helper_update_fpcsr(cpu_env);
+ #define FLOAT_CALC(name)                                                  \
 -- 
 2.17.1
 
