@@ -2,72 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34C5A81E3
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:09:40 +0200 (CEST)
-Received: from localhost ([::1]:57092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537D1A81B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 14:05:16 +0200 (CEST)
+Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5U6V-0004uR-N6
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:09:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43392)
+	id 1i5U2E-0007um-Ud
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 08:05:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43463)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1i5TyZ-0006Ho-BQ
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:28 -0400
+ (envelope-from <f.gruenbichler@proxmox.com>) id 1i5Typ-0006VO-KQ
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1i5TyU-0002W1-1h
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:24672)
+ (envelope-from <f.gruenbichler@proxmox.com>) id 1i5Tyn-0002lP-O8
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:43 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:28941)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1i5TyT-0002VL-NP
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:01:21 -0400
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E81673C917
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 12:01:20 +0000 (UTC)
-Received: by mail-qk1-f198.google.com with SMTP id k68so22785780qkb.19
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 05:01:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=tCK6/OLcwSs4FABgTV4T0Bg63KixKgLpwZYThOYPwqA=;
- b=fXipK4oVo05tJdjRskfUbKLKDNBS+cweRgGYULpKMAk+CRmBiFzqbbiowSxxtW/b/5
- mRktVVWoU+wdA9tZbxTVILOTpm56O4Sw1gPxWAeDyNhboJo27AUlo2UI75dWuKwueWXi
- eGl0sIwHNRG65KOpXMRuEHODCs1eTfW7yk/hJyXNtpBirCxEbfxLuEKu+aQoQlUxy2HV
- ibQ5zx24V5uAlcS4hONttRawq/nXzkrvh2gorJ436fMBWAW3R542Omogw0EGbw/xlRv5
- rhmblrVzjRA0GiPgHM47DRcpoFCk8rjazk1jthwcCFxi0VISMLuc+kP9GbfW39JxVqbb
- bIVw==
-X-Gm-Message-State: APjAAAV8NwMu+ZPFzicvbsLuD0eCcFZlUplf3EwYQu+gNNkWHGSLoDN0
- MWRlkJNpgn2HSP5dQNKk0Ae8XdzbkldOM3SeYrefsZ4VpxQWXZ+Um28A7zjNEtrDjxzEssNbq+e
- mlmweqDC3Kmj4OV4=
-X-Received: by 2002:a05:6214:1808:: with SMTP id
- o8mr13018421qvw.118.1567598479888; 
- Wed, 04 Sep 2019 05:01:19 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqypFT+oYcsqJ+G92kQoPlSc8rW12XYJXyWA2UbOYawJa6Ym6Eed3V05M5v2CNm1of9wx+yFEQ==
-X-Received: by 2002:a05:6214:1808:: with SMTP id
- o8mr13018392qvw.118.1567598479607; 
- Wed, 04 Sep 2019 05:01:19 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id e14sm11795044qta.54.2019.09.04.05.01.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 05:01:18 -0700 (PDT)
-Date: Wed, 4 Sep 2019 08:01:14 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Message-ID: <20190904065021.1360-1-johannes@sipsolutions.net>
-References: <20190904120026.3220-1-mst@redhat.com>
+ (Exim 4.71) (envelope-from <f.gruenbichler@proxmox.com>)
+ id 1i5Tyb-0002U2-Se; Wed, 04 Sep 2019 08:01:30 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id CBBA04683B;
+ Wed,  4 Sep 2019 14:01:19 +0200 (CEST)
+Date: Wed, 04 Sep 2019 14:01:15 +0200
+From: Fabian =?iso-8859-1?q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>
+To: John Snow <jsnow@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+References: <5777a218-1ba4-78e0-ef73-bdfeecf04b25@redhat.com>
+ <436c161e-fe05-da2c-835c-562da489ba82@virtuozzo.com>
+ <2cd9d887-0a14-771a-3cee-64f9a50056d1@redhat.com>
+In-Reply-To: <2cd9d887-0a14-771a-3cee-64f9a50056d1@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190904120026.3220-1-mst@redhat.com>
-X-Mailer: git-send-email 2.22.0.678.g13338e74b8
-X-Mutt-Fcc: =sent
+User-Agent: astroid/0.15.0 (https://github.com/astroidmail/astroid)
+Message-Id: <1567596886.bl8mxp5grx.astroid@nora.none>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 6/6] libvhost-user: introduce and use
- vu_has_protocol_feature()
+X-Received-From: 212.186.127.180
+Subject: Re: [Qemu-devel] QEMU bitmap backup usability FAQ
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,96 +50,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Zhang Yu <zhangyu31@baidu.com>,
- Johannes Berg <johannes.berg@intel.com>, Tiwei Bie <tiwei.bie@intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Xie Yongji <xieyongji@baidu.com>
+Cc: "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Nir Soffer <nsoffer@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Johannes Berg <johannes.berg@intel.com>
+On August 21, 2019 11:19 pm, John Snow wrote:
+>=20
+>=20
+> On 8/21/19 10:21 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> [CC Nikolay]
+>>=20
+>> 21.08.2019 1:25, John Snow wrote:
+>>> Hi, downstream here at Red Hat I've been fielding some questions about
+>>> the usability and feature readiness of Bitmaps (and related features) i=
+n
+>>> QEMU.
+>>>
+>>> Here are some questions I answered internally that I am copying to the
+>>> list for two reasons:
+>>>
+>>> (1) To make sure my answers are actually correct, and
+>>> (2) To share this pseudo-reference with the community at large.
+>>>
+>>> This is long, and mostly for reference. There's a summary at the bottom
+>>> with some todo items and observations about the usability of the featur=
+e
+>>> as it exists in QEMU.
+>>>
+>>> Before too long, I intend to send a more summarized "roadmap" mail whic=
+h
+>>> details all of the current and remaining work to be done in and around
+>>> the bitmaps feature in QEMU.
+>>>
+>>>
+>>> Questions:
+>>>
+>>>> "What format(s) is/are required for this functionality?"
+>>>
+>>>  From the QEMU API, any format can be used to create and author
+>>> incremental backups. The only known format limitations are:
+>>>
+>>> 1. Persistent bitmaps cannot be created on any format except qcow2,
+>>> although there are hooks to add support to other formats at a later dat=
+e
+>>> if desired.
+>>>
+>>> DANGER CAVEAT #1: Adding bitmaps to QEMU by default creates transient
+>>> bitmaps instead of persistent ones.
+>>>
+>>> Possible TODO: Allow users to 'upgrade' transient bitmaps to persistent
+>>> ones in case they made a mistake.
+>>=20
+>> I doubt, as in my opinion real users of Qemu are not people but libvirt,=
+ which
+>> should never make such mistake.
+>>=20
+>=20
+> Right, that's largely been the consensus here; but there is some concern
+> that libvirt might not be the only user of QEMU, so I felt it was worth
+> documenting some of the crucial moments where it was "easy" to get it wro=
+ng.
+>=20
+> I think like it or not, the API that QEMU presents has to be considered
+> on its own without libvirt because it's not a given that libvirt will
+> forever and always be the only user of QEMU.
+>=20
+> I do think that any problems of this kind that can be solved in libvirt
+> are not immediate, crucial action items. libvirt WILL be the major user
+> of these features.
 
-This simplifies the various has_feature() checks, we already
-have vu_has_feature() but it checks features, not protocol
-features.
+Chiming in with a bit of vacation-induced delay - libvirt is definitely=20
+not the only user of QEMU's QMP interface - we at Proxmox use QEMU=20
+directly in our Proxmox VE product (usually a rather recent version,=20
+currently 4.0 with some cherry-picks and custom patches) and have been=20
+doing so for quite a while (the earliest reference in git that I can=20
+find is for QEMU 0.11.1, but there was SVN before that..).
 
-Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-Message-Id: <20190904065021.1360-1-johannes@sipsolutions.net>
-Reviewed-by: Tiwei Bie <tiwei.bie@intel.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- contrib/libvhost-user/libvhost-user.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+IIRC, we currently only use the bitmap features for our own custom=20
+backup jobs (shipped in our patched QEMU packages[1]), and are planning=20
+to integrate differential mirroring on top of storage-level/ZFS=20
+snapshots once that has stabilized upstream.
 
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index cb5f5770e4..68c27136ae 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -94,6 +94,11 @@ bool vu_has_feature(VuDev *dev,
-     return has_feature(dev->features, fbit);
- }
- 
-+static inline bool vu_has_protocol_feature(VuDev *dev, unsigned int fbit)
-+{
-+    return has_feature(dev->protocol_features, fbit);
-+}
-+
- static const char *
- vu_request_to_string(unsigned int req)
- {
-@@ -951,8 +956,7 @@ vu_check_queue_inflights(VuDev *dev, VuVirtq *vq)
- {
-     int i = 0;
- 
--    if (!has_feature(dev->protocol_features,
--        VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD)) {
-+    if (!vu_has_protocol_feature(dev, VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD)) {
-         return 0;
-     }
- 
-@@ -1097,8 +1101,7 @@ bool vu_set_queue_host_notifier(VuDev *dev, VuVirtq *vq, int fd,
- 
-     vmsg.fd_num = fd_num;
- 
--    if (!has_feature(dev->protocol_features,
--                     VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD)) {
-+    if (!vu_has_protocol_feature(dev, VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD)) {
-         return false;
-     }
- 
-@@ -2191,8 +2194,7 @@ vu_queue_map_desc(VuDev *dev, VuVirtq *vq, unsigned int idx, size_t sz)
- static int
- vu_queue_inflight_get(VuDev *dev, VuVirtq *vq, int desc_idx)
- {
--    if (!has_feature(dev->protocol_features,
--        VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD)) {
-+    if (!vu_has_protocol_feature(dev, VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD)) {
-         return 0;
-     }
- 
-@@ -2209,8 +2211,7 @@ vu_queue_inflight_get(VuDev *dev, VuVirtq *vq, int desc_idx)
- static int
- vu_queue_inflight_pre_put(VuDev *dev, VuVirtq *vq, int desc_idx)
- {
--    if (!has_feature(dev->protocol_features,
--        VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD)) {
-+    if (!vu_has_protocol_feature(dev, VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD)) {
-         return 0;
-     }
- 
-@@ -2226,8 +2227,7 @@ vu_queue_inflight_pre_put(VuDev *dev, VuVirtq *vq, int desc_idx)
- static int
- vu_queue_inflight_post_put(VuDev *dev, VuVirtq *vq, int desc_idx)
- {
--    if (!has_feature(dev->protocol_features,
--        VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD)) {
-+    if (!vu_has_protocol_feature(dev, VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD)) {
-         return 0;
-     }
- 
--- 
-MST
+That being said, the same basic guidelines apply to us that apply to=20
+libvirt - our users are (normally) also not talking QMP manually, our=20
+stack does it for them. Misuse of QMP interfaces is thus a bug in our=20
+software, and not a mistake made by its user. We do expose HMP over our=20
+API, but that is more for convenience of power users than any real use=20
+case that I am aware of.
+
+1: patches #20-24 from https://git.proxmox.com/?p=3Dpve-qemu.git;a=3Dtree;f=
+=3Ddebian/patches/pve;h=3D46bd31d60fe2c03571d9d29c7ee80f208206d37e;hb=3Dref=
+s/heads/master
+=
 
 
