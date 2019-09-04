@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A25A953D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:36:54 +0200 (CEST)
-Received: from localhost ([::1]:40294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0E7A954E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:39:43 +0200 (CEST)
+Received: from localhost ([::1]:40356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5cxQ-00021A-D1
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52906)
+	id 1i5d0A-0005kn-64
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:39:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52946)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9e-0006Jp-5R
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:28 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1i5c9f-0006Lo-VV
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5c9c-0006uA-FT
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:25 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:44663)
+ (envelope-from <richard.henderson@linaro.org>) id 1i5c9e-0006wr-6O
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:27 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36738)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5c9c-0006t2-6o
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:24 -0400
-Received: by mail-pl1-x630.google.com with SMTP id k1so76790pls.11
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:24 -0700 (PDT)
+ id 1i5c9d-0006uS-Rr
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:45:26 -0400
+Received: by mail-pf1-x432.google.com with SMTP id y22so43020pfr.3
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:45:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=5HAooVFLsWGcsosw6Q3OZtvuZFTGrXxCMoBP6XCwIK8=;
- b=R9rKGZKanh3PSjw2Xqc7ae9yWdK8ys8c4rZs+VEqCu7tzLHaKGbJynSXPfnp+zQ3P7
- Dtl94ZWuGPezGl6LfT/xuyeChltCOItwg5o1/6vVDb+iWMv9qt9IrudHvUP9GbVCI+O6
- fTpFfccMsnLAKclm2cMHfxl75ZPdDzarj/BmWsAqKQTuBn+9bL0J5hukCZGjZcS4Eg+f
- CXAoovQ/16ePNkkhpMaQx61VdB9CihQLiiMk3jyO15gkMKZp4BqLr9b8tQly7oBl8R4e
- 5INroTjndK+iRr7zeKvy8qc4gCxfpvNHB3SVFQc/BzYln0Xdg0zekBEZVDCvGqcjSJPZ
- p2AA==
+ bh=NowncHpSDSkPNMutAvoqlBrylOrG45DqZfrkIkTwcGo=;
+ b=U7dq5PIApEKMxfyC3GQLtXN64XNtz7tZ0YKauAe1qs31PFMxrzyRzGbyhkJtqIt+q1
+ R0NVD6GMI/TyJzv0Y8X2LROpA+PFNuUEEjg/XccJxKfXIcwzMyVj78fsdVDJ4F1sSZ9x
+ 9Dp8WO5Qb9+MnWLnkWOu8SrNud9mkxZDyCOK5ppBY1M2hKF7UG3bAea/frFi+lLIYrB1
+ tc6X5w3keVpPfWyYU0acsyZMtvnwqcN0VawP1qzf+WNxqOYvA18XlRq2msw9/6JTCAVS
+ Ki+HpdGrGcgjA8QXUln7Ti0Bs8SWwKFlgS4ablsJgtSE1gNw+K22m7H4grcDzGvdEHax
+ tIMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=5HAooVFLsWGcsosw6Q3OZtvuZFTGrXxCMoBP6XCwIK8=;
- b=TM4ePpjtZ6MR/iMyzgHLV8Y0CQejwawZH0PyahLotAnx3qWN5mxq3Ufr0oeN47xplm
- OaTNIJNUax0MVBQ/7l4b5IvkDr6/LvRcAa5AXF5QuwCfQGuthmlx2BJRGkmjJyVSke9x
- FMqpZLWyQLbGoZtMQ8Bwyy8hHbCovB43lmIoNEkLuus2UPpaGCNFiOW5V+KtgUEMJ1yu
- +6ygClnM9TM3U0GWGVYiEiE7AA3AqwaI0K5XNSgBPvfMDwz4xbHTYSFRhy3ZU3m/7LIT
- p1zHA79luOiDO+L9ClL0yOgj8tdZTgtU65nUWZZ79pF2sIWh6PuSW5dweTwFEAvhiSfy
- Bgtw==
-X-Gm-Message-State: APjAAAWSzkYOIDNOqWvcZGhwDPQeN4W1oWFedL8Fd0LD1WuoWLj1blZO
- INVSFa4u9fxysoBKY38ZvHSAjw3kJQI=
-X-Google-Smtp-Source: APXvYqzvRaybbFaX94wSkelSrqDemr08vBTALICn0z1VQ3Tqg6ZgzGXjOZtTzGWpXXjUb8iioiGKrQ==
-X-Received: by 2002:a17:902:7441:: with SMTP id
- e1mr43091517plt.332.1567629923016; 
- Wed, 04 Sep 2019 13:45:23 -0700 (PDT)
+ bh=NowncHpSDSkPNMutAvoqlBrylOrG45DqZfrkIkTwcGo=;
+ b=KoAs6dmrIJE6CD9BpH0HnCDFMweRmuTD7T9t/rOs7YUHFhH0tb9Ylmnk2kRKJSPFy1
+ RfpQdwpijZSBSWnp4lqd2FmGurPFin6qogPuPV9g8l6Pv/m/oyWw3W9vjeTsOY6w1nbn
+ AAzqtlAIFO00AL8tUss7l+OkdaHhgYM4eBh6ix2gnVs1heu5TFG6uGOkSY5FtFQBlg8S
+ Dw0isHSTMoXmVCcXzSRyyOhXtDOQowIC52EIi3hAFVDtkc36FwKUT8b8JsVo5JdW4dF1
+ GDEWcXF/2W/vOg9TlRRD4SFSdfJB+P5e4rl4HYUwusmK0QywyekgPBg4Le6DLZQPwHey
+ 1Amg==
+X-Gm-Message-State: APjAAAUtXnDS4qSn0iHW9EiUKPwh0i6qOkEKTNYO1IwQaY6lMbRZ4Pfj
+ tSLwfK2kMiJRoP/NpcAPT27JducvHeM=
+X-Google-Smtp-Source: APXvYqyp3kBv11Aqqp+e7O1pfnBQWxooid3mIazeAY/dh2AOB0dEPlt2PzuitzvVJioRsOeislviqA==
+X-Received: by 2002:a17:90a:f0c9:: with SMTP id
+ fa9mr120822pjb.137.1567629924024; 
+ Wed, 04 Sep 2019 13:45:24 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.22
+ by smtp.gmail.com with ESMTPSA id n66sm8104610pfn.90.2019.09.04.13.45.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:45:22 -0700 (PDT)
+ Wed, 04 Sep 2019 13:45:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 13:45:05 -0700
-Message-Id: <20190904204507.32457-12-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 13:45:06 -0700
+Message-Id: <20190904204507.32457-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904204507.32457-1-richard.henderson@linaro.org>
 References: <20190904204507.32457-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::630
-Subject: [Qemu-devel] [PULL 11/13] target/openrisc: Implement move to/from
- FPCSR
+X-Received-From: 2607:f8b0:4864:20::432
+Subject: [Qemu-devel] [PULL 12/13] target/openrisc: Implement l.adrp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,149 +80,65 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This was added to the 1.3 spec.
+
 Reviewed-by: Stafford Horne <shorne@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/openrisc/cpu.h        |  2 ++
- target/openrisc/cpu.c        |  1 +
- target/openrisc/fpu_helper.c | 13 +++++++++++++
- target/openrisc/machine.c    | 11 +++++++++++
- target/openrisc/sys_helper.c | 18 ++++++++++++------
- 5 files changed, 39 insertions(+), 6 deletions(-)
+ target/openrisc/disas.c      |  1 +
+ target/openrisc/translate.c  | 13 +++++++++++++
+ target/openrisc/insns.decode |  2 ++
+ 3 files changed, 16 insertions(+)
 
-diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-index 71c5959828..0ad02eab79 100644
---- a/target/openrisc/cpu.h
-+++ b/target/openrisc/cpu.h
-@@ -413,6 +413,8 @@ static inline void cpu_set_sr(CPUOpenRISCState *env, uint32_t val)
-     env->sr = (val & ~(SR_F | SR_CY | SR_OV)) | SR_FO;
+diff --git a/target/openrisc/disas.c b/target/openrisc/disas.c
+index e51cbb24c6..ce112640b9 100644
+--- a/target/openrisc/disas.c
++++ b/target/openrisc/disas.c
+@@ -98,6 +98,7 @@ INSN(sw,     "%d(r%d), r%d", a->i, a->a, a->b)
+ INSN(sb,     "%d(r%d), r%d", a->i, a->a, a->b)
+ INSN(sh,     "%d(r%d), r%d", a->i, a->a, a->b)
+ INSN(nop,    "")
++INSN(adrp,   "r%d, %d", a->d, a->i)
+ INSN(addi,   "r%d, r%d, %d", a->d, a->a, a->i)
+ INSN(addic,  "r%d, r%d, %d", a->d, a->a, a->i)
+ INSN(muli,   "r%d, r%d, %d", a->d, a->a, a->i)
+diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+index 6e8bc23568..6addbac8d6 100644
+--- a/target/openrisc/translate.c
++++ b/target/openrisc/translate.c
+@@ -799,6 +799,19 @@ static bool trans_l_nop(DisasContext *dc, arg_l_nop *a)
+     return true;
  }
  
-+void cpu_set_fpcsr(CPUOpenRISCState *env, uint32_t val);
-+
- #define CPU_INTERRUPT_TIMER   CPU_INTERRUPT_TGT_INT_0
- 
- #endif /* OPENRISC_CPU_H */
-diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index b931605e62..f96a69e278 100644
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -55,6 +55,7 @@ static void openrisc_cpu_reset(CPUState *s)
-     cpu->env.sr = SR_FO | SR_SM;
-     cpu->env.lock_addr = -1;
-     s->exception_index = -1;
-+    cpu_set_fpcsr(&cpu->env, 0);
- 
- #ifndef CONFIG_USER_ONLY
-     cpu->env.picmr = 0x00000000;
-diff --git a/target/openrisc/fpu_helper.c b/target/openrisc/fpu_helper.c
-index 7bcef9dc53..59e1413279 100644
---- a/target/openrisc/fpu_helper.c
-+++ b/target/openrisc/fpu_helper.c
-@@ -61,6 +61,19 @@ void HELPER(update_fpcsr)(CPUOpenRISCState *env)
-     }
- }
- 
-+void cpu_set_fpcsr(CPUOpenRISCState *env, uint32_t val)
++static bool trans_l_adrp(DisasContext *dc, arg_l_adrp *a)
 +{
-+    static const int rm_to_sf[] = {
-+        float_round_nearest_even,
-+        float_round_to_zero,
-+        float_round_up,
-+        float_round_down
-+    };
-+
-+    env->fpcsr = val & 0x7ff;
-+    set_float_rounding_mode(rm_to_sf[extract32(val, 1, 2)], &env->fp_status);
-+}
-+
- uint64_t HELPER(itofd)(CPUOpenRISCState *env, uint64_t val)
- {
-     return int64_to_float64(val, &env->fp_status);
-diff --git a/target/openrisc/machine.c b/target/openrisc/machine.c
-index 0a96404dc6..b92985d99b 100644
---- a/target/openrisc/machine.c
-+++ b/target/openrisc/machine.c
-@@ -121,10 +121,21 @@ static const VMStateDescription vmstate_env = {
-     }
- };
- 
-+static int cpu_post_load(void *opaque, int version_id)
-+{
-+    OpenRISCCPU *cpu = opaque;
-+    CPUOpenRISCState *env = &cpu->env;
-+
-+    /* Update env->fp_status to match env->fpcsr.  */
-+    cpu_set_fpcsr(env, env->fpcsr);
-+    return 0;
-+}
-+
- const VMStateDescription vmstate_openrisc_cpu = {
-     .name = "cpu",
-     .version_id = 1,
-     .minimum_version_id = 1,
-+    .post_load = cpu_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_CPU(),
-         VMSTATE_STRUCT(env, OpenRISCCPU, 1, vmstate_env, CPUOpenRISCState),
-diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
-index cf8e637b08..d9fe6c5948 100644
---- a/target/openrisc/sys_helper.c
-+++ b/target/openrisc/sys_helper.c
-@@ -37,8 +37,10 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
-     CPUState *cs = env_cpu(env);
-     target_ulong mr;
-     int idx;
-+#endif
- 
-     switch (spr) {
-+#ifndef CONFIG_USER_ONLY
-     case TO_SPR(0, 11): /* EVBAR */
-         env->evbar = rb;
-         break;
-@@ -179,10 +181,12 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
-         }
-         cpu_openrisc_timer_update(cpu);
-         break;
--    default:
-+#endif
-+
-+    case TO_SPR(0, 20): /* FPCSR */
-+        cpu_set_fpcsr(env, rb);
-         break;
-     }
--#endif
- }
- 
- target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
-@@ -193,8 +197,10 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
-     OpenRISCCPU *cpu = env_archcpu(env);
-     CPUState *cs = env_cpu(env);
-     int idx;
-+#endif
- 
-     switch (spr) {
-+#ifndef CONFIG_USER_ONLY
-     case TO_SPR(0, 0): /* VR */
-         return env->vr;
- 
-@@ -303,12 +309,12 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
-     case TO_SPR(10, 1): /* TTCR */
-         cpu_openrisc_count_update(cpu);
-         return cpu_openrisc_count_get(cpu);
--
--    default:
--        break;
--    }
- #endif
- 
-+    case TO_SPR(0, 20): /* FPCSR */
-+        return env->fpcsr;
++    if (!check_v1_3(dc)) {
++        return false;
 +    }
++    check_r0_write(dc, a->d);
 +
-     /* for rd is passed in, if rd unchanged, just keep it back.  */
-     return rd;
- }
++    tcg_gen_movi_i32(cpu_R(dc, a->d),
++                     (dc->base.pc_next & TARGET_PAGE_MASK) +
++                     ((target_long)a->i << TARGET_PAGE_BITS));
++    return true;
++}
++
+ static bool trans_l_addi(DisasContext *dc, arg_rri *a)
+ {
+     TCGv t0;
+diff --git a/target/openrisc/insns.decode b/target/openrisc/insns.decode
+index 71e0d740db..0d6f7c29f8 100644
+--- a/target/openrisc/insns.decode
++++ b/target/openrisc/insns.decode
+@@ -102,6 +102,8 @@ l_maci          010011 ----- a:5 i:s16
+ l_movhi         000110 d:5 ----0 k:16
+ l_macrc         000110 d:5 ----1 00000000 00000000
+ 
++l_adrp          000010 d:5 i:s21
++
+ ####
+ # Arithmetic Instructions
+ ####
 -- 
 2.17.1
 
