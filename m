@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302AAA86F7
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:25:47 +0200 (CEST)
-Received: from localhost ([::1]:35788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0491A86FF
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:29:33 +0200 (CEST)
+Received: from localhost ([::1]:35920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Z2P-0003fT-MI
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48513)
+	id 1i5Z64-0007os-Mq
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48537)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5Yqe-0001bJ-Im
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:38 -0400
+ id 1i5Yqg-0001dr-9I
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5Yqc-00076a-Rd
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:36 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36702)
+ id 1i5Yqe-00077a-Fj
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:38 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37481)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5Yqc-00075x-KI; Wed, 04 Sep 2019 13:13:34 -0400
-Received: by mail-wm1-x343.google.com with SMTP id p13so4718393wmh.1;
- Wed, 04 Sep 2019 10:13:34 -0700 (PDT)
+ id 1i5Yqe-000771-8P; Wed, 04 Sep 2019 13:13:36 -0400
+Received: by mail-wr1-x444.google.com with SMTP id z11so22107793wrt.4;
+ Wed, 04 Sep 2019 10:13:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4gzUK0T14zOkKkQ8x5EXERw/Gf3VD/73/5zTDUcL1hE=;
- b=BjvILWiF4qLG6ydc7sXZV+b4ENFYfebY0bn/ATMruaE57xjZHcEy1doK+ktwFAzi4y
- OY3krr0DIOH8ohQnKj9WJ4OFFYu7QeXYP0Z+kRhCbY1JiUs16kd40YcfM8EFvhnLgXti
- EJKq9UMhxKEIs1phJyIRTsoqdfjiDwMLk/4ky+L59GmsGof3ZHLf7pawxmGwbjDF25a+
- g1cL52h5CLnVz1p5DYMn49SEhVD1w5upXEFYhQgfVkUt3psHeTKj+nA2jH5FDTce7Nq+
- zeq3pj+0z55kYnTyQBTQxFId6xYWRtVKVYrGqxXnopVkvYG/glSUwdwmhmwKO4vUWYeV
- S00A==
+ bh=rnPX/CkCbP5cUR+Jpf6ypoo9OA8ST+okjOPSeePlPKk=;
+ b=nXyUKui9x9H0GwOqTGL8jqK3/3LURKyF4b8QwEoQ3mLJlf8zfaY6DrGlj8LXlCuRNH
+ 4WYb1TX1NdW8pmcdvovw0iqDM7rwYcBQ+GlF3FDmpp/6WtzlINcIeozhrwL12QoeHnPn
+ +Oxc+UubrO3NCVe8Q+lW1XMBwExJQUs5mpb+2i/PK4sibcQdzR6mUfb4HicRFhIA4QJY
+ CQoVU1Jf4CwdZqiV8bi6hjCYGmhhrfopLkVK1mQSYIqoMIQqgNn1pGCbEC1dhHEJtuEP
+ cEUVkwj7UwWUWozKCQo9Hr8r/hsRRwG9cuppjladKzq4upUaio3bzLRbki2ffwTxEg0Q
+ RGVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4gzUK0T14zOkKkQ8x5EXERw/Gf3VD/73/5zTDUcL1hE=;
- b=du1T94+elOrqeVpkZllyL43EqtoMg98qm9+QPnSPsrCrMBs+pKDzuYF0EYpVCRwuEv
- V2ODIl1xiYHFFxW3gdhAQaw6QX93DC84DSuL4wtbm7OvdpEDwOX9wA0Sseu6++63ZSJj
- B2FJkdj2SvCdYGvtc8MSqm2tnv5tEymKzzxTscw+vBFYtdsrHE83BjUQ+0VMSXxBCdyM
- Etz4Rtl14eMYP0C1tGwx4IlmLcWBauAtNzJsQgvoTZcdCwcXCggDKwVpuTgdj+EsjqXZ
- ct5PQ91uCdDjJ9WECdIK1nGJW+r25SNH3oaWFwuSHA2AB4YJ8xNRJ4k2VXBalI4L21iL
- BEUg==
-X-Gm-Message-State: APjAAAUiorXQ1vBdJmOWvom8iTKEUrEqGOK+K0Bmach9QjCErw5nHQle
- 4/Gpdw4O+32esopjR+6Dy3w=
-X-Google-Smtp-Source: APXvYqxfU9TXdwhXvhUG78+dsMWEZ1MePNFEJRIKUMXfhMSHDpuurfJddriMoTQ7T1jEA/FEEzgHzw==
-X-Received: by 2002:a1c:6c11:: with SMTP id h17mr5120240wmc.128.1567617213584; 
- Wed, 04 Sep 2019 10:13:33 -0700 (PDT)
+ bh=rnPX/CkCbP5cUR+Jpf6ypoo9OA8ST+okjOPSeePlPKk=;
+ b=E57i7jaExaQ7BuB3/XXCUHft8IO5kGRK0Ahw++v5wRdu3B3nj2y1p6arH7snemgzNE
+ YkV6GGqT7OpADo4v+8gpO0wfcaxaiMJGub/xTJcIuyZIPdDGZL5INYHwEB5LDJynUSq1
+ 8DOgjnDyb3YKHmLlT/SO/bUPzgeIvGNfrRtgdswXrrtEH0XdKarsy63l+VOelg17IAxx
+ m1sAKgnAsJ+I1hkLXHXuu/yxUBVKjF2uJhsJG5eev15cwEp0tqyIEuK+UHtnVrv3053I
+ HZx6NAvQVcJavv3FcEPH8dmcSY+wSD/cUFP5vYhiq7q2mGmPbVVDcmASh2rhQvYZXyzL
+ pbIA==
+X-Gm-Message-State: APjAAAWvbZxV2X8wApOIpMU+fItwUTNN94vdMKOfk6RsyIdXUe6W1III
+ Q25dE2YbYPqMNe12VSpCaoA=
+X-Google-Smtp-Source: APXvYqwEi9l8a4GqD7gjT74ZnVq526YzVZkty7zA4ZxrLeR16ajKB9ENuB6xeSweJ4v4fz1ppxVgDg==
+X-Received: by 2002:a5d:460e:: with SMTP id t14mr51954710wrq.171.1567617215265; 
+ Wed, 04 Sep 2019 10:13:35 -0700 (PDT)
 Received: from x1w.redhat.com ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.32
+ by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 10:13:32 -0700 (PDT)
+ Wed, 04 Sep 2019 10:13:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Esteban Bosse <estebanbosse@gmail.com>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-devel@nongnu.org,
  Pekka Enberg <penberg@iki.fi>,
  =?UTF-8?q?Zolt=C3=A1n=20Baldaszti?= <bztemail@gmail.com>
-Date: Wed,  4 Sep 2019 19:13:10 +0200
-Message-Id: <20190904171315.8354-10-f4bug@amsat.org>
+Date: Wed,  4 Sep 2019 19:13:11 +0200
+Message-Id: <20190904171315.8354-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190904171315.8354-1-f4bug@amsat.org>
 References: <20190904171315.8354-1-f4bug@amsat.org>
@@ -71,8 +71,9 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH 09/14] hw/arm/raspi: Make the board code modular
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH 10/14] hw/arm/raspi: Define various blocks base
+ addresses
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,195 +94,108 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our code currently create the raspi2 (based on the BCM2836)
-and the raspi3 (on the BCM2837). Similarly, the raspi4 is
-based on the BCM2838. To be able to add the new board,
-make the current code more modular:
+The Raspberry firmware is closed-source. While running it, it
+accesses various I/O registers. Logging these accesses as UNIMP
+(unimplemented) help to understand what the firmware is doing
+(ideally we want it able to boot a Linux kernel).
 
-- Dynamically fills the 'board-rev' value
-- Allow DRAM sizes different than 1 GiB
+Document various blocks we might use later.
 
-Rename the board model name as 'B' since this is the one
-encoded in the 'board-rev' tag.
+Adresses and names based on:
+https://github.com/hermanhermitage/videocoreiv/wiki/MMIO-Register-map
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/raspi.c | 107 +++++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 94 insertions(+), 13 deletions(-)
+ include/hw/arm/raspi_platform.h | 49 +++++++++++++++++++++++++++------
+ 1 file changed, 40 insertions(+), 9 deletions(-)
 
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 615d755879..b4db39661f 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -13,6 +13,7 @@
+diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
+index 069edab526..c6f4985522 100644
+--- a/include/hw/arm/raspi_platform.h
++++ b/include/hw/arm/raspi_platform.h
+@@ -25,42 +25,73 @@
+ #ifndef HW_ARM_RASPI_PLATFORM_H
+ #define HW_ARM_RASPI_PLATFORM_H
  
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "cpu.h"
- #include "hw/arm/bcm2836.h"
-@@ -29,8 +30,67 @@
- #define FIRMWARE_ADDR_3 0x80000 /* Pi 3 loads kernel.img here by default */
- #define SPINTABLE_ADDR  0xd8 /* Pi 3 bootloader spintable */
+-#define MCORE_OFFSET            0x0000   /* Fake frame buffer device
+-                                          * (the multicore sync block) */
+-#define IC0_OFFSET              0x2000
++#define MSYNC_OFFSET            0x0000   /* Multicore Sync Block */
++#define CCPT_OFFSET             0x1000   /* Compact Camera Port 2 TX */
++#define INTE_OFFSET             0x2000   /* VC Interrupt controller */
+ #define ST_OFFSET               0x3000   /* System Timer */
++#define TXP_OFFSET              0x4000
++#define JPEG_OFFSET             0x5000
+ #define MPHI_OFFSET             0x6000   /* Message-based Parallel Host Intf. */
+ #define DMA_OFFSET              0x7000   /* DMA controller, channels 0-14 */
+-#define ARM_OFFSET              0xB000   /* BCM2708 ARM control block */
++#define ARBA_OFFSET             0x9000
++#define BRDG_OFFSET             0xa000
++#define ARM_OFFSET              0xB000   /* ARM control block */
+ #define ARMCTRL_OFFSET          (ARM_OFFSET + 0x000)
+ #define ARMCTRL_IC_OFFSET       (ARM_OFFSET + 0x200) /* Interrupt controller */
+-#define ARMCTRL_TIMER0_1_OFFSET (ARM_OFFSET + 0x400) /* Timer 0 and 1 */
++#define ARMCTRL_TIMER0_1_OFFSET (ARM_OFFSET + 0x400) /* Timer 0 and 1 (SP804) */
+ #define ARMCTRL_0_SBM_OFFSET    (ARM_OFFSET + 0x800) /* User 0 (ARM) Semaphores
+                                                       * Doorbells & Mailboxes */
+ #define PM_OFFSET               0x100000 /* Power Management, Reset controller
+                                           * and Watchdog registers */
+ #define CPRMAN_OFFSET           0x101000 /* Clock Management */
++#define A2W_OFFSET              0x102000
+ #define AVS_OFFSET              0x103000 /* Audio Video Standard */
+ #define RNG_OFFSET              0x104000
+ #define GPIO_OFFSET             0x200000
+-#define UART0_OFFSET            0x201000
+-#define MMCI0_OFFSET            0x202000
+-#define I2S_OFFSET              0x203000
+-#define SPI0_OFFSET             0x204000
++#define UART0_OFFSET            0x201000 /* PL011 */
++#define MMCI0_OFFSET            0x202000 /* Legacy MMC */
++#define I2S_OFFSET              0x203000 /* PCM */
++#define SPI0_OFFSET             0x204000 /* SPI master */
+ #define BSC0_OFFSET             0x205000 /* BSC0 I2C/TWI */
++#define PIXV0_OFFSET            0x206000
++#define PIXV1_OFFSET            0x207000
++#define DPI_OFFSET              0x208000
++#define DSI0_OFFSET             0x209000 /* Display Serial Interface */
++#define PWM_OFFSET              0x20c000
++#define PERM_OFFSET             0x20d000
++#define TEC_OFFSET              0x20e000
+ #define OTP_OFFSET              0x20f000
++#define SLIM_OFFSET             0x100000 /* SLIMbus */
++#define CPG_OFFSET              0x110000
+ #define AVSP_OFFSET             0x130000
+ #define BSC_SL_OFFSET           0x214000 /* SPI slave */
++#define THERMAL_OFFSET          0x212000
+ #define AUX_OFFSET              0x215000 /* AUX: UART1/SPI1/SPI2 */
+ #define EMMC1_OFFSET            0x300000
++#define EMMC2_OFFSET            0x340000
++#define HVS_OFFSET              0x400000
+ #define SMI_OFFSET              0x600000
++#define DSI1_OFFSET             0x700000
++#define UCAM_OFFSET             0x800000
++#define CMI_OFFSET              0x802000
+ #define BSC1_OFFSET             0x804000 /* BSC1 I2C/TWI */
+ #define BSC2_OFFSET             0x805000 /* BSC2 I2C/TWI */
++#define VECA_OFFSET             0x806000
++#define PIXV2_OFFSET            0x807000
++#define HDMI_OFFSET             0x808000
++#define HDCP_OFFSET             0x809000
++#define ARBR0_OFFSET            0x80a000
+ #define DBUS_OFFSET             0x900000
+ #define AVE0_OFFSET             0x910000
+ #define USB_OTG_OFFSET          0x980000 /* DTC_OTG USB controller */
++#define V3D_OFFSET              0xc00000
+ #define SDRAMC_OFFSET           0xe00000
++#define L2CC_OFFSET             0xe01000 /* Level 2 Cache controller */
++#define L1CC_OFFSET             0xe02000 /* Level 1 Cache controller */
++#define ARBR1_OFFSET            0xe04000
+ #define DMA15_OFFSET            0xE05000 /* DMA controller, channel 15 */
++#define DCRC_OFFSET             0xe07000
++#define AXIP_OFFSET             0xe08000
  
--/* Table of Linux board IDs for different Pi versions */
--static const int raspi_boardid[] = {[1] = 0xc42, [2] = 0xc43, [3] = 0xc44};
-+enum BoardIdManufacturer {
-+    M_SONY_UK = 0,
-+    M_EMBEST = 2,
-+};
-+
-+enum BoardIdChip {
-+    C_BCM2835 = 0,
-+    C_BCM2836 = 1,
-+    C_BCM2837 = 2,
-+};
-+
-+enum BoardIdType {
-+    T_2B = 0x04,
-+    T_3B = 0x08,
-+};
-+
-+enum BoardIdRevision {
-+    R_1_0 = 0,
-+    R_1_1 = 1,
-+    R_1_2 = 2,
-+    R_1_3 = 3,
-+};
-+
-+static const char *processor_typename[] = {
-+    [C_BCM2836] = TYPE_BCM2836,
-+    [C_BCM2837] = TYPE_BCM2837,
-+};
-+
-+typedef struct BoardInfo BoardInfo;
-+
-+struct BoardInfo {
-+    /* Table of Linux board IDs for different Pi versions */
-+    int board_id;
-+    /*
-+     * Board revision codes:
-+     * www.raspberrypi.org/documentation/hardware/raspberrypi/revision-codes/
-+     */
-+    struct {
-+        enum BoardIdType type;
-+        enum BoardIdRevision revision;
-+        enum BoardIdChip chip;
-+        enum BoardIdManufacturer manufacturer;
-+    } board_rev;
-+    uint64_t ram_size_min;
-+    uint64_t ram_size_max;
-+};
-+
-+static const BoardInfo bcm283x_boards[] = {
-+    [2] = {
-+        .board_id = 0xc43,
-+        .board_rev = { T_2B, R_1_1, C_BCM2836, M_EMBEST },
-+        .ram_size_min = 1 * GiB,
-+        .ram_size_max = 1 * GiB,
-+    },
-+    [3] = {
-+        .board_id = 0xc44,
-+        .board_rev = { T_3B, R_1_2, C_BCM2837, M_SONY_UK },
-+        .ram_size_min = 1 * GiB,
-+        .ram_size_max = 1 * GiB,
-+    },
-+};
- 
- typedef struct RasPiState {
-     BCM283XState soc;
-@@ -114,7 +174,7 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
-     static struct arm_boot_info binfo;
-     int r;
- 
--    binfo.board_id = raspi_boardid[version];
-+    binfo.board_id = bcm283x_boards[version].board_id;
-     binfo.ram_size = ram_size;
-     binfo.nb_cpus = machine->smp.cpus;
- 
-@@ -146,7 +206,7 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
-      * the normal Linux boot process
-      */
-     if (machine->firmware) {
--        hwaddr firmware_addr = version == 3 ? FIRMWARE_ADDR_3 : FIRMWARE_ADDR_2;
-+        hwaddr firmware_addr = version >= 3 ? FIRMWARE_ADDR_3 : FIRMWARE_ADDR_2;
-         /* load the firmware image (typically kernel.img) */
-         r = load_image_targphys(machine->firmware, firmware_addr,
-                                 ram_size - firmware_addr);
-@@ -170,16 +230,32 @@ static void raspi_init(MachineState *machine, int version)
-     BlockBackend *blk;
-     BusState *bus;
-     DeviceState *carddev;
-+    char *size_str;
-+    int board_rev;
-+    const char *soc_type;
- 
--    if (machine->ram_size > 1 * GiB) {
-+    if (machine->ram_size < bcm283x_boards[version].ram_size_min) {
-+        size_str = size_to_str(bcm283x_boards[version].ram_size_min);
-+        error_report("Requested ram size is too small for this machine: "
-+                     "minimum is %s", size_str);
-+        g_free(size_str);
-+        exit(1);
-+    }
-+    if (machine->ram_size > bcm283x_boards[version].ram_size_max) {
-+        size_str = size_to_str(bcm283x_boards[version].ram_size_max);
-         error_report("Requested ram size is too large for this machine: "
--                     "maximum is 1GB");
-+                     "maximum is %s", size_str);
-+        g_free(size_str);
-+        exit(1);
-+    }
-+    if (!is_power_of_2(machine->ram_size)) {
-+        error_report("Requested ram size is not a power of 2");
-         exit(1);
-     }
- 
-+    soc_type = processor_typename[bcm283x_boards[version].board_rev.chip];
-     object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
--                            version == 3 ? TYPE_BCM2837 : TYPE_BCM2836,
--                            &error_abort, NULL);
-+                            soc_type, &error_abort, NULL);
- 
-     /* Allocate and map RAM */
-     memory_region_allocate_system_memory(&s->ram, OBJECT(machine), "ram",
-@@ -192,9 +268,14 @@ static void raspi_init(MachineState *machine, int version)
-                                    &error_abort);
-     object_property_set_int(OBJECT(&s->soc), machine->smp.cpus, "enabled-cpus",
-                             &error_abort);
--    int board_rev = version == 3 ? 0xa02082 : 0xa21041;
--    object_property_set_int(OBJECT(&s->soc), board_rev, "board-rev",
--                            &error_abort);
-+
-+    board_rev = ((63 - clz64(machine->ram_size / MiB)) << 20)
-+                | (bcm283x_boards[version].board_rev.manufacturer << 16)
-+                | (bcm283x_boards[version].board_rev.chip << 12)
-+                | (bcm283x_boards[version].board_rev.type << 4)
-+                | (bcm283x_boards[version].board_rev.revision << 0);
-+    object_property_set_int(OBJECT(&s->soc), board_rev,
-+                            "board-rev", &error_abort);
-     object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_abort);
- 
-     /* Create and plug in the SD cards */
-@@ -221,7 +302,7 @@ static void raspi2_init(MachineState *machine)
- 
- static void raspi2_machine_init(MachineClass *mc)
- {
--    mc->desc = "Raspberry Pi 2";
-+    mc->desc = "Raspberry Pi 2B";
-     mc->init = raspi2_init;
-     mc->block_default_type = IF_SD;
-     mc->no_parallel = 1;
-@@ -243,7 +324,7 @@ static void raspi3_init(MachineState *machine)
- 
- static void raspi3_machine_init(MachineClass *mc)
- {
--    mc->desc = "Raspberry Pi 3";
-+    mc->desc = "Raspberry Pi 3B";
-     mc->init = raspi3_init;
-     mc->block_default_type = IF_SD;
-     mc->no_parallel = 1;
+ /* GPU interrupts */
+ #define INTERRUPT_TIMER0               0
 -- 
 2.20.1
 
