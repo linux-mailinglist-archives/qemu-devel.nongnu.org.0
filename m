@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990F2A9558
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:42:34 +0200 (CEST)
-Received: from localhost ([::1]:40418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5FEAA956C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 23:45:31 +0200 (CEST)
+Received: from localhost ([::1]:40464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5d2v-0000gg-K2
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54169)
+	id 1i5d5m-0004I3-MH
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 17:45:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i5cDX-0001xL-V6
+ (envelope-from <alex.bennee@linaro.org>) id 1i5cDY-0001xc-Ah
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i5cDW-0002SI-Ju
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:27 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35565)
+ (envelope-from <alex.bennee@linaro.org>) id 1i5cDX-0002Se-56
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:28 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50208)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i5cDW-0002Rk-Dj
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:26 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id g7so248696wrx.2
+ id 1i5cDW-0002S7-VI
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:49:27 -0400
+Received: by mail-wm1-x343.google.com with SMTP id c10so258786wmc.0
  for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:49:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nQUAtVsslkJ4r9+COAvvl/ujYC8YWVWBFis/DB41CnY=;
- b=pMvsKvq5smTCin/K1Ykk3d+3kVQgmNwEbNJat9rPEjBt1YYOLMLJAV5af9qWHjByvO
- sEZYKqqLPCIzgaZ7tzB1hzrxAEDVIZeNzHJJkvavpIduO2pvicZHsel9MkFcvhYe7cd6
- Fms+Aog14ZltZ0v4ATjM7RceHfwrDSZgRtT2uuCpJR7oPCUqB3uBTHv3FJZ0ivfrKPA2
- fpgznL/rcNYEeKMtBOEQHfiyvx4lPc2d6aJLfH/05dJhRfHd6BHeEyjycu/EsWLCTxtO
- AeiWZQJHw5/Pmy0DudxXtZIxFCKnuSfduOIkU2l89yu2ytx6a3hmKBifETpGj9cn7FDG
- UQ4g==
+ bh=ct8GRVkho5bZaPQ+r0/dd0wEzdlz65fQJcg/sMTvk3E=;
+ b=raR5C9aIXdekox5/6ORleuMBMP/O4fIzdlei2ifybFuJggDG/v5VmIjYHHyrdTfPdE
+ SvDqEU/bjQpjCAtPzO8o1eb/98uhJUfz7aU6ZAn5+3ISG/cfr9eeI7NRrq/5AsgIlax/
+ NUrAbwN7i/V5TrjhOfl+kYWQa5ZDNu/q4k9yPZWuYwKpIgXasq+degGhnKjUdNfLnuu1
+ PBN4xV/2Rm7wBRbkEyZVa44jz6cTjbxPLvqseDIpJ+K5X/QgmcpCvL5jKbKiR6M6ZrDx
+ 4JtDnR018fQRqmsa2iyuTxNyOXnT6EIDCr/7Jj2+yz0mZQM7jnjE1pdOXSwDwUOI5U9G
+ 2f2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nQUAtVsslkJ4r9+COAvvl/ujYC8YWVWBFis/DB41CnY=;
- b=FbTNZrAI2aRg3gsy5y3ZE6Nv81KygRnlxAEpFomP49Q8GfHVpT67/VTE9yQPnxgtQ9
- c0vnSheH2YHb3HpPc2qdZbAK+CQdLpEbPk43vCFpw6NjgHvKhNltIEB05N3+vuhd/NfQ
- LJiBcugBljj3puZ8oSooIPR0SoGCfjz/PqdVqcQOji/thMAwL/bWORINsQWelGtseYMM
- eaRnuTSFHU2083VZ78/MvWGfQKVSd2KTM5bw2yTpbPQoUVimL0Jai6JA3jagNia7LGP5
- V/9HVt0gsjtfXGWkp9Qi63yzJhwHgwF7OwGWOm1vFYwZdPvY2BrEd+QXaytbaRmCOSl4
- YOag==
-X-Gm-Message-State: APjAAAVA1xB5hoNVY2LV54Atcqapy8Yic1fqYmSZVwGwPaNwr1ubwC9A
- frVKuIOykmR+ekF43Goo08qtWA==
-X-Google-Smtp-Source: APXvYqylPZMG7Oc4vXhAxniVkCJvVhmzRHlHlvr8tT2fIyCWxEp+X0PQeEDa//BUMWOZfs42d41fcQ==
-X-Received: by 2002:adf:e48f:: with SMTP id i15mr21475361wrm.26.1567630165274; 
+ bh=ct8GRVkho5bZaPQ+r0/dd0wEzdlz65fQJcg/sMTvk3E=;
+ b=qKEf9Id/oqQKz4ATQYumoa62EruTMAWCnxtCINgKy3Th+wUUQyDYiGSCWsd0657qKS
+ EqE2p211ypSEU7IJBHFfz57IRngXPe5VNVeo6M63hJemOacckkHcQIYmJG7ug1J/JuYO
+ dzbzwkbR+EBFMlft8z3sC/vnLAATnFrhV1pnOwEz9TmTnTONmH3fKcCVXvgWRCMbBVx5
+ OjoYubNek8CqZ7pDu9n1DFtVwSLxNlHbEuYaxdKig6UbiXjltgF8bzJGr+HXf3RTdBQy
+ KvCGUU5eyjwzZqZayqddKK1JnZfBNRsoOESlZ3Ewhzss1Gth9SXFpUfYvmrjKvj4Tw5Y
+ idUA==
+X-Gm-Message-State: APjAAAWOdoKuyyJobMnZu92Aa7ySwr5nkSD02SzscSftBlOj99b4jZyB
+ WWRkG9RoOX/hePEd2Be29sBNQw==
+X-Google-Smtp-Source: APXvYqyJWS0GcjQa64yh1HXIAnDwZsWTMu4fnQfbr5hoiHvZrjW7gf9ve3I/k1wE8BDSmwBZVsIYqg==
+X-Received: by 2002:a05:600c:2111:: with SMTP id
+ u17mr177161wml.64.1567630165938; 
  Wed, 04 Sep 2019 13:49:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r17sm22396419wrt.68.2019.09.04.13.49.22
+ by smtp.gmail.com with ESMTPSA id g15sm212099wmk.17.2019.09.04.13.49.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:49:22 -0700 (PDT)
+ Wed, 04 Sep 2019 13:49:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4D34A1FFA9;
+ by zen.linaroharston (Postfix) with ESMTP id 8B3261FFAC;
  Wed,  4 Sep 2019 21:30:15 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 21:29:51 +0100
-Message-Id: <20190904203013.9028-21-alex.bennee@linaro.org>
+Date: Wed,  4 Sep 2019 21:29:54 +0100
+Message-Id: <20190904203013.9028-24-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
 References: <20190904203013.9028-1-alex.bennee@linaro.org>
@@ -68,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
-Subject: [Qemu-devel] [PATCH v1 20/42] tests/docker: move our ppc64 cross
- compile to Buster
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH v1 23/42] tests/docker: add debian-xtensa-cross
+ to DEBIAN_PARTIAL_IMAGES
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,61 +92,39 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now Buster is released we can stop relying on the movable feast that
-is Sid for our cross-compiler for building tests.
+This should have been marked when the docker recipe was added to
+prevent it being used for cross compiling QEMU. Sort the
+DEBIAN_PARTIAL_IMAGE list while we are at it.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include                      | 4 ++--
- tests/docker/dockerfiles/debian-ppc64-cross.docker | 7 +++----
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ tests/docker/Makefile.include | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 93190b1e2a2..b6c04059502 100644
+index f4e9dfc0120..8d7f9376578 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -104,11 +104,11 @@ docker-image-debian-hppa-cross: docker-image-debian10
- docker-image-debian-m68k-cross: docker-image-debian10
- docker-image-debian-mips64-cross: docker-image-debian10
- docker-image-debian-powerpc-cross: docker-image-debian10
-+docker-image-debian-ppc64-cross: docker-image-debian10
- docker-image-debian-riscv64-cross: docker-image-debian10
- docker-image-debian-sh4-cross: docker-image-debian10
- docker-image-debian-sparc64-cross: docker-image-debian10
+@@ -115,10 +115,15 @@ docker-image-travis: NOUSER=1
+ docker-image-tricore-cross: docker-image-debian9
  
--docker-image-debian-ppc64-cross: docker-image-debian-sid
- docker-image-travis: NOUSER=1
- 
- # Specialist build images, sometimes very limited tools
-@@ -117,7 +117,7 @@ docker-image-tricore-cross: docker-image-debian9
  # These images may be good enough for building tests but not for test builds
- DOCKER_PARTIAL_IMAGES += debian-alpha-cross debian-hppa-cross debian-m68k-cross debian-sh4-cross
- DOCKER_PARTIAL_IMAGES += debian-sparc64-cross debian-mips64-cross debian-riscv64-cross
--DOCKER_PARTIAL_IMAGES += debian-tricore-cross debian-powerpc-cross fedora-i386-cross
-+DOCKER_PARTIAL_IMAGES += debian-tricore-cross debian-powerpc-cross debian-ppc64-cross fedora-i386-cross
- DOCKER_PARTIAL_IMAGES += fedora-cris-cross
+-DOCKER_PARTIAL_IMAGES += debian-alpha-cross debian-hppa-cross debian-m68k-cross debian-sh4-cross
+-DOCKER_PARTIAL_IMAGES += debian-sparc64-cross debian-mips64-cross debian-riscv64-cross
+-DOCKER_PARTIAL_IMAGES += debian-tricore-cross debian-powerpc-cross debian-ppc64-cross fedora-i386-cross
+-DOCKER_PARTIAL_IMAGES += fedora-cris-cross
++DOCKER_PARTIAL_IMAGES += debian-alpha-cross
++DOCKER_PARTIAL_IMAGES += debian-hppa-cross
++DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
++DOCKER_PARTIAL_IMAGES += debian-powerpc-cross debian-ppc64-cross
++DOCKER_PARTIAL_IMAGES += debian-riscv64-cross
++DOCKER_PARTIAL_IMAGES += debian-sh4-cross debian-sparc64-cross
++DOCKER_PARTIAL_IMAGES += debian-tricore-cross
++DOCKER_PARTIAL_IMAGES += debian-xtensa-cross
++DOCKER_PARTIAL_IMAGES += fedora-i386-cross fedora-cris-cross
  
  # Rules for building linux-user powered images
-diff --git a/tests/docker/dockerfiles/debian-ppc64-cross.docker b/tests/docker/dockerfiles/debian-ppc64-cross.docker
-index e5757fe46ee..4bf88ab02dd 100644
---- a/tests/docker/dockerfiles/debian-ppc64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-ppc64-cross.docker
-@@ -1,12 +1,11 @@
  #
- # Docker ppc64 cross-compiler target
- #
--# This docker target builds on the debian sid base image which
--# contains cross compilers for Debian "ports" targets.
--FROM qemu:debian-sid
-+# This docker target builds on the debian Buster base image.
-+FROM qemu:debian10
- 
- RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt install -y --no-install-recommends \
-        gcc-powerpc64-linux-gnu \
--       libc6-dev-ppc64-cross || { echo "Failed to build - see debian-sid.docker notes"; exit 1; }
-+       libc6-dev-ppc64-cross
 -- 
 2.20.1
 
