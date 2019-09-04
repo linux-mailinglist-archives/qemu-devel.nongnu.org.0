@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BAB2A8377
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:17:16 +0200 (CEST)
-Received: from localhost ([::1]:57698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84186A8371
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:16:13 +0200 (CEST)
+Received: from localhost ([::1]:57686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5V9v-0006g4-5d
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:17:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53743)
+	id 1i5V8u-0005tZ-6v
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:16:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53726)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1i5Uph-0006ct-Ey
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:56:23 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1i5Upg-0006bi-Fv
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:56:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1i5Upf-0005dW-Dp
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:56:21 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:45970)
+ (envelope-from <damien.hedde@greensocs.com>) id 1i5Upe-0005d5-QV
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:56:20 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:45988)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1i5UpZ-0005YT-Jo; Wed, 04 Sep 2019 08:56:13 -0400
+ id 1i5Upa-0005Yx-5D; Wed, 04 Sep 2019 08:56:14 -0400
 Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
  [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id 2E23E96F6C;
+ by beetle.greensocs.com (Postfix) with ESMTPS id CE89196F65;
  Wed,  4 Sep 2019 12:56:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1567601772;
+ s=mail; t=1567601773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TALlTq4Hby/4+HqsOnAnIF2pH1v+JAWkyFTp6VC39dg=;
- b=d4spiVFj1KLJEYgRvsIfZ1umh6Kj7GAp8cvyhBp89GHqgUGBBdr67C2gG1ivh7PNdAZXrq
- I+JzHZ5IiWDiTFhMM6N6Q3VXes67gzFE0hw/bAtmsh2PakUiop+v6exiJxalP9dcydIkNI
- Jf4nbf+m53GdK2+YfMww2tINOntnySc=
+ bh=v7sDKq7aWXDonSFSKGhw9/2WYTabyRQyQupDcGMYv/E=;
+ b=7UTeVXTgZdy6WLIz59AfgO9wc9TiYpWuUFoCmABJHqaox3SwgB3wOp75s+Uwu2OHOB2Lzn
+ kXv1XAvL+tnA4XtmkcQxEpnejhsoz1BdfI2TjDuSs4L25YhT8RpufwejZToMexr1PZkUQb
+ +ZgmYQDR1M9P6wkAFuMcjTLuXe76FhE=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 14:55:28 +0200
-Message-Id: <20190904125531.27545-7-damien.hedde@greensocs.com>
+Date: Wed,  4 Sep 2019 14:55:29 +0200
+Message-Id: <20190904125531.27545-8-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190904125531.27545-1-damien.hedde@greensocs.com>
 References: <20190904125531.27545-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1567601772;
+ s=mail; t=1567601773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TALlTq4Hby/4+HqsOnAnIF2pH1v+JAWkyFTp6VC39dg=;
- b=QXjrESdfthLnDxB/VuzDG6ySS9kha/x+DxhXn38eY8allh9Th4SfrwWiChGyma9y3QFHRl
- 2o90e10YgC2FfIdempM2f1oyZhkn1ICOAecqP3S0C3vnGOg05d5IlXZ/f2ojp+PDELUY/P
- V4jBPtHRZzh2NKt4T7SoVTzQB2EgihM=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1567601772; a=rsa-sha256; cv=none;
- b=LMdpQZN1yvRWUyDImbm04VIcDFepl3oCGRHUQ0qEpBw/GWtq2sGnL1rTSOQOGlQfJ8eVRK
- 0pmWC2mH3OGYukY195pgye4l3mOI+9V6ewV9zbBcMqd44g39u+jO6PYCLLbP3W/xsszzlm
- cZFjZPCDb1iVNG1nJQwr2UGsgNIl78c=
+ bh=v7sDKq7aWXDonSFSKGhw9/2WYTabyRQyQupDcGMYv/E=;
+ b=yRTk2zxVRVo/Ktd2R4ntC76x0ww3qH7E/pXebmjmPD/zYMeFqJkPIf0XO+9+H5sX5Aex9l
+ rYobSdObK66ufsIGgWS5nKzoUUKB2Bj20FscrsgelWv76Mn/cuqq1W4qGuXUq0Ftm3uQLv
+ f437aaJg4Buv2Fwk1wpLbWqoXXc5rIQ=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1567601773; a=rsa-sha256; cv=none;
+ b=5elN5/1A1Jer9V6rvMLTys4y8kF0+Ol1JK1lexd0G72xRzIRcIyFTKlZl1GkmVXbw5ZCT9
+ 715y6YK1y1RL4101K7BajfU0sZ5rZftg1IHcSmPXghluwjUKQA41DXx1JFI27EJcBdt29E
+ 7wU2SAkvJy/boWn4wWtiG1M0D3bCfVY=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -63,8 +63,8 @@ X-Spam: Yes
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v6 6/9] docs/clocks: add device's clock
- documentation
+Subject: [Qemu-devel] [PATCH v6 7/9] hw/misc/zynq_slcr: add clock generation
+ for uarts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,329 +83,243 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the documentation about the clock inputs and outputs in devices.
+Switch the slcr to multi-phase reset and add some clocks:
++ the main input clock (ps_clk)
++ the reference clock outputs for each uart (uart0 & 1)
 
-This is based on the original work of Frederic Konrad.
+The clock frequencies are computed using the internal pll & uart configur=
+ation
+registers and the ps_clk frequency.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- docs/devel/clock.txt | 246 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 246 insertions(+)
- create mode 100644 docs/devel/clock.txt
+ hw/misc/zynq_slcr.c | 145 +++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 142 insertions(+), 3 deletions(-)
 
-diff --git a/docs/devel/clock.txt b/docs/devel/clock.txt
-new file mode 100644
-index 0000000000..18f79922d0
---- /dev/null
-+++ b/docs/devel/clock.txt
-@@ -0,0 +1,246 @@
+diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
+index b9a38272d9..fa2ac608eb 100644
+--- a/hw/misc/zynq_slcr.c
++++ b/hw/misc/zynq_slcr.c
+@@ -22,6 +22,7 @@
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "hw/registerfields.h"
++#include "hw/qdev-clock.h"
+=20
+ #ifndef ZYNQ_SLCR_ERR_DEBUG
+ #define ZYNQ_SLCR_ERR_DEBUG 0
+@@ -45,6 +46,12 @@ REG32(LOCKSTA, 0x00c)
+ REG32(ARM_PLL_CTRL, 0x100)
+ REG32(DDR_PLL_CTRL, 0x104)
+ REG32(IO_PLL_CTRL, 0x108)
++/* fields for [ARM|DDR|IO]_PLL_CTRL registers */
++    FIELD(xxx_PLL_CTRL, PLL_RESET, 0, 1)
++    FIELD(xxx_PLL_CTRL, PLL_PWRDWN, 1, 1)
++    FIELD(xxx_PLL_CTRL, PLL_BYPASS_QUAL, 3, 1)
++    FIELD(xxx_PLL_CTRL, PLL_BYPASS_FORCE, 4, 1)
++    FIELD(xxx_PLL_CTRL, PLL_FPDIV, 12, 7)
+ REG32(PLL_STATUS, 0x10c)
+ REG32(ARM_PLL_CFG, 0x110)
+ REG32(DDR_PLL_CFG, 0x114)
+@@ -64,6 +71,10 @@ REG32(SMC_CLK_CTRL, 0x148)
+ REG32(LQSPI_CLK_CTRL, 0x14c)
+ REG32(SDIO_CLK_CTRL, 0x150)
+ REG32(UART_CLK_CTRL, 0x154)
++    FIELD(UART_CLK_CTRL, CLKACT0, 0, 1)
++    FIELD(UART_CLK_CTRL, CLKACT1, 1, 1)
++    FIELD(UART_CLK_CTRL, SRCSEL,  4, 2)
++    FIELD(UART_CLK_CTRL, DIVISOR, 8, 6)
+ REG32(SPI_CLK_CTRL, 0x158)
+ REG32(CAN_CLK_CTRL, 0x15c)
+ REG32(CAN_MIOCLK_CTRL, 0x160)
+@@ -179,11 +190,106 @@ typedef struct ZynqSLCRState {
+     MemoryRegion iomem;
+=20
+     uint32_t regs[ZYNQ_SLCR_NUM_REGS];
 +
-+What are clocks
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++    ClockIn *ps_clk;
++    ClockOut *uart0_ref_clk;
++    ClockOut *uart1_ref_clk;
+ } ZynqSLCRState;
+=20
+-static void zynq_slcr_reset(DeviceState *d)
++/*
++ * return the output frequency of ARM/DDR/IO pll
++ * using input frequency and PLL_CTRL register
++ */
++static uint64_t zynq_slcr_compute_pll(uint64_t input, uint32_t ctrl_reg)
++{
++    uint32_t mult =3D ((ctrl_reg & R_xxx_PLL_CTRL_PLL_FPDIV_MASK) >>
++            R_xxx_PLL_CTRL_PLL_FPDIV_SHIFT);
 +
-+Clocks are objects representing input and output clocks of objects. They=
- are
-+QOM objects developed for the purpose of modeling the distribution of cl=
-ocks in
-+QEMU.
++    /* first, check if pll is bypassed */
++    if (ctrl_reg & R_xxx_PLL_CTRL_PLL_BYPASS_FORCE_MASK) {
++        return input;
++    }
 +
-+This allows us to model the clock distribution of a platform and detect
-+configuration errors in the clock tree such as badly configured PLL, clo=
-ck
-+source selection or disabled clock.
++    /* is pll disabled ? */
++    if (ctrl_reg & (R_xxx_PLL_CTRL_PLL_RESET_MASK |
++                    R_xxx_PLL_CTRL_PLL_PWRDWN_MASK)) {
++        return 0;
++    }
 +
-+The objects are ClockIn for the input and ClockOut for the output. The Q=
-OM
-+names are respectively CLOCK_IN and CLOCK_OUT.
-+
-+CLOCK_IN and CLOCK_OUT are typically child of some device and created in=
- a
-+similar way as gpios. ClockIn and ClockOut of different devices can be
-+connected together. It is possible to create a clock which is not relate=
-d
-+to a device; for example to model a clock source of a machine.
-+
-+Here is an example of devices with clocks:
-+
-+                             +-------------------+     +----------------=
-----+
-+                             |      Device B     |     |      Device C  =
-    |
-+  +--------------------+     |           +-----+ |     | +-----+        =
-    |
-+  |      Device A      |     |           |Clock|>>----->>|Clock|        =
-    |
-+  |            +-----+ |     | +-----+   |Out 3| |     | |In  5|        =
-    |
-+  |            |Clock|>>--+-->>|Clock|   +-----+ |     | +-----+        =
-    |
-+  |            |Out 1| |  |  | |In 2 |   +-----+ |     | +-----+        =
-    |
-+  |            +-----+ |  |  | +-----+   |Clock|>>----->>|Clock|        =
-    |
-+  +--------------------+  |  |           |Out 4| |     | |In  6|        =
-    |
-+                          |  |           +-----+ |     | +-----+        =
-    |
-+                          |  +-------------------+     +----------------=
-----+
-+                          |
-+                          |  +--------------------+
-+                          |  |      Device D      |
-+                          |  | +-----+            |
-+                          +-->>|Clock|            |
-+                             | |In  7|            |
-+                             | +-----+            |
-+                             +--------------------+
-+
-+Clocks are defined in include/hw/clock.h header and device related funct=
-ions
-+are defined in hw/qdev-clock.h header.
-+
-+The clock state
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+The state of a clock is its frequency; it is stored as an integer repres=
-enting
-+it in Hertz. The special value of 0 is used to represent the clock being
-+inactive or gated. The clocks do not model the signal itself (pin toggli=
-ng)
-+or other properties such as the duty cycle.
-+
-+Only the CLOCK_IN object keeps the value of a clock; this allows a devic=
-e to
-+fetch the current input frequency at any time. When an output is updated=
-, the
-+value is immediately propagated to all connected CLOCK_IN.
-+
-+Adding clocks to a device
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-+
-+Adding clocks to a device must be done during the init method of the Dev=
-ice
-+instance.
-+
-+To add an input clock to a device, the function qdev_init_clock_in must =
-be used.
-+It takes the name, a callback, and an opaque parameter for the clock.
-+Output is more simple, only the name is required. Typically:
-+qdev_init_clock_in(DEVICE(dev), "clk_in", clk_in_callback, dev);
-+qdev_init_clock_out(DEVICE(dev), "clk_out");
-+
-+Both functions return the created ClockIn/ClockOut pointer, which should=
- be saved
-+in the device's state structure for further use.
-+
-+These objects will be automatically deleted by the QOM reference mechani=
-sm.
-+
-+Note that it is possible to create a static array describing clock input=
-s and
-+outputs. The function qdev_init_clocks() must be called with the array a=
-s
-+parameter to initialize the clocks: it has the same behaviour as calling=
- the
-+qdev_init_clock_in/out() for each clock in the array. To ease the array
-+construction, some macros are defined in include/hw/qdev-clock.h.
-+As an example, the following creates 2 clocks to a device: 1 input and 1
-+output.
-+
-+/* device structure containing pointer to the clock objects */
-+typedef struct MyDeviceState {
-+    DeviceState parent_obj;
-+    ClockIn *clk_in;
-+    ClockOut *clk_out;
-+} MyDeviceState;
++    return input * mult;
++}
 +
 +/*
-+ * callback for the input clock (see "Callback on input clock change" se=
-ction
-+ * below for more information).
++ * return the output frequency of a clock given:
++ * + the frequencies in an array corresponding to mux's indexes
++ * + the register xxx_CLK_CTRL value
++ * + enable bit index in ctrl register
++ *
++ * This function make the assumption that ctrl_reg value is organized as=
+ follow:
++ * + bits[13:8] clock divisor
++ * + bits[5:4]  clock mux selector (index in array)
++ * + bits[index] clock enable
 + */
-+static void clk_in_callback(void *opaque);
++static uint64_t zynq_slcr_compute_clock(const uint64_t mux[],
++                                        uint32_t ctrl_reg,
++                                        unsigned index)
++{
++    uint32_t srcsel =3D extract32(ctrl_reg, 4, 2); /* bits [5:4] */
++    uint32_t divisor =3D extract32(ctrl_reg, 8, 6); /* bits [13:8] */
++
++    /* first, check if clock is enabled */
++    if (((ctrl_reg >> index) & 1u) =3D=3D 0) {
++        return 0;
++    }
++
++    /*
++     * according to the Zynq technical ref. manual UG585 v1.12.2 in
++     * "Clocks" chapter, section 25.10.1 page 705" the range of the divi=
+sor
++     * is [1;63].
++     * So divide the source while avoiding division-by-zero.
++     */
++    return mux[srcsel] / (divisor ? divisor : 1u);
++}
 +
 +/*
-+ * static array describing clocks:
-+ * + a clock input named "clk_in", whose pointer is stored in clk_in
-+ *   field of a MyDeviceState structure with callback clk_in_callback.
-+ * + a clock output named "clk_out" whose pointer is stored in clk_out
-+ *   field of a MyDeviceState structure.
++ * macro helper around zynq_slcr_compute_clock to avoid repeating
++ * the register name.
 + */
-+static const ClockPortInitArray mydev_clocks =3D {
-+    QDEV_CLOCK_IN(MyDeviceState, clk_in, clk_in_callback),
-+    QDEV_CLOCK_OUT(MyDeviceState, clk_out),
++#define ZYNQ_COMPUTE_CLOCK(_state, _plls, _reg, _enable_field) \
++    zynq_slcr_compute_clock((_plls), (_state)->regs[R_ ## _reg], \
++            R_ ## _reg ## _ ## _enable_field ## _SHIFT)
++
++static void zynq_slcr_compute_clocks(ZynqSLCRState *s)
++{
++    uint64_t ps_clk =3D clock_get_frequency(s->ps_clk);
++
++    /* consider all output clocks are disabled while in reset */
++    if (device_is_resetting(DEVICE(s))) {
++        ps_clk =3D 0;
++    }
++
++    uint64_t io_pll =3D zynq_slcr_compute_pll(ps_clk, s->regs[R_IO_PLL_C=
+TRL]);
++    uint64_t arm_pll =3D zynq_slcr_compute_pll(ps_clk, s->regs[R_ARM_PLL=
+_CTRL]);
++    uint64_t ddr_pll =3D zynq_slcr_compute_pll(ps_clk, s->regs[R_DDR_PLL=
+_CTRL]);
++
++    uint64_t uart_mux[4] =3D {io_pll, io_pll, arm_pll, ddr_pll};
++
++    /* compute uartX reference clocks */
++    clock_set_frequency(s->uart0_ref_clk,
++            ZYNQ_COMPUTE_CLOCK(s, uart_mux, UART_CLK_CTRL, CLKACT0));
++    clock_set_frequency(s->uart1_ref_clk,
++            ZYNQ_COMPUTE_CLOCK(s, uart_mux, UART_CLK_CTRL, CLKACT1));
++}
++
++static void zynq_slcr_ps_clk_callback(void *opaque)
++{
++    ZynqSLCRState *s =3D (ZynqSLCRState *) opaque;
++    zynq_slcr_compute_clocks(s);
++}
++
++static void zynq_slcr_reset_init(Object *obj, ResetType type)
+ {
+-    ZynqSLCRState *s =3D ZYNQ_SLCR(d);
++    ZynqSLCRState *s =3D ZYNQ_SLCR(obj);
+     int i;
+=20
+     DB_PRINT("RESET\n");
+@@ -277,6 +383,21 @@ static void zynq_slcr_reset(DeviceState *d)
+     s->regs[R_DDRIOB + 12] =3D 0x00000021;
+ }
+=20
++static void zynq_slcr_reset_hold(Object *obj)
++{
++    ZynqSLCRState *s =3D ZYNQ_SLCR(obj);
++
++    /* will disable all output clocks */
++    zynq_slcr_compute_clocks(s);
++}
++
++static void zynq_slcr_reset_exit(Object *obj)
++{
++    ZynqSLCRState *s =3D ZYNQ_SLCR(obj);
++
++    /* will compute output clocks according to ps_clk and registers */
++    zynq_slcr_compute_clocks(s);
++}
+=20
+ static bool zynq_slcr_check_offset(hwaddr offset, bool rnw)
+ {
+@@ -409,6 +530,12 @@ static void zynq_slcr_write(void *opaque, hwaddr off=
+set,
+             qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+         }
+         break;
++    case R_IO_PLL_CTRL:
++    case R_ARM_PLL_CTRL:
++    case R_DDR_PLL_CTRL:
++    case R_UART_CLK_CTRL:
++        zynq_slcr_compute_clocks(s);
++        break;
+     }
+ }
+=20
+@@ -418,6 +545,13 @@ static const MemoryRegionOps slcr_ops =3D {
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+ };
+=20
++static const ClockPortInitArray zynq_slcr_clocks =3D {
++    QDEV_CLOCK_IN(ZynqSLCRState, ps_clk, zynq_slcr_ps_clk_callback),
++    QDEV_CLOCK_OUT(ZynqSLCRState, uart0_ref_clk),
++    QDEV_CLOCK_OUT(ZynqSLCRState, uart1_ref_clk),
 +    QDEV_CLOCK_END
 +};
 +
-+/* device initialization function */
-+static void mydev_init(Object *obj)
-+{
-+    /* cast to MyDeviceState */
-+    MyDeviceState *mydev =3D MYDEVICE(obj);
-+    /* create and fill the pointer fields in the MyDeviceState */
-+    qdev_init_clocks(mydev, mydev_clocks);
-+    [...]
-+}
+ static void zynq_slcr_init(Object *obj)
+ {
+     ZynqSLCRState *s =3D ZYNQ_SLCR(obj);
+@@ -425,6 +559,8 @@ static void zynq_slcr_init(Object *obj)
+     memory_region_init_io(&s->iomem, obj, &slcr_ops, s, "slcr",
+                           ZYNQ_SLCR_MMIO_SIZE);
+     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
 +
-+Connecting two clocks together
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-+
-+Let's say we have 2 devices A and B. A has an output clock named "clk_ou=
-t" and
-+B has an input clock named "clk_in".
-+
-+The clocks are connected together using the function qdev_connect_clock:
-+qdev_connect_clock(B, "clk_in", A, "clk_out", &error_abort);
-+The device which has the input must be the first argument.
-+
-+It is possible to connect several input clocks to the same output. Every
-+input callback will be called when the output changes.
-+
-+It is not possible to disconnect a clock or to change the clock connecti=
-on
-+after it is done.
-+
-+Unconnected input clocks
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+A newly created input clock has a stored frequency value of 0. It means =
-the
-+clock will be considered as disabled until one sets a new frequency to t=
-he
-+output clock it is connected to. If the clock remains unconnected it wil=
-l
-+always keep its initial value of 0.
-+If this is not the wanted behaviour, clock_init_frequency should be call=
-ed
-+on the ClockIn object during device instance init.
-+For example:
-+clk =3D qdev_init_clock_in(DEVICE(dev), "clk-in", clk_in_callback, dev);
-+clock_init_frequency(clk, 100 * 1000 * 1000); // default value is 100Mhz
-+
-+Using clock input frequency
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-+
-+A device can get the current frequency of an input using the
-+clock_get_frequency(). It returns the last set frequency (or the init va=
-lue).
-+
-+It is also possible to register a callback on input clock frequency chan=
-ges.
-+Here is an example:
-+void clock_callback(void *opaque) {
-+    MyDeviceState *s =3D (MyDeviceState *) opaque;
-+    /*
-+     * opaque may not be the device state pointer, but most probably it =
-is.
-+     * (It depends on what is given to the qdev_init_clock_in function)
-+     */
-+
-+    /* do something with the new frequency */
-+    fprintf(stdout, "device new frequency is %" PRIu64 "Hz\n",
-+                    clock_get_frequency(dev->my_clk_input));
-+}
-+
-+Changing a clock output
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+A device can change its outputs using the clock_set_frequency function. =
-It
-+will trigger updates on every connected inputs.
-+
-+For example, let's say that we have an output clock "clkout" and we have=
- a
-+pointer to it in the device state because we did the following in init p=
-hase:
-+dev->clkout =3D qdev_init_clock_out(DEVICE(dev), "clkout");
-+
-+Then at any time (apart from the cases listed below), it is possible to
-+change the clock value by doing:
-+clock_set_frequency(dev->clkout, 1000 * 1000 * 1000); /* 1Ghz */
-+This operation must be done while holding the qemu io lock.
-+
-+One can change clocks only when it is allowed to have side effects on ot=
-her
-+objects. In consequence, it is forbidden:
-++ during migration,
-++ and in the init phase of reset.
-+
-+Forwarding clocks
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Sometimes, one needs to forward, or inherit, a clock from another device=
-.
-+Typically, when doing device composition, a device might expose a sub-de=
-vice's
-+clock without interfering with it.
-+The function qdev_pass_clock() can be used to achieve this behaviour. No=
-te, that
-+it is possible to expose the clock under a different name. This works fo=
-r both
-+inputs or outputs.
-+
-+For example, if device B is a child of device A, device_a_instance_init =
-may
-+do something like this:
-+void device_a_instance_init(Object *obj)
-+{
-+    AState *A =3D DEVICE_A(obj);
-+    BState *B;
-+    /* create B object as child of A */
-+    [...]
-+    /* forward B's clock to A */
-+    qdev_pass_clock(A, "b_clk", B, "clk");
-+    /*
-+     * Now A has a clock "b_clk" which forwards to
-+     * the "clk" of its child B.
-+     */
-+}
-+
-+This function does not return any clock object. It is not possible to ad=
-d
-+a callback on a forwarded input clock: in the above example, only B can =
-use
-+the clock.
-+
-+Migration
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Only the ClockIn object has a state. ClockOut is not concerned by migrat=
-ion.
-+
-+In case the frequency of in input clock is needed for a device's migrati=
-on,
-+this state must be migrated. The VMSTATE_CLOCKIN macro defines an entry =
-to
-+be added in a vmstate description.
-+
-+For example, if a device has a clock input and the device state looks li=
-ke:
-+MyDeviceState {
-+    DeviceState parent_obj;
-+    ClockIn *clk;
-+};
-+
-+Then, to add the clock frequency to the device's migrated state, the vms=
-tate
-+description is:
-+VMStateDescription my_device_vmstate =3D {
-+    .name =3D "my_device",
-+    .fields =3D (VMStateField[]) {
-+        VMSTATE_CLOCKIN(clk, MyDeviceState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+When adding a input clock support to an existing device, you must care a=
-bout
-+migration compatibility. To this end, you can use the clock_init_frequen=
-cy in
-+a pre_load function to setup a default value in case the source vm does =
-not
-+migrate the frequency.
++    qdev_init_clocks(DEVICE(obj), zynq_slcr_clocks);
+ }
+=20
+ static const VMStateDescription vmstate_zynq_slcr =3D {
+@@ -440,9 +576,12 @@ static const VMStateDescription vmstate_zynq_slcr =3D=
+ {
+ static void zynq_slcr_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
++    ResettableClass *rc =3D RESETTABLE_CLASS(klass);
+=20
+     dc->vmsd =3D &vmstate_zynq_slcr;
+-    dc->reset =3D zynq_slcr_reset;
++    rc->phases.init =3D zynq_slcr_reset_init;
++    rc->phases.hold =3D zynq_slcr_reset_hold;
++    rc->phases.exit =3D zynq_slcr_reset_exit;
+ }
+=20
+ static const TypeInfo zynq_slcr_info =3D {
 --=20
 2.22.0
 
