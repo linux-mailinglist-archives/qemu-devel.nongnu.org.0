@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39512A86EC
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:22:17 +0200 (CEST)
-Received: from localhost ([::1]:35734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73120A86EE
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:23:00 +0200 (CEST)
+Received: from localhost ([::1]:35742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5Yz1-0007cI-Nm
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:22:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48433)
+	id 1i5Yzi-000061-SO
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:22:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48480)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqY-0001RE-TA
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:32 -0400
+ id 1i5Yqc-0001YD-Hj
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqX-00072i-MZ
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:30 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45878)
+ id 1i5Yqb-00075V-25
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:34 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37644)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1i5YqX-00072B-FN; Wed, 04 Sep 2019 13:13:29 -0400
-Received: by mail-wr1-x441.google.com with SMTP id l16so3792997wrv.12;
- Wed, 04 Sep 2019 10:13:29 -0700 (PDT)
+ id 1i5Yqa-000751-S2; Wed, 04 Sep 2019 13:13:32 -0400
+Received: by mail-wm1-x342.google.com with SMTP id r195so4717954wme.2;
+ Wed, 04 Sep 2019 10:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1eynEPflF1e1UUeOg/DcqC+CT8yj8xk66WHwIPsvafI=;
- b=VJrJq6GTewwRk9jGNCp+yxTdikKnPNc1rf1niLHL8r3agvwLJbtqOXuZHEN6JUdGvY
- inluAryNWD/heqaXwr02jlJxeM2NFNObbscUYHi4yGvoR4Q3SbWvsf3wDkZFOqZ9y2ny
- um8aOTfAw2y8epiFPxlIF6q98xgYxQ4sDR/7ffw+TvVP/x6zeVbxjUbJCjk44RAfyua2
- ve5DZUyHeGMwJwzNPic2AK3hCH+EeZ3m+YEgKRhF32bDGYTaRyxB4XEGz+a6STmuq41/
- 6+q/ypSYV1KXeZNiDNjOBm3InswiSOKxSgiLBcp+aAWRWrNn5YJsgPUAXhPMLFpqb0BQ
- zIxA==
+ bh=rh2gl72em/tjXVFRsaWM/1jTRmVaVLHat+KG0haXObM=;
+ b=lhUAS8ekgrhb2YBCg6uJiK0BpLMJlzFP5Y4tplYbjP7LLo9u1IeBqnnbOlq4R0akTe
+ 4HI/fFR2/wX3bfd+7Asbrtf3w5CnTDhsE1pd1VD0DqXvHlTTB2NeIp87ByEgqW3MpT0X
+ jsXMlfF0Yi3eDrqF4K4+fERR+lqPUsXr8r2RSKQoadaeVFICqGEEL+5XhyhBgGTdUZf2
+ YUQBNU22/67yTP12ZII2BaR0Cofh0+kLTBWu7Y5mQbt41ihGyEwyfxXn9icn1MfI0juX
+ Ynh9iVpD/exBwF12nBFMUXTL0Xg/Ps48/uES7Zk7HG0owdWMZ0rHuXPbmsGXQugyw2vO
+ sufA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1eynEPflF1e1UUeOg/DcqC+CT8yj8xk66WHwIPsvafI=;
- b=So6CpoFraA6ty3usiZw7/AMio7ZXCM9a2eeQBJlu1dZh8exC0JMxItoSELJZw/7zX4
- qtlFoW8xcsOfzyMjxLpdS4kPZpQc9NIlzEIPR7TDNGAK6ouamqfZW8Z+G86FGCHNLmbJ
- NAA2cGuu0G/JXL14ODw6o+qHXuLej0XKDqSIsVwp8tKWwmPVG0I8ZBPRZsxu9OLaAiUe
- uarOOwplSIyUNNsul3JtIx5U7sJ29eNuYJpMS/jGvrexx6bxIaJeu6mnVF/eh7kirshc
- Xk0vwBUm5yROpfdNm7Bf/NBsH9ERu4qRgMK25Z83K2UdxMUtAwoWuWauqREVj+8m24Xx
- K9Bg==
-X-Gm-Message-State: APjAAAUlAstgfvOp785WN4/Otk1WQAbaWL8wEBgVt53wgN4XaKPGjSt/
- NnPfI22eEdsHuW5xaoJekoM=
-X-Google-Smtp-Source: APXvYqweDvge05OfkFn6VpTh3kWu8MIrRmDSBzbKOdRwEqMAl8rDBQu/7YQHq4LNVVg/7ak/mwygsw==
-X-Received: by 2002:a05:6000:12:: with SMTP id
- h18mr14702283wrx.156.1567617208542; 
- Wed, 04 Sep 2019 10:13:28 -0700 (PDT)
+ bh=rh2gl72em/tjXVFRsaWM/1jTRmVaVLHat+KG0haXObM=;
+ b=mkSUnQDP/HqCoc5cSEpGXY8hPhUI2okOVEteIs+M1UkK+kdmwnfLf4ijVB4xW6+KDW
+ zjhIdeDsjm4uccmIo48gj/JViFIb5A8jRCNaDAAvQVnC6JCd1NNIpe281SYjBDV2V1R2
+ jUHidJ58kqs9q0KdLOf6cXkySTE6t0NMBnyaZvOfGlwIzjtgdFAlRGqtZdbvYErfbBzW
+ H2iF7Co/EuTmBydHPRiq1xSWSporaHPJzjglaKtQWK6j36spMV9gQJapygSVLx8W/3DR
+ U9Q907Puja608u/Xy29eJvbWKpMXOAWI21YGYw5tium7zSt4J5onReIHD7nYHkrHPgr8
+ 0mpg==
+X-Gm-Message-State: APjAAAW3MKjIKDsbSCrjbmMkDD20+6KqqdTEsWYDFKGs7jhUbEghMzO7
+ wnurGF/V1OcHRgVtHOa6A5A=
+X-Google-Smtp-Source: APXvYqz4fkbLPQxYcZXgFFK4U7kI2lCstCrBXaq1TWOm3de6s15rtHEGSg5OSpbVcasgfxg9YW3E5A==
+X-Received: by 2002:a1c:ca0b:: with SMTP id a11mr4788910wmg.87.1567617211973; 
+ Wed, 04 Sep 2019 10:13:31 -0700 (PDT)
 Received: from x1w.redhat.com ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.26
+ by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 10:13:27 -0700 (PDT)
+ Wed, 04 Sep 2019 10:13:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Esteban Bosse <estebanbosse@gmail.com>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-devel@nongnu.org,
  Pekka Enberg <penberg@iki.fi>,
  =?UTF-8?q?Zolt=C3=A1n=20Baldaszti?= <bztemail@gmail.com>
-Date: Wed,  4 Sep 2019 19:13:07 +0200
-Message-Id: <20190904171315.8354-7-f4bug@amsat.org>
+Date: Wed,  4 Sep 2019 19:13:09 +0200
+Message-Id: <20190904171315.8354-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190904171315.8354-1-f4bug@amsat.org>
 References: <20190904171315.8354-1-f4bug@amsat.org>
@@ -72,8 +71,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH 06/14] hw/arm/bcm2835: Rename some definitions
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH 08/14] hw/arm/bcm2836: Make the SoC code modular
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,66 +93,84 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The UART1 is part of the AUX peripheral,
-the PCM_CLOCK (yet unimplemented) is part of the CPRMAN.
+This file creates the BCM2836/BCM2837 blocks.
+The biggest differences with the BCM2838 we are going to add, are
+the base addresses of the interrupt controller and the peripherals.
+Add these addresses in the BCM283XInfo structure to make this
+block more modular. Remove the MCORE_OFFSET offset as it is
+not useful and rather confusing.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/bcm2835_peripherals.c    | 4 ++--
- include/hw/arm/raspi_platform.h | 8 ++++----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ hw/arm/bcm2836.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 8984e2e91f..270357b5a8 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -175,7 +175,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
+index 493a913f89..019e67b906 100644
+--- a/hw/arm/bcm2836.c
++++ b/hw/arm/bcm2836.c
+@@ -16,15 +16,11 @@
+ #include "hw/arm/raspi_platform.h"
+ #include "hw/sysbus.h"
+ 
+-/* Peripheral base address seen by the CPU */
+-#define BCM2836_PERI_BASE       0x3F000000
+-
+-/* "QA7" (Pi2) interrupt controller and mailboxes etc. */
+-#define BCM2836_CONTROL_BASE    0x40000000
+-
+ struct BCM283XInfo {
+     const char *name;
+     const char *cpu_type;
++    hwaddr peri_base; /* Peripheral base address seen by the CPU */
++    hwaddr ctrl_base; /* Interrupt controller and mailboxes etc. */
+     int clusterid;
+ };
+ 
+@@ -32,12 +28,16 @@ static const BCM283XInfo bcm283x_socs[] = {
+     {
+         .name = TYPE_BCM2836,
+         .cpu_type = ARM_CPU_TYPE_NAME("cortex-a7"),
++        .peri_base = 0x3f000000,
++        .ctrl_base = 0x40000000,
+         .clusterid = 0xf,
+     },
+ #ifdef TARGET_AARCH64
+     {
+         .name = TYPE_BCM2837,
+         .cpu_type = ARM_CPU_TYPE_NAME("cortex-a53"),
++        .peri_base = 0x3f000000,
++        .ctrl_base = 0x40000000,
+         .clusterid = 0x0,
+     },
+ #endif
+@@ -104,7 +104,7 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->peripherals), 0,
+-                            BCM2836_PERI_BASE, 1);
++                            info->peri_base, 1);
+ 
+     /* bcm2836 interrupt controller (and mailboxes, etc.) */
+     object_property_set_bool(OBJECT(&s->control), true, "realized", &err);
+@@ -113,7 +113,7 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
          return;
      }
  
--    memory_region_add_subregion(&s->peri_mr, UART1_OFFSET,
-+    memory_region_add_subregion(&s->peri_mr, AUX_OFFSET,
-                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->aux), 0));
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->aux), 0,
-         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-@@ -268,7 +268,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-         return;
-     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->control), 0, BCM2836_CONTROL_BASE);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->control), 0, info->ctrl_base);
  
--    memory_region_add_subregion(&s->peri_mr, EMMC_OFFSET,
-+    memory_region_add_subregion(&s->peri_mr, EMMC1_OFFSET,
-                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->sdhci), 0));
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdhci), 0,
-         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
-index 10083d33df..6f7db85bab 100644
---- a/include/hw/arm/raspi_platform.h
-+++ b/include/hw/arm/raspi_platform.h
-@@ -39,7 +39,7 @@
-                                                       * Doorbells & Mailboxes */
- #define PM_OFFSET               0x100000 /* Power Management, Reset controller
-                                           * and Watchdog registers */
--#define PCM_CLOCK_OFFSET        0x101098
-+#define CPRMAN_OFFSET           0x101000 /* Clock Management */
- #define RNG_OFFSET              0x104000
- #define GPIO_OFFSET             0x200000
- #define UART0_OFFSET            0x201000
-@@ -47,11 +47,11 @@
- #define I2S_OFFSET              0x203000
- #define SPI0_OFFSET             0x204000
- #define BSC0_OFFSET             0x205000 /* BSC0 I2C/TWI */
--#define UART1_OFFSET            0x215000
--#define EMMC_OFFSET             0x300000
-+#define AUX_OFFSET              0x215000 /* AUX: UART1/SPI1/SPI2 */
-+#define EMMC1_OFFSET            0x300000
- #define SMI_OFFSET              0x600000
- #define BSC1_OFFSET             0x804000 /* BSC1 I2C/TWI */
--#define USB_OFFSET              0x980000 /* DTC_OTG USB controller */
-+#define USB_OTG_OFFSET          0x980000 /* DTC_OTG USB controller */
- #define DMA15_OFFSET            0xE05000 /* DMA controller, channel 15 */
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 0,
+         qdev_get_gpio_in_named(DEVICE(&s->control), "gpu-irq", 0));
+@@ -126,7 +126,7 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
  
- /* GPU interrupts */
+         /* set periphbase/CBAR value for CPU-local registers */
+         object_property_set_int(OBJECT(&s->cpus[n]),
+-                                BCM2836_PERI_BASE + MCORE_OFFSET,
++                                info->peri_base,
+                                 "reset-cbar", &err);
+         if (err) {
+             error_propagate(errp, err);
 -- 
 2.20.1
 
