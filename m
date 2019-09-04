@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A90A92D9
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:12:44 +0200 (CEST)
-Received: from localhost ([::1]:38500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9441A92EF
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:18:48 +0200 (CEST)
+Received: from localhost ([::1]:38586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5bdz-00067A-Nt
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40804)
+	id 1i5bjr-0002zz-Kh
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:18:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40820)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0X-0005Cz-ID
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0Y-0005De-38
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0U-0002nz-FD
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0V-0002p0-Fu
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:57 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:36488)
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:36838)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5b0U-0002mt-5c
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:54 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id y22so8278107pfr.3
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:31:53 -0700 (PDT)
+ id 1i5b0V-0002oD-6x
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:31:55 -0400
+Received: by mail-pf1-x444.google.com with SMTP id y22so8278172pfr.3
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:31:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=fNVbTJv60xmJj9T6kktIzTW/0WXFeS41CSEU1hxli/Q=;
- b=R0l99mDmG8Bhz7FJaVV83gZVzSWNzXbKZ2JcXFi35aYnjpBekNK8r+sH1vHvnXzdHv
- zEt4oIRXbQMNWQwaCIS2Uyn+hvvIdRHtznBz7S12BcdyqwqK00jFm1HpWYoXwsFSE9Q3
- JYN9DM3JxD3xLfp1tel9AmIPN05x+fzrWblj7afz6aqPGuy1+tlRgL5jcKm17iurJyOZ
- +9MZ0RAdXl4r+1Qx+6J6nPPiHQEzYt3EC+BDPUFRNs15p1Gt0u6Z4O+vdRWSDvvccCI4
- j/cocG/75N/5SbuX4QVT5it9/jlUNul8B3xJKMugOgs8eCAQFLTushhSvOoj08iVAWgx
- ioPA==
+ bh=bRqYq2TLJ+WIjlJfH/2hIAtxOVh3ChiZfI3nAvVSmQE=;
+ b=iRb1/wXKxZU+WH6cNoOPPE5ajNFKlx1uJ2+hVuPfjqFHjBEk0jz1T+w9rM4cyydPB5
+ EgEVrmaGhx078DRYd78x9KDvO53i2785IeiT4DzWbP6t8gekmX2VPMGOY2/uK54d+WDg
+ J7fUy/pmqBIlYfcuY3MH1HMHKSXYM9T1oHezV8zmvNZ/DCbBf+2DVe7zUYrjjlaNQuHG
+ aooOtLGhp+zPkr4f3LsQVjKO2BOZlZ5K93OWB/seJNuKHBai4eZMTMZjRNIIwpegdwDI
+ U/hNvDa+VSo1a2OtZIebBWTAfjZp9sq18l1iXQe03OFMyyjBqIpJFnYDVdPp8yO3nAcX
+ jEKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=fNVbTJv60xmJj9T6kktIzTW/0WXFeS41CSEU1hxli/Q=;
- b=jy9W55+zZNvd+HFSvlBdxDBDuu9z3fIBPorthj+CQeeRxKk0hBPBa2d5mq9w6NTR44
- B5zLvokY2WSiYblZCJp2k4bpomKayhcMfZ/SylswNgWlYQpjtlg7/2auIeJMe+bseIhz
- eEpFc4brr6+B/ejJtdyG8DReMUoUoW5WnpEy0Jd/Fqsf8/MxitqrSmqRqBaQON55sW4k
- rlwDxBeJ5RLB8qjqmo5WPZW6PyoqxwRSf1I+SOmJpHuc0auUhxgUSA43/Wrba77MkPCI
- fDwTT3hXDpI4qqcbhfTxelh7wg6WBTJs5h55g20DOH63sfBE6PFAXmOcaEZENztF72PN
- OhGg==
-X-Gm-Message-State: APjAAAW6NO+Sc8uWzYI9Y8NIbgCypaiVqLKS2l6EFoVXRtUWpIwiS/0A
- Rau4C4S4c1KSkSyL0bfWp3IVpOwnZS4=
-X-Google-Smtp-Source: APXvYqydGdInQz3GcqSi3R7G42d78YIYmjPmpSqdirJ4E4LYpfu4oW9s3WTciwQJgzmp5NaL1YcK3A==
-X-Received: by 2002:a17:90a:cf0b:: with SMTP id
- h11mr6642189pju.95.1567625512623; 
- Wed, 04 Sep 2019 12:31:52 -0700 (PDT)
+ bh=bRqYq2TLJ+WIjlJfH/2hIAtxOVh3ChiZfI3nAvVSmQE=;
+ b=IXKT9TsvWbrE3SNIXrEJY3HBFTv++5aTblOhm+2tHAj9UwVg8P8YC1qA0r9jj8xFr2
+ VzWJa4piM5FKRmDQ1QVTHa1cutjjb5XQcwFSgyBnkRf0LCZA9QoxO77snm5Uxmc7cLio
+ /a2KbLW9j62US67avM+PmNkog2AwJyivQtM5cWjhbFvj82oHdUH8l6CI2Zvylq1eeDbi
+ 8C8WAZ7La3vHGbK00lA4/SAGhZaHTF+OD6AzzxZ9nlyQ9h6Y+VoRbbAbOVL6qSY/MtMq
+ 4PouwrPfipxiguBpPJpptXt/nTF0+9FPsf6wCIW63awhRw8ALjEN68gEsq0gtBFWORgb
+ JUVQ==
+X-Gm-Message-State: APjAAAXPdW7NSCjwIwlAWMmwUe6vf74u5VwkPgVpNhxGd/Fc5+jVFfE5
+ D18opc3P76V86ZQ8Hd4TCB+Gw8RH/ng=
+X-Google-Smtp-Source: APXvYqwdwCm/L5Pm9JDrtMYyHek472nzxNwi3rii63fpU0BfyfXqrf2U+9S773i2khK72IyEBc06jw==
+X-Received: by 2002:a63:1b66:: with SMTP id b38mr36618239pgm.54.1567625513742; 
+ Wed, 04 Sep 2019 12:31:53 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.31.51
+ by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.31.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 12:31:51 -0700 (PDT)
+ Wed, 04 Sep 2019 12:31:52 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 12:30:30 -0700
-Message-Id: <20190904193059.26202-41-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 12:30:31 -0700
+Message-Id: <20190904193059.26202-42-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904193059.26202-1-richard.henderson@linaro.org>
 References: <20190904193059.26202-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::42e
-Subject: [Qemu-devel] [PATCH v4 40/69] target/arm: Convert Table Branch
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v4 41/69] target/arm: Convert SG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,125 +82,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 57 +++++++++++++++++++++++++-----------------
- target/arm/t32.decode  |  8 +++++-
- 2 files changed, 41 insertions(+), 24 deletions(-)
+ target/arm/translate.c | 51 ++++++++++++++++++++++++------------------
+ target/arm/t32.decode  |  5 ++++-
+ 2 files changed, 33 insertions(+), 23 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 7023ee78f1..96149eabf4 100644
+index 96149eabf4..af7eddca48 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -10081,6 +10081,37 @@ static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
+@@ -8467,6 +8467,34 @@ static bool trans_SMC(DisasContext *s, arg_SMC *a)
      return true;
  }
  
-+static bool op_tbranch(DisasContext *s, arg_tbranch *a, bool half)
++static bool trans_SG(DisasContext *s, arg_SG *a)
 +{
-+    TCGv_i32 addr, tmp;
-+
-+    tmp = load_reg(s, a->rm);
-+    if (half) {
-+        tcg_gen_add_i32(tmp, tmp, tmp);
++    if (!arm_dc_feature(s, ARM_FEATURE_M) ||
++        !arm_dc_feature(s, ARM_FEATURE_V8)) {
++        return false;
 +    }
-+    addr = load_reg(s, a->rn);
-+    tcg_gen_add_i32(addr, addr, tmp);
-+
-+    gen_aa32_ld_i32(s, tmp, addr, get_mem_index(s),
-+                    half ? MO_UW | s->be_data : MO_UB);
-+    tcg_temp_free_i32(addr);
-+
-+    tcg_gen_add_i32(tmp, tmp, tmp);
-+    tcg_gen_addi_i32(tmp, tmp, read_pc(s));
-+    store_reg(s, 15, tmp);
++    /*
++     * SG (v8M only)
++     * The bulk of the behaviour for this instruction is implemented
++     * in v7m_handle_execute_nsc(), which deals with the insn when
++     * it is executed by a CPU in non-secure state from memory
++     * which is Secure & NonSecure-Callable.
++     * Here we only need to handle the remaining cases:
++     *  * in NS memory (including the "security extension not
++     *    implemented" case) : NOP
++     *  * in S memory but CPU already secure (clear IT bits)
++     * We know that the attribute for the memory this insn is
++     * in must match the current CPU state, because otherwise
++     * get_phys_addr_pmsav8 would have generated an exception.
++     */
++    if (s->v8m_secure) {
++        /* Like the IT insn, we don't need to generate any code */
++        s->condexec_cond = 0;
++        s->condexec_mask = 0;
++    }
 +    return true;
 +}
 +
-+static bool trans_TBB(DisasContext *s, arg_tbranch *a)
-+{
-+    return op_tbranch(s, a, false);
-+}
-+
-+static bool trans_TBH(DisasContext *s, arg_tbranch *a)
-+{
-+    return op_tbranch(s, a, true);
-+}
-+
  /*
-  * Supervisor call
+  * Load/store register index
   */
-@@ -10466,9 +10497,7 @@ static bool thumb_insn_is_16bit(DisasContext *s, uint32_t pc, uint32_t insn)
- /* Translate a 32-bit thumb instruction. */
- static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
- {
--    uint32_t rd, rn, rm, rs;
--    TCGv_i32 tmp;
--    TCGv_i32 addr;
-+    uint32_t rd, rn, rs;
-     int op;
- 
-     /*
-@@ -10514,7 +10543,6 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-     rn = (insn >> 16) & 0xf;
-     rs = (insn >> 12) & 0xf;
-     rd = (insn >> 8) & 0xf;
--    rm = insn & 0xf;
-     switch ((insn >> 25) & 0xf) {
-     case 0: case 1: case 2: case 3:
-         /* 16-bit instructions.  Should never happen.  */
-@@ -10587,25 +10615,8 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                 /* Load/store exclusive, in decodetree */
-                 goto illegal_op;
-             } else if ((insn & (7 << 5)) == 0) {
--                /* Table Branch.  */
--                addr = load_reg(s, rn);
--                tmp = load_reg(s, rm);
--                tcg_gen_add_i32(addr, addr, tmp);
--                if (insn & (1 << 4)) {
--                    /* tbh */
--                    tcg_gen_add_i32(addr, addr, tmp);
--                    tcg_temp_free_i32(tmp);
--                    tmp = tcg_temp_new_i32();
--                    gen_aa32_ld16u(s, tmp, addr, get_mem_index(s));
--                } else { /* tbb */
--                    tcg_temp_free_i32(tmp);
--                    tmp = tcg_temp_new_i32();
--                    gen_aa32_ld8u(s, tmp, addr, get_mem_index(s));
+@@ -10553,28 +10581,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+              * - load/store doubleword, load/store exclusive, ldacq/strel,
+              *   table branch, TT.
+              */
+-            if (insn == 0xe97fe97f && arm_dc_feature(s, ARM_FEATURE_M) &&
+-                arm_dc_feature(s, ARM_FEATURE_V8)) {
+-                /* 0b1110_1001_0111_1111_1110_1001_0111_111
+-                 *  - SG (v8M only)
+-                 * The bulk of the behaviour for this instruction is implemented
+-                 * in v7m_handle_execute_nsc(), which deals with the insn when
+-                 * it is executed by a CPU in non-secure state from memory
+-                 * which is Secure & NonSecure-Callable.
+-                 * Here we only need to handle the remaining cases:
+-                 *  * in NS memory (including the "security extension not
+-                 *    implemented" case) : NOP
+-                 *  * in S memory but CPU already secure (clear IT bits)
+-                 * We know that the attribute for the memory this insn is
+-                 * in must match the current CPU state, because otherwise
+-                 * get_phys_addr_pmsav8 would have generated an exception.
+-                 */
+-                if (s->v8m_secure) {
+-                    /* Like the IT insn, we don't need to generate any code */
+-                    s->condexec_cond = 0;
+-                    s->condexec_mask = 0;
 -                }
--                tcg_temp_free_i32(addr);
--                tcg_gen_shli_i32(tmp, tmp, 1);
--                tcg_gen_addi_i32(tmp, tmp, read_pc(s));
--                store_reg(s, 15, tmp);
-+                /* Table Branch, in decodetree */
-+                goto illegal_op;
-             } else {
-                 /* Load/store exclusive, load-acq/store-rel, in decodetree */
+-            } else if (insn & 0x01200000) {
++            if (insn & 0x01200000) {
+                 /* load/store dual, in decodetree */
                  goto illegal_op;
+             } else if ((insn & (1 << 23)) == 0) {
 diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 11a9a2ef58..d05673ff3e 100644
+index d05673ff3e..c956ddb254 100644
 --- a/target/arm/t32.decode
 +++ b/target/arm/t32.decode
-@@ -489,7 +489,7 @@ LDRD_ri_t32      1110 1001 .101 .... .... .... ........    @ldstd_ri8 w=0 p=1
+@@ -487,7 +487,10 @@ STRD_ri_t32      1110 1001 .100 .... .... .... ........    @ldstd_ri8 w=0 p=1
+ LDRD_ri_t32      1110 1001 .101 .... .... .... ........    @ldstd_ri8 w=0 p=1
+ 
  STRD_ri_t32      1110 1001 .110 .... .... .... ........    @ldstd_ri8 w=1 p=1
- LDRD_ri_t32      1110 1001 .111 .... .... .... ........    @ldstd_ri8 w=1 p=1
+-LDRD_ri_t32      1110 1001 .111 .... .... .... ........    @ldstd_ri8 w=1 p=1
++{
++  SG             1110 1001 0111 1111 1110 1001 01111111
++  LDRD_ri_t32    1110 1001 .111 .... .... .... ........    @ldstd_ri8 w=1 p=1
++}
  
--# Load/Store Exclusive and Load-Acquire/Store-Release
-+# Load/Store Exclusive, Load-Acquire/Store-Release, and Table Branch
+ # Load/Store Exclusive, Load-Acquire/Store-Release, and Table Branch
  
- @strex_i         .... .... .... rn:4 rt:4 rd:4 .... .... \
-                  &strex rt2=15 imm=%imm8x4
-@@ -533,6 +533,12 @@ LDA              1110 1000 1101 .... .... 1111 1010 1111      @ldrex_0
- LDAB             1110 1000 1101 .... .... 1111 1000 1111      @ldrex_0
- LDAH             1110 1000 1101 .... .... 1111 1001 1111      @ldrex_0
- 
-+&tbranch         rn rm
-+@tbranch         .... .... .... rn:4 .... .... .... rm:4      &tbranch
-+
-+TBB              1110 1000 1101 .... 1111 0000 0000 ....      @tbranch
-+TBH              1110 1000 1101 .... 1111 0000 0001 ....      @tbranch
-+
- # Parallel addition and subtraction
- 
- SADD8            1111 1010 1000 .... 1111 .... 0000 ....      @rndm
 -- 
 2.17.1
 
