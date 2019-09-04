@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86B2A7F24
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 11:19:02 +0200 (CEST)
-Received: from localhost ([::1]:54928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0116A7F22
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 11:18:50 +0200 (CEST)
+Received: from localhost ([::1]:54924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5RRN-0001Je-CV
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 05:19:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40675)
+	id 1i5RRB-0001EY-1d
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 05:18:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40677)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i5RKH-0003x0-5b
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i5RKH-0003xF-5J
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:11:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i5RKF-0004n2-BV
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1i5RKF-0004nC-Df
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 05:11:40 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47460)
+Received: from relay.sw.ru ([185.231.240.75]:47474)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1i5RKE-0004kt-Ue; Wed, 04 Sep 2019 05:11:39 -0400
+ id 1i5RKF-0004kx-0o; Wed, 04 Sep 2019 05:11:39 -0400
 Received: from [172.16.25.136] (helo=dhcp-172-16-25-136.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1i5RKC-000708-5Y; Wed, 04 Sep 2019 12:11:36 +0300
+ id 1i5RKC-000708-CI; Wed, 04 Sep 2019 12:11:36 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Wed,  4 Sep 2019 12:11:22 +0300
-Message-Id: <1567588284-975381-5-git-send-email-andrey.shinkevich@virtuozzo.com>
+Date: Wed,  4 Sep 2019 12:11:23 +0300
+Message-Id: <1567588284-975381-6-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1567588284-975381-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1567588284-975381-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v8 4/6] iotests: Valgrind fails with
- nonexistent directory
+Subject: [Qemu-devel] [PATCH v8 5/6] iotests: extended timeout under Valgrind
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,32 +51,75 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Valgrind uses the exported variable TMPDIR and fails if the
-directory does not exist. Let us exclude such a test case from
-being run under the Valgrind and notify the user of it.
+As the iotests run longer under the Valgrind, the QEMU_COMM_TIMEOUT is
+to be increased in the test cases 028, 183 and 192 when running under
+the Valgrind.
 
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
+Suggested-by: Roman Kagan <rkagan@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/051 | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/qemu-iotests/028 | 6 +++++-
+ tests/qemu-iotests/183 | 9 ++++++++-
+ tests/qemu-iotests/192 | 6 +++++-
+ 3 files changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
-index ce942a5..53bcdbc 100755
---- a/tests/qemu-iotests/051
-+++ b/tests/qemu-iotests/051
-@@ -377,6 +377,10 @@ printf %b "qemu-io $device_id \"write -P 0x33 0 4k\"\ncommit $device_id\n" |
- $QEMU_IO -c "read -P 0x33 0 4k" "$TEST_IMG" | _filter_qemu_io
- 
- # Using snapshot=on with a non-existent TMPDIR
-+if [ "${VALGRIND_QEMU_VM}" == "y" ]; then
-+    _casenotrun "Valgrind needs a valid TMPDIR for itself"
+diff --git a/tests/qemu-iotests/028 b/tests/qemu-iotests/028
+index 01f4959..71301ec 100755
+--- a/tests/qemu-iotests/028
++++ b/tests/qemu-iotests/028
+@@ -110,7 +110,11 @@ echo
+ qemu_comm_method="monitor"
+ _launch_qemu -drive file="${TEST_IMG}",cache=${CACHEMODE},id=disk
+ h=$QEMU_HANDLE
+-QEMU_COMM_TIMEOUT=1
++if [ "${VALGRIND_QEMU}" == "y" ]; then
++    QEMU_COMM_TIMEOUT=7
++else
++    QEMU_COMM_TIMEOUT=1
 +fi
-+VALGRIND_QEMU_VM= \
- TMPDIR=/nonexistent run_qemu -drive driver=null-co,snapshot=on
  
- # Using snapshot=on together with read-only=on
+ # Silence output since it contains the disk image path and QEMU's readline
+ # character echoing makes it very hard to filter the output. Plus, there
+diff --git a/tests/qemu-iotests/183 b/tests/qemu-iotests/183
+index fbe5a99..04fb344 100755
+--- a/tests/qemu-iotests/183
++++ b/tests/qemu-iotests/183
+@@ -94,8 +94,15 @@ if echo "$reply" | grep "compiled without old-style" > /dev/null; then
+     _notrun "migrate -b support not compiled in"
+ fi
+ 
+-QEMU_COMM_TIMEOUT=0.1 qemu_cmd_repeat=50 silent=yes \
++timeout_comm=$QEMU_COMM_TIMEOUT
++if [ "${VALGRIND_QEMU}" == "y" ]; then
++    QEMU_COMM_TIMEOUT=4
++else
++    QEMU_COMM_TIMEOUT=0.1
++fi
++qemu_cmd_repeat=50 silent=yes \
+     _send_qemu_cmd $src "{ 'execute': 'query-migrate' }" '"status": "completed"'
++QEMU_COMM_TIMEOUT=$timeout_comm
+ _send_qemu_cmd $src "{ 'execute': 'query-status' }" "return"
+ 
+ echo
+diff --git a/tests/qemu-iotests/192 b/tests/qemu-iotests/192
+index 6193257..0344322 100755
+--- a/tests/qemu-iotests/192
++++ b/tests/qemu-iotests/192
+@@ -60,7 +60,11 @@ fi
+ qemu_comm_method="monitor"
+ _launch_qemu -drive $DRIVE_ARG -incoming defer
+ h=$QEMU_HANDLE
+-QEMU_COMM_TIMEOUT=1
++if [ "${VALGRIND_QEMU}" == "y" ]; then
++    QEMU_COMM_TIMEOUT=7
++else
++    QEMU_COMM_TIMEOUT=1
++fi
+ 
+ _send_qemu_cmd $h "nbd_server_start unix:$TEST_DIR/nbd" "(qemu)"
+ _send_qemu_cmd $h "nbd_server_add -w drive0" "(qemu)"
 -- 
 1.8.3.1
 
