@@ -2,64 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4704A8613
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 17:33:38 +0200 (CEST)
-Received: from localhost ([::1]:34470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C96A861A
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 17:36:34 +0200 (CEST)
+Received: from localhost ([::1]:34552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5XHs-0007Kf-Gs
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 11:33:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60325)
+	id 1i5XKj-0002Xe-If
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 11:36:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60364)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5XDd-0005c7-SY
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 11:29:14 -0400
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1i5XDr-0005sf-1x
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 11:29:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5XDc-0002vE-Iu
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 11:29:13 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42789)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5XDc-0002up-D5
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 11:29:12 -0400
-Received: by mail-ot1-x344.google.com with SMTP id c10so9646149otd.9
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 08:29:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XPiysgzzrlwavoBUqF0ZebF8dpHpsfevKm0wvL+5BIg=;
- b=LqxOifj4VDOq4X0Zjx1P6moqAtFDzGjv+nOA8TLau0uGAjL8/x0ZoqYwONK+SCg240
- 4EECn5pjxcmq1BeifRcDsG9xI5yX9n6D3nm+jlcG674UACvlRYdcTBWvc7+uZS4XcOxP
- 3Kv8TNO5JlzVkfmHV0wpnDYr7WjkXoV24LGJL9mTAFCS3jvH2XbZKkOOh43A68rXfsFI
- QgTvjNzNID/SMvp9tL4yInoiq/FWOvZUN12IfSh9s+4HK8iP2V6+vqTU3ELhvnvmq5dE
- Wib9BhrvempQ+WAg+2t5UCSfF/GisYLo6uGenfCSOR788ZNCoUhGNoV275MdHXmQasO7
- VbNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XPiysgzzrlwavoBUqF0ZebF8dpHpsfevKm0wvL+5BIg=;
- b=kzdsYgIfsbwjIstQS+OlHmGj1MN3dYGmMMmRdus9CNqtEMCpIXniw5VcD9ZZCVRQCJ
- dA69ejLuJ+urWHFn4GbYJYOoSAP/joF/scEkVk6N8NdrSV6gO1utmqk25Shgs1pyFivl
- 1eM7rdoK2K0ujqtmy2/0fdOT58/vZz0g30nvz9ayV3F2J5Fx85vtf3Q2kBu6cAoNC6ZB
- PFs9mU0yB9yxdJ4AV4oweVrIRrLXdueEPC2zqrCk8FfbZKuoj1JCnHEhc6I8QosROrYk
- Ie4Wkii/ix2FbNYkiq7T4fr+mXn+JBckuQqxF41LpGvuQHTzcbmuPqcQX/iUqGieqBE3
- OUaw==
-X-Gm-Message-State: APjAAAVyhy7ltoKaciVBSr4C0LlHTLOtQ6lMOmtYdW62iSwjc3mmh6t1
- VjxniCQ7BFEVtxtBtj6T11NRXz+iPC4wEFd0zwVHJg==
-X-Google-Smtp-Source: APXvYqwUmFP1ztTG6k/Mh7CRAwVveunOgK5dfJwWMEAsbvA1QY31i33KDkAjPUUoPrKbvFrEAyh5x5SoWQwObaGVEoY=
-X-Received: by 2002:a9d:5e11:: with SMTP id d17mr34244058oti.135.1567610951615; 
- Wed, 04 Sep 2019 08:29:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190904062915.6488-1-quintela@redhat.com>
-In-Reply-To: <20190904062915.6488-1-quintela@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Sep 2019 16:29:00 +0100
-Message-ID: <CAFEAcA-U5xAn9TYGb6KRxkFiHy7nn5s73VsyhAGifnVmWBMUDA@mail.gmail.com>
-To: Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PULL 0/5] Fail patches
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1i5XDp-00030w-HU
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 11:29:26 -0400
+Received: from relay.sw.ru ([185.231.240.75]:60746)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1i5XDp-0002zr-9x; Wed, 04 Sep 2019 11:29:25 -0400
+Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1i5XDm-0000Me-Kg; Wed, 04 Sep 2019 18:29:22 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: armbru@redhat.com,
+	qemu-devel@nongnu.org
+Date: Wed,  4 Sep 2019 18:29:12 +0300
+Message-Id: <20190904152915.30755-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v5 0/3] qcow2: add zstd cluster compression
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,44 +44,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, den@virtuozzo.com,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 4 Sep 2019 at 07:34, Juan Quintela <quintela@redhat.com> wrote:
->
-> The following changes since commit 3483534ec314f6057e66966bfceaa9df02c28fbf:
->
->   Merge remote-tracking branch 'remotes/cleber/tags/python-next-pull-request' into staging (2019-09-03 16:48:37 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/juanquintela/qemu.git tags/fail-pull-request
->
-> for you to fetch changes up to 0705e56496d2b155b5796c6b28d4110e5bcbd5d8:
->
->   multifd: Use number of channels as listen backlog (2019-09-03 23:24:42 +0200)
->
-> ----------------------------------------------------------------
-> Fix multifd with big number of channels
->
-> As all of it is migration, danp told me to do the pull myself.
->
-> ----------------------------------------------------------------
+v5:
+* type changed for compression_type at BDRVQcow2State [Kevin]
+* fixed typos, grammar [Kevin]
+* fixed default config zstd setting [Kevin]
+
+v4:
+* remove not feasible switch case [Vladimir]
+* add sanity checks to zstd decompresssion [Vladimir]
+* store zstd compressed length in big endian [Max, Kevin]
+
+v3:
+* relax the compression type setting requirement when
+  the compression type is not zlib [Eric, Kevin]
+* add compression type values to the spec [Eric]
+* fix wording in the spec and descriptions [Eric]
+* fix functions descriptions [Max]
+* fix zstd (de)compression functions flaws [Max]
+* fix zstd related parts of configure file [Max]
+* rebased to v4.1.0-rc5 and chenged the series version aiming to 4.2
+
+v2:
+* relax the compression type setting restriction in the spec
+* fix qcow2 header size checking
+* fix error processing and messaging
+* fix qcow2 image specific info reporting
+* set Qcow2CompressionType zstd config dependant
+* add zstd compressed cluster format description to the spec
+
+v1:
+* extend qcow2 header instead of adding a new incompatible extension header
+specification re-written accordingly
+* enable zstd compression via config
+* fix zstd (de)compression functions
+* fix comments/description
+* fix function naming
+
+---
+The goal of the patch-set is to enable qcow2 to use zstd compression for
+clusters. ZSTD provides better (de)compression performance than currently
+used ZLIB. Using it will improve perforamnce (reduce compression time)
+when the compressed clusters is used, e.g backup scenarios.
+
+Also, the patch-set extends qcow2 specification by adding compression_type
+feature. The feature enables adding ZSTD and another compression algorithms
+in the future.
+
+Here is some measurements ZSTD vs ZLIB:
+
+The test:
+Test compresses and decompresses qemu qcow2 image with just
+installed rhel-7.6 guest.
+Image cluster size: 64K. Image on disk size: 2.2G
+
+The test was conducted with brd disk to reduce the influence
+of disk subsystem to the test results.
+The results is given in seconds.
+
+compress cmd:
+time ./qemu-img convert -O qcow2 -c -o compression_type=[zlib|zstd]
+src.img [zlib|zstd]_compressed.img
+decompress cmd
+time ./qemu-img convert -O qcow2
+[zlib|zstd]_compressed.img uncompressed.img
 
 
+The results:
+compression decompression
+zlib zstd zlib zstd
+------------------------------------------------------------
+real 65.5 16.3 (-75 %) 1.9 1.6 (-16 %)
+user 65.0 15.8 5.3 2.5
+sys 3.3 0.2 2.0 2.0
 
-Applied, thanks.
+Both ZLIB and ZSTD gave the same compression ratio: ~1.5
+compressed image size in both cases: ~1.4G
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
 
--- PMM
+Denis Plotnikov (3):
+  qcow2: introduce compression type feature
+  qcow2: rework the cluster compression routine
+  qcow2: add zstd cluster compression
+
+ block/qcow2-threads.c     | 184 +++++++++++++++++++++++++++++++++++---
+ block/qcow2.c             |  98 ++++++++++++++++++++
+ block/qcow2.h             |  26 ++++--
+ configure                 |  29 ++++++
+ docs/interop/qcow2.txt    |  39 +++++++-
+ include/block/block_int.h |   1 +
+ qapi/block-core.json      |  23 ++++-
+ 7 files changed, 376 insertions(+), 24 deletions(-)
+
+-- 
+2.17.0
+
 
