@@ -2,77 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C782DA7847
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 03:59:48 +0200 (CEST)
-Received: from localhost ([::1]:52650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC03A78A8
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 04:17:46 +0200 (CEST)
+Received: from localhost ([::1]:52726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5KaJ-0002ma-Lt
-	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 21:59:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38489)
+	id 1i5Krh-0006sA-6i
+	for lists+qemu-devel@lfdr.de; Tue, 03 Sep 2019 22:17:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40388)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1i5KZO-0002IP-Sq
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 21:58:51 -0400
+ (envelope-from <bounces@canonical.com>) id 1i5Kpf-000687-JN
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 22:15:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1i5KZN-0007Ay-4L
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 21:58:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35354)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1i5KZM-0007AU-ST
- for qemu-devel@nongnu.org; Tue, 03 Sep 2019 21:58:49 -0400
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CF0C7C002966
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 01:58:47 +0000 (UTC)
-Received: by mail-pf1-f200.google.com with SMTP id g1so12245768pfo.4
- for <qemu-devel@nongnu.org>; Tue, 03 Sep 2019 18:58:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=A7PjX/SXFR8o/059W3/K/OOcmKUuFkR+MHHL591vpNM=;
- b=FM9cQNpx9P/YE/ypxbhsP+sZymWmFsIuSfxxTWNIlN9FNJyv23y5wO7ZdcZ4J4EloI
- tiAYkr6Xh9mBud0LjdjroW5YuFfR4QaZ/QVeOZekEtutQrY6s+V5x/fpssv98/mMk9za
- 1wsm/8WPeerXBFOkD3xCYOwR2PuAnNtubc+o/u1GkWb1YYNOidAzPHa/Kd1ac8Ao9VTM
- ZZguUnXc/Zb+5C3Q0o7G+n2J0NsLnLIjtr2b13SWorVDW2zh9ebAOHXZUImyNXmfaenV
- hjYru9Chj+d3Zz7DhPb7o6z9Jfhc52l1tAoqDqSEUkeg4n6c7UAEO8KlunZXjcGt2m1R
- IQoQ==
-X-Gm-Message-State: APjAAAUB8s/e3jQ0YfEI6qdMurm8vR9V3PgObdXzM9uds4Ggq0AfuLKO
- jV4Usa4yX9kMl1zTtkafP662ExfoUx6k3AfQUiwnrzaKUyfcyNrfXvdDu+mUdk9rcV9dobiwmhO
- QN8yf08AMXD7Y1nM=
-X-Received: by 2002:a17:90a:ec12:: with SMTP id
- l18mr2387375pjy.6.1567562327380; 
- Tue, 03 Sep 2019 18:58:47 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqz3xRN9b/kQltE2OHfi/gcz2/8r/liM/andAIuu11sSpgjbhc86RHfO1Z7aY/SGJwsOymXHzg==
-X-Received: by 2002:a17:90a:ec12:: with SMTP id
- l18mr2387347pjy.6.1567562327152; 
- Tue, 03 Sep 2019 18:58:47 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id s19sm4929268pfe.86.2019.09.03.18.58.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 18:58:46 -0700 (PDT)
-Date: Wed, 4 Sep 2019 09:58:34 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Auger Eric <eric.auger@redhat.com>
-Message-ID: <20190904015834.GC30402@xz-x1>
-References: <20190730172137.23114-1-eric.auger@redhat.com>
- <20190730172137.23114-10-eric.auger@redhat.com>
- <20190819082424.GB13560@xz-x1>
- <d3759ba2-6ae6-2ae4-a71e-69965285f3f4@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1i5Kpd-0007oU-SV
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 22:15:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34628)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i5Kpd-0007o3-MI
+ for qemu-devel@nongnu.org; Tue, 03 Sep 2019 22:15:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i5Kpc-0004Gu-As
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 02:15:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4D4302E80C7
+ for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 02:15:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d3759ba2-6ae6-2ae4-a71e-69965285f3f4@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Sep 2019 02:00:55 -0000
+From: cpw <1842530@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: chenpw2088
+X-Launchpad-Bug-Reporter: cpw (chenpw2088)
+X-Launchpad-Bug-Modifier: cpw (chenpw2088)
+Message-Id: <156756245552.28547.15554086877936320249.malonedeb@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19044";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 996307a7fdd913138a53edc84a2add3cf6b657d3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.2 v10 09/15] virtio-iommu: Implement
- translate
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] =?utf-8?q?=5BBug_1842530=5D_=5BNEW=5D_ich6_and_ich9_?=
+ =?utf-8?q?sound_card_has_noisy=EF=BC=88murmur=EF=BC=89?=
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,77 +63,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, kevin.tian@intel.com, mst@redhat.com,
- tn@semihalf.com, qemu-devel@nongnu.org, alex.williamson@redhat.com,
- qemu-arm@nongnu.org, jean-philippe@linaro.org, bharat.bhushan@nxp.com,
- eric.auger.pro@gmail.com
+Reply-To: Bug 1842530 <1842530@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 03, 2019 at 01:45:22PM +0200, Auger Eric wrote:
-> Hi Peter,
-> 
-> On 8/19/19 10:24 AM, Peter Xu wrote:
-> > On Tue, Jul 30, 2019 at 07:21:31PM +0200, Eric Auger wrote:
-> >> @@ -464,19 +464,75 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-> >>                                              int iommu_idx)
-> >>  {
-> >>      IOMMUDevice *sdev = container_of(mr, IOMMUDevice, iommu_mr);
-> >> +    VirtIOIOMMU *s = sdev->viommu;
-> >>      uint32_t sid;
-> >> +    viommu_endpoint *ep;
-> >> +    viommu_mapping *mapping;
-> >> +    viommu_interval interval;
-> >> +    bool bypass_allowed;
-> >> +
-> >> +    interval.low = addr;
-> >> +    interval.high = addr + 1;
-> >>  
-> >>      IOMMUTLBEntry entry = {
-> >>          .target_as = &address_space_memory,
-> >>          .iova = addr,
-> >>          .translated_addr = addr,
-> >> -        .addr_mask = ~(hwaddr)0,
-> >> +        .addr_mask = (1 << ctz32(s->config.page_size_mask)) - 1,
-> >>          .perm = IOMMU_NONE,
-> >>      };
-> >>  
-> >> +    bypass_allowed = virtio_has_feature(s->acked_features,
-> >> +                                        VIRTIO_IOMMU_F_BYPASS);
-> >> +
-> >>      sid = virtio_iommu_get_sid(sdev);
-> >>  
-> >>      trace_virtio_iommu_translate(mr->parent_obj.name, sid, addr, flag);
-> >> +    qemu_mutex_lock(&s->mutex);
-> >> +
-> >> +    ep = g_tree_lookup(s->endpoints, GUINT_TO_POINTER(sid));
-> >> +    if (!ep) {
-> >> +        if (!bypass_allowed) {
-> >> +            error_report("%s sid=%d is not known!!", __func__, sid);
-> > 
-> > Maybe use error_report_once() to avoid DOS attack?  Also would it be
-> > good to unify the debug prints?  I see both error_report() and
-> > qemu_log_mask() are used in the whole patchset.  Or is that attempted?
-> 
-> I switched to error_report_once()
-> 
-> I understand that qemu_log_mask() should be used whenever the root cause
-> is a bad action of the guest OS (in below case, the EP was not attached
-> to any domain). Above, there is an EP that attempts to talk through the
-> IOMMU and this was not expected (rather a platform description issue or
-> a qemu bug).
+Public bug reported:
 
-I see. It's a bit unclear at least to me on how to use these.  I have
-seen, and used error_report*() to report guest misbehaves as well just
-for the debugging and triaging simply because error_report*() will
-always be there even without "-d" (because when issue happens most
-users are without it...).  Then with these information captured by
-either libvirt or direct QEMU users we can triage guest bugs easier.
-I hope I'm not severly wrong, and please feel free to use
-qemu_log_mask() no matter what.
+[root@localhost1 qemu]# lscpu
+Architecture:          x86_64
+CPU op-mode(s):        32-bit, 64-bit
+Byte Order:            Little Endian
+CPU(s):                6
+On-line CPU(s) list:   0-5
+Thread(s) per core:    1
+Core(s) per socket:    6
+Socket(s):             1
+NUMA node(s):          1
+Vendor ID:             GenuineIntel
+CPU family:            6
+Model:                 158
+Model name:            Intel(R) Core(TM) i5-8400 CPU @ 2.80GHz
+Stepping:              10
+CPU MHz:               899.951
+CPU max MHz:           4000.0000
+CPU min MHz:           800.0000
+BogoMIPS:              5616.00
+Virtualization:        VT-x
+L1d cache:             32K
+L1i cache:             32K
+L2 cache:              256K
+L3 cache:              9216K
+NUMA node0 CPU(s):     0-5
+Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge=
+ mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall=
+ nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl =
+xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_c=
+pl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movb=
+e popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowpref=
+etch epb intel_pt ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpi=
+d fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap =
+clflushopt xsaveopt xsavec xgetbv1 dtherm ida arat pln pts hwp hwp_notify h=
+wp_act_window hwp_epp spec_ctrl intel_stibp flush_l1d
 
-Regards,
 
--- 
-Peter Xu
+[root@localhost1 qemu]# lsb_release -a
+LSB Version:    :core-4.1-amd64:core-4.1-noarch
+Distributor ID: CentOS
+Description:    CentOS Linux release 7.6.1810 (Core)
+Release:        7.6.1810
+Codename:       Core
+
+Installed as Virtualization Server (qemuV1.5)=EF=BC=9B
+create win7-32 or 64 GuestOS by virt-manager=EF=BC=8Cand select default sou=
+nd card ich6=EF=BC=9B
+
+<graphics type=3D'spice' autoport=3D'yes'>
+      <listen type=3D'address'/>
+      <image compression=3D'off'/>
+    </graphics>
+    <sound model=3D'ich6'>
+      <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x04' fu=
+nction=3D'0x0'/>
+    </sound>
+    <video>
+      <model type=3D'qxl' ram=3D'65536' vram=3D'65536' vgamem=3D'16384' hea=
+ds=3D'1' primary=3D'yes'/>
+      <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x02' fu=
+nction=3D'0x0'/>
+    </video>
+
+
+but obvious noise found when login guest os to play music. :(
+
+And the problem remains after I update qemu to 2.12.0-18 , 3.1.0 &etc.
+
+
+[root@localhost1 qemu]# /usr/bin/qemu-system-x86_64 --version
+QEMU emulator version 3.1.0
+Copyright (c) 2003-2018 Fabrice Bellard and the QEMU Project developers
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1842530
+
+Title:
+  ich6 and ich9 sound card has noisy=EF=BC=88murmur=EF=BC=89
+
+Status in QEMU:
+  New
+
+Bug description:
+  [root@localhost1 qemu]# lscpu
+  Architecture:          x86_64
+  CPU op-mode(s):        32-bit, 64-bit
+  Byte Order:            Little Endian
+  CPU(s):                6
+  On-line CPU(s) list:   0-5
+  Thread(s) per core:    1
+  Core(s) per socket:    6
+  Socket(s):             1
+  NUMA node(s):          1
+  Vendor ID:             GenuineIntel
+  CPU family:            6
+  Model:                 158
+  Model name:            Intel(R) Core(TM) i5-8400 CPU @ 2.80GHz
+  Stepping:              10
+  CPU MHz:               899.951
+  CPU max MHz:           4000.0000
+  CPU min MHz:           800.0000
+  BogoMIPS:              5616.00
+  Virtualization:        VT-x
+  L1d cache:             32K
+  L1i cache:             32K
+  L2 cache:              256K
+  L3 cache:              9216K
+  NUMA node0 CPU(s):     0-5
+  Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr p=
+ge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe sysca=
+ll nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nop=
+l xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds=
+_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic mo=
+vbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowpr=
+efetch epb intel_pt ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept v=
+pid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx sma=
+p clflushopt xsaveopt xsavec xgetbv1 dtherm ida arat pln pts hwp hwp_notify=
+ hwp_act_window hwp_epp spec_ctrl intel_stibp flush_l1d
+
+  =
+
+  [root@localhost1 qemu]# lsb_release -a
+  LSB Version:    :core-4.1-amd64:core-4.1-noarch
+  Distributor ID: CentOS
+  Description:    CentOS Linux release 7.6.1810 (Core)
+  Release:        7.6.1810
+  Codename:       Core
+
+  Installed as Virtualization Server (qemuV1.5)=EF=BC=9B
+  create win7-32 or 64 GuestOS by virt-manager=EF=BC=8Cand select default s=
+ound card ich6=EF=BC=9B
+
+  <graphics type=3D'spice' autoport=3D'yes'>
+        <listen type=3D'address'/>
+        <image compression=3D'off'/>
+      </graphics>
+      <sound model=3D'ich6'>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x04' =
+function=3D'0x0'/>
+      </sound>
+      <video>
+        <model type=3D'qxl' ram=3D'65536' vram=3D'65536' vgamem=3D'16384' h=
+eads=3D'1' primary=3D'yes'/>
+        <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x02' =
+function=3D'0x0'/>
+      </video>
+
+  =
+
+  but obvious noise found when login guest os to play music. :(
+
+  And the problem remains after I update qemu to 2.12.0-18 , 3.1.0 &etc.
+
+  =
+
+  [root@localhost1 qemu]# /usr/bin/qemu-system-x86_64 --version
+  QEMU emulator version 3.1.0
+  Copyright (c) 2003-2018 Fabrice Bellard and the QEMU Project developers
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1842530/+subscriptions
 
