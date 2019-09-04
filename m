@@ -2,107 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65FEDA86D8
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:09:21 +0200 (CEST)
-Received: from localhost ([::1]:35476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACFEFA86E3
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 19:16:59 +0200 (CEST)
+Received: from localhost ([::1]:35524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5YmV-0000OM-VM
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:09:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47813)
+	id 1i5Ytu-0003JR-2a
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 13:16:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48323)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i5Ylb-0008J2-9T
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:08:24 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1i5YqP-0001IO-Pk
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1i5YlZ-0005Cy-Ta
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:08:23 -0400
-Received: from mail-eopbgr00118.outbound.protection.outlook.com
- ([40.107.0.118]:13455 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1i5YlW-0005BT-9o; Wed, 04 Sep 2019 13:08:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=itppC8sZh9TGtJzouq0a+/WUl1ChbpXBHdjl/nrDKxwPJ2MGFR98PGLIML9cOy6K0BxRHBZTJLA926r1zOBO6j1U2sfTf4cWMkJX14/u9DexIg02MW7gXvxHWZoesuywQt4IwOCpzeBnIGejZVHm+R3Bti/TNWhH0YMertZ/P2B+81jTdzf+IZdi2r6Z2LPAvGjQdtkecdCoejuPoIKjmnPt50Uh0HAURnhPo+s3j/ujF0SQww7wO0l99nJbEmvSHYYFUzVu8xW80jdf/TUyL7IEGVAnwtFDYZQP0eujticke9/iMk1MdopRlmwm8yAerFfVedyHmCF8lsbBST5ifA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u1kGGWtF2EyI9Pw8mcZ/Ps+7K+b3H0B8PZ0wty64Jvw=;
- b=bf8rEyN44a/9xp90G6zXC7NoY/94boRi7DY7FjRFm/XmhMF47WVgIojiCYJfuRvWPT660rY5y9o06IlQEtfsFniMRVeDFG9bPBZcOmuTbzw0Vh5n1Qab+N96i9ubDFnah+Y5WRccjNGUQkZCBY70gp7YpeUI4w4hVvUZqUdhdtVRADLqrPcQ66T67XKbc3jOGPsr+eX1F0g3HPgbbe/6cQ9gHhDPjqruw4cwKvs0IeAS15iw10NmB/fIWzO3VSuQR5eL002shTZHSA+G35oIZIo3V4LzYkW3BGPsbovOygMAvI3Sl/nJ5591wDSCFonTY932P8/K9H6cajU7m2N2xA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u1kGGWtF2EyI9Pw8mcZ/Ps+7K+b3H0B8PZ0wty64Jvw=;
- b=afmZyYADilWGYFpv3sZL/q3fmCqNX5EgpiB/ld7EZdfrt3fb2VeeVcJkY0fWQkqK4Wbx0tpt/Q1N7aYgixJTeg/oxQ1UZ1ub4ubvq6S2etojR599L31niDdEHEWU946xLzr8X9fMwdFxi7iBRpkRre18ihDh1dGg5STBrqN+aVc=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB4092.eurprd08.prod.outlook.com (20.179.9.147) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2220.20; Wed, 4 Sep 2019 17:08:15 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::b5c0:6b97:438d:77ed%2]) with mapi id 15.20.2220.022; Wed, 4 Sep 2019
- 17:08:15 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH 1/5] nbd: Improve per-export flag handling
- in server
-Thread-Index: AQHVWcKKpZ1kXbNK00iz+Po90P7KVacb0yaA
-Date: Wed, 4 Sep 2019 17:08:15 +0000
-Message-ID: <d1ec0e0d-791a-4a19-ec45-e5dbdb8f0106@virtuozzo.com>
-References: <25ead363-4f37-5450-b985-1876374e314d@redhat.com>
- <20190823143726.27062-1-eblake@redhat.com>
- <20190823143726.27062-2-eblake@redhat.com>
-In-Reply-To: <20190823143726.27062-2-eblake@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0301CA0016.eurprd03.prod.outlook.com
- (2603:10a6:3:76::26) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190904200813206
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 772ec01c-8c4c-44f3-9518-08d7315a79ac
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB4092; 
-x-ms-traffictypediagnostic: DB8PR08MB4092:
-x-microsoft-antispam-prvs: <DB8PR08MB4092C1CDB679750AD8FDAB23C1B80@DB8PR08MB4092.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0150F3F97D
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(366004)(396003)(376002)(346002)(136003)(189003)(199004)(86362001)(66556008)(66946007)(305945005)(31696002)(256004)(66476007)(386003)(25786009)(7736002)(71190400001)(71200400001)(2501003)(6506007)(229853002)(476003)(11346002)(64756008)(2616005)(5660300002)(486006)(446003)(66446008)(4326008)(3846002)(8936002)(186003)(6116002)(36756003)(99286004)(53936002)(316002)(14454004)(6436002)(76176011)(478600001)(54906003)(52116002)(6486002)(6512007)(110136005)(6246003)(2906002)(26005)(31686004)(8676002)(102836004)(81156014)(81166006)(66066001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB4092;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: HLyxIS1KpqJzv9IkPIVhT2D/D14BkdBGHHLr7CAMbpQxwqjEvHK0IZeIUV9PLURSC8UIJLNN+lKWpgKq/95TkwHCBtyUt/EVbEKEqgbNOwQZ2kmJcEZCTd+t3FVV18q1tSNQ1hpP8CvJfA9Lr5CV96jYQ/p/oGaz8rrM20fqgySfXs0IoRl7Md6ZMtixB10/6eCkVJK6Wm14m0fO2bA3VfxPV3wwlCK8f3+qNCssq1jPDmGVY6vYtRDfsw2Iv/8soeZcjYmebxSUYRL/KZPGg23fKRZZ7tb7jZ02ro/R3aCOoIIdAzeQvwp36KdBSGuTWnz9BhJL/sR6P7ldLowXBeH566Fy7cCiDUYHHOdv+3MrHL8n1rKZmru9+12+BFs6Sf/aRLwTNeQ8ujAx++OCjDC/Mouj1/pg1EFrEH8ZDt4=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2D718742F8112148800E572CD5B23118@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1i5YqO-0006yN-J1
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 13:13:21 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38168)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1i5YqO-0006xq-AH; Wed, 04 Sep 2019 13:13:20 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id l11so13287194wrx.5;
+ Wed, 04 Sep 2019 10:13:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HKqL9ZWZyoX9rq8jSewYQgNwV5pak8csw5WRGNU8fT4=;
+ b=MAKIsy0b4kNQoSVuI8b4dWYgKCHioDrLYFEBmlWnfzZBlRAscFbRjM0biwqimEi/tf
+ 1ZR4mSsRMh17EiCTf2ouO244s+TnZYY5p/tddCo8FWFUxZMlCznQTLSCcDZ9BQIEJTjp
+ kcP/rdWAV1QBwnbT0GGvO2YAUwyT/6lmb5v/b60Yap3TGinxldvknJL/zysE5xG9Nba3
+ OBQLZosuO1mtScjeHFNpUvTBidAi4wx6KXEBmrmayIHNKYGW9D/Ya1l4NPhLmjPfxRF1
+ 4vAYYAwnsp6dqA0ynB0hlJyFZ/z3l1g0Cg2aIsgKuQ6OQQLsXBsSEvKVpLFdw+QqMGp3
+ B/9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=HKqL9ZWZyoX9rq8jSewYQgNwV5pak8csw5WRGNU8fT4=;
+ b=KSOOR0NYZ63xFliLnqj2M3toTPxbxjImsClGXw6wHuS4EyCYkn8QFi8nu9GvkPMfve
+ gBUQNEu7kDJNItegURyXS0MsWXyDZo60tbGYS5ed836bUCreh9sdFKhSS2onTaYoHBL5
+ D3H1NGEykjtqTDIH5GZoxoCM7AW3CgB7CJP9GtfruWxJFXMG+9GXbngGGvPWp5mn3nU0
+ vvPyr2vLSfIC7+EvDlaZObRB4dGecKFotxhJMs/eg5D26mtAX4Qgo0tcv0HAGGlKUW6P
+ +9u+iaMFzDKRHthbHrrg6MYrzzt5FuGQ9hOr4cubYyHgBf1awLWtt3SuQdy3UjlDxnL5
+ Mu1w==
+X-Gm-Message-State: APjAAAUtfWNm5xHpfTzv2TyCYDHAP10XnsfdVVit8JKM7mFrKGzBNVDt
+ P80Dz7Ef2Uc7DWt8p5JnxpI=
+X-Google-Smtp-Source: APXvYqxQZOkt6h6QuO2t1OCqM53dErrR1xVza4kJQmJKgeridEXyn71exmK35BwWnUlfBZR5cwMLfg==
+X-Received: by 2002:a5d:4382:: with SMTP id i2mr33855811wrq.297.1567617198245; 
+ Wed, 04 Sep 2019 10:13:18 -0700 (PDT)
+Received: from x1w.redhat.com ([195.166.127.210])
+ by smtp.gmail.com with ESMTPSA id p19sm2339512wmg.31.2019.09.04.10.13.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Sep 2019 10:13:17 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Esteban Bosse <estebanbosse@gmail.com>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-devel@nongnu.org,
+ Pekka Enberg <penberg@iki.fi>,
+ =?UTF-8?q?Zolt=C3=A1n=20Baldaszti?= <bztemail@gmail.com>
+Date: Wed,  4 Sep 2019 19:13:01 +0200
+Message-Id: <20190904171315.8354-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 772ec01c-8c4c-44f3-9518-08d7315a79ac
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2019 17:08:15.7207 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rzbRtrb+9DxMETn9r2DA5yRUkwV68jvE3oUL3Aai1YKZKHWi7EAJo603qlENhcpGHYn5BV5dPrrL35c0i8i0jHWpTEacEVJjL6K0zeRvmc0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4092
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.0.118
-Subject: Re: [Qemu-devel] [PATCH 1/5] nbd: Improve per-export flag handling
- in server
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42e
+Subject: [Qemu-devel] [RFC PATCH 00/14] hw/arm: Add the Raspberry Pi 4B
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,41 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "nbd@other.debian.org" <nbd@other.debian.org>,
- "libguestfs@redhat.com" <libguestfs@redhat.com>, "open
- list:Network Block Dev..." <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, Clement Deschamps <clement.deschamps@antfield.fr>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjMuMDguMjAxOSAxNzozNywgRXJpYyBCbGFrZSB3cm90ZToNCj4gV2hlbiBjcmVhdGluZyBhIHJl
-YWQtb25seSBpbWFnZSwgd2UgYXJlIHN0aWxsIGFkdmVydGlzaW5nIHN1cHBvcnQgZm9yDQo+IFRS
-SU0gYW5kIFdSSVRFX1pFUk9FUyB0byB0aGUgY2xpZW50LCBldmVuIHRob3VnaCB0aGUgY2xpZW50
-IHNob3VsZCBub3QNCj4gYmUgaXNzdWluZyB0aG9zZSBjb21tYW5kcy4gIEJ1dCBzZWVpbmcgdGhp
-cyByZXF1aXJlcyBsb29raW5nIGFjcm9zcw0KPiBtdWx0aXBsZSBmdW5jdGlvbnM6DQo+IA0KPiBB
-bGwgY2FsbGVycyB0byBuYmRfZXhwb3J0X25ldygpIHBhc3NlZCBhIHNpbmdsZSBmbGFnIGJhc2Vk
-IHNvbGVseSBvbg0KPiB3aGV0aGVyIHRoZSBleHBvcnQgYWxsb3dzIHdyaXRlcy4gIExhdGVyLCB3
-ZSB0aGVuIHBhc3MgYSBjb25zdGFudCBzZXQNCj4gb2YgZmxhZ3MgdG8gbmJkX25lZ290aWF0ZV9v
-cHRpb25zKCkgKG5hbWVseSwgdGhlIHNldCBvZiBmbGFncyB3aGljaCB3ZQ0KPiBhbHdheXMgc3Vw
-cG9ydCwgYXQgbGVhc3QgZm9yIHdyaXRhYmxlIGltYWdlcyksIHdoaWNoIGlzIHRoZW4gZnVydGhl
-cg0KPiBkeW5hbWljYWxseSBtb2RpZmllZCBiYXNlZCBvbiBjbGllbnQgcmVxdWVzdHMgZm9yIHN0
-cnVjdHVyZWQgb3B0aW9ucy4NCj4gRmluYWxseSwgd2hlbiBwcm9jZXNzaW5nIE5CRF9PUFRfRVhQ
-T1JUX05BTUUgb3IgTkJEX09QVF9FWFBPUlRfR08gd2UNCj4gYml0d2lzZS1vciB0aGUgb3JpZ2lu
-YWwgY2FsbGVyJ3MgZmxhZyB3aXRoIHRoZSBydW50aW1lIHNldCBvZiBmbGFncw0KPiB3ZSd2ZSBi
-dWlsdCB1cCBvdmVyIHNldmVyYWwgZnVuY3Rpb25zLg0KPiANCj4gTGV0J3MgcmVmYWN0b3IgdGhp
-bmdzIHRvIGluc3RlYWQgY29tcHV0ZSBhIGJhc2VsaW5lIG9mIGZsYWdzIGFzIHNvb24NCj4gYXMg
-cG9zc2libGUsIGluIG5iZF9leHBvcnRfbmV3KCksIGFuZCBjaGFuZ2luZyB0aGUgc2lnbmF0dXJl
-IGZvciB0aGUNCj4gY2FsbGVycyB0byBwYXNzIGluIGEgc2ltcGxlciBib29sIHJhdGhlciB0aGFu
-IGhhdmluZyB0byBmaWd1cmUgb3V0DQo+IGZsYWdzLiAgV2UgY2FuIHRoZW4gZ2V0IHJpZCBvZiB0
-aGUgJ215ZmxhZ3MnIHBhcmFtZXRlciB0byB2YXJpb3VzDQo+IGZ1bmN0aW9ucywgYW5kIGluc3Rl
-YWQgcmVmZXIgdG8gY2xpZW50IGZvciBldmVyeXRoaW5nIHdlIG5lZWQgKHdlDQo+IHN0aWxsIGhh
-dmUgdG8gcGVyZm9ybSBhIGJpdHdpc2UtT1IgZHVyaW5nIE5CRF9PUFRfRVhQT1JUX05BTUUgYW5k
-DQo+IE5CRF9PUFRfRVhQT1JUX0dPLCBidXQgaXQncyBlYXNpZXIgdG8gc2VlIHdoYXQgaXMgYmVp
-bmcgY29tcHV0ZWQpLg0KPiBUaGlzIGxldHMgdXMgcXVpdCBhZHZlcnRpc2luZyBzZW5zZWxlc3Mg
-ZmxhZ3MgZm9yIHJlYWQtb25seSBpbWFnZXMsIGFzDQo+IHdlbGwgYXMgbWFraW5nIHRoZSBuZXh0
-IHBhdGNoIGZvciBleHBvc2luZyBGQVNUX1pFUk8gc3VwcG9ydCBlYXNpZXIgdG8NCj4gd3JpdGUu
-DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBFcmljIEJsYWtlPGVibGFrZUByZWRoYXQuY29tPg0KDQpS
-ZXZpZXdlZC1ieTogVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0
-dW96em8uY29tPg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
+Esteban wrote me over the weekend asking about raspi4 progress.
+I cleaned up my patches/notes to pass him. Other help is also welcomed :)
+I got scared trying to understand how to use the GIC, and wire the various
+IRQs.
+
+Most important notes about testing are in patch #12:
+"Add the BCM2838 which uses a GICv2"
+
+Not much works yet, it only runs a bit until configuring the GIC.
+
+branch pushed at https://gitlab.com/philmd/qemu/commits/raspi4_wip
+
+Regards,
+
+Phil.
+
+based-on: 20190903120555.7551-1-philmd@redhat.com
+cutils: Move size_to_str() from "qemu-common.h" to "qemu/cutils.h"
+https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg00229.html
+
+Philippe Mathieu-Daudé (14):
+  hw/arm/raspi: Use the IEC binary prefix definitions
+  hw/misc/bcm2835_property: Add FIXME comment for uninitialized memory
+  hw/misc/bcm2835_property: Handle the 'domain state' property
+  hw/arm/bcm2835_peripherals: Improve logging
+  hw/arm/bcm2835_peripherals: Name various address spaces
+  hw/arm/bcm2835: Rename some definitions
+  hw/arm/bcm2835: Add various unimplemented peripherals
+  hw/arm/bcm2836: Make the SoC code modular
+  hw/arm/raspi: Make the board code modular
+  hw/arm/raspi: Define various blocks base addresses
+  hw/arm/bcm2835_peripherals: Map various BCM2838 blocks
+  hw/arm/bcm2836: Add the BCM2838 which uses a GICv2
+  hw/arm/bcm2838: Map the PCIe memory space
+  hw/arm/raspi: Add the Raspberry Pi 4B board
+
+ hw/arm/bcm2835_peripherals.c         |  49 ++++++++-
+ hw/arm/bcm2836.c                     | 103 +++++++++++++++++--
+ hw/arm/raspi.c                       | 142 ++++++++++++++++++++++++---
+ hw/char/bcm2835_aux.c                |   5 +-
+ hw/display/bcm2835_fb.c              |   2 +-
+ hw/dma/bcm2835_dma.c                 |  10 +-
+ hw/intc/bcm2836_control.c            |   7 +-
+ hw/misc/bcm2835_mbox.c               |   9 +-
+ hw/misc/bcm2835_property.c           |  28 ++++--
+ include/hw/arm/bcm2835_peripherals.h |  18 ++++
+ include/hw/arm/bcm2836.h             |   3 +
+ include/hw/arm/raspi_platform.h      |  79 ++++++++++++---
+ 12 files changed, 393 insertions(+), 62 deletions(-)
+
+-- 
+2.20.1
+
 
