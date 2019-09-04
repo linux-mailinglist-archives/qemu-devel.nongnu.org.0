@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A4EA8622
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 17:48:05 +0200 (CEST)
-Received: from localhost ([::1]:34660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAA2A8632
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 17:48:52 +0200 (CEST)
+Received: from localhost ([::1]:34666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5XVt-0006iX-2K
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 11:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34679)
+	id 1i5XWd-0007aA-Mi
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 11:48:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34935)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i5XTy-0006Bk-58
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 11:46:07 -0400
+ (envelope-from <eblake@redhat.com>) id 1i5XV0-0006hS-Pi
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 11:47:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i5XTw-0002gY-Vs
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 11:46:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49530)
+ (envelope-from <eblake@redhat.com>) id 1i5XUy-0003Ib-NY
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 11:47:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56434)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1i5XTu-0002fg-GB; Wed, 04 Sep 2019 11:46:02 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1i5XUp-0003F8-6G; Wed, 04 Sep 2019 11:47:01 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CA60F3099F9F;
- Wed,  4 Sep 2019 15:46:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 188234E924;
+ Wed,  4 Sep 2019 15:46:58 +0000 (UTC)
 Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1360B194B2;
- Wed,  4 Sep 2019 15:46:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B9C6600CD;
+ Wed,  4 Sep 2019 15:46:57 +0000 (UTC)
 To: Denis Plotnikov <dplotnikov@virtuozzo.com>, armbru@redhat.com,
  qemu-devel@nongnu.org
 References: <20190904152915.30755-1-dplotnikov@virtuozzo.com>
@@ -59,18 +59,18 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <181c6937-f0f7-29f4-f763-46cc7ea7defd@redhat.com>
-Date: Wed, 4 Sep 2019 10:46:00 -0500
+Message-ID: <936996a5-ad1a-6358-1ab1-020b19aa6236@redhat.com>
+Date: Wed, 4 Sep 2019 10:46:56 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
 In-Reply-To: <20190904152915.30755-3-dplotnikov@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="bH4HlDIM9Dcx71QEAOTzEaqe4Kc75UizQ"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+ boundary="vfpCx8s6BN9sRfv9J4npBnf2qhMWqEXzH"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Wed, 04 Sep 2019 15:46:01 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Wed, 04 Sep 2019 15:46:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PATCH v5 2/3] qcow2: rework the cluster
@@ -92,28 +92,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---bH4HlDIM9Dcx71QEAOTzEaqe4Kc75UizQ
-Content-Type: multipart/mixed; boundary="ViFxEOWiz0mWk2ETBSda3hFewepBRkOeQ";
+--vfpCx8s6BN9sRfv9J4npBnf2qhMWqEXzH
+Content-Type: multipart/mixed; boundary="4wIk1ZuyAMCU14x0EgVVQbR7g1SbauaRV";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Denis Plotnikov <dplotnikov@virtuozzo.com>, armbru@redhat.com,
  qemu-devel@nongnu.org
 Cc: kwolf@redhat.com, mreitz@redhat.com, den@virtuozzo.com,
  vsementsov@virtuozzo.com, qemu-block@nongnu.org
-Message-ID: <181c6937-f0f7-29f4-f763-46cc7ea7defd@redhat.com>
+Message-ID: <936996a5-ad1a-6358-1ab1-020b19aa6236@redhat.com>
 Subject: Re: [PATCH v5 2/3] qcow2: rework the cluster compression routine
 References: <20190904152915.30755-1-dplotnikov@virtuozzo.com>
  <20190904152915.30755-3-dplotnikov@virtuozzo.com>
 In-Reply-To: <20190904152915.30755-3-dplotnikov@virtuozzo.com>
 
---ViFxEOWiz0mWk2ETBSda3hFewepBRkOeQ
+--4wIk1ZuyAMCU14x0EgVVQbR7g1SbauaRV
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 9/4/19 10:29 AM, Denis Plotnikov wrote:
 > The patch allow to process image compression type defined
+
+s/allow to process/allows processing the/
+
 > in the image header and choose an appropriate method for
+
+s/choose/chooses/
+
 > image clusters (de)compression.
 >=20
 > Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
@@ -122,32 +128,30 @@ On 9/4/19 10:29 AM, Denis Plotnikov wrote:
 
 >  1 file changed, 63 insertions(+), 14 deletions(-)
 >=20
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
 --=20
 Eric Blake, Principal Software Engineer
 Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---ViFxEOWiz0mWk2ETBSda3hFewepBRkOeQ--
+--4wIk1ZuyAMCU14x0EgVVQbR7g1SbauaRV--
 
---bH4HlDIM9Dcx71QEAOTzEaqe4Kc75UizQ
+--vfpCx8s6BN9sRfv9J4npBnf2qhMWqEXzH
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1v3DgACgkQp6FrSiUn
-Q2osTwgAsFKPKYeXYWGuexJpoj2Wa1zZKstHq1wmQMAQhZOthC2XhxoB59sNUP9z
-v/aB00QWWqvlkBs6ffYkkeKf2pbTbTEaX/TCTQ3VGEhEJKXhfbmgwLlXC5y9NHvy
-q2YrAy04pwXPrWgKL1L6Vu1euj/6Tq+RVd49mIqXFtTxDt1Z3uQyzPXBXeeCBIrY
-LYGCDKiV5jJTBytKx3/4K3Nt0MeZ8iXIc947MbAxhinf1M6S902r6S7VCFBzl3Gr
-imdcqvaUGzsVXKwhuW2gogBBHvO2zLu08UN0f6mIZAHB+N9ssWRKAx7ujuWVrsaz
-0/LmVoKz2p18/u5RzHmJn5Fwg4EeMA==
-=WMUH
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1v3HAACgkQp6FrSiUn
+Q2qlRQf/Uno2xt8tYDjGNFj0wuMsJTvgtvJhFZDjOwtfpw/kFIjFpK76Yk3p6Plg
+IOV5UVPAzVwEZNz6TQaV1MWM6+ZZb3QqLzNYcxfIiC7p2adN3SkWFH8BcuT/bRPh
+59DM4Q5IzJDtTP1trejohasi63PpTaZUv73KuGGJ4s1HBPta6ByohrFhW7eo29qH
+k+aawUYJ6KbYgisgpTgXLQkvdh9MzK+lgehs9UBrME9YBafShijWjsq1XJFKcdRl
+vcsvyNz5VajMmXXb08tHDQiD+2+rBhXRZk2o+Y6M2nnt+Wg0fBxu2n1g1kkgujQw
+uMynRuz3slA/HRFCYzyr65hep3CRvw==
+=jFEt
 -----END PGP SIGNATURE-----
 
---bH4HlDIM9Dcx71QEAOTzEaqe4Kc75UizQ--
+--vfpCx8s6BN9sRfv9J4npBnf2qhMWqEXzH--
 
