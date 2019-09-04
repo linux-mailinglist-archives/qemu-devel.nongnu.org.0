@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F65A9440
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:59:17 +0200 (CEST)
-Received: from localhost ([::1]:39672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7DA5A941D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:52:02 +0200 (CEST)
+Received: from localhost ([::1]:39530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5cN2-0003FA-Jb
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51501)
+	id 1i5cG1-0003Ko-Dw
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:52:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49834)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i5c3q-0000p1-Vr
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:28 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i5bvJ-0008CH-SN
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i5c3p-0003Qb-OV
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:26 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:34892)
+ (envelope-from <alex.bennee@linaro.org>) id 1i5bvB-0006fd-HI
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:37 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54898)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i5c3p-0003Pp-Gp
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:39:25 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id n10so249203wmj.0
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:39:25 -0700 (PDT)
+ id 1i5bvA-0006di-Bd
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 16:30:28 -0400
+Received: by mail-wm1-x334.google.com with SMTP id k2so190261wmj.4
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 13:30:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=68LGDwWChmAv2fWCzB7IqhsP8GzqVkWxCTjfvKv21og=;
- b=cyWAvfTzFnrPpTif9QgM241PJ5CHQrygnslKo2QLTFJ2Ix96mfvmqlPxKps08Zjxbo
- PfnWBuhEBQVC9RY0I7A/YGvuG/4s0nkQDPSZ1O4xkuXOGP01BTTTqe1lULYLbZx3OwDM
- IvVtoPJT5Oa059SpI3LYtglbBR5LYEGJS8yt9LJUal+4QLngH0vWHv05MlPEuM+KcRYh
- lF8MioZUPS3J01tANsPC8DjGXiAq5dGJRqO9EjqtbhYGlfxovBGz/cJZjWAmTGL68R2G
- 0Rvb3as5uM/uYIvLIl5ZHfetL40GAxH8Px21x3itmz4GvLAKprkwhxdPvrA8Upx9xczw
- njTQ==
+ bh=nE8/v9/E1aXsZxbh6/91YvEiHDaWx51s/9G3ceEKxhQ=;
+ b=YHDgLRTRCJXCJOyb87/qCAwR5uNDwovJ3Q/EMi8uTj0lF3ba1bQMicVIdSCMKRmFMt
+ MJxc6CCmh1SqZNo1yASDXgjYWnpQSsT20hP1eIlztMDQTPOxWzOvEKUFl0xSlRf0ZvdI
+ EzVKbymVkvmh9fJzcnrhVPWM/Gz3XoGrLd6APGuTFxsik57V14qQPadyHHepTxLzIkmc
+ t2R7v8C/5Z470wViHNv6aS2EZSvDoBkigkmV3lTsXj7W4/4Z70BZhkiX6WnWsSgLMKID
+ Df8/ePs5lX61+QfLX6H6n0+rB5HQSIEPgjdFkmIOMUOUi360nBGyAVfQRIzHV+ZW9oGy
+ dHXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=68LGDwWChmAv2fWCzB7IqhsP8GzqVkWxCTjfvKv21og=;
- b=NqFlPTOOp0hcbrV+PU+D0tTH0izjShOwjRQ880x8LvueAPaNluPJnrMNYxC3uFM++Y
- IL4wKexxS+wxVBMxQDtAQqkPY+Mq/uVOjoeWKOnz2/3fCIuguAHUU1S/aAC+8eJvLTOV
- L8+PXGOGrPco6QIlDrDETK0RvLo9D3pLyaYRiLYVZnlIgSRnG0VKkjUlAjtPaVmPKY9U
- ee/IzoJBwjv6zPCnpEgTsggeIUrdELVPkU5COf+5mfDC0cRGQyh9t1iVEHSCaYLSrNqB
- CdSKGEviimEHKHB897o8PfGpdBJtZOb2Q8B3vL/Xkxtr8Wv3VfwZjQ4DMiBQ400XIH6W
- 8mlg==
-X-Gm-Message-State: APjAAAUjIby+4Ww/StcqJlCImwCxzMZRnJ0fXkh5d+9etPvDxozWesPp
- rIsPUq7A0nao+Ak/YDTiRhlRQw==
-X-Google-Smtp-Source: APXvYqyALLDzxDS55UK6pSAmdAiSMgx2FG1Zxm+AaZusPpPppOy3v8fVHVEoTO7OPp1mNCn+UAwnKw==
-X-Received: by 2002:a05:600c:cf:: with SMTP id
- u15mr131057wmm.168.1567629564149; 
- Wed, 04 Sep 2019 13:39:24 -0700 (PDT)
+ bh=nE8/v9/E1aXsZxbh6/91YvEiHDaWx51s/9G3ceEKxhQ=;
+ b=Pure4+z7vwGnEcNAe1GvMzmZz4kFGqDkZfQdoEwg5hoh/rzowoSf/Ybdcgbp7JqKNh
+ TeDoEXYnOHt7NsL9KKhAkwDFzwVYsBsqP3vQPEbw7OFxaIqmz1kuvNB+3zXymX6eJA6v
+ YpKjnj6/CmM6RaNNX2vCaW1uYuwt12TxquVp67GsWi64wBwEFaNLRNqU8w16NI0PD/tk
+ yW3+4HuSwp/JahsvZBwy4Zj1Q7HmLhGjdy4WjWf0emh/zFikavkBfbs+6XW5uJAh70jI
+ Ci9Y9jyk9bVgIeM8pgyuOv7H9XbYydYIsOQaswDnNswJrsJr+fZraZQzKUITpZR17n//
+ ZBbg==
+X-Gm-Message-State: APjAAAWxTx3XqVrDNXVtzzzryvKk9W9wMV+n7qqyoFiFhHgfn/m5SUSe
+ sbjP7F+vwQIxt7UrHxLOjtWMuw==
+X-Google-Smtp-Source: APXvYqwXZqJTy5HTLLg698L36aqwF5oQ+VmLgT4Bs3mkwkTgfW9KdT2WygTEwhU1+3SGH8hfd1O7Nw==
+X-Received: by 2002:a7b:ce99:: with SMTP id q25mr67180wmj.163.1567629026881;
+ Wed, 04 Sep 2019 13:30:26 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g201sm287121wmg.34.2019.09.04.13.39.22
+ by smtp.gmail.com with ESMTPSA id q15sm116315wmb.28.2019.09.04.13.30.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 13:39:23 -0700 (PDT)
+ Wed, 04 Sep 2019 13:30:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9ECB51FFAE;
- Wed,  4 Sep 2019 21:30:15 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 303761FFB5;
+ Wed,  4 Sep 2019 21:30:16 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 21:29:55 +0100
-Message-Id: <20190904203013.9028-25-alex.bennee@linaro.org>
+Date: Wed,  4 Sep 2019 21:30:01 +0100
+Message-Id: <20190904203013.9028-31-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190904203013.9028-1-alex.bennee@linaro.org>
 References: <20190904203013.9028-1-alex.bennee@linaro.org>
@@ -69,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
-Subject: [Qemu-devel] [PATCH v1 24/42] tests/docker: add debian9-mxe to
- DEBIAN_PARTIAL_IMAGES
+X-Received-From: 2a00:1450:4864:20::334
+Subject: [Qemu-devel] [PATCH v1 30/42] .travis.yml: Enable multiple caching
+ features
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,26 +91,34 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Another image that can't be used directly to build QEMU.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Using the 'multiple caching features' means explode the YAML array,
+thus it eases the git workflow (it is easier to move patches around).
+
+See https://docs.travis-ci.com/user/caching#enabling-multiple-caching-features
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20170809202712.6951-4-f4bug@amsat.org>
 ---
- tests/docker/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .travis.yml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 8d7f9376578..2c8cb790ad0 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -6,7 +6,7 @@ DOCKER_SUFFIX := .docker
- DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
- DOCKER_DEPRECATED_IMAGES := debian
- # we don't run tests on intermediate images (used as base by another image)
--DOCKER_PARTIAL_IMAGES := debian debian8 debian9 debian10 debian8-mxe debian-ports debian-bootstrap
-+DOCKER_PARTIAL_IMAGES := debian debian8 debian9 debian10 debian8-mxe debian9-mxe debian-ports debian-bootstrap
- DOCKER_IMAGES := $(filter-out $(DOCKER_DEPRECATED_IMAGES),$(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
- DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
- # Use a global constant ccache directory to speed up repetitive builds
+diff --git a/.travis.yml b/.travis.yml
+index 92b00927d4f..612caabc6cf 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -5,7 +5,8 @@ dist: xenial
+ language: c
+ compiler:
+   - gcc
+-cache: ccache
++cache:
++  ccache: true
+ 
+ 
+ addons:
 -- 
 2.20.1
 
