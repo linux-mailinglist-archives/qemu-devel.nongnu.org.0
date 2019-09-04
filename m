@@ -2,47 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6942A8375
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:17:00 +0200 (CEST)
-Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7595A83BD
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:28:46 +0200 (CEST)
+Received: from localhost ([::1]:57912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5V9f-0007o6-SL
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55065)
+	id 1i5VL2-0001Sr-IV
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:28:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53717)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1i5UuG-000261-G7
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:01:06 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1i5Upf-0006ae-UV
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:56:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1i5UuE-0008K4-BD
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:01:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41754)
+ (envelope-from <damien.hedde@greensocs.com>) id 1i5Upc-0005bv-Tx
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:56:19 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:45926)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1i5UuE-0008JY-0C
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 09:01:02 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3EB5710A8123
- for <qemu-devel@nongnu.org>; Wed,  4 Sep 2019 13:01:01 +0000 (UTC)
-Received: from thuth.com (ovpn-116-69.ams2.redhat.com [10.36.116.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE0371000321;
- Wed,  4 Sep 2019 13:00:59 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>,
-	qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 15:00:44 +0200
-Message-Id: <20190904130047.25808-4-thuth@redhat.com>
-In-Reply-To: <20190904130047.25808-1-thuth@redhat.com>
-References: <20190904130047.25808-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Wed, 04 Sep 2019 13:01:01 +0000 (UTC)
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1i5UpX-0005Ws-KL; Wed, 04 Sep 2019 08:56:11 -0400
+Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
+ [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPS id 302A896F67;
+ Wed,  4 Sep 2019 12:56:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1567601770;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nWgo2WvyT7oMTlGOfjSje7UzEcT0OjZXGMk4UD6u5Vc=;
+ b=hsLWkF6lWLhHmZWH//GP/cYOVQkwQiafYuJdvYQ9ZC+jFvmfracfYw1MwmJ2KIkIc5PIRK
+ yhpUmOmRsMnXmIJC9AL/7VQctXrrZU2cwqb/0ldcOayAnMbZSYng9hqQfFlpA47+SOEfCd
+ aSadXak/ZPOwsJuGh9PTOh/h32LF8Wc=
+From: Damien Hedde <damien.hedde@greensocs.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  4 Sep 2019 14:55:25 +0200
+Message-Id: <20190904125531.27545-4-damien.hedde@greensocs.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190904125531.27545-1-damien.hedde@greensocs.com>
+References: <20190904125531.27545-1-damien.hedde@greensocs.com>
+MIME-Version: 1.0
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1567601770;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nWgo2WvyT7oMTlGOfjSje7UzEcT0OjZXGMk4UD6u5Vc=;
+ b=sLKwEeW/RF1a1iXmG2qpmwBooUEgZuZpbqQ7svYC97fF0bg4WATbE0jIf86AABCwsIWeVf
+ nBKvWi1jLc47Gls5GTFi3lCwvzpMAR0+EW93eW4s0xY06LekI9SkCd842cWOatQm4Tyv1J
+ EPdZh+YfWZdTSfD6Wm33934U7xKNd28=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1567601770; a=rsa-sha256; cv=none;
+ b=s76IFon6gGPVKqgJUGUzxGhEfbdB4JgQ+Un4XzBVbkWyzXokycAv4PBbdl5/h6s2oEhwhk
+ GcSqpqCw2GprkKjxwlTW0OVlsTaDMMnraSgwW732sU2V383lShVMErQrIELJR1nIX31QDk
+ pCD8MHKGaE25p4Yl4/atuMAs7a5IXFk=
+ARC-Authentication-Results: i=1;
+	beetle.greensocs.com;
+	none
+X-Spam: Yes
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 3/6] tests/libqos: Replace clock_step with
- qtest_clock_step in virtio code
+X-Received-From: 5.135.226.135
+Subject: [Qemu-devel] [PATCH v6 3/9] qdev: add clock input&output support to
+ devices.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,196 +76,436 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
+ berrange@redhat.com, ehabkost@redhat.com, alistair@alistair23.me,
+ mark.burton@greensocs.com, pbonzini@redhat.com, qemu-arm@nongnu.org,
+ marcandre.lureau@redhat.com, edgar.iglesias@gmail.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Library functions should not rely on functions that require global_qtest
-(since they might get used in tests that deal with multiple states).
-Commit 1999a70a05ad603d ("Make generic virtio code independent from
-global_qtest") already tried to clean the libqos virtio code, but I
-missed to replace the clock_step() function. Thus change it now to
-qtest_clock_step() instead.
-The logic of the qvirtio_wait_config_isr() function is now pushed
-to the virtio-mmio.c and virtio-pci.c files instead, since we can
-get the QTestState here easily.
+Add functions to easily add input or output clocks to a device.
+A clock objects is added as a child of the device.
+The api is very similar the gpio's one.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+This is based on the original work of Frederic Konrad.
+
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+
 ---
- tests/libqos/virtio-mmio.c | 14 +++++++++++++-
- tests/libqos/virtio-pci.c  | 14 +++++++++++++-
- tests/libqos/virtio.c      | 20 ++++++--------------
- tests/libqos/virtio.h      |  6 +++---
- tests/virtio-blk-test.c    |  3 ++-
- 5 files changed, 37 insertions(+), 20 deletions(-)
+I've removed the reviewed-by/tested-by of Philippe because I did a small
+modification.
 
-diff --git a/tests/libqos/virtio-mmio.c b/tests/libqos/virtio-mmio.c
-index 5f37b51129..d0047876a8 100644
---- a/tests/libqos/virtio-mmio.c
-+++ b/tests/libqos/virtio-mmio.c
-@@ -101,6 +101,18 @@ static bool qvirtio_mmio_get_config_isr_status(QVirtioDevice *d)
-     return false;
- }
- 
-+static void qvirtio_mmio_wait_config_isr_status(QVirtioDevice *d,
-+                                                gint64 timeout_us)
-+{
-+    QVirtioMMIODevice *dev = container_of(d, QVirtioMMIODevice, vdev);
-+    gint64 start_time = g_get_monotonic_time();
+qdev_connect_clock() which allowed to connect an input to an output is
+now split in 2:
++ qdev_get_clock_in() which gets a given input from a device
++ qdev_connect_clock_out() which connect a given output to a clock
+(previously fetched by qdev_get_clock_in())
+This part is located in (qdev-clock.[c|h]).
+It better matches gpios api and also add the possibility to connect a
+device's input clock to a random output clock (used in patch 9).
+
+Also add missing qdev-clock in the test-qdev-global-props so that tests
+pass.
+---
+ hw/core/Makefile.objs   |   2 +-
+ hw/core/qdev-clock.c    | 155 ++++++++++++++++++++++++++++++++++++++++
+ hw/core/qdev.c          |  32 +++++++++
+ include/hw/qdev-clock.h |  67 +++++++++++++++++
+ include/hw/qdev-core.h  |  14 ++++
+ tests/Makefile.include  |   1 +
+ 6 files changed, 270 insertions(+), 1 deletion(-)
+ create mode 100644 hw/core/qdev-clock.c
+ create mode 100644 include/hw/qdev-clock.h
+
+diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
+index 8fcebf2e67..4523d3b5c7 100644
+--- a/hw/core/Makefile.objs
++++ b/hw/core/Makefile.objs
+@@ -1,5 +1,5 @@
+ # core qdev-related obj files, also used by *-user:
+-common-obj-y +=3D qdev.o qdev-properties.o
++common-obj-y +=3D qdev.o qdev-properties.o qdev-clock.o
+ common-obj-y +=3D bus.o reset.o
+ common-obj-y +=3D resettable.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D qdev-fw.o
+diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c
+new file mode 100644
+index 0000000000..bebdd8fa15
+--- /dev/null
++++ b/hw/core/qdev-clock.c
+@@ -0,0 +1,155 @@
++/*
++ * Device's clock
++ *
++ * Copyright GreenSocs 2016-2018
++ *
++ * Authors:
++ *  Frederic Konrad <fred.konrad@greensocs.com>
++ *  Damien Hedde <damien.hedde@greensocs.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+    do {
-+        g_assert(g_get_monotonic_time() - start_time <= timeout_us);
-+        qtest_clock_step(dev->qts, 100);
-+    } while (!qvirtio_mmio_get_config_isr_status(d));
++#include "qemu/osdep.h"
++#include "hw/qdev-clock.h"
++#include "hw/qdev-core.h"
++#include "qapi/error.h"
++
++static NamedClockList *qdev_init_clocklist(DeviceState *dev, const char =
+*name,
++        bool forward)
++{
++    NamedClockList *ncl;
++
++    /*
++     * The clock path will be computed by the device's realize function =
+call.
++     * This is required to ensure the clock's canonical path is right an=
+d log
++     * messages are meaningfull.
++     */
++    assert(name);
++    assert(!dev->realized);
++
++    /* The ncl structure will be freed in device's finalize function cal=
+l */
++    ncl =3D g_malloc0(sizeof(*ncl));
++    ncl->name =3D g_strdup(name);
++    ncl->forward =3D forward;
++
++    QLIST_INSERT_HEAD(&dev->clocks, ncl, node);
++    return ncl;
 +}
 +
- static void qvirtio_mmio_queue_select(QVirtioDevice *d, uint16_t index)
- {
-     QVirtioMMIODevice *dev = container_of(d, QVirtioMMIODevice, vdev);
-@@ -179,7 +191,7 @@ const QVirtioBus qvirtio_mmio = {
-     .get_status = qvirtio_mmio_get_status,
-     .set_status = qvirtio_mmio_set_status,
-     .get_queue_isr_status = qvirtio_mmio_get_queue_isr_status,
--    .get_config_isr_status = qvirtio_mmio_get_config_isr_status,
-+    .wait_config_isr_status = qvirtio_mmio_wait_config_isr_status,
-     .queue_select = qvirtio_mmio_queue_select,
-     .get_queue_size = qvirtio_mmio_get_queue_size,
-     .set_queue_address = qvirtio_mmio_set_queue_address,
-diff --git a/tests/libqos/virtio-pci.c b/tests/libqos/virtio-pci.c
-index 3f55c047a0..50499e75ef 100644
---- a/tests/libqos/virtio-pci.c
-+++ b/tests/libqos/virtio-pci.c
-@@ -175,6 +175,18 @@ static bool qvirtio_pci_get_config_isr_status(QVirtioDevice *d)
-     }
- }
- 
-+static void qvirtio_pci_wait_config_isr_status(QVirtioDevice *d,
-+                                               gint64 timeout_us)
++ClockOut *qdev_init_clock_out(DeviceState *dev, const char *name)
 +{
-+    QVirtioPCIDevice *dev = container_of(d, QVirtioPCIDevice, vdev);
-+    gint64 start_time = g_get_monotonic_time();
++    NamedClockList *ncl;
++    Object *clk;
 +
-+    do {
-+        g_assert(g_get_monotonic_time() - start_time <= timeout_us);
-+        qtest_clock_step(dev->pdev->bus->qts, 100);
-+    } while (!qvirtio_pci_get_config_isr_status(d));
++    ncl =3D qdev_init_clocklist(dev, name, false);
++
++    clk =3D object_new(TYPE_CLOCK_OUT);
++
++    /* will fail if name already exists */
++    object_property_add_child(OBJECT(dev), name, clk, &error_abort);
++    object_unref(clk); /* remove the initial ref made by object_new */
++
++    ncl->out =3D CLOCK_OUT(clk);
++    return ncl->out;
 +}
 +
- static void qvirtio_pci_queue_select(QVirtioDevice *d, uint16_t index)
- {
-     QVirtioPCIDevice *dev = container_of(d, QVirtioPCIDevice, vdev);
-@@ -257,7 +269,7 @@ const QVirtioBus qvirtio_pci = {
-     .get_status = qvirtio_pci_get_status,
-     .set_status = qvirtio_pci_set_status,
-     .get_queue_isr_status = qvirtio_pci_get_queue_isr_status,
--    .get_config_isr_status = qvirtio_pci_get_config_isr_status,
-+    .wait_config_isr_status = qvirtio_pci_wait_config_isr_status,
-     .queue_select = qvirtio_pci_queue_select,
-     .get_queue_size = qvirtio_pci_get_queue_size,
-     .set_queue_address = qvirtio_pci_set_queue_address,
-diff --git a/tests/libqos/virtio.c b/tests/libqos/virtio.c
-index 91ce06954b..0ae9956fc8 100644
---- a/tests/libqos/virtio.c
-+++ b/tests/libqos/virtio.c
-@@ -82,13 +82,13 @@ void qvirtio_set_driver_ok(QVirtioDevice *d)
-                     VIRTIO_CONFIG_S_DRIVER | VIRTIO_CONFIG_S_ACKNOWLEDGE);
++ClockIn *qdev_init_clock_in(DeviceState *dev, const char *name,
++                        ClockCallback *callback, void *opaque)
++{
++    NamedClockList *ncl;
++    Object *clk;
++
++    ncl =3D qdev_init_clocklist(dev, name, false);
++
++    clk =3D object_new(TYPE_CLOCK_IN);
++    /*
++     * the ref initialized by object_new will be cleared during dev fina=
+lize.
++     * It allows us to safely remove the callback.
++     */
++
++    /* will fail if name already exists */
++    object_property_add_child(OBJECT(dev), name, clk, &error_abort);
++
++    ncl->in =3D CLOCK_IN(clk);
++    if (callback) {
++        clock_set_callback(ncl->in, callback, opaque);
++    }
++    return ncl->in;
++}
++
++static NamedClockList *qdev_get_clocklist(DeviceState *dev, const char *=
+name)
++{
++    NamedClockList *ncl;
++
++    QLIST_FOREACH(ncl, &dev->clocks, node) {
++        if (strcmp(name, ncl->name) =3D=3D 0) {
++            return ncl;
++        }
++    }
++
++    return NULL;
++}
++
++void qdev_pass_clock(DeviceState *dev, const char *name,
++                     DeviceState *container, const char *cont_name)
++{
++    NamedClockList *original_ncl, *ncl;
++    Object **clk;
++
++    assert(container && cont_name);
++
++    original_ncl =3D qdev_get_clocklist(container, cont_name);
++    assert(original_ncl); /* clock must exist in origin */
++
++    ncl =3D qdev_init_clocklist(dev, name, true);
++
++    if (ncl->out) {
++        clk =3D (Object **)&ncl->out;
++    } else {
++        clk =3D (Object **)&ncl->in;
++    }
++
++    /* will fail if name already exists */
++    object_property_add_link(OBJECT(dev), name, object_get_typename(*clk=
+),
++                             clk, NULL, OBJ_PROP_LINK_STRONG, &error_abo=
+rt);
++}
++
++ClockIn *qdev_get_clock_in(DeviceState *dev, const char *name)
++{
++    NamedClockList *ncl;
++
++    assert(dev && name);
++
++    ncl =3D qdev_get_clocklist(dev, name);
++    return ncl ? ncl->in : NULL;
++}
++
++static ClockOut *qdev_get_clock_out(DeviceState *dev, const char *name)
++{
++    NamedClockList *ncl;
++
++    assert(dev && name);
++
++    ncl =3D qdev_get_clocklist(dev, name);
++    return ncl ? ncl->out : NULL;
++}
++
++void qdev_connect_clock_out(DeviceState *dev, const char *name, ClockIn =
+*clk,
++                            Error **errp)
++{
++    ClockOut *clkout =3D qdev_get_clock_out(dev, name);
++
++    if (!clk) {
++        error_setg(errp, "NULL input clock");
++        return;
++    }
++
++    if (!clkout) {
++        error_setg(errp, "no output clock '%s' in device", name);
++        return;
++    }
++
++    clock_connect(clk, clkout);
++}
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 9095f2b9c1..eae6cd3e09 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -37,6 +37,7 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/boards.h"
+ #include "hw/sysbus.h"
++#include "hw/clock.h"
+ #include "migration/vmstate.h"
+=20
+ bool qdev_hotplug =3D false;
+@@ -821,6 +822,7 @@ static void device_set_realized(Object *obj, bool val=
+ue, Error **errp)
+     DeviceClass *dc =3D DEVICE_GET_CLASS(dev);
+     HotplugHandler *hotplug_ctrl;
+     BusState *bus;
++    NamedClockList *clk;
+     Error *local_err =3D NULL;
+     bool unattached_parent =3D false;
+     static int unattached_count;
+@@ -869,6 +871,15 @@ static void device_set_realized(Object *obj, bool va=
+lue, Error **errp)
+          */
+         g_free(dev->canonical_path);
+         dev->canonical_path =3D object_get_canonical_path(OBJECT(dev));
++        QLIST_FOREACH(clk, &dev->clocks, node) {
++            if (clk->forward) {
++                continue;
++            } else if (clk->in !=3D NULL) {
++                clock_in_setup_canonical_path(clk->in);
++            } else {
++                clock_out_setup_canonical_path(clk->out);
++            }
++        }
+=20
+         if (qdev_get_vmsd(dev)) {
+             if (vmstate_register_with_alias_id(dev, -1, qdev_get_vmsd(de=
+v), dev,
+@@ -999,6 +1010,7 @@ static void device_initfn(Object *obj)
+                              (Object **)&dev->parent_bus, NULL, 0,
+                              &error_abort);
+     QLIST_INIT(&dev->gpios);
++    QLIST_INIT(&dev->clocks);
  }
- 
--void qvirtio_wait_queue_isr(QVirtioDevice *d,
-+void qvirtio_wait_queue_isr(QTestState *qts, QVirtioDevice *d,
-                             QVirtQueue *vq, gint64 timeout_us)
+=20
+ static void device_post_init(Object *obj)
+@@ -1015,6 +1027,7 @@ static void device_post_init(Object *obj)
+ static void device_finalize(Object *obj)
  {
-     gint64 start_time = g_get_monotonic_time();
- 
-     for (;;) {
--        clock_step(100);
-+        qtest_clock_step(qts, 100);
-         if (d->bus->get_queue_isr_status(d, vq)) {
-             return;
-         }
-@@ -109,8 +109,8 @@ uint8_t qvirtio_wait_status_byte_no_isr(QTestState *qts, QVirtioDevice *d,
-     gint64 start_time = g_get_monotonic_time();
-     uint8_t val;
- 
--    while ((val = readb(addr)) == 0xff) {
--        clock_step(100);
-+    while ((val = qtest_readb(qts, addr)) == 0xff) {
-+        qtest_clock_step(qts, 100);
-         g_assert(!d->bus->get_queue_isr_status(d, vq));
-         g_assert(g_get_monotonic_time() - start_time <= timeout_us);
+     NamedGPIOList *ngl, *next;
++    NamedClockList *clk, *clk_next;
+=20
+     DeviceState *dev =3D DEVICE(obj);
+=20
+@@ -1028,6 +1041,25 @@ static void device_finalize(Object *obj)
+          */
      }
-@@ -137,7 +137,7 @@ void qvirtio_wait_used_elem(QTestState *qts, QVirtioDevice *d,
-     for (;;) {
-         uint32_t got_desc_idx;
- 
--        clock_step(100);
-+        qtest_clock_step(qts, 100);
- 
-         if (d->bus->get_queue_isr_status(d, vq) &&
-             qvirtqueue_get_buf(qts, vq, &got_desc_idx, len)) {
-@@ -151,15 +151,7 @@ void qvirtio_wait_used_elem(QTestState *qts, QVirtioDevice *d,
- 
- void qvirtio_wait_config_isr(QVirtioDevice *d, gint64 timeout_us)
- {
--    gint64 start_time = g_get_monotonic_time();
--
--    for (;;) {
--        clock_step(100);
--        if (d->bus->get_config_isr_status(d)) {
--            return;
--        }
--        g_assert(g_get_monotonic_time() - start_time <= timeout_us);
--    }
-+    d->bus->wait_config_isr_status(d, timeout_us);
- }
- 
- void qvring_init(QTestState *qts, const QGuestAllocator *alloc, QVirtQueue *vq,
-diff --git a/tests/libqos/virtio.h b/tests/libqos/virtio.h
-index 037176dbd8..2cb2448f46 100644
---- a/tests/libqos/virtio.h
-+++ b/tests/libqos/virtio.h
-@@ -69,8 +69,8 @@ struct QVirtioBus {
-     /* Get the queue ISR status of the device */
-     bool (*get_queue_isr_status)(QVirtioDevice *d, QVirtQueue *vq);
- 
--    /* Get the configuration ISR status of the device */
--    bool (*get_config_isr_status)(QVirtioDevice *d);
-+    /* Wait for the configuration ISR status of the device */
-+    void (*wait_config_isr_status)(QVirtioDevice *d, gint64 timeout_us);
- 
-     /* Select a queue to work on */
-     void (*queue_select)(QVirtioDevice *d, uint16_t index);
-@@ -112,7 +112,7 @@ void qvirtio_set_acknowledge(QVirtioDevice *d);
- void qvirtio_set_driver(QVirtioDevice *d);
- void qvirtio_set_driver_ok(QVirtioDevice *d);
- 
--void qvirtio_wait_queue_isr(QVirtioDevice *d,
-+void qvirtio_wait_queue_isr(QTestState *qts, QVirtioDevice *d,
-                             QVirtQueue *vq, gint64 timeout_us);
- uint8_t qvirtio_wait_status_byte_no_isr(QTestState *qts, QVirtioDevice *d,
-                                         QVirtQueue *vq,
-diff --git a/tests/virtio-blk-test.c b/tests/virtio-blk-test.c
-index 982ff1538c..45375dc4ff 100644
---- a/tests/virtio-blk-test.c
-+++ b/tests/virtio-blk-test.c
-@@ -737,6 +737,7 @@ static void resize(void *obj, void *data, QGuestAllocator *t_alloc)
-     int n_size = TEST_IMAGE_SIZE / 2;
-     uint64_t capacity;
-     QVirtQueue *vq;
-+    QTestState *qts = global_qtest;
- 
-     vq = qvirtqueue_setup(dev, t_alloc, 0);
- 
-@@ -746,7 +747,7 @@ static void resize(void *obj, void *data, QGuestAllocator *t_alloc)
-                          " 'arguments': { 'device': 'drive0', "
-                          " 'size': %d } }", n_size);
- 
--    qvirtio_wait_queue_isr(dev, vq, QVIRTIO_BLK_TIMEOUT_US);
-+    qvirtio_wait_queue_isr(qts, dev, vq, QVIRTIO_BLK_TIMEOUT_US);
- 
-     capacity = qvirtio_config_readq(dev, 0);
-     g_assert_cmpint(capacity, ==, n_size / 512);
--- 
-2.18.1
+=20
++    QLIST_FOREACH_SAFE(clk, &dev->clocks, node, clk_next) {
++        QLIST_REMOVE(clk, node);
++        if (!clk->forward && clk->in) {
++            /*
++             * if this clock is not forwarded, clk->in is a child of dev=
+.
++             * At this point the child property and associated reference=
+ is
++             * already deleted but we kept a ref on clk->in to ensure it=
+ lives
++             * up to this point and we can safely remove the callback.
++             * It avoids having a lost callback to a deleted device if t=
+he
++             * clk->in is still referenced somewhere else (eg: by a cloc=
+k
++             * output).
++             */
++            clock_clear_callback(clk->in);
++            object_unref(OBJECT(clk->in));
++        }
++        g_free(clk->name);
++        g_free(clk);
++    }
++
+     /* Only send event if the device had been completely realized */
+     if (dev->pending_deleted_event) {
+         g_assert(dev->canonical_path);
+diff --git a/include/hw/qdev-clock.h b/include/hw/qdev-clock.h
+new file mode 100644
+index 0000000000..c4ea912fdc
+--- /dev/null
++++ b/include/hw/qdev-clock.h
+@@ -0,0 +1,67 @@
++#ifndef QDEV_CLOCK_H
++#define QDEV_CLOCK_H
++
++#include "hw/clock.h"
++
++/**
++ * qdev_init_clock_in:
++ * @dev: the device in which to add a clock
++ * @name: the name of the clock (can't be NULL).
++ * @callback: optional callback to be called on update or NULL.
++ * @opaque:   argument for the callback
++ * @returns: a pointer to the newly added clock
++ *
++ * Add a input clock to device @dev as a clock named @name.
++ * This adds a child<> property.
++ * The callback will be called with @dev as opaque parameter.
++ */
++ClockIn *qdev_init_clock_in(DeviceState *dev, const char *name,
++                            ClockCallback *callback, void *opaque);
++
++/**
++ * qdev_init_clock_out:
++ * @dev: the device to add a clock to
++ * @name: the name of the clock (can't be NULL).
++ * @callback: optional callback to be called on update or NULL.
++ * @returns: a pointer to the newly added clock
++ *
++ * Add a output clock to device @dev as a clock named @name.
++ * This adds a child<> property.
++ */
++ClockOut *qdev_init_clock_out(DeviceState *dev, const char *name);
++
++/**
++ * qdev_get_clock_in:
++ * @dev: the device which has the clock
++ * @name: the name of the clock (can't be NULL).
++ * @returns: a pointer to the clock
++ *
++ * Get the clock @name from @dev or NULL if does not exists.
++ */
++ClockIn *qdev_get_clock_in(DeviceState *dev, const char *name);
++
++/**
++ * qdev_connect_clock_out:
++ * @dev: the device which has the clock
++ * @name: the name of the clock (can't be NULL).
++ * @errp: error report
++ *
++ * Connect @clk to the output clock @name of @dev.
++ * Reports an error if clk is NULL or @name does not exists in @dev.
++ */
++void qdev_connect_clock_out(DeviceState *dev, const char *name, ClockIn =
+*clk,
++                            Error **errp);
++
++/**
++ * qdev_pass_clock:
++ * @dev: the device to forward the clock to
++ * @name: the name of the clock to be added (can't be NULL)
++ * @container: the device which already has the clock
++ * @cont_name: the name of the clock in the container device
++ *
++ * Add a clock @name to @dev which forward to the clock @cont_name in @c=
+ontainer
++ */
++void qdev_pass_clock(DeviceState *dev, const char *name,
++                     DeviceState *container, const char *cont_name);
++
++#endif /* QDEV_CLOCK_H */
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index eb11f0f801..60a65f6142 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -131,6 +131,19 @@ struct NamedGPIOList {
+     QLIST_ENTRY(NamedGPIOList) node;
+ };
+=20
++typedef struct NamedClockList NamedClockList;
++
++typedef struct ClockIn ClockIn;
++typedef struct ClockOut ClockOut;
++
++struct NamedClockList {
++    char *name;
++    bool forward;
++    ClockIn *in;
++    ClockOut *out;
++    QLIST_ENTRY(NamedClockList) node;
++};
++
+ /**
+  * DeviceState:
+  * @realized: Indicates whether the device has been fully constructed.
+@@ -152,6 +165,7 @@ struct DeviceState {
+     int hotplugged;
+     BusState *parent_bus;
+     QLIST_HEAD(, NamedGPIOList) gpios;
++    QLIST_HEAD(, NamedClockList) clocks;
+     QLIST_HEAD(, BusState) child_bus;
+     int num_child_bus;
+     int instance_id_alias;
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index f0b4628cc6..5c54beb29e 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -566,6 +566,7 @@ tests/test-qdev-global-props$(EXESUF): tests/test-qde=
+v-global-props.o \
+ 	hw/core/irq.o \
+ 	hw/core/fw-path-provider.o \
+ 	hw/core/reset.o \
++	hw/core/clock.o \
+ 	$(test-qapi-obj-y)
+ tests/test-vmstate$(EXESUF): tests/test-vmstate.o \
+ 	migration/vmstate.o migration/vmstate-types.o migration/qemu-file.o \
+--=20
+2.22.0
 
 
