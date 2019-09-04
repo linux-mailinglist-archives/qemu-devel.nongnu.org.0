@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF00A93C4
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:33:21 +0200 (CEST)
-Received: from localhost ([::1]:38948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78249A93CF
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 22:36:12 +0200 (CEST)
+Received: from localhost ([::1]:39032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5bxv-0000I2-U3
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:33:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41350)
+	id 1i5c0h-0003tS-HA
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 16:36:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41351)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0z-0005Zf-1R
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0z-0005Zh-0F
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1i5b0u-0003Cx-ED
+ (envelope-from <richard.henderson@linaro.org>) id 1i5b0v-0003Dv-GN
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:24 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:34491)
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:38494)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1i5b0u-0003BL-0r
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:20 -0400
-Received: by mail-pl1-x629.google.com with SMTP id d3so16962plr.1
- for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:32:19 -0700 (PDT)
+ id 1i5b0u-0003Co-V2
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 15:32:21 -0400
+Received: by mail-pg1-x543.google.com with SMTP id d10so7223853pgo.5
+ for <qemu-devel@nongnu.org>; Wed, 04 Sep 2019 12:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=dXwskgwxwGoHO9g80cjucHpMD4vJQ5Oi2of0il2UAv8=;
- b=awDsgTvBw3Jo2mOzDrNg6vw8t7K3zMt9+omHocXqlpvz1LDWzx+/hivJY7mraY0F+3
- aaTLno6CnSb8ZDrzozteHVYDdjmEF3mngBoSEnD5Y6sfZui3o57ptfByylfTNd6SNr18
- 6MiExsuyY35uOc303YDN+Ck5x0h/ZheJhSNoyLBgL1gTyGQMY4/jIy7RqGPcDn0Szwrd
- 6cMKS/w3Mi4iKwfkWOobSbus1RfTHKNIpqq/CXk55A9HGVbyy4S6bwliF1I5MTEl8Sdp
- oVV5ZGpbcymkXgMueLXMMznFDZWBU42n5W9R/ScgM1FnBHbn88Mm+clIKwl2c/XeI4Rg
- fvfw==
+ bh=852c/awIgTh3C7GCCijbpsvu4SQYTMvdpB+Gb73lAXI=;
+ b=PleWZl9qI/5fL2wLcpKqsJ8ESef2Xs/+UqLlIYlBv486L85cjw0mwEhgUe5LivT+kB
+ fzqBmsfz+wd9FNF0sOFv7nEB9TT4wfoNJu5W+18J5bQuD/Z6FuyUUde7BoalePU1pePs
+ u4EOBOevVKvmam3MZc0W1Z4yg9sdGrwKwW9F7GZqc76AivWZDZsZP4skAcZDP8XXi3yS
+ gZKqUQCifRb0usqtCeQvZOfYvvUXk3aqJS7UacBKUYFQ1CuPWMLUlhlHDgpBPd5MJSZu
+ PO7kMYKoFOC8TpFoum7iRm4OAAQ/9aN1fscqP2SyfpuY6FPmpvc4dMW4AFBtw0UTTqUO
+ OnrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=dXwskgwxwGoHO9g80cjucHpMD4vJQ5Oi2of0il2UAv8=;
- b=BbQQbHKalcr8ERZHErdIJyvvSWEPx7cQ8gtOZ9OuobPQHcflMR1TEp6JD+WQYyJ9ax
- dRLTqzmxJGGUedxTwZRLxpWgVW+6pGrPDP47Dg5cY3ESo9/QttA4Ni48ZBUIoLqVD+kO
- fVMMMGFcj59TprYjkyzPGNN4FcsM38D3vlJgzte+kGFNwAoaEYrz0J7Ut1C/+elluvvf
- OhTtrZAe1xppdYiJg7CmVfNH/l9qSZ0VdbT1ZoOtqGBfUBlbrXaj+8f0yyNLG3r2jB7Y
- bBwJN1BxmZh9ar00LnNKW6H3Tyh9pWTsYcYEU6K5Bdnhkr1we27L+P6XJVjJJ/mkRoP8
- VFtQ==
-X-Gm-Message-State: APjAAAWL/E5pxJ/jST8OOdkK1/ahcMXHKzpBq1Xm31zmG+XQwr2wel5k
- ru7qRi8Ua8tYSiK1G7frOnYphLNWEMg=
-X-Google-Smtp-Source: APXvYqwqJqRIXhoj1WZFQVgzVBLoVbWqC4QjvnEo9Zeq0y4WMdXqdY9fvTj0tCq/NTvuNBbdnN2PJg==
-X-Received: by 2002:a17:902:5e1:: with SMTP id
- f88mr13079569plf.1.1567625538333; 
- Wed, 04 Sep 2019 12:32:18 -0700 (PDT)
+ bh=852c/awIgTh3C7GCCijbpsvu4SQYTMvdpB+Gb73lAXI=;
+ b=n5h3n68LSOgr+3Y1xm703PbabUJpoyGG0O+1T+OUXZQFrOLto20hQYCTQ2Pa+/gldy
+ KJn+g/9x8EYSgFbbh4gk/5jf84R7W1hHq1p8Pc2ZLlHX6p/UpYK0CnJ28vd5mCnZFf7R
+ 8k/cz1Bas5mCLp+X/skA9zzzpR9bR4lGJx2n/K12LcMeldczqjtFvgOpI5V9PbmfH8CC
+ wOyvga3VoadSiQRXi9xDsBNPKoK7jGmX+3iKUaRWeV75RmheeJUItdkBYSQ+ZK96nvxA
+ q4N5O5Pkn4957UeGZpU0OfgmIYz45um+tlcWw5ZrSb7LhCOfHP8gDg5t6hroyq9ukpki
+ VO0A==
+X-Gm-Message-State: APjAAAU6zssiV42tqjL7FgxANcgtuq9juuLwJolWjwkNahOkGMlTmUyE
+ jAsQr6d3/3DGqbA5b+oZkUMjrjqkSfI=
+X-Google-Smtp-Source: APXvYqwXT6zoPw0imc6lPNQBN5k07CAss7RvCBb1HDn2SsF+x3mbSYDmpsEDCmCHwZz+XIptRQvhyg==
+X-Received: by 2002:aa7:9508:: with SMTP id b8mr31575939pfp.36.1567625539480; 
+ Wed, 04 Sep 2019 12:32:19 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.32.17
+ by smtp.gmail.com with ESMTPSA id f6sm18999174pga.50.2019.09.04.12.32.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Sep 2019 12:32:17 -0700 (PDT)
+ Wed, 04 Sep 2019 12:32:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 12:30:51 -0700
-Message-Id: <20190904193059.26202-62-richard.henderson@linaro.org>
+Date: Wed,  4 Sep 2019 12:30:52 -0700
+Message-Id: <20190904193059.26202-63-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190904193059.26202-1-richard.henderson@linaro.org>
 References: <20190904193059.26202-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::629
-Subject: [Qemu-devel] [PATCH v4 61/69] target/arm: Convert T16, push and pop
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH v4 62/69] target/arm: Convert T16,
+ Conditional branches, Supervisor call
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,136 +83,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 83 ++++++------------------------------------
- target/arm/t16.decode  | 10 +++++
- 2 files changed, 22 insertions(+), 71 deletions(-)
+ target/arm/translate.c | 26 +++-----------------------
+ target/arm/t16.decode  | 12 ++++++++++++
+ 2 files changed, 15 insertions(+), 23 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index d076c962ea..ed52018c17 100644
+index ed52018c17..a4844992d5 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -7516,6 +7516,16 @@ static int t16_setflags(DisasContext *s)
-     return s->condexec_mask == 0;
- }
+@@ -10721,7 +10721,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
  
-+static int t16_push_list(DisasContext *s, int x)
-+{
-+    return (x & 0xff) | (x & 0x100) << (14 - 8);
-+}
-+
-+static int t16_pop_list(DisasContext *s, int x)
-+{
-+    return (x & 0xff) | (x & 0x100) << (15 - 8);
-+}
-+
- /*
-  * Include the generated decoders.
-  */
-@@ -10713,7 +10723,6 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
  {
-     uint32_t val, op, rm, rd, shift, cond;
+-    uint32_t val, op, rm, rd, shift, cond;
++    uint32_t val, op, rm, rd, shift;
      int32_t offset;
--    int i;
      TCGv_i32 tmp;
      TCGv_i32 tmp2;
-     TCGv_i32 addr;
-@@ -10786,76 +10795,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-             goto illegal_op;
+@@ -10860,28 +10860,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+         }
+         break;
  
-         case 4: case 5: case 0xc: case 0xd:
--            /*
--             * 0b1011_x10x_xxxx_xxxx
--             *  - push/pop
--             */
--            addr = load_reg(s, 13);
--            if (insn & (1 << 8))
--                offset = 4;
--            else
--                offset = 0;
--            for (i = 0; i < 8; i++) {
--                if (insn & (1 << i))
--                    offset += 4;
--            }
--            if ((insn & (1 << 11)) == 0) {
--                tcg_gen_addi_i32(addr, addr, -offset);
--            }
+-    case 13:
+-        /* conditional branch or swi */
+-        cond = (insn >> 8) & 0xf;
+-        if (cond == 0xe)
+-            goto undef;
 -
--            if (s->v8m_stackcheck) {
--                /*
--                 * Here 'addr' is the lower of "old SP" and "new SP";
--                 * if this is a pop that starts below the limit and ends
--                 * above it, it is UNKNOWN whether the limit check triggers;
--                 * we choose to trigger.
--                 */
--                gen_helper_v8m_stackcheck(cpu_env, addr);
--            }
--
--            for (i = 0; i < 8; i++) {
--                if (insn & (1 << i)) {
--                    if (insn & (1 << 11)) {
--                        /* pop */
--                        tmp = tcg_temp_new_i32();
--                        gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
--                        store_reg(s, i, tmp);
--                    } else {
--                        /* push */
--                        tmp = load_reg(s, i);
--                        gen_aa32_st32(s, tmp, addr, get_mem_index(s));
--                        tcg_temp_free_i32(tmp);
--                    }
--                    /* advance to the next address.  */
--                    tcg_gen_addi_i32(addr, addr, 4);
--                }
--            }
--            tmp = NULL;
--            if (insn & (1 << 8)) {
--                if (insn & (1 << 11)) {
--                    /* pop pc */
--                    tmp = tcg_temp_new_i32();
--                    gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
--                    /* don't set the pc until the rest of the instruction
--                       has completed */
--                } else {
--                    /* push lr */
--                    tmp = load_reg(s, 14);
--                    gen_aa32_st32(s, tmp, addr, get_mem_index(s));
--                    tcg_temp_free_i32(tmp);
--                }
--                tcg_gen_addi_i32(addr, addr, 4);
--            }
--            if ((insn & (1 << 11)) == 0) {
--                tcg_gen_addi_i32(addr, addr, -offset);
--            }
--            /* write back the new stack pointer */
--            store_reg(s, 13, addr);
--            /* set the new PC value */
--            if ((insn & 0x0900) == 0x0900) {
--                store_reg_from_load(s, 15, tmp);
--            }
+-        if (cond == 0xf) {
+-            /* swi */
+-            gen_set_pc_im(s, s->base.pc_next);
+-            s->svc_imm = extract32(insn, 0, 8);
+-            s->base.is_jmp = DISAS_SWI;
 -            break;
-+            /* push/pop, in decodetree */
-+            goto illegal_op;
+-        }
+-        /* generate a conditional jump to next instruction */
+-        arm_skip_unless(s, cond);
+-
+-        /* jump to the offset */
+-        val = read_pc(s);
+-        offset = ((int32_t)insn << 24) >> 24;
+-        val += offset << 1;
+-        gen_jmp(s, val);
+-        break;
++    case 13: /* conditional branch or swi, in decodetree */
++        goto illegal_op;
  
-         case 1: case 3: case 9: case 11: /* czb */
-             rm = insn & 7;
+     case 14:
+         if (insn & (1 << 11)) {
 diff --git a/target/arm/t16.decode b/target/arm/t16.decode
-index 5829b9a58c..55fadce223 100644
+index 55fadce223..cbc64f4e48 100644
 --- a/target/arm/t16.decode
 +++ b/target/arm/t16.decode
-@@ -221,3 +221,13 @@ REVSH           1011 1010 11 ... ...            @rdm
-   # rest of the space is a reserved hint, behaves as nop.
-   NOP           1011 1111 ---- 0000
- }
+@@ -28,11 +28,13 @@
+ &rr              !extern rd rm
+ &ri              !extern rd imm
+ &r               !extern rm
++&i               !extern imm
+ &ldst_rr         !extern p w u rn rt rm shimm shtype
+ &ldst_ri         !extern p w u rn rt imm
+ &ldst_block      !extern rn i b u w list
+ &setend          !extern E
+ &cps             !extern mode imod M A I F
++&ci              !extern cond imm
+ 
+ # Set S if the instruction is outside of an IT block.
+ %s               !function=t16_setflags
+@@ -231,3 +233,13 @@ STM             1011 010 ......... \
+                 &ldst_block i=0 b=1 u=0 w=1 rn=13 list=%push_list
+ LDM_t16         1011 110 ......... \
+                 &ldst_block i=1 b=0 u=0 w=1 rn=13 list=%pop_list
 +
-+# Push and Pop
++# Conditional branches, Supervisor call
 +
-+%push_list      0:9 !function=t16_push_list
-+%pop_list       0:9 !function=t16_pop_list
++%imm8_0x2       0:s8 !function=times_2
 +
-+STM             1011 010 ......... \
-+                &ldst_block i=0 b=1 u=0 w=1 rn=13 list=%push_list
-+LDM_t16         1011 110 ......... \
-+                &ldst_block i=1 b=0 u=0 w=1 rn=13 list=%pop_list
++{
++  UDF           1101 1110 ---- ----
++  SVC           1101 1111 imm:8                 &i
++  B_cond_thumb  1101 cond:4 ........            &ci imm=%imm8_0x2
++}
 -- 
 2.17.1
 
