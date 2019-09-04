@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84186A8371
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:16:13 +0200 (CEST)
-Received: from localhost ([::1]:57686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C951A8365
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Sep 2019 15:10:37 +0200 (CEST)
+Received: from localhost ([::1]:57632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5V8u-0005tZ-6v
-	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:16:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53726)
+	id 1i5V3U-00010c-0C
+	for lists+qemu-devel@lfdr.de; Wed, 04 Sep 2019 09:10:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53742)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1i5Upg-0006bi-Fv
+ (envelope-from <damien.hedde@greensocs.com>) id 1i5Uph-0006cr-DM
  for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:56:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1i5Upe-0005d5-QV
- for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:56:20 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:45988)
+ (envelope-from <damien.hedde@greensocs.com>) id 1i5Upf-0005du-JR
+ for qemu-devel@nongnu.org; Wed, 04 Sep 2019 08:56:21 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:46006)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1i5Upa-0005Yx-5D; Wed, 04 Sep 2019 08:56:14 -0400
+ id 1i5Upa-0005ZX-RL; Wed, 04 Sep 2019 08:56:15 -0400
 Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
  [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id CE89196F65;
- Wed,  4 Sep 2019 12:56:12 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 6ECE796F66;
+ Wed,  4 Sep 2019 12:56:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  s=mail; t=1567601773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v7sDKq7aWXDonSFSKGhw9/2WYTabyRQyQupDcGMYv/E=;
- b=7UTeVXTgZdy6WLIz59AfgO9wc9TiYpWuUFoCmABJHqaox3SwgB3wOp75s+Uwu2OHOB2Lzn
- kXv1XAvL+tnA4XtmkcQxEpnejhsoz1BdfI2TjDuSs4L25YhT8RpufwejZToMexr1PZkUQb
- +ZgmYQDR1M9P6wkAFuMcjTLuXe76FhE=
+ bh=Nxofqdzwalp2vEQOq4dTbBQ6QL66ivAoBoMwSi+rsdg=;
+ b=jW7c9Fwu4u9XecB4vtwbsjT9Ed5qkG0GgbNPNaLFVdSpneqWb4HjErswe7n6+RJhlv3o5Y
+ +yNCiRFIYSOfF/f9TKDZFghQYep5BbmGefYnAquBxHPKc0FuNhPwzZWgzoRy18XGP1QeHg
+ mJZABzy/pe8oKuAyY8lLlYHrXr7F3uY=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Wed,  4 Sep 2019 14:55:29 +0200
-Message-Id: <20190904125531.27545-8-damien.hedde@greensocs.com>
+Date: Wed,  4 Sep 2019 14:55:30 +0200
+Message-Id: <20190904125531.27545-9-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190904125531.27545-1-damien.hedde@greensocs.com>
 References: <20190904125531.27545-1-damien.hedde@greensocs.com>
@@ -48,14 +48,14 @@ ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v7sDKq7aWXDonSFSKGhw9/2WYTabyRQyQupDcGMYv/E=;
- b=yRTk2zxVRVo/Ktd2R4ntC76x0ww3qH7E/pXebmjmPD/zYMeFqJkPIf0XO+9+H5sX5Aex9l
- rYobSdObK66ufsIGgWS5nKzoUUKB2Bj20FscrsgelWv76Mn/cuqq1W4qGuXUq0Ftm3uQLv
- f437aaJg4Buv2Fwk1wpLbWqoXXc5rIQ=
+ bh=Nxofqdzwalp2vEQOq4dTbBQ6QL66ivAoBoMwSi+rsdg=;
+ b=jpMbE6TkGG5AqLaHoCwv65DLVX96ZEga/l7qE5PSFZtLxPYTACu5f3+VWvToXFKA8sflCM
+ b2I+txe+DxdH9NjsTPKBVL4oU8mjZxtsTui8vgDQ+DOw/W6IWULXj0ZNF2EkLV7QKrqs3o
+ h0Jb4VA8WRo/3xSePGBo+dhj93zHHYg=
 ARC-Seal: i=1; s=mail; d=greensocs.com; t=1567601773; a=rsa-sha256; cv=none;
- b=5elN5/1A1Jer9V6rvMLTys4y8kF0+Ol1JK1lexd0G72xRzIRcIyFTKlZl1GkmVXbw5ZCT9
- 715y6YK1y1RL4101K7BajfU0sZ5rZftg1IHcSmPXghluwjUKQA41DXx1JFI27EJcBdt29E
- 7wU2SAkvJy/boWn4wWtiG1M0D3bCfVY=
+ b=GZk4B5GY3xvsSu8PiPGq9P4JsSF9YAW9G5lmiqOCS/cO004y4ZfXcELGUAkFUORGuirP9V
+ V6spt3dHF3qyKXD/Iman8TWO+nTA+DtLOJ8VkJxtKK6C9/zDtXG04lYIo2o5jU3uWkbrrP
+ I1BC6aQD4kbwsLR2d8uw3RKIIBcrxiw=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -63,8 +63,7 @@ X-Spam: Yes
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v6 7/9] hw/misc/zynq_slcr: add clock generation
- for uarts
+Subject: [Qemu-devel] [PATCH v6 8/9] hw/char/cadence_uart: add clock support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,243 +82,254 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the slcr to multi-phase reset and add some clocks:
-+ the main input clock (ps_clk)
-+ the reference clock outputs for each uart (uart0 & 1)
+Switch the cadence uart to multi-phase reset and add the
+reference clock input.
 
-The clock frequencies are computed using the internal pll & uart configur=
-ation
-registers and the ps_clk frequency.
+The input clock frequency is added to the migration structure.
+
+The reference clock controls the baudrate generation. If it disabled,
+any input characters and events are ignored.
+
+If this clock remains unconnected, the uart behaves as before
+(it default to a 50MHz ref clock).
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/misc/zynq_slcr.c | 145 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 142 insertions(+), 3 deletions(-)
+ hw/char/cadence_uart.c         | 85 ++++++++++++++++++++++++++++++----
+ hw/char/trace-events           |  3 ++
+ include/hw/char/cadence_uart.h |  1 +
+ 3 files changed, 79 insertions(+), 10 deletions(-)
 
-diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
-index b9a38272d9..fa2ac608eb 100644
---- a/hw/misc/zynq_slcr.c
-+++ b/hw/misc/zynq_slcr.c
-@@ -22,6 +22,7 @@
- #include "qemu/log.h"
+diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+index 0e315b2376..bae43a9679 100644
+--- a/hw/char/cadence_uart.c
++++ b/hw/char/cadence_uart.c
+@@ -31,6 +31,8 @@
  #include "qemu/module.h"
- #include "hw/registerfields.h"
+ #include "hw/char/cadence_uart.h"
+ #include "hw/irq.h"
 +#include "hw/qdev-clock.h"
++#include "trace.h"
 =20
- #ifndef ZYNQ_SLCR_ERR_DEBUG
- #define ZYNQ_SLCR_ERR_DEBUG 0
-@@ -45,6 +46,12 @@ REG32(LOCKSTA, 0x00c)
- REG32(ARM_PLL_CTRL, 0x100)
- REG32(DDR_PLL_CTRL, 0x104)
- REG32(IO_PLL_CTRL, 0x108)
-+/* fields for [ARM|DDR|IO]_PLL_CTRL registers */
-+    FIELD(xxx_PLL_CTRL, PLL_RESET, 0, 1)
-+    FIELD(xxx_PLL_CTRL, PLL_PWRDWN, 1, 1)
-+    FIELD(xxx_PLL_CTRL, PLL_BYPASS_QUAL, 3, 1)
-+    FIELD(xxx_PLL_CTRL, PLL_BYPASS_FORCE, 4, 1)
-+    FIELD(xxx_PLL_CTRL, PLL_FPDIV, 12, 7)
- REG32(PLL_STATUS, 0x10c)
- REG32(ARM_PLL_CFG, 0x110)
- REG32(DDR_PLL_CFG, 0x114)
-@@ -64,6 +71,10 @@ REG32(SMC_CLK_CTRL, 0x148)
- REG32(LQSPI_CLK_CTRL, 0x14c)
- REG32(SDIO_CLK_CTRL, 0x150)
- REG32(UART_CLK_CTRL, 0x154)
-+    FIELD(UART_CLK_CTRL, CLKACT0, 0, 1)
-+    FIELD(UART_CLK_CTRL, CLKACT1, 1, 1)
-+    FIELD(UART_CLK_CTRL, SRCSEL,  4, 2)
-+    FIELD(UART_CLK_CTRL, DIVISOR, 8, 6)
- REG32(SPI_CLK_CTRL, 0x158)
- REG32(CAN_CLK_CTRL, 0x15c)
- REG32(CAN_MIOCLK_CTRL, 0x160)
-@@ -179,11 +190,106 @@ typedef struct ZynqSLCRState {
-     MemoryRegion iomem;
+ #ifdef CADENCE_UART_ERR_DEBUG
+ #define DB_PRINT(...) do { \
+@@ -97,7 +99,7 @@
+ #define LOCAL_LOOPBACK         (0x2 << UART_MR_CHMODE_SH)
+ #define REMOTE_LOOPBACK        (0x3 << UART_MR_CHMODE_SH)
 =20
-     uint32_t regs[ZYNQ_SLCR_NUM_REGS];
-+
-+    ClockIn *ps_clk;
-+    ClockOut *uart0_ref_clk;
-+    ClockOut *uart1_ref_clk;
- } ZynqSLCRState;
+-#define UART_INPUT_CLK         50000000
++#define UART_DEFAULT_REF_CLK (50 * 1000 * 1000)
 =20
--static void zynq_slcr_reset(DeviceState *d)
-+/*
-+ * return the output frequency of ARM/DDR/IO pll
-+ * using input frequency and PLL_CTRL register
-+ */
-+static uint64_t zynq_slcr_compute_pll(uint64_t input, uint32_t ctrl_reg)
-+{
-+    uint32_t mult =3D ((ctrl_reg & R_xxx_PLL_CTRL_PLL_FPDIV_MASK) >>
-+            R_xxx_PLL_CTRL_PLL_FPDIV_SHIFT);
-+
-+    /* first, check if pll is bypassed */
-+    if (ctrl_reg & R_xxx_PLL_CTRL_PLL_BYPASS_FORCE_MASK) {
-+        return input;
-+    }
-+
-+    /* is pll disabled ? */
-+    if (ctrl_reg & (R_xxx_PLL_CTRL_PLL_RESET_MASK |
-+                    R_xxx_PLL_CTRL_PLL_PWRDWN_MASK)) {
-+        return 0;
-+    }
-+
-+    return input * mult;
-+}
-+
-+/*
-+ * return the output frequency of a clock given:
-+ * + the frequencies in an array corresponding to mux's indexes
-+ * + the register xxx_CLK_CTRL value
-+ * + enable bit index in ctrl register
-+ *
-+ * This function make the assumption that ctrl_reg value is organized as=
- follow:
-+ * + bits[13:8] clock divisor
-+ * + bits[5:4]  clock mux selector (index in array)
-+ * + bits[index] clock enable
-+ */
-+static uint64_t zynq_slcr_compute_clock(const uint64_t mux[],
-+                                        uint32_t ctrl_reg,
-+                                        unsigned index)
-+{
-+    uint32_t srcsel =3D extract32(ctrl_reg, 4, 2); /* bits [5:4] */
-+    uint32_t divisor =3D extract32(ctrl_reg, 8, 6); /* bits [13:8] */
-+
-+    /* first, check if clock is enabled */
-+    if (((ctrl_reg >> index) & 1u) =3D=3D 0) {
-+        return 0;
-+    }
-+
-+    /*
-+     * according to the Zynq technical ref. manual UG585 v1.12.2 in
-+     * "Clocks" chapter, section 25.10.1 page 705" the range of the divi=
-sor
-+     * is [1;63].
-+     * So divide the source while avoiding division-by-zero.
-+     */
-+    return mux[srcsel] / (divisor ? divisor : 1u);
-+}
-+
-+/*
-+ * macro helper around zynq_slcr_compute_clock to avoid repeating
-+ * the register name.
-+ */
-+#define ZYNQ_COMPUTE_CLOCK(_state, _plls, _reg, _enable_field) \
-+    zynq_slcr_compute_clock((_plls), (_state)->regs[R_ ## _reg], \
-+            R_ ## _reg ## _ ## _enable_field ## _SHIFT)
-+
-+static void zynq_slcr_compute_clocks(ZynqSLCRState *s)
-+{
-+    uint64_t ps_clk =3D clock_get_frequency(s->ps_clk);
-+
-+    /* consider all output clocks are disabled while in reset */
-+    if (device_is_resetting(DEVICE(s))) {
-+        ps_clk =3D 0;
-+    }
-+
-+    uint64_t io_pll =3D zynq_slcr_compute_pll(ps_clk, s->regs[R_IO_PLL_C=
-TRL]);
-+    uint64_t arm_pll =3D zynq_slcr_compute_pll(ps_clk, s->regs[R_ARM_PLL=
-_CTRL]);
-+    uint64_t ddr_pll =3D zynq_slcr_compute_pll(ps_clk, s->regs[R_DDR_PLL=
-_CTRL]);
-+
-+    uint64_t uart_mux[4] =3D {io_pll, io_pll, arm_pll, ddr_pll};
-+
-+    /* compute uartX reference clocks */
-+    clock_set_frequency(s->uart0_ref_clk,
-+            ZYNQ_COMPUTE_CLOCK(s, uart_mux, UART_CLK_CTRL, CLKACT0));
-+    clock_set_frequency(s->uart1_ref_clk,
-+            ZYNQ_COMPUTE_CLOCK(s, uart_mux, UART_CLK_CTRL, CLKACT1));
-+}
-+
-+static void zynq_slcr_ps_clk_callback(void *opaque)
-+{
-+    ZynqSLCRState *s =3D (ZynqSLCRState *) opaque;
-+    zynq_slcr_compute_clocks(s);
-+}
-+
-+static void zynq_slcr_reset_init(Object *obj, ResetType type)
+ #define R_CR       (0x00/4)
+ #define R_MR       (0x04/4)
+@@ -171,12 +173,15 @@ static void uart_send_breaks(CadenceUARTState *s)
+ static void uart_parameters_setup(CadenceUARTState *s)
  {
--    ZynqSLCRState *s =3D ZYNQ_SLCR(d);
-+    ZynqSLCRState *s =3D ZYNQ_SLCR(obj);
-     int i;
+     QEMUSerialSetParams ssp;
+-    unsigned int baud_rate, packet_size;
++    unsigned int baud_rate, packet_size, input_clk;
++    input_clk =3D clock_get_frequency(s->refclk);
 =20
-     DB_PRINT("RESET\n");
-@@ -277,6 +383,21 @@ static void zynq_slcr_reset(DeviceState *d)
-     s->regs[R_DDRIOB + 12] =3D 0x00000021;
- }
+-    baud_rate =3D (s->r[R_MR] & UART_MR_CLKS) ?
+-            UART_INPUT_CLK / 8 : UART_INPUT_CLK;
++    baud_rate =3D (s->r[R_MR] & UART_MR_CLKS) ? input_clk / 8 : input_cl=
+k;
++    baud_rate /=3D (s->r[R_BRGR] * (s->r[R_BDIV] + 1));
++    trace_cadence_uart_baudrate(baud_rate);
++
++    ssp.speed =3D baud_rate;
 =20
-+static void zynq_slcr_reset_hold(Object *obj)
-+{
-+    ZynqSLCRState *s =3D ZYNQ_SLCR(obj);
-+
-+    /* will disable all output clocks */
-+    zynq_slcr_compute_clocks(s);
-+}
-+
-+static void zynq_slcr_reset_exit(Object *obj)
-+{
-+    ZynqSLCRState *s =3D ZYNQ_SLCR(obj);
-+
-+    /* will compute output clocks according to ps_clk and registers */
-+    zynq_slcr_compute_clocks(s);
-+}
+-    ssp.speed =3D baud_rate / (s->r[R_BRGR] * (s->r[R_BDIV] + 1));
+     packet_size =3D 1;
 =20
- static bool zynq_slcr_check_offset(hwaddr offset, bool rnw)
- {
-@@ -409,6 +530,12 @@ static void zynq_slcr_write(void *opaque, hwaddr off=
-set,
-             qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-         }
-         break;
-+    case R_IO_PLL_CTRL:
-+    case R_ARM_PLL_CTRL:
-+    case R_DDR_PLL_CTRL:
-+    case R_UART_CLK_CTRL:
-+        zynq_slcr_compute_clocks(s);
-+        break;
+     switch (s->r[R_MR] & UART_MR_PAR) {
+@@ -215,6 +220,13 @@ static void uart_parameters_setup(CadenceUARTState *=
+s)
      }
- }
 =20
-@@ -418,6 +545,13 @@ static const MemoryRegionOps slcr_ops =3D {
+     packet_size +=3D ssp.data_bits + ssp.stop_bits;
++    if (ssp.speed =3D=3D 0) {
++        /*
++         * Avoid division-by-zero below.
++         * TODO: find something better
++         */
++        ssp.speed =3D 1;
++    }
+     s->char_tx_time =3D (NANOSECONDS_PER_SECOND / ssp.speed) * packet_si=
+ze;
+     qemu_chr_fe_ioctl(&s->chr, CHR_IOCTL_SERIAL_SET_PARAMS, &ssp);
+ }
+@@ -340,6 +352,11 @@ static void uart_receive(void *opaque, const uint8_t=
+ *buf, int size)
+     CadenceUARTState *s =3D opaque;
+     uint32_t ch_mode =3D s->r[R_MR] & UART_MR_CHMODE;
+=20
++    /* ignore characters when unclocked or in reset */
++    if (!clock_is_enabled(s->refclk) || device_is_resetting(DEVICE(s))) =
+{
++        return;
++    }
++
+     if (ch_mode =3D=3D NORMAL_MODE || ch_mode =3D=3D ECHO_MODE) {
+         uart_write_rx_fifo(opaque, buf, size);
+     }
+@@ -353,6 +370,11 @@ static void uart_event(void *opaque, int event)
+     CadenceUARTState *s =3D opaque;
+     uint8_t buf =3D '\0';
+=20
++    /* ignore characters when unclocked or in reset */
++    if (!clock_is_enabled(s->refclk) || device_is_resetting(DEVICE(s))) =
+{
++        return;
++    }
++
+     if (event =3D=3D CHR_EVENT_BREAK) {
+         uart_write_rx_fifo(opaque, &buf, 1);
+     }
+@@ -462,9 +484,9 @@ static const MemoryRegionOps uart_ops =3D {
      .endianness =3D DEVICE_NATIVE_ENDIAN,
  };
 =20
-+static const ClockPortInitArray zynq_slcr_clocks =3D {
-+    QDEV_CLOCK_IN(ZynqSLCRState, ps_clk, zynq_slcr_ps_clk_callback),
-+    QDEV_CLOCK_OUT(ZynqSLCRState, uart0_ref_clk),
-+    QDEV_CLOCK_OUT(ZynqSLCRState, uart1_ref_clk),
-+    QDEV_CLOCK_END
-+};
-+
- static void zynq_slcr_init(Object *obj)
+-static void cadence_uart_reset(DeviceState *dev)
++static void cadence_uart_reset_init(Object *obj, ResetType type)
  {
-     ZynqSLCRState *s =3D ZYNQ_SLCR(obj);
-@@ -425,6 +559,8 @@ static void zynq_slcr_init(Object *obj)
-     memory_region_init_io(&s->iomem, obj, &slcr_ops, s, "slcr",
-                           ZYNQ_SLCR_MMIO_SIZE);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
+-    CadenceUARTState *s =3D CADENCE_UART(dev);
++    CadenceUARTState *s =3D CADENCE_UART(obj);
+=20
+     s->r[R_CR] =3D 0x00000128;
+     s->r[R_IMR] =3D 0;
+@@ -473,6 +495,11 @@ static void cadence_uart_reset(DeviceState *dev)
+     s->r[R_BRGR] =3D 0x0000028B;
+     s->r[R_BDIV] =3D 0x0000000F;
+     s->r[R_TTRIG] =3D 0x00000020;
++}
 +
-+    qdev_init_clocks(DEVICE(obj), zynq_slcr_clocks);
++static void cadence_uart_reset_hold(Object *obj)
++{
++    CadenceUARTState *s =3D CADENCE_UART(obj);
+=20
+     uart_rx_reset(s);
+     uart_tx_reset(s);
+@@ -491,6 +518,14 @@ static void cadence_uart_realize(DeviceState *dev, E=
+rror **errp)
+                              uart_event, NULL, s, NULL, true);
  }
 =20
- static const VMStateDescription vmstate_zynq_slcr =3D {
-@@ -440,9 +576,12 @@ static const VMStateDescription vmstate_zynq_slcr =3D=
++static void cadence_uart_refclk_update(void *opaque)
++{
++    CadenceUARTState *s =3D opaque;
++
++    /* recompute uart's speed on clock change */
++    uart_parameters_setup(s);
++}
++
+ static void cadence_uart_init(Object *obj)
  {
- static void zynq_slcr_class_init(ObjectClass *klass, void *data)
+     SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
+@@ -500,9 +535,23 @@ static void cadence_uart_init(Object *obj)
+     sysbus_init_mmio(sbd, &s->iomem);
+     sysbus_init_irq(sbd, &s->irq);
+=20
++    s->refclk =3D qdev_init_clock_in(DEVICE(obj), "refclk",
++            cadence_uart_refclk_update, s);
++    /* initialize the frequency in case the clock remains unconnected */
++    clock_init_frequency(s->refclk, UART_DEFAULT_REF_CLK);
++
+     s->char_tx_time =3D (NANOSECONDS_PER_SECOND / 9600) * 10;
+ }
+=20
++static int cadence_uart_pre_load(void *opaque)
++{
++    CadenceUARTState *s =3D opaque;
++
++    /* the frequency will be overriden if the subsection is present */
++    clock_init_frequency(s->refclk, UART_DEFAULT_REF_CLK);
++    return 0;
++}
++
+ static int cadence_uart_post_load(void *opaque, int version_id)
+ {
+     CadenceUARTState *s =3D opaque;
+@@ -519,10 +568,21 @@ static int cadence_uart_post_load(void *opaque, int=
+ version_id)
+     return 0;
+ }
+=20
++static const VMStateDescription vmstate_cadence_uart_refclk =3D {
++    .name =3D "cadence_uart_refclk",
++    .version_id =3D 0,
++    .minimum_version_id =3D 0,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_CLOCKIN(refclk, CadenceUARTState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static const VMStateDescription vmstate_cadence_uart =3D {
+     .name =3D "cadence_uart",
+     .version_id =3D 2,
+     .minimum_version_id =3D 2,
++    .pre_load =3D cadence_uart_pre_load,
+     .post_load =3D cadence_uart_post_load,
+     .fields =3D (VMStateField[]) {
+         VMSTATE_UINT32_ARRAY(r, CadenceUARTState, CADENCE_UART_R_MAX),
+@@ -535,7 +595,10 @@ static const VMStateDescription vmstate_cadence_uart=
+ =3D {
+         VMSTATE_UINT32(rx_wpos, CadenceUARTState),
+         VMSTATE_TIMER_PTR(fifo_trigger_handle, CadenceUARTState),
+         VMSTATE_END_OF_LIST()
+-    }
++    },
++    .subsections =3D (const VMStateDescription * []) {
++        &vmstate_cadence_uart_refclk,
++    },
+ };
+=20
+ static Property cadence_uart_properties[] =3D {
+@@ -546,12 +609,14 @@ static Property cadence_uart_properties[] =3D {
+ static void cadence_uart_class_init(ObjectClass *klass, void *data)
  {
      DeviceClass *dc =3D DEVICE_CLASS(klass);
 +    ResettableClass *rc =3D RESETTABLE_CLASS(klass);
 =20
-     dc->vmsd =3D &vmstate_zynq_slcr;
--    dc->reset =3D zynq_slcr_reset;
-+    rc->phases.init =3D zynq_slcr_reset_init;
-+    rc->phases.hold =3D zynq_slcr_reset_hold;
-+    rc->phases.exit =3D zynq_slcr_reset_exit;
- }
+     dc->realize =3D cadence_uart_realize;
+     dc->vmsd =3D &vmstate_cadence_uart;
+-    dc->reset =3D cadence_uart_reset;
+     dc->props =3D cadence_uart_properties;
+-  }
++    rc->phases.init =3D cadence_uart_reset_init;
++    rc->phases.hold =3D cadence_uart_reset_hold;
++}
 =20
- static const TypeInfo zynq_slcr_info =3D {
+ static const TypeInfo cadence_uart_info =3D {
+     .name          =3D TYPE_CADENCE_UART,
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index 2ce7f2f998..502a7d0507 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -77,3 +77,6 @@ cmsdk_apb_uart_set_params(int speed) "CMSDK APB UART: p=
+arams set to %d 8N1"
+ # nrf51_uart.c
+ nrf51_uart_read(uint64_t addr, uint64_t r, unsigned int size) "addr 0x%"=
+ PRIx64 " value 0x%" PRIx64 " size %u"
+ nrf51_uart_write(uint64_t addr, uint64_t value, unsigned int size) "addr=
+ 0x%" PRIx64 " value 0x%" PRIx64 " size %u"
++
++# hw/char/cadence_uart.c
++cadence_uart_baudrate(unsigned baudrate) "baudrate %u"
+diff --git a/include/hw/char/cadence_uart.h b/include/hw/char/cadence_uar=
+t.h
+index 47cec956c4..a09afe4ed5 100644
+--- a/include/hw/char/cadence_uart.h
++++ b/include/hw/char/cadence_uart.h
+@@ -49,6 +49,7 @@ typedef struct {
+     CharBackend chr;
+     qemu_irq irq;
+     QEMUTimer *fifo_trigger_handle;
++    ClockIn *refclk;
+ } CadenceUARTState;
+=20
+ static inline DeviceState *cadence_uart_create(hwaddr addr,
 --=20
 2.22.0
 
