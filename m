@@ -2,68 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B067AAA480
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 15:34:05 +0200 (CEST)
-Received: from localhost ([::1]:46130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8E9AA4B2
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 15:39:35 +0200 (CEST)
+Received: from localhost ([::1]:46160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5rtk-0005JK-RT
-	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 09:34:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47714)
+	id 1i5rz4-0008Dp-W0
+	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 09:39:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48982)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1i5rrE-0004D3-Pf
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 09:31:30 -0400
+ (envelope-from <crosa@redhat.com>) id 1i5ry2-0007L1-8m
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 09:38:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1i5rrC-00077t-Cp
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 09:31:28 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35866)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1i5rrC-00077k-7l
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 09:31:26 -0400
-Received: by mail-oi1-x242.google.com with SMTP id k20so1825270oih.3
- for <qemu-devel@nongnu.org>; Thu, 05 Sep 2019 06:31:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gJfPVPG7MuPxV5jp++v4Gelba9R4W+xGywWI03N4afY=;
- b=tbu48F0rndJ+vhXCV2RkVBhM6MULsMzyktlTm5WFxDLQOEjysncBqa6s4PahZmgpE9
- B46E+HFcojvy2WAFg44LTKwRvFcfwS6Pe/9usXXFPEpb6nYp7546+4/LTXLHo+7f04Px
- l85IBv5OZ1ROvItPIS4s4Bzy7Wlvg92LMcooPGI9RvV7lDHUGuAdXDl9Ah/yxeTU3RbR
- Z3Yy2E7fAYdufjwBM35fF8zw0bzmwcLdGZLf9p+9bkuQwzMuqmGOshkjaqJlwDF6q/O+
- e1HZxhwtnupRHne29svA2lFUWQlgAJHLJRDitWJIPaeWCQ9RBbz/ZYmXrDWKgk5athIF
- DbCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gJfPVPG7MuPxV5jp++v4Gelba9R4W+xGywWI03N4afY=;
- b=TZQ6zeQaw+L+3ueM07aVrwG+zk1AI9lGhDaO7GY7D4ELo9sL/F+vm4lhhcLJBsJU2O
- +SXaUU6QzWUEiLmH0N63q/kA+RClbXXg+u9a2PJKtXV1q/nbvxhac1FOisCBp+B5heVG
- ncF41TMKuTE3VN6UAX5/Cl/1fsBSlV7iW+5x59kUM6hdKfbO0/uwWI/hrfNyh8/QGR8e
- XqqsNRYkfJbloXNR21etUa0oXJ3GTfsCDOKbVg+Y++32LDehVNMseOHX3gsMkmW8/nHw
- uaMClTf1UTCinYaM8yt0wjZqRmroQ6irFaASlkqg5zNaqfXBDr8oH5PetlnnxX5UgqCM
- uOQw==
-X-Gm-Message-State: APjAAAXqxZQqw5GuwmjghRFZAS8N/2GGpPnP/qszybHmS1cNMVKMztK5
- rQQ2OraWCqKXCLVLxlvM035f96Fy7AMpoOPxRHZFIQ==
-X-Google-Smtp-Source: APXvYqymVd5apEfJc2iPNmSxWS3MlPWi7LlLtHb8M0+yFTVKByiQnw956VU3MAKaU+h1TLN4FMBDrQn67rwFD28Z9L4=
-X-Received: by 2002:aca:50d8:: with SMTP id e207mr2479093oib.48.1567690285290; 
- Thu, 05 Sep 2019 06:31:25 -0700 (PDT)
+ (envelope-from <crosa@redhat.com>) id 1i5ry0-0001Zo-Ja
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 09:38:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35986)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1i5ry0-0001ZX-E7
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 09:38:28 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8B133300BBA8;
+ Thu,  5 Sep 2019 13:38:27 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-123-245.rdu2.redhat.com
+ [10.10.123.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C1C1C60C5D;
+ Thu,  5 Sep 2019 13:38:26 +0000 (UTC)
+Date: Thu, 5 Sep 2019 09:38:24 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Message-ID: <20190905133824.GA12364@localhost.localdomain>
+References: <20190829013125.GG16342@umbus.fritz.box>
+ <20190830175648.GE3694@habkost.net>
+ <20190831014834.GC12065@umbus.fritz.box>
+ <20190904195717.GA2311@localhost.localdomain>
+ <20190905020924.GB2120@umbus.fritz.box>
 MIME-Version: 1.0
-References: <20190829165036.9773-1-berrange@redhat.com>
- <20190829165036.9773-5-berrange@redhat.com>
-In-Reply-To: <20190829165036.9773-5-berrange@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Sep 2019 14:31:14 +0100
-Message-ID: <CAFEAcA8UNsAdYn=+9Py20G-xbFC2v1aWNufviX1XFymvKm3hrQ@mail.gmail.com>
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v3 4/4] docs: split the CODING_STYLE doc
- into distinct groups
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190905020924.GB2120@umbus.fritz.box>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 05 Sep 2019 13:38:27 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Cryptic errors from PIP install if missing
+ openssl-devel
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,22 +62,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@gmail.com>
+Cc: ldoktor@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Aug 2019 at 17:59, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->  CODING_STYLE.rst | 9 +++++++++
->  1 file changed, 9 insertions(+)
+On Thu, Sep 05, 2019 at 12:09:24PM +1000, David Gibson wrote:
+> On Wed, Sep 04, 2019 at 03:57:17PM -0400, Cleber Rosa wrote:
+> > 
+> > Hi David,
+> > 
+> > I've pushed a branch here (most of the commits have already been sent
+> > separately):
+> > 
+> >    https://github.com/clebergnu/qemu/tree/ppc64
+> > 
+> > I've tested on a RHEL 8 ppc64le Power 9, and it seems to work for me.
+> > My steps for building QEMU:
+> > 
+> >   - Configured with: '/home/cleber/src/qemu/configure' '--enable-slirp=git' '--python=/usr/bin/python3' '--target-list=x86_64-softmmu,ppc64-softmmu,arm-softmmu,aarch64-softmmu,mips-softmmu,mipsel-softmmu,mips64-softmmu,mips64el-softmmu,sh4-softmmu,s390x-softmmu,alpha-softmmu,m68k-softmmu,riscv64-softmmu'
+> >   - make
+> >   - make check-acceptance
+> > 
+> > Would you be able to test if that branch works smoothly for you?
+> 
+> So, with this tree I'm no longer getting problems if openssl-devel is
+> not installed, so that much looks good.
+> 
+> I am getting some different errors - I was seeing this before (with
+> openssl-devel installed) sometimes, but only sometimes.  I haven't yet
+> worked out a pattern for when they appeared.  They also don't appear
+> to be fatal, the rest of the tests seem to be running ok.  Any ideas?
+> 
+>  VENV    /home/dwg/qemu/build/rhel8/tests/venv
+>   PIP     /home/dwg/qemu/tests/requirements.txt
+>   AVOCADO tests/acceptance
+> Error running method "run" of plugin "html": 'Namespace' object has no attribute 'get'
+> Error running method "run" of plugin "varianter_cit": 'Namespace' object has no attribute 'get'
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Hi David,
 
-thanks
--- PMM
+Yes, those should not be fatal.  Anyway, they are caused by two things:
+
+ 1) A second set of Avocado plugins installation with different versions
+    than the Avocado installation on QEMU's tests venv
+
+ 2) The tests' venv, which is created with "--system-site-packages",
+    option that is described as "Give the virtual environment access
+    to the system site-packages dir."
+
+The motivation to have "--system-site-packages" is that, if the user
+had any of the "requirements.txt" depedencies installed system wide,
+the venv would simply use it and skip downloads.  Maybe we should make
+that an optional feature, disabled by default, so that the test's venv
+is better isolated and more predictable by default.
+
+Eduardo,
+
+I remember we discussed #2, so your opinion is appreciated here.
+
+Thanks,
+- Cleber.
 
