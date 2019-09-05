@@ -2,105 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA67AA68B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 16:53:41 +0200 (CEST)
-Received: from localhost ([::1]:46882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796AAAA717
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 17:13:30 +0200 (CEST)
+Received: from localhost ([::1]:47066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5t8m-0007JA-GG
-	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 10:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36032)
+	id 1i5tRx-0002bM-H7
+	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 11:13:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1i5t7r-0006pF-Pg
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 10:52:45 -0400
+ (envelope-from <bounces@canonical.com>) id 1i5tQR-0001kd-NM
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:11:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1i5t7p-000885-TV
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 10:52:42 -0400
-Received: from mail-eopbgr20134.outbound.protection.outlook.com
- ([40.107.2.134]:19614 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1i5t7p-00086G-5R; Thu, 05 Sep 2019 10:52:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MUp/FoUMK1ykR3XrO6sorKlPXxqGgtMcTxnkkU7SHCi6suYkaLuuBK7Ow82NcUefd58ry73NzTtYYW4yzb1YTviZGExhFJEV+91dI+TjXLwPiv0jm1i6tqyKbG9rbhAXZ+aMlfOtyw/LXO/MfTLkKj3s9NaPt6X1bd+jKS0XdTdWK80n9/HT/CezdFrZgNaYzkXzN38/o1D+W8Frh+ME7++ra6TWZ8cjjGGxv7NqqKOddyQlj85MEfotlzyqcUoSddlSOKCuR28RexB9xrq9O6QHAPvyqLgSRGd6hHVDb5IZLrmJbeEG/19xGGeOUQBYDf9u5rXr1nZYOu/KUYiwrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V/iuCxWa47fmVGm6vaG4Y23dLnWnW0jsYJt0idWnF2Q=;
- b=LZnEKq2rnQFYy9jquGbHGv914y0pKznbTvdz32uX+ceWBSYkuTXc7ABHztly6ekrDZ+7OT6IdBbP3S4BazhNPm4tTAZa5VIAeSxJODHYj6gkalFa3BRwJ/O3yZiTkQKGwND4zkyof84P+xWzqX+47HR68huyl4g8Hz195xR32x+nzMU5xsCJQRMmcSqA4azlpGQS+4y6+5/QY+RbbaqawwMckVR/hzQAP4cUQqB79e7FOJ6mWyxtYGsbE9JBRxxYEybQtQt/6Grt44pra7/8F3gKYRA8ZI/FNafmjA92ijYYFzcEcIAsvaNXOK0GXR+c1Bw7pZahVezCB2zvVp71mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V/iuCxWa47fmVGm6vaG4Y23dLnWnW0jsYJt0idWnF2Q=;
- b=alraJ4vttHt/IeTjBECZ6qn6Rr7I0Nir2V+4lwHtVOLoymrt/Z2mgK3xpEGzoQ/da4zDd9Ovt+kJrZDiKH1jAf9sRzXMDYdITUK03h7gOklzuz5yY6kFDnyCU783kZRxZGF4OYA7IaBDSN1kDjm1sFvRBxb7M3f+HYvF4o9Fv+4=
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (20.178.22.27) by
- AM0PR08MB3425.eurprd08.prod.outlook.com (20.177.109.30) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2220.21; Thu, 5 Sep 2019 14:52:38 +0000
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::302b:b479:1322:9d31]) by AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::302b:b479:1322:9d31%5]) with mapi id 15.20.2241.014; Thu, 5 Sep 2019
- 14:52:38 +0000
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v5 3/3] qcow2: add zstd cluster compression
-Thread-Index: AQHVYzruEZDsZDoirUyQ0IuQtSHLpKcctO0AgABxzQCAAAXtgA==
-Date: Thu, 5 Sep 2019 14:52:37 +0000
-Message-ID: <ff1d7775-0ded-3791-2db6-51773af5b5e4@virtuozzo.com>
-References: <20190904152915.30755-1-dplotnikov@virtuozzo.com>
- <20190904152915.30755-4-dplotnikov@virtuozzo.com>
- <2ff3dc82-ea8c-10a8-fb4c-8081abc3775e@redhat.com>
- <1feb49e1-bab1-ac10-3232-95d696995b96@virtuozzo.com>
- <829a32ee-0a5a-7bc6-e696-d3315ec53c13@redhat.com>
-In-Reply-To: <829a32ee-0a5a-7bc6-e696-d3315ec53c13@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=dplotnikov@virtuozzo.com; 
-x-originating-ip: [31.180.210.224]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2ded0807-83e9-4ee0-6027-08d73210b1e0
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600166)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:AM0PR08MB3425; 
-x-ms-traffictypediagnostic: AM0PR08MB3425:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM0PR08MB3425907746EA1F3477F78C9DCFBB0@AM0PR08MB3425.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1332;
-x-forefront-prvs: 015114592F
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(39840400004)(346002)(376002)(396003)(136003)(199004)(189003)(186003)(76176011)(53936002)(2201001)(99286004)(64756008)(26005)(4744005)(6512007)(86362001)(31696002)(102836004)(66556008)(66476007)(66446008)(3846002)(6116002)(7736002)(8936002)(256004)(81166006)(81156014)(8676002)(6486002)(31686004)(66946007)(36756003)(5660300002)(478600001)(71200400001)(71190400001)(53546011)(305945005)(6506007)(6246003)(6436002)(316002)(66066001)(446003)(76116006)(2616005)(4326008)(14454004)(229853002)(476003)(110136005)(54906003)(25786009)(2501003)(486006)(2906002)(11346002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3425;
- H:AM0PR08MB3745.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: LgvyKd09UTrPr0LOmkwq7vBD2pSMeh0gIs3OdcqtocRIg2AL1PtiLySBla+JPXeASH9TkDTSpiiABAwRn5H3JtOIQZgyiJaOdjrwuptCtCf54X7BwRMmw2Cg7GEdeQDi7EoTr8sceIivbK1phsl31DmqiVpOKx8LPHnIImSirA3/16BNhYA/A6W553UXlBu7tEzOF1SfSOjOItoJ57UggI+YNBs6hAntyyHrqzq2weQ1W18HxzDNmCbf0/QGXxktPmVzDKfRzqFncVd4c33PwhAjhH4/9YlZMoZMPyV6lw661pPc2DFUHkBTD7rltiO+BqfMXShT+wH2Zk0WmTwYWio8m4jRTh3+bHyh66mzExPaNOSextbYE6B9wNKKvuBjOGQZloAp+iAZF1Vt7ilVVBDhLeUy1dCdeWro9avb7o0=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6B74CEC9C0D19E4293F25B2443FE6EE4@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <bounces@canonical.com>) id 1i5tQQ-0003AF-Ca
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:11:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55758)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1i5tQP-00036n-Pz
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:11:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1i5tQL-0000bz-Ue
+ for <qemu-devel@nongnu.org>; Thu, 05 Sep 2019 15:11:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F094A2E80E1
+ for <qemu-devel@nongnu.org>; Thu,  5 Sep 2019 15:11:47 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ded0807-83e9-4ee0-6027-08d73210b1e0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2019 14:52:37.9762 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eiNM+OWDhqpDyJwjKX5VZnnUnu3VFmfNzaw2QxlF9reA41c1bjulhF49VZDJBbFNa/xV9FQGhLXBLJA1hCFhLhV/MChPWcycC91mmpa3N4M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3425
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.2.134
-Subject: Re: [Qemu-devel] [PATCH v5 3/3] qcow2: add zstd cluster compression
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Sep 2019 15:03:50 -0000
+From: Rafael David Tinoco <rafaeldtinoco@kernelpath.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=In Progress; importance=Medium; assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dannf jnsnow lizhengui
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: Rafael David Tinoco (rafaeldtinoco)
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <156769583321.864.14603853002339443517.launchpad@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19044";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5d7b98d0fc867389c9af63c4175d0ba46a48b974
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1805256] Re: qemu-img hangs on high core count
+ ARM system
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -109,28 +68,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMDUuMDkuMjAxOSAxNzozMSwgRXJpYyBCbGFrZSB3cm90ZToNCj4gT24gOS81LzE5IDI6NDQg
-QU0sIERlbmlzIFBsb3RuaWtvdiB3cm90ZToNCj4NCj4NCj4+Pj4gKw0KPj4+PiArICAgIHNfc2l6
-ZSA9IGJlMzJfdG9fY3B1KCooY29uc3QgdWludDMyX3QgKikgc3JjKTsNCj4+PiBBcyB3cml0dGVu
-LCB0aGlzIGxvb2tzIGxpa2UgeW91IG1heSBiZSBkZXJlZmVyZW5jaW5nIGFuIHVuYWxpZ25lZA0K
-Pj4+IHBvaW50ZXIuICBJdCBzbyBoYXBwZW5zIHRoYXQgYmUzMl90b19jcHUoKSBhcHBsaWVzICYg
-dG8geW91ciAqIHRvIGdldA0KPj4+IGJhY2sgYXQgdGhlIHJhdyBwb2ludGVyLCBhbmQgdGhlbiBp
-cyBjYXJlZnVsIHRvIGhhbmRsZSB1bmFsaWduZWQNCj4+PiBwb2ludGVycywgc28gaXQgd29ya3M7
-IGJ1dCBpdCB3b3VsZCBsb29rIGEgbG90IG5pY2VyIGFzIG1lcmVseToNCj4+Pg0KPj4+IHNfc2l6
-ZSA9IGJlMzJfdG9fY3B1KHNyYyk7DQo+PiB5ZXMsIGJ1dCBJIGNhbid0IHVzZSBiZTMyX3RvX2Nw
-dSgqc3JjKSBzaW5jZSBzcmMgaXMgYSB2b2lkIHBvaW50ZXINCj4gVGhlbiB3ZSBuZWVkIHRoZSBj
-b3JyZWN0IGxkKl9wIGZ1bmN0aW9uOyBzb3JyeSBmb3IgbGVhZGluZyB5b3UgZG93biB0aGUNCj4g
-d3JvbmcgcGF0aC4gIExvb2tzIGxpa2UgdGhlIHJpZ2h0IG9uZSBpczoNCj4NCj4gc19zaXplID0g
-bGRsX2JlX3Aoc3JjKQ0KPg0KPiAoaW5jbHVkZS9xZW11L2Jzd2FwLmggaGFzIHNvbWUgZ29vZCBj
-b21tZW50cywgYnV0IHlvdSBoYXZlIHRvIGtub3cgdGhleQ0KPiBleGlzdC4uLikNCg0KTm8gcHJv
-YmxlbSwgdGhhdCBoYXBwZW5zLiBCeSB0aGUgd2F5LCBJJ3ZlIGFscmVhZHkgc2VudCB0aGUgc2Vy
-aWVzIHVzaW5nIA0KbGRsX2JlX3ANCg0KVGhhbmtzIQ0KDQpEZW5pcw0KDQo+DQoNCg==
+** Changed in: qemu (Ubuntu)
+       Status: Confirmed =3D> In Progress
+
+** Changed in: qemu (Ubuntu)
+     Assignee: (unassigned) =3D> Rafael David Tinoco (rafaeldtinoco)
+
+** Changed in: qemu (Ubuntu)
+   Importance: Undecided =3D> Medium
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
+
+Title:
+  qemu-img hangs on high core count ARM system
+
+Status in QEMU:
+  Confirmed
+Status in qemu package in Ubuntu:
+  In Progress
+
+Bug description:
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760, =
+
+      timeout=3D<optimized out>, timeout@entry=3D0x0, sigmask=3D0xffffc123b=
+950)
+      at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>, =
+
+      __fds=3D<optimized out>) at /usr/include/aarch64-linux-gnu/bits/poll2=
+.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>, =
+
+      timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+      at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1805256/+subscriptions
 
