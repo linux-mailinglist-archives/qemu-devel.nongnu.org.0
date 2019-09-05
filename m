@@ -2,76 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02B62AA75D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 17:31:18 +0200 (CEST)
-Received: from localhost ([::1]:47370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199E9AA76A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 17:36:42 +0200 (CEST)
+Received: from localhost ([::1]:47464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5tj9-00017u-9U
-	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 11:31:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44280)
+	id 1i5toP-0006P7-6C
+	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 11:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44716)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1i5tgk-000870-4i
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:28:47 -0400
+ (envelope-from <thuth@redhat.com>) id 1i5tiE-0001Xg-MJ
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:30:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1i5tgi-00014W-SR
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:28:45 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43602)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1i5tgi-00014C-Ko
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:28:44 -0400
-Received: by mail-wr1-x444.google.com with SMTP id y8so3277379wrn.10
- for <qemu-devel@nongnu.org>; Thu, 05 Sep 2019 08:28:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=IFWLeqnoSi0SCHpRKO1OqQNUxbmXKoklHhsd/J9FOLk=;
- b=FfnbscCfUL54+B2NjogenAqlvJcnZmgT9Aya5c6OtJKw3GOGjsp3t4ufCwxRtAGxGi
- GqPmNRd1oqSJkpRBUdGzcJ15jNzSlH3sMdtImYvOfjMaK2p/ucrzvvZxGGwfB05DZLXV
- /CaojOkEuweKTPTYINPsR71GkxHdsahCQzFYj8nmjQ+cnfQXQOGHeU3s3p+g42Bhz92L
- /5PfCkC136YN23xX4F8G0G1EvamcnyVgn9fqcpqZTYZLMg6i5Aljbty7nrADyKg9A14f
- oVFE9uGApRKBQVHnsj8JOKMCuVbYbbtbB4DjY/2elownBhadLXtxHlp3PA+s+7zSVDQ/
- Qcgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=IFWLeqnoSi0SCHpRKO1OqQNUxbmXKoklHhsd/J9FOLk=;
- b=brUFJYOWlb1iUE7iq0apfctpYBeam8Ls1YJDi27CBrwqMuOd+W5qQBciA1pvNCoGav
- xH+lFVkBcRTaO8pRv3PFbv1EFKRSLR6djmq613qb/tOVOpM8q3cEtT1JJpU2KZkhlwvD
- IYv9tOtUVi/EXlWLjdVzahkYdzVGIO2Q1uIG4mLqGi41LIUm6sqWOSZuwecfD5xTjt6J
- moe+2AR8ALp7822UXA5S+FM1BZMEy3F+Ba9/qQU1tgnL6cx0Tnnqbxz3Fpmov8B8FFoc
- Vq4i6vDMSZrgvVUaoSwTMTTFq3NUK41YntZM57y1aFQLFsysLb/3SSfxEk2+rtSH6W69
- mTCw==
-X-Gm-Message-State: APjAAAWRFsUONf4NWpTVXOQmTonQsV3vzLAtQhLl6k9EylAr0Dc5c0uN
- v/nrJn6O4i8R8VgxnT46fmkH4Q==
-X-Google-Smtp-Source: APXvYqywRM+lq9+0Go0DtVny/5MCahTV2keu2jeStS9SAQ/YZ18WixX4pQNZ61ZMiDZZT7Q2IiN+rQ==
-X-Received: by 2002:a5d:66d0:: with SMTP id k16mr3105032wrw.333.1567697323213; 
- Thu, 05 Sep 2019 08:28:43 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s22sm2482499wmc.7.2019.09.05.08.28.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Sep 2019 08:28:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E17CC1FF87;
- Thu,  5 Sep 2019 16:28:41 +0100 (BST)
-References: <20190820210720.18976-1-richard.henderson@linaro.org>
- <20190820210720.18976-3-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-arm@nongnu.org
-In-reply-to: <20190820210720.18976-3-richard.henderson@linaro.org>
-Date: Thu, 05 Sep 2019 16:28:41 +0100
-Message-ID: <875zm692za.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v5 02/17] target/arm: Split out
- rebuild_hflags_a64
+ (envelope-from <thuth@redhat.com>) id 1i5tiD-0001Zg-6D
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:30:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36322)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1i5tiC-0001Yz-ST
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:30:17 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 151563082E57;
+ Thu,  5 Sep 2019 15:30:16 +0000 (UTC)
+Received: from thuth.com (ovpn-116-96.ams2.redhat.com [10.36.116.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3AAC560619;
+ Thu,  5 Sep 2019 15:30:15 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu,  5 Sep 2019 17:30:09 +0200
+Message-Id: <20190905153011.24010-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Thu, 05 Sep 2019 15:30:16 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL v2 0/9] qtests and misc patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,86 +50,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+ Hi Peter,
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+the following changes since commit 500efcfcf0fe2e0dae1d25637a13435ce7b6e421:
 
-> Create a function to compute the values of the TBFLAG_A64 bits
-> that will be cached.  For now, the env->hflags variable is not
-> used, and the results are fed back to cpu_get_tb_cpu_state.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper.c | 131 +++++++++++++++++++++++---------------------
->  1 file changed, 69 insertions(+), 62 deletions(-)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index f2c6419369..02cb43cf58 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -11032,6 +11032,71 @@ static uint32_t rebuild_hflags_common(CPUARMStat=
-e *env, int fp_el,
->      return flags;
->  }
->
-> +static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-> +                                   ARMMMUIdx mmu_idx)
-> +{
-<snip>
-> +
-> +    if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
-> +        /* Note that SCTLR_EL[23].BT =3D=3D SCTLR_BT1.  */
-> +        if (sctlr & (el =3D=3D 0 ? SCTLR_BT0 : SCTLR_BT1)) {
-> +            flags =3D FIELD_DP32(flags, TBFLAG_A64, BT, 1);
-> +        }
-> +    }
-> +
-> +    return rebuild_hflags_common(env, fp_el, mmu_idx, flags);
-> +}
-> +
->  void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
->                            target_ulong *cs_base, uint32_t *pflags)
->  {
-> @@ -11041,67 +11106,9 @@ void cpu_get_tb_cpu_state(CPUARMState *env, targ=
-et_ulong *pc,
->      uint32_t flags =3D 0;
->
->      if (is_a64(env)) {
-<snip>
-> -
-> -        if (cpu_isar_feature(aa64_bti, cpu)) {
-> -            /* Note that SCTLR_EL[23].BT =3D=3D SCTLR_BT1.  */
-> -            if (sctlr & (current_el =3D=3D 0 ? SCTLR_BT0 : SCTLR_BT1)) {
-> -                flags =3D FIELD_DP32(flags, TBFLAG_A64, BT, 1);
-> -            }
-> +        flags =3D rebuild_hflags_a64(env, current_el, fp_el, mmu_idx);
-> +        if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
->              flags =3D FIELD_DP32(flags, TBFLAG_A64, BTYPE, env->btype);
+  Merge remote-tracking branch 'remotes/rth/tags/pull-or1k-20190904' into staging (2019-09-05 09:33:01 +0100)
 
-It seems off to only hoist part of the BTI flag check into the helper,
-was it just missed or is there a reason? If so it could probably do with
-an additional comment.
+are available in the Git repository at:
 
->          }
->      } else {
-> @@ -11121,9 +11128,9 @@ void cpu_get_tb_cpu_state(CPUARMState *env, targe=
-t_ulong *pc,
->              flags =3D FIELD_DP32(flags, TBFLAG_A32,
->                                 XSCALE_CPAR, env->cp15.c15_cpar);
->          }
-> -    }
->
-> -    flags =3D rebuild_hflags_common(env, fp_el, mmu_idx, flags);
-> +        flags =3D rebuild_hflags_common(env, fp_el, mmu_idx, flags);
-> +    }
->
->      /* The SS_ACTIVE and PSTATE_SS bits correspond to the state machine
->       * states defined in the ARM ARM for software singlestep:
+  https://gitlab.com/huth/qemu.git tags/pull-request-2019-09-05-v2
 
+for you to fetch changes up to e7dc804ef0d7cac9ac8b4a1324ab7dbfafb55704:
 
---
-Alex Benn=C3=A9e
+  gitlab-ci.yml: Install libattr-devel and libcap-devel to test virtio-9p (2019-09-05 16:00:01 +0200)
+
+----------------------------------------------------------------
+- Make the core libqtest library independent from global_qtest
+- Clean up docs from hard-coded qemu-system-* names
+- Install libattr-dev and libcap-dev in gitlab-ci to test virtio-9p
+----------------------------------------------------------------
+
+Thomas Huth (9):
+      tests/migration: Do not use functions anymore that rely on global_qtest
+      tests/libqos/e1000e: Make e1000e libqos functions independent from global_qtest
+      tests/libqos: Replace clock_step with qtest_clock_step in virtio code
+      tests: Remove unnecessary global_qtest references
+      tests/libqtest: Move global_test wrapper function into a separate header
+      tests/libqtest: Use libqtest-single.h in tests that require global_qtest
+      tests/vm: Take the J=x setting into account for the vm-boot-ssh targets, too
+      qemu-doc: Do not hard-code the name of the QEMU binary
+      gitlab-ci.yml: Install libattr-devel and libcap-devel to test virtio-9p
+
+ .gitlab-ci.yml                |   2 +-
+ MAINTAINERS                   |   2 +-
+ docs/qemu-block-drivers.texi  |  72 +++++-----
+ docs/qemu-cpu-models.texi     |  10 +-
+ qemu-doc.texi                 |  81 +++++------
+ qemu-options.hx               | 128 ++++++++---------
+ tests/ahci-test.c             |   1 -
+ tests/bios-tables-test.c      |   1 -
+ tests/cpu-plug-test.c         |   2 +-
+ tests/display-vga-test.c      |   2 +-
+ tests/e1000e-test.c           |   2 +-
+ tests/fdc-test.c              |   2 +-
+ tests/i440fx-test.c           |   2 +-
+ tests/i82801b11-test.c        |   2 +-
+ tests/intel-hda-test.c        |   2 +-
+ tests/ioh3420-test.c          |   2 +-
+ tests/ipmi-kcs-test.c         |   3 +-
+ tests/ivshmem-test.c          |   3 -
+ tests/libqos/e1000e.c         |  16 ++-
+ tests/libqos/virtio-mmio.c    |  14 +-
+ tests/libqos/virtio-pci.c     |  14 +-
+ tests/libqos/virtio.c         |  20 +--
+ tests/libqos/virtio.h         |   6 +-
+ tests/libqtest-single.h       | 315 ++++++++++++++++++++++++++++++++++++++++++
+ tests/libqtest.c              |  13 --
+ tests/libqtest.h              | 289 --------------------------------------
+ tests/m25p80-test.c           |   2 +-
+ tests/migration-test.c        |   6 +-
+ tests/qos-test.c              |   2 +-
+ tests/rtas-test.c             |   1 -
+ tests/rtc-test.c              |   2 +-
+ tests/rtl8139-test.c          |   2 +-
+ tests/test-arm-mptimer.c      |   2 +-
+ tests/test-netfilter.c        |   2 +-
+ tests/test-x86-cpuid-compat.c |   2 +-
+ tests/tmp105-test.c           |   2 +-
+ tests/tpm-crb-test.c          |   2 +-
+ tests/tpm-tests.c             |   2 +-
+ tests/tpm-tis-test.c          |   2 +-
+ tests/usb-hcd-ohci-test.c     |   2 +-
+ tests/usb-hcd-uhci-test.c     |   2 +-
+ tests/usb-hcd-xhci-test.c     |   2 +-
+ tests/vhost-user-test.c       |   2 +-
+ tests/virtio-9p-test.c        |   2 +-
+ tests/virtio-blk-test.c       |   5 +-
+ tests/virtio-ccw-test.c       |   2 +-
+ tests/virtio-net-test.c       |   2 +-
+ tests/virtio-scsi-test.c      |   2 +-
+ tests/virtio-serial-test.c    |   2 +-
+ tests/vm/Makefile.include     |   1 +
+ 50 files changed, 548 insertions(+), 511 deletions(-)
+ create mode 100644 tests/libqtest-single.h
 
