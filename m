@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67E1A9FE5
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 12:39:17 +0200 (CEST)
-Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E00BAA012
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 12:42:05 +0200 (CEST)
+Received: from localhost ([::1]:44502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5pAa-0005xj-T8
-	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 06:39:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36052)
+	id 1i5pDI-0008Oe-At
+	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 06:42:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36697)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1i5p7z-0003BG-9B
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:36:36 -0400
+ (envelope-from <philmd@redhat.com>) id 1i5pBV-0007SI-Tb
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:40:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1i5p7y-0007oR-9O
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:36:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46650)
+ (envelope-from <philmd@redhat.com>) id 1i5pBU-0002tK-KW
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:40:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38632)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i5p7y-0007mP-13
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:36:34 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i5pBU-0002sj-Al
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:40:12 -0400
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2A91381DF7
- for <qemu-devel@nongnu.org>; Thu,  5 Sep 2019 10:36:33 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id c188so769096wmd.9
- for <qemu-devel@nongnu.org>; Thu, 05 Sep 2019 03:36:33 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 629B4C055673
+ for <qemu-devel@nongnu.org>; Thu,  5 Sep 2019 10:40:11 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id j11so326518wmh.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Sep 2019 03:40:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FoKVWEmRN4jQK3vb53+eWr1jAPLWqlzYcwN0mplCSqY=;
- b=jjdUDAhOp6Xlf/17uhyPYbJBeupFQ+MEgRgJslAYR0wFF6w7rap4xime0lELjvK+ed
- N6JalVQwbf7yMjLkp9UFvUBF04MpGj4jJUytkZUjZnjOgSqbWdFsY6PGSOlGXLBNVdr+
- 8AImDnepzB//C0IWikADiL92df+zAwp7TOEGxJJEps2tS70khMkewWlSEO5I6m6O97+9
- KAZni2Sl85Tf2pLUKkYhYzLWaKuR3rw80W2Lsr4IJesOmcpxd7CSwYuLssk1l3p919Ew
- KNhj4mC1N4C9nTFwPTohjmfGGZhGG+DCtxPsrRu1ZG5OUEVULRNOtkgWiJHgrX5sib5A
- bZWQ==
-X-Gm-Message-State: APjAAAV2HU6U+BOXOb5IZqf4amWrT4qeodQm0SW71a4tvx/qxJk7f1o5
- T8NlI0M2jzylPlBGR/5Csfc8TO/xl/AKrTSgV057FSIuOgWg8SxL9hs/CdpOj0IEG6IxUYL3XpS
- TmiKN3MI7x6KDAGA=
-X-Received: by 2002:adf:db01:: with SMTP id s1mr2103861wri.164.1567679791877; 
- Thu, 05 Sep 2019 03:36:31 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxEbcrStHCS5h8BBrV37+tGd6Bq+hfJCh+aGRWyQGWN9YW5/X/U4rDSoraTgQHPQo6sT83G+g==
-X-Received: by 2002:adf:db01:: with SMTP id s1mr2103838wri.164.1567679791708; 
- Thu, 05 Sep 2019 03:36:31 -0700 (PDT)
+ bh=rzNkkpZhVs40qoLTLY2VtbAEoZDa1XPa/NCoUNkxRkQ=;
+ b=qA/oXZViLYo8eA5n89Q0F8qAJdToTwxcECDd46MGy8QmPLNNKfOY9Hktjeg3yQSc7l
+ 6yxyXggBbj209Pk2FdO06/FVrwOUPkEH8Wj7GCYdYvtYGP987u4zCaxfsuEa70ickW/4
+ vwBAUzUkickSYse0fbAhSbBuCguCBkmZNfGpOenkGI1tgea/cKda1YWCDcW8tN/uidxI
+ eG9mlnGRGN3/xLVapR4/sNGALj56E4YWcwqmcAoH7kqUoMcCMrJzzDxrNnhtryqX8Nau
+ GQasSvh1P+bcldYx+MHHj2VU6GBu4aDDEbANPE/CFVwgevthqRZ7Wp27t8viBf4GiVV4
+ FifQ==
+X-Gm-Message-State: APjAAAX3aDpzcXADDR3b65DWh+gkbZHwBIuzKKQW5ioyek4WFAjs+R2W
+ c6nJcUDqWk1mG238LWLlWkTG7VoMCkiGuO1yhMRzK8kEjcB077CzVR/mSD+J6fyTOZrAj/Pctxf
+ WIHPueLypHNc+Z50=
+X-Received: by 2002:adf:fb4b:: with SMTP id c11mr1910586wrs.176.1567680010107; 
+ Thu, 05 Sep 2019 03:40:10 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzrYH9l/NdM5kjZYnFn1Y7Ty260Mv3AEKMcuf2r5LRSEvPKY22w9GKcPSziTxoRF3TFL3lvRw==
+X-Received: by 2002:adf:fb4b:: with SMTP id c11mr1910561wrs.176.1567680009938; 
+ Thu, 05 Sep 2019 03:40:09 -0700 (PDT)
 Received: from [192.168.1.48] (251.red-88-10-102.dynamicip.rima-tde.net.
  [88.10.102.251])
- by smtp.gmail.com with ESMTPSA id f23sm1701406wmj.37.2019.09.05.03.36.30
+ by smtp.gmail.com with ESMTPSA id a7sm2355344wra.43.2019.09.05.03.40.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Sep 2019 03:36:31 -0700 (PDT)
+ Thu, 05 Sep 2019 03:40:09 -0700 (PDT)
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20190904203013.9028-1-alex.bennee@linaro.org>
- <20190904203013.9028-25-alex.bennee@linaro.org>
+ <20190904203013.9028-26-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <a918f157-438c-0a8b-ea5e-4d6dbb6e4912@redhat.com>
-Date: Thu, 5 Sep 2019 12:36:30 +0200
+Message-ID: <c27ec42d-ef09-4db7-4950-9b0af2215bbf@redhat.com>
+Date: Thu, 5 Sep 2019 12:40:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190904203013.9028-25-alex.bennee@linaro.org>
+In-Reply-To: <20190904203013.9028-26-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v1 24/42] tests/docker: add debian9-mxe to
- DEBIAN_PARTIAL_IMAGES
+Subject: Re: [Qemu-devel] [PATCH v1 25/42] tests/docker: avoid $SHELL invoke
+ bash directly
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,32 +92,54 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/4/19 10:29 PM, Alex Benn=C3=A9e wrote:
-> Another image that can't be used directly to build QEMU.
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  tests/docker/Makefile.include | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.incl=
-ude
-> index 8d7f9376578..2c8cb790ad0 100644
-> --- a/tests/docker/Makefile.include
-> +++ b/tests/docker/Makefile.include
-> @@ -6,7 +6,7 @@ DOCKER_SUFFIX :=3D .docker
->  DOCKER_FILES_DIR :=3D $(SRC_PATH)/tests/docker/dockerfiles
->  DOCKER_DEPRECATED_IMAGES :=3D debian
->  # we don't run tests on intermediate images (used as base by another i=
-mage)
-> -DOCKER_PARTIAL_IMAGES :=3D debian debian8 debian9 debian10 debian8-mxe=
- debian-ports debian-bootstrap
-> +DOCKER_PARTIAL_IMAGES :=3D debian debian8 debian9 debian10 debian8-mxe=
- debian9-mxe debian-ports debian-bootstrap
->  DOCKER_IMAGES :=3D $(filter-out $(DOCKER_DEPRECATED_IMAGES),$(sort $(n=
-otdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
->  DOCKER_TARGETS :=3D $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
->  # Use a global constant ccache directory to speed up repetitive builds
+> On some images SHELL is pointing at a limited /bin/sh which doesn't
+> understand noprofile/norc. Given the run script is running bash just
+> invoke it directly.
 >=20
 
+This fixes:
+
+  $ make docker-test-build@IMAGE DEBUG=3D1
+  [...]
+  + echo '  ./test-build'
+  ./test-build
+  + echo '* Hit Ctrl-D to continue, or type '\''exit 1'\'' to abort'
+  * Hit Ctrl-D to continue, or type 'exit 1' to abort
+  + echo
+  + /bin/sh --noprofile --norc
+  /bin/sh: 0: Illegal option --
+
+Fixes: 2b0c4fa13f3
+
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  tests/docker/run | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/tests/docker/run b/tests/docker/run
+> index 1014871fec0..8edc7026ee3 100755
+> --- a/tests/docker/run
+> +++ b/tests/docker/run
+> @@ -62,7 +62,7 @@ echo "* Prepared to run command:"
+>  echo "  $CMD"
+>  echo "* Hit Ctrl-D to continue, or type 'exit 1' to abort"
+>  echo
+> -$SHELL --noprofile --norc
+> +env bash --noprofile --norc
+> =20
+>  if "$CMD"; then
+>      exit 0
+> @@ -72,7 +72,7 @@ elif test -n "$DEBUG"; then
+>      echo "* Hit Ctrl-D to exit"
+>      echo
+>      # Force error after shell exits
+> -    $SHELL --noprofile --norc && exit 1
+> +    env bash --noprofile --norc && exit 1
+>  else
+>      exit 1
+>  fi
+>=20
 
