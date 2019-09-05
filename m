@@ -2,43 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366B0A9D15
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 10:34:35 +0200 (CEST)
-Received: from localhost ([::1]:43226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E16A9D35
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 10:39:16 +0200 (CEST)
+Received: from localhost ([::1]:43266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5nDt-000135-RX
-	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 04:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33025)
+	id 1i5nIQ-0006S5-Pf
+	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 04:39:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33086)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1i5nAO-0007jA-Mu
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 04:30:58 -0400
+ (envelope-from <thuth@redhat.com>) id 1i5nAS-0007o5-Vu
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 04:31:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1i5nAN-0005lX-9C
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 04:30:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50888)
+ (envelope-from <thuth@redhat.com>) id 1i5nAO-0005mH-1d
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 04:31:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33276)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1i5nAN-0005kj-1f
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1i5nAN-0005lc-Sy
  for qemu-devel@nongnu.org; Thu, 05 Sep 2019 04:30:55 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1A8871918641;
- Thu,  5 Sep 2019 08:30:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1E3E3307D977;
+ Thu,  5 Sep 2019 08:30:55 +0000 (UTC)
 Received: from thuth.com (ovpn-116-96.ams2.redhat.com [10.36.116.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 655E95D704;
- Thu,  5 Sep 2019 08:30:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6665F5D704;
+ Thu,  5 Sep 2019 08:30:54 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu,  5 Sep 2019 10:30:41 +0200
-Message-Id: <20190905083049.11645-1-thuth@redhat.com>
+Date: Thu,  5 Sep 2019 10:30:42 +0200
+Message-Id: <20190905083049.11645-2-thuth@redhat.com>
+In-Reply-To: <20190905083049.11645-1-thuth@redhat.com>
+References: <20190905083049.11645-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Thu, 05 Sep 2019 08:30:54 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Thu, 05 Sep 2019 08:30:55 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/8] qtests and misc patches
+Subject: [Qemu-devel] [PULL 1/8] tests/migration: Do not use functions
+ anymore that rely on global_qtest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,83 +57,55 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Peter,
+The migration tests deal with multiple test states, so we really should
+not use functions here that rely on the single global_qtest variable.
+Switch from qtest_start() to qtest_init() to make sure that global_qtest
+is not set anymore. This also revealed a regression in the migrate()
+function: It has once been converted to use the qtest_qmp() function,
+but commit b5bbd3f315d686bd511 ("Clean up string interpolation into QMP,
+part 2") accidentally reverted it back to qmp().
 
-the following changes since commit a8b5ad8e1faef0d1bb3e550530328e8ec76fe87c:
+Message-Id: <20190904130047.25808-2-thuth@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/migration-test.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2019-09-04 17:22:34 +0100)
+diff --git a/tests/migration-test.c b/tests/migration-test.c
+index b87ba99a9e..a9f81cc185 100644
+--- a/tests/migration-test.c
++++ b/tests/migration-test.c
+@@ -490,7 +490,7 @@ static void migrate(QTestState *who, const char *uri, const char *fmt, ...)
+     g_assert(!qdict_haskey(args, "uri"));
+     qdict_put_str(args, "uri", uri);
+ 
+-    rsp = qmp("{ 'execute': 'migrate', 'arguments': %p}", args);
++    rsp = qtest_qmp(who, "{ 'execute': 'migrate', 'arguments': %p}", args);
+ 
+     g_assert(qdict_haskey(rsp, "return"));
+     qobject_unref(rsp);
+@@ -625,7 +625,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+         cmd_dst = tmp;
+     }
+ 
+-    *from = qtest_start(cmd_src);
++    *from = qtest_init(cmd_src);
+     g_free(cmd_src);
+ 
+     *to = qtest_init(cmd_dst);
+@@ -715,7 +715,7 @@ static void test_deprecated(void)
+ {
+     QTestState *from;
+ 
+-    from = qtest_start("-machine none");
++    from = qtest_init("-machine none");
+ 
+     deprecated_set_downtime(from, 0.12345);
+     deprecated_set_speed(from, 12345);
+-- 
+2.18.1
 
-are available in the Git repository at:
-
-  https://gitlab.com/huth/qemu.git tags/pull-request-2019-09-05
-
-for you to fetch changes up to 7bb21c0ac301e423b483dd7fc171b0d7b56de2cf:
-
-  qemu-doc: Do not hard-code the name of the QEMU binary (2019-09-05 09:45:09 +0200)
-
-----------------------------------------------------------------
-- Make the core libqtest library independent from global_qtest
-- Clean up docs from hard-coded qemu-system-* names
-----------------------------------------------------------------
-
-Thomas Huth (8):
-      tests/migration: Do not use functions anymore that rely on global_qtest
-      tests/libqos/e1000e: Make e1000e libqos functions independent from global_qtest
-      tests/libqos: Replace clock_step with qtest_clock_step in virtio code
-      tests: Remove unnecessary global_qtest references
-      tests/libqtest: Move global_test wrapper function into a separate header
-      tests/libqtest: Use libqtest-single.h in tests that require global_qtest
-      tests/vm: Take the J=x setting into account for the vm-boot-ssh targets, too
-      qemu-doc: Do not hard-code the name of the QEMU binary
-
- MAINTAINERS                   |   2 +-
- docs/qemu-block-drivers.texi  |  72 +++++-----
- docs/qemu-cpu-models.texi     |  10 +-
- qemu-doc.texi                 |  81 +++++------
- qemu-options.hx               | 128 ++++++++---------
- tests/ahci-test.c             |   1 -
- tests/bios-tables-test.c      |   1 -
- tests/cpu-plug-test.c         |   2 +-
- tests/display-vga-test.c      |   2 +-
- tests/e1000e-test.c           |   2 +-
- tests/fdc-test.c              |   2 +-
- tests/i440fx-test.c           |   2 +-
- tests/i82801b11-test.c        |   2 +-
- tests/intel-hda-test.c        |   2 +-
- tests/ioh3420-test.c          |   2 +-
- tests/ipmi-kcs-test.c         |   3 +-
- tests/ivshmem-test.c          |   3 -
- tests/libqos/e1000e.c         |  16 ++-
- tests/libqos/virtio-mmio.c    |  14 +-
- tests/libqos/virtio-pci.c     |  14 +-
- tests/libqos/virtio.c         |  20 +--
- tests/libqos/virtio.h         |   6 +-
- tests/libqtest-single.h       | 315 ++++++++++++++++++++++++++++++++++++++++++
- tests/libqtest.c              |  13 --
- tests/libqtest.h              | 289 --------------------------------------
- tests/m25p80-test.c           |   2 +-
- tests/migration-test.c        |   6 +-
- tests/qos-test.c              |   2 +-
- tests/rtas-test.c             |   1 -
- tests/rtc-test.c              |   2 +-
- tests/rtl8139-test.c          |   2 +-
- tests/test-arm-mptimer.c      |   2 +-
- tests/test-netfilter.c        |   2 +-
- tests/test-x86-cpuid-compat.c |   2 +-
- tests/tmp105-test.c           |   2 +-
- tests/tpm-crb-test.c          |   2 +-
- tests/tpm-tests.c             |   2 +-
- tests/tpm-tis-test.c          |   2 +-
- tests/usb-hcd-ohci-test.c     |   2 +-
- tests/usb-hcd-uhci-test.c     |   2 +-
- tests/usb-hcd-xhci-test.c     |   2 +-
- tests/vhost-user-test.c       |   2 +-
- tests/virtio-blk-test.c       |   5 +-
- tests/virtio-ccw-test.c       |   2 +-
- tests/virtio-net-test.c       |   2 +-
- tests/virtio-scsi-test.c      |   2 +-
- tests/virtio-serial-test.c    |   2 +-
- tests/vm/Makefile.include     |   1 +
- 48 files changed, 546 insertions(+), 509 deletions(-)
- create mode 100644 tests/libqtest-single.h
 
