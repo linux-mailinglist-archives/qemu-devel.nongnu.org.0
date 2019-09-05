@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2293AAAE0
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 20:25:23 +0200 (CEST)
-Received: from localhost ([::1]:48888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F167AAAAE3
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 20:27:02 +0200 (CEST)
+Received: from localhost ([::1]:48916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5wRe-000193-Kp
-	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 14:25:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33621)
+	id 1i5wTF-0003c1-WF
+	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 14:27:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i5wOB-0006e0-Qg
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 14:21:48 -0400
+ (envelope-from <eblake@redhat.com>) id 1i5wOC-0006ec-3q
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 14:21:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i5wOA-0006AU-Lb
+ (envelope-from <eblake@redhat.com>) id 1i5wOA-0006B1-SW
  for qemu-devel@nongnu.org; Thu, 05 Sep 2019 14:21:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36106)
+Received: from mx1.redhat.com ([209.132.183.28]:39642)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1i5wO8-000655-8y; Thu, 05 Sep 2019 14:21:44 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i5wOA-00069J-NF
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 14:21:46 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8F1B83175293;
- Thu,  5 Sep 2019 18:21:43 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 16E973DE0B
+ for <qemu-devel@nongnu.org>; Thu,  5 Sep 2019 18:21:46 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 100CB5D6A3;
- Thu,  5 Sep 2019 18:21:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B25165D6A3;
+ Thu,  5 Sep 2019 18:21:43 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  5 Sep 2019 13:21:27 -0500
-Message-Id: <20190905182132.3563-5-eblake@redhat.com>
+Date: Thu,  5 Sep 2019 13:21:28 -0500
+Message-Id: <20190905182132.3563-6-eblake@redhat.com>
 In-Reply-To: <20190905182132.3563-1-eblake@redhat.com>
 References: <20190905182132.3563-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 05 Sep 2019 18:21:43 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Thu, 05 Sep 2019 18:21:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 4/9] block: workaround for unaligned byte range
- in fallocate()
+Subject: [Qemu-devel] [PULL 5/9] docs: Update preferred NBD device syntax
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,67 +54,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- "open list:raw" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V . Lunev" <den@openvz.org>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Cc: John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Mention the preferred URI form, especially since NBD is trying to
+standardize that form: https://lists.debian.org/nbd/2019/06/msg00012.html
 
-Revert the commit 118f99442d 'block/io.c: fix for the allocation failure'
-and use better error handling for file systems that do not support
-fallocate() for an unaligned byte range. Allow falling back to pwrite
-in case fallocate() returns EINVAL.
-
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
-Suggested-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Denis V. Lunev <den@openvz.org>
-Message-Id: <1566913973-15490-1-git-send-email-andrey.shinkevich@virtuozz=
-o.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20190903145634.20237-1-eblake@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- block/io.c         | 2 +-
- block/file-posix.c | 7 +++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ qemu-doc.texi | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index 0fa10831edb7..16a598fd0857 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1746,7 +1746,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(Bl=
-ockDriverState *bs,
-             assert(!bs->supported_zero_flags);
-         }
+diff --git a/qemu-doc.texi b/qemu-doc.texi
+index 577d1e837640..ec460f1d7af5 100644
+--- a/qemu-doc.texi
++++ b/qemu-doc.texi
+@@ -297,9 +297,16 @@ qemu-system-i386 -drive file=3Discsi://192.0.2.1/iqn=
+.2001-04.com.example/1
 
--        if (ret < 0 && !(flags & BDRV_REQ_NO_FALLBACK)) {
-+        if (ret =3D=3D -ENOTSUP && !(flags & BDRV_REQ_NO_FALLBACK)) {
-             /* Fall back to bounce buffer if write zeroes is unsupported=
- */
-             BdrvRequestFlags write_flags =3D flags & ~BDRV_REQ_ZERO_WRIT=
-E;
+ @item NBD
+ QEMU supports NBD (Network Block Devices) both using TCP protocol as wel=
+l
+-as Unix Domain Sockets.
++as Unix Domain Sockets.  With TCP, the default port is 10809.
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 71f168ee2f13..87c5a4ccbdc8 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1588,6 +1588,13 @@ static int handle_aiocb_write_zeroes(void *opaque)
-     if (s->has_write_zeroes) {
-         int ret =3D do_fallocate(s->fd, FALLOC_FL_ZERO_RANGE,
-                                aiocb->aio_offset, aiocb->aio_nbytes);
-+        if (ret =3D=3D -EINVAL) {
-+            /*
-+             * Allow falling back to pwrite for file systems that
-+             * do not support fallocate() for an unaligned byte range.
-+             */
-+            return -ENOTSUP;
-+        }
-         if (ret =3D=3D 0 || ret !=3D -ENOTSUP) {
-             return ret;
-         }
+-Syntax for specifying a NBD device using TCP
++Syntax for specifying a NBD device using TCP, in preferred URI form:
++``nbd://<server-ip>[:<port>]/[<export>]''
++
++Syntax for specifying a NBD device using Unix Domain Sockets; remember
++that '?' is a shell glob character and may need quoting:
++``nbd+unix:///[<export>]?socket=3D<domain-socket>''
++
++Older syntax that is also recognized:
+ ``nbd:<server-ip>:<port>[:exportname=3D<export>]''
+
+ Syntax for specifying a NBD device using Unix Domain Sockets
 --=20
 2.21.0
 
