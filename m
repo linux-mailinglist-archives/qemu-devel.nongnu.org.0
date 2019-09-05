@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA26AA75A
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 17:29:19 +0200 (CEST)
-Received: from localhost ([::1]:47316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 527E6AA761
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 17:33:24 +0200 (CEST)
+Received: from localhost ([::1]:47412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5thG-0007gl-Ha
-	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 11:29:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43429)
+	id 1i5tlC-0002Jv-W1
+	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 11:33:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43858)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1i5tcp-0003aA-Au
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:24:44 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1i5te6-0005Cd-KC
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:26:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1i5tcn-0008VL-DQ
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:24:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53156)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1i5tcn-0008VD-5U
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:24:41 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 56444C05168C;
- Thu,  5 Sep 2019 15:24:40 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-123-245.rdu2.redhat.com
- [10.10.123.245])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48D785C1D4;
- Thu,  5 Sep 2019 15:24:39 +0000 (UTC)
-Date: Thu, 5 Sep 2019 11:24:37 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Message-ID: <20190905152437.GA15321@localhost.localdomain>
-References: <20190829013125.GG16342@umbus.fritz.box>
- <20190830175648.GE3694@habkost.net>
- <20190831014834.GC12065@umbus.fritz.box>
- <20190904195717.GA2311@localhost.localdomain>
- <20190905020924.GB2120@umbus.fritz.box>
- <20190905133824.GA12364@localhost.localdomain>
- <20190905140618.GE4617@habkost.net>
+ (envelope-from <bmeng.cn@gmail.com>) id 1i5te5-0000V8-8N
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 11:26:02 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:46146)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1i5te4-0000Us-Vv; Thu, 05 Sep 2019 11:26:01 -0400
+Received: by mail-ed1-x542.google.com with SMTP id i8so3015150edn.13;
+ Thu, 05 Sep 2019 08:26:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6G0JlvMUrwOQNBgV7evwiXq6c4f3w/LLRYfXbU572Ec=;
+ b=GJiRQJjX7U8labh1veRUnVA/9kuAgONqnX/GuwvBmhQWtDyNa6oaGWrJdhgEibnocD
+ u37auTV6jZ8/2ClQfWsfKQa5+IKFaJ9BMBiWH3vsLF1NFpo9beLQwCJv773a9qnlw7bP
+ qU4zuyhzXIPAmHJPlpjzuqgwZic4b8KF6OBGkn8/Jp4U+7D+Ro+3MATTsTVj+45YqIv0
+ D74wpuy7alJ//kXkwknvZvlr86o5YFkSCHejSBrilJK16tommH0b704j2KcWg64OUHmH
+ q64TOFl3jFilQGpnrQPmmngq+kh0aPsULcgX7aDFJVUsjPur9bJ7CVoNGDU2aE5xIc6m
+ J+WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6G0JlvMUrwOQNBgV7evwiXq6c4f3w/LLRYfXbU572Ec=;
+ b=XTNmZD0YGYUvncV8GZe1XaEQ1CdBxSSvh+xv7nke33lJaVjeKNRCS7J5y1EtfKJaCN
+ 6qiRGI5CrVnWuukVpkK2pyqeYh+mqr7SRzqZ/DOhEEX3J+IoA6UVix8b4KUkCIoVRSoq
+ HUIxDvSx2PiFghX0jGprahkMLDzv9WugM6F/pZg5LaMbNin/0E/IJkKZmbCpKQnqHrrX
+ RNSkUBuSyIlu5SLXzHB1njGKaiuttBtOIR2lqD247PEVIBDw5+eVnh/cxD/wIYOPYZ+5
+ W3txPC4lNqezCFBLhcLXSaWRGogCbA8sTCGI1iAiIpUiMMJdd5bFJfu4SCuizVa3s5T8
+ 9Xqg==
+X-Gm-Message-State: APjAAAWCOGMPc0wGtB5pIiydhG1O6X13SEQabc788vBLmxKmreIAl9Sm
+ P0wnC0fQkHu4WbybuxeGdkw1yBoQVjd9ScVIuKo=
+X-Google-Smtp-Source: APXvYqzGvMG0hjy+jf1jc4MTlmKO7Nu0ii2P63ah/MwI+h/JLpgiEfG6y2o9fY/rEt/f17vJjQzZaX2xpLnQjT668yE=
+X-Received: by 2002:a17:906:57cc:: with SMTP id
+ u12mr3408238ejr.170.1567697159276; 
+ Thu, 05 Sep 2019 08:25:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190905140618.GE4617@habkost.net>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Thu, 05 Sep 2019 15:24:40 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Cryptic errors from PIP install if missing
- openssl-devel
+References: <1567306391-2682-1-git-send-email-bmeng.cn@gmail.com>
+ <CAKmqyKNrBtZFEp3JCL0N5Kbw2f9cG6gu3YG+b9pTKaprHysjCw@mail.gmail.com>
+In-Reply-To: <CAKmqyKNrBtZFEp3JCL0N5Kbw2f9cG6gu3YG+b9pTKaprHysjCw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 5 Sep 2019 23:25:46 +0800
+Message-ID: <CAEUhbmWGHbBXO+NtkfxJc1tHNLKY_nLPKQ_L=MVsyuToZ02e9w@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::542
+Subject: Re: [Qemu-devel] [PATCH v7 00/30] riscv: sifive_u: Improve the
+ emulation fidelity of sifive_u machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,86 +73,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ldoktor@redhat.com, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 05, 2019 at 11:06:18AM -0300, Eduardo Habkost wrote:
-> On Thu, Sep 05, 2019 at 09:38:24AM -0400, Cleber Rosa wrote:
-> > On Thu, Sep 05, 2019 at 12:09:24PM +1000, David Gibson wrote:
-> > > On Wed, Sep 04, 2019 at 03:57:17PM -0400, Cleber Rosa wrote:
-> > > > 
-> > > > Hi David,
-> > > > 
-> > > > I've pushed a branch here (most of the commits have already been sent
-> > > > separately):
-> > > > 
-> > > >    https://github.com/clebergnu/qemu/tree/ppc64
-> > > > 
-> > > > I've tested on a RHEL 8 ppc64le Power 9, and it seems to work for me.
-> > > > My steps for building QEMU:
-> > > > 
-> > > >   - Configured with: '/home/cleber/src/qemu/configure' '--enable-slirp=git' '--python=/usr/bin/python3' '--target-list=x86_64-softmmu,ppc64-softmmu,arm-softmmu,aarch64-softmmu,mips-softmmu,mipsel-softmmu,mips64-softmmu,mips64el-softmmu,sh4-softmmu,s390x-softmmu,alpha-softmmu,m68k-softmmu,riscv64-softmmu'
-> > > >   - make
-> > > >   - make check-acceptance
-> > > > 
-> > > > Would you be able to test if that branch works smoothly for you?
-> > > 
-> > > So, with this tree I'm no longer getting problems if openssl-devel is
-> > > not installed, so that much looks good.
-> > > 
-> > > I am getting some different errors - I was seeing this before (with
-> > > openssl-devel installed) sometimes, but only sometimes.  I haven't yet
-> > > worked out a pattern for when they appeared.  They also don't appear
-> > > to be fatal, the rest of the tests seem to be running ok.  Any ideas?
-> > > 
-> > >  VENV    /home/dwg/qemu/build/rhel8/tests/venv
-> > >   PIP     /home/dwg/qemu/tests/requirements.txt
-> > >   AVOCADO tests/acceptance
-> > > Error running method "run" of plugin "html": 'Namespace' object has no attribute 'get'
-> > > Error running method "run" of plugin "varianter_cit": 'Namespace' object has no attribute 'get'
-> > 
-> > Hi David,
-> > 
-> > Yes, those should not be fatal.  Anyway, they are caused by two things:
-> > 
-> >  1) A second set of Avocado plugins installation with different versions
-> >     than the Avocado installation on QEMU's tests venv
-> > 
-> >  2) The tests' venv, which is created with "--system-site-packages",
-> >     option that is described as "Give the virtual environment access
-> >     to the system site-packages dir."
-> > 
-> > The motivation to have "--system-site-packages" is that, if the user
-> > had any of the "requirements.txt" depedencies installed system wide,
-> > the venv would simply use it and skip downloads.  Maybe we should make
-> > that an optional feature, disabled by default, so that the test's venv
-> > is better isolated and more predictable by default.
-> > 
-> > Eduardo,
-> > 
-> > I remember we discussed #2, so your opinion is appreciated here.
-> 
-> I think I was the person who insisted for --system-site-packages.
-> Considering that we're often using very recent versions of
-> Avocado, maybe trying to use system-provided Avocado modules by
-> default wasn't a good idea after all.
-> 
-> Making --system-site-packages optional and not enabling it by
-> default sounds like a reasonable workaround.
+Hi Alistair,
+
+On Thu, Sep 5, 2019 at 3:50 AM Alistair Francis <alistair23@gmail.com> wrote:
 >
+> On Sat, Aug 31, 2019 at 7:54 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > As of today, the QEMU 'sifive_u' machine is a special target that does
+> > not boot the upstream OpenSBI/U-Boot firmware images built for the real
+> > SiFive HiFive Unleashed board. Hence OpenSBI supports a special platform
+> > "qemu/sifive_u". For U-Boot, the sifive_fu540_defconfig is referenced
+> > in the OpenSBI doc as its payload, but that does not boot at all due
+> > to various issues in current QEMU 'sifive_u' machine codes.
+> >
+> > This series aims to improve the emulation fidelity of sifive_u machine,
+> > so that the upstream OpenSBI, U-Boot and kernel images built for the
+> > SiFive HiFive Unleashed board can be used out of the box without any
+> > special hack.
+> >
+> > The major changes include:
+> > - Heterogeneous harts creation supported, so that we can create a CPU
+> >   that exactly mirrors the real hardware: 1 E51 + 4 U54.
+> > - Implemented a PRCI model for FU540
+> > - Implemented an OTP model for FU540, primarily used for storing serial
+> >   number of the board
+> > - Fixed GEM support that was seriously broken on sifive_u
+> > - Synced device tree with upstream Linux kernel on sifive_u
+> >
+> > OpenSBI v0.4 image built for sifive/fu540 is included as the default
+> > bios image for 'sifive_u' machine.
+> >
+> > The series is tested against OpenSBI v0.4 image for sifive/fu540
+> > paltform, U-Boot v2019.10-rc1 image for sifive_fu540_defconfig,
+> > and Linux kernel v5.3-rc3 image with the following patch:
+> >
+> > macb: Update compatibility string for SiFive FU540-C000 [1]
+> >
+> > OpenSBI + U-Boot, ping/tftpboot with U-Boot MACB driver works well.
+> > Boot Linux 64-bit defconfig image, verified that system console on
+> > the serial 0 and ping host work pretty well.
+> >
+> > An OpenSBI patch [2] was sent to drop the special "qemu/sifive_u" platform
+> > support in OpenSBI. The original plan was to get the drop patch applied
+> > after this QEMU series is merged. However after discussion in the OpenSBI
+> > mailing list, it seems the best option for us is to let OpenSBI continue
+> > shipping the special "qemu/sifive_u" platform support to work with QEMU
+> > version <= 4.1 and deprecate the support sometime in the future. A patch
+> > will need to be sent to OpenSBI mailing list to update its document.
+> >
+> > v4 is now rebased on Palmer's QEMU RISC-V repo "for-master" branch.
+> > Dropped the following v3 patch that was already done by someone else.
+> > - riscv: sifive_u: Generate an aliases node in the device tree
+> > - riscv: sifive_u: Support loading initramfs
+>
+> I'm having trouble applying this. Do you mind sharing a public git branch?
 
-OK, agreed.
+So I see Palmer has rebased his "for-master" branch against QEMU
+master and now this patch series cannot be applied cleanly.
 
-FIY, given the fact that pip itself keeps a local cache, not using
-"--system-site-packages" this shouldn't be much of a hit when it
-comes to downloads.
+Even worse, the current "for-master" branch has build errors for QEMU RISC-V.
 
-Cheers,
-- Cleber.
-
-> -- 
-> Eduardo
-> 
+Regards,
+Bin
 
