@@ -2,52 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9B6A9FF2
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 12:40:06 +0200 (CEST)
-Received: from localhost ([::1]:44484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67E1A9FE5
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 12:39:17 +0200 (CEST)
+Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5pBN-00070E-Vx
-	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 06:40:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36028)
+	id 1i5pAa-0005xj-T8
+	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 06:39:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36052)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1i5p7q-0002wD-1Z
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:36:27 -0400
+ (envelope-from <philmd@redhat.com>) id 1i5p7z-0003BG-9B
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:36:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1i5p7o-0007VH-LD
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:36:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47060)
+ (envelope-from <philmd@redhat.com>) id 1i5p7y-0007oR-9O
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:36:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46650)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1i5p7o-0007UV-Es
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:36:24 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1i5p7y-0007mP-13
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:36:34 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B6BEE3CA16
- for <qemu-devel@nongnu.org>; Thu,  5 Sep 2019 10:36:23 +0000 (UTC)
-Received: from work-vm (ovpn-117-197.ams2.redhat.com [10.36.117.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EB441001281;
- Thu,  5 Sep 2019 10:36:16 +0000 (UTC)
-Date: Thu, 5 Sep 2019 11:36:13 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190905103613.GK2700@work-vm>
-References: <20190905082947.6633-1-stefanha@redhat.com>
- <6e9ff4f7-2906-3c11-8191-05cff3e60f53@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 2A91381DF7
+ for <qemu-devel@nongnu.org>; Thu,  5 Sep 2019 10:36:33 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id c188so769096wmd.9
+ for <qemu-devel@nongnu.org>; Thu, 05 Sep 2019 03:36:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FoKVWEmRN4jQK3vb53+eWr1jAPLWqlzYcwN0mplCSqY=;
+ b=jjdUDAhOp6Xlf/17uhyPYbJBeupFQ+MEgRgJslAYR0wFF6w7rap4xime0lELjvK+ed
+ N6JalVQwbf7yMjLkp9UFvUBF04MpGj4jJUytkZUjZnjOgSqbWdFsY6PGSOlGXLBNVdr+
+ 8AImDnepzB//C0IWikADiL92df+zAwp7TOEGxJJEps2tS70khMkewWlSEO5I6m6O97+9
+ KAZni2Sl85Tf2pLUKkYhYzLWaKuR3rw80W2Lsr4IJesOmcpxd7CSwYuLssk1l3p919Ew
+ KNhj4mC1N4C9nTFwPTohjmfGGZhGG+DCtxPsrRu1ZG5OUEVULRNOtkgWiJHgrX5sib5A
+ bZWQ==
+X-Gm-Message-State: APjAAAV2HU6U+BOXOb5IZqf4amWrT4qeodQm0SW71a4tvx/qxJk7f1o5
+ T8NlI0M2jzylPlBGR/5Csfc8TO/xl/AKrTSgV057FSIuOgWg8SxL9hs/CdpOj0IEG6IxUYL3XpS
+ TmiKN3MI7x6KDAGA=
+X-Received: by 2002:adf:db01:: with SMTP id s1mr2103861wri.164.1567679791877; 
+ Thu, 05 Sep 2019 03:36:31 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxEbcrStHCS5h8BBrV37+tGd6Bq+hfJCh+aGRWyQGWN9YW5/X/U4rDSoraTgQHPQo6sT83G+g==
+X-Received: by 2002:adf:db01:: with SMTP id s1mr2103838wri.164.1567679791708; 
+ Thu, 05 Sep 2019 03:36:31 -0700 (PDT)
+Received: from [192.168.1.48] (251.red-88-10-102.dynamicip.rima-tde.net.
+ [88.10.102.251])
+ by smtp.gmail.com with ESMTPSA id f23sm1701406wmj.37.2019.09.05.03.36.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Sep 2019 03:36:31 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190904203013.9028-1-alex.bennee@linaro.org>
+ <20190904203013.9028-25-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <a918f157-438c-0a8b-ea5e-4d6dbb6e4912@redhat.com>
+Date: Thu, 5 Sep 2019 12:36:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <6e9ff4f7-2906-3c11-8191-05cff3e60f53@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 05 Sep 2019 10:36:23 +0000 (UTC)
+In-Reply-To: <20190904203013.9028-25-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Virtio-fs] [PATCH RESEND 0/2] virtiofsd: use
- "fuse_log.h" APIs instead of <err.h>
+Subject: Re: [Qemu-devel] [PATCH v1 24/42] tests/docker: add debian9-mxe to
+ DEBIAN_PARTIAL_IMAGES
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,46 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
-> Hi Stefan,
+On 9/4/19 10:29 PM, Alex Benn=C3=A9e wrote:
+> Another image that can't be used directly to build QEMU.
 >=20
-> On 9/5/19 10:29 AM, Stefan Hajnoczi wrote:
-> > warn(3), warnx(3), err(3), and errx(3) print to stderr even when the =
---syslog
-> > option was given.  In this case messages to stderr are likely to be l=
-ost and
-> > this makes troubleshooting hard.  Use "fuse_log.h" APIs instead of <e=
-rr.h>.
-> >=20
-> > Stefan Hajnoczi (2):
-> >   virtiofsd: replace warn(3) and warnx(3) with fuse_warning()
-> >   virtiofsd: replace err(3) and errx(3) with fuse_err()
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  tests/docker/Makefile.include | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> Is this a straight RESEND or are there any changes in this series?
+> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.incl=
+ude
+> index 8d7f9376578..2c8cb790ad0 100644
+> --- a/tests/docker/Makefile.include
+> +++ b/tests/docker/Makefile.include
+> @@ -6,7 +6,7 @@ DOCKER_SUFFIX :=3D .docker
+>  DOCKER_FILES_DIR :=3D $(SRC_PATH)/tests/docker/dockerfiles
+>  DOCKER_DEPRECATED_IMAGES :=3D debian
+>  # we don't run tests on intermediate images (used as base by another i=
+mage)
+> -DOCKER_PARTIAL_IMAGES :=3D debian debian8 debian9 debian10 debian8-mxe=
+ debian-ports debian-bootstrap
+> +DOCKER_PARTIAL_IMAGES :=3D debian debian8 debian9 debian10 debian8-mxe=
+ debian9-mxe debian-ports debian-bootstrap
+>  DOCKER_IMAGES :=3D $(filter-out $(DOCKER_DEPRECATED_IMAGES),$(sort $(n=
+otdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
+>  DOCKER_TARGETS :=3D $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+>  # Use a global constant ccache directory to speed up repetitive builds
 >=20
-> I'm asking because IIRC your first series had:
-> - Reviewed-by: Jun Piao <piaojun@huawei.com>
-> - Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
->=20
-> If this isn't a RESEND then I'll review it again.
 
-I'll pick those reviews up.
-
-Dave
-
-> Thanks,
->=20
-> Phil.
->=20
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://www.redhat.com/mailman/listinfo/virtio-fs
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
