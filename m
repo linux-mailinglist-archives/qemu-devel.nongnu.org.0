@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F41A9F3C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 12:06:30 +0200 (CEST)
-Received: from localhost ([::1]:43984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D89A9F3E
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Sep 2019 12:07:37 +0200 (CEST)
+Received: from localhost ([::1]:44006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i5oer-0004Go-Lo
-	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 06:06:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52368)
+	id 1i5ofw-0005WK-Fk
+	for lists+qemu-devel@lfdr.de; Thu, 05 Sep 2019 06:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52486)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ronniesahlberg@gmail.com>) id 1i5ody-0003lV-5P
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:05:35 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i5oeW-0004Hw-AH
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:06:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ronniesahlberg@gmail.com>) id 1i5odw-00082x-Pl
- for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:05:34 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:45737)
+ (envelope-from <alex.bennee@linaro.org>) id 1i5oeV-0008Eq-0q
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:06:07 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55994)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <ronniesahlberg@gmail.com>)
- id 1i5odt-0007wd-To; Thu, 05 Sep 2019 06:05:30 -0400
-Received: by mail-io1-xd43.google.com with SMTP id f12so3394737iog.12;
- Thu, 05 Sep 2019 03:05:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UICZ8ZwvUMvJTsWYscxu6CwtwXdRKBHdesacFacMtq4=;
- b=f1AkwN/bAvv2kdPcLMEFvELXC64ltemMkY6IbOtw6uKn5gJcozT8E6yenS6tar6yj8
- UNJPx0koygKE98K8JEEZnGL1hDRyxht56AR2eHuSfJFAqU8hZ6t1BvKWjjpteXLwktIG
- BCy2JEAuiWRGy9CPYlgPWJMc8h1RJBiaggVNtZwrJ/8vavA6k6FPsqxJL9dVpQVcVWl3
- WhjyE2m42LVlOZwNeDStyP/0GDlrXHWHrOtbCVhBDNZLheBF70b514YbIDrqcXjJ9rdO
- PdP0eEqTxKv+wAP5A/RjKzveFHuBtbIlsQTzuOMhuakMbO2fg3S9P0JVuWGj8a/FKfDa
- mLmw==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i5oeU-0008EX-O5
+ for qemu-devel@nongnu.org; Thu, 05 Sep 2019 06:06:06 -0400
+Received: by mail-wm1-x342.google.com with SMTP id g207so2041978wmg.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Sep 2019 03:06:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Zwhcn1S6JQfG96QKucF0fKMRHN1jYIE+8pOC0M2myJY=;
+ b=zhTiNSPufsGGMqm8wjPf2y5N21pfSOm16vkHyJJm6KRmw/uAlypHFsp6xR44c/6605
+ HuTGLOzQfIs8Bu98Tm1+DFYHJhGdnApjQ3xHxHsDldj1VEaxPTbrf/CwsJTHtzSblcIH
+ WKu3bOkFFm/X5Fw4UQHKxvN95vJtCg4/MV8LMmxHRIE6m6Q6RoTeuDp4hn0c+exlPZ4J
+ Hf5PiQ2brwqFK1KAU7YOMFp9SlW1wtnzN7zMe4Ol+J3O8j9gAqrc6R032jd3fYlhmhgi
+ rDOvJ6rqoMRJug7nPNtPR4SgrbF4mSa/SfTniu/RCiP+v6Xorfretj3wTzewuSLLRYA8
+ 3ONw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UICZ8ZwvUMvJTsWYscxu6CwtwXdRKBHdesacFacMtq4=;
- b=iaIASe2RwdfyuqBAMBLGGd5IVpJJuSZ1Gbo85OUjMLQ/GlPeNwzhS1GVcg5NVUQB62
- 0a+5rEapTx+zHaS2bTrvlIiWr0c6MJ0FaDw055Wnv2pUszxBTp7G06epsCJgLcUypCha
- olSpSYuU5NAaJjFxOcMtqz/ryjKEOaBnRwCxTEWRV2r+CMDQCaa58gQoDrXrZ+eIuNPp
- EaJGisiT/qrkFKxADCfiXHhSZth451FBjE4vZHq8cCmVmmig8KQ9HKSXKQVtmCqAs7MP
- VgBUeWS4Ubo5nSl4S+z0RBf8Bfwqr16rf/5L7HP6NRTBIX1XJ3IguuHCPLTKljeKCu8F
- HLgQ==
-X-Gm-Message-State: APjAAAV0330dAbyqwGr5eCD0BIVWTEKCakcQVho6430rE1McTFc6DeXi
- hqSOdNSOlUJtSbG0Bg4jAyzWkDRkH8oUW/hLaDY=
-X-Google-Smtp-Source: APXvYqyVRLrvrDmEaqaM7YO9HCd1HvjCyMD+TJjNwDhd21KnUHvKfgjZiD8ABtMSt8blwVDZVfxNLLqMJDA3Tfvz5eM=
-X-Received: by 2002:a6b:8d06:: with SMTP id p6mr2967825iod.219.1567677928192; 
- Thu, 05 Sep 2019 03:05:28 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Zwhcn1S6JQfG96QKucF0fKMRHN1jYIE+8pOC0M2myJY=;
+ b=SSM0/sXkh2pVHMW7S8/U2IP6jPYji8ZEydUt2En4odhaDorsItD5Yue9irLyktoC0Q
+ P5lQifCVy2W3qB+WuydgxRpx8yuUBLhXDJ0Y2b6Wv7B/5o51QyOAT7uMxdV9q5XrgV7F
+ pTMSElGgXJG0zPqdKNUN+tnaXC/R1kJtghRNDTgjPctYSxvFeGz6Dwlu1HMoai+3is+J
+ XoYXYJvudEcWP30YpWQTWCv9U13cHDFYqfgf2Hy5YZIvsWnn5ix+jNKxZALa/iIZSGvZ
+ RA1A5ETEoxTgS6vodrKgNV5wLuTKDmnFelAGnSaVSY/AP7K8dOoPwBQiKkr8COGVgKQ5
+ 6DCg==
+X-Gm-Message-State: APjAAAVLaNjDzGLlWs/qkCynqh19mYrORBFOZLyiOccnDN/Unaw5wh0/
+ LjwCkRR2FU7FktYoVcczdyVXMA==
+X-Google-Smtp-Source: APXvYqxwiW+EZg17CiU0kpuQ53GmTZoOuInu3KkC2UDkQW1UQ1umFNxhcCDZLplPmOkGaStfULUVnw==
+X-Received: by 2002:a05:600c:212:: with SMTP id
+ 18mr2165290wmi.168.1567677965363; 
+ Thu, 05 Sep 2019 03:06:05 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u10sm1816491wmm.43.2019.09.05.03.06.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Sep 2019 03:06:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 187331FF87;
+ Thu,  5 Sep 2019 11:06:04 +0100 (BST)
+References: <20190904232451.26466-1-jsnow@redhat.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: John Snow <jsnow@redhat.com>
+In-reply-to: <20190904232451.26466-1-jsnow@redhat.com>
+Date: Thu, 05 Sep 2019 11:06:04 +0100
+Message-ID: <87ef0v83cj.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20190903134442.15653-1-pl@kamp.de>
- <20190903145650.GO4582@localhost.localdomain>
- <1BDCDF9A-2146-43FE-AF4B-145F479AFD2B@kamp.de>
- <20190904093459.GA21246@localhost.localdomain>
- <d3d2014b-d57e-cff1-d605-859fe94f84fc@kamp.de>
-In-Reply-To: <d3d2014b-d57e-cff1-d605-859fe94f84fc@kamp.de>
-From: ronnie sahlberg <ronniesahlberg@gmail.com>
-Date: Thu, 5 Sep 2019 20:05:16 +1000
-Message-ID: <CAN05THRnjGZeN+gjP7PNPAZtcvaGNdZekKqr5zA7VQKJ5vbeWA@mail.gmail.com>
-To: Peter Lieven <pl@kamp.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d43
-Subject: Re: [Qemu-devel] [PATCH] block/nfs: add support for nfs_umount
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH] tests/docker: Use --userns=keep-id for
+ podman
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,86 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ mlureau@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 5, 2019 at 7:43 PM Peter Lieven <pl@kamp.de> wrote:
->
-> Am 04.09.19 um 11:34 schrieb Kevin Wolf:
-> > Am 03.09.2019 um 21:52 hat Peter Lieven geschrieben:
-> >>
-> >>> Am 03.09.2019 um 16:56 schrieb Kevin Wolf <kwolf@redhat.com>:
-> >>>
-> >>> Am 03.09.2019 um 15:44 hat Peter Lieven geschrieben:
-> >>>> libnfs recently added support for unmounting. Add support
-> >>>> in Qemu too.
-> >>>>
-> >>>> Signed-off-by: Peter Lieven <pl@kamp.de>
-> >>> Looks trivial enough to review even for me. :-)
-> >>>
-> >>> Thanks, applied to the block branch.
-> >>>
-> >>> Kevin
-> >> I am not sure what the reason is, but with this patch I sometimes run
-> >> into nfs_process_read being called for a cdrom mounted from nfs after
-> >> I ejected it (and the whole nfs client context is already destroyed).
-> > Does this mean that nfs_umount() gets some response, but we don't
-> > properly wait for it? Or is some older request still in flight?
->
->
-> nfs_umount itself is a sync call and should only terminate when
->
-> the call is done. But there is an independent I/O handler in that
->
-> function polling on the fd. (wait_for_nfs_reply in libnfs-sync.c).
->
-> This is why I thought the right solution is to stop the Qemu I/O handler
->
-> before calling nfs_close and nfs_umount. nfs_close also uses this
->
-> sync I/O handler, but for some reason it seems not to make trouble.
->
->
-> The other solution would be to use the async versions of close and umount,
->
-> but that would make the code in Qemu more complex.
->
->
 
-NFS umount is pretty messy so I think you should continue using the
-sync version.
-In NFSv3 (there is no mount protocol in v4)  the Mount call (fetch the
-root filehandle)
-and the Umount calls (tell server we should no longer show up in
-showexports -a output)
-are not part of the NFS protocol but a different service running on a
-separate port.
+John Snow <jsnow@redhat.com> writes:
 
-This does not map well to libnfs since it is centered around a "struct
-nfs_context".
+> The workaround that attempts to accomplish the same result as --userns=3D=
+keep-id
+> does not appear to work well with UIDs much above 1000 (like mine, which =
+is
+> above 20000.)
+>
+> Since we have official support for this "trick" now, use the supported me=
+thod.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 
-To use nfs_umount() from QEMU I would suggest :
-1, make sure all commands in flight have finished, because you will
-soon disconnect from the NFS server and will never receive any
-in-flight responses.
-2, unregister the nfs->fh filedescriptor from your eventsystem.
-Because the fd is about to be closed so there is great chance it will
-be recycled for a completely different purpose if you open any other
-files from qemu.
+Queued to testing/next, thanks.
 
-3, call nfs_umount()   Internally this will close the socket to the
-NFS server, then go through thr process to open a new socket to the
-portmapper to discover the mount server, then close that socket and
-reconnect a new socket again to the mount server and perform the UMNT
-call.
-
-ronnie sahlberg
+> ---
+>  tests/docker/docker.py | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+> index ac5baab4ca..fe17d5f709 100755
+> --- a/tests/docker/docker.py
+> +++ b/tests/docker/docker.py
+> @@ -368,9 +368,7 @@ class RunCommand(SubCommand):
+>              argv =3D [ "-u", str(uid) ] + argv
+>              docker =3D Docker()
+>              if docker._command[0] =3D=3D "podman":
+> -                argv =3D [ "--uidmap", "%d:0:1" % uid,
+> -                         "--uidmap", "0:1:%d" % uid,
+> -                         "--uidmap", "%d:%d:64536" % (uid + 1, uid + 1)]=
+ + argv
+> +                argv.insert(0, '--userns=3Dkeep-id')
+>          return Docker().run(argv, args.keep, quiet=3Dargs.quiet)
 
 
-> Peter
->
->
+--
+Alex Benn=C3=A9e
 
