@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1AB9AC1DF
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 23:11:58 +0200 (CEST)
-Received: from localhost ([::1]:60350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA44AC1F4
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 23:26:28 +0200 (CEST)
+Received: from localhost ([::1]:60428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6LWP-0000Wd-EE
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 17:11:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38780)
+	id 1i6LkR-00059u-70
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 17:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41601)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1i6LUk-0008NR-GY
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 17:10:15 -0400
+ (envelope-from <alistair23@gmail.com>) id 1i6LjL-0004Nk-F7
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 17:25:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1i6LUh-0006Gp-Sb
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 17:10:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34852)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1i6LUh-0006FY-Kb
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 17:10:11 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CD743C054907
- for <qemu-devel@nongnu.org>; Fri,  6 Sep 2019 21:10:09 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id c188so2588748wmd.9
- for <qemu-devel@nongnu.org>; Fri, 06 Sep 2019 14:10:09 -0700 (PDT)
+ (envelope-from <alistair23@gmail.com>) id 1i6LjK-0002ux-8N
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 17:25:19 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:39881)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1i6LjJ-0002sS-Tf; Fri, 06 Sep 2019 17:25:18 -0400
+Received: by mail-lf1-x143.google.com with SMTP id l11so6177362lfk.6;
+ Fri, 06 Sep 2019 14:25:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=41vitPaR9QJU0hyMIKTOsEnYo8xWm+xShqZjqioEH/s=;
+ b=hZimwDULM8L2NvaeATEUnPYm+zjrG7nQD2lh7Hwt7PBkDM6POfUCw8RujxyGdR1cII
+ 7Mcd0ffQcjXkKZpjr+uiba+bwjFQ531O1JSC8F1Qwy6/ijUB9GchWr5jdRpkX5IoNRJ2
+ BoGV0gUQmCLQBAkLYestpSK9U6ZvcUez+GH9C7R/PKkt8/pOZwmy9yn5M9q/UYkrKjEs
+ Dm4a4REV20pohS2s76DIz8jXSeVCWUOdTk4Raqhb6wCez1TT/gQvwM4ATL12AXWuS8vu
+ 8W2zX7G0rP8hp9wN6WkDPy4kKpULVmtaCKU9luli2XzViUCAgUtkE1kEmzhAcRO9llRL
+ 8bWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=uzCnzpitkViVP50jnSowNzrHl8ZB4OJLECl+4agqSf0=;
- b=V+M08hfT5sLItR0wPPB4C5EhkrbDJMA9FUFvrRTWKZ7qocM7UlSY8ihthJT4qLdJf6
- DrgQ/hOHNCyEU7Il99ynVabJSayZ+Z1Ya7+uT5uj8QSRmDhycf6vZGkjHkTG3SjDOyzi
- YqGI22N30u6WiLImyBHJYRJtfYVyquxqpdiPypzXkQqirBJTcQB96Cq7oWmGAkueusMM
- +aV1+1IBkq4V9ly8v8fDFcK9/Ht0+3c996FwyIfFebh3/O+OVFEkrkRkvPVBkw+V8Z4Z
- rGk8h7i328kM3JBdoDQ2Toc1kaPQmhWGRBLOqueUcL0+h+60EK3XPTn15mYuwKiKl497
- /QOQ==
-X-Gm-Message-State: APjAAAVRDfgmL9Ib0jcu15NlkenMNMjyYE8amubJW1LPxLXt6TJBxoCB
- KeApJiYriQU+kRtCRKX87sMc0zvMGI6hFaO2xtF0Sv2Eznivh5uV1+q4++5mKIwXX7YGrXB4aiB
- Ls5BuvBoy0xKnJIY=
-X-Received: by 2002:adf:f846:: with SMTP id d6mr8991962wrq.67.1567804208437;
- Fri, 06 Sep 2019 14:10:08 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzG9vDSZtgRzxy5Qk8CFkvBCTJWO0N+bp52vKGrgPAZJdokeH/lgfhyrWVqF8Ryigj72R78+A==
-X-Received: by 2002:adf:f846:: with SMTP id d6mr8991938wrq.67.1567804208156;
- Fri, 06 Sep 2019 14:10:08 -0700 (PDT)
-Received: from steredhat.homenet.telecomitalia.it
- (host170-61-dynamic.36-79-r.retail.telecomitalia.it. [79.36.61.170])
- by smtp.gmail.com with ESMTPSA id b3sm4985653wrw.4.2019.09.06.14.10.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Sep 2019 14:10:07 -0700 (PDT)
-Date: Fri, 6 Sep 2019 23:10:05 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-Message-ID: <20190906211005.kspfcs725lpadozg@steredhat.homenet.telecomitalia.it>
-References: <20190904210100.10501-1-dmitry.fomichev@wdc.com>
- <20190904210100.10501-2-dmitry.fomichev@wdc.com>
- <20190906081117.asr67hq26eqqooxd@steredhat>
- <412e2d4dacac702f443ebe0b8b0871460a953b70.camel@wdc.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=41vitPaR9QJU0hyMIKTOsEnYo8xWm+xShqZjqioEH/s=;
+ b=V9iB8qH1wFGShojqO9joZM8H8DD/ZKWeovKHToZcY4Gb0Cl52Cb1YB/Jb1jS1p4Ren
+ 64QSDdk3OshmMKBsCtlXiO1r6I5Y71MWuGLW7hKzRhlLyyDffJku0lRWEA8HnH4JNuyJ
+ Vu4VBNKBITXo6K1DUR9Xs3yiL+AxJfG3cEN/AXxBufzfP73/bVwKNk0qrPdXq8wtfa5+
+ maL+KMc7kQgvDgA8yWVjtR69plgvDkcH74YQ2VqxDarp64SSoH6dp+U7IAjPX/vUXH2I
+ deR/v/pCXTgHeNotjvUzJhX8XUo7EgOcybUC5AnFkJjoqus7JwfprGBPUJdh2DqwK7AM
+ VA3Q==
+X-Gm-Message-State: APjAAAWEimWtzgfeFg6+GVCdCYgDFFqZB3N1SBF6Pg22Bj/nlr4zycuY
+ jJsTZ0Jp4D8CxuFT1NlH6XeGddl1dDsBTvxN2c8=
+X-Google-Smtp-Source: APXvYqzuM1C0sxWAwZn0iI6hvWtphG1gWjhalo7iSuEn9PwyX54TqXKz3QcKNYRyzZ9TrRthq4lD+sVnHgEdmv62/68=
+X-Received: by 2002:a19:f11c:: with SMTP id p28mr7631834lfh.44.1567805116003; 
+ Fri, 06 Sep 2019 14:25:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <412e2d4dacac702f443ebe0b8b0871460a953b70.camel@wdc.com>
-User-Agent: NeoMutt/20180716
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 1/4] block: Add zoned device model
- property
+References: <1567786819-22142-1-git-send-email-bmeng.cn@gmail.com>
+ <1567786819-22142-2-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1567786819-22142-2-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 6 Sep 2019 14:20:56 -0700
+Message-ID: <CAKmqyKP9G5kHhMGPjXpHVNj4S5io5xtbLU4=QiNzCx9cgn9Npw@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::143
+Subject: Re: [Qemu-devel] [PATCH v8 01/32] riscv: hw: Remove duplicated
+ "hw/hw.h" inclusion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,94 +72,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 06, 2019 at 04:17:12PM +0000, Dmitry Fomichev wrote:
-> On Fri, 2019-09-06 at 10:11 +0200, Stefano Garzarella wrote:
-> > On Wed, Sep 04, 2019 at 05:00:57PM -0400, Dmitry Fomichev wrote:
-> > > This commit adds Zoned Device Model (as defined in T10 ZBC and
-> > > T13 ZAC standards) as a block driver property, along with some
-> > > useful access functions.
-> > > 
-> > > A new backend driver permission, BLK_PERM_SUPPORT_HM_ZONED, is also
-> > > introduced. Only the drivers having this permission will be allowed
-> > > to open host managed zoned block devices.
-> > > 
-> > > No code is added yet to initialize or check the value of this new
-> > > property, therefore this commit doesn't change any functionality.
-> > > 
-> > > Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> > > ---
-> > >  block.c                   | 15 +++++++++++++++
-> > >  include/block/block.h     | 19 ++++++++++++++++++-
-> > >  include/block/block_int.h |  3 +++
-> > >  3 files changed, 36 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/block.c b/block.c
-> > > index 874a29a983..69f565e1e9 100644
-> > > --- a/block.c
-> > > +++ b/block.c
-> > > @@ -4679,6 +4679,21 @@ void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr)
-> > >      *nb_sectors_ptr = nb_sectors < 0 ? 0 : nb_sectors;
-> > >  }
-> > >  
-> > > +BdrvZonedModel bdrv_get_zoned_model(BlockDriverState *bs)
-> > > +{
-> > > +    return bs->bl.zoned_model;
-> > > +}
-> > > +
-> > > +bool bdrv_is_hm_zoned(BlockDriverState *bs)
-> > > +{
-> > > +    /*
-> > > +     * Host Aware zone devices are supposed to be able to work
-> > > +     * just like regular block devices. Thus, we only consider
-> > > +     * Host Managed devices to be zoned here.
-> > > +     */
-> > > +    return bdrv_get_zoned_model(bs) == BDRV_ZONED_MODEL_HM;
-> > > +}
-> > > +
-> > >  bool bdrv_is_sg(BlockDriverState *bs)
-> > >  {
-> > >      return bs->sg;
-> > > diff --git a/include/block/block.h b/include/block/block.h
-> > > index 124ad40809..28d065ed80 100644
-> > > --- a/include/block/block.h
-> > > +++ b/include/block/block.h
-> > > @@ -271,18 +271,33 @@ enum {
-> > >       */
-> > >      BLK_PERM_GRAPH_MOD          = 0x10,
-> > >  
-> > > +    /**
-> > > +     * This permission is required to open host-managed zoned block devices.
-> > > +     */
-> > > +    BLK_PERM_SUPPORT_HM_ZONED   = 0x20,
-> > > +
-> > >      BLK_PERM_ALL                = 0x1f,
-> > 
-> > Should we update BLK_PERM_ALL to 0x3f?
-> > 
-> Stefano, good catch! Will update and resend...
-> 
+On Fri, Sep 6, 2019 at 9:20 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Commit a27bd6c779ba ("Include hw/qdev-properties.h less") wrongly
+> added "hw/hw.h" to sifive_prci.c and sifive_test.c.
+>
+> Another inclusion of "hw/hw.h" was later added via
+> commit 650d103d3ea9 ("Include hw/hw.h exactly where needed"), that
+> resulted in duplicated inclusion of "hw/hw.h".
+>
+> Fixes: a27bd6c779ba ("Include hw/qdev-properties.h less")
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-Good!
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Looking better, if we update it, maybe we should also change something in
-xdbg_graph_add_edge() since there is this line:
+Alistair
 
-    QEMU_BUILD_BUG_ON(1UL << (ARRAY_SIZE(permissions) - 1) != BLK_PERM_ALL + 1);
-
-We should extend the permissions array or change this check.
-
-Thanks,
-Stefano
+>
+> ---
+>
+> Changes in v8:
+> - newly included in v8 to ease patch inter dependencies
+>
+>  hw/riscv/sifive_prci.c | 1 -
+>  hw/riscv/sifive_test.c | 1 -
+>  2 files changed, 2 deletions(-)
+>
+> diff --git a/hw/riscv/sifive_prci.c b/hw/riscv/sifive_prci.c
+> index 9837b61..562bc3d 100644
+> --- a/hw/riscv/sifive_prci.c
+> +++ b/hw/riscv/sifive_prci.c
+> @@ -19,7 +19,6 @@
+>   */
+>
+>  #include "qemu/osdep.h"
+> -#include "hw/hw.h"
+>  #include "hw/sysbus.h"
+>  #include "qemu/module.h"
+>  #include "target/riscv/cpu.h"
+> diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
+> index afbb3aa..3a14f9f 100644
+> --- a/hw/riscv/sifive_test.c
+> +++ b/hw/riscv/sifive_test.c
+> @@ -19,7 +19,6 @@
+>   */
+>
+>  #include "qemu/osdep.h"
+> -#include "hw/hw.h"
+>  #include "hw/sysbus.h"
+>  #include "qemu/module.h"
+>  #include "target/riscv/cpu.h"
+> --
+> 2.7.4
+>
+>
 
