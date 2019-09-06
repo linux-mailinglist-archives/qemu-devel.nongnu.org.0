@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846D1ABDDC
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:39:40 +0200 (CEST)
-Received: from localhost ([::1]:58502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C4CABDC1
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:32:09 +0200 (CEST)
+Received: from localhost ([::1]:58402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6HGs-00011l-NH
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56370)
+	id 1i6H9c-00085Y-BK
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:32:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56413)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i6GyW-0004MG-Nn
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:41 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1i6GyY-0004Oj-FP
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i6GyV-0004KZ-54
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:40 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:40331)
+ (envelope-from <bmeng.cn@gmail.com>) id 1i6GyW-0004O8-U5
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:42 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41012)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1i6GyU-0004I4-SR; Fri, 06 Sep 2019 12:20:39 -0400
-Received: by mail-pl1-x641.google.com with SMTP id y10so3370535pll.7;
- Fri, 06 Sep 2019 09:20:38 -0700 (PDT)
+ id 1i6GyW-0004MK-NB; Fri, 06 Sep 2019 12:20:40 -0400
+Received: by mail-pf1-x442.google.com with SMTP id b13so4812627pfo.8;
+ Fri, 06 Sep 2019 09:20:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Vbib0cbUUkIHQRqcWKE2WOfXQ0oindO16nPEQFzl/eg=;
- b=tHxXhu8bWiJR4lnUAWoW+LCQTkxaGXp8Ya5uyz/cZcMju71HSxf9+162I3QHwLzdWR
- KkzLCqbb9IpWYQ1TB0EwinN/Bw8upWDfDFQv2M0ZnMAmbcxlbbNODy4ERfxmU6HdY5lb
- wmX287e33R4V+MxJmHoOcRuhqSZRSybegbOWvomPQbAFDM1qrgJTP6fyyqS6V3pMlJx3
- CUvJ5n1k4k82aOYUNLmAPjGSW2oxIgbjLFaqrnfOMI3Npzi3W03Pokw/upjPuBtDNNeb
- 0Abt53U1G2FqY9a9stdzygl/VzHNnYZ3WMZQF1mRFsdKYQ3Q+TbpJHPmfplfwHrX55Dq
- dgzw==
+ h=from:to:subject:date:message-id:in-reply-to:references;
+ bh=/RN9nZXvP0uSw1tz5BCNyGHsFKQ0hz+y0eelBzez5L0=;
+ b=ok1ab90tU1vuv2m98ZmRJZlsv0BoDcwgP2BEKMd4e/qsIWZO1Kd/7n6/j91AsfsfRJ
+ Uj/2bT9gBHgcgZKBvUbc+8d+Y4kyNFzIVC9Xq3VU+B10xbwNDnCg66bmaZXV6UcWLR3I
+ nByaGPLX6SukP3tvaJS+/JrX8uOyEit6zE7NLfPyh+sBj7OBf4Oa3efV4i2ogktHsTLQ
+ GqSo9CgCAmVNysnpXog3jp0lTPoQxGh8cjU7d8vMJTMK6R3EbeFZQ/aYeQfAj8JJ9yIm
+ dvhBt9sdzolShzCw7X0s7KqJxlJ8IZ2KMZRaRJ4cct+ggvoPEYEX7IkF3Blb1ZFIH6b3
+ xBjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Vbib0cbUUkIHQRqcWKE2WOfXQ0oindO16nPEQFzl/eg=;
- b=FTt99TNQEGfjVlybnKbtYJ8v9Rs+oCjxOO7QtW9Q0RWJLaLHxMAWf3ldduMR+iEkiA
- Dw0fdNT/uJEyfuP1N7tRMX33es8Svvr6/zo+LAcj+aNFuzwBgS5pdUkwEnrkNbJU5gnd
- i+9to5USvYpd7h8glEKNDNohb/7bY0saKvQexzveMTJ/AnD8mAR77y7gqYR5DozVuBTF
- rT5/gHeSBP+Hmg4rTLJq9h88/lBrj6dIgzajWmIaiATFKWZqDRNVa1n7jdOcLB5FK0PG
- bpfV9/cOfWAJOKVm0QhJeMldE3lMb+57jDyFLmiHwZoNyUgt6gHw9WjYEgyBDngEl5vt
- kQUw==
-X-Gm-Message-State: APjAAAXRbd5cocsVOj4sdzN15sYBqsjLwT1EO7kG4ZXiQ8kdDUyoW9Vv
- 0EEU2QnN1t7omGauIKwrj8/Ml3EA
-X-Google-Smtp-Source: APXvYqyWVNTrYMLqJxPAOozuciHdJGiZWoQwEV5tJazwS5+LB8UZOyBA/QW5f+QohmszRj0LyDe+Mw==
-X-Received: by 2002:a17:902:aa48:: with SMTP id
- c8mr10088169plr.330.1567786838049; 
- Fri, 06 Sep 2019 09:20:38 -0700 (PDT)
+ :references;
+ bh=/RN9nZXvP0uSw1tz5BCNyGHsFKQ0hz+y0eelBzez5L0=;
+ b=pjjhtCVlfJA5rtKPbaaNC033eSsRhKQqQNrHm12pdbwHl33xUkS2Wr4q09W3cvaRBG
+ Cw/LpUaV9PCM8srY8CJFR/9J4cl2guiSo0HJG/vlS+Y4kw3eqACRdENRuDfYivISTGlO
+ FMWKZV2lple2PsskiNrdxqzVSkQvZbUFGarenLHOi0JyLVRy9bUTFinbcIN7cLFE8Q2j
+ VyOBnm2RxhQKbsYdlTPGuRRbukduuKUd+QqetrF9dUxr48AcLEeoQvyFI497g/amc3TX
+ ozEmbujT6PkH9yVCRcGSIUZ5KOf/8UcZMxRK6Tdd1y1ZxuS7vC+OxwTViA1EmVU1VB0l
+ 6PQg==
+X-Gm-Message-State: APjAAAWEBo7jPX/FBjX67WM+7G41GrHzCuLVIocsWHAzVb24JfbdJ1jS
+ qhGtrBBsenZp6TLVJhflDh4=
+X-Google-Smtp-Source: APXvYqzH9YKyplTZTx7Je0P0PfWF5mIhwSCL+lMr/1tTdlV24JHRy3QC42tFF35U5iRNMEaMtMlD8g==
+X-Received: by 2002:a62:7684:: with SMTP id r126mr11227610pfc.26.1567786839992; 
+ Fri, 06 Sep 2019 09:20:39 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id f89sm11146228pje.20.2019.09.06.09.20.37
+ by smtp.gmail.com with ESMTPSA id f89sm11146228pje.20.2019.09.06.09.20.38
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Fri, 06 Sep 2019 09:20:37 -0700 (PDT)
+ Fri, 06 Sep 2019 09:20:39 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Fri,  6 Sep 2019 09:19:59 -0700
-Message-Id: <1567786819-22142-13-git-send-email-bmeng.cn@gmail.com>
+Date: Fri,  6 Sep 2019 09:20:01 -0700
+Message-Id: <1567786819-22142-15-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1567786819-22142-1-git-send-email-bmeng.cn@gmail.com>
 References: <1567786819-22142-1-git-send-email-bmeng.cn@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH v8 12/32] riscv: sifive_e: prci: Fix a typo of
- hfxosccfg register programming
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v8 14/32] riscv: sifive_e: Drop
+ sifive_mmio_emulate()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,39 +80,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For hfxosccfg register programming, SIFIVE_E_PRCI_HFXOSCCFG_RDY and
-SIFIVE_E_PRCI_HFXOSCCFG_EN should be used.
+Use create_unimplemented_device() instead.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
 ---
 
-Changes in v8: None
+Changes in v8:
+- select UNIMP in sifive_e Kconfig due to applied commit
+  "hw/misc: Add a config switch for the "unimplemented" device"
+  in latest qemu/master
+
 Changes in v7: None
 Changes in v6: None
 Changes in v5: None
 Changes in v4: None
 Changes in v3: None
-Changes in v2: None
+Changes in v2:
+- drop patch "riscv: sifive: Move sifive_mmio_emulate() to a common place"
+- new patch "riscv: sifive_e: Drop sifive_mmio_emulate()"
 
- hw/riscv/sifive_e_prci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/riscv/Kconfig    |  1 +
+ hw/riscv/sifive_e.c | 23 ++++++++---------------
+ 2 files changed, 9 insertions(+), 15 deletions(-)
 
-diff --git a/hw/riscv/sifive_e_prci.c b/hw/riscv/sifive_e_prci.c
-index b6d32db..bfe9b13 100644
---- a/hw/riscv/sifive_e_prci.c
-+++ b/hw/riscv/sifive_e_prci.c
-@@ -91,7 +91,7 @@ static void sifive_e_prci_init(Object *obj)
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index 8674211..33e54b0 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -12,6 +12,7 @@ config SIFIVE_E
+     bool
+     select HART
+     select SIFIVE
++    select UNIMP
  
-     s->hfrosccfg = (SIFIVE_E_PRCI_HFROSCCFG_RDY | SIFIVE_E_PRCI_HFROSCCFG_EN);
--    s->hfxosccfg = (SIFIVE_E_PRCI_HFROSCCFG_RDY | SIFIVE_E_PRCI_HFROSCCFG_EN);
-+    s->hfxosccfg = (SIFIVE_E_PRCI_HFXOSCCFG_RDY | SIFIVE_E_PRCI_HFXOSCCFG_EN);
-     s->pllcfg = (SIFIVE_E_PRCI_PLLCFG_REFSEL | SIFIVE_E_PRCI_PLLCFG_BYPASS |
-                  SIFIVE_E_PRCI_PLLCFG_LOCK);
-     s->plloutdiv = SIFIVE_E_PRCI_PLLOUTDIV_DIV1;
+ config SIFIVE_U
+     bool
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 1428a99..0f9d641 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -36,6 +36,7 @@
+ #include "hw/loader.h"
+ #include "hw/sysbus.h"
+ #include "hw/char/serial.h"
++#include "hw/misc/unimp.h"
+ #include "target/riscv/cpu.h"
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/riscv/sifive_plic.h"
+@@ -74,14 +75,6 @@ static const struct MemmapEntry {
+     [SIFIVE_E_DTIM] =     { 0x80000000,     0x4000 }
+ };
+ 
+-static void sifive_mmio_emulate(MemoryRegion *parent, const char *name,
+-                             uintptr_t offset, uintptr_t length)
+-{
+-    MemoryRegion *mock_mmio = g_new(MemoryRegion, 1);
+-    memory_region_init_ram(mock_mmio, NULL, name, length, &error_fatal);
+-    memory_region_add_subregion(parent, offset, mock_mmio);
+-}
+-
+ static void riscv_sifive_e_init(MachineState *machine)
+ {
+     const struct MemmapEntry *memmap = sifive_e_memmap;
+@@ -172,7 +165,7 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
+     sifive_clint_create(memmap[SIFIVE_E_CLINT].base,
+         memmap[SIFIVE_E_CLINT].size, ms->smp.cpus,
+         SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
+-    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.aon",
++    create_unimplemented_device("riscv.sifive.e.aon",
+         memmap[SIFIVE_E_AON].base, memmap[SIFIVE_E_AON].size);
+     sifive_e_prci_create(memmap[SIFIVE_E_PRCI].base);
+ 
+@@ -199,19 +192,19 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
+ 
+     sifive_uart_create(sys_mem, memmap[SIFIVE_E_UART0].base,
+         serial_hd(0), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_E_UART0_IRQ));
+-    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.qspi0",
++    create_unimplemented_device("riscv.sifive.e.qspi0",
+         memmap[SIFIVE_E_QSPI0].base, memmap[SIFIVE_E_QSPI0].size);
+-    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.pwm0",
++    create_unimplemented_device("riscv.sifive.e.pwm0",
+         memmap[SIFIVE_E_PWM0].base, memmap[SIFIVE_E_PWM0].size);
+     sifive_uart_create(sys_mem, memmap[SIFIVE_E_UART1].base,
+         serial_hd(1), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_E_UART1_IRQ));
+-    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.qspi1",
++    create_unimplemented_device("riscv.sifive.e.qspi1",
+         memmap[SIFIVE_E_QSPI1].base, memmap[SIFIVE_E_QSPI1].size);
+-    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.pwm1",
++    create_unimplemented_device("riscv.sifive.e.pwm1",
+         memmap[SIFIVE_E_PWM1].base, memmap[SIFIVE_E_PWM1].size);
+-    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.qspi2",
++    create_unimplemented_device("riscv.sifive.e.qspi2",
+         memmap[SIFIVE_E_QSPI2].base, memmap[SIFIVE_E_QSPI2].size);
+-    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.pwm2",
++    create_unimplemented_device("riscv.sifive.e.pwm2",
+         memmap[SIFIVE_E_PWM2].base, memmap[SIFIVE_E_PWM2].size);
+ 
+     /* Flash memory */
 -- 
 2.7.4
 
