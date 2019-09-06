@@ -2,123 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD8BABD8F
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:19:33 +0200 (CEST)
-Received: from localhost ([::1]:58226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9FBABDBA
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:29:18 +0200 (CEST)
+Received: from localhost ([::1]:58360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6GxQ-0002Wb-4Q
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:19:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55270)
+	id 1i6H6q-00051m-Tp
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:29:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56149)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=145f821d7=Dmitry.Fomichev@wdc.com>)
- id 1i6GvO-0001Jn-7A
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:17:27 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1i6GyN-00049Z-S8
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=145f821d7=Dmitry.Fomichev@wdc.com>)
- id 1i6GvN-00020M-0B
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:17:26 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:11727)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=145f821d7=Dmitry.Fomichev@wdc.com>)
- id 1i6GvG-0001qI-Kd; Fri, 06 Sep 2019 12:17:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1567786639; x=1599322639;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=TSe4q44y2xdyxYIqN2Gk4CEFYJvqTOUgbS/3jpinGaA=;
- b=TKBptu/h3HD1qT/rF7qEz4wHnD4kOJZZmubU6t0gxTHMcx7GAPzMobIw
- +bj72u79LpxWlnlvJwZ1o6SnuY4H6xCKmI8xAXOsOoutaOF8pBn1oaLaG
- MwlxHDjAmLWTrRopq3GbMfaI7P/Q31BerOuPXgPvDsLRVE1FQAAzhdTfy
- vYY0mvBJdfpfIbGkwZTW9EMgm+8NMxlPxt9zQ3b9sDyHaBOHaROaSsRLT
- nvHgAvVFgLtgGbU7yB14qA18TG1ODujA1qd8pZB3xsKOSAk7wiZ/zYDiv
- y62ndey3P3Q5vhZhoZFGqF9Pz5EKSMF63ivKRihogQ12w5TuDlk5zMZk1 g==;
-IronPort-SDR: wsDxnHw33pA1CMBMExWf+45sKXbIVDvd/XUMYrX5IpFvIb8pN+sMMDM6B2iocWFb8inDk0LaH4
- ye2Ogy6wktKCC4TuXZaTYMuLIuzPNEMYHJUtrV/szhAccToS5Eg+XQtzpFfPRG6iU8qzcaX9qW
- 5jH05dC/BLJIaH6yqfFOImY5aflBzYw8SjrAteyNBvPpHGi3S23d9bO7azbbKJ/YL6qPTaDy8/
- WW2/XFgPPAMpDv8yyxumjoyOVysVay7b2sw/RBI8QSBHWW32aiTYW4l2kluJCHOS5hfwAPa+m+
- 2Es=
-X-IronPort-AV: E=Sophos;i="5.64,473,1559491200"; d="scan'208";a="117677453"
-Received: from mail-by2nam05lp2050.outbound.protection.outlook.com (HELO
- NAM05-BY2-obe.outbound.protection.outlook.com) ([104.47.50.50])
- by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2019 00:17:15 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fMmm5W8DV6oJiv8+sGOCU8g8X4nD41+V4Ykg2y34IKcsa/5NOAs99g676fcJ+Np0XhRhTmH2LF84jRvheJJbEMFqBu0iaTtAO9z5WanF3QYJlGiDEd614zYOnm6a75XPe9ql0BejrTD7f8jEquQbP8PJR08+Kyqwx8xT9bVSFxcdU20OuN3OryEduFJj2oD6foXOia/ktH1axxSgHk8ObuZuWDcRIXu8AXX6/Li+wqwdlMwFTTI/Y2C/dmA0yoAXJ/c8/zRiRZ6IBRXTRCVCkD8D8QJjfM3HeCkANr4Fwqy5hlUjt54QdSWZVbd+UQdRnsFvSrZwp7OKpzOFIuEezw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TSe4q44y2xdyxYIqN2Gk4CEFYJvqTOUgbS/3jpinGaA=;
- b=k4ulQuOhiGpfLAgQC9iqf7my9T5G29MV4uKtnSJjChHg6nX3OJM1Ksjy3OMXv4HREsM7LNiDSKtd1iR96qIdiRG65B/7fDwvXFHy9880cG9sDNb0WHnBoQQIz0evBPqt/qUZ5NwDovAqU7VFfaKfqbtEPxJ3uqjVSWbtWJwv3c4CnpOFZGq8oFMnac34L4t627sANMQaJxGVez/n64n/SdYUtzdYpn0JIIxQKC5ClAhbwvtx4ZT+rIqt4lTU5RjZHzM1y8mPh2RMFvJ0NFd8MOyATsk8kq3vK/b6NG/vtmxb1zkayy1Ze3WjBiR2aJIqhB4pafEwj86F2QLv+PBaQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TSe4q44y2xdyxYIqN2Gk4CEFYJvqTOUgbS/3jpinGaA=;
- b=RhOjnwrAgophPh5A4HHJoWjzlIR2UEA2PCSZIJWZCqrxwnGy5UVlAVC/vtp5kXTsaY/TF6LOk4eZMBi6D8JX1bzEIIeru6ttHnO4fTSAGdR53XkvZAsZJahpeWd3B8B1Bmm/CHVssNTQN43ypfnFaDEueneHv0onfgjtJVgR+TM=
-Received: from CO2PR04MB2328.namprd04.prod.outlook.com (10.166.95.11) by
- CO2PR04MB2295.namprd04.prod.outlook.com (10.166.200.7) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2241.18; Fri, 6 Sep 2019 16:17:13 +0000
-Received: from CO2PR04MB2328.namprd04.prod.outlook.com
- ([fe80::b44d:f58f:f4bd:fdea]) by CO2PR04MB2328.namprd04.prod.outlook.com
- ([fe80::b44d:f58f:f4bd:fdea%12]) with mapi id 15.20.2241.018; Fri, 6 Sep 2019
- 16:17:13 +0000
-From: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-To: "sgarzare@redhat.com" <sgarzare@redhat.com>
-Thread-Topic: [Qemu-devel] [PATCH v6 1/4] block: Add zoned device model
- property
-Thread-Index: AQHVY2Pin1anYO+b30CJivznw8xpWKceToiAgACHxAA=
-Date: Fri, 6 Sep 2019 16:17:12 +0000
-Message-ID: <412e2d4dacac702f443ebe0b8b0871460a953b70.camel@wdc.com>
-References: <20190904210100.10501-1-dmitry.fomichev@wdc.com>
- <20190904210100.10501-2-dmitry.fomichev@wdc.com>
- <20190906081117.asr67hq26eqqooxd@steredhat>
-In-Reply-To: <20190906081117.asr67hq26eqqooxd@steredhat>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Dmitry.Fomichev@wdc.com; 
-x-originating-ip: [199.255.45.62]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 95f96a2b-7411-4668-b374-08d732e5ad5e
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:CO2PR04MB2295; 
-x-ms-traffictypediagnostic: CO2PR04MB2295:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CO2PR04MB2295BC7E5A55BC26E4420B94E1BA0@CO2PR04MB2295.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:1751;
-x-forefront-prvs: 0152EBA40F
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(136003)(346002)(366004)(396003)(39860400002)(376002)(189003)(199004)(53936002)(446003)(6506007)(476003)(6116002)(3846002)(66066001)(76116006)(91956017)(118296001)(11346002)(2616005)(2906002)(26005)(6246003)(99286004)(478600001)(36756003)(76176011)(2501003)(14454004)(186003)(4326008)(25786009)(5660300002)(102836004)(54906003)(316002)(66946007)(7736002)(305945005)(71200400001)(71190400001)(256004)(229853002)(14444005)(6436002)(6486002)(8936002)(66446008)(64756008)(66556008)(2351001)(6916009)(486006)(86362001)(66476007)(5640700003)(8676002)(6512007)(1730700003)(81156014)(81166006);
- DIR:OUT; SFP:1102; SCL:1; SRVR:CO2PR04MB2295;
- H:CO2PR04MB2328.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: GJcMB1m4dtrByWOfVQDGbrZaqIjfJlvBxqqvr88sNK7RkbOdYByj3pCS0GWtck9xw+7E9obF3FL7sO5dCstI0hLJol0XdRVVynutnFf/g0H2sq8g1PwCtxUuCHGMW3RkrzhcOR/m7CKKwSs7TuNwnAAigdJQ97O8tMqX8snhWvAw4jxpdPKPRitvl/ArBeH340Kfxq668Apz5tZn3xO5UvcAO1XsFUY4bLT9jcK2bMh/FGLlvozvHBlahrt7zB89EIuRaGYuwaG18KcllnzO+INaEZ9/bd9bBA5ddFVvVR593oUKvUfHxjaGcUAzJ0SflqZfyOBpaAZ/42wob+4MW7Xjon6zLjJBfQVV1EpWHus0YStqQaEqE/YtdoVhIe2ZJyVAgOxvelsYI1RBdijKKS3o80wSo4l733nBt0xLdkM=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <329A49D1A6D6D54CB26EAA2F925822AD@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <bmeng.cn@gmail.com>) id 1i6GyK-00044f-5c
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:31 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:44842)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1i6GyJ-00043p-Rs; Fri, 06 Sep 2019 12:20:28 -0400
+Received: by mail-pg1-x543.google.com with SMTP id i18so3749505pgl.11;
+ Fri, 06 Sep 2019 09:20:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hQoPMi0xI+Bxta3rZL/d/qPTCGgCagXuifkhJm6KLJk=;
+ b=jFE7Eg01dEfMux7RIRd1fsVDe3K4Y0XTeL2yY7paeg9sKtbSulhqp3xpb9LK8Ln2SU
+ oq3UF05oWJak8+AN3zbNDGyyVpNAkTelTky0iwfwQ4TvfUyYeP4xP3eoUjFwqB08Y92U
+ vx3Z3/NGvdrtQJUgDWAJIHOdcvjlvl1+vftydK4NwcEOyMRNNVZbdrVJ5+3e+BXUyTtu
+ X5kmMcpPRcG+WfyIbAdAJZ0mdzntKl2K0XSxQoE3TA2I6ameQOpbgAhgatkLLePWg7Ub
+ eL98GY8jSUtCQKpxdAvdgOYle0+MoVy6ZkxDxX9hK7QGOkIv7zcHZUdX0STO8Plpfsfy
+ YiJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hQoPMi0xI+Bxta3rZL/d/qPTCGgCagXuifkhJm6KLJk=;
+ b=m2bpnDHpOgdCOLgMyHYssINLgFEUDy+dXkiCJMyZr9TJ0iwgmjMTKycF21Lk8gmLgR
+ aK+PNh3NPOWGO0HnbO6EjlOAAb/96CuCvw8cSyv2XvOnOe/Tx2nBViQSUTYR/E9TbF7P
+ jfb/pqx5MeQbb8MEohCnA/4e15b6EsEMBun+QTXL6ohg9w/cvSTJ8FIRPQHtBvSVtuhL
+ hUqwM5UuJqIv/1HbUrlMCg2h4lvza+AdLhH0aF6pdXRHr7ADk+wI+Du/dLYRG2TK0A3J
+ 7FNdrg30F13OIqD5BXBsEgFdFtdUvXZSZylQvrTupG7qZEVI3L3lCZendWndJBlGv1jV
+ 9NQg==
+X-Gm-Message-State: APjAAAXzpa1CFfD1E3AkVQZAnBRMM7gkZvteK4UntD4+QEYys1m4BkC7
+ IxtC1GRYAiLDndWVmry/ekE=
+X-Google-Smtp-Source: APXvYqyPlZtBhk55nYgUoYHHFtHhniP4+NU1RE8fjGYAKDxyvNFTfXG1kNOkkPXOhTqCXsmmMycKLQ==
+X-Received: by 2002:a17:90a:9409:: with SMTP id
+ r9mr10608316pjo.10.1567786826318; 
+ Fri, 06 Sep 2019 09:20:26 -0700 (PDT)
+Received: from localhost.localdomain (unknown-224-80.windriver.com.
+ [147.11.224.80])
+ by smtp.gmail.com with ESMTPSA id f89sm11146228pje.20.2019.09.06.09.20.25
+ (version=TLS1 cipher=AES128-SHA bits=128/128);
+ Fri, 06 Sep 2019 09:20:25 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Date: Fri,  6 Sep 2019 09:19:47 -0700
+Message-Id: <1567786819-22142-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95f96a2b-7411-4668-b374-08d732e5ad5e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Sep 2019 16:17:13.1659 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XoUqE4Bo33K8rB60Cl2SpJRXyILGqIxV2z2PwxiEb31iP1p9A3SZOybMIDOXXotawSDH+t+qtLjym84/e2iSow==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO2PR04MB2295
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.154.42
-Subject: Re: [Qemu-devel] [PATCH v6 1/4] block: Add zoned device model
- property
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH v8 00/32] riscv: sifive_u: Improve the
+ emulation fidelity of sifive_u machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -130,58 +80,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gRnJpLCAyMDE5LTA5LTA2IGF0IDEwOjExICswMjAwLCBTdGVmYW5vIEdhcnphcmVsbGEgd3Jv
-dGU6DQo+IE9uIFdlZCwgU2VwIDA0LCAyMDE5IGF0IDA1OjAwOjU3UE0gLTA0MDAsIERtaXRyeSBG
-b21pY2hldiB3cm90ZToNCj4gPiBUaGlzIGNvbW1pdCBhZGRzIFpvbmVkIERldmljZSBNb2RlbCAo
-YXMgZGVmaW5lZCBpbiBUMTAgWkJDIGFuZA0KPiA+IFQxMyBaQUMgc3RhbmRhcmRzKSBhcyBhIGJs
-b2NrIGRyaXZlciBwcm9wZXJ0eSwgYWxvbmcgd2l0aCBzb21lDQo+ID4gdXNlZnVsIGFjY2VzcyBm
-dW5jdGlvbnMuDQo+ID4gDQo+ID4gQSBuZXcgYmFja2VuZCBkcml2ZXIgcGVybWlzc2lvbiwgQkxL
-X1BFUk1fU1VQUE9SVF9ITV9aT05FRCwgaXMgYWxzbw0KPiA+IGludHJvZHVjZWQuIE9ubHkgdGhl
-IGRyaXZlcnMgaGF2aW5nIHRoaXMgcGVybWlzc2lvbiB3aWxsIGJlIGFsbG93ZWQNCj4gPiB0byBv
-cGVuIGhvc3QgbWFuYWdlZCB6b25lZCBibG9jayBkZXZpY2VzLg0KPiA+IA0KPiA+IE5vIGNvZGUg
-aXMgYWRkZWQgeWV0IHRvIGluaXRpYWxpemUgb3IgY2hlY2sgdGhlIHZhbHVlIG9mIHRoaXMgbmV3
-DQo+ID4gcHJvcGVydHksIHRoZXJlZm9yZSB0aGlzIGNvbW1pdCBkb2Vzbid0IGNoYW5nZSBhbnkg
-ZnVuY3Rpb25hbGl0eS4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgRm9taWNoZXYg
-PGRtaXRyeS5mb21pY2hldkB3ZGMuY29tPg0KPiA+IC0tLQ0KPiA+ICBibG9jay5jICAgICAgICAg
-ICAgICAgICAgIHwgMTUgKysrKysrKysrKysrKysrDQo+ID4gIGluY2x1ZGUvYmxvY2svYmxvY2su
-aCAgICAgfCAxOSArKysrKysrKysrKysrKysrKystDQo+ID4gIGluY2x1ZGUvYmxvY2svYmxvY2tf
-aW50LmggfCAgMyArKysNCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCAzNiBpbnNlcnRpb25zKCspLCAx
-IGRlbGV0aW9uKC0pDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL2Jsb2NrLmMgYi9ibG9jay5jDQo+
-ID4gaW5kZXggODc0YTI5YTk4My4uNjlmNTY1ZTFlOSAxMDA2NDQNCj4gPiAtLS0gYS9ibG9jay5j
-DQo+ID4gKysrIGIvYmxvY2suYw0KPiA+IEBAIC00Njc5LDYgKzQ2NzksMjEgQEAgdm9pZCBiZHJ2
-X2dldF9nZW9tZXRyeShCbG9ja0RyaXZlclN0YXRlICpicywgdWludDY0X3QgKm5iX3NlY3RvcnNf
-cHRyKQ0KPiA+ICAgICAgKm5iX3NlY3RvcnNfcHRyID0gbmJfc2VjdG9ycyA8IDAgPyAwIDogbmJf
-c2VjdG9yczsNCj4gPiAgfQ0KPiA+ICANCj4gPiArQmRydlpvbmVkTW9kZWwgYmRydl9nZXRfem9u
-ZWRfbW9kZWwoQmxvY2tEcml2ZXJTdGF0ZSAqYnMpDQo+ID4gK3sNCj4gPiArICAgIHJldHVybiBi
-cy0+Ymwuem9uZWRfbW9kZWw7DQo+ID4gK30NCj4gPiArDQo+ID4gK2Jvb2wgYmRydl9pc19obV96
-b25lZChCbG9ja0RyaXZlclN0YXRlICpicykNCj4gPiArew0KPiA+ICsgICAgLyoNCj4gPiArICAg
-ICAqIEhvc3QgQXdhcmUgem9uZSBkZXZpY2VzIGFyZSBzdXBwb3NlZCB0byBiZSBhYmxlIHRvIHdv
-cmsNCj4gPiArICAgICAqIGp1c3QgbGlrZSByZWd1bGFyIGJsb2NrIGRldmljZXMuIFRodXMsIHdl
-IG9ubHkgY29uc2lkZXINCj4gPiArICAgICAqIEhvc3QgTWFuYWdlZCBkZXZpY2VzIHRvIGJlIHpv
-bmVkIGhlcmUuDQo+ID4gKyAgICAgKi8NCj4gPiArICAgIHJldHVybiBiZHJ2X2dldF96b25lZF9t
-b2RlbChicykgPT0gQkRSVl9aT05FRF9NT0RFTF9ITTsNCj4gPiArfQ0KPiA+ICsNCj4gPiAgYm9v
-bCBiZHJ2X2lzX3NnKEJsb2NrRHJpdmVyU3RhdGUgKmJzKQ0KPiA+ICB7DQo+ID4gICAgICByZXR1
-cm4gYnMtPnNnOw0KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2Jsb2NrL2Jsb2NrLmggYi9pbmNs
-dWRlL2Jsb2NrL2Jsb2NrLmgNCj4gPiBpbmRleCAxMjRhZDQwODA5Li4yOGQwNjVlZDgwIDEwMDY0
-NA0KPiA+IC0tLSBhL2luY2x1ZGUvYmxvY2svYmxvY2suaA0KPiA+ICsrKyBiL2luY2x1ZGUvYmxv
-Y2svYmxvY2suaA0KPiA+IEBAIC0yNzEsMTggKzI3MSwzMyBAQCBlbnVtIHsNCj4gPiAgICAgICAq
-Lw0KPiA+ICAgICAgQkxLX1BFUk1fR1JBUEhfTU9EICAgICAgICAgID0gMHgxMCwNCj4gPiAgDQo+
-ID4gKyAgICAvKioNCj4gPiArICAgICAqIFRoaXMgcGVybWlzc2lvbiBpcyByZXF1aXJlZCB0byBv
-cGVuIGhvc3QtbWFuYWdlZCB6b25lZCBibG9jayBkZXZpY2VzLg0KPiA+ICsgICAgICovDQo+ID4g
-KyAgICBCTEtfUEVSTV9TVVBQT1JUX0hNX1pPTkVEICAgPSAweDIwLA0KPiA+ICsNCj4gPiAgICAg
-IEJMS19QRVJNX0FMTCAgICAgICAgICAgICAgICA9IDB4MWYsDQo+IA0KPiBTaG91bGQgd2UgdXBk
-YXRlIEJMS19QRVJNX0FMTCB0byAweDNmPw0KPiANClN0ZWZhbm8sIGdvb2QgY2F0Y2ghIFdpbGwg
-dXBkYXRlIGFuZCByZXNlbmQuLi4NCg0KPiBUaGFua3MsDQo+IFN0ZWZhbm8NCj4gDQo=
+As of today, the QEMU 'sifive_u' machine is a special target that does
+not boot the upstream OpenSBI/U-Boot firmware images built for the real
+SiFive HiFive Unleashed board. Hence OpenSBI supports a special platform
+"qemu/sifive_u". For U-Boot, the sifive_fu540_defconfig is referenced
+in the OpenSBI doc as its payload, but that does not boot at all due
+to various issues in current QEMU 'sifive_u' machine codes.
+
+This series aims to improve the emulation fidelity of sifive_u machine,
+so that the upstream OpenSBI, U-Boot and kernel images built for the
+SiFive HiFive Unleashed board can be used out of the box without any
+special hack.
+
+The major changes include:
+- Heterogeneous harts creation supported, so that we can create a CPU
+  that exactly mirrors the real hardware: 1 E51 + 4 U54.
+- Implemented a PRCI model for FU540
+- Implemented an OTP model for FU540, primarily used for storing serial
+  number of the board
+- Fixed GEM support that was seriously broken on sifive_u
+- Synced device tree with upstream Linux kernel on sifive_u
+
+OpenSBI v0.4 image built for sifive/fu540 is included as the default
+bios image for 'sifive_u' machine.
+
+The series is tested against OpenSBI v0.4 image for sifive/fu540
+paltform, U-Boot v2019.10-rc1 image for sifive_fu540_defconfig,
+and Linux kernel v5.3-rc3 image with the following patch:
+
+macb: Update compatibility string for SiFive FU540-C000 [1]
+
+OpenSBI + U-Boot, ping/tftpboot with U-Boot MACB driver works well.
+Boot Linux 64-bit defconfig image, verified that system console on
+the serial 0 and ping host work pretty well.
+
+An OpenSBI patch [2] was sent to drop the special "qemu/sifive_u" platform
+support in OpenSBI. The original plan was to get the drop patch applied
+after this QEMU series is merged. However after discussion in the OpenSBI
+mailing list, it seems the best option for us is to let OpenSBI continue
+shipping the special "qemu/sifive_u" platform support to work with QEMU
+version <= 4.1 and deprecate the support sometime in the future. A patch
+will need to be sent to OpenSBI mailing list to update its document.
+
+v4 is now rebased on Palmer's QEMU RISC-V repo "for-master" branch.
+Dropped the following v3 patch that was already done by someone else.
+- riscv: sifive_u: Generate an aliases node in the device tree
+- riscv: sifive_u: Support loading initramfs
+
+The following v3 patch was dropped too due to a different cluster approach
+suggested by Richard Henderson is used in v4:
+- riscv: hart: Support heterogeneous harts population
+
+v8 is now rebased again on Palmer's QEMU RISC-V repo "for-master" branch,
+and resolved conflicts and build errors. To ease patch inter-dependencies,
+v8 includes the following 2 patches so that all of them can be applied
+cleanly on Palmer's QEMU RISC-V "for-master" branch.
+
+- riscv: hw: Remove duplicated "hw/hw.h" inclusion [3]
+- riscv: sifive_test: Add reset functionality [4]
+
+The whole patch series is also available at
+https://github.com/lbmeng/qemu repo, "sifive_u_cluster" branch.
+
+[1]: https://patchwork.kernel.org/patch/11050003/
+[2]: http://lists.infradead.org/pipermail/opensbi/2019-August/000335.html
+[3]: http://patchwork.ozlabs.org/patch/1159063/
+[4]: http://patchwork.ozlabs.org/patch/1158526/
+
+Changes in v8:
+- select UNIMP in sifive_e Kconfig due to applied commit
+  "hw/misc: Add a config switch for the "unimplemented" device"
+  in latest qemu/master
+- Don't cast addr to an int, use the correct macros in
+  sifive_u_otp_read() and sifive_u_otp_write()
+- Include "hw/qdev-properties.h" in sifive_u_otp.c
+- select UNIMP in sifive_u Kconfig due to applied commit
+  "hw/misc: Add a config switch for the "unimplemented" device"
+  in latest qemu/master
+
+Changes in v7:
+- use `s->hartid_base + idx` directly
+
+Changes in v6:
+- use s->hartid_base directly, instead of an extra variable
+- generate u cpus unconditionally (not test ms->smp.cpus > 1)
+  since the minimal required number of cpu is now 2, due to
+  this patch is reordered
+- fix incorrectly indented comment lines
+- remove unneeded brackets around assignment
+
+Changes in v5:
+- new patch to change to use qemu_log_mask(LOG_GUEST_ERROR,...) instead
+  in various sifive models
+- new patch to remove the unnecessary include of target/riscv/cpu.h
+- change to use defines instead of enums
+- change to use qemu_log_mask(LOG_GUEST_ERROR,...) in sifive_u_prci
+- creating a 32-bit val variable and using that instead of casting
+  everywhere in sifive_u_prci_write()
+- move all register initialization to sifive_u_prci_reset() function
+- drop sifive_u_prci_create()
+- s/codes that worked/code that works/g
+- create sifive_u_prci block directly in the machine codes, instead
+  of calling sifive_u_prci_create()
+- change to use defines instead of enums
+- change to use qemu_log_mask(LOG_GUEST_ERROR,...) in sifive_u_otp
+- creating a 32-bit val variable and using that instead of casting
+  everywhere in sifive_u_otp_write()
+- move all register initialization to sifive_u_otp_reset() function
+- drop sifive_u_otp_create()
+- create sifive_u_otp block directly in the machine codes, instead
+  of calling sifive_u_otp_create()
+- add the missing "local-mac-address" property in the ethernet node
+
+Changes in v4:
+- remove 2 more "linux,phandle" instances in sifive_u.c and spike.c
+  after rebasing on Palmer's QEMU RISC-V tree
+- change create_fdt() to return void in sifive_u.c too, after rebasing
+  on Palmer's QEMU RISC-V tree
+- new patch to remove executable attribute of opensbi images
+- prefix all macros/variables/functions with SIFIVE_E/sifive_e
+  in the sifive_e_prci driver
+- new patch to add a "hartid-base" property to RISC-V hart array
+- changed to create clusters for each cpu type
+- prefix all macros/variables/functions with SIFIVE_U/sifive_u
+  in the sifive_u_prci driver
+- prefix all macros/variables/functions with SIFIVE_U/sifive_u
+  in the sifive_u_otp driver
+- new patch to remove handcrafted clock nodes for UART and ethernet
+
+Changes in v3:
+- use management cpu count + 1 for the min_cpus
+- changed to use macros for management and compute cpu count
+- update IRQ numbers of both UARTs to match hardware as well
+
+Changes in v2:
+- fix build error in the "for-master" branch of Palmer's RISC-V repo
+  that was rebased on QEMU master
+- keep the PLIC compatible string unchanged as OpenSBI uses that
+  for DT fix up
+- drop patch "riscv: sifive: Move sifive_mmio_emulate() to a common place"
+- new patch "riscv: sifive_e: Drop sifive_mmio_emulate()"
+- update the file header to indicate at least 2 harts are created
+- fixed the "interrupts-extended" property size
+- use create_unimplemented_device() to create the GEM management
+  block instead of sifive_mmio_emulate()
+- add "phy-handle" property to the ethernet node
+
+Bin Meng (32):
+  riscv: hw: Remove duplicated "hw/hw.h" inclusion
+  riscv: sifive_test: Add reset functionality
+  riscv: hw: Remove superfluous "linux,phandle" property
+  riscv: hw: Use qemu_fdt_setprop_cell() for property with only 1 cell
+  riscv: hw: Remove not needed PLIC properties in device tree
+  riscv: hw: Change create_fdt() to return void
+  riscv: hw: Change to use qemu_log_mask(LOG_GUEST_ERROR,...) instead
+  riscv: hw: Remove the unnecessary include of target/riscv/cpu.h
+  riscv: roms: Remove executable attribute of opensbi images
+  riscv: sifive_u: Remove the unnecessary include of prci header
+  riscv: sifive: Rename sifive_prci.{c,h} to sifive_e_prci.{c,h}
+  riscv: sifive_e: prci: Fix a typo of hfxosccfg register programming
+  riscv: sifive_e: prci: Update the PRCI register block size
+  riscv: sifive_e: Drop sifive_mmio_emulate()
+  riscv: Add a sifive_cpu.h to include both E and U cpu type defines
+  riscv: hart: Extract hart realize to a separate routine
+  riscv: hart: Add a "hartid-base" property to RISC-V hart array
+  riscv: sifive_u: Set the minimum number of cpus to 2
+  riscv: sifive_u: Update hart configuration to reflect the real FU540
+    SoC
+  riscv: sifive_u: Update PLIC hart topology configuration string
+  riscv: sifive: Implement PRCI model for FU540
+  riscv: sifive_u: Generate hfclk and rtcclk nodes
+  riscv: sifive_u: Add PRCI block to the SoC
+  riscv: sifive_u: Reference PRCI clocks in UART and ethernet nodes
+  riscv: sifive_u: Update UART base addresses and IRQs
+  riscv: sifive_u: Change UART node name in device tree
+  riscv: roms: Update default bios for sifive_u machine
+  riscv: sifive: Implement a model for SiFive FU540 OTP
+  riscv: sifive_u: Instantiate OTP memory with a serial number
+  riscv: sifive_u: Fix broken GEM support
+  riscv: sifive_u: Remove handcrafted clock nodes for UART and ethernet
+  riscv: sifive_u: Update model and compatible strings in device tree
+
+ hw/riscv/Kconfig                             |   2 +
+ hw/riscv/Makefile.objs                       |   4 +-
+ hw/riscv/riscv_hart.c                        |  34 ++--
+ hw/riscv/sifive_e.c                          |  27 ++-
+ hw/riscv/sifive_e_prci.c                     | 124 +++++++++++++
+ hw/riscv/sifive_prci.c                       | 125 -------------
+ hw/riscv/sifive_test.c                       |  11 +-
+ hw/riscv/sifive_u.c                          | 255 ++++++++++++++++++---------
+ hw/riscv/sifive_u_otp.c                      | 191 ++++++++++++++++++++
+ hw/riscv/sifive_u_prci.c                     | 169 ++++++++++++++++++
+ hw/riscv/sifive_uart.c                       |  10 +-
+ hw/riscv/spike.c                             |   1 -
+ hw/riscv/virt.c                              |  40 ++---
+ include/hw/riscv/riscv_hart.h                |   1 +
+ include/hw/riscv/sifive_cpu.h                |  31 ++++
+ include/hw/riscv/sifive_e.h                  |   7 +-
+ include/hw/riscv/sifive_e_prci.h             |  71 ++++++++
+ include/hw/riscv/sifive_prci.h               |  71 --------
+ include/hw/riscv/sifive_test.h               |   3 +-
+ include/hw/riscv/sifive_u.h                  |  31 ++--
+ include/hw/riscv/sifive_u_otp.h              |  80 +++++++++
+ include/hw/riscv/sifive_u_prci.h             |  91 ++++++++++
+ pc-bios/opensbi-riscv32-virt-fw_jump.bin     | Bin
+ pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin | Bin 40968 -> 45064 bytes
+ pc-bios/opensbi-riscv64-virt-fw_jump.bin     | Bin
+ roms/Makefile                                |   4 +-
+ 26 files changed, 1017 insertions(+), 366 deletions(-)
+ create mode 100644 hw/riscv/sifive_e_prci.c
+ delete mode 100644 hw/riscv/sifive_prci.c
+ create mode 100644 hw/riscv/sifive_u_otp.c
+ create mode 100644 hw/riscv/sifive_u_prci.c
+ create mode 100644 include/hw/riscv/sifive_cpu.h
+ create mode 100644 include/hw/riscv/sifive_e_prci.h
+ delete mode 100644 include/hw/riscv/sifive_prci.h
+ create mode 100644 include/hw/riscv/sifive_u_otp.h
+ create mode 100644 include/hw/riscv/sifive_u_prci.h
+ mode change 100755 => 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
+ mode change 100755 => 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+ mode change 100755 => 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
+
+-- 
+2.7.4
+
 
