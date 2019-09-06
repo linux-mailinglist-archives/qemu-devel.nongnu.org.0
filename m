@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B4EABD76
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:15:38 +0200 (CEST)
-Received: from localhost ([::1]:58168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB64BABD5D
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:12:02 +0200 (CEST)
+Received: from localhost ([::1]:58138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6Gtd-0007pE-U5
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:15:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51483)
+	id 1i6Gq9-0003rt-M8
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:12:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51528)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anton.nefedov@virtuozzo.com>) id 1i6GgJ-0002SW-A7
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:01:52 -0400
+ (envelope-from <anton.nefedov@virtuozzo.com>) id 1i6GgM-0002WP-C8
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:01:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anton.nefedov@virtuozzo.com>) id 1i6GgH-0005AX-Qy
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:01:50 -0400
-Received: from relay.sw.ru ([185.231.240.75]:37916)
+ (envelope-from <anton.nefedov@virtuozzo.com>) id 1i6GgK-0005Dv-Rd
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:01:54 -0400
+Received: from relay.sw.ru ([185.231.240.75]:37934)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anton.nefedov@virtuozzo.com>)
- id 1i6GgE-00054c-Qa; Fri, 06 Sep 2019 12:01:47 -0400
+ id 1i6GgG-00057O-O0; Fri, 06 Sep 2019 12:01:48 -0400
 Received: from [172.16.25.154] (helo=xantnef-ws.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <anton.nefedov@virtuozzo.com>)
- id 1i6GgD-0005vz-Hp; Fri, 06 Sep 2019 19:01:45 +0300
+ id 1i6GgF-0005vz-Bq; Fri, 06 Sep 2019 19:01:47 +0300
 From: Anton Nefedov <anton.nefedov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Date: Fri,  6 Sep 2019 19:01:18 +0300
-Message-Id: <20190906160120.70239-8-anton.nefedov@virtuozzo.com>
+Date: Fri,  6 Sep 2019 19:01:20 +0300
+Message-Id: <20190906160120.70239-10-anton.nefedov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190906160120.70239-1-anton.nefedov@virtuozzo.com>
 References: <20190906160120.70239-1-anton.nefedov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v9 7/9] scsi: account unmap operations
+Subject: [Qemu-devel] [PATCH v9 9/9] qapi: query-blockstat: add driver
+ specific file-posix stats
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,66 +53,203 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
----
- hw/scsi/scsi-disk.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+A block driver can provide a callback to report driver-specific
+statistics.
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index a002fdabe8..68b1675fd9 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1617,10 +1617,16 @@ static void scsi_unmap_complete_noio(UnmapCBData *data, int ret)
-         r->sector_count = (ldl_be_p(&data->inbuf[8]) & 0xffffffffULL)
-             * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
-         if (!check_lba_range(s, r->sector, r->sector_count)) {
-+            block_acct_invalid(blk_get_stats(s->qdev.conf.blk),
-+                               BLOCK_ACCT_UNMAP);
-             scsi_check_condition(r, SENSE_CODE(LBA_OUT_OF_RANGE));
-             goto done;
-         }
+file-posix driver now reports discard statistics
+
+Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Acked-by: Markus Armbruster <armbru@redhat.com>
+---
+ qapi/block-core.json      | 38 ++++++++++++++++++++++++++++++++++++++
+ include/block/block.h     |  1 +
+ include/block/block_int.h |  1 +
+ block.c                   |  9 +++++++++
+ block/file-posix.c        | 32 ++++++++++++++++++++++++++++++++
+ block/qapi.c              |  5 +++++
+ 6 files changed, 86 insertions(+)
+
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 7d3e05891c..859acea014 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -960,6 +960,41 @@
+            '*wr_latency_histogram': 'BlockLatencyHistogramInfo',
+            '*flush_latency_histogram': 'BlockLatencyHistogramInfo' } }
  
-+        block_acct_start(blk_get_stats(s->qdev.conf.blk), &r->acct,
-+                         r->sector_count * BDRV_SECTOR_SIZE,
-+                         BLOCK_ACCT_UNMAP);
++##
++# @BlockStatsSpecificFile:
++#
++# File driver statistics
++#
++# @discard-nb-ok: The number of successful discard operations performed by
++#                 the driver.
++#
++# @discard-nb-failed: The number of failed discard operations performed by
++#                     the driver.
++#
++# @discard-bytes-ok: The number of bytes discarded by the driver.
++#
++# Since: 4.2
++##
++{ 'struct': 'BlockStatsSpecificFile',
++  'data': {
++      'discard-nb-ok': 'uint64',
++      'discard-nb-failed': 'uint64',
++      'discard-bytes-ok': 'uint64' } }
 +
-         r->req.aiocb = blk_aio_pdiscard(s->qdev.conf.blk,
-                                         r->sector * BDRV_SECTOR_SIZE,
-                                         r->sector_count * BDRV_SECTOR_SIZE,
-@@ -1647,10 +1653,11 @@ static void scsi_unmap_complete(void *opaque, int ret)
-     r->req.aiocb = NULL;
++##
++# @BlockStatsSpecific:
++#
++# Block driver specific statistics
++#
++# Since: 4.2
++##
++{ 'union': 'BlockStatsSpecific',
++  'base': { 'driver': 'BlockdevDriver' },
++  'discriminator': 'driver',
++  'data': {
++      'file': 'BlockStatsSpecificFile',
++      'host_device': 'BlockStatsSpecificFile' } }
++
+ ##
+ # @BlockStats:
+ #
+@@ -975,6 +1010,8 @@
+ #
+ # @stats:  A @BlockDeviceStats for the device.
+ #
++# @driver-specific: Optional driver-specific stats. (Since 4.2)
++#
+ # @parent: This describes the file block device if it has one.
+ #          Contains recursively the statistics of the underlying
+ #          protocol (e.g. the host file for a qcow2 image). If there is
+@@ -988,6 +1025,7 @@
+ { 'struct': 'BlockStats',
+   'data': {'*device': 'str', '*qdev': 'str', '*node-name': 'str',
+            'stats': 'BlockDeviceStats',
++           '*driver-specific': 'BlockStatsSpecific',
+            '*parent': 'BlockStats',
+            '*backing': 'BlockStats'} }
  
-     aio_context_acquire(blk_get_aio_context(s->qdev.conf.blk));
--    if (scsi_disk_req_check_error(r, ret, false)) {
-+    if (scsi_disk_req_check_error(r, ret, true)) {
-         scsi_req_unref(&r->req);
-         g_free(data);
-     } else {
-+        block_acct_done(blk_get_stats(s->qdev.conf.blk), &r->acct);
-         scsi_unmap_complete_noio(data, ret);
-     }
-     aio_context_release(blk_get_aio_context(s->qdev.conf.blk));
-@@ -1682,6 +1689,7 @@ static void scsi_disk_emulate_unmap(SCSIDiskReq *r, uint8_t *inbuf)
-     }
+diff --git a/include/block/block.h b/include/block/block.h
+index 124ad40809..6c5279da99 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -503,6 +503,7 @@ int bdrv_get_flags(BlockDriverState *bs);
+ int bdrv_get_info(BlockDriverState *bs, BlockDriverInfo *bdi);
+ ImageInfoSpecific *bdrv_get_specific_info(BlockDriverState *bs,
+                                           Error **errp);
++BlockStatsSpecific *bdrv_get_specific_stats(BlockDriverState *bs);
+ void bdrv_round_to_clusters(BlockDriverState *bs,
+                             int64_t offset, int64_t bytes,
+                             int64_t *cluster_offset,
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 0422acdf1c..2b113eb3c7 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -366,6 +366,7 @@ struct BlockDriver {
+     int (*bdrv_get_info)(BlockDriverState *bs, BlockDriverInfo *bdi);
+     ImageInfoSpecific *(*bdrv_get_specific_info)(BlockDriverState *bs,
+                                                  Error **errp);
++    BlockStatsSpecific *(*bdrv_get_specific_stats)(BlockDriverState *bs);
  
-     if (blk_is_read_only(s->qdev.conf.blk)) {
-+        block_acct_invalid(blk_get_stats(s->qdev.conf.blk), BLOCK_ACCT_UNMAP);
-         scsi_check_condition(r, SENSE_CODE(WRITE_PROTECTED));
-         return;
-     }
-@@ -1697,10 +1705,12 @@ static void scsi_disk_emulate_unmap(SCSIDiskReq *r, uint8_t *inbuf)
-     return;
- 
- invalid_param_len:
-+    block_acct_invalid(blk_get_stats(s->qdev.conf.blk), BLOCK_ACCT_UNMAP);
-     scsi_check_condition(r, SENSE_CODE(INVALID_PARAM_LEN));
-     return;
- 
- invalid_field:
-+    block_acct_invalid(blk_get_stats(s->qdev.conf.blk), BLOCK_ACCT_UNMAP);
-     scsi_check_condition(r, SENSE_CODE(INVALID_FIELD));
+     int coroutine_fn (*bdrv_save_vmstate)(BlockDriverState *bs,
+                                           QEMUIOVector *qiov,
+diff --git a/block.c b/block.c
+index 5944124845..5d3a5a6b95 100644
+--- a/block.c
++++ b/block.c
+@@ -5155,6 +5155,15 @@ ImageInfoSpecific *bdrv_get_specific_info(BlockDriverState *bs,
+     return NULL;
  }
  
++BlockStatsSpecific *bdrv_get_specific_stats(BlockDriverState *bs)
++{
++    BlockDriver *drv = bs->drv;
++    if (!drv || !drv->bdrv_get_specific_stats) {
++        return NULL;
++    }
++    return drv->bdrv_get_specific_stats(bs);
++}
++
+ void bdrv_debug_event(BlockDriverState *bs, BlkdebugEvent event)
+ {
+     if (!bs || !bs->drv || !bs->drv->bdrv_debug_event) {
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 6548dda309..767feadc21 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2821,6 +2821,36 @@ static int raw_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+     return 0;
+ }
+ 
++static BlockStatsSpecificFile get_blockstats_specific_file(BlockDriverState *bs)
++{
++    BDRVRawState *s = bs->opaque;
++    return (BlockStatsSpecificFile) {
++        .discard_nb_ok = s->stats.discard_nb_ok,
++        .discard_nb_failed = s->stats.discard_nb_failed,
++        .discard_bytes_ok = s->stats.discard_bytes_ok,
++    };
++}
++
++static BlockStatsSpecific *raw_get_specific_stats(BlockDriverState *bs)
++{
++    BlockStatsSpecific *stats = g_new(BlockStatsSpecific, 1);
++
++    stats->driver = BLOCKDEV_DRIVER_FILE;
++    stats->u.file = get_blockstats_specific_file(bs);
++
++    return stats;
++}
++
++static BlockStatsSpecific *hdev_get_specific_stats(BlockDriverState *bs)
++{
++    BlockStatsSpecific *stats = g_new(BlockStatsSpecific, 1);
++
++    stats->driver = BLOCKDEV_DRIVER_HOST_DEVICE;
++    stats->u.host_device = get_blockstats_specific_file(bs);
++
++    return stats;
++}
++
+ static QemuOptsList raw_create_opts = {
+     .name = "raw-create-opts",
+     .head = QTAILQ_HEAD_INITIALIZER(raw_create_opts.head),
+@@ -3028,6 +3058,7 @@ BlockDriver bdrv_file = {
+     .bdrv_get_info = raw_get_info,
+     .bdrv_get_allocated_file_size
+                         = raw_get_allocated_file_size,
++    .bdrv_get_specific_stats = raw_get_specific_stats,
+     .bdrv_check_perm = raw_check_perm,
+     .bdrv_set_perm   = raw_set_perm,
+     .bdrv_abort_perm_update = raw_abort_perm_update,
+@@ -3506,6 +3537,7 @@ static BlockDriver bdrv_host_device = {
+     .bdrv_get_info = raw_get_info,
+     .bdrv_get_allocated_file_size
+                         = raw_get_allocated_file_size,
++    .bdrv_get_specific_stats = hdev_get_specific_stats,
+     .bdrv_check_perm = raw_check_perm,
+     .bdrv_set_perm   = raw_set_perm,
+     .bdrv_abort_perm_update = raw_abort_perm_update,
+diff --git a/block/qapi.c b/block/qapi.c
+index 3356a1dc59..54b4810efd 100644
+--- a/block/qapi.c
++++ b/block/qapi.c
+@@ -543,6 +543,11 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
+ 
+     s->stats->wr_highest_offset = stat64_get(&bs->wr_highest_offset);
+ 
++    s->driver_specific = bdrv_get_specific_stats(bs);
++    if (s->driver_specific) {
++        s->has_driver_specific = true;
++    }
++
+     if (bs->file) {
+         s->has_parent = true;
+         s->parent = bdrv_query_bds_stats(bs->file->bs, blk_level);
 -- 
 2.17.1
 
