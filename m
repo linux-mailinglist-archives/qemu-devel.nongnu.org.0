@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B6DAB840
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 14:34:26 +0200 (CEST)
-Received: from localhost ([::1]:55614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6938BAB845
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 14:36:32 +0200 (CEST)
+Received: from localhost ([::1]:55632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6DRZ-0001tK-Hp
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 08:34:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50664)
+	id 1i6DTb-0002xq-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 08:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51215)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i6DQN-00015W-Iw
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 08:33:12 -0400
+ (envelope-from <berrange@redhat.com>) id 1i6DSS-0002S6-Vi
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 08:35:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i6DQM-0004oU-E0
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 08:33:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60451)
+ (envelope-from <berrange@redhat.com>) id 1i6DSR-0005rr-K4
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 08:35:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40432)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1i6DQJ-0004mp-Nl; Fri, 06 Sep 2019 08:33:07 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1i6DSO-0005od-P7; Fri, 06 Sep 2019 08:35:16 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0BEF218C4274;
- Fri,  6 Sep 2019 12:33:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 06C377E428;
+ Fri,  6 Sep 2019 12:35:16 +0000 (UTC)
 Received: from redhat.com (ovpn-112-50.ams2.redhat.com [10.36.112.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3F3510016EB;
- Fri,  6 Sep 2019 12:33:01 +0000 (UTC)
-Date: Fri, 6 Sep 2019 13:32:58 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82F78600C4;
+ Fri,  6 Sep 2019 12:35:07 +0000 (UTC)
+Date: Fri, 6 Sep 2019 13:35:04 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Maxim Levitsky <mlevitsk@redhat.com>
-Message-ID: <20190906123258.GC5119@redhat.com>
+Message-ID: <20190906123504.GD5119@redhat.com>
 References: <20190826135103.22410-1-mlevitsk@redhat.com>
- <20190826135103.22410-7-mlevitsk@redhat.com>
+ <20190826135103.22410-8-mlevitsk@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190826135103.22410-7-mlevitsk@redhat.com>
+In-Reply-To: <20190826135103.22410-8-mlevitsk@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Fri, 06 Sep 2019 12:33:07 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Fri, 06 Sep 2019 12:35:16 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 06/13] qcrypto-block: pass keyslot index
- rather that pointer to the keyslot
+Subject: Re: [Qemu-devel] [PATCH v2 07/13] qcrypto-luks: use the parsed
+ encryption settings in QCryptoBlockLUKS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,61 +67,23 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 26, 2019 at 04:50:56PM +0300, Maxim Levitsky wrote:
-> Another minor refactoring
+On Mon, Aug 26, 2019 at 04:50:57PM +0300, Maxim Levitsky wrote:
+> Prior to that patch, the parsed encryptio settings
+
+                                  ^^encryption
+
+> were alrady stored into the QCryptoBlockLUKS but not
+
+       ^^already
+
+> used anywhere but in qcrypto_block_luks_get_info
+>=20
+> Using them simplifies the code
 >=20
 > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 > ---
->  crypto/block-luks.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-> index 331377293d..0d81f2ac61 100644
-> --- a/crypto/block-luks.c
-> +++ b/crypto/block-luks.c
-> @@ -410,7 +410,7 @@ qcrypto_block_luks_essiv_cipher(QCryptoCipherAlgori=
-thm cipher,
->   */
->  static int
->  qcrypto_block_luks_load_key(QCryptoBlock *block,
-> -                            QCryptoBlockLUKSKeySlot *slot,
-> +                            unsigned int slot_idx,
-
-FWIW, I tend to prefer 'size_t' for things which are array
-indexes especially....
-
->                              const char *password,
->                              QCryptoCipherAlgorithm cipheralg,
->                              QCryptoCipherMode ciphermode,
-> @@ -424,6 +424,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
->                              Error **errp)
->  {
->      QCryptoBlockLUKS *luks =3D block->opaque;
-> +    const QCryptoBlockLUKSKeySlot *slot =3D &luks->header.key_slots[sl=
-ot_idx];
->      g_autofree uint8_t *splitkey =3D NULL;
->      size_t splitkeylen;
->      g_autofree uint8_t *possiblekey =3D NULL;
-> @@ -580,13 +581,12 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
->                              void *opaque,
->                              Error **errp)
->  {
-> -    QCryptoBlockLUKS *luks =3D block->opaque;
->      size_t i;
->      int rv;
-> =20
->      for (i =3D 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
->          rv =3D qcrypto_block_luks_load_key(block,
-> -                                         &luks->header.key_slots[i],
-> +                                         i,
-
-..given that 'i' is size_t here.
-
->                                           password,
->                                           cipheralg,
->                                           ciphermode,
-
-With that type changed
+>  crypto/block-luks.c | 169 +++++++++++++++++++++-----------------------
+>  1 file changed, 79 insertions(+), 90 deletions(-)
 
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
