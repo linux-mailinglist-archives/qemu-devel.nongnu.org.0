@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724A1AC08B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 21:27:16 +0200 (CEST)
-Received: from localhost ([::1]:59654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0557DAC09A
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 21:32:34 +0200 (CEST)
+Received: from localhost ([::1]:59704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6Jt5-00015S-GI
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 15:27:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44221)
+	id 1i6JyD-0003yG-4x
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 15:32:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46373)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i6Jmy-0003JJ-Bl
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 15:20:57 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1i6Jww-0003Vm-LK
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 15:31:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i6Jmx-0007jV-9r
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 15:20:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57790)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i6Jmx-0007j2-1Y
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 15:20:55 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 41D863064FD1;
- Fri,  6 Sep 2019 19:20:54 +0000 (UTC)
-Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E5C310018FF;
- Fri,  6 Sep 2019 19:20:51 +0000 (UTC)
-To: "Moger, Babu" <Babu.Moger@amd.com>, "ssg.sos.staff"
- <ssg.sos.staff@amd.com>, "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
- "mst@redhat.com" <mst@redhat.com>, "pbonzini@redhat.com"
- <pbonzini@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>
-References: <156779689013.21957.1631551572950676212.stgit@localhost.localdomain>
- <156779713686.21957.6192568272184346850.stgit@localhost.localdomain>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <3b898b6f-8fc2-a20c-cf8e-e13b6c6e12e1@redhat.com>
-Date: Fri, 6 Sep 2019 14:20:50 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <alex.bennee@linaro.org>) id 1i6Jwv-0004EM-32
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 15:31:14 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52335)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1i6Jwu-0004DV-R7
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 15:31:13 -0400
+Received: by mail-wm1-x344.google.com with SMTP id t17so7621937wmi.2
+ for <qemu-devel@nongnu.org>; Fri, 06 Sep 2019 12:31:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=4SsIC9L9hhwDmbpA9fN0dmF4lf9/FJI7d/JyJxbweU8=;
+ b=zSfvIAIbCNiU9P1+UTUHnCkX6xZ19iA4oF0vDBWg863wN2NmVPH5NOZRlvpTluFPt+
+ nQS/s8wJYkvyRNduAtrSqpLgem7nhueo2P+mCaVnBzxCIjtWZvOunt3GvN+fCk5SoJH4
+ SwcRzbik8M+ICkjNPKYeFSAKGTYbdBOTxL1jeAu/0m5YHKDFeU5Bg+FdKLnsXueuLq7j
+ HKcxSkUccNnTHM+nDO/K6Q0Gwzy0DwGj2foMZSq5rFQCYkbKLqGjSj/WiIPd7F85VpUc
+ yigIyj3cycW+wP07BMqHtu2/Ycdlci6NBF+LuMSwQURSMwPQhQoCjtSRSR6BqyOw1faz
+ 1Ojg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=4SsIC9L9hhwDmbpA9fN0dmF4lf9/FJI7d/JyJxbweU8=;
+ b=bE3YplYJL025+309skM94jBdbHN1FkGPo9bv5mDerOPT0eSqEJi6iwQicYWwGZ+z5y
+ RUm4Ryn6PdSu6+Lf2WT35dTF2i0S8waAEjxA/+hAiOilDcI5UhJ1YO0WKcoQnPirRQyt
+ d1A3DMzCTPvuUWGiHchxeMBLtniuiiXSu2dw6O2geL46vAof+BevdZQILdOxanaCVobW
+ YyrV92nqWpaLfZbWdslJDjcknYaM5/5kqQAllWCpahHUjerLDFOjbScP0keiTt5LVk1a
+ KLZpEkMXkrVd/USzVcnwzVDYh3wuxZIynngu2bj4x/7WhzWdbfBXhn0HNx/3UTwCgIim
+ 4pWg==
+X-Gm-Message-State: APjAAAWz1hBu7qMtfB2s5egnzU0YrWgH1rYf8S1rppxa5/MO/yMYQZdA
+ l6sXYf12VEJpyG6PE2DVDFzGAw==
+X-Google-Smtp-Source: APXvYqx2fkdK/kzbvAVVQzmkRPstr8Wj0+ikATw7StcQk6JN9EjHJU1UrxtJRjZtaTPaMlTz8bTCyQ==
+X-Received: by 2002:a1c:7a14:: with SMTP id v20mr9383069wmc.75.1567798271309; 
+ Fri, 06 Sep 2019 12:31:11 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q10sm5859061wrd.39.2019.09.06.12.31.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Sep 2019 12:31:10 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E439B1FF87;
+ Fri,  6 Sep 2019 20:31:09 +0100 (BST)
+References: <20190731160719.11396-1-alex.bennee@linaro.org>
+ <20190731160719.11396-14-alex.bennee@linaro.org>
+ <20190802182541.GO5034@quinoa.localdomain>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay OS <aaron@os.amperecomputing.com>
+In-reply-to: <20190802182541.GO5034@quinoa.localdomain>
+Date: Fri, 06 Sep 2019 20:31:09 +0100
+Message-ID: <877e6lz0g2.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <156779713686.21957.6192568272184346850.stgit@localhost.localdomain>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 06 Sep 2019 19:20:54 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC 2 PATCH 06/16] hw/core: Add core complex id
- in X86CPU topology
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH  v4 13/54] plugin: add user-facing API
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,34 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "bobby.prani@gmail.com" <bobby.prani@gmail.com>,
+ "cota@braap.org" <cota@braap.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/19 2:12 PM, Moger, Babu wrote:
-> Introduce cpu core complex id(ccx_id) in x86CPU topology.
-> Each CCX can have upto 4 cores and share same L3 cache.
-> This information is required to build the topology in
-> new apyc mode.
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
 
-> +++ b/qapi/machine.json
-> @@ -597,9 +597,10 @@
->  # @node-id: NUMA node ID the CPU belongs to
->  # @socket-id: socket number within node/board the CPU belongs to
->  # @die-id: die number within node/board the CPU belongs to (Since 4.1)
-> +# @ccx-id: core complex number within node/board the CPU belongs to (Since 4.1)
+Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
 
-4.2 now
+> One thing I would find useful is the ability to access register values
+> during an execution-time callback. I think the easiest way to do that
+> generically would be to expose them via the gdb functionality (like
+> Pavel's earlier patchset did [1]), though that (currently) limits you to
+> the general-purpose registers. Ideally it would be nice be able to
+> access other registers (i.e. floating-point, or maybe even system
+> registers), though those are more difficult to do generically.
 
->  # @core-id: core number within die the CPU belongs to# @thread-id: thread number within core the CPU belongs to
+ARM already has system register support via the gdbstub XML interface so
+it's certainly doable. The trick is how we do that in a probable way
+without leaking the gdb remote protocol into plugins (which is just very
+ugly).
 
-Pre-existing, but let's fix that missing newline while you're here.
+> Perhaps if we added some sort of architectural-support checking for
+> individual plugins like I mentioned in another response to this
+> patchset, we could allow some limited architecture-specific
+> functionality in this vein? I confess I haven't thought through all the
+> ramifications of that yet, though.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+I was wondering if exposing the Elf Type would be enough? It's portable
+enough that plugins should be able to work with it without defining our
+own architecture enumeration.
+
+>
+> -Aaron
+>
+> [1] - See qemulib_read_register() at
+>       https://patchwork.ozlabs.org/patch/925393/
+
+
+--
+Alex Benn=C3=A9e
 
