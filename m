@@ -2,47 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68157AB3F4
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 10:20:06 +0200 (CEST)
-Received: from localhost ([::1]:53386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFF0AB3D1
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 10:17:17 +0200 (CEST)
+Received: from localhost ([::1]:53352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i69TR-0002eK-CD
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 04:20:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42549)
+	id 1i69Qh-0007lq-Rg
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 04:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i6994-0004P6-Nt
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 03:59:05 -0400
+ (envelope-from <sgarzare@redhat.com>) id 1i69L3-0002qC-So
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 04:11:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i6992-0003jH-LY
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 03:59:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33608)
+ (envelope-from <sgarzare@redhat.com>) id 1i69L2-0002Mj-4Z
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 04:11:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49492)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i6992-0003g2-3G; Fri, 06 Sep 2019 03:59:00 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1i69L1-0002M4-R5
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 04:11:24 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 33FC018C4272;
- Fri,  6 Sep 2019 07:58:56 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-117-162.ams2.redhat.com [10.36.117.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B3B41001955;
- Fri,  6 Sep 2019 07:58:54 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri,  6 Sep 2019 09:57:47 +0200
-Message-Id: <20190906075750.14791-26-david@redhat.com>
-In-Reply-To: <20190906075750.14791-1-david@redhat.com>
-References: <20190906075750.14791-1-david@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 4E7396412E
+ for <qemu-devel@nongnu.org>; Fri,  6 Sep 2019 08:11:22 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id v4so790781wmh.9
+ for <qemu-devel@nongnu.org>; Fri, 06 Sep 2019 01:11:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=KHY+pZP9sMz8Mhtp7RqD8Ap4xKdcnT/NsASpSXxBuns=;
+ b=NVzdjYOG9ieBGaseY3pG/MaT1ak6xFrNOl5Ks5kXLOphakp5LSGwElpvnSi4U/QC/0
+ iOsi4qsm1qqbtmC8a+oolHZxSyrkm9asn5CcpArsiryHJuoEpfKHkJvCuZMpOCbCqjvz
+ 8j9w4K4s517iuSyBl2aLyzYXy0RU1ZuCdsHV8OBlvYalKDdICGy1XSpYtpp/JWG2FQO2
+ 7qYzRGCl/7Of7s7iScd18UIgtVjnl8Cg/dT7pVQrCepVuhcIxLYDTDjlLdeNz709VI86
+ 2LQgsqUu3CVU7TZgDig91i08E4TkCwlmA49wf2nR42ZrbjC3UiAO8yv2dyVBxg/sWzlL
+ DaDA==
+X-Gm-Message-State: APjAAAUnBbhR5vKZxgPGB01Mty0b6VCodl6JWfqCy97cNeA3miaD449S
+ Kx6ZJud340W5zj1C1jPXlczbBn+f51Ty2u/37i70LbBbJPw0AJCENPU1SB0+cC0f5qVnOIUFwHF
+ Y3ECTEKQXai9JIQA=
+X-Received: by 2002:a1c:c1cc:: with SMTP id r195mr6537613wmf.50.1567757480944; 
+ Fri, 06 Sep 2019 01:11:20 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyW83O59EVtda5dZSKvxkz+cvGubH8VsCuOcAd3+aDUVhxxyA0XdjjL1dE1EYJoWvrQ91Y8aQ==
+X-Received: by 2002:a1c:c1cc:: with SMTP id r195mr6537576wmf.50.1567757480540; 
+ Fri, 06 Sep 2019 01:11:20 -0700 (PDT)
+Received: from steredhat (host170-61-dynamic.36-79-r.retail.telecomitalia.it.
+ [79.36.61.170])
+ by smtp.gmail.com with ESMTPSA id w19sm3015210wmi.12.2019.09.06.01.11.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Sep 2019 01:11:19 -0700 (PDT)
+Date: Fri, 6 Sep 2019 10:11:17 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Message-ID: <20190906081117.asr67hq26eqqooxd@steredhat>
+References: <20190904210100.10501-1-dmitry.fomichev@wdc.com>
+ <20190904210100.10501-2-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Fri, 06 Sep 2019 07:58:56 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190904210100.10501-2-dmitry.fomichev@wdc.com>
+User-Agent: NeoMutt/20180716
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 25/28] s390x/tcg: MVZ: Fault-safe handling
+Subject: Re: [Qemu-devel] [PATCH v6 1/4] block: Add zoned device model
+ property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,55 +78,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Stefano Brivio <sbrivio@redhat.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can process a maximum of 256 bytes, crossing two pages.
+On Wed, Sep 04, 2019 at 05:00:57PM -0400, Dmitry Fomichev wrote:
+> This commit adds Zoned Device Model (as defined in T10 ZBC and
+> T13 ZAC standards) as a block driver property, along with some
+> useful access functions.
+> 
+> A new backend driver permission, BLK_PERM_SUPPORT_HM_ZONED, is also
+> introduced. Only the drivers having this permission will be allowed
+> to open host managed zoned block devices.
+> 
+> No code is added yet to initialize or check the value of this new
+> property, therefore this commit doesn't change any functionality.
+> 
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> ---
+>  block.c                   | 15 +++++++++++++++
+>  include/block/block.h     | 19 ++++++++++++++++++-
+>  include/block/block_int.h |  3 +++
+>  3 files changed, 36 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block.c b/block.c
+> index 874a29a983..69f565e1e9 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -4679,6 +4679,21 @@ void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr)
+>      *nb_sectors_ptr = nb_sectors < 0 ? 0 : nb_sectors;
+>  }
+>  
+> +BdrvZonedModel bdrv_get_zoned_model(BlockDriverState *bs)
+> +{
+> +    return bs->bl.zoned_model;
+> +}
+> +
+> +bool bdrv_is_hm_zoned(BlockDriverState *bs)
+> +{
+> +    /*
+> +     * Host Aware zone devices are supposed to be able to work
+> +     * just like regular block devices. Thus, we only consider
+> +     * Host Managed devices to be zoned here.
+> +     */
+> +    return bdrv_get_zoned_model(bs) == BDRV_ZONED_MODEL_HM;
+> +}
+> +
+>  bool bdrv_is_sg(BlockDriverState *bs)
+>  {
+>      return bs->sg;
+> diff --git a/include/block/block.h b/include/block/block.h
+> index 124ad40809..28d065ed80 100644
+> --- a/include/block/block.h
+> +++ b/include/block/block.h
+> @@ -271,18 +271,33 @@ enum {
+>       */
+>      BLK_PERM_GRAPH_MOD          = 0x10,
+>  
+> +    /**
+> +     * This permission is required to open host-managed zoned block devices.
+> +     */
+> +    BLK_PERM_SUPPORT_HM_ZONED   = 0x20,
+> +
+>      BLK_PERM_ALL                = 0x1f,
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/mem_helper.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+Should we update BLK_PERM_ALL to 0x3f?
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 5e38b2c4d8..4c67c6f37e 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -545,13 +545,21 @@ void HELPER(mvo)(CPUS390XState *env, uint32_t l, ui=
-nt64_t dest, uint64_t src)
- /* move zones  */
- void HELPER(mvz)(CPUS390XState *env, uint32_t l, uint64_t dest, uint64_t=
- src)
- {
-+    S390Access srca1, srca2, desta;
-     uintptr_t ra =3D GETPC();
-     int i;
-=20
--    for (i =3D 0; i <=3D l; i++) {
--        uint8_t b =3D cpu_ldub_data_ra(env, dest + i, ra) & 0x0f;
--        b |=3D cpu_ldub_data_ra(env, src + i, ra) & 0xf0;
--        cpu_stb_data_ra(env, dest + i, b, ra);
-+    /* MVZ always copies one more byte than specified - maximum is 256 *=
-/
-+    l++;
-+
-+    srca1 =3D access_prepare(env, src, l, MMU_DATA_LOAD, ra);
-+    srca2 =3D access_prepare(env, dest, l, MMU_DATA_LOAD, ra);
-+    desta =3D access_prepare(env, dest, l, MMU_DATA_STORE, ra);
-+    for (i =3D 0; i < l; i++) {
-+        const uint8_t x =3D (access_get_byte(env, &srca1, i, ra) & 0xf0)=
- |
-+                          (access_get_byte(env, &srca2, i, ra) & 0x0f);
-+
-+        access_set_byte(env, &desta, i, x, ra);
-     }
- }
-=20
---=20
-2.21.0
+Thanks,
+Stefano
 
 
