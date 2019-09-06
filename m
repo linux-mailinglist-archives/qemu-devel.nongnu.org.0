@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39D9ABB1D
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 16:38:05 +0200 (CEST)
-Received: from localhost ([::1]:57050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E20ABB3E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 16:42:53 +0200 (CEST)
+Received: from localhost ([::1]:57074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6FNE-0005Fn-QL
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 10:38:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55254)
+	id 1i6FRs-0006V1-5s
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 10:42:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i6FM9-0004ey-4k
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 10:36:58 -0400
+ (envelope-from <lists2009@fnarfbargle.com>) id 1i6FQz-00066c-4h
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 10:41:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i6FM6-000207-P0
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 10:36:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48392)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1i6FM6-0001zD-Ip; Fri, 06 Sep 2019 10:36:54 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9886585541;
- Fri,  6 Sep 2019 14:36:53 +0000 (UTC)
-Received: from redhat.com (ovpn-112-50.ams2.redhat.com [10.36.112.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D62A4600C4;
- Fri,  6 Sep 2019 14:36:51 +0000 (UTC)
-Date: Fri, 6 Sep 2019 15:36:48 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Message-ID: <20190906143648.GA21331@redhat.com>
-References: <1553351197-14581-1-git-send-email-cafer.abdi@gmail.com>
- <20190326081814.GF21018@stefanha-x1.localdomain>
+ (envelope-from <lists2009@fnarfbargle.com>) id 1i6FQx-0005E7-U7
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 10:41:57 -0400
+Received: from ns3.fnarfbargle.com ([103.4.19.87]:36048)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lists2009@fnarfbargle.com>)
+ id 1i6FQx-0005DC-CA
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 10:41:55 -0400
+Received: from [10.8.0.1] (helo=srv.home ident=heh31992)
+ by ns3.fnarfbargle.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.84_2) (envelope-from <lists2009@fnarfbargle.com>)
+ id 1i6FQE-0005Ch-NT
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 22:41:10 +0800
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=fnarfbargle.com; s=mail; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject;
+ bh=VehvyU7qaGLmxLpGq4zzID+CmfrQktvjuFRvU5005ZI=; 
+ b=Mor3fLI+0zLXFa6OXun1PDW2GKdp9eaMrE3GKIQy1r8aIcpsV6Cpn9n7peeJfDB3BLunT9X9cQ75tQbVuJ95YonPdAqKzFtLZojn6pz/+i+9Wq++L++SrWQL0X3G/8u+s6YeCKnzoV3kNK+P+5uGr4qb/gsrIo72ByMoLJeAK0M=;
+To: qemu-devel@nongnu.org
+References: <ed421291-7178-d7bc-5ed3-9863d28ceba9@fnarfbargle.com>
+ <dd33a398-3c1f-0c92-2318-00ad144e1e5d@fnarfbargle.com>
+ <b1782119-abbc-9678-8217-ef576dbf8c93@fnarfbargle.com>
+ <7da75f0a-aa48-a9db-d2f8-fe74031ecf58@fnarfbargle.com>
+From: Brad Campbell <lists2009@fnarfbargle.com>
+Message-ID: <49b5d60f-b0cd-8d47-5e0f-75fc76b3ee47@fnarfbargle.com>
+Date: Fri, 6 Sep 2019 22:41:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190326081814.GF21018@stefanha-x1.localdomain>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Fri, 06 Sep 2019 14:36:53 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH V2 0/4] fix usage of bool
+In-Reply-To: <7da75f0a-aa48-a9db-d2f8-fe74031ecf58@fnarfbargle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 103.4.19.87
+Subject: Re: [Qemu-devel] Cross-posted : Odd QXL/KVM performance issue with
+ a Windows 7 Guest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,31 +61,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-trivial@nongnu.org, jusual@mail.ru, Jafar Abdi <cafer.abdi@gmail.com>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 26, 2019 at 08:18:14AM +0000, Stefan Hajnoczi wrote:
-> On Sat, Mar 23, 2019 at 05:26:33PM +0300, Jafar Abdi wrote:
-> > Clean up wrong usage of FALSE and TRUE in places that use "bool" from stdbool.h.
-> > 
-> > FALSE and TRUE (with capital letters) are the constants defined by glib for
-> > being used with the "gboolean" type of glib. But some parts of the code also use
-> > TRUE and FALSE for variables that are declared as "bool" (the type from <stdbool.h>).
+On 6/9/19 21:38, Brad Campbell wrote:
+> 7022@1567775824.002106:kvm_vm_ioctl type 0xc008ae67, arg 0x7ffe13b0c970
+> 7022@1567775824.002115:kvm_vm_ioctl type 0xc008ae67, arg 0x7ffe13b0c980
+> 7022@1567775824.003122:kvm_vm_ioctl type 0xc008ae67, arg 0x7ffe13b0c970
+
 > 
-> CCing qemu-trivial
+> Does this look familiar to anyone?
 
-Ping qemu-trivial - this was seems to have been missed, though
-patches 2 & 3 got merged via ppc tree meanwhile. The other two
-are still valid.
+Ugh. System timer.
 
+So with the timer interrupt removed and an added trace on IRQ > 0:
 
-Regards,
-Daniel
+qxl/guest-0: 79096403248: qxldd: DrvCopyBits
+14955@1567780063.149527:kvm_vcpu_ioctl cpu_index 2, type 0xae80, arg (nil)
+14956@1567780063.150291:qxl_ring_res_put 0 #res=1
+14955@1567780063.163672:kvm_run_exit cpu_index 2, reason 2
+14955@1567780063.163688:qxl_io_write 0 native addr=4 (QXL_IO_NOTIFY_OOM) val=0 size=1 async=0
+14955@1567780063.163704:qxl_spice_oom 0
+14955@1567780063.163720:kvm_vcpu_ioctl cpu_index 2, type 0xae80, arg (nil)
+14956@1567780063.163755:qxl_ring_command_check 0 native
+14956@1567780063.163779:qxl_ring_res_push 0 native s#=0 res#=1 last=0x7f3c0d44b6e0 notify=yes
+14956@1567780063.163816:qxl_ring_res_push_rest 0 ring 1/8 [326,325]
+14956@1567780063.163841:qxl_send_events 0 1
+14956@1567780063.163868:qxl_ring_cursor_check 0 native
+14956@1567780063.163888:qxl_ring_command_check 0 native
+14924@1567780063.163879:kvm_set_irq irq 11, level 1, status 1
+14954@1567780063.163895:kvm_run_exit cpu_index 1, reason 2
+14954@1567780063.163965:qxl_io_write 0 native addr=3 (QXL_IO_UPDATE_IRQ) val=0 size=1 async=0
+14954@1567780063.164006:kvm_set_irq irq 11, level 0, status 1
+14954@1567780063.164029:kvm_vcpu_ioctl cpu_index 1, type 0xae80, arg (nil)
+14954@1567780063.164065:kvm_run_exit cpu_index 1, reason 2
+14954@1567780063.164080:qxl_io_write 0 native addr=3 (QXL_IO_UPDATE_IRQ) val=0 size=1 async=0
+14954@1567780063.164104:kvm_vcpu_ioctl cpu_index 1, type 0xae80, arg (nil)
+14955@1567780063.266778:kvm_run_exit cpu_index 2, reason 2
+14955@1567780063.266790:qxl_io_write 0 native addr=0 (QXL_IO_NOTIFY_CMD) val=0 size=1 async=0
+14955@1567780063.266809:kvm_vcpu_ioctl cpu_index 2, type 0xae80, arg (nil)
+14956@1567780063.266822:qxl_ring_cursor_check 0 native
+14956@1567780063.266842:qxl_ring_command_check 0 native
+79213750625 qxl-0/cmd: cmd @ 0x10000000104b598 draw: surface_id 0 type copy effect opaque src 100000001fecbf8 (id 9fe0870780 type 0 flags 0 width 1920 height 1080, fmt 8 flags 0 x 1920 y 1080 stride 7680 palette 0 data 100000001fecc28) area 1920x1080+0+0 rop 8
+14956@1567780063.266983:qxl_ring_command_get 0 native
+14956@1567780063.267044:qxl_ring_command_check 0 native
+14956@1567780063.267070:qxl_ring_cursor_check 0 native
+14956@1567780063.267087:qxl_ring_command_check 0 native
+14956@1567780063.267109:qxl_ring_command_req_notification 0
+14955@1567780063.267967:kvm_run_exit cpu_index 2, reason 2
+14955@1567780063.267987:qxl_io_write 0 native addr=7 (QXL_IO_LOG) val=0 size=1 async=0
+14955@1567780063.268015:qxl_io_log 0 qxldd: DrvCopyBits
+
+So if I'm not mistaken (for the nth time), we have KVM_RUN on cpu index 2 here:
+
+14955@1567780063.163720:kvm_vcpu_ioctl cpu_index 2, type 0xae80, arg (nil)
+
+And it returns here :
+
+14955@1567780063.266778:kvm_run_exit cpu_index 2, reason 2
+
+Does that imply guest code is running for ~100ms on that vcpu?
+
+Brad
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+An expert is a person who has found out by his own painful
+experience all the mistakes that one can make in a very
+narrow field. - Niels Bohr
 
