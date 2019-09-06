@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA52CABDA8
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:26:13 +0200 (CEST)
-Received: from localhost ([::1]:58334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E59DABDBC
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:29:31 +0200 (CEST)
+Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6H3s-0001df-G3
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56386)
+	id 1i6H74-0005Os-Al
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56437)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i6GyX-0004N0-6P
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:42 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1i6GyZ-0004Qg-G2
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i6GyW-0004Lq-1M
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:41 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42465)
+ (envelope-from <bmeng.cn@gmail.com>) id 1i6GyY-0004PB-2L
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:43 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:46341)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1i6GyV-0004L1-RT; Fri, 06 Sep 2019 12:20:39 -0400
-Received: by mail-pl1-x642.google.com with SMTP id y1so3350169plp.9;
- Fri, 06 Sep 2019 09:20:39 -0700 (PDT)
+ id 1i6GyX-0004Oi-SS; Fri, 06 Sep 2019 12:20:42 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id t1so3365384plq.13;
+ Fri, 06 Sep 2019 09:20:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references;
- bh=YFM+6j/2FFIb27mlXvjAOgLQE6g6LtNeuy0yp6r54YE=;
- b=m8yvPL+RdE6Ya/TAiWflcYw2+hb0LRzWHFUGPlCVbppd5Bxq8yCEuNPuTrucc16EwC
- 5NRynCEcGX/75bgDzTRn8pEoYfqifIWezupT47YtDREA71sTH7DBX4utrUNR9DlpEd/+
- N1efxtGKox9oY6s1RbQJRwVKo/eVhAOc9OlkqDwhyR0gVfNjHe6ynL5nJZVtsS5E5CDX
- eirn/B+Swb2lqsopGT3rjgkA344CzSG0M7cB6LYNVacLLbI8WNbmtAARHjAwdNwZRNhB
- +z+fIn/3BO79TugzLyEj3i0Y9eron9fd25n8xBLQsXW2FyoU1hFs2PNl7LL06NWn+xYM
- kH5w==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=Mh7NqSnqg949GKUMg+UEQ82JHyryVJO8xE61QsoF82Q=;
+ b=itYPEbMFsgATi7PssDuhIhqMYAo7l2+W1ont/rCJRq9ehzdAx29IJpICTAqHZUrg5c
+ h7L91ircNSKz4XMi3ec0rred0K1PwknkP7Sd8UxB0wtF0/6M73A2F3QUHXWDThLjW5xU
+ Oi4Yuwm4VRNCHW8ho58v7gCyr3PfzjIezXCYrVho/4+jLT0kqf7k+LYmPYaoWf6Zns2P
+ QWk71VbIl5UrZACd4zbL0W160alLVKE3EY35w5Brd5yQoeE4za3K9a+SwT7YIWntjKkO
+ OSveYMkYWH1NhJkvcM9a3Kxu6FJmQB89vRkH0XBIOKSBUUkbkyBU9v7U7LpDbs/DN8Fk
+ QWEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references;
- bh=YFM+6j/2FFIb27mlXvjAOgLQE6g6LtNeuy0yp6r54YE=;
- b=oUuesQmUx3zGWBLPfvxcoLVStL1O1yh2sXiZfJpO0plsXWl99aT2Ki25epe3klpYBQ
- pqEyGyphE6Yo/VxV21ETYHkgqgUvX2KlJ+PEyEORFAcRdwIbsLXju6CW0flOGFALyIEX
- kWQUU3371lkJWb8sCLX3PtyB3s7zKw2O4PbtX2DeH7ZW5iXJ01QDOowPrTVEahO+419k
- uWkpOYCHKOI7V+dr8tmTW6w7m/rp3xE/LxLOxwoHhQdFSNaVt/AX5YuGBncZgWv7DF4V
- F3dBFS6v+zbHsJyQ/D83+HQE7AadQybxAfExMqfk1hLLtBuvFe3oTdaaCdvh0/EUNwa/
- mosw==
-X-Gm-Message-State: APjAAAVuPpoEt1MpMVZziKJ+kie3umszQ0yzciEE+/3Wsq65GdjZzWQu
- QV4EvM8xfyjBuwjlJv+ipfA=
-X-Google-Smtp-Source: APXvYqyPiSgekzywX2wnAPmd3lg0LcZEanMGUGsoc5p6Secc0eSpaOpqUHAcsTXWvfGQhmQcl7YLFg==
-X-Received: by 2002:a17:902:ba16:: with SMTP id
- j22mr9355190pls.253.1567786838959; 
- Fri, 06 Sep 2019 09:20:38 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=Mh7NqSnqg949GKUMg+UEQ82JHyryVJO8xE61QsoF82Q=;
+ b=Ql47Zg5sgLcXRqjYuiFrGuIGJw8HXOdluOM4RKIfUW4mNsnCIrOGeojEkEpNEDRWAc
+ BhKh9Wk2rOnVgZ24bwCZtVJ/YHvjTHHcg9U8PE7yEpnWo6AD0ZT+2KlXyyiEuQOwnQiO
+ XIyfjXNb3AEi7oI6ZcBpCZpHxehu0QDfy6HyOxL/BokJbuUhXQnGZUSEiBHM0ZelQYIt
+ sJR/FrealMiLNi443JXyFRMd/eJItwAJvOToYc6n20HAlCAOzQ811FlpzDH6UQ0DcVYi
+ 4YOeUev0uaGviUjKTHHh6CsvMsSs3NeXR6ku2aVKb52ENeEaYkIy6XiMDzCkWOneYhwl
+ /daw==
+X-Gm-Message-State: APjAAAVLLMOwOUre0LtYPFLd5YO3seQmQ+1OG6q2k9nOu+24KTPllLYu
+ tiwKcKP+wZc6BHe9CpcNb7Y=
+X-Google-Smtp-Source: APXvYqwQHeZhuccggsaPH6esbu57bYrOwYRMRa4BayoHx+MbKXZKijt/KFT5FRlvGr3W4Yw/l6muwQ==
+X-Received: by 2002:a17:902:4381:: with SMTP id
+ j1mr9653798pld.318.1567786841065; 
+ Fri, 06 Sep 2019 09:20:41 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id f89sm11146228pje.20.2019.09.06.09.20.38
+ by smtp.gmail.com with ESMTPSA id f89sm11146228pje.20.2019.09.06.09.20.40
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Fri, 06 Sep 2019 09:20:38 -0700 (PDT)
+ Fri, 06 Sep 2019 09:20:40 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Fri,  6 Sep 2019 09:20:00 -0700
-Message-Id: <1567786819-22142-14-git-send-email-bmeng.cn@gmail.com>
+Date: Fri,  6 Sep 2019 09:20:02 -0700
+Message-Id: <1567786819-22142-16-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1567786819-22142-1-git-send-email-bmeng.cn@gmail.com>
 References: <1567786819-22142-1-git-send-email-bmeng.cn@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: [Qemu-devel] [PATCH v8 13/32] riscv: sifive_e: prci: Update the
- PRCI register block size
+X-Received-From: 2607:f8b0:4864:20::62d
+Subject: [Qemu-devel] [PATCH v8 15/32] riscv: Add a sifive_cpu.h to include
+ both E and U cpu type defines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,12 +85,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the PRCI register block size is set to 0x8000, but in fact
-0x1000 is enough, which is also what the manual says.
+Group SiFive E and U cpu type defines into one header file.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
 
 Changes in v8: None
@@ -97,36 +100,95 @@ Changes in v4: None
 Changes in v3: None
 Changes in v2: None
 
- hw/riscv/sifive_e_prci.c         | 2 +-
- include/hw/riscv/sifive_e_prci.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ include/hw/riscv/sifive_cpu.h | 31 +++++++++++++++++++++++++++++++
+ include/hw/riscv/sifive_e.h   |  7 +------
+ include/hw/riscv/sifive_u.h   |  7 +------
+ 3 files changed, 33 insertions(+), 12 deletions(-)
+ create mode 100644 include/hw/riscv/sifive_cpu.h
 
-diff --git a/hw/riscv/sifive_e_prci.c b/hw/riscv/sifive_e_prci.c
-index bfe9b13..a1c0d44 100644
---- a/hw/riscv/sifive_e_prci.c
-+++ b/hw/riscv/sifive_e_prci.c
-@@ -87,7 +87,7 @@ static void sifive_e_prci_init(Object *obj)
-     SiFiveEPRCIState *s = SIFIVE_E_PRCI(obj);
- 
-     memory_region_init_io(&s->mmio, obj, &sifive_e_prci_ops, s,
--                          TYPE_SIFIVE_E_PRCI, 0x8000);
-+                          TYPE_SIFIVE_E_PRCI, SIFIVE_E_PRCI_REG_SIZE);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
- 
-     s->hfrosccfg = (SIFIVE_E_PRCI_HFROSCCFG_RDY | SIFIVE_E_PRCI_HFROSCCFG_EN);
-diff --git a/include/hw/riscv/sifive_e_prci.h b/include/hw/riscv/sifive_e_prci.h
-index c4b76aa..698b0b4 100644
---- a/include/hw/riscv/sifive_e_prci.h
-+++ b/include/hw/riscv/sifive_e_prci.h
-@@ -47,6 +47,8 @@ enum {
-     SIFIVE_E_PRCI_PLLOUTDIV_DIV1 = (1 << 8)
- };
- 
-+#define SIFIVE_E_PRCI_REG_SIZE  0x1000
+diff --git a/include/hw/riscv/sifive_cpu.h b/include/hw/riscv/sifive_cpu.h
+new file mode 100644
+index 0000000..1367996
+--- /dev/null
++++ b/include/hw/riscv/sifive_cpu.h
+@@ -0,0 +1,31 @@
++/*
++ * SiFive CPU types
++ *
++ * Copyright (c) 2017 SiFive, Inc.
++ * Copyright (c) 2019 Bin Meng <bmeng.cn@gmail.com>
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
 +
- #define TYPE_SIFIVE_E_PRCI      "riscv.sifive.e.prci"
++#ifndef HW_SIFIVE_CPU_H
++#define HW_SIFIVE_CPU_H
++
++#if defined(TARGET_RISCV32)
++#define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E31
++#define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U34
++#elif defined(TARGET_RISCV64)
++#define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E51
++#define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U54
++#endif
++
++#endif /* HW_SIFIVE_CPU_H */
+diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
+index 9c868dd..25ce7aa 100644
+--- a/include/hw/riscv/sifive_e.h
++++ b/include/hw/riscv/sifive_e.h
+@@ -20,6 +20,7 @@
+ #define HW_SIFIVE_E_H
  
- #define SIFIVE_E_PRCI(obj) \
+ #include "hw/riscv/riscv_hart.h"
++#include "hw/riscv/sifive_cpu.h"
+ #include "hw/riscv/sifive_gpio.h"
+ 
+ #define TYPE_RISCV_E_SOC "riscv.sifive.e.soc"
+@@ -84,10 +85,4 @@ enum {
+ #define SIFIVE_E_PLIC_CONTEXT_BASE 0x200000
+ #define SIFIVE_E_PLIC_CONTEXT_STRIDE 0x1000
+ 
+-#if defined(TARGET_RISCV32)
+-#define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E31
+-#elif defined(TARGET_RISCV64)
+-#define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E51
+-#endif
+-
+ #endif
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index be021ce..f25bad8 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -21,6 +21,7 @@
+ 
+ #include "hw/net/cadence_gem.h"
+ #include "hw/riscv/riscv_hart.h"
++#include "hw/riscv/sifive_cpu.h"
+ 
+ #define TYPE_RISCV_U_SOC "riscv.sifive.u.soc"
+ #define RISCV_U_SOC(obj) \
+@@ -78,10 +79,4 @@ enum {
+ #define SIFIVE_U_PLIC_CONTEXT_BASE 0x200000
+ #define SIFIVE_U_PLIC_CONTEXT_STRIDE 0x1000
+ 
+-#if defined(TARGET_RISCV32)
+-#define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U34
+-#elif defined(TARGET_RISCV64)
+-#define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U54
+-#endif
+-
+ #endif
 -- 
 2.7.4
 
