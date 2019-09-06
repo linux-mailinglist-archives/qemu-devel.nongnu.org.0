@@ -2,36 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3EFAC067
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 21:22:57 +0200 (CEST)
-Received: from localhost ([::1]:59614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724A1AC08B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 21:27:16 +0200 (CEST)
+Received: from localhost ([::1]:59654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6Jou-0004F4-DC
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 15:22:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
+	id 1i6Jt5-00015S-GI
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 15:27:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1i6Jjq-0008RQ-IR
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 15:17:43 -0400
+ (envelope-from <eblake@redhat.com>) id 1i6Jmy-0003JJ-Bl
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 15:20:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1i6Jjp-0006TG-4f
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 15:17:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54256)
+ (envelope-from <eblake@redhat.com>) id 1i6Jmx-0007jV-9r
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 15:20:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57790)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1i6Jjk-0006Rp-Jn; Fri, 06 Sep 2019 15:17:36 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1i6Jmx-0007j2-1Y
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 15:20:55 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8A912307D923;
- Fri,  6 Sep 2019 19:17:35 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 41D863064FD1;
+ Fri,  6 Sep 2019 19:20:54 +0000 (UTC)
 Received: from [10.3.116.234] (ovpn-116-234.phx2.redhat.com [10.3.116.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8124A5D9CA;
- Fri,  6 Sep 2019 19:17:34 +0000 (UTC)
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20190906173201.7926-1-mlevitsk@redhat.com>
- <20190906173201.7926-3-mlevitsk@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E5C310018FF;
+ Fri,  6 Sep 2019 19:20:51 +0000 (UTC)
+To: "Moger, Babu" <Babu.Moger@amd.com>, "ssg.sos.staff"
+ <ssg.sos.staff@amd.com>, "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "mst@redhat.com" <mst@redhat.com>, "pbonzini@redhat.com"
+ <pbonzini@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>
+References: <156779689013.21957.1631551572950676212.stgit@localhost.localdomain>
+ <156779713686.21957.6192568272184346850.stgit@localhost.localdomain>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,22 +64,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <3ac8c65d-4bca-372c-d863-1f794292f5cb@redhat.com>
-Date: Fri, 6 Sep 2019 14:17:33 -0500
+Message-ID: <3b898b6f-8fc2-a20c-cf8e-e13b6c6e12e1@redhat.com>
+Date: Fri, 6 Sep 2019 14:20:50 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190906173201.7926-3-mlevitsk@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0iqS0fRPWpYyCGWf5fZ6eMQTwoQMS4Apk"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <156779713686.21957.6192568272184346850.stgit@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 06 Sep 2019 19:17:35 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Fri, 06 Sep 2019 19:20:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/3] block/qcow2: fix the corruption when
- rebasing luks encrypted files
+Subject: Re: [Qemu-devel] [RFC 2 PATCH 06/16] hw/core: Add core complex id
+ in X86CPU topology
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,158 +91,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0iqS0fRPWpYyCGWf5fZ6eMQTwoQMS4Apk
-Content-Type: multipart/mixed; boundary="T0YQTX68UUMQLbRA5RJx9nFJU4DG36eJB";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
-Message-ID: <3ac8c65d-4bca-372c-d863-1f794292f5cb@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH 2/3] block/qcow2: fix the corruption when
- rebasing luks encrypted files
-References: <20190906173201.7926-1-mlevitsk@redhat.com>
- <20190906173201.7926-3-mlevitsk@redhat.com>
-In-Reply-To: <20190906173201.7926-3-mlevitsk@redhat.com>
-
---T0YQTX68UUMQLbRA5RJx9nFJU4DG36eJB
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 9/6/19 12:32 PM, Maxim Levitsky wrote:
-> This fixes subltle corruption introduced by luks threaded encryption
-
-subtle
-
-> in commit 8ac0f15f335
->=20
-> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=3D1745922
->=20
-> The corruption happens when we do
->    * write to two or more unallocated clusters at once
->    * write doesn't fully cover nether first nor last cluster
-
-s/nether/neither/
-
-or even:
-
-write doesn't fully cover either the first or the last cluster
-
->=20
-> In this case, when allocating the new clusters we COW both area
-
-areas
-
-> prior to the write and after the write, and we encrypt them.
->=20
-> The above mentioned commit accidently made it so, we encrypt the
-
-accidentally
-
-s/made it so, we encrypt/changed the encryption of/
-
-> second COW are using the physical cluster offset of the first area.
-
-s/are using/to use/
-
->=20
-> Fix this by:
->  * remove the offset_in_cluster parameter of do_perform_cow_encrypt
->    since it is misleading. That offset can be larger that cluster size.=
-
->    instead just add the start and end COW are offsets to both host and =
-guest offsets
->    that do_perform_cow_encrypt receives.
->=20
-> *  in do_perform_cow_encrypt, remove the cluster offset from the host_o=
-ffset
->    And thus pass correctly to the qcow2_co_encrypt, the host cluster of=
-fset and full guest offset
->=20
->=20
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+On 9/6/19 2:12 PM, Moger, Babu wrote:
+> Introduce cpu core complex id(ccx_id) in x86CPU topology.
+> Each CCX can have upto 4 cores and share same L3 cache.
+> This information is required to build the topology in
+> new apyc mode.
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
 > ---
->  block/qcow2-cluster.c | 26 +++++++++++++++-----------
->  1 file changed, 15 insertions(+), 11 deletions(-)
->=20
 
-> +++ b/block/qcow2-cluster.c
-> @@ -463,20 +463,20 @@ static int coroutine_fn do_perform_cow_read(Block=
-DriverState *bs,
->  }
-> =20
->  static bool coroutine_fn do_perform_cow_encrypt(BlockDriverState *bs,
-> -                                                uint64_t guest_cluster=
-_offset,
-> -                                                uint64_t host_cluster_=
-offset,
-> -                                                unsigned offset_in_clu=
-ster,
-> +                                                uint64_t guest_offset,=
+> +++ b/qapi/machine.json
+> @@ -597,9 +597,10 @@
+>  # @node-id: NUMA node ID the CPU belongs to
+>  # @socket-id: socket number within node/board the CPU belongs to
+>  # @die-id: die number within node/board the CPU belongs to (Since 4.1)
+> +# @ccx-id: core complex number within node/board the CPU belongs to (Since 4.1)
 
-> +                                                uint64_t host_offset,
->                                                  uint8_t *buffer,
->                                                  unsigned bytes)
->  {
->      if (bytes && bs->encrypted) {
->          BDRVQcow2State *s =3D bs->opaque;
-> -        assert((offset_in_cluster & ~BDRV_SECTOR_MASK) =3D=3D 0);
-> +        assert((guest_offset & ~BDRV_SECTOR_MASK) =3D=3D 0);
-> +        assert((host_offset & ~BDRV_SECTOR_MASK) =3D=3D 0);
->          assert((bytes & ~BDRV_SECTOR_MASK) =3D=3D 0);
+4.2 now
 
-Pre-existing, but we could use QEMU_IS_ALIGNED(x, BDRV_SECTOR_SIZE) for
-slightly more legibility than open-coding the bit operation.
+>  # @core-id: core number within die the CPU belongs to# @thread-id: thread number within core the CPU belongs to
 
-Neat trick about power-of-2 alignment checks:
+Pre-existing, but let's fix that missing newline while you're here.
 
-assert(QEMU_IS_ALIGNED(offset_in_cluster | guest_offset |
-                       host_offset | bytes, BDRV_SECTOR_SIZE));
-
-gives the same result in one assertion.  (I've used it elsewhere in the
-code base, but I'm not opposed to one assert per variable if you think
-batching is too dense.)
-
-I'll let Dan review the actual code change, but offhand it makes sense
-to me.
-
---=20
+-- 
 Eric Blake, Principal Software Engineer
 Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
-
-
---T0YQTX68UUMQLbRA5RJx9nFJU4DG36eJB--
-
---0iqS0fRPWpYyCGWf5fZ6eMQTwoQMS4Apk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1ysM0ACgkQp6FrSiUn
-Q2qYOAgAoCB4JnljInewA6mCc68LXGQ299Xh/CUlakGLFT5FgoJuku1AXHReqzoR
-Pvi3ehh3cVsJh5+cg5Jfg+Vy5EvJVNetUPZnu3SnRZnMNntd0ifykYC+IlJffr94
-GF8I33khr1T0RIYAfDfXYRuck37VLeIsT0T/Kczn7CarF75bQV4KLC8qKRthyYci
-9PEhNIdykvHikFHhmwmuEZ+09ZwdzKLgkxvWake6mWujEUZHK9eAascArsNZv4KV
-y06MhtvcYN5mND5trX5QyB6yO8d3VbRy4BBwxjuo8b0I1cFGskfIelIw8LBK3Spy
-AMrKutfcweKV69o5Dff5iVZCzseoyQ==
-=zRb4
------END PGP SIGNATURE-----
-
---0iqS0fRPWpYyCGWf5fZ6eMQTwoQMS4Apk--
 
