@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835D1AB3A3
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 10:03:44 +0200 (CEST)
-Received: from localhost ([::1]:53206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA60AB3AE
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 10:06:54 +0200 (CEST)
+Received: from localhost ([::1]:53238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i69Da-000096-Qi
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 04:03:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41940)
+	id 1i69Gf-0003t5-Ef
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 04:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1i6988-0003Na-Tq
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 03:58:06 -0400
+ (envelope-from <david@redhat.com>) id 1i698A-0003Qg-U1
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 03:58:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1i6987-0002ff-Mq
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 03:58:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50982)
+ (envelope-from <david@redhat.com>) id 1i6989-0002k0-JT
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 03:58:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56958)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1i6987-0002e2-AL; Fri, 06 Sep 2019 03:58:03 -0400
+ id 1i6989-0002hM-8d; Fri, 06 Sep 2019 03:58:05 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 995DC3082B43;
- Fri,  6 Sep 2019 07:58:02 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 89819C05683F;
+ Fri,  6 Sep 2019 07:58:04 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-162.ams2.redhat.com [10.36.117.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED4351001B05;
- Fri,  6 Sep 2019 07:58:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E00E010002B8;
+ Fri,  6 Sep 2019 07:58:02 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  6 Sep 2019 09:57:25 +0200
-Message-Id: <20190906075750.14791-4-david@redhat.com>
+Date: Fri,  6 Sep 2019 09:57:26 +0200
+Message-Id: <20190906075750.14791-5-david@redhat.com>
 In-Reply-To: <20190906075750.14791-1-david@redhat.com>
 References: <20190906075750.14791-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 06 Sep 2019 07:58:02 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Fri, 06 Sep 2019 07:58:04 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 03/28] s390x/tcg: MVCL: Detect destructive
- overlaps
+Subject: [Qemu-devel] [PATCH v2 04/28] s390x/tcg: MVCL: Process max 2k bytes
+ at a time
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,54 +62,92 @@ Cc: Florian Weimer <fweimer@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll have to zero-out unused bit positions, so amke sure to write the
-addresses back.
+Process max 2k bytes at a time, writing back registers between the
+accesses. The instruction is interruptible.
+    "For operands longer than 2K bytes, access exceptions are not
+    recognized for locations more than 2K bytes beyond the current locati=
+on
+    being processed."
+
+MVCL handling is quite different than MVCLE/MVCLU handling, so split up
+the handlers.
+
+We'll deal with fast_memmove() and fast_memset() not probing
+reads/writes properly later. Also, we'll defer interrupt handling, as
+that will require more thought, add a TODO for that.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mem_helper.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ target/s390x/mem_helper.c | 44 +++++++++++++++++++++++++++++++++------
+ 1 file changed, 38 insertions(+), 6 deletions(-)
 
 diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 3152bdafe2..2361ed6d54 100644
+index 2361ed6d54..2e22c183bd 100644
 --- a/target/s390x/mem_helper.c
 +++ b/target/s390x/mem_helper.c
-@@ -52,6 +52,19 @@ static inline bool psw_key_valid(CPUS390XState *env, u=
-int8_t psw_key)
-     return true;
+@@ -799,19 +799,51 @@ uint32_t HELPER(mvcl)(CPUS390XState *env, uint32_t =
+r1, uint32_t r2)
+     uint64_t srclen =3D env->regs[r2 + 1] & 0xffffff;
+     uint64_t src =3D get_address(env, r2);
+     uint8_t pad =3D env->regs[r2 + 1] >> 24;
+-    uint32_t cc;
++    uint32_t cc, cur_len;
+=20
+     if (is_destructive_overlap(env, dest, src, MIN(srclen, destlen))) {
+         cc =3D 3;
++    } else if (srclen =3D=3D destlen) {
++        cc =3D 0;
++    } else if (destlen < srclen) {
++        cc =3D 1;
+     } else {
+-        cc =3D do_mvcl(env, &dest, &destlen, &src, &srclen, pad, 1, ra);
++        cc =3D 2;
+     }
+=20
+-    env->regs[r1 + 1] =3D deposit64(env->regs[r1 + 1], 0, 24, destlen);
+-    env->regs[r2 + 1] =3D deposit64(env->regs[r2 + 1], 0, 24, srclen);
+-    set_address_zero(env, r1, dest);
+-    set_address_zero(env, r2, src);
++    /* We might have to zero-out some bits even if there was no action. =
+*/
++    if (unlikely(!destlen || cc =3D=3D 3)) {
++        set_address_zero(env, r2, src);
++        set_address_zero(env, r1, dest);
++        return cc;
++    } else if (!srclen) {
++        set_address_zero(env, r2, src);
++    }
+=20
++    /*
++     * Only perform one type of type of operation (move/pad) in one step=
+.
++     * Process up to 2k bytes.
++     */
++    while (destlen) {
++        cur_len =3D MIN(destlen, 2048);
++        if (!srclen) {
++            fast_memset(env, dest, pad, cur_len, ra);
++        } else {
++            cur_len =3D MIN(cur_len, srclen);
++
++            fast_memmove(env, dest, src, cur_len, ra);
++            src =3D wrap_address(env, src + cur_len);
++            srclen -=3D cur_len;
++            env->regs[r2 + 1] =3D deposit64(env->regs[r2 + 1], 0, 24, sr=
+clen);
++            set_address_zero(env, r2, src);
++        }
++        dest =3D wrap_address(env, dest + cur_len);
++        destlen -=3D cur_len;
++        env->regs[r1 + 1] =3D deposit64(env->regs[r1 + 1], 0, 24, destle=
+n);
++        set_address_zero(env, r1, dest);
++
++        /* TODO: Deliver interrupts. */
++    }
+     return cc;
  }
 =20
-+static bool is_destructive_overlap(CPUS390XState *env, uint64_t dest,
-+                                   uint64_t src, uint32_t len)
-+{
-+    if (!len || src =3D=3D dest) {
-+        return false;
-+    }
-+    /* Take care of wrapping at the end of address space. */
-+    if (unlikely(wrap_address(env, src + len - 1) < src)) {
-+        return dest > src || dest <=3D wrap_address(env, src + len - 1);
-+    }
-+    return dest > src && dest <=3D src + len - 1;
-+}
-+
- /* Reduce the length so that addr + len doesn't cross a page boundary.  =
-*/
- static inline uint32_t adj_len_to_page(uint32_t len, uint64_t addr)
- {
-@@ -788,7 +801,11 @@ uint32_t HELPER(mvcl)(CPUS390XState *env, uint32_t r=
-1, uint32_t r2)
-     uint8_t pad =3D env->regs[r2 + 1] >> 24;
-     uint32_t cc;
-=20
--    cc =3D do_mvcl(env, &dest, &destlen, &src, &srclen, pad, 1, ra);
-+    if (is_destructive_overlap(env, dest, src, MIN(srclen, destlen))) {
-+        cc =3D 3;
-+    } else {
-+        cc =3D do_mvcl(env, &dest, &destlen, &src, &srclen, pad, 1, ra);
-+    }
-=20
-     env->regs[r1 + 1] =3D deposit64(env->regs[r1 + 1], 0, 24, destlen);
-     env->regs[r2 + 1] =3D deposit64(env->regs[r2 + 1], 0, 24, srclen);
 --=20
 2.21.0
 
