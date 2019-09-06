@@ -2,66 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1326FABC39
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 17:23:34 +0200 (CEST)
-Received: from localhost ([::1]:57510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12FDABC74
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 17:27:26 +0200 (CEST)
+Received: from localhost ([::1]:57546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6G5F-0005F6-1O
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 11:23:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37791)
+	id 1i6G90-0006VN-1p
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 11:27:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38607)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i6G4O-0004mC-Du
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 11:22:41 -0400
+ (envelope-from <thuth@redhat.com>) id 1i6G8C-000646-1T
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 11:26:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i6G4N-0004QO-6G
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 11:22:40 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:44378)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>) id 1i6G4M-0004Pe-UB
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 11:22:39 -0400
-Received: by mail-ed1-x543.google.com with SMTP id p2so5460250edx.11
- for <qemu-devel@nongnu.org>; Fri, 06 Sep 2019 08:22:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YGID0zQzQ2u6z/9DA/vc9He8qiZ7X8IMkHHBqHWoAYM=;
- b=rkzPv7XGswxlEa012wSTuu7RX+BePQcPTJEm6lDQRrymL6nukLJRUHs9VeVGaIPz8n
- IXrryyGfCWZPViQGWYVF3b+/tJR0LHvrGu4xe91aOQKBu4P3kHyvRr4yuzCPOd4CMLKi
- ei4E3h+6VB85WkJUt2p9U0Dt11PoIVG2gddQiFXikmABApM50Z0ZkbInqXarWm45jCU2
- iWUhI5zIkwNq+tP5yk3N2MX2L8eFaTrHdn/6MpdDjosOxn+xUbqMINPbziL5E8qHNySQ
- NCPCR0H6+XB4N8PpGGKJunbcvIWTNeTSGOPKLBIC4oZaot8ki30Z3hQ7Y70g9prEkB/B
- 8NEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YGID0zQzQ2u6z/9DA/vc9He8qiZ7X8IMkHHBqHWoAYM=;
- b=depkxh6/udLYPBIrnOWA8ut9HXo+ndAPZBaQyj4+cyzbD4hWJ9GTCWTPwJIpEhWZfD
- wjePXLewXSMjy9L9NNJUmT05YWd2lCH8D+Fh7+uQbRC5x+vsBKLt9QTu5h0he5B8AnMt
- Vq7ENxr7eW6MBgfp1RRjQSSmnPI/J5/TZjIKzos/wvwhag7nR0ScK1sJfpdwCnAWC/yl
- 6whHSdKu080nObIXHA5vMmP7CuEh/XIYJBBLY7V3VNyit86jNhwGMC9WNPxf+1TIGaGg
- fS4Th2t9guNJsa4QLNiFVeX2BHiXBT4GR2c+HfqwtwN6R/f5dx/zR7kiS5yjacwoKbuh
- rC/w==
-X-Gm-Message-State: APjAAAUbGzbZ4CQIslaFnoOpfNBB/KIc2esjTUrttdoV63JHn7Vj3Za6
- wvvFEskUgfslw/W8qLJUENWhaB0IrgppOKpEpYI=
-X-Google-Smtp-Source: APXvYqyvc49RXhEyjpCvPWtX5RZyjQGMJdvVn2124nTWsiHzLLdqQhXJff8j+ZkRaq3Q/Jk35KIk4Fn83XMwr5Bf86s=
-X-Received: by 2002:a17:906:361a:: with SMTP id
- q26mr7889948ejb.43.1567783357318; 
- Fri, 06 Sep 2019 08:22:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <1567782585-19854-1-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1567782585-19854-1-git-send-email-bmeng.cn@gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 6 Sep 2019 23:22:26 +0800
-Message-ID: <CAEUhbmXJA_L_TwF16sZD9rUsFXAmbg-b6ABCUrbJTOTVfZORgA@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::543
-Subject: Re: [Qemu-devel] [PATCH] riscv: hw: Remove duplicated "hw/hw.h"
- inclusion
+ (envelope-from <thuth@redhat.com>) id 1i6G8A-0006uq-G3
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 11:26:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41716)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1i6G8A-0006uH-AV; Fri, 06 Sep 2019 11:26:34 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 533DF3082E40;
+ Fri,  6 Sep 2019 15:26:33 +0000 (UTC)
+Received: from thuth.com (ovpn-116-159.ams2.redhat.com [10.36.116.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 19E645D9E1;
+ Fri,  6 Sep 2019 15:26:28 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  6 Sep 2019 17:26:24 +0200
+Message-Id: <20190906152624.14784-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Fri, 06 Sep 2019 15:26:33 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] tests/Makefile: test-char does not need
+ libqtest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,44 +51,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 6, 2019 at 11:09 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Commit a27bd6c779ba ("Include hw/qdev-properties.h less") wrongly
-> added "hw/hw.h" to sifive_prci.c and sifive_test.c.
->
-> Another inclusion of "hw/hw.h" was later added via
-> commit 650d103d3ea9 ("Include hw/hw.h exactly where needed"), that
-> resulted in duplicated inclusion of "hw/hw.h".
->
-> Fixes: a27bd6c779ba ("Include hw/qdev-properties.h less")
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> ---
->
->  hw/riscv/sifive_prci.c | 1 -
->  hw/riscv/sifive_test.c | 1 -
->  2 files changed, 2 deletions(-)
->
+No need to link the libqtest objects here.
 
-Sigh, I just realized that this patch has inter-dependencies with the
-following patch series:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/Makefile.include | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-riscv: sifive_test: Add reset functionality
-http://patchwork.ozlabs.org/patch/1158526/
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index a35431ca0a..7ee2f9cb5d 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -525,7 +525,7 @@ tests/check-qlit$(EXESUF): tests/check-qlit.o $(test-util-obj-y)
+ tests/check-qom-interface$(EXESUF): tests/check-qom-interface.o $(test-qom-obj-y)
+ tests/check-qom-proplist$(EXESUF): tests/check-qom-proplist.o $(test-qom-obj-y)
+ 
+-tests/test-char$(EXESUF): tests/test-char.o $(test-util-obj-y) $(qtest-obj-y) $(test-io-obj-y) $(chardev-obj-y) tests/socket-helpers.o
++tests/test-char$(EXESUF): tests/test-char.o $(test-util-obj-y) $(test-io-obj-y) $(chardev-obj-y) tests/socket-helpers.o
+ tests/test-coroutine$(EXESUF): tests/test-coroutine.o $(test-block-obj-y)
+ tests/test-aio$(EXESUF): tests/test-aio.o $(test-block-obj-y)
+ tests/test-aio-multithread$(EXESUF): tests/test-aio-multithread.o $(test-block-obj-y)
+-- 
+2.18.1
 
-and
-
-riscv: sifive_u: Improve the emulation fidelity of sifive_u machine
-http://patchwork.ozlabs.org/project/qemu-devel/list/?series=128443
-
-Thus cannot be applied cleanly on top of qemu/master.
-
-If I create this patch on qemu/master, that means the other 2 series
-needs to be rebased again.
-
-Regards,
-Bin
 
