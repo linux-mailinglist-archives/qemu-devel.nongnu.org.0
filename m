@@ -2,64 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9D5ABFF1
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 20:56:16 +0200 (CEST)
-Received: from localhost ([::1]:59344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E3DABFFA
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 20:57:58 +0200 (CEST)
+Received: from localhost ([::1]:59364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6JP5-0008Vl-Tx
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 14:56:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37830)
+	id 1i6JQj-0001zu-H3
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 14:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <scw@google.com>) id 1i6JMi-0007Oy-LM
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 14:53:49 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1i6JOH-0008Jr-Hq
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 14:55:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <scw@google.com>) id 1i6JMh-0005M6-Dr
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 14:53:48 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:35374)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <scw@google.com>) id 1i6JMh-0005Ik-50
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 14:53:47 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id f4so14323215ion.2
- for <qemu-devel@nongnu.org>; Fri, 06 Sep 2019 11:53:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BNT/apBYVRKdNu4aRiHzrMcSDpmxfMEc8o48qXNFakc=;
- b=VSSFnPG0Hns5hP/wAXEXkOSk76SWnGQo3SXlzOMvnYDDF+RkKJF2WkhwBltx97fkM5
- AIpvioVQzzXBXmbSvZp/GmVVduAofzGMvjMN5P9Rvd62J14zzaxl/RsfIQt7WcuMf2I5
- O2Yg7aXYGGjQEyGB4rJYSGls8eIllP+p/lbYF/Rs8vDJYvQLQZf3KETh6rtx6zYJ43BD
- aDpTQD43jBjmZKLXwwCDxw7C4w3vZIFD6ryB4RC2CCNayKHWTfsbBVn/7XnQAmEAsAXd
- ipefd7FTQmF/Fg+YkCFrUZTy1S2VmcqGV63RcHCsPwEsBGSuA6J5rYEcuA7blSxnS+Um
- ptCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BNT/apBYVRKdNu4aRiHzrMcSDpmxfMEc8o48qXNFakc=;
- b=hzKVVoNDc/a9bEKSmzPiy1gjgz9aoucXglilMu3IFrwZiExnl2FYbtHhKGZ58Z5+hI
- q0opQPrdvnt7QWh4YD2DxMg7FTIs/1iX9u7uhRueryWqACY49gcpzAGSCTCc7wRST5zm
- YW0gSYZEDKpKgkSBUSjtOXh+AGXRvnpayzrdLrfcc2Fgi6wF7A3CsAOr9PxqrCiFpf7H
- Va/VPhdoSazIOvKdlDPJD4o3SHQnvqwudYar+ms5oW43t1mislCn6VN09RDMIZaaOVFT
- c4vtyWudmYee90SUxB1yZ3NxmOw/n92Tr+Lz7WxHcJFvl6mZZrO6CS1v5YkmCElKxqmi
- 15rQ==
-X-Gm-Message-State: APjAAAXBvp/LXnE+uvqTLAxw94VOIlVImo/9R3C6boMQLa5QHu83paT7
- CAA0fa0RSAGNGsGKxuZSRnjXWxQH/JDubqbPlDIxgQ==
-X-Google-Smtp-Source: APXvYqywGtGPJ5cpYe55jM1KSPg3VikygX91jli2DtXCaA9IfBS4w/9flQkfNAmFV3u6gzZvY1sSfx77SPBOfVfeXbo=
-X-Received: by 2002:a02:90c3:: with SMTP id c3mr11353193jag.71.1567796025776; 
- Fri, 06 Sep 2019 11:53:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190822231443.172099-1-scw@google.com>
-In-Reply-To: <20190822231443.172099-1-scw@google.com>
-Date: Fri, 6 Sep 2019 11:53:34 -0700
-Message-ID: <CAF3nBxgqTKYGJDpPZ50bzJwk+sjCed2dudsGtLLPA_Eh4P=sFA@mail.gmail.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="0000000000003ea1310591e6f5ee"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d2b
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH 0/2] Adding some setsockopt() options
+ (envelope-from <mlevitsk@redhat.com>) id 1i6JOG-0007dG-3r
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 14:55:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43744)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1i6JOB-0007YG-3P; Fri, 06 Sep 2019 14:55:19 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3AFC53060396;
+ Fri,  6 Sep 2019 18:55:17 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C57065D9CA;
+ Fri,  6 Sep 2019 18:55:14 +0000 (UTC)
+Message-ID: <4dacc6bde5bc87d48f5d3b255a7a44bbded782ef.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Date: Fri, 06 Sep 2019 21:55:13 +0300
+In-Reply-To: <e7f3febc-63cb-ea09-0761-45ecae74ad14@redhat.com>
+References: <20190906173201.7926-1-mlevitsk@redhat.com>
+ <20190906173201.7926-2-mlevitsk@redhat.com>
+ <e7f3febc-63cb-ea09-0761-45ecae74ad14@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Fri, 06 Sep 2019 18:55:17 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/3] block/qcow2: refactoring of threaded
+ encryption code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,126 +58,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Shu-Chun Weng via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Shu-Chun Weng <scw@google.com>
-Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P . =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-stable <qemu-stable@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003ea1310591e6f5ee
-Content-Type: text/plain; charset="UTF-8"
+On Fri, 2019-09-06 at 13:00 -0500, Eric Blake wrote:
+> On 9/6/19 12:31 PM, Maxim Levitsky wrote:
+> > This commit tries to clarify few function arguments,
+> > and add comments describing the encrypt/decrypt interface
+> > 
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > ---
+> >  block/qcow2-cluster.c |  8 +++----
+> >  block/qcow2-threads.c | 53 ++++++++++++++++++++++++++++++++++---------
+> >  2 files changed, 46 insertions(+), 15 deletions(-)
+> > 
+> > +++ b/block/qcow2-threads.c
+> > @@ -234,15 +234,19 @@ static int qcow2_encdec_pool_func(void *opaque)
+> >  }
+> >  
+> >  static int coroutine_fn
+> > -qcow2_co_encdec(BlockDriverState *bs, uint64_t file_cluster_offset,
+> > -                  uint64_t offset, void *buf, size_t len, Qcow2EncDecFunc func)
+> 
+> Pre-existing bug in alignment...
+No problem will fix.
 
-Ping. Patchwork links:
+> 
+> > +qcow2_co_encdec(BlockDriverState *bs, uint64_t host_cluster_offset,
+> > +                  uint64_t guest_offset, void *buf, size_t len,
+> > +                  Qcow2EncDecFunc func)
+> 
+> ...so this would be a great time to fix it.
+> 
+> >  {
+> >      BDRVQcow2State *s = bs->opaque;
+> > +
+> > +    uint64_t offset = s->crypt_physical_offset ?
+> > +        host_cluster_offset + offset_into_cluster(s, guest_offset) :
+> > +        guest_offset;
+> > +
+> >      Qcow2EncDecData arg = {
+> >          .block = s->crypto,
+> > -        .offset = s->crypt_physical_offset ?
+> > -                      file_cluster_offset + offset_into_cluster(s, offset) :
+> > -                      offset,
+> > +        .offset = offset,
+> 
+> I'm ambivalent on whether the new 'offset' variable gains us anything.
+> But it doesn't hurt.
+I added it, so that I won't need to wrap the lines even more that 
+they are wrapped already since I increased the length of
+the parameter names a bit.
 
-http://patchwork.ozlabs.org/patch/1151884/
-http://patchwork.ozlabs.org/patch/1151883/
+> 
+> 
+> >          .buf = buf,
+> >          .len = len,
+> >          .func = func,
+> > @@ -251,18 +255,45 @@ qcow2_co_encdec(BlockDriverState *bs, uint64_t file_cluster_offset,
+> >      return qcow2_co_process(bs, qcow2_encdec_pool_func, &arg);
+> >  }
+> >  
+> > +
+> > +/*
+> > + * qcow2_co_encrypt()
+> > + *
+> > + * Encrypts a sector size aligned contiguous area
+> > + *
+> > + * @host_cluster_offset - on disk offset of the cluster in which
+> > + *                        the buffer resides
+> > + *
+> > + * @guest_offset - guest (virtual) offset of the buffer
+> > + * @buf - buffer with the data to encrypt
+> > + * @len - length of the buffer
+> > + *
+> > + * Note that the area is not cluster aligned and might cross a cluster
+> > + * boundary
+> 
+> Umm, how is it possible for a sector to cross a cluster boundary?  All
+> clusters are sector-aligned, and encryption only works on aligned
+> sectors.  Oh, I see - if @len is a multiple larger than sector size,
+> then we have multiple sectors, and then indeed we may cross clusters.
+> But then the docs about being 'a sector size aligned contiguous area' is
+> not quite right.
 
-On Thu, Aug 22, 2019 at 4:14 PM Shu-Chun Weng <scw@google.com> wrote:
+Why? the written area is always both aligned on _sector_ boundary
+and multiple of the sector size. At least that what I see from
+the existing asserts.
 
-> Shu-Chun Weng (2):
->   linux-user: add missing UDP and IPv6 setsockopt options
->   linux-user: time stamping options for setsockopt()
->
->  linux-user/generic/sockbits.h |  4 ++++
->  linux-user/mips/sockbits.h    |  4 ++++
->  linux-user/syscall.c          | 16 +++++++++++++---
->  3 files changed, 21 insertions(+), 3 deletions(-)
->
-> --
-> 2.23.0.187.g17f5b7556c-goog
->
->
 
---0000000000003ea1310591e6f5ee
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+> 
+> > + *
+> > + *
+> > + */
+> >  int coroutine_fn
+> > -qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
+> > -                 uint64_t offset, void *buf, size_t len)
+> > +qcow2_co_encrypt(BlockDriverState *bs, uint64_t host_cluster_offset,
+> > +                 uint64_t guest_offset, void *buf, size_t len)
+> >  {
+> > -    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
+> > +    return qcow2_co_encdec(bs, host_cluster_offset, guest_offset, buf, len,
+> >                               qcrypto_block_encrypt);
+> 
+> 
+> Another alignment worth fixing up while in the area.
+> 
+> >  }
+> >  
+> > +
+> > +/*
+> > + * qcow2_co_decrypt()
+> > + *
+> > + * Decrypts a sector size aligned contiguous area
+> > + * Same function as qcow2_co_encrypt
+> > + *
+> > + */
+> > +
+> >  int coroutine_fn
+> > -qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
+> > -                 uint64_t offset, void *buf, size_t len)
+> > +qcow2_co_decrypt(BlockDriverState *bs, uint64_t host_cluster_offset,
+> > +                 uint64_t guest_offset, void *buf, size_t len)
+> >  {
+> > -    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
+> > +    return qcow2_co_encdec(bs, host_cluster_offset, guest_offset, buf, len,
+> >                               qcrypto_block_decrypt);
+> 
+> and again.
+> 
+> >  }
+> > 
+> 
+> 
 
-MIIS4QYJKoZIhvcNAQcCoIIS0jCCEs4CAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ghBHMIIEXDCCA0SgAwIBAgIOSBtqDm4P/739RPqw/wcwDQYJKoZIhvcNAQELBQAwZDELMAkGA1UE
-BhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExOjA4BgNVBAMTMUdsb2JhbFNpZ24gUGVy
-c29uYWxTaWduIFBhcnRuZXJzIENBIC0gU0hBMjU2IC0gRzIwHhcNMTYwNjE1MDAwMDAwWhcNMjEw
-NjE1MDAwMDAwWjBMMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTEiMCAG
-A1UEAxMZR2xvYmFsU2lnbiBIViBTL01JTUUgQ0EgMTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
-AQoCggEBALR23lKtjlZW/17kthzYcMHHKFgywfc4vLIjfq42NmMWbXkNUabIgS8KX4PnIFsTlD6F
-GO2fqnsTygvYPFBSMX4OCFtJXoikP2CQlEvO7WooyE94tqmqD+w0YtyP2IB5j4KvOIeNv1Gbnnes
-BIUWLFxs1ERvYDhmk+OrvW7Vd8ZfpRJj71Rb+QQsUpkyTySaqALXnyztTDp1L5d1bABJN/bJbEU3
-Hf5FLrANmognIu+Npty6GrA6p3yKELzTsilOFmYNWg7L838NS2JbFOndl+ce89gM36CW7vyhszi6
-6LqqzJL8MsmkP53GGhf11YMP9EkmawYouMDP/PwQYhIiUO0CAwEAAaOCASIwggEeMA4GA1UdDwEB
-/wQEAwIBBjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwEgYDVR0TAQH/BAgwBgEB/wIB
-ADAdBgNVHQ4EFgQUyzgSsMeZwHiSjLMhleb0JmLA4D8wHwYDVR0jBBgwFoAUJiSSix/TRK+xsBtt
-r+500ox4AAMwSwYDVR0fBEQwQjBAoD6gPIY6aHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9ncy9n
-c3BlcnNvbmFsc2lnbnB0bnJzc2hhMmcyLmNybDBMBgNVHSAERTBDMEEGCSsGAQQBoDIBKDA0MDIG
-CCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzANBgkqhkiG
-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
---0000000000003ea1310591e6f5ee--
+
+Best regards,
+	Thanks for the review,
+		Maxim Levitsky
+
+
 
