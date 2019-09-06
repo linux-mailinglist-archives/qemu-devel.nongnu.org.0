@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB65ABDD9
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:38:51 +0200 (CEST)
-Received: from localhost ([::1]:58498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AABDABDDB
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:39:08 +0200 (CEST)
+Received: from localhost ([::1]:58500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6HG6-0000AY-19
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56649)
+	id 1i6HGM-0000YC-NB
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:39:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56768)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1i6Gyj-0004hn-UM
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:55 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1i6Gys-0004qg-3Z
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:21:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1i6Gyh-0004Wm-S1
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:20:53 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39977)
+ (envelope-from <bmeng.cn@gmail.com>) id 1i6Gyp-0004bc-QK
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:21:01 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:46533)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1i6Gyh-0004WG-JU; Fri, 06 Sep 2019 12:20:51 -0400
-Received: by mail-pf1-x441.google.com with SMTP id x127so4825864pfb.7;
- Fri, 06 Sep 2019 09:20:51 -0700 (PDT)
+ id 1i6Gyn-0004ZR-D2; Fri, 06 Sep 2019 12:20:59 -0400
+Received: by mail-pl1-x641.google.com with SMTP id t1so3365714plq.13;
+ Fri, 06 Sep 2019 09:20:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:subject:date:message-id:in-reply-to:references;
- bh=mpOBZsfANLx4jYRLNgFN6PX8rKpeoYKm0YW6RSuKwR8=;
- b=BQSN9DZbERXfeUIxyg4qWMjPzZXlgzR1b8RV9ZYGRLl6x8d1Zt2X2EcMi7316rfmw6
- 0g3B9VY8xpKXoLAEzac2icG+ocjIsZW54g5v4JAPCHYMwfR8gGfLzP93soM5uM5UChvD
- eZ4ov2mCiPEA6V7ojrBHnA5mEeGqvjwxoeneoXzvQCSdNBK562fimUghY/knk3S3Fbkw
- 0DpYNm+NT0AaiXuxL73ny2BlByzcmLPld6A5SJU7zQvENuQlIIpLB3NcuYoIS3UGocsz
- HOMan3dLqpsuzAoxykYkjSjDJs+/yo1EXzL5zuXJhz2s7uQisnQ6HQwCe/4/v6UpKvD3
- fr1Q==
+ bh=c5K2gaTJfUjFgYGSZaUE8Ni+ud+kTdfF2ZoIRZwvUdY=;
+ b=qhhf/YyRH0en3PST2au5TGvM3bZULYjBBQ0eFHGfmbppr/CnMVx4wxd0NlK4wtVahJ
+ x9HUru5P6QM/EFqtnMtRRwj7ovj/uIapN8dCRqcPVztmyDNrAvjBQL4hdK2hdIDjTva/
+ mW168BUFIBmxxmmnI3kR5yxm0OavPbNphCNP7CSryRW8dPyHG+fc/7jlSZqj6uHhzOPL
+ hsMGe2bJW6qURsqcIGcwuskGteLWdX8FsOJ2BNAgMhcW2wcwKH3jKFZ40TTBMCE1etPo
+ 5ks4iFAV7QX54GQQ13lB1IW+EaZhGgUpE78x/RebuGsLo+SiA+X/UZxyGnw5q0oY5xoX
+ JAWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references;
- bh=mpOBZsfANLx4jYRLNgFN6PX8rKpeoYKm0YW6RSuKwR8=;
- b=rkcrWah2h0USqGOcJemVwqrX9QuDGtVg3cfmjZYx4XrPUPFKUbdtDQpy/dGAG3R+YC
- eZlqBmsIOwFDekxsg5HnNyM/kqvCN4kK+9QBJub8dhwgssF4K9+pRXm5K/xHnNDcwqXI
- sbNrtMZ5chTCytf3dq4IHdkt2Ll4nlZAy6UZR6Rp1DH9n1FzmhddTbo7NzMX0DATz/f2
- ExtJ4CBAcU9KgXgnWbjUFXdWwYHVADe2O+a96QN6lMRHGf7DRwINenhcCgkw3oFp1cQB
- DlIx6tLa95cLJkO3mpCv2+EMzClC68I5R1NUFB2mhT/glpcKxt7LzEq36vHDkwRdxyN+
- 3uHg==
-X-Gm-Message-State: APjAAAWnrCACbpiNlI7Im0ndq085+xvrOGrpsIu43r7Jl4bJH9l2yxHK
- MkAeaU6cL5NqIidUF8cpvE0=
-X-Google-Smtp-Source: APXvYqxEndgRUJdfwMPP5C8xUjNyybCWWVzfnxHqcD7fcvkKIPdpcHZMI/Hg2um9uB7b8nS5jK1kjQ==
-X-Received: by 2002:a63:2349:: with SMTP id u9mr5995052pgm.214.1567786850602; 
- Fri, 06 Sep 2019 09:20:50 -0700 (PDT)
+ bh=c5K2gaTJfUjFgYGSZaUE8Ni+ud+kTdfF2ZoIRZwvUdY=;
+ b=Ett2gSCr8oDu3OjAkye98Hq9iBbH5WnsKpyRi133sFCVx+UOGj3Tl0Ax95ryYOKMBB
+ Up0s/MDBxI+yECybkn50xjDD6mTPKDnn1w18txzt76vz/Mk9r3l4T32DLHIQv0Lqq09J
+ U8a4E6Wu+a9RVVkEegFoxJX1VfNOUcN5dZY6meVjJxSyCE0+jgYQUS/pRjuBAn7ZGtY1
+ 6s1xsUPrkUuK9O9WOvoXV+QeyiR+ml/yl6uQk36puSEqoKjO6ZFFNVan7acjkiurURAz
+ zi6bA5ZfF5T/jQcPgkQnXAru5QSBci6wg3VzPeDeCxTFnMgAf0hd42dY7UbbjLRyO0V8
+ IJ6A==
+X-Gm-Message-State: APjAAAW/kXItICtO6AXQQwEmTSkXbsLDIXejy918Ii7yp2luPxlU045H
+ U7N398WiP2j+DpSfBmYJjtw=
+X-Google-Smtp-Source: APXvYqyPMcw2jTZKqMGzzwaJh0ryN57gCc6/ATH4w2hZIxH34YBdqcowlfwSZiZ0EZRRJVJr5tq+cg==
+X-Received: by 2002:a17:902:7483:: with SMTP id
+ h3mr9869570pll.163.1567786855146; 
+ Fri, 06 Sep 2019 09:20:55 -0700 (PDT)
 Received: from localhost.localdomain (unknown-224-80.windriver.com.
  [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id f89sm11146228pje.20.2019.09.06.09.20.49
+ by smtp.gmail.com with ESMTPSA id f89sm11146228pje.20.2019.09.06.09.20.53
  (version=TLS1 cipher=AES128-SHA bits=128/128);
- Fri, 06 Sep 2019 09:20:50 -0700 (PDT)
+ Fri, 06 Sep 2019 09:20:54 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
  Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Date: Fri,  6 Sep 2019 09:20:12 -0700
-Message-Id: <1567786819-22142-26-git-send-email-bmeng.cn@gmail.com>
+Date: Fri,  6 Sep 2019 09:20:16 -0700
+Message-Id: <1567786819-22142-30-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <1567786819-22142-1-git-send-email-bmeng.cn@gmail.com>
 References: <1567786819-22142-1-git-send-email-bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH v8 25/32] riscv: sifive_u: Update UART base
- addresses and IRQs
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: [Qemu-devel] [PATCH v8 29/32] riscv: sifive_u: Instantiate OTP
+ memory with a serial number
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,59 +81,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This updates the UART base address and IRQs to match the hardware.
+This adds an OTP memory with a given serial number to the sifive_u
+machine. With such support, the upstream U-Boot for sifive_fu540
+boots out of the box on the sifive_u machine.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Jonathan Behrens <fintelia@gmail.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 ---
 
 Changes in v8: None
 Changes in v7: None
 Changes in v6: None
-Changes in v5: None
-Changes in v4: None
-Changes in v3:
-- update IRQ numbers of both UARTs to match hardware as well
+Changes in v5:
+- create sifive_u_otp block directly in the machine codes, instead
+  of calling sifive_u_otp_create()
 
+Changes in v4: None
+Changes in v3: None
 Changes in v2: None
 
- hw/riscv/sifive_u.c         | 4 ++--
- include/hw/riscv/sifive_u.h | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/riscv/sifive_u.c         | 9 +++++++++
+ include/hw/riscv/sifive_u.h | 3 +++
+ 2 files changed, 12 insertions(+)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index ea21095..a3ee1ec 100644
+index 5ca3793..4803e47 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -62,8 +62,8 @@ static const struct MemmapEntry {
-     [SIFIVE_U_CLINT] =    {  0x2000000,    0x10000 },
-     [SIFIVE_U_PLIC] =     {  0xc000000,  0x4000000 },
+@@ -10,6 +10,7 @@
+  * 1) CLINT (Core Level Interruptor)
+  * 2) PLIC (Platform Level Interrupt Controller)
+  * 3) PRCI (Power, Reset, Clock, Interrupt)
++ * 4) OTP (One-Time Programmable) memory with stored serial number
+  *
+  * This board currently generates devicetree dynamically that indicates at least
+  * two harts and up to five harts.
+@@ -64,10 +65,12 @@ static const struct MemmapEntry {
      [SIFIVE_U_PRCI] =     { 0x10000000,     0x1000 },
--    [SIFIVE_U_UART0] =    { 0x10013000,     0x1000 },
--    [SIFIVE_U_UART1] =    { 0x10023000,     0x1000 },
-+    [SIFIVE_U_UART0] =    { 0x10010000,     0x1000 },
-+    [SIFIVE_U_UART1] =    { 0x10011000,     0x1000 },
+     [SIFIVE_U_UART0] =    { 0x10010000,     0x1000 },
+     [SIFIVE_U_UART1] =    { 0x10011000,     0x1000 },
++    [SIFIVE_U_OTP] =      { 0x10070000,     0x1000 },
      [SIFIVE_U_DRAM] =     { 0x80000000,        0x0 },
      [SIFIVE_U_GEM] =      { 0x100900FC,     0x2000 },
  };
+ 
++#define OTP_SERIAL          1
+ #define GEM_REVISION        0x10070109
+ 
+ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+@@ -422,6 +425,9 @@ static void riscv_sifive_u_soc_init(Object *obj)
+ 
+     sysbus_init_child_obj(obj, "prci", &s->prci, sizeof(s->prci),
+                           TYPE_SIFIVE_U_PRCI);
++    sysbus_init_child_obj(obj, "otp", &s->otp, sizeof(s->otp),
++                          TYPE_SIFIVE_U_OTP);
++    qdev_prop_set_uint32(DEVICE(&s->otp), "serial", OTP_SERIAL);
+     sysbus_init_child_obj(obj, "gem", &s->gem, sizeof(s->gem),
+                           TYPE_CADENCE_GEM);
+ }
+@@ -498,6 +504,9 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     object_property_set_bool(OBJECT(&s->prci), true, "realized", &err);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->prci), 0, memmap[SIFIVE_U_PRCI].base);
+ 
++    object_property_set_bool(OBJECT(&s->otp), true, "realized", &err);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->otp), 0, memmap[SIFIVE_U_OTP].base);
++
+     for (i = 0; i < SIFIVE_U_PLIC_NUM_SOURCES; i++) {
+         plic_gpios[i] = qdev_get_gpio_in(DEVICE(s->plic), i);
+     }
 diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index bb46745..7dfd1cb 100644
+index 7dfd1cb..4d4733c 100644
 --- a/include/hw/riscv/sifive_u.h
 +++ b/include/hw/riscv/sifive_u.h
-@@ -65,8 +65,8 @@ enum {
- };
+@@ -23,6 +23,7 @@
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/riscv/sifive_cpu.h"
+ #include "hw/riscv/sifive_u_prci.h"
++#include "hw/riscv/sifive_u_otp.h"
  
- enum {
--    SIFIVE_U_UART0_IRQ = 3,
--    SIFIVE_U_UART1_IRQ = 4,
-+    SIFIVE_U_UART0_IRQ = 4,
-+    SIFIVE_U_UART1_IRQ = 5,
-     SIFIVE_U_GEM_IRQ = 0x35
- };
+ #define TYPE_RISCV_U_SOC "riscv.sifive.u.soc"
+ #define RISCV_U_SOC(obj) \
+@@ -39,6 +40,7 @@ typedef struct SiFiveUSoCState {
+     RISCVHartArrayState u_cpus;
+     DeviceState *plic;
+     SiFiveUPRCIState prci;
++    SiFiveUOTPState otp;
+     CadenceGEMState gem;
+ } SiFiveUSoCState;
  
+@@ -60,6 +62,7 @@ enum {
+     SIFIVE_U_PRCI,
+     SIFIVE_U_UART0,
+     SIFIVE_U_UART1,
++    SIFIVE_U_OTP,
+     SIFIVE_U_DRAM,
+     SIFIVE_U_GEM
+ };
 -- 
 2.7.4
 
