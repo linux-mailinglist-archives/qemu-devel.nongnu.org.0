@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18306ABD4D
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:06:43 +0200 (CEST)
-Received: from localhost ([::1]:58036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3CBABD54
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 18:09:18 +0200 (CEST)
+Received: from localhost ([::1]:58082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6Gkz-0005Hi-Vr
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:06:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51445)
+	id 1i6GnU-0000Ut-Ho
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 12:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51511)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anton.nefedov@virtuozzo.com>) id 1i6GgH-0002R7-NO
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:01:51 -0400
+ (envelope-from <anton.nefedov@virtuozzo.com>) id 1i6GgK-0002UN-Hy
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:01:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anton.nefedov@virtuozzo.com>) id 1i6GgG-00058M-8D
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:01:49 -0400
-Received: from relay.sw.ru ([185.231.240.75]:37904)
+ (envelope-from <anton.nefedov@virtuozzo.com>) id 1i6GgJ-0005DB-8z
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 12:01:52 -0400
+Received: from relay.sw.ru ([185.231.240.75]:37926)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anton.nefedov@virtuozzo.com>)
- id 1i6GgD-00051V-6a; Fri, 06 Sep 2019 12:01:45 -0400
+ id 1i6GgF-00055L-HX; Fri, 06 Sep 2019 12:01:47 -0400
 Received: from [172.16.25.154] (helo=xantnef-ws.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <anton.nefedov@virtuozzo.com>)
- id 1i6GgB-0005vz-RN; Fri, 06 Sep 2019 19:01:43 +0300
+ id 1i6GgE-0005vz-8X; Fri, 06 Sep 2019 19:01:46 +0300
 From: Anton Nefedov <anton.nefedov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Date: Fri,  6 Sep 2019 19:01:16 +0300
-Message-Id: <20190906160120.70239-6-anton.nefedov@virtuozzo.com>
+Date: Fri,  6 Sep 2019 19:01:19 +0300
+Message-Id: <20190906160120.70239-9-anton.nefedov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190906160120.70239-1-anton.nefedov@virtuozzo.com>
 References: <20190906160120.70239-1-anton.nefedov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v9 5/9] scsi: store unmap offset and nb_sectors
- in request struct
+Subject: [Qemu-devel] [PATCH v9 8/9] file-posix: account discard operations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,50 +52,83 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-it allows to report it in the error handler
+This will help to identify how many of the user-issued discard operations
+(accounted on a device level) have actually suceeded down on the host file
+(even though the numbers will not be exactly the same if non-raw format
+driver is used (e.g. qcow2 sending metadata discards)).
+
+Note that these numbers will not include discards triggered by
+write-zeroes + MAY_UNMAP calls.
 
 Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/scsi/scsi-disk.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ block/file-posix.c | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 915641a0f1..b3dd21800d 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1608,8 +1608,6 @@ static void scsi_unmap_complete_noio(UnmapCBData *data, int ret)
- {
-     SCSIDiskReq *r = data->r;
-     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
--    uint64_t sector_num;
--    uint32_t nb_sectors;
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 71f168ee2f..6548dda309 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -161,6 +161,11 @@ typedef struct BDRVRawState {
+     bool needs_alignment;
+     bool drop_cache;
+     bool check_cache_dropped;
++    struct {
++        uint64_t discard_nb_ok;
++        uint64_t discard_nb_failed;
++        uint64_t discard_bytes_ok;
++    } stats;
  
-     assert(r->req.aiocb == NULL);
-     if (scsi_disk_req_check_error(r, ret, false)) {
-@@ -1617,16 +1615,18 @@ static void scsi_unmap_complete_noio(UnmapCBData *data, int ret)
+     PRManager *pr_mgr;
+ } BDRVRawState;
+@@ -2728,11 +2733,22 @@ static void coroutine_fn raw_co_invalidate_cache(BlockDriverState *bs,
+ #endif /* !__linux__ */
+ }
+ 
++static void raw_account_discard(BDRVRawState *s, uint64_t nbytes, int ret)
++{
++    if (ret) {
++        s->stats.discard_nb_failed++;
++    } else {
++        s->stats.discard_nb_ok++;
++        s->stats.discard_bytes_ok += nbytes;
++    }
++}
++
+ static coroutine_fn int
+ raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int bytes, bool blkdev)
+ {
+     BDRVRawState *s = bs->opaque;
+     RawPosixAIOData acb;
++    int ret;
+ 
+     acb = (RawPosixAIOData) {
+         .bs             = bs,
+@@ -2746,7 +2762,9 @@ raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int bytes, bool blkdev)
+         acb.aio_type |= QEMU_AIO_BLKDEV;
      }
  
-     if (data->count > 0) {
--        sector_num = ldq_be_p(&data->inbuf[0]);
--        nb_sectors = ldl_be_p(&data->inbuf[8]) & 0xffffffffULL;
--        if (!check_lba_range(s, sector_num, nb_sectors)) {
-+        r->sector = ldq_be_p(&data->inbuf[0])
-+            * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
-+        r->sector_count = (ldl_be_p(&data->inbuf[8]) & 0xffffffffULL)
-+            * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
-+        if (!check_lba_range(s, r->sector, r->sector_count)) {
-             scsi_check_condition(r, SENSE_CODE(LBA_OUT_OF_RANGE));
-             goto done;
-         }
+-    return raw_thread_pool_submit(bs, handle_aiocb_discard, &acb);
++    ret = raw_thread_pool_submit(bs, handle_aiocb_discard, &acb);
++    raw_account_discard(s, bytes, ret);
++    return ret;
+ }
  
-         r->req.aiocb = blk_aio_pdiscard(s->qdev.conf.blk,
--                                        sector_num * s->qdev.blocksize,
--                                        nb_sectors * s->qdev.blocksize,
-+                                        r->sector * BDRV_SECTOR_SIZE,
-+                                        r->sector_count * BDRV_SECTOR_SIZE,
-                                         scsi_unmap_complete, data);
-         data->count--;
-         data->inbuf += 16;
+ static coroutine_fn int
+@@ -3369,10 +3387,12 @@ static int fd_open(BlockDriverState *bs)
+ static coroutine_fn int
+ hdev_co_pdiscard(BlockDriverState *bs, int64_t offset, int bytes)
+ {
++    BDRVRawState *s = bs->opaque;
+     int ret;
+ 
+     ret = fd_open(bs);
+     if (ret < 0) {
++        raw_account_discard(s, bytes, ret);
+         return ret;
+     }
+     return raw_do_pdiscard(bs, offset, bytes, true);
 -- 
 2.17.1
 
