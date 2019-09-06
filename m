@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEB3ABC91
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 17:34:16 +0200 (CEST)
-Received: from localhost ([::1]:57608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8AA7ABC8F
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 17:33:46 +0200 (CEST)
+Received: from localhost ([::1]:57602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6GFb-0001re-5o
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 11:34:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44356)
+	id 1i6GF7-0001C8-9V
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 11:33:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i6GCq-0008UO-N3
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 11:31:29 -0400
+ (envelope-from <crosa@redhat.com>) id 1i6GBf-0007n1-AE
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 11:31:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i6GCh-0003mv-LA
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 11:31:23 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33502)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i6GCh-0003kb-4d
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 11:31:15 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i6GCf-0004nS-CR
- for <qemu-devel@nongnu.org>; Fri, 06 Sep 2019 15:31:13 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5C0402E80D5
- for <qemu-devel@nongnu.org>; Fri,  6 Sep 2019 15:31:13 +0000 (UTC)
+ (envelope-from <crosa@redhat.com>) id 1i6GBJ-0001qH-9r
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 11:30:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58206)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1i6GBI-0001go-5r
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 11:29:48 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 537AC883823;
+ Fri,  6 Sep 2019 15:29:43 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-121-64.rdu2.redhat.com
+ [10.10.121.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A2495C22C;
+ Fri,  6 Sep 2019 15:29:42 +0000 (UTC)
+Date: Fri, 6 Sep 2019 11:29:40 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20190906152940.GA24347@localhost.localdomain>
+References: <20190829013125.GG16342@umbus.fritz.box>
+ <20190830175648.GE3694@habkost.net>
+ <20190831014834.GC12065@umbus.fritz.box>
+ <20190904195717.GA2311@localhost.localdomain>
+ <20190905020924.GB2120@umbus.fritz.box>
+ <20190905133824.GA12364@localhost.localdomain>
+ <20190906003416.GA12820@umbus.fritz.box>
+ <20190906144358.GK4617@habkost.net>
+ <20190906145202.GA21925@localhost.localdomain>
+ <20190906151415.GM4617@habkost.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190906151415.GM4617@habkost.net>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Fri, 06 Sep 2019 15:29:43 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Sep 2019 15:16:57 -0000
-From: Rafael David Tinoco <rafaeldtinoco@kernelpath.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=In Progress; importance=Medium; assignee=rafaeldtinoco@kernelpath.com; 
-X-Launchpad-Bug-Tags: qemu-img
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dannf jnsnow lizhengui rafaeldtinoco
-X-Launchpad-Bug-Reporter: dann frazier (dannf)
-X-Launchpad-Bug-Modifier: Rafael David Tinoco (rafaeldtinoco)
-References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
-Message-Id: <156778301771.6413.10991238517951487967.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19044";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7c92e214a78c40ca3db78641addb4ea0a9ee38ce
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1805256] Re: qemu-img hangs on high core count
- ARM system
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Cryptic errors from PIP install if missing
+ openssl-devel
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,67 +68,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
+Cc: ldoktor@redhat.com, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OOhh nm on the virtual environment test, as I just remembered we don't
-have KVM on 2nd level for aarch64 yet (at least in ARMv8 implementing
-virt extension). I'll try to reproduce in the real env only.
+On Fri, Sep 06, 2019 at 12:14:15PM -0300, Eduardo Habkost wrote:
+> On Fri, Sep 06, 2019 at 10:52:02AM -0400, Cleber Rosa wrote:
+> > On Fri, Sep 06, 2019 at 11:43:58AM -0300, Eduardo Habkost wrote:
+> > > On Fri, Sep 06, 2019 at 10:34:16AM +1000, David Gibson wrote:
+> > > > On Thu, Sep 05, 2019 at 09:38:24AM -0400, Cleber Rosa wrote:
+> > > > > On Thu, Sep 05, 2019 at 12:09:24PM +1000, David Gibson wrote:
+> > > > > > On Wed, Sep 04, 2019 at 03:57:17PM -0400, Cleber Rosa wrote:
+> > > > > > >=20
+> > > > > > > Hi David,
+> > > > > > >=20
+> > > > > > > I've pushed a branch here (most of the commits have already=
+ been sent
+> > > > > > > separately):
+> > > > > > >=20
+> > > > > > >    https://github.com/clebergnu/qemu/tree/ppc64
+> > > > > > >=20
+> > > > > > > I've tested on a RHEL 8 ppc64le Power 9, and it seems to wo=
+rk for me.
+> > > > > > > My steps for building QEMU:
+> > > > > > >=20
+> > > > > > >   - Configured with: '/home/cleber/src/qemu/configure' '--e=
+nable-slirp=3Dgit' '--python=3D/usr/bin/python3' '--target-list=3Dx86_64-=
+softmmu,ppc64-softmmu,arm-softmmu,aarch64-softmmu,mips-softmmu,mipsel-sof=
+tmmu,mips64-softmmu,mips64el-softmmu,sh4-softmmu,s390x-softmmu,alpha-soft=
+mmu,m68k-softmmu,riscv64-softmmu'
+> > > > > > >   - make
+> > > > > > >   - make check-acceptance
+> > > > > > >=20
+> > > > > > > Would you be able to test if that branch works smoothly for=
+ you?
+> > > > > >=20
+> > > > > > So, with this tree I'm no longer getting problems if openssl-=
+devel is
+> > > > > > not installed, so that much looks good.
+> > > > > >=20
+> > > > > > I am getting some different errors - I was seeing this before=
+ (with
+> > > > > > openssl-devel installed) sometimes, but only sometimes.  I ha=
+ven't yet
+> > > > > > worked out a pattern for when they appeared.  They also don't=
+ appear
+> > > > > > to be fatal, the rest of the tests seem to be running ok.  An=
+y ideas?
+> > > > > >=20
+> > > > > >  VENV    /home/dwg/qemu/build/rhel8/tests/venv
+> > > > > >   PIP     /home/dwg/qemu/tests/requirements.txt
+> > > > > >   AVOCADO tests/acceptance
+> > > > > > Error running method "run" of plugin "html": 'Namespace' obje=
+ct has no attribute 'get'
+> > > > > > Error running method "run" of plugin "varianter_cit": 'Namesp=
+ace' object has no attribute 'get'
+> > > > >=20
+> > > > > Hi David,
+> > > > >=20
+> > > > > Yes, those should not be fatal.  Anyway, they are caused by two=
+ things:
+> > > > >=20
+> > > > >  1) A second set of Avocado plugins installation with different=
+ versions
+> > > > >     than the Avocado installation on QEMU's tests venv
+> > > >=20
+> > > > Ah!  That'll be from the Avocado setup that Luka=C5=A1 set up on =
+there for
+> > > > some different tests.
+> > > >=20
+> > > > >  2) The tests' venv, which is created with "--system-site-packa=
+ges",
+> > > > >     option that is described as "Give the virtual environment a=
+ccess
+> > > > >     to the system site-packages dir."
+> > > > >=20
+> > > > > The motivation to have "--system-site-packages" is that, if the=
+ user
+> > > > > had any of the "requirements.txt" depedencies installed system =
+wide,
+> > > > > the venv would simply use it and skip downloads.  Maybe we shou=
+ld make
+> > > > > that an optional feature, disabled by default, so that the test=
+'s venv
+> > > > > is better isolated and more predictable by default.
+> > > >=20
+> > > > If pip doesn't have good enough version tracking that it's verify=
+ing
+> > > > the correct versions of the installed packages as well as the
+> > > > presence, then yes I tend to agree that keeping it better isolate=
+d
+> > > > would be preferable.
+> > >=20
+> > > pip ensures the right version of packages we request are
+> > > installed, but Avocado plugins are separate packages and we don't
+> > > tell pip anything about the plugins we are not using (but could be
+> > > already installed in the system).
+> >=20
+> > Right.
+> >=20
+> > >=20
+> > > Cleber, does Avocado have any kind of plugin API versioning, so
+> > > it could detect incompatible plugins before using them?
+> > >
+> >=20
+> > It does not.  And while making an exact version match requirement
+> > between plugins and core Avocado would be easy, it would put unfair
+> > (IMO) requirements on plugin writers.  It's quite possible that
+> > an external plugin would work for many different avocado versions,
+> > and the author wouldn't feel like updating it just to satisfy the
+> > version check.
+>=20
+> I agree that tying a plugin to a specific Avocado version seems
+> too strict.  Are there any rules about API stability that plugin
+> writers can expect Avocado to follow?
+>
 
--- =
+TBH the plugin interfaces[1] are quite stable (have changed very
+little), but:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1805256
+ 1) They're still part of the "avocado.core" namespace, which means
+    the stability is a best effort, and not a promise/guarantee
 
-Title:
-  qemu-img hangs on high core count ARM system
+ 2) Most plugins make use of other "avocado.core" modules, which
+    follow the same logic as #1
 
-Status in QEMU:
-  Confirmed
-Status in qemu package in Ubuntu:
-  In Progress
+It's a known fact that it'd be good to have a supportable plugin
+API[2], but we haven't had the resources to implement that.
 
-Bug description:
-  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
-  frequently hangs (~50% of the time) with this command:
+> >=20
+> > I'm not quite sure we should be trying to solve this problem here, bu=
+t
+> > I'm open to suggestions.
+>=20
+> This will probably become a minor problem once we stop using
+> --system-site-packages by default.
+>
 
-  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+Exactly, I think at this moment, this is the simple and best course of
+action.
 
-  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
-  qcow2->qcow2 conversion happens to be something uvtool does every time
-  it fetches images.
+> --=20
+> Eduardo
 
-  Once hung, attaching gdb gives the following backtrace:
 
-  (gdb) bt
-  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
-274213760, =
+Thanks,
+- Cleber.
 
-      timeout=3D<optimized out>, timeout@entry=3D0x0, sigmask=3D0xffffc123b=
-950)
-      at ../sysdeps/unix/sysv/linux/ppoll.c:39
-  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
-ptimized out>, =
-
-      __fds=3D<optimized out>) at /usr/include/aarch64-linux-gnu/bits/poll2=
-.h:77
-  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>, =
-
-      timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.c:322
-  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
-      at util/main-loop.c:233
-  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
-  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
-g.c:1980
-  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
-img.c:2456
-  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
--img.c:4975
-
-  Reproduced w/ latest QEMU git (@ 53744e0a182)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1805256/+subscriptions
+[1] - https://github.com/avocado-framework/avocado/blob/master/avocado/co=
+re/plugin_interfaces.py
+[2] - https://trello.com/c/rKIfx7rY/1285-create-a-sufficient-and-supporta=
+ble-plugin-api
 
