@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B72EAB822
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 14:29:21 +0200 (CEST)
-Received: from localhost ([::1]:55558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50AC6AB827
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Sep 2019 14:30:35 +0200 (CEST)
+Received: from localhost ([::1]:55570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6DMe-0006nv-6s
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 08:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49485)
+	id 1i6DNp-0007q2-SI
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 08:30:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49681)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1i6DLR-0006Id-1E
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 08:28:05 -0400
+ (envelope-from <berrange@redhat.com>) id 1i6DMg-0007DB-5l
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 08:29:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1i6DLQ-0002l2-1a
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 08:28:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55232)
+ (envelope-from <berrange@redhat.com>) id 1i6DMe-00038P-P7
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 08:29:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42124)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1i6DLL-0002ho-MT; Fri, 06 Sep 2019 08:27:59 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1i6DMc-00037O-9k; Fri, 06 Sep 2019 08:29:18 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 26A93109EFC3;
- Fri,  6 Sep 2019 12:27:58 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3E623308A958;
+ Fri,  6 Sep 2019 12:29:17 +0000 (UTC)
 Received: from redhat.com (ovpn-112-50.ams2.redhat.com [10.36.112.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B5DB5C1D4;
- Fri,  6 Sep 2019 12:27:50 +0000 (UTC)
-Date: Fri, 6 Sep 2019 13:27:47 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EBF4F5D9CA;
+ Fri,  6 Sep 2019 12:29:11 +0000 (UTC)
+Date: Fri, 6 Sep 2019 13:29:08 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Maxim Levitsky <mlevitsk@redhat.com>
-Message-ID: <20190906122747.GZ5119@redhat.com>
+Message-ID: <20190906122908.GA5119@redhat.com>
 References: <20190826135103.22410-1-mlevitsk@redhat.com>
- <20190826135103.22410-4-mlevitsk@redhat.com>
+ <20190826135103.22410-5-mlevitsk@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190826135103.22410-4-mlevitsk@redhat.com>
+In-Reply-To: <20190826135103.22410-5-mlevitsk@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Fri, 06 Sep 2019 12:27:58 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Fri, 06 Sep 2019 12:29:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 03/13] qcrypto-luks: rename some fields
- in QCryptoBlockLUKSHeader
+Subject: Re: [Qemu-devel] [PATCH v2 04/13] qcrypto-luks: don't overwrite
+ cipher_mode in header
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,16 +67,63 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 26, 2019 at 04:50:53PM +0300, Maxim Levitsky wrote:
-> * key_bytes -> master_key_len
-> * payload_offset =3D payload_offset_sector (to emphasise that this isn'=
-t byte offset)
-> * key_offset -> key_offset_sector - same as above for luks slots
+On Mon, Aug 26, 2019 at 04:50:54PM +0300, Maxim Levitsky wrote:
+> This way we can store the header we loaded, which
+> will be used in key management code
 >=20
 > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 > ---
->  crypto/block-luks.c | 91 +++++++++++++++++++++++----------------------
->  1 file changed, 47 insertions(+), 44 deletions(-)
+>  crypto/block-luks.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+> index f12fa2d270..e9ae3f6baa 100644
+> --- a/crypto/block-luks.c
+> +++ b/crypto/block-luks.c
+> @@ -645,6 +645,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+>      QCryptoHashAlgorithm hash;
+>      QCryptoHashAlgorithm ivhash;
+>      g_autofree char *password =3D NULL;
+> +    g_autofree char *cipher_mode =3D NULL;
+> =20
+>      if (!(flags & QCRYPTO_BLOCK_OPEN_NO_IO)) {
+>          if (!options->u.luks.key_secret) {
+> @@ -701,6 +702,8 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+>          goto fail;
+>      }
+> =20
+> +    cipher_mode =3D g_strdup(luks->header.cipher_mode);
+> +
+>      /*
+>       * The cipher_mode header contains a string that we have
+>       * to further parse, of the format
+> @@ -709,11 +712,11 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+>       *
+>       * eg  cbc-essiv:sha256, cbc-plain64
+>       */
+> -    ivgen_name =3D strchr(luks->header.cipher_mode, '-');
+> +    ivgen_name =3D strchr(cipher_mode, '-');
+>      if (!ivgen_name) {
+>          ret =3D -EINVAL;
+>          error_setg(errp, "Unexpected cipher mode string format %s",
+> -                   luks->header.cipher_mode);
+> +                cipher_mode);
+
+nitpick - align with the (
+
+>          goto fail;
+>      }
+>      *ivgen_name =3D '\0';
+> @@ -735,7 +738,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+>          }
+>      }
+> =20
+> -    ciphermode =3D qcrypto_block_luks_cipher_mode_lookup(luks->header.=
+cipher_mode,
+> +    ciphermode =3D qcrypto_block_luks_cipher_mode_lookup(cipher_mode,
+>                                                         &local_err);
+>      if (local_err) {
+>          ret =3D -ENOTSUP;
 
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
