@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9327AC766
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Sep 2019 17:54:11 +0200 (CEST)
-Received: from localhost ([::1]:35804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89FEAC768
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Sep 2019 17:56:42 +0200 (CEST)
+Received: from localhost ([::1]:35830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6d2Q-0001XC-RH
-	for lists+qemu-devel@lfdr.de; Sat, 07 Sep 2019 11:54:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48781)
+	id 1i6d4r-0003hD-Pc
+	for lists+qemu-devel@lfdr.de; Sat, 07 Sep 2019 11:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48813)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <th.huth@gmail.com>) id 1i6cwR-0003lH-7m
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 11:48:00 -0400
+ (envelope-from <th.huth@gmail.com>) id 1i6cwT-0003o0-2v
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 11:48:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <th.huth@gmail.com>) id 1i6cwQ-0007jf-2k
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 11:47:59 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:38809)
+ (envelope-from <th.huth@gmail.com>) id 1i6cwR-0007kg-7Z
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 11:48:00 -0400
+Received: from mail-wr1-f54.google.com ([209.85.221.54]:44354)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1i6cwP-0007ir-Re
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 11:47:57 -0400
-Received: by mail-wr1-f67.google.com with SMTP id l11so9467964wrx.5
- for <qemu-devel@nongnu.org>; Sat, 07 Sep 2019 08:47:57 -0700 (PDT)
+ (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1i6cwQ-0007jv-TT
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 11:47:59 -0400
+Received: by mail-wr1-f54.google.com with SMTP id 30so9437694wrk.11
+ for <qemu-devel@nongnu.org>; Sat, 07 Sep 2019 08:47:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lJY2KX4dMiks0ukBNUE6RTXhKVBOuRehxmM8BttWJBg=;
- b=Xr7vKUiWvoIcHWMVjkuw2jeFnEkdCFDf1RNdewAOnDOy+h335958bKhVfOluEAACcb
- nxriXx+4enx8YfQAVG4K/y7WIw/dumdzjYtRPoEXcjf/PYJYcEZY/NL4lqDIYbdfYk7H
- +rc3bmi2X8LHi/33L81RRCI/e04RC3dsq4IyT2d52gohbACDhk7Hdid0JL77zYvo0IJ3
- UrM80Wf1lsAUrzzDuNm0X/RXeCFY7dpubXBPTPdbMMd5Rj3ITui2fjzB1qY6lGXwaY+A
- rkFc4t1LE3ws2eL48H1yjjhar6k1Jv+NQsCalqRQ+bPW3CY6xrRKGvCvY1dcJmcacMrS
- Smdw==
-X-Gm-Message-State: APjAAAVIaPeNehwOFUpYiWYXwxUZ+IzfDNxpqnfYsIIY4WB2PPnP3m5i
- FvaJoQsYBVcS+q0pC/fuK/8=
-X-Google-Smtp-Source: APXvYqwVw07TpKPlsWR6f48IID8eUztL+pz/qJjFKfmBGzjOO7+RR+PyBroJehFiK30PTyB7+os0+w==
-X-Received: by 2002:a05:6000:11cb:: with SMTP id
- i11mr11928200wrx.171.1567871276993; 
- Sat, 07 Sep 2019 08:47:56 -0700 (PDT)
+ bh=3/MAIxhVMjzHPxk6i+ZNE+2r2ZgoAuT7WenvBxcwPkY=;
+ b=MJyEucwEEhEh7Et/+RBPSUokCDpTv0/jvoeUhOdSXMElirgr90SoKSzdiKeEnvYgAC
+ hB02tXlgAO5pp3lcjlyIQJ0EB18sCyk5xcCUgU0jh02llB+IHJekMCOui3+QDE+sBZet
+ G88cYWNKAiuj6xvWIs1UaS87ZaeXMjiIF9FWtjzkPTBGbgyn+rNp7As2/uSXXpVm74fQ
+ 0ufmTRgf4oGwAnvlo/f+aw7ckNUfbYLK0Oz2p6NkbNLRei9lubCFd3bC3/srFtJlFwXd
+ Z8nib4wWAAh4XfUkFjz7CASfdRjTwNHTA1zS0ZZnn6Q2l4APLWmniT8JgmYfCXXoaUL5
+ 3bEQ==
+X-Gm-Message-State: APjAAAVw0yc2DgFR6BkKoawU6aji/PtWA9MCmNVPEMMPGPGSgFUWaRSA
+ S17spF6nDrD7tCcXq8uPJm0=
+X-Google-Smtp-Source: APXvYqxccI2ATjfH/E3hDu4P8eE+Q+iTrHjMwqSF0ATmzVO/bnmgmM2p7WIb7UPIot53TReApu2MDQ==
+X-Received: by 2002:a5d:46c4:: with SMTP id g4mr10825226wrs.189.1567871277815; 
+ Sat, 07 Sep 2019 08:47:57 -0700 (PDT)
 Received: from thl530.multi.box (pD9E8385F.dip0.t-ipconnect.de.
  [217.232.56.95])
- by smtp.gmail.com with ESMTPSA id s19sm17173418wrb.14.2019.09.07.08.47.56
+ by smtp.gmail.com with ESMTPSA id s19sm17173418wrb.14.2019.09.07.08.47.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Sep 2019 08:47:56 -0700 (PDT)
+ Sat, 07 Sep 2019 08:47:57 -0700 (PDT)
 From: Thomas Huth <huth@tuxfamily.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Sat,  7 Sep 2019 17:47:42 +0200
-Message-Id: <20190907154744.4136-7-huth@tuxfamily.org>
+Date: Sat,  7 Sep 2019 17:47:43 +0200
+Message-Id: <20190907154744.4136-8-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190907154744.4136-1-huth@tuxfamily.org>
 References: <20190907154744.4136-1-huth@tuxfamily.org>
@@ -57,9 +56,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: [Qemu-devel] [PULL 6/8] m68k: Add an entry for the NeXTcube machine
- to the MAINTAINERS file
+X-Received-From: 209.85.221.54
+Subject: [Qemu-devel] [PULL 7/8] tests/acceptance: Add test of NeXTcube
+ framebuffer using OCR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,36 +73,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don't have much clue about the NeXT hardware, but at least I know now
-the source files a little bit, so I volunteer to pick up patches and send
-PULL requests for them until someone else with more knowledge steps up
-to do this job instead.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190831074519.32613-7-huth@tuxfamily.org>
+Add a test of the NeXTcube framebuffer using the Tesseract OCR
+engine on a screenshot of the framebuffer device.
+
+The test is very quick:
+
+  $ avocado --show=app,console run tests/acceptance/machine_m68k_nextcube.py
+  JOB ID     : 78844a92424cc495bd068c3874d542d1e20f24bc
+  JOB LOG    : /home/phil/avocado/job-results/job-2019-08-13T13.16-78844a9/job.log
+   (1/3) tests/acceptance/machine_m68k_nextcube.py:NextCubeMachine.test_bootrom_framebuffer_size: PASS (2.16 s)
+   (2/3) tests/acceptance/machine_m68k_nextcube.py:NextCubeMachine.test_bootrom_framebuffer_ocr_with_tesseract_v3: -
+  ue r pun Honl'ﬂx ; 5‘ 55‘
+  avg ncaaaaa 25 MHZ, memary jag m
+  Backplane slat «a
+  Ethernet address a a r a r3 2
+  Memgry sackets aea canflqured far 16MB Darlly page made stMs but have 16MB page made stMs )nstalled
+  Memgry sackets a and 1 canflqured far 16MB Darlly page made stMs but have 16MB page made stMs )nstalled
+  [...]
+  Yestlnq the rpu, 5::
+  system test raneg Errar egge 51
+  Egg: cammand
+  Default pggc devlce nut fauna
+  NEXY>I
+  PASS (2.64 s)
+   (3/3) tests/acceptance/machine_m68k_nextcube.py:NextCubeMachine.test_bootrom_framebuffer_ocr_with_tesseract_v4: SKIP: tesseract v4 OCR tool not available
+  RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 1 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 5.35 s
+
+Documentation on how to install tesseract:
+  https://github.com/tesseract-ocr/tesseract/wiki#installation
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20190813134921.30602-2-philmd@redhat.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+ tests/acceptance/machine_m68k_nextcube.py | 121 ++++++++++++++++++++++
+ 1 file changed, 121 insertions(+)
+ create mode 100644 tests/acceptance/machine_m68k_nextcube.py
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 65d8a7c2d2..50eaf005f4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -910,6 +910,13 @@ F: hw/char/mcf_uart.c
- F: hw/net/mcf_fec.c
- F: include/hw/m68k/mcf*.h
- 
-+NeXTcube
-+M: Thomas Huth <huth@tuxfamily.org>
-+S: Odd Fixes
-+F: hw/m68k/next-*.c
-+F: hw/display/next-fb.c
-+F: include/hw/m68k/next-cube.h
+diff --git a/tests/acceptance/machine_m68k_nextcube.py b/tests/acceptance/machine_m68k_nextcube.py
+new file mode 100644
+index 0000000000..e09cab9f20
+--- /dev/null
++++ b/tests/acceptance/machine_m68k_nextcube.py
+@@ -0,0 +1,121 @@
++# Functional test that boots a VM and run OCR on the framebuffer
++#
++# Copyright (c) Philippe Mathieu-Daudé <f4bug@amsat.org>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
 +
- MicroBlaze Machines
- -------------------
- petalogix_s3adsp1800
++import os
++import re
++import time
++import logging
++import distutils.spawn
++
++from avocado_qemu import Test
++from avocado import skipUnless
++from avocado.utils import process
++from avocado.utils.path import find_command, CmdNotFoundError
++
++PIL_AVAILABLE = True
++try:
++    from PIL import Image
++except ImportError:
++    PIL_AVAILABLE = False
++
++
++def tesseract_available(expected_version):
++    try:
++        find_command('tesseract')
++    except CmdNotFoundError:
++        return False
++    res = process.run('tesseract --version')
++    try:
++        version = res.stdout_text.split()[1]
++    except IndexError:
++        version = res.stderr_text.split()[1]
++    return int(version.split('.')[0]) == expected_version
++
++    match = re.match(r'tesseract\s(\d)', res)
++    if match is None:
++        return False
++    # now this is guaranteed to be a digit
++    return int(match.groups()[0]) == expected_version
++
++
++class NextCubeMachine(Test):
++
++    timeout = 15
++
++    def check_bootrom_framebuffer(self, screenshot_path):
++        rom_url = ('http://www.nextcomputers.org/NeXTfiles/Software/ROM_Files/'
++                   '68040_Non-Turbo_Chipset/Rev_2.5_v66.BIN')
++        rom_hash = 'b3534796abae238a0111299fc406a9349f7fee24'
++        rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
++
++        self.vm.set_machine('next-cube')
++        self.vm.add_args('-bios', rom_path)
++        self.vm.launch()
++
++        self.log.info('VM launched, waiting for display')
++        # TODO: Use avocado.utils.wait.wait_for to catch the
++        #       'displaysurface_create 1120x832' trace-event.
++        time.sleep(2)
++
++        self.vm.command('human-monitor-command',
++                        command_line='screendump %s' % screenshot_path)
++
++    @skipUnless(PIL_AVAILABLE, 'Python PIL not installed')
++    def test_bootrom_framebuffer_size(self):
++        """
++        :avocado: tags=arch:m68k
++        :avocado: tags=machine:next_cube
++        :avocado: tags=device:framebuffer
++        """
++        screenshot_path = os.path.join(self.workdir, "dump.png")
++        self.check_bootrom_framebuffer(screenshot_path)
++
++        width, height = Image.open(screenshot_path).size
++        self.assertEqual(width, 1120)
++        self.assertEqual(height, 832)
++
++    @skipUnless(tesseract_available(3), 'tesseract v3 OCR tool not available')
++    def test_bootrom_framebuffer_ocr_with_tesseract_v3(self):
++        """
++        :avocado: tags=arch:m68k
++        :avocado: tags=machine:next_cube
++        :avocado: tags=device:framebuffer
++        """
++        screenshot_path = os.path.join(self.workdir, "dump.png")
++        self.check_bootrom_framebuffer(screenshot_path)
++
++        console_logger = logging.getLogger('console')
++        text = process.run("tesseract %s stdout" % screenshot_path).stdout_text
++        for line in text.split('\n'):
++            if len(line):
++                console_logger.debug(line)
++        self.assertIn('Backplane', text)
++        self.assertIn('Ethernet address', text)
++
++    # Tesseract 4 adds a new OCR engine based on LSTM neural networks. The
++    # new version is faster and more accurate than version 3. The drawback is
++    # that it is still alpha-level software.
++    @skipUnless(tesseract_available(4), 'tesseract v4 OCR tool not available')
++    def test_bootrom_framebuffer_ocr_with_tesseract_v4(self):
++        """
++        :avocado: tags=arch:m68k
++        :avocado: tags=machine:next_cube
++        :avocado: tags=device:framebuffer
++        """
++        screenshot_path = os.path.join(self.workdir, "dump.png")
++        self.check_bootrom_framebuffer(screenshot_path)
++
++        console_logger = logging.getLogger('console')
++        proc = process.run("tesseract --oem 1 %s stdout" % screenshot_path)
++        text = proc.stdout_text
++        for line in text.split('\n'):
++            if len(line):
++                console_logger.debug(line)
++        self.assertIn('Testing the FPU, SCC', text)
++        self.assertIn('System test failed. Error code 51', text)
++        self.assertIn('Boot command', text)
++        self.assertIn('Next>', text)
 -- 
 2.21.0
 
