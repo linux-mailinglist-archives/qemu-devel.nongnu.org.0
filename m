@@ -2,79 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CBBAC9B5
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 00:41:05 +0200 (CEST)
-Received: from localhost ([::1]:37474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CAEAC9F0
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Sep 2019 01:30:38 +0200 (CEST)
+Received: from localhost ([::1]:37596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6jOC-0005V1-N0
-	for lists+qemu-devel@lfdr.de; Sat, 07 Sep 2019 18:41:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57501)
+	id 1i6kA8-0006TR-UM
+	for lists+qemu-devel@lfdr.de; Sat, 07 Sep 2019 19:30:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35982)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=146f6c1d5=dmitry.fomichev@wdc.com>)
- id 1i6jM7-00040B-3P
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 18:38:56 -0400
+ (envelope-from <samuel.thibault@gnu.org>) id 1i6k95-00061S-NV
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 19:29:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=146f6c1d5=dmitry.fomichev@wdc.com>)
- id 1i6jM6-0005dk-4Y
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 18:38:55 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:36657)
+ (envelope-from <samuel.thibault@gnu.org>) id 1i6k94-0002SL-M2
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 19:29:31 -0400
+Received: from hera.aquilenet.fr ([2a0c:e300::1]:46056)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=146f6c1d5=dmitry.fomichev@wdc.com>)
- id 1i6jM3-0005cW-CK; Sat, 07 Sep 2019 18:38:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1567895931; x=1599431931;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=LI1nlGxApBLJrhe1y3qiBnJa248FPNVAYbXtDolUxMs=;
- b=c54lLrnUdiTPLI/22EndfndqK3ZpllloyGl1av9uGDBsUyF23E1/ZCCu
- w8TnCDNp3PosW51LOjJmnD2IMzeJsntx4qT3CGJwfSKLJF62hPPgm+rr7
- 8v0P6wqS17nZlZQ0U2G4YBcsMVYFL1e6PPZ7JAHgHNJy3Sb9FAJ9aJ2H6
- CfCRn+3omZTytMSKmfX68+CNlG9dVNbrxPxwjp+f//mpN0TWqF5gY1pSo
- CDlt+ttFJm4hFYOf9OE0qgc30o9zjAONrkFdlZhjZ6EIeLyHw2acPYx66
- H9Wq+4CdDj30sP5mWu1vgd1JI05wRdZC5j+rDBnXvKlkVqX88Xpvl691/ A==;
-IronPort-SDR: +WqYKLyu6jtKkhAVzIDA0mWdVOz4cmA0XdDvCxssyFmcZ+uAn2oDgIaRjJrcVGtc8tvZlIKLZr
- pyASl9ty3thvUR+q6e0FNXb/bHsx9jaGQVLLz6LMrmk8wp1Okos6RJ0pehJmpgcxbofGEoJz3t
- 49u0cD4jJjqAuxvEbotHjWwTwjPIgugxQlaQxQfgRX3bAGaGsdXMJS+zgH3XCmOmqXwn/uXlJk
- i1ydsurevJAV8W/6WWh7XjcBWTLzzlpTRRZU/3/fhJLSMQQgRCTXPf4E1LguZDzBjnlhgmJtVz
- Ft8=
-X-IronPort-AV: E=Sophos;i="5.64,478,1559491200"; d="scan'208";a="224505950"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Sep 2019 06:38:47 +0800
-IronPort-SDR: P3KVC+NxNvbQpAaGrTGMO8GQdI2WT5iFm6QMN7g+4pKwAGE2Zss5syA2x5C5n40ccNh4ibC2M9
- CnZt8uFcFgbBaop0aE4NYICXezzRJq3paKdIhOQ5vix5xktMjSQKhcEB8ffHyZkdKxT7aMQZJp
- o4/PO63WSSRJ8HyaYT7mstkXlBquY/0Vy3zN75nY3VN4O2+0h243TWa6NgYe7W37X13O19fppe
- qzB66Dt2hM6IwLm6WJcs9jAzA627HwSIbyczGJil6XGVkaHyUayAbGy17XnnCLwd+PXi13ZqIF
- aZFy517FxI17iqS6QNVjqP6i
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2019 15:35:37 -0700
-IronPort-SDR: /70fQU78ZlVFr7dW7IgmwycdifH+b3HJBsM8+UriisMTG5hR3cguucvCMVUdnknIUw+MZXCBKf
- UkNx8Gh9OmUaiAdsYGvEGpXLmKXa7HuNd5noTQ46btKA/0uRzWtaegPrh2ZcMjh31/TE+p/08n
- nLZn+FCvHhXoC2huiMdTFWVMVjNnMX+Ue/aEQj5R02ejRdEdnWCUlSxqEFBTJC9h2ZHoL0TOYR
- QMM0s86b7gWTPtc2hGEkyUtQKoTIWpFE5IY3saOch999WHiqe5V0fcXU9RBIXVhvstz52xplG/
- hI4=
-WDCIronportException: Internal
-Received: from dhcp-10-88-173-181.hgst.com ([10.88.173.181])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Sep 2019 15:38:47 -0700
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-To: Stefano Garzarella <sgarzare@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
-Date: Sat,  7 Sep 2019 18:38:41 -0400
-Message-Id: <20190907223841.20210-5-dmitry.fomichev@wdc.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190907223841.20210-1-dmitry.fomichev@wdc.com>
-References: <20190907223841.20210-1-dmitry.fomichev@wdc.com>
+ (Exim 4.71) (envelope-from <samuel.thibault@gnu.org>)
+ id 1i6k94-0002QN-BD
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 19:29:30 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id D197018A4B;
+ Sun,  8 Sep 2019 01:29:26 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id CW7jqoRKWvvk; Sun,  8 Sep 2019 01:29:26 +0200 (CEST)
+Received: from function (lfbn-bor-1-306-163.w109-215.abo.wanadoo.fr
+ [109.215.28.163])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 01F8918A40;
+ Sun,  8 Sep 2019 01:29:25 +0200 (CEST)
+Received: from samy by function with local (Exim 4.92.1)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1i6k8y-0007ny-NH; Sun, 08 Sep 2019 01:29:24 +0200
+Date: Sun, 8 Sep 2019 01:29:24 +0200
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Chris Heinze <c.heinze@precibake.com>
+Message-ID: <20190907232924.a2maha6jyf7u6xbb@function>
+References: <0115e29c-2254-09c3-13d5-6dfb5307d968@precibake.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 68.232.141.245
-Subject: [Qemu-devel] [PATCH v7 4/4] raw: Don't open ZBDs if backend can't
- handle them
+Content-Type: multipart/mixed; boundary="qy7ufycfnhsepnej"
+Content-Disposition: inline
+In-Reply-To: <0115e29c-2254-09c3-13d5-6dfb5307d968@precibake.com>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a0c:e300::1
+Subject: Re: [Qemu-devel] slirp, incoming packets get truncated
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,48 +61,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Abort opening a zoned device as a raw file in case the chosen
-block backend driver lacks proper support for this type of
-storage.
 
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/file-posix.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+--qy7ufycfnhsepnej
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index caacb21f07..3de371a97d 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2934,6 +2934,20 @@ static int raw_check_perm(BlockDriverState *bs, uint64_t perm, uint64_t shared,
-             goto fail;
-         }
-     }
-+
-+    /*
-+     * If we are opening a zoned block device, check if the backend
-+     * driver can properly handle host-managed devices, abort if not.
-+     */
-+    if (bdrv_is_hm_zoned(bs) &&
-+        !(shared & BLK_PERM_SUPPORT_HM_ZONED) &&
-+        !(perm & BLK_PERM_SUPPORT_HM_ZONED)) {
-+        error_setg(errp,
-+                   "block backend driver doesn't support host-managed zoned devices");
-+        ret = -ENOTSUP;
-+        goto fail;
-+    }
-+
-     return 0;
+Hello,
+
+As usual, several things here.
+
+Chris Heinze, le mar. 03 sept. 2019 17:02:15 +0200, a ecrit:
+> root@guest:~# tcpdump -ni eth0 port 19003
+> tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+> listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+> 16:49:39.430959 IP 10.0.2.2.33294 > 10.0.2.15.19003: UDP, bad length 9000 > 1472
+
+tcpdump seems to be showing dumb output here. The packet is fragmented
+by slirp, which makes tcpdump confused and show only the first
+fragment. If you let tcpdump print everything, you will see the other
+fragments. In reality, everything is going fine here.
+
+> i tried to change slirp/src/if.h to: 
+> 
+> #define IF_MTU 9000
+> #define IF_MRU 9000
+> 
+> but the resulting qemu-system-x86_64 binary did not behave differently.
+
+Did you explicitly remove the qemu-system-x86_64 binary? As mentioned
+previously on the list, there seems to be a missing Makefile dependency.
+
+Now, with MTU set to 9000, the packets just don't go at all. Could you
+try the attached patch? The lowest layer of slirp was indeed limited to
+1600-byte frames for no good reason. With this and the virtio driver, I
+could exchange 9000-byte packets.
+
+Samuel
+
+--qy7ufycfnhsepnej
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename=patch
+
+diff --git a/src/slirp.c b/src/slirp.c
+index b0194cb..3fd6f68 100644
+--- a/src/slirp.c
++++ b/src/slirp.c
+@@ -890,20 +890,22 @@ static int if_encap6(Slirp *slirp, struct mbuf *ifm, struct ethhdr *eh,
+  */
+ int if_encap(Slirp *slirp, struct mbuf *ifm)
+ {
+-    uint8_t buf[1600];
+-    struct ethhdr *eh = (struct ethhdr *)buf;
++    uint8_t *buf;
++    struct ethhdr *eh;
+     uint8_t ethaddr[ETH_ALEN];
+     const struct ip *iph = (const struct ip *)ifm->m_data;
+     int ret;
  
- fail:
--- 
-2.21.0
+-    if (ifm->m_len + ETH_HLEN > sizeof(buf)) {
+-        return 1;
+-    }
++    buf = g_malloc(ifm->m_len + ETH_HLEN);
++    if (!buf)
++        return 0;
++    eh = (struct ethhdr *)buf;
+ 
+     switch (iph->ip_v) {
+     case IPVERSION:
+         ret = if_encap4(slirp, ifm, eh, ethaddr);
+         if (ret < 2) {
++            g_free(buf);
+             return ret;
+         }
+         break;
+@@ -911,6 +913,7 @@ int if_encap(Slirp *slirp, struct mbuf *ifm)
+     case IP6VERSION:
+         ret = if_encap6(slirp, ifm, eh, ethaddr);
+         if (ret < 2) {
++            g_free(buf);
+             return ret;
+         }
+         break;
+@@ -929,6 +932,7 @@ int if_encap(Slirp *slirp, struct mbuf *ifm)
+               eh->h_dest[5]);
+     memcpy(buf + sizeof(struct ethhdr), ifm->m_data, ifm->m_len);
+     slirp_send_packet_all(slirp, buf, ifm->m_len + ETH_HLEN);
++    g_free(buf);
+     return 1;
+ }
+ 
 
+--qy7ufycfnhsepnej--
 
