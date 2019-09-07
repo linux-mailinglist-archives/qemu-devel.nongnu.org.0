@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7A0AC782
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Sep 2019 18:06:13 +0200 (CEST)
-Received: from localhost ([::1]:36040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA566AC7A2
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Sep 2019 18:26:37 +0200 (CEST)
+Received: from localhost ([::1]:36130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6dE4-0008U8-CB
-	for lists+qemu-devel@lfdr.de; Sat, 07 Sep 2019 12:06:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50633)
+	id 1i6dXo-0003Ky-GS
+	for lists+qemu-devel@lfdr.de; Sat, 07 Sep 2019 12:26:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54749)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1i6d8u-0004w8-Q3
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 12:00:55 -0400
+ (envelope-from <bounces@canonical.com>) id 1i6dWp-0002tq-FR
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 12:25:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1i6d8t-0000yY-5M
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 12:00:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38796)
+ (envelope-from <bounces@canonical.com>) id 1i6dWo-0002NT-7k
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 12:25:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40522)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1i6d8s-0000vz-Hs
- for qemu-devel@nongnu.org; Sat, 07 Sep 2019 12:00:51 -0400
+ id 1i6dWo-0002Mx-20
+ for qemu-devel@nongnu.org; Sat, 07 Sep 2019 12:25:34 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1i6d8q-0000Lr-Ci
- for <qemu-devel@nongnu.org>; Sat, 07 Sep 2019 16:00:48 +0000
+ id 1i6dWm-0001qj-OB
+ for <qemu-devel@nongnu.org>; Sat, 07 Sep 2019 16:25:32 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5BA6A2E80C7
- for <qemu-devel@nongnu.org>; Sat,  7 Sep 2019 16:00:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9AE652E8060
+ for <qemu-devel@nongnu.org>; Sat,  7 Sep 2019 16:25:32 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Sep 2019 15:51:20 -0000
+Date: Sat, 07 Sep 2019 16:18:39 -0000
 From: =?utf-8?q?Paulo_C=C3=A9sar_Pereira_de_Andrade?=
  <paulo.cesar.pereira.de.andrade@gmail.com>
 To: qemu-devel@nongnu.org
@@ -45,16 +45,17 @@ X-Launchpad-Bug-Reporter: =?utf-8?q?Paulo_C=C3=A9sar_Pereira_de_Andrade_=28?=
  =?utf-8?q?paulo-cesar-pereira-de-andrade=29?=
 X-Launchpad-Bug-Modifier: =?utf-8?q?Paulo_C=C3=A9sar_Pereira_de_Andrade_=28?=
  =?utf-8?q?paulo-cesar-pereira-de-andrade=29?=
-Message-Id: <156787148109.29148.9145557698070556446.malonedeb@chaenomeles.canonical.com>
+References: <156787148109.29148.9145557698070556446.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156787312020.29497.13569140866903966676.malone@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19044";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f90a0c694c439693a4a45bcd61528b34c842f28e
+X-Launchpad-Hash: a1289fab1792b4278fdaa503ef90b395edbfcde2
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1843133] [NEW] Possibly incorrect branch in
+Subject: [Qemu-devel] [Bug 1843133] Re: Possibly incorrect branch in
  qemu-system-hppa
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,86 +71,9 @@ Reply-To: Bug 1843133 <1843133@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-I plan to release a new GNU Lightning soon.
-I no longer have access to any physical HPPA, but code that
-was tested some years ago did work on HPPA/HP-UX, and now it
-appears qemu-system-hppa incorrectly branches in code generated
-by GNU Lightning. Currently only 32 bit hppa jit generation
-supported.
-
-In the lightning check/test tool, the code would be:
-
-.code
-    prolog
-    movi %r0 0x7fffffff
-    movi %r1 1
-    boaddr L0 %r0 %r1
-    calli @abort
-L0:
-    ret
-    epilog
-
-The code/debug information looks like this:
-            movi r4 0x7fffffff
-            0xf8ef5018      ldil L%7ffff800,r4
-            0xf8ef501c      ldo 7ff(r4),r4
-            movi r5 0x1
-            0xf8ef5020      ldi 1,r5
-        boaddr L1 r4 r5
-            0xf8ef5024      addb,sv,n r5,r4,0xf8ef5044 :a.tst:291
-            0xf8ef5028      nop
-        calli 0xf8eeb68a
-            [...]
-    L1:
-
-Apparently it is not understanding 0x7fffffff + 1 is a signed overflow.
-
-Tested in Fedora with qemu-system-hppa-3.1.1-2.fc30.x86_64 and using
-the debian-10 image.
-
-To make it a bit easier to test (partially transformed the
-not so optimized code generated by lightning to gcc -S output):
-# cat a.s
-	.LEVEL 1.1
-	.text
-	.align 4
-.globl main
-	.type	main, @function
-main:
-	.PROC
-	.CALLINFO FRAME=3D64,NO_CALLS,SAVE_SP,ENTRY_GR=3D3
-	.ENTRY
-	copy %r3,%r1
-	copy %r30,%r3
-	stwm %r1,64(%r30)
-	zdepi -1,31,31,%r23
-	ldi 1,%r24
-	addb,sv,n %r24,%r23,.L0
-	nop
-	ldi 1,%r28
-	b,n .L1
-	nop
-.L0:
-	ldi 0,%r28
-.L1:
-	ldo 64(%r3),%r30
-	ldwm -64(%r30),%r3
-	bv,n %r0(%r2)
-	.EXIT
-	.PROCEND
-	.size	main, .-main
-
-# gcc a.s
-# ./a.out; echo $?
-1
-
-It should have returned 0.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+As a side note, the branch is correct if testing 0xffffffe + 2
+or other combinations to cause a signed overflow. The only
+special pattern that fails is '0x7ffffff + 1'.
 
 -- =
 
