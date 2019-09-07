@@ -2,82 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1A8AC3B1
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Sep 2019 02:22:35 +0200 (CEST)
-Received: from localhost ([::1]:60980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B36AC3BD
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Sep 2019 02:47:40 +0200 (CEST)
+Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1i6OUs-0003DZ-J3
-	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 20:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42522)
+	id 1i6Ot8-0000Fu-P4
+	for lists+qemu-devel@lfdr.de; Fri, 06 Sep 2019 20:47:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46813)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mjrosato@linux.ibm.com>) id 1i6OPG-0006ru-6Z
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 20:16:48 -0400
+ (envelope-from <lists2009@fnarfbargle.com>) id 1i6OrO-0007oO-Oz
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 20:45:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mjrosato@linux.ibm.com>) id 1i6OPE-0002ou-AG
- for qemu-devel@nongnu.org; Fri, 06 Sep 2019 20:16:46 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20944
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mjrosato@linux.ibm.com>)
- id 1i6OPB-0002n8-On; Fri, 06 Sep 2019 20:16:42 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8707cQw014907; Fri, 6 Sep 2019 20:16:37 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2uv1jrrfbc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Sep 2019 20:16:36 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x870DfC7026094;
- Fri, 6 Sep 2019 20:16:36 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2uv1jrrfb3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Sep 2019 20:16:36 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x870EcU0010258;
- Sat, 7 Sep 2019 00:16:35 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma02dal.us.ibm.com with ESMTP id 2uqgh828u5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 07 Sep 2019 00:16:35 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x870GYs636831706
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 7 Sep 2019 00:16:34 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 787F6B205F;
- Sat,  7 Sep 2019 00:16:34 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EA49AB2064;
- Sat,  7 Sep 2019 00:16:33 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.85.134.207])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Sat,  7 Sep 2019 00:16:33 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: cohuck@redhat.com
-Date: Fri,  6 Sep 2019 20:16:29 -0400
-Message-Id: <1567815389-18229-6-git-send-email-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1567815389-18229-1-git-send-email-mjrosato@linux.ibm.com>
-References: <1567815389-18229-1-git-send-email-mjrosato@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-06_11:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=4 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1909070000
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH v3 5/5] s390: vfio_pci: Get zPCI function info
- from host
+ (envelope-from <lists2009@fnarfbargle.com>) id 1i6OrN-0000bO-Ck
+ for qemu-devel@nongnu.org; Fri, 06 Sep 2019 20:45:50 -0400
+Received: from ns3.fnarfbargle.com ([103.4.19.87]:40302)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lists2009@fnarfbargle.com>)
+ id 1i6OrM-0000XU-Ld; Fri, 06 Sep 2019 20:45:49 -0400
+Received: from [10.8.0.1] (helo=srv.home ident=heh23595)
+ by ns3.fnarfbargle.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.84_2) (envelope-from <lists2009@fnarfbargle.com>)
+ id 1i6Ope-0005MU-CO; Sat, 07 Sep 2019 08:44:02 +0800
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=fnarfbargle.com; s=mail; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
+ bh=s+V/sDK4sohm+58JlidQM/U+KvK/a3EfWVG8Z2VaSKQ=; 
+ b=j9BoGElXjdN4vCxarj/6Kjqbj0oxht+PUXGA/jFK8fEdMbJQjeyoU/e3uE3YW3tNDI+DpRsIB6SnsEzKzREw11Yx0gB+1vVv4sQII6fxhhHWwffswvrXyUZaDiTVucS+J/df9ik05F4uyYcEVN//Ji75AD/kwFVy0t/GGPCYR7I=;
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <ed421291-7178-d7bc-5ed3-9863d28ceba9@fnarfbargle.com>
+ <dd33a398-3c1f-0c92-2318-00ad144e1e5d@fnarfbargle.com>
+ <b1782119-abbc-9678-8217-ef576dbf8c93@fnarfbargle.com>
+ <20190906190351.GB20068@work-vm>
+From: Brad Campbell <lists2009@fnarfbargle.com>
+Message-ID: <a9799b8b-a294-59e3-f329-060b19cdcf0e@fnarfbargle.com>
+Date: Sat, 7 Sep 2019 08:44:35 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190906190351.GB20068@work-vm>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 103.4.19.87
+Subject: Re: [Qemu-devel] Cross-posted : Odd QXL/KVM performance issue with
+ a Windows 7 Guest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,177 +59,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: walling@linux.ibm.com, alex.williamson@redhat.com, pmorel@linux.ibm.com,
- david@redhat.com, mst@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, pbonzini@redhat.com,
- rth@twiddle.net
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-discuss@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pierre Morel <pmorel@linux.ibm.com>
 
-We use the VFIO_REGION_SUBTYPE_ZDEV_CLP subregion of
-PCI_VENDOR_ID_IBM to retrieve the CLP information the
-kernel exports.
+On 7/9/19 03:03, Dr. David Alan Gilbert wrote:
+> * Brad Campbell (lists2009@fnarfbargle.com) wrote:
+>> On 2/9/19 6:23 pm, Brad Campbell wrote:
+>>
+>>> Here is the holdup :
+>>>
+>>> 11725@1567416625.003504:qxl_ring_command_check 0 native
+>>> 11725@1567416625.102653:qxl_io_write 0 native addr=0 (QXL_IO_NOTIFY_CMD)
+>>> val=0 size=1 async=0
+>>>
+>>> ~100ms delay prior to each logged QXL_IO_NOTIFY_CMD on the AMD box which
+>>> explains the performance difference. Now I just need to figure out if
+>>> that lies in the guest, the guest QXL driver, QEMU or SPICE and why it
+>>> exhibits on the AMD box and not the i7.
+>>>
+>>> To get to this point, I recompiled the kernel on the i7 box with both
+>>> AMD and Intel KVM modules. Once that was running I cloned the drive and
+>>> put it in the AMD box, so the OS, software stack and all dependencies
+>>> are identical.
+>> Reacp :
+>>
+>> I have a machine with a Windows 7 VM which is running on an i7-3770. This
+>> works perfectly.
+>>
+>> Clone the disk and put it in a new(ish) AMD Ryzen 1500x machine and the
+>> display output using qxl/spice is now limited to ~5-7fps.
+>>
+>> I originally cloned the entire machine to keep the software versions
+>> identical.
+>>
+>> To simplify debugging and reproduction I'm now using :
+>> - An identical SPICE version to that on the i7.
+>> - A fresh 64 bit Windows 7 VM.
+>> - The D2D benchmark from Crystalmark 2004R7.
+>>
+>> The machine is booted with :
+>>
+>> qemu -enable-kvm \
+>>   -m 8192\
+>>   -rtc base=localtime\
+>>   -vga qxl\
+>>   -device qxl\
+>>   -global qxl-vga.guestdebug=3\
+>>   -global qxl-vga.cmdlog=1\
+>>   -global qxl-vga.vram_size=65536\
+>>   -global qxl.vram_size=65536\
+>>   -global qxl-vga.ram_size=65536\
+>>   -global qxl.ram_size=65536\
+>>   -net nic,model=virtio\
+>>   -net tap,ifname=tap0,script=/etc/qemu-ifup,vhost=on\
+>>   -usbdevice tablet\
+>>   -spice port=5930,disable-ticketing\
+>>   -device virtio-serial\
+>>   -chardev spicevmc,id=vdagent,name=vdagent\
+>>   -device virtserialport,chardev=vdagent,name=com.redhat.spice.0\
+>>   -smp 3,maxcpus=3,cores=3,threads=1,sockets=1\
+>>   -cpu qemu64,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time \
+> -cpu qemu64 is almost always a bad idea;  does -cpu host help ?
+>
+> Dave
 
-To be compatible with previous kernel versions we fall back
-on previous predefined values, same as the emulation values,
-when the region is not found or when any problem happens
-during the search for the information.
 
-Once we retrieved the host device information, we take care to
-- use the virtual UID and FID
-- Disable all the IOMMU flags we do not support yet.
-  Just keeping the refresh bit.
+No. I was using -cpu host. I changed it to qemu64 for testing so I could add & remove -enable-kvm for testing without the machine changing drivers about.
 
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- hw/s390x/s390-pci-bus.c | 83 +++++++++++++++++++++++++++++++++++++++++++++++--
- hw/s390x/s390-pci-bus.h |  2 ++
- 2 files changed, 83 insertions(+), 2 deletions(-)
+Regards,
 
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 0d404c3..5069795 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -15,6 +15,8 @@
- #include "qapi/error.h"
- #include "qapi/visitor.h"
- #include "cpu.h"
-+#include "s390-pci-clp.h"
-+#include <linux/vfio_zdev.h>
- #include "s390-pci-bus.h"
- #include "s390-pci-inst.h"
- #include "hw/pci/pci_bus.h"
-@@ -24,6 +26,9 @@
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- 
-+#include "hw/vfio/pci.h"
-+#include <sys/ioctl.h>
-+
- #ifndef DEBUG_S390PCI_BUS
- #define DEBUG_S390PCI_BUS  0
- #endif
-@@ -781,6 +786,76 @@ static void set_pbdev_info(S390PCIBusDevice *pbdev)
-     pbdev->pci_grp = s390_grp_find(ZPCI_DEFAULT_FN_GRP);
- }
- 
-+static int get_pbdev_info(S390PCIBusDevice *pbdev)
-+{
-+    VFIOPCIDevice *vfio_pci;
-+    VFIODevice *vdev;
-+    struct vfio_region_info *info;
-+    CLPRegion *clp_region;
-+    int size;
-+    int ret;
-+
-+    vfio_pci = container_of(pbdev->pdev, VFIOPCIDevice, pdev);
-+    vdev = &vfio_pci->vbasedev;
-+
-+    if (vdev->num_regions < VFIO_PCI_NUM_REGIONS + 1) {
-+        /* Fall back to old handling */
-+        return -ENODEV;
-+    }
-+
-+    ret = vfio_get_dev_region_info(vdev,
-+                                   PCI_VENDOR_ID_IBM |
-+                                   VFIO_REGION_TYPE_PCI_VENDOR_TYPE,
-+                                   VFIO_REGION_SUBTYPE_ZDEV_CLP, &info);
-+    if (ret) {
-+        /* Fall back to old handling */
-+        return -EIO;
-+    }
-+
-+    if (info->size != (sizeof(CLPRegion) + CLP_UTIL_STR_LEN)) {
-+        /* Fall back to old handling */
-+        g_free(info);
-+        return -ENOMEM;
-+    }
-+    clp_region = g_malloc0(sizeof(*clp_region) + CLP_UTIL_STR_LEN);
-+    size = pread(vdev->fd, clp_region, (sizeof(*clp_region) + CLP_UTIL_STR_LEN),
-+                 info->offset);
-+    if (size != (sizeof(*clp_region) + CLP_UTIL_STR_LEN)) {
-+        goto end;
-+    }
-+
-+    pbdev->zpci_fn.fid = pbdev->fid;
-+    pbdev->zpci_fn.uid = pbdev->uid;
-+    pbdev->zpci_fn.sdma = clp_region->start_dma;
-+    pbdev->zpci_fn.edma = clp_region->end_dma;
-+    pbdev->zpci_fn.pchid = clp_region->pchid;
-+    pbdev->zpci_fn.ug = clp_region->gid;
-+    pbdev->pci_grp = s390_grp_find(clp_region->gid);
-+
-+    if (!pbdev->pci_grp) {
-+        ClpRspQueryPciGrp *resgrp;
-+
-+        pbdev->pci_grp = s390_grp_create(clp_region->gid);
-+
-+        resgrp = &pbdev->pci_grp->zpci_grp;
-+        if (clp_region->flags & VFIO_PCI_ZDEV_FLAGS_REFRESH) {
-+            resgrp->fr = 1;
-+        }
-+        stq_p(&resgrp->dasm, clp_region->dasm);
-+        stq_p(&resgrp->msia, clp_region->msi_addr);
-+        stw_p(&resgrp->mui, clp_region->mui);
-+        stw_p(&resgrp->i, clp_region->noi);
-+        /* These two must be queried in a next iteration */
-+        stw_p(&resgrp->maxstbl, 128);
-+        resgrp->version = 0;
-+    }
-+
-+end:
-+    g_free(info);
-+    g_free(clp_region);
-+    return ret;
-+}
-+
- static void s390_pcihost_realize(DeviceState *dev, Error **errp)
- {
-     PCIBus *b;
-@@ -853,7 +928,8 @@ static int s390_pci_msix_init(S390PCIBusDevice *pbdev)
-     name = g_strdup_printf("msix-s390-%04x", pbdev->uid);
-     memory_region_init_io(&pbdev->msix_notify_mr, OBJECT(pbdev),
-                           &s390_msi_ctrl_ops, pbdev, name, PAGE_SIZE);
--    memory_region_add_subregion(&pbdev->iommu->mr, ZPCI_MSI_ADDR,
-+    memory_region_add_subregion(&pbdev->iommu->mr,
-+                                pbdev->pci_grp->zpci_grp.msia,
-                                 &pbdev->msix_notify_mr);
-     g_free(name);
- 
-@@ -1003,12 +1079,15 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-         pbdev->iommu = s390_pci_get_iommu(s, pci_get_bus(pdev), pdev->devfn);
-         pbdev->iommu->pbdev = pbdev;
-         pbdev->state = ZPCI_FS_DISABLED;
--        set_pbdev_info(pbdev);
- 
-         if (object_dynamic_cast(OBJECT(dev), "vfio-pci")) {
-             pbdev->fh |= FH_SHM_VFIO;
-+            if (get_pbdev_info(pbdev) != 0) {
-+                set_pbdev_info(pbdev);
-+            }
-         } else {
-             pbdev->fh |= FH_SHM_EMUL;
-+            set_pbdev_info(pbdev);
-         }
- 
-         if (s390_pci_msix_init(pbdev)) {
-diff --git a/hw/s390x/s390-pci-bus.h b/hw/s390x/s390-pci-bus.h
-index 8c969d1..151e2d0 100644
---- a/hw/s390x/s390-pci-bus.h
-+++ b/hw/s390x/s390-pci-bus.h
-@@ -320,6 +320,8 @@ typedef struct S390PCIGroup {
- } S390PCIGroup;
- S390PCIGroup *s390_grp_find(int ug);
- 
-+typedef struct vfio_region_zpci_info CLPRegion;
-+
- struct S390PCIBusDevice {
-     DeviceState qdev;
-     PCIDevice *pdev;
+Brad
+
 -- 
-1.8.3.1
+An expert is a person who has found out by his own painful
+experience all the mistakes that one can make in a very
+narrow field. - Niels Bohr
 
 
